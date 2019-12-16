@@ -7,7 +7,7 @@ import (
 
 // Pager represents a pagination implementation.
 type Pager interface {
-	Parse(res *resty.Response) Paging
+	Parse(res *resty.Response) (*Paging, error)
 }
 
 // Paging represents the pagination context returned from the Pager implementation.
@@ -19,7 +19,7 @@ type Paging struct {
 type LinkHeaderPager struct{}
 
 // Parse is used to parse a pagination context from an HTTP response.
-func (l *LinkHeaderPager) Parse(res *resty.Response) Paging {
+func (l *LinkHeaderPager) Parse(res *resty.Response) (*Paging, error) {
 	paging := Paging{}
 	header := res.Header().Get("Link")
 	if header != "" {
@@ -31,5 +31,5 @@ func (l *LinkHeaderPager) Parse(res *resty.Response) Paging {
 		}
 	}
 
-	return paging
+	return &paging, nil
 }

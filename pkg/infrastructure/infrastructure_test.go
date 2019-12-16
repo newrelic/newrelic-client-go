@@ -13,7 +13,7 @@ func TestDefaultEnvironment(t *testing.T) {
 	a := New(config.Config{})
 
 	actual := a.client.Client.HostURL
-	expected := "https://infra-api.newrelic.com/v2/alerts/conditions"
+	expected := "https://infra-api.newrelic.com/v2"
 	if actual != expected {
 		t.Errorf("expected baseURL: %s, received: %s", expected, actual)
 	}
@@ -26,7 +26,7 @@ func TestEUEnvironment(t *testing.T) {
 	})
 
 	actual := a.client.Client.HostURL
-	expected := "https://infra-api.eu.newrelic.com/v2/alerts/conditions"
+	expected := "https://infra-api.eu.newrelic.com/v2"
 	if actual != expected {
 		t.Errorf("expected baseURL: %s, received: %s", expected, actual)
 	}
@@ -39,7 +39,7 @@ func TestStagingEnvironment(t *testing.T) {
 	})
 
 	actual := a.client.Client.HostURL
-	expected := "https://staging-infra-api.newrelic.com/v2/alerts/conditions"
+	expected := "https://staging-infra-api.newrelic.com/v2"
 	if actual != expected {
 		t.Errorf("expected baseURL: %s, received: %s", expected, actual)
 	}

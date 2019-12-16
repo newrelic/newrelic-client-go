@@ -99,8 +99,9 @@ func setHTTPTransport(config config.Config, client *resty.Client) {
 	}
 }
 
-// Get executes an HTTP GET request.
-func (n *NewRelicClient) Get(path string, params *map[string]string, result interface{}) error {
+// GetMultiple executes an HTTP GET request that hydrates a slice of objects.
+func (n *NewRelicClient) GetMultiple(path string, params *map[string]string, result interface{}) ([]interface{}, error) {
+	results := make([]interface{}, 0)
 	req := n.Client.R()
 
 	if result != nil {
@@ -117,13 +118,15 @@ func (n *NewRelicClient) Get(path string, params *map[string]string, result inte
 		paging, err := n.do(http.MethodGet, nextPath, req)
 
 		if err != nil {
-			return err
+			return nil, err
 		}
+
+		results = append(results, result)
 
 		nextPath = paging.Next
 	}
 
-	return nil
+	return results, nil
 }
 
 // Put executes an HTTP PUT request.
@@ -183,7 +186,7 @@ func (n *NewRelicClient) do(method string, path string, req *resty.Request) (*Pa
 		return nil, err
 	}
 
-	paging := n.pager.Parse(apiResponse)
+	paging, err := n.pager.Parse(apiResponse)
 
 	if err != nil {
 		return nil, err
@@ -193,7 +196,7 @@ func (n *NewRelicClient) do(method string, path string, req *resty.Request) (*Pa
 	statusClass := statusCode / 100 % 10
 
 	if statusClass == 2 {
-		return &paging, nil
+		return paging, nil
 	}
 
 	if statusCode == 404 {

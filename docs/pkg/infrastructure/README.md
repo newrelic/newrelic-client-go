@@ -84,6 +84,22 @@ func (i *Infrastructure) ListAlertConditions(policyID int) ([]AlertCondition, er
 ListAlertConditions is used to retrieve New Relic Infrastructure alert
 conditions.
 
+#### type LinkBodyPager
+
+```go
+type LinkBodyPager struct{}
+```
+
+LinkBodyPager represents a pagination implementation that parses the pagination
+context from the response body.
+
+#### func (*LinkBodyPager) Parse
+
+```go
+func (l *LinkBodyPager) Parse(res *resty.Response) (*http.Paging, error)
+```
+Parse is used to parse a pagination context from an HTTP response.
+
 #### type Threshold
 
 ```go

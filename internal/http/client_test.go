@@ -27,14 +27,14 @@ func TestClientHeaders(t *testing.T) {
 		w.WriteHeader(http.StatusOK)
 	}))
 
-	err := cli.Get("/path", nil, nil)
+	_, err := cli.GetMultiple("/path", nil, nil)
 
 	if err != nil {
 		t.Fatal(err)
 	}
 }
 
-func TestClientDoPaging(t *testing.T) {
+func TestLinkHeaderPaging(t *testing.T) {
 	for i, c := range []struct {
 		expectedNext string
 		linkHeader   string
@@ -81,7 +81,7 @@ func TestErrNotFound(t *testing.T) {
 		w.WriteHeader(http.StatusNotFound)
 	}))
 
-	err := cli.Get("/path", nil, nil)
+	_, err := cli.GetMultiple("/path", nil, nil)
 
 	if err != ErrNotFound {
 		t.Fatal(err)
@@ -93,7 +93,7 @@ func TestInternalServerError(t *testing.T) {
 		w.WriteHeader(http.StatusInternalServerError)
 	}))
 
-	err := cli.Get("/path", nil, nil)
+	_, err := cli.GetMultiple("/path", nil, nil)
 
 	if err == nil {
 		t.Fatal(err)

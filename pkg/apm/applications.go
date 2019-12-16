@@ -22,13 +22,20 @@ type listApplicationsResponse struct {
 func (apm *APM) ListApplications(params *ListApplicationsParams) ([]Application, error) {
 	res := listApplicationsResponse{}
 	paramsMap := buildListApplicationsParamsMap(params)
-	err := apm.client.Get("/applications.json", &paramsMap, &res)
+	responses, err := apm.client.GetMultiple("/applications.json", &paramsMap, &res)
+
+	applications := []Application{}
+	for _, r := range responses {
+		if response, ok := r.(*listApplicationsResponse); ok {
+			applications = append(applications, response.Applications...)
+		}
+	}
 
 	if err != nil {
 		return nil, err
 	}
 
-	return res.Applications, nil
+	return applications, nil
 }
 
 func buildListApplicationsParamsMap(params *ListApplicationsParams) map[string]string {

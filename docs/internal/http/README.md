@@ -49,7 +49,7 @@ LinkHeaderPager represents a pagination implementation that adheres to RFC 5988.
 #### func (*LinkHeaderPager) Parse
 
 ```go
-func (l *LinkHeaderPager) Parse(res *resty.Response) Paging
+func (l *LinkHeaderPager) Parse(res *resty.Response) (*Paging, error)
 ```
 Parse is used to parse a pagination context from an HTTP response.
 
@@ -85,12 +85,12 @@ func (n *NewRelicClient) Delete(path string) error
 ```
 Delete executes an HTTP DELETE request. nolint
 
-#### func (*NewRelicClient) Get
+#### func (*NewRelicClient) GetMultiple
 
 ```go
-func (n *NewRelicClient) Get(path string, params *map[string]string, result interface{}) error
+func (n *NewRelicClient) GetMultiple(path string, params *map[string]string, result interface{}) ([]interface{}, error)
 ```
-Get executes an HTTP GET request.
+GetMultiple executes an HTTP GET request that hydrates a slice of objects.
 
 #### func (*NewRelicClient) Post
 
@@ -124,7 +124,7 @@ SetPager allows for use of different pagination implementations.
 
 ```go
 type Pager interface {
-	Parse(res *resty.Response) Paging
+	Parse(res *resty.Response) (*Paging, error)
 }
 ```
 

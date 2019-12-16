@@ -22,5 +22,13 @@ func TestIntegrationListAlertConditions(t *testing.T) {
 		APIKey: apiKey,
 	})
 
-	api.ListAlertConditions(1234)
+	c, err := api.ListAlertConditions(586577)
+
+	if err != nil {
+		t.Fatalf("ListAlertConditions error: %s", err)
+	}
+
+	if len(c) != 2 {
+		t.Fatalf("expected 2 conditions, received %d", len(c))
+	}
 }

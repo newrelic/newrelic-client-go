@@ -1,6 +1,8 @@
 package synthetics
 
-import "strconv"
+import (
+	"strconv"
+)
 
 const (
 	listMonitorsLimit = 100
@@ -17,11 +19,18 @@ func (s *Synthetics) ListMonitors() ([]Monitor, error) {
 		"limit": strconv.Itoa(listMonitorsLimit),
 	}
 
-	err := s.client.Get("/monitors", &paramsMap, &res)
+	responses, err := s.client.GetMultiple("/monitors", &paramsMap, &res)
+
+	monitors := []Monitor{}
+	for _, r := range responses {
+		if response, ok := r.(*listMonitorsResponse); ok {
+			monitors = append(monitors, response.Monitors...)
+		}
+	}
 
 	if err != nil {
 		return nil, err
 	}
 
-	return res.Monitors, nil
+	return monitors, nil
 }
