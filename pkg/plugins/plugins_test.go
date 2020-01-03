@@ -12,13 +12,52 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+var (
+	listPluginsResponseJSON = `{ "plugins": [] }` // todo: add more realistic response data
+)
+
 func TestListPlugins(t *testing.T) {
 	t.Parallel()
-	client := newMockResponse(t, `{ "plugins": [] }`, http.StatusOK)
+	client := newMockResponse(t, listPluginsResponseJSON, http.StatusOK)
 
 	expected := []*Plugin{}
 
-	actual, err := client.ListPlugins()
+	actual, err := client.ListPlugins(nil)
+
+	assert.NoError(t, err)
+	assert.NotNil(t, actual)
+	assert.Equal(t, expected, actual)
+}
+
+func TestListPluginsWithParams(t *testing.T) {
+	t.Parallel()
+
+	guidFilter := "test.newrelic_redis_plugin"
+	idsFilter := "123"
+
+	client := newTestPluginsClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		values := r.URL.Query()
+
+		name := values.Get("filter[guid]")
+		require.Equal(t, guidFilter, name)
+
+		ids := values.Get("filter[ids]")
+		require.Equal(t, idsFilter, ids)
+
+		w.Header().Set("Content-Type", "application/json")
+		_, err := w.Write([]byte(listPluginsResponseJSON))
+
+		require.NoError(t, err)
+	}))
+
+	params := ListPluginsParams{
+		GUID: guidFilter,
+		IDs:  []int{123},
+	}
+
+	expected := []*Plugin{}
+
+	actual, err := client.ListPlugins(&params)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)
