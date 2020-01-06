@@ -1,6 +1,7 @@
 package plugins
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 
@@ -52,6 +53,24 @@ func (plugins *Plugins) ListPlugins(params *ListPluginsParams) ([]*Plugin, error
 	return results, nil
 }
 
+type GetPluginParams struct {
+	Detailed bool
+}
+
+func (plugins *Plugins) GetPlugin(id int, params *GetPluginParams) (*Plugin, error) {
+	response := pluginResponse{}
+	paramsMap := buildGetPluginParamsMap(params)
+
+	u := fmt.Sprintf("/plugins/%d.json", id)
+	_, err := plugins.client.Get(u, &paramsMap, &response)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &response.Plugin, nil
+}
+
 func buildListPluginsParamsMap(params *ListPluginsParams) map[string]string {
 	paramsMap := map[string]string{}
 
@@ -70,6 +89,20 @@ func buildListPluginsParamsMap(params *ListPluginsParams) map[string]string {
 	return paramsMap
 }
 
+func buildGetPluginParamsMap(params *GetPluginParams) map[string]string {
+	paramsMap := map[string]string{}
+
+	if params == nil {
+		return paramsMap
+	}
+
+	if params.Detailed {
+		paramsMap["detailed"] = strconv.FormatBool(params.Detailed)
+	}
+
+	return paramsMap
+}
+
 func intArrayToString(integers []int) string {
 	sArray := []string{}
 
@@ -82,4 +115,8 @@ func intArrayToString(integers []int) string {
 
 type pluginsResponse struct {
 	Plugins []*Plugin `json:"plugins,omitempty"`
+}
+
+type pluginResponse struct {
+	Plugin Plugin `json:"plugin,omitempty"`
 }

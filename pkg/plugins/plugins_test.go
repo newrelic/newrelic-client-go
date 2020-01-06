@@ -45,6 +45,86 @@ var (
 			}
 		]
 	}`
+
+	pluginResponeJSON = `{
+		"plugin": {
+			"id": 999,
+			"name": "Redis",
+			"guid": "net.jondoe.newrelic_redis_plugin",
+			"publisher": "Jon Doe",
+			"summary_metrics": [
+				{
+					"id": 123,
+					"name": "Connected Clients",
+					"metric": "Component/Connection/Clients[connections]",
+					"value_function": "average_value",
+					"thresholds": {
+						"caution": null,
+						"critical": null
+					}
+				},
+				{
+					"id": 124,
+					"name": "Rejected Connections",
+					"metric": "Component/ConnectionRate/Rejected[connections]",
+					"value_function": "average_value",
+					"thresholds": {
+						"caution": null,
+						"critical": null
+					}
+				}
+			]
+		}
+	}`
+
+	pluginDetailedResponeJSON = `{
+		"plugin": {
+			"id": 999,
+			"name": "Redis",
+			"guid": "net.jondoe.newrelic_redis_plugin",
+			"publisher": "Jon Doe",
+			"details": {
+				"description": "Example description",
+				"is_public": null,
+				"created_at": "2019-11-22T13:34:57-08:00",
+				"updated_at": "2019-11-22T13:34:58-08:00",
+				"last_published_at": null,
+				"has_unpublished_changes": true,
+				"branding_image_url": "https://url.com/path/to/image.jpg",
+				"upgraded_at": "2019-11-22T13:34:57-08:00",
+				"short_name": "Redis",
+				"publisher_about_url": "https://github.com/publisher/newrelic_redis_plugin",
+				"publisher_support_url": "https://github.com/publisher/newrelic_redis_plugin/wiki",
+				"download_url": "https://github.com/publisher/newrelic_redis_plugin/releases",
+				"first_edited_at": null,
+				"last_edited_at": null,
+				"first_published_at": null,
+				"published_version": "1.0.1"
+			},
+			"summary_metrics": [
+				{
+					"id": 123,
+					"name": "Connected Clients",
+					"metric": "Component/Connection/Clients[connections]",
+					"value_function": "average_value",
+					"thresholds": {
+						"caution": null,
+						"critical": null
+					}
+				},
+				{
+					"id": 124,
+					"name": "Rejected Connections",
+					"metric": "Component/ConnectionRate/Rejected[connections]",
+					"value_function": "average_value",
+					"thresholds": {
+						"caution": null,
+						"critical": null
+					}
+				}
+			]
+		}
+	}`
 )
 
 func TestListPlugins(t *testing.T) {
@@ -135,6 +215,92 @@ func TestListPluginsWithParams(t *testing.T) {
 	}
 
 	actual, err := client.ListPlugins(&params)
+
+	assert.NoError(t, err)
+	assert.NotNil(t, actual)
+	assert.Equal(t, expected, actual)
+}
+
+func TestGetPlugin(t *testing.T) {
+	t.Parallel()
+	client := newMockResponse(t, pluginResponeJSON, http.StatusOK)
+
+	expected := &Plugin{
+		ID:        999,
+		Name:      "Redis",
+		GUID:      "net.jondoe.newrelic_redis_plugin",
+		Publisher: "Jon Doe",
+		SummaryMetrics: []SummaryMetric{
+			{
+				ID:            123,
+				Name:          "Connected Clients",
+				Metric:        "Component/Connection/Clients[connections]",
+				ValueFunction: "average_value",
+				Thresholds:    MetricThreshold{},
+			},
+			{
+				ID:            124,
+				Name:          "Rejected Connections",
+				Metric:        "Component/ConnectionRate/Rejected[connections]",
+				ValueFunction: "average_value",
+				Thresholds:    MetricThreshold{},
+			},
+		},
+	}
+
+	actual, err := client.GetPlugin(999, nil)
+
+	assert.NoError(t, err)
+	assert.NotNil(t, actual)
+	assert.Equal(t, expected, actual)
+}
+
+func TestGetPluginWithParams(t *testing.T) {
+	t.Parallel()
+	client := newMockResponse(t, pluginDetailedResponeJSON, http.StatusOK)
+
+	expected := &Plugin{
+		ID:        999,
+		Name:      "Redis",
+		GUID:      "net.jondoe.newrelic_redis_plugin",
+		Publisher: "Jon Doe",
+		Details: PluginDetails{
+			Description:           "Example description",
+			IsPublic:              false,
+			CreatedAt:             "2019-11-22T13:34:57-08:00",
+			UpdatedAt:             "2019-11-22T13:34:58-08:00",
+			HasUnpublishedChanges: true,
+			BrandingImageURL:      "https://url.com/path/to/image.jpg",
+			UpgradedAt:            "2019-11-22T13:34:57-08:00",
+			ShortName:             "Redis",
+			PublisherAboutURL:     "https://github.com/publisher/newrelic_redis_plugin",
+			PublisherSupportURL:   "https://github.com/publisher/newrelic_redis_plugin/wiki",
+			DownloadURL:           "https://github.com/publisher/newrelic_redis_plugin/releases",
+			PublishedVersion:      "1.0.1",
+		},
+		SummaryMetrics: []SummaryMetric{
+			{
+				ID:            123,
+				Name:          "Connected Clients",
+				Metric:        "Component/Connection/Clients[connections]",
+				ValueFunction: "average_value",
+				Thresholds:    MetricThreshold{},
+			},
+			{
+				ID:            124,
+				Name:          "Rejected Connections",
+				Metric:        "Component/ConnectionRate/Rejected[connections]",
+				ValueFunction: "average_value",
+				Thresholds:    MetricThreshold{},
+			},
+		},
+	}
+
+	params := GetPluginParams{
+		Detailed: true,
+	}
+
+	actual, err := client.GetPlugin(999, &params)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)

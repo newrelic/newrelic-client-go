@@ -13,12 +13,10 @@ type Plugin struct {
 
 // PluginDetails represents information about a New Relic plugin.
 type PluginDetails struct {
-	Description           int    `json:"description"`
-	IsPublic              string `json:"is_public"`
+	Description           string `json:"description"`
 	CreatedAt             string `json:"created_at,omitempty"`
 	UpdatedAt             string `json:"updated_at,omitempty"`
 	LastPublishedAt       string `json:"last_published_at,omitempty"`
-	HasUnpublishedChanges bool   `json:"has_unpublished_changes"`
 	BrandingImageURL      string `json:"branding_image_url"`
 	UpgradedAt            string `json:"upgraded_at,omitempty"`
 	ShortName             string `json:"short_name"`
@@ -29,6 +27,8 @@ type PluginDetails struct {
 	LastEditedAt          string `json:"last_edited_at,omitempty"`
 	FirstPublishedAt      string `json:"first_published_at,omitempty"`
 	PublishedVersion      string `json:"published_version"`
+	HasUnpublishedChanges bool   `json:"has_unpublished_changes"`
+	IsPublic              bool   `json:"is_public"`
 }
 
 // SummaryMetric represents summary information for a specific metric.
