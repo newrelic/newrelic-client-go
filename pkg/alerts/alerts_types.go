@@ -108,7 +108,7 @@ type InfrastructureCondition struct {
 	RunbookURL          string                            `json:"runbook_url,omitempty"`
 	Select              string                            `json:"select_value,omitempty"`
 	Type                string                            `json:"type,omitempty"`
-	UpdatedAt           *int          `json:"updated_at_epoch_millis,omitempty"`
+	UpdatedAt           *int                              `json:"updated_at_epoch_millis,omitempty"`
 	ViolationCloseTimer *int                              `json:"violation_close_timer,omitempty"`
 	Warning             *InfrastructureConditionThreshold `json:"warning_threshold,omitempty"`
 	Where               string                            `json:"where_clause,omitempty"`
