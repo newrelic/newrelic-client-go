@@ -96,7 +96,7 @@ type IncidentLink struct {
 // InfrastructureCondition represents a New Relic Infrastructure alert condition.
 type InfrastructureCondition struct {
 	Comparison          string                            `json:"comparison,omitempty"`
-	CreatedAt           *int          `json:"created_at_epoch_millis,omitempty"`
+	CreatedAt           *int                              `json:"created_at_epoch_millis,omitempty"`
 	Critical            *InfrastructureConditionThreshold `json:"critical_threshold,omitempty"`
 	Enabled             bool                              `json:"enabled"`
 	Event               string                            `json:"event_type,omitempty"`
