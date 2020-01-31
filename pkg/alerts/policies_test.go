@@ -5,14 +5,12 @@ package alerts
 import (
 	"net/http"
 	"testing"
-	"time"
 
-	"github.com/newrelic/newrelic-client-go/internal/serialization"
 	"github.com/stretchr/testify/require"
 )
 
 var (
-	testTimestamp = serialization.EpochTime(time.Unix(1575438237690, 0))
+	testTimestamp = 1575438237690 // 2019-12-04T05:43:57.000Z
 
 	testPoliciesResponseJSON = `{
 		"policies": [

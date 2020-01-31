@@ -2,8 +2,6 @@ package alerts
 
 import (
 	"encoding/json"
-
-	"github.com/newrelic/newrelic-client-go/internal/serialization"
 )
 
 // Channel represents a New Relic alert notification channel
@@ -98,7 +96,7 @@ type IncidentLink struct {
 // InfrastructureCondition represents a New Relic Infrastructure alert condition.
 type InfrastructureCondition struct {
 	Comparison          string                            `json:"comparison,omitempty"`
-	CreatedAt           *serialization.EpochTime          `json:"created_at_epoch_millis,omitempty"`
+	CreatedAt           *int          `json:"created_at_epoch_millis,omitempty"`
 	Critical            *InfrastructureConditionThreshold `json:"critical_threshold,omitempty"`
 	Enabled             bool                              `json:"enabled"`
 	Event               string                            `json:"event_type,omitempty"`
@@ -110,7 +108,7 @@ type InfrastructureCondition struct {
 	RunbookURL          string                            `json:"runbook_url,omitempty"`
 	Select              string                            `json:"select_value,omitempty"`
 	Type                string                            `json:"type,omitempty"`
-	UpdatedAt           *serialization.EpochTime          `json:"updated_at_epoch_millis,omitempty"`
+	UpdatedAt           *int          `json:"updated_at_epoch_millis,omitempty"`
 	ViolationCloseTimer *int                              `json:"violation_close_timer,omitempty"`
 	Warning             *InfrastructureConditionThreshold `json:"warning_threshold,omitempty"`
 	Where               string                            `json:"where_clause,omitempty"`
@@ -171,8 +169,8 @@ type Policy struct {
 	ID                 int                      `json:"id,omitempty"`
 	IncidentPreference string                   `json:"incident_preference,omitempty"`
 	Name               string                   `json:"name,omitempty"`
-	CreatedAt          *serialization.EpochTime `json:"created_at,omitempty"`
-	UpdatedAt          *serialization.EpochTime `json:"updated_at,omitempty"`
+	CreatedAt          *int `json:"created_at,omitempty"`
+	UpdatedAt          *int `json:"updated_at,omitempty"`
 }
 
 // PolicyChannels represents an association of alert channels to a specific alert policy.

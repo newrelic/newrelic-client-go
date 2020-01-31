@@ -6,15 +6,13 @@ import (
 	"fmt"
 	"net/http"
 	"testing"
-	"time"
 
-	"github.com/newrelic/newrelic-client-go/internal/serialization"
 	"github.com/stretchr/testify/require"
 )
 
 var (
 	testInfrastructureConditionPolicyId  = 111111
-	testInfrastructureConditionTimestamp = serialization.EpochTime(time.Unix(1490996713872, 0))
+	testInfrastructureConditionTimestamp = 1490996713872 // 2017-03-31T21:45:13.000Z
 	testInfrastructureCriticalThreshold  = InfrastructureConditionThreshold{
 		Duration: 6,
 		Function: "all",
