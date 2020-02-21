@@ -1,6 +1,9 @@
 package entities
 
 import (
+	"fmt"
+	"strings"
+
 	"github.com/newrelic/newrelic-client-go/internal/http"
 	"github.com/newrelic/newrelic-client-go/internal/logging"
 	"github.com/newrelic/newrelic-client-go/internal/region"
@@ -57,6 +60,50 @@ func (e *Entities) SearchEntities(params SearchEntitiesParams) ([]*Entity, error
 	return entities, nil
 }
 
+// SearchEntitiesRaw searches New Relic One entities based on the provided search parameters and returns
+// the data with only the specified entity fields.
+func (e *Entities) SearchEntitiesRaw(params SearchEntitiesParams, entityFields []string) ([]*Entity, error) {
+	entities := []*Entity{}
+	var nextCursor *string
+
+	for ok := true; ok; ok = nextCursor != nil {
+		resp := searchEntitiesResponse{}
+		vars := map[string]interface{}{
+			"queryBuilder": params,
+			"cursor":       nextCursor,
+		}
+
+		if err := e.client.Query(buildEntitiesSearchQuery(entityFields), vars, &resp); err != nil {
+			return nil, err
+		}
+
+		entities = append(entities, resp.Actor.EntitySearch.Results.Entities...)
+
+		nextCursor = resp.Actor.EntitySearch.Results.NextCursor
+	}
+
+	return entities, nil
+}
+
+func (e *Entities) SearchEntitiesRawQuery(graphqlQuery string, queryVariables map[string]interface{}) ([]*Entity, error) {
+	entities := []*Entity{}
+	var nextCursor *string
+
+	for ok := true; ok; ok = nextCursor != nil {
+		resp := searchEntitiesResponse{}
+
+		if err := e.client.Query(graphqlQuery, queryVariables, &resp); err != nil {
+			return nil, err
+		}
+
+		entities = append(entities, resp.Actor.EntitySearch.Results.Entities...)
+
+		nextCursor = resp.Actor.EntitySearch.Results.NextCursor
+	}
+
+	return entities, nil
+}
+
 // GetEntities retrieves a set of New Relic One entities by their entity guids.
 func (e *Entities) GetEntities(guids []string) ([]*Entity, error) {
 	resp := getEntitiesResponse{}
@@ -100,20 +147,59 @@ var searchEntitiesQuery = `
                 results(cursor: $cursor) {
                     nextCursor
                     entities {
-						accountId
-						domain
-						entityType
-						guid
-						name
-						permalink
-						reporting
-						type
+											accountId
+											domain
+											entityType
+											guid
+											name
+											permalink
+											reporting
+											type
                     }
                 }
             }
         }
     }
 `
+
+func buildEntitiesSearchQuery(returnFields []string) string {
+	fields := strings.Join(returnFields[:], "\n")
+
+	fmt.Println(" ")
+	fmt.Println("*************************")
+	fmt.Printf("\n\nFields: %+v \n\n", fields)
+	fmt.Println("*************************")
+	fmt.Println(" ")
+
+	return fmt.Sprintf(`
+		query($queryBuilder: EntitySearchQueryBuilder, $cursor: String) {
+			actor {
+				entitySearch(queryBuilder: $queryBuilder) {
+					results(cursor: $cursor) {
+						nextCursor
+						entities {
+							%s
+						}
+					}
+				}
+			}
+		}
+	`, fields)
+}
+
+// func buildEntitiesSearchQueryBuilderRaw(query string) string {
+// 	fmt.Println(" ")
+// 	fmt.Println("*************************")
+// 	fmt.Printf("\n\nFields: %+v \n\n", fields)
+// 	fmt.Println("*************************")
+// 	fmt.Println(" ")
+
+// 	return fmt.Sprintf(`
+// 		query($queryBuilder: EntitySearchQueryBuilder, $cursor: String) {
+// 			%s
+// 		}
+// 	`, query)
+// }
 
 type searchEntitiesResponse struct {
 	Actor struct {

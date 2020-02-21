@@ -14,14 +14,14 @@ type TagValue struct {
 
 // Entity represents a New Relic One entity.
 type Entity struct {
-	AccountID  int
-	Domain     EntityDomainType
-	EntityType EntityType
-	GUID       string
-	Name       string
-	Permalink  string
-	Reporting  bool
-	Type       string
+	AccountID  int              `json:"accountId,omitempty"`
+	Domain     EntityDomainType `json:"domain,omitempty"`
+	EntityType EntityType       `json:"entityType,omitempty"`
+	GUID       string           `json:"guid,omitempty"`
+	Name       string           `json:"name,omitempty"`
+	Permalink  string           `json:"permalink,omitempty"`
+	Reporting  bool             `json:"reporting,omitempty"`
+	Type       string           `json:"type,omitempty"`
 }
 
 // EntityType represents a New Relic One entity type.
