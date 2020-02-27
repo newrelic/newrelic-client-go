@@ -7,6 +7,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+
+	"github.com/newrelic/newrelic-client-go/internal/serialization"
 )
 
 var (
@@ -214,10 +216,10 @@ func TestListChannelsWebhookWithComplexHeadersAndPayload(t *testing.T) {
 			Configuration: ChannelConfiguration{
 				BaseURL:     "http://example.com",
 				PayloadType: "application/json",
-				Headers: MapStringInterface{
+				Headers: serialization.MapStringInterface{
 					"key": "value",
 				},
-				Payload: MapStringInterface{
+				Payload: serialization.MapStringInterface{
 					"key": "value",
 				},
 			},
@@ -231,10 +233,10 @@ func TestListChannelsWebhookWithComplexHeadersAndPayload(t *testing.T) {
 			Type: "webhook",
 			Configuration: ChannelConfiguration{
 				BaseURL: "http://example.com",
-				Headers: MapStringInterface{
+				Headers: serialization.MapStringInterface{
 					"": "",
 				},
-				Payload: MapStringInterface{
+				Payload: serialization.MapStringInterface{
 					"": "",
 				},
 				PayloadType: "application/json",
@@ -249,13 +251,13 @@ func TestListChannelsWebhookWithComplexHeadersAndPayload(t *testing.T) {
 			Type: "webhook",
 			Configuration: ChannelConfiguration{
 				BaseURL: "http://example.com",
-				Headers: MapStringInterface{
+				Headers: serialization.MapStringInterface{
 					"key": "value",
 					"invalidHeader": map[string]interface{}{
 						"is": "allowed by the API",
 					},
 				},
-				Payload: MapStringInterface{
+				Payload: serialization.MapStringInterface{
 					"array": []interface{}{"test", float64(1)},
 					"object": map[string]interface{}{
 						"key": "value",
