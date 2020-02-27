@@ -1,10 +1,6 @@
 package entities
 
 import (
-	"github.com/newrelic/newrelic-client-go/internal/http"
-	"github.com/newrelic/newrelic-client-go/internal/logging"
-	"github.com/newrelic/newrelic-client-go/internal/region"
-	"github.com/newrelic/newrelic-client-go/pkg/config"
 	"github.com/newrelic/newrelic-client-go/pkg/errors"
 )
 
@@ -225,6 +221,3 @@ type getEntityResponse struct {
 		Entity *Entity
 	}
 }
-
-// BaseURLs represents the base API URLs for the different environments of the New Relic REST API V2.
-var BaseURLs = region.NerdGraphBaseURLs
