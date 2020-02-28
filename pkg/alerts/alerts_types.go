@@ -75,10 +75,10 @@ type ConditionUserDefined struct {
 
 // ConditionTerm represents the terms of a New Relic alert condition.
 type ConditionTerm struct {
-	Duration     int     `json:"duration,string,omitempty"`
+	Duration     int     `json:"duration,omitempty"`
 	Operator     string  `json:"operator,omitempty"`
 	Priority     string  `json:"priority,omitempty"`
-	Threshold    float64 `json:"threshold,string"`
+	Threshold    float64 `json:"threshold,omitempty"`
 	TimeFunction string  `json:"time_function,omitempty"`
 }
 
