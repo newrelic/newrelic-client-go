@@ -6,6 +6,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
+
+	"github.com/newrelic/newrelic-client-go/internal/serialization"
 )
 
 func TestIntegrationChannel(t *testing.T) {
@@ -68,10 +70,10 @@ func TestIntegrationChannel(t *testing.T) {
 			Configuration: ChannelConfiguration{
 				BaseURL:     "https://test.com",
 				PayloadType: "application/json",
-				Headers: MapStringInterface{
+				Headers: serialization.MapStringInterface{
 					"x-test-header": "test-header",
 				},
-				Payload: MapStringInterface{
+				Payload: serialization.MapStringInterface{
 					"account_id": "123",
 				},
 			},
@@ -96,10 +98,10 @@ func TestIntegrationChannel(t *testing.T) {
 			Type: "webhook",
 			Configuration: ChannelConfiguration{
 				BaseURL: "https://test.com",
-				Headers: MapStringInterface{
+				Headers: serialization.MapStringInterface{
 					"": "",
 				},
-				Payload: MapStringInterface{
+				Payload: serialization.MapStringInterface{
 					"": "",
 				},
 				PayloadType: "application/json",
@@ -118,7 +120,7 @@ func TestIntegrationChannel(t *testing.T) {
 			Configuration: ChannelConfiguration{
 				BaseURL:     "https://test.com",
 				PayloadType: "application/json",
-				Headers: MapStringInterface{
+				Headers: serialization.MapStringInterface{
 					"x-test-header": "test-header",
 					"object": map[string]interface{}{
 						"key": "value",
@@ -127,7 +129,7 @@ func TestIntegrationChannel(t *testing.T) {
 						},
 					},
 				},
-				Payload: MapStringInterface{
+				Payload: serialization.MapStringInterface{
 					"account_id": "123",
 					"array":      []interface{}{"string", 2},
 					"object": map[string]interface{}{
