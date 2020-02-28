@@ -2,10 +2,30 @@
 ## [Unreleased]
 
 
+<a name="v0.12.0"></a>
+## [v0.12.0] - 2020-02-28
+### Bug Fixes
+- **docs:** Fix the release badge
+
+### Features
+- **nerdgraph:** implement ability to make raw graphql query
+
+### Refactor
+- **alerts:** Move structs into implementing files
+- **apm:** Move structs into implementing files
+- **config:** BREAKING CHANGE: Change environment vars and rename APIKey to AdminApiKey
+- **dashboards:** Move structs into implementing files
+- **entities:** Move structs into implementing files
+- **synthetics:** Move structs into implementing files
+
+
 <a name="v0.11.0"></a>
 ## [v0.11.0] - 2020-02-27
 ### Features
 - **http:** allow personal API keys to be used for alerts and APM resources
+
+### Refactor
+- **http:** refactor authentication out of http client
 
 
 <a name="v0.10.1"></a>
@@ -50,12 +70,19 @@
 - **alerts:** handle more complex JSON structures in headers and/or payload
 - **logging:** use global methods for the default logger rather than a logrus instance
 
+### Refactor
+- **entities:** rename SearchEntities params struct per convention
+- **newrelic:** remove reference to pointer for http transport config
+
 
 <a name="v0.7.0"></a>
 ## [v0.7.0] - 2020-01-23
 ### Features
 - **newrelic:** add ConfigOptions for logging
 - **newrelic:** add the ability to configure base URLs per API
+
+### Refactor
+- **newrelic:** incorporate code review feedback
 
 
 <a name="v0.6.0"></a>
@@ -75,6 +102,9 @@
 ### Documentation Updates
 - **newrelic:** update API key configuration documentation
 
+### Refactor
+- **newrelic:** validate that at least one API key is provided
+
 
 <a name="v0.4.0"></a>
 ## [v0.4.0] - 2020-01-15
@@ -83,6 +113,9 @@
 
 ### Features
 - **entities:** add entities search and entity tagging
+
+### Refactor
+- update test helpers to use new mock server, consistent patterns in tests
 
 
 <a name="v0.3.0"></a>
@@ -101,6 +134,31 @@
 - add option for JSON logging and fail gracefully when log level cannot be parsed
 - introduce logging
 - update monitor scripts with return design pattern, update tests
+
+### Refactor
+- update alerts incidents to follow return design pattern, parallelize and use assert lib in alert incidents tests
+- update ListDashboards to return array of pointers, update Dashboard test to use assert
+- update ListApplications to return array of pointers, update tests to use assert
+- update alert channels to return array of pointers, update tests to use assert
+- update synthetics conditions to return array of pointers
+- use require lib for dashboards integration tests
+- refactor to package-based types files
+- remove config pointer references
+- remove unnecessary else
+- create a logger instance per package
+- move logging config code into logging package
+- use centralized test helpers and remove old ones
+- rescope vars for integration tests to avoid variable name conflicts
+- remove redundant 'alert' from file names
+- remove redundant 'Alert' from naming convention
+- update monitors to use return design pattern where applicable, update tests
+- incorporate code review feedback
+- consistent use of pointers for &reqBody structs
+- **alerts:** Spike example of changes to the mock setup
+- **alerts:** Update mock server format, continue to have pkg helper
+- **config:** Change Region to a string, then parse with region package
+- **newrelic:** Extract config setting to opts ... format
+- **region:** Move region out of config into package, add Parse(string)
 
 
 <a name="v0.2.0"></a>
@@ -195,8 +253,51 @@
 - add application filtering for ListApplications
 - get TestListApplications passing
 
+### Refactor
+- updates per code review
+- use proper noun Plugins in naming convention
+- update key txns to use new query string parsing mechanism
+- simplify integration test scenarios for components
+- move components to the plugins package
+- move query string parsing to an external package
+- represent query params as a struct rather than a map
+- return slices of pointers instead of slices of structs
+- simplify parameter handling logic
+- optimize IntArrayToString() per review, add test cases
+- add integration tests, update unit tests, links should be a pointer for omission
+- Makefile cleanup
+- optimize pushing to array of pointers
+- refactor synthetics conditions to established patterns
+- refactor alerts package to established patterns
+- refactor synthetics package to established patterns
+- update local var names for consistency
+- update Epoch to EpochTime
+- remove redundant 'Alert' from naming convention
+- remove pointer from AlertChannelConfiguration
+- utilize testify assert library, other minor refactors
+- refactor unit tests to use testify assertions
+- add concrete types for field with known possible values
+- use Epoch type for date types instead of int64
+- consolidate request body structs into one alertPolicyRequestBody
+- no pointers for param fields
+- integrate new http client
+- simplify HTTP method signatures
+- add the remaining HTTP methods
+- rename the new client types
+- remove the old resty-based client
+- put new client in place for all resources
+- make ListApplications use the new client
+- move version into its own internal package for now
+- incorporate linter suggestions
+- clean up the configuration API for NewRelicClient
+- restructuring project files
+- extract cross cutting concern for apm resources
+- extract paging implementation
+- rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.11.0...HEAD
+
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.12.0...HEAD
+[v0.12.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.11.0...v0.12.0
 [v0.11.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.10.1...v0.11.0
 [v0.10.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.10.0...v0.10.1
 [v0.10.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.9.0...v0.10.0

@@ -10,12 +10,14 @@ options:
         - docs
         - feat
         - fix
+        - refactor
 
   commit_groups:
     title_maps:
       docs: Documentation Updates
       feat: Features
       fix: Bug Fixes
+      refactor: Refactor
 
   refs:
     actions:
