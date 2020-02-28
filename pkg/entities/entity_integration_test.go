@@ -68,14 +68,14 @@ func TestIntegrationGetEntity(t *testing.T) {
 
 // nolint
 func newIntegrationTestClient(t *testing.T) Entities {
-	personalAPIKey := os.Getenv("NEWRELIC_PERSONAL_API_KEY")
+	apiKey := os.Getenv("NEW_RELIC_API_KEY")
 
-	if personalAPIKey == "" {
+	if apiKey == "" {
 		t.Skipf("acceptance testing for graphql requires your personal API key")
 	}
 
 	return New(config.Config{
-		PersonalAPIKey: personalAPIKey,
+		PersonalAPIKey: apiKey,
 		UserAgent:      "newrelic/newrelic-client-go",
 		LogLevel:       "debug",
 	})

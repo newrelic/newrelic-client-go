@@ -19,10 +19,10 @@ func newTestClient(handler http.Handler) Dashboards {
 	ts := httptest.NewServer(handler)
 
 	return New(config.Config{
-		APIKey:    "abc123",
-		BaseURL:   ts.URL,
-		UserAgent: "newrelic/newrelic-client-go",
-		LogLevel:  "debug",
+		AdminAPIKey: "abc123",
+		BaseURL:     ts.URL,
+		UserAgent:   "newrelic/newrelic-client-go",
+		LogLevel:    "debug",
 	})
 }
 
@@ -34,9 +34,9 @@ func newMockResponse(
 	ts := mock.NewMockServer(t, mockJSONResponse, statusCode)
 
 	return New(config.Config{
-		APIKey:    "abc123",
-		BaseURL:   ts.URL,
-		UserAgent: "newrelic/newrelic-client-go",
+		AdminAPIKey: "abc123",
+		BaseURL:     ts.URL,
+		UserAgent:   "newrelic/newrelic-client-go",
 	})
 }
 

@@ -67,7 +67,7 @@ func newTestClient(handler http.Handler) Synthetics {
 	ts := httptest.NewServer(handler)
 
 	c := New(config.Config{
-		APIKey:            "abc123",
+		AdminAPIKey:       "abc123",
 		SyntheticsBaseURL: ts.URL,
 		UserAgent:         "newrelic/newrelic-client-go",
 		LogLevel:          "debug",
