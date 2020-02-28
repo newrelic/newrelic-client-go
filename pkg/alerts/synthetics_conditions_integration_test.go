@@ -37,7 +37,7 @@ func TestIntegrationSyntheticsConditions(t *testing.T) {
 
 	alerts := newIntegrationTestClient(t)
 	synth := synthetics.New(config.Config{
-		APIKey: os.Getenv("NEWRELIC_API_KEY"),
+		AdminAPIKey: os.Getenv("NEW_RELIC_ADMIN_API_KEY"),
 	})
 
 	// Setup

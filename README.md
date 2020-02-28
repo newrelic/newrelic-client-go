@@ -21,7 +21,7 @@ import (
 )
 
 func main() {
-	apiKey := os.Getenv("NEWRELIC_API_KEY")
+	apiKey := os.Getenv("NEW_RELIC_API_KEY")
 	nr := newrelic.New(ConfigAPIKey(apiKey))
 
 	params := apm.ListApplicationsParams{

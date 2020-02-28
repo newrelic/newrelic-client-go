@@ -15,10 +15,10 @@ func newTestClient(handler http.Handler) APM {
 	ts := httptest.NewServer(handler)
 
 	c := New(config.Config{
-		APIKey:    "abc123",
-		BaseURL:   ts.URL,
-		UserAgent: "newrelic/newrelic-client-go",
-		LogLevel:  "debug",
+		PersonalAPIKey: "abc123",
+		BaseURL:        ts.URL,
+		UserAgent:      "newrelic/newrelic-client-go",
+		LogLevel:       "debug",
 	})
 
 	return c
@@ -33,23 +33,23 @@ func newMockResponse(
 	ts := mock.NewMockServer(t, mockJSONResponse, statusCode)
 
 	return New(config.Config{
-		APIKey:    "abc123",
-		BaseURL:   ts.URL,
-		UserAgent: "newrelic/newrelic-client-go",
+		PersonalAPIKey: "abc123",
+		BaseURL:        ts.URL,
+		UserAgent:      "newrelic/newrelic-client-go",
 	})
 }
 
 // nolint
 func newIntegrationTestClient(t *testing.T) APM {
-	apiKey := os.Getenv("NEWRELIC_API_KEY")
-	personalAPIKey := os.Getenv("NEWRELIC_PERSONAL_API_KEY")
+	personalAPIKey := os.Getenv("NEW_RELIC_API_KEY")
+	adminAPIKey := os.Getenv("NEW_RELIC_ADMIN_API_KEY")
 
-	if apiKey == "" && personalAPIKey == "" {
-		t.Skipf("acceptance testing requires NEWRELIC_API_KEY and NEWRELIC_PERSONAL_API_KEY")
+	if personalAPIKey == "" && adminAPIKey == "" {
+		t.Skipf("acceptance testing requires NEW_RELIC_API_KEY and NEW_RELIC_ADMIN_API_KEY")
 	}
 
 	client := New(config.Config{
-		APIKey:         apiKey,
+		AdminAPIKey:    adminAPIKey,
 		PersonalAPIKey: personalAPIKey,
 		LogLevel:       "debug",
 	})

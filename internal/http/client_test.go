@@ -27,12 +27,12 @@ func TestConfig(t *testing.T) {
 	testTransport := http.DefaultTransport
 
 	c := NewClient(config.Config{
-		APIKey:        testAPIKey,
-		BaseURL:       testBaseURL,
-		HTTPTransport: testTransport,
-		ServiceName:   testServiceName,
-		Timeout:       &testTimeout,
-		UserAgent:     testUserAgent,
+		PersonalAPIKey: testPersonalAPIKey,
+		BaseURL:        testBaseURL,
+		HTTPTransport:  testTransport,
+		ServiceName:    testServiceName,
+		Timeout:        &testTimeout,
+		UserAgent:      testUserAgent,
 	})
 
 	assert.Equal(t, &testTimeout, c.Config.Timeout)
@@ -46,7 +46,7 @@ func TestConfig(t *testing.T) {
 func TestConfigDefaults(t *testing.T) {
 	t.Parallel()
 	c := NewClient(config.Config{
-		APIKey: testAPIKey,
+		PersonalAPIKey: testPersonalAPIKey,
 	})
 
 	assert.Equal(t, region.DefaultBaseURLs[region.Parse(c.Config.Region)], c.Config.BaseURL)
@@ -247,13 +247,13 @@ func TestAdminAPIKeyHeader(t *testing.T) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 
-		assert.Equal(t, testAPIKey, r.Header.Get("x-api-key"))
+		assert.Equal(t, testAdminAPIKey, r.Header.Get("x-api-key"))
 	}))
 
 	c := NewClient(config.Config{
-		APIKey:    testAPIKey,
-		BaseURL:   ts.URL,
-		UserAgent: testUserAgent,
+		AdminAPIKey: testAdminAPIKey,
+		BaseURL:     ts.URL,
+		UserAgent:   testUserAgent,
 	})
 
 	_, err := c.Get("/path", nil, nil)

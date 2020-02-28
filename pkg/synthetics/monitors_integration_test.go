@@ -29,15 +29,15 @@ var (
 func TestIntegrationMonitors(t *testing.T) {
 	t.Parallel()
 
-	apiKey := os.Getenv("NEWRELIC_API_KEY")
+	apiKey := os.Getenv("NEW_RELIC_ADMIN_API_KEY")
 
 	if apiKey == "" {
-		t.Skipf("acceptance testing requires an API key")
+		t.Skipf("acceptance testing requires NEW_RELIC_ADMIN_API_KEY to be set")
 	}
 
 	synthetics := New(config.Config{
-		APIKey:   apiKey,
-		LogLevel: "debug",
+		AdminAPIKey: apiKey,
+		LogLevel:    "debug",
 	})
 
 	rand := nr.RandSeq(5)

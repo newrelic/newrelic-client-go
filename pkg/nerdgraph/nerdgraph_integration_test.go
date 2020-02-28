@@ -63,14 +63,14 @@ func TestIntegrationQueryWithVariables(t *testing.T) {
 
 // nolint
 func newNerdGraphIntegrationTestClient(t *testing.T) NerdGraph {
-	personalAPIKey := os.Getenv("NEWRELIC_PERSONAL_API_KEY")
+	apiKey := os.Getenv("NEW_RELIC_API_KEY")
 
-	if personalAPIKey == "" {
-		t.Skipf("acceptance testing for NerdGraph requires your personal API key")
+	if apiKey == "" {
+		t.Skipf("acceptance testing for NerdGraph requires NEW_RELIC_API_KEY to be set")
 	}
 
 	return New(config.Config{
-		PersonalAPIKey: personalAPIKey,
+		PersonalAPIKey: apiKey,
 		UserAgent:      "newrelic/newrelic-client-go",
 	})
 }

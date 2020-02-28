@@ -6,14 +6,15 @@ import (
 
 // Entity represents a New Relic One entity.
 type Entity struct {
-	AccountID  int
-	Domain     EntityDomainType
-	EntityType EntityType
-	GUID       string
-	Name       string
-	Permalink  string
-	Reporting  bool
-	Type       string
+	AccountID     int
+	ApplicationID int
+	Domain        EntityDomainType
+	EntityType    EntityType
+	GUID          string
+	Name          string
+	Permalink     string
+	Reporting     bool
+	Type          string
 }
 
 // EntityType represents a New Relic One entity type.
@@ -143,40 +144,8 @@ func (e *Entities) GetEntity(guid string) (*Entity, error) {
 	return resp.Actor.Entity, nil
 }
 
-var searchEntitiesQuery = `
-    query($queryBuilder: EntitySearchQueryBuilder, $cursor: String) {
-        actor {
-            entitySearch(queryBuilder: $queryBuilder)  {
-                results(cursor: $cursor) {
-                    nextCursor
-                    entities {
-						accountId
-						domain
-						entityType
-						guid
-						name
-						permalink
-						reporting
-						type
-                    }
-                }
-            }
-        }
-    }
-`
-
-type searchEntitiesResponse struct {
-	Actor struct {
-		EntitySearch struct {
-			Results struct {
-				NextCursor *string
-				Entities   []*Entity
-			}
-		}
-	}
-}
-
-var getEntitiesQuery = `
+const (
+	getEntitiesQuery = `
     query($guids: [String!]!) {
         actor {
             entities(guids: $guids)  {
@@ -192,14 +161,7 @@ var getEntitiesQuery = `
         }
     }
 `
-
-type getEntitiesResponse struct {
-	Actor struct {
-		Entities []*Entity
-	}
-}
-
-var getEntityQuery = `
+	getEntityQuery = `
     query($guid: String!) {
         actor {
             entity(guid: $guid)  {
@@ -215,6 +177,47 @@ var getEntityQuery = `
         }
     }
 `
+	searchEntitiesQuery = `
+query($queryBuilder: EntitySearchQueryBuilder, $cursor: String) {
+  actor {
+    entitySearch(queryBuilder: $queryBuilder)  {
+      results(cursor: $cursor) {
+        nextCursor
+        entities {
+          accountId
+          domain
+          entityType
+          guid
+          name
+          permalink
+          reporting
+          type
+          ... on ApmApplicationEntityOutline {
+              applicationId
+          }
+        }
+      }
+    }
+  }
+}`
+)
+
+type searchEntitiesResponse struct {
+	Actor struct {
+		EntitySearch struct {
+			Results struct {
+				NextCursor *string
+				Entities   []*Entity
+			}
+		}
+	}
+}
+
+type getEntitiesResponse struct {
+	Actor struct {
+		Entities []*Entity
+	}
+}
 
 type getEntityResponse struct {
 	Actor struct {
