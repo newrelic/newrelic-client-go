@@ -71,6 +71,10 @@ type CustomErrorResponse struct {
 	CustomError string `json:"custom"`
 }
 
+func (c *CustomErrorResponse) New() ErrorResponse {
+	return &CustomErrorResponse{}
+}
+
 func (c *CustomErrorResponse) Error() string {
 	return c.CustomError
 }
