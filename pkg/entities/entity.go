@@ -6,15 +6,17 @@ import (
 
 // Entity represents a New Relic One entity.
 type Entity struct {
-	AccountID     int
-	ApplicationID int
-	Domain        EntityDomainType
-	EntityType    EntityType
-	GUID          string
-	Name          string
-	Permalink     string
-	Reporting     bool
-	Type          string
+	AccountID  int
+	Domain     EntityDomainType
+	EntityType EntityType
+	GUID       string
+	Name       string
+	Permalink  string
+	Reporting  bool
+	Type       string
+
+	// Not always returned...
+	ApplicationID *int `json:",omitempty"` // Only returned from ApmApplicationEntityOutline
 }
 
 // EntityType represents a New Relic One entity type.
