@@ -299,11 +299,11 @@ func (c *NewRelicClient) do(
 
 	c.Config.GetLogger().Trace("request completed", "method", method, "url", req.URL, "status_code", resp.StatusCode, "headers", string(logHeaders), "body", string(body))
 
-	errorValue := c.errorValue
+	errorValue := c.errorValue.New()
 	_ = json.Unmarshal(body, &errorValue)
 
 	if !isResponseSuccess(resp) {
-		return nil, nrErrors.NewUnexpectedStatusCode(resp.StatusCode, c.errorValue.Error())
+		return nil, nrErrors.NewUnexpectedStatusCode(resp.StatusCode, errorValue.Error())
 	}
 
 	if errorValue.Error() != "" {
