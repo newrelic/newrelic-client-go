@@ -2,6 +2,18 @@
 ## [Unreleased]
 
 
+<a name="v0.13.0"></a>
+## [v0.13.0] - 2020-03-03
+### Bug Fixes
+- **entities:** include applicationId for ApmApplicationEntity results
+- **entities:** Make ApplicationID optional in results, omit if not returned by the API
+- **http:** create a new errorValue for every request
+
+### Refactor
+- **apm:** refactor deployments resource to use new auth strategy
+- **http:** refactor client to a request-scoped config context
+
+
 <a name="v0.12.0"></a>
 ## [v0.12.0] - 2020-02-28
 ### Bug Fixes
@@ -296,7 +308,8 @@
 - rename packages for clarity, promote Config to the public package
 
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.12.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.13.0...HEAD
+[v0.13.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.12.0...v0.13.0
 [v0.12.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.11.0...v0.12.0
 [v0.11.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.10.1...v0.11.0
 [v0.10.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.10.0...v0.10.1
