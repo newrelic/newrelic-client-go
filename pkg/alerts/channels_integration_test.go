@@ -16,7 +16,7 @@ func TestIntegrationChannel(t *testing.T) {
 	var (
 		testChannelEmail = Channel{
 			Name: "integration-test-email",
-			Type: "email",
+			Type: ChannelTypes.Email,
 			Configuration: ChannelConfiguration{
 				Recipients:            "devtoolkittest@newrelic.com",
 				IncludeJSONAttachment: "true",
@@ -28,7 +28,7 @@ func TestIntegrationChannel(t *testing.T) {
 
 		testChannelOpsGenie = Channel{
 			Name: "integration-test-opsgenie",
-			Type: "opsgenie",
+			Type: ChannelTypes.OpsGenie,
 			Configuration: ChannelConfiguration{
 				APIKey:     "abc123",
 				Teams:      "dev-toolkit",
@@ -42,7 +42,7 @@ func TestIntegrationChannel(t *testing.T) {
 
 		testChannelSlack = Channel{
 			Name: "integration-test-slack",
-			Type: "slack",
+			Type: ChannelTypes.Slack,
 			Configuration: ChannelConfiguration{
 				URL:     "https://example-org.slack.com",
 				Channel: "test-channel",
@@ -54,7 +54,7 @@ func TestIntegrationChannel(t *testing.T) {
 
 		testChannelVictorops = Channel{
 			Name: "integration-test-victorops",
-			Type: "victorops",
+			Type: ChannelTypes.VictorOps,
 			Configuration: ChannelConfiguration{
 				Key:      "abc123",
 				RouteKey: "/route-name",
@@ -66,7 +66,7 @@ func TestIntegrationChannel(t *testing.T) {
 
 		testChannelWebhook = Channel{
 			Name: "integration-test-webhook",
-			Type: "webhook",
+			Type: ChannelTypes.Webhook,
 			Configuration: ChannelConfiguration{
 				BaseURL:     "https://test.com",
 				PayloadType: "application/json",
@@ -84,7 +84,7 @@ func TestIntegrationChannel(t *testing.T) {
 
 		testChannelWebhookEmptyHeadersAndPayload = Channel{
 			Name: "integration-test-webhook-empty-headers-and-payload",
-			Type: "webhook",
+			Type: ChannelTypes.Webhook,
 			Configuration: ChannelConfiguration{
 				BaseURL: "https://test.com",
 			},
@@ -95,7 +95,7 @@ func TestIntegrationChannel(t *testing.T) {
 
 		testChannelWebhookWeirdHeadersAndPayload = Channel{
 			Name: "integration-test-webhook-weird-headers-and-payload",
-			Type: "webhook",
+			Type: ChannelTypes.Webhook,
 			Configuration: ChannelConfiguration{
 				BaseURL: "https://test.com",
 				Headers: serialization.MapStringInterface{
@@ -116,7 +116,7 @@ func TestIntegrationChannel(t *testing.T) {
 		// as many scenarios as possible.
 		testChannelWebhookComplexHeadersPayload = Channel{
 			Name: "integration-test-webhook",
-			Type: "webhook",
+			Type: ChannelTypes.Webhook,
 			Configuration: ChannelConfiguration{
 				BaseURL:     "https://test.com",
 				PayloadType: "application/json",

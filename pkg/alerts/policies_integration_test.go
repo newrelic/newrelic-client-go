@@ -17,7 +17,7 @@ func TestIntegrationPolicy(t *testing.T) {
 
 	testIntegrationPolicyNameRandStr := nr.RandSeq(5)
 	policy := Policy{
-		IncidentPreference: "PER_POLICY",
+		IncidentPreference: IncidentPreferenceTypes.PerPolicy,
 		Name:               fmt.Sprintf("test-alert-policy-%s", testIntegrationPolicyNameRandStr),
 	}
 

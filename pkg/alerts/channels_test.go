@@ -163,7 +163,7 @@ func TestListChannels(t *testing.T) {
 		{
 			ID:   2803426,
 			Name: "unit-test-alert-channel",
-			Type: "user",
+			Type: ChannelTypes.User,
 			Configuration: ChannelConfiguration{
 				UserID: "2680539",
 			},
@@ -174,7 +174,7 @@ func TestListChannels(t *testing.T) {
 		{
 			ID:   2932511,
 			Name: "test@testing.com",
-			Type: "email",
+			Type: ChannelTypes.Email,
 			Configuration: ChannelConfiguration{
 				Recipients:            "test@testing.com",
 				IncludeJSONAttachment: "true",
@@ -200,7 +200,7 @@ func TestListChannelsWebhookWithComplexHeadersAndPayload(t *testing.T) {
 		{
 			ID:   1,
 			Name: "webhook-EMPTY-headers-and-payload",
-			Type: "webhook",
+			Type: ChannelTypes.Webhook,
 			Configuration: ChannelConfiguration{
 				BaseURL:     "http://example.com",
 				PayloadType: "",
@@ -212,7 +212,7 @@ func TestListChannelsWebhookWithComplexHeadersAndPayload(t *testing.T) {
 		{
 			ID:   2,
 			Name: "webhook-ESCAPED-STRING-headers-and-payload",
-			Type: "webhook",
+			Type: ChannelTypes.Webhook,
 			Configuration: ChannelConfiguration{
 				BaseURL:     "http://example.com",
 				PayloadType: "application/json",
@@ -230,7 +230,7 @@ func TestListChannelsWebhookWithComplexHeadersAndPayload(t *testing.T) {
 		{
 			ID:   3,
 			Name: "webhook-WEIRD-headers-and-payload",
-			Type: "webhook",
+			Type: ChannelTypes.Webhook,
 			Configuration: ChannelConfiguration{
 				BaseURL: "http://example.com",
 				Headers: serialization.MapStringInterface{
@@ -248,7 +248,7 @@ func TestListChannelsWebhookWithComplexHeadersAndPayload(t *testing.T) {
 		{
 			ID:   4,
 			Name: "webhook-COMPLEX-payload",
-			Type: "webhook",
+			Type: ChannelTypes.Webhook,
 			Configuration: ChannelConfiguration{
 				BaseURL: "http://example.com",
 				Headers: serialization.MapStringInterface{
@@ -285,7 +285,7 @@ func TestGetChannel(t *testing.T) {
 	expected := &Channel{
 		ID:   2803426,
 		Name: "unit-test-alert-channel",
-		Type: "user",
+		Type: ChannelTypes.User,
 		Configuration: ChannelConfiguration{
 			UserID: "2680539",
 		},
@@ -318,7 +318,7 @@ func TestCreateChannel(t *testing.T) {
 
 	channel := Channel{
 		Name: "test@example.com",
-		Type: "email",
+		Type: ChannelTypes.Email,
 		Configuration: ChannelConfiguration{
 			Recipients:            "test@example.com",
 			IncludeJSONAttachment: "true",
@@ -328,7 +328,7 @@ func TestCreateChannel(t *testing.T) {
 	expected := &Channel{
 		ID:   2932701,
 		Name: "test@example.com",
-		Type: "email",
+		Type: ChannelTypes.Email,
 		Configuration: ChannelConfiguration{
 			Recipients:            "test@example.com",
 			IncludeJSONAttachment: "true",
@@ -372,7 +372,7 @@ func TestDeleteChannel(t *testing.T) {
 	expected := &Channel{
 		ID:   2932511,
 		Name: "test@example.com",
-		Type: "email",
+		Type: ChannelTypes.Email,
 		Configuration: ChannelConfiguration{
 			Recipients:            "test@example.com",
 			IncludeJSONAttachment: "true",

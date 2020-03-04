@@ -60,7 +60,7 @@ func TestGetPolicy(t *testing.T) {
 
 	expected := &Policy{
 		ID:                 579506,
-		IncidentPreference: "PER_POLICY",
+		IncidentPreference: IncidentPreferenceTypes.PerPolicy,
 		Name:               "test-alert-policy-1",
 		CreatedAt:          &testTimestamp,
 		UpdatedAt:          &testTimestamp,
@@ -80,14 +80,14 @@ func TestListPolicies(t *testing.T) {
 	expected := []Policy{
 		{
 			ID:                 579506,
-			IncidentPreference: "PER_POLICY",
+			IncidentPreference: IncidentPreferenceTypes.PerPolicy,
 			Name:               "test-alert-policy-1",
 			CreatedAt:          &testTimestamp,
 			UpdatedAt:          &testTimestamp,
 		},
 		{
 			ID:                 579509,
-			IncidentPreference: "PER_POLICY",
+			IncidentPreference: IncidentPreferenceTypes.PerPolicy,
 			Name:               "test-alert-policy-2",
 			CreatedAt:          &testTimestamp,
 			UpdatedAt:          &testTimestamp,
@@ -135,13 +135,13 @@ func TestCreatePolicy(t *testing.T) {
 	alerts := newMockResponse(t, testPolicyResponseJSON, http.StatusOK)
 
 	policy := Policy{
-		IncidentPreference: "PER_POLICY",
+		IncidentPreference: IncidentPreferenceTypes.PerPolicy,
 		Name:               "test-alert-policy-1",
 	}
 
 	expected := &Policy{
 		ID:                 579506,
-		IncidentPreference: "PER_POLICY",
+		IncidentPreference: IncidentPreferenceTypes.PerPolicy,
 		Name:               "test-alert-policy-1",
 		CreatedAt:          &testTimestamp,
 		UpdatedAt:          &testTimestamp,
@@ -160,13 +160,13 @@ func TestUpdatePolicy(t *testing.T) {
 
 	policy := Policy{
 		ID:                 579506,
-		IncidentPreference: "PER_POLICY",
+		IncidentPreference: IncidentPreferenceTypes.PerPolicy,
 		Name:               "test-alert-policy-1",
 	}
 
 	expected := &Policy{
 		ID:                 579506,
-		IncidentPreference: "PER_CONDITION",
+		IncidentPreference: IncidentPreferenceTypes.PerCondition,
 		Name:               "test-alert-policy-updated",
 		CreatedAt:          &testTimestamp,
 		UpdatedAt:          &testTimestamp,
@@ -185,7 +185,7 @@ func TestDeletePolicy(t *testing.T) {
 
 	expected := &Policy{
 		ID:                 579506,
-		IncidentPreference: "PER_POLICY",
+		IncidentPreference: IncidentPreferenceTypes.PerPolicy,
 		Name:               "test-alert-policy-1",
 		CreatedAt:          &testTimestamp,
 		UpdatedAt:          &testTimestamp,
