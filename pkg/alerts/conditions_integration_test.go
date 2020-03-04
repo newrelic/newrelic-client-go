@@ -18,14 +18,14 @@ func TestIntegrationConditions(t *testing.T) {
 		testConditionPolicy  = Policy{
 			Name: fmt.Sprintf("test-integration-alert-conditions-%s",
 				testConditionRandStr),
-			IncidentPreference: "PER_POLICY",
+			IncidentPreference: IncidentPreferenceTypes.PerPolicy,
 		}
 		testCondition = Condition{
-			Type:       "apm_app_metric",
+			Type:       ConditionTypes.APMApplicationMetric,
 			Name:       "Adpex (High)",
 			Enabled:    true,
 			Entities:   []string{},
-			Metric:     "apdex",
+			Metric:     MetricTypes.Apdex,
 			RunbookURL: "",
 			Terms: []ConditionTerm{
 				{
@@ -33,7 +33,7 @@ func TestIntegrationConditions(t *testing.T) {
 					Operator:     "above",
 					Priority:     "critical",
 					Threshold:    0.9,
-					TimeFunction: "all",
+					TimeFunction: TimeFunctionTypes.All,
 				},
 			},
 			UserDefined: ConditionUserDefined{

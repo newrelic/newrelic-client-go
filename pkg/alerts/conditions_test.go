@@ -90,11 +90,11 @@ func TestListConditions(t *testing.T) {
 		{
 			PolicyID:   333,
 			ID:         123,
-			Type:       "apm_app_metric",
+			Type:       ConditionTypes.APMApplicationMetric,
 			Name:       "Apdex (High)",
 			Enabled:    true,
 			Entities:   []string{"321"},
-			Metric:     "apdex",
+			Metric:     MetricTypes.Apdex,
 			RunbookURL: "",
 			Terms: []ConditionTerm{
 				{
@@ -102,7 +102,7 @@ func TestListConditions(t *testing.T) {
 					Operator:     "above",
 					Priority:     "critical",
 					Threshold:    0.9,
-					TimeFunction: "all",
+					TimeFunction: TimeFunctionTypes.All,
 				},
 			},
 			UserDefined: ConditionUserDefined{
@@ -129,11 +129,11 @@ func TestGetCondition(t *testing.T) {
 	expected := &Condition{
 		PolicyID:   333,
 		ID:         123,
-		Type:       "apm_app_metric",
+		Type:       ConditionTypes.APMApplicationMetric,
 		Name:       "Apdex (High)",
 		Enabled:    true,
 		Entities:   []string{"321"},
-		Metric:     "apdex",
+		Metric:     MetricTypes.Apdex,
 		RunbookURL: "",
 		Terms: []ConditionTerm{
 			{
@@ -141,7 +141,7 @@ func TestGetCondition(t *testing.T) {
 				Operator:     "above",
 				Priority:     "critical",
 				Threshold:    0.9,
-				TimeFunction: "all",
+				TimeFunction: TimeFunctionTypes.All,
 			},
 		},
 		UserDefined: ConditionUserDefined{
@@ -166,11 +166,11 @@ func TestCreateCondition(t *testing.T) {
 
 	condition := Condition{
 		PolicyID:   333,
-		Type:       "apm_app_metric",
+		Type:       ConditionTypes.APMApplicationMetric,
 		Name:       "Adpex (High)",
 		Enabled:    true,
 		Entities:   []string{"321"},
-		Metric:     "apdex",
+		Metric:     MetricTypes.Apdex,
 		RunbookURL: "",
 		Terms: []ConditionTerm{
 			{
@@ -178,7 +178,7 @@ func TestCreateCondition(t *testing.T) {
 				Operator:     "above",
 				Priority:     "critical",
 				Threshold:    0.9,
-				TimeFunction: "all",
+				TimeFunction: TimeFunctionTypes.All,
 			},
 		},
 		UserDefined: ConditionUserDefined{
@@ -193,11 +193,11 @@ func TestCreateCondition(t *testing.T) {
 	expected := &Condition{
 		PolicyID:   333,
 		ID:         123,
-		Type:       "apm_app_metric",
+		Type:       ConditionTypes.APMApplicationMetric,
 		Name:       "Apdex (High)",
 		Enabled:    true,
 		Entities:   []string{"321"},
-		Metric:     "apdex",
+		Metric:     MetricTypes.Apdex,
 		RunbookURL: "",
 		Terms: []ConditionTerm{
 			{
@@ -205,7 +205,7 @@ func TestCreateCondition(t *testing.T) {
 				Operator:     "above",
 				Priority:     "critical",
 				Threshold:    0.9,
-				TimeFunction: "all",
+				TimeFunction: TimeFunctionTypes.All,
 			},
 		},
 		UserDefined: ConditionUserDefined{
@@ -230,11 +230,11 @@ func TestUpdateCondition(t *testing.T) {
 
 	condition := Condition{
 		PolicyID:   333,
-		Type:       "apm_app_metric",
+		Type:       ConditionTypes.APMApplicationMetric,
 		Name:       "Adpex (High)",
 		Enabled:    true,
 		Entities:   []string{"321"},
-		Metric:     "apdex",
+		Metric:     MetricTypes.Apdex,
 		RunbookURL: "",
 		Terms: []ConditionTerm{
 			{
@@ -242,7 +242,7 @@ func TestUpdateCondition(t *testing.T) {
 				Operator:     "above",
 				Priority:     "critical",
 				Threshold:    0.9,
-				TimeFunction: "all",
+				TimeFunction: TimeFunctionTypes.All,
 			},
 		},
 		UserDefined: ConditionUserDefined{
@@ -257,11 +257,11 @@ func TestUpdateCondition(t *testing.T) {
 	expected := &Condition{
 		PolicyID:   333,
 		ID:         123,
-		Type:       "apm_app_metric",
+		Type:       ConditionTypes.APMApplicationMetric,
 		Name:       "Apdex (High)",
 		Enabled:    true,
 		Entities:   []string{"321"},
-		Metric:     "apdex",
+		Metric:     MetricTypes.Apdex,
 		RunbookURL: "",
 		Terms: []ConditionTerm{
 			{
@@ -269,7 +269,7 @@ func TestUpdateCondition(t *testing.T) {
 				Operator:     "below",
 				Priority:     "warning",
 				Threshold:    0.5,
-				TimeFunction: "all",
+				TimeFunction: TimeFunctionTypes.All,
 			},
 		},
 		UserDefined: ConditionUserDefined{
@@ -294,11 +294,11 @@ func TestDeleteCondition(t *testing.T) {
 
 	expected := &Condition{
 		ID:         123,
-		Type:       "apm_app_metric",
+		Type:       ConditionTypes.APMApplicationMetric,
 		Name:       "Apdex (High)",
 		Enabled:    true,
 		Entities:   []string{"321"},
-		Metric:     "apdex",
+		Metric:     MetricTypes.Apdex,
 		RunbookURL: "",
 		Terms: []ConditionTerm{
 			{
@@ -306,7 +306,7 @@ func TestDeleteCondition(t *testing.T) {
 				Operator:     "above",
 				Priority:     "critical",
 				Threshold:    0.9,
-				TimeFunction: "all",
+				TimeFunction: TimeFunctionTypes.All,
 			},
 		},
 		UserDefined: ConditionUserDefined{
