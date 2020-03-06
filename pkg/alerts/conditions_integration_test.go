@@ -53,7 +53,7 @@ func TestIntegrationConditions(t *testing.T) {
 
 	require.NoError(t, err)
 
-	testCondition.PolicyID = policy.ID
+	// testCondition.PolicyID = policy.ID
 
 	// Deferred teardown
 	defer func() {
@@ -65,19 +65,19 @@ func TestIntegrationConditions(t *testing.T) {
 	}()
 
 	// Test: Create
-	createResult, err := client.CreateCondition(testCondition)
+	createResult, err := client.CreateCondition(policy.ID, testCondition)
 
 	require.NoError(t, err)
 	require.NotNil(t, createResult)
 
 	// Test: Get
-	listResult, err := client.ListConditions(createResult.PolicyID)
+	listResult, err := client.ListConditions(policy.ID)
 
 	require.NoError(t, err)
 	require.Greater(t, len(listResult), 0)
 
 	// Test: Get
-	readResult, err := client.GetCondition(createResult.PolicyID, createResult.ID)
+	readResult, err := client.GetCondition(policy.ID, createResult.ID)
 
 	require.NoError(t, err)
 	require.NotNil(t, readResult)
