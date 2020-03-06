@@ -8,15 +8,14 @@ import (
 
 	// build/lint.mk
 	_ "github.com/client9/misspell/cmd/misspell"
-	_ "github.com/fzipp/gocyclo"
 	_ "github.com/golangci/golangci-lint/cmd/golangci-lint"
-	_ "github.com/gordonklaus/ineffassign"
 	_ "github.com/llorllale/go-gitlint/cmd/go-gitlint"
-	_ "github.com/remyoudompheng/go-misc/deadcode"
-	_ "github.com/timakin/bodyclose"
-	_ "golang.org/x/lint/golint"
+	_ "github.com/psampaz/go-mod-outdated"
 
 	// build/document.mk
 	_ "github.com/git-chglog/git-chglog/cmd/git-chglog"
 	_ "golang.org/x/tools/cmd/godoc"
+
+	// build/release.mk
+	_ "github.com/goreleaser/goreleaser"
 )
