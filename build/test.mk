@@ -10,16 +10,14 @@ GOFMT        ?= gofmt
 COVERAGE_DIR ?= ./coverage/
 COVERMODE    ?= atomic
 SRCDIR       ?= .
-GO_PKGS      ?= $(shell ${GO} list ./... | grep -v -e "/vendor/" -e "/example")
-FILES        ?= $(shell find ${SRCDIR} -type f | grep -v -e '.git/' -e '/vendor/')
+GO_PKGS      ?= $(shell $(GO) list ./... | grep -v -e "/vendor/" -e "/example")
+FILES        ?= $(shell find $(SRCDIR) -type f | grep -v -e '.git/' -e '/vendor/')
 
-LDFLAGS_UNIT ?= '-X github.com/newrelic/newrelic-client-go/internal/version.GitTag=$(PROJECT_VER_TAGGED)'
+PROJECT_MODULE ?= $(shell $(GO) list -m)
+
+LDFLAGS_UNIT ?= '-X $(PROJECT_MODULE)/internal/version.GitTag=$(PROJECT_VER_TAGGED)'
 
 GOTOOLS += github.com/stretchr/testify/assert
-
-clean-cover:
-	@echo "=== $(PROJECT_NAME) === [ clean-cover      ]: removing coverage files..."
-	@rm -rfv $(COVERAGE_DIR)/*
 
 test: test-only
 test-only: test-unit test-integration
@@ -33,6 +31,14 @@ test-integration:
 	@echo "=== $(PROJECT_NAME) === [ test-integration ]: running integration tests..."
 	@mkdir -p $(COVERAGE_DIR)
 	@$(GO) test -v -parallel 4 -tags integration -covermode=$(COVERMODE) -coverprofile $(COVERAGE_DIR)/integration.tmp $(GO_PKGS)
+
+
+#
+# Coverage
+#
+cover-clean:
+	@echo "=== $(PROJECT_NAME) === [ cover-clean      ]: removing coverage files..."
+	@rm -rfv $(COVERAGE_DIR)/*
 
 cover-report:
 	@echo "=== $(PROJECT_NAME) === [ cover-report     ]: generating coverage results..."

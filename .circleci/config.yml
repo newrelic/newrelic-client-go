@@ -3,19 +3,108 @@ version: 2.1
 orbs:
   snyk: snyk/snyk@0.0.8
 
-jobs:
-  build:
-    docker:
-      - image: circleci/golang:1.13
+workflows:
+  integration:
+    jobs:
+      - checkout_code
+      - lint:
+          requires:
+            - checkout_code
+      - test:
+          requires:
+            - checkout_code
+      - security-scan:
+          requires:
+            - checkout_code
+      - compile:
+          requires:
+            - lint
+            - test
+            - security-scan
+      - hold-for-release:
+          type: approval
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+\.\d+$/
+          require:
+            - compile
+      - release:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+\.\d+$/
+          requires:
+            - compile
+            - hold-for-release
 
+jobs:
+  checkout_code:
+    docker:
+      - image: circleci/golang:1.14
     working_directory: /go/src/github.com/newrelic/newrelic-client-go
     steps:
       - checkout
+      - save_cache:
+          key: repo-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - /go/src/github.com/newrelic/newrelic-cli
 
-      - run: make build-ci
+  lint:
+    docker:
+      - image: circleci/golang:1.14
+    working_directory: /go/src/github.com/newrelic/newrelic-client-go
+    steps:
+      - restore_cache:
+          key: repo-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Lint
+          command: make lint
+
+  test:
+    docker:
+      - image: circleci/golang:1.14
+    working_directory: /go/src/github.com/newrelic/newrelic-client-go
+    steps:
+      - restore_cache:
+          key: repo-{{ .Environment.CIRCLE_SHA1 }}
+      - run:
+          name: Unit Tests
+          command: make test-unit
+      - run:
+          name: Integration Tests
+          command: make test-integration
+
+  security-scan:
+    docker:
+      - image: circleci/golang:1.14
+    working_directory: /go/src/github.com/newrelic/newrelic-client-go
+    steps:
+      - restore_cache:
+          key: repo-{{ .Environment.CIRCLE_SHA1 }}
       - snyk/scan:
           severity-threshold: high
           fail-on-issues: false
           monitor-on-build: true
 
+  compile:
+    docker:
+      - image: circleci/golang:1.14
+    working_directory: /go/src/github.com/newrelic/newrelic-client-go
+    steps:
+      - restore_cache:
+          key: repo-{{ .Environment.CIRCLE_SHA1 }}
+      - run: make compile-only
+
+  release:
+    docker:
+      - image: circleci/golang:1.14
+    working_directory: /go/src/github.com/newrelic/newrelic-client-go
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run: make release-publish
 
