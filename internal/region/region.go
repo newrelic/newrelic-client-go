@@ -29,13 +29,6 @@ const (
 // Default represents the region returned if nothing was specified
 const Default Region = US
 
-// DefaultBaseURLs represents the base API URLs for the different environments of the New Relic REST API V2.
-var DefaultBaseURLs = map[Region]string{
-	US:      "https://api.newrelic.com/v2",
-	EU:      "https://api.eu.newrelic.com/v2",
-	Staging: "https://staging-api.newrelic.com/v2",
-}
-
 // NerdGraphBaseURLs describes the base URLs for the NerdGraph API.
 var NerdGraphBaseURLs = map[Region]string{
 	US:      "https://api.newrelic.com/graphql",
@@ -68,5 +61,19 @@ func (r Region) String() string {
 		return "Staging"
 	default:
 		return "(Unknown)"
+	}
+}
+
+// BaseURL represents the base API URLs for the different environments of the New Relic REST API V2.
+func (r Region) BaseURL() string {
+	switch r {
+	case US:
+		return "https://api.newrelic.com/v2"
+	case EU:
+		return "https://api.eu.newrelic.com/v2"
+	case Staging:
+		return "https://staging-api.newrelic.com/v2"
+	default:
+		return Default.BaseURL()
 	}
 }

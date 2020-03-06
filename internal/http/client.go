@@ -61,7 +61,7 @@ func NewClient(cfg config.Config) NewRelicClient {
 	}
 
 	if cfg.BaseURL == "" {
-		cfg.BaseURL = region.DefaultBaseURLs[region.Parse(cfg.Region)]
+		cfg.BaseURL = region.Parse(cfg.Region).BaseURL()
 	}
 
 	if cfg.UserAgent == "" {

@@ -21,7 +21,7 @@ func New(config config.Config) Alerts {
 	infraConfig := config
 
 	if infraConfig.InfrastructureBaseURL == "" {
-		infraConfig.InfrastructureBaseURL = infrastructure.BaseURLs[region.Parse(config.Region)]
+		infraConfig.InfrastructureBaseURL = region.Parse(config.Region).BaseURL()
 	}
 
 	infraConfig.BaseURL = infraConfig.InfrastructureBaseURL
@@ -41,6 +41,3 @@ func New(config config.Config) Alerts {
 
 	return pkg
 }
-
-// BaseURLs represents the base API URLs for the different environments of the New Relic REST API V2.
-var BaseURLs = region.DefaultBaseURLs
