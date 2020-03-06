@@ -52,8 +52,6 @@ func TestIntegrationPluginsConditions(t *testing.T) {
 
 	require.NoError(t, err)
 
-	condition.PolicyID = policy.ID
-
 	// Deferred teardown
 	defer func() {
 		_, err := client.DeletePolicy(policy.ID)
@@ -64,19 +62,19 @@ func TestIntegrationPluginsConditions(t *testing.T) {
 	}()
 
 	// Test: Create
-	createResult, err := client.CreatePluginsCondition(condition)
+	createResult, err := client.CreatePluginsCondition(policy.ID, condition)
 
 	require.NoError(t, err)
 	require.NotNil(t, createResult)
 
 	// Test: List
-	listResult, err := client.ListPluginsConditions(createResult.PolicyID)
+	listResult, err := client.ListPluginsConditions(policy.ID)
 
 	require.NoError(t, err)
 	require.Greater(t, len(listResult), 0)
 
 	// Test: Get
-	readResult, err := client.GetPluginsCondition(createResult.PolicyID, createResult.ID)
+	readResult, err := client.GetPluginsCondition(policy.ID, createResult.ID)
 
 	require.NoError(t, err)
 	require.NotNil(t, readResult)
