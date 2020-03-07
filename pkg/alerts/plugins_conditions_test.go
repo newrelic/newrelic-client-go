@@ -38,7 +38,6 @@ var (
 	}`
 
 	testPluginsCondition = PluginsCondition{
-		PolicyID:          123,
 		ID:                333444,
 		Name:              "Connected Clients (High)",
 		Enabled:           true,
@@ -96,7 +95,7 @@ func TestCreatePluginsCondition(t *testing.T) {
 	responseJSON := fmt.Sprintf(`{"plugins_condition": %s}`, testPluginsConditionJSON)
 	client := newMockResponse(t, responseJSON, http.StatusCreated)
 
-	actual, err := client.CreatePluginsCondition(testPluginsCondition)
+	actual, err := client.CreatePluginsCondition(123, testPluginsCondition)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)

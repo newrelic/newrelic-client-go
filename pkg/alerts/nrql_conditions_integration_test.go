@@ -51,8 +51,6 @@ func TestIntegrationNrqlConditions(t *testing.T) {
 
 	require.NoError(t, err)
 
-	nrqlCondition.PolicyID = policy.ID
-
 	// Deferred teardown
 	defer func() {
 		_, err := client.DeletePolicy(policy.ID)
@@ -63,19 +61,19 @@ func TestIntegrationNrqlConditions(t *testing.T) {
 	}()
 
 	// Test: Create
-	createResult, err := client.CreateNrqlCondition(nrqlCondition)
+	createResult, err := client.CreateNrqlCondition(policy.ID, nrqlCondition)
 
 	require.NoError(t, err)
 	require.NotNil(t, createResult)
 
 	// Test: List
-	listResult, err := client.ListNrqlConditions(createResult.PolicyID)
+	listResult, err := client.ListNrqlConditions(policy.ID)
 
 	require.NoError(t, err)
 	require.Greater(t, len(listResult), 0)
 
 	// Test: Get
-	readResult, err := client.GetNrqlCondition(createResult.PolicyID, createResult.ID)
+	readResult, err := client.GetNrqlCondition(policy.ID, createResult.ID)
 
 	require.NoError(t, err)
 	require.NotNil(t, readResult)

@@ -109,7 +109,6 @@ func TestListNrqlConditions(t *testing.T) {
 			Name:                "NRQL Test Alert",
 			RunbookURL:          "",
 			ValueFunction:       "single_value",
-			PolicyID:            123,
 			ID:                  12345,
 			ViolationCloseTimer: 3600,
 			Enabled:             true,
@@ -145,7 +144,6 @@ func TestGetNrqlCondition(t *testing.T) {
 		Name:                "NRQL Test Alert",
 		RunbookURL:          "",
 		ValueFunction:       "single_value",
-		PolicyID:            123,
 		ID:                  12345,
 		ViolationCloseTimer: 3600,
 		Enabled:             true,
@@ -161,6 +159,7 @@ func TestGetNrqlCondition(t *testing.T) {
 func TestCreateNrqlCondition(t *testing.T) {
 	t.Parallel()
 	alerts := newMockResponse(t, testNrqlConditionJSON, http.StatusCreated)
+	policyID := 333
 
 	condition := NrqlCondition{
 		Nrql: NrqlQuery{
@@ -180,7 +179,6 @@ func TestCreateNrqlCondition(t *testing.T) {
 		Name:                "NRQL Test Alert",
 		RunbookURL:          "",
 		ValueFunction:       "single_value",
-		PolicyID:            123,
 		ID:                  12345,
 		ViolationCloseTimer: 3600,
 		Enabled:             true,
@@ -188,7 +186,7 @@ func TestCreateNrqlCondition(t *testing.T) {
 
 	expected := &condition
 
-	actual, err := alerts.CreateNrqlCondition(condition)
+	actual, err := alerts.CreateNrqlCondition(policyID, condition)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)
@@ -217,7 +215,6 @@ func TestUpdateNrqlCondition(t *testing.T) {
 		Name:                "NRQL Test Alert",
 		RunbookURL:          "",
 		ValueFunction:       "single_value",
-		PolicyID:            123,
 		ID:                  12345,
 		ViolationCloseTimer: 3600,
 		Enabled:             true,
@@ -241,7 +238,6 @@ func TestUpdateNrqlCondition(t *testing.T) {
 		Name:                "NRQL Test Alert Updated",
 		RunbookURL:          "https://www.example.com/docs",
 		ValueFunction:       "single_value",
-		PolicyID:            123,
 		ID:                  12345,
 		ViolationCloseTimer: 3600,
 		Enabled:             false,

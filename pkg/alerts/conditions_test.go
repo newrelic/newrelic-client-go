@@ -88,7 +88,6 @@ func TestListConditions(t *testing.T) {
 
 	expected := []*Condition{
 		{
-			PolicyID:   333,
 			ID:         123,
 			Type:       ConditionTypes.APMApplicationMetric,
 			Name:       "Apdex (High)",
@@ -127,7 +126,6 @@ func TestGetCondition(t *testing.T) {
 	alerts := newMockResponse(t, testListConditionsResponseJSON, http.StatusOK)
 
 	expected := &Condition{
-		PolicyID:   333,
 		ID:         123,
 		Type:       ConditionTypes.APMApplicationMetric,
 		Name:       "Apdex (High)",
@@ -163,9 +161,9 @@ func TestGetCondition(t *testing.T) {
 func TestCreateCondition(t *testing.T) {
 	t.Parallel()
 	alerts := newMockResponse(t, testConditionJSON, http.StatusCreated)
+	policyID := 333
 
 	condition := Condition{
-		PolicyID:   333,
 		Type:       ConditionTypes.APMApplicationMetric,
 		Name:       "Adpex (High)",
 		Enabled:    true,
@@ -191,7 +189,6 @@ func TestCreateCondition(t *testing.T) {
 	}
 
 	expected := &Condition{
-		PolicyID:   333,
 		ID:         123,
 		Type:       ConditionTypes.APMApplicationMetric,
 		Name:       "Apdex (High)",
@@ -217,7 +214,7 @@ func TestCreateCondition(t *testing.T) {
 		ViolationCloseTimer: 0,
 	}
 
-	actual, err := alerts.CreateCondition(condition)
+	actual, err := alerts.CreateCondition(policyID, condition)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)
@@ -229,7 +226,6 @@ func TestUpdateCondition(t *testing.T) {
 	alerts := newMockResponse(t, testConditionUpdateJSON, http.StatusCreated)
 
 	condition := Condition{
-		PolicyID:   333,
 		Type:       ConditionTypes.APMApplicationMetric,
 		Name:       "Adpex (High)",
 		Enabled:    true,
@@ -255,7 +251,6 @@ func TestUpdateCondition(t *testing.T) {
 	}
 
 	expected := &Condition{
-		PolicyID:   333,
 		ID:         123,
 		Type:       ConditionTypes.APMApplicationMetric,
 		Name:       "Apdex (High)",
