@@ -53,8 +53,6 @@ func TestIntegrationConditions(t *testing.T) {
 
 	require.NoError(t, err)
 
-	// testCondition.PolicyID = policy.ID
-
 	// Deferred teardown
 	defer func() {
 		_, err := client.DeletePolicy(policy.ID)
