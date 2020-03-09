@@ -245,6 +245,57 @@ func TestHeaders(t *testing.T) {
 	assert.Nil(t, err)
 }
 
+func TestCustomClientHeaders(t *testing.T) {
+	t.Parallel()
+
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+
+		assert.Equal(t, "custom-user-agent", r.Header.Get("user-agent"))
+		assert.Equal(t, "custom-requesting-service|newrelic-client-go", r.Header.Get("newrelic-requesting-services"))
+	}))
+
+	c := NewClient(config.Config{
+		PersonalAPIKey: testPersonalAPIKey,
+		AdminAPIKey:    testAdminAPIKey,
+		BaseURL:        ts.URL,
+		UserAgent:      "custom-user-agent",
+		ServiceName:    "custom-requesting-service",
+	})
+
+	_, err := c.Get("/path", nil, nil)
+
+	assert.Nil(t, err)
+}
+
+func TestCustomRequestHeaders(t *testing.T) {
+	t.Parallel()
+
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+
+		assert.Equal(t, "custom-user-agent", r.Header.Get("user-agent"))
+		assert.Equal(t, "custom-requesting-service|newrelic-client-go", r.Header.Get("newrelic-requesting-services"))
+	}))
+
+	c := NewClient(config.Config{
+		PersonalAPIKey: testPersonalAPIKey,
+		AdminAPIKey:    testAdminAPIKey,
+		BaseURL:        ts.URL,
+	})
+
+	req, err := c.NewRequest("GET", "/path", nil, nil, nil)
+
+	req.SetHeader("user-agent", "custom-user-agent")
+	req.SetServiceName("custom-requesting-service")
+
+	_, err = c.Do(req)
+
+	assert.Nil(t, err)
+}
+
 func TestAdminAPIKeyHeader(t *testing.T) {
 	t.Parallel()
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
