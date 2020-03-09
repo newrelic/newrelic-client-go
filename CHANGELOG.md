@@ -2,8 +2,21 @@
 ## [Unreleased]
 
 
+<a name="v0.15.0"></a>
+## [v0.15.0] - 2020-03-06
+### Bug Fixes
+- **apm:** remove unused field
+- **build:** Remove working dir config for CircleCI
+
+### Refactor
+- **alert_conditions:** remove transient PolicyID from struct for consistency with API response
+- **build:** Make the build system consistent with other projects
+- **nrql_conditions:** remove transient PolicyID from struct for consistency with API response
+- **plugins_conditions:** remove transient PolicyID from struct for consistency with API response
+
+
 <a name="v0.14.0"></a>
-## [v0.14.0] - 2020-03-04
+## [v0.14.0] - 2020-03-05
 ### Features
 - **newrelic:** add types for fields with well known values
 
@@ -314,7 +327,8 @@
 - rename packages for clarity, promote Config to the public package
 
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.14.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.15.0...HEAD
+[v0.15.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.14.0...v0.15.0
 [v0.14.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.13.0...v0.14.0
 [v0.13.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.12.0...v0.13.0
 [v0.12.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.11.0...v0.12.0
