@@ -18,7 +18,7 @@ var incidentTestAPIHandler = http.HandlerFunc(func(w http.ResponseWriter, r *htt
 
 	openIncident := Incident{
 		ID:                 42,
-		OpenedAt:           1575502560942,
+		OpenedAt:           &testTimestamp,
 		IncidentPreference: "PER_CONDITION",
 		Links: IncidentLink{
 			Violations: []int{123456789},
@@ -28,8 +28,8 @@ var incidentTestAPIHandler = http.HandlerFunc(func(w http.ResponseWriter, r *htt
 
 	closedIncident := Incident{
 		ID:                 24,
-		OpenedAt:           1575506284796,
-		ClosedAt:           1575506342161,
+		OpenedAt:           &testTimestamp,
+		ClosedAt:           &testTimestamp,
 		IncidentPreference: "PER_POLICY",
 		Links: IncidentLink{
 			Violations: []int{987654321},
@@ -86,7 +86,7 @@ func TestListIncidents(t *testing.T) {
 	expected := []*Incident{
 		{
 			ID:                 42,
-			OpenedAt:           1575502560942,
+			OpenedAt:           &testTimestamp,
 			IncidentPreference: "PER_CONDITION",
 			Links: IncidentLink{
 				Violations: []int{123456789},
@@ -95,8 +95,8 @@ func TestListIncidents(t *testing.T) {
 		},
 		{
 			ID:                 24,
-			OpenedAt:           1575506284796,
-			ClosedAt:           1575506342161,
+			OpenedAt:           &testTimestamp,
+			ClosedAt:           &testTimestamp,
 			IncidentPreference: "PER_POLICY",
 			Links: IncidentLink{
 				Violations: []int{987654321},
@@ -120,7 +120,7 @@ func TestOpenListIncidents(t *testing.T) {
 	expected := []*Incident{
 		{
 			ID:                 42,
-			OpenedAt:           1575502560942,
+			OpenedAt:           &testTimestamp,
 			IncidentPreference: "PER_CONDITION",
 			Links: IncidentLink{
 				Violations: []int{123456789},
@@ -144,7 +144,7 @@ func TestListIncidentsWithoutViolations(t *testing.T) {
 	expected := []*Incident{
 		{
 			ID:                 42,
-			OpenedAt:           1575502560942,
+			OpenedAt:           &testTimestamp,
 			IncidentPreference: "PER_CONDITION",
 			Links: IncidentLink{
 				PolicyID: 12345,
@@ -152,8 +152,8 @@ func TestListIncidentsWithoutViolations(t *testing.T) {
 		},
 		{
 			ID:                 24,
-			OpenedAt:           1575506284796,
-			ClosedAt:           1575506342161,
+			OpenedAt:           &testTimestamp,
+			ClosedAt:           &testTimestamp,
 			IncidentPreference: "PER_POLICY",
 			Links: IncidentLink{
 				PolicyID: 54321,
@@ -186,7 +186,7 @@ func TestAcknowledgeIncident(t *testing.T) {
 				"incidents": [
 			    {
 			      "id": 42,
-				  "opened_at": 1575502560942,
+				  "opened_at": 1575438237690,
 			      "incident_preference": "PER_CONDITION",
 			      "links": {
 			        "violations": [
@@ -223,8 +223,8 @@ func TestCloseIncident(t *testing.T) {
 			"incidents": [
 		    	{
 		    	  "id": 42,
-				  "opened_at": 1575502560942,
-				  "closed_at": 1575502560943,
+				  "opened_at": 1575438237690,
+				  "closed_at": 1575438237690,
 		    	  "incident_preference": "PER_CONDITION",
 		    	  "links": {
 		    	    "violations": [
