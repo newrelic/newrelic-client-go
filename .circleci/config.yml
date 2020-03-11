@@ -72,7 +72,6 @@ jobs:
     steps:
       - restore_cache:
           key: repo-{{ .Environment.CIRCLE_SHA1 }}
-      - run: git fetch --tags  # Version unit test depends on latest tag
       - run:
           name: Unit Tests
           command: make test-unit
