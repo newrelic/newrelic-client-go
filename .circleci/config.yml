@@ -10,7 +10,10 @@ workflows:
       - lint:
           requires:
             - checkout_code
-      - test:
+      - test-unit:
+          requires:
+            - checkout_code
+      - test-integration:
           requires:
             - checkout_code
       - security-scan:
@@ -19,7 +22,8 @@ workflows:
       - compile:
           requires:
             - lint
-            - test
+            - test-unit
+            - test-integration
             - security-scan
       - hold-for-release:
           type: approval
@@ -62,7 +66,7 @@ jobs:
           name: Lint
           command: make lint
 
-  test:
+  test-unit:
     docker:
       - image: circleci/golang:1.14
     steps:
@@ -71,6 +75,13 @@ jobs:
       - run:
           name: Unit Tests
           command: make test-unit
+
+  test-integration:
+    docker:
+      - image: circleci/golang:1.14
+    steps:
+      - restore_cache:
+          key: repo-{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Integration Tests
           command: make test-integration

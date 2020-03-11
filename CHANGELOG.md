@@ -2,6 +2,22 @@
 ## [Unreleased]
 
 
+<a name="v0.16.0"></a>
+## [v0.16.0] - 2020-03-11
+### Bug Fixes
+- **build:** Force pull tags after each checkout
+
+### Documentation Updates
+- update community support information
+
+### Features
+- **entities:** Add some more details from BrowserApplicationEntity
+- **entities:** Return more data on ApmApplicationEntity, and be consistent in what we return between fetch and search
+
+### Refactor
+- **entities:** Change Entity.Type type... Add more to the ENUMs
+
+
 <a name="v0.15.0"></a>
 ## [v0.15.0] - 2020-03-09
 ### Bug Fixes
@@ -329,7 +345,8 @@
 - rename packages for clarity, promote Config to the public package
 
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.15.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.16.0...HEAD
+[v0.16.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.15.0...v0.16.0
 [v0.15.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.14.0...v0.15.0
 [v0.14.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.13.0...v0.14.0
 [v0.13.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.12.0...v0.13.0
