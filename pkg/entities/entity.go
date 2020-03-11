@@ -13,19 +13,22 @@ type Entity struct {
 	Name       string           `json:"name,omitempty"`
 	Permalink  string           `json:"permalink,omitempty"`
 	Reporting  bool             `json:"reporting,omitempty"`
-	Type       EntityType       `json:"type,omitempty"`
+	Type       Type             `json:"type,omitempty"`
 
 	// ApmApplicationEntity, BrowserApplicationEntity
 	AlertSeverity *EntityAlertSeverityType `json:"alertSeverity,omitempty"`
 	ApplicationID *int                     `json:"applicationId,omitempty"`
 
-	// ApmApplicationEntity
+	// Stitch in other structs
+	ApmApplicationEntity
+	BrowserApplicationEntity
+}
+
+// ApmApplicationEntity represents the unique fields returned on the ApmApplicationEntity interface
+type ApmApplicationEntity struct {
 	Language             *string                                          `json:"language,omitempty"`
 	RunningAgentVersions *ApmApplicationEntityOutlineRunningAgentVersions `json:"runningAgentVersions,omitempty"`
 	Settings             *ApmApplicationEntityOutlineSettings             `json:"settings,omitempty"`
-
-	// BrowserApplicationEntity
-	ServingApmApplicationID *int `json:"servingApmApplicationId,omitempty"`
 }
 
 type ApmApplicationEntityOutlineSettings struct {
@@ -38,21 +41,52 @@ type ApmApplicationEntityOutlineRunningAgentVersions struct {
 	MinVersion *string `json:"minVersion,omitempty"`
 }
 
-// EntityType represents a New Relic One entity type.
+// BrowserApplicationEntity represents the unique fields returned on the BrowserApplicationEntity interface
+type BrowserApplicationEntity struct {
+	ServingApmApplicationID *int `json:"servingApmApplicationId,omitempty"`
+}
+
+// EntityType represents a New Relic One entity type (full)
 type EntityType string
 
+// Type represents a New Relic One entity type (short)
+type Type string
+
 var (
-	// EntityTypes specifies the possible types for a New Relic One entity.
-	EntityTypes = struct {
-		Application EntityType
-		Dashboard   EntityType
-		Host        EntityType
-		Monitor     EntityType
+	// Types specifies the possible types for a New Relic One entity.
+	Types = struct {
+		Application Type
+		Dashboard   Type
+		Host        Type
+		Monitor     Type
+		Workload    Type
 	}{
 		Application: "APPLICATION",
 		Dashboard:   "DASHBOARD",
 		Host:        "HOST",
 		Monitor:     "MONITOR",
+		Workload:    "WORKLOAD",
+	}
+)
+
+var (
+	// EntityTypes specifies the possible types for a New Relic One entity.
+	EntityTypes = struct {
+		Application EntityType
+		Browser     EntityType
+		Dashboard   EntityType
+		Host        EntityType
+		Mobile      EntityType
+		Monitor     EntityType
+		Workload    EntityType
+	}{
+		Application: "APM_APPLICATION_ENTITY",
+		Browser:     "BROWSER_APPLICATION_ENTITY",
+		Dashboard:   "DASHBOARD_ENTITY",
+		Host:        "INFRASTRUCTURE_HOST_ENTITY",
+		Mobile:      "MOBILE_APPLICATION_ENTITY",
+		Monitor:     "SYNTHETIC_MONITOR_ENTITY",
+		Workload:    "WORKLOAD_ENTITY",
 	}
 )
 
@@ -66,13 +100,17 @@ var (
 		Browser        EntityDomainType
 		Infrastructure EntityDomainType
 		Mobile         EntityDomainType
+		Nr1            EntityDomainType
 		Synthetics     EntityDomainType
+		Visualization  EntityDomainType
 	}{
 		APM:            "APM",
 		Browser:        "BROWSER",
 		Infrastructure: "INFRA",
 		Mobile:         "MOBILE",
+		Nr1:            "NR1",
 		Synthetics:     "SYNTH",
+		Visualization:  "VIZ",
 	}
 )
 
