@@ -8,19 +8,24 @@ import (
 type Entity struct {
 	AccountID  int              `json:"accountId,omitempty"`
 	Domain     EntityDomainType `json:"domain,omitempty"`
-	EntityType EntityType       `json:"entityType,omitempty"` // This does not match what EntityTypes below (is full name not short)
+	EntityType EntityType       `json:"entityType,omitempty"` // Full Type (ie APM_APPLICATION_ENTITY)
 	GUID       string           `json:"guid,omitempty"`
 	Name       string           `json:"name,omitempty"`
 	Permalink  string           `json:"permalink,omitempty"`
 	Reporting  bool             `json:"reporting,omitempty"`
-	Type       string           `json:"type,omitempty"` // TODO: Should be a type (or EntityType?) Vet what that breaks
+	Type       EntityType       `json:"type,omitempty"`
 
-	// Not always returned. Only returned from ApmApplicationEntityOutline
-	AlertSeverity        *EntityAlertSeverityType                         `json:"alertSeverity,omitempty"`
-	ApplicationID        *int                                             `json:"applicationId,omitempty"`
+	// ApmApplicationEntity, BrowserApplicationEntity
+	AlertSeverity *EntityAlertSeverityType `json:"alertSeverity,omitempty"`
+	ApplicationID *int                     `json:"applicationId,omitempty"`
+
+	// ApmApplicationEntity
 	Language             *string                                          `json:"language,omitempty"`
 	RunningAgentVersions *ApmApplicationEntityOutlineRunningAgentVersions `json:"runningAgentVersions,omitempty"`
 	Settings             *ApmApplicationEntityOutlineSettings             `json:"settings,omitempty"`
+
+	// BrowserApplicationEntity
+	ServingApmApplicationID *int `json:"servingApmApplicationId,omitempty"`
 }
 
 type ApmApplicationEntityOutlineSettings struct {
@@ -192,6 +197,7 @@ const (
 	graphqlApmApplicationEntityOutlineFields = `
 					... on ApmApplicationEntityOutline {
 						applicationId
+						alertSeverity
 						language
 						runningAgentVersions {
 							maxVersion
@@ -203,14 +209,30 @@ const (
 						}
 					}`
 
+	graphqlBrowserApplicationEntityFields = `
+		... on BrowserApplicationEntity {
+ 			alertSeverity
+			applicationId
+			servingApmApplicationId
+	}`
+
+	graphqlBrowserApplicationEntityOutlineFields = `
+		... on BrowserApplicationEntityOutline {
+ 			alertSeverity
+			applicationId
+			servingApmApplicationId
+	}`
+
 	getEntitiesQuery = `query($guids: [String!]!) { actor { entities(guids: $guids)  {` +
 		graphqlEntityStructFields +
 		graphqlApmApplicationEntityFields +
+		graphqlBrowserApplicationEntityFields +
 		` } } }`
 
 	getEntityQuery = `query($guid: String!) { actor { entity(guid: $guid)  {` +
 		graphqlEntityStructFields +
 		graphqlApmApplicationEntityFields +
+		graphqlBrowserApplicationEntityFields +
 		` } } }`
 
 	searchEntitiesQuery = `
@@ -221,13 +243,9 @@ const (
 						nextCursor
 						entities {` +
 		graphqlEntityStructFields +
-		graphqlApmApplicationEntityOutlineFields + `
-						}
-					}
-				}
-			}
-		}
-`
+		graphqlApmApplicationEntityOutlineFields +
+		graphqlBrowserApplicationEntityOutlineFields +
+		` } } } } }`
 )
 
 type searchEntitiesResponse struct {

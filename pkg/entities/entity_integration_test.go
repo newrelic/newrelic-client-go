@@ -72,12 +72,11 @@ func TestIntegrationGetEntity(t *testing.T) {
 	assert.Equal(t, 2520528, actual.AccountID)
 	assert.Equal(t, EntityDomainType("APM"), actual.Domain)
 	assert.Equal(t, EntityType("APM_APPLICATION_ENTITY"), actual.EntityType)
-	assert.Equal(t, "APPLICATION", actual.Type)
 	assert.Equal(t, entityGUID, actual.GUID)
 	assert.Equal(t, "Dummy App", actual.Name)
 	assert.Equal(t, "https://one.newrelic.com/redirect/entity/"+entityGUID, actual.Permalink)
 	assert.Equal(t, true, actual.Reporting)
-	assert.Equal(t, "APPLICATION", actual.Type)
+	assert.Equal(t, EntityType("APPLICATION"), actual.Type)
 }
 
 // Looking at an APM Application, and the result set here.
