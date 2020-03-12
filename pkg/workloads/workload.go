@@ -59,9 +59,8 @@ type ScopeAccounts struct {
 
 // CreateInput represents the input parameters used for creating or updating a workload.
 type CreateInput struct {
-	// EntityGUIDs         []*string                 `json:"entityGuids,omitempty`
-	Entities            []*string                 `json:"entities,omitempty"`
-	EntitySearchQueries []*EntitySearchQueryInput `json:"entitySearchQueryInput,omitempty"`
+	EntityGUIDs         []*string                 `json:"entityGuids,omitempty"`
+	EntitySearchQueries []*EntitySearchQueryInput `json:"entitySearchQueries,omitempty"`
 	Name                *string                   `json:"name,omitempty"`
 	ScopeAccountsInput  ScopeAccountsInput        `json:"scopeAccounts,omitempty"`
 }
@@ -77,23 +76,15 @@ type ScopeAccountsInput struct {
 	AccountIDs []*int `json:"accountIds,omitempty"`
 }
 
-// DeleteInput represents the input object used to identify the workload to be deleted.
-type DeleteInput struct {
-	EntityGUID *string `json:"guid,omitempty"`
-}
-
 // DuplicateInput represents the input object used to identify the workload to be duplicated.
 type DuplicateInput struct {
-	Name       string  `json:"name,omitempty"`
-	SourceGUID *string `json:"sourceGuid,omitempty"`
+	Name string `json:"name,omitempty"`
 }
 
 // UpdateInput represents the input object used to identify the workload to be updated and its new changes.
 type UpdateInput struct {
-	// EntityGUIDs         []*string                 `json:"entityGuids,omitempty`
-	Entities            []*string                 `json:"entities,omitempty"`
-	EntitySearchQueries []*EntitySearchQueryInput `json:"entitySearchQueryInput,omitempty"`
-	GUID                *string                   `json:"guid,omitempty"`
+	EntityGUIDs         []*string                 `json:"entityGuids,omitempty"`
+	EntitySearchQueries []*EntitySearchQueryInput `json:"entitySearchQueries,omitempty"`
 	Name                string                    `json:"name,omitempty"`
 	ScopeAccountsInput  ScopeAccountsInput        `json:"scopeAccounts,omitempty"`
 }
@@ -151,11 +142,10 @@ func (e *Workloads) CreateWorkload(accountID int, workload *CreateInput) (*Workl
 }
 
 // DeleteWorkload deletes a New Relic One workload.
-func (e *Workloads) DeleteWorkload(accountID int, workload *DeleteInput) (*Workload, error) {
+func (e *Workloads) DeleteWorkload(guid string) (*Workload, error) {
 	resp := workloadDeleteResponse{}
 	vars := map[string]interface{}{
-		"accountId": accountID,
-		"workload":  workload,
+		"guid": guid,
 	}
 
 	if err := e.client.Query(deleteWorkloadMutation, vars, &resp); err != nil {
@@ -166,11 +156,12 @@ func (e *Workloads) DeleteWorkload(accountID int, workload *DeleteInput) (*Workl
 }
 
 // DuplicateWorkload duplicates a New Relic One workload.
-func (e *Workloads) DuplicateWorkload(accountID int, workload *DuplicateInput) (*Workload, error) {
+func (e *Workloads) DuplicateWorkload(accountID int, sourceGUID string, workload *DuplicateInput) (*Workload, error) {
 	resp := workloadDuplicateResponse{}
 	vars := map[string]interface{}{
-		"accountId": accountID,
-		"workload":  workload,
+		"accountId":  accountID,
+		"sourceGuid": sourceGUID,
+		"workload":   workload,
 	}
 
 	if err := e.client.Query(duplicateWorkloadMutation, vars, &resp); err != nil {
@@ -181,11 +172,11 @@ func (e *Workloads) DuplicateWorkload(accountID int, workload *DuplicateInput) (
 }
 
 // UpdateWorkload updates a New Relic One workload.
-func (e *Workloads) UpdateWorkload(accountID int, workload *UpdateInput) (*Workload, error) {
+func (e *Workloads) UpdateWorkload(guid string, workload *UpdateInput) (*Workload, error) {
 	resp := workloadUpdateResponse{}
 	vars := map[string]interface{}{
-		"accountId": accountID,
-		"workload":  workload,
+		"guid":     guid,
+		"workload": workload,
 	}
 
 	if err := e.client.Query(updateWorkloadMutation, vars, &resp); err != nil {
@@ -252,20 +243,20 @@ const (
 		` } }`
 
 	deleteWorkloadMutation = `
-		mutation($accountId: Int!, $workload: WorkloadDeleteInput!) {
-			workloadDelete(accountId: $accountId, workload: $workload) {` +
+		mutation($guid: EntityGuid!) {
+			workloadDelete(guid: $guid) {` +
 		graphqlWorkloadStructFields +
 		` } }`
 
 	duplicateWorkloadMutation = `
-		mutation($accountId: Int!, $workload: WorkloadDuplicateInput!) {
-			workloadDuplicate(accountId: $accountId, workload: $workload) {` +
+		mutation($accountId: Int!, $sourceGuid: EntityGuid!, $workload: WorkloadDuplicateInput!) {
+			workloadDuplicate(accountId: $accountId, sourceGuid: $sourceGuid, workload: $workload) {` +
 		graphqlWorkloadStructFields +
 		` } }`
 
 	updateWorkloadMutation = `
-		mutation($accountId: Int!, $workload: WorkloadUpdateInput!) {
-			workloadUpdate(accountId: $accountId, workload: $workload) {` +
+		mutation($guid: EntityGuid!, $workload: WorkloadUpdateInput!) {
+			workloadUpdate(guid: $guid, workload: $workload) {` +
 		graphqlWorkloadStructFields +
 		` } }`
 )

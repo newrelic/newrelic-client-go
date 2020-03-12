@@ -65,37 +65,29 @@ func TestIntegrationWorkload(t *testing.T) {
 	require.Greater(t, len(workloads), 0)
 
 	// Test: Update
-	// testUpdateInput.GUID = created.GUID
-	// updated, err := client.UpdateWorkload(testAccountID, &testUpdateInput)
+	updated, err := client.UpdateWorkload(*created.GUID, &testUpdateInput)
 
-	// require.NoError(t, err)
-	// require.NotNil(t, workload)
-	// require.Equal(t, testUpdateInput.Name, updated.Name)
+	require.NoError(t, err)
+	require.NotNil(t, workload)
+	require.Equal(t, testUpdateInput.Name, *updated.Name)
 
 	// Test: Duplicate
 	duplicateInput := DuplicateInput{
-		Name:       "duplicateWorkload",
-		SourceGUID: created.GUID,
+		Name: "duplicateWorkload",
 	}
-	duplicate, err := client.DuplicateWorkload(testAccountID, &duplicateInput)
+	duplicate, err := client.DuplicateWorkload(testAccountID, *created.GUID, &duplicateInput)
 
 	require.NoError(t, err)
 	require.NotNil(t, duplicate)
 	require.Equal(t, "duplicateWorkload", *duplicate.Name)
 
 	// Test: Delete
-	deleteInput := DeleteInput{
-		EntityGUID: created.GUID,
-	}
-
-	deleted, err := client.DeleteWorkload(testAccountID, &deleteInput)
+	deleted, err := client.DeleteWorkload(*created.GUID)
 
 	require.NoError(t, err)
 	require.NotNil(t, deleted)
 
-	deleteInput.EntityGUID = duplicate.GUID
-
-	deleted, err = client.DeleteWorkload(testAccountID, &deleteInput)
+	deleted, err = client.DeleteWorkload(*duplicate.GUID)
 
 	require.NoError(t, err)
 	require.NotNil(t, deleted)
