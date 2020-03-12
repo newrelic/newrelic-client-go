@@ -11,11 +11,24 @@ import (
 )
 
 var (
-	testWorkloadName  = "testWorkload"
-	testWorkloadQuery = "(name like 'tf_test' or id = 'tf_test' or domainId = 'tf_test')"
-	testAccountID     = 2508259
-	testCreateInput   = CreateInput{
+	testWorkloadName        = "testWorkload"
+	testUpdatedWorkloadName = testWorkloadName + "Updated"
+	testWorkloadQuery       = "(name like 'tf_test' or id = 'tf_test' or domainId = 'tf_test')"
+	testAccountID           = 2508259
+	testCreateInput         = CreateInput{
 		Name: &testWorkloadName,
+		ScopeAccountsInput: ScopeAccountsInput{
+			AccountIDs: []*int{&testAccountID},
+		},
+		EntitySearchQueries: []*EntitySearchQueryInput{
+			{
+				Name:  "testQuery",
+				Query: &testWorkloadQuery,
+			},
+		},
+	}
+	testUpdateInput = UpdateInput{
+		Name: testUpdatedWorkloadName,
 		ScopeAccountsInput: ScopeAccountsInput{
 			AccountIDs: []*int{&testAccountID},
 		},
@@ -28,86 +41,64 @@ var (
 	}
 )
 
-func TestIntegrationGetWorkload(t *testing.T) {
+func TestIntegrationWorkload(t *testing.T) {
 	t.Parallel()
 
 	client := newIntegrationTestClient(t)
 
-	actual, err := client.GetWorkload(testAccountID, 791)
+	// Test: Create
+	created, err := client.CreateWorkload(testAccountID, &testCreateInput)
 
 	require.NoError(t, err)
-	require.NotNil(t, actual)
-}
+	require.NotNil(t, created)
 
-func TestIntegrationListWorkloads(t *testing.T) {
-	t.Parallel()
-
-	client := newIntegrationTestClient(t)
-
-	actual, err := client.ListWorkloads(2508259)
+	// Test: Get
+	workload, err := client.GetWorkload(testAccountID, *created.ID)
 
 	require.NoError(t, err)
-	require.Greater(t, len(actual), 0)
-}
+	require.NotNil(t, workload)
 
-func TestIntegrationCreateWorkload(t *testing.T) {
-	t.Parallel()
-
-	client := newIntegrationTestClient(t)
-
-	actual, err := client.CreateWorkload(testAccountID, &testCreateInput)
+	// Test: List
+	workloads, err := client.ListWorkloads(testAccountID)
 
 	require.NoError(t, err)
-	require.NotNil(t, actual)
-}
+	require.Greater(t, len(workloads), 0)
 
-func TestIntegrationDeleteWorkload(t *testing.T) {
-	t.Parallel()
+	// Test: Update
+	// testUpdateInput.GUID = created.GUID
+	// updated, err := client.UpdateWorkload(testAccountID, &testUpdateInput)
 
-	client := newIntegrationTestClient(t)
-	actual, err := client.CreateWorkload(testAccountID, &testCreateInput)
+	// require.NoError(t, err)
+	// require.NotNil(t, workload)
+	// require.Equal(t, testUpdateInput.Name, updated.Name)
 
-	deleteInput := DeleteInput{
-		EntityGUID: actual.GUID,
-	}
-
-	actual, err = client.DeleteWorkload(testAccountID, &deleteInput)
-
-	require.NoError(t, err)
-	require.NotNil(t, actual)
-}
-
-func TestIntegrationDuplicateWorkload(t *testing.T) {
-	t.Parallel()
-
-	client := newIntegrationTestClient(t)
-	actual, err := client.CreateWorkload(testAccountID, &testCreateInput)
-
+	// Test: Duplicate
 	duplicateInput := DuplicateInput{
 		Name:       "duplicateWorkload",
-		SourceGUID: actual.GUID,
+		SourceGUID: created.GUID,
 	}
-
 	duplicate, err := client.DuplicateWorkload(testAccountID, &duplicateInput)
 
 	require.NoError(t, err)
 	require.NotNil(t, duplicate)
+	require.Equal(t, "duplicateWorkload", *duplicate.Name)
 
+	// Test: Delete
 	deleteInput := DeleteInput{
-		EntityGUID: actual.GUID,
+		EntityGUID: created.GUID,
 	}
 
-	actual, err = client.DeleteWorkload(testAccountID, &deleteInput)
+	deleted, err := client.DeleteWorkload(testAccountID, &deleteInput)
 
 	require.NoError(t, err)
-	require.NotNil(t, actual)
+	require.NotNil(t, deleted)
 
 	deleteInput.EntityGUID = duplicate.GUID
 
-	actual, err = client.DeleteWorkload(testAccountID, &deleteInput)
+	deleted, err = client.DeleteWorkload(testAccountID, &deleteInput)
 
 	require.NoError(t, err)
-	require.NotNil(t, actual)
+	require.NotNil(t, deleted)
 }
 
 // nolint

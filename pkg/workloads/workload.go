@@ -88,6 +88,16 @@ type DuplicateInput struct {
 	SourceGUID *string `json:"sourceGuid,omitempty"`
 }
 
+// UpdateInput represents the input object used to identify the workload to be updated and its new changes.
+type UpdateInput struct {
+	// EntityGUIDs         []*string                 `json:"entityGuids,omitempty`
+	Entities            []*string                 `json:"entities,omitempty`
+	EntitySearchQueries []*EntitySearchQueryInput `json:"entitySearchQueryInput,omitempty`
+	GUID                *string                   `json:"guid,omitempty"`
+	Name                string                    `json:"name,omitempty"`
+	ScopeAccountsInput  ScopeAccountsInput        `json:"scopeAccounts,omitempty"`
+}
+
 // ListWorkloads retrieves a set of New Relic One workloads by their account ID.
 func (e *Workloads) ListWorkloads(accountID int) ([]*Workload, error) {
 	resp := workloadsResponse{}
@@ -170,6 +180,21 @@ func (e *Workloads) DuplicateWorkload(accountID int, workload *DuplicateInput) (
 	return &resp.WorkloadDuplicate, nil
 }
 
+// UpdateWorkload updates a New Relic One workload.
+func (e *Workloads) UpdateWorkload(accountID int, workload *UpdateInput) (*Workload, error) {
+	resp := workloadUpdateResponse{}
+	vars := map[string]interface{}{
+		"accountId": accountID,
+		"workload":  workload,
+	}
+
+	if err := e.client.Query(updateWorkloadMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.WorkloadUpdate, nil
+}
+
 const (
 	// graphqlWorkloadStructFields is the set of fields that we want returned on workload queries,
 	// and should map back directly to the Workload struct
@@ -237,6 +262,12 @@ const (
 			workloadDuplicate(accountId: $accountId, workload: $workload) {` +
 		graphqlWorkloadStructFields +
 		` } }`
+	j
+	updateWorkloadMutation = `
+		mutation($accountId: Int!, $workload: WorkloadUpdateInput!) {
+			workloadUpdate(accountId: $accountId, workload: $workload) {` +
+		graphqlWorkloadStructFields +
+		` } }`
 )
 
 type workloadsResponse struct {
@@ -269,4 +300,8 @@ type workloadDeleteResponse struct {
 
 type workloadDuplicateResponse struct {
 	WorkloadDuplicate Workload
+}
+
+type workloadUpdateResponse struct {
+	WorkloadUpdate Workload
 }
