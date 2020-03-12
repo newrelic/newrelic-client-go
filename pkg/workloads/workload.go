@@ -9,18 +9,18 @@ import (
 
 // Workload represents a New Relic One workload.
 type Workload struct {
-	Account             *AccountReference            `json:"account,omitempty"`
-	CreatedAt           *serialization.EpochTime     `json:"created_at,omitempty"`
-	CreatedBy           *UserReference               `json:"created_by,omitempty"`
-	Entities            []*WorkloadEntityRef         `json:"entities,omitempty"`
-	EntitySearchQueries []*WorkloadEntitySearchQuery `json:"entitySearchQueries,omitempty"`
-	EntitySearchQuery   string                       `json:"entitySearchQuery,omitempty"`
-	GUID                *string                      `json:"guid,omitempty"`
-	ID                  *int                         `json:"id,omitempty"`
-	Name                *string                      `json:"name,omitempty"`
-	Permalink           *string                      `json:"permalink,omitempty"`
-	ScopeAccounts       *WorkloadScopeAccounts       `json:"scopeAccounts,omitempty"`
-	UpdatedAt           *serialization.EpochTime     `json:"updated_at,omitempty"`
+	Account             *AccountReference        `json:"account,omitempty"`
+	CreatedAt           *serialization.EpochTime `json:"created_at,omitempty"`
+	CreatedBy           *UserReference           `json:"created_by,omitempty"`
+	Entities            []*EntityRef             `json:"entities,omitempty"`
+	EntitySearchQueries []*EntitySearchQuery     `json:"entitySearchQueries,omitempty"`
+	EntitySearchQuery   string                   `json:"entitySearchQuery,omitempty"`
+	GUID                *string                  `json:"guid,omitempty"`
+	ID                  *int                     `json:"id,omitempty"`
+	Name                *string                  `json:"name,omitempty"`
+	Permalink           *string                  `json:"permalink,omitempty"`
+	ScopeAccounts       *ScopeAccounts           `json:"scopeAccounts,omitempty"`
+	UpdatedAt           *serialization.EpochTime `json:"updated_at,omitempty"`
 }
 
 // AccountReference represents the account this workload belongs to.
@@ -29,13 +29,13 @@ type AccountReference struct {
 	Name string `json:"name,omitempty"`
 }
 
-// WorkloadEntityRef represents an entity referenced by this workload.
-type WorkloadEntityRef struct {
+// EntityRef represents an entity referenced by this workload.
+type EntityRef struct {
 	GUID string `json:"id,omitempty"`
 }
 
-// WorkloadEntitySearchQuery represents an entity search used by this workload.
-type WorkloadEntitySearchQuery struct {
+// EntitySearchQuery represents an entity search used by this workload.
+type EntitySearchQuery struct {
 	CreatedAt *time.Time               `json:"createdAt,omitempty"`
 	CreatedBy *UserReference           `json:"createdBy,omitempty"`
 	ID        *int                     `json:"id,omitempty"`
@@ -52,14 +52,34 @@ type UserReference struct {
 	Name     string `json:"name,omitempty"`
 }
 
-// WorkloadScopeAccounts represents the accounts used to scope this workload.
-type WorkloadScopeAccounts struct {
+// ScopeAccounts represents the accounts used to scope this workload.
+type ScopeAccounts struct {
+	AccountIDs []*int `json:"accountIds,omitempty"`
+}
+
+// CreateInput represents the input parameters used for creating or updating a workload.
+type CreateInput struct {
+	// EntityGUIDs         []*string                 `json:"entityGuids,omitempty`
+	Entities            []*string                 `json:"entities,omitempty`
+	EntitySearchQueries []*EntitySearchQueryInput `json:"entitySearchQueryInput,omitempty`
+	Name                *string                   `json:"name,omitempty"`
+	ScopeAccountsInput  ScopeAccountsInput        `json:"scopeAccounts,omitempty"`
+}
+
+// EntitySearchQueryInput represents an entity search query for creating or updating a workload.
+type EntitySearchQueryInput struct {
+	Name  string  `json:"name,omitempty"`
+	Query *string `json:"query,omitempty"`
+}
+
+// ScopeAccountsInput is the input object containing accounts that will be used to get entities from.
+type ScopeAccountsInput struct {
 	AccountIDs []*int `json:"accountIds,omitempty"`
 }
 
 // ListWorkloads retrieves a set of New Relic One workloads by their account ID.
 func (e *Workloads) ListWorkloads(accountID int) ([]*Workload, error) {
-	resp := listWorkloadsResponse{}
+	resp := workloadsResponse{}
 	vars := map[string]interface{}{
 		"accountId": accountID,
 	}
@@ -77,7 +97,7 @@ func (e *Workloads) ListWorkloads(accountID int) ([]*Workload, error) {
 
 // GetWorkload retrieve a New Relic One workload by its ID.
 func (e *Workloads) GetWorkload(accountID int, workloadID int) (*Workload, error) {
-	resp := getWorkloadResponse{}
+	resp := workloadResponse{}
 	vars := map[string]interface{}{
 		"accountId": accountID,
 		"id":        workloadID,
@@ -94,10 +114,25 @@ func (e *Workloads) GetWorkload(accountID int, workloadID int) (*Workload, error
 	return &resp.Actor.Account.Workload.Collection, nil
 }
 
+// CreateWorkload creates a New Relic One workload.
+func (e *Workloads) CreateWorkload(accountID int, workload *CreateInput) (*Workload, error) {
+	resp := workloadResponse{}
+	vars := map[string]interface{}{
+		"accountId": accountID,
+		"workload":  workload,
+	}
+
+	if err := e.client.Query(createWorkloadMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.Actor.Account.Workload.Collection, nil
+}
+
 const (
 	// graphqlWorkloadStructFields is the set of fields that we want returned on workload queries,
 	// and should map back directly to the Workload struct
-	graphqlEntityStructFields = `
+	graphqlWorkloadStructFields = `
 			account {
 				id
 				name
@@ -137,15 +172,21 @@ const (
 `
 
 	getWorkloadQuery = `query($id: Int!, $accountId: Int!) { actor { account(id: $accountId) { workload { collection(id: $id)  {` +
-		graphqlEntityStructFields +
+		graphqlWorkloadStructFields +
 		` } } } } }`
 
 	listWorkloadsQuery = `query($accountId: Int!) { actor { account(id: $accountId) { workload { collections {` +
-		graphqlEntityStructFields +
+		graphqlWorkloadStructFields +
 		` } } } } }`
+
+	createWorkloadMutation = `
+		mutation($accountId: Int!, $workload: WorkloadCreateInput!) {
+			workloadCreate(accountId: $accountId, workload: $workload) {` +
+		graphqlWorkloadStructFields +
+		` } }`
 )
 
-type listWorkloadsResponse struct {
+type workloadsResponse struct {
 	Actor struct {
 		Account struct {
 			Workload struct {
@@ -155,7 +196,7 @@ type listWorkloadsResponse struct {
 	}
 }
 
-type getWorkloadResponse struct {
+type workloadResponse struct {
 	Actor struct {
 		Account struct {
 			Workload struct {
