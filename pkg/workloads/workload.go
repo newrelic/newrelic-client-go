@@ -77,6 +77,17 @@ type ScopeAccountsInput struct {
 	AccountIDs []*int `json:"accountIds,omitempty"`
 }
 
+// DeleteInput represents the input object used to identify the workload to be deleted.
+type DeleteInput struct {
+	EntityGUID *string `json:"guid,omitempty"`
+}
+
+// DuplicateInput represents the input object used to identify the workload to be duplicated.
+type DuplicateInput struct {
+	Name       string  `json:"name,omitempty"`
+	SourceGUID *string `json:"sourceGuid,omitempty"`
+}
+
 // ListWorkloads retrieves a set of New Relic One workloads by their account ID.
 func (e *Workloads) ListWorkloads(accountID int) ([]*Workload, error) {
 	resp := workloadsResponse{}
@@ -116,7 +127,7 @@ func (e *Workloads) GetWorkload(accountID int, workloadID int) (*Workload, error
 
 // CreateWorkload creates a New Relic One workload.
 func (e *Workloads) CreateWorkload(accountID int, workload *CreateInput) (*Workload, error) {
-	resp := workloadResponse{}
+	resp := workloadCreateResponse{}
 	vars := map[string]interface{}{
 		"accountId": accountID,
 		"workload":  workload,
@@ -126,7 +137,37 @@ func (e *Workloads) CreateWorkload(accountID int, workload *CreateInput) (*Workl
 		return nil, err
 	}
 
-	return &resp.Actor.Account.Workload.Collection, nil
+	return &resp.WorkloadCreate, nil
+}
+
+// DeleteWorkload deletes a New Relic One workload.
+func (e *Workloads) DeleteWorkload(accountID int, workload *DeleteInput) (*Workload, error) {
+	resp := workloadDeleteResponse{}
+	vars := map[string]interface{}{
+		"accountId": accountID,
+		"workload":  workload,
+	}
+
+	if err := e.client.Query(deleteWorkloadMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.WorkloadDelete, nil
+}
+
+// DuplicateWorkload duplicates a New Relic One workload.
+func (e *Workloads) DuplicateWorkload(accountID int, workload *DuplicateInput) (*Workload, error) {
+	resp := workloadDuplicateResponse{}
+	vars := map[string]interface{}{
+		"accountId": accountID,
+		"workload":  workload,
+	}
+
+	if err := e.client.Query(duplicateWorkloadMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.WorkloadDuplicate, nil
 }
 
 const (
@@ -184,6 +225,18 @@ const (
 			workloadCreate(accountId: $accountId, workload: $workload) {` +
 		graphqlWorkloadStructFields +
 		` } }`
+
+	deleteWorkloadMutation = `
+		mutation($accountId: Int!, $workload: WorkloadDeleteInput!) {
+			workloadDelete(accountId: $accountId, workload: $workload) {` +
+		graphqlWorkloadStructFields +
+		` } }`
+
+	duplicateWorkloadMutation = `
+		mutation($accountId: Int!, $workload: WorkloadDuplicateInput!) {
+			workloadDuplicate(accountId: $accountId, workload: $workload) {` +
+		graphqlWorkloadStructFields +
+		` } }`
 )
 
 type workloadsResponse struct {
@@ -204,4 +257,16 @@ type workloadResponse struct {
 			}
 		}
 	}
+}
+
+type workloadCreateResponse struct {
+	WorkloadCreate Workload
+}
+
+type workloadDeleteResponse struct {
+	WorkloadDelete Workload
+}
+
+type workloadDuplicateResponse struct {
+	WorkloadDuplicate Workload
 }

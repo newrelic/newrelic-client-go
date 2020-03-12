@@ -61,6 +61,55 @@ func TestIntegrationCreateWorkload(t *testing.T) {
 	require.NotNil(t, actual)
 }
 
+func TestIntegrationDeleteWorkload(t *testing.T) {
+	t.Parallel()
+
+	client := newIntegrationTestClient(t)
+	actual, err := client.CreateWorkload(testAccountID, &testCreateInput)
+
+	deleteInput := DeleteInput{
+		EntityGUID: actual.GUID,
+	}
+
+	actual, err = client.DeleteWorkload(testAccountID, &deleteInput)
+
+	require.NoError(t, err)
+	require.NotNil(t, actual)
+}
+
+func TestIntegrationDuplicateWorkload(t *testing.T) {
+	t.Parallel()
+
+	client := newIntegrationTestClient(t)
+	actual, err := client.CreateWorkload(testAccountID, &testCreateInput)
+
+	duplicateInput := DuplicateInput{
+		Name:       "duplicateWorkload",
+		SourceGUID: actual.GUID,
+	}
+
+	duplicate, err := client.DuplicateWorkload(testAccountID, &duplicateInput)
+
+	require.NoError(t, err)
+	require.NotNil(t, duplicate)
+
+	deleteInput := DeleteInput{
+		EntityGUID: actual.GUID,
+	}
+
+	actual, err = client.DeleteWorkload(testAccountID, &deleteInput)
+
+	require.NoError(t, err)
+	require.NotNil(t, actual)
+
+	deleteInput.EntityGUID = duplicate.GUID
+
+	actual, err = client.DeleteWorkload(testAccountID, &deleteInput)
+
+	require.NoError(t, err)
+	require.NotNil(t, actual)
+}
+
 // nolint
 func newIntegrationTestClient(t *testing.T) Workloads {
 	apiKey := os.Getenv("NEW_RELIC_API_KEY")
