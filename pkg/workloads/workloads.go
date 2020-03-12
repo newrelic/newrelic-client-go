@@ -21,5 +21,5 @@ func New(config config.Config) Workloads {
 	}
 }
 
-// BaseURLs represents the base API URLs for the different environments of the New Relic REST API V2.
+// BaseURLs represents the base API URLs for the different environments of the New Relic NerdGraph API.
 var BaseURLs = region.NerdGraphBaseURLs

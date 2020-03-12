@@ -60,8 +60,8 @@ type ScopeAccounts struct {
 // CreateInput represents the input parameters used for creating or updating a workload.
 type CreateInput struct {
 	// EntityGUIDs         []*string                 `json:"entityGuids,omitempty`
-	Entities            []*string                 `json:"entities,omitempty`
-	EntitySearchQueries []*EntitySearchQueryInput `json:"entitySearchQueryInput,omitempty`
+	Entities            []*string                 `json:"entities,omitempty"`
+	EntitySearchQueries []*EntitySearchQueryInput `json:"entitySearchQueryInput,omitempty"`
 	Name                *string                   `json:"name,omitempty"`
 	ScopeAccountsInput  ScopeAccountsInput        `json:"scopeAccounts,omitempty"`
 }
@@ -91,8 +91,8 @@ type DuplicateInput struct {
 // UpdateInput represents the input object used to identify the workload to be updated and its new changes.
 type UpdateInput struct {
 	// EntityGUIDs         []*string                 `json:"entityGuids,omitempty`
-	Entities            []*string                 `json:"entities,omitempty`
-	EntitySearchQueries []*EntitySearchQueryInput `json:"entitySearchQueryInput,omitempty`
+	Entities            []*string                 `json:"entities,omitempty"`
+	EntitySearchQueries []*EntitySearchQueryInput `json:"entitySearchQueryInput,omitempty"`
 	GUID                *string                   `json:"guid,omitempty"`
 	Name                string                    `json:"name,omitempty"`
 	ScopeAccountsInput  ScopeAccountsInput        `json:"scopeAccounts,omitempty"`
@@ -262,7 +262,7 @@ const (
 			workloadDuplicate(accountId: $accountId, workload: $workload) {` +
 		graphqlWorkloadStructFields +
 		` } }`
-	j
+
 	updateWorkloadMutation = `
 		mutation($accountId: Int!, $workload: WorkloadUpdateInput!) {
 			workloadUpdate(accountId: $accountId, workload: $workload) {` +
