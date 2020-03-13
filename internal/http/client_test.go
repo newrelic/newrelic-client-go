@@ -286,7 +286,7 @@ func TestCustomRequestHeaders(t *testing.T) {
 		BaseURL:        ts.URL,
 	})
 
-	req, err := c.NewRequest("GET", "/path", nil, nil, nil)
+	req, err := NewRequest(c, "GET", "/path", nil, nil, nil)
 
 	req.SetHeader("user-agent", "custom-user-agent")
 	req.SetServiceName("custom-requesting-service")

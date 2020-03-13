@@ -116,7 +116,7 @@ func (c *Client) Get(
 	queryParams interface{},
 	respBody interface{},
 ) (*http.Response, error) {
-	req, err := c.NewRequest(http.MethodGet, url, queryParams, nil, respBody)
+	req, err := NewRequest(*c, http.MethodGet, url, queryParams, nil, respBody)
 	if err != nil {
 		return nil, err
 	}
@@ -135,7 +135,7 @@ func (c *Client) Post(
 	reqBody interface{},
 	respBody interface{},
 ) (*http.Response, error) {
-	req, err := c.NewRequest(http.MethodPost, url, queryParams, reqBody, respBody)
+	req, err := NewRequest(*c, http.MethodPost, url, queryParams, reqBody, respBody)
 	if err != nil {
 		return nil, err
 	}
@@ -163,7 +163,7 @@ func (c *Client) RawPost(
 		return nil, errors.New("invalid request body")
 	}
 
-	req, err := c.NewRequest(http.MethodPost, url, queryParams, requestBody, respBody)
+	req, err := NewRequest(*c, http.MethodPost, url, queryParams, requestBody, respBody)
 	if err != nil {
 		return nil, err
 	}
@@ -182,7 +182,7 @@ func (c *Client) Put(
 	reqBody interface{},
 	respBody interface{},
 ) (*http.Response, error) {
-	req, err := c.NewRequest(http.MethodPut, url, queryParams, reqBody, respBody)
+	req, err := NewRequest(*c, http.MethodPut, url, queryParams, reqBody, respBody)
 	if err != nil {
 		return nil, err
 	}
@@ -198,62 +198,12 @@ func (c *Client) Delete(url string,
 	queryParams interface{},
 	respBody interface{},
 ) (*http.Response, error) {
-	req, err := c.NewRequest(http.MethodDelete, url, queryParams, nil, respBody)
+	req, err := NewRequest(*c, http.MethodDelete, url, queryParams, nil, respBody)
 	if err != nil {
 		return nil, err
 	}
 
 	return c.Do(req)
-}
-
-// NewRequest creates a new Request struct.
-func (c *Client) NewRequest(method string, url string, params interface{}, reqBody interface{}, value interface{}) (*Request, error) {
-	// Make a copy of the client's config
-	cfg := c.config
-
-	req := &Request{
-		method:       method,
-		url:          url,
-		params:       params,
-		reqBody:      reqBody,
-		value:        value,
-		authStrategy: c.authStrategy,
-	}
-
-	req.config = cfg
-
-	u, err := req.makeURL()
-	if err != nil {
-		return nil, err
-	}
-
-	var r *retryablehttp.Request
-	if reqBody != nil {
-		if _, ok := reqBody.([]byte); !ok {
-			reqBody, err = makeRequestBodyReader(reqBody)
-			if err != nil {
-				return nil, err
-			}
-		}
-
-		r, err = retryablehttp.NewRequest(req.method, u.String(), reqBody)
-		if err != nil {
-			return nil, err
-		}
-	} else {
-		r, err = retryablehttp.NewRequest(req.method, u.String(), nil)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	req.request = r
-
-	req.SetHeader(defaultNewRelicRequestingServiceHeader, cfg.ServiceName)
-	req.SetHeader("Content-Type", "application/json")
-	req.SetHeader("User-Agent", cfg.UserAgent)
-
-	return req, nil
 }
 
 // Do initiates an HTTP request as configured by the passed Request struct.
@@ -357,7 +307,7 @@ func (c *Client) Query(query string, vars map[string]interface{}, respBody inter
 		Data: respBody,
 	}
 
-	req, err := c.NewRequest(http.MethodPost, c.config.NerdGraphBaseURL, nil, graphqlReqBody, graphqlRespBody)
+	req, err := NewRequest(*c, http.MethodPost, c.config.NerdGraphBaseURL, nil, graphqlReqBody, graphqlRespBody)
 	if err != nil {
 		return err
 	}
