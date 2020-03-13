@@ -43,6 +43,9 @@ func TestIntegrationComponents(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, m)
 
+	if len(m) < 1 {
+		t.Skipf("Skipping `GetComponentMetricData` integration test due to zero plugin metrics found")
+	}
 	params := GetComponentMetricDataParams{
 		Names: []string{m[0].Name},
 	}

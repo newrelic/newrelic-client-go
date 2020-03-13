@@ -35,12 +35,12 @@ func TestConfig(t *testing.T) {
 		UserAgent:      testUserAgent,
 	})
 
-	assert.Equal(t, &testTimeout, c.Config.Timeout)
-	assert.Equal(t, testBaseURL, c.Config.BaseURL)
-	assert.Equal(t, testUserAgent, c.Config.UserAgent)
-	assert.Equal(t, c.Config.ServiceName, testServiceName+"|newrelic-client-go")
+	assert.Equal(t, &testTimeout, c.config.Timeout)
+	assert.Equal(t, testBaseURL, c.config.BaseURL)
+	assert.Equal(t, testUserAgent, c.config.UserAgent)
+	assert.Equal(t, c.config.ServiceName, testServiceName+"|newrelic-client-go")
 
-	assert.Same(t, testTransport, c.Config.HTTPTransport)
+	assert.Same(t, testTransport, c.config.HTTPTransport)
 }
 
 func TestConfigDefaults(t *testing.T) {
@@ -49,9 +49,9 @@ func TestConfigDefaults(t *testing.T) {
 		PersonalAPIKey: testPersonalAPIKey,
 	})
 
-	assert.Equal(t, region.DefaultBaseURLs[region.Parse(c.Config.Region)], c.Config.BaseURL)
-	assert.Contains(t, c.Config.UserAgent, "newrelic/newrelic-client-go/")
-	assert.Equal(t, c.Config.ServiceName, "newrelic-client-go")
+	assert.Equal(t, region.DefaultBaseURLs[region.Parse(c.config.Region)], c.config.BaseURL)
+	assert.Contains(t, c.config.UserAgent, "newrelic/newrelic-client-go/")
+	assert.Equal(t, c.config.ServiceName, "newrelic-client-go")
 }
 
 func TestDefaultErrorValue(t *testing.T) {
@@ -195,7 +195,7 @@ func TestPathOnlyUrl(t *testing.T) {
 		assert.Equal(t, r.URL, "https://www.mocky.io/v2/path")
 	}))
 
-	c.Config.BaseURL = "https://www.mocky.io/v2"
+	c.config.BaseURL = "https://www.mocky.io/v2"
 
 	_, _ = c.Get("/path", nil, nil)
 }
@@ -209,7 +209,7 @@ func TestHostAndPathUrl(t *testing.T) {
 		assert.Equal(t, r.URL, "https:/www.httpbin.org/path")
 	}))
 
-	c.Config.BaseURL = "https://www.mocky.io/v2"
+	c.config.BaseURL = "https://www.mocky.io/v2"
 
 	_, _ = c.Get("https://www.httpbin.org/path", nil, nil)
 }
@@ -286,7 +286,7 @@ func TestCustomRequestHeaders(t *testing.T) {
 		BaseURL:        ts.URL,
 	})
 
-	req, err := c.NewRequest("GET", "/path", nil, nil, nil)
+	req, err := NewRequest(c, "GET", "/path", nil, nil, nil)
 
 	req.SetHeader("user-agent", "custom-user-agent")
 	req.SetServiceName("custom-requesting-service")

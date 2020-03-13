@@ -29,7 +29,7 @@ func (apm *APM) ListDeployments(applicationID int) ([]*Deployment, error) {
 
 	for nextURL != "" {
 		response := deploymentsResponse{}
-		req, err := apm.client.NewRequest("GET", nextURL, nil, nil, &response)
+		req, err := http.NewRequest(apm.client, "GET", nextURL, nil, nil, &response)
 		if err != nil {
 			return nil, err
 		}
@@ -59,7 +59,7 @@ func (apm *APM) CreateDeployment(applicationID int, deployment Deployment) (*Dep
 	resp := deploymentResponse{}
 
 	u := fmt.Sprintf("/applications/%d/deployments.json", applicationID)
-	req, err := apm.client.NewRequest("POST", u, nil, &reqBody, &resp)
+	req, err := http.NewRequest(apm.client, "POST", u, nil, &reqBody, &resp)
 	if err != nil {
 		return nil, err
 	}
@@ -80,7 +80,7 @@ func (apm *APM) DeleteDeployment(applicationID int, deploymentID int) (*Deployme
 	resp := deploymentResponse{}
 	u := fmt.Sprintf("/applications/%d/deployments/%d.json", applicationID, deploymentID)
 
-	req, err := apm.client.NewRequest("DELETE", u, nil, nil, &resp)
+	req, err := http.NewRequest(apm.client, "DELETE", u, nil, nil, &resp)
 	if err != nil {
 		return nil, err
 	}

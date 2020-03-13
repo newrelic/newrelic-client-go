@@ -8,7 +8,6 @@ import (
 
 	mock "github.com/newrelic/newrelic-client-go/internal/testing"
 	"github.com/newrelic/newrelic-client-go/pkg/config"
-	"github.com/stretchr/testify/assert"
 )
 
 // TODO: This is used by incidents_test.go still, need to refactor
@@ -58,20 +57,4 @@ func newIntegrationTestClient(t *testing.T) Alerts {
 	})
 
 	return client
-}
-
-func TestSetBaseURL(t *testing.T) {
-	a := New(config.Config{
-		BaseURL: "http://localhost",
-	})
-
-	assert.Equal(t, "http://localhost", a.client.Config.BaseURL)
-}
-
-func TestSetInfrastructureBaseURL(t *testing.T) {
-	a := New(config.Config{
-		InfrastructureBaseURL: "http://localhost",
-	})
-
-	assert.Equal(t, "http://localhost", a.infraClient.Config.BaseURL)
 }

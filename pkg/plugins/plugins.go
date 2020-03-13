@@ -10,7 +10,7 @@ import (
 
 // Plugins is used to communicate with the New Relic Plugins product.
 type Plugins struct {
-	client http.NewRelicClient
+	client http.Client
 	logger logging.Logger
 	pager  http.Pager
 }
