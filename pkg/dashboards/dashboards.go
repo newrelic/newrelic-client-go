@@ -9,7 +9,7 @@ import (
 
 // Dashboards is used to communicate with the New Relic Dashboards product.
 type Dashboards struct {
-	client http.NewRelicClient
+	client http.Client
 	logger logging.Logger
 	pager  http.Pager
 }

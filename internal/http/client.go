@@ -29,8 +29,8 @@ var (
 	defaultUserAgent = fmt.Sprintf("newrelic/%s/%s (https://github.com/newrelic/%s)", defaultServiceName, version.Version, defaultServiceName)
 )
 
-// NewRelicClient represents a client for communicating with the New Relic APIs.
-type NewRelicClient struct {
+// Client represents a client for communicating with the New Relic APIs.
+type Client struct {
 	// Client represents the underlying HTTP client.
 	Client *retryablehttp.Client
 
@@ -43,8 +43,8 @@ type NewRelicClient struct {
 	errorValue ErrorResponse
 }
 
-// NewClient is used to create a new instance of NewRelicClient.
-func NewClient(cfg config.Config) NewRelicClient {
+// NewClient is used to create a new instance of Client.
+func NewClient(cfg config.Config) Client {
 	c := http.Client{
 		Timeout: defaultTimeout,
 	}
@@ -88,7 +88,7 @@ func NewClient(cfg config.Config) NewRelicClient {
 	// Disable logging in go-retryablehttp since we are logging requests directly here
 	r.Logger = nil
 
-	return NewRelicClient{
+	return Client{
 		Client:       r,
 		Config:       cfg,
 		errorValue:   &DefaultErrorResponse{},
@@ -97,7 +97,7 @@ func NewClient(cfg config.Config) NewRelicClient {
 }
 
 // SetErrorValue is used to unmarshal error body responses in JSON format.
-func (c *NewRelicClient) SetErrorValue(v ErrorResponse) *NewRelicClient {
+func (c *Client) SetErrorValue(v ErrorResponse) *Client {
 	c.errorValue = v
 	return c
 }
@@ -106,7 +106,7 @@ func (c *NewRelicClient) SetErrorValue(v ErrorResponse) *NewRelicClient {
 // The queryParams argument can be used to add query string parameters to the requested URL.
 // The respBody argument will be unmarshaled from JSON in the response body to the type provided.
 // If respBody is not nil and the response body cannot be unmarshaled to the type provided, an error will be returned.
-func (c *NewRelicClient) Get(
+func (c *Client) Get(
 	url string,
 	queryParams interface{},
 	respBody interface{},
@@ -124,7 +124,7 @@ func (c *NewRelicClient) Get(
 // The reqBody argument will be marshaled to JSON from the type provided and included in the request body.
 // The respBody argument will be unmarshaled from JSON in the response body to the type provided.
 // If respBody is not nil and the response body cannot be unmarshaled to the type provided, an error will be returned.
-func (c *NewRelicClient) Post(
+func (c *Client) Post(
 	url string,
 	queryParams interface{},
 	reqBody interface{},
@@ -140,7 +140,7 @@ func (c *NewRelicClient) Post(
 
 // RawPost behaves the same as Post, but without marshaling the body into JSON before making the request.
 // This is required at least in the case of Synthetics Labels, since the POST doesn't handle JSON.
-func (c *NewRelicClient) RawPost(
+func (c *Client) RawPost(
 	url string,
 	queryParams interface{},
 	reqBody interface{},
@@ -171,7 +171,7 @@ func (c *NewRelicClient) RawPost(
 // The reqBody argument will be marshaled to JSON from the type provided and included in the request body.
 // The respBody argument will be unmarshaled from JSON in the response body to the type provided.
 // If respBody is not nil and the response body cannot be unmarshaled to the type provided, an error will be returned.
-func (c *NewRelicClient) Put(
+func (c *Client) Put(
 	url string,
 	queryParams interface{},
 	reqBody interface{},
@@ -189,7 +189,7 @@ func (c *NewRelicClient) Put(
 // The queryParams argument can be used to add query string parameters to the requested URL.
 // The respBody argument will be unmarshaled from JSON in the response body to the type provided.
 // If respBody is not nil and the response body cannot be unmarshaled to the type provided, an error will be returned.
-func (c *NewRelicClient) Delete(url string,
+func (c *Client) Delete(url string,
 	queryParams interface{},
 	respBody interface{},
 ) (*http.Response, error) {
@@ -202,7 +202,7 @@ func (c *NewRelicClient) Delete(url string,
 }
 
 // NewRequest creates a new Request struct.
-func (c *NewRelicClient) NewRequest(method string, url string, params interface{}, reqBody interface{}, value interface{}) (*Request, error) {
+func (c *Client) NewRequest(method string, url string, params interface{}, reqBody interface{}, value interface{}) (*Request, error) {
 	// Make a copy of the client's config
 	cfg := c.Config
 
@@ -252,7 +252,7 @@ func (c *NewRelicClient) NewRequest(method string, url string, params interface{
 }
 
 // Do initiates an HTTP request as configured by the passed Request struct.
-func (c *NewRelicClient) Do(req *Request) (*http.Response, error) {
+func (c *Client) Do(req *Request) (*http.Response, error) {
 	r, err := req.makeRequest()
 	if err != nil {
 		return nil, err
@@ -337,13 +337,13 @@ func makeRequestBodyReader(reqBody interface{}) (*bytes.Buffer, error) {
 }
 
 // Query runs a graphQL query.
-func (c *NewRelicClient) Query(query string, vars map[string]interface{}, respBody interface{}) error {
-	graphqlReqBody := graphQLRequest{
+func (c *Client) Query(query string, vars map[string]interface{}, respBody interface{}) error {
+	graphqlReqBody := &graphQLRequest{
 		Query:     query,
 		Variables: vars,
 	}
 
-	graphqlRespBody := graphQLResponse{
+	graphqlRespBody := &graphQLResponse{
 		Data: respBody,
 	}
 

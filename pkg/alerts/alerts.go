@@ -10,8 +10,8 @@ import (
 
 // Alerts is used to communicate with New Relic Alerts.
 type Alerts struct {
-	client      http.NewRelicClient
-	infraClient http.NewRelicClient
+	client      http.Client
+	infraClient http.Client
 	logger      logging.Logger
 	pager       http.Pager
 }

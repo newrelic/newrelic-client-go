@@ -12,5 +12,5 @@ func TestSetNerdGraphBaseURL(t *testing.T) {
 		NerdGraphBaseURL: "http://localhost",
 	})
 
-	assert.Equal(t, "http://localhost", a.client.Client.Config.BaseURL)
+	assert.Equal(t, "http://localhost", a.client.Config.NerdGraphBaseURL)
 }
