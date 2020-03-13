@@ -30,7 +30,7 @@ func New(config config.Config) Alerts {
 	infraClient.SetErrorValue(&infrastructure.ErrorResponse{})
 
 	client := http.NewClient(config)
-	client.AuthStrategy = &http.PersonalAPIKeyCapableV2Authorizer{}
+	client.SetAuthStrategy(&http.PersonalAPIKeyCapableV2Authorizer{})
 
 	pkg := Alerts{
 		client:      client,

@@ -31,14 +31,14 @@ var (
 
 // Client represents a client for communicating with the New Relic APIs.
 type Client struct {
-	// Client represents the underlying HTTP client.
-	Client *retryablehttp.Client
+	// client represents the underlying HTTP client.
+	client *retryablehttp.Client
 
-	// Config is the HTTP client configuration.
-	Config config.Config
+	// config is the HTTP client configuration.
+	config config.Config
 
-	// AuthStrategy allows us to use multiple authentication methods for API calls
-	AuthStrategy RequestAuthorizer
+	// authStrategy allows us to use multiple authentication methods for API calls
+	authStrategy RequestAuthorizer
 
 	errorValue ErrorResponse
 }
@@ -89,11 +89,17 @@ func NewClient(cfg config.Config) Client {
 	r.Logger = nil
 
 	return Client{
-		Client:       r,
-		Config:       cfg,
+		authStrategy: &ClassicV2Authorizer{},
+		client:       r,
+		config:       cfg,
 		errorValue:   &DefaultErrorResponse{},
-		AuthStrategy: &ClassicV2Authorizer{},
 	}
+}
+
+// SetAuthStrategy is used to set the default auth strategy for this client
+// which can be overridden per request
+func (c *Client) SetAuthStrategy(da RequestAuthorizer) {
+	c.authStrategy = da
 }
 
 // SetErrorValue is used to unmarshal error body responses in JSON format.
@@ -204,7 +210,7 @@ func (c *Client) Delete(url string,
 // NewRequest creates a new Request struct.
 func (c *Client) NewRequest(method string, url string, params interface{}, reqBody interface{}, value interface{}) (*Request, error) {
 	// Make a copy of the client's config
-	cfg := c.Config
+	cfg := c.config
 
 	req := &Request{
 		method:       method,
@@ -212,7 +218,7 @@ func (c *Client) NewRequest(method string, url string, params interface{}, reqBo
 		params:       params,
 		reqBody:      reqBody,
 		value:        value,
-		authStrategy: c.AuthStrategy,
+		authStrategy: c.authStrategy,
 	}
 
 	req.config = cfg
@@ -258,16 +264,16 @@ func (c *Client) Do(req *Request) (*http.Response, error) {
 		return nil, err
 	}
 
-	c.Config.GetLogger().Debug("performing request", "method", req.method, "url", r.URL)
+	c.config.GetLogger().Debug("performing request", "method", req.method, "url", r.URL)
 
 	logHeaders, err := json.Marshal(r.Header)
 	if err != nil {
 		return nil, err
 	}
 
-	c.Config.GetLogger().Trace("request details", "headers", string(logHeaders), "body", req.reqBody)
+	c.config.GetLogger().Trace("request details", "headers", string(logHeaders), "body", req.reqBody)
 
-	resp, retryErr := c.Client.Do(r)
+	resp, retryErr := c.client.Do(r)
 	if retryErr != nil {
 		return nil, retryErr
 	}
@@ -288,7 +294,7 @@ func (c *Client) Do(req *Request) (*http.Response, error) {
 		return nil, err
 	}
 
-	c.Config.GetLogger().Trace("request completed", "method", req.method, "url", r.URL, "status_code", resp.StatusCode, "headers", string(logHeaders), "body", string(body))
+	c.config.GetLogger().Trace("request completed", "method", req.method, "url", r.URL, "status_code", resp.StatusCode, "headers", string(logHeaders), "body", string(body))
 
 	errorValue := c.errorValue.New()
 	_ = json.Unmarshal(body, &errorValue)
@@ -336,6 +342,11 @@ func makeRequestBodyReader(reqBody interface{}) (*bytes.Buffer, error) {
 	return b, nil
 }
 
+// GetBaseURL returns the BaseURL used by the client
+func (c *Client) GetBaseURL() string {
+	return c.config.BaseURL
+}
+
 // Query runs a graphQL query.
 func (c *Client) Query(query string, vars map[string]interface{}, respBody interface{}) error {
 	graphqlReqBody := &graphQLRequest{
@@ -347,7 +358,7 @@ func (c *Client) Query(query string, vars map[string]interface{}, respBody inter
 		Data: respBody,
 	}
 
-	req, err := c.NewRequest(http.MethodPost, c.Config.NerdGraphBaseURL, nil, graphqlReqBody, graphqlRespBody)
+	req, err := c.NewRequest(http.MethodPost, c.config.NerdGraphBaseURL, nil, graphqlReqBody, graphqlRespBody)
 	if err != nil {
 		return err
 	}

@@ -25,14 +25,14 @@ func TestBaseURLs(t *testing.T) {
 
 	// Default should be region.US
 	a := New(config.Config{})
-	assert.Equal(t, pairs[region.US], a.client.Config.BaseURL)
+	assert.Equal(t, pairs[region.US], a.client.GetBaseURL())
 
 	for k, v := range pairs {
 		b := New(config.Config{
 			Region: k.String(),
 		})
 
-		assert.Equal(t, v, b.client.Config.BaseURL)
+		assert.Equal(t, v, b.client.GetBaseURL())
 	}
 }
 
@@ -90,12 +90,4 @@ func newMockResponse(
 
 		require.NoError(t, err)
 	}))
-}
-
-func TestSetSyntheticsBaseURL(t *testing.T) {
-	a := New(config.Config{
-		SyntheticsBaseURL: "http://localhost",
-	})
-
-	assert.Equal(t, "http://localhost", a.client.Config.BaseURL)
 }
