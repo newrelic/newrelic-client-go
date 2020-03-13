@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 	"time"
 
 	retryablehttp "github.com/hashicorp/go-retryablehttp"
@@ -62,6 +63,10 @@ func NewClient(cfg config.Config) NewRelicClient {
 
 	if cfg.BaseURL == "" {
 		cfg.BaseURL = region.DefaultBaseURLs[region.Parse(cfg.Region)]
+	}
+
+	if cfg.NerdGraphBaseURL == "" {
+		cfg.NerdGraphBaseURL = region.NerdGraphBaseURLs[region.Parse(cfg.Region)]
 	}
 
 	if cfg.UserAgent == "" {
@@ -329,4 +334,64 @@ func makeRequestBodyReader(reqBody interface{}) (*bytes.Buffer, error) {
 	b := bytes.NewBuffer(j)
 
 	return b, nil
+}
+
+// Query runs a graphQL query.
+func (c *NewRelicClient) Query(query string, vars map[string]interface{}, respBody interface{}) error {
+	graphqlReqBody := graphQLRequest{
+		Query:     query,
+		Variables: vars,
+	}
+
+	graphqlRespBody := graphQLResponse{
+		Data: respBody,
+	}
+
+	req, err := c.NewRequest(http.MethodPost, c.Config.NerdGraphBaseURL, nil, graphqlReqBody, graphqlRespBody)
+	if err != nil {
+		return err
+	}
+
+	req.SetAuthStrategy(&NerdGraphAuthorizer{})
+	c.SetErrorValue(&graphQLErrorResponse{})
+
+	_, err = c.Do(req)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+type graphQLRequest struct {
+	Query     string                 `json:"query"`
+	Variables map[string]interface{} `json:"variables,omitempty"`
+}
+
+type graphQLResponse struct {
+	Data interface{} `json:"data"`
+}
+
+type graphQLError struct {
+	Message string `json:"message"`
+}
+
+type graphQLErrorResponse struct {
+	Errors []graphQLError `json:"errors"`
+}
+
+func (r *graphQLErrorResponse) Error() string {
+	if len(r.Errors) > 0 {
+		messages := []string{}
+		for _, e := range r.Errors {
+			messages = append(messages, e.Message)
+		}
+		return strings.Join(messages, ", ")
+	}
+
+	return ""
+}
+
+func (r *graphQLErrorResponse) New() ErrorResponse {
+	return &graphQLErrorResponse{}
 }
