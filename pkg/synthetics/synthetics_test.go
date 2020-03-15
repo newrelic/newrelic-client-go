@@ -29,7 +29,7 @@ func TestBaseURLs(t *testing.T) {
 
 	for k, v := range pairs {
 		b := New(config.Config{
-			Region: k.String(),
+			Region: config.RegionType(k.String()),
 		})
 
 		assert.Equal(t, v, b.client.GetBaseURL())

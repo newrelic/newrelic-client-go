@@ -66,7 +66,7 @@ func (e *ErrorResponse) New() http.ErrorResponse {
 func New(config config.Config) Synthetics {
 
 	if config.SyntheticsBaseURL == "" {
-		config.SyntheticsBaseURL = BaseURLs[region.Parse(config.Region)]
+		config.SyntheticsBaseURL = BaseURLs[region.Parse(string(config.Region))]
 	}
 
 	config.BaseURL = config.SyntheticsBaseURL
