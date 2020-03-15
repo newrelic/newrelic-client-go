@@ -1,3 +1,4 @@
+// Package nerdgraph provides a programmatic API for interacting with NerdGraph, New Relic One's GraphQL API.
 package nerdgraph
 
 import (

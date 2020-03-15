@@ -1,3 +1,4 @@
+// Package dashboards provides a programmatic API for interacting with New Relic dashboards.
 package dashboards
 
 import (

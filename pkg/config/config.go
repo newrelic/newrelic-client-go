@@ -1,3 +1,4 @@
+// Package config provides cross-cutting configuration support for the newrelic-client-go project.
 package config
 
 import (

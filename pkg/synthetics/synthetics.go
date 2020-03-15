@@ -1,3 +1,4 @@
+// Package synthetics provides a programmatic API for interacting with the New Relic Synthetics product.
 package synthetics
 
 import (
