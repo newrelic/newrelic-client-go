@@ -103,6 +103,34 @@ var (
 	}
 )
 
+// OperatorType specifies the operator for alert condition terms.
+type OperatorType string
+
+var (
+	// OperatorTypes enumerates the possible operator values for alert condition terms.
+	OperatorTypes = struct {
+		Above OperatorType
+		Below OperatorType
+	}{
+		Above: "above",
+		Below: "below",
+	}
+)
+
+// PriorityType specifies the priority for alert condition terms.
+type PriorityType string
+
+var (
+	// PriorityTypes enumerates the possible priority values for alert condition terms.
+	PriorityTypes = struct {
+		Critical PriorityType
+		Warning  PriorityType
+	}{
+		Critical: "critical",
+		Warning:  "warning",
+	}
+)
+
 // TimeFunctionType specifies the time function to be used for alert condition terms.
 type TimeFunctionType string
 
@@ -123,17 +151,19 @@ type ValueFunctionType string
 var (
 	// ValueFunctionTypes enumerates the possible value function types for custom metrics.
 	ValueFunctionTypes = struct {
-		Average    ValueFunctionType
-		Min        ValueFunctionType
-		Max        ValueFunctionType
-		Total      ValueFunctionType
-		SampleSize ValueFunctionType
+		Average     ValueFunctionType
+		Min         ValueFunctionType
+		Max         ValueFunctionType
+		Total       ValueFunctionType
+		SampleSize  ValueFunctionType
+		SingleValue ValueFunctionType
 	}{
-		Average:    "average",
-		Min:        "min",
-		Max:        "max",
-		Total:      "total",
-		SampleSize: "sample_size",
+		Average:     "average",
+		Min:         "min",
+		Max:         "max",
+		Total:       "total",
+		SampleSize:  "sample_size",
+		SingleValue: "single_value",
 	}
 )
 
@@ -163,8 +193,8 @@ type ConditionUserDefined struct {
 // ConditionTerm represents the terms of a New Relic alert condition.
 type ConditionTerm struct {
 	Duration     int              `json:"duration,string,omitempty"`
-	Operator     string           `json:"operator,omitempty"`
-	Priority     string           `json:"priority,omitempty"`
+	Operator     OperatorType     `json:"operator,omitempty"`
+	Priority     PriorityType     `json:"priority,omitempty"`
 	Threshold    float64          `json:"threshold,string"`
 	TimeFunction TimeFunctionType `json:"time_function,omitempty"`
 }
