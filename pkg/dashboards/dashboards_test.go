@@ -135,21 +135,21 @@ var (
 
 	testDashboardWidgets = []DashboardWidget{
 		{
-			Visualization: "billboard",
+			Visualization: VisualizationTypes.Billboard,
 			AccountID:     1,
 			Data:          testBillboardWidgetData,
 			Presentation:  testBillboardWidgetPresentation,
 			Layout:        testBillboardWidgetLayout,
 		},
 		{
-			Visualization: "markdown",
+			Visualization: VisualizationTypes.Markdown,
 			AccountID:     1,
 			Data:          testMarkdownWidgetData,
 			Presentation:  testMarkdownWidgetPresentation,
 			Layout:        testMarkdownWidgetLayout,
 		},
 		{
-			Visualization: "metric_line_chart",
+			Visualization: VisualizationTypes.MetricLineChart,
 			AccountID:     1,
 			Data:          testMetricsWidgetData,
 			Presentation:  testMetricsWidgetPresentation,
@@ -169,7 +169,7 @@ var (
 	testDashboard = Dashboard{
 		ID:         1234,
 		Title:      "Test",
-		Icon:       "bar-chart",
+		Icon:       DashboardIconTypes.BarChart,
 		Widgets:    testDashboardWidgets,
 		Metadata:   testDashboardMetadata,
 		Filter:     testDashboardFilter,
