@@ -1,4 +1,4 @@
-// Package infrastructure provides a programmatic API for interacting with the New Relic Infrastructure product
+// Package infrastructure provides metadata about the underlying Infrastructure API.
 package infrastructure
 
 import (
