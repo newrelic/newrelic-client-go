@@ -1,3 +1,4 @@
+// Package apm provides a programmatic API for interacting with the New Relic APM product.
 package apm
 
 import (

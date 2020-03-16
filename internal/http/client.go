@@ -61,11 +61,11 @@ func NewClient(cfg config.Config) Client {
 	}
 
 	if cfg.BaseURL == "" {
-		cfg.BaseURL = region.DefaultBaseURLs[region.Parse(cfg.Region)]
+		cfg.BaseURL = region.DefaultBaseURLs[region.Parse(string(cfg.Region))]
 	}
 
 	if cfg.NerdGraphBaseURL == "" {
-		cfg.NerdGraphBaseURL = region.NerdGraphBaseURLs[region.Parse(cfg.Region)]
+		cfg.NerdGraphBaseURL = region.NerdGraphBaseURLs[region.Parse(string(cfg.Region))]
 	}
 
 	if cfg.UserAgent == "" {

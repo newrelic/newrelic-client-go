@@ -1,3 +1,4 @@
+// Package plugins provides a programmatic API for interacting with the New Relic Plugins product.
 package plugins
 
 import (

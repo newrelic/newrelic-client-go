@@ -1,3 +1,4 @@
+// Package entities provides a programmatic API for interacting with New Relic One entities.
 package entities
 
 import (
