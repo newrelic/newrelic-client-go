@@ -28,7 +28,9 @@ func Example_dashboard() {
 		log.Fatal("error listing dashboards:", err)
 	}
 
-	// Get dashboard by ID.
+	// Get dashboard by ID.  This example assumes that at least one dashboard
+	// has been returned by the list endpoint, but in practice it is possible
+	// that an empty slice is returned.
 	dashboard, err := client.GetDashboard(dashboards[0].ID)
 	if err != nil {
 		log.Fatal("error getting dashboard:", err)

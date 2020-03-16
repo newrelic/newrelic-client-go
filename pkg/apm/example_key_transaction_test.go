@@ -29,7 +29,9 @@ func Example_keyTransaction() {
 		log.Fatal("error listing key transactions:", err)
 	}
 
-	// Get a key transaction by ID.
+	// Get a key transaction by ID.  This example assumes that at least one key
+	// transaction has been returned by the list endpoint, but in practice it is
+	// possible that an empty slice is returned.
 	transaction, err := client.GetKeyTransaction(transactions[0].ID)
 	if err != nil {
 		log.Fatal("error getting key transaction:", err)

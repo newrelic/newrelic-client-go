@@ -28,7 +28,9 @@ func Example_application() {
 		log.Fatal("error listing applications:", err)
 	}
 
-	// Get an application by ID.
+	// Get an application by ID.  This example assumes that at least one application
+	// has been returned by the list endpoint, but in practice it is possible
+	// that an empty slice is returned.
 	app, err := client.GetApplication(apps[0].ID)
 	if err != nil {
 		log.Fatal("error getting application:", err)

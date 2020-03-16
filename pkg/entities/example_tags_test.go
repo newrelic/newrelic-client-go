@@ -31,7 +31,9 @@ func Example_tags() {
 		log.Fatal("error searching entities:", err)
 	}
 
-	// List the tags associated with a given entity.
+	// List the tags associated with a given entity.  This example assumes that
+	// at least one entity has been returned by the search endpoint, but in
+	// practice it is possible that an empty slice is returned.
 	entityGUID := entities[0].GUID
 	tags, err := client.ListTags(entityGUID)
 	if err != nil {
