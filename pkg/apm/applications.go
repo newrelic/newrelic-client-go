@@ -78,31 +78,31 @@ type UpdateApplicationParams struct {
 }
 
 // ListApplications is used to retrieve New Relic applications.
-func (apm *APM) ListApplications(params *ListApplicationsParams) ([]*Application, error) {
+func (a *APM) ListApplications(params *ListApplicationsParams) ([]*Application, error) {
 	accountID := 0
 
 	method := applicationsREST{
-		parent: apm,
+		parent: a,
 	}
 
 	return method.list(accountID, params)
 }
 
 // GetApplication is used to retrieve a single New Relic application.
-func (apm *APM) GetApplication(applicationID int) (*Application, error) {
+func (a *APM) GetApplication(applicationID int) (*Application, error) {
 	accountID := 0
 	method := applicationsREST{
-		parent: apm,
+		parent: a,
 	}
 
 	return method.get(accountID, applicationID)
 }
 
 // UpdateApplication is used to update a New Relic application's name and/or settings.
-func (apm *APM) UpdateApplication(applicationID int, params UpdateApplicationParams) (*Application, error) {
+func (a *APM) UpdateApplication(applicationID int, params UpdateApplicationParams) (*Application, error) {
 	accountID := 0
 	method := applicationsREST{
-		parent: apm,
+		parent: a,
 	}
 
 	return method.update(accountID, applicationID, params)
@@ -110,10 +110,10 @@ func (apm *APM) UpdateApplication(applicationID int, params UpdateApplicationPar
 
 // DeleteApplication is used to delete a New Relic application.
 // This process will only succeed if the application is no longer reporting data.
-func (apm *APM) DeleteApplication(applicationID int) (*Application, error) {
+func (a *APM) DeleteApplication(applicationID int) (*Application, error) {
 	accountID := 0
 	method := applicationsREST{
-		parent: apm,
+		parent: a,
 	}
 
 	return method.remove(accountID, applicationID)
