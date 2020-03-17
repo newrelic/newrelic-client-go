@@ -15,14 +15,12 @@ import (
 func newTestClient(handler http.Handler) Alerts {
 	ts := httptest.NewServer(handler)
 
-	c := New(config.Config{
+	return New(config.Config{
 		AdminAPIKey:           "abc123",
 		BaseURL:               ts.URL,
 		InfrastructureBaseURL: ts.URL,
 		UserAgent:             "newrelic/newrelic-client-go",
 	})
-
-	return c
 }
 
 // nolint
@@ -50,11 +48,9 @@ func newIntegrationTestClient(t *testing.T) Alerts {
 		t.Skipf("acceptance testing requires NEW_RELIC_API_KEY and NEW_RELIC_ADMIN_API_KEY")
 	}
 
-	client := New(config.Config{
+	return New(config.Config{
 		AdminAPIKey:    adminAPIKey,
 		PersonalAPIKey: personalAPIKey,
 		LogLevel:       "debug",
 	})
-
-	return client
 }

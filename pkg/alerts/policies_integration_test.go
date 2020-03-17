@@ -7,13 +7,14 @@ import (
 	"testing"
 
 	nr "github.com/newrelic/newrelic-client-go/internal/testing"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
-func TestIntegrationPolicy(t *testing.T) {
+func TestAlertsPolicy_Legacy(t *testing.T) {
 	t.Parallel()
 
-	client := newIntegrationTestClient(t)
+	a := newIntegrationTestClient(t)
 
 	testIntegrationPolicyNameRandStr := nr.RandSeq(5)
 	policy := Policy{
@@ -22,27 +23,72 @@ func TestIntegrationPolicy(t *testing.T) {
 	}
 
 	// Test: Create
-	createResult, err := client.CreatePolicy(policy)
+	createResult, err := a.CreatePolicy(policy)
 
 	require.NoError(t, err)
 	require.NotNil(t, createResult)
 
 	// Test: Read
-	readResult, err := client.GetPolicy(createResult.ID)
+	readResult, err := a.GetPolicy(createResult.ID)
 
 	require.NoError(t, err)
 	require.NotNil(t, readResult)
 
 	// Test: Update
 	createResult.Name = fmt.Sprintf("test-alert-policy-updated-%s", testIntegrationPolicyNameRandStr)
-	updateResult, err := client.UpdatePolicy(*createResult)
+	updateResult, err := a.UpdatePolicy(*createResult)
 
 	require.NoError(t, err)
 	require.NotNil(t, updateResult)
 
 	// Test: Delete
-	deleteResult, err := client.DeletePolicy(updateResult.ID)
+	deleteResult, err := a.DeletePolicy(updateResult.ID)
 
 	require.NoError(t, err)
 	require.NotNil(t, *deleteResult)
+}
+
+func TestAlertsQueryPolicy_GraphQL_Enabled(t *testing.T) {
+	t.Parallel()
+
+	a := newIntegrationTestClient(t)
+
+	// DTK terraform account
+	accountID := 2520528
+
+	// Create a policy to work with in this test
+	testIntegrationPolicyNameRandStr := nr.RandSeq(5)
+	policy := QueryPolicyCreateInput{}
+	policy.IncidentPreference = IncidentPreferenceTypes.PerPolicy
+	policy.Name = fmt.Sprintf("test-alert-policy-%s", testIntegrationPolicyNameRandStr)
+
+	// Test: Create
+	createResult, err := a.CreatePolicyMutation(accountID, policy)
+	require.NoError(t, err)
+	require.NotNil(t, createResult)
+
+	// Query for the policy we policy we just created
+	queryResult, err := a.QueryPolicy(accountID, createResult.ID)
+	require.NoError(t, err)
+	require.NotNil(t, queryResult)
+
+	// Test: Update
+	updatePolicy := QueryPolicyUpdateInput{}
+	updatePolicy.Name = fmt.Sprintf("test-alert-policy-updated-%s", testIntegrationPolicyNameRandStr)
+	updatePolicy.IncidentPreference = createResult.IncidentPreference
+
+	updateResult, err := a.UpdatePolicyMutation(accountID, createResult.ID, updatePolicy)
+	require.NoError(t, err)
+	require.NotNil(t, updateResult)
+	assert.Equal(t, queryResult.Name, policy.Name)
+
+	// Test: Delete
+	deleteResult, err := a.DeletePolicyMutation(accountID, createResult.ID)
+	require.NoError(t, err)
+	require.NotNil(t, deleteResult)
+
+	// Expect that the thing we just deleted does not still exist
+	queryResult, err = a.QueryPolicy(accountID, createResult.ID)
+	require.Error(t, err)
+	require.Nil(t, queryResult)
 }
