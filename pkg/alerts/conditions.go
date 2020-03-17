@@ -200,7 +200,7 @@ type ConditionTerm struct {
 }
 
 // ListConditions returns alert conditions for a specified policy.
-func (alerts *Alerts) ListConditions(policyID int) ([]*Condition, error) {
+func (a *Alerts) ListConditions(policyID int) ([]*Condition, error) {
 	alertConditions := []*Condition{}
 	queryParams := listConditionsParams{
 		PolicyID: policyID,
@@ -210,7 +210,7 @@ func (alerts *Alerts) ListConditions(policyID int) ([]*Condition, error) {
 
 	for nextURL != "" {
 		response := alertConditionsResponse{}
-		resp, err := alerts.client.Get(nextURL, &queryParams, &response)
+		resp, err := a.client.Get(nextURL, &queryParams, &response)
 
 		if err != nil {
 			return nil, err
@@ -218,7 +218,7 @@ func (alerts *Alerts) ListConditions(policyID int) ([]*Condition, error) {
 
 		alertConditions = append(alertConditions, response.Conditions...)
 
-		paging := alerts.pager.Parse(resp)
+		paging := a.pager.Parse(resp)
 		nextURL = paging.Next
 	}
 
@@ -226,8 +226,8 @@ func (alerts *Alerts) ListConditions(policyID int) ([]*Condition, error) {
 }
 
 // GetCondition gets an alert condition for a specified policy ID and condition ID.
-func (alerts *Alerts) GetCondition(policyID int, id int) (*Condition, error) {
-	conditions, err := alerts.ListConditions(policyID)
+func (a *Alerts) GetCondition(policyID int, id int) (*Condition, error) {
+	conditions, err := a.ListConditions(policyID)
 	if err != nil {
 		return nil, err
 	}
@@ -242,14 +242,14 @@ func (alerts *Alerts) GetCondition(policyID int, id int) (*Condition, error) {
 }
 
 // CreateCondition creates an alert condition for a specified policy.
-func (alerts *Alerts) CreateCondition(policyID int, condition Condition) (*Condition, error) {
+func (a *Alerts) CreateCondition(policyID int, condition Condition) (*Condition, error) {
 	reqBody := alertConditionRequestBody{
 		Condition: condition,
 	}
 	resp := alertConditionResponse{}
 
 	u := fmt.Sprintf("/alerts_conditions/policies/%d.json", policyID)
-	_, err := alerts.client.Post(u, nil, &reqBody, &resp)
+	_, err := a.client.Post(u, nil, &reqBody, &resp)
 
 	if err != nil {
 		return nil, err
@@ -259,14 +259,14 @@ func (alerts *Alerts) CreateCondition(policyID int, condition Condition) (*Condi
 }
 
 // UpdateCondition updates an alert condition.
-func (alerts *Alerts) UpdateCondition(condition Condition) (*Condition, error) {
+func (a *Alerts) UpdateCondition(condition Condition) (*Condition, error) {
 	reqBody := alertConditionRequestBody{
 		Condition: condition,
 	}
 	resp := alertConditionResponse{}
 
 	u := fmt.Sprintf("/alerts_conditions/%d.json", condition.ID)
-	_, err := alerts.client.Put(u, nil, &reqBody, &resp)
+	_, err := a.client.Put(u, nil, &reqBody, &resp)
 
 	if err != nil {
 		return nil, err
@@ -276,11 +276,11 @@ func (alerts *Alerts) UpdateCondition(condition Condition) (*Condition, error) {
 }
 
 // DeleteCondition delete an alert condition.
-func (alerts *Alerts) DeleteCondition(id int) (*Condition, error) {
+func (a *Alerts) DeleteCondition(id int) (*Condition, error) {
 	resp := alertConditionResponse{}
 	u := fmt.Sprintf("/alerts_conditions/%d.json", id)
 
-	_, err := alerts.client.Delete(u, nil, &resp)
+	_, err := a.client.Delete(u, nil, &resp)
 
 	if err != nil {
 		return nil, err
