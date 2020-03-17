@@ -7,10 +7,11 @@ import (
 	"os"
 	"testing"
 
-	mock "github.com/newrelic/newrelic-client-go/internal/testing"
-	"github.com/newrelic/newrelic-client-go/pkg/config"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
+	mock "github.com/newrelic/newrelic-client-go/internal/testing"
+	"github.com/newrelic/newrelic-client-go/pkg/config"
 )
 
 // nolint

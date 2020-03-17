@@ -6,6 +6,7 @@ import (
 
 	"github.com/google/go-querystring/query"
 	retryablehttp "github.com/hashicorp/go-retryablehttp"
+
 	"github.com/newrelic/newrelic-client-go/pkg/config"
 )
 

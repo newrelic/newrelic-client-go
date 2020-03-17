@@ -8,8 +8,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/newrelic/newrelic-client-go/internal/serialization"
 	"github.com/stretchr/testify/require"
+
+	"github.com/newrelic/newrelic-client-go/internal/serialization"
 )
 
 var (

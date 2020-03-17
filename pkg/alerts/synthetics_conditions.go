@@ -18,7 +18,7 @@ type SyntheticsCondition struct {
 // ListSyntheticsConditions returns a list of Synthetics alert conditions for a given policy.
 func (a *Alerts) ListSyntheticsConditions(policyID int) ([]*SyntheticsCondition, error) {
 	conditions := []*SyntheticsCondition{}
-	nextURL := fmt.Sprintf("/alerts_synthetics_conditions.json")
+	nextURL := "/alerts_synthetics_conditions.json"
 	queryParams := listSyntheticsConditionsParams{
 		PolicyID: policyID,
 	}

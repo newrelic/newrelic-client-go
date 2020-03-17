@@ -10,9 +10,10 @@ import (
 	"testing"
 	"time"
 
+	"github.com/stretchr/testify/assert"
+
 	mock "github.com/newrelic/newrelic-client-go/internal/testing"
 	"github.com/newrelic/newrelic-client-go/pkg/config"
-	"github.com/stretchr/testify/assert"
 )
 
 func newTestClient(handler http.Handler) Dashboards {
