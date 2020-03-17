@@ -10,41 +10,41 @@ import (
 
 // Workload represents a New Relic One workload.
 type Workload struct {
-	Account             *nerdgraph.AccountReference `json:"account,omitempty"`
-	CreatedAt           *serialization.EpochTime    `json:"created_at,omitempty"`
-	CreatedBy           *UserReference              `json:"created_by,omitempty"`
-	Entities            []*EntityRef                `json:"entities,omitempty"`
-	EntitySearchQueries []*EntitySearchQuery        `json:"entitySearchQueries,omitempty"`
-	EntitySearchQuery   string                      `json:"entitySearchQuery,omitempty"`
-	GUID                *string                     `json:"guid,omitempty"`
-	ID                  *int                        `json:"id,omitempty"`
-	Name                *string                     `json:"name,omitempty"`
-	Permalink           *string                     `json:"permalink,omitempty"`
-	ScopeAccounts       *ScopeAccounts              `json:"scopeAccounts,omitempty"`
-	UpdatedAt           *serialization.EpochTime    `json:"updated_at,omitempty"`
+	Account             nerdgraph.AccountReference `json:"account,omitempty"`
+	CreatedAt           serialization.EpochTime    `json:"created_at,omitempty"`
+	CreatedBy           UserReference              `json:"created_by,omitempty"`
+	Entities            []EntityRef                `json:"entities,omitempty"`
+	EntitySearchQueries []EntitySearchQuery        `json:"entitySearchQueries,omitempty"`
+	EntitySearchQuery   string                     `json:"entitySearchQuery,omitempty"`
+	GUID                string                     `json:"guid,omitempty"`
+	ID                  int                        `json:"id,omitempty"`
+	Name                string                     `json:"name,omitempty"`
+	Permalink           string                     `json:"permalink,omitempty"`
+	ScopeAccounts       ScopeAccounts              `json:"scopeAccounts,omitempty"`
+	UpdatedAt           *serialization.EpochTime   `json:"updated_at,omitempty"`
 }
 
 // EntityRef represents an entity referenced by this workload.
 type EntityRef struct {
-	GUID string `json:"id,omitempty"`
+	GUID *string `json:"id,omitempty"`
 }
 
 // EntitySearchQuery represents an entity search used by this workload.
 type EntitySearchQuery struct {
-	CreatedAt *time.Time               `json:"createdAt,omitempty"`
-	CreatedBy *UserReference           `json:"createdBy,omitempty"`
-	ID        *int                     `json:"id,omitempty"`
-	Name      *string                  `json:"name,omitempty"`
-	Query     *string                  `json:"query,omitempty"`
+	CreatedAt time.Time                `json:"createdAt,omitempty"`
+	CreatedBy UserReference            `json:"createdBy,omitempty"`
+	ID        int                      `json:"id,omitempty"`
+	Name      string                   `json:"name,omitempty"`
+	Query     string                   `json:"query,omitempty"`
 	UpdatedAt *serialization.EpochTime `json:"updatedAt,omitempty"`
 }
 
 // UserReference represents a user referenced by this workload's search query.
 type UserReference struct {
-	Email    string `json:"email,omitempty"`
-	Gravatar string `json:"gravatar,omitempty"`
-	ID       int    `json:"id,omitempty"`
-	Name     string `json:"name,omitempty"`
+	Email    *string `json:"email,omitempty"`
+	Gravatar *string `json:"gravatar,omitempty"`
+	ID       *int    `json:"id,omitempty"`
+	Name     *string `json:"name,omitempty"`
 }
 
 // ScopeAccounts represents the accounts used to scope this workload.
@@ -54,34 +54,40 @@ type ScopeAccounts struct {
 
 // CreateInput represents the input parameters used for creating or updating a workload.
 type CreateInput struct {
-	EntityGUIDs         []*string                 `json:"entityGuids,omitempty"`
-	EntitySearchQueries []*EntitySearchQueryInput `json:"entitySearchQueries,omitempty"`
-	Name                *string                   `json:"name,omitempty"`
-	ScopeAccountsInput  ScopeAccountsInput        `json:"scopeAccounts,omitempty"`
+	EntityGUIDs         []string                 `json:"entityGuids,omitempty"`
+	EntitySearchQueries []EntitySearchQueryInput `json:"entitySearchQueries,omitempty"`
+	Name                string                   `json:"name,omitempty"`
+	ScopeAccountsInput  *ScopeAccountsInput      `json:"scopeAccounts,omitempty"`
 }
 
 // EntitySearchQueryInput represents an entity search query for creating or updating a workload.
 type EntitySearchQueryInput struct {
-	Name  string  `json:"name,omitempty"`
-	Query *string `json:"query,omitempty"`
+	Name  *string `json:"name,omitempty"`
+	Query string  `json:"query,omitempty"`
+}
+
+// UpdateCollectionEntitySearchQueryInput represents an entity search query for creating or updating a workload.
+type UpdateCollectionEntitySearchQueryInput struct {
+	ID *int `json:"id,omitempty"`
+	EntitySearchQueryInput
 }
 
 // ScopeAccountsInput is the input object containing accounts that will be used to get entities from.
 type ScopeAccountsInput struct {
-	AccountIDs []*int `json:"accountIds,omitempty"`
+	AccountIDs []int `json:"accountIds,omitempty"`
 }
 
 // DuplicateInput represents the input object used to identify the workload to be duplicated.
 type DuplicateInput struct {
-	Name string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 }
 
 // UpdateInput represents the input object used to identify the workload to be updated and its new changes.
 type UpdateInput struct {
-	EntityGUIDs         []*string                 `json:"entityGuids,omitempty"`
-	EntitySearchQueries []*EntitySearchQueryInput `json:"entitySearchQueries,omitempty"`
-	Name                string                    `json:"name,omitempty"`
-	ScopeAccountsInput  ScopeAccountsInput        `json:"scopeAccounts,omitempty"`
+	EntityGUIDs         []string                 `json:"entityGuids,omitempty"`
+	EntitySearchQueries []EntitySearchQueryInput `json:"entitySearchQueries,omitempty"`
+	Name                *string                  `json:"name,omitempty"`
+	ScopeAccountsInput  *ScopeAccountsInput      `json:"scopeAccounts,omitempty"`
 }
 
 // ListWorkloads retrieves a set of New Relic One workloads by their account ID.
@@ -114,15 +120,11 @@ func (e *Workloads) GetWorkload(accountID int, workloadID int) (*Workload, error
 		return nil, err
 	}
 
-	if resp.Actor.Account.Workload.Collection.ID == nil {
-		return nil, errors.NewNotFound("")
-	}
-
 	return &resp.Actor.Account.Workload.Collection, nil
 }
 
 // CreateWorkload creates a New Relic One workload.
-func (e *Workloads) CreateWorkload(accountID int, workload *CreateInput) (*Workload, error) {
+func (e *Workloads) CreateWorkload(accountID int, workload CreateInput) (*Workload, error) {
 	resp := workloadCreateResponse{}
 	vars := map[string]interface{}{
 		"accountId": accountID,
@@ -167,7 +169,7 @@ func (e *Workloads) DuplicateWorkload(accountID int, sourceGUID string, workload
 }
 
 // UpdateWorkload updates a New Relic One workload.
-func (e *Workloads) UpdateWorkload(guid string, workload *UpdateInput) (*Workload, error) {
+func (e *Workloads) UpdateWorkload(guid string, workload UpdateInput) (*Workload, error) {
 	resp := workloadUpdateResponse{}
 	vars := map[string]interface{}{
 		"guid":     guid,
