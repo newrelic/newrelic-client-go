@@ -6,9 +6,10 @@ import (
 	"fmt"
 	"testing"
 
-	nr "github.com/newrelic/newrelic-client-go/internal/testing"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
+	nr "github.com/newrelic/newrelic-client-go/internal/testing"
 )
 
 func TestAlertsPolicy_Legacy(t *testing.T) {

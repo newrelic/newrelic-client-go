@@ -6,8 +6,9 @@ import (
 	"fmt"
 	"testing"
 
-	nr "github.com/newrelic/newrelic-client-go/internal/testing"
 	"github.com/stretchr/testify/require"
+
+	nr "github.com/newrelic/newrelic-client-go/internal/testing"
 )
 
 func TestIntegrationConditions(t *testing.T) {

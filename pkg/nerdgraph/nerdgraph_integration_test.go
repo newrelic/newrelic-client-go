@@ -6,8 +6,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/newrelic/newrelic-client-go/pkg/config"
 	"github.com/stretchr/testify/require"
+
+	"github.com/newrelic/newrelic-client-go/pkg/config"
 )
 
 func TestIntegrationQuery(t *testing.T) {
