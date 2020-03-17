@@ -186,7 +186,7 @@ func (a *Alerts) QueryPolicy(accountID, id int) (*QueryPolicy, error) {
 		"policyID":  id,
 	}
 
-	if err := a.client.Query(alertPolicyQueryPolicy, vars, &resp); err != nil {
+	if err := a.client.Query(alertsPolicyCreateQueryResponse, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -253,7 +253,7 @@ const (
 						name
 						incidentPreference
 	`
-	alertPolicyQueryPolicy = `query($accountID: Int!, $policyID: ID!) {
+	alertsPolicyCreateQueryResponse = `query($accountID: Int!, $policyID: ID!) {
 		actor {
 			account(id: $accountID) {
 				alerts {
