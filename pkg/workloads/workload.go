@@ -5,28 +5,23 @@ import (
 
 	"github.com/newrelic/newrelic-client-go/internal/serialization"
 	"github.com/newrelic/newrelic-client-go/pkg/errors"
+	"github.com/newrelic/newrelic-client-go/pkg/nerdgraph"
 )
 
 // Workload represents a New Relic One workload.
 type Workload struct {
-	Account             *AccountReference        `json:"account,omitempty"`
-	CreatedAt           *serialization.EpochTime `json:"created_at,omitempty"`
-	CreatedBy           *UserReference           `json:"created_by,omitempty"`
-	Entities            []*EntityRef             `json:"entities,omitempty"`
-	EntitySearchQueries []*EntitySearchQuery     `json:"entitySearchQueries,omitempty"`
-	EntitySearchQuery   string                   `json:"entitySearchQuery,omitempty"`
-	GUID                *string                  `json:"guid,omitempty"`
-	ID                  *int                     `json:"id,omitempty"`
-	Name                *string                  `json:"name,omitempty"`
-	Permalink           *string                  `json:"permalink,omitempty"`
-	ScopeAccounts       *ScopeAccounts           `json:"scopeAccounts,omitempty"`
-	UpdatedAt           *serialization.EpochTime `json:"updated_at,omitempty"`
-}
-
-// AccountReference represents the account this workload belongs to.
-type AccountReference struct {
-	ID   int    `json:"id,omitempty"`
-	Name string `json:"name,omitempty"`
+	Account             *nerdgraph.AccountReference `json:"account,omitempty"`
+	CreatedAt           *serialization.EpochTime    `json:"created_at,omitempty"`
+	CreatedBy           *UserReference              `json:"created_by,omitempty"`
+	Entities            []*EntityRef                `json:"entities,omitempty"`
+	EntitySearchQueries []*EntitySearchQuery        `json:"entitySearchQueries,omitempty"`
+	EntitySearchQuery   string                      `json:"entitySearchQuery,omitempty"`
+	GUID                *string                     `json:"guid,omitempty"`
+	ID                  *int                        `json:"id,omitempty"`
+	Name                *string                     `json:"name,omitempty"`
+	Permalink           *string                     `json:"permalink,omitempty"`
+	ScopeAccounts       *ScopeAccounts              `json:"scopeAccounts,omitempty"`
+	UpdatedAt           *serialization.EpochTime    `json:"updated_at,omitempty"`
 }
 
 // EntityRef represents an entity referenced by this workload.
