@@ -5,6 +5,7 @@ package workloads
 import (
 	"os"
 	"testing"
+	"time"
 
 	"github.com/newrelic/newrelic-client-go/pkg/config"
 	"github.com/stretchr/testify/require"
@@ -65,6 +66,7 @@ func TestIntegrationWorkload(t *testing.T) {
 	require.Greater(t, len(workloads), 0)
 
 	// Test: Update
+	time.Sleep(time.Second) // Updates are failing intermittently without this
 	updated, err := client.UpdateWorkload(*created.GUID, &testUpdateInput)
 
 	require.NoError(t, err)
