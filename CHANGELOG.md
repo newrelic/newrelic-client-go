@@ -2,6 +2,45 @@
 ## [Unreleased]
 
 
+<a name="v0.17.0"></a>
+## [v0.17.0] - 2020-03-17
+### Bug Fixes
+- **workloads:** map non-nullable fields to structs correctly
+
+### Documentation Updates
+- **alerts:** add package-level documentation and examples
+- **apm:** add package-level documentation and examples
+- **client:** add synopses for all packages
+- **config:** add package-level documentation
+- **dashboards:** add package-level documentation and examples
+- **entities:** add package-level documentation and examples
+- **errors:** update package-level documentation
+- **infrastructure:** add package-level documentation
+- **nerdgraph:** add package-level documentation and examples
+- **newrelic:** add package-level documentation and examples
+- **newrelic:** use single-letter vars for receivers
+- **plugins:** add package-level documentation and examples
+- **synthetics:** add package-level documentation and examples
+
+### Features
+- **alerts:** implement graphql policy methods
+- **workloads:** add update operation, rework integration test scenario
+- **workloads:** add delete and duplicate mutations
+- **workloads:** add a workload create operation
+- **workloads:** add a workloads resource, list and get methods
+
+### Refactor
+- **alerts:** Fix lint issue
+- **alerts:** add types for fields with known values
+- **apm:** Move Application REST implementation, use interface
+- **dashboards:** add types for fields with known values
+- **http:** Move NewRequest, have it follow New* func format
+- **http:** Move graphql code out to file
+- **http:** Make all fields private, add some setters/getters, more tests
+- **http:** Consolidate GraphQL client, rename to http.Client
+- **http:** Move GraphQL into http.NewRelicClient as Query()
+
+
 <a name="v0.16.0"></a>
 ## [v0.16.0] - 2020-03-11
 ### Bug Fixes
@@ -345,7 +384,8 @@
 - rename packages for clarity, promote Config to the public package
 
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.16.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.17.0...HEAD
+[v0.17.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.16.0...v0.17.0
 [v0.16.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.15.0...v0.16.0
 [v0.15.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.14.0...v0.15.0
 [v0.14.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.13.0...v0.14.0
