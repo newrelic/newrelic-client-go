@@ -40,3 +40,9 @@ func (n *NerdGraph) Query(query string, variables map[string]interface{}) (inter
 
 	return respBody, nil
 }
+
+// AccountReference represents the NerdGraph schema for a New Relic account.
+type AccountReference struct {
+	ID   int    `json:"id,omitempty"`
+	Name string `json:"name,omitempty"`
+}

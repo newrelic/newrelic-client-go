@@ -1,5 +1,4 @@
-// Package entities provides a programmatic API for interacting with New Relic One entities.
-package entities
+package workloads
 
 import (
 	"github.com/newrelic/newrelic-client-go/internal/http"
@@ -8,15 +7,15 @@ import (
 	"github.com/newrelic/newrelic-client-go/pkg/config"
 )
 
-// Entities is used to communicate with the New Relic Entities product.
-type Entities struct {
+// Workloads is used to communicate with the New Relic Workloads product.
+type Workloads struct {
 	client http.Client
 	logger logging.Logger
 }
 
-// New returns a new client for interacting with New Relic One entities.
-func New(config config.Config) Entities {
-	return Entities{
+// New returns a new client for interacting with New Relic One workloads.
+func New(config config.Config) Workloads {
+	return Workloads{
 		client: http.NewClient(config),
 		logger: config.GetLogger(),
 	}
