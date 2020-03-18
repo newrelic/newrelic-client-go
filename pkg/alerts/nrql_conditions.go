@@ -6,6 +6,220 @@ import (
 	"github.com/newrelic/newrelic-client-go/pkg/errors"
 )
 
+// ThresholdOccurence specifies the threshold occurrence for NRQL alert condition terms.
+type ThresholdOccurence string
+
+var (
+	// ThresholdOccurrences enumerates the possible threshold occurrence values for NRQL alert condition terms.
+	ThresholdOccurrences = struct {
+		All         ThresholdOccurence
+		AtLeastOnce ThresholdOccurence
+	}{
+		All:         "ALL",
+		AtLeastOnce: "AT_LEAST_ONCE",
+	}
+)
+
+// NrqlConditionType specifies the type of NRQL alert condition.
+type NrqlConditionType string
+
+var (
+	// NrqlConditionTypes enumerates the possible NRQL condition type values for NRQL alert conditions.
+	NrqlConditionTypes = struct {
+		Baseline NrqlConditionType
+		Static   NrqlConditionType
+	}{
+		Baseline: "BASELINE",
+		Static:   "STATIC",
+	}
+)
+
+// NrqlConditionValueFunction specifies the value function of NRQL alert condition.
+type NrqlConditionValueFunction string
+
+var (
+	// NrqlConditionValueFunctions enumerates the possible NRQL condition value function values for NRQL alert conditions.
+	NrqlConditionValueFunctions = struct {
+		SingleValue NrqlConditionValueFunction
+		Sum         NrqlConditionValueFunction
+	}{
+		SingleValue: "SINGLE_VALUE",
+		Sum:         "SUM",
+	}
+)
+
+// NrqlConditionValueFunction specifies the value function of NRQL alert condition.
+type NrqlConditionViolationTimeLimit string
+
+var (
+	// NrqlConditionViolationTimeLimits enumerates the possible NRQL condition violation time limit values for NRQL alert conditions.
+	NrqlConditionViolationTimeLimits = struct {
+		OneHour         NrqlConditionViolationTimeLimit
+		TwoHours        NrqlConditionViolationTimeLimit
+		FourHours       NrqlConditionViolationTimeLimit
+		EightHours      NrqlConditionViolationTimeLimit
+		TwelveHours     NrqlConditionViolationTimeLimit
+		TwentyFourHours NrqlConditionViolationTimeLimit
+	}{
+		OneHour:         "ONE_HOUR",
+		TwoHours:        "TWO_HOURS",
+		FourHours:       "FOUR_HOURS",
+		EightHours:      "EIGHT_HOURS",
+		TwelveHours:     "TWELVE_HOURS",
+		TwentyFourHours: "TWENTY_FOUR_HOURS",
+	}
+)
+
+// NrqlConditionOperator specifies the operator for alert condition terms.
+type NrqlConditionOperator string
+
+var (
+	// NrqlConditionOperators enumerates the possible operator values for alert condition terms.
+	NrqlConditionOperators = struct {
+		Above NrqlConditionOperator
+		Below NrqlConditionOperator
+		Equal NrqlConditionOperator
+	}{
+		Above: "ABOVE",
+		Below: "BELOW",
+		Equal: "EQUAL",
+	}
+)
+
+// NrqlConditionPriority specifies the priority for alert condition terms.
+type NrqlConditionPriority string
+
+var (
+	// NrqlConditionPriorities enumerates the possible priority values for alert condition terms.
+	NrqlConditionPriorities = struct {
+		Critical NrqlConditionPriority
+		Warning  NrqlConditionPriority
+	}{
+		Critical: "CRITICAL",
+		Warning:  "WARNING",
+	}
+)
+
+type NrqlBaselineDirection string
+
+var (
+	// NrqlBaselineDirections enumerates the possible baseline direction values for a baseline NRQL alert condition.
+	NrqlBaselineDirections = struct {
+		LowerOnly     NrqlBaselineDirection
+		UpperAndLower NrqlBaselineDirection
+		UpperOnly     NrqlBaselineDirection
+	}{
+		LowerOnly:     "LOWER_ONLY",
+		UpperAndLower: "UPPER_AND_LOWER",
+		UpperOnly:     "UPPER_ONLY",
+	}
+)
+
+// NrqlConditionTerms represents the terms of a New Relic alert condition.
+type NrqlConditionTerms struct {
+	Operator             NrqlConditionOperator `json:"operator,omitempty"`
+	Priority             NrqlConditionPriority `json:"priority,omitempty"`
+	Threshold            float64               `json:"threshold,omitempty"`
+	ThresholdDuration    float64               `json:"thresholdDuration,omitempty"`
+	ThresholdOccurrences ThresholdOccurence    `json:"thresholdOccurrences,omitempty"`
+}
+
+// NrqlConditionQuery represents the NRQL query object returned in a NerdGraph response object.
+type NrqlConditionQuery struct {
+	Query            string `json:"query,omitempty"`
+	EvaluationOffset int    `json:"evaluationOffset,omitempty"`
+}
+
+// NrqlConditionBase represents the base fields for a New Relic NRQL Alert condition. These fields
+// shared between the NrqlConditionMutationInput struct and NrqlConditionMutationResponse struct.
+type NrqlConditionBase struct {
+	Description        string                          `json:"description,omitempty"`
+	Enabled            bool                            `json:"enabled"`
+	Name               string                          `json:"name,omitempty"`
+	Nrql               NrqlConditionQuery              `json:"nrql,omitempty"`
+	RunbookURL         string                          `json:"runbookUrl,omitempty"`
+	Terms              []NrqlConditionTerms            `json:"terms,omitempty"`
+	ViolationTimeLimit NrqlConditionViolationTimeLimit `json:"violationTimeLimit,omitempty"`
+}
+
+// NrqlConditionBaselineInput represents the input options for creating a Baseline Nrql Condition.
+type NrqlConditionBaselineInput struct {
+	NrqlConditionBase
+
+	BaselineDirection NrqlBaselineDirection `json:"baselineDirection,omitempty"`
+}
+
+// NrqlConditionStaticInput represents the input options for creating a Static Nrql Condition.
+type NrqlConditionStaticInput struct {
+	NrqlConditionBase
+
+	ValueFunction NrqlConditionValueFunction `json:"value_function,omitempty"`
+}
+
+// NrqlConditionBaselineMutationResponse represents the NerdGraph API response for a New Relic NRQL Alert condition.
+type NrqlConditionBaselineMutationResponse struct {
+	NrqlConditionBase
+
+	ID                string                `json:"id,omitempty"`
+	PolicyID          string                `json:"policyId,omitempty"`
+	Type              NrqlConditionType     `json:"type,omitempty"`
+	BaselineDirection NrqlBaselineDirection `json:"baselineDirection,omitempty"`
+}
+
+// NrqlConditionStaticMutationResponse represents the NerdGraph API response for a New Relic NRQL Alert condition.
+type NrqlConditionStaticMutationResponse struct {
+	NrqlConditionBase
+
+	ID       string            `json:"id,omitempty"`
+	PolicyID string            `json:"name,omitempty"`
+	Type     NrqlConditionType `json:"type,omitempty"`
+}
+
+type nrqlConditionBaselineCreateResponse struct {
+	AlertsNrqlConditionBaselineCreate NrqlConditionBaselineMutationResponse
+}
+
+// CreateNrqlConditionBaselineMutation TODO
+func (a *Alerts) CreateNrqlConditionBaselineMutation(
+	accountID int,
+	policyID int,
+	nrqlCondition NrqlConditionBaselineInput,
+) (*NrqlConditionBaselineMutationResponse, error) {
+	resp := nrqlConditionBaselineCreateResponse{}
+	vars := map[string]interface{}{
+		"accountId": accountID,
+		"policyId":  policyID,
+		"condition": nrqlCondition,
+	}
+
+	if err := a.client.Query(createNrqlConditionBaselineMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.AlertsNrqlConditionBaselineCreate, nil
+}
+
+func (a *Alerts) CreateNrqlConditionStaticMutation(
+	accountID int,
+	policyID int,
+	nrqlCondition NrqlConditionStaticInput,
+) (*NrqlConditionStaticMutationResponse, error) {
+	resp := struct {
+		NrqlCondition NrqlConditionStaticMutationResponse
+	}{}
+	vars := map[string]interface{}{
+		"accountId": accountID,
+		"policyId":  policyID,
+		"condition": nrqlCondition,
+	}
+
+	if err := a.client.Query(createNrqlConditionStaticMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.NrqlCondition, nil
+}
+
 // NrqlCondition represents a New Relic NRQL Alert condition.
 type NrqlCondition struct {
 	Terms               []ConditionTerm   `json:"terms,omitempty"`
@@ -133,3 +347,40 @@ type nrqlConditionResponse struct {
 type nrqlConditionRequestBody struct {
 	NrqlCondition NrqlCondition `json:"nrql_condition,omitempty"`
 }
+
+const (
+	graphqlNrqlConditionStructFields = `
+		id
+		name
+		nrql {
+			evaluationOffset
+			query
+		}
+		enabled
+		description
+		policyId
+		runbookUrl
+		terms {
+			operator
+			priority
+			threshold
+			thresholdDuration
+			thresholdOccurrences
+		}
+		type
+		violationTimeLimit
+	`
+	createNrqlConditionBaselineMutation = `
+		mutation($accountId: Int!, $policyId: ID!, $condition: AlertsNrqlConditionBaselineInput!) {
+			alertsNrqlConditionBaselineCreate(accountId: $accountId, policyId: $policyId, condition: $condition) {
+				baselineDirection` +
+		graphqlNrqlConditionStructFields +
+		` } }`
+
+	createNrqlConditionStaticMutation = `
+		mutation($accountId: Int!, $policyId: ID!, $condition: AlertsNrqlConditionStaticInput!) {
+			alertsNrqlConditionStaticCreate(accountId: $accountId, policyId: $policyId, condition: $condition) {
+				valueFunction` +
+		graphqlNrqlConditionStructFields +
+		` } }`
+)
