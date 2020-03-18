@@ -74,7 +74,7 @@ var (
 					"duration": "10",
 					"operator": "below",
 					"priority": "warning",
-					"threshold": "0.5",
+					"threshold": ".5",
 					"time_function": "all"
 				}
 			]
