@@ -1,8 +1,6 @@
 package workloads
 
 import (
-	"time"
-
 	"github.com/newrelic/newrelic-client-go/internal/serialization"
 	"github.com/newrelic/newrelic-client-go/pkg/errors"
 	"github.com/newrelic/newrelic-client-go/pkg/nerdgraph"
@@ -31,7 +29,7 @@ type EntityRef struct {
 
 // EntitySearchQuery represents an entity search used by this workload.
 type EntitySearchQuery struct {
-	CreatedAt time.Time                `json:"createdAt,omitempty"`
+	CreatedAt serialization.EpochTime  `json:"createdAt,omitempty"`
 	CreatedBy UserReference            `json:"createdBy,omitempty"`
 	ID        int                      `json:"id,omitempty"`
 	Name      string                   `json:"name,omitempty"`
