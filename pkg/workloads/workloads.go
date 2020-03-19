@@ -1,3 +1,5 @@
+// Package workloads provides a programmatic API for interacting with New Relic
+// One workloads.
 package workloads
 
 import (

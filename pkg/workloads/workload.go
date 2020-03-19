@@ -244,7 +244,7 @@ const (
 		` } }`
 
 	duplicateWorkloadMutation = `
-		mutation($accountId: Int!, $sourceGuid: EntityGuid!, $workload: WorkloadDuplicateInput!) {
+		mutation($accountId: Int!, $sourceGuid: EntityGuid!, $workload: WorkloadDuplicateInput) {
 			workloadDuplicate(accountId: $accountId, sourceGuid: $sourceGuid, workload: $workload) {` +
 		graphqlWorkloadStructFields +
 		` } }`
