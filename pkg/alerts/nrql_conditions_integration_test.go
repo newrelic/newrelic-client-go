@@ -104,7 +104,7 @@ func TestIntegrationNrqlConditions_Baseline(t *testing.T) {
 		testCreateInput = NrqlConditionBaselineInput{
 			NrqlConditionBase: NrqlConditionBase{
 				Description: "test description",
-				Enabled:     false,
+				Enabled:     true,
 				Name:        fmt.Sprintf("test-nrql-condition-%s", randStr),
 				Nrql: NrqlConditionQuery{
 					Query:            "SELECT uniqueCount(host) from Transaction where appName='Dummy App'",
@@ -122,8 +122,31 @@ func TestIntegrationNrqlConditions_Baseline(t *testing.T) {
 				},
 				ViolationTimeLimit: NrqlConditionViolationTimeLimits.OneHour,
 			},
-
 			BaselineDirection: NrqlBaselineDirections.LowerOnly,
+		}
+
+		testUpdateInput = NrqlConditionBaselineInput{
+			NrqlConditionBase: NrqlConditionBase{
+				Description: "test description updated",
+				Enabled:     false,
+				Name:        fmt.Sprintf("test-nrql-condition-%s", randStr),
+				Nrql: NrqlConditionQuery{
+					Query:            "SELECT uniqueCount(host) from Transaction where appName='Dummy App'",
+					EvaluationOffset: 3,
+				},
+				RunbookURL: "test.com",
+				Terms: []NrqlConditionTerms{
+					{
+						Threshold:            1,
+						ThresholdOccurrences: ThresholdOccurrences.All,
+						ThresholdDuration:    600,
+						Operator:             NrqlConditionOperators.Above,
+						Priority:             NrqlConditionPriorities.Critical,
+					},
+				},
+				ViolationTimeLimit: NrqlConditionViolationTimeLimits.OneHour,
+			},
+			BaselineDirection: NrqlBaselineDirections.UpperOnly,
 		}
 	)
 
@@ -141,11 +164,15 @@ func TestIntegrationNrqlConditions_Baseline(t *testing.T) {
 
 	// Test: Create
 	created, err := client.CreateNrqlConditionBaselineMutation(testAccountID, policy.ID, testCreateInput)
-
 	require.NoError(t, err)
 	require.NotNil(t, created)
 	require.NotNil(t, created.ID)
 	require.NotNil(t, created.PolicyID)
+
+	// Test: Update
+	updated, err := client.UpdateNrqlConditionBaselineMutation(testAccountID, created.ID, testUpdateInput)
+	require.NoError(t, err)
+	require.NotNil(t, updated)
 
 	// Deferred teardown
 	defer func() {
@@ -165,7 +192,7 @@ func TestIntegrationNrqlConditions_Static(t *testing.T) {
 		testCreateStaticInput = NrqlConditionStaticInput{
 			NrqlConditionBase: NrqlConditionBase{
 				Description: "test description",
-				Enabled:     false,
+				Enabled:     true,
 				Name:        fmt.Sprintf("test-nrql-condition-%s", randStr),
 				Nrql: NrqlConditionQuery{
 					Query:            "SELECT uniqueCount(host) from Transaction where appName='Dummy App'",
@@ -183,7 +210,30 @@ func TestIntegrationNrqlConditions_Static(t *testing.T) {
 				},
 				ViolationTimeLimit: NrqlConditionViolationTimeLimits.OneHour,
 			},
+			ValueFunction: NrqlConditionValueFunctions.SingleValue,
+		}
 
+		testUpdateStaticInput = NrqlConditionStaticInput{
+			NrqlConditionBase: NrqlConditionBase{
+				Description: "test description updated",
+				Enabled:     false,
+				Name:        fmt.Sprintf("test-nrql-condition-%s", randStr),
+				Nrql: NrqlConditionQuery{
+					Query:            "SELECT uniqueCount(host) from Transaction where appName='Dummy App'",
+					EvaluationOffset: 3,
+				},
+				RunbookURL: "test.com",
+				Terms: []NrqlConditionTerms{
+					{
+						Threshold:            1,
+						ThresholdOccurrences: ThresholdOccurrences.All,
+						ThresholdDuration:    600,
+						Operator:             NrqlConditionOperators.Above,
+						Priority:             NrqlConditionPriorities.Critical,
+					},
+				},
+				ViolationTimeLimit: NrqlConditionViolationTimeLimits.OneHour,
+			},
 			ValueFunction: NrqlConditionValueFunctions.SingleValue,
 		}
 	)
@@ -207,6 +257,11 @@ func TestIntegrationNrqlConditions_Static(t *testing.T) {
 	require.NotNil(t, created)
 	require.NotNil(t, created.ID)
 	require.NotNil(t, created.PolicyID)
+
+	// Test: Update
+	updated, err := client.UpdateNrqlConditionStaticMutation(testAccountID, created.ID, testUpdateStaticInput)
+	require.NoError(t, err)
+	require.NotNil(t, updated)
 
 	// Deferred teardown
 	defer func() {

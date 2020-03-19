@@ -175,11 +175,6 @@ type NrqlConditionStaticMutationResponse struct {
 	Type     NrqlConditionType `json:"type,omitempty"`
 }
 
-type nrqlConditionBaselineCreateResponse struct {
-	AlertsNrqlConditionBaselineCreate NrqlConditionBaselineMutationResponse
-}
-
-// CreateNrqlConditionBaselineMutation TODO
 func (a *Alerts) CreateNrqlConditionBaselineMutation(
 	accountID int,
 	policyID int,
@@ -199,14 +194,31 @@ func (a *Alerts) CreateNrqlConditionBaselineMutation(
 	return &resp.AlertsNrqlConditionBaselineCreate, nil
 }
 
+func (a *Alerts) UpdateNrqlConditionBaselineMutation(
+	accountID int,
+	conditionID string, // GraphQL scalar type `ID` is a string in JSON
+	nrqlCondition NrqlConditionBaselineInput,
+) (*NrqlConditionBaselineMutationResponse, error) {
+	resp := nrqlConditionBaselineUpdateResponse{}
+	vars := map[string]interface{}{
+		"accountId": accountID,
+		"id":        conditionID,
+		"condition": nrqlCondition,
+	}
+
+	if err := a.client.Query(updateNrqlConditionBaselineMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.AlertsNrqlConditionBaselineUpdate, nil
+}
+
 func (a *Alerts) CreateNrqlConditionStaticMutation(
 	accountID int,
 	policyID int,
 	nrqlCondition NrqlConditionStaticInput,
 ) (*NrqlConditionStaticMutationResponse, error) {
-	resp := struct {
-		NrqlCondition NrqlConditionStaticMutationResponse
-	}{}
+	resp := nrqlConditionStaticCreateResponse{}
 	vars := map[string]interface{}{
 		"accountId": accountID,
 		"policyId":  policyID,
@@ -217,7 +229,26 @@ func (a *Alerts) CreateNrqlConditionStaticMutation(
 		return nil, err
 	}
 
-	return &resp.NrqlCondition, nil
+	return &resp.AlertsNrqlConditionStaticCreate, nil
+}
+
+func (a *Alerts) UpdateNrqlConditionStaticMutation(
+	accountID int,
+	conditionID string, // GraphQL scalar type `ID` is a string in JSON
+	nrqlCondition NrqlConditionStaticInput,
+) (*NrqlConditionStaticMutationResponse, error) {
+	resp := nrqlConditionStaticUpdateResponse{}
+	vars := map[string]interface{}{
+		"accountId": accountID,
+		"id":        conditionID,
+		"condition": nrqlCondition,
+	}
+
+	if err := a.client.Query(updateNrqlConditionStaticMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.AlertsNrqlConditionStaticUpdate, nil
 }
 
 // NrqlCondition represents a New Relic NRQL Alert condition.
@@ -348,6 +379,22 @@ type nrqlConditionRequestBody struct {
 	NrqlCondition NrqlCondition `json:"nrql_condition,omitempty"`
 }
 
+type nrqlConditionBaselineCreateResponse struct {
+	AlertsNrqlConditionBaselineCreate NrqlConditionBaselineMutationResponse
+}
+
+type nrqlConditionBaselineUpdateResponse struct {
+	AlertsNrqlConditionBaselineUpdate NrqlConditionBaselineMutationResponse
+}
+
+type nrqlConditionStaticCreateResponse struct {
+	AlertsNrqlConditionStaticCreate NrqlConditionStaticMutationResponse
+}
+
+type nrqlConditionStaticUpdateResponse struct {
+	AlertsNrqlConditionStaticUpdate NrqlConditionStaticMutationResponse
+}
+
 const (
 	graphqlNrqlConditionStructFields = `
 		id
@@ -370,6 +417,7 @@ const (
 		type
 		violationTimeLimit
 	`
+	// Baseline
 	createNrqlConditionBaselineMutation = `
 		mutation($accountId: Int!, $policyId: ID!, $condition: AlertsNrqlConditionBaselineInput!) {
 			alertsNrqlConditionBaselineCreate(accountId: $accountId, policyId: $policyId, condition: $condition) {
@@ -377,9 +425,26 @@ const (
 		graphqlNrqlConditionStructFields +
 		` } }`
 
+	// Baseline
+	updateNrqlConditionBaselineMutation = `
+		mutation($accountId: Int!, $id: ID!, $condition: AlertsNrqlConditionUpdateBaselineInput!) {
+			alertsNrqlConditionBaselineUpdate(accountId: $accountId, id: $id, condition: $condition) {
+				baselineDirection` +
+		graphqlNrqlConditionStructFields +
+		` } }`
+
+	// Static
 	createNrqlConditionStaticMutation = `
 		mutation($accountId: Int!, $policyId: ID!, $condition: AlertsNrqlConditionStaticInput!) {
 			alertsNrqlConditionStaticCreate(accountId: $accountId, policyId: $policyId, condition: $condition) {
+				valueFunction` +
+		graphqlNrqlConditionStructFields +
+		` } }`
+
+	// Static
+	updateNrqlConditionStaticMutation = `
+		mutation($accountId: Int!, $id: ID!, $condition: AlertsNrqlConditionUpdateStaticInput!) {
+			alertsNrqlConditionStaticUpdate(accountId: $accountId, id: $id, condition: $condition) {
 				valueFunction` +
 		graphqlNrqlConditionStructFields +
 		` } }`
