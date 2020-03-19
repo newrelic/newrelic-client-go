@@ -175,6 +175,14 @@ type NrqlConditionStaticMutationResponse struct {
 	Type     NrqlConditionType `json:"type,omitempty"`
 }
 
+type NrqlConditionQueryResponse struct {
+	NrqlConditionBase
+
+	ID       string            `json:"id,omitempty"`
+	PolicyID string            `json:"policyId,omitempty"`
+	Type     NrqlConditionType `json:"type,omitempty"`
+}
+
 func (a *Alerts) CreateNrqlConditionBaselineMutation(
 	accountID int,
 	policyID int,
@@ -192,6 +200,23 @@ func (a *Alerts) CreateNrqlConditionBaselineMutation(
 	}
 
 	return &resp.AlertsNrqlConditionBaselineCreate, nil
+}
+
+func (a *Alerts) GetNrqlConditionQuery(
+	accountID int,
+	conditionID string,
+) (*NrqlConditionQueryResponse, error) {
+	resp := getNrqlConditionQueryResponse{}
+	vars := map[string]interface{}{
+		"accountId": accountID,
+		"id":        conditionID,
+	}
+
+	if err := a.client.Query(getNrqlConditionQuery, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.Actor.Account.Alerts.NrqlCondition, nil
 }
 
 func (a *Alerts) UpdateNrqlConditionBaselineMutation(
@@ -395,6 +420,16 @@ type nrqlConditionStaticUpdateResponse struct {
 	AlertsNrqlConditionStaticUpdate NrqlConditionStaticMutationResponse
 }
 
+type getNrqlConditionQueryResponse struct {
+	Actor struct {
+		Account struct {
+			Alerts struct {
+				NrqlCondition NrqlConditionQueryResponse
+			}
+		}
+	}
+}
+
 const (
 	graphqlNrqlConditionStructFields = `
 		id
@@ -417,6 +452,29 @@ const (
 		type
 		violationTimeLimit
 	`
+
+	graphqlFragmentNrqlBaselineCondition = `
+		... on AlertsNrqlBaselineCondition {
+			baselineDirection
+		}
+	`
+
+	graphqlFragmentNrqlStaticCondition = `
+		... on AlertsNrqlStaticCondition {
+			valueFunction
+		}
+	`
+	getNrqlConditionQuery = `
+		query ($accountId: Int!, $id: ID!) {
+			actor {
+				account(id: $accountId) {
+					alerts {
+						nrqlCondition(id: $id) {` +
+		graphqlNrqlConditionStructFields +
+		graphqlFragmentNrqlBaselineCondition +
+		graphqlFragmentNrqlStaticCondition +
+		`} } } } }`
+
 	// Baseline
 	createNrqlConditionBaselineMutation = `
 		mutation($accountId: Int!, $policyId: ID!, $condition: AlertsNrqlConditionBaselineInput!) {
