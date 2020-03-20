@@ -143,7 +143,7 @@ func TestIntegrationNrqlConditions_Baseline(t *testing.T) {
 	require.NoError(t, err)
 
 	// Test: Create (baseline condition)
-	created, err := client.CreateNrqlConditionBaselineMutation(nr.TEST_ACCOUNT_ID, policy.ID, createBaselineInput)
+	created, err := client.CreateNrqlConditionBaselineMutation(nr.TestAccountID, policy.ID, createBaselineInput)
 	require.NoError(t, err)
 	require.NotNil(t, created)
 	require.NotNil(t, created.ID)
@@ -151,7 +151,7 @@ func TestIntegrationNrqlConditions_Baseline(t *testing.T) {
 	require.Equal(t, NrqlConditionType("BASELINE"), created.Type)
 
 	// Test: Get (baseline condition)
-	readResult, err := client.GetNrqlConditionQuery(nr.TEST_ACCOUNT_ID, created.ID)
+	readResult, err := client.GetNrqlConditionQuery(nr.TestAccountID, created.ID)
 	require.NoError(t, err)
 	require.NotNil(t, readResult)
 	require.Equal(t, NrqlConditionType("BASELINE"), readResult.Type)
@@ -161,7 +161,7 @@ func TestIntegrationNrqlConditions_Baseline(t *testing.T) {
 	// There is currently a timing issue with this test.
 	// TODO: Once the upstream is fixed, test the updated fields to ensure the this worked
 	updateBaselineInput.Description = "test description updated"
-	_, err = client.UpdateNrqlConditionBaselineMutation(nr.TEST_ACCOUNT_ID, created.ID, updateBaselineInput)
+	_, err = client.UpdateNrqlConditionBaselineMutation(nr.TestAccountID, created.ID, updateBaselineInput)
 	require.NoError(t, err)
 
 	// Deferred teardown
@@ -198,7 +198,7 @@ func TestIntegrationNrqlConditions_Static(t *testing.T) {
 	require.NoError(t, err)
 
 	// Test: Create (static condition)
-	createdStatic, err := client.CreateNrqlConditionStaticMutation(nr.TEST_ACCOUNT_ID, policy.ID, createStaticInput)
+	createdStatic, err := client.CreateNrqlConditionStaticMutation(nr.TestAccountID, policy.ID, createStaticInput)
 	require.NoError(t, err)
 	require.NotNil(t, createdStatic)
 	require.NotNil(t, createdStatic.ID)
@@ -206,7 +206,7 @@ func TestIntegrationNrqlConditions_Static(t *testing.T) {
 	require.Equal(t, NrqlConditionType("STATIC"), createdStatic.Type)
 
 	// Test: Get (static condition)
-	readResult, err := client.GetNrqlConditionQuery(nr.TEST_ACCOUNT_ID, createdStatic.ID)
+	readResult, err := client.GetNrqlConditionQuery(nr.TestAccountID, createdStatic.ID)
 	require.NoError(t, err)
 	require.NotNil(t, readResult)
 	require.Equal(t, NrqlConditionType("STATIC"), readResult.Type)
@@ -216,7 +216,7 @@ func TestIntegrationNrqlConditions_Static(t *testing.T) {
 	// There is currently a timing issue with this test.
 	// TODO: Once the upstream is fixed, test the updated fields to ensure the this worked
 	updateStaticInput.Description = "test description updated"
-	_, err = client.UpdateNrqlConditionStaticMutation(nr.TEST_ACCOUNT_ID, readResult.ID, updateStaticInput)
+	_, err = client.UpdateNrqlConditionStaticMutation(nr.TestAccountID, readResult.ID, updateStaticInput)
 	require.NoError(t, err)
 
 	// Deferred teardown
@@ -254,22 +254,22 @@ func TestIntegrationNrqlConditions_ErrorScenarios(t *testing.T) {
 	require.NoError(t, err)
 
 	// Test: Create Invalid (should result in an error)
-	createdBaseline, err := client.CreateNrqlConditionBaselineMutation(nr.TEST_ACCOUNT_ID, policy.ID, testInvalidMutationInput)
+	createdBaseline, err := client.CreateNrqlConditionBaselineMutation(nr.TestAccountID, policy.ID, testInvalidMutationInput)
 	require.Error(t, err)
 	require.Nil(t, createdBaseline)
 
 	// Test: Update Invalid (should result in an error)
-	updatedBaseline, err := client.UpdateNrqlConditionBaselineMutation(nr.TEST_ACCOUNT_ID, "8675309", testInvalidMutationInput)
+	updatedBaseline, err := client.UpdateNrqlConditionBaselineMutation(nr.TestAccountID, "8675309", testInvalidMutationInput)
 	require.Error(t, err)
 	require.Nil(t, updatedBaseline)
 
 	// Test: Create Invalid (should result in an error)
-	createdStatic, err := client.CreateNrqlConditionStaticMutation(nr.TEST_ACCOUNT_ID, policy.ID, testInvalidMutationInput)
+	createdStatic, err := client.CreateNrqlConditionStaticMutation(nr.TestAccountID, policy.ID, testInvalidMutationInput)
 	require.Error(t, err)
 	require.Nil(t, createdStatic)
 
 	// Test: Update Invalid (should result in an error)
-	updatedStatic, err := client.UpdateNrqlConditionStaticMutation(nr.TEST_ACCOUNT_ID, "8675309", testInvalidMutationInput)
+	updatedStatic, err := client.UpdateNrqlConditionStaticMutation(nr.TestAccountID, "8675309", testInvalidMutationInput)
 	require.Error(t, err)
 	require.Nil(t, updatedStatic)
 
@@ -326,12 +326,12 @@ func TestIntegrationNrqlConditions_Search(t *testing.T) {
 	policy, err := client.CreatePolicy(setupPolicy)
 	require.NoError(t, err)
 
-	condition, err := client.CreateNrqlConditionBaselineMutation(nr.TEST_ACCOUNT_ID, policy.ID, testConditionInput)
+	condition, err := client.CreateNrqlConditionBaselineMutation(nr.TestAccountID, policy.ID, testConditionInput)
 	require.NoError(t, err)
 	require.NotNil(t, condition)
 
 	// Test: Search
-	searchResults, err := client.SearchNrqlConditionsQuery(nr.TEST_ACCOUNT_ID, searchCriteria)
+	searchResults, err := client.SearchNrqlConditionsQuery(nr.TestAccountID, searchCriteria)
 	require.NoError(t, err)
 	require.Greater(t, len(searchResults), 0)
 
