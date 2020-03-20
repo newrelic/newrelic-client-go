@@ -183,6 +183,56 @@ type NrqlConditionQueryResponse struct {
 	Type     NrqlConditionType `json:"type,omitempty"`
 }
 
+type NrqlConditionsSearchCriteria struct {
+	Name      string `json:"name,omitempty"`
+	NameLike  string `json:"nameLike,omitempty"`
+	PolicyID  string `json:"policyId,omitempty"`
+	Query     string `json:"query,omitempty"`
+	QueryLike string `json:"queryLike,omitempty"`
+}
+
+// NrqlAlertCondition represents a NerdGraph NRQL alert condition, which is type AlertsNrqlCondition in NerdGraph.
+// NrqlAlertCondition could be a baseline condition OR a static condition.
+type NrqlAlertCondition struct {
+	NrqlConditionBase
+
+	ID       string            `json:"id,omitempty"`
+	PolicyID string            `json:"policyId,omitempty"`
+	Type     NrqlConditionType `json:"type,omitempty"`
+
+	// BaselineDirection exists ONLY for NRQL conditions of type BASELINE.
+	BaselineDirection *NrqlBaselineDirection `json:"baselineDirection,omitempty"`
+
+	// ValueFunction is returned ONLY for NRQL conditions of type STATIC.
+	ValueFunction *NrqlConditionValueFunction `json:"value_function,omitempty"`
+}
+
+func (a *Alerts) SearchNrqlConditionsQuery(
+	accountID int,
+	searchCriteria NrqlConditionsSearchCriteria,
+) ([]*NrqlAlertCondition, error) {
+	conditions := []*NrqlAlertCondition{}
+	var nextCursor *string
+
+	for ok := true; ok; ok = nextCursor != nil {
+		resp := searchNrqlConditionsResponse{}
+		vars := map[string]interface{}{
+			"accountId":      accountID,
+			"searchCriteria": searchCriteria,
+			"cursor":         nextCursor,
+		}
+
+		if err := a.client.Query(searchNrqlConditionsQuery, vars, &resp); err != nil {
+			return nil, err
+		}
+
+		conditions = append(conditions, resp.Actor.Account.Alerts.NrqlConditionsSearch.NrqlConditions...)
+		nextCursor = resp.Actor.Account.Alerts.NrqlConditionsSearch.NextCursor
+	}
+
+	return conditions, nil
+}
+
 func (a *Alerts) CreateNrqlConditionBaselineMutation(
 	accountID int,
 	policyID int,
@@ -420,6 +470,19 @@ type nrqlConditionStaticUpdateResponse struct {
 	AlertsNrqlConditionStaticUpdate NrqlConditionStaticMutationResponse
 }
 
+type searchNrqlConditionsResponse struct {
+	Actor struct {
+		Account struct {
+			Alerts struct {
+				NrqlConditionsSearch struct {
+					NextCursor     *string
+					NrqlConditions []*NrqlAlertCondition `json:"nrqlConditions"`
+				}
+			}
+		}
+	}
+}
+
 type getNrqlConditionQueryResponse struct {
 	Actor struct {
 		Account struct {
@@ -453,17 +516,31 @@ const (
 		violationTimeLimit
 	`
 
-	graphqlFragmentNrqlBaselineCondition = `
+	graphqlFragmentNrqlBaselineConditionFields = `
 		... on AlertsNrqlBaselineCondition {
 			baselineDirection
 		}
 	`
 
-	graphqlFragmentNrqlStaticCondition = `
+	graphqlFragmentNrqlStaticConditionFields = `
 		... on AlertsNrqlStaticCondition {
 			valueFunction
 		}
 	`
+	searchNrqlConditionsQuery = `
+		query($accountId: Int!, $searchCriteria: AlertsNrqlConditionsSearchCriteriaInput, $cursor: String) {
+			actor {
+				account(id: $accountId) {
+					alerts {
+						nrqlConditionsSearch(searchCriteria: $searchCriteria, cursor: $cursor) {
+							nextCursor
+							totalCount
+							nrqlConditions {` +
+		graphqlNrqlConditionStructFields +
+		graphqlFragmentNrqlBaselineConditionFields +
+		graphqlFragmentNrqlStaticConditionFields +
+		`} } } } } }`
+
 	getNrqlConditionQuery = `
 		query ($accountId: Int!, $id: ID!) {
 			actor {
@@ -471,8 +548,8 @@ const (
 					alerts {
 						nrqlCondition(id: $id) {` +
 		graphqlNrqlConditionStructFields +
-		graphqlFragmentNrqlBaselineCondition +
-		graphqlFragmentNrqlStaticCondition +
+		graphqlFragmentNrqlBaselineConditionFields +
+		graphqlFragmentNrqlStaticConditionFields +
 		`} } } } }`
 
 	// Baseline
