@@ -142,21 +142,6 @@ type NrqlConditionBase struct {
 	ViolationTimeLimit NrqlConditionViolationTimeLimit `json:"violationTimeLimit,omitempty"`
 }
 
-// NrqlConditionBaselineInput represents the input options for creating a Baseline Nrql Condition.
-type NrqlConditionBaselineInput struct {
-	NrqlConditionBase
-
-	BaselineDirection NrqlBaselineDirection       `json:"baselineDirection,omitempty"`
-	ValueFunction     *NrqlConditionValueFunction `json:"value_function,omitempty"`
-}
-
-// NrqlConditionStaticInput represents the input options for creating a Static Nrql Condition.
-type NrqlConditionStaticInput struct {
-	NrqlConditionBase
-
-	ValueFunction NrqlConditionValueFunction `json:"value_function,omitempty"`
-}
-
 // NrqlConditionInput represents the input options for creating or updating a Nrql Condition.
 type NrqlConditionInput struct {
 	NrqlConditionBase
@@ -190,125 +175,6 @@ type NrqlAlertCondition struct {
 
 	// ValueFunction is returned ONLY for NRQL conditions of type STATIC.
 	ValueFunction *NrqlConditionValueFunction `json:"value_function,omitempty"`
-}
-
-func (a *Alerts) SearchNrqlConditionsQuery(
-	accountID int,
-	searchCriteria NrqlConditionsSearchCriteria,
-) ([]*NrqlAlertCondition, error) {
-	conditions := []*NrqlAlertCondition{}
-	var nextCursor *string
-
-	for ok := true; ok; ok = nextCursor != nil {
-		resp := searchNrqlConditionsResponse{}
-		vars := map[string]interface{}{
-			"accountId":      accountID,
-			"searchCriteria": searchCriteria,
-			"cursor":         nextCursor,
-		}
-
-		if err := a.client.Query(searchNrqlConditionsQuery, vars, &resp); err != nil {
-			return nil, err
-		}
-
-		conditions = append(conditions, resp.Actor.Account.Alerts.NrqlConditionsSearch.NrqlConditions...)
-		nextCursor = resp.Actor.Account.Alerts.NrqlConditionsSearch.NextCursor
-	}
-
-	return conditions, nil
-}
-
-func (a *Alerts) CreateNrqlConditionBaselineMutation(
-	accountID int,
-	policyID int,
-	nrqlCondition NrqlConditionInput,
-) (*NrqlAlertCondition, error) {
-	resp := nrqlConditionBaselineCreateResponse{}
-	vars := map[string]interface{}{
-		"accountId": accountID,
-		"policyId":  policyID,
-		"condition": nrqlCondition,
-	}
-
-	if err := a.client.Query(createNrqlConditionBaselineMutation, vars, &resp); err != nil {
-		return nil, err
-	}
-
-	return &resp.AlertsNrqlConditionBaselineCreate, nil
-}
-
-func (a *Alerts) GetNrqlConditionQuery(
-	accountID int,
-	conditionID string,
-) (*NrqlAlertCondition, error) {
-	resp := getNrqlConditionQueryResponse{}
-	vars := map[string]interface{}{
-		"accountId": accountID,
-		"id":        conditionID,
-	}
-
-	if err := a.client.Query(getNrqlConditionQuery, vars, &resp); err != nil {
-		return nil, err
-	}
-
-	return &resp.Actor.Account.Alerts.NrqlCondition, nil
-}
-
-func (a *Alerts) UpdateNrqlConditionBaselineMutation(
-	accountID int,
-	conditionID string, // GraphQL scalar type `ID` is a string in JSON
-	nrqlCondition NrqlConditionInput,
-) (*NrqlAlertCondition, error) {
-	resp := nrqlConditionBaselineUpdateResponse{}
-	vars := map[string]interface{}{
-		"accountId": accountID,
-		"id":        conditionID,
-		"condition": nrqlCondition,
-	}
-
-	if err := a.client.Query(updateNrqlConditionBaselineMutation, vars, &resp); err != nil {
-		return nil, err
-	}
-
-	return &resp.AlertsNrqlConditionBaselineUpdate, nil
-}
-
-func (a *Alerts) CreateNrqlConditionStaticMutation(
-	accountID int,
-	policyID int,
-	nrqlCondition NrqlConditionInput,
-) (*NrqlAlertCondition, error) {
-	resp := nrqlConditionStaticCreateResponse{}
-	vars := map[string]interface{}{
-		"accountId": accountID,
-		"policyId":  policyID,
-		"condition": nrqlCondition,
-	}
-
-	if err := a.client.Query(createNrqlConditionStaticMutation, vars, &resp); err != nil {
-		return nil, err
-	}
-
-	return &resp.AlertsNrqlConditionStaticCreate, nil
-}
-
-func (a *Alerts) UpdateNrqlConditionStaticMutation(
-	accountID int,
-	conditionID string, // GraphQL scalar type `ID` is a string in JSON
-	nrqlCondition NrqlConditionInput,
-) (*NrqlAlertCondition, error) {
-	resp := nrqlConditionStaticUpdateResponse{}
-	vars := map[string]interface{}{
-		"accountId": accountID,
-		"id":        conditionID,
-		"condition": nrqlCondition,
-	}
-
-	if err := a.client.Query(updateNrqlConditionStaticMutation, vars, &resp); err != nil {
-		return nil, err
-	}
-
-	return &resp.AlertsNrqlConditionStaticUpdate, nil
 }
 
 // NrqlCondition represents a New Relic NRQL Alert condition.
@@ -421,6 +287,125 @@ func (a *Alerts) DeleteNrqlCondition(id int) (*NrqlCondition, error) {
 	}
 
 	return &resp.NrqlCondition, nil
+}
+
+func (a *Alerts) GetNrqlConditionQuery(
+	accountID int,
+	conditionID string,
+) (*NrqlAlertCondition, error) {
+	resp := getNrqlConditionQueryResponse{}
+	vars := map[string]interface{}{
+		"accountId": accountID,
+		"id":        conditionID,
+	}
+
+	if err := a.client.Query(getNrqlConditionQuery, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.Actor.Account.Alerts.NrqlCondition, nil
+}
+
+func (a *Alerts) SearchNrqlConditionsQuery(
+	accountID int,
+	searchCriteria NrqlConditionsSearchCriteria,
+) ([]*NrqlAlertCondition, error) {
+	conditions := []*NrqlAlertCondition{}
+	var nextCursor *string
+
+	for ok := true; ok; ok = nextCursor != nil {
+		resp := searchNrqlConditionsResponse{}
+		vars := map[string]interface{}{
+			"accountId":      accountID,
+			"searchCriteria": searchCriteria,
+			"cursor":         nextCursor,
+		}
+
+		if err := a.client.Query(searchNrqlConditionsQuery, vars, &resp); err != nil {
+			return nil, err
+		}
+
+		conditions = append(conditions, resp.Actor.Account.Alerts.NrqlConditionsSearch.NrqlConditions...)
+		nextCursor = resp.Actor.Account.Alerts.NrqlConditionsSearch.NextCursor
+	}
+
+	return conditions, nil
+}
+
+func (a *Alerts) CreateNrqlConditionBaselineMutation(
+	accountID int,
+	policyID int,
+	nrqlCondition NrqlConditionInput,
+) (*NrqlAlertCondition, error) {
+	resp := nrqlConditionBaselineCreateResponse{}
+	vars := map[string]interface{}{
+		"accountId": accountID,
+		"policyId":  policyID,
+		"condition": nrqlCondition,
+	}
+
+	if err := a.client.Query(createNrqlConditionBaselineMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.AlertsNrqlConditionBaselineCreate, nil
+}
+
+func (a *Alerts) UpdateNrqlConditionBaselineMutation(
+	accountID int,
+	conditionID string, // GraphQL scalar type `ID` is a string in JSON
+	nrqlCondition NrqlConditionInput,
+) (*NrqlAlertCondition, error) {
+	resp := nrqlConditionBaselineUpdateResponse{}
+	vars := map[string]interface{}{
+		"accountId": accountID,
+		"id":        conditionID,
+		"condition": nrqlCondition,
+	}
+
+	if err := a.client.Query(updateNrqlConditionBaselineMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.AlertsNrqlConditionBaselineUpdate, nil
+}
+
+func (a *Alerts) CreateNrqlConditionStaticMutation(
+	accountID int,
+	policyID int,
+	nrqlCondition NrqlConditionInput,
+) (*NrqlAlertCondition, error) {
+	resp := nrqlConditionStaticCreateResponse{}
+	vars := map[string]interface{}{
+		"accountId": accountID,
+		"policyId":  policyID,
+		"condition": nrqlCondition,
+	}
+
+	if err := a.client.Query(createNrqlConditionStaticMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.AlertsNrqlConditionStaticCreate, nil
+}
+
+func (a *Alerts) UpdateNrqlConditionStaticMutation(
+	accountID int,
+	conditionID string, // GraphQL scalar type `ID` is a string in JSON
+	nrqlCondition NrqlConditionInput,
+) (*NrqlAlertCondition, error) {
+	resp := nrqlConditionStaticUpdateResponse{}
+	vars := map[string]interface{}{
+		"accountId": accountID,
+		"id":        conditionID,
+		"condition": nrqlCondition,
+	}
+
+	if err := a.client.Query(updateNrqlConditionStaticMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.AlertsNrqlConditionStaticUpdate, nil
 }
 
 type listNrqlConditionsParams struct {
