@@ -2,6 +2,16 @@
 ## [Unreleased]
 
 
+<a name="v0.18.0"></a>
+## [v0.18.0] - 2020-03-20
+### Bug Fixes
+- **workloads:** fix some bugs in the workloads implementation
+- **workloads:** export the workloads API via the newrelic package
+
+### Features
+- **alerts:** implement muting rules
+
+
 <a name="v0.17.1"></a>
 ## [v0.17.1] - 2020-03-18
 ### Bug Fixes
@@ -391,7 +401,8 @@
 - rename packages for clarity, promote Config to the public package
 
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.17.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.18.0...HEAD
+[v0.18.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.17.1...v0.18.0
 [v0.17.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.17.0...v0.17.1
 [v0.17.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.16.0...v0.17.0
 [v0.16.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.15.0...v0.16.0
