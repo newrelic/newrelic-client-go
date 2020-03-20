@@ -425,19 +425,19 @@ type nrqlConditionRequestBody struct {
 }
 
 type nrqlConditionBaselineCreateResponse struct {
-	AlertsNrqlConditionBaselineCreate NrqlAlertCondition
+	AlertsNrqlConditionBaselineCreate NrqlAlertCondition `json:"alertsNrqlConditionBaselineCreate"`
 }
 
 type nrqlConditionBaselineUpdateResponse struct {
-	AlertsNrqlConditionBaselineUpdate NrqlAlertCondition
+	AlertsNrqlConditionBaselineUpdate NrqlAlertCondition `json:"alertsNrqlConditionBaselineUpdate"`
 }
 
 type nrqlConditionStaticCreateResponse struct {
-	AlertsNrqlConditionStaticCreate NrqlAlertCondition
+	AlertsNrqlConditionStaticCreate NrqlAlertCondition `json:"alertsNrqlConditionStaticCreate"`
 }
 
 type nrqlConditionStaticUpdateResponse struct {
-	AlertsNrqlConditionStaticUpdate NrqlAlertCondition
+	AlertsNrqlConditionStaticUpdate NrqlAlertCondition `json:"alertsNrqlConditionStaticUpdate"`
 }
 
 type searchNrqlConditionsResponse struct {
@@ -447,20 +447,20 @@ type searchNrqlConditionsResponse struct {
 				NrqlConditionsSearch struct {
 					NextCursor     *string
 					NrqlConditions []*NrqlAlertCondition `json:"nrqlConditions"`
-				}
-			}
-		}
-	}
+				} `json:"nrqlConditionsSearch"`
+			} `json:"alerts"`
+		} `json:"account"`
+	} `json:"actor"`
 }
 
 type getNrqlConditionQueryResponse struct {
 	Actor struct {
 		Account struct {
 			Alerts struct {
-				NrqlCondition NrqlAlertCondition
-			}
-		}
-	}
+				NrqlCondition NrqlAlertCondition `json:"nrqlCondition"`
+			} `json:"alerts"`
+		} `json:"account"`
+	} `json:"actor"`
 }
 
 const (
