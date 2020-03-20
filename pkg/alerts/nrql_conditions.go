@@ -146,7 +146,8 @@ type NrqlConditionBase struct {
 type NrqlConditionBaselineInput struct {
 	NrqlConditionBase
 
-	BaselineDirection NrqlBaselineDirection `json:"baselineDirection,omitempty"`
+	BaselineDirection NrqlBaselineDirection       `json:"baselineDirection,omitempty"`
+	ValueFunction     *NrqlConditionValueFunction `json:"value_function,omitempty"`
 }
 
 // NrqlConditionStaticInput represents the input options for creating a Static Nrql Condition.
@@ -156,31 +157,15 @@ type NrqlConditionStaticInput struct {
 	ValueFunction NrqlConditionValueFunction `json:"value_function,omitempty"`
 }
 
-// NrqlConditionBaselineMutationResponse represents the NerdGraph API response for a New Relic NRQL Alert condition.
-type NrqlConditionBaselineMutationResponse struct {
+// NrqlConditionInput represents the input options for creating or updating a Nrql Condition.
+type NrqlConditionInput struct {
 	NrqlConditionBase
 
-	ID                string                `json:"id,omitempty"`
-	PolicyID          string                `json:"policyId,omitempty"`
-	Type              NrqlConditionType     `json:"type,omitempty"`
-	BaselineDirection NrqlBaselineDirection `json:"baselineDirection,omitempty"`
-}
+	// BaselineDirection exists ONLY for NRQL conditions of type BASELINE.
+	BaselineDirection *NrqlBaselineDirection `json:"baselineDirection,omitempty"`
 
-// NrqlConditionStaticMutationResponse represents the NerdGraph API response for a New Relic NRQL Alert condition.
-type NrqlConditionStaticMutationResponse struct {
-	NrqlConditionBase
-
-	ID       string            `json:"id,omitempty"`
-	PolicyID string            `json:"name,omitempty"`
-	Type     NrqlConditionType `json:"type,omitempty"`
-}
-
-type NrqlConditionQueryResponse struct {
-	NrqlConditionBase
-
-	ID       string            `json:"id,omitempty"`
-	PolicyID string            `json:"policyId,omitempty"`
-	Type     NrqlConditionType `json:"type,omitempty"`
+	// ValueFunction is returned ONLY for NRQL conditions of type STATIC.
+	ValueFunction *NrqlConditionValueFunction `json:"value_function,omitempty"`
 }
 
 type NrqlConditionsSearchCriteria struct {
@@ -236,8 +221,8 @@ func (a *Alerts) SearchNrqlConditionsQuery(
 func (a *Alerts) CreateNrqlConditionBaselineMutation(
 	accountID int,
 	policyID int,
-	nrqlCondition NrqlConditionBaselineInput,
-) (*NrqlConditionBaselineMutationResponse, error) {
+	nrqlCondition NrqlConditionInput,
+) (*NrqlAlertCondition, error) {
 	resp := nrqlConditionBaselineCreateResponse{}
 	vars := map[string]interface{}{
 		"accountId": accountID,
@@ -255,7 +240,7 @@ func (a *Alerts) CreateNrqlConditionBaselineMutation(
 func (a *Alerts) GetNrqlConditionQuery(
 	accountID int,
 	conditionID string,
-) (*NrqlConditionQueryResponse, error) {
+) (*NrqlAlertCondition, error) {
 	resp := getNrqlConditionQueryResponse{}
 	vars := map[string]interface{}{
 		"accountId": accountID,
@@ -272,8 +257,8 @@ func (a *Alerts) GetNrqlConditionQuery(
 func (a *Alerts) UpdateNrqlConditionBaselineMutation(
 	accountID int,
 	conditionID string, // GraphQL scalar type `ID` is a string in JSON
-	nrqlCondition NrqlConditionBaselineInput,
-) (*NrqlConditionBaselineMutationResponse, error) {
+	nrqlCondition NrqlConditionInput,
+) (*NrqlAlertCondition, error) {
 	resp := nrqlConditionBaselineUpdateResponse{}
 	vars := map[string]interface{}{
 		"accountId": accountID,
@@ -291,8 +276,8 @@ func (a *Alerts) UpdateNrqlConditionBaselineMutation(
 func (a *Alerts) CreateNrqlConditionStaticMutation(
 	accountID int,
 	policyID int,
-	nrqlCondition NrqlConditionStaticInput,
-) (*NrqlConditionStaticMutationResponse, error) {
+	nrqlCondition NrqlConditionInput,
+) (*NrqlAlertCondition, error) {
 	resp := nrqlConditionStaticCreateResponse{}
 	vars := map[string]interface{}{
 		"accountId": accountID,
@@ -310,8 +295,8 @@ func (a *Alerts) CreateNrqlConditionStaticMutation(
 func (a *Alerts) UpdateNrqlConditionStaticMutation(
 	accountID int,
 	conditionID string, // GraphQL scalar type `ID` is a string in JSON
-	nrqlCondition NrqlConditionStaticInput,
-) (*NrqlConditionStaticMutationResponse, error) {
+	nrqlCondition NrqlConditionInput,
+) (*NrqlAlertCondition, error) {
 	resp := nrqlConditionStaticUpdateResponse{}
 	vars := map[string]interface{}{
 		"accountId": accountID,
@@ -455,19 +440,19 @@ type nrqlConditionRequestBody struct {
 }
 
 type nrqlConditionBaselineCreateResponse struct {
-	AlertsNrqlConditionBaselineCreate NrqlConditionBaselineMutationResponse
+	AlertsNrqlConditionBaselineCreate NrqlAlertCondition
 }
 
 type nrqlConditionBaselineUpdateResponse struct {
-	AlertsNrqlConditionBaselineUpdate NrqlConditionBaselineMutationResponse
+	AlertsNrqlConditionBaselineUpdate NrqlAlertCondition
 }
 
 type nrqlConditionStaticCreateResponse struct {
-	AlertsNrqlConditionStaticCreate NrqlConditionStaticMutationResponse
+	AlertsNrqlConditionStaticCreate NrqlAlertCondition
 }
 
 type nrqlConditionStaticUpdateResponse struct {
-	AlertsNrqlConditionStaticUpdate NrqlConditionStaticMutationResponse
+	AlertsNrqlConditionStaticUpdate NrqlAlertCondition
 }
 
 type searchNrqlConditionsResponse struct {
@@ -487,7 +472,7 @@ type getNrqlConditionQueryResponse struct {
 	Actor struct {
 		Account struct {
 			Alerts struct {
-				NrqlCondition NrqlConditionQueryResponse
+				NrqlCondition NrqlAlertCondition
 			}
 		}
 	}
