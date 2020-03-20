@@ -11,6 +11,30 @@ import (
 	nr "github.com/newrelic/newrelic-client-go/internal/testing"
 )
 
+var (
+	testNrqlConditionRandomString = nr.RandSeq(5)
+	nrqlConditionBase             = NrqlConditionBase{
+		Description: "test description",
+		Enabled:     true,
+		Name:        fmt.Sprintf("test-nrql-condition-%s", testNrqlConditionRandomString),
+		Nrql: NrqlConditionQuery{
+			Query:            "SELECT uniqueCount(host) from Transaction where appName='Dummy App'",
+			EvaluationOffset: 3,
+		},
+		RunbookURL: "test.com",
+		Terms: []NrqlConditionTerms{
+			{
+				Threshold:            1,
+				ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
+				ThresholdDuration:    600,
+				Operator:             NrqlConditionOperators.Above,
+				Priority:             NrqlConditionPriorities.Critical,
+			},
+		},
+		ViolationTimeLimit: NrqlConditionViolationTimeLimits.OneHour,
+	}
+)
+
 func TestIntegrationNrqlConditions(t *testing.T) {
 	t.Parallel()
 
@@ -98,35 +122,13 @@ func TestIntegrationNrqlConditions_Baseline(t *testing.T) {
 	t.Parallel()
 
 	var (
-		randStr       = nr.RandSeq(5)
-		conditionBase = NrqlConditionBase{
-			Description: "test description",
-			Enabled:     true,
-			Name:        fmt.Sprintf("test-nrql-condition-%s", randStr),
-			Nrql: NrqlConditionQuery{
-				Query:            "SELECT uniqueCount(host) from Transaction where appName='Dummy App'",
-				EvaluationOffset: 3,
-			},
-			RunbookURL: "test.com",
-			Terms: []NrqlConditionTerms{
-				{
-					Threshold:            1,
-					ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
-					ThresholdDuration:    600,
-					Operator:             NrqlConditionOperators.Above,
-					Priority:             NrqlConditionPriorities.Critical,
-				},
-			},
-			ViolationTimeLimit: NrqlConditionViolationTimeLimits.OneHour,
-		}
-
+		randStr             = nr.RandSeq(5)
 		createBaselineInput = NrqlConditionInput{
-			NrqlConditionBase: conditionBase,
+			NrqlConditionBase: nrqlConditionBase,
 			BaselineDirection: &NrqlBaselineDirections.LowerOnly,
 		}
-
 		updateBaselineInput = NrqlConditionInput{
-			NrqlConditionBase: conditionBase,
+			NrqlConditionBase: nrqlConditionBase,
 			BaselineDirection: &NrqlBaselineDirections.LowerOnly,
 		}
 	)
@@ -175,35 +177,13 @@ func TestIntegrationNrqlConditions_Static(t *testing.T) {
 	t.Parallel()
 
 	var (
-		randStr       = nr.RandSeq(5)
-		conditionBase = NrqlConditionBase{
-			Description: "test description",
-			Enabled:     true,
-			Name:        fmt.Sprintf("test-nrql-condition-%s", randStr),
-			Nrql: NrqlConditionQuery{
-				Query:            "SELECT uniqueCount(host) from Transaction where appName='Dummy App'",
-				EvaluationOffset: 3,
-			},
-			RunbookURL: "test.com",
-			Terms: []NrqlConditionTerms{
-				{
-					Threshold:            1,
-					ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
-					ThresholdDuration:    600,
-					Operator:             NrqlConditionOperators.Above,
-					Priority:             NrqlConditionPriorities.Critical,
-				},
-			},
-			ViolationTimeLimit: NrqlConditionViolationTimeLimits.OneHour,
-		}
-
+		randStr           = nr.RandSeq(5)
 		createStaticInput = NrqlConditionInput{
-			NrqlConditionBase: conditionBase,
+			NrqlConditionBase: nrqlConditionBase,
 			ValueFunction:     &NrqlConditionValueFunctions.SingleValue,
 		}
-
 		updateStaticInput = NrqlConditionInput{
-			NrqlConditionBase: conditionBase,
+			NrqlConditionBase: nrqlConditionBase,
 			ValueFunction:     &NrqlConditionValueFunctions.Sum,
 		}
 	)
@@ -256,26 +236,7 @@ func TestIntegrationNrqlConditions_ErrorScenarios(t *testing.T) {
 
 		// Invalid NrqlConditionInput (Baseline and ValueFunction cannot exist together)
 		testInvalidMutationInput = NrqlConditionInput{
-			NrqlConditionBase: NrqlConditionBase{
-				Description: "test description",
-				Enabled:     true,
-				Name:        fmt.Sprintf("test-nrql-condition-%s", randStr),
-				Nrql: NrqlConditionQuery{
-					Query:            "SELECT uniqueCount(host) from Transaction where appName='Dummy App'",
-					EvaluationOffset: 3,
-				},
-				RunbookURL: "test.com",
-				Terms: []NrqlConditionTerms{
-					{
-						Threshold:            1,
-						ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
-						ThresholdDuration:    600,
-						Operator:             NrqlConditionOperators.Above,
-						Priority:             NrqlConditionPriorities.Critical,
-					},
-				},
-				ViolationTimeLimit: NrqlConditionViolationTimeLimits.OneHour,
-			},
+			NrqlConditionBase: nrqlConditionBase,
 
 			// Having both of the following fields should result in an error returned from the API
 			BaselineDirection: &NrqlBaselineDirections.LowerOnly,
