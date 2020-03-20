@@ -289,6 +289,7 @@ func (a *Alerts) DeleteNrqlCondition(id int) (*NrqlCondition, error) {
 	return &resp.NrqlCondition, nil
 }
 
+// GetNrqlConditionQuery fetches a NRQL alert condition via New Relic's NerdGraph API.
 func (a *Alerts) GetNrqlConditionQuery(
 	accountID int,
 	conditionID string,
@@ -306,6 +307,7 @@ func (a *Alerts) GetNrqlConditionQuery(
 	return &resp.Actor.Account.Alerts.NrqlCondition, nil
 }
 
+// SearchNrqlConditionsQuery fetches multiple NRQL alert conditions based on the provided search criteria via New Relic's NerdGraph API.
 func (a *Alerts) SearchNrqlConditionsQuery(
 	accountID int,
 	searchCriteria NrqlConditionsSearchCriteria,
@@ -332,6 +334,7 @@ func (a *Alerts) SearchNrqlConditionsQuery(
 	return conditions, nil
 }
 
+// CreateNrqlConditionBaselineMutation creates a baseline NRQL alert condition via New Relic's NerdGraph API.
 func (a *Alerts) CreateNrqlConditionBaselineMutation(
 	accountID int,
 	policyID int,
@@ -351,6 +354,7 @@ func (a *Alerts) CreateNrqlConditionBaselineMutation(
 	return &resp.AlertsNrqlConditionBaselineCreate, nil
 }
 
+// UpdateNrqlConditionBaselineMutation updates a baseline NRQL alert condition via New Relic's NerdGraph API.
 func (a *Alerts) UpdateNrqlConditionBaselineMutation(
 	accountID int,
 	conditionID string, // GraphQL scalar type `ID` is a string in JSON
@@ -370,6 +374,7 @@ func (a *Alerts) UpdateNrqlConditionBaselineMutation(
 	return &resp.AlertsNrqlConditionBaselineUpdate, nil
 }
 
+// CreateNrqlConditionStaticMutation creates a static NRQL alert condition via New Relic's NerdGraph API.
 func (a *Alerts) CreateNrqlConditionStaticMutation(
 	accountID int,
 	policyID int,
@@ -389,6 +394,7 @@ func (a *Alerts) CreateNrqlConditionStaticMutation(
 	return &resp.AlertsNrqlConditionStaticCreate, nil
 }
 
+// UpdateNrqlConditionStaticMutation updates a static NRQL alert condition via New Relic's NerdGraph API.
 func (a *Alerts) UpdateNrqlConditionStaticMutation(
 	accountID int,
 	conditionID string, // GraphQL scalar type `ID` is a string in JSON
