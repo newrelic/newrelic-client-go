@@ -92,4 +92,12 @@ func Example_basic() {
 	}
 
 	fmt.Printf("Synthetics monitors: %v+\n", monitors)
+
+	// Interact with the New Relic One Workloads product.
+	workloads, err := client.Workloads.ListWorkloads(12345678)
+	if err != nil {
+		log.Fatal("error listing workloads:", err)
+	}
+
+	fmt.Printf("Synthetics monitors: %v+\n", workloads)
 }
