@@ -9,8 +9,8 @@ import (
 // Workload represents a New Relic One workload.
 type Workload struct {
 	Account             nerdgraph.AccountReference `json:"account,omitempty"`
-	CreatedAt           serialization.EpochTime    `json:"created_at,omitempty"`
-	CreatedBy           UserReference              `json:"created_by,omitempty"`
+	CreatedAt           serialization.EpochTime    `json:"createdAt,omitempty"`
+	CreatedBy           UserReference              `json:"createdBy,omitempty"`
 	Entities            []EntityRef                `json:"entities,omitempty"`
 	EntitySearchQueries []EntitySearchQuery        `json:"entitySearchQueries,omitempty"`
 	EntitySearchQuery   string                     `json:"entitySearchQuery,omitempty"`
@@ -19,12 +19,12 @@ type Workload struct {
 	Name                string                     `json:"name,omitempty"`
 	Permalink           string                     `json:"permalink,omitempty"`
 	ScopeAccounts       ScopeAccounts              `json:"scopeAccounts,omitempty"`
-	UpdatedAt           *serialization.EpochTime   `json:"updated_at,omitempty"`
+	UpdatedAt           *serialization.EpochTime   `json:"updatedAt,omitempty"`
 }
 
 // EntityRef represents an entity referenced by this workload.
 type EntityRef struct {
-	GUID *string `json:"id,omitempty"`
+	GUID *string `json:"guid,omitempty"`
 }
 
 // EntitySearchQuery represents an entity search used by this workload.
@@ -47,7 +47,7 @@ type UserReference struct {
 
 // ScopeAccounts represents the accounts used to scope this workload.
 type ScopeAccounts struct {
-	AccountIDs []*int `json:"accountIds,omitempty"`
+	AccountIDs []int `json:"accountIds,omitempty"`
 }
 
 // CreateInput represents the input parameters used for creating or updating a workload.

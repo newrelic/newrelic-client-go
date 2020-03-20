@@ -54,6 +54,7 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 		Plugins:    plugins.New(config),
 		Synthetics: synthetics.New(config),
 		NerdGraph:  nerdgraph.New(config),
+		Workloads:  workloads.New(config),
 	}
 
 	return nr, nil
