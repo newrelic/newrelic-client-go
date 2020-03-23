@@ -5,6 +5,11 @@ import (
 	"time"
 )
 
+const (
+	// DTK Terraform Test Account
+	TestAccountID = 2520528
+)
+
 var letters = []rune("abcdefghijklmnopqrstuvwxyz")
 
 // RandSeq is used to get a string made up of n random lowercase letters.
