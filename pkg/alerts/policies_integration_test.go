@@ -81,7 +81,8 @@ func TestAlertsQueryPolicy_GraphQL_Enabled(t *testing.T) {
 	updateResult, err := a.UpdatePolicyMutation(accountID, createResult.ID, updatePolicy)
 	require.NoError(t, err)
 	require.NotNil(t, updateResult)
-	assert.Equal(t, queryResult.Name, policy.Name)
+	assert.Equal(t, updateResult.Name, updatePolicy.Name)
+	assert.Equal(t, updateResult.IncidentPreference, updatePolicy.IncidentPreference)
 
 	// Test: Delete
 	deleteResult, err := a.DeletePolicyMutation(accountID, createResult.ID)
