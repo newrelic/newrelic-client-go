@@ -2,6 +2,23 @@
 ## [Unreleased]
 
 
+<a name="v0.19.0"></a>
+## [v0.19.0] - 2020-03-25
+### Bug Fixes
+- **alerts:** policy update response test
+- **workloads:** remove nullable struct fields unless necessary
+
+### Features
+- **alerts:** add search method for NRQL conditions
+- **alerts:** add get method for query NRQL conditions
+- **alerts:** add update methods for baseline and static NRQL conditions
+- **alerts:** add create methods for baseline and static NRQL conditions
+- **nerdgraph:** begin generating structs from schema
+
+### Refactor
+- **alerts:** consolidate Nrql condition structs for better reusability
+
+
 <a name="v0.18.0"></a>
 ## [v0.18.0] - 2020-03-20
 ### Bug Fixes
@@ -401,7 +418,8 @@
 - rename packages for clarity, promote Config to the public package
 
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.18.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.19.0...HEAD
+[v0.19.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.18.0...v0.19.0
 [v0.18.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.17.1...v0.18.0
 [v0.17.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.17.0...v0.17.1
 [v0.17.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.16.0...v0.17.0
