@@ -39,6 +39,7 @@ type QueryPolicy struct {
 	ID                 int                    `json:"id,string"`
 	IncidentPreference IncidentPreferenceType `json:"incidentPreference"`
 	Name               string                 `json:"name"`
+	AccountID          int                    `json:"accountId"`
 }
 
 type QueryPolicyInput struct {
@@ -52,6 +53,11 @@ type QueryPolicyCreateInput struct {
 
 type QueryPolicyUpdateInput struct {
 	QueryPolicyInput
+}
+
+// nolint:golint
+type AlertsPoliciesSearchCriteriaInput struct {
+	IDs []int `json:"ids,omitempty"`
 }
 
 // ListPoliciesParams represents a set of filters to be used when querying New
@@ -193,6 +199,34 @@ func (a *Alerts) QueryPolicy(accountID, id int) (*QueryPolicy, error) {
 	return &resp.Actor.Account.Alerts.Policy, nil
 }
 
+// QueryPolicySearch searches NerdGraph for policies.
+func (a *Alerts) QueryPolicySearch(accountID int, params AlertsPoliciesSearchCriteriaInput) ([]*QueryPolicy, error) {
+
+	policies := []*QueryPolicy{}
+	var nextCursor *string
+
+	for ok := true; ok; ok = nextCursor != nil {
+		resp := alertQueryPolicySearchResponse{}
+		vars := map[string]interface{}{
+			"accountID":      accountID,
+			"cursor":         nextCursor,
+			"searchCriteria": params,
+		}
+
+		if err := a.client.Query(alertsPolicyQuerySearch, vars, &resp); err != nil {
+			return nil, err
+		}
+
+		for _, p := range resp.Actor.Account.Alerts.PoliciesSearch.Policies {
+			policies = append(policies, &p)
+		}
+
+		nextCursor = resp.Actor.Account.Alerts.PoliciesSearch.NextCursor
+	}
+
+	return policies, nil
+}
+
 // DeletePolicyMutation is the NerdGraph mutation to delete a policy given the
 // account ID and the policy ID.
 func (a *Alerts) DeletePolicyMutation(accountID, id int) (*QueryPolicy, error) {
@@ -221,6 +255,20 @@ type alertPolicyResponse struct {
 
 type alertPolicyRequestBody struct {
 	Policy Policy `json:"policy"`
+}
+
+type alertQueryPolicySearchResponse struct {
+	Actor struct {
+		Account struct {
+			Alerts struct {
+				PoliciesSearch struct {
+					NextCursor *string       `json:"nextCursor"`
+					Policies   []QueryPolicy `json:"policies"`
+					TotalCount int           `json:"totalCount"`
+				} `json:"policiesSearch"`
+			} `json:"alerts"`
+		} `json:"account"`
+	} `json:"actor"`
 }
 
 type alertQueryPolicyCreateResponse struct {
@@ -252,12 +300,32 @@ const (
 						id
 						name
 						incidentPreference
+						accountId
 	`
 	alertPolicyQueryPolicy = `query($accountID: Int!, $policyID: ID!) {
 		actor {
 			account(id: $accountID) {
 				alerts {
 					policy(id: $policyID) {` + graphqlAlertPolicyFields + `
+					}
+				}
+			}
+		}
+	}`
+
+	alertsPolicyQuerySearch = `query($accountID: Int!, $cursor: String, $criteria: AlertsPoliciesSearchCriteriaInput) {
+		actor {
+			account(id: $accountID) {
+				alerts {
+					policiesSearch(cursor: $cursor, searchCriteria: $criteria) {
+						nextCursor
+						totalCount
+						policies {
+							accountId
+							id
+							incidentPreference
+							name
+						}
 					}
 				}
 			}

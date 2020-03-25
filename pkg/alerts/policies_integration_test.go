@@ -73,6 +73,11 @@ func TestAlertsQueryPolicy_GraphQL_Enabled(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, queryResult)
 
+	// Search
+	searchResults, err := a.QueryPolicySearch(accountID, AlertsPoliciesSearchCriteriaInput{})
+	require.NoError(t, err)
+	require.NotNil(t, searchResults)
+
 	// Test: Update
 	updatePolicy := QueryPolicyUpdateInput{}
 	updatePolicy.Name = fmt.Sprintf("test-alert-policy-updated-%s", testIntegrationPolicyNameRandStr)
