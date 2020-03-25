@@ -25,19 +25,19 @@ var (
 		},
 		EntitySearchQueries: []EntitySearchQueryInput{
 			{
-				Name:  &testQueryName,
+				Name:  testQueryName,
 				Query: testWorkloadQuery,
 			},
 		},
 	}
 	testUpdateInput = UpdateInput{
-		Name: &testUpdatedWorkloadName,
+		Name: testUpdatedWorkloadName,
 		ScopeAccountsInput: &ScopeAccountsInput{
 			AccountIDs: []int{testAccountID},
 		},
 		EntitySearchQueries: []EntitySearchQueryInput{
 			{
-				Name:  &testQueryName,
+				Name:  testQueryName,
 				Query: testWorkloadQuery,
 			},
 		},
@@ -79,7 +79,7 @@ func TestIntegrationWorkload(t *testing.T) {
 
 	// Test: Duplicate
 	duplicateInput := DuplicateInput{
-		Name: &testDuplicateWorkloadName,
+		Name: testDuplicateWorkloadName,
 	}
 	duplicate, err := client.DuplicateWorkload(testAccountID, created.GUID, &duplicateInput)
 
