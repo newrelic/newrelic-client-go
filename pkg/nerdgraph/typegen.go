@@ -68,6 +68,52 @@ func firstTypeName(f SchemaInputValue) string {
 	return ""
 }
 
+func kindTree(f SchemaInputValue) []string {
+	tree := []string{}
+
+	if f.Type.Kind != "" {
+		tree = append(tree, f.Type.Kind)
+	}
+
+	if f.Type.OfType.Kind != "" {
+		tree = append(tree, f.Type.OfType.Kind)
+	}
+
+	if f.Type.OfType.OfType.Kind != "" {
+		tree = append(tree, f.Type.OfType.OfType.Kind)
+	}
+
+	if f.Type.OfType.OfType.OfType.Kind != "" {
+		tree = append(tree, f.Type.OfType.OfType.OfType.Kind)
+	}
+
+	if f.Type.OfType.OfType.OfType.OfType.Kind != "" {
+		tree = append(tree, f.Type.OfType.OfType.OfType.OfType.Kind)
+	}
+
+	if f.Type.OfType.OfType.OfType.OfType.OfType.Kind != "" {
+		tree = append(tree, f.Type.OfType.OfType.OfType.OfType.OfType.Kind)
+	}
+
+	if f.Type.OfType.OfType.OfType.OfType.OfType.OfType.Kind != "" {
+		tree = append(tree, f.Type.OfType.OfType.OfType.OfType.OfType.OfType.Kind)
+	}
+
+	return tree
+}
+
+func removeNonNullValues(tree []string) []string {
+	a := []string{}
+
+	for _, x := range tree {
+		if x != "NON_NULL" {
+			a = append(a, x)
+		}
+	}
+
+	return a
+}
+
 // fieldTypeFromTypeRef resolves the given SchemaInputValue into a field name to use on a go struct.
 func fieldTypeFromTypeRef(f SchemaInputValue) (string, bool, error) {
 
@@ -82,9 +128,9 @@ func fieldTypeFromTypeRef(f SchemaInputValue) (string, bool, error) {
 		return "float64", false, nil
 	case "":
 		return "", true, fmt.Errorf("empty field name: %+v", f)
+	default:
+		return t, true, nil
 	}
-
-	return "", true, fmt.Errorf("need to handle Field f: %+v", f)
 }
 
 func handleInputType(schema Schema, t SchemaType) map[string]string {
@@ -148,6 +194,13 @@ func handleInputType(schema Schema, t SchemaType) map[string]string {
 
 		fieldName := strings.Title(f.Name)
 
+		// The prefix is used to ensure that we handle LIST or slices correctly.
+		fieldTypePrefix := ""
+
+		if removeNonNullValues(kindTree(f))[0] == "LIST" {
+			fieldTypePrefix = "[]"
+		}
+
 		// Include some documentation
 		if f.Description != "" {
 			output = append(output, fmt.Sprintf("\t /* %s */", f.Description))
@@ -155,7 +208,7 @@ func handleInputType(schema Schema, t SchemaType) map[string]string {
 
 		fieldTags := fmt.Sprintf("`json:\"%s\"`", f.Name)
 
-		output = append(output, fmt.Sprintf("\t %s %s %s", fieldName, fieldType, fieldTags))
+		output = append(output, fmt.Sprintf("\t %s %s%s %s", fieldName, fieldTypePrefix, fieldType, fieldTags))
 		output = append(output, "")
 	}
 
