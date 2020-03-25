@@ -20,8 +20,10 @@ func TestSchemaQuery(t *testing.T) {
 	require.NoError(t, err)
 
 	namesToResolve := []string{
-		"AlertsMutingRuleInput",
+		// "AlertsMutingRuleInput",
+		"AlertsPoliciesSearchCriteriaInput",
 		// "AlertsMutingRuleConditionInput",
+		"AlertsPoliciesSearchResultSet",
 	}
 
 	types, err := ResolveSchemaTypes(*schema, namesToResolve)
