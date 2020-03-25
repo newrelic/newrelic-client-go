@@ -82,9 +82,9 @@ func fieldTypeFromTypeRef(f SchemaInputValue) (string, bool, error) {
 		return "float64", false, nil
 	case "":
 		return "", true, fmt.Errorf("empty field name: %+v", f)
+	default:
+		return t, true, nil
 	}
-
-	return "", true, fmt.Errorf("need to handle Field f: %+v", f)
 }
 
 func handleInputType(schema Schema, t SchemaType) map[string]string {
