@@ -6,14 +6,14 @@ import (
 	"github.com/newrelic/newrelic-client-go/pkg/errors"
 )
 
-// ThresholdOccurence specifies the threshold occurrence for NRQL alert condition terms.
-type ThresholdOccurence string
+// ThresholdOccurrence specifies the threshold occurrence for NRQL alert condition terms.
+type ThresholdOccurrence string
 
 var (
 	// ThresholdOccurrences enumerates the possible threshold occurrence values for NRQL alert condition terms.
 	ThresholdOccurrences = struct {
-		All         ThresholdOccurence
-		AtLeastOnce ThresholdOccurence
+		All         ThresholdOccurrence
+		AtLeastOnce ThresholdOccurrence
 	}{
 		All:         "ALL",
 		AtLeastOnce: "AT_LEAST_ONCE",
@@ -120,8 +120,8 @@ type NrqlConditionTerms struct {
 	Operator             NrqlConditionOperator `json:"operator,omitempty"`
 	Priority             NrqlConditionPriority `json:"priority,omitempty"`
 	Threshold            float64               `json:"threshold,omitempty"`
-	ThresholdDuration    float64               `json:"thresholdDuration,omitempty"`
-	ThresholdOccurrences ThresholdOccurence    `json:"thresholdOccurrences,omitempty"`
+	ThresholdDuration    int                   `json:"thresholdDuration,omitempty"`
+	ThresholdOccurrences ThresholdOccurrence   `json:"thresholdOccurrences,omitempty"`
 }
 
 // NrqlConditionQuery represents the NRQL query object returned in a NerdGraph response object.
@@ -139,6 +139,7 @@ type NrqlConditionBase struct {
 	Nrql               NrqlConditionQuery              `json:"nrql,omitempty"`
 	RunbookURL         string                          `json:"runbookUrl,omitempty"`
 	Terms              []NrqlConditionTerms            `json:"terms,omitempty"`
+	Type               NrqlConditionType               `json:"type,omitempty"`
 	ViolationTimeLimit NrqlConditionViolationTimeLimit `json:"violationTimeLimit,omitempty"`
 }
 
@@ -166,15 +167,14 @@ type NrqlConditionsSearchCriteria struct {
 type NrqlAlertCondition struct {
 	NrqlConditionBase
 
-	ID       string            `json:"id,omitempty"`
-	PolicyID string            `json:"policyId,omitempty"`
-	Type     NrqlConditionType `json:"type,omitempty"`
+	ID       string `json:"id,omitempty"`
+	PolicyID string `json:"policyId,omitempty"`
 
 	// BaselineDirection exists ONLY for NRQL conditions of type BASELINE.
 	BaselineDirection *NrqlBaselineDirection `json:"baselineDirection,omitempty"`
 
 	// ValueFunction is returned ONLY for NRQL conditions of type STATIC.
-	ValueFunction *NrqlConditionValueFunction `json:"value_function,omitempty"`
+	ValueFunction *NrqlConditionValueFunction `json:"valueFunction,omitempty"`
 }
 
 // NrqlCondition represents a New Relic NRQL Alert condition.
@@ -292,7 +292,7 @@ func (a *Alerts) DeleteNrqlCondition(id int) (*NrqlCondition, error) {
 // GetNrqlConditionQuery fetches a NRQL alert condition via New Relic's NerdGraph API.
 func (a *Alerts) GetNrqlConditionQuery(
 	accountID int,
-	conditionID string,
+	conditionID int,
 ) (*NrqlAlertCondition, error) {
 	resp := getNrqlConditionQueryResponse{}
 	vars := map[string]interface{}{
@@ -357,7 +357,7 @@ func (a *Alerts) CreateNrqlConditionBaselineMutation(
 // UpdateNrqlConditionBaselineMutation updates a baseline NRQL alert condition via New Relic's NerdGraph API.
 func (a *Alerts) UpdateNrqlConditionBaselineMutation(
 	accountID int,
-	conditionID string, // GraphQL scalar type `ID` is a string in JSON
+	conditionID int,
 	nrqlCondition NrqlConditionInput,
 ) (*NrqlAlertCondition, error) {
 	resp := nrqlConditionBaselineUpdateResponse{}
@@ -397,7 +397,7 @@ func (a *Alerts) CreateNrqlConditionStaticMutation(
 // UpdateNrqlConditionStaticMutation updates a static NRQL alert condition via New Relic's NerdGraph API.
 func (a *Alerts) UpdateNrqlConditionStaticMutation(
 	accountID int,
-	conditionID string, // GraphQL scalar type `ID` is a string in JSON
+	conditionID int,
 	nrqlCondition NrqlConditionInput,
 ) (*NrqlAlertCondition, error) {
 	resp := nrqlConditionStaticUpdateResponse{}
