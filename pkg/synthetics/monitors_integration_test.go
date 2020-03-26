@@ -4,13 +4,11 @@ package synthetics
 
 import (
 	"fmt"
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/require"
 
-	nr "github.com/newrelic/newrelic-client-go/internal/testing"
-	"github.com/newrelic/newrelic-client-go/pkg/config"
+	mock "github.com/newrelic/newrelic-client-go/internal/testing"
 )
 
 var (
@@ -30,23 +28,15 @@ var (
 func TestIntegrationMonitors(t *testing.T) {
 	t.Parallel()
 
-	apiKey := os.Getenv("NEW_RELIC_ADMIN_API_KEY")
+	tc := mock.NewIntegrationTestConfig(t)
 
-	if apiKey == "" {
-		t.Skipf("acceptance testing requires NEW_RELIC_ADMIN_API_KEY to be set")
-	}
+	synthetics := New(tc)
 
-	synthetics := New(config.Config{
-		AdminAPIKey: apiKey,
-		LogLevel:    "debug",
-	})
-
-	rand := nr.RandSeq(5)
+	rand := mock.RandSeq(5)
 	testIntegrationMonitor.Name = fmt.Sprintf("test-synthetics-monitor-%s", rand)
 
 	// Test: Create
 	created, err := synthetics.CreateMonitor(testIntegrationMonitor)
-	monitorID := created.ID
 
 	require.NoError(t, err)
 	require.NotNil(t, created)
@@ -59,6 +49,7 @@ func TestIntegrationMonitors(t *testing.T) {
 	require.Greater(t, len(monitors), 0)
 
 	// Test: Get
+	monitorID := created.ID
 	monitor, err := synthetics.GetMonitor(monitorID)
 
 	require.NoError(t, err)
