@@ -7,6 +7,7 @@ import (
 
 	"github.com/newrelic/newrelic-client-go/internal/logging"
 	"github.com/newrelic/newrelic-client-go/internal/version"
+	"github.com/newrelic/newrelic-client-go/pkg/region"
 )
 
 // Config contains all the configuration data for the API Client.
@@ -21,7 +22,7 @@ type Config struct {
 	AdminAPIKey string
 
 	// Region of the New Relic platform to use
-	Region RegionType
+	Region *region.Region
 
 	// Timeout is the client timeout for HTTP requests.
 	Timeout *time.Duration
@@ -62,21 +63,12 @@ type Config struct {
 	Logger logging.Logger
 }
 
-// RegionType represents a New Relic region.
-type RegionType string
-
-// RegionTypes contains the possible values for New Relic region.
-var RegionTypes = struct {
-	US RegionType
-	EU RegionType
-}{
-	US: "US",
-	EU: "EU",
-}
-
 // New creates a default configuration and returns it
 func New() Config {
+	regCopy := *region.Default
+
 	return Config{
+		Region:    &regCopy,
 		UserAgent: "newrelic/newrelic-client-go",
 		LogLevel:  "info",
 	}

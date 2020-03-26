@@ -10,31 +10,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/newrelic/newrelic-client-go/internal/region"
 	"github.com/newrelic/newrelic-client-go/pkg/config"
 )
-
-func TestBaseURLs(t *testing.T) {
-	t.Parallel()
-
-	pairs := map[region.Region]string{
-		region.US:      "https://synthetics.newrelic.com/synthetics/api",
-		region.EU:      "https://synthetics.eu.newrelic.com/synthetics/api",
-		region.Staging: "https://staging-synthetics.newrelic.com/synthetics/api",
-	}
-
-	// Default should be region.US
-	a := New(config.Config{})
-	assert.Equal(t, pairs[region.US], a.client.GetBaseURL())
-
-	for k, v := range pairs {
-		b := New(config.Config{
-			Region: config.RegionType(k.String()),
-		})
-
-		assert.Equal(t, v, b.client.GetBaseURL())
-	}
-}
 
 // TestError checks that messages are reported in the correct
 // order by going through priorities backwards
