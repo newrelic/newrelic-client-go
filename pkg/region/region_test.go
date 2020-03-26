@@ -81,3 +81,12 @@ func TestSyntheticsURLs(t *testing.T) {
 		assert.Equal(t, v, Regions[k].SyntheticsURL())
 	}
 }
+
+func TestConcatURLPaths(t *testing.T) {
+	t.Parallel()
+
+	res, err := concatURLPaths("http://localhost/", []string{"one", "/two", "//three", "four/", "five//"})
+
+	assert.NoError(t, err)
+	assert.Equal(t, "http://localhost/one/two/three/four/five", res)
+}
