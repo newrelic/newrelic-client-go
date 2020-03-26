@@ -33,22 +33,6 @@ type Config struct {
 	// UserAgent updates the default user agent string used by the client.
 	UserAgent string
 
-	// BaseURL updates the default base URL used by the client during requests to
-	// the V2 REST API.
-	BaseURL string
-
-	// SyntheticsBaseURL updates the default base URL used by the client during
-	// requests to the Synthetics API.
-	SyntheticsBaseURL string
-
-	// InfrastructureBaseURL updates the default base URL used by the client during
-	// requests to the Infrastructure API.
-	InfrastructureBaseURL string
-
-	// NerdGraph updates the default base URL used by the client during requests
-	// to the NerdGraph API.
-	NerdGraphBaseURL string
-
 	// ServiceName is for New Relic internal use only.
 	ServiceName string
 
