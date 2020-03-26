@@ -29,18 +29,24 @@ func handleEnumType(schema Schema, t SchemaType) map[string]string {
 
 	// output collects each line of a struct type
 	output := []string{}
-	output = append(output, fmt.Sprintf("type %s int ", t.Name))
+
+	// Add a comment for golint to ignore
+	output = append(output, "")
+
+	output = append(output, "// nolint:golint")
+	output = append(output, fmt.Sprintf("type %s string ", t.Name))
 	output = append(output, "")
 
 	output = append(output, "const (")
-	for i, v := range t.EnumValues {
-		if i == 0 {
-			output = append(output, fmt.Sprintf("\t%s = iota", v.Name))
-		} else {
-			output = append(output, fmt.Sprintf("\t%s", v.Name))
+	for _, v := range t.EnumValues {
+
+		if v.Description != "" {
+			output = append(output, fmt.Sprintf("\t /* %s */", v.Description))
 		}
 
+		output = append(output, fmt.Sprintf("\t%s %s = \"%s\" // nolint:golint", v.Name, t.Name, v.Name))
 	}
+
 	output = append(output, ")")
 	output = append(output, "")
 
@@ -49,69 +55,69 @@ func handleEnumType(schema Schema, t SchemaType) map[string]string {
 	return types
 }
 
-func kindTree(f SchemaInputValue) []string {
+func kindTree(t SchemaTypeRef) []string {
 	tree := []string{}
 
-	if f.Type.Kind != "" {
-		tree = append(tree, f.Type.Kind)
+	if t.Kind != "" {
+		tree = append(tree, t.Kind)
 	}
 
-	if f.Type.OfType.Kind != "" {
-		tree = append(tree, f.Type.OfType.Kind)
+	if t.OfType.Kind != "" {
+		tree = append(tree, t.OfType.Kind)
 	}
 
-	if f.Type.OfType.OfType.Kind != "" {
-		tree = append(tree, f.Type.OfType.OfType.Kind)
+	if t.OfType.OfType.Kind != "" {
+		tree = append(tree, t.OfType.OfType.Kind)
 	}
 
-	if f.Type.OfType.OfType.OfType.Kind != "" {
-		tree = append(tree, f.Type.OfType.OfType.OfType.Kind)
+	if t.OfType.OfType.OfType.Kind != "" {
+		tree = append(tree, t.OfType.OfType.OfType.Kind)
 	}
 
-	if f.Type.OfType.OfType.OfType.OfType.Kind != "" {
-		tree = append(tree, f.Type.OfType.OfType.OfType.OfType.Kind)
+	if t.OfType.OfType.OfType.OfType.Kind != "" {
+		tree = append(tree, t.OfType.OfType.OfType.OfType.Kind)
 	}
 
-	if f.Type.OfType.OfType.OfType.OfType.OfType.Kind != "" {
-		tree = append(tree, f.Type.OfType.OfType.OfType.OfType.OfType.Kind)
+	if t.OfType.OfType.OfType.OfType.OfType.Kind != "" {
+		tree = append(tree, t.OfType.OfType.OfType.OfType.OfType.Kind)
 	}
 
-	if f.Type.OfType.OfType.OfType.OfType.OfType.OfType.Kind != "" {
-		tree = append(tree, f.Type.OfType.OfType.OfType.OfType.OfType.OfType.Kind)
+	if t.OfType.OfType.OfType.OfType.OfType.OfType.Kind != "" {
+		tree = append(tree, t.OfType.OfType.OfType.OfType.OfType.OfType.Kind)
 	}
 
 	return tree
 }
 
-func nameTree(f SchemaInputValue) []string {
+func nameTree(t SchemaTypeRef) []string {
 	tree := []string{}
 
-	if f.Type.Name != "" {
-		tree = append(tree, f.Type.Name)
+	if t.Name != "" {
+		tree = append(tree, t.Name)
 	}
 
-	if f.Type.OfType.Name != "" {
-		tree = append(tree, f.Type.OfType.Name)
+	if t.OfType.Name != "" {
+		tree = append(tree, t.OfType.Name)
 	}
 
-	if f.Type.OfType.OfType.Name != "" {
-		tree = append(tree, f.Type.OfType.OfType.Name)
+	if t.OfType.OfType.Name != "" {
+		tree = append(tree, t.OfType.OfType.Name)
 	}
 
-	if f.Type.OfType.OfType.OfType.Name != "" {
-		tree = append(tree, f.Type.OfType.OfType.OfType.Name)
+	if t.OfType.OfType.OfType.Name != "" {
+		tree = append(tree, t.OfType.OfType.OfType.Name)
 	}
 
-	if f.Type.OfType.OfType.OfType.OfType.Name != "" {
-		tree = append(tree, f.Type.OfType.OfType.OfType.OfType.Name)
+	if t.OfType.OfType.OfType.OfType.Name != "" {
+		tree = append(tree, t.OfType.OfType.OfType.OfType.Name)
 	}
 
-	if f.Type.OfType.OfType.OfType.OfType.OfType.Name != "" {
-		tree = append(tree, f.Type.OfType.OfType.OfType.OfType.OfType.Name)
+	if t.OfType.OfType.OfType.OfType.OfType.Name != "" {
+		tree = append(tree, t.OfType.OfType.OfType.OfType.OfType.Name)
 	}
 
-	if f.Type.OfType.OfType.OfType.OfType.OfType.OfType.Name != "" {
-		tree = append(tree, f.Type.OfType.OfType.OfType.OfType.OfType.OfType.Name)
+	if t.OfType.OfType.OfType.OfType.OfType.OfType.Name != "" {
+		tree = append(tree, t.OfType.OfType.OfType.OfType.OfType.OfType.Name)
 	}
 
 	return tree
@@ -130,9 +136,9 @@ func removeNonNullValues(tree []string) []string {
 }
 
 // fieldTypeFromTypeRef resolves the given SchemaInputValue into a field name to use on a go struct.
-func fieldTypeFromTypeRef(f SchemaInputValue) (string, bool, error) {
+func fieldTypeFromTypeRef(t SchemaTypeRef) (string, bool, error) {
 
-	switch t := nameTree(f)[0]; t {
+	switch t := nameTree(t)[0]; t {
 	case "String":
 		return "string", false, nil
 	case "Int":
@@ -145,7 +151,7 @@ func fieldTypeFromTypeRef(f SchemaInputValue) (string, bool, error) {
 		// ID is a nested object, but behaves like an integer.  This may be true of other SCALAR types as well, so logic here could potentially be moved.
 		return "int", false, nil
 	case "":
-		return "", true, fmt.Errorf("empty field name: %+v", f)
+		return "", true, fmt.Errorf("empty field name: %+v", t)
 	default:
 		return t, true, nil
 	}
@@ -160,6 +166,9 @@ func handleObjectType(schema Schema, t SchemaType) map[string]string {
 	// output collects each line of a struct type
 	output := []string{}
 
+	// Add a comment for golint to ignore
+	output = append(output, "// nolint:golint")
+
 	output = append(output, fmt.Sprintf("type %s struct {", t.Name))
 
 	// Fill in the struct fields for an input type
@@ -167,7 +176,7 @@ func handleObjectType(schema Schema, t SchemaType) map[string]string {
 		var fieldType string
 
 		log.Debugf("handling kind %s: %+v\n\n", f.Type.Kind, f)
-		fieldType, recurse, err = fieldTypeFromTypeRef(f)
+		fieldType, recurse, err = fieldTypeFromTypeRef(f.Type)
 		if err != nil {
 			// If we have an error, then we don't know how to handle the type to
 			// determine the field name.  This indicates that
@@ -176,7 +185,7 @@ func handleObjectType(schema Schema, t SchemaType) map[string]string {
 
 		if recurse {
 			// The name of the nested sub-type.  We take the first value here as the root name for the nested type.
-			subTName := nameTree(f)[0]
+			subTName := nameTree(f.Type)[0]
 
 			subT, err := typeByName(schema, subTName)
 			if err != nil {
@@ -204,12 +213,19 @@ func handleObjectType(schema Schema, t SchemaType) map[string]string {
 			fieldType = subT.Name
 		}
 
-		fieldName := strings.Title(f.Name)
+		var fieldName string
+
+		if f.Name == "ids" {
+			// special case to avoid the struct field Ids, and prefer IDs instead
+			fieldName = "IDs"
+		} else {
+			fieldName = strings.Title(f.Name)
+		}
 
 		// The prefix is used to ensure that we handle LIST or slices correctly.
 		fieldTypePrefix := ""
 
-		if removeNonNullValues(kindTree(f))[0] == "LIST" {
+		if removeNonNullValues(kindTree(f.Type))[0] == "LIST" {
 			fieldTypePrefix = "[]"
 		}
 
@@ -218,18 +234,21 @@ func handleObjectType(schema Schema, t SchemaType) map[string]string {
 			output = append(output, fmt.Sprintf("\t /* %s */", f.Description))
 		}
 
-		fieldTags := fmt.Sprintf("`json:\"%s\"`", f.Name)
+		var fieldTags string
+		if f.Name == "id" {
+			fieldTags = fmt.Sprintf("`json:\"%s,string\"`", f.Name)
+		} else {
+			fieldTags = fmt.Sprintf("`json:\"%s\"`", f.Name)
+		}
 
 		output = append(output, fmt.Sprintf("\t %s %s%s %s", fieldName, fieldTypePrefix, fieldType, fieldTags))
 		output = append(output, "")
 	}
 
-	for _, f := range t.EnumValues {
-		log.Debugf("\n\nEnums: %+v\n", f)
-	}
-
 	for _, f := range t.Fields {
-		log.Debugf("\n\nFields: %+v\n", f)
+		log.Warnf("Fields: %+v", f)
+		output = append(output, "")
+		output = append(output, lineForField(f.Name, f.Description, f.Type)...)
 	}
 
 	// Close the struct
@@ -237,6 +256,57 @@ func handleObjectType(schema Schema, t SchemaType) map[string]string {
 	types[t.Name] = strings.Join(output, "\n")
 
 	return types
+}
+
+func lineForField(name string, description string, typeRef SchemaTypeRef) []string {
+	var output []string
+	var fieldName string
+
+	log.Infof("handling kind %s: %+v", typeRef.Kind, typeRef)
+	fieldType, _, err := fieldTypeFromTypeRef(typeRef)
+	if err != nil {
+		// If we have an error, then we don't know how to handle the type to
+		// determine the field name.  This indicates that
+		log.Errorf("error resolving first non-empty name from field: %s: %s", typeRef, err)
+	}
+
+	// TODO determine if we need to handle the subT name as is in the
+	// handleObjectType() method above.  If we do indded have a reason to handle
+	// it, this code matches pretty close to what is above.  With a little love,
+	// we could DRY this up a bit.
+
+	if name == "ids" {
+		// special case to avoid the struct field Ids, and prefer IDs instead
+		fieldName = "IDs"
+	} else if name == "id" {
+		fieldName = "ID"
+	} else if name == "accountId" {
+		fieldName = "AccountID"
+	} else {
+		fieldName = strings.Title(name)
+	}
+
+	fieldTypePrefix := ""
+
+	if removeNonNullValues(kindTree(typeRef))[0] == "LIST" {
+		fieldTypePrefix = "[]"
+	}
+
+	// Include some documentation
+	if description != "" {
+		output = append(output, fmt.Sprintf("\t /* %s */", description))
+	}
+
+	var fieldTags string
+	if name == "id" {
+		fieldTags = fmt.Sprintf("`json:\"%s,string\"`", name)
+	} else {
+		fieldTags = fmt.Sprintf("`json:\"%s\"`", name)
+	}
+
+	output = append(output, fmt.Sprintf("\t %s %s%s %s", fieldName, fieldTypePrefix, fieldType, fieldTags))
+
+	return output
 }
 
 // TypeGen is the mother type generator.

@@ -5,3 +5,6 @@ package_type_map:
     - AlertsMutingRuleInput
     - AlertsPoliciesSearchCriteriaInput
     - AlertsPoliciesSearchResultSet
+    - AlertsPolicy
+    - AlertsPolicyInput
+    - AlertsPolicyUpdateInput
