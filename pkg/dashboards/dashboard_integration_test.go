@@ -3,27 +3,19 @@
 package dashboards
 
 import (
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/newrelic/newrelic-client-go/pkg/config"
+	mock "github.com/newrelic/newrelic-client-go/internal/testing"
 )
 
 func TestIntegrationDashboards(t *testing.T) {
 	t.Parallel()
 
-	apiKey := os.Getenv("NEW_RELIC_ADMIN_API_KEY")
+	tc := mock.NewIntegrationTestConfig(t)
 
-	if apiKey == "" {
-		t.Skipf("acceptance testing requires NEW_RELIC_ADMIN_API_KEY to be set")
-	}
-
-	dashboards := New(config.Config{
-		AdminAPIKey: apiKey,
-		LogLevel:    "debug",
-	})
+	dashboards := New(tc)
 
 	d := Dashboard{
 		Metadata: DashboardMetadata{

@@ -11,9 +11,8 @@ import (
 func Example_dashboard() {
 	// Initialize the client configuration.  An Admin API key is required to
 	// communicate with the backend API.
-	cfg := config.Config{
-		AdminAPIKey: os.Getenv("NEW_RELIC_ADMIN_API_KEY"),
-	}
+	cfg := config.New()
+	cfg.AdminAPIKey = os.Getenv("NEW_RELIC_ADMIN_API_KEY")
 
 	// Initialize the client.
 	client := New(cfg)
