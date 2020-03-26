@@ -12,6 +12,7 @@ import (
 // Synthetics is used to communicate with the New Relic Synthetics product.
 type Synthetics struct {
 	client http.Client
+	config config.Config
 	logger logging.Logger
 	pager  http.Pager
 }
@@ -61,6 +62,7 @@ func New(config config.Config) Synthetics {
 
 	pkg := Synthetics{
 		client: client,
+		config: config,
 		logger: config.GetLogger(),
 		pager:  &http.LinkHeaderPager{},
 	}

@@ -3,7 +3,6 @@
 package nerdgraph
 
 import (
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/require"
