@@ -3,6 +3,8 @@ package nerdgraph
 import (
 	"fmt"
 	"strings"
+
+	log "github.com/sirupsen/logrus"
 )
 
 func ResolveSchemaTypes(schema Schema, typeNames []string) (map[string]string, error) {
@@ -11,7 +13,7 @@ func ResolveSchemaTypes(schema Schema, typeNames []string) (map[string]string, e
 	for _, typeName := range typeNames {
 		typeGenResult, err := TypeGen(schema, typeName)
 		if err != nil {
-			fmt.Printf("ERROR while generating type %s: %s", typeName, err)
+			log.Errorf("error while generating type %s: %s", typeName, err)
 		}
 
 		for k, v := range typeGenResult {
@@ -45,27 +47,6 @@ func handleEnumType(schema Schema, t SchemaType) map[string]string {
 	types[t.Name] = strings.Join(output, "\n")
 
 	return types
-}
-
-// firstTypeName returns the first non-empty name in the type tree that is found.
-func firstTypeName(f SchemaInputValue) string {
-	if f.Type.Name != "" {
-		return f.Type.Name
-	} else if f.Type.OfType.Name != "" {
-		return f.Type.OfType.Name
-	} else if f.Type.OfType.OfType.Name != "" {
-		return f.Type.OfType.OfType.Name
-	} else if f.Type.OfType.OfType.OfType.Name != "" {
-		return f.Type.OfType.OfType.OfType.Name
-	} else if f.Type.OfType.OfType.OfType.OfType.Name != "" {
-		return f.Type.OfType.OfType.OfType.OfType.Name
-	} else if f.Type.OfType.OfType.OfType.OfType.OfType.Name != "" {
-		return f.Type.OfType.OfType.OfType.OfType.OfType.Name
-	} else if f.Type.OfType.OfType.OfType.OfType.OfType.OfType.Name != "" {
-		return f.Type.OfType.OfType.OfType.OfType.OfType.OfType.Name
-	}
-
-	return ""
 }
 
 func kindTree(f SchemaInputValue) []string {
@@ -102,6 +83,40 @@ func kindTree(f SchemaInputValue) []string {
 	return tree
 }
 
+func nameTree(f SchemaInputValue) []string {
+	tree := []string{}
+
+	if f.Type.Name != "" {
+		tree = append(tree, f.Type.Name)
+	}
+
+	if f.Type.OfType.Name != "" {
+		tree = append(tree, f.Type.OfType.Name)
+	}
+
+	if f.Type.OfType.OfType.Name != "" {
+		tree = append(tree, f.Type.OfType.OfType.Name)
+	}
+
+	if f.Type.OfType.OfType.OfType.Name != "" {
+		tree = append(tree, f.Type.OfType.OfType.OfType.Name)
+	}
+
+	if f.Type.OfType.OfType.OfType.OfType.Name != "" {
+		tree = append(tree, f.Type.OfType.OfType.OfType.OfType.Name)
+	}
+
+	if f.Type.OfType.OfType.OfType.OfType.OfType.Name != "" {
+		tree = append(tree, f.Type.OfType.OfType.OfType.OfType.OfType.Name)
+	}
+
+	if f.Type.OfType.OfType.OfType.OfType.OfType.OfType.Name != "" {
+		tree = append(tree, f.Type.OfType.OfType.OfType.OfType.OfType.OfType.Name)
+	}
+
+	return tree
+}
+
 func removeNonNullValues(tree []string) []string {
 	a := []string{}
 
@@ -117,7 +132,7 @@ func removeNonNullValues(tree []string) []string {
 // fieldTypeFromTypeRef resolves the given SchemaInputValue into a field name to use on a go struct.
 func fieldTypeFromTypeRef(f SchemaInputValue) (string, bool, error) {
 
-	switch t := firstTypeName(f); t {
+	switch t := nameTree(f)[0]; t {
 	case "String":
 		return "string", false, nil
 	case "Int":
@@ -126,6 +141,9 @@ func fieldTypeFromTypeRef(f SchemaInputValue) (string, bool, error) {
 		return "bool", false, nil
 	case "Float":
 		return "float64", false, nil
+	case "ID":
+		// ID is a nested object, but behaves like an integer.  This may be true of other SCALAR types as well, so logic here could potentially be moved.
+		return "int", false, nil
 	case "":
 		return "", true, fmt.Errorf("empty field name: %+v", f)
 	default:
@@ -133,7 +151,8 @@ func fieldTypeFromTypeRef(f SchemaInputValue) (string, bool, error) {
 	}
 }
 
-func handleInputType(schema Schema, t SchemaType) map[string]string {
+// handleObjectType will operate on a SchemaType who's Kind is OBJECT or INPUT_OBJECT.
+func handleObjectType(schema Schema, t SchemaType) map[string]string {
 	types := make(map[string]string)
 	var err error
 	recurse := false
@@ -147,28 +166,21 @@ func handleInputType(schema Schema, t SchemaType) map[string]string {
 	for _, f := range t.InputFields {
 		var fieldType string
 
-		fmt.Printf("handling kind %s: %+v\n\n", f.Type.Kind, f)
+		log.Debugf("handling kind %s: %+v\n\n", f.Type.Kind, f)
 		fieldType, recurse, err = fieldTypeFromTypeRef(f)
 		if err != nil {
 			// If we have an error, then we don't know how to handle the type to
 			// determine the field name.  This indicates that
-			fmt.Printf("error resolving first non-empty name from field: %s: %s", f, err)
+			log.Errorf("error resolving first non-empty name from field: %s: %s", f, err)
 		}
 
 		if recurse {
-			var subTName string
-
-			// Determine where to start.  For NON_NULL type, the name will be
-			// empty, so we start our search at the nested OfType name.
-			if f.Type.Kind == "NON_NULL" {
-				subTName = firstTypeName(f)
-			} else {
-				subTName = f.Type.Name
-			}
+			// The name of the nested sub-type.  We take the first value here as the root name for the nested type.
+			subTName := nameTree(f)[0]
 
 			subT, err := typeByName(schema, subTName)
 			if err != nil {
-				fmt.Printf("non_null: unhandled type: %+v\n", f)
+				log.Warnf("non_null: unhandled type: %+v\n", f)
 				continue
 			}
 
@@ -177,10 +189,10 @@ func handleInputType(schema Schema, t SchemaType) map[string]string {
 			if _, ok := types[subT.Name]; !ok {
 				result, err := TypeGen(schema, subT.Name)
 				if err != nil {
-					fmt.Printf("ERROR while resolving sub type %s: %s\n", subT.Name, err)
+					log.Errorf("ERROR while resolving sub type %s: %s\n", subT.Name, err)
 				}
 
-				fmt.Printf("resolved type result:\n%+v\n", result)
+				log.Debugf("resolved type result:\n%+v\n", result)
 
 				for k, v := range result {
 					if _, ok := types[k]; !ok {
@@ -213,11 +225,11 @@ func handleInputType(schema Schema, t SchemaType) map[string]string {
 	}
 
 	for _, f := range t.EnumValues {
-		fmt.Printf("\n\nEnums: %+v\n", f)
+		log.Debugf("\n\nEnums: %+v\n", f)
 	}
 
 	for _, f := range t.Fields {
-		fmt.Printf("\n\nFields: %+v\n", f)
+		log.Debugf("\n\nFields: %+v\n", f)
 	}
 
 	// Close the struct
@@ -236,22 +248,20 @@ func TypeGen(schema Schema, typeName string) (map[string]string, error) {
 
 	t, err := typeByName(schema, typeName)
 	if err != nil {
-		fmt.Println(err)
+		log.Error(err)
 	}
 
-	fmt.Printf("\n\n\nSTARTING on %s\n%+v\n", typeName, t.Kind)
+	log.Infof("starting on %s: %+v", typeName, t.Kind)
 
 	// To store the results from the single
 	results := make(map[string]string)
 
-	if t.Kind == "INPUT_OBJECT" {
-		results = handleInputType(schema, *t)
+	if t.Kind == "INPUT_OBJECT" || t.Kind == "OBJECT" {
+		results = handleObjectType(schema, *t)
 	} else if t.Kind == "ENUM" {
 		results = handleEnumType(schema, *t)
-		// } else if t.Kind == "OBJECT" {
-		// TODO
 	} else {
-		fmt.Printf("WARN: unhandled object Kind: %s\n", t.Kind)
+		log.Warnf("WARN: unhandled object Kind: %s\n", t.Kind)
 	}
 
 	for k, v := range results {
@@ -263,10 +273,9 @@ func TypeGen(schema Schema, typeName string) (map[string]string, error) {
 }
 
 func typeByName(schema Schema, typeName string) (*SchemaType, error) {
-	// fmt.Printf("looking for type %s\n", typeName)
+	log.Debugf("looking for typeName: %s", typeName)
 
 	for _, t := range schema.Types {
-		// fmt.Printf("checking name %s\n", t.Name)
 		if t.Name == typeName {
 			return t, nil
 		}

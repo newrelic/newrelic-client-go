@@ -19,4 +19,5 @@ require (
 	golang.org/x/tools v0.0.0-20200325203130-f53864d0dba1
 	gopkg.in/AlecAivazis/survey.v1 v1.8.7 // indirect
 	gopkg.in/kyokomi/emoji.v1 v1.5.1 // indirect
+	gopkg.in/yaml.v2 v2.2.8
 )

@@ -1,0 +1,7 @@
+---
+package_type_map:
+  alerts:
+    - AlertsMutingRuleConditionInput
+    - AlertsMutingRuleInput
+    - AlertsPoliciesSearchCriteriaInput
+    - AlertsPoliciesSearchResultSet
