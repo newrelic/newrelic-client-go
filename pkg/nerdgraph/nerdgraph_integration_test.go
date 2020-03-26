@@ -8,7 +8,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/newrelic/newrelic-client-go/pkg/config"
+	mock "github.com/newrelic/newrelic-client-go/internal/testing"
 )
 
 func TestIntegrationQuery(t *testing.T) {
@@ -64,14 +64,7 @@ func TestIntegrationQueryWithVariables(t *testing.T) {
 
 // nolint
 func newNerdGraphIntegrationTestClient(t *testing.T) NerdGraph {
-	apiKey := os.Getenv("NEW_RELIC_API_KEY")
+	tc := mock.NewIntegrationTestConfig(t)
 
-	if apiKey == "" {
-		t.Skipf("acceptance testing for NerdGraph requires NEW_RELIC_API_KEY to be set")
-	}
-
-	return New(config.Config{
-		PersonalAPIKey: apiKey,
-		UserAgent:      "newrelic/newrelic-client-go",
-	})
+	return New(tc)
 }
