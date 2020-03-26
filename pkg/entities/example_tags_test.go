@@ -11,9 +11,8 @@ import (
 func Example_tags() {
 	// Initialize the client configuration.  A Personal API key is required to
 	// communicate with the backend API.
-	cfg := config.Config{
-		PersonalAPIKey: os.Getenv("NEW_RELIC_API_KEY"),
-	}
+	cfg := config.New()
+	cfg.PersonalAPIKey = os.Getenv("NEW_RELIC_API_KEY")
 
 	// Initialize the client.
 	client := New(cfg)
