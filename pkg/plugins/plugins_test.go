@@ -4,61 +4,35 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
 	mock "github.com/newrelic/newrelic-client-go/internal/testing"
-	"github.com/newrelic/newrelic-client-go/pkg/config"
 )
 
 // nolint
-func newTestClient(handler http.Handler) Plugins {
+func newTestClient(t *testing.T, handler http.Handler) Plugins {
 	ts := httptest.NewServer(handler)
+	tc := mock.NewTestConfig(t, ts)
 
-	c := New(config.Config{
-		PersonalAPIKey: "abc123",
-		BaseURL:        ts.URL,
-		UserAgent:      "newrelic/newrelic-client-go",
-		LogLevel:       "debug",
-	})
-
-	return c
+	return New(tc)
 }
 
 // nolint
-func newMockResponse(
-	t *testing.T,
-	mockJSONResponse string,
-	statusCode int,
-) Plugins {
+func newMockResponse(t *testing.T, mockJSONResponse string, statusCode int) Plugins {
 	ts := mock.NewMockServer(t, mockJSONResponse, statusCode)
+	tc := mock.NewTestConfig(t, ts)
 
-	return New(config.Config{
-		PersonalAPIKey: "abc123",
-		BaseURL:        ts.URL,
-		UserAgent:      "newrelic/newrelic-client-go",
-	})
+	return New(tc)
 }
 
 // nolint
 func newIntegrationTestClient(t *testing.T) Plugins {
-	personalAPIKey := os.Getenv("NEW_RELIC_API_KEY")
-	adminAPIKey := os.Getenv("NEW_RELIC_ADMIN_API_KEY")
+	tc := mock.NewIntegrationTestConfig(t)
 
-	if personalAPIKey == "" && adminAPIKey == "" {
-		t.Skipf("acceptance testing requires NEW_RELIC_API_KEY and NEW_RELIC_ADMIN_API_KEY")
-	}
-
-	client := New(config.Config{
-		PersonalAPIKey: personalAPIKey,
-		AdminAPIKey:    adminAPIKey,
-		LogLevel:       "debug",
-	})
-
-	return client
+	return New(tc)
 }
 
 var (
@@ -198,7 +172,7 @@ func TestListPluginsWithParams(t *testing.T) {
 	guidFilter := "net.jondoe.newrelic_redis_plugin"
 	idsFilter := "999"
 
-	plugins := newTestClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	plugins := newTestClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		values := r.URL.Query()
 
 		guid := values.Get("filter[guid]")
@@ -233,7 +207,7 @@ func TestListPluginsWithDetailedParam(t *testing.T) {
 	t.Parallel()
 	expectedDetailed := "true"
 
-	plugins := newTestClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	plugins := newTestClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		guid := r.URL.Query().Get("detailed")
 		require.Equal(t, expectedDetailed, guid)
 
@@ -277,7 +251,7 @@ func TestGetPluginWithParams(t *testing.T) {
 	t.Parallel()
 	expectedDetailed := "true"
 
-	plugins := newTestClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	plugins := newTestClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		detailed := r.URL.Query().Get("detailed")
 		require.Equal(t, expectedDetailed, detailed)
 
