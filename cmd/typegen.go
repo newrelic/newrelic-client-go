@@ -7,13 +7,15 @@ import (
 	"os"
 	"sort"
 
+	"gopkg.in/yaml.v2"
+
 	"github.com/newrelic/newrelic-client-go/newrelic"
 	"github.com/newrelic/newrelic-client-go/pkg/nerdgraph"
-	"gopkg.in/yaml.v2"
 
 	log "github.com/sirupsen/logrus"
 )
 
+// Config is the information keeper for generating go structs from type names.
 type Config struct {
 	PackageTypeMap map[string][]string `yaml:"package_type_map"`
 }
@@ -41,8 +43,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	log.Infof("Schema: %+v", schema)
-
 	yamlFile, err := ioutil.ReadFile("etc/typegen.yaml")
 	if err != nil {
 		log.Fatal(err)
@@ -54,8 +54,6 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	log.Infof("Config: %+v", config)
 
 	for packageName, typeNames := range config.PackageTypeMap {
 
@@ -83,7 +81,6 @@ func main() {
 		sort.Strings(keys)
 
 		for _, k := range keys {
-			// fmt.Printf("\n%s", types[k])
 			_, err := f.WriteString(types[k])
 			if err != nil {
 				log.Error(err)
