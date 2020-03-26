@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/newrelic/newrelic-client-go/pkg/config"
+	mock "github.com/newrelic/newrelic-client-go/internal/testing"
 )
 
 // TestError checks that messages are reported in the correct
@@ -39,27 +39,15 @@ func TestError(t *testing.T) {
 
 }
 
-// nolint
-func newTestClient(handler http.Handler) Synthetics {
+func newTestClient(t *testing.T, handler http.Handler) Synthetics {
 	ts := httptest.NewServer(handler)
+	tc := mock.NewTestConfig(t, ts)
 
-	c := New(config.Config{
-		AdminAPIKey:       "abc123",
-		SyntheticsBaseURL: ts.URL,
-		UserAgent:         "newrelic/newrelic-client-go",
-		LogLevel:          "debug",
-	})
-
-	return c
+	return New(tc)
 }
 
-// nolint
-func newMockResponse(
-	t *testing.T,
-	mockJSONResponse string,
-	statusCode int,
-) Synthetics {
-	return newTestClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+func newMockResponse(t *testing.T, mockJSONResponse string, statusCode int) Synthetics {
+	return newTestClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(statusCode)
 

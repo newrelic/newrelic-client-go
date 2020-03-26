@@ -4,15 +4,13 @@ package synthetics
 
 import (
 	"fmt"
-	"os"
 	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	nr "github.com/newrelic/newrelic-client-go/internal/testing"
-	"github.com/newrelic/newrelic-client-go/pkg/config"
+	mock "github.com/newrelic/newrelic-client-go/internal/testing"
 )
 
 var (
@@ -27,19 +25,11 @@ var (
 func TestIntegrationSecureCredentials(t *testing.T) {
 	t.Parallel()
 
-	apiKey := os.Getenv("NEW_RELIC_ADMIN_API_KEY")
-
-	if apiKey == "" {
-		t.Skipf("acceptance testing requires NEW_RELIC_ADMIN_API_KEY")
-	}
-
-	synthetics := New(config.Config{
-		AdminAPIKey: apiKey,
-		LogLevel:    "debug",
-	})
+	tc := mock.NewIntegrationTestConfig(t)
+	synthetics := New(tc)
 
 	// Setup
-	rand := strings.ToUpper(nr.RandSeq(5))
+	rand := strings.ToUpper(mock.RandSeq(5))
 	key := fmt.Sprintf("TEST_SYNTHETICS_SECURE_CREDENTIAL_%s", rand)
 	testIntegrationSecureCredential.Key = key
 	creds, err := synthetics.GetSecureCredentials()

@@ -29,8 +29,11 @@ func TestGetMonitorLabel(t *testing.T) {
 	r, err := synthetics.GetMonitorLabels(testMonitorID)
 	assert.NoError(t, err)
 	assert.Equal(t, 1, len(r))
-	assert.Equal(t, r[0].Type, "Testing")
-	assert.Equal(t, r[0].Value, "Mbnhl")
+	// Don't panic if we failed
+	if len(r) >= 1 {
+		assert.Equal(t, r[0].Type, "Testing")
+		assert.Equal(t, r[0].Value, "Mbnhl")
+	}
 }
 
 func TestAddMonitorLabel(t *testing.T) {
