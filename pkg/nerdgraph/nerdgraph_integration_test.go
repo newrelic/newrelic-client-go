@@ -3,54 +3,13 @@
 package nerdgraph
 
 import (
-	"fmt"
 	"os"
-	"sort"
 	"testing"
 
 	"github.com/stretchr/testify/require"
 
 	"github.com/newrelic/newrelic-client-go/pkg/config"
 )
-
-func TestSchemaQuery(t *testing.T) {
-	n := newNerdGraphIntegrationTestClient(t)
-
-	schema, err := n.QuerySchema()
-	require.NoError(t, err)
-
-	namesToResolve := []string{
-		// "AlertsMutingRuleInput",
-		"AlertsPoliciesSearchCriteriaInput",
-		// "AlertsMutingRuleConditionInput",
-		"AlertsPoliciesSearchResultSet",
-	}
-
-	types, err := ResolveSchemaTypes(*schema, namesToResolve)
-	require.NoError(t, err)
-	// fmt.Printf("Types:\n%s", types)
-
-	f, err := os.Create("types.go")
-	require.NoError(t, err)
-
-	_, err = f.WriteString("package nerdgraph\n")
-	require.NoError(t, err)
-
-	defer f.Close()
-
-	keys := make([]string, 0, len(types))
-	for k := range types {
-		keys = append(keys, k)
-	}
-	sort.Strings(keys)
-
-	for _, k := range keys {
-		fmt.Printf("\n%s", types[k])
-		_, err := f.WriteString(types[k])
-		require.NoError(t, err)
-	}
-
-}
 
 func TestIntegrationQuery(t *testing.T) {
 	t.Parallel()

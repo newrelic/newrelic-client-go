@@ -3,6 +3,8 @@ package nerdgraph
 import (
 	"fmt"
 	"strings"
+
+	log "github.com/sirupsen/logrus"
 )
 
 func ResolveSchemaTypes(schema Schema, typeNames []string) (map[string]string, error) {
@@ -11,7 +13,7 @@ func ResolveSchemaTypes(schema Schema, typeNames []string) (map[string]string, e
 	for _, typeName := range typeNames {
 		typeGenResult, err := TypeGen(schema, typeName)
 		if err != nil {
-			fmt.Printf("ERROR while generating type %s: %s", typeName, err)
+			log.Error("error while generating type %s: %s", typeName, err)
 		}
 
 		for k, v := range typeGenResult {
@@ -147,12 +149,12 @@ func handleInputType(schema Schema, t SchemaType) map[string]string {
 	for _, f := range t.InputFields {
 		var fieldType string
 
-		fmt.Printf("handling kind %s: %+v\n\n", f.Type.Kind, f)
+		log.Debugf("handling kind %s: %+v\n\n", f.Type.Kind, f)
 		fieldType, recurse, err = fieldTypeFromTypeRef(f)
 		if err != nil {
 			// If we have an error, then we don't know how to handle the type to
 			// determine the field name.  This indicates that
-			fmt.Printf("error resolving first non-empty name from field: %s: %s", f, err)
+			log.Errorf("error resolving first non-empty name from field: %s: %s", f, err)
 		}
 
 		if recurse {
@@ -168,7 +170,7 @@ func handleInputType(schema Schema, t SchemaType) map[string]string {
 
 			subT, err := typeByName(schema, subTName)
 			if err != nil {
-				fmt.Printf("non_null: unhandled type: %+v\n", f)
+				log.Warnf("non_null: unhandled type: %+v\n", f)
 				continue
 			}
 
@@ -177,10 +179,10 @@ func handleInputType(schema Schema, t SchemaType) map[string]string {
 			if _, ok := types[subT.Name]; !ok {
 				result, err := TypeGen(schema, subT.Name)
 				if err != nil {
-					fmt.Printf("ERROR while resolving sub type %s: %s\n", subT.Name, err)
+					log.Errorf("ERROR while resolving sub type %s: %s\n", subT.Name, err)
 				}
 
-				fmt.Printf("resolved type result:\n%+v\n", result)
+				log.Debugf("resolved type result:\n%+v\n", result)
 
 				for k, v := range result {
 					if _, ok := types[k]; !ok {
@@ -213,11 +215,11 @@ func handleInputType(schema Schema, t SchemaType) map[string]string {
 	}
 
 	for _, f := range t.EnumValues {
-		fmt.Printf("\n\nEnums: %+v\n", f)
+		log.Debugf("\n\nEnums: %+v\n", f)
 	}
 
 	for _, f := range t.Fields {
-		fmt.Printf("\n\nFields: %+v\n", f)
+		log.Debugf("\n\nFields: %+v\n", f)
 	}
 
 	// Close the struct
@@ -239,7 +241,7 @@ func TypeGen(schema Schema, typeName string) (map[string]string, error) {
 		fmt.Println(err)
 	}
 
-	fmt.Printf("\n\n\nSTARTING on %s\n%+v\n", typeName, t.Kind)
+	log.Infof("\n\n\nSTARTING on %s\n%+v\n", typeName, t.Kind)
 
 	// To store the results from the single
 	results := make(map[string]string)
@@ -251,7 +253,7 @@ func TypeGen(schema Schema, typeName string) (map[string]string, error) {
 		// } else if t.Kind == "OBJECT" {
 		// TODO
 	} else {
-		fmt.Printf("WARN: unhandled object Kind: %s\n", t.Kind)
+		log.Warnf("WARN: unhandled object Kind: %s\n", t.Kind)
 	}
 
 	for k, v := range results {
@@ -263,10 +265,8 @@ func TypeGen(schema Schema, typeName string) (map[string]string, error) {
 }
 
 func typeByName(schema Schema, typeName string) (*SchemaType, error) {
-	// fmt.Printf("looking for type %s\n", typeName)
 
 	for _, t := range schema.Types {
-		// fmt.Printf("checking name %s\n", t.Name)
 		if t.Name == typeName {
 			return t, nil
 		}
