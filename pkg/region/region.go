@@ -6,7 +6,10 @@
 package region
 
 import (
+	"errors"
 	"strings"
+
+	log "github.com/sirupsen/logrus"
 )
 
 // Name is the name of a New Relic region
@@ -44,12 +47,17 @@ func (r *Region) SetNerdGraphBaseURL(url string) {
 // NerdGraphURL returns the Full URL for Infrastructure REST API Calls, with any additional path elements appended
 func (r *Region) NerdGraphURL(path ...string) string {
 	if r == nil {
+		log.Errorf("call to nil region.NerdGraphURL")
 		return ""
 	}
 
-	elements := append([]string{r.nerdGraphBaseURL}, path...)
+	url, err := concatURLPaths(r.nerdGraphBaseURL, path)
+	if err != nil {
+		log.Errorf("unable to make URL with error: %s", err)
+		return r.nerdGraphBaseURL
+	}
 
-	return strings.Join(elements, "/")
+	return url
 }
 
 //
@@ -66,12 +74,17 @@ func (r *Region) SetRestBaseURL(url string) {
 // RestURL returns the Full URL for REST API Calls, with any additional path elements appended
 func (r *Region) RestURL(path ...string) string {
 	if r == nil {
+		log.Errorf("call to nil region.RestURL")
 		return ""
 	}
 
-	elements := append([]string{r.restBaseURL}, path...)
+	url, err := concatURLPaths(r.restBaseURL, path)
+	if err != nil {
+		log.Errorf("unable to make URL with error: %s", err)
+		return r.restBaseURL
+	}
 
-	return strings.Join(elements, "/")
+	return url
 }
 
 //
@@ -88,12 +101,17 @@ func (r *Region) SetInfrastructureBaseURL(url string) {
 // InfrastructureURL returns the Full URL for Infrastructure REST API Calls, with any additional path elements appended
 func (r *Region) InfrastructureURL(path ...string) string {
 	if r == nil {
+		log.Errorf("call to nil region.InfrastructureURL")
 		return ""
 	}
 
-	elements := append([]string{r.infrastructureBaseURL}, path...)
+	url, err := concatURLPaths(r.infrastructureBaseURL, path)
+	if err != nil {
+		log.Errorf("unable to make URL with error: %s", err)
+		return r.infrastructureBaseURL
+	}
 
-	return strings.Join(elements, "/")
+	return url
 }
 
 //
@@ -110,10 +128,31 @@ func (r *Region) SetSyntheticsBaseURL(url string) {
 // SyntheticsURL returns the Full URL for Infrastructure REST API Calls, with any additional path elements appended
 func (r *Region) SyntheticsURL(path ...string) string {
 	if r == nil {
+		log.Errorf("call to nil region.SyntheticsURL")
 		return ""
 	}
 
-	elements := append([]string{r.syntheticsBaseURL}, path...)
+	url, err := concatURLPaths(r.syntheticsBaseURL, path)
+	if err != nil {
+		log.Errorf("unable to make URL with error: %s", err)
+		return r.syntheticsBaseURL
+	}
 
-	return strings.Join(elements, "/")
+	return url
+}
+
+// concatURLPaths is a helper function for the URL builders below
+func concatURLPaths(host string, path []string) (string, error) {
+	if host == "" {
+		return "", errors.New("host can not be empty")
+	}
+
+	elements := make([]string, len(path)+1)
+	elements[0] = strings.TrimSuffix(host, "/")
+
+	for k, v := range path {
+		elements[k+1] = strings.Trim(v, "/")
+	}
+
+	return strings.Join(elements, "/"), nil
 }
