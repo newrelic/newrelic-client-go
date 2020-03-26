@@ -33,33 +33,6 @@ type Policy struct {
 	UpdatedAt          *serialization.EpochTime `json:"updated_at,omitempty"`
 }
 
-// QueryPolicy is similar to a Policy, but the resulting NerdGraph objects are
-// string IDs in the JSON response.
-type QueryPolicy struct {
-	ID                 int                    `json:"id,string"`
-	IncidentPreference IncidentPreferenceType `json:"incidentPreference"`
-	Name               string                 `json:"name"`
-	AccountID          int                    `json:"accountId"`
-}
-
-type QueryPolicyInput struct {
-	IncidentPreference IncidentPreferenceType `json:"incidentPreference"`
-	Name               string                 `json:"name"`
-}
-
-type QueryPolicyCreateInput struct {
-	QueryPolicyInput
-}
-
-type QueryPolicyUpdateInput struct {
-	QueryPolicyInput
-}
-
-// nolint:golint
-type AlertsPoliciesSearchCriteriaInput struct {
-	IDs []int `json:"ids,omitempty"`
-}
-
 // ListPoliciesParams represents a set of filters to be used when querying New
 // Relic alert policies.
 type ListPoliciesParams struct {
@@ -152,7 +125,7 @@ func (a *Alerts) DeletePolicy(id int) (*Policy, error) {
 	return &resp.Policy, nil
 }
 
-func (a *Alerts) CreatePolicyMutation(accountID int, policy QueryPolicyCreateInput) (*QueryPolicy, error) {
+func (a *Alerts) CreatePolicyMutation(accountID int, policy AlertsPolicyInput) (*AlertsPolicy, error) {
 	vars := map[string]interface{}{
 		"accountID": accountID,
 		"policy":    policy,
@@ -164,10 +137,10 @@ func (a *Alerts) CreatePolicyMutation(accountID int, policy QueryPolicyCreateInp
 		return nil, err
 	}
 
-	return &resp.QueryPolicy, nil
+	return &resp.AlertsPolicy, nil
 }
 
-func (a *Alerts) UpdatePolicyMutation(accountID int, policyID int, policy QueryPolicyUpdateInput) (*QueryPolicy, error) {
+func (a *Alerts) UpdatePolicyMutation(accountID int, policyID int, policy AlertsPolicyUpdateInput) (*AlertsPolicy, error) {
 	vars := map[string]interface{}{
 		"accountID": accountID,
 		"policyID":  policyID,
@@ -180,12 +153,12 @@ func (a *Alerts) UpdatePolicyMutation(accountID int, policyID int, policy QueryP
 		return nil, err
 	}
 
-	return &resp.QueryPolicy, nil
+	return &resp.AlertsPolicy, nil
 }
 
 // QueryPolicy queries NerdGraph for a policy matching the given account ID and
 // policy ID.
-func (a *Alerts) QueryPolicy(accountID, id int) (*QueryPolicy, error) {
+func (a *Alerts) QueryPolicy(accountID, id int) (*AlertsPolicy, error) {
 	resp := alertQueryPolicyResponse{}
 	vars := map[string]interface{}{
 		"accountID": accountID,
@@ -200,9 +173,9 @@ func (a *Alerts) QueryPolicy(accountID, id int) (*QueryPolicy, error) {
 }
 
 // QueryPolicySearch searches NerdGraph for policies.
-func (a *Alerts) QueryPolicySearch(accountID int, params AlertsPoliciesSearchCriteriaInput) ([]*QueryPolicy, error) {
+func (a *Alerts) QueryPolicySearch(accountID int, params AlertsPoliciesSearchCriteriaInput) ([]*AlertsPolicy, error) {
 
-	policies := []*QueryPolicy{}
+	policies := []*AlertsPolicy{}
 	var nextCursor *string
 
 	for ok := true; ok; ok = nextCursor != nil {
@@ -229,8 +202,8 @@ func (a *Alerts) QueryPolicySearch(accountID int, params AlertsPoliciesSearchCri
 
 // DeletePolicyMutation is the NerdGraph mutation to delete a policy given the
 // account ID and the policy ID.
-func (a *Alerts) DeletePolicyMutation(accountID, id int) (*QueryPolicy, error) {
-	policy := &QueryPolicy{}
+func (a *Alerts) DeletePolicyMutation(accountID, id int) (*AlertsPolicy, error) {
+	policy := &AlertsPolicy{}
 
 	resp := alertQueryPolicyDeleteRespose{}
 	vars := map[string]interface{}{
@@ -262,9 +235,9 @@ type alertQueryPolicySearchResponse struct {
 		Account struct {
 			Alerts struct {
 				PoliciesSearch struct {
-					NextCursor *string       `json:"nextCursor"`
-					Policies   []QueryPolicy `json:"policies"`
-					TotalCount int           `json:"totalCount"`
+					NextCursor *string        `json:"nextCursor"`
+					Policies   []AlertsPolicy `json:"policies"`
+					TotalCount int            `json:"totalCount"`
 				} `json:"policiesSearch"`
 			} `json:"alerts"`
 		} `json:"account"`
@@ -272,18 +245,18 @@ type alertQueryPolicySearchResponse struct {
 }
 
 type alertQueryPolicyCreateResponse struct {
-	QueryPolicy QueryPolicy `json:"alertsPolicyCreate"`
+	AlertsPolicy AlertsPolicy `json:"alertsPolicyCreate"`
 }
 
 type alertQueryPolicyUpdateResponse struct {
-	QueryPolicy QueryPolicy `json:"alertsPolicyUpdate"`
+	AlertsPolicy AlertsPolicy `json:"alertsPolicyUpdate"`
 }
 
 type alertQueryPolicyResponse struct {
 	Actor struct {
 		Account struct {
 			Alerts struct {
-				Policy QueryPolicy `json:"policy"`
+				Policy AlertsPolicy `json:"policy"`
 			} `json:"alerts"`
 		} `json:"account"`
 	} `json:"actor"`
