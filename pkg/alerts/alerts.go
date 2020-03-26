@@ -11,6 +11,7 @@ import (
 // Alerts is used to communicate with New Relic Alerts.
 type Alerts struct {
 	client      http.Client
+	config      config.Config
 	infraClient http.Client
 	logger      logging.Logger
 	pager       http.Pager
@@ -28,6 +29,7 @@ func New(config config.Config) Alerts {
 
 	pkg := Alerts{
 		client:      client,
+		config:      config,
 		infraClient: infraClient,
 		logger:      config.GetLogger(),
 		pager:       &http.LinkHeaderPager{},
