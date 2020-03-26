@@ -106,7 +106,7 @@ func TestListPoliciesWithParams(t *testing.T) {
 	t.Parallel()
 	expectedName := "does-not-exist"
 
-	alerts := newTestClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	alerts := newTestClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		values := r.URL.Query()
 
 		name := values.Get("filter[name]")
