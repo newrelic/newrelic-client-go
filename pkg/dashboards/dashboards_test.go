@@ -13,32 +13,20 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	mock "github.com/newrelic/newrelic-client-go/internal/testing"
-	"github.com/newrelic/newrelic-client-go/pkg/config"
 )
 
-func newTestClient(handler http.Handler) Dashboards {
+func newTestClient(t *testing.T, handler http.Handler) Dashboards {
 	ts := httptest.NewServer(handler)
+	tc := mock.NewTestConfig(t, ts)
 
-	return New(config.Config{
-		AdminAPIKey: "abc123",
-		BaseURL:     ts.URL,
-		UserAgent:   "newrelic/newrelic-client-go",
-		LogLevel:    "debug",
-	})
+	return New(tc)
 }
 
-func newMockResponse(
-	t *testing.T,
-	mockJSONResponse string,
-	statusCode int,
-) Dashboards {
+func newMockResponse(t *testing.T, mockJSONResponse string, statusCode int) Dashboards {
 	ts := mock.NewMockServer(t, mockJSONResponse, statusCode)
+	tc := mock.NewTestConfig(t, ts)
 
-	return New(config.Config{
-		AdminAPIKey: "abc123",
-		BaseURL:     ts.URL,
-		UserAgent:   "newrelic/newrelic-client-go",
-	})
+	return New(tc)
 }
 
 var (
@@ -323,7 +311,7 @@ func TestListDashboardsWithParams(t *testing.T) {
 	expectedSort := "sort"
 	expectedTitle := "title"
 
-	dashboards := newTestClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	dashboards := newTestClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		values := r.URL.Query()
 
 		assert.Equal(t, expectedCategory, values.Get("filter[category]"))
