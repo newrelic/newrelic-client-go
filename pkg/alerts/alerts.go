@@ -22,7 +22,7 @@ func New(config config.Config) Alerts {
 	infraConfig := config
 
 	if infraConfig.InfrastructureBaseURL == "" {
-		infraConfig.InfrastructureBaseURL = infrastructure.BaseURLs[region.Parse(string(config.Region))]
+		infraConfig.InfrastructureBaseURL = infrastructure.BaseURLs[region.Parse(config.Region.String())]
 	}
 
 	infraConfig.BaseURL = infraConfig.InfrastructureBaseURL

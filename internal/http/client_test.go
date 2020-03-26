@@ -49,7 +49,7 @@ func TestConfigDefaults(t *testing.T) {
 		PersonalAPIKey: testPersonalAPIKey,
 	})
 
-	assert.Equal(t, region.DefaultBaseURLs[region.Parse(string(c.config.Region))], c.config.BaseURL)
+	assert.Equal(t, region.DefaultBaseURLs[region.Parse(c.config.Region.String())], c.config.BaseURL)
 	assert.Contains(t, c.config.UserAgent, "newrelic/newrelic-client-go/")
 	assert.Equal(t, c.config.ServiceName, "newrelic-client-go")
 }
