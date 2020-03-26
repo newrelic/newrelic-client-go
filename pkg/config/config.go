@@ -74,6 +74,14 @@ var RegionTypes = struct {
 	EU: "EU",
 }
 
+// New creates a default configuration and returns it
+func New() Config {
+	return Config{
+		UserAgent: "newrelic/newrelic-client-go",
+		LogLevel:  "info",
+	}
+}
+
 // GetLogger returns a logger instance based on the config values.
 func (c *Config) GetLogger() logging.Logger {
 	if c.Logger != nil {
