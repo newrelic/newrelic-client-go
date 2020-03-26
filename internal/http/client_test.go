@@ -11,7 +11,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/newrelic/newrelic-client-go/internal/region"
+	mock "github.com/newrelic/newrelic-client-go/internal/testing"
 	"github.com/newrelic/newrelic-client-go/pkg/config"
 	"github.com/newrelic/newrelic-client-go/pkg/errors"
 )
@@ -22,22 +22,22 @@ const (
 
 func TestConfig(t *testing.T) {
 	t.Parallel()
-	testBaseURL := "https://www.mocky.io"
+	testRestURL := "https://www.mocky.io"
 	testTimeout := time.Second * 5
 	testTransport := http.DefaultTransport
 
-	c := NewClient(config.Config{
-		PersonalAPIKey: testPersonalAPIKey,
-		BaseURL:        testBaseURL,
-		HTTPTransport:  testTransport,
-		ServiceName:    testServiceName,
-		Timeout:        &testTimeout,
-		UserAgent:      testUserAgent,
-	})
+	tc := config.New()
+	tc.HTTPTransport = testTransport
+	tc.Region.SetRestBaseURL(testRestURL)
+	tc.ServiceName = testServiceName
+	tc.Timeout = &testTimeout
+	tc.UserAgent = mock.UserAgent
+
+	c := NewClient(tc)
 
 	assert.Equal(t, &testTimeout, c.config.Timeout)
-	assert.Equal(t, testBaseURL, c.config.BaseURL)
-	assert.Equal(t, testUserAgent, c.config.UserAgent)
+	assert.Equal(t, testRestURL, c.config.Region.RestURL())
+	assert.Equal(t, mock.UserAgent, c.config.UserAgent)
 	assert.Equal(t, c.config.ServiceName, testServiceName+"|newrelic-client-go")
 
 	assert.Same(t, testTransport, c.config.HTTPTransport)
@@ -45,24 +45,24 @@ func TestConfig(t *testing.T) {
 
 func TestConfigDefaults(t *testing.T) {
 	t.Parallel()
-	c := NewClient(config.Config{
-		PersonalAPIKey: testPersonalAPIKey,
-	})
+	tc := mock.NewTestConfig(t, nil)
+	tc.ServiceName = testServiceName
 
-	assert.Equal(t, region.DefaultBaseURLs[region.Parse(c.config.Region.String())], c.config.BaseURL)
-	assert.Contains(t, c.config.UserAgent, "newrelic/newrelic-client-go/")
-	assert.Equal(t, c.config.ServiceName, "newrelic-client-go")
+	c := NewClient(tc)
+
+	assert.Contains(t, c.config.UserAgent, "newrelic/newrelic-client-go")
+	assert.Equal(t, c.config.ServiceName, testServiceName+"|newrelic-client-go")
 }
 
 func TestDefaultErrorValue(t *testing.T) {
 	t.Parallel()
-	c := NewTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusInternalServerError)
 		_, _ = w.Write([]byte(`{"error":{"title":"error message"}}`))
 	}))
 
-	_, err := c.Get("/path", nil, nil)
+	_, err := c.Get("path", nil, nil)
 
 	assert.Contains(t, err.(*errors.UnexpectedStatusCode).Error(), "error message")
 }
@@ -81,7 +81,7 @@ func (c *CustomErrorResponse) Error() string {
 
 func TestCustomErrorValue(t *testing.T) {
 	t.Parallel()
-	c := NewTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusInternalServerError)
 		_, _ = w.Write([]byte(`{"custom":"error message"}`))
@@ -89,7 +89,7 @@ func TestCustomErrorValue(t *testing.T) {
 
 	c.SetErrorValue(&CustomErrorResponse{})
 
-	_, err := c.Get("/path", nil, nil)
+	_, err := c.Get("path", nil, nil)
 
 	assert.Contains(t, err.(*errors.UnexpectedStatusCode).Error(), "error message")
 }
@@ -100,13 +100,13 @@ type CustomResponseValue struct {
 
 func TestResponseValue(t *testing.T) {
 	t.Parallel()
-	c := NewTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		_, _ = w.Write([]byte(`{"custom":"custom response string"}`))
 	}))
 
 	v := &CustomResponseValue{}
-	_, err := c.Get("/path", nil, v)
+	_, err := c.Get("path", nil, v)
 
 	assert.NoError(t, err)
 	assert.Equal(t, &CustomResponseValue{Custom: "custom response string"}, v)
@@ -122,7 +122,7 @@ func TestQueryParams(t *testing.T) {
 		B: 2,
 	}
 
-	c := NewTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 
@@ -133,7 +133,7 @@ func TestQueryParams(t *testing.T) {
 		assert.Equal(t, "2", b)
 	}))
 
-	_, _ = c.Get("/path", &queryParams, nil)
+	_, _ = c.Get("path", &queryParams, nil)
 }
 
 type TestRequestBody struct {
@@ -148,7 +148,7 @@ func TestRequestBodyMarshal(t *testing.T) {
 		B: "2",
 	}
 
-	c := NewTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 
@@ -159,7 +159,7 @@ func TestRequestBodyMarshal(t *testing.T) {
 		assert.Equal(t, &expected, actual)
 	}))
 
-	_, _ = c.Post("/path", nil, expected, nil)
+	_, _ = c.Post("path", nil, expected, nil)
 }
 
 type TestInvalidRequestBody struct {
@@ -172,15 +172,15 @@ func TestRequestBodyMarshalError(t *testing.T) {
 		Channel: make(chan int),
 	}
 
-	c := NewTestAPIClient(nil)
+	c := NewTestAPIClient(t, nil)
 
-	_, err := c.Post("/path", nil, b, nil)
+	_, err := c.Post("path", nil, b, nil)
 	assert.Error(t, err)
 }
 
 func TestUrlParseError(t *testing.T) {
 	t.Parallel()
-	c := NewTestAPIClient(nil)
+	c := NewTestAPIClient(t, nil)
 
 	_, err := c.Get("\\", nil, nil)
 	assert.Error(t, err)
@@ -188,28 +188,28 @@ func TestUrlParseError(t *testing.T) {
 
 func TestPathOnlyUrl(t *testing.T) {
 	t.Parallel()
-	c := NewTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 
 		assert.Equal(t, r.URL, "https://www.mocky.io/v2/path")
 	}))
 
-	c.config.BaseURL = "https://www.mocky.io/v2"
+	c.config.Region.SetRestBaseURL("https://www.mocky.io/v2")
 
-	_, _ = c.Get("/path", nil, nil)
+	_, _ = c.Get("path", nil, nil)
 }
 
 func TestHostAndPathUrl(t *testing.T) {
 	t.Parallel()
-	c := NewTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 
 		assert.Equal(t, r.URL, "https:/www.httpbin.org/path")
 	}))
 
-	c.config.BaseURL = "https://www.mocky.io/v2"
+	c.config.Region.SetRestBaseURL("https://www.mocky.io/v2")
 
 	_, _ = c.Get("https://www.httpbin.org/path", nil, nil)
 }
@@ -220,27 +220,27 @@ type TestInvalidReponseBody struct {
 
 func TestResponseUnmarshalError(t *testing.T) {
 	t.Parallel()
-	c := NewTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		_, _ = w.Write([]byte(`{"channel": "test"}`))
 	}))
 
-	_, err := c.Get("/path", nil, &TestInvalidReponseBody{})
+	_, err := c.Get("path", nil, &TestInvalidReponseBody{})
 
 	assert.Error(t, err)
 }
 
 func TestHeaders(t *testing.T) {
 	t.Parallel()
-	c := NewTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 
-		assert.Equal(t, testUserAgent, r.Header.Get("user-agent"))
+		assert.Equal(t, mock.UserAgent, r.Header.Get("user-agent"))
 		assert.Equal(t, "newrelic-client-go", r.Header.Get("newrelic-requesting-services"))
 	}))
 
-	_, err := c.Get("/path", nil, nil)
+	_, err := c.Get("path", nil, nil)
 
 	assert.Nil(t, err)
 }
@@ -256,15 +256,13 @@ func TestCustomClientHeaders(t *testing.T) {
 		assert.Equal(t, "custom-requesting-service|newrelic-client-go", r.Header.Get("newrelic-requesting-services"))
 	}))
 
-	c := NewClient(config.Config{
-		PersonalAPIKey: testPersonalAPIKey,
-		AdminAPIKey:    testAdminAPIKey,
-		BaseURL:        ts.URL,
-		UserAgent:      "custom-user-agent",
-		ServiceName:    "custom-requesting-service",
-	})
+	tc := mock.NewTestConfig(t, ts)
+	tc.UserAgent = "custom-user-agent"
+	tc.ServiceName = "custom-requesting-service"
 
-	_, err := c.Get("/path", nil, nil)
+	c := NewClient(tc)
+
+	_, err := c.Get("path", nil, nil)
 
 	assert.Nil(t, err)
 }
@@ -280,13 +278,11 @@ func TestCustomRequestHeaders(t *testing.T) {
 		assert.Equal(t, "custom-requesting-service|newrelic-client-go", r.Header.Get("newrelic-requesting-services"))
 	}))
 
-	c := NewClient(config.Config{
-		PersonalAPIKey: testPersonalAPIKey,
-		AdminAPIKey:    testAdminAPIKey,
-		BaseURL:        ts.URL,
-	})
+	tc := mock.NewTestConfig(t, ts)
 
-	req, err := NewRequest(c, "GET", "/path", nil, nil, nil)
+	c := NewClient(tc)
+
+	req, err := NewRequest(c, "GET", "path", nil, nil, nil)
 
 	req.SetHeader("user-agent", "custom-user-agent")
 	req.SetServiceName("custom-requesting-service")
@@ -302,95 +298,92 @@ func TestAdminAPIKeyHeader(t *testing.T) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 
-		assert.Equal(t, testAdminAPIKey, r.Header.Get("x-api-key"))
+		assert.Equal(t, mock.AdminAPIKey, r.Header.Get("x-api-key"))
 	}))
 
-	c := NewClient(config.Config{
-		AdminAPIKey: testAdminAPIKey,
-		BaseURL:     ts.URL,
-		UserAgent:   testUserAgent,
-	})
+	tc := mock.NewTestConfig(t, ts)
+	c := NewClient(tc)
 
-	_, err := c.Get("/path", nil, nil)
+	_, err := c.Get("path", nil, nil)
 
 	assert.Nil(t, err)
 }
 
 func TestErrNotFound(t *testing.T) {
 	t.Parallel()
-	c := NewTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusNotFound)
 	}))
 
-	_, err := c.Get("/path", nil, nil)
+	_, err := c.Get("path", nil, nil)
 
 	assert.IsType(t, &errors.NotFound{}, err)
 }
 
 func TestInternalServerError(t *testing.T) {
 	t.Parallel()
-	c := NewTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 	}))
 
-	_, err := c.Get("/path", nil, nil)
+	_, err := c.Get("path", nil, nil)
 
 	assert.IsType(t, &errors.UnexpectedStatusCode{}, err)
 }
 
 func TestPost(t *testing.T) {
 	t.Parallel()
-	c := NewTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte(`{}`))
 	}))
 
-	_, err := c.Post("/path", &struct{}{}, &struct{}{}, &struct{}{})
+	_, err := c.Post("path", &struct{}{}, &struct{}{}, &struct{}{})
 
 	assert.NoError(t, err)
 }
 
 func TestRawPost(t *testing.T) {
 	t.Parallel()
-	c := NewTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte(`{}`))
 	}))
 
 	// string
-	_, err := c.RawPost("/path", &struct{}{}, "test string payload", &struct{}{})
+	_, err := c.RawPost("path", &struct{}{}, "test string payload", &struct{}{})
 	assert.NoError(t, err)
 
 	// []byte
-	_, err = c.RawPost("/path", &struct{}{}, []byte(`bytes`), &struct{}{})
+	_, err = c.RawPost("path", &struct{}{}, []byte(`bytes`), &struct{}{})
 	assert.NoError(t, err)
 
 	// invalid
-	_, err = c.RawPost("/path", &struct{}{}, &struct{}{}, &struct{}{})
+	_, err = c.RawPost("path", &struct{}{}, &struct{}{}, &struct{}{})
 	assert.Error(t, err)
 }
 
 func TestPut(t *testing.T) {
 	t.Parallel()
-	c := NewTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte(`{}`))
 	}))
 
-	_, err := c.Put("/path", &struct{}{}, &struct{}{}, &struct{}{})
+	_, err := c.Put("path", &struct{}{}, &struct{}{}, &struct{}{})
 
 	assert.NoError(t, err)
 }
 
 func TestDelete(t *testing.T) {
 	t.Parallel()
-	c := NewTestAPIClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 
 		_, _ = w.Write([]byte(`{}`))
 	}))
 
-	_, err := c.Delete("/path", &struct{}{}, &struct{}{})
+	_, err := c.Delete("path", &struct{}{}, &struct{}{})
 
 	assert.NoError(t, err)
 }

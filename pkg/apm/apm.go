@@ -3,7 +3,6 @@ package apm
 
 import (
 	"github.com/newrelic/newrelic-client-go/internal/http"
-	"github.com/newrelic/newrelic-client-go/internal/region"
 	"github.com/newrelic/newrelic-client-go/pkg/config"
 )
 
@@ -24,6 +23,3 @@ func New(config config.Config) APM {
 
 	return pkg
 }
-
-// BaseURLs represents the base API URLs for the different environments of the New Relic REST API V2.
-var BaseURLs = region.DefaultBaseURLs
