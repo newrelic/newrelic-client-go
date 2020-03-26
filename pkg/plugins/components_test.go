@@ -132,7 +132,7 @@ func TestListComponentsWithParams(t *testing.T) {
 	expectedPluginID := "1234"
 	expectedHealthStatus := "true"
 
-	plugins := newTestClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	plugins := newTestClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		values := r.URL.Query()
 
 		name := values.Get("filter[name]")
@@ -224,7 +224,7 @@ func TestGetComponentMetricDataWithParams(t *testing.T) {
 	expectedSummarize := "true"
 	expectedRaw := "true"
 
-	plugins := newTestClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	plugins := newTestClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		values := r.URL.Query()
 
 		names := values.Get("names[]")
