@@ -99,8 +99,8 @@ func (r *Request) makeURL() (*neturl.URL, error) {
 		return u, nil
 	}
 
-	u, err = neturl.Parse(r.config.BaseURL + u.Path)
-
+	// FIXME: Assume it's a REST call
+	u, err = neturl.Parse(r.config.Region.RestURL(u.Path))
 	if err != nil {
 		return nil, err
 	}
