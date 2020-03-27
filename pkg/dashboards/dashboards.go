@@ -10,6 +10,7 @@ import (
 // Dashboards is used to communicate with the New Relic Dashboards product.
 type Dashboards struct {
 	client http.Client
+	config config.Config
 	logger logging.Logger
 	pager  http.Pager
 }
@@ -18,6 +19,7 @@ type Dashboards struct {
 func New(config config.Config) Dashboards {
 	pkg := Dashboards{
 		client: http.NewClient(config),
+		config: config,
 		logger: config.GetLogger(),
 		pager:  &http.LinkHeaderPager{},
 	}
