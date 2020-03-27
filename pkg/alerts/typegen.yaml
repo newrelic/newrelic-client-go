@@ -5,3 +5,6 @@ types:
   - AlertsMutingRuleInput
   - AlertsPoliciesSearchCriteriaInput
   - AlertsPoliciesSearchResultSet
+  - AlertsPolicy
+  - AlertsPolicyInput
+  - AlertsPolicyUpdateInput
