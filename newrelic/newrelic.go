@@ -13,6 +13,7 @@ import (
 	"github.com/newrelic/newrelic-client-go/pkg/entities"
 	"github.com/newrelic/newrelic-client-go/pkg/nerdgraph"
 	"github.com/newrelic/newrelic-client-go/pkg/plugins"
+	"github.com/newrelic/newrelic-client-go/pkg/region"
 	"github.com/newrelic/newrelic-client-go/pkg/synthetics"
 	"github.com/newrelic/newrelic-client-go/pkg/workloads"
 )
@@ -31,7 +32,7 @@ type NewRelic struct {
 
 // New returns a collection of New Relic APIs.
 func New(opts ...ConfigOption) (*NewRelic, error) {
-	config := config.Config{}
+	config := config.New()
 
 	// Loop through config options
 	for _, fn := range opts {
@@ -85,10 +86,14 @@ func ConfigAdminAPIKey(adminAPIKey string) ConfigOption {
 }
 
 // ConfigRegion sets the New Relic Region this client will use.
-func ConfigRegion(region config.RegionType) ConfigOption {
+func ConfigRegion(r region.Name) ConfigOption {
 	return func(cfg *config.Config) error {
-		cfg.Region = region
-		return nil
+		if region, ok := region.Regions[r]; ok {
+			regCopy := *region
+			return cfg.SetRegion(&regCopy)
+		}
+
+		return errors.New("unsupported region configured")
 	}
 }
 
@@ -140,7 +145,7 @@ func ConfigServiceName(name string) ConfigOption {
 func ConfigBaseURL(url string) ConfigOption {
 	return func(cfg *config.Config) error {
 		if url != "" {
-			cfg.BaseURL = url
+			cfg.Region().SetRestBaseURL(url)
 			return nil
 		}
 
@@ -152,7 +157,7 @@ func ConfigBaseURL(url string) ConfigOption {
 func ConfigInfrastructureBaseURL(url string) ConfigOption {
 	return func(cfg *config.Config) error {
 		if url != "" {
-			cfg.InfrastructureBaseURL = url
+			cfg.Region().SetInfrastructureBaseURL(url)
 			return nil
 		}
 
@@ -164,7 +169,7 @@ func ConfigInfrastructureBaseURL(url string) ConfigOption {
 func ConfigSyntheticsBaseURL(url string) ConfigOption {
 	return func(cfg *config.Config) error {
 		if url != "" {
-			cfg.SyntheticsBaseURL = url
+			cfg.Region().SetSyntheticsBaseURL(url)
 			return nil
 		}
 
@@ -176,7 +181,7 @@ func ConfigSyntheticsBaseURL(url string) ConfigOption {
 func ConfigNerdGraphBaseURL(url string) ConfigOption {
 	return func(cfg *config.Config) error {
 		if url != "" {
-			cfg.NerdGraphBaseURL = url
+			cfg.Region().SetNerdGraphBaseURL(url)
 			return nil
 		}
 

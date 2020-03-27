@@ -22,7 +22,7 @@ deps: tools deps-only
 
 
 # Determine commands by looking into cmd/*
-TOOL_COMMANDS   ?= $(shell find ${SRCDIR}/tools -type d -depth 1)
+TOOL_COMMANDS   ?= $(shell find ${SRCDIR}/tools -depth 1 -type d)
 # Determine binary names by stripping out the dir names
 TOOL_BINS       := $(foreach tool,${TOOL_COMMANDS},$(notdir ${tool}))
 

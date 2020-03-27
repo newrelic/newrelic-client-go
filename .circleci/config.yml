@@ -51,6 +51,9 @@ jobs:
     steps:
       - checkout
       - run: git fetch --tags
+      - run:
+          name: Fetch deps
+          command: make deps
       - save_cache:
           key: repo-{{ .Environment.CIRCLE_SHA1 }}
           paths:

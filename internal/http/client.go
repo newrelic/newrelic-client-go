@@ -11,7 +11,6 @@ import (
 
 	retryablehttp "github.com/hashicorp/go-retryablehttp"
 
-	"github.com/newrelic/newrelic-client-go/internal/region"
 	"github.com/newrelic/newrelic-client-go/internal/version"
 	"github.com/newrelic/newrelic-client-go/pkg/config"
 	nrErrors "github.com/newrelic/newrelic-client-go/pkg/errors"
@@ -58,14 +57,6 @@ func NewClient(cfg config.Config) Client {
 		}
 	} else {
 		c.Transport = http.DefaultTransport
-	}
-
-	if cfg.BaseURL == "" {
-		cfg.BaseURL = region.DefaultBaseURLs[region.Parse(string(cfg.Region))]
-	}
-
-	if cfg.NerdGraphBaseURL == "" {
-		cfg.NerdGraphBaseURL = region.NerdGraphBaseURLs[region.Parse(string(cfg.Region))]
 	}
 
 	if cfg.UserAgent == "" {
@@ -291,11 +282,6 @@ func makeRequestBodyReader(reqBody interface{}) (*bytes.Buffer, error) {
 	return b, nil
 }
 
-// GetBaseURL returns the BaseURL used by the client
-func (c *Client) GetBaseURL() string {
-	return c.config.BaseURL
-}
-
 // Query runs a graphQL query.
 func (c *Client) Query(query string, vars map[string]interface{}, respBody interface{}) error {
 	graphqlReqBody := &graphQLRequest{
@@ -307,7 +293,7 @@ func (c *Client) Query(query string, vars map[string]interface{}, respBody inter
 		Data: respBody,
 	}
 
-	req, err := NewRequest(*c, http.MethodPost, c.config.NerdGraphBaseURL, nil, graphqlReqBody, graphqlRespBody)
+	req, err := NewRequest(*c, http.MethodPost, c.config.Region().NerdGraphURL(), nil, graphqlReqBody, graphqlRespBody)
 	if err != nil {
 		return err
 	}

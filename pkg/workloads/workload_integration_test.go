@@ -3,12 +3,11 @@
 package workloads
 
 import (
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/newrelic/newrelic-client-go/pkg/config"
+	mock "github.com/newrelic/newrelic-client-go/internal/testing"
 )
 
 var (
@@ -99,17 +98,8 @@ func TestIntegrationWorkload(t *testing.T) {
 	require.NotNil(t, deleted)
 }
 
-// nolint
 func newIntegrationTestClient(t *testing.T) Workloads {
-	apiKey := os.Getenv("NEW_RELIC_API_KEY")
+	tc := mock.NewIntegrationTestConfig(t)
 
-	if apiKey == "" {
-		t.Skipf("acceptance testing for graphql requires your personal API key")
-	}
-
-	return New(config.Config{
-		PersonalAPIKey: apiKey,
-		UserAgent:      "newrelic/newrelic-client-go",
-		LogLevel:       "debug",
-	})
+	return New(tc)
 }

@@ -203,7 +203,7 @@ func TestListApplicationsWithParams(t *testing.T) {
 	expectedLanguage := "appLanguage"
 	expectedIDs := "123,456"
 
-	apm := newTestClient(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	apm := newTestClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		values := r.URL.Query()
 
 		name := values.Get("filter[name]")

@@ -3,13 +3,12 @@
 package entities
 
 import (
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/newrelic/newrelic-client-go/pkg/config"
+	mock "github.com/newrelic/newrelic-client-go/internal/testing"
 )
 
 func TestIntegrationSearchEntities(t *testing.T) {
@@ -104,17 +103,8 @@ func TestIntegrationGetEntity_ApmEntityOutline(t *testing.T) {
 
 }
 
-// nolint
 func newIntegrationTestClient(t *testing.T) Entities {
-	apiKey := os.Getenv("NEW_RELIC_API_KEY")
+	tc := mock.NewIntegrationTestConfig(t)
 
-	if apiKey == "" {
-		t.Skipf("acceptance testing for graphql requires your personal API key")
-	}
-
-	return New(config.Config{
-		PersonalAPIKey: apiKey,
-		UserAgent:      "newrelic/newrelic-client-go",
-		LogLevel:       "debug",
-	})
+	return New(tc)
 }

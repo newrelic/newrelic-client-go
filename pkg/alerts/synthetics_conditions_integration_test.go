@@ -4,21 +4,21 @@ package alerts
 
 import (
 	"fmt"
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/require"
 
-	nr "github.com/newrelic/newrelic-client-go/internal/testing"
-	"github.com/newrelic/newrelic-client-go/pkg/config"
+	mock "github.com/newrelic/newrelic-client-go/internal/testing"
 	"github.com/newrelic/newrelic-client-go/pkg/synthetics"
 )
 
 func TestIntegrationSyntheticsConditions(t *testing.T) {
 	t.Parallel()
 
+	tc := mock.NewIntegrationTestConfig(t)
+
 	var (
-		testRandStr                      = nr.RandSeq(5)
+		testRandStr                      = mock.RandSeq(5)
 		testIntegrationSyntheticsMonitor = synthetics.Monitor{
 			Name:         fmt.Sprintf("test-synthetics-alert-conditions-monitor-%s", testRandStr),
 			Type:         synthetics.MonitorTypes.Ping,
@@ -39,9 +39,7 @@ func TestIntegrationSyntheticsConditions(t *testing.T) {
 	)
 
 	alerts := newIntegrationTestClient(t)
-	synth := synthetics.New(config.Config{
-		AdminAPIKey: os.Getenv("NEW_RELIC_ADMIN_API_KEY"),
-	})
+	synth := synthetics.New(tc)
 
 	// Setup
 	monitor, err := synth.CreateMonitor(testIntegrationSyntheticsMonitor)
