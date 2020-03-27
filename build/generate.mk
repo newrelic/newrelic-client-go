@@ -5,5 +5,5 @@
 GO           ?= go
 
 generate:
-	@go run cmd/typegen.go -v
+	@go run tools/typegen.go -v
 	@go fmt pkg/*/types.go

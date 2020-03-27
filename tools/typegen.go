@@ -43,7 +43,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	yamlFile, err := ioutil.ReadFile("etc/typegen.yaml")
+	yamlFile, err := ioutil.ReadFile("configs/typegen.yaml")
 	if err != nil {
 		log.Fatal(err)
 	}
