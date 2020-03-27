@@ -59,8 +59,8 @@ func TestAlertsQueryPolicy_GraphQL_Enabled(t *testing.T) {
 
 	// Create a policy to work with in this test
 	testIntegrationPolicyNameRandStr := nr.RandSeq(5)
-	policy := QueryPolicyCreateInput{}
-	policy.IncidentPreference = IncidentPreferenceTypes.PerPolicy
+	policy := AlertsPolicyInput{}
+	policy.IncidentPreference = PER_POLICY
 	policy.Name = fmt.Sprintf("test-alert-policy-%s", testIntegrationPolicyNameRandStr)
 
 	// Test: Create
@@ -73,8 +73,13 @@ func TestAlertsQueryPolicy_GraphQL_Enabled(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, queryResult)
 
+	// Search
+	searchResults, err := a.QueryPolicySearch(accountID, AlertsPoliciesSearchCriteriaInput{})
+	require.NoError(t, err)
+	require.NotNil(t, searchResults)
+
 	// Test: Update
-	updatePolicy := QueryPolicyUpdateInput{}
+	updatePolicy := AlertsPolicyUpdateInput{}
 	updatePolicy.Name = fmt.Sprintf("test-alert-policy-updated-%s", testIntegrationPolicyNameRandStr)
 	updatePolicy.IncidentPreference = createResult.IncidentPreference
 

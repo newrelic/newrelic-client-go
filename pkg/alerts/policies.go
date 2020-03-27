@@ -33,27 +33,6 @@ type Policy struct {
 	UpdatedAt          *serialization.EpochTime `json:"updated_at,omitempty"`
 }
 
-// QueryPolicy is similar to a Policy, but the resulting NerdGraph objects are
-// string IDs in the JSON response.
-type QueryPolicy struct {
-	ID                 int                    `json:"id,string"`
-	IncidentPreference IncidentPreferenceType `json:"incidentPreference"`
-	Name               string                 `json:"name"`
-}
-
-type QueryPolicyInput struct {
-	IncidentPreference IncidentPreferenceType `json:"incidentPreference"`
-	Name               string                 `json:"name"`
-}
-
-type QueryPolicyCreateInput struct {
-	QueryPolicyInput
-}
-
-type QueryPolicyUpdateInput struct {
-	QueryPolicyInput
-}
-
 // ListPoliciesParams represents a set of filters to be used when querying New
 // Relic alert policies.
 type ListPoliciesParams struct {
@@ -146,7 +125,7 @@ func (a *Alerts) DeletePolicy(id int) (*Policy, error) {
 	return &resp.Policy, nil
 }
 
-func (a *Alerts) CreatePolicyMutation(accountID int, policy QueryPolicyCreateInput) (*QueryPolicy, error) {
+func (a *Alerts) CreatePolicyMutation(accountID int, policy AlertsPolicyInput) (*AlertsPolicy, error) {
 	vars := map[string]interface{}{
 		"accountID": accountID,
 		"policy":    policy,
@@ -158,10 +137,10 @@ func (a *Alerts) CreatePolicyMutation(accountID int, policy QueryPolicyCreateInp
 		return nil, err
 	}
 
-	return &resp.QueryPolicy, nil
+	return &resp.AlertsPolicy, nil
 }
 
-func (a *Alerts) UpdatePolicyMutation(accountID int, policyID int, policy QueryPolicyUpdateInput) (*QueryPolicy, error) {
+func (a *Alerts) UpdatePolicyMutation(accountID int, policyID int, policy AlertsPolicyUpdateInput) (*AlertsPolicy, error) {
 	vars := map[string]interface{}{
 		"accountID": accountID,
 		"policyID":  policyID,
@@ -174,12 +153,12 @@ func (a *Alerts) UpdatePolicyMutation(accountID int, policyID int, policy QueryP
 		return nil, err
 	}
 
-	return &resp.QueryPolicy, nil
+	return &resp.AlertsPolicy, nil
 }
 
 // QueryPolicy queries NerdGraph for a policy matching the given account ID and
 // policy ID.
-func (a *Alerts) QueryPolicy(accountID, id int) (*QueryPolicy, error) {
+func (a *Alerts) QueryPolicy(accountID, id int) (*AlertsPolicy, error) {
 	resp := alertQueryPolicyResponse{}
 	vars := map[string]interface{}{
 		"accountID": accountID,
@@ -193,10 +172,38 @@ func (a *Alerts) QueryPolicy(accountID, id int) (*QueryPolicy, error) {
 	return &resp.Actor.Account.Alerts.Policy, nil
 }
 
+// QueryPolicySearch searches NerdGraph for policies.
+func (a *Alerts) QueryPolicySearch(accountID int, params AlertsPoliciesSearchCriteriaInput) ([]*AlertsPolicy, error) {
+
+	policies := []*AlertsPolicy{}
+	var nextCursor *string
+
+	for ok := true; ok; ok = nextCursor != nil {
+		resp := alertQueryPolicySearchResponse{}
+		vars := map[string]interface{}{
+			"accountID":      accountID,
+			"cursor":         nextCursor,
+			"searchCriteria": params,
+		}
+
+		if err := a.client.Query(alertsPolicyQuerySearch, vars, &resp); err != nil {
+			return nil, err
+		}
+
+		for _, p := range resp.Actor.Account.Alerts.PoliciesSearch.Policies {
+			policies = append(policies, &p)
+		}
+
+		nextCursor = resp.Actor.Account.Alerts.PoliciesSearch.NextCursor
+	}
+
+	return policies, nil
+}
+
 // DeletePolicyMutation is the NerdGraph mutation to delete a policy given the
 // account ID and the policy ID.
-func (a *Alerts) DeletePolicyMutation(accountID, id int) (*QueryPolicy, error) {
-	policy := &QueryPolicy{}
+func (a *Alerts) DeletePolicyMutation(accountID, id int) (*AlertsPolicy, error) {
+	policy := &AlertsPolicy{}
 
 	resp := alertQueryPolicyDeleteRespose{}
 	vars := map[string]interface{}{
@@ -223,19 +230,33 @@ type alertPolicyRequestBody struct {
 	Policy Policy `json:"policy"`
 }
 
+type alertQueryPolicySearchResponse struct {
+	Actor struct {
+		Account struct {
+			Alerts struct {
+				PoliciesSearch struct {
+					NextCursor *string        `json:"nextCursor"`
+					Policies   []AlertsPolicy `json:"policies"`
+					TotalCount int            `json:"totalCount"`
+				} `json:"policiesSearch"`
+			} `json:"alerts"`
+		} `json:"account"`
+	} `json:"actor"`
+}
+
 type alertQueryPolicyCreateResponse struct {
-	QueryPolicy QueryPolicy `json:"alertsPolicyCreate"`
+	AlertsPolicy AlertsPolicy `json:"alertsPolicyCreate"`
 }
 
 type alertQueryPolicyUpdateResponse struct {
-	QueryPolicy QueryPolicy `json:"alertsPolicyUpdate"`
+	AlertsPolicy AlertsPolicy `json:"alertsPolicyUpdate"`
 }
 
 type alertQueryPolicyResponse struct {
 	Actor struct {
 		Account struct {
 			Alerts struct {
-				Policy QueryPolicy `json:"policy"`
+				Policy AlertsPolicy `json:"policy"`
 			} `json:"alerts"`
 		} `json:"account"`
 	} `json:"actor"`
@@ -252,12 +273,32 @@ const (
 						id
 						name
 						incidentPreference
+						accountId
 	`
 	alertPolicyQueryPolicy = `query($accountID: Int!, $policyID: ID!) {
 		actor {
 			account(id: $accountID) {
 				alerts {
 					policy(id: $policyID) {` + graphqlAlertPolicyFields + `
+					}
+				}
+			}
+		}
+	}`
+
+	alertsPolicyQuerySearch = `query($accountID: Int!, $cursor: String, $criteria: AlertsPoliciesSearchCriteriaInput) {
+		actor {
+			account(id: $accountID) {
+				alerts {
+					policiesSearch(cursor: $cursor, searchCriteria: $criteria) {
+						nextCursor
+						totalCount
+						policies {
+							accountId
+							id
+							incidentPreference
+							name
+						}
 					}
 				}
 			}
