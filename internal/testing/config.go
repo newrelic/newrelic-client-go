@@ -5,6 +5,8 @@ import (
 	"os"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/newrelic/newrelic-client-go/pkg/config"
 	"github.com/newrelic/newrelic-client-go/pkg/region"
 )
@@ -28,10 +30,10 @@ func NewTestConfig(t *testing.T, testServer *httptest.Server) config.Config {
 	cfg.UserAgent = UserAgent
 
 	if testServer != nil {
-		cfg.Region.SetInfrastructureBaseURL(testServer.URL)
-		cfg.Region.SetNerdGraphBaseURL(testServer.URL)
-		cfg.Region.SetRestBaseURL(testServer.URL)
-		cfg.Region.SetSyntheticsBaseURL(testServer.URL)
+		cfg.Region().SetInfrastructureBaseURL(testServer.URL)
+		cfg.Region().SetNerdGraphBaseURL(testServer.URL)
+		cfg.Region().SetRestBaseURL(testServer.URL)
+		cfg.Region().SetSyntheticsBaseURL(testServer.URL)
 	}
 
 	return cfg
@@ -58,7 +60,8 @@ func NewIntegrationTestConfig(t *testing.T) config.Config {
 	cfg.AdminAPIKey = envAdminAPIKey
 
 	if envRegion != "" {
-		cfg.Region = region.Parse(envRegion)
+		err := cfg.SetRegion(region.Parse(envRegion))
+		assert.NoError(t, err)
 	}
 
 	return cfg

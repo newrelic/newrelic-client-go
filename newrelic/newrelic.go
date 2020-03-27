@@ -89,8 +89,8 @@ func ConfigAdminAPIKey(adminAPIKey string) ConfigOption {
 func ConfigRegion(r region.Name) ConfigOption {
 	return func(cfg *config.Config) error {
 		if region, ok := region.Regions[r]; ok {
-			cfg.Region = region
-			return nil
+			regCopy := *region
+			return cfg.SetRegion(&regCopy)
 		}
 
 		return errors.New("unsupported region configured")
@@ -145,7 +145,7 @@ func ConfigServiceName(name string) ConfigOption {
 func ConfigBaseURL(url string) ConfigOption {
 	return func(cfg *config.Config) error {
 		if url != "" {
-			cfg.Region.SetRestBaseURL(url)
+			cfg.Region().SetRestBaseURL(url)
 			return nil
 		}
 
@@ -157,7 +157,7 @@ func ConfigBaseURL(url string) ConfigOption {
 func ConfigInfrastructureBaseURL(url string) ConfigOption {
 	return func(cfg *config.Config) error {
 		if url != "" {
-			cfg.Region.SetInfrastructureBaseURL(url)
+			cfg.Region().SetInfrastructureBaseURL(url)
 			return nil
 		}
 
@@ -169,7 +169,7 @@ func ConfigInfrastructureBaseURL(url string) ConfigOption {
 func ConfigSyntheticsBaseURL(url string) ConfigOption {
 	return func(cfg *config.Config) error {
 		if url != "" {
-			cfg.Region.SetSyntheticsBaseURL(url)
+			cfg.Region().SetSyntheticsBaseURL(url)
 			return nil
 		}
 
@@ -181,7 +181,7 @@ func ConfigSyntheticsBaseURL(url string) ConfigOption {
 func ConfigNerdGraphBaseURL(url string) ConfigOption {
 	return func(cfg *config.Config) error {
 		if url != "" {
-			cfg.Region.SetNerdGraphBaseURL(url)
+			cfg.Region().SetNerdGraphBaseURL(url)
 			return nil
 		}
 

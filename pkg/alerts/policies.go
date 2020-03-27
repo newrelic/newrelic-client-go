@@ -64,7 +64,7 @@ type ListPoliciesParams struct {
 func (a *Alerts) ListPolicies(params *ListPoliciesParams) ([]Policy, error) {
 	alertPolicies := []Policy{}
 
-	nextURL := a.config.Region.RestURL("/alerts_policies.json")
+	nextURL := a.config.Region().RestURL("/alerts_policies.json")
 
 	for nextURL != "" {
 		response := alertPoliciesResponse{}
@@ -107,7 +107,7 @@ func (a *Alerts) CreatePolicy(policy Policy) (*Policy, error) {
 	}
 	resp := alertPolicyResponse{}
 
-	_, err := a.client.Post(a.config.Region.RestURL("/alerts_policies.json"), nil, &reqBody, &resp)
+	_, err := a.client.Post(a.config.Region().RestURL("/alerts_policies.json"), nil, &reqBody, &resp)
 
 	if err != nil {
 		return nil, err
@@ -125,7 +125,7 @@ func (a *Alerts) UpdatePolicy(policy Policy) (*Policy, error) {
 	resp := alertPolicyResponse{}
 	url := fmt.Sprintf("/alerts_policies/%d.json", policy.ID)
 
-	_, err := a.client.Put(a.config.Region.RestURL(url), nil, &reqBody, &resp)
+	_, err := a.client.Put(a.config.Region().RestURL(url), nil, &reqBody, &resp)
 	if err != nil {
 		return nil, err
 	}
@@ -138,7 +138,7 @@ func (a *Alerts) DeletePolicy(id int) (*Policy, error) {
 	resp := alertPolicyResponse{}
 	url := fmt.Sprintf("/alerts_policies/%d.json", id)
 
-	_, err := a.client.Delete(a.config.Region.RestURL(url), nil, &resp)
+	_, err := a.client.Delete(a.config.Region().RestURL(url), nil, &resp)
 	if err != nil {
 		return nil, err
 	}

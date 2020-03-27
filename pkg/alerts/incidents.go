@@ -33,7 +33,7 @@ func (a *Alerts) ListIncidents(onlyOpen bool, excludeViolations bool) ([]*Incide
 
 	for nextURL != "" {
 		incidentsResponse := alertIncidentsResponse{}
-		resp, err := a.client.Get(a.config.Region.RestURL(nextURL), queryParams, &incidentsResponse)
+		resp, err := a.client.Get(a.config.Region().RestURL(nextURL), queryParams, &incidentsResponse)
 
 		if err != nil {
 			return nil, err
@@ -61,7 +61,7 @@ func (a *Alerts) CloseIncident(id int) (*Incident, error) {
 func (a *Alerts) updateIncident(id int, verb string) (*Incident, error) {
 	response := alertIncidentResponse{}
 	url := fmt.Sprintf("/alerts_incidents/%d/%s.json", id, verb)
-	_, err := a.client.Put(a.config.Region.RestURL(url), nil, nil, &response)
+	_, err := a.client.Put(a.config.Region().RestURL(url), nil, nil, &response)
 
 	if err != nil {
 		return nil, err

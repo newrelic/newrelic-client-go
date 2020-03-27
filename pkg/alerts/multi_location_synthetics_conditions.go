@@ -38,7 +38,7 @@ func (a *Alerts) ListMultiLocationSyntheticsConditions(policyID int) ([]*MultiLo
 	nextURL := fmt.Sprintf("/alerts_location_failure_conditions/policies/%d.json", policyID)
 
 	for nextURL != "" {
-		resp, err := a.client.Get(a.config.Region.RestURL(nextURL), &queryParams, &response)
+		resp, err := a.client.Get(a.config.Region().RestURL(nextURL), &queryParams, &response)
 
 		if err != nil {
 			return nil, err
@@ -61,7 +61,7 @@ func (a *Alerts) CreateMultiLocationSyntheticsCondition(condition MultiLocationS
 	resp := multiLocationSyntheticsConditionCreateResponse{}
 
 	url := fmt.Sprintf("/alerts_location_failure_conditions/policies/%d.json", policyID)
-	_, err := a.client.Post(a.config.Region.RestURL(url), nil, &reqBody, &resp)
+	_, err := a.client.Post(a.config.Region().RestURL(url), nil, &reqBody, &resp)
 	if err != nil {
 		return nil, err
 	}
@@ -77,7 +77,7 @@ func (a *Alerts) UpdateMultiLocationSyntheticsCondition(condition MultiLocationS
 	resp := multiLocationSyntheticsConditionCreateResponse{}
 
 	url := fmt.Sprintf("/alerts_location_failure_conditions/%d.json", condition.ID)
-	_, err := a.client.Put(a.config.Region.RestURL(url), nil, &reqBody, &resp)
+	_, err := a.client.Put(a.config.Region().RestURL(url), nil, &reqBody, &resp)
 
 	if err != nil {
 		return nil, err
@@ -91,7 +91,7 @@ func (a *Alerts) DeleteMultiLocationSyntheticsCondition(conditionID int) (*Multi
 	resp := multiLocationSyntheticsConditionCreateResponse{}
 	url := fmt.Sprintf("/alerts_conditions/%d.json", conditionID)
 
-	_, err := a.client.Delete(a.config.Region.RestURL(url), nil, &resp)
+	_, err := a.client.Delete(a.config.Region().RestURL(url), nil, &resp)
 
 	if err != nil {
 		return nil, err

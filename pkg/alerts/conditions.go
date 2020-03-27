@@ -210,7 +210,7 @@ func (a *Alerts) ListConditions(policyID int) ([]*Condition, error) {
 
 	for nextURL != "" {
 		response := alertConditionsResponse{}
-		resp, err := a.client.Get(a.config.Region.RestURL(nextURL), &queryParams, &response)
+		resp, err := a.client.Get(a.config.Region().RestURL(nextURL), &queryParams, &response)
 
 		if err != nil {
 			return nil, err
@@ -249,7 +249,7 @@ func (a *Alerts) CreateCondition(policyID int, condition Condition) (*Condition,
 	resp := alertConditionResponse{}
 
 	url := fmt.Sprintf("/alerts_conditions/policies/%d.json", policyID)
-	_, err := a.client.Post(a.config.Region.RestURL(url), nil, &reqBody, &resp)
+	_, err := a.client.Post(a.config.Region().RestURL(url), nil, &reqBody, &resp)
 
 	if err != nil {
 		return nil, err
@@ -266,7 +266,7 @@ func (a *Alerts) UpdateCondition(condition Condition) (*Condition, error) {
 	resp := alertConditionResponse{}
 
 	url := fmt.Sprintf("/alerts_conditions/%d.json", condition.ID)
-	_, err := a.client.Put(a.config.Region.RestURL(url), nil, &reqBody, &resp)
+	_, err := a.client.Put(a.config.Region().RestURL(url), nil, &reqBody, &resp)
 
 	if err != nil {
 		return nil, err
@@ -280,7 +280,7 @@ func (a *Alerts) DeleteCondition(id int) (*Condition, error) {
 	resp := alertConditionResponse{}
 	url := fmt.Sprintf("/alerts_conditions/%d.json", id)
 
-	_, err := a.client.Delete(a.config.Region.RestURL(url), nil, &resp)
+	_, err := a.client.Delete(a.config.Region().RestURL(url), nil, &resp)
 
 	if err != nil {
 		return nil, err

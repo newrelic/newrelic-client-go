@@ -13,7 +13,7 @@ type SecureCredential struct {
 func (s *Synthetics) GetSecureCredentials() ([]*SecureCredential, error) {
 	resp := getSecureCredentialsResponse{}
 
-	_, err := s.client.Get(s.config.Region.SyntheticsURL("/v1/secure-credentials"), nil, &resp)
+	_, err := s.client.Get(s.config.Region().SyntheticsURL("/v1/secure-credentials"), nil, &resp)
 	if err != nil {
 		return nil, err
 	}
@@ -25,7 +25,7 @@ func (s *Synthetics) GetSecureCredentials() ([]*SecureCredential, error) {
 func (s *Synthetics) GetSecureCredential(key string) (*SecureCredential, error) {
 	var sc SecureCredential
 
-	_, err := s.client.Get(s.config.Region.SyntheticsURL("/v1/secure-credentials", key), nil, &sc)
+	_, err := s.client.Get(s.config.Region().SyntheticsURL("/v1/secure-credentials", key), nil, &sc)
 	if err != nil {
 		return nil, err
 	}
@@ -41,7 +41,7 @@ func (s *Synthetics) AddSecureCredential(key, value, description string) (*Secur
 		Description: description,
 	}
 
-	_, err := s.client.Post(s.config.Region.SyntheticsURL("/v1/secure-credentials"), nil, sc, nil)
+	_, err := s.client.Post(s.config.Region().SyntheticsURL("/v1/secure-credentials"), nil, sc, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -57,7 +57,7 @@ func (s *Synthetics) UpdateSecureCredential(key, value, description string) (*Se
 		Description: description,
 	}
 
-	_, err := s.client.Put(s.config.Region.SyntheticsURL("/v1/secure-credentials", key), nil, sc, nil)
+	_, err := s.client.Put(s.config.Region().SyntheticsURL("/v1/secure-credentials", key), nil, sc, nil)
 
 	if err != nil {
 		return nil, err
@@ -68,7 +68,7 @@ func (s *Synthetics) UpdateSecureCredential(key, value, description string) (*Se
 
 // DeleteSecureCredential deletes a secure credential from your New Relic account.
 func (s *Synthetics) DeleteSecureCredential(key string) error {
-	_, err := s.client.Delete(s.config.Region.SyntheticsURL("/v1/secure-credentials", key), nil, nil)
+	_, err := s.client.Delete(s.config.Region().SyntheticsURL("/v1/secure-credentials", key), nil, nil)
 	if err != nil {
 		return err
 	}
