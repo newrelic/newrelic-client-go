@@ -62,7 +62,7 @@ func TestDefaultErrorValue(t *testing.T) {
 		_, _ = w.Write([]byte(`{"error":{"title":"error message"}}`))
 	}))
 
-	_, err := c.Get("path", nil, nil)
+	_, err := c.Get(c.config.Region().RestURL("path"), nil, nil)
 
 	assert.Contains(t, err.(*errors.UnexpectedStatusCode).Error(), "error message")
 }
@@ -89,7 +89,7 @@ func TestCustomErrorValue(t *testing.T) {
 
 	c.SetErrorValue(&CustomErrorResponse{})
 
-	_, err := c.Get("path", nil, nil)
+	_, err := c.Get(c.config.Region().RestURL("path"), nil, nil)
 
 	assert.Contains(t, err.(*errors.UnexpectedStatusCode).Error(), "error message")
 }
@@ -106,7 +106,7 @@ func TestResponseValue(t *testing.T) {
 	}))
 
 	v := &CustomResponseValue{}
-	_, err := c.Get("path", nil, v)
+	_, err := c.Get(c.config.Region().RestURL("path"), nil, v)
 
 	assert.NoError(t, err)
 	assert.Equal(t, &CustomResponseValue{Custom: "custom response string"}, v)
@@ -133,7 +133,7 @@ func TestQueryParams(t *testing.T) {
 		assert.Equal(t, "2", b)
 	}))
 
-	_, _ = c.Get("path", &queryParams, nil)
+	_, _ = c.Get(c.config.Region().RestURL("path"), &queryParams, nil)
 }
 
 type TestRequestBody struct {
@@ -159,7 +159,7 @@ func TestRequestBodyMarshal(t *testing.T) {
 		assert.Equal(t, &expected, actual)
 	}))
 
-	_, _ = c.Post("path", nil, expected, nil)
+	_, _ = c.Post(c.config.Region().RestURL("path"), nil, expected, nil)
 }
 
 type TestInvalidRequestBody struct {
@@ -174,7 +174,7 @@ func TestRequestBodyMarshalError(t *testing.T) {
 
 	c := NewTestAPIClient(t, nil)
 
-	_, err := c.Post("path", nil, b, nil)
+	_, err := c.Post(c.config.Region().RestURL("/path"), nil, b, nil)
 	assert.Error(t, err)
 }
 
@@ -182,36 +182,8 @@ func TestUrlParseError(t *testing.T) {
 	t.Parallel()
 	c := NewTestAPIClient(t, nil)
 
-	_, err := c.Get("\\", nil, nil)
+	_, err := c.Get(c.config.Region().RestURL("\\"), nil, nil)
 	assert.Error(t, err)
-}
-
-func TestPathOnlyUrl(t *testing.T) {
-	t.Parallel()
-	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusOK)
-
-		assert.Equal(t, r.URL, "https://www.mocky.io/v2/path")
-	}))
-
-	c.config.Region().SetRestBaseURL("https://www.mocky.io/v2")
-
-	_, _ = c.Get("path", nil, nil)
-}
-
-func TestHostAndPathUrl(t *testing.T) {
-	t.Parallel()
-	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusOK)
-
-		assert.Equal(t, r.URL, "https:/www.httpbin.org/path")
-	}))
-
-	c.config.Region().SetRestBaseURL("https://www.mocky.io/v2")
-
-	_, _ = c.Get("https://www.httpbin.org/path", nil, nil)
 }
 
 type TestInvalidReponseBody struct {
@@ -225,7 +197,7 @@ func TestResponseUnmarshalError(t *testing.T) {
 		_, _ = w.Write([]byte(`{"channel": "test"}`))
 	}))
 
-	_, err := c.Get("path", nil, &TestInvalidReponseBody{})
+	_, err := c.Get(c.config.Region().RestURL("path"), nil, &TestInvalidReponseBody{})
 
 	assert.Error(t, err)
 }
@@ -240,7 +212,7 @@ func TestHeaders(t *testing.T) {
 		assert.Equal(t, "newrelic-client-go", r.Header.Get("newrelic-requesting-services"))
 	}))
 
-	_, err := c.Get("path", nil, nil)
+	_, err := c.Get(c.config.Region().RestURL("path"), nil, nil)
 
 	assert.Nil(t, err)
 }
@@ -262,7 +234,7 @@ func TestCustomClientHeaders(t *testing.T) {
 
 	c := NewClient(tc)
 
-	_, err := c.Get("path", nil, nil)
+	_, err := c.Get(c.config.Region().RestURL("path"), nil, nil)
 
 	assert.Nil(t, err)
 }
@@ -282,7 +254,7 @@ func TestCustomRequestHeaders(t *testing.T) {
 
 	c := NewClient(tc)
 
-	req, err := NewRequest(c, "GET", "path", nil, nil, nil)
+	req, err := NewRequest(c, "GET", c.config.Region().RestURL("path"), nil, nil, nil)
 
 	req.SetHeader("user-agent", "custom-user-agent")
 	req.SetServiceName("custom-requesting-service")
@@ -304,7 +276,7 @@ func TestAdminAPIKeyHeader(t *testing.T) {
 	tc := mock.NewTestConfig(t, ts)
 	c := NewClient(tc)
 
-	_, err := c.Get("path", nil, nil)
+	_, err := c.Get(c.config.Region().RestURL("path"), nil, nil)
 
 	assert.Nil(t, err)
 }
@@ -315,7 +287,7 @@ func TestErrNotFound(t *testing.T) {
 		w.WriteHeader(http.StatusNotFound)
 	}))
 
-	_, err := c.Get("path", nil, nil)
+	_, err := c.Get(c.config.Region().RestURL("path"), nil, nil)
 
 	assert.IsType(t, &errors.NotFound{}, err)
 }
@@ -326,7 +298,7 @@ func TestInternalServerError(t *testing.T) {
 		w.WriteHeader(http.StatusInternalServerError)
 	}))
 
-	_, err := c.Get("path", nil, nil)
+	_, err := c.Get(c.config.Region().RestURL("path"), nil, nil)
 
 	assert.IsType(t, &errors.UnexpectedStatusCode{}, err)
 }
@@ -338,7 +310,7 @@ func TestPost(t *testing.T) {
 		_, _ = w.Write([]byte(`{}`))
 	}))
 
-	_, err := c.Post("path", &struct{}{}, &struct{}{}, &struct{}{})
+	_, err := c.Post(c.config.Region().RestURL("path"), &struct{}{}, &struct{}{}, &struct{}{})
 
 	assert.NoError(t, err)
 }
@@ -351,15 +323,15 @@ func TestRawPost(t *testing.T) {
 	}))
 
 	// string
-	_, err := c.RawPost("path", &struct{}{}, "test string payload", &struct{}{})
+	_, err := c.RawPost(c.config.Region().RestURL("path"), &struct{}{}, "test string payload", &struct{}{})
 	assert.NoError(t, err)
 
 	// []byte
-	_, err = c.RawPost("path", &struct{}{}, []byte(`bytes`), &struct{}{})
+	_, err = c.RawPost(c.config.Region().RestURL("path"), &struct{}{}, []byte(`bytes`), &struct{}{})
 	assert.NoError(t, err)
 
 	// invalid
-	_, err = c.RawPost("path", &struct{}{}, &struct{}{}, &struct{}{})
+	_, err = c.RawPost(c.config.Region().RestURL("path"), &struct{}{}, &struct{}{}, &struct{}{})
 	assert.Error(t, err)
 }
 
@@ -370,7 +342,7 @@ func TestPut(t *testing.T) {
 		_, _ = w.Write([]byte(`{}`))
 	}))
 
-	_, err := c.Put("path", &struct{}{}, &struct{}{}, &struct{}{})
+	_, err := c.Put(c.config.Region().RestURL("path"), &struct{}{}, &struct{}{}, &struct{}{})
 
 	assert.NoError(t, err)
 }
@@ -383,7 +355,7 @@ func TestDelete(t *testing.T) {
 		_, _ = w.Write([]byte(`{}`))
 	}))
 
-	_, err := c.Delete("path", &struct{}{}, &struct{}{})
+	_, err := c.Delete(c.config.Region().RestURL("path"), &struct{}{}, &struct{}{})
 
 	assert.NoError(t, err)
 }
