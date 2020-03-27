@@ -209,7 +209,7 @@ func (a *Alerts) ListNrqlConditions(policyID int) ([]*NrqlCondition, error) {
 
 	for nextURL != "" {
 		response := nrqlConditionsResponse{}
-		resp, err := a.client.Get(a.config.Region.RestURL(nextURL), &queryParams, &response)
+		resp, err := a.client.Get(a.config.Region().RestURL(nextURL), &queryParams, &response)
 
 		if err != nil {
 			return nil, err
@@ -249,7 +249,7 @@ func (a *Alerts) CreateNrqlCondition(policyID int, condition NrqlCondition) (*Nr
 	resp := nrqlConditionResponse{}
 
 	url := fmt.Sprintf("/alerts_nrql_conditions/policies/%d.json", policyID)
-	_, err := a.client.Post(a.config.Region.RestURL(url), nil, &reqBody, &resp)
+	_, err := a.client.Post(a.config.Region().RestURL(url), nil, &reqBody, &resp)
 
 	if err != nil {
 		return nil, err
@@ -266,7 +266,7 @@ func (a *Alerts) UpdateNrqlCondition(condition NrqlCondition) (*NrqlCondition, e
 	resp := nrqlConditionResponse{}
 
 	url := fmt.Sprintf("/alerts_nrql_conditions/%d.json", condition.ID)
-	_, err := a.client.Put(a.config.Region.RestURL(url), nil, &reqBody, &resp)
+	_, err := a.client.Put(a.config.Region().RestURL(url), nil, &reqBody, &resp)
 
 	if err != nil {
 		return nil, err
@@ -280,7 +280,7 @@ func (a *Alerts) DeleteNrqlCondition(id int) (*NrqlCondition, error) {
 	resp := nrqlConditionResponse{}
 	url := fmt.Sprintf("/alerts_nrql_conditions/%d.json", id)
 
-	_, err := a.client.Delete(a.config.Region.RestURL(url), nil, &resp)
+	_, err := a.client.Delete(a.config.Region().RestURL(url), nil, &resp)
 
 	if err != nil {
 		return nil, err

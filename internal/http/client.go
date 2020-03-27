@@ -293,7 +293,7 @@ func (c *Client) Query(query string, vars map[string]interface{}, respBody inter
 		Data: respBody,
 	}
 
-	req, err := NewRequest(*c, http.MethodPost, c.config.Region.NerdGraphURL(), nil, graphqlReqBody, graphqlRespBody)
+	req, err := NewRequest(*c, http.MethodPost, c.config.Region().NerdGraphURL(), nil, graphqlReqBody, graphqlRespBody)
 	if err != nil {
 		return err
 	}

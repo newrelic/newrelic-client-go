@@ -28,7 +28,7 @@ func TestConfig(t *testing.T) {
 
 	tc := config.New()
 	tc.HTTPTransport = testTransport
-	tc.Region.SetRestBaseURL(testRestURL)
+	tc.Region().SetRestBaseURL(testRestURL)
 	tc.ServiceName = testServiceName
 	tc.Timeout = &testTimeout
 	tc.UserAgent = mock.UserAgent
@@ -36,7 +36,7 @@ func TestConfig(t *testing.T) {
 	c := NewClient(tc)
 
 	assert.Equal(t, &testTimeout, c.config.Timeout)
-	assert.Equal(t, testRestURL, c.config.Region.RestURL())
+	assert.Equal(t, testRestURL, c.config.Region().RestURL())
 	assert.Equal(t, mock.UserAgent, c.config.UserAgent)
 	assert.Equal(t, c.config.ServiceName, testServiceName+"|newrelic-client-go")
 
@@ -195,7 +195,7 @@ func TestPathOnlyUrl(t *testing.T) {
 		assert.Equal(t, r.URL, "https://www.mocky.io/v2/path")
 	}))
 
-	c.config.Region.SetRestBaseURL("https://www.mocky.io/v2")
+	c.config.Region().SetRestBaseURL("https://www.mocky.io/v2")
 
 	_, _ = c.Get("path", nil, nil)
 }
@@ -209,7 +209,7 @@ func TestHostAndPathUrl(t *testing.T) {
 		assert.Equal(t, r.URL, "https:/www.httpbin.org/path")
 	}))
 
-	c.config.Region.SetRestBaseURL("https://www.mocky.io/v2")
+	c.config.Region().SetRestBaseURL("https://www.mocky.io/v2")
 
 	_, _ = c.Get("https://www.httpbin.org/path", nil, nil)
 }

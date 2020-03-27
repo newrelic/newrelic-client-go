@@ -84,7 +84,7 @@ func (s *Synthetics) ListMonitors() ([]*Monitor, error) {
 		Limit: listMonitorsLimit,
 	}
 
-	_, err := s.client.Get(s.config.Region.SyntheticsURL("/v4/monitors"), &queryParams, &resp)
+	_, err := s.client.Get(s.config.Region().SyntheticsURL("/v4/monitors"), &queryParams, &resp)
 
 	if err != nil {
 		return nil, err
@@ -97,7 +97,7 @@ func (s *Synthetics) ListMonitors() ([]*Monitor, error) {
 func (s *Synthetics) GetMonitor(monitorID string) (*Monitor, error) {
 	resp := Monitor{}
 
-	_, err := s.client.Get(s.config.Region.SyntheticsURL("/v4/monitors", monitorID), nil, &resp)
+	_, err := s.client.Get(s.config.Region().SyntheticsURL("/v4/monitors", monitorID), nil, &resp)
 
 	if err != nil {
 		return nil, err
@@ -108,7 +108,7 @@ func (s *Synthetics) GetMonitor(monitorID string) (*Monitor, error) {
 
 // CreateMonitor is used to create a New Relic Synthetics monitor.
 func (s *Synthetics) CreateMonitor(monitor Monitor) (*Monitor, error) {
-	resp, err := s.client.Post(s.config.Region.SyntheticsURL("/v4/monitors"), nil, &monitor, nil)
+	resp, err := s.client.Post(s.config.Region().SyntheticsURL("/v4/monitors"), nil, &monitor, nil)
 
 	if err != nil {
 		return nil, err
@@ -124,7 +124,7 @@ func (s *Synthetics) CreateMonitor(monitor Monitor) (*Monitor, error) {
 
 // UpdateMonitor is used to update a New Relic Synthetics monitor.
 func (s *Synthetics) UpdateMonitor(monitor Monitor) (*Monitor, error) {
-	_, err := s.client.Put(s.config.Region.SyntheticsURL("/v4/monitors", monitor.ID), nil, &monitor, nil)
+	_, err := s.client.Put(s.config.Region().SyntheticsURL("/v4/monitors", monitor.ID), nil, &monitor, nil)
 
 	if err != nil {
 		return nil, err
@@ -135,7 +135,7 @@ func (s *Synthetics) UpdateMonitor(monitor Monitor) (*Monitor, error) {
 
 // DeleteMonitor is used to delete a New Relic Synthetics monitor.
 func (s *Synthetics) DeleteMonitor(monitorID string) error {
-	_, err := s.client.Delete(s.config.Region.SyntheticsURL("/v4/monitors", monitorID), nil, nil)
+	_, err := s.client.Delete(s.config.Region().SyntheticsURL("/v4/monitors", monitorID), nil, nil)
 
 	if err != nil {
 		return err

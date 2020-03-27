@@ -21,8 +21,8 @@ type Config struct {
 	// see: https://docs.newrelic.com/docs/apis/get-started/intro-apis/types-new-relic-api-keys#admin
 	AdminAPIKey string
 
-	// Region of the New Relic platform to use
-	Region *region.Region
+	// region of the New Relic platform to use
+	region *region.Region
 
 	// Timeout is the client timeout for HTTP requests.
 	Timeout *time.Duration
@@ -52,10 +52,32 @@ func New() Config {
 	regCopy := *region.Default
 
 	return Config{
-		Region:    &regCopy,
+		region:    &regCopy,
 		UserAgent: "newrelic/newrelic-client-go",
 		LogLevel:  "info",
 	}
+}
+
+// Region returns the region configuration struct
+// if one has not been set, use the default region
+func (c *Config) Region() *region.Region {
+	if c.region == nil {
+		regCopy := *region.Default
+		c.region = &regCopy
+	}
+
+	return c.region
+}
+
+// SetRegion configures the region
+func (c *Config) SetRegion(reg *region.Region) error {
+	if reg == nil {
+		return region.ErrorNil()
+	}
+
+	c.region = reg
+
+	return nil
 }
 
 // GetLogger returns a logger instance based on the config values.
