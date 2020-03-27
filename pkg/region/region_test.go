@@ -22,6 +22,7 @@ func TestParse(t *testing.T) {
 		"EU":      Regions[EU],
 		"staging": Regions[Staging],
 		"Staging": Regions[Staging],
+		"STAGING": Regions[Staging],
 	}
 
 	for k, v := range pairs {
