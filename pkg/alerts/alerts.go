@@ -1,3 +1,4 @@
+//go:generate ../../bin/typegen -v
 package alerts
 
 import (
