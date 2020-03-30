@@ -8,8 +8,14 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+var (
+	types = make(map[string]string)
+)
+
 func ResolveSchemaTypes(schema Schema, typeNames []string) (map[string]string, error) {
 	typeKeeper := make(map[string]string)
+
+	log.SetLevel(log.DebugLevel)
 
 	for _, typeName := range typeNames {
 		typeGenResult, err := TypeGen(schema, typeName)
@@ -22,11 +28,16 @@ func ResolveSchemaTypes(schema Schema, typeNames []string) (map[string]string, e
 		}
 	}
 
+	// collect the types stored from recursion also.
+	for k, v := range types {
+		typeKeeper[k] = v
+	}
+
 	return typeKeeper, nil
 }
 
 func handleEnumType(schema Schema, t SchemaType) map[string]string {
-	types := make(map[string]string)
+	typeKeeper := make(map[string]string)
 
 	// output collects each line of a struct type
 	output := []string{}
@@ -51,9 +62,27 @@ func handleEnumType(schema Schema, t SchemaType) map[string]string {
 	output = append(output, ")")
 	output = append(output, "")
 
-	types[t.Name] = strings.Join(output, "\n")
+	typeKeeper[t.Name] = strings.Join(output, "\n")
 
-	return types
+	return typeKeeper
+}
+
+func handleScalarType(schema Schema, t SchemaType) map[string]string {
+	typeKeeper := make(map[string]string)
+
+	// output collects each line of a struct type
+	output := []string{}
+
+	// Add a comment for golint to ignore
+	output = append(output, "")
+
+	output = append(output, "// nolint:golint")
+	output = append(output, fmt.Sprintf("type %s string ", t.Name))
+	output = append(output, "")
+
+	typeKeeper[t.Name] = strings.Join(output, "\n")
+
+	return typeKeeper
 }
 
 func kindTree(t SchemaTypeRef) []string {
@@ -139,7 +168,7 @@ func removeNonNullValues(tree []string) []string {
 // fieldTypeFromTypeRef resolves the given SchemaInputValue into a field name to use on a go struct.
 func fieldTypeFromTypeRef(t SchemaTypeRef) (string, bool, error) {
 
-	switch t := nameTree(t)[0]; t {
+	switch n := nameTree(t)[0]; n {
 	case "String":
 		return "string", false, nil
 	case "Int":
@@ -154,15 +183,13 @@ func fieldTypeFromTypeRef(t SchemaTypeRef) (string, bool, error) {
 	case "":
 		return "", true, fmt.Errorf("empty field name: %+v", t)
 	default:
-		return t, true, nil
+		return n, true, nil
 	}
 }
 
 // handleObjectType will operate on a SchemaType who's Kind is OBJECT or INPUT_OBJECT.
 func handleObjectType(schema Schema, t SchemaType) map[string]string {
-	types := make(map[string]string)
-	var err error
-	recurse := false
+	typeKeeper := make(map[string]string)
 
 	// output collects each line of a struct type
 	output := []string{}
@@ -174,107 +201,69 @@ func handleObjectType(schema Schema, t SchemaType) map[string]string {
 
 	// Fill in the struct fields for an input type
 	for _, f := range t.InputFields {
-		var fieldType string
-
-		log.Debugf("handling kind %s: %+v\n\n", f.Type.Kind, f)
-		fieldType, recurse, err = fieldTypeFromTypeRef(f.Type)
-		if err != nil {
-			// If we have an error, then we don't know how to handle the type to
-			// determine the field name.  This indicates that
-			log.Errorf("error resolving first non-empty name from field: %s: %s", f, err)
-		}
-
-		if recurse {
-			// The name of the nested sub-type.  We take the first value here as the root name for the nested type.
-			subTName := nameTree(f.Type)[0]
-
-			subT, err := typeByName(schema, subTName)
-			if err != nil {
-				log.Warnf("non_null: unhandled type: %+v\n", f)
-				continue
-			}
-
-			// Determnine if we need to resolve the sub type, or if it already
-			// exists in the map.
-			if _, ok := types[subT.Name]; !ok {
-				result, err := TypeGen(schema, subT.Name)
-				if err != nil {
-					log.Errorf("ERROR while resolving sub type %s: %s\n", subT.Name, err)
-				}
-
-				log.Debugf("resolved type result:\n%+v\n", result)
-
-				for k, v := range result {
-					if _, ok := types[k]; !ok {
-						types[k] = v
-					}
-				}
-			}
-
-			fieldType = subT.Name
-		}
-
-		var fieldName string
-
-		if f.Name == "ids" {
-			// special case to avoid the struct field Ids, and prefer IDs instead
-			fieldName = "IDs"
-		} else {
-			fieldName = strings.Title(f.Name)
-		}
-
-		// The prefix is used to ensure that we handle LIST or slices correctly.
-		fieldTypePrefix := ""
-
-		if removeNonNullValues(kindTree(f.Type))[0] == "LIST" {
-			fieldTypePrefix = "[]"
-		}
-
-		// Include some documentation
-		if f.Description != "" {
-			output = append(output, fmt.Sprintf("\t /* %s */", parseDescription(f.Description)))
-		}
-
-		var fieldTags string
-		if f.Name == "id" {
-			fieldTags = fmt.Sprintf("`json:\"%s,string\"`", f.Name)
-		} else {
-			fieldTags = fmt.Sprintf("`json:\"%s\"`", f.Name)
-		}
-
-		output = append(output, fmt.Sprintf("\t %s %s%s %s", fieldName, fieldTypePrefix, fieldType, fieldTags))
+		log.Debugf("Input Field: %+v", f.Name)
 		output = append(output, "")
+		output = append(output, lineForField(schema, f.Name, f.Description, f.Type)...)
 	}
 
 	for _, f := range t.Fields {
-		log.Warnf("Fields: %+v", f)
+		log.Debugf("Field: %+v", f.Name)
 		output = append(output, "")
-		output = append(output, lineForField(f.Name, f.Description, f.Type)...)
+		output = append(output, lineForField(schema, f.Name, f.Description, f.Type)...)
 	}
 
 	// Close the struct
 	output = append(output, "}\n")
-	types[t.Name] = strings.Join(output, "\n")
+	typeKeeper[t.Name] = strings.Join(output, "\n")
 
-	return types
+	return typeKeeper
 }
 
-func lineForField(name string, description string, typeRef SchemaTypeRef) []string {
+func lineForField(schema Schema, name string, description string, typeRef SchemaTypeRef) []string {
 	var output []string
 	var fieldName string
 
 	log.Infof("handling kind %s: %+v", typeRef.Kind, typeRef)
-	fieldType, _, err := fieldTypeFromTypeRef(typeRef)
+	fieldType, recurse, err := fieldTypeFromTypeRef(typeRef)
 	if err != nil {
 		// If we have an error, then we don't know how to handle the type to
-		// determine the field name.  This indicates that
+		// determine the field name.
 		log.Errorf("error resolving first non-empty name from field: %s: %s", typeRef, err)
 	}
 
-	// TODO determine if we need to handle the subT name as is in the
-	// handleObjectType() method above.  If we do indded have a reason to handle
-	// it, this code matches pretty close to what is above.  With a little love,
-	// we could DRY this up a bit.
+	if recurse {
+		log.Debugf("recurse search for %s: %+v", fieldType, typeRef)
+
+		// The name of the nested sub-type.  We take the first value here as the root name for the nested type.
+		subTName := nameTree(typeRef)[0]
+
+		log.Debugf("subTName %+v", subTName)
+
+		subT, err := typeByName(schema, subTName)
+		if err != nil {
+			log.Warnf("non_null: unhandled type: %+v\n", name)
+			// break
+		}
+
+		// Determnine if we need to resolve the sub type, or if it already
+		// exists in the map.
+		if _, ok := types[subT.Name]; !ok {
+			result, err := TypeGen(schema, subT.Name)
+			if err != nil {
+				log.Errorf("ERROR while resolving sub type %s: %s\n", subT.Name, err)
+			}
+
+			log.Debugf("resolved type result:\n%+v\n", result)
+
+			for k, v := range result {
+				if _, ok := types[k]; !ok {
+					types[k] = v
+				}
+			}
+		}
+
+		fieldType = subT.Name
+	}
 
 	if name == "ids" {
 		// special case to avoid the struct field Ids, and prefer IDs instead
@@ -334,7 +323,7 @@ func TypeGen(schema Schema, typeName string) (map[string]string, error) {
 
 	// The total known types.  Keyed by the typeName, and valued as the string
 	// output that one would write to a file where Go structs are kept.
-	types := make(map[string]string)
+	typeKeeper := make(map[string]string)
 
 	t, err := typeByName(schema, typeName)
 	if err != nil {
@@ -350,16 +339,18 @@ func TypeGen(schema Schema, typeName string) (map[string]string, error) {
 		results = handleObjectType(schema, *t)
 	} else if t.Kind == "ENUM" {
 		results = handleEnumType(schema, *t)
+	} else if t.Kind == "SCALAR" {
+		results = handleScalarType(schema, *t)
 	} else {
 		log.Warnf("WARN: unhandled object Kind: %s\n", t.Kind)
 	}
 
 	for k, v := range results {
-		types[k] = v
+		typeKeeper[k] = v
 	}
 
 	// return strings.Join(output, "\n"), nil
-	return types, nil
+	return typeKeeper, nil
 }
 
 func typeByName(schema Schema, typeName string) (*SchemaType, error) {
