@@ -12,30 +12,40 @@ The New Relic Client provides the building blocks for tools in the [Developer To
 ## Example
 
 ```go
-import (
-	"fmt"
-	"os"
+package main
 
-	"github.com/newrelic/newrelic-client-go/newrelic"
-	"github.com/newrelic/newrelic-client-go/pkg/apm"
-	"github.com/newrelic/newrelic-client-go/pkg/config"
+import (
+  "fmt"
+  "os"
+
+  log "github.com/sirupsen/logrus"
+
+  "github.com/newrelic/newrelic-client-go/newrelic"
+  "github.com/newrelic/newrelic-client-go/pkg/apm"
 )
 
 func main() {
-	apiKey := os.Getenv("NEW_RELIC_API_KEY")
-	nr := newrelic.New(ConfigAPIKey(apiKey))
+  apiKey := os.Getenv("NEW_RELIC_ADMIN_API_KEY")
+  if apiKey == "" {
+    log.Fatal("an API key is required, please set the NEW_RELIC_ADMIN_API_KEY environment variable")
+  }
 
-	params := apm.ListApplicationsParams{
-		Name: "RPM",
-	}
+  nr, err := newrelic.New(newrelic.ConfigAdminAPIKey(apiKey))
+  if err != nil {
+    log.Fatalf("failed to create a New Relic client with error %v", err)
+  }
 
-	apps, err := nr.APM.ListApplications(&params)
+  params := apm.ListApplicationsParams{
+    Name: "WebPortal",
+  }
 
-	if err != nil {
-		fmt.Print(err)
-	}
+  apps, err := nr.APM.ListApplications(&params)
+  if err != nil {
+    log.Fatalf("failed to list applications with error %v", err)
+  }
+
+  fmt.Printf("%+v\n", apps)
 }
-
 ```
 
 
