@@ -9,6 +9,7 @@ require (
 	github.com/google/go-querystring v1.0.0
 	github.com/goreleaser/goreleaser v0.130.0
 	github.com/hashicorp/go-retryablehttp v0.6.4
+	github.com/imdario/mergo v0.3.9
 	github.com/llorllale/go-gitlint v0.0.0-20190914155841-58c0b8cef0e5
 	github.com/psampaz/go-mod-outdated v0.5.0
 	github.com/sirupsen/logrus v1.5.0
