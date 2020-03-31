@@ -254,7 +254,7 @@ func TestCustomRequestHeaders(t *testing.T) {
 
 	c := NewClient(tc)
 
-	req, err := NewRequest(c, "GET", c.config.Region().RestURL("path"), nil, nil, nil)
+	req, err := c.NewRequest("GET", c.config.Region().RestURL("path"), nil, nil, nil)
 
 	req.SetHeader("user-agent", "custom-user-agent")
 	req.SetServiceName("custom-requesting-service")

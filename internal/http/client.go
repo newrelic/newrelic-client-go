@@ -107,7 +107,7 @@ func (c *Client) Get(
 	queryParams interface{},
 	respBody interface{},
 ) (*http.Response, error) {
-	req, err := NewRequest(*c, http.MethodGet, url, queryParams, nil, respBody)
+	req, err := c.NewRequest(http.MethodGet, url, queryParams, nil, respBody)
 	if err != nil {
 		return nil, err
 	}
@@ -126,7 +126,7 @@ func (c *Client) Post(
 	reqBody interface{},
 	respBody interface{},
 ) (*http.Response, error) {
-	req, err := NewRequest(*c, http.MethodPost, url, queryParams, reqBody, respBody)
+	req, err := c.NewRequest(http.MethodPost, url, queryParams, reqBody, respBody)
 	if err != nil {
 		return nil, err
 	}
@@ -154,7 +154,7 @@ func (c *Client) RawPost(
 		return nil, errors.New("invalid request body")
 	}
 
-	req, err := NewRequest(*c, http.MethodPost, url, queryParams, requestBody, respBody)
+	req, err := c.NewRequest(http.MethodPost, url, queryParams, requestBody, respBody)
 	if err != nil {
 		return nil, err
 	}
@@ -173,7 +173,7 @@ func (c *Client) Put(
 	reqBody interface{},
 	respBody interface{},
 ) (*http.Response, error) {
-	req, err := NewRequest(*c, http.MethodPut, url, queryParams, reqBody, respBody)
+	req, err := c.NewRequest(http.MethodPut, url, queryParams, reqBody, respBody)
 	if err != nil {
 		return nil, err
 	}
@@ -189,7 +189,7 @@ func (c *Client) Delete(url string,
 	queryParams interface{},
 	respBody interface{},
 ) (*http.Response, error) {
-	req, err := NewRequest(*c, http.MethodDelete, url, queryParams, nil, respBody)
+	req, err := c.NewRequest(http.MethodDelete, url, queryParams, nil, respBody)
 	if err != nil {
 		return nil, err
 	}
@@ -236,7 +236,7 @@ func (c *Client) Do(req *Request) (*http.Response, error) {
 
 	c.config.GetLogger().Trace("request completed", "method", req.method, "url", r.URL, "status_code", resp.StatusCode, "headers", string(logHeaders), "body", string(body))
 
-	errorValue := c.errorValue.New()
+	errorValue := req.errorValue.New()
 	_ = json.Unmarshal(body, &errorValue)
 
 	if !isResponseSuccess(resp) {
@@ -282,8 +282,23 @@ func makeRequestBodyReader(reqBody interface{}) (*bytes.Buffer, error) {
 	return b, nil
 }
 
-// Query runs a graphQL query.
-func (c *Client) Query(query string, vars map[string]interface{}, respBody interface{}) error {
+// NerdGraphQuery runs a Nerdgraph query.
+func (c *Client) NerdGraphQuery(query string, vars map[string]interface{}, respBody interface{}) error {
+	req, err := c.NewNerdGraphRequest(query, vars, respBody)
+	if err != nil {
+		return err
+	}
+
+	_, err = c.Do(req)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// NewNerdGraphRequest runs a Nerdgraph request object.
+func (c *Client) NewNerdGraphRequest(query string, vars map[string]interface{}, respBody interface{}) (*Request, error) {
 	graphqlReqBody := &graphQLRequest{
 		Query:     query,
 		Variables: vars,
@@ -293,18 +308,13 @@ func (c *Client) Query(query string, vars map[string]interface{}, respBody inter
 		Data: respBody,
 	}
 
-	req, err := NewRequest(*c, http.MethodPost, c.config.Region().NerdGraphURL(), nil, graphqlReqBody, graphqlRespBody)
+	req, err := c.NewRequest(http.MethodPost, c.config.Region().NerdGraphURL(), nil, graphqlReqBody, graphqlRespBody)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	req.SetAuthStrategy(&NerdGraphAuthorizer{})
-	c.SetErrorValue(&graphQLErrorResponse{})
+	req.SetErrorValue(&graphQLErrorResponse{})
 
-	_, err = c.Do(req)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return req, nil
 }

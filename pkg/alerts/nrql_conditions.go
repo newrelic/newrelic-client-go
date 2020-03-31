@@ -300,7 +300,7 @@ func (a *Alerts) GetNrqlConditionQuery(
 		"id":        conditionID,
 	}
 
-	if err := a.client.Query(getNrqlConditionQuery, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQuery(getNrqlConditionQuery, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -323,7 +323,7 @@ func (a *Alerts) SearchNrqlConditionsQuery(
 			"cursor":         nextCursor,
 		}
 
-		if err := a.client.Query(searchNrqlConditionsQuery, vars, &resp); err != nil {
+		if err := a.client.NerdGraphQuery(searchNrqlConditionsQuery, vars, &resp); err != nil {
 			return nil, err
 		}
 
@@ -347,7 +347,7 @@ func (a *Alerts) CreateNrqlConditionBaselineMutation(
 		"condition": nrqlCondition,
 	}
 
-	if err := a.client.Query(createNrqlConditionBaselineMutation, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQuery(createNrqlConditionBaselineMutation, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -367,7 +367,7 @@ func (a *Alerts) UpdateNrqlConditionBaselineMutation(
 		"condition": nrqlCondition,
 	}
 
-	if err := a.client.Query(updateNrqlConditionBaselineMutation, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQuery(updateNrqlConditionBaselineMutation, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -387,7 +387,7 @@ func (a *Alerts) CreateNrqlConditionStaticMutation(
 		"condition": nrqlCondition,
 	}
 
-	if err := a.client.Query(createNrqlConditionStaticMutation, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQuery(createNrqlConditionStaticMutation, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -407,7 +407,7 @@ func (a *Alerts) UpdateNrqlConditionStaticMutation(
 		"condition": nrqlCondition,
 	}
 
-	if err := a.client.Query(updateNrqlConditionStaticMutation, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQuery(updateNrqlConditionStaticMutation, vars, &resp); err != nil {
 		return nil, err
 	}
 

@@ -133,7 +133,7 @@ func (a *Alerts) CreatePolicyMutation(accountID int, policy AlertsPolicyInput) (
 
 	resp := alertQueryPolicyCreateResponse{}
 
-	if err := a.client.Query(alertsPolicyCreatePolicy, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQuery(alertsPolicyCreatePolicy, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -149,7 +149,7 @@ func (a *Alerts) UpdatePolicyMutation(accountID int, policyID int, policy Alerts
 
 	resp := alertQueryPolicyUpdateResponse{}
 
-	if err := a.client.Query(alertsPolicyUpdatePolicy, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQuery(alertsPolicyUpdatePolicy, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -165,7 +165,7 @@ func (a *Alerts) QueryPolicy(accountID, id int) (*AlertsPolicy, error) {
 		"policyID":  id,
 	}
 
-	if err := a.client.Query(alertPolicyQueryPolicy, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQuery(alertPolicyQueryPolicy, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -186,7 +186,7 @@ func (a *Alerts) QueryPolicySearch(accountID int, params AlertsPoliciesSearchCri
 			"searchCriteria": params,
 		}
 
-		if err := a.client.Query(alertsPolicyQuerySearch, vars, &resp); err != nil {
+		if err := a.client.NerdGraphQuery(alertsPolicyQuerySearch, vars, &resp); err != nil {
 			return nil, err
 		}
 
@@ -211,7 +211,7 @@ func (a *Alerts) DeletePolicyMutation(accountID, id int) (*AlertsPolicy, error) 
 		"policyID":  id,
 	}
 
-	if err := a.client.Query(alertPolicyDeletePolicy, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQuery(alertPolicyDeletePolicy, vars, &resp); err != nil {
 		return nil, err
 	}
 

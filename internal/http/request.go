@@ -18,11 +18,12 @@ type Request struct {
 	value        interface{}
 	config       config.Config
 	authStrategy RequestAuthorizer
+	errorValue   ErrorResponse
 	request      *retryablehttp.Request
 }
 
 // NewRequest creates a new Request struct.
-func NewRequest(c Client, method string, url string, params interface{}, reqBody interface{}, value interface{}) (*Request, error) {
+func (c *Client) NewRequest(method string, url string, params interface{}, reqBody interface{}, value interface{}) (*Request, error) {
 	var err error
 
 	req := &Request{
@@ -32,6 +33,7 @@ func NewRequest(c Client, method string, url string, params interface{}, reqBody
 		reqBody:      reqBody,
 		value:        value,
 		authStrategy: c.authStrategy,
+		errorValue:   c.errorValue,
 	}
 
 	// FIXME: We should remove this requirement on the request
@@ -68,6 +70,11 @@ func (r *Request) SetHeader(key string, value string) {
 // SetAuthStrategy sets the authentication strategy for the request.
 func (r *Request) SetAuthStrategy(ra RequestAuthorizer) {
 	r.authStrategy = ra
+}
+
+// SetErrorValue sets the error object for the request.
+func (r *Request) SetErrorValue(e ErrorResponse) {
+	r.errorValue = e
 }
 
 // SetServiceName sets the service name for the request.
