@@ -2,6 +2,51 @@
 ## [Unreleased]
 
 
+<a name="v0.20.0"></a>
+## [v0.20.0] - 2020-03-31
+### Bug Fixes
+- **alerts:** include missing types to generate
+- **nrql_conditions:** fix spelling errors, fix types
+- **region:** Better URL building
+- **typegen:** ensure we also generate non-input fields
+- **typegen:** ensure handling of slice/LIST types
+- **typegen:** default to resolving nested types
+
+### Documentation Updates
+- **README:** Update example in README, closes [#225](https://github.com/newrelic/newrelic-client-go/issues/225)
+- **nerdstorage:** add examples
+
+### Features
+- **alerts:** implement NerdGraph policy search
+- **internal:** add additional error context to graphQLError
+- **nerdstorage:** add a nerdstorage package and resource
+- **region:** Add a region package
+- **typegen:** handle types of Kind OBJECT
+
+### Refactor
+- **alerts:** fix alerts tests
+- **alerts:** Move FQDN/URL creation into package, out of http client for REST
+- **apm:** Update apm tests
+- **apm:** Move FQDN/URL creation into package, out of http client for REST
+- **config:** Migrate Region to pkg/region
+- **config:** Add new func for config
+- **config:** Remove unused config fields
+- **dashboards:** Update dashboard tests
+- **dashboards:** Move FQDN/URL creation into package, out of http client for REST
+- **entities:** Update entities tests
+- **http:** introduce a request-scoped API for NerdGraph queries
+- **http:** Remove assumption that we are talking to a REST endpoint
+- **http:** Move HTTP client to use new region format
+- **nerdgraph:** Update nerdgraph tests
+- **plugins:** Update plugin tests
+- **plugins:** Move FQDN/URL creation into package, out of http client for REST
+- **region:** Change access to config.Region to ensure it exists
+- **synthetics:** Update synthetics tests
+- **synthetics:** Move FQDN/URL creation into package, out of http client for REST
+- **typegen:** Convert to using go generate to run typegen, `make generate` to test
+- **workloads:** Update workloads tests
+
+
 <a name="v0.19.0"></a>
 ## [v0.19.0] - 2020-03-25
 ### Bug Fixes
@@ -418,7 +463,8 @@
 - rename packages for clarity, promote Config to the public package
 
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.19.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.20.0...HEAD
+[v0.20.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.19.0...v0.20.0
 [v0.19.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.18.0...v0.19.0
 [v0.18.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.17.1...v0.18.0
 [v0.17.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.17.0...v0.17.1
