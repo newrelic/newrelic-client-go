@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/mitchellh/mapstructure"
+
 	"github.com/newrelic/newrelic-client-go/pkg/config"
 )
 
@@ -76,7 +77,7 @@ func Example_entityScope() {
 	}
 
 	// Convert the document to a struct.
-	var myDoc AccountScopedDoc
+	var myDoc EntityScopedDoc
 
 	// Method 1:
 	marshalled, err := json.Marshal(rawDoc)
@@ -118,8 +119,13 @@ func Example_entityScope() {
 		Collection: "myCol",
 	}
 
-	ok, err = client.DeleteCollectionWithEntityScope(entityID, deleteCollectionInput)
+	deleted, err := client.DeleteCollectionWithEntityScope(entityID, deleteCollectionInput)
 	if err != nil {
 		log.Fatal("error deleting NerdStorage collection:", err)
+	}
+
+	if !deleted {
+		// NerdStorage collections are auto-deleted when their last remaining document is deleted.
+		log.Println("deletion was not necessary, collection might have already been deleted", err)
 	}
 }

@@ -4,6 +4,7 @@ import (
 	"strconv"
 
 	"github.com/imdario/mergo"
+
 	"github.com/newrelic/newrelic-client-go/internal/http"
 	"github.com/newrelic/newrelic-client-go/internal/logging"
 	"github.com/newrelic/newrelic-client-go/pkg/config"
@@ -212,7 +213,10 @@ func (e *NerdStorage) getDocumentWithScope(scope string, scopeID string, query s
 		},
 	}
 
-	mergo.Merge(&v, vars)
+	err := mergo.Merge(&v, vars)
+	if err != nil {
+		return nil, err
+	}
 
 	req, err := e.client.NewNerdGraphRequest(query, v, &resp)
 	if err != nil {
@@ -240,7 +244,10 @@ func (e *NerdStorage) getCollectionWithScope(scope string, scopeID string, query
 		},
 	}
 
-	mergo.Merge(&v, vars)
+	err := mergo.Merge(&v, vars)
+	if err != nil {
+		return nil, err
+	}
 
 	req, err := e.client.NewNerdGraphRequest(query, v, &resp)
 	if err != nil {
@@ -472,16 +479,6 @@ type getResponse struct {
 		NerdStorage struct {
 			Document   interface{}
 			Collection []interface{}
-		}
-	}
-}
-
-type collectionResponse struct {
-	Actor struct {
-		Account struct {
-			NerdStorage struct {
-				Collection []interface{}
-			}
 		}
 	}
 }

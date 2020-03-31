@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/mitchellh/mapstructure"
+
 	"github.com/newrelic/newrelic-client-go/pkg/config"
 )
 
@@ -118,8 +119,13 @@ func Example_accountScope() {
 		Collection: "myCol",
 	}
 
-	ok, err = client.DeleteCollectionWithAccountScope(accountID, deleteCollectionInput)
+	deleted, err := client.DeleteCollectionWithAccountScope(accountID, deleteCollectionInput)
 	if err != nil {
 		log.Fatal("error deleting NerdStorage collection:", err)
+	}
+
+	if !deleted {
+		// NerdStorage collections are auto-deleted when their last remaining document is deleted.
+		log.Println("deletion was not necessary, collection might have already been deleted", err)
 	}
 }

@@ -5,8 +5,9 @@ package nerdstorage
 import (
 	"testing"
 
-	mock "github.com/newrelic/newrelic-client-go/internal/testing"
 	"github.com/stretchr/testify/require"
+
+	mock "github.com/newrelic/newrelic-client-go/internal/testing"
 )
 
 var (
