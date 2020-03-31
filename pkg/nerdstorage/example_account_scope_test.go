@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 
 	"github.com/mitchellh/mapstructure"
 
@@ -24,7 +25,11 @@ func Example_accountScope() {
 	// Initialize the client.
 	client := New(cfg)
 
-	accountID := 12345678
+	accountID, err := strconv.Atoi(os.Getenv("NEW_RELIC_ACCOUNT_ID"))
+	if err != nil {
+		log.Fatal("error parsing account ID", err)
+	}
+
 	packageID := "ecaeb28c-7b3f-4932-9e33-7385980efa1c"
 
 	// Write a NerdStorage document with account scope.
@@ -37,7 +42,7 @@ func Example_accountScope() {
 		},
 	}
 
-	_, err := client.WriteDocumentWithAccountScope(accountID, writeDocumentInput)
+	_, err = client.WriteDocumentWithAccountScope(accountID, writeDocumentInput)
 	if err != nil {
 		log.Fatal("error writing NerdStorage document:", err)
 	}
