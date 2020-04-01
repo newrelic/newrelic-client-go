@@ -2,6 +2,15 @@
 ## [Unreleased]
 
 
+<a name="v0.20.1"></a>
+## [v0.20.1] - 2020-04-01
+### Bug Fixes
+- **alerts:** use pointers for the result struct
+
+### Refactor
+- **nerdstorage:** check scope ID for zero values during nerdstorage operations
+
+
 <a name="v0.20.0"></a>
 ## [v0.20.0] - 2020-03-31
 ### Bug Fixes
@@ -463,7 +472,8 @@
 - rename packages for clarity, promote Config to the public package
 
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.20.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.20.1...HEAD
+[v0.20.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.20.0...v0.20.1
 [v0.20.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.19.0...v0.20.0
 [v0.19.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.18.0...v0.19.0
 [v0.18.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.17.1...v0.18.0
