@@ -55,7 +55,7 @@ jobs:
           name: Fetch deps
           command: make deps
       - save_cache:
-          key: repo-{{ .Environment.CIRCLE_SHA1 }}
+          key: repo{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
           paths:
             - ~/project
 
@@ -64,7 +64,7 @@ jobs:
       - image: circleci/golang:1.14
     steps:
       - restore_cache:
-          key: repo-{{ .Environment.CIRCLE_SHA1 }}
+          key: repo{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Lint
           command: make lint
@@ -73,8 +73,10 @@ jobs:
     docker:
       - image: circleci/golang:1.14
     steps:
+      - run: echo "This is pipeline ID << pipeline.id >>"
+      - run: echo "This is git tag << pipeline.git.tag >>"
       - restore_cache:
-          key: repo-{{ .Environment.CIRCLE_SHA1 }}
+          key: repo{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Unit Tests
           command: make test-unit
@@ -84,7 +86,7 @@ jobs:
       - image: circleci/golang:1.14
     steps:
       - restore_cache:
-          key: repo-{{ .Environment.CIRCLE_SHA1 }}
+          key: repo{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: Integration Tests
           command: make test-integration
@@ -94,7 +96,7 @@ jobs:
       - image: circleci/golang:1.14
     steps:
       - restore_cache:
-          key: repo-{{ .Environment.CIRCLE_SHA1 }}
+          key: repo{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
       - snyk/scan:
           severity-threshold: high
           fail-on-issues: false
@@ -105,7 +107,7 @@ jobs:
       - image: circleci/golang:1.14
     steps:
       - restore_cache:
-          key: repo-{{ .Environment.CIRCLE_SHA1 }}
+          key: repo{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
       - run: make compile-only
 
   release:
@@ -116,4 +118,3 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
       - run: make release-publish
-
