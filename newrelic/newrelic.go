@@ -89,14 +89,9 @@ func ConfigAdminAPIKey(adminAPIKey string) ConfigOption {
 }
 
 // ConfigRegion sets the New Relic Region this client will use.
-func ConfigRegion(r region.Name) ConfigOption {
+func ConfigRegion(r string) ConfigOption {
 	return func(cfg *config.Config) error {
-		if region, ok := region.Regions[r]; ok {
-			regCopy := *region
-			return cfg.SetRegion(&regCopy)
-		}
-
-		return errors.New("unsupported region configured")
+		return cfg.SetRegion(region.Parse(r))
 	}
 }
 

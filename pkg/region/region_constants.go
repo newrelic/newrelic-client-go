@@ -2,6 +2,8 @@ package region
 
 import (
 	"strings"
+
+	log "github.com/sirupsen/logrus"
 )
 
 const (
@@ -40,10 +42,10 @@ var Regions = map[Name]*Region{
 	},
 }
 
-// Default represents the region returned if nothing was specified
+// Default represents the region returned if nothing was specified.
 var Default *Region = Regions[US]
 
-// Parse takes a Region string and returns a RegionType
+// Parse matches the given region name to return the correct Region, or a default if none are matched.
 func Parse(r string) *Region {
 	var ret Region
 
@@ -56,6 +58,7 @@ func Parse(r string) *Region {
 		ret = *Regions[Staging]
 	default:
 		ret = *Default
+		log.Errorf("invalid region specified: %s, using %s", r, ret.String())
 	}
 
 	return &ret

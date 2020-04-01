@@ -10,7 +10,6 @@ import (
 	"github.com/newrelic/newrelic-client-go/pkg/dashboards"
 	"github.com/newrelic/newrelic-client-go/pkg/entities"
 	"github.com/newrelic/newrelic-client-go/pkg/plugins"
-	"github.com/newrelic/newrelic-client-go/pkg/region"
 )
 
 func Example_basic() {
@@ -18,7 +17,7 @@ func Example_basic() {
 	client, err := New(
 		ConfigAdminAPIKey(os.Getenv("NEW_RELIC_ADMIN_API_KEY")),
 		ConfigPersonalAPIKey(os.Getenv("NEW_RELIC_API_KEY")),
-		ConfigRegion(region.US),
+		ConfigRegion("US"),
 		ConfigLogLevel("DEBUG"),
 	)
 	if err != nil {
