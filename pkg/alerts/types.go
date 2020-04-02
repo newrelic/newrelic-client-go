@@ -106,7 +106,7 @@ type AlertsMutingRuleInput struct {
 	/* Whether the MutingRule is enabled */
 	Enabled bool `json:"enabled"`
 
-	/* The name of the MutingRule.  */
+	/* The name of the MutingRule. */
 	Name string `json:"name"`
 }
 
@@ -118,6 +118,7 @@ type AlertsPoliciesSearchCriteriaInput struct {
 
 // nolint:golint
 type AlertsPoliciesSearchResultSet struct {
+
 	/* Cursor pointing to the end of the current page of Policy records. Null if final page. */
 	NextCursor string `json:"nextCursor"`
 
