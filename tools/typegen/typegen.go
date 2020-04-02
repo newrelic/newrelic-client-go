@@ -1,7 +1,8 @@
-package nerdgraph
+package main
 
 import (
 	"fmt"
+	"regexp"
 	"strings"
 
 	log "github.com/sirupsen/logrus"
@@ -41,7 +42,7 @@ func handleEnumType(schema Schema, t SchemaType) map[string]string {
 	for _, v := range t.EnumValues {
 
 		if v.Description != "" {
-			output = append(output, fmt.Sprintf("\t /* %s */", v.Description))
+			output = append(output, fmt.Sprintf("\t /* %s */", parseDescription(v.Description)))
 		}
 
 		output = append(output, fmt.Sprintf("\t%s %s = \"%s\" // nolint:golint", v.Name, t.Name, v.Name))
@@ -231,7 +232,7 @@ func handleObjectType(schema Schema, t SchemaType) map[string]string {
 
 		// Include some documentation
 		if f.Description != "" {
-			output = append(output, fmt.Sprintf("\t /* %s */", f.Description))
+			output = append(output, fmt.Sprintf("\t /* %s */", parseDescription(f.Description)))
 		}
 
 		var fieldTags string
@@ -294,7 +295,7 @@ func lineForField(name string, description string, typeRef SchemaTypeRef) []stri
 
 	// Include some documentation
 	if description != "" {
-		output = append(output, fmt.Sprintf("\t /* %s */", description))
+		output = append(output, "\t /* "+parseDescription(description)+" */")
 	}
 
 	var fieldTags string
@@ -307,6 +308,25 @@ func lineForField(name string, description string, typeRef SchemaTypeRef) []stri
 	output = append(output, fmt.Sprintf("\t %s %s%s %s", fieldName, fieldTypePrefix, fieldType, fieldTags))
 
 	return output
+}
+
+// parseDescription looks for anything in the description before \n\n---\n
+// and filters off anything after that (internal messaging that is not useful here)
+func parseDescription(description string) string {
+	//r := regexp.MustCompile(`(.*)\r\n---\r\n.*`)
+	r := regexp.MustCompile(`(?s)(.*)\n---\n`)
+	desc := r.FindStringSubmatch(description)
+
+	log.Debugf("Description: %#v", desc)
+
+	if len(desc) > 1 {
+		if strings.Count(desc[1], "\n") < 2 {
+			return strings.Trim(desc[1], "\n")
+		}
+		return desc[1]
+	}
+
+	return description
 }
 
 // TypeGen is the mother type generator.

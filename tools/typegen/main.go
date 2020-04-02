@@ -9,8 +9,8 @@ import (
 
 	"gopkg.in/yaml.v2"
 
-	"github.com/newrelic/newrelic-client-go/newrelic"
-	"github.com/newrelic/newrelic-client-go/pkg/nerdgraph"
+	"github.com/newrelic/newrelic-client-go/internal/http"
+	nrConfig "github.com/newrelic/newrelic-client-go/pkg/config"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -22,7 +22,12 @@ type Config struct {
 }
 
 func main() {
+	var (
+		config Config
+	)
+
 	verbose := flag.Bool("v", false, "increase verbosity")
+	flag.StringVar(&config.Package, "p", "", "package name")
 
 	flag.Parse()
 
@@ -32,30 +37,30 @@ func main() {
 		log.SetLevel(log.InfoLevel)
 	}
 
-	apiKey := os.Getenv("NEW_RELIC_API_KEY")
-	nr, err := newrelic.New(newrelic.ConfigPersonalAPIKey(apiKey))
-	if err != nil {
-		log.Fatal(err)
-	}
+	nrCfg := nrConfig.New()
+	nrCfg.PersonalAPIKey = os.Getenv("NEW_RELIC_API_KEY")
 
-	schema, err := nr.NerdGraph.QuerySchema()
+	nrClient := http.NewClient(nrCfg)
+
+	schemaResponse := allTypesResponse{}
+	vars := map[string]interface{}{}
+	err := nrClient.NerdGraphQuery(allTypes, vars, &schemaResponse)
 	if err != nil {
 		log.Fatal(err)
 	}
+	schema := &schemaResponse.Schema
 
 	yamlFile, err := ioutil.ReadFile("typegen.yaml")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	var config Config
-
 	err = yaml.Unmarshal(yamlFile, &config)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	types, err := nerdgraph.ResolveSchemaTypes(*schema, config.Types)
+	types, err := ResolveSchemaTypes(*schema, config.Types)
 	if err != nil {
 		log.Error(err)
 	}
