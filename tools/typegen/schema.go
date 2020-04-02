@@ -93,26 +93,22 @@ const (
 	`
 )
 
-// Wheee... :)
+// Schema contains data about the GraphQL schema as returned by the server
+// TODO Implement the rest of the schema if needed.
+type Schema struct {
+	Types []*SchemaType `json:"types"`
+}
+
+// SchemaType defines a specific type within the schema
 type SchemaType struct {
 	InputFields []SchemaInputValue `json:"inputFields"`
 	Kind        string             `json:"kind"`
 	Name        string             `json:"name"`
 	// Description string             `json:"description"`
-	Fields []struct {
-		Name        string             `json:"name"`
-		Description string             `json:"description"`
-		Args        []SchemaInputValue `json:"args"`
-		Type        SchemaTypeRef      `json:"type"`
-	} `json:"fields"`
-	Interfaces    []SchemaTypeRef `json:"interfaces"`
-	PossibleTypes []SchemaTypeRef `json:"possibleTypes"`
-	EnumValues    []struct {
-		Name              string `json:"name"`
-		Description       string `json:"description"`
-		IsDeprecated      bool   `json:"isDeprecated"`
-		DeprecationReason string `json:"deprecationReason"`
-	} `json:"enumValues"`
+	Fields        []SchemaFields    `json:"fields"`
+	Interfaces    []SchemaTypeRef   `json:"interfaces"`
+	PossibleTypes []SchemaTypeRef   `json:"possibleTypes"`
+	EnumValues    []SchemaEnumValue `json:"enumValues"`
 }
 
 type SchemaInputValue struct {
@@ -120,6 +116,20 @@ type SchemaInputValue struct {
 	Description  string        `json:"description"`
 	Name         string        `json:"name"`
 	Type         SchemaTypeRef `json:"type"`
+}
+
+type SchemaFields struct {
+	Name        string             `json:"name"`
+	Description string             `json:"description"`
+	Args        []SchemaInputValue `json:"args"`
+	Type        SchemaTypeRef      `json:"type"`
+}
+
+type SchemaEnumValue struct {
+	Name              string `json:"name"`
+	Description       string `json:"description"`
+	IsDeprecated      bool   `json:"isDeprecated"`
+	DeprecationReason string `json:"deprecationReason"`
 }
 
 type SchemaTypeRef struct {
@@ -153,12 +163,6 @@ type SchemaTypeRef struct {
 			} `json:"ofType"`
 		} `json:"ofType"`
 	} `json:"ofType"`
-}
-
-type Schema struct {
-	// TODO Implement the rest of the schema if needed.
-
-	Types []*SchemaType `json:"types"`
 }
 
 type allTypesResponse struct {
