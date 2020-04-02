@@ -8,17 +8,8 @@ before:
     - make clean
     - go mod download
 
-# This is a hack to NOT build binaries...
 builds:
-  -
-    id: "default"
-    goos:
-      - linux
-    goarch:
-      - amd64
-    ignore:
-      - goos: linux
-        goarch: amd64
+  skip: true
 
 release:
   # Mark as a pre-release for now
