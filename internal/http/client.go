@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 	"time"
 
 	retryablehttp "github.com/hashicorp/go-retryablehttp"
@@ -307,6 +308,13 @@ func (c *Client) NewNerdGraphRequest(query string, vars map[string]interface{}, 
 	graphqlRespBody := &graphQLResponse{
 		Data: respBody,
 	}
+
+	varB, _ := json.Marshal(vars)
+
+	q1 := strings.Replace(query, "\n", "", -1)
+	q2 := strings.Replace(q1, "\t", " ", -1)
+
+	c.config.GetLogger().Trace("NewNerdGraphRequest", "vars", string(varB), "query", q2)
 
 	req, err := c.NewRequest(http.MethodPost, c.config.Region().NerdGraphURL(), nil, graphqlReqBody, graphqlRespBody)
 	if err != nil {
