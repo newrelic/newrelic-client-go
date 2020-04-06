@@ -8,7 +8,7 @@ before:
     - make clean
     - go mod download
 
-builds:
+build:
   skip: true
 
 release:
