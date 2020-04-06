@@ -5,8 +5,6 @@ import (
 	"net/http"
 	"time"
 
-	log "github.com/sirupsen/logrus"
-
 	"github.com/newrelic/newrelic-client-go/internal/logging"
 	"github.com/newrelic/newrelic-client-go/pkg/alerts"
 	"github.com/newrelic/newrelic-client-go/pkg/apm"
@@ -94,10 +92,7 @@ func ConfigAdminAPIKey(adminAPIKey string) ConfigOption {
 func ConfigRegion(r region.Name) ConfigOption {
 	return func(cfg *config.Config) error {
 		reg, err := region.Get(r)
-		if _, ok := err.(*region.UnknownUsingDefaultError); ok {
-			// Log
-			log.Error(err.Error())
-		} else {
+		if err != nil {
 			return err
 		}
 
