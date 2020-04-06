@@ -11,31 +11,57 @@ import (
 func TestParse(t *testing.T) {
 	t.Parallel()
 
-	pairs := map[string]*Region{
-		"us":      Regions[US],
-		"Us":      Regions[US],
-		"uS":      Regions[US],
-		"US":      Regions[US],
-		"eu":      Regions[EU],
-		"Eu":      Regions[EU],
-		"eU":      Regions[EU],
-		"EU":      Regions[EU],
-		"staging": Regions[Staging],
-		"Staging": Regions[Staging],
-		"STAGING": Regions[Staging],
+	pairs := map[string]Name{
+		"us":      US,
+		"Us":      US,
+		"uS":      US,
+		"US":      US,
+		"eu":      EU,
+		"Eu":      EU,
+		"eU":      EU,
+		"EU":      EU,
+		"staging": Staging,
+		"Staging": Staging,
+		"STAGING": Staging,
 	}
 
 	for k, v := range pairs {
-		result := Parse(k)
-		assert.Equal(t, result, v)
+		result, err := Parse(k)
+		assert.NoError(t, err)
+		assert.Equal(t, v, result)
 	}
 
 	// Default is US
-	result := Parse("")
-	assert.Equal(t, result, Regions[US])
+	result, err := Parse("")
+	assert.Error(t, err)
+	assert.IsType(t, InvalidError{}, err)
+	assert.Equal(t, Name(""), result)
 }
 
-func TestString(t *testing.T) {
+func TestRegionGet(t *testing.T) {
+	t.Parallel()
+
+	pairs := map[Name]*Region{
+		US:      Regions[US],
+		EU:      Regions[EU],
+		Staging: Regions[Staging],
+	}
+
+	for k, v := range pairs {
+		result, err := Get(k)
+		assert.NoError(t, err)
+		assert.Equal(t, v, result)
+	}
+
+	// Throws error, still returns the default
+	var unk Name = "(unknown)"
+	result, err := Get(unk)
+	assert.Error(t, err)
+	assert.IsType(t, UnknownUsingDefaultError{}, err)
+	assert.Equal(t, Regions[Default], result)
+}
+
+func TestRegionString(t *testing.T) {
 	t.Parallel()
 
 	pairs := map[Name]string{

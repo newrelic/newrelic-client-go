@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"time"
 
+	log "github.com/sirupsen/logrus"
+
 	"github.com/newrelic/newrelic-client-go/internal/logging"
 	"github.com/newrelic/newrelic-client-go/pkg/alerts"
 	"github.com/newrelic/newrelic-client-go/pkg/apm"
@@ -91,12 +93,17 @@ func ConfigAdminAPIKey(adminAPIKey string) ConfigOption {
 // ConfigRegion sets the New Relic Region this client will use.
 func ConfigRegion(r region.Name) ConfigOption {
 	return func(cfg *config.Config) error {
-		if region, ok := region.Regions[r]; ok {
-			regCopy := *region
-			return cfg.SetRegion(&regCopy)
+		reg, err := region.Get(r)
+		if _, ok := err.(*region.UnknownUsingDefaultError); ok {
+			// Log
+			log.Error(err.Error())
+		} else {
+			return err
 		}
 
-		return errors.New("unsupported region configured")
+		err = cfg.SetRegion(reg)
+
+		return err
 	}
 }
 
