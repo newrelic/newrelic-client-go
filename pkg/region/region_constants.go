@@ -53,7 +53,7 @@ func Parse(r string) (Name, error) {
 	case "staging":
 		return Staging, nil
 	default:
-		return "", InvalidError{Message: r}
+		return "", UnknownError{Message: r}
 	}
 }
 

@@ -34,7 +34,7 @@ func TestParse(t *testing.T) {
 	// Default is US
 	result, err := Parse("")
 	assert.Error(t, err)
-	assert.IsType(t, InvalidError{}, err)
+	assert.IsType(t, UnknownError{}, err)
 	assert.Equal(t, Name(""), result)
 }
 
