@@ -2,6 +2,24 @@
 ## [Unreleased]
 
 
+<a name="v0.21.0"></a>
+## [v0.21.0] - 2020-04-06
+### Bug Fixes
+- **build:** goreleaser now supports libraries, remove hack in config, skip build
+
+### Features
+- **typegen:** handle scalar types
+
+### Refactor
+- **alerts:** Update go:generate for types signature
+- **newrelic:** Continue to fail, do not log invalid region
+- **region:** Better error types/more tests
+- **region:** Split parsing / fetching of region data so Parse can be reused
+- **typegen:** Filter internal context off of generated descriptions if present
+- **typegen:** Break out some structs
+- **typegen:** Move all schema generation stuff into typegen
+
+
 <a name="v0.20.1"></a>
 ## [v0.20.1] - 2020-04-01
 ### Bug Fixes
@@ -472,7 +490,8 @@
 - rename packages for clarity, promote Config to the public package
 
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.20.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.21.0...HEAD
+[v0.21.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.20.1...v0.21.0
 [v0.20.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.20.0...v0.20.1
 [v0.20.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.19.0...v0.20.0
 [v0.19.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.18.0...v0.19.0
