@@ -36,6 +36,13 @@ func TestIntegrationConditions(t *testing.T) {
 					Threshold:    0.9,
 					TimeFunction: TimeFunctionTypes.All,
 				},
+				{
+					Duration:     5,
+					Operator:     "equal",
+					Priority:     "warning",
+					Threshold:    0.95,
+					TimeFunction: TimeFunctionTypes.All,
+				},
 			},
 			UserDefined: ConditionUserDefined{
 				Metric:        "",
