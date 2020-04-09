@@ -4,7 +4,7 @@ go 1.13
 
 require (
 	github.com/client9/misspell v0.3.4
-	github.com/git-chglog/git-chglog v0.0.0-20190923122001-6050f20bcdb0
+	github.com/git-chglog/git-chglog v0.0.0-20200409151110-a94e3f9a8026
 	github.com/golangci/golangci-lint v1.24.0
 	github.com/google/go-querystring v1.0.0
 	github.com/goreleaser/goreleaser v0.131.1
