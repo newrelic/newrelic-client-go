@@ -10,7 +10,7 @@ const (
 	Other violating conditions will create their own incidents. */
 	PER_CONDITION AlertsIncidentPreference = "PER_CONDITION" // nolint:golint
 	/* Each target of each condition will create an entity-level incident upon critical violation.
-	Other violating targets even on the same condition will create their own incidents. */
+	Other violating targets will create their own incidents (even on the same condition). */
 	PER_CONDITION_AND_TARGET AlertsIncidentPreference = "PER_CONDITION_AND_TARGET" // nolint:golint
 	/* A condition will create a policy-level incident when it violates its critical threshold.
 	Other violating conditions will be grouped into this incident. */
@@ -19,6 +19,7 @@ const (
 
 // nolint:golint
 type AlertsMutingRuleConditionGroupInput struct {
+
 	/* The individual MutingRuleConditions within the group. */
 	Conditions []AlertsMutingRuleConditionInput `json:"conditions"`
 
@@ -38,6 +39,7 @@ const (
 
 // nolint:golint
 type AlertsMutingRuleConditionInput struct {
+
 	/* The attribute on a violation. Expects one of:
 
 	* **accountId** - The account id
@@ -97,6 +99,7 @@ const (
 
 // nolint:golint
 type AlertsMutingRuleInput struct {
+
 	/* The condition that defines which violations to target. */
 	Condition AlertsMutingRuleConditionGroupInput `json:"condition"`
 
@@ -112,6 +115,7 @@ type AlertsMutingRuleInput struct {
 
 // nolint:golint
 type AlertsPoliciesSearchCriteriaInput struct {
+
 	/* The list of policy ids to return. */
 	IDs []int `json:"ids"`
 }
@@ -119,46 +123,48 @@ type AlertsPoliciesSearchCriteriaInput struct {
 // nolint:golint
 type AlertsPoliciesSearchResultSet struct {
 
-	/* Cursor pointing to the end of the current page of Policy records. Null if final page. */
+	/* Cursor pointing to the end of the current page of policy records. Null if final page. */
 	NextCursor string `json:"nextCursor"`
 
-	/* Set of Policies returned for the supplied cursor and criteria. */
+	/* Set of policies returned for the supplied cursor and criteria. */
 	Policies []AlertsPolicy `json:"policies"`
 
-	/* Total number of Policy records for the given search criteria. */
+	/* Total number of policy records for the given search criteria. */
 	TotalCount int `json:"totalCount"`
 }
 
 // nolint:golint
 type AlertsPolicy struct {
 
-	/* The account id of the Policy. */
+	/* Account ID of the policy. */
 	AccountID int `json:"accountId"`
 
-	/* Primary key for Policies. */
+	/* Primary key for policies. */
 	ID int `json:"id,string"`
 
 	/* Determines how incidents are created for critical violations of the conditions contained in the policy. */
 	IncidentPreference AlertsIncidentPreference `json:"incidentPreference"`
 
-	/* A text description of the policy for display purposes. */
+	/* Description of the policy. */
 	Name string `json:"name"`
 }
 
 // nolint:golint
 type AlertsPolicyInput struct {
+
 	/* Determines how incidents are created for critical violations of the conditions contained in the policy. */
 	IncidentPreference AlertsIncidentPreference `json:"incidentPreference"`
 
-	/* A text description of the policy for display purposes. */
+	/* Description of the policy. */
 	Name string `json:"name"`
 }
 
 // nolint:golint
 type AlertsPolicyUpdateInput struct {
+
 	/* Determines how incidents are created for critical violations of the conditions contained in the policy. */
 	IncidentPreference AlertsIncidentPreference `json:"incidentPreference"`
 
-	/* A text description of the policy for display purposes. */
+	/* Description of the policy. */
 	Name string `json:"name"`
 }
