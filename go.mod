@@ -12,7 +12,7 @@ require (
 	github.com/imdario/mergo v0.3.9
 	github.com/llorllale/go-gitlint v0.0.0-20190914155841-58c0b8cef0e5
 	github.com/mitchellh/mapstructure v1.2.2
-	github.com/psampaz/go-mod-outdated v0.5.0
+	github.com/psampaz/go-mod-outdated v0.6.0
 	github.com/sirupsen/logrus v1.5.0
 	github.com/stretchr/testify v1.5.1
 	github.com/tomnomnom/linkheader v0.0.0-20180905144013-02ca5825eb80
