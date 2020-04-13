@@ -15,16 +15,23 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+var (
+	types = make(map[string]string)
+)
+
 // Config is the information keeper for generating go structs from type names.
 type Config struct {
-	Package string   `yaml:"package"`
-	Types   []string `yaml:"types"`
+	Package string       `yaml:"package"`
+	Types   []TypeConfig `yaml:"types"`
+}
+
+type TypeConfig struct {
+	Name     string `yaml:"name"`
+	CreateAs string `yaml:"createAs,omitempty"` // CreateAs is the Golang type to override whatever the default detected type would be
 }
 
 func main() {
-	var (
-		config Config
-	)
+	var config Config
 
 	verbose := flag.Bool("v", false, "increase verbosity")
 	flag.StringVar(&config.Package, "p", "", "package name")
@@ -50,6 +57,10 @@ func main() {
 	}
 	schema := &schemaResponse.Schema
 
+	// Write out the schema we got
+	//schemaFile, _ := json.MarshalIndent(schema, "", " ")
+	//_ = ioutil.WriteFile("schema.json", schemaFile, 0644)
+
 	yamlFile, err := ioutil.ReadFile("typegen.yaml")
 	if err != nil {
 		log.Fatal(err)
@@ -60,7 +71,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	types, err := ResolveSchemaTypes(*schema, config.Types)
+	err = ResolveSchemaTypes(*schema, config.Types)
 	if err != nil {
 		log.Error(err)
 	}
@@ -90,4 +101,15 @@ func main() {
 			}
 		}
 	}
+}
+
+func ResolveSchemaTypes(schema Schema, typeConfig []TypeConfig) error {
+	for _, info := range typeConfig {
+		err := schema.TypeGen(info)
+		if err != nil {
+			log.Errorf("error while generating type %s: %s", info.Name, err)
+		}
+	}
+
+	return nil
 }
