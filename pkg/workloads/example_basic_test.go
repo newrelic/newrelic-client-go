@@ -37,13 +37,11 @@ func Example_basic() {
 	}
 
 	// Create a new workload.
-	queryName := "Example query"
 	createInput := CreateInput{
 		Name:        "Example workload",
 		EntityGUIDs: []string{entityGUID},
 		EntitySearchQueries: []EntitySearchQueryInput{
 			{
-				Name:  queryName,
 				Query: fmt.Sprintf("(accountId IN ('%d')) AND (((name like 'Example application' or id = 'Example application' or domainId = 'Example application')))", accountID),
 			},
 		},

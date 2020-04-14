@@ -24,7 +24,6 @@ var (
 		},
 		EntitySearchQueries: []EntitySearchQueryInput{
 			{
-				Name:  testQueryName,
 				Query: testWorkloadQuery,
 			},
 		},
@@ -36,7 +35,6 @@ var (
 		},
 		EntitySearchQueries: []EntitySearchQueryInput{
 			{
-				Name:  testQueryName,
 				Query: testWorkloadQuery,
 			},
 		},
@@ -61,18 +59,14 @@ func TestIntegrationWorkload(t *testing.T) {
 	require.NotNil(t, workload)
 
 	// Test: List
-	// There is currently a upstream issue with this API.
-	// TODO: re-enable once fixed in the upstream API
-	//
-	// workloads, err := client.ListWorkloads(testAccountID)
-
-	// require.NoError(t, err)
-	// require.Greater(t, len(workloads), 0)
+	workloads, err := client.ListWorkloads(testAccountID)
+	require.NoError(t, err)
+	require.Greater(t, len(workloads), 0)
 
 	// Test: Update
 	// There is currently a timing issue with this test.
 	// TODO: re-enable once fixed in the upstream API
-	//
+
 	// updated, err := client.UpdateWorkload(*created.GUID, &testUpdateInput)
 
 	// require.NoError(t, err)
