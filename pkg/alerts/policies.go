@@ -5,6 +5,7 @@ import (
 
 	"github.com/newrelic/newrelic-client-go/pkg/errors"
 
+	"github.com/newrelic/newrelic-client-go/internal/http"
 	"github.com/newrelic/newrelic-client-go/internal/serialization"
 )
 
@@ -65,7 +66,6 @@ func (a *Alerts) ListPolicies(params *ListPoliciesParams) ([]Policy, error) {
 // GetPolicy returns a specific alert policy by ID for a given account.
 func (a *Alerts) GetPolicy(id int) (*Policy, error) {
 	policies, err := a.ListPolicies(nil)
-
 	if err != nil {
 		return nil, err
 	}
@@ -165,7 +165,15 @@ func (a *Alerts) QueryPolicy(accountID, id int) (*AlertsPolicy, error) {
 		"policyID":  id,
 	}
 
-	if err := a.client.NerdGraphQuery(alertPolicyQueryPolicy, vars, &resp); err != nil {
+	req, err := a.client.NewNerdGraphRequest(alertPolicyQueryPolicy, vars, &resp)
+	if err != nil {
+		return nil, err
+	}
+
+	var errorResponse alertPoliciesErrorResponse
+	req.SetErrorValue(&errorResponse)
+
+	if _, err := a.client.Do(req); err != nil {
 		return nil, err
 	}
 
@@ -214,6 +222,27 @@ func (a *Alerts) DeletePolicyMutation(accountID, id int) (*AlertsPolicy, error) 
 	}
 
 	return policy, nil
+}
+
+type alertPoliciesErrorResponse struct {
+	http.GraphQLErrorResponse
+}
+
+func (r *alertPoliciesErrorResponse) IsNotFound() bool {
+	if len(r.Errors) == 0 || len(r.Errors[0].DownstreamResponse) == 0 {
+		return false
+	}
+
+	return r.Errors[0].DownstreamResponse[0].Message == "Not Found" &&
+		r.Errors[0].DownstreamResponse[0].Extensions.Code == "BAD_USER_INPUT"
+}
+
+func (r *alertPoliciesErrorResponse) Error() string {
+	return r.GraphQLErrorResponse.Error()
+}
+
+func (r *alertPoliciesErrorResponse) New() http.ErrorResponse {
+	return &alertPoliciesErrorResponse{}
 }
 
 type alertPoliciesResponse struct {
