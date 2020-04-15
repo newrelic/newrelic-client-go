@@ -79,6 +79,10 @@ func (c *CustomErrorResponse) Error() string {
 	return c.CustomError
 }
 
+func (c *CustomErrorResponse) IsNotFound() bool {
+	return false
+}
+
 func TestCustomErrorValue(t *testing.T) {
 	t.Parallel()
 	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
