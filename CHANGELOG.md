@@ -2,6 +2,15 @@
 ## [Unreleased]
 
 
+<a name="v0.21.1"></a>
+## [v0.21.1] - 2020-04-15
+### Bug Fixes
+- **alerts:** return a NotFound error when policies are not found in NerdGraph
+
+### Refactor
+- **workloads:** remove deprecated fields
+
+
 <a name="v0.21.0"></a>
 ## [v0.21.0] - 2020-04-06
 ### Bug Fixes
@@ -490,7 +499,8 @@
 - rename packages for clarity, promote Config to the public package
 
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.21.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.21.1...HEAD
+[v0.21.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.21.0...v0.21.1
 [v0.21.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.20.1...v0.21.0
 [v0.20.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.20.0...v0.20.1
 [v0.20.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.19.0...v0.20.0
