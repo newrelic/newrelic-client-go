@@ -31,7 +31,7 @@ func Example_basic() {
 	// Get a specific workload by ID.  This example assumes that at least one
 	// workload has been returned by the list endpoint, but in practice it is
 	// possible that an empty slice is returned.
-	workload, err := client.GetWorkload(accountID, workloads[0].ID)
+	workload, err := client.GetWorkload(accountID, workloads[0].GUID)
 	if err != nil {
 		log.Fatal("error getting workload: ", err)
 	}
