@@ -53,7 +53,7 @@ func TestIntegrationWorkload(t *testing.T) {
 	require.NotNil(t, created)
 
 	// Test: Get
-	workload, err := client.GetWorkload(testAccountID, created.ID)
+	workload, err := client.GetWorkload(testAccountID, created.GUID)
 
 	require.NoError(t, err)
 	require.NotNil(t, workload)
