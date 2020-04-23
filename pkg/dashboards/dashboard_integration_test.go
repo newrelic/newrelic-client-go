@@ -21,9 +21,10 @@ func TestIntegrationDashboards(t *testing.T) {
 		Metadata: DashboardMetadata{
 			Version: 1,
 		},
-		Title:      "newrelic-client-go-test",
-		Visibility: VisibilityTypes.Owner,
-		Editable:   EditableTypes.Owner,
+		Title:           "newrelic-client-go-test",
+		Visibility:      VisibilityTypes.Owner,
+		Editable:        EditableTypes.Owner,
+		GridColumnCount: 3,
 	}
 
 	// Test: Create

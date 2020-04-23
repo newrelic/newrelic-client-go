@@ -4,19 +4,20 @@ import "time"
 
 // Dashboard represents information about a New Relic dashboard.
 type Dashboard struct {
-	ID         int               `json:"id"`
-	Title      string            `json:"title,omitempty"`
-	Icon       DashboardIconType `json:"icon,omitempty"`
-	CreatedAt  time.Time         `json:"created_at,omitempty"`
-	UpdatedAt  time.Time         `json:"updated_at,omitempty"`
-	Visibility VisibilityType    `json:"visibility,omitempty"`
-	Editable   EditableType      `json:"editable,omitempty"`
-	UIURL      string            `json:"ui_url,omitempty"`
-	APIURL     string            `json:"api_url,omitempty"`
-	OwnerEmail string            `json:"owner_email,omitempty"`
-	Metadata   DashboardMetadata `json:"metadata"`
-	Filter     DashboardFilter   `json:"filter,omitempty"`
-	Widgets    []DashboardWidget `json:"widgets,omitempty"`
+	ID              int               `json:"id"`
+	Title           string            `json:"title,omitempty"`
+	Icon            DashboardIconType `json:"icon,omitempty"`
+	CreatedAt       time.Time         `json:"created_at,omitempty"`
+	UpdatedAt       time.Time         `json:"updated_at,omitempty"`
+	Visibility      VisibilityType    `json:"visibility,omitempty"`
+	Editable        EditableType      `json:"editable,omitempty"`
+	UIURL           string            `json:"ui_url,omitempty"`
+	APIURL          string            `json:"api_url,omitempty"`
+	OwnerEmail      string            `json:"owner_email,omitempty"`
+	Metadata        DashboardMetadata `json:"metadata"`
+	Filter          DashboardFilter   `json:"filter,omitempty"`
+	Widgets         []DashboardWidget `json:"widgets,omitempty"`
+	GridColumnCount int               `json:"grid_column_count,omitempty"`
 }
 
 // VisibilityType represents an option for the dashboard's visibility field.
