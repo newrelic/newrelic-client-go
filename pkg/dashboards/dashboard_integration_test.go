@@ -24,7 +24,7 @@ func TestIntegrationDashboards(t *testing.T) {
 		Title:           "newrelic-client-go-test",
 		Visibility:      VisibilityTypes.Owner,
 		Editable:        EditableTypes.Owner,
-		GridColumnCount: 3,
+		GridColumnCount: GridColumnCountTypes.One,
 	}
 
 	// Test: Create
