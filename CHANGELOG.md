@@ -2,6 +2,18 @@
 ## [Unreleased]
 
 
+<a name="v0.22.0"></a>
+## [v0.22.0] - 2020-04-23
+### Bug Fixes
+- **alerts:** include "equal" operator for NRQL condition terms
+
+### Features
+- **dashboards:** add grid_column_count field
+
+### Refactor
+- **workloads:** query with GUID per upstream API change
+
+
 <a name="v0.21.1"></a>
 ## [v0.21.1] - 2020-04-15
 ### Bug Fixes
@@ -499,7 +511,8 @@
 - rename packages for clarity, promote Config to the public package
 
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.21.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.22.0...HEAD
+[v0.22.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.21.1...v0.22.0
 [v0.21.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.21.0...v0.21.1
 [v0.21.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.20.1...v0.21.0
 [v0.20.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.20.0...v0.20.1
