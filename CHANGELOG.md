@@ -2,6 +2,23 @@
 ## [Unreleased]
 
 
+<a name="v0.23.0"></a>
+## [v0.23.0] - 2020-05-01
+### Bug Fixes
+- **build:** Github actions `make lint` for commit messages need full history
+- **workloads:** Removing deprecated field `name` from `entitySearchQuery`
+
+### Documentation Updates
+- **typegen:** Add a README for typegen
+
+### Features
+- **events:** add alert events
+
+### Refactor
+- **build:** Split up github actions a bit
+- **typegen:** Split/refactor much of typegen internals
+
+
 <a name="v0.22.0"></a>
 ## [v0.22.0] - 2020-04-23
 ### Bug Fixes
@@ -511,7 +528,8 @@
 - rename packages for clarity, promote Config to the public package
 
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.22.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.23.0...HEAD
+[v0.23.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.22.0...v0.23.0
 [v0.22.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.21.1...v0.22.0
 [v0.21.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.21.0...v0.21.1
 [v0.21.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.20.1...v0.21.0
