@@ -47,7 +47,17 @@ func TestListAlertEvents(t *testing.T) {
 		},
 	}
 
-	actual, err := alerts.ListAlertEvents(&ListAlertEventsParams{})
+	params := &ListAlertEventsParams{
+		Product:       "test",
+		EntityType:    "test",
+		EntityGroupID: 12345,
+		EntityID:      12345,
+		EventType:     "test",
+		IncidentID:    12345,
+		Page:          1,
+	}
+
+	actual, err := alerts.ListAlertEvents(params)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)
