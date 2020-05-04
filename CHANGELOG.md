@@ -2,6 +2,12 @@
 ## [Unreleased]
 
 
+<a name="v0.23.1"></a>
+## [v0.23.1] - 2020-05-04
+### Bug Fixes
+- **alerts:** Alerts paging was incorrectly generating URLs
+
+
 <a name="v0.23.0"></a>
 ## [v0.23.0] - 2020-05-01
 ### Bug Fixes
@@ -528,7 +534,8 @@
 - rename packages for clarity, promote Config to the public package
 
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.23.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.23.1...HEAD
+[v0.23.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.23.0...v0.23.1
 [v0.23.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.22.0...v0.23.0
 [v0.22.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.21.1...v0.22.0
 [v0.21.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.21.0...v0.21.1
