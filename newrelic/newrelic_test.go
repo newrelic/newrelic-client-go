@@ -61,6 +61,16 @@ func TestNew_setRegion(t *testing.T) {
 	assert.NoError(t, err)
 }
 
+func TestNew_setRegionDefaultFallback(t *testing.T) {
+	t.Parallel()
+
+	// Provide invalid region to ensure the fallback is used
+	nr, err := New(ConfigPersonalAPIKey(testAPIkey), ConfigRegion(""))
+
+	assert.NoError(t, err)
+	assert.NotNil(t, nr)
+}
+
 func TestNew_optionTimeout(t *testing.T) {
 	t.Parallel()
 
