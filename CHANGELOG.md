@@ -2,6 +2,13 @@
 ## [Unreleased]
 
 
+<a name="v0.23.2"></a>
+## [v0.23.2] - 2020-05-11
+### Bug Fixes
+- **alerts:** Updating incorrect AlertEvents params
+- **region:** gracefully fall back to default region
+
+
 <a name="v0.23.1"></a>
 ## [v0.23.1] - 2020-05-04
 ### Bug Fixes
@@ -534,7 +541,8 @@
 - rename packages for clarity, promote Config to the public package
 
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.23.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.23.2...HEAD
+[v0.23.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.23.1...v0.23.2
 [v0.23.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.23.0...v0.23.1
 [v0.23.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.22.0...v0.23.0
 [v0.22.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.21.1...v0.22.0
