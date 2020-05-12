@@ -2,6 +2,12 @@
 ## [Unreleased]
 
 
+<a name="v0.23.3"></a>
+## [v0.23.3] - 2020-05-12
+### Bug Fixes
+- **workloads:** fix query type for entity guid
+
+
 <a name="v0.23.2"></a>
 ## [v0.23.2] - 2020-05-11
 ### Bug Fixes
@@ -541,7 +547,8 @@
 - rename packages for clarity, promote Config to the public package
 
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.23.2...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.23.3...HEAD
+[v0.23.3]: https://github.com/newrelic/newrelic-client-go/compare/v0.23.2...v0.23.3
 [v0.23.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.23.1...v0.23.2
 [v0.23.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.23.0...v0.23.1
 [v0.23.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.22.0...v0.23.0
