@@ -167,14 +167,18 @@ func (s *Schema) Definition(typeInfo TypeConfig) (string, error) {
 		output += "}\n"
 	case KindENUM:
 		output += "type " + t.Name + " string\n\n"
-		output += "const (\n"
 
+		output += "var " + t.Name + "Types = struct {\n"
 		for _, v := range t.EnumValues {
 			output += v.GetDescription()
-			output += "\t" + v.Name + " " + t.Name + " = \"" + v.Name + "\"\n"
+			output += "\t" + v.Name + " " + t.Name + "\n"
+		}
+		output += "}{\n"
+		for _, v := range t.EnumValues {
+			output += "\t" + v.Name + ": \"" + v.Name + "\",\n"
 		}
 
-		output += ")\n"
+		output += "}\n"
 	case KindScalar:
 		// Default to string for scalars, but warn this is might not be what they want.
 		createAs := "string"
