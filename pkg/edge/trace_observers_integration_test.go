@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	testAccountIDStr      = os.Getenv("NEWRELIC_MASTER_ACCOUNT_ID")
+	testAccountIDStr      = os.Getenv("NEW_RELIC_MASTER_ACCOUNT_ID")
 	testTraceObserverName = "testTraceObserver"
 	testProviderRegion    = EdgeProviderRegionTypes.AWS_US_EAST_1
 )
