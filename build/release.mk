@@ -23,6 +23,6 @@ release-publish: clean tools release-notes
 snapshot: clean tools release-notes
 	@echo "=== $(PROJECT_NAME) === [ snapshot         ]: Creating release via $(REL_CMD)"
 	@echo "=== $(PROJECT_NAME) === [ snapshot         ]:   THIS WILL NOT BE PUBLISHED!"
-	$(REL_CMD) --skip-publish --snapshot --release-notes=$(SRCDIR)/tmp/$(RELEASE_NOTES_FILE)
+	@$(REL_CMD) --skip-publish --snapshot --release-notes=$(SRCDIR)/tmp/$(RELEASE_NOTES_FILE)
 
 .PHONY: release release-clean release-publish snapshot
