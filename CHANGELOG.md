@@ -2,6 +2,12 @@
 ## [Unreleased]
 
 
+<a name="v0.24.0"></a>
+## [v0.24.0] - 2020-05-15
+### Features
+- **edge:** add trace observer resource
+
+
 <a name="v0.23.4"></a>
 ## [v0.23.4] - 2020-05-13
 ### Bug Fixes
@@ -553,7 +559,8 @@
 - rename packages for clarity, promote Config to the public package
 
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.23.4...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.24.0...HEAD
+[v0.24.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.23.4...v0.24.0
 [v0.23.4]: https://github.com/newrelic/newrelic-client-go/compare/v0.23.3...v0.23.4
 [v0.23.3]: https://github.com/newrelic/newrelic-client-go/compare/v0.23.2...v0.23.3
 [v0.23.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.23.1...v0.23.2
