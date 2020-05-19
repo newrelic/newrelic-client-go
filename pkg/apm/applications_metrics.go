@@ -12,8 +12,8 @@ type MetricNamesParams struct {
 
 // MetricDataParams are the request parameters for the /metrics/data.json endpoint.
 type MetricDataParams struct {
-	Names     []string   `url:"names,omitempty"`
-	Values    []string   `url:"values,omitempty"`
+	Names     []string   `url:"names[],omitempty"`
+	Values    []string   `url:"values[],omitempty"`
 	From      *time.Time `url:"from,omitempty"`
 	To        *time.Time `url:"to,omitempty"`
 	Period    int        `url:"period,omitempty"`
