@@ -10,6 +10,21 @@ import (
 	"github.com/newrelic/newrelic-client-go/pkg/region"
 )
 
+// Compression to use during transport.
+type CompressionType string
+
+var Compression = struct {
+	None CompressionType
+	Gzip CompressionType
+}{
+	None: "",
+	Gzip: "gzip",
+}
+
+func (c CompressionType) String() string {
+	return string(c)
+}
+
 // Config contains all the configuration data for the API Client.
 type Config struct {
 	// PersonalAPIKey to authenticate API requests
@@ -21,6 +36,9 @@ type Config struct {
 	// see: https://docs.newrelic.com/docs/apis/get-started/intro-apis/types-new-relic-api-keys#admin
 	AdminAPIKey string
 
+	// InsightsInsertKey to send custom events to Insights
+	InsightsInsertKey string
+
 	// region of the New Relic platform to use
 	region *region.Region
 
@@ -29,6 +47,9 @@ type Config struct {
 
 	// HTTPTransport allows customization of the client's underlying transport.
 	HTTPTransport http.RoundTripper
+
+	// Compression used in sending data in HTTP requests.
+	Compression CompressionType
 
 	// UserAgent updates the default user agent string used by the client.
 	UserAgent string

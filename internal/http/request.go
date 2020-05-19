@@ -1,7 +1,9 @@
 package http
 
 import (
+	"encoding/json"
 	"fmt"
+	"io"
 
 	"github.com/google/go-querystring/query"
 	retryablehttp "github.com/hashicorp/go-retryablehttp"
@@ -24,7 +26,11 @@ type Request struct {
 
 // NewRequest creates a new Request struct.
 func (c *Client) NewRequest(method string, url string, params interface{}, reqBody interface{}, value interface{}) (*Request, error) {
-	var err error
+	var (
+		err         error
+		requestBody []byte
+		readBuffer  io.Reader
+	)
 
 	req := &Request{
 		method:       method,
@@ -42,15 +48,23 @@ func (c *Client) NewRequest(method string, url string, params interface{}, reqBo
 	req.config = cfg
 
 	if reqBody != nil {
-		if _, ok := reqBody.([]byte); !ok {
-			reqBody, err = makeRequestBodyReader(reqBody)
+		switch val := reqBody.(type) {
+		case []byte:
+			requestBody = val
+		default:
+			requestBody, err = json.Marshal(val)
 			if err != nil {
 				return nil, err
 			}
 		}
+
+		readBuffer, err = c.compressor.Compress(req, requestBody)
+		if err != nil {
+			return nil, err
+		}
 	}
 
-	req.request, err = retryablehttp.NewRequest(req.method, url, reqBody)
+	req.request, err = retryablehttp.NewRequest(req.method, url, readBuffer)
 	if err != nil {
 		return nil, err
 	}
@@ -65,6 +79,18 @@ func (c *Client) NewRequest(method string, url string, params interface{}, reqBo
 // SetHeader sets a header on the underlying request.
 func (r *Request) SetHeader(key string, value string) {
 	r.request.Header.Set(key, value)
+}
+
+// GetHeader returns the value of the header requested
+func (r *Request) GetHeader(key string) string {
+	return r.request.Header.Get(key)
+}
+
+// DelHeader returns the value of the header requested
+func (r *Request) DelHeader(key string) {
+	if r != nil && r.request != nil && r.request.Header != nil {
+		r.request.Header.Del(key)
+	}
 }
 
 // SetAuthStrategy sets the authentication strategy for the request.

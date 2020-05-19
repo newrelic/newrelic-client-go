@@ -314,29 +314,17 @@ func TestPost(t *testing.T) {
 		_, _ = w.Write([]byte(`{}`))
 	}))
 
-	_, err := c.Post(c.config.Region().RestURL("path"), &struct{}{}, &struct{}{}, &struct{}{})
-
-	assert.NoError(t, err)
-}
-
-func TestRawPost(t *testing.T) {
-	t.Parallel()
-	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusOK)
-		_, _ = w.Write([]byte(`{}`))
-	}))
-
 	// string
-	_, err := c.RawPost(c.config.Region().RestURL("path"), &struct{}{}, "test string payload", &struct{}{})
+	_, err := c.Post(c.config.Region().RestURL("path"), &struct{}{}, "test string payload", &struct{}{})
 	assert.NoError(t, err)
 
 	// []byte
-	_, err = c.RawPost(c.config.Region().RestURL("path"), &struct{}{}, []byte(`bytes`), &struct{}{})
+	_, err = c.Post(c.config.Region().RestURL("path"), &struct{}{}, []byte(`bytes`), &struct{}{})
 	assert.NoError(t, err)
 
-	// invalid
-	_, err = c.RawPost(c.config.Region().RestURL("path"), &struct{}{}, &struct{}{}, &struct{}{})
-	assert.Error(t, err)
+	// other data type
+	_, err = c.Post(c.config.Region().RestURL("path"), &struct{}{}, &struct{}{}, &struct{}{})
+	assert.NoError(t, err)
 }
 
 func TestPut(t *testing.T) {
