@@ -42,12 +42,12 @@ type MetricTimeslice struct {
 
 //MetricTimesliceValues is the collection of metric values for a single time slice.
 type MetricTimesliceValues struct {
-	AsPercentage           float64 `json:"as_percentage"`
-	AverageTime            float64 `json:"average_time"`
-	CallsPerMinute         float64 `json:"calls_per_minute"`
-	MaxValue               float64 `json:"max_value"`
-	TotalCallTimePerMinute float64 `json:"total_call_time_per_minute"`
-	Utilization            float64 `json:"utilization"`
+	AsPercentage           float64 `json:"as_percentage,omitempty"`
+	AverageTime            float64 `json:"average_time,omitempty"`
+	CallsPerMinute         float64 `json:"calls_per_minute,omitempty"`
+	MaxValue               float64 `json:"max_value,omitempty"`
+	TotalCallTimePerMinute float64 `json:"total_call_time_per_minute,omitempty"`
+	Utilization            float64 `json:"utilization,omitempty"`
 }
 
 // GetMetricNames is used to retrieve a list of known metrics and their value names for the given resource.
