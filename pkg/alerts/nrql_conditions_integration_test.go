@@ -349,3 +349,57 @@ func TestIntegrationNrqlConditions_Search(t *testing.T) {
 		}
 	}()
 }
+
+func TestIntegrationNrqlConditions_CreateStatic(t *testing.T) {
+	t.Parallel()
+
+	var (
+		randStr            = nr.RandSeq(5)
+		conditionName      = fmt.Sprintf("test-nrql-condition-%s", randStr)
+		testConditionInput = NrqlConditionInput{
+			NrqlConditionBase: NrqlConditionBase{
+				Description: "test description",
+				Enabled:     true,
+				Name:        conditionName,
+				Nrql: NrqlConditionQuery{
+					Query:            "SELECT uniqueCount(host) from Transaction where appName='Dummy App'",
+					EvaluationOffset: 3,
+				},
+				RunbookURL: "test.com",
+				Terms: []NrqlConditionTerms{
+					{
+						Threshold:            1,
+						ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
+						ThresholdDuration:    600,
+						Operator:             NrqlConditionOperators.Above,
+						Priority:             NrqlConditionPriorities.Critical,
+					},
+				},
+				ViolationTimeLimit: NrqlConditionViolationTimeLimits.OneHour,
+			},
+			ValueFunction: &NrqlConditionValueFunctions.SingleValue,
+		}
+	)
+
+	client := newIntegrationTestClient(t)
+
+	// Setup
+	setupPolicy := Policy{
+		IncidentPreference: IncidentPreferenceTypes.PerPolicy,
+		Name:               fmt.Sprintf("test-alert-policy-%s", randStr),
+	}
+	policy, err := client.CreatePolicy(setupPolicy)
+	require.NoError(t, err)
+
+	condition, err := client.CreateNrqlConditionStaticMutation(nr.TestAccountID, policy.ID, testConditionInput)
+	require.NoError(t, err)
+	require.NotNil(t, condition)
+
+	// Deferred teardown
+	defer func() {
+		_, err := client.DeletePolicy(policy.ID)
+		if err != nil {
+			t.Logf("error cleaning up alert policy %d (%s): %s", policy.ID, policy.Name, err)
+		}
+	}()
+}
