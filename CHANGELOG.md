@@ -2,6 +2,13 @@
 ## [Unreleased]
 
 
+<a name="v0.25.0"></a>
+## [v0.25.0] - 2020-05-20
+### Features
+- enable APIKS auth for alerts and plugins packages
+- **alerts:** add nerdgraph-based alert condition deletion
+
+
 <a name="v0.24.1"></a>
 ## [v0.24.1] - 2020-05-19
 ### Bug Fixes
@@ -566,7 +573,8 @@
 - rename packages for clarity, promote Config to the public package
 
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.24.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.25.0...HEAD
+[v0.25.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.24.1...v0.25.0
 [v0.24.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.24.0...v0.24.1
 [v0.24.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.23.4...v0.24.0
 [v0.23.4]: https://github.com/newrelic/newrelic-client-go/compare/v0.23.3...v0.23.4
