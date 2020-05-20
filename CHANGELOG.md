@@ -2,6 +2,13 @@
 ## [Unreleased]
 
 
+<a name="v0.24.1"></a>
+## [v0.24.1] - 2020-05-19
+### Bug Fixes
+- **apm:** don't return empty zero values for floats for MetricTimesliceValues which can be misleading
+- **apm:** adjust MetricDataParams json tags to support query params as arrays
+
+
 <a name="v0.24.0"></a>
 ## [v0.24.0] - 2020-05-15
 ### Features
@@ -559,7 +566,8 @@
 - rename packages for clarity, promote Config to the public package
 
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.24.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.24.1...HEAD
+[v0.24.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.24.0...v0.24.1
 [v0.24.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.23.4...v0.24.0
 [v0.23.4]: https://github.com/newrelic/newrelic-client-go/compare/v0.23.3...v0.23.4
 [v0.23.3]: https://github.com/newrelic/newrelic-client-go/compare/v0.23.2...v0.23.3
