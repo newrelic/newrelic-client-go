@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	mock "github.com/newrelic/newrelic-client-go/internal/testing"
+	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
 
 // nolint

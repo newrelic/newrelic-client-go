@@ -9,7 +9,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	nr "github.com/newrelic/newrelic-client-go/internal/testing"
+	nr "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
 
 var (
