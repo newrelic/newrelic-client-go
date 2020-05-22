@@ -12,7 +12,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	mock "github.com/newrelic/newrelic-client-go/internal/testing"
+	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
 
 func newTestClient(t *testing.T, handler http.Handler) Dashboards {

@@ -8,8 +8,8 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	mock "github.com/newrelic/newrelic-client-go/internal/testing"
 	"github.com/newrelic/newrelic-client-go/pkg/synthetics"
+	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
 
 func TestIntegrationSyntheticsConditions(t *testing.T) {
