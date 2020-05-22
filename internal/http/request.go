@@ -86,7 +86,7 @@ func (r *Request) GetHeader(key string) string {
 	return r.request.Header.Get(key)
 }
 
-// DelHeader returns the value of the header requested
+// DelHeader deletes the specified header if it exists
 func (r *Request) DelHeader(key string) {
 	if r != nil && r.request != nil && r.request.Header != nil {
 		r.request.Header.Del(key)

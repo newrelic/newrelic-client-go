@@ -80,13 +80,21 @@ func NewClient(cfg config.Config) Client {
 	// Disable logging in go-retryablehttp since we are logging requests directly here
 	r.Logger = nil
 
-	return Client{
+	client := Client{
 		authStrategy: &ClassicV2Authorizer{},
 		client:       r,
-		compressor:   &NoneCompressor{},
 		config:       cfg,
 		errorValue:   &DefaultErrorResponse{},
 	}
+
+	switch cfg.Compression {
+	case config.Compression.Gzip:
+		client.compressor = &GzipCompressor{}
+	default:
+		client.compressor = &NoneCompressor{}
+	}
+
+	return client
 }
 
 // SetAuthStrategy is used to set the default auth strategy for this client

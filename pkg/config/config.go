@@ -10,21 +10,6 @@ import (
 	"github.com/newrelic/newrelic-client-go/pkg/region"
 )
 
-// Compression to use during transport.
-type CompressionType string
-
-var Compression = struct {
-	None CompressionType
-	Gzip CompressionType
-}{
-	None: "",
-	Gzip: "gzip",
-}
-
-func (c CompressionType) String() string {
-	return string(c)
-}
-
 // Config contains all the configuration data for the API Client.
 type Config struct {
 	// PersonalAPIKey to authenticate API requests
@@ -73,9 +58,10 @@ func New() Config {
 	reg, _ := region.Get(region.Default)
 
 	return Config{
-		region:    reg,
-		UserAgent: "newrelic/newrelic-client-go",
-		LogLevel:  "info",
+		region:      reg,
+		UserAgent:   "newrelic/newrelic-client-go",
+		LogLevel:    "info",
+		Compression: Compression.None,
 	}
 }
 
