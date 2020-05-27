@@ -18,7 +18,7 @@ require (
 	github.com/tomnomnom/linkheader v0.0.0-20180905144013-02ca5825eb80
 	github.com/tsuyoshiwada/go-gitcmd v0.0.0-20180205145712-5f1f5f9475df // indirect
 	github.com/urfave/cli v1.22.2 // indirect
-	golang.org/x/tools v0.0.0-20200515204822-0aa9f2fd802d
+	golang.org/x/tools v0.0.0-20200527150044-688b3c5d9fa5
 	gopkg.in/AlecAivazis/survey.v1 v1.8.7 // indirect
 	gopkg.in/kyokomi/emoji.v1 v1.5.1 // indirect
 	gopkg.in/yaml.v2 v2.3.0
