@@ -2,6 +2,17 @@
 ## [Unreleased]
 
 
+<a name="v0.26.0"></a>
+## [v0.26.0] - 2020-05-27
+### Bug Fixes
+- **http:** Use default User-Agent header if none provided
+- **http:** Refactor config.Compression and use it in http
+
+### Features
+- **http:** Enable compression handling for requests, consolidate POST methods
+- **region:** Add Insights insert API URLs
+
+
 <a name="v0.25.1"></a>
 ## [v0.25.1] - 2020-05-20
 ### Bug Fixes
@@ -579,7 +590,8 @@
 - rename packages for clarity, promote Config to the public package
 
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.25.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.26.0...HEAD
+[v0.26.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.25.1...v0.26.0
 [v0.25.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.25.0...v0.25.1
 [v0.25.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.24.1...v0.25.0
 [v0.24.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.24.0...v0.24.1
