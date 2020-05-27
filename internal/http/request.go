@@ -71,7 +71,12 @@ func (c *Client) NewRequest(method string, url string, params interface{}, reqBo
 
 	req.SetHeader(defaultNewRelicRequestingServiceHeader, cfg.ServiceName)
 	req.SetHeader("Content-Type", "application/json")
-	req.SetHeader("User-Agent", cfg.UserAgent)
+
+	if cfg.UserAgent != "" {
+		req.SetHeader("User-Agent", cfg.UserAgent)
+	} else {
+		req.SetHeader("User-Agent", defaultUserAgent)
+	}
 
 	return req, nil
 }

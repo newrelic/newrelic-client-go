@@ -59,7 +59,6 @@ func New() Config {
 
 	return Config{
 		region:      reg,
-		UserAgent:   "newrelic/newrelic-client-go",
 		LogLevel:    "info",
 		Compression: Compression.None,
 	}
