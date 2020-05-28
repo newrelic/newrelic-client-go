@@ -4,7 +4,6 @@ package alerts
 
 import (
 	"fmt"
-	"strconv"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -136,11 +135,11 @@ func TestIntegrationNrqlConditions_Baseline(t *testing.T) {
 
 	// Setup
 	client := newIntegrationTestClient(t)
-	testPolicy := Policy{
-		IncidentPreference: IncidentPreferenceTypes.PerPolicy,
+	testPolicy := AlertsPolicyInput{
+		IncidentPreference: AlertsIncidentPreferenceTypes.PER_POLICY,
 		Name:               fmt.Sprintf("test-alert-policy-%s", randStr),
 	}
-	policy, err := client.CreatePolicy(testPolicy)
+	policy, err := client.CreatePolicyMutation(nr.TestAccountID, testPolicy)
 	require.NoError(t, err)
 
 	// Test: Create (baseline condition)
@@ -152,9 +151,8 @@ func TestIntegrationNrqlConditions_Baseline(t *testing.T) {
 	require.Equal(t, NrqlConditionType("BASELINE"), created.Type)
 
 	// Test: Get (baseline condition)
-	createdID, err := strconv.Atoi(created.ID)
 	require.NoError(t, err)
-	readResult, err := client.GetNrqlConditionQuery(nr.TestAccountID, createdID)
+	readResult, err := client.GetNrqlConditionQuery(nr.TestAccountID, created.ID)
 	require.NoError(t, err)
 	require.NotNil(t, readResult)
 	require.Equal(t, NrqlConditionType("BASELINE"), readResult.Type)
@@ -164,14 +162,14 @@ func TestIntegrationNrqlConditions_Baseline(t *testing.T) {
 	// There is currently a timing issue with this test.
 	// TODO: Once the upstream is fixed, test the updated fields to ensure the this worked
 	updateBaselineInput.Description = "test description updated"
-	_, err = client.UpdateNrqlConditionBaselineMutation(nr.TestAccountID, createdID, updateBaselineInput)
+	_, err = client.UpdateNrqlConditionBaselineMutation(nr.TestAccountID, created.ID, updateBaselineInput)
 	require.NoError(t, err)
 
 	// Deferred teardown
 	defer func() {
-		_, err := client.DeletePolicy(policy.ID)
+		_, err := client.DeletePolicyMutation(nr.TestAccountID, policy.ID)
 		if err != nil {
-			t.Logf("error cleaning up alert policy %d (%s): %s", policy.ID, policy.Name, err)
+			t.Logf("error cleaning up alert policy %s (%s): %s", policy.ID, policy.Name, err)
 		}
 	}()
 }
@@ -193,11 +191,11 @@ func TestIntegrationNrqlConditions_Static(t *testing.T) {
 
 	// Setup
 	client := newIntegrationTestClient(t)
-	testPolicy := Policy{
-		IncidentPreference: IncidentPreferenceTypes.PerPolicy,
+	testPolicy := AlertsPolicyInput{
+		IncidentPreference: AlertsIncidentPreferenceTypes.PER_POLICY,
 		Name:               fmt.Sprintf("test-alert-policy-%s", randStr),
 	}
-	policy, err := client.CreatePolicy(testPolicy)
+	policy, err := client.CreatePolicyMutation(nr.TestAccountID, testPolicy)
 	require.NoError(t, err)
 
 	// Test: Create (static condition)
@@ -209,10 +207,7 @@ func TestIntegrationNrqlConditions_Static(t *testing.T) {
 	require.Equal(t, NrqlConditionType("STATIC"), createdStatic.Type)
 
 	// Test: Get (static condition)
-	staticConditionID, err := strconv.Atoi(createdStatic.ID)
-	require.NoError(t, err)
-
-	readResult, err := client.GetNrqlConditionQuery(nr.TestAccountID, staticConditionID)
+	readResult, err := client.GetNrqlConditionQuery(nr.TestAccountID, createdStatic.ID)
 	require.NoError(t, err)
 	require.NotNil(t, readResult)
 	require.Equal(t, NrqlConditionType("STATIC"), readResult.Type)
@@ -222,14 +217,14 @@ func TestIntegrationNrqlConditions_Static(t *testing.T) {
 	// There is currently a timing issue with this test.
 	// TODO: Once the upstream is fixed, test the updated fields to ensure the this worked
 	updateStaticInput.Description = "test description updated"
-	_, err = client.UpdateNrqlConditionStaticMutation(nr.TestAccountID, staticConditionID, updateStaticInput)
+	_, err = client.UpdateNrqlConditionStaticMutation(nr.TestAccountID, readResult.ID, updateStaticInput)
 	require.NoError(t, err)
 
 	// Deferred teardown
 	defer func() {
-		_, err := client.DeletePolicy(policy.ID)
+		_, err := client.DeletePolicyMutation(nr.TestAccountID, policy.ID)
 		if err != nil {
-			t.Logf("error cleaning up alert policy %d (%s): %s", policy.ID, policy.Name, err)
+			t.Logf("error cleaning up alert policy %s (%s): %s", policy.ID, policy.Name, err)
 		}
 	}()
 }
@@ -252,11 +247,11 @@ func TestIntegrationNrqlConditions_ErrorScenarios(t *testing.T) {
 
 	// Setup
 	client := newIntegrationTestClient(t)
-	testPolicy := Policy{
-		IncidentPreference: IncidentPreferenceTypes.PerPolicy,
+	testPolicy := AlertsPolicyInput{
+		IncidentPreference: AlertsIncidentPreferenceTypes.PER_POLICY,
 		Name:               fmt.Sprintf("test-alert-policy-%s", randStr),
 	}
-	policy, err := client.CreatePolicy(testPolicy)
+	policy, err := client.CreatePolicyMutation(nr.TestAccountID, testPolicy)
 	require.NoError(t, err)
 
 	// Test: Create Invalid (should result in an error)
@@ -265,7 +260,7 @@ func TestIntegrationNrqlConditions_ErrorScenarios(t *testing.T) {
 	require.Nil(t, createdBaseline)
 
 	// Test: Update Invalid (should result in an error)
-	updatedBaseline, err := client.UpdateNrqlConditionBaselineMutation(nr.TestAccountID, 8675309, testInvalidMutationInput)
+	updatedBaseline, err := client.UpdateNrqlConditionBaselineMutation(nr.TestAccountID, "8675309", testInvalidMutationInput)
 	require.Error(t, err)
 	require.Nil(t, updatedBaseline)
 
@@ -275,15 +270,15 @@ func TestIntegrationNrqlConditions_ErrorScenarios(t *testing.T) {
 	require.Nil(t, createdStatic)
 
 	// Test: Update Invalid (should result in an error)
-	updatedStatic, err := client.UpdateNrqlConditionStaticMutation(nr.TestAccountID, 8675309, testInvalidMutationInput)
+	updatedStatic, err := client.UpdateNrqlConditionStaticMutation(nr.TestAccountID, "8675309", testInvalidMutationInput)
 	require.Error(t, err)
 	require.Nil(t, updatedStatic)
 
 	// Deferred teardown
 	defer func() {
-		_, err := client.DeletePolicy(policy.ID)
+		_, err := client.DeletePolicyMutation(nr.TestAccountID, policy.ID)
 		if err != nil {
-			t.Logf("error cleaning up alert policy %d (%s): %s", policy.ID, policy.Name, err)
+			t.Logf("error cleaning up alert policy %s (%s): %s", policy.ID, policy.Name, err)
 		}
 	}()
 }
@@ -325,11 +320,11 @@ func TestIntegrationNrqlConditions_Search(t *testing.T) {
 	client := newIntegrationTestClient(t)
 
 	// Setup
-	setupPolicy := Policy{
-		IncidentPreference: IncidentPreferenceTypes.PerPolicy,
+	setupPolicy := AlertsPolicyInput{
+		IncidentPreference: AlertsIncidentPreferenceTypes.PER_POLICY,
 		Name:               fmt.Sprintf("test-alert-policy-%s", randStr),
 	}
-	policy, err := client.CreatePolicy(setupPolicy)
+	policy, err := client.CreatePolicyMutation(nr.TestAccountID, setupPolicy)
 	require.NoError(t, err)
 
 	condition, err := client.CreateNrqlConditionBaselineMutation(nr.TestAccountID, policy.ID, testConditionInput)
@@ -343,9 +338,9 @@ func TestIntegrationNrqlConditions_Search(t *testing.T) {
 
 	// Deferred teardown
 	defer func() {
-		_, err := client.DeletePolicy(policy.ID)
+		_, err := client.DeletePolicyMutation(nr.TestAccountID, policy.ID)
 		if err != nil {
-			t.Logf("error cleaning up alert policy %d (%s): %s", policy.ID, policy.Name, err)
+			t.Logf("error cleaning up alert policy %s (%s): %s", policy.ID, policy.Name, err)
 		}
 	}()
 }
@@ -384,11 +379,11 @@ func TestIntegrationNrqlConditions_CreateStatic(t *testing.T) {
 	client := newIntegrationTestClient(t)
 
 	// Setup
-	setupPolicy := Policy{
-		IncidentPreference: IncidentPreferenceTypes.PerPolicy,
+	setupPolicy := AlertsPolicyInput{
+		IncidentPreference: AlertsIncidentPreferenceTypes.PER_POLICY,
 		Name:               fmt.Sprintf("test-alert-policy-%s", randStr),
 	}
-	policy, err := client.CreatePolicy(setupPolicy)
+	policy, err := client.CreatePolicyMutation(nr.TestAccountID, setupPolicy)
 	require.NoError(t, err)
 
 	condition, err := client.CreateNrqlConditionStaticMutation(nr.TestAccountID, policy.ID, testConditionInput)
@@ -397,9 +392,9 @@ func TestIntegrationNrqlConditions_CreateStatic(t *testing.T) {
 
 	// Deferred teardown
 	defer func() {
-		_, err := client.DeletePolicy(policy.ID)
+		_, err := client.DeletePolicyMutation(nr.TestAccountID, policy.ID)
 		if err != nil {
-			t.Logf("error cleaning up alert policy %d (%s): %s", policy.ID, policy.Name, err)
+			t.Logf("error cleaning up alert policy %s (%s): %s", policy.ID, policy.Name, err)
 		}
 	}()
 }

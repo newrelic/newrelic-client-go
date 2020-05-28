@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
+	nr "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
 
 var (
@@ -16,7 +16,6 @@ var (
 	testCollection          = "myCol"
 	testDocumentID          = "myDoc"
 	testAlternateDocumentID = "myOtherDoc"
-	testAccountID           = 2508259
 	testDocument            = struct {
 		MyField string
 	}{
@@ -53,30 +52,30 @@ func TestIntegrationNerdStorageWithAccountScope(t *testing.T) {
 
 	client := newIntegrationTestClient(t)
 
-	document, err := client.WriteDocumentWithAccountScope(testAccountID, testWriteInput)
+	document, err := client.WriteDocumentWithAccountScope(nr.TestAccountID, testWriteInput)
 	require.NoError(t, err)
 	require.NotNil(t, document)
 
 	testAlternateWriteInput := testWriteInput
 	testAlternateWriteInput.DocumentID = testAlternateDocumentID
 
-	document, err = client.WriteDocumentWithAccountScope(testAccountID, testAlternateWriteInput)
+	document, err = client.WriteDocumentWithAccountScope(nr.TestAccountID, testAlternateWriteInput)
 	require.NoError(t, err)
 	require.NotNil(t, document)
 
-	collection, err := client.GetCollectionWithAccountScope(testAccountID, testGetCollectionInput)
+	collection, err := client.GetCollectionWithAccountScope(nr.TestAccountID, testGetCollectionInput)
 	require.NoError(t, err)
 	require.NotNil(t, collection)
 
-	document, err = client.GetDocumentWithAccountScope(testAccountID, testGetDocumentInput)
+	document, err = client.GetDocumentWithAccountScope(nr.TestAccountID, testGetDocumentInput)
 	require.NoError(t, err)
 	require.NotNil(t, document)
 
-	ok, err := client.DeleteDocumentWithAccountScope(testAccountID, testDeleteDocumentInput)
+	ok, err := client.DeleteDocumentWithAccountScope(nr.TestAccountID, testDeleteDocumentInput)
 	require.NoError(t, err)
 	require.True(t, ok)
 
-	ok, err = client.DeleteCollectionWithAccountScope(testAccountID, testDeleteCollectionInput)
+	ok, err = client.DeleteCollectionWithAccountScope(nr.TestAccountID, testDeleteCollectionInput)
 	require.NoError(t, err)
 	require.True(t, ok)
 }
@@ -148,7 +147,7 @@ func TestIntegrationNerdStorageWithEntityScope(t *testing.T) {
 }
 
 func newIntegrationTestClient(t *testing.T) NerdStorage {
-	tc := mock.NewIntegrationTestConfig(t)
+	tc := nr.NewIntegrationTestConfig(t)
 
 	return New(tc)
 }
