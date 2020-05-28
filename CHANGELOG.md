@@ -2,6 +2,12 @@
 ## [Unreleased]
 
 
+<a name="v0.27.0"></a>
+## [v0.27.0] - 2020-05-28
+### Refactor
+- **alerts:** update NG-based policy and condition IDs to string types
+
+
 <a name="v0.26.0"></a>
 ## [v0.26.0] - 2020-05-27
 ### Bug Fixes
@@ -590,7 +596,8 @@
 - rename packages for clarity, promote Config to the public package
 
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.26.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.27.0...HEAD
+[v0.27.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.26.0...v0.27.0
 [v0.26.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.25.1...v0.26.0
 [v0.25.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.25.0...v0.25.1
 [v0.25.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.24.1...v0.25.0
