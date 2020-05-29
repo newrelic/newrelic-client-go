@@ -13,7 +13,8 @@ import (
 )
 
 var (
-	testTimestamp = serialization.EpochTime(time.Unix(1575438237690, 0))
+	testTimestampStringMs = "1575438237690"
+	testTimestamp         = serialization.EpochTime(time.Unix(0, 1575438237690*int64(time.Millisecond)))
 
 	testPoliciesResponseJSON = `{
 		"policies": [
@@ -21,15 +22,15 @@ var (
 				"id": 579506,
 				"incident_preference": "PER_POLICY",
 				"name": "test-alert-policy-1",
-				"created_at": 1575438237690,
-				"updated_at": 1575438237690
+				"created_at": ` + testTimestampStringMs + `,
+				"updated_at": ` + testTimestampStringMs + `
 			},
 			{
 				"id": 579509,
 				"incident_preference": "PER_POLICY",
 				"name": "test-alert-policy-2",
-				"created_at": 1575438237690,
-				"updated_at": 1575438237690
+				"created_at": ` + testTimestampStringMs + `,
+				"updated_at": ` + testTimestampStringMs + `
 			}
 		]
 	}`
@@ -39,8 +40,8 @@ var (
 			"id": 579506,
 			"incident_preference": "PER_POLICY",
 			"name": "test-alert-policy-1",
-			"created_at": 1575438237690,
-			"updated_at": 1575438237690
+			"created_at": ` + testTimestampStringMs + `,
+			"updated_at": ` + testTimestampStringMs + `
 		}
 	}`
 
@@ -49,8 +50,8 @@ var (
 			"id": 579506,
 			"incident_preference": "PER_CONDITION",
 			"name": "test-alert-policy-updated",
-			"created_at": 1575438237690,
-			"updated_at": 1575438237690
+			"created_at": ` + testTimestampStringMs + `,
+			"updated_at": ` + testTimestampStringMs + `
 		}
 	}`
 )
