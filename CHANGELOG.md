@@ -2,6 +2,15 @@
 ## [Unreleased]
 
 
+<a name="v0.27.1"></a>
+## [v0.27.1] - 2020-05-29
+### Bug Fixes
+- **serialization:** EpochTime handling of Unix timestamp with milliseconds
+
+### Refactor
+- **alerts:** update NG-based condition IDs to string type
+
+
 <a name="v0.27.0"></a>
 ## [v0.27.0] - 2020-05-28
 ### Refactor
@@ -596,7 +605,8 @@
 - rename packages for clarity, promote Config to the public package
 
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.27.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.27.1...HEAD
+[v0.27.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.27.0...v0.27.1
 [v0.27.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.26.0...v0.27.0
 [v0.26.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.25.1...v0.26.0
 [v0.25.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.25.0...v0.25.1
