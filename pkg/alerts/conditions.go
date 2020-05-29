@@ -294,7 +294,7 @@ func (a *Alerts) DeleteCondition(id int) (*Condition, error) {
 // DeleteConditionMutation deletes any type of alert condition via New Relic's NerdGraph API.
 func (a *Alerts) DeleteConditionMutation(
 	accountID int,
-	conditionID int,
+	conditionID string,
 ) (string, error) {
 	resp := conditionDeleteResponse{}
 	vars := map[string]interface{}{

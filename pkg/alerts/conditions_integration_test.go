@@ -4,7 +4,6 @@ package alerts
 
 import (
 	"fmt"
-	"strconv"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -102,12 +101,4 @@ func TestIntegrationConditions(t *testing.T) {
 
 	require.NoError(t, err)
 	require.NotNil(t, result)
-
-	// Test: NerdGraph delete
-	createResult, err = client.CreateCondition(policy.ID, testCondition)
-	id, err := client.DeleteConditionMutation(nr.TestAccountID, createResult.ID)
-	conditionID := strconv.Itoa(createResult.ID)
-
-	require.NoError(t, err)
-	require.Equal(t, conditionID, id)
 }
