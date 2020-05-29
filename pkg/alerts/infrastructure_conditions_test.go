@@ -6,17 +6,13 @@ import (
 	"fmt"
 	"net/http"
 	"testing"
-	"time"
 
 	"github.com/stretchr/testify/require"
-
-	"github.com/newrelic/newrelic-client-go/internal/serialization"
 )
 
 var (
-	testInfrastructureConditionPolicyId  = 111111
-	testInfrastructureConditionTimestamp = serialization.EpochTime(time.Unix(1490996713872, 0))
-	testInfrastructureCriticalThreshold  = InfrastructureConditionThreshold{
+	testInfrastructureConditionPolicyId = 111111
+	testInfrastructureCriticalThreshold = InfrastructureConditionThreshold{
 		Duration: 6,
 		Function: "all",
 		Value:    12.3,
@@ -29,7 +25,7 @@ var (
 
 	testInfrastructureCondition = InfrastructureCondition{
 		Comparison:   "equal",
-		CreatedAt:    &testInfrastructureConditionTimestamp,
+		CreatedAt:    &testTimestamp,
 		Critical:     &testInfrastructureCriticalThreshold,
 		Enabled:      true,
 		ID:           13890,
@@ -37,7 +33,7 @@ var (
 		PolicyID:     testInfrastructureConditionPolicyId,
 		ProcessWhere: "(commandName = 'java')",
 		Type:         "infra_process_running",
-		UpdatedAt:    &testInfrastructureConditionTimestamp,
+		UpdatedAt:    &testTimestamp,
 		Warning:      &testInfrastructureWarningThreshold,
 		Where:        "(hostname LIKE '%cassandra%')",
 	}
@@ -48,9 +44,9 @@ var (
 			"enabled":true,
 			"where_clause":"(hostname LIKE '%cassandra%')",
 			"id":13890,
-			"created_at_epoch_millis":1490996713872,
-			"updated_at_epoch_millis":1490996713872,
-			"policy_id":111111,
+			"created_at_epoch_millis":` + testTimestampStringMs + `,
+			"updated_at_epoch_millis":` + testTimestampStringMs + `,
+			"policy_id": 111111,
 			"comparison":"equal",
 			"critical_threshold":{
 				"value":12.3,
