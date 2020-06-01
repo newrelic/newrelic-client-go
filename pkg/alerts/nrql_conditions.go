@@ -153,6 +153,12 @@ type NrqlConditionInput struct {
 
 	// ValueFunction is returned ONLY for NRQL conditions of type STATIC.
 	ValueFunction *NrqlConditionValueFunction `json:"valueFunction,omitempty"`
+
+	// ExpectedGroups is returned ONLY for NRQL conditions of type OUTLIER.
+	ExpectedGroups *int `json:"expectedGroups,omitempty"`
+
+	// OpenViolationOnGroupOverlap is returned ONLY for NRQL conditions of type OUTLIER.
+	OpenViolationOnGroupOverlap *bool `json:"openViolationOnGroupOverlap,omitempty"`
 }
 
 type NrqlConditionsSearchCriteria struct {
@@ -176,6 +182,12 @@ type NrqlAlertCondition struct {
 
 	// ValueFunction is returned ONLY for NRQL conditions of type STATIC.
 	ValueFunction *NrqlConditionValueFunction `json:"valueFunction,omitempty"`
+
+	// ExpectedGroups is returned ONLY for NRQL conditions of type OUTLIER.
+	ExpectedGroups int `json:"expectedGroups,omitempty"`
+
+	// OpenViolationOnGroupOverlap is returned ONLY for NRQL conditions of type OUTLIER.
+	OpenViolationOnGroupOverlap bool `json:"openViolationOnGroupOverlap,omitempty"`
 }
 
 // NrqlCondition represents a New Relic NRQL Alert condition.
@@ -415,6 +427,26 @@ func (a *Alerts) UpdateNrqlConditionStaticMutation(
 	return &resp.AlertsNrqlConditionStaticUpdate, nil
 }
 
+// CreateNrqlConditionOutlierMutation creates an outlier type NRQL alert condition via New Relic's NerdGraph API.
+func (a *Alerts) CreateNrqlConditionOutlierMutation(
+	accountID int,
+	policyID int, // DEV NOTE: policyID is the gql scalar type ID, so per team agreement, need to update to strings for this I think
+	nrqlCondition NrqlConditionInput,
+) (*NrqlAlertCondition, error) {
+	resp := nrqlConditionOutlierCreateResponse{}
+	vars := map[string]interface{}{
+		"accountId": accountID,
+		"policyId":  policyID,
+		"condition": nrqlCondition,
+	}
+
+	if err := a.client.NerdGraphQuery(createNrqlConditionOutlierMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.AlertsNrqlConditionOutlierCreate, nil
+}
+
 type listNrqlConditionsParams struct {
 	PolicyID int `url:"policy_id,omitempty"`
 }
@@ -445,6 +477,10 @@ type nrqlConditionStaticCreateResponse struct {
 
 type nrqlConditionStaticUpdateResponse struct {
 	AlertsNrqlConditionStaticUpdate NrqlAlertCondition `json:"alertsNrqlConditionStaticUpdate"`
+}
+
+type nrqlConditionOutlierCreateResponse struct {
+	AlertsNrqlConditionOutlierCreate NrqlAlertCondition `json:"alertsNrqlConditionOutlierCreate"`
 }
 
 type searchNrqlConditionsResponse struct {
@@ -504,6 +540,14 @@ const (
 			valueFunction
 		}
 	`
+
+	graphqlFragmentNrqlOutlierConditionFields = `
+		... on AlertsNrqlOutlierCondition {
+			expectedGroups
+			openViolationOnGroupOverlap
+		}
+	`
+
 	searchNrqlConditionsQuery = `
 		query($accountId: Int!, $searchCriteria: AlertsNrqlConditionsSearchCriteriaInput, $cursor: String) {
 			actor {
@@ -516,6 +560,7 @@ const (
 		graphqlNrqlConditionStructFields +
 		graphqlFragmentNrqlBaselineConditionFields +
 		graphqlFragmentNrqlStaticConditionFields +
+		graphqlFragmentNrqlOutlierConditionFields +
 		`} } } } } }`
 
 	getNrqlConditionQuery = `
@@ -527,6 +572,7 @@ const (
 		graphqlNrqlConditionStructFields +
 		graphqlFragmentNrqlBaselineConditionFields +
 		graphqlFragmentNrqlStaticConditionFields +
+		graphqlFragmentNrqlOutlierConditionFields +
 		`} } } } }`
 
 	// Baseline
@@ -558,6 +604,15 @@ const (
 		mutation($accountId: Int!, $id: ID!, $condition: AlertsNrqlConditionUpdateStaticInput!) {
 			alertsNrqlConditionStaticUpdate(accountId: $accountId, id: $id, condition: $condition) {
 				valueFunction` +
+		graphqlNrqlConditionStructFields +
+		` } }`
+
+	// Outlier
+	createNrqlConditionOutlierMutation = `
+		mutation($accountId: Int!, $policyId: ID!, $condition: AlertsNrqlConditionOutlierInput!) {
+			alertsNrqlConditionOutlierCreate(accountId: $accountId, policyId: $policyId, condition: $condition) {
+				expectedGroups
+				openViolationOnGroupOverlap` +
 		graphqlNrqlConditionStructFields +
 		` } }`
 )
