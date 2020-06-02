@@ -4,6 +4,7 @@ package alerts
 
 import (
 	"fmt"
+	"strconv"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -225,6 +226,78 @@ func TestIntegrationNrqlConditions_Static(t *testing.T) {
 		_, err := client.DeletePolicyMutation(nr.TestAccountID, policy.ID)
 		if err != nil {
 			t.Logf("error cleaning up alert policy %s (%s): %s", policy.ID, policy.Name, err)
+		}
+	}()
+}
+
+func TestIntegrationNrqlConditions_Outlier(t *testing.T) {
+	t.Parallel()
+
+	var (
+		expectedGroups     = 1
+		violationOverlap   = false
+		randStr            = nr.RandSeq(5)
+		createOutlierInput = NrqlConditionInput{
+			NrqlConditionBase: NrqlConditionBase{
+				Description: "test description",
+				Enabled:     true,
+				Name:        fmt.Sprintf("test-nrql-condition-%s", randStr),
+				Nrql: NrqlConditionQuery{
+					Query:            "SELECT average(duration) FROM Transaction WHERE appName='Dummy App' FACET host",
+					EvaluationOffset: 3,
+				},
+				RunbookURL: "http://example.com",
+				Terms: []NrqlConditionTerms{
+					{
+						Threshold:            0.1,
+						ThresholdOccurrences: ThresholdOccurrences.All,
+						ThresholdDuration:    120,
+						Operator:             NrqlConditionOperators.Above,
+						Priority:             NrqlConditionPriorities.Critical,
+					},
+				},
+				ViolationTimeLimit: NrqlConditionViolationTimeLimits.OneHour,
+			},
+			ExpectedGroups:              &expectedGroups,
+			OpenViolationOnGroupOverlap: &violationOverlap,
+		}
+	)
+
+	// Setup
+	client := newIntegrationTestClient(t)
+	testPolicy := Policy{
+		IncidentPreference: IncidentPreferenceTypes.PerPolicy,
+		Name:               fmt.Sprintf("test-alert-policy-%s", randStr),
+	}
+	policy, err := client.CreatePolicy(testPolicy)
+	require.NoError(t, err)
+
+	// Test: Create (outlier condition)
+	createdOutlier, err := client.CreateNrqlConditionOutlierMutation(nr.TestAccountID, strconv.Itoa(policy.ID), createOutlierInput)
+	require.NoError(t, err)
+	require.NotNil(t, createdOutlier)
+	require.NotNil(t, createdOutlier.ID)
+	require.NotNil(t, createdOutlier.PolicyID)
+	require.Equal(t, NrqlConditionType("OUTLIER"), createdOutlier.Type)
+
+	// Test: Get (outlier condition)
+	readResult, err := client.GetNrqlConditionQuery(nr.TestAccountID, createdOutlier.ID)
+	require.NoError(t, err)
+	require.NotNil(t, readResult)
+	require.Equal(t, NrqlConditionType("OUTLIER"), readResult.Type)
+	require.Equal(t, "test description", readResult.Description)
+
+	// Test: Update (outlier condition)
+	createOutlierInput.Description = "test description updated"
+	updated, err := client.UpdateNrqlConditionOutlierMutation(nr.TestAccountID, createdOutlier.ID, createOutlierInput)
+	require.NoError(t, err)
+	require.Equal(t, "test description updated", updated.Description)
+
+	// Deferred teardown
+	defer func() {
+		_, err := client.DeletePolicy(policy.ID)
+		if err != nil {
+			t.Logf("error cleaning up alert policy %d (%s): %s", policy.ID, policy.Name, err)
 		}
 	}()
 }
