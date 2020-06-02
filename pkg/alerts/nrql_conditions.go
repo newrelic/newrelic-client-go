@@ -430,7 +430,7 @@ func (a *Alerts) UpdateNrqlConditionStaticMutation(
 // CreateNrqlConditionOutlierMutation creates an outlier type NRQL alert condition via New Relic's NerdGraph API.
 func (a *Alerts) CreateNrqlConditionOutlierMutation(
 	accountID int,
-	policyID int, // DEV NOTE: policyID is the gql scalar type ID, so per team agreement, need to update to strings for this I think
+	policyID string,
 	nrqlCondition NrqlConditionInput,
 ) (*NrqlAlertCondition, error) {
 	resp := nrqlConditionOutlierCreateResponse{}

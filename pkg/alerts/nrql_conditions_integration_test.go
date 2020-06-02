@@ -4,6 +4,7 @@ package alerts
 
 import (
 	"fmt"
+	"strconv"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -272,7 +273,7 @@ func TestIntegrationNrqlConditions_Outlier(t *testing.T) {
 	require.NoError(t, err)
 
 	// Test: Create (outlier condition)
-	createdOutlier, err := client.CreateNrqlConditionOutlierMutation(nr.TestAccountID, policy.ID, createOutlierInput)
+	createdOutlier, err := client.CreateNrqlConditionOutlierMutation(nr.TestAccountID, strconv.Itoa(policy.ID), createOutlierInput)
 	require.NoError(t, err)
 	require.NotNil(t, createdOutlier)
 	require.NotNil(t, createdOutlier.ID)
