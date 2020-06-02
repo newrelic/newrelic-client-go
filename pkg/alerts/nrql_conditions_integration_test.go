@@ -4,7 +4,6 @@ package alerts
 
 import (
 	"fmt"
-	"strconv"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -246,7 +245,7 @@ func TestIntegrationNrqlConditions_Outlier(t *testing.T) {
 					Query:            "SELECT average(duration) FROM Transaction WHERE appName='Dummy App' FACET host",
 					EvaluationOffset: 3,
 				},
-				RunbookURL: "test.com",
+				RunbookURL: "http://example.com",
 				Terms: []NrqlConditionTerms{
 					{
 						Threshold:            0.1,
@@ -261,11 +260,6 @@ func TestIntegrationNrqlConditions_Outlier(t *testing.T) {
 			ExpectedGroups:              &expectedGroups,
 			OpenViolationOnGroupOverlap: &violationOverlap,
 		}
-		// updateOutlierInput = NrqlConditionInput{
-		// 	NrqlConditionBase:           nrqlConditionBase,
-		// 	ExpectedGroups:              2,
-		// 	OpenViolationOnGroupOverlap: true,
-		// }
 	)
 
 	// Setup
@@ -286,21 +280,17 @@ func TestIntegrationNrqlConditions_Outlier(t *testing.T) {
 	require.Equal(t, NrqlConditionType("OUTLIER"), createdOutlier.Type)
 
 	// Test: Get (outlier condition)
-	outlierConditionID, err := strconv.Atoi(createdOutlier.ID)
-	require.NoError(t, err)
-
-	readResult, err := client.GetNrqlConditionQuery(nr.TestAccountID, strconv.Itoa(outlierConditionID))
+	readResult, err := client.GetNrqlConditionQuery(nr.TestAccountID, createdOutlier.ID)
 	require.NoError(t, err)
 	require.NotNil(t, readResult)
 	require.Equal(t, NrqlConditionType("OUTLIER"), readResult.Type)
 	require.Equal(t, "test description", readResult.Description)
 
 	// Test: Update (outlier condition)
-	// There is currently a timing issue with this test.
-	// TODO: Once the upstream is fixed, test the updated fields to ensure the this worked
-	// updateOutlierInput.Description = "test description updated"
-	// _, err = client.UpdateNrqlConditionOutlierMutation(nr.TestAccountID, outlierConditionID, updateStaticInput)
-	// require.NoError(t, err)
+	createOutlierInput.Description = "test description updated"
+	updated, err := client.UpdateNrqlConditionOutlierMutation(nr.TestAccountID, createdOutlier.ID, createOutlierInput)
+	require.NoError(t, err)
+	require.Equal(t, "test description updated", updated.Description)
 
 	// Deferred teardown
 	defer func() {

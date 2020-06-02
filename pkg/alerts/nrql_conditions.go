@@ -148,16 +148,16 @@ type NrqlConditionBase struct {
 type NrqlConditionInput struct {
 	NrqlConditionBase
 
-	// BaselineDirection exists ONLY for NRQL conditions of type BASELINE.
+	// BaselineDirection ONLY applies to NRQL conditions of type BASELINE.
 	BaselineDirection *NrqlBaselineDirection `json:"baselineDirection,omitempty"`
 
-	// ValueFunction is returned ONLY for NRQL conditions of type STATIC.
+	// ValueFunction ONLY applies to NRQL conditions of type STATIC.
 	ValueFunction *NrqlConditionValueFunction `json:"valueFunction,omitempty"`
 
-	// ExpectedGroups is returned ONLY for NRQL conditions of type OUTLIER.
+	// ExpectedGroups ONLY applies to NRQL conditions of type OUTLIER.
 	ExpectedGroups *int `json:"expectedGroups,omitempty"`
 
-	// OpenViolationOnGroupOverlap is returned ONLY for NRQL conditions of type OUTLIER.
+	// OpenViolationOnGroupOverlap ONLY applies to NRQL conditions of type OUTLIER.
 	OpenViolationOnGroupOverlap *bool `json:"openViolationOnGroupOverlap,omitempty"`
 }
 
@@ -170,7 +170,7 @@ type NrqlConditionsSearchCriteria struct {
 }
 
 // NrqlAlertCondition represents a NerdGraph NRQL alert condition, which is type AlertsNrqlCondition in NerdGraph.
-// NrqlAlertCondition could be a baseline condition OR a static condition.
+// NrqlAlertCondition could be a baseline condition, static condition, or outlier condition.
 type NrqlAlertCondition struct {
 	NrqlConditionBase
 
@@ -184,10 +184,10 @@ type NrqlAlertCondition struct {
 	ValueFunction *NrqlConditionValueFunction `json:"valueFunction,omitempty"`
 
 	// ExpectedGroups is returned ONLY for NRQL conditions of type OUTLIER.
-	ExpectedGroups int `json:"expectedGroups,omitempty"`
+	ExpectedGroups *int `json:"expectedGroups,omitempty"`
 
 	// OpenViolationOnGroupOverlap is returned ONLY for NRQL conditions of type OUTLIER.
-	OpenViolationOnGroupOverlap bool `json:"openViolationOnGroupOverlap,omitempty"`
+	OpenViolationOnGroupOverlap *bool `json:"openViolationOnGroupOverlap,omitempty"`
 }
 
 // NrqlCondition represents a New Relic NRQL Alert condition.
@@ -447,6 +447,26 @@ func (a *Alerts) CreateNrqlConditionOutlierMutation(
 	return &resp.AlertsNrqlConditionOutlierCreate, nil
 }
 
+// UpdateNrqlConditionOutlierMutation updates an outlier NRQL alert condition via New Relic's NerdGraph API.
+func (a *Alerts) UpdateNrqlConditionOutlierMutation(
+	accountID int,
+	conditionID string,
+	nrqlCondition NrqlConditionInput,
+) (*NrqlAlertCondition, error) {
+	resp := nrqlConditionOutlierUpdateResponse{}
+	vars := map[string]interface{}{
+		"accountId": accountID,
+		"id":        conditionID,
+		"condition": nrqlCondition,
+	}
+
+	if err := a.client.NerdGraphQuery(updateNrqlConditionOutlierMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.AlertsNrqlConditionOutlierUpdate, nil
+}
+
 type listNrqlConditionsParams struct {
 	PolicyID int `url:"policy_id,omitempty"`
 }
@@ -481,6 +501,10 @@ type nrqlConditionStaticUpdateResponse struct {
 
 type nrqlConditionOutlierCreateResponse struct {
 	AlertsNrqlConditionOutlierCreate NrqlAlertCondition `json:"alertsNrqlConditionOutlierCreate"`
+}
+
+type nrqlConditionOutlierUpdateResponse struct {
+	AlertsNrqlConditionOutlierUpdate NrqlAlertCondition `json:"alertsNrqlConditionOutlierUpdate"`
 }
 
 type searchNrqlConditionsResponse struct {
@@ -611,6 +635,15 @@ const (
 	createNrqlConditionOutlierMutation = `
 		mutation($accountId: Int!, $policyId: ID!, $condition: AlertsNrqlConditionOutlierInput!) {
 			alertsNrqlConditionOutlierCreate(accountId: $accountId, policyId: $policyId, condition: $condition) {
+				expectedGroups
+				openViolationOnGroupOverlap` +
+		graphqlNrqlConditionStructFields +
+		` } }`
+
+	// Outlier
+	updateNrqlConditionOutlierMutation = `
+		mutation($accountId: Int!, $id: ID!, $condition: AlertsNrqlConditionUpdateOutlierInput!) {
+			alertsNrqlConditionOutlierUpdate(accountId: $accountId, id: $id, condition: $condition) {
 				expectedGroups
 				openViolationOnGroupOverlap` +
 		graphqlNrqlConditionStructFields +
