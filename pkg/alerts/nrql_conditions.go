@@ -116,8 +116,8 @@ var (
 	}
 )
 
-// NrqlConditionTerms represents the terms of a New Relic alert condition.
-type NrqlConditionTerms struct {
+// NrqlConditionTerm represents the a single term of a New Relic alert condition.
+type NrqlConditionTerm struct {
 	Operator             NrqlConditionOperator `json:"operator,omitempty"`
 	Priority             NrqlConditionPriority `json:"priority,omitempty"`
 	Threshold            float64               `json:"threshold,omitempty"`
@@ -139,7 +139,7 @@ type NrqlConditionBase struct {
 	Name               string                          `json:"name,omitempty"`
 	Nrql               NrqlConditionQuery              `json:"nrql,omitempty"`
 	RunbookURL         string                          `json:"runbookUrl,omitempty"`
-	Terms              []NrqlConditionTerms            `json:"terms,omitempty"`
+	Terms              []NrqlConditionTerm             `json:"terms,omitempty"`
 	Type               NrqlConditionType               `json:"type,omitempty"`
 	ViolationTimeLimit NrqlConditionViolationTimeLimit `json:"violationTimeLimit,omitempty"`
 }

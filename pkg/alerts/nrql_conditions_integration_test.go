@@ -23,7 +23,7 @@ var (
 			EvaluationOffset: 3,
 		},
 		RunbookURL: "test.com",
-		Terms: []NrqlConditionTerms{
+		Terms: []NrqlConditionTerm{
 			{
 				Threshold:            1,
 				ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
@@ -247,7 +247,7 @@ func TestIntegrationNrqlConditions_Outlier(t *testing.T) {
 					EvaluationOffset: 3,
 				},
 				RunbookURL: "http://example.com",
-				Terms: []NrqlConditionTerms{
+				Terms: []NrqlConditionTerm{
 					{
 						Threshold:            0.1,
 						ThresholdOccurrences: ThresholdOccurrences.All,
@@ -372,7 +372,7 @@ func TestIntegrationNrqlConditions_Search(t *testing.T) {
 					EvaluationOffset: 3,
 				},
 				RunbookURL: "test.com",
-				Terms: []NrqlConditionTerms{
+				Terms: []NrqlConditionTerm{
 					{
 						Threshold:            1,
 						ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
@@ -434,7 +434,7 @@ func TestIntegrationNrqlConditions_CreateStatic(t *testing.T) {
 					EvaluationOffset: 3,
 				},
 				RunbookURL: "test.com",
-				Terms: []NrqlConditionTerms{
+				Terms: []NrqlConditionTerm{
 					{
 						Threshold:            1,
 						ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
