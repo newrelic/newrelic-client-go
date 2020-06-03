@@ -2,8 +2,14 @@
 ## [Unreleased]
 
 
+<a name="v0.28.1"></a>
+## [v0.28.1] - 2020-06-03
+### Bug Fixes
+- **alerts:** add missing Outlier type to condition NrqlConditionTypes enum
+
+
 <a name="v0.28.0"></a>
-## [v0.28.0] - 2020-06-02
+## [v0.28.0] - 2020-06-03
 ### Bug Fixes
 - **alerts:** rename NrqlConditionTerms to singular for accuracy
 
@@ -619,7 +625,8 @@
 - rename packages for clarity, promote Config to the public package
 
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.28.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.28.1...HEAD
+[v0.28.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.28.0...v0.28.1
 [v0.28.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.27.1...v0.28.0
 [v0.27.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.27.0...v0.27.1
 [v0.27.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.26.0...v0.27.0
