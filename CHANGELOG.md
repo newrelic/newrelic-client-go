@@ -2,6 +2,20 @@
 ## [Unreleased]
 
 
+<a name="v0.28.0"></a>
+## [v0.28.0] - 2020-06-02
+### Bug Fixes
+- **alerts:** rename NrqlConditionTerms to singular for accuracy
+
+### Features
+- **alerts:** add DeleteNrqlConditionMutation as a proxy to DeleteConditionMutation
+- **alerts:** add UpdateNrqlConditionOutlierMutation method for updating outlier NRQL alert conditions
+- **alerts:** add CreateNrqlConditionOutlierMutation method for creating outlier NRQL alert conditions
+
+### Refactor
+- **nrql_conditions:** conditionID should be a string for consistency in ng implementation
+
+
 <a name="v0.27.1"></a>
 ## [v0.27.1] - 2020-05-29
 ### Bug Fixes
@@ -605,7 +619,8 @@
 - rename packages for clarity, promote Config to the public package
 
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.27.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.28.0...HEAD
+[v0.28.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.27.1...v0.28.0
 [v0.27.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.27.0...v0.27.1
 [v0.27.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.26.0...v0.27.0
 [v0.26.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.25.1...v0.26.0
