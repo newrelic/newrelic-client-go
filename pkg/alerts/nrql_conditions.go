@@ -467,6 +467,18 @@ func (a *Alerts) UpdateNrqlConditionOutlierMutation(
 	return &resp.AlertsNrqlConditionOutlierUpdate, nil
 }
 
+func (a *Alerts) DeleteNrqlConditionMutation(
+	accountID int,
+	conditionID string,
+) (string, error) {
+	result, err := a.DeleteConditionMutation(accountID, conditionID)
+	if err != nil {
+		return "", err
+	}
+
+	return result, nil
+}
+
 type listNrqlConditionsParams struct {
 	PolicyID int `url:"policy_id,omitempty"`
 }
