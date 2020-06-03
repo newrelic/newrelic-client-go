@@ -278,13 +278,13 @@ func TestIntegrationNrqlConditions_Outlier(t *testing.T) {
 	require.NotNil(t, createdOutlier)
 	require.NotNil(t, createdOutlier.ID)
 	require.NotNil(t, createdOutlier.PolicyID)
-	require.Equal(t, NrqlConditionType("OUTLIER"), createdOutlier.Type)
+	require.Equal(t, NrqlConditionTypes.Outlier, createdOutlier.Type)
 
 	// Test: Get (outlier condition)
 	readResult, err := client.GetNrqlConditionQuery(nr.TestAccountID, createdOutlier.ID)
 	require.NoError(t, err)
 	require.NotNil(t, readResult)
-	require.Equal(t, NrqlConditionType("OUTLIER"), readResult.Type)
+	require.Equal(t, NrqlConditionTypes.Outlier, readResult.Type)
 	require.Equal(t, "test description", readResult.Description)
 
 	// Test: Update (outlier condition)
