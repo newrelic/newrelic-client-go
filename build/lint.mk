@@ -53,7 +53,7 @@ gofmt-fix: deps
 
 goimports: deps
 	@echo "=== $(PROJECT_NAME) === [ goimports        ]: Checking imports with $(GOIMPORTS)..."
-	@$(GOIMPORTS) -l -w -local $(PROJECT_MODULE) $(GO_FILES)
+	@$(GOIMPORTS) -w -local $(PROJECT_MODULE) $(GO_FILES)
 
 lint-commit: deps
 	@echo "=== $(PROJECT_NAME) === [ lint-commit      ]: Checking that commit messages are properly formatted ($(COMMIT_LINT_CMD))..."
