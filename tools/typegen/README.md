@@ -70,3 +70,20 @@ types:
     createAs: map[string]interface{}
   - name: AnotherName
 ```
+
+
+### imports
+
+Optional list of go imports so you can use non-standard types.
+
+**Example:**
+
+```yaml
+---
+imports:
+  - github.com/newrelic/newrelic-client-go/internal/serialization
+
+types:
+  - name: EpochMilliseconds
+    createAs: serialization.EpochTime
+```
