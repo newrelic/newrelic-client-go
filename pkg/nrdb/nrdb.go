@@ -24,7 +24,7 @@ func New(config config.Config) Nrdb {
 
 // Query facilitates making a NRQL query.
 func (n *Nrdb) Query(accountID int, query Nrql) (*NrdbResultContainer, error) {
-	respBody := NrdbResultContainer{}
+	respBody := gqlNrglQueryResponse{}
 
 	vars := map[string]interface{}{
 		"accountId": accountID,
@@ -35,9 +35,17 @@ func (n *Nrdb) Query(accountID int, query Nrql) (*NrdbResultContainer, error) {
 		return nil, err
 	}
 
-	return &respBody, nil
+	return &respBody.Actor.Account.Nrql, nil
 }
 
 const (
 	gqlNrqlQuery = `query($query: Nrql!, $accountId: Int!) { actor { account(id: $accountId) { nrql(query: $query) { results } } } }`
 )
+
+type gqlNrglQueryResponse struct {
+	Actor struct {
+		Account struct {
+			Nrql NrdbResultContainer
+		}
+	}
+}
