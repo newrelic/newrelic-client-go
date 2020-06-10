@@ -2,6 +2,17 @@
 ## [Unreleased]
 
 
+<a name="v0.29.0"></a>
+## [v0.29.0] - 2020-06-09
+### Bug Fixes
+- **nerdgraph:** Add omitempty for yaml output
+- **typegen:** Remove some overrides so types are generated without modifications
+
+### Features
+- **nrdb:** Add nrdb.Query(acct, NRQL) via NerdGraph
+- **typegen:** Add imports to typegen
+
+
 <a name="v0.28.1"></a>
 ## [v0.28.1] - 2020-06-03
 ### Bug Fixes
@@ -625,7 +636,8 @@
 - rename packages for clarity, promote Config to the public package
 
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.28.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.29.0...HEAD
+[v0.29.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.28.1...v0.29.0
 [v0.28.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.28.0...v0.28.1
 [v0.28.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.27.1...v0.28.0
 [v0.27.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.27.0...v0.27.1
