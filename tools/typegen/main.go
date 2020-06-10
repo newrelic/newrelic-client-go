@@ -23,6 +23,7 @@ var (
 type Config struct {
 	Package string       `yaml:"package"`
 	Types   []TypeConfig `yaml:"types"`
+	Imports []string     `yaml:"imports,omitempty"`
 }
 
 type TypeConfig struct {
@@ -87,6 +88,25 @@ func main() {
 		}
 
 		defer f.Close()
+
+		if len(config.Imports) > 0 {
+			_, err = f.WriteString("import (\n")
+			if err != nil {
+				log.Error(err)
+			}
+
+			for _, i := range config.Imports {
+				_, err = f.WriteString("\t\"" + i + "\"\n")
+				if err != nil {
+					log.Error(err)
+				}
+			}
+
+			_, err = f.WriteString(")\n")
+			if err != nil {
+				log.Error(err)
+			}
+		}
 
 		keys := make([]string, 0, len(types))
 		for k := range types {

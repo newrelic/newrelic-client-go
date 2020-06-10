@@ -60,11 +60,6 @@ func (m *SchemaMeta) GetTags() string {
 
 	jsonTag := "`json:\"" + m.Name
 
-	// Overrides
-	if strings.EqualFold(m.Name, "id") {
-		jsonTag += ",string"
-	}
-
 	return jsonTag + "\"`"
 }
 
@@ -97,7 +92,9 @@ func (r *SchemaTypeRef) GetType() (string, bool, error) {
 		return "float64", false, nil
 	case "ID":
 		// ID is a nested object, but behaves like an integer.  This may be true of other SCALAR types as well, so logic here could potentially be moved.
-		return "int", false, nil
+		return "string", false, nil
+	case "SCALAR":
+		return "string", false, nil
 	case "":
 		return "", true, fmt.Errorf("empty field name: %+v", r)
 	default:
