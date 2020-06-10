@@ -22,7 +22,8 @@ if [ $# -ne 1 ]; then
   exit 1
 fi
 
-RELEASE_VERSION=$1
+# Ensure there is no leading 'v'
+RELEASE_VERSION=$(echo $1 | sed -e '/^v/s/^v\(.*\)$/\1/g')
 GIT_USER=$(git config user.email)
 
 echo "Generating release for v${RELEASE_VERSION} using system user git user ${GIT_USER}"
@@ -37,5 +38,6 @@ echo -e "package version\n\n// Version of this library\nconst Version string = \
 
 # Commit CHANGELOG updates
 git add CHANGELOG.md internal/version/version.go
-git commit -m "chore(changelog): Update CHANGELOG for v${RELEASE_VERSION}"
-git push origin release/v${RELEASE_VERSION}
+git commit --no-verify -m "chore(changelog): Update CHANGELOG for v${RELEASE_VERSION}"
+git push --no-verify origin release/v${RELEASE_VERSION}
+
