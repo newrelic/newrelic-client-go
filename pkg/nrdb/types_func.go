@@ -1,0 +1,29 @@
+package nrdb
+
+import (
+	"github.com/newrelic/newrelic-client-go/internal/serialization"
+)
+
+//
+// Functions created on auto-generated types
+//
+
+// MarshalJSON wrapper for EpochSeconds
+func (t EpochSeconds) MarshalJSON() ([]byte, error) {
+	return serialization.EpochTime(t).MarshalJSON()
+}
+
+// UnmarshalJSON wrapper for EpochSeconds
+func (t *EpochSeconds) UnmarshalJSON(s []byte) error {
+	return (*serialization.EpochTime)(t).UnmarshalJSON(s)
+}
+
+// MarshalJSON wrapper for EpochMilliseconds
+func (t EpochMilliseconds) MarshalJSON() ([]byte, error) {
+	return serialization.EpochTime(t).MarshalJSON()
+}
+
+// UnmarshalJSON wrapper for EpochMilliseconds
+func (t *EpochMilliseconds) UnmarshalJSON(s []byte) error {
+	return (*serialization.EpochTime)(t).UnmarshalJSON(s)
+}
