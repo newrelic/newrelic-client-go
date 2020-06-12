@@ -1,3 +1,8 @@
+<a name="v0.30.0"></a>
+## [v0.30.0] - 2020-06-12
+### Features
+- **nrdb:** Fetch nrql query history
+
 <a name="v0.29.1"></a>
 ## [v0.29.1] - 2020-06-10
 ### Bug Fixes
@@ -594,7 +599,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.29.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.30.0...HEAD
+[v0.30.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.29.1...v0.30.0
 [v0.29.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.29.0...v0.29.1
 [v0.29.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.28.1...v0.29.0
 [v0.28.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.28.0...v0.28.1
