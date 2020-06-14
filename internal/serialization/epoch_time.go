@@ -57,7 +57,7 @@ func (e *EpochTime) UnmarshalJSON(s []byte) error {
 	}
 
 	// Convert and self store
-	*(*time.Time)(e) = time.Unix(sec, nano)
+	*(*time.Time)(e) = time.Unix(sec, nano).UTC()
 
 	return nil
 }
@@ -65,4 +65,9 @@ func (e *EpochTime) UnmarshalJSON(s []byte) error {
 // Equal provides a comparator for the EpochTime type.
 func (e EpochTime) Equal(u EpochTime) bool {
 	return time.Time(e).Equal(time.Time(u))
+}
+
+// String returns the time formatted using the format string
+func (e EpochTime) String() string {
+	return time.Time(e).String()
 }
