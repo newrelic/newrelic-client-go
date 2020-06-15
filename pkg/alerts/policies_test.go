@@ -14,7 +14,7 @@ import (
 
 var (
 	testTimestampStringMs = "1575438237690"
-	testTimestamp         = serialization.EpochTime(time.Unix(0, 1575438237690*int64(time.Millisecond)))
+	testTimestamp         = serialization.EpochTime(time.Unix(0, 1575438237690*int64(time.Millisecond)).UTC())
 
 	testPoliciesResponseJSON = `{
 		"policies": [
