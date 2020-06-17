@@ -103,6 +103,43 @@ func TestIntegrationGetEntity_ApmEntityOutline(t *testing.T) {
 
 }
 
+// Looking at a Browser Application, and the result set here.
+func TestIntegrationGetEntity_BrowserEntityOutline(t *testing.T) {
+	t.Parallel()
+
+	client := newIntegrationTestClient(t)
+
+	actual, err := client.GetEntity("MjUwODI1OXxCUk9XU0VSfEFQUExJQ0FUSU9OfDIwNDI2MTYyOA")
+
+	require.NoError(t, err)
+	require.NotNil(t, actual)
+
+	// These are a bit fragile, if the above GUID ever changes...
+	// from BrowserApplicationEntity / BrowserApplicationEntityOutline
+	assert.Equal(t, 204261628, *actual.ApplicationID)
+	assert.Equal(t, 204261368, *actual.ServingApmApplicationID)
+	assert.Equal(t, EntityAlertSeverityType("NOT_CONFIGURED"), *actual.AlertSeverity)
+
+}
+
+// Looking at a Mobile Application, and the result set here.
+func TestIntegrationGetEntity_MobileEntityOutline(t *testing.T) {
+	t.Parallel()
+
+	client := newIntegrationTestClient(t)
+
+	actual, err := client.GetEntity("NDQ0NTN8TU9CSUxFfEFQUExJQ0FUSU9OfDE3ODg1NDI")
+
+	require.NoError(t, err)
+	require.NotNil(t, actual)
+
+	// These are a bit fragile, if the above GUID ever changes...
+	// from MobileApplicationEntity / MobileApplicationEntityOutline
+	assert.Equal(t, 1788542, *actual.ApplicationID)
+	assert.Equal(t, EntityAlertSeverityType("NOT_CONFIGURED"), *actual.AlertSeverity)
+
+}
+
 func newIntegrationTestClient(t *testing.T) Entities {
 	tc := mock.NewIntegrationTestConfig(t)
 
