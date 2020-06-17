@@ -21,23 +21,3 @@ func New(config config.Config) Nrdb {
 		logger: config.GetLogger(),
 	}
 }
-
-// Query facilitates making a NRQL query.
-func (n *Nrdb) Query(accountID int, query Nrql) (*NrdbResultContainer, error) {
-	respBody := NrdbResultContainer{}
-
-	vars := map[string]interface{}{
-		"accountId": accountID,
-		"query":     query,
-	}
-
-	if err := n.client.NerdGraphQuery(gqlNrqlQuery, vars, &respBody); err != nil {
-		return nil, err
-	}
-
-	return &respBody, nil
-}
-
-const (
-	gqlNrqlQuery = `query($query: Nrql!, $accountId: Int!) { actor { account(id: $accountId) { nrql(query: $query) { results } } } }`
-)

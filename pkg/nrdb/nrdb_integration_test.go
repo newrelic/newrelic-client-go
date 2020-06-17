@@ -3,21 +3,29 @@
 package nrdb
 
 import (
+	"fmt"
 	"os"
 	"strconv"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
 	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
 
+// nolint
+func newNrdbIntegrationTestClient(t *testing.T) Nrdb {
+	tc := mock.NewIntegrationTestConfig(t)
+
+	return New(tc)
+}
+
 func TestIntegrationNrdbQuery(t *testing.T) {
 	t.Parallel()
 
-	var query Nrql
-	query = "SELECT count(*) FROM Transaction"
-
+	// Request a constant so we can easily validate
+	query := "SELECT 1 FROM Transaction"
 	client := newNrdbIntegrationTestClient(t)
 
 	accountID, err := strconv.Atoi(os.Getenv("NEW_RELIC_ACCOUNT_ID"))
@@ -25,15 +33,28 @@ func TestIntegrationNrdbQuery(t *testing.T) {
 		t.Skipf("integration testing requires NEW_RELIC_ACOUNT_ID")
 	}
 
-	actual, err := client.Query(accountID, query)
+	res, err := client.Query(accountID, Nrql(query))
 
 	require.NoError(t, err)
-	require.NotNil(t, actual)
+	require.NotNil(t, res)
+
+	fmt.Printf("%+v\n", res)
+	require.Equal(t, 1, len(res.Results))
+
+	if v, ok := res.Results[0]["constant"]; ok {
+		assert.Equal(t, float64(1), v)
+	}
 }
 
-// nolint
-func newNrdbIntegrationTestClient(t *testing.T) Nrdb {
-	tc := mock.NewIntegrationTestConfig(t)
+func TestIntegrationNrdbQueryHistoryQuery(t *testing.T) {
+	t.Parallel()
 
-	return New(tc)
+	client := newNrdbIntegrationTestClient(t)
+
+	res, err := client.QueryHistory()
+
+	require.NoError(t, err)
+	require.NotNil(t, res)
+
+	require.GreaterOrEqual(t, len(*res), 1)
 }

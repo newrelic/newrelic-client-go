@@ -1,12 +1,39 @@
-<a name="unreleased"></a>
-## [Unreleased]
+<a name="v0.30.2"></a>
+## [v0.30.2] - 2020-06-15
+### Bug Fixes
+- **nrdb:** Add String() to Epoch* types
+- **serialization:** set tz UTC on MarshalJSON
+- **serialization:** Fix nanosecond handling, set tz UTC, add EpochTime.String()
 
+<a name="v0.30.1"></a>
+## [v0.30.1] - 2020-06-12
+### Bug Fixes
+- **deps:** revert goreleaser v0.138.0 (causing import issues)
+
+<a name="v0.30.0"></a>
+## [v0.30.0] - 2020-06-12
+### Features
+- **nrdb:** Fetch nrql query history
+
+<a name="v0.29.1"></a>
+## [v0.29.1] - 2020-06-10
+### Bug Fixes
+- **nrdb:** Correctly unwrap the graphql context for Query, better testing
+
+<a name="v0.29.0"></a>
+## [v0.29.0] - 2020-06-10
+### Bug Fixes
+- **nerdgraph:** Add omitempty for yaml output
+- **typegen:** Remove some overrides so types are generated without modifications
+
+### Features
+- **nrdb:** Add nrdb.Query(acct, NRQL) via NerdGraph
+- **typegen:** Add imports to typegen
 
 <a name="v0.28.1"></a>
 ## [v0.28.1] - 2020-06-03
 ### Bug Fixes
 - **alerts:** add missing Outlier type to condition NrqlConditionTypes enum
-
 
 <a name="v0.28.0"></a>
 ## [v0.28.0] - 2020-06-03
@@ -21,7 +48,6 @@
 ### Refactor
 - **nrql_conditions:** conditionID should be a string for consistency in ng implementation
 
-
 <a name="v0.27.1"></a>
 ## [v0.27.1] - 2020-05-29
 ### Bug Fixes
@@ -30,12 +56,10 @@
 ### Refactor
 - **alerts:** update NG-based condition IDs to string type
 
-
 <a name="v0.27.0"></a>
 ## [v0.27.0] - 2020-05-28
 ### Refactor
 - **alerts:** update NG-based policy and condition IDs to string types
-
 
 <a name="v0.26.0"></a>
 ## [v0.26.0] - 2020-05-27
@@ -47,12 +71,10 @@
 - **http:** Enable compression handling for requests, consolidate POST methods
 - **region:** Add Insights insert API URLs
 
-
 <a name="v0.25.1"></a>
 ## [v0.25.1] - 2020-05-20
 ### Bug Fixes
 - **alerts:** fix json tag for NrqlConditionInput.ValueFunction
-
 
 <a name="v0.25.0"></a>
 ## [v0.25.0] - 2020-05-20
@@ -60,31 +82,26 @@
 - enable APIKS auth for alerts and plugins packages
 - **alerts:** add nerdgraph-based alert condition deletion
 
-
 <a name="v0.24.1"></a>
 ## [v0.24.1] - 2020-05-19
 ### Bug Fixes
 - **apm:** don't return empty zero values for floats for MetricTimesliceValues which can be misleading
 - **apm:** adjust MetricDataParams json tags to support query params as arrays
 
-
 <a name="v0.24.0"></a>
 ## [v0.24.0] - 2020-05-15
 ### Features
 - **edge:** add trace observer resource
-
 
 <a name="v0.23.4"></a>
 ## [v0.23.4] - 2020-05-13
 ### Bug Fixes
 - **alerts:** allow blank runbook URL to be sent
 
-
 <a name="v0.23.3"></a>
 ## [v0.23.3] - 2020-05-12
 ### Bug Fixes
 - **workloads:** fix query type for entity guid
-
 
 <a name="v0.23.2"></a>
 ## [v0.23.2] - 2020-05-11
@@ -92,12 +109,10 @@
 - **alerts:** Updating incorrect AlertEvents params
 - **region:** gracefully fall back to default region
 
-
 <a name="v0.23.1"></a>
 ## [v0.23.1] - 2020-05-04
 ### Bug Fixes
 - **alerts:** Alerts paging was incorrectly generating URLs
-
 
 <a name="v0.23.0"></a>
 ## [v0.23.0] - 2020-05-01
@@ -115,7 +130,6 @@
 - **build:** Split up github actions a bit
 - **typegen:** Split/refactor much of typegen internals
 
-
 <a name="v0.22.0"></a>
 ## [v0.22.0] - 2020-04-23
 ### Bug Fixes
@@ -127,7 +141,6 @@
 ### Refactor
 - **workloads:** query with GUID per upstream API change
 
-
 <a name="v0.21.1"></a>
 ## [v0.21.1] - 2020-04-15
 ### Bug Fixes
@@ -135,7 +148,6 @@
 
 ### Refactor
 - **workloads:** remove deprecated fields
-
 
 <a name="v0.21.0"></a>
 ## [v0.21.0] - 2020-04-06
@@ -154,7 +166,6 @@
 - **typegen:** Break out some structs
 - **typegen:** Move all schema generation stuff into typegen
 
-
 <a name="v0.20.1"></a>
 ## [v0.20.1] - 2020-04-01
 ### Bug Fixes
@@ -162,7 +173,6 @@
 
 ### Refactor
 - **nerdstorage:** check scope ID for zero values during nerdstorage operations
-
 
 <a name="v0.20.0"></a>
 ## [v0.20.0] - 2020-03-31
@@ -208,7 +218,6 @@
 - **typegen:** Convert to using go generate to run typegen, `make generate` to test
 - **workloads:** Update workloads tests
 
-
 <a name="v0.19.0"></a>
 ## [v0.19.0] - 2020-03-25
 ### Bug Fixes
@@ -225,7 +234,6 @@
 ### Refactor
 - **alerts:** consolidate Nrql condition structs for better reusability
 
-
 <a name="v0.18.0"></a>
 ## [v0.18.0] - 2020-03-20
 ### Bug Fixes
@@ -235,13 +243,11 @@
 ### Features
 - **alerts:** implement muting rules
 
-
 <a name="v0.17.1"></a>
 ## [v0.17.1] - 2020-03-18
 ### Bug Fixes
 - **alerts:** add custom unmarshaling for ConditionTerm
 - **workloads:** use epoch time for EntitySearchQuery.CreatedAt
-
 
 <a name="v0.17.0"></a>
 ## [v0.17.0] - 2020-03-17
@@ -281,7 +287,6 @@
 - **http:** Consolidate GraphQL client, rename to http.Client
 - **http:** Move GraphQL into http.NewRelicClient as Query()
 
-
 <a name="v0.16.0"></a>
 ## [v0.16.0] - 2020-03-11
 ### Bug Fixes
@@ -297,7 +302,6 @@
 ### Refactor
 - **entities:** Change Entity.Type type... Add more to the ENUMs
 
-
 <a name="v0.15.0"></a>
 ## [v0.15.0] - 2020-03-09
 ### Bug Fixes
@@ -312,12 +316,10 @@
 - **nrql_conditions:** remove transient PolicyID from struct for consistency with API response
 - **plugins_conditions:** remove transient PolicyID from struct for consistency with API response
 
-
 <a name="v0.14.0"></a>
 ## [v0.14.0] - 2020-03-05
 ### Features
 - **newrelic:** add types for fields with well known values
-
 
 <a name="v0.13.0"></a>
 ## [v0.13.0] - 2020-03-03
@@ -329,7 +331,6 @@
 ### Refactor
 - **apm:** refactor deployments resource to use new auth strategy
 - **http:** refactor client to a request-scoped config context
-
 
 <a name="v0.12.0"></a>
 ## [v0.12.0] - 2020-02-28
@@ -347,7 +348,6 @@
 - **entities:** Move structs into implementing files
 - **synthetics:** Move structs into implementing files
 
-
 <a name="v0.11.0"></a>
 ## [v0.11.0] - 2020-02-27
 ### Features
@@ -356,13 +356,11 @@
 ### Refactor
 - **http:** refactor authentication out of http client
 
-
 <a name="v0.10.1"></a>
 ## [v0.10.1] - 2020-02-20
 ### Bug Fixes
 - **entities:** tags filter needs to use type TagValue in graphql query
 - **newrelic:** Add option to set ServiceName in Config
-
 
 <a name="v0.10.0"></a>
 ## [v0.10.0] - 2020-02-19
@@ -371,7 +369,6 @@
 - **ci:** the beginnings of some release automation
 - **synthetics:** add secure credentials resource
 - **synthetics:** implement label monitor support
-
 
 <a name="v0.9.0"></a>
 ## [v0.9.0] - 2020-02-05
@@ -383,7 +380,6 @@
 - **alerts:** Implement multi-location synthetics conditions
 - **http:** add trace logging with additional request info
 
-
 <a name="v0.8.0"></a>
 ## [v0.8.0] - 2020-01-29
 ### Bug Fixes
@@ -391,7 +387,6 @@
 
 ### Features
 - **apm:** Add support application metric names and data
-
 
 <a name="v0.7.1"></a>
 ## [v0.7.1] - 2020-01-24
@@ -403,7 +398,6 @@
 - **entities:** rename SearchEntities params struct per convention
 - **newrelic:** remove reference to pointer for http transport config
 
-
 <a name="v0.7.0"></a>
 ## [v0.7.0] - 2020-01-23
 ### Features
@@ -413,18 +407,15 @@
 ### Refactor
 - **newrelic:** incorporate code review feedback
 
-
 <a name="v0.6.0"></a>
 ## [v0.6.0] - 2020-01-22
 ### Features
 - **alerts:** add GetSyntheticsCondition method ([#105](https://github.com/newrelic/newrelic-client-go/issues/105))
 
-
 <a name="v0.5.1"></a>
 ## [v0.5.1] - 2020-01-21
 ### Bug Fixes
 - **alerts:** custom unmarshal of channel configuration Headers and Payload fields ([#102](https://github.com/newrelic/newrelic-client-go/issues/102))
-
 
 <a name="v0.5.0"></a>
 ## [v0.5.0] - 2020-01-16
@@ -433,7 +424,6 @@
 
 ### Refactor
 - **newrelic:** validate that at least one API key is provided
-
 
 <a name="v0.4.0"></a>
 ## [v0.4.0] - 2020-01-15
@@ -445,7 +435,6 @@
 
 ### Refactor
 - update test helpers to use new mock server, consistent patterns in tests
-
 
 <a name="v0.3.0"></a>
 ## [v0.3.0] - 2020-01-13
@@ -489,12 +478,10 @@
 - **newrelic:** Extract config setting to opts ... format
 - **region:** Move region out of config into package, add Parse(string)
 
-
 <a name="v0.2.0"></a>
 ## [v0.2.0] - 2020-01-08
 ### Documentation Updates
 - update readme example
-
 
 <a name="v0.1.0"></a>
 ## v0.1.0 - 2020-01-07
@@ -624,8 +611,12 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.28.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.30.2...HEAD
+[v0.30.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.30.1...v0.30.2
+[v0.30.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.30.0...v0.30.1
+[v0.30.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.29.1...v0.30.0
+[v0.29.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.29.0...v0.29.1
+[v0.29.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.28.1...v0.29.0
 [v0.28.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.28.0...v0.28.1
 [v0.28.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.27.1...v0.28.0
 [v0.27.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.27.0...v0.27.1
