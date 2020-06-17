@@ -10,32 +10,31 @@ import (
 	nr "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
 
-var (
-	rand                = nr.RandSeq(5)
-	testRuleName        = "testRule_" + rand
-	testOtherRuleName   = "testRuleOther_" + rand
-	testUpdatedRuleName = "testRuleUpdated_" + rand
-	testRuleDescription = "testRuleDescription"
-	testRuleNrql        = "SELECT uniqueCount(account_id) AS `Transaction.account_id` FROM Transaction FACET appName, name"
-	testAccountID       = nr.TestAccountID
-	testCreateInput     = []EventsToMetricsCreateRuleInput{
-		{
-			AccountID:   testAccountID,
-			Name:        testRuleName,
-			Description: testRuleDescription,
-			Nrql:        testRuleNrql,
-		},
-		{
-			AccountID:   testAccountID,
-			Name:        testOtherRuleName,
-			Description: testRuleDescription,
-			Nrql:        testRuleNrql,
-		},
-	}
-)
-
 func TestIntegrationEventsToMetrics(t *testing.T) {
 	t.Parallel()
+
+	var (
+		rand                = nr.RandSeq(5)
+		testRuleName        = "testRule_" + rand
+		testOtherRuleName   = "testRuleOther_" + rand
+		testRuleDescription = "testRuleDescription"
+		testRuleNrql        = "SELECT uniqueCount(account_id) AS `Transaction.account_id` FROM Transaction FACET appName, name"
+		testAccountID       = nr.TestAccountID
+		testCreateInput     = []EventsToMetricsCreateRuleInput{
+			{
+				AccountID:   testAccountID,
+				Name:        testRuleName,
+				Description: testRuleDescription,
+				Nrql:        testRuleNrql,
+			},
+			{
+				AccountID:   testAccountID,
+				Name:        testOtherRuleName,
+				Description: testRuleDescription,
+				Nrql:        testRuleNrql,
+			},
+		}
+	)
 
 	client := newIntegrationTestClient(t)
 
