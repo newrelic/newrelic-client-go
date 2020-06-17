@@ -18,6 +18,11 @@ func (t *EpochSeconds) UnmarshalJSON(s []byte) error {
 	return (*serialization.EpochTime)(t).UnmarshalJSON(s)
 }
 
+// String returns the time formatted using the format string
+func (t EpochSeconds) String() string {
+	return serialization.EpochTime(t).String()
+}
+
 // MarshalJSON wrapper for EpochMilliseconds
 func (t EpochMilliseconds) MarshalJSON() ([]byte, error) {
 	return serialization.EpochTime(t).MarshalJSON()
@@ -26,4 +31,9 @@ func (t EpochMilliseconds) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON wrapper for EpochMilliseconds
 func (t *EpochMilliseconds) UnmarshalJSON(s []byte) error {
 	return (*serialization.EpochTime)(t).UnmarshalJSON(s)
+}
+
+// String returns the time formatted using the format string
+func (t EpochMilliseconds) String() string {
+	return serialization.EpochTime(t).String()
 }
