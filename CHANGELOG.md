@@ -1,3 +1,13 @@
+<a name="v0.31.0"></a>
+## [v0.31.0] - 2020-06-17
+### Bug Fixes
+- add goreleaser back
+- remove goreleaser
+
+### Features
+- **entities:** surface underlying application IDs for mobile application entities
+- **eventstometrics:** add EventsToMetrics
+
 <a name="v0.30.2"></a>
 ## [v0.30.2] - 2020-06-15
 ### Bug Fixes
@@ -611,7 +621,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.30.2...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.31.0...HEAD
+[v0.31.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.30.2...v0.31.0
 [v0.30.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.30.1...v0.30.2
 [v0.30.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.30.0...v0.30.1
 [v0.30.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.29.1...v0.30.0
