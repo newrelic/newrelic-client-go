@@ -3,6 +3,8 @@ package alerts
 import (
 	"fmt"
 	"strconv"
+
+	"github.com/newrelic/newrelic-client-go/pkg/errors"
 )
 
 // MultiLocationSyntheticsCondition represents a location-based failure condition.
@@ -51,6 +53,23 @@ func (a *Alerts) ListMultiLocationSyntheticsConditions(policyID int) ([]*MultiLo
 	}
 
 	return multiLocationSyntheticsConditions, nil
+}
+
+// GetMultiLocationSyntheticsCondition retrieves a specific Synthetics alert condition.
+func (a *Alerts) GetMultiLocationSyntheticsCondition(policyID int, conditionID int) (*MultiLocationSyntheticsCondition, error) {
+	conditions, err := a.ListMultiLocationSyntheticsConditions(policyID)
+
+	if err != nil {
+		return nil, err
+	}
+
+	for _, c := range conditions {
+		if c.ID == conditionID {
+			return c, nil
+		}
+	}
+
+	return nil, errors.NewNotFoundf("no condition found for policy %d and condition ID %d", policyID, conditionID)
 }
 
 // CreateMultiLocationSyntheticsCondition creates an alert condition for a specified policy.
