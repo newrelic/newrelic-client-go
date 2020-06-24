@@ -13,7 +13,6 @@ type MultiLocationSyntheticsCondition struct {
 	Name                      string                                 `json:"name,omitempty"`
 	Enabled                   bool                                   `json:"enabled"`
 	RunbookURL                string                                 `json:"runbook_url,omitempty"`
-	MonitorID                 string                                 `json:"monitor_id,omitempty"`
 	Entities                  []string                               `json:"entities,omitempty"`
 	Terms                     []MultiLocationSyntheticsConditionTerm `json:"terms,omitempty"`
 	ViolationTimeLimitSeconds int                                    `json:"violation_time_limit_seconds,omitempty"`
