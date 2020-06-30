@@ -124,6 +124,22 @@ type AlertsMutingRuleInput struct {
 	Name string `json:"name"`
 }
 
+/* AlertsNrqlConditionTermsOperator - Operator used to compare against the threshold for NrqlConditions. */
+type AlertsNrqlConditionTermsOperator string
+
+var AlertsNrqlConditionTermsOperatorTypes = struct {
+	/* ABOVE - For comparing values above a threshold. */
+	ABOVE AlertsNrqlConditionTermsOperator
+	/* BELOW - For comparing values below a threshold. */
+	BELOW AlertsNrqlConditionTermsOperator
+	/* EQUALS - For comparing values equal to a threshold. */
+	EQUALS AlertsNrqlConditionTermsOperator
+}{
+	ABOVE:  "ABOVE",
+	BELOW:  "BELOW",
+	EQUALS: "EQUALS",
+}
+
 /* AlertsPoliciesSearchCriteriaInput - Search criteria for returning specific policies. */
 type AlertsPoliciesSearchCriteriaInput struct {
 	/* IDs - The list of policy ids to return. */

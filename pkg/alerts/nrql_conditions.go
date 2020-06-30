@@ -120,11 +120,11 @@ var (
 
 // NrqlConditionTerm represents the a single term of a New Relic alert condition.
 type NrqlConditionTerm struct {
-	Operator             NrqlConditionOperator `json:"operator,omitempty"`
-	Priority             NrqlConditionPriority `json:"priority,omitempty"`
-	Threshold            float64               `json:"threshold,omitempty"`
-	ThresholdDuration    int                   `json:"thresholdDuration,omitempty"`
-	ThresholdOccurrences ThresholdOccurrence   `json:"thresholdOccurrences,omitempty"`
+	Operator             AlertsNrqlConditionTermsOperator `json:"operator,omitempty"`
+	Priority             NrqlConditionPriority            `json:"priority,omitempty"`
+	Threshold            float64                          `json:"threshold,omitempty"`
+	ThresholdDuration    int                              `json:"thresholdDuration,omitempty"`
+	ThresholdOccurrences ThresholdOccurrence              `json:"thresholdOccurrences,omitempty"`
 }
 
 // NrqlConditionQuery represents the NRQL query object returned in a NerdGraph response object.
