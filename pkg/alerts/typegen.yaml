@@ -7,3 +7,4 @@ types:
   - name: AlertsPolicy
   - name: AlertsPolicyInput
   - name: AlertsPolicyUpdateInput
+  - name: AlertsNrqlConditionTermsOperator
