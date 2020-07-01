@@ -1,3 +1,8 @@
+<a name="v0.31.2"></a>
+## [v0.31.2] - 2020-06-30
+### Bug Fixes
+- **alerts:** better nerdgraph operator usage
+
 <a name="v0.31.1"></a>
 ## [v0.31.1] - 2020-06-26
 ### Bug Fixes
@@ -626,7 +631,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.31.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.31.2...HEAD
+[v0.31.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.31.1...v0.31.2
 [v0.31.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.31.0...v0.31.1
 [v0.31.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.30.2...v0.31.0
 [v0.30.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.30.1...v0.30.2
