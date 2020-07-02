@@ -1,5 +1,10 @@
+<a name="v0.31.3"></a>
+## [v0.31.3] - 2020-07-02
+### Bug Fixes
+- **alerts:** allow a value of 0 for NRQL condition thresholds
+
 <a name="v0.31.2"></a>
-## [v0.31.2] - 2020-06-30
+## [v0.31.2] - 2020-07-01
 ### Bug Fixes
 - **alerts:** better nerdgraph operator usage
 
@@ -631,7 +636,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.31.2...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.31.3...HEAD
+[v0.31.3]: https://github.com/newrelic/newrelic-client-go/compare/v0.31.2...v0.31.3
 [v0.31.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.31.1...v0.31.2
 [v0.31.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.31.0...v0.31.1
 [v0.31.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.30.2...v0.31.0
