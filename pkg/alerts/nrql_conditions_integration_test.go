@@ -443,7 +443,7 @@ func TestIntegrationNrqlConditions_CreateStatic(t *testing.T) {
 						Priority:             NrqlConditionPriorities.Critical,
 					},
 					{
-						Threshold:            2,
+						Threshold:            0,
 						ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
 						ThresholdDuration:    600,
 						Operator:             AlertsNrqlConditionTermsOperatorTypes.EQUALS,
