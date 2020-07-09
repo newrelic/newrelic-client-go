@@ -12,6 +12,7 @@ require (
 	github.com/imdario/mergo v0.3.10
 	github.com/llorllale/go-gitlint v0.0.0-20190914155841-58c0b8cef0e5
 	github.com/mitchellh/mapstructure v1.3.2
+	github.com/newrelic/tutone v0.0.0-20200709213801-e02f7fd07ee3 // indirect
 	github.com/psampaz/go-mod-outdated v0.6.0
 	github.com/sirupsen/logrus v1.6.0
 	github.com/stretchr/testify v1.6.1
