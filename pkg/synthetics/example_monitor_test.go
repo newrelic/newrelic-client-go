@@ -80,4 +80,12 @@ $browser.get("http://www.example.com").then(function(){
 	if err != nil {
 		log.Fatal("error deleting Synthetics monitor: ", err)
 	}
+
+	// Get all valid Synthetics monitor locations.
+	locations, err := client.GetMonitorLocations()
+	if err != nil {
+		log.Fatal("error retrieving valid Synthetics monitor locations: ", err)
+	}
+
+	log.Printf("found %d valid Synthetics monitor locations", len(locations))
 }
