@@ -1,3 +1,9 @@
+<a name="v0.32.0"></a>
+## [v0.32.0] - 2020-07-10
+### Features
+- **accounts:** add an accounts resource
+- **synthetics:** add a monitor locations resource
+
 <a name="v0.31.3"></a>
 ## [v0.31.3] - 2020-07-02
 ### Bug Fixes
@@ -636,7 +642,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.31.3...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.32.0...HEAD
+[v0.32.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.31.3...v0.32.0
 [v0.31.3]: https://github.com/newrelic/newrelic-client-go/compare/v0.31.2...v0.31.3
 [v0.31.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.31.1...v0.31.2
 [v0.31.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.31.0...v0.31.1
