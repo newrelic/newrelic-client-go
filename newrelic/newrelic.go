@@ -8,6 +8,7 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/newrelic/newrelic-client-go/internal/logging"
+	"github.com/newrelic/newrelic-client-go/pkg/accounts"
 	"github.com/newrelic/newrelic-client-go/pkg/alerts"
 	"github.com/newrelic/newrelic-client-go/pkg/apm"
 	"github.com/newrelic/newrelic-client-go/pkg/config"
@@ -26,6 +27,7 @@ import (
 
 // NewRelic is a collection of New Relic APIs.
 type NewRelic struct {
+	Accounts        accounts.Accounts
 	APM             apm.APM
 	Alerts          alerts.Alerts
 	Dashboards      dashboards.Dashboards
@@ -58,6 +60,7 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 	}
 
 	nr := &NewRelic{
+		Accounts:        accounts.New(config),
 		APM:             apm.New(config),
 		Alerts:          alerts.New(config),
 		Dashboards:      dashboards.New(config),
