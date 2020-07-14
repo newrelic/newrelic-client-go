@@ -1,0 +1,28 @@
+package {{.PackageName}}
+
+{{range .Enums}}
+{{ .Description }}
+type {{.Name}} string
+{{$typeName := .Name}}
+
+var {{.Name}}Types = struct {
+  {{- range .Values}}
+	{{ .Description }}
+	{{.Name}} {{$typeName}}
+  {{- end}}
+}{
+  {{- range .Values}}
+	{{ .Description }}
+	{{.Name}}: "{{.Name}}",
+  {{- end}}
+}
+{{ end}}
+
+{{range .Types}}
+{{ .Description }}
+type {{.Name}} struct {
+  {{- range .Fields}}
+  {{.Name}} {{.Type}} {{.Tags}}
+  {{- end}}
+}
+{{ end}}

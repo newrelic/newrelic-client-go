@@ -3,7 +3,7 @@ bin/*
 dist/*
 coverage/*
 vendor/*
-
+schema.json
 *.csv
 
 .vscode/

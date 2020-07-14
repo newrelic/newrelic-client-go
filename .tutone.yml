@@ -25,3 +25,23 @@ generate:
   # Name of the file within a package to write types
   # Default: types.go
   types_file: types.go
+
+packages:
+  - name: alerts
+    path: pkg/alerts
+    templateName: "templates/typegen/types.go.tmpl"
+    destination_file: types.go
+    types:
+      - name: AlertsMutingRuleConditionInput
+      - name: AlertsMutingRuleInput
+      - name: AlertsPoliciesSearchCriteriaInput
+      - name: AlertsPoliciesSearchResultSet
+      - name: AlertsPolicy
+      - name: AlertsPolicyInput
+      - name: AlertsPolicyUpdateInput
+      - name: AlertsNrqlConditionTermsOperator
+      - name: AlertsMutingRuleConditionGroupOperator
+    generators:
+          - name: typegen
+            fileName: "types.go"
+           
