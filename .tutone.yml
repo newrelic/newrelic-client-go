@@ -29,8 +29,6 @@ generate:
 packages:
   - name: alerts
     path: pkg/alerts
-    templateName: "templates/typegen/types.go.tmpl"
-    destination_file: types.go
     types:
       - name: AlertsMutingRuleConditionInput
       - name: AlertsMutingRuleInput
@@ -40,8 +38,27 @@ packages:
       - name: AlertsPolicyInput
       - name: AlertsPolicyUpdateInput
       - name: AlertsNrqlConditionTermsOperator
-      - name: AlertsMutingRuleConditionGroupOperator
     generators:
-          - name: typegen
-            fileName: "types.go"
+      - typegen
+  - name: nrdb
+    path: pkg/nrdb
+    imports:
+      - github.com/newrelic/newrelic-client-go/internal/serialization
+    types:
+      - name: EpochSeconds
+        type_override: serialization.EpochTime
+      - name: EpochMilliseconds
+        type_override: serialization.EpochTime
+      - name: Nrql
+        type_override: string
+      - name: NrdbResult
+        type_override: map[string]interface{}
+      - name: NrdbResultContainer
+      - name: NrqlHistoricalQuery
+    generators:
+      - typegen
+generators:
+  - name: typegen
+    fileName: "types.go"
+
            
