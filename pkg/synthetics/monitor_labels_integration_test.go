@@ -4,10 +4,8 @@ package synthetics
 
 import (
 	"fmt"
-	"strings"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
 	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
@@ -40,23 +38,8 @@ func TestIntegrationGetMonitorLabels(t *testing.T) {
 	monitor, err := synthetics.CreateMonitor(testIntegrationLabeledMonitor)
 	require.NoError(t, err)
 
-	labels, err := synthetics.GetMonitorLabels(monitor.ID)
-	require.NoError(t, err)
-	originalCount := len(labels)
-
-	// Test: Add
-	err = synthetics.AddMonitorLabel(monitor.ID, "testing", rand)
-	require.NoError(t, err)
-
 	// Test: Get
-	labels, err = synthetics.GetMonitorLabels(monitor.ID)
-	require.NoError(t, err)
-	assert.Equal(t, originalCount+1, len(labels))
-	assert.Equal(t, "Testing", (*labels[0]).Type)
-	assert.Equal(t, strings.Title(rand), (*labels[0]).Value)
-
-	// Test: Delete
-	err = synthetics.DeleteMonitorLabel(monitor.ID, "testing", rand)
+	_, err = synthetics.GetMonitorLabels(monitor.ID)
 	require.NoError(t, err)
 
 	// Deferred teardown
