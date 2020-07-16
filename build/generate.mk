@@ -17,10 +17,7 @@ generate-schema-fetch:
 
 generate-tutone:
 	@echo "=== $(PROJECT_NAME) === [ generate-tutone  ]: Running tutone generate..."
-	@for p in $(PACKAGES); do \
-		echo "=== $(PROJECT_NAME) === [ generate         ]:     $$p"; \
-			tutone -c .tutone.yml generate -d .generate.yml -l debug -p $$p; \
-	done
+	tutone -c .tutone.yml generate -d .generate.yml -l debug
 
 generate-run: tools-compile generate-tutone
 	@echo "=== $(PROJECT_NAME) === [ generate         ]: Running generate..."
