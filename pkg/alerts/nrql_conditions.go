@@ -122,7 +122,7 @@ var (
 type NrqlConditionTerm struct {
 	Operator             AlertsNrqlConditionTermsOperator `json:"operator,omitempty"`
 	Priority             NrqlConditionPriority            `json:"priority,omitempty"`
-	Threshold            float64                          `json:"threshold"`
+	Threshold            *float64                         `json:"threshold"`
 	ThresholdDuration    int                              `json:"thresholdDuration,omitempty"`
 	ThresholdOccurrences ThresholdOccurrence              `json:"thresholdOccurrences,omitempty"`
 }

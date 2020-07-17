@@ -13,8 +13,10 @@ import (
 )
 
 var (
-	testNrqlConditionRandomString = nr.RandSeq(5)
-	nrqlConditionBase             = NrqlConditionBase{
+	testNrqlConditionRandomString       = nr.RandSeq(5)
+	nrqlConditionBaseThreshold          = 1.0        // needed for setting pointer
+	nrqlConditionBaseThresholdZeroValue = float64(0) // needed for setting pointer
+	nrqlConditionBase                   = NrqlConditionBase{
 		Description: "test description",
 		Enabled:     true,
 		Name:        fmt.Sprintf("test-nrql-condition-%s", testNrqlConditionRandomString),
@@ -25,7 +27,7 @@ var (
 		RunbookURL: "test.com",
 		Terms: []NrqlConditionTerm{
 			{
-				Threshold:            1,
+				Threshold:            &nrqlConditionBaseThreshold,
 				ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
 				ThresholdDuration:    600,
 				Operator:             AlertsNrqlConditionTermsOperatorTypes.ABOVE,
@@ -36,6 +38,7 @@ var (
 	}
 )
 
+// REST API integration test (deprecated)
 func TestIntegrationNrqlConditions(t *testing.T) {
 	t.Parallel()
 
@@ -57,7 +60,7 @@ func TestIntegrationNrqlConditions(t *testing.T) {
 					Duration:     5,
 					Operator:     "above",
 					Priority:     "critical",
-					Threshold:    1,
+					Threshold:    nrqlConditionBaseThreshold,
 					TimeFunction: "all",
 				},
 			},
@@ -237,6 +240,7 @@ func TestIntegrationNrqlConditions_Outlier(t *testing.T) {
 		expectedGroups     = 1
 		violationOverlap   = false
 		randStr            = nr.RandSeq(5)
+		thresholdCritical  = 0.1
 		createOutlierInput = NrqlConditionInput{
 			NrqlConditionBase: NrqlConditionBase{
 				Description: "test description",
@@ -249,7 +253,7 @@ func TestIntegrationNrqlConditions_Outlier(t *testing.T) {
 				RunbookURL: "http://example.com",
 				Terms: []NrqlConditionTerm{
 					{
-						Threshold:            0.1,
+						Threshold:            &thresholdCritical,
 						ThresholdOccurrences: ThresholdOccurrences.All,
 						ThresholdDuration:    120,
 						Operator:             AlertsNrqlConditionTermsOperatorTypes.ABOVE,
@@ -362,6 +366,7 @@ func TestIntegrationNrqlConditions_Search(t *testing.T) {
 	var (
 		randStr            = nr.RandSeq(5)
 		conditionName      = fmt.Sprintf("test-nrql-condition-%s", randStr)
+		thresholdCritical  = 1.0
 		testConditionInput = NrqlConditionInput{
 			NrqlConditionBase: NrqlConditionBase{
 				Description: "test description",
@@ -374,7 +379,7 @@ func TestIntegrationNrqlConditions_Search(t *testing.T) {
 				RunbookURL: "test.com",
 				Terms: []NrqlConditionTerm{
 					{
-						Threshold:            1,
+						Threshold:            &thresholdCritical,
 						ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
 						ThresholdDuration:    600,
 						Operator:             AlertsNrqlConditionTermsOperatorTypes.ABOVE,
@@ -436,18 +441,72 @@ func TestIntegrationNrqlConditions_CreateStatic(t *testing.T) {
 				RunbookURL: "test.com",
 				Terms: []NrqlConditionTerm{
 					{
-						Threshold:            1,
+						Threshold:            &nrqlConditionBaseThreshold,
 						ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
 						ThresholdDuration:    600,
 						Operator:             AlertsNrqlConditionTermsOperatorTypes.ABOVE,
 						Priority:             NrqlConditionPriorities.Critical,
 					},
 					{
-						Threshold:            0,
+						Threshold:            &nrqlConditionBaseThresholdZeroValue,
 						ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
 						ThresholdDuration:    600,
 						Operator:             AlertsNrqlConditionTermsOperatorTypes.EQUALS,
 						Priority:             NrqlConditionPriorities.Warning,
+					},
+				},
+				ViolationTimeLimit: NrqlConditionViolationTimeLimits.OneHour,
+			},
+			ValueFunction: &NrqlConditionValueFunctions.SingleValue,
+		}
+	)
+
+	client := newIntegrationTestClient(t)
+
+	// Setup
+	setupPolicy := AlertsPolicyInput{
+		IncidentPreference: AlertsIncidentPreferenceTypes.PER_POLICY,
+		Name:               fmt.Sprintf("test-alert-policy-%s", randStr),
+	}
+	policy, err := client.CreatePolicyMutation(nr.TestAccountID, setupPolicy)
+	require.NoError(t, err)
+
+	condition, err := client.CreateNrqlConditionStaticMutation(nr.TestAccountID, policy.ID, testConditionInput)
+	require.NoError(t, err)
+	require.NotNil(t, condition)
+
+	// Deferred teardown
+	defer func() {
+		_, err := client.DeletePolicyMutation(nr.TestAccountID, policy.ID)
+		if err != nil {
+			t.Logf("error cleaning up alert policy %s (%s): %s", policy.ID, policy.Name, err)
+		}
+	}()
+}
+
+func TestIntegrationNrqlConditions_ZeroValueThreshold(t *testing.T) {
+	t.Parallel()
+
+	var (
+		randStr            = nr.RandSeq(5)
+		conditionName      = fmt.Sprintf("test-nrql-condition-%s", randStr)
+		testConditionInput = NrqlConditionInput{
+			NrqlConditionBase: NrqlConditionBase{
+				Description: "test description",
+				Enabled:     true,
+				Name:        conditionName,
+				Nrql: NrqlConditionQuery{
+					Query:            "SELECT uniqueCount(host) from Transaction where appName='Dummy App'",
+					EvaluationOffset: 3,
+				},
+				RunbookURL: "test.com",
+				Terms: []NrqlConditionTerm{
+					{
+						Threshold:            &nrqlConditionBaseThresholdZeroValue,
+						ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
+						ThresholdDuration:    600,
+						Operator:             AlertsNrqlConditionTermsOperatorTypes.ABOVE,
+						Priority:             NrqlConditionPriorities.Critical,
 					},
 				},
 				ViolationTimeLimit: NrqlConditionViolationTimeLimits.OneHour,
