@@ -25,9 +25,9 @@ var {{.Name}}Types = struct {
 	{{.Name}}: "{{.Name}}",
   {{- end}}
 }
-{{ end}}
+{{- end}}
 
-{{range .Types}}
+{{- range .Types}}
 {{ .Description }}
 type {{.Name}} struct {
   {{- range .Fields}}
@@ -35,3 +35,8 @@ type {{.Name}} struct {
   {{- end}}
 }
 {{ end}}
+
+{{- range .Scalars }}
+{{ .Description }}
+type {{.Name}} {{.Type}}
+{{-  end}}
