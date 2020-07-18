@@ -17,7 +17,7 @@ generate-schema-fetch:
 
 generate-tutone:
 	@echo "=== $(PROJECT_NAME) === [ generate-tutone  ]: Running tutone generate..."
-	tutone -c .tutone.yml generate -d .generate.yml -l debug
+	@tutone -c .tutone.yml generate -l debug
 
 generate-run: tools-compile generate-tutone
 	@echo "=== $(PROJECT_NAME) === [ generate         ]: Running generate..."
