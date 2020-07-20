@@ -8,9 +8,14 @@ Synthetics API.  It can be used for a variety of operations, including:
 
 - Associating Synthetics monitor scripts with existing Synthetics monitors
 
-- Creating, reading, and deleting Synthetics monitor labels
-
 - Creating, reading, updating, and deleting Synthetics secure credentials
+
+Synthetics labels have been EOL'd as of July 20, 2020. This functionality has been
+superceded by entity tags, which can be provisioned via the `entities` package.
+More information can be found here:
+
+https://discuss.newrelic.com/t/end-of-life-notice-synthetics-labels-and-synthetics-apm-group-by-tag/103781
+
 
 Authentication
 
