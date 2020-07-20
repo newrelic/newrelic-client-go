@@ -13,6 +13,9 @@ type MonitorLabel struct {
 }
 
 // GetMonitorLabels is used to retrieve all labels for a given Synthetics monitor.
+//
+// Deprecated: Use entities.ListTags instead.
+// https://discuss.newrelic.com/t/end-of-life-notice-synthetics-labels-and-synthetics-apm-group-by-tag/103781
 func (s *Synthetics) GetMonitorLabels(monitorID string) ([]*MonitorLabel, error) {
 	url := fmt.Sprintf("/v4/monitors/%s/labels", monitorID)
 
@@ -27,6 +30,9 @@ func (s *Synthetics) GetMonitorLabels(monitorID string) ([]*MonitorLabel, error)
 }
 
 // AddMonitorLabel is used to add a label to a given monitor.
+//
+// Deprecated: Use entities.AddTags instead.
+// https://discuss.newrelic.com/t/end-of-life-notice-synthetics-labels-and-synthetics-apm-group-by-tag/103781
 func (s *Synthetics) AddMonitorLabel(monitorID, labelKey, labelValue string) error {
 	url := fmt.Sprintf("/v4/monitors/%s/labels", monitorID)
 
@@ -43,6 +49,9 @@ func (s *Synthetics) AddMonitorLabel(monitorID, labelKey, labelValue string) err
 }
 
 // DeleteMonitorLabel deletes a key:value label from the given Syntheics monitor.
+//
+// Deprecated: Use entities.DeleteTags instead.
+// https://discuss.newrelic.com/t/end-of-life-notice-synthetics-labels-and-synthetics-apm-group-by-tag/103781
 func (s *Synthetics) DeleteMonitorLabel(monitorID, labelKey, labelValue string) error {
 	url := fmt.Sprintf("/v4/monitors/%s/labels/%s:%s", monitorID, strings.Title(labelKey), strings.Title(labelValue))
 
