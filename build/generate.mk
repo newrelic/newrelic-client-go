@@ -9,11 +9,7 @@ PACKAGES ?= $(shell $(GO) list ./...)
 GOTOOLS += github.com/newrelic/tutone/cmd/tutone
 
 # Generate then lint fixes
-generate: generate-run generate-schema-fetch generate-tutone lint-fix
-
-generate-schema-fetch:
-	@echo "=== $(PROJECT_NAME) === [ schema-fetch     ]: Running tutone fetch..."
-	tutone -c .tutone.yml fetch -l debug
+generate: generate-run generate-tutone lint-fix
 
 generate-tutone:
 	@echo "=== $(PROJECT_NAME) === [ generate-tutone  ]: Running tutone generate..."
