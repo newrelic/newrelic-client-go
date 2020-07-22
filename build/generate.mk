@@ -6,10 +6,16 @@ GO           ?= go
 
 PACKAGES ?= $(shell $(GO) list ./...)
 
-# Generate then lint fixes
-generate: generate-run lint-fix
+GOTOOLS += github.com/newrelic/tutone/cmd/tutone
 
-generate-run: tools-compile
+# Generate then lint fixes
+generate: generate-run generate-tutone lint-fix
+
+generate-tutone:
+	@echo "=== $(PROJECT_NAME) === [ generate-tutone  ]: Running tutone generate..."
+	@tutone -c .tutone.yml generate -l debug
+
+generate-run: tools-compile generate-tutone
 	@echo "=== $(PROJECT_NAME) === [ generate         ]: Running generate..."
 	@for p in $(PACKAGES); do \
 		echo "=== $(PROJECT_NAME) === [ generate         ]:     $$p"; \

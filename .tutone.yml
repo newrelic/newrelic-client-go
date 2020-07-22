@@ -1,0 +1,44 @@
+---
+# Log level for running tutone
+# Default: info
+log_level: debug
+
+# File to store a copy of the schema
+# Default: schema.json
+schema_file: schema.json
+
+# GraphQL endpoint to query for schema
+# Required
+endpoint: https://api.newrelic.com/graphql
+
+# How to authenticate to the API
+auth:
+  # Header set with the API key for authentication
+  # Default: Api-Key
+  header: Api-Key
+
+  # Environment variable to get the API key from
+  # Default: TUTONE_API_KEY
+  api-key-env: NEW_RELIC_API_KEY
+
+packages:
+  - name: alerts
+    path: pkg/alerts
+    generators:
+      - typegen
+    types:
+      - name: AlertsMutingRuleConditionInput
+      - name: AlertsMutingRuleInput
+      - name: AlertsPoliciesSearchCriteriaInput
+      - name: AlertsPoliciesSearchResultSet
+      - name: AlertsPolicy
+      - name: AlertsPolicyInput
+      - name: AlertsPolicyUpdateInput
+      - name: AlertsNrqlConditionTermsOperator
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+
+generators:
+  - name: typegen
+    fileName: "types.go"
