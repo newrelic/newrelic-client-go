@@ -44,6 +44,7 @@ func NewTestConfig(t *testing.T, testServer *httptest.Server) config.Config {
 func NewIntegrationTestConfig(t *testing.T) config.Config {
 	envPersonalAPIKey := os.Getenv("NEW_RELIC_API_KEY")
 	envAdminAPIKey := os.Getenv("NEW_RELIC_ADMIN_API_KEY")
+	envInsightsInsertKey := os.Getenv("NEW_RELIC_INSIGHTS_INSERT_KEY")
 	envRegion := os.Getenv("NEW_RELIC_REGION")
 
 	if envPersonalAPIKey == "" && envAdminAPIKey == "" {
@@ -58,6 +59,7 @@ func NewIntegrationTestConfig(t *testing.T) config.Config {
 
 	cfg.PersonalAPIKey = envPersonalAPIKey
 	cfg.AdminAPIKey = envAdminAPIKey
+	cfg.InsightsInsertKey = envInsightsInsertKey
 
 	if envRegion != "" {
 		regName, err := region.Parse(envRegion)
