@@ -57,15 +57,19 @@ func (c *Client) NewRequest(method string, url string, params interface{}, reqBo
 				return nil, err
 			}
 		}
-
-		readBuffer, err = c.compressor.Compress(req, requestBody)
-		if err != nil {
-			return nil, err
-		}
 	}
 
-	req.request, err = retryablehttp.NewRequest(req.method, url, readBuffer)
+	req.request, err = retryablehttp.NewRequest(req.method, url, nil)
 	if err != nil {
+		return nil, err
+	}
+
+	readBuffer, err = c.compressor.Compress(req, requestBody)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := req.request.SetBody(readBuffer); err != nil {
 		return nil, err
 	}
 
