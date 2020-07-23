@@ -1,3 +1,18 @@
+<a name="v0.33.0"></a>
+## [v0.33.0] - 2020-07-23
+### Bug Fixes
+- fix http client compression
+- **build:** run generate-tutone once per make command
+
+### Features
+- add a custom event resource
+
+<a name="v0.32.1"></a>
+## [v0.32.1] - 2020-07-17
+### Bug Fixes
+- **accounts:** add accounts API to client
+- **nrql_conditions:** proper zero-value marshalling for threshold
+
 <a name="v0.32.0"></a>
 ## [v0.32.0] - 2020-07-10
 ### Features
@@ -642,7 +657,9 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.32.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.33.0...HEAD
+[v0.33.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.32.1...v0.33.0
+[v0.32.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.32.0...v0.32.1
 [v0.32.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.31.3...v0.32.0
 [v0.31.3]: https://github.com/newrelic/newrelic-client-go/compare/v0.31.2...v0.31.3
 [v0.31.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.31.1...v0.31.2
