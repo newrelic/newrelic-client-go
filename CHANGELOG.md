@@ -1,3 +1,8 @@
+<a name="v0.33.1"></a>
+## [v0.33.1] - 2020-07-24
+### Bug Fixes
+- **alerts:** always send infra condition description even if its an empty string
+
 <a name="v0.33.0"></a>
 ## [v0.33.0] - 2020-07-23
 ### Bug Fixes
@@ -6,6 +11,7 @@
 
 ### Features
 - add a custom event resource
+- **alerts:** add description field to infra alert condition
 
 <a name="v0.32.1"></a>
 ## [v0.32.1] - 2020-07-17
@@ -657,7 +663,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.33.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.33.1...HEAD
+[v0.33.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.33.0...v0.33.1
 [v0.33.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.32.1...v0.33.0
 [v0.32.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.32.0...v0.32.1
 [v0.32.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.31.3...v0.32.0
