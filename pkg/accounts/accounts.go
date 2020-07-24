@@ -1,4 +1,3 @@
-//go:generate ../../bin/typegen -v -p $GOPACKAGE
 // Package accounts provides a programmatic API for interacting with New Relic accounts.
 package accounts
 
