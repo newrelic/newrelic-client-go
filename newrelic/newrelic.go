@@ -15,6 +15,7 @@ import (
 	"github.com/newrelic/newrelic-client-go/pkg/dashboards"
 	"github.com/newrelic/newrelic-client-go/pkg/edge"
 	"github.com/newrelic/newrelic-client-go/pkg/entities"
+	"github.com/newrelic/newrelic-client-go/pkg/events"
 	"github.com/newrelic/newrelic-client-go/pkg/eventstometrics"
 	"github.com/newrelic/newrelic-client-go/pkg/nerdgraph"
 	"github.com/newrelic/newrelic-client-go/pkg/nerdstorage"
@@ -33,6 +34,7 @@ type NewRelic struct {
 	Dashboards      dashboards.Dashboards
 	Edge            edge.Edge
 	Entities        entities.Entities
+	Events          events.Events
 	EventsToMetrics eventstometrics.EventsToMetrics
 	NerdGraph       nerdgraph.NerdGraph
 	NerdStorage     nerdstorage.NerdStorage
@@ -66,6 +68,7 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 		Dashboards:      dashboards.New(config),
 		Edge:            edge.New(config),
 		Entities:        entities.New(config),
+		Events:          events.New(config),
 		EventsToMetrics: eventstometrics.New(config),
 		NerdGraph:       nerdgraph.New(config),
 		NerdStorage:     nerdstorage.New(config),
