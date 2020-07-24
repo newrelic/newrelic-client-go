@@ -21,9 +21,10 @@ func TestIntegrationListInfrastructureConditions(t *testing.T) {
 				testIntegrationInfrastructureConditionRandStr),
 			IncidentPreference: "PER_POLICY",
 		}
+		thresholdZeroValue                              = float64(0)
 		testIntegrationInfrastructureConditionThreshold = InfrastructureConditionThreshold{
 			Duration: 6,
-			Value:    0,
+			Value:    &thresholdZeroValue,
 		}
 
 		testIntegrationInfrastructureCondition = InfrastructureCondition{
