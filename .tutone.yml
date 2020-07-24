@@ -38,6 +38,34 @@ packages:
       - name: ID
         field_type_override: string
         skip_type_create: true
+  - name: edge
+    path: pkg/edge
+    generators:
+      - typegen
+    types:
+      - name: EdgeAccountStitchedFields
+      - name: EdgeAgentEndpointDetail
+      - name: EdgeCreateTraceObserverInput
+      - name: EdgeCreateTraceObserverResponse
+      - name: EdgeCreateTraceObserverResponseError
+      - name: EdgeCreateTraceObserverResponseErrorType
+      - name: EdgeCreateTraceObserverResponses
+      - name: EdgeDeleteTraceObserverInput
+      - name: EdgeDeleteTraceObserverResponse
+      - name: EdgeDeleteTraceObserverResponseError
+      - name: EdgeDeleteTraceObserverResponseErrorType
+      - name: EdgeDeleteTraceObserverResponses
+      - name: EdgeEndpoint
+      - name: EdgeEndpointType
+      - name: EdgeEndpointStatus
+      - name: EdgeHttpsEndpointDetail
+      - name: EdgeProviderRegion
+      - name: EdgeTraceObserver
+      - name: EdgeTraceObserverResponse
+      - name: EdgeTraceObserverResponseError
+      - name: EdgeTraceObserverResponseErrorType
+      - name: EdgeTraceObserverStatus
+      - name: EdgeTracing
 
 generators:
   - name: typegen
