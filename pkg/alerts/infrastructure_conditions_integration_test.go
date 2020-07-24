@@ -75,10 +75,12 @@ func TestIntegrationListInfrastructureConditions(t *testing.T) {
 
 	// Test: Update
 	created.Name = "Updated"
+	created.Description = ""
 	updated, err := alerts.UpdateInfrastructureCondition(*created)
 
 	require.NoError(t, err)
 	require.NotZero(t, updated)
+	require.Equal(t, "", updated.Description)
 
 	// Test: Delete
 	err = alerts.DeleteInfrastructureCondition(created.ID)
