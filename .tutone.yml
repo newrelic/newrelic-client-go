@@ -66,6 +66,40 @@ packages:
       - name: EdgeTraceObserverResponseErrorType
       - name: EdgeTraceObserverStatus
       - name: EdgeTracing
+  - name: accounts
+    path: pkg/accounts
+    generators:
+      - typegen
+    types:
+      - name: AccountOutline
+      - name: RegionScope
+  - name: eventstometrics
+    path: pkg/eventstometrics
+    generators:
+      - typegen
+    types:
+      - name: EventsToMetricsAccountStitchedFields
+      - name: EventsToMetricsCreateRuleFailure
+      - name: EventsToMetricsCreateRuleInput
+      - name: EventsToMetricsCreateRuleResult
+      - name: EventsToMetricsCreateRuleSubmission
+      - name: EventsToMetricsDeleteRuleFailure
+      - name: EventsToMetricsDeleteRuleInput
+      - name: EventsToMetricsDeleteRuleResult
+      - name: EventsToMetricsDeleteRuleSubmission
+      - name: EventsToMetricsErrorReason
+      - name: EventsToMetricsListRuleResult
+      - name: EventsToMetricsRule
+      - name: EventsToMetricsUpdateRuleFailure
+      - name: EventsToMetricsUpdateRuleInput
+      - name: EventsToMetricsUpdateRuleResult
+      - name: EventsToMetricsUpdateRuleSubmission
+      - name: RuleId
+        field_type_override: string
+      - name: ID
+        field_type_override: string
+        create_as: string
+        skip_type_create: false
 
 generators:
   - name: typegen
