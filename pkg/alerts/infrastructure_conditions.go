@@ -25,6 +25,7 @@ type InfrastructureCondition struct {
 	ViolationCloseTimer *int                              `json:"violation_close_timer,omitempty"`
 	Warning             *InfrastructureConditionThreshold `json:"warning_threshold,omitempty"`
 	Where               string                            `json:"where_clause,omitempty"`
+	Description         string                            `json:"description,omitempty"`
 }
 
 // InfrastructureConditionThreshold represents an New Relic Infrastructure alert condition threshold.
