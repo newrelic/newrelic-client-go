@@ -34,6 +34,7 @@ func TestIntegrationListInfrastructureConditions(t *testing.T) {
 			ProcessWhere: "(commandName = 'java')",
 			Type:         "infra_process_running",
 			Where:        "(hostname LIKE '%cassandra%')",
+			Description:  "Mozzarella halloumi the big cheese cottage cheese cheese and biscuits cheeseburger fromage frais roquefort.",
 		}
 	)
 
