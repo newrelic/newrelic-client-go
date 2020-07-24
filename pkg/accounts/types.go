@@ -18,7 +18,10 @@ var RegionScopeTypes = struct {
 
 // AccountOutline - The `AccountOutline` object provides basic data about an account.
 type AccountOutline struct {
-	ID                  int      `json:"id"`
-	Name                string   `json:"name"`
+	//
+	ID int `json:"id"`
+	//
+	Name string `json:"name"`
+	// Returns event types that are currently reporting in the account.
 	ReportingEventTypes []string `json:"reportingEventTypes"`
 }
