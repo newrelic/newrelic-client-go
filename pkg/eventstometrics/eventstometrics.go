@@ -1,4 +1,3 @@
-//go:generate ../../bin/typegen -v -p $GOPACKAGE
 package eventstometrics
 
 import (

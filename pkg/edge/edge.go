@@ -1,4 +1,3 @@
-//go:generate ../../bin/typegen -v -p $GOPACKAGE
 // Package edge provides a programmatic API for interacting with New Relic Edge.
 package edge
 
