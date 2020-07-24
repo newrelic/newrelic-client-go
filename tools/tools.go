@@ -20,4 +20,7 @@ import (
 
 	// build/release.mk
 	_ "github.com/goreleaser/goreleaser"
+
+	// build/generate.mk
+	_ "github.com/newrelic/tutone/cmd/tutone"
 )
