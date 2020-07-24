@@ -95,6 +95,15 @@ func ConfigPersonalAPIKey(apiKey string) ConfigOption {
 	}
 }
 
+// ConfigInsightsInsertKey sets the New Relic Insights insert key this client will use.
+// https://docs.newrelic.com/docs/apis/get-started/intro-apis/types-new-relic-api-keys
+func ConfigInsightsInsertKey(insightsInsertKey string) ConfigOption {
+	return func(cfg *config.Config) error {
+		cfg.InsightsInsertKey = insightsInsertKey
+		return nil
+	}
+}
+
 // ConfigAdminAPIKey sets the New Relic Admin API key this client will use.
 // One of ConfigAPIKey or ConfigAdminAPIKey must be used to create a client.
 // https://docs.newrelic.com/docs/apis/get-started/intro-apis/types-new-relic-api-keys
