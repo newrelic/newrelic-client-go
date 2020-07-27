@@ -1,3 +1,8 @@
+<a name="v0.33.2"></a>
+## [v0.33.2] - 2020-07-27
+### Bug Fixes
+- **alerts:** infra condition threshold value should be pointer to support zero-value thresholds
+
 <a name="v0.33.1"></a>
 ## [v0.33.1] - 2020-07-24
 ### Bug Fixes
@@ -663,7 +668,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.33.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.33.2...HEAD
+[v0.33.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.33.1...v0.33.2
 [v0.33.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.33.0...v0.33.1
 [v0.33.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.32.1...v0.33.0
 [v0.32.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.32.0...v0.32.1
