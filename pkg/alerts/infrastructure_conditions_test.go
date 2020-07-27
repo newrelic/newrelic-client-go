@@ -11,16 +11,18 @@ import (
 )
 
 var (
-	testInfrastructureConditionPolicyId = 111111
-	testInfrastructureCriticalThreshold = InfrastructureConditionThreshold{
+	testInfrastructureConditionPolicyId      = 111111
+	testInfrastructureCriticalThresholdValue = 12.3
+	testInfrastructureCriticalThreshold      = InfrastructureConditionThreshold{
 		Duration: 6,
 		Function: "all",
-		Value:    12.3,
+		Value:    &testInfrastructureCriticalThresholdValue,
 	}
-	testInfrastructureWarningThreshold = InfrastructureConditionThreshold{
+	testInfrastructureWarningThresholdValue = float64(10)
+	testInfrastructureWarningThreshold      = InfrastructureConditionThreshold{
 		Duration: 6,
 		Function: "all",
-		Value:    10,
+		Value:    &testInfrastructureWarningThresholdValue,
 	}
 
 	testInfrastructureCondition = InfrastructureCondition{
