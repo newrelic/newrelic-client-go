@@ -68,7 +68,7 @@ func TestNew_setRegionCaseInsensitive(t *testing.T) {
 
 	assert.NotNil(t, nr)
 	assert.NoError(t, err)
-	assert.Equal(t, "Staging", nr.config.Region().Name)
+	assert.Equal(t, "Staging", nr.config.Region().String())
 }
 
 func TestNew_setRegionDefaultFallback(t *testing.T) {
