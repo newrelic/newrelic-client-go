@@ -18,7 +18,7 @@ type Name string
 
 // Region represents the members of the Region enumeration.
 type Region struct {
-	name                  string
+	Name                  string
 	restBaseURL           string
 	infrastructureBaseURL string
 	syntheticsBaseURL     string
@@ -33,8 +33,8 @@ func (n Name) String() string {
 
 // String returns a human readable value for the specified Region
 func (r *Region) String() string {
-	if r != nil && r.name != "" {
-		return r.name
+	if r != nil && r.Name != "" {
+		return r.Name
 	}
 
 	return "(Unknown)"

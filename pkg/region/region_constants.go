@@ -18,7 +18,7 @@ const (
 
 var Regions = map[Name]*Region{
 	US: {
-		name:                  "US",
+		Name:                  "US",
 		infrastructureBaseURL: "https://infra-api.newrelic.com/v2",
 		insightsBaseURL:       "https://insights-collector.newrelic.com/v1",
 		nerdGraphBaseURL:      "https://api.newrelic.com/graphql",
@@ -26,7 +26,7 @@ var Regions = map[Name]*Region{
 		syntheticsBaseURL:     "https://synthetics.newrelic.com/synthetics/api",
 	},
 	EU: {
-		name:                  "EU",
+		Name:                  "EU",
 		infrastructureBaseURL: "https://infra-api.eu.newrelic.com/v2",
 		insightsBaseURL:       "https://insights-collector.eu.newrelic.com/v1",
 		nerdGraphBaseURL:      "https://api.eu.newrelic.com/graphql",
@@ -34,7 +34,7 @@ var Regions = map[Name]*Region{
 		syntheticsBaseURL:     "https://synthetics.eu.newrelic.com/synthetics/api",
 	},
 	Staging: {
-		name:                  "Staging",
+		Name:                  "Staging",
 		infrastructureBaseURL: "https://staging-infra-api.newrelic.com/v2",
 		insightsBaseURL:       "https://staging-insights-collector.newrelic.com/v1",
 		nerdGraphBaseURL:      "https://staging-api.newrelic.com/graphql",
