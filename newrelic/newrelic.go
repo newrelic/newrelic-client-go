@@ -15,6 +15,7 @@ import (
 	"github.com/newrelic/newrelic-client-go/pkg/dashboards"
 	"github.com/newrelic/newrelic-client-go/pkg/edge"
 	"github.com/newrelic/newrelic-client-go/pkg/entities"
+	"github.com/newrelic/newrelic-client-go/pkg/events"
 	"github.com/newrelic/newrelic-client-go/pkg/eventstometrics"
 	"github.com/newrelic/newrelic-client-go/pkg/nerdgraph"
 	"github.com/newrelic/newrelic-client-go/pkg/nerdstorage"
@@ -33,6 +34,7 @@ type NewRelic struct {
 	Dashboards      dashboards.Dashboards
 	Edge            edge.Edge
 	Entities        entities.Entities
+	Events          events.Events
 	EventsToMetrics eventstometrics.EventsToMetrics
 	NerdGraph       nerdgraph.NerdGraph
 	NerdStorage     nerdstorage.NerdStorage
@@ -40,6 +42,8 @@ type NewRelic struct {
 	Plugins         plugins.Plugins
 	Synthetics      synthetics.Synthetics
 	Workloads       workloads.Workloads
+
+	config config.Config
 }
 
 // New returns a collection of New Relic APIs.
@@ -60,12 +64,15 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 	}
 
 	nr := &NewRelic{
+		config: config,
+
 		Accounts:        accounts.New(config),
 		APM:             apm.New(config),
 		Alerts:          alerts.New(config),
 		Dashboards:      dashboards.New(config),
 		Edge:            edge.New(config),
 		Entities:        entities.New(config),
+		Events:          events.New(config),
 		EventsToMetrics: eventstometrics.New(config),
 		NerdGraph:       nerdgraph.New(config),
 		NerdStorage:     nerdstorage.New(config),
@@ -92,6 +99,15 @@ func ConfigPersonalAPIKey(apiKey string) ConfigOption {
 	}
 }
 
+// ConfigInsightsInsertKey sets the New Relic Insights insert key this client will use.
+// https://docs.newrelic.com/docs/apis/get-started/intro-apis/types-new-relic-api-keys
+func ConfigInsightsInsertKey(insightsInsertKey string) ConfigOption {
+	return func(cfg *config.Config) error {
+		cfg.InsightsInsertKey = insightsInsertKey
+		return nil
+	}
+}
+
 // ConfigAdminAPIKey sets the New Relic Admin API key this client will use.
 // One of ConfigAPIKey or ConfigAdminAPIKey must be used to create a client.
 // https://docs.newrelic.com/docs/apis/get-started/intro-apis/types-new-relic-api-keys
@@ -103,9 +119,12 @@ func ConfigAdminAPIKey(adminAPIKey string) ConfigOption {
 }
 
 // ConfigRegion sets the New Relic Region this client will use.
-func ConfigRegion(r region.Name) ConfigOption {
+func ConfigRegion(r string) ConfigOption {
 	return func(cfg *config.Config) error {
-		reg, err := region.Get(r)
+		// We can ignore this error since we will be defaulting in the next step
+		regName, _ := region.Parse(r)
+
+		reg, err := region.Get(regName)
 		if err != nil {
 			if _, ok := err.(region.UnknownUsingDefaultError); ok {
 				// If region wasn't provided, output a warning message

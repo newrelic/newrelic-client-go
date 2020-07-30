@@ -5,6 +5,7 @@ package main
 import (
 	// build/test.mk
 	_ "github.com/stretchr/testify/assert"
+	_ "gotest.tools/gotestsum"
 
 	// build/lint.mk
 	_ "github.com/client9/misspell/cmd/misspell"
@@ -19,4 +20,7 @@ import (
 
 	// build/release.mk
 	_ "github.com/goreleaser/goreleaser"
+
+	// build/generate.mk
+	_ "github.com/newrelic/tutone/cmd/tutone"
 )

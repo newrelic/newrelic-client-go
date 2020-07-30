@@ -21,9 +21,10 @@ func TestIntegrationListInfrastructureConditions(t *testing.T) {
 				testIntegrationInfrastructureConditionRandStr),
 			IncidentPreference: "PER_POLICY",
 		}
+		thresholdZeroValue                              = float64(0)
 		testIntegrationInfrastructureConditionThreshold = InfrastructureConditionThreshold{
 			Duration: 6,
-			Value:    0,
+			Value:    &thresholdZeroValue,
 		}
 
 		testIntegrationInfrastructureCondition = InfrastructureCondition{
@@ -34,6 +35,7 @@ func TestIntegrationListInfrastructureConditions(t *testing.T) {
 			ProcessWhere: "(commandName = 'java')",
 			Type:         "infra_process_running",
 			Where:        "(hostname LIKE '%cassandra%')",
+			Description:  "Mozzarella halloumi the big cheese cottage cheese cheese and biscuits cheeseburger fromage frais roquefort.",
 		}
 	)
 
@@ -74,10 +76,12 @@ func TestIntegrationListInfrastructureConditions(t *testing.T) {
 
 	// Test: Update
 	created.Name = "Updated"
+	created.Description = ""
 	updated, err := alerts.UpdateInfrastructureCondition(*created)
 
 	require.NoError(t, err)
 	require.NotZero(t, updated)
+	require.Equal(t, "", updated.Description)
 
 	// Test: Delete
 	err = alerts.DeleteInfrastructureCondition(created.ID)

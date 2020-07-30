@@ -169,7 +169,7 @@ func (r *Region) InsightsURL(accountID int) string {
 		return ""
 	}
 
-	return fmt.Sprintf("%s/%d/events", r.insightsBaseURL, accountID)
+	return fmt.Sprintf("%s/accounts/%d/events", r.insightsBaseURL, accountID)
 }
 
 // concatURLPaths is a helper function for the URL builders below

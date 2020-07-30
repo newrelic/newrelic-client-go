@@ -25,13 +25,14 @@ type InfrastructureCondition struct {
 	ViolationCloseTimer *int                              `json:"violation_close_timer,omitempty"`
 	Warning             *InfrastructureConditionThreshold `json:"warning_threshold,omitempty"`
 	Where               string                            `json:"where_clause,omitempty"`
+	Description         string                            `json:"description"`
 }
 
 // InfrastructureConditionThreshold represents an New Relic Infrastructure alert condition threshold.
 type InfrastructureConditionThreshold struct {
-	Duration int     `json:"duration_minutes,omitempty"`
-	Function string  `json:"time_function,omitempty"`
-	Value    float64 `json:"value,omitempty"`
+	Duration int      `json:"duration_minutes,omitempty"`
+	Function string   `json:"time_function,omitempty"`
+	Value    *float64 `json:"value"`
 }
 
 // ListInfrastructureConditions is used to retrieve New Relic Infrastructure alert conditions.

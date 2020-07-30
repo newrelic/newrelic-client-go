@@ -18,36 +18,34 @@ The New Relic Client provides the building blocks for tools in the [Developer To
 package main
 
 import (
-  "fmt"
-  "os"
+	"fmt"
+	"os"
 
-  log "github.com/sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 
-  "github.com/newrelic/newrelic-client-go/newrelic"
-  "github.com/newrelic/newrelic-client-go/pkg/apm"
+	"github.com/newrelic/newrelic-client-go/newrelic"
+	"github.com/newrelic/newrelic-client-go/pkg/entities"
 )
 
 func main() {
-  apiKey := os.Getenv("NEW_RELIC_ADMIN_API_KEY")
-  if apiKey == "" {
-    log.Fatal("an API key is required, please set the NEW_RELIC_ADMIN_API_KEY environment variable")
-  }
+	// Initialize the client.
+	client, err := newrelic.New(newrelic.ConfigPersonalAPIKey(os.Getenv("NEW_RELIC_API_KEY")))
+	if err != nil {
+		log.Fatal("error initializing client:", err)
+	}
 
-  nr, err := newrelic.New(newrelic.ConfigAdminAPIKey(apiKey))
-  if err != nil {
-    log.Fatalf("failed to create a New Relic client with error %v", err)
-  }
+	// Search the current account for entities by name and type.
+	searchParams := entities.SearchEntitiesParams{
+		Name: "Example entity",
+		Type: entities.EntityTypes.Application,
+	}
 
-  params := apm.ListApplicationsParams{
-    Name: "WebPortal",
-  }
+	entities, err := client.Entities.SearchEntities(searchParams)
+	if err != nil {
+		log.Fatal("error searching entities:", err)
+	}
 
-  apps, err := nr.APM.ListApplications(&params)
-  if err != nil {
-    log.Fatalf("failed to list applications with error %v", err)
-  }
-
-  fmt.Printf("%+v\n", apps)
+	fmt.Printf("%+v\n", entities)
 }
 ```
 

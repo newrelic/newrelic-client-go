@@ -31,6 +31,7 @@ var {{.Name}}Types = struct {
 {{ .Description }}
 type {{.Name}} struct {
   {{- range .Fields}}
+  {{ .Description }}
   {{.Name}} {{.Type}} {{.Tags}}
   {{- end}}
 }
@@ -39,4 +40,4 @@ type {{.Name}} struct {
 {{- range .Scalars }}
 {{ .Description }}
 type {{.Name}} {{.Type}}
-{{-  end}}
+{{- end}}

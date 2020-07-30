@@ -121,53 +121,88 @@ var AlertsNrqlConditionTermsOperatorTypes = struct {
 
 // AlertsMutingRuleConditionGroupInput - A group of MutingRuleConditions combined by an operator.
 type AlertsMutingRuleConditionGroupInput struct {
-	Conditions []AlertsMutingRuleConditionInput       `json:"conditions"`
-	Operator   AlertsMutingRuleConditionGroupOperator `json:"operator"`
+	// The individual MutingRuleConditions within the group.
+	Conditions []AlertsMutingRuleConditionInput `json:"conditions"`
+	// The operator used to combine all the MutingRuleConditions within the group.
+	Operator AlertsMutingRuleConditionGroupOperator `json:"operator"`
 }
 
 // AlertsMutingRuleConditionInput - A condition which describes how to target a New Relic Alerts Violation.
 type AlertsMutingRuleConditionInput struct {
-	Attribute string                            `json:"attribute"`
-	Operator  AlertsMutingRuleConditionOperator `json:"operator"`
-	Values    []string                          `json:"values"`
+	// The attribute on a violation. Expects one of:
+	//
+	// * **accountId** - The account id
+	// * **conditionId** - The alert condition id
+	// * **policyId** - The alert policy id
+	// * **policyName** - The alert policy name
+	// * **conditionName** - The alert condition name
+	// * **conditionType** - The alert condition type, such as `metric`
+	// * **conditionRunbookUrl** - The alert condition's runbook url
+	// * **product** - The target product (e.g., `SYNTHETICS`)
+	// * **targetId** - The ID of the alerts target
+	// * **targetName** - The name of the alerts target
+	// * **nrqlEventType** - The NRQL event type
+	// * **tag** - Arbitrary tags associated with some entity (e.g., FACET from a NRQL query)
+	// * **nrqlQuery** - The NRQL query string
+	Attribute string `json:"attribute"`
+	// The operator used to compare the attribute's value with the supplied value(s).
+	Operator AlertsMutingRuleConditionOperator `json:"operator"`
+	// The value(s) to compare against the attribute's value.
+	Values []string `json:"values"`
 }
 
 // AlertsMutingRuleInput - Input for creating MutingRules for New Relic Alerts Violations.
 type AlertsMutingRuleInput struct {
-	Condition   AlertsMutingRuleConditionGroupInput `json:"condition"`
-	Description string                              `json:"description"`
-	Enabled     bool                                `json:"enabled"`
-	Name        string                              `json:"name"`
+	// The condition that defines which violations to target.
+	Condition AlertsMutingRuleConditionGroupInput `json:"condition"`
+	// The description of the MutingRule.
+	Description string `json:"description"`
+	// Whether the MutingRule is enabled
+	Enabled bool `json:"enabled"`
+	// The name of the MutingRule.
+	Name string `json:"name"`
 }
 
 // AlertsPoliciesSearchCriteriaInput - Search criteria for returning specific policies.
 type AlertsPoliciesSearchCriteriaInput struct {
+	// The list of policy ids to return.
 	IDs []int `json:"ids"`
 }
 
 // AlertsPoliciesSearchResultSet - Collection of policies with pagination information.
 type AlertsPoliciesSearchResultSet struct {
-	NextCursor string         `json:"nextCursor"`
-	Policies   []AlertsPolicy `json:"policies"`
-	TotalCount int            `json:"totalCount"`
+	// Cursor pointing to the end of the current page of policy records. Null if final page.
+	NextCursor string `json:"nextCursor"`
+	// Set of policies returned for the supplied cursor and criteria.
+	Policies []AlertsPolicy `json:"policies"`
+	// Total number of policy records for the given search criteria.
+	TotalCount int `json:"totalCount"`
 }
 
 // AlertsPolicy - Container for conditions with associated notifications channels.
 type AlertsPolicy struct {
-	AccountID          int                      `json:"accountId"`
-	ID                 string                   `json:"id"`
+	// Account ID of the policy.
+	AccountID int `json:"accountId"`
+	// Primary key for policies.
+	ID string `json:"id"`
+	// Determines how incidents are created for critical violations of the conditions contained in the policy.
 	IncidentPreference AlertsIncidentPreference `json:"incidentPreference"`
-	Name               string                   `json:"name"`
+	// Description of the policy.
+	Name string `json:"name"`
 }
 
 // AlertsPolicyInput - Container for conditions with associated notifications channels.
 type AlertsPolicyInput struct {
+	// Determines how incidents are created for critical violations of the conditions contained in the policy.
 	IncidentPreference AlertsIncidentPreference `json:"incidentPreference"`
-	Name               string                   `json:"name"`
+	// Description of the policy.
+	Name string `json:"name"`
 }
 
 // AlertsPolicyUpdateInput - Policy fields to be updated.
 type AlertsPolicyUpdateInput struct {
+	// Determines how incidents are created for critical violations of the conditions contained in the policy.
 	IncidentPreference AlertsIncidentPreference `json:"incidentPreference"`
-	Name               string                   `json:"name"`
+	// Description of the policy.
+	Name string `json:"name"`
 }
