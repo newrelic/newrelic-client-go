@@ -132,6 +132,8 @@ type EdgeAgentEndpointDetail struct {
 	Port int `json:"port"`
 }
 
+func (x *EdgeAgentEndpointDetail) ImplementsEdgeEndpointDetail() {}
+
 // EdgeCreateTraceObserverInput - Data required to create a trace observer.
 type EdgeCreateTraceObserverInput struct {
 	// Name of the trace observer.
@@ -214,6 +216,8 @@ type EdgeHttpsEndpointDetail struct {
 	//  method.
 	Url string `json:"url"`
 }
+
+func (x *EdgeHttpsEndpointDetail) ImplementsEdgeEndpointDetail() {}
 
 // EdgeTraceObserver - `TraceObserver` handles a group of tracing services for an account family.
 type EdgeTraceObserver struct {
