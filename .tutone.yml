@@ -100,6 +100,26 @@ packages:
         field_type_override: string
         create_as: string
         skip_type_create: false
+  - name: nrdb
+    path: pkg/nrdb
+    generators:
+      - typegen
+    imports:
+      - github.com/newrelic/newrelic-client-go/internal/serialization
+    types:
+      - name: EpochSeconds
+        create_as: serialization.EpochTime
+      - name: EpochMilliseconds
+        create_as: serialization.EpochTime
+      - name: Nrql
+        create_as: string
+      - name: NrdbResult
+        create_as: map[string]interface{}
+      - name: NrdbResultContainer
+      - name: NrqlHistoricalQuery
+      - name: SuggestedNrqlQuery
+      - name: NrdbMetadataTimeWindow
+
 
 generators:
   - name: typegen
