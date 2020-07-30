@@ -42,6 +42,8 @@ type NewRelic struct {
 	Plugins         plugins.Plugins
 	Synthetics      synthetics.Synthetics
 	Workloads       workloads.Workloads
+
+	config config.Config
 }
 
 // New returns a collection of New Relic APIs.
@@ -62,6 +64,8 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 	}
 
 	nr := &NewRelic{
+		config: config,
+
 		Accounts:        accounts.New(config),
 		APM:             apm.New(config),
 		Alerts:          alerts.New(config),
@@ -115,9 +119,12 @@ func ConfigAdminAPIKey(adminAPIKey string) ConfigOption {
 }
 
 // ConfigRegion sets the New Relic Region this client will use.
-func ConfigRegion(r region.Name) ConfigOption {
+func ConfigRegion(r string) ConfigOption {
 	return func(cfg *config.Config) error {
-		reg, err := region.Get(r)
+		// We can ignore this error since we will be defaulting in the next step
+		regName, _ := region.Parse(r)
+
+		reg, err := region.Get(regName)
 		if err != nil {
 			if _, ok := err.(region.UnknownUsingDefaultError); ok {
 				// If region wasn't provided, output a warning message

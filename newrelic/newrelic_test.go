@@ -61,6 +61,16 @@ func TestNew_setRegion(t *testing.T) {
 	assert.NoError(t, err)
 }
 
+func TestNew_setRegionCaseInsensitive(t *testing.T) {
+	t.Parallel()
+
+	nr, err := New(ConfigPersonalAPIKey(testAPIkey), ConfigRegion("staging"))
+
+	assert.NotNil(t, nr)
+	assert.NoError(t, err)
+	assert.Equal(t, "Staging", nr.config.Region().String())
+}
+
 func TestNew_setRegionDefaultFallback(t *testing.T) {
 	t.Parallel()
 
