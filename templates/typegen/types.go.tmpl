@@ -29,15 +29,27 @@ var {{.Name}}Types = struct {
 
 {{- range .Types}}
 {{ .Description }}
+{{- $name := .Name}}
 type {{.Name}} struct {
   {{- range .Fields}}
   {{ .Description }}
   {{.Name}} {{.Type}} {{.Tags}}
   {{- end}}
 }
+
+{{   range .Implements}}
+func (x *{{$name}}) Implements{{.}}() {}
+{{   end}}
 {{ end}}
 
 {{- range .Scalars }}
 {{ .Description }}
 type {{.Name}} {{.Type}}
 {{- end}}
+
+{{- range .Interfaces }}
+{{ .Description }}
+type {{.Name}} interface{
+  Implements{{.Name}}()
+}
+{{-  end}}
