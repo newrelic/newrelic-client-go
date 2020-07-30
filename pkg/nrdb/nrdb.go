@@ -1,5 +1,4 @@
 // Package nrdb provides a programmatic API for interacting with NRDB, New Relic's Datastore
-//go:generate ../../bin/typegen -v -p $GOPACKAGE
 package nrdb
 
 import (
