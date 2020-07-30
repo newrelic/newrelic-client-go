@@ -23,7 +23,11 @@ type GraphQLError struct {
 // GraphQLDownstreamResponse represents an error's downstream response.
 type GraphQLDownstreamResponse struct {
 	Extensions struct {
-		Code string `json:"code,omitempty"`
+		Code             string `json:"code,omitempty"`
+		ValidationErrors []struct {
+			Name   string `json:"name,omitempty"`
+			Reason string `json:"reason,omitempty"`
+		} `json:"validationErrors,omitempty"`
 	} `json:"extensions,omitempty"`
 	Message string `json:"message,omitempty"`
 }
