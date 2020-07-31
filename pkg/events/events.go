@@ -61,6 +61,9 @@ func (e *Events) CreateEvent(accountID int, event interface{}) error {
 	if err != nil {
 		return err
 	}
+	if jsonData == nil {
+		return errors.New("events: CreateEvent marhal returned nil data")
+	}
 
 	resp := &createEventResponse{}
 	_, err = e.client.Post(e.config.Region().InsightsURL(accountID), nil, jsonData, resp)
