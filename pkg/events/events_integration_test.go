@@ -3,49 +3,120 @@
 package events
 
 import (
+	"context"
 	"testing"
+	"time"
 
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
 	nr "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
 
+const (
+	testBatchTimeout = 10
+	testBatchSize    = 1
+)
+
+// Used to create a variety of events for testing
+type testEventData struct {
+	Event   interface{}
+	marshal []byte
+	err     error
+}
+
+var testEvents = []testEventData{
+	{
+		Event: struct {
+			EventType string  `json:"eventType"`
+			Amount    float64 `json:"amount"`
+		}{
+			EventType: "Purchase",
+			Amount:    123.45,
+		},
+		marshal: []byte(`{"eventType":"Purchase","amount":123.45}`),
+		err:     nil,
+	},
+	{
+		Event: struct {
+			EventType string `json:"eventType"`
+			Data      string `json:"data"`
+		}{
+			EventType: "Dessert",
+			Data:      "Biscuit cotton candy candy canes dessert muffin ice cream carrot cake. Marzipan lemon drops lemon drops. Candy cake toffee. Powder pie wafer bonbon dessert powder. Jujubes sweet chocolate bar gummies jelly-o. Wafer biscuit candy. Oat cake cookie jelly liquorice cupcake cupcake dragée cupcake wafer. Wafer chocolate bar marzipan powder jujubes cake oat cake sweet roll. Chocolate bar caramels jelly sugar plum donut. Candy donut tiramisu candy canes icing macaroon. Gummies macaroon jujubes candy gummies cotton candy sesame snaps dragée. Sweet roll icing cake pie sweet. Candy topping toffee. Sesame snaps cookie lemon drops wafer jujubes powder fruitcake.",
+		},
+		marshal: []byte(`{"eventType":"Dessert","data":"Biscuit cotton candy candy canes dessert muffin ice cream carrot cake. Marzipan lemon drops lemon drops. Candy cake toffee. Powder pie wafer bonbon dessert powder. Jujubes sweet chocolate bar gummies jelly-o. Wafer biscuit candy. Oat cake cookie jelly liquorice cupcake cupcake dragée cupcake wafer. Wafer chocolate bar marzipan powder jujubes cake oat cake sweet roll. Chocolate bar caramels jelly sugar plum donut. Candy donut tiramisu candy canes icing macaroon. Gummies macaroon jujubes candy gummies cotton candy sesame snaps dragée. Sweet roll icing cake pie sweet. Candy topping toffee. Sesame snaps cookie lemon drops wafer jujubes powder fruitcake."}`),
+		err:     nil,
+	},
+}
+
+// Test: CreateEvent
 func TestIntegrationEvents(t *testing.T) {
 	t.Parallel()
 
 	client := newIntegrationTestClient(t)
 
-	event := struct {
-		EventType string  `json:"eventType"`
-		Amount    float64 `json:"amount"`
-	}{
-		EventType: "Purchase",
-		Amount:    123.45,
+	for _, event := range testEvents {
+		err := client.CreateEvent(nr.TestAccountID, event.Event)
+		if event.err == nil {
+			assert.NoError(t, err)
+		} else {
+			assert.Equal(t, event.err, err)
+		}
 	}
-
-	// Test: Create
-	err := client.CreateEvent(nr.TestAccountID, event)
-
-	require.NoError(t, err)
 }
 
-func TestIntegrationEvents_Compression(t *testing.T) {
+func TestIntegrationEvents_BatchMode_Timeout(t *testing.T) {
 	t.Parallel()
 
 	client := newIntegrationTestClient(t)
 
-	event := struct {
-		EventType string `json:"eventType"`
-		Data      string `json:"data"`
-	}{
-		EventType: "Dessert",
-		Data:      "Biscuit cotton candy candy canes dessert muffin ice cream carrot cake. Marzipan lemon drops lemon drops. Candy cake toffee. Powder pie wafer bonbon dessert powder. Jujubes sweet chocolate bar gummies jelly-o. Wafer biscuit candy. Oat cake cookie jelly liquorice cupcake cupcake dragée cupcake wafer. Wafer chocolate bar marzipan powder jujubes cake oat cake sweet roll. Chocolate bar caramels jelly sugar plum donut. Candy donut tiramisu candy canes icing macaroon. Gummies macaroon jujubes candy gummies cotton candy sesame snaps dragée. Sweet roll icing cake pie sweet. Candy topping toffee. Sesame snaps cookie lemon drops wafer jujubes powder fruitcake.",
+	err := client.BatchMode(context.Background(), nr.TestAccountID, BatchConfigTimeout(testBatchTimeout))
+	require.NoError(t, err)
+
+	for _, event := range testEvents {
+		err := client.EnqueueEvent(context.Background(), event.Event)
+		assert.NoError(t, err)
 	}
 
-	// Test: Create
-	err := client.CreateEvent(nr.TestAccountID, event)
+	// Should of flushed
+	time.Sleep(time.Duration(2*testBatchTimeout) * time.Second)
+	assert.Equal(t, 0, len(client.eventQueue))
+}
 
+func TestIntegrationEvents_BatchMode_Size(t *testing.T) {
+	t.Parallel()
+
+	client := newIntegrationTestClient(t)
+
+	err := client.BatchMode(context.Background(), nr.TestAccountID, BatchConfigQueueSize(testBatchSize))
 	require.NoError(t, err)
+
+	for _, event := range testEvents {
+		err := client.EnqueueEvent(context.Background(), event.Event)
+		assert.NoError(t, err)
+	}
+
+	// Should of flushed
+	time.Sleep(time.Duration(2*testBatchTimeout) * time.Second)
+	assert.Equal(t, 0, len(client.eventQueue))
+}
+
+func TestIntegrationEvents_marshalEvent(t *testing.T) {
+	t.Parallel()
+
+	client := newIntegrationTestClient(t)
+
+	for _, event := range testEvents {
+		data, err := client.marshalEvent(event.Event)
+		if event.err == nil {
+			assert.NoError(t, err)
+		} else {
+			assert.Equal(t, event.err, err)
+		}
+
+		assert.Equal(t, event.marshal, *data)
+	}
 }
 
 func newIntegrationTestClient(t *testing.T) Events {
