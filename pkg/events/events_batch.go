@@ -27,6 +27,7 @@ func (e *Events) BatchMode(ctx context.Context, accountID int, opts ...BatchConf
 
 	e.accountID = accountID
 	e.eventQueue = make(chan []byte, e.batchSize)
+	e.flushQueue = make([]chan bool, e.batchWorkers)
 	e.eventTimer = time.NewTimer(e.batchTimeout)
 
 	// Handle timer based flushing
@@ -38,8 +39,7 @@ func (e *Events) BatchMode(ctx context.Context, accountID int, opts ...BatchConf
 	}()
 
 	// Spin up some workers
-	e.flushQueue = make([]chan bool, e.batchWorkers)
-	for x := 0; x < e.batchWorkers; x++ {
+	for x := range e.flushQueue {
 		e.flushQueue[x] = make(chan bool, 1)
 
 		go func(id int) {
@@ -109,6 +109,9 @@ func (e *Events) EnqueueEvent(ctx context.Context, event interface{}) (err error
 	if err != nil {
 		return err
 	}
+	if jsonData == nil {
+		return errors.New("events: EnqueueEvent marhal returned nil data")
+	}
 
 	select {
 	case e.eventQueue <- *jsonData:
@@ -128,7 +131,7 @@ func (e *Events) Flush() error {
 
 	e.logger.Debug("flushing events")
 
-	for x := 0; x < e.batchWorkers; x++ {
+	for x := range e.flushQueue {
 		e.flushQueue[x] <- true
 	}
 
