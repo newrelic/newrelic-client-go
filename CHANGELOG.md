@@ -1,3 +1,8 @@
+<a name="v0.35.0"></a>
+## [v0.35.0] - 2020-08-03
+### Features
+- **events:** Batch event insertion
+
 <a name="v0.34.0"></a>
 ## [v0.34.0] - 2020-07-30
 ### Bug Fixes
@@ -681,7 +686,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.34.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.35.0...HEAD
+[v0.35.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.34.0...v0.35.0
 [v0.34.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.33.2...v0.34.0
 [v0.33.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.33.1...v0.33.2
 [v0.33.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.33.0...v0.33.1
