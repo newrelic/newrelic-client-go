@@ -33,6 +33,27 @@ func TestNew_basic(t *testing.T) {
 	assert.NoError(t, err)
 }
 
+func TestNew_keys(t *testing.T) {
+	t.Parallel()
+
+	// Empty
+	nr, err := New()
+	assert.Error(t, err)
+	assert.Nil(t, nr)
+
+	nrP, err := New(ConfigPersonalAPIKey(testAPIkey))
+	assert.NoError(t, err)
+	assert.NotNil(t, nrP)
+
+	nrA, err := New(ConfigAdminAPIKey(testAPIkey))
+	assert.NoError(t, err)
+	assert.NotNil(t, nrA)
+
+	nrE, err := New(ConfigInsightsInsertKey(testAPIkey))
+	assert.NoError(t, err)
+	assert.NotNil(t, nrE)
+}
+
 func TestNew_configOptionError(t *testing.T) {
 	t.Parallel()
 

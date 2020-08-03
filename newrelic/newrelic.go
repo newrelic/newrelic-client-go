@@ -59,8 +59,8 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 		}
 	}
 
-	if config.PersonalAPIKey == "" && config.AdminAPIKey == "" {
-		return nil, errors.New("use of ConfigPersonalAPIKey and/or ConfigAdminAPIKey is required")
+	if config.PersonalAPIKey == "" && config.AdminAPIKey == "" && config.InsightsInsertKey == "" {
+		return nil, errors.New("must use at least one of: ConfigPersonalAPIKey, ConfigAdminAPIKey, ConfigInsightsInsertKey")
 	}
 
 	nr := &NewRelic{
