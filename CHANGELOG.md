@@ -1,3 +1,8 @@
+<a name="v0.35.1"></a>
+## [v0.35.1] - 2020-08-03
+### Bug Fixes
+- **newrelic:** Allow just an insert key for the newrelic package
+
 <a name="v0.35.0"></a>
 ## [v0.35.0] - 2020-08-03
 ### Features
@@ -686,7 +691,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.35.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.35.1...HEAD
+[v0.35.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.35.0...v0.35.1
 [v0.35.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.34.0...v0.35.0
 [v0.34.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.33.2...v0.34.0
 [v0.33.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.33.1...v0.33.2
