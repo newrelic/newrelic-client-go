@@ -6,6 +6,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"reflect"
+	"regexp"
+	"strings"
 	"time"
 
 	retryablehttp "github.com/hashicorp/go-retryablehttp"
@@ -186,6 +189,17 @@ func (c *Client) Delete(url string,
 	return c.Do(req)
 }
 
+func logSafe(body string) string {
+	var newBody string
+	newBody = strings.ReplaceAll(body, "\n", " ")
+	newBody = strings.ReplaceAll(newBody, "\t", " ")
+	newBody = strings.ReplaceAll(newBody, "\\\"", `"`)
+	re := regexp.MustCompile(` +`)
+	newBody = re.ReplaceAllString(newBody, " ")
+
+	return newBody
+}
+
 // Do initiates an HTTP request as configured by the passed Request struct.
 func (c *Client) Do(req *Request) (*http.Response, error) {
 	r, err := req.makeRequest()
@@ -193,14 +207,36 @@ func (c *Client) Do(req *Request) (*http.Response, error) {
 		return nil, err
 	}
 
-	c.config.GetLogger().Debug("performing request", "method", req.method, "url", r.URL)
+	logger := c.config.GetLogger()
+
+	logger.Debug("performing request", "method", req.method, "url", r.URL)
 
 	logHeaders, err := json.Marshal(r.Header)
 	if err != nil {
 		return nil, err
 	}
 
-	c.config.GetLogger().Trace("request details", "headers", string(logHeaders), "body", req.reqBody)
+	if req.reqBody != nil {
+		switch reflect.TypeOf(req.reqBody).String() {
+		case "*http.graphQLRequest":
+			x := req.reqBody.(*graphQLRequest)
+
+			logVariables, marshalErr := json.Marshal(x.Variables)
+			if marshalErr != nil {
+				return nil, marshalErr
+			}
+
+			logger.Trace("request details",
+				"headers", logSafe(string(logHeaders)),
+				"query", logSafe(x.Query),
+				"variables", string(logVariables),
+			)
+		case "string":
+			logger.Trace("request details", "headers", string(logHeaders), "body", logSafe(req.reqBody.(string)))
+		}
+	} else {
+		logger.Trace("request details", "headers", string(logHeaders))
+	}
 
 	resp, retryErr := c.client.Do(r)
 	if retryErr != nil {
@@ -223,7 +259,7 @@ func (c *Client) Do(req *Request) (*http.Response, error) {
 		return nil, err
 	}
 
-	c.config.GetLogger().Trace("request completed", "method", req.method, "url", r.URL, "status_code", resp.StatusCode, "headers", string(logHeaders), "body", string(body))
+	logger.Trace("request completed", "method", req.method, "url", r.URL, "status_code", resp.StatusCode, "headers", string(logHeaders), "body", string(body))
 
 	errorValue := req.errorValue.New()
 	_ = json.Unmarshal(body, &errorValue)
