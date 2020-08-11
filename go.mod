@@ -10,7 +10,7 @@ require (
 	github.com/goreleaser/goreleaser v0.140.1
 	github.com/hashicorp/go-retryablehttp v0.6.6
 	github.com/imdario/mergo v0.3.11
-	github.com/llorllale/go-gitlint v0.0.0-20190914155841-58c0b8cef0e5
+	github.com/llorllale/go-gitlint v0.0.0-20200802191503-5984945d4b80
 	github.com/mitchellh/mapstructure v1.3.3
 	github.com/newrelic/tutone v0.1.1
 	github.com/psampaz/go-mod-outdated v0.6.0
