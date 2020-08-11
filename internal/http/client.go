@@ -189,7 +189,10 @@ func (c *Client) Delete(url string,
 	return c.Do(req)
 }
 
-func logSafe(body string) string {
+// logNice removes newlines, tabs, and \" from the body of a nerdgraph request.
+// This allows for easier debugging and testing the content straight from the
+// log file.
+func logNice(body string) string {
 	var newBody string
 	newBody = strings.ReplaceAll(body, "\n", " ")
 	newBody = strings.ReplaceAll(newBody, "\t", " ")
@@ -198,6 +201,51 @@ func logSafe(body string) string {
 	newBody = re.ReplaceAllString(newBody, " ")
 
 	return newBody
+}
+
+// obfuscate receives a string, and replaces everything after the first 8
+// characters with an asterisk before returning the result.
+func obfuscate(input string) string {
+	result := make([]string, len(input))
+	parts := strings.Split(input, "")
+
+	for i, x := range parts {
+		if i < 8 {
+			result[i] = x
+		} else {
+			result[i] = "*"
+		}
+	}
+
+	return strings.Join(result, "")
+}
+
+func logCleanHeaderMarhsalJSON(header http.Header) ([]byte, error) {
+	h := http.Header{}
+
+	for k, values := range header {
+		if _, ok := h[k]; ok {
+			h[k] = make([]string, len(values))
+		}
+
+		switch k {
+		case "Api-Key", "X-Api-Key", "X-Insert-Key":
+			newValues := []string{}
+			for _, v := range values {
+				newValues = append(newValues, obfuscate(v))
+			}
+
+			if len(newValues) > 0 {
+				h[k] = newValues
+			} else {
+				h[k] = values
+			}
+		default:
+			h[k] = values
+		}
+	}
+
+	return json.Marshal(h)
 }
 
 // Do initiates an HTTP request as configured by the passed Request struct.
@@ -211,7 +259,7 @@ func (c *Client) Do(req *Request) (*http.Response, error) {
 
 	logger.Debug("performing request", "method", req.method, "url", r.URL)
 
-	logHeaders, err := json.Marshal(r.Header)
+	logHeaders, err := logCleanHeaderMarhsalJSON(r.Header)
 	if err != nil {
 		return nil, err
 	}
@@ -227,12 +275,12 @@ func (c *Client) Do(req *Request) (*http.Response, error) {
 			}
 
 			logger.Trace("request details",
-				"headers", logSafe(string(logHeaders)),
-				"query", logSafe(x.Query),
+				"headers", logNice(string(logHeaders)),
+				"query", logNice(x.Query),
 				"variables", string(logVariables),
 			)
 		case "string":
-			logger.Trace("request details", "headers", string(logHeaders), "body", logSafe(req.reqBody.(string)))
+			logger.Trace("request details", "headers", string(logHeaders), "body", logNice(req.reqBody.(string)))
 		}
 	} else {
 		logger.Trace("request details", "headers", string(logHeaders))
