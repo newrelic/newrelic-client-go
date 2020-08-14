@@ -1,3 +1,8 @@
+<a name="v0.36.0"></a>
+## [v0.36.0] - 2020-08-14
+### Features
+- **logs:** Implement Log API
+
 <a name="v0.35.1"></a>
 ## [v0.35.1] - 2020-08-03
 ### Bug Fixes
