@@ -1,11 +1,11 @@
 ---
 # Log level for running tutone
 # Default: info
-log_level: debug
+log_level: trace
 
-# File to store a copy of the schema
-# Default: schema.json
+# Cache for storing a GraphQL schema
 cache:
+  # Default: schema.json
   schema_file: schema.json
 
 # GraphQL endpoint to query for schema
@@ -120,6 +120,46 @@ packages:
       - name: NrqlHistoricalQuery
       - name: SuggestedNrqlQuery
       - name: NrdbMetadataTimeWindow
+
+  - name: apiaccess
+    path: pkg/apiaccess
+    generators:
+      - typegen
+    imports:
+      - github.com/newrelic/newrelic-client-go/internal/serialization
+    types:
+      - name: ApiAccessKey # gql interface
+      - name: ApiAccessKeyType
+      - name: ApiAccessKeyError
+      - name: ApiAccessCreateKeyResponse
+      - name: ApiAccessCreateInput
+      - name: ApiAccessCreateIngestKeyInput
+      - name: ApiAccessCreateUserKeyInput
+      - name: ApiAccessIngestKeyType
+      - name: ApiAccessIngestKeyErrorType
+      - name: ApiAccessUserKeyErrorType
+      - name: ApiAccessDeleteKeyResponse
+      - name: ApiAccessDeleteInput
+      # - name: ApiAccess
+      # - name: ApiAccess
+      # - name: ApiAccess
+      # - name: ApiAccess
+      # - name: ApiAccess
+      # - name: ApiAccess
+      # - name: ApiAccess
+      # - name: ApiAccess
+      # - name: ApiAccess
+      # - name: ApiAccess
+      # - name: ApiAccess
+      # - name: ApiAccess
+      # - name: ApiAccess
+      # - name: ApiAccess
+      # - name: ApiAccess
+      # - name: ApiAccess
+      # - name: ApiAccess
+      # - name: ApiAccess
+      # - name: ApiAccess
+
 
 
 generators:

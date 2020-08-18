@@ -161,6 +161,8 @@ type AlertsMutingRuleInput struct {
 	Enabled bool `json:"enabled"`
 	// The name of the MutingRule.
 	Name string `json:"name"`
+	// The time window when the MutingRule should actively mute violations.
+	Schedule AlertsMutingRuleScheduleInput `json:"schedule"`
 }
 
 // AlertsPoliciesSearchCriteriaInput - Search criteria for returning specific policies.
