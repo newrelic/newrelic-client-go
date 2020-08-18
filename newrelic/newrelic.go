@@ -2,6 +2,7 @@ package newrelic
 
 import (
 	"errors"
+	"github.com/newrelic/newrelic-client-go/pkg/apiaccesskeys"
 	"net/http"
 	"time"
 
@@ -29,8 +30,9 @@ import (
 // NewRelic is a collection of New Relic APIs.
 type NewRelic struct {
 	Accounts        accounts.Accounts
-	APM             apm.APM
 	Alerts          alerts.Alerts
+	APIAccessKeys   apiaccesskeys.APIAccessKeys
+	APM             apm.APM
 	Dashboards      dashboards.Dashboards
 	Edge            edge.Edge
 	Entities        entities.Entities
@@ -67,8 +69,9 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 		config: config,
 
 		Accounts:        accounts.New(config),
-		APM:             apm.New(config),
 		Alerts:          alerts.New(config),
+		APIAccessKeys:   apiaccesskeys.New(config),
+		APM:             apm.New(config),
 		Dashboards:      dashboards.New(config),
 		Edge:            edge.New(config),
 		Entities:        entities.New(config),
