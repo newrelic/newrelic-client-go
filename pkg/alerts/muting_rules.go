@@ -2,16 +2,24 @@ package alerts
 
 // MutingRule represents the alert suppression mechanism in the Alerts API.
 type MutingRule struct {
-	ID        int                      `json:"id,string,omitempty"`
-	AccountID int                      `json:"accountId,omitempty"`
-	Condition MutingRuleConditionGroup `json:"condition,omitempty"`
-	CreatedAt string                   `json:"createdAt,omitempty"`
-	// CreatedByUser string                   `json:"createdByUser,omitempty"`
-	Description string `json:"description,omitempty"`
-	Enabled     bool   `json:"enabled,omitempty"`
-	Name        string `json:"name,omitempty"`
-	UpdatedAt   string `json:"updatedAt,omitempty"`
-	// UpdatedByUser string                   `json:"updatedByUser,omitempty"`
+	ID            int                      `json:"id,string,omitempty"`
+	AccountID     int                      `json:"accountId,omitempty"`
+	Condition     MutingRuleConditionGroup `json:"condition,omitempty"`
+	CreatedAt     string                   `json:"createdAt,omitempty"`
+	CreatedByUser ByUser                   `json:"createdByUser,omitempty"`
+	Description   string                   `json:"description,omitempty"`
+	Enabled       bool                     `json:"enabled,omitempty"`
+	Name          string                   `json:"name,omitempty"`
+	UpdatedAt     string                   `json:"updatedAt,omitempty"`
+	UpdatedByUser ByUser                   `json:"updatedByUser,omitempty"`
+}
+
+// ByUser is a collection of the user information that created or updated the muting rule.
+type ByUser struct {
+	Email    string `json:"email"`
+	Gravatar string `json:"gravatar"`
+	ID       int    `json:"id"`
+	Name     string `json:"name"`
 }
 
 // MutingRuleConditionGroup is a collection of conditions for muting.
