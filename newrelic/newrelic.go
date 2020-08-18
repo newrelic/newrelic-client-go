@@ -2,9 +2,10 @@ package newrelic
 
 import (
 	"errors"
-	"github.com/newrelic/newrelic-client-go/pkg/apiaccesskeys"
 	"net/http"
 	"time"
+
+	apiaccess "github.com/newrelic/newrelic-client-go/pkg/apiaccesskeys"
 
 	log "github.com/sirupsen/logrus"
 
@@ -31,7 +32,7 @@ import (
 type NewRelic struct {
 	Accounts        accounts.Accounts
 	Alerts          alerts.Alerts
-	APIAccessKeys   apiaccesskeys.APIAccessKeys
+	APIAccess       apiaccess.APIAccess
 	APM             apm.APM
 	Dashboards      dashboards.Dashboards
 	Edge            edge.Edge
@@ -70,7 +71,7 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 
 		Accounts:        accounts.New(config),
 		Alerts:          alerts.New(config),
-		APIAccessKeys:   apiaccesskeys.New(config),
+		APIAccess:       apiaccess.New(config),
 		APM:             apm.New(config),
 		Dashboards:      dashboards.New(config),
 		Edge:            edge.New(config),

@@ -62,7 +62,7 @@ func TestIntegrationAPIAccessKeys(t *testing.T) {
 	require.NoError(t, err)
 }
 
-func newIntegrationTestClient(t *testing.T) APIAccessKeys {
+func newIntegrationTestClient(t *testing.T) APIAccess {
 	tc := testhelpers.NewIntegrationTestConfig(t)
 
 	return New(tc)

@@ -3,6 +3,7 @@ package apiaccesskeys
 import (
 	"errors"
 	"fmt"
+
 	"github.com/newrelic/newrelic-client-go/internal/http"
 )
 
@@ -149,7 +150,7 @@ const (
 )
 
 // CreateAPIAccessKeysMutation create keys. You can create keys for multiple accounts at once.
-func (a *APIAccessKeys) CreateAPIAccessKeysMutation(keys APIAccessCreateKeysInput) ([]APIAccessKey, error) {
+func (a *APIAccess) CreateAPIAccessKeysMutation(keys APIAccessCreateKeysInput) ([]APIAccessKey, error) {
 	vars := map[string]interface{}{
 		"keys": keys,
 	}
@@ -168,7 +169,7 @@ func (a *APIAccessKeys) CreateAPIAccessKeysMutation(keys APIAccessCreateKeysInpu
 }
 
 // GetAPIAccessKeyMutation returns a single API access key.
-func (a *APIAccessKeys) GetAPIAccessKeyMutation(key APIAccessGetInput) (*APIAccessKey, error) {
+func (a *APIAccess) GetAPIAccessKeyMutation(key APIAccessGetInput) (*APIAccessKey, error) {
 	vars := map[string]interface{}{
 		"id":      key.ID,
 		"keyType": key.KeyType,
@@ -188,7 +189,7 @@ func (a *APIAccessKeys) GetAPIAccessKeyMutation(key APIAccessGetInput) (*APIAcce
 }
 
 // UpdateAPIAccessKeyMutation updates keys. You can update keys for multiple accounts at once.
-func (a *APIAccessKeys) UpdateAPIAccessKeyMutation(keys APIAccessUpdateInput) ([]APIAccessKey, error) {
+func (a *APIAccess) UpdateAPIAccessKeyMutation(keys APIAccessUpdateInput) ([]APIAccessKey, error) {
 	vars := map[string]interface{}{
 		"keys": keys,
 	}
@@ -207,7 +208,7 @@ func (a *APIAccessKeys) UpdateAPIAccessKeyMutation(keys APIAccessUpdateInput) ([
 }
 
 // DeleteAPIAccessKeyMutation deletes keys.
-func (a *APIAccessKeys) DeleteAPIAccessKeyMutation(keys APIAccessDeleteInput) error {
+func (a *APIAccess) DeleteAPIAccessKeyMutation(keys APIAccessDeleteInput) error {
 	vars := map[string]interface{}{
 		"keys": keys,
 	}

@@ -7,15 +7,15 @@ import (
 	"github.com/newrelic/newrelic-client-go/pkg/config"
 )
 
-// APIKeys is used to communicate with the New Relic APIKeys product.
-type APIAccessKeys struct {
+// APIAccess is used to communicate with the New Relic APIKeys product.
+type APIAccess struct {
 	client http.Client
 	logger logging.Logger
 }
 
 // New returns a new client for interacting with New Relic One entities.
-func New(config config.Config) APIAccessKeys {
-	return APIAccessKeys{
+func New(config config.Config) APIAccess {
+	return APIAccess{
 		client: http.NewClient(config),
 		logger: config.GetLogger(),
 	}
