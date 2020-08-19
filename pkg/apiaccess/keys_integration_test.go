@@ -5,8 +5,9 @@ package apiaccess
 import (
 	"testing"
 
-	"github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 	"github.com/stretchr/testify/require"
+
+	"github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
 
 func TestIntegrationAPIAccess_IngestKeys(t *testing.T) {
