@@ -132,21 +132,21 @@ type NrqlHistoricalQuery struct {
 	Timestamp EpochSeconds `json:"timestamp"`
 }
 
+// SuggestedNrqlQueryResponse - result type encapsulating suggested queries
+type SuggestedNrqlQueryResponse struct {
+	// List of suggested queries.
+	Suggestions []SuggestedNrqlQuery `json:"suggestions"`
+}
+
 // SuggestedNrqlQuery - Interface type representing a query suggestion.
-type SuggestedNrqlQuery struct {
+type SuggestedNrqlQueryType struct {
 	// The NRQL string to run for the suggested query
 	Nrql string `json:"nrql"`
 	// A human-readable title describing what the query shows
 	Title string `json:"title"`
 }
 
-func (x *SuggestedNrqlQuery) ImplementsSuggestedNrqlQuery() {}
-
-// SuggestedNrqlQueryResponse - result type encapsulating suggested queries
-type SuggestedNrqlQueryResponse struct {
-	// List of suggested queries.
-	Suggestions []SuggestedNrqlQuery `json:"suggestions"`
-}
+func (x *SuggestedNrqlQueryType) ImplementsSuggestedNrqlQuery() {}
 
 // EpochMilliseconds - The `EpochMilliseconds` scalar represents the number of milliseconds since the Unix epoch
 type EpochMilliseconds serialization.EpochTime
@@ -166,6 +166,6 @@ type NrdbResult map[string]interface{}
 type Nrql string
 
 // SuggestedNrqlQuery - Interface type representing a query suggestion.
-type SuggestedNrqlQueryInterface interface {
-	ImplementsSuggestedNrqlQueryInterface()
+type SuggestedNrqlQuery interface {
+	ImplementsSuggestedNrqlQuery()
 }

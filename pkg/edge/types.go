@@ -77,23 +77,15 @@ var EdgeEndpointTypeTypes = struct {
 type EdgeProviderRegion string
 
 var EdgeProviderRegionTypes = struct {
-	// Provider: `AWS`, Region: `eu-west-1`
-	AWS_EU_WEST_1 EdgeProviderRegion
 	// Provider: `AWS`, Region: `us-east-1`
 	AWS_US_EAST_1 EdgeProviderRegion
 	// Provider: `AWS`, Region: `us-east-2`
 	AWS_US_EAST_2 EdgeProviderRegion
-	// Provider: `AWS`, Region: `us-west-2`
-	AWS_US_WEST_2 EdgeProviderRegion
 }{
-	// Provider: `AWS`, Region: `eu-west-1`
-	AWS_EU_WEST_1: "AWS_EU_WEST_1",
 	// Provider: `AWS`, Region: `us-east-1`
 	AWS_US_EAST_1: "AWS_US_EAST_1",
 	// Provider: `AWS`, Region: `us-east-2`
 	AWS_US_EAST_2: "AWS_US_EAST_2",
-	// Provider: `AWS`, Region: `us-west-2`
-	AWS_US_WEST_2: "AWS_US_WEST_2",
 }
 
 // EdgeTraceObserverResponseErrorType - Known error codes and messages for `TraceObserverResponseError`.
