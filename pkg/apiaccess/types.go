@@ -184,11 +184,11 @@ type ApiAccessKeySearchResult struct {
 // ApiAccessKeySearchScope - The scope of keys to be returned. Note that some filters only apply to certain key types.
 type ApiAccessKeySearchScope struct {
 	// A list of key account IDs.
-	AccountIds []int `json:"accountIds,omitempty"`
+	AccountIds []int `json:"accountIds"`
 	// The ingest type of the key. Only applies to ingest keys, and does not affect user key filtering.
-	IngestTypes []ApiAccessIngestKeyType `json:"ingestTypes,omitempty"`
+	IngestTypes []ApiAccessIngestKeyType `json:"ingestTypes"`
 	// A list of key user ids. Only applies to user keys, and does not affect ingest key filtering.
-	UserIds []int `json:"userIds,omitempty"`
+	UserIds []int `json:"userIds"`
 }
 
 // ApiAccessUpdateIngestKeyInput - The `id` and data to update one or more keys.

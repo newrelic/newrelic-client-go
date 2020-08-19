@@ -60,6 +60,12 @@ func TestIntegrationAPIAccess_IngestKeys(t *testing.T) {
 func TestIntegrationAPIAccess_UserKeys(t *testing.T) {
 	t.Parallel()
 
+	userID, err := testhelpers.GetTestUserID()
+	if err != nil {
+		t.Skipf("Skipping `TestIntegrationAPIAccess_UserKeys` integration test due error: %v", err)
+		return
+	}
+
 	client := newIntegrationTestClient(t)
 
 	// Setup
@@ -69,7 +75,7 @@ func TestIntegrationAPIAccess_UserKeys(t *testing.T) {
 				AccountID: testhelpers.TestAccountID,
 				Name:      "test-integration-api-access",
 				Notes:     "This user key was created by an integration test.",
-				UserId:    2657917,
+				UserId:    userID,
 			},
 		},
 	}
