@@ -39,6 +39,15 @@ type apiAccessKeyGetResponse struct {
 	http.GraphQLErrorResponse
 }
 
+type apiAccessKeySearchResponse struct {
+	Actor struct {
+		APIAccess struct {
+			KeySearch ApiAccessKeySearchResult `json:"keySearch,omitempty"`
+		} `json:"apiAccess"`
+	} `json:"actor"`
+	http.GraphQLErrorResponse
+}
+
 // apiAccessKeyDeleteResponse represents the JSON response returned from creating key(s).
 type apiAccessKeyDeleteResponse struct {
 	APIAccessDeleteKeys ApiAccessDeleteKeyResponse `json:"apiAccessDeleteKeys"`
@@ -116,6 +125,13 @@ const (
 			apiAccess {
 				key(id: $id, keyType: $keyType) {` + graphqlAPIAccessKeyBaseFields + `}}}}`
 
+	apiAccessKeySearch = `query($query: ApiAccessKeySearchQuery!) {
+		actor {
+			apiAccess {
+				keySearch(query: $query) {
+					keys {` + graphqlAPIAccessKeyBaseFields + `}
+				}}}}`
+
 	apiAccessKeyUpdateKeys = `mutation($keys: ApiAccessUpdateInput!) {
 			apiAccessUpdateKeys(keys: $keys) {` + graphqlAPIAccessUpdatedKeyFields + graphqlAPIAccessKeyErrorFields + `
 		}}`
@@ -164,6 +180,27 @@ func (a *APIAccess) GetAPIAccessKeyMutation(keyID string, keyType ApiAccessKeyTy
 	}
 
 	return &resp.Actor.APIAccess.Key, nil
+}
+
+// SearchAPIAccessKeys returns the relevant keys based on search criteria. Returns keys are scoped to the current user.
+func (a *APIAccess) SearchAPIAccessKeys(params ApiAccessKeySearchQuery) ([]ApiAccessKey, error) {
+	vars := map[string]interface{}{
+		// "scope": params.Scope,
+		// "types": params.Types,
+		"query": params,
+	}
+
+	resp := apiAccessKeySearchResponse{}
+
+	if err := a.client.NerdGraphQuery(apiAccessKeySearch, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	if resp.Errors != nil {
+		return nil, errors.New(resp.Error())
+	}
+
+	return resp.Actor.APIAccess.KeySearch.Keys, nil
 }
 
 // UpdateAPIAccessKeyMutation updates keys. You can update keys for multiple accounts at once.

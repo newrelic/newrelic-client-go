@@ -165,12 +165,30 @@ type ApiAccessKeyError struct {
 
 func (x *ApiAccessKeyError) ImplementsApiAccessKeyError() {}
 
+// ApiAccessKeySearchQuery - Parameters by which to filter the search.
+type ApiAccessKeySearchQuery struct {
+	// Criteria by which to narrow the scope of keys to be returned.
+	Scope ApiAccessKeySearchScope `json:"scope"`
+	// A list of key types to be included in the search. If no types are provided, all types will be returned by default.
+	Types []ApiAccessKeyType `json:"types"`
+}
+
 // ApiAccessKeySearchResult - A list of all keys scoped to the current actor.
 type ApiAccessKeySearchResult struct {
 	// A list of all keys scoped to the current actor.
 	Keys []ApiAccessKey `json:"keys"`
 	// The next cursor, used for pagination. If a cursor is present, it means more keys can be fetched.
 	NextCursor string `json:"nextCursor"`
+}
+
+// ApiAccessKeySearchScope - The scope of keys to be returned. Note that some filters only apply to certain key types.
+type ApiAccessKeySearchScope struct {
+	// A list of key account IDs.
+	AccountIds []int `json:"accountIds,omitempty"`
+	// The ingest type of the key. Only applies to ingest keys, and does not affect user key filtering.
+	IngestTypes []ApiAccessIngestKeyType `json:"ingestTypes,omitempty"`
+	// A list of key user ids. Only applies to user keys, and does not affect ingest key filtering.
+	UserIds []int `json:"userIds,omitempty"`
 }
 
 // ApiAccessUpdateIngestKeyInput - The `id` and data to update one or more keys.

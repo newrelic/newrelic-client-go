@@ -84,6 +84,16 @@ func TestIntegrationAPIAccess_UserKeys(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, getResult)
 
+	// Test: Search
+	searchResult, err := client.SearchAPIAccessKeys(ApiAccessKeySearchQuery{
+		Scope: ApiAccessKeySearchScope{
+			AccountIds: []int{testhelpers.TestAccountID},
+		},
+		Types: []ApiAccessKeyType{ApiAccessKeyTypeTypes.INGEST},
+	})
+	require.NoError(t, err)
+	require.Greater(t, len(searchResult), 0)
+
 	// Test: Update
 	updateResult, err := client.UpdateAPIAccessKeyMutation(ApiAccessUpdateInput{
 		User: []ApiAccessUpdateUserKeyInput{

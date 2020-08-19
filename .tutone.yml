@@ -128,6 +128,10 @@ packages:
     imports:
       - github.com/newrelic/newrelic-client-go/internal/serialization
     types:
+      - name: ID
+        field_type_override: string
+        create_as: string
+        skip_type_create: false
       - name: ApiAccessKey # gql interface
       - name: ApiAccessKeyType
       - name: ApiAccessKeyError
@@ -141,30 +145,13 @@ packages:
       - name: ApiAccessDeleteKeyResponse
       - name: ApiAccessDeleteInput
       - name: ApiAccessActorStitchedFields
-        # create_as: ApiAccessGetKeyResponse
       - name: ApiAccessUpdateInput
       - name: ApiAccessUpdateIngestKeyInput
       - name: ApiAccessUpdateUserKeyInput
       - name: ApiAccessUpdateKeyResponse
-      - name: ID
-        field_type_override: string
-        create_as: string
-        skip_type_create: false
-      # - name: ApiAccess
-      # - name: ApiAccess
-      # - name: ApiAccess
-      # - name: ApiAccess
-      # - name: ApiAccess
-      # - name: ApiAccess
-      # - name: ApiAccess
-      # - name: ApiAccess
-      # - name: ApiAccess
-      # - name: ApiAccess
-      # - name: ApiAccess
-      # - name: ApiAccess
-      # - name: ApiAccess
-
-
+      - name: ApiAccessKeySearchQuery
+      - name: ApiAccessKeySearchResult
+      - name: ApiAccessKeySearchScope
 
 generators:
   - name: typegen
