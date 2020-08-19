@@ -1,7 +1,7 @@
 ---
 # Log level for running tutone
 # Default: info
-log_level: trace
+log_level: debug
 
 # Cache for storing a GraphQL schema
 cache:
@@ -140,12 +140,16 @@ packages:
       - name: ApiAccessUserKeyErrorType
       - name: ApiAccessDeleteKeyResponse
       - name: ApiAccessDeleteInput
-      # - name: ApiAccess
-      # - name: ApiAccess
-      # - name: ApiAccess
-      # - name: ApiAccess
-      # - name: ApiAccess
-      # - name: ApiAccess
+      - name: ApiAccessActorStitchedFields
+        # create_as: ApiAccessGetKeyResponse
+      - name: ApiAccessUpdateInput
+      - name: ApiAccessUpdateIngestKeyInput
+      - name: ApiAccessUpdateUserKeyInput
+      - name: ApiAccessUpdateKeyResponse
+      - name: ID
+        field_type_override: string
+        create_as: string
+        skip_type_create: false
       # - name: ApiAccess
       # - name: ApiAccess
       # - name: ApiAccess

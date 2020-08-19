@@ -1,4 +1,4 @@
-package apiaccesskeys
+package apiaccess
 
 import (
 	"errors"
@@ -8,62 +8,40 @@ import (
 )
 
 // APIAccessKey represents a New Relic API access ingest or user key.
-type APIAccessKey struct {
-	ID         string `json:"id,omitempty"`
-	Key        string `json:"key,omitempty"`
-	Name       string `json:"name,omitempty"`
-	Notes      string `json:"notes,omitempty"`
-	Type       string `json:"type,omitempty"`
-	AccountID  int    `json:"accountId,omitempty"`
-	IngestType string `json:"ingestType,omitempty"`
-	UserID     string `json:"userId,omitempty"`
-}
+// type APIAccessKey struct {
+// 	ID         string `json:"id,omitempty"`
+// 	Key        string `json:"key,omitempty"`
+// 	Name       string `json:"name,omitempty"`
+// 	Notes      string `json:"notes,omitempty"`
+// 	Type       string `json:"type,omitempty"`
+// 	AccountID  int    `json:"accountId,omitempty"`
+// 	IngestType string `json:"ingestType,omitempty"`
+// 	UserID     string `json:"userId,omitempty"`
+// }
 
 // apiAccessKeyCreateResponse represents the JSON response returned from creating key(s).
 type apiAccessKeyCreateResponse struct {
-	APIAccessCreateKeys struct {
-		CreatedKeys []APIAccessKey                    `json:"createdKeys,omitempty"`
-		Errors      []apiAccessKeyMutationErrResponse `json:"errors,omitempty"`
-	} `json:"apiAccessCreateKeys"`
+	APIAccessCreateKeys ApiAccessCreateKeyResponse `json:"apiAccessCreateKeys"`
 }
 
 // apiAccessKeyUpdateResponse represents the JSON response returned from updating key(s).
 type apiAccessKeyUpdateResponse struct {
-	APIAccessUpdateKeys struct {
-		UpdatedKeys []APIAccessKey                    `json:"updatedKeys,omitempty"`
-		Errors      []apiAccessKeyMutationErrResponse `json:"errors,omitempty"`
-	} `json:"apiAccessUpdateKeys"`
+	APIAccessUpdateKeys ApiAccessUpdateKeyResponse `json:"apiAccessUpdateKeys"`
 }
 
 // apiAccessKeyGetResponse represents the JSON response returned from getting an access key.
 type apiAccessKeyGetResponse struct {
 	Actor struct {
 		APIAccess struct {
-			Key APIAccessKey `json:"key,omitempty"`
+			Key ApiAccessKey `json:"key,omitempty"`
 		} `json:"apiAccess"`
 	} `json:"actor"`
 	http.GraphQLErrorResponse
 }
 
-// apiAccessKeyMutationErrResponse represents the generic error response returned from modifying API access keys.
-type apiAccessKeyMutationErrResponse struct {
-	AccountID       int    `json:"accountId,omitempty"`
-	ID              string `json:"id,omitempty"`
-	IngestErrorType string `json:"ingestErrorType,omitempty"`
-	UserErrorType   string `json:"userErrorType,omitempty"`
-	IngestType      string `json:"ingestType,omitempty"`
-	Message         string `json:"message,omitempty"`
-	Type            string `json:"type,omitempty"`
-}
-
 // apiAccessKeyDeleteResponse represents the JSON response returned from creating key(s).
 type apiAccessKeyDeleteResponse struct {
-	APIAccessDeleteKeys struct {
-		DeletedKey []struct {
-			ID string `json:"id"`
-		} `json:"deletedKeys,omitempty"`
-		Errors []apiAccessKeyMutationErrResponse `json:"errors,omitempty"`
-	} `json:"apiAccessDeleteKeys"`
+	APIAccessDeleteKeys ApiAccessDeleteKeyResponse `json:"apiAccessDeleteKeys"`
 }
 
 const (
@@ -150,7 +128,7 @@ const (
 )
 
 // CreateAPIAccessKeysMutation create keys. You can create keys for multiple accounts at once.
-func (a *APIAccess) CreateAPIAccessKeysMutation(keys APIAccessCreateKeysInput) ([]APIAccessKey, error) {
+func (a *APIAccess) CreateAPIAccessKeysMutation(keys ApiAccessCreateInput) ([]ApiAccessKey, error) {
 	vars := map[string]interface{}{
 		"keys": keys,
 	}
@@ -161,7 +139,7 @@ func (a *APIAccess) CreateAPIAccessKeysMutation(keys APIAccessCreateKeysInput) (
 		return nil, err
 	}
 
-	if resp.APIAccessCreateKeys.Errors != nil {
+	if len(resp.APIAccessCreateKeys.Errors) > 0 {
 		return nil, errors.New(formatAPIAccessKeyMutationErrors(resp.APIAccessCreateKeys.Errors))
 	}
 
@@ -169,10 +147,10 @@ func (a *APIAccess) CreateAPIAccessKeysMutation(keys APIAccessCreateKeysInput) (
 }
 
 // GetAPIAccessKeyMutation returns a single API access key.
-func (a *APIAccess) GetAPIAccessKeyMutation(key APIAccessGetInput) (*APIAccessKey, error) {
+func (a *APIAccess) GetAPIAccessKeyMutation(keyID string, keyType ApiAccessKeyType) (*ApiAccessKey, error) {
 	vars := map[string]interface{}{
-		"id":      key.ID,
-		"keyType": key.KeyType,
+		"id":      keyID,
+		"keyType": keyType,
 	}
 
 	resp := apiAccessKeyGetResponse{}
@@ -189,7 +167,7 @@ func (a *APIAccess) GetAPIAccessKeyMutation(key APIAccessGetInput) (*APIAccessKe
 }
 
 // UpdateAPIAccessKeyMutation updates keys. You can update keys for multiple accounts at once.
-func (a *APIAccess) UpdateAPIAccessKeyMutation(keys APIAccessUpdateInput) ([]APIAccessKey, error) {
+func (a *APIAccess) UpdateAPIAccessKeyMutation(keys ApiAccessUpdateInput) ([]ApiAccessKey, error) {
 	vars := map[string]interface{}{
 		"keys": keys,
 	}
@@ -200,15 +178,15 @@ func (a *APIAccess) UpdateAPIAccessKeyMutation(keys APIAccessUpdateInput) ([]API
 		return nil, err
 	}
 
-	if resp.APIAccessUpdateKeys.Errors != nil {
+	if len(resp.APIAccessUpdateKeys.Errors) > 0 {
 		return nil, errors.New(formatAPIAccessKeyMutationErrors(resp.APIAccessUpdateKeys.Errors))
 	}
 
 	return resp.APIAccessUpdateKeys.UpdatedKeys, nil
 }
 
-// DeleteAPIAccessKeyMutation deletes keys.
-func (a *APIAccess) DeleteAPIAccessKeyMutation(keys APIAccessDeleteInput) error {
+// DeleteAPIAccessKeyMutation deletes one or more keys.
+func (a *APIAccess) DeleteAPIAccessKeyMutation(keys ApiAccessDeleteInput) ([]ApiAccessDeletedKey, error) {
 	vars := map[string]interface{}{
 		"keys": keys,
 	}
@@ -216,20 +194,20 @@ func (a *APIAccess) DeleteAPIAccessKeyMutation(keys APIAccessDeleteInput) error 
 	resp := apiAccessKeyDeleteResponse{}
 
 	if err := a.client.NerdGraphQuery(apiAccessKeyDeleteKeys, vars, &resp); err != nil {
-		return err
+		return nil, err
 	}
 
-	if resp.APIAccessDeleteKeys.Errors != nil {
-		return errors.New(formatAPIAccessKeyMutationErrors(resp.APIAccessDeleteKeys.Errors))
+	if len(resp.APIAccessDeleteKeys.Errors) > 0 {
+		return nil, errors.New(formatAPIAccessKeyMutationErrors(resp.APIAccessDeleteKeys.Errors))
 	}
 
-	return nil
+	return resp.APIAccessDeleteKeys.DeletedKeys, nil
 }
 
-func formatAPIAccessKeyMutationErrors(errors []apiAccessKeyMutationErrResponse) string {
+func formatAPIAccessKeyMutationErrors(errors []ApiAccessKeyError) string {
 	errorString := ""
 	for _, e := range errors {
-		errorString += fmt.Sprintf("%v\n", e)
+		errorString += fmt.Sprintf("%v: %v\n", e.Type, e.Message)
 	}
 	return errorString
 }

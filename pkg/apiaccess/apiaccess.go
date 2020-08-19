@@ -1,5 +1,5 @@
-// Package apikeys provides a programmatic API for interacting with New Relic API keys
-package apiaccesskeys
+// Package apiaccess provides a programmatic API for interacting with New Relic API keys
+package apiaccess
 
 import (
 	"github.com/newrelic/newrelic-client-go/internal/http"
