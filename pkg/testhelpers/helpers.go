@@ -32,7 +32,7 @@ func GetTestUserID() (int, error) {
 	userID := os.Getenv("NEW_RELIC_TEST_USER_ID")
 
 	if userID == "" {
-		return 0, fmt.Errorf("cannot get test user ID due undefined environment variable %s", "NEW_RELIC_TEST_USER_ID")
+		return 0, fmt.Errorf("failed to get test user ID due to undefined environment variable %s", "NEW_RELIC_TEST_USER_ID")
 	}
 
 	n, err := strconv.Atoi(userID)
