@@ -27,17 +27,17 @@ func TestIntegrationAPIAccess_IngestKeys(t *testing.T) {
 	}
 
 	// Test: Create
-	createResult, err := client.CreateAPIAccessKeysMutation(createInput)
+	createResult, err := client.CreateAPIAccessKeys(createInput)
 	require.NoError(t, err)
 	require.NotNil(t, createResult)
 
 	// Test: Get
-	getResult, err := client.GetAPIAccessKeyMutation(createResult[0].ID, createResult[0].Type)
+	getResult, err := client.GetAPIAccessKey(createResult[0].ID, createResult[0].Type)
 	require.NoError(t, err)
 	require.NotNil(t, getResult)
 
 	// Test: Update
-	updateResult, err := client.UpdateAPIAccessKeyMutation(ApiAccessUpdateInput{
+	updateResult, err := client.UpdateAPIAccessKeys(ApiAccessUpdateInput{
 		Ingest: []ApiAccessUpdateIngestKeyInput{
 			{
 				KeyId: createResult[0].ID,
@@ -50,7 +50,7 @@ func TestIntegrationAPIAccess_IngestKeys(t *testing.T) {
 	require.NotNil(t, updateResult)
 
 	// Test: Delete
-	deleteResult, err := client.DeleteAPIAccessKeyMutation(ApiAccessDeleteInput{
+	deleteResult, err := client.DeleteAPIAccessKey(ApiAccessDeleteInput{
 		IngestKeyIds: []string{createResult[0].ID},
 	})
 	require.NoError(t, err)
@@ -81,12 +81,12 @@ func TestIntegrationAPIAccess_UserKeys(t *testing.T) {
 	}
 
 	// Test: Create
-	createResult, err := client.CreateAPIAccessKeysMutation(createInput)
+	createResult, err := client.CreateAPIAccessKeys(createInput)
 	require.NoError(t, err)
 	require.NotNil(t, createResult)
 
 	// Test: Get
-	getResult, err := client.GetAPIAccessKeyMutation(createResult[0].ID, createResult[0].Type)
+	getResult, err := client.GetAPIAccessKey(createResult[0].ID, createResult[0].Type)
 	require.NoError(t, err)
 	require.NotNil(t, getResult)
 
@@ -101,7 +101,7 @@ func TestIntegrationAPIAccess_UserKeys(t *testing.T) {
 	require.Greater(t, len(searchResult), 0)
 
 	// Test: Update
-	updateResult, err := client.UpdateAPIAccessKeyMutation(ApiAccessUpdateInput{
+	updateResult, err := client.UpdateAPIAccessKeys(ApiAccessUpdateInput{
 		User: []ApiAccessUpdateUserKeyInput{
 			{
 				KeyId: createResult[0].ID,
@@ -115,7 +115,7 @@ func TestIntegrationAPIAccess_UserKeys(t *testing.T) {
 	require.Equal(t, "testing notes update", updateResult[0].Notes)
 
 	// Test: Delete
-	deleteResult, err := client.DeleteAPIAccessKeyMutation(ApiAccessDeleteInput{
+	deleteResult, err := client.DeleteAPIAccessKey(ApiAccessDeleteInput{
 		UserKeyIds: []string{createResult[0].ID},
 	})
 	require.NoError(t, err)

@@ -7,8 +7,8 @@ import (
 	"github.com/newrelic/newrelic-client-go/internal/http"
 )
 
-// CreateAPIAccessKeysMutation create keys. You can create keys for multiple accounts at once.
-func (a *APIAccess) CreateAPIAccessKeysMutation(keys ApiAccessCreateInput) ([]ApiAccessKey, error) {
+// CreateAPIAccessKeys create keys. You can create keys for multiple accounts at once.
+func (a *APIAccess) CreateAPIAccessKeys(keys ApiAccessCreateInput) ([]ApiAccessKey, error) {
 	vars := map[string]interface{}{
 		"keys": keys,
 	}
@@ -20,14 +20,14 @@ func (a *APIAccess) CreateAPIAccessKeysMutation(keys ApiAccessCreateInput) ([]Ap
 	}
 
 	if len(resp.APIAccessCreateKeys.Errors) > 0 {
-		return nil, errors.New(formatAPIAccessKeyMutationErrors(resp.APIAccessCreateKeys.Errors))
+		return nil, errors.New(formatAPIAccessKeyErrors(resp.APIAccessCreateKeys.Errors))
 	}
 
 	return resp.APIAccessCreateKeys.CreatedKeys, nil
 }
 
-// GetAPIAccessKeyMutation returns a single API access key.
-func (a *APIAccess) GetAPIAccessKeyMutation(keyID string, keyType ApiAccessKeyType) (*ApiAccessKey, error) {
+// GetAPIAccessKey returns a single API access key.
+func (a *APIAccess) GetAPIAccessKey(keyID string, keyType ApiAccessKeyType) (*ApiAccessKey, error) {
 	vars := map[string]interface{}{
 		"id":      keyID,
 		"keyType": keyType,
@@ -65,8 +65,8 @@ func (a *APIAccess) SearchAPIAccessKeys(params ApiAccessKeySearchQuery) ([]ApiAc
 	return resp.Actor.APIAccess.KeySearch.Keys, nil
 }
 
-// UpdateAPIAccessKeyMutation updates keys. You can update keys for multiple accounts at once.
-func (a *APIAccess) UpdateAPIAccessKeyMutation(keys ApiAccessUpdateInput) ([]ApiAccessKey, error) {
+// UpdateAPIAccessKeys updates keys. You can update keys for multiple accounts at once.
+func (a *APIAccess) UpdateAPIAccessKeys(keys ApiAccessUpdateInput) ([]ApiAccessKey, error) {
 	vars := map[string]interface{}{
 		"keys": keys,
 	}
@@ -78,14 +78,14 @@ func (a *APIAccess) UpdateAPIAccessKeyMutation(keys ApiAccessUpdateInput) ([]Api
 	}
 
 	if len(resp.APIAccessUpdateKeys.Errors) > 0 {
-		return nil, errors.New(formatAPIAccessKeyMutationErrors(resp.APIAccessUpdateKeys.Errors))
+		return nil, errors.New(formatAPIAccessKeyErrors(resp.APIAccessUpdateKeys.Errors))
 	}
 
 	return resp.APIAccessUpdateKeys.UpdatedKeys, nil
 }
 
-// DeleteAPIAccessKeyMutation deletes one or more keys.
-func (a *APIAccess) DeleteAPIAccessKeyMutation(keys ApiAccessDeleteInput) ([]ApiAccessDeletedKey, error) {
+// DeleteAPIAccessKey deletes one or more keys.
+func (a *APIAccess) DeleteAPIAccessKey(keys ApiAccessDeleteInput) ([]ApiAccessDeletedKey, error) {
 	vars := map[string]interface{}{
 		"keys": keys,
 	}
@@ -97,13 +97,13 @@ func (a *APIAccess) DeleteAPIAccessKeyMutation(keys ApiAccessDeleteInput) ([]Api
 	}
 
 	if len(resp.APIAccessDeleteKeys.Errors) > 0 {
-		return nil, errors.New(formatAPIAccessKeyMutationErrors(resp.APIAccessDeleteKeys.Errors))
+		return nil, errors.New(formatAPIAccessKeyErrors(resp.APIAccessDeleteKeys.Errors))
 	}
 
 	return resp.APIAccessDeleteKeys.DeletedKeys, nil
 }
 
-func formatAPIAccessKeyMutationErrors(errs []ApiAccessKeyError) string {
+func formatAPIAccessKeyErrors(errs []ApiAccessKeyError) string {
 	errorString := ""
 	for _, e := range errs {
 		errorString += fmt.Sprintf("%v: %v\n", e.Type, e.Message)
