@@ -132,8 +132,7 @@ packages:
     types:
       - name: ID
         field_type_override: string
-        create_as: string
-        skip_type_create: false
+        skip_type_create: true
       - name: ApiAccessKey # gql interface
       - name: ApiAccessKeyType
       - name: ApiAccessKeyError
