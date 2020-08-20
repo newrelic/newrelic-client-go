@@ -46,8 +46,8 @@ jobs:
           labels: |
             report
             automated pr
-          assignees: developer-toolkit
-          reviewers: developer-toolkit
+          assignees: ""
+          reviewers: ""
           team-reviewers: |
             developer-toolkit
           milestone: 0
