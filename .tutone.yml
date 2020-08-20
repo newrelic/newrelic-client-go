@@ -3,9 +3,9 @@
 # Default: info
 log_level: debug
 
-# File to store a copy of the schema
-# Default: schema.json
+# Cache for storing a GraphQL schema
 cache:
+  # Default: schema.json
   schema_file: schema.json
 
 # GraphQL endpoint to query for schema
@@ -36,6 +36,8 @@ packages:
       - name: AlertsPolicyInput
       - name: AlertsPolicyUpdateInput
       - name: AlertsNrqlConditionTermsOperator
+      - name: AlertsMutingRuleScheduleInput
+      - name: NaiveDateTime
       - name: ID
         field_type_override: string
         skip_type_create: true
@@ -121,6 +123,36 @@ packages:
       - name: SuggestedNrqlQuery
       - name: NrdbMetadataTimeWindow
 
+  - name: apiaccess
+    path: pkg/apiaccess
+    generators:
+      - typegen
+    imports:
+      - github.com/newrelic/newrelic-client-go/internal/serialization
+    types:
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: ApiAccessKey # gql interface
+      - name: ApiAccessKeyType
+      - name: ApiAccessKeyError
+      - name: ApiAccessCreateKeyResponse
+      - name: ApiAccessCreateInput
+      - name: ApiAccessCreateIngestKeyInput
+      - name: ApiAccessCreateUserKeyInput
+      - name: ApiAccessIngestKeyType
+      - name: ApiAccessIngestKeyErrorType
+      - name: ApiAccessUserKeyErrorType
+      - name: ApiAccessDeleteKeyResponse
+      - name: ApiAccessDeleteInput
+      - name: ApiAccessActorStitchedFields
+      - name: ApiAccessUpdateInput
+      - name: ApiAccessUpdateIngestKeyInput
+      - name: ApiAccessUpdateUserKeyInput
+      - name: ApiAccessUpdateKeyResponse
+      - name: ApiAccessKeySearchQuery
+      - name: ApiAccessKeySearchResult
+      - name: ApiAccessKeySearchScope
 
 generators:
   - name: typegen

@@ -1,5 +1,10 @@
+<a name="unreleased"></a>
+## [Unreleased]
+
+### Features
+- **apiaccess:** add search api access keys method
 <a name="v0.36.0"></a>
-## [v0.36.0] - 2020-08-19
+## [v0.36.0] - 2020-08-20
 ### Features
 - **apiaccesskeys:** add new api access keys package
 
@@ -25,6 +30,11 @@
 
 ### Features
 - **graphql:** capture validation error output from response
+
+<a name="v0.33.2"></a>
+## [v0.33.2] - 2020-07-27
+### Bug Fixes
+- **alerts:** infra condition threshold value should be pointer to support zero-value thresholds
 
 <a name="v0.33.1"></a>
 ## [v0.33.1] - 2020-07-24
@@ -695,7 +705,8 @@
 [v0.36.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.35.1...v0.36.0
 [v0.35.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.35.0...v0.35.1
 [v0.35.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.34.0...v0.35.0
-[v0.34.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.33.1...v0.34.0
+[v0.34.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.33.2...v0.34.0
+[v0.33.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.33.1...v0.33.2
 [v0.33.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.33.0...v0.33.1
 [v0.33.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.32.1...v0.33.0
 [v0.32.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.32.0...v0.32.1
