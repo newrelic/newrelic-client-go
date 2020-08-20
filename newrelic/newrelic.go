@@ -2,7 +2,6 @@ package newrelic
 
 import (
 	"errors"
-	"github.com/newrelic/newrelic-client-go/pkg/apiaccesskeys"
 	"net/http"
 	"time"
 
@@ -11,6 +10,7 @@ import (
 	"github.com/newrelic/newrelic-client-go/internal/logging"
 	"github.com/newrelic/newrelic-client-go/pkg/accounts"
 	"github.com/newrelic/newrelic-client-go/pkg/alerts"
+	"github.com/newrelic/newrelic-client-go/pkg/apiaccess"
 	"github.com/newrelic/newrelic-client-go/pkg/apm"
 	"github.com/newrelic/newrelic-client-go/pkg/config"
 	"github.com/newrelic/newrelic-client-go/pkg/dashboards"
@@ -31,7 +31,7 @@ import (
 type NewRelic struct {
 	Accounts        accounts.Accounts
 	Alerts          alerts.Alerts
-	APIAccessKeys   apiaccesskeys.APIAccessKeys
+	APIAccess       apiaccess.APIAccess
 	APM             apm.APM
 	Dashboards      dashboards.Dashboards
 	Edge            edge.Edge
@@ -70,7 +70,7 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 
 		Accounts:        accounts.New(config),
 		Alerts:          alerts.New(config),
-		APIAccessKeys:   apiaccesskeys.New(config),
+		APIAccess:       apiaccess.New(config),
 		APM:             apm.New(config),
 		Dashboards:      dashboards.New(config),
 		Edge:            edge.New(config),
