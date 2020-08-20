@@ -7,8 +7,16 @@ import (
 	"github.com/newrelic/newrelic-client-go/internal/http"
 )
 
+type APIKey struct {
+	APIAccessKey
+
+	AccountID  *int                   `json:"accountId,omitempty"`
+	IngestType APIAccessIngestKeyType `json:"ingestType,omitempty"`
+	UserID     *int                   `json:"userId,omitempty"`
+}
+
 // CreateAPIAccessKeys create keys. You can create keys for multiple accounts at once.
-func (a *APIAccess) CreateAPIAccessKeys(keys ApiAccessCreateInput) ([]ApiAccessKey, error) {
+func (a *APIAccess) CreateAPIAccessKeys(keys APIAccessCreateInput) ([]APIKey, error) {
 	vars := map[string]interface{}{
 		"keys": keys,
 	}
@@ -27,7 +35,7 @@ func (a *APIAccess) CreateAPIAccessKeys(keys ApiAccessCreateInput) ([]ApiAccessK
 }
 
 // GetAPIAccessKey returns a single API access key.
-func (a *APIAccess) GetAPIAccessKey(keyID string, keyType ApiAccessKeyType) (*ApiAccessKey, error) {
+func (a *APIAccess) GetAPIAccessKey(keyID string, keyType APIAccessKeyType) (*APIKey, error) {
 	vars := map[string]interface{}{
 		"id":      keyID,
 		"keyType": keyType,
@@ -47,7 +55,7 @@ func (a *APIAccess) GetAPIAccessKey(keyID string, keyType ApiAccessKeyType) (*Ap
 }
 
 // SearchAPIAccessKeys returns the relevant keys based on search criteria. Returns keys are scoped to the current user.
-func (a *APIAccess) SearchAPIAccessKeys(params ApiAccessKeySearchQuery) ([]ApiAccessKey, error) {
+func (a *APIAccess) SearchAPIAccessKeys(params APIAccessKeySearchQuery) ([]APIKey, error) {
 	vars := map[string]interface{}{
 		"query": params,
 	}
@@ -66,7 +74,7 @@ func (a *APIAccess) SearchAPIAccessKeys(params ApiAccessKeySearchQuery) ([]ApiAc
 }
 
 // UpdateAPIAccessKeys updates keys. You can update keys for multiple accounts at once.
-func (a *APIAccess) UpdateAPIAccessKeys(keys ApiAccessUpdateInput) ([]ApiAccessKey, error) {
+func (a *APIAccess) UpdateAPIAccessKeys(keys APIAccessUpdateInput) ([]APIKey, error) {
 	vars := map[string]interface{}{
 		"keys": keys,
 	}
@@ -85,7 +93,7 @@ func (a *APIAccess) UpdateAPIAccessKeys(keys ApiAccessUpdateInput) ([]ApiAccessK
 }
 
 // DeleteAPIAccessKey deletes one or more keys.
-func (a *APIAccess) DeleteAPIAccessKey(keys ApiAccessDeleteInput) ([]ApiAccessDeletedKey, error) {
+func (a *APIAccess) DeleteAPIAccessKey(keys APIAccessDeleteInput) ([]APIAccessDeletedKey, error) {
 	vars := map[string]interface{}{
 		"keys": keys,
 	}
@@ -103,7 +111,7 @@ func (a *APIAccess) DeleteAPIAccessKey(keys ApiAccessDeleteInput) ([]ApiAccessDe
 	return resp.APIAccessDeleteKeys.DeletedKeys, nil
 }
 
-func formatAPIAccessKeyErrors(errs []ApiAccessKeyError) string {
+func formatAPIAccessKeyErrors(errs []APIAccessKeyError) string {
 	errorString := ""
 	for _, e := range errs {
 		errorString += fmt.Sprintf("%v: %v\n", e.Type, e.Message)
@@ -113,19 +121,25 @@ func formatAPIAccessKeyErrors(errs []ApiAccessKeyError) string {
 
 // apiAccessKeyCreateResponse represents the JSON response returned from creating key(s).
 type apiAccessKeyCreateResponse struct {
-	APIAccessCreateKeys ApiAccessCreateKeyResponse `json:"apiAccessCreateKeys"`
+	APIAccessCreateKeys struct {
+		CreatedKeys []APIKey            `json:"createdKeys"`
+		Errors      []APIAccessKeyError `json:"errors"`
+	} `json:"apiAccessCreateKeys"`
 }
 
 // apiAccessKeyUpdateResponse represents the JSON response returned from updating key(s).
 type apiAccessKeyUpdateResponse struct {
-	APIAccessUpdateKeys ApiAccessUpdateKeyResponse `json:"apiAccessUpdateKeys"`
+	APIAccessUpdateKeys struct {
+		UpdatedKeys []APIKey            `json:"updatedKeys"`
+		Errors      []APIAccessKeyError `json:"errors"`
+	} `json:"apiAccessUpdateKeys"`
 }
 
 // apiAccessKeyGetResponse represents the JSON response returned from getting an access key.
 type apiAccessKeyGetResponse struct {
 	Actor struct {
 		APIAccess struct {
-			Key ApiAccessKey `json:"key,omitempty"`
+			Key APIKey `json:"key,omitempty"`
 		} `json:"apiAccess"`
 	} `json:"actor"`
 	http.GraphQLErrorResponse
@@ -134,7 +148,9 @@ type apiAccessKeyGetResponse struct {
 type apiAccessKeySearchResponse struct {
 	Actor struct {
 		APIAccess struct {
-			KeySearch ApiAccessKeySearchResult `json:"keySearch,omitempty"`
+			KeySearch struct {
+				Keys []APIKey `json:"keys"`
+			} `json:"keySearch,omitempty"`
 		} `json:"apiAccess"`
 	} `json:"actor"`
 	http.GraphQLErrorResponse
@@ -142,7 +158,7 @@ type apiAccessKeySearchResponse struct {
 
 // apiAccessKeyDeleteResponse represents the JSON response returned from creating key(s).
 type apiAccessKeyDeleteResponse struct {
-	APIAccessDeleteKeys ApiAccessDeleteKeyResponse `json:"apiAccessDeleteKeys"`
+	APIAccessDeleteKeys APIAccessDeleteKeyResponse `json:"apiAccessDeleteKeys"`
 }
 
 const (

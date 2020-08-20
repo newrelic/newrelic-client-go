@@ -16,8 +16,8 @@ func TestIntegrationAPIAccess_IngestKeys(t *testing.T) {
 	client := newIntegrationTestClient(t)
 
 	// Setup
-	createInput := ApiAccessCreateInput{
-		Ingest: []ApiAccessCreateIngestKeyInput{
+	createInput := APIAccessCreateInput{
+		Ingest: []APIAccessCreateIngestKeyInput{
 			{
 				AccountID:  testhelpers.TestAccountID,
 				IngestType: "BROWSER",
@@ -38,10 +38,10 @@ func TestIntegrationAPIAccess_IngestKeys(t *testing.T) {
 	require.NotNil(t, getResult)
 
 	// Test: Update
-	updateResult, err := client.UpdateAPIAccessKeys(ApiAccessUpdateInput{
-		Ingest: []ApiAccessUpdateIngestKeyInput{
+	updateResult, err := client.UpdateAPIAccessKeys(APIAccessUpdateInput{
+		Ingest: []APIAccessUpdateIngestKeyInput{
 			{
-				KeyId: createResult[0].ID,
+				KeyID: createResult[0].ID,
 				Name:  createResult[0].Name,
 				Notes: "testing notes update",
 			},
@@ -51,8 +51,8 @@ func TestIntegrationAPIAccess_IngestKeys(t *testing.T) {
 	require.NotNil(t, updateResult)
 
 	// Test: Delete
-	deleteResult, err := client.DeleteAPIAccessKey(ApiAccessDeleteInput{
-		IngestKeyIds: []string{createResult[0].ID},
+	deleteResult, err := client.DeleteAPIAccessKey(APIAccessDeleteInput{
+		IngestKeyIDs: []string{createResult[0].ID},
 	})
 	require.NoError(t, err)
 	require.NotNil(t, deleteResult)
@@ -70,13 +70,13 @@ func TestIntegrationAPIAccess_UserKeys(t *testing.T) {
 	client := newIntegrationTestClient(t)
 
 	// Setup
-	createInput := ApiAccessCreateInput{
-		User: []ApiAccessCreateUserKeyInput{
+	createInput := APIAccessCreateInput{
+		User: []APIAccessCreateUserKeyInput{
 			{
 				AccountID: testhelpers.TestAccountID,
 				Name:      "test-integration-api-access",
 				Notes:     "This user key was created by an integration test.",
-				UserId:    userID,
+				UserID:    userID,
 			},
 		},
 	}
@@ -92,20 +92,20 @@ func TestIntegrationAPIAccess_UserKeys(t *testing.T) {
 	require.NotNil(t, getResult)
 
 	// Test: Search
-	searchResult, err := client.SearchAPIAccessKeys(ApiAccessKeySearchQuery{
-		Scope: ApiAccessKeySearchScope{
-			AccountIds: []int{testhelpers.TestAccountID},
+	searchResult, err := client.SearchAPIAccessKeys(APIAccessKeySearchQuery{
+		Scope: APIAccessKeySearchScope{
+			AccountIDs: []int{testhelpers.TestAccountID},
 		},
-		Types: []ApiAccessKeyType{ApiAccessKeyTypeTypes.INGEST},
+		Types: []APIAccessKeyType{APIAccessKeyTypeTypes.USER},
 	})
 	require.NoError(t, err)
 	require.Greater(t, len(searchResult), 0)
 
 	// Test: Update
-	updateResult, err := client.UpdateAPIAccessKeys(ApiAccessUpdateInput{
-		User: []ApiAccessUpdateUserKeyInput{
+	updateResult, err := client.UpdateAPIAccessKeys(APIAccessUpdateInput{
+		User: []APIAccessUpdateUserKeyInput{
 			{
-				KeyId: createResult[0].ID,
+				KeyID: createResult[0].ID,
 				Name:  createResult[0].Name,
 				Notes: "testing notes update",
 			},
@@ -116,8 +116,8 @@ func TestIntegrationAPIAccess_UserKeys(t *testing.T) {
 	require.Equal(t, "testing notes update", updateResult[0].Notes)
 
 	// Test: Delete
-	deleteResult, err := client.DeleteAPIAccessKey(ApiAccessDeleteInput{
-		UserKeyIds: []string{createResult[0].ID},
+	deleteResult, err := client.DeleteAPIAccessKey(APIAccessDeleteInput{
+		UserKeyIDs: []string{createResult[0].ID},
 	})
 	require.NoError(t, err)
 	require.NotNil(t, deleteResult)
