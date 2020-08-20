@@ -5,7 +5,8 @@ log_level: debug
 
 # File to store a copy of the schema
 # Default: schema.json
-schema_file: schema.json
+cache:
+  schema_file: schema.json
 
 # GraphQL endpoint to query for schema
 # Required
@@ -19,7 +20,7 @@ auth:
 
   # Environment variable to get the API key from
   # Default: TUTONE_API_KEY
-  api-key-env: NEW_RELIC_API_KEY
+  api_key_env_var: NEW_RELIC_API_KEY
 
 packages:
   - name: alerts
