@@ -11,7 +11,7 @@ import (
 
 //func TestExample_basic(t *testing.T) {
 func Example_basic() {
-	// Initialize the client configuration.  An Insights insert key is required
+	// Initialize the client configuration.  A New Relic License Key is required
 	// to communicate with the backend API.
 	cfg := config.New()
 	cfg.LicenseKey = os.Getenv("NEW_RELIC_LICENSE_KEY")
