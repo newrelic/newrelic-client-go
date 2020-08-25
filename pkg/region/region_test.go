@@ -109,6 +109,20 @@ func TestSyntheticsURLs(t *testing.T) {
 	}
 }
 
+func TestLogsURLs(t *testing.T) {
+	t.Parallel()
+
+	pairs := map[Name]string{
+		US:      "https://log-api.newrelic.com/log/v1",
+		EU:      "https://log-api.eu.newrelic.com/log/v1",
+		Staging: "https://staging-log-api.newrelic.com/log/v1",
+	}
+
+	for k, v := range pairs {
+		assert.Equal(t, v, Regions[k].LogsURL())
+	}
+}
+
 func TestConcatURLPaths(t *testing.T) {
 	t.Parallel()
 
