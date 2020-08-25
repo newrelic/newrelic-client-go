@@ -11,7 +11,7 @@ GOTOOLS += github.com/newrelic/tutone/cmd/tutone
 # Generate then lint fixes
 generate: generate-run generate-tutone lint-fix
 
-generate-tutone:
+generate-tutone: tools-update
 	@echo "=== $(PROJECT_NAME) === [ generate-tutone  ]: Running tutone generate..."
 	@tutone -c .tutone.yml generate -l debug
 
@@ -22,4 +22,4 @@ generate-run: tools-compile generate-tutone
 			$(GO) generate -x $$p ; \
 	done
 
-.PHONY: generate generate-run
+.PHONY: generate generate-run generate-tutone

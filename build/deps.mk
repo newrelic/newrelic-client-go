@@ -7,7 +7,7 @@ VENDOR_CMD   ?= ${GO} mod tidy
 BUILD_DIR    ?= ./bin/
 
 # These should be mirrored in /tools.go to keep versions consistent
-GOTOOLS      += github.com/client9/misspell/cmd/misspell
+# GOTOOLS      += github.com/client9/misspell/cmd/misspell
 
 
 tools: check-version tools-compile

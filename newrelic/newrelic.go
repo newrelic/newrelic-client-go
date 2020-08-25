@@ -10,6 +10,7 @@ import (
 	"github.com/newrelic/newrelic-client-go/internal/logging"
 	"github.com/newrelic/newrelic-client-go/pkg/accounts"
 	"github.com/newrelic/newrelic-client-go/pkg/alerts"
+	"github.com/newrelic/newrelic-client-go/pkg/apiaccess"
 	"github.com/newrelic/newrelic-client-go/pkg/apm"
 	"github.com/newrelic/newrelic-client-go/pkg/config"
 	"github.com/newrelic/newrelic-client-go/pkg/dashboards"
@@ -29,9 +30,10 @@ import (
 
 // NewRelic is a collection of New Relic APIs.
 type NewRelic struct {
-	APM             apm.APM
 	Accounts        accounts.Accounts
 	Alerts          alerts.Alerts
+	APIAccess       apiaccess.APIAccess
+	APM             apm.APM
 	Dashboards      dashboards.Dashboards
 	Edge            edge.Edge
 	Entities        entities.Entities
@@ -68,9 +70,10 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 	nr := &NewRelic{
 		config: config,
 
-		APM:             apm.New(config),
 		Accounts:        accounts.New(config),
 		Alerts:          alerts.New(config),
+		APIAccess:       apiaccess.New(config),
+		APM:             apm.New(config),
 		Dashboards:      dashboards.New(config),
 		Edge:            edge.New(config),
 		Entities:        entities.New(config),

@@ -3,35 +3,33 @@ name: Release
 on:
   push:
     tags:
-      - 'v*'
-
+      - "v*"
 
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-    - name: Install Go
-      uses: actions/setup-go@v1
-      with:
-        go-version: ${{ matrix.go-version }}
+      - name: Install Go
+        uses: actions/setup-go@v1
+        with:
+          go-version: ${{ matrix.go-version }}
 
-    - name: Add GOBIN to PATH
-      run: echo "::add-path::$(go env GOPATH)/bin"
-      shell: bash
+      - name: Add GOBIN to PATH
+        run: echo "::add-path::$(go env GOPATH)/bin"
+        shell: bash
 
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      # Needed for release notes
-    - name: Full git history
-      run: |
-        git fetch --prune --unshallow
+        # Needed for release notes
+      - name: Full git history
+        run: |
+          git fetch --prune --unshallow
 
-    - name: Publish Release
-      shell: bash
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      run: make release-publish
-
+      - name: Publish Release
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: make release-publish
