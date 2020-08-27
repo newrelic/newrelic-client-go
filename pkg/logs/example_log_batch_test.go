@@ -40,8 +40,8 @@ func Example_basic() {
 			LogType: "Teapot",
 		}}
 
-	// Start batch mode
-	if err := client.BatchMode(context.Background(), nr.TestAccountID); err != nil {
+	// Start batch mode, 12345 is a placeholder to pass PR compilation
+	if err := client.BatchMode(context.Background(), 12345); err != nil {
 		log.Fatal("error starting batch mode: ", err)
 	}
 
