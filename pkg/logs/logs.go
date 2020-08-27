@@ -2,7 +2,7 @@ package logs
 
 import (
 	"errors"
-	"fmt"
+	"time"
 
 	"github.com/newrelic/newrelic-client-go/internal/http"
 	"github.com/newrelic/newrelic-client-go/internal/logging"
@@ -10,10 +10,28 @@ import (
 )
 
 // Logs is used to send log data to the New Relic Log API
+
+const (
+	DefaultBatchWorkers = 1
+	DefaultBatchSize    = 900
+	DefaultBatchTimeout = 60 * time.Second
+)
+
 type Logs struct {
 	client http.Client
 	config config.Config
 	logger logging.Logger
+
+	// For queue based log handling
+	accountID  int
+	logQueue   chan interface{}
+	logTimer   *time.Timer
+	flushQueue []chan bool
+
+	// These have defaults
+	batchWorkers int
+	batchSize    int
+	batchTimeout time.Duration
 }
 
 // New is used to create a new Logs client instance.
@@ -24,9 +42,12 @@ func New(cfg config.Config) Logs {
 	client.SetAuthStrategy(&http.LicenseKeyAuthorizer{})
 
 	pkg := Logs{
-		client: client,
-		config: cfg,
-		logger: cfg.GetLogger(),
+		client:       client,
+		config:       cfg,
+		logger:       cfg.GetLogger(),
+		batchWorkers: DefaultBatchWorkers,
+		batchSize:    DefaultBatchSize,
+		batchTimeout: DefaultBatchTimeout,
 	}
 
 	return pkg
@@ -38,15 +59,11 @@ func (l *Logs) CreateLogEntry(logEntry interface{}) error {
 	if logEntry == nil {
 		return errors.New("logs: CreateLogEntry: logEntry is nil, nothing to do")
 	}
+	_, err := l.client.Post(l.config.Region().LogsURL(), nil, logEntry, nil)
 
-	rsp, err := l.client.Post(l.config.Region().LogsURL(), nil, logEntry, nil)
-
+	// If no error is returned then the call succeeded
 	if err != nil {
 		return err
-	}
-
-	if !(rsp.StatusCode < 299) {
-		return fmt.Errorf("failed creating log entry: %v", rsp)
 	}
 
 	return nil
