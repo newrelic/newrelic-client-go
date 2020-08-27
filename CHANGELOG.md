@@ -1,3 +1,9 @@
+<a name="v0.39.0"></a>
+## [v0.39.0] - 2020-08-27
+### Features
+- **logs:** implement log batch mode
+- **logs:** implement log batch mode
+
 <a name="v0.38.0"></a>
 ## [v0.38.0] - 2020-08-25
 ### Bug Fixes
@@ -712,7 +718,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.38.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.39.0...HEAD
+[v0.39.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.38.0...v0.39.0
 [v0.38.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.37.0...v0.38.0
 [v0.37.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.36.0...v0.37.0
 [v0.36.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.35.1...v0.36.0
