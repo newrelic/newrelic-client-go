@@ -5,12 +5,13 @@ package logs
 import (
 	"log"
 	"os"
+	"testing"
 
 	"github.com/newrelic/newrelic-client-go/pkg/config"
 )
 
-//func TestExample_basic(t *testing.T) {
-func Example_basic() {
+func TestExample_log(t *testing.T) {
+	//func Example_basic() {
 	// Initialize the client configuration.  A New Relic License Key is required
 	// to communicate with the backend API.
 	cfg := config.New()
@@ -24,7 +25,7 @@ func Example_basic() {
 	logEntry := struct {
 		Message string `json:"message"`
 	}{
-		Message: "INFO: From example basic test.go",
+		Message: "INFO: From example_log_test.go",
 	}
 
 	// Post a Log entry
