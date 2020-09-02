@@ -14,8 +14,10 @@ import (
 
 var (
 	testNrqlConditionRandomString       = nr.RandSeq(5)
-	nrqlConditionBaseThreshold          = 1.0        // needed for setting pointer
-	nrqlConditionBaseThresholdZeroValue = float64(0) // needed for setting pointer
+	nrqlConditionBaseThreshold          = 1.0          // needed for setting pointer
+	nrqlConditionBaseThresholdZeroValue = float64(0)   // needed for setting pointer
+	nrqlConditionBaseSignalFillValue    = float64(0.1) // needed for setting pointer
+	nrqlConditionBaseExpirationDuration = 1200         // needed for setting pointer
 	nrqlConditionBase                   = NrqlConditionBase{
 		Description: "test description",
 		Enabled:     true,
@@ -37,13 +39,13 @@ var (
 		ViolationTimeLimit: NrqlConditionViolationTimeLimits.OneHour,
 		Expiration: &AlertsNrqlConditionExpiration{
 			CloseViolationsOnExpiration: true,
-			ExpirationDuration:          1200,
+			ExpirationDuration:          &nrqlConditionBaseExpirationDuration,
 			OpenViolationOnExpiration:   false,
 		},
 		Signal: &AlertsNrqlConditionSignal{
 			EvaluationOffset: 3,
 			FillOption:       AlertsFillOptionTypes.STATIC,
-			FillValue:        0.1,
+			FillValue:        &nrqlConditionBaseSignalFillValue,
 		},
 	}
 )
