@@ -5,9 +5,14 @@ on:
 jobs:
   createPullRequest:
     runs-on: ubuntu-latest
+    container: golang:1.15-buster
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-go@v2
+
+      - name: Set up git user
+        run: |
+          git config --global user.name ${{ github.actor }}
+          git config --global user.email ${{ github.actor }}@users.noreply.github.com
 
       - name: Generate new code
         run: make generate
@@ -15,7 +20,6 @@ jobs:
           NEW_RELIC_API_KEY: ${{ secrets.NEW_RELIC_API_KEY }}
 
       - name: Create Pull Request
-        id: cpr
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -33,11 +37,6 @@ jobs:
             [1]: https://github.com/peter-evans/create-pull-request
           labels: |
             enhancement
-          assignees: developer-toolkit
-          reviewers: developer-toolkit
-          team-reviewers: |
-            developer-toolkit
-          milestone: 1
           draft: false
 
       - name: Check output

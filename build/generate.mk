@@ -15,7 +15,7 @@ generate-tutone:
 	@echo "=== $(PROJECT_NAME) === [ generate-tutone  ]: Running tutone generate..."
 	@tutone -c .tutone.yml generate -l debug
 
-generate-run: tools-compile generate-tutone
+generate-run: tools generate-tutone
 	@echo "=== $(PROJECT_NAME) === [ generate         ]: Running generate..."
 	@for p in $(PACKAGES); do \
 		echo "=== $(PROJECT_NAME) === [ generate         ]:     $$p"; \
