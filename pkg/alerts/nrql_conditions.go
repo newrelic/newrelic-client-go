@@ -6,6 +6,40 @@ import (
 	"github.com/newrelic/newrelic-client-go/pkg/errors"
 )
 
+// AlertsNrqlConditionExpiration - **Preview access:** These fields may be viewed and set, but will not be active until the release date.
+// Settings for how violations are opened or closed when a signal expires.
+type AlertsNrqlConditionExpiration struct {
+	CloseViolationsOnExpiration bool `json:"closeViolationsOnExpiration"`
+	ExpirationDuration          int  `json:"expirationDuration"`
+	OpenViolationOnExpiration   bool `json:"openViolationOnExpiration"`
+}
+
+// AlertsNrqlConditionSignal - Configuration that defines the signal that the NRQL condition will use to evaluate.
+type AlertsNrqlConditionSignal struct {
+	EvaluationOffset int              `json:"evaluationOffset"`
+	FillOption       AlertsFillOption `json:"fillOption"`
+	FillValue        float64          `json:"fillValue"`
+}
+
+// AlertsFillOption - The available fill options.
+type AlertsFillOption string
+
+var AlertsFillOptionTypes = struct {
+	// Fill using the last known value.
+	LAST_VALUE AlertsFillOption
+	// Do not fill data.
+	NONE AlertsFillOption
+	// Fill using a static value.
+	STATIC AlertsFillOption
+}{
+	// Fill using the last known value.
+	LAST_VALUE: "LAST_VALUE",
+	// Do not fill data.
+	NONE: "NONE",
+	// Fill using a static value.
+	STATIC: "STATIC",
+}
+
 // ThresholdOccurrence specifies the threshold occurrence for NRQL alert condition terms.
 type ThresholdOccurrence string
 
@@ -144,6 +178,8 @@ type NrqlConditionBase struct {
 	Terms              []NrqlConditionTerm             `json:"terms,omitempty"`
 	Type               NrqlConditionType               `json:"type,omitempty"`
 	ViolationTimeLimit NrqlConditionViolationTimeLimit `json:"violationTimeLimit,omitempty"`
+	Expiration         *AlertsNrqlConditionExpiration  `json:"expiration,omitempty"`
+	Signal             *AlertsNrqlConditionSignal      `json:"signal,omitempty"`
 }
 
 // NrqlConditionInput represents the input options for creating or updating a Nrql Condition.

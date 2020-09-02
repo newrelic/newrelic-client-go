@@ -35,6 +35,16 @@ var (
 			},
 		},
 		ViolationTimeLimit: NrqlConditionViolationTimeLimits.OneHour,
+		Expiration: &AlertsNrqlConditionExpiration{
+			CloseViolationsOnExpiration: true,
+			ExpirationDuration:          1200,
+			OpenViolationOnExpiration:   false,
+		},
+		Signal: &AlertsNrqlConditionSignal{
+			EvaluationOffset: 3,
+			FillOption:       AlertsFillOptionTypes.STATIC,
+			FillValue:        0.1,
+		},
 	}
 )
 
