@@ -3,46 +3,11 @@
 package apm
 
 import (
+	"fmt"
 	"net/http"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-)
-
-var (
-	testApplicationInstanceLinks = ApplicationInstanceLinks{
-		Application:     204261410,
-		ApplicationHost: 204260579,
-	}
-
-	testApplicationInstance = ApplicationInstance{
-		ID:              317218023,
-		ApplicationName: "Billing Service",
-		Host:            "host",
-		Port:            80,
-		Language:        "python",
-		HealthStatus:    "unknown",
-		Summary:         testApplicationSummary,
-		Links:           testApplicationInstanceLinks,
-	}
-
-	testApplicationInstancesJson = `{
-		"id": 317218023,
-		"name": "Billing Service",
-		"language": "python",
-		"health_status": "unknown",
-		"application_summary": {
-			"response_time": 5.91,
-			"throughput": 1,
-			"error_rate": 0,
-			"apdex_score": 1,
-			"instance_count": 15,
-		},
-		"links": {
-			"application": 204261410,
-			"application_host": 204260579
-		}
-	}`
 )
 
 func TestListApplicationInstancesWithParams(t *testing.T) {
@@ -73,4 +38,78 @@ func TestListApplicationInstancesWithParams(t *testing.T) {
 	_, err := apm.ListApplicationInstances(testApplication.ID, &params)
 
 	assert.NoError(t, err)
+}
+
+func TestGetApplicationInstance(t *testing.T) {
+	t.Parallel()
+
+	testApplicationID := 204261410
+	testApplicationInstanceID := 317218023
+	testApplicationHostID := 204260579
+
+	testApplicationInstanceSummary := ApplicationSummary{
+		ResponseTime:  5.91,
+		Throughput:    1,
+		ErrorRate:     0,
+		ApdexScore:    1,
+		InstanceCount: 1,
+	}
+
+	testApplicationInstanceEndUserSummary := ApplicationEndUserSummary{
+		ResponseTime: 5.91,
+		Throughput:   1,
+		ApdexTarget:  0,
+		ApdexScore:   1,
+	}
+
+	testApplicationInstanceLinks := ApplicationInstanceLinks{
+		Application:     testApplicationID,
+		ApplicationHost: testApplicationHostID,
+	}
+
+	testApplicationInstance := ApplicationInstance{
+		ID:              testApplicationInstanceID,
+		ApplicationName: "Billing Service",
+		Host:            "host",
+		Port:            80,
+		Language:        "python",
+		HealthStatus:    "unknown",
+		Summary:         testApplicationInstanceSummary,
+		EndUserSummary:  testApplicationInstanceEndUserSummary,
+		Links:           testApplicationInstanceLinks,
+	}
+
+	testApplicationInstanceJson := fmt.Sprintf(`{
+		"id": %d,
+		"application_name": "Billing Service",
+		"language": "python",
+		"port": 80,
+		"host": "host",
+		"health_status": "unknown",
+		"application_summary": {
+			"response_time": 5.91,
+			"throughput": 1,
+			"error_rate": 0,
+			"apdex_score": 1,
+			"instance_count": 1
+		},
+		"end_user_summary": {
+			"response_time": 5.91,
+			"throughput": 1,
+			"apdex_score": 1
+		  },
+		"links": {
+			"application": %d,
+			"application_host": %d
+		}
+	}`, testApplicationInstanceID, testApplicationID, testApplicationHostID)
+
+	responseJSON := fmt.Sprintf(`{ "application_instance": %s}`, testApplicationInstanceJson)
+	apm := newMockResponse(t, responseJSON, http.StatusOK)
+
+	actual, err := apm.GetApplicationInstance(testApplication.ID, testApplicationInstance.ID)
+
+	assert.NoError(t, err)
+	assert.NotNil(t, actual)
+	assert.Equal(t, &testApplicationInstance, actual)
 }

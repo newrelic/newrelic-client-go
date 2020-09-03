@@ -10,14 +10,15 @@ type ApplicationInstanceLinks struct {
 
 // ApplicationInstance represents information about a New Relic application instance.
 type ApplicationInstance struct {
-	ID              int                      `json:"id,omitempty"`
-	ApplicationName string                   `json:"application_name,omitempty"`
-	Host            string                   `json:"host,omitempty"`
-	Port            int                      `json:"port,omitempty"`
-	Language        string                   `json:"language,omitempty"`
-	HealthStatus    string                   `json:"health_status,omitempty"`
-	Summary         ApplicationSummary       `json:"application_summary,omitempty"`
-	Links           ApplicationInstanceLinks `json:"links,omitempty"`
+	ID              int                       `json:"id,omitempty"`
+	ApplicationName string                    `json:"application_name,omitempty"`
+	Host            string                    `json:"host,omitempty"`
+	Port            int                       `json:"port,omitempty"`
+	Language        string                    `json:"language,omitempty"`
+	HealthStatus    string                    `json:"health_status,omitempty"`
+	Summary         ApplicationSummary        `json:"application_summary,omitempty"`
+	EndUserSummary  ApplicationEndUserSummary `json:"end_user_summary,omitempty"`
+	Links           ApplicationInstanceLinks  `json:"links,omitempty"`
 }
 
 // ListApplicationInstancesParams represents a set of filters to be
