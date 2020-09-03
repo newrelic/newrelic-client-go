@@ -603,6 +603,16 @@ const (
 		}
 		type
 		violationTimeLimit
+		expiration {
+      closeViolationsOnExpiration
+      expirationDuration
+      openViolationOnExpiration
+		}
+		signal {
+      evaluationOffset
+      fillOption
+      fillValue
+    }
 	`
 
 	graphqlFragmentNrqlBaselineConditionFields = `

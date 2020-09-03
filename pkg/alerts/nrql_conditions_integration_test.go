@@ -164,6 +164,8 @@ func TestIntegrationNrqlConditions_Baseline(t *testing.T) {
 	require.NotNil(t, created)
 	require.NotNil(t, created.ID)
 	require.NotNil(t, created.PolicyID)
+	require.NotNil(t, created.Signal)
+	require.NotNil(t, created.Expiration)
 	require.Equal(t, NrqlConditionType("BASELINE"), created.Type)
 
 	// Test: Get (baseline condition)
@@ -220,6 +222,8 @@ func TestIntegrationNrqlConditions_Static(t *testing.T) {
 	require.NotNil(t, createdStatic)
 	require.NotNil(t, createdStatic.ID)
 	require.NotNil(t, createdStatic.PolicyID)
+	require.NotNil(t, createdStatic.Signal)
+	require.NotNil(t, createdStatic.Expiration)
 	require.Equal(t, NrqlConditionType("STATIC"), createdStatic.Type)
 
 	// Test: Get (static condition)
@@ -294,6 +298,8 @@ func TestIntegrationNrqlConditions_Outlier(t *testing.T) {
 	require.NotNil(t, createdOutlier)
 	require.NotNil(t, createdOutlier.ID)
 	require.NotNil(t, createdOutlier.PolicyID)
+	require.NotNil(t, createdOutlier.Signal)
+	require.NotNil(t, createdOutlier.Expiration)
 	require.Equal(t, NrqlConditionTypes.Outlier, createdOutlier.Type)
 
 	// Test: Get (outlier condition)
