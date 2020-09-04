@@ -584,36 +584,36 @@ type getNrqlConditionQueryResponse struct {
 
 const (
 	graphqlNrqlConditionStructFields = `
-		id
-		name
-		nrql {
-			evaluationOffset
-			query
-		}
-		enabled
-		description
-		policyId
-		runbookUrl
-		terms {
-			operator
-			priority
-			threshold
-			thresholdDuration
-			thresholdOccurrences
-		}
-		type
-		violationTimeLimit
-		expiration {
+    id
+    name
+    nrql {
+      evaluationOffset
+      query
+    }
+    enabled
+    description
+    policyId
+    runbookUrl
+    terms {
+      operator
+      priority
+      threshold
+      thresholdDuration
+      thresholdOccurrences
+    }
+    type
+    violationTimeLimit
+    expiration {
       closeViolationsOnExpiration
       expirationDuration
       openViolationOnExpiration
-		}
-		signal {
+    }
+    signal {
       evaluationOffset
       fillOption
       fillValue
     }
-	`
+  `
 
 	graphqlFragmentNrqlBaselineConditionFields = `
 		... on AlertsNrqlBaselineCondition {
