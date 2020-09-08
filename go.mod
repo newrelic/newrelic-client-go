@@ -7,7 +7,7 @@ require (
 	github.com/git-chglog/git-chglog v0.0.0-20200414013904-db796966b373
 	github.com/golangci/golangci-lint v1.31.0
 	github.com/google/go-querystring v1.0.0
-	github.com/goreleaser/goreleaser v0.142.0
+	github.com/goreleaser/goreleaser v0.143.0
 	github.com/hashicorp/go-retryablehttp v0.6.7
 	github.com/imdario/mergo v0.3.11
 	github.com/llorllale/go-gitlint v0.0.0-20200802191503-5984945d4b80
