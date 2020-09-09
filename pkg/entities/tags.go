@@ -122,17 +122,9 @@ func parseTagMutationErrors(errors []tagMutationError) string {
 }
 
 var listTagsQuery = `
-	query($guid:EntityGuid!) {
-		actor {
-			entity(guid: $guid)  {
-				tags {
-					values
-					key
-				}
-			}
-		}
-	}
-`
+	query($guid:EntityGuid!) { actor { entity(guid: $guid)  {` +
+	graphqlEntityStructTagsFields +
+	` } } }`
 
 type listTagsResponse struct {
 	Actor struct {
