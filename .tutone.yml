@@ -96,6 +96,38 @@ packages:
       - name: EdgeTraceObserverResponseErrorType
       - name: EdgeTraceObserverStatus
       - name: EdgeTracing
+  - name: entities
+    path: pkg/entities
+    generators:
+      - typegen
+    imports:
+      - github.com/newrelic/newrelic-client-go/internal/serialization
+    types:
+      - name: AlertableEntity
+      - name: ApmApplicationEntity
+      - name: ApmBrowserApplicationEntity
+      - name: ApmDatabaseInstanceEntity
+      - name: ApmExternalServiceEntity
+      - name: BrowserApplicationEntity
+      - name: CollectionEntity
+      - name: DashboardEntity
+      - name: Entity
+      - name: EntitySearch
+      - name: GenericEntity
+      - name: GenericInfrastructureEntity
+      - name: InfrastructureAwsLambdaFunctionEntity
+      - name: InfrastructureHostEntity
+      - name: InfrastructureIntegrationEntity
+      - name: MobileApplicationEntity
+      - name: SyntheticMonitorEntity
+      - name: ThirdPartyServiceEntity
+      - name: UnavailableEntity
+      - name: WorkloadEntity
+      - name: GUID
+        field_type_override: string
+        skip_type_create: true
+      - name: EpochMilliseconds
+        create_as: serialization.EpochTime
   - name: accounts
     path: pkg/accounts
     generators:
