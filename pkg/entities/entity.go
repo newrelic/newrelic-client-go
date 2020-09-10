@@ -4,51 +4,6 @@ import (
 	"github.com/newrelic/newrelic-client-go/pkg/errors"
 )
 
-// Entity represents a New Relic One entity.
-type Entity struct {
-	AccountID  int              `json:"accountId,omitempty"`
-	Domain     EntityDomainType `json:"domain,omitempty"`
-	EntityType EntityType       `json:"entityType,omitempty"` // Full Type (ie APM_APPLICATION_ENTITY)
-	GUID       string           `json:"guid,omitempty"`
-	Name       string           `json:"name,omitempty"`
-	Permalink  string           `json:"permalink,omitempty"`
-	Reporting  bool             `json:"reporting,omitempty"`
-	Type       Type             `json:"type,omitempty"`
-
-	// ApmApplicationEntity, BrowserApplicationEntity, MobileApplicationEntity
-	AlertSeverity *EntityAlertSeverityType `json:"alertSeverity,omitempty"`
-	ApplicationID *int                     `json:"applicationId,omitempty"`
-
-	// Stitch in other structs
-	ApmApplicationEntity
-	BrowserApplicationEntity
-}
-
-// ApmApplicationEntity represents the unique fields returned on the ApmApplicationEntity interface
-type ApmApplicationEntity struct {
-	Language             *string                                          `json:"language,omitempty"`
-	RunningAgentVersions *ApmApplicationEntityOutlineRunningAgentVersions `json:"runningAgentVersions,omitempty"`
-	Settings             *ApmApplicationEntityOutlineSettings             `json:"settings,omitempty"`
-}
-
-type ApmApplicationEntityOutlineSettings struct {
-	ApdexTarget      *float64 `json:"apdexTarget,omitempty"`
-	ServerSideConfig *bool    `json:"serverSideConfig"`
-}
-
-type ApmApplicationEntityOutlineRunningAgentVersions struct {
-	MaxVersion *string `json:"maxVersion,omitempty"`
-	MinVersion *string `json:"minVersion,omitempty"`
-}
-
-// BrowserApplicationEntity represents the unique fields returned on the BrowserApplicationEntity interface
-type BrowserApplicationEntity struct {
-	ServingApmApplicationID *int `json:"servingApmApplicationId,omitempty"`
-}
-
-// EntityType represents a New Relic One entity type (full)
-type EntityType string
-
 // Type represents a New Relic One entity type (short)
 type Type string
 
@@ -66,27 +21,6 @@ var (
 		Host:        "HOST",
 		Monitor:     "MONITOR",
 		Workload:    "WORKLOAD",
-	}
-)
-
-var (
-	// EntityTypes specifies the possible types for a New Relic One entity.
-	EntityTypes = struct {
-		Application EntityType
-		Browser     EntityType
-		Dashboard   EntityType
-		Host        EntityType
-		Mobile      EntityType
-		Monitor     EntityType
-		Workload    EntityType
-	}{
-		Application: "APM_APPLICATION_ENTITY",
-		Browser:     "BROWSER_APPLICATION_ENTITY",
-		Dashboard:   "DASHBOARD_ENTITY",
-		Host:        "INFRASTRUCTURE_HOST_ENTITY",
-		Mobile:      "MOBILE_APPLICATION_ENTITY",
-		Monitor:     "SYNTHETIC_MONITOR_ENTITY",
-		Workload:    "WORKLOAD_ENTITY",
 	}
 )
 

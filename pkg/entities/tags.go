@@ -166,22 +166,6 @@ func parseTagMutationErrors(errors []tagMutationError) string {
 	return strings.Join(messages, ", ")
 }
 
-// EntityTagValueWithMetadata - The value and metadata of a single entity tag.
-type EntityTagValueWithMetadata struct {
-	// Whether or not the tag can be mutated by the user.
-	Mutable bool `json:"mutable"`
-	// The tag value.
-	Value string `json:"value"`
-}
-
-// EntityTagWithMetadata - The tags with metadata of the entity.
-type EntityTagWithMetadata struct {
-	// The tag's key.
-	Key string `json:"key"`
-	// A list of tag values with metadata information.
-	Values []EntityTagValueWithMetadata `json:"values"`
-}
-
 var listTagsQuery = `
 	query($guid:EntityGuid!) { actor { entity(guid: $guid)  {` +
 	graphqlEntityStructTagsFields +
