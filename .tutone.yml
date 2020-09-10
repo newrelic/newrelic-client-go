@@ -123,11 +123,48 @@ packages:
       - name: ThirdPartyServiceEntity
       - name: UnavailableEntity
       - name: WorkloadEntity
-      - name: GUID
-        field_type_override: string
-        skip_type_create: true
+      # - name: GUID
+      #   field_type_override: string
+      #   skip_type_create: true
       - name: EpochMilliseconds
         create_as: serialization.EpochTime
+        # overrides for pointers
+      - name: ServingApmApplicationID
+        field_type_override: "*int"
+      - name: Language
+        field_type_override: "*string"
+      - name: Seconds
+        create_as: "string"
+      - name: GUID
+        field_type_override: "string"
+      - name: DashboardParentGUID
+        field_type_override: "string"
+      - name: Nrql
+        create_as: "string"
+      - name: AttributeMap
+        create_as: "string"
+      - name: NerdStorageDocument
+        create_as: "string"
+      - name: Minutes
+        create_as: "int"
+      # - name: EntityGUID
+      #   create_as: "string"
+      # - name: RunningAgentVersions
+      #   field_type_override: "*ApmApplicationEntityOutlineRunningAgentVersions"
+      # - name: Settings
+      #   field_type_override: "*ApmApplicationEntityOutlineSettings"
+      # - name: ApdexTarget
+      #   field_type_override: "*float64"
+      # - name: ServerSideConfig
+      #   field_type_override: "*bool"
+      # - name: MaxVersion
+      #   field_type_override: "*string"
+      # - name: MinVersion
+      #   field_type_override: "*string"
+      # - name: AlertSeverity
+      #   field_type_override: "*EntityAlertSeverityType"
+      # - name: ApplicationID
+      #   field_type_override: "*int"
   - name: accounts
     path: pkg/accounts
     generators:

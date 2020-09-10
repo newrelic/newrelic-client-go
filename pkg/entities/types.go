@@ -241,7 +241,7 @@ type ApmApplicationEntity struct {
 	// Summary statistics about the APM App.
 	ApmSummary ApmApplicationSummaryData `json:"apmSummary"`
 	// The ID of the APM Application.
-	ApplicationId int `json:"applicationId"`
+	ApplicationID int `json:"applicationId"`
 	// Deployments of the APM Application.
 	Deployments []ApmApplicationDeployment `json:"deployments"`
 	// The entity's domain
@@ -253,7 +253,7 @@ type ApmApplicationEntity struct {
 	// The time the entity was indexed.
 	IndexedAt EpochMilliseconds `json:"indexedAt"`
 	// The programming language of the APM Application.
-	Language string `json:"language"`
+	Language *string `json:"language"`
 	// The name of this entity.
 	Name string `json:"name"`
 	//
@@ -293,6 +293,54 @@ func (x *ApmApplicationEntity) ImplementsApmBrowserApplicationEntity() {}
 func (x *ApmApplicationEntity) ImplementsAlertableEntity() {}
 
 func (x *ApmApplicationEntity) ImplementsEntity() {}
+
+// ApmApplicationEntityOutline - An APM Application entity outline.
+type ApmApplicationEntityOutline struct {
+	//
+	Account AccountOutline `json:"account"`
+	// The New Relic account ID associated with this entity.
+	AccountID int `json:"accountId"`
+	// The current alerting severity of the APM Application.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity"`
+	// Summary statistics about the Browser App injected by an APM Application.
+	ApmBrowserSummary ApmBrowserApplicationSummaryData `json:"apmBrowserSummary"`
+	// Summary statistics about the APM App.
+	ApmSummary ApmApplicationSummaryData `json:"apmSummary"`
+	// The ID of the APM Application.
+	ApplicationID int `json:"applicationId"`
+	// The entity's domain
+	Domain string `json:"domain"`
+	// A value representing the combination of the entity's domain and type.
+	EntityType EntityType `json:"entityType"`
+	// A unique entity identifier.
+	GUID string `json:"guid"`
+	// The time the entity was indexed.
+	IndexedAt EpochMilliseconds `json:"indexedAt"`
+	// The programming language of the APM Application.
+	Language *string `json:"language"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// The url to the entity.
+	Permalink string `json:"permalink"`
+	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
+	Reporting bool `json:"reporting"`
+	// The running versions of the language agent in the APM Application.
+	RunningAgentVersions ApmApplicationRunningAgentVersions `json:"runningAgentVersions"`
+	// Configuration settings for the APM Application
+	Settings ApmApplicationSettings `json:"settings"`
+	// The tags applied to the entity.
+	//
+	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
+	Tags []EntityTag `json:"tags"`
+	// The entity's type
+	Type string `json:"type"`
+}
+
+func (x *ApmApplicationEntityOutline) ImplementsApmBrowserApplicationEntityOutline() {}
+
+func (x *ApmApplicationEntityOutline) ImplementsAlertableEntityOutline() {}
+
+func (x *ApmApplicationEntityOutline) ImplementsEntityOutline() {}
 
 // ApmApplicationRunningAgentVersions - Represents the currently running agent versions in an APM Application.
 // An application could be running multiple versions of an agent (across different hosts, for example).
@@ -407,6 +455,42 @@ type ApmDatabaseInstanceEntity struct {
 
 func (x *ApmDatabaseInstanceEntity) ImplementsEntity() {}
 
+// ApmDatabaseInstanceEntityOutline - A database instance seen by an APM Application
+type ApmDatabaseInstanceEntityOutline struct {
+	//
+	Account AccountOutline `json:"account"`
+	// The New Relic account ID associated with this entity.
+	AccountID int `json:"accountId"`
+	// The entity's domain
+	Domain string `json:"domain"`
+	// A value representing the combination of the entity's domain and type.
+	EntityType EntityType `json:"entityType"`
+	// A unique entity identifier.
+	GUID string `json:"guid"`
+	// The host the database instance is running on.
+	Host string `json:"host"`
+	// The time the entity was indexed.
+	IndexedAt EpochMilliseconds `json:"indexedAt"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// The url to the entity.
+	Permalink string `json:"permalink"`
+	// The port or path the database instance is running on. ex: `3306` | `/tmp/mysql.sock`
+	PortOrPath string `json:"portOrPath"`
+	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
+	Reporting bool `json:"reporting"`
+	// The tags applied to the entity.
+	//
+	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
+	Tags []EntityTag `json:"tags"`
+	// The entity's type
+	Type string `json:"type"`
+	// The type of database. ex: `Postgres` | `Redis`
+	Vendor string `json:"vendor"`
+}
+
+func (x *ApmDatabaseInstanceEntityOutline) ImplementsEntityOutline() {}
+
 // ApmExternalServiceEntity - An external service seen by an APM Application.
 type ApmExternalServiceEntity struct {
 	//
@@ -455,6 +539,40 @@ type ApmExternalServiceEntity struct {
 
 func (x *ApmExternalServiceEntity) ImplementsEntity() {}
 
+// ApmExternalServiceEntityOutline - An external service seen by an APM Application.
+type ApmExternalServiceEntityOutline struct {
+	//
+	Account AccountOutline `json:"account"`
+	// The New Relic account ID associated with this entity.
+	AccountID int `json:"accountId"`
+	// The entity's domain
+	Domain string `json:"domain"`
+	// A value representing the combination of the entity's domain and type.
+	EntityType EntityType `json:"entityType"`
+	//
+	ExternalSummary ApmExternalServiceSummaryData `json:"externalSummary"`
+	// A unique entity identifier.
+	GUID string `json:"guid"`
+	// The host of the external service.
+	Host string `json:"host"`
+	// The time the entity was indexed.
+	IndexedAt EpochMilliseconds `json:"indexedAt"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// The url to the entity.
+	Permalink string `json:"permalink"`
+	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
+	Reporting bool `json:"reporting"`
+	// The tags applied to the entity.
+	//
+	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
+	Tags []EntityTag `json:"tags"`
+	// The entity's type
+	Type string `json:"type"`
+}
+
+func (x *ApmExternalServiceEntityOutline) ImplementsEntityOutline() {}
+
 // ApmExternalServiceSummaryData - Summary statistics about an External Service called by an APM App.
 type ApmExternalServiceSummaryData struct {
 	// The average response time for external service calls in seconds.
@@ -474,7 +592,7 @@ type BrowserApplicationEntity struct {
 	// Violations on the Browser App that were open during the specififed time window.
 	AlertViolations []EntityAlertViolation `json:"alertViolations"`
 	// The ID of the Browser App.
-	ApplicationId int `json:"applicationId"`
+	ApplicationID int `json:"applicationId"`
 	// Summary statistics about the Browser App.
 	BrowserSummary BrowserApplicationSummaryData `json:"browserSummary"`
 	// The entity's domain
@@ -508,7 +626,7 @@ type BrowserApplicationEntity struct {
 	// The running versions of the agent in the Browser App.
 	RunningAgentVersions BrowserApplicationRunningAgentVersions `json:"runningAgentVersions"`
 	// The ID of the APM Application that serves this Browser App.
-	ServingApmApplicationId int `json:"servingApmApplicationId"`
+	ServingApmApplicationID *int `json:"servingApmApplicationId"`
 	// Configuration settings for the Browser App
 	Settings BrowserApplicationSettings `json:"settings"`
 	// The tags applied to the entity.
@@ -524,6 +642,50 @@ type BrowserApplicationEntity struct {
 func (x *BrowserApplicationEntity) ImplementsAlertableEntity() {}
 
 func (x *BrowserApplicationEntity) ImplementsEntity() {}
+
+// BrowserApplicationEntityOutline - A Browser Application entity outline.
+type BrowserApplicationEntityOutline struct {
+	//
+	Account AccountOutline `json:"account"`
+	// The New Relic account ID associated with this entity.
+	AccountID int `json:"accountId"`
+	// The current alerting severity of the Browser App.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity"`
+	// The ID of the Browser App.
+	ApplicationID int `json:"applicationId"`
+	// Summary statistics about the Browser App.
+	BrowserSummary BrowserApplicationSummaryData `json:"browserSummary"`
+	// The entity's domain
+	Domain string `json:"domain"`
+	// A value representing the combination of the entity's domain and type.
+	EntityType EntityType `json:"entityType"`
+	// A unique entity identifier.
+	GUID string `json:"guid"`
+	// The time the entity was indexed.
+	IndexedAt EpochMilliseconds `json:"indexedAt"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// The url to the entity.
+	Permalink string `json:"permalink"`
+	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
+	Reporting bool `json:"reporting"`
+	// The running versions of the agent in the Browser App.
+	RunningAgentVersions BrowserApplicationRunningAgentVersions `json:"runningAgentVersions"`
+	// The ID of the APM Application that serves this Browser App.
+	ServingApmApplicationID *int `json:"servingApmApplicationId"`
+	// Configuration settings for the Browser App
+	Settings BrowserApplicationSettings `json:"settings"`
+	// The tags applied to the entity.
+	//
+	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
+	Tags []EntityTag `json:"tags"`
+	// The entity's type
+	Type string `json:"type"`
+}
+
+func (x *BrowserApplicationEntityOutline) ImplementsAlertableEntityOutline() {}
+
+func (x *BrowserApplicationEntityOutline) ImplementsEntityOutline() {}
 
 // BrowserApplicationRunningAgentVersions - Represents the currently running agent versions in a Browser App.
 // An app could be running multiple versions of an agent (across different browsers, for example).
@@ -575,7 +737,7 @@ type DashboardEntity struct {
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId"`
 	// The parent entity `guid` of the dashboard.
-	DashboardParentGUID EntityGUID `json:"dashboardParentGuid"`
+	DashboardParentGUID string `json:"dashboardParentGuid"`
 	// The entity's domain
 	Domain string `json:"domain"`
 	// A value representing the combination of the entity's domain and type.
@@ -613,6 +775,38 @@ type DashboardEntity struct {
 }
 
 func (x *DashboardEntity) ImplementsEntity() {}
+
+// DashboardEntityOutline - A Dashboard entity outline.
+type DashboardEntityOutline struct {
+	//
+	Account AccountOutline `json:"account"`
+	// The New Relic account ID associated with this entity.
+	AccountID int `json:"accountId"`
+	// The parent entity `guid` of the dashboard.
+	DashboardParentGUID string `json:"dashboardParentGuid"`
+	// The entity's domain
+	Domain string `json:"domain"`
+	// A value representing the combination of the entity's domain and type.
+	EntityType EntityType `json:"entityType"`
+	// A unique entity identifier.
+	GUID string `json:"guid"`
+	// The time the entity was indexed.
+	IndexedAt EpochMilliseconds `json:"indexedAt"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// The url to the entity.
+	Permalink string `json:"permalink"`
+	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
+	Reporting bool `json:"reporting"`
+	// The tags applied to the entity.
+	//
+	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
+	Tags []EntityTag `json:"tags"`
+	// The entity's type
+	Type string `json:"type"`
+}
+
+func (x *DashboardEntityOutline) ImplementsEntityOutline() {}
 
 // Entity - The `Entity` interface allows fetching detailed entity information for a single entity.
 //
@@ -880,6 +1074,36 @@ type GenericEntity struct {
 
 func (x *GenericEntity) ImplementsEntity() {}
 
+// GenericEntityOutline - A generic entity outline.
+type GenericEntityOutline struct {
+	//
+	Account AccountOutline `json:"account"`
+	// The New Relic account ID associated with this entity.
+	AccountID int `json:"accountId"`
+	// The entity's domain
+	Domain string `json:"domain"`
+	// A value representing the combination of the entity's domain and type.
+	EntityType EntityType `json:"entityType"`
+	// A unique entity identifier.
+	GUID string `json:"guid"`
+	// The time the entity was indexed.
+	IndexedAt EpochMilliseconds `json:"indexedAt"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// The url to the entity.
+	Permalink string `json:"permalink"`
+	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
+	Reporting bool `json:"reporting"`
+	// The tags applied to the entity.
+	//
+	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
+	Tags []EntityTag `json:"tags"`
+	// The entity's type
+	Type string `json:"type"`
+}
+
+func (x *GenericEntityOutline) ImplementsEntityOutline() {}
+
 // GenericInfrastructureEntity - An Infrastructure entity.
 type GenericInfrastructureEntity struct {
 	//
@@ -935,6 +1159,44 @@ func (x *GenericInfrastructureEntity) ImplementsInfrastructureIntegrationEntity(
 func (x *GenericInfrastructureEntity) ImplementsAlertableEntity() {}
 
 func (x *GenericInfrastructureEntity) ImplementsEntity() {}
+
+// GenericInfrastructureEntityOutline - An Infrastructure entity outline.
+type GenericInfrastructureEntityOutline struct {
+	//
+	Account AccountOutline `json:"account"`
+	// The New Relic account ID associated with this entity.
+	AccountID int `json:"accountId"`
+	// The current alerting severity of the Infrastructure entity.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity"`
+	// The entity's domain
+	Domain string `json:"domain"`
+	// A value representing the combination of the entity's domain and type.
+	EntityType EntityType `json:"entityType"`
+	// A unique entity identifier.
+	GUID string `json:"guid"`
+	// The time the entity was indexed.
+	IndexedAt EpochMilliseconds `json:"indexedAt"`
+	//
+	IntegrationTypeCode string `json:"integrationTypeCode"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// The url to the entity.
+	Permalink string `json:"permalink"`
+	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
+	Reporting bool `json:"reporting"`
+	// The tags applied to the entity.
+	//
+	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
+	Tags []EntityTag `json:"tags"`
+	// The entity's type
+	Type string `json:"type"`
+}
+
+func (x *GenericInfrastructureEntityOutline) ImplementsInfrastructureIntegrationEntityOutline() {}
+
+func (x *GenericInfrastructureEntityOutline) ImplementsAlertableEntityOutline() {}
+
+func (x *GenericInfrastructureEntityOutline) ImplementsEntityOutline() {}
 
 // InfrastructureAwsLambdaFunctionEntity - An AWS Lambda Function entity.
 type InfrastructureAwsLambdaFunctionEntity struct {
@@ -994,6 +1256,47 @@ func (x *InfrastructureAwsLambdaFunctionEntity) ImplementsAlertableEntity() {}
 
 func (x *InfrastructureAwsLambdaFunctionEntity) ImplementsEntity() {}
 
+// InfrastructureAwsLambdaFunctionEntityOutline - An AWS Lambda Function entity outline.
+type InfrastructureAwsLambdaFunctionEntityOutline struct {
+	//
+	Account AccountOutline `json:"account"`
+	// The New Relic account ID associated with this entity.
+	AccountID int `json:"accountId"`
+	// The current alerting severity of the Infrastructure entity.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity"`
+	// The entity's domain
+	Domain string `json:"domain"`
+	// A value representing the combination of the entity's domain and type.
+	EntityType EntityType `json:"entityType"`
+	// A unique entity identifier.
+	GUID string `json:"guid"`
+	// The time the entity was indexed.
+	IndexedAt EpochMilliseconds `json:"indexedAt"`
+	//
+	IntegrationTypeCode string `json:"integrationTypeCode"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// The url to the entity.
+	Permalink string `json:"permalink"`
+	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
+	Reporting bool `json:"reporting"`
+	//
+	Runtime string `json:"runtime"`
+	// The tags applied to the entity.
+	//
+	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
+	Tags []EntityTag `json:"tags"`
+	// The entity's type
+	Type string `json:"type"`
+}
+
+func (x *InfrastructureAwsLambdaFunctionEntityOutline) ImplementsInfrastructureIntegrationEntityOutline() {
+}
+
+func (x *InfrastructureAwsLambdaFunctionEntityOutline) ImplementsAlertableEntityOutline() {}
+
+func (x *InfrastructureAwsLambdaFunctionEntityOutline) ImplementsEntityOutline() {}
+
 // InfrastructureHostEntity - An Infrastructure Host entity.
 type InfrastructureHostEntity struct {
 	//
@@ -1047,6 +1350,42 @@ type InfrastructureHostEntity struct {
 func (x *InfrastructureHostEntity) ImplementsAlertableEntity() {}
 
 func (x *InfrastructureHostEntity) ImplementsEntity() {}
+
+// InfrastructureHostEntityOutline - An Infrastructure Host entity outline.
+type InfrastructureHostEntityOutline struct {
+	//
+	Account AccountOutline `json:"account"`
+	// The New Relic account ID associated with this entity.
+	AccountID int `json:"accountId"`
+	// The current alerting severity of the Infrastructure entity.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity"`
+	// The entity's domain
+	Domain string `json:"domain"`
+	// A value representing the combination of the entity's domain and type.
+	EntityType EntityType `json:"entityType"`
+	// A unique entity identifier.
+	GUID string `json:"guid"`
+	//
+	HostSummary InfrastructureHostSummaryData `json:"hostSummary"`
+	// The time the entity was indexed.
+	IndexedAt EpochMilliseconds `json:"indexedAt"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// The url to the entity.
+	Permalink string `json:"permalink"`
+	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
+	Reporting bool `json:"reporting"`
+	// The tags applied to the entity.
+	//
+	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
+	Tags []EntityTag `json:"tags"`
+	// The entity's type
+	Type string `json:"type"`
+}
+
+func (x *InfrastructureHostEntityOutline) ImplementsAlertableEntityOutline() {}
+
+func (x *InfrastructureHostEntityOutline) ImplementsEntityOutline() {}
 
 // InfrastructureHostSummaryData - Summary statistics about the Infra Host.
 type InfrastructureHostSummaryData struct {
@@ -1107,7 +1446,7 @@ type MobileApplicationEntity struct {
 	// Violations on the Mobile App that were open during the specififed time window.
 	AlertViolations []EntityAlertViolation `json:"alertViolations"`
 	// The ID of the Mobile App.
-	ApplicationId int `json:"applicationId"`
+	ApplicationID int `json:"applicationId"`
 	// The entity's domain
 	Domain string `json:"domain"`
 	// A value representing the combination of the entity's domain and type.
@@ -1151,6 +1490,44 @@ type MobileApplicationEntity struct {
 func (x *MobileApplicationEntity) ImplementsAlertableEntity() {}
 
 func (x *MobileApplicationEntity) ImplementsEntity() {}
+
+// MobileApplicationEntityOutline - A Mobile Application entity outline.
+type MobileApplicationEntityOutline struct {
+	//
+	Account AccountOutline `json:"account"`
+	// The New Relic account ID associated with this entity.
+	AccountID int `json:"accountId"`
+	// The current alerting severity of the Mobile App.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity"`
+	// The ID of the Mobile App.
+	ApplicationID int `json:"applicationId"`
+	// The entity's domain
+	Domain string `json:"domain"`
+	// A value representing the combination of the entity's domain and type.
+	EntityType EntityType `json:"entityType"`
+	// A unique entity identifier.
+	GUID string `json:"guid"`
+	// The time the entity was indexed.
+	IndexedAt EpochMilliseconds `json:"indexedAt"`
+	// Summary statistics about the Mobile App.
+	MobileSummary MobileAppSummaryData `json:"mobileSummary"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// The url to the entity.
+	Permalink string `json:"permalink"`
+	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
+	Reporting bool `json:"reporting"`
+	// The tags applied to the entity.
+	//
+	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
+	Tags []EntityTag `json:"tags"`
+	// The entity's type
+	Type string `json:"type"`
+}
+
+func (x *MobileApplicationEntityOutline) ImplementsAlertableEntityOutline() {}
+
+func (x *MobileApplicationEntityOutline) ImplementsEntityOutline() {}
 
 // NRDBMetadata - An object containing metadata about the query and result.
 type NRDBMetadata struct {
@@ -1259,6 +1636,29 @@ type NerdStorageEntityScope struct {
 	Document NerdStorageDocument `json:"document"`
 }
 
+// SuggestedAnomalyBasedNRQLQuery - A query suggestion based on analysis of events within a specific anomalous time
+// range vs. nearby events outside of that time range.
+type SuggestedAnomalyBasedNRQLQuery struct {
+	// Information about the anomaly upon which this suggestion is based
+	Anomaly SuggestedNRQLQueryAnomaly `json:"anomaly"`
+	// The NRQL string to run for the suggested query
+	NRQL string `json:"nrql"`
+	// A human-readable title describing what the query shows
+	Title string `json:"title"`
+}
+
+func (x *SuggestedAnomalyBasedNRQLQuery) ImplementsSuggestedNRQLQuery() {}
+
+// SuggestedHistoryBasedNRQLQuery - query suggestion based on historical query patterns.
+type SuggestedHistoryBasedNRQLQuery struct {
+	// The NRQL string to run for the suggested query
+	NRQL string `json:"nrql"`
+	// A human-readable title describing what the query shows
+	Title string `json:"title"`
+}
+
+func (x *SuggestedHistoryBasedNRQLQuery) ImplementsSuggestedNRQLQuery() {}
+
 // SuggestedNRQLQuery - Interface type representing a query suggestion.
 type SuggestedNRQLQuery struct {
 	// The NRQL string to run for the suggested query
@@ -1268,6 +1668,12 @@ type SuggestedNRQLQuery struct {
 }
 
 func (x *SuggestedNRQLQuery) ImplementsSuggestedNRQLQuery() {}
+
+// SuggestedNRQLQueryAnomaly - Information about the anomaly upon which this analysis was based.
+type SuggestedNRQLQueryAnomaly struct {
+	// The approximate time range of the anomalous region
+	TimeWindow TimeWindow `json:"timeWindow"`
+}
 
 // SuggestedNRQLQueryResponse - result type encapsulating suggested queries
 type SuggestedNRQLQueryResponse struct {
@@ -1337,6 +1743,50 @@ func (x *SyntheticMonitorEntity) ImplementsAlertableEntity() {}
 
 func (x *SyntheticMonitorEntity) ImplementsEntity() {}
 
+// SyntheticMonitorEntityOutline - A Synthetic Monitor entity outline.
+type SyntheticMonitorEntityOutline struct {
+	//
+	Account AccountOutline `json:"account"`
+	// The New Relic account ID associated with this entity.
+	AccountID int `json:"accountId"`
+	// The current alerting severity of the Synthetic Monitor entity.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity"`
+	// The entity's domain
+	Domain string `json:"domain"`
+	// A value representing the combination of the entity's domain and type.
+	EntityType EntityType `json:"entityType"`
+	// A unique entity identifier.
+	GUID string `json:"guid"`
+	// The time the entity was indexed.
+	IndexedAt EpochMilliseconds `json:"indexedAt"`
+	// The Synthetic Monitor ID
+	MonitorId int `json:"monitorId"`
+	// Summary statistics for the Synthetic Monitor.
+	MonitorSummary SyntheticMonitorSummaryData `json:"monitorSummary"`
+	// The Synthetic Monitor type
+	MonitorType SyntheticMonitorType `json:"monitorType"`
+	// The URL being monitored by a `SIMPLE` or `BROWSER` monitor type.
+	MonitoredURL string `json:"monitoredUrl"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// The duration in minutes between Synthetic Monitor runs.
+	Period Minutes `json:"period"`
+	// The url to the entity.
+	Permalink string `json:"permalink"`
+	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
+	Reporting bool `json:"reporting"`
+	// The tags applied to the entity.
+	//
+	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
+	Tags []EntityTag `json:"tags"`
+	// The entity's type
+	Type string `json:"type"`
+}
+
+func (x *SyntheticMonitorEntityOutline) ImplementsAlertableEntityOutline() {}
+
+func (x *SyntheticMonitorEntityOutline) ImplementsEntityOutline() {}
+
 // SyntheticMonitorSummaryData - Summary statistics for the Synthetic Monitor.
 type SyntheticMonitorSummaryData struct {
 	// The number of locations that are currently failing.
@@ -1391,6 +1841,44 @@ type ThirdPartyServiceEntity struct {
 
 func (x *ThirdPartyServiceEntity) ImplementsEntity() {}
 
+// ThirdPartyServiceEntityOutline - A third party service entity outline.
+type ThirdPartyServiceEntityOutline struct {
+	//
+	Account AccountOutline `json:"account"`
+	// The New Relic account ID associated with this entity.
+	AccountID int `json:"accountId"`
+	// The entity's domain
+	Domain string `json:"domain"`
+	// A value representing the combination of the entity's domain and type.
+	EntityType EntityType `json:"entityType"`
+	// A unique entity identifier.
+	GUID string `json:"guid"`
+	// The time the entity was indexed.
+	IndexedAt EpochMilliseconds `json:"indexedAt"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// The url to the entity.
+	Permalink string `json:"permalink"`
+	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
+	Reporting bool `json:"reporting"`
+	// The tags applied to the entity.
+	//
+	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
+	Tags []EntityTag `json:"tags"`
+	// The entity's type
+	Type string `json:"type"`
+}
+
+func (x *ThirdPartyServiceEntityOutline) ImplementsEntityOutline() {}
+
+// TimeWindow - Represents a time window.
+type TimeWindow struct {
+	// The end time of the time window the number of milliseconds since the Unix epoch.
+	EndTime EpochMilliseconds `json:"endTime"`
+	// The start time of the time window the number of milliseconds since the Unix epoch.
+	StartTime EpochMilliseconds `json:"startTime"`
+}
+
 // UnavailableEntity - An entity that is unavailable.
 type UnavailableEntity struct {
 	//
@@ -1434,6 +1922,36 @@ type UnavailableEntity struct {
 }
 
 func (x *UnavailableEntity) ImplementsEntity() {}
+
+// UnavailableEntityOutline - An entity outline that is unavailable.
+type UnavailableEntityOutline struct {
+	//
+	Account AccountOutline `json:"account"`
+	// The New Relic account ID associated with this entity.
+	AccountID int `json:"accountId"`
+	// The entity's domain
+	Domain string `json:"domain"`
+	// A value representing the combination of the entity's domain and type.
+	EntityType EntityType `json:"entityType"`
+	// A unique entity identifier.
+	GUID string `json:"guid"`
+	// The time the entity was indexed.
+	IndexedAt EpochMilliseconds `json:"indexedAt"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// The url to the entity.
+	Permalink string `json:"permalink"`
+	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
+	Reporting bool `json:"reporting"`
+	// The tags applied to the entity.
+	//
+	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
+	Tags []EntityTag `json:"tags"`
+	// The entity's type
+	Type string `json:"type"`
+}
+
+func (x *UnavailableEntityOutline) ImplementsEntityOutline() {}
 
 // WorkloadEntity - A workload entity.
 type WorkloadEntity struct {
@@ -1491,6 +2009,42 @@ func (x *WorkloadEntity) ImplementsCollectionEntity() {}
 
 func (x *WorkloadEntity) ImplementsEntity() {}
 
+// WorkloadEntityOutline - A workload entity outline.
+type WorkloadEntityOutline struct {
+	//
+	Account AccountOutline `json:"account"`
+	// The New Relic account ID associated with this entity.
+	AccountID int `json:"accountId"`
+	// The current alerting severity of the workload entity.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity"`
+	// The entity's domain
+	Domain string `json:"domain"`
+	// A value representing the combination of the entity's domain and type.
+	EntityType EntityType `json:"entityType"`
+	// A unique entity identifier.
+	GUID string `json:"guid"`
+	// The time the entity was indexed.
+	IndexedAt EpochMilliseconds `json:"indexedAt"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// The url to the entity.
+	Permalink string `json:"permalink"`
+	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
+	Reporting bool `json:"reporting"`
+	// The tags applied to the entity.
+	//
+	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
+	Tags []EntityTag `json:"tags"`
+	// The entity's type
+	Type string `json:"type"`
+	// Status of the workload.
+	WorkloadStatus WorkloadStatus `json:"workloadStatus"`
+}
+
+func (x *WorkloadEntityOutline) ImplementsAlertableEntityOutline() {}
+
+func (x *WorkloadEntityOutline) ImplementsEntityOutline() {}
+
 // WorkloadStatus - Detailed information about the status of a workload.
 type WorkloadStatus struct {
 	// A description that provides additional details about the status of the workload.
@@ -1503,14 +2057,31 @@ type WorkloadStatus struct {
 	Summary string `json:"summary"`
 }
 
+// AttributeMap - This scalar represents a map of attributes in the form of key-value pairs.
+type AttributeMap string
+
 // EpochMilliseconds - The `EpochMilliseconds` scalar represents the number of milliseconds since the Unix epoch
 type EpochMilliseconds serialization.EpochTime
+
+// Minutes - The `Minutes` scalar represents a duration in minutes
+type Minutes int
 
 // NRDBResult - This scalar represents a NRDB Result. It is a `Map` of `String` keys to values.
 //
 // The shape of these objects reflect the query used to generate them, the contents
 // of the objects is not part of the GraphQL schema.
 type NRDBResult string
+
+// NRQL - This scalar represents a NRQL query string.
+//
+// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about NRQL syntax.
+type NRQL string
+
+// NerdStorageDocument - This scalar represents a NerdStorage document.
+type NerdStorageDocument string
+
+// Seconds - The `Seconds` scalar represents a duration in seconds
+type Seconds string
 
 // AlertableEntity -
 type AlertableEntityInterface interface {
