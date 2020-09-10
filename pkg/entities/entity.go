@@ -78,8 +78,8 @@ type SearchEntitiesParams struct {
 }
 
 // SearchEntities searches New Relic One entities based on the provided search parameters.
-func (e *Entities) SearchEntities(params SearchEntitiesParams) ([]*Entity, error) {
-	entities := []*Entity{}
+func (e *Entities) SearchEntities(params SearchEntitiesParams) ([]*EntityInterface, error) {
+	entities := []*EntityInterface{}
 	var nextCursor *string
 
 	for ok := true; ok; ok = nextCursor != nil {
@@ -102,7 +102,7 @@ func (e *Entities) SearchEntities(params SearchEntitiesParams) ([]*Entity, error
 }
 
 // GetEntities retrieves a set of New Relic One entities by their entity guids.
-func (e *Entities) GetEntities(guids []string) ([]*Entity, error) {
+func (e *Entities) GetEntities(guids []string) ([]*EntityInterface, error) {
 	resp := getEntitiesResponse{}
 	vars := map[string]interface{}{
 		"guids": guids,
@@ -120,7 +120,7 @@ func (e *Entities) GetEntities(guids []string) ([]*Entity, error) {
 }
 
 // GetEntity retrieve a set of New Relic One entities by their entity guids.
-func (e *Entities) GetEntity(guid string) (*Entity, error) {
+func (e *Entities) GetEntity(guid string) (*EntityInterface, error) {
 	resp := getEntityResponse{}
 	vars := map[string]interface{}{
 		"guid": guid,
@@ -255,7 +255,7 @@ type searchEntitiesResponse struct {
 		EntitySearch struct {
 			Results struct {
 				NextCursor *string
-				Entities   []*Entity
+				Entities   []*EntityInterface
 			}
 		}
 	}
@@ -263,12 +263,12 @@ type searchEntitiesResponse struct {
 
 type getEntitiesResponse struct {
 	Actor struct {
-		Entities []*Entity
+		Entities []*EntityInterface
 	}
 }
 
 type getEntityResponse struct {
 	Actor struct {
-		Entity *Entity
+		Entity *EntityInterface
 	}
 }

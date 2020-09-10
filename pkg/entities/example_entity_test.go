@@ -20,7 +20,7 @@ func Example_entity() {
 	// Search the current account for entities by name and type.
 	searchParams := SearchEntitiesParams{
 		Name: "Example entity",
-		Type: EntityTypes.Application,
+		Type: EntityTypeTypes.APM_APPLICATION_ENTITY,
 	}
 
 	entities, err := client.SearchEntities(searchParams)
@@ -31,7 +31,7 @@ func Example_entity() {
 	// Get several entities by GUID.
 	var entityGuids []string
 	for _, e := range entities {
-		entityGuids = append(entityGuids, e.GUID)
+		entityGuids = append(entityGuids, (*e).(*Entity).GUID)
 	}
 
 	entities, err = client.GetEntities(entityGuids)
@@ -40,11 +40,11 @@ func Example_entity() {
 	}
 
 	// Get an entity by GUID.
-	entity, err := client.GetEntity(entities[0].GUID)
+	entity, err := client.GetEntity((*entities[0]).(*Entity).GUID)
 	if err != nil {
 		log.Fatal("error getting entity:", err)
 	}
 
 	// Output the entity's URL.
-	fmt.Printf("Entity name: %s, URL: %s\n", entity.Name, entity.Permalink)
+	fmt.Printf("Entity name: %s, URL: %s\n", (*entity).(*Entity).Name, (*entity).(*Entity).Permalink)
 }
