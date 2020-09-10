@@ -50,3 +50,9 @@ type LicenseKeyAuthorizer struct{}
 func (a *LicenseKeyAuthorizer) AuthorizeRequest(r *Request, c *config.Config) {
 	r.SetHeader("X-License-Key", c.LicenseKey)
 }
+
+type LogsInsertKeyAuthorizer struct{}
+
+func (a *LogsInsertKeyAuthorizer) AuthorizeRequest(r *Request, c *config.Config) {
+	r.SetHeader("Api-Key", c.InsightsInsertKey)
+}
