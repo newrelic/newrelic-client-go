@@ -1,3 +1,10 @@
+<a name="v0.41.0"></a>
+## [v0.41.0] - 2020-09-10
+<a name="v0.40.0"></a>
+## [v0.40.0] - 2020-09-04
+### Features
+- **alerts:** add new fields 'expiration' and 'signal' to nrql_conditions
+
 <a name="v0.39.0"></a>
 ## [v0.39.0] - 2020-08-27
 ### Features
@@ -718,7 +725,9 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.39.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.41.0...HEAD
+[v0.41.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.40.0...v0.41.0
+[v0.40.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.39.0...v0.40.0
 [v0.39.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.38.0...v0.39.0
 [v0.38.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.37.0...v0.38.0
 [v0.37.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.36.0...v0.37.0
