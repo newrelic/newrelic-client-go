@@ -17,7 +17,8 @@ type TagValue struct {
 	Value string
 }
 
-// ListTags returns a collection of tags for a given entity by entity GUID.
+// ListTags returns a collection of mutable tags for a given entity by entity
+// GUID.
 func (e *Entities) ListTags(guid string) ([]*Tag, error) {
 	resp := listTagsResponse{}
 	vars := map[string]interface{}{
@@ -29,6 +30,21 @@ func (e *Entities) ListTags(guid string) ([]*Tag, error) {
 	}
 
 	return filterMutable(resp)
+}
+
+// ListAllTags returns a collection of all tags (mutable and not) for a given
+// entity by entity GUID.
+func (e *Entities) ListAllTags(guid string) ([]*Tag, error) {
+	resp := listTagsResponse{}
+	vars := map[string]interface{}{
+		"guid": guid,
+	}
+
+	if err := e.client.NerdGraphQuery(listTagsQuery, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return resp.Actor.Entity.Tags, nil
 }
 
 // filterMutable removes tag values that are read-only from the received response.
