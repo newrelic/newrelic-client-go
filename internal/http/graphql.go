@@ -54,6 +54,14 @@ func (r *GraphQLErrorResponse) Error() string {
 
 // IsNotFound determines if the error is due to a missing resource.
 func (r *GraphQLErrorResponse) IsNotFound() bool {
+	for _, err := range r.Errors {
+		for _, downStreamResp := range err.DownstreamResponse {
+			if strings.Contains(downStreamResp.Message, "Not Found") {
+				return true
+			}
+		}
+	}
+
 	return false
 }
 
