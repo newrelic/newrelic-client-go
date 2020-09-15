@@ -9,6 +9,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
+	"github.com/newrelic/newrelic-client-go/pkg/errors"
 	nr "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
 
@@ -369,6 +370,12 @@ func TestIntegrationNrqlConditions_ErrorScenarios(t *testing.T) {
 	updatedStatic, err := client.UpdateNrqlConditionStaticMutation(nr.TestAccountID, "8675309", testInvalidMutationInput)
 	require.Error(t, err)
 	require.Nil(t, updatedStatic)
+
+	// Test: 'Not Found' error for non-existent condition
+	_, err = client.GetNrqlConditionQuery(nr.TestAccountID, "999999999999999")
+	require.Error(t, err)
+	_, ok := err.(*errors.NotFound)
+	require.True(t, ok)
 
 	// Deferred teardown
 	defer func() {
