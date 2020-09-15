@@ -177,7 +177,11 @@ func (a *Alerts) QueryPolicy(accountID int, id string) (*AlertsPolicy, error) {
 		return nil, err
 	}
 
-	return &resp.Actor.Account.Alerts.Policy, nil
+	if resp.Actor.Account.Alerts.Policy == nil {
+		return nil, errors.NewNotFoundf("policy ID %v not found", id)
+	}
+
+	return resp.Actor.Account.Alerts.Policy, nil
 }
 
 // QueryPolicySearch searches NerdGraph for policies.
@@ -283,7 +287,7 @@ type alertQueryPolicyResponse struct {
 	Actor struct {
 		Account struct {
 			Alerts struct {
-				Policy AlertsPolicy `json:"policy"`
+				Policy *AlertsPolicy `json:"policy,omitempty"`
 			} `json:"alerts"`
 		} `json:"account"`
 	} `json:"actor"`
