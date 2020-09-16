@@ -2,7 +2,9 @@ package alerts
 
 import (
 	"fmt"
+	"strings"
 
+	"github.com/newrelic/newrelic-client-go/internal/http"
 	"github.com/newrelic/newrelic-client-go/pkg/errors"
 )
 
@@ -353,7 +355,15 @@ func (a *Alerts) GetNrqlConditionQuery(
 		"id":        conditionID,
 	}
 
-	if err := a.client.NerdGraphQuery(getNrqlConditionQuery, vars, &resp); err != nil {
+	req, err := a.client.NewNerdGraphRequest(getNrqlConditionQuery, vars, &resp)
+	if err != nil {
+		return nil, err
+	}
+
+	var errorResponse nrqlConditionErrorResponse
+	req.SetErrorValue(&errorResponse)
+
+	if _, err := a.client.Do(req); err != nil {
 		return nil, err
 	}
 
@@ -580,6 +590,34 @@ type getNrqlConditionQueryResponse struct {
 			} `json:"alerts"`
 		} `json:"account"`
 	} `json:"actor"`
+}
+
+type nrqlConditionErrorResponse struct {
+	http.GraphQLErrorResponse
+}
+
+func (r *nrqlConditionErrorResponse) IsNotFound() bool {
+	if len(r.Errors) == 0 {
+		return false
+	}
+
+	for _, err := range r.Errors {
+		for _, downStreamResp := range err.DownstreamResponse {
+			if strings.Contains(downStreamResp.Message, "Not Found") {
+				return true
+			}
+		}
+	}
+
+	return false
+}
+
+func (r *nrqlConditionErrorResponse) Error() string {
+	return r.GraphQLErrorResponse.Error()
+}
+
+func (r *nrqlConditionErrorResponse) New() http.ErrorResponse {
+	return &nrqlConditionErrorResponse{}
 }
 
 const (
