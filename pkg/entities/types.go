@@ -210,6 +210,14 @@ type AlertableEntity struct {
 
 func (x *AlertableEntity) ImplementsAlertableEntity() {}
 
+// AlertableEntityOutline -
+type AlertableEntityOutline struct {
+	// The current alerting severity of the entity
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity"`
+}
+
+func (x *AlertableEntityOutline) ImplementsAlertableEntityOutline() {}
+
 // ApmApplicationDeployment - An APM application deployment marker
 type ApmApplicationDeployment struct {
 	// The changelog of the deployment
@@ -390,6 +398,14 @@ type ApmBrowserApplicationEntity struct {
 }
 
 func (x *ApmBrowserApplicationEntity) ImplementsApmBrowserApplicationEntity() {}
+
+// ApmBrowserApplicationEntityOutline - The `ApmBrowserApplicationEntityOutline` interface provides detailed information for the Browser App injected by an APM Application.
+type ApmBrowserApplicationEntityOutline struct {
+	//
+	ApmBrowserSummary ApmBrowserApplicationSummaryData `json:"apmBrowserSummary"`
+}
+
+func (x *ApmBrowserApplicationEntityOutline) ImplementsApmBrowserApplicationEntityOutline() {}
 
 // ApmBrowserApplicationSummaryData - Summary statistics about the Browser App injected by the APM Application.
 type ApmBrowserApplicationSummaryData struct {
@@ -1411,6 +1427,14 @@ type InfrastructureIntegrationEntity struct {
 
 func (x *InfrastructureIntegrationEntity) ImplementsInfrastructureIntegrationEntity() {}
 
+// InfrastructureIntegrationEntityOutline -
+type InfrastructureIntegrationEntityOutline struct {
+	//
+	IntegrationTypeCode string `json:"integrationTypeCode"`
+}
+
+func (x *InfrastructureIntegrationEntityOutline) ImplementsInfrastructureIntegrationEntityOutline() {}
+
 // MobileAppSummaryData - Mobile application summary data
 type MobileAppSummaryData struct {
 	// The number of times the app has been launched.
@@ -2060,8 +2084,23 @@ type WorkloadStatus struct {
 // AttributeMap - This scalar represents a map of attributes in the form of key-value pairs.
 type AttributeMap string
 
+// EntityGUID - An encoded Entity GUID
+type EntityGUID string
+
 // EpochMilliseconds - The `EpochMilliseconds` scalar represents the number of milliseconds since the Unix epoch
 type EpochMilliseconds serialization.EpochTime
+
+// Float - The `Float` scalar type represents signed double-precision fractional
+// values as specified by
+// [IEEE 754](http://en.wikipedia.org/wiki/IEEE_floating_point).
+type Float string
+
+// ID - The `ID` scalar type represents a unique identifier, often used to
+// refetch an object or as key for a cache. The ID type appears in a JSON
+// response as a String; however, it is not intended to be human-readable.
+// When expected as an input type, any string (such as `"4"`) or integer
+// (such as `4`) input value will be accepted as an ID.
+type ID string
 
 // Minutes - The `Minutes` scalar represents a duration in minutes
 type Minutes int
@@ -2088,9 +2127,19 @@ type AlertableEntityInterface interface {
 	ImplementsAlertableEntity()
 }
 
+// AlertableEntityOutline -
+type AlertableEntityOutlineInterface interface {
+	ImplementsAlertableEntityOutline()
+}
+
 // ApmBrowserApplicationEntity - The `ApmBrowserApplicationEntity` interface provides detailed information for the Browser App injected by an APM Application.
 type ApmBrowserApplicationEntityInterface interface {
 	ImplementsApmBrowserApplicationEntity()
+}
+
+// ApmBrowserApplicationEntityOutline - The `ApmBrowserApplicationEntityOutline` interface provides detailed information for the Browser App injected by an APM Application.
+type ApmBrowserApplicationEntityOutlineInterface interface {
+	ImplementsApmBrowserApplicationEntityOutline()
 }
 
 // CollectionEntity - A group of entities defined by entity search queries and specific GUIDs
@@ -2115,6 +2164,11 @@ type EntityOutlineInterface interface {
 // InfrastructureIntegrationEntity -
 type InfrastructureIntegrationEntityInterface interface {
 	ImplementsInfrastructureIntegrationEntity()
+}
+
+// InfrastructureIntegrationEntityOutline -
+type InfrastructureIntegrationEntityOutlineInterface interface {
+	ImplementsInfrastructureIntegrationEntityOutline()
 }
 
 // SuggestedNRQLQuery - Interface type representing a query suggestion.
