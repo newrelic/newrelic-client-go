@@ -62,7 +62,9 @@ func TestIntegrationGetEntity(t *testing.T) {
 	entityGUID := "MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1"
 	client := newIntegrationTestClient(t)
 
-	actual, err := client.GetEntity(entityGUID)
+	response, err := client.GetEntity(entityGUID)
+	require.NotNil(t, response)
+	actual := (*response).(*Entity)
 
 	require.NoError(t, err)
 	require.NotNil(t, actual)
@@ -84,16 +86,18 @@ func TestIntegrationGetEntity_ApmEntityOutline(t *testing.T) {
 
 	client := newIntegrationTestClient(t)
 
-	actual, err := client.GetEntity("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
+	response, err := client.GetEntity("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
+	require.NotNil(t, response)
+	actual := (*response).(*ApmApplicationEntity)
 
 	require.NoError(t, err)
 	require.NotNil(t, actual)
 
 	// These are a bit fragile, if the above GUID ever changes...
 	// from ApmApplicationEntity / ApmApplicationEntityOutline
-	assert.Equal(t, 215037795, *actual.ApplicationID)
-	assert.Equal(t, EntityAlertSeverityType("NOT_ALERTING"), *actual.AlertSeverity)
-	assert.Equal(t, "nodejs", *actual.Language)
+	assert.Equal(t, 215037795, actual.ApplicationID)
+	assert.Equal(t, EntityAlertSeverityType("NOT_ALERTING"), actual.AlertSeverity)
+	assert.Equal(t, "nodejs", actual.Language)
 	assert.NotNil(t, actual.RunningAgentVersions)
 	assert.NotNil(t, actual.RunningAgentVersions.MinVersion)
 	assert.NotNil(t, actual.RunningAgentVersions.MaxVersion)
@@ -109,16 +113,18 @@ func TestIntegrationGetEntity_BrowserEntityOutline(t *testing.T) {
 
 	client := newIntegrationTestClient(t)
 
-	actual, err := client.GetEntity("MjUwODI1OXxCUk9XU0VSfEFQUExJQ0FUSU9OfDIwNDI2MTYyOA")
+	response, err := client.GetEntity("MjUwODI1OXxCUk9XU0VSfEFQUExJQ0FUSU9OfDIwNDI2MTYyOA")
+	require.NotNil(t, response)
+	actual := (*response).(*BrowserApplicationEntity)
 
 	require.NoError(t, err)
 	require.NotNil(t, actual)
 
 	// These are a bit fragile, if the above GUID ever changes...
 	// from BrowserApplicationEntity / BrowserApplicationEntityOutline
-	assert.Equal(t, 204261628, *actual.ApplicationID)
-	assert.Equal(t, 204261368, *actual.ServingApmApplicationID)
-	assert.Equal(t, EntityAlertSeverityType("NOT_CONFIGURED"), *actual.AlertSeverity)
+	assert.Equal(t, 204261628, actual.ApplicationID)
+	assert.Equal(t, 204261368, actual.ServingApmApplicationID)
+	assert.Equal(t, EntityAlertSeverityType("NOT_CONFIGURED"), actual.AlertSeverity)
 
 }
 
@@ -128,15 +134,17 @@ func TestIntegrationGetEntity_MobileEntityOutline(t *testing.T) {
 
 	client := newIntegrationTestClient(t)
 
-	actual, err := client.GetEntity("NDQ0NTN8TU9CSUxFfEFQUExJQ0FUSU9OfDE3ODg1NDI")
+	response, err := client.GetEntity("NDQ0NTN8TU9CSUxFfEFQUExJQ0FUSU9OfDE3ODg1NDI")
+	require.NotNil(t, response)
+	actual := (*response).(*MobileApplicationEntity)
 
 	require.NoError(t, err)
 	require.NotNil(t, actual)
 
 	// These are a bit fragile, if the above GUID ever changes...
 	// from MobileApplicationEntity / MobileApplicationEntityOutline
-	assert.Equal(t, 1788542, *actual.ApplicationID)
-	assert.Equal(t, EntityAlertSeverityType("NOT_CONFIGURED"), *actual.AlertSeverity)
+	assert.Equal(t, 1788542, actual.ApplicationID)
+	assert.Equal(t, EntityAlertSeverityType("NOT_CONFIGURED"), actual.AlertSeverity)
 
 }
 
