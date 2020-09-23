@@ -1,3 +1,18 @@
+<a name="v0.42.0"></a>
+## [v0.42.0] - 2020-09-23
+### Features
+- **alerts:** enable personal api key auth for infra conditions
+
+<a name="v0.41.2"></a>
+## [v0.41.2] - 2020-09-16
+### Refactor
+- **alerts:** remove widespread change, limit scope to only nrql condition error resp handling
+
+<a name="v0.41.1"></a>
+## [v0.41.1] - 2020-09-15
+### Bug Fixes
+- **http:** handle 'not found' downstream response
+
 <a name="v0.41.0"></a>
 ## [v0.41.0] - 2020-09-11
 ### Bug Fixes
@@ -731,7 +746,10 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.41.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.42.0...HEAD
+[v0.42.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.41.2...v0.42.0
+[v0.41.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.41.1...v0.41.2
+[v0.41.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.41.0...v0.41.1
 [v0.41.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.40.0...v0.41.0
 [v0.40.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.39.0...v0.40.0
 [v0.39.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.38.0...v0.39.0
