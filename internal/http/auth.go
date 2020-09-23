@@ -24,7 +24,6 @@ type PersonalAPIKeyCapableV2Authorizer struct{}
 func (a *PersonalAPIKeyCapableV2Authorizer) AuthorizeRequest(r *Request, c *config.Config) {
 	if c.PersonalAPIKey != "" {
 		r.SetHeader("Api-Key", c.PersonalAPIKey)
-		r.SetHeader("Auth-Type", "User-Api-Key")
 	} else {
 		r.SetHeader("X-Api-Key", c.AdminAPIKey)
 	}
