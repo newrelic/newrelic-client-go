@@ -8,7 +8,7 @@ import (
 )
 
 func Example_secureCredentials() {
-	// Initialize the client configuration.  An Admin API key is required to
+	// Initialize the client configuration. An Admin API key is required to
 	// communicate with the backend API.
 	cfg := config.New()
 	cfg.AdminAPIKey = os.Getenv("NEW_RELIC_ADMIN_API_KEY")
