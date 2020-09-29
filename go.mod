@@ -1,6 +1,6 @@
 module github.com/newrelic/newrelic-client-go
 
-go 1.13
+go 1.15
 
 require (
 	github.com/client9/misspell v0.3.4
