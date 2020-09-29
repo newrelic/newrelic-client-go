@@ -102,6 +102,15 @@ $ make test-unit
 $ make test-integration
 ```
 
+#### Go Version Support
+
+We'll aim to support the latest supported release of Go, along with the
+previous release.  This doesn't mean that building with an older version of Go
+will not work, but we don't intend to support a Go version in this project that
+is not supported by the larger Go community.  Please see the [Go
+releases][go_releases] page for more details.
+
+
 ### Commit Messages
 
 Using the following format for commit messages allows for auto-generation of
@@ -165,3 +174,5 @@ Keep in mind that when you submit your pull request, you'll need to sign the CLA
 ## Open Source License
 
 This project is distributed under the [Apache 2 license](LICENSE).
+
+[go_releases]: https://github.com/golang/go/wiki/Go-Release-Cycle
