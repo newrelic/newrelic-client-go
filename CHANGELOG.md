@@ -1,3 +1,11 @@
+<a name="v0.42.1"></a>
+## [v0.42.1] - 2020-09-30
+### Bug Fixes
+- **events:** dereference the data pointer
+
+### Documentation Updates
+- update supported Go information and test config
+
 <a name="v0.42.0"></a>
 ## [v0.42.0] - 2020-09-23
 ### Features
@@ -746,7 +754,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.42.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.42.1...HEAD
+[v0.42.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.42.0...v0.42.1
 [v0.42.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.41.2...v0.42.0
 [v0.41.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.41.1...v0.41.2
 [v0.41.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.41.0...v0.41.1
