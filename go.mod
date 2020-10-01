@@ -1,6 +1,6 @@
 module github.com/newrelic/newrelic-client-go
 
-go 1.13
+go 1.15
 
 require (
 	github.com/client9/misspell v0.3.4
@@ -14,7 +14,7 @@ require (
 	github.com/mitchellh/mapstructure v1.3.3
 	github.com/newrelic/tutone v0.2.3
 	github.com/psampaz/go-mod-outdated v0.7.0
-	github.com/sirupsen/logrus v1.6.0
+	github.com/sirupsen/logrus v1.7.0
 	github.com/stretchr/testify v1.6.1
 	github.com/tomnomnom/linkheader v0.0.0-20180905144013-02ca5825eb80
 	golang.org/x/tools v0.0.0-20200812195022-5ae4c3c160a0
