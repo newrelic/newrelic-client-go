@@ -20,6 +20,7 @@ var (
 	nrqlConditionBaseSignalFillValue    = float64(0.1) // needed for setting pointer
 	nrqlConditionBaseExpirationDuration = 1200         // needed for setting pointer
 	nrqlConditionBaseEvalOffset         = 3            // needed for setting pointer
+	nrqlConditionBaseAggWindow          = 60           // needed for setting pointer
 	nrqlConditionBase                   = NrqlConditionBase{
 		Description: "test description",
 		Enabled:     true,
@@ -45,9 +46,10 @@ var (
 			OpenViolationOnExpiration:   false,
 		},
 		Signal: &AlertsNrqlConditionSignal{
-			EvaluationOffset: &nrqlConditionBaseEvalOffset,
-			FillOption:       &AlertsFillOptionTypes.STATIC,
-			FillValue:        &nrqlConditionBaseSignalFillValue,
+			AggregationWindow: &nrqlConditionBaseAggWindow,
+			EvaluationOffset:  &nrqlConditionBaseEvalOffset,
+			FillOption:        &AlertsFillOptionTypes.STATIC,
+			FillValue:         &nrqlConditionBaseSignalFillValue,
 		},
 	}
 )

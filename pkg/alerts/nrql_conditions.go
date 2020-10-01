@@ -20,9 +20,10 @@ type AlertsNrqlConditionExpiration struct {
 // AlertsNrqlConditionSignal - Configuration that defines the signal that the NRQL condition will use to evaluate.
 // nolint:golint
 type AlertsNrqlConditionSignal struct {
-	EvaluationOffset *int              `json:"evaluationOffset,omitempty"`
-	FillOption       *AlertsFillOption `json:"fillOption"`
-	FillValue        *float64          `json:"fillValue"`
+	AggregationWindow *int              `json:"aggregationWindow,omitempty"`
+	EvaluationOffset  *int              `json:"evaluationOffset,omitempty"`
+	FillOption        *AlertsFillOption `json:"fillOption"`
+	FillValue         *float64          `json:"fillValue"`
 }
 
 // AlertsFillOption - The available fill options.
@@ -647,6 +648,7 @@ const (
       openViolationOnExpiration
     }
     signal {
+	  aggregationWindow
       evaluationOffset
       fillOption
       fillValue
