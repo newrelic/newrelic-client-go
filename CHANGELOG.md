@@ -1,3 +1,11 @@
+<a name="v0.43.0"></a>
+## [v0.43.0] - 2020-10-01
+### Documentation Updates
+- update changelog
+
+### Features
+- **synthetics:** change resources to use personal api keys
+
 <a name="v0.42.1"></a>
 ## [v0.42.1] - 2020-09-30
 ### Bug Fixes
@@ -754,7 +762,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.42.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.43.0...HEAD
+[v0.43.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.42.1...v0.43.0
 [v0.42.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.42.0...v0.42.1
 [v0.42.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.41.2...v0.42.0
 [v0.41.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.41.1...v0.41.2
