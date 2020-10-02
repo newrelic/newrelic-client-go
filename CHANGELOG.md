@@ -1,3 +1,12 @@
+<a name="v0.44.0"></a>
+## [v0.44.0] - 2020-10-02
+### Documentation Updates
+- update changelog
+
+### Features
+- remove admin API key as an authentication mechanism
+- **application_instances:** add an application instance resource
+
 <a name="v0.43.0"></a>
 ## [v0.43.0] - 2020-10-01
 ### Documentation Updates
@@ -762,7 +771,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.43.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.44.0...HEAD
+[v0.44.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.43.0...v0.44.0
 [v0.43.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.42.1...v0.43.0
 [v0.42.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.42.0...v0.42.1
 [v0.42.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.41.2...v0.42.0
