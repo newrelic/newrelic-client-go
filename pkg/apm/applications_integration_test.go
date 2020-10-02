@@ -33,7 +33,6 @@ func TestIntegrationApplications(t *testing.T) {
 	metricData, err := client.GetMetricData(a[0].ID, MetricDataParams{
 		Names: []string{n[0].Name, n[1].Name, n[2].Name},
 	})
-
 	require.NoError(t, err)
 	require.Equal(t, 3, len(metricData))
 }
