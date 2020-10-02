@@ -18,7 +18,10 @@ func TestIntegrationListTags(t *testing.T) {
 	client := newIntegrationTestClient(t)
 
 	actual, err := client.ListTags(testGUID)
+	require.NoError(t, err)
+	require.Greater(t, len(actual), 0)
 
+	actual, err = client.ListAllTags(testGUID)
 	require.NoError(t, err)
 	require.Greater(t, len(actual), 0)
 }

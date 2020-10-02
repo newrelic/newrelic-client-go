@@ -9,10 +9,10 @@ import (
 )
 
 func Example_dashboard() {
-	// Initialize the client configuration.  An Admin API key is required to
+	// Initialize the client configuration. A Personal API key is required to
 	// communicate with the backend API.
 	cfg := config.New()
-	cfg.AdminAPIKey = os.Getenv("NEW_RELIC_ADMIN_API_KEY")
+	cfg.PersonalAPIKey = os.Getenv("NEW_RELIC_API_KEY")
 
 	// Initialize the client.
 	client := New(cfg)

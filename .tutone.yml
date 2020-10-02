@@ -41,6 +41,22 @@ packages:
       - name: ID
         field_type_override: string
         skip_type_create: true
+  - name: cloud
+    path: pkg/cloud
+    generators:
+      - typegen
+    methods:
+      - name: cloudConfigureIntegration
+      - name: cloudDisableIntegration
+      - name: cloudLinkAccount
+      - name: cloudRenameAccount
+      - name: cloudUnlinkAccount
+    types:
+      - name: CloudAwsGovCloudProvider
+      - name: CloudAwsProvider
+      - name: CloudBaseProvider
+      - name: CloudGcpProvider
+      - name: CloudProvider
   - name: edge
     path: pkg/edge
     generators:
