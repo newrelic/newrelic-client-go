@@ -268,23 +268,6 @@ func TestCustomRequestHeaders(t *testing.T) {
 	assert.Nil(t, err)
 }
 
-func TestAdminAPIKeyHeader(t *testing.T) {
-	t.Parallel()
-	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusOK)
-
-		assert.Equal(t, mock.AdminAPIKey, r.Header.Get("x-api-key"))
-	}))
-
-	tc := mock.NewTestConfig(t, ts)
-	c := NewClient(tc)
-
-	_, err := c.Get(c.config.Region().RestURL("path"), nil, nil)
-
-	assert.Nil(t, err)
-}
-
 func TestErrNotFound(t *testing.T) {
 	t.Parallel()
 	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
