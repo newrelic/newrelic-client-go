@@ -11,11 +11,10 @@ import (
 
 // Synthetics is used to communicate with the New Relic Synthetics product.
 type Synthetics struct {
-	client                  http.Client
-	config                  config.Config
-	logger                  logging.Logger
-	pager                   http.Pager
-	secureCredentialsClient http.Client
+	client http.Client
+	config config.Config
+	logger logging.Logger
+	pager  http.Pager
 }
 
 // ErrorResponse represents an error response from New Relic Synthetics.
@@ -66,15 +65,11 @@ func New(config config.Config) Synthetics {
 	client.SetAuthStrategy(&http.PersonalAPIKeyCapableV2Authorizer{})
 	client.SetErrorValue(&ErrorResponse{})
 
-	secureCredentialsClient := http.NewClient(config)
-	client.SetErrorValue(&ErrorResponse{})
-
 	pkg := Synthetics{
-		client:                  client,
-		secureCredentialsClient: secureCredentialsClient,
-		config:                  config,
-		logger:                  config.GetLogger(),
-		pager:                   &http.LinkHeaderPager{},
+		client: client,
+		config: config,
+		logger: config.GetLogger(),
+		pager:  &http.LinkHeaderPager{},
 	}
 
 	return pkg

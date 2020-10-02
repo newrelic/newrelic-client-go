@@ -15,7 +15,6 @@ import (
 func Example_basic() {
 	// Initialize the client.
 	client, err := New(
-		ConfigAdminAPIKey(os.Getenv("NEW_RELIC_ADMIN_API_KEY")),
 		ConfigPersonalAPIKey(os.Getenv("NEW_RELIC_API_KEY")),
 		ConfigRegion("US"),
 		ConfigLogLevel("DEBUG"),
