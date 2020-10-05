@@ -3,6 +3,7 @@
 package logs
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"testing"
@@ -10,8 +11,7 @@ import (
 	"github.com/newrelic/newrelic-client-go/pkg/config"
 )
 
-func TestExample_log(t *testing.T) {
-	//func Example_basic() {
+func Example_log(t *testing.T) {
 	// Initialize the client configuration.  A New Relic License Key is required
 	// to communicate with the backend API.
 	cfg := config.New()
@@ -32,4 +32,6 @@ func TestExample_log(t *testing.T) {
 	if err := client.CreateLogEntry(logEntry); err != nil {
 		log.Fatal("error posting Log entry: ", err)
 	}
+
+	fmt.Printf("success")
 }

@@ -28,8 +28,7 @@ var testData = []testDatum{
 	},
 }
 
-// Test: CreateEvent
-func TestIntegrationEvents(t *testing.T) {
+func TestIntegrationLogs(t *testing.T) {
 	t.Parallel()
 
 	client := newIntegrationTestClient(t)

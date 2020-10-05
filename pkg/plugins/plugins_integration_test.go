@@ -5,13 +5,15 @@ package plugins
 import (
 	"testing"
 
+	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 	"github.com/stretchr/testify/require"
 )
 
 func TestIntegrationPlugins(t *testing.T) {
 	t.Parallel()
 
-	client := newIntegrationTestClient(t)
+	tc := mock.NewIntegrationTestConfig(t)
+	client := New(tc)
 
 	// Test: List
 	listResult, err := client.ListPlugins(nil)
