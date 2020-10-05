@@ -58,5 +58,4 @@ func Example_basic() {
 	if err := client.Flush(); err != nil {
 		log.Fatal("error flushing log queue: ", err)
 	}
-
 }

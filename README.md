@@ -86,10 +86,10 @@ $ make build
 # make build-ci
 ```
 
-
 ### Testing
+Before contributing, all linting and tests must pass.
 
-Before contributing, all linting and tests must pass.  Tests can be run directly via:
+Tests can be run directly via:
 
 ```
 # Tests and Linting
@@ -101,6 +101,22 @@ $ make test-unit
 # Only integration tests
 $ make test-integration
 ```
+
+#### Integration tests
+Integration tests communicate with the New Relic API, and therefore require proper
+account credentials to run properly. The suite makes use of secrets, which will
+need to be configured in the environment or else the integraiton tests will be skipped
+during a test run. To run the integration test suite, the following secrets will
+need to be configured:
+
+```
+NEW_RELIC_API_KEY
+NEW_RELIC_ACCOUNT_ID
+NEW_RELIC_INSIGHTS_INSERT_KEY
+NEW_RELIC_LICENSE_KEY
+NEW_RELIC_REGION
+```
+
 
 #### Go Version Support
 
