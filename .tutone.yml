@@ -45,18 +45,18 @@ packages:
     path: pkg/cloud
     generators:
       - typegen
+    queries:
+      - path: ["actor", "cloud"]
+        endpoints:
+          - name: linkedAccounts
+            maxQueryFieldDepth: 2
     methods:
       - name: cloudConfigureIntegration
       - name: cloudDisableIntegration
       - name: cloudLinkAccount
       - name: cloudRenameAccount
       - name: cloudUnlinkAccount
-    types:
-      - name: CloudAwsGovCloudProvider
-      - name: CloudAwsProvider
-      - name: CloudBaseProvider
-      - name: CloudGcpProvider
-      - name: CloudProvider
+    types: []
   - name: edge
     path: pkg/edge
     generators:
