@@ -2,6 +2,9 @@ name: Tutone Generate
 on:
   push:
     branches: [master]
+  schedule:
+    - cron: "5 5 * * 1"
+
 jobs:
   createPullRequest:
     runs-on: ubuntu-latest
