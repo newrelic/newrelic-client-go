@@ -5,8 +5,9 @@ package cloud
 import (
 	"testing"
 
-	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 	"github.com/stretchr/testify/require"
+
+	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
 
 func TestCloud_RenameAccounts(t *testing.T) {

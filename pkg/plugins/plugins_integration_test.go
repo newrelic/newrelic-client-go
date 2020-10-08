@@ -5,8 +5,9 @@ package plugins
 import (
 	"testing"
 
-	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 	"github.com/stretchr/testify/require"
+
+	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
 
 func TestIntegrationPlugins(t *testing.T) {
