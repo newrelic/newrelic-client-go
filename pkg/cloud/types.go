@@ -4,6 +4,7 @@ package cloud
 import (
 	"encoding/json"
 	"fmt"
+
 	"github.com/newrelic/newrelic-client-go/internal/serialization"
 )
 
