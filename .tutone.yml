@@ -43,6 +43,10 @@ packages:
         skip_type_create: true
   - name: cloud
     path: pkg/cloud
+    imports:
+      - github.com/newrelic/newrelic-client-go/internal/serialization
+      - encoding/json
+      - fmt
     generators:
       - typegen
     queries:
@@ -50,13 +54,19 @@ packages:
         endpoints:
           - name: linkedAccounts
             maxQueryFieldDepth: 2
-    methods:
+    mutations:
       - name: cloudConfigureIntegration
       - name: cloudDisableIntegration
       - name: cloudLinkAccount
       - name: cloudRenameAccount
       - name: cloudUnlinkAccount
-    types: []
+    types:
+      - name: EpochSeconds
+        field_type_override: serialization.EpochTime
+        skip_type_create: true
+      - name: EpochMilliseconds
+        field_type_override: serialization.EpochTime
+        skip_type_create: true
   - name: edge
     path: pkg/edge
     generators:
