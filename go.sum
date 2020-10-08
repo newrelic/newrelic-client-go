@@ -602,6 +602,8 @@ github.com/nbutton23/zxcvbn-go v0.0.0-20180912185939-ae427f1e4c1d h1:AREM5mwr4u1
 github.com/nbutton23/zxcvbn-go v0.0.0-20180912185939-ae427f1e4c1d/go.mod h1:o96djdrsSGy3AWPyBgZMAGfxZNfgntdJG+11KU4QvbU=
 github.com/newrelic/tutone v0.2.3 h1:fAwB0ge2VNWYllcuiPvfs8WkdQumGhXF5kRfzbDTHDM=
 github.com/newrelic/tutone v0.2.3/go.mod h1:tfWM773ZGUHqQu70NV3DPjrFmxQ9+p8/++7UJ1J1gmE=
+github.com/newrelic/tutone v0.2.5 h1:/mfbzntnDkvGyxZl2VlMuOj1yhWaIKFvTB90oNJDx5E=
+github.com/newrelic/tutone v0.2.5/go.mod h1:Jv8miaLyP2pjx4wqvAdx1nLXMx/Cl7kmsNiKZlCeIds=
 github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e h1:fD57ERR4JtEqsWbfPhv4DMiApHyliiK5xCTNVSPiaAs=
 github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e/go.mod h1:zD1mROLANZcx1PVRCS0qkT7pwLkGfwJo4zjcN/Tysno=
 github.com/nishanths/exhaustive v0.0.0-20200708172631-8866003e3856 h1:W3KBC2LFyfgd+wNudlfgCCsTo4q97MeNWrfz8/wSdSc=
