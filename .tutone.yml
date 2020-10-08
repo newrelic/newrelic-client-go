@@ -49,6 +49,7 @@ packages:
       - fmt
     generators:
       - typegen
+      - nerdgraphclient
     queries:
       - path: ["actor", "cloud"]
         endpoints:
@@ -183,3 +184,5 @@ packages:
 generators:
   - name: typegen
     fileName: "types.go"
+  - name: nerdgraphclient
+    fileName: "{{.PackageName}}_api.go"
