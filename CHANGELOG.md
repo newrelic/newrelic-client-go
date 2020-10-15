@@ -1,3 +1,17 @@
+<a name="v0.46.0"></a>
+## [v0.46.0] - 2020-10-15
+### Bug Fixes
+- **alerts:** make error handling more resilient for alert policies
+- **build:** update changelog action for improved standards
+- **build:** use DTK token for auto-PR process
+- **edge:** trace observer schema updates
+
+### Documentation Updates
+- update changelog
+
+### Features
+- **cloud:** include initial cloud client support
+
 <a name="v0.45.0"></a>
 ## [v0.45.0] - 2020-10-05
 ### Documentation Updates
@@ -779,7 +793,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.45.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.46.0...HEAD
+[v0.46.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.45.0...v0.46.0
 [v0.45.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.44.0...v0.45.0
 [v0.44.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.43.0...v0.44.0
 [v0.43.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.42.1...v0.43.0
