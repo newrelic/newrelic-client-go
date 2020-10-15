@@ -13,7 +13,7 @@ import (
 var (
 	testAccountIDStr      = os.Getenv("NEW_RELIC_MASTER_ACCOUNT_ID")
 	testTraceObserverName = "testTraceObserver"
-	testProviderRegion    = EdgeProviderRegionTypes.AWS_US_EAST_1
+	testProviderRegion    = EdgeProviderRegionTypes.AWS_US_EAST_2
 )
 
 func TestIntegrationTraceObserver(t *testing.T) {
