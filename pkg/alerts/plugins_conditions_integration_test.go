@@ -12,6 +12,7 @@ import (
 )
 
 func TestIntegrationPluginsConditions(t *testing.T) {
+	t.Skip()
 	t.Parallel()
 
 	var (

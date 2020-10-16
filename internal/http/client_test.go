@@ -83,6 +83,10 @@ func (c *CustomErrorResponse) IsNotFound() bool {
 	return false
 }
 
+func (c *CustomErrorResponse) IsTimeout() bool {
+	return false
+}
+
 func TestCustomErrorValue(t *testing.T) {
 	t.Parallel()
 	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -277,6 +281,23 @@ func TestErrNotFound(t *testing.T) {
 	_, err := c.Get(c.config.Region().RestURL("path"), nil, nil)
 
 	assert.IsType(t, &errors.NotFound{}, err)
+}
+
+func TestRetryOnNerdGraphTimeout(t *testing.T) {
+	t.Parallel()
+	attempts := 0
+	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`{"errors":[{"message": "error", "extensions":{"errorClass":"TIMEOUT"}}]}`))
+		attempts++
+	}))
+
+	c.errorValue = &GraphQLErrorResponse{}
+	_, err := c.Get(c.config.Region().NerdGraphURL("path"), nil, nil)
+
+	assert.Equal(t, 4, attempts)
+	assert.Error(t, err)
+	assert.IsType(t, &errors.Timeout{}, err)
 }
 
 func TestInternalServerError(t *testing.T) {

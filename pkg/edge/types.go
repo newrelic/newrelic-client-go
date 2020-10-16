@@ -128,8 +128,8 @@ type EdgeAgentEndpointDetail struct {
 	// Full host name that is used to connect to the endpoint. This is the part that will be placed into an agent config named `infinite_tracing.trace_observer.host`.
 	Host string `json:"host"`
 	// Port that is used to connect to the endpoint. This is the part that will be placed into an agent config named `infinite_tracing.trace_observer.port`.
-	Port int `json:"port"`
-	Url string `json:"url"`
+	Port int    `json:"port"`
+	Url  string `json:"url"`
 }
 
 func (x *EdgeAgentEndpointDetail) ImplementsEdgeEndpointDetail() {}
