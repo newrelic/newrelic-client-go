@@ -297,6 +297,7 @@ func TestRetryOnNerdGraphTimeout(t *testing.T) {
 
 	assert.Equal(t, 4, attempts)
 	assert.Error(t, err)
+	assert.IsType(t, &errors.Timeout{}, err)
 }
 
 func TestInternalServerError(t *testing.T) {
