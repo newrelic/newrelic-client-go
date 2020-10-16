@@ -220,7 +220,7 @@ func obfuscate(input string) string {
 	return strings.Join(result, "")
 }
 
-func logCleanHeaderMarhsalJSON(header http.Header) ([]byte, error) {
+func logCleanHeaderMarshalJSON(header http.Header) ([]byte, error) {
 	h := http.Header{}
 
 	for k, values := range header {
@@ -249,6 +249,7 @@ func logCleanHeaderMarhsalJSON(header http.Header) ([]byte, error) {
 }
 
 // Do initiates an HTTP request as configured by the passed Request struct.
+// nolint:gocyclo
 func (c *Client) Do(req *Request) (*http.Response, error) {
 	r, err := req.makeRequest()
 	if err != nil {
@@ -259,7 +260,7 @@ func (c *Client) Do(req *Request) (*http.Response, error) {
 
 	logger.Debug("performing request", "method", req.method, "url", r.URL)
 
-	logHeaders, err := logCleanHeaderMarhsalJSON(r.Header)
+	logHeaders, err := logCleanHeaderMarshalJSON(r.Header)
 	if err != nil {
 		return nil, err
 	}
@@ -286,31 +287,63 @@ func (c *Client) Do(req *Request) (*http.Response, error) {
 		logger.Trace("request details", "headers", string(logHeaders))
 	}
 
-	resp, retryErr := c.client.Do(r)
-	if retryErr != nil {
-		return nil, retryErr
+	var shouldRetry bool
+	var body []byte
+	var resp *http.Response
+	var retryErr error
+	var readErr error
+	var errorValue ErrorResponse
+
+	for i := 0; ; i++ {
+		shouldRetry = false
+
+		if i > 0 {
+			logger.Debug("retrying request", "method", req.method, "url", r.URL)
+		}
+
+		resp, retryErr = c.client.Do(r)
+		if retryErr != nil {
+			return nil, retryErr
+		}
+
+		defer resp.Body.Close()
+
+		if resp.StatusCode == http.StatusNotFound {
+			return nil, &nrErrors.NotFound{}
+		}
+
+		body, readErr = ioutil.ReadAll(resp.Body)
+		if readErr != nil {
+			return nil, readErr
+		}
+
+		logHeaders, err = json.Marshal(resp.Header)
+		if err != nil {
+			return nil, err
+		}
+
+		logger.Trace("request completed", "method", req.method, "url", r.URL, "status_code", resp.StatusCode, "headers", string(logHeaders), "body", string(body))
+
+		errorValue = req.errorValue.New()
+		_ = json.Unmarshal(body, &errorValue)
+
+		if errorValue.IsTimeout() {
+			shouldRetry = true
+		}
+
+		if !shouldRetry {
+			break
+		}
+
+		remain := c.client.RetryMax - i
+		if remain <= 0 {
+			break
+		}
+
+		wait := c.client.Backoff(c.client.RetryWaitMin, c.client.RetryWaitMax, i, resp)
+
+		time.Sleep(wait)
 	}
-
-	defer resp.Body.Close()
-
-	if resp.StatusCode == http.StatusNotFound {
-		return nil, &nrErrors.NotFound{}
-	}
-
-	body, readErr := ioutil.ReadAll(resp.Body)
-	if readErr != nil {
-		return nil, readErr
-	}
-
-	logHeaders, err = json.Marshal(resp.Header)
-	if err != nil {
-		return nil, err
-	}
-
-	logger.Trace("request completed", "method", req.method, "url", r.URL, "status_code", resp.StatusCode, "headers", string(logHeaders), "body", string(body))
-
-	errorValue := req.errorValue.New()
-	_ = json.Unmarshal(body, &errorValue)
 
 	if !isResponseSuccess(resp) {
 		return nil, nrErrors.NewUnexpectedStatusCode(resp.StatusCode, errorValue.Error())
@@ -318,6 +351,10 @@ func (c *Client) Do(req *Request) (*http.Response, error) {
 
 	if errorValue.IsNotFound() {
 		return nil, nrErrors.NewNotFound("resource not found")
+	}
+
+	if errorValue.IsTimeout() {
+		return nil, nrErrors.NewTimeout("server timeout")
 	}
 
 	if errorValue.Error() != "" {

@@ -613,6 +613,20 @@ func (r *nrqlConditionErrorResponse) IsNotFound() bool {
 	return false
 }
 
+func (r *nrqlConditionErrorResponse) IsTimeout() bool {
+	if len(r.Errors) == 0 {
+		return false
+	}
+
+	for _, err := range r.Errors {
+		if err.Extensions.ErrorClass == "TIMEOUT" {
+			return true
+		}
+	}
+
+	return false
+}
+
 func (r *nrqlConditionErrorResponse) Error() string {
 	return r.GraphQLErrorResponse.Error()
 }

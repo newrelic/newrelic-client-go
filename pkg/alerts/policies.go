@@ -249,6 +249,20 @@ func (r *alertPoliciesErrorResponse) IsNotFound() bool {
 	return false
 }
 
+func (r *alertPoliciesErrorResponse) IsTimeout() bool {
+	if len(r.Errors) == 0 {
+		return false
+	}
+
+	for _, err := range r.Errors {
+		if err.Extensions.ErrorClass == "TIMEOUT" {
+			return true
+		}
+	}
+
+	return false
+}
+
 func (r *alertPoliciesErrorResponse) Error() string {
 	return r.GraphQLErrorResponse.Error()
 }
