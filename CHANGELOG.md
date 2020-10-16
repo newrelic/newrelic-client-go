@@ -1,3 +1,8 @@
+<a name="v0.47.0"></a>
+## [v0.47.0] - 2020-10-16
+### Features
+- **http:** retry on nerdgraph server timeout
+
 <a name="v0.46.0"></a>
 ## [v0.46.0] - 2020-10-15
 ### Bug Fixes
@@ -793,7 +798,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.46.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.47.0...HEAD
+[v0.47.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.46.0...v0.47.0
 [v0.46.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.45.0...v0.46.0
 [v0.45.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.44.0...v0.45.0
 [v0.44.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.43.0...v0.44.0
