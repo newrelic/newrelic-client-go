@@ -1,3 +1,9 @@
+<a name="v0.47.1"></a>
+## [v0.47.1] - 2020-10-23
+### Bug Fixes
+- **alerts:** remove pagination from ListMultiLocationSyntheticsConditions
+- **http:** include 500 errors in reasons to retry requests
+
 <a name="v0.47.0"></a>
 ## [v0.47.0] - 2020-10-16
 ### Features
@@ -798,7 +804,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.47.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.47.1...HEAD
+[v0.47.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.47.0...v0.47.1
 [v0.47.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.46.0...v0.47.0
 [v0.46.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.45.0...v0.46.0
 [v0.45.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.44.0...v0.45.0
