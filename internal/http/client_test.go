@@ -58,13 +58,13 @@ func TestDefaultErrorValue(t *testing.T) {
 	t.Parallel()
 	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusInternalServerError)
+		w.WriteHeader(http.StatusBadRequest)
 		_, _ = w.Write([]byte(`{"error":{"title":"error message"}}`))
 	}))
 
 	_, err := c.Get(c.config.Region().RestURL("path"), nil, nil)
 
-	assert.Contains(t, err.(*errors.UnexpectedStatusCode).Error(), "error message")
+	assert.Contains(t, err.Error(), "error message")
 }
 
 type CustomErrorResponse struct {
@@ -91,7 +91,7 @@ func TestCustomErrorValue(t *testing.T) {
 	t.Parallel()
 	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusInternalServerError)
+		w.WriteHeader(http.StatusBadRequest)
 		_, _ = w.Write([]byte(`{"custom":"error message"}`))
 	}))
 
@@ -99,7 +99,7 @@ func TestCustomErrorValue(t *testing.T) {
 
 	_, err := c.Get(c.config.Region().RestURL("path"), nil, nil)
 
-	assert.Contains(t, err.(*errors.UnexpectedStatusCode).Error(), "error message")
+	assert.Contains(t, err.Error(), "error message")
 }
 
 type CustomResponseValue struct {
@@ -303,7 +303,7 @@ func TestRetryOnNerdGraphTimeout(t *testing.T) {
 func TestInternalServerError(t *testing.T) {
 	t.Parallel()
 	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusInternalServerError)
+		w.WriteHeader(http.StatusBadRequest)
 	}))
 
 	_, err := c.Get(c.config.Region().RestURL("path"), nil, nil)

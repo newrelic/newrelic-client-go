@@ -60,6 +60,7 @@ func RetryPolicy(ctx context.Context, resp *http.Response, err error) (bool, err
 	// of the Synthetics API.
 	if resp.StatusCode == 0 ||
 		resp.StatusCode == 429 ||
+		resp.StatusCode == 500 ||
 		resp.StatusCode >= 502 {
 		return true, nil
 	}
