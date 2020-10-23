@@ -248,6 +248,53 @@ func logCleanHeaderMarshalJSON(header http.Header) ([]byte, error) {
 	return json.Marshal(h)
 }
 
+func (c *Client) NewDo(req *Request) (*http.Response, error) {
+	var resp *http.Response
+	var errorValue ErrorResponse
+	var body []byte
+
+	maxRetry := 3
+	sleepDuration := 1111 * time.Millisecond
+	logger := c.config.GetLogger()
+	logger.Debug("performing request", "method", req.method, "url", req.url)
+
+	ctx := req.request.Context()
+
+	resp, body, _, err := c.do(req, errorValue, 0)
+	if retryableError(ctx, resp, err) {
+		retries := 0
+		time.Sleep(sleepDuration)
+		// TODO Increase the sleep duration
+
+		for retries <= maxRetry {
+			retries++
+			resp, body, _, err := c.do(req, errorValue, 0)
+			if err != nil {
+				// Once we have reached the maximum, just return the error
+				if retries == maxRetry {
+					return resp, errorHandling(body, err)
+				}
+
+				// Continue the loop if the error is still retryable
+				if retryableError(ctx, resp, err) {
+					continue
+				}
+
+				// The error returned on the retry was not retry-able.
+				return resp, errorHandling(body, err)
+			}
+
+			return resp, nil
+		}
+	}
+
+	if err != nil {
+		return resp, errorHandling(body, err)
+	}
+
+	return resp, nil
+}
+
 // Do initiates an HTTP request as configured by the passed Request struct.
 func (c *Client) Do(req *Request) (*http.Response, error) {
 	var resp *http.Response
@@ -262,7 +309,7 @@ func (c *Client) Do(req *Request) (*http.Response, error) {
 		var err error
 
 		errorValue = req.errorValue.New()
-		resp, body, shouldRetry, err = c.innerDo(req, errorValue, i)
+		resp, body, shouldRetry, err = c.do(req, errorValue, i)
 		if err != nil {
 			return nil, err
 		}
@@ -300,7 +347,7 @@ func (c *Client) Do(req *Request) (*http.Response, error) {
 	return resp, nil
 }
 
-func (c *Client) innerDo(req *Request, errorValue ErrorResponse, i int) (*http.Response, []byte, bool, error) {
+func (c *Client) do(req *Request, errorValue ErrorResponse, i int) (*http.Response, []byte, bool, error) {
 	shouldRetry := false
 
 	r, err := req.makeRequest()

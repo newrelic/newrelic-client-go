@@ -67,3 +67,8 @@ func RetryPolicy(ctx context.Context, resp *http.Response, err error) (bool, err
 
 	return false, nil
 }
+
+func retryableError(ctx context.Context, resp *http.Response, err error) bool {
+	shouldRetry, _ := RetryPolicy(ctx, resp, err)
+	return shouldRetry
+}
