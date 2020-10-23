@@ -32,27 +32,18 @@ type MultiLocationSyntheticsConditionTerm struct {
 // ListMultiLocationSyntheticsConditions returns alert conditions for a specified policy.
 func (a *Alerts) ListMultiLocationSyntheticsConditions(policyID int) ([]*MultiLocationSyntheticsCondition, error) {
 	response := multiLocationSyntheticsConditionListResponse{}
-	multiLocationSyntheticsConditions := []*MultiLocationSyntheticsCondition{}
 	queryParams := listMultiLocationSyntheticsConditionsParams{
 		PolicyID: policyID,
 	}
 
-	nextURL := a.config.Region().RestURL("/alerts_location_failure_conditions/policies/", strconv.Itoa(policyID)+".json")
+	url := a.config.Region().RestURL("/alerts_location_failure_conditions/policies/", strconv.Itoa(policyID)+".json")
+	_, err := a.client.Get(url, &queryParams, &response)
 
-	for nextURL != "" {
-		resp, err := a.client.Get(nextURL, &queryParams, &response)
-
-		if err != nil {
-			return nil, err
-		}
-
-		multiLocationSyntheticsConditions = append(multiLocationSyntheticsConditions, response.MultiLocationSyntheticsConditions...)
-
-		paging := a.pager.Parse(resp)
-		nextURL = paging.Next
+	if err != nil {
+		return nil, err
 	}
 
-	return multiLocationSyntheticsConditions, nil
+	return response.MultiLocationSyntheticsConditions, nil
 }
 
 // GetMultiLocationSyntheticsCondition retrieves a specific Synthetics alert condition.
