@@ -8,7 +8,7 @@ type MutingRule struct {
 	CreatedAt     string                   `json:"createdAt,omitempty"`
 	CreatedByUser ByUser                   `json:"createdByUser,omitempty"`
 	Description   string                   `json:"description,omitempty"`
-	Enabled       bool                     `json:"enabled,omitempty"`
+	Enabled       bool                     `json:"enabled"`
 	Name          string                   `json:"name,omitempty"`
 	UpdatedAt     string                   `json:"updatedAt,omitempty"`
 	UpdatedByUser ByUser                   `json:"updatedByUser,omitempty"`
