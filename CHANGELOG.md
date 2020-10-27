@@ -1,3 +1,8 @@
+<a name="v0.47.2"></a>
+## [v0.47.2] - 2020-10-27
+### Bug Fixes
+- **alerts:** don't omitempty for muting rule's enabled field
+
 <a name="v0.47.1"></a>
 ## [v0.47.1] - 2020-10-23
 ### Bug Fixes
@@ -804,7 +809,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.47.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.47.2...HEAD
+[v0.47.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.47.1...v0.47.2
 [v0.47.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.47.0...v0.47.1
 [v0.47.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.46.0...v0.47.0
 [v0.46.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.45.0...v0.46.0
