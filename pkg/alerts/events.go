@@ -1,7 +1,7 @@
 package alerts
 
 import (
-	"github.com/newrelic/newrelic-client-go/internal/serialization"
+	"github.com/joeyparsons/newrelic-client-go/internal/serialization"
 )
 
 // AlertEvent response struct

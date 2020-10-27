@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/newrelic/newrelic-client-go/internal/http"
+	"github.com/joeyparsons/newrelic-client-go/internal/http"
 	"github.com/newrelic/newrelic-client-go/pkg/errors"
 )
 

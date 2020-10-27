@@ -3,7 +3,7 @@ package alerts
 import (
 	"fmt"
 
-	"github.com/newrelic/newrelic-client-go/internal/serialization"
+	"github.com/joeyparsons/newrelic-client-go/internal/serialization"
 )
 
 // InfrastructureCondition represents a New Relic Infrastructure alert condition.

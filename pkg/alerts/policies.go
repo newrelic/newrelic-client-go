@@ -5,8 +5,8 @@ import (
 
 	"github.com/newrelic/newrelic-client-go/pkg/errors"
 
-	"github.com/newrelic/newrelic-client-go/internal/http"
-	"github.com/newrelic/newrelic-client-go/internal/serialization"
+	"github.com/joeyparsons/newrelic-client-go/internal/http"
+	"github.com/joeyparsons/newrelic-client-go/internal/serialization"
 )
 
 // IncidentPreferenceType specifies rollup settings for alert policies.
