@@ -53,5 +53,5 @@ func (a *Alerts) ListAlertEvents(params *ListAlertEventsParams) ([]*AlertEvent, 
 }
 
 type alertEventsResponse struct {
-	AlertEvents []*AlertEvent `json:"alert_events,omitempty"`
+	AlertEvents []*AlertEvent `json:"recent_events,omitempty"`
 }
