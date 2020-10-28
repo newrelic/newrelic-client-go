@@ -42,7 +42,8 @@ type MetricTimeslice struct {
 }
 
 // MetricTimesliceValues is the collection of metric values for a single time slice.
-// Note that according to the API documentation, these values are from a `hashmap`. The static values have been left in the struct to maintain backwards compatibility.
+// Note that according to the API documentation, these values are from a `hashmap`.
+// The static values have been left in the struct to maintain backwards compatibility.
 // Users of this type should prefer the `Values` map over struct fields.
 type MetricTimesliceValues struct {
 	AsPercentage           float64 `json:"as_percentage,omitempty"`
@@ -55,6 +56,7 @@ type MetricTimesliceValues struct {
 	Values map[string]float64 `json:"-"`
 }
 
+// UnmarshalJSON is a custom unmarshaling function that unmarshals the JSON into a `MetricTimesliceValues` and into the `Values` field.
 func (m *MetricTimesliceValues) UnmarshalJSON(b []byte) error {
 	// Create a type alias for unmarshaling MetricTimesliceValues to avoid an infinite loop,
 	// but still take advantage of the standard json.Unmarshal functionality
