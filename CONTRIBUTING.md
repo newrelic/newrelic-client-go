@@ -12,6 +12,17 @@ Feature requests should be submitted in the [Issue tracker](../../issues), with 
 Before submitting an Issue, please search for similar ones in the
 [closed issues](issues?q=is%3Aissue+is%3Aclosed+label%3Aenhancement).
 
+## Commit messages
+
+To keep a style and allow us to automate the generating of a change log, we
+require that that commit messages adhere to a standard.
+
+TL;DR The commit message must match this regular expression.
+
+    (chore|docs|feat|fix|refactor|tests?)(\([^\)]+\))?: .*
+
+For more information on commit messages, we mostly follow [this standard][conventional_commits].
+
 ## Pull Requests
 
 1. Ensure any install or build dependencies are removed before the end of the layer when doing a build.
