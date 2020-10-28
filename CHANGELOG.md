@@ -1,3 +1,10 @@
+<a name="v0.47.3"></a>
+## [v0.47.3] - 2020-10-28
+### Bug Fixes
+- **apm:** add extra comments
+- **apm:** fix linting error
+- **apm:** add backwards compatible fix and test
+
 <a name="v0.47.2"></a>
 ## [v0.47.2] - 2020-10-27
 ### Bug Fixes
@@ -809,7 +816,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.47.2...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.47.3...HEAD
+[v0.47.3]: https://github.com/newrelic/newrelic-client-go/compare/v0.47.2...v0.47.3
 [v0.47.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.47.1...v0.47.2
 [v0.47.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.47.0...v0.47.1
 [v0.47.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.46.0...v0.47.0
