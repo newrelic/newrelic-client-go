@@ -6,24 +6,20 @@ import (
 
 // ListTraceObservers lists the trace observers for an account.
 func (e *Edge) ListTraceObservers(accountID int) ([]EdgeTraceObserver, error) {
-	resp := traceObserverResponse{}
-	vars := map[string]interface{}{
-		"accountId": accountID,
-	}
-
-	if err := e.client.NerdGraphQuery(listTraceObserversQuery, vars, &resp); err != nil {
-		return nil, err
-	}
-
-	return resp.Actor.Account.Edge.Tracing.TraceObservers, nil
+	return e.QueryTraceObservers(accountID, nil)
 }
 
 // CreateTraceObserver creates a trace observer for an account.
 func (e *Edge) CreateTraceObserver(accountID int, name string, providerRegion EdgeProviderRegion) (*EdgeTraceObserver, error) {
 	resp := createTraceObserverResponse{}
 	vars := map[string]interface{}{
-		"accountId":            accountID,
-		"traceObserverConfigs": []EdgeCreateTraceObserverInput{{name, providerRegion}},
+		"accountId": accountID,
+		"traceObserverConfigs": []EdgeCreateTraceObserverInput{
+			{
+				Name:           name,
+				ProviderRegion: providerRegion,
+			},
+		},
 	}
 
 	if err := e.client.NerdGraphQuery(createTraceObserverMutation, vars, &resp); err != nil {
@@ -59,16 +55,6 @@ func (e *Edge) DeleteTraceObserver(accountID int, id int) (*EdgeTraceObserver, e
 	return &resp.EdgeDeleteTraceObservers.Responses[0].TraceObserver, nil
 }
 
-type traceObserverResponse struct {
-	Actor struct {
-		Account struct {
-			Edge struct {
-				Tracing EdgeTraceObserverResponse
-			}
-		}
-	}
-}
-
 const (
 	traceObserverSchemaFields = `
 		status
@@ -94,11 +80,6 @@ const (
 			type
 			message
 		}`
-
-	listTraceObserversQuery = `query($accountId: Int!) { actor { account(id: $accountId) { edge { tracing {
-			traceObservers { ` +
-		traceObserverSchemaFields + `
-			} } } } } }`
 
 	createTraceObserverMutation = `
 	mutation($traceObserverConfigs: [EdgeCreateTraceObserverInput!]!, $accountId: Int!) {

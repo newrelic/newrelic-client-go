@@ -31,6 +31,14 @@ func TestIntegrationTraceObserver(t *testing.T) {
 
 	client := newIntegrationTestClient(t)
 
+	startingObservers, err := client.ListTraceObservers(testAccountID)
+	require.NoError(t, err)
+	if len(startingObservers) > 0 {
+		deleted, deleteErr := client.DeleteTraceObserver(testAccountID, startingObservers[0].ID)
+		require.NoError(t, deleteErr)
+		require.NotNil(t, deleted)
+	}
+
 	// Test: Create
 	created, err := client.CreateTraceObserver(testAccountID, testTraceObserverName, testProviderRegion)
 
@@ -44,7 +52,6 @@ func TestIntegrationTraceObserver(t *testing.T) {
 
 	// Test: Delete
 	deleted, err := client.DeleteTraceObserver(testAccountID, created.ID)
-
 	require.NoError(t, err)
 	require.NotNil(t, deleted)
 }

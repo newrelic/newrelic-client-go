@@ -25,7 +25,7 @@ func (a *{{$packageName|title}}) {{.Name | title}}(
   {{- end}}
     ) (*{{ .Signature.Return | join ", "}}) {
 
-	resp := {{.Name}}Response{}
+	resp := {{.Name|untitle}}Response{}
 	vars := map[string]interface{}{
   {{- range .QueryVars}}
     "{{.Key}}": {{.Value | untitle}},
@@ -40,7 +40,7 @@ func (a *{{$packageName|title}}) {{.Name | title}}(
 }
 
 {{   if gt (len .QueryVars) 0 }}
-type {{.Name}}Response struct {
+type {{.Name|untitle}}Response struct {
   {{first .Signature.Return}} {{first .Signature.Return}} `json:"{{.Name}}"`
 }
 {{   end}}
@@ -51,11 +51,11 @@ const {{.Name}}Mutation = `{{ .QueryString }}`
 
 {{ range .Queries}}
 {{ .Description }}
-func (a *{{$packageName|title}}) Get{{.Name | title}}(
+func (a *{{$packageName|title}}) Query{{.Name | title}}(
   {{- range .Signature.Input}}
     {{.Name | untitle}} {{.Type}},
   {{- end}}
-) (*{{ .Signature.Return | join ", "}}) {
+) ({{ if not .Signature.ReturnSlice }}*{{end}}{{ .Signature.Return | join ", "}}) {
 
 	resp := {{.ResponseObjectType}}{}
 	vars := map[string]interface{}{
@@ -74,7 +74,7 @@ func (a *{{$packageName|title}}) Get{{.Name | title}}(
 	}
   {{- end}}
 
-	return &resp.{{.Signature.ReturnPath | join "."}}.{{.Name}}, nil
+	return {{ if not .Signature.ReturnSlice }}&{{end}}resp.{{.Signature.ReturnPath | join "."}}.{{.Name}}, nil
 }
 
 const get{{.Name}}Query = `{{ .QueryString }}`

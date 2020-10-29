@@ -70,32 +70,22 @@ packages:
         skip_type_create: true
   - name: edge
     path: pkg/edge
+    imports:
+      - github.com/newrelic/newrelic-client-go/pkg/errors
+      - encoding/json
     generators:
       - typegen
-    types:
-      - name: EdgeAccountStitchedFields
-      - name: EdgeAgentEndpointDetail
-      - name: EdgeCreateTraceObserverInput
-      - name: EdgeCreateTraceObserverResponse
-      - name: EdgeCreateTraceObserverResponseError
-      - name: EdgeCreateTraceObserverResponseErrorType
-      - name: EdgeCreateTraceObserverResponses
-      - name: EdgeDeleteTraceObserverInput
-      - name: EdgeDeleteTraceObserverResponse
-      - name: EdgeDeleteTraceObserverResponseError
-      - name: EdgeDeleteTraceObserverResponseErrorType
-      - name: EdgeDeleteTraceObserverResponses
-      - name: EdgeEndpoint
-      - name: EdgeEndpointType
-      - name: EdgeEndpointStatus
-      - name: EdgeHttpsEndpointDetail
-      - name: EdgeProviderRegion
-      - name: EdgeTraceObserver
-      - name: EdgeTraceObserverResponse
-      - name: EdgeTraceObserverResponseError
-      - name: EdgeTraceObserverResponseErrorType
-      - name: EdgeTraceObserverStatus
-      - name: EdgeTracing
+      - nerdgraphclient
+    queries:
+      - path: ["actor", "account", "edge", "tracing"]
+        endpoints:
+          - name: traceObservers
+            maxQueryFieldDepth: 2
+    mutations:
+      - name: edgeCreateTraceObserver
+      - name: edgeDeleteTraceObservers
+      - name: edgeUpdateTraceObservers
+    types: []
   - name: accounts
     path: pkg/accounts
     generators:
