@@ -6,8 +6,9 @@ import (
 	"os"
 	"testing"
 
-	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 	"github.com/stretchr/testify/require"
+
+	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
 
 func TestCloudAccount_Basic(t *testing.T) {
@@ -36,7 +37,7 @@ func TestCloudAccount_Basic(t *testing.T) {
 	linkResponse, err := a.CloudLinkAccount(mock.TestAccountID, CloudLinkCloudAccountsInput{
 		Aws: []CloudAwsLinkAccountInput{
 			{
-				Arn: testARN,
+				Arn:  testARN,
 				Name: "DTK Integration Testing",
 			},
 		},
@@ -61,13 +62,13 @@ func TestCloudAccount_Basic(t *testing.T) {
 	newName := "NEW-DTK-NAME"
 	renameResponse, err := a.CloudRenameAccount(mock.TestAccountID, CloudRenameAccountsInput{
 		LinkedAccountId: linkedAccountID,
-		Name: newName,
+		Name:            newName,
 	})
 	require.NoError(t, err)
 	require.NotNil(t, renameResponse)
 
 	// Unlink the account
-	unlinkResponse, err := a.CloudUnlinkAccount(mock.TestAccountID, CloudUnlinkAccountsInput{ linkedAccountID })
+	unlinkResponse, err := a.CloudUnlinkAccount(mock.TestAccountID, CloudUnlinkAccountsInput{linkedAccountID})
 	require.NoError(t, err)
 	require.NotNil(t, unlinkResponse)
 }
