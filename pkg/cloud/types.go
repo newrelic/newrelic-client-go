@@ -4579,13 +4579,13 @@ type CloudLinkAccountPayload struct {
 // CloudLinkCloudAccountsInput - Specific Cloud provider information required to link the Cloud provider account to a NewRelic account.
 type CloudLinkCloudAccountsInput struct {
 	// Aws provider
-	Aws []CloudAwsLinkAccountInput `json:"aws"`
+	Aws []CloudAwsLinkAccountInput `json:"aws,omitempty"`
 	// AwsGovcloud provider
-	AwsGovcloud []CloudAwsGovcloudLinkAccountInput `json:"awsGovcloud"`
+	AwsGovcloud []CloudAwsGovcloudLinkAccountInput `json:"awsGovcloud,omitempty"`
 	// Azure provider
-	Azure []CloudAzureLinkAccountInput `json:"azure"`
+	Azure []CloudAzureLinkAccountInput `json:"azure,omitempty"`
 	// Gcp provider
-	Gcp []CloudGcpLinkAccountInput `json:"gcp"`
+	Gcp []CloudGcpLinkAccountInput `json:"gcp,omitempty"`
 }
 
 // CloudLinkedAccount - A cloud account linked to a NewRelic account.
