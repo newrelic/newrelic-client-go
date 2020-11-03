@@ -1,3 +1,14 @@
+<a name="v0.48.0"></a>
+## [v0.48.0] - 2020-11-03
+### Bug Fixes
+- **cloud:** manually update generated code to fix cloud account methods
+
+### Documentation Updates
+- **cloud:** add cloud account resource example
+
+### Features
+- **cloud:** add cloud domain to client API
+
 <a name="v0.47.3"></a>
 ## [v0.47.3] - 2020-10-28
 ### Bug Fixes
@@ -816,7 +827,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.47.3...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.48.0...HEAD
+[v0.48.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.47.3...v0.48.0
 [v0.47.3]: https://github.com/newrelic/newrelic-client-go/compare/v0.47.2...v0.47.3
 [v0.47.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.47.1...v0.47.2
 [v0.47.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.47.0...v0.47.1
