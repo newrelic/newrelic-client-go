@@ -104,13 +104,16 @@ type CloudLinkAccountResponse struct {
 }
 
 const CloudLinkAccountMutation = `mutation(
-	$accountId: Int,
-	$accounts: CloudLinkCloudAccountsInput,
-) { CloudLinkAccount(
+	$accountId: Int!,
+	$accounts: CloudLinkCloudAccountsInput!,
+) { cloudLinkAccount(
 	accountId: $accountId,
 	accounts: $accounts,
 ) {
-	
+	linkedAccounts {
+		id
+		name
+	}
 } }`
 
 // Rename one or more linked cloud provider accounts.
@@ -140,13 +143,16 @@ type CloudRenameAccountResponse struct {
 }
 
 const CloudRenameAccountMutation = `mutation(
-	$accountId: Int,
-	$accounts: [CloudRenameAccountsInput],
-) { CloudRenameAccount(
+	$accountId: Int!,
+	$accounts: [CloudRenameAccountsInput!]!,
+) { cloudRenameAccount(
 	accountId: $accountId,
 	accounts: $accounts,
 ) {
-	
+	linkedAccounts {
+		id
+		name
+	}
 } }`
 
 // Unlink one or more cloud provider accounts.
@@ -177,13 +183,16 @@ type CloudUnlinkAccountResponse struct {
 }
 
 const CloudUnlinkAccountMutation = `mutation(
-	$accountId: Int,
-	$accounts: [CloudUnlinkAccountsInput],
-) { CloudUnlinkAccount(
+	$accountId: Int!,
+	$accounts: [CloudUnlinkAccountsInput!]!,
+) { cloudUnlinkAccount(
 	accountId: $accountId,
 	accounts: $accounts,
 ) {
-	
+	unlinkedAccounts {
+		id
+		name
+	}
 } }`
 
 // Get all linked cloud provider accounts scoped to the Actor.
