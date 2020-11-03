@@ -3,42 +3,20 @@ package infrastructure
 
 import (
 	"github.com/newrelic/newrelic-client-go/internal/http"
+	"github.com/newrelic/newrelic-client-go/pkg/config"
 )
 
-// ErrorResponse represents an error response from New Relic Infrastructure.
-type ErrorResponse struct {
-	Errors  []*ErrorDetail `json:"errors,omitempty"`
-	Message string         `json:"description,omitempty"`
+// Infrastructure is used to communicate with the New Relic Infrastructure product.
+type Infrastructure struct {
+	client http.Client
 }
 
-// ErrorDetail represents the details of an error response from New Relic Infrastructure.
-type ErrorDetail struct {
-	Status string `json:"status,omitempty"`
-	Detail string `json:"detail,omitempty"`
-}
+// New is used to create a new APM client instance.
+func New(config config.Config) Infrastructure {
+	client := http.NewClient(config)
+	client.SetAuthStrategy(&http.PersonalAPIKeyCapableV2Authorizer{})
 
-// Error surfaces an error message from the Infrastructure error response.
-func (e *ErrorResponse) Error() string {
-	if e.Message != "" {
-		return e.Message
+	return Infrastructure{
+		client: client,
 	}
-
-	if len(e.Errors) > 0 && e.Errors[0].Detail != "" {
-		return e.Errors[0].Detail
-	}
-
-	return ""
-}
-
-// New creates a new instance of ErrorResponse.
-func (e *ErrorResponse) New() http.ErrorResponse {
-	return &ErrorResponse{}
-}
-
-func (e *ErrorResponse) IsNotFound() bool {
-	return false
-}
-
-func (e *ErrorResponse) IsTimeout() bool {
-	return false
 }

@@ -2,6 +2,7 @@ package newrelic
 
 import (
 	"errors"
+	"github.com/newrelic/newrelic-client-go/pkg/infrastructure"
 	"net/http"
 	"time"
 
@@ -39,6 +40,7 @@ type NewRelic struct {
 	Entities        entities.Entities
 	Events          events.Events
 	EventsToMetrics eventstometrics.EventsToMetrics
+	Infrastructure  infrastructure.Infrastructure
 	Logs            logs.Logs
 	NerdGraph       nerdgraph.NerdGraph
 	NerdStorage     nerdstorage.NerdStorage
@@ -79,6 +81,7 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 		Entities:        entities.New(config),
 		Events:          events.New(config),
 		EventsToMetrics: eventstometrics.New(config),
+		Infrastructure:  infrastructure.New(config),
 		Logs:            logs.New(config),
 		NerdGraph:       nerdgraph.New(config),
 		NerdStorage:     nerdstorage.New(config),
