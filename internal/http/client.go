@@ -280,7 +280,7 @@ func (c *Client) Do(req *Request) (*http.Response, error) {
 		return nil, nrErrors.NewNotFound("resource not found")
 	}
 
-	if errorValue.IsTimeout() {
+	if errorValue.IsRetryableError() {
 		return nil, nrErrors.NewTimeout("server timeout")
 	}
 
@@ -367,7 +367,7 @@ func (c *Client) innerDo(req *Request, errorValue ErrorResponse, i int) (*http.R
 
 	_ = json.Unmarshal(body, &errorValue)
 
-	if errorValue.IsTimeout() {
+	if errorValue.IsRetryableError() {
 		shouldRetry = true
 	}
 

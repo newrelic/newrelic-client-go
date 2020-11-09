@@ -83,7 +83,7 @@ func (c *CustomErrorResponse) IsNotFound() bool {
 	return false
 }
 
-func (c *CustomErrorResponse) IsTimeout() bool {
+func (c *CustomErrorResponse) IsRetryableError() bool {
 	return false
 }
 
