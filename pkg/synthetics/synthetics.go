@@ -59,7 +59,7 @@ func (e *ErrorResponse) IsNotFound() bool {
 	return false
 }
 
-func (e *ErrorResponse) IsTimeout() bool {
+func (e *ErrorResponse) IsRetryableError() bool {
 	return false
 }
 
