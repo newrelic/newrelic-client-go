@@ -50,7 +50,7 @@ type MutingRuleUpdateInput struct {
 
 	Condition   *MutingRuleConditionGroup `json:"condition,omitempty"`
 	Description string                    `json:"description,omitempty"`
-	Enabled     bool                      `json:"enabled,omitempty"`
+	Enabled     bool                      `json:"enabled"`
 	Name        string                    `json:"name,omitempty"`
 }
 
