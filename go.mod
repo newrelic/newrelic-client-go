@@ -8,7 +8,7 @@ require (
 	github.com/golangci/golangci-lint v1.32.2
 	github.com/google/go-querystring v1.0.0
 	github.com/goreleaser/goreleaser v0.147.0
-	github.com/hashicorp/go-retryablehttp v0.6.7
+	github.com/hashicorp/go-retryablehttp v0.6.8
 	github.com/imdario/mergo v0.3.11
 	github.com/llorllale/go-gitlint v0.0.0-20200802191503-5984945d4b80
 	github.com/mitchellh/mapstructure v1.3.3
