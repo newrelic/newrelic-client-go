@@ -14,8 +14,12 @@ const (
 	// Staging represents New Relic's US-based staging deployment.
 	// This is for internal New Relic use only.
 	Staging Name = "Staging"
+
+	// Local represents a local development environment.
+	Local Name = "Local"
 )
 
+// Regions defines the service URLs that make up the various environments.
 var Regions = map[Name]*Region{
 	US: {
 		name:                  "US",
@@ -44,6 +48,15 @@ var Regions = map[Name]*Region{
 		restBaseURL:           "https://staging-api.newrelic.com/v2",
 		syntheticsBaseURL:     "https://staging-synthetics.newrelic.com/synthetics/api",
 	},
+	Local: {
+		name:                  "Local",
+		infrastructureBaseURL: "https://localhost:8888/v2",
+		insightsBaseURL:       "https://localhost:8888/v1",
+		logsBaseURL:           "https://localhost:8888/log/v1",
+		nerdGraphBaseURL:      "https://localhost:6000/graphql",
+		restBaseURL:           "https://localhost:3000/v2",
+		syntheticsBaseURL:     "https://localhost:8888/synthetics/api",
+	},
 }
 
 // Default represents the region returned if nothing was specified
@@ -58,6 +71,8 @@ func Parse(r string) (Name, error) {
 		return EU, nil
 	case "staging":
 		return Staging, nil
+	case "local":
+		return Local, nil
 	default:
 		return "", UnknownError{Message: r}
 	}
