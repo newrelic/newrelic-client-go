@@ -80,6 +80,12 @@ func (r *GraphQLErrorResponse) IsRetryableError() bool {
 		if err.Extensions.ErrorClass == "INTERNAL_SERVER_ERROR" {
 			return true
 		}
+
+		for _, downstreamErr := range err.DownstreamResponse {
+			if downstreamErr.Extensions.Code == "INTERNAL_SERVER_ERROR" {
+				return true
+			}
+		}
 	}
 
 	return false
