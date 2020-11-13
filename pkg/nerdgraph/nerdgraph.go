@@ -34,11 +34,21 @@ func New(config config.Config) NerdGraph {
 func (n *NerdGraph) Query(query string, variables map[string]interface{}) (interface{}, error) {
 	respBody := QueryResponse{}
 
-	if err := n.client.NerdGraphQuery(query, variables, &respBody); err != nil {
+	if err := n.QueryWithResponse(query, variables, &respBody); err != nil {
 		return nil, err
 	}
 
 	return respBody, nil
+}
+
+// QueryWithResponse functions similarly to Query, but alows for full customization of the returned data payload.
+// Query should be preferred most of the time.
+func (n *NerdGraph) QueryWithResponse(query string, variables map[string]interface{}, respBody interface{}) error {
+	if err := n.client.NerdGraphQuery(query, variables, respBody); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // AccountReference represents the NerdGraph schema for a New Relic account.

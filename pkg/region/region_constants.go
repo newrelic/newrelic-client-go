@@ -50,12 +50,12 @@ var Regions = map[Name]*Region{
 	},
 	Local: {
 		name:                  "Local",
-		infrastructureBaseURL: "https://localhost:8888/v2",
-		insightsBaseURL:       "https://localhost:8888/v1",
-		logsBaseURL:           "https://localhost:8888/log/v1",
-		nerdGraphBaseURL:      "https://localhost:6000/graphql",
-		restBaseURL:           "https://localhost:3000/v2",
-		syntheticsBaseURL:     "https://localhost:8888/synthetics/api",
+		infrastructureBaseURL: "http://localhost:8888/v2",
+		insightsBaseURL:       "http://localhost:8888/v1",
+		logsBaseURL:           "http://localhost:8888/log/v1",
+		nerdGraphBaseURL:      "http://localhost:3000/graphql",
+		restBaseURL:           "http://localhost:3000/v2",
+		syntheticsBaseURL:     "http://localhost:8888/synthetics/api",
 	},
 }
 
