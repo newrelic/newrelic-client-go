@@ -1,5 +1,19 @@
+<a name="v0.49.0"></a>
+## [v0.49.0] - 2020-11-13
+### Bug Fixes
+- **graphql:** include downstream error retry condition
+
+### Features
+- **config:** add a local region
+
+<a name="v0.48.1"></a>
+## [v0.48.1] - 2020-11-10
+### Bug Fixes
+- **http:** include INTERNAL_SERVER_ERROR as a retry reason
+- **muting_rules:** ensure updates to disable rule are respected
+
 <a name="v0.48.0"></a>
-## [v0.48.0] - 2020-11-03
+## [v0.48.0] - 2020-11-04
 ### Bug Fixes
 - **cloud:** manually update generated code to fix cloud account methods
 
@@ -827,7 +841,9 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.48.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.49.0...HEAD
+[v0.49.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.48.1...v0.49.0
+[v0.48.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.48.0...v0.48.1
 [v0.48.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.47.3...v0.48.0
 [v0.47.3]: https://github.com/newrelic/newrelic-client-go/compare/v0.47.2...v0.47.3
 [v0.47.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.47.1...v0.47.2
