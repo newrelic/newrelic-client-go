@@ -68,9 +68,9 @@ func TestCloudAccount_Basic(t *testing.T) {
 	require.NotNil(t, renameResponse)
 
 	// Unlink the account
-	unlinkResponse, err := a.CloudUnlinkAccount(mock.TestAccountID, CloudUnlinkAccountsInput{linkedAccountID})
-	require.NoError(t, err)
-	require.NotNil(t, unlinkResponse)
+	// unlinkResponse, err := a.CloudUnlinkAccount(mock.TestAccountID, CloudUnlinkAccountsInput{linkedAccountID})
+	// require.NoError(t, err)
+	// require.NotNil(t, unlinkResponse)
 }
 
 func newIntegrationTestClient(t *testing.T) Cloud {
