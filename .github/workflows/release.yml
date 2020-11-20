@@ -15,7 +15,7 @@ jobs:
           go-version: ${{ matrix.go-version }}
 
       - name: Add GOBIN to PATH
-        run: echo "::add-path::$(go env GOPATH)/bin"
+        run: echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
         shell: bash
 
       - name: Checkout code

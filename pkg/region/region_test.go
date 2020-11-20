@@ -85,14 +85,14 @@ func TestRegionString(t *testing.T) {
 	assert.Equal(t, result, "(Unknown)")
 }
 
-func TestInfrastructurURLs(t *testing.T) {
+func TestInfrastructureURLs(t *testing.T) {
 	t.Parallel()
 
 	pairs := map[Name]string{
 		US:      "https://infra-api.newrelic.com/v2",
 		EU:      "https://infra-api.eu.newrelic.com/v2",
 		Staging: "https://staging-infra-api.newrelic.com/v2",
-		Local:   "https://localhost:8888/v2",
+		Local:   "http://localhost:3000/v2",
 	}
 
 	for k, v := range pairs {
@@ -107,7 +107,7 @@ func TestSyntheticsURLs(t *testing.T) {
 		US:      "https://synthetics.newrelic.com/synthetics/api",
 		EU:      "https://synthetics.eu.newrelic.com/synthetics/api",
 		Staging: "https://staging-synthetics.newrelic.com/synthetics/api",
-		Local:   "https://localhost:8888/synthetics/api",
+		Local:   "http://localhost:3000/synthetics/api",
 	}
 
 	for k, v := range pairs {
@@ -122,7 +122,7 @@ func TestLogsURLs(t *testing.T) {
 		US:      "https://log-api.newrelic.com/log/v1",
 		EU:      "https://log-api.eu.newrelic.com/log/v1",
 		Staging: "https://staging-log-api.newrelic.com/log/v1",
-		Local:   "https://localhost:8888/log/v1",
+		Local:   "http://localhost:3000/log/v1",
 	}
 
 	for k, v := range pairs {
@@ -137,7 +137,7 @@ func TestNerdgraphURLs(t *testing.T) {
 		US:      "https://api.newrelic.com/graphql",
 		EU:      "https://api.eu.newrelic.com/graphql",
 		Staging: "https://staging-api.newrelic.com/graphql",
-		Local:   "https://localhost:6000/graphql",
+		Local:   "http://localhost:3000/graphql",
 	}
 
 	for k, v := range pairs {
@@ -152,7 +152,7 @@ func TestRESTURLs(t *testing.T) {
 		US:      "https://api.newrelic.com/v2",
 		EU:      "https://api.eu.newrelic.com/v2",
 		Staging: "https://staging-api.newrelic.com/v2",
-		Local:   "https://localhost:3000/v2",
+		Local:   "http://localhost:3000/v2",
 	}
 
 	for k, v := range pairs {
