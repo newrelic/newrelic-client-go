@@ -1,3 +1,8 @@
+<a name="v0.50.0"></a>
+## [v0.50.0] - 2020-11-20
+### Features
+- **nerdgraph:** allow custom unmarshal structs for queries
+
 <a name="v0.49.0"></a>
 ## [v0.49.0] - 2020-11-13
 ### Bug Fixes
@@ -841,7 +846,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.49.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.50.0...HEAD
+[v0.50.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.49.0...v0.50.0
 [v0.49.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.48.1...v0.49.0
 [v0.48.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.48.0...v0.48.1
 [v0.48.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.47.3...v0.48.0
