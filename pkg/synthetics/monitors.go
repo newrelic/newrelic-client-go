@@ -78,19 +78,20 @@ var (
 )
 
 // ListMonitors is used to retrieve New Relic Synthetics monitors.
-func (s *Synthetics) ListMonitors() ([]*Monitor, error) {
-	resp := listMonitorsResponse{}
-	queryParams := listMonitorsParams{
-		Limit: listMonitorsLimit,
+func (s *Synthetics) ListMonitors(queryParams *ListMonitorsParams) (ListMonitorsResponse, error) {
+	resp := ListMonitorsResponse{}
+
+	if queryParams.Limit == 0 {
+		queryParams.Limit = listMonitorsLimit
 	}
 
-	_, err := s.client.Get(s.config.Region().SyntheticsURL("/v4/monitors"), &queryParams, &resp)
+	_, err := s.client.Get(s.config.Region().SyntheticsURL("/v4/monitors"), queryParams, &resp)
 
 	if err != nil {
-		return nil, err
+		return resp, err
 	}
 
-	return resp.Monitors, nil
+	return resp, nil
 }
 
 // GetMonitor is used to retrieve a specific New Relic Synthetics monitor.
@@ -144,10 +145,12 @@ func (s *Synthetics) DeleteMonitor(monitorID string) error {
 	return nil
 }
 
-type listMonitorsResponse struct {
+type ListMonitorsResponse struct {
 	Monitors []*Monitor `json:"monitors,omitempty"`
+	Count int `json:"count,omitempty"`
 }
 
-type listMonitorsParams struct {
+type ListMonitorsParams struct {
 	Limit int `url:"limit,omitempty"`
+	Offset int `url:"offset,omitempty"`
 }
