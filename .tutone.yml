@@ -23,6 +23,14 @@ auth:
   api_key_env_var: NEW_RELIC_API_KEY
 
 packages:
+  - name: accounts
+    path: pkg/accounts
+    generators:
+      - typegen
+    types:
+      - name: AccountOutline
+      - name: RegionScope
+
   - name: alerts
     path: pkg/alerts
     generators:
@@ -30,17 +38,49 @@ packages:
     types:
       - name: AlertsMutingRuleConditionInput
       - name: AlertsMutingRuleInput
+      - name: AlertsMutingRuleScheduleInput
+      - name: AlertsNrqlConditionTermsOperator
       - name: AlertsPoliciesSearchCriteriaInput
       - name: AlertsPoliciesSearchResultSet
       - name: AlertsPolicy
       - name: AlertsPolicyInput
       - name: AlertsPolicyUpdateInput
-      - name: AlertsNrqlConditionTermsOperator
-      - name: AlertsMutingRuleScheduleInput
-      - name: NaiveDateTime
       - name: ID
         field_type_override: string
         skip_type_create: true
+      - name: NaiveDateTime
+
+  - name: apiaccess
+    path: pkg/apiaccess
+    generators:
+      - typegen
+    imports:
+      - github.com/newrelic/newrelic-client-go/internal/serialization
+    types:
+      - name: ApiAccessActorStitchedFields
+      - name: ApiAccessCreateIngestKeyInput
+      - name: ApiAccessCreateInput
+      - name: ApiAccessCreateKeyResponse
+      - name: ApiAccessCreateUserKeyInput
+      - name: ApiAccessDeleteInput
+      - name: ApiAccessDeleteKeyResponse
+      - name: ApiAccessIngestKeyErrorType
+      - name: ApiAccessIngestKeyType
+      - name: ApiAccessKey # gql interface
+      - name: ApiAccessKeyError
+      - name: ApiAccessKeySearchQuery
+      - name: ApiAccessKeySearchResult
+      - name: ApiAccessKeySearchScope
+      - name: ApiAccessKeyType
+      - name: ApiAccessUpdateIngestKeyInput
+      - name: ApiAccessUpdateInput
+      - name: ApiAccessUpdateKeyResponse
+      - name: ApiAccessUpdateUserKeyInput
+      - name: ApiAccessUserKeyErrorType
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+
   - name: cloud
     path: pkg/cloud
     imports:
@@ -68,6 +108,7 @@ packages:
       - name: EpochMilliseconds
         field_type_override: serialization.EpochTime
         skip_type_create: true
+
   - name: edge
     path: pkg/edge
     generators:
@@ -86,8 +127,8 @@ packages:
       - name: EdgeDeleteTraceObserverResponseErrorType
       - name: EdgeDeleteTraceObserverResponses
       - name: EdgeEndpoint
-      - name: EdgeEndpointType
       - name: EdgeEndpointStatus
+      - name: EdgeEndpointType
       - name: EdgeHttpsEndpointDetail
       - name: EdgeProviderRegion
       - name: EdgeTraceObserver
@@ -96,13 +137,7 @@ packages:
       - name: EdgeTraceObserverResponseErrorType
       - name: EdgeTraceObserverStatus
       - name: EdgeTracing
-  - name: accounts
-    path: pkg/accounts
-    generators:
-      - typegen
-    types:
-      - name: AccountOutline
-      - name: RegionScope
+
   - name: eventstometrics
     path: pkg/eventstometrics
     generators:
@@ -124,12 +159,12 @@ packages:
       - name: EventsToMetricsUpdateRuleInput
       - name: EventsToMetricsUpdateRuleResult
       - name: EventsToMetricsUpdateRuleSubmission
-      - name: RuleId
-        field_type_override: string
       - name: ID
         field_type_override: string
         create_as: string
         skip_type_create: false
+      - name: RuleId
+        field_type_override: string
   - name: nrdb
     path: pkg/nrdb
     generators:
@@ -143,43 +178,12 @@ packages:
         create_as: serialization.EpochTime
       - name: Nrql
         create_as: string
+      - name: NrdbMetadataTimeWindow
       - name: NrdbResult
         create_as: map[string]interface{}
       - name: NrdbResultContainer
       - name: NrqlHistoricalQuery
       - name: SuggestedNrqlQuery
-      - name: NrdbMetadataTimeWindow
-
-  - name: apiaccess
-    path: pkg/apiaccess
-    generators:
-      - typegen
-    imports:
-      - github.com/newrelic/newrelic-client-go/internal/serialization
-    types:
-      - name: ID
-        field_type_override: string
-        skip_type_create: true
-      - name: ApiAccessKey # gql interface
-      - name: ApiAccessKeyType
-      - name: ApiAccessKeyError
-      - name: ApiAccessCreateKeyResponse
-      - name: ApiAccessCreateInput
-      - name: ApiAccessCreateIngestKeyInput
-      - name: ApiAccessCreateUserKeyInput
-      - name: ApiAccessIngestKeyType
-      - name: ApiAccessIngestKeyErrorType
-      - name: ApiAccessUserKeyErrorType
-      - name: ApiAccessDeleteKeyResponse
-      - name: ApiAccessDeleteInput
-      - name: ApiAccessActorStitchedFields
-      - name: ApiAccessUpdateInput
-      - name: ApiAccessUpdateIngestKeyInput
-      - name: ApiAccessUpdateUserKeyInput
-      - name: ApiAccessUpdateKeyResponse
-      - name: ApiAccessKeySearchQuery
-      - name: ApiAccessKeySearchResult
-      - name: ApiAccessKeySearchScope
 
 generators:
   - name: typegen
