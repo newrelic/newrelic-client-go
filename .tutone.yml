@@ -27,8 +27,13 @@ packages:
     path: pkg/accounts
     generators:
       - typegen
+    imports:
+      - github.com/newrelic/newrelic-client-go/internal/serialization
     types:
       - name: AccountOutline
+      - name: EpochMilliseconds
+        field_type_override: serialization.EpochTime
+        skip_type_create: true
       - name: RegionScope
 
   - name: alerts
