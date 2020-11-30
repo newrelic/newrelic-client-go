@@ -11,7 +11,7 @@ require (
 	github.com/hashicorp/go-retryablehttp v0.6.8
 	github.com/imdario/mergo v0.3.11
 	github.com/llorllale/go-gitlint v0.0.0-20200802191503-5984945d4b80
-	github.com/mitchellh/mapstructure v1.3.3
+	github.com/mitchellh/mapstructure v1.4.0
 	github.com/newrelic/tutone v0.2.5
 	github.com/psampaz/go-mod-outdated v0.7.0
 	github.com/sirupsen/logrus v1.7.0
