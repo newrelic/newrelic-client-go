@@ -1,6 +1,7 @@
 package alerts
 
 import (
+	"context"
 	"fmt"
 	"strings"
 
@@ -256,6 +257,11 @@ type NrqlQuery struct {
 
 // ListNrqlConditions returns NRQL alert conditions for a specified policy.
 func (a *Alerts) ListNrqlConditions(policyID int) ([]*NrqlCondition, error) {
+	return a.ListNrqlConditionsWithContext(context.Background(), policyID)
+}
+
+// ListNrqlConditionsWithContext returns NRQL alert conditions for a specified policy.
+func (a *Alerts) ListNrqlConditionsWithContext(ctx context.Context, policyID int) ([]*NrqlCondition, error) {
 	conditions := []*NrqlCondition{}
 	queryParams := listNrqlConditionsParams{
 		PolicyID: policyID,
@@ -265,7 +271,7 @@ func (a *Alerts) ListNrqlConditions(policyID int) ([]*NrqlCondition, error) {
 
 	for nextURL != "" {
 		response := nrqlConditionsResponse{}
-		resp, err := a.client.Get(nextURL, &queryParams, &response)
+		resp, err := a.client.GetWithContext(ctx, nextURL, &queryParams, &response)
 
 		if err != nil {
 			return nil, err
@@ -283,7 +289,13 @@ func (a *Alerts) ListNrqlConditions(policyID int) ([]*NrqlCondition, error) {
 // GetNrqlCondition gets information about a NRQL alert condition
 // for a specified policy ID and condition ID.
 func (a *Alerts) GetNrqlCondition(policyID int, id int) (*NrqlCondition, error) {
-	conditions, err := a.ListNrqlConditions(policyID)
+	return a.GetNrqlConditionWithContext(context.Background(), policyID, id)
+}
+
+// GetNrqlConditionWithContext gets information about a NRQL alert condition
+// for a specified policy ID and condition ID.
+func (a *Alerts) GetNrqlConditionWithContext(ctx context.Context, policyID int, id int) (*NrqlCondition, error) {
+	conditions, err := a.ListNrqlConditionsWithContext(ctx, policyID)
 	if err != nil {
 		return nil, err
 	}
@@ -299,13 +311,18 @@ func (a *Alerts) GetNrqlCondition(policyID int, id int) (*NrqlCondition, error) 
 
 // CreateNrqlCondition creates a NRQL alert condition.
 func (a *Alerts) CreateNrqlCondition(policyID int, condition NrqlCondition) (*NrqlCondition, error) {
+	return a.CreateNrqlConditionWithContext(context.Background(), policyID, condition)
+}
+
+// CreateNrqlConditionWithContext creates a NRQL alert condition.
+func (a *Alerts) CreateNrqlConditionWithContext(ctx context.Context, policyID int, condition NrqlCondition) (*NrqlCondition, error) {
 	reqBody := nrqlConditionRequestBody{
 		NrqlCondition: condition,
 	}
 	resp := nrqlConditionResponse{}
 
 	url := fmt.Sprintf("/alerts_nrql_conditions/policies/%d.json", policyID)
-	_, err := a.client.Post(a.config.Region().RestURL(url), nil, &reqBody, &resp)
+	_, err := a.client.PostWithContext(ctx, a.config.Region().RestURL(url), nil, &reqBody, &resp)
 
 	if err != nil {
 		return nil, err
@@ -316,13 +333,18 @@ func (a *Alerts) CreateNrqlCondition(policyID int, condition NrqlCondition) (*Nr
 
 // UpdateNrqlCondition updates a NRQL alert condition.
 func (a *Alerts) UpdateNrqlCondition(condition NrqlCondition) (*NrqlCondition, error) {
+	return a.UpdateNrqlConditionWithContext(context.Background(), condition)
+}
+
+// UpdateNrqlConditionWithContext updates a NRQL alert condition.
+func (a *Alerts) UpdateNrqlConditionWithContext(ctx context.Context, condition NrqlCondition) (*NrqlCondition, error) {
 	reqBody := nrqlConditionRequestBody{
 		NrqlCondition: condition,
 	}
 	resp := nrqlConditionResponse{}
 
 	url := fmt.Sprintf("/alerts_nrql_conditions/%d.json", condition.ID)
-	_, err := a.client.Put(a.config.Region().RestURL(url), nil, &reqBody, &resp)
+	_, err := a.client.PutWithContext(ctx, a.config.Region().RestURL(url), nil, &reqBody, &resp)
 
 	if err != nil {
 		return nil, err
@@ -333,10 +355,15 @@ func (a *Alerts) UpdateNrqlCondition(condition NrqlCondition) (*NrqlCondition, e
 
 // DeleteNrqlCondition deletes a NRQL alert condition.
 func (a *Alerts) DeleteNrqlCondition(id int) (*NrqlCondition, error) {
+	return a.DeleteNrqlConditionWithContext(context.Background(), id)
+}
+
+// DeleteNrqlConditionWithContext deletes a NRQL alert condition.
+func (a *Alerts) DeleteNrqlConditionWithContext(ctx context.Context, id int) (*NrqlCondition, error) {
 	resp := nrqlConditionResponse{}
 	url := fmt.Sprintf("/alerts_nrql_conditions/%d.json", id)
 
-	_, err := a.client.Delete(a.config.Region().RestURL(url), nil, &resp)
+	_, err := a.client.DeleteWithContext(ctx, a.config.Region().RestURL(url), nil, &resp)
 
 	if err != nil {
 		return nil, err
@@ -350,6 +377,15 @@ func (a *Alerts) GetNrqlConditionQuery(
 	accountID int,
 	conditionID string,
 ) (*NrqlAlertCondition, error) {
+	return a.GetNrqlConditionQueryWithContext(context.Background(), accountID, conditionID)
+}
+
+// GetNrqlConditionQueryWithContext fetches a NRQL alert condition via New Relic's NerdGraph API.
+func (a *Alerts) GetNrqlConditionQueryWithContext(
+	ctx context.Context,
+	accountID int,
+	conditionID string,
+) (*NrqlAlertCondition, error) {
 	resp := getNrqlConditionQueryResponse{}
 	vars := map[string]interface{}{
 		"accountId": accountID,
@@ -360,6 +396,8 @@ func (a *Alerts) GetNrqlConditionQuery(
 	if err != nil {
 		return nil, err
 	}
+
+	req.WithContext(ctx)
 
 	var errorResponse nrqlConditionErrorResponse
 	req.SetErrorValue(&errorResponse)
@@ -376,6 +414,15 @@ func (a *Alerts) SearchNrqlConditionsQuery(
 	accountID int,
 	searchCriteria NrqlConditionsSearchCriteria,
 ) ([]*NrqlAlertCondition, error) {
+	return a.SearchNrqlConditionsQueryWithContext(context.Background(), accountID, searchCriteria)
+}
+
+// SearchNrqlConditionsQueryWithContext fetches multiple NRQL alert conditions based on the provided search criteria via New Relic's NerdGraph API.
+func (a *Alerts) SearchNrqlConditionsQueryWithContext(
+	ctx context.Context,
+	accountID int,
+	searchCriteria NrqlConditionsSearchCriteria,
+) ([]*NrqlAlertCondition, error) {
 	conditions := []*NrqlAlertCondition{}
 	var nextCursor *string
 
@@ -387,7 +434,7 @@ func (a *Alerts) SearchNrqlConditionsQuery(
 			"cursor":         nextCursor,
 		}
 
-		if err := a.client.NerdGraphQuery(searchNrqlConditionsQuery, vars, &resp); err != nil {
+		if err := a.client.NerdGraphQueryWithContext(ctx, searchNrqlConditionsQuery, vars, &resp); err != nil {
 			return nil, err
 		}
 
@@ -404,6 +451,16 @@ func (a *Alerts) CreateNrqlConditionBaselineMutation(
 	policyID string,
 	nrqlCondition NrqlConditionInput,
 ) (*NrqlAlertCondition, error) {
+	return a.CreateNrqlConditionBaselineMutationWithContext(context.Background(), accountID, policyID, nrqlCondition)
+}
+
+// CreateNrqlConditionBaselineMutationWithContext creates a baseline NRQL alert condition via New Relic's NerdGraph API.
+func (a *Alerts) CreateNrqlConditionBaselineMutationWithContext(
+	ctx context.Context,
+	accountID int,
+	policyID string,
+	nrqlCondition NrqlConditionInput,
+) (*NrqlAlertCondition, error) {
 	resp := nrqlConditionBaselineCreateResponse{}
 	vars := map[string]interface{}{
 		"accountId": accountID,
@@ -411,7 +468,7 @@ func (a *Alerts) CreateNrqlConditionBaselineMutation(
 		"condition": nrqlCondition,
 	}
 
-	if err := a.client.NerdGraphQuery(createNrqlConditionBaselineMutation, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, createNrqlConditionBaselineMutation, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -424,6 +481,16 @@ func (a *Alerts) UpdateNrqlConditionBaselineMutation(
 	conditionID string,
 	nrqlCondition NrqlConditionInput,
 ) (*NrqlAlertCondition, error) {
+	return a.UpdateNrqlConditionBaselineMutationWithContext(context.Background(), accountID, conditionID, nrqlCondition)
+}
+
+// UpdateNrqlConditionBaselineMutationWithContext updates a baseline NRQL alert condition via New Relic's NerdGraph API.
+func (a *Alerts) UpdateNrqlConditionBaselineMutationWithContext(
+	ctx context.Context,
+	accountID int,
+	conditionID string,
+	nrqlCondition NrqlConditionInput,
+) (*NrqlAlertCondition, error) {
 	resp := nrqlConditionBaselineUpdateResponse{}
 	vars := map[string]interface{}{
 		"accountId": accountID,
@@ -431,7 +498,7 @@ func (a *Alerts) UpdateNrqlConditionBaselineMutation(
 		"condition": nrqlCondition,
 	}
 
-	if err := a.client.NerdGraphQuery(updateNrqlConditionBaselineMutation, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, updateNrqlConditionBaselineMutation, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -444,6 +511,16 @@ func (a *Alerts) CreateNrqlConditionStaticMutation(
 	policyID string,
 	nrqlCondition NrqlConditionInput,
 ) (*NrqlAlertCondition, error) {
+	return a.CreateNrqlConditionStaticMutationWithContext(context.Background(), accountID, policyID, nrqlCondition)
+}
+
+// CreateNrqlConditionStaticMutationWithContext creates a static NRQL alert condition via New Relic's NerdGraph API.
+func (a *Alerts) CreateNrqlConditionStaticMutationWithContext(
+	ctx context.Context,
+	accountID int,
+	policyID string,
+	nrqlCondition NrqlConditionInput,
+) (*NrqlAlertCondition, error) {
 	resp := nrqlConditionStaticCreateResponse{}
 	vars := map[string]interface{}{
 		"accountId": accountID,
@@ -451,7 +528,7 @@ func (a *Alerts) CreateNrqlConditionStaticMutation(
 		"condition": nrqlCondition,
 	}
 
-	if err := a.client.NerdGraphQuery(createNrqlConditionStaticMutation, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, createNrqlConditionStaticMutation, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -464,6 +541,16 @@ func (a *Alerts) UpdateNrqlConditionStaticMutation(
 	conditionID string,
 	nrqlCondition NrqlConditionInput,
 ) (*NrqlAlertCondition, error) {
+	return a.UpdateNrqlConditionStaticMutationWithContext(context.Background(), accountID, conditionID, nrqlCondition)
+}
+
+// UpdateNrqlConditionStaticMutationWithContext updates a static NRQL alert condition via New Relic's NerdGraph API.
+func (a *Alerts) UpdateNrqlConditionStaticMutationWithContext(
+	ctx context.Context,
+	accountID int,
+	conditionID string,
+	nrqlCondition NrqlConditionInput,
+) (*NrqlAlertCondition, error) {
 	resp := nrqlConditionStaticUpdateResponse{}
 	vars := map[string]interface{}{
 		"accountId": accountID,
@@ -471,7 +558,7 @@ func (a *Alerts) UpdateNrqlConditionStaticMutation(
 		"condition": nrqlCondition,
 	}
 
-	if err := a.client.NerdGraphQuery(updateNrqlConditionStaticMutation, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, updateNrqlConditionStaticMutation, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -484,6 +571,16 @@ func (a *Alerts) CreateNrqlConditionOutlierMutation(
 	policyID string,
 	nrqlCondition NrqlConditionInput,
 ) (*NrqlAlertCondition, error) {
+	return a.CreateNrqlConditionOutlierMutationWithContext(context.Background(), accountID, policyID, nrqlCondition)
+}
+
+// CreateNrqlConditionOutlierMutationWithContext creates an outlier type NRQL alert condition via New Relic's NerdGraph API.
+func (a *Alerts) CreateNrqlConditionOutlierMutationWithContext(
+	ctx context.Context,
+	accountID int,
+	policyID string,
+	nrqlCondition NrqlConditionInput,
+) (*NrqlAlertCondition, error) {
 	resp := nrqlConditionOutlierCreateResponse{}
 	vars := map[string]interface{}{
 		"accountId": accountID,
@@ -491,7 +588,7 @@ func (a *Alerts) CreateNrqlConditionOutlierMutation(
 		"condition": nrqlCondition,
 	}
 
-	if err := a.client.NerdGraphQuery(createNrqlConditionOutlierMutation, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, createNrqlConditionOutlierMutation, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -504,6 +601,16 @@ func (a *Alerts) UpdateNrqlConditionOutlierMutation(
 	conditionID string,
 	nrqlCondition NrqlConditionInput,
 ) (*NrqlAlertCondition, error) {
+	return a.UpdateNrqlConditionOutlierMutationWithContext(context.Background(), accountID, conditionID, nrqlCondition)
+}
+
+// UpdateNrqlConditionOutlierMutationWithContext updates an outlier NRQL alert condition via New Relic's NerdGraph API.
+func (a *Alerts) UpdateNrqlConditionOutlierMutationWithContext(
+	ctx context.Context,
+	accountID int,
+	conditionID string,
+	nrqlCondition NrqlConditionInput,
+) (*NrqlAlertCondition, error) {
 	resp := nrqlConditionOutlierUpdateResponse{}
 	vars := map[string]interface{}{
 		"accountId": accountID,
@@ -511,7 +618,7 @@ func (a *Alerts) UpdateNrqlConditionOutlierMutation(
 		"condition": nrqlCondition,
 	}
 
-	if err := a.client.NerdGraphQuery(updateNrqlConditionOutlierMutation, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, updateNrqlConditionOutlierMutation, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -522,7 +629,15 @@ func (a *Alerts) DeleteNrqlConditionMutation(
 	accountID int,
 	conditionID string,
 ) (string, error) {
-	result, err := a.DeleteConditionMutation(accountID, conditionID)
+	return a.DeleteNrqlConditionMutationWithContext(context.Background(), accountID, conditionID)
+}
+
+func (a *Alerts) DeleteNrqlConditionMutationWithContext(
+	ctx context.Context,
+	accountID int,
+	conditionID string,
+) (string, error) {
+	result, err := a.DeleteConditionMutationWithContext(ctx, accountID, conditionID)
 	if err != nil {
 		return "", err
 	}

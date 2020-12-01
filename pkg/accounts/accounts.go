@@ -2,6 +2,8 @@
 package accounts
 
 import (
+	"context"
+
 	"github.com/newrelic/newrelic-client-go/internal/http"
 	"github.com/newrelic/newrelic-client-go/internal/logging"
 	"github.com/newrelic/newrelic-client-go/pkg/config"
@@ -28,12 +30,17 @@ type ListAccountsParams struct {
 
 // ListAccounts lists the accounts this user is authorized to view.
 func (e *Accounts) ListAccounts(params ListAccountsParams) ([]AccountOutline, error) {
+	return e.ListAccountsWithContext(context.Background(), params)
+}
+
+// ListAccountsWithContext lists the accounts this user is authorized to view.
+func (e *Accounts) ListAccountsWithContext(ctx context.Context, params ListAccountsParams) ([]AccountOutline, error) {
 	resp := accountsResponse{}
 	vars := map[string]interface{}{
 		"accountId": params.Scope,
 	}
 
-	if err := e.client.NerdGraphQuery(listAccountsQuery, vars, &resp); err != nil {
+	if err := e.client.NerdGraphQueryWithContext(ctx, listAccountsQuery, vars, &resp); err != nil {
 		return nil, err
 	}
 

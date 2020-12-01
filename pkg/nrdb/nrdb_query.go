@@ -4,7 +4,7 @@ package nrdb
 import "context"
 
 func (n *Nrdb) Query(accountID int, query Nrql) (*NrdbResultContainer, error) {
-	return n.QueryWithContext(context.Background())
+	return n.QueryWithContext(context.Background(), accountID, query)
 }
 
 // QueryWithContext facilitates making a NRQL query.
