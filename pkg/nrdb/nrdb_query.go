@@ -1,8 +1,14 @@
 // Package nrdb provides a programmatic API for interacting with NRDB, New Relic's Datastore
 package nrdb
 
-// Query facilitates making a NRQL query.
+import "context"
+
 func (n *Nrdb) Query(accountID int, query Nrql) (*NrdbResultContainer, error) {
+	return n.QueryWithContext(context.Background())
+}
+
+// QueryWithContext facilitates making a NRQL query.
+func (n *Nrdb) QueryWithContext(ctx context.Context, accountID int, query Nrql) (*NrdbResultContainer, error) {
 	respBody := gqlNrglQueryResponse{}
 
 	vars := map[string]interface{}{
@@ -10,7 +16,7 @@ func (n *Nrdb) Query(accountID int, query Nrql) (*NrdbResultContainer, error) {
 		"query":     query,
 	}
 
-	if err := n.client.NerdGraphQuery(gqlNrqlQuery, vars, &respBody); err != nil {
+	if err := n.client.NerdGraphQueryWithContext(ctx, gqlNrqlQuery, vars, &respBody); err != nil {
 		return nil, err
 	}
 
@@ -18,10 +24,14 @@ func (n *Nrdb) Query(accountID int, query Nrql) (*NrdbResultContainer, error) {
 }
 
 func (n *Nrdb) QueryHistory() (*[]NrqlHistoricalQuery, error) {
+	return n.QueryHistoryWithContext(context.Background())
+}
+
+func (n *Nrdb) QueryHistoryWithContext(ctx context.Context) (*[]NrqlHistoricalQuery, error) {
 	respBody := gqlNrglQueryHistoryResponse{}
 	vars := map[string]interface{}{}
 
-	if err := n.client.NerdGraphQuery(gqlNrqlQueryHistoryQuery, vars, &respBody); err != nil {
+	if err := n.client.NerdGraphQueryWithContext(ctx, gqlNrqlQueryHistoryQuery, vars, &respBody); err != nil {
 		return nil, err
 	}
 
