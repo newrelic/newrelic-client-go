@@ -17,6 +17,6 @@ require (
 	github.com/sirupsen/logrus v1.7.0
 	github.com/stretchr/testify v1.6.1
 	github.com/tomnomnom/linkheader v0.0.0-20180905144013-02ca5825eb80
-	golang.org/x/tools v0.0.0-20201013201025-64a9e34f3752
+	golang.org/x/tools v0.0.0-20201130220005-fd5f29369093
 	gotest.tools/gotestsum v0.6.0
 )
