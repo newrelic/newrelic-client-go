@@ -1,6 +1,7 @@
 package alerts
 
 import (
+	"context"
 	"strconv"
 )
 
@@ -12,6 +13,11 @@ type PolicyChannels struct {
 
 // UpdatePolicyChannels updates a policy by adding the specified notification channels.
 func (a *Alerts) UpdatePolicyChannels(policyID int, channelIDs []int) (*PolicyChannels, error) {
+	return a.UpdatePolicyChannelsWithContext(context.Background(), policyID, channelIDs)
+}
+
+// UpdatePolicyChannelsWithContext updates a policy by adding the specified notification channels.
+func (a *Alerts) UpdatePolicyChannelsWithContext(ctx context.Context, policyID int, channelIDs []int) (*PolicyChannels, error) {
 	channelIDStrings := make([]string, len(channelIDs))
 
 	for i, channelID := range channelIDs {
@@ -25,7 +31,7 @@ func (a *Alerts) UpdatePolicyChannels(policyID int, channelIDs []int) (*PolicyCh
 
 	resp := updatePolicyChannelsResponse{}
 
-	_, err := a.client.Put(a.config.Region().RestURL("/alerts_policy_channels.json"), &queryParams, nil, &resp)
+	_, err := a.client.PutWithContext(ctx, a.config.Region().RestURL("/alerts_policy_channels.json"), &queryParams, nil, &resp)
 
 	if err != nil {
 		return nil, err
@@ -37,6 +43,12 @@ func (a *Alerts) UpdatePolicyChannels(policyID int, channelIDs []int) (*PolicyCh
 // DeletePolicyChannel deletes a notification channel from an alert policy.
 // This method returns a response containing the Channel that was deleted from the policy.
 func (a *Alerts) DeletePolicyChannel(policyID int, channelID int) (*Channel, error) {
+	return a.DeletePolicyChannelWithContext(context.Background(), policyID, channelID)
+}
+
+// DeletePolicyChannelWithContext deletes a notification channel from an alert policy.
+// This method returns a response containing the Channel that was deleted from the policy.
+func (a *Alerts) DeletePolicyChannelWithContext(ctx context.Context, policyID int, channelID int) (*Channel, error) {
 	queryParams := deletePolicyChannelsParams{
 		PolicyID:  policyID,
 		ChannelID: channelID,
@@ -44,7 +56,7 @@ func (a *Alerts) DeletePolicyChannel(policyID int, channelID int) (*Channel, err
 
 	resp := deletePolicyChannelResponse{}
 
-	_, err := a.client.Delete(a.config.Region().RestURL("/alerts_policy_channels.json"), &queryParams, &resp)
+	_, err := a.client.DeleteWithContext(ctx, a.config.Region().RestURL("/alerts_policy_channels.json"), &queryParams, &resp)
 
 	if err != nil {
 		return nil, err

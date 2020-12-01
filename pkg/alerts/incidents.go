@@ -1,6 +1,7 @@
 package alerts
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/newrelic/newrelic-client-go/internal/serialization"
@@ -23,6 +24,11 @@ type IncidentLink struct {
 
 // ListIncidents returns all alert incidents.
 func (a *Alerts) ListIncidents(onlyOpen bool, excludeViolations bool) ([]*Incident, error) {
+	return a.ListIncidentsWithContext(context.Background(), onlyOpen, excludeViolations)
+}
+
+// ListIncidentsWithContext returns all alert incidents.
+func (a *Alerts) ListIncidentsWithContext(ctx context.Context, onlyOpen bool, excludeViolations bool) ([]*Incident, error) {
 	incidents := []*Incident{}
 	queryParams := listIncidentsParams{
 		OnlyOpen:          onlyOpen,
@@ -33,7 +39,7 @@ func (a *Alerts) ListIncidents(onlyOpen bool, excludeViolations bool) ([]*Incide
 
 	for nextURL != "" {
 		incidentsResponse := alertIncidentsResponse{}
-		resp, err := a.client.Get(nextURL, queryParams, &incidentsResponse)
+		resp, err := a.client.GetWithContext(ctx, nextURL, queryParams, &incidentsResponse)
 
 		if err != nil {
 			return nil, err
@@ -50,18 +56,28 @@ func (a *Alerts) ListIncidents(onlyOpen bool, excludeViolations bool) ([]*Incide
 
 // AcknowledgeIncident acknowledges an existing incident.
 func (a *Alerts) AcknowledgeIncident(id int) (*Incident, error) {
-	return a.updateIncident(id, "acknowledge")
+	return a.AcknowledgeIncidentWithContext(context.Background(), id)
+}
+
+// AcknowledgeIncidentWithContext acknowledges an existing incident.
+func (a *Alerts) AcknowledgeIncidentWithContext(ctx context.Context, id int) (*Incident, error) {
+	return a.updateIncident(ctx, id, "acknowledge")
 }
 
 // CloseIncident closes an existing open incident.
 func (a *Alerts) CloseIncident(id int) (*Incident, error) {
-	return a.updateIncident(id, "close")
+	return a.CloseIncidentWithContext(context.Background(), id)
 }
 
-func (a *Alerts) updateIncident(id int, verb string) (*Incident, error) {
+// CloseIncidentWithContext closes an existing open incident.
+func (a *Alerts) CloseIncidentWithContext(ctx context.Context, id int) (*Incident, error) {
+	return a.updateIncident(ctx, id, "close")
+}
+
+func (a *Alerts) updateIncident(ctx context.Context, id int, verb string) (*Incident, error) {
 	response := alertIncidentResponse{}
 	url := fmt.Sprintf("/alerts_incidents/%d/%s.json", id, verb)
-	_, err := a.client.Put(a.config.Region().RestURL(url), nil, nil, &response)
+	_, err := a.client.PutWithContext(ctx, a.config.Region().RestURL(url), nil, nil, &response)
 
 	if err != nil {
 		return nil, err
