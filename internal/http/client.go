@@ -1,6 +1,7 @@
 package http
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -127,10 +128,25 @@ func (c *Client) Get(
 	queryParams interface{},
 	respBody interface{},
 ) (*http.Response, error) {
+	return c.GetWithContext(context.Background(), url, queryParams, respBody)
+}
+
+// GetWithContext represents an HTTP GET request to a New Relic API.
+// The queryParams argument can be used to add query string parameters to the requested URL.
+// The respBody argument will be unmarshaled from JSON in the response body to the type provided.
+// If respBody is not nil and the response body cannot be unmarshaled to the type provided, an error will be returned.
+func (c *Client) GetWithContext(
+	ctx context.Context,
+	url string,
+	queryParams interface{},
+	respBody interface{},
+) (*http.Response, error) {
 	req, err := c.NewRequest(http.MethodGet, url, queryParams, nil, respBody)
 	if err != nil {
 		return nil, err
 	}
+
+	req.WithContext(ctx)
 
 	return c.Do(req)
 }
@@ -146,10 +162,27 @@ func (c *Client) Post(
 	reqBody interface{},
 	respBody interface{},
 ) (*http.Response, error) {
+	return c.PostWithContext(context.Background(), url, queryParams, reqBody, respBody)
+}
+
+// PostWithContext represents an HTTP POST request to a New Relic API.
+// The queryParams argument can be used to add query string parameters to the requested URL.
+// The reqBody argument will be marshaled to JSON from the type provided and included in the request body.
+// The respBody argument will be unmarshaled from JSON in the response body to the type provided.
+// If respBody is not nil and the response body cannot be unmarshaled to the type provided, an error will be returned.
+func (c *Client) PostWithContext(
+	ctx context.Context,
+	url string,
+	queryParams interface{},
+	reqBody interface{},
+	respBody interface{},
+) (*http.Response, error) {
 	req, err := c.NewRequest(http.MethodPost, url, queryParams, reqBody, respBody)
 	if err != nil {
 		return nil, err
 	}
+
+	req.WithContext(ctx)
 
 	return c.Do(req)
 }
@@ -165,10 +198,27 @@ func (c *Client) Put(
 	reqBody interface{},
 	respBody interface{},
 ) (*http.Response, error) {
+	return c.PutWithContext(context.Background(), url, queryParams, reqBody, respBody)
+}
+
+// PutWithContext represents an HTTP PUT request to a New Relic API.
+// The queryParams argument can be used to add query string parameters to the requested URL.
+// The reqBody argument will be marshaled to JSON from the type provided and included in the request body.
+// The respBody argument will be unmarshaled from JSON in the response body to the type provided.
+// If respBody is not nil and the response body cannot be unmarshaled to the type provided, an error will be returned.
+func (c *Client) PutWithContext(
+	ctx context.Context,
+	url string,
+	queryParams interface{},
+	reqBody interface{},
+	respBody interface{},
+) (*http.Response, error) {
 	req, err := c.NewRequest(http.MethodPut, url, queryParams, reqBody, respBody)
 	if err != nil {
 		return nil, err
 	}
+
+	req.WithContext(ctx)
 
 	return c.Do(req)
 }
@@ -177,7 +227,21 @@ func (c *Client) Put(
 // The queryParams argument can be used to add query string parameters to the requested URL.
 // The respBody argument will be unmarshaled from JSON in the response body to the type provided.
 // If respBody is not nil and the response body cannot be unmarshaled to the type provided, an error will be returned.
-func (c *Client) Delete(url string,
+func (c *Client) Delete(
+	url string,
+	queryParams interface{},
+	respBody interface{},
+) (*http.Response, error) {
+	return c.DeleteWithContext(context.Background(), url, queryParams, respBody)
+}
+
+// DeleteWithContext represents an HTTP DELETE request to a New Relic API.
+// The queryParams argument can be used to add query string parameters to the requested URL.
+// The respBody argument will be unmarshaled from JSON in the response body to the type provided.
+// If respBody is not nil and the response body cannot be unmarshaled to the type provided, an error will be returned.
+func (c *Client) DeleteWithContext(
+	ctx context.Context,
+	url string,
 	queryParams interface{},
 	respBody interface{},
 ) (*http.Response, error) {
@@ -185,6 +249,8 @@ func (c *Client) Delete(url string,
 	if err != nil {
 		return nil, err
 	}
+
+	req.WithContext(ctx)
 
 	return c.Do(req)
 }
@@ -398,10 +464,17 @@ func isResponseSuccess(resp *http.Response) bool {
 
 // NerdGraphQuery runs a Nerdgraph query.
 func (c *Client) NerdGraphQuery(query string, vars map[string]interface{}, respBody interface{}) error {
+	return c.NerdGraphQueryWithContext(context.Background(), query, vars, respBody)
+}
+
+// NerdGraphQueryWithContext runs a Nerdgraph query.
+func (c *Client) NerdGraphQueryWithContext(ctx context.Context, query string, vars map[string]interface{}, respBody interface{}) error {
 	req, err := c.NewNerdGraphRequest(query, vars, respBody)
 	if err != nil {
 		return err
 	}
+
+	req.WithContext(ctx)
 
 	_, err = c.Do(req)
 	if err != nil {

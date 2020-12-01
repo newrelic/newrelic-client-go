@@ -2,6 +2,8 @@
 package nerdgraph
 
 import (
+	"context"
+
 	"github.com/newrelic/newrelic-client-go/internal/http"
 	"github.com/newrelic/newrelic-client-go/internal/logging"
 	"github.com/newrelic/newrelic-client-go/pkg/config"
@@ -32,9 +34,15 @@ func New(config config.Config) NerdGraph {
 // Query facilitates making a NerdGraph request with a raw GraphQL query. Variables may be provided
 // in the form of a map. The response's data structure will vary based on the query provided.
 func (n *NerdGraph) Query(query string, variables map[string]interface{}) (interface{}, error) {
+	return n.QueryWithContext(context.Background(), query, variables)
+}
+
+// QueryWithContext facilitates making a NerdGraph request with a raw GraphQL query. Variables may be provided
+// in the form of a map. The response's data structure will vary based on the query provided.
+func (n *NerdGraph) QueryWithContext(ctx context.Context, query string, variables map[string]interface{}) (interface{}, error) {
 	respBody := QueryResponse{}
 
-	if err := n.QueryWithResponse(query, variables, &respBody); err != nil {
+	if err := n.QueryWithResponseAndContext(ctx, query, variables, &respBody); err != nil {
 		return nil, err
 	}
 
@@ -44,7 +52,13 @@ func (n *NerdGraph) Query(query string, variables map[string]interface{}) (inter
 // QueryWithResponse functions similarly to Query, but alows for full customization of the returned data payload.
 // Query should be preferred most of the time.
 func (n *NerdGraph) QueryWithResponse(query string, variables map[string]interface{}, respBody interface{}) error {
-	if err := n.client.NerdGraphQuery(query, variables, respBody); err != nil {
+	return n.QueryWithResponseAndContext(context.Background(), query, variables, respBody)
+}
+
+// QueryWithResponseAndContext functions similarly to QueryWithContext, but alows for full customization of the returned data payload.
+// QueryWithContext should be preferred most of the time.
+func (n *NerdGraph) QueryWithResponseAndContext(ctx context.Context, query string, variables map[string]interface{}, respBody interface{}) error {
+	if err := n.client.NerdGraphQueryWithContext(ctx, query, variables, respBody); err != nil {
 		return err
 	}
 
