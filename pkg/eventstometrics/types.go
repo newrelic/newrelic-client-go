@@ -42,10 +42,10 @@ type EventsToMetricsCreateRuleInput struct {
 	AccountID int `json:"accountId"`
 	// Provides additional information about the rule.
 	Description string `json:"description"`
+	// Explains how to create one or more metrics from events.
+	NRQL string `json:"nrql"`
 	// The name of the rule. This must be unique within a given account.
 	Name string `json:"name"`
-	// Explains how to create one or more metrics from events.
-	Nrql string `json:"nrql"`
 }
 
 // EventsToMetricsCreateRuleResult - The result of which submitted events to metrics rules were successfully and unsuccessfully created
@@ -62,10 +62,10 @@ type EventsToMetricsCreateRuleSubmission struct {
 	AccountID int `json:"accountId"`
 	// Provides additional information about the rule.
 	Description string `json:"description"`
+	// Explains how to create one or more metrics from events.
+	NRQL string `json:"nrql"`
 	// The name of the rule. This must be unique within a given account.
 	Name string `json:"name"`
-	// Explains how to create one or more metrics from events.
-	Nrql string `json:"nrql"`
 }
 
 // EventsToMetricsDeleteRuleFailure - Error details about the events to metrics rule that failed to be deleted and why.
@@ -126,10 +126,10 @@ type EventsToMetricsRule struct {
 	Enabled bool `json:"enabled"`
 	// The id, uniquely identifying the rule.
 	ID string `json:"id"`
+	// Explains how to create metrics from events.
+	NRQL string `json:"nrql"`
 	// The name of the rule. This must be unique within an account.
 	Name string `json:"name"`
-	// Explains how to create metrics from events.
-	Nrql string `json:"nrql"`
 	// The time at which the rule was updated
 	UpdatedAt DateTime `json:"updatedAt"`
 }

@@ -25,3 +25,14 @@ type AccountOutline struct {
 	// Returns event types that are currently reporting in the account.
 	ReportingEventTypes []string `json:"reportingEventTypes"`
 }
+
+// TimeWindowInput - Represents a time window input.
+type TimeWindowInput struct {
+	// The end time of the time window the number of milliseconds since the Unix epoch.
+	EndTime EpochMilliseconds `json:"endTime"`
+	// The start time of the time window the number of milliseconds since the Unix epoch.
+	StartTime EpochMilliseconds `json:"startTime"`
+}
+
+// EpochMilliseconds - The `EpochMilliseconds` scalar represents the number of milliseconds since the Unix epoch
+type EpochMilliseconds string

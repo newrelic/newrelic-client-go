@@ -100,16 +100,16 @@ var AlertsMutingRuleConditionOperatorTypes = struct {
 	STARTS_WITH: "STARTS_WITH",
 }
 
-// AlertsNrqlConditionTermsOperator - Operator used to compare against the threshold for NrqlConditions.
-type AlertsNrqlConditionTermsOperator string
+// AlertsNRQLConditionTermsOperator - Operator used to compare against the threshold for NrqlConditions.
+type AlertsNRQLConditionTermsOperator string
 
-var AlertsNrqlConditionTermsOperatorTypes = struct {
+var AlertsNRQLConditionTermsOperatorTypes = struct {
 	// For comparing values above a threshold.
-	ABOVE AlertsNrqlConditionTermsOperator
+	ABOVE AlertsNRQLConditionTermsOperator
 	// For comparing values below a threshold.
-	BELOW AlertsNrqlConditionTermsOperator
+	BELOW AlertsNRQLConditionTermsOperator
 	// For comparing values equal to a threshold.
-	EQUALS AlertsNrqlConditionTermsOperator
+	EQUALS AlertsNRQLConditionTermsOperator
 }{
 	// For comparing values above a threshold.
 	ABOVE: "ABOVE",
@@ -181,7 +181,7 @@ type AlertsMutingRuleScheduleInput struct {
 // AlertsPoliciesSearchCriteriaInput - Search criteria for returning specific policies.
 type AlertsPoliciesSearchCriteriaInput struct {
 	// The list of policy ids to return.
-	IDs []int `json:"ids"`
+	IDs []string `json:"ids"`
 }
 
 // AlertsPoliciesSearchResultSet - Collection of policies with pagination information.
