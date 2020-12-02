@@ -1,6 +1,7 @@
 package alerts
 
 import (
+	"context"
 	"fmt"
 	"strconv"
 
@@ -31,13 +32,18 @@ type MultiLocationSyntheticsConditionTerm struct {
 
 // ListMultiLocationSyntheticsConditions returns alert conditions for a specified policy.
 func (a *Alerts) ListMultiLocationSyntheticsConditions(policyID int) ([]*MultiLocationSyntheticsCondition, error) {
+	return a.ListMultiLocationSyntheticsConditionsWithContext(context.Background(), policyID)
+}
+
+// ListMultiLocationSyntheticsConditionsWithContext returns alert conditions for a specified policy.
+func (a *Alerts) ListMultiLocationSyntheticsConditionsWithContext(ctx context.Context, policyID int) ([]*MultiLocationSyntheticsCondition, error) {
 	response := multiLocationSyntheticsConditionListResponse{}
 	queryParams := listMultiLocationSyntheticsConditionsParams{
 		PolicyID: policyID,
 	}
 
 	url := a.config.Region().RestURL("/alerts_location_failure_conditions/policies/", strconv.Itoa(policyID)+".json")
-	_, err := a.client.Get(url, &queryParams, &response)
+	_, err := a.client.GetWithContext(ctx, url, &queryParams, &response)
 
 	if err != nil {
 		return nil, err
@@ -48,7 +54,12 @@ func (a *Alerts) ListMultiLocationSyntheticsConditions(policyID int) ([]*MultiLo
 
 // GetMultiLocationSyntheticsCondition retrieves a specific Synthetics alert condition.
 func (a *Alerts) GetMultiLocationSyntheticsCondition(policyID int, conditionID int) (*MultiLocationSyntheticsCondition, error) {
-	conditions, err := a.ListMultiLocationSyntheticsConditions(policyID)
+	return a.GetMultiLocationSyntheticsConditionWithContext(context.Background(), policyID, conditionID)
+}
+
+// GetMultiLocationSyntheticsConditionWithContext retrieves a specific Synthetics alert condition.
+func (a *Alerts) GetMultiLocationSyntheticsConditionWithContext(ctx context.Context, policyID int, conditionID int) (*MultiLocationSyntheticsCondition, error) {
+	conditions, err := a.ListMultiLocationSyntheticsConditionsWithContext(ctx, policyID)
 
 	if err != nil {
 		return nil, err
@@ -65,13 +76,19 @@ func (a *Alerts) GetMultiLocationSyntheticsCondition(policyID int, conditionID i
 
 // CreateMultiLocationSyntheticsCondition creates an alert condition for a specified policy.
 func (a *Alerts) CreateMultiLocationSyntheticsCondition(condition MultiLocationSyntheticsCondition, policyID int) (*MultiLocationSyntheticsCondition, error) {
+	return a.CreateMultiLocationSyntheticsConditionWithContext(context.Background(), condition, policyID)
+
+}
+
+// CreateMultiLocationSyntheticsConditionWithContext creates an alert condition for a specified policy.
+func (a *Alerts) CreateMultiLocationSyntheticsConditionWithContext(ctx context.Context, condition MultiLocationSyntheticsCondition, policyID int) (*MultiLocationSyntheticsCondition, error) {
 	reqBody := multiLocationSyntheticsConditionRequestBody{
 		MultiLocationSyntheticsCondition: condition,
 	}
 	resp := multiLocationSyntheticsConditionCreateResponse{}
 
 	url := fmt.Sprintf("/alerts_location_failure_conditions/policies/%d.json", policyID)
-	_, err := a.client.Post(a.config.Region().RestURL(url), nil, &reqBody, &resp)
+	_, err := a.client.PostWithContext(ctx, a.config.Region().RestURL(url), nil, &reqBody, &resp)
 	if err != nil {
 		return nil, err
 	}
@@ -81,13 +98,18 @@ func (a *Alerts) CreateMultiLocationSyntheticsCondition(condition MultiLocationS
 
 // UpdateMultiLocationSyntheticsCondition updates an alert condition.
 func (a *Alerts) UpdateMultiLocationSyntheticsCondition(condition MultiLocationSyntheticsCondition) (*MultiLocationSyntheticsCondition, error) {
+	return a.UpdateMultiLocationSyntheticsConditionWithContext(context.Background(), condition)
+}
+
+// UpdateMultiLocationSyntheticsConditionWithContext updates an alert condition.
+func (a *Alerts) UpdateMultiLocationSyntheticsConditionWithContext(ctx context.Context, condition MultiLocationSyntheticsCondition) (*MultiLocationSyntheticsCondition, error) {
 	reqBody := multiLocationSyntheticsConditionRequestBody{
 		MultiLocationSyntheticsCondition: condition,
 	}
 	resp := multiLocationSyntheticsConditionCreateResponse{}
 
 	url := fmt.Sprintf("/alerts_location_failure_conditions/%d.json", condition.ID)
-	_, err := a.client.Put(a.config.Region().RestURL(url), nil, &reqBody, &resp)
+	_, err := a.client.PutWithContext(ctx, a.config.Region().RestURL(url), nil, &reqBody, &resp)
 
 	if err != nil {
 		return nil, err
@@ -98,10 +120,15 @@ func (a *Alerts) UpdateMultiLocationSyntheticsCondition(condition MultiLocationS
 
 // DeleteMultiLocationSyntheticsCondition delete an alert condition.
 func (a *Alerts) DeleteMultiLocationSyntheticsCondition(conditionID int) (*MultiLocationSyntheticsCondition, error) {
+	return a.DeleteMultiLocationSyntheticsConditionWithContext(context.Background(), conditionID)
+}
+
+// DeleteMultiLocationSyntheticsConditionWithContext delete an alert condition.
+func (a *Alerts) DeleteMultiLocationSyntheticsConditionWithContext(ctx context.Context, conditionID int) (*MultiLocationSyntheticsCondition, error) {
 	resp := multiLocationSyntheticsConditionCreateResponse{}
 	url := fmt.Sprintf("/alerts_conditions/%d.json", conditionID)
 
-	_, err := a.client.Delete(a.config.Region().RestURL(url), nil, &resp)
+	_, err := a.client.DeleteWithContext(ctx, a.config.Region().RestURL(url), nil, &resp)
 
 	if err != nil {
 		return nil, err

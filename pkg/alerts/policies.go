@@ -1,6 +1,7 @@
 package alerts
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/newrelic/newrelic-client-go/pkg/errors"
@@ -42,13 +43,18 @@ type ListPoliciesParams struct {
 
 // ListPolicies returns a list of Alert Policies for a given account.
 func (a *Alerts) ListPolicies(params *ListPoliciesParams) ([]Policy, error) {
+	return a.ListPoliciesWithContext(context.Background(), params)
+}
+
+// ListPoliciesWithContext returns a list of Alert Policies for a given account.
+func (a *Alerts) ListPoliciesWithContext(ctx context.Context, params *ListPoliciesParams) ([]Policy, error) {
 	alertPolicies := []Policy{}
 
 	nextURL := a.config.Region().RestURL("/alerts_policies.json")
 
 	for nextURL != "" {
 		response := alertPoliciesResponse{}
-		resp, err := a.client.Get(nextURL, &params, &response)
+		resp, err := a.client.GetWithContext(ctx, nextURL, &params, &response)
 
 		if err != nil {
 			return nil, err
@@ -65,7 +71,12 @@ func (a *Alerts) ListPolicies(params *ListPoliciesParams) ([]Policy, error) {
 
 // GetPolicy returns a specific alert policy by ID for a given account.
 func (a *Alerts) GetPolicy(id int) (*Policy, error) {
-	policies, err := a.ListPolicies(nil)
+	return a.GetPolicyWithContext(context.Background(), id)
+}
+
+// GetPolicyWithContext returns a specific alert policy by ID for a given account.
+func (a *Alerts) GetPolicyWithContext(ctx context.Context, id int) (*Policy, error) {
+	policies, err := a.ListPoliciesWithContext(ctx, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -81,12 +92,17 @@ func (a *Alerts) GetPolicy(id int) (*Policy, error) {
 
 // CreatePolicy creates a new alert policy for a given account.
 func (a *Alerts) CreatePolicy(policy Policy) (*Policy, error) {
+	return a.CreatePolicyWithContext(context.Background(), policy)
+}
+
+// CreatePolicyWithContext creates a new alert policy for a given account.
+func (a *Alerts) CreatePolicyWithContext(ctx context.Context, policy Policy) (*Policy, error) {
 	reqBody := alertPolicyRequestBody{
 		Policy: policy,
 	}
 	resp := alertPolicyResponse{}
 
-	_, err := a.client.Post(a.config.Region().RestURL("/alerts_policies.json"), nil, &reqBody, &resp)
+	_, err := a.client.PostWithContext(ctx, a.config.Region().RestURL("/alerts_policies.json"), nil, &reqBody, &resp)
 
 	if err != nil {
 		return nil, err
@@ -97,14 +113,18 @@ func (a *Alerts) CreatePolicy(policy Policy) (*Policy, error) {
 
 // UpdatePolicy update an alert policy for a given account.
 func (a *Alerts) UpdatePolicy(policy Policy) (*Policy, error) {
+	return a.UpdatePolicyWithContext(context.Background(), policy)
+}
 
+// UpdatePolicyWithContext update an alert policy for a given account.
+func (a *Alerts) UpdatePolicyWithContext(ctx context.Context, policy Policy) (*Policy, error) {
 	reqBody := alertPolicyRequestBody{
 		Policy: policy,
 	}
 	resp := alertPolicyResponse{}
 	url := fmt.Sprintf("/alerts_policies/%d.json", policy.ID)
 
-	_, err := a.client.Put(a.config.Region().RestURL(url), nil, &reqBody, &resp)
+	_, err := a.client.PutWithContext(ctx, a.config.Region().RestURL(url), nil, &reqBody, &resp)
 	if err != nil {
 		return nil, err
 	}
@@ -114,10 +134,15 @@ func (a *Alerts) UpdatePolicy(policy Policy) (*Policy, error) {
 
 // DeletePolicy deletes an existing alert policy for a given account.
 func (a *Alerts) DeletePolicy(id int) (*Policy, error) {
+	return a.DeletePolicyWithContext(context.Background(), id)
+}
+
+// DeletePolicyWithContext deletes an existing alert policy for a given account.
+func (a *Alerts) DeletePolicyWithContext(ctx context.Context, id int) (*Policy, error) {
 	resp := alertPolicyResponse{}
 	url := fmt.Sprintf("/alerts_policies/%d.json", id)
 
-	_, err := a.client.Delete(a.config.Region().RestURL(url), nil, &resp)
+	_, err := a.client.DeleteWithContext(ctx, a.config.Region().RestURL(url), nil, &resp)
 	if err != nil {
 		return nil, err
 	}
@@ -126,6 +151,10 @@ func (a *Alerts) DeletePolicy(id int) (*Policy, error) {
 }
 
 func (a *Alerts) CreatePolicyMutation(accountID int, policy AlertsPolicyInput) (*AlertsPolicy, error) {
+	return a.CreatePolicyMutationWithContext(context.Background(), accountID, policy)
+}
+
+func (a *Alerts) CreatePolicyMutationWithContext(ctx context.Context, accountID int, policy AlertsPolicyInput) (*AlertsPolicy, error) {
 	vars := map[string]interface{}{
 		"accountID": accountID,
 		"policy":    policy,
@@ -133,7 +162,7 @@ func (a *Alerts) CreatePolicyMutation(accountID int, policy AlertsPolicyInput) (
 
 	resp := alertQueryPolicyCreateResponse{}
 
-	if err := a.client.NerdGraphQuery(alertsPolicyCreatePolicy, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, alertsPolicyCreatePolicy, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -141,6 +170,10 @@ func (a *Alerts) CreatePolicyMutation(accountID int, policy AlertsPolicyInput) (
 }
 
 func (a *Alerts) UpdatePolicyMutation(accountID int, policyID string, policy AlertsPolicyUpdateInput) (*AlertsPolicy, error) {
+	return a.UpdatePolicyMutationWithContext(context.Background(), accountID, policyID, policy)
+}
+
+func (a *Alerts) UpdatePolicyMutationWithContext(ctx context.Context, accountID int, policyID string, policy AlertsPolicyUpdateInput) (*AlertsPolicy, error) {
 	vars := map[string]interface{}{
 		"accountID": accountID,
 		"policyID":  policyID,
@@ -149,7 +182,7 @@ func (a *Alerts) UpdatePolicyMutation(accountID int, policyID string, policy Ale
 
 	resp := alertQueryPolicyUpdateResponse{}
 
-	if err := a.client.NerdGraphQuery(alertsPolicyUpdatePolicy, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, alertsPolicyUpdatePolicy, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -159,6 +192,12 @@ func (a *Alerts) UpdatePolicyMutation(accountID int, policyID string, policy Ale
 // QueryPolicy queries NerdGraph for a policy matching the given account ID and
 // policy ID.
 func (a *Alerts) QueryPolicy(accountID int, id string) (*AlertsPolicy, error) {
+	return a.QueryPolicyWithContext(context.Background(), accountID, id)
+}
+
+// QueryPolicyWithContext queries NerdGraph for a policy matching the given account ID and
+// policy ID.
+func (a *Alerts) QueryPolicyWithContext(ctx context.Context, accountID int, id string) (*AlertsPolicy, error) {
 	resp := alertQueryPolicyResponse{}
 	vars := map[string]interface{}{
 		"accountID": accountID,
@@ -169,6 +208,8 @@ func (a *Alerts) QueryPolicy(accountID int, id string) (*AlertsPolicy, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	req.WithContext(ctx)
 
 	var errorResponse alertPoliciesErrorResponse
 	req.SetErrorValue(&errorResponse)
@@ -182,7 +223,11 @@ func (a *Alerts) QueryPolicy(accountID int, id string) (*AlertsPolicy, error) {
 
 // QueryPolicySearch searches NerdGraph for policies.
 func (a *Alerts) QueryPolicySearch(accountID int, params AlertsPoliciesSearchCriteriaInput) ([]*AlertsPolicy, error) {
+	return a.QueryPolicySearchWithContext(context.Background(), accountID, params)
+}
 
+// QueryPolicySearchWithContext searches NerdGraph for policies.
+func (a *Alerts) QueryPolicySearchWithContext(ctx context.Context, accountID int, params AlertsPoliciesSearchCriteriaInput) ([]*AlertsPolicy, error) {
 	policies := []*AlertsPolicy{}
 	var nextCursor *string
 
@@ -194,7 +239,7 @@ func (a *Alerts) QueryPolicySearch(accountID int, params AlertsPoliciesSearchCri
 			"searchCriteria": params,
 		}
 
-		if err := a.client.NerdGraphQuery(alertsPolicyQuerySearch, vars, &resp); err != nil {
+		if err := a.client.NerdGraphQueryWithContext(ctx, alertsPolicyQuerySearch, vars, &resp); err != nil {
 			return nil, err
 		}
 
@@ -209,6 +254,12 @@ func (a *Alerts) QueryPolicySearch(accountID int, params AlertsPoliciesSearchCri
 // DeletePolicyMutation is the NerdGraph mutation to delete a policy given the
 // account ID and the policy ID.
 func (a *Alerts) DeletePolicyMutation(accountID int, id string) (*AlertsPolicy, error) {
+	return a.DeletePolicyMutationWithContext(context.Background(), accountID, id)
+}
+
+// DeletePolicyMutationWithContext is the NerdGraph mutation to delete a policy given the
+// account ID and the policy ID.
+func (a *Alerts) DeletePolicyMutationWithContext(ctx context.Context, accountID int, id string) (*AlertsPolicy, error) {
 	policy := &AlertsPolicy{}
 
 	resp := alertQueryPolicyDeleteRespose{}
@@ -217,7 +268,7 @@ func (a *Alerts) DeletePolicyMutation(accountID int, id string) (*AlertsPolicy, 
 		"policyID":  id,
 	}
 
-	if err := a.client.NerdGraphQuery(alertPolicyDeletePolicy, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, alertPolicyDeletePolicy, vars, &resp); err != nil {
 		return nil, err
 	}
 

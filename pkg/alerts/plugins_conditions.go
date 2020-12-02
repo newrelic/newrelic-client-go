@@ -1,6 +1,7 @@
 package alerts
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/newrelic/newrelic-client-go/pkg/errors"
@@ -28,6 +29,11 @@ type AlertPlugin struct {
 
 // ListPluginsConditions returns alert conditions for New Relic plugins for a given alert policy.
 func (a *Alerts) ListPluginsConditions(policyID int) ([]*PluginsCondition, error) {
+	return a.ListPluginsConditionsWithContext(context.Background(), policyID)
+}
+
+// ListPluginsConditionsWithContext returns alert conditions for New Relic plugins for a given alert policy.
+func (a *Alerts) ListPluginsConditionsWithContext(ctx context.Context, policyID int) ([]*PluginsCondition, error) {
 	conditions := []*PluginsCondition{}
 	queryParams := listPluginsConditionsParams{
 		PolicyID: policyID,
@@ -37,7 +43,7 @@ func (a *Alerts) ListPluginsConditions(policyID int) ([]*PluginsCondition, error
 
 	for nextURL != "" {
 		response := pluginsConditionsResponse{}
-		resp, err := a.client.Get(nextURL, &queryParams, &response)
+		resp, err := a.client.GetWithContext(ctx, nextURL, &queryParams, &response)
 
 		if err != nil {
 			return nil, err
@@ -55,7 +61,13 @@ func (a *Alerts) ListPluginsConditions(policyID int) ([]*PluginsCondition, error
 // GetPluginsCondition gets information about an alert condition for a plugin
 // given a policy ID and plugin ID.
 func (a *Alerts) GetPluginsCondition(policyID int, pluginID int) (*PluginsCondition, error) {
-	conditions, err := a.ListPluginsConditions(policyID)
+	return a.GetPluginsConditionWithContext(context.Background(), policyID, pluginID)
+}
+
+// GetPluginsConditionWithContext gets information about an alert condition for a plugin
+// given a policy ID and plugin ID.
+func (a *Alerts) GetPluginsConditionWithContext(ctx context.Context, policyID int, pluginID int) (*PluginsCondition, error) {
+	conditions, err := a.ListPluginsConditionsWithContext(ctx, policyID)
 
 	if err != nil {
 		return nil, err
@@ -72,13 +84,18 @@ func (a *Alerts) GetPluginsCondition(policyID int, pluginID int) (*PluginsCondit
 
 // CreatePluginsCondition creates an alert condition for a plugin.
 func (a *Alerts) CreatePluginsCondition(policyID int, condition PluginsCondition) (*PluginsCondition, error) {
+	return a.CreatePluginsConditionWithContext(context.Background(), policyID, condition)
+}
+
+// CreatePluginsConditionWithContext creates an alert condition for a plugin.
+func (a *Alerts) CreatePluginsConditionWithContext(ctx context.Context, policyID int, condition PluginsCondition) (*PluginsCondition, error) {
 	reqBody := pluginConditionRequestBody{
 		PluginsCondition: condition,
 	}
 	resp := pluginConditionResponse{}
 
 	url := fmt.Sprintf("/alerts_plugins_conditions/policies/%d.json", policyID)
-	_, err := a.client.Post(a.config.Region().RestURL(url), nil, &reqBody, &resp)
+	_, err := a.client.PostWithContext(ctx, a.config.Region().RestURL(url), nil, &reqBody, &resp)
 
 	if err != nil {
 		return nil, err
@@ -89,13 +106,18 @@ func (a *Alerts) CreatePluginsCondition(policyID int, condition PluginsCondition
 
 // UpdatePluginsCondition updates an alert condition for a plugin.
 func (a *Alerts) UpdatePluginsCondition(condition PluginsCondition) (*PluginsCondition, error) {
+	return a.UpdatePluginsConditionWithContext(context.Background(), condition)
+}
+
+// UpdatePluginsConditionWithContext updates an alert condition for a plugin.
+func (a *Alerts) UpdatePluginsConditionWithContext(ctx context.Context, condition PluginsCondition) (*PluginsCondition, error) {
 	reqBody := pluginConditionRequestBody{
 		PluginsCondition: condition,
 	}
 	resp := pluginConditionResponse{}
 
 	url := fmt.Sprintf("/alerts_plugins_conditions/%d.json", condition.ID)
-	_, err := a.client.Put(a.config.Region().RestURL(url), nil, &reqBody, &resp)
+	_, err := a.client.PutWithContext(ctx, a.config.Region().RestURL(url), nil, &reqBody, &resp)
 
 	if err != nil {
 		return nil, err
@@ -106,10 +128,15 @@ func (a *Alerts) UpdatePluginsCondition(condition PluginsCondition) (*PluginsCon
 
 // DeletePluginsCondition deletes a plugin alert condition.
 func (a *Alerts) DeletePluginsCondition(id int) (*PluginsCondition, error) {
+	return a.DeletePluginsConditionWithContext(context.Background(), id)
+}
+
+// DeletePluginsConditionWithContext deletes a plugin alert condition.
+func (a *Alerts) DeletePluginsConditionWithContext(ctx context.Context, id int) (*PluginsCondition, error) {
 	resp := pluginConditionResponse{}
 	url := fmt.Sprintf("/alerts_plugins_conditions/%d.json", id)
 
-	_, err := a.client.Delete(a.config.Region().RestURL(url), nil, &resp)
+	_, err := a.client.DeleteWithContext(ctx, a.config.Region().RestURL(url), nil, &resp)
 
 	if err != nil {
 		return nil, err

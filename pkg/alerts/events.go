@@ -1,6 +1,8 @@
 package alerts
 
 import (
+	"context"
+
 	"github.com/newrelic/newrelic-client-go/internal/serialization"
 )
 
@@ -32,12 +34,17 @@ type ListAlertEventsParams struct {
 
 // ListAlertEvents is used to retrieve New Relic alert events
 func (a *Alerts) ListAlertEvents(params *ListAlertEventsParams) ([]*AlertEvent, error) {
+	return a.ListAlertEventsWithContext(context.Background(), params)
+}
+
+// ListAlertEventsWithContext is used to retrieve New Relic alert events
+func (a *Alerts) ListAlertEventsWithContext(ctx context.Context, params *ListAlertEventsParams) ([]*AlertEvent, error) {
 	alertEvents := []*AlertEvent{}
 	nextURL := a.config.Region().RestURL("alerts_events.json")
 
 	for nextURL != "" {
 		response := alertEventsResponse{}
-		resp, err := a.client.Get(nextURL, &params, &response)
+		resp, err := a.client.GetWithContext(ctx, nextURL, &params, &response)
 
 		if err != nil {
 			return nil, err

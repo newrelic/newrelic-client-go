@@ -1,6 +1,7 @@
 package alerts
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/newrelic/newrelic-client-go/pkg/errors"
@@ -75,12 +76,17 @@ type ChannelConfiguration struct {
 
 // ListChannels returns all alert channels for a given account.
 func (a *Alerts) ListChannels() ([]*Channel, error) {
+	return a.ListChannelsWithContext(context.Background())
+}
+
+// ListChannelsWithContext returns all alert channels for a given account.
+func (a *Alerts) ListChannelsWithContext(ctx context.Context) ([]*Channel, error) {
 	alertChannels := []*Channel{}
 	nextURL := a.config.Region().RestURL("/alerts_channels.json")
 
 	for nextURL != "" {
 		response := alertChannelsResponse{}
-		resp, err := a.client.Get(nextURL, nil, &response)
+		resp, err := a.client.GetWithContext(ctx, nextURL, nil, &response)
 
 		if err != nil {
 			return nil, err
@@ -97,7 +103,12 @@ func (a *Alerts) ListChannels() ([]*Channel, error) {
 
 // GetChannel returns a specific alert channel by ID for a given account.
 func (a *Alerts) GetChannel(id int) (*Channel, error) {
-	channels, err := a.ListChannels()
+	return a.GetChannelWithContext(context.Background(), id)
+}
+
+// GetChannelWithContext returns a specific alert channel by ID for a given account.
+func (a *Alerts) GetChannelWithContext(ctx context.Context, id int) (*Channel, error) {
+	channels, err := a.ListChannelsWithContext(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -116,12 +127,21 @@ func (a *Alerts) GetChannel(id int) (*Channel, error) {
 // view the New Relic API documentation for this endpoint.
 // Docs: https://docs.newrelic.com/docs/alerts/rest-api-alerts/new-relic-alerts-rest-api/rest-api-calls-new-relic-alerts#channels
 func (a *Alerts) CreateChannel(channel Channel) (*Channel, error) {
+	return a.CreateChannelWithContext(context.Background(), channel)
+}
+
+// CreateChannelWithContext creates an alert channel within a given account.
+// The configuration options different based on channel type.
+// For more information on the different configurations, please
+// view the New Relic API documentation for this endpoint.
+// Docs: https://docs.newrelic.com/docs/alerts/rest-api-alerts/new-relic-alerts-rest-api/rest-api-calls-new-relic-alerts#channels
+func (a *Alerts) CreateChannelWithContext(ctx context.Context, channel Channel) (*Channel, error) {
 	reqBody := alertChannelRequestBody{
 		Channel: channel,
 	}
 	resp := alertChannelsResponse{}
 
-	_, err := a.client.Post(a.config.Region().RestURL("alerts_channels.json"), nil, &reqBody, &resp)
+	_, err := a.client.PostWithContext(ctx, a.config.Region().RestURL("alerts_channels.json"), nil, &reqBody, &resp)
 
 	if err != nil {
 		return nil, err
@@ -132,9 +152,14 @@ func (a *Alerts) CreateChannel(channel Channel) (*Channel, error) {
 
 // DeleteChannel deletes the alert channel with the specified ID.
 func (a *Alerts) DeleteChannel(id int) (*Channel, error) {
+	return a.DeleteChannelWithContext(context.Background(), id)
+}
+
+// DeleteChannelWithContext deletes the alert channel with the specified ID.
+func (a *Alerts) DeleteChannelWithContext(ctx context.Context, id int) (*Channel, error) {
 	resp := alertChannelResponse{}
 	url := fmt.Sprintf("/alerts_channels/%d.json", id)
-	_, err := a.client.Delete(a.config.Region().RestURL(url), nil, &resp)
+	_, err := a.client.DeleteWithContext(ctx, a.config.Region().RestURL(url), nil, &resp)
 
 	if err != nil {
 		return nil, err

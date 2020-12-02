@@ -1,6 +1,7 @@
 package alerts
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/newrelic/newrelic-client-go/pkg/errors"
@@ -203,6 +204,11 @@ type ConditionTerm struct {
 
 // ListConditions returns alert conditions for a specified policy.
 func (a *Alerts) ListConditions(policyID int) ([]*Condition, error) {
+	return a.ListConditionsWithContext(context.Background(), policyID)
+}
+
+// ListConditionsWithContext returns alert conditions for a specified policy.
+func (a *Alerts) ListConditionsWithContext(ctx context.Context, policyID int) ([]*Condition, error) {
 	alertConditions := []*Condition{}
 	queryParams := listConditionsParams{
 		PolicyID: policyID,
@@ -212,7 +218,7 @@ func (a *Alerts) ListConditions(policyID int) ([]*Condition, error) {
 
 	for nextURL != "" {
 		response := alertConditionsResponse{}
-		resp, err := a.client.Get(nextURL, &queryParams, &response)
+		resp, err := a.client.GetWithContext(ctx, nextURL, &queryParams, &response)
 
 		if err != nil {
 			return nil, err
@@ -229,7 +235,12 @@ func (a *Alerts) ListConditions(policyID int) ([]*Condition, error) {
 
 // GetCondition gets an alert condition for a specified policy ID and condition ID.
 func (a *Alerts) GetCondition(policyID int, id int) (*Condition, error) {
-	conditions, err := a.ListConditions(policyID)
+	return a.GetConditionWithContext(context.Background(), policyID, id)
+}
+
+// GetConditionWithContext gets an alert condition for a specified policy ID and condition ID.
+func (a *Alerts) GetConditionWithContext(ctx context.Context, policyID int, id int) (*Condition, error) {
+	conditions, err := a.ListConditionsWithContext(ctx, policyID)
 	if err != nil {
 		return nil, err
 	}
@@ -245,13 +256,18 @@ func (a *Alerts) GetCondition(policyID int, id int) (*Condition, error) {
 
 // CreateCondition creates an alert condition for a specified policy.
 func (a *Alerts) CreateCondition(policyID int, condition Condition) (*Condition, error) {
+	return a.CreateConditionWithContext(context.Background(), policyID, condition)
+}
+
+// CreateConditionWithContext creates an alert condition for a specified policy.
+func (a *Alerts) CreateConditionWithContext(ctx context.Context, policyID int, condition Condition) (*Condition, error) {
 	reqBody := alertConditionRequestBody{
 		Condition: condition,
 	}
 	resp := alertConditionResponse{}
 
 	url := fmt.Sprintf("/alerts_conditions/policies/%d.json", policyID)
-	_, err := a.client.Post(a.config.Region().RestURL(url), nil, &reqBody, &resp)
+	_, err := a.client.PostWithContext(ctx, a.config.Region().RestURL(url), nil, &reqBody, &resp)
 
 	if err != nil {
 		return nil, err
@@ -262,13 +278,18 @@ func (a *Alerts) CreateCondition(policyID int, condition Condition) (*Condition,
 
 // UpdateCondition updates an alert condition.
 func (a *Alerts) UpdateCondition(condition Condition) (*Condition, error) {
+	return a.UpdateConditionWithContext(context.Background(), condition)
+}
+
+// UpdateConditionWithContext updates an alert condition.
+func (a *Alerts) UpdateConditionWithContext(ctx context.Context, condition Condition) (*Condition, error) {
 	reqBody := alertConditionRequestBody{
 		Condition: condition,
 	}
 	resp := alertConditionResponse{}
 
 	url := fmt.Sprintf("/alerts_conditions/%d.json", condition.ID)
-	_, err := a.client.Put(a.config.Region().RestURL(url), nil, &reqBody, &resp)
+	_, err := a.client.PutWithContext(ctx, a.config.Region().RestURL(url), nil, &reqBody, &resp)
 
 	if err != nil {
 		return nil, err
@@ -277,12 +298,17 @@ func (a *Alerts) UpdateCondition(condition Condition) (*Condition, error) {
 	return &resp.Condition, nil
 }
 
-// DeleteCondition delete an alert condition.
+// DeleteCondition deletes an alert condition.
 func (a *Alerts) DeleteCondition(id int) (*Condition, error) {
+	return a.DeleteConditionWithContext(context.Background(), id)
+}
+
+// DeleteConditionWithContext deletes an alert condition.
+func (a *Alerts) DeleteConditionWithContext(ctx context.Context, id int) (*Condition, error) {
 	resp := alertConditionResponse{}
 	url := fmt.Sprintf("/alerts_conditions/%d.json", id)
 
-	_, err := a.client.Delete(a.config.Region().RestURL(url), nil, &resp)
+	_, err := a.client.DeleteWithContext(ctx, a.config.Region().RestURL(url), nil, &resp)
 
 	if err != nil {
 		return nil, err
@@ -296,13 +322,22 @@ func (a *Alerts) DeleteConditionMutation(
 	accountID int,
 	conditionID string,
 ) (string, error) {
+	return a.DeleteConditionMutationWithContext(context.Background(), accountID, conditionID)
+}
+
+// DeleteConditionMutationWithContext deletes any type of alert condition via New Relic's NerdGraph API.
+func (a *Alerts) DeleteConditionMutationWithContext(
+	ctx context.Context,
+	accountID int,
+	conditionID string,
+) (string, error) {
 	resp := conditionDeleteResponse{}
 	vars := map[string]interface{}{
 		"accountId": accountID,
 		"id":        conditionID,
 	}
 
-	if err := a.client.NerdGraphQuery(deleteConditionMutation, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, deleteConditionMutation, vars, &resp); err != nil {
 		return "", err
 	}
 
