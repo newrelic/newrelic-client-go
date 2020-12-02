@@ -39,7 +39,7 @@ var (
 				Priority:             NrqlConditionPriorities.Critical,
 			},
 		},
-		ViolationTimeLimit: NrqlConditionViolationTimeLimits.OneHour,
+		ViolationTimeLimitSeconds: 3600,
 		Expiration: &AlertsNrqlConditionExpiration{
 			CloseViolationsOnExpiration: true,
 			ExpirationDuration:          &nrqlConditionBaseExpirationDuration,
@@ -280,7 +280,7 @@ func TestIntegrationNrqlConditions_Outlier(t *testing.T) {
 						Priority:             NrqlConditionPriorities.Critical,
 					},
 				},
-				ViolationTimeLimit: NrqlConditionViolationTimeLimits.OneHour,
+				ViolationTimeLimitSeconds: 3600,
 			},
 			ExpectedGroups:              &expectedGroups,
 			OpenViolationOnGroupOverlap: &violationOverlap,
@@ -414,7 +414,7 @@ func TestIntegrationNrqlConditions_Search(t *testing.T) {
 						Priority:             NrqlConditionPriorities.Critical,
 					},
 				},
-				ViolationTimeLimit: NrqlConditionViolationTimeLimits.OneHour,
+				ViolationTimeLimitSeconds: 3600,
 			},
 			BaselineDirection: &NrqlBaselineDirections.LowerOnly,
 		}
@@ -483,7 +483,7 @@ func TestIntegrationNrqlConditions_CreateStatic(t *testing.T) {
 						Priority:             NrqlConditionPriorities.Warning,
 					},
 				},
-				ViolationTimeLimit: NrqlConditionViolationTimeLimits.OneHour,
+				ViolationTimeLimitSeconds: 3600,
 			},
 			ValueFunction: &NrqlConditionValueFunctions.SingleValue,
 		}
@@ -537,7 +537,7 @@ func TestIntegrationNrqlConditions_ZeroValueThreshold(t *testing.T) {
 						Priority:             NrqlConditionPriorities.Critical,
 					},
 				},
-				ViolationTimeLimit: NrqlConditionViolationTimeLimits.OneHour,
+				ViolationTimeLimitSeconds: 3600,
 			},
 			ValueFunction: &NrqlConditionValueFunctions.SingleValue,
 		}

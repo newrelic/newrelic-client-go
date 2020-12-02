@@ -9,7 +9,7 @@ import (
 	"github.com/newrelic/newrelic-client-go/pkg/errors"
 )
 
-// AlertsNrqlConditionExpiration - **Preview access:** These fields may be viewed and set, but will not be active until the release date.
+// AlertsNrqlConditionExpiration
 // Settings for how violations are opened or closed when a signal expires.
 // nolint:golint
 type AlertsNrqlConditionExpiration struct {
@@ -176,16 +176,17 @@ type NrqlConditionQuery struct {
 // NrqlConditionBase represents the base fields for a New Relic NRQL Alert condition. These fields
 // shared between the NrqlConditionMutationInput struct and NrqlConditionMutationResponse struct.
 type NrqlConditionBase struct {
-	Description        string                          `json:"description,omitempty"`
-	Enabled            bool                            `json:"enabled"`
-	Name               string                          `json:"name,omitempty"`
-	Nrql               NrqlConditionQuery              `json:"nrql,omitempty"`
-	RunbookURL         string                          `json:"runbookUrl,omitempty"`
-	Terms              []NrqlConditionTerm             `json:"terms,omitempty"`
-	Type               NrqlConditionType               `json:"type,omitempty"`
-	ViolationTimeLimit NrqlConditionViolationTimeLimit `json:"violationTimeLimit,omitempty"`
-	Expiration         *AlertsNrqlConditionExpiration  `json:"expiration,omitempty"`
-	Signal             *AlertsNrqlConditionSignal      `json:"signal,omitempty"`
+	Description               string                          `json:"description,omitempty"`
+	Enabled                   bool                            `json:"enabled"`
+	Name                      string                          `json:"name,omitempty"`
+	Nrql                      NrqlConditionQuery              `json:"nrql,omitempty"`
+	RunbookURL                string                          `json:"runbookUrl,omitempty"`
+	Terms                     []NrqlConditionTerm             `json:"terms,omitempty"`
+	Type                      NrqlConditionType               `json:"type,omitempty"`
+	ViolationTimeLimit        NrqlConditionViolationTimeLimit `json:"violationTimeLimit,omitempty"`
+	ViolationTimeLimitSeconds int                             `json:"violationTimeLimitSeconds,omitempty"`
+	Expiration                *AlertsNrqlConditionExpiration  `json:"expiration,omitempty"`
+	Signal                    *AlertsNrqlConditionSignal      `json:"signal,omitempty"`
 }
 
 // NrqlConditionInput represents the input options for creating or updating a Nrql Condition.
@@ -756,7 +757,8 @@ const (
       thresholdOccurrences
     }
     type
-    violationTimeLimit
+	violationTimeLimit
+	violationTimeLimitSeconds
     expiration {
       closeViolationsOnExpiration
       expirationDuration
