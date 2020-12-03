@@ -171,6 +171,7 @@ packages:
         skip_type_create: false
       - name: RuleId
         field_type_override: string
+
   - name: nrdb
     path: pkg/nrdb
     generators:

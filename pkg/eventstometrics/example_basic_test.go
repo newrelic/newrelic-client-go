@@ -40,7 +40,7 @@ func Example_basic() {
 			AccountID:   accountID,
 			Name:        "Example rule",
 			Description: "Example description",
-			Nrql:        "SELECT uniqueCount(account_id) AS `Transaction.account_id` FROM Transaction FACET appName, name",
+			NRQL:        "SELECT uniqueCount(account_id) AS `Transaction.account_id` FROM Transaction FACET appName, name",
 		},
 	}
 
