@@ -2,7 +2,6 @@ package apiaccess
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/newrelic/newrelic-client-go/internal/http"
 )
@@ -13,6 +12,17 @@ type APIKey struct {
 	AccountID  *int                   `json:"accountId,omitempty"`
 	IngestType APIAccessIngestKeyType `json:"ingestType,omitempty"`
 	UserID     *int                   `json:"userId,omitempty"`
+}
+
+//
+// Additional Interface methods
+//
+func (x *APIAccessIngestKeyError) GetError() error {
+	return errors.New(x.Message)
+}
+
+func (x *APIAccessUserKeyError) GetError() error {
+	return errors.New(x.Message)
 }
 
 // CreateAPIAccessKeys create keys. You can create keys for multiple accounts at once.
@@ -111,10 +121,10 @@ func (a *APIAccess) DeleteAPIAccessKey(keys APIAccessDeleteInput) ([]APIAccessDe
 	return resp.APIAccessDeleteKeys.DeletedKeys, nil
 }
 
-func formatAPIAccessKeyErrors(errs []APIAccessKeyError) string {
+func formatAPIAccessKeyErrors(errs []APIAccessKeyErrorInterface) string {
 	errorString := ""
 	for _, e := range errs {
-		errorString += fmt.Sprintf("%v: %v\n", e.Type, e.Message)
+		errorString += e.GetError().Error() + "\n"
 	}
 	return errorString
 }
@@ -122,16 +132,16 @@ func formatAPIAccessKeyErrors(errs []APIAccessKeyError) string {
 // apiAccessKeyCreateResponse represents the JSON response returned from creating key(s).
 type apiAccessKeyCreateResponse struct {
 	APIAccessCreateKeys struct {
-		CreatedKeys []APIKey            `json:"createdKeys"`
-		Errors      []APIAccessKeyError `json:"errors"`
+		CreatedKeys []APIKey                     `json:"createdKeys"`
+		Errors      []APIAccessKeyErrorInterface `json:"errors"`
 	} `json:"apiAccessCreateKeys"`
 }
 
 // apiAccessKeyUpdateResponse represents the JSON response returned from updating key(s).
 type apiAccessKeyUpdateResponse struct {
 	APIAccessUpdateKeys struct {
-		UpdatedKeys []APIKey            `json:"updatedKeys"`
-		Errors      []APIAccessKeyError `json:"errors"`
+		UpdatedKeys []APIKey                     `json:"updatedKeys"`
+		Errors      []APIAccessKeyErrorInterface `json:"errors"`
 	} `json:"apiAccessUpdateKeys"`
 }
 

@@ -73,7 +73,9 @@ packages:
       - name: ApiAccessIngestKeyErrorType
       - name: ApiAccessIngestKeyType
       - name: ApiAccessKey # gql interface
-      - name: ApiAccessKeyError
+      - name: APIAccessKeyError
+        interface_methods:
+          - "GetError() error"
       - name: ApiAccessKeySearchQuery
       - name: ApiAccessKeySearchResult
       - name: ApiAccessKeySearchScope
