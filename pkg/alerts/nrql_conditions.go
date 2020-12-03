@@ -160,7 +160,7 @@ var (
 
 // NrqlConditionTerm represents the a single term of a New Relic alert condition.
 type NrqlConditionTerm struct {
-	Operator             AlertsNrqlConditionTermsOperator `json:"operator,omitempty"`
+	Operator             AlertsNRQLConditionTermsOperator `json:"operator,omitempty"`
 	Priority             NrqlConditionPriority            `json:"priority,omitempty"`
 	Threshold            *float64                         `json:"threshold"`
 	ThresholdDuration    int                              `json:"thresholdDuration,omitempty"`
