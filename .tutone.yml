@@ -185,12 +185,12 @@ packages:
         create_as: serialization.EpochTime
       - name: Nrql
         create_as: string
-      - name: NrdbMetadataTimeWindow
-      - name: NrdbResult
+      - name: NRDBMetadataTimeWindow
+      - name: NRDBResult
         create_as: map[string]interface{}
-      - name: NrdbResultContainer
       - name: NrqlHistoricalQuery
-      - name: SuggestedNrqlQuery
+      - name: SuggestedNRQLQuery
+      - name: NrdbResultContainer
 
 generators:
   - name: typegen

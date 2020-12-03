@@ -25,7 +25,7 @@ func Example_query() {
 
 	// Execute a NRQL query to retrieve the average duration of transactions for
 	// the "Example application" app.
-	query := Nrql("SELECT average(duration) FROM Transaction TIMESERIES WHERE appName = 'Example application'")
+	query := NRQL("SELECT average(duration) FROM Transaction TIMESERIES WHERE appName = 'Example application'")
 
 	resp, err := client.Query(accountID, query)
 	if err != nil {
