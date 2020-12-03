@@ -16,13 +16,17 @@ type {{ .Name }} string
 
 var {{.Name}}Types = struct {
   {{- range .Values }}
-	{{ .Description }}
-	{{ .Name }} {{ $typeName }}
+  {{-   if ne .Description "" }}
+  {{      .Description }}
+  {{-   end }}
+  {{   .Name }} {{ $typeName }}
   {{- end}}
 }{
   {{- range .Values }}
-	{{ .Description }}
-	{{ .Name }}: "{{ .Name }}",
+  {{-   if ne .Description "" }}
+  {{      .Description }}
+  {{-   end }}
+  {{ .Name }}: "{{ .Name }}",
   {{- end}}
 }
 {{- end}}
@@ -32,8 +36,10 @@ var {{.Name}}Types = struct {
 {{- $typeName := .Name }}
 type {{.Name}} struct {
   {{- range .Fields }}
-  {{ .Description }}
-  {{ .Name }} {{ .Type }} {{ .Tags }}
+  {{-   if ne .Description "" }}
+  {{      .Description }}
+  {{-   end }}
+  {{    .Name }} {{ .Type }} {{ .Tags }}
   {{- end}}
 }
 
@@ -44,17 +50,17 @@ func (x *{{ $typeName }}) Implements{{ . }}() {}
 {{-  if .SpecialUnmarshal }}
 // special
 func (x *{{ $typeName }}) UnmarshalJSON(b []byte) error {
-	var objMap map[string]*json.RawMessage
-	err := json.Unmarshal(b, &objMap)
-	if err != nil {
-		return err
-	}
+  var objMap map[string]*json.RawMessage
+  err := json.Unmarshal(b, &objMap)
+  if err != nil {
+    return err
+  }
 
-	for k, v := range objMap {
-		switch k {
+  for k, v := range objMap {
+    switch k {
   {{- range .Fields }}
     {{- $field := . }}
-		case "{{ .TagKey }}":
+    case "{{ .TagKey }}":
     {{- if .IsInterface }}
       {{- if .IsList }}
         var rawMessage{{ .Name }} []*json.RawMessage
@@ -86,14 +92,14 @@ func (x *{{ $typeName }}) UnmarshalJSON(b []byte) error {
         }
       {{- end }}
     {{- else }}
-			err = json.Unmarshal(*v, &x.{{ .Name }})
-			if err != nil {
-				return err
-			}
+      err = json.Unmarshal(*v, &x.{{ .Name }})
+      if err != nil {
+        return err
+      }
     {{- end }}
   {{- end }}
-		}
-	}
+    }
+  }
 
   return nil
 }
@@ -101,15 +107,21 @@ func (x *{{ $typeName }}) UnmarshalJSON(b []byte) error {
 {{ end}}
 
 {{- range .Scalars }}
-{{ .Description }}
+{{-   if ne .Description "" }}
+{{      .Description }}
+{{-   end }}
 type {{.Name}} {{.Type}}
 {{- end}}
 
 {{- range .Interfaces }}
 {{- $interfaceType := . }}
-{{ .Description }}
+{{-   if ne .Description "" }}
+{{      .Description }}
+{{-   end }}
 type {{ $interfaceType.Name }}Interface interface{
-  Implements{{.Name}}()
+  {{- range $m := .Methods }}
+  {{ $m }}
+  {{- end }}
 }
 
 //yes
