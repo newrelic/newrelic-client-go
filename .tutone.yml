@@ -31,6 +31,7 @@ packages:
       - github.com/newrelic/newrelic-client-go/internal/serialization
     types:
       - name: AccountOutline
+      - name: AccountReference
       - name: EpochMilliseconds
         field_type_override: serialization.EpochTime
         skip_type_create: true

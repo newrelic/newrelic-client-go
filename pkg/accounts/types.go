@@ -30,6 +30,14 @@ type AccountOutline struct {
 	ReportingEventTypes []string `json:"reportingEventTypes"`
 }
 
+// AccountReference - The `AccountReference` object provides basic identifying information about the account.
+type AccountReference struct {
+	//
+	ID int `json:"id"`
+	//
+	Name string `json:"name"`
+}
+
 // TimeWindowInput - Represents a time window input.
 type TimeWindowInput struct {
 	// The end time of the time window the number of milliseconds since the Unix epoch.
