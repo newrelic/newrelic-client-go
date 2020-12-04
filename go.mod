@@ -12,11 +12,11 @@ require (
 	github.com/imdario/mergo v0.3.11
 	github.com/llorllale/go-gitlint v0.0.0-20200802191503-5984945d4b80
 	github.com/mitchellh/mapstructure v1.4.0
-	github.com/newrelic/tutone v0.2.5
+	github.com/newrelic/tutone v0.3.0
 	github.com/psampaz/go-mod-outdated v0.7.0
 	github.com/sirupsen/logrus v1.7.0
 	github.com/stretchr/testify v1.6.1
 	github.com/tomnomnom/linkheader v0.0.0-20180905144013-02ca5825eb80
-	golang.org/x/tools v0.0.0-20201013201025-64a9e34f3752
+	golang.org/x/tools v0.0.0-20201204162204-73cf035baebf
 	gotest.tools/gotestsum v0.6.0
 )

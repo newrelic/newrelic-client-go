@@ -25,13 +25,13 @@ func TestIntegrationEventsToMetrics(t *testing.T) {
 				AccountID:   testAccountID,
 				Name:        testRuleName,
 				Description: testRuleDescription,
-				Nrql:        testRuleNrql,
+				NRQL:        testRuleNrql,
 			},
 			{
 				AccountID:   testAccountID,
 				Name:        testOtherRuleName,
 				Description: testRuleDescription,
-				Nrql:        testRuleNrql,
+				NRQL:        testRuleNrql,
 			},
 		}
 	)

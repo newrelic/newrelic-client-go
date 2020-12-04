@@ -23,7 +23,7 @@ func (e *Edge) CreateTraceObserver(accountID int, name string, providerRegion Ed
 	resp := createTraceObserverResponse{}
 	vars := map[string]interface{}{
 		"accountId":            accountID,
-		"traceObserverConfigs": []EdgeCreateTraceObserverInput{{name, providerRegion}},
+		"traceObserverConfigs": []EdgeCreateTraceObserverInput{{true, name, providerRegion}},
 	}
 
 	if err := e.client.NerdGraphQuery(createTraceObserverMutation, vars, &resp); err != nil {
@@ -63,7 +63,7 @@ type traceObserverResponse struct {
 	Actor struct {
 		Account struct {
 			Edge struct {
-				Tracing EdgeTraceObserverResponse
+				Tracing EdgeTracing
 			}
 		}
 	}

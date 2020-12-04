@@ -33,7 +33,7 @@ func TestIntegrationNrdbQuery(t *testing.T) {
 		t.Skipf("integration testing requires NEW_RELIC_ACOUNT_ID")
 	}
 
-	res, err := client.Query(accountID, Nrql(query))
+	res, err := client.Query(accountID, NRQL(query))
 
 	require.NoError(t, err)
 	require.NotNil(t, res)
