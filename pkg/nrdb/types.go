@@ -288,6 +288,9 @@ func (x *SuggestedNRQLQueryResponse) UnmarshalJSON(b []byte) error {
 	for k, v := range objMap {
 		switch k {
 		case "suggestions":
+			if v == nil {
+				continue
+			}
 			var rawMessageSuggestions []*json.RawMessage
 			err = json.Unmarshal(*v, &rawMessageSuggestions)
 			if err != nil {
