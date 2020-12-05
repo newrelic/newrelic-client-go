@@ -25,22 +25,34 @@ auth:
 packages:
   - name: accounts
     path: pkg/accounts
+    import_path: github.com/newrelic/newrelic-client-go/pkg/accounts
     generators:
       - typegen
     imports:
-      - github.com/newrelic/newrelic-client-go/internal/serialization
+      - github.com/newrelic/newrelic-client-go/pkg/nrtime
     types:
       - name: AccountOutline
       - name: AccountReference
-      - name: EpochMilliseconds
-        field_type_override: serialization.EpochTime
-        skip_type_create: true
       - name: RegionScope
+
+      #
+      # Types that we should auto-detect are in another package someday
+      #
+      - name: EpochMilliseconds
+        field_type_override: nrtime.EpochMilliseconds
+        skip_type_create: true
+      - name: TimeWindowInput
+        field_type_override: nrtime.TimeWindowInput
+        skip_type_create: true
+
 
   - name: alerts
     path: pkg/alerts
+    import_path: github.com/newrelic/newrelic-client-go/pkg/alerts
     generators:
       - typegen
+    imports:
+      - github.com/newrelic/newrelic-client-go/pkg/apiaccess
     types:
       - name: AlertsMutingRuleConditionInput
       - name: AlertsMutingRuleInput
@@ -54,14 +66,20 @@ packages:
       - name: ID
         field_type_override: string
         skip_type_create: true
+
+      #
+      # Types that we should auto-detect are in another package someday
+      #
       - name: NaiveDateTime
+        field_type_override: nrtime.NaiveDateTime
+        skip_type_create: true
+
 
   - name: apiaccess
     path: pkg/apiaccess
+    import_path: github.com/newrelic/newrelic-client-go/pkg/apiaccess
     generators:
       - typegen
-    imports:
-      - github.com/newrelic/newrelic-client-go/internal/serialization
     types:
       - name: ApiAccessActorStitchedFields
       - name: ApiAccessCreateIngestKeyInput
@@ -85,14 +103,16 @@ packages:
       - name: ApiAccessUpdateKeyResponse
       - name: ApiAccessUpdateUserKeyInput
       - name: ApiAccessUserKeyErrorType
+      # This must be a string, as where ID is used the type is a string...
       - name: ID
         field_type_override: string
         skip_type_create: true
 
+
   - name: cloud
     path: pkg/cloud
     imports:
-      - github.com/newrelic/newrelic-client-go/internal/serialization
+      - github.com/newrelic/newrelic-client-go/pkg/nrtime
       - encoding/json
       - fmt
     generators:
@@ -110,15 +130,20 @@ packages:
       - name: cloudRenameAccount
       - name: cloudUnlinkAccount
     types:
+      #
+      # Types that we should auto-detect are in another package someday
+      #
       - name: EpochSeconds
-        field_type_override: serialization.EpochTime
+        field_type_override: nrtime.EpochSeconds
         skip_type_create: true
       - name: EpochMilliseconds
-        field_type_override: serialization.EpochTime
+        field_type_override: nrtime.EpochMilliseconds
         skip_type_create: true
+
 
   - name: edge
     path: pkg/edge
+    import_path: github.com/newrelic/newrelic-client-go/pkg/edge
     generators:
       - typegen
     types:
@@ -146,10 +171,14 @@ packages:
       - name: EdgeTraceObserverStatus
       - name: EdgeTracing
 
+
   - name: eventstometrics
     path: pkg/eventstometrics
+    import_path: github.com/newrelic/newrelic-client-go/pkg/eventstometrics
     generators:
       - typegen
+    imports:
+      - github.com/newrelic/newrelic-client-go/pkg/nrtime
     types:
       - name: EventsToMetricsAccountStitchedFields
       - name: EventsToMetricsCreateRuleFailure
@@ -169,22 +198,24 @@ packages:
       - name: EventsToMetricsUpdateRuleSubmission
       - name: ID
         field_type_override: string
-        create_as: string
-        skip_type_create: false
-      - name: RuleId
-        field_type_override: string
+        skip_type_create: true
+
+      #
+      # Types that we should auto-detect are in another package someday
+      #
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
+
 
   - name: nrdb
     path: pkg/nrdb
+    import_path: github.com/newrelic/newrelic-client-go/pkg/nrdb
     generators:
       - typegen
     imports:
-      - github.com/newrelic/newrelic-client-go/internal/serialization
+      - github.com/newrelic/newrelic-client-go/pkg/nrtime
     types:
-      - name: EpochSeconds
-        create_as: serialization.EpochTime
-      - name: EpochMilliseconds
-        create_as: serialization.EpochTime
       - name: Nrql
         create_as: string
       - name: NRDBMetadataTimeWindow
@@ -193,6 +224,40 @@ packages:
       - name: NrqlHistoricalQuery
       - name: SuggestedNRQLQuery
       - name: NrdbResultContainer
+
+      #
+      # Types that we should auto-detect are in another package someday
+      #
+      - name: EpochSeconds
+        field_type_override: nrtime.EpochSeconds
+        skip_type_create: true
+      - name: EpochMilliseconds
+        field_type_override: nrtime.EpochMilliseconds
+        skip_type_create: true
+      - name: TimeWindowInput
+        field_type_override: nrtime.TimeWindowInput
+        skip_type_create: true
+
+
+  - name: nrtime
+    path: pkg/nrtime
+    import_path: github.com/newrelic/newrelic-client-go/pkg/nrtime
+    generators:
+      - typegen
+    imports:
+      - github.com/newrelic/newrelic-client-go/internal/serialization
+    types:
+      - name: DateTime
+        create_as: string
+      - name: EpochMilliseconds
+        create_as: serialization.EpochTime
+      - name: EpochSeconds
+        create_as: serialization.EpochTime
+      - name: NaiveDateTime
+        create_as: string
+      - name: TimeWindowInput
+
+
 
 generators:
   - name: typegen

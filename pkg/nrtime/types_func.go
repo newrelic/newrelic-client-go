@@ -1,4 +1,4 @@
-package nrdb
+package nrtime
 
 import (
 	"github.com/newrelic/newrelic-client-go/internal/serialization"

@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/newrelic/newrelic-client-go/internal/serialization"
+	"github.com/newrelic/newrelic-client-go/pkg/nrtime"
 )
 
 // ChartFormatType - Represents all the format types available for static charts.
@@ -146,11 +146,11 @@ type NRDBMetadata struct {
 // NRDBMetadataTimeWindow - An object representing details about a query's time window.
 type NRDBMetadataTimeWindow struct {
 	// Timestamp marking the query begin time.
-	Begin EpochMilliseconds `json:"begin"`
+	Begin nrtime.EpochMilliseconds `json:"begin"`
 	// A clause representing the comparison time window.
 	CompareWith string `json:"compareWith"`
 	// Timestamp marking the query end time.
-	End EpochMilliseconds `json:"end"`
+	End nrtime.EpochMilliseconds `json:"end"`
 	// SINCE clause resulting from the query
 	Since string `json:"since"`
 	// UNTIL clause resulting from the query
@@ -229,7 +229,7 @@ type NRQLHistoricalQuery struct {
 	// The NRQL query executed.
 	NRQL NRQL `json:"nrql"`
 	// The time the query was executed.
-	Timestamp EpochSeconds `json:"timestamp"`
+	Timestamp nrtime.EpochSeconds `json:"timestamp"`
 }
 
 // SuggestedAnomalyBasedNRQLQuery - A query suggestion based on analysis of events within a specific anomalous time
@@ -316,24 +316,10 @@ func (x *SuggestedNRQLQueryResponse) UnmarshalJSON(b []byte) error {
 // TimeWindow - Represents a time window.
 type TimeWindow struct {
 	// The end time of the time window the number of milliseconds since the Unix epoch.
-	EndTime EpochMilliseconds `json:"endTime"`
+	EndTime nrtime.EpochMilliseconds `json:"endTime"`
 	// The start time of the time window the number of milliseconds since the Unix epoch.
-	StartTime EpochMilliseconds `json:"startTime"`
+	StartTime nrtime.EpochMilliseconds `json:"startTime"`
 }
-
-// TimeWindowInput - Represents a time window input.
-type TimeWindowInput struct {
-	// The end time of the time window the number of milliseconds since the Unix epoch.
-	EndTime EpochMilliseconds `json:"endTime"`
-	// The start time of the time window the number of milliseconds since the Unix epoch.
-	StartTime EpochMilliseconds `json:"startTime"`
-}
-
-// EpochMilliseconds - The `EpochMilliseconds` scalar represents the number of milliseconds since the Unix epoch
-type EpochMilliseconds serialization.EpochTime
-
-// EpochSeconds - The `EpochSeconds` scalar represents the number of seconds since the Unix epoch
-type EpochSeconds serialization.EpochTime
 
 // NRDBResult - This scalar represents a NRDB Result. It is a `Map` of `String` keys to values.
 //
