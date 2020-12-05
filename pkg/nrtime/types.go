@@ -22,5 +22,11 @@ type EpochMilliseconds serialization.EpochTime
 // EpochSeconds - The `EpochSeconds` scalar represents the number of seconds since the Unix epoch
 type EpochSeconds serialization.EpochTime
 
+// Minutes - The `Minutes` scalar represents a duration in minutes
+type Minutes string
+
 // NaiveDateTime - The `NaiveDateTime` scalar represents a date and time without a Time Zone. The `NaiveDateTime` appears as an ISO8601 formatted string.
 type NaiveDateTime string
+
+// Seconds - The `Seconds` scalar represents a duration in seconds
+type Seconds string

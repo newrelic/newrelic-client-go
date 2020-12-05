@@ -46,9 +46,6 @@ type BrowserApplicationEntity struct {
 	ServingApmApplicationID *int `json:"servingApmApplicationId,omitempty"`
 }
 
-// EntityType represents a New Relic One entity type (full)
-type EntityType string
-
 // Type represents a New Relic One entity type (short)
 type Type string
 

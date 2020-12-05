@@ -122,13 +122,19 @@ packages:
       - path: ["actor", "cloud"]
         endpoints:
           - name: linkedAccounts
-            maxQueryFieldDepth: 2
+            max_query_field_depth: 2
+            include_nullable: true
     mutations:
       - name: cloudConfigureIntegration
+        maxQueryFieldDepth: 1
       - name: cloudDisableIntegration
+        maxQueryFieldDepth: 1
       - name: cloudLinkAccount
+        maxQueryFieldDepth: 1
       - name: cloudRenameAccount
+        maxQueryFieldDepth: 1
       - name: cloudUnlinkAccount
+        maxQueryFieldDepth: 1
     types:
       #
       # Types that we should auto-detect are in another package someday
@@ -171,6 +177,50 @@ packages:
       - name: EdgeTraceObserverStatus
       - name: EdgeTracing
 
+  - name: infrastructure
+    path: pkg/infrastructure
+    import_path: github.com/newrelic/newrelic-client-go/pkg/infrastructure
+    generators:
+      - typegen
+    types: []
+
+  - name: entities
+    path: pkg/entities
+    import_path: github.com/newrelic/newrelic-client-go/pkg/entities
+    generators:
+      - typegen
+    types:
+      - name: AttributeMap
+        create_as: "map[string]interface{}"
+#      - name: Entity
+#      - name: EntityOutline
+      - name: EntityGuid
+#      - name: EntityRelationship
+#      - name: EntityRelationshipFilter
+#      - name: EntityRelationshipNode
+#      - name: EntityRelationshipType
+#      - name: EntitySearchCounts
+#      - name: EntitySearchResult
+#      - name: EntityRelationshipFilter
+#      - name: EntityRelationshipNode
+#      - name: EntitySearch
+      - name: EntitySearchCounts
+      - name: EntitySearchCountsFacet
+      - name: EntitySearchQueryBuilder
+#      - name: EntitySearchResult
+      - name: EntitySearchTypes
+      - name: EntityTag
+      - name: EntityTagValueWithMetadata
+      - name: EntityTagWithMetadata
+      - name: EntityType
+#      - name: GenericEntity
+#      - name: GenericEntityOutline
+#      - name: UnavailableEntity
+#      - name: UnavailableEntityOutline
+
+      # Infra should own this, but can't be cause it's a dep for EntitySearchQueryBuilder
+      - name: InfrastructureIntegrationType
+
 
   - name: eventstometrics
     path: pkg/eventstometrics
@@ -208,6 +258,19 @@ packages:
         skip_type_create: true
 
 
+  - name: nerdstorage
+    path: pkg/nerdstorage
+    import_path: github.com/newrelic/newrelic-client-go/pkg/nerdstorage
+    generators:
+      - typegen
+    types:
+      - name: NerdStorageCollectionMember
+      - name: NerdStorageDocument
+      - name: NerdStorageEntityScope
+      - name: NerdStorageScope
+      - name: NerdStorageScopeInput
+
+
   - name: nrdb
     path: pkg/nrdb
     import_path: github.com/newrelic/newrelic-client-go/pkg/nrdb
@@ -224,6 +287,7 @@ packages:
       - name: NrqlHistoricalQuery
       - name: SuggestedNRQLQuery
       - name: NrdbResultContainer
+      - name: EventDefinition
 
       #
       # Types that we should auto-detect are in another package someday
@@ -253,7 +317,11 @@ packages:
         create_as: serialization.EpochTime
       - name: EpochSeconds
         create_as: serialization.EpochTime
+      - name: Minutes
+        create_as: string
       - name: NaiveDateTime
+        create_as: string
+      - name: Seconds
         create_as: string
       - name: TimeWindowInput
 
@@ -264,3 +332,4 @@ generators:
     fileName: "types.go"
   - name: nerdgraphclient
     fileName: "{{.PackageName}}_api.go"
+
