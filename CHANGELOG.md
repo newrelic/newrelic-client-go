@@ -1,5 +1,5 @@
 <a name="v0.52.0"></a>
-## [v0.52.0] - 2020-12-04
+## [v0.52.0] - 2020-12-08
 ### Bug Fixes
 - **typegen:** Avoid nil pointer on unmarshall
 
