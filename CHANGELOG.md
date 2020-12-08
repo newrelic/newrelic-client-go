@@ -1,3 +1,12 @@
+<a name="v0.52.0"></a>
+## [v0.52.0] - 2020-12-04
+### Bug Fixes
+- **typegen:** Avoid nil pointer on unmarshall
+
+### Features
+- **accounts:** Add AccountReference
+- **nrql_conditions:** add violation_time_limit_seconds
+
 <a name="v0.51.0"></a>
 ## [v0.51.0] - 2020-12-01
 ### Features
@@ -853,7 +862,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.51.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.52.0...HEAD
+[v0.52.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.51.0...v0.52.0
 [v0.51.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.50.0...v0.51.0
 [v0.50.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.49.0...v0.50.0
 [v0.49.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.48.1...v0.49.0
