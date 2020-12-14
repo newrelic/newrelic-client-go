@@ -1468,8 +1468,8 @@ type CloudLinkAccountResponse struct {
 }
 
 const CloudLinkAccountMutation = `mutation(
-	$accountId: Int,
-	$accounts: CloudLinkCloudAccountsInput,
+	$accountId: Int!,
+	$accounts: CloudLinkCloudAccountsInput!,
 ) { cloudLinkAccount(
 	accountId: $accountId,
 	accounts: $accounts,
@@ -1520,8 +1520,8 @@ type CloudRenameAccountResponse struct {
 }
 
 const CloudRenameAccountMutation = `mutation(
-	$accountId: Int,
-	$accounts: [CloudRenameAccountsInput],
+	$accountId: Int!,
+	$accounts: [CloudRenameAccountsInput!]!,
 ) { cloudRenameAccount(
 	accountId: $accountId,
 	accounts: $accounts,
