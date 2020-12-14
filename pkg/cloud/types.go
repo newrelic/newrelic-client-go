@@ -2822,6 +2822,9 @@ func (x *CloudConfigureIntegrationPayload) UnmarshalJSON(b []byte) error {
 				return err
 			}
 		case "integrations":
+			if v == nil {
+				continue
+			}
 			var rawMessageIntegrations []*json.RawMessage
 			err = json.Unmarshal(*v, &rawMessageIntegrations)
 			if err != nil {
@@ -2869,6 +2872,9 @@ func (x *CloudDisableIntegrationPayload) UnmarshalJSON(b []byte) error {
 	for k, v := range objMap {
 		switch k {
 		case "disabledIntegrations":
+			if v == nil {
+				continue
+			}
 			var rawMessageDisabledIntegrations []*json.RawMessage
 			err = json.Unmarshal(*v, &rawMessageDisabledIntegrations)
 			if err != nil {
@@ -4579,13 +4585,13 @@ type CloudLinkAccountPayload struct {
 // CloudLinkCloudAccountsInput - Specific Cloud provider information required to link the Cloud provider account to a NewRelic account.
 type CloudLinkCloudAccountsInput struct {
 	// Aws provider
-	Aws []CloudAwsLinkAccountInput `json:"aws,omitempty"`
+	Aws []CloudAwsLinkAccountInput `json:"aws"`
 	// AwsGovcloud provider
-	AwsGovcloud []CloudAwsGovcloudLinkAccountInput `json:"awsGovcloud,omitempty"`
+	AwsGovcloud []CloudAwsGovcloudLinkAccountInput `json:"awsGovcloud"`
 	// Azure provider
-	Azure []CloudAzureLinkAccountInput `json:"azure,omitempty"`
+	Azure []CloudAzureLinkAccountInput `json:"azure"`
 	// Gcp provider
-	Gcp []CloudGcpLinkAccountInput `json:"gcp,omitempty"`
+	Gcp []CloudGcpLinkAccountInput `json:"gcp"`
 }
 
 // CloudLinkedAccount - A cloud account linked to a NewRelic account.
@@ -4659,6 +4665,9 @@ func (x *CloudLinkedAccount) UnmarshalJSON(b []byte) error {
 				x.Integration = *xxx
 			}
 		case "integrations":
+			if v == nil {
+				continue
+			}
 			var rawMessageIntegrations []*json.RawMessage
 			err = json.Unmarshal(*v, &rawMessageIntegrations)
 			if err != nil {
