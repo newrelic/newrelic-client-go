@@ -373,109 +373,109 @@ type CloudAwsDirectconnectIntegrationInput struct {
 // CloudAwsDisableIntegrationsInput - List of integrations
 type CloudAwsDisableIntegrationsInput struct {
 	// API Gateway integration
-	APIgateway []CloudDisableAccountIntegrationInput `json:"apigateway"`
+	APIgateway []CloudDisableAccountIntegrationInput `json:"apigateway,omitempty"`
 	// ALB/NLB integration
-	Alb []CloudDisableAccountIntegrationInput `json:"alb"`
+	Alb []CloudDisableAccountIntegrationInput `json:"alb,omitempty"`
 	// AutoScaling integration
-	Autoscaling []CloudDisableAccountIntegrationInput `json:"autoscaling"`
+	Autoscaling []CloudDisableAccountIntegrationInput `json:"autoscaling,omitempty"`
 	// AppSync integration
-	AwsAppsync []CloudDisableAccountIntegrationInput `json:"awsAppsync"`
+	AwsAppsync []CloudDisableAccountIntegrationInput `json:"awsAppsync,omitempty"`
 	// Athena integration
-	AwsAthena []CloudDisableAccountIntegrationInput `json:"awsAthena"`
+	AwsAthena []CloudDisableAccountIntegrationInput `json:"awsAthena,omitempty"`
 	// Cognito integration
-	AwsCognito []CloudDisableAccountIntegrationInput `json:"awsCognito"`
+	AwsCognito []CloudDisableAccountIntegrationInput `json:"awsCognito,omitempty"`
 	// Connect integration
-	AwsConnect []CloudDisableAccountIntegrationInput `json:"awsConnect"`
+	AwsConnect []CloudDisableAccountIntegrationInput `json:"awsConnect,omitempty"`
 	// Direct Connect integration
-	AwsDirectconnect []CloudDisableAccountIntegrationInput `json:"awsDirectconnect"`
+	AwsDirectconnect []CloudDisableAccountIntegrationInput `json:"awsDirectconnect,omitempty"`
 	// DocumentDB integration
-	AwsDocdb []CloudDisableAccountIntegrationInput `json:"awsDocdb"`
+	AwsDocdb []CloudDisableAccountIntegrationInput `json:"awsDocdb,omitempty"`
 	// FSx integration
-	AwsFsx []CloudDisableAccountIntegrationInput `json:"awsFsx"`
+	AwsFsx []CloudDisableAccountIntegrationInput `json:"awsFsx,omitempty"`
 	// Glue integration
-	AwsGlue []CloudDisableAccountIntegrationInput `json:"awsGlue"`
+	AwsGlue []CloudDisableAccountIntegrationInput `json:"awsGlue,omitempty"`
 	// Kinesis Data Analytics integration
-	AwsKinesisanalytics []CloudDisableAccountIntegrationInput `json:"awsKinesisanalytics"`
+	AwsKinesisanalytics []CloudDisableAccountIntegrationInput `json:"awsKinesisanalytics,omitempty"`
 	// Elemental MediaConvert integration
-	AwsMediaconvert []CloudDisableAccountIntegrationInput `json:"awsMediaconvert"`
+	AwsMediaconvert []CloudDisableAccountIntegrationInput `json:"awsMediaconvert,omitempty"`
 	// MediaPackage VOD integration
-	AwsMediapackagevod []CloudDisableAccountIntegrationInput `json:"awsMediapackagevod"`
+	AwsMediapackagevod []CloudDisableAccountIntegrationInput `json:"awsMediapackagevod,omitempty"`
 	// MQ integration
-	AwsMq []CloudDisableAccountIntegrationInput `json:"awsMq"`
+	AwsMq []CloudDisableAccountIntegrationInput `json:"awsMq,omitempty"`
 	// Managed Kafka integration
-	AwsMsk []CloudDisableAccountIntegrationInput `json:"awsMsk"`
+	AwsMsk []CloudDisableAccountIntegrationInput `json:"awsMsk,omitempty"`
 	// Neptune integration
-	AwsNeptune []CloudDisableAccountIntegrationInput `json:"awsNeptune"`
+	AwsNeptune []CloudDisableAccountIntegrationInput `json:"awsNeptune,omitempty"`
 	// QLDB integration
-	AwsQldb []CloudDisableAccountIntegrationInput `json:"awsQldb"`
+	AwsQldb []CloudDisableAccountIntegrationInput `json:"awsQldb,omitempty"`
 	// Route53 Resolver integration
-	AwsRoute53resolver []CloudDisableAccountIntegrationInput `json:"awsRoute53resolver"`
+	AwsRoute53resolver []CloudDisableAccountIntegrationInput `json:"awsRoute53resolver,omitempty"`
 	// Step Functions integration
-	AwsStates []CloudDisableAccountIntegrationInput `json:"awsStates"`
+	AwsStates []CloudDisableAccountIntegrationInput `json:"awsStates,omitempty"`
 	// Transit Gateway integration
-	AwsTransitgateway []CloudDisableAccountIntegrationInput `json:"awsTransitgateway"`
+	AwsTransitgateway []CloudDisableAccountIntegrationInput `json:"awsTransitgateway,omitempty"`
 	// WAF integration
-	AwsWaf []CloudDisableAccountIntegrationInput `json:"awsWaf"`
+	AwsWaf []CloudDisableAccountIntegrationInput `json:"awsWaf,omitempty"`
 	// WAFV2 integration
-	AwsWafv2 []CloudDisableAccountIntegrationInput `json:"awsWafv2"`
+	AwsWafv2 []CloudDisableAccountIntegrationInput `json:"awsWafv2,omitempty"`
 	// X-Ray integration
-	AwsXray []CloudDisableAccountIntegrationInput `json:"awsXray"`
+	AwsXray []CloudDisableAccountIntegrationInput `json:"awsXray,omitempty"`
 	// Billing integration
-	Billing []CloudDisableAccountIntegrationInput `json:"billing"`
+	Billing []CloudDisableAccountIntegrationInput `json:"billing,omitempty"`
 	// CloudFront integration
-	Cloudfront []CloudDisableAccountIntegrationInput `json:"cloudfront"`
+	Cloudfront []CloudDisableAccountIntegrationInput `json:"cloudfront,omitempty"`
 	// CloudTrail integration
-	Cloudtrail []CloudDisableAccountIntegrationInput `json:"cloudtrail"`
+	Cloudtrail []CloudDisableAccountIntegrationInput `json:"cloudtrail,omitempty"`
 	// DynamoDB integration
-	Dynamodb []CloudDisableAccountIntegrationInput `json:"dynamodb"`
+	Dynamodb []CloudDisableAccountIntegrationInput `json:"dynamodb,omitempty"`
 	// EBS integration
-	Ebs []CloudDisableAccountIntegrationInput `json:"ebs"`
+	Ebs []CloudDisableAccountIntegrationInput `json:"ebs,omitempty"`
 	// EC2 integration
-	Ec2 []CloudDisableAccountIntegrationInput `json:"ec2"`
+	Ec2 []CloudDisableAccountIntegrationInput `json:"ec2,omitempty"`
 	// ECS integration
-	Ecs []CloudDisableAccountIntegrationInput `json:"ecs"`
+	Ecs []CloudDisableAccountIntegrationInput `json:"ecs,omitempty"`
 	// EFS integration
-	Efs []CloudDisableAccountIntegrationInput `json:"efs"`
+	Efs []CloudDisableAccountIntegrationInput `json:"efs,omitempty"`
 	// ElastiCache integration
-	Elasticache []CloudDisableAccountIntegrationInput `json:"elasticache"`
+	Elasticache []CloudDisableAccountIntegrationInput `json:"elasticache,omitempty"`
 	// Elastic Beanstalk integration
-	Elasticbeanstalk []CloudDisableAccountIntegrationInput `json:"elasticbeanstalk"`
+	Elasticbeanstalk []CloudDisableAccountIntegrationInput `json:"elasticbeanstalk,omitempty"`
 	// Elasticsearch Service integration
-	Elasticsearch []CloudDisableAccountIntegrationInput `json:"elasticsearch"`
+	Elasticsearch []CloudDisableAccountIntegrationInput `json:"elasticsearch,omitempty"`
 	// ELB (Classic) integration
-	Elb []CloudDisableAccountIntegrationInput `json:"elb"`
+	Elb []CloudDisableAccountIntegrationInput `json:"elb,omitempty"`
 	// EMR integration
-	Emr []CloudDisableAccountIntegrationInput `json:"emr"`
+	Emr []CloudDisableAccountIntegrationInput `json:"emr,omitempty"`
 	// Health integration
-	Health []CloudDisableAccountIntegrationInput `json:"health"`
+	Health []CloudDisableAccountIntegrationInput `json:"health,omitempty"`
 	// IAM integration
-	Iam []CloudDisableAccountIntegrationInput `json:"iam"`
+	Iam []CloudDisableAccountIntegrationInput `json:"iam,omitempty"`
 	// IoT integration
-	Iot []CloudDisableAccountIntegrationInput `json:"iot"`
+	Iot []CloudDisableAccountIntegrationInput `json:"iot,omitempty"`
 	// Kinesis Streams integration
-	Kinesis []CloudDisableAccountIntegrationInput `json:"kinesis"`
+	Kinesis []CloudDisableAccountIntegrationInput `json:"kinesis,omitempty"`
 	// Kinesis Firehose integration
-	KinesisFirehose []CloudDisableAccountIntegrationInput `json:"kinesisFirehose"`
+	KinesisFirehose []CloudDisableAccountIntegrationInput `json:"kinesisFirehose,omitempty"`
 	// Lambda integration
-	Lambda []CloudDisableAccountIntegrationInput `json:"lambda"`
+	Lambda []CloudDisableAccountIntegrationInput `json:"lambda,omitempty"`
 	// RDS integration
-	Rds []CloudDisableAccountIntegrationInput `json:"rds"`
+	Rds []CloudDisableAccountIntegrationInput `json:"rds,omitempty"`
 	// Redshift integration
-	Redshift []CloudDisableAccountIntegrationInput `json:"redshift"`
+	Redshift []CloudDisableAccountIntegrationInput `json:"redshift,omitempty"`
 	// Route 53 integration
-	Route53 []CloudDisableAccountIntegrationInput `json:"route53"`
+	Route53 []CloudDisableAccountIntegrationInput `json:"route53,omitempty"`
 	// S3 integration
-	S3 []CloudDisableAccountIntegrationInput `json:"s3"`
+	S3 []CloudDisableAccountIntegrationInput `json:"s3,omitempty"`
 	// SES integration
-	Ses []CloudDisableAccountIntegrationInput `json:"ses"`
+	Ses []CloudDisableAccountIntegrationInput `json:"ses,omitempty"`
 	// SNS integration
-	Sns []CloudDisableAccountIntegrationInput `json:"sns"`
+	Sns []CloudDisableAccountIntegrationInput `json:"sns,omitempty"`
 	// SQS integration
-	Sqs []CloudDisableAccountIntegrationInput `json:"sqs"`
+	Sqs []CloudDisableAccountIntegrationInput `json:"sqs,omitempty"`
 	// Trusted Advisor integration
-	Trustedadvisor []CloudDisableAccountIntegrationInput `json:"trustedadvisor"`
+	Trustedadvisor []CloudDisableAccountIntegrationInput `json:"trustedadvisor,omitempty"`
 	// VPC integration
-	Vpc []CloudDisableAccountIntegrationInput `json:"vpc"`
+	Vpc []CloudDisableAccountIntegrationInput `json:"vpc,omitempty"`
 }
 
 // CloudAwsDocdbIntegration - DocumentDB Integration
@@ -619,89 +619,89 @@ func (x *CloudAwsGovCloudProvider) ImplementsCloudProvider() {}
 // CloudAwsGovcloudDisableIntegrationsInput - List of integrations
 type CloudAwsGovcloudDisableIntegrationsInput struct {
 	// API Gateway integration
-	APIgateway []CloudDisableAccountIntegrationInput `json:"apigateway"`
+	APIgateway []CloudDisableAccountIntegrationInput `json:"apigateway,omitempty"`
 	// ALB/NLB integration
-	Alb []CloudDisableAccountIntegrationInput `json:"alb"`
+	Alb []CloudDisableAccountIntegrationInput `json:"alb,omitempty"`
 	// AutoScaling integration
-	Autoscaling []CloudDisableAccountIntegrationInput `json:"autoscaling"`
+	Autoscaling []CloudDisableAccountIntegrationInput `json:"autoscaling,omitempty"`
 	// Direct Connect integration
-	AwsDirectconnect []CloudDisableAccountIntegrationInput `json:"awsDirectconnect"`
+	AwsDirectconnect []CloudDisableAccountIntegrationInput `json:"awsDirectconnect,omitempty"`
 	// Step Functions integration
-	AwsStates []CloudDisableAccountIntegrationInput `json:"awsStates"`
+	AwsStates []CloudDisableAccountIntegrationInput `json:"awsStates,omitempty"`
 	// CloudTrail integration
-	Cloudtrail []CloudDisableAccountIntegrationInput `json:"cloudtrail"`
+	Cloudtrail []CloudDisableAccountIntegrationInput `json:"cloudtrail,omitempty"`
 	// DynamoDB integration
-	Dynamodb []CloudDisableAccountIntegrationInput `json:"dynamodb"`
+	Dynamodb []CloudDisableAccountIntegrationInput `json:"dynamodb,omitempty"`
 	// EBS integration
-	Ebs []CloudDisableAccountIntegrationInput `json:"ebs"`
+	Ebs []CloudDisableAccountIntegrationInput `json:"ebs,omitempty"`
 	// EC2 integration
-	Ec2 []CloudDisableAccountIntegrationInput `json:"ec2"`
+	Ec2 []CloudDisableAccountIntegrationInput `json:"ec2,omitempty"`
 	// Elasticsearch Service integration
-	Elasticsearch []CloudDisableAccountIntegrationInput `json:"elasticsearch"`
+	Elasticsearch []CloudDisableAccountIntegrationInput `json:"elasticsearch,omitempty"`
 	// ELB (Classic) integration
-	Elb []CloudDisableAccountIntegrationInput `json:"elb"`
+	Elb []CloudDisableAccountIntegrationInput `json:"elb,omitempty"`
 	// EMR integration
-	Emr []CloudDisableAccountIntegrationInput `json:"emr"`
+	Emr []CloudDisableAccountIntegrationInput `json:"emr,omitempty"`
 	// IAM integration
-	Iam []CloudDisableAccountIntegrationInput `json:"iam"`
+	Iam []CloudDisableAccountIntegrationInput `json:"iam,omitempty"`
 	// Lambda integration
-	Lambda []CloudDisableAccountIntegrationInput `json:"lambda"`
+	Lambda []CloudDisableAccountIntegrationInput `json:"lambda,omitempty"`
 	// RDS integration
-	Rds []CloudDisableAccountIntegrationInput `json:"rds"`
+	Rds []CloudDisableAccountIntegrationInput `json:"rds,omitempty"`
 	// Redshift integration
-	Redshift []CloudDisableAccountIntegrationInput `json:"redshift"`
+	Redshift []CloudDisableAccountIntegrationInput `json:"redshift,omitempty"`
 	// Route 53 integration
-	Route53 []CloudDisableAccountIntegrationInput `json:"route53"`
+	Route53 []CloudDisableAccountIntegrationInput `json:"route53,omitempty"`
 	// S3 integration
-	S3 []CloudDisableAccountIntegrationInput `json:"s3"`
+	S3 []CloudDisableAccountIntegrationInput `json:"s3,omitempty"`
 	// SNS integration
-	Sns []CloudDisableAccountIntegrationInput `json:"sns"`
+	Sns []CloudDisableAccountIntegrationInput `json:"sns,omitempty"`
 	// SQS integration
-	Sqs []CloudDisableAccountIntegrationInput `json:"sqs"`
+	Sqs []CloudDisableAccountIntegrationInput `json:"sqs,omitempty"`
 }
 
 // CloudAwsGovcloudIntegrationsInput - List of integrations
 type CloudAwsGovcloudIntegrationsInput struct {
 	// API Gateway integration
-	APIgateway []CloudAPIgatewayIntegrationInput `json:"apigateway"`
+	APIgateway []CloudAPIgatewayIntegrationInput `json:"apigateway,omitempty"`
 	// ALB/NLB integration
-	Alb []CloudAlbIntegrationInput `json:"alb"`
+	Alb []CloudAlbIntegrationInput `json:"alb,omitempty"`
 	// AutoScaling integration
-	Autoscaling []CloudAutoscalingIntegrationInput `json:"autoscaling"`
+	Autoscaling []CloudAutoscalingIntegrationInput `json:"autoscaling,omitempty"`
 	// Direct Connect integration
-	AwsDirectconnect []CloudAwsDirectconnectIntegrationInput `json:"awsDirectconnect"`
+	AwsDirectconnect []CloudAwsDirectconnectIntegrationInput `json:"awsDirectconnect,omitempty"`
 	// Step Functions integration
-	AwsStates []CloudAwsStatesIntegrationInput `json:"awsStates"`
+	AwsStates []CloudAwsStatesIntegrationInput `json:"awsStates,omitempty"`
 	// CloudTrail integration
-	Cloudtrail []CloudCloudtrailIntegrationInput `json:"cloudtrail"`
+	Cloudtrail []CloudCloudtrailIntegrationInput `json:"cloudtrail,omitempty"`
 	// DynamoDB integration
-	Dynamodb []CloudDynamodbIntegrationInput `json:"dynamodb"`
+	Dynamodb []CloudDynamodbIntegrationInput `json:"dynamodb,omitempty"`
 	// EBS integration
-	Ebs []CloudEbsIntegrationInput `json:"ebs"`
+	Ebs []CloudEbsIntegrationInput `json:"ebs,omitempty"`
 	// EC2 integration
-	Ec2 []CloudEc2IntegrationInput `json:"ec2"`
+	Ec2 []CloudEc2IntegrationInput `json:"ec2,omitempty"`
 	// Elasticsearch Service integration
-	Elasticsearch []CloudElasticsearchIntegrationInput `json:"elasticsearch"`
+	Elasticsearch []CloudElasticsearchIntegrationInput `json:"elasticsearch,omitempty"`
 	// ELB (Classic) integration
-	Elb []CloudElbIntegrationInput `json:"elb"`
+	Elb []CloudElbIntegrationInput `json:"elb,omitempty"`
 	// EMR integration
-	Emr []CloudEmrIntegrationInput `json:"emr"`
+	Emr []CloudEmrIntegrationInput `json:"emr,omitempty"`
 	// IAM integration
-	Iam []CloudIamIntegrationInput `json:"iam"`
+	Iam []CloudIamIntegrationInput `json:"iam,omitempty"`
 	// Lambda integration
-	Lambda []CloudLambdaIntegrationInput `json:"lambda"`
+	Lambda []CloudLambdaIntegrationInput `json:"lambda,omitempty"`
 	// RDS integration
-	Rds []CloudRdsIntegrationInput `json:"rds"`
+	Rds []CloudRdsIntegrationInput `json:"rds,omitempty"`
 	// Redshift integration
-	Redshift []CloudRedshiftIntegrationInput `json:"redshift"`
+	Redshift []CloudRedshiftIntegrationInput `json:"redshift,omitempty"`
 	// Route 53 integration
-	Route53 []CloudRoute53IntegrationInput `json:"route53"`
+	Route53 []CloudRoute53IntegrationInput `json:"route53,omitempty"`
 	// S3 integration
-	S3 []CloudS3IntegrationInput `json:"s3"`
+	S3 []CloudS3IntegrationInput `json:"s3,omitempty"`
 	// SNS integration
-	Sns []CloudSnsIntegrationInput `json:"sns"`
+	Sns []CloudSnsIntegrationInput `json:"sns,omitempty"`
 	// SQS integration
-	Sqs []CloudSqsIntegrationInput `json:"sqs"`
+	Sqs []CloudSqsIntegrationInput `json:"sqs,omitempty"`
 }
 
 // CloudAwsGovcloudLinkAccountInput - Information required to link an AWS GovCloud account to a NewRelic account.
@@ -719,109 +719,109 @@ type CloudAwsGovcloudLinkAccountInput struct {
 // CloudAwsIntegrationsInput - List of integrations
 type CloudAwsIntegrationsInput struct {
 	// API Gateway integration
-	APIgateway []CloudAPIgatewayIntegrationInput `json:"apigateway"`
+	APIgateway []CloudAPIgatewayIntegrationInput `json:"apigateway,omitempty"`
 	// ALB/NLB integration
-	Alb []CloudAlbIntegrationInput `json:"alb"`
+	Alb []CloudAlbIntegrationInput `json:"alb,omitempty"`
 	// AutoScaling integration
-	Autoscaling []CloudAutoscalingIntegrationInput `json:"autoscaling"`
+	Autoscaling []CloudAutoscalingIntegrationInput `json:"autoscaling,omitempty"`
 	// AppSync integration
-	AwsAppsync []CloudAwsAppsyncIntegrationInput `json:"awsAppsync"`
+	AwsAppsync []CloudAwsAppsyncIntegrationInput `json:"awsAppsync,omitempty"`
 	// Athena integration
-	AwsAthena []CloudAwsAthenaIntegrationInput `json:"awsAthena"`
+	AwsAthena []CloudAwsAthenaIntegrationInput `json:"awsAthena,omitempty"`
 	// Cognito integration
-	AwsCognito []CloudAwsCognitoIntegrationInput `json:"awsCognito"`
+	AwsCognito []CloudAwsCognitoIntegrationInput `json:"awsCognito,omitempty"`
 	// Connect integration
-	AwsConnect []CloudAwsConnectIntegrationInput `json:"awsConnect"`
+	AwsConnect []CloudAwsConnectIntegrationInput `json:"awsConnect,omitempty"`
 	// Direct Connect integration
-	AwsDirectconnect []CloudAwsDirectconnectIntegrationInput `json:"awsDirectconnect"`
+	AwsDirectconnect []CloudAwsDirectconnectIntegrationInput `json:"awsDirectconnect,omitempty"`
 	// DocumentDB integration
-	AwsDocdb []CloudAwsDocdbIntegrationInput `json:"awsDocdb"`
+	AwsDocdb []CloudAwsDocdbIntegrationInput `json:"awsDocdb,omitempty"`
 	// FSx integration
-	AwsFsx []CloudAwsFsxIntegrationInput `json:"awsFsx"`
+	AwsFsx []CloudAwsFsxIntegrationInput `json:"awsFsx,omitempty"`
 	// Glue integration
-	AwsGlue []CloudAwsGlueIntegrationInput `json:"awsGlue"`
+	AwsGlue []CloudAwsGlueIntegrationInput `json:"awsGlue,omitempty"`
 	// Kinesis Data Analytics integration
-	AwsKinesisanalytics []CloudAwsKinesisanalyticsIntegrationInput `json:"awsKinesisanalytics"`
+	AwsKinesisanalytics []CloudAwsKinesisanalyticsIntegrationInput `json:"awsKinesisanalytics,omitempty"`
 	// Elemental MediaConvert integration
-	AwsMediaconvert []CloudAwsMediaconvertIntegrationInput `json:"awsMediaconvert"`
+	AwsMediaconvert []CloudAwsMediaconvertIntegrationInput `json:"awsMediaconvert,omitempty"`
 	// MediaPackage VOD integration
-	AwsMediapackagevod []CloudAwsMediapackagevodIntegrationInput `json:"awsMediapackagevod"`
+	AwsMediapackagevod []CloudAwsMediapackagevodIntegrationInput `json:"awsMediapackagevod,omitempty"`
 	// MQ integration
-	AwsMq []CloudAwsMqIntegrationInput `json:"awsMq"`
+	AwsMq []CloudAwsMqIntegrationInput `json:"awsMq,omitempty"`
 	// Managed Kafka integration
-	AwsMsk []CloudAwsMskIntegrationInput `json:"awsMsk"`
+	AwsMsk []CloudAwsMskIntegrationInput `json:"awsMsk,omitempty"`
 	// Neptune integration
-	AwsNeptune []CloudAwsNeptuneIntegrationInput `json:"awsNeptune"`
+	AwsNeptune []CloudAwsNeptuneIntegrationInput `json:"awsNeptune,omitempty"`
 	// QLDB integration
-	AwsQldb []CloudAwsQldbIntegrationInput `json:"awsQldb"`
+	AwsQldb []CloudAwsQldbIntegrationInput `json:"awsQldb,omitempty"`
 	// Route53 Resolver integration
-	AwsRoute53resolver []CloudAwsRoute53resolverIntegrationInput `json:"awsRoute53resolver"`
+	AwsRoute53resolver []CloudAwsRoute53resolverIntegrationInput `json:"awsRoute53resolver,omitempty"`
 	// Step Functions integration
-	AwsStates []CloudAwsStatesIntegrationInput `json:"awsStates"`
+	AwsStates []CloudAwsStatesIntegrationInput `json:"awsStates,omitempty"`
 	// Transit Gateway integration
-	AwsTransitgateway []CloudAwsTransitgatewayIntegrationInput `json:"awsTransitgateway"`
+	AwsTransitgateway []CloudAwsTransitgatewayIntegrationInput `json:"awsTransitgateway,omitempty"`
 	// WAF integration
-	AwsWaf []CloudAwsWafIntegrationInput `json:"awsWaf"`
+	AwsWaf []CloudAwsWafIntegrationInput `json:"awsWaf,omitempty"`
 	// WAFV2 integration
-	AwsWafv2 []CloudAwsWafv2IntegrationInput `json:"awsWafv2"`
+	AwsWafv2 []CloudAwsWafv2IntegrationInput `json:"awsWafv2,omitempty"`
 	// X-Ray integration
-	AwsXray []CloudAwsXrayIntegrationInput `json:"awsXray"`
+	AwsXray []CloudAwsXrayIntegrationInput `json:"awsXray,omitempty"`
 	// Billing integration
-	Billing []CloudBillingIntegrationInput `json:"billing"`
+	Billing []CloudBillingIntegrationInput `json:"billing,omitempty"`
 	// CloudFront integration
-	Cloudfront []CloudCloudfrontIntegrationInput `json:"cloudfront"`
+	Cloudfront []CloudCloudfrontIntegrationInput `json:"cloudfront,omitempty"`
 	// CloudTrail integration
-	Cloudtrail []CloudCloudtrailIntegrationInput `json:"cloudtrail"`
+	Cloudtrail []CloudCloudtrailIntegrationInput `json:"cloudtrail,omitempty"`
 	// DynamoDB integration
-	Dynamodb []CloudDynamodbIntegrationInput `json:"dynamodb"`
+	Dynamodb []CloudDynamodbIntegrationInput `json:"dynamodb,omitempty"`
 	// EBS integration
-	Ebs []CloudEbsIntegrationInput `json:"ebs"`
+	Ebs []CloudEbsIntegrationInput `json:"ebs,omitempty"`
 	// EC2 integration
-	Ec2 []CloudEc2IntegrationInput `json:"ec2"`
+	Ec2 []CloudEc2IntegrationInput `json:"ec2,omitempty"`
 	// ECS integration
-	Ecs []CloudEcsIntegrationInput `json:"ecs"`
+	Ecs []CloudEcsIntegrationInput `json:"ecs,omitempty"`
 	// EFS integration
-	Efs []CloudEfsIntegrationInput `json:"efs"`
+	Efs []CloudEfsIntegrationInput `json:"efs,omitempty"`
 	// ElastiCache integration
-	Elasticache []CloudElasticacheIntegrationInput `json:"elasticache"`
+	Elasticache []CloudElasticacheIntegrationInput `json:"elasticache,omitempty"`
 	// Elastic Beanstalk integration
-	Elasticbeanstalk []CloudElasticbeanstalkIntegrationInput `json:"elasticbeanstalk"`
+	Elasticbeanstalk []CloudElasticbeanstalkIntegrationInput `json:"elasticbeanstalk,omitempty"`
 	// Elasticsearch Service integration
-	Elasticsearch []CloudElasticsearchIntegrationInput `json:"elasticsearch"`
+	Elasticsearch []CloudElasticsearchIntegrationInput `json:"elasticsearch,omitempty"`
 	// ELB (Classic) integration
-	Elb []CloudElbIntegrationInput `json:"elb"`
+	Elb []CloudElbIntegrationInput `json:"elb,omitempty"`
 	// EMR integration
-	Emr []CloudEmrIntegrationInput `json:"emr"`
+	Emr []CloudEmrIntegrationInput `json:"emr,omitempty"`
 	// Health integration
-	Health []CloudHealthIntegrationInput `json:"health"`
+	Health []CloudHealthIntegrationInput `json:"health,omitempty"`
 	// IAM integration
-	Iam []CloudIamIntegrationInput `json:"iam"`
+	Iam []CloudIamIntegrationInput `json:"iam,omitempty"`
 	// IoT integration
-	Iot []CloudIotIntegrationInput `json:"iot"`
+	Iot []CloudIotIntegrationInput `json:"iot,omitempty"`
 	// Kinesis Streams integration
-	Kinesis []CloudKinesisIntegrationInput `json:"kinesis"`
+	Kinesis []CloudKinesisIntegrationInput `json:"kinesis,omitempty"`
 	// Kinesis Firehose integration
-	KinesisFirehose []CloudKinesisFirehoseIntegrationInput `json:"kinesisFirehose"`
+	KinesisFirehose []CloudKinesisFirehoseIntegrationInput `json:"kinesisFirehose,omitempty"`
 	// Lambda integration
-	Lambda []CloudLambdaIntegrationInput `json:"lambda"`
+	Lambda []CloudLambdaIntegrationInput `json:"lambda,omitempty"`
 	// RDS integration
-	Rds []CloudRdsIntegrationInput `json:"rds"`
+	Rds []CloudRdsIntegrationInput `json:"rds,omitempty"`
 	// Redshift integration
-	Redshift []CloudRedshiftIntegrationInput `json:"redshift"`
+	Redshift []CloudRedshiftIntegrationInput `json:"redshift,omitempty"`
 	// Route 53 integration
-	Route53 []CloudRoute53IntegrationInput `json:"route53"`
+	Route53 []CloudRoute53IntegrationInput `json:"route53,omitempty"`
 	// S3 integration
-	S3 []CloudS3IntegrationInput `json:"s3"`
+	S3 []CloudS3IntegrationInput `json:"s3,omitempty"`
 	// SES integration
-	Ses []CloudSesIntegrationInput `json:"ses"`
+	Ses []CloudSesIntegrationInput `json:"ses,omitempty"`
 	// SNS integration
-	Sns []CloudSnsIntegrationInput `json:"sns"`
+	Sns []CloudSnsIntegrationInput `json:"sns,omitempty"`
 	// SQS integration
-	Sqs []CloudSqsIntegrationInput `json:"sqs"`
+	Sqs []CloudSqsIntegrationInput `json:"sqs,omitempty"`
 	// Trusted Advisor integration
-	Trustedadvisor []CloudTrustedadvisorIntegrationInput `json:"trustedadvisor"`
+	Trustedadvisor []CloudTrustedadvisorIntegrationInput `json:"trustedadvisor,omitempty"`
 	// VPC integration
-	Vpc []CloudVpcIntegrationInput `json:"vpc"`
+	Vpc []CloudVpcIntegrationInput `json:"vpc,omitempty"`
 }
 
 // CloudAwsKinesisanalyticsIntegration - Kinesis Data Analytics Integration
@@ -1621,65 +1621,65 @@ type CloudAzureDatafactoryIntegrationInput struct {
 // CloudAzureDisableIntegrationsInput - List of integrations
 type CloudAzureDisableIntegrationsInput struct {
 	// Api Management integration
-	AzureAPImanagement []CloudDisableAccountIntegrationInput `json:"azureApimanagement"`
+	AzureAPImanagement []CloudDisableAccountIntegrationInput `json:"azureApimanagement,omitempty"`
 	// App Gateway integration
-	AzureAppgateway []CloudDisableAccountIntegrationInput `json:"azureAppgateway"`
+	AzureAppgateway []CloudDisableAccountIntegrationInput `json:"azureAppgateway,omitempty"`
 	// App Service integration
-	AzureAppservice []CloudDisableAccountIntegrationInput `json:"azureAppservice"`
+	AzureAppservice []CloudDisableAccountIntegrationInput `json:"azureAppservice,omitempty"`
 	// Containers integration
-	AzureContainers []CloudDisableAccountIntegrationInput `json:"azureContainers"`
+	AzureContainers []CloudDisableAccountIntegrationInput `json:"azureContainers,omitempty"`
 	// Cosmos DB integration
-	AzureCosmosdb []CloudDisableAccountIntegrationInput `json:"azureCosmosdb"`
+	AzureCosmosdb []CloudDisableAccountIntegrationInput `json:"azureCosmosdb,omitempty"`
 	// Cost Management integration
-	AzureCostmanagement []CloudDisableAccountIntegrationInput `json:"azureCostmanagement"`
+	AzureCostmanagement []CloudDisableAccountIntegrationInput `json:"azureCostmanagement,omitempty"`
 	// Data Factory integration
-	AzureDatafactory []CloudDisableAccountIntegrationInput `json:"azureDatafactory"`
+	AzureDatafactory []CloudDisableAccountIntegrationInput `json:"azureDatafactory,omitempty"`
 	// Event Hub integration
-	AzureEventhub []CloudDisableAccountIntegrationInput `json:"azureEventhub"`
+	AzureEventhub []CloudDisableAccountIntegrationInput `json:"azureEventhub,omitempty"`
 	// Express Route integration
-	AzureExpressroute []CloudDisableAccountIntegrationInput `json:"azureExpressroute"`
+	AzureExpressroute []CloudDisableAccountIntegrationInput `json:"azureExpressroute,omitempty"`
 	// Firewalls integration
-	AzureFirewalls []CloudDisableAccountIntegrationInput `json:"azureFirewalls"`
+	AzureFirewalls []CloudDisableAccountIntegrationInput `json:"azureFirewalls,omitempty"`
 	// Front Door integration
-	AzureFrontdoor []CloudDisableAccountIntegrationInput `json:"azureFrontdoor"`
+	AzureFrontdoor []CloudDisableAccountIntegrationInput `json:"azureFrontdoor,omitempty"`
 	// Functions integration
-	AzureFunctions []CloudDisableAccountIntegrationInput `json:"azureFunctions"`
+	AzureFunctions []CloudDisableAccountIntegrationInput `json:"azureFunctions,omitempty"`
 	// Key Vault integration
-	AzureKeyvault []CloudDisableAccountIntegrationInput `json:"azureKeyvault"`
+	AzureKeyvault []CloudDisableAccountIntegrationInput `json:"azureKeyvault,omitempty"`
 	// Load Balancer integration
-	AzureLoadbalancer []CloudDisableAccountIntegrationInput `json:"azureLoadbalancer"`
+	AzureLoadbalancer []CloudDisableAccountIntegrationInput `json:"azureLoadbalancer,omitempty"`
 	// Logic Apps integration
-	AzureLogicapps []CloudDisableAccountIntegrationInput `json:"azureLogicapps"`
+	AzureLogicapps []CloudDisableAccountIntegrationInput `json:"azureLogicapps,omitempty"`
 	// Machine Learning integration
-	AzureMachinelearning []CloudDisableAccountIntegrationInput `json:"azureMachinelearning"`
+	AzureMachinelearning []CloudDisableAccountIntegrationInput `json:"azureMachinelearning,omitempty"`
 	// Database for MariaDB integration
-	AzureMariadb []CloudDisableAccountIntegrationInput `json:"azureMariadb"`
+	AzureMariadb []CloudDisableAccountIntegrationInput `json:"azureMariadb,omitempty"`
 	// Database for MySQL integration
-	AzureMysql []CloudDisableAccountIntegrationInput `json:"azureMysql"`
+	AzureMysql []CloudDisableAccountIntegrationInput `json:"azureMysql,omitempty"`
 	// Database for PostgreSQL integration
-	AzurePostgresql []CloudDisableAccountIntegrationInput `json:"azurePostgresql"`
+	AzurePostgresql []CloudDisableAccountIntegrationInput `json:"azurePostgresql,omitempty"`
 	// Power BI Dedicated integration
-	AzurePowerbidedicated []CloudDisableAccountIntegrationInput `json:"azurePowerbidedicated"`
+	AzurePowerbidedicated []CloudDisableAccountIntegrationInput `json:"azurePowerbidedicated,omitempty"`
 	// Redis Cache integration
-	AzureRediscache []CloudDisableAccountIntegrationInput `json:"azureRediscache"`
+	AzureRediscache []CloudDisableAccountIntegrationInput `json:"azureRediscache,omitempty"`
 	// Service Bus integration
-	AzureServicebus []CloudDisableAccountIntegrationInput `json:"azureServicebus"`
+	AzureServicebus []CloudDisableAccountIntegrationInput `json:"azureServicebus,omitempty"`
 	// Service Fabric integration
-	AzureServicefabric []CloudDisableAccountIntegrationInput `json:"azureServicefabric"`
+	AzureServicefabric []CloudDisableAccountIntegrationInput `json:"azureServicefabric,omitempty"`
 	// SQL Database integration
-	AzureSql []CloudDisableAccountIntegrationInput `json:"azureSql"`
+	AzureSql []CloudDisableAccountIntegrationInput `json:"azureSql,omitempty"`
 	// SQL Managed Instances integration
-	AzureSqlmanaged []CloudDisableAccountIntegrationInput `json:"azureSqlmanaged"`
+	AzureSqlmanaged []CloudDisableAccountIntegrationInput `json:"azureSqlmanaged,omitempty"`
 	// Storage integration
-	AzureStorage []CloudDisableAccountIntegrationInput `json:"azureStorage"`
+	AzureStorage []CloudDisableAccountIntegrationInput `json:"azureStorage,omitempty"`
 	// Virtual machine scale sets integration
-	AzureVirtualmachine []CloudDisableAccountIntegrationInput `json:"azureVirtualmachine"`
+	AzureVirtualmachine []CloudDisableAccountIntegrationInput `json:"azureVirtualmachine,omitempty"`
 	// Virtual Network integration
-	AzureVirtualnetworks []CloudDisableAccountIntegrationInput `json:"azureVirtualnetworks"`
+	AzureVirtualnetworks []CloudDisableAccountIntegrationInput `json:"azureVirtualnetworks,omitempty"`
 	// Virtual Machines integration
-	AzureVms []CloudDisableAccountIntegrationInput `json:"azureVms"`
+	AzureVms []CloudDisableAccountIntegrationInput `json:"azureVms,omitempty"`
 	// VPN Gateways integration
-	AzureVpngateways []CloudDisableAccountIntegrationInput `json:"azureVpngateways"`
+	AzureVpngateways []CloudDisableAccountIntegrationInput `json:"azureVpngateways,omitempty"`
 }
 
 // CloudAzureEventhubIntegration - Event Hub Integration
@@ -1875,65 +1875,65 @@ type CloudAzureFunctionsIntegrationInput struct {
 // CloudAzureIntegrationsInput - List of integrations
 type CloudAzureIntegrationsInput struct {
 	// Api Management integration
-	AzureAPImanagement []CloudAzureAPImanagementIntegrationInput `json:"azureApimanagement"`
+	AzureAPImanagement []CloudAzureAPImanagementIntegrationInput `json:"azureApimanagement,omitempty"`
 	// App Gateway integration
-	AzureAppgateway []CloudAzureAppgatewayIntegrationInput `json:"azureAppgateway"`
+	AzureAppgateway []CloudAzureAppgatewayIntegrationInput `json:"azureAppgateway,omitempty"`
 	// App Service integration
-	AzureAppservice []CloudAzureAppserviceIntegrationInput `json:"azureAppservice"`
+	AzureAppservice []CloudAzureAppserviceIntegrationInput `json:"azureAppservice,omitempty"`
 	// Containers integration
-	AzureContainers []CloudAzureContainersIntegrationInput `json:"azureContainers"`
+	AzureContainers []CloudAzureContainersIntegrationInput `json:"azureContainers,omitempty"`
 	// Cosmos DB integration
-	AzureCosmosdb []CloudAzureCosmosdbIntegrationInput `json:"azureCosmosdb"`
+	AzureCosmosdb []CloudAzureCosmosdbIntegrationInput `json:"azureCosmosdb,omitempty"`
 	// Cost Management integration
-	AzureCostmanagement []CloudAzureCostmanagementIntegrationInput `json:"azureCostmanagement"`
+	AzureCostmanagement []CloudAzureCostmanagementIntegrationInput `json:"azureCostmanagement,omitempty"`
 	// Data Factory integration
-	AzureDatafactory []CloudAzureDatafactoryIntegrationInput `json:"azureDatafactory"`
+	AzureDatafactory []CloudAzureDatafactoryIntegrationInput `json:"azureDatafactory,omitempty"`
 	// Event Hub integration
-	AzureEventhub []CloudAzureEventhubIntegrationInput `json:"azureEventhub"`
+	AzureEventhub []CloudAzureEventhubIntegrationInput `json:"azureEventhub,omitempty"`
 	// Express Route integration
-	AzureExpressroute []CloudAzureExpressrouteIntegrationInput `json:"azureExpressroute"`
+	AzureExpressroute []CloudAzureExpressrouteIntegrationInput `json:"azureExpressroute,omitempty"`
 	// Firewalls integration
-	AzureFirewalls []CloudAzureFirewallsIntegrationInput `json:"azureFirewalls"`
+	AzureFirewalls []CloudAzureFirewallsIntegrationInput `json:"azureFirewalls,omitempty"`
 	// Front Door integration
-	AzureFrontdoor []CloudAzureFrontdoorIntegrationInput `json:"azureFrontdoor"`
+	AzureFrontdoor []CloudAzureFrontdoorIntegrationInput `json:"azureFrontdoor,omitempty"`
 	// Functions integration
-	AzureFunctions []CloudAzureFunctionsIntegrationInput `json:"azureFunctions"`
+	AzureFunctions []CloudAzureFunctionsIntegrationInput `json:"azureFunctions,omitempty"`
 	// Key Vault integration
-	AzureKeyvault []CloudAzureKeyvaultIntegrationInput `json:"azureKeyvault"`
+	AzureKeyvault []CloudAzureKeyvaultIntegrationInput `json:"azureKeyvault,omitempty"`
 	// Load Balancer integration
-	AzureLoadbalancer []CloudAzureLoadbalancerIntegrationInput `json:"azureLoadbalancer"`
+	AzureLoadbalancer []CloudAzureLoadbalancerIntegrationInput `json:"azureLoadbalancer,omitempty"`
 	// Logic Apps integration
-	AzureLogicapps []CloudAzureLogicappsIntegrationInput `json:"azureLogicapps"`
+	AzureLogicapps []CloudAzureLogicappsIntegrationInput `json:"azureLogicapps,omitempty"`
 	// Machine Learning integration
-	AzureMachinelearning []CloudAzureMachinelearningIntegrationInput `json:"azureMachinelearning"`
+	AzureMachinelearning []CloudAzureMachinelearningIntegrationInput `json:"azureMachinelearning,omitempty"`
 	// Database for MariaDB integration
-	AzureMariadb []CloudAzureMariadbIntegrationInput `json:"azureMariadb"`
+	AzureMariadb []CloudAzureMariadbIntegrationInput `json:"azureMariadb,omitempty"`
 	// Database for MySQL integration
-	AzureMysql []CloudAzureMysqlIntegrationInput `json:"azureMysql"`
+	AzureMysql []CloudAzureMysqlIntegrationInput `json:"azureMysql,omitempty"`
 	// Database for PostgreSQL integration
-	AzurePostgresql []CloudAzurePostgresqlIntegrationInput `json:"azurePostgresql"`
+	AzurePostgresql []CloudAzurePostgresqlIntegrationInput `json:"azurePostgresql,omitempty"`
 	// Power BI Dedicated integration
-	AzurePowerbidedicated []CloudAzurePowerbidedicatedIntegrationInput `json:"azurePowerbidedicated"`
+	AzurePowerbidedicated []CloudAzurePowerbidedicatedIntegrationInput `json:"azurePowerbidedicated,omitempty"`
 	// Redis Cache integration
-	AzureRediscache []CloudAzureRediscacheIntegrationInput `json:"azureRediscache"`
+	AzureRediscache []CloudAzureRediscacheIntegrationInput `json:"azureRediscache,omitempty"`
 	// Service Bus integration
-	AzureServicebus []CloudAzureServicebusIntegrationInput `json:"azureServicebus"`
+	AzureServicebus []CloudAzureServicebusIntegrationInput `json:"azureServicebus,omitempty"`
 	// Service Fabric integration
-	AzureServicefabric []CloudAzureServicefabricIntegrationInput `json:"azureServicefabric"`
+	AzureServicefabric []CloudAzureServicefabricIntegrationInput `json:"azureServicefabric,omitempty"`
 	// SQL Database integration
-	AzureSql []CloudAzureSqlIntegrationInput `json:"azureSql"`
+	AzureSql []CloudAzureSqlIntegrationInput `json:"azureSql,omitempty"`
 	// SQL Managed Instances integration
-	AzureSqlmanaged []CloudAzureSqlmanagedIntegrationInput `json:"azureSqlmanaged"`
+	AzureSqlmanaged []CloudAzureSqlmanagedIntegrationInput `json:"azureSqlmanaged,omitempty"`
 	// Storage integration
-	AzureStorage []CloudAzureStorageIntegrationInput `json:"azureStorage"`
+	AzureStorage []CloudAzureStorageIntegrationInput `json:"azureStorage,omitempty"`
 	// Virtual machine scale sets integration
-	AzureVirtualmachine []CloudAzureVirtualmachineIntegrationInput `json:"azureVirtualmachine"`
+	AzureVirtualmachine []CloudAzureVirtualmachineIntegrationInput `json:"azureVirtualmachine,omitempty"`
 	// Virtual Network integration
-	AzureVirtualnetworks []CloudAzureVirtualnetworksIntegrationInput `json:"azureVirtualnetworks"`
+	AzureVirtualnetworks []CloudAzureVirtualnetworksIntegrationInput `json:"azureVirtualnetworks,omitempty"`
 	// Virtual Machines integration
-	AzureVms []CloudAzureVmsIntegrationInput `json:"azureVms"`
+	AzureVms []CloudAzureVmsIntegrationInput `json:"azureVms,omitempty"`
 	// VPN Gateways integration
-	AzureVpngateways []CloudAzureVpngatewaysIntegrationInput `json:"azureVpngateways"`
+	AzureVpngateways []CloudAzureVpngatewaysIntegrationInput `json:"azureVpngateways,omitempty"`
 }
 
 // CloudAzureKeyvaultIntegration - Key Vault Integration
@@ -2905,13 +2905,13 @@ func (x *CloudDisableIntegrationPayload) UnmarshalJSON(b []byte) error {
 // CloudDisableIntegrationsInput - List of providers
 type CloudDisableIntegrationsInput struct {
 	// Aws provider
-	Aws CloudAwsDisableIntegrationsInput `json:"aws"`
+	Aws CloudAwsDisableIntegrationsInput `json:"aws,omitempty"`
 	// AwsGovcloud provider
-	AwsGovcloud CloudAwsGovcloudDisableIntegrationsInput `json:"awsGovcloud"`
+	AwsGovcloud CloudAwsGovcloudDisableIntegrationsInput `json:"awsGovcloud,omitempty"`
 	// Azure provider
-	Azure CloudAzureDisableIntegrationsInput `json:"azure"`
+	Azure CloudAzureDisableIntegrationsInput `json:"azure,omitempty"`
 	// Gcp provider
-	Gcp CloudGcpDisableIntegrationsInput `json:"gcp"`
+	Gcp CloudGcpDisableIntegrationsInput `json:"gcp,omitempty"`
 }
 
 // CloudDynamodbIntegration - DynamoDB Integration
@@ -3595,47 +3595,47 @@ type CloudGcpDatastoreIntegrationInput struct {
 // CloudGcpDisableIntegrationsInput - List of integrations
 type CloudGcpDisableIntegrationsInput struct {
 	// App Engine integration
-	GcpAppengine []CloudDisableAccountIntegrationInput `json:"gcpAppengine"`
+	GcpAppengine []CloudDisableAccountIntegrationInput `json:"gcpAppengine,omitempty"`
 	// BigQuery integration
-	GcpBigquery []CloudDisableAccountIntegrationInput `json:"gcpBigquery"`
+	GcpBigquery []CloudDisableAccountIntegrationInput `json:"gcpBigquery,omitempty"`
 	// Dataflow integration
-	GcpDataflow []CloudDisableAccountIntegrationInput `json:"gcpDataflow"`
+	GcpDataflow []CloudDisableAccountIntegrationInput `json:"gcpDataflow,omitempty"`
 	// Dataproc integration
-	GcpDataproc []CloudDisableAccountIntegrationInput `json:"gcpDataproc"`
+	GcpDataproc []CloudDisableAccountIntegrationInput `json:"gcpDataproc,omitempty"`
 	// Datastore integration
-	GcpDatastore []CloudDisableAccountIntegrationInput `json:"gcpDatastore"`
+	GcpDatastore []CloudDisableAccountIntegrationInput `json:"gcpDatastore,omitempty"`
 	// Firebase Database integration
-	GcpFirebasedatabase []CloudDisableAccountIntegrationInput `json:"gcpFirebasedatabase"`
+	GcpFirebasedatabase []CloudDisableAccountIntegrationInput `json:"gcpFirebasedatabase,omitempty"`
 	// Firebase Hosting integration
-	GcpFirebasehosting []CloudDisableAccountIntegrationInput `json:"gcpFirebasehosting"`
+	GcpFirebasehosting []CloudDisableAccountIntegrationInput `json:"gcpFirebasehosting,omitempty"`
 	// Firebase Storage integration
-	GcpFirebasestorage []CloudDisableAccountIntegrationInput `json:"gcpFirebasestorage"`
+	GcpFirebasestorage []CloudDisableAccountIntegrationInput `json:"gcpFirebasestorage,omitempty"`
 	// Firestore integration
-	GcpFirestore []CloudDisableAccountIntegrationInput `json:"gcpFirestore"`
+	GcpFirestore []CloudDisableAccountIntegrationInput `json:"gcpFirestore,omitempty"`
 	// Cloud Functions integration
-	GcpFunctions []CloudDisableAccountIntegrationInput `json:"gcpFunctions"`
+	GcpFunctions []CloudDisableAccountIntegrationInput `json:"gcpFunctions,omitempty"`
 	// Interconnect integration
-	GcpInterconnect []CloudDisableAccountIntegrationInput `json:"gcpInterconnect"`
+	GcpInterconnect []CloudDisableAccountIntegrationInput `json:"gcpInterconnect,omitempty"`
 	// Kubernetes Engine integration
-	GcpKubernetes []CloudDisableAccountIntegrationInput `json:"gcpKubernetes"`
+	GcpKubernetes []CloudDisableAccountIntegrationInput `json:"gcpKubernetes,omitempty"`
 	// Cloud Load Balancing integration
-	GcpLoadbalancing []CloudDisableAccountIntegrationInput `json:"gcpLoadbalancing"`
+	GcpLoadbalancing []CloudDisableAccountIntegrationInput `json:"gcpLoadbalancing,omitempty"`
 	// Cloud Pub/Sub integration
-	GcpPubsub []CloudDisableAccountIntegrationInput `json:"gcpPubsub"`
+	GcpPubsub []CloudDisableAccountIntegrationInput `json:"gcpPubsub,omitempty"`
 	// Router integration
-	GcpRouter []CloudDisableAccountIntegrationInput `json:"gcpRouter"`
+	GcpRouter []CloudDisableAccountIntegrationInput `json:"gcpRouter,omitempty"`
 	// Run integration
-	GcpRun []CloudDisableAccountIntegrationInput `json:"gcpRun"`
+	GcpRun []CloudDisableAccountIntegrationInput `json:"gcpRun,omitempty"`
 	// Cloud Spanner integration
-	GcpSpanner []CloudDisableAccountIntegrationInput `json:"gcpSpanner"`
+	GcpSpanner []CloudDisableAccountIntegrationInput `json:"gcpSpanner,omitempty"`
 	// Cloud SQL integration
-	GcpSql []CloudDisableAccountIntegrationInput `json:"gcpSql"`
+	GcpSql []CloudDisableAccountIntegrationInput `json:"gcpSql,omitempty"`
 	// Cloud Storage integration
-	GcpStorage []CloudDisableAccountIntegrationInput `json:"gcpStorage"`
+	GcpStorage []CloudDisableAccountIntegrationInput `json:"gcpStorage,omitempty"`
 	// Compute Engine integration
-	GcpVms []CloudDisableAccountIntegrationInput `json:"gcpVms"`
+	GcpVms []CloudDisableAccountIntegrationInput `json:"gcpVms,omitempty"`
 	// VPC Access integration
-	GcpVpcaccess []CloudDisableAccountIntegrationInput `json:"gcpVpcaccess"`
+	GcpVpcaccess []CloudDisableAccountIntegrationInput `json:"gcpVpcaccess,omitempty"`
 }
 
 // CloudGcpFirebasedatabaseIntegration - Firebase Database Integration
@@ -3811,47 +3811,47 @@ type CloudGcpFunctionsIntegrationInput struct {
 // CloudGcpIntegrationsInput - List of integrations
 type CloudGcpIntegrationsInput struct {
 	// App Engine integration
-	GcpAppengine []CloudGcpAppengineIntegrationInput `json:"gcpAppengine"`
+	GcpAppengine []CloudGcpAppengineIntegrationInput `json:"gcpAppengine,omitempty"`
 	// BigQuery integration
-	GcpBigquery []CloudGcpBigqueryIntegrationInput `json:"gcpBigquery"`
+	GcpBigquery []CloudGcpBigqueryIntegrationInput `json:"gcpBigquery,omitempty"`
 	// Dataflow integration
-	GcpDataflow []CloudGcpDataflowIntegrationInput `json:"gcpDataflow"`
+	GcpDataflow []CloudGcpDataflowIntegrationInput `json:"gcpDataflow,omitempty"`
 	// Dataproc integration
-	GcpDataproc []CloudGcpDataprocIntegrationInput `json:"gcpDataproc"`
+	GcpDataproc []CloudGcpDataprocIntegrationInput `json:"gcpDataproc,omitempty"`
 	// Datastore integration
-	GcpDatastore []CloudGcpDatastoreIntegrationInput `json:"gcpDatastore"`
+	GcpDatastore []CloudGcpDatastoreIntegrationInput `json:"gcpDatastore,omitempty"`
 	// Firebase Database integration
-	GcpFirebasedatabase []CloudGcpFirebasedatabaseIntegrationInput `json:"gcpFirebasedatabase"`
+	GcpFirebasedatabase []CloudGcpFirebasedatabaseIntegrationInput `json:"gcpFirebasedatabase,omitempty"`
 	// Firebase Hosting integration
-	GcpFirebasehosting []CloudGcpFirebasehostingIntegrationInput `json:"gcpFirebasehosting"`
+	GcpFirebasehosting []CloudGcpFirebasehostingIntegrationInput `json:"gcpFirebasehosting,omitempty"`
 	// Firebase Storage integration
-	GcpFirebasestorage []CloudGcpFirebasestorageIntegrationInput `json:"gcpFirebasestorage"`
+	GcpFirebasestorage []CloudGcpFirebasestorageIntegrationInput `json:"gcpFirebasestorage,omitempty"`
 	// Firestore integration
-	GcpFirestore []CloudGcpFirestoreIntegrationInput `json:"gcpFirestore"`
+	GcpFirestore []CloudGcpFirestoreIntegrationInput `json:"gcpFirestore,omitempty"`
 	// Cloud Functions integration
-	GcpFunctions []CloudGcpFunctionsIntegrationInput `json:"gcpFunctions"`
+	GcpFunctions []CloudGcpFunctionsIntegrationInput `json:"gcpFunctions,omitempty"`
 	// Interconnect integration
-	GcpInterconnect []CloudGcpInterconnectIntegrationInput `json:"gcpInterconnect"`
+	GcpInterconnect []CloudGcpInterconnectIntegrationInput `json:"gcpInterconnect,omitempty"`
 	// Kubernetes Engine integration
-	GcpKubernetes []CloudGcpKubernetesIntegrationInput `json:"gcpKubernetes"`
+	GcpKubernetes []CloudGcpKubernetesIntegrationInput `json:"gcpKubernetes,omitempty"`
 	// Cloud Load Balancing integration
-	GcpLoadbalancing []CloudGcpLoadbalancingIntegrationInput `json:"gcpLoadbalancing"`
+	GcpLoadbalancing []CloudGcpLoadbalancingIntegrationInput `json:"gcpLoadbalancing,omitempty"`
 	// Cloud Pub/Sub integration
-	GcpPubsub []CloudGcpPubsubIntegrationInput `json:"gcpPubsub"`
+	GcpPubsub []CloudGcpPubsubIntegrationInput `json:"gcpPubsub,omitempty"`
 	// Router integration
-	GcpRouter []CloudGcpRouterIntegrationInput `json:"gcpRouter"`
+	GcpRouter []CloudGcpRouterIntegrationInput `json:"gcpRouter,omitempty"`
 	// Run integration
-	GcpRun []CloudGcpRunIntegrationInput `json:"gcpRun"`
+	GcpRun []CloudGcpRunIntegrationInput `json:"gcpRun,omitempty"`
 	// Cloud Spanner integration
-	GcpSpanner []CloudGcpSpannerIntegrationInput `json:"gcpSpanner"`
+	GcpSpanner []CloudGcpSpannerIntegrationInput `json:"gcpSpanner,omitempty"`
 	// Cloud SQL integration
-	GcpSql []CloudGcpSqlIntegrationInput `json:"gcpSql"`
+	GcpSql []CloudGcpSqlIntegrationInput `json:"gcpSql,omitempty"`
 	// Cloud Storage integration
-	GcpStorage []CloudGcpStorageIntegrationInput `json:"gcpStorage"`
+	GcpStorage []CloudGcpStorageIntegrationInput `json:"gcpStorage,omitempty"`
 	// Compute Engine integration
-	GcpVms []CloudGcpVmsIntegrationInput `json:"gcpVms"`
+	GcpVms []CloudGcpVmsIntegrationInput `json:"gcpVms,omitempty"`
 	// VPC Access integration
-	GcpVpcaccess []CloudGcpVpcaccessIntegrationInput `json:"gcpVpcaccess"`
+	GcpVpcaccess []CloudGcpVpcaccessIntegrationInput `json:"gcpVpcaccess,omitempty"`
 }
 
 // CloudGcpInterconnectIntegration - Interconnect Integration
@@ -4385,13 +4385,13 @@ type CloudIntegrationMutationError struct {
 // CloudIntegrationsInput - List of providers
 type CloudIntegrationsInput struct {
 	// Aws provider
-	Aws CloudAwsIntegrationsInput `json:"aws"`
+	Aws CloudAwsIntegrationsInput `json:"aws,omitempty"`
 	// AwsGovcloud provider
-	AwsGovcloud CloudAwsGovcloudIntegrationsInput `json:"awsGovcloud"`
+	AwsGovcloud CloudAwsGovcloudIntegrationsInput `json:"awsGovcloud,omitempty"`
 	// Azure provider
-	Azure CloudAzureIntegrationsInput `json:"azure"`
+	Azure CloudAzureIntegrationsInput `json:"azure,omitempty"`
 	// Gcp provider
-	Gcp CloudGcpIntegrationsInput `json:"gcp"`
+	Gcp CloudGcpIntegrationsInput `json:"gcp,omitempty"`
 }
 
 // CloudIotIntegration - IoT Integration
