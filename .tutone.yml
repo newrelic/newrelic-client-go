@@ -126,15 +126,15 @@ packages:
             include_nullable: true
     mutations:
       - name: cloudConfigureIntegration
-        maxQueryFieldDepth: 1
+        max_query_field_depth: 1
       - name: cloudDisableIntegration
-        maxQueryFieldDepth: 1
+        max_query_field_depth: 1
       - name: cloudLinkAccount
-        maxQueryFieldDepth: 1
+        max_query_field_depth: 1
       - name: cloudRenameAccount
-        maxQueryFieldDepth: 1
+        max_query_field_depth: 1
       - name: cloudUnlinkAccount
-        maxQueryFieldDepth: 1
+        max_query_field_depth: 1
     types:
       #
       # Types that we should auto-detect are in another package someday

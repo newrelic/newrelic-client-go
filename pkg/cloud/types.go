@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/newrelic/newrelic-client-go/internal/serialization"
+	"github.com/newrelic/newrelic-client-go/pkg/nrtime"
 )
 
 // Actor - The `Actor` object contains fields that are scoped to the API user's access level.
@@ -19,7 +19,7 @@ type CloudAPIgatewayIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -41,7 +41,7 @@ type CloudAPIgatewayIntegration struct {
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
 	TagValue string `json:"tagValue"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAPIgatewayIntegration) ImplementsCloudIntegration() {}
@@ -89,7 +89,7 @@ type CloudAlbIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Determine if extra inventory data be collected or not. May affect total data collection time and contribute to the Cloud provider API rate limit.
 	FetchExtendedInventory bool `json:"fetchExtendedInventory"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
@@ -115,7 +115,7 @@ type CloudAlbIntegration struct {
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
 	TagValue string `json:"tagValue"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAlbIntegration) ImplementsCloudIntegration() {}
@@ -147,7 +147,7 @@ type CloudAutoscalingIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -163,7 +163,7 @@ type CloudAutoscalingIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAutoscalingIntegration) ImplementsCloudIntegration() {}
@@ -185,7 +185,7 @@ type CloudAwsAppsyncIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -201,7 +201,7 @@ type CloudAwsAppsyncIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAwsAppsyncIntegration) ImplementsCloudIntegration() {}
@@ -223,7 +223,7 @@ type CloudAwsAthenaIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -239,7 +239,7 @@ type CloudAwsAthenaIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAwsAthenaIntegration) ImplementsCloudIntegration() {}
@@ -261,7 +261,7 @@ type CloudAwsCognitoIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -277,7 +277,7 @@ type CloudAwsCognitoIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAwsCognitoIntegration) ImplementsCloudIntegration() {}
@@ -299,7 +299,7 @@ type CloudAwsConnectIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -315,7 +315,7 @@ type CloudAwsConnectIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAwsConnectIntegration) ImplementsCloudIntegration() {}
@@ -337,7 +337,7 @@ type CloudAwsDirectconnectIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -353,7 +353,7 @@ type CloudAwsDirectconnectIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAwsDirectconnectIntegration) ImplementsCloudIntegration() {}
@@ -483,7 +483,7 @@ type CloudAwsDocdbIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -499,7 +499,7 @@ type CloudAwsDocdbIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAwsDocdbIntegration) ImplementsCloudIntegration() {}
@@ -521,7 +521,7 @@ type CloudAwsFsxIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -537,7 +537,7 @@ type CloudAwsFsxIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAwsFsxIntegration) ImplementsCloudIntegration() {}
@@ -559,7 +559,7 @@ type CloudAwsGlueIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -575,7 +575,7 @@ type CloudAwsGlueIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAwsGlueIntegration) ImplementsCloudIntegration() {}
@@ -597,7 +597,7 @@ type CloudAwsGovCloudProvider struct {
 	// The AWS Account ID
 	AwsAccountId string `json:"awsAccountId"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud provider identifier in NewRelic.
 	ID int `json:"id"`
 	// The cloud provider icon name.
@@ -611,7 +611,7 @@ type CloudAwsGovCloudProvider struct {
 	// The cloud provider short name.
 	Slug string `json:"slug"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAwsGovCloudProvider) ImplementsCloudProvider() {}
@@ -829,7 +829,7 @@ type CloudAwsKinesisanalyticsIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -845,7 +845,7 @@ type CloudAwsKinesisanalyticsIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAwsKinesisanalyticsIntegration) ImplementsCloudIntegration() {}
@@ -875,7 +875,7 @@ type CloudAwsMediaconvertIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -891,7 +891,7 @@ type CloudAwsMediaconvertIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAwsMediaconvertIntegration) ImplementsCloudIntegration() {}
@@ -913,7 +913,7 @@ type CloudAwsMediapackagevodIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -929,7 +929,7 @@ type CloudAwsMediapackagevodIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAwsMediapackagevodIntegration) ImplementsCloudIntegration() {}
@@ -951,7 +951,7 @@ type CloudAwsMqIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -967,7 +967,7 @@ type CloudAwsMqIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAwsMqIntegration) ImplementsCloudIntegration() {}
@@ -989,7 +989,7 @@ type CloudAwsMskIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -1005,7 +1005,7 @@ type CloudAwsMskIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAwsMskIntegration) ImplementsCloudIntegration() {}
@@ -1027,7 +1027,7 @@ type CloudAwsNeptuneIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -1043,7 +1043,7 @@ type CloudAwsNeptuneIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAwsNeptuneIntegration) ImplementsCloudIntegration() {}
@@ -1063,7 +1063,7 @@ type CloudAwsNeptuneIntegrationInput struct {
 // CloudAwsProvider - The Amazon Web Services cloud provider
 type CloudAwsProvider struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud provider identifier in NewRelic.
 	ID int `json:"id"`
 	// The cloud provider icon name.
@@ -1081,7 +1081,7 @@ type CloudAwsProvider struct {
 	// The cloud provider short name.
 	Slug string `json:"slug"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAwsProvider) ImplementsCloudProvider() {}
@@ -1091,7 +1091,7 @@ type CloudAwsQldbIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -1107,7 +1107,7 @@ type CloudAwsQldbIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAwsQldbIntegration) ImplementsCloudIntegration() {}
@@ -1129,7 +1129,7 @@ type CloudAwsRoute53resolverIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -1145,7 +1145,7 @@ type CloudAwsRoute53resolverIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAwsRoute53resolverIntegration) ImplementsCloudIntegration() {}
@@ -1167,7 +1167,7 @@ type CloudAwsStatesIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -1183,7 +1183,7 @@ type CloudAwsStatesIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAwsStatesIntegration) ImplementsCloudIntegration() {}
@@ -1205,7 +1205,7 @@ type CloudAwsTransitgatewayIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -1221,7 +1221,7 @@ type CloudAwsTransitgatewayIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAwsTransitgatewayIntegration) ImplementsCloudIntegration() {}
@@ -1243,7 +1243,7 @@ type CloudAwsWafIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -1259,7 +1259,7 @@ type CloudAwsWafIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAwsWafIntegration) ImplementsCloudIntegration() {}
@@ -1281,7 +1281,7 @@ type CloudAwsWafv2Integration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -1297,7 +1297,7 @@ type CloudAwsWafv2Integration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAwsWafv2Integration) ImplementsCloudIntegration() {}
@@ -1319,7 +1319,7 @@ type CloudAwsXrayIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -1335,7 +1335,7 @@ type CloudAwsXrayIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAwsXrayIntegration) ImplementsCloudIntegration() {}
@@ -1355,7 +1355,7 @@ type CloudAwsXrayIntegrationInput struct {
 // CloudAzureAPImanagementIntegration - Api Management Integration
 type CloudAzureAPImanagementIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -1373,7 +1373,7 @@ type CloudAzureAPImanagementIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAzureAPImanagementIntegration) ImplementsCloudIntegration() {}
@@ -1393,7 +1393,7 @@ type CloudAzureAPImanagementIntegrationInput struct {
 // CloudAzureAppgatewayIntegration - App Gateway Integration
 type CloudAzureAppgatewayIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -1411,7 +1411,7 @@ type CloudAzureAppgatewayIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAzureAppgatewayIntegration) ImplementsCloudIntegration() {}
@@ -1431,7 +1431,7 @@ type CloudAzureAppgatewayIntegrationInput struct {
 // CloudAzureAppserviceIntegration - App Service Integration
 type CloudAzureAppserviceIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -1449,7 +1449,7 @@ type CloudAzureAppserviceIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAzureAppserviceIntegration) ImplementsCloudIntegration() {}
@@ -1469,7 +1469,7 @@ type CloudAzureAppserviceIntegrationInput struct {
 // CloudAzureContainersIntegration - Containers Integration
 type CloudAzureContainersIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -1487,7 +1487,7 @@ type CloudAzureContainersIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAzureContainersIntegration) ImplementsCloudIntegration() {}
@@ -1507,7 +1507,7 @@ type CloudAzureContainersIntegrationInput struct {
 // CloudAzureCosmosdbIntegration - Cosmos DB Integration
 type CloudAzureCosmosdbIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -1525,7 +1525,7 @@ type CloudAzureCosmosdbIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAzureCosmosdbIntegration) ImplementsCloudIntegration() {}
@@ -1545,7 +1545,7 @@ type CloudAzureCosmosdbIntegrationInput struct {
 // CloudAzureCostmanagementIntegration - Cost Management Integration
 type CloudAzureCostmanagementIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -1563,7 +1563,7 @@ type CloudAzureCostmanagementIntegration struct {
 	// Specify if additional cost data per tag should be collected. This field is case sensitive.
 	TagKeys []string `json:"tagKeys"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAzureCostmanagementIntegration) ImplementsCloudIntegration() {}
@@ -1583,7 +1583,7 @@ type CloudAzureCostmanagementIntegrationInput struct {
 // CloudAzureDatafactoryIntegration - Data Factory Integration
 type CloudAzureDatafactoryIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -1601,7 +1601,7 @@ type CloudAzureDatafactoryIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAzureDatafactoryIntegration) ImplementsCloudIntegration() {}
@@ -1685,7 +1685,7 @@ type CloudAzureDisableIntegrationsInput struct {
 // CloudAzureEventhubIntegration - Event Hub Integration
 type CloudAzureEventhubIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -1703,7 +1703,7 @@ type CloudAzureEventhubIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAzureEventhubIntegration) ImplementsCloudIntegration() {}
@@ -1723,7 +1723,7 @@ type CloudAzureEventhubIntegrationInput struct {
 // CloudAzureExpressrouteIntegration - Express Route Integration
 type CloudAzureExpressrouteIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -1741,7 +1741,7 @@ type CloudAzureExpressrouteIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAzureExpressrouteIntegration) ImplementsCloudIntegration() {}
@@ -1761,7 +1761,7 @@ type CloudAzureExpressrouteIntegrationInput struct {
 // CloudAzureFirewallsIntegration - Firewalls Integration
 type CloudAzureFirewallsIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -1779,7 +1779,7 @@ type CloudAzureFirewallsIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAzureFirewallsIntegration) ImplementsCloudIntegration() {}
@@ -1799,7 +1799,7 @@ type CloudAzureFirewallsIntegrationInput struct {
 // CloudAzureFrontdoorIntegration - Front Door Integration
 type CloudAzureFrontdoorIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -1817,7 +1817,7 @@ type CloudAzureFrontdoorIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAzureFrontdoorIntegration) ImplementsCloudIntegration() {}
@@ -1837,7 +1837,7 @@ type CloudAzureFrontdoorIntegrationInput struct {
 // CloudAzureFunctionsIntegration - Functions Integration
 type CloudAzureFunctionsIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -1855,7 +1855,7 @@ type CloudAzureFunctionsIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAzureFunctionsIntegration) ImplementsCloudIntegration() {}
@@ -1939,7 +1939,7 @@ type CloudAzureIntegrationsInput struct {
 // CloudAzureKeyvaultIntegration - Key Vault Integration
 type CloudAzureKeyvaultIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -1957,7 +1957,7 @@ type CloudAzureKeyvaultIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAzureKeyvaultIntegration) ImplementsCloudIntegration() {}
@@ -1991,7 +1991,7 @@ type CloudAzureLinkAccountInput struct {
 // CloudAzureLoadbalancerIntegration - Load Balancer Integration
 type CloudAzureLoadbalancerIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -2009,7 +2009,7 @@ type CloudAzureLoadbalancerIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAzureLoadbalancerIntegration) ImplementsCloudIntegration() {}
@@ -2029,7 +2029,7 @@ type CloudAzureLoadbalancerIntegrationInput struct {
 // CloudAzureLogicappsIntegration - Logic Apps Integration
 type CloudAzureLogicappsIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -2047,7 +2047,7 @@ type CloudAzureLogicappsIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAzureLogicappsIntegration) ImplementsCloudIntegration() {}
@@ -2067,7 +2067,7 @@ type CloudAzureLogicappsIntegrationInput struct {
 // CloudAzureMachinelearningIntegration - Machine Learning Integration
 type CloudAzureMachinelearningIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -2085,7 +2085,7 @@ type CloudAzureMachinelearningIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAzureMachinelearningIntegration) ImplementsCloudIntegration() {}
@@ -2105,7 +2105,7 @@ type CloudAzureMachinelearningIntegrationInput struct {
 // CloudAzureMariadbIntegration - Database for MariaDB Integration
 type CloudAzureMariadbIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -2123,7 +2123,7 @@ type CloudAzureMariadbIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAzureMariadbIntegration) ImplementsCloudIntegration() {}
@@ -2143,7 +2143,7 @@ type CloudAzureMariadbIntegrationInput struct {
 // CloudAzureMysqlIntegration - Database for MySQL Integration
 type CloudAzureMysqlIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -2161,7 +2161,7 @@ type CloudAzureMysqlIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAzureMysqlIntegration) ImplementsCloudIntegration() {}
@@ -2181,7 +2181,7 @@ type CloudAzureMysqlIntegrationInput struct {
 // CloudAzurePostgresqlIntegration - Database for PostgreSQL Integration
 type CloudAzurePostgresqlIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -2199,7 +2199,7 @@ type CloudAzurePostgresqlIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAzurePostgresqlIntegration) ImplementsCloudIntegration() {}
@@ -2219,7 +2219,7 @@ type CloudAzurePostgresqlIntegrationInput struct {
 // CloudAzurePowerbidedicatedIntegration - Power BI Dedicated Integration
 type CloudAzurePowerbidedicatedIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -2237,7 +2237,7 @@ type CloudAzurePowerbidedicatedIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAzurePowerbidedicatedIntegration) ImplementsCloudIntegration() {}
@@ -2257,7 +2257,7 @@ type CloudAzurePowerbidedicatedIntegrationInput struct {
 // CloudAzureRediscacheIntegration - Redis Cache Integration
 type CloudAzureRediscacheIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -2275,7 +2275,7 @@ type CloudAzureRediscacheIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAzureRediscacheIntegration) ImplementsCloudIntegration() {}
@@ -2295,7 +2295,7 @@ type CloudAzureRediscacheIntegrationInput struct {
 // CloudAzureServicebusIntegration - Service Bus Integration
 type CloudAzureServicebusIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -2313,7 +2313,7 @@ type CloudAzureServicebusIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAzureServicebusIntegration) ImplementsCloudIntegration() {}
@@ -2333,7 +2333,7 @@ type CloudAzureServicebusIntegrationInput struct {
 // CloudAzureServicefabricIntegration - Service Fabric Integration
 type CloudAzureServicefabricIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -2351,7 +2351,7 @@ type CloudAzureServicefabricIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAzureServicefabricIntegration) ImplementsCloudIntegration() {}
@@ -2371,7 +2371,7 @@ type CloudAzureServicefabricIntegrationInput struct {
 // CloudAzureSqlIntegration - SQL Database Integration
 type CloudAzureSqlIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -2389,7 +2389,7 @@ type CloudAzureSqlIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAzureSqlIntegration) ImplementsCloudIntegration() {}
@@ -2409,7 +2409,7 @@ type CloudAzureSqlIntegrationInput struct {
 // CloudAzureSqlmanagedIntegration - SQL Managed Instances Integration
 type CloudAzureSqlmanagedIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -2427,7 +2427,7 @@ type CloudAzureSqlmanagedIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAzureSqlmanagedIntegration) ImplementsCloudIntegration() {}
@@ -2447,7 +2447,7 @@ type CloudAzureSqlmanagedIntegrationInput struct {
 // CloudAzureStorageIntegration - Storage Integration
 type CloudAzureStorageIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -2465,7 +2465,7 @@ type CloudAzureStorageIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAzureStorageIntegration) ImplementsCloudIntegration() {}
@@ -2485,7 +2485,7 @@ type CloudAzureStorageIntegrationInput struct {
 // CloudAzureVirtualmachineIntegration - Virtual machine scale sets Integration
 type CloudAzureVirtualmachineIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -2503,7 +2503,7 @@ type CloudAzureVirtualmachineIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAzureVirtualmachineIntegration) ImplementsCloudIntegration() {}
@@ -2523,7 +2523,7 @@ type CloudAzureVirtualmachineIntegrationInput struct {
 // CloudAzureVirtualnetworksIntegration - Virtual Network Integration
 type CloudAzureVirtualnetworksIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -2541,7 +2541,7 @@ type CloudAzureVirtualnetworksIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAzureVirtualnetworksIntegration) ImplementsCloudIntegration() {}
@@ -2561,7 +2561,7 @@ type CloudAzureVirtualnetworksIntegrationInput struct {
 // CloudAzureVmsIntegration - Virtual Machines Integration
 type CloudAzureVmsIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -2579,7 +2579,7 @@ type CloudAzureVmsIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAzureVmsIntegration) ImplementsCloudIntegration() {}
@@ -2599,7 +2599,7 @@ type CloudAzureVmsIntegrationInput struct {
 // CloudAzureVpngatewaysIntegration - VPN Gateways Integration
 type CloudAzureVpngatewaysIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -2617,7 +2617,7 @@ type CloudAzureVpngatewaysIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudAzureVpngatewaysIntegration) ImplementsCloudIntegration() {}
@@ -2637,7 +2637,7 @@ type CloudAzureVpngatewaysIntegrationInput struct {
 // CloudBaseIntegration - Base Integration Object
 type CloudBaseIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// The parent linked account identifier.
@@ -2649,7 +2649,7 @@ type CloudBaseIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudBaseIntegration) ImplementsCloudIntegration() {}
@@ -2657,7 +2657,7 @@ func (x *CloudBaseIntegration) ImplementsCloudIntegration() {}
 // CloudBaseProvider - Base Provider Object
 type CloudBaseProvider struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud provider identifier in NewRelic.
 	ID int `json:"id"`
 	// The cloud provider icon name.
@@ -2671,7 +2671,7 @@ type CloudBaseProvider struct {
 	// The cloud provider short name.
 	Slug string `json:"slug"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudBaseProvider) ImplementsCloudProvider() {}
@@ -2679,7 +2679,7 @@ func (x *CloudBaseProvider) ImplementsCloudProvider() {}
 // CloudBillingIntegration - Billing Integration
 type CloudBillingIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -2695,7 +2695,7 @@ type CloudBillingIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudBillingIntegration) ImplementsCloudIntegration() {}
@@ -2713,7 +2713,7 @@ type CloudBillingIntegrationInput struct {
 // CloudCloudfrontIntegration - CloudFront Integration
 type CloudCloudfrontIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Specify if Lambdas@Edge should be monitored. May affect total data collection time and contribute to the Cloud provider API rate limit.
 	FetchLambdasAtEdge bool `json:"fetchLambdasAtEdge"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
@@ -2737,7 +2737,7 @@ type CloudCloudfrontIntegration struct {
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
 	TagValue string `json:"tagValue"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudCloudfrontIntegration) ImplementsCloudIntegration() {}
@@ -2765,7 +2765,7 @@ type CloudCloudtrailIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -2781,7 +2781,7 @@ type CloudCloudtrailIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudCloudtrailIntegration) ImplementsCloudIntegration() {}
@@ -2822,6 +2822,9 @@ func (x *CloudConfigureIntegrationPayload) UnmarshalJSON(b []byte) error {
 				return err
 			}
 		case "integrations":
+			if v == nil {
+				continue
+			}
 			var rawMessageIntegrations []*json.RawMessage
 			err = json.Unmarshal(*v, &rawMessageIntegrations)
 			if err != nil {
@@ -2869,6 +2872,9 @@ func (x *CloudDisableIntegrationPayload) UnmarshalJSON(b []byte) error {
 	for k, v := range objMap {
 		switch k {
 		case "disabledIntegrations":
+			if v == nil {
+				continue
+			}
 			var rawMessageDisabledIntegrations []*json.RawMessage
 			err = json.Unmarshal(*v, &rawMessageDisabledIntegrations)
 			if err != nil {
@@ -2913,7 +2919,7 @@ type CloudDynamodbIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Determine if extra inventory data be collected or not. May affect total data collection time and contribute to the Cloud provider API rate limit.
 	FetchExtendedInventory bool `json:"fetchExtendedInventory"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
@@ -2937,7 +2943,7 @@ type CloudDynamodbIntegration struct {
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
 	TagValue string `json:"tagValue"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudDynamodbIntegration) ImplementsCloudIntegration() {}
@@ -2967,7 +2973,7 @@ type CloudEbsIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Determine if extra inventory data be collected or not. May affect total data collection time and contribute to the Cloud provider API rate limit.
 	FetchExtendedInventory bool `json:"fetchExtendedInventory"`
 	// The cloud service integration identifier.
@@ -2989,7 +2995,7 @@ type CloudEbsIntegration struct {
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
 	TagValue string `json:"tagValue"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudEbsIntegration) ImplementsCloudIntegration() {}
@@ -3017,7 +3023,7 @@ type CloudEc2Integration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Specify if IP addresses of ec2 instance should be collected
 	FetchIpAddresses bool `json:"fetchIpAddresses"`
 	// The cloud service integration identifier.
@@ -3039,7 +3045,7 @@ type CloudEc2Integration struct {
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
 	TagValue string `json:"tagValue"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudEc2Integration) ImplementsCloudIntegration() {}
@@ -3067,7 +3073,7 @@ type CloudEcsIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
 	FetchTags bool `json:"fetchTags"`
 	// The cloud service integration identifier.
@@ -3089,7 +3095,7 @@ type CloudEcsIntegration struct {
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
 	TagValue string `json:"tagValue"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudEcsIntegration) ImplementsCloudIntegration() {}
@@ -3117,7 +3123,7 @@ type CloudEfsIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
 	FetchTags bool `json:"fetchTags"`
 	// The cloud service integration identifier.
@@ -3139,7 +3145,7 @@ type CloudEfsIntegration struct {
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
 	TagValue string `json:"tagValue"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudEfsIntegration) ImplementsCloudIntegration() {}
@@ -3167,7 +3173,7 @@ type CloudElasticacheIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
 	FetchTags bool `json:"fetchTags"`
 	// The cloud service integration identifier.
@@ -3189,7 +3195,7 @@ type CloudElasticacheIntegration struct {
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
 	TagValue string `json:"tagValue"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudElasticacheIntegration) ImplementsCloudIntegration() {}
@@ -3217,7 +3223,7 @@ type CloudElasticbeanstalkIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Determine if extra inventory data be collected or not. May affect total data collection time and contribute to the Cloud provider API rate limit.
 	FetchExtendedInventory bool `json:"fetchExtendedInventory"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
@@ -3241,7 +3247,7 @@ type CloudElasticbeanstalkIntegration struct {
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
 	TagValue string `json:"tagValue"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudElasticbeanstalkIntegration) ImplementsCloudIntegration() {}
@@ -3271,7 +3277,7 @@ type CloudElasticsearchIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Specify if metrics should be collected for nodes. Turning it on will increase the number of API calls made to CloudWatch.
 	FetchNodes bool `json:"fetchNodes"`
 	// The cloud service integration identifier.
@@ -3293,7 +3299,7 @@ type CloudElasticsearchIntegration struct {
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
 	TagValue string `json:"tagValue"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudElasticsearchIntegration) ImplementsCloudIntegration() {}
@@ -3321,7 +3327,7 @@ type CloudElbIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Determine if extra inventory data be collected or not. May affect total data collection time and contribute to the Cloud provider API rate limit.
 	FetchExtendedInventory bool `json:"fetchExtendedInventory"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
@@ -3341,7 +3347,7 @@ type CloudElbIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudElbIntegration) ImplementsCloudIntegration() {}
@@ -3367,7 +3373,7 @@ type CloudEmrIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Specify if tags and the extended inventory should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
 	FetchTags bool `json:"fetchTags"`
 	// The cloud service integration identifier.
@@ -3389,7 +3395,7 @@ type CloudEmrIntegration struct {
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
 	TagValue string `json:"tagValue"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudEmrIntegration) ImplementsCloudIntegration() {}
@@ -3415,7 +3421,7 @@ type CloudEmrIntegrationInput struct {
 // CloudGcpAppengineIntegration - App Engine Integration
 type CloudGcpAppengineIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -3431,7 +3437,7 @@ type CloudGcpAppengineIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudGcpAppengineIntegration) ImplementsCloudIntegration() {}
@@ -3449,7 +3455,7 @@ type CloudGcpAppengineIntegrationInput struct {
 // CloudGcpBigqueryIntegration - BigQuery Integration
 type CloudGcpBigqueryIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Specify if labels and the extended inventory should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
 	FetchTags bool `json:"fetchTags"`
 	// The cloud service integration identifier.
@@ -3467,7 +3473,7 @@ type CloudGcpBigqueryIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudGcpBigqueryIntegration) ImplementsCloudIntegration() {}
@@ -3487,7 +3493,7 @@ type CloudGcpBigqueryIntegrationInput struct {
 // CloudGcpDataflowIntegration - Dataflow Integration
 type CloudGcpDataflowIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -3503,7 +3509,7 @@ type CloudGcpDataflowIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudGcpDataflowIntegration) ImplementsCloudIntegration() {}
@@ -3521,7 +3527,7 @@ type CloudGcpDataflowIntegrationInput struct {
 // CloudGcpDataprocIntegration - Dataproc Integration
 type CloudGcpDataprocIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -3537,7 +3543,7 @@ type CloudGcpDataprocIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudGcpDataprocIntegration) ImplementsCloudIntegration() {}
@@ -3555,7 +3561,7 @@ type CloudGcpDataprocIntegrationInput struct {
 // CloudGcpDatastoreIntegration - Datastore Integration
 type CloudGcpDatastoreIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -3571,7 +3577,7 @@ type CloudGcpDatastoreIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudGcpDatastoreIntegration) ImplementsCloudIntegration() {}
@@ -3635,7 +3641,7 @@ type CloudGcpDisableIntegrationsInput struct {
 // CloudGcpFirebasedatabaseIntegration - Firebase Database Integration
 type CloudGcpFirebasedatabaseIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -3651,7 +3657,7 @@ type CloudGcpFirebasedatabaseIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudGcpFirebasedatabaseIntegration) ImplementsCloudIntegration() {}
@@ -3669,7 +3675,7 @@ type CloudGcpFirebasedatabaseIntegrationInput struct {
 // CloudGcpFirebasehostingIntegration - Firebase Hosting Integration
 type CloudGcpFirebasehostingIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -3685,7 +3691,7 @@ type CloudGcpFirebasehostingIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudGcpFirebasehostingIntegration) ImplementsCloudIntegration() {}
@@ -3703,7 +3709,7 @@ type CloudGcpFirebasehostingIntegrationInput struct {
 // CloudGcpFirebasestorageIntegration - Firebase Storage Integration
 type CloudGcpFirebasestorageIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -3719,7 +3725,7 @@ type CloudGcpFirebasestorageIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudGcpFirebasestorageIntegration) ImplementsCloudIntegration() {}
@@ -3737,7 +3743,7 @@ type CloudGcpFirebasestorageIntegrationInput struct {
 // CloudGcpFirestoreIntegration - Firestore Integration
 type CloudGcpFirestoreIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -3753,7 +3759,7 @@ type CloudGcpFirestoreIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudGcpFirestoreIntegration) ImplementsCloudIntegration() {}
@@ -3771,7 +3777,7 @@ type CloudGcpFirestoreIntegrationInput struct {
 // CloudGcpFunctionsIntegration - Cloud Functions Integration
 type CloudGcpFunctionsIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -3787,7 +3793,7 @@ type CloudGcpFunctionsIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudGcpFunctionsIntegration) ImplementsCloudIntegration() {}
@@ -3851,7 +3857,7 @@ type CloudGcpIntegrationsInput struct {
 // CloudGcpInterconnectIntegration - Interconnect Integration
 type CloudGcpInterconnectIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -3867,7 +3873,7 @@ type CloudGcpInterconnectIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudGcpInterconnectIntegration) ImplementsCloudIntegration() {}
@@ -3885,7 +3891,7 @@ type CloudGcpInterconnectIntegrationInput struct {
 // CloudGcpKubernetesIntegration - Kubernetes Engine Integration
 type CloudGcpKubernetesIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -3901,7 +3907,7 @@ type CloudGcpKubernetesIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudGcpKubernetesIntegration) ImplementsCloudIntegration() {}
@@ -3927,7 +3933,7 @@ type CloudGcpLinkAccountInput struct {
 // CloudGcpLoadbalancingIntegration - Cloud Load Balancing Integration
 type CloudGcpLoadbalancingIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -3943,7 +3949,7 @@ type CloudGcpLoadbalancingIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudGcpLoadbalancingIntegration) ImplementsCloudIntegration() {}
@@ -3961,7 +3967,7 @@ type CloudGcpLoadbalancingIntegrationInput struct {
 // CloudGcpProvider - The Google Cloud Platform cloud provider
 type CloudGcpProvider struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud provider identifier in NewRelic.
 	ID int `json:"id"`
 	// The cloud provider icon name.
@@ -3977,7 +3983,7 @@ type CloudGcpProvider struct {
 	// The cloud provider short name.
 	Slug string `json:"slug"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudGcpProvider) ImplementsCloudProvider() {}
@@ -3985,7 +3991,7 @@ func (x *CloudGcpProvider) ImplementsCloudProvider() {}
 // CloudGcpPubsubIntegration - Cloud Pub/Sub Integration
 type CloudGcpPubsubIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Specify if labels and the extended inventory should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
 	FetchTags bool `json:"fetchTags"`
 	// The cloud service integration identifier.
@@ -4003,7 +4009,7 @@ type CloudGcpPubsubIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudGcpPubsubIntegration) ImplementsCloudIntegration() {}
@@ -4023,7 +4029,7 @@ type CloudGcpPubsubIntegrationInput struct {
 // CloudGcpRouterIntegration - Router Integration
 type CloudGcpRouterIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -4039,7 +4045,7 @@ type CloudGcpRouterIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudGcpRouterIntegration) ImplementsCloudIntegration() {}
@@ -4057,7 +4063,7 @@ type CloudGcpRouterIntegrationInput struct {
 // CloudGcpRunIntegration - Run Integration
 type CloudGcpRunIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -4073,7 +4079,7 @@ type CloudGcpRunIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudGcpRunIntegration) ImplementsCloudIntegration() {}
@@ -4091,7 +4097,7 @@ type CloudGcpRunIntegrationInput struct {
 // CloudGcpSpannerIntegration - Cloud Spanner Integration
 type CloudGcpSpannerIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Specify if labels and the extended inventory should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
 	FetchTags bool `json:"fetchTags"`
 	// The cloud service integration identifier.
@@ -4109,7 +4115,7 @@ type CloudGcpSpannerIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudGcpSpannerIntegration) ImplementsCloudIntegration() {}
@@ -4129,7 +4135,7 @@ type CloudGcpSpannerIntegrationInput struct {
 // CloudGcpSqlIntegration - Cloud SQL Integration
 type CloudGcpSqlIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -4145,7 +4151,7 @@ type CloudGcpSqlIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudGcpSqlIntegration) ImplementsCloudIntegration() {}
@@ -4163,7 +4169,7 @@ type CloudGcpSqlIntegrationInput struct {
 // CloudGcpStorageIntegration - Cloud Storage Integration
 type CloudGcpStorageIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Specify if labels and the extended inventory should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
 	FetchTags bool `json:"fetchTags"`
 	// The cloud service integration identifier.
@@ -4181,7 +4187,7 @@ type CloudGcpStorageIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudGcpStorageIntegration) ImplementsCloudIntegration() {}
@@ -4201,7 +4207,7 @@ type CloudGcpStorageIntegrationInput struct {
 // CloudGcpVmsIntegration - Compute Engine Integration
 type CloudGcpVmsIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -4217,7 +4223,7 @@ type CloudGcpVmsIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudGcpVmsIntegration) ImplementsCloudIntegration() {}
@@ -4235,7 +4241,7 @@ type CloudGcpVmsIntegrationInput struct {
 // CloudGcpVpcaccessIntegration - VPC Access Integration
 type CloudGcpVpcaccessIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -4251,7 +4257,7 @@ type CloudGcpVpcaccessIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudGcpVpcaccessIntegration) ImplementsCloudIntegration() {}
@@ -4269,7 +4275,7 @@ type CloudGcpVpcaccessIntegrationInput struct {
 // CloudHealthIntegration - Health Integration
 type CloudHealthIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -4285,7 +4291,7 @@ type CloudHealthIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudHealthIntegration) ImplementsCloudIntegration() {}
@@ -4303,7 +4309,7 @@ type CloudHealthIntegrationInput struct {
 // CloudIamIntegration - IAM Integration
 type CloudIamIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -4323,7 +4329,7 @@ type CloudIamIntegration struct {
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
 	TagValue string `json:"tagValue"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudIamIntegration) ImplementsCloudIntegration() {}
@@ -4345,7 +4351,7 @@ type CloudIamIntegrationInput struct {
 // CloudIntegration - The configuration of a cloud service integration for a linked account.
 type CloudIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// The parent linked account identifier.
@@ -4357,7 +4363,7 @@ type CloudIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudIntegration) ImplementsCloudIntegration() {}
@@ -4393,7 +4399,7 @@ type CloudIotIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -4409,7 +4415,7 @@ type CloudIotIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudIotIntegration) ImplementsCloudIntegration() {}
@@ -4431,7 +4437,7 @@ type CloudKinesisFirehoseIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -4447,7 +4453,7 @@ type CloudKinesisFirehoseIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudKinesisFirehoseIntegration) ImplementsCloudIntegration() {}
@@ -4469,7 +4475,7 @@ type CloudKinesisIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Specify if Shards should be monitored. May affect total data collection time and contribute to the Cloud provider API rate limit.
 	FetchShards bool `json:"fetchShards"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
@@ -4493,7 +4499,7 @@ type CloudKinesisIntegration struct {
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
 	TagValue string `json:"tagValue"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudKinesisIntegration) ImplementsCloudIntegration() {}
@@ -4523,7 +4529,7 @@ type CloudLambdaIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
 	FetchTags bool `json:"fetchTags"`
 	// The cloud service integration identifier.
@@ -4545,7 +4551,7 @@ type CloudLambdaIntegration struct {
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
 	TagValue string `json:"tagValue"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudLambdaIntegration) ImplementsCloudIntegration() {}
@@ -4579,13 +4585,13 @@ type CloudLinkAccountPayload struct {
 // CloudLinkCloudAccountsInput - Specific Cloud provider information required to link the Cloud provider account to a NewRelic account.
 type CloudLinkCloudAccountsInput struct {
 	// Aws provider
-	Aws []CloudAwsLinkAccountInput `json:"aws,omitempty"`
+	Aws []CloudAwsLinkAccountInput `json:"aws"`
 	// AwsGovcloud provider
-	AwsGovcloud []CloudAwsGovcloudLinkAccountInput `json:"awsGovcloud,omitempty"`
+	AwsGovcloud []CloudAwsGovcloudLinkAccountInput `json:"awsGovcloud"`
 	// Azure provider
-	Azure []CloudAzureLinkAccountInput `json:"azure,omitempty"`
+	Azure []CloudAzureLinkAccountInput `json:"azure"`
 	// Gcp provider
-	Gcp []CloudGcpLinkAccountInput `json:"gcp,omitempty"`
+	Gcp []CloudGcpLinkAccountInput `json:"gcp"`
 }
 
 // CloudLinkedAccount - A cloud account linked to a NewRelic account.
@@ -4593,7 +4599,7 @@ type CloudLinkedAccount struct {
 	// The credential. This is a Role ARN for AWS, an application ID for Azure and a service account ID or user account email for GCP.
 	AuthLabel string `json:"authLabel"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Indicates whether the account disabled.
 	Disabled bool `json:"disabled"`
 	// The cloud account identifier. This is the Account ID in AWS, the Subscription ID in Azure and the Project ID in GCP.
@@ -4611,7 +4617,7 @@ type CloudLinkedAccount struct {
 	// The cloud provider.
 	Provider CloudProviderInterface `json:"provider"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 // special
@@ -4659,6 +4665,9 @@ func (x *CloudLinkedAccount) UnmarshalJSON(b []byte) error {
 				x.Integration = *xxx
 			}
 		case "integrations":
+			if v == nil {
+				continue
+			}
 			var rawMessageIntegrations []*json.RawMessage
 			err = json.Unmarshal(*v, &rawMessageIntegrations)
 			if err != nil {
@@ -4708,7 +4717,7 @@ func (x *CloudLinkedAccount) UnmarshalJSON(b []byte) error {
 // CloudProvider - A cloud services provider.
 type CloudProvider struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud provider identifier in NewRelic.
 	ID int `json:"id"`
 	// The cloud provider icon name.
@@ -4722,7 +4731,7 @@ type CloudProvider struct {
 	// The cloud provider short name.
 	Slug string `json:"slug"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudProvider) ImplementsCloudProvider() {}
@@ -4732,7 +4741,7 @@ type CloudRdsIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
 	FetchTags bool `json:"fetchTags"`
 	// The cloud service integration identifier.
@@ -4754,7 +4763,7 @@ type CloudRdsIntegration struct {
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
 	TagValue string `json:"tagValue"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudRdsIntegration) ImplementsCloudIntegration() {}
@@ -4782,7 +4791,7 @@ type CloudRedshiftIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -4802,7 +4811,7 @@ type CloudRedshiftIntegration struct {
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
 	TagValue string `json:"tagValue"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudRedshiftIntegration) ImplementsCloudIntegration() {}
@@ -4842,7 +4851,7 @@ type CloudRenameAccountsInput struct {
 // CloudRoute53Integration - Route 53 Integration
 type CloudRoute53Integration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Determine if extra inventory data be collected or not. May affect total data collection time and contribute to the Cloud provider API rate limit.
 	FetchExtendedInventory bool `json:"fetchExtendedInventory"`
 	// The cloud service integration identifier.
@@ -4860,7 +4869,7 @@ type CloudRoute53Integration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudRoute53Integration) ImplementsCloudIntegration() {}
@@ -4880,7 +4889,7 @@ type CloudRoute53IntegrationInput struct {
 // CloudS3Integration - S3 Integration
 type CloudS3Integration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Determine if extra inventory data be collected or not. May affect total data collection time and contribute to the Cloud provider API rate limit.
 	FetchExtendedInventory bool `json:"fetchExtendedInventory"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
@@ -4904,7 +4913,7 @@ type CloudS3Integration struct {
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
 	TagValue string `json:"tagValue"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudS3Integration) ImplementsCloudIntegration() {}
@@ -4930,7 +4939,7 @@ type CloudS3IntegrationInput struct {
 // CloudService - A Cloud Provider service available for monitoring.
 type CloudService struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service identifier in NewRelic.
 	ID int `json:"id"`
 	// The cloud service icon name.
@@ -4944,7 +4953,7 @@ type CloudService struct {
 	// The cloud service unique short name.
 	Slug string `json:"slug"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 // special
@@ -5012,7 +5021,7 @@ type CloudSesIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -5028,7 +5037,7 @@ type CloudSesIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudSesIntegration) ImplementsCloudIntegration() {}
@@ -5050,7 +5059,7 @@ type CloudSnsIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Determine if extra inventory data be collected or not. May affect total data collection time and contribute to the Cloud provider API rate limit.
 	FetchExtendedInventory bool `json:"fetchExtendedInventory"`
 	// The cloud service integration identifier.
@@ -5068,7 +5077,7 @@ type CloudSnsIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudSnsIntegration) ImplementsCloudIntegration() {}
@@ -5092,7 +5101,7 @@ type CloudSqsIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Determine if extra inventory data be collected or not. May affect total data collection time and contribute to the Cloud provider API rate limit.
 	FetchExtendedInventory bool `json:"fetchExtendedInventory"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
@@ -5118,7 +5127,7 @@ type CloudSqsIntegration struct {
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
 	TagValue string `json:"tagValue"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudSqsIntegration) ImplementsCloudIntegration() {}
@@ -5148,7 +5157,7 @@ type CloudSqsIntegrationInput struct {
 // CloudTrustedadvisorIntegration - Trusted Advisor Integration
 type CloudTrustedadvisorIntegration struct {
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -5164,7 +5173,7 @@ type CloudTrustedadvisorIntegration struct {
 	// The cloud service used in the integration.
 	Service CloudService `json:"service"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudTrustedadvisorIntegration) ImplementsCloudIntegration() {}
@@ -5198,7 +5207,7 @@ type CloudVpcIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions"`
 	// The object creation date, in epoch (Unix) time
-	CreatedAt serialization.EpochTime `json:"createdAt"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Specify if NAT gateway should be monitored. May affect total data collection time and contribute to the Cloud provider API rate limit.
 	FetchNatGateway bool `json:"fetchNatGateway"`
 	// Specify if VPN should be monitored. May affect total data collection time and contribute to the Cloud provider API rate limit.
@@ -5222,7 +5231,7 @@ type CloudVpcIntegration struct {
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
 	TagValue string `json:"tagValue"`
 	// The object last update date, in epoch (Unix) time
-	UpdatedAt serialization.EpochTime `json:"updatedAt"`
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 func (x *CloudVpcIntegration) ImplementsCloudIntegration() {}

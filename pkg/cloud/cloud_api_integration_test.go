@@ -27,8 +27,10 @@ func TestCloudAccount_Basic(t *testing.T) {
 
 	for _, linkedAccount := range *getResponse {
 		if linkedAccount.NrAccountId == mock.TestAccountID {
-			a.CloudUnlinkAccount(mock.TestAccountID, CloudUnlinkAccountsInput{
-				LinkedAccountId: linkedAccount.ID,
+			a.CloudUnlinkAccount(mock.TestAccountID, []CloudUnlinkAccountsInput{
+				{
+					LinkedAccountId: linkedAccount.ID,
+				},
 			})
 		}
 	}
@@ -60,9 +62,11 @@ func TestCloudAccount_Basic(t *testing.T) {
 
 	// Rename the account
 	newName := "NEW-DTK-NAME"
-	renameResponse, err := a.CloudRenameAccount(mock.TestAccountID, CloudRenameAccountsInput{
-		LinkedAccountId: linkedAccountID,
-		Name:            newName,
+	renameResponse, err := a.CloudRenameAccount(mock.TestAccountID, []CloudRenameAccountsInput{
+		{
+			LinkedAccountId: linkedAccountID,
+			Name:            newName,
+		},
 	})
 	require.NoError(t, err)
 	require.NotNil(t, renameResponse)

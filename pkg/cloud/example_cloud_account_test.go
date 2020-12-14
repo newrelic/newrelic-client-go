@@ -41,16 +41,18 @@ func Example_cloudAccounts() {
 	linkedAccountID := linkResponse.LinkedAccounts[0].ID
 
 	// Rename a linked account
-	_, err = client.CloudRenameAccount(mock.TestAccountID, CloudRenameAccountsInput{
-		LinkedAccountId: linkedAccountID,
-		Name:            "My Renamed Linked AWS Account",
+	_, err = client.CloudRenameAccount(mock.TestAccountID, []CloudRenameAccountsInput{
+		{
+			LinkedAccountId: linkedAccountID,
+			Name:            "My Renamed Linked AWS Account",
+		},
 	})
 	if err != nil {
 		log.Fatal("error renaming linked cloud account:", err)
 	}
 
 	// Unlink a linked account
-	_, err = client.CloudUnlinkAccount(mock.TestAccountID, CloudUnlinkAccountsInput{linkedAccountID})
+	_, err = client.CloudUnlinkAccount(mock.TestAccountID, []CloudUnlinkAccountsInput{{linkedAccountID}})
 	if err != nil {
 		log.Fatal("error unlinking linked cloud account:", err)
 	}
