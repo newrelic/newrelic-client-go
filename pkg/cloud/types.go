@@ -11,35 +11,35 @@ import (
 // Actor - The `Actor` object contains fields that are scoped to the API user's access level.
 type Actor struct {
 	// The `cloud` field provides access to cloud integrations configuration data scoped to the Actor.
-	Cloud CloudActorFields `json:"cloud"`
+	Cloud CloudActorFields `json:"cloud,omitempty"`
 }
 
 // CloudAPIgatewayIntegration - API Gateway Integration
 type CloudAPIgatewayIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// Specify each name or prefix for the Stages that you want to monitor. Filter values are case-sensitive.
-	StagePrefixes []string `json:"stagePrefixes"`
+	StagePrefixes []string `json:"stagePrefixes,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -49,31 +49,31 @@ func (x *CloudAPIgatewayIntegration) ImplementsCloudIntegration() {}
 // CloudAPIgatewayIntegrationInput - Amazon API Gateway
 type CloudAPIgatewayIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify each name or prefix for the Stages that you want to monitor. Filter values are case-sensitive.
-	StagePrefixes []string `json:"stagePrefixes"`
+	StagePrefixes []string `json:"stagePrefixes,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 }
 
 // CloudAccountMutationError - Account Mutation Error
 type CloudAccountMutationError struct {
 	// The passed linked account identifier.
-	LinkedAccountId int `json:"linkedAccountId"`
+	LinkedAccountId int `json:"linkedAccountId,omitempty"`
 	// The error message.
 	Message string `json:"message"`
 	// The passed newrelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The passed provider slug.
-	ProviderSlug string `json:"providerSlug"`
+	ProviderSlug string `json:"providerSlug,omitempty"`
 	// The error status.
 	Type string `json:"type"`
 }
@@ -81,39 +81,39 @@ type CloudAccountMutationError struct {
 // CloudActorFields -
 type CloudActorFields struct {
 	// Get all linked cloud provider accounts scoped to the Actor.
-	LinkedAccounts []CloudLinkedAccount `json:"linkedAccounts"`
+	LinkedAccounts []CloudLinkedAccount `json:"linkedAccounts,omitempty"`
 }
 
 // CloudAlbIntegration - ALB/NLB Integration
 type CloudAlbIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Determine if extra inventory data be collected or not. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchExtendedInventory bool `json:"fetchExtendedInventory"`
+	FetchExtendedInventory bool `json:"fetchExtendedInventory,omitempty"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// Specify each name or prefix for the LBs that you want to monitor. Filter values are case-sensitive.
-	LoadBalancerPrefixes []string `json:"loadBalancerPrefixes"`
+	LoadBalancerPrefixes []string `json:"loadBalancerPrefixes,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -123,45 +123,45 @@ func (x *CloudAlbIntegration) ImplementsCloudIntegration() {}
 // CloudAlbIntegrationInput - Elastic Load Balancing - Application Load Balancer (ALB)
 type CloudAlbIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// Determine if extra inventory data be collected or not. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchExtendedInventory bool `json:"fetchExtendedInventory"`
+	FetchExtendedInventory bool `json:"fetchExtendedInventory,omitempty"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// Specify each name or prefix for the LBs that you want to monitor. Filter values are case-sensitive.
-	LoadBalancerPrefixes []string `json:"loadBalancerPrefixes"`
+	LoadBalancerPrefixes []string `json:"loadBalancerPrefixes,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 }
 
 // CloudAutoscalingIntegration - AutoScaling Integration
 type CloudAutoscalingIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -171,35 +171,35 @@ func (x *CloudAutoscalingIntegration) ImplementsCloudIntegration() {}
 // CloudAutoscalingIntegrationInput - AWS Auto Scaling
 type CloudAutoscalingIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudAwsAppsyncIntegration - AppSync Integration
 type CloudAwsAppsyncIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -209,35 +209,35 @@ func (x *CloudAwsAppsyncIntegration) ImplementsCloudIntegration() {}
 // CloudAwsAppsyncIntegrationInput - AppSync
 type CloudAwsAppsyncIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudAwsAthenaIntegration - Athena Integration
 type CloudAwsAthenaIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -247,35 +247,35 @@ func (x *CloudAwsAthenaIntegration) ImplementsCloudIntegration() {}
 // CloudAwsAthenaIntegrationInput - Athena
 type CloudAwsAthenaIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudAwsCognitoIntegration - Cognito Integration
 type CloudAwsCognitoIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -285,35 +285,35 @@ func (x *CloudAwsCognitoIntegration) ImplementsCloudIntegration() {}
 // CloudAwsCognitoIntegrationInput - Cognito
 type CloudAwsCognitoIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudAwsConnectIntegration - Connect Integration
 type CloudAwsConnectIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -323,35 +323,35 @@ func (x *CloudAwsConnectIntegration) ImplementsCloudIntegration() {}
 // CloudAwsConnectIntegrationInput - Connect
 type CloudAwsConnectIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudAwsDirectconnectIntegration - Direct Connect Integration
 type CloudAwsDirectconnectIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -361,13 +361,13 @@ func (x *CloudAwsDirectconnectIntegration) ImplementsCloudIntegration() {}
 // CloudAwsDirectconnectIntegrationInput - Direct Connect
 type CloudAwsDirectconnectIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudAwsDisableIntegrationsInput - List of integrations
@@ -481,23 +481,23 @@ type CloudAwsDisableIntegrationsInput struct {
 // CloudAwsDocdbIntegration - DocumentDB Integration
 type CloudAwsDocdbIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -507,35 +507,35 @@ func (x *CloudAwsDocdbIntegration) ImplementsCloudIntegration() {}
 // CloudAwsDocdbIntegrationInput - DocumentDB
 type CloudAwsDocdbIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudAwsFsxIntegration - FSx Integration
 type CloudAwsFsxIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -545,35 +545,35 @@ func (x *CloudAwsFsxIntegration) ImplementsCloudIntegration() {}
 // CloudAwsFsxIntegrationInput - FSx
 type CloudAwsFsxIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudAwsGlueIntegration - Glue Integration
 type CloudAwsGlueIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -583,13 +583,13 @@ func (x *CloudAwsGlueIntegration) ImplementsCloudIntegration() {}
 // CloudAwsGlueIntegrationInput - Glue
 type CloudAwsGlueIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudAwsGovCloudProvider - The Amazon Web Services cloud provider (GovCloud)
@@ -605,7 +605,7 @@ type CloudAwsGovCloudProvider struct {
 	// The cloud provider name.
 	Name string `json:"name"`
 	// Get details of one cloud provider service.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// Get details of all the cloud provider services available for integration.
 	Services []CloudService `json:"services"`
 	// The cloud provider short name.
@@ -827,23 +827,23 @@ type CloudAwsIntegrationsInput struct {
 // CloudAwsKinesisanalyticsIntegration - Kinesis Data Analytics Integration
 type CloudAwsKinesisanalyticsIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -853,13 +853,13 @@ func (x *CloudAwsKinesisanalyticsIntegration) ImplementsCloudIntegration() {}
 // CloudAwsKinesisanalyticsIntegrationInput - Kinesis Data Analytics
 type CloudAwsKinesisanalyticsIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudAwsLinkAccountInput - Information required to link a AWS account to a NewRelic account.
@@ -873,23 +873,23 @@ type CloudAwsLinkAccountInput struct {
 // CloudAwsMediaconvertIntegration - Elemental MediaConvert Integration
 type CloudAwsMediaconvertIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -899,35 +899,35 @@ func (x *CloudAwsMediaconvertIntegration) ImplementsCloudIntegration() {}
 // CloudAwsMediaconvertIntegrationInput - Elemental MediaConvert
 type CloudAwsMediaconvertIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudAwsMediapackagevodIntegration - MediaPackage VOD Integration
 type CloudAwsMediapackagevodIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -937,35 +937,35 @@ func (x *CloudAwsMediapackagevodIntegration) ImplementsCloudIntegration() {}
 // CloudAwsMediapackagevodIntegrationInput - MediaPackage VOD
 type CloudAwsMediapackagevodIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudAwsMqIntegration - MQ Integration
 type CloudAwsMqIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -975,35 +975,35 @@ func (x *CloudAwsMqIntegration) ImplementsCloudIntegration() {}
 // CloudAwsMqIntegrationInput - MQ
 type CloudAwsMqIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudAwsMskIntegration - Managed Kafka Integration
 type CloudAwsMskIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -1013,35 +1013,35 @@ func (x *CloudAwsMskIntegration) ImplementsCloudIntegration() {}
 // CloudAwsMskIntegrationInput - Managed Kafka
 type CloudAwsMskIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudAwsNeptuneIntegration - Neptune Integration
 type CloudAwsNeptuneIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -1051,13 +1051,13 @@ func (x *CloudAwsNeptuneIntegration) ImplementsCloudIntegration() {}
 // CloudAwsNeptuneIntegrationInput - Neptune
 type CloudAwsNeptuneIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudAwsProvider - The Amazon Web Services cloud provider
@@ -1075,7 +1075,7 @@ type CloudAwsProvider struct {
 	// The external ID required to assume the Role by the New Relic Account.
 	RoleExternalId string `json:"roleExternalId"`
 	// Get details of one cloud provider service.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// Get details of all the cloud provider services available for integration.
 	Services []CloudService `json:"services"`
 	// The cloud provider short name.
@@ -1089,23 +1089,23 @@ func (x *CloudAwsProvider) ImplementsCloudProvider() {}
 // CloudAwsQldbIntegration - QLDB Integration
 type CloudAwsQldbIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -1115,35 +1115,35 @@ func (x *CloudAwsQldbIntegration) ImplementsCloudIntegration() {}
 // CloudAwsQldbIntegrationInput - QLDB
 type CloudAwsQldbIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudAwsRoute53resolverIntegration - Route53 Resolver Integration
 type CloudAwsRoute53resolverIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -1153,35 +1153,35 @@ func (x *CloudAwsRoute53resolverIntegration) ImplementsCloudIntegration() {}
 // CloudAwsRoute53resolverIntegrationInput - Route53 Resolver
 type CloudAwsRoute53resolverIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudAwsStatesIntegration - Step Functions Integration
 type CloudAwsStatesIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -1191,35 +1191,35 @@ func (x *CloudAwsStatesIntegration) ImplementsCloudIntegration() {}
 // CloudAwsStatesIntegrationInput - Step Functions
 type CloudAwsStatesIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudAwsTransitgatewayIntegration - Transit Gateway Integration
 type CloudAwsTransitgatewayIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -1229,35 +1229,35 @@ func (x *CloudAwsTransitgatewayIntegration) ImplementsCloudIntegration() {}
 // CloudAwsTransitgatewayIntegrationInput - Transit Gateway
 type CloudAwsTransitgatewayIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudAwsWafIntegration - WAF Integration
 type CloudAwsWafIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -1267,35 +1267,35 @@ func (x *CloudAwsWafIntegration) ImplementsCloudIntegration() {}
 // CloudAwsWafIntegrationInput - WAF
 type CloudAwsWafIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudAwsWafv2Integration - WAFV2 Integration
 type CloudAwsWafv2Integration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -1305,35 +1305,35 @@ func (x *CloudAwsWafv2Integration) ImplementsCloudIntegration() {}
 // CloudAwsWafv2IntegrationInput - WAFV2
 type CloudAwsWafv2IntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudAwsXrayIntegration - X-Ray Integration
 type CloudAwsXrayIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -1343,13 +1343,13 @@ func (x *CloudAwsXrayIntegration) ImplementsCloudIntegration() {}
 // CloudAwsXrayIntegrationInput - X-Ray
 type CloudAwsXrayIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudAzureAPImanagementIntegration - Api Management Integration
@@ -1357,21 +1357,21 @@ type CloudAzureAPImanagementIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -1381,13 +1381,13 @@ func (x *CloudAzureAPImanagementIntegration) ImplementsCloudIntegration() {}
 // CloudAzureAPImanagementIntegrationInput - Api Management
 type CloudAzureAPImanagementIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 }
 
 // CloudAzureAppgatewayIntegration - App Gateway Integration
@@ -1395,21 +1395,21 @@ type CloudAzureAppgatewayIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -1419,13 +1419,13 @@ func (x *CloudAzureAppgatewayIntegration) ImplementsCloudIntegration() {}
 // CloudAzureAppgatewayIntegrationInput - App Gateway
 type CloudAzureAppgatewayIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 }
 
 // CloudAzureAppserviceIntegration - App Service Integration
@@ -1433,21 +1433,21 @@ type CloudAzureAppserviceIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -1457,13 +1457,13 @@ func (x *CloudAzureAppserviceIntegration) ImplementsCloudIntegration() {}
 // CloudAzureAppserviceIntegrationInput - Azure App Service
 type CloudAzureAppserviceIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 }
 
 // CloudAzureContainersIntegration - Containers Integration
@@ -1471,21 +1471,21 @@ type CloudAzureContainersIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -1495,13 +1495,13 @@ func (x *CloudAzureContainersIntegration) ImplementsCloudIntegration() {}
 // CloudAzureContainersIntegrationInput - Containers
 type CloudAzureContainersIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 }
 
 // CloudAzureCosmosdbIntegration - Cosmos DB Integration
@@ -1509,21 +1509,21 @@ type CloudAzureCosmosdbIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -1533,13 +1533,13 @@ func (x *CloudAzureCosmosdbIntegration) ImplementsCloudIntegration() {}
 // CloudAzureCosmosdbIntegrationInput - Azure Cosmos DB
 type CloudAzureCosmosdbIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 }
 
 // CloudAzureCostmanagementIntegration - Cost Management Integration
@@ -1547,21 +1547,21 @@ type CloudAzureCostmanagementIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// Specify if additional cost data per tag should be collected. This field is case sensitive.
-	TagKeys []string `json:"tagKeys"`
+	TagKeys []string `json:"tagKeys,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -1571,13 +1571,13 @@ func (x *CloudAzureCostmanagementIntegration) ImplementsCloudIntegration() {}
 // CloudAzureCostmanagementIntegrationInput - Cost Management
 type CloudAzureCostmanagementIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify if additional cost data per tag should be collected. This field is case sensitive.
-	TagKeys []string `json:"tagKeys"`
+	TagKeys []string `json:"tagKeys,omitempty"`
 }
 
 // CloudAzureDatafactoryIntegration - Data Factory Integration
@@ -1585,21 +1585,21 @@ type CloudAzureDatafactoryIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -1609,13 +1609,13 @@ func (x *CloudAzureDatafactoryIntegration) ImplementsCloudIntegration() {}
 // CloudAzureDatafactoryIntegrationInput - Data Factory
 type CloudAzureDatafactoryIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 }
 
 // CloudAzureDisableIntegrationsInput - List of integrations
@@ -1687,21 +1687,21 @@ type CloudAzureEventhubIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -1711,13 +1711,13 @@ func (x *CloudAzureEventhubIntegration) ImplementsCloudIntegration() {}
 // CloudAzureEventhubIntegrationInput - Event Hub
 type CloudAzureEventhubIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 }
 
 // CloudAzureExpressrouteIntegration - Express Route Integration
@@ -1725,21 +1725,21 @@ type CloudAzureExpressrouteIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -1749,13 +1749,13 @@ func (x *CloudAzureExpressrouteIntegration) ImplementsCloudIntegration() {}
 // CloudAzureExpressrouteIntegrationInput - Express Route
 type CloudAzureExpressrouteIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 }
 
 // CloudAzureFirewallsIntegration - Firewalls Integration
@@ -1763,21 +1763,21 @@ type CloudAzureFirewallsIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -1787,13 +1787,13 @@ func (x *CloudAzureFirewallsIntegration) ImplementsCloudIntegration() {}
 // CloudAzureFirewallsIntegrationInput - Firewalls
 type CloudAzureFirewallsIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 }
 
 // CloudAzureFrontdoorIntegration - Front Door Integration
@@ -1801,21 +1801,21 @@ type CloudAzureFrontdoorIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -1825,13 +1825,13 @@ func (x *CloudAzureFrontdoorIntegration) ImplementsCloudIntegration() {}
 // CloudAzureFrontdoorIntegrationInput - Front Door
 type CloudAzureFrontdoorIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 }
 
 // CloudAzureFunctionsIntegration - Functions Integration
@@ -1839,21 +1839,21 @@ type CloudAzureFunctionsIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -1863,13 +1863,13 @@ func (x *CloudAzureFunctionsIntegration) ImplementsCloudIntegration() {}
 // CloudAzureFunctionsIntegrationInput - Azure Functions
 type CloudAzureFunctionsIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 }
 
 // CloudAzureIntegrationsInput - List of integrations
@@ -1941,21 +1941,21 @@ type CloudAzureKeyvaultIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -1965,13 +1965,13 @@ func (x *CloudAzureKeyvaultIntegration) ImplementsCloudIntegration() {}
 // CloudAzureKeyvaultIntegrationInput - Key Vault
 type CloudAzureKeyvaultIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 }
 
 // CloudAzureLinkAccountInput - Information required to link a Azure account to a NewRelic account.
@@ -1993,21 +1993,21 @@ type CloudAzureLoadbalancerIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -2017,13 +2017,13 @@ func (x *CloudAzureLoadbalancerIntegration) ImplementsCloudIntegration() {}
 // CloudAzureLoadbalancerIntegrationInput - Azure Load Balancer
 type CloudAzureLoadbalancerIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 }
 
 // CloudAzureLogicappsIntegration - Logic Apps Integration
@@ -2031,21 +2031,21 @@ type CloudAzureLogicappsIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -2055,13 +2055,13 @@ func (x *CloudAzureLogicappsIntegration) ImplementsCloudIntegration() {}
 // CloudAzureLogicappsIntegrationInput - Logic Apps
 type CloudAzureLogicappsIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 }
 
 // CloudAzureMachinelearningIntegration - Machine Learning Integration
@@ -2069,21 +2069,21 @@ type CloudAzureMachinelearningIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -2093,13 +2093,13 @@ func (x *CloudAzureMachinelearningIntegration) ImplementsCloudIntegration() {}
 // CloudAzureMachinelearningIntegrationInput - Machine Learning
 type CloudAzureMachinelearningIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 }
 
 // CloudAzureMariadbIntegration - Database for MariaDB Integration
@@ -2107,21 +2107,21 @@ type CloudAzureMariadbIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -2131,13 +2131,13 @@ func (x *CloudAzureMariadbIntegration) ImplementsCloudIntegration() {}
 // CloudAzureMariadbIntegrationInput - Database for MariaDB
 type CloudAzureMariadbIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 }
 
 // CloudAzureMysqlIntegration - Database for MySQL Integration
@@ -2145,21 +2145,21 @@ type CloudAzureMysqlIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -2169,13 +2169,13 @@ func (x *CloudAzureMysqlIntegration) ImplementsCloudIntegration() {}
 // CloudAzureMysqlIntegrationInput - Database for MySQL
 type CloudAzureMysqlIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 }
 
 // CloudAzurePostgresqlIntegration - Database for PostgreSQL Integration
@@ -2183,21 +2183,21 @@ type CloudAzurePostgresqlIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -2207,13 +2207,13 @@ func (x *CloudAzurePostgresqlIntegration) ImplementsCloudIntegration() {}
 // CloudAzurePostgresqlIntegrationInput - Database for PostgreSQL
 type CloudAzurePostgresqlIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 }
 
 // CloudAzurePowerbidedicatedIntegration - Power BI Dedicated Integration
@@ -2221,21 +2221,21 @@ type CloudAzurePowerbidedicatedIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -2245,13 +2245,13 @@ func (x *CloudAzurePowerbidedicatedIntegration) ImplementsCloudIntegration() {}
 // CloudAzurePowerbidedicatedIntegrationInput - Power BI Dedicated
 type CloudAzurePowerbidedicatedIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 }
 
 // CloudAzureRediscacheIntegration - Redis Cache Integration
@@ -2259,21 +2259,21 @@ type CloudAzureRediscacheIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -2283,13 +2283,13 @@ func (x *CloudAzureRediscacheIntegration) ImplementsCloudIntegration() {}
 // CloudAzureRediscacheIntegrationInput - Azure Redis Cache
 type CloudAzureRediscacheIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 }
 
 // CloudAzureServicebusIntegration - Service Bus Integration
@@ -2297,21 +2297,21 @@ type CloudAzureServicebusIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -2321,13 +2321,13 @@ func (x *CloudAzureServicebusIntegration) ImplementsCloudIntegration() {}
 // CloudAzureServicebusIntegrationInput - Azure Service Bus
 type CloudAzureServicebusIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 }
 
 // CloudAzureServicefabricIntegration - Service Fabric Integration
@@ -2335,21 +2335,21 @@ type CloudAzureServicefabricIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -2359,13 +2359,13 @@ func (x *CloudAzureServicefabricIntegration) ImplementsCloudIntegration() {}
 // CloudAzureServicefabricIntegrationInput - Service Fabric
 type CloudAzureServicefabricIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 }
 
 // CloudAzureSqlIntegration - SQL Database Integration
@@ -2373,21 +2373,21 @@ type CloudAzureSqlIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -2397,13 +2397,13 @@ func (x *CloudAzureSqlIntegration) ImplementsCloudIntegration() {}
 // CloudAzureSqlIntegrationInput - Azure SQL Database
 type CloudAzureSqlIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 }
 
 // CloudAzureSqlmanagedIntegration - SQL Managed Instances Integration
@@ -2411,21 +2411,21 @@ type CloudAzureSqlmanagedIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -2435,13 +2435,13 @@ func (x *CloudAzureSqlmanagedIntegration) ImplementsCloudIntegration() {}
 // CloudAzureSqlmanagedIntegrationInput - SQL Managed Instances
 type CloudAzureSqlmanagedIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 }
 
 // CloudAzureStorageIntegration - Storage Integration
@@ -2449,21 +2449,21 @@ type CloudAzureStorageIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -2473,13 +2473,13 @@ func (x *CloudAzureStorageIntegration) ImplementsCloudIntegration() {}
 // CloudAzureStorageIntegrationInput - Azure Storage
 type CloudAzureStorageIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 }
 
 // CloudAzureVirtualmachineIntegration - Virtual machine scale sets Integration
@@ -2487,21 +2487,21 @@ type CloudAzureVirtualmachineIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -2511,13 +2511,13 @@ func (x *CloudAzureVirtualmachineIntegration) ImplementsCloudIntegration() {}
 // CloudAzureVirtualmachineIntegrationInput - Virtual machine scale sets
 type CloudAzureVirtualmachineIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 }
 
 // CloudAzureVirtualnetworksIntegration - Virtual Network Integration
@@ -2525,21 +2525,21 @@ type CloudAzureVirtualnetworksIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -2549,13 +2549,13 @@ func (x *CloudAzureVirtualnetworksIntegration) ImplementsCloudIntegration() {}
 // CloudAzureVirtualnetworksIntegrationInput - Azure Virtual Network
 type CloudAzureVirtualnetworksIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 }
 
 // CloudAzureVmsIntegration - Virtual Machines Integration
@@ -2563,21 +2563,21 @@ type CloudAzureVmsIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -2587,13 +2587,13 @@ func (x *CloudAzureVmsIntegration) ImplementsCloudIntegration() {}
 // CloudAzureVmsIntegrationInput - Azure Virtual Machines
 type CloudAzureVmsIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 }
 
 // CloudAzureVpngatewaysIntegration - VPN Gateways Integration
@@ -2601,21 +2601,21 @@ type CloudAzureVpngatewaysIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -2625,13 +2625,13 @@ func (x *CloudAzureVpngatewaysIntegration) ImplementsCloudIntegration() {}
 // CloudAzureVpngatewaysIntegrationInput - VPN Gateways
 type CloudAzureVpngatewaysIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups"`
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
 }
 
 // CloudBaseIntegration - Base Integration Object
@@ -2639,15 +2639,15 @@ type CloudBaseIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -2665,7 +2665,7 @@ type CloudBaseProvider struct {
 	// The cloud provider name.
 	Name string `json:"name"`
 	// Get details of one cloud provider service.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// Get details of all the cloud provider services available for integration.
 	Services []CloudService `json:"services"`
 	// The cloud provider short name.
@@ -2681,19 +2681,19 @@ type CloudBillingIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -2703,11 +2703,11 @@ func (x *CloudBillingIntegration) ImplementsCloudIntegration() {}
 // CloudBillingIntegrationInput - AWS Billing
 type CloudBillingIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudCloudfrontIntegration - CloudFront Integration
@@ -2715,27 +2715,27 @@ type CloudCloudfrontIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Specify if Lambdas@Edge should be monitored. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchLambdasAtEdge bool `json:"fetchLambdasAtEdge"`
+	FetchLambdasAtEdge bool `json:"fetchLambdasAtEdge,omitempty"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -2745,41 +2745,41 @@ func (x *CloudCloudfrontIntegration) ImplementsCloudIntegration() {}
 // CloudCloudfrontIntegrationInput - Amazon CloudFront
 type CloudCloudfrontIntegrationInput struct {
 	// Specify if Lambdas@Edge should be monitored. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchLambdasAtEdge bool `json:"fetchLambdasAtEdge"`
+	FetchLambdasAtEdge bool `json:"fetchLambdasAtEdge,omitempty"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 }
 
 // CloudCloudtrailIntegration - CloudTrail Integration
 type CloudCloudtrailIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -2789,13 +2789,13 @@ func (x *CloudCloudtrailIntegration) ImplementsCloudIntegration() {}
 // CloudCloudtrailIntegrationInput - AWS CloudTrail
 type CloudCloudtrailIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudConfigureIntegrationPayload - Autogenerated return type of ConfigureIntegration
@@ -2917,31 +2917,31 @@ type CloudDisableIntegrationsInput struct {
 // CloudDynamodbIntegration - DynamoDB Integration
 type CloudDynamodbIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Determine if extra inventory data be collected or not. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchExtendedInventory bool `json:"fetchExtendedInventory"`
+	FetchExtendedInventory bool `json:"fetchExtendedInventory,omitempty"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -2951,49 +2951,49 @@ func (x *CloudDynamodbIntegration) ImplementsCloudIntegration() {}
 // CloudDynamodbIntegrationInput - Amazon DynamoDB
 type CloudDynamodbIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// Determine if extra inventory data be collected or not. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchExtendedInventory bool `json:"fetchExtendedInventory"`
+	FetchExtendedInventory bool `json:"fetchExtendedInventory,omitempty"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 }
 
 // CloudEbsIntegration - EBS Integration
 type CloudEbsIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Determine if extra inventory data be collected or not. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchExtendedInventory bool `json:"fetchExtendedInventory"`
+	FetchExtendedInventory bool `json:"fetchExtendedInventory,omitempty"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -3003,47 +3003,47 @@ func (x *CloudEbsIntegration) ImplementsCloudIntegration() {}
 // CloudEbsIntegrationInput - Amazon Elastic Block Store (EBS)
 type CloudEbsIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// Determine if extra inventory data be collected or not. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchExtendedInventory bool `json:"fetchExtendedInventory"`
+	FetchExtendedInventory bool `json:"fetchExtendedInventory,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 }
 
 // CloudEc2Integration - EC2 Integration
 type CloudEc2Integration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Specify if IP addresses of ec2 instance should be collected
-	FetchIpAddresses bool `json:"fetchIpAddresses"`
+	FetchIpAddresses bool `json:"fetchIpAddresses,omitempty"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -3053,47 +3053,47 @@ func (x *CloudEc2Integration) ImplementsCloudIntegration() {}
 // CloudEc2IntegrationInput - Amazon Elastic Compute Cloud (EC2)
 type CloudEc2IntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// Specify if IP addresses of ec2 instance should be collected
-	FetchIpAddresses bool `json:"fetchIpAddresses"`
+	FetchIpAddresses bool `json:"fetchIpAddresses,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 }
 
 // CloudEcsIntegration - ECS Integration
 type CloudEcsIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -3103,47 +3103,47 @@ func (x *CloudEcsIntegration) ImplementsCloudIntegration() {}
 // CloudEcsIntegrationInput - Amazon Elastic Container Service (ECS)
 type CloudEcsIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 }
 
 // CloudEfsIntegration - EFS Integration
 type CloudEfsIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -3153,47 +3153,47 @@ func (x *CloudEfsIntegration) ImplementsCloudIntegration() {}
 // CloudEfsIntegrationInput - Amazon Elastic File System (EFS)
 type CloudEfsIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 }
 
 // CloudElasticacheIntegration - ElastiCache Integration
 type CloudElasticacheIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -3203,49 +3203,49 @@ func (x *CloudElasticacheIntegration) ImplementsCloudIntegration() {}
 // CloudElasticacheIntegrationInput - Amazon ElastiCache
 type CloudElasticacheIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 }
 
 // CloudElasticbeanstalkIntegration - Elastic Beanstalk Integration
 type CloudElasticbeanstalkIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Determine if extra inventory data be collected or not. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchExtendedInventory bool `json:"fetchExtendedInventory"`
+	FetchExtendedInventory bool `json:"fetchExtendedInventory,omitempty"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -3255,49 +3255,49 @@ func (x *CloudElasticbeanstalkIntegration) ImplementsCloudIntegration() {}
 // CloudElasticbeanstalkIntegrationInput - AWS Elastic Beanstalk
 type CloudElasticbeanstalkIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// Determine if extra inventory data be collected or not. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchExtendedInventory bool `json:"fetchExtendedInventory"`
+	FetchExtendedInventory bool `json:"fetchExtendedInventory,omitempty"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 }
 
 // CloudElasticsearchIntegration - Elasticsearch Service Integration
 type CloudElasticsearchIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Specify if metrics should be collected for nodes. Turning it on will increase the number of API calls made to CloudWatch.
-	FetchNodes bool `json:"fetchNodes"`
+	FetchNodes bool `json:"fetchNodes,omitempty"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -3307,45 +3307,45 @@ func (x *CloudElasticsearchIntegration) ImplementsCloudIntegration() {}
 // CloudElasticsearchIntegrationInput - Amazon Elasticsearch Service
 type CloudElasticsearchIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// Specify if metrics should be collected for nodes. Turning it on will increase the number of API calls made to CloudWatch.
-	FetchNodes bool `json:"fetchNodes"`
+	FetchNodes bool `json:"fetchNodes,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 }
 
 // CloudElbIntegration - ELB (Classic) Integration
 type CloudElbIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Determine if extra inventory data be collected or not. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchExtendedInventory bool `json:"fetchExtendedInventory"`
+	FetchExtendedInventory bool `json:"fetchExtendedInventory,omitempty"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -3355,45 +3355,45 @@ func (x *CloudElbIntegration) ImplementsCloudIntegration() {}
 // CloudElbIntegrationInput - Elastic Load Balancing - Classic Load Balancer (ELB)
 type CloudElbIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// Determine if extra inventory data be collected or not. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchExtendedInventory bool `json:"fetchExtendedInventory"`
+	FetchExtendedInventory bool `json:"fetchExtendedInventory,omitempty"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudEmrIntegration - EMR Integration
 type CloudEmrIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Specify if tags and the extended inventory should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -3403,19 +3403,19 @@ func (x *CloudEmrIntegration) ImplementsCloudIntegration() {}
 // CloudEmrIntegrationInput - Amazon Elastic MapReduce (EMR)
 type CloudEmrIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// Specify if tags and the extended inventory should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 }
 
 // CloudGcpAppengineIntegration - App Engine Integration
@@ -3423,19 +3423,19 @@ type CloudGcpAppengineIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -3445,11 +3445,11 @@ func (x *CloudGcpAppengineIntegration) ImplementsCloudIntegration() {}
 // CloudGcpAppengineIntegrationInput - Google App Engine
 type CloudGcpAppengineIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudGcpBigqueryIntegration - BigQuery Integration
@@ -3457,21 +3457,21 @@ type CloudGcpBigqueryIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Specify if labels and the extended inventory should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -3481,13 +3481,13 @@ func (x *CloudGcpBigqueryIntegration) ImplementsCloudIntegration() {}
 // CloudGcpBigqueryIntegrationInput - BigQuery
 type CloudGcpBigqueryIntegrationInput struct {
 	// Specify if labels and the extended inventory should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudGcpDataflowIntegration - Dataflow Integration
@@ -3495,19 +3495,19 @@ type CloudGcpDataflowIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -3517,11 +3517,11 @@ func (x *CloudGcpDataflowIntegration) ImplementsCloudIntegration() {}
 // CloudGcpDataflowIntegrationInput - Dataflow
 type CloudGcpDataflowIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudGcpDataprocIntegration - Dataproc Integration
@@ -3529,19 +3529,19 @@ type CloudGcpDataprocIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -3551,11 +3551,11 @@ func (x *CloudGcpDataprocIntegration) ImplementsCloudIntegration() {}
 // CloudGcpDataprocIntegrationInput - Dataproc
 type CloudGcpDataprocIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudGcpDatastoreIntegration - Datastore Integration
@@ -3563,19 +3563,19 @@ type CloudGcpDatastoreIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -3585,11 +3585,11 @@ func (x *CloudGcpDatastoreIntegration) ImplementsCloudIntegration() {}
 // CloudGcpDatastoreIntegrationInput - Datastore
 type CloudGcpDatastoreIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudGcpDisableIntegrationsInput - List of integrations
@@ -3643,19 +3643,19 @@ type CloudGcpFirebasedatabaseIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -3665,11 +3665,11 @@ func (x *CloudGcpFirebasedatabaseIntegration) ImplementsCloudIntegration() {}
 // CloudGcpFirebasedatabaseIntegrationInput - Firebase Database
 type CloudGcpFirebasedatabaseIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudGcpFirebasehostingIntegration - Firebase Hosting Integration
@@ -3677,19 +3677,19 @@ type CloudGcpFirebasehostingIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -3699,11 +3699,11 @@ func (x *CloudGcpFirebasehostingIntegration) ImplementsCloudIntegration() {}
 // CloudGcpFirebasehostingIntegrationInput - Firebase Hosting
 type CloudGcpFirebasehostingIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudGcpFirebasestorageIntegration - Firebase Storage Integration
@@ -3711,19 +3711,19 @@ type CloudGcpFirebasestorageIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -3733,11 +3733,11 @@ func (x *CloudGcpFirebasestorageIntegration) ImplementsCloudIntegration() {}
 // CloudGcpFirebasestorageIntegrationInput - Firebase Storage
 type CloudGcpFirebasestorageIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudGcpFirestoreIntegration - Firestore Integration
@@ -3745,19 +3745,19 @@ type CloudGcpFirestoreIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -3767,11 +3767,11 @@ func (x *CloudGcpFirestoreIntegration) ImplementsCloudIntegration() {}
 // CloudGcpFirestoreIntegrationInput - Firestore
 type CloudGcpFirestoreIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudGcpFunctionsIntegration - Cloud Functions Integration
@@ -3779,19 +3779,19 @@ type CloudGcpFunctionsIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -3801,11 +3801,11 @@ func (x *CloudGcpFunctionsIntegration) ImplementsCloudIntegration() {}
 // CloudGcpFunctionsIntegrationInput - Google Cloud Functions
 type CloudGcpFunctionsIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudGcpIntegrationsInput - List of integrations
@@ -3859,19 +3859,19 @@ type CloudGcpInterconnectIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -3881,11 +3881,11 @@ func (x *CloudGcpInterconnectIntegration) ImplementsCloudIntegration() {}
 // CloudGcpInterconnectIntegrationInput - Interconnect
 type CloudGcpInterconnectIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudGcpKubernetesIntegration - Kubernetes Engine Integration
@@ -3893,19 +3893,19 @@ type CloudGcpKubernetesIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -3915,11 +3915,11 @@ func (x *CloudGcpKubernetesIntegration) ImplementsCloudIntegration() {}
 // CloudGcpKubernetesIntegrationInput - Google Kubernetes Engine
 type CloudGcpKubernetesIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudGcpLinkAccountInput - Information required to link a GCP account to a NewRelic account.
@@ -3935,19 +3935,19 @@ type CloudGcpLoadbalancingIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -3957,11 +3957,11 @@ func (x *CloudGcpLoadbalancingIntegration) ImplementsCloudIntegration() {}
 // CloudGcpLoadbalancingIntegrationInput - Google Cloud Load Balancing
 type CloudGcpLoadbalancingIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudGcpProvider - The Google Cloud Platform cloud provider
@@ -3975,7 +3975,7 @@ type CloudGcpProvider struct {
 	// The cloud provider name.
 	Name string `json:"name"`
 	// Get details of one cloud provider service.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The service account identifier used to link the GCP project to NewRelic.
 	ServiceAccountId string `json:"serviceAccountId"`
 	// Get details of all the cloud provider services available for integration.
@@ -3993,21 +3993,21 @@ type CloudGcpPubsubIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Specify if labels and the extended inventory should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -4017,13 +4017,13 @@ func (x *CloudGcpPubsubIntegration) ImplementsCloudIntegration() {}
 // CloudGcpPubsubIntegrationInput - Cloud Pub/Sub
 type CloudGcpPubsubIntegrationInput struct {
 	// Specify if labels and the extended inventory should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudGcpRouterIntegration - Router Integration
@@ -4031,19 +4031,19 @@ type CloudGcpRouterIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -4053,11 +4053,11 @@ func (x *CloudGcpRouterIntegration) ImplementsCloudIntegration() {}
 // CloudGcpRouterIntegrationInput - Router
 type CloudGcpRouterIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudGcpRunIntegration - Run Integration
@@ -4065,19 +4065,19 @@ type CloudGcpRunIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -4087,11 +4087,11 @@ func (x *CloudGcpRunIntegration) ImplementsCloudIntegration() {}
 // CloudGcpRunIntegrationInput - Run
 type CloudGcpRunIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudGcpSpannerIntegration - Cloud Spanner Integration
@@ -4099,21 +4099,21 @@ type CloudGcpSpannerIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Specify if labels and the extended inventory should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -4123,13 +4123,13 @@ func (x *CloudGcpSpannerIntegration) ImplementsCloudIntegration() {}
 // CloudGcpSpannerIntegrationInput - Cloud Spanner
 type CloudGcpSpannerIntegrationInput struct {
 	// Specify if labels and the extended inventory should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudGcpSqlIntegration - Cloud SQL Integration
@@ -4137,19 +4137,19 @@ type CloudGcpSqlIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -4159,11 +4159,11 @@ func (x *CloudGcpSqlIntegration) ImplementsCloudIntegration() {}
 // CloudGcpSqlIntegrationInput - Google Cloud SQL
 type CloudGcpSqlIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudGcpStorageIntegration - Cloud Storage Integration
@@ -4171,21 +4171,21 @@ type CloudGcpStorageIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Specify if labels and the extended inventory should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -4195,13 +4195,13 @@ func (x *CloudGcpStorageIntegration) ImplementsCloudIntegration() {}
 // CloudGcpStorageIntegrationInput - Google Cloud Storage
 type CloudGcpStorageIntegrationInput struct {
 	// Specify if labels and the extended inventory should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudGcpVmsIntegration - Compute Engine Integration
@@ -4209,19 +4209,19 @@ type CloudGcpVmsIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -4231,11 +4231,11 @@ func (x *CloudGcpVmsIntegration) ImplementsCloudIntegration() {}
 // CloudGcpVmsIntegrationInput - Google Compute Engine
 type CloudGcpVmsIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudGcpVpcaccessIntegration - VPC Access Integration
@@ -4243,19 +4243,19 @@ type CloudGcpVpcaccessIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -4265,11 +4265,11 @@ func (x *CloudGcpVpcaccessIntegration) ImplementsCloudIntegration() {}
 // CloudGcpVpcaccessIntegrationInput - VPC Access
 type CloudGcpVpcaccessIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudHealthIntegration - Health Integration
@@ -4277,19 +4277,19 @@ type CloudHealthIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -4299,11 +4299,11 @@ func (x *CloudHealthIntegration) ImplementsCloudIntegration() {}
 // CloudHealthIntegrationInput - AWS Health
 type CloudHealthIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudIamIntegration - IAM Integration
@@ -4311,23 +4311,23 @@ type CloudIamIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -4337,15 +4337,15 @@ func (x *CloudIamIntegration) ImplementsCloudIntegration() {}
 // CloudIamIntegrationInput - AWS Identity and Access Management (IAM)
 type CloudIamIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 }
 
 // CloudIntegration - The configuration of a cloud service integration for a linked account.
@@ -4353,15 +4353,15 @@ type CloudIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -4371,9 +4371,9 @@ func (x *CloudIntegration) ImplementsCloudIntegration() {}
 // CloudIntegrationMutationError - Integration Mutation Error
 type CloudIntegrationMutationError struct {
 	// The passed integration slug.
-	IntegrationSlug string `json:"integrationSlug"`
+	IntegrationSlug string `json:"integrationSlug,omitempty"`
 	// The passed linked account identifier.
-	LinkedAccountId int `json:"linkedAccountId"`
+	LinkedAccountId int `json:"linkedAccountId,omitempty"`
 	// The error message.
 	Message string `json:"message"`
 	// The passed newrelic account identifier.
@@ -4397,23 +4397,23 @@ type CloudIntegrationsInput struct {
 // CloudIotIntegration - IoT Integration
 type CloudIotIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -4423,35 +4423,35 @@ func (x *CloudIotIntegration) ImplementsCloudIntegration() {}
 // CloudIotIntegrationInput - AWS IoT
 type CloudIotIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudKinesisFirehoseIntegration - Kinesis Firehose Integration
 type CloudKinesisFirehoseIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -4461,43 +4461,43 @@ func (x *CloudKinesisFirehoseIntegration) ImplementsCloudIntegration() {}
 // CloudKinesisFirehoseIntegrationInput - Amazon Kinesis Data Firehose
 type CloudKinesisFirehoseIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudKinesisIntegration - Kinesis Streams Integration
 type CloudKinesisIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Specify if Shards should be monitored. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchShards bool `json:"fetchShards"`
+	FetchShards bool `json:"fetchShards,omitempty"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -4507,49 +4507,49 @@ func (x *CloudKinesisIntegration) ImplementsCloudIntegration() {}
 // CloudKinesisIntegrationInput - Amazon Kinesis Data Streams
 type CloudKinesisIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// Specify if Shards should be monitored. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchShards bool `json:"fetchShards"`
+	FetchShards bool `json:"fetchShards,omitempty"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 }
 
 // CloudLambdaIntegration - Lambda Integration
 type CloudLambdaIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -4559,19 +4559,19 @@ func (x *CloudLambdaIntegration) ImplementsCloudIntegration() {}
 // CloudLambdaIntegrationInput - AWS Lambda
 type CloudLambdaIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 }
 
 // CloudLinkAccountPayload - Autogenerated return type of LinkAccount
@@ -4601,9 +4601,9 @@ type CloudLinkedAccount struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Indicates whether the account disabled.
-	Disabled bool `json:"disabled"`
+	Disabled bool `json:"disabled,omitempty"`
 	// The cloud account identifier. This is the Account ID in AWS, the Subscription ID in Azure and the Project ID in GCP.
-	ExternalId string `json:"externalId"`
+	ExternalId string `json:"externalId,omitempty"`
 	// The linked account identifier in NewRelic.
 	ID int `json:"id"`
 	// Get details of one cloud service integration.
@@ -4725,7 +4725,7 @@ type CloudProvider struct {
 	// The cloud provider name.
 	Name string `json:"name"`
 	// Get details of one cloud provider service.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// Get details of all the cloud provider services available for integration.
 	Services []CloudService `json:"services"`
 	// The cloud provider short name.
@@ -4739,29 +4739,29 @@ func (x *CloudProvider) ImplementsCloudProvider() {}
 // CloudRdsIntegration - RDS Integration
 type CloudRdsIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -4771,45 +4771,45 @@ func (x *CloudRdsIntegration) ImplementsCloudIntegration() {}
 // CloudRdsIntegrationInput - Amazon Relation Database Service (RDS)
 type CloudRdsIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 }
 
 // CloudRedshiftIntegration - Redshift Integration
 type CloudRedshiftIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -4819,17 +4819,17 @@ func (x *CloudRedshiftIntegration) ImplementsCloudIntegration() {}
 // CloudRedshiftIntegrationInput - Amazon Redshift
 type CloudRedshiftIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 }
 
 // CloudRenameAccountPayload - Autogenerated return type of RenameAccount
@@ -4853,21 +4853,21 @@ type CloudRoute53Integration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Determine if extra inventory data be collected or not. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchExtendedInventory bool `json:"fetchExtendedInventory"`
+	FetchExtendedInventory bool `json:"fetchExtendedInventory,omitempty"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -4877,13 +4877,13 @@ func (x *CloudRoute53Integration) ImplementsCloudIntegration() {}
 // CloudRoute53IntegrationInput - Amazon Route 53
 type CloudRoute53IntegrationInput struct {
 	// Determine if extra inventory data be collected or not. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchExtendedInventory bool `json:"fetchExtendedInventory"`
+	FetchExtendedInventory bool `json:"fetchExtendedInventory,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudS3Integration - S3 Integration
@@ -4891,27 +4891,27 @@ type CloudS3Integration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Determine if extra inventory data be collected or not. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchExtendedInventory bool `json:"fetchExtendedInventory"`
+	FetchExtendedInventory bool `json:"fetchExtendedInventory,omitempty"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -4921,19 +4921,19 @@ func (x *CloudS3Integration) ImplementsCloudIntegration() {}
 // CloudS3IntegrationInput - Amazon Simple Storage Service (S3)
 type CloudS3IntegrationInput struct {
 	// Determine if extra inventory data be collected or not. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchExtendedInventory bool `json:"fetchExtendedInventory"`
+	FetchExtendedInventory bool `json:"fetchExtendedInventory,omitempty"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 }
 
 // CloudService - A Cloud Provider service available for monitoring.
@@ -5019,23 +5019,23 @@ func (x *CloudService) UnmarshalJSON(b []byte) error {
 // CloudSesIntegration - SES Integration
 type CloudSesIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -5045,37 +5045,37 @@ func (x *CloudSesIntegration) ImplementsCloudIntegration() {}
 // CloudSesIntegrationInput - Amazon Simple Email Service (SES)
 type CloudSesIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudSnsIntegration - SNS Integration
 type CloudSnsIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Determine if extra inventory data be collected or not. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchExtendedInventory bool `json:"fetchExtendedInventory"`
+	FetchExtendedInventory bool `json:"fetchExtendedInventory,omitempty"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -5085,47 +5085,47 @@ func (x *CloudSnsIntegration) ImplementsCloudIntegration() {}
 // CloudSnsIntegrationInput - Amazon Simple Notification Service (SNS)
 type CloudSnsIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// Determine if extra inventory data be collected or not. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchExtendedInventory bool `json:"fetchExtendedInventory"`
+	FetchExtendedInventory bool `json:"fetchExtendedInventory,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudSqsIntegration - SQS Integration
 type CloudSqsIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Determine if extra inventory data be collected or not. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchExtendedInventory bool `json:"fetchExtendedInventory"`
+	FetchExtendedInventory bool `json:"fetchExtendedInventory,omitempty"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// Specify each name or prefix for the Queues that you want to monitor. Filter values are case-sensitive.
-	QueuePrefixes []string `json:"queuePrefixes"`
+	QueuePrefixes []string `json:"queuePrefixes,omitempty"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -5135,23 +5135,23 @@ func (x *CloudSqsIntegration) ImplementsCloudIntegration() {}
 // CloudSqsIntegrationInput - Amazon Simple Queue Service (SQS)
 type CloudSqsIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// Determine if extra inventory data be collected or not. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchExtendedInventory bool `json:"fetchExtendedInventory"`
+	FetchExtendedInventory bool `json:"fetchExtendedInventory,omitempty"`
 	// Specify if tags should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchTags bool `json:"fetchTags"`
+	FetchTags bool `json:"fetchTags,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify each name or prefix for the Queues that you want to monitor. Filter values are case-sensitive.
-	QueuePrefixes []string `json:"queuePrefixes"`
+	QueuePrefixes []string `json:"queuePrefixes,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 }
 
 // CloudTrustedadvisorIntegration - Trusted Advisor Integration
@@ -5159,19 +5159,19 @@ type CloudTrustedadvisorIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -5181,11 +5181,11 @@ func (x *CloudTrustedadvisorIntegration) ImplementsCloudIntegration() {}
 // CloudTrustedadvisorIntegrationInput - Trusted Advisor
 type CloudTrustedadvisorIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudUnlinkAccountPayload - Autogenerated return type of UnlinkAccount
@@ -5205,31 +5205,31 @@ type CloudUnlinkAccountsInput struct {
 // CloudVpcIntegration - VPC Integration
 type CloudVpcIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// Specify if NAT gateway should be monitored. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchNatGateway bool `json:"fetchNatGateway"`
+	FetchNatGateway bool `json:"fetchNatGateway,omitempty"`
 	// Specify if VPN should be monitored. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchVpn bool `json:"fetchVpn"`
+	FetchVpn bool `json:"fetchVpn,omitempty"`
 	// The cloud service integration identifier.
-	ID int `json:"id"`
+	ID int `json:"id,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount"`
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The parent NewRelic account identifier.
 	NrAccountId int `json:"nrAccountId"`
 	// The cloud service used in the integration.
-	Service CloudService `json:"service"`
+	Service CloudService `json:"service,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -5239,21 +5239,21 @@ func (x *CloudVpcIntegration) ImplementsCloudIntegration() {}
 // CloudVpcIntegrationInput - Amazon Virtual Private Cloud (VPC)
 type CloudVpcIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
-	AwsRegions []string `json:"awsRegions"`
+	AwsRegions []string `json:"awsRegions,omitempty"`
 	// Specify if NAT gateway should be monitored. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchNatGateway bool `json:"fetchNatGateway"`
+	FetchNatGateway bool `json:"fetchNatGateway,omitempty"`
 	// Specify if VPN should be monitored. May affect total data collection time and contribute to the Cloud provider API rate limit.
-	FetchVpn bool `json:"fetchVpn"`
+	FetchVpn bool `json:"fetchVpn,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval"`
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval"`
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify a Tag key associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagKey string `json:"tagKey"`
+	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
-	TagValue string `json:"tagValue"`
+	TagValue string `json:"tagValue,omitempty"`
 }
 
 type linkedAccountsResponse struct {
