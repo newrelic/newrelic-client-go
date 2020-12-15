@@ -4656,6 +4656,9 @@ func (x *CloudLinkedAccount) UnmarshalJSON(b []byte) error {
 				return err
 			}
 		case "integration":
+			if v == nil {
+				continue
+			}
 			xxx, err := UnmarshalCloudIntegrationInterface(*v)
 			if err != nil {
 				return err
@@ -4695,6 +4698,9 @@ func (x *CloudLinkedAccount) UnmarshalJSON(b []byte) error {
 				return err
 			}
 		case "provider":
+			if v == nil {
+				continue
+			}
 			xxx, err := UnmarshalCloudProviderInterface(*v)
 			if err != nil {
 				return err
@@ -4992,6 +4998,9 @@ func (x *CloudService) UnmarshalJSON(b []byte) error {
 				return err
 			}
 		case "provider":
+			if v == nil {
+				continue
+			}
 			xxx, err := UnmarshalCloudProviderInterface(*v)
 			if err != nil {
 				return err

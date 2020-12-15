@@ -93,6 +93,9 @@ func (x *APIAccessActorStitchedFields) UnmarshalJSON(b []byte) error {
 	for k, v := range objMap {
 		switch k {
 		case "key":
+			if v == nil {
+				continue
+			}
 			xxx, err := UnmarshalAPIAccessKeyInterface(*v)
 			if err != nil {
 				return err
