@@ -77,9 +77,9 @@ var APIAccessUserKeyErrorTypeTypes = struct {
 // APIAccessActorStitchedFields -
 type APIAccessActorStitchedFields struct {
 	// Fetch a single key by ID and type.
-	Key APIAccessKeyInterface `json:"key"`
+	Key APIAccessKeyInterface `json:"key,omitempty"`
 	// A list of keys scoped to the current actor and filter arguments. You can read more about managing keys on [this documentation page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/use-nerdgraph-manage-license-keys-personal-api-keys).
-	KeySearch APIAccessKeySearchResult `json:"keySearch"`
+	KeySearch APIAccessKeySearchResult `json:"keySearch,omitempty"`
 }
 
 // special
@@ -119,25 +119,25 @@ type APIAccessCreateIngestKeyInput struct {
 	// The type of ingest key you want to create. This cannot be updated once created.
 	IngestType APIAccessIngestKeyType `json:"ingestType"`
 	// The name of the key. This can be updated later.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// Any notes about this ingest key. This can be updated later.
-	Notes string `json:"notes"`
+	Notes string `json:"notes,omitempty"`
 }
 
 // APIAccessCreateInput - The input object to create one or more keys.
 type APIAccessCreateInput struct {
 	// Ingest keys are used by agents to report data about your applications to New Relic. Each ingest key input entered here must have a type that communicates what kind of data it is for. You can optionally add a name or notes to your key, which can be updated later.
-	Ingest []APIAccessCreateIngestKeyInput `json:"ingest"`
+	Ingest []APIAccessCreateIngestKeyInput `json:"ingest,omitempty"`
 	// Create user keys. You can optionally add a name or notes to your key, which can be updated later.
-	User []APIAccessCreateUserKeyInput `json:"user"`
+	User []APIAccessCreateUserKeyInput `json:"user,omitempty"`
 }
 
 // APIAccessCreateKeyResponse - The response of the create keys mutation.
 type APIAccessCreateKeyResponse struct {
 	// Lists all successfully created keys.
-	CreatedKeys []APIAccessKeyInterface `json:"createdKeys"`
+	CreatedKeys []APIAccessKeyInterface `json:"createdKeys,omitempty"`
 	// Lists all errors for keys that could not be created. Each error maps to a single key input.
-	Errors []APIAccessKeyErrorInterface `json:"errors"`
+	Errors []APIAccessKeyErrorInterface `json:"errors,omitempty"`
 }
 
 // special
@@ -201,9 +201,9 @@ type APIAccessCreateUserKeyInput struct {
 	// The account ID indicating which account you want to make the key for. This cannot be updated once created.
 	AccountID int `json:"accountId"`
 	// The name of the key. This can be updated later.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// Any notes about this ingest key. This can be updated later.
-	Notes string `json:"notes"`
+	Notes string `json:"notes,omitempty"`
 	// The user ID indicating which user you want to make the key for. This cannot be updated once created.
 	UserID int `json:"userId"`
 }
@@ -211,17 +211,17 @@ type APIAccessCreateUserKeyInput struct {
 // APIAccessDeleteInput - The input to delete keys.
 type APIAccessDeleteInput struct {
 	// A list of the ingest key `id`s that you want to delete.
-	IngestKeyIDs []string `json:"ingestKeyIds"`
+	IngestKeyIDs []string `json:"ingestKeyIds,omitempty"`
 	// A list of the user key `id`s that you want to delete.
-	UserKeyIDs []string `json:"userKeyIds"`
+	UserKeyIDs []string `json:"userKeyIds,omitempty"`
 }
 
 // APIAccessDeleteKeyResponse - The response of the key delete mutation.
 type APIAccessDeleteKeyResponse struct {
 	// The `id`s of the successfully deleted ingest keys and any errors that occurred when deleting keys.
-	DeletedKeys []APIAccessDeletedKey `json:"deletedKeys"`
+	DeletedKeys []APIAccessDeletedKey `json:"deletedKeys,omitempty"`
 	// Lists all errors for keys that could not be deleted. Each error maps to a single key input.
-	Errors []APIAccessKeyErrorInterface `json:"errors"`
+	Errors []APIAccessKeyErrorInterface `json:"errors,omitempty"`
 }
 
 // special
@@ -268,27 +268,27 @@ func (x *APIAccessDeleteKeyResponse) UnmarshalJSON(b []byte) error {
 // APIAccessDeletedKey - The deleted key response of the key delete mutation.
 type APIAccessDeletedKey struct {
 	// The `id` of the deleted key.
-	ID string `json:"id"`
+	ID string `json:"id,omitempty"`
 }
 
 // APIAccessIngestKey - An ingest key.
 type APIAccessIngestKey struct {
 	// The account attached to the ingest key. Agents using this key will report to the account the key belongs to.
-	AccountID int `json:"accountId"`
+	AccountID int `json:"accountId,omitempty"`
 	// The UNIX epoch when the key was created, in seconds.
-	CreatedAt EpochSeconds `json:"createdAt"`
+	CreatedAt EpochSeconds `json:"createdAt,omitempty"`
 	// The ID of the ingest key. This can be used to identify a key without revealing the key itself (used to update and delete).
-	ID string `json:"id"`
+	ID string `json:"id,omitempty"`
 	// The type of ingest key, which dictates what types of agents can use it to report.
-	IngestType APIAccessIngestKeyType `json:"ingestType"`
+	IngestType APIAccessIngestKeyType `json:"ingestType,omitempty"`
 	// The keystring of the key.
-	Key string `json:"key"`
+	Key string `json:"key,omitempty"`
 	// The name of the key.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// Any notes can be attached to an key.
-	Notes string `json:"notes"`
+	Notes string `json:"notes,omitempty"`
 	// The type of key, indicating what New Relic APIs it can be used to access.
-	Type APIAccessKeyType `json:"type"`
+	Type APIAccessKeyType `json:"type,omitempty"`
 }
 
 func (x *APIAccessIngestKey) ImplementsAPIAccessKey() {}
@@ -296,17 +296,17 @@ func (x *APIAccessIngestKey) ImplementsAPIAccessKey() {}
 // APIAccessIngestKeyError - An ingest key error. Each error maps to a single key input.
 type APIAccessIngestKeyError struct {
 	// The account ID of the key.
-	AccountID int `json:"accountId"`
+	AccountID int `json:"accountId,omitempty"`
 	// The error type of the error.
-	ErrorType APIAccessIngestKeyErrorType `json:"errorType"`
+	ErrorType APIAccessIngestKeyErrorType `json:"errorType,omitempty"`
 	// The `id` of the key being updated.
-	ID string `json:"id"`
+	ID string `json:"id,omitempty"`
 	// The ingest type of the key.
-	IngestType APIAccessIngestKeyType `json:"ingestType"`
+	IngestType APIAccessIngestKeyType `json:"ingestType,omitempty"`
 	// A message about why the key creation failed.
-	Message string `json:"message"`
+	Message string `json:"message,omitempty"`
 	// The type of the key.
-	Type APIAccessKeyType `json:"type"`
+	Type APIAccessKeyType `json:"type,omitempty"`
 }
 
 func (x *APIAccessIngestKeyError) ImplementsAPIAccessKeyError() {}
@@ -314,17 +314,17 @@ func (x *APIAccessIngestKeyError) ImplementsAPIAccessKeyError() {}
 // APIAccessKey - A key for accessing New Relic APIs.
 type APIAccessKey struct {
 	// The UNIX epoch when the key was created, in seconds.
-	CreatedAt EpochSeconds `json:"createdAt"`
+	CreatedAt EpochSeconds `json:"createdAt,omitempty"`
 	// The ID of the key. This can be used to identify a key without revealing the key itself (used to update and delete).
-	ID string `json:"id"`
+	ID string `json:"id,omitempty"`
 	// The keystring of the key.
-	Key string `json:"key"`
+	Key string `json:"key,omitempty"`
 	// The name of the key. This can be used a short identifier for easy reference.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// Any notes can be attached to a key. This is intended for more a more detailed description of the key use if desired.
-	Notes string `json:"notes"`
+	Notes string `json:"notes,omitempty"`
 	// The type of key, indicating what New Relic APIs it can be used to access.
-	Type APIAccessKeyType `json:"type"`
+	Type APIAccessKeyType `json:"type,omitempty"`
 }
 
 func (x *APIAccessKey) ImplementsAPIAccessKey() {}
@@ -332,9 +332,9 @@ func (x *APIAccessKey) ImplementsAPIAccessKey() {}
 // APIAccessKeyError - A key error. Each error maps to a single key input.
 type APIAccessKeyError struct {
 	// A message about why the key creation failed.
-	Message string `json:"message"`
+	Message string `json:"message,omitempty"`
 	// The type of the key.
-	Type APIAccessKeyType `json:"type"`
+	Type APIAccessKeyType `json:"type,omitempty"`
 }
 
 func (x *APIAccessKeyError) ImplementsAPIAccessKeyError() {}
@@ -342,7 +342,7 @@ func (x *APIAccessKeyError) ImplementsAPIAccessKeyError() {}
 // APIAccessKeySearchQuery - Parameters by which to filter the search.
 type APIAccessKeySearchQuery struct {
 	// Criteria by which to narrow the scope of keys to be returned.
-	Scope APIAccessKeySearchScope `json:"scope"`
+	Scope APIAccessKeySearchScope `json:"scope,omitempty"`
 	// A list of key types to be included in the search. If no types are provided, all types will be returned by default.
 	Types []APIAccessKeyType `json:"types"`
 }
@@ -350,11 +350,11 @@ type APIAccessKeySearchQuery struct {
 // APIAccessKeySearchResult - A list of all keys scoped to the current actor.
 type APIAccessKeySearchResult struct {
 	// The total number of keys found in scope, irrespective of pagination.
-	Count int `json:"count"`
+	Count int `json:"count,omitempty"`
 	// A list of all keys scoped to the current actor.
-	Keys []APIAccessKeyInterface `json:"keys"`
+	Keys []APIAccessKeyInterface `json:"keys,omitempty"`
 	// The next cursor, used for pagination. If a cursor is present, it means more keys can be fetched.
-	NextCursor string `json:"nextCursor"`
+	NextCursor string `json:"nextCursor,omitempty"`
 }
 
 // special
@@ -406,11 +406,11 @@ func (x *APIAccessKeySearchResult) UnmarshalJSON(b []byte) error {
 // APIAccessKeySearchScope - The scope of keys to be returned. Note that some filters only apply to certain key types.
 type APIAccessKeySearchScope struct {
 	// A list of key account IDs.
-	AccountIDs []int `json:"accountIds"`
+	AccountIDs []int `json:"accountIds,omitempty"`
 	// The ingest type of the key. Only applies to ingest keys, and does not affect user key filtering.
-	IngestTypes []APIAccessIngestKeyType `json:"ingestTypes"`
+	IngestTypes []APIAccessIngestKeyType `json:"ingestTypes,omitempty"`
 	// A list of key user ids. Only applies to user keys, and does not affect ingest key filtering.
-	UserIDs []int `json:"userIds"`
+	UserIDs []int `json:"userIds,omitempty"`
 }
 
 // APIAccessUpdateIngestKeyInput - The `id` and data to update one or more keys.
@@ -418,25 +418,25 @@ type APIAccessUpdateIngestKeyInput struct {
 	// The `id` of the key you want to update.
 	KeyID string `json:"keyId"`
 	// The name you want to assign to the key.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The notes you want to assign to the key.
-	Notes string `json:"notes"`
+	Notes string `json:"notes,omitempty"`
 }
 
 // APIAccessUpdateInput - The `id` and data to update one or more keys.
 type APIAccessUpdateInput struct {
 	// A list of the configurations of each ingest key you want to update.
-	Ingest []APIAccessUpdateIngestKeyInput `json:"ingest"`
+	Ingest []APIAccessUpdateIngestKeyInput `json:"ingest,omitempty"`
 	// A list of the configurations of each user key you want to update.
-	User []APIAccessUpdateUserKeyInput `json:"user"`
+	User []APIAccessUpdateUserKeyInput `json:"user,omitempty"`
 }
 
 // APIAccessUpdateKeyResponse - The response of the update keys mutation.
 type APIAccessUpdateKeyResponse struct {
 	// Lists all errors for keys that could not be updated. Each error maps to a single key input.
-	Errors []APIAccessKeyErrorInterface `json:"errors"`
+	Errors []APIAccessKeyErrorInterface `json:"errors,omitempty"`
 	// Lists all successfully updated keys.
-	UpdatedKeys []APIAccessKeyInterface `json:"updatedKeys"`
+	UpdatedKeys []APIAccessKeyInterface `json:"updatedKeys,omitempty"`
 }
 
 // special
@@ -500,29 +500,29 @@ type APIAccessUpdateUserKeyInput struct {
 	// The `id` of the key you want to update.
 	KeyID string `json:"keyId"`
 	// The name you want to assign to the key.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The notes you want to assign to the key.
-	Notes string `json:"notes"`
+	Notes string `json:"notes,omitempty"`
 }
 
 // APIAccessUserKey - A user key, also called a personal API key.
 type APIAccessUserKey struct {
 	// The account ID of the key.
-	AccountID int `json:"accountId"`
+	AccountID int `json:"accountId,omitempty"`
 	// The UNIX epoch when the key was created, in seconds.
-	CreatedAt EpochSeconds `json:"createdAt"`
+	CreatedAt EpochSeconds `json:"createdAt,omitempty"`
 	// The ID of the user key. This can be used to identify a key without revealing the key itself (used to update and delete).
-	ID string `json:"id"`
+	ID string `json:"id,omitempty"`
 	// The keystring of the key.
-	Key string `json:"key"`
+	Key string `json:"key,omitempty"`
 	// The name of the key.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// Any notes can be attached to a key.
-	Notes string `json:"notes"`
+	Notes string `json:"notes,omitempty"`
 	// The type of key, indicating what New Relic APIs it can be used to access.
-	Type APIAccessKeyType `json:"type"`
+	Type APIAccessKeyType `json:"type,omitempty"`
 	// The user ID of the key.
-	UserID int `json:"userId"`
+	UserID int `json:"userId,omitempty"`
 }
 
 func (x *APIAccessUserKey) ImplementsAPIAccessKey() {}
@@ -530,17 +530,17 @@ func (x *APIAccessUserKey) ImplementsAPIAccessKey() {}
 // APIAccessUserKeyError - A user key error. Each error maps to a single key input.
 type APIAccessUserKeyError struct {
 	// The account ID of the key.
-	AccountID int `json:"accountId"`
+	AccountID int `json:"accountId,omitempty"`
 	// The error type of the error.
-	ErrorType APIAccessUserKeyErrorType `json:"errorType"`
+	ErrorType APIAccessUserKeyErrorType `json:"errorType,omitempty"`
 	// The `id` of the key being updated.
-	ID string `json:"id"`
+	ID string `json:"id,omitempty"`
 	// A message about why the key creation failed.
-	Message string `json:"message"`
+	Message string `json:"message,omitempty"`
 	// The type of the key.
-	Type APIAccessKeyType `json:"type"`
+	Type APIAccessKeyType `json:"type,omitempty"`
 	// The user ID of the key.
-	UserID int `json:"userId"`
+	UserID int `json:"userId,omitempty"`
 }
 
 func (x *APIAccessUserKeyError) ImplementsAPIAccessKeyError() {}

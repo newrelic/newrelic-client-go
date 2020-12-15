@@ -108,53 +108,53 @@ var EmbeddedChartTypeTypes = struct {
 // EventAttributeDefinition - A human-readable definition of an NRDB Event Type Attribute
 type EventAttributeDefinition struct {
 	// This attribute's category
-	Category string `json:"category"`
+	Category string `json:"category,omitempty"`
 	// A short description of this attribute
-	Definition string `json:"definition"`
+	Definition string `json:"definition,omitempty"`
 	// The New Relic docs page for this attribute
-	DocumentationURL string `json:"documentationUrl"`
+	DocumentationURL string `json:"documentationUrl,omitempty"`
 	// The human-friendly formatted name of the attribute
-	Label string `json:"label"`
+	Label string `json:"label,omitempty"`
 	// The name of the attribute
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 }
 
 // EventDefinition - A human-readable definition of an NRDB Event Type
 type EventDefinition struct {
 	// A list of attribute definitions for this event type
-	Attributes []EventAttributeDefinition `json:"attributes"`
+	Attributes []EventAttributeDefinition `json:"attributes,omitempty"`
 	// A short description of this event
-	Definition string `json:"definition"`
+	Definition string `json:"definition,omitempty"`
 	// The human-friendly formatted name of the event
-	Label string `json:"label"`
+	Label string `json:"label,omitempty"`
 	// The name of the event
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 }
 
 // NRDBMetadata - An object containing metadata about the query and result.
 type NRDBMetadata struct {
 	// A list of the event types that were queried.
-	EventTypes []string `json:"eventTypes"`
+	EventTypes []string `json:"eventTypes,omitempty"`
 	// A list of facets that were queried.
-	Facets []string `json:"facets"`
+	Facets []string `json:"facets,omitempty"`
 	// Messages from NRDB included with the result.
-	Messages []string `json:"messages"`
+	Messages []string `json:"messages,omitempty"`
 	// Details about the query time window.
-	TimeWindow NRDBMetadataTimeWindow `json:"timeWindow"`
+	TimeWindow NRDBMetadataTimeWindow `json:"timeWindow,omitempty"`
 }
 
 // NRDBMetadataTimeWindow - An object representing details about a query's time window.
 type NRDBMetadataTimeWindow struct {
 	// Timestamp marking the query begin time.
-	Begin nrtime.EpochMilliseconds `json:"begin"`
+	Begin nrtime.EpochMilliseconds `json:"begin,omitempty"`
 	// A clause representing the comparison time window.
-	CompareWith string `json:"compareWith"`
+	CompareWith string `json:"compareWith,omitempty"`
 	// Timestamp marking the query end time.
-	End nrtime.EpochMilliseconds `json:"end"`
+	End nrtime.EpochMilliseconds `json:"end,omitempty"`
 	// SINCE clause resulting from the query
-	Since string `json:"since"`
+	Since string `json:"since,omitempty"`
 	// UNTIL clause resulting from the query
-	Until string `json:"until"`
+	Until string `json:"until,omitempty"`
 }
 
 // NRDBResultContainer - A data structure that contains the results of the NRDB query along
@@ -166,28 +166,28 @@ type NRDBMetadataTimeWindow struct {
 // `eventDefinitions`, `suggestedFacets` and more.
 type NRDBResultContainer struct {
 	// In a `COMPARE WITH` query, the `currentResults` contain the results for the current comparison time window.
-	CurrentResults []NRDBResult `json:"currentResults"`
+	CurrentResults []NRDBResult `json:"currentResults,omitempty"`
 	// Generate a publicly sharable Embedded Chart URL for the NRQL query.
 	//
 	// For more details, see [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/query-nrql-through-new-relic-graphql-api#embeddable-charts).
-	EmbeddedChartURL string `json:"embeddedChartUrl"`
+	EmbeddedChartURL string `json:"embeddedChartUrl,omitempty"`
 	// Retrieve a list of event type definitions, providing descriptions
 	// of the event types returned by this query, as well as details
 	// of their attributes.
-	EventDefinitions []EventDefinition `json:"eventDefinitions"`
+	EventDefinitions []EventDefinition `json:"eventDefinitions,omitempty"`
 	// Metadata about the query and result.
-	Metadata NRDBMetadata `json:"metadata"`
+	Metadata NRDBMetadata `json:"metadata,omitempty"`
 	// The [NRQL](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) query that was executed to yield these results.
-	NRQL NRQL `json:"nrql"`
+	NRQL NRQL `json:"nrql,omitempty"`
 	// In a `FACET` query, the `otherResult` contains the aggregates representing the events _not_
 	// contained in an individual `results` facet
-	OtherResult NRDBResult `json:"otherResult"`
+	OtherResult NRDBResult `json:"otherResult,omitempty"`
 	// In a `COMPARE WITH` query, the `previousResults` contain the results for the previous comparison time window.
-	PreviousResults []NRDBResult `json:"previousResults"`
+	PreviousResults []NRDBResult `json:"previousResults,omitempty"`
 	// The query results. This is a flat list of objects who's structure matches the query submitted.
-	Results []NRDBResult `json:"results"`
+	Results []NRDBResult `json:"results,omitempty"`
 	// Generate a publicly sharable static chart URL for the NRQL query.
-	StaticChartURL string `json:"staticChartUrl"`
+	StaticChartURL string `json:"staticChartUrl,omitempty"`
 	// Retrieve a list of suggested NRQL facets for this NRDB query, to be used with
 	// the `FACET` keyword in NRQL.
 	//
@@ -197,16 +197,16 @@ type NRDBResultContainer struct {
 	// of suggesting facets.
 	//
 	// For more details, see [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/nerdgraph-graphiql-nrql-tutorial#suggest-facets).
-	SuggestedFacets []NRQLFacetSuggestion `json:"suggestedFacets"`
+	SuggestedFacets []NRQLFacetSuggestion `json:"suggestedFacets,omitempty"`
 	// Suggested queries that could help explain an anomaly in your timeseries based on either statistical differences in the data or historical usage.
 	//
 	// If no `anomalyTimeWindow` is supplied, we will attempt to detect a spike in the NRQL results. If no spike is found, the suggested query results will be empty.
 	//
 	// Input NRQL must be a TIMESERIES query and must have exactly one result.
-	SuggestedQueries SuggestedNRQLQueryResponse `json:"suggestedQueries"`
+	SuggestedQueries SuggestedNRQLQueryResponse `json:"suggestedQueries,omitempty"`
 	// In a `FACET` query, the `totalResult` contains the aggregates representing _all_ the events,
 	// whether or not they are contained in an individual `results` facet
-	TotalResult NRDBResult `json:"totalResult"`
+	TotalResult NRDBResult `json:"totalResult,omitempty"`
 }
 
 // NRQLFacetSuggestion - A suggested NRQL facet. Facet suggestions may be either a single attribute, or
@@ -216,20 +216,20 @@ type NRQLFacetSuggestion struct {
 	//
 	// Raw attribute names will be returned here. Attribute names may need to be
 	// backtick-quoted before inclusion in a NRQL query.
-	Attributes []string `json:"attributes"`
+	Attributes []string `json:"attributes,omitempty"`
 	// A modified version of the input NRQL, with a `FACET ...` clause appended.
 	// If the original NRQL had a `FACET` clause already, it will be replaced.
-	NRQL NRQL `json:"nrql"`
+	NRQL NRQL `json:"nrql,omitempty"`
 }
 
 // NRQLHistoricalQuery - An NRQL query executed in the past.
 type NRQLHistoricalQuery struct {
 	// The Account ID queried.
-	AccountID int `json:"accountId"`
+	AccountID int `json:"accountId,omitempty"`
 	// The NRQL query executed.
-	NRQL NRQL `json:"nrql"`
+	NRQL NRQL `json:"nrql,omitempty"`
 	// The time the query was executed.
-	Timestamp nrtime.EpochSeconds `json:"timestamp"`
+	Timestamp nrtime.EpochSeconds `json:"timestamp,omitempty"`
 }
 
 // SuggestedAnomalyBasedNRQLQuery - A query suggestion based on analysis of events within a specific anomalous time
@@ -316,9 +316,9 @@ func (x *SuggestedNRQLQueryResponse) UnmarshalJSON(b []byte) error {
 // TimeWindow - Represents a time window.
 type TimeWindow struct {
 	// The end time of the time window the number of milliseconds since the Unix epoch.
-	EndTime nrtime.EpochMilliseconds `json:"endTime"`
+	EndTime nrtime.EpochMilliseconds `json:"endTime,omitempty"`
 	// The start time of the time window the number of milliseconds since the Unix epoch.
-	StartTime nrtime.EpochMilliseconds `json:"startTime"`
+	StartTime nrtime.EpochMilliseconds `json:"startTime,omitempty"`
 }
 
 // NRDBResult - This scalar represents a NRDB Result. It is a `Map` of `String` keys to values.

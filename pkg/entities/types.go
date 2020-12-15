@@ -28,743 +28,743 @@ var EntityAlertSeverityTypes = struct {
 type EntityInfrastructureIntegrationType string
 
 var EntityInfrastructureIntegrationTypeTypes = struct {
-	// AWS_SES_RECEIPT_RULE_SET integration
-	AWS_SES_RECEIPT_RULE_SET EntityInfrastructureIntegrationType
-	// AWS_ELASTI_CACHE_REDIS_NODE integration
-	AWS_ELASTI_CACHE_REDIS_NODE EntityInfrastructureIntegrationType
-	// F5_VIRTUAL_SERVER integration
-	F5_VIRTUAL_SERVER EntityInfrastructureIntegrationType
-	// GCP_VIRTUAL_MACHINE_DISK integration
-	GCP_VIRTUAL_MACHINE_DISK EntityInfrastructureIntegrationType
-	// AWS_IAM_GROUP integration
-	AWS_IAM_GROUP EntityInfrastructureIntegrationType
-	// AZURE_VIRTUAL_NETWORKS_SUBNET integration
-	AZURE_VIRTUAL_NETWORKS_SUBNET EntityInfrastructureIntegrationType
-	// AZURE_MARIADB_SERVER integration
-	AZURE_MARIADB_SERVER EntityInfrastructureIntegrationType
-	// AWS_BILLING_ACCOUNT_SERVICE_COST integration
-	AWS_BILLING_ACCOUNT_SERVICE_COST EntityInfrastructureIntegrationType
-	// AWS_IAM_USER integration
-	AWS_IAM_USER EntityInfrastructureIntegrationType
-	// AWS_IAM_SERVER_CERTIFICATE integration
-	AWS_IAM_SERVER_CERTIFICATE EntityInfrastructureIntegrationType
-	// NA integration
-	NA EntityInfrastructureIntegrationType
-	// AWS_RDS_DB_CLUSTER integration
-	AWS_RDS_DB_CLUSTER EntityInfrastructureIntegrationType
-	// AWS_IAM_SAML_PROVIDER integration
-	AWS_IAM_SAML_PROVIDER EntityInfrastructureIntegrationType
-	// MEMCACHED_INSTANCE integration
-	MEMCACHED_INSTANCE EntityInfrastructureIntegrationType
-	// AWS_VPC integration
-	AWS_VPC EntityInfrastructureIntegrationType
-	// AZURE_SQL_REPLICATION_LINK integration
-	AZURE_SQL_REPLICATION_LINK EntityInfrastructureIntegrationType
-	// AWS_ELASTI_CACHE_REDIS_CLUSTER integration
-	AWS_ELASTI_CACHE_REDIS_CLUSTER EntityInfrastructureIntegrationType
-	// AZURE_LOAD_BALANCER_INBOUND_NAT_RULE integration
-	AZURE_LOAD_BALANCER_INBOUND_NAT_RULE EntityInfrastructureIntegrationType
-	// AWS_ROUTE53_ZONE_RECORD_SET integration
-	AWS_ROUTE53_ZONE_RECORD_SET EntityInfrastructureIntegrationType
-	// AWS_SES_CONFIGURATION_SET integration
-	AWS_SES_CONFIGURATION_SET EntityInfrastructureIntegrationType
-	// AWS_ECS_CLUSTER integration
-	AWS_ECS_CLUSTER EntityInfrastructureIntegrationType
-	// GCP_PUB_SUB_TOPIC integration
-	GCP_PUB_SUB_TOPIC EntityInfrastructureIntegrationType
-	// CASSANDRA_NODE integration
-	CASSANDRA_NODE EntityInfrastructureIntegrationType
-	// AWS_VPC_SECURITY_GROUP integration
-	AWS_VPC_SECURITY_GROUP EntityInfrastructureIntegrationType
-	// AWS_SES_EVENT_DESTINATION integration
-	AWS_SES_EVENT_DESTINATION EntityInfrastructureIntegrationType
-	// AWS_ROUTE53_HEALTH_CHECK integration
-	AWS_ROUTE53_HEALTH_CHECK EntityInfrastructureIntegrationType
-	// AZURE_SQL_RESTORE_POINT integration
-	AZURE_SQL_RESTORE_POINT EntityInfrastructureIntegrationType
-	// AWS_ELASTIC_MAP_REDUCE_INSTANCE_FLEET integration
-	AWS_ELASTIC_MAP_REDUCE_INSTANCE_FLEET EntityInfrastructureIntegrationType
-	// AZURE_LOAD_BALANCER_PROBE integration
-	AZURE_LOAD_BALANCER_PROBE EntityInfrastructureIntegrationType
-	// AWS_HEALTH_UNKNOWN integration
-	AWS_HEALTH_UNKNOWN EntityInfrastructureIntegrationType
-	// GCP_BIG_QUERY_TABLE integration
-	GCP_BIG_QUERY_TABLE EntityInfrastructureIntegrationType
-	// AWS_CLOUD_FRONT_DISTRIBUTION integration
-	AWS_CLOUD_FRONT_DISTRIBUTION EntityInfrastructureIntegrationType
-	// AWS_VPC_PEERING_CONNECTION integration
-	AWS_VPC_PEERING_CONNECTION EntityInfrastructureIntegrationType
-	// RABBIT_MQ_EXCHANGE integration
-	RABBIT_MQ_EXCHANGE EntityInfrastructureIntegrationType
-	// GCP_APP_ENGINE_SERVICE integration
-	GCP_APP_ENGINE_SERVICE EntityInfrastructureIntegrationType
-	// GCP_PUB_SUB_SUBSCRIPTION integration
-	GCP_PUB_SUB_SUBSCRIPTION EntityInfrastructureIntegrationType
-	// F5_SYSTEM integration
-	F5_SYSTEM EntityInfrastructureIntegrationType
-	// COUCHBASE_QUERY_ENGINE integration
-	COUCHBASE_QUERY_ENGINE EntityInfrastructureIntegrationType
-	// AWS_ELASTICSEARCH_CLUSTER integration
-	AWS_ELASTICSEARCH_CLUSTER EntityInfrastructureIntegrationType
-	// F5_NODE integration
-	F5_NODE EntityInfrastructureIntegrationType
-	// GCP_CLOUD_FUNCTION integration
-	GCP_CLOUD_FUNCTION EntityInfrastructureIntegrationType
-	// GCP_KUBERNETES_CONTAINER integration
-	GCP_KUBERNETES_CONTAINER EntityInfrastructureIntegrationType
-	// AWS_KINESIS_STREAM_SHARD integration
-	AWS_KINESIS_STREAM_SHARD EntityInfrastructureIntegrationType
-	// KUBERNETES_CLUSTER integration
-	KUBERNETES_CLUSTER EntityInfrastructureIntegrationType
-	// CONSUL_AGENT integration
-	CONSUL_AGENT EntityInfrastructureIntegrationType
-	// AWS_ELASTI_CACHE_MEMCACHED_NODE integration
-	AWS_ELASTI_CACHE_MEMCACHED_NODE EntityInfrastructureIntegrationType
-	// AWS_ELASTICSEARCH_INSTANCE integration
-	AWS_ELASTICSEARCH_INSTANCE EntityInfrastructureIntegrationType
-	// GCP_STORAGE_BUCKET integration
-	GCP_STORAGE_BUCKET EntityInfrastructureIntegrationType
-	// AZURE_APP_SERVICE_HOST_NAME integration
-	AZURE_APP_SERVICE_HOST_NAME EntityInfrastructureIntegrationType
-	// RABBIT_MQ_NODE integration
-	RABBIT_MQ_NODE EntityInfrastructureIntegrationType
-	// AWS_REDSHIFT_CLUSTER integration
-	AWS_REDSHIFT_CLUSTER EntityInfrastructureIntegrationType
-	// MSSQL_INSTANCE integration
-	MSSQL_INSTANCE EntityInfrastructureIntegrationType
-	// AWS_API_GATEWAY_API integration
-	AWS_API_GATEWAY_API EntityInfrastructureIntegrationType
-	// AWS_LAMBDA_AGENT_TRANSACTION integration
-	AWS_LAMBDA_AGENT_TRANSACTION EntityInfrastructureIntegrationType
-	// GCP_SPANNER_DATABASE integration
-	GCP_SPANNER_DATABASE EntityInfrastructureIntegrationType
-	// AZURE_VIRTUAL_NETWORKS_PEERING integration
-	AZURE_VIRTUAL_NETWORKS_PEERING EntityInfrastructureIntegrationType
-	// AWS_REDSHIFT_NODE integration
-	AWS_REDSHIFT_NODE EntityInfrastructureIntegrationType
-	// AWS_ELB integration
-	AWS_ELB EntityInfrastructureIntegrationType
-	// ELASTICSEARCH_NODE integration
-	ELASTICSEARCH_NODE EntityInfrastructureIntegrationType
-	// AZURE_COSMOS_DB_ACCOUNT integration
-	AZURE_COSMOS_DB_ACCOUNT EntityInfrastructureIntegrationType
-	// AZURE_SQL_ELASTIC_POOL integration
-	AZURE_SQL_ELASTIC_POOL EntityInfrastructureIntegrationType
-	// AWS_ELASTIC_MAP_REDUCE_INSTANCE_GROUP integration
-	AWS_ELASTIC_MAP_REDUCE_INSTANCE_GROUP EntityInfrastructureIntegrationType
-	// AWS_ROUTE53_ZONE integration
-	AWS_ROUTE53_ZONE EntityInfrastructureIntegrationType
-	// AWS_LAMBDA_OPERATION integration
-	AWS_LAMBDA_OPERATION EntityInfrastructureIntegrationType
-	// AWS_VPC_VPN_TUNNEL integration
-	AWS_VPC_VPN_TUNNEL EntityInfrastructureIntegrationType
-	// AWS_ALB_LISTENER_RULE integration
-	AWS_ALB_LISTENER_RULE EntityInfrastructureIntegrationType
-	// AWS_SES_RECEIPT_FILTER integration
-	AWS_SES_RECEIPT_FILTER EntityInfrastructureIntegrationType
-	// GCP_CLOUD_TASKS_QUEUE integration
-	GCP_CLOUD_TASKS_QUEUE EntityInfrastructureIntegrationType
-	// AWS_LAMBDA_FUNCTION_ALIAS integration
-	AWS_LAMBDA_FUNCTION_ALIAS EntityInfrastructureIntegrationType
-	// COUCHBASE_NODE integration
-	COUCHBASE_NODE EntityInfrastructureIntegrationType
-	// RABBIT_MQ_QUEUE integration
-	RABBIT_MQ_QUEUE EntityInfrastructureIntegrationType
-	// AWS_AUTO_SCALING_POLICY integration
-	AWS_AUTO_SCALING_POLICY EntityInfrastructureIntegrationType
-	// AWS_ALB_TARGET_GROUP integration
-	AWS_ALB_TARGET_GROUP EntityInfrastructureIntegrationType
-	// GCP_BIG_QUERY_DATA_SET integration
-	GCP_BIG_QUERY_DATA_SET EntityInfrastructureIntegrationType
-	// AZURE_SERVICE_BUS_TOPIC integration
-	AZURE_SERVICE_BUS_TOPIC EntityInfrastructureIntegrationType
-	// AWS_EFS_FILE_SYSTEM integration
-	AWS_EFS_FILE_SYSTEM EntityInfrastructureIntegrationType
-	// AWS_KINESIS_STREAM integration
-	AWS_KINESIS_STREAM EntityInfrastructureIntegrationType
-	// AWS_EBS_VOLUME integration
-	AWS_EBS_VOLUME EntityInfrastructureIntegrationType
-	// GCP_BIG_QUERY_PROJECT integration
-	GCP_BIG_QUERY_PROJECT EntityInfrastructureIntegrationType
-	// AWS_IOT_RULE integration
-	AWS_IOT_RULE EntityInfrastructureIntegrationType
-	// AZURE_VIRTUAL_NETWORKS_IP_CONFIGURATION integration
-	AZURE_VIRTUAL_NETWORKS_IP_CONFIGURATION EntityInfrastructureIntegrationType
-	// AWS_ELASTIC_BEANSTALK_INSTANCE integration
-	AWS_ELASTIC_BEANSTALK_INSTANCE EntityInfrastructureIntegrationType
-	// AWS_SES_RECEIPT_RULE integration
-	AWS_SES_RECEIPT_RULE EntityInfrastructureIntegrationType
-	// AZURE_SQL_FIREWALL integration
-	AZURE_SQL_FIREWALL EntityInfrastructureIntegrationType
-	// AWS_VPC_ENDPOINT integration
-	AWS_VPC_ENDPOINT EntityInfrastructureIntegrationType
-	// AWS_AUTO_SCALING_REGION_LIMIT integration
-	AWS_AUTO_SCALING_REGION_LIMIT EntityInfrastructureIntegrationType
-	// AWS_BILLING_BUDGET integration
-	AWS_BILLING_BUDGET EntityInfrastructureIntegrationType
-	// F5_POOL integration
-	F5_POOL EntityInfrastructureIntegrationType
-	// AWS_LAMBDA_FUNCTION integration
-	AWS_LAMBDA_FUNCTION EntityInfrastructureIntegrationType
-	// AWS_SES_REGION integration
-	AWS_SES_REGION EntityInfrastructureIntegrationType
-	// AWS_RDS_DB_INSTANCE integration
-	AWS_RDS_DB_INSTANCE EntityInfrastructureIntegrationType
-	// AZURE_VIRTUAL_NETWORKS_NETWORK_INTERFACE integration
-	AZURE_VIRTUAL_NETWORKS_NETWORK_INTERFACE EntityInfrastructureIntegrationType
-	// AWS_LAMBDA_AGENT_TRANSACTION_ERROR integration
-	AWS_LAMBDA_AGENT_TRANSACTION_ERROR EntityInfrastructureIntegrationType
-	// AWS_HEALTH_SCHEDULED_CHANGE integration
-	AWS_HEALTH_SCHEDULED_CHANGE EntityInfrastructureIntegrationType
-	// AWS_IAM_OPEN_ID_PROVIDER integration
-	AWS_IAM_OPEN_ID_PROVIDER EntityInfrastructureIntegrationType
-	// AZURE_MYSQL_SERVER integration
-	AZURE_MYSQL_SERVER EntityInfrastructureIntegrationType
-	// AWS_BILLING_SERVICE_COST integration
-	AWS_BILLING_SERVICE_COST EntityInfrastructureIntegrationType
-	// AZURE_APP_SERVICE_WEB_APP integration
-	AZURE_APP_SERVICE_WEB_APP EntityInfrastructureIntegrationType
-	// AZURE_LOAD_BALANCER_INBOUND_NAT_POOL integration
-	AZURE_LOAD_BALANCER_INBOUND_NAT_POOL EntityInfrastructureIntegrationType
-	// AZURE_VIRTUAL_NETWORKS_SECURITY_RULE integration
-	AZURE_VIRTUAL_NETWORKS_SECURITY_RULE EntityInfrastructureIntegrationType
-	// AWS_ECS_SERVICE integration
-	AWS_ECS_SERVICE EntityInfrastructureIntegrationType
-	// AZURE_POSTGRESQL_SERVER integration
-	AZURE_POSTGRESQL_SERVER EntityInfrastructureIntegrationType
-	// AWS_ALB_LISTENER integration
-	AWS_ALB_LISTENER EntityInfrastructureIntegrationType
-	// F5_POOL_MEMBER integration
-	F5_POOL_MEMBER EntityInfrastructureIntegrationType
-	// AWS_VPC_INTERNET_GATEWAY integration
-	AWS_VPC_INTERNET_GATEWAY EntityInfrastructureIntegrationType
-	// AWS_S3_BUCKET_REQUESTS integration
-	AWS_S3_BUCKET_REQUESTS EntityInfrastructureIntegrationType
-	// COUCHBASE_CLUSTER integration
-	COUCHBASE_CLUSTER EntityInfrastructureIntegrationType
-	// AZURE_SQL_DATABASE integration
-	AZURE_SQL_DATABASE EntityInfrastructureIntegrationType
-	// AZURE_REDIS_CACHE integration
-	AZURE_REDIS_CACHE EntityInfrastructureIntegrationType
-	// AWS_AUTO_SCALING_LAUNCH_CONFIGURATION integration
-	AWS_AUTO_SCALING_LAUNCH_CONFIGURATION EntityInfrastructureIntegrationType
-	// AWS_ALB integration
-	AWS_ALB EntityInfrastructureIntegrationType
-	// AWSELASTICSEARCHNODE integration
-	AWSELASTICSEARCHNODE EntityInfrastructureIntegrationType
-	// AWS_VPC_NETWORK_INTERFACE integration
-	AWS_VPC_NETWORK_INTERFACE EntityInfrastructureIntegrationType
-	// AZURE_LOAD_BALANCER_RULE integration
-	AZURE_LOAD_BALANCER_RULE EntityInfrastructureIntegrationType
-	// GCP_CLOUD_SQL integration
-	GCP_CLOUD_SQL EntityInfrastructureIntegrationType
-	// AWS_S3_BUCKET integration
-	AWS_S3_BUCKET EntityInfrastructureIntegrationType
 	// GCP_HTTP_LOAD_BALANCER integration
 	GCP_HTTP_LOAD_BALANCER EntityInfrastructureIntegrationType
-	// AWS_API_GATEWAY_RESOURCE integration
-	AWS_API_GATEWAY_RESOURCE EntityInfrastructureIntegrationType
-	// AWS_AUTO_SCALING_INSTANCE integration
-	AWS_AUTO_SCALING_INSTANCE EntityInfrastructureIntegrationType
-	// AZURE_SERVICE_BUS_QUEUE integration
-	AZURE_SERVICE_BUS_QUEUE EntityInfrastructureIntegrationType
-	// AWS_ELASTI_CACHE_MEMCACHED_CLUSTER integration
-	AWS_ELASTI_CACHE_MEMCACHED_CLUSTER EntityInfrastructureIntegrationType
-	// AWS_ELASTIC_MAP_REDUCE_CLUSTER integration
-	AWS_ELASTIC_MAP_REDUCE_CLUSTER EntityInfrastructureIntegrationType
-	// AWS_LAMBDA_REGION integration
-	AWS_LAMBDA_REGION EntityInfrastructureIntegrationType
-	// AWS_ELASTIC_BEANSTALK_ENVIRONMENT integration
-	AWS_ELASTIC_BEANSTALK_ENVIRONMENT EntityInfrastructureIntegrationType
-	// AWS_LAMBDA_EDGE_FUNCTION integration
-	AWS_LAMBDA_EDGE_FUNCTION EntityInfrastructureIntegrationType
-	// GCP_SPANNER_INSTANCE integration
-	GCP_SPANNER_INSTANCE EntityInfrastructureIntegrationType
-	// AZURE_SQL_SERVER integration
-	AZURE_SQL_SERVER EntityInfrastructureIntegrationType
-	// AWS_HEALTH_NOTIFICATION integration
-	AWS_HEALTH_NOTIFICATION EntityInfrastructureIntegrationType
-	// APACHE_SERVER integration
-	APACHE_SERVER EntityInfrastructureIntegrationType
-	// AWS_DYNAMO_DB_REGION integration
-	AWS_DYNAMO_DB_REGION EntityInfrastructureIntegrationType
-	// AWS_IAM_POLICY integration
-	AWS_IAM_POLICY EntityInfrastructureIntegrationType
-	// AWS_DYNAMO_DB_TABLE integration
-	AWS_DYNAMO_DB_TABLE EntityInfrastructureIntegrationType
-	// AWS_CLOUD_TRAIL integration
-	AWS_CLOUD_TRAIL EntityInfrastructureIntegrationType
-	// AWS_LAMBDA_SPAN integration
-	AWS_LAMBDA_SPAN EntityInfrastructureIntegrationType
-	// KAFKA_BROKER integration
-	KAFKA_BROKER EntityInfrastructureIntegrationType
-	// AZURE_VIRTUAL_NETWORKS integration
-	AZURE_VIRTUAL_NETWORKS EntityInfrastructureIntegrationType
-	// AWS_LAMBDA_EVENT_SOURCE_MAPPING integration
-	AWS_LAMBDA_EVENT_SOURCE_MAPPING EntityInfrastructureIntegrationType
-	// AZURE_STORAGE_ACCOUNT integration
-	AZURE_STORAGE_ACCOUNT EntityInfrastructureIntegrationType
-	// GCP_TCP_SSL_PROXY_LOAD_BALANCER integration
-	GCP_TCP_SSL_PROXY_LOAD_BALANCER EntityInfrastructureIntegrationType
-	// AWS_SNS_TOPIC integration
-	AWS_SNS_TOPIC EntityInfrastructureIntegrationType
-	// REDIS_INSTANCE integration
-	REDIS_INSTANCE EntityInfrastructureIntegrationType
-	// GCP_KUBERNETES_POD integration
-	GCP_KUBERNETES_POD EntityInfrastructureIntegrationType
-	// VARNISH_INSTANCE integration
-	VARNISH_INSTANCE EntityInfrastructureIntegrationType
-	// AZURE_LOAD_BALANCER integration
-	AZURE_LOAD_BALANCER EntityInfrastructureIntegrationType
-	// AZURE_LOAD_BALANCER_FRONTEND_IP integration
-	AZURE_LOAD_BALANCER_FRONTEND_IP EntityInfrastructureIntegrationType
-	// AWS_BILLING_ACCOUNT_COST integration
-	AWS_BILLING_ACCOUNT_COST EntityInfrastructureIntegrationType
-	// AWS_IOT_BROKER integration
-	AWS_IOT_BROKER EntityInfrastructureIntegrationType
-	// GCP_INTERNAL_LOAD_BALANCER integration
-	GCP_INTERNAL_LOAD_BALANCER EntityInfrastructureIntegrationType
-	// ORACLE_DB_INSTANCE integration
-	ORACLE_DB_INSTANCE EntityInfrastructureIntegrationType
-	// AZURE_SERVICE_BUS_SUBSCRIPTION integration
-	AZURE_SERVICE_BUS_SUBSCRIPTION EntityInfrastructureIntegrationType
-	// AWS_DYNAMO_DB_GLOBAL_SECONDARY_INDEX integration
-	AWS_DYNAMO_DB_GLOBAL_SECONDARY_INDEX EntityInfrastructureIntegrationType
-	// AWS_LAMBDA_TRACE integration
-	AWS_LAMBDA_TRACE EntityInfrastructureIntegrationType
-	// AWS_API_GATEWAY_STAGE integration
-	AWS_API_GATEWAY_STAGE EntityInfrastructureIntegrationType
-	// AWS_IAM integration
-	AWS_IAM EntityInfrastructureIntegrationType
-	// AWS_IAM_ROLE integration
-	AWS_IAM_ROLE EntityInfrastructureIntegrationType
-	// AZURE_VIRTUAL_NETWORKS_PUBLIC_IP_ADDRESS integration
-	AZURE_VIRTUAL_NETWORKS_PUBLIC_IP_ADDRESS EntityInfrastructureIntegrationType
-	// COUCHBASE_BUCKET integration
-	COUCHBASE_BUCKET EntityInfrastructureIntegrationType
-	// AWS_VPC_NAT_GATEWAY integration
-	AWS_VPC_NAT_GATEWAY EntityInfrastructureIntegrationType
-	// AWS_API_GATEWAY_RESOURCE_WITH_METRICS integration
-	AWS_API_GATEWAY_RESOURCE_WITH_METRICS EntityInfrastructureIntegrationType
-	// AZURE_VIRTUAL_NETWORKS_SECURITY_GROUP integration
-	AZURE_VIRTUAL_NETWORKS_SECURITY_GROUP EntityInfrastructureIntegrationType
-	// AZURE_VIRTUAL_NETWORKS_ROUTE integration
-	AZURE_VIRTUAL_NETWORKS_ROUTE EntityInfrastructureIntegrationType
-	// RABBIT_MQ_CLUSTER integration
-	RABBIT_MQ_CLUSTER EntityInfrastructureIntegrationType
-	// AWS_IOT_RULE_ACTION integration
-	AWS_IOT_RULE_ACTION EntityInfrastructureIntegrationType
-	// MYSQL_NODE integration
-	MYSQL_NODE EntityInfrastructureIntegrationType
-	// AWS_KINESIS_DELIVERY_STREAM integration
-	AWS_KINESIS_DELIVERY_STREAM EntityInfrastructureIntegrationType
-	// GCP_KUBERNETES_NODE integration
-	GCP_KUBERNETES_NODE EntityInfrastructureIntegrationType
-	// AWS_VPC_SUBNET integration
-	AWS_VPC_SUBNET EntityInfrastructureIntegrationType
-	// AWS_AUTO_SCALING_GROUP integration
-	AWS_AUTO_SCALING_GROUP EntityInfrastructureIntegrationType
-	// AZURE_LOAD_BALANCER_BACKEND integration
-	AZURE_LOAD_BALANCER_BACKEND EntityInfrastructureIntegrationType
-	// KAFKA_TOPIC integration
-	KAFKA_TOPIC EntityInfrastructureIntegrationType
-	// AWS_SNS_SUBSCRIPTION integration
-	AWS_SNS_SUBSCRIPTION EntityInfrastructureIntegrationType
-	// POSTGRE_SQL_INSTANCE integration
-	POSTGRE_SQL_INSTANCE EntityInfrastructureIntegrationType
-	// AWS_VPC_NETWORK_ACL integration
-	AWS_VPC_NETWORK_ACL EntityInfrastructureIntegrationType
-	// AWS_IAM_VIRTUAL_MFA_DEVICE integration
-	AWS_IAM_VIRTUAL_MFA_DEVICE EntityInfrastructureIntegrationType
-	// AWS_ELASTIC_MAP_REDUCE_INSTANCE integration
-	AWS_ELASTIC_MAP_REDUCE_INSTANCE EntityInfrastructureIntegrationType
+	// AWS_EBS_VOLUME integration
+	AWS_EBS_VOLUME EntityInfrastructureIntegrationType
+	// AWS_BILLING_SERVICE_COST integration
+	AWS_BILLING_SERVICE_COST EntityInfrastructureIntegrationType
+	// GCP_CLOUD_SQL integration
+	GCP_CLOUD_SQL EntityInfrastructureIntegrationType
+	// AWS_ECS_SERVICE integration
+	AWS_ECS_SERVICE EntityInfrastructureIntegrationType
+	// AWS_REDSHIFT_NODE integration
+	AWS_REDSHIFT_NODE EntityInfrastructureIntegrationType
+	// AWS_SES_RECEIPT_FILTER integration
+	AWS_SES_RECEIPT_FILTER EntityInfrastructureIntegrationType
+	// AWS_ELASTI_CACHE_REDIS_NODE integration
+	AWS_ELASTI_CACHE_REDIS_NODE EntityInfrastructureIntegrationType
 	// AWS_VPC_VPN_CONNECTION integration
 	AWS_VPC_VPN_CONNECTION EntityInfrastructureIntegrationType
+	// AWS_IOT_RULE integration
+	AWS_IOT_RULE EntityInfrastructureIntegrationType
+	// GCP_STORAGE_BUCKET integration
+	GCP_STORAGE_BUCKET EntityInfrastructureIntegrationType
+	// MEMCACHED_INSTANCE integration
+	MEMCACHED_INSTANCE EntityInfrastructureIntegrationType
+	// AWS_LAMBDA_OPERATION integration
+	AWS_LAMBDA_OPERATION EntityInfrastructureIntegrationType
+	// AWS_ELASTIC_MAP_REDUCE_CLUSTER integration
+	AWS_ELASTIC_MAP_REDUCE_CLUSTER EntityInfrastructureIntegrationType
+	// MYSQL_NODE integration
+	MYSQL_NODE EntityInfrastructureIntegrationType
 	// AZURE_REDIS_CACHE_SHARD integration
 	AZURE_REDIS_CACHE_SHARD EntityInfrastructureIntegrationType
-	// AZURE_VIRTUAL_NETWORKS_ROUTE_TABLE integration
-	AZURE_VIRTUAL_NETWORKS_ROUTE_TABLE EntityInfrastructureIntegrationType
-	// AWS_HEALTH_ISSUE integration
-	AWS_HEALTH_ISSUE EntityInfrastructureIntegrationType
-	// AZURE_SERVICE_BUS_NAMESPACE integration
-	AZURE_SERVICE_BUS_NAMESPACE EntityInfrastructureIntegrationType
-	// AWS_VPC_ROUTE_TABLE integration
-	AWS_VPC_ROUTE_TABLE EntityInfrastructureIntegrationType
+	// CONSUL_AGENT integration
+	CONSUL_AGENT EntityInfrastructureIntegrationType
 	// AZURE_FUNCTIONS_APP integration
 	AZURE_FUNCTIONS_APP EntityInfrastructureIntegrationType
+	// AWS_S3_BUCKET integration
+	AWS_S3_BUCKET EntityInfrastructureIntegrationType
+	// AWS_LAMBDA_AGENT_TRANSACTION integration
+	AWS_LAMBDA_AGENT_TRANSACTION EntityInfrastructureIntegrationType
+	// AWS_REDSHIFT_CLUSTER integration
+	AWS_REDSHIFT_CLUSTER EntityInfrastructureIntegrationType
+	// GCP_KUBERNETES_POD integration
+	GCP_KUBERNETES_POD EntityInfrastructureIntegrationType
+	// ORACLE_DB_INSTANCE integration
+	ORACLE_DB_INSTANCE EntityInfrastructureIntegrationType
+	// AWS_IAM_SAML_PROVIDER integration
+	AWS_IAM_SAML_PROVIDER EntityInfrastructureIntegrationType
+	// AWS_VPC_NETWORK_ACL integration
+	AWS_VPC_NETWORK_ACL EntityInfrastructureIntegrationType
+	// KAFKA_TOPIC integration
+	KAFKA_TOPIC EntityInfrastructureIntegrationType
+	// AWS_AUTO_SCALING_LAUNCH_CONFIGURATION integration
+	AWS_AUTO_SCALING_LAUNCH_CONFIGURATION EntityInfrastructureIntegrationType
+	// AWS_API_GATEWAY_RESOURCE integration
+	AWS_API_GATEWAY_RESOURCE EntityInfrastructureIntegrationType
+	// GCP_CLOUD_TASKS_QUEUE integration
+	GCP_CLOUD_TASKS_QUEUE EntityInfrastructureIntegrationType
+	// AWS_ECS_CLUSTER integration
+	AWS_ECS_CLUSTER EntityInfrastructureIntegrationType
+	// AWS_HEALTH_NOTIFICATION integration
+	AWS_HEALTH_NOTIFICATION EntityInfrastructureIntegrationType
+	// GCP_KUBERNETES_NODE integration
+	GCP_KUBERNETES_NODE EntityInfrastructureIntegrationType
+	// AWS_LAMBDA_REGION integration
+	AWS_LAMBDA_REGION EntityInfrastructureIntegrationType
+	// RABBIT_MQ_QUEUE integration
+	RABBIT_MQ_QUEUE EntityInfrastructureIntegrationType
+	// AWS_LAMBDA_FUNCTION_ALIAS integration
+	AWS_LAMBDA_FUNCTION_ALIAS EntityInfrastructureIntegrationType
+	// AWS_IAM_OPEN_ID_PROVIDER integration
+	AWS_IAM_OPEN_ID_PROVIDER EntityInfrastructureIntegrationType
+	// AWS_VPC_SECURITY_GROUP integration
+	AWS_VPC_SECURITY_GROUP EntityInfrastructureIntegrationType
+	// AZURE_MYSQL_SERVER integration
+	AZURE_MYSQL_SERVER EntityInfrastructureIntegrationType
+	// AZURE_APP_SERVICE_WEB_APP integration
+	AZURE_APP_SERVICE_WEB_APP EntityInfrastructureIntegrationType
+	// AWS_KINESIS_STREAM integration
+	AWS_KINESIS_STREAM EntityInfrastructureIntegrationType
+	// AZURE_VIRTUAL_NETWORKS_PEERING integration
+	AZURE_VIRTUAL_NETWORKS_PEERING EntityInfrastructureIntegrationType
+	// AWS_LAMBDA_AGENT_TRANSACTION_ERROR integration
+	AWS_LAMBDA_AGENT_TRANSACTION_ERROR EntityInfrastructureIntegrationType
+	// AZURE_LOAD_BALANCER_PROBE integration
+	AZURE_LOAD_BALANCER_PROBE EntityInfrastructureIntegrationType
+	// AWS_BILLING_BUDGET integration
+	AWS_BILLING_BUDGET EntityInfrastructureIntegrationType
+	// AWS_SES_RECEIPT_RULE_SET integration
+	AWS_SES_RECEIPT_RULE_SET EntityInfrastructureIntegrationType
+	// AWS_IAM_SERVER_CERTIFICATE integration
+	AWS_IAM_SERVER_CERTIFICATE EntityInfrastructureIntegrationType
+	// GCP_BIG_QUERY_PROJECT integration
+	GCP_BIG_QUERY_PROJECT EntityInfrastructureIntegrationType
+	// AWS_DYNAMO_DB_REGION integration
+	AWS_DYNAMO_DB_REGION EntityInfrastructureIntegrationType
+	// AZURE_SERVICE_BUS_TOPIC integration
+	AZURE_SERVICE_BUS_TOPIC EntityInfrastructureIntegrationType
+	// GCP_SPANNER_DATABASE integration
+	GCP_SPANNER_DATABASE EntityInfrastructureIntegrationType
+	// GCP_PUB_SUB_TOPIC integration
+	GCP_PUB_SUB_TOPIC EntityInfrastructureIntegrationType
+	// AZURE_SERVICE_BUS_SUBSCRIPTION integration
+	AZURE_SERVICE_BUS_SUBSCRIPTION EntityInfrastructureIntegrationType
+	// COUCHBASE_QUERY_ENGINE integration
+	COUCHBASE_QUERY_ENGINE EntityInfrastructureIntegrationType
+	// AZURE_LOAD_BALANCER_BACKEND integration
+	AZURE_LOAD_BALANCER_BACKEND EntityInfrastructureIntegrationType
+	// AWS_VPC_INTERNET_GATEWAY integration
+	AWS_VPC_INTERNET_GATEWAY EntityInfrastructureIntegrationType
+	// COUCHBASE_BUCKET integration
+	COUCHBASE_BUCKET EntityInfrastructureIntegrationType
+	// AWS_LAMBDA_EVENT_SOURCE_MAPPING integration
+	AWS_LAMBDA_EVENT_SOURCE_MAPPING EntityInfrastructureIntegrationType
+	// ELASTICSEARCH_NODE integration
+	ELASTICSEARCH_NODE EntityInfrastructureIntegrationType
+	// AWS_ELASTIC_MAP_REDUCE_INSTANCE_FLEET integration
+	AWS_ELASTIC_MAP_REDUCE_INSTANCE_FLEET EntityInfrastructureIntegrationType
+	// AWS_ELB integration
+	AWS_ELB EntityInfrastructureIntegrationType
+	// AWS_ELASTICSEARCH_INSTANCE integration
+	AWS_ELASTICSEARCH_INSTANCE EntityInfrastructureIntegrationType
+	// AWS_ALB_LISTENER integration
+	AWS_ALB_LISTENER EntityInfrastructureIntegrationType
+	// AWS_ELASTICSEARCH_CLUSTER integration
+	AWS_ELASTICSEARCH_CLUSTER EntityInfrastructureIntegrationType
+	// AZURE_SQL_ELASTIC_POOL integration
+	AZURE_SQL_ELASTIC_POOL EntityInfrastructureIntegrationType
+	// AWS_CLOUD_TRAIL integration
+	AWS_CLOUD_TRAIL EntityInfrastructureIntegrationType
+	// AWS_HEALTH_ISSUE integration
+	AWS_HEALTH_ISSUE EntityInfrastructureIntegrationType
+	// AWS_AUTO_SCALING_REGION_LIMIT integration
+	AWS_AUTO_SCALING_REGION_LIMIT EntityInfrastructureIntegrationType
+	// AWS_VPC_NAT_GATEWAY integration
+	AWS_VPC_NAT_GATEWAY EntityInfrastructureIntegrationType
+	// AWS_VPC integration
+	AWS_VPC EntityInfrastructureIntegrationType
+	// NA integration
+	NA EntityInfrastructureIntegrationType
+	// AWS_IAM_GROUP integration
+	AWS_IAM_GROUP EntityInfrastructureIntegrationType
+	// AWS_VPC_PEERING_CONNECTION integration
+	AWS_VPC_PEERING_CONNECTION EntityInfrastructureIntegrationType
+	// AZURE_SQL_REPLICATION_LINK integration
+	AZURE_SQL_REPLICATION_LINK EntityInfrastructureIntegrationType
+	// AWS_LAMBDA_TRACE integration
+	AWS_LAMBDA_TRACE EntityInfrastructureIntegrationType
+	// REDIS_INSTANCE integration
+	REDIS_INSTANCE EntityInfrastructureIntegrationType
+	// AZURE_VIRTUAL_NETWORKS_SECURITY_RULE integration
+	AZURE_VIRTUAL_NETWORKS_SECURITY_RULE EntityInfrastructureIntegrationType
+	// RABBIT_MQ_CLUSTER integration
+	RABBIT_MQ_CLUSTER EntityInfrastructureIntegrationType
+	// AWS_API_GATEWAY_STAGE integration
+	AWS_API_GATEWAY_STAGE EntityInfrastructureIntegrationType
+	// AZURE_SERVICE_BUS_QUEUE integration
+	AZURE_SERVICE_BUS_QUEUE EntityInfrastructureIntegrationType
+	// AWS_HEALTH_SCHEDULED_CHANGE integration
+	AWS_HEALTH_SCHEDULED_CHANGE EntityInfrastructureIntegrationType
+	// AWS_LAMBDA_SPAN integration
+	AWS_LAMBDA_SPAN EntityInfrastructureIntegrationType
+	// AWS_SNS_SUBSCRIPTION integration
+	AWS_SNS_SUBSCRIPTION EntityInfrastructureIntegrationType
+	// AWS_LAMBDA_EDGE_FUNCTION integration
+	AWS_LAMBDA_EDGE_FUNCTION EntityInfrastructureIntegrationType
+	// F5_SYSTEM integration
+	F5_SYSTEM EntityInfrastructureIntegrationType
+	// AWS_HEALTH_UNKNOWN integration
+	AWS_HEALTH_UNKNOWN EntityInfrastructureIntegrationType
+	// GCP_INTERNAL_LOAD_BALANCER integration
+	GCP_INTERNAL_LOAD_BALANCER EntityInfrastructureIntegrationType
+	// AZURE_COSMOS_DB_ACCOUNT integration
+	AZURE_COSMOS_DB_ACCOUNT EntityInfrastructureIntegrationType
+	// F5_POOL integration
+	F5_POOL EntityInfrastructureIntegrationType
+	// AWS_KINESIS_STREAM_SHARD integration
+	AWS_KINESIS_STREAM_SHARD EntityInfrastructureIntegrationType
+	// AWS_ELASTIC_MAP_REDUCE_INSTANCE_GROUP integration
+	AWS_ELASTIC_MAP_REDUCE_INSTANCE_GROUP EntityInfrastructureIntegrationType
+	// AWS_AUTO_SCALING_POLICY integration
+	AWS_AUTO_SCALING_POLICY EntityInfrastructureIntegrationType
+	// AZURE_SQL_DATABASE integration
+	AZURE_SQL_DATABASE EntityInfrastructureIntegrationType
+	// AZURE_SQL_SERVER integration
+	AZURE_SQL_SERVER EntityInfrastructureIntegrationType
+	// AWS_ALB integration
+	AWS_ALB EntityInfrastructureIntegrationType
+	// F5_POOL_MEMBER integration
+	F5_POOL_MEMBER EntityInfrastructureIntegrationType
+	// AZURE_VIRTUAL_NETWORKS_ROUTE integration
+	AZURE_VIRTUAL_NETWORKS_ROUTE EntityInfrastructureIntegrationType
+	// AWS_SES_EVENT_DESTINATION integration
+	AWS_SES_EVENT_DESTINATION EntityInfrastructureIntegrationType
+	// AZURE_SQL_FIREWALL integration
+	AZURE_SQL_FIREWALL EntityInfrastructureIntegrationType
+	// AWS_ELASTIC_MAP_REDUCE_INSTANCE integration
+	AWS_ELASTIC_MAP_REDUCE_INSTANCE EntityInfrastructureIntegrationType
+	// COUCHBASE_NODE integration
+	COUCHBASE_NODE EntityInfrastructureIntegrationType
+	// RABBIT_MQ_NODE integration
+	RABBIT_MQ_NODE EntityInfrastructureIntegrationType
+	// AZURE_STORAGE_ACCOUNT integration
+	AZURE_STORAGE_ACCOUNT EntityInfrastructureIntegrationType
+	// VARNISH_INSTANCE integration
+	VARNISH_INSTANCE EntityInfrastructureIntegrationType
+	// MSSQL_INSTANCE integration
+	MSSQL_INSTANCE EntityInfrastructureIntegrationType
+	// GCP_BIG_QUERY_DATA_SET integration
+	GCP_BIG_QUERY_DATA_SET EntityInfrastructureIntegrationType
+	// AZURE_POSTGRESQL_SERVER integration
+	AZURE_POSTGRESQL_SERVER EntityInfrastructureIntegrationType
+	// AZURE_VIRTUAL_NETWORKS_PUBLIC_IP_ADDRESS integration
+	AZURE_VIRTUAL_NETWORKS_PUBLIC_IP_ADDRESS EntityInfrastructureIntegrationType
+	// AWS_API_GATEWAY_API integration
+	AWS_API_GATEWAY_API EntityInfrastructureIntegrationType
+	// AWS_KINESIS_DELIVERY_STREAM integration
+	AWS_KINESIS_DELIVERY_STREAM EntityInfrastructureIntegrationType
+	// AWSELASTICSEARCHNODE integration
+	AWSELASTICSEARCHNODE EntityInfrastructureIntegrationType
+	// AWS_IAM integration
+	AWS_IAM EntityInfrastructureIntegrationType
+	// AZURE_VIRTUAL_NETWORKS_ROUTE_TABLE integration
+	AZURE_VIRTUAL_NETWORKS_ROUTE_TABLE EntityInfrastructureIntegrationType
+	// AWS_IAM_VIRTUAL_MFA_DEVICE integration
+	AWS_IAM_VIRTUAL_MFA_DEVICE EntityInfrastructureIntegrationType
+	// GCP_CLOUD_FUNCTION integration
+	GCP_CLOUD_FUNCTION EntityInfrastructureIntegrationType
+	// AWS_ELASTI_CACHE_MEMCACHED_NODE integration
+	AWS_ELASTI_CACHE_MEMCACHED_NODE EntityInfrastructureIntegrationType
+	// F5_NODE integration
+	F5_NODE EntityInfrastructureIntegrationType
+	// AWS_DYNAMO_DB_TABLE integration
+	AWS_DYNAMO_DB_TABLE EntityInfrastructureIntegrationType
+	// AWS_SES_CONFIGURATION_SET integration
+	AWS_SES_CONFIGURATION_SET EntityInfrastructureIntegrationType
+	// AWS_IOT_RULE_ACTION integration
+	AWS_IOT_RULE_ACTION EntityInfrastructureIntegrationType
+	// AWS_IOT_BROKER integration
+	AWS_IOT_BROKER EntityInfrastructureIntegrationType
+	// AWS_API_GATEWAY_RESOURCE_WITH_METRICS integration
+	AWS_API_GATEWAY_RESOURCE_WITH_METRICS EntityInfrastructureIntegrationType
+	// AWS_ROUTE53_HEALTH_CHECK integration
+	AWS_ROUTE53_HEALTH_CHECK EntityInfrastructureIntegrationType
+	// AWS_CLOUD_FRONT_DISTRIBUTION integration
+	AWS_CLOUD_FRONT_DISTRIBUTION EntityInfrastructureIntegrationType
+	// AWS_VPC_ROUTE_TABLE integration
+	AWS_VPC_ROUTE_TABLE EntityInfrastructureIntegrationType
+	// AWS_ELASTI_CACHE_MEMCACHED_CLUSTER integration
+	AWS_ELASTI_CACHE_MEMCACHED_CLUSTER EntityInfrastructureIntegrationType
+	// AZURE_VIRTUAL_NETWORKS_IP_CONFIGURATION integration
+	AZURE_VIRTUAL_NETWORKS_IP_CONFIGURATION EntityInfrastructureIntegrationType
+	// AZURE_LOAD_BALANCER_INBOUND_NAT_POOL integration
+	AZURE_LOAD_BALANCER_INBOUND_NAT_POOL EntityInfrastructureIntegrationType
+	// KUBERNETES_CLUSTER integration
+	KUBERNETES_CLUSTER EntityInfrastructureIntegrationType
+	// AZURE_REDIS_CACHE integration
+	AZURE_REDIS_CACHE EntityInfrastructureIntegrationType
+	// F5_VIRTUAL_SERVER integration
+	F5_VIRTUAL_SERVER EntityInfrastructureIntegrationType
+	// GCP_KUBERNETES_CONTAINER integration
+	GCP_KUBERNETES_CONTAINER EntityInfrastructureIntegrationType
+	// COUCHBASE_CLUSTER integration
+	COUCHBASE_CLUSTER EntityInfrastructureIntegrationType
+	// GCP_VIRTUAL_MACHINE_DISK integration
+	GCP_VIRTUAL_MACHINE_DISK EntityInfrastructureIntegrationType
+	// AWS_VPC_ENDPOINT integration
+	AWS_VPC_ENDPOINT EntityInfrastructureIntegrationType
+	// AWS_VPC_NETWORK_INTERFACE integration
+	AWS_VPC_NETWORK_INTERFACE EntityInfrastructureIntegrationType
+	// AZURE_LOAD_BALANCER_FRONTEND_IP integration
+	AZURE_LOAD_BALANCER_FRONTEND_IP EntityInfrastructureIntegrationType
+	// KAFKA_BROKER integration
+	KAFKA_BROKER EntityInfrastructureIntegrationType
+	// AZURE_LOAD_BALANCER_RULE integration
+	AZURE_LOAD_BALANCER_RULE EntityInfrastructureIntegrationType
+	// AWS_RDS_DB_INSTANCE integration
+	AWS_RDS_DB_INSTANCE EntityInfrastructureIntegrationType
+	// AZURE_APP_SERVICE_HOST_NAME integration
+	AZURE_APP_SERVICE_HOST_NAME EntityInfrastructureIntegrationType
+	// AZURE_VIRTUAL_NETWORKS_SECURITY_GROUP integration
+	AZURE_VIRTUAL_NETWORKS_SECURITY_GROUP EntityInfrastructureIntegrationType
+	// AWS_AUTO_SCALING_INSTANCE integration
+	AWS_AUTO_SCALING_INSTANCE EntityInfrastructureIntegrationType
+	// AWS_BILLING_ACCOUNT_SERVICE_COST integration
+	AWS_BILLING_ACCOUNT_SERVICE_COST EntityInfrastructureIntegrationType
+	// AWS_SES_RECEIPT_RULE integration
+	AWS_SES_RECEIPT_RULE EntityInfrastructureIntegrationType
+	// AZURE_MARIADB_SERVER integration
+	AZURE_MARIADB_SERVER EntityInfrastructureIntegrationType
+	// AWS_IAM_USER integration
+	AWS_IAM_USER EntityInfrastructureIntegrationType
+	// AZURE_SQL_RESTORE_POINT integration
+	AZURE_SQL_RESTORE_POINT EntityInfrastructureIntegrationType
+	// AZURE_VIRTUAL_NETWORKS integration
+	AZURE_VIRTUAL_NETWORKS EntityInfrastructureIntegrationType
+	// AWS_RDS_DB_CLUSTER integration
+	AWS_RDS_DB_CLUSTER EntityInfrastructureIntegrationType
+	// AWS_S3_BUCKET_REQUESTS integration
+	AWS_S3_BUCKET_REQUESTS EntityInfrastructureIntegrationType
+	// AWS_ROUTE53_ZONE_RECORD_SET integration
+	AWS_ROUTE53_ZONE_RECORD_SET EntityInfrastructureIntegrationType
+	// AWS_ROUTE53_ZONE integration
+	AWS_ROUTE53_ZONE EntityInfrastructureIntegrationType
+	// AZURE_VIRTUAL_NETWORKS_NETWORK_INTERFACE integration
+	AZURE_VIRTUAL_NETWORKS_NETWORK_INTERFACE EntityInfrastructureIntegrationType
+	// AWS_ALB_LISTENER_RULE integration
+	AWS_ALB_LISTENER_RULE EntityInfrastructureIntegrationType
+	// AWS_SNS_TOPIC integration
+	AWS_SNS_TOPIC EntityInfrastructureIntegrationType
+	// AWS_DYNAMO_DB_GLOBAL_SECONDARY_INDEX integration
+	AWS_DYNAMO_DB_GLOBAL_SECONDARY_INDEX EntityInfrastructureIntegrationType
+	// GCP_TCP_SSL_PROXY_LOAD_BALANCER integration
+	GCP_TCP_SSL_PROXY_LOAD_BALANCER EntityInfrastructureIntegrationType
+	// AWS_ELASTI_CACHE_REDIS_CLUSTER integration
+	AWS_ELASTI_CACHE_REDIS_CLUSTER EntityInfrastructureIntegrationType
+	// GCP_BIG_QUERY_TABLE integration
+	GCP_BIG_QUERY_TABLE EntityInfrastructureIntegrationType
+	// AWS_AUTO_SCALING_GROUP integration
+	AWS_AUTO_SCALING_GROUP EntityInfrastructureIntegrationType
+	// AWS_SES_REGION integration
+	AWS_SES_REGION EntityInfrastructureIntegrationType
+	// POSTGRE_SQL_INSTANCE integration
+	POSTGRE_SQL_INSTANCE EntityInfrastructureIntegrationType
+	// AWS_ELASTIC_BEANSTALK_ENVIRONMENT integration
+	AWS_ELASTIC_BEANSTALK_ENVIRONMENT EntityInfrastructureIntegrationType
+	// AWS_VPC_SUBNET integration
+	AWS_VPC_SUBNET EntityInfrastructureIntegrationType
+	// GCP_PUB_SUB_SUBSCRIPTION integration
+	GCP_PUB_SUB_SUBSCRIPTION EntityInfrastructureIntegrationType
+	// AWS_ELASTIC_BEANSTALK_INSTANCE integration
+	AWS_ELASTIC_BEANSTALK_INSTANCE EntityInfrastructureIntegrationType
+	// APACHE_SERVER integration
+	APACHE_SERVER EntityInfrastructureIntegrationType
+	// AWS_EFS_FILE_SYSTEM integration
+	AWS_EFS_FILE_SYSTEM EntityInfrastructureIntegrationType
+	// CASSANDRA_NODE integration
+	CASSANDRA_NODE EntityInfrastructureIntegrationType
+	// AWS_VPC_VPN_TUNNEL integration
+	AWS_VPC_VPN_TUNNEL EntityInfrastructureIntegrationType
+	// AWS_LAMBDA_FUNCTION integration
+	AWS_LAMBDA_FUNCTION EntityInfrastructureIntegrationType
+	// GCP_SPANNER_INSTANCE integration
+	GCP_SPANNER_INSTANCE EntityInfrastructureIntegrationType
+	// AWS_BILLING_ACCOUNT_COST integration
+	AWS_BILLING_ACCOUNT_COST EntityInfrastructureIntegrationType
+	// AZURE_VIRTUAL_NETWORKS_SUBNET integration
+	AZURE_VIRTUAL_NETWORKS_SUBNET EntityInfrastructureIntegrationType
+	// RABBIT_MQ_EXCHANGE integration
+	RABBIT_MQ_EXCHANGE EntityInfrastructureIntegrationType
 	// NGINX_SERVER integration
 	NGINX_SERVER EntityInfrastructureIntegrationType
+	// AWS_IAM_POLICY integration
+	AWS_IAM_POLICY EntityInfrastructureIntegrationType
+	// AWS_IAM_ROLE integration
+	AWS_IAM_ROLE EntityInfrastructureIntegrationType
+	// AZURE_LOAD_BALANCER integration
+	AZURE_LOAD_BALANCER EntityInfrastructureIntegrationType
+	// AZURE_SERVICE_BUS_NAMESPACE integration
+	AZURE_SERVICE_BUS_NAMESPACE EntityInfrastructureIntegrationType
 	// AWS_SQS_QUEUE integration
 	AWS_SQS_QUEUE EntityInfrastructureIntegrationType
-}{
-	// AWS_SES_RECEIPT_RULE_SET integration
-	AWS_SES_RECEIPT_RULE_SET: "AWS_SES_RECEIPT_RULE_SET",
-	// AWS_ELASTI_CACHE_REDIS_NODE integration
-	AWS_ELASTI_CACHE_REDIS_NODE: "AWS_ELASTI_CACHE_REDIS_NODE",
-	// F5_VIRTUAL_SERVER integration
-	F5_VIRTUAL_SERVER: "F5_VIRTUAL_SERVER",
-	// GCP_VIRTUAL_MACHINE_DISK integration
-	GCP_VIRTUAL_MACHINE_DISK: "GCP_VIRTUAL_MACHINE_DISK",
-	// AWS_IAM_GROUP integration
-	AWS_IAM_GROUP: "AWS_IAM_GROUP",
-	// AZURE_VIRTUAL_NETWORKS_SUBNET integration
-	AZURE_VIRTUAL_NETWORKS_SUBNET: "AZURE_VIRTUAL_NETWORKS_SUBNET",
-	// AZURE_MARIADB_SERVER integration
-	AZURE_MARIADB_SERVER: "AZURE_MARIADB_SERVER",
-	// AWS_BILLING_ACCOUNT_SERVICE_COST integration
-	AWS_BILLING_ACCOUNT_SERVICE_COST: "AWS_BILLING_ACCOUNT_SERVICE_COST",
-	// AWS_IAM_USER integration
-	AWS_IAM_USER: "AWS_IAM_USER",
-	// AWS_IAM_SERVER_CERTIFICATE integration
-	AWS_IAM_SERVER_CERTIFICATE: "AWS_IAM_SERVER_CERTIFICATE",
-	// NA integration
-	NA: "NA",
-	// AWS_RDS_DB_CLUSTER integration
-	AWS_RDS_DB_CLUSTER: "AWS_RDS_DB_CLUSTER",
-	// AWS_IAM_SAML_PROVIDER integration
-	AWS_IAM_SAML_PROVIDER: "AWS_IAM_SAML_PROVIDER",
-	// MEMCACHED_INSTANCE integration
-	MEMCACHED_INSTANCE: "MEMCACHED_INSTANCE",
-	// AWS_VPC integration
-	AWS_VPC: "AWS_VPC",
-	// AZURE_SQL_REPLICATION_LINK integration
-	AZURE_SQL_REPLICATION_LINK: "AZURE_SQL_REPLICATION_LINK",
-	// AWS_ELASTI_CACHE_REDIS_CLUSTER integration
-	AWS_ELASTI_CACHE_REDIS_CLUSTER: "AWS_ELASTI_CACHE_REDIS_CLUSTER",
 	// AZURE_LOAD_BALANCER_INBOUND_NAT_RULE integration
-	AZURE_LOAD_BALANCER_INBOUND_NAT_RULE: "AZURE_LOAD_BALANCER_INBOUND_NAT_RULE",
-	// AWS_ROUTE53_ZONE_RECORD_SET integration
-	AWS_ROUTE53_ZONE_RECORD_SET: "AWS_ROUTE53_ZONE_RECORD_SET",
-	// AWS_SES_CONFIGURATION_SET integration
-	AWS_SES_CONFIGURATION_SET: "AWS_SES_CONFIGURATION_SET",
-	// AWS_ECS_CLUSTER integration
-	AWS_ECS_CLUSTER: "AWS_ECS_CLUSTER",
-	// GCP_PUB_SUB_TOPIC integration
-	GCP_PUB_SUB_TOPIC: "GCP_PUB_SUB_TOPIC",
-	// CASSANDRA_NODE integration
-	CASSANDRA_NODE: "CASSANDRA_NODE",
-	// AWS_VPC_SECURITY_GROUP integration
-	AWS_VPC_SECURITY_GROUP: "AWS_VPC_SECURITY_GROUP",
-	// AWS_SES_EVENT_DESTINATION integration
-	AWS_SES_EVENT_DESTINATION: "AWS_SES_EVENT_DESTINATION",
-	// AWS_ROUTE53_HEALTH_CHECK integration
-	AWS_ROUTE53_HEALTH_CHECK: "AWS_ROUTE53_HEALTH_CHECK",
-	// AZURE_SQL_RESTORE_POINT integration
-	AZURE_SQL_RESTORE_POINT: "AZURE_SQL_RESTORE_POINT",
-	// AWS_ELASTIC_MAP_REDUCE_INSTANCE_FLEET integration
-	AWS_ELASTIC_MAP_REDUCE_INSTANCE_FLEET: "AWS_ELASTIC_MAP_REDUCE_INSTANCE_FLEET",
-	// AZURE_LOAD_BALANCER_PROBE integration
-	AZURE_LOAD_BALANCER_PROBE: "AZURE_LOAD_BALANCER_PROBE",
-	// AWS_HEALTH_UNKNOWN integration
-	AWS_HEALTH_UNKNOWN: "AWS_HEALTH_UNKNOWN",
-	// GCP_BIG_QUERY_TABLE integration
-	GCP_BIG_QUERY_TABLE: "GCP_BIG_QUERY_TABLE",
-	// AWS_CLOUD_FRONT_DISTRIBUTION integration
-	AWS_CLOUD_FRONT_DISTRIBUTION: "AWS_CLOUD_FRONT_DISTRIBUTION",
-	// AWS_VPC_PEERING_CONNECTION integration
-	AWS_VPC_PEERING_CONNECTION: "AWS_VPC_PEERING_CONNECTION",
-	// RABBIT_MQ_EXCHANGE integration
-	RABBIT_MQ_EXCHANGE: "RABBIT_MQ_EXCHANGE",
-	// GCP_APP_ENGINE_SERVICE integration
-	GCP_APP_ENGINE_SERVICE: "GCP_APP_ENGINE_SERVICE",
-	// GCP_PUB_SUB_SUBSCRIPTION integration
-	GCP_PUB_SUB_SUBSCRIPTION: "GCP_PUB_SUB_SUBSCRIPTION",
-	// F5_SYSTEM integration
-	F5_SYSTEM: "F5_SYSTEM",
-	// COUCHBASE_QUERY_ENGINE integration
-	COUCHBASE_QUERY_ENGINE: "COUCHBASE_QUERY_ENGINE",
-	// AWS_ELASTICSEARCH_CLUSTER integration
-	AWS_ELASTICSEARCH_CLUSTER: "AWS_ELASTICSEARCH_CLUSTER",
-	// F5_NODE integration
-	F5_NODE: "F5_NODE",
-	// GCP_CLOUD_FUNCTION integration
-	GCP_CLOUD_FUNCTION: "GCP_CLOUD_FUNCTION",
-	// GCP_KUBERNETES_CONTAINER integration
-	GCP_KUBERNETES_CONTAINER: "GCP_KUBERNETES_CONTAINER",
-	// AWS_KINESIS_STREAM_SHARD integration
-	AWS_KINESIS_STREAM_SHARD: "AWS_KINESIS_STREAM_SHARD",
-	// KUBERNETES_CLUSTER integration
-	KUBERNETES_CLUSTER: "KUBERNETES_CLUSTER",
-	// CONSUL_AGENT integration
-	CONSUL_AGENT: "CONSUL_AGENT",
-	// AWS_ELASTI_CACHE_MEMCACHED_NODE integration
-	AWS_ELASTI_CACHE_MEMCACHED_NODE: "AWS_ELASTI_CACHE_MEMCACHED_NODE",
-	// AWS_ELASTICSEARCH_INSTANCE integration
-	AWS_ELASTICSEARCH_INSTANCE: "AWS_ELASTICSEARCH_INSTANCE",
-	// GCP_STORAGE_BUCKET integration
-	GCP_STORAGE_BUCKET: "GCP_STORAGE_BUCKET",
-	// AZURE_APP_SERVICE_HOST_NAME integration
-	AZURE_APP_SERVICE_HOST_NAME: "AZURE_APP_SERVICE_HOST_NAME",
-	// RABBIT_MQ_NODE integration
-	RABBIT_MQ_NODE: "RABBIT_MQ_NODE",
-	// AWS_REDSHIFT_CLUSTER integration
-	AWS_REDSHIFT_CLUSTER: "AWS_REDSHIFT_CLUSTER",
-	// MSSQL_INSTANCE integration
-	MSSQL_INSTANCE: "MSSQL_INSTANCE",
-	// AWS_API_GATEWAY_API integration
-	AWS_API_GATEWAY_API: "AWS_API_GATEWAY_API",
-	// AWS_LAMBDA_AGENT_TRANSACTION integration
-	AWS_LAMBDA_AGENT_TRANSACTION: "AWS_LAMBDA_AGENT_TRANSACTION",
-	// GCP_SPANNER_DATABASE integration
-	GCP_SPANNER_DATABASE: "GCP_SPANNER_DATABASE",
-	// AZURE_VIRTUAL_NETWORKS_PEERING integration
-	AZURE_VIRTUAL_NETWORKS_PEERING: "AZURE_VIRTUAL_NETWORKS_PEERING",
-	// AWS_REDSHIFT_NODE integration
-	AWS_REDSHIFT_NODE: "AWS_REDSHIFT_NODE",
-	// AWS_ELB integration
-	AWS_ELB: "AWS_ELB",
-	// ELASTICSEARCH_NODE integration
-	ELASTICSEARCH_NODE: "ELASTICSEARCH_NODE",
-	// AZURE_COSMOS_DB_ACCOUNT integration
-	AZURE_COSMOS_DB_ACCOUNT: "AZURE_COSMOS_DB_ACCOUNT",
-	// AZURE_SQL_ELASTIC_POOL integration
-	AZURE_SQL_ELASTIC_POOL: "AZURE_SQL_ELASTIC_POOL",
-	// AWS_ELASTIC_MAP_REDUCE_INSTANCE_GROUP integration
-	AWS_ELASTIC_MAP_REDUCE_INSTANCE_GROUP: "AWS_ELASTIC_MAP_REDUCE_INSTANCE_GROUP",
-	// AWS_ROUTE53_ZONE integration
-	AWS_ROUTE53_ZONE: "AWS_ROUTE53_ZONE",
-	// AWS_LAMBDA_OPERATION integration
-	AWS_LAMBDA_OPERATION: "AWS_LAMBDA_OPERATION",
-	// AWS_VPC_VPN_TUNNEL integration
-	AWS_VPC_VPN_TUNNEL: "AWS_VPC_VPN_TUNNEL",
-	// AWS_ALB_LISTENER_RULE integration
-	AWS_ALB_LISTENER_RULE: "AWS_ALB_LISTENER_RULE",
-	// AWS_SES_RECEIPT_FILTER integration
-	AWS_SES_RECEIPT_FILTER: "AWS_SES_RECEIPT_FILTER",
-	// GCP_CLOUD_TASKS_QUEUE integration
-	GCP_CLOUD_TASKS_QUEUE: "GCP_CLOUD_TASKS_QUEUE",
-	// AWS_LAMBDA_FUNCTION_ALIAS integration
-	AWS_LAMBDA_FUNCTION_ALIAS: "AWS_LAMBDA_FUNCTION_ALIAS",
-	// COUCHBASE_NODE integration
-	COUCHBASE_NODE: "COUCHBASE_NODE",
-	// RABBIT_MQ_QUEUE integration
-	RABBIT_MQ_QUEUE: "RABBIT_MQ_QUEUE",
-	// AWS_AUTO_SCALING_POLICY integration
-	AWS_AUTO_SCALING_POLICY: "AWS_AUTO_SCALING_POLICY",
+	AZURE_LOAD_BALANCER_INBOUND_NAT_RULE EntityInfrastructureIntegrationType
 	// AWS_ALB_TARGET_GROUP integration
-	AWS_ALB_TARGET_GROUP: "AWS_ALB_TARGET_GROUP",
-	// GCP_BIG_QUERY_DATA_SET integration
-	GCP_BIG_QUERY_DATA_SET: "GCP_BIG_QUERY_DATA_SET",
-	// AZURE_SERVICE_BUS_TOPIC integration
-	AZURE_SERVICE_BUS_TOPIC: "AZURE_SERVICE_BUS_TOPIC",
-	// AWS_EFS_FILE_SYSTEM integration
-	AWS_EFS_FILE_SYSTEM: "AWS_EFS_FILE_SYSTEM",
-	// AWS_KINESIS_STREAM integration
-	AWS_KINESIS_STREAM: "AWS_KINESIS_STREAM",
-	// AWS_EBS_VOLUME integration
-	AWS_EBS_VOLUME: "AWS_EBS_VOLUME",
-	// GCP_BIG_QUERY_PROJECT integration
-	GCP_BIG_QUERY_PROJECT: "GCP_BIG_QUERY_PROJECT",
-	// AWS_IOT_RULE integration
-	AWS_IOT_RULE: "AWS_IOT_RULE",
-	// AZURE_VIRTUAL_NETWORKS_IP_CONFIGURATION integration
-	AZURE_VIRTUAL_NETWORKS_IP_CONFIGURATION: "AZURE_VIRTUAL_NETWORKS_IP_CONFIGURATION",
-	// AWS_ELASTIC_BEANSTALK_INSTANCE integration
-	AWS_ELASTIC_BEANSTALK_INSTANCE: "AWS_ELASTIC_BEANSTALK_INSTANCE",
-	// AWS_SES_RECEIPT_RULE integration
-	AWS_SES_RECEIPT_RULE: "AWS_SES_RECEIPT_RULE",
-	// AZURE_SQL_FIREWALL integration
-	AZURE_SQL_FIREWALL: "AZURE_SQL_FIREWALL",
-	// AWS_VPC_ENDPOINT integration
-	AWS_VPC_ENDPOINT: "AWS_VPC_ENDPOINT",
-	// AWS_AUTO_SCALING_REGION_LIMIT integration
-	AWS_AUTO_SCALING_REGION_LIMIT: "AWS_AUTO_SCALING_REGION_LIMIT",
-	// AWS_BILLING_BUDGET integration
-	AWS_BILLING_BUDGET: "AWS_BILLING_BUDGET",
-	// F5_POOL integration
-	F5_POOL: "F5_POOL",
-	// AWS_LAMBDA_FUNCTION integration
-	AWS_LAMBDA_FUNCTION: "AWS_LAMBDA_FUNCTION",
-	// AWS_SES_REGION integration
-	AWS_SES_REGION: "AWS_SES_REGION",
-	// AWS_RDS_DB_INSTANCE integration
-	AWS_RDS_DB_INSTANCE: "AWS_RDS_DB_INSTANCE",
-	// AZURE_VIRTUAL_NETWORKS_NETWORK_INTERFACE integration
-	AZURE_VIRTUAL_NETWORKS_NETWORK_INTERFACE: "AZURE_VIRTUAL_NETWORKS_NETWORK_INTERFACE",
-	// AWS_LAMBDA_AGENT_TRANSACTION_ERROR integration
-	AWS_LAMBDA_AGENT_TRANSACTION_ERROR: "AWS_LAMBDA_AGENT_TRANSACTION_ERROR",
-	// AWS_HEALTH_SCHEDULED_CHANGE integration
-	AWS_HEALTH_SCHEDULED_CHANGE: "AWS_HEALTH_SCHEDULED_CHANGE",
-	// AWS_IAM_OPEN_ID_PROVIDER integration
-	AWS_IAM_OPEN_ID_PROVIDER: "AWS_IAM_OPEN_ID_PROVIDER",
-	// AZURE_MYSQL_SERVER integration
-	AZURE_MYSQL_SERVER: "AZURE_MYSQL_SERVER",
-	// AWS_BILLING_SERVICE_COST integration
-	AWS_BILLING_SERVICE_COST: "AWS_BILLING_SERVICE_COST",
-	// AZURE_APP_SERVICE_WEB_APP integration
-	AZURE_APP_SERVICE_WEB_APP: "AZURE_APP_SERVICE_WEB_APP",
-	// AZURE_LOAD_BALANCER_INBOUND_NAT_POOL integration
-	AZURE_LOAD_BALANCER_INBOUND_NAT_POOL: "AZURE_LOAD_BALANCER_INBOUND_NAT_POOL",
-	// AZURE_VIRTUAL_NETWORKS_SECURITY_RULE integration
-	AZURE_VIRTUAL_NETWORKS_SECURITY_RULE: "AZURE_VIRTUAL_NETWORKS_SECURITY_RULE",
-	// AWS_ECS_SERVICE integration
-	AWS_ECS_SERVICE: "AWS_ECS_SERVICE",
-	// AZURE_POSTGRESQL_SERVER integration
-	AZURE_POSTGRESQL_SERVER: "AZURE_POSTGRESQL_SERVER",
-	// AWS_ALB_LISTENER integration
-	AWS_ALB_LISTENER: "AWS_ALB_LISTENER",
-	// F5_POOL_MEMBER integration
-	F5_POOL_MEMBER: "F5_POOL_MEMBER",
-	// AWS_VPC_INTERNET_GATEWAY integration
-	AWS_VPC_INTERNET_GATEWAY: "AWS_VPC_INTERNET_GATEWAY",
-	// AWS_S3_BUCKET_REQUESTS integration
-	AWS_S3_BUCKET_REQUESTS: "AWS_S3_BUCKET_REQUESTS",
-	// COUCHBASE_CLUSTER integration
-	COUCHBASE_CLUSTER: "COUCHBASE_CLUSTER",
-	// AZURE_SQL_DATABASE integration
-	AZURE_SQL_DATABASE: "AZURE_SQL_DATABASE",
-	// AZURE_REDIS_CACHE integration
-	AZURE_REDIS_CACHE: "AZURE_REDIS_CACHE",
-	// AWS_AUTO_SCALING_LAUNCH_CONFIGURATION integration
-	AWS_AUTO_SCALING_LAUNCH_CONFIGURATION: "AWS_AUTO_SCALING_LAUNCH_CONFIGURATION",
-	// AWS_ALB integration
-	AWS_ALB: "AWS_ALB",
-	// AWSELASTICSEARCHNODE integration
-	AWSELASTICSEARCHNODE: "AWSELASTICSEARCHNODE",
-	// AWS_VPC_NETWORK_INTERFACE integration
-	AWS_VPC_NETWORK_INTERFACE: "AWS_VPC_NETWORK_INTERFACE",
-	// AZURE_LOAD_BALANCER_RULE integration
-	AZURE_LOAD_BALANCER_RULE: "AZURE_LOAD_BALANCER_RULE",
-	// GCP_CLOUD_SQL integration
-	GCP_CLOUD_SQL: "GCP_CLOUD_SQL",
-	// AWS_S3_BUCKET integration
-	AWS_S3_BUCKET: "AWS_S3_BUCKET",
+	AWS_ALB_TARGET_GROUP EntityInfrastructureIntegrationType
+	// GCP_APP_ENGINE_SERVICE integration
+	GCP_APP_ENGINE_SERVICE EntityInfrastructureIntegrationType
+}{
 	// GCP_HTTP_LOAD_BALANCER integration
 	GCP_HTTP_LOAD_BALANCER: "GCP_HTTP_LOAD_BALANCER",
-	// AWS_API_GATEWAY_RESOURCE integration
-	AWS_API_GATEWAY_RESOURCE: "AWS_API_GATEWAY_RESOURCE",
-	// AWS_AUTO_SCALING_INSTANCE integration
-	AWS_AUTO_SCALING_INSTANCE: "AWS_AUTO_SCALING_INSTANCE",
-	// AZURE_SERVICE_BUS_QUEUE integration
-	AZURE_SERVICE_BUS_QUEUE: "AZURE_SERVICE_BUS_QUEUE",
-	// AWS_ELASTI_CACHE_MEMCACHED_CLUSTER integration
-	AWS_ELASTI_CACHE_MEMCACHED_CLUSTER: "AWS_ELASTI_CACHE_MEMCACHED_CLUSTER",
-	// AWS_ELASTIC_MAP_REDUCE_CLUSTER integration
-	AWS_ELASTIC_MAP_REDUCE_CLUSTER: "AWS_ELASTIC_MAP_REDUCE_CLUSTER",
-	// AWS_LAMBDA_REGION integration
-	AWS_LAMBDA_REGION: "AWS_LAMBDA_REGION",
-	// AWS_ELASTIC_BEANSTALK_ENVIRONMENT integration
-	AWS_ELASTIC_BEANSTALK_ENVIRONMENT: "AWS_ELASTIC_BEANSTALK_ENVIRONMENT",
-	// AWS_LAMBDA_EDGE_FUNCTION integration
-	AWS_LAMBDA_EDGE_FUNCTION: "AWS_LAMBDA_EDGE_FUNCTION",
-	// GCP_SPANNER_INSTANCE integration
-	GCP_SPANNER_INSTANCE: "GCP_SPANNER_INSTANCE",
-	// AZURE_SQL_SERVER integration
-	AZURE_SQL_SERVER: "AZURE_SQL_SERVER",
-	// AWS_HEALTH_NOTIFICATION integration
-	AWS_HEALTH_NOTIFICATION: "AWS_HEALTH_NOTIFICATION",
-	// APACHE_SERVER integration
-	APACHE_SERVER: "APACHE_SERVER",
-	// AWS_DYNAMO_DB_REGION integration
-	AWS_DYNAMO_DB_REGION: "AWS_DYNAMO_DB_REGION",
-	// AWS_IAM_POLICY integration
-	AWS_IAM_POLICY: "AWS_IAM_POLICY",
-	// AWS_DYNAMO_DB_TABLE integration
-	AWS_DYNAMO_DB_TABLE: "AWS_DYNAMO_DB_TABLE",
-	// AWS_CLOUD_TRAIL integration
-	AWS_CLOUD_TRAIL: "AWS_CLOUD_TRAIL",
-	// AWS_LAMBDA_SPAN integration
-	AWS_LAMBDA_SPAN: "AWS_LAMBDA_SPAN",
-	// KAFKA_BROKER integration
-	KAFKA_BROKER: "KAFKA_BROKER",
-	// AZURE_VIRTUAL_NETWORKS integration
-	AZURE_VIRTUAL_NETWORKS: "AZURE_VIRTUAL_NETWORKS",
-	// AWS_LAMBDA_EVENT_SOURCE_MAPPING integration
-	AWS_LAMBDA_EVENT_SOURCE_MAPPING: "AWS_LAMBDA_EVENT_SOURCE_MAPPING",
-	// AZURE_STORAGE_ACCOUNT integration
-	AZURE_STORAGE_ACCOUNT: "AZURE_STORAGE_ACCOUNT",
-	// GCP_TCP_SSL_PROXY_LOAD_BALANCER integration
-	GCP_TCP_SSL_PROXY_LOAD_BALANCER: "GCP_TCP_SSL_PROXY_LOAD_BALANCER",
-	// AWS_SNS_TOPIC integration
-	AWS_SNS_TOPIC: "AWS_SNS_TOPIC",
-	// REDIS_INSTANCE integration
-	REDIS_INSTANCE: "REDIS_INSTANCE",
-	// GCP_KUBERNETES_POD integration
-	GCP_KUBERNETES_POD: "GCP_KUBERNETES_POD",
-	// VARNISH_INSTANCE integration
-	VARNISH_INSTANCE: "VARNISH_INSTANCE",
-	// AZURE_LOAD_BALANCER integration
-	AZURE_LOAD_BALANCER: "AZURE_LOAD_BALANCER",
-	// AZURE_LOAD_BALANCER_FRONTEND_IP integration
-	AZURE_LOAD_BALANCER_FRONTEND_IP: "AZURE_LOAD_BALANCER_FRONTEND_IP",
-	// AWS_BILLING_ACCOUNT_COST integration
-	AWS_BILLING_ACCOUNT_COST: "AWS_BILLING_ACCOUNT_COST",
-	// AWS_IOT_BROKER integration
-	AWS_IOT_BROKER: "AWS_IOT_BROKER",
-	// GCP_INTERNAL_LOAD_BALANCER integration
-	GCP_INTERNAL_LOAD_BALANCER: "GCP_INTERNAL_LOAD_BALANCER",
-	// ORACLE_DB_INSTANCE integration
-	ORACLE_DB_INSTANCE: "ORACLE_DB_INSTANCE",
-	// AZURE_SERVICE_BUS_SUBSCRIPTION integration
-	AZURE_SERVICE_BUS_SUBSCRIPTION: "AZURE_SERVICE_BUS_SUBSCRIPTION",
-	// AWS_DYNAMO_DB_GLOBAL_SECONDARY_INDEX integration
-	AWS_DYNAMO_DB_GLOBAL_SECONDARY_INDEX: "AWS_DYNAMO_DB_GLOBAL_SECONDARY_INDEX",
-	// AWS_LAMBDA_TRACE integration
-	AWS_LAMBDA_TRACE: "AWS_LAMBDA_TRACE",
-	// AWS_API_GATEWAY_STAGE integration
-	AWS_API_GATEWAY_STAGE: "AWS_API_GATEWAY_STAGE",
-	// AWS_IAM integration
-	AWS_IAM: "AWS_IAM",
-	// AWS_IAM_ROLE integration
-	AWS_IAM_ROLE: "AWS_IAM_ROLE",
-	// AZURE_VIRTUAL_NETWORKS_PUBLIC_IP_ADDRESS integration
-	AZURE_VIRTUAL_NETWORKS_PUBLIC_IP_ADDRESS: "AZURE_VIRTUAL_NETWORKS_PUBLIC_IP_ADDRESS",
-	// COUCHBASE_BUCKET integration
-	COUCHBASE_BUCKET: "COUCHBASE_BUCKET",
-	// AWS_VPC_NAT_GATEWAY integration
-	AWS_VPC_NAT_GATEWAY: "AWS_VPC_NAT_GATEWAY",
-	// AWS_API_GATEWAY_RESOURCE_WITH_METRICS integration
-	AWS_API_GATEWAY_RESOURCE_WITH_METRICS: "AWS_API_GATEWAY_RESOURCE_WITH_METRICS",
-	// AZURE_VIRTUAL_NETWORKS_SECURITY_GROUP integration
-	AZURE_VIRTUAL_NETWORKS_SECURITY_GROUP: "AZURE_VIRTUAL_NETWORKS_SECURITY_GROUP",
-	// AZURE_VIRTUAL_NETWORKS_ROUTE integration
-	AZURE_VIRTUAL_NETWORKS_ROUTE: "AZURE_VIRTUAL_NETWORKS_ROUTE",
-	// RABBIT_MQ_CLUSTER integration
-	RABBIT_MQ_CLUSTER: "RABBIT_MQ_CLUSTER",
-	// AWS_IOT_RULE_ACTION integration
-	AWS_IOT_RULE_ACTION: "AWS_IOT_RULE_ACTION",
-	// MYSQL_NODE integration
-	MYSQL_NODE: "MYSQL_NODE",
-	// AWS_KINESIS_DELIVERY_STREAM integration
-	AWS_KINESIS_DELIVERY_STREAM: "AWS_KINESIS_DELIVERY_STREAM",
-	// GCP_KUBERNETES_NODE integration
-	GCP_KUBERNETES_NODE: "GCP_KUBERNETES_NODE",
-	// AWS_VPC_SUBNET integration
-	AWS_VPC_SUBNET: "AWS_VPC_SUBNET",
-	// AWS_AUTO_SCALING_GROUP integration
-	AWS_AUTO_SCALING_GROUP: "AWS_AUTO_SCALING_GROUP",
-	// AZURE_LOAD_BALANCER_BACKEND integration
-	AZURE_LOAD_BALANCER_BACKEND: "AZURE_LOAD_BALANCER_BACKEND",
-	// KAFKA_TOPIC integration
-	KAFKA_TOPIC: "KAFKA_TOPIC",
-	// AWS_SNS_SUBSCRIPTION integration
-	AWS_SNS_SUBSCRIPTION: "AWS_SNS_SUBSCRIPTION",
-	// POSTGRE_SQL_INSTANCE integration
-	POSTGRE_SQL_INSTANCE: "POSTGRE_SQL_INSTANCE",
-	// AWS_VPC_NETWORK_ACL integration
-	AWS_VPC_NETWORK_ACL: "AWS_VPC_NETWORK_ACL",
-	// AWS_IAM_VIRTUAL_MFA_DEVICE integration
-	AWS_IAM_VIRTUAL_MFA_DEVICE: "AWS_IAM_VIRTUAL_MFA_DEVICE",
-	// AWS_ELASTIC_MAP_REDUCE_INSTANCE integration
-	AWS_ELASTIC_MAP_REDUCE_INSTANCE: "AWS_ELASTIC_MAP_REDUCE_INSTANCE",
+	// AWS_EBS_VOLUME integration
+	AWS_EBS_VOLUME: "AWS_EBS_VOLUME",
+	// AWS_BILLING_SERVICE_COST integration
+	AWS_BILLING_SERVICE_COST: "AWS_BILLING_SERVICE_COST",
+	// GCP_CLOUD_SQL integration
+	GCP_CLOUD_SQL: "GCP_CLOUD_SQL",
+	// AWS_ECS_SERVICE integration
+	AWS_ECS_SERVICE: "AWS_ECS_SERVICE",
+	// AWS_REDSHIFT_NODE integration
+	AWS_REDSHIFT_NODE: "AWS_REDSHIFT_NODE",
+	// AWS_SES_RECEIPT_FILTER integration
+	AWS_SES_RECEIPT_FILTER: "AWS_SES_RECEIPT_FILTER",
+	// AWS_ELASTI_CACHE_REDIS_NODE integration
+	AWS_ELASTI_CACHE_REDIS_NODE: "AWS_ELASTI_CACHE_REDIS_NODE",
 	// AWS_VPC_VPN_CONNECTION integration
 	AWS_VPC_VPN_CONNECTION: "AWS_VPC_VPN_CONNECTION",
+	// AWS_IOT_RULE integration
+	AWS_IOT_RULE: "AWS_IOT_RULE",
+	// GCP_STORAGE_BUCKET integration
+	GCP_STORAGE_BUCKET: "GCP_STORAGE_BUCKET",
+	// MEMCACHED_INSTANCE integration
+	MEMCACHED_INSTANCE: "MEMCACHED_INSTANCE",
+	// AWS_LAMBDA_OPERATION integration
+	AWS_LAMBDA_OPERATION: "AWS_LAMBDA_OPERATION",
+	// AWS_ELASTIC_MAP_REDUCE_CLUSTER integration
+	AWS_ELASTIC_MAP_REDUCE_CLUSTER: "AWS_ELASTIC_MAP_REDUCE_CLUSTER",
+	// MYSQL_NODE integration
+	MYSQL_NODE: "MYSQL_NODE",
 	// AZURE_REDIS_CACHE_SHARD integration
 	AZURE_REDIS_CACHE_SHARD: "AZURE_REDIS_CACHE_SHARD",
-	// AZURE_VIRTUAL_NETWORKS_ROUTE_TABLE integration
-	AZURE_VIRTUAL_NETWORKS_ROUTE_TABLE: "AZURE_VIRTUAL_NETWORKS_ROUTE_TABLE",
-	// AWS_HEALTH_ISSUE integration
-	AWS_HEALTH_ISSUE: "AWS_HEALTH_ISSUE",
-	// AZURE_SERVICE_BUS_NAMESPACE integration
-	AZURE_SERVICE_BUS_NAMESPACE: "AZURE_SERVICE_BUS_NAMESPACE",
-	// AWS_VPC_ROUTE_TABLE integration
-	AWS_VPC_ROUTE_TABLE: "AWS_VPC_ROUTE_TABLE",
+	// CONSUL_AGENT integration
+	CONSUL_AGENT: "CONSUL_AGENT",
 	// AZURE_FUNCTIONS_APP integration
 	AZURE_FUNCTIONS_APP: "AZURE_FUNCTIONS_APP",
+	// AWS_S3_BUCKET integration
+	AWS_S3_BUCKET: "AWS_S3_BUCKET",
+	// AWS_LAMBDA_AGENT_TRANSACTION integration
+	AWS_LAMBDA_AGENT_TRANSACTION: "AWS_LAMBDA_AGENT_TRANSACTION",
+	// AWS_REDSHIFT_CLUSTER integration
+	AWS_REDSHIFT_CLUSTER: "AWS_REDSHIFT_CLUSTER",
+	// GCP_KUBERNETES_POD integration
+	GCP_KUBERNETES_POD: "GCP_KUBERNETES_POD",
+	// ORACLE_DB_INSTANCE integration
+	ORACLE_DB_INSTANCE: "ORACLE_DB_INSTANCE",
+	// AWS_IAM_SAML_PROVIDER integration
+	AWS_IAM_SAML_PROVIDER: "AWS_IAM_SAML_PROVIDER",
+	// AWS_VPC_NETWORK_ACL integration
+	AWS_VPC_NETWORK_ACL: "AWS_VPC_NETWORK_ACL",
+	// KAFKA_TOPIC integration
+	KAFKA_TOPIC: "KAFKA_TOPIC",
+	// AWS_AUTO_SCALING_LAUNCH_CONFIGURATION integration
+	AWS_AUTO_SCALING_LAUNCH_CONFIGURATION: "AWS_AUTO_SCALING_LAUNCH_CONFIGURATION",
+	// AWS_API_GATEWAY_RESOURCE integration
+	AWS_API_GATEWAY_RESOURCE: "AWS_API_GATEWAY_RESOURCE",
+	// GCP_CLOUD_TASKS_QUEUE integration
+	GCP_CLOUD_TASKS_QUEUE: "GCP_CLOUD_TASKS_QUEUE",
+	// AWS_ECS_CLUSTER integration
+	AWS_ECS_CLUSTER: "AWS_ECS_CLUSTER",
+	// AWS_HEALTH_NOTIFICATION integration
+	AWS_HEALTH_NOTIFICATION: "AWS_HEALTH_NOTIFICATION",
+	// GCP_KUBERNETES_NODE integration
+	GCP_KUBERNETES_NODE: "GCP_KUBERNETES_NODE",
+	// AWS_LAMBDA_REGION integration
+	AWS_LAMBDA_REGION: "AWS_LAMBDA_REGION",
+	// RABBIT_MQ_QUEUE integration
+	RABBIT_MQ_QUEUE: "RABBIT_MQ_QUEUE",
+	// AWS_LAMBDA_FUNCTION_ALIAS integration
+	AWS_LAMBDA_FUNCTION_ALIAS: "AWS_LAMBDA_FUNCTION_ALIAS",
+	// AWS_IAM_OPEN_ID_PROVIDER integration
+	AWS_IAM_OPEN_ID_PROVIDER: "AWS_IAM_OPEN_ID_PROVIDER",
+	// AWS_VPC_SECURITY_GROUP integration
+	AWS_VPC_SECURITY_GROUP: "AWS_VPC_SECURITY_GROUP",
+	// AZURE_MYSQL_SERVER integration
+	AZURE_MYSQL_SERVER: "AZURE_MYSQL_SERVER",
+	// AZURE_APP_SERVICE_WEB_APP integration
+	AZURE_APP_SERVICE_WEB_APP: "AZURE_APP_SERVICE_WEB_APP",
+	// AWS_KINESIS_STREAM integration
+	AWS_KINESIS_STREAM: "AWS_KINESIS_STREAM",
+	// AZURE_VIRTUAL_NETWORKS_PEERING integration
+	AZURE_VIRTUAL_NETWORKS_PEERING: "AZURE_VIRTUAL_NETWORKS_PEERING",
+	// AWS_LAMBDA_AGENT_TRANSACTION_ERROR integration
+	AWS_LAMBDA_AGENT_TRANSACTION_ERROR: "AWS_LAMBDA_AGENT_TRANSACTION_ERROR",
+	// AZURE_LOAD_BALANCER_PROBE integration
+	AZURE_LOAD_BALANCER_PROBE: "AZURE_LOAD_BALANCER_PROBE",
+	// AWS_BILLING_BUDGET integration
+	AWS_BILLING_BUDGET: "AWS_BILLING_BUDGET",
+	// AWS_SES_RECEIPT_RULE_SET integration
+	AWS_SES_RECEIPT_RULE_SET: "AWS_SES_RECEIPT_RULE_SET",
+	// AWS_IAM_SERVER_CERTIFICATE integration
+	AWS_IAM_SERVER_CERTIFICATE: "AWS_IAM_SERVER_CERTIFICATE",
+	// GCP_BIG_QUERY_PROJECT integration
+	GCP_BIG_QUERY_PROJECT: "GCP_BIG_QUERY_PROJECT",
+	// AWS_DYNAMO_DB_REGION integration
+	AWS_DYNAMO_DB_REGION: "AWS_DYNAMO_DB_REGION",
+	// AZURE_SERVICE_BUS_TOPIC integration
+	AZURE_SERVICE_BUS_TOPIC: "AZURE_SERVICE_BUS_TOPIC",
+	// GCP_SPANNER_DATABASE integration
+	GCP_SPANNER_DATABASE: "GCP_SPANNER_DATABASE",
+	// GCP_PUB_SUB_TOPIC integration
+	GCP_PUB_SUB_TOPIC: "GCP_PUB_SUB_TOPIC",
+	// AZURE_SERVICE_BUS_SUBSCRIPTION integration
+	AZURE_SERVICE_BUS_SUBSCRIPTION: "AZURE_SERVICE_BUS_SUBSCRIPTION",
+	// COUCHBASE_QUERY_ENGINE integration
+	COUCHBASE_QUERY_ENGINE: "COUCHBASE_QUERY_ENGINE",
+	// AZURE_LOAD_BALANCER_BACKEND integration
+	AZURE_LOAD_BALANCER_BACKEND: "AZURE_LOAD_BALANCER_BACKEND",
+	// AWS_VPC_INTERNET_GATEWAY integration
+	AWS_VPC_INTERNET_GATEWAY: "AWS_VPC_INTERNET_GATEWAY",
+	// COUCHBASE_BUCKET integration
+	COUCHBASE_BUCKET: "COUCHBASE_BUCKET",
+	// AWS_LAMBDA_EVENT_SOURCE_MAPPING integration
+	AWS_LAMBDA_EVENT_SOURCE_MAPPING: "AWS_LAMBDA_EVENT_SOURCE_MAPPING",
+	// ELASTICSEARCH_NODE integration
+	ELASTICSEARCH_NODE: "ELASTICSEARCH_NODE",
+	// AWS_ELASTIC_MAP_REDUCE_INSTANCE_FLEET integration
+	AWS_ELASTIC_MAP_REDUCE_INSTANCE_FLEET: "AWS_ELASTIC_MAP_REDUCE_INSTANCE_FLEET",
+	// AWS_ELB integration
+	AWS_ELB: "AWS_ELB",
+	// AWS_ELASTICSEARCH_INSTANCE integration
+	AWS_ELASTICSEARCH_INSTANCE: "AWS_ELASTICSEARCH_INSTANCE",
+	// AWS_ALB_LISTENER integration
+	AWS_ALB_LISTENER: "AWS_ALB_LISTENER",
+	// AWS_ELASTICSEARCH_CLUSTER integration
+	AWS_ELASTICSEARCH_CLUSTER: "AWS_ELASTICSEARCH_CLUSTER",
+	// AZURE_SQL_ELASTIC_POOL integration
+	AZURE_SQL_ELASTIC_POOL: "AZURE_SQL_ELASTIC_POOL",
+	// AWS_CLOUD_TRAIL integration
+	AWS_CLOUD_TRAIL: "AWS_CLOUD_TRAIL",
+	// AWS_HEALTH_ISSUE integration
+	AWS_HEALTH_ISSUE: "AWS_HEALTH_ISSUE",
+	// AWS_AUTO_SCALING_REGION_LIMIT integration
+	AWS_AUTO_SCALING_REGION_LIMIT: "AWS_AUTO_SCALING_REGION_LIMIT",
+	// AWS_VPC_NAT_GATEWAY integration
+	AWS_VPC_NAT_GATEWAY: "AWS_VPC_NAT_GATEWAY",
+	// AWS_VPC integration
+	AWS_VPC: "AWS_VPC",
+	// NA integration
+	NA: "NA",
+	// AWS_IAM_GROUP integration
+	AWS_IAM_GROUP: "AWS_IAM_GROUP",
+	// AWS_VPC_PEERING_CONNECTION integration
+	AWS_VPC_PEERING_CONNECTION: "AWS_VPC_PEERING_CONNECTION",
+	// AZURE_SQL_REPLICATION_LINK integration
+	AZURE_SQL_REPLICATION_LINK: "AZURE_SQL_REPLICATION_LINK",
+	// AWS_LAMBDA_TRACE integration
+	AWS_LAMBDA_TRACE: "AWS_LAMBDA_TRACE",
+	// REDIS_INSTANCE integration
+	REDIS_INSTANCE: "REDIS_INSTANCE",
+	// AZURE_VIRTUAL_NETWORKS_SECURITY_RULE integration
+	AZURE_VIRTUAL_NETWORKS_SECURITY_RULE: "AZURE_VIRTUAL_NETWORKS_SECURITY_RULE",
+	// RABBIT_MQ_CLUSTER integration
+	RABBIT_MQ_CLUSTER: "RABBIT_MQ_CLUSTER",
+	// AWS_API_GATEWAY_STAGE integration
+	AWS_API_GATEWAY_STAGE: "AWS_API_GATEWAY_STAGE",
+	// AZURE_SERVICE_BUS_QUEUE integration
+	AZURE_SERVICE_BUS_QUEUE: "AZURE_SERVICE_BUS_QUEUE",
+	// AWS_HEALTH_SCHEDULED_CHANGE integration
+	AWS_HEALTH_SCHEDULED_CHANGE: "AWS_HEALTH_SCHEDULED_CHANGE",
+	// AWS_LAMBDA_SPAN integration
+	AWS_LAMBDA_SPAN: "AWS_LAMBDA_SPAN",
+	// AWS_SNS_SUBSCRIPTION integration
+	AWS_SNS_SUBSCRIPTION: "AWS_SNS_SUBSCRIPTION",
+	// AWS_LAMBDA_EDGE_FUNCTION integration
+	AWS_LAMBDA_EDGE_FUNCTION: "AWS_LAMBDA_EDGE_FUNCTION",
+	// F5_SYSTEM integration
+	F5_SYSTEM: "F5_SYSTEM",
+	// AWS_HEALTH_UNKNOWN integration
+	AWS_HEALTH_UNKNOWN: "AWS_HEALTH_UNKNOWN",
+	// GCP_INTERNAL_LOAD_BALANCER integration
+	GCP_INTERNAL_LOAD_BALANCER: "GCP_INTERNAL_LOAD_BALANCER",
+	// AZURE_COSMOS_DB_ACCOUNT integration
+	AZURE_COSMOS_DB_ACCOUNT: "AZURE_COSMOS_DB_ACCOUNT",
+	// F5_POOL integration
+	F5_POOL: "F5_POOL",
+	// AWS_KINESIS_STREAM_SHARD integration
+	AWS_KINESIS_STREAM_SHARD: "AWS_KINESIS_STREAM_SHARD",
+	// AWS_ELASTIC_MAP_REDUCE_INSTANCE_GROUP integration
+	AWS_ELASTIC_MAP_REDUCE_INSTANCE_GROUP: "AWS_ELASTIC_MAP_REDUCE_INSTANCE_GROUP",
+	// AWS_AUTO_SCALING_POLICY integration
+	AWS_AUTO_SCALING_POLICY: "AWS_AUTO_SCALING_POLICY",
+	// AZURE_SQL_DATABASE integration
+	AZURE_SQL_DATABASE: "AZURE_SQL_DATABASE",
+	// AZURE_SQL_SERVER integration
+	AZURE_SQL_SERVER: "AZURE_SQL_SERVER",
+	// AWS_ALB integration
+	AWS_ALB: "AWS_ALB",
+	// F5_POOL_MEMBER integration
+	F5_POOL_MEMBER: "F5_POOL_MEMBER",
+	// AZURE_VIRTUAL_NETWORKS_ROUTE integration
+	AZURE_VIRTUAL_NETWORKS_ROUTE: "AZURE_VIRTUAL_NETWORKS_ROUTE",
+	// AWS_SES_EVENT_DESTINATION integration
+	AWS_SES_EVENT_DESTINATION: "AWS_SES_EVENT_DESTINATION",
+	// AZURE_SQL_FIREWALL integration
+	AZURE_SQL_FIREWALL: "AZURE_SQL_FIREWALL",
+	// AWS_ELASTIC_MAP_REDUCE_INSTANCE integration
+	AWS_ELASTIC_MAP_REDUCE_INSTANCE: "AWS_ELASTIC_MAP_REDUCE_INSTANCE",
+	// COUCHBASE_NODE integration
+	COUCHBASE_NODE: "COUCHBASE_NODE",
+	// RABBIT_MQ_NODE integration
+	RABBIT_MQ_NODE: "RABBIT_MQ_NODE",
+	// AZURE_STORAGE_ACCOUNT integration
+	AZURE_STORAGE_ACCOUNT: "AZURE_STORAGE_ACCOUNT",
+	// VARNISH_INSTANCE integration
+	VARNISH_INSTANCE: "VARNISH_INSTANCE",
+	// MSSQL_INSTANCE integration
+	MSSQL_INSTANCE: "MSSQL_INSTANCE",
+	// GCP_BIG_QUERY_DATA_SET integration
+	GCP_BIG_QUERY_DATA_SET: "GCP_BIG_QUERY_DATA_SET",
+	// AZURE_POSTGRESQL_SERVER integration
+	AZURE_POSTGRESQL_SERVER: "AZURE_POSTGRESQL_SERVER",
+	// AZURE_VIRTUAL_NETWORKS_PUBLIC_IP_ADDRESS integration
+	AZURE_VIRTUAL_NETWORKS_PUBLIC_IP_ADDRESS: "AZURE_VIRTUAL_NETWORKS_PUBLIC_IP_ADDRESS",
+	// AWS_API_GATEWAY_API integration
+	AWS_API_GATEWAY_API: "AWS_API_GATEWAY_API",
+	// AWS_KINESIS_DELIVERY_STREAM integration
+	AWS_KINESIS_DELIVERY_STREAM: "AWS_KINESIS_DELIVERY_STREAM",
+	// AWSELASTICSEARCHNODE integration
+	AWSELASTICSEARCHNODE: "AWSELASTICSEARCHNODE",
+	// AWS_IAM integration
+	AWS_IAM: "AWS_IAM",
+	// AZURE_VIRTUAL_NETWORKS_ROUTE_TABLE integration
+	AZURE_VIRTUAL_NETWORKS_ROUTE_TABLE: "AZURE_VIRTUAL_NETWORKS_ROUTE_TABLE",
+	// AWS_IAM_VIRTUAL_MFA_DEVICE integration
+	AWS_IAM_VIRTUAL_MFA_DEVICE: "AWS_IAM_VIRTUAL_MFA_DEVICE",
+	// GCP_CLOUD_FUNCTION integration
+	GCP_CLOUD_FUNCTION: "GCP_CLOUD_FUNCTION",
+	// AWS_ELASTI_CACHE_MEMCACHED_NODE integration
+	AWS_ELASTI_CACHE_MEMCACHED_NODE: "AWS_ELASTI_CACHE_MEMCACHED_NODE",
+	// F5_NODE integration
+	F5_NODE: "F5_NODE",
+	// AWS_DYNAMO_DB_TABLE integration
+	AWS_DYNAMO_DB_TABLE: "AWS_DYNAMO_DB_TABLE",
+	// AWS_SES_CONFIGURATION_SET integration
+	AWS_SES_CONFIGURATION_SET: "AWS_SES_CONFIGURATION_SET",
+	// AWS_IOT_RULE_ACTION integration
+	AWS_IOT_RULE_ACTION: "AWS_IOT_RULE_ACTION",
+	// AWS_IOT_BROKER integration
+	AWS_IOT_BROKER: "AWS_IOT_BROKER",
+	// AWS_API_GATEWAY_RESOURCE_WITH_METRICS integration
+	AWS_API_GATEWAY_RESOURCE_WITH_METRICS: "AWS_API_GATEWAY_RESOURCE_WITH_METRICS",
+	// AWS_ROUTE53_HEALTH_CHECK integration
+	AWS_ROUTE53_HEALTH_CHECK: "AWS_ROUTE53_HEALTH_CHECK",
+	// AWS_CLOUD_FRONT_DISTRIBUTION integration
+	AWS_CLOUD_FRONT_DISTRIBUTION: "AWS_CLOUD_FRONT_DISTRIBUTION",
+	// AWS_VPC_ROUTE_TABLE integration
+	AWS_VPC_ROUTE_TABLE: "AWS_VPC_ROUTE_TABLE",
+	// AWS_ELASTI_CACHE_MEMCACHED_CLUSTER integration
+	AWS_ELASTI_CACHE_MEMCACHED_CLUSTER: "AWS_ELASTI_CACHE_MEMCACHED_CLUSTER",
+	// AZURE_VIRTUAL_NETWORKS_IP_CONFIGURATION integration
+	AZURE_VIRTUAL_NETWORKS_IP_CONFIGURATION: "AZURE_VIRTUAL_NETWORKS_IP_CONFIGURATION",
+	// AZURE_LOAD_BALANCER_INBOUND_NAT_POOL integration
+	AZURE_LOAD_BALANCER_INBOUND_NAT_POOL: "AZURE_LOAD_BALANCER_INBOUND_NAT_POOL",
+	// KUBERNETES_CLUSTER integration
+	KUBERNETES_CLUSTER: "KUBERNETES_CLUSTER",
+	// AZURE_REDIS_CACHE integration
+	AZURE_REDIS_CACHE: "AZURE_REDIS_CACHE",
+	// F5_VIRTUAL_SERVER integration
+	F5_VIRTUAL_SERVER: "F5_VIRTUAL_SERVER",
+	// GCP_KUBERNETES_CONTAINER integration
+	GCP_KUBERNETES_CONTAINER: "GCP_KUBERNETES_CONTAINER",
+	// COUCHBASE_CLUSTER integration
+	COUCHBASE_CLUSTER: "COUCHBASE_CLUSTER",
+	// GCP_VIRTUAL_MACHINE_DISK integration
+	GCP_VIRTUAL_MACHINE_DISK: "GCP_VIRTUAL_MACHINE_DISK",
+	// AWS_VPC_ENDPOINT integration
+	AWS_VPC_ENDPOINT: "AWS_VPC_ENDPOINT",
+	// AWS_VPC_NETWORK_INTERFACE integration
+	AWS_VPC_NETWORK_INTERFACE: "AWS_VPC_NETWORK_INTERFACE",
+	// AZURE_LOAD_BALANCER_FRONTEND_IP integration
+	AZURE_LOAD_BALANCER_FRONTEND_IP: "AZURE_LOAD_BALANCER_FRONTEND_IP",
+	// KAFKA_BROKER integration
+	KAFKA_BROKER: "KAFKA_BROKER",
+	// AZURE_LOAD_BALANCER_RULE integration
+	AZURE_LOAD_BALANCER_RULE: "AZURE_LOAD_BALANCER_RULE",
+	// AWS_RDS_DB_INSTANCE integration
+	AWS_RDS_DB_INSTANCE: "AWS_RDS_DB_INSTANCE",
+	// AZURE_APP_SERVICE_HOST_NAME integration
+	AZURE_APP_SERVICE_HOST_NAME: "AZURE_APP_SERVICE_HOST_NAME",
+	// AZURE_VIRTUAL_NETWORKS_SECURITY_GROUP integration
+	AZURE_VIRTUAL_NETWORKS_SECURITY_GROUP: "AZURE_VIRTUAL_NETWORKS_SECURITY_GROUP",
+	// AWS_AUTO_SCALING_INSTANCE integration
+	AWS_AUTO_SCALING_INSTANCE: "AWS_AUTO_SCALING_INSTANCE",
+	// AWS_BILLING_ACCOUNT_SERVICE_COST integration
+	AWS_BILLING_ACCOUNT_SERVICE_COST: "AWS_BILLING_ACCOUNT_SERVICE_COST",
+	// AWS_SES_RECEIPT_RULE integration
+	AWS_SES_RECEIPT_RULE: "AWS_SES_RECEIPT_RULE",
+	// AZURE_MARIADB_SERVER integration
+	AZURE_MARIADB_SERVER: "AZURE_MARIADB_SERVER",
+	// AWS_IAM_USER integration
+	AWS_IAM_USER: "AWS_IAM_USER",
+	// AZURE_SQL_RESTORE_POINT integration
+	AZURE_SQL_RESTORE_POINT: "AZURE_SQL_RESTORE_POINT",
+	// AZURE_VIRTUAL_NETWORKS integration
+	AZURE_VIRTUAL_NETWORKS: "AZURE_VIRTUAL_NETWORKS",
+	// AWS_RDS_DB_CLUSTER integration
+	AWS_RDS_DB_CLUSTER: "AWS_RDS_DB_CLUSTER",
+	// AWS_S3_BUCKET_REQUESTS integration
+	AWS_S3_BUCKET_REQUESTS: "AWS_S3_BUCKET_REQUESTS",
+	// AWS_ROUTE53_ZONE_RECORD_SET integration
+	AWS_ROUTE53_ZONE_RECORD_SET: "AWS_ROUTE53_ZONE_RECORD_SET",
+	// AWS_ROUTE53_ZONE integration
+	AWS_ROUTE53_ZONE: "AWS_ROUTE53_ZONE",
+	// AZURE_VIRTUAL_NETWORKS_NETWORK_INTERFACE integration
+	AZURE_VIRTUAL_NETWORKS_NETWORK_INTERFACE: "AZURE_VIRTUAL_NETWORKS_NETWORK_INTERFACE",
+	// AWS_ALB_LISTENER_RULE integration
+	AWS_ALB_LISTENER_RULE: "AWS_ALB_LISTENER_RULE",
+	// AWS_SNS_TOPIC integration
+	AWS_SNS_TOPIC: "AWS_SNS_TOPIC",
+	// AWS_DYNAMO_DB_GLOBAL_SECONDARY_INDEX integration
+	AWS_DYNAMO_DB_GLOBAL_SECONDARY_INDEX: "AWS_DYNAMO_DB_GLOBAL_SECONDARY_INDEX",
+	// GCP_TCP_SSL_PROXY_LOAD_BALANCER integration
+	GCP_TCP_SSL_PROXY_LOAD_BALANCER: "GCP_TCP_SSL_PROXY_LOAD_BALANCER",
+	// AWS_ELASTI_CACHE_REDIS_CLUSTER integration
+	AWS_ELASTI_CACHE_REDIS_CLUSTER: "AWS_ELASTI_CACHE_REDIS_CLUSTER",
+	// GCP_BIG_QUERY_TABLE integration
+	GCP_BIG_QUERY_TABLE: "GCP_BIG_QUERY_TABLE",
+	// AWS_AUTO_SCALING_GROUP integration
+	AWS_AUTO_SCALING_GROUP: "AWS_AUTO_SCALING_GROUP",
+	// AWS_SES_REGION integration
+	AWS_SES_REGION: "AWS_SES_REGION",
+	// POSTGRE_SQL_INSTANCE integration
+	POSTGRE_SQL_INSTANCE: "POSTGRE_SQL_INSTANCE",
+	// AWS_ELASTIC_BEANSTALK_ENVIRONMENT integration
+	AWS_ELASTIC_BEANSTALK_ENVIRONMENT: "AWS_ELASTIC_BEANSTALK_ENVIRONMENT",
+	// AWS_VPC_SUBNET integration
+	AWS_VPC_SUBNET: "AWS_VPC_SUBNET",
+	// GCP_PUB_SUB_SUBSCRIPTION integration
+	GCP_PUB_SUB_SUBSCRIPTION: "GCP_PUB_SUB_SUBSCRIPTION",
+	// AWS_ELASTIC_BEANSTALK_INSTANCE integration
+	AWS_ELASTIC_BEANSTALK_INSTANCE: "AWS_ELASTIC_BEANSTALK_INSTANCE",
+	// APACHE_SERVER integration
+	APACHE_SERVER: "APACHE_SERVER",
+	// AWS_EFS_FILE_SYSTEM integration
+	AWS_EFS_FILE_SYSTEM: "AWS_EFS_FILE_SYSTEM",
+	// CASSANDRA_NODE integration
+	CASSANDRA_NODE: "CASSANDRA_NODE",
+	// AWS_VPC_VPN_TUNNEL integration
+	AWS_VPC_VPN_TUNNEL: "AWS_VPC_VPN_TUNNEL",
+	// AWS_LAMBDA_FUNCTION integration
+	AWS_LAMBDA_FUNCTION: "AWS_LAMBDA_FUNCTION",
+	// GCP_SPANNER_INSTANCE integration
+	GCP_SPANNER_INSTANCE: "GCP_SPANNER_INSTANCE",
+	// AWS_BILLING_ACCOUNT_COST integration
+	AWS_BILLING_ACCOUNT_COST: "AWS_BILLING_ACCOUNT_COST",
+	// AZURE_VIRTUAL_NETWORKS_SUBNET integration
+	AZURE_VIRTUAL_NETWORKS_SUBNET: "AZURE_VIRTUAL_NETWORKS_SUBNET",
+	// RABBIT_MQ_EXCHANGE integration
+	RABBIT_MQ_EXCHANGE: "RABBIT_MQ_EXCHANGE",
 	// NGINX_SERVER integration
 	NGINX_SERVER: "NGINX_SERVER",
+	// AWS_IAM_POLICY integration
+	AWS_IAM_POLICY: "AWS_IAM_POLICY",
+	// AWS_IAM_ROLE integration
+	AWS_IAM_ROLE: "AWS_IAM_ROLE",
+	// AZURE_LOAD_BALANCER integration
+	AZURE_LOAD_BALANCER: "AZURE_LOAD_BALANCER",
+	// AZURE_SERVICE_BUS_NAMESPACE integration
+	AZURE_SERVICE_BUS_NAMESPACE: "AZURE_SERVICE_BUS_NAMESPACE",
 	// AWS_SQS_QUEUE integration
 	AWS_SQS_QUEUE: "AWS_SQS_QUEUE",
+	// AZURE_LOAD_BALANCER_INBOUND_NAT_RULE integration
+	AZURE_LOAD_BALANCER_INBOUND_NAT_RULE: "AZURE_LOAD_BALANCER_INBOUND_NAT_RULE",
+	// AWS_ALB_TARGET_GROUP integration
+	AWS_ALB_TARGET_GROUP: "AWS_ALB_TARGET_GROUP",
+	// GCP_APP_ENGINE_SERVICE integration
+	GCP_APP_ENGINE_SERVICE: "GCP_APP_ENGINE_SERVICE",
 }
 
 // EntitySearchCountsFacet - Possible entity search count facets.
@@ -926,27 +926,27 @@ var EntityTypeTypes = struct {
 // EntitySearchCounts - The groupings and counts of entities returned for the specified criteria.
 type EntitySearchCounts struct {
 	// The number of entities that match the specified criteria.
-	Count int `json:"count"`
+	Count int `json:"count,omitempty"`
 	// The group of entities returned for the specified criteria.
-	Facet AttributeMap `json:"facet"`
+	Facet AttributeMap `json:"facet,omitempty"`
 }
 
 // EntitySearchQueryBuilder - An object that can be used to discover and create the entity search query argument.
 type EntitySearchQueryBuilder struct {
 	// The alerting severity of the entity.
-	AlertSeverity EntityAlertSeverity `json:"alertSeverity"`
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
 	// The entity domain.
-	Domain EntitySearchQueryBuilderDomain `json:"domain"`
+	Domain EntitySearchQueryBuilderDomain `json:"domain,omitempty"`
 	// The Infrastructure integration type.
-	InfrastructureIntegrationType EntityInfrastructureIntegrationType `json:"infrastructureIntegrationType"`
+	InfrastructureIntegrationType EntityInfrastructureIntegrationType `json:"infrastructureIntegrationType,omitempty"`
 	// The entity name.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// The reporting status of the entity.
-	Reporting bool `json:"reporting"`
+	Reporting bool `json:"reporting,omitempty"`
 	// A list of tags applied to the entity.
-	Tags []EntitySearchQueryBuilderTag `json:"tags"`
+	Tags []EntitySearchQueryBuilderTag `json:"tags,omitempty"`
 	// The entity type.
-	Type EntitySearchQueryBuilderType `json:"type"`
+	Type EntitySearchQueryBuilderType `json:"type,omitempty"`
 }
 
 // EntitySearchQueryBuilderTag - An entity tag.
@@ -960,37 +960,37 @@ type EntitySearchQueryBuilderTag struct {
 // EntitySearchTypes - A detailed entity search response object type.
 type EntitySearchTypes struct {
 	// The number of results with this type.
-	Count int `json:"count"`
+	Count int `json:"count,omitempty"`
 	// The domain of the search result group.
-	Domain string `json:"domain"`
+	Domain string `json:"domain,omitempty"`
 	// The combined domain & type of the search result group.
-	EntityType EntityType `json:"entityType"`
+	EntityType EntityType `json:"entityType,omitempty"`
 	// The type of the search result group.
-	Type string `json:"type"`
+	Type string `json:"type,omitempty"`
 }
 
 // EntityTag - A tag that has been applied to an entity.
 type EntityTag struct {
 	// The tag's key
-	Key string `json:"key"`
+	Key string `json:"key,omitempty"`
 	// A list of the tag values
-	Values []string `json:"values"`
+	Values []string `json:"values,omitempty"`
 }
 
 // EntityTagValueWithMetadata - The value and metadata of a single entity tag.
 type EntityTagValueWithMetadata struct {
 	// Whether or not the tag can be mutated by the user.
-	Mutable bool `json:"mutable"`
+	Mutable bool `json:"mutable,omitempty"`
 	// The tag value.
-	Value string `json:"value"`
+	Value string `json:"value,omitempty"`
 }
 
 // EntityTagWithMetadata - The tags with metadata of the entity.
 type EntityTagWithMetadata struct {
 	// The tag's key.
-	Key string `json:"key"`
+	Key string `json:"key,omitempty"`
 	// A list of tag values with metadata information.
-	Values []EntityTagValueWithMetadata `json:"values"`
+	Values []EntityTagValueWithMetadata `json:"values,omitempty"`
 }
 
 // AttributeMap - This scalar represents a map of attributes in the form of key-value pairs.

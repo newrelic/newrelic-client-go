@@ -27,17 +27,17 @@ var EventsToMetricsErrorReasonTypes = struct {
 // EventsToMetricsAccountStitchedFields - Account stitched fields to enable autostitching in NerdGraph
 type EventsToMetricsAccountStitchedFields struct {
 	// List all rules for your account.
-	AllRules EventsToMetricsListRuleResult `json:"allRules"`
+	AllRules EventsToMetricsListRuleResult `json:"allRules,omitempty"`
 	// List rules for your account by id.
-	RulesById EventsToMetricsListRuleResult `json:"rulesById"`
+	RulesById EventsToMetricsListRuleResult `json:"rulesById,omitempty"`
 }
 
 // EventsToMetricsCreateRuleFailure - Error details about the events to metrics rule that failed to be created and why.
 type EventsToMetricsCreateRuleFailure struct {
 	// Information about why the create failed.
-	Errors []EventsToMetricsError `json:"errors"`
+	Errors []EventsToMetricsError `json:"errors,omitempty"`
 	// Input information about a submitted rule that was unable to be created.
-	Submitted EventsToMetricsCreateRuleSubmission `json:"submitted"`
+	Submitted EventsToMetricsCreateRuleSubmission `json:"submitted,omitempty"`
 }
 
 // EventsToMetricsCreateRuleInput - Details needed to create an events to metrics conversion rule.
@@ -45,7 +45,7 @@ type EventsToMetricsCreateRuleInput struct {
 	// The account where the events exist and the metrics will be put.
 	AccountID int `json:"accountId"`
 	// Provides additional information about the rule.
-	Description string `json:"description"`
+	Description string `json:"description,omitempty"`
 	// Explains how to create one or more metrics from events.
 	NRQL string `json:"nrql"`
 	// The name of the rule. This must be unique within a given account.
@@ -55,9 +55,9 @@ type EventsToMetricsCreateRuleInput struct {
 // EventsToMetricsCreateRuleResult - The result of which submitted events to metrics rules were successfully and unsuccessfully created
 type EventsToMetricsCreateRuleResult struct {
 	// Rules that were not created and why.
-	Failures []EventsToMetricsCreateRuleFailure `json:"failures"`
+	Failures []EventsToMetricsCreateRuleFailure `json:"failures,omitempty"`
 	// Rules that were successfully created.
-	Successes []EventsToMetricsRule `json:"successes"`
+	Successes []EventsToMetricsRule `json:"successes,omitempty"`
 }
 
 // EventsToMetricsCreateRuleSubmission - The details that were submitted when creating an events to metrics conversion rule.
@@ -65,7 +65,7 @@ type EventsToMetricsCreateRuleSubmission struct {
 	// The account where the events exist and the metrics will be put.
 	AccountID int `json:"accountId"`
 	// Provides additional information about the rule.
-	Description string `json:"description"`
+	Description string `json:"description,omitempty"`
 	// Explains how to create one or more metrics from events.
 	NRQL string `json:"nrql"`
 	// The name of the rule. This must be unique within a given account.
@@ -75,9 +75,9 @@ type EventsToMetricsCreateRuleSubmission struct {
 // EventsToMetricsDeleteRuleFailure - Error details about the events to metrics rule that failed to be deleted and why.
 type EventsToMetricsDeleteRuleFailure struct {
 	// Information about why the delete failed.
-	Errors []EventsToMetricsError `json:"errors"`
+	Errors []EventsToMetricsError `json:"errors,omitempty"`
 	// Input information about a submitted rule that was unable to be deleted.
-	Submitted EventsToMetricsDeleteRuleSubmission `json:"submitted"`
+	Submitted EventsToMetricsDeleteRuleSubmission `json:"submitted,omitempty"`
 }
 
 // EventsToMetricsDeleteRuleInput - Identifying information about the events to metrics rule you want to delete.
@@ -91,9 +91,9 @@ type EventsToMetricsDeleteRuleInput struct {
 // EventsToMetricsDeleteRuleResult - The result of which submitted events to metrics rules were successfully and unsuccessfully deleted.
 type EventsToMetricsDeleteRuleResult struct {
 	// Information about the rules that could not be deleted.
-	Failures []EventsToMetricsDeleteRuleFailure `json:"failures"`
+	Failures []EventsToMetricsDeleteRuleFailure `json:"failures,omitempty"`
 	// Rules that were successfully deleted.
-	Successes []EventsToMetricsRule `json:"successes"`
+	Successes []EventsToMetricsRule `json:"successes,omitempty"`
 }
 
 // EventsToMetricsDeleteRuleSubmission - The details that were submitted when deleteing an events to metrics conversion rule.
@@ -107,15 +107,15 @@ type EventsToMetricsDeleteRuleSubmission struct {
 // EventsToMetricsError - Error details when processing events to metrics rule requests.
 type EventsToMetricsError struct {
 	// A detailed error message.
-	Description string `json:"description"`
+	Description string `json:"description,omitempty"`
 	// The category of error that occurred.
-	Reason EventsToMetricsErrorReason `json:"reason"`
+	Reason EventsToMetricsErrorReason `json:"reason,omitempty"`
 }
 
 // EventsToMetricsListRuleResult - A list of rule details to be returned.
 type EventsToMetricsListRuleResult struct {
 	// Event-to-metric rules to be returned.
-	Rules []EventsToMetricsRule `json:"rules"`
+	Rules []EventsToMetricsRule `json:"rules,omitempty"`
 }
 
 // EventsToMetricsRule - Information about an event-to-metric rule which creates metrics from events.
@@ -125,7 +125,7 @@ type EventsToMetricsRule struct {
 	// The time at which the rule was created
 	CreatedAt nrtime.DateTime `json:"createdAt"`
 	// Additional information about the rule.
-	Description string `json:"description"`
+	Description string `json:"description,omitempty"`
 	// True means this rule is enabled. False means the rule is currently not creating metrics.
 	Enabled bool `json:"enabled"`
 	// The id, uniquely identifying the rule.
@@ -141,9 +141,9 @@ type EventsToMetricsRule struct {
 // EventsToMetricsUpdateRuleFailure - Error details about the events to metrics rule that failed to be updated and why.
 type EventsToMetricsUpdateRuleFailure struct {
 	// Information about why the update failed.
-	Errors []EventsToMetricsError `json:"errors"`
+	Errors []EventsToMetricsError `json:"errors,omitempty"`
 	// Input information about a failed update.
-	Submitted EventsToMetricsUpdateRuleSubmission `json:"submitted"`
+	Submitted EventsToMetricsUpdateRuleSubmission `json:"submitted,omitempty"`
 }
 
 // EventsToMetricsUpdateRuleInput - Identifying information about the events to metrics rule you want to update.
@@ -159,9 +159,9 @@ type EventsToMetricsUpdateRuleInput struct {
 // EventsToMetricsUpdateRuleResult - The result of which submitted events to metrics rules were successfully and unsuccessfully update.
 type EventsToMetricsUpdateRuleResult struct {
 	// Rules that failed to get updated.
-	Failures []EventsToMetricsUpdateRuleFailure `json:"failures"`
+	Failures []EventsToMetricsUpdateRuleFailure `json:"failures,omitempty"`
 	// Rules that were successfully enabled or disabled.
-	Successes []EventsToMetricsRule `json:"successes"`
+	Successes []EventsToMetricsRule `json:"successes,omitempty"`
 }
 
 // EventsToMetricsUpdateRuleSubmission - The details that were submitted when updating an events to metrics conversion rule.

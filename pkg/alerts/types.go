@@ -124,7 +124,7 @@ var AlertsNRQLConditionTermsOperatorTypes = struct {
 // AlertsMutingRuleConditionGroupInput - A group of MutingRuleConditions combined by an operator.
 type AlertsMutingRuleConditionGroupInput struct {
 	// The individual MutingRuleConditions within the group.
-	Conditions []AlertsMutingRuleConditionInput `json:"conditions"`
+	Conditions []AlertsMutingRuleConditionInput `json:"conditions,omitempty"`
 	// The operator used to combine all the MutingRuleConditions within the group.
 	Operator AlertsMutingRuleConditionGroupOperator `json:"operator"`
 }
@@ -156,27 +156,34 @@ type AlertsMutingRuleConditionInput struct {
 // AlertsMutingRuleInput - Input for creating MutingRules for New Relic Alerts Violations.
 type AlertsMutingRuleInput struct {
 	// The condition that defines which violations to target.
-	Condition AlertsMutingRuleConditionGroupInput `json:"condition"`
+	Condition AlertsMutingRuleConditionGroupInput `json:"condition,omitempty"`
 	// The description of the MutingRule.
-	Description string `json:"description"`
+	Description string `json:"description,omitempty"`
 	// Whether the MutingRule is enabled
 	Enabled bool `json:"enabled"`
 	// The name of the MutingRule.
 	Name string `json:"name"`
 	// The time window when the MutingRule should actively mute violations.
-	Schedule AlertsMutingRuleScheduleInput `json:"schedule"`
+	Schedule AlertsMutingRuleScheduleInput `json:"schedule,omitempty"`
 }
 
 // AlertsMutingRuleScheduleInput - The time window when the MutingRule should actively mute violations.
 type AlertsMutingRuleScheduleInput struct {
-	// The datetime stamp that represents when the MutingRule should end.
-	// This is in local ISO 8601 format without an offset. Example: '2020-07-10T15:00:00'
-	EndTime nrtime.NaiveDateTime `json:"endTime"`
-	// The datetime stamp that represents when the MutingRule should start.
-	// This is in local ISO 8601 format without an offset. Example: '2020-07-08T14:30:00'
-	StartTime nrtime.NaiveDateTime `json:"startTime"`
-	// The time zone that applies to the muting rule schedule.
-	// Example: 'America/Los_Angeles'.  See https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+	// The datetime stamp representing when the MutingRule should end.
+	// This is in local ISO 8601 format without an offset.
+	//
+	// Example: `'2020-07-10T15:00:00'`
+	EndTime nrtime.NaiveDateTime `json:"endTime,omitempty"`
+	// The datetime stamp representing when the MutingRule should start.
+	// This is in local ISO 8601 format without an offset.
+	//
+	// Example: `'2020-07-08T14:30:00'`
+	StartTime nrtime.NaiveDateTime `json:"startTime,omitempty"`
+	// The time zone that applies to the MutingRule schedule.
+	//
+	// Example: `'America/Los_Angeles'`
+	//
+	// See https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
 	TimeZone string `json:"timeZone"`
 }
 
@@ -189,7 +196,7 @@ type AlertsPoliciesSearchCriteriaInput struct {
 // AlertsPoliciesSearchResultSet - Collection of policies with pagination information.
 type AlertsPoliciesSearchResultSet struct {
 	// Cursor pointing to the end of the current page of policy records. Null if final page.
-	NextCursor string `json:"nextCursor"`
+	NextCursor string `json:"nextCursor,omitempty"`
 	// Set of policies returned for the supplied cursor and criteria.
 	Policies []AlertsPolicy `json:"policies"`
 	// Total number of policy records for the given search criteria.
@@ -219,7 +226,7 @@ type AlertsPolicyInput struct {
 // AlertsPolicyUpdateInput - Policy fields to be updated.
 type AlertsPolicyUpdateInput struct {
 	// Determines how incidents are created for critical violations of the conditions contained in the policy.
-	IncidentPreference AlertsIncidentPreference `json:"incidentPreference"`
+	IncidentPreference AlertsIncidentPreference `json:"incidentPreference,omitempty"`
 	// Description of the policy.
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 }
