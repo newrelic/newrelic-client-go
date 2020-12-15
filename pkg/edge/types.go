@@ -152,7 +152,7 @@ var EdgeTraceObserverStatusTypes = struct {
 // EdgeAccountStitchedFields -
 type EdgeAccountStitchedFields struct {
 	// Provides access to Tracing data.
-	Tracing EdgeTracing `json:"tracing"`
+	Tracing EdgeTracing `json:"tracing,omitempty"`
 }
 
 // EdgeAgentEndpointDetail - All the details necessary to configure an agent to connect to an endoint.
@@ -168,7 +168,7 @@ func (x *EdgeAgentEndpointDetail) ImplementsEdgeEndpointDetail() {}
 // EdgeCreateTraceObserverInput - Data required to create a trace observer.
 type EdgeCreateTraceObserverInput struct {
 	// When set to `true` a trace observer will write trace metrics to the current account.
-	Monitoring bool `json:"monitoring"`
+	Monitoring bool `json:"monitoring,omitempty"`
 	// Name of the trace observer.
 	Name string `json:"name"`
 	// Provider and region where the trace observer must run. Currently, only AWS regions are supported.
@@ -178,9 +178,9 @@ type EdgeCreateTraceObserverInput struct {
 // EdgeCreateTraceObserverResponse - Successfully created trace observers, or one or more error responses if there were issues.
 type EdgeCreateTraceObserverResponse struct {
 	// Errors that may occur when creating a `TraceObserver`. Defaults to `null` in case of success.
-	Errors []EdgeCreateTraceObserverResponseError `json:"errors"`
+	Errors []EdgeCreateTraceObserverResponseError `json:"errors,omitempty"`
 	// The trace observer defined in `CreateTraceObserverInput`. Defaults to `null` in case of failure.
-	TraceObserver EdgeTraceObserver `json:"traceObserver"`
+	TraceObserver EdgeTraceObserver `json:"traceObserver,omitempty"`
 }
 
 // EdgeCreateTraceObserverResponseError - Description of errors that may occur while attempting to create a trace observer.
@@ -206,9 +206,9 @@ type EdgeDeleteTraceObserverInput struct {
 // EdgeDeleteTraceObserverResponse - Successfully deleted trace observers, or one or more error responses if there were issues.
 type EdgeDeleteTraceObserverResponse struct {
 	// Errors that may occur when deleting a `TraceObserver`. Defaults to `null` in case of success.
-	Errors []EdgeDeleteTraceObserverResponseError `json:"errors"`
+	Errors []EdgeDeleteTraceObserverResponseError `json:"errors,omitempty"`
 	// The trace observer that was deleted. Defaults to `null` in case of failure.
-	TraceObserver EdgeTraceObserver `json:"traceObserver"`
+	TraceObserver EdgeTraceObserver `json:"traceObserver,omitempty"`
 }
 
 // EdgeDeleteTraceObserverResponseError - Description of errors that may occur while attempting to delete a trace observer.
@@ -279,7 +279,7 @@ type EdgeSpanAttributeRule struct {
 	// Type of match to apply to the attribute name (EQUALS, LIKE).
 	KeyOperator EdgeSpanAttributeKeyOperator `json:"keyOperator"`
 	// Value of the attribute that this filter matches on.
-	Value string `json:"value"`
+	Value string `json:"value,omitempty"`
 	// Type of match to apply to the attribute value (EQUALS, LIKE, IS_NOT_NULL).
 	ValueOperator EdgeSpanAttributeValueOperator `json:"valueOperator"`
 }
@@ -305,7 +305,7 @@ type EdgeTraceObserver struct {
 	// Globally unique identifier of this trace observer.
 	ID int `json:"id"`
 	// Which account monitoring metrics are being written to for this trace observer (if specified)
-	MonitoringAccountId int `json:"monitoringAccountId"`
+	MonitoringAccountId int `json:"monitoringAccountId,omitempty"`
 	// Human-readable name of this trace observer.
 	Name string `json:"name"`
 	// Provider-specific region of this endpoint (for example, `AWS_US_EAST_1`). Currently, only AWS regions are supported.
