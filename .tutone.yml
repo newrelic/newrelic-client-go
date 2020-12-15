@@ -131,14 +131,14 @@ packages:
         max_query_field_depth: 1
       - name: cloudLinkAccount
         max_query_field_depth: 1
-        require_fields:
-          - accountId
-          - accounts
+        argument_type_overrides:
+          accountId: "Int!"
+          accounts: "CloudLinkCloudAccountsInput!"
       - name: cloudRenameAccount
         max_query_field_depth: 1
-        require_fields:
-          - accountId
-          - accounts
+        argument_type_overrides:
+          accountId: "Int!"
+          accounts: "[CloudRenameAccountsInput!]!"
       - name: cloudUnlinkAccount
         max_query_field_depth: 1
     types:
