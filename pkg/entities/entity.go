@@ -3,8 +3,9 @@ package entities
 import (
 	"encoding/json"
 
-	"github.com/newrelic/newrelic-client-go/pkg/accounts"
 	log "github.com/sirupsen/logrus"
+
+	"github.com/newrelic/newrelic-client-go/pkg/accounts"
 )
 
 // Need Outlines to also implement Entity

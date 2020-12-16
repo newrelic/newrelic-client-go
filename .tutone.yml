@@ -212,33 +212,45 @@ packages:
         create_as: "map[string]interface{}"
 
       # Types this package owns
-      #- name: ApmApplicationEntity
-      #- name: BrowserApplicationEntity
-      #- name: Entity
-      #- name: EntityGuid
-      #- name: EntityOutline
-      #- name: EntityRelationship
-      #- name: EntityRelationshipFilter
-      #- name: EntityRelationshipFilter
-      #- name: EntityRelationshipNode
-      #- name: EntityRelationshipNode
-      #- name: EntityRelationshipType
-      #- name: EntitySearch
-      #- name: EntitySearchCounts
-      #- name: EntitySearchCountsFacet
+      - name: AlertableEntity
+      - name: ApmApplicationEntity
+      - name: ApmBrowserApplicationEntity
+      - name: ApmDatabaseInstanceEntity
+      - name: ApmExternalServiceEntity
+      - name: BrowserApplicationEntity
+      - name: CollectionEntity
+      - name: DashboardEntity
+      - name: Entity
+      - name: EntityGuid
+      - name: EntityOutline
+      - name: EntityRelationship
+      - name: EntityRelationshipFilter
+      - name: EntityRelationshipNode
+      - name: EntityRelationshipType
+      - name: EntitySearch
+      - name: EntitySearchCounts
+      - name: EntitySearchCountsFacet
       - name: EntitySearchOptions
       - name: EntitySearchQueryBuilder
       - name: EntitySearchResult
       - name: EntitySearchSortCriteria
       - name: EntitySearchTypes
-      #- name: EntityTag
-      #- name: EntityTagValueWithMetadata
-      #- name: EntityTagWithMetadata
-      #- name: EntityType
-      #- name: GenericEntity
-      #- name: GenericEntityOutline
-      #- name: UnavailableEntity
-      #- name: UnavailableEntityOutline
+      - name: EntityTag
+      - name: EntityTagValueWithMetadata
+      - name: EntityTagWithMetadata
+      - name: EntityType
+      - name: GenericEntity
+      - name: GenericEntityOutline
+      - name: GenericInfrastructureEntity
+      - name: InfrastructureAwsLambdaFunctionEntity
+      - name: InfrastructureHostEntity
+      - name: InfrastructureIntegrationEntity
+      - name: MobileApplicationEntity
+      - name: SyntheticMonitorEntity
+      - name: ThirdPartyServiceEntity
+      - name: UnavailableEntity
+      - name: UnavailableEntityOutline
+      - name: WorkloadEntity
 
       #
       # Types that our other packages define
