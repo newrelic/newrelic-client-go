@@ -91,6 +91,10 @@ func (x *APIAccessActorStitchedFields) UnmarshalJSON(b []byte) error {
 	}
 
 	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
 		switch k {
 		case "key":
 			if v == nil {
@@ -152,6 +156,10 @@ func (x *APIAccessCreateKeyResponse) UnmarshalJSON(b []byte) error {
 	}
 
 	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
 		switch k {
 		case "createdKeys":
 			if v == nil {
@@ -236,6 +244,10 @@ func (x *APIAccessDeleteKeyResponse) UnmarshalJSON(b []byte) error {
 	}
 
 	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
 		switch k {
 		case "deletedKeys":
 			err = json.Unmarshal(*v, &x.DeletedKeys)
@@ -369,6 +381,10 @@ func (x *APIAccessKeySearchResult) UnmarshalJSON(b []byte) error {
 	}
 
 	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
 		switch k {
 		case "count":
 			err = json.Unmarshal(*v, &x.Count)
@@ -451,6 +467,10 @@ func (x *APIAccessUpdateKeyResponse) UnmarshalJSON(b []byte) error {
 	}
 
 	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
 		switch k {
 		case "errors":
 			if v == nil {

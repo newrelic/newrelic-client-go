@@ -57,6 +57,10 @@ func (x *{{ $typeName }}) UnmarshalJSON(b []byte) error {
   }
 
   for k, v := range objMap {
+    if v == nil {
+      continue
+    }
+
     switch k {
   {{- range .Fields }}
     {{- $field := . }}
