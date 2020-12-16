@@ -18,33 +18,40 @@ func Example_entity() {
 	client := New(cfg)
 
 	// Search the current account for entities by name and type.
-	searchParams := SearchEntitiesParams{
+	queryBuilder := EntitySearchQueryBuilder{
 		Name: "Example entity",
-		Type: EntityTypes.Application,
+		Type: EntitySearchQueryBuilderTypeTypes.APPLICATION,
 	}
 
-	entities, err := client.SearchEntities(searchParams)
+	entitySearch, err := client.GetEntitySearch(
+		EntitySearchOptions{},
+		"",
+		queryBuilder,
+		[]EntitySearchSortCriteria{},
+	)
 	if err != nil {
 		log.Fatal("error searching entities:", err)
 	}
 
 	// Get several entities by GUID.
-	var entityGuids []string
-	for _, e := range entities {
+	var entityGuids []EntityGUID
+	for _, x := range entitySearch.Results.Entities {
+		e := x.(*GenericEntityOutline)
 		entityGuids = append(entityGuids, e.GUID)
 	}
 
-	entities, err = client.GetEntities(entityGuids)
+	entities, err := client.GetEntities(entityGuids)
 	if err != nil {
 		log.Fatal("error getting entities:", err)
 	}
+	fmt.Printf("GetEntities returned %d entities", len((*entities)))
 
 	// Get an entity by GUID.
-	entity, err := client.GetEntity(entities[0].GUID)
+	entity, err := client.GetEntity(entityGuids[0])
 	if err != nil {
 		log.Fatal("error getting entity:", err)
 	}
 
 	// Output the entity's URL.
-	fmt.Printf("Entity name: %s, URL: %s\n", entity.Name, entity.Permalink)
+	fmt.Printf("Entity name: %s, URL: %s\n", (*entity).(*GenericEntity).Name, (*entity).(*GenericEntity).Permalink)
 }

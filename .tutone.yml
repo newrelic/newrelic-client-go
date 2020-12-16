@@ -183,49 +183,85 @@ packages:
       - name: EdgeTraceObserverStatus
       - name: EdgeTracing
 
-  - name: infrastructure
-    path: pkg/infrastructure
-    import_path: github.com/newrelic/newrelic-client-go/pkg/infrastructure
-    generators:
-      - typegen
-    types: []
 
   - name: entities
     path: pkg/entities
     import_path: github.com/newrelic/newrelic-client-go/pkg/entities
     generators:
       - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/pkg/nrtime
+    queries:
+      - path: ["actor"]
+        endpoints:
+          - name: entities
+            max_query_field_depth: 2
+          - name: entity
+            max_query_field_depth: 2
+          - name: entitySearch
+            max_query_field_depth: 2
+            include_nullable: true
+    mutations:
+      - name: taggingAddTagsToEntity
+        max_query_field_depth: 1
+
     types:
       - name: AttributeMap
         create_as: "map[string]interface{}"
-#      - name: Entity
-#      - name: EntityOutline
-      - name: EntityGuid
-#      - name: EntityRelationship
-#      - name: EntityRelationshipFilter
-#      - name: EntityRelationshipNode
-#      - name: EntityRelationshipType
-#      - name: EntitySearchCounts
-#      - name: EntitySearchResult
-#      - name: EntityRelationshipFilter
-#      - name: EntityRelationshipNode
-#      - name: EntitySearch
-      - name: EntitySearchCounts
-      - name: EntitySearchCountsFacet
-      - name: EntitySearchQueryBuilder
-#      - name: EntitySearchResult
-      - name: EntitySearchTypes
-      - name: EntityTag
-      - name: EntityTagValueWithMetadata
-      - name: EntityTagWithMetadata
-      - name: EntityType
-#      - name: GenericEntity
-#      - name: GenericEntityOutline
-#      - name: UnavailableEntity
-#      - name: UnavailableEntityOutline
 
-      # Infra should own this, but can't be cause it's a dep for EntitySearchQueryBuilder
-      - name: InfrastructureIntegrationType
+      # Types this package owns
+      #- name: ApmApplicationEntity
+      #- name: BrowserApplicationEntity
+      #- name: Entity
+      #- name: EntityGuid
+      #- name: EntityOutline
+      #- name: EntityRelationship
+      #- name: EntityRelationshipFilter
+      #- name: EntityRelationshipFilter
+      #- name: EntityRelationshipNode
+      #- name: EntityRelationshipNode
+      #- name: EntityRelationshipType
+      #- name: EntitySearch
+      #- name: EntitySearchCounts
+      #- name: EntitySearchCountsFacet
+      - name: EntitySearchOptions
+      - name: EntitySearchQueryBuilder
+      - name: EntitySearchResult
+      - name: EntitySearchSortCriteria
+      - name: EntitySearchTypes
+      #- name: EntityTag
+      #- name: EntityTagValueWithMetadata
+      #- name: EntityTagWithMetadata
+      #- name: EntityType
+      #- name: GenericEntity
+      #- name: GenericEntityOutline
+      #- name: UnavailableEntity
+      #- name: UnavailableEntityOutline
+
+      #
+      # Types that our other packages define
+      #   TODO: Fix tutone to figure this out for us
+      #
+      - name: AccountOutline
+        field_type_override: accounts.AccountOutline
+        skip_type_create: true
+      - name: AccountReference
+        field_type_override: accounts.AccountReference
+        skip_type_create: true
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
+      - name: EpochMilliseconds
+        field_type_override: nrtime.EpochMilliseconds
+        skip_type_create: true
+      - name: Minutes
+        field_type_override: nrtime.Minutes
+        skip_type_create: true
+      - name: Seconds
+        field_type_override: nrtime.Seconds
+        skip_type_create: true
 
 
   - name: eventstometrics

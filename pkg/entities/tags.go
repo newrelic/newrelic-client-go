@@ -19,7 +19,7 @@ type TagValue struct {
 
 // ListTags returns a collection of mutable tags for a given entity by entity
 // GUID.
-func (e *Entities) ListTags(guid string) ([]*Tag, error) {
+func (e *Entities) ListTags(guid EntityGUID) ([]*Tag, error) {
 	resp := listTagsResponse{}
 	vars := map[string]interface{}{
 		"guid": guid,
@@ -34,7 +34,7 @@ func (e *Entities) ListTags(guid string) ([]*Tag, error) {
 
 // ListAllTags returns a collection of all tags (mutable and not) for a given
 // entity by entity GUID.
-func (e *Entities) ListAllTags(guid string) ([]*Tag, error) {
+func (e *Entities) ListAllTags(guid EntityGUID) ([]*Tag, error) {
 	resp := listTagsResponse{}
 	vars := map[string]interface{}{
 		"guid": guid,
@@ -77,7 +77,7 @@ func filterMutable(resp listTagsResponse) ([]*Tag, error) {
 }
 
 // AddTags writes tags to the entity specified by the provided entity GUID.
-func (e *Entities) AddTags(guid string, tags []Tag) error {
+func (e *Entities) AddTags(guid EntityGUID, tags []Tag) error {
 	resp := addTagsResponse{}
 	vars := map[string]interface{}{
 		"guid": guid,
@@ -96,7 +96,7 @@ func (e *Entities) AddTags(guid string, tags []Tag) error {
 }
 
 // ReplaceTags replaces the entity's entire set of tags with the provided tag set.
-func (e *Entities) ReplaceTags(guid string, tags []Tag) error {
+func (e *Entities) ReplaceTags(guid EntityGUID, tags []Tag) error {
 	resp := replaceTagsResponse{}
 	vars := map[string]interface{}{
 		"guid": guid,
@@ -115,7 +115,7 @@ func (e *Entities) ReplaceTags(guid string, tags []Tag) error {
 }
 
 // DeleteTags deletes specific tag keys from the entity.
-func (e *Entities) DeleteTags(guid string, tagKeys []string) error {
+func (e *Entities) DeleteTags(guid EntityGUID, tagKeys []string) error {
 	resp := deleteTagsResponse{}
 	vars := map[string]interface{}{
 		"guid":    guid,
@@ -134,7 +134,7 @@ func (e *Entities) DeleteTags(guid string, tagKeys []string) error {
 }
 
 // DeleteTagValues deletes specific tag key and value pairs from the entity.
-func (e *Entities) DeleteTagValues(guid string, tagValues []TagValue) error {
+func (e *Entities) DeleteTagValues(guid EntityGUID, tagValues []TagValue) error {
 	resp := deleteTagValuesResponse{}
 	vars := map[string]interface{}{
 		"guid":      guid,
@@ -167,9 +167,10 @@ func parseTagMutationErrors(errors []tagMutationError) string {
 }
 
 var listTagsQuery = `
-	query($guid:EntityGuid!) { actor { entity(guid: $guid)  {` +
-	graphqlEntityStructTagsFields +
-	` } } }`
+query($guid:EntityGuid!) { actor { entity(guid: $guid)  {
+  tagsWithMetadata { key values { mutable value } }
+  tags { key values }
+ } } }`
 
 type listTagsResponse struct {
 	Actor struct {

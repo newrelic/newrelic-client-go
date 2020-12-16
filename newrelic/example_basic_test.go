@@ -54,9 +54,14 @@ func Example_basic() {
 	fmt.Printf("Dashboards: %v+\n", dashboards)
 
 	// Interact with New Relic One entities.
-	entities, err := client.Entities.SearchEntities(entities.SearchEntitiesParams{
-		Name: "Example entity",
-	})
+	entities, err := client.Entities.GetEntitySearch(
+		entities.EntitySearchOptions{},
+		"",
+		entities.EntitySearchQueryBuilder{
+			Name: "Example entity",
+		},
+		[]entities.EntitySearchSortCriteria{},
+	)
 	if err != nil {
 		log.Fatal("error listing entities:", err)
 	}

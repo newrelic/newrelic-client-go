@@ -16,14 +16,19 @@ func TestIntegrationSearchEntities(t *testing.T) {
 
 	client := newIntegrationTestClient(t)
 
-	params := SearchEntitiesParams{
+	params := EntitySearchQueryBuilder{
 		Name: "Dummy App",
 	}
 
-	actual, err := client.SearchEntities(params)
+	actual, err := client.GetEntitySearch(
+		EntitySearchOptions{},
+		"",
+		params,
+		[]EntitySearchSortCriteria{},
+	)
 
 	require.NoError(t, err)
-	require.Greater(t, len(actual), 0)
+	require.Greater(t, len(actual.Results.Entities), 0)
 }
 
 func TestIntegrationSearchEntitiesByTags(t *testing.T) {
@@ -31,14 +36,21 @@ func TestIntegrationSearchEntitiesByTags(t *testing.T) {
 
 	client := newIntegrationTestClient(t)
 
-	params := SearchEntitiesParams{
-		Tags: &TagValue{
-			Key:   "language",
-			Value: "nodejs",
+	params := EntitySearchQueryBuilder{
+		Tags: []EntitySearchQueryBuilderTag{
+			{
+				Key:   "language",
+				Value: "nodejs",
+			},
 		},
 	}
 
-	actual, err := client.SearchEntities(params)
+	actual, err := client.GetEntitySearch(
+		EntitySearchOptions{},
+		"",
+		params,
+		[]EntitySearchSortCriteria{},
+	)
 
 	require.NoError(t, err)
 	require.NotNil(t, actual)
@@ -49,51 +61,54 @@ func TestIntegrationGetEntities(t *testing.T) {
 
 	client := newIntegrationTestClient(t)
 
-	guids := []string{"MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1"}
+	guids := []EntityGUID{"MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1"}
 	actual, err := client.GetEntities(guids)
 
 	require.NoError(t, err)
-	require.Greater(t, len(actual), 0)
+	require.Greater(t, len((*actual)), 0)
 }
 
 func TestIntegrationGetEntity(t *testing.T) {
 	t.Parallel()
 
-	entityGUID := "MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1"
+	entityGUID := EntityGUID("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
 	client := newIntegrationTestClient(t)
 
-	actual, err := client.GetEntity(entityGUID)
+	result, err := client.GetEntity(entityGUID)
 
 	require.NoError(t, err)
-	require.NotNil(t, actual)
+	require.NotNil(t, result)
+
+	actual := (*result).(*ApmApplicationEntity)
 
 	// These are a bit fragile, if the above GUID ever changes...
 	assert.Equal(t, 2520528, actual.AccountID)
-	assert.Equal(t, EntityDomainType("APM"), actual.Domain)
+	assert.Equal(t, "APM", actual.Domain)
 	assert.Equal(t, EntityType("APM_APPLICATION_ENTITY"), actual.EntityType)
 	assert.Equal(t, entityGUID, actual.GUID)
 	assert.Equal(t, "Dummy App", actual.Name)
-	assert.Equal(t, "https://one.newrelic.com/redirect/entity/"+entityGUID, actual.Permalink)
+	assert.Equal(t, "https://one.newrelic.com/redirect/entity/"+string(entityGUID), actual.Permalink)
 	assert.Equal(t, true, actual.Reporting)
-	assert.Equal(t, Type("APPLICATION"), actual.Type)
 }
 
 // Looking at an APM Application, and the result set here.
-func TestIntegrationGetEntity_ApmEntityOutline(t *testing.T) {
+func TestIntegrationGetEntity_ApmEntity(t *testing.T) {
 	t.Parallel()
 
 	client := newIntegrationTestClient(t)
 
-	actual, err := client.GetEntity("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
+	result, err := client.GetEntity("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
 
 	require.NoError(t, err)
-	require.NotNil(t, actual)
+	require.NotNil(t, result)
+
+	actual := (*result).(*ApmApplicationEntity)
 
 	// These are a bit fragile, if the above GUID ever changes...
 	// from ApmApplicationEntity / ApmApplicationEntityOutline
-	assert.Equal(t, 215037795, *actual.ApplicationID)
-	assert.Equal(t, EntityAlertSeverityType("NOT_ALERTING"), *actual.AlertSeverity)
-	assert.Equal(t, "nodejs", *actual.Language)
+	assert.Equal(t, 215037795, actual.ApplicationID)
+	assert.Equal(t, EntityAlertSeverityTypes.NOT_ALERTING, actual.AlertSeverity)
+	assert.Equal(t, "nodejs", actual.Language)
 	assert.NotNil(t, actual.RunningAgentVersions)
 	assert.NotNil(t, actual.RunningAgentVersions.MinVersion)
 	assert.NotNil(t, actual.RunningAgentVersions.MaxVersion)
@@ -104,39 +119,43 @@ func TestIntegrationGetEntity_ApmEntityOutline(t *testing.T) {
 }
 
 // Looking at a Browser Application, and the result set here.
-func TestIntegrationGetEntity_BrowserEntityOutline(t *testing.T) {
+func TestIntegrationGetEntity_BrowserEntity(t *testing.T) {
 	t.Parallel()
 
 	client := newIntegrationTestClient(t)
 
-	actual, err := client.GetEntity("MjUwODI1OXxCUk9XU0VSfEFQUExJQ0FUSU9OfDIwNDI2MTYyOA")
+	result, err := client.GetEntity("MjUwODI1OXxCUk9XU0VSfEFQUExJQ0FUSU9OfDIwNDI2MTYyOA")
 
 	require.NoError(t, err)
-	require.NotNil(t, actual)
+	require.NotNil(t, result)
+
+	actual := (*result).(*BrowserApplicationEntity)
 
 	// These are a bit fragile, if the above GUID ever changes...
 	// from BrowserApplicationEntity / BrowserApplicationEntityOutline
-	assert.Equal(t, 204261628, *actual.ApplicationID)
-	assert.Equal(t, 204261368, *actual.ServingApmApplicationID)
-	assert.Equal(t, EntityAlertSeverityType("NOT_CONFIGURED"), *actual.AlertSeverity)
+	assert.Equal(t, 204261628, actual.ApplicationID)
+	assert.Equal(t, 204261368, actual.ServingApmApplicationID)
+	assert.Equal(t, EntityAlertSeverityTypes.NOT_CONFIGURED, actual.AlertSeverity)
 
 }
 
 // Looking at a Mobile Application, and the result set here.
-func TestIntegrationGetEntity_MobileEntityOutline(t *testing.T) {
+func TestIntegrationGetEntity_MobileEntity(t *testing.T) {
 	t.Parallel()
 
 	client := newIntegrationTestClient(t)
 
-	actual, err := client.GetEntity("NDQ0NTN8TU9CSUxFfEFQUExJQ0FUSU9OfDE3ODg1NDI")
+	result, err := client.GetEntity("NDQ0NTN8TU9CSUxFfEFQUExJQ0FUSU9OfDE3ODg1NDI")
 
 	require.NoError(t, err)
-	require.NotNil(t, actual)
+	require.NotNil(t, result)
+
+	actual := (*result).(*MobileApplicationEntity)
 
 	// These are a bit fragile, if the above GUID ever changes...
 	// from MobileApplicationEntity / MobileApplicationEntityOutline
-	assert.Equal(t, 1788542, *actual.ApplicationID)
-	assert.Equal(t, EntityAlertSeverityType("NOT_CONFIGURED"), *actual.AlertSeverity)
+	assert.Equal(t, 1788542, actual.ApplicationID)
+	assert.Equal(t, EntityAlertSeverityTypes.NOT_CONFIGURED, actual.AlertSeverity)
 
 }
 

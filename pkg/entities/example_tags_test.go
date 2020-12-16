@@ -18,14 +18,21 @@ func Example_tags() {
 	client := New(cfg)
 
 	// Search the current account for entities by tag.
-	searchParams := SearchEntitiesParams{
-		Tags: &TagValue{
-			Key:   "exampleKey",
-			Value: "exampleValue",
+	queryBuilder := EntitySearchQueryBuilder{
+		Tags: []EntitySearchQueryBuilderTag{
+			{
+				Key:   "exampleKey",
+				Value: "exampleValue",
+			},
 		},
 	}
 
-	entities, err := client.SearchEntities(searchParams)
+	entities, err := client.GetEntitySearch(
+		EntitySearchOptions{},
+		"",
+		queryBuilder,
+		[]EntitySearchSortCriteria{},
+	)
 	if err != nil {
 		log.Fatal("error searching entities:", err)
 	}
@@ -33,7 +40,7 @@ func Example_tags() {
 	// List the tags associated with a given entity.  This example assumes that
 	// at least one entity has been returned by the search endpoint, but in
 	// practice it is possible that an empty slice is returned.
-	entityGUID := entities[0].GUID
+	entityGUID := entities.Results.Entities[0].(*GenericEntityOutline).GUID
 	tags, err := client.ListTags(entityGUID)
 	if err != nil {
 		log.Fatal("error listing tags:", err)
