@@ -192,6 +192,7 @@ packages:
       - nerdgraphclient
     imports:
       - github.com/newrelic/newrelic-client-go/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/pkg/nrdb
       - github.com/newrelic/newrelic-client-go/pkg/nrtime
     queries:
       - path: ["actor"]
@@ -265,6 +266,9 @@ packages:
       - name: DateTime
         field_type_override: nrtime.DateTime
         skip_type_create: true
+      - name: EpochSeconds
+        field_type_override: nrtime.EpochSeconds
+        skip_type_create: true
       - name: EpochMilliseconds
         field_type_override: nrtime.EpochMilliseconds
         skip_type_create: true
@@ -273,6 +277,52 @@ packages:
         skip_type_create: true
       - name: Seconds
         field_type_override: nrtime.Seconds
+        skip_type_create: true
+      - name: NRQL
+        field_type_override: nrdb.NRQL
+        skip_type_create: true
+      - name: Nrql
+        field_type_override: nrdb.NRQL
+        skip_type_create: true
+      - name: NrdbMetadataTimeWindow
+        field_type_override: nrdb.NRDBMetadataTimeWindow
+        skip_type_create: true
+      - name: NRDBMetadataTimeWindow
+        field_type_override: nrdb.NRDBMetadataTimeWindow
+        skip_type_create: true
+      - name: NRDBResult
+        field_type_override: nrdb.NRDBResult
+        skip_type_create: true
+      - name: NrqlHistoricalQuery
+        field_type_override: nrdb.NrqlHistoricalQuery
+        skip_type_create: true
+      - name: NRQLFacetSuggestion
+        field_type_override: nrdb.NRQLFacetSuggestion
+        skip_type_create: true
+      - name: SuggestedNrqlQuery
+        field_type_override: nrdb.SuggestedNRQLQuery
+        skip_type_create: true
+      - name: SuggestedNRQLQuery
+        field_type_override: nrdb.SuggestedNRQLQuery
+        skip_type_create: true
+      - name: SuggestedAnomalyBasedNRQLQuery
+        field_type_override: nrdb.SuggestedAnomalyBasedNRQLQuery
+        skip_type_create: true
+      - name: SuggestedHistoryBasedNRQLQuery
+        field_type_override: nrdb.SuggestedHistoryBasedNRQLQuery
+        skip_type_create: true
+      - name: SuggestedNRQLQueryAnomaly
+        field_type_override: nrdb.SuggestedNRQLQueryAnomaly
+        skip_type_create: true
+      - name: NrdbResultContainer
+        field_type_override: nrdb.NRDBResultContainer
+        skip_type_create: true
+      - name: EventDefinition
+        field_type_override: nrdb.EventDefinition
+        skip_type_create: true
+
+      # Not used, but auto-generated as a dep of the overrides above
+      - name: SuggestedNRQLQueryResponse
         skip_type_create: true
 
 

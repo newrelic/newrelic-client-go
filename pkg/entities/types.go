@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	"github.com/newrelic/newrelic-client-go/pkg/accounts"
+	"github.com/newrelic/newrelic-client-go/pkg/nrdb"
 	"github.com/newrelic/newrelic-client-go/pkg/nrtime"
 )
 
@@ -1506,7 +1507,7 @@ type ApmDatabaseInstanceEntity struct {
 	// A relevant `WHERE` clause will be added to your query to scope data to the entity in question.
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
-	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
+	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	//
@@ -1594,7 +1595,7 @@ type ApmExternalServiceEntity struct {
 	// A relevant `WHERE` clause will be added to your query to scope data to the entity in question.
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
-	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
+	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	//
@@ -1690,7 +1691,7 @@ type BrowserApplicationEntity struct {
 	// A relevant `WHERE` clause will be added to your query to scope data to the entity in question.
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
-	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
+	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	//
@@ -1869,7 +1870,7 @@ type DashboardEntity struct {
 	// A relevant `WHERE` clause will be added to your query to scope data to the entity in question.
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
-	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
+	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	//
@@ -2107,7 +2108,7 @@ type DashboardWidgetQuery struct {
 	// accountId
 	AccountID int `json:"accountId"`
 	// NRQL formatted query
-	NRQL NRQL `json:"nrql"`
+	NRQL nrdb.NRQL `json:"nrql"`
 }
 
 // DashboardWidgetVisualization - visualization configuration
@@ -2137,7 +2138,7 @@ type Entity struct {
 	// A relevant `WHERE` clause will be added to your query to scope data to the entity in question.
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
-	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
+	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	//
@@ -2494,18 +2495,6 @@ type EventAttributeDefinition struct {
 	Name string `json:"name,omitempty"`
 }
 
-// EventDefinition - A human-readable definition of an NRDB Event Type
-type EventDefinition struct {
-	// A list of attribute definitions for this event type
-	Attributes []EventAttributeDefinition `json:"attributes,omitempty"`
-	// A short description of this event
-	Definition string `json:"definition,omitempty"`
-	// The human-friendly formatted name of the event
-	Label string `json:"label,omitempty"`
-	// The name of the event
-	Name string `json:"name,omitempty"`
-}
-
 // GenericEntity - A generic entity.
 type GenericEntity struct {
 	//
@@ -2525,7 +2514,7 @@ type GenericEntity struct {
 	// A relevant `WHERE` clause will be added to your query to scope data to the entity in question.
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
-	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
+	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	//
@@ -2605,7 +2594,7 @@ type GenericInfrastructureEntity struct {
 	// A relevant `WHERE` clause will be added to your query to scope data to the entity in question.
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
-	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
+	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	//
@@ -2699,7 +2688,7 @@ type InfrastructureAwsLambdaFunctionEntity struct {
 	// A relevant `WHERE` clause will be added to your query to scope data to the entity in question.
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
-	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
+	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	//
@@ -2798,7 +2787,7 @@ type InfrastructureHostEntity struct {
 	// A relevant `WHERE` clause will be added to your query to scope data to the entity in question.
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
-	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
+	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	//
@@ -2968,7 +2957,7 @@ type MobileApplicationEntity struct {
 	// A relevant `WHERE` clause will be added to your query to scope data to the entity in question.
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
-	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
+	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	//
@@ -3044,86 +3033,7 @@ type NRDBMetadata struct {
 	// Messages from NRDB included with the result.
 	Messages []string `json:"messages,omitempty"`
 	// Details about the query time window.
-	TimeWindow NRDBMetadataTimeWindow `json:"timeWindow,omitempty"`
-}
-
-// NRDBMetadataTimeWindow - An object representing details about a query's time window.
-type NRDBMetadataTimeWindow struct {
-	// Timestamp marking the query begin time.
-	Begin nrtime.EpochMilliseconds `json:"begin,omitempty"`
-	// A clause representing the comparison time window.
-	CompareWith string `json:"compareWith,omitempty"`
-	// Timestamp marking the query end time.
-	End nrtime.EpochMilliseconds `json:"end,omitempty"`
-	// SINCE clause resulting from the query
-	Since string `json:"since,omitempty"`
-	// UNTIL clause resulting from the query
-	Until string `json:"until,omitempty"`
-}
-
-// NRDBResultContainer - A data structure that contains the results of the NRDB query along
-// with other capabilities that enhance those results.
-//
-// Direct query results are available through `results`, `totalResult` and
-// `otherResult`. The query you made is accessible through `nrql`, along with
-// `metadata` about the query itself. Enhanced capabilities include
-// `eventDefinitions`, `suggestedFacets` and more.
-type NRDBResultContainer struct {
-	// In a `COMPARE WITH` query, the `currentResults` contain the results for the current comparison time window.
-	CurrentResults []NRDBResult `json:"currentResults,omitempty"`
-	// Generate a publicly sharable Embedded Chart URL for the NRQL query.
-	//
-	// For more details, see [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/query-nrql-through-new-relic-graphql-api#embeddable-charts).
-	EmbeddedChartURL string `json:"embeddedChartUrl,omitempty"`
-	// Retrieve a list of event type definitions, providing descriptions
-	// of the event types returned by this query, as well as details
-	// of their attributes.
-	EventDefinitions []EventDefinition `json:"eventDefinitions,omitempty"`
-	// Metadata about the query and result.
-	Metadata NRDBMetadata `json:"metadata,omitempty"`
-	// The [NRQL](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) query that was executed to yield these results.
-	NRQL NRQL `json:"nrql,omitempty"`
-	// In a `FACET` query, the `otherResult` contains the aggregates representing the events _not_
-	// contained in an individual `results` facet
-	OtherResult NRDBResult `json:"otherResult,omitempty"`
-	// In a `COMPARE WITH` query, the `previousResults` contain the results for the previous comparison time window.
-	PreviousResults []NRDBResult `json:"previousResults,omitempty"`
-	// The query results. This is a flat list of objects who's structure matches the query submitted.
-	Results []NRDBResult `json:"results,omitempty"`
-	// Generate a publicly sharable static chart URL for the NRQL query.
-	StaticChartURL string `json:"staticChartUrl,omitempty"`
-	// Retrieve a list of suggested NRQL facets for this NRDB query, to be used with
-	// the `FACET` keyword in NRQL.
-	//
-	// Results are based on historical query behaviors.
-	//
-	// If the query already has a `FACET` clause, it will be ignored for the purposes
-	// of suggesting facets.
-	//
-	// For more details, see [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/nerdgraph-graphiql-nrql-tutorial#suggest-facets).
-	SuggestedFacets []NRQLFacetSuggestion `json:"suggestedFacets,omitempty"`
-	// Suggested queries that could help explain an anomaly in your timeseries based on either statistical differences in the data or historical usage.
-	//
-	// If no `anomalyTimeWindow` is supplied, we will attempt to detect a spike in the NRQL results. If no spike is found, the suggested query results will be empty.
-	//
-	// Input NRQL must be a TIMESERIES query and must have exactly one result.
-	SuggestedQueries SuggestedNRQLQueryResponse `json:"suggestedQueries,omitempty"`
-	// In a `FACET` query, the `totalResult` contains the aggregates representing _all_ the events,
-	// whether or not they are contained in an individual `results` facet
-	TotalResult NRDBResult `json:"totalResult,omitempty"`
-}
-
-// NRQLFacetSuggestion - A suggested NRQL facet. Facet suggestions may be either a single attribute, or
-// a list of attributes in the case of multi-attribute facet suggestions.
-type NRQLFacetSuggestion struct {
-	// A list of attribute names comprising the suggested facet.
-	//
-	// Raw attribute names will be returned here. Attribute names may need to be
-	// backtick-quoted before inclusion in a NRQL query.
-	Attributes []string `json:"attributes,omitempty"`
-	// A modified version of the input NRQL, with a `FACET ...` clause appended.
-	// If the original NRQL had a `FACET` clause already, it will be replaced.
-	NRQL NRQL `json:"nrql,omitempty"`
+	TimeWindow nrdb.NRDBMetadataTimeWindow `json:"timeWindow,omitempty"`
 }
 
 // NerdStorageCollectionMember -
@@ -3163,7 +3073,7 @@ type SecureCredentialEntity struct {
 	// A relevant `WHERE` clause will be added to your query to scope data to the entity in question.
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
-	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
+	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	//
@@ -3240,91 +3150,6 @@ type SecureCredentialSummaryData struct {
 	MonitorCount int `json:"monitorCount,omitempty"`
 }
 
-// SuggestedAnomalyBasedNRQLQuery - A query suggestion based on analysis of events within a specific anomalous time
-// range vs. nearby events outside of that time range.
-type SuggestedAnomalyBasedNRQLQuery struct {
-	// Information about the anomaly upon which this suggestion is based
-	Anomaly SuggestedNRQLQueryAnomaly `json:"anomaly"`
-	// The NRQL string to run for the suggested query
-	NRQL string `json:"nrql"`
-	// A human-readable title describing what the query shows
-	Title string `json:"title"`
-}
-
-func (x *SuggestedAnomalyBasedNRQLQuery) ImplementsSuggestedNRQLQuery() {}
-
-// SuggestedHistoryBasedNRQLQuery - query suggestion based on historical query patterns.
-type SuggestedHistoryBasedNRQLQuery struct {
-	// The NRQL string to run for the suggested query
-	NRQL string `json:"nrql"`
-	// A human-readable title describing what the query shows
-	Title string `json:"title"`
-}
-
-func (x *SuggestedHistoryBasedNRQLQuery) ImplementsSuggestedNRQLQuery() {}
-
-// SuggestedNRQLQuery - Interface type representing a query suggestion.
-type SuggestedNRQLQuery struct {
-	// The NRQL string to run for the suggested query
-	NRQL string `json:"nrql"`
-	// A human-readable title describing what the query shows
-	Title string `json:"title"`
-}
-
-func (x *SuggestedNRQLQuery) ImplementsSuggestedNRQLQuery() {}
-
-// SuggestedNRQLQueryAnomaly - Information about the anomaly upon which this analysis was based.
-type SuggestedNRQLQueryAnomaly struct {
-	// The approximate time range of the anomalous region
-	TimeWindow TimeWindow `json:"timeWindow"`
-}
-
-// SuggestedNRQLQueryResponse - result type encapsulating suggested queries
-type SuggestedNRQLQueryResponse struct {
-	// List of suggested queries.
-	Suggestions []SuggestedNRQLQueryInterface `json:"suggestions"`
-}
-
-// special
-func (x *SuggestedNRQLQueryResponse) UnmarshalJSON(b []byte) error {
-	var objMap map[string]*json.RawMessage
-	err := json.Unmarshal(b, &objMap)
-	if err != nil {
-		return err
-	}
-
-	for k, v := range objMap {
-		if v == nil {
-			continue
-		}
-
-		switch k {
-		case "suggestions":
-			if v == nil {
-				continue
-			}
-			var rawMessageSuggestions []*json.RawMessage
-			err = json.Unmarshal(*v, &rawMessageSuggestions)
-			if err != nil {
-				return err
-			}
-
-			for _, m := range rawMessageSuggestions {
-				xxx, err := UnmarshalSuggestedNRQLQueryInterface(*m)
-				if err != nil {
-					return err
-				}
-
-				if xxx != nil {
-					x.Suggestions = append(x.Suggestions, *xxx)
-				}
-			}
-		}
-	}
-
-	return nil
-}
-
 // SyntheticMonitorEntity - A Synthetic Monitor entity.
 type SyntheticMonitorEntity struct {
 	//
@@ -3358,7 +3183,7 @@ type SyntheticMonitorEntity struct {
 	// A relevant `WHERE` clause will be added to your query to scope data to the entity in question.
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
-	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
+	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	//
@@ -3494,7 +3319,7 @@ type ThirdPartyServiceEntity struct {
 	// A relevant `WHERE` clause will be added to your query to scope data to the entity in question.
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
-	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
+	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	//
@@ -3584,7 +3409,7 @@ type UnavailableEntity struct {
 	// A relevant `WHERE` clause will be added to your query to scope data to the entity in question.
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
-	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
+	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	//
@@ -3680,7 +3505,7 @@ type WorkloadEntity struct {
 	// A relevant `WHERE` clause will be added to your query to scope data to the entity in question.
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
-	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
+	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	//
@@ -3807,17 +3632,6 @@ type Float string
 // When expected as an input type, any string (such as `"4"`) or integer
 // (such as `4`) input value will be accepted as an ID.
 type ID string
-
-// NRDBResult - This scalar represents a NRDB Result. It is a `Map` of `String` keys to values.
-//
-// The shape of these objects reflect the query used to generate them, the contents
-// of the objects is not part of the GraphQL schema.
-type NRDBResult string
-
-// NRQL - This scalar represents a NRQL query string.
-//
-// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about NRQL syntax.
-type NRQL string
 
 // NerdStorageDocument - This scalar represents a NerdStorage document.
 type NerdStorageDocument string
@@ -4678,60 +4492,4 @@ func UnmarshalInfrastructureIntegrationEntityOutlineInterface(b []byte) (*Infras
 	}
 
 	return nil, fmt.Errorf("interface InfrastructureIntegrationEntityOutline was not matched against all PossibleTypes: %s", typeName)
-}
-
-// SuggestedNRQLQuery - Interface type representing a query suggestion.
-type SuggestedNRQLQueryInterface interface {
-	ImplementsSuggestedNRQLQuery()
-}
-
-//yes
-func UnmarshalSuggestedNRQLQueryInterface(b []byte) (*SuggestedNRQLQueryInterface, error) {
-	var err error
-
-	var rawMessageSuggestedNRQLQuery map[string]*json.RawMessage
-	err = json.Unmarshal(b, &rawMessageSuggestedNRQLQuery)
-	if err != nil {
-		return nil, err
-	}
-
-	var typeName string
-
-	if rawTypeName, ok := rawMessageSuggestedNRQLQuery["__typename"]; ok {
-		err = json.Unmarshal(*rawTypeName, &typeName)
-		if err != nil {
-			return nil, err
-		}
-
-		switch typeName {
-		case "SuggestedAnomalyBasedNrqlQuery":
-			var interfaceType SuggestedAnomalyBasedNRQLQuery
-			err = json.Unmarshal(b, &interfaceType)
-			if err != nil {
-				return nil, err
-			}
-
-			var xxx SuggestedNRQLQueryInterface = &interfaceType
-
-			return &xxx, nil
-		case "SuggestedHistoryBasedNrqlQuery":
-			var interfaceType SuggestedHistoryBasedNRQLQuery
-			err = json.Unmarshal(b, &interfaceType)
-			if err != nil {
-				return nil, err
-			}
-
-			var xxx SuggestedNRQLQueryInterface = &interfaceType
-
-			return &xxx, nil
-		}
-	} else {
-		keys := []string{}
-		for k := range rawMessageSuggestedNRQLQuery {
-			keys = append(keys, k)
-		}
-		return nil, fmt.Errorf("interface SuggestedNRQLQuery did not include a __typename field for inspection: %s", keys)
-	}
-
-	return nil, fmt.Errorf("interface SuggestedNRQLQuery was not matched against all PossibleTypes: %s", typeName)
 }
