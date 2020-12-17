@@ -29,56 +29,6 @@ var BrowserAgentInstallTypeTypes = struct {
 	PRO_SPA: "PRO_SPA",
 }
 
-// ChartFormatType - Represents all the format types available for static charts.
-type ChartFormatType string
-
-var ChartFormatTypeTypes = struct {
-	PDF ChartFormatType
-	PNG ChartFormatType
-}{
-	PDF: "PDF",
-	PNG: "PNG",
-}
-
-// ChartImageType - Represents all the visualization types available for static charts.
-type ChartImageType string
-
-var ChartImageTypeTypes = struct {
-	APDEX                  ChartImageType
-	AREA                   ChartImageType
-	BAR                    ChartImageType
-	BASELINE               ChartImageType
-	BILLBOARD              ChartImageType
-	BULLET                 ChartImageType
-	EVENT_FEED             ChartImageType
-	FUNNEL                 ChartImageType
-	HEATMAP                ChartImageType
-	HISTOGRAM              ChartImageType
-	LINE                   ChartImageType
-	PIE                    ChartImageType
-	SCATTER                ChartImageType
-	STACKED_HORIZONTAL_BAR ChartImageType
-	TABLE                  ChartImageType
-	VERTICAL_BAR           ChartImageType
-}{
-	APDEX:                  "APDEX",
-	AREA:                   "AREA",
-	BAR:                    "BAR",
-	BASELINE:               "BASELINE",
-	BILLBOARD:              "BILLBOARD",
-	BULLET:                 "BULLET",
-	EVENT_FEED:             "EVENT_FEED",
-	FUNNEL:                 "FUNNEL",
-	HEATMAP:                "HEATMAP",
-	HISTOGRAM:              "HISTOGRAM",
-	LINE:                   "LINE",
-	PIE:                    "PIE",
-	SCATTER:                "SCATTER",
-	STACKED_HORIZONTAL_BAR: "STACKED_HORIZONTAL_BAR",
-	TABLE:                  "TABLE",
-	VERTICAL_BAR:           "VERTICAL_BAR",
-}
-
 // DashboardAlertSeverity - Alert severity.
 type DashboardAlertSeverity string
 
@@ -115,53 +65,6 @@ var DashboardPermissionsTypes = struct {
 	PUBLIC_READ_ONLY: "PUBLIC_READ_ONLY",
 	// Public read & write
 	PUBLIC_READ_WRITE: "PUBLIC_READ_WRITE",
-}
-
-// EmbeddedChartType - Represents all the visualization types available for embedded charts.
-type EmbeddedChartType string
-
-var EmbeddedChartTypeTypes = struct {
-	APDEX                  EmbeddedChartType
-	AREA                   EmbeddedChartType
-	BAR                    EmbeddedChartType
-	BASELINE               EmbeddedChartType
-	BILLBOARD              EmbeddedChartType
-	BULLET                 EmbeddedChartType
-	EMPTY                  EmbeddedChartType
-	EVENT_FEED             EmbeddedChartType
-	FUNNEL                 EmbeddedChartType
-	HEATMAP                EmbeddedChartType
-	HISTOGRAM              EmbeddedChartType
-	JSON                   EmbeddedChartType
-	LINE                   EmbeddedChartType
-	MARKDOWN               EmbeddedChartType
-	PIE                    EmbeddedChartType
-	SCATTER                EmbeddedChartType
-	STACKED_HORIZONTAL_BAR EmbeddedChartType
-	TABLE                  EmbeddedChartType
-	TRAFFIC_LIGHT          EmbeddedChartType
-	VERTICAL_BAR           EmbeddedChartType
-}{
-	APDEX:                  "APDEX",
-	AREA:                   "AREA",
-	BAR:                    "BAR",
-	BASELINE:               "BASELINE",
-	BILLBOARD:              "BILLBOARD",
-	BULLET:                 "BULLET",
-	EMPTY:                  "EMPTY",
-	EVENT_FEED:             "EVENT_FEED",
-	FUNNEL:                 "FUNNEL",
-	HEATMAP:                "HEATMAP",
-	HISTOGRAM:              "HISTOGRAM",
-	JSON:                   "JSON",
-	LINE:                   "LINE",
-	MARKDOWN:               "MARKDOWN",
-	PIE:                    "PIE",
-	SCATTER:                "SCATTER",
-	STACKED_HORIZONTAL_BAR: "STACKED_HORIZONTAL_BAR",
-	TABLE:                  "TABLE",
-	TRAFFIC_LIGHT:          "TRAFFIC_LIGHT",
-	VERTICAL_BAR:           "VERTICAL_BAR",
 }
 
 // EntityAlertSeverity -
@@ -1309,8 +1212,6 @@ var WorkloadStatusValueTypes = struct {
 
 // Actor - The `Actor` object contains fields that are scoped to the API user's access level.
 type Actor struct {
-	// The `accounts` field returns all accounts that the Actor is authorized to view.
-	Accounts []accounts.AccountOutline `json:"accounts,omitempty"`
 	// Fetch a list of entities.
 	//
 	// You can fetch a max of 25 entities in one query.
@@ -1335,11 +1236,77 @@ type Actor struct {
 type AlertableEntity struct {
 	// The current alerting severity of the entity
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// The entity domain.
-	Domain EntitySearchQueryBuilderDomain `json:"domain,omitempty"`
-	// The Infrastructure integration type. This should be used in place of the `type` field to search for Infrastructure integration specific types.
-	InfrastructureIntegrationType EntityInfrastructureIntegrationType `json:"infrastructureIntegrationType,omitempty"`
-	// The entity name.
+	// Violations on the entity that were open during the specififed time window.
+	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
+	// Recent violations on the entity.
+	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+}
+
+func (x *AlertableEntity) ImplementsAlertableEntity() {}
+
+// AlertableEntityOutline -
+type AlertableEntityOutline struct {
+	// The current alerting severity of the entity
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+}
+
+func (x *AlertableEntityOutline) ImplementsAlertableEntityOutline() {}
+
+// ApmApplicationDeployment - An APM application deployment marker
+type ApmApplicationDeployment struct {
+	// The changelog of the deployment
+	Changelog string `json:"changelog,omitempty"`
+	// Description of the deployment
+	Description string `json:"description,omitempty"`
+	// A link to view the deployment in the UI
+	Permalink string `json:"permalink,omitempty"`
+	// The revision of the app that was deployed
+	Revision string `json:"revision,omitempty"`
+	// The moment the deployment occurred
+	Timestamp nrtime.EpochMilliseconds `json:"timestamp,omitempty"`
+	// The user who triggered the deployment
+	User string `json:"user,omitempty"`
+}
+
+// ApmApplicationEntity - An APM Application entity.
+type ApmApplicationEntity struct {
+	//
+	Account accounts.AccountOutline `json:"account,omitempty"`
+	// The New Relic account ID associated with this entity.
+	AccountID int `json:"accountId,omitempty"`
+	// The current alerting severity of the APM Application.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// Violations on the APM Application that were open during the specififed time window.
+	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
+	// Summary statistics about the Browser App injected by an APM Application.
+	ApmBrowserSummary ApmBrowserApplicationSummaryData `json:"apmBrowserSummary,omitempty"`
+	// Summary statistics about the APM App.
+	ApmSummary ApmApplicationSummaryData `json:"apmSummary,omitempty"`
+	// The ID of the APM Application.
+	ApplicationID int `json:"applicationId,omitempty"`
+	// Deployments of the APM Application.
+	Deployments []ApmApplicationDeployment `json:"deployments,omitempty"`
+	// The entity's domain
+	Domain string `json:"domain,omitempty"`
+	// A value representing the combination of the entity's domain and type.
+	EntityType EntityType `json:"entityType,omitempty"`
+	// A unique entity identifier.
+	GUID EntityGUID `json:"guid,omitempty"`
+	// The time the entity was indexed.
+	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	// The programming language of the APM Application.
+	Language string `json:"language,omitempty"`
+	// Retrieves a rule.
+	MetricNormalizationRule MetricNormalizationRule `json:"metricNormalizationRule,omitempty"`
+	// Retrieves the rules for the application.
+	MetricNormalizationRules []MetricNormalizationRule `json:"metricNormalizationRules"`
+	// Make an `Entity` scoped query to NRDB with a NRQL string.
+	//
+	// A relevant `WHERE` clause will be added to your query to scope data to the entity in question.
+	//
+	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
+	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
+	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
@@ -1353,12 +1320,18 @@ type AlertableEntity struct {
 	Relationships []EntityRelationship `json:"relationships,omitempty"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
-	// A list of tags applied to the entity.
-	Tags []EntitySearchQueryBuilderTag `json:"tags,omitempty"`
-	// The entity type.
+	// The running versions of the language agent in the APM Application.
+	RunningAgentVersions ApmApplicationRunningAgentVersions `json:"runningAgentVersions,omitempty"`
+	// Configuration settings for the APM Application
+	Settings ApmApplicationSettings `json:"settings,omitempty"`
+	// The tags applied to the entity.
 	//
-	// If you are querying for Infrastructure integration types, use the `infrastructureIntegrationType` field instead of `type`.
-	Type EntitySearchQueryBuilderType `json:"type,omitempty"`
+	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
+	Tags []EntityTag `json:"tags,omitempty"`
+	// The tags applied to the entity with their metadata.
+	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// The entity's type
+	Type string `json:"type,omitempty"`
 }
 
 func (x *ApmApplicationEntity) ImplementsApmBrowserApplicationEntity() {}
@@ -2481,20 +2454,6 @@ type EntityTagWithMetadata struct {
 	Values []EntityTagValueWithMetadata `json:"values,omitempty"`
 }
 
-// EventAttributeDefinition - A human-readable definition of an NRDB Event Type Attribute
-type EventAttributeDefinition struct {
-	// This attribute's category
-	Category string `json:"category,omitempty"`
-	// A short description of this attribute
-	Definition string `json:"definition,omitempty"`
-	// The New Relic docs page for this attribute
-	DocumentationURL string `json:"documentationUrl,omitempty"`
-	// The human-friendly formatted name of the attribute
-	Label string `json:"label,omitempty"`
-	// The name of the attribute
-	Name string `json:"name,omitempty"`
-}
-
 // GenericEntity - A generic entity.
 type GenericEntity struct {
 	//
@@ -3024,18 +2983,6 @@ func (x *MobileApplicationEntityOutline) ImplementsAlertableEntityOutline() {}
 
 func (x *MobileApplicationEntityOutline) ImplementsEntityOutline() {}
 
-// NRDBMetadata - An object containing metadata about the query and result.
-type NRDBMetadata struct {
-	// A list of the event types that were queried.
-	EventTypes []string `json:"eventTypes,omitempty"`
-	// A list of facets that were queried.
-	Facets []string `json:"facets,omitempty"`
-	// Messages from NRDB included with the result.
-	Messages []string `json:"messages,omitempty"`
-	// Details about the query time window.
-	TimeWindow nrdb.NRDBMetadataTimeWindow `json:"timeWindow,omitempty"`
-}
-
 // NerdStorageCollectionMember -
 type NerdStorageCollectionMember struct {
 	// The NerdStorage document.
@@ -3373,14 +3320,6 @@ type ThirdPartyServiceEntityOutline struct {
 }
 
 func (x *ThirdPartyServiceEntityOutline) ImplementsEntityOutline() {}
-
-// TimeWindow - Represents a time window.
-type TimeWindow struct {
-	// The end time of the time window the number of milliseconds since the Unix epoch.
-	EndTime nrtime.EpochMilliseconds `json:"endTime,omitempty"`
-	// The start time of the time window the number of milliseconds since the Unix epoch.
-	StartTime nrtime.EpochMilliseconds `json:"startTime,omitempty"`
-}
 
 // TimeWindowInput - Represents a time window input.
 type TimeWindowInput struct {

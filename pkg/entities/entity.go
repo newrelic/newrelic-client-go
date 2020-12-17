@@ -4,8 +4,6 @@ import (
 	"encoding/json"
 
 	log "github.com/sirupsen/logrus"
-
-	"github.com/newrelic/newrelic-client-go/pkg/accounts"
 )
 
 // Need Outlines to also implement Entity
@@ -42,14 +40,6 @@ func (a *Actor) UnmarshalJSON(b []byte) error {
 		}
 
 		switch k {
-		case "accounts":
-			var accts []accounts.AccountOutline
-			err = json.Unmarshal(*v, &accts)
-			if err != nil {
-				return err
-			}
-
-			a.Accounts = accts
 		case "entity":
 			var e *EntityInterface
 			e, err = UnmarshalEntityInterface([]byte(*v))
