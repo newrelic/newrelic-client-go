@@ -123,7 +123,8 @@ packages:
         endpoints:
           - name: linkedAccounts
             max_query_field_depth: 2
-            include_nullable: true
+            include_arguments:
+              - "provider"
     mutations:
       - name: cloudConfigureIntegration
         max_query_field_depth: 1
@@ -203,7 +204,8 @@ packages:
             max_query_field_depth: 2
           - name: entitySearch
             max_query_field_depth: 2
-            include_nullable: true
+            include_arguments:
+              - "queryBuilder"
     mutations:
       - name: taggingAddTagsToEntity
         max_query_field_depth: 1
