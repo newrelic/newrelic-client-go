@@ -2340,7 +2340,7 @@ type EntitySearchQueryBuilder struct {
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
 	// The entity domain.
 	Domain EntitySearchQueryBuilderDomain `json:"domain,omitempty"`
-	// The Infrastructure integration type.
+	// The Infrastructure integration type. This should be used in place of the `type` field to search for Infrastructure integration specific types.
 	InfrastructureIntegrationType EntityInfrastructureIntegrationType `json:"infrastructureIntegrationType,omitempty"`
 	// The entity name.
 	Name string `json:"name,omitempty"`
@@ -2349,6 +2349,8 @@ type EntitySearchQueryBuilder struct {
 	// A list of tags applied to the entity.
 	Tags []EntitySearchQueryBuilderTag `json:"tags,omitempty"`
 	// The entity type.
+	//
+	// If you are querying for Infrastructure integration types, use the `infrastructureIntegrationType` field instead of `type`.
 	Type EntitySearchQueryBuilderType `json:"type,omitempty"`
 }
 
