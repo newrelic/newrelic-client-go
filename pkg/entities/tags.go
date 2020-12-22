@@ -6,19 +6,40 @@ import (
 )
 
 // Tag represents a New Relic One entity tag.
+//
+// Deprecated: Use EntityTag instead.
 type Tag struct {
 	Key    string
 	Values []string
 }
 
 // TagValue represents a New Relic One entity tag and value pair.
+//
+// Deprecated: Use TaggingTagValueInput instead.
 type TagValue struct {
 	Key   string
 	Value string
 }
 
+// GetTagsForEntity returns a collection of all tags (mutable and not) for a given
+// entity by entity GUID.
+func (e *Entities) GetTagsForEntity(guid EntityGUID) ([]*EntityTag, error) {
+	resp := getTagsResponse{}
+	vars := map[string]interface{}{
+		"guid": guid,
+	}
+
+	if err := e.client.NerdGraphQuery(listTagsQuery, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return resp.Actor.Entity.Tags, nil
+}
+
 // ListTags returns a collection of mutable tags for a given entity by entity
 // GUID.
+//
+// Deprecated: Use GetTagsForEntity instead.
 func (e *Entities) ListTags(guid EntityGUID) ([]*Tag, error) {
 	resp := listTagsResponse{}
 	vars := map[string]interface{}{
@@ -34,6 +55,8 @@ func (e *Entities) ListTags(guid EntityGUID) ([]*Tag, error) {
 
 // ListAllTags returns a collection of all tags (mutable and not) for a given
 // entity by entity GUID.
+//
+// Deprecated: Use GetTagsForEntity instead.
 func (e *Entities) ListAllTags(guid EntityGUID) ([]*Tag, error) {
 	resp := listTagsResponse{}
 	vars := map[string]interface{}{
@@ -77,6 +100,8 @@ func filterMutable(resp listTagsResponse) ([]*Tag, error) {
 }
 
 // AddTags writes tags to the entity specified by the provided entity GUID.
+//
+// Deprecated: Use TaggingAddTagsToEntity instead.
 func (e *Entities) AddTags(guid EntityGUID, tags []Tag) error {
 	resp := addTagsResponse{}
 	vars := map[string]interface{}{
@@ -96,6 +121,8 @@ func (e *Entities) AddTags(guid EntityGUID, tags []Tag) error {
 }
 
 // ReplaceTags replaces the entity's entire set of tags with the provided tag set.
+//
+// Deprecated: Use TaggingReplaceTagsOnEntity instead.
 func (e *Entities) ReplaceTags(guid EntityGUID, tags []Tag) error {
 	resp := replaceTagsResponse{}
 	vars := map[string]interface{}{
@@ -115,6 +142,8 @@ func (e *Entities) ReplaceTags(guid EntityGUID, tags []Tag) error {
 }
 
 // DeleteTags deletes specific tag keys from the entity.
+//
+// Deprecated: Use TaggingDeleteTagFromEntity instead.
 func (e *Entities) DeleteTags(guid EntityGUID, tagKeys []string) error {
 	resp := deleteTagsResponse{}
 	vars := map[string]interface{}{
@@ -134,6 +163,8 @@ func (e *Entities) DeleteTags(guid EntityGUID, tagKeys []string) error {
 }
 
 // DeleteTagValues deletes specific tag key and value pairs from the entity.
+//
+// Deprecated: Use TaggingDeleteTagValuesFromEntity instead.
 func (e *Entities) DeleteTagValues(guid EntityGUID, tagValues []TagValue) error {
 	resp := deleteTagValuesResponse{}
 	vars := map[string]interface{}{
@@ -176,6 +207,15 @@ type listTagsResponse struct {
 	Actor struct {
 		Entity struct {
 			Tags             []*Tag
+			TagsWithMetadata []*EntityTagWithMetadata
+		}
+	}
+}
+
+type getTagsResponse struct {
+	Actor struct {
+		Entity struct {
+			Tags             []*EntityTag
 			TagsWithMetadata []*EntityTagWithMetadata
 		}
 	}
