@@ -57,6 +57,10 @@ func (x *{{ $typeName }}) UnmarshalJSON(b []byte) error {
   }
 
   for k, v := range objMap {
+    if v == nil {
+      continue
+    }
+
     switch k {
   {{- range .Fields }}
     {{- $field := . }}
@@ -73,7 +77,12 @@ func (x *{{ $typeName }}) UnmarshalJSON(b []byte) error {
         }
 
         for _, m := range rawMessage{{ .Name }} {
+          {{- if contains "." $field.TypeName }}
+          {{-   $m := split "." $field.TypeName }}
+          xxx, err := {{ $m._0 }}.Unmarshal{{ $m._1 }}Interface(*m)
+          {{- else }}
           xxx, err := Unmarshal{{ $field.TypeName }}Interface(*m)
+          {{- end }}
           if err != nil {
             return err
           }
@@ -85,7 +94,12 @@ func (x *{{ $typeName }}) UnmarshalJSON(b []byte) error {
 
 
       {{- else }}
+        {{- if contains "." $field.TypeName }}
+        {{-   $m := split "." $field.TypeName }}
+        xxx, err := {{ $m._0 }}.Unmarshal{{ $m._1 }}Interface(*v)
+        {{- else }}
         xxx, err := Unmarshal{{ $field.TypeName }}Interface(*v)
+        {{- end }}
         if err != nil {
           return err
         }

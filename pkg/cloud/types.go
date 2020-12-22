@@ -2815,6 +2815,10 @@ func (x *CloudConfigureIntegrationPayload) UnmarshalJSON(b []byte) error {
 	}
 
 	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
 		switch k {
 		case "errors":
 			err = json.Unmarshal(*v, &x.Errors)
@@ -2870,6 +2874,10 @@ func (x *CloudDisableIntegrationPayload) UnmarshalJSON(b []byte) error {
 	}
 
 	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
 		switch k {
 		case "disabledIntegrations":
 			if v == nil {
@@ -4629,6 +4637,10 @@ func (x *CloudLinkedAccount) UnmarshalJSON(b []byte) error {
 	}
 
 	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
 		switch k {
 		case "authLabel":
 			err = json.Unmarshal(*v, &x.AuthLabel)
@@ -4971,6 +4983,10 @@ func (x *CloudService) UnmarshalJSON(b []byte) error {
 	}
 
 	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
 		switch k {
 		case "createdAt":
 			err = json.Unmarshal(*v, &x.CreatedAt)

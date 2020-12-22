@@ -749,7 +749,7 @@ type CloudDisableIntegrationResponse struct {
 }
 
 const CloudDisableIntegrationMutation = `mutation(
-	$accountId: Int,
+	$accountId: Int!,
 	$integrations: CloudDisableIntegrationsInput,
 ) { cloudDisableIntegration(
 	accountId: $accountId,
@@ -1573,7 +1573,7 @@ type CloudUnlinkAccountResponse struct {
 }
 
 const CloudUnlinkAccountMutation = `mutation(
-	$accountId: Int,
+	$accountId: Int!,
 	$accounts: [CloudUnlinkAccountsInput],
 ) { cloudUnlinkAccount(
 	accountId: $accountId,
