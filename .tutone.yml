@@ -123,7 +123,8 @@ packages:
         endpoints:
           - name: linkedAccounts
             max_query_field_depth: 2
-            include_nullable: true
+            include_arguments:
+              - "provider"
     mutations:
       - name: cloudConfigureIntegration
         max_query_field_depth: 1
@@ -183,49 +184,147 @@ packages:
       - name: EdgeTraceObserverStatus
       - name: EdgeTracing
 
-  - name: infrastructure
-    path: pkg/infrastructure
-    import_path: github.com/newrelic/newrelic-client-go/pkg/infrastructure
-    generators:
-      - typegen
-    types: []
 
   - name: entities
     path: pkg/entities
     import_path: github.com/newrelic/newrelic-client-go/pkg/entities
     generators:
       - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/pkg/nrdb
+      - github.com/newrelic/newrelic-client-go/pkg/nrtime
+    queries:
+      - path: ["actor"]
+        endpoints:
+          - name: entities
+            max_query_field_depth: 2
+          - name: entity
+            max_query_field_depth: 2
+          - name: entitySearch
+            max_query_field_depth: 2
+            include_arguments:
+              - "queryBuilder"
+    mutations:
+      - name: taggingAddTagsToEntity
+        max_query_field_depth: 1
+      - name: taggingDeleteTagFromEntity
+        max_query_field_depth: 1
+      - name: taggingDeleteTagValuesFromEntity
+        max_query_field_depth: 1
+      - name: taggingReplaceTagsOnEntity
+        max_query_field_depth: 1
+
     types:
       - name: AttributeMap
         create_as: "map[string]interface{}"
-#      - name: Entity
-#      - name: EntityOutline
+
+      # Types this package owns
+      - name: AlertableEntity
+      - name: ApmApplicationEntity
+      - name: ApmBrowserApplicationEntity
+      - name: ApmDatabaseInstanceEntity
+      - name: ApmExternalServiceEntity
+      - name: BrowserApplicationEntity
+      - name: CollectionEntity
+      - name: DashboardEntity
+      - name: Entity
       - name: EntityGuid
-#      - name: EntityRelationship
-#      - name: EntityRelationshipFilter
-#      - name: EntityRelationshipNode
-#      - name: EntityRelationshipType
-#      - name: EntitySearchCounts
-#      - name: EntitySearchResult
-#      - name: EntityRelationshipFilter
-#      - name: EntityRelationshipNode
-#      - name: EntitySearch
+      - name: EntityOutline
+      - name: EntityRelationship
+      - name: EntityRelationshipFilter
+      - name: EntityRelationshipNode
+      - name: EntityRelationshipType
+      - name: EntitySearch
       - name: EntitySearchCounts
       - name: EntitySearchCountsFacet
+      - name: EntitySearchOptions
       - name: EntitySearchQueryBuilder
-#      - name: EntitySearchResult
+      - name: EntitySearchResult
+      - name: EntitySearchSortCriteria
       - name: EntitySearchTypes
       - name: EntityTag
       - name: EntityTagValueWithMetadata
       - name: EntityTagWithMetadata
       - name: EntityType
-#      - name: GenericEntity
-#      - name: GenericEntityOutline
-#      - name: UnavailableEntity
-#      - name: UnavailableEntityOutline
+      - name: GenericEntity
+      - name: GenericEntityOutline
+      - name: GenericInfrastructureEntity
+      - name: InfrastructureAwsLambdaFunctionEntity
+      - name: InfrastructureHostEntity
+      - name: InfrastructureIntegrationEntity
+      - name: MobileApplicationEntity
+      - name: SyntheticMonitorEntity
+      - name: ThirdPartyServiceEntity
+      - name: UnavailableEntity
+      - name: UnavailableEntityOutline
+      - name: WorkloadEntity
 
-      # Infra should own this, but can't be cause it's a dep for EntitySearchQueryBuilder
-      - name: InfrastructureIntegrationType
+      #
+      # Types that our other packages define
+      #   TODO: Fix tutone to figure this out for us
+      #
+
+      # accounts imports
+      - name: AccountOutline
+        field_type_override: accounts.AccountOutline
+        skip_type_create: true
+      - name: AccountReference
+        field_type_override: accounts.AccountReference
+        skip_type_create: true
+
+      # nrtime imports
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
+      - name: EpochSeconds
+        field_type_override: nrtime.EpochSeconds
+        skip_type_create: true
+      - name: EpochMilliseconds
+        field_type_override: nrtime.EpochMilliseconds
+        skip_type_create: true
+      - name: Minutes
+        field_type_override: nrtime.Minutes
+        skip_type_create: true
+      - name: Seconds
+        field_type_override: nrtime.Seconds
+        skip_type_create: true
+
+      # nrdb imports
+      - name: EventDefinition
+        field_type_override: nrdb.EventDefinition
+        skip_type_create: true
+      - name: NrdbMetadataTimeWindow
+        field_type_override: nrdb.NRDBMetadataTimeWindow
+        skip_type_create: true
+      - name: NrdbResult
+        field_type_override: nrdb.NRDBResult
+        skip_type_create: true
+      - name: NrdbResultContainer
+        field_type_override: nrdb.NRDBResultContainer
+        skip_type_create: true
+      - name: Nrql
+        field_type_override: nrdb.NRQL
+        skip_type_create: true
+      - name: NrqlHistoricalQuery
+        field_type_override: nrdb.NrqlHistoricalQuery
+        skip_type_create: true
+      - name: NrqlFacetSuggestion
+        field_type_override: nrdb.NRQLFacetSuggestion
+        skip_type_create: true
+      - name: SuggestedNrqlQuery
+        field_type_override: nrdb.SuggestedNRQLQuery
+        skip_type_create: true
+      - name: SuggestedAnomalyBasedNRQLQuery
+        field_type_override: nrdb.SuggestedAnomalyBasedNRQLQuery
+        skip_type_create: true
+      - name: SuggestedHistoryBasedNRQLQuery
+        field_type_override: nrdb.SuggestedHistoryBasedNRQLQuery
+        skip_type_create: true
+      - name: SuggestedNRQLQueryAnomaly
+        field_type_override: nrdb.SuggestedNRQLQueryAnomaly
+        skip_type_create: true
 
 
   - name: eventstometrics
