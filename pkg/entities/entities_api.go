@@ -42,6 +42,121 @@ const TaggingAddTagsToEntityMutation = `mutation(
 	}
 } }`
 
+// Delete specific tag keys from the entity.
+//
+//  For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
+func (a *Entities) TaggingDeleteTagFromEntity(
+	gUID EntityGUID,
+	tagKeys []string,
+) (*TaggingMutationResult, error) {
+
+	resp := TaggingDeleteTagFromEntityResponse{}
+	vars := map[string]interface{}{
+		"guid":    gUID,
+		"tagKeys": tagKeys,
+	}
+
+	if err := a.client.NerdGraphQuery(TaggingDeleteTagFromEntityMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.TaggingMutationResult, nil
+}
+
+type TaggingDeleteTagFromEntityResponse struct {
+	TaggingMutationResult TaggingMutationResult `json:"TaggingDeleteTagFromEntity"`
+}
+
+const TaggingDeleteTagFromEntityMutation = `mutation(
+	$guid: EntityGuid!,
+	$tagKeys: [String!]!,
+) { taggingDeleteTagFromEntity(
+	guid: $guid,
+	tagKeys: $tagKeys,
+) {
+	errors {
+		message
+		type
+	}
+} }`
+
+// Delete specific tag key-values from the entity.
+//
+//  For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
+func (a *Entities) TaggingDeleteTagValuesFromEntity(
+	gUID EntityGUID,
+	tagValues []TaggingTagValueInput,
+) (*TaggingMutationResult, error) {
+
+	resp := TaggingDeleteTagValuesFromEntityResponse{}
+	vars := map[string]interface{}{
+		"guid":      gUID,
+		"tagValues": tagValues,
+	}
+
+	if err := a.client.NerdGraphQuery(TaggingDeleteTagValuesFromEntityMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.TaggingMutationResult, nil
+}
+
+type TaggingDeleteTagValuesFromEntityResponse struct {
+	TaggingMutationResult TaggingMutationResult `json:"TaggingDeleteTagValuesFromEntity"`
+}
+
+const TaggingDeleteTagValuesFromEntityMutation = `mutation(
+	$guid: EntityGuid!,
+	$tagValues: [TaggingTagValueInput!]!,
+) { taggingDeleteTagValuesFromEntity(
+	guid: $guid,
+	tagValues: $tagValues,
+) {
+	errors {
+		message
+		type
+	}
+} }`
+
+// Replaces the entity's entire set of tags with the provided tag set.
+//  The maximum number of tag-values per entity is 100; if more than 100 tag-values are provided this mutation will fail.
+//
+//  For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
+func (a *Entities) TaggingReplaceTagsOnEntity(
+	gUID EntityGUID,
+	tags []TaggingTagInput,
+) (*TaggingMutationResult, error) {
+
+	resp := TaggingReplaceTagsOnEntityResponse{}
+	vars := map[string]interface{}{
+		"guid": gUID,
+		"tags": tags,
+	}
+
+	if err := a.client.NerdGraphQuery(TaggingReplaceTagsOnEntityMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.TaggingMutationResult, nil
+}
+
+type TaggingReplaceTagsOnEntityResponse struct {
+	TaggingMutationResult TaggingMutationResult `json:"TaggingReplaceTagsOnEntity"`
+}
+
+const TaggingReplaceTagsOnEntityMutation = `mutation(
+	$guid: EntityGuid!,
+	$tags: [TaggingTagInput!]!,
+) { taggingReplaceTagsOnEntity(
+	guid: $guid,
+	tags: $tags,
+) {
+	errors {
+		message
+		type
+	}
+} }`
+
 // Fetch a list of entities.
 //
 // You can fetch a max of 25 entities in one query.

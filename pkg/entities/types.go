@@ -3247,6 +3247,14 @@ type TaggingTagInput struct {
 	Values []string `json:"values,omitempty"`
 }
 
+// TaggingTagValueInput - An object that represents a tag key-value pair
+type TaggingTagValueInput struct {
+	// The tag key.
+	Key string `json:"key"`
+	// The tag value.
+	Value string `json:"value"`
+}
+
 // ThirdPartyServiceEntity - A third party service entity.
 type ThirdPartyServiceEntity struct {
 	//

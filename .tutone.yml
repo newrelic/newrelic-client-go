@@ -209,6 +209,12 @@ packages:
     mutations:
       - name: taggingAddTagsToEntity
         max_query_field_depth: 1
+      - name: taggingDeleteTagFromEntity
+        max_query_field_depth: 1
+      - name: taggingDeleteTagValuesFromEntity
+        max_query_field_depth: 1
+      - name: taggingReplaceTagsOnEntity
+        max_query_field_depth: 1
 
     types:
       - name: AttributeMap

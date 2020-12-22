@@ -52,7 +52,7 @@ func Example_tags() {
 	}
 
 	// Add tags to a given entity.
-	addTags := []Tag{
+	addTags := []TaggingTagInput{
 		{
 			Key: "environment",
 			Values: []string{
@@ -68,44 +68,59 @@ func Example_tags() {
 		},
 	}
 
-	err = client.AddTags(entityGUID, addTags)
-	if err != nil {
+	res, err := client.TaggingAddTagsToEntity(entityGUID, addTags)
+	if err != nil || len(res.Errors) > 0 {
 		log.Fatal("error adding tags to entity:", err)
 	}
 
 	// Delete tag values from a given entity.
 	// This example deletes the "ops" value from the "teams" tag.
-	tagValuesToDelete := []TagValue{
+	tagValuesToDelete := []TaggingTagValueInput{
 		{
 			Key:   "teams",
 			Value: "ops",
 		},
 	}
 
-	err = client.DeleteTagValues(entityGUID, tagValuesToDelete)
+	res, err = client.TaggingDeleteTagValuesFromEntity(entityGUID, tagValuesToDelete)
 	if err != nil {
 		log.Fatal("error deleting tag values from entity:", err)
+	}
+	if res != nil {
+		for _, v := range res.Errors {
+			log.Print("error deleting tags from entity: ", v)
+		}
 	}
 
 	// Delete tags from a given entity.
 	// This example delete the "teams" tag and all its values from the entity.
-	err = client.DeleteTags(entityGUID, []string{"teams"})
+	res, err = client.TaggingDeleteTagFromEntity(entityGUID, []string{"teams"})
 	if err != nil {
 		log.Fatal("error deleting tags from entity:", err)
 	}
+	if res != nil {
+		for _, v := range res.Errors {
+			log.Print("error deleting tags from entity: ", v)
+		}
+	}
 
 	// Replace all existing tags for a given entity with the given set.
-	datacenterTag := Tag{
-		Key: "datacenter",
-		Values: []string{
-			"east",
+	datacenterTag := []TaggingTagInput{
+		{
+			Key: "datacenter",
+			Values: []string{
+				"east",
+			},
 		},
 	}
 
-	replaceTags := []Tag{datacenterTag}
-
-	err = client.ReplaceTags(entityGUID, replaceTags)
+	res, err = client.TaggingReplaceTagsOnEntity(entityGUID, datacenterTag)
 	if err != nil {
 		log.Fatal("error replacing tags for entity:", err)
+	}
+	if res != nil {
+		for _, v := range res.Errors {
+			log.Print("error replacing tags for entity: ", v)
+		}
 	}
 }
