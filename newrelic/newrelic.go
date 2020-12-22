@@ -1,8 +1,3 @@
-fmt.Print("\n\n **************************** \n")
-fmt.Printf("\n THING:  %+v \n", thing)
-fmt.Print("\n **************************** \n\n")
-time.Sleep(7 * time.Second)
-
 package newrelic
 
 import (
