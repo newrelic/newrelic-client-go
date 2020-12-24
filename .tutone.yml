@@ -164,11 +164,11 @@ packages:
       - github.com/newrelic/newrelic-client-go/pkg/nrdb
     mutations:
       - name: dashboardCreate
-        max_query_field_depth: 1
+        max_query_field_depth: 10
       - name: dashboardDelete
-        max_query_field_depth: 1
+        max_query_field_depth: 10
       - name: dashboardUpdate
-        max_query_field_depth: 1
+        max_query_field_depth: 10
     types:
       # This must be a string, as where ID is used the type is a string...
       - name: ID

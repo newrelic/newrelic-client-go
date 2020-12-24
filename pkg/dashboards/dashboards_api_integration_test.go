@@ -47,7 +47,7 @@ func TestIntegrationDashboard_Basic(t *testing.T) {
 		},
 	}
 
-	// Test: Create
+	// Test: DashboardCreate
 	result, err := client.DashboardCreate(mock.TestAccountID, dashboardInput)
 
 	require.NoError(t, err)
@@ -61,13 +61,44 @@ func TestIntegrationDashboard_Basic(t *testing.T) {
 	dash, err := client.GetDashboardEntity(dashGUID)
 	require.NoError(t, err)
 	require.NotNil(t, dash)
+
 	assert.Equal(t, dashGUID, dash.GUID)
 	assert.Equal(t, dashboardInput.Description, dash.Description)
 	assert.Equal(t, dashboardInput.Name, dash.Name)
 	assert.Equal(t, dashboardInput.Permissions, dash.Permissions)
-	assert.Equal(t, len(dashboardInput.Pages), len(dash.Pages))
 
-	// Test: Delete
+	// Input and Pages are different types so we can not easily compare them...
+	assert.Equal(t, len(dashboardInput.Pages), len(dash.Pages))
+	require.Equal(t, 1, len(dash.Pages))
+	require.Equal(t, 1, len(dash.Pages[0].Widgets))
+
+	assert.Equal(t, dashboardInput.Pages[0].Widgets[0].Title, dash.Pages[0].Widgets[0].Title)
+
+	// Test: DashboardUpdate
+	updatedDashboard := DashboardInput{
+		Name:        dash.Name,
+		Permissions: dash.Permissions,
+		Pages: []DashboardPageInput{
+			{
+				Name: dash.Pages[0].Name,
+				Widgets: []DashboardWidgetInput{
+					{
+						ID:    dash.Pages[0].Widgets[0].ID,
+						Title: "Updated Title",
+					},
+				},
+			},
+		},
+	}
+
+	upDash, err := client.DashboardUpdate(updatedDashboard, dashGUID)
+	require.NoError(t, err)
+	require.NotNil(t, upDash)
+	require.Equal(t, 1, len(upDash.EntityResult.Pages))
+	require.Equal(t, 1, len(upDash.EntityResult.Pages[0].Widgets))
+	assert.Equal(t, updatedDashboard.Pages[0].Widgets[0].Title, upDash.EntityResult.Pages[0].Widgets[0].Title)
+
+	// Test: DashboardDelete
 	delRes, err := client.DashboardDelete(dashGUID)
 	require.NoError(t, err)
 	require.NotNil(t, delRes)
