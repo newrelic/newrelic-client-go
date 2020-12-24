@@ -48,7 +48,7 @@ var DashboardAlertSeverityTypes = struct {
 	WARNING: "WARNING",
 }
 
-// DashboardPermissions - Permisions that represent visibility & editability
+// DashboardPermissions - Permission that represent visibility & editability
 type DashboardPermissions string
 
 var DashboardPermissionsTypes = struct {
@@ -1262,7 +1262,7 @@ type ApmApplicationDeployment struct {
 	Permalink string `json:"permalink,omitempty"`
 	// The revision of the app that was deployed
 	Revision string `json:"revision,omitempty"`
-	// The moment the deployment occured
+	// The moment the deployment occurred
 	Timestamp nrtime.EpochMilliseconds `json:"timestamp,omitempty"`
 	// The user who triggered the deployment
 	User string `json:"user,omitempty"`
