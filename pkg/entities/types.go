@@ -48,7 +48,7 @@ var DashboardAlertSeverityTypes = struct {
 	WARNING: "WARNING",
 }
 
-// DashboardPermissions - Permission that represent visibility & editability
+// DashboardPermissions - Permisions that represent visibility & editability
 type DashboardPermissions string
 
 var DashboardPermissionsTypes = struct {
@@ -1262,7 +1262,7 @@ type ApmApplicationDeployment struct {
 	Permalink string `json:"permalink,omitempty"`
 	// The revision of the app that was deployed
 	Revision string `json:"revision,omitempty"`
-	// The moment the deployment occurred
+	// The moment the deployment occured
 	Timestamp nrtime.EpochMilliseconds `json:"timestamp,omitempty"`
 	// The user who triggered the deployment
 	User string `json:"user,omitempty"`
@@ -1963,7 +1963,7 @@ type DashboardWidget struct {
 	// Typed configuration
 	Configuration DashboardWidgetConfiguration `json:"configuration,omitempty"`
 	// id
-	ID int `json:"id"`
+	ID string `json:"id"`
 	// layout
 	Layout DashboardWidgetLayout `json:"layout,omitempty"`
 	// Related entities. Currently only supports Dashboard entities, but may allow other cases in the future.
@@ -3036,7 +3036,7 @@ type SecureCredentialEntity struct {
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The domain-specific identifier for the entity.
-	SecureCredentialId int `json:"secureCredentialId,omitempty"`
+	SecureCredentialId string `json:"secureCredentialId,omitempty"`
 	// Summary statistics for the Synthetic Monitor Secure Credential.
 	SecureCredentialSummary SecureCredentialSummaryData `json:"secureCredentialSummary,omitempty"`
 	// The tags applied to the entity.
@@ -3076,7 +3076,7 @@ type SecureCredentialEntityOutline struct {
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The domain-specific identifier for the entity.
-	SecureCredentialId int `json:"secureCredentialId,omitempty"`
+	SecureCredentialId string `json:"secureCredentialId,omitempty"`
 	// Summary statistics for the Synthetic Monitor Secure Credential.
 	SecureCredentialSummary SecureCredentialSummaryData `json:"secureCredentialSummary,omitempty"`
 	// The tags applied to the entity.
@@ -3120,7 +3120,7 @@ type SyntheticMonitorEntity struct {
 	// The time the entity was indexed.
 	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The Synthetic Monitor ID
-	MonitorId int `json:"monitorId,omitempty"`
+	MonitorId string `json:"monitorId,omitempty"`
 	// Summary statistics for the Synthetic Monitor.
 	MonitorSummary SyntheticMonitorSummaryData `json:"monitorSummary,omitempty"`
 	// The Synthetic Monitor type
@@ -3180,7 +3180,7 @@ type SyntheticMonitorEntityOutline struct {
 	// The time the entity was indexed.
 	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The Synthetic Monitor ID
-	MonitorId int `json:"monitorId,omitempty"`
+	MonitorId string `json:"monitorId,omitempty"`
 	// Summary statistics for the Synthetic Monitor.
 	MonitorSummary SyntheticMonitorSummaryData `json:"monitorSummary,omitempty"`
 	// The Synthetic Monitor type
@@ -3574,13 +3574,6 @@ type EntityGUID string
 // values as specified by
 // [IEEE 754](http://en.wikipedia.org/wiki/IEEE_floating_point).
 type Float string
-
-// ID - The `ID` scalar type represents a unique identifier, often used to
-// refetch an object or as key for a cache. The ID type appears in a JSON
-// response as a String; however, it is not intended to be human-readable.
-// When expected as an input type, any string (such as `"4"`) or integer
-// (such as `4`) input value will be accepted as an ID.
-type ID string
 
 // NerdStorageDocument - This scalar represents a NerdStorage document.
 type NerdStorageDocument string
