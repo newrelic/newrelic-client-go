@@ -3565,7 +3565,7 @@ type entitySearchResponse struct {
 type AttributeMap map[string]interface{}
 
 // DashboardWidgetRawConfiguration - Raw JSON payload with full configuration of a widget.
-type DashboardWidgetRawConfiguration string
+type DashboardWidgetRawConfiguration []byte
 
 // EntityGUID - An encoded Entity GUID
 type EntityGUID string

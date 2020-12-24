@@ -196,6 +196,9 @@ packages:
       - name: DashboardWidget
         field_type_override: entities.DashboardWidget
         skip_type_create: true
+      - name: DashboardWidgetRawConfiguration
+        field_type_override: entities.DashboardWidgetRawConfiguration
+        skip_type_create: true
       - name: DateTime
         field_type_override: nrtime.DateTime
         skip_type_create: true
@@ -288,6 +291,9 @@ packages:
       - name: ID
         field_type_override: string
         skip_type_create: true
+      - name: DashboardWidgetRawConfiguration
+        create_as: "[]byte"
+
 
       # Types this package owns
       - name: AlertableEntity

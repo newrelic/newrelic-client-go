@@ -238,7 +238,7 @@ type DashboardWidgetInput struct {
 	// Related entities. Currently only supports Dashboard entities, but may allow other cases in the future.
 	LinkedEntityGUIDs []entities.EntityGUID `json:"linkedEntityGuids"`
 	// Untyped scalar of configuration for the widget
-	RawConfiguration DashboardWidgetRawConfiguration `json:"rawConfiguration,omitempty"`
+	RawConfiguration entities.DashboardWidgetRawConfiguration `json:"rawConfiguration,omitempty"`
 	// title
 	Title string `json:"title,omitempty"`
 	// Specifies how this widget will be visualized. If null, the WidgetConfigurationInput will be used to determine the visualization.
@@ -270,9 +270,6 @@ type DashboardWidgetVisualizationInput struct {
 	// Nerdpack artifact ID
 	ID string `json:"id,omitempty"`
 }
-
-// DashboardWidgetRawConfiguration - Raw JSON payload with full configuration of a widget.
-type DashboardWidgetRawConfiguration string
 
 // Float - The `Float` scalar type represents signed double-precision fractional
 // values as specified by

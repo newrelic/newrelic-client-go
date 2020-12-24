@@ -2,6 +2,7 @@ package entities
 
 import (
 	"encoding/json"
+	"errors"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -27,6 +28,8 @@ func (x ThirdPartyServiceEntityOutline) ImplementsEntity()               {}
 func (x UnavailableEntityOutline) ImplementsEntity()                     {}
 func (x WorkloadEntityOutline) ImplementsEntity()                        {}
 
+// UnmarshalJSON is used to unmarshal Actor into the correct
+// interfaces per field.
 func (a *Actor) UnmarshalJSON(b []byte) error {
 	var objMap map[string]*json.RawMessage
 	err := json.Unmarshal(b, &objMap)
@@ -79,5 +82,26 @@ func (a *Actor) UnmarshalJSON(b []byte) error {
 		}
 	}
 
+	return nil
+}
+
+// MarshalJSON returns the JSON encoded version of DashboardWidgetRawConfiguration
+// (which is already JSON)
+func (d DashboardWidgetRawConfiguration) MarshalJSON() ([]byte, error) {
+	if d == nil {
+		return []byte("null"), nil
+	}
+
+	return d, nil
+}
+
+// UnmarshalJSON sets *d to a copy of the data, as DashboardWidgetRawConfiguration is
+// the raw JSON intentionally.
+func (d *DashboardWidgetRawConfiguration) UnmarshalJSON(data []byte) error {
+	if d == nil {
+		return errors.New("entities.DashboardWidgetRawConfiguration: UnmarshalJSON on nil pointer")
+	}
+
+	*d = append((*d)[0:0], data...)
 	return nil
 }
