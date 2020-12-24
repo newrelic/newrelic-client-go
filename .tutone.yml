@@ -170,6 +170,11 @@ packages:
       - name: dashboardUpdate
         max_query_field_depth: 1
     types:
+      # This must be a string, as where ID is used the type is a string...
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+
       - name: DashboardAlertSeverity
         field_type_override: entities.DashboardAlertSeverity
         skip_type_create: true
