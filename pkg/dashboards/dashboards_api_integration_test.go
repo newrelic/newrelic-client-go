@@ -57,6 +57,16 @@ func TestIntegrationDashboard_Basic(t *testing.T) {
 
 	dashGUID := result.EntityResult.GUID
 
+	// Test: GetDashboardEntity
+	dash, err := client.GetDashboardEntity(dashGUID)
+	require.NoError(t, err)
+	require.NotNil(t, dash)
+	assert.Equal(t, dashGUID, dash.GUID)
+	assert.Equal(t, dashboardInput.Description, dash.Description)
+	assert.Equal(t, dashboardInput.Name, dash.Name)
+	assert.Equal(t, dashboardInput.Permissions, dash.Permissions)
+	assert.Equal(t, len(dashboardInput.Pages), len(dash.Pages))
+
 	// Test: Delete
 	delRes, err := client.DashboardDelete(dashGUID)
 	require.NoError(t, err)
