@@ -21,7 +21,7 @@ func TestIntegrationDashboards(t *testing.T) {
 		Metadata: DashboardMetadata{
 			Version: 1,
 		},
-		Title:           "newrelic-client-go-test",
+		Title:           "newrelic-client-go-test-REST-" + mock.RandSeq(5),
 		Visibility:      VisibilityTypes.Owner,
 		Editable:        EditableTypes.Owner,
 		GridColumnCount: GridColumnCountTypes.One,
@@ -43,7 +43,7 @@ func TestIntegrationDashboards(t *testing.T) {
 	require.NotNil(t, multiple)
 
 	// Test: Get
-	single, err := dashboards.GetDashboard(multiple[0].ID)
+	single, err := dashboards.GetDashboard(created.ID)
 
 	require.NoError(t, err)
 	require.NotNil(t, single)
@@ -56,7 +56,7 @@ func TestIntegrationDashboards(t *testing.T) {
 	require.NotNil(t, updated)
 
 	// Test: Delete
-	deleted, err := dashboards.DeleteDashboard(updated.ID)
+	deleted, err := dashboards.DeleteDashboard(created.ID)
 
 	require.NoError(t, err)
 	require.NotNil(t, deleted)

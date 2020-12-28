@@ -153,6 +153,74 @@ packages:
         field_type_override: nrtime.EpochMilliseconds
         skip_type_create: true
 
+  - name: dashboards
+    path: pkg/dashboards
+    import_path: github.com/newrelic/newrelic-client-go/pkg/dashboards
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/pkg/entities
+      - github.com/newrelic/newrelic-client-go/pkg/nrdb
+    mutations:
+      - name: dashboardCreate
+        max_query_field_depth: 10
+      - name: dashboardDelete
+        max_query_field_depth: 10
+      - name: dashboardUpdate
+        max_query_field_depth: 10
+    types:
+      # This must be a string, as where ID is used the type is a string...
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+
+      - name: DashboardAlertSeverity
+        field_type_override: entities.DashboardAlertSeverity
+        skip_type_create: true
+      - name: DashboardEntity
+        field_type_override: entities.DashboardEntity
+        skip_type_create: true
+      - name: DashboardEntityOutline
+        field_type_override: entities.DashboardEntityOutline
+        skip_type_create: true
+      - name: DashboardOwnerInfo
+        field_type_override: entities.DashboardOwnerInfo
+        skip_type_create: true
+      - name: DashboardPage
+        field_type_override: entities.DashboardPage
+        skip_type_create: true
+      - name: DashboardPermissions
+        field_type_override: entities.DashboardPermissions
+        skip_type_create: true
+      - name: DashboardWidget
+        field_type_override: entities.DashboardWidget
+        skip_type_create: true
+      - name: DashboardWidgetRawConfiguration
+        field_type_override: entities.DashboardWidgetRawConfiguration
+        skip_type_create: true
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
+      - name: Entity
+        field_type_override: entities.Entity
+        skip_type_create: true
+      - name: EntityGuid
+        field_type_override: entities.EntityGUID
+        skip_type_create: true
+      - name: EntityOutline
+        field_type_override: entities.EntityOutline
+        skip_type_create: true
+      - name: EntityResult
+        field_type_override: entities.EntityResult
+        skip_type_create: true
+      - name: GenericEntityOutline
+        field_type_override: entities.GenericEntityOutline
+        skip_type_create: true
+      - name: Nrql
+        field_type_override: nrdb.NRQL
+        skip_type_create: true
+
 
   - name: edge
     path: pkg/edge
@@ -219,6 +287,13 @@ packages:
     types:
       - name: AttributeMap
         create_as: "map[string]interface{}"
+      # This must be a string, as where ID is used the type is a string...
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: DashboardWidgetRawConfiguration
+        create_as: "[]byte"
+
 
       # Types this package owns
       - name: AlertableEntity
