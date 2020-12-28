@@ -1,3 +1,26 @@
+<a name="v0.53.0"></a>
+## [v0.53.0] - 2020-12-28
+### Bug Fixes
+- **entities:** DashboardWidgetRawConfiguration custom unmarshal as []byte (raw JSON)
+- **entities:** Force ID fields to be a string
+- **nerdgraphclient:** Template fixes to prevent nil pointers
+- **typegen:** Avoid nil pointer on custom UnmarshalJSON
+
+### Features
+- **dashboards:** Add GetDashboardEntity()
+- **dashboards:** Auto-generate GraphQL code for dashboards (early access)
+- **entities:** Code-gen tag mutations
+- **entities:** Mostly code generated Entities queries (entities/entity/entitySearch)
+
+### Refactor
+- DRY up some of the time based items into nrtime
+- Add omitempty to nullable and input objects for all packages
+- Selective generation on type in Entities, Infrastructure, and NerdStorage
+- **cloud:** Cloud auto-generating via tutone
+- **entities:** DRY up Nrdb from Entities
+- **entities:** Cleanup unused structs in entities
+- **typegen:** If we override a type to be in another package, properly generate the Unmarshal func call
+
 <a name="v0.52.0"></a>
 ## [v0.52.0] - 2020-12-08
 ### Bug Fixes
@@ -862,7 +885,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.52.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.53.0...HEAD
+[v0.53.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.52.0...v0.53.0
 [v0.52.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.51.0...v0.52.0
 [v0.51.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.50.0...v0.51.0
 [v0.50.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.49.0...v0.50.0
