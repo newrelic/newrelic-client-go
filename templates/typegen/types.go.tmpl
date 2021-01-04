@@ -29,7 +29,7 @@ var {{.Name}}Types = struct {
   {{ .Name }}: "{{ .Name }}",
   {{- end}}
 }
-{{- end}}
+{{- end }}
 
 {{- range .Types }}
 {{ .Description }}
@@ -42,6 +42,18 @@ type {{.Name}} struct {
   {{    .Name }} {{ .Type }} {{ .Tags }}
   {{- end}}
 }
+{{-  if .GenerateGetters }}
+{{-   range .Fields }}
+// Get{{ .Name }} returns a pointer to the value of {{ .Name }} from {{ $typeName }} or nil
+func (x *{{ $typeName }}) Get{{ .Name}}() *{{ .Type }} {
+  if x != nil {
+    return &x.{{ .Name }}
+  }
+
+  return nil
+}
+{{-    end }}
+{{-  end }}
 
 {{   range .Implements }}
 func (x *{{ $typeName }}) Implements{{ . }}() {}
@@ -121,14 +133,14 @@ func (x *{{ $typeName }}) UnmarshalJSON(b []byte) error {
   return nil
 }
 {{   end}}
-{{ end}}
+{{ end }}
 
 {{- range .Scalars }}
 {{-   if ne .Description "" }}
 {{      .Description }}
 {{-   end }}
 type {{.Name}} {{.Type}}
-{{- end}}
+{{- end }}
 
 {{- range .Interfaces }}
 {{- $interfaceType := . }}
