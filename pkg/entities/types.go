@@ -1242,31 +1242,19 @@ type AlertableEntity struct {
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
 }
 
-// GetAlertSeverity returns a pointer to the value of AlertSeverity from AlertableEntity or nil
-func (x *AlertableEntity) GetAlertSeverity() *EntityAlertSeverity {
-	if x != nil {
-		return &x.AlertSeverity
-	}
-
-	return nil
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from AlertableEntity
+func (x AlertableEntity) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
 }
 
-// GetAlertViolations returns a pointer to the value of AlertViolations from AlertableEntity or nil
-func (x *AlertableEntity) GetAlertViolations() *[]EntityAlertViolation {
-	if x != nil {
-		return &x.AlertViolations
-	}
-
-	return nil
+// GetAlertViolations returns a pointer to the value of AlertViolations from AlertableEntity
+func (x AlertableEntity) GetAlertViolations() []EntityAlertViolation {
+	return x.AlertViolations
 }
 
-// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from AlertableEntity or nil
-func (x *AlertableEntity) GetRecentAlertViolations() *[]EntityAlertViolation {
-	if x != nil {
-		return &x.RecentAlertViolations
-	}
-
-	return nil
+// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from AlertableEntity
+func (x AlertableEntity) GetRecentAlertViolations() []EntityAlertViolation {
+	return x.RecentAlertViolations
 }
 
 func (x *AlertableEntity) ImplementsAlertableEntity() {}
@@ -1277,13 +1265,9 @@ type AlertableEntityOutline struct {
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
 }
 
-// GetAlertSeverity returns a pointer to the value of AlertSeverity from AlertableEntityOutline or nil
-func (x *AlertableEntityOutline) GetAlertSeverity() *EntityAlertSeverity {
-	if x != nil {
-		return &x.AlertSeverity
-	}
-
-	return nil
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from AlertableEntityOutline
+func (x AlertableEntityOutline) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
 }
 
 func (x *AlertableEntityOutline) ImplementsAlertableEntityOutline() {}
@@ -1370,247 +1354,139 @@ type ApmApplicationEntity struct {
 	Type string `json:"type,omitempty"`
 }
 
-// GetAccount returns a pointer to the value of Account from ApmApplicationEntity or nil
-func (x *ApmApplicationEntity) GetAccount() *accounts.AccountOutline {
-	if x != nil {
-		return &x.Account
-	}
-
-	return nil
+// GetAccount returns a pointer to the value of Account from ApmApplicationEntity
+func (x ApmApplicationEntity) GetAccount() accounts.AccountOutline {
+	return x.Account
 }
 
-// GetAccountID returns a pointer to the value of AccountID from ApmApplicationEntity or nil
-func (x *ApmApplicationEntity) GetAccountID() *int {
-	if x != nil {
-		return &x.AccountID
-	}
-
-	return nil
+// GetAccountID returns a pointer to the value of AccountID from ApmApplicationEntity
+func (x ApmApplicationEntity) GetAccountID() int {
+	return x.AccountID
 }
 
-// GetAlertSeverity returns a pointer to the value of AlertSeverity from ApmApplicationEntity or nil
-func (x *ApmApplicationEntity) GetAlertSeverity() *EntityAlertSeverity {
-	if x != nil {
-		return &x.AlertSeverity
-	}
-
-	return nil
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from ApmApplicationEntity
+func (x ApmApplicationEntity) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
 }
 
-// GetAlertViolations returns a pointer to the value of AlertViolations from ApmApplicationEntity or nil
-func (x *ApmApplicationEntity) GetAlertViolations() *[]EntityAlertViolation {
-	if x != nil {
-		return &x.AlertViolations
-	}
-
-	return nil
+// GetAlertViolations returns a pointer to the value of AlertViolations from ApmApplicationEntity
+func (x ApmApplicationEntity) GetAlertViolations() []EntityAlertViolation {
+	return x.AlertViolations
 }
 
-// GetApmBrowserSummary returns a pointer to the value of ApmBrowserSummary from ApmApplicationEntity or nil
-func (x *ApmApplicationEntity) GetApmBrowserSummary() *ApmBrowserApplicationSummaryData {
-	if x != nil {
-		return &x.ApmBrowserSummary
-	}
-
-	return nil
+// GetApmBrowserSummary returns a pointer to the value of ApmBrowserSummary from ApmApplicationEntity
+func (x ApmApplicationEntity) GetApmBrowserSummary() ApmBrowserApplicationSummaryData {
+	return x.ApmBrowserSummary
 }
 
-// GetApmSummary returns a pointer to the value of ApmSummary from ApmApplicationEntity or nil
-func (x *ApmApplicationEntity) GetApmSummary() *ApmApplicationSummaryData {
-	if x != nil {
-		return &x.ApmSummary
-	}
-
-	return nil
+// GetApmSummary returns a pointer to the value of ApmSummary from ApmApplicationEntity
+func (x ApmApplicationEntity) GetApmSummary() ApmApplicationSummaryData {
+	return x.ApmSummary
 }
 
-// GetApplicationID returns a pointer to the value of ApplicationID from ApmApplicationEntity or nil
-func (x *ApmApplicationEntity) GetApplicationID() *int {
-	if x != nil {
-		return &x.ApplicationID
-	}
-
-	return nil
+// GetApplicationID returns a pointer to the value of ApplicationID from ApmApplicationEntity
+func (x ApmApplicationEntity) GetApplicationID() int {
+	return x.ApplicationID
 }
 
-// GetDeployments returns a pointer to the value of Deployments from ApmApplicationEntity or nil
-func (x *ApmApplicationEntity) GetDeployments() *[]ApmApplicationDeployment {
-	if x != nil {
-		return &x.Deployments
-	}
-
-	return nil
+// GetDeployments returns a pointer to the value of Deployments from ApmApplicationEntity
+func (x ApmApplicationEntity) GetDeployments() []ApmApplicationDeployment {
+	return x.Deployments
 }
 
-// GetDomain returns a pointer to the value of Domain from ApmApplicationEntity or nil
-func (x *ApmApplicationEntity) GetDomain() *string {
-	if x != nil {
-		return &x.Domain
-	}
-
-	return nil
+// GetDomain returns a pointer to the value of Domain from ApmApplicationEntity
+func (x ApmApplicationEntity) GetDomain() string {
+	return x.Domain
 }
 
-// GetEntityType returns a pointer to the value of EntityType from ApmApplicationEntity or nil
-func (x *ApmApplicationEntity) GetEntityType() *EntityType {
-	if x != nil {
-		return &x.EntityType
-	}
-
-	return nil
+// GetEntityType returns a pointer to the value of EntityType from ApmApplicationEntity
+func (x ApmApplicationEntity) GetEntityType() EntityType {
+	return x.EntityType
 }
 
-// GetGUID returns a pointer to the value of GUID from ApmApplicationEntity or nil
-func (x *ApmApplicationEntity) GetGUID() *EntityGUID {
-	if x != nil {
-		return &x.GUID
-	}
-
-	return nil
+// GetGUID returns a pointer to the value of GUID from ApmApplicationEntity
+func (x ApmApplicationEntity) GetGUID() EntityGUID {
+	return x.GUID
 }
 
-// GetIndexedAt returns a pointer to the value of IndexedAt from ApmApplicationEntity or nil
-func (x *ApmApplicationEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.IndexedAt
-	}
-
-	return nil
+// GetIndexedAt returns a pointer to the value of IndexedAt from ApmApplicationEntity
+func (x ApmApplicationEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
 }
 
-// GetLanguage returns a pointer to the value of Language from ApmApplicationEntity or nil
-func (x *ApmApplicationEntity) GetLanguage() *string {
-	if x != nil {
-		return &x.Language
-	}
-
-	return nil
+// GetLanguage returns a pointer to the value of Language from ApmApplicationEntity
+func (x ApmApplicationEntity) GetLanguage() string {
+	return x.Language
 }
 
-// GetMetricNormalizationRule returns a pointer to the value of MetricNormalizationRule from ApmApplicationEntity or nil
-func (x *ApmApplicationEntity) GetMetricNormalizationRule() *MetricNormalizationRule {
-	if x != nil {
-		return &x.MetricNormalizationRule
-	}
-
-	return nil
+// GetMetricNormalizationRule returns a pointer to the value of MetricNormalizationRule from ApmApplicationEntity
+func (x ApmApplicationEntity) GetMetricNormalizationRule() MetricNormalizationRule {
+	return x.MetricNormalizationRule
 }
 
-// GetMetricNormalizationRules returns a pointer to the value of MetricNormalizationRules from ApmApplicationEntity or nil
-func (x *ApmApplicationEntity) GetMetricNormalizationRules() *[]MetricNormalizationRule {
-	if x != nil {
-		return &x.MetricNormalizationRules
-	}
-
-	return nil
+// GetMetricNormalizationRules returns a pointer to the value of MetricNormalizationRules from ApmApplicationEntity
+func (x ApmApplicationEntity) GetMetricNormalizationRules() []MetricNormalizationRule {
+	return x.MetricNormalizationRules
 }
 
-// GetNRDBQuery returns a pointer to the value of NRDBQuery from ApmApplicationEntity or nil
-func (x *ApmApplicationEntity) GetNRDBQuery() *nrdb.NRDBResultContainer {
-	if x != nil {
-		return &x.NRDBQuery
-	}
-
-	return nil
+// GetNRDBQuery returns a pointer to the value of NRDBQuery from ApmApplicationEntity
+func (x ApmApplicationEntity) GetNRDBQuery() nrdb.NRDBResultContainer {
+	return x.NRDBQuery
 }
 
-// GetName returns a pointer to the value of Name from ApmApplicationEntity or nil
-func (x *ApmApplicationEntity) GetName() *string {
-	if x != nil {
-		return &x.Name
-	}
-
-	return nil
+// GetName returns a pointer to the value of Name from ApmApplicationEntity
+func (x ApmApplicationEntity) GetName() string {
+	return x.Name
 }
 
-// GetNerdStorage returns a pointer to the value of NerdStorage from ApmApplicationEntity or nil
-func (x *ApmApplicationEntity) GetNerdStorage() *NerdStorageEntityScope {
-	if x != nil {
-		return &x.NerdStorage
-	}
-
-	return nil
+// GetNerdStorage returns a pointer to the value of NerdStorage from ApmApplicationEntity
+func (x ApmApplicationEntity) GetNerdStorage() NerdStorageEntityScope {
+	return x.NerdStorage
 }
 
-// GetPermalink returns a pointer to the value of Permalink from ApmApplicationEntity or nil
-func (x *ApmApplicationEntity) GetPermalink() *string {
-	if x != nil {
-		return &x.Permalink
-	}
-
-	return nil
+// GetPermalink returns a pointer to the value of Permalink from ApmApplicationEntity
+func (x ApmApplicationEntity) GetPermalink() string {
+	return x.Permalink
 }
 
-// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from ApmApplicationEntity or nil
-func (x *ApmApplicationEntity) GetRecentAlertViolations() *[]EntityAlertViolation {
-	if x != nil {
-		return &x.RecentAlertViolations
-	}
-
-	return nil
+// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from ApmApplicationEntity
+func (x ApmApplicationEntity) GetRecentAlertViolations() []EntityAlertViolation {
+	return x.RecentAlertViolations
 }
 
-// GetRelationships returns a pointer to the value of Relationships from ApmApplicationEntity or nil
-func (x *ApmApplicationEntity) GetRelationships() *[]EntityRelationship {
-	if x != nil {
-		return &x.Relationships
-	}
-
-	return nil
+// GetRelationships returns a pointer to the value of Relationships from ApmApplicationEntity
+func (x ApmApplicationEntity) GetRelationships() []EntityRelationship {
+	return x.Relationships
 }
 
-// GetReporting returns a pointer to the value of Reporting from ApmApplicationEntity or nil
-func (x *ApmApplicationEntity) GetReporting() *bool {
-	if x != nil {
-		return &x.Reporting
-	}
-
-	return nil
+// GetReporting returns a pointer to the value of Reporting from ApmApplicationEntity
+func (x ApmApplicationEntity) GetReporting() bool {
+	return x.Reporting
 }
 
-// GetRunningAgentVersions returns a pointer to the value of RunningAgentVersions from ApmApplicationEntity or nil
-func (x *ApmApplicationEntity) GetRunningAgentVersions() *ApmApplicationRunningAgentVersions {
-	if x != nil {
-		return &x.RunningAgentVersions
-	}
-
-	return nil
+// GetRunningAgentVersions returns a pointer to the value of RunningAgentVersions from ApmApplicationEntity
+func (x ApmApplicationEntity) GetRunningAgentVersions() ApmApplicationRunningAgentVersions {
+	return x.RunningAgentVersions
 }
 
-// GetSettings returns a pointer to the value of Settings from ApmApplicationEntity or nil
-func (x *ApmApplicationEntity) GetSettings() *ApmApplicationSettings {
-	if x != nil {
-		return &x.Settings
-	}
-
-	return nil
+// GetSettings returns a pointer to the value of Settings from ApmApplicationEntity
+func (x ApmApplicationEntity) GetSettings() ApmApplicationSettings {
+	return x.Settings
 }
 
-// GetTags returns a pointer to the value of Tags from ApmApplicationEntity or nil
-func (x *ApmApplicationEntity) GetTags() *[]EntityTag {
-	if x != nil {
-		return &x.Tags
-	}
-
-	return nil
+// GetTags returns a pointer to the value of Tags from ApmApplicationEntity
+func (x ApmApplicationEntity) GetTags() []EntityTag {
+	return x.Tags
 }
 
-// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from ApmApplicationEntity or nil
-func (x *ApmApplicationEntity) GetTagsWithMetadata() *[]EntityTagWithMetadata {
-	if x != nil {
-		return &x.TagsWithMetadata
-	}
-
-	return nil
+// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from ApmApplicationEntity
+func (x ApmApplicationEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
+	return x.TagsWithMetadata
 }
 
-// GetType returns a pointer to the value of Type from ApmApplicationEntity or nil
-func (x *ApmApplicationEntity) GetType() *string {
-	if x != nil {
-		return &x.Type
-	}
-
-	return nil
+// GetType returns a pointer to the value of Type from ApmApplicationEntity
+func (x ApmApplicationEntity) GetType() string {
+	return x.Type
 }
 
 func (x *ApmApplicationEntity) ImplementsApmBrowserApplicationEntity() {}
@@ -1661,166 +1537,94 @@ type ApmApplicationEntityOutline struct {
 	Type string `json:"type,omitempty"`
 }
 
-// GetAccount returns a pointer to the value of Account from ApmApplicationEntityOutline or nil
-func (x *ApmApplicationEntityOutline) GetAccount() *accounts.AccountOutline {
-	if x != nil {
-		return &x.Account
-	}
-
-	return nil
+// GetAccount returns a pointer to the value of Account from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetAccount() accounts.AccountOutline {
+	return x.Account
 }
 
-// GetAccountID returns a pointer to the value of AccountID from ApmApplicationEntityOutline or nil
-func (x *ApmApplicationEntityOutline) GetAccountID() *int {
-	if x != nil {
-		return &x.AccountID
-	}
-
-	return nil
+// GetAccountID returns a pointer to the value of AccountID from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetAccountID() int {
+	return x.AccountID
 }
 
-// GetAlertSeverity returns a pointer to the value of AlertSeverity from ApmApplicationEntityOutline or nil
-func (x *ApmApplicationEntityOutline) GetAlertSeverity() *EntityAlertSeverity {
-	if x != nil {
-		return &x.AlertSeverity
-	}
-
-	return nil
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
 }
 
-// GetApmBrowserSummary returns a pointer to the value of ApmBrowserSummary from ApmApplicationEntityOutline or nil
-func (x *ApmApplicationEntityOutline) GetApmBrowserSummary() *ApmBrowserApplicationSummaryData {
-	if x != nil {
-		return &x.ApmBrowserSummary
-	}
-
-	return nil
+// GetApmBrowserSummary returns a pointer to the value of ApmBrowserSummary from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetApmBrowserSummary() ApmBrowserApplicationSummaryData {
+	return x.ApmBrowserSummary
 }
 
-// GetApmSummary returns a pointer to the value of ApmSummary from ApmApplicationEntityOutline or nil
-func (x *ApmApplicationEntityOutline) GetApmSummary() *ApmApplicationSummaryData {
-	if x != nil {
-		return &x.ApmSummary
-	}
-
-	return nil
+// GetApmSummary returns a pointer to the value of ApmSummary from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetApmSummary() ApmApplicationSummaryData {
+	return x.ApmSummary
 }
 
-// GetApplicationID returns a pointer to the value of ApplicationID from ApmApplicationEntityOutline or nil
-func (x *ApmApplicationEntityOutline) GetApplicationID() *int {
-	if x != nil {
-		return &x.ApplicationID
-	}
-
-	return nil
+// GetApplicationID returns a pointer to the value of ApplicationID from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetApplicationID() int {
+	return x.ApplicationID
 }
 
-// GetDomain returns a pointer to the value of Domain from ApmApplicationEntityOutline or nil
-func (x *ApmApplicationEntityOutline) GetDomain() *string {
-	if x != nil {
-		return &x.Domain
-	}
-
-	return nil
+// GetDomain returns a pointer to the value of Domain from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetDomain() string {
+	return x.Domain
 }
 
-// GetEntityType returns a pointer to the value of EntityType from ApmApplicationEntityOutline or nil
-func (x *ApmApplicationEntityOutline) GetEntityType() *EntityType {
-	if x != nil {
-		return &x.EntityType
-	}
-
-	return nil
+// GetEntityType returns a pointer to the value of EntityType from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetEntityType() EntityType {
+	return x.EntityType
 }
 
-// GetGUID returns a pointer to the value of GUID from ApmApplicationEntityOutline or nil
-func (x *ApmApplicationEntityOutline) GetGUID() *EntityGUID {
-	if x != nil {
-		return &x.GUID
-	}
-
-	return nil
+// GetGUID returns a pointer to the value of GUID from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetGUID() EntityGUID {
+	return x.GUID
 }
 
-// GetIndexedAt returns a pointer to the value of IndexedAt from ApmApplicationEntityOutline or nil
-func (x *ApmApplicationEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.IndexedAt
-	}
-
-	return nil
+// GetIndexedAt returns a pointer to the value of IndexedAt from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
 }
 
-// GetLanguage returns a pointer to the value of Language from ApmApplicationEntityOutline or nil
-func (x *ApmApplicationEntityOutline) GetLanguage() *string {
-	if x != nil {
-		return &x.Language
-	}
-
-	return nil
+// GetLanguage returns a pointer to the value of Language from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetLanguage() string {
+	return x.Language
 }
 
-// GetName returns a pointer to the value of Name from ApmApplicationEntityOutline or nil
-func (x *ApmApplicationEntityOutline) GetName() *string {
-	if x != nil {
-		return &x.Name
-	}
-
-	return nil
+// GetName returns a pointer to the value of Name from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetName() string {
+	return x.Name
 }
 
-// GetPermalink returns a pointer to the value of Permalink from ApmApplicationEntityOutline or nil
-func (x *ApmApplicationEntityOutline) GetPermalink() *string {
-	if x != nil {
-		return &x.Permalink
-	}
-
-	return nil
+// GetPermalink returns a pointer to the value of Permalink from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetPermalink() string {
+	return x.Permalink
 }
 
-// GetReporting returns a pointer to the value of Reporting from ApmApplicationEntityOutline or nil
-func (x *ApmApplicationEntityOutline) GetReporting() *bool {
-	if x != nil {
-		return &x.Reporting
-	}
-
-	return nil
+// GetReporting returns a pointer to the value of Reporting from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetReporting() bool {
+	return x.Reporting
 }
 
-// GetRunningAgentVersions returns a pointer to the value of RunningAgentVersions from ApmApplicationEntityOutline or nil
-func (x *ApmApplicationEntityOutline) GetRunningAgentVersions() *ApmApplicationRunningAgentVersions {
-	if x != nil {
-		return &x.RunningAgentVersions
-	}
-
-	return nil
+// GetRunningAgentVersions returns a pointer to the value of RunningAgentVersions from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetRunningAgentVersions() ApmApplicationRunningAgentVersions {
+	return x.RunningAgentVersions
 }
 
-// GetSettings returns a pointer to the value of Settings from ApmApplicationEntityOutline or nil
-func (x *ApmApplicationEntityOutline) GetSettings() *ApmApplicationSettings {
-	if x != nil {
-		return &x.Settings
-	}
-
-	return nil
+// GetSettings returns a pointer to the value of Settings from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetSettings() ApmApplicationSettings {
+	return x.Settings
 }
 
-// GetTags returns a pointer to the value of Tags from ApmApplicationEntityOutline or nil
-func (x *ApmApplicationEntityOutline) GetTags() *[]EntityTag {
-	if x != nil {
-		return &x.Tags
-	}
-
-	return nil
+// GetTags returns a pointer to the value of Tags from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetTags() []EntityTag {
+	return x.Tags
 }
 
-// GetType returns a pointer to the value of Type from ApmApplicationEntityOutline or nil
-func (x *ApmApplicationEntityOutline) GetType() *string {
-	if x != nil {
-		return &x.Type
-	}
-
-	return nil
+// GetType returns a pointer to the value of Type from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetType() string {
+	return x.Type
 }
 
 func (x *ApmApplicationEntityOutline) ImplementsApmBrowserApplicationEntityOutline() {}
@@ -1876,13 +1680,9 @@ type ApmBrowserApplicationEntity struct {
 	ApmBrowserSummary ApmBrowserApplicationSummaryData `json:"apmBrowserSummary,omitempty"`
 }
 
-// GetApmBrowserSummary returns a pointer to the value of ApmBrowserSummary from ApmBrowserApplicationEntity or nil
-func (x *ApmBrowserApplicationEntity) GetApmBrowserSummary() *ApmBrowserApplicationSummaryData {
-	if x != nil {
-		return &x.ApmBrowserSummary
-	}
-
-	return nil
+// GetApmBrowserSummary returns a pointer to the value of ApmBrowserSummary from ApmBrowserApplicationEntity
+func (x ApmBrowserApplicationEntity) GetApmBrowserSummary() ApmBrowserApplicationSummaryData {
+	return x.ApmBrowserSummary
 }
 
 func (x *ApmBrowserApplicationEntity) ImplementsApmBrowserApplicationEntity() {}
@@ -1893,13 +1693,9 @@ type ApmBrowserApplicationEntityOutline struct {
 	ApmBrowserSummary ApmBrowserApplicationSummaryData `json:"apmBrowserSummary,omitempty"`
 }
 
-// GetApmBrowserSummary returns a pointer to the value of ApmBrowserSummary from ApmBrowserApplicationEntityOutline or nil
-func (x *ApmBrowserApplicationEntityOutline) GetApmBrowserSummary() *ApmBrowserApplicationSummaryData {
-	if x != nil {
-		return &x.ApmBrowserSummary
-	}
-
-	return nil
+// GetApmBrowserSummary returns a pointer to the value of ApmBrowserSummary from ApmBrowserApplicationEntityOutline
+func (x ApmBrowserApplicationEntityOutline) GetApmBrowserSummary() ApmBrowserApplicationSummaryData {
+	return x.ApmBrowserSummary
 }
 
 func (x *ApmBrowserApplicationEntityOutline) ImplementsApmBrowserApplicationEntityOutline() {}
@@ -1966,166 +1762,94 @@ type ApmDatabaseInstanceEntity struct {
 	Vendor string `json:"vendor,omitempty"`
 }
 
-// GetAccount returns a pointer to the value of Account from ApmDatabaseInstanceEntity or nil
-func (x *ApmDatabaseInstanceEntity) GetAccount() *accounts.AccountOutline {
-	if x != nil {
-		return &x.Account
-	}
-
-	return nil
+// GetAccount returns a pointer to the value of Account from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetAccount() accounts.AccountOutline {
+	return x.Account
 }
 
-// GetAccountID returns a pointer to the value of AccountID from ApmDatabaseInstanceEntity or nil
-func (x *ApmDatabaseInstanceEntity) GetAccountID() *int {
-	if x != nil {
-		return &x.AccountID
-	}
-
-	return nil
+// GetAccountID returns a pointer to the value of AccountID from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetAccountID() int {
+	return x.AccountID
 }
 
-// GetDomain returns a pointer to the value of Domain from ApmDatabaseInstanceEntity or nil
-func (x *ApmDatabaseInstanceEntity) GetDomain() *string {
-	if x != nil {
-		return &x.Domain
-	}
-
-	return nil
+// GetDomain returns a pointer to the value of Domain from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetDomain() string {
+	return x.Domain
 }
 
-// GetEntityType returns a pointer to the value of EntityType from ApmDatabaseInstanceEntity or nil
-func (x *ApmDatabaseInstanceEntity) GetEntityType() *EntityType {
-	if x != nil {
-		return &x.EntityType
-	}
-
-	return nil
+// GetEntityType returns a pointer to the value of EntityType from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetEntityType() EntityType {
+	return x.EntityType
 }
 
-// GetGUID returns a pointer to the value of GUID from ApmDatabaseInstanceEntity or nil
-func (x *ApmDatabaseInstanceEntity) GetGUID() *EntityGUID {
-	if x != nil {
-		return &x.GUID
-	}
-
-	return nil
+// GetGUID returns a pointer to the value of GUID from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetGUID() EntityGUID {
+	return x.GUID
 }
 
-// GetHost returns a pointer to the value of Host from ApmDatabaseInstanceEntity or nil
-func (x *ApmDatabaseInstanceEntity) GetHost() *string {
-	if x != nil {
-		return &x.Host
-	}
-
-	return nil
+// GetHost returns a pointer to the value of Host from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetHost() string {
+	return x.Host
 }
 
-// GetIndexedAt returns a pointer to the value of IndexedAt from ApmDatabaseInstanceEntity or nil
-func (x *ApmDatabaseInstanceEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.IndexedAt
-	}
-
-	return nil
+// GetIndexedAt returns a pointer to the value of IndexedAt from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
 }
 
-// GetNRDBQuery returns a pointer to the value of NRDBQuery from ApmDatabaseInstanceEntity or nil
-func (x *ApmDatabaseInstanceEntity) GetNRDBQuery() *nrdb.NRDBResultContainer {
-	if x != nil {
-		return &x.NRDBQuery
-	}
-
-	return nil
+// GetNRDBQuery returns a pointer to the value of NRDBQuery from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetNRDBQuery() nrdb.NRDBResultContainer {
+	return x.NRDBQuery
 }
 
-// GetName returns a pointer to the value of Name from ApmDatabaseInstanceEntity or nil
-func (x *ApmDatabaseInstanceEntity) GetName() *string {
-	if x != nil {
-		return &x.Name
-	}
-
-	return nil
+// GetName returns a pointer to the value of Name from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetName() string {
+	return x.Name
 }
 
-// GetNerdStorage returns a pointer to the value of NerdStorage from ApmDatabaseInstanceEntity or nil
-func (x *ApmDatabaseInstanceEntity) GetNerdStorage() *NerdStorageEntityScope {
-	if x != nil {
-		return &x.NerdStorage
-	}
-
-	return nil
+// GetNerdStorage returns a pointer to the value of NerdStorage from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetNerdStorage() NerdStorageEntityScope {
+	return x.NerdStorage
 }
 
-// GetPermalink returns a pointer to the value of Permalink from ApmDatabaseInstanceEntity or nil
-func (x *ApmDatabaseInstanceEntity) GetPermalink() *string {
-	if x != nil {
-		return &x.Permalink
-	}
-
-	return nil
+// GetPermalink returns a pointer to the value of Permalink from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetPermalink() string {
+	return x.Permalink
 }
 
-// GetPortOrPath returns a pointer to the value of PortOrPath from ApmDatabaseInstanceEntity or nil
-func (x *ApmDatabaseInstanceEntity) GetPortOrPath() *string {
-	if x != nil {
-		return &x.PortOrPath
-	}
-
-	return nil
+// GetPortOrPath returns a pointer to the value of PortOrPath from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetPortOrPath() string {
+	return x.PortOrPath
 }
 
-// GetRelationships returns a pointer to the value of Relationships from ApmDatabaseInstanceEntity or nil
-func (x *ApmDatabaseInstanceEntity) GetRelationships() *[]EntityRelationship {
-	if x != nil {
-		return &x.Relationships
-	}
-
-	return nil
+// GetRelationships returns a pointer to the value of Relationships from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetRelationships() []EntityRelationship {
+	return x.Relationships
 }
 
-// GetReporting returns a pointer to the value of Reporting from ApmDatabaseInstanceEntity or nil
-func (x *ApmDatabaseInstanceEntity) GetReporting() *bool {
-	if x != nil {
-		return &x.Reporting
-	}
-
-	return nil
+// GetReporting returns a pointer to the value of Reporting from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetReporting() bool {
+	return x.Reporting
 }
 
-// GetTags returns a pointer to the value of Tags from ApmDatabaseInstanceEntity or nil
-func (x *ApmDatabaseInstanceEntity) GetTags() *[]EntityTag {
-	if x != nil {
-		return &x.Tags
-	}
-
-	return nil
+// GetTags returns a pointer to the value of Tags from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetTags() []EntityTag {
+	return x.Tags
 }
 
-// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from ApmDatabaseInstanceEntity or nil
-func (x *ApmDatabaseInstanceEntity) GetTagsWithMetadata() *[]EntityTagWithMetadata {
-	if x != nil {
-		return &x.TagsWithMetadata
-	}
-
-	return nil
+// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
+	return x.TagsWithMetadata
 }
 
-// GetType returns a pointer to the value of Type from ApmDatabaseInstanceEntity or nil
-func (x *ApmDatabaseInstanceEntity) GetType() *string {
-	if x != nil {
-		return &x.Type
-	}
-
-	return nil
+// GetType returns a pointer to the value of Type from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetType() string {
+	return x.Type
 }
 
-// GetVendor returns a pointer to the value of Vendor from ApmDatabaseInstanceEntity or nil
-func (x *ApmDatabaseInstanceEntity) GetVendor() *string {
-	if x != nil {
-		return &x.Vendor
-	}
-
-	return nil
+// GetVendor returns a pointer to the value of Vendor from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetVendor() string {
+	return x.Vendor
 }
 
 func (x *ApmDatabaseInstanceEntity) ImplementsEntity() {}
@@ -2164,130 +1888,74 @@ type ApmDatabaseInstanceEntityOutline struct {
 	Vendor string `json:"vendor,omitempty"`
 }
 
-// GetAccount returns a pointer to the value of Account from ApmDatabaseInstanceEntityOutline or nil
-func (x *ApmDatabaseInstanceEntityOutline) GetAccount() *accounts.AccountOutline {
-	if x != nil {
-		return &x.Account
-	}
-
-	return nil
+// GetAccount returns a pointer to the value of Account from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetAccount() accounts.AccountOutline {
+	return x.Account
 }
 
-// GetAccountID returns a pointer to the value of AccountID from ApmDatabaseInstanceEntityOutline or nil
-func (x *ApmDatabaseInstanceEntityOutline) GetAccountID() *int {
-	if x != nil {
-		return &x.AccountID
-	}
-
-	return nil
+// GetAccountID returns a pointer to the value of AccountID from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetAccountID() int {
+	return x.AccountID
 }
 
-// GetDomain returns a pointer to the value of Domain from ApmDatabaseInstanceEntityOutline or nil
-func (x *ApmDatabaseInstanceEntityOutline) GetDomain() *string {
-	if x != nil {
-		return &x.Domain
-	}
-
-	return nil
+// GetDomain returns a pointer to the value of Domain from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetDomain() string {
+	return x.Domain
 }
 
-// GetEntityType returns a pointer to the value of EntityType from ApmDatabaseInstanceEntityOutline or nil
-func (x *ApmDatabaseInstanceEntityOutline) GetEntityType() *EntityType {
-	if x != nil {
-		return &x.EntityType
-	}
-
-	return nil
+// GetEntityType returns a pointer to the value of EntityType from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetEntityType() EntityType {
+	return x.EntityType
 }
 
-// GetGUID returns a pointer to the value of GUID from ApmDatabaseInstanceEntityOutline or nil
-func (x *ApmDatabaseInstanceEntityOutline) GetGUID() *EntityGUID {
-	if x != nil {
-		return &x.GUID
-	}
-
-	return nil
+// GetGUID returns a pointer to the value of GUID from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetGUID() EntityGUID {
+	return x.GUID
 }
 
-// GetHost returns a pointer to the value of Host from ApmDatabaseInstanceEntityOutline or nil
-func (x *ApmDatabaseInstanceEntityOutline) GetHost() *string {
-	if x != nil {
-		return &x.Host
-	}
-
-	return nil
+// GetHost returns a pointer to the value of Host from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetHost() string {
+	return x.Host
 }
 
-// GetIndexedAt returns a pointer to the value of IndexedAt from ApmDatabaseInstanceEntityOutline or nil
-func (x *ApmDatabaseInstanceEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.IndexedAt
-	}
-
-	return nil
+// GetIndexedAt returns a pointer to the value of IndexedAt from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
 }
 
-// GetName returns a pointer to the value of Name from ApmDatabaseInstanceEntityOutline or nil
-func (x *ApmDatabaseInstanceEntityOutline) GetName() *string {
-	if x != nil {
-		return &x.Name
-	}
-
-	return nil
+// GetName returns a pointer to the value of Name from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetName() string {
+	return x.Name
 }
 
-// GetPermalink returns a pointer to the value of Permalink from ApmDatabaseInstanceEntityOutline or nil
-func (x *ApmDatabaseInstanceEntityOutline) GetPermalink() *string {
-	if x != nil {
-		return &x.Permalink
-	}
-
-	return nil
+// GetPermalink returns a pointer to the value of Permalink from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetPermalink() string {
+	return x.Permalink
 }
 
-// GetPortOrPath returns a pointer to the value of PortOrPath from ApmDatabaseInstanceEntityOutline or nil
-func (x *ApmDatabaseInstanceEntityOutline) GetPortOrPath() *string {
-	if x != nil {
-		return &x.PortOrPath
-	}
-
-	return nil
+// GetPortOrPath returns a pointer to the value of PortOrPath from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetPortOrPath() string {
+	return x.PortOrPath
 }
 
-// GetReporting returns a pointer to the value of Reporting from ApmDatabaseInstanceEntityOutline or nil
-func (x *ApmDatabaseInstanceEntityOutline) GetReporting() *bool {
-	if x != nil {
-		return &x.Reporting
-	}
-
-	return nil
+// GetReporting returns a pointer to the value of Reporting from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetReporting() bool {
+	return x.Reporting
 }
 
-// GetTags returns a pointer to the value of Tags from ApmDatabaseInstanceEntityOutline or nil
-func (x *ApmDatabaseInstanceEntityOutline) GetTags() *[]EntityTag {
-	if x != nil {
-		return &x.Tags
-	}
-
-	return nil
+// GetTags returns a pointer to the value of Tags from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetTags() []EntityTag {
+	return x.Tags
 }
 
-// GetType returns a pointer to the value of Type from ApmDatabaseInstanceEntityOutline or nil
-func (x *ApmDatabaseInstanceEntityOutline) GetType() *string {
-	if x != nil {
-		return &x.Type
-	}
-
-	return nil
+// GetType returns a pointer to the value of Type from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetType() string {
+	return x.Type
 }
 
-// GetVendor returns a pointer to the value of Vendor from ApmDatabaseInstanceEntityOutline or nil
-func (x *ApmDatabaseInstanceEntityOutline) GetVendor() *string {
-	if x != nil {
-		return &x.Vendor
-	}
-
-	return nil
+// GetVendor returns a pointer to the value of Vendor from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetVendor() string {
+	return x.Vendor
 }
 
 func (x *ApmDatabaseInstanceEntityOutline) ImplementsEntityOutline() {}
@@ -2338,157 +2006,89 @@ type ApmExternalServiceEntity struct {
 	Type string `json:"type,omitempty"`
 }
 
-// GetAccount returns a pointer to the value of Account from ApmExternalServiceEntity or nil
-func (x *ApmExternalServiceEntity) GetAccount() *accounts.AccountOutline {
-	if x != nil {
-		return &x.Account
-	}
-
-	return nil
+// GetAccount returns a pointer to the value of Account from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetAccount() accounts.AccountOutline {
+	return x.Account
 }
 
-// GetAccountID returns a pointer to the value of AccountID from ApmExternalServiceEntity or nil
-func (x *ApmExternalServiceEntity) GetAccountID() *int {
-	if x != nil {
-		return &x.AccountID
-	}
-
-	return nil
+// GetAccountID returns a pointer to the value of AccountID from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetAccountID() int {
+	return x.AccountID
 }
 
-// GetDomain returns a pointer to the value of Domain from ApmExternalServiceEntity or nil
-func (x *ApmExternalServiceEntity) GetDomain() *string {
-	if x != nil {
-		return &x.Domain
-	}
-
-	return nil
+// GetDomain returns a pointer to the value of Domain from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetDomain() string {
+	return x.Domain
 }
 
-// GetEntityType returns a pointer to the value of EntityType from ApmExternalServiceEntity or nil
-func (x *ApmExternalServiceEntity) GetEntityType() *EntityType {
-	if x != nil {
-		return &x.EntityType
-	}
-
-	return nil
+// GetEntityType returns a pointer to the value of EntityType from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetEntityType() EntityType {
+	return x.EntityType
 }
 
-// GetExternalSummary returns a pointer to the value of ExternalSummary from ApmExternalServiceEntity or nil
-func (x *ApmExternalServiceEntity) GetExternalSummary() *ApmExternalServiceSummaryData {
-	if x != nil {
-		return &x.ExternalSummary
-	}
-
-	return nil
+// GetExternalSummary returns a pointer to the value of ExternalSummary from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetExternalSummary() ApmExternalServiceSummaryData {
+	return x.ExternalSummary
 }
 
-// GetGUID returns a pointer to the value of GUID from ApmExternalServiceEntity or nil
-func (x *ApmExternalServiceEntity) GetGUID() *EntityGUID {
-	if x != nil {
-		return &x.GUID
-	}
-
-	return nil
+// GetGUID returns a pointer to the value of GUID from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetGUID() EntityGUID {
+	return x.GUID
 }
 
-// GetHost returns a pointer to the value of Host from ApmExternalServiceEntity or nil
-func (x *ApmExternalServiceEntity) GetHost() *string {
-	if x != nil {
-		return &x.Host
-	}
-
-	return nil
+// GetHost returns a pointer to the value of Host from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetHost() string {
+	return x.Host
 }
 
-// GetIndexedAt returns a pointer to the value of IndexedAt from ApmExternalServiceEntity or nil
-func (x *ApmExternalServiceEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.IndexedAt
-	}
-
-	return nil
+// GetIndexedAt returns a pointer to the value of IndexedAt from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
 }
 
-// GetNRDBQuery returns a pointer to the value of NRDBQuery from ApmExternalServiceEntity or nil
-func (x *ApmExternalServiceEntity) GetNRDBQuery() *nrdb.NRDBResultContainer {
-	if x != nil {
-		return &x.NRDBQuery
-	}
-
-	return nil
+// GetNRDBQuery returns a pointer to the value of NRDBQuery from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetNRDBQuery() nrdb.NRDBResultContainer {
+	return x.NRDBQuery
 }
 
-// GetName returns a pointer to the value of Name from ApmExternalServiceEntity or nil
-func (x *ApmExternalServiceEntity) GetName() *string {
-	if x != nil {
-		return &x.Name
-	}
-
-	return nil
+// GetName returns a pointer to the value of Name from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetName() string {
+	return x.Name
 }
 
-// GetNerdStorage returns a pointer to the value of NerdStorage from ApmExternalServiceEntity or nil
-func (x *ApmExternalServiceEntity) GetNerdStorage() *NerdStorageEntityScope {
-	if x != nil {
-		return &x.NerdStorage
-	}
-
-	return nil
+// GetNerdStorage returns a pointer to the value of NerdStorage from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetNerdStorage() NerdStorageEntityScope {
+	return x.NerdStorage
 }
 
-// GetPermalink returns a pointer to the value of Permalink from ApmExternalServiceEntity or nil
-func (x *ApmExternalServiceEntity) GetPermalink() *string {
-	if x != nil {
-		return &x.Permalink
-	}
-
-	return nil
+// GetPermalink returns a pointer to the value of Permalink from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetPermalink() string {
+	return x.Permalink
 }
 
-// GetRelationships returns a pointer to the value of Relationships from ApmExternalServiceEntity or nil
-func (x *ApmExternalServiceEntity) GetRelationships() *[]EntityRelationship {
-	if x != nil {
-		return &x.Relationships
-	}
-
-	return nil
+// GetRelationships returns a pointer to the value of Relationships from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetRelationships() []EntityRelationship {
+	return x.Relationships
 }
 
-// GetReporting returns a pointer to the value of Reporting from ApmExternalServiceEntity or nil
-func (x *ApmExternalServiceEntity) GetReporting() *bool {
-	if x != nil {
-		return &x.Reporting
-	}
-
-	return nil
+// GetReporting returns a pointer to the value of Reporting from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetReporting() bool {
+	return x.Reporting
 }
 
-// GetTags returns a pointer to the value of Tags from ApmExternalServiceEntity or nil
-func (x *ApmExternalServiceEntity) GetTags() *[]EntityTag {
-	if x != nil {
-		return &x.Tags
-	}
-
-	return nil
+// GetTags returns a pointer to the value of Tags from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetTags() []EntityTag {
+	return x.Tags
 }
 
-// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from ApmExternalServiceEntity or nil
-func (x *ApmExternalServiceEntity) GetTagsWithMetadata() *[]EntityTagWithMetadata {
-	if x != nil {
-		return &x.TagsWithMetadata
-	}
-
-	return nil
+// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
+	return x.TagsWithMetadata
 }
 
-// GetType returns a pointer to the value of Type from ApmExternalServiceEntity or nil
-func (x *ApmExternalServiceEntity) GetType() *string {
-	if x != nil {
-		return &x.Type
-	}
-
-	return nil
+// GetType returns a pointer to the value of Type from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetType() string {
+	return x.Type
 }
 
 func (x *ApmExternalServiceEntity) ImplementsEntity() {}
@@ -2525,121 +2125,69 @@ type ApmExternalServiceEntityOutline struct {
 	Type string `json:"type,omitempty"`
 }
 
-// GetAccount returns a pointer to the value of Account from ApmExternalServiceEntityOutline or nil
-func (x *ApmExternalServiceEntityOutline) GetAccount() *accounts.AccountOutline {
-	if x != nil {
-		return &x.Account
-	}
-
-	return nil
+// GetAccount returns a pointer to the value of Account from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetAccount() accounts.AccountOutline {
+	return x.Account
 }
 
-// GetAccountID returns a pointer to the value of AccountID from ApmExternalServiceEntityOutline or nil
-func (x *ApmExternalServiceEntityOutline) GetAccountID() *int {
-	if x != nil {
-		return &x.AccountID
-	}
-
-	return nil
+// GetAccountID returns a pointer to the value of AccountID from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetAccountID() int {
+	return x.AccountID
 }
 
-// GetDomain returns a pointer to the value of Domain from ApmExternalServiceEntityOutline or nil
-func (x *ApmExternalServiceEntityOutline) GetDomain() *string {
-	if x != nil {
-		return &x.Domain
-	}
-
-	return nil
+// GetDomain returns a pointer to the value of Domain from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetDomain() string {
+	return x.Domain
 }
 
-// GetEntityType returns a pointer to the value of EntityType from ApmExternalServiceEntityOutline or nil
-func (x *ApmExternalServiceEntityOutline) GetEntityType() *EntityType {
-	if x != nil {
-		return &x.EntityType
-	}
-
-	return nil
+// GetEntityType returns a pointer to the value of EntityType from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetEntityType() EntityType {
+	return x.EntityType
 }
 
-// GetExternalSummary returns a pointer to the value of ExternalSummary from ApmExternalServiceEntityOutline or nil
-func (x *ApmExternalServiceEntityOutline) GetExternalSummary() *ApmExternalServiceSummaryData {
-	if x != nil {
-		return &x.ExternalSummary
-	}
-
-	return nil
+// GetExternalSummary returns a pointer to the value of ExternalSummary from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetExternalSummary() ApmExternalServiceSummaryData {
+	return x.ExternalSummary
 }
 
-// GetGUID returns a pointer to the value of GUID from ApmExternalServiceEntityOutline or nil
-func (x *ApmExternalServiceEntityOutline) GetGUID() *EntityGUID {
-	if x != nil {
-		return &x.GUID
-	}
-
-	return nil
+// GetGUID returns a pointer to the value of GUID from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetGUID() EntityGUID {
+	return x.GUID
 }
 
-// GetHost returns a pointer to the value of Host from ApmExternalServiceEntityOutline or nil
-func (x *ApmExternalServiceEntityOutline) GetHost() *string {
-	if x != nil {
-		return &x.Host
-	}
-
-	return nil
+// GetHost returns a pointer to the value of Host from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetHost() string {
+	return x.Host
 }
 
-// GetIndexedAt returns a pointer to the value of IndexedAt from ApmExternalServiceEntityOutline or nil
-func (x *ApmExternalServiceEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.IndexedAt
-	}
-
-	return nil
+// GetIndexedAt returns a pointer to the value of IndexedAt from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
 }
 
-// GetName returns a pointer to the value of Name from ApmExternalServiceEntityOutline or nil
-func (x *ApmExternalServiceEntityOutline) GetName() *string {
-	if x != nil {
-		return &x.Name
-	}
-
-	return nil
+// GetName returns a pointer to the value of Name from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetName() string {
+	return x.Name
 }
 
-// GetPermalink returns a pointer to the value of Permalink from ApmExternalServiceEntityOutline or nil
-func (x *ApmExternalServiceEntityOutline) GetPermalink() *string {
-	if x != nil {
-		return &x.Permalink
-	}
-
-	return nil
+// GetPermalink returns a pointer to the value of Permalink from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetPermalink() string {
+	return x.Permalink
 }
 
-// GetReporting returns a pointer to the value of Reporting from ApmExternalServiceEntityOutline or nil
-func (x *ApmExternalServiceEntityOutline) GetReporting() *bool {
-	if x != nil {
-		return &x.Reporting
-	}
-
-	return nil
+// GetReporting returns a pointer to the value of Reporting from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetReporting() bool {
+	return x.Reporting
 }
 
-// GetTags returns a pointer to the value of Tags from ApmExternalServiceEntityOutline or nil
-func (x *ApmExternalServiceEntityOutline) GetTags() *[]EntityTag {
-	if x != nil {
-		return &x.Tags
-	}
-
-	return nil
+// GetTags returns a pointer to the value of Tags from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetTags() []EntityTag {
+	return x.Tags
 }
 
-// GetType returns a pointer to the value of Type from ApmExternalServiceEntityOutline or nil
-func (x *ApmExternalServiceEntityOutline) GetType() *string {
-	if x != nil {
-		return &x.Type
-	}
-
-	return nil
+// GetType returns a pointer to the value of Type from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetType() string {
+	return x.Type
 }
 
 func (x *ApmExternalServiceEntityOutline) ImplementsEntityOutline() {}
@@ -2712,220 +2260,124 @@ type BrowserApplicationEntity struct {
 	Type string `json:"type,omitempty"`
 }
 
-// GetAccount returns a pointer to the value of Account from BrowserApplicationEntity or nil
-func (x *BrowserApplicationEntity) GetAccount() *accounts.AccountOutline {
-	if x != nil {
-		return &x.Account
-	}
-
-	return nil
+// GetAccount returns a pointer to the value of Account from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetAccount() accounts.AccountOutline {
+	return x.Account
 }
 
-// GetAccountID returns a pointer to the value of AccountID from BrowserApplicationEntity or nil
-func (x *BrowserApplicationEntity) GetAccountID() *int {
-	if x != nil {
-		return &x.AccountID
-	}
-
-	return nil
+// GetAccountID returns a pointer to the value of AccountID from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetAccountID() int {
+	return x.AccountID
 }
 
-// GetAgentInstallType returns a pointer to the value of AgentInstallType from BrowserApplicationEntity or nil
-func (x *BrowserApplicationEntity) GetAgentInstallType() *BrowserAgentInstallType {
-	if x != nil {
-		return &x.AgentInstallType
-	}
-
-	return nil
+// GetAgentInstallType returns a pointer to the value of AgentInstallType from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetAgentInstallType() BrowserAgentInstallType {
+	return x.AgentInstallType
 }
 
-// GetAlertSeverity returns a pointer to the value of AlertSeverity from BrowserApplicationEntity or nil
-func (x *BrowserApplicationEntity) GetAlertSeverity() *EntityAlertSeverity {
-	if x != nil {
-		return &x.AlertSeverity
-	}
-
-	return nil
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
 }
 
-// GetAlertViolations returns a pointer to the value of AlertViolations from BrowserApplicationEntity or nil
-func (x *BrowserApplicationEntity) GetAlertViolations() *[]EntityAlertViolation {
-	if x != nil {
-		return &x.AlertViolations
-	}
-
-	return nil
+// GetAlertViolations returns a pointer to the value of AlertViolations from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetAlertViolations() []EntityAlertViolation {
+	return x.AlertViolations
 }
 
-// GetApplicationID returns a pointer to the value of ApplicationID from BrowserApplicationEntity or nil
-func (x *BrowserApplicationEntity) GetApplicationID() *int {
-	if x != nil {
-		return &x.ApplicationID
-	}
-
-	return nil
+// GetApplicationID returns a pointer to the value of ApplicationID from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetApplicationID() int {
+	return x.ApplicationID
 }
 
-// GetBrowserSummary returns a pointer to the value of BrowserSummary from BrowserApplicationEntity or nil
-func (x *BrowserApplicationEntity) GetBrowserSummary() *BrowserApplicationSummaryData {
-	if x != nil {
-		return &x.BrowserSummary
-	}
-
-	return nil
+// GetBrowserSummary returns a pointer to the value of BrowserSummary from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetBrowserSummary() BrowserApplicationSummaryData {
+	return x.BrowserSummary
 }
 
-// GetDomain returns a pointer to the value of Domain from BrowserApplicationEntity or nil
-func (x *BrowserApplicationEntity) GetDomain() *string {
-	if x != nil {
-		return &x.Domain
-	}
-
-	return nil
+// GetDomain returns a pointer to the value of Domain from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetDomain() string {
+	return x.Domain
 }
 
-// GetEntityType returns a pointer to the value of EntityType from BrowserApplicationEntity or nil
-func (x *BrowserApplicationEntity) GetEntityType() *EntityType {
-	if x != nil {
-		return &x.EntityType
-	}
-
-	return nil
+// GetEntityType returns a pointer to the value of EntityType from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetEntityType() EntityType {
+	return x.EntityType
 }
 
-// GetGUID returns a pointer to the value of GUID from BrowserApplicationEntity or nil
-func (x *BrowserApplicationEntity) GetGUID() *EntityGUID {
-	if x != nil {
-		return &x.GUID
-	}
-
-	return nil
+// GetGUID returns a pointer to the value of GUID from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetGUID() EntityGUID {
+	return x.GUID
 }
 
-// GetIndexedAt returns a pointer to the value of IndexedAt from BrowserApplicationEntity or nil
-func (x *BrowserApplicationEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.IndexedAt
-	}
-
-	return nil
+// GetIndexedAt returns a pointer to the value of IndexedAt from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
 }
 
-// GetNRDBQuery returns a pointer to the value of NRDBQuery from BrowserApplicationEntity or nil
-func (x *BrowserApplicationEntity) GetNRDBQuery() *nrdb.NRDBResultContainer {
-	if x != nil {
-		return &x.NRDBQuery
-	}
-
-	return nil
+// GetNRDBQuery returns a pointer to the value of NRDBQuery from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetNRDBQuery() nrdb.NRDBResultContainer {
+	return x.NRDBQuery
 }
 
-// GetName returns a pointer to the value of Name from BrowserApplicationEntity or nil
-func (x *BrowserApplicationEntity) GetName() *string {
-	if x != nil {
-		return &x.Name
-	}
-
-	return nil
+// GetName returns a pointer to the value of Name from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetName() string {
+	return x.Name
 }
 
-// GetNerdStorage returns a pointer to the value of NerdStorage from BrowserApplicationEntity or nil
-func (x *BrowserApplicationEntity) GetNerdStorage() *NerdStorageEntityScope {
-	if x != nil {
-		return &x.NerdStorage
-	}
-
-	return nil
+// GetNerdStorage returns a pointer to the value of NerdStorage from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetNerdStorage() NerdStorageEntityScope {
+	return x.NerdStorage
 }
 
-// GetPermalink returns a pointer to the value of Permalink from BrowserApplicationEntity or nil
-func (x *BrowserApplicationEntity) GetPermalink() *string {
-	if x != nil {
-		return &x.Permalink
-	}
-
-	return nil
+// GetPermalink returns a pointer to the value of Permalink from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetPermalink() string {
+	return x.Permalink
 }
 
-// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from BrowserApplicationEntity or nil
-func (x *BrowserApplicationEntity) GetRecentAlertViolations() *[]EntityAlertViolation {
-	if x != nil {
-		return &x.RecentAlertViolations
-	}
-
-	return nil
+// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetRecentAlertViolations() []EntityAlertViolation {
+	return x.RecentAlertViolations
 }
 
-// GetRelationships returns a pointer to the value of Relationships from BrowserApplicationEntity or nil
-func (x *BrowserApplicationEntity) GetRelationships() *[]EntityRelationship {
-	if x != nil {
-		return &x.Relationships
-	}
-
-	return nil
+// GetRelationships returns a pointer to the value of Relationships from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetRelationships() []EntityRelationship {
+	return x.Relationships
 }
 
-// GetReporting returns a pointer to the value of Reporting from BrowserApplicationEntity or nil
-func (x *BrowserApplicationEntity) GetReporting() *bool {
-	if x != nil {
-		return &x.Reporting
-	}
-
-	return nil
+// GetReporting returns a pointer to the value of Reporting from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetReporting() bool {
+	return x.Reporting
 }
 
-// GetRunningAgentVersions returns a pointer to the value of RunningAgentVersions from BrowserApplicationEntity or nil
-func (x *BrowserApplicationEntity) GetRunningAgentVersions() *BrowserApplicationRunningAgentVersions {
-	if x != nil {
-		return &x.RunningAgentVersions
-	}
-
-	return nil
+// GetRunningAgentVersions returns a pointer to the value of RunningAgentVersions from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetRunningAgentVersions() BrowserApplicationRunningAgentVersions {
+	return x.RunningAgentVersions
 }
 
-// GetServingApmApplicationID returns a pointer to the value of ServingApmApplicationID from BrowserApplicationEntity or nil
-func (x *BrowserApplicationEntity) GetServingApmApplicationID() *int {
-	if x != nil {
-		return &x.ServingApmApplicationID
-	}
-
-	return nil
+// GetServingApmApplicationID returns a pointer to the value of ServingApmApplicationID from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetServingApmApplicationID() int {
+	return x.ServingApmApplicationID
 }
 
-// GetSettings returns a pointer to the value of Settings from BrowserApplicationEntity or nil
-func (x *BrowserApplicationEntity) GetSettings() *BrowserApplicationSettings {
-	if x != nil {
-		return &x.Settings
-	}
-
-	return nil
+// GetSettings returns a pointer to the value of Settings from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetSettings() BrowserApplicationSettings {
+	return x.Settings
 }
 
-// GetTags returns a pointer to the value of Tags from BrowserApplicationEntity or nil
-func (x *BrowserApplicationEntity) GetTags() *[]EntityTag {
-	if x != nil {
-		return &x.Tags
-	}
-
-	return nil
+// GetTags returns a pointer to the value of Tags from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetTags() []EntityTag {
+	return x.Tags
 }
 
-// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from BrowserApplicationEntity or nil
-func (x *BrowserApplicationEntity) GetTagsWithMetadata() *[]EntityTagWithMetadata {
-	if x != nil {
-		return &x.TagsWithMetadata
-	}
-
-	return nil
+// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
+	return x.TagsWithMetadata
 }
 
-// GetType returns a pointer to the value of Type from BrowserApplicationEntity or nil
-func (x *BrowserApplicationEntity) GetType() *string {
-	if x != nil {
-		return &x.Type
-	}
-
-	return nil
+// GetType returns a pointer to the value of Type from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetType() string {
+	return x.Type
 }
 
 func (x *BrowserApplicationEntity) ImplementsAlertableEntity() {}
@@ -2974,166 +2426,94 @@ type BrowserApplicationEntityOutline struct {
 	Type string `json:"type,omitempty"`
 }
 
-// GetAccount returns a pointer to the value of Account from BrowserApplicationEntityOutline or nil
-func (x *BrowserApplicationEntityOutline) GetAccount() *accounts.AccountOutline {
-	if x != nil {
-		return &x.Account
-	}
-
-	return nil
+// GetAccount returns a pointer to the value of Account from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetAccount() accounts.AccountOutline {
+	return x.Account
 }
 
-// GetAccountID returns a pointer to the value of AccountID from BrowserApplicationEntityOutline or nil
-func (x *BrowserApplicationEntityOutline) GetAccountID() *int {
-	if x != nil {
-		return &x.AccountID
-	}
-
-	return nil
+// GetAccountID returns a pointer to the value of AccountID from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetAccountID() int {
+	return x.AccountID
 }
 
-// GetAgentInstallType returns a pointer to the value of AgentInstallType from BrowserApplicationEntityOutline or nil
-func (x *BrowserApplicationEntityOutline) GetAgentInstallType() *BrowserAgentInstallType {
-	if x != nil {
-		return &x.AgentInstallType
-	}
-
-	return nil
+// GetAgentInstallType returns a pointer to the value of AgentInstallType from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetAgentInstallType() BrowserAgentInstallType {
+	return x.AgentInstallType
 }
 
-// GetAlertSeverity returns a pointer to the value of AlertSeverity from BrowserApplicationEntityOutline or nil
-func (x *BrowserApplicationEntityOutline) GetAlertSeverity() *EntityAlertSeverity {
-	if x != nil {
-		return &x.AlertSeverity
-	}
-
-	return nil
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
 }
 
-// GetApplicationID returns a pointer to the value of ApplicationID from BrowserApplicationEntityOutline or nil
-func (x *BrowserApplicationEntityOutline) GetApplicationID() *int {
-	if x != nil {
-		return &x.ApplicationID
-	}
-
-	return nil
+// GetApplicationID returns a pointer to the value of ApplicationID from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetApplicationID() int {
+	return x.ApplicationID
 }
 
-// GetBrowserSummary returns a pointer to the value of BrowserSummary from BrowserApplicationEntityOutline or nil
-func (x *BrowserApplicationEntityOutline) GetBrowserSummary() *BrowserApplicationSummaryData {
-	if x != nil {
-		return &x.BrowserSummary
-	}
-
-	return nil
+// GetBrowserSummary returns a pointer to the value of BrowserSummary from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetBrowserSummary() BrowserApplicationSummaryData {
+	return x.BrowserSummary
 }
 
-// GetDomain returns a pointer to the value of Domain from BrowserApplicationEntityOutline or nil
-func (x *BrowserApplicationEntityOutline) GetDomain() *string {
-	if x != nil {
-		return &x.Domain
-	}
-
-	return nil
+// GetDomain returns a pointer to the value of Domain from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetDomain() string {
+	return x.Domain
 }
 
-// GetEntityType returns a pointer to the value of EntityType from BrowserApplicationEntityOutline or nil
-func (x *BrowserApplicationEntityOutline) GetEntityType() *EntityType {
-	if x != nil {
-		return &x.EntityType
-	}
-
-	return nil
+// GetEntityType returns a pointer to the value of EntityType from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetEntityType() EntityType {
+	return x.EntityType
 }
 
-// GetGUID returns a pointer to the value of GUID from BrowserApplicationEntityOutline or nil
-func (x *BrowserApplicationEntityOutline) GetGUID() *EntityGUID {
-	if x != nil {
-		return &x.GUID
-	}
-
-	return nil
+// GetGUID returns a pointer to the value of GUID from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetGUID() EntityGUID {
+	return x.GUID
 }
 
-// GetIndexedAt returns a pointer to the value of IndexedAt from BrowserApplicationEntityOutline or nil
-func (x *BrowserApplicationEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.IndexedAt
-	}
-
-	return nil
+// GetIndexedAt returns a pointer to the value of IndexedAt from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
 }
 
-// GetName returns a pointer to the value of Name from BrowserApplicationEntityOutline or nil
-func (x *BrowserApplicationEntityOutline) GetName() *string {
-	if x != nil {
-		return &x.Name
-	}
-
-	return nil
+// GetName returns a pointer to the value of Name from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetName() string {
+	return x.Name
 }
 
-// GetPermalink returns a pointer to the value of Permalink from BrowserApplicationEntityOutline or nil
-func (x *BrowserApplicationEntityOutline) GetPermalink() *string {
-	if x != nil {
-		return &x.Permalink
-	}
-
-	return nil
+// GetPermalink returns a pointer to the value of Permalink from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetPermalink() string {
+	return x.Permalink
 }
 
-// GetReporting returns a pointer to the value of Reporting from BrowserApplicationEntityOutline or nil
-func (x *BrowserApplicationEntityOutline) GetReporting() *bool {
-	if x != nil {
-		return &x.Reporting
-	}
-
-	return nil
+// GetReporting returns a pointer to the value of Reporting from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetReporting() bool {
+	return x.Reporting
 }
 
-// GetRunningAgentVersions returns a pointer to the value of RunningAgentVersions from BrowserApplicationEntityOutline or nil
-func (x *BrowserApplicationEntityOutline) GetRunningAgentVersions() *BrowserApplicationRunningAgentVersions {
-	if x != nil {
-		return &x.RunningAgentVersions
-	}
-
-	return nil
+// GetRunningAgentVersions returns a pointer to the value of RunningAgentVersions from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetRunningAgentVersions() BrowserApplicationRunningAgentVersions {
+	return x.RunningAgentVersions
 }
 
-// GetServingApmApplicationID returns a pointer to the value of ServingApmApplicationID from BrowserApplicationEntityOutline or nil
-func (x *BrowserApplicationEntityOutline) GetServingApmApplicationID() *int {
-	if x != nil {
-		return &x.ServingApmApplicationID
-	}
-
-	return nil
+// GetServingApmApplicationID returns a pointer to the value of ServingApmApplicationID from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetServingApmApplicationID() int {
+	return x.ServingApmApplicationID
 }
 
-// GetSettings returns a pointer to the value of Settings from BrowserApplicationEntityOutline or nil
-func (x *BrowserApplicationEntityOutline) GetSettings() *BrowserApplicationSettings {
-	if x != nil {
-		return &x.Settings
-	}
-
-	return nil
+// GetSettings returns a pointer to the value of Settings from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetSettings() BrowserApplicationSettings {
+	return x.Settings
 }
 
-// GetTags returns a pointer to the value of Tags from BrowserApplicationEntityOutline or nil
-func (x *BrowserApplicationEntityOutline) GetTags() *[]EntityTag {
-	if x != nil {
-		return &x.Tags
-	}
-
-	return nil
+// GetTags returns a pointer to the value of Tags from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetTags() []EntityTag {
+	return x.Tags
 }
 
-// GetType returns a pointer to the value of Type from BrowserApplicationEntityOutline or nil
-func (x *BrowserApplicationEntityOutline) GetType() *string {
-	if x != nil {
-		return &x.Type
-	}
-
-	return nil
+// GetType returns a pointer to the value of Type from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetType() string {
+	return x.Type
 }
 
 func (x *BrowserApplicationEntityOutline) ImplementsAlertableEntityOutline() {}
@@ -3183,22 +2563,14 @@ type CollectionEntity struct {
 	GUID EntityGUID `json:"guid,omitempty"`
 }
 
-// GetCollection returns a pointer to the value of Collection from CollectionEntity or nil
-func (x *CollectionEntity) GetCollection() *EntityCollection {
-	if x != nil {
-		return &x.Collection
-	}
-
-	return nil
+// GetCollection returns a pointer to the value of Collection from CollectionEntity
+func (x CollectionEntity) GetCollection() EntityCollection {
+	return x.Collection
 }
 
-// GetGUID returns a pointer to the value of GUID from CollectionEntity or nil
-func (x *CollectionEntity) GetGUID() *EntityGUID {
-	if x != nil {
-		return &x.GUID
-	}
-
-	return nil
+// GetGUID returns a pointer to the value of GUID from CollectionEntity
+func (x CollectionEntity) GetGUID() EntityGUID {
+	return x.GUID
 }
 
 func (x *CollectionEntity) ImplementsCollectionEntity() {}
@@ -3287,202 +2659,114 @@ type DashboardEntity struct {
 	UpdatedAt nrtime.DateTime `json:"updatedAt,omitempty"`
 }
 
-// GetAccount returns a pointer to the value of Account from DashboardEntity or nil
-func (x *DashboardEntity) GetAccount() *accounts.AccountOutline {
-	if x != nil {
-		return &x.Account
-	}
-
-	return nil
+// GetAccount returns a pointer to the value of Account from DashboardEntity
+func (x DashboardEntity) GetAccount() accounts.AccountOutline {
+	return x.Account
 }
 
-// GetAccountID returns a pointer to the value of AccountID from DashboardEntity or nil
-func (x *DashboardEntity) GetAccountID() *int {
-	if x != nil {
-		return &x.AccountID
-	}
-
-	return nil
+// GetAccountID returns a pointer to the value of AccountID from DashboardEntity
+func (x DashboardEntity) GetAccountID() int {
+	return x.AccountID
 }
 
-// GetCreatedAt returns a pointer to the value of CreatedAt from DashboardEntity or nil
-func (x *DashboardEntity) GetCreatedAt() *nrtime.DateTime {
-	if x != nil {
-		return &x.CreatedAt
-	}
-
-	return nil
+// GetCreatedAt returns a pointer to the value of CreatedAt from DashboardEntity
+func (x DashboardEntity) GetCreatedAt() nrtime.DateTime {
+	return x.CreatedAt
 }
 
-// GetDashboardParentGUID returns a pointer to the value of DashboardParentGUID from DashboardEntity or nil
-func (x *DashboardEntity) GetDashboardParentGUID() *EntityGUID {
-	if x != nil {
-		return &x.DashboardParentGUID
-	}
-
-	return nil
+// GetDashboardParentGUID returns a pointer to the value of DashboardParentGUID from DashboardEntity
+func (x DashboardEntity) GetDashboardParentGUID() EntityGUID {
+	return x.DashboardParentGUID
 }
 
-// GetDescription returns a pointer to the value of Description from DashboardEntity or nil
-func (x *DashboardEntity) GetDescription() *string {
-	if x != nil {
-		return &x.Description
-	}
-
-	return nil
+// GetDescription returns a pointer to the value of Description from DashboardEntity
+func (x DashboardEntity) GetDescription() string {
+	return x.Description
 }
 
-// GetDomain returns a pointer to the value of Domain from DashboardEntity or nil
-func (x *DashboardEntity) GetDomain() *string {
-	if x != nil {
-		return &x.Domain
-	}
-
-	return nil
+// GetDomain returns a pointer to the value of Domain from DashboardEntity
+func (x DashboardEntity) GetDomain() string {
+	return x.Domain
 }
 
-// GetEntityType returns a pointer to the value of EntityType from DashboardEntity or nil
-func (x *DashboardEntity) GetEntityType() *EntityType {
-	if x != nil {
-		return &x.EntityType
-	}
-
-	return nil
+// GetEntityType returns a pointer to the value of EntityType from DashboardEntity
+func (x DashboardEntity) GetEntityType() EntityType {
+	return x.EntityType
 }
 
-// GetGUID returns a pointer to the value of GUID from DashboardEntity or nil
-func (x *DashboardEntity) GetGUID() *EntityGUID {
-	if x != nil {
-		return &x.GUID
-	}
-
-	return nil
+// GetGUID returns a pointer to the value of GUID from DashboardEntity
+func (x DashboardEntity) GetGUID() EntityGUID {
+	return x.GUID
 }
 
-// GetIndexedAt returns a pointer to the value of IndexedAt from DashboardEntity or nil
-func (x *DashboardEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.IndexedAt
-	}
-
-	return nil
+// GetIndexedAt returns a pointer to the value of IndexedAt from DashboardEntity
+func (x DashboardEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
 }
 
-// GetNRDBQuery returns a pointer to the value of NRDBQuery from DashboardEntity or nil
-func (x *DashboardEntity) GetNRDBQuery() *nrdb.NRDBResultContainer {
-	if x != nil {
-		return &x.NRDBQuery
-	}
-
-	return nil
+// GetNRDBQuery returns a pointer to the value of NRDBQuery from DashboardEntity
+func (x DashboardEntity) GetNRDBQuery() nrdb.NRDBResultContainer {
+	return x.NRDBQuery
 }
 
-// GetName returns a pointer to the value of Name from DashboardEntity or nil
-func (x *DashboardEntity) GetName() *string {
-	if x != nil {
-		return &x.Name
-	}
-
-	return nil
+// GetName returns a pointer to the value of Name from DashboardEntity
+func (x DashboardEntity) GetName() string {
+	return x.Name
 }
 
-// GetNerdStorage returns a pointer to the value of NerdStorage from DashboardEntity or nil
-func (x *DashboardEntity) GetNerdStorage() *NerdStorageEntityScope {
-	if x != nil {
-		return &x.NerdStorage
-	}
-
-	return nil
+// GetNerdStorage returns a pointer to the value of NerdStorage from DashboardEntity
+func (x DashboardEntity) GetNerdStorage() NerdStorageEntityScope {
+	return x.NerdStorage
 }
 
-// GetOwner returns a pointer to the value of Owner from DashboardEntity or nil
-func (x *DashboardEntity) GetOwner() *DashboardOwnerInfo {
-	if x != nil {
-		return &x.Owner
-	}
-
-	return nil
+// GetOwner returns a pointer to the value of Owner from DashboardEntity
+func (x DashboardEntity) GetOwner() DashboardOwnerInfo {
+	return x.Owner
 }
 
-// GetPages returns a pointer to the value of Pages from DashboardEntity or nil
-func (x *DashboardEntity) GetPages() *[]DashboardPage {
-	if x != nil {
-		return &x.Pages
-	}
-
-	return nil
+// GetPages returns a pointer to the value of Pages from DashboardEntity
+func (x DashboardEntity) GetPages() []DashboardPage {
+	return x.Pages
 }
 
-// GetPermalink returns a pointer to the value of Permalink from DashboardEntity or nil
-func (x *DashboardEntity) GetPermalink() *string {
-	if x != nil {
-		return &x.Permalink
-	}
-
-	return nil
+// GetPermalink returns a pointer to the value of Permalink from DashboardEntity
+func (x DashboardEntity) GetPermalink() string {
+	return x.Permalink
 }
 
-// GetPermissions returns a pointer to the value of Permissions from DashboardEntity or nil
-func (x *DashboardEntity) GetPermissions() *DashboardPermissions {
-	if x != nil {
-		return &x.Permissions
-	}
-
-	return nil
+// GetPermissions returns a pointer to the value of Permissions from DashboardEntity
+func (x DashboardEntity) GetPermissions() DashboardPermissions {
+	return x.Permissions
 }
 
-// GetRelationships returns a pointer to the value of Relationships from DashboardEntity or nil
-func (x *DashboardEntity) GetRelationships() *[]EntityRelationship {
-	if x != nil {
-		return &x.Relationships
-	}
-
-	return nil
+// GetRelationships returns a pointer to the value of Relationships from DashboardEntity
+func (x DashboardEntity) GetRelationships() []EntityRelationship {
+	return x.Relationships
 }
 
-// GetReporting returns a pointer to the value of Reporting from DashboardEntity or nil
-func (x *DashboardEntity) GetReporting() *bool {
-	if x != nil {
-		return &x.Reporting
-	}
-
-	return nil
+// GetReporting returns a pointer to the value of Reporting from DashboardEntity
+func (x DashboardEntity) GetReporting() bool {
+	return x.Reporting
 }
 
-// GetTags returns a pointer to the value of Tags from DashboardEntity or nil
-func (x *DashboardEntity) GetTags() *[]EntityTag {
-	if x != nil {
-		return &x.Tags
-	}
-
-	return nil
+// GetTags returns a pointer to the value of Tags from DashboardEntity
+func (x DashboardEntity) GetTags() []EntityTag {
+	return x.Tags
 }
 
-// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from DashboardEntity or nil
-func (x *DashboardEntity) GetTagsWithMetadata() *[]EntityTagWithMetadata {
-	if x != nil {
-		return &x.TagsWithMetadata
-	}
-
-	return nil
+// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from DashboardEntity
+func (x DashboardEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
+	return x.TagsWithMetadata
 }
 
-// GetType returns a pointer to the value of Type from DashboardEntity or nil
-func (x *DashboardEntity) GetType() *string {
-	if x != nil {
-		return &x.Type
-	}
-
-	return nil
+// GetType returns a pointer to the value of Type from DashboardEntity
+func (x DashboardEntity) GetType() string {
+	return x.Type
 }
 
-// GetUpdatedAt returns a pointer to the value of UpdatedAt from DashboardEntity or nil
-func (x *DashboardEntity) GetUpdatedAt() *nrtime.DateTime {
-	if x != nil {
-		return &x.UpdatedAt
-	}
-
-	return nil
+// GetUpdatedAt returns a pointer to the value of UpdatedAt from DashboardEntity
+func (x DashboardEntity) GetUpdatedAt() nrtime.DateTime {
+	return x.UpdatedAt
 }
 
 func (x *DashboardEntity) ImplementsEntity() {}
@@ -3517,112 +2801,64 @@ type DashboardEntityOutline struct {
 	Type string `json:"type,omitempty"`
 }
 
-// GetAccount returns a pointer to the value of Account from DashboardEntityOutline or nil
-func (x *DashboardEntityOutline) GetAccount() *accounts.AccountOutline {
-	if x != nil {
-		return &x.Account
-	}
-
-	return nil
+// GetAccount returns a pointer to the value of Account from DashboardEntityOutline
+func (x DashboardEntityOutline) GetAccount() accounts.AccountOutline {
+	return x.Account
 }
 
-// GetAccountID returns a pointer to the value of AccountID from DashboardEntityOutline or nil
-func (x *DashboardEntityOutline) GetAccountID() *int {
-	if x != nil {
-		return &x.AccountID
-	}
-
-	return nil
+// GetAccountID returns a pointer to the value of AccountID from DashboardEntityOutline
+func (x DashboardEntityOutline) GetAccountID() int {
+	return x.AccountID
 }
 
-// GetDashboardParentGUID returns a pointer to the value of DashboardParentGUID from DashboardEntityOutline or nil
-func (x *DashboardEntityOutline) GetDashboardParentGUID() *EntityGUID {
-	if x != nil {
-		return &x.DashboardParentGUID
-	}
-
-	return nil
+// GetDashboardParentGUID returns a pointer to the value of DashboardParentGUID from DashboardEntityOutline
+func (x DashboardEntityOutline) GetDashboardParentGUID() EntityGUID {
+	return x.DashboardParentGUID
 }
 
-// GetDomain returns a pointer to the value of Domain from DashboardEntityOutline or nil
-func (x *DashboardEntityOutline) GetDomain() *string {
-	if x != nil {
-		return &x.Domain
-	}
-
-	return nil
+// GetDomain returns a pointer to the value of Domain from DashboardEntityOutline
+func (x DashboardEntityOutline) GetDomain() string {
+	return x.Domain
 }
 
-// GetEntityType returns a pointer to the value of EntityType from DashboardEntityOutline or nil
-func (x *DashboardEntityOutline) GetEntityType() *EntityType {
-	if x != nil {
-		return &x.EntityType
-	}
-
-	return nil
+// GetEntityType returns a pointer to the value of EntityType from DashboardEntityOutline
+func (x DashboardEntityOutline) GetEntityType() EntityType {
+	return x.EntityType
 }
 
-// GetGUID returns a pointer to the value of GUID from DashboardEntityOutline or nil
-func (x *DashboardEntityOutline) GetGUID() *EntityGUID {
-	if x != nil {
-		return &x.GUID
-	}
-
-	return nil
+// GetGUID returns a pointer to the value of GUID from DashboardEntityOutline
+func (x DashboardEntityOutline) GetGUID() EntityGUID {
+	return x.GUID
 }
 
-// GetIndexedAt returns a pointer to the value of IndexedAt from DashboardEntityOutline or nil
-func (x *DashboardEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.IndexedAt
-	}
-
-	return nil
+// GetIndexedAt returns a pointer to the value of IndexedAt from DashboardEntityOutline
+func (x DashboardEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
 }
 
-// GetName returns a pointer to the value of Name from DashboardEntityOutline or nil
-func (x *DashboardEntityOutline) GetName() *string {
-	if x != nil {
-		return &x.Name
-	}
-
-	return nil
+// GetName returns a pointer to the value of Name from DashboardEntityOutline
+func (x DashboardEntityOutline) GetName() string {
+	return x.Name
 }
 
-// GetPermalink returns a pointer to the value of Permalink from DashboardEntityOutline or nil
-func (x *DashboardEntityOutline) GetPermalink() *string {
-	if x != nil {
-		return &x.Permalink
-	}
-
-	return nil
+// GetPermalink returns a pointer to the value of Permalink from DashboardEntityOutline
+func (x DashboardEntityOutline) GetPermalink() string {
+	return x.Permalink
 }
 
-// GetReporting returns a pointer to the value of Reporting from DashboardEntityOutline or nil
-func (x *DashboardEntityOutline) GetReporting() *bool {
-	if x != nil {
-		return &x.Reporting
-	}
-
-	return nil
+// GetReporting returns a pointer to the value of Reporting from DashboardEntityOutline
+func (x DashboardEntityOutline) GetReporting() bool {
+	return x.Reporting
 }
 
-// GetTags returns a pointer to the value of Tags from DashboardEntityOutline or nil
-func (x *DashboardEntityOutline) GetTags() *[]EntityTag {
-	if x != nil {
-		return &x.Tags
-	}
-
-	return nil
+// GetTags returns a pointer to the value of Tags from DashboardEntityOutline
+func (x DashboardEntityOutline) GetTags() []EntityTag {
+	return x.Tags
 }
 
-// GetType returns a pointer to the value of Type from DashboardEntityOutline or nil
-func (x *DashboardEntityOutline) GetType() *string {
-	if x != nil {
-		return &x.Type
-	}
-
-	return nil
+// GetType returns a pointer to the value of Type from DashboardEntityOutline
+func (x DashboardEntityOutline) GetType() string {
+	return x.Type
 }
 
 func (x *DashboardEntityOutline) ImplementsEntityOutline() {}
@@ -4217,139 +3453,79 @@ type GenericEntity struct {
 	Type string `json:"type,omitempty"`
 }
 
-// GetAccount returns a pointer to the value of Account from GenericEntity or nil
-func (x *GenericEntity) GetAccount() *accounts.AccountOutline {
-	if x != nil {
-		return &x.Account
-	}
-
-	return nil
+// GetAccount returns a pointer to the value of Account from GenericEntity
+func (x GenericEntity) GetAccount() accounts.AccountOutline {
+	return x.Account
 }
 
-// GetAccountID returns a pointer to the value of AccountID from GenericEntity or nil
-func (x *GenericEntity) GetAccountID() *int {
-	if x != nil {
-		return &x.AccountID
-	}
-
-	return nil
+// GetAccountID returns a pointer to the value of AccountID from GenericEntity
+func (x GenericEntity) GetAccountID() int {
+	return x.AccountID
 }
 
-// GetDomain returns a pointer to the value of Domain from GenericEntity or nil
-func (x *GenericEntity) GetDomain() *string {
-	if x != nil {
-		return &x.Domain
-	}
-
-	return nil
+// GetDomain returns a pointer to the value of Domain from GenericEntity
+func (x GenericEntity) GetDomain() string {
+	return x.Domain
 }
 
-// GetEntityType returns a pointer to the value of EntityType from GenericEntity or nil
-func (x *GenericEntity) GetEntityType() *EntityType {
-	if x != nil {
-		return &x.EntityType
-	}
-
-	return nil
+// GetEntityType returns a pointer to the value of EntityType from GenericEntity
+func (x GenericEntity) GetEntityType() EntityType {
+	return x.EntityType
 }
 
-// GetGUID returns a pointer to the value of GUID from GenericEntity or nil
-func (x *GenericEntity) GetGUID() *EntityGUID {
-	if x != nil {
-		return &x.GUID
-	}
-
-	return nil
+// GetGUID returns a pointer to the value of GUID from GenericEntity
+func (x GenericEntity) GetGUID() EntityGUID {
+	return x.GUID
 }
 
-// GetIndexedAt returns a pointer to the value of IndexedAt from GenericEntity or nil
-func (x *GenericEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.IndexedAt
-	}
-
-	return nil
+// GetIndexedAt returns a pointer to the value of IndexedAt from GenericEntity
+func (x GenericEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
 }
 
-// GetNRDBQuery returns a pointer to the value of NRDBQuery from GenericEntity or nil
-func (x *GenericEntity) GetNRDBQuery() *nrdb.NRDBResultContainer {
-	if x != nil {
-		return &x.NRDBQuery
-	}
-
-	return nil
+// GetNRDBQuery returns a pointer to the value of NRDBQuery from GenericEntity
+func (x GenericEntity) GetNRDBQuery() nrdb.NRDBResultContainer {
+	return x.NRDBQuery
 }
 
-// GetName returns a pointer to the value of Name from GenericEntity or nil
-func (x *GenericEntity) GetName() *string {
-	if x != nil {
-		return &x.Name
-	}
-
-	return nil
+// GetName returns a pointer to the value of Name from GenericEntity
+func (x GenericEntity) GetName() string {
+	return x.Name
 }
 
-// GetNerdStorage returns a pointer to the value of NerdStorage from GenericEntity or nil
-func (x *GenericEntity) GetNerdStorage() *NerdStorageEntityScope {
-	if x != nil {
-		return &x.NerdStorage
-	}
-
-	return nil
+// GetNerdStorage returns a pointer to the value of NerdStorage from GenericEntity
+func (x GenericEntity) GetNerdStorage() NerdStorageEntityScope {
+	return x.NerdStorage
 }
 
-// GetPermalink returns a pointer to the value of Permalink from GenericEntity or nil
-func (x *GenericEntity) GetPermalink() *string {
-	if x != nil {
-		return &x.Permalink
-	}
-
-	return nil
+// GetPermalink returns a pointer to the value of Permalink from GenericEntity
+func (x GenericEntity) GetPermalink() string {
+	return x.Permalink
 }
 
-// GetRelationships returns a pointer to the value of Relationships from GenericEntity or nil
-func (x *GenericEntity) GetRelationships() *[]EntityRelationship {
-	if x != nil {
-		return &x.Relationships
-	}
-
-	return nil
+// GetRelationships returns a pointer to the value of Relationships from GenericEntity
+func (x GenericEntity) GetRelationships() []EntityRelationship {
+	return x.Relationships
 }
 
-// GetReporting returns a pointer to the value of Reporting from GenericEntity or nil
-func (x *GenericEntity) GetReporting() *bool {
-	if x != nil {
-		return &x.Reporting
-	}
-
-	return nil
+// GetReporting returns a pointer to the value of Reporting from GenericEntity
+func (x GenericEntity) GetReporting() bool {
+	return x.Reporting
 }
 
-// GetTags returns a pointer to the value of Tags from GenericEntity or nil
-func (x *GenericEntity) GetTags() *[]EntityTag {
-	if x != nil {
-		return &x.Tags
-	}
-
-	return nil
+// GetTags returns a pointer to the value of Tags from GenericEntity
+func (x GenericEntity) GetTags() []EntityTag {
+	return x.Tags
 }
 
-// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from GenericEntity or nil
-func (x *GenericEntity) GetTagsWithMetadata() *[]EntityTagWithMetadata {
-	if x != nil {
-		return &x.TagsWithMetadata
-	}
-
-	return nil
+// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from GenericEntity
+func (x GenericEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
+	return x.TagsWithMetadata
 }
 
-// GetType returns a pointer to the value of Type from GenericEntity or nil
-func (x *GenericEntity) GetType() *string {
-	if x != nil {
-		return &x.Type
-	}
-
-	return nil
+// GetType returns a pointer to the value of Type from GenericEntity
+func (x GenericEntity) GetType() string {
+	return x.Type
 }
 
 func (x *GenericEntity) ImplementsEntity() {}
@@ -4382,103 +3558,59 @@ type GenericEntityOutline struct {
 	Type string `json:"type,omitempty"`
 }
 
-// GetAccount returns a pointer to the value of Account from GenericEntityOutline or nil
-func (x *GenericEntityOutline) GetAccount() *accounts.AccountOutline {
-	if x != nil {
-		return &x.Account
-	}
-
-	return nil
+// GetAccount returns a pointer to the value of Account from GenericEntityOutline
+func (x GenericEntityOutline) GetAccount() accounts.AccountOutline {
+	return x.Account
 }
 
-// GetAccountID returns a pointer to the value of AccountID from GenericEntityOutline or nil
-func (x *GenericEntityOutline) GetAccountID() *int {
-	if x != nil {
-		return &x.AccountID
-	}
-
-	return nil
+// GetAccountID returns a pointer to the value of AccountID from GenericEntityOutline
+func (x GenericEntityOutline) GetAccountID() int {
+	return x.AccountID
 }
 
-// GetDomain returns a pointer to the value of Domain from GenericEntityOutline or nil
-func (x *GenericEntityOutline) GetDomain() *string {
-	if x != nil {
-		return &x.Domain
-	}
-
-	return nil
+// GetDomain returns a pointer to the value of Domain from GenericEntityOutline
+func (x GenericEntityOutline) GetDomain() string {
+	return x.Domain
 }
 
-// GetEntityType returns a pointer to the value of EntityType from GenericEntityOutline or nil
-func (x *GenericEntityOutline) GetEntityType() *EntityType {
-	if x != nil {
-		return &x.EntityType
-	}
-
-	return nil
+// GetEntityType returns a pointer to the value of EntityType from GenericEntityOutline
+func (x GenericEntityOutline) GetEntityType() EntityType {
+	return x.EntityType
 }
 
-// GetGUID returns a pointer to the value of GUID from GenericEntityOutline or nil
-func (x *GenericEntityOutline) GetGUID() *EntityGUID {
-	if x != nil {
-		return &x.GUID
-	}
-
-	return nil
+// GetGUID returns a pointer to the value of GUID from GenericEntityOutline
+func (x GenericEntityOutline) GetGUID() EntityGUID {
+	return x.GUID
 }
 
-// GetIndexedAt returns a pointer to the value of IndexedAt from GenericEntityOutline or nil
-func (x *GenericEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.IndexedAt
-	}
-
-	return nil
+// GetIndexedAt returns a pointer to the value of IndexedAt from GenericEntityOutline
+func (x GenericEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
 }
 
-// GetName returns a pointer to the value of Name from GenericEntityOutline or nil
-func (x *GenericEntityOutline) GetName() *string {
-	if x != nil {
-		return &x.Name
-	}
-
-	return nil
+// GetName returns a pointer to the value of Name from GenericEntityOutline
+func (x GenericEntityOutline) GetName() string {
+	return x.Name
 }
 
-// GetPermalink returns a pointer to the value of Permalink from GenericEntityOutline or nil
-func (x *GenericEntityOutline) GetPermalink() *string {
-	if x != nil {
-		return &x.Permalink
-	}
-
-	return nil
+// GetPermalink returns a pointer to the value of Permalink from GenericEntityOutline
+func (x GenericEntityOutline) GetPermalink() string {
+	return x.Permalink
 }
 
-// GetReporting returns a pointer to the value of Reporting from GenericEntityOutline or nil
-func (x *GenericEntityOutline) GetReporting() *bool {
-	if x != nil {
-		return &x.Reporting
-	}
-
-	return nil
+// GetReporting returns a pointer to the value of Reporting from GenericEntityOutline
+func (x GenericEntityOutline) GetReporting() bool {
+	return x.Reporting
 }
 
-// GetTags returns a pointer to the value of Tags from GenericEntityOutline or nil
-func (x *GenericEntityOutline) GetTags() *[]EntityTag {
-	if x != nil {
-		return &x.Tags
-	}
-
-	return nil
+// GetTags returns a pointer to the value of Tags from GenericEntityOutline
+func (x GenericEntityOutline) GetTags() []EntityTag {
+	return x.Tags
 }
 
-// GetType returns a pointer to the value of Type from GenericEntityOutline or nil
-func (x *GenericEntityOutline) GetType() *string {
-	if x != nil {
-		return &x.Type
-	}
-
-	return nil
+// GetType returns a pointer to the value of Type from GenericEntityOutline
+func (x GenericEntityOutline) GetType() string {
+	return x.Type
 }
 
 func (x *GenericEntityOutline) ImplementsEntityOutline() {}
@@ -4533,175 +3665,99 @@ type GenericInfrastructureEntity struct {
 	Type string `json:"type,omitempty"`
 }
 
-// GetAccount returns a pointer to the value of Account from GenericInfrastructureEntity or nil
-func (x *GenericInfrastructureEntity) GetAccount() *accounts.AccountOutline {
-	if x != nil {
-		return &x.Account
-	}
-
-	return nil
+// GetAccount returns a pointer to the value of Account from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetAccount() accounts.AccountOutline {
+	return x.Account
 }
 
-// GetAccountID returns a pointer to the value of AccountID from GenericInfrastructureEntity or nil
-func (x *GenericInfrastructureEntity) GetAccountID() *int {
-	if x != nil {
-		return &x.AccountID
-	}
-
-	return nil
+// GetAccountID returns a pointer to the value of AccountID from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetAccountID() int {
+	return x.AccountID
 }
 
-// GetAlertSeverity returns a pointer to the value of AlertSeverity from GenericInfrastructureEntity or nil
-func (x *GenericInfrastructureEntity) GetAlertSeverity() *EntityAlertSeverity {
-	if x != nil {
-		return &x.AlertSeverity
-	}
-
-	return nil
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
 }
 
-// GetAlertViolations returns a pointer to the value of AlertViolations from GenericInfrastructureEntity or nil
-func (x *GenericInfrastructureEntity) GetAlertViolations() *[]EntityAlertViolation {
-	if x != nil {
-		return &x.AlertViolations
-	}
-
-	return nil
+// GetAlertViolations returns a pointer to the value of AlertViolations from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetAlertViolations() []EntityAlertViolation {
+	return x.AlertViolations
 }
 
-// GetDomain returns a pointer to the value of Domain from GenericInfrastructureEntity or nil
-func (x *GenericInfrastructureEntity) GetDomain() *string {
-	if x != nil {
-		return &x.Domain
-	}
-
-	return nil
+// GetDomain returns a pointer to the value of Domain from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetDomain() string {
+	return x.Domain
 }
 
-// GetEntityType returns a pointer to the value of EntityType from GenericInfrastructureEntity or nil
-func (x *GenericInfrastructureEntity) GetEntityType() *EntityType {
-	if x != nil {
-		return &x.EntityType
-	}
-
-	return nil
+// GetEntityType returns a pointer to the value of EntityType from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetEntityType() EntityType {
+	return x.EntityType
 }
 
-// GetGUID returns a pointer to the value of GUID from GenericInfrastructureEntity or nil
-func (x *GenericInfrastructureEntity) GetGUID() *EntityGUID {
-	if x != nil {
-		return &x.GUID
-	}
-
-	return nil
+// GetGUID returns a pointer to the value of GUID from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetGUID() EntityGUID {
+	return x.GUID
 }
 
-// GetIndexedAt returns a pointer to the value of IndexedAt from GenericInfrastructureEntity or nil
-func (x *GenericInfrastructureEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.IndexedAt
-	}
-
-	return nil
+// GetIndexedAt returns a pointer to the value of IndexedAt from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
 }
 
-// GetIntegrationTypeCode returns a pointer to the value of IntegrationTypeCode from GenericInfrastructureEntity or nil
-func (x *GenericInfrastructureEntity) GetIntegrationTypeCode() *string {
-	if x != nil {
-		return &x.IntegrationTypeCode
-	}
-
-	return nil
+// GetIntegrationTypeCode returns a pointer to the value of IntegrationTypeCode from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetIntegrationTypeCode() string {
+	return x.IntegrationTypeCode
 }
 
-// GetNRDBQuery returns a pointer to the value of NRDBQuery from GenericInfrastructureEntity or nil
-func (x *GenericInfrastructureEntity) GetNRDBQuery() *nrdb.NRDBResultContainer {
-	if x != nil {
-		return &x.NRDBQuery
-	}
-
-	return nil
+// GetNRDBQuery returns a pointer to the value of NRDBQuery from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetNRDBQuery() nrdb.NRDBResultContainer {
+	return x.NRDBQuery
 }
 
-// GetName returns a pointer to the value of Name from GenericInfrastructureEntity or nil
-func (x *GenericInfrastructureEntity) GetName() *string {
-	if x != nil {
-		return &x.Name
-	}
-
-	return nil
+// GetName returns a pointer to the value of Name from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetName() string {
+	return x.Name
 }
 
-// GetNerdStorage returns a pointer to the value of NerdStorage from GenericInfrastructureEntity or nil
-func (x *GenericInfrastructureEntity) GetNerdStorage() *NerdStorageEntityScope {
-	if x != nil {
-		return &x.NerdStorage
-	}
-
-	return nil
+// GetNerdStorage returns a pointer to the value of NerdStorage from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetNerdStorage() NerdStorageEntityScope {
+	return x.NerdStorage
 }
 
-// GetPermalink returns a pointer to the value of Permalink from GenericInfrastructureEntity or nil
-func (x *GenericInfrastructureEntity) GetPermalink() *string {
-	if x != nil {
-		return &x.Permalink
-	}
-
-	return nil
+// GetPermalink returns a pointer to the value of Permalink from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetPermalink() string {
+	return x.Permalink
 }
 
-// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from GenericInfrastructureEntity or nil
-func (x *GenericInfrastructureEntity) GetRecentAlertViolations() *[]EntityAlertViolation {
-	if x != nil {
-		return &x.RecentAlertViolations
-	}
-
-	return nil
+// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetRecentAlertViolations() []EntityAlertViolation {
+	return x.RecentAlertViolations
 }
 
-// GetRelationships returns a pointer to the value of Relationships from GenericInfrastructureEntity or nil
-func (x *GenericInfrastructureEntity) GetRelationships() *[]EntityRelationship {
-	if x != nil {
-		return &x.Relationships
-	}
-
-	return nil
+// GetRelationships returns a pointer to the value of Relationships from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetRelationships() []EntityRelationship {
+	return x.Relationships
 }
 
-// GetReporting returns a pointer to the value of Reporting from GenericInfrastructureEntity or nil
-func (x *GenericInfrastructureEntity) GetReporting() *bool {
-	if x != nil {
-		return &x.Reporting
-	}
-
-	return nil
+// GetReporting returns a pointer to the value of Reporting from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetReporting() bool {
+	return x.Reporting
 }
 
-// GetTags returns a pointer to the value of Tags from GenericInfrastructureEntity or nil
-func (x *GenericInfrastructureEntity) GetTags() *[]EntityTag {
-	if x != nil {
-		return &x.Tags
-	}
-
-	return nil
+// GetTags returns a pointer to the value of Tags from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetTags() []EntityTag {
+	return x.Tags
 }
 
-// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from GenericInfrastructureEntity or nil
-func (x *GenericInfrastructureEntity) GetTagsWithMetadata() *[]EntityTagWithMetadata {
-	if x != nil {
-		return &x.TagsWithMetadata
-	}
-
-	return nil
+// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
+	return x.TagsWithMetadata
 }
 
-// GetType returns a pointer to the value of Type from GenericInfrastructureEntity or nil
-func (x *GenericInfrastructureEntity) GetType() *string {
-	if x != nil {
-		return &x.Type
-	}
-
-	return nil
+// GetType returns a pointer to the value of Type from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetType() string {
+	return x.Type
 }
 
 func (x *GenericInfrastructureEntity) ImplementsInfrastructureIntegrationEntity() {}
@@ -4742,121 +3798,69 @@ type GenericInfrastructureEntityOutline struct {
 	Type string `json:"type,omitempty"`
 }
 
-// GetAccount returns a pointer to the value of Account from GenericInfrastructureEntityOutline or nil
-func (x *GenericInfrastructureEntityOutline) GetAccount() *accounts.AccountOutline {
-	if x != nil {
-		return &x.Account
-	}
-
-	return nil
+// GetAccount returns a pointer to the value of Account from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetAccount() accounts.AccountOutline {
+	return x.Account
 }
 
-// GetAccountID returns a pointer to the value of AccountID from GenericInfrastructureEntityOutline or nil
-func (x *GenericInfrastructureEntityOutline) GetAccountID() *int {
-	if x != nil {
-		return &x.AccountID
-	}
-
-	return nil
+// GetAccountID returns a pointer to the value of AccountID from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetAccountID() int {
+	return x.AccountID
 }
 
-// GetAlertSeverity returns a pointer to the value of AlertSeverity from GenericInfrastructureEntityOutline or nil
-func (x *GenericInfrastructureEntityOutline) GetAlertSeverity() *EntityAlertSeverity {
-	if x != nil {
-		return &x.AlertSeverity
-	}
-
-	return nil
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
 }
 
-// GetDomain returns a pointer to the value of Domain from GenericInfrastructureEntityOutline or nil
-func (x *GenericInfrastructureEntityOutline) GetDomain() *string {
-	if x != nil {
-		return &x.Domain
-	}
-
-	return nil
+// GetDomain returns a pointer to the value of Domain from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetDomain() string {
+	return x.Domain
 }
 
-// GetEntityType returns a pointer to the value of EntityType from GenericInfrastructureEntityOutline or nil
-func (x *GenericInfrastructureEntityOutline) GetEntityType() *EntityType {
-	if x != nil {
-		return &x.EntityType
-	}
-
-	return nil
+// GetEntityType returns a pointer to the value of EntityType from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetEntityType() EntityType {
+	return x.EntityType
 }
 
-// GetGUID returns a pointer to the value of GUID from GenericInfrastructureEntityOutline or nil
-func (x *GenericInfrastructureEntityOutline) GetGUID() *EntityGUID {
-	if x != nil {
-		return &x.GUID
-	}
-
-	return nil
+// GetGUID returns a pointer to the value of GUID from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetGUID() EntityGUID {
+	return x.GUID
 }
 
-// GetIndexedAt returns a pointer to the value of IndexedAt from GenericInfrastructureEntityOutline or nil
-func (x *GenericInfrastructureEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.IndexedAt
-	}
-
-	return nil
+// GetIndexedAt returns a pointer to the value of IndexedAt from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
 }
 
-// GetIntegrationTypeCode returns a pointer to the value of IntegrationTypeCode from GenericInfrastructureEntityOutline or nil
-func (x *GenericInfrastructureEntityOutline) GetIntegrationTypeCode() *string {
-	if x != nil {
-		return &x.IntegrationTypeCode
-	}
-
-	return nil
+// GetIntegrationTypeCode returns a pointer to the value of IntegrationTypeCode from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetIntegrationTypeCode() string {
+	return x.IntegrationTypeCode
 }
 
-// GetName returns a pointer to the value of Name from GenericInfrastructureEntityOutline or nil
-func (x *GenericInfrastructureEntityOutline) GetName() *string {
-	if x != nil {
-		return &x.Name
-	}
-
-	return nil
+// GetName returns a pointer to the value of Name from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetName() string {
+	return x.Name
 }
 
-// GetPermalink returns a pointer to the value of Permalink from GenericInfrastructureEntityOutline or nil
-func (x *GenericInfrastructureEntityOutline) GetPermalink() *string {
-	if x != nil {
-		return &x.Permalink
-	}
-
-	return nil
+// GetPermalink returns a pointer to the value of Permalink from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetPermalink() string {
+	return x.Permalink
 }
 
-// GetReporting returns a pointer to the value of Reporting from GenericInfrastructureEntityOutline or nil
-func (x *GenericInfrastructureEntityOutline) GetReporting() *bool {
-	if x != nil {
-		return &x.Reporting
-	}
-
-	return nil
+// GetReporting returns a pointer to the value of Reporting from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetReporting() bool {
+	return x.Reporting
 }
 
-// GetTags returns a pointer to the value of Tags from GenericInfrastructureEntityOutline or nil
-func (x *GenericInfrastructureEntityOutline) GetTags() *[]EntityTag {
-	if x != nil {
-		return &x.Tags
-	}
-
-	return nil
+// GetTags returns a pointer to the value of Tags from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetTags() []EntityTag {
+	return x.Tags
 }
 
-// GetType returns a pointer to the value of Type from GenericInfrastructureEntityOutline or nil
-func (x *GenericInfrastructureEntityOutline) GetType() *string {
-	if x != nil {
-		return &x.Type
-	}
-
-	return nil
+// GetType returns a pointer to the value of Type from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetType() string {
+	return x.Type
 }
 
 func (x *GenericInfrastructureEntityOutline) ImplementsInfrastructureIntegrationEntityOutline() {}
@@ -4917,184 +3921,104 @@ type InfrastructureAwsLambdaFunctionEntity struct {
 	Type string `json:"type,omitempty"`
 }
 
-// GetAccount returns a pointer to the value of Account from InfrastructureAwsLambdaFunctionEntity or nil
-func (x *InfrastructureAwsLambdaFunctionEntity) GetAccount() *accounts.AccountOutline {
-	if x != nil {
-		return &x.Account
-	}
-
-	return nil
+// GetAccount returns a pointer to the value of Account from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetAccount() accounts.AccountOutline {
+	return x.Account
 }
 
-// GetAccountID returns a pointer to the value of AccountID from InfrastructureAwsLambdaFunctionEntity or nil
-func (x *InfrastructureAwsLambdaFunctionEntity) GetAccountID() *int {
-	if x != nil {
-		return &x.AccountID
-	}
-
-	return nil
+// GetAccountID returns a pointer to the value of AccountID from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetAccountID() int {
+	return x.AccountID
 }
 
-// GetAlertSeverity returns a pointer to the value of AlertSeverity from InfrastructureAwsLambdaFunctionEntity or nil
-func (x *InfrastructureAwsLambdaFunctionEntity) GetAlertSeverity() *EntityAlertSeverity {
-	if x != nil {
-		return &x.AlertSeverity
-	}
-
-	return nil
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
 }
 
-// GetAlertViolations returns a pointer to the value of AlertViolations from InfrastructureAwsLambdaFunctionEntity or nil
-func (x *InfrastructureAwsLambdaFunctionEntity) GetAlertViolations() *[]EntityAlertViolation {
-	if x != nil {
-		return &x.AlertViolations
-	}
-
-	return nil
+// GetAlertViolations returns a pointer to the value of AlertViolations from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetAlertViolations() []EntityAlertViolation {
+	return x.AlertViolations
 }
 
-// GetDomain returns a pointer to the value of Domain from InfrastructureAwsLambdaFunctionEntity or nil
-func (x *InfrastructureAwsLambdaFunctionEntity) GetDomain() *string {
-	if x != nil {
-		return &x.Domain
-	}
-
-	return nil
+// GetDomain returns a pointer to the value of Domain from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetDomain() string {
+	return x.Domain
 }
 
-// GetEntityType returns a pointer to the value of EntityType from InfrastructureAwsLambdaFunctionEntity or nil
-func (x *InfrastructureAwsLambdaFunctionEntity) GetEntityType() *EntityType {
-	if x != nil {
-		return &x.EntityType
-	}
-
-	return nil
+// GetEntityType returns a pointer to the value of EntityType from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetEntityType() EntityType {
+	return x.EntityType
 }
 
-// GetGUID returns a pointer to the value of GUID from InfrastructureAwsLambdaFunctionEntity or nil
-func (x *InfrastructureAwsLambdaFunctionEntity) GetGUID() *EntityGUID {
-	if x != nil {
-		return &x.GUID
-	}
-
-	return nil
+// GetGUID returns a pointer to the value of GUID from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetGUID() EntityGUID {
+	return x.GUID
 }
 
-// GetIndexedAt returns a pointer to the value of IndexedAt from InfrastructureAwsLambdaFunctionEntity or nil
-func (x *InfrastructureAwsLambdaFunctionEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.IndexedAt
-	}
-
-	return nil
+// GetIndexedAt returns a pointer to the value of IndexedAt from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
 }
 
-// GetIntegrationTypeCode returns a pointer to the value of IntegrationTypeCode from InfrastructureAwsLambdaFunctionEntity or nil
-func (x *InfrastructureAwsLambdaFunctionEntity) GetIntegrationTypeCode() *string {
-	if x != nil {
-		return &x.IntegrationTypeCode
-	}
-
-	return nil
+// GetIntegrationTypeCode returns a pointer to the value of IntegrationTypeCode from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetIntegrationTypeCode() string {
+	return x.IntegrationTypeCode
 }
 
-// GetNRDBQuery returns a pointer to the value of NRDBQuery from InfrastructureAwsLambdaFunctionEntity or nil
-func (x *InfrastructureAwsLambdaFunctionEntity) GetNRDBQuery() *nrdb.NRDBResultContainer {
-	if x != nil {
-		return &x.NRDBQuery
-	}
-
-	return nil
+// GetNRDBQuery returns a pointer to the value of NRDBQuery from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetNRDBQuery() nrdb.NRDBResultContainer {
+	return x.NRDBQuery
 }
 
-// GetName returns a pointer to the value of Name from InfrastructureAwsLambdaFunctionEntity or nil
-func (x *InfrastructureAwsLambdaFunctionEntity) GetName() *string {
-	if x != nil {
-		return &x.Name
-	}
-
-	return nil
+// GetName returns a pointer to the value of Name from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetName() string {
+	return x.Name
 }
 
-// GetNerdStorage returns a pointer to the value of NerdStorage from InfrastructureAwsLambdaFunctionEntity or nil
-func (x *InfrastructureAwsLambdaFunctionEntity) GetNerdStorage() *NerdStorageEntityScope {
-	if x != nil {
-		return &x.NerdStorage
-	}
-
-	return nil
+// GetNerdStorage returns a pointer to the value of NerdStorage from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetNerdStorage() NerdStorageEntityScope {
+	return x.NerdStorage
 }
 
-// GetPermalink returns a pointer to the value of Permalink from InfrastructureAwsLambdaFunctionEntity or nil
-func (x *InfrastructureAwsLambdaFunctionEntity) GetPermalink() *string {
-	if x != nil {
-		return &x.Permalink
-	}
-
-	return nil
+// GetPermalink returns a pointer to the value of Permalink from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetPermalink() string {
+	return x.Permalink
 }
 
-// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from InfrastructureAwsLambdaFunctionEntity or nil
-func (x *InfrastructureAwsLambdaFunctionEntity) GetRecentAlertViolations() *[]EntityAlertViolation {
-	if x != nil {
-		return &x.RecentAlertViolations
-	}
-
-	return nil
+// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetRecentAlertViolations() []EntityAlertViolation {
+	return x.RecentAlertViolations
 }
 
-// GetRelationships returns a pointer to the value of Relationships from InfrastructureAwsLambdaFunctionEntity or nil
-func (x *InfrastructureAwsLambdaFunctionEntity) GetRelationships() *[]EntityRelationship {
-	if x != nil {
-		return &x.Relationships
-	}
-
-	return nil
+// GetRelationships returns a pointer to the value of Relationships from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetRelationships() []EntityRelationship {
+	return x.Relationships
 }
 
-// GetReporting returns a pointer to the value of Reporting from InfrastructureAwsLambdaFunctionEntity or nil
-func (x *InfrastructureAwsLambdaFunctionEntity) GetReporting() *bool {
-	if x != nil {
-		return &x.Reporting
-	}
-
-	return nil
+// GetReporting returns a pointer to the value of Reporting from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetReporting() bool {
+	return x.Reporting
 }
 
-// GetRuntime returns a pointer to the value of Runtime from InfrastructureAwsLambdaFunctionEntity or nil
-func (x *InfrastructureAwsLambdaFunctionEntity) GetRuntime() *string {
-	if x != nil {
-		return &x.Runtime
-	}
-
-	return nil
+// GetRuntime returns a pointer to the value of Runtime from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetRuntime() string {
+	return x.Runtime
 }
 
-// GetTags returns a pointer to the value of Tags from InfrastructureAwsLambdaFunctionEntity or nil
-func (x *InfrastructureAwsLambdaFunctionEntity) GetTags() *[]EntityTag {
-	if x != nil {
-		return &x.Tags
-	}
-
-	return nil
+// GetTags returns a pointer to the value of Tags from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetTags() []EntityTag {
+	return x.Tags
 }
 
-// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from InfrastructureAwsLambdaFunctionEntity or nil
-func (x *InfrastructureAwsLambdaFunctionEntity) GetTagsWithMetadata() *[]EntityTagWithMetadata {
-	if x != nil {
-		return &x.TagsWithMetadata
-	}
-
-	return nil
+// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
+	return x.TagsWithMetadata
 }
 
-// GetType returns a pointer to the value of Type from InfrastructureAwsLambdaFunctionEntity or nil
-func (x *InfrastructureAwsLambdaFunctionEntity) GetType() *string {
-	if x != nil {
-		return &x.Type
-	}
-
-	return nil
+// GetType returns a pointer to the value of Type from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetType() string {
+	return x.Type
 }
 
 func (x *InfrastructureAwsLambdaFunctionEntity) ImplementsInfrastructureIntegrationEntity() {}
@@ -5137,130 +4061,74 @@ type InfrastructureAwsLambdaFunctionEntityOutline struct {
 	Type string `json:"type,omitempty"`
 }
 
-// GetAccount returns a pointer to the value of Account from InfrastructureAwsLambdaFunctionEntityOutline or nil
-func (x *InfrastructureAwsLambdaFunctionEntityOutline) GetAccount() *accounts.AccountOutline {
-	if x != nil {
-		return &x.Account
-	}
-
-	return nil
+// GetAccount returns a pointer to the value of Account from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetAccount() accounts.AccountOutline {
+	return x.Account
 }
 
-// GetAccountID returns a pointer to the value of AccountID from InfrastructureAwsLambdaFunctionEntityOutline or nil
-func (x *InfrastructureAwsLambdaFunctionEntityOutline) GetAccountID() *int {
-	if x != nil {
-		return &x.AccountID
-	}
-
-	return nil
+// GetAccountID returns a pointer to the value of AccountID from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetAccountID() int {
+	return x.AccountID
 }
 
-// GetAlertSeverity returns a pointer to the value of AlertSeverity from InfrastructureAwsLambdaFunctionEntityOutline or nil
-func (x *InfrastructureAwsLambdaFunctionEntityOutline) GetAlertSeverity() *EntityAlertSeverity {
-	if x != nil {
-		return &x.AlertSeverity
-	}
-
-	return nil
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
 }
 
-// GetDomain returns a pointer to the value of Domain from InfrastructureAwsLambdaFunctionEntityOutline or nil
-func (x *InfrastructureAwsLambdaFunctionEntityOutline) GetDomain() *string {
-	if x != nil {
-		return &x.Domain
-	}
-
-	return nil
+// GetDomain returns a pointer to the value of Domain from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetDomain() string {
+	return x.Domain
 }
 
-// GetEntityType returns a pointer to the value of EntityType from InfrastructureAwsLambdaFunctionEntityOutline or nil
-func (x *InfrastructureAwsLambdaFunctionEntityOutline) GetEntityType() *EntityType {
-	if x != nil {
-		return &x.EntityType
-	}
-
-	return nil
+// GetEntityType returns a pointer to the value of EntityType from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetEntityType() EntityType {
+	return x.EntityType
 }
 
-// GetGUID returns a pointer to the value of GUID from InfrastructureAwsLambdaFunctionEntityOutline or nil
-func (x *InfrastructureAwsLambdaFunctionEntityOutline) GetGUID() *EntityGUID {
-	if x != nil {
-		return &x.GUID
-	}
-
-	return nil
+// GetGUID returns a pointer to the value of GUID from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetGUID() EntityGUID {
+	return x.GUID
 }
 
-// GetIndexedAt returns a pointer to the value of IndexedAt from InfrastructureAwsLambdaFunctionEntityOutline or nil
-func (x *InfrastructureAwsLambdaFunctionEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.IndexedAt
-	}
-
-	return nil
+// GetIndexedAt returns a pointer to the value of IndexedAt from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
 }
 
-// GetIntegrationTypeCode returns a pointer to the value of IntegrationTypeCode from InfrastructureAwsLambdaFunctionEntityOutline or nil
-func (x *InfrastructureAwsLambdaFunctionEntityOutline) GetIntegrationTypeCode() *string {
-	if x != nil {
-		return &x.IntegrationTypeCode
-	}
-
-	return nil
+// GetIntegrationTypeCode returns a pointer to the value of IntegrationTypeCode from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetIntegrationTypeCode() string {
+	return x.IntegrationTypeCode
 }
 
-// GetName returns a pointer to the value of Name from InfrastructureAwsLambdaFunctionEntityOutline or nil
-func (x *InfrastructureAwsLambdaFunctionEntityOutline) GetName() *string {
-	if x != nil {
-		return &x.Name
-	}
-
-	return nil
+// GetName returns a pointer to the value of Name from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetName() string {
+	return x.Name
 }
 
-// GetPermalink returns a pointer to the value of Permalink from InfrastructureAwsLambdaFunctionEntityOutline or nil
-func (x *InfrastructureAwsLambdaFunctionEntityOutline) GetPermalink() *string {
-	if x != nil {
-		return &x.Permalink
-	}
-
-	return nil
+// GetPermalink returns a pointer to the value of Permalink from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetPermalink() string {
+	return x.Permalink
 }
 
-// GetReporting returns a pointer to the value of Reporting from InfrastructureAwsLambdaFunctionEntityOutline or nil
-func (x *InfrastructureAwsLambdaFunctionEntityOutline) GetReporting() *bool {
-	if x != nil {
-		return &x.Reporting
-	}
-
-	return nil
+// GetReporting returns a pointer to the value of Reporting from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetReporting() bool {
+	return x.Reporting
 }
 
-// GetRuntime returns a pointer to the value of Runtime from InfrastructureAwsLambdaFunctionEntityOutline or nil
-func (x *InfrastructureAwsLambdaFunctionEntityOutline) GetRuntime() *string {
-	if x != nil {
-		return &x.Runtime
-	}
-
-	return nil
+// GetRuntime returns a pointer to the value of Runtime from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetRuntime() string {
+	return x.Runtime
 }
 
-// GetTags returns a pointer to the value of Tags from InfrastructureAwsLambdaFunctionEntityOutline or nil
-func (x *InfrastructureAwsLambdaFunctionEntityOutline) GetTags() *[]EntityTag {
-	if x != nil {
-		return &x.Tags
-	}
-
-	return nil
+// GetTags returns a pointer to the value of Tags from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetTags() []EntityTag {
+	return x.Tags
 }
 
-// GetType returns a pointer to the value of Type from InfrastructureAwsLambdaFunctionEntityOutline or nil
-func (x *InfrastructureAwsLambdaFunctionEntityOutline) GetType() *string {
-	if x != nil {
-		return &x.Type
-	}
-
-	return nil
+// GetType returns a pointer to the value of Type from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetType() string {
+	return x.Type
 }
 
 func (x *InfrastructureAwsLambdaFunctionEntityOutline) ImplementsInfrastructureIntegrationEntityOutline() {
@@ -5320,175 +4188,99 @@ type InfrastructureHostEntity struct {
 	Type string `json:"type,omitempty"`
 }
 
-// GetAccount returns a pointer to the value of Account from InfrastructureHostEntity or nil
-func (x *InfrastructureHostEntity) GetAccount() *accounts.AccountOutline {
-	if x != nil {
-		return &x.Account
-	}
-
-	return nil
+// GetAccount returns a pointer to the value of Account from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetAccount() accounts.AccountOutline {
+	return x.Account
 }
 
-// GetAccountID returns a pointer to the value of AccountID from InfrastructureHostEntity or nil
-func (x *InfrastructureHostEntity) GetAccountID() *int {
-	if x != nil {
-		return &x.AccountID
-	}
-
-	return nil
+// GetAccountID returns a pointer to the value of AccountID from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetAccountID() int {
+	return x.AccountID
 }
 
-// GetAlertSeverity returns a pointer to the value of AlertSeverity from InfrastructureHostEntity or nil
-func (x *InfrastructureHostEntity) GetAlertSeverity() *EntityAlertSeverity {
-	if x != nil {
-		return &x.AlertSeverity
-	}
-
-	return nil
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
 }
 
-// GetAlertViolations returns a pointer to the value of AlertViolations from InfrastructureHostEntity or nil
-func (x *InfrastructureHostEntity) GetAlertViolations() *[]EntityAlertViolation {
-	if x != nil {
-		return &x.AlertViolations
-	}
-
-	return nil
+// GetAlertViolations returns a pointer to the value of AlertViolations from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetAlertViolations() []EntityAlertViolation {
+	return x.AlertViolations
 }
 
-// GetDomain returns a pointer to the value of Domain from InfrastructureHostEntity or nil
-func (x *InfrastructureHostEntity) GetDomain() *string {
-	if x != nil {
-		return &x.Domain
-	}
-
-	return nil
+// GetDomain returns a pointer to the value of Domain from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetDomain() string {
+	return x.Domain
 }
 
-// GetEntityType returns a pointer to the value of EntityType from InfrastructureHostEntity or nil
-func (x *InfrastructureHostEntity) GetEntityType() *EntityType {
-	if x != nil {
-		return &x.EntityType
-	}
-
-	return nil
+// GetEntityType returns a pointer to the value of EntityType from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetEntityType() EntityType {
+	return x.EntityType
 }
 
-// GetGUID returns a pointer to the value of GUID from InfrastructureHostEntity or nil
-func (x *InfrastructureHostEntity) GetGUID() *EntityGUID {
-	if x != nil {
-		return &x.GUID
-	}
-
-	return nil
+// GetGUID returns a pointer to the value of GUID from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetGUID() EntityGUID {
+	return x.GUID
 }
 
-// GetHostSummary returns a pointer to the value of HostSummary from InfrastructureHostEntity or nil
-func (x *InfrastructureHostEntity) GetHostSummary() *InfrastructureHostSummaryData {
-	if x != nil {
-		return &x.HostSummary
-	}
-
-	return nil
+// GetHostSummary returns a pointer to the value of HostSummary from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetHostSummary() InfrastructureHostSummaryData {
+	return x.HostSummary
 }
 
-// GetIndexedAt returns a pointer to the value of IndexedAt from InfrastructureHostEntity or nil
-func (x *InfrastructureHostEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.IndexedAt
-	}
-
-	return nil
+// GetIndexedAt returns a pointer to the value of IndexedAt from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
 }
 
-// GetNRDBQuery returns a pointer to the value of NRDBQuery from InfrastructureHostEntity or nil
-func (x *InfrastructureHostEntity) GetNRDBQuery() *nrdb.NRDBResultContainer {
-	if x != nil {
-		return &x.NRDBQuery
-	}
-
-	return nil
+// GetNRDBQuery returns a pointer to the value of NRDBQuery from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetNRDBQuery() nrdb.NRDBResultContainer {
+	return x.NRDBQuery
 }
 
-// GetName returns a pointer to the value of Name from InfrastructureHostEntity or nil
-func (x *InfrastructureHostEntity) GetName() *string {
-	if x != nil {
-		return &x.Name
-	}
-
-	return nil
+// GetName returns a pointer to the value of Name from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetName() string {
+	return x.Name
 }
 
-// GetNerdStorage returns a pointer to the value of NerdStorage from InfrastructureHostEntity or nil
-func (x *InfrastructureHostEntity) GetNerdStorage() *NerdStorageEntityScope {
-	if x != nil {
-		return &x.NerdStorage
-	}
-
-	return nil
+// GetNerdStorage returns a pointer to the value of NerdStorage from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetNerdStorage() NerdStorageEntityScope {
+	return x.NerdStorage
 }
 
-// GetPermalink returns a pointer to the value of Permalink from InfrastructureHostEntity or nil
-func (x *InfrastructureHostEntity) GetPermalink() *string {
-	if x != nil {
-		return &x.Permalink
-	}
-
-	return nil
+// GetPermalink returns a pointer to the value of Permalink from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetPermalink() string {
+	return x.Permalink
 }
 
-// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from InfrastructureHostEntity or nil
-func (x *InfrastructureHostEntity) GetRecentAlertViolations() *[]EntityAlertViolation {
-	if x != nil {
-		return &x.RecentAlertViolations
-	}
-
-	return nil
+// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetRecentAlertViolations() []EntityAlertViolation {
+	return x.RecentAlertViolations
 }
 
-// GetRelationships returns a pointer to the value of Relationships from InfrastructureHostEntity or nil
-func (x *InfrastructureHostEntity) GetRelationships() *[]EntityRelationship {
-	if x != nil {
-		return &x.Relationships
-	}
-
-	return nil
+// GetRelationships returns a pointer to the value of Relationships from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetRelationships() []EntityRelationship {
+	return x.Relationships
 }
 
-// GetReporting returns a pointer to the value of Reporting from InfrastructureHostEntity or nil
-func (x *InfrastructureHostEntity) GetReporting() *bool {
-	if x != nil {
-		return &x.Reporting
-	}
-
-	return nil
+// GetReporting returns a pointer to the value of Reporting from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetReporting() bool {
+	return x.Reporting
 }
 
-// GetTags returns a pointer to the value of Tags from InfrastructureHostEntity or nil
-func (x *InfrastructureHostEntity) GetTags() *[]EntityTag {
-	if x != nil {
-		return &x.Tags
-	}
-
-	return nil
+// GetTags returns a pointer to the value of Tags from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetTags() []EntityTag {
+	return x.Tags
 }
 
-// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from InfrastructureHostEntity or nil
-func (x *InfrastructureHostEntity) GetTagsWithMetadata() *[]EntityTagWithMetadata {
-	if x != nil {
-		return &x.TagsWithMetadata
-	}
-
-	return nil
+// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
+	return x.TagsWithMetadata
 }
 
-// GetType returns a pointer to the value of Type from InfrastructureHostEntity or nil
-func (x *InfrastructureHostEntity) GetType() *string {
-	if x != nil {
-		return &x.Type
-	}
-
-	return nil
+// GetType returns a pointer to the value of Type from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetType() string {
+	return x.Type
 }
 
 func (x *InfrastructureHostEntity) ImplementsAlertableEntity() {}
@@ -5527,121 +4319,69 @@ type InfrastructureHostEntityOutline struct {
 	Type string `json:"type,omitempty"`
 }
 
-// GetAccount returns a pointer to the value of Account from InfrastructureHostEntityOutline or nil
-func (x *InfrastructureHostEntityOutline) GetAccount() *accounts.AccountOutline {
-	if x != nil {
-		return &x.Account
-	}
-
-	return nil
+// GetAccount returns a pointer to the value of Account from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetAccount() accounts.AccountOutline {
+	return x.Account
 }
 
-// GetAccountID returns a pointer to the value of AccountID from InfrastructureHostEntityOutline or nil
-func (x *InfrastructureHostEntityOutline) GetAccountID() *int {
-	if x != nil {
-		return &x.AccountID
-	}
-
-	return nil
+// GetAccountID returns a pointer to the value of AccountID from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetAccountID() int {
+	return x.AccountID
 }
 
-// GetAlertSeverity returns a pointer to the value of AlertSeverity from InfrastructureHostEntityOutline or nil
-func (x *InfrastructureHostEntityOutline) GetAlertSeverity() *EntityAlertSeverity {
-	if x != nil {
-		return &x.AlertSeverity
-	}
-
-	return nil
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
 }
 
-// GetDomain returns a pointer to the value of Domain from InfrastructureHostEntityOutline or nil
-func (x *InfrastructureHostEntityOutline) GetDomain() *string {
-	if x != nil {
-		return &x.Domain
-	}
-
-	return nil
+// GetDomain returns a pointer to the value of Domain from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetDomain() string {
+	return x.Domain
 }
 
-// GetEntityType returns a pointer to the value of EntityType from InfrastructureHostEntityOutline or nil
-func (x *InfrastructureHostEntityOutline) GetEntityType() *EntityType {
-	if x != nil {
-		return &x.EntityType
-	}
-
-	return nil
+// GetEntityType returns a pointer to the value of EntityType from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetEntityType() EntityType {
+	return x.EntityType
 }
 
-// GetGUID returns a pointer to the value of GUID from InfrastructureHostEntityOutline or nil
-func (x *InfrastructureHostEntityOutline) GetGUID() *EntityGUID {
-	if x != nil {
-		return &x.GUID
-	}
-
-	return nil
+// GetGUID returns a pointer to the value of GUID from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetGUID() EntityGUID {
+	return x.GUID
 }
 
-// GetHostSummary returns a pointer to the value of HostSummary from InfrastructureHostEntityOutline or nil
-func (x *InfrastructureHostEntityOutline) GetHostSummary() *InfrastructureHostSummaryData {
-	if x != nil {
-		return &x.HostSummary
-	}
-
-	return nil
+// GetHostSummary returns a pointer to the value of HostSummary from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetHostSummary() InfrastructureHostSummaryData {
+	return x.HostSummary
 }
 
-// GetIndexedAt returns a pointer to the value of IndexedAt from InfrastructureHostEntityOutline or nil
-func (x *InfrastructureHostEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.IndexedAt
-	}
-
-	return nil
+// GetIndexedAt returns a pointer to the value of IndexedAt from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
 }
 
-// GetName returns a pointer to the value of Name from InfrastructureHostEntityOutline or nil
-func (x *InfrastructureHostEntityOutline) GetName() *string {
-	if x != nil {
-		return &x.Name
-	}
-
-	return nil
+// GetName returns a pointer to the value of Name from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetName() string {
+	return x.Name
 }
 
-// GetPermalink returns a pointer to the value of Permalink from InfrastructureHostEntityOutline or nil
-func (x *InfrastructureHostEntityOutline) GetPermalink() *string {
-	if x != nil {
-		return &x.Permalink
-	}
-
-	return nil
+// GetPermalink returns a pointer to the value of Permalink from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetPermalink() string {
+	return x.Permalink
 }
 
-// GetReporting returns a pointer to the value of Reporting from InfrastructureHostEntityOutline or nil
-func (x *InfrastructureHostEntityOutline) GetReporting() *bool {
-	if x != nil {
-		return &x.Reporting
-	}
-
-	return nil
+// GetReporting returns a pointer to the value of Reporting from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetReporting() bool {
+	return x.Reporting
 }
 
-// GetTags returns a pointer to the value of Tags from InfrastructureHostEntityOutline or nil
-func (x *InfrastructureHostEntityOutline) GetTags() *[]EntityTag {
-	if x != nil {
-		return &x.Tags
-	}
-
-	return nil
+// GetTags returns a pointer to the value of Tags from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetTags() []EntityTag {
+	return x.Tags
 }
 
-// GetType returns a pointer to the value of Type from InfrastructureHostEntityOutline or nil
-func (x *InfrastructureHostEntityOutline) GetType() *string {
-	if x != nil {
-		return &x.Type
-	}
-
-	return nil
+// GetType returns a pointer to the value of Type from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetType() string {
+	return x.Type
 }
 
 func (x *InfrastructureHostEntityOutline) ImplementsAlertableEntityOutline() {}
@@ -5670,13 +4410,9 @@ type InfrastructureIntegrationEntity struct {
 	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
 }
 
-// GetIntegrationTypeCode returns a pointer to the value of IntegrationTypeCode from InfrastructureIntegrationEntity or nil
-func (x *InfrastructureIntegrationEntity) GetIntegrationTypeCode() *string {
-	if x != nil {
-		return &x.IntegrationTypeCode
-	}
-
-	return nil
+// GetIntegrationTypeCode returns a pointer to the value of IntegrationTypeCode from InfrastructureIntegrationEntity
+func (x InfrastructureIntegrationEntity) GetIntegrationTypeCode() string {
+	return x.IntegrationTypeCode
 }
 
 func (x *InfrastructureIntegrationEntity) ImplementsInfrastructureIntegrationEntity() {}
@@ -5687,13 +4423,9 @@ type InfrastructureIntegrationEntityOutline struct {
 	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
 }
 
-// GetIntegrationTypeCode returns a pointer to the value of IntegrationTypeCode from InfrastructureIntegrationEntityOutline or nil
-func (x *InfrastructureIntegrationEntityOutline) GetIntegrationTypeCode() *string {
-	if x != nil {
-		return &x.IntegrationTypeCode
-	}
-
-	return nil
+// GetIntegrationTypeCode returns a pointer to the value of IntegrationTypeCode from InfrastructureIntegrationEntityOutline
+func (x InfrastructureIntegrationEntityOutline) GetIntegrationTypeCode() string {
+	return x.IntegrationTypeCode
 }
 
 func (x *InfrastructureIntegrationEntityOutline) ImplementsInfrastructureIntegrationEntityOutline() {}
@@ -5796,184 +4528,104 @@ type MobileApplicationEntity struct {
 	Type string `json:"type,omitempty"`
 }
 
-// GetAccount returns a pointer to the value of Account from MobileApplicationEntity or nil
-func (x *MobileApplicationEntity) GetAccount() *accounts.AccountOutline {
-	if x != nil {
-		return &x.Account
-	}
-
-	return nil
+// GetAccount returns a pointer to the value of Account from MobileApplicationEntity
+func (x MobileApplicationEntity) GetAccount() accounts.AccountOutline {
+	return x.Account
 }
 
-// GetAccountID returns a pointer to the value of AccountID from MobileApplicationEntity or nil
-func (x *MobileApplicationEntity) GetAccountID() *int {
-	if x != nil {
-		return &x.AccountID
-	}
-
-	return nil
+// GetAccountID returns a pointer to the value of AccountID from MobileApplicationEntity
+func (x MobileApplicationEntity) GetAccountID() int {
+	return x.AccountID
 }
 
-// GetAlertSeverity returns a pointer to the value of AlertSeverity from MobileApplicationEntity or nil
-func (x *MobileApplicationEntity) GetAlertSeverity() *EntityAlertSeverity {
-	if x != nil {
-		return &x.AlertSeverity
-	}
-
-	return nil
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from MobileApplicationEntity
+func (x MobileApplicationEntity) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
 }
 
-// GetAlertViolations returns a pointer to the value of AlertViolations from MobileApplicationEntity or nil
-func (x *MobileApplicationEntity) GetAlertViolations() *[]EntityAlertViolation {
-	if x != nil {
-		return &x.AlertViolations
-	}
-
-	return nil
+// GetAlertViolations returns a pointer to the value of AlertViolations from MobileApplicationEntity
+func (x MobileApplicationEntity) GetAlertViolations() []EntityAlertViolation {
+	return x.AlertViolations
 }
 
-// GetApplicationID returns a pointer to the value of ApplicationID from MobileApplicationEntity or nil
-func (x *MobileApplicationEntity) GetApplicationID() *int {
-	if x != nil {
-		return &x.ApplicationID
-	}
-
-	return nil
+// GetApplicationID returns a pointer to the value of ApplicationID from MobileApplicationEntity
+func (x MobileApplicationEntity) GetApplicationID() int {
+	return x.ApplicationID
 }
 
-// GetDomain returns a pointer to the value of Domain from MobileApplicationEntity or nil
-func (x *MobileApplicationEntity) GetDomain() *string {
-	if x != nil {
-		return &x.Domain
-	}
-
-	return nil
+// GetDomain returns a pointer to the value of Domain from MobileApplicationEntity
+func (x MobileApplicationEntity) GetDomain() string {
+	return x.Domain
 }
 
-// GetEntityType returns a pointer to the value of EntityType from MobileApplicationEntity or nil
-func (x *MobileApplicationEntity) GetEntityType() *EntityType {
-	if x != nil {
-		return &x.EntityType
-	}
-
-	return nil
+// GetEntityType returns a pointer to the value of EntityType from MobileApplicationEntity
+func (x MobileApplicationEntity) GetEntityType() EntityType {
+	return x.EntityType
 }
 
-// GetGUID returns a pointer to the value of GUID from MobileApplicationEntity or nil
-func (x *MobileApplicationEntity) GetGUID() *EntityGUID {
-	if x != nil {
-		return &x.GUID
-	}
-
-	return nil
+// GetGUID returns a pointer to the value of GUID from MobileApplicationEntity
+func (x MobileApplicationEntity) GetGUID() EntityGUID {
+	return x.GUID
 }
 
-// GetIndexedAt returns a pointer to the value of IndexedAt from MobileApplicationEntity or nil
-func (x *MobileApplicationEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.IndexedAt
-	}
-
-	return nil
+// GetIndexedAt returns a pointer to the value of IndexedAt from MobileApplicationEntity
+func (x MobileApplicationEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
 }
 
-// GetMobileSummary returns a pointer to the value of MobileSummary from MobileApplicationEntity or nil
-func (x *MobileApplicationEntity) GetMobileSummary() *MobileAppSummaryData {
-	if x != nil {
-		return &x.MobileSummary
-	}
-
-	return nil
+// GetMobileSummary returns a pointer to the value of MobileSummary from MobileApplicationEntity
+func (x MobileApplicationEntity) GetMobileSummary() MobileAppSummaryData {
+	return x.MobileSummary
 }
 
-// GetNRDBQuery returns a pointer to the value of NRDBQuery from MobileApplicationEntity or nil
-func (x *MobileApplicationEntity) GetNRDBQuery() *nrdb.NRDBResultContainer {
-	if x != nil {
-		return &x.NRDBQuery
-	}
-
-	return nil
+// GetNRDBQuery returns a pointer to the value of NRDBQuery from MobileApplicationEntity
+func (x MobileApplicationEntity) GetNRDBQuery() nrdb.NRDBResultContainer {
+	return x.NRDBQuery
 }
 
-// GetName returns a pointer to the value of Name from MobileApplicationEntity or nil
-func (x *MobileApplicationEntity) GetName() *string {
-	if x != nil {
-		return &x.Name
-	}
-
-	return nil
+// GetName returns a pointer to the value of Name from MobileApplicationEntity
+func (x MobileApplicationEntity) GetName() string {
+	return x.Name
 }
 
-// GetNerdStorage returns a pointer to the value of NerdStorage from MobileApplicationEntity or nil
-func (x *MobileApplicationEntity) GetNerdStorage() *NerdStorageEntityScope {
-	if x != nil {
-		return &x.NerdStorage
-	}
-
-	return nil
+// GetNerdStorage returns a pointer to the value of NerdStorage from MobileApplicationEntity
+func (x MobileApplicationEntity) GetNerdStorage() NerdStorageEntityScope {
+	return x.NerdStorage
 }
 
-// GetPermalink returns a pointer to the value of Permalink from MobileApplicationEntity or nil
-func (x *MobileApplicationEntity) GetPermalink() *string {
-	if x != nil {
-		return &x.Permalink
-	}
-
-	return nil
+// GetPermalink returns a pointer to the value of Permalink from MobileApplicationEntity
+func (x MobileApplicationEntity) GetPermalink() string {
+	return x.Permalink
 }
 
-// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from MobileApplicationEntity or nil
-func (x *MobileApplicationEntity) GetRecentAlertViolations() *[]EntityAlertViolation {
-	if x != nil {
-		return &x.RecentAlertViolations
-	}
-
-	return nil
+// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from MobileApplicationEntity
+func (x MobileApplicationEntity) GetRecentAlertViolations() []EntityAlertViolation {
+	return x.RecentAlertViolations
 }
 
-// GetRelationships returns a pointer to the value of Relationships from MobileApplicationEntity or nil
-func (x *MobileApplicationEntity) GetRelationships() *[]EntityRelationship {
-	if x != nil {
-		return &x.Relationships
-	}
-
-	return nil
+// GetRelationships returns a pointer to the value of Relationships from MobileApplicationEntity
+func (x MobileApplicationEntity) GetRelationships() []EntityRelationship {
+	return x.Relationships
 }
 
-// GetReporting returns a pointer to the value of Reporting from MobileApplicationEntity or nil
-func (x *MobileApplicationEntity) GetReporting() *bool {
-	if x != nil {
-		return &x.Reporting
-	}
-
-	return nil
+// GetReporting returns a pointer to the value of Reporting from MobileApplicationEntity
+func (x MobileApplicationEntity) GetReporting() bool {
+	return x.Reporting
 }
 
-// GetTags returns a pointer to the value of Tags from MobileApplicationEntity or nil
-func (x *MobileApplicationEntity) GetTags() *[]EntityTag {
-	if x != nil {
-		return &x.Tags
-	}
-
-	return nil
+// GetTags returns a pointer to the value of Tags from MobileApplicationEntity
+func (x MobileApplicationEntity) GetTags() []EntityTag {
+	return x.Tags
 }
 
-// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from MobileApplicationEntity or nil
-func (x *MobileApplicationEntity) GetTagsWithMetadata() *[]EntityTagWithMetadata {
-	if x != nil {
-		return &x.TagsWithMetadata
-	}
-
-	return nil
+// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from MobileApplicationEntity
+func (x MobileApplicationEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
+	return x.TagsWithMetadata
 }
 
-// GetType returns a pointer to the value of Type from MobileApplicationEntity or nil
-func (x *MobileApplicationEntity) GetType() *string {
-	if x != nil {
-		return &x.Type
-	}
-
-	return nil
+// GetType returns a pointer to the value of Type from MobileApplicationEntity
+func (x MobileApplicationEntity) GetType() string {
+	return x.Type
 }
 
 func (x *MobileApplicationEntity) ImplementsAlertableEntity() {}
@@ -6014,130 +4666,74 @@ type MobileApplicationEntityOutline struct {
 	Type string `json:"type,omitempty"`
 }
 
-// GetAccount returns a pointer to the value of Account from MobileApplicationEntityOutline or nil
-func (x *MobileApplicationEntityOutline) GetAccount() *accounts.AccountOutline {
-	if x != nil {
-		return &x.Account
-	}
-
-	return nil
+// GetAccount returns a pointer to the value of Account from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetAccount() accounts.AccountOutline {
+	return x.Account
 }
 
-// GetAccountID returns a pointer to the value of AccountID from MobileApplicationEntityOutline or nil
-func (x *MobileApplicationEntityOutline) GetAccountID() *int {
-	if x != nil {
-		return &x.AccountID
-	}
-
-	return nil
+// GetAccountID returns a pointer to the value of AccountID from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetAccountID() int {
+	return x.AccountID
 }
 
-// GetAlertSeverity returns a pointer to the value of AlertSeverity from MobileApplicationEntityOutline or nil
-func (x *MobileApplicationEntityOutline) GetAlertSeverity() *EntityAlertSeverity {
-	if x != nil {
-		return &x.AlertSeverity
-	}
-
-	return nil
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
 }
 
-// GetApplicationID returns a pointer to the value of ApplicationID from MobileApplicationEntityOutline or nil
-func (x *MobileApplicationEntityOutline) GetApplicationID() *int {
-	if x != nil {
-		return &x.ApplicationID
-	}
-
-	return nil
+// GetApplicationID returns a pointer to the value of ApplicationID from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetApplicationID() int {
+	return x.ApplicationID
 }
 
-// GetDomain returns a pointer to the value of Domain from MobileApplicationEntityOutline or nil
-func (x *MobileApplicationEntityOutline) GetDomain() *string {
-	if x != nil {
-		return &x.Domain
-	}
-
-	return nil
+// GetDomain returns a pointer to the value of Domain from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetDomain() string {
+	return x.Domain
 }
 
-// GetEntityType returns a pointer to the value of EntityType from MobileApplicationEntityOutline or nil
-func (x *MobileApplicationEntityOutline) GetEntityType() *EntityType {
-	if x != nil {
-		return &x.EntityType
-	}
-
-	return nil
+// GetEntityType returns a pointer to the value of EntityType from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetEntityType() EntityType {
+	return x.EntityType
 }
 
-// GetGUID returns a pointer to the value of GUID from MobileApplicationEntityOutline or nil
-func (x *MobileApplicationEntityOutline) GetGUID() *EntityGUID {
-	if x != nil {
-		return &x.GUID
-	}
-
-	return nil
+// GetGUID returns a pointer to the value of GUID from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetGUID() EntityGUID {
+	return x.GUID
 }
 
-// GetIndexedAt returns a pointer to the value of IndexedAt from MobileApplicationEntityOutline or nil
-func (x *MobileApplicationEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.IndexedAt
-	}
-
-	return nil
+// GetIndexedAt returns a pointer to the value of IndexedAt from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
 }
 
-// GetMobileSummary returns a pointer to the value of MobileSummary from MobileApplicationEntityOutline or nil
-func (x *MobileApplicationEntityOutline) GetMobileSummary() *MobileAppSummaryData {
-	if x != nil {
-		return &x.MobileSummary
-	}
-
-	return nil
+// GetMobileSummary returns a pointer to the value of MobileSummary from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetMobileSummary() MobileAppSummaryData {
+	return x.MobileSummary
 }
 
-// GetName returns a pointer to the value of Name from MobileApplicationEntityOutline or nil
-func (x *MobileApplicationEntityOutline) GetName() *string {
-	if x != nil {
-		return &x.Name
-	}
-
-	return nil
+// GetName returns a pointer to the value of Name from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetName() string {
+	return x.Name
 }
 
-// GetPermalink returns a pointer to the value of Permalink from MobileApplicationEntityOutline or nil
-func (x *MobileApplicationEntityOutline) GetPermalink() *string {
-	if x != nil {
-		return &x.Permalink
-	}
-
-	return nil
+// GetPermalink returns a pointer to the value of Permalink from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetPermalink() string {
+	return x.Permalink
 }
 
-// GetReporting returns a pointer to the value of Reporting from MobileApplicationEntityOutline or nil
-func (x *MobileApplicationEntityOutline) GetReporting() *bool {
-	if x != nil {
-		return &x.Reporting
-	}
-
-	return nil
+// GetReporting returns a pointer to the value of Reporting from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetReporting() bool {
+	return x.Reporting
 }
 
-// GetTags returns a pointer to the value of Tags from MobileApplicationEntityOutline or nil
-func (x *MobileApplicationEntityOutline) GetTags() *[]EntityTag {
-	if x != nil {
-		return &x.Tags
-	}
-
-	return nil
+// GetTags returns a pointer to the value of Tags from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetTags() []EntityTag {
+	return x.Tags
 }
 
-// GetType returns a pointer to the value of Type from MobileApplicationEntityOutline or nil
-func (x *MobileApplicationEntityOutline) GetType() *string {
-	if x != nil {
-		return &x.Type
-	}
-
-	return nil
+// GetType returns a pointer to the value of Type from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetType() string {
+	return x.Type
 }
 
 func (x *MobileApplicationEntityOutline) ImplementsAlertableEntityOutline() {}
@@ -6210,175 +4806,99 @@ type SecureCredentialEntity struct {
 	UpdatedAt nrtime.EpochMilliseconds `json:"updatedAt,omitempty"`
 }
 
-// GetAccount returns a pointer to the value of Account from SecureCredentialEntity or nil
-func (x *SecureCredentialEntity) GetAccount() *accounts.AccountOutline {
-	if x != nil {
-		return &x.Account
-	}
-
-	return nil
+// GetAccount returns a pointer to the value of Account from SecureCredentialEntity
+func (x SecureCredentialEntity) GetAccount() accounts.AccountOutline {
+	return x.Account
 }
 
-// GetAccountID returns a pointer to the value of AccountID from SecureCredentialEntity or nil
-func (x *SecureCredentialEntity) GetAccountID() *int {
-	if x != nil {
-		return &x.AccountID
-	}
-
-	return nil
+// GetAccountID returns a pointer to the value of AccountID from SecureCredentialEntity
+func (x SecureCredentialEntity) GetAccountID() int {
+	return x.AccountID
 }
 
-// GetDescription returns a pointer to the value of Description from SecureCredentialEntity or nil
-func (x *SecureCredentialEntity) GetDescription() *string {
-	if x != nil {
-		return &x.Description
-	}
-
-	return nil
+// GetDescription returns a pointer to the value of Description from SecureCredentialEntity
+func (x SecureCredentialEntity) GetDescription() string {
+	return x.Description
 }
 
-// GetDomain returns a pointer to the value of Domain from SecureCredentialEntity or nil
-func (x *SecureCredentialEntity) GetDomain() *string {
-	if x != nil {
-		return &x.Domain
-	}
-
-	return nil
+// GetDomain returns a pointer to the value of Domain from SecureCredentialEntity
+func (x SecureCredentialEntity) GetDomain() string {
+	return x.Domain
 }
 
-// GetEntityType returns a pointer to the value of EntityType from SecureCredentialEntity or nil
-func (x *SecureCredentialEntity) GetEntityType() *EntityType {
-	if x != nil {
-		return &x.EntityType
-	}
-
-	return nil
+// GetEntityType returns a pointer to the value of EntityType from SecureCredentialEntity
+func (x SecureCredentialEntity) GetEntityType() EntityType {
+	return x.EntityType
 }
 
-// GetGUID returns a pointer to the value of GUID from SecureCredentialEntity or nil
-func (x *SecureCredentialEntity) GetGUID() *EntityGUID {
-	if x != nil {
-		return &x.GUID
-	}
-
-	return nil
+// GetGUID returns a pointer to the value of GUID from SecureCredentialEntity
+func (x SecureCredentialEntity) GetGUID() EntityGUID {
+	return x.GUID
 }
 
-// GetIndexedAt returns a pointer to the value of IndexedAt from SecureCredentialEntity or nil
-func (x *SecureCredentialEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.IndexedAt
-	}
-
-	return nil
+// GetIndexedAt returns a pointer to the value of IndexedAt from SecureCredentialEntity
+func (x SecureCredentialEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
 }
 
-// GetNRDBQuery returns a pointer to the value of NRDBQuery from SecureCredentialEntity or nil
-func (x *SecureCredentialEntity) GetNRDBQuery() *nrdb.NRDBResultContainer {
-	if x != nil {
-		return &x.NRDBQuery
-	}
-
-	return nil
+// GetNRDBQuery returns a pointer to the value of NRDBQuery from SecureCredentialEntity
+func (x SecureCredentialEntity) GetNRDBQuery() nrdb.NRDBResultContainer {
+	return x.NRDBQuery
 }
 
-// GetName returns a pointer to the value of Name from SecureCredentialEntity or nil
-func (x *SecureCredentialEntity) GetName() *string {
-	if x != nil {
-		return &x.Name
-	}
-
-	return nil
+// GetName returns a pointer to the value of Name from SecureCredentialEntity
+func (x SecureCredentialEntity) GetName() string {
+	return x.Name
 }
 
-// GetNerdStorage returns a pointer to the value of NerdStorage from SecureCredentialEntity or nil
-func (x *SecureCredentialEntity) GetNerdStorage() *NerdStorageEntityScope {
-	if x != nil {
-		return &x.NerdStorage
-	}
-
-	return nil
+// GetNerdStorage returns a pointer to the value of NerdStorage from SecureCredentialEntity
+func (x SecureCredentialEntity) GetNerdStorage() NerdStorageEntityScope {
+	return x.NerdStorage
 }
 
-// GetPermalink returns a pointer to the value of Permalink from SecureCredentialEntity or nil
-func (x *SecureCredentialEntity) GetPermalink() *string {
-	if x != nil {
-		return &x.Permalink
-	}
-
-	return nil
+// GetPermalink returns a pointer to the value of Permalink from SecureCredentialEntity
+func (x SecureCredentialEntity) GetPermalink() string {
+	return x.Permalink
 }
 
-// GetRelationships returns a pointer to the value of Relationships from SecureCredentialEntity or nil
-func (x *SecureCredentialEntity) GetRelationships() *[]EntityRelationship {
-	if x != nil {
-		return &x.Relationships
-	}
-
-	return nil
+// GetRelationships returns a pointer to the value of Relationships from SecureCredentialEntity
+func (x SecureCredentialEntity) GetRelationships() []EntityRelationship {
+	return x.Relationships
 }
 
-// GetReporting returns a pointer to the value of Reporting from SecureCredentialEntity or nil
-func (x *SecureCredentialEntity) GetReporting() *bool {
-	if x != nil {
-		return &x.Reporting
-	}
-
-	return nil
+// GetReporting returns a pointer to the value of Reporting from SecureCredentialEntity
+func (x SecureCredentialEntity) GetReporting() bool {
+	return x.Reporting
 }
 
-// GetSecureCredentialId returns a pointer to the value of SecureCredentialId from SecureCredentialEntity or nil
-func (x *SecureCredentialEntity) GetSecureCredentialId() *string {
-	if x != nil {
-		return &x.SecureCredentialId
-	}
-
-	return nil
+// GetSecureCredentialId returns a pointer to the value of SecureCredentialId from SecureCredentialEntity
+func (x SecureCredentialEntity) GetSecureCredentialId() string {
+	return x.SecureCredentialId
 }
 
-// GetSecureCredentialSummary returns a pointer to the value of SecureCredentialSummary from SecureCredentialEntity or nil
-func (x *SecureCredentialEntity) GetSecureCredentialSummary() *SecureCredentialSummaryData {
-	if x != nil {
-		return &x.SecureCredentialSummary
-	}
-
-	return nil
+// GetSecureCredentialSummary returns a pointer to the value of SecureCredentialSummary from SecureCredentialEntity
+func (x SecureCredentialEntity) GetSecureCredentialSummary() SecureCredentialSummaryData {
+	return x.SecureCredentialSummary
 }
 
-// GetTags returns a pointer to the value of Tags from SecureCredentialEntity or nil
-func (x *SecureCredentialEntity) GetTags() *[]EntityTag {
-	if x != nil {
-		return &x.Tags
-	}
-
-	return nil
+// GetTags returns a pointer to the value of Tags from SecureCredentialEntity
+func (x SecureCredentialEntity) GetTags() []EntityTag {
+	return x.Tags
 }
 
-// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from SecureCredentialEntity or nil
-func (x *SecureCredentialEntity) GetTagsWithMetadata() *[]EntityTagWithMetadata {
-	if x != nil {
-		return &x.TagsWithMetadata
-	}
-
-	return nil
+// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from SecureCredentialEntity
+func (x SecureCredentialEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
+	return x.TagsWithMetadata
 }
 
-// GetType returns a pointer to the value of Type from SecureCredentialEntity or nil
-func (x *SecureCredentialEntity) GetType() *string {
-	if x != nil {
-		return &x.Type
-	}
-
-	return nil
+// GetType returns a pointer to the value of Type from SecureCredentialEntity
+func (x SecureCredentialEntity) GetType() string {
+	return x.Type
 }
 
-// GetUpdatedAt returns a pointer to the value of UpdatedAt from SecureCredentialEntity or nil
-func (x *SecureCredentialEntity) GetUpdatedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.UpdatedAt
-	}
-
-	return nil
+// GetUpdatedAt returns a pointer to the value of UpdatedAt from SecureCredentialEntity
+func (x SecureCredentialEntity) GetUpdatedAt() nrtime.EpochMilliseconds {
+	return x.UpdatedAt
 }
 
 func (x *SecureCredentialEntity) ImplementsEntity() {}
@@ -6419,139 +4939,79 @@ type SecureCredentialEntityOutline struct {
 	UpdatedAt nrtime.EpochMilliseconds `json:"updatedAt,omitempty"`
 }
 
-// GetAccount returns a pointer to the value of Account from SecureCredentialEntityOutline or nil
-func (x *SecureCredentialEntityOutline) GetAccount() *accounts.AccountOutline {
-	if x != nil {
-		return &x.Account
-	}
-
-	return nil
+// GetAccount returns a pointer to the value of Account from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetAccount() accounts.AccountOutline {
+	return x.Account
 }
 
-// GetAccountID returns a pointer to the value of AccountID from SecureCredentialEntityOutline or nil
-func (x *SecureCredentialEntityOutline) GetAccountID() *int {
-	if x != nil {
-		return &x.AccountID
-	}
-
-	return nil
+// GetAccountID returns a pointer to the value of AccountID from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetAccountID() int {
+	return x.AccountID
 }
 
-// GetDescription returns a pointer to the value of Description from SecureCredentialEntityOutline or nil
-func (x *SecureCredentialEntityOutline) GetDescription() *string {
-	if x != nil {
-		return &x.Description
-	}
-
-	return nil
+// GetDescription returns a pointer to the value of Description from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetDescription() string {
+	return x.Description
 }
 
-// GetDomain returns a pointer to the value of Domain from SecureCredentialEntityOutline or nil
-func (x *SecureCredentialEntityOutline) GetDomain() *string {
-	if x != nil {
-		return &x.Domain
-	}
-
-	return nil
+// GetDomain returns a pointer to the value of Domain from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetDomain() string {
+	return x.Domain
 }
 
-// GetEntityType returns a pointer to the value of EntityType from SecureCredentialEntityOutline or nil
-func (x *SecureCredentialEntityOutline) GetEntityType() *EntityType {
-	if x != nil {
-		return &x.EntityType
-	}
-
-	return nil
+// GetEntityType returns a pointer to the value of EntityType from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetEntityType() EntityType {
+	return x.EntityType
 }
 
-// GetGUID returns a pointer to the value of GUID from SecureCredentialEntityOutline or nil
-func (x *SecureCredentialEntityOutline) GetGUID() *EntityGUID {
-	if x != nil {
-		return &x.GUID
-	}
-
-	return nil
+// GetGUID returns a pointer to the value of GUID from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetGUID() EntityGUID {
+	return x.GUID
 }
 
-// GetIndexedAt returns a pointer to the value of IndexedAt from SecureCredentialEntityOutline or nil
-func (x *SecureCredentialEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.IndexedAt
-	}
-
-	return nil
+// GetIndexedAt returns a pointer to the value of IndexedAt from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
 }
 
-// GetName returns a pointer to the value of Name from SecureCredentialEntityOutline or nil
-func (x *SecureCredentialEntityOutline) GetName() *string {
-	if x != nil {
-		return &x.Name
-	}
-
-	return nil
+// GetName returns a pointer to the value of Name from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetName() string {
+	return x.Name
 }
 
-// GetPermalink returns a pointer to the value of Permalink from SecureCredentialEntityOutline or nil
-func (x *SecureCredentialEntityOutline) GetPermalink() *string {
-	if x != nil {
-		return &x.Permalink
-	}
-
-	return nil
+// GetPermalink returns a pointer to the value of Permalink from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetPermalink() string {
+	return x.Permalink
 }
 
-// GetReporting returns a pointer to the value of Reporting from SecureCredentialEntityOutline or nil
-func (x *SecureCredentialEntityOutline) GetReporting() *bool {
-	if x != nil {
-		return &x.Reporting
-	}
-
-	return nil
+// GetReporting returns a pointer to the value of Reporting from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetReporting() bool {
+	return x.Reporting
 }
 
-// GetSecureCredentialId returns a pointer to the value of SecureCredentialId from SecureCredentialEntityOutline or nil
-func (x *SecureCredentialEntityOutline) GetSecureCredentialId() *string {
-	if x != nil {
-		return &x.SecureCredentialId
-	}
-
-	return nil
+// GetSecureCredentialId returns a pointer to the value of SecureCredentialId from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetSecureCredentialId() string {
+	return x.SecureCredentialId
 }
 
-// GetSecureCredentialSummary returns a pointer to the value of SecureCredentialSummary from SecureCredentialEntityOutline or nil
-func (x *SecureCredentialEntityOutline) GetSecureCredentialSummary() *SecureCredentialSummaryData {
-	if x != nil {
-		return &x.SecureCredentialSummary
-	}
-
-	return nil
+// GetSecureCredentialSummary returns a pointer to the value of SecureCredentialSummary from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetSecureCredentialSummary() SecureCredentialSummaryData {
+	return x.SecureCredentialSummary
 }
 
-// GetTags returns a pointer to the value of Tags from SecureCredentialEntityOutline or nil
-func (x *SecureCredentialEntityOutline) GetTags() *[]EntityTag {
-	if x != nil {
-		return &x.Tags
-	}
-
-	return nil
+// GetTags returns a pointer to the value of Tags from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetTags() []EntityTag {
+	return x.Tags
 }
 
-// GetType returns a pointer to the value of Type from SecureCredentialEntityOutline or nil
-func (x *SecureCredentialEntityOutline) GetType() *string {
-	if x != nil {
-		return &x.Type
-	}
-
-	return nil
+// GetType returns a pointer to the value of Type from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetType() string {
+	return x.Type
 }
 
-// GetUpdatedAt returns a pointer to the value of UpdatedAt from SecureCredentialEntityOutline or nil
-func (x *SecureCredentialEntityOutline) GetUpdatedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.UpdatedAt
-	}
-
-	return nil
+// GetUpdatedAt returns a pointer to the value of UpdatedAt from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetUpdatedAt() nrtime.EpochMilliseconds {
+	return x.UpdatedAt
 }
 
 func (x *SecureCredentialEntityOutline) ImplementsEntityOutline() {}
@@ -6624,220 +5084,124 @@ type SyntheticMonitorEntity struct {
 	Type string `json:"type,omitempty"`
 }
 
-// GetAccount returns a pointer to the value of Account from SyntheticMonitorEntity or nil
-func (x *SyntheticMonitorEntity) GetAccount() *accounts.AccountOutline {
-	if x != nil {
-		return &x.Account
-	}
-
-	return nil
+// GetAccount returns a pointer to the value of Account from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetAccount() accounts.AccountOutline {
+	return x.Account
 }
 
-// GetAccountID returns a pointer to the value of AccountID from SyntheticMonitorEntity or nil
-func (x *SyntheticMonitorEntity) GetAccountID() *int {
-	if x != nil {
-		return &x.AccountID
-	}
-
-	return nil
+// GetAccountID returns a pointer to the value of AccountID from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetAccountID() int {
+	return x.AccountID
 }
 
-// GetAlertSeverity returns a pointer to the value of AlertSeverity from SyntheticMonitorEntity or nil
-func (x *SyntheticMonitorEntity) GetAlertSeverity() *EntityAlertSeverity {
-	if x != nil {
-		return &x.AlertSeverity
-	}
-
-	return nil
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
 }
 
-// GetAlertViolations returns a pointer to the value of AlertViolations from SyntheticMonitorEntity or nil
-func (x *SyntheticMonitorEntity) GetAlertViolations() *[]EntityAlertViolation {
-	if x != nil {
-		return &x.AlertViolations
-	}
-
-	return nil
+// GetAlertViolations returns a pointer to the value of AlertViolations from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetAlertViolations() []EntityAlertViolation {
+	return x.AlertViolations
 }
 
-// GetAssets returns a pointer to the value of Assets from SyntheticMonitorEntity or nil
-func (x *SyntheticMonitorEntity) GetAssets() *[]SyntheticsSyntheticMonitorAsset {
-	if x != nil {
-		return &x.Assets
-	}
-
-	return nil
+// GetAssets returns a pointer to the value of Assets from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetAssets() []SyntheticsSyntheticMonitorAsset {
+	return x.Assets
 }
 
-// GetDomain returns a pointer to the value of Domain from SyntheticMonitorEntity or nil
-func (x *SyntheticMonitorEntity) GetDomain() *string {
-	if x != nil {
-		return &x.Domain
-	}
-
-	return nil
+// GetDomain returns a pointer to the value of Domain from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetDomain() string {
+	return x.Domain
 }
 
-// GetEntityType returns a pointer to the value of EntityType from SyntheticMonitorEntity or nil
-func (x *SyntheticMonitorEntity) GetEntityType() *EntityType {
-	if x != nil {
-		return &x.EntityType
-	}
-
-	return nil
+// GetEntityType returns a pointer to the value of EntityType from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetEntityType() EntityType {
+	return x.EntityType
 }
 
-// GetGUID returns a pointer to the value of GUID from SyntheticMonitorEntity or nil
-func (x *SyntheticMonitorEntity) GetGUID() *EntityGUID {
-	if x != nil {
-		return &x.GUID
-	}
-
-	return nil
+// GetGUID returns a pointer to the value of GUID from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetGUID() EntityGUID {
+	return x.GUID
 }
 
-// GetIndexedAt returns a pointer to the value of IndexedAt from SyntheticMonitorEntity or nil
-func (x *SyntheticMonitorEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.IndexedAt
-	}
-
-	return nil
+// GetIndexedAt returns a pointer to the value of IndexedAt from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
 }
 
-// GetMonitorId returns a pointer to the value of MonitorId from SyntheticMonitorEntity or nil
-func (x *SyntheticMonitorEntity) GetMonitorId() *string {
-	if x != nil {
-		return &x.MonitorId
-	}
-
-	return nil
+// GetMonitorId returns a pointer to the value of MonitorId from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetMonitorId() string {
+	return x.MonitorId
 }
 
-// GetMonitorSummary returns a pointer to the value of MonitorSummary from SyntheticMonitorEntity or nil
-func (x *SyntheticMonitorEntity) GetMonitorSummary() *SyntheticMonitorSummaryData {
-	if x != nil {
-		return &x.MonitorSummary
-	}
-
-	return nil
+// GetMonitorSummary returns a pointer to the value of MonitorSummary from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetMonitorSummary() SyntheticMonitorSummaryData {
+	return x.MonitorSummary
 }
 
-// GetMonitorType returns a pointer to the value of MonitorType from SyntheticMonitorEntity or nil
-func (x *SyntheticMonitorEntity) GetMonitorType() *SyntheticMonitorType {
-	if x != nil {
-		return &x.MonitorType
-	}
-
-	return nil
+// GetMonitorType returns a pointer to the value of MonitorType from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetMonitorType() SyntheticMonitorType {
+	return x.MonitorType
 }
 
-// GetMonitoredURL returns a pointer to the value of MonitoredURL from SyntheticMonitorEntity or nil
-func (x *SyntheticMonitorEntity) GetMonitoredURL() *string {
-	if x != nil {
-		return &x.MonitoredURL
-	}
-
-	return nil
+// GetMonitoredURL returns a pointer to the value of MonitoredURL from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetMonitoredURL() string {
+	return x.MonitoredURL
 }
 
-// GetNRDBQuery returns a pointer to the value of NRDBQuery from SyntheticMonitorEntity or nil
-func (x *SyntheticMonitorEntity) GetNRDBQuery() *nrdb.NRDBResultContainer {
-	if x != nil {
-		return &x.NRDBQuery
-	}
-
-	return nil
+// GetNRDBQuery returns a pointer to the value of NRDBQuery from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetNRDBQuery() nrdb.NRDBResultContainer {
+	return x.NRDBQuery
 }
 
-// GetName returns a pointer to the value of Name from SyntheticMonitorEntity or nil
-func (x *SyntheticMonitorEntity) GetName() *string {
-	if x != nil {
-		return &x.Name
-	}
-
-	return nil
+// GetName returns a pointer to the value of Name from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetName() string {
+	return x.Name
 }
 
-// GetNerdStorage returns a pointer to the value of NerdStorage from SyntheticMonitorEntity or nil
-func (x *SyntheticMonitorEntity) GetNerdStorage() *NerdStorageEntityScope {
-	if x != nil {
-		return &x.NerdStorage
-	}
-
-	return nil
+// GetNerdStorage returns a pointer to the value of NerdStorage from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetNerdStorage() NerdStorageEntityScope {
+	return x.NerdStorage
 }
 
-// GetPeriod returns a pointer to the value of Period from SyntheticMonitorEntity or nil
-func (x *SyntheticMonitorEntity) GetPeriod() *nrtime.Minutes {
-	if x != nil {
-		return &x.Period
-	}
-
-	return nil
+// GetPeriod returns a pointer to the value of Period from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetPeriod() nrtime.Minutes {
+	return x.Period
 }
 
-// GetPermalink returns a pointer to the value of Permalink from SyntheticMonitorEntity or nil
-func (x *SyntheticMonitorEntity) GetPermalink() *string {
-	if x != nil {
-		return &x.Permalink
-	}
-
-	return nil
+// GetPermalink returns a pointer to the value of Permalink from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetPermalink() string {
+	return x.Permalink
 }
 
-// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from SyntheticMonitorEntity or nil
-func (x *SyntheticMonitorEntity) GetRecentAlertViolations() *[]EntityAlertViolation {
-	if x != nil {
-		return &x.RecentAlertViolations
-	}
-
-	return nil
+// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetRecentAlertViolations() []EntityAlertViolation {
+	return x.RecentAlertViolations
 }
 
-// GetRelationships returns a pointer to the value of Relationships from SyntheticMonitorEntity or nil
-func (x *SyntheticMonitorEntity) GetRelationships() *[]EntityRelationship {
-	if x != nil {
-		return &x.Relationships
-	}
-
-	return nil
+// GetRelationships returns a pointer to the value of Relationships from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetRelationships() []EntityRelationship {
+	return x.Relationships
 }
 
-// GetReporting returns a pointer to the value of Reporting from SyntheticMonitorEntity or nil
-func (x *SyntheticMonitorEntity) GetReporting() *bool {
-	if x != nil {
-		return &x.Reporting
-	}
-
-	return nil
+// GetReporting returns a pointer to the value of Reporting from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetReporting() bool {
+	return x.Reporting
 }
 
-// GetTags returns a pointer to the value of Tags from SyntheticMonitorEntity or nil
-func (x *SyntheticMonitorEntity) GetTags() *[]EntityTag {
-	if x != nil {
-		return &x.Tags
-	}
-
-	return nil
+// GetTags returns a pointer to the value of Tags from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetTags() []EntityTag {
+	return x.Tags
 }
 
-// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from SyntheticMonitorEntity or nil
-func (x *SyntheticMonitorEntity) GetTagsWithMetadata() *[]EntityTagWithMetadata {
-	if x != nil {
-		return &x.TagsWithMetadata
-	}
-
-	return nil
+// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
+	return x.TagsWithMetadata
 }
 
-// GetType returns a pointer to the value of Type from SyntheticMonitorEntity or nil
-func (x *SyntheticMonitorEntity) GetType() *string {
-	if x != nil {
-		return &x.Type
-	}
-
-	return nil
+// GetType returns a pointer to the value of Type from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetType() string {
+	return x.Type
 }
 
 func (x *SyntheticMonitorEntity) ImplementsAlertableEntity() {}
@@ -6884,157 +5248,89 @@ type SyntheticMonitorEntityOutline struct {
 	Type string `json:"type,omitempty"`
 }
 
-// GetAccount returns a pointer to the value of Account from SyntheticMonitorEntityOutline or nil
-func (x *SyntheticMonitorEntityOutline) GetAccount() *accounts.AccountOutline {
-	if x != nil {
-		return &x.Account
-	}
-
-	return nil
+// GetAccount returns a pointer to the value of Account from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetAccount() accounts.AccountOutline {
+	return x.Account
 }
 
-// GetAccountID returns a pointer to the value of AccountID from SyntheticMonitorEntityOutline or nil
-func (x *SyntheticMonitorEntityOutline) GetAccountID() *int {
-	if x != nil {
-		return &x.AccountID
-	}
-
-	return nil
+// GetAccountID returns a pointer to the value of AccountID from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetAccountID() int {
+	return x.AccountID
 }
 
-// GetAlertSeverity returns a pointer to the value of AlertSeverity from SyntheticMonitorEntityOutline or nil
-func (x *SyntheticMonitorEntityOutline) GetAlertSeverity() *EntityAlertSeverity {
-	if x != nil {
-		return &x.AlertSeverity
-	}
-
-	return nil
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
 }
 
-// GetDomain returns a pointer to the value of Domain from SyntheticMonitorEntityOutline or nil
-func (x *SyntheticMonitorEntityOutline) GetDomain() *string {
-	if x != nil {
-		return &x.Domain
-	}
-
-	return nil
+// GetDomain returns a pointer to the value of Domain from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetDomain() string {
+	return x.Domain
 }
 
-// GetEntityType returns a pointer to the value of EntityType from SyntheticMonitorEntityOutline or nil
-func (x *SyntheticMonitorEntityOutline) GetEntityType() *EntityType {
-	if x != nil {
-		return &x.EntityType
-	}
-
-	return nil
+// GetEntityType returns a pointer to the value of EntityType from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetEntityType() EntityType {
+	return x.EntityType
 }
 
-// GetGUID returns a pointer to the value of GUID from SyntheticMonitorEntityOutline or nil
-func (x *SyntheticMonitorEntityOutline) GetGUID() *EntityGUID {
-	if x != nil {
-		return &x.GUID
-	}
-
-	return nil
+// GetGUID returns a pointer to the value of GUID from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetGUID() EntityGUID {
+	return x.GUID
 }
 
-// GetIndexedAt returns a pointer to the value of IndexedAt from SyntheticMonitorEntityOutline or nil
-func (x *SyntheticMonitorEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.IndexedAt
-	}
-
-	return nil
+// GetIndexedAt returns a pointer to the value of IndexedAt from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
 }
 
-// GetMonitorId returns a pointer to the value of MonitorId from SyntheticMonitorEntityOutline or nil
-func (x *SyntheticMonitorEntityOutline) GetMonitorId() *string {
-	if x != nil {
-		return &x.MonitorId
-	}
-
-	return nil
+// GetMonitorId returns a pointer to the value of MonitorId from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetMonitorId() string {
+	return x.MonitorId
 }
 
-// GetMonitorSummary returns a pointer to the value of MonitorSummary from SyntheticMonitorEntityOutline or nil
-func (x *SyntheticMonitorEntityOutline) GetMonitorSummary() *SyntheticMonitorSummaryData {
-	if x != nil {
-		return &x.MonitorSummary
-	}
-
-	return nil
+// GetMonitorSummary returns a pointer to the value of MonitorSummary from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetMonitorSummary() SyntheticMonitorSummaryData {
+	return x.MonitorSummary
 }
 
-// GetMonitorType returns a pointer to the value of MonitorType from SyntheticMonitorEntityOutline or nil
-func (x *SyntheticMonitorEntityOutline) GetMonitorType() *SyntheticMonitorType {
-	if x != nil {
-		return &x.MonitorType
-	}
-
-	return nil
+// GetMonitorType returns a pointer to the value of MonitorType from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetMonitorType() SyntheticMonitorType {
+	return x.MonitorType
 }
 
-// GetMonitoredURL returns a pointer to the value of MonitoredURL from SyntheticMonitorEntityOutline or nil
-func (x *SyntheticMonitorEntityOutline) GetMonitoredURL() *string {
-	if x != nil {
-		return &x.MonitoredURL
-	}
-
-	return nil
+// GetMonitoredURL returns a pointer to the value of MonitoredURL from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetMonitoredURL() string {
+	return x.MonitoredURL
 }
 
-// GetName returns a pointer to the value of Name from SyntheticMonitorEntityOutline or nil
-func (x *SyntheticMonitorEntityOutline) GetName() *string {
-	if x != nil {
-		return &x.Name
-	}
-
-	return nil
+// GetName returns a pointer to the value of Name from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetName() string {
+	return x.Name
 }
 
-// GetPeriod returns a pointer to the value of Period from SyntheticMonitorEntityOutline or nil
-func (x *SyntheticMonitorEntityOutline) GetPeriod() *nrtime.Minutes {
-	if x != nil {
-		return &x.Period
-	}
-
-	return nil
+// GetPeriod returns a pointer to the value of Period from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetPeriod() nrtime.Minutes {
+	return x.Period
 }
 
-// GetPermalink returns a pointer to the value of Permalink from SyntheticMonitorEntityOutline or nil
-func (x *SyntheticMonitorEntityOutline) GetPermalink() *string {
-	if x != nil {
-		return &x.Permalink
-	}
-
-	return nil
+// GetPermalink returns a pointer to the value of Permalink from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetPermalink() string {
+	return x.Permalink
 }
 
-// GetReporting returns a pointer to the value of Reporting from SyntheticMonitorEntityOutline or nil
-func (x *SyntheticMonitorEntityOutline) GetReporting() *bool {
-	if x != nil {
-		return &x.Reporting
-	}
-
-	return nil
+// GetReporting returns a pointer to the value of Reporting from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetReporting() bool {
+	return x.Reporting
 }
 
-// GetTags returns a pointer to the value of Tags from SyntheticMonitorEntityOutline or nil
-func (x *SyntheticMonitorEntityOutline) GetTags() *[]EntityTag {
-	if x != nil {
-		return &x.Tags
-	}
-
-	return nil
+// GetTags returns a pointer to the value of Tags from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetTags() []EntityTag {
+	return x.Tags
 }
 
-// GetType returns a pointer to the value of Type from SyntheticMonitorEntityOutline or nil
-func (x *SyntheticMonitorEntityOutline) GetType() *string {
-	if x != nil {
-		return &x.Type
-	}
-
-	return nil
+// GetType returns a pointer to the value of Type from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetType() string {
+	return x.Type
 }
 
 func (x *SyntheticMonitorEntityOutline) ImplementsAlertableEntityOutline() {}
@@ -7139,166 +5435,94 @@ type ThirdPartyServiceEntity struct {
 	Type string `json:"type,omitempty"`
 }
 
-// GetAccount returns a pointer to the value of Account from ThirdPartyServiceEntity or nil
-func (x *ThirdPartyServiceEntity) GetAccount() *accounts.AccountOutline {
-	if x != nil {
-		return &x.Account
-	}
-
-	return nil
+// GetAccount returns a pointer to the value of Account from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetAccount() accounts.AccountOutline {
+	return x.Account
 }
 
-// GetAccountID returns a pointer to the value of AccountID from ThirdPartyServiceEntity or nil
-func (x *ThirdPartyServiceEntity) GetAccountID() *int {
-	if x != nil {
-		return &x.AccountID
-	}
-
-	return nil
+// GetAccountID returns a pointer to the value of AccountID from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetAccountID() int {
+	return x.AccountID
 }
 
-// GetAlertSeverity returns a pointer to the value of AlertSeverity from ThirdPartyServiceEntity or nil
-func (x *ThirdPartyServiceEntity) GetAlertSeverity() *EntityAlertSeverity {
-	if x != nil {
-		return &x.AlertSeverity
-	}
-
-	return nil
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
 }
 
-// GetAlertViolations returns a pointer to the value of AlertViolations from ThirdPartyServiceEntity or nil
-func (x *ThirdPartyServiceEntity) GetAlertViolations() *[]EntityAlertViolation {
-	if x != nil {
-		return &x.AlertViolations
-	}
-
-	return nil
+// GetAlertViolations returns a pointer to the value of AlertViolations from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetAlertViolations() []EntityAlertViolation {
+	return x.AlertViolations
 }
 
-// GetDomain returns a pointer to the value of Domain from ThirdPartyServiceEntity or nil
-func (x *ThirdPartyServiceEntity) GetDomain() *string {
-	if x != nil {
-		return &x.Domain
-	}
-
-	return nil
+// GetDomain returns a pointer to the value of Domain from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetDomain() string {
+	return x.Domain
 }
 
-// GetEntityType returns a pointer to the value of EntityType from ThirdPartyServiceEntity or nil
-func (x *ThirdPartyServiceEntity) GetEntityType() *EntityType {
-	if x != nil {
-		return &x.EntityType
-	}
-
-	return nil
+// GetEntityType returns a pointer to the value of EntityType from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetEntityType() EntityType {
+	return x.EntityType
 }
 
-// GetGUID returns a pointer to the value of GUID from ThirdPartyServiceEntity or nil
-func (x *ThirdPartyServiceEntity) GetGUID() *EntityGUID {
-	if x != nil {
-		return &x.GUID
-	}
-
-	return nil
+// GetGUID returns a pointer to the value of GUID from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetGUID() EntityGUID {
+	return x.GUID
 }
 
-// GetIndexedAt returns a pointer to the value of IndexedAt from ThirdPartyServiceEntity or nil
-func (x *ThirdPartyServiceEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.IndexedAt
-	}
-
-	return nil
+// GetIndexedAt returns a pointer to the value of IndexedAt from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
 }
 
-// GetNRDBQuery returns a pointer to the value of NRDBQuery from ThirdPartyServiceEntity or nil
-func (x *ThirdPartyServiceEntity) GetNRDBQuery() *nrdb.NRDBResultContainer {
-	if x != nil {
-		return &x.NRDBQuery
-	}
-
-	return nil
+// GetNRDBQuery returns a pointer to the value of NRDBQuery from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetNRDBQuery() nrdb.NRDBResultContainer {
+	return x.NRDBQuery
 }
 
-// GetName returns a pointer to the value of Name from ThirdPartyServiceEntity or nil
-func (x *ThirdPartyServiceEntity) GetName() *string {
-	if x != nil {
-		return &x.Name
-	}
-
-	return nil
+// GetName returns a pointer to the value of Name from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetName() string {
+	return x.Name
 }
 
-// GetNerdStorage returns a pointer to the value of NerdStorage from ThirdPartyServiceEntity or nil
-func (x *ThirdPartyServiceEntity) GetNerdStorage() *NerdStorageEntityScope {
-	if x != nil {
-		return &x.NerdStorage
-	}
-
-	return nil
+// GetNerdStorage returns a pointer to the value of NerdStorage from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetNerdStorage() NerdStorageEntityScope {
+	return x.NerdStorage
 }
 
-// GetPermalink returns a pointer to the value of Permalink from ThirdPartyServiceEntity or nil
-func (x *ThirdPartyServiceEntity) GetPermalink() *string {
-	if x != nil {
-		return &x.Permalink
-	}
-
-	return nil
+// GetPermalink returns a pointer to the value of Permalink from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetPermalink() string {
+	return x.Permalink
 }
 
-// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from ThirdPartyServiceEntity or nil
-func (x *ThirdPartyServiceEntity) GetRecentAlertViolations() *[]EntityAlertViolation {
-	if x != nil {
-		return &x.RecentAlertViolations
-	}
-
-	return nil
+// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetRecentAlertViolations() []EntityAlertViolation {
+	return x.RecentAlertViolations
 }
 
-// GetRelationships returns a pointer to the value of Relationships from ThirdPartyServiceEntity or nil
-func (x *ThirdPartyServiceEntity) GetRelationships() *[]EntityRelationship {
-	if x != nil {
-		return &x.Relationships
-	}
-
-	return nil
+// GetRelationships returns a pointer to the value of Relationships from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetRelationships() []EntityRelationship {
+	return x.Relationships
 }
 
-// GetReporting returns a pointer to the value of Reporting from ThirdPartyServiceEntity or nil
-func (x *ThirdPartyServiceEntity) GetReporting() *bool {
-	if x != nil {
-		return &x.Reporting
-	}
-
-	return nil
+// GetReporting returns a pointer to the value of Reporting from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetReporting() bool {
+	return x.Reporting
 }
 
-// GetTags returns a pointer to the value of Tags from ThirdPartyServiceEntity or nil
-func (x *ThirdPartyServiceEntity) GetTags() *[]EntityTag {
-	if x != nil {
-		return &x.Tags
-	}
-
-	return nil
+// GetTags returns a pointer to the value of Tags from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetTags() []EntityTag {
+	return x.Tags
 }
 
-// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from ThirdPartyServiceEntity or nil
-func (x *ThirdPartyServiceEntity) GetTagsWithMetadata() *[]EntityTagWithMetadata {
-	if x != nil {
-		return &x.TagsWithMetadata
-	}
-
-	return nil
+// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
+	return x.TagsWithMetadata
 }
 
-// GetType returns a pointer to the value of Type from ThirdPartyServiceEntity or nil
-func (x *ThirdPartyServiceEntity) GetType() *string {
-	if x != nil {
-		return &x.Type
-	}
-
-	return nil
+// GetType returns a pointer to the value of Type from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetType() string {
+	return x.Type
 }
 
 func (x *ThirdPartyServiceEntity) ImplementsAlertableEntity() {}
@@ -7335,112 +5559,64 @@ type ThirdPartyServiceEntityOutline struct {
 	Type string `json:"type,omitempty"`
 }
 
-// GetAccount returns a pointer to the value of Account from ThirdPartyServiceEntityOutline or nil
-func (x *ThirdPartyServiceEntityOutline) GetAccount() *accounts.AccountOutline {
-	if x != nil {
-		return &x.Account
-	}
-
-	return nil
+// GetAccount returns a pointer to the value of Account from ThirdPartyServiceEntityOutline
+func (x ThirdPartyServiceEntityOutline) GetAccount() accounts.AccountOutline {
+	return x.Account
 }
 
-// GetAccountID returns a pointer to the value of AccountID from ThirdPartyServiceEntityOutline or nil
-func (x *ThirdPartyServiceEntityOutline) GetAccountID() *int {
-	if x != nil {
-		return &x.AccountID
-	}
-
-	return nil
+// GetAccountID returns a pointer to the value of AccountID from ThirdPartyServiceEntityOutline
+func (x ThirdPartyServiceEntityOutline) GetAccountID() int {
+	return x.AccountID
 }
 
-// GetAlertSeverity returns a pointer to the value of AlertSeverity from ThirdPartyServiceEntityOutline or nil
-func (x *ThirdPartyServiceEntityOutline) GetAlertSeverity() *EntityAlertSeverity {
-	if x != nil {
-		return &x.AlertSeverity
-	}
-
-	return nil
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from ThirdPartyServiceEntityOutline
+func (x ThirdPartyServiceEntityOutline) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
 }
 
-// GetDomain returns a pointer to the value of Domain from ThirdPartyServiceEntityOutline or nil
-func (x *ThirdPartyServiceEntityOutline) GetDomain() *string {
-	if x != nil {
-		return &x.Domain
-	}
-
-	return nil
+// GetDomain returns a pointer to the value of Domain from ThirdPartyServiceEntityOutline
+func (x ThirdPartyServiceEntityOutline) GetDomain() string {
+	return x.Domain
 }
 
-// GetEntityType returns a pointer to the value of EntityType from ThirdPartyServiceEntityOutline or nil
-func (x *ThirdPartyServiceEntityOutline) GetEntityType() *EntityType {
-	if x != nil {
-		return &x.EntityType
-	}
-
-	return nil
+// GetEntityType returns a pointer to the value of EntityType from ThirdPartyServiceEntityOutline
+func (x ThirdPartyServiceEntityOutline) GetEntityType() EntityType {
+	return x.EntityType
 }
 
-// GetGUID returns a pointer to the value of GUID from ThirdPartyServiceEntityOutline or nil
-func (x *ThirdPartyServiceEntityOutline) GetGUID() *EntityGUID {
-	if x != nil {
-		return &x.GUID
-	}
-
-	return nil
+// GetGUID returns a pointer to the value of GUID from ThirdPartyServiceEntityOutline
+func (x ThirdPartyServiceEntityOutline) GetGUID() EntityGUID {
+	return x.GUID
 }
 
-// GetIndexedAt returns a pointer to the value of IndexedAt from ThirdPartyServiceEntityOutline or nil
-func (x *ThirdPartyServiceEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.IndexedAt
-	}
-
-	return nil
+// GetIndexedAt returns a pointer to the value of IndexedAt from ThirdPartyServiceEntityOutline
+func (x ThirdPartyServiceEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
 }
 
-// GetName returns a pointer to the value of Name from ThirdPartyServiceEntityOutline or nil
-func (x *ThirdPartyServiceEntityOutline) GetName() *string {
-	if x != nil {
-		return &x.Name
-	}
-
-	return nil
+// GetName returns a pointer to the value of Name from ThirdPartyServiceEntityOutline
+func (x ThirdPartyServiceEntityOutline) GetName() string {
+	return x.Name
 }
 
-// GetPermalink returns a pointer to the value of Permalink from ThirdPartyServiceEntityOutline or nil
-func (x *ThirdPartyServiceEntityOutline) GetPermalink() *string {
-	if x != nil {
-		return &x.Permalink
-	}
-
-	return nil
+// GetPermalink returns a pointer to the value of Permalink from ThirdPartyServiceEntityOutline
+func (x ThirdPartyServiceEntityOutline) GetPermalink() string {
+	return x.Permalink
 }
 
-// GetReporting returns a pointer to the value of Reporting from ThirdPartyServiceEntityOutline or nil
-func (x *ThirdPartyServiceEntityOutline) GetReporting() *bool {
-	if x != nil {
-		return &x.Reporting
-	}
-
-	return nil
+// GetReporting returns a pointer to the value of Reporting from ThirdPartyServiceEntityOutline
+func (x ThirdPartyServiceEntityOutline) GetReporting() bool {
+	return x.Reporting
 }
 
-// GetTags returns a pointer to the value of Tags from ThirdPartyServiceEntityOutline or nil
-func (x *ThirdPartyServiceEntityOutline) GetTags() *[]EntityTag {
-	if x != nil {
-		return &x.Tags
-	}
-
-	return nil
+// GetTags returns a pointer to the value of Tags from ThirdPartyServiceEntityOutline
+func (x ThirdPartyServiceEntityOutline) GetTags() []EntityTag {
+	return x.Tags
 }
 
-// GetType returns a pointer to the value of Type from ThirdPartyServiceEntityOutline or nil
-func (x *ThirdPartyServiceEntityOutline) GetType() *string {
-	if x != nil {
-		return &x.Type
-	}
-
-	return nil
+// GetType returns a pointer to the value of Type from ThirdPartyServiceEntityOutline
+func (x ThirdPartyServiceEntityOutline) GetType() string {
+	return x.Type
 }
 
 func (x *ThirdPartyServiceEntityOutline) ImplementsAlertableEntityOutline() {}
@@ -7497,139 +5673,79 @@ type UnavailableEntity struct {
 	Type string `json:"type,omitempty"`
 }
 
-// GetAccount returns a pointer to the value of Account from UnavailableEntity or nil
-func (x *UnavailableEntity) GetAccount() *accounts.AccountOutline {
-	if x != nil {
-		return &x.Account
-	}
-
-	return nil
+// GetAccount returns a pointer to the value of Account from UnavailableEntity
+func (x UnavailableEntity) GetAccount() accounts.AccountOutline {
+	return x.Account
 }
 
-// GetAccountID returns a pointer to the value of AccountID from UnavailableEntity or nil
-func (x *UnavailableEntity) GetAccountID() *int {
-	if x != nil {
-		return &x.AccountID
-	}
-
-	return nil
+// GetAccountID returns a pointer to the value of AccountID from UnavailableEntity
+func (x UnavailableEntity) GetAccountID() int {
+	return x.AccountID
 }
 
-// GetDomain returns a pointer to the value of Domain from UnavailableEntity or nil
-func (x *UnavailableEntity) GetDomain() *string {
-	if x != nil {
-		return &x.Domain
-	}
-
-	return nil
+// GetDomain returns a pointer to the value of Domain from UnavailableEntity
+func (x UnavailableEntity) GetDomain() string {
+	return x.Domain
 }
 
-// GetEntityType returns a pointer to the value of EntityType from UnavailableEntity or nil
-func (x *UnavailableEntity) GetEntityType() *EntityType {
-	if x != nil {
-		return &x.EntityType
-	}
-
-	return nil
+// GetEntityType returns a pointer to the value of EntityType from UnavailableEntity
+func (x UnavailableEntity) GetEntityType() EntityType {
+	return x.EntityType
 }
 
-// GetGUID returns a pointer to the value of GUID from UnavailableEntity or nil
-func (x *UnavailableEntity) GetGUID() *EntityGUID {
-	if x != nil {
-		return &x.GUID
-	}
-
-	return nil
+// GetGUID returns a pointer to the value of GUID from UnavailableEntity
+func (x UnavailableEntity) GetGUID() EntityGUID {
+	return x.GUID
 }
 
-// GetIndexedAt returns a pointer to the value of IndexedAt from UnavailableEntity or nil
-func (x *UnavailableEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.IndexedAt
-	}
-
-	return nil
+// GetIndexedAt returns a pointer to the value of IndexedAt from UnavailableEntity
+func (x UnavailableEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
 }
 
-// GetNRDBQuery returns a pointer to the value of NRDBQuery from UnavailableEntity or nil
-func (x *UnavailableEntity) GetNRDBQuery() *nrdb.NRDBResultContainer {
-	if x != nil {
-		return &x.NRDBQuery
-	}
-
-	return nil
+// GetNRDBQuery returns a pointer to the value of NRDBQuery from UnavailableEntity
+func (x UnavailableEntity) GetNRDBQuery() nrdb.NRDBResultContainer {
+	return x.NRDBQuery
 }
 
-// GetName returns a pointer to the value of Name from UnavailableEntity or nil
-func (x *UnavailableEntity) GetName() *string {
-	if x != nil {
-		return &x.Name
-	}
-
-	return nil
+// GetName returns a pointer to the value of Name from UnavailableEntity
+func (x UnavailableEntity) GetName() string {
+	return x.Name
 }
 
-// GetNerdStorage returns a pointer to the value of NerdStorage from UnavailableEntity or nil
-func (x *UnavailableEntity) GetNerdStorage() *NerdStorageEntityScope {
-	if x != nil {
-		return &x.NerdStorage
-	}
-
-	return nil
+// GetNerdStorage returns a pointer to the value of NerdStorage from UnavailableEntity
+func (x UnavailableEntity) GetNerdStorage() NerdStorageEntityScope {
+	return x.NerdStorage
 }
 
-// GetPermalink returns a pointer to the value of Permalink from UnavailableEntity or nil
-func (x *UnavailableEntity) GetPermalink() *string {
-	if x != nil {
-		return &x.Permalink
-	}
-
-	return nil
+// GetPermalink returns a pointer to the value of Permalink from UnavailableEntity
+func (x UnavailableEntity) GetPermalink() string {
+	return x.Permalink
 }
 
-// GetRelationships returns a pointer to the value of Relationships from UnavailableEntity or nil
-func (x *UnavailableEntity) GetRelationships() *[]EntityRelationship {
-	if x != nil {
-		return &x.Relationships
-	}
-
-	return nil
+// GetRelationships returns a pointer to the value of Relationships from UnavailableEntity
+func (x UnavailableEntity) GetRelationships() []EntityRelationship {
+	return x.Relationships
 }
 
-// GetReporting returns a pointer to the value of Reporting from UnavailableEntity or nil
-func (x *UnavailableEntity) GetReporting() *bool {
-	if x != nil {
-		return &x.Reporting
-	}
-
-	return nil
+// GetReporting returns a pointer to the value of Reporting from UnavailableEntity
+func (x UnavailableEntity) GetReporting() bool {
+	return x.Reporting
 }
 
-// GetTags returns a pointer to the value of Tags from UnavailableEntity or nil
-func (x *UnavailableEntity) GetTags() *[]EntityTag {
-	if x != nil {
-		return &x.Tags
-	}
-
-	return nil
+// GetTags returns a pointer to the value of Tags from UnavailableEntity
+func (x UnavailableEntity) GetTags() []EntityTag {
+	return x.Tags
 }
 
-// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from UnavailableEntity or nil
-func (x *UnavailableEntity) GetTagsWithMetadata() *[]EntityTagWithMetadata {
-	if x != nil {
-		return &x.TagsWithMetadata
-	}
-
-	return nil
+// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from UnavailableEntity
+func (x UnavailableEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
+	return x.TagsWithMetadata
 }
 
-// GetType returns a pointer to the value of Type from UnavailableEntity or nil
-func (x *UnavailableEntity) GetType() *string {
-	if x != nil {
-		return &x.Type
-	}
-
-	return nil
+// GetType returns a pointer to the value of Type from UnavailableEntity
+func (x UnavailableEntity) GetType() string {
+	return x.Type
 }
 
 func (x *UnavailableEntity) ImplementsEntity() {}
@@ -7662,103 +5778,59 @@ type UnavailableEntityOutline struct {
 	Type string `json:"type,omitempty"`
 }
 
-// GetAccount returns a pointer to the value of Account from UnavailableEntityOutline or nil
-func (x *UnavailableEntityOutline) GetAccount() *accounts.AccountOutline {
-	if x != nil {
-		return &x.Account
-	}
-
-	return nil
+// GetAccount returns a pointer to the value of Account from UnavailableEntityOutline
+func (x UnavailableEntityOutline) GetAccount() accounts.AccountOutline {
+	return x.Account
 }
 
-// GetAccountID returns a pointer to the value of AccountID from UnavailableEntityOutline or nil
-func (x *UnavailableEntityOutline) GetAccountID() *int {
-	if x != nil {
-		return &x.AccountID
-	}
-
-	return nil
+// GetAccountID returns a pointer to the value of AccountID from UnavailableEntityOutline
+func (x UnavailableEntityOutline) GetAccountID() int {
+	return x.AccountID
 }
 
-// GetDomain returns a pointer to the value of Domain from UnavailableEntityOutline or nil
-func (x *UnavailableEntityOutline) GetDomain() *string {
-	if x != nil {
-		return &x.Domain
-	}
-
-	return nil
+// GetDomain returns a pointer to the value of Domain from UnavailableEntityOutline
+func (x UnavailableEntityOutline) GetDomain() string {
+	return x.Domain
 }
 
-// GetEntityType returns a pointer to the value of EntityType from UnavailableEntityOutline or nil
-func (x *UnavailableEntityOutline) GetEntityType() *EntityType {
-	if x != nil {
-		return &x.EntityType
-	}
-
-	return nil
+// GetEntityType returns a pointer to the value of EntityType from UnavailableEntityOutline
+func (x UnavailableEntityOutline) GetEntityType() EntityType {
+	return x.EntityType
 }
 
-// GetGUID returns a pointer to the value of GUID from UnavailableEntityOutline or nil
-func (x *UnavailableEntityOutline) GetGUID() *EntityGUID {
-	if x != nil {
-		return &x.GUID
-	}
-
-	return nil
+// GetGUID returns a pointer to the value of GUID from UnavailableEntityOutline
+func (x UnavailableEntityOutline) GetGUID() EntityGUID {
+	return x.GUID
 }
 
-// GetIndexedAt returns a pointer to the value of IndexedAt from UnavailableEntityOutline or nil
-func (x *UnavailableEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.IndexedAt
-	}
-
-	return nil
+// GetIndexedAt returns a pointer to the value of IndexedAt from UnavailableEntityOutline
+func (x UnavailableEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
 }
 
-// GetName returns a pointer to the value of Name from UnavailableEntityOutline or nil
-func (x *UnavailableEntityOutline) GetName() *string {
-	if x != nil {
-		return &x.Name
-	}
-
-	return nil
+// GetName returns a pointer to the value of Name from UnavailableEntityOutline
+func (x UnavailableEntityOutline) GetName() string {
+	return x.Name
 }
 
-// GetPermalink returns a pointer to the value of Permalink from UnavailableEntityOutline or nil
-func (x *UnavailableEntityOutline) GetPermalink() *string {
-	if x != nil {
-		return &x.Permalink
-	}
-
-	return nil
+// GetPermalink returns a pointer to the value of Permalink from UnavailableEntityOutline
+func (x UnavailableEntityOutline) GetPermalink() string {
+	return x.Permalink
 }
 
-// GetReporting returns a pointer to the value of Reporting from UnavailableEntityOutline or nil
-func (x *UnavailableEntityOutline) GetReporting() *bool {
-	if x != nil {
-		return &x.Reporting
-	}
-
-	return nil
+// GetReporting returns a pointer to the value of Reporting from UnavailableEntityOutline
+func (x UnavailableEntityOutline) GetReporting() bool {
+	return x.Reporting
 }
 
-// GetTags returns a pointer to the value of Tags from UnavailableEntityOutline or nil
-func (x *UnavailableEntityOutline) GetTags() *[]EntityTag {
-	if x != nil {
-		return &x.Tags
-	}
-
-	return nil
+// GetTags returns a pointer to the value of Tags from UnavailableEntityOutline
+func (x UnavailableEntityOutline) GetTags() []EntityTag {
+	return x.Tags
 }
 
-// GetType returns a pointer to the value of Type from UnavailableEntityOutline or nil
-func (x *UnavailableEntityOutline) GetType() *string {
-	if x != nil {
-		return &x.Type
-	}
-
-	return nil
+// GetType returns a pointer to the value of Type from UnavailableEntityOutline
+func (x UnavailableEntityOutline) GetType() string {
+	return x.Type
 }
 
 func (x *UnavailableEntityOutline) ImplementsEntityOutline() {}
@@ -7833,211 +5905,119 @@ type WorkloadEntity struct {
 	WorkloadStatus WorkloadStatus `json:"workloadStatus,omitempty"`
 }
 
-// GetAccount returns a pointer to the value of Account from WorkloadEntity or nil
-func (x *WorkloadEntity) GetAccount() *accounts.AccountOutline {
-	if x != nil {
-		return &x.Account
-	}
-
-	return nil
+// GetAccount returns a pointer to the value of Account from WorkloadEntity
+func (x WorkloadEntity) GetAccount() accounts.AccountOutline {
+	return x.Account
 }
 
-// GetAccountID returns a pointer to the value of AccountID from WorkloadEntity or nil
-func (x *WorkloadEntity) GetAccountID() *int {
-	if x != nil {
-		return &x.AccountID
-	}
-
-	return nil
+// GetAccountID returns a pointer to the value of AccountID from WorkloadEntity
+func (x WorkloadEntity) GetAccountID() int {
+	return x.AccountID
 }
 
-// GetAlertSeverity returns a pointer to the value of AlertSeverity from WorkloadEntity or nil
-func (x *WorkloadEntity) GetAlertSeverity() *EntityAlertSeverity {
-	if x != nil {
-		return &x.AlertSeverity
-	}
-
-	return nil
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from WorkloadEntity
+func (x WorkloadEntity) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
 }
 
-// GetAlertViolations returns a pointer to the value of AlertViolations from WorkloadEntity or nil
-func (x *WorkloadEntity) GetAlertViolations() *[]EntityAlertViolation {
-	if x != nil {
-		return &x.AlertViolations
-	}
-
-	return nil
+// GetAlertViolations returns a pointer to the value of AlertViolations from WorkloadEntity
+func (x WorkloadEntity) GetAlertViolations() []EntityAlertViolation {
+	return x.AlertViolations
 }
 
-// GetCollection returns a pointer to the value of Collection from WorkloadEntity or nil
-func (x *WorkloadEntity) GetCollection() *EntityCollection {
-	if x != nil {
-		return &x.Collection
-	}
-
-	return nil
+// GetCollection returns a pointer to the value of Collection from WorkloadEntity
+func (x WorkloadEntity) GetCollection() EntityCollection {
+	return x.Collection
 }
 
-// GetCreatedAt returns a pointer to the value of CreatedAt from WorkloadEntity or nil
-func (x *WorkloadEntity) GetCreatedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.CreatedAt
-	}
-
-	return nil
+// GetCreatedAt returns a pointer to the value of CreatedAt from WorkloadEntity
+func (x WorkloadEntity) GetCreatedAt() nrtime.EpochMilliseconds {
+	return x.CreatedAt
 }
 
-// GetCreatedByUser returns a pointer to the value of CreatedByUser from WorkloadEntity or nil
-func (x *WorkloadEntity) GetCreatedByUser() *UserReference {
-	if x != nil {
-		return &x.CreatedByUser
-	}
-
-	return nil
+// GetCreatedByUser returns a pointer to the value of CreatedByUser from WorkloadEntity
+func (x WorkloadEntity) GetCreatedByUser() UserReference {
+	return x.CreatedByUser
 }
 
-// GetDomain returns a pointer to the value of Domain from WorkloadEntity or nil
-func (x *WorkloadEntity) GetDomain() *string {
-	if x != nil {
-		return &x.Domain
-	}
-
-	return nil
+// GetDomain returns a pointer to the value of Domain from WorkloadEntity
+func (x WorkloadEntity) GetDomain() string {
+	return x.Domain
 }
 
-// GetEntityType returns a pointer to the value of EntityType from WorkloadEntity or nil
-func (x *WorkloadEntity) GetEntityType() *EntityType {
-	if x != nil {
-		return &x.EntityType
-	}
-
-	return nil
+// GetEntityType returns a pointer to the value of EntityType from WorkloadEntity
+func (x WorkloadEntity) GetEntityType() EntityType {
+	return x.EntityType
 }
 
-// GetGUID returns a pointer to the value of GUID from WorkloadEntity or nil
-func (x *WorkloadEntity) GetGUID() *EntityGUID {
-	if x != nil {
-		return &x.GUID
-	}
-
-	return nil
+// GetGUID returns a pointer to the value of GUID from WorkloadEntity
+func (x WorkloadEntity) GetGUID() EntityGUID {
+	return x.GUID
 }
 
-// GetIndexedAt returns a pointer to the value of IndexedAt from WorkloadEntity or nil
-func (x *WorkloadEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.IndexedAt
-	}
-
-	return nil
+// GetIndexedAt returns a pointer to the value of IndexedAt from WorkloadEntity
+func (x WorkloadEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
 }
 
-// GetNRDBQuery returns a pointer to the value of NRDBQuery from WorkloadEntity or nil
-func (x *WorkloadEntity) GetNRDBQuery() *nrdb.NRDBResultContainer {
-	if x != nil {
-		return &x.NRDBQuery
-	}
-
-	return nil
+// GetNRDBQuery returns a pointer to the value of NRDBQuery from WorkloadEntity
+func (x WorkloadEntity) GetNRDBQuery() nrdb.NRDBResultContainer {
+	return x.NRDBQuery
 }
 
-// GetName returns a pointer to the value of Name from WorkloadEntity or nil
-func (x *WorkloadEntity) GetName() *string {
-	if x != nil {
-		return &x.Name
-	}
-
-	return nil
+// GetName returns a pointer to the value of Name from WorkloadEntity
+func (x WorkloadEntity) GetName() string {
+	return x.Name
 }
 
-// GetNerdStorage returns a pointer to the value of NerdStorage from WorkloadEntity or nil
-func (x *WorkloadEntity) GetNerdStorage() *NerdStorageEntityScope {
-	if x != nil {
-		return &x.NerdStorage
-	}
-
-	return nil
+// GetNerdStorage returns a pointer to the value of NerdStorage from WorkloadEntity
+func (x WorkloadEntity) GetNerdStorage() NerdStorageEntityScope {
+	return x.NerdStorage
 }
 
-// GetPermalink returns a pointer to the value of Permalink from WorkloadEntity or nil
-func (x *WorkloadEntity) GetPermalink() *string {
-	if x != nil {
-		return &x.Permalink
-	}
-
-	return nil
+// GetPermalink returns a pointer to the value of Permalink from WorkloadEntity
+func (x WorkloadEntity) GetPermalink() string {
+	return x.Permalink
 }
 
-// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from WorkloadEntity or nil
-func (x *WorkloadEntity) GetRecentAlertViolations() *[]EntityAlertViolation {
-	if x != nil {
-		return &x.RecentAlertViolations
-	}
-
-	return nil
+// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from WorkloadEntity
+func (x WorkloadEntity) GetRecentAlertViolations() []EntityAlertViolation {
+	return x.RecentAlertViolations
 }
 
-// GetRelationships returns a pointer to the value of Relationships from WorkloadEntity or nil
-func (x *WorkloadEntity) GetRelationships() *[]EntityRelationship {
-	if x != nil {
-		return &x.Relationships
-	}
-
-	return nil
+// GetRelationships returns a pointer to the value of Relationships from WorkloadEntity
+func (x WorkloadEntity) GetRelationships() []EntityRelationship {
+	return x.Relationships
 }
 
-// GetReporting returns a pointer to the value of Reporting from WorkloadEntity or nil
-func (x *WorkloadEntity) GetReporting() *bool {
-	if x != nil {
-		return &x.Reporting
-	}
-
-	return nil
+// GetReporting returns a pointer to the value of Reporting from WorkloadEntity
+func (x WorkloadEntity) GetReporting() bool {
+	return x.Reporting
 }
 
-// GetTags returns a pointer to the value of Tags from WorkloadEntity or nil
-func (x *WorkloadEntity) GetTags() *[]EntityTag {
-	if x != nil {
-		return &x.Tags
-	}
-
-	return nil
+// GetTags returns a pointer to the value of Tags from WorkloadEntity
+func (x WorkloadEntity) GetTags() []EntityTag {
+	return x.Tags
 }
 
-// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from WorkloadEntity or nil
-func (x *WorkloadEntity) GetTagsWithMetadata() *[]EntityTagWithMetadata {
-	if x != nil {
-		return &x.TagsWithMetadata
-	}
-
-	return nil
+// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from WorkloadEntity
+func (x WorkloadEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
+	return x.TagsWithMetadata
 }
 
-// GetType returns a pointer to the value of Type from WorkloadEntity or nil
-func (x *WorkloadEntity) GetType() *string {
-	if x != nil {
-		return &x.Type
-	}
-
-	return nil
+// GetType returns a pointer to the value of Type from WorkloadEntity
+func (x WorkloadEntity) GetType() string {
+	return x.Type
 }
 
-// GetUpdatedAt returns a pointer to the value of UpdatedAt from WorkloadEntity or nil
-func (x *WorkloadEntity) GetUpdatedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.UpdatedAt
-	}
-
-	return nil
+// GetUpdatedAt returns a pointer to the value of UpdatedAt from WorkloadEntity
+func (x WorkloadEntity) GetUpdatedAt() nrtime.EpochMilliseconds {
+	return x.UpdatedAt
 }
 
-// GetWorkloadStatus returns a pointer to the value of WorkloadStatus from WorkloadEntity or nil
-func (x *WorkloadEntity) GetWorkloadStatus() *WorkloadStatus {
-	if x != nil {
-		return &x.WorkloadStatus
-	}
-
-	return nil
+// GetWorkloadStatus returns a pointer to the value of WorkloadStatus from WorkloadEntity
+func (x WorkloadEntity) GetWorkloadStatus() WorkloadStatus {
+	return x.WorkloadStatus
 }
 
 func (x *WorkloadEntity) ImplementsAlertableEntity() {}
@@ -8084,148 +6064,84 @@ type WorkloadEntityOutline struct {
 	WorkloadStatus WorkloadStatus `json:"workloadStatus,omitempty"`
 }
 
-// GetAccount returns a pointer to the value of Account from WorkloadEntityOutline or nil
-func (x *WorkloadEntityOutline) GetAccount() *accounts.AccountOutline {
-	if x != nil {
-		return &x.Account
-	}
-
-	return nil
+// GetAccount returns a pointer to the value of Account from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetAccount() accounts.AccountOutline {
+	return x.Account
 }
 
-// GetAccountID returns a pointer to the value of AccountID from WorkloadEntityOutline or nil
-func (x *WorkloadEntityOutline) GetAccountID() *int {
-	if x != nil {
-		return &x.AccountID
-	}
-
-	return nil
+// GetAccountID returns a pointer to the value of AccountID from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetAccountID() int {
+	return x.AccountID
 }
 
-// GetAlertSeverity returns a pointer to the value of AlertSeverity from WorkloadEntityOutline or nil
-func (x *WorkloadEntityOutline) GetAlertSeverity() *EntityAlertSeverity {
-	if x != nil {
-		return &x.AlertSeverity
-	}
-
-	return nil
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
 }
 
-// GetCreatedAt returns a pointer to the value of CreatedAt from WorkloadEntityOutline or nil
-func (x *WorkloadEntityOutline) GetCreatedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.CreatedAt
-	}
-
-	return nil
+// GetCreatedAt returns a pointer to the value of CreatedAt from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetCreatedAt() nrtime.EpochMilliseconds {
+	return x.CreatedAt
 }
 
-// GetCreatedByUser returns a pointer to the value of CreatedByUser from WorkloadEntityOutline or nil
-func (x *WorkloadEntityOutline) GetCreatedByUser() *UserReference {
-	if x != nil {
-		return &x.CreatedByUser
-	}
-
-	return nil
+// GetCreatedByUser returns a pointer to the value of CreatedByUser from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetCreatedByUser() UserReference {
+	return x.CreatedByUser
 }
 
-// GetDomain returns a pointer to the value of Domain from WorkloadEntityOutline or nil
-func (x *WorkloadEntityOutline) GetDomain() *string {
-	if x != nil {
-		return &x.Domain
-	}
-
-	return nil
+// GetDomain returns a pointer to the value of Domain from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetDomain() string {
+	return x.Domain
 }
 
-// GetEntityType returns a pointer to the value of EntityType from WorkloadEntityOutline or nil
-func (x *WorkloadEntityOutline) GetEntityType() *EntityType {
-	if x != nil {
-		return &x.EntityType
-	}
-
-	return nil
+// GetEntityType returns a pointer to the value of EntityType from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetEntityType() EntityType {
+	return x.EntityType
 }
 
-// GetGUID returns a pointer to the value of GUID from WorkloadEntityOutline or nil
-func (x *WorkloadEntityOutline) GetGUID() *EntityGUID {
-	if x != nil {
-		return &x.GUID
-	}
-
-	return nil
+// GetGUID returns a pointer to the value of GUID from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetGUID() EntityGUID {
+	return x.GUID
 }
 
-// GetIndexedAt returns a pointer to the value of IndexedAt from WorkloadEntityOutline or nil
-func (x *WorkloadEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.IndexedAt
-	}
-
-	return nil
+// GetIndexedAt returns a pointer to the value of IndexedAt from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
 }
 
-// GetName returns a pointer to the value of Name from WorkloadEntityOutline or nil
-func (x *WorkloadEntityOutline) GetName() *string {
-	if x != nil {
-		return &x.Name
-	}
-
-	return nil
+// GetName returns a pointer to the value of Name from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetName() string {
+	return x.Name
 }
 
-// GetPermalink returns a pointer to the value of Permalink from WorkloadEntityOutline or nil
-func (x *WorkloadEntityOutline) GetPermalink() *string {
-	if x != nil {
-		return &x.Permalink
-	}
-
-	return nil
+// GetPermalink returns a pointer to the value of Permalink from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetPermalink() string {
+	return x.Permalink
 }
 
-// GetReporting returns a pointer to the value of Reporting from WorkloadEntityOutline or nil
-func (x *WorkloadEntityOutline) GetReporting() *bool {
-	if x != nil {
-		return &x.Reporting
-	}
-
-	return nil
+// GetReporting returns a pointer to the value of Reporting from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetReporting() bool {
+	return x.Reporting
 }
 
-// GetTags returns a pointer to the value of Tags from WorkloadEntityOutline or nil
-func (x *WorkloadEntityOutline) GetTags() *[]EntityTag {
-	if x != nil {
-		return &x.Tags
-	}
-
-	return nil
+// GetTags returns a pointer to the value of Tags from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetTags() []EntityTag {
+	return x.Tags
 }
 
-// GetType returns a pointer to the value of Type from WorkloadEntityOutline or nil
-func (x *WorkloadEntityOutline) GetType() *string {
-	if x != nil {
-		return &x.Type
-	}
-
-	return nil
+// GetType returns a pointer to the value of Type from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetType() string {
+	return x.Type
 }
 
-// GetUpdatedAt returns a pointer to the value of UpdatedAt from WorkloadEntityOutline or nil
-func (x *WorkloadEntityOutline) GetUpdatedAt() *nrtime.EpochMilliseconds {
-	if x != nil {
-		return &x.UpdatedAt
-	}
-
-	return nil
+// GetUpdatedAt returns a pointer to the value of UpdatedAt from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetUpdatedAt() nrtime.EpochMilliseconds {
+	return x.UpdatedAt
 }
 
-// GetWorkloadStatus returns a pointer to the value of WorkloadStatus from WorkloadEntityOutline or nil
-func (x *WorkloadEntityOutline) GetWorkloadStatus() *WorkloadStatus {
-	if x != nil {
-		return &x.WorkloadStatus
-	}
-
-	return nil
+// GetWorkloadStatus returns a pointer to the value of WorkloadStatus from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetWorkloadStatus() WorkloadStatus {
+	return x.WorkloadStatus
 }
 
 func (x *WorkloadEntityOutline) ImplementsAlertableEntityOutline() {}
@@ -8674,8 +6590,8 @@ func UnmarshalCollectionEntityInterface(b []byte) (*CollectionEntityInterface, e
 // To understand more about entities and entity types, look at [our docs](https://docs.newrelic.com/docs/what-are-new-relic-entities).
 type EntityInterface interface {
 	ImplementsEntity()
-	GetName() *string
-	GetGUID() *EntityGUID
+	GetName() string
+	GetGUID() EntityGUID
 }
 
 //yes
@@ -8864,8 +6780,8 @@ func UnmarshalEntityInterface(b []byte) (*EntityInterface, error) {
 // To understand more about entities and entity types, look at [our docs](https://docs.newrelic.com/docs/what-are-new-relic-entities).
 type EntityOutlineInterface interface {
 	ImplementsEntityOutline()
-	GetName() *string
-	GetGUID() *EntityGUID
+	GetName() string
+	GetGUID() EntityGUID
 }
 
 //yes
