@@ -658,6 +658,17 @@ const getEntitiesQuery = `query(
 			name
 			reportingEventTypes
 		}
+		alertSeverity
+		recentAlertViolations {
+			agentUrl
+			alertSeverity
+			closedAt
+			label
+			level
+			openedAt
+			violationId
+			violationUrl
+		}
 		relationships {
 			type
 		}
@@ -1227,6 +1238,17 @@ const getEntityQuery = `query(
 			name
 			reportingEventTypes
 		}
+		alertSeverity
+		recentAlertViolations {
+			agentUrl
+			alertSeverity
+			closedAt
+			label
+			level
+			openedAt
+			violationId
+			violationUrl
+		}
 		relationships {
 			type
 		}
@@ -1415,6 +1437,7 @@ const getEntitySearchQuery = `query(
 			}
 			... on ThirdPartyServiceEntityOutline {
 				__typename
+				alertSeverity
 			}
 			... on UnavailableEntityOutline {
 				__typename

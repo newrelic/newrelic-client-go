@@ -385,6 +385,7 @@ const DashboardCreateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
+						alertSeverity
 						tags {
 							key
 							values
@@ -859,6 +860,7 @@ const DashboardUpdateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
+						alertSeverity
 						tags {
 							key
 							values

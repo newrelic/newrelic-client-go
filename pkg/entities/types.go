@@ -3263,6 +3263,10 @@ type ThirdPartyServiceEntity struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
+	// The current alerting severity of the Third Party Service entity.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// Violations on the Third Party Service entity that were open during the specififed time window.
+	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -3283,6 +3287,8 @@ type ThirdPartyServiceEntity struct {
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
+	// Recent violations on the Third Party Service entity.
+	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
 	// A list of the entities' relationships.
 	//
 	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
@@ -3299,6 +3305,8 @@ type ThirdPartyServiceEntity struct {
 	Type string `json:"type,omitempty"`
 }
 
+func (x *ThirdPartyServiceEntity) ImplementsAlertableEntity() {}
+
 func (x *ThirdPartyServiceEntity) ImplementsEntity() {}
 
 // ThirdPartyServiceEntityOutline - A third party service entity outline.
@@ -3307,6 +3315,8 @@ type ThirdPartyServiceEntityOutline struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
+	// The current alerting severity of the Third Party Service entity.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -3328,6 +3338,8 @@ type ThirdPartyServiceEntityOutline struct {
 	// The entity's type
 	Type string `json:"type,omitempty"`
 }
+
+func (x *ThirdPartyServiceEntityOutline) ImplementsAlertableEntityOutline() {}
 
 func (x *ThirdPartyServiceEntityOutline) ImplementsEntityOutline() {}
 
@@ -3672,6 +3684,16 @@ func UnmarshalAlertableEntityInterface(b []byte) (*AlertableEntityInterface, err
 			var xxx AlertableEntityInterface = &interfaceType
 
 			return &xxx, nil
+		case "ThirdPartyServiceEntity":
+			var interfaceType ThirdPartyServiceEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertableEntityInterface = &interfaceType
+
+			return &xxx, nil
 		case "WorkloadEntity":
 			var interfaceType WorkloadEntity
 			err = json.Unmarshal(b, &interfaceType)
@@ -3780,6 +3802,16 @@ func UnmarshalAlertableEntityOutlineInterface(b []byte) (*AlertableEntityOutline
 			return &xxx, nil
 		case "SyntheticMonitorEntityOutline":
 			var interfaceType SyntheticMonitorEntityOutline
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertableEntityOutlineInterface = &interfaceType
+
+			return &xxx, nil
+		case "ThirdPartyServiceEntityOutline":
+			var interfaceType ThirdPartyServiceEntityOutline
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
