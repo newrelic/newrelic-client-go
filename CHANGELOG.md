@@ -1,3 +1,11 @@
+<a name="v0.54.0"></a>
+## [v0.54.0] - 2021-01-04
+### Features
+- **entities:** Generate Getter helpers for EntityInterfaces
+
+### Refactor
+- **entities:** change the get functions to not be on ptrs
+
 <a name="v0.53.0"></a>
 ## [v0.53.0] - 2020-12-28
 ### Bug Fixes
@@ -885,7 +893,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.53.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.54.0...HEAD
+[v0.54.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.53.0...v0.54.0
 [v0.53.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.52.0...v0.53.0
 [v0.52.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.51.0...v0.52.0
 [v0.51.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.50.0...v0.51.0
