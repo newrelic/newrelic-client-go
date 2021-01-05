@@ -6590,8 +6590,11 @@ func UnmarshalCollectionEntityInterface(b []byte) (*CollectionEntityInterface, e
 // To understand more about entities and entity types, look at [our docs](https://docs.newrelic.com/docs/what-are-new-relic-entities).
 type EntityInterface interface {
 	ImplementsEntity()
-	GetName() string
+	GetAccountID() int
+	GetDomain() string
 	GetGUID() EntityGUID
+	GetName() string
+	GetType() string
 }
 
 //yes
@@ -6780,8 +6783,11 @@ func UnmarshalEntityInterface(b []byte) (*EntityInterface, error) {
 // To understand more about entities and entity types, look at [our docs](https://docs.newrelic.com/docs/what-are-new-relic-entities).
 type EntityOutlineInterface interface {
 	ImplementsEntityOutline()
-	GetName() string
+	GetAccountID() int
+	GetDomain() string
 	GetGUID() EntityGUID
+	GetName() string
+	GetType() string
 }
 
 //yes
