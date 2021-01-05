@@ -1,3 +1,8 @@
+<a name="v0.55.0"></a>
+## [v0.55.0] - 2021-01-05
+### Features
+- **entities:** Add more methods to Entity(Outline)Interface
+
 <a name="v0.54.1"></a>
 ## [v0.54.1] - 2021-01-05
 <a name="v0.54.0"></a>
@@ -895,7 +900,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.54.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.0...HEAD
+[v0.55.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.54.1...v0.55.0
 [v0.54.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.54.0...v0.54.1
 [v0.54.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.53.0...v0.54.0
 [v0.53.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.52.0...v0.53.0
