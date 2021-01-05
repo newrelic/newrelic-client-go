@@ -317,8 +317,11 @@ packages:
       # List of entities
       - name: Entity
         interface_methods:
-          - "GetName() string"
+          - "GetAccountID() int"
+          - "GetDomain() string"
           - "GetGUID() EntityGUID"
+          - "GetName() string"
+          - "GetType() string"
       - name: AlertableEntity
         generate_struct_getters: true
       - name: ApmApplicationEntity
@@ -361,8 +364,11 @@ packages:
       # Entity Outlines contain the summary of an Entity's data
       - name: EntityOutline
         interface_methods:
-          - "GetName() string"
+          - "GetAccountID() int"
+          - "GetDomain() string"
           - "GetGUID() EntityGUID"
+          - "GetName() string"
+          - "GetType() string"
       - name: AlertableEntityOutline
         generate_struct_getters: true
       - name: ApmApplicationEntityOutline
