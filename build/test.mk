@@ -18,8 +18,6 @@ PROJECT_MODULE ?= $(shell $(GO) list -m)
 
 LDFLAGS_UNIT ?= '-X $(PROJECT_MODULE)/internal/version.GitTag=$(PROJECT_VER_TAGGED)'
 
-GOTOOLS += github.com/stretchr/testify/assert
-
 test: test-only
 test-only: test-unit test-integration
 
