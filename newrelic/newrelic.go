@@ -54,41 +54,45 @@ type NewRelic struct {
 
 // New returns a collection of New Relic APIs.
 func New(opts ...ConfigOption) (*NewRelic, error) {
-	config := config.New()
+	cfg := config.New()
 
 	// Loop through config options
 	for _, fn := range opts {
 		if nil != fn {
-			if err := fn(&config); err != nil {
+			if err := fn(&cfg); err != nil {
 				return nil, err
 			}
 		}
 	}
 
-	if config.PersonalAPIKey == "" && config.AdminAPIKey == "" && config.InsightsInsertKey == "" {
+	if cfg.PersonalAPIKey == "" && cfg.AdminAPIKey == "" && cfg.InsightsInsertKey == "" {
 		return nil, errors.New("must use at least one of: ConfigPersonalAPIKey, ConfigAdminAPIKey, ConfigInsightsInsertKey")
 	}
 
-	nr := &NewRelic{
-		config: config,
+	if cfg.Logger == nil {
+		cfg.Logger = cfg.GetLogger()
+	}
 
-		Accounts:        accounts.New(config),
-		Alerts:          alerts.New(config),
-		APIAccess:       apiaccess.New(config),
-		APM:             apm.New(config),
-		Cloud:           cloud.New(config),
-		Dashboards:      dashboards.New(config),
-		Edge:            edge.New(config),
-		Entities:        entities.New(config),
-		Events:          events.New(config),
-		EventsToMetrics: eventstometrics.New(config),
-		Logs:            logs.New(config),
-		NerdGraph:       nerdgraph.New(config),
-		NerdStorage:     nerdstorage.New(config),
-		Nrdb:            nrdb.New(config),
-		Plugins:         plugins.New(config),
-		Synthetics:      synthetics.New(config),
-		Workloads:       workloads.New(config),
+	nr := &NewRelic{
+		config: cfg,
+
+		Accounts:        accounts.New(cfg),
+		Alerts:          alerts.New(cfg),
+		APIAccess:       apiaccess.New(cfg),
+		APM:             apm.New(cfg),
+		Cloud:           cloud.New(cfg),
+		Dashboards:      dashboards.New(cfg),
+		Edge:            edge.New(cfg),
+		Entities:        entities.New(cfg),
+		Events:          events.New(cfg),
+		EventsToMetrics: eventstometrics.New(cfg),
+		Logs:            logs.New(cfg),
+		NerdGraph:       nerdgraph.New(cfg),
+		NerdStorage:     nerdstorage.New(cfg),
+		Nrdb:            nrdb.New(cfg),
+		Plugins:         plugins.New(cfg),
+		Synthetics:      synthetics.New(cfg),
+		Workloads:       workloads.New(cfg),
 	}
 
 	return nr, nil
