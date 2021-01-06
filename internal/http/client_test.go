@@ -10,7 +10,9 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 
+	"github.com/newrelic/newrelic-client-go/internal/logging"
 	"github.com/newrelic/newrelic-client-go/pkg/config"
 	"github.com/newrelic/newrelic-client-go/pkg/errors"
 	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
@@ -27,6 +29,7 @@ func TestConfig(t *testing.T) {
 	testTransport := http.DefaultTransport
 
 	tc := config.New()
+
 	tc.HTTPTransport = testTransport
 	tc.Region().SetRestBaseURL(testRestURL)
 	tc.ServiceName = testServiceName
@@ -35,12 +38,13 @@ func TestConfig(t *testing.T) {
 
 	c := NewClient(tc)
 
-	assert.Equal(t, &testTimeout, c.config.Timeout)
-	assert.Equal(t, testRestURL, c.config.Region().RestURL())
-	assert.Equal(t, mock.UserAgent, c.config.UserAgent)
-	assert.Equal(t, c.config.ServiceName, testServiceName+"|newrelic-client-go")
+	require.NotNil(t, c.logger)
+	require.Equal(t, &testTimeout, c.config.Timeout)
+	require.Equal(t, testRestURL, c.config.Region().RestURL())
+	require.Equal(t, mock.UserAgent, c.config.UserAgent)
+	require.Equal(t, c.config.ServiceName, testServiceName+"|newrelic-client-go")
 
-	assert.Same(t, testTransport, c.config.HTTPTransport)
+	require.Same(t, testTransport, c.config.HTTPTransport)
 }
 
 func TestConfigDefaults(t *testing.T) {
@@ -52,6 +56,17 @@ func TestConfigDefaults(t *testing.T) {
 
 	assert.Contains(t, c.config.UserAgent, "newrelic/newrelic-client-go")
 	assert.Equal(t, c.config.ServiceName, testServiceName+"|newrelic-client-go")
+}
+
+func TestConfigLogger(t *testing.T) {
+	t.Parallel()
+	tc := mock.NewTestConfig(t, nil)
+
+	tc.Logger = logging.NewMockLogger(t)
+
+	c := NewClient(tc)
+	// The logger used should be the same as the config
+	require.Same(t, tc.Logger, c.logger)
 }
 
 func TestDefaultErrorValue(t *testing.T) {
