@@ -17,6 +17,6 @@ type APIAccess struct {
 func New(config config.Config) APIAccess {
 	return APIAccess{
 		client: http.NewClient(config),
-		logger: config.GetLogger(),
+		logger: config.Logger,
 	}
 }

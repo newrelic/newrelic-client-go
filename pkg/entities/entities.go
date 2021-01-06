@@ -17,6 +17,6 @@ type Entities struct {
 func New(config config.Config) Entities {
 	return Entities{
 		client: http.NewClient(config),
-		logger: config.GetLogger(),
+		logger: config.Logger,
 	}
 }

@@ -19,7 +19,7 @@ type Accounts struct {
 func New(config config.Config) Accounts {
 	return Accounts{
 		client: http.NewClient(config),
-		logger: config.GetLogger(),
+		logger: config.Logger,
 	}
 }
 

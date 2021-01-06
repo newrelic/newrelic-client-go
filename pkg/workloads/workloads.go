@@ -18,6 +18,6 @@ type Workloads struct {
 func New(config config.Config) Workloads {
 	return Workloads{
 		client: http.NewClient(config),
-		logger: config.GetLogger(),
+		logger: config.Logger,
 	}
 }

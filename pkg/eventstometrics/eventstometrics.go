@@ -26,7 +26,7 @@ func New(config config.Config) EventsToMetrics {
 	pkg := EventsToMetrics{
 		client: client,
 		config: config,
-		logger: config.GetLogger(),
+		logger: config.Logger,
 	}
 
 	return pkg

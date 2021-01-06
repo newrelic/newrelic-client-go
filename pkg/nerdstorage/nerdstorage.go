@@ -559,6 +559,6 @@ type NerdStorage struct {
 func New(config config.Config) NerdStorage {
 	return NerdStorage{
 		client: http.NewClient(config),
-		logger: config.GetLogger(),
+		logger: config.Logger,
 	}
 }

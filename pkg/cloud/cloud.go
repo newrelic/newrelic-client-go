@@ -21,7 +21,7 @@ func New(config config.Config) Cloud {
 	pkg := Cloud{
 		client: client,
 		config: config,
-		logger: config.GetLogger(),
+		logger: config.Logger,
 		pager:  &http.LinkHeaderPager{},
 	}
 

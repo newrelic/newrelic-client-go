@@ -48,7 +48,7 @@ func New(cfg config.Config) Logs {
 	pkg := Logs{
 		client:       client,
 		config:       cfg,
-		logger:       cfg.GetLogger(),
+		logger:       cfg.Logger,
 		batchWorkers: DefaultBatchWorkers,
 		batchSize:    DefaultBatchSize,
 		batchTimeout: DefaultBatchTimeout,

@@ -23,7 +23,7 @@ func New(config config.Config) Dashboards {
 	pkg := Dashboards{
 		client: client,
 		config: config,
-		logger: config.GetLogger(),
+		logger: config.Logger,
 		pager:  &http.LinkHeaderPager{},
 	}
 
