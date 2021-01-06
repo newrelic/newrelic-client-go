@@ -27,7 +27,7 @@ type QueryResponse struct {
 func New(config config.Config) NerdGraph {
 	return NerdGraph{
 		client: http.NewClient(config),
-		logger: config.Logger,
+		logger: config.GetLogger(),
 	}
 }
 

@@ -72,7 +72,7 @@ func New(config config.Config) Synthetics {
 	pkg := Synthetics{
 		client: client,
 		config: config,
-		logger: config.Logger,
+		logger: config.GetLogger(),
 		pager:  &http.LinkHeaderPager{},
 	}
 

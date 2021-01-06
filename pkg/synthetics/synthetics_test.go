@@ -36,6 +36,7 @@ func TestError(t *testing.T) {
 	// 1st Server Error Message
 	e.ServerErrorMessage = "server message"
 	assert.Equal(t, "server message", e.Error())
+
 }
 
 func newTestClient(t *testing.T, handler http.Handler) Synthetics {

@@ -17,6 +17,6 @@ type Nrdb struct {
 func New(config config.Config) Nrdb {
 	return Nrdb{
 		client: http.NewClient(config),
-		logger: config.Logger,
+		logger: config.GetLogger(),
 	}
 }

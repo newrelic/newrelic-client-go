@@ -31,7 +31,7 @@ func New(config config.Config) Alerts {
 		client:      client,
 		config:      config,
 		infraClient: infraClient,
-		logger:      config.Logger,
+		logger:      config.GetLogger(),
 		pager:       &http.LinkHeaderPager{},
 	}
 

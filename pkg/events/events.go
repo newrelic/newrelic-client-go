@@ -46,7 +46,7 @@ func New(cfg config.Config) Events {
 	pkg := Events{
 		client:       client,
 		config:       cfg,
-		logger:       cfg.Logger,
+		logger:       cfg.GetLogger(),
 		batchWorkers: DefaultBatchWorkers,
 		batchSize:    DefaultBatchSize,
 		batchTimeout: DefaultBatchTimeout,

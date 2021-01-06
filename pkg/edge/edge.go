@@ -17,6 +17,6 @@ type Edge struct {
 func New(config config.Config) Edge {
 	return Edge{
 		client: http.NewClient(config),
-		logger: config.Logger,
+		logger: config.GetLogger(),
 	}
 }

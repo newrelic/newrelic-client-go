@@ -25,7 +25,7 @@ func New(config config.Config) Plugins {
 	pkg := Plugins{
 		client: client,
 		config: config,
-		logger: config.Logger,
+		logger: config.GetLogger(),
 		pager:  &http.LinkHeaderPager{},
 	}
 
