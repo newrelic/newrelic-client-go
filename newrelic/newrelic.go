@@ -98,6 +98,10 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 	return nr, nil
 }
 
+func (nr *NewRelic) SetLogLevel(levelName string) {
+	nr.config.Logger.SetLevel(levelName)
+}
+
 // ConfigOption configures the Config when provided to NewApplication.
 // https://docs.newrelic.com/docs/apis/get-started/intro-apis/types-new-relic-api-keys
 type ConfigOption func(*config.Config) error
