@@ -96,11 +96,12 @@ func (c *Config) GetLogger() logging.Logger {
 		return c.Logger
 	}
 
-	l := logging.NewStructuredLogger().
-		SetDefaultFields(map[string]string{"newrelic-client-go": version.Version}).
-		LogJSON(c.LogJSON).
-		SetLogLevel(c.LogLevel)
+	l := logging.NewStructuredLogger()
+	l.SetDefaultFields(map[string]string{"newrelic-client-go": version.Version})
+	l.SetLogJSON(c.LogJSON)
+	l.SetLevel(c.LogLevel)
 
-	c.Logger = l
+	// c.Logger = l
+
 	return l
 }
