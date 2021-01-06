@@ -17,8 +17,8 @@ type StructuredLogger struct {
 }
 
 // NewStructuredLogger creates a new structured logger.
-func NewStructuredLogger() StructuredLogger {
-	return StructuredLogger{
+func NewStructuredLogger() *StructuredLogger {
+	return &StructuredLogger{
 		logger: log.New(),
 	}
 }
