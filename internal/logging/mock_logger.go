@@ -32,3 +32,6 @@ func (l MockLogger) Debug(msg string, fields ...interface{}) {
 // Trace logs a trace message.
 func (l MockLogger) Trace(msg string, fields ...interface{}) {
 }
+
+func (l MockLogger) SetLevel(logLevel string) {
+}

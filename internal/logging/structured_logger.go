@@ -23,37 +23,31 @@ func NewStructuredLogger() *StructuredLogger {
 	}
 }
 
-// SetLogLevel allows the log level to be set.
-func (l StructuredLogger) SetLogLevel(logLevel string) StructuredLogger {
-	if logLevel == "" {
-		logLevel = defaultLogLevel
+// SetLevel allows the log level to be set.
+func (l StructuredLogger) SetLevel(levelName string) {
+	if levelName == "" {
+		levelName = defaultLogLevel
 	}
 
-	level, err := log.ParseLevel(logLevel)
+	level, err := log.ParseLevel(levelName)
 	if err != nil {
-		l.logger.Warn(fmt.Sprintf("could not parse log level '%s', logging will proceed at %s level", logLevel, defaultLogLevel))
+		l.logger.Warn(fmt.Sprintf("could not parse log level '%s', logging will proceed at %s level", levelName, defaultLogLevel))
 		level, _ = log.ParseLevel(defaultLogLevel)
 	}
 
 	l.logger.SetLevel(level)
-
-	return l
 }
 
 // LogJSON determines whether or not to format the logs as JSON.
-func (l StructuredLogger) LogJSON(value bool) StructuredLogger {
+func (l StructuredLogger) SetLogJSON(value bool) {
 	if value {
 		l.logger.SetFormatter(&log.JSONFormatter{})
 	}
-
-	return l
 }
 
 // SetDefaultFields sets fields to be logged on every use of the logger.
-func (l StructuredLogger) SetDefaultFields(defaultFields map[string]string) StructuredLogger {
+func (l StructuredLogger) SetDefaultFields(defaultFields map[string]string) {
 	l.logger.AddHook(&defaultFieldHook{})
-
-	return l
 }
 
 // Error logs an error message.
