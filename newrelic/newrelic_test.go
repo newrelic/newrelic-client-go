@@ -9,7 +9,9 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 
+	"github.com/newrelic/newrelic-client-go/internal/logging"
 	"github.com/newrelic/newrelic-client-go/pkg/config"
 )
 
@@ -52,6 +54,18 @@ func TestNew_keys(t *testing.T) {
 	nrE, err := New(ConfigInsightsInsertKey(testAPIkey))
 	assert.NoError(t, err)
 	assert.NotNil(t, nrE)
+}
+
+func TestNew_configOptionLogger(t *testing.T) {
+	t.Parallel()
+
+	mockLogger := logging.NewMockLogger(t)
+
+	nr, err := New(ConfigPersonalAPIKey(testAPIkey), ConfigLogger(mockLogger))
+	require.NotNil(t, nr)
+	require.NoError(t, err)
+	require.NotNil(t, nr.config.Logger)
+	require.Same(t, nr.config.Logger, mockLogger)
 }
 
 func TestNew_configOptionError(t *testing.T) {
@@ -234,13 +248,13 @@ func TestNew_optionLogger(t *testing.T) {
 	t.Parallel()
 
 	nr, err := New(ConfigPersonalAPIKey(testAPIkey), ConfigLogger(nil))
-	assert.Nil(t, nr)
-	assert.Error(t, errors.New("logger can not be nil"), err)
+	require.Nil(t, nr)
+	require.Error(t, errors.New("logger can not be nil"), err)
 
-	testLogger := TestLogger{}
+	var testLogger logging.Logger = &TestLogger{}
 
-	nr, err = New(ConfigPersonalAPIKey(testAPIkey), ConfigLogger(&testLogger))
-
-	assert.NotNil(t, nr)
-	assert.NoError(t, err)
+	nr, err = New(ConfigPersonalAPIKey(testAPIkey), ConfigLogger(testLogger))
+	require.NotNil(t, nr)
+	require.NoError(t, err)
+	require.Same(t, nr.config.Logger, testLogger)
 }
