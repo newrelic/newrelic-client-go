@@ -16,7 +16,7 @@ func TestNewStructuredLogger_private(t *testing.T) {
 
 	l := NewStructuredLogger()
 
-	l.SetLogLevel("debug")
+	l.SetLevel("debug")
 
 	// Make sure that the global logrus level is left unchanged.
 	assert.Equal(t, log.GetLevel(), logrusLevel)
@@ -31,13 +31,13 @@ func TestSetLevel(t *testing.T) {
 
 	defaultLevel, err := log.ParseLevel(defaultLogLevel)
 
-	l.SetLogLevel("")
+	l.SetLevel("")
 	loggerLevel := l.logger.GetLevel()
 
 	assert.NoError(t, err)
 	assert.Equal(t, loggerLevel, defaultLevel)
 
-	l.SetLogLevel("notdebug")
+	l.SetLevel("notdebug")
 	loggerLevel = l.logger.GetLevel()
 	assert.Equal(t, loggerLevel, defaultLevel)
 
