@@ -100,7 +100,7 @@ func (r *GraphQLErrorResponse) IsUnauthorized(resp *http.Response) bool {
 		return false
 	}
 
-	if resp.StatusCode == 401 {
+	if resp.StatusCode == http.StatusUnauthorized {
 		return true
 	}
 
