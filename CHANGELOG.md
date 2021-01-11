@@ -1,3 +1,8 @@
+<a name="v0.55.2"></a>
+## [v0.55.2] - 2021-01-11
+### Bug Fixes
+- **http:** slightly better error message for 401 status code
+
 <a name="v0.55.1"></a>
 ## [v0.55.1] - 2021-01-11
 ### Bug Fixes
@@ -905,7 +910,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.2...HEAD
+[v0.55.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.1...v0.55.2
 [v0.55.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.0...v0.55.1
 [v0.55.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.54.1...v0.55.0
 [v0.54.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.54.0...v0.54.1
