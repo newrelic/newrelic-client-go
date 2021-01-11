@@ -2,6 +2,7 @@ package http
 
 import (
 	"encoding/json"
+	"net/http"
 	"strings"
 )
 
@@ -20,6 +21,7 @@ type GraphQLError struct {
 	Path       []string `json:"path,omitempty"`
 	Extensions struct {
 		ErrorClass string `json:"errorClass,omitempty"`
+		ErrorCode  string `json:"error_code,omitempty"`
 	} `json:"extensions,omitempty"`
 	DownstreamResponse []GraphQLDownstreamResponse `json:"downstreamResponse,omitempty"`
 }
@@ -85,6 +87,27 @@ func (r *GraphQLErrorResponse) IsRetryableError() bool {
 			if downstreamErr.Extensions.Code == "INTERNAL_SERVER_ERROR" {
 				return true
 			}
+		}
+	}
+
+	return false
+}
+
+// IsUnauthorized checks a NerdGraph response for a 401 Unauthorize HTTP status code,
+// then falls back to check the nested extensions error_code field for `BAD_API_KEY`.
+func (r *GraphQLErrorResponse) IsUnauthorized(resp *http.Response) bool {
+	if len(r.Errors) == 0 {
+		return false
+	}
+
+	if resp.StatusCode == 401 {
+		return true
+	}
+
+	// Handle invalid or missing API key
+	for _, err := range r.Errors {
+		if err.Extensions.ErrorCode == "BAD_API_KEY" {
+			return true
 		}
 	}
 
