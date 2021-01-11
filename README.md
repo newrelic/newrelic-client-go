@@ -117,6 +117,11 @@ NEW_RELIC_LICENSE_KEY
 NEW_RELIC_REGION
 ```
 
+Optional for debugging (defaults to `debug`):
+
+```
+NEW_RELIC_LOG_LEVEL=trace
+```
 
 #### Go Version Support
 
