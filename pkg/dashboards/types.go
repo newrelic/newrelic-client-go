@@ -166,7 +166,7 @@ type DashboardLineWidgetConfigurationInput struct {
 // DashboardMarkdownWidgetConfigurationInput - Configuration for visualization type 'viz.markdown'
 type DashboardMarkdownWidgetConfigurationInput struct {
 	// Markdown content of the widget
-	Text string `json:"text"`
+	Text string `json:"text,omitempty"`
 }
 
 // DashboardPageInput - Page input
@@ -212,19 +212,19 @@ type DashboardUpdateResult struct {
 // DashboardWidgetConfigurationInput - Typed configuration for known visualizations. At most one may be populated.
 type DashboardWidgetConfigurationInput struct {
 	// Configuration for visualization type 'viz.area'
-	Area DashboardAreaWidgetConfigurationInput `json:"area,omitempty"`
+	Area *DashboardAreaWidgetConfigurationInput `json:"area,omitempty"`
 	// Configuration for visualization type 'viz.bar'
-	Bar DashboardBarWidgetConfigurationInput `json:"bar,omitempty"`
+	Bar *DashboardBarWidgetConfigurationInput `json:"bar,omitempty"`
 	// Configuration for visualization type 'viz.billboard'
-	Billboard DashboardBillboardWidgetConfigurationInput `json:"billboard,omitempty"`
+	Billboard *DashboardBillboardWidgetConfigurationInput `json:"billboard,omitempty"`
 	// Configuration for visualization type 'viz.line'
-	Line DashboardLineWidgetConfigurationInput `json:"line,omitempty"`
+	Line *DashboardLineWidgetConfigurationInput `json:"line,omitempty"`
 	// Configuration for visualization type 'viz.markdown'
-	Markdown DashboardMarkdownWidgetConfigurationInput `json:"markdown,omitempty"`
+	Markdown *DashboardMarkdownWidgetConfigurationInput `json:"markdown,omitempty"`
 	// Configuration for visualization type 'viz.pie'
-	Pie DashboardPieWidgetConfigurationInput `json:"pie,omitempty"`
+	Pie *DashboardPieWidgetConfigurationInput `json:"pie,omitempty"`
 	// Configuration for visualization type 'viz.table'
-	Table DashboardTableWidgetConfigurationInput `json:"table,omitempty"`
+	Table *DashboardTableWidgetConfigurationInput `json:"table,omitempty"`
 }
 
 // DashboardWidgetInput - Widget Input
