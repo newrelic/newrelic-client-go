@@ -174,7 +174,7 @@ $ make docs
 
 New Relic hosts and moderates an online forum where you can interact with New Relic employees as well as other customers to get help and share best practices. Like all New Relic open source community projects, there's a related topic in the New Relic Explorers Hub. You can find our team's project topic/threads here:
 
-[Developer Tool Kit](https://discuss.newrelic.com/t/about-the-developer-toolkit-category/90159)
+[Developer ToolKit](https://discuss.newrelic.com/t/about-the-developer-toolkit-category/90159)
 
 Please do not report issues with Top to New Relic Global Technical Support. Instead, visit the [`Explorers Hub`](https://discuss.newrelic.com/c/build-on-new-relic) for troubleshooting and best-practices.
 
