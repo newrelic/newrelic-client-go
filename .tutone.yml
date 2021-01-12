@@ -175,6 +175,23 @@ packages:
         field_type_override: string
         skip_type_create: true
 
+      # These need to be pointers within DashboardWidgetConfigurationInput, so
+      # they can be nullable
+      - name: DashboardAreaWidgetConfigurationInput
+        field_type_override: "*DashboardAreaWidgetConfigurationInput"
+      - name: DashboardBarWidgetConfigurationInput
+        field_type_override: "*DashboardBarWidgetConfigurationInput"
+      - name: DashboardBillboardWidgetConfigurationInput
+        field_type_override: "*DashboardBillboardWidgetConfigurationInput"
+      - name: DashboardLineWidgetConfigurationInput
+        field_type_override: "*DashboardLineWidgetConfigurationInput"
+      - name: DashboardMarkdownWidgetConfigurationInput
+        field_type_override: "*DashboardMarkdownWidgetConfigurationInput"
+      - name: DashboardPieWidgetConfigurationInput
+        field_type_override: "*DashboardPieWidgetConfigurationInput"
+      - name: DashboardTableWidgetConfigurationInput
+        field_type_override: "*DashboardTableWidgetConfigurationInput"
+
       - name: DashboardAlertSeverity
         field_type_override: entities.DashboardAlertSeverity
         skip_type_create: true

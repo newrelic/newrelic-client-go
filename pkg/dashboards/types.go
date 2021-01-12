@@ -166,7 +166,7 @@ type DashboardLineWidgetConfigurationInput struct {
 // DashboardMarkdownWidgetConfigurationInput - Configuration for visualization type 'viz.markdown'
 type DashboardMarkdownWidgetConfigurationInput struct {
 	// Markdown content of the widget
-	Text string `json:"text,omitempty"`
+	Text string `json:"text"`
 }
 
 // DashboardPageInput - Page input
