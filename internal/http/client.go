@@ -14,6 +14,7 @@ import (
 
 	retryablehttp "github.com/hashicorp/go-retryablehttp"
 
+	"github.com/newrelic/newrelic-client-go/internal/logging"
 	"github.com/newrelic/newrelic-client-go/internal/version"
 	"github.com/newrelic/newrelic-client-go/pkg/config"
 	nrErrors "github.com/newrelic/newrelic-client-go/pkg/errors"
@@ -45,6 +46,8 @@ type Client struct {
 	compressor RequestCompressor
 
 	errorValue ErrorResponse
+
+	logger logging.Logger
 }
 
 // NewClient is used to create a new instance of Client.
@@ -84,11 +87,20 @@ func NewClient(cfg config.Config) Client {
 	// Disable logging in go-retryablehttp since we are logging requests directly here
 	r.Logger = nil
 
+	// Use the logger from the configuration or use a default NewStructuredLogger.
+	var logger logging.Logger
+	if cfg.Logger != nil {
+		logger = cfg.Logger
+	} else {
+		logger = logging.NewStructuredLogger()
+	}
+
 	client := Client{
 		authStrategy: &ClassicV2Authorizer{},
 		client:       r,
 		config:       cfg,
 		errorValue:   &DefaultErrorResponse{},
+		logger:       logger,
 	}
 
 	switch cfg.Compression {
@@ -320,8 +332,7 @@ func (c *Client) Do(req *Request) (*http.Response, error) {
 	var errorValue ErrorResponse
 	var body []byte
 
-	logger := c.config.GetLogger()
-	logger.Debug("performing request", "method", req.method, "url", req.url)
+	c.logger.Debug("performing request", "method", req.method, "url", req.url)
 
 	for i := 0; ; i++ {
 		var shouldRetry bool
@@ -378,8 +389,6 @@ func (c *Client) innerDo(req *Request, errorValue ErrorResponse, i int) (*http.R
 		return nil, nil, false, err
 	}
 
-	logger := c.config.GetLogger()
-
 	logHeaders, err := logCleanHeaderMarshalJSON(r.Header)
 	if err != nil {
 		return nil, nil, false, err
@@ -395,20 +404,20 @@ func (c *Client) innerDo(req *Request, errorValue ErrorResponse, i int) (*http.R
 				return nil, nil, false, marshalErr
 			}
 
-			logger.Trace("request details",
+			c.logger.Trace("request details",
 				"headers", logNice(string(logHeaders)),
 				"query", logNice(x.Query),
 				"variables", string(logVariables),
 			)
 		case "string":
-			logger.Trace("request details", "headers", string(logHeaders), "body", logNice(req.reqBody.(string)))
+			c.logger.Trace("request details", "headers", string(logHeaders), "body", logNice(req.reqBody.(string)))
 		}
 	} else {
-		logger.Trace("request details", "headers", string(logHeaders))
+		c.logger.Trace("request details", "headers", string(logHeaders))
 	}
 
 	if i > 0 {
-		logger.Debug(fmt.Sprintf("retrying request (attempt %d)", i), "method", req.method, "url", r.URL)
+		c.logger.Debug(fmt.Sprintf("retrying request (attempt %d)", i), "method", req.method, "url", r.URL)
 	}
 
 	resp, retryErr := c.client.Do(r)
@@ -433,7 +442,7 @@ func (c *Client) innerDo(req *Request, errorValue ErrorResponse, i int) (*http.R
 		return resp, body, false, err
 	}
 
-	logger.Trace("request completed", "method", req.method, "url", r.URL, "status_code", resp.StatusCode, "headers", string(logHeaders), "body", string(body))
+	c.logger.Trace("request completed", "method", req.method, "url", r.URL, "status_code", resp.StatusCode, "headers", string(logHeaders), "body", string(body))
 
 	_ = json.Unmarshal(body, &errorValue)
 
@@ -447,7 +456,7 @@ func (c *Client) innerDo(req *Request, errorValue ErrorResponse, i int) (*http.R
 
 	remain := c.client.RetryMax - i
 	if remain <= 0 {
-		logger.Debug(fmt.Sprintf("giving up after %d attempts", c.client.RetryMax), "method", req.method, "url", r.URL)
+		c.logger.Debug(fmt.Sprintf("giving up after %d attempts", c.client.RetryMax), "method", req.method, "url", r.URL)
 		return resp, body, false, nil
 	}
 

@@ -5,8 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"time"
-
-	log "github.com/sirupsen/logrus"
 )
 
 // BatchMode enables the Logs client to accept, queue, and post
@@ -34,7 +32,7 @@ func (e *Logs) BatchMode(ctx context.Context, accountID int, opts ...BatchConfig
 	go func() {
 		err := e.watchdog(ctx)
 		if err != nil {
-			log.Errorf("watchdog returned error: %v", err)
+			e.logger.Error(fmt.Sprintf("watchdog returned error: %v", err))
 		}
 	}()
 
@@ -43,10 +41,10 @@ func (e *Logs) BatchMode(ctx context.Context, accountID int, opts ...BatchConfig
 		e.flushQueue[x] = make(chan bool, 1)
 
 		go func(id int) {
-			log.Tracef("inside anonymous function")
+			e.logger.Trace("inside anonymous function")
 			err := e.batchWorker(ctx, id)
 			if err != nil {
-				log.Errorf("batch worker returned error: %v", err)
+				e.logger.Error(fmt.Sprintf("batch worker returned error: %v", err))
 			}
 		}(x)
 	}
@@ -101,13 +99,13 @@ func BatchConfigTimeout(seconds int) BatchConfigOption {
 // EnqueueLogEntry handles the queueing. Only works in batch mode. If you wish to be able to avoid blocking
 // forever until the log can be queued, provide a ctx with a deadline or timeout as this function will
 // bail when ctx.Done() is closed and return and error.
-func (e *Logs) EnqueueLogEntry(ctx context.Context, log interface{}) (err error) {
+func (e *Logs) EnqueueLogEntry(ctx context.Context, msg interface{}) (err error) {
 	if e.logQueue == nil {
 		return errors.New("queueing not enabled for this client")
 	}
 
 	select {
-	case e.logQueue <- log:
+	case e.logQueue <- msg:
 		e.logger.Trace("EnqueueLogEntry: log entry queued ")
 		return nil
 	case <-ctx.Done():

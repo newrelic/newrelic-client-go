@@ -7,4 +7,5 @@ type Logger interface {
 	Info(string, ...interface{})
 	Debug(string, ...interface{})
 	Trace(string, ...interface{})
+	SetLevel(string)
 }
