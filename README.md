@@ -172,7 +172,7 @@ $ make docs
 
 ## Community Support
 
-New Relic hosts and moderates an online forum where you can interact with New Relic employees as well as other customers to get help and share best practices. Like all New Relic open source community projects, there's a related topic in the New Relic Explorers Hub. You can find our Team's project topic/threads here:
+New Relic hosts and moderates an online forum where you can interact with New Relic employees as well as other customers to get help and share best practices. Like all New Relic open source community projects, there's a related topic in the New Relic Explorers Hub. You can find our team's project topic/threads here:
 
 [Developer Tool Kit](https://discuss.newrelic.com/t/about-the-developer-toolkit-category/90159)
 
