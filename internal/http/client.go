@@ -350,6 +350,10 @@ func (c *Client) Do(req *Request) (*http.Response, error) {
 	}
 
 	if !isResponseSuccess(resp) {
+		if errorValue.IsUnauthorized(resp) {
+			return nil, nrErrors.NewUnauthorizedError()
+		}
+
 		return nil, nrErrors.NewUnexpectedStatusCode(resp.StatusCode, errorValue.Error())
 	}
 

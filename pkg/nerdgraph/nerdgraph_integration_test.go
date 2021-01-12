@@ -1,4 +1,4 @@
-// +build sometimes
+// +build integration
 
 package nerdgraph
 

@@ -1,3 +1,18 @@
+<a name="v0.55.3"></a>
+## [v0.55.3] - 2021-01-12
+### Bug Fixes
+- **dashboards:** remove manual changes so code generation works again
+
+<a name="v0.55.2"></a>
+## [v0.55.2] - 2021-01-11
+### Bug Fixes
+- **http:** slightly better error message for 401 status code
+
+<a name="v0.55.1"></a>
+## [v0.55.1] - 2021-01-11
+### Bug Fixes
+- **dashboards:** DashboardWidgetConfigurationInput needs to be nullable
+
 <a name="v0.55.0"></a>
 ## [v0.55.0] - 2021-01-05
 ### Features
@@ -900,7 +915,10 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.3...HEAD
+[v0.55.3]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.2...v0.55.3
+[v0.55.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.1...v0.55.2
+[v0.55.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.0...v0.55.1
 [v0.55.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.54.1...v0.55.0
 [v0.54.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.54.0...v0.54.1
 [v0.54.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.53.0...v0.54.0
