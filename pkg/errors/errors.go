@@ -3,6 +3,7 @@ package errors
 
 import (
 	"fmt"
+	"net/http"
 )
 
 // NewNotFound returns a new instance of NotFound with an optional custom error message.
@@ -84,6 +85,32 @@ type UnexpectedStatusCode struct {
 }
 
 func (e *UnexpectedStatusCode) Error() string {
+	msg := fmt.Sprintf("%d response returned", e.statusCode)
+
+	if e.err != "" {
+		msg += fmt.Sprintf(": %s", e.err)
+	}
+
+	return msg
+}
+
+// NewUnauthorizedError returns a new instance of UnauthorizedError
+// with an optional custom message.
+func NewUnauthorizedError() *UnauthorizedError {
+	return &UnauthorizedError{
+		err:        "Invalid credentials provided. Missing API key or an invalid API key was provided.",
+		statusCode: http.StatusUnauthorized,
+	}
+}
+
+// UnauthorizedError is returned when a 401 HTTP status code is returned
+// from New Relic's APIs.
+type UnauthorizedError struct {
+	err        string
+	statusCode int
+}
+
+func (e *UnauthorizedError) Error() string {
 	msg := fmt.Sprintf("%d response returned", e.statusCode)
 
 	if e.err != "" {

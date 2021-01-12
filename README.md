@@ -116,6 +116,12 @@ NEW_RELIC_LICENSE_KEY
 NEW_RELIC_REGION
 ```
 
+Optional for debugging (defaults to `debug`):
+
+``` bash
+NEW_RELIC_LOG_LEVEL=trace
+```
+
 #### Go Version Support
 
 We'll aim to support the latest supported release of Go, along with the

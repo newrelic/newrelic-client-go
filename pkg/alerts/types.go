@@ -3,6 +3,41 @@ package alerts
 
 import "github.com/newrelic/newrelic-client-go/pkg/nrtime"
 
+// AlertsDayOfWeek - The day of the week used to configure a WEEKLY scheduled MutingRule
+type AlertsDayOfWeek string
+
+var AlertsDayOfWeekTypes = struct {
+	// Friday
+	FRIDAY AlertsDayOfWeek
+	// Monday
+	MONDAY AlertsDayOfWeek
+	// Saturday
+	SATURDAY AlertsDayOfWeek
+	// Sunday
+	SUNDAY AlertsDayOfWeek
+	// Thursday
+	THURSDAY AlertsDayOfWeek
+	// Tuesday
+	TUESDAY AlertsDayOfWeek
+	// Wednesday
+	WEDNESDAY AlertsDayOfWeek
+}{
+	// Friday
+	FRIDAY: "FRIDAY",
+	// Monday
+	MONDAY: "MONDAY",
+	// Saturday
+	SATURDAY: "SATURDAY",
+	// Sunday
+	SUNDAY: "SUNDAY",
+	// Thursday
+	THURSDAY: "THURSDAY",
+	// Tuesday
+	TUESDAY: "TUESDAY",
+	// Wednesday
+	WEDNESDAY: "WEDNESDAY",
+}
+
 // AlertsIncidentPreference - Determines how incidents are created for critical violations of the conditions contained in the policy.
 type AlertsIncidentPreference string
 
@@ -102,6 +137,25 @@ var AlertsMutingRuleConditionOperatorTypes = struct {
 	STARTS_WITH: "STARTS_WITH",
 }
 
+// AlertsMutingRuleScheduleRepeat - Details about if or how frequently a MutingRule's schedule repeats.
+type AlertsMutingRuleScheduleRepeat string
+
+var AlertsMutingRuleScheduleRepeatTypes = struct {
+	// Schedule repeats once per calendar day
+	DAILY AlertsMutingRuleScheduleRepeat
+	// Schedule repeats once per calendar month
+	MONTHLY AlertsMutingRuleScheduleRepeat
+	// Schedule repeats once per specified day per calendar week
+	WEEKLY AlertsMutingRuleScheduleRepeat
+}{
+	// Schedule repeats once per calendar day
+	DAILY: "DAILY",
+	// Schedule repeats once per calendar month
+	MONTHLY: "MONTHLY",
+	// Schedule repeats once per specified day per calendar week
+	WEEKLY: "WEEKLY",
+}
+
 // AlertsNRQLConditionTermsOperator - Operator used to compare against the threshold for NrqlConditions.
 type AlertsNRQLConditionTermsOperator string
 
@@ -169,11 +223,30 @@ type AlertsMutingRuleInput struct {
 
 // AlertsMutingRuleScheduleInput - The time window when the MutingRule should actively mute violations.
 type AlertsMutingRuleScheduleInput struct {
+	// The datetime stamp when the MutingRule schedule should stop repeating.
+	// This is in local ISO 8601 format without an offset.
+	//
+	// Example: `'2020-07-10T15:00:00'`
+	//
+	// Note: Either `endRepeat` or `repeatCount` should be used to end a MutingRule schedule.
+	// Both fields should not be provided together.
+	EndRepeat nrtime.NaiveDateTime `json:"endRepeat,omitempty"`
 	// The datetime stamp representing when the MutingRule should end.
 	// This is in local ISO 8601 format without an offset.
 	//
 	// Example: `'2020-07-10T15:00:00'`
 	EndTime nrtime.NaiveDateTime `json:"endTime,omitempty"`
+	// The frequency the MutingRule schedule repeats.
+	// If the MutingRule repeats `WEEKLY`, be sure to set `weeklyRepeatDays`.
+	// If the MutingRule does not repeat, use `null`.
+	//
+	// Example: `DAILY`
+	Repeat AlertsMutingRuleScheduleRepeat `json:"repeat,omitempty"`
+	// The number of times the MutingRule schedule should repeat.
+	//
+	// Note: Either `repeatCount` or `endRepeat` should be used to end a MutingRule schedule.
+	// Both fields should not be provided together.
+	RepeatCount int `json:"repeatCount,omitempty"`
 	// The datetime stamp representing when the MutingRule should start.
 	// This is in local ISO 8601 format without an offset.
 	//
@@ -185,6 +258,10 @@ type AlertsMutingRuleScheduleInput struct {
 	//
 	// See https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
 	TimeZone string `json:"timeZone"`
+	// The day(s) of the week that a MutingRule should repeat when the repeat field is set to `WEEKLY`.
+	//
+	// Example: `[MONDAY, WEDNESDAY]`
+	WeeklyRepeatDays []AlertsDayOfWeek `json:"weeklyRepeatDays"`
 }
 
 // AlertsPoliciesSearchCriteriaInput - Search criteria for returning specific policies.

@@ -153,6 +153,91 @@ packages:
         field_type_override: nrtime.EpochMilliseconds
         skip_type_create: true
 
+  - name: dashboards
+    path: pkg/dashboards
+    import_path: github.com/newrelic/newrelic-client-go/pkg/dashboards
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/pkg/entities
+      - github.com/newrelic/newrelic-client-go/pkg/nrdb
+    mutations:
+      - name: dashboardCreate
+        max_query_field_depth: 10
+      - name: dashboardDelete
+        max_query_field_depth: 10
+      - name: dashboardUpdate
+        max_query_field_depth: 10
+    types:
+      # This must be a string, as where ID is used the type is a string...
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+
+      # These need to be pointers within DashboardWidgetConfigurationInput, so
+      # they can be nullable
+      - name: DashboardAreaWidgetConfigurationInput
+        field_type_override: "*DashboardAreaWidgetConfigurationInput"
+      - name: DashboardBarWidgetConfigurationInput
+        field_type_override: "*DashboardBarWidgetConfigurationInput"
+      - name: DashboardBillboardWidgetConfigurationInput
+        field_type_override: "*DashboardBillboardWidgetConfigurationInput"
+      - name: DashboardLineWidgetConfigurationInput
+        field_type_override: "*DashboardLineWidgetConfigurationInput"
+      - name: DashboardMarkdownWidgetConfigurationInput
+        field_type_override: "*DashboardMarkdownWidgetConfigurationInput"
+      - name: DashboardPieWidgetConfigurationInput
+        field_type_override: "*DashboardPieWidgetConfigurationInput"
+      - name: DashboardTableWidgetConfigurationInput
+        field_type_override: "*DashboardTableWidgetConfigurationInput"
+
+      - name: DashboardAlertSeverity
+        field_type_override: entities.DashboardAlertSeverity
+        skip_type_create: true
+      - name: DashboardEntity
+        field_type_override: entities.DashboardEntity
+        skip_type_create: true
+      - name: DashboardEntityOutline
+        field_type_override: entities.DashboardEntityOutline
+        skip_type_create: true
+      - name: DashboardOwnerInfo
+        field_type_override: entities.DashboardOwnerInfo
+        skip_type_create: true
+      - name: DashboardPage
+        field_type_override: entities.DashboardPage
+        skip_type_create: true
+      - name: DashboardPermissions
+        field_type_override: entities.DashboardPermissions
+        skip_type_create: true
+      - name: DashboardWidget
+        field_type_override: entities.DashboardWidget
+        skip_type_create: true
+      - name: DashboardWidgetRawConfiguration
+        field_type_override: entities.DashboardWidgetRawConfiguration
+        skip_type_create: true
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
+      - name: Entity
+        field_type_override: entities.Entity
+        skip_type_create: true
+      - name: EntityGuid
+        field_type_override: entities.EntityGUID
+        skip_type_create: true
+      - name: EntityOutline
+        field_type_override: entities.EntityOutline
+        skip_type_create: true
+      - name: EntityResult
+        field_type_override: entities.EntityResult
+        skip_type_create: true
+      - name: GenericEntityOutline
+        field_type_override: entities.GenericEntityOutline
+        skip_type_create: true
+      - name: Nrql
+        field_type_override: nrdb.NRQL
+        skip_type_create: true
+
 
   - name: edge
     path: pkg/edge
@@ -217,21 +302,18 @@ packages:
         max_query_field_depth: 1
 
     types:
+      # Overrides for types this package owns
       - name: AttributeMap
         create_as: "map[string]interface{}"
+      # This must be a string, as where ID is used the type is a string...
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: DashboardWidgetRawConfiguration
+        create_as: "[]byte"
 
       # Types this package owns
-      - name: AlertableEntity
-      - name: ApmApplicationEntity
-      - name: ApmBrowserApplicationEntity
-      - name: ApmDatabaseInstanceEntity
-      - name: ApmExternalServiceEntity
-      - name: BrowserApplicationEntity
-      - name: CollectionEntity
-      - name: DashboardEntity
-      - name: Entity
       - name: EntityGuid
-      - name: EntityOutline
       - name: EntityRelationship
       - name: EntityRelationshipFilter
       - name: EntityRelationshipNode
@@ -248,18 +330,100 @@ packages:
       - name: EntityTagValueWithMetadata
       - name: EntityTagWithMetadata
       - name: EntityType
+
+      # List of entities
+      - name: Entity
+        interface_methods:
+          - "GetAccountID() int"
+          - "GetDomain() string"
+          - "GetGUID() EntityGUID"
+          - "GetName() string"
+          - "GetType() string"
+      - name: AlertableEntity
+        generate_struct_getters: true
+      - name: ApmApplicationEntity
+        generate_struct_getters: true
+      - name: ApmBrowserApplicationEntity
+        generate_struct_getters: true
+      - name: ApmDatabaseInstanceEntity
+        generate_struct_getters: true
+      - name: ApmExternalServiceEntity
+        generate_struct_getters: true
+      - name: BrowserApplicationEntity
+        generate_struct_getters: true
+      - name: CollectionEntity
+        generate_struct_getters: true
+      - name: DashboardEntity
+        generate_struct_getters: true
       - name: GenericEntity
-      - name: GenericEntityOutline
+        generate_struct_getters: true
       - name: GenericInfrastructureEntity
+        generate_struct_getters: true
       - name: InfrastructureAwsLambdaFunctionEntity
+        generate_struct_getters: true
       - name: InfrastructureHostEntity
+        generate_struct_getters: true
       - name: InfrastructureIntegrationEntity
+        generate_struct_getters: true
       - name: MobileApplicationEntity
+        generate_struct_getters: true
+      - name: SecureCredentialEntity
+        generate_struct_getters: true
       - name: SyntheticMonitorEntity
+        generate_struct_getters: true
       - name: ThirdPartyServiceEntity
+        generate_struct_getters: true
       - name: UnavailableEntity
-      - name: UnavailableEntityOutline
+        generate_struct_getters: true
       - name: WorkloadEntity
+        generate_struct_getters: true
+
+      # Entity Outlines contain the summary of an Entity's data
+      - name: EntityOutline
+        interface_methods:
+          - "GetAccountID() int"
+          - "GetDomain() string"
+          - "GetGUID() EntityGUID"
+          - "GetName() string"
+          - "GetType() string"
+      - name: AlertableEntityOutline
+        generate_struct_getters: true
+      - name: ApmApplicationEntityOutline
+        generate_struct_getters: true
+      - name: ApmBrowserApplicationEntityOutline
+        generate_struct_getters: true
+      - name: ApmDatabaseInstanceEntityOutline
+        generate_struct_getters: true
+      - name: ApmExternalServiceEntityOutline
+        generate_struct_getters: true
+      - name: BrowserApplicationEntityOutline
+        generate_struct_getters: true
+      - name: CollectionEntityOutline
+        generate_struct_getters: true
+      - name: DashboardEntityOutline
+        generate_struct_getters: true
+      - name: GenericEntityOutline
+        generate_struct_getters: true
+      - name: GenericInfrastructureEntityOutline
+        generate_struct_getters: true
+      - name: InfrastructureAwsLambdaFunctionEntityOutline
+        generate_struct_getters: true
+      - name: InfrastructureHostEntityOutline
+        generate_struct_getters: true
+      - name: InfrastructureIntegrationEntityOutline
+        generate_struct_getters: true
+      - name: MobileApplicationEntityOutline
+        generate_struct_getters: true
+      - name: SecureCredentialEntityOutline
+        generate_struct_getters: true
+      - name: SyntheticMonitorEntityOutline
+        generate_struct_getters: true
+      - name: ThirdPartyServiceEntityOutline
+        generate_struct_getters: true
+      - name: UnavailableEntityOutline
+        generate_struct_getters: true
+      - name: WorkloadEntityOutline
+        generate_struct_getters: true
 
       #
       # Types that our other packages define

@@ -1242,12 +1242,32 @@ type AlertableEntity struct {
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
 }
 
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from AlertableEntity
+func (x AlertableEntity) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
+}
+
+// GetAlertViolations returns a pointer to the value of AlertViolations from AlertableEntity
+func (x AlertableEntity) GetAlertViolations() []EntityAlertViolation {
+	return x.AlertViolations
+}
+
+// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from AlertableEntity
+func (x AlertableEntity) GetRecentAlertViolations() []EntityAlertViolation {
+	return x.RecentAlertViolations
+}
+
 func (x *AlertableEntity) ImplementsAlertableEntity() {}
 
 // AlertableEntityOutline -
 type AlertableEntityOutline struct {
 	// The current alerting severity of the entity
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from AlertableEntityOutline
+func (x AlertableEntityOutline) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
 }
 
 func (x *AlertableEntityOutline) ImplementsAlertableEntityOutline() {}
@@ -1334,6 +1354,141 @@ type ApmApplicationEntity struct {
 	Type string `json:"type,omitempty"`
 }
 
+// GetAccount returns a pointer to the value of Account from ApmApplicationEntity
+func (x ApmApplicationEntity) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from ApmApplicationEntity
+func (x ApmApplicationEntity) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from ApmApplicationEntity
+func (x ApmApplicationEntity) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
+}
+
+// GetAlertViolations returns a pointer to the value of AlertViolations from ApmApplicationEntity
+func (x ApmApplicationEntity) GetAlertViolations() []EntityAlertViolation {
+	return x.AlertViolations
+}
+
+// GetApmBrowserSummary returns a pointer to the value of ApmBrowserSummary from ApmApplicationEntity
+func (x ApmApplicationEntity) GetApmBrowserSummary() ApmBrowserApplicationSummaryData {
+	return x.ApmBrowserSummary
+}
+
+// GetApmSummary returns a pointer to the value of ApmSummary from ApmApplicationEntity
+func (x ApmApplicationEntity) GetApmSummary() ApmApplicationSummaryData {
+	return x.ApmSummary
+}
+
+// GetApplicationID returns a pointer to the value of ApplicationID from ApmApplicationEntity
+func (x ApmApplicationEntity) GetApplicationID() int {
+	return x.ApplicationID
+}
+
+// GetDeployments returns a pointer to the value of Deployments from ApmApplicationEntity
+func (x ApmApplicationEntity) GetDeployments() []ApmApplicationDeployment {
+	return x.Deployments
+}
+
+// GetDomain returns a pointer to the value of Domain from ApmApplicationEntity
+func (x ApmApplicationEntity) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from ApmApplicationEntity
+func (x ApmApplicationEntity) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetGUID returns a pointer to the value of GUID from ApmApplicationEntity
+func (x ApmApplicationEntity) GetGUID() EntityGUID {
+	return x.GUID
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from ApmApplicationEntity
+func (x ApmApplicationEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetLanguage returns a pointer to the value of Language from ApmApplicationEntity
+func (x ApmApplicationEntity) GetLanguage() string {
+	return x.Language
+}
+
+// GetMetricNormalizationRule returns a pointer to the value of MetricNormalizationRule from ApmApplicationEntity
+func (x ApmApplicationEntity) GetMetricNormalizationRule() MetricNormalizationRule {
+	return x.MetricNormalizationRule
+}
+
+// GetMetricNormalizationRules returns a pointer to the value of MetricNormalizationRules from ApmApplicationEntity
+func (x ApmApplicationEntity) GetMetricNormalizationRules() []MetricNormalizationRule {
+	return x.MetricNormalizationRules
+}
+
+// GetNRDBQuery returns a pointer to the value of NRDBQuery from ApmApplicationEntity
+func (x ApmApplicationEntity) GetNRDBQuery() nrdb.NRDBResultContainer {
+	return x.NRDBQuery
+}
+
+// GetName returns a pointer to the value of Name from ApmApplicationEntity
+func (x ApmApplicationEntity) GetName() string {
+	return x.Name
+}
+
+// GetNerdStorage returns a pointer to the value of NerdStorage from ApmApplicationEntity
+func (x ApmApplicationEntity) GetNerdStorage() NerdStorageEntityScope {
+	return x.NerdStorage
+}
+
+// GetPermalink returns a pointer to the value of Permalink from ApmApplicationEntity
+func (x ApmApplicationEntity) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from ApmApplicationEntity
+func (x ApmApplicationEntity) GetRecentAlertViolations() []EntityAlertViolation {
+	return x.RecentAlertViolations
+}
+
+// GetRelationships returns a pointer to the value of Relationships from ApmApplicationEntity
+func (x ApmApplicationEntity) GetRelationships() []EntityRelationship {
+	return x.Relationships
+}
+
+// GetReporting returns a pointer to the value of Reporting from ApmApplicationEntity
+func (x ApmApplicationEntity) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetRunningAgentVersions returns a pointer to the value of RunningAgentVersions from ApmApplicationEntity
+func (x ApmApplicationEntity) GetRunningAgentVersions() ApmApplicationRunningAgentVersions {
+	return x.RunningAgentVersions
+}
+
+// GetSettings returns a pointer to the value of Settings from ApmApplicationEntity
+func (x ApmApplicationEntity) GetSettings() ApmApplicationSettings {
+	return x.Settings
+}
+
+// GetTags returns a pointer to the value of Tags from ApmApplicationEntity
+func (x ApmApplicationEntity) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from ApmApplicationEntity
+func (x ApmApplicationEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
+	return x.TagsWithMetadata
+}
+
+// GetType returns a pointer to the value of Type from ApmApplicationEntity
+func (x ApmApplicationEntity) GetType() string {
+	return x.Type
+}
+
 func (x *ApmApplicationEntity) ImplementsApmBrowserApplicationEntity() {}
 
 func (x *ApmApplicationEntity) ImplementsAlertableEntity() {}
@@ -1380,6 +1535,96 @@ type ApmApplicationEntityOutline struct {
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+}
+
+// GetAccount returns a pointer to the value of Account from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
+}
+
+// GetApmBrowserSummary returns a pointer to the value of ApmBrowserSummary from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetApmBrowserSummary() ApmBrowserApplicationSummaryData {
+	return x.ApmBrowserSummary
+}
+
+// GetApmSummary returns a pointer to the value of ApmSummary from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetApmSummary() ApmApplicationSummaryData {
+	return x.ApmSummary
+}
+
+// GetApplicationID returns a pointer to the value of ApplicationID from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetApplicationID() int {
+	return x.ApplicationID
+}
+
+// GetDomain returns a pointer to the value of Domain from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetGUID returns a pointer to the value of GUID from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetGUID() EntityGUID {
+	return x.GUID
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetLanguage returns a pointer to the value of Language from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetLanguage() string {
+	return x.Language
+}
+
+// GetName returns a pointer to the value of Name from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetName() string {
+	return x.Name
+}
+
+// GetPermalink returns a pointer to the value of Permalink from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetReporting returns a pointer to the value of Reporting from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetRunningAgentVersions returns a pointer to the value of RunningAgentVersions from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetRunningAgentVersions() ApmApplicationRunningAgentVersions {
+	return x.RunningAgentVersions
+}
+
+// GetSettings returns a pointer to the value of Settings from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetSettings() ApmApplicationSettings {
+	return x.Settings
+}
+
+// GetTags returns a pointer to the value of Tags from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetType returns a pointer to the value of Type from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetType() string {
+	return x.Type
 }
 
 func (x *ApmApplicationEntityOutline) ImplementsApmBrowserApplicationEntityOutline() {}
@@ -1435,12 +1680,22 @@ type ApmBrowserApplicationEntity struct {
 	ApmBrowserSummary ApmBrowserApplicationSummaryData `json:"apmBrowserSummary,omitempty"`
 }
 
+// GetApmBrowserSummary returns a pointer to the value of ApmBrowserSummary from ApmBrowserApplicationEntity
+func (x ApmBrowserApplicationEntity) GetApmBrowserSummary() ApmBrowserApplicationSummaryData {
+	return x.ApmBrowserSummary
+}
+
 func (x *ApmBrowserApplicationEntity) ImplementsApmBrowserApplicationEntity() {}
 
 // ApmBrowserApplicationEntityOutline - The `ApmBrowserApplicationEntityOutline` interface provides detailed information for the Browser App injected by an APM Application.
 type ApmBrowserApplicationEntityOutline struct {
 	//
 	ApmBrowserSummary ApmBrowserApplicationSummaryData `json:"apmBrowserSummary,omitempty"`
+}
+
+// GetApmBrowserSummary returns a pointer to the value of ApmBrowserSummary from ApmBrowserApplicationEntityOutline
+func (x ApmBrowserApplicationEntityOutline) GetApmBrowserSummary() ApmBrowserApplicationSummaryData {
+	return x.ApmBrowserSummary
 }
 
 func (x *ApmBrowserApplicationEntityOutline) ImplementsApmBrowserApplicationEntityOutline() {}
@@ -1507,6 +1762,96 @@ type ApmDatabaseInstanceEntity struct {
 	Vendor string `json:"vendor,omitempty"`
 }
 
+// GetAccount returns a pointer to the value of Account from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetDomain returns a pointer to the value of Domain from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetGUID returns a pointer to the value of GUID from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetGUID() EntityGUID {
+	return x.GUID
+}
+
+// GetHost returns a pointer to the value of Host from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetHost() string {
+	return x.Host
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetNRDBQuery returns a pointer to the value of NRDBQuery from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetNRDBQuery() nrdb.NRDBResultContainer {
+	return x.NRDBQuery
+}
+
+// GetName returns a pointer to the value of Name from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetName() string {
+	return x.Name
+}
+
+// GetNerdStorage returns a pointer to the value of NerdStorage from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetNerdStorage() NerdStorageEntityScope {
+	return x.NerdStorage
+}
+
+// GetPermalink returns a pointer to the value of Permalink from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetPortOrPath returns a pointer to the value of PortOrPath from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetPortOrPath() string {
+	return x.PortOrPath
+}
+
+// GetRelationships returns a pointer to the value of Relationships from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetRelationships() []EntityRelationship {
+	return x.Relationships
+}
+
+// GetReporting returns a pointer to the value of Reporting from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetTags returns a pointer to the value of Tags from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
+	return x.TagsWithMetadata
+}
+
+// GetType returns a pointer to the value of Type from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetType() string {
+	return x.Type
+}
+
+// GetVendor returns a pointer to the value of Vendor from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetVendor() string {
+	return x.Vendor
+}
+
 func (x *ApmDatabaseInstanceEntity) ImplementsEntity() {}
 
 // ApmDatabaseInstanceEntityOutline - A database instance seen by an APM Application
@@ -1541,6 +1886,76 @@ type ApmDatabaseInstanceEntityOutline struct {
 	Type string `json:"type,omitempty"`
 	// The type of database. ex: `Postgres` | `Redis`
 	Vendor string `json:"vendor,omitempty"`
+}
+
+// GetAccount returns a pointer to the value of Account from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetDomain returns a pointer to the value of Domain from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetGUID returns a pointer to the value of GUID from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetGUID() EntityGUID {
+	return x.GUID
+}
+
+// GetHost returns a pointer to the value of Host from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetHost() string {
+	return x.Host
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetName returns a pointer to the value of Name from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetName() string {
+	return x.Name
+}
+
+// GetPermalink returns a pointer to the value of Permalink from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetPortOrPath returns a pointer to the value of PortOrPath from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetPortOrPath() string {
+	return x.PortOrPath
+}
+
+// GetReporting returns a pointer to the value of Reporting from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetTags returns a pointer to the value of Tags from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetType returns a pointer to the value of Type from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetType() string {
+	return x.Type
+}
+
+// GetVendor returns a pointer to the value of Vendor from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetVendor() string {
+	return x.Vendor
 }
 
 func (x *ApmDatabaseInstanceEntityOutline) ImplementsEntityOutline() {}
@@ -1591,6 +2006,91 @@ type ApmExternalServiceEntity struct {
 	Type string `json:"type,omitempty"`
 }
 
+// GetAccount returns a pointer to the value of Account from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetDomain returns a pointer to the value of Domain from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetExternalSummary returns a pointer to the value of ExternalSummary from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetExternalSummary() ApmExternalServiceSummaryData {
+	return x.ExternalSummary
+}
+
+// GetGUID returns a pointer to the value of GUID from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetGUID() EntityGUID {
+	return x.GUID
+}
+
+// GetHost returns a pointer to the value of Host from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetHost() string {
+	return x.Host
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetNRDBQuery returns a pointer to the value of NRDBQuery from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetNRDBQuery() nrdb.NRDBResultContainer {
+	return x.NRDBQuery
+}
+
+// GetName returns a pointer to the value of Name from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetName() string {
+	return x.Name
+}
+
+// GetNerdStorage returns a pointer to the value of NerdStorage from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetNerdStorage() NerdStorageEntityScope {
+	return x.NerdStorage
+}
+
+// GetPermalink returns a pointer to the value of Permalink from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetRelationships returns a pointer to the value of Relationships from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetRelationships() []EntityRelationship {
+	return x.Relationships
+}
+
+// GetReporting returns a pointer to the value of Reporting from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetTags returns a pointer to the value of Tags from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
+	return x.TagsWithMetadata
+}
+
+// GetType returns a pointer to the value of Type from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetType() string {
+	return x.Type
+}
+
 func (x *ApmExternalServiceEntity) ImplementsEntity() {}
 
 // ApmExternalServiceEntityOutline - An external service seen by an APM Application.
@@ -1623,6 +2123,71 @@ type ApmExternalServiceEntityOutline struct {
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+}
+
+// GetAccount returns a pointer to the value of Account from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetDomain returns a pointer to the value of Domain from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetExternalSummary returns a pointer to the value of ExternalSummary from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetExternalSummary() ApmExternalServiceSummaryData {
+	return x.ExternalSummary
+}
+
+// GetGUID returns a pointer to the value of GUID from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetGUID() EntityGUID {
+	return x.GUID
+}
+
+// GetHost returns a pointer to the value of Host from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetHost() string {
+	return x.Host
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetName returns a pointer to the value of Name from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetName() string {
+	return x.Name
+}
+
+// GetPermalink returns a pointer to the value of Permalink from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetReporting returns a pointer to the value of Reporting from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetTags returns a pointer to the value of Tags from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetType returns a pointer to the value of Type from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetType() string {
+	return x.Type
 }
 
 func (x *ApmExternalServiceEntityOutline) ImplementsEntityOutline() {}
@@ -1695,6 +2260,126 @@ type BrowserApplicationEntity struct {
 	Type string `json:"type,omitempty"`
 }
 
+// GetAccount returns a pointer to the value of Account from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetAgentInstallType returns a pointer to the value of AgentInstallType from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetAgentInstallType() BrowserAgentInstallType {
+	return x.AgentInstallType
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
+}
+
+// GetAlertViolations returns a pointer to the value of AlertViolations from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetAlertViolations() []EntityAlertViolation {
+	return x.AlertViolations
+}
+
+// GetApplicationID returns a pointer to the value of ApplicationID from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetApplicationID() int {
+	return x.ApplicationID
+}
+
+// GetBrowserSummary returns a pointer to the value of BrowserSummary from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetBrowserSummary() BrowserApplicationSummaryData {
+	return x.BrowserSummary
+}
+
+// GetDomain returns a pointer to the value of Domain from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetGUID returns a pointer to the value of GUID from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetGUID() EntityGUID {
+	return x.GUID
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetNRDBQuery returns a pointer to the value of NRDBQuery from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetNRDBQuery() nrdb.NRDBResultContainer {
+	return x.NRDBQuery
+}
+
+// GetName returns a pointer to the value of Name from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetName() string {
+	return x.Name
+}
+
+// GetNerdStorage returns a pointer to the value of NerdStorage from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetNerdStorage() NerdStorageEntityScope {
+	return x.NerdStorage
+}
+
+// GetPermalink returns a pointer to the value of Permalink from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetRecentAlertViolations() []EntityAlertViolation {
+	return x.RecentAlertViolations
+}
+
+// GetRelationships returns a pointer to the value of Relationships from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetRelationships() []EntityRelationship {
+	return x.Relationships
+}
+
+// GetReporting returns a pointer to the value of Reporting from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetRunningAgentVersions returns a pointer to the value of RunningAgentVersions from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetRunningAgentVersions() BrowserApplicationRunningAgentVersions {
+	return x.RunningAgentVersions
+}
+
+// GetServingApmApplicationID returns a pointer to the value of ServingApmApplicationID from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetServingApmApplicationID() int {
+	return x.ServingApmApplicationID
+}
+
+// GetSettings returns a pointer to the value of Settings from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetSettings() BrowserApplicationSettings {
+	return x.Settings
+}
+
+// GetTags returns a pointer to the value of Tags from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
+	return x.TagsWithMetadata
+}
+
+// GetType returns a pointer to the value of Type from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetType() string {
+	return x.Type
+}
+
 func (x *BrowserApplicationEntity) ImplementsAlertableEntity() {}
 
 func (x *BrowserApplicationEntity) ImplementsEntity() {}
@@ -1739,6 +2424,96 @@ type BrowserApplicationEntityOutline struct {
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+}
+
+// GetAccount returns a pointer to the value of Account from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetAgentInstallType returns a pointer to the value of AgentInstallType from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetAgentInstallType() BrowserAgentInstallType {
+	return x.AgentInstallType
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
+}
+
+// GetApplicationID returns a pointer to the value of ApplicationID from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetApplicationID() int {
+	return x.ApplicationID
+}
+
+// GetBrowserSummary returns a pointer to the value of BrowserSummary from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetBrowserSummary() BrowserApplicationSummaryData {
+	return x.BrowserSummary
+}
+
+// GetDomain returns a pointer to the value of Domain from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetGUID returns a pointer to the value of GUID from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetGUID() EntityGUID {
+	return x.GUID
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetName returns a pointer to the value of Name from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetName() string {
+	return x.Name
+}
+
+// GetPermalink returns a pointer to the value of Permalink from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetReporting returns a pointer to the value of Reporting from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetRunningAgentVersions returns a pointer to the value of RunningAgentVersions from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetRunningAgentVersions() BrowserApplicationRunningAgentVersions {
+	return x.RunningAgentVersions
+}
+
+// GetServingApmApplicationID returns a pointer to the value of ServingApmApplicationID from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetServingApmApplicationID() int {
+	return x.ServingApmApplicationID
+}
+
+// GetSettings returns a pointer to the value of Settings from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetSettings() BrowserApplicationSettings {
+	return x.Settings
+}
+
+// GetTags returns a pointer to the value of Tags from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetType returns a pointer to the value of Type from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetType() string {
+	return x.Type
 }
 
 func (x *BrowserApplicationEntityOutline) ImplementsAlertableEntityOutline() {}
@@ -1786,6 +2561,16 @@ type CollectionEntity struct {
 	Collection EntityCollection `json:"collection,omitempty"`
 	//
 	GUID EntityGUID `json:"guid,omitempty"`
+}
+
+// GetCollection returns a pointer to the value of Collection from CollectionEntity
+func (x CollectionEntity) GetCollection() EntityCollection {
+	return x.Collection
+}
+
+// GetGUID returns a pointer to the value of GUID from CollectionEntity
+func (x CollectionEntity) GetGUID() EntityGUID {
+	return x.GUID
 }
 
 func (x *CollectionEntity) ImplementsCollectionEntity() {}
@@ -1874,6 +2659,116 @@ type DashboardEntity struct {
 	UpdatedAt nrtime.DateTime `json:"updatedAt,omitempty"`
 }
 
+// GetAccount returns a pointer to the value of Account from DashboardEntity
+func (x DashboardEntity) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from DashboardEntity
+func (x DashboardEntity) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetCreatedAt returns a pointer to the value of CreatedAt from DashboardEntity
+func (x DashboardEntity) GetCreatedAt() nrtime.DateTime {
+	return x.CreatedAt
+}
+
+// GetDashboardParentGUID returns a pointer to the value of DashboardParentGUID from DashboardEntity
+func (x DashboardEntity) GetDashboardParentGUID() EntityGUID {
+	return x.DashboardParentGUID
+}
+
+// GetDescription returns a pointer to the value of Description from DashboardEntity
+func (x DashboardEntity) GetDescription() string {
+	return x.Description
+}
+
+// GetDomain returns a pointer to the value of Domain from DashboardEntity
+func (x DashboardEntity) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from DashboardEntity
+func (x DashboardEntity) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetGUID returns a pointer to the value of GUID from DashboardEntity
+func (x DashboardEntity) GetGUID() EntityGUID {
+	return x.GUID
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from DashboardEntity
+func (x DashboardEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetNRDBQuery returns a pointer to the value of NRDBQuery from DashboardEntity
+func (x DashboardEntity) GetNRDBQuery() nrdb.NRDBResultContainer {
+	return x.NRDBQuery
+}
+
+// GetName returns a pointer to the value of Name from DashboardEntity
+func (x DashboardEntity) GetName() string {
+	return x.Name
+}
+
+// GetNerdStorage returns a pointer to the value of NerdStorage from DashboardEntity
+func (x DashboardEntity) GetNerdStorage() NerdStorageEntityScope {
+	return x.NerdStorage
+}
+
+// GetOwner returns a pointer to the value of Owner from DashboardEntity
+func (x DashboardEntity) GetOwner() DashboardOwnerInfo {
+	return x.Owner
+}
+
+// GetPages returns a pointer to the value of Pages from DashboardEntity
+func (x DashboardEntity) GetPages() []DashboardPage {
+	return x.Pages
+}
+
+// GetPermalink returns a pointer to the value of Permalink from DashboardEntity
+func (x DashboardEntity) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetPermissions returns a pointer to the value of Permissions from DashboardEntity
+func (x DashboardEntity) GetPermissions() DashboardPermissions {
+	return x.Permissions
+}
+
+// GetRelationships returns a pointer to the value of Relationships from DashboardEntity
+func (x DashboardEntity) GetRelationships() []EntityRelationship {
+	return x.Relationships
+}
+
+// GetReporting returns a pointer to the value of Reporting from DashboardEntity
+func (x DashboardEntity) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetTags returns a pointer to the value of Tags from DashboardEntity
+func (x DashboardEntity) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from DashboardEntity
+func (x DashboardEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
+	return x.TagsWithMetadata
+}
+
+// GetType returns a pointer to the value of Type from DashboardEntity
+func (x DashboardEntity) GetType() string {
+	return x.Type
+}
+
+// GetUpdatedAt returns a pointer to the value of UpdatedAt from DashboardEntity
+func (x DashboardEntity) GetUpdatedAt() nrtime.DateTime {
+	return x.UpdatedAt
+}
+
 func (x *DashboardEntity) ImplementsEntity() {}
 
 // DashboardEntityOutline - A Dashboard entity outline.
@@ -1904,6 +2799,66 @@ type DashboardEntityOutline struct {
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+}
+
+// GetAccount returns a pointer to the value of Account from DashboardEntityOutline
+func (x DashboardEntityOutline) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from DashboardEntityOutline
+func (x DashboardEntityOutline) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetDashboardParentGUID returns a pointer to the value of DashboardParentGUID from DashboardEntityOutline
+func (x DashboardEntityOutline) GetDashboardParentGUID() EntityGUID {
+	return x.DashboardParentGUID
+}
+
+// GetDomain returns a pointer to the value of Domain from DashboardEntityOutline
+func (x DashboardEntityOutline) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from DashboardEntityOutline
+func (x DashboardEntityOutline) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetGUID returns a pointer to the value of GUID from DashboardEntityOutline
+func (x DashboardEntityOutline) GetGUID() EntityGUID {
+	return x.GUID
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from DashboardEntityOutline
+func (x DashboardEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetName returns a pointer to the value of Name from DashboardEntityOutline
+func (x DashboardEntityOutline) GetName() string {
+	return x.Name
+}
+
+// GetPermalink returns a pointer to the value of Permalink from DashboardEntityOutline
+func (x DashboardEntityOutline) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetReporting returns a pointer to the value of Reporting from DashboardEntityOutline
+func (x DashboardEntityOutline) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetTags returns a pointer to the value of Tags from DashboardEntityOutline
+func (x DashboardEntityOutline) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetType returns a pointer to the value of Type from DashboardEntityOutline
+func (x DashboardEntityOutline) GetType() string {
+	return x.Type
 }
 
 func (x *DashboardEntityOutline) ImplementsEntityOutline() {}
@@ -1963,7 +2918,7 @@ type DashboardWidget struct {
 	// Typed configuration
 	Configuration DashboardWidgetConfiguration `json:"configuration,omitempty"`
 	// id
-	ID int `json:"id"`
+	ID string `json:"id"`
 	// layout
 	Layout DashboardWidgetLayout `json:"layout,omitempty"`
 	// Related entities. Currently only supports Dashboard entities, but may allow other cases in the future.
@@ -2498,6 +3453,81 @@ type GenericEntity struct {
 	Type string `json:"type,omitempty"`
 }
 
+// GetAccount returns a pointer to the value of Account from GenericEntity
+func (x GenericEntity) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from GenericEntity
+func (x GenericEntity) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetDomain returns a pointer to the value of Domain from GenericEntity
+func (x GenericEntity) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from GenericEntity
+func (x GenericEntity) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetGUID returns a pointer to the value of GUID from GenericEntity
+func (x GenericEntity) GetGUID() EntityGUID {
+	return x.GUID
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from GenericEntity
+func (x GenericEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetNRDBQuery returns a pointer to the value of NRDBQuery from GenericEntity
+func (x GenericEntity) GetNRDBQuery() nrdb.NRDBResultContainer {
+	return x.NRDBQuery
+}
+
+// GetName returns a pointer to the value of Name from GenericEntity
+func (x GenericEntity) GetName() string {
+	return x.Name
+}
+
+// GetNerdStorage returns a pointer to the value of NerdStorage from GenericEntity
+func (x GenericEntity) GetNerdStorage() NerdStorageEntityScope {
+	return x.NerdStorage
+}
+
+// GetPermalink returns a pointer to the value of Permalink from GenericEntity
+func (x GenericEntity) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetRelationships returns a pointer to the value of Relationships from GenericEntity
+func (x GenericEntity) GetRelationships() []EntityRelationship {
+	return x.Relationships
+}
+
+// GetReporting returns a pointer to the value of Reporting from GenericEntity
+func (x GenericEntity) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetTags returns a pointer to the value of Tags from GenericEntity
+func (x GenericEntity) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from GenericEntity
+func (x GenericEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
+	return x.TagsWithMetadata
+}
+
+// GetType returns a pointer to the value of Type from GenericEntity
+func (x GenericEntity) GetType() string {
+	return x.Type
+}
+
 func (x *GenericEntity) ImplementsEntity() {}
 
 // GenericEntityOutline - A generic entity outline.
@@ -2526,6 +3556,61 @@ type GenericEntityOutline struct {
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+}
+
+// GetAccount returns a pointer to the value of Account from GenericEntityOutline
+func (x GenericEntityOutline) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from GenericEntityOutline
+func (x GenericEntityOutline) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetDomain returns a pointer to the value of Domain from GenericEntityOutline
+func (x GenericEntityOutline) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from GenericEntityOutline
+func (x GenericEntityOutline) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetGUID returns a pointer to the value of GUID from GenericEntityOutline
+func (x GenericEntityOutline) GetGUID() EntityGUID {
+	return x.GUID
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from GenericEntityOutline
+func (x GenericEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetName returns a pointer to the value of Name from GenericEntityOutline
+func (x GenericEntityOutline) GetName() string {
+	return x.Name
+}
+
+// GetPermalink returns a pointer to the value of Permalink from GenericEntityOutline
+func (x GenericEntityOutline) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetReporting returns a pointer to the value of Reporting from GenericEntityOutline
+func (x GenericEntityOutline) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetTags returns a pointer to the value of Tags from GenericEntityOutline
+func (x GenericEntityOutline) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetType returns a pointer to the value of Type from GenericEntityOutline
+func (x GenericEntityOutline) GetType() string {
+	return x.Type
 }
 
 func (x *GenericEntityOutline) ImplementsEntityOutline() {}
@@ -2580,6 +3665,101 @@ type GenericInfrastructureEntity struct {
 	Type string `json:"type,omitempty"`
 }
 
+// GetAccount returns a pointer to the value of Account from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
+}
+
+// GetAlertViolations returns a pointer to the value of AlertViolations from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetAlertViolations() []EntityAlertViolation {
+	return x.AlertViolations
+}
+
+// GetDomain returns a pointer to the value of Domain from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetGUID returns a pointer to the value of GUID from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetGUID() EntityGUID {
+	return x.GUID
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetIntegrationTypeCode returns a pointer to the value of IntegrationTypeCode from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetIntegrationTypeCode() string {
+	return x.IntegrationTypeCode
+}
+
+// GetNRDBQuery returns a pointer to the value of NRDBQuery from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetNRDBQuery() nrdb.NRDBResultContainer {
+	return x.NRDBQuery
+}
+
+// GetName returns a pointer to the value of Name from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetName() string {
+	return x.Name
+}
+
+// GetNerdStorage returns a pointer to the value of NerdStorage from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetNerdStorage() NerdStorageEntityScope {
+	return x.NerdStorage
+}
+
+// GetPermalink returns a pointer to the value of Permalink from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetRecentAlertViolations() []EntityAlertViolation {
+	return x.RecentAlertViolations
+}
+
+// GetRelationships returns a pointer to the value of Relationships from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetRelationships() []EntityRelationship {
+	return x.Relationships
+}
+
+// GetReporting returns a pointer to the value of Reporting from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetTags returns a pointer to the value of Tags from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
+	return x.TagsWithMetadata
+}
+
+// GetType returns a pointer to the value of Type from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetType() string {
+	return x.Type
+}
+
 func (x *GenericInfrastructureEntity) ImplementsInfrastructureIntegrationEntity() {}
 
 func (x *GenericInfrastructureEntity) ImplementsAlertableEntity() {}
@@ -2616,6 +3796,71 @@ type GenericInfrastructureEntityOutline struct {
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+}
+
+// GetAccount returns a pointer to the value of Account from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
+}
+
+// GetDomain returns a pointer to the value of Domain from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetGUID returns a pointer to the value of GUID from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetGUID() EntityGUID {
+	return x.GUID
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetIntegrationTypeCode returns a pointer to the value of IntegrationTypeCode from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetIntegrationTypeCode() string {
+	return x.IntegrationTypeCode
+}
+
+// GetName returns a pointer to the value of Name from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetName() string {
+	return x.Name
+}
+
+// GetPermalink returns a pointer to the value of Permalink from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetReporting returns a pointer to the value of Reporting from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetTags returns a pointer to the value of Tags from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetType returns a pointer to the value of Type from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetType() string {
+	return x.Type
 }
 
 func (x *GenericInfrastructureEntityOutline) ImplementsInfrastructureIntegrationEntityOutline() {}
@@ -2676,6 +3921,106 @@ type InfrastructureAwsLambdaFunctionEntity struct {
 	Type string `json:"type,omitempty"`
 }
 
+// GetAccount returns a pointer to the value of Account from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
+}
+
+// GetAlertViolations returns a pointer to the value of AlertViolations from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetAlertViolations() []EntityAlertViolation {
+	return x.AlertViolations
+}
+
+// GetDomain returns a pointer to the value of Domain from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetGUID returns a pointer to the value of GUID from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetGUID() EntityGUID {
+	return x.GUID
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetIntegrationTypeCode returns a pointer to the value of IntegrationTypeCode from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetIntegrationTypeCode() string {
+	return x.IntegrationTypeCode
+}
+
+// GetNRDBQuery returns a pointer to the value of NRDBQuery from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetNRDBQuery() nrdb.NRDBResultContainer {
+	return x.NRDBQuery
+}
+
+// GetName returns a pointer to the value of Name from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetName() string {
+	return x.Name
+}
+
+// GetNerdStorage returns a pointer to the value of NerdStorage from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetNerdStorage() NerdStorageEntityScope {
+	return x.NerdStorage
+}
+
+// GetPermalink returns a pointer to the value of Permalink from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetRecentAlertViolations() []EntityAlertViolation {
+	return x.RecentAlertViolations
+}
+
+// GetRelationships returns a pointer to the value of Relationships from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetRelationships() []EntityRelationship {
+	return x.Relationships
+}
+
+// GetReporting returns a pointer to the value of Reporting from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetRuntime returns a pointer to the value of Runtime from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetRuntime() string {
+	return x.Runtime
+}
+
+// GetTags returns a pointer to the value of Tags from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
+	return x.TagsWithMetadata
+}
+
+// GetType returns a pointer to the value of Type from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetType() string {
+	return x.Type
+}
+
 func (x *InfrastructureAwsLambdaFunctionEntity) ImplementsInfrastructureIntegrationEntity() {}
 
 func (x *InfrastructureAwsLambdaFunctionEntity) ImplementsAlertableEntity() {}
@@ -2714,6 +4059,76 @@ type InfrastructureAwsLambdaFunctionEntityOutline struct {
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+}
+
+// GetAccount returns a pointer to the value of Account from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
+}
+
+// GetDomain returns a pointer to the value of Domain from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetGUID returns a pointer to the value of GUID from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetGUID() EntityGUID {
+	return x.GUID
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetIntegrationTypeCode returns a pointer to the value of IntegrationTypeCode from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetIntegrationTypeCode() string {
+	return x.IntegrationTypeCode
+}
+
+// GetName returns a pointer to the value of Name from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetName() string {
+	return x.Name
+}
+
+// GetPermalink returns a pointer to the value of Permalink from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetReporting returns a pointer to the value of Reporting from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetRuntime returns a pointer to the value of Runtime from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetRuntime() string {
+	return x.Runtime
+}
+
+// GetTags returns a pointer to the value of Tags from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetType returns a pointer to the value of Type from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetType() string {
+	return x.Type
 }
 
 func (x *InfrastructureAwsLambdaFunctionEntityOutline) ImplementsInfrastructureIntegrationEntityOutline() {
@@ -2773,6 +4188,101 @@ type InfrastructureHostEntity struct {
 	Type string `json:"type,omitempty"`
 }
 
+// GetAccount returns a pointer to the value of Account from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
+}
+
+// GetAlertViolations returns a pointer to the value of AlertViolations from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetAlertViolations() []EntityAlertViolation {
+	return x.AlertViolations
+}
+
+// GetDomain returns a pointer to the value of Domain from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetGUID returns a pointer to the value of GUID from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetGUID() EntityGUID {
+	return x.GUID
+}
+
+// GetHostSummary returns a pointer to the value of HostSummary from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetHostSummary() InfrastructureHostSummaryData {
+	return x.HostSummary
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetNRDBQuery returns a pointer to the value of NRDBQuery from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetNRDBQuery() nrdb.NRDBResultContainer {
+	return x.NRDBQuery
+}
+
+// GetName returns a pointer to the value of Name from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetName() string {
+	return x.Name
+}
+
+// GetNerdStorage returns a pointer to the value of NerdStorage from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetNerdStorage() NerdStorageEntityScope {
+	return x.NerdStorage
+}
+
+// GetPermalink returns a pointer to the value of Permalink from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetRecentAlertViolations() []EntityAlertViolation {
+	return x.RecentAlertViolations
+}
+
+// GetRelationships returns a pointer to the value of Relationships from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetRelationships() []EntityRelationship {
+	return x.Relationships
+}
+
+// GetReporting returns a pointer to the value of Reporting from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetTags returns a pointer to the value of Tags from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
+	return x.TagsWithMetadata
+}
+
+// GetType returns a pointer to the value of Type from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetType() string {
+	return x.Type
+}
+
 func (x *InfrastructureHostEntity) ImplementsAlertableEntity() {}
 
 func (x *InfrastructureHostEntity) ImplementsEntity() {}
@@ -2809,6 +4319,71 @@ type InfrastructureHostEntityOutline struct {
 	Type string `json:"type,omitempty"`
 }
 
+// GetAccount returns a pointer to the value of Account from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
+}
+
+// GetDomain returns a pointer to the value of Domain from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetGUID returns a pointer to the value of GUID from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetGUID() EntityGUID {
+	return x.GUID
+}
+
+// GetHostSummary returns a pointer to the value of HostSummary from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetHostSummary() InfrastructureHostSummaryData {
+	return x.HostSummary
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetName returns a pointer to the value of Name from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetName() string {
+	return x.Name
+}
+
+// GetPermalink returns a pointer to the value of Permalink from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetReporting returns a pointer to the value of Reporting from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetTags returns a pointer to the value of Tags from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetType returns a pointer to the value of Type from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetType() string {
+	return x.Type
+}
+
 func (x *InfrastructureHostEntityOutline) ImplementsAlertableEntityOutline() {}
 
 func (x *InfrastructureHostEntityOutline) ImplementsEntityOutline() {}
@@ -2835,12 +4410,22 @@ type InfrastructureIntegrationEntity struct {
 	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
 }
 
+// GetIntegrationTypeCode returns a pointer to the value of IntegrationTypeCode from InfrastructureIntegrationEntity
+func (x InfrastructureIntegrationEntity) GetIntegrationTypeCode() string {
+	return x.IntegrationTypeCode
+}
+
 func (x *InfrastructureIntegrationEntity) ImplementsInfrastructureIntegrationEntity() {}
 
 // InfrastructureIntegrationEntityOutline -
 type InfrastructureIntegrationEntityOutline struct {
 	//
 	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
+}
+
+// GetIntegrationTypeCode returns a pointer to the value of IntegrationTypeCode from InfrastructureIntegrationEntityOutline
+func (x InfrastructureIntegrationEntityOutline) GetIntegrationTypeCode() string {
+	return x.IntegrationTypeCode
 }
 
 func (x *InfrastructureIntegrationEntityOutline) ImplementsInfrastructureIntegrationEntityOutline() {}
@@ -2943,6 +4528,106 @@ type MobileApplicationEntity struct {
 	Type string `json:"type,omitempty"`
 }
 
+// GetAccount returns a pointer to the value of Account from MobileApplicationEntity
+func (x MobileApplicationEntity) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from MobileApplicationEntity
+func (x MobileApplicationEntity) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from MobileApplicationEntity
+func (x MobileApplicationEntity) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
+}
+
+// GetAlertViolations returns a pointer to the value of AlertViolations from MobileApplicationEntity
+func (x MobileApplicationEntity) GetAlertViolations() []EntityAlertViolation {
+	return x.AlertViolations
+}
+
+// GetApplicationID returns a pointer to the value of ApplicationID from MobileApplicationEntity
+func (x MobileApplicationEntity) GetApplicationID() int {
+	return x.ApplicationID
+}
+
+// GetDomain returns a pointer to the value of Domain from MobileApplicationEntity
+func (x MobileApplicationEntity) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from MobileApplicationEntity
+func (x MobileApplicationEntity) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetGUID returns a pointer to the value of GUID from MobileApplicationEntity
+func (x MobileApplicationEntity) GetGUID() EntityGUID {
+	return x.GUID
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from MobileApplicationEntity
+func (x MobileApplicationEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetMobileSummary returns a pointer to the value of MobileSummary from MobileApplicationEntity
+func (x MobileApplicationEntity) GetMobileSummary() MobileAppSummaryData {
+	return x.MobileSummary
+}
+
+// GetNRDBQuery returns a pointer to the value of NRDBQuery from MobileApplicationEntity
+func (x MobileApplicationEntity) GetNRDBQuery() nrdb.NRDBResultContainer {
+	return x.NRDBQuery
+}
+
+// GetName returns a pointer to the value of Name from MobileApplicationEntity
+func (x MobileApplicationEntity) GetName() string {
+	return x.Name
+}
+
+// GetNerdStorage returns a pointer to the value of NerdStorage from MobileApplicationEntity
+func (x MobileApplicationEntity) GetNerdStorage() NerdStorageEntityScope {
+	return x.NerdStorage
+}
+
+// GetPermalink returns a pointer to the value of Permalink from MobileApplicationEntity
+func (x MobileApplicationEntity) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from MobileApplicationEntity
+func (x MobileApplicationEntity) GetRecentAlertViolations() []EntityAlertViolation {
+	return x.RecentAlertViolations
+}
+
+// GetRelationships returns a pointer to the value of Relationships from MobileApplicationEntity
+func (x MobileApplicationEntity) GetRelationships() []EntityRelationship {
+	return x.Relationships
+}
+
+// GetReporting returns a pointer to the value of Reporting from MobileApplicationEntity
+func (x MobileApplicationEntity) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetTags returns a pointer to the value of Tags from MobileApplicationEntity
+func (x MobileApplicationEntity) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from MobileApplicationEntity
+func (x MobileApplicationEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
+	return x.TagsWithMetadata
+}
+
+// GetType returns a pointer to the value of Type from MobileApplicationEntity
+func (x MobileApplicationEntity) GetType() string {
+	return x.Type
+}
+
 func (x *MobileApplicationEntity) ImplementsAlertableEntity() {}
 
 func (x *MobileApplicationEntity) ImplementsEntity() {}
@@ -2979,6 +4664,76 @@ type MobileApplicationEntityOutline struct {
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+}
+
+// GetAccount returns a pointer to the value of Account from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
+}
+
+// GetApplicationID returns a pointer to the value of ApplicationID from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetApplicationID() int {
+	return x.ApplicationID
+}
+
+// GetDomain returns a pointer to the value of Domain from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetGUID returns a pointer to the value of GUID from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetGUID() EntityGUID {
+	return x.GUID
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetMobileSummary returns a pointer to the value of MobileSummary from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetMobileSummary() MobileAppSummaryData {
+	return x.MobileSummary
+}
+
+// GetName returns a pointer to the value of Name from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetName() string {
+	return x.Name
+}
+
+// GetPermalink returns a pointer to the value of Permalink from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetReporting returns a pointer to the value of Reporting from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetTags returns a pointer to the value of Tags from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetType returns a pointer to the value of Type from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetType() string {
+	return x.Type
 }
 
 func (x *MobileApplicationEntityOutline) ImplementsAlertableEntityOutline() {}
@@ -3036,7 +4791,7 @@ type SecureCredentialEntity struct {
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The domain-specific identifier for the entity.
-	SecureCredentialId int `json:"secureCredentialId,omitempty"`
+	SecureCredentialId string `json:"secureCredentialId,omitempty"`
 	// Summary statistics for the Synthetic Monitor Secure Credential.
 	SecureCredentialSummary SecureCredentialSummaryData `json:"secureCredentialSummary,omitempty"`
 	// The tags applied to the entity.
@@ -3049,6 +4804,101 @@ type SecureCredentialEntity struct {
 	Type string `json:"type,omitempty"`
 	// The time at which the entity was last updated.
 	UpdatedAt nrtime.EpochMilliseconds `json:"updatedAt,omitempty"`
+}
+
+// GetAccount returns a pointer to the value of Account from SecureCredentialEntity
+func (x SecureCredentialEntity) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from SecureCredentialEntity
+func (x SecureCredentialEntity) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetDescription returns a pointer to the value of Description from SecureCredentialEntity
+func (x SecureCredentialEntity) GetDescription() string {
+	return x.Description
+}
+
+// GetDomain returns a pointer to the value of Domain from SecureCredentialEntity
+func (x SecureCredentialEntity) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from SecureCredentialEntity
+func (x SecureCredentialEntity) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetGUID returns a pointer to the value of GUID from SecureCredentialEntity
+func (x SecureCredentialEntity) GetGUID() EntityGUID {
+	return x.GUID
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from SecureCredentialEntity
+func (x SecureCredentialEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetNRDBQuery returns a pointer to the value of NRDBQuery from SecureCredentialEntity
+func (x SecureCredentialEntity) GetNRDBQuery() nrdb.NRDBResultContainer {
+	return x.NRDBQuery
+}
+
+// GetName returns a pointer to the value of Name from SecureCredentialEntity
+func (x SecureCredentialEntity) GetName() string {
+	return x.Name
+}
+
+// GetNerdStorage returns a pointer to the value of NerdStorage from SecureCredentialEntity
+func (x SecureCredentialEntity) GetNerdStorage() NerdStorageEntityScope {
+	return x.NerdStorage
+}
+
+// GetPermalink returns a pointer to the value of Permalink from SecureCredentialEntity
+func (x SecureCredentialEntity) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetRelationships returns a pointer to the value of Relationships from SecureCredentialEntity
+func (x SecureCredentialEntity) GetRelationships() []EntityRelationship {
+	return x.Relationships
+}
+
+// GetReporting returns a pointer to the value of Reporting from SecureCredentialEntity
+func (x SecureCredentialEntity) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetSecureCredentialId returns a pointer to the value of SecureCredentialId from SecureCredentialEntity
+func (x SecureCredentialEntity) GetSecureCredentialId() string {
+	return x.SecureCredentialId
+}
+
+// GetSecureCredentialSummary returns a pointer to the value of SecureCredentialSummary from SecureCredentialEntity
+func (x SecureCredentialEntity) GetSecureCredentialSummary() SecureCredentialSummaryData {
+	return x.SecureCredentialSummary
+}
+
+// GetTags returns a pointer to the value of Tags from SecureCredentialEntity
+func (x SecureCredentialEntity) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from SecureCredentialEntity
+func (x SecureCredentialEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
+	return x.TagsWithMetadata
+}
+
+// GetType returns a pointer to the value of Type from SecureCredentialEntity
+func (x SecureCredentialEntity) GetType() string {
+	return x.Type
+}
+
+// GetUpdatedAt returns a pointer to the value of UpdatedAt from SecureCredentialEntity
+func (x SecureCredentialEntity) GetUpdatedAt() nrtime.EpochMilliseconds {
+	return x.UpdatedAt
 }
 
 func (x *SecureCredentialEntity) ImplementsEntity() {}
@@ -3076,7 +4926,7 @@ type SecureCredentialEntityOutline struct {
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The domain-specific identifier for the entity.
-	SecureCredentialId int `json:"secureCredentialId,omitempty"`
+	SecureCredentialId string `json:"secureCredentialId,omitempty"`
 	// Summary statistics for the Synthetic Monitor Secure Credential.
 	SecureCredentialSummary SecureCredentialSummaryData `json:"secureCredentialSummary,omitempty"`
 	// The tags applied to the entity.
@@ -3087,6 +4937,81 @@ type SecureCredentialEntityOutline struct {
 	Type string `json:"type,omitempty"`
 	// The time at which the entity was last updated.
 	UpdatedAt nrtime.EpochMilliseconds `json:"updatedAt,omitempty"`
+}
+
+// GetAccount returns a pointer to the value of Account from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetDescription returns a pointer to the value of Description from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetDescription() string {
+	return x.Description
+}
+
+// GetDomain returns a pointer to the value of Domain from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetGUID returns a pointer to the value of GUID from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetGUID() EntityGUID {
+	return x.GUID
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetName returns a pointer to the value of Name from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetName() string {
+	return x.Name
+}
+
+// GetPermalink returns a pointer to the value of Permalink from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetReporting returns a pointer to the value of Reporting from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetSecureCredentialId returns a pointer to the value of SecureCredentialId from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetSecureCredentialId() string {
+	return x.SecureCredentialId
+}
+
+// GetSecureCredentialSummary returns a pointer to the value of SecureCredentialSummary from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetSecureCredentialSummary() SecureCredentialSummaryData {
+	return x.SecureCredentialSummary
+}
+
+// GetTags returns a pointer to the value of Tags from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetType returns a pointer to the value of Type from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetType() string {
+	return x.Type
+}
+
+// GetUpdatedAt returns a pointer to the value of UpdatedAt from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetUpdatedAt() nrtime.EpochMilliseconds {
+	return x.UpdatedAt
 }
 
 func (x *SecureCredentialEntityOutline) ImplementsEntityOutline() {}
@@ -3120,7 +5045,7 @@ type SyntheticMonitorEntity struct {
 	// The time the entity was indexed.
 	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The Synthetic Monitor ID
-	MonitorId int `json:"monitorId,omitempty"`
+	MonitorId string `json:"monitorId,omitempty"`
 	// Summary statistics for the Synthetic Monitor.
 	MonitorSummary SyntheticMonitorSummaryData `json:"monitorSummary,omitempty"`
 	// The Synthetic Monitor type
@@ -3159,6 +5084,126 @@ type SyntheticMonitorEntity struct {
 	Type string `json:"type,omitempty"`
 }
 
+// GetAccount returns a pointer to the value of Account from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
+}
+
+// GetAlertViolations returns a pointer to the value of AlertViolations from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetAlertViolations() []EntityAlertViolation {
+	return x.AlertViolations
+}
+
+// GetAssets returns a pointer to the value of Assets from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetAssets() []SyntheticsSyntheticMonitorAsset {
+	return x.Assets
+}
+
+// GetDomain returns a pointer to the value of Domain from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetGUID returns a pointer to the value of GUID from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetGUID() EntityGUID {
+	return x.GUID
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetMonitorId returns a pointer to the value of MonitorId from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetMonitorId() string {
+	return x.MonitorId
+}
+
+// GetMonitorSummary returns a pointer to the value of MonitorSummary from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetMonitorSummary() SyntheticMonitorSummaryData {
+	return x.MonitorSummary
+}
+
+// GetMonitorType returns a pointer to the value of MonitorType from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetMonitorType() SyntheticMonitorType {
+	return x.MonitorType
+}
+
+// GetMonitoredURL returns a pointer to the value of MonitoredURL from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetMonitoredURL() string {
+	return x.MonitoredURL
+}
+
+// GetNRDBQuery returns a pointer to the value of NRDBQuery from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetNRDBQuery() nrdb.NRDBResultContainer {
+	return x.NRDBQuery
+}
+
+// GetName returns a pointer to the value of Name from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetName() string {
+	return x.Name
+}
+
+// GetNerdStorage returns a pointer to the value of NerdStorage from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetNerdStorage() NerdStorageEntityScope {
+	return x.NerdStorage
+}
+
+// GetPeriod returns a pointer to the value of Period from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetPeriod() nrtime.Minutes {
+	return x.Period
+}
+
+// GetPermalink returns a pointer to the value of Permalink from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetRecentAlertViolations() []EntityAlertViolation {
+	return x.RecentAlertViolations
+}
+
+// GetRelationships returns a pointer to the value of Relationships from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetRelationships() []EntityRelationship {
+	return x.Relationships
+}
+
+// GetReporting returns a pointer to the value of Reporting from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetTags returns a pointer to the value of Tags from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
+	return x.TagsWithMetadata
+}
+
+// GetType returns a pointer to the value of Type from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetType() string {
+	return x.Type
+}
+
 func (x *SyntheticMonitorEntity) ImplementsAlertableEntity() {}
 
 func (x *SyntheticMonitorEntity) ImplementsEntity() {}
@@ -3180,7 +5225,7 @@ type SyntheticMonitorEntityOutline struct {
 	// The time the entity was indexed.
 	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The Synthetic Monitor ID
-	MonitorId int `json:"monitorId,omitempty"`
+	MonitorId string `json:"monitorId,omitempty"`
 	// Summary statistics for the Synthetic Monitor.
 	MonitorSummary SyntheticMonitorSummaryData `json:"monitorSummary,omitempty"`
 	// The Synthetic Monitor type
@@ -3201,6 +5246,91 @@ type SyntheticMonitorEntityOutline struct {
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+}
+
+// GetAccount returns a pointer to the value of Account from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
+}
+
+// GetDomain returns a pointer to the value of Domain from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetGUID returns a pointer to the value of GUID from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetGUID() EntityGUID {
+	return x.GUID
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetMonitorId returns a pointer to the value of MonitorId from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetMonitorId() string {
+	return x.MonitorId
+}
+
+// GetMonitorSummary returns a pointer to the value of MonitorSummary from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetMonitorSummary() SyntheticMonitorSummaryData {
+	return x.MonitorSummary
+}
+
+// GetMonitorType returns a pointer to the value of MonitorType from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetMonitorType() SyntheticMonitorType {
+	return x.MonitorType
+}
+
+// GetMonitoredURL returns a pointer to the value of MonitoredURL from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetMonitoredURL() string {
+	return x.MonitoredURL
+}
+
+// GetName returns a pointer to the value of Name from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetName() string {
+	return x.Name
+}
+
+// GetPeriod returns a pointer to the value of Period from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetPeriod() nrtime.Minutes {
+	return x.Period
+}
+
+// GetPermalink returns a pointer to the value of Permalink from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetReporting returns a pointer to the value of Reporting from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetTags returns a pointer to the value of Tags from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetType returns a pointer to the value of Type from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetType() string {
+	return x.Type
 }
 
 func (x *SyntheticMonitorEntityOutline) ImplementsAlertableEntityOutline() {}
@@ -3263,6 +5393,10 @@ type ThirdPartyServiceEntity struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
+	// The current alerting severity of the Third Party Service entity.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// Violations on the Third Party Service entity that were open during the specififed time window.
+	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -3283,6 +5417,8 @@ type ThirdPartyServiceEntity struct {
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
+	// Recent violations on the Third Party Service entity.
+	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
 	// A list of the entities' relationships.
 	//
 	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
@@ -3299,6 +5435,98 @@ type ThirdPartyServiceEntity struct {
 	Type string `json:"type,omitempty"`
 }
 
+// GetAccount returns a pointer to the value of Account from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
+}
+
+// GetAlertViolations returns a pointer to the value of AlertViolations from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetAlertViolations() []EntityAlertViolation {
+	return x.AlertViolations
+}
+
+// GetDomain returns a pointer to the value of Domain from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetGUID returns a pointer to the value of GUID from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetGUID() EntityGUID {
+	return x.GUID
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetNRDBQuery returns a pointer to the value of NRDBQuery from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetNRDBQuery() nrdb.NRDBResultContainer {
+	return x.NRDBQuery
+}
+
+// GetName returns a pointer to the value of Name from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetName() string {
+	return x.Name
+}
+
+// GetNerdStorage returns a pointer to the value of NerdStorage from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetNerdStorage() NerdStorageEntityScope {
+	return x.NerdStorage
+}
+
+// GetPermalink returns a pointer to the value of Permalink from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetRecentAlertViolations() []EntityAlertViolation {
+	return x.RecentAlertViolations
+}
+
+// GetRelationships returns a pointer to the value of Relationships from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetRelationships() []EntityRelationship {
+	return x.Relationships
+}
+
+// GetReporting returns a pointer to the value of Reporting from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetTags returns a pointer to the value of Tags from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
+	return x.TagsWithMetadata
+}
+
+// GetType returns a pointer to the value of Type from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetType() string {
+	return x.Type
+}
+
+func (x *ThirdPartyServiceEntity) ImplementsAlertableEntity() {}
+
 func (x *ThirdPartyServiceEntity) ImplementsEntity() {}
 
 // ThirdPartyServiceEntityOutline - A third party service entity outline.
@@ -3307,6 +5535,8 @@ type ThirdPartyServiceEntityOutline struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
+	// The current alerting severity of the Third Party Service entity.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -3328,6 +5558,68 @@ type ThirdPartyServiceEntityOutline struct {
 	// The entity's type
 	Type string `json:"type,omitempty"`
 }
+
+// GetAccount returns a pointer to the value of Account from ThirdPartyServiceEntityOutline
+func (x ThirdPartyServiceEntityOutline) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from ThirdPartyServiceEntityOutline
+func (x ThirdPartyServiceEntityOutline) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from ThirdPartyServiceEntityOutline
+func (x ThirdPartyServiceEntityOutline) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
+}
+
+// GetDomain returns a pointer to the value of Domain from ThirdPartyServiceEntityOutline
+func (x ThirdPartyServiceEntityOutline) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from ThirdPartyServiceEntityOutline
+func (x ThirdPartyServiceEntityOutline) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetGUID returns a pointer to the value of GUID from ThirdPartyServiceEntityOutline
+func (x ThirdPartyServiceEntityOutline) GetGUID() EntityGUID {
+	return x.GUID
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from ThirdPartyServiceEntityOutline
+func (x ThirdPartyServiceEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetName returns a pointer to the value of Name from ThirdPartyServiceEntityOutline
+func (x ThirdPartyServiceEntityOutline) GetName() string {
+	return x.Name
+}
+
+// GetPermalink returns a pointer to the value of Permalink from ThirdPartyServiceEntityOutline
+func (x ThirdPartyServiceEntityOutline) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetReporting returns a pointer to the value of Reporting from ThirdPartyServiceEntityOutline
+func (x ThirdPartyServiceEntityOutline) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetTags returns a pointer to the value of Tags from ThirdPartyServiceEntityOutline
+func (x ThirdPartyServiceEntityOutline) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetType returns a pointer to the value of Type from ThirdPartyServiceEntityOutline
+func (x ThirdPartyServiceEntityOutline) GetType() string {
+	return x.Type
+}
+
+func (x *ThirdPartyServiceEntityOutline) ImplementsAlertableEntityOutline() {}
 
 func (x *ThirdPartyServiceEntityOutline) ImplementsEntityOutline() {}
 
@@ -3381,6 +5673,81 @@ type UnavailableEntity struct {
 	Type string `json:"type,omitempty"`
 }
 
+// GetAccount returns a pointer to the value of Account from UnavailableEntity
+func (x UnavailableEntity) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from UnavailableEntity
+func (x UnavailableEntity) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetDomain returns a pointer to the value of Domain from UnavailableEntity
+func (x UnavailableEntity) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from UnavailableEntity
+func (x UnavailableEntity) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetGUID returns a pointer to the value of GUID from UnavailableEntity
+func (x UnavailableEntity) GetGUID() EntityGUID {
+	return x.GUID
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from UnavailableEntity
+func (x UnavailableEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetNRDBQuery returns a pointer to the value of NRDBQuery from UnavailableEntity
+func (x UnavailableEntity) GetNRDBQuery() nrdb.NRDBResultContainer {
+	return x.NRDBQuery
+}
+
+// GetName returns a pointer to the value of Name from UnavailableEntity
+func (x UnavailableEntity) GetName() string {
+	return x.Name
+}
+
+// GetNerdStorage returns a pointer to the value of NerdStorage from UnavailableEntity
+func (x UnavailableEntity) GetNerdStorage() NerdStorageEntityScope {
+	return x.NerdStorage
+}
+
+// GetPermalink returns a pointer to the value of Permalink from UnavailableEntity
+func (x UnavailableEntity) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetRelationships returns a pointer to the value of Relationships from UnavailableEntity
+func (x UnavailableEntity) GetRelationships() []EntityRelationship {
+	return x.Relationships
+}
+
+// GetReporting returns a pointer to the value of Reporting from UnavailableEntity
+func (x UnavailableEntity) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetTags returns a pointer to the value of Tags from UnavailableEntity
+func (x UnavailableEntity) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from UnavailableEntity
+func (x UnavailableEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
+	return x.TagsWithMetadata
+}
+
+// GetType returns a pointer to the value of Type from UnavailableEntity
+func (x UnavailableEntity) GetType() string {
+	return x.Type
+}
+
 func (x *UnavailableEntity) ImplementsEntity() {}
 
 // UnavailableEntityOutline - An entity outline that is unavailable.
@@ -3409,6 +5776,61 @@ type UnavailableEntityOutline struct {
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+}
+
+// GetAccount returns a pointer to the value of Account from UnavailableEntityOutline
+func (x UnavailableEntityOutline) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from UnavailableEntityOutline
+func (x UnavailableEntityOutline) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetDomain returns a pointer to the value of Domain from UnavailableEntityOutline
+func (x UnavailableEntityOutline) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from UnavailableEntityOutline
+func (x UnavailableEntityOutline) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetGUID returns a pointer to the value of GUID from UnavailableEntityOutline
+func (x UnavailableEntityOutline) GetGUID() EntityGUID {
+	return x.GUID
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from UnavailableEntityOutline
+func (x UnavailableEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetName returns a pointer to the value of Name from UnavailableEntityOutline
+func (x UnavailableEntityOutline) GetName() string {
+	return x.Name
+}
+
+// GetPermalink returns a pointer to the value of Permalink from UnavailableEntityOutline
+func (x UnavailableEntityOutline) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetReporting returns a pointer to the value of Reporting from UnavailableEntityOutline
+func (x UnavailableEntityOutline) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetTags returns a pointer to the value of Tags from UnavailableEntityOutline
+func (x UnavailableEntityOutline) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetType returns a pointer to the value of Type from UnavailableEntityOutline
+func (x UnavailableEntityOutline) GetType() string {
+	return x.Type
 }
 
 func (x *UnavailableEntityOutline) ImplementsEntityOutline() {}
@@ -3483,6 +5905,121 @@ type WorkloadEntity struct {
 	WorkloadStatus WorkloadStatus `json:"workloadStatus,omitempty"`
 }
 
+// GetAccount returns a pointer to the value of Account from WorkloadEntity
+func (x WorkloadEntity) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from WorkloadEntity
+func (x WorkloadEntity) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from WorkloadEntity
+func (x WorkloadEntity) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
+}
+
+// GetAlertViolations returns a pointer to the value of AlertViolations from WorkloadEntity
+func (x WorkloadEntity) GetAlertViolations() []EntityAlertViolation {
+	return x.AlertViolations
+}
+
+// GetCollection returns a pointer to the value of Collection from WorkloadEntity
+func (x WorkloadEntity) GetCollection() EntityCollection {
+	return x.Collection
+}
+
+// GetCreatedAt returns a pointer to the value of CreatedAt from WorkloadEntity
+func (x WorkloadEntity) GetCreatedAt() nrtime.EpochMilliseconds {
+	return x.CreatedAt
+}
+
+// GetCreatedByUser returns a pointer to the value of CreatedByUser from WorkloadEntity
+func (x WorkloadEntity) GetCreatedByUser() UserReference {
+	return x.CreatedByUser
+}
+
+// GetDomain returns a pointer to the value of Domain from WorkloadEntity
+func (x WorkloadEntity) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from WorkloadEntity
+func (x WorkloadEntity) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetGUID returns a pointer to the value of GUID from WorkloadEntity
+func (x WorkloadEntity) GetGUID() EntityGUID {
+	return x.GUID
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from WorkloadEntity
+func (x WorkloadEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetNRDBQuery returns a pointer to the value of NRDBQuery from WorkloadEntity
+func (x WorkloadEntity) GetNRDBQuery() nrdb.NRDBResultContainer {
+	return x.NRDBQuery
+}
+
+// GetName returns a pointer to the value of Name from WorkloadEntity
+func (x WorkloadEntity) GetName() string {
+	return x.Name
+}
+
+// GetNerdStorage returns a pointer to the value of NerdStorage from WorkloadEntity
+func (x WorkloadEntity) GetNerdStorage() NerdStorageEntityScope {
+	return x.NerdStorage
+}
+
+// GetPermalink returns a pointer to the value of Permalink from WorkloadEntity
+func (x WorkloadEntity) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from WorkloadEntity
+func (x WorkloadEntity) GetRecentAlertViolations() []EntityAlertViolation {
+	return x.RecentAlertViolations
+}
+
+// GetRelationships returns a pointer to the value of Relationships from WorkloadEntity
+func (x WorkloadEntity) GetRelationships() []EntityRelationship {
+	return x.Relationships
+}
+
+// GetReporting returns a pointer to the value of Reporting from WorkloadEntity
+func (x WorkloadEntity) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetTags returns a pointer to the value of Tags from WorkloadEntity
+func (x WorkloadEntity) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from WorkloadEntity
+func (x WorkloadEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
+	return x.TagsWithMetadata
+}
+
+// GetType returns a pointer to the value of Type from WorkloadEntity
+func (x WorkloadEntity) GetType() string {
+	return x.Type
+}
+
+// GetUpdatedAt returns a pointer to the value of UpdatedAt from WorkloadEntity
+func (x WorkloadEntity) GetUpdatedAt() nrtime.EpochMilliseconds {
+	return x.UpdatedAt
+}
+
+// GetWorkloadStatus returns a pointer to the value of WorkloadStatus from WorkloadEntity
+func (x WorkloadEntity) GetWorkloadStatus() WorkloadStatus {
+	return x.WorkloadStatus
+}
+
 func (x *WorkloadEntity) ImplementsAlertableEntity() {}
 
 func (x *WorkloadEntity) ImplementsCollectionEntity() {}
@@ -3527,6 +6064,86 @@ type WorkloadEntityOutline struct {
 	WorkloadStatus WorkloadStatus `json:"workloadStatus,omitempty"`
 }
 
+// GetAccount returns a pointer to the value of Account from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
+}
+
+// GetCreatedAt returns a pointer to the value of CreatedAt from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetCreatedAt() nrtime.EpochMilliseconds {
+	return x.CreatedAt
+}
+
+// GetCreatedByUser returns a pointer to the value of CreatedByUser from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetCreatedByUser() UserReference {
+	return x.CreatedByUser
+}
+
+// GetDomain returns a pointer to the value of Domain from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetGUID returns a pointer to the value of GUID from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetGUID() EntityGUID {
+	return x.GUID
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetName returns a pointer to the value of Name from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetName() string {
+	return x.Name
+}
+
+// GetPermalink returns a pointer to the value of Permalink from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetReporting returns a pointer to the value of Reporting from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetTags returns a pointer to the value of Tags from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetType returns a pointer to the value of Type from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetType() string {
+	return x.Type
+}
+
+// GetUpdatedAt returns a pointer to the value of UpdatedAt from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetUpdatedAt() nrtime.EpochMilliseconds {
+	return x.UpdatedAt
+}
+
+// GetWorkloadStatus returns a pointer to the value of WorkloadStatus from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetWorkloadStatus() WorkloadStatus {
+	return x.WorkloadStatus
+}
+
 func (x *WorkloadEntityOutline) ImplementsAlertableEntityOutline() {}
 
 func (x *WorkloadEntityOutline) ImplementsEntityOutline() {}
@@ -3565,7 +6182,7 @@ type entitySearchResponse struct {
 type AttributeMap map[string]interface{}
 
 // DashboardWidgetRawConfiguration - Raw JSON payload with full configuration of a widget.
-type DashboardWidgetRawConfiguration string
+type DashboardWidgetRawConfiguration []byte
 
 // EntityGUID - An encoded Entity GUID
 type EntityGUID string
@@ -3574,13 +6191,6 @@ type EntityGUID string
 // values as specified by
 // [IEEE 754](http://en.wikipedia.org/wiki/IEEE_floating_point).
 type Float string
-
-// ID - The `ID` scalar type represents a unique identifier, often used to
-// refetch an object or as key for a cache. The ID type appears in a JSON
-// response as a String; however, it is not intended to be human-readable.
-// When expected as an input type, any string (such as `"4"`) or integer
-// (such as `4`) input value will be accepted as an ID.
-type ID string
 
 // NerdStorageDocument - This scalar represents a NerdStorage document.
 type NerdStorageDocument string
@@ -3671,6 +6281,16 @@ func UnmarshalAlertableEntityInterface(b []byte) (*AlertableEntityInterface, err
 			return &xxx, nil
 		case "SyntheticMonitorEntity":
 			var interfaceType SyntheticMonitorEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertableEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "ThirdPartyServiceEntity":
+			var interfaceType ThirdPartyServiceEntity
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
@@ -3787,6 +6407,16 @@ func UnmarshalAlertableEntityOutlineInterface(b []byte) (*AlertableEntityOutline
 			return &xxx, nil
 		case "SyntheticMonitorEntityOutline":
 			var interfaceType SyntheticMonitorEntityOutline
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertableEntityOutlineInterface = &interfaceType
+
+			return &xxx, nil
+		case "ThirdPartyServiceEntityOutline":
+			var interfaceType ThirdPartyServiceEntityOutline
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
@@ -3960,6 +6590,11 @@ func UnmarshalCollectionEntityInterface(b []byte) (*CollectionEntityInterface, e
 // To understand more about entities and entity types, look at [our docs](https://docs.newrelic.com/docs/what-are-new-relic-entities).
 type EntityInterface interface {
 	ImplementsEntity()
+	GetAccountID() int
+	GetDomain() string
+	GetGUID() EntityGUID
+	GetName() string
+	GetType() string
 }
 
 //yes
@@ -4148,6 +6783,11 @@ func UnmarshalEntityInterface(b []byte) (*EntityInterface, error) {
 // To understand more about entities and entity types, look at [our docs](https://docs.newrelic.com/docs/what-are-new-relic-entities).
 type EntityOutlineInterface interface {
 	ImplementsEntityOutline()
+	GetAccountID() int
+	GetDomain() string
+	GetGUID() EntityGUID
+	GetName() string
+	GetType() string
 }
 
 //yes

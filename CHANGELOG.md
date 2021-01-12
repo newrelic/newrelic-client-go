@@ -1,3 +1,56 @@
+<a name="v0.55.3"></a>
+## [v0.55.3] - 2021-01-12
+### Bug Fixes
+- **dashboards:** remove manual changes so code generation works again
+
+<a name="v0.55.2"></a>
+## [v0.55.2] - 2021-01-11
+### Bug Fixes
+- **http:** slightly better error message for 401 status code
+
+<a name="v0.55.1"></a>
+## [v0.55.1] - 2021-01-11
+### Bug Fixes
+- **dashboards:** DashboardWidgetConfigurationInput needs to be nullable
+
+<a name="v0.55.0"></a>
+## [v0.55.0] - 2021-01-05
+### Features
+- **entities:** Add more methods to Entity(Outline)Interface
+
+<a name="v0.54.1"></a>
+## [v0.54.1] - 2021-01-05
+<a name="v0.54.0"></a>
+## [v0.54.0] - 2021-01-04
+### Features
+- **entities:** Generate Getter helpers for EntityInterfaces
+
+### Refactor
+- **entities:** change the get functions to not be on ptrs
+
+<a name="v0.53.0"></a>
+## [v0.53.0] - 2020-12-28
+### Bug Fixes
+- **entities:** DashboardWidgetRawConfiguration custom unmarshal as []byte (raw JSON)
+- **entities:** Force ID fields to be a string
+- **nerdgraphclient:** Template fixes to prevent nil pointers
+- **typegen:** Avoid nil pointer on custom UnmarshalJSON
+
+### Features
+- **dashboards:** Add GetDashboardEntity()
+- **dashboards:** Auto-generate GraphQL code for dashboards (early access)
+- **entities:** Code-gen tag mutations
+- **entities:** Mostly code generated Entities queries (entities/entity/entitySearch)
+
+### Refactor
+- DRY up some of the time based items into nrtime
+- Add omitempty to nullable and input objects for all packages
+- Selective generation on type in Entities, Infrastructure, and NerdStorage
+- **cloud:** Cloud auto-generating via tutone
+- **entities:** DRY up Nrdb from Entities
+- **entities:** Cleanup unused structs in entities
+- **typegen:** If we override a type to be in another package, properly generate the Unmarshal func call
+
 <a name="v0.52.0"></a>
 ## [v0.52.0] - 2020-12-08
 ### Bug Fixes
@@ -862,7 +915,14 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.52.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.3...HEAD
+[v0.55.3]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.2...v0.55.3
+[v0.55.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.1...v0.55.2
+[v0.55.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.0...v0.55.1
+[v0.55.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.54.1...v0.55.0
+[v0.54.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.54.0...v0.54.1
+[v0.54.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.53.0...v0.54.0
+[v0.53.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.52.0...v0.53.0
 [v0.52.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.51.0...v0.52.0
 [v0.51.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.50.0...v0.51.0
 [v0.50.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.49.0...v0.50.0

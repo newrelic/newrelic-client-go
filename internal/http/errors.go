@@ -2,6 +2,7 @@ package http
 
 import (
 	"fmt"
+	"net/http"
 	"strings"
 )
 
@@ -10,6 +11,7 @@ import (
 type ErrorResponse interface {
 	IsNotFound() bool
 	IsRetryableError() bool
+	IsUnauthorized(resp *http.Response) bool
 	Error() string
 	New() ErrorResponse
 }
@@ -40,6 +42,11 @@ func (e *DefaultErrorResponse) IsNotFound() bool {
 
 func (e *DefaultErrorResponse) IsRetryableError() bool {
 	return false
+}
+
+// IsUnauthorized checks a response for a 401 Unauthorize HTTP status code.
+func (e *DefaultErrorResponse) IsUnauthorized(resp *http.Response) bool {
+	return resp.StatusCode == http.StatusUnauthorized
 }
 
 // New creates a new instance of the DefaultErrorResponse struct.

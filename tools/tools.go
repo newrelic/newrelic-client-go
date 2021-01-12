@@ -1,6 +1,6 @@
 // +build tools
 
-package main
+package tools
 
 import (
 	// build/test.mk

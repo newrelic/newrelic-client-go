@@ -47,6 +47,7 @@ func NewIntegrationTestConfig(t *testing.T) config.Config {
 	envInsightsInsertKey := os.Getenv("NEW_RELIC_INSIGHTS_INSERT_KEY")
 	envLicenseKey := os.Getenv("NEW_RELIC_LICENSE_KEY")
 	envRegion := os.Getenv("NEW_RELIC_REGION")
+	envLogLevel := os.Getenv("NEW_RELIC_LOG_LEVEL")
 
 	if envPersonalAPIKey == "" {
 		t.Skipf("acceptance testing requires NEW_RELIC_API_KEY")
@@ -55,7 +56,11 @@ func NewIntegrationTestConfig(t *testing.T) config.Config {
 	cfg := config.New()
 
 	// Set some defaults
-	cfg.LogLevel = LogLevel
+	if envLogLevel != "" {
+		cfg.LogLevel = envLogLevel
+	} else {
+		cfg.LogLevel = LogLevel
+	}
 	cfg.UserAgent = UserAgent
 
 	cfg.PersonalAPIKey = envPersonalAPIKey

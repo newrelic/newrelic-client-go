@@ -3,6 +3,8 @@ package dashboards
 import (
 	"fmt"
 	"time"
+
+	"github.com/newrelic/newrelic-client-go/pkg/entities"
 )
 
 // ListDashboardsParams represents a set of filters to be
@@ -40,6 +42,70 @@ func (d *Dashboards) ListDashboards(params *ListDashboardsParams) ([]*Dashboard,
 
 	return dashboard, nil
 }
+
+// GetDashboardEntity is used to retrieve a single New Relic One Dashboard
+//
+// This is pre-release, so best to avoid until the feature is GA.
+func (d *Dashboards) GetDashboardEntity(gUID entities.EntityGUID) (*entities.DashboardEntity, error) {
+	resp := struct {
+		Actor entities.Actor `json:"actor"`
+	}{}
+	vars := map[string]interface{}{
+		"guid": gUID,
+	}
+
+	if err := d.client.NerdGraphQuery(getDashboardEntityQuery, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	dashboard := resp.Actor.Entity.(*entities.DashboardEntity)
+	return dashboard, nil
+}
+
+const getDashboardEntityQuery = `query ($guid: EntityGuid!) {
+  actor {
+    entity(guid: $guid) {
+      guid
+      ... on DashboardEntity {
+        __typename
+        accountId
+        createdAt
+        dashboardParentGuid
+        description
+        indexedAt
+        name
+        owner { email userId }
+        pages {
+          createdAt
+          description
+          guid
+          name
+          owner { email userId }
+          updatedAt
+          widgets {
+            configuration {
+              area { queries { accountId nrql } }
+              bar { queries { accountId nrql } }
+              billboard { queries { accountId nrql } thresholds { alertSeverity value } }
+              line { queries { accountId nrql } }
+              markdown { text }
+              pie { queries { accountId nrql } }
+              table { queries { accountId nrql } }
+            }
+            layout { column height row width }
+            title
+            visualization { id }
+            id
+          }
+        }
+        permissions
+        tags { key values }
+        tagsWithMetadata { key values { mutable value } }
+        updatedAt
+      }
+    }
+  }
+}`
 
 // GetDashboard is used to retrieve a single New Relic dashboard.
 func (d *Dashboards) GetDashboard(dashboardID int) (*Dashboard, error) {

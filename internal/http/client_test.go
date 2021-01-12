@@ -67,6 +67,20 @@ func TestDefaultErrorValue(t *testing.T) {
 	assert.Contains(t, err.Error(), "error message")
 }
 
+func TestUnauthorizedErrorValue(t *testing.T) {
+	t.Parallel()
+	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusUnauthorized)
+		_, _ = w.Write([]byte(`{"error":{"title": "No API key specified"}}`)) // REST API 401 response body
+	}))
+
+	_, err := c.Get(c.config.Region().RestURL("path"), nil, nil)
+
+	// Ensure our custom 401 unauthorized error message is returned
+	assert.Contains(t, err.Error(), "Invalid credentials provided")
+}
+
 type CustomErrorResponse struct {
 	CustomError string `json:"custom"`
 }
@@ -85,6 +99,10 @@ func (c *CustomErrorResponse) IsNotFound() bool {
 
 func (c *CustomErrorResponse) IsRetryableError() bool {
 	return false
+}
+
+func (c *CustomErrorResponse) IsUnauthorized(resp *http.Response) bool {
+	return resp.StatusCode == http.StatusUnauthorized
 }
 
 func TestCustomErrorValue(t *testing.T) {
