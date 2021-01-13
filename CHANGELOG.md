@@ -1,3 +1,8 @@
+<a name="v0.55.4"></a>
+## [v0.55.4] - 2021-01-12
+### Bug Fixes
+- **http:** move logger initialization to NewClient()
+
 <a name="v0.55.3"></a>
 ## [v0.55.3] - 2021-01-12
 ### Bug Fixes
@@ -915,7 +920,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.3...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.4...HEAD
+[v0.55.4]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.3...v0.55.4
 [v0.55.3]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.2...v0.55.3
 [v0.55.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.1...v0.55.2
 [v0.55.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.0...v0.55.1
