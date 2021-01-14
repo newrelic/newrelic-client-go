@@ -587,13 +587,11 @@ packages:
       - name: EpochSeconds
         create_as: serialization.EpochTime
       - name: Minutes
-        create_as: string
+        create_as: int
       - name: NaiveDateTime
         create_as: string
       - name: Seconds
-        create_as: string
-      - name: Minutes
-        create_as: int
+        create_as: float64
       - name: TimeWindowInput
 
 

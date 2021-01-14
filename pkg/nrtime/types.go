@@ -29,4 +29,4 @@ type Minutes int
 type NaiveDateTime string
 
 // Seconds - The `Seconds` scalar represents a duration in seconds
-type Seconds string
+type Seconds float64

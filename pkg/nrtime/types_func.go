@@ -37,9 +37,3 @@ func (t *EpochMilliseconds) UnmarshalJSON(s []byte) error {
 func (t EpochMilliseconds) String() string {
 	return serialization.EpochTime(t).String()
 }
-
-func (t *Seconds) UnmarshalJSON(s []byte) error {
-	*t = Seconds(string(s))
-
-	return nil
-}
