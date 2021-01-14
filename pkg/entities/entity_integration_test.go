@@ -29,6 +29,20 @@ func TestIntegrationSearchEntities(t *testing.T) {
 
 	require.NoError(t, err)
 	require.Greater(t, len(actual.Results.Entities), 0)
+
+	params = EntitySearchQueryBuilder{
+		Name: "WebPortal",
+	}
+
+	actual, err = client.GetEntitySearch(
+		EntitySearchOptions{},
+		"",
+		params,
+		[]EntitySearchSortCriteria{},
+	)
+
+	require.NoError(t, err)
+	require.Greater(t, len(actual.Results.Entities), 0)
 }
 
 func TestIntegrationSearchEntitiesByTags(t *testing.T) {
