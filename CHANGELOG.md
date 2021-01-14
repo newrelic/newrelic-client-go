@@ -1,5 +1,10 @@
+<a name="v0.55.5"></a>
+## [v0.55.5] - 2021-01-14
+### Bug Fixes
+- **entities:** unmarshal Minutes as an int
+
 <a name="v0.55.4"></a>
-## [v0.55.4] - 2021-01-12
+## [v0.55.4] - 2021-01-13
 ### Bug Fixes
 - **http:** move logger initialization to NewClient()
 
@@ -920,7 +925,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.4...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.5...HEAD
+[v0.55.5]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.4...v0.55.5
 [v0.55.4]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.3...v0.55.4
 [v0.55.3]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.2...v0.55.3
 [v0.55.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.1...v0.55.2
