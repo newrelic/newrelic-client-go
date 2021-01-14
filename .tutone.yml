@@ -592,6 +592,8 @@ packages:
         create_as: string
       - name: Seconds
         create_as: string
+      - name: Minutes
+        create_as: int
       - name: TimeWindowInput
 
 
