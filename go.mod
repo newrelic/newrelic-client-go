@@ -7,7 +7,7 @@ require (
 	github.com/hashicorp/go-retryablehttp v0.6.8
 	github.com/imdario/mergo v0.3.11
 	github.com/kr/text v0.2.0 // indirect
-	github.com/mitchellh/mapstructure v1.4.0
+	github.com/mitchellh/mapstructure v1.4.1
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
 	github.com/sirupsen/logrus v1.7.0
 	github.com/stretchr/testify v1.6.1
