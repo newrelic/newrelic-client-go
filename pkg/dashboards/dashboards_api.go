@@ -58,18 +58,30 @@ const DashboardCreateMutation = `mutation(
 			widgets {
 				configuration {
 					area {
+						nrqlQueries {
+							accountId
+							query
+						}
 						queries {
 							accountId
 							nrql
 						}
 					}
 					bar {
+						nrqlQueries {
+							accountId
+							query
+						}
 						queries {
 							accountId
 							nrql
 						}
 					}
 					billboard {
+						nrqlQueries {
+							accountId
+							query
+						}
 						queries {
 							accountId
 							nrql
@@ -80,6 +92,10 @@ const DashboardCreateMutation = `mutation(
 						}
 					}
 					line {
+						nrqlQueries {
+							accountId
+							query
+						}
 						queries {
 							accountId
 							nrql
@@ -89,12 +105,20 @@ const DashboardCreateMutation = `mutation(
 						text
 					}
 					pie {
+						nrqlQueries {
+							accountId
+							query
+						}
 						queries {
 							accountId
 							nrql
 						}
 					}
 					table {
+						nrqlQueries {
+							accountId
+							query
+						}
 						queries {
 							accountId
 							nrql
@@ -533,18 +557,30 @@ const DashboardUpdateMutation = `mutation(
 			widgets {
 				configuration {
 					area {
+						nrqlQueries {
+							accountId
+							query
+						}
 						queries {
 							accountId
 							nrql
 						}
 					}
 					bar {
+						nrqlQueries {
+							accountId
+							query
+						}
 						queries {
 							accountId
 							nrql
 						}
 					}
 					billboard {
+						nrqlQueries {
+							accountId
+							query
+						}
 						queries {
 							accountId
 							nrql
@@ -555,6 +591,10 @@ const DashboardUpdateMutation = `mutation(
 						}
 					}
 					line {
+						nrqlQueries {
+							accountId
+							query
+						}
 						queries {
 							accountId
 							nrql
@@ -564,12 +604,20 @@ const DashboardUpdateMutation = `mutation(
 						text
 					}
 					pie {
+						nrqlQueries {
+							accountId
+							query
+						}
 						queries {
 							accountId
 							nrql
 						}
 					}
 					table {
+						nrqlQueries {
+							accountId
+							query
+						}
 						queries {
 							accountId
 							nrql
