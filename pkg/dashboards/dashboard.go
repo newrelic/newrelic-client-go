@@ -62,6 +62,8 @@ func (d *Dashboards) GetDashboardEntity(gUID entities.EntityGUID) (*entities.Das
 	return dashboard, nil
 }
 
+// getDashboardEntityQuery is not auto-generated as tutone does not currently support
+// generation of queries that return a specific interface.
 const getDashboardEntityQuery = `query ($guid: EntityGuid!) {
   actor {
     entity(guid: $guid) {
