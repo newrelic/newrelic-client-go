@@ -65,18 +65,24 @@ var DashboardUpdateErrorTypeTypes = struct {
 
 // DashboardAreaWidgetConfigurationInput - Configuration for visualization type 'viz.area'
 type DashboardAreaWidgetConfigurationInput struct {
+	// nrql queries
+	NRQLQueries []DashboardWidgetNRQLQueryInput `json:"nrqlQueries,omitempty"`
 	// queries
 	Queries []DashboardWidgetQueryInput `json:"queries,omitempty"`
 }
 
 // DashboardBarWidgetConfigurationInput - Configuration for visualization type 'viz.bar'
 type DashboardBarWidgetConfigurationInput struct {
+	// nrql queries
+	NRQLQueries []DashboardWidgetNRQLQueryInput `json:"nrqlQueries,omitempty"`
 	// queries
 	Queries []DashboardWidgetQueryInput `json:"queries,omitempty"`
 }
 
 // DashboardBillboardWidgetConfigurationInput - Configuration for visualization type 'viz.billboard'
 type DashboardBillboardWidgetConfigurationInput struct {
+	// nrql queries
+	NRQLQueries []DashboardWidgetNRQLQueryInput `json:"nrqlQueries,omitempty"`
 	// queries
 	Queries []DashboardWidgetQueryInput `json:"queries,omitempty"`
 	// thresholds
@@ -159,6 +165,8 @@ type DashboardInput struct {
 
 // DashboardLineWidgetConfigurationInput - Configuration for visualization type 'viz.line'
 type DashboardLineWidgetConfigurationInput struct {
+	// nrql queries
+	NRQLQueries []DashboardWidgetNRQLQueryInput `json:"nrqlQueries,omitempty"`
 	// queries
 	Queries []DashboardWidgetQueryInput `json:"queries,omitempty"`
 }
@@ -183,12 +191,16 @@ type DashboardPageInput struct {
 
 // DashboardPieWidgetConfigurationInput - Configuration for visualization type 'viz.pie'
 type DashboardPieWidgetConfigurationInput struct {
+	// nrql queries
+	NRQLQueries []DashboardWidgetNRQLQueryInput `json:"nrqlQueries,omitempty"`
 	// queries
 	Queries []DashboardWidgetQueryInput `json:"queries,omitempty"`
 }
 
 // DashboardTableWidgetConfigurationInput - Configuration for visualization type 'viz.table'
 type DashboardTableWidgetConfigurationInput struct {
+	// nrql queries
+	NRQLQueries []DashboardWidgetNRQLQueryInput `json:"nrqlQueries,omitempty"`
 	// queries
 	Queries []DashboardWidgetQueryInput `json:"queries,omitempty"`
 }
@@ -255,6 +267,14 @@ type DashboardWidgetLayoutInput struct {
 	Row int `json:"row,omitempty"`
 	// width.
 	Width int `json:"width,omitempty"`
+}
+
+// DashboardWidgetNRQLQueryInput -
+type DashboardWidgetNRQLQueryInput struct {
+	// accountId
+	AccountID int `json:"accountId"`
+	// NRQL formatted query
+	Query nrdb.NRQL `json:"query"`
 }
 
 // DashboardWidgetQueryInput -
