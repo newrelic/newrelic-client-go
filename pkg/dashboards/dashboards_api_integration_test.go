@@ -3,7 +3,6 @@
 package dashboards
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -97,7 +96,7 @@ func TestIntegrationDashboard_Basic(t *testing.T) {
 	upDash, err := client.DashboardUpdate(updatedDashboard, dashGUID)
 	require.NoError(t, err)
 	require.NotNil(t, upDash)
-	fmt.Printf("Pages: '%+v'", upDash)
+
 	require.Equal(t, 1, len(upDash.EntityResult.Pages))
 	require.Equal(t, 1, len(upDash.EntityResult.Pages[0].Widgets))
 	assert.Equal(t, updatedDashboard.Pages[0].Widgets[0].Title, upDash.EntityResult.Pages[0].Widgets[0].Title)

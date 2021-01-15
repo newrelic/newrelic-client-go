@@ -4,6 +4,7 @@ package workloads
 
 import (
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/require"
 
@@ -52,6 +53,9 @@ func TestIntegrationWorkload(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, created)
 
+	// Entity indexing takes time.
+	time.Sleep(5)
+
 	// Test: Get
 	workload, err := client.GetWorkload(testAccountID, created.GUID)
 
@@ -82,6 +86,9 @@ func TestIntegrationWorkload(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, duplicate)
 	require.Equal(t, "duplicateWorkload", duplicate.Name)
+
+	// Entity indexing takes time.
+	time.Sleep(30)
 
 	// Test: Delete
 	deleted, err := client.DeleteWorkload(created.GUID)
