@@ -1,3 +1,5 @@
+<a name="v0.55.7"></a>
+## [v0.55.7] - 2021-01-15
 <a name="v0.55.6"></a>
 ## [v0.55.6] - 2021-01-15
 <a name="v0.55.5"></a>
@@ -927,7 +929,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.6...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.7...HEAD
+[v0.55.7]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.6...v0.55.7
 [v0.55.6]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.5...v0.55.6
 [v0.55.5]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.4...v0.55.5
 [v0.55.4]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.3...v0.55.4
