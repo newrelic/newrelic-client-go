@@ -2577,18 +2577,24 @@ func (x *CollectionEntity) ImplementsCollectionEntity() {}
 
 // DashboardAreaWidgetConfiguration - Configuration for visualization type 'viz.area'
 type DashboardAreaWidgetConfiguration struct {
+	// nrql queries
+	NRQLQueries []DashboardWidgetNRQLQuery `json:"nrqlQueries,omitempty"`
 	// queries
 	Queries []DashboardWidgetQuery `json:"queries,omitempty"`
 }
 
 // DashboardBarWidgetConfiguration - Configuration for visualization type 'viz.bar'
 type DashboardBarWidgetConfiguration struct {
+	// nrql queries
+	NRQLQueries []DashboardWidgetNRQLQuery `json:"nrqlQueries,omitempty"`
 	// queries
 	Queries []DashboardWidgetQuery `json:"queries,omitempty"`
 }
 
 // DashboardBillboardWidgetConfiguration - Configuration for visualization type 'viz.billboard'
 type DashboardBillboardWidgetConfiguration struct {
+	// nrql queries
+	NRQLQueries []DashboardWidgetNRQLQuery `json:"nrqlQueries,omitempty"`
 	// queries
 	Queries []DashboardWidgetQuery `json:"queries,omitempty"`
 	// thresholds
@@ -2865,6 +2871,8 @@ func (x *DashboardEntityOutline) ImplementsEntityOutline() {}
 
 // DashboardLineWidgetConfiguration - Configuration for visualization type 'viz.line'
 type DashboardLineWidgetConfiguration struct {
+	// nrql queries
+	NRQLQueries []DashboardWidgetNRQLQuery `json:"nrqlQueries,omitempty"`
 	// queries
 	Queries []DashboardWidgetQuery `json:"queries,omitempty"`
 }
@@ -2903,12 +2911,16 @@ type DashboardPage struct {
 
 // DashboardPieWidgetConfiguration - Configuration for visualization type 'viz.pie'
 type DashboardPieWidgetConfiguration struct {
+	// nrql queries
+	NRQLQueries []DashboardWidgetNRQLQuery `json:"nrqlQueries,omitempty"`
 	// queries
 	Queries []DashboardWidgetQuery `json:"queries,omitempty"`
 }
 
 // DashboardTableWidgetConfiguration - Configuration for visualization type 'viz.table'
 type DashboardTableWidgetConfiguration struct {
+	// nrql queries
+	NRQLQueries []DashboardWidgetNRQLQuery `json:"nrqlQueries,omitempty"`
 	// queries
 	Queries []DashboardWidgetQuery `json:"queries,omitempty"`
 }
@@ -3029,6 +3041,14 @@ type DashboardWidgetLayout struct {
 	Row int `json:"row,omitempty"`
 	// width.
 	Width int `json:"width,omitempty"`
+}
+
+// DashboardWidgetNRQLQuery - Single NRQL query for a widget.
+type DashboardWidgetNRQLQuery struct {
+	// accountId
+	AccountID int `json:"accountId"`
+	// NRQL formatted query
+	Query nrdb.NRQL `json:"query"`
 }
 
 // DashboardWidgetQuery - Single NRQL query for a widget.
