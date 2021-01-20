@@ -2595,17 +2595,17 @@ type DashboardBarWidgetConfiguration struct {
 type DashboardBillboardWidgetConfiguration struct {
 	// nrql queries
 	NRQLQueries []DashboardWidgetNRQLQuery `json:"nrqlQueries,omitempty"`
-	// queries
+	// Queries
 	Queries []DashboardWidgetQuery `json:"queries,omitempty"`
-	// thresholds
+	// Thresholds
 	Thresholds []DashboardBillboardWidgetThreshold `json:"thresholds,omitempty"`
 }
 
 // DashboardBillboardWidgetThreshold - Billboard widget threshold.
 type DashboardBillboardWidgetThreshold struct {
-	// alert severity.
+	// Alert severity.
 	AlertSeverity DashboardAlertSeverity `json:"alertSeverity,omitempty"`
-	// value.
+	// Alert value.
 	Value float64 `json:"value,omitempty"`
 }
 
@@ -3059,7 +3059,7 @@ type DashboardWidgetQuery struct {
 	NRQL nrdb.NRQL `json:"nrql"`
 }
 
-// DashboardWidgetVisualization - visualization configuration
+// DashboardWidgetVisualization - Visualization configuration
 type DashboardWidgetVisualization struct {
 	// Nerdpack artifact ID
 	ID string `json:"id,omitempty"`

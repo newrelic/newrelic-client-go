@@ -129,7 +129,7 @@ type DashboardDeleteResult struct {
 	Status DashboardDeleteResultStatus `json:"status,omitempty"`
 }
 
-// DashboardEntityResult - public schema - `DashboardEntity` result representation for mutations. It's a subset of the `DashboardEntity` that inherits from the Entity type, but a complete different type.
+// DashboardEntityResult - Public schema - `DashboardEntity` result representation for mutations. It's a subset of the `DashboardEntity` that inherits from the Entity type, but a complete different type.
 type DashboardEntityResult struct {
 	// Account ID.
 	AccountID int `json:"accountId,omitempty"`
