@@ -37,7 +37,7 @@ func TestIntegrationDashboard_Basic(t *testing.T) {
 					{
 						Title: "Test Text Widget",
 						Configuration: DashboardWidgetConfigurationInput{
-							Markdown: DashboardMarkdownWidgetConfigurationInput{
+							Markdown: &DashboardMarkdownWidgetConfigurationInput{
 								Text: "Test Text widget **markdown**",
 							},
 						},
@@ -83,8 +83,10 @@ func TestIntegrationDashboard_Basic(t *testing.T) {
 				Name: dash.Pages[0].Name,
 				Widgets: []DashboardWidgetInput{
 					{
-						ID:    dash.Pages[0].Widgets[0].ID,
-						Title: "Updated Title",
+						// Even though the config isn't changing, we have to pass it. 2021-01-11 JT
+						Configuration: dashboardInput.Pages[0].Widgets[0].Configuration,
+						ID:            dash.Pages[0].Widgets[0].ID,
+						Title:         "Updated Title",
 					},
 				},
 			},
@@ -94,6 +96,7 @@ func TestIntegrationDashboard_Basic(t *testing.T) {
 	upDash, err := client.DashboardUpdate(updatedDashboard, dashGUID)
 	require.NoError(t, err)
 	require.NotNil(t, upDash)
+
 	require.Equal(t, 1, len(upDash.EntityResult.Pages))
 	require.Equal(t, 1, len(upDash.EntityResult.Pages[0].Widgets))
 	assert.Equal(t, updatedDashboard.Pages[0].Widgets[0].Title, upDash.EntityResult.Pages[0].Widgets[0].Title)

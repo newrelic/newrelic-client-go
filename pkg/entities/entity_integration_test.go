@@ -29,6 +29,50 @@ func TestIntegrationSearchEntities(t *testing.T) {
 
 	require.NoError(t, err)
 	require.Greater(t, len(actual.Results.Entities), 0)
+
+	params = EntitySearchQueryBuilder{
+		Name: "WebPortal",
+	}
+
+	actual, err = client.GetEntitySearch(
+		EntitySearchOptions{},
+		"",
+		params,
+		[]EntitySearchSortCriteria{},
+	)
+
+	require.NoError(t, err)
+	require.Greater(t, len(actual.Results.Entities), 0)
+}
+
+func TestIntegrationSearchEntities_domain(t *testing.T) {
+	t.Parallel()
+
+	client := newIntegrationTestClient(t)
+
+	domains := []EntitySearchQueryBuilderDomain{
+		EntitySearchQueryBuilderDomainTypes.APM,
+		EntitySearchQueryBuilderDomainTypes.BROWSER,
+		EntitySearchQueryBuilderDomainTypes.INFRA,
+		EntitySearchQueryBuilderDomainTypes.MOBILE,
+		EntitySearchQueryBuilderDomainTypes.SYNTH,
+	}
+
+	for _, d := range domains {
+		params := EntitySearchQueryBuilder{
+			Domain: d,
+		}
+
+		result, err := client.GetEntitySearch(
+			EntitySearchOptions{},
+			"",
+			params,
+			[]EntitySearchSortCriteria{},
+		)
+
+		require.NoError(t, err)
+		require.Greater(t, len(result.Results.Entities), 0)
+	}
 }
 
 func TestIntegrationSearchEntitiesByTags(t *testing.T) {

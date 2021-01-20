@@ -62,6 +62,8 @@ func (d *Dashboards) GetDashboardEntity(gUID entities.EntityGUID) (*entities.Das
 	return dashboard, nil
 }
 
+// getDashboardEntityQuery is not auto-generated as tutone does not currently support
+// generation of queries that return a specific interface.
 const getDashboardEntityQuery = `query ($guid: EntityGuid!) {
   actor {
     entity(guid: $guid) {
@@ -84,13 +86,13 @@ const getDashboardEntityQuery = `query ($guid: EntityGuid!) {
           updatedAt
           widgets {
             configuration {
-              area { queries { accountId nrql } }
-              bar { queries { accountId nrql } }
-              billboard { queries { accountId nrql } thresholds { alertSeverity value } }
-              line { queries { accountId nrql } }
+              area { nrqlQueries { accountId query } }
+              bar { nrqlQueries { accountId query } }
+              billboard { nrqlQueries { accountId query } thresholds { alertSeverity value } }
+              line { nrqlQueries { accountId query } }
               markdown { text }
-              pie { queries { accountId nrql } }
-              table { queries { accountId nrql } }
+              pie { nrqlQueries { accountId query } }
+              table { nrqlQueries { accountId query } }
             }
             layout { column height row width }
             title

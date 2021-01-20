@@ -10,7 +10,9 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 
+	"github.com/newrelic/newrelic-client-go/internal/logging"
 	"github.com/newrelic/newrelic-client-go/pkg/config"
 	"github.com/newrelic/newrelic-client-go/pkg/errors"
 	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
@@ -27,6 +29,7 @@ func TestConfig(t *testing.T) {
 	testTransport := http.DefaultTransport
 
 	tc := config.New()
+
 	tc.HTTPTransport = testTransport
 	tc.Region().SetRestBaseURL(testRestURL)
 	tc.ServiceName = testServiceName
@@ -35,12 +38,13 @@ func TestConfig(t *testing.T) {
 
 	c := NewClient(tc)
 
-	assert.Equal(t, &testTimeout, c.config.Timeout)
-	assert.Equal(t, testRestURL, c.config.Region().RestURL())
-	assert.Equal(t, mock.UserAgent, c.config.UserAgent)
-	assert.Equal(t, c.config.ServiceName, testServiceName+"|newrelic-client-go")
+	require.NotNil(t, c.logger)
+	require.Equal(t, &testTimeout, c.config.Timeout)
+	require.Equal(t, testRestURL, c.config.Region().RestURL())
+	require.Equal(t, mock.UserAgent, c.config.UserAgent)
+	require.Equal(t, c.config.ServiceName, testServiceName+"|newrelic-client-go")
 
-	assert.Same(t, testTransport, c.config.HTTPTransport)
+	require.Same(t, testTransport, c.config.HTTPTransport)
 }
 
 func TestConfigDefaults(t *testing.T) {
@@ -54,6 +58,17 @@ func TestConfigDefaults(t *testing.T) {
 	assert.Equal(t, c.config.ServiceName, testServiceName+"|newrelic-client-go")
 }
 
+func TestConfigLogger(t *testing.T) {
+	t.Parallel()
+	tc := mock.NewTestConfig(t, nil)
+
+	tc.Logger = logging.NewMockLogger(t)
+
+	c := NewClient(tc)
+	// The logger used should be the same as the config
+	require.Same(t, tc.Logger, c.logger)
+}
+
 func TestDefaultErrorValue(t *testing.T) {
 	t.Parallel()
 	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -65,6 +80,20 @@ func TestDefaultErrorValue(t *testing.T) {
 	_, err := c.Get(c.config.Region().RestURL("path"), nil, nil)
 
 	assert.Contains(t, err.Error(), "error message")
+}
+
+func TestUnauthorizedErrorValue(t *testing.T) {
+	t.Parallel()
+	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusUnauthorized)
+		_, _ = w.Write([]byte(`{"error":{"title": "No API key specified"}}`)) // REST API 401 response body
+	}))
+
+	_, err := c.Get(c.config.Region().RestURL("path"), nil, nil)
+
+	// Ensure our custom 401 unauthorized error message is returned
+	assert.Contains(t, err.Error(), "Invalid credentials provided")
 }
 
 type CustomErrorResponse struct {
@@ -85,6 +114,10 @@ func (c *CustomErrorResponse) IsNotFound() bool {
 
 func (c *CustomErrorResponse) IsRetryableError() bool {
 	return false
+}
+
+func (c *CustomErrorResponse) IsUnauthorized(resp *http.Response) bool {
+	return resp.StatusCode == http.StatusUnauthorized
 }
 
 func TestCustomErrorValue(t *testing.T) {

@@ -5,8 +5,6 @@ import (
 	"context"
 	"errors"
 	"time"
-
-	log "github.com/sirupsen/logrus"
 )
 
 // BatchMode enables the Events client to accept, queue, and post
@@ -34,7 +32,7 @@ func (e *Events) BatchMode(ctx context.Context, accountID int, opts ...BatchConf
 	go func() {
 		err := e.watchdog(ctx)
 		if err != nil {
-			log.Errorf("watchdog returned error: %v", err)
+			e.logger.Error("watchdog returned error", "error", err)
 		}
 	}()
 
@@ -45,7 +43,7 @@ func (e *Events) BatchMode(ctx context.Context, accountID int, opts ...BatchConf
 		go func(id int) {
 			err := e.batchWorker(ctx, id)
 			if err != nil {
-				log.Errorf("batch worker returned error: %v", err)
+				e.logger.Error("batch worker returned error", "error", err)
 			}
 		}(x)
 	}

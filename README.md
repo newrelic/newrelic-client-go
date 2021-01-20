@@ -49,10 +49,9 @@ func main() {
 }
 ```
 
-
 ## Community
 
-New Relic hosts and moderates an online forum where customers can interact with New Relic employees as well as other customers to get help and share best practices. 
+New Relic hosts and moderates an online forum where customers can interact with New Relic employees as well as other customers to get help and share best practices.
 
 * [Roadmap](https://newrelic.github.io/developer-toolkit/roadmap/) - As part of the Developer Toolkit, the roadmap for this project follows the same RFC process
 * [Issues or Enhancement Requests](https://github.com/newrelic/newrelic-client-go/issues) - Issues and enhancement requests can be submitted in the Issues tab of this repository. Please search for and review the existing open issues before submitting a new issue.
@@ -60,7 +59,6 @@ New Relic hosts and moderates an online forum where customers can interact with 
 * [Community discussion board](https://discuss.newrelic.com/c/build-on-new-relic/developer-toolkit) - Like all official New Relic open source projects, there's a related Community topic in the New Relic Explorers Hub.
 
 Keep in mind that when you submit your pull request, you'll need to sign the CLA via the click-through using CLA-Assistant. If you'd like to execute our corporate CLA, or if you have any questions, please drop us an email at opensource@newrelic.com.
-
 
 ## Development
 
@@ -70,12 +68,11 @@ Keep in mind that when you submit your pull request, you'll need to sign the CLA
 * GNU Make
 * git
 
-
 ### Building
 
 This package does not generate any direct usable assets (it's a library).  You can still run the build scripts to validate you code, and generate coverage information.
 
-```
+``` bash
 # Default target is 'build'
 $ make
 
@@ -87,11 +84,12 @@ $ make build
 ```
 
 ### Testing
+
 Before contributing, all linting and tests must pass.
 
 Tests can be run directly via:
 
-```
+``` bash
 # Tests and Linting
 $ make test
 
@@ -103,13 +101,14 @@ $ make test-integration
 ```
 
 #### Integration tests
+
 Integration tests communicate with the New Relic API, and therefore require proper
 account credentials to run properly. The suite makes use of secrets, which will
 need to be configured in the environment or else the integraiton tests will be skipped
 during a test run. To run the integration test suite, the following secrets will
 need to be configured:
 
-```
+``` bash
 NEW_RELIC_API_KEY
 NEW_RELIC_ACCOUNT_ID
 NEW_RELIC_INSIGHTS_INSERT_KEY
@@ -117,6 +116,11 @@ NEW_RELIC_LICENSE_KEY
 NEW_RELIC_REGION
 ```
 
+Optional for debugging (defaults to `debug`):
+
+``` bash
+NEW_RELIC_LOG_LEVEL=trace
+```
 
 #### Go Version Support
 
@@ -126,13 +130,12 @@ will not work, but we don't intend to support a Go version in this project that
 is not supported by the larger Go community.  Please see the [Go
 releases][go_releases] page for more details.
 
-
 ### Commit Messages
 
 Using the following format for commit messages allows for auto-generation of
 the [CHANGELOG](CHANGELOG.md):
 
-#### Format:
+#### Format
 
 `<type>(<scope>): <subject>`
 
@@ -159,21 +162,19 @@ This refers to what part of the code is the focus of the work.  For example:
 * `http` - Work related to the `internal/http` package
 * `alerts` - Work related to the `pkg/alerts` package
 
-
 ### Documentation
 
 **Note:** This requires the repo to be in your GOPATH [(godoc issue)](https://github.com/golang/go/issues/26827)
 
-```
+``` bash
 $ make docs
 ```
 
-
 ## Community Support
 
-New Relic hosts and moderates an online forum where you can interact with New Relic employees as well as other customers to get help and share best practices. Like all New Relic open source community projects, there's a related topic in the New Relic Explorers Hub. You can find this project's topic/threads here:
+New Relic hosts and moderates an online forum where you can interact with New Relic employees as well as other customers to get help and share best practices. Like all New Relic open source community projects, there's a related topic in the New Relic Explorers Hub. You can find our team's project topic/threads here:
 
-[https://discuss.newrelic.com/t/new-relic-one-top-nerdpack/82934](https://discuss.newrelic.com/t/new-relic-one-top-nerdpack/82934)
+[Developer ToolKit](https://discuss.newrelic.com/t/about-the-developer-toolkit-category/90159)
 
 Please do not report issues with Top to New Relic Global Technical Support. Instead, visit the [`Explorers Hub`](https://discuss.newrelic.com/c/build-on-new-relic) for troubleshooting and best-practices.
 

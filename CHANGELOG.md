@@ -1,3 +1,37 @@
+<a name="v0.55.8"></a>
+## [v0.55.8] - 2021-01-15
+### Refactor
+- **dashboards:** Use nrqlQueries in place of queries
+
+<a name="v0.55.7"></a>
+## [v0.55.7] - 2021-01-15
+<a name="v0.55.6"></a>
+## [v0.55.6] - 2021-01-15
+<a name="v0.55.5"></a>
+## [v0.55.5] - 2021-01-14
+### Bug Fixes
+- **entities:** unmarshal Minutes as an int
+
+<a name="v0.55.4"></a>
+## [v0.55.4] - 2021-01-13
+### Bug Fixes
+- **http:** move logger initialization to NewClient()
+
+<a name="v0.55.3"></a>
+## [v0.55.3] - 2021-01-12
+### Bug Fixes
+- **dashboards:** remove manual changes so code generation works again
+
+<a name="v0.55.2"></a>
+## [v0.55.2] - 2021-01-11
+### Bug Fixes
+- **http:** slightly better error message for 401 status code
+
+<a name="v0.55.1"></a>
+## [v0.55.1] - 2021-01-11
+### Bug Fixes
+- **dashboards:** DashboardWidgetConfigurationInput needs to be nullable
+
 <a name="v0.55.0"></a>
 ## [v0.55.0] - 2021-01-05
 ### Features
@@ -900,7 +934,15 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.8...HEAD
+[v0.55.8]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.7...v0.55.8
+[v0.55.7]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.6...v0.55.7
+[v0.55.6]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.5...v0.55.6
+[v0.55.5]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.4...v0.55.5
+[v0.55.4]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.3...v0.55.4
+[v0.55.3]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.2...v0.55.3
+[v0.55.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.1...v0.55.2
+[v0.55.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.0...v0.55.1
 [v0.55.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.54.1...v0.55.0
 [v0.54.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.54.0...v0.54.1
 [v0.54.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.53.0...v0.54.0

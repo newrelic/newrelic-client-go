@@ -2,7 +2,9 @@
 package infrastructure
 
 import (
-	"github.com/newrelic/newrelic-client-go/internal/http"
+	"net/http"
+
+	nrhttp "github.com/newrelic/newrelic-client-go/internal/http"
 )
 
 // ErrorResponse represents an error response from New Relic Infrastructure.
@@ -31,7 +33,7 @@ func (e *ErrorResponse) Error() string {
 }
 
 // New creates a new instance of ErrorResponse.
-func (e *ErrorResponse) New() http.ErrorResponse {
+func (e *ErrorResponse) New() nrhttp.ErrorResponse {
 	return &ErrorResponse{}
 }
 
@@ -41,4 +43,9 @@ func (e *ErrorResponse) IsNotFound() bool {
 
 func (e *ErrorResponse) IsRetryableError() bool {
 	return false
+}
+
+// IsUnauthorized checks a response for a 401 Unauthorize HTTP status code.
+func (e *ErrorResponse) IsUnauthorized(resp *http.Response) bool {
+	return resp.StatusCode == http.StatusUnauthorized
 }
