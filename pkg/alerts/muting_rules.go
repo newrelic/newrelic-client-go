@@ -1,5 +1,11 @@
 package alerts
 
+import (
+	"encoding/json"
+	"fmt"
+	"time"
+)
+
 // MutingRule represents the alert suppression mechanism in the Alerts API.
 type MutingRule struct {
 	ID            int                      `json:"id,string,omitempty"`
@@ -12,6 +18,7 @@ type MutingRule struct {
 	Name          string                   `json:"name,omitempty"`
 	UpdatedAt     string                   `json:"updatedAt,omitempty"`
 	UpdatedByUser ByUser                   `json:"updatedByUser,omitempty"`
+	Schedule      *MutingRuleSchedule      `json:"schedule,omitempty"`
 }
 
 // ByUser is a collection of the user information that created or updated the muting rule.
@@ -35,12 +42,101 @@ type MutingRuleCondition struct {
 	Values    []string `json:"values"`
 }
 
+// MutingRuleScheduleRepeat represents how frequently a MutingRule's schedule repeats.
+type MutingRuleScheduleRepeat string
+
+// MutingRuleScheduleRepeatTypes are intervals for MutingRulesScheduleRepeat.
+var MutingRuleScheduleRepeatTypes = struct {
+	// DAILY - Schedule repeats once per calendar day.
+	DAILY MutingRuleScheduleRepeat
+	// WEEKLY - Schedule repeats once per specified day per calendar week.
+	WEEKLY MutingRuleScheduleRepeat
+	// MONTHLY - Schedule repeats once per calendar month.
+	MONTHLY MutingRuleScheduleRepeat
+}{
+	DAILY:   "DAILY",
+	WEEKLY:  "WEEKLY",
+	MONTHLY: "MONTHLY",
+}
+
+// DayOfWeek is used to configure a WEEKLY scheduled MutingRule.
+type DayOfWeek string
+
+// DayOfWeekTypes are days of the week for DayOfWeek.
+var DayOfWeekTypes = struct {
+	MONDAY    DayOfWeek
+	TUESDAY   DayOfWeek
+	WEDNESDAY DayOfWeek
+	THURSDAY  DayOfWeek
+	FRIDAY    DayOfWeek
+	SATURDAY  DayOfWeek
+	SUNDAY    DayOfWeek
+}{
+	MONDAY:    "MONDAY",
+	TUESDAY:   "TUESDAY",
+	WEDNESDAY: "WEDNESDAY",
+	THURSDAY:  "THURSDAY",
+	FRIDAY:    "FRIDAY",
+	SATURDAY:  "SATURDAY",
+	SUNDAY:    "SUNDAY",
+}
+
+// NaiveDateTime wraps `time.Time` to remove the time zone offset when JSON marshaling.
+// NaiveDateTime is used for MutingRuleScheduleCreateInput and MutingRuleScheduleUpdateInput fields StartTime, EndTime, and EndRepeat.
+type NaiveDateTime struct {
+	time.Time
+}
+
+// MarshalJSON strips the UTC time zone offset from the NaiveDateTime when JSON marshaling.
+// If a non-UTC time zone offset is specified on the NaiveDateTime, an error will be thrown.
+func (t NaiveDateTime) MarshalJSON() ([]byte, error) {
+	if _, offset := t.Zone(); offset != 0 {
+		return nil, fmt.Errorf("time offset %d not allowed. You can call .UTC() on the time provided to reset the offset", offset)
+	}
+
+	return json.Marshal(t.Format("2006-01-02T15:04:05"))
+}
+
+// MutingRuleSchedule is the time window when the MutingRule should actively mute violations
+type MutingRuleSchedule struct {
+	StartTime        *time.Time                `json:"startTime,omitempty"`
+	EndTime          *time.Time                `json:"endTime,omitempty"`
+	TimeZone         string                    `json:"timeZone"`
+	Repeat           *MutingRuleScheduleRepeat `json:"repeat,omitempty"`
+	EndRepeat        *time.Time                `json:"endRepeat,omitempty"`
+	RepeatCount      *int                      `json:"repeatCount,omitempty"`
+	WeeklyRepeatDays *[]DayOfWeek              `json:"weeklyRepeatDays,omitempty"`
+}
+
+// MutingRuleScheduleCreateInput is the time window when the MutingRule should actively mute violations for Create
+type MutingRuleScheduleCreateInput struct {
+	StartTime        *NaiveDateTime            `json:"startTime,omitempty"`
+	EndTime          *NaiveDateTime            `json:"endTime,omitempty"`
+	TimeZone         string                    `json:"timeZone"`
+	Repeat           *MutingRuleScheduleRepeat `json:"repeat,omitempty"`
+	EndRepeat        *NaiveDateTime            `json:"endRepeat,omitempty"`
+	RepeatCount      *int                      `json:"repeatCount,omitempty"`
+	WeeklyRepeatDays *[]DayOfWeek              `json:"weeklyRepeatDays,omitempty"`
+}
+
+// MutingRuleScheduleUpdateInput is the time window when the MutingRule should actively mute violations for Update
+type MutingRuleScheduleUpdateInput struct {
+	StartTime        *NaiveDateTime            `json:"startTime,omitempty"`
+	EndTime          *NaiveDateTime            `json:"endTime,omitempty"`
+	TimeZone         *string                   `json:"timeZone,omitempty"`
+	Repeat           *MutingRuleScheduleRepeat `json:"repeat,omitempty"`
+	EndRepeat        *NaiveDateTime            `json:"endRepeat,omitempty"`
+	RepeatCount      *int                      `json:"repeatCount,omitempty"`
+	WeeklyRepeatDays *[]DayOfWeek              `json:"weeklyRepeatDays,omitempty"`
+}
+
 // MutingRuleCreateInput is the input for creating muting rules.
 type MutingRuleCreateInput struct {
-	Condition   MutingRuleConditionGroup `json:"condition"`
-	Description string                   `json:"description"`
-	Enabled     bool                     `json:"enabled"`
-	Name        string                   `json:"name"`
+	Condition   MutingRuleConditionGroup       `json:"condition"`
+	Description string                         `json:"description"`
+	Enabled     bool                           `json:"enabled"`
+	Name        string                         `json:"name"`
+	Schedule    *MutingRuleScheduleCreateInput `json:"schedule,omitempty"`
 }
 
 // MutingRuleUpdateInput is the input for updating a rule.
@@ -48,10 +144,11 @@ type MutingRuleUpdateInput struct {
 	// Condition is is available from the API, but the json needs to be handled
 	// properly.
 
-	Condition   *MutingRuleConditionGroup `json:"condition,omitempty"`
-	Description string                    `json:"description,omitempty"`
-	Enabled     bool                      `json:"enabled"`
-	Name        string                    `json:"name,omitempty"`
+	Condition   *MutingRuleConditionGroup      `json:"condition,omitempty"`
+	Description string                         `json:"description,omitempty"`
+	Enabled     bool                           `json:"enabled"`
+	Name        string                         `json:"name,omitempty"`
+	Schedule    *MutingRuleScheduleUpdateInput `json:"schedule,omitempty"`
 }
 
 // ListMutingRules queries for all muting rules in a given account.
@@ -118,7 +215,7 @@ func (a *Alerts) UpdateMutingRule(accountID int, ruleID int, rule MutingRuleUpda
 	return &resp.AlertsMutingRuleUpdate, nil
 }
 
-// DeleteMutingRule is the mutation.
+// DeleteMutingRule is the mutation to delete an existing muting rule.
 func (a *Alerts) DeleteMutingRule(accountID int, ruleID int) error {
 	vars := map[string]interface{}{
 		"accountID": accountID,
@@ -199,7 +296,7 @@ const (
 		alertsMutingRuleFields +
 		`}}}}}`
 
-	alertsMutingRuleFields = ` 
+	alertsMutingRuleFields = `
 		accountId
 		condition {
 			conditions {
@@ -226,6 +323,15 @@ const (
 			gravatar
 			id
 			name
+		}
+		schedule {
+			startTime
+			endTime
+			timeZone
+			repeat
+			endRepeat
+			repeatCount
+			weeklyRepeatDays
 		}
 	`
 

@@ -4,13 +4,14 @@ package alerts
 
 import (
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/require"
 
 	nr "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
 
-func TestAlertsMutingRules(t *testing.T) {
+func TestIntegrationAlertsMutingRules(t *testing.T) {
 	t.Parallel()
 
 	a := newIntegrationTestClient(t)
@@ -18,11 +19,31 @@ func TestAlertsMutingRules(t *testing.T) {
 	// DTK terraform account
 	accountID := 2520528
 
-	// Create a policy to work with in this test
+	// Schedule fields
+	startTime, err1 := time.Parse(time.RFC3339, "2021-07-08T12:30:00Z")
+	if err1 != nil {
+		t.Fatal(err1)
+	}
+	endTime, err2 := time.Parse(time.RFC3339, "2021-07-08T14:30:00Z")
+	if err2 != nil {
+		t.Fatal(err2)
+	}
+	repeatCount := 10
+
+	// Create a muting rule to work with in this test
 	rule := MutingRuleCreateInput{
 		Name:        nr.RandSeq(5),
 		Description: "Mute host-1 violations",
 		Enabled:     true,
+		Schedule: &MutingRuleScheduleCreateInput{
+			EndRepeat:        nil,
+			EndTime:          &NaiveDateTime{endTime},
+			Repeat:           &MutingRuleScheduleRepeatTypes.DAILY,
+			RepeatCount:      &repeatCount,
+			StartTime:        &NaiveDateTime{startTime},
+			TimeZone:         "America/Los_Angeles",
+			WeeklyRepeatDays: nil,
+		},
 	}
 	condition := MutingRuleCondition{
 		Attribute: "tag.host",
