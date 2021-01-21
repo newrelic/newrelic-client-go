@@ -21,6 +21,11 @@ func newIntegrationTestClient(t *testing.T) Dashboards {
 func TestIntegrationDashboard_Basic(t *testing.T) {
 	t.Parallel()
 
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
 	client := newIntegrationTestClient(t)
 
 	// Test vars
@@ -48,7 +53,7 @@ func TestIntegrationDashboard_Basic(t *testing.T) {
 	}
 
 	// Test: DashboardCreate
-	result, err := client.DashboardCreate(mock.TestAccountID, dashboardInput)
+	result, err := client.DashboardCreate(testAccountID, dashboardInput)
 
 	require.NoError(t, err)
 	require.NotNil(t, result)
@@ -112,6 +117,11 @@ func TestIntegrationDashboard_Basic(t *testing.T) {
 func TestIntegrationDashboard_LinkedEntities(t *testing.T) {
 	t.Parallel()
 
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
 	client := newIntegrationTestClient(t)
 
 	// Test vars
@@ -139,7 +149,7 @@ func TestIntegrationDashboard_LinkedEntities(t *testing.T) {
 	}
 
 	// Create a dashboard to reference in linked entity GUIDs
-	resultDashA, err := client.DashboardCreate(mock.TestAccountID, dashboardAInput)
+	resultDashA, err := client.DashboardCreate(testAccountID, dashboardAInput)
 	require.NoError(t, err)
 	require.NotNil(t, resultDashA)
 
@@ -159,7 +169,7 @@ func TestIntegrationDashboard_LinkedEntities(t *testing.T) {
 							Bar: &DashboardBarWidgetConfigurationInput{
 								NRQLQueries: []DashboardWidgetNRQLQueryInput{
 									{
-										AccountID: mock.TestAccountID,
+										AccountID: testAccountID,
 										Query:     "FROM Transaction SELECT average(duration) FACET appName",
 									},
 								},
@@ -175,7 +185,7 @@ func TestIntegrationDashboard_LinkedEntities(t *testing.T) {
 	}
 
 	// Test: Create dashboard with a widget that includes `linkedEntityGuids`
-	resultDashB, err := client.DashboardCreate(mock.TestAccountID, dashboardBInput)
+	resultDashB, err := client.DashboardCreate(testAccountID, dashboardBInput)
 
 	require.NoError(t, err)
 	require.NotNil(t, resultDashB)

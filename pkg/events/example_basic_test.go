@@ -5,9 +5,9 @@ package events
 import (
 	"log"
 	"os"
+	"strconv"
 
 	"github.com/newrelic/newrelic-client-go/pkg/config"
-	nr "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
 
 func Example_basic() {
@@ -15,6 +15,11 @@ func Example_basic() {
 	// to communicate with the backend API.
 	cfg := config.New()
 	cfg.InsightsInsertKey = os.Getenv("NEW_RELIC_INSIGHTS_INSERT_KEY")
+
+	accountID, err := strconv.Atoi(os.Getenv("NEW_RELIC_ACCOUNT_ID"))
+	if err != nil {
+		log.Fatal("environment variable NEW_RELIC_ACCOUNT_ID required")
+	}
 
 	// Initialize the client.
 	client := New(cfg)
@@ -28,7 +33,7 @@ func Example_basic() {
 	}
 
 	// Post a custom event.
-	if err := client.CreateEvent(nr.TestAccountID, event); err != nil {
+	if err := client.CreateEvent(accountID, event); err != nil {
 		log.Fatal("error posting custom event:", err)
 	}
 }

@@ -8,14 +8,8 @@ import (
 	"time"
 )
 
-const (
-	// DTK Terraform Test Account
-	TestAccountID = 2520528
-)
-
 var (
-	letters    = []rune("abcdefghijklmnopqrstuvwxyz")
-	TestUserID = os.Getenv("NEW_RELIC_TEST_USER_ID")
+	letters = []rune("abcdefghijklmnopqrstuvwxyz")
 )
 
 // RandSeq is used to get a string made up of n random lowercase letters.
@@ -28,14 +22,29 @@ func RandSeq(n int) string {
 	return string(b)
 }
 
+// GetTestUserID returns the integer value for a New Relic user ID from the environment
 func GetTestUserID() (int, error) {
-	userID := os.Getenv("NEW_RELIC_TEST_USER_ID")
+	return getEnvInt("NEW_RELIC_TEST_USER_ID")
+}
 
-	if userID == "" {
-		return 0, fmt.Errorf("failed to get test user ID due to undefined environment variable %s", "NEW_RELIC_TEST_USER_ID")
+// GetTestAccountID returns the integer value for a New Relic Account ID from the environment
+func GetTestAccountID() (int, error) {
+	return getEnvInt("NEW_RELIC_ACCOUNT_ID")
+}
+
+// getEnvInt helper to DRY up the other env get calls for integers
+func getEnvInt(name string) (int, error) {
+	if name == "" {
+		return 0, fmt.Errorf("failed to get environment value, no name specified")
 	}
 
-	n, err := strconv.Atoi(userID)
+	id := os.Getenv(name)
+
+	if id == "" {
+		return 0, fmt.Errorf("failed to get environment value due to undefined environment variable %s", name)
+	}
+
+	n, err := strconv.Atoi(id)
 	if err != nil {
 		return 0, err
 	}

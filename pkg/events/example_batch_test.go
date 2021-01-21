@@ -6,9 +6,9 @@ import (
 	"context"
 	"log"
 	"os"
+	"strconv"
 
 	"github.com/newrelic/newrelic-client-go/pkg/config"
-	nr "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
 
 func Example_batch() {
@@ -17,11 +17,17 @@ func Example_batch() {
 	cfg := config.New()
 	cfg.InsightsInsertKey = os.Getenv("NEW_RELIC_INSIGHTS_INSERT_KEY")
 
+	envAccountID := os.Getenv("NEW_RELIC_ACCOUNT_ID")
+	accountID, err := strconv.Atoi(envAccountID)
+	if err != nil {
+		log.Fatal("environment variable NEW_RELIC_ACCOUNT_ID required")
+	}
+
 	// Initialize the client.
 	client := New(cfg)
 
 	// Start batch mode
-	if err := client.BatchMode(context.Background(), nr.TestAccountID); err != nil {
+	if err := client.BatchMode(context.Background(), accountID); err != nil {
 		log.Fatal("error starting batch mode:", err)
 	}
 

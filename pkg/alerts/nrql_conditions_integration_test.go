@@ -10,11 +10,11 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/newrelic/newrelic-client-go/pkg/errors"
-	nr "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
+	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
 
 var (
-	testNrqlConditionRandomString       = nr.RandSeq(5)
+	testNrqlConditionRandomString       = mock.RandSeq(5)
 	nrqlConditionBaseThreshold          = 1.0          // needed for setting pointer
 	nrqlConditionBaseThresholdZeroValue = float64(0)   // needed for setting pointer
 	nrqlConditionBaseSignalFillValue    = float64(0.1) // needed for setting pointer
@@ -59,7 +59,7 @@ func TestIntegrationNrqlConditions(t *testing.T) {
 	t.Parallel()
 
 	var (
-		randomString = nr.RandSeq(5)
+		randomString = mock.RandSeq(5)
 		alertPolicy  = Policy{
 			Name:               fmt.Sprintf("test-integration-nrql-policy-%s", randomString),
 			IncidentPreference: "PER_POLICY",
@@ -141,8 +141,13 @@ func TestIntegrationNrqlConditions(t *testing.T) {
 func TestIntegrationNrqlConditions_Baseline(t *testing.T) {
 	t.Parallel()
 
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
 	var (
-		randStr             = nr.RandSeq(5)
+		randStr             = mock.RandSeq(5)
 		createBaselineInput = NrqlConditionInput{
 			NrqlConditionBase: nrqlConditionBase,
 			BaselineDirection: &NrqlBaselineDirections.LowerOnly,
@@ -159,11 +164,11 @@ func TestIntegrationNrqlConditions_Baseline(t *testing.T) {
 		IncidentPreference: AlertsIncidentPreferenceTypes.PER_POLICY,
 		Name:               fmt.Sprintf("test-alert-policy-%s", randStr),
 	}
-	policy, err := client.CreatePolicyMutation(nr.TestAccountID, testPolicy)
+	policy, err := client.CreatePolicyMutation(testAccountID, testPolicy)
 	require.NoError(t, err)
 
 	// Test: Create (baseline condition)
-	created, err := client.CreateNrqlConditionBaselineMutation(nr.TestAccountID, policy.ID, createBaselineInput)
+	created, err := client.CreateNrqlConditionBaselineMutation(testAccountID, policy.ID, createBaselineInput)
 	require.NoError(t, err)
 	require.NotNil(t, created)
 	require.NotNil(t, created.ID)
@@ -174,7 +179,7 @@ func TestIntegrationNrqlConditions_Baseline(t *testing.T) {
 
 	// Test: Get (baseline condition)
 	require.NoError(t, err)
-	readResult, err := client.GetNrqlConditionQuery(nr.TestAccountID, created.ID)
+	readResult, err := client.GetNrqlConditionQuery(testAccountID, created.ID)
 	require.NoError(t, err)
 	require.NotNil(t, readResult)
 	require.Equal(t, NrqlConditionType("BASELINE"), readResult.Type)
@@ -184,12 +189,12 @@ func TestIntegrationNrqlConditions_Baseline(t *testing.T) {
 	// There is currently a timing issue with this test.
 	// TODO: Once the upstream is fixed, test the updated fields to ensure the this worked
 	updateBaselineInput.Description = "test description updated"
-	_, err = client.UpdateNrqlConditionBaselineMutation(nr.TestAccountID, created.ID, updateBaselineInput)
+	_, err = client.UpdateNrqlConditionBaselineMutation(testAccountID, created.ID, updateBaselineInput)
 	require.NoError(t, err)
 
 	// Deferred teardown
 	defer func() {
-		_, err := client.DeletePolicyMutation(nr.TestAccountID, policy.ID)
+		_, err := client.DeletePolicyMutation(testAccountID, policy.ID)
 		if err != nil {
 			t.Logf("error cleaning up alert policy %s (%s): %s", policy.ID, policy.Name, err)
 		}
@@ -199,8 +204,13 @@ func TestIntegrationNrqlConditions_Baseline(t *testing.T) {
 func TestIntegrationNrqlConditions_Static(t *testing.T) {
 	t.Parallel()
 
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
 	var (
-		randStr           = nr.RandSeq(5)
+		randStr           = mock.RandSeq(5)
 		createStaticInput = NrqlConditionInput{
 			NrqlConditionBase: nrqlConditionBase,
 			ValueFunction:     &NrqlConditionValueFunctions.SingleValue,
@@ -217,11 +227,11 @@ func TestIntegrationNrqlConditions_Static(t *testing.T) {
 		IncidentPreference: AlertsIncidentPreferenceTypes.PER_POLICY,
 		Name:               fmt.Sprintf("test-alert-policy-%s", randStr),
 	}
-	policy, err := client.CreatePolicyMutation(nr.TestAccountID, testPolicy)
+	policy, err := client.CreatePolicyMutation(testAccountID, testPolicy)
 	require.NoError(t, err)
 
 	// Test: Create (static condition)
-	createdStatic, err := client.CreateNrqlConditionStaticMutation(nr.TestAccountID, policy.ID, createStaticInput)
+	createdStatic, err := client.CreateNrqlConditionStaticMutation(testAccountID, policy.ID, createStaticInput)
 	require.NoError(t, err)
 	require.NotNil(t, createdStatic)
 	require.NotNil(t, createdStatic.ID)
@@ -231,7 +241,7 @@ func TestIntegrationNrqlConditions_Static(t *testing.T) {
 	require.Equal(t, NrqlConditionType("STATIC"), createdStatic.Type)
 
 	// Test: Get (static condition)
-	readResult, err := client.GetNrqlConditionQuery(nr.TestAccountID, createdStatic.ID)
+	readResult, err := client.GetNrqlConditionQuery(testAccountID, createdStatic.ID)
 	require.NoError(t, err)
 	require.NotNil(t, readResult)
 	require.Equal(t, NrqlConditionType("STATIC"), readResult.Type)
@@ -241,12 +251,12 @@ func TestIntegrationNrqlConditions_Static(t *testing.T) {
 	// There is currently a timing issue with this test.
 	// TODO: Once the upstream is fixed, test the updated fields to ensure the this worked
 	updateStaticInput.Description = "test description updated"
-	_, err = client.UpdateNrqlConditionStaticMutation(nr.TestAccountID, readResult.ID, updateStaticInput)
+	_, err = client.UpdateNrqlConditionStaticMutation(testAccountID, readResult.ID, updateStaticInput)
 	require.NoError(t, err)
 
 	// Deferred teardown
 	defer func() {
-		_, err := client.DeletePolicyMutation(nr.TestAccountID, policy.ID)
+		_, err := client.DeletePolicyMutation(testAccountID, policy.ID)
 		if err != nil {
 			t.Logf("error cleaning up alert policy %s (%s): %s", policy.ID, policy.Name, err)
 		}
@@ -256,10 +266,15 @@ func TestIntegrationNrqlConditions_Static(t *testing.T) {
 func TestIntegrationNrqlConditions_Outlier(t *testing.T) {
 	t.Parallel()
 
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
 	var (
 		expectedGroups     = 1
 		violationOverlap   = false
-		randStr            = nr.RandSeq(5)
+		randStr            = mock.RandSeq(5)
 		thresholdCritical  = 0.1
 		createOutlierInput = NrqlConditionInput{
 			NrqlConditionBase: NrqlConditionBase{
@@ -297,7 +312,7 @@ func TestIntegrationNrqlConditions_Outlier(t *testing.T) {
 	require.NoError(t, err)
 
 	// Test: Create (outlier condition)
-	createdOutlier, err := client.CreateNrqlConditionOutlierMutation(nr.TestAccountID, strconv.Itoa(policy.ID), createOutlierInput)
+	createdOutlier, err := client.CreateNrqlConditionOutlierMutation(testAccountID, strconv.Itoa(policy.ID), createOutlierInput)
 	require.NoError(t, err)
 	require.NotNil(t, createdOutlier)
 	require.NotNil(t, createdOutlier.ID)
@@ -307,7 +322,7 @@ func TestIntegrationNrqlConditions_Outlier(t *testing.T) {
 	require.Equal(t, NrqlConditionTypes.Outlier, createdOutlier.Type)
 
 	// Test: Get (outlier condition)
-	readResult, err := client.GetNrqlConditionQuery(nr.TestAccountID, createdOutlier.ID)
+	readResult, err := client.GetNrqlConditionQuery(testAccountID, createdOutlier.ID)
 	require.NoError(t, err)
 	require.NotNil(t, readResult)
 	require.Equal(t, NrqlConditionTypes.Outlier, readResult.Type)
@@ -315,7 +330,7 @@ func TestIntegrationNrqlConditions_Outlier(t *testing.T) {
 
 	// Test: Update (outlier condition)
 	createOutlierInput.Description = "test description updated"
-	updated, err := client.UpdateNrqlConditionOutlierMutation(nr.TestAccountID, createdOutlier.ID, createOutlierInput)
+	updated, err := client.UpdateNrqlConditionOutlierMutation(testAccountID, createdOutlier.ID, createOutlierInput)
 	require.NoError(t, err)
 	require.Equal(t, "test description updated", updated.Description)
 
@@ -331,8 +346,13 @@ func TestIntegrationNrqlConditions_Outlier(t *testing.T) {
 func TestIntegrationNrqlConditions_ErrorScenarios(t *testing.T) {
 	t.Parallel()
 
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
 	var (
-		randStr = nr.RandSeq(5)
+		randStr = mock.RandSeq(5)
 
 		// Invalid NrqlConditionInput (Baseline and ValueFunction cannot exist together)
 		testInvalidMutationInput = NrqlConditionInput{
@@ -350,38 +370,38 @@ func TestIntegrationNrqlConditions_ErrorScenarios(t *testing.T) {
 		IncidentPreference: AlertsIncidentPreferenceTypes.PER_POLICY,
 		Name:               fmt.Sprintf("test-alert-policy-%s", randStr),
 	}
-	policy, err := client.CreatePolicyMutation(nr.TestAccountID, testPolicy)
+	policy, err := client.CreatePolicyMutation(testAccountID, testPolicy)
 	require.NoError(t, err)
 
 	// Test: Create Invalid (should result in an error)
-	createdBaseline, err := client.CreateNrqlConditionBaselineMutation(nr.TestAccountID, policy.ID, testInvalidMutationInput)
+	createdBaseline, err := client.CreateNrqlConditionBaselineMutation(testAccountID, policy.ID, testInvalidMutationInput)
 	require.Error(t, err)
 	require.Nil(t, createdBaseline)
 
 	// Test: Update Invalid (should result in an error)
-	updatedBaseline, err := client.UpdateNrqlConditionBaselineMutation(nr.TestAccountID, "8675309", testInvalidMutationInput)
+	updatedBaseline, err := client.UpdateNrqlConditionBaselineMutation(testAccountID, "8675309", testInvalidMutationInput)
 	require.Error(t, err)
 	require.Nil(t, updatedBaseline)
 
 	// Test: Create Invalid (should result in an error)
-	createdStatic, err := client.CreateNrqlConditionStaticMutation(nr.TestAccountID, policy.ID, testInvalidMutationInput)
+	createdStatic, err := client.CreateNrqlConditionStaticMutation(testAccountID, policy.ID, testInvalidMutationInput)
 	require.Error(t, err)
 	require.Nil(t, createdStatic)
 
 	// Test: Update Invalid (should result in an error)
-	updatedStatic, err := client.UpdateNrqlConditionStaticMutation(nr.TestAccountID, "8675309", testInvalidMutationInput)
+	updatedStatic, err := client.UpdateNrqlConditionStaticMutation(testAccountID, "8675309", testInvalidMutationInput)
 	require.Error(t, err)
 	require.Nil(t, updatedStatic)
 
 	// Test: 'Not Found' error for non-existent condition
-	_, err = client.GetNrqlConditionQuery(nr.TestAccountID, "999999999999999")
+	_, err = client.GetNrqlConditionQuery(testAccountID, "999999999999999")
 	require.Error(t, err)
 	_, ok := err.(*errors.NotFound)
 	require.True(t, ok)
 
 	// Deferred teardown
 	defer func() {
-		_, err := client.DeletePolicyMutation(nr.TestAccountID, policy.ID)
+		_, err := client.DeletePolicyMutation(testAccountID, policy.ID)
 		if err != nil {
 			t.Logf("error cleaning up alert policy %s (%s): %s", policy.ID, policy.Name, err)
 		}
@@ -391,8 +411,13 @@ func TestIntegrationNrqlConditions_ErrorScenarios(t *testing.T) {
 func TestIntegrationNrqlConditions_Search(t *testing.T) {
 	t.Parallel()
 
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
 	var (
-		randStr            = nr.RandSeq(5)
+		randStr            = mock.RandSeq(5)
 		conditionName      = fmt.Sprintf("test-nrql-condition-%s", randStr)
 		thresholdCritical  = 1.0
 		testConditionInput = NrqlConditionInput{
@@ -430,21 +455,21 @@ func TestIntegrationNrqlConditions_Search(t *testing.T) {
 		IncidentPreference: AlertsIncidentPreferenceTypes.PER_POLICY,
 		Name:               fmt.Sprintf("test-alert-policy-%s", randStr),
 	}
-	policy, err := client.CreatePolicyMutation(nr.TestAccountID, setupPolicy)
+	policy, err := client.CreatePolicyMutation(testAccountID, setupPolicy)
 	require.NoError(t, err)
 
-	condition, err := client.CreateNrqlConditionBaselineMutation(nr.TestAccountID, policy.ID, testConditionInput)
+	condition, err := client.CreateNrqlConditionBaselineMutation(testAccountID, policy.ID, testConditionInput)
 	require.NoError(t, err)
 	require.NotNil(t, condition)
 
 	// Test: Search
-	searchResults, err := client.SearchNrqlConditionsQuery(nr.TestAccountID, searchCriteria)
+	searchResults, err := client.SearchNrqlConditionsQuery(testAccountID, searchCriteria)
 	require.NoError(t, err)
 	require.Greater(t, len(searchResults), 0)
 
 	// Deferred teardown
 	defer func() {
-		_, err := client.DeletePolicyMutation(nr.TestAccountID, policy.ID)
+		_, err := client.DeletePolicyMutation(testAccountID, policy.ID)
 		if err != nil {
 			t.Logf("error cleaning up alert policy %s (%s): %s", policy.ID, policy.Name, err)
 		}
@@ -454,8 +479,13 @@ func TestIntegrationNrqlConditions_Search(t *testing.T) {
 func TestIntegrationNrqlConditions_CreateStatic(t *testing.T) {
 	t.Parallel()
 
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
 	var (
-		randStr            = nr.RandSeq(5)
+		randStr            = mock.RandSeq(5)
 		conditionName      = fmt.Sprintf("test-nrql-condition-%s", randStr)
 		testConditionInput = NrqlConditionInput{
 			NrqlConditionBase: NrqlConditionBase{
@@ -496,16 +526,16 @@ func TestIntegrationNrqlConditions_CreateStatic(t *testing.T) {
 		IncidentPreference: AlertsIncidentPreferenceTypes.PER_POLICY,
 		Name:               fmt.Sprintf("test-alert-policy-%s", randStr),
 	}
-	policy, err := client.CreatePolicyMutation(nr.TestAccountID, setupPolicy)
+	policy, err := client.CreatePolicyMutation(testAccountID, setupPolicy)
 	require.NoError(t, err)
 
-	condition, err := client.CreateNrqlConditionStaticMutation(nr.TestAccountID, policy.ID, testConditionInput)
+	condition, err := client.CreateNrqlConditionStaticMutation(testAccountID, policy.ID, testConditionInput)
 	require.NoError(t, err)
 	require.NotNil(t, condition)
 
 	// Deferred teardown
 	defer func() {
-		_, err := client.DeletePolicyMutation(nr.TestAccountID, policy.ID)
+		_, err := client.DeletePolicyMutation(testAccountID, policy.ID)
 		if err != nil {
 			t.Logf("error cleaning up alert policy %s (%s): %s", policy.ID, policy.Name, err)
 		}
@@ -515,8 +545,13 @@ func TestIntegrationNrqlConditions_CreateStatic(t *testing.T) {
 func TestIntegrationNrqlConditions_ZeroValueThreshold(t *testing.T) {
 	t.Parallel()
 
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
 	var (
-		randStr            = nr.RandSeq(5)
+		randStr            = mock.RandSeq(5)
 		conditionName      = fmt.Sprintf("test-nrql-condition-%s", randStr)
 		testConditionInput = NrqlConditionInput{
 			NrqlConditionBase: NrqlConditionBase{
@@ -550,16 +585,16 @@ func TestIntegrationNrqlConditions_ZeroValueThreshold(t *testing.T) {
 		IncidentPreference: AlertsIncidentPreferenceTypes.PER_POLICY,
 		Name:               fmt.Sprintf("test-alert-policy-%s", randStr),
 	}
-	policy, err := client.CreatePolicyMutation(nr.TestAccountID, setupPolicy)
+	policy, err := client.CreatePolicyMutation(testAccountID, setupPolicy)
 	require.NoError(t, err)
 
-	condition, err := client.CreateNrqlConditionStaticMutation(nr.TestAccountID, policy.ID, testConditionInput)
+	condition, err := client.CreateNrqlConditionStaticMutation(testAccountID, policy.ID, testConditionInput)
 	require.NoError(t, err)
 	require.NotNil(t, condition)
 
 	// Deferred teardown
 	defer func() {
-		_, err := client.DeletePolicyMutation(nr.TestAccountID, policy.ID)
+		_, err := client.DeletePolicyMutation(testAccountID, policy.ID)
 		if err != nil {
 			t.Logf("error cleaning up alert policy %s (%s): %s", policy.ID, policy.Name, err)
 		}

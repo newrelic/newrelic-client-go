@@ -109,11 +109,12 @@ during a test run. To run the integration test suite, the following secrets will
 need to be configured:
 
 ``` bash
-NEW_RELIC_API_KEY
 NEW_RELIC_ACCOUNT_ID
+NEW_RELIC_API_KEY
 NEW_RELIC_INSIGHTS_INSERT_KEY
 NEW_RELIC_LICENSE_KEY
 NEW_RELIC_REGION
+NEW_RELIC_TEST_USER_ID
 ```
 
 Optional for debugging (defaults to `debug`):

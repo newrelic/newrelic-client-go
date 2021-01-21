@@ -7,19 +7,23 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	nr "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
+	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
 
 func TestIntegrationEventsToMetrics(t *testing.T) {
 	t.Parallel()
 
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
 	var (
-		rand                = nr.RandSeq(5)
+		rand                = mock.RandSeq(5)
 		testRuleName        = "testRule_" + rand
 		testOtherRuleName   = "testRuleOther_" + rand
 		testRuleDescription = "testRuleDescription"
 		testRuleNrql        = "SELECT uniqueCount(account_id) AS `Transaction.account_id` FROM Transaction FACET appName, name"
-		testAccountID       = nr.TestAccountID
 		testCreateInput     = []EventsToMetricsCreateRuleInput{
 			{
 				AccountID:   testAccountID,
@@ -102,7 +106,7 @@ func TestIntegrationEventsToMetrics(t *testing.T) {
 }
 
 func newIntegrationTestClient(t *testing.T) EventsToMetrics {
-	tc := nr.NewIntegrationTestConfig(t)
+	tc := mock.NewIntegrationTestConfig(t)
 
 	return New(tc)
 }
