@@ -96,23 +96,21 @@ const getDashboardEntityQuery = `query ($guid: EntityGuid!) {
             }
             layout { column height row width }
             title
-						visualization { id }
-						id
-						linkedEntities {
+            visualization { id }
+            id
+            linkedEntities {
               __typename
               guid
               name
               accountId
-              tags {
-                key
-                values
-              }
+              tags { key values }
               ... on DashboardEntityOutline {
                 dashboardParentGuid
               }
             }
           }
         }
+        permalink
         permissions
         tags { key values }
         tagsWithMetadata { key values { mutable value } }
