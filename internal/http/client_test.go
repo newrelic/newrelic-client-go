@@ -94,6 +94,7 @@ func TestUnauthorizedErrorValue(t *testing.T) {
 
 	// Ensure our custom 401 unauthorized error message is returned
 	assert.Contains(t, err.Error(), "Invalid credentials provided")
+	assert.IsType(t, &errors.UnauthorizedError{}, err)
 }
 
 type CustomErrorResponse struct {
@@ -321,16 +322,41 @@ func TestRetryOnNerdGraphTimeout(t *testing.T) {
 	attempts := 0
 	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
-		_, _ = w.Write([]byte(`{"errors":[{"message": "error", "extensions":{"errorClass":"TIMEOUT"}}]}`))
+		_, _ = w.Write([]byte(`{"errors":[{"message": "some error", "extensions":{"errorClass":"TIMEOUT"}}]}`))
 		attempts++
 	}))
+
+	c.client.RetryWaitMax = 10 * time.Millisecond
 
 	c.errorValue = &GraphQLErrorResponse{}
 	_, err := c.Get(c.config.Region().NerdGraphURL("path"), nil, nil)
 
 	assert.Equal(t, 4, attempts)
 	assert.Error(t, err)
-	assert.IsType(t, &errors.Timeout{}, err)
+	assert.IsType(t, &errors.MaxRetriesReached{}, err)
+	assert.Contains(t, err.Error(), "maximum retries reached")
+	assert.Contains(t, err.Error(), "some error")
+}
+
+func TestRetryOnNerdGraphInternalServerError(t *testing.T) {
+	t.Parallel()
+	attempts := 0
+	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`{"errors":[{"message": "some error", "extensions":{"errorClass":"INTERNAL_SERVER_ERROR"}}]}`))
+		attempts++
+	}))
+
+	c.client.RetryWaitMax = 10 * time.Millisecond
+
+	c.errorValue = &GraphQLErrorResponse{}
+	_, err := c.Get(c.config.Region().NerdGraphURL("path"), nil, nil)
+
+	assert.Equal(t, 4, attempts)
+	assert.Error(t, err)
+	assert.IsType(t, &errors.MaxRetriesReached{}, err)
+	assert.Contains(t, err.Error(), "maximum retries reached")
+	assert.Contains(t, err.Error(), "some error")
 }
 
 func TestInternalServerError(t *testing.T) {
