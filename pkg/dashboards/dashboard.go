@@ -97,7 +97,10 @@ const getDashboardEntityQuery = `query ($guid: EntityGuid!) {
             layout { column height row width }
             title
             visualization { id }
-            id
+						linkedEntities {
+							__typename
+							guid
+						}
           }
         }
         permissions
