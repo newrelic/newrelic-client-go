@@ -41,6 +41,9 @@ func TestIntegrationDashboard_Basic(t *testing.T) {
 								Text: "Test Text widget **markdown**",
 							},
 						},
+						LinkedEntityGUIDs: []entities.EntityGUID{
+							entities.EntityGUID("someguid"),
+						},
 					},
 				},
 			},
@@ -107,4 +110,87 @@ func TestIntegrationDashboard_Basic(t *testing.T) {
 	require.NotNil(t, delRes)
 	assert.Equal(t, 0, len(delRes.Errors))
 	assert.Equal(t, DashboardDeleteResultStatusTypes.SUCCESS, delRes.Status)
+}
+
+func TestIntegrationDashboard_LinkedEntities(t *testing.T) {
+	t.Parallel()
+
+	client := newIntegrationTestClient(t)
+
+	// Test vars
+	dashboardAName := "newrelic-client-go test-dashboard-" + mock.RandSeq(5)
+	dashboardAInput := DashboardInput{
+		Description: "Test description",
+		Name:        dashboardAName,
+		Permissions: entities.DashboardPermissionsTypes.PRIVATE,
+		Pages: []DashboardPageInput{
+			{
+				Description: "Test page description",
+				Name:        "Test Page",
+				Widgets: []DashboardWidgetInput{
+					{
+						Title: "Test Text Widget",
+						Configuration: DashboardWidgetConfigurationInput{
+							Markdown: &DashboardMarkdownWidgetConfigurationInput{
+								Text: "Test Text widget **markdown**",
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+
+	// Create a dashboard to reference in linked entity GUIDs
+	resultDashA, err := client.DashboardCreate(mock.TestAccountID, dashboardAInput)
+	require.NoError(t, err)
+	require.NotNil(t, resultDashA)
+
+	dashboardBName := "newrelic-client-go test-dashboard-" + mock.RandSeq(5)
+	dashboardBInput := DashboardInput{
+		Description: "Testing dashboard widget with linked entities",
+		Name:        dashboardBName,
+		Permissions: entities.DashboardPermissionsTypes.PRIVATE,
+		Pages: []DashboardPageInput{
+			{
+				Description: "Test page description",
+				Name:        "Test Page",
+				Widgets: []DashboardWidgetInput{
+					{
+						Title: "Widget with linked entities",
+						Configuration: DashboardWidgetConfigurationInput{
+							Bar: &DashboardBarWidgetConfigurationInput{
+								NRQLQueries: []DashboardWidgetNRQLQueryInput{
+									{
+										AccountID: mock.TestAccountID,
+										Query:     "FROM Transaction SELECT average(duration) FACET appName",
+									},
+								},
+							},
+						},
+						LinkedEntityGUIDs: []entities.EntityGUID{
+							entities.EntityGUID(resultDashA.EntityResult.GUID),
+						},
+					},
+				},
+			},
+		},
+	}
+
+	// Test: Create dashboard with a widget that includes `linkedEntityGuids`
+	resultDashB, err := client.DashboardCreate(mock.TestAccountID, dashboardBInput)
+
+	require.NoError(t, err)
+	require.NotNil(t, resultDashB)
+	assert.Equal(t, 0, len(resultDashB.Errors))
+	require.NotNil(t, resultDashB.EntityResult.GUID)
+	require.Greater(t, len(resultDashB.EntityResult.Pages[0].Widgets[0].LinkedEntities), 0)
+
+	// Clean up dashboard A
+	_, err = client.DashboardDelete(resultDashA.EntityResult.GUID)
+	require.NoError(t, err)
+
+	// Clean up dashboard B
+	_, err = client.DashboardDelete(resultDashB.EntityResult.GUID)
+	require.NoError(t, err)
 }
