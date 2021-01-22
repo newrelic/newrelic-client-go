@@ -340,17 +340,19 @@ func (c *Client) Do(req *Request) (*http.Response, error) {
 		errorValue = req.errorValue.New()
 		resp, body, shouldRetry, err = c.innerDo(req, errorValue, i)
 
-		if serr, ok := err.(*nrErrors.NotFound); ok {
-			return nil, serr
-		}
-
 		if serr, ok := err.(*nrErrors.MaxRetriesReached); ok {
 			return nil, serr
 		}
 
-		if !shouldRetry {
-			break
+		if shouldRetry {
+			continue
 		}
+
+		if err != nil {
+			return nil, err
+		}
+
+		break
 	}
 
 	if !isResponseSuccess(resp) {
