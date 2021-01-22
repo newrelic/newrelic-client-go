@@ -183,6 +183,12 @@ func TestIntegrationDashboard_LinkedEntities(t *testing.T) {
 	require.NotNil(t, resultDashB.EntityResult.GUID)
 	require.Greater(t, len(resultDashB.EntityResult.Pages[0].Widgets[0].LinkedEntities), 0)
 
+	// Test: GetDashboardEntity
+	dashB, err := client.GetDashboardEntity(resultDashB.EntityResult.GUID)
+	require.NoError(t, err)
+	require.NotNil(t, dashB)
+	require.Greater(t, len(resultDashB.EntityResult.Pages[0].Widgets[0].LinkedEntities), 0)
+
 	// Clean up dashboard A
 	_, err = client.DashboardDelete(resultDashA.EntityResult.GUID)
 	require.NoError(t, err)
