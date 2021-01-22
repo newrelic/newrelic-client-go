@@ -34,34 +34,6 @@ func (e *NotFound) Error() string {
 	return e.err
 }
 
-// NewTimeout returns a new instance of Timeout with an optional custom error message.
-func NewTimeout(err string) *Timeout {
-	e := Timeout{
-		err: err,
-	}
-
-	return &e
-}
-
-// NewTimeoutf returns a new instance of Timeout
-// with an optional formatted custom error message.
-func NewTimeoutf(format string, args ...interface{}) *Timeout {
-	return NewTimeout(fmt.Sprintf(format, args...))
-}
-
-// Timeout is returned when the target resource cannot be located.
-type Timeout struct {
-	err string
-}
-
-func (e *Timeout) Error() string {
-	if e.err == "" {
-		return "server timeout"
-	}
-
-	return e.err
-}
-
 // NewUnexpectedStatusCode returns a new instance of UnexpectedStatusCode
 // with an optional custom message.
 func NewUnexpectedStatusCode(statusCode int, err string) *UnexpectedStatusCode {
@@ -118,4 +90,28 @@ func (e *UnauthorizedError) Error() string {
 	}
 
 	return msg
+}
+
+// NewMaxRetriesReached returns a new instance of MaxRetriesReached with an optional custom error message.
+func NewMaxRetriesReached(err string) *MaxRetriesReached {
+	e := MaxRetriesReached{
+		err: err,
+	}
+
+	return &e
+}
+
+// NewMaxRetriesReachedf returns a new instance of MaxRetriesReached
+// with an optional formatted custom error message.
+func NewMaxRetriesReachedf(format string, args ...interface{}) *MaxRetriesReached {
+	return NewMaxRetriesReached(fmt.Sprintf(format, args...))
+}
+
+// MaxRetriesReached is returned when the target resource cannot be located.
+type MaxRetriesReached struct {
+	err string
+}
+
+func (e *MaxRetriesReached) Error() string {
+	return fmt.Sprintf("maximum retries reached: %s", e.err)
 }
