@@ -41,9 +41,6 @@ func TestIntegrationDashboard_Basic(t *testing.T) {
 								Text: "Test Text widget **markdown**",
 							},
 						},
-						LinkedEntityGUIDs: []entities.EntityGUID{
-							entities.EntityGUID("someguid"),
-						},
 					},
 				},
 			},
