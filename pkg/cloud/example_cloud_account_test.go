@@ -3,9 +3,9 @@ package cloud
 import (
 	"log"
 	"os"
+	"strconv"
 
 	"github.com/newrelic/newrelic-client-go/pkg/config"
-	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
 
 func Example_cloudAccounts() {
@@ -17,6 +17,12 @@ func Example_cloudAccounts() {
 	// Initialize the client.
 	client := New(cfg)
 
+	envAccountID := os.Getenv("NEW_RELIC_ACCOUNT_ID")
+	accountID, err := strconv.Atoi(envAccountID)
+	if err != nil {
+		log.Fatal("must set NEW_RELIC_ACCOUNT_ID")
+	}
+
 	// Get the linked cloud accounts
 	linkedAccounts, err := client.GetLinkedAccounts("aws")
 	if err != nil {
@@ -26,7 +32,7 @@ func Example_cloudAccounts() {
 	log.Printf("linked accounts count: %d", len(*linkedAccounts))
 
 	// Link a cloud account
-	linkResponse, err := client.CloudLinkAccount(mock.TestAccountID, CloudLinkCloudAccountsInput{
+	linkResponse, err := client.CloudLinkAccount(accountID, CloudLinkCloudAccountsInput{
 		Aws: []CloudAwsLinkAccountInput{
 			{
 				Arn:  "arn:aws:iam::12345678:role/MyAWSARN",
@@ -41,7 +47,7 @@ func Example_cloudAccounts() {
 	linkedAccountID := linkResponse.LinkedAccounts[0].ID
 
 	// Rename a linked account
-	_, err = client.CloudRenameAccount(mock.TestAccountID, []CloudRenameAccountsInput{
+	_, err = client.CloudRenameAccount(accountID, []CloudRenameAccountsInput{
 		{
 			LinkedAccountId: linkedAccountID,
 			Name:            "My Renamed Linked AWS Account",
@@ -52,7 +58,7 @@ func Example_cloudAccounts() {
 	}
 
 	// Unlink a linked account
-	_, err = client.CloudUnlinkAccount(mock.TestAccountID, []CloudUnlinkAccountsInput{{linkedAccountID}})
+	_, err = client.CloudUnlinkAccount(accountID, []CloudUnlinkAccountsInput{{linkedAccountID}})
 	if err != nil {
 		log.Fatal("error unlinking linked cloud account:", err)
 	}

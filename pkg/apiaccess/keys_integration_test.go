@@ -7,11 +7,16 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/newrelic/newrelic-client-go/pkg/testhelpers"
+	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
 
 func TestIntegrationAPIAccess_IngestKeys(t *testing.T) {
 	t.Parallel()
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
 
 	client := newIntegrationTestClient(t)
 
@@ -19,7 +24,7 @@ func TestIntegrationAPIAccess_IngestKeys(t *testing.T) {
 	createInput := APIAccessCreateInput{
 		Ingest: []APIAccessCreateIngestKeyInput{
 			{
-				AccountID:  testhelpers.TestAccountID,
+				AccountID:  testAccountID,
 				IngestType: "BROWSER",
 				Name:       "test-integration-api-access",
 				Notes:      "This ingest key was created by an integration test.",
@@ -61,10 +66,15 @@ func TestIntegrationAPIAccess_IngestKeys(t *testing.T) {
 func TestIntegrationAPIAccess_UserKeys(t *testing.T) {
 	t.Parallel()
 
-	userID, err := testhelpers.GetTestUserID()
+	userID, err := mock.GetTestUserID()
 	if err != nil {
 		t.Skipf("Skipping `TestIntegrationAPIAccess_UserKeys` integration test due error: %v", err)
 		return
+	}
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
 	}
 
 	client := newIntegrationTestClient(t)
@@ -73,7 +83,7 @@ func TestIntegrationAPIAccess_UserKeys(t *testing.T) {
 	createInput := APIAccessCreateInput{
 		User: []APIAccessCreateUserKeyInput{
 			{
-				AccountID: testhelpers.TestAccountID,
+				AccountID: testAccountID,
 				Name:      "test-integration-api-access",
 				Notes:     "This user key was created by an integration test.",
 				UserID:    userID,
@@ -94,7 +104,7 @@ func TestIntegrationAPIAccess_UserKeys(t *testing.T) {
 	// Test: Search
 	searchResult, err := client.SearchAPIAccessKeys(APIAccessKeySearchQuery{
 		Scope: APIAccessKeySearchScope{
-			AccountIDs: []int{testhelpers.TestAccountID},
+			AccountIDs: []int{testAccountID},
 		},
 		Types: []APIAccessKeyType{APIAccessKeyTypeTypes.USER},
 	})
@@ -124,7 +134,7 @@ func TestIntegrationAPIAccess_UserKeys(t *testing.T) {
 }
 
 func newIntegrationTestClient(t *testing.T) APIAccess {
-	tc := testhelpers.NewIntegrationTestConfig(t)
+	tc := mock.NewIntegrationTestConfig(t)
 
 	return New(tc)
 }
