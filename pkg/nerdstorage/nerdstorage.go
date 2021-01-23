@@ -318,6 +318,15 @@ func (e *NerdStorage) writeDocumentWithScope(scope string, scopeID string, input
 		},
 	}
 
+	e.logger.Debug("writing document",
+		"scope", scope,
+		"scope_id", scopeID,
+		"collection", vars["collection"],
+		"documentId", vars["documentId"],
+	)
+
+	e.logger.Trace("writing document", "document", vars["document"])
+
 	req, err := e.client.NewNerdGraphRequest(writeDocumentMutation, vars, &resp)
 	if err != nil {
 		return "", err
