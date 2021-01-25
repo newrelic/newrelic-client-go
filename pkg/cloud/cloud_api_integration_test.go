@@ -14,6 +14,11 @@ import (
 func TestCloudAccount_Basic(t *testing.T) {
 	t.Parallel()
 
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
 	testARN := os.Getenv("INTEGRATION_TESTING_AWS_ARN")
 	if testARN == "" {
 		t.Skip("an AWS ARN is required to run cloud account tests")
@@ -26,8 +31,8 @@ func TestCloudAccount_Basic(t *testing.T) {
 	require.NoError(t, err)
 
 	for _, linkedAccount := range *getResponse {
-		if linkedAccount.NrAccountId == mock.TestAccountID {
-			a.CloudUnlinkAccount(mock.TestAccountID, []CloudUnlinkAccountsInput{
+		if linkedAccount.NrAccountId == testAccountID {
+			a.CloudUnlinkAccount(testAccountID, []CloudUnlinkAccountsInput{
 				{
 					LinkedAccountId: linkedAccount.ID,
 				},
@@ -36,7 +41,7 @@ func TestCloudAccount_Basic(t *testing.T) {
 	}
 
 	// Link the account
-	linkResponse, err := a.CloudLinkAccount(mock.TestAccountID, CloudLinkCloudAccountsInput{
+	linkResponse, err := a.CloudLinkAccount(testAccountID, CloudLinkCloudAccountsInput{
 		Aws: []CloudAwsLinkAccountInput{
 			{
 				Arn:  testARN,
@@ -53,7 +58,7 @@ func TestCloudAccount_Basic(t *testing.T) {
 
 	var linkedAccountID int
 	for _, linkedAccount := range *getResponse {
-		if linkedAccount.NrAccountId == mock.TestAccountID {
+		if linkedAccount.NrAccountId == testAccountID {
 			linkedAccountID = linkedAccount.ID
 			break
 		}
@@ -62,7 +67,7 @@ func TestCloudAccount_Basic(t *testing.T) {
 
 	// Rename the account
 	newName := "NEW-DTK-NAME"
-	renameResponse, err := a.CloudRenameAccount(mock.TestAccountID, []CloudRenameAccountsInput{
+	renameResponse, err := a.CloudRenameAccount(testAccountID, []CloudRenameAccountsInput{
 		{
 			LinkedAccountId: linkedAccountID,
 			Name:            newName,
@@ -72,7 +77,7 @@ func TestCloudAccount_Basic(t *testing.T) {
 	require.NotNil(t, renameResponse)
 
 	// Unlink the account
-	// unlinkResponse, err := a.CloudUnlinkAccount(mock.TestAccountID, CloudUnlinkAccountsInput{linkedAccountID})
+	// unlinkResponse, err := a.CloudUnlinkAccount(testAccountID, CloudUnlinkAccountsInput{linkedAccountID})
 	// require.NoError(t, err)
 	// require.NotNil(t, unlinkResponse)
 }

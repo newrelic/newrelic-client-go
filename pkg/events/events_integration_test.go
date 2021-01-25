@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	nr "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
+	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
 
 const (
@@ -54,10 +54,15 @@ var testEvents = []testEventData{
 func TestIntegrationEvents(t *testing.T) {
 	t.Parallel()
 
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
 	client := newIntegrationTestClient(t)
 
 	for _, event := range testEvents {
-		err := client.CreateEvent(nr.TestAccountID, event.Event)
+		err := client.CreateEvent(testAccountID, event.Event)
 		if event.err == nil {
 			assert.NoError(t, err)
 		} else {
@@ -69,9 +74,14 @@ func TestIntegrationEvents(t *testing.T) {
 func TestIntegrationEvents_BatchMode_Timeout(t *testing.T) {
 	t.Parallel()
 
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
 	client := newIntegrationTestClient(t)
 
-	err := client.BatchMode(context.Background(), nr.TestAccountID, BatchConfigTimeout(testBatchTimeout))
+	err = client.BatchMode(context.Background(), testAccountID, BatchConfigTimeout(testBatchTimeout))
 	require.NoError(t, err)
 
 	for _, event := range testEvents {
@@ -87,9 +97,14 @@ func TestIntegrationEvents_BatchMode_Timeout(t *testing.T) {
 func TestIntegrationEvents_BatchMode_Size(t *testing.T) {
 	t.Parallel()
 
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
 	client := newIntegrationTestClient(t)
 
-	err := client.BatchMode(context.Background(), nr.TestAccountID, BatchConfigQueueSize(testBatchSize))
+	err = client.BatchMode(context.Background(), testAccountID, BatchConfigQueueSize(testBatchSize))
 	require.NoError(t, err)
 
 	for _, event := range testEvents {
@@ -120,7 +135,7 @@ func TestIntegrationEvents_marshalEvent(t *testing.T) {
 }
 
 func newIntegrationTestClient(t *testing.T) Events {
-	tc := nr.NewIntegrationTestConfig(t)
+	tc := mock.NewIntegrationTestConfig(t)
 
 	return New(tc)
 }

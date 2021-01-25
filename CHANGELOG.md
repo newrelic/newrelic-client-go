@@ -1,3 +1,25 @@
+<a name="v0.56.2"></a>
+## [v0.56.2] - 2021-01-22
+### Bug Fixes
+- **dashboard:** Fetch permalink for dashboards
+
+<a name="v0.56.1"></a>
+## [v0.56.1] - 2021-01-22
+### Bug Fixes
+- **http:** fix panics when resp is nil
+
+### Refactor
+- **testhelpers:** Remove hard-coded TestAccountID
+
+<a name="v0.56.0"></a>
+## [v0.56.0] - 2021-01-22
+### Bug Fixes
+- **http:** display underlying errors on max retries
+
+### Features
+- **alerts:** Add muting rule schedule fields
+- **dashboards:** add linkedEntities to getDashboardEntityQuery
+
 <a name="v0.55.8"></a>
 ## [v0.55.8] - 2021-01-15
 ### Refactor
@@ -934,7 +956,10 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.8...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.56.2...HEAD
+[v0.56.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.56.1...v0.56.2
+[v0.56.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.56.0...v0.56.1
+[v0.56.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.8...v0.56.0
 [v0.55.8]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.7...v0.55.8
 [v0.55.7]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.6...v0.55.7
 [v0.55.6]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.5...v0.55.6

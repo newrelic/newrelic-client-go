@@ -337,16 +337,22 @@ func (c *Client) Do(req *Request) (*http.Response, error) {
 	for i := 0; ; i++ {
 		var shouldRetry bool
 		var err error
-
 		errorValue = req.errorValue.New()
 		resp, body, shouldRetry, err = c.innerDo(req, errorValue, i)
+
+		if serr, ok := err.(*nrErrors.MaxRetriesReached); ok {
+			return nil, serr
+		}
+
+		if shouldRetry {
+			continue
+		}
+
 		if err != nil {
 			return nil, err
 		}
 
-		if !shouldRetry {
-			break
-		}
+		break
 	}
 
 	if !isResponseSuccess(resp) {
@@ -359,10 +365,6 @@ func (c *Client) Do(req *Request) (*http.Response, error) {
 
 	if errorValue.IsNotFound() {
 		return nil, nrErrors.NewNotFound("resource not found")
-	}
-
-	if errorValue.IsRetryableError() {
-		return nil, nrErrors.NewTimeout("server timeout")
 	}
 
 	if errorValue.Error() != "" {
@@ -457,7 +459,7 @@ func (c *Client) innerDo(req *Request, errorValue ErrorResponse, i int) (*http.R
 	remain := c.client.RetryMax - i
 	if remain <= 0 {
 		c.logger.Debug(fmt.Sprintf("giving up after %d attempts", c.client.RetryMax), "method", req.method, "url", r.URL)
-		return resp, body, false, nil
+		return resp, body, false, nrErrors.NewMaxRetriesReached(errorValue.Error())
 	}
 
 	wait := c.client.Backoff(c.client.RetryWaitMin, c.client.RetryWaitMax, i, resp)

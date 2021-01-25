@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	nr "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
+	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
 
 var (
@@ -50,32 +50,37 @@ var (
 func TestIntegrationNerdStorageWithAccountScope(t *testing.T) {
 	t.Parallel()
 
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
 	client := newIntegrationTestClient(t)
 
-	document, err := client.WriteDocumentWithAccountScope(nr.TestAccountID, testWriteInput)
+	document, err := client.WriteDocumentWithAccountScope(testAccountID, testWriteInput)
 	require.NoError(t, err)
 	require.NotNil(t, document)
 
 	testAlternateWriteInput := testWriteInput
 	testAlternateWriteInput.DocumentID = testAlternateDocumentID
 
-	document, err = client.WriteDocumentWithAccountScope(nr.TestAccountID, testAlternateWriteInput)
+	document, err = client.WriteDocumentWithAccountScope(testAccountID, testAlternateWriteInput)
 	require.NoError(t, err)
 	require.NotNil(t, document)
 
-	collection, err := client.GetCollectionWithAccountScope(nr.TestAccountID, testGetCollectionInput)
+	collection, err := client.GetCollectionWithAccountScope(testAccountID, testGetCollectionInput)
 	require.NoError(t, err)
 	require.NotNil(t, collection)
 
-	document, err = client.GetDocumentWithAccountScope(nr.TestAccountID, testGetDocumentInput)
+	document, err = client.GetDocumentWithAccountScope(testAccountID, testGetDocumentInput)
 	require.NoError(t, err)
 	require.NotNil(t, document)
 
-	ok, err := client.DeleteDocumentWithAccountScope(nr.TestAccountID, testDeleteDocumentInput)
+	ok, err := client.DeleteDocumentWithAccountScope(testAccountID, testDeleteDocumentInput)
 	require.NoError(t, err)
 	require.True(t, ok)
 
-	ok, err = client.DeleteCollectionWithAccountScope(nr.TestAccountID, testDeleteCollectionInput)
+	ok, err = client.DeleteCollectionWithAccountScope(testAccountID, testDeleteCollectionInput)
 	require.NoError(t, err)
 	require.True(t, ok)
 }
@@ -147,7 +152,7 @@ func TestIntegrationNerdStorageWithEntityScope(t *testing.T) {
 }
 
 func newIntegrationTestClient(t *testing.T) NerdStorage {
-	tc := nr.NewIntegrationTestConfig(t)
+	tc := mock.NewIntegrationTestConfig(t)
 
 	return New(tc)
 }
