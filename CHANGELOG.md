@@ -1,3 +1,12 @@
+<a name="v0.57.0"></a>
+## [v0.57.0] - 2021-01-27
+### Bug Fixes
+- **dashboards:** MANUAL CHANGE: remove queries until it is out of the schema
+
+### Features
+- **users:** Add users package, and replace references in existing packages
+- **users:** Add users package
+
 <a name="v0.56.2"></a>
 ## [v0.56.2] - 2021-01-22
 ### Bug Fixes
@@ -956,7 +965,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.56.2...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.57.0...HEAD
+[v0.57.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.56.2...v0.57.0
 [v0.56.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.56.1...v0.56.2
 [v0.56.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.56.0...v0.56.1
 [v0.56.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.55.8...v0.56.0
