@@ -62,29 +62,17 @@ const DashboardCreateMutation = `mutation(
 							accountId
 							query
 						}
-						queries {
-							accountId
-							nrql
-						}
 					}
 					bar {
 						nrqlQueries {
 							accountId
 							query
 						}
-						queries {
-							accountId
-							nrql
-						}
 					}
 					billboard {
 						nrqlQueries {
 							accountId
 							query
-						}
-						queries {
-							accountId
-							nrql
 						}
 						thresholds {
 							alertSeverity
@@ -96,10 +84,6 @@ const DashboardCreateMutation = `mutation(
 							accountId
 							query
 						}
-						queries {
-							accountId
-							nrql
-						}
 					}
 					markdown {
 						text
@@ -109,19 +93,11 @@ const DashboardCreateMutation = `mutation(
 							accountId
 							query
 						}
-						queries {
-							accountId
-							nrql
-						}
 					}
 					table {
 						nrqlQueries {
 							accountId
 							query
-						}
-						queries {
-							accountId
-							nrql
 						}
 					}
 				}
@@ -561,29 +537,17 @@ const DashboardUpdateMutation = `mutation(
 							accountId
 							query
 						}
-						queries {
-							accountId
-							nrql
-						}
 					}
 					bar {
 						nrqlQueries {
 							accountId
 							query
 						}
-						queries {
-							accountId
-							nrql
-						}
 					}
 					billboard {
 						nrqlQueries {
 							accountId
 							query
-						}
-						queries {
-							accountId
-							nrql
 						}
 						thresholds {
 							alertSeverity
@@ -595,10 +559,6 @@ const DashboardUpdateMutation = `mutation(
 							accountId
 							query
 						}
-						queries {
-							accountId
-							nrql
-						}
 					}
 					markdown {
 						text
@@ -608,19 +568,11 @@ const DashboardUpdateMutation = `mutation(
 							accountId
 							query
 						}
-						queries {
-							accountId
-							nrql
-						}
 					}
 					table {
 						nrqlQueries {
 							accountId
 							query
-						}
-						queries {
-							accountId
-							nrql
 						}
 					}
 				}
