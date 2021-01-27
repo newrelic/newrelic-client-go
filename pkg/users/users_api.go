@@ -14,8 +14,7 @@ func (a *Users) GetUser() (*User, error) {
 	return &resp.Actor.User, nil
 }
 
-const getUserQuery = `query(
-) { actor { user {
+const getUserQuery = `query { actor { user {
 	email
 	id
 	name
