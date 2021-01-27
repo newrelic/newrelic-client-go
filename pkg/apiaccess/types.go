@@ -288,6 +288,8 @@ type APIAccessDeletedKey struct {
 
 // APIAccessIngestKey - An ingest key.
 type APIAccessIngestKey struct {
+	// The account this key is in.
+	Account AccountReference `json:"account,omitempty"`
 	// The account attached to the ingest key. Agents using this key will report to the account the key belongs to.
 	AccountID int `json:"accountId,omitempty"`
 	// The UNIX epoch when the key was created, in seconds.
@@ -530,6 +532,8 @@ type APIAccessUpdateUserKeyInput struct {
 
 // APIAccessUserKey - A user key, also called a personal API key.
 type APIAccessUserKey struct {
+	// The account this key is in.
+	Account AccountReference `json:"account,omitempty"`
 	// The account ID of the key.
 	AccountID int `json:"accountId,omitempty"`
 	// The UNIX epoch when the key was created, in seconds.
@@ -544,6 +548,8 @@ type APIAccessUserKey struct {
 	Notes string `json:"notes,omitempty"`
 	// The type of key, indicating what New Relic APIs it can be used to access.
 	Type APIAccessKeyType `json:"type,omitempty"`
+	// The user this key belongs to.
+	User UserReference `json:"user,omitempty"`
 	// The user ID of the key.
 	UserID int `json:"userId,omitempty"`
 }
@@ -567,6 +573,26 @@ type APIAccessUserKeyError struct {
 }
 
 func (x *APIAccessUserKeyError) ImplementsAPIAccessKeyError() {}
+
+// AccountReference - The `AccountReference` object provides basic identifying information about the account.
+type AccountReference struct {
+	//
+	ID int `json:"id,omitempty"`
+	//
+	Name string `json:"name,omitempty"`
+}
+
+// UserReference - The `UserReference` object provides basic identifying information about the user.
+type UserReference struct {
+	//
+	Email string `json:"email,omitempty"`
+	//
+	Gravatar string `json:"gravatar,omitempty"`
+	//
+	ID int `json:"id,omitempty"`
+	//
+	Name string `json:"name,omitempty"`
+}
 
 // EpochSeconds - The `EpochSeconds` scalar represents the number of seconds since the Unix epoch
 type EpochSeconds string

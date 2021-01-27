@@ -3307,6 +3307,8 @@ type EntitySearchCounts struct {
 type EntitySearchOptions struct {
 	// Whether or not matching on tag keys and values should be case-sensitive.
 	CaseSensitiveTagMatching bool `json:"caseSensitiveTagMatching,omitempty"`
+	// A limit to apply to the number of entities returned. Note: this option can only _lower_ the default limits.
+	Limit int `json:"limit,omitempty"`
 }
 
 // EntitySearchQueryBuilder - An object that can be used to discover and create the entity search query argument.
