@@ -8,6 +8,7 @@ import (
 	"github.com/newrelic/newrelic-client-go/pkg/accounts"
 	"github.com/newrelic/newrelic-client-go/pkg/nrdb"
 	"github.com/newrelic/newrelic-client-go/pkg/nrtime"
+	"github.com/newrelic/newrelic-client-go/pkg/users"
 )
 
 // BrowserAgentInstallType - Browser agent install types.
@@ -3136,7 +3137,7 @@ type EntityCollection struct {
 	// The account the collection is part of
 	Account accounts.AccountReference `json:"account,omitempty"`
 	// The user who created the collection
-	CreatedBy UserReference `json:"createdBy,omitempty"`
+	CreatedBy users.UserReference `json:"createdBy,omitempty"`
 	// The definition of the collection.
 	Definition EntityCollectionDefinition `json:"definition,omitempty"`
 	// The GUID of the Entity
@@ -3307,6 +3308,8 @@ type EntitySearchCounts struct {
 type EntitySearchOptions struct {
 	// Whether or not matching on tag keys and values should be case-sensitive.
 	CaseSensitiveTagMatching bool `json:"caseSensitiveTagMatching,omitempty"`
+	// A limit to apply to the number of entities returned. Note: this option can only _lower_ the default limits.
+	Limit int `json:"limit,omitempty"`
 }
 
 // EntitySearchQueryBuilder - An object that can be used to discover and create the entity search query argument.
@@ -5855,18 +5858,6 @@ func (x UnavailableEntityOutline) GetType() string {
 
 func (x *UnavailableEntityOutline) ImplementsEntityOutline() {}
 
-// UserReference - The `UserReference` object provides basic identifying information about the user.
-type UserReference struct {
-	//
-	Email string `json:"email,omitempty"`
-	//
-	Gravatar string `json:"gravatar,omitempty"`
-	//
-	ID int `json:"id,omitempty"`
-	//
-	Name string `json:"name,omitempty"`
-}
-
 // WorkloadEntity - A workload entity.
 type WorkloadEntity struct {
 	//
@@ -5882,7 +5873,7 @@ type WorkloadEntity struct {
 	// When the workload was created.
 	CreatedAt nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
 	// The user that created the workload.
-	CreatedByUser UserReference `json:"createdByUser,omitempty"`
+	CreatedByUser users.UserReference `json:"createdByUser,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -5956,7 +5947,7 @@ func (x WorkloadEntity) GetCreatedAt() nrtime.EpochMilliseconds {
 }
 
 // GetCreatedByUser returns a pointer to the value of CreatedByUser from WorkloadEntity
-func (x WorkloadEntity) GetCreatedByUser() UserReference {
+func (x WorkloadEntity) GetCreatedByUser() users.UserReference {
 	return x.CreatedByUser
 }
 
@@ -6057,7 +6048,7 @@ type WorkloadEntityOutline struct {
 	// When the workload was created.
 	CreatedAt nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
 	// The user that created the workload.
-	CreatedByUser UserReference `json:"createdByUser,omitempty"`
+	CreatedByUser users.UserReference `json:"createdByUser,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -6105,7 +6096,7 @@ func (x WorkloadEntityOutline) GetCreatedAt() nrtime.EpochMilliseconds {
 }
 
 // GetCreatedByUser returns a pointer to the value of CreatedByUser from WorkloadEntityOutline
-func (x WorkloadEntityOutline) GetCreatedByUser() UserReference {
+func (x WorkloadEntityOutline) GetCreatedByUser() users.UserReference {
 	return x.CreatedByUser
 }
 

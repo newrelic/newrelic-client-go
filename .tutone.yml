@@ -80,6 +80,8 @@ packages:
     import_path: github.com/newrelic/newrelic-client-go/pkg/apiaccess
     generators:
       - typegen
+    imports:
+      - github.com/newrelic/newrelic-client-go/pkg/accounts
     types:
       - name: ApiAccessActorStitchedFields
       - name: ApiAccessCreateIngestKeyInput
@@ -106,6 +108,16 @@ packages:
       # This must be a string, as where ID is used the type is a string...
       - name: ID
         field_type_override: string
+        skip_type_create: true
+
+      #
+      # Types that we should auto-detect are in another package someday
+      #
+      - name: AccountReference
+        field_type_override: accounts.AccountReference
+        skip_type_create: true
+      - name: UserReference
+        field_type_override: users.UserReference
         skip_type_create: true
 
 
@@ -280,6 +292,7 @@ packages:
       - github.com/newrelic/newrelic-client-go/pkg/accounts
       - github.com/newrelic/newrelic-client-go/pkg/nrdb
       - github.com/newrelic/newrelic-client-go/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/pkg/users
     queries:
       - path: ["actor"]
         endpoints:
@@ -490,6 +503,11 @@ packages:
         field_type_override: nrdb.SuggestedNRQLQueryAnomaly
         skip_type_create: true
 
+      # users imports
+      - name: UserReference
+        field_type_override: users.UserReference
+        skip_type_create: true
+
 
   - name: eventstometrics
     path: pkg/eventstometrics
@@ -597,6 +615,20 @@ packages:
       - name: TimeWindowInput
 
 
+  - name: users
+    path: pkg/users
+    import_path: github.com/newrelic/newrelic-client-go/pkg/users
+    generators:
+      - typegen
+      - nerdgraphclient
+    queries:
+      - path: ["actor"]
+        endpoints:
+          - name: user
+            max_query_field_depth: 2
+    types:
+      - name: User
+      - name: UserReference
 
 generators:
   - name: typegen
