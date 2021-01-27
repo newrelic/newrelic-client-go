@@ -4,13 +4,14 @@ import (
 	"github.com/newrelic/newrelic-client-go/internal/serialization"
 	"github.com/newrelic/newrelic-client-go/pkg/errors"
 	"github.com/newrelic/newrelic-client-go/pkg/nerdgraph"
+	"github.com/newrelic/newrelic-client-go/pkg/users"
 )
 
 // Workload represents a New Relic One workload.
 type Workload struct {
 	Account             nerdgraph.AccountReference `json:"account,omitempty"`
 	CreatedAt           serialization.EpochTime    `json:"createdAt,omitempty"`
-	CreatedBy           UserReference              `json:"createdBy,omitempty"`
+	CreatedBy           users.UserReference        `json:"createdBy,omitempty"`
 	Entities            []EntityRef                `json:"entities,omitempty"`
 	EntitySearchQueries []EntitySearchQuery        `json:"entitySearchQueries,omitempty"`
 	EntitySearchQuery   string                     `json:"entitySearchQuery,omitempty"`
@@ -30,18 +31,10 @@ type EntityRef struct {
 // EntitySearchQuery represents an entity search used by this workload.
 type EntitySearchQuery struct {
 	CreatedAt serialization.EpochTime  `json:"createdAt,omitempty"`
-	CreatedBy UserReference            `json:"createdBy,omitempty"`
+	CreatedBy users.UserReference      `json:"createdBy,omitempty"`
 	ID        int                      `json:"id,omitempty"`
 	Query     string                   `json:"query,omitempty"`
 	UpdatedAt *serialization.EpochTime `json:"updatedAt,omitempty"`
-}
-
-// UserReference represents a user referenced by this workload's search query.
-type UserReference struct {
-	Email    string `json:"email,omitempty"`
-	Gravatar string `json:"gravatar,omitempty"`
-	ID       int    `json:"id,omitempty"`
-	Name     string `json:"name,omitempty"`
 }
 
 // ScopeAccounts represents the accounts used to scope this workload.
