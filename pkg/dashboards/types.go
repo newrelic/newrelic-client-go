@@ -67,18 +67,24 @@ var DashboardUpdateErrorTypeTypes = struct {
 type DashboardAreaWidgetConfigurationInput struct {
 	// nrql queries
 	NRQLQueries []DashboardWidgetNRQLQueryInput `json:"nrqlQueries,omitempty"`
+	// queries
+	Queries []DashboardWidgetQueryInput `json:"queries,omitempty"`
 }
 
 // DashboardBarWidgetConfigurationInput - Configuration for visualization type 'viz.bar'
 type DashboardBarWidgetConfigurationInput struct {
 	// nrql queries
 	NRQLQueries []DashboardWidgetNRQLQueryInput `json:"nrqlQueries,omitempty"`
+	// queries
+	Queries []DashboardWidgetQueryInput `json:"queries,omitempty"`
 }
 
 // DashboardBillboardWidgetConfigurationInput - Configuration for visualization type 'viz.billboard'
 type DashboardBillboardWidgetConfigurationInput struct {
 	// nrql queries
 	NRQLQueries []DashboardWidgetNRQLQueryInput `json:"nrqlQueries,omitempty"`
+	// queries
+	Queries []DashboardWidgetQueryInput `json:"queries,omitempty"`
 	// thresholds
 	Thresholds []DashboardBillboardWidgetThresholdInput `json:"thresholds,omitempty"`
 }
@@ -161,6 +167,8 @@ type DashboardInput struct {
 type DashboardLineWidgetConfigurationInput struct {
 	// nrql queries
 	NRQLQueries []DashboardWidgetNRQLQueryInput `json:"nrqlQueries,omitempty"`
+	// queries
+	Queries []DashboardWidgetQueryInput `json:"queries,omitempty"`
 }
 
 // DashboardMarkdownWidgetConfigurationInput - Configuration for visualization type 'viz.markdown'
@@ -185,12 +193,16 @@ type DashboardPageInput struct {
 type DashboardPieWidgetConfigurationInput struct {
 	// nrql queries
 	NRQLQueries []DashboardWidgetNRQLQueryInput `json:"nrqlQueries,omitempty"`
+	// queries
+	Queries []DashboardWidgetQueryInput `json:"queries,omitempty"`
 }
 
 // DashboardTableWidgetConfigurationInput - Configuration for visualization type 'viz.table'
 type DashboardTableWidgetConfigurationInput struct {
 	// nrql queries
 	NRQLQueries []DashboardWidgetNRQLQueryInput `json:"nrqlQueries,omitempty"`
+	// queries
+	Queries []DashboardWidgetQueryInput `json:"queries,omitempty"`
 }
 
 // DashboardUpdateError - Error information to add as first citizen in update operations
