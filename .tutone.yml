@@ -459,7 +459,7 @@ packages:
         field_type_override: nrtime.EpochSeconds
         skip_type_create: true
       - name: EpochMilliseconds
-        field_type_override: nrtime.EpochMilliseconds
+        field_type_override: "*nrtime.EpochMilliseconds"
         skip_type_create: true
       - name: Minutes
         field_type_override: nrtime.Minutes
@@ -635,4 +635,3 @@ generators:
     fileName: "types.go"
   - name: nerdgraphclient
     fileName: "{{.PackageName}}_api.go"
-
