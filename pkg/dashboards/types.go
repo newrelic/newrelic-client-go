@@ -265,14 +265,6 @@ type DashboardWidgetNRQLQueryInput struct {
 	Query nrdb.NRQL `json:"query"`
 }
 
-// DashboardWidgetQueryInput -
-type DashboardWidgetQueryInput struct {
-	// accountId
-	AccountID int `json:"accountId"`
-	// NRQL formatted query
-	NRQL nrdb.NRQL `json:"nrql"`
-}
-
 // DashboardWidgetVisualizationInput - visualization configuration
 type DashboardWidgetVisualizationInput struct {
 	// Nerdpack artifact ID
