@@ -1284,7 +1284,7 @@ type ApmApplicationDeployment struct {
 	// The revision of the app that was deployed
 	Revision string `json:"revision,omitempty"`
 	// The moment the deployment occurred
-	Timestamp nrtime.EpochMilliseconds `json:"timestamp,omitempty"`
+	Timestamp *nrtime.EpochMilliseconds `json:"timestamp,omitempty"`
 	// The user who triggered the deployment
 	User string `json:"user,omitempty"`
 }
@@ -1314,7 +1314,7 @@ type ApmApplicationEntity struct {
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The programming language of the APM Application.
 	Language string `json:"language,omitempty"`
 	// Retrieves a rule.
@@ -1411,7 +1411,7 @@ func (x ApmApplicationEntity) GetGUID() EntityGUID {
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from ApmApplicationEntity
-func (x ApmApplicationEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+func (x ApmApplicationEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
 }
 
@@ -1517,7 +1517,7 @@ type ApmApplicationEntityOutline struct {
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The programming language of the APM Application.
 	Language string `json:"language,omitempty"`
 	// The name of this entity.
@@ -1584,7 +1584,7 @@ func (x ApmApplicationEntityOutline) GetGUID() EntityGUID {
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from ApmApplicationEntityOutline
-func (x ApmApplicationEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+func (x ApmApplicationEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
 }
 
@@ -1730,7 +1730,7 @@ type ApmDatabaseInstanceEntity struct {
 	// The host the database instance is running on.
 	Host string `json:"host,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
 	//
 	// A relevant `WHERE` clause will be added to your query to scope data to the entity in question.
@@ -1794,7 +1794,7 @@ func (x ApmDatabaseInstanceEntity) GetHost() string {
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from ApmDatabaseInstanceEntity
-func (x ApmDatabaseInstanceEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+func (x ApmDatabaseInstanceEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
 }
 
@@ -1870,7 +1870,7 @@ type ApmDatabaseInstanceEntityOutline struct {
 	// The host the database instance is running on.
 	Host string `json:"host,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	// The url to the entity.
@@ -1920,7 +1920,7 @@ func (x ApmDatabaseInstanceEntityOutline) GetHost() string {
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from ApmDatabaseInstanceEntityOutline
-func (x ApmDatabaseInstanceEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+func (x ApmDatabaseInstanceEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
 }
 
@@ -1978,7 +1978,7 @@ type ApmExternalServiceEntity struct {
 	// The host of the external service.
 	Host string `json:"host,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
 	//
 	// A relevant `WHERE` clause will be added to your query to scope data to the entity in question.
@@ -2043,7 +2043,7 @@ func (x ApmExternalServiceEntity) GetHost() string {
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from ApmExternalServiceEntity
-func (x ApmExternalServiceEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+func (x ApmExternalServiceEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
 }
 
@@ -2111,7 +2111,7 @@ type ApmExternalServiceEntityOutline struct {
 	// The host of the external service.
 	Host string `json:"host,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	// The url to the entity.
@@ -2162,7 +2162,7 @@ func (x ApmExternalServiceEntityOutline) GetHost() string {
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from ApmExternalServiceEntityOutline
-func (x ApmExternalServiceEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+func (x ApmExternalServiceEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
 }
 
@@ -2224,7 +2224,7 @@ type BrowserApplicationEntity struct {
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
 	//
 	// A relevant `WHERE` clause will be added to your query to scope data to the entity in question.
@@ -2312,7 +2312,7 @@ func (x BrowserApplicationEntity) GetGUID() EntityGUID {
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from BrowserApplicationEntity
-func (x BrowserApplicationEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+func (x BrowserApplicationEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
 }
 
@@ -2406,7 +2406,7 @@ type BrowserApplicationEntityOutline struct {
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	// The url to the entity.
@@ -2473,7 +2473,7 @@ func (x BrowserApplicationEntityOutline) GetGUID() EntityGUID {
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from BrowserApplicationEntityOutline
-func (x BrowserApplicationEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+func (x BrowserApplicationEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
 }
 
@@ -2580,24 +2580,18 @@ func (x *CollectionEntity) ImplementsCollectionEntity() {}
 type DashboardAreaWidgetConfiguration struct {
 	// nrql queries
 	NRQLQueries []DashboardWidgetNRQLQuery `json:"nrqlQueries,omitempty"`
-	// queries
-	Queries []DashboardWidgetQuery `json:"queries,omitempty"`
 }
 
 // DashboardBarWidgetConfiguration - Configuration for visualization type 'viz.bar'
 type DashboardBarWidgetConfiguration struct {
 	// nrql queries
 	NRQLQueries []DashboardWidgetNRQLQuery `json:"nrqlQueries,omitempty"`
-	// queries
-	Queries []DashboardWidgetQuery `json:"queries,omitempty"`
 }
 
 // DashboardBillboardWidgetConfiguration - Configuration for visualization type 'viz.billboard'
 type DashboardBillboardWidgetConfiguration struct {
 	// nrql queries
 	NRQLQueries []DashboardWidgetNRQLQuery `json:"nrqlQueries,omitempty"`
-	// Queries
-	Queries []DashboardWidgetQuery `json:"queries,omitempty"`
 	// Thresholds
 	Thresholds []DashboardBillboardWidgetThreshold `json:"thresholds,omitempty"`
 }
@@ -2629,7 +2623,7 @@ type DashboardEntity struct {
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
 	//
 	// A relevant `WHERE` clause will be added to your query to scope data to the entity in question.
@@ -2707,7 +2701,7 @@ func (x DashboardEntity) GetGUID() EntityGUID {
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from DashboardEntity
-func (x DashboardEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+func (x DashboardEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
 }
 
@@ -2793,7 +2787,7 @@ type DashboardEntityOutline struct {
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	// The url to the entity.
@@ -2839,7 +2833,7 @@ func (x DashboardEntityOutline) GetGUID() EntityGUID {
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from DashboardEntityOutline
-func (x DashboardEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+func (x DashboardEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
 }
 
@@ -2874,8 +2868,6 @@ func (x *DashboardEntityOutline) ImplementsEntityOutline() {}
 type DashboardLineWidgetConfiguration struct {
 	// nrql queries
 	NRQLQueries []DashboardWidgetNRQLQuery `json:"nrqlQueries,omitempty"`
-	// queries
-	Queries []DashboardWidgetQuery `json:"queries,omitempty"`
 }
 
 // DashboardMarkdownWidgetConfiguration - Configuration for visualization type 'viz.markdown'
@@ -2914,16 +2906,12 @@ type DashboardPage struct {
 type DashboardPieWidgetConfiguration struct {
 	// nrql queries
 	NRQLQueries []DashboardWidgetNRQLQuery `json:"nrqlQueries,omitempty"`
-	// queries
-	Queries []DashboardWidgetQuery `json:"queries,omitempty"`
 }
 
 // DashboardTableWidgetConfiguration - Configuration for visualization type 'viz.table'
 type DashboardTableWidgetConfiguration struct {
 	// nrql queries
 	NRQLQueries []DashboardWidgetNRQLQuery `json:"nrqlQueries,omitempty"`
-	// queries
-	Queries []DashboardWidgetQuery `json:"queries,omitempty"`
 }
 
 // DashboardWidget - Widgets in a Dashboard Page.
@@ -3052,14 +3040,6 @@ type DashboardWidgetNRQLQuery struct {
 	Query nrdb.NRQL `json:"query"`
 }
 
-// DashboardWidgetQuery - Single NRQL query for a widget.
-type DashboardWidgetQuery struct {
-	// accountId
-	AccountID int `json:"accountId"`
-	// NRQL formatted query
-	NRQL nrdb.NRQL `json:"nrql"`
-}
-
 // DashboardWidgetVisualization - Visualization configuration
 type DashboardWidgetVisualization struct {
 	// Nerdpack artifact ID
@@ -3081,7 +3061,7 @@ type Entity struct {
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
 	//
 	// A relevant `WHERE` clause will be added to your query to scope data to the entity in question.
@@ -3119,13 +3099,13 @@ type EntityAlertViolation struct {
 	// The severity of the violation.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
 	// Timestamp of when the violation was closed.
-	ClosedAt nrtime.EpochMilliseconds `json:"closedAt,omitempty"`
+	ClosedAt *nrtime.EpochMilliseconds `json:"closedAt,omitempty"`
 	// The description of the violation.
 	Label string `json:"label,omitempty"`
 	// The priority of the violation.
 	Level string `json:"level,omitempty"`
 	// Timestamp of when the violation was opened.
-	OpenedAt nrtime.EpochMilliseconds `json:"openedAt,omitempty"`
+	OpenedAt *nrtime.EpochMilliseconds `json:"openedAt,omitempty"`
 	// The id of the violation.
 	ViolationId int `json:"violationId,omitempty"`
 	// A link to the violation if it is connected to an incident.
@@ -3183,7 +3163,7 @@ type EntityOutline struct {
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	// The url to the entity.
@@ -3447,7 +3427,7 @@ type GenericEntity struct {
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
 	//
 	// A relevant `WHERE` clause will be added to your query to scope data to the entity in question.
@@ -3502,7 +3482,7 @@ func (x GenericEntity) GetGUID() EntityGUID {
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from GenericEntity
-func (x GenericEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+func (x GenericEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
 }
 
@@ -3566,7 +3546,7 @@ type GenericEntityOutline struct {
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	// The url to the entity.
@@ -3607,7 +3587,7 @@ func (x GenericEntityOutline) GetGUID() EntityGUID {
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from GenericEntityOutline
-func (x GenericEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+func (x GenericEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
 }
 
@@ -3655,7 +3635,7 @@ type GenericInfrastructureEntity struct {
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	//
 	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
@@ -3724,7 +3704,7 @@ func (x GenericInfrastructureEntity) GetGUID() EntityGUID {
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from GenericInfrastructureEntity
-func (x GenericInfrastructureEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+func (x GenericInfrastructureEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
 }
 
@@ -3804,7 +3784,7 @@ type GenericInfrastructureEntityOutline struct {
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	//
 	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
 	// The name of this entity.
@@ -3852,7 +3832,7 @@ func (x GenericInfrastructureEntityOutline) GetGUID() EntityGUID {
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from GenericInfrastructureEntityOutline
-func (x GenericInfrastructureEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+func (x GenericInfrastructureEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
 }
 
@@ -3909,7 +3889,7 @@ type InfrastructureAwsLambdaFunctionEntity struct {
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	//
 	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
@@ -3980,7 +3960,7 @@ func (x InfrastructureAwsLambdaFunctionEntity) GetGUID() EntityGUID {
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from InfrastructureAwsLambdaFunctionEntity
-func (x InfrastructureAwsLambdaFunctionEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+func (x InfrastructureAwsLambdaFunctionEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
 }
 
@@ -4065,7 +4045,7 @@ type InfrastructureAwsLambdaFunctionEntityOutline struct {
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	//
 	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
 	// The name of this entity.
@@ -4115,7 +4095,7 @@ func (x InfrastructureAwsLambdaFunctionEntityOutline) GetGUID() EntityGUID {
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from InfrastructureAwsLambdaFunctionEntityOutline
-func (x InfrastructureAwsLambdaFunctionEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
 }
 
@@ -4180,7 +4160,7 @@ type InfrastructureHostEntity struct {
 	//
 	HostSummary InfrastructureHostSummaryData `json:"hostSummary,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
 	//
 	// A relevant `WHERE` clause will be added to your query to scope data to the entity in question.
@@ -4252,7 +4232,7 @@ func (x InfrastructureHostEntity) GetHostSummary() InfrastructureHostSummaryData
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from InfrastructureHostEntity
-func (x InfrastructureHostEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+func (x InfrastructureHostEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
 }
 
@@ -4327,7 +4307,7 @@ type InfrastructureHostEntityOutline struct {
 	//
 	HostSummary InfrastructureHostSummaryData `json:"hostSummary,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	// The url to the entity.
@@ -4378,7 +4358,7 @@ func (x InfrastructureHostEntityOutline) GetHostSummary() InfrastructureHostSumm
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from InfrastructureHostEntityOutline
-func (x InfrastructureHostEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+func (x InfrastructureHostEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
 }
 
@@ -4462,7 +4442,7 @@ type MetricNormalizationRule struct {
 	// Application Name
 	ApplicationName string `json:"applicationName,omitempty"`
 	// Date of rule creation.
-	CreatedAt nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
+	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
 	// Is rule enabled?
 	Enabled bool `json:"enabled"`
 	// Rule Id
@@ -4518,7 +4498,7 @@ type MobileApplicationEntity struct {
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Summary statistics about the Mobile App.
 	MobileSummary MobileAppSummaryData `json:"mobileSummary,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
@@ -4592,7 +4572,7 @@ func (x MobileApplicationEntity) GetGUID() EntityGUID {
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from MobileApplicationEntity
-func (x MobileApplicationEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+func (x MobileApplicationEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
 }
 
@@ -4672,7 +4652,7 @@ type MobileApplicationEntityOutline struct {
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Summary statistics about the Mobile App.
 	MobileSummary MobileAppSummaryData `json:"mobileSummary,omitempty"`
 	// The name of this entity.
@@ -4725,7 +4705,7 @@ func (x MobileApplicationEntityOutline) GetGUID() EntityGUID {
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from MobileApplicationEntityOutline
-func (x MobileApplicationEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+func (x MobileApplicationEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
 }
 
@@ -4794,7 +4774,7 @@ type SecureCredentialEntity struct {
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
 	//
 	// A relevant `WHERE` clause will be added to your query to scope data to the entity in question.
@@ -4826,7 +4806,7 @@ type SecureCredentialEntity struct {
 	// The entity's type
 	Type string `json:"type,omitempty"`
 	// The time at which the entity was last updated.
-	UpdatedAt nrtime.EpochMilliseconds `json:"updatedAt,omitempty"`
+	UpdatedAt *nrtime.EpochMilliseconds `json:"updatedAt,omitempty"`
 }
 
 // GetAccount returns a pointer to the value of Account from SecureCredentialEntity
@@ -4860,7 +4840,7 @@ func (x SecureCredentialEntity) GetGUID() EntityGUID {
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from SecureCredentialEntity
-func (x SecureCredentialEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+func (x SecureCredentialEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
 }
 
@@ -4920,7 +4900,7 @@ func (x SecureCredentialEntity) GetType() string {
 }
 
 // GetUpdatedAt returns a pointer to the value of UpdatedAt from SecureCredentialEntity
-func (x SecureCredentialEntity) GetUpdatedAt() nrtime.EpochMilliseconds {
+func (x SecureCredentialEntity) GetUpdatedAt() *nrtime.EpochMilliseconds {
 	return x.UpdatedAt
 }
 
@@ -4941,7 +4921,7 @@ type SecureCredentialEntityOutline struct {
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	// The url to the entity.
@@ -4959,7 +4939,7 @@ type SecureCredentialEntityOutline struct {
 	// The entity's type
 	Type string `json:"type,omitempty"`
 	// The time at which the entity was last updated.
-	UpdatedAt nrtime.EpochMilliseconds `json:"updatedAt,omitempty"`
+	UpdatedAt *nrtime.EpochMilliseconds `json:"updatedAt,omitempty"`
 }
 
 // GetAccount returns a pointer to the value of Account from SecureCredentialEntityOutline
@@ -4993,7 +4973,7 @@ func (x SecureCredentialEntityOutline) GetGUID() EntityGUID {
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from SecureCredentialEntityOutline
-func (x SecureCredentialEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+func (x SecureCredentialEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
 }
 
@@ -5033,7 +5013,7 @@ func (x SecureCredentialEntityOutline) GetType() string {
 }
 
 // GetUpdatedAt returns a pointer to the value of UpdatedAt from SecureCredentialEntityOutline
-func (x SecureCredentialEntityOutline) GetUpdatedAt() nrtime.EpochMilliseconds {
+func (x SecureCredentialEntityOutline) GetUpdatedAt() *nrtime.EpochMilliseconds {
 	return x.UpdatedAt
 }
 
@@ -5066,7 +5046,7 @@ type SyntheticMonitorEntity struct {
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The Synthetic Monitor ID
 	MonitorId string `json:"monitorId,omitempty"`
 	// Summary statistics for the Synthetic Monitor.
@@ -5148,7 +5128,7 @@ func (x SyntheticMonitorEntity) GetGUID() EntityGUID {
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from SyntheticMonitorEntity
-func (x SyntheticMonitorEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+func (x SyntheticMonitorEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
 }
 
@@ -5246,7 +5226,7 @@ type SyntheticMonitorEntityOutline struct {
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The Synthetic Monitor ID
 	MonitorId string `json:"monitorId,omitempty"`
 	// Summary statistics for the Synthetic Monitor.
@@ -5302,7 +5282,7 @@ func (x SyntheticMonitorEntityOutline) GetGUID() EntityGUID {
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from SyntheticMonitorEntityOutline
-func (x SyntheticMonitorEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+func (x SyntheticMonitorEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
 }
 
@@ -5427,7 +5407,7 @@ type ThirdPartyServiceEntity struct {
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
 	//
 	// A relevant `WHERE` clause will be added to your query to scope data to the entity in question.
@@ -5494,7 +5474,7 @@ func (x ThirdPartyServiceEntity) GetGUID() EntityGUID {
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from ThirdPartyServiceEntity
-func (x ThirdPartyServiceEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+func (x ThirdPartyServiceEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
 }
 
@@ -5567,7 +5547,7 @@ type ThirdPartyServiceEntityOutline struct {
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	// The url to the entity.
@@ -5613,7 +5593,7 @@ func (x ThirdPartyServiceEntityOutline) GetGUID() EntityGUID {
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from ThirdPartyServiceEntityOutline
-func (x ThirdPartyServiceEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+func (x ThirdPartyServiceEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
 }
 
@@ -5649,9 +5629,9 @@ func (x *ThirdPartyServiceEntityOutline) ImplementsEntityOutline() {}
 // TimeWindowInput - Represents a time window input.
 type TimeWindowInput struct {
 	// The end time of the time window the number of milliseconds since the Unix epoch.
-	EndTime nrtime.EpochMilliseconds `json:"endTime"`
+	EndTime *nrtime.EpochMilliseconds `json:"endTime"`
 	// The start time of the time window the number of milliseconds since the Unix epoch.
-	StartTime nrtime.EpochMilliseconds `json:"startTime"`
+	StartTime *nrtime.EpochMilliseconds `json:"startTime"`
 }
 
 // UnavailableEntity - An entity that is unavailable.
@@ -5667,7 +5647,7 @@ type UnavailableEntity struct {
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
 	//
 	// A relevant `WHERE` clause will be added to your query to scope data to the entity in question.
@@ -5722,7 +5702,7 @@ func (x UnavailableEntity) GetGUID() EntityGUID {
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from UnavailableEntity
-func (x UnavailableEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+func (x UnavailableEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
 }
 
@@ -5786,7 +5766,7 @@ type UnavailableEntityOutline struct {
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	// The url to the entity.
@@ -5827,7 +5807,7 @@ func (x UnavailableEntityOutline) GetGUID() EntityGUID {
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from UnavailableEntityOutline
-func (x UnavailableEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+func (x UnavailableEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
 }
 
@@ -5871,7 +5851,7 @@ type WorkloadEntity struct {
 	//
 	Collection EntityCollection `json:"collection,omitempty"`
 	// When the workload was created.
-	CreatedAt nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
+	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
 	// The user that created the workload.
 	CreatedByUser users.UserReference `json:"createdByUser,omitempty"`
 	// The entity's domain
@@ -5881,7 +5861,7 @@ type WorkloadEntity struct {
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
 	//
 	// A relevant `WHERE` clause will be added to your query to scope data to the entity in question.
@@ -5911,7 +5891,7 @@ type WorkloadEntity struct {
 	// The entity's type
 	Type string `json:"type,omitempty"`
 	// When the workload was last updated.
-	UpdatedAt nrtime.EpochMilliseconds `json:"updatedAt,omitempty"`
+	UpdatedAt *nrtime.EpochMilliseconds `json:"updatedAt,omitempty"`
 	// Status of the workload.
 	WorkloadStatus WorkloadStatus `json:"workloadStatus,omitempty"`
 }
@@ -5942,7 +5922,7 @@ func (x WorkloadEntity) GetCollection() EntityCollection {
 }
 
 // GetCreatedAt returns a pointer to the value of CreatedAt from WorkloadEntity
-func (x WorkloadEntity) GetCreatedAt() nrtime.EpochMilliseconds {
+func (x WorkloadEntity) GetCreatedAt() *nrtime.EpochMilliseconds {
 	return x.CreatedAt
 }
 
@@ -5967,7 +5947,7 @@ func (x WorkloadEntity) GetGUID() EntityGUID {
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from WorkloadEntity
-func (x WorkloadEntity) GetIndexedAt() nrtime.EpochMilliseconds {
+func (x WorkloadEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
 }
 
@@ -6022,7 +6002,7 @@ func (x WorkloadEntity) GetType() string {
 }
 
 // GetUpdatedAt returns a pointer to the value of UpdatedAt from WorkloadEntity
-func (x WorkloadEntity) GetUpdatedAt() nrtime.EpochMilliseconds {
+func (x WorkloadEntity) GetUpdatedAt() *nrtime.EpochMilliseconds {
 	return x.UpdatedAt
 }
 
@@ -6046,7 +6026,7 @@ type WorkloadEntityOutline struct {
 	// The current alerting severity of the workload entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
 	// When the workload was created.
-	CreatedAt nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
+	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
 	// The user that created the workload.
 	CreatedByUser users.UserReference `json:"createdByUser,omitempty"`
 	// The entity's domain
@@ -6056,7 +6036,7 @@ type WorkloadEntityOutline struct {
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	// The url to the entity.
@@ -6070,7 +6050,7 @@ type WorkloadEntityOutline struct {
 	// The entity's type
 	Type string `json:"type,omitempty"`
 	// When the workload was last updated.
-	UpdatedAt nrtime.EpochMilliseconds `json:"updatedAt,omitempty"`
+	UpdatedAt *nrtime.EpochMilliseconds `json:"updatedAt,omitempty"`
 	// Status of the workload.
 	WorkloadStatus WorkloadStatus `json:"workloadStatus,omitempty"`
 }
@@ -6091,7 +6071,7 @@ func (x WorkloadEntityOutline) GetAlertSeverity() EntityAlertSeverity {
 }
 
 // GetCreatedAt returns a pointer to the value of CreatedAt from WorkloadEntityOutline
-func (x WorkloadEntityOutline) GetCreatedAt() nrtime.EpochMilliseconds {
+func (x WorkloadEntityOutline) GetCreatedAt() *nrtime.EpochMilliseconds {
 	return x.CreatedAt
 }
 
@@ -6116,7 +6096,7 @@ func (x WorkloadEntityOutline) GetGUID() EntityGUID {
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from WorkloadEntityOutline
-func (x WorkloadEntityOutline) GetIndexedAt() nrtime.EpochMilliseconds {
+func (x WorkloadEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
 }
 
@@ -6146,7 +6126,7 @@ func (x WorkloadEntityOutline) GetType() string {
 }
 
 // GetUpdatedAt returns a pointer to the value of UpdatedAt from WorkloadEntityOutline
-func (x WorkloadEntityOutline) GetUpdatedAt() nrtime.EpochMilliseconds {
+func (x WorkloadEntityOutline) GetUpdatedAt() *nrtime.EpochMilliseconds {
 	return x.UpdatedAt
 }
 
