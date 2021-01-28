@@ -10,6 +10,7 @@ import (
 	"github.com/newrelic/newrelic-client-go/pkg/dashboards"
 	"github.com/newrelic/newrelic-client-go/pkg/entities"
 	"github.com/newrelic/newrelic-client-go/pkg/plugins"
+	"github.com/newrelic/newrelic-client-go/pkg/workloads"
 )
 
 func Example_basic() {
@@ -97,10 +98,10 @@ func Example_basic() {
 	fmt.Printf("Synthetics monitors: %v+\n", monitors)
 
 	// Interact with the New Relic One Workloads product.
-	workloads, err := client.Workloads.ListWorkloads(12345678)
+	workload, err := client.Workloads.WorkloadCreate(12345678, workloads.WorkloadCreateInput{Name: "test-workload"})
 	if err != nil {
-		log.Fatal("error listing workloads:", err)
+		log.Fatal("error creating workload:", err)
 	}
 
-	fmt.Printf("Synthetics monitors: %v+\n", workloads)
+	fmt.Printf("Workload created: %v+\n", workload)
 }

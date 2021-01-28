@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/newrelic/newrelic-client-go/pkg/config"
+	"github.com/newrelic/newrelic-client-go/pkg/entities"
 )
 
 func Example_basic() {
@@ -20,59 +21,45 @@ func Example_basic() {
 	client := New(cfg)
 
 	accountID := 12345678
-	entityGUID := "MjUwODy1OXxOUjF8V097S0xPQ3R8ODcz"
-
-	// List the workloads for a given account.
-	workloads, err := client.ListWorkloads(accountID)
-	if err != nil {
-		log.Fatal("error listing workloads: ", err)
-	}
-
-	// Get a specific workload by ID.  This example assumes that at least one
-	// workload has been returned by the list endpoint, but in practice it is
-	// possible that an empty slice is returned.
-	workload, err := client.GetWorkload(accountID, workloads[0].GUID)
-	if err != nil {
-		log.Fatal("error getting workload: ", err)
-	}
+	entityGUID := entities.EntityGUID("MjUwODy1OXxOUjF8V097S0xPQ3R8ODcz")
 
 	// Create a new workload.
-	createInput := CreateInput{
+	createInput := WorkloadCreateInput{
 		Name:        "Example workload",
-		EntityGUIDs: []string{entityGUID},
-		EntitySearchQueries: []EntitySearchQueryInput{
+		EntityGUIDs: []entities.EntityGUID{entityGUID},
+		EntitySearchQueries: []WorkloadEntitySearchQueryInput{
 			{
 				Query: fmt.Sprintf("(accountId IN ('%d')) AND (((name like 'Example application' or id = 'Example application' or domainId = 'Example application')))", accountID),
 			},
 		},
 	}
 
-	workload, err = client.CreateWorkload(accountID, createInput)
+	workload, err := client.WorkloadCreate(accountID, createInput)
 	if err != nil {
 		log.Fatal("error creating workload: ", err)
 	}
 
 	// Duplicate an existing workload.
-	duplicate, err := client.DuplicateWorkload(accountID, workload.GUID, nil)
+	duplicate, err := client.WorkloadDuplicate(accountID, workload.GUID, WorkloadDuplicateInput{
+		Name: workload.Name + "-duplicate",
+	})
 	if err != nil {
 		log.Fatal("error duplicating workload: ", err)
 	}
 
 	// Update an existing workload.
 	workloadName := "Example updated workload"
-	updateInput := UpdateInput{
-		Name:                workloadName,
-		EntityGUIDs:         createInput.EntityGUIDs,
-		EntitySearchQueries: createInput.EntitySearchQueries,
+	updateInput := WorkloadUpdateInput{
+		Name: workloadName,
 	}
 
-	updated, err := client.UpdateWorkload(duplicate.GUID, updateInput)
+	updated, err := client.WorkloadUpdate(duplicate.GUID, updateInput)
 	if err != nil {
 		log.Fatal("error updating workload: ", err)
 	}
 
 	// Delete an existing workload.
-	_, err = client.DeleteWorkload(updated.GUID)
+	_, err = client.WorkloadDelete(updated.GUID)
 	if err != nil {
 		log.Fatal("error deleting workload: ", err)
 	}
