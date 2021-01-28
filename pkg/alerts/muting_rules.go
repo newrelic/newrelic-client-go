@@ -121,13 +121,13 @@ type MutingRuleScheduleCreateInput struct {
 
 // MutingRuleScheduleUpdateInput is the time window when the MutingRule should actively mute violations for Update
 type MutingRuleScheduleUpdateInput struct {
-	StartTime        *NaiveDateTime            `json:"startTime,omitempty"`
-	EndTime          *NaiveDateTime            `json:"endTime,omitempty"`
-	TimeZone         *string                   `json:"timeZone,omitempty"`
-	Repeat           *MutingRuleScheduleRepeat `json:"repeat,omitempty"`
-	EndRepeat        *NaiveDateTime            `json:"endRepeat,omitempty"`
-	RepeatCount      *int                      `json:"repeatCount,omitempty"`
-	WeeklyRepeatDays *[]DayOfWeek              `json:"weeklyRepeatDays,omitempty"`
+	StartTime        *NaiveDateTime            `json:"startTime"`
+	EndTime          *NaiveDateTime            `json:"endTime"`
+	TimeZone         *string                   `json:"timeZone"`
+	Repeat           *MutingRuleScheduleRepeat `json:"repeat"`
+	EndRepeat        *NaiveDateTime            `json:"endRepeat"`
+	RepeatCount      *int                      `json:"repeatCount"`
+	WeeklyRepeatDays *[]DayOfWeek              `json:"weeklyRepeatDays"`
 }
 
 // MutingRuleCreateInput is the input for creating muting rules.
@@ -148,7 +148,7 @@ type MutingRuleUpdateInput struct {
 	Description string                         `json:"description,omitempty"`
 	Enabled     bool                           `json:"enabled"`
 	Name        string                         `json:"name,omitempty"`
-	Schedule    *MutingRuleScheduleUpdateInput `json:"schedule,omitempty"`
+	Schedule    *MutingRuleScheduleUpdateInput `json:"schedule"`
 }
 
 // ListMutingRules queries for all muting rules in a given account.
