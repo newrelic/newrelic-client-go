@@ -2,9 +2,11 @@ package alerts
 
 import (
 	"context"
+	stdErrors "errors"
 	"fmt"
 	"strings"
 
+	"github.com/newrelic/newrelic-client-go/internal/cache"
 	"github.com/newrelic/newrelic-client-go/internal/http"
 	"github.com/newrelic/newrelic-client-go/pkg/errors"
 )
@@ -408,6 +410,78 @@ func (a *Alerts) GetNrqlConditionQueryWithContext(
 	}
 
 	return &resp.Actor.Account.Alerts.NrqlCondition, nil
+}
+
+type nrqlConditionsPolicyCacheGroupID struct {
+	accountID int
+	policyID  string
+}
+
+const nrqlConditionsPolicyCacheName = "nrqlConditionsByPolicy"
+
+func (a *Alerts) fetchPolicyNrqlConditionsForCache(ctx context.Context, groupID interface{}) (map[string]interface{}, error) {
+	cacheGroupID, ok := groupID.(nrqlConditionsPolicyCacheGroupID)
+	if !ok {
+		return nil, stdErrors.New("Invalid cache group id type")
+	}
+
+	searchCriteria := NrqlConditionsSearchCriteria{PolicyID: cacheGroupID.policyID}
+	policyNrqlConditions, err := a.SearchNrqlConditionsQueryWithContext(ctx, cacheGroupID.accountID, searchCriteria)
+	if err != nil {
+		return nil, err
+	}
+
+	itemMap := make(map[string]interface{})
+	for _, condition := range policyNrqlConditions {
+		itemMap[condition.ID] = condition
+	}
+	return itemMap, nil
+}
+
+// CachedGetNrqlConditionQuery fetches a NRQL alert condition via New Relic's NerdGraph API,
+// pre-fetching and caching entire policies at a time. You should also call
+// InvalidateCachedNrqlConditionPolicy if you perform any operation that could obsolete the
+// cached results, if you will be calling CachedGet* functions again.
+func (a *Alerts) CachedGetNrqlConditionQuery(
+	accountID int,
+	policyID string,
+	conditionID string,
+) (*NrqlAlertCondition, error) {
+	return a.CachedGetNrqlConditionQueryWithContext(context.Background(), accountID, policyID, conditionID)
+}
+
+// CachedGetNrqlConditionQueryWithContext fetches a NRQL alert condition via New Relic's NerdGraph API,
+// pre-fetching and caching entire policies at a time. You should also call
+// InvalidateCachedNrqlConditionPolicy if you perform any operation that could obsolete the
+// cached results, if you will be calling CachedGet* functions again.
+func (a *Alerts) CachedGetNrqlConditionQueryWithContext(
+	ctx context.Context,
+	accountID int,
+	policyID string,
+	conditionID string,
+) (*NrqlAlertCondition, error) {
+	c := cache.NamedMapGroupCache(&a.caches, nrqlConditionsPolicyCacheName, a.fetchPolicyNrqlConditionsForCache)
+	item, err := c.LookupOrFetchWithContext(ctx, nrqlConditionsPolicyCacheGroupID{accountID, policyID}, conditionID)
+	if err != nil {
+		return nil, err
+	}
+	typedItem, ok := item.(*NrqlAlertCondition)
+	if !ok {
+		return nil, stdErrors.New("Invalid cache item type")
+	}
+	return typedItem, nil
+}
+
+// InvalidateCachedNrqlConditionPolicy invalidates any cached data for the given policy that was
+// previously fetched by CachedGet* functions.
+func (a *Alerts) InvalidateCachedNrqlConditionPolicy(
+	accountID int,
+	policyID string,
+) {
+	c, found := a.caches[nrqlConditionsPolicyCacheName]
+	if found {
+		c.InvalidateGroup(nrqlConditionsPolicyCacheGroupID{accountID, policyID})
+	}
 }
 
 // SearchNrqlConditionsQuery fetches multiple NRQL alert conditions based on the provided search criteria via New Relic's NerdGraph API.
