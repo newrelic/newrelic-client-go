@@ -4,6 +4,7 @@ import (
 	"net/http/httptest"
 	"os"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 
@@ -12,10 +13,11 @@ import (
 )
 
 const (
+	HTTPTimeout    = 60 * time.Second                                  // HTTPTimeout increases the timeout for integration tests
+	LicenseKey     = "APMLicenseKey"                                   // LicenseKey used in mock configs
 	LogLevel       = "debug"                                           // LogLevel used in mock configs
 	PersonalAPIKey = "personalAPIKey"                                  // PersonalAPIKey used in mock configs (from Environment for Integration tests)
 	UserAgent      = "newrelic/newrelic-client-go (automated testing)" // UserAgent used in mock configs
-	LicenseKey     = "APMLicenseKey"                                   // LicenseKey used in mock configs
 )
 
 // NewTestConfig returns a fully saturated configration with modified BaseURLs
@@ -61,8 +63,14 @@ func NewIntegrationTestConfig(t *testing.T) config.Config {
 	} else {
 		cfg.LogLevel = LogLevel
 	}
+	cfg.Logger = cfg.GetLogger()
+
+	// HTTP Settings
+	timeout := HTTPTimeout
+	cfg.Timeout = &timeout
 	cfg.UserAgent = UserAgent
 
+	// Auth
 	cfg.PersonalAPIKey = envPersonalAPIKey
 	cfg.InsightsInsertKey = envInsightsInsertKey
 	cfg.LicenseKey = envLicenseKey
