@@ -1,3 +1,9 @@
+<a name="v0.57.1"></a>
+## [v0.57.1] - 2021-01-29
+### Refactor
+- Tutone auto-naming conflict with schema
+- EpochTime as a pointer to allow for null value in JSON unmarshaling
+
 <a name="v0.57.0"></a>
 ## [v0.57.0] - 2021-01-27
 ### Bug Fixes
@@ -965,7 +971,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.57.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.57.1...HEAD
+[v0.57.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.57.0...v0.57.1
 [v0.57.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.56.2...v0.57.0
 [v0.56.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.56.1...v0.56.2
 [v0.56.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.56.0...v0.56.1
