@@ -25,7 +25,7 @@ func (a *{{$packageName|title}}) {{.Name | title}}(
   {{- end}}
     ) (*{{ .Signature.Return | join ", "}}) {
 
-	resp := {{.Name}}Response{}
+	resp := {{.Name}}QueryResponse{}
 	vars := map[string]interface{}{
   {{- range .QueryVars}}
     "{{.Key}}": {{.Value | untitle}},
@@ -40,7 +40,7 @@ func (a *{{$packageName|title}}) {{.Name | title}}(
 }
 
 {{   if gt (len .QueryVars) 0 }}
-type {{.Name}}Response struct {
+type {{.Name}}QueryResponse struct {
   {{first .Signature.Return}} {{first .Signature.Return}} `json:"{{.Name}}"`
 }
 {{   end}}

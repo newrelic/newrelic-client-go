@@ -11,7 +11,7 @@ func (a *Dashboards) DashboardCreate(
 	dashboard DashboardInput,
 ) (*DashboardCreateResult, error) {
 
-	resp := DashboardCreateResponse{}
+	resp := DashboardCreateQueryResponse{}
 	vars := map[string]interface{}{
 		"accountId": accountID,
 		"dashboard": dashboard,
@@ -24,7 +24,7 @@ func (a *Dashboards) DashboardCreate(
 	return &resp.DashboardCreateResult, nil
 }
 
-type DashboardCreateResponse struct {
+type DashboardCreateQueryResponse struct {
 	DashboardCreateResult DashboardCreateResult `json:"DashboardCreate"`
 }
 
@@ -452,7 +452,7 @@ func (a *Dashboards) DashboardDelete(
 	gUID entities.EntityGUID,
 ) (*DashboardDeleteResult, error) {
 
-	resp := DashboardDeleteResponse{}
+	resp := DashboardDeleteQueryResponse{}
 	vars := map[string]interface{}{
 		"guid": gUID,
 	}
@@ -464,7 +464,7 @@ func (a *Dashboards) DashboardDelete(
 	return &resp.DashboardDeleteResult, nil
 }
 
-type DashboardDeleteResponse struct {
+type DashboardDeleteQueryResponse struct {
 	DashboardDeleteResult DashboardDeleteResult `json:"DashboardDelete"`
 }
 
@@ -486,7 +486,7 @@ func (a *Dashboards) DashboardUpdate(
 	gUID entities.EntityGUID,
 ) (*DashboardUpdateResult, error) {
 
-	resp := DashboardUpdateResponse{}
+	resp := DashboardUpdateQueryResponse{}
 	vars := map[string]interface{}{
 		"dashboard": dashboard,
 		"guid":      gUID,
@@ -499,7 +499,7 @@ func (a *Dashboards) DashboardUpdate(
 	return &resp.DashboardUpdateResult, nil
 }
 
-type DashboardUpdateResponse struct {
+type DashboardUpdateQueryResponse struct {
 	DashboardUpdateResult DashboardUpdateResult `json:"DashboardUpdate"`
 }
 
