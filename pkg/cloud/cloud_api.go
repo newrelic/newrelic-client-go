@@ -12,7 +12,7 @@ func (a *Cloud) CloudConfigureIntegration(
 	integrations CloudIntegrationsInput,
 ) (*CloudConfigureIntegrationPayload, error) {
 
-	resp := CloudConfigureIntegrationResponse{}
+	resp := CloudConfigureIntegrationQueryResponse{}
 	vars := map[string]interface{}{
 		"accountId":    accountID,
 		"integrations": integrations,
@@ -25,7 +25,7 @@ func (a *Cloud) CloudConfigureIntegration(
 	return &resp.CloudConfigureIntegrationPayload, nil
 }
 
-type CloudConfigureIntegrationResponse struct {
+type CloudConfigureIntegrationQueryResponse struct {
 	CloudConfigureIntegrationPayload CloudConfigureIntegrationPayload `json:"CloudConfigureIntegration"`
 }
 
@@ -731,7 +731,7 @@ func (a *Cloud) CloudDisableIntegration(
 	integrations CloudDisableIntegrationsInput,
 ) (*CloudDisableIntegrationPayload, error) {
 
-	resp := CloudDisableIntegrationResponse{}
+	resp := CloudDisableIntegrationQueryResponse{}
 	vars := map[string]interface{}{
 		"accountId":    accountID,
 		"integrations": integrations,
@@ -744,7 +744,7 @@ func (a *Cloud) CloudDisableIntegration(
 	return &resp.CloudDisableIntegrationPayload, nil
 }
 
-type CloudDisableIntegrationResponse struct {
+type CloudDisableIntegrationQueryResponse struct {
 	CloudDisableIntegrationPayload CloudDisableIntegrationPayload `json:"CloudDisableIntegration"`
 }
 
@@ -1450,7 +1450,7 @@ func (a *Cloud) CloudLinkAccount(
 	accounts CloudLinkCloudAccountsInput,
 ) (*CloudLinkAccountPayload, error) {
 
-	resp := CloudLinkAccountResponse{}
+	resp := CloudLinkAccountQueryResponse{}
 	vars := map[string]interface{}{
 		"accountId": accountID,
 		"accounts":  accounts,
@@ -1463,7 +1463,7 @@ func (a *Cloud) CloudLinkAccount(
 	return &resp.CloudLinkAccountPayload, nil
 }
 
-type CloudLinkAccountResponse struct {
+type CloudLinkAccountQueryResponse struct {
 	CloudLinkAccountPayload CloudLinkAccountPayload `json:"CloudLinkAccount"`
 }
 
@@ -1502,7 +1502,7 @@ func (a *Cloud) CloudRenameAccount(
 	accounts []CloudRenameAccountsInput,
 ) (*CloudRenameAccountPayload, error) {
 
-	resp := CloudRenameAccountResponse{}
+	resp := CloudRenameAccountQueryResponse{}
 	vars := map[string]interface{}{
 		"accountId": accountID,
 		"accounts":  accounts,
@@ -1515,7 +1515,7 @@ func (a *Cloud) CloudRenameAccount(
 	return &resp.CloudRenameAccountPayload, nil
 }
 
-type CloudRenameAccountResponse struct {
+type CloudRenameAccountQueryResponse struct {
 	CloudRenameAccountPayload CloudRenameAccountPayload `json:"CloudRenameAccount"`
 }
 
@@ -1555,7 +1555,7 @@ func (a *Cloud) CloudUnlinkAccount(
 	accounts []CloudUnlinkAccountsInput,
 ) (*CloudUnlinkAccountPayload, error) {
 
-	resp := CloudUnlinkAccountResponse{}
+	resp := CloudUnlinkAccountQueryResponse{}
 	vars := map[string]interface{}{
 		"accountId": accountID,
 		"accounts":  accounts,
@@ -1568,7 +1568,7 @@ func (a *Cloud) CloudUnlinkAccount(
 	return &resp.CloudUnlinkAccountPayload, nil
 }
 
-type CloudUnlinkAccountResponse struct {
+type CloudUnlinkAccountQueryResponse struct {
 	CloudUnlinkAccountPayload CloudUnlinkAccountPayload `json:"CloudUnlinkAccount"`
 }
 

@@ -12,7 +12,7 @@ func (a *Entities) TaggingAddTagsToEntity(
 	tags []TaggingTagInput,
 ) (*TaggingMutationResult, error) {
 
-	resp := TaggingAddTagsToEntityResponse{}
+	resp := TaggingAddTagsToEntityQueryResponse{}
 	vars := map[string]interface{}{
 		"guid": gUID,
 		"tags": tags,
@@ -25,7 +25,7 @@ func (a *Entities) TaggingAddTagsToEntity(
 	return &resp.TaggingMutationResult, nil
 }
 
-type TaggingAddTagsToEntityResponse struct {
+type TaggingAddTagsToEntityQueryResponse struct {
 	TaggingMutationResult TaggingMutationResult `json:"TaggingAddTagsToEntity"`
 }
 
@@ -50,7 +50,7 @@ func (a *Entities) TaggingDeleteTagFromEntity(
 	tagKeys []string,
 ) (*TaggingMutationResult, error) {
 
-	resp := TaggingDeleteTagFromEntityResponse{}
+	resp := TaggingDeleteTagFromEntityQueryResponse{}
 	vars := map[string]interface{}{
 		"guid":    gUID,
 		"tagKeys": tagKeys,
@@ -63,7 +63,7 @@ func (a *Entities) TaggingDeleteTagFromEntity(
 	return &resp.TaggingMutationResult, nil
 }
 
-type TaggingDeleteTagFromEntityResponse struct {
+type TaggingDeleteTagFromEntityQueryResponse struct {
 	TaggingMutationResult TaggingMutationResult `json:"TaggingDeleteTagFromEntity"`
 }
 
@@ -88,7 +88,7 @@ func (a *Entities) TaggingDeleteTagValuesFromEntity(
 	tagValues []TaggingTagValueInput,
 ) (*TaggingMutationResult, error) {
 
-	resp := TaggingDeleteTagValuesFromEntityResponse{}
+	resp := TaggingDeleteTagValuesFromEntityQueryResponse{}
 	vars := map[string]interface{}{
 		"guid":      gUID,
 		"tagValues": tagValues,
@@ -101,7 +101,7 @@ func (a *Entities) TaggingDeleteTagValuesFromEntity(
 	return &resp.TaggingMutationResult, nil
 }
 
-type TaggingDeleteTagValuesFromEntityResponse struct {
+type TaggingDeleteTagValuesFromEntityQueryResponse struct {
 	TaggingMutationResult TaggingMutationResult `json:"TaggingDeleteTagValuesFromEntity"`
 }
 
@@ -127,7 +127,7 @@ func (a *Entities) TaggingReplaceTagsOnEntity(
 	tags []TaggingTagInput,
 ) (*TaggingMutationResult, error) {
 
-	resp := TaggingReplaceTagsOnEntityResponse{}
+	resp := TaggingReplaceTagsOnEntityQueryResponse{}
 	vars := map[string]interface{}{
 		"guid": gUID,
 		"tags": tags,
@@ -140,7 +140,7 @@ func (a *Entities) TaggingReplaceTagsOnEntity(
 	return &resp.TaggingMutationResult, nil
 }
 
-type TaggingReplaceTagsOnEntityResponse struct {
+type TaggingReplaceTagsOnEntityQueryResponse struct {
 	TaggingMutationResult TaggingMutationResult `json:"TaggingReplaceTagsOnEntity"`
 }
 
