@@ -1,3 +1,8 @@
+<a name="v0.57.2"></a>
+## [v0.57.2] - 2021-02-01
+### Refactor
+- **alerts:** remove omitEmpty from MutingRuleScheduleUpdateInput
+
 <a name="v0.57.1"></a>
 ## [v0.57.1] - 2021-01-29
 ### Refactor
@@ -971,7 +976,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.57.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.57.2...HEAD
+[v0.57.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.57.1...v0.57.2
 [v0.57.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.57.0...v0.57.1
 [v0.57.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.56.2...v0.57.0
 [v0.56.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.56.1...v0.56.2
