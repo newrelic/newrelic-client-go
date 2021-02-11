@@ -71,3 +71,8 @@ func (e EpochTime) Equal(u EpochTime) bool {
 func (e EpochTime) String() string {
 	return time.Time(e).String()
 }
+
+// Unix returns the time in Unix format
+func (e EpochTime) Unix() int64 {
+	return time.Time(e).UTC().Unix()
+}
