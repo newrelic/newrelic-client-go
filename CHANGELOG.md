@@ -1,3 +1,14 @@
+<a name="v0.58.0"></a>
+## [v0.58.0] - 2021-02-12
+### Bug Fixes
+- **typegen:** do not attempt to unmarshal null data
+
+### Features
+- **nrqldroprules:** Implement NrqlDropRules
+
+### Refactor
+- Update all code-gen unmarshals with new typegen template
+
 <a name="v0.57.2"></a>
 ## [v0.57.2] - 2021-02-01
 ### Refactor
@@ -976,7 +987,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.57.2...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.58.0...HEAD
+[v0.58.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.57.2...v0.58.0
 [v0.57.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.57.1...v0.57.2
 [v0.57.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.57.0...v0.57.1
 [v0.57.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.56.2...v0.57.0
