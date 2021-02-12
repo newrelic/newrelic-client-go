@@ -57,9 +57,12 @@ var NRQLDropRulesErrorReasonTypes = struct {
 // Account configuration data is queried through this object, as well as
 // telemetry data that is specific to a single account.
 type Account struct {
-	ID         int    `json:"id,omitempty"`
+	//
+	ID int `json:"id,omitempty"`
+	//
 	LicenseKey string `json:"licenseKey,omitempty"`
-	Name       string `json:"name,omitempty"`
+	//
+	Name string `json:"name,omitempty"`
 	// This field provides access to NrqlDropRules data.
 	NRQLDropRules NRQLDropRulesAccountStitchedFields `json:"nrqlDropRules,omitempty"`
 }
@@ -70,6 +73,7 @@ type Actor struct {
 	Account Account `json:"account,omitempty"`
 }
 
+// NRQLDropRulesAccountStitchedFields -
 type NRQLDropRulesAccountStitchedFields struct {
 	// List the drop rules for the given account
 	List NRQLDropRulesListDropRulesResult `json:"list,omitempty"`
