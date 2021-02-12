@@ -8,7 +8,7 @@ require (
 	github.com/golangci/golangci-lint v1.36.0
 	github.com/goreleaser/goreleaser v0.155.0
 	github.com/llorllale/go-gitlint v0.0.0-20200802191503-5984945d4b80
-	github.com/newrelic/tutone v0.6.0
+	github.com/newrelic/tutone v0.6.1
 	github.com/psampaz/go-mod-outdated v0.7.0
 	github.com/stretchr/testify v1.7.0
 	golang.org/x/tools v0.1.0
