@@ -332,7 +332,8 @@ type EdgeEndpointDetailInterface interface {
 	ImplementsEdgeEndpointDetail()
 }
 
-//yes
+// UnmarshalEdgeEndpointDetailInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
 func UnmarshalEdgeEndpointDetailInterface(b []byte) (*EdgeEndpointDetailInterface, error) {
 	var err error
 
@@ -340,6 +341,11 @@ func UnmarshalEdgeEndpointDetailInterface(b []byte) (*EdgeEndpointDetailInterfac
 	err = json.Unmarshal(b, &rawMessageEdgeEndpointDetail)
 	if err != nil {
 		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageEdgeEndpointDetail) < 1 {
+		return nil, nil
 	}
 
 	var typeName string
