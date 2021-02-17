@@ -271,6 +271,7 @@ const (
 			account(id: $accountID) {
 				alerts {
 					mutingRules {
+						id
 						name
 						description
 						enabled
