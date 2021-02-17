@@ -5293,7 +5293,8 @@ type CloudIntegrationInterface interface {
 	ImplementsCloudIntegration()
 }
 
-//yes
+// UnmarshalCloudIntegrationInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
 func UnmarshalCloudIntegrationInterface(b []byte) (*CloudIntegrationInterface, error) {
 	var err error
 
@@ -5301,6 +5302,11 @@ func UnmarshalCloudIntegrationInterface(b []byte) (*CloudIntegrationInterface, e
 	err = json.Unmarshal(b, &rawMessageCloudIntegration)
 	if err != nil {
 		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageCloudIntegration) < 1 {
+		return nil, nil
 	}
 
 	var typeName string
@@ -6369,7 +6375,8 @@ type CloudProviderInterface interface {
 	ImplementsCloudProvider()
 }
 
-//yes
+// UnmarshalCloudProviderInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
 func UnmarshalCloudProviderInterface(b []byte) (*CloudProviderInterface, error) {
 	var err error
 
@@ -6377,6 +6384,11 @@ func UnmarshalCloudProviderInterface(b []byte) (*CloudProviderInterface, error) 
 	err = json.Unmarshal(b, &rawMessageCloudProvider)
 	if err != nil {
 		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageCloudProvider) < 1 {
+		return nil, nil
 	}
 
 	var typeName string

@@ -585,7 +585,8 @@ type APIAccessKeyInterface interface {
 	ImplementsAPIAccessKey()
 }
 
-//yes
+// UnmarshalAPIAccessKeyInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
 func UnmarshalAPIAccessKeyInterface(b []byte) (*APIAccessKeyInterface, error) {
 	var err error
 
@@ -593,6 +594,11 @@ func UnmarshalAPIAccessKeyInterface(b []byte) (*APIAccessKeyInterface, error) {
 	err = json.Unmarshal(b, &rawMessageAPIAccessKey)
 	if err != nil {
 		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageAPIAccessKey) < 1 {
+		return nil, nil
 	}
 
 	var typeName string
@@ -642,7 +648,8 @@ type APIAccessKeyErrorInterface interface {
 	GetError() error
 }
 
-//yes
+// UnmarshalAPIAccessKeyErrorInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
 func UnmarshalAPIAccessKeyErrorInterface(b []byte) (*APIAccessKeyErrorInterface, error) {
 	var err error
 
@@ -650,6 +657,11 @@ func UnmarshalAPIAccessKeyErrorInterface(b []byte) (*APIAccessKeyErrorInterface,
 	err = json.Unmarshal(b, &rawMessageAPIAccessKeyError)
 	if err != nil {
 		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageAPIAccessKeyError) < 1 {
+		return nil, nil
 	}
 
 	var typeName string

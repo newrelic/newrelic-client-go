@@ -6191,7 +6191,8 @@ type AlertableEntityInterface interface {
 	ImplementsAlertableEntity()
 }
 
-//yes
+// UnmarshalAlertableEntityInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
 func UnmarshalAlertableEntityInterface(b []byte) (*AlertableEntityInterface, error) {
 	var err error
 
@@ -6199,6 +6200,11 @@ func UnmarshalAlertableEntityInterface(b []byte) (*AlertableEntityInterface, err
 	err = json.Unmarshal(b, &rawMessageAlertableEntity)
 	if err != nil {
 		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageAlertableEntity) < 1 {
+		return nil, nil
 	}
 
 	var typeName string
@@ -6317,7 +6323,8 @@ type AlertableEntityOutlineInterface interface {
 	ImplementsAlertableEntityOutline()
 }
 
-//yes
+// UnmarshalAlertableEntityOutlineInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
 func UnmarshalAlertableEntityOutlineInterface(b []byte) (*AlertableEntityOutlineInterface, error) {
 	var err error
 
@@ -6325,6 +6332,11 @@ func UnmarshalAlertableEntityOutlineInterface(b []byte) (*AlertableEntityOutline
 	err = json.Unmarshal(b, &rawMessageAlertableEntityOutline)
 	if err != nil {
 		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageAlertableEntityOutline) < 1 {
+		return nil, nil
 	}
 
 	var typeName string
@@ -6443,7 +6455,8 @@ type ApmBrowserApplicationEntityInterface interface {
 	ImplementsApmBrowserApplicationEntity()
 }
 
-//yes
+// UnmarshalApmBrowserApplicationEntityInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
 func UnmarshalApmBrowserApplicationEntityInterface(b []byte) (*ApmBrowserApplicationEntityInterface, error) {
 	var err error
 
@@ -6451,6 +6464,11 @@ func UnmarshalApmBrowserApplicationEntityInterface(b []byte) (*ApmBrowserApplica
 	err = json.Unmarshal(b, &rawMessageApmBrowserApplicationEntity)
 	if err != nil {
 		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageApmBrowserApplicationEntity) < 1 {
+		return nil, nil
 	}
 
 	var typeName string
@@ -6489,7 +6507,8 @@ type ApmBrowserApplicationEntityOutlineInterface interface {
 	ImplementsApmBrowserApplicationEntityOutline()
 }
 
-//yes
+// UnmarshalApmBrowserApplicationEntityOutlineInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
 func UnmarshalApmBrowserApplicationEntityOutlineInterface(b []byte) (*ApmBrowserApplicationEntityOutlineInterface, error) {
 	var err error
 
@@ -6497,6 +6516,11 @@ func UnmarshalApmBrowserApplicationEntityOutlineInterface(b []byte) (*ApmBrowser
 	err = json.Unmarshal(b, &rawMessageApmBrowserApplicationEntityOutline)
 	if err != nil {
 		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageApmBrowserApplicationEntityOutline) < 1 {
+		return nil, nil
 	}
 
 	var typeName string
@@ -6535,7 +6559,8 @@ type CollectionEntityInterface interface {
 	ImplementsCollectionEntity()
 }
 
-//yes
+// UnmarshalCollectionEntityInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
 func UnmarshalCollectionEntityInterface(b []byte) (*CollectionEntityInterface, error) {
 	var err error
 
@@ -6543,6 +6568,11 @@ func UnmarshalCollectionEntityInterface(b []byte) (*CollectionEntityInterface, e
 	err = json.Unmarshal(b, &rawMessageCollectionEntity)
 	if err != nil {
 		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageCollectionEntity) < 1 {
+		return nil, nil
 	}
 
 	var typeName string
@@ -6588,7 +6618,8 @@ type EntityInterface interface {
 	GetType() string
 }
 
-//yes
+// UnmarshalEntityInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
 func UnmarshalEntityInterface(b []byte) (*EntityInterface, error) {
 	var err error
 
@@ -6596,6 +6627,11 @@ func UnmarshalEntityInterface(b []byte) (*EntityInterface, error) {
 	err = json.Unmarshal(b, &rawMessageEntity)
 	if err != nil {
 		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageEntity) < 1 {
+		return nil, nil
 	}
 
 	var typeName string
@@ -6781,7 +6817,8 @@ type EntityOutlineInterface interface {
 	GetType() string
 }
 
-//yes
+// UnmarshalEntityOutlineInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
 func UnmarshalEntityOutlineInterface(b []byte) (*EntityOutlineInterface, error) {
 	var err error
 
@@ -6789,6 +6826,11 @@ func UnmarshalEntityOutlineInterface(b []byte) (*EntityOutlineInterface, error) 
 	err = json.Unmarshal(b, &rawMessageEntityOutline)
 	if err != nil {
 		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageEntityOutline) < 1 {
+		return nil, nil
 	}
 
 	var typeName string
@@ -6967,7 +7009,8 @@ type InfrastructureIntegrationEntityInterface interface {
 	ImplementsInfrastructureIntegrationEntity()
 }
 
-//yes
+// UnmarshalInfrastructureIntegrationEntityInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
 func UnmarshalInfrastructureIntegrationEntityInterface(b []byte) (*InfrastructureIntegrationEntityInterface, error) {
 	var err error
 
@@ -6975,6 +7018,11 @@ func UnmarshalInfrastructureIntegrationEntityInterface(b []byte) (*Infrastructur
 	err = json.Unmarshal(b, &rawMessageInfrastructureIntegrationEntity)
 	if err != nil {
 		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageInfrastructureIntegrationEntity) < 1 {
+		return nil, nil
 	}
 
 	var typeName string
@@ -7023,7 +7071,8 @@ type InfrastructureIntegrationEntityOutlineInterface interface {
 	ImplementsInfrastructureIntegrationEntityOutline()
 }
 
-//yes
+// UnmarshalInfrastructureIntegrationEntityOutlineInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
 func UnmarshalInfrastructureIntegrationEntityOutlineInterface(b []byte) (*InfrastructureIntegrationEntityOutlineInterface, error) {
 	var err error
 
@@ -7031,6 +7080,11 @@ func UnmarshalInfrastructureIntegrationEntityOutlineInterface(b []byte) (*Infras
 	err = json.Unmarshal(b, &rawMessageInfrastructureIntegrationEntityOutline)
 	if err != nil {
 		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageInfrastructureIntegrationEntityOutline) < 1 {
+		return nil, nil
 	}
 
 	var typeName string

@@ -590,6 +590,58 @@ packages:
         skip_type_create: true
 
 
+  - name: nrqldroprules
+    path: pkg/nrqldroprules
+    import_path: github.com/newrelic/newrelic-client-go/pkg/nrqldroprules
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/pkg/nrdb
+      - github.com/newrelic/newrelic-client-go/pkg/nrtime
+    queries:
+      - path: ["actor", "account", "nrqlDropRules"]
+        endpoints:
+          - name: "list"
+            max_query_field_depth: 2
+    mutations:
+      - name: nrqlDropRulesCreate
+        max_query_field_depth: 1
+      - name: nrqlDropRulesDelete
+        max_query_field_depth: 1
+    types:
+      - name: NRQLDropRulesAccountStitchedFields
+      - name: NrqlDropRulesAction
+      - name: NrqlDropRulesCreateDropRuleFailure
+      - name: NrqlDropRulesCreateDropRuleInput
+      - name: NrqlDropRulesCreateDropRuleResult
+      - name: NrqlDropRulesCreateDropRuleSubmission
+      - name: NrqlDropRulesDeleteDropRuleFailure
+      - name: NrqlDropRulesDeleteDropRuleResult
+      - name: NrqlDropRulesDeleteDropRuleSubmission
+      - name: NrqlDropRulesDropRule
+      - name: NrqlDropRulesDropRule
+      - name: NrqlDropRulesError
+      - name: NrqlDropRulesErrorReason
+      - name: NrqlDropRulesListDropRulesResult
+      # All of the IDs are created as ints, yet this unused type is being created.
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+
+
+      #
+      # Types that we should auto-detect are in another package someday
+      #
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
+      # TODO: This doesn't appear to be working for THIS package, but does for others
+      - name: NRQL
+        field_type_override: nrdb.NRQL
+        skip_type_create: true
+
+
   - name: nrtime
     path: pkg/nrtime
     import_path: github.com/newrelic/newrelic-client-go/pkg/nrtime

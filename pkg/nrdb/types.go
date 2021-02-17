@@ -341,7 +341,8 @@ type SuggestedNRQLQueryInterface interface {
 	ImplementsSuggestedNRQLQuery()
 }
 
-//yes
+// UnmarshalSuggestedNRQLQueryInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
 func UnmarshalSuggestedNRQLQueryInterface(b []byte) (*SuggestedNRQLQueryInterface, error) {
 	var err error
 
@@ -349,6 +350,11 @@ func UnmarshalSuggestedNRQLQueryInterface(b []byte) (*SuggestedNRQLQueryInterfac
 	err = json.Unmarshal(b, &rawMessageSuggestedNRQLQuery)
 	if err != nil {
 		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageSuggestedNRQLQuery) < 1 {
+		return nil, nil
 	}
 
 	var typeName string

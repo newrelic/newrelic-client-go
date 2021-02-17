@@ -149,7 +149,8 @@ type {{ $interfaceType.Name }}Interface interface{
   {{- end }}
 }
 
-//yes
+// Unmarshal{{ $interfaceType.Name }}Interface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
 func Unmarshal{{ $interfaceType.Name }}Interface(b []byte) (*{{ $interfaceType.Name }}Interface, error) {
   var err error
 
@@ -157,6 +158,11 @@ func Unmarshal{{ $interfaceType.Name }}Interface(b []byte) (*{{ $interfaceType.N
   err = json.Unmarshal(b, &rawMessage{{ $interfaceType.Name }})
   if err != nil {
     return nil, err
+  }
+
+  // Nothing to unmarshal
+  if len(rawMessage{{ $interfaceType.Name }}) < 1 {
+    return nil, nil
   }
 
   var typeName string
