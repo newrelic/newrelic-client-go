@@ -78,6 +78,8 @@ func TestIntegrationDashboard_Basic(t *testing.T) {
 	require.Equal(t, 1, len(dash.Pages[0].Widgets))
 
 	assert.Equal(t, dashboardInput.Pages[0].Widgets[0].Title, dash.Pages[0].Widgets[0].Title)
+	assert.Equal(t, dashboardInput.Pages[0].Widgets[0].Configuration.Markdown.Text, dash.Pages[0].Widgets[0].Configuration.Markdown.Text)
+	assert.Greater(t, len(dash.Pages[0].Widgets[0].RawConfiguration), 1)
 
 	// Test: DashboardUpdate
 	updatedDashboard := DashboardInput{
