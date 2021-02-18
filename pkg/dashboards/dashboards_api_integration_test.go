@@ -25,8 +25,9 @@ func TestIntegrationDashboard_Nil(t *testing.T) {
 
 	// Test: GetDashboardEntity
 	dash, err := client.GetDashboardEntity(`bad-guid`)
-	require.NoError(t, err)
-	require.Nil(t, dash)
+	require.NotNil(t, err)
+	assert.EqualError(t, err, `entity not found. GUID: 'bad-guid'`)
+	assert.Nil(t, dash)
 }
 
 func TestIntegrationDashboard_Basic(t *testing.T) {

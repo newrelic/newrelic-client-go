@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/newrelic/newrelic-client-go/pkg/entities"
+	"github.com/newrelic/newrelic-client-go/pkg/errors"
 )
 
 // ListDashboardsParams represents a set of filters to be
@@ -56,11 +57,11 @@ func (d *Dashboards) GetDashboardEntity(gUID entities.EntityGUID) (*entities.Das
 		return nil, err
 	}
 
-	if resp.Actor.Entity != nil {
-		return resp.Actor.Entity.(*entities.DashboardEntity), nil
+	if resp.Actor.Entity == nil {
+		return nil, errors.NewNotFound("entity not found. GUID: '" + string(gUID) + "'")
 	}
 
-	return nil, nil
+	return resp.Actor.Entity.(*entities.DashboardEntity), nil
 }
 
 // getDashboardEntityQuery is not auto-generated as tutone does not currently support
