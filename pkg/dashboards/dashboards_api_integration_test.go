@@ -18,6 +18,17 @@ func newIntegrationTestClient(t *testing.T) Dashboards {
 	return New(tc)
 }
 
+func TestIntegrationDashboard_Nil(t *testing.T) {
+	t.Parallel()
+
+	client := newIntegrationTestClient(t)
+
+	// Test: GetDashboardEntity
+	dash, err := client.GetDashboardEntity(`bad-guid`)
+	require.NoError(t, err)
+	require.Nil(t, dash)
+}
+
 func TestIntegrationDashboard_Basic(t *testing.T) {
 	t.Parallel()
 

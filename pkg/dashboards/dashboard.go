@@ -44,8 +44,6 @@ func (d *Dashboards) ListDashboards(params *ListDashboardsParams) ([]*Dashboard,
 }
 
 // GetDashboardEntity is used to retrieve a single New Relic One Dashboard
-//
-// This is pre-release, so best to avoid until the feature is GA.
 func (d *Dashboards) GetDashboardEntity(gUID entities.EntityGUID) (*entities.DashboardEntity, error) {
 	resp := struct {
 		Actor entities.Actor `json:"actor"`
@@ -58,8 +56,11 @@ func (d *Dashboards) GetDashboardEntity(gUID entities.EntityGUID) (*entities.Das
 		return nil, err
 	}
 
-	dashboard := resp.Actor.Entity.(*entities.DashboardEntity)
-	return dashboard, nil
+	if resp.Actor.Entity != nil {
+		return resp.Actor.Entity.(*entities.DashboardEntity), nil
+	}
+
+	return nil, nil
 }
 
 // getDashboardEntityQuery is not auto-generated as tutone does not currently support
@@ -122,6 +123,7 @@ const getDashboardEntityQuery = `query ($guid: EntityGuid!) {
 }`
 
 // GetDashboard is used to retrieve a single New Relic dashboard.
+// Deprecated: Use GetDashboardEntity instead
 func (d *Dashboards) GetDashboard(dashboardID int) (*Dashboard, error) {
 	response := dashboardResponse{}
 	url := fmt.Sprintf("/dashboards/%d.json", dashboardID)
@@ -136,6 +138,7 @@ func (d *Dashboards) GetDashboard(dashboardID int) (*Dashboard, error) {
 }
 
 // CreateDashboard is used to create a New Relic dashboard.
+// Deprecated: Use DashboardCreate instead
 func (d *Dashboards) CreateDashboard(dashboard Dashboard) (*Dashboard, error) {
 	response := dashboardResponse{}
 	reqBody := dashboardRequest{
@@ -151,6 +154,7 @@ func (d *Dashboards) CreateDashboard(dashboard Dashboard) (*Dashboard, error) {
 }
 
 // UpdateDashboard is used to update a New Relic dashboard.
+// Deprecated: Use DashboardUpdate instead
 func (d *Dashboards) UpdateDashboard(dashboard Dashboard) (*Dashboard, error) {
 	response := dashboardResponse{}
 	url := fmt.Sprintf("/dashboards/%d.json", dashboard.ID)
@@ -168,6 +172,7 @@ func (d *Dashboards) UpdateDashboard(dashboard Dashboard) (*Dashboard, error) {
 }
 
 // DeleteDashboard is used to delete a New Relic dashboard.
+// Deprecated: Use DashboardDelete instead
 func (d *Dashboards) DeleteDashboard(dashboardID int) (*Dashboard, error) {
 	response := dashboardResponse{}
 	url := fmt.Sprintf("/dashboards/%d.json", dashboardID)
