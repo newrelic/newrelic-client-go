@@ -1,3 +1,8 @@
+<a name="v0.58.2"></a>
+## [v0.58.2] - 2021-02-18
+### Bug Fixes
+- **dashboards:** Prevent nil dereference on GetDashboardEntity
+
 <a name="v0.58.1"></a>
 ## [v0.58.1] - 2021-02-17
 ### Bug Fixes
@@ -997,7 +1002,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.58.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.58.2...HEAD
+[v0.58.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.58.1...v0.58.2
 [v0.58.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.58.0...v0.58.1
 [v0.58.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.57.2...v0.58.0
 [v0.57.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.57.1...v0.57.2
