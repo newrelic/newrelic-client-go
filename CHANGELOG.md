@@ -1,3 +1,13 @@
+<a name="v0.58.1"></a>
+## [v0.58.1] - 2021-02-17
+### Bug Fixes
+- **dashboards:** Return rawConfiguration on get, needed for all viz types
+- **nrqldroprules:** Actually return Nrqldroprules client
+- **region_constants:** corrected insightsBaseURL for EU
+
+### Features
+- **alerts:** adding id to alertsMutingRulesQuery
+
 <a name="v0.58.0"></a>
 ## [v0.58.0] - 2021-02-12
 ### Bug Fixes
@@ -987,7 +997,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.58.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.58.1...HEAD
+[v0.58.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.58.0...v0.58.1
 [v0.58.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.57.2...v0.58.0
 [v0.57.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.57.1...v0.57.2
 [v0.57.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.57.0...v0.57.1
