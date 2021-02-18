@@ -85,6 +85,7 @@ const getDashboardEntityQuery = `query ($guid: EntityGuid!) {
           owner { email userId }
           updatedAt
           widgets {
+            rawConfiguration
             configuration {
               area { nrqlQueries { accountId query } }
               bar { nrqlQueries { accountId query } }
