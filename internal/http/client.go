@@ -61,9 +61,7 @@ func NewClient(cfg config.Config) Client {
 	}
 
 	if cfg.HTTPTransport != nil {
-		if transport, ok := (cfg.HTTPTransport).(*http.Transport); ok {
-			c.Transport = transport
-		}
+		c.Transport = cfg.HTTPTransport
 	} else {
 		c.Transport = http.DefaultTransport
 	}
