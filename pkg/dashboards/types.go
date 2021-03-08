@@ -7,7 +7,7 @@ import (
 	"github.com/newrelic/newrelic-client-go/pkg/nrtime"
 )
 
-// DashboardCreateErrorType - List of expected error types that can be thrown by a dashboard create operation
+// DashboardCreateErrorType - Expected error types that can be returned by create operation
 type DashboardCreateErrorType string
 
 var DashboardCreateErrorTypeTypes = struct {
@@ -18,7 +18,7 @@ var DashboardCreateErrorTypeTypes = struct {
 	INVALID_INPUT: "INVALID_INPUT",
 }
 
-// DashboardDeleteErrorType - Expected error type that can be thrown by a Dashboard delete operation
+// DashboardDeleteErrorType - Expected error types that can be returned by delete operation
 type DashboardDeleteErrorType string
 
 var DashboardDeleteErrorTypeTypes = struct {
@@ -33,7 +33,7 @@ var DashboardDeleteErrorTypeTypes = struct {
 	FORBIDDEN_OPERATION: "FORBIDDEN_OPERATION",
 }
 
-// DashboardDeleteResultStatus - Result status from a Dashboard delete operation.
+// DashboardDeleteResultStatus - Result status of delete operation.
 type DashboardDeleteResultStatus string
 
 var DashboardDeleteResultStatusTypes = struct {
@@ -48,7 +48,7 @@ var DashboardDeleteResultStatusTypes = struct {
 	SUCCESS: "SUCCESS",
 }
 
-// DashboardUpdateErrorType - List of expected error types that can be thrown by a dashboard update operation
+// DashboardUpdateErrorType - Expected error types that can be returned by update operation
 type DashboardUpdateErrorType string
 
 var DashboardUpdateErrorTypeTypes = struct {
@@ -91,7 +91,7 @@ type DashboardBillboardWidgetThresholdInput struct {
 	Value float64 `json:"value,omitempty"`
 }
 
-// DashboardCreateError - Error information to add as first citizen in create operations
+// DashboardCreateError - Expected errors that can be returned by create operation
 type DashboardCreateError struct {
 	// Error description
 	Description string `json:"description,omitempty"`
@@ -99,7 +99,7 @@ type DashboardCreateError struct {
 	Type DashboardCreateErrorType `json:"type"`
 }
 
-// DashboardCreateResult - Create mutation results
+// DashboardCreateResult - Result of create operation.
 type DashboardCreateResult struct {
 	// Dashboard creation result
 	EntityResult DashboardEntityResult `json:"entityResult,omitempty"`
@@ -107,7 +107,7 @@ type DashboardCreateResult struct {
 	Errors []DashboardCreateError `json:"errors,omitempty"`
 }
 
-// DashboardDeleteError - Expected error that can be thrown by a Dashboard delete operation
+// DashboardDeleteError - Expected error types that can be returned by delete operation
 type DashboardDeleteError struct {
 	// Error description
 	Description string `json:"description,omitempty"`
@@ -115,7 +115,7 @@ type DashboardDeleteError struct {
 	Type DashboardDeleteErrorType `json:"type"`
 }
 
-// DashboardDeleteResult - Result from a Dashboard delete operation.
+// DashboardDeleteResult - Result of delete operation.
 type DashboardDeleteResult struct {
 	// Expected errors while processing request
 	Errors []DashboardDeleteError `json:"errors,omitempty"`
@@ -193,7 +193,7 @@ type DashboardTableWidgetConfigurationInput struct {
 	NRQLQueries []DashboardWidgetNRQLQueryInput `json:"nrqlQueries,omitempty"`
 }
 
-// DashboardUpdateError - Error information to add as first citizen in update operations
+// DashboardUpdateError - Expected errors that can be returned by update operation
 type DashboardUpdateError struct {
 	// Error description
 	Description string `json:"description,omitempty"`
@@ -201,7 +201,7 @@ type DashboardUpdateError struct {
 	Type DashboardUpdateErrorType `json:"type"`
 }
 
-// DashboardUpdateResult - Update mutation results
+// DashboardUpdateResult - Result of update operation.
 type DashboardUpdateResult struct {
 	// Dashboard update result
 	EntityResult DashboardEntityResult `json:"entityResult,omitempty"`
@@ -227,11 +227,11 @@ type DashboardWidgetConfigurationInput struct {
 	Table *DashboardTableWidgetConfigurationInput `json:"table,omitempty"`
 }
 
-// DashboardWidgetInput - Widget Input
+// DashboardWidgetInput - Widget input
 type DashboardWidgetInput struct {
 	// Typed configuration for the widget
 	Configuration DashboardWidgetConfigurationInput `json:"configuration,omitempty"`
-	// id.
+	// Id of the widget. If null, a new widget will be created and added to a dashboard.
 	ID string `json:"id,omitempty"`
 	// layout
 	Layout DashboardWidgetLayoutInput `json:"layout,omitempty"`
@@ -265,7 +265,7 @@ type DashboardWidgetNRQLQueryInput struct {
 	Query nrdb.NRQL `json:"query"`
 }
 
-// DashboardWidgetVisualizationInput - visualization configuration
+// DashboardWidgetVisualizationInput - Visualization configuration
 type DashboardWidgetVisualizationInput struct {
 	// Nerdpack artifact ID
 	ID string `json:"id,omitempty"`

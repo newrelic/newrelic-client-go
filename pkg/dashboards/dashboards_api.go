@@ -118,6 +118,34 @@ const DashboardCreateMutation = `mutation(
 					accountId
 					domain
 					entityType
+					goldenMetrics {
+						context {
+							account
+							guid
+						}
+						metrics {
+							definition {
+								eventId
+								eventObjectId
+								facet
+								from
+								select
+								where
+							}
+							name
+							query
+							title
+						}
+					}
+					goldenTags {
+						context {
+							account
+							guid
+						}
+						tags {
+							key
+						}
+					}
 					guid
 					indexedAt
 					name
@@ -156,6 +184,34 @@ const DashboardCreateMutation = `mutation(
 							webThroughput
 						}
 						applicationId
+						goldenMetrics {
+							context {
+								account
+								guid
+							}
+							metrics {
+								definition {
+									eventId
+									eventObjectId
+									facet
+									from
+									select
+									where
+								}
+								name
+								query
+								title
+							}
+						}
+						goldenTags {
+							context {
+								account
+								guid
+							}
+							tags {
+								key
+							}
+						}
 						language
 						runningAgentVersions {
 							maxVersion
@@ -177,6 +233,34 @@ const DashboardCreateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
+						goldenMetrics {
+							context {
+								account
+								guid
+							}
+							metrics {
+								definition {
+									eventId
+									eventObjectId
+									facet
+									from
+									select
+									where
+								}
+								name
+								query
+								title
+							}
+						}
+						goldenTags {
+							context {
+								account
+								guid
+							}
+							tags {
+								key
+							}
+						}
 						host
 						portOrPath
 						tags {
@@ -195,6 +279,34 @@ const DashboardCreateMutation = `mutation(
 						externalSummary {
 							responseTimeAverage
 							throughput
+						}
+						goldenMetrics {
+							context {
+								account
+								guid
+							}
+							metrics {
+								definition {
+									eventId
+									eventObjectId
+									facet
+									from
+									select
+									where
+								}
+								name
+								query
+								title
+							}
+						}
+						goldenTags {
+							context {
+								account
+								guid
+							}
+							tags {
+								key
+							}
 						}
 						host
 						tags {
@@ -222,6 +334,34 @@ const DashboardCreateMutation = `mutation(
 							spaResponseTimeAverage
 							spaResponseTimeMedian
 						}
+						goldenMetrics {
+							context {
+								account
+								guid
+							}
+							metrics {
+								definition {
+									eventId
+									eventObjectId
+									facet
+									from
+									select
+									where
+								}
+								name
+								query
+								title
+							}
+						}
+						goldenTags {
+							context {
+								account
+								guid
+							}
+							tags {
+								key
+							}
+						}
 						runningAgentVersions {
 							maxVersion
 							minVersion
@@ -243,6 +383,39 @@ const DashboardCreateMutation = `mutation(
 							reportingEventTypes
 						}
 						dashboardParentGuid
+						goldenMetrics {
+							context {
+								account
+								guid
+							}
+							metrics {
+								definition {
+									eventId
+									eventObjectId
+									facet
+									from
+									select
+									where
+								}
+								name
+								query
+								title
+							}
+						}
+						goldenTags {
+							context {
+								account
+								guid
+							}
+							tags {
+								key
+							}
+						}
+						owner {
+							email
+							userId
+						}
+						permissions
 						tags {
 							key
 							values
@@ -254,6 +427,34 @@ const DashboardCreateMutation = `mutation(
 							id
 							name
 							reportingEventTypes
+						}
+						goldenMetrics {
+							context {
+								account
+								guid
+							}
+							metrics {
+								definition {
+									eventId
+									eventObjectId
+									facet
+									from
+									select
+									where
+								}
+								name
+								query
+								title
+							}
+						}
+						goldenTags {
+							context {
+								account
+								guid
+							}
+							tags {
+								key
+							}
 						}
 						tags {
 							key
@@ -268,6 +469,34 @@ const DashboardCreateMutation = `mutation(
 							reportingEventTypes
 						}
 						alertSeverity
+						goldenMetrics {
+							context {
+								account
+								guid
+							}
+							metrics {
+								definition {
+									eventId
+									eventObjectId
+									facet
+									from
+									select
+									where
+								}
+								name
+								query
+								title
+							}
+						}
+						goldenTags {
+							context {
+								account
+								guid
+							}
+							tags {
+								key
+							}
+						}
 						integrationTypeCode
 						tags {
 							key
@@ -282,6 +511,34 @@ const DashboardCreateMutation = `mutation(
 							reportingEventTypes
 						}
 						alertSeverity
+						goldenMetrics {
+							context {
+								account
+								guid
+							}
+							metrics {
+								definition {
+									eventId
+									eventObjectId
+									facet
+									from
+									select
+									where
+								}
+								name
+								query
+								title
+							}
+						}
+						goldenTags {
+							context {
+								account
+								guid
+							}
+							tags {
+								key
+							}
+						}
 						integrationTypeCode
 						runtime
 						tags {
@@ -297,6 +554,34 @@ const DashboardCreateMutation = `mutation(
 							reportingEventTypes
 						}
 						alertSeverity
+						goldenMetrics {
+							context {
+								account
+								guid
+							}
+							metrics {
+								definition {
+									eventId
+									eventObjectId
+									facet
+									from
+									select
+									where
+								}
+								name
+								query
+								title
+							}
+						}
+						goldenTags {
+							context {
+								account
+								guid
+							}
+							tags {
+								key
+							}
+						}
 						hostSummary {
 							cpuUtilizationPercent
 							diskUsedPercent
@@ -319,6 +604,34 @@ const DashboardCreateMutation = `mutation(
 						}
 						alertSeverity
 						applicationId
+						goldenMetrics {
+							context {
+								account
+								guid
+							}
+							metrics {
+								definition {
+									eventId
+									eventObjectId
+									facet
+									from
+									select
+									where
+								}
+								name
+								query
+								title
+							}
+						}
+						goldenTags {
+							context {
+								account
+								guid
+							}
+							tags {
+								key
+							}
+						}
 						mobileSummary {
 							appLaunchCount
 							crashCount
@@ -344,6 +657,34 @@ const DashboardCreateMutation = `mutation(
 							reportingEventTypes
 						}
 						description
+						goldenMetrics {
+							context {
+								account
+								guid
+							}
+							metrics {
+								definition {
+									eventId
+									eventObjectId
+									facet
+									from
+									select
+									where
+								}
+								name
+								query
+								title
+							}
+						}
+						goldenTags {
+							context {
+								account
+								guid
+							}
+							tags {
+								key
+							}
+						}
 						secureCredentialId
 						secureCredentialSummary {
 							failingMonitorCount
@@ -363,6 +704,34 @@ const DashboardCreateMutation = `mutation(
 							reportingEventTypes
 						}
 						alertSeverity
+						goldenMetrics {
+							context {
+								account
+								guid
+							}
+							metrics {
+								definition {
+									eventId
+									eventObjectId
+									facet
+									from
+									select
+									where
+								}
+								name
+								query
+								title
+							}
+						}
+						goldenTags {
+							context {
+								account
+								guid
+							}
+							tags {
+								key
+							}
+						}
 						monitorId
 						monitorSummary {
 							locationsFailing
@@ -386,6 +755,34 @@ const DashboardCreateMutation = `mutation(
 							reportingEventTypes
 						}
 						alertSeverity
+						goldenMetrics {
+							context {
+								account
+								guid
+							}
+							metrics {
+								definition {
+									eventId
+									eventObjectId
+									facet
+									from
+									select
+									where
+								}
+								name
+								query
+								title
+							}
+						}
+						goldenTags {
+							context {
+								account
+								guid
+							}
+							tags {
+								key
+							}
+						}
 						tags {
 							key
 							values
@@ -397,6 +794,34 @@ const DashboardCreateMutation = `mutation(
 							id
 							name
 							reportingEventTypes
+						}
+						goldenMetrics {
+							context {
+								account
+								guid
+							}
+							metrics {
+								definition {
+									eventId
+									eventObjectId
+									facet
+									from
+									select
+									where
+								}
+								name
+								query
+								title
+							}
+						}
+						goldenTags {
+							context {
+								account
+								guid
+							}
+							tags {
+								key
+							}
 						}
 						tags {
 							key
@@ -417,6 +842,34 @@ const DashboardCreateMutation = `mutation(
 							gravatar
 							id
 							name
+						}
+						goldenMetrics {
+							context {
+								account
+								guid
+							}
+							metrics {
+								definition {
+									eventId
+									eventObjectId
+									facet
+									from
+									select
+									where
+								}
+								name
+								query
+								title
+							}
+						}
+						goldenTags {
+							context {
+								account
+								guid
+							}
+							tags {
+								key
+							}
 						}
 						tags {
 							key
@@ -480,7 +933,7 @@ const DashboardDeleteMutation = `mutation(
 	status
 } }`
 
-// ) Update an existing `DashboardEntity`
+// Update an existing `DashboardEntity`
 func (a *Dashboards) DashboardUpdate(
 	dashboard DashboardInput,
 	gUID entities.EntityGUID,
@@ -593,6 +1046,34 @@ const DashboardUpdateMutation = `mutation(
 					accountId
 					domain
 					entityType
+					goldenMetrics {
+						context {
+							account
+							guid
+						}
+						metrics {
+							definition {
+								eventId
+								eventObjectId
+								facet
+								from
+								select
+								where
+							}
+							name
+							query
+							title
+						}
+					}
+					goldenTags {
+						context {
+							account
+							guid
+						}
+						tags {
+							key
+						}
+					}
 					guid
 					indexedAt
 					name
@@ -631,6 +1112,34 @@ const DashboardUpdateMutation = `mutation(
 							webThroughput
 						}
 						applicationId
+						goldenMetrics {
+							context {
+								account
+								guid
+							}
+							metrics {
+								definition {
+									eventId
+									eventObjectId
+									facet
+									from
+									select
+									where
+								}
+								name
+								query
+								title
+							}
+						}
+						goldenTags {
+							context {
+								account
+								guid
+							}
+							tags {
+								key
+							}
+						}
 						language
 						runningAgentVersions {
 							maxVersion
@@ -652,6 +1161,34 @@ const DashboardUpdateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
+						goldenMetrics {
+							context {
+								account
+								guid
+							}
+							metrics {
+								definition {
+									eventId
+									eventObjectId
+									facet
+									from
+									select
+									where
+								}
+								name
+								query
+								title
+							}
+						}
+						goldenTags {
+							context {
+								account
+								guid
+							}
+							tags {
+								key
+							}
+						}
 						host
 						portOrPath
 						tags {
@@ -670,6 +1207,34 @@ const DashboardUpdateMutation = `mutation(
 						externalSummary {
 							responseTimeAverage
 							throughput
+						}
+						goldenMetrics {
+							context {
+								account
+								guid
+							}
+							metrics {
+								definition {
+									eventId
+									eventObjectId
+									facet
+									from
+									select
+									where
+								}
+								name
+								query
+								title
+							}
+						}
+						goldenTags {
+							context {
+								account
+								guid
+							}
+							tags {
+								key
+							}
 						}
 						host
 						tags {
@@ -697,6 +1262,34 @@ const DashboardUpdateMutation = `mutation(
 							spaResponseTimeAverage
 							spaResponseTimeMedian
 						}
+						goldenMetrics {
+							context {
+								account
+								guid
+							}
+							metrics {
+								definition {
+									eventId
+									eventObjectId
+									facet
+									from
+									select
+									where
+								}
+								name
+								query
+								title
+							}
+						}
+						goldenTags {
+							context {
+								account
+								guid
+							}
+							tags {
+								key
+							}
+						}
 						runningAgentVersions {
 							maxVersion
 							minVersion
@@ -718,6 +1311,39 @@ const DashboardUpdateMutation = `mutation(
 							reportingEventTypes
 						}
 						dashboardParentGuid
+						goldenMetrics {
+							context {
+								account
+								guid
+							}
+							metrics {
+								definition {
+									eventId
+									eventObjectId
+									facet
+									from
+									select
+									where
+								}
+								name
+								query
+								title
+							}
+						}
+						goldenTags {
+							context {
+								account
+								guid
+							}
+							tags {
+								key
+							}
+						}
+						owner {
+							email
+							userId
+						}
+						permissions
 						tags {
 							key
 							values
@@ -729,6 +1355,34 @@ const DashboardUpdateMutation = `mutation(
 							id
 							name
 							reportingEventTypes
+						}
+						goldenMetrics {
+							context {
+								account
+								guid
+							}
+							metrics {
+								definition {
+									eventId
+									eventObjectId
+									facet
+									from
+									select
+									where
+								}
+								name
+								query
+								title
+							}
+						}
+						goldenTags {
+							context {
+								account
+								guid
+							}
+							tags {
+								key
+							}
 						}
 						tags {
 							key
@@ -743,6 +1397,34 @@ const DashboardUpdateMutation = `mutation(
 							reportingEventTypes
 						}
 						alertSeverity
+						goldenMetrics {
+							context {
+								account
+								guid
+							}
+							metrics {
+								definition {
+									eventId
+									eventObjectId
+									facet
+									from
+									select
+									where
+								}
+								name
+								query
+								title
+							}
+						}
+						goldenTags {
+							context {
+								account
+								guid
+							}
+							tags {
+								key
+							}
+						}
 						integrationTypeCode
 						tags {
 							key
@@ -757,6 +1439,34 @@ const DashboardUpdateMutation = `mutation(
 							reportingEventTypes
 						}
 						alertSeverity
+						goldenMetrics {
+							context {
+								account
+								guid
+							}
+							metrics {
+								definition {
+									eventId
+									eventObjectId
+									facet
+									from
+									select
+									where
+								}
+								name
+								query
+								title
+							}
+						}
+						goldenTags {
+							context {
+								account
+								guid
+							}
+							tags {
+								key
+							}
+						}
 						integrationTypeCode
 						runtime
 						tags {
@@ -772,6 +1482,34 @@ const DashboardUpdateMutation = `mutation(
 							reportingEventTypes
 						}
 						alertSeverity
+						goldenMetrics {
+							context {
+								account
+								guid
+							}
+							metrics {
+								definition {
+									eventId
+									eventObjectId
+									facet
+									from
+									select
+									where
+								}
+								name
+								query
+								title
+							}
+						}
+						goldenTags {
+							context {
+								account
+								guid
+							}
+							tags {
+								key
+							}
+						}
 						hostSummary {
 							cpuUtilizationPercent
 							diskUsedPercent
@@ -794,6 +1532,34 @@ const DashboardUpdateMutation = `mutation(
 						}
 						alertSeverity
 						applicationId
+						goldenMetrics {
+							context {
+								account
+								guid
+							}
+							metrics {
+								definition {
+									eventId
+									eventObjectId
+									facet
+									from
+									select
+									where
+								}
+								name
+								query
+								title
+							}
+						}
+						goldenTags {
+							context {
+								account
+								guid
+							}
+							tags {
+								key
+							}
+						}
 						mobileSummary {
 							appLaunchCount
 							crashCount
@@ -819,6 +1585,34 @@ const DashboardUpdateMutation = `mutation(
 							reportingEventTypes
 						}
 						description
+						goldenMetrics {
+							context {
+								account
+								guid
+							}
+							metrics {
+								definition {
+									eventId
+									eventObjectId
+									facet
+									from
+									select
+									where
+								}
+								name
+								query
+								title
+							}
+						}
+						goldenTags {
+							context {
+								account
+								guid
+							}
+							tags {
+								key
+							}
+						}
 						secureCredentialId
 						secureCredentialSummary {
 							failingMonitorCount
@@ -838,6 +1632,34 @@ const DashboardUpdateMutation = `mutation(
 							reportingEventTypes
 						}
 						alertSeverity
+						goldenMetrics {
+							context {
+								account
+								guid
+							}
+							metrics {
+								definition {
+									eventId
+									eventObjectId
+									facet
+									from
+									select
+									where
+								}
+								name
+								query
+								title
+							}
+						}
+						goldenTags {
+							context {
+								account
+								guid
+							}
+							tags {
+								key
+							}
+						}
 						monitorId
 						monitorSummary {
 							locationsFailing
@@ -861,6 +1683,34 @@ const DashboardUpdateMutation = `mutation(
 							reportingEventTypes
 						}
 						alertSeverity
+						goldenMetrics {
+							context {
+								account
+								guid
+							}
+							metrics {
+								definition {
+									eventId
+									eventObjectId
+									facet
+									from
+									select
+									where
+								}
+								name
+								query
+								title
+							}
+						}
+						goldenTags {
+							context {
+								account
+								guid
+							}
+							tags {
+								key
+							}
+						}
 						tags {
 							key
 							values
@@ -872,6 +1722,34 @@ const DashboardUpdateMutation = `mutation(
 							id
 							name
 							reportingEventTypes
+						}
+						goldenMetrics {
+							context {
+								account
+								guid
+							}
+							metrics {
+								definition {
+									eventId
+									eventObjectId
+									facet
+									from
+									select
+									where
+								}
+								name
+								query
+								title
+							}
+						}
+						goldenTags {
+							context {
+								account
+								guid
+							}
+							tags {
+								key
+							}
 						}
 						tags {
 							key
@@ -892,6 +1770,34 @@ const DashboardUpdateMutation = `mutation(
 							gravatar
 							id
 							name
+						}
+						goldenMetrics {
+							context {
+								account
+								guid
+							}
+							metrics {
+								definition {
+									eventId
+									eventObjectId
+									facet
+									from
+									select
+									where
+								}
+								name
+								query
+								title
+							}
+						}
+						goldenTags {
+							context {
+								account
+								guid
+							}
+							tags {
+								key
+							}
 						}
 						tags {
 							key
