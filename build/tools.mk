@@ -16,6 +16,7 @@ GOTOOLS ?= $(shell cd $(TOOL_DIR) && go list -f '{{ .Imports }}' -tags tools |tr
 
 tools: check-version
 	@echo "=== $(PROJECT_NAME) === [ tools            ]: Installing tools required by the project..."
+	@cd $(TOOL_DIR) && $(VENDOR_CMD)
 	@cd $(TOOL_DIR) && $(GO) install $(GOTOOLS)
 	@cd $(TOOL_DIR) && $(VENDOR_CMD)
 
