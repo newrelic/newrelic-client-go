@@ -49,6 +49,25 @@ var DashboardAlertSeverityTypes = struct {
 	WARNING: "WARNING",
 }
 
+// DashboardEntityPermissions - Permission that represent visibility & editability
+type DashboardEntityPermissions string
+
+var DashboardEntityPermissionsTypes = struct {
+	// Private
+	PRIVATE DashboardEntityPermissions
+	// Public read only
+	PUBLIC_READ_ONLY DashboardEntityPermissions
+	// Public read & write
+	PUBLIC_READ_WRITE DashboardEntityPermissions
+}{
+	// Private
+	PRIVATE: "PRIVATE",
+	// Public read only
+	PUBLIC_READ_ONLY: "PUBLIC_READ_ONLY",
+	// Public read & write
+	PUBLIC_READ_WRITE: "PUBLIC_READ_WRITE",
+}
+
 // DashboardPermissions - Permission that represent visibility & editability
 type DashboardPermissions string
 
@@ -104,6 +123,25 @@ var EntityCollectionTypeTypes = struct {
 	WORKLOAD: "WORKLOAD",
 	// Collections that define the entity groups that are used to calculate the status of a workload
 	WORKLOAD_STATUS_RULE_GROUP: "WORKLOAD_STATUS_RULE_GROUP",
+}
+
+// EntityGoldenEventObjectId - Types of references for the default WHERE clause.
+type EntityGoldenEventObjectId string
+
+var EntityGoldenEventObjectIdTypes = struct {
+	// The WHERE clause will be done against a domainId.
+	DOMAIN_IDS EntityGoldenEventObjectId
+	// The WHERE clause will be done against a GUID.
+	ENTITY_GUIDS EntityGoldenEventObjectId
+	// The WHERE clause will be done against the name of the entity.
+	ENTITY_NAMES EntityGoldenEventObjectId
+}{
+	// The WHERE clause will be done against a domainId.
+	DOMAIN_IDS: "DOMAIN_IDS",
+	// The WHERE clause will be done against a GUID.
+	ENTITY_GUIDS: "ENTITY_GUIDS",
+	// The WHERE clause will be done against the name of the entity.
+	ENTITY_NAMES: "ENTITY_NAMES",
 }
 
 // EntityInfrastructureIntegrationType - The type of Infrastructure Integration
@@ -1111,11 +1149,13 @@ var SyntheticMonitorTypeTypes = struct {
 	SCRIPT_API     SyntheticMonitorType
 	SCRIPT_BROWSER SyntheticMonitorType
 	SIMPLE         SyntheticMonitorType
+	STEP_MONITOR   SyntheticMonitorType
 }{
 	BROWSER:        "BROWSER",
 	SCRIPT_API:     "SCRIPT_API",
 	SCRIPT_BROWSER: "SCRIPT_BROWSER",
 	SIMPLE:         "SIMPLE",
+	STEP_MONITOR:   "STEP_MONITOR",
 }
 
 // TaggingMutationErrorType - The different types of errors the API can return.
@@ -1313,6 +1353,10 @@ type ApmApplicationEntity struct {
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The programming language of the APM Application.
@@ -1410,6 +1454,16 @@ func (x ApmApplicationEntity) GetGUID() EntityGUID {
 	return x.GUID
 }
 
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from ApmApplicationEntity
+func (x ApmApplicationEntity) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from ApmApplicationEntity
+func (x ApmApplicationEntity) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
+}
+
 // GetIndexedAt returns a pointer to the value of IndexedAt from ApmApplicationEntity
 func (x ApmApplicationEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
@@ -1490,9 +1544,9 @@ func (x ApmApplicationEntity) GetType() string {
 	return x.Type
 }
 
-func (x *ApmApplicationEntity) ImplementsApmBrowserApplicationEntity() {}
-
 func (x *ApmApplicationEntity) ImplementsAlertableEntity() {}
+
+func (x *ApmApplicationEntity) ImplementsApmBrowserApplicationEntity() {}
 
 func (x *ApmApplicationEntity) ImplementsEntity() {}
 
@@ -1516,6 +1570,10 @@ type ApmApplicationEntityOutline struct {
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The programming language of the APM Application.
@@ -1583,6 +1641,16 @@ func (x ApmApplicationEntityOutline) GetGUID() EntityGUID {
 	return x.GUID
 }
 
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
+}
+
 // GetIndexedAt returns a pointer to the value of IndexedAt from ApmApplicationEntityOutline
 func (x ApmApplicationEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
@@ -1628,9 +1696,9 @@ func (x ApmApplicationEntityOutline) GetType() string {
 	return x.Type
 }
 
-func (x *ApmApplicationEntityOutline) ImplementsApmBrowserApplicationEntityOutline() {}
-
 func (x *ApmApplicationEntityOutline) ImplementsAlertableEntityOutline() {}
+
+func (x *ApmApplicationEntityOutline) ImplementsApmBrowserApplicationEntityOutline() {}
 
 func (x *ApmApplicationEntityOutline) ImplementsEntityOutline() {}
 
@@ -1727,6 +1795,10 @@ type ApmDatabaseInstanceEntity struct {
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
 	// The host the database instance is running on.
 	Host string `json:"host,omitempty"`
 	// The time the entity was indexed.
@@ -1786,6 +1858,16 @@ func (x ApmDatabaseInstanceEntity) GetEntityType() EntityType {
 // GetGUID returns a pointer to the value of GUID from ApmDatabaseInstanceEntity
 func (x ApmDatabaseInstanceEntity) GetGUID() EntityGUID {
 	return x.GUID
+}
+
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
 }
 
 // GetHost returns a pointer to the value of Host from ApmDatabaseInstanceEntity
@@ -1867,6 +1949,10 @@ type ApmDatabaseInstanceEntityOutline struct {
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
 	// The host the database instance is running on.
 	Host string `json:"host,omitempty"`
 	// The time the entity was indexed.
@@ -1912,6 +1998,16 @@ func (x ApmDatabaseInstanceEntityOutline) GetEntityType() EntityType {
 // GetGUID returns a pointer to the value of GUID from ApmDatabaseInstanceEntityOutline
 func (x ApmDatabaseInstanceEntityOutline) GetGUID() EntityGUID {
 	return x.GUID
+}
+
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
 }
 
 // GetHost returns a pointer to the value of Host from ApmDatabaseInstanceEntityOutline
@@ -1975,6 +2071,10 @@ type ApmExternalServiceEntity struct {
 	ExternalSummary ApmExternalServiceSummaryData `json:"externalSummary,omitempty"`
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
 	// The host of the external service.
 	Host string `json:"host,omitempty"`
 	// The time the entity was indexed.
@@ -2035,6 +2135,16 @@ func (x ApmExternalServiceEntity) GetExternalSummary() ApmExternalServiceSummary
 // GetGUID returns a pointer to the value of GUID from ApmExternalServiceEntity
 func (x ApmExternalServiceEntity) GetGUID() EntityGUID {
 	return x.GUID
+}
+
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
 }
 
 // GetHost returns a pointer to the value of Host from ApmExternalServiceEntity
@@ -2108,6 +2218,10 @@ type ApmExternalServiceEntityOutline struct {
 	ExternalSummary ApmExternalServiceSummaryData `json:"externalSummary,omitempty"`
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
 	// The host of the external service.
 	Host string `json:"host,omitempty"`
 	// The time the entity was indexed.
@@ -2154,6 +2268,16 @@ func (x ApmExternalServiceEntityOutline) GetExternalSummary() ApmExternalService
 // GetGUID returns a pointer to the value of GUID from ApmExternalServiceEntityOutline
 func (x ApmExternalServiceEntityOutline) GetGUID() EntityGUID {
 	return x.GUID
+}
+
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
 }
 
 // GetHost returns a pointer to the value of Host from ApmExternalServiceEntityOutline
@@ -2223,6 +2347,10 @@ type BrowserApplicationEntity struct {
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
@@ -2309,6 +2437,16 @@ func (x BrowserApplicationEntity) GetEntityType() EntityType {
 // GetGUID returns a pointer to the value of GUID from BrowserApplicationEntity
 func (x BrowserApplicationEntity) GetGUID() EntityGUID {
 	return x.GUID
+}
+
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from BrowserApplicationEntity
@@ -2405,6 +2543,10 @@ type BrowserApplicationEntityOutline struct {
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
@@ -2470,6 +2612,16 @@ func (x BrowserApplicationEntityOutline) GetEntityType() EntityType {
 // GetGUID returns a pointer to the value of GUID from BrowserApplicationEntityOutline
 func (x BrowserApplicationEntityOutline) GetGUID() EntityGUID {
 	return x.GUID
+}
+
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from BrowserApplicationEntityOutline
@@ -2622,6 +2774,10 @@ type DashboardEntity struct {
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
@@ -2698,6 +2854,16 @@ func (x DashboardEntity) GetEntityType() EntityType {
 // GetGUID returns a pointer to the value of GUID from DashboardEntity
 func (x DashboardEntity) GetGUID() EntityGUID {
 	return x.GUID
+}
+
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from DashboardEntity
+func (x DashboardEntity) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from DashboardEntity
+func (x DashboardEntity) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from DashboardEntity
@@ -2786,12 +2952,20 @@ type DashboardEntityOutline struct {
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
+	// The owner information of the dashboard.
+	Owner DashboardEntityOwnerInfo `json:"owner,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
+	// The permissions of the dashboard.
+	Permissions DashboardEntityPermissions `json:"permissions,omitempty"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The tags applied to the entity.
@@ -2832,6 +3006,16 @@ func (x DashboardEntityOutline) GetGUID() EntityGUID {
 	return x.GUID
 }
 
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from DashboardEntityOutline
+func (x DashboardEntityOutline) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from DashboardEntityOutline
+func (x DashboardEntityOutline) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
+}
+
 // GetIndexedAt returns a pointer to the value of IndexedAt from DashboardEntityOutline
 func (x DashboardEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
@@ -2842,9 +3026,19 @@ func (x DashboardEntityOutline) GetName() string {
 	return x.Name
 }
 
+// GetOwner returns a pointer to the value of Owner from DashboardEntityOutline
+func (x DashboardEntityOutline) GetOwner() DashboardEntityOwnerInfo {
+	return x.Owner
+}
+
 // GetPermalink returns a pointer to the value of Permalink from DashboardEntityOutline
 func (x DashboardEntityOutline) GetPermalink() string {
 	return x.Permalink
+}
+
+// GetPermissions returns a pointer to the value of Permissions from DashboardEntityOutline
+func (x DashboardEntityOutline) GetPermissions() DashboardEntityPermissions {
+	return x.Permissions
 }
 
 // GetReporting returns a pointer to the value of Reporting from DashboardEntityOutline
@@ -2863,6 +3057,14 @@ func (x DashboardEntityOutline) GetType() string {
 }
 
 func (x *DashboardEntityOutline) ImplementsEntityOutline() {}
+
+// DashboardEntityOwnerInfo - Dashboard owner
+type DashboardEntityOwnerInfo struct {
+	// The email of the dashboard owner
+	Email string `json:"email,omitempty"`
+	// The user ID of the dashboard owner
+	UserID int `json:"userId,omitempty"`
+}
 
 // DashboardLineWidgetConfiguration - Configuration for visualization type 'viz.line'
 type DashboardLineWidgetConfiguration struct {
@@ -3060,6 +3262,10 @@ type Entity struct {
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
@@ -3148,6 +3354,80 @@ type EntityCollectionScopeAccounts struct {
 	AccountIDs []int `json:"accountIds,omitempty"`
 }
 
+// EntityGoldenContext - An object that represent the context.
+type EntityGoldenContext struct {
+	// Account context.
+	Account int `json:"account,omitempty"`
+	// Collection guid context.
+	GUID EntityGUID `json:"guid,omitempty"`
+}
+
+// EntityGoldenContextInput - Input type used to define the context for the golden metrics.
+type EntityGoldenContextInput struct {
+	// Account context.
+	Account int `json:"account,omitempty"`
+	// Collection guid context.
+	GUID EntityGUID `json:"guid,omitempty"`
+}
+
+// EntityGoldenContextScopedGoldenMetrics - An object that represents the golden metrics scoped by context
+type EntityGoldenContextScopedGoldenMetrics struct {
+	// Context for the golden metric
+	Context EntityGoldenContext `json:"context"`
+	// Metrics for the domain and type
+	Metrics []EntityGoldenMetric `json:"metrics"`
+}
+
+// EntityGoldenContextScopedGoldenTags - An object that represents the golden tags scoped by context
+type EntityGoldenContextScopedGoldenTags struct {
+	// Context for the golden tags
+	Context EntityGoldenContext `json:"context"`
+	// Tags for the domain and type
+	Tags []EntityGoldenTag `json:"tags"`
+}
+
+// EntityGoldenMetric - An object that represents a golden metric.
+type EntityGoldenMetric struct {
+	// The definition of the golden metric.
+	Definition EntityGoldenMetricDefinition `json:"definition"`
+	// The name of the golden metric.
+	Name string `json:"name"`
+	// The golden metric NRQL query.
+	Query string `json:"query"`
+	// The title of the golden metric.
+	Title string `json:"title"`
+}
+
+// EntityGoldenMetricDefinition - The definition of the metric.
+type EntityGoldenMetricDefinition struct {
+	// The field used to filter the entity in the metric. This will be added to the WHERE by default.
+	EventId string `json:"eventId"`
+	// Indicates if the eventId field references a GUID, a domainId or an entity name.
+	EventObjectId EntityGoldenEventObjectId `json:"eventObjectId"`
+	// The field to FACET by.
+	Facet string `json:"facet"`
+	// The FROM clause of the query.
+	From string `json:"from"`
+	// The SELECT clause of the query.
+	Select string `json:"select"`
+	// If a complementary WHERE clause is required to identify the entity type this field will contain it.
+	Where string `json:"where,omitempty"`
+}
+
+// EntityGoldenNRQLTimeWindowInput - Time range to apply to the golden metric NRQL query
+type EntityGoldenNRQLTimeWindowInput struct {
+	// Start time.
+	Since nrdb.NRQL `json:"since,omitempty"`
+	// End time.
+	Until nrdb.NRQL `json:"until,omitempty"`
+}
+
+// EntityGoldenTag - An object that represents a golden tag.
+type EntityGoldenTag struct {
+	// The golden tag key.
+	Key string `json:"key"`
+}
+
 // EntityOutline - The `EntityOutline` interface object allows fetching basic entity data for many entities at a time.
 //
 // To understand more about entities and entity types, look at [our docs](https://docs.newrelic.com/docs/what-are-new-relic-entities).
@@ -3162,6 +3442,10 @@ type EntityOutline struct {
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
@@ -3426,6 +3710,10 @@ type GenericEntity struct {
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
@@ -3479,6 +3767,16 @@ func (x GenericEntity) GetEntityType() EntityType {
 // GetGUID returns a pointer to the value of GUID from GenericEntity
 func (x GenericEntity) GetGUID() EntityGUID {
 	return x.GUID
+}
+
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from GenericEntity
+func (x GenericEntity) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from GenericEntity
+func (x GenericEntity) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from GenericEntity
@@ -3545,6 +3843,10 @@ type GenericEntityOutline struct {
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
@@ -3584,6 +3886,16 @@ func (x GenericEntityOutline) GetEntityType() EntityType {
 // GetGUID returns a pointer to the value of GUID from GenericEntityOutline
 func (x GenericEntityOutline) GetGUID() EntityGUID {
 	return x.GUID
+}
+
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from GenericEntityOutline
+func (x GenericEntityOutline) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from GenericEntityOutline
+func (x GenericEntityOutline) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from GenericEntityOutline
@@ -3634,6 +3946,10 @@ type GenericInfrastructureEntity struct {
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	//
@@ -3703,6 +4019,16 @@ func (x GenericInfrastructureEntity) GetGUID() EntityGUID {
 	return x.GUID
 }
 
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
+}
+
 // GetIndexedAt returns a pointer to the value of IndexedAt from GenericInfrastructureEntity
 func (x GenericInfrastructureEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
@@ -3763,11 +4089,11 @@ func (x GenericInfrastructureEntity) GetType() string {
 	return x.Type
 }
 
-func (x *GenericInfrastructureEntity) ImplementsInfrastructureIntegrationEntity() {}
-
 func (x *GenericInfrastructureEntity) ImplementsAlertableEntity() {}
 
 func (x *GenericInfrastructureEntity) ImplementsEntity() {}
+
+func (x *GenericInfrastructureEntity) ImplementsInfrastructureIntegrationEntity() {}
 
 // GenericInfrastructureEntityOutline - An Infrastructure entity outline.
 type GenericInfrastructureEntityOutline struct {
@@ -3783,6 +4109,10 @@ type GenericInfrastructureEntityOutline struct {
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	//
@@ -3831,6 +4161,16 @@ func (x GenericInfrastructureEntityOutline) GetGUID() EntityGUID {
 	return x.GUID
 }
 
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
+}
+
 // GetIndexedAt returns a pointer to the value of IndexedAt from GenericInfrastructureEntityOutline
 func (x GenericInfrastructureEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
@@ -3866,11 +4206,11 @@ func (x GenericInfrastructureEntityOutline) GetType() string {
 	return x.Type
 }
 
-func (x *GenericInfrastructureEntityOutline) ImplementsInfrastructureIntegrationEntityOutline() {}
-
 func (x *GenericInfrastructureEntityOutline) ImplementsAlertableEntityOutline() {}
 
 func (x *GenericInfrastructureEntityOutline) ImplementsEntityOutline() {}
+
+func (x *GenericInfrastructureEntityOutline) ImplementsInfrastructureIntegrationEntityOutline() {}
 
 // InfrastructureAwsLambdaFunctionEntity - An AWS Lambda Function entity.
 type InfrastructureAwsLambdaFunctionEntity struct {
@@ -3888,6 +4228,10 @@ type InfrastructureAwsLambdaFunctionEntity struct {
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	//
@@ -3959,6 +4303,16 @@ func (x InfrastructureAwsLambdaFunctionEntity) GetGUID() EntityGUID {
 	return x.GUID
 }
 
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
+}
+
 // GetIndexedAt returns a pointer to the value of IndexedAt from InfrastructureAwsLambdaFunctionEntity
 func (x InfrastructureAwsLambdaFunctionEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
@@ -4024,11 +4378,11 @@ func (x InfrastructureAwsLambdaFunctionEntity) GetType() string {
 	return x.Type
 }
 
-func (x *InfrastructureAwsLambdaFunctionEntity) ImplementsInfrastructureIntegrationEntity() {}
-
 func (x *InfrastructureAwsLambdaFunctionEntity) ImplementsAlertableEntity() {}
 
 func (x *InfrastructureAwsLambdaFunctionEntity) ImplementsEntity() {}
+
+func (x *InfrastructureAwsLambdaFunctionEntity) ImplementsInfrastructureIntegrationEntity() {}
 
 // InfrastructureAwsLambdaFunctionEntityOutline - An AWS Lambda Function entity outline.
 type InfrastructureAwsLambdaFunctionEntityOutline struct {
@@ -4044,6 +4398,10 @@ type InfrastructureAwsLambdaFunctionEntityOutline struct {
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	//
@@ -4094,6 +4452,16 @@ func (x InfrastructureAwsLambdaFunctionEntityOutline) GetGUID() EntityGUID {
 	return x.GUID
 }
 
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
+}
+
 // GetIndexedAt returns a pointer to the value of IndexedAt from InfrastructureAwsLambdaFunctionEntityOutline
 func (x InfrastructureAwsLambdaFunctionEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
 	return x.IndexedAt
@@ -4134,12 +4502,12 @@ func (x InfrastructureAwsLambdaFunctionEntityOutline) GetType() string {
 	return x.Type
 }
 
-func (x *InfrastructureAwsLambdaFunctionEntityOutline) ImplementsInfrastructureIntegrationEntityOutline() {
-}
-
 func (x *InfrastructureAwsLambdaFunctionEntityOutline) ImplementsAlertableEntityOutline() {}
 
 func (x *InfrastructureAwsLambdaFunctionEntityOutline) ImplementsEntityOutline() {}
+
+func (x *InfrastructureAwsLambdaFunctionEntityOutline) ImplementsInfrastructureIntegrationEntityOutline() {
+}
 
 // InfrastructureHostEntity - An Infrastructure Host entity.
 type InfrastructureHostEntity struct {
@@ -4157,6 +4525,10 @@ type InfrastructureHostEntity struct {
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
 	//
 	HostSummary InfrastructureHostSummaryData `json:"hostSummary,omitempty"`
 	// The time the entity was indexed.
@@ -4224,6 +4596,16 @@ func (x InfrastructureHostEntity) GetEntityType() EntityType {
 // GetGUID returns a pointer to the value of GUID from InfrastructureHostEntity
 func (x InfrastructureHostEntity) GetGUID() EntityGUID {
 	return x.GUID
+}
+
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
 }
 
 // GetHostSummary returns a pointer to the value of HostSummary from InfrastructureHostEntity
@@ -4304,6 +4686,10 @@ type InfrastructureHostEntityOutline struct {
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
 	//
 	HostSummary InfrastructureHostSummaryData `json:"hostSummary,omitempty"`
 	// The time the entity was indexed.
@@ -4350,6 +4736,16 @@ func (x InfrastructureHostEntityOutline) GetEntityType() EntityType {
 // GetGUID returns a pointer to the value of GUID from InfrastructureHostEntityOutline
 func (x InfrastructureHostEntityOutline) GetGUID() EntityGUID {
 	return x.GUID
+}
+
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
 }
 
 // GetHostSummary returns a pointer to the value of HostSummary from InfrastructureHostEntityOutline
@@ -4497,6 +4893,10 @@ type MobileApplicationEntity struct {
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Summary statistics about the Mobile App.
@@ -4569,6 +4969,16 @@ func (x MobileApplicationEntity) GetEntityType() EntityType {
 // GetGUID returns a pointer to the value of GUID from MobileApplicationEntity
 func (x MobileApplicationEntity) GetGUID() EntityGUID {
 	return x.GUID
+}
+
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from MobileApplicationEntity
+func (x MobileApplicationEntity) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from MobileApplicationEntity
+func (x MobileApplicationEntity) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from MobileApplicationEntity
@@ -4651,6 +5061,10 @@ type MobileApplicationEntityOutline struct {
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Summary statistics about the Mobile App.
@@ -4702,6 +5116,16 @@ func (x MobileApplicationEntityOutline) GetEntityType() EntityType {
 // GetGUID returns a pointer to the value of GUID from MobileApplicationEntityOutline
 func (x MobileApplicationEntityOutline) GetGUID() EntityGUID {
 	return x.GUID
+}
+
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from MobileApplicationEntityOutline
@@ -4773,6 +5197,10 @@ type SecureCredentialEntity struct {
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
@@ -4837,6 +5265,16 @@ func (x SecureCredentialEntity) GetEntityType() EntityType {
 // GetGUID returns a pointer to the value of GUID from SecureCredentialEntity
 func (x SecureCredentialEntity) GetGUID() EntityGUID {
 	return x.GUID
+}
+
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from SecureCredentialEntity
+func (x SecureCredentialEntity) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from SecureCredentialEntity
+func (x SecureCredentialEntity) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from SecureCredentialEntity
@@ -4920,6 +5358,10 @@ type SecureCredentialEntityOutline struct {
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
@@ -4970,6 +5412,16 @@ func (x SecureCredentialEntityOutline) GetEntityType() EntityType {
 // GetGUID returns a pointer to the value of GUID from SecureCredentialEntityOutline
 func (x SecureCredentialEntityOutline) GetGUID() EntityGUID {
 	return x.GUID
+}
+
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from SecureCredentialEntityOutline
@@ -5045,6 +5497,10 @@ type SyntheticMonitorEntity struct {
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The Synthetic Monitor ID
@@ -5125,6 +5581,16 @@ func (x SyntheticMonitorEntity) GetEntityType() EntityType {
 // GetGUID returns a pointer to the value of GUID from SyntheticMonitorEntity
 func (x SyntheticMonitorEntity) GetGUID() EntityGUID {
 	return x.GUID
+}
+
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from SyntheticMonitorEntity
@@ -5225,6 +5691,10 @@ type SyntheticMonitorEntityOutline struct {
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The Synthetic Monitor ID
@@ -5279,6 +5749,16 @@ func (x SyntheticMonitorEntityOutline) GetEntityType() EntityType {
 // GetGUID returns a pointer to the value of GUID from SyntheticMonitorEntityOutline
 func (x SyntheticMonitorEntityOutline) GetGUID() EntityGUID {
 	return x.GUID
+}
+
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from SyntheticMonitorEntityOutline
@@ -5406,6 +5886,10 @@ type ThirdPartyServiceEntity struct {
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
@@ -5471,6 +5955,16 @@ func (x ThirdPartyServiceEntity) GetEntityType() EntityType {
 // GetGUID returns a pointer to the value of GUID from ThirdPartyServiceEntity
 func (x ThirdPartyServiceEntity) GetGUID() EntityGUID {
 	return x.GUID
+}
+
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from ThirdPartyServiceEntity
@@ -5546,6 +6040,10 @@ type ThirdPartyServiceEntityOutline struct {
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
@@ -5590,6 +6088,16 @@ func (x ThirdPartyServiceEntityOutline) GetEntityType() EntityType {
 // GetGUID returns a pointer to the value of GUID from ThirdPartyServiceEntityOutline
 func (x ThirdPartyServiceEntityOutline) GetGUID() EntityGUID {
 	return x.GUID
+}
+
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from ThirdPartyServiceEntityOutline
+func (x ThirdPartyServiceEntityOutline) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from ThirdPartyServiceEntityOutline
+func (x ThirdPartyServiceEntityOutline) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from ThirdPartyServiceEntityOutline
@@ -5646,6 +6154,10 @@ type UnavailableEntity struct {
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
@@ -5699,6 +6211,16 @@ func (x UnavailableEntity) GetEntityType() EntityType {
 // GetGUID returns a pointer to the value of GUID from UnavailableEntity
 func (x UnavailableEntity) GetGUID() EntityGUID {
 	return x.GUID
+}
+
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from UnavailableEntity
+func (x UnavailableEntity) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from UnavailableEntity
+func (x UnavailableEntity) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from UnavailableEntity
@@ -5765,6 +6287,10 @@ type UnavailableEntityOutline struct {
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
@@ -5804,6 +6330,16 @@ func (x UnavailableEntityOutline) GetEntityType() EntityType {
 // GetGUID returns a pointer to the value of GUID from UnavailableEntityOutline
 func (x UnavailableEntityOutline) GetGUID() EntityGUID {
 	return x.GUID
+}
+
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from UnavailableEntityOutline
+func (x UnavailableEntityOutline) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from UnavailableEntityOutline
+func (x UnavailableEntityOutline) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from UnavailableEntityOutline
@@ -5860,6 +6396,10 @@ type WorkloadEntity struct {
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
@@ -5944,6 +6484,16 @@ func (x WorkloadEntity) GetEntityType() EntityType {
 // GetGUID returns a pointer to the value of GUID from WorkloadEntity
 func (x WorkloadEntity) GetGUID() EntityGUID {
 	return x.GUID
+}
+
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from WorkloadEntity
+func (x WorkloadEntity) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from WorkloadEntity
+func (x WorkloadEntity) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from WorkloadEntity
@@ -6035,6 +6585,10 @@ type WorkloadEntityOutline struct {
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
@@ -6093,6 +6647,16 @@ func (x WorkloadEntityOutline) GetEntityType() EntityType {
 // GetGUID returns a pointer to the value of GUID from WorkloadEntityOutline
 func (x WorkloadEntityOutline) GetGUID() EntityGUID {
 	return x.GUID
+}
+
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
 }
 
 // GetIndexedAt returns a pointer to the value of IndexedAt from WorkloadEntityOutline
