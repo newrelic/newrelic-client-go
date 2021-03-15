@@ -4,7 +4,6 @@
 
 GO               ?= go
 GOFMT            ?= gofmt
-VENDOR_CMD       ?= ${GO} mod tidy
 GO_MOD_OUTDATED  ?= go-mod-outdated
 BUILD_DIR        ?= ./bin/
 
@@ -16,9 +15,9 @@ GOTOOLS ?= $(shell cd $(TOOL_DIR) && go list -f '{{ .Imports }}' -tags tools |tr
 
 tools: check-version
 	@echo "=== $(PROJECT_NAME) === [ tools            ]: Installing tools required by the project..."
-	@cd $(TOOL_DIR) && $(VENDOR_CMD)
+	@cd $(TOOL_DIR) && $(GO) mod download
 	@cd $(TOOL_DIR) && $(GO) install $(GOTOOLS)
-	@cd $(TOOL_DIR) && $(VENDOR_CMD)
+	@cd $(TOOL_DIR) && $(GO) mod tidy
 
 tools-outdated: check-version
 	@echo "=== $(PROJECT_NAME) === [ tools-outdated   ]: Finding outdated tool deps with $(GO_MOD_OUTDATED)..."
@@ -29,6 +28,6 @@ tools-update: check-version
 	@cd $(TOOL_DIR) && for x in $(GOTOOLS); do \
 		$(GO) get -u $$x; \
 	done
-	@cd $(TOOL_DIR) && $(VENDOR_CMD)
+	@cd $(TOOL_DIR) && $(GO) mod tidy
 
 .PHONY: tools tools-update tools-outdated
