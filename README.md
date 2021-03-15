@@ -64,7 +64,7 @@ Keep in mind that when you submit your pull request, you'll need to sign the CLA
 
 ### Requirements
 
-* Go 1.13.0+
+* Go 1.14.0+
 * GNU Make
 * git
 
