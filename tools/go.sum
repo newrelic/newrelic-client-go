@@ -42,8 +42,8 @@ cloud.google.com/go/storage v1.8.0/go.mod h1:Wv1Oy7z6Yz3DshWRJFhqM/UCfaWIRTdp0RX
 cloud.google.com/go/storage v1.10.0/go.mod h1:FLPqc6j+Ki4BU591ie1oL6qBQGu2Bl/tZ9ullr3+Kg0=
 cloud.google.com/go/storage v1.12.0 h1:4y3gHptW1EHVtcPAVE0eBBlFuGqEejTTG3KdIE0lUX4=
 cloud.google.com/go/storage v1.12.0/go.mod h1:fFLk2dp2oAhDz8QFKwqrjdJvxSp/W2g7nillojlL5Ho=
-code.gitea.io/sdk/gitea v0.13.2 h1:wAnT/J7Z62q3fJXbgnecoaOBh8CM1Qq0/DakWxiv4yA=
-code.gitea.io/sdk/gitea v0.13.2/go.mod h1:lee2y8LeV3kQb2iK+hHlMqoadL4bp27QOkOV/hawLKg=
+code.gitea.io/sdk/gitea v0.14.0 h1:m4J352I3p9+bmJUfS+g0odeQzBY/5OXP91Gv6D4fnJ0=
+code.gitea.io/sdk/gitea v0.14.0/go.mod h1:89WiyOX1KEcvjP66sRHdu0RafojGo60bT9UqW17VbWs=
 contrib.go.opencensus.io/exporter/aws v0.0.0-20200617204711-c478e41e60e9/go.mod h1:uu1P0UCM/6RbsMrgPa98ll8ZcHM858i/AD06a9aLRCA=
 contrib.go.opencensus.io/exporter/stackdriver v0.13.4/go.mod h1:aXENhDJ1Y4lIg4EUaVTwzvYETVNZk10Pu26tevFKLUc=
 contrib.go.opencensus.io/integrations/ocsql v0.1.7/go.mod h1:8DsSdjz3F+APR+0z0WkU1aRorQCFfRxvqjUUPMbF3fE=
@@ -168,6 +168,8 @@ github.com/bombsimon/wsl/v3 v3.2.0 h1:x3QUbwW7tPGcCNridvqmhSRthZMTALnkg5/1J+vaUa
 github.com/bombsimon/wsl/v3 v3.2.0/go.mod h1:st10JtZYLE4D5sC7b8xV4zTKZwAQjCH/Hy2Pm1FNZIc=
 github.com/caarlos0/ctrlc v1.0.0 h1:2DtF8GSIcajgffDFJzyG15vO+1PuBWOMUdFut7NnXhw=
 github.com/caarlos0/ctrlc v1.0.0/go.mod h1:CdXpj4rmq0q/1Eb44M9zi2nKB0QraNKuRGYGrrHhcQw=
+github.com/caarlos0/go-shellwords v1.0.12 h1:HWrUnu6lGbWfrDcFiHcZiwOLzHWjjrPVehULaTFgPp8=
+github.com/caarlos0/go-shellwords v1.0.12/go.mod h1:bYeeX1GrTLPl5cAMYEzdm272qdsQAZiaHgeF0KTk1Gw=
 github.com/caarlos0/testfs v0.4.3 h1:q1zEM5hgsssqWanAfevJYYa0So60DdK6wlJeTc/yfUE=
 github.com/caarlos0/testfs v0.4.3/go.mod h1:bRN55zgG4XCUVVHZCeU+/Tz1Q6AxEJOEJTliBy+1DMk=
 github.com/campoy/unique v0.0.0-20180121183637-88950e537e7e h1:V9a67dfYqPLAvzk5hMQOXYJlZ4SLIXgyKIE+ZiHzgGQ=
@@ -412,8 +414,8 @@ github.com/goreleaser/chglog v0.1.2 h1:tdzAb/ILeMnphzI9zQ7Nkq+T8R9qyXli8GydD8plF
 github.com/goreleaser/chglog v0.1.2/go.mod h1:tTZsFuSZK4epDXfjMkxzcGbrIOXprf0JFp47BjIr3B8=
 github.com/goreleaser/fileglob v1.2.0 h1:OErqbdzeg/eibfDGPHDQDN8jL5u1jNyxA5IQzNPLLoU=
 github.com/goreleaser/fileglob v1.2.0/go.mod h1:rFyb2pXaK3YdnYnSjn6lifw0h2Q6s8OfOsx6I6bXkKE=
-github.com/goreleaser/goreleaser v0.159.0 h1:GweZjp8TaRhO14d3sQkGWJqB/LCEF1lYtMTlW6CwFMY=
-github.com/goreleaser/goreleaser v0.159.0/go.mod h1:aK3Vr09RwhDZQUqCu4AC3amjy3648q+caVpzIA9TV/g=
+github.com/goreleaser/goreleaser v0.162.0 h1:u3Ba1DXY3qn1DUDr2If30irLWRg7RhkwFY3Y1XiZrzU=
+github.com/goreleaser/goreleaser v0.162.0/go.mod h1:DTL/1kkvS/UndbMMDIPLt9K601zZlM6rWKa18J9PFdg=
 github.com/goreleaser/nfpm/v2 v2.3.1 h1:WcG8g14PoOslqlxsZqu4Zse6P6c0G8gy8YvIjO561f8=
 github.com/goreleaser/nfpm/v2 v2.3.1/go.mod h1:jyT97Csl87+kXNr8xc1fDcRGcI/ulxQIz5MdqC2Vrro=
 github.com/gorilla/websocket v1.4.1/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
@@ -443,8 +445,7 @@ github.com/hashicorp/go-hclog v0.9.2/go.mod h1:5CU+agLiy3J7N7QjHK5d05KxGsuXiQLrj
 github.com/hashicorp/go-immutable-radix v1.0.0/go.mod h1:0y9vanUI8NX6FsYoO3zeMjhV/C5i9g4Q3DwcSNZ4P60=
 github.com/hashicorp/go-msgpack v0.5.3/go.mod h1:ahLV/dePpqEmjfWmKiqvPkv/twdG7iPBM1vqhUKIvfM=
 github.com/hashicorp/go-multierror v1.0.0/go.mod h1:dHtQlpGsu+cZNNAkkCN/P3hoUDHhCYQXV3UM06sGGrk=
-github.com/hashicorp/go-retryablehttp v0.6.4 h1:BbgctKO892xEyOXnGiaAwIoSq1QZ/SS4AhjoAh9DnfY=
-github.com/hashicorp/go-retryablehttp v0.6.4/go.mod h1:vAew36LZh98gCBJNLH42IQ1ER/9wtLZZ8meHqQvEYWY=
+github.com/hashicorp/go-retryablehttp v0.6.8/go.mod h1:vAew36LZh98gCBJNLH42IQ1ER/9wtLZZ8meHqQvEYWY=
 github.com/hashicorp/go-rootcerts v1.0.0/go.mod h1:K6zTfqpRlCUIjkwsN4Z+hiSfzSTQa6eBIzfwKfwNnHU=
 github.com/hashicorp/go-sockaddr v1.0.0/go.mod h1:7Xibr9yA9JjQq1JpNB2Vw7kxv8xerXegt+ozgdvDeDU=
 github.com/hashicorp/go-syslog v1.0.0/go.mod h1:qPfqrKkXGihmCqbJM2mZgkZGvKG1dFdvsLplgctolz4=
@@ -576,8 +577,6 @@ github.com/mattn/go-isatty v0.0.12/go.mod h1:cbi8OIDigv2wuxKPP5vlRcQ1OAZbq2CE4Ky
 github.com/mattn/go-runewidth v0.0.7/go.mod h1:H031xJmbD/WCDINGzjvQ9THkh0rPKHF+m2gUSrubnMI=
 github.com/mattn/go-runewidth v0.0.9 h1:Lm995f3rfxdpd6TSmuVCHVb/QhupuXlYr8sCI/QdE+0=
 github.com/mattn/go-runewidth v0.0.9/go.mod h1:H031xJmbD/WCDINGzjvQ9THkh0rPKHF+m2gUSrubnMI=
-github.com/mattn/go-shellwords v1.0.10 h1:Y7Xqm8piKOO3v10Thp7Z36h4FYFjt5xB//6XvOrs2Gw=
-github.com/mattn/go-shellwords v1.0.10/go.mod h1:EZzvwXDESEeg03EKmM+RmDnNOPKG4lLtQsUlTZDWQ8Y=
 github.com/mattn/go-sqlite3 v1.9.0/go.mod h1:FPy6KqzDD04eiIsT53CuJW3U88zkxoIYsOqkbpncsNc=
 github.com/mattn/goveralls v0.0.2/go.mod h1:8d1ZMHsd7fW6IRPKQh46F2WRpyib5/X4FOpevwGNQEw=
 github.com/matttproud/golang_protobuf_extensions v1.0.1/go.mod h1:D8He9yQNgCq6Z5Ld7szi9bcBfOoFv/3dc6xSMkL2PC0=
@@ -809,8 +808,8 @@ github.com/valyala/bytebufferpool v1.0.0/go.mod h1:6bBcMArwyJ5K/AmCkWv1jt77kVWyC
 github.com/valyala/fasthttp v1.16.0/go.mod h1:YOKImeEosDdBPnxc0gy7INqi3m1zK6A+xl6TwOBhHCA=
 github.com/valyala/quicktemplate v1.6.3/go.mod h1:fwPzK2fHuYEODzJ9pkw0ipCPNHZ2tD5KW4lOuSdPKzY=
 github.com/valyala/tcplisten v0.0.0-20161114210144-ceec8f93295a/go.mod h1:v3UYOV9WzVtRmSR+PDvWpU/qWl4Wa5LApYYX4ZtKbio=
-github.com/xanzy/go-gitlab v0.45.0 h1:sspml7xxIkT5BnbCn6Bc8YlMs5sx+cnjPmvmTJgci+o=
-github.com/xanzy/go-gitlab v0.45.0/go.mod h1:sPLojNBn68fMUWSxIJtdVVIP8uSBYqesTfDUseX11Ug=
+github.com/xanzy/go-gitlab v0.48.0 h1:RP9r4pMDIwE2fbtc+QYiC1euDsPGHcAjPkhje4X3QPU=
+github.com/xanzy/go-gitlab v0.48.0/go.mod h1:UW8JJbyBbqtOyBYNHRo261IRdHUFJr2m0y0z1xUiu+E=
 github.com/xanzy/ssh-agent v0.2.0/go.mod h1:0NyE30eGUDliuLEHJgYte/zncp2zdTStcOnWhgSqHD8=
 github.com/xanzy/ssh-agent v0.2.1/go.mod h1:mLlQY/MoOhWBj+gOGMQkOeiEvkx+8pJSI+0Bx9h2kr4=
 github.com/xanzy/ssh-agent v0.3.0 h1:wUMzuKtKilRgBAD1sUb8gOwwRr2FGoBVumcjoOACClI=
