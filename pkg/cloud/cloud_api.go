@@ -142,6 +142,11 @@ const CloudConfigureIntegrationMutation = `mutation(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudAwsMetadataIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudAwsMqIntegration {
 			__typename
 			awsRegions
@@ -175,6 +180,11 @@ const CloudConfigureIntegrationMutation = `mutation(
 		... on CloudAwsStatesIntegration {
 			__typename
 			awsRegions
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
+		... on CloudAwsTagsGlobalIntegration {
+			__typename
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
@@ -507,6 +517,16 @@ const CloudConfigureIntegrationMutation = `mutation(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudGcpBigtableIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
+		... on CloudGcpComposerIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudGcpDataflowIntegration {
 			__typename
 			inventoryPollingInterval
@@ -562,9 +582,19 @@ const CloudConfigureIntegrationMutation = `mutation(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudGcpMemcacheIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudGcpPubsubIntegration {
 			__typename
 			fetchTags
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
+		... on CloudGcpRedisIntegration {
+			__typename
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
@@ -854,6 +884,11 @@ const CloudDisableIntegrationMutation = `mutation(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudAwsMetadataIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudAwsMqIntegration {
 			__typename
 			awsRegions
@@ -887,6 +922,11 @@ const CloudDisableIntegrationMutation = `mutation(
 		... on CloudAwsStatesIntegration {
 			__typename
 			awsRegions
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
+		... on CloudAwsTagsGlobalIntegration {
+			__typename
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
@@ -1219,6 +1259,16 @@ const CloudDisableIntegrationMutation = `mutation(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudGcpBigtableIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
+		... on CloudGcpComposerIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudGcpDataflowIntegration {
 			__typename
 			inventoryPollingInterval
@@ -1274,9 +1324,19 @@ const CloudDisableIntegrationMutation = `mutation(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudGcpMemcacheIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudGcpPubsubIntegration {
 			__typename
 			fetchTags
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
+		... on CloudGcpRedisIntegration {
+			__typename
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
@@ -1487,6 +1547,7 @@ const CloudLinkAccountMutation = `mutation(
 		disabled
 		externalId
 		id
+		metricCollectionMode
 		name
 		nrAccountId
 		updatedAt
@@ -1539,6 +1600,7 @@ const CloudRenameAccountMutation = `mutation(
 		disabled
 		externalId
 		id
+		metricCollectionMode
 		name
 		nrAccountId
 		updatedAt
@@ -1592,6 +1654,7 @@ const CloudUnlinkAccountMutation = `mutation(
 		disabled
 		externalId
 		id
+		metricCollectionMode
 		name
 		nrAccountId
 		updatedAt
@@ -1639,6 +1702,7 @@ const getLinkedAccountsQuery = `query(
 			disabled
 			externalId
 			id
+			metricCollectionMode
 			name
 			nrAccountId
 			updatedAt
@@ -1747,6 +1811,11 @@ const getLinkedAccountsQuery = `query(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudAwsMetadataIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudAwsMqIntegration {
 			__typename
 			awsRegions
@@ -1780,6 +1849,11 @@ const getLinkedAccountsQuery = `query(
 		... on CloudAwsStatesIntegration {
 			__typename
 			awsRegions
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
+		... on CloudAwsTagsGlobalIntegration {
+			__typename
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
@@ -2112,6 +2186,16 @@ const getLinkedAccountsQuery = `query(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudGcpBigtableIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
+		... on CloudGcpComposerIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudGcpDataflowIntegration {
 			__typename
 			inventoryPollingInterval
@@ -2167,9 +2251,19 @@ const getLinkedAccountsQuery = `query(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudGcpMemcacheIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudGcpPubsubIntegration {
 			__typename
 			fetchTags
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
+		... on CloudGcpRedisIntegration {
+			__typename
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
@@ -2325,6 +2419,7 @@ const getLinkedAccountsQuery = `query(
 			tagValue
 		}
 	}
+	metricCollectionMode
 	name
 	nrAccountId
 	provider {
