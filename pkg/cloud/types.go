@@ -8,6 +8,21 @@ import (
 	"github.com/newrelic/newrelic-client-go/pkg/nrtime"
 )
 
+// CloudMetricCollectionMode - How metrics will be collected.
+type CloudMetricCollectionMode string
+
+var CloudMetricCollectionModeTypes = struct {
+	// Metrics will be pulled by NewRelic
+	PULL CloudMetricCollectionMode
+	// Metrics will be pushed by the provider
+	PUSH CloudMetricCollectionMode
+}{
+	// Metrics will be pulled by NewRelic
+	PULL: "PULL",
+	// Metrics will be pushed by the provider
+	PUSH: "PUSH",
+}
+
 // Actor - The `Actor` object contains fields that are scoped to the API user's access level.
 type Actor struct {
 	// The `cloud` field provides access to cloud integrations configuration data scoped to the Actor.
@@ -400,6 +415,8 @@ type CloudAwsDisableIntegrationsInput struct {
 	AwsMediaconvert []CloudDisableAccountIntegrationInput `json:"awsMediaconvert,omitempty"`
 	// MediaPackage VOD integration
 	AwsMediapackagevod []CloudDisableAccountIntegrationInput `json:"awsMediapackagevod,omitempty"`
+	// Fetch Metadata for AWS integrations integration
+	AwsMetadata []CloudDisableAccountIntegrationInput `json:"awsMetadata,omitempty"`
 	// MQ integration
 	AwsMq []CloudDisableAccountIntegrationInput `json:"awsMq,omitempty"`
 	// Managed Kafka integration
@@ -412,6 +429,8 @@ type CloudAwsDisableIntegrationsInput struct {
 	AwsRoute53resolver []CloudDisableAccountIntegrationInput `json:"awsRoute53resolver,omitempty"`
 	// Step Functions integration
 	AwsStates []CloudDisableAccountIntegrationInput `json:"awsStates,omitempty"`
+	// Fetch tags for all integrations integration
+	AwsTagsGlobal []CloudDisableAccountIntegrationInput `json:"awsTagsGlobal,omitempty"`
 	// Transit Gateway integration
 	AwsTransitgateway []CloudDisableAccountIntegrationInput `json:"awsTransitgateway,omitempty"`
 	// WAF integration
@@ -710,6 +729,8 @@ type CloudAwsGovcloudLinkAccountInput struct {
 	AccessKeyId string `json:"accessKeyId"`
 	// The AWS account id
 	AwsAccountId string `json:"awsAccountId"`
+	// How metrics will be collected.
+	MetricCollectionMode CloudMetricCollectionMode `json:"metricCollectionMode,omitempty"`
 	// The linked account name.
 	Name string `json:"name"`
 	// The secret key used to make requests to AWS service APIs
@@ -746,6 +767,8 @@ type CloudAwsIntegrationsInput struct {
 	AwsMediaconvert []CloudAwsMediaconvertIntegrationInput `json:"awsMediaconvert,omitempty"`
 	// MediaPackage VOD integration
 	AwsMediapackagevod []CloudAwsMediapackagevodIntegrationInput `json:"awsMediapackagevod,omitempty"`
+	// Fetch Metadata for AWS integrations integration
+	AwsMetadata []CloudAwsMetadataIntegrationInput `json:"awsMetadata,omitempty"`
 	// MQ integration
 	AwsMq []CloudAwsMqIntegrationInput `json:"awsMq,omitempty"`
 	// Managed Kafka integration
@@ -758,6 +781,8 @@ type CloudAwsIntegrationsInput struct {
 	AwsRoute53resolver []CloudAwsRoute53resolverIntegrationInput `json:"awsRoute53resolver,omitempty"`
 	// Step Functions integration
 	AwsStates []CloudAwsStatesIntegrationInput `json:"awsStates,omitempty"`
+	// Fetch tags for all integrations integration
+	AwsTagsGlobal []CloudAwsTagsGlobalIntegrationInput `json:"awsTagsGlobal,omitempty"`
 	// Transit Gateway integration
 	AwsTransitgateway []CloudAwsTransitgatewayIntegrationInput `json:"awsTransitgateway,omitempty"`
 	// WAF integration
@@ -866,6 +891,8 @@ type CloudAwsKinesisanalyticsIntegrationInput struct {
 type CloudAwsLinkAccountInput struct {
 	// The AWS role ARN (used to fetch data).
 	Arn string `json:"arn"`
+	// How metrics will be collected.
+	MetricCollectionMode CloudMetricCollectionMode `json:"metricCollectionMode,omitempty"`
 	// The linked account name.
 	Name string `json:"name"`
 }
@@ -938,6 +965,40 @@ func (x *CloudAwsMediapackagevodIntegration) ImplementsCloudIntegration() {}
 type CloudAwsMediapackagevodIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions,omitempty"`
+	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
+	// The linked account identifier.
+	LinkedAccountId int `json:"linkedAccountId"`
+	// The data polling interval in seconds.
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
+}
+
+// CloudAwsMetadataIntegration - Fetch Metadata for AWS integrations Integration
+type CloudAwsMetadataIntegration struct {
+	// The object creation date, in epoch (Unix) time
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
+	// The cloud service integration identifier.
+	ID int `json:"id,omitempty"`
+	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
+	// The parent linked account identifier.
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
+	// The data polling interval in seconds.
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
+	// The cloud service integration name.
+	Name string `json:"name,omitempty"`
+	// The parent NewRelic account identifier.
+	NrAccountId int `json:"nrAccountId"`
+	// The cloud service used in the integration.
+	Service CloudService `json:"service,omitempty"`
+	// The object last update date, in epoch (Unix) time
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
+}
+
+func (x *CloudAwsMetadataIntegration) ImplementsCloudIntegration() {}
+
+// CloudAwsMetadataIntegrationInput - Fetch Metadata for AWS integrations
+type CloudAwsMetadataIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
 	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
@@ -1192,6 +1253,40 @@ func (x *CloudAwsStatesIntegration) ImplementsCloudIntegration() {}
 type CloudAwsStatesIntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions,omitempty"`
+	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
+	// The linked account identifier.
+	LinkedAccountId int `json:"linkedAccountId"`
+	// The data polling interval in seconds.
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
+}
+
+// CloudAwsTagsGlobalIntegration - Fetch tags for all integrations Integration
+type CloudAwsTagsGlobalIntegration struct {
+	// The object creation date, in epoch (Unix) time
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
+	// The cloud service integration identifier.
+	ID int `json:"id,omitempty"`
+	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
+	// The parent linked account identifier.
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
+	// The data polling interval in seconds.
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
+	// The cloud service integration name.
+	Name string `json:"name,omitempty"`
+	// The parent NewRelic account identifier.
+	NrAccountId int `json:"nrAccountId"`
+	// The cloud service used in the integration.
+	Service CloudService `json:"service,omitempty"`
+	// The object last update date, in epoch (Unix) time
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
+}
+
+func (x *CloudAwsTagsGlobalIntegration) ImplementsCloudIntegration() {}
+
+// CloudAwsTagsGlobalIntegrationInput - Fetch tags for all integrations
+type CloudAwsTagsGlobalIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
 	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
@@ -3498,6 +3593,74 @@ type CloudGcpBigqueryIntegrationInput struct {
 	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
+// CloudGcpBigtableIntegration - Bigtable Integration
+type CloudGcpBigtableIntegration struct {
+	// The object creation date, in epoch (Unix) time
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
+	// The cloud service integration identifier.
+	ID int `json:"id,omitempty"`
+	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
+	// The parent linked account identifier.
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
+	// The data polling interval in seconds.
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
+	// The cloud service integration name.
+	Name string `json:"name,omitempty"`
+	// The parent NewRelic account identifier.
+	NrAccountId int `json:"nrAccountId"`
+	// The cloud service used in the integration.
+	Service CloudService `json:"service,omitempty"`
+	// The object last update date, in epoch (Unix) time
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
+}
+
+func (x *CloudGcpBigtableIntegration) ImplementsCloudIntegration() {}
+
+// CloudGcpBigtableIntegrationInput - Bigtable
+type CloudGcpBigtableIntegrationInput struct {
+	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
+	// The linked account identifier.
+	LinkedAccountId int `json:"linkedAccountId"`
+	// The data polling interval in seconds.
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
+}
+
+// CloudGcpComposerIntegration - Composer Integration
+type CloudGcpComposerIntegration struct {
+	// The object creation date, in epoch (Unix) time
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
+	// The cloud service integration identifier.
+	ID int `json:"id,omitempty"`
+	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
+	// The parent linked account identifier.
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
+	// The data polling interval in seconds.
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
+	// The cloud service integration name.
+	Name string `json:"name,omitempty"`
+	// The parent NewRelic account identifier.
+	NrAccountId int `json:"nrAccountId"`
+	// The cloud service used in the integration.
+	Service CloudService `json:"service,omitempty"`
+	// The object last update date, in epoch (Unix) time
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
+}
+
+func (x *CloudGcpComposerIntegration) ImplementsCloudIntegration() {}
+
+// CloudGcpComposerIntegrationInput - Composer
+type CloudGcpComposerIntegrationInput struct {
+	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
+	// The linked account identifier.
+	LinkedAccountId int `json:"linkedAccountId"`
+	// The data polling interval in seconds.
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
+}
+
 // CloudGcpDataflowIntegration - Dataflow Integration
 type CloudGcpDataflowIntegration struct {
 	// The object creation date, in epoch (Unix) time
@@ -3606,6 +3769,10 @@ type CloudGcpDisableIntegrationsInput struct {
 	GcpAppengine []CloudDisableAccountIntegrationInput `json:"gcpAppengine,omitempty"`
 	// BigQuery integration
 	GcpBigquery []CloudDisableAccountIntegrationInput `json:"gcpBigquery,omitempty"`
+	// Bigtable integration
+	GcpBigtable []CloudDisableAccountIntegrationInput `json:"gcpBigtable,omitempty"`
+	// Composer integration
+	GcpComposer []CloudDisableAccountIntegrationInput `json:"gcpComposer,omitempty"`
 	// Dataflow integration
 	GcpDataflow []CloudDisableAccountIntegrationInput `json:"gcpDataflow,omitempty"`
 	// Dataproc integration
@@ -3628,8 +3795,12 @@ type CloudGcpDisableIntegrationsInput struct {
 	GcpKubernetes []CloudDisableAccountIntegrationInput `json:"gcpKubernetes,omitempty"`
 	// Cloud Load Balancing integration
 	GcpLoadbalancing []CloudDisableAccountIntegrationInput `json:"gcpLoadbalancing,omitempty"`
+	// Memcache integration
+	GcpMemcache []CloudDisableAccountIntegrationInput `json:"gcpMemcache,omitempty"`
 	// Cloud Pub/Sub integration
 	GcpPubsub []CloudDisableAccountIntegrationInput `json:"gcpPubsub,omitempty"`
+	// Redis integration
+	GcpRedis []CloudDisableAccountIntegrationInput `json:"gcpRedis,omitempty"`
 	// Router integration
 	GcpRouter []CloudDisableAccountIntegrationInput `json:"gcpRouter,omitempty"`
 	// Run integration
@@ -3822,6 +3993,10 @@ type CloudGcpIntegrationsInput struct {
 	GcpAppengine []CloudGcpAppengineIntegrationInput `json:"gcpAppengine,omitempty"`
 	// BigQuery integration
 	GcpBigquery []CloudGcpBigqueryIntegrationInput `json:"gcpBigquery,omitempty"`
+	// Bigtable integration
+	GcpBigtable []CloudGcpBigtableIntegrationInput `json:"gcpBigtable,omitempty"`
+	// Composer integration
+	GcpComposer []CloudGcpComposerIntegrationInput `json:"gcpComposer,omitempty"`
 	// Dataflow integration
 	GcpDataflow []CloudGcpDataflowIntegrationInput `json:"gcpDataflow,omitempty"`
 	// Dataproc integration
@@ -3844,8 +4019,12 @@ type CloudGcpIntegrationsInput struct {
 	GcpKubernetes []CloudGcpKubernetesIntegrationInput `json:"gcpKubernetes,omitempty"`
 	// Cloud Load Balancing integration
 	GcpLoadbalancing []CloudGcpLoadbalancingIntegrationInput `json:"gcpLoadbalancing,omitempty"`
+	// Memcache integration
+	GcpMemcache []CloudGcpMemcacheIntegrationInput `json:"gcpMemcache,omitempty"`
 	// Cloud Pub/Sub integration
 	GcpPubsub []CloudGcpPubsubIntegrationInput `json:"gcpPubsub,omitempty"`
+	// Redis integration
+	GcpRedis []CloudGcpRedisIntegrationInput `json:"gcpRedis,omitempty"`
 	// Router integration
 	GcpRouter []CloudGcpRouterIntegrationInput `json:"gcpRouter,omitempty"`
 	// Run integration
@@ -3972,6 +4151,40 @@ type CloudGcpLoadbalancingIntegrationInput struct {
 	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
+// CloudGcpMemcacheIntegration - Memcache Integration
+type CloudGcpMemcacheIntegration struct {
+	// The object creation date, in epoch (Unix) time
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
+	// The cloud service integration identifier.
+	ID int `json:"id,omitempty"`
+	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
+	// The parent linked account identifier.
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
+	// The data polling interval in seconds.
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
+	// The cloud service integration name.
+	Name string `json:"name,omitempty"`
+	// The parent NewRelic account identifier.
+	NrAccountId int `json:"nrAccountId"`
+	// The cloud service used in the integration.
+	Service CloudService `json:"service,omitempty"`
+	// The object last update date, in epoch (Unix) time
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
+}
+
+func (x *CloudGcpMemcacheIntegration) ImplementsCloudIntegration() {}
+
+// CloudGcpMemcacheIntegrationInput - Memcache
+type CloudGcpMemcacheIntegrationInput struct {
+	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
+	// The linked account identifier.
+	LinkedAccountId int `json:"linkedAccountId"`
+	// The data polling interval in seconds.
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
+}
+
 // CloudGcpProvider - The Google Cloud Platform cloud provider
 type CloudGcpProvider struct {
 	// The object creation date, in epoch (Unix) time
@@ -4026,6 +4239,40 @@ func (x *CloudGcpPubsubIntegration) ImplementsCloudIntegration() {}
 type CloudGcpPubsubIntegrationInput struct {
 	// Specify if labels and the extended inventory should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
 	FetchTags bool `json:"fetchTags,omitempty"`
+	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
+	// The linked account identifier.
+	LinkedAccountId int `json:"linkedAccountId"`
+	// The data polling interval in seconds.
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
+}
+
+// CloudGcpRedisIntegration - Redis Integration
+type CloudGcpRedisIntegration struct {
+	// The object creation date, in epoch (Unix) time
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
+	// The cloud service integration identifier.
+	ID int `json:"id,omitempty"`
+	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
+	// The parent linked account identifier.
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
+	// The data polling interval in seconds.
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
+	// The cloud service integration name.
+	Name string `json:"name,omitempty"`
+	// The parent NewRelic account identifier.
+	NrAccountId int `json:"nrAccountId"`
+	// The cloud service used in the integration.
+	Service CloudService `json:"service,omitempty"`
+	// The object last update date, in epoch (Unix) time
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
+}
+
+func (x *CloudGcpRedisIntegration) ImplementsCloudIntegration() {}
+
+// CloudGcpRedisIntegrationInput - Redis
+type CloudGcpRedisIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
 	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
@@ -4618,6 +4865,8 @@ type CloudLinkedAccount struct {
 	Integration CloudIntegrationInterface `json:"integration"`
 	// Get details of all cloud service integrations.
 	Integrations []CloudIntegrationInterface `json:"integrations"`
+	// Indicate how the metrics will be collected (PUSH/PULL)
+	MetricCollectionMode CloudMetricCollectionMode `json:"metricCollectionMode"`
 	// The linked account name in NewRelic.
 	Name string `json:"name"`
 	// The New Relic account identifier.
@@ -4698,6 +4947,11 @@ func (x *CloudLinkedAccount) UnmarshalJSON(b []byte) error {
 				if xxx != nil {
 					x.Integrations = append(x.Integrations, *xxx)
 				}
+			}
+		case "metricCollectionMode":
+			err = json.Unmarshal(*v, &x.MetricCollectionMode)
+			if err != nil {
+				return err
 			}
 		case "name":
 			err = json.Unmarshal(*v, &x.Name)
@@ -5458,6 +5712,16 @@ func UnmarshalCloudIntegrationInterface(b []byte) (*CloudIntegrationInterface, e
 			var xxx CloudIntegrationInterface = &interfaceType
 
 			return &xxx, nil
+		case "CloudAwsMetadataIntegration":
+			var interfaceType CloudAwsMetadataIntegration
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx CloudIntegrationInterface = &interfaceType
+
+			return &xxx, nil
 		case "CloudAwsMqIntegration":
 			var interfaceType CloudAwsMqIntegration
 			err = json.Unmarshal(b, &interfaceType)
@@ -5510,6 +5774,16 @@ func UnmarshalCloudIntegrationInterface(b []byte) (*CloudIntegrationInterface, e
 			return &xxx, nil
 		case "CloudAwsStatesIntegration":
 			var interfaceType CloudAwsStatesIntegration
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx CloudIntegrationInterface = &interfaceType
+
+			return &xxx, nil
+		case "CloudAwsTagsGlobalIntegration":
+			var interfaceType CloudAwsTagsGlobalIntegration
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
@@ -6018,6 +6292,26 @@ func UnmarshalCloudIntegrationInterface(b []byte) (*CloudIntegrationInterface, e
 			var xxx CloudIntegrationInterface = &interfaceType
 
 			return &xxx, nil
+		case "CloudGcpBigtableIntegration":
+			var interfaceType CloudGcpBigtableIntegration
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx CloudIntegrationInterface = &interfaceType
+
+			return &xxx, nil
+		case "CloudGcpComposerIntegration":
+			var interfaceType CloudGcpComposerIntegration
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx CloudIntegrationInterface = &interfaceType
+
+			return &xxx, nil
 		case "CloudGcpDataflowIntegration":
 			var interfaceType CloudGcpDataflowIntegration
 			err = json.Unmarshal(b, &interfaceType)
@@ -6128,8 +6422,28 @@ func UnmarshalCloudIntegrationInterface(b []byte) (*CloudIntegrationInterface, e
 			var xxx CloudIntegrationInterface = &interfaceType
 
 			return &xxx, nil
+		case "CloudGcpMemcacheIntegration":
+			var interfaceType CloudGcpMemcacheIntegration
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx CloudIntegrationInterface = &interfaceType
+
+			return &xxx, nil
 		case "CloudGcpPubsubIntegration":
 			var interfaceType CloudGcpPubsubIntegration
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx CloudIntegrationInterface = &interfaceType
+
+			return &xxx, nil
+		case "CloudGcpRedisIntegration":
+			var interfaceType CloudGcpRedisIntegration
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
