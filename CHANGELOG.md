@@ -1,3 +1,9 @@
+<a name="v0.58.4"></a>
+## [v0.58.4] - 2021-04-15
+### Bug Fixes
+- **cloud:** regenerate types
+- **synthetics:** add paging to monitors resource
+
 <a name="v0.58.3"></a>
 ## [v0.58.3] - 2021-02-19
 ### Bug Fixes
@@ -1007,7 +1013,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.58.3...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.58.4...HEAD
+[v0.58.4]: https://github.com/newrelic/newrelic-client-go/compare/v0.58.3...v0.58.4
 [v0.58.3]: https://github.com/newrelic/newrelic-client-go/compare/v0.58.2...v0.58.3
 [v0.58.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.58.1...v0.58.2
 [v0.58.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.58.0...v0.58.1
