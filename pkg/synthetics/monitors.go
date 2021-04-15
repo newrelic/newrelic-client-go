@@ -79,18 +79,28 @@ var (
 
 // ListMonitors is used to retrieve New Relic Synthetics monitors.
 func (s *Synthetics) ListMonitors() ([]*Monitor, error) {
-	resp := listMonitorsResponse{}
+	results := []*Monitor{}
+	nextURL := s.config.Region().SyntheticsURL("/v4/monitors")
 	queryParams := listMonitorsParams{
 		Limit: listMonitorsLimit,
 	}
 
-	_, err := s.client.Get(s.config.Region().SyntheticsURL("/v4/monitors"), &queryParams, &resp)
+	for nextURL != "" {
+		response := listMonitorsResponse{}
 
-	if err != nil {
-		return nil, err
+		resp, err := s.client.Get(nextURL, &queryParams, &response)
+
+		if err != nil {
+			return nil, err
+		}
+
+		results = append(results, response.Monitors...)
+
+		paging := s.pager.Parse(resp)
+		nextURL = paging.Next
 	}
 
-	return resp.Monitors, nil
+	return results, nil
 }
 
 // GetMonitor is used to retrieve a specific New Relic Synthetics monitor.
