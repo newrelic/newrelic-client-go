@@ -195,6 +195,26 @@ const getEntitiesQuery = `query(
 	accountId
 	domain
 	entityType
+	goldenMetrics {
+		context {
+			account
+			guid
+		}
+		metrics {
+			name
+			query
+			title
+		}
+	}
+	goldenTags {
+		context {
+			account
+			guid
+		}
+		tags {
+			key
+		}
+	}
 	guid
 	indexedAt
 	name
@@ -366,6 +386,17 @@ const getEntitiesQuery = `query(
 			spaResponseTimeAverage
 			spaResponseTimeMedian
 		}
+		metricNormalizationRules {
+			action
+			applicationGuid
+			applicationName
+			createdAt
+			enabled
+			id
+			matchExpression
+			notes
+			replacement
+		}
 		recentAlertViolations {
 			agentUrl
 			alertSeverity
@@ -428,6 +459,35 @@ const getEntitiesQuery = `query(
 			key
 		}
 		updatedAt
+	}
+	... on ExternalEntity {
+		__typename
+		account {
+			id
+			name
+			reportingEventTypes
+		}
+		alertSeverity
+		recentAlertViolations {
+			agentUrl
+			alertSeverity
+			closedAt
+			label
+			level
+			openedAt
+			violationId
+			violationUrl
+		}
+		relationships {
+			type
+		}
+		tags {
+			key
+			values
+		}
+		tagsWithMetadata {
+			key
+		}
 	}
 	... on GenericEntity {
 		__typename
@@ -554,6 +614,17 @@ const getEntitiesQuery = `query(
 		}
 		alertSeverity
 		applicationId
+		metricNormalizationRules {
+			action
+			applicationGuid
+			applicationName
+			createdAt
+			enabled
+			id
+			matchExpression
+			notes
+			replacement
+		}
 		mobileSummary {
 			appLaunchCount
 			crashCount
@@ -775,6 +846,26 @@ const getEntityQuery = `query(
 	accountId
 	domain
 	entityType
+	goldenMetrics {
+		context {
+			account
+			guid
+		}
+		metrics {
+			name
+			query
+			title
+		}
+	}
+	goldenTags {
+		context {
+			account
+			guid
+		}
+		tags {
+			key
+		}
+	}
 	guid
 	indexedAt
 	name
@@ -946,6 +1037,17 @@ const getEntityQuery = `query(
 			spaResponseTimeAverage
 			spaResponseTimeMedian
 		}
+		metricNormalizationRules {
+			action
+			applicationGuid
+			applicationName
+			createdAt
+			enabled
+			id
+			matchExpression
+			notes
+			replacement
+		}
 		recentAlertViolations {
 			agentUrl
 			alertSeverity
@@ -1008,6 +1110,35 @@ const getEntityQuery = `query(
 			key
 		}
 		updatedAt
+	}
+	... on ExternalEntity {
+		__typename
+		account {
+			id
+			name
+			reportingEventTypes
+		}
+		alertSeverity
+		recentAlertViolations {
+			agentUrl
+			alertSeverity
+			closedAt
+			label
+			level
+			openedAt
+			violationId
+			violationUrl
+		}
+		relationships {
+			type
+		}
+		tags {
+			key
+			values
+		}
+		tagsWithMetadata {
+			key
+		}
 	}
 	... on GenericEntity {
 		__typename
@@ -1134,6 +1265,17 @@ const getEntityQuery = `query(
 		}
 		alertSeverity
 		applicationId
+		metricNormalizationRules {
+			action
+			applicationGuid
+			applicationName
+			createdAt
+			enabled
+			id
+			matchExpression
+			notes
+			replacement
+		}
 		mobileSummary {
 			appLaunchCount
 			crashCount
@@ -1397,6 +1539,11 @@ const getEntitySearchQuery = `query(
 			... on DashboardEntityOutline {
 				__typename
 				dashboardParentGuid
+				permissions
+			}
+			... on ExternalEntityOutline {
+				__typename
+				alertSeverity
 			}
 			... on GenericEntityOutline {
 				__typename

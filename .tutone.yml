@@ -368,6 +368,8 @@ packages:
         generate_struct_getters: true
       - name: DashboardEntity
         generate_struct_getters: true
+      - name: ExternalEntity
+        generate_struct_getters: true
       - name: GenericEntity
         generate_struct_getters: true
       - name: GenericInfrastructureEntity
@@ -414,6 +416,8 @@ packages:
       - name: CollectionEntityOutline
         generate_struct_getters: true
       - name: DashboardEntityOutline
+        generate_struct_getters: true
+      - name: ExternalEntityOutline
         generate_struct_getters: true
       - name: GenericEntityOutline
         generate_struct_getters: true
