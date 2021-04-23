@@ -16,7 +16,7 @@ GOLINTER      = golangci-lint
 EXCLUDEDIR      ?= .git
 SRCDIR          ?= .
 GO_PKGS         ?= $(shell ${GO} list ./... | grep -v -e "/vendor/" -e "/example")
-FILES           ?= $(shell find ${SRCDIR} -type f | grep -v -e '.git/' -e '/vendor/')
+FILES           ?= $(shell find ${SRCDIR} -type f | grep -v -e '.git/' -e '/vendor/' -e 'go.sum')
 GO_FILES        ?= $(shell find $(SRCDIR) -type f -name "*.go" | grep -v -e ".git/" -e '/vendor/' -e '/example/')
 PROJECT_MODULE  ?= $(shell $(GO) list -m)
 
