@@ -4,7 +4,7 @@ go 1.16
 
 require (
 	github.com/client9/misspell v0.3.4
-	github.com/git-chglog/git-chglog v0.14.1
+	github.com/git-chglog/git-chglog v0.14.2
 	github.com/golangci/golangci-lint v1.39.0
 	github.com/goreleaser/goreleaser v0.162.0
 	github.com/llorllale/go-gitlint v0.0.0-20200802191503-5984945d4b80
