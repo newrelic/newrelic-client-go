@@ -70,21 +70,20 @@ func (r *GraphQLErrorResponse) IsNotFound() bool {
 
 // IsRetryableError determines if the error is due to a server timeout, or another error that we might want to retry.
 func (r *GraphQLErrorResponse) IsRetryableError() bool {
+
 	if len(r.Errors) == 0 {
 		return false
 	}
 
 	for _, err := range r.Errors {
-		if err.Extensions.ErrorClass == "TIMEOUT" {
-			return true
-		}
-
-		if err.Extensions.ErrorClass == "INTERNAL_SERVER_ERROR" {
+		errorClass := err.Extensions.ErrorClass
+		if errorClass == "TIMEOUT" || errorClass == "INTERNAL_SERVER_ERROR" || errorClass == "SERVER_ERROR" {
 			return true
 		}
 
 		for _, downstreamErr := range err.DownstreamResponse {
-			if downstreamErr.Extensions.Code == "INTERNAL_SERVER_ERROR" {
+			code := downstreamErr.Extensions.Code
+			if code == "INTERNAL_SERVER_ERROR" || code == "SERVER_ERROR" {
 				return true
 			}
 		}
