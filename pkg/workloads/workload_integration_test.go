@@ -54,7 +54,7 @@ func TestIntegrationWorkload(t *testing.T) {
 	require.NotNil(t, created)
 
 	// Entity indexing takes time.
-	time.Sleep(5)
+	time.Sleep(5 * time.Second)
 
 	// Test: Get
 	workload, err := client.GetWorkload(testAccountID, created.GUID)
@@ -88,7 +88,7 @@ func TestIntegrationWorkload(t *testing.T) {
 	require.Equal(t, "duplicateWorkload", duplicate.Name)
 
 	// Entity indexing takes time.
-	time.Sleep(30)
+	time.Sleep(5 * time.Second)
 
 	// Test: Delete
 	deleted, err := client.DeleteWorkload(created.GUID)

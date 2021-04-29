@@ -533,7 +533,7 @@ type APIAccessUpdateUserKeyInput struct {
 	Notes string `json:"notes,omitempty"`
 }
 
-// APIAccessUserKey - A user key, also called a personal API key.
+// APIAccessUserKey - A user key.
 type APIAccessUserKey struct {
 	// The account this key is in.
 	Account accounts.AccountReference `json:"account,omitempty"`

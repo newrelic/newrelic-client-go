@@ -245,7 +245,7 @@ type SuggestedAnomalyBasedNRQLQuery struct {
 
 func (x *SuggestedAnomalyBasedNRQLQuery) ImplementsSuggestedNRQLQuery() {}
 
-// SuggestedHistoryBasedNRQLQuery - query suggestion based on historical query patterns.
+// SuggestedHistoryBasedNRQLQuery - A query suggestion based on historical query patterns.
 type SuggestedHistoryBasedNRQLQuery struct {
 	// The NRQL string to run for the suggested query
 	NRQL string `json:"nrql"`
@@ -267,11 +267,11 @@ func (x *SuggestedNRQLQuery) ImplementsSuggestedNRQLQuery() {}
 
 // SuggestedNRQLQueryAnomaly - Information about the anomaly upon which this analysis was based.
 type SuggestedNRQLQueryAnomaly struct {
-	// The approximate time range of the anomalous region
+	// The approximate time window of the anomalous region
 	TimeWindow TimeWindow `json:"timeWindow"`
 }
 
-// SuggestedNRQLQueryResponse - result type encapsulating suggested queries
+// SuggestedNRQLQueryResponse - A result type encapsulating suggested queries
 type SuggestedNRQLQueryResponse struct {
 	// List of suggested queries.
 	Suggestions []SuggestedNRQLQueryInterface `json:"suggestions"`

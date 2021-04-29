@@ -14,15 +14,18 @@ linters-settings:
   govet:
     # report about shadowed variables
     check-shadowing: true
+    enable:
+      - assign
+      - bools
+      - framepointer
+      - stringintconv
+      - structtag
   golint:
     # minimal confidence for issues, default is 0.8
     min-confidence: 0.5
   gocyclo:
     # minimal code complexity to report, 30 by default (but we recommend 10-20)
     min-complexity: 20
-  maligned:
-    # print struct with more effective memory layout or not, false by default
-    suggest-new: true
   depguard:
     list-type: blacklist
     include-go-root: false
@@ -47,7 +50,6 @@ linters:
     - gosimple
     - govet
     - ineffassign
-    - maligned
     - misspell
     - staticcheck
     - structcheck
