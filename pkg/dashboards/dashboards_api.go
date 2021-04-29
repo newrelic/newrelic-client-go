@@ -118,6 +118,34 @@ const DashboardCreateMutation = `mutation(
 					accountId
 					domain
 					entityType
+					goldenMetrics {
+						context {
+							account
+							guid
+						}
+						metrics {
+							definition {
+								eventId
+								eventObjectId
+								facet
+								from
+								select
+								where
+							}
+							name
+							query
+							title
+						}
+					}
+					goldenTags {
+						context {
+							account
+							guid
+						}
+						tags {
+							key
+						}
+					}
 					guid
 					indexedAt
 					name
@@ -355,6 +383,34 @@ const DashboardCreateMutation = `mutation(
 							reportingEventTypes
 						}
 						dashboardParentGuid
+						goldenMetrics {
+							context {
+								account
+								guid
+							}
+							metrics {
+								definition {
+									eventId
+									eventObjectId
+									facet
+									from
+									select
+									where
+								}
+								name
+								query
+								title
+							}
+						}
+						goldenTags {
+							context {
+								account
+								guid
+							}
+							tags {
+								key
+							}
+						}
 						owner {
 							email
 							userId

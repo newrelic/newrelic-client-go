@@ -1158,12 +1158,14 @@ type SyntheticMonitorType string
 
 var SyntheticMonitorTypeTypes = struct {
 	BROWSER        SyntheticMonitorType
+	CERT_CHECK     SyntheticMonitorType
 	SCRIPT_API     SyntheticMonitorType
 	SCRIPT_BROWSER SyntheticMonitorType
 	SIMPLE         SyntheticMonitorType
 	STEP_MONITOR   SyntheticMonitorType
 }{
 	BROWSER:        "BROWSER",
+	CERT_CHECK:     "CERT_CHECK",
 	SCRIPT_API:     "SCRIPT_API",
 	SCRIPT_BROWSER: "SCRIPT_BROWSER",
 	SIMPLE:         "SIMPLE",
