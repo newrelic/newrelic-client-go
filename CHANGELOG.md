@@ -1,3 +1,5 @@
+<a name="v0.58.6"></a>
+## [v0.58.6] - 2021-04-29
 <a name="v0.58.5"></a>
 ## [v0.58.5] - 2021-04-27
 ### Bug Fixes
@@ -1018,7 +1020,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.58.5...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.58.6...HEAD
+[v0.58.6]: https://github.com/newrelic/newrelic-client-go/compare/v0.58.5...v0.58.6
 [v0.58.5]: https://github.com/newrelic/newrelic-client-go/compare/v0.58.4...v0.58.5
 [v0.58.4]: https://github.com/newrelic/newrelic-client-go/compare/v0.58.3...v0.58.4
 [v0.58.3]: https://github.com/newrelic/newrelic-client-go/compare/v0.58.2...v0.58.3
