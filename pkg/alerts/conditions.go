@@ -2,8 +2,11 @@ package alerts
 
 import (
 	"context"
+	stdErrors "errors"
 	"fmt"
+	"strconv"
 
+	"github.com/newrelic/newrelic-client-go/internal/cache"
 	"github.com/newrelic/newrelic-client-go/pkg/errors"
 )
 
@@ -252,6 +255,77 @@ func (a *Alerts) GetConditionWithContext(ctx context.Context, policyID int, id i
 	}
 
 	return nil, errors.NewNotFoundf("no condition found for policy %d and condition ID %d", policyID, id)
+}
+
+type conditionsPolicyCacheGroupID struct {
+	accountID int
+	policyID  int
+}
+
+const conditionsPolicyCacheName = "conditionsByPolicy"
+
+func (a *Alerts) fetchPolicyConditionsForCache(ctx context.Context, groupID interface{}) (map[string]interface{}, error) {
+	cacheGroupID, ok := groupID.(conditionsPolicyCacheGroupID)
+	if !ok {
+		return nil, stdErrors.New("Invalid cache group id type")
+	}
+
+	policyConditions, err := a.ListConditionsWithContext(ctx, cacheGroupID.policyID)
+	if err != nil {
+		return nil, err
+	}
+
+	itemMap := make(map[string]interface{})
+	for _, condition := range policyConditions {
+		itemMap[strconv.Itoa(condition.ID)] = condition
+	}
+	return itemMap, nil
+}
+
+// CachedGetCondition fetches an alert condition via New Relic's NerdGraph API,
+// pre-fetching and caching entire policies at a time. You should also call
+// InvalidateCachedConditionPolicy if you perform any operation that could obsolete the
+// cached results, if you will be calling CachedGet* functions again.
+func (a *Alerts) CachedGetCondition(
+	accountID int,
+	policyID int,
+	conditionID int,
+) (*Condition, error) {
+	return a.CachedGetConditionWithContext(context.Background(), accountID, policyID, conditionID)
+}
+
+// CachedGetConditionWithContext fetches a NRQL alert condition via New Relic's NerdGraph API,
+// pre-fetching and caching entire policies at a time. You should also call
+// InvalidateCachedConditionPolicy if you perform any operation that could obsolete the
+// cached results, if you will be calling CachedGet* functions again.
+func (a *Alerts) CachedGetConditionWithContext(
+	ctx context.Context,
+	accountID int,
+	policyID int,
+	conditionID int,
+) (*Condition, error) {
+	c := cache.NamedMapGroupCache(&a.caches, conditionsPolicyCacheName, a.fetchPolicyConditionsForCache)
+	item, err := c.LookupOrFetchWithContext(ctx, conditionsPolicyCacheGroupID{accountID, policyID}, strconv.Itoa(conditionID))
+	if err != nil {
+		return nil, err
+	}
+	typedItem, ok := item.(*Condition)
+	if !ok {
+		return nil, stdErrors.New("Invalid cache item type")
+	}
+	return typedItem, nil
+}
+
+// InvalidateCachedConditionPolicy invalidates any cached data for the given policy that was
+// previously fetched by CachedGet* functions.
+func (a *Alerts) InvalidateCachedConditionPolicy(
+	accountID int,
+	policyID int,
+) {
+	c, found := a.caches[conditionsPolicyCacheName]
+	if found {
+		c.InvalidateGroup(conditionsPolicyCacheGroupID{accountID, policyID})
+	}
 }
 
 // CreateCondition creates an alert condition for a specified policy.
