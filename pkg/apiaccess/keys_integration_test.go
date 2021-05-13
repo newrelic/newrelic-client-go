@@ -132,9 +132,3 @@ func TestIntegrationAPIAccess_UserKeys(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, deleteResult)
 }
-
-func newIntegrationTestClient(t *testing.T) APIAccess {
-	tc := mock.NewIntegrationTestConfig(t)
-
-	return New(tc)
-}
