@@ -1,15 +1,18 @@
 package apiaccess
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 type InsightsKey struct {
-	ID        int    `json:"id"`
-	AccountID int    `json:"account_id"`
-	Key       string `json:"key"`
-	Notes     string `json:"notes"`
-	IsEnabled bool   `json:"is_enabled"`
-	//CreatedAt time.Time `json:"created_at"`
-	//UpdatedAt time.Time `json:"updated_at"`
+	ID        int       `json:"id"`
+	AccountID int       `json:"account_id"`
+	Key       string    `json:"key"`
+	Notes     string    `json:"notes"`
+	IsEnabled bool      `json:"is_enabled"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 func (a *APIAccess) ListInsightsInsertKeys(accountID int) ([]InsightsKey, error) {
