@@ -1287,6 +1287,68 @@ type Actor struct {
 	EntitySearch EntitySearch `json:"entitySearch,omitempty"`
 }
 
+// AgentEnvironmentApplicationInstance - Representation of the New Relic agent collecting data.
+type AgentEnvironmentApplicationInstance struct {
+	// Contains environment attributes regarding the reported setting of the reporting agent.
+	AgentSettingsAttributes []AgentEnvironmentAttribute `json:"agentSettingsAttributes"`
+	// Information of the application instance, such as host and language.
+	Details AgentEnvironmentApplicationInstanceDetails `json:"details"`
+	// Contains general environment attributes from the same environment where the application instance is running.
+	EnvironmentAttributes []AgentEnvironmentAttribute `json:"environmentAttributes"`
+	// Contains environment attributes regarding modules loaded by the application instance. Used only by the Java agent.
+	Modules []AgentEnvironmentApplicationLoadedModule `json:"modules"`
+}
+
+// AgentEnvironmentApplicationInstanceDetails - Details of an application instance such as host and language.
+type AgentEnvironmentApplicationInstanceDetails struct {
+	// Host of the application instance.
+	Host string `json:"host"`
+	// ID of the application instance.
+	ID string `json:"id"`
+	// Language of the application instance.
+	Language string `json:"language"`
+	// Name of the application instance.
+	Name string `json:"name"`
+}
+
+// AgentEnvironmentApplicationLoadedModule - Represents a module loaded by the apm application.
+type AgentEnvironmentApplicationLoadedModule struct {
+	// Extra module attributes.
+	Attributes []AgentEnvironmentLoadedModuleAttribute `json:"attributes"`
+	// Module name.
+	Name string `json:"name"`
+	// Module version.
+	Version string `json:"version,omitempty"`
+}
+
+// AgentEnvironmentAttribute - Represents one attribute from within the environment on which an agent is running.
+type AgentEnvironmentAttribute struct {
+	// Environment attribute name.
+	Attribute string `json:"attribute"`
+	// Value of the environment attribute.
+	Value string `json:"value"`
+}
+
+// AgentEnvironmentFilter - A filter that can be applied to filter results.
+type AgentEnvironmentFilter struct {
+	// A string to filter results that includes this string anywhere. Case insensitive.
+	Contains string `json:"contains,omitempty"`
+	// A string to filter out results that includes this string anywhere. Case insensitive.
+	DoesNotContain string `json:"doesNotContain,omitempty"`
+	// A string to filter results that are exactly as the string provided. Case sensitive.
+	Equals string `json:"equals,omitempty"`
+	// A string to filter results that starts with this string. Case insensitive.
+	StartsWith string `json:"startsWith,omitempty"`
+}
+
+// AgentEnvironmentLoadedModuleAttribute - Attribute belonging to a loaded module.
+type AgentEnvironmentLoadedModuleAttribute struct {
+	// Name of the module attribute.
+	Name string `json:"name"`
+	// Value of the module attribute.
+	Value string `json:"value"`
+}
+
 // AlertableEntity -
 type AlertableEntity struct {
 	// The current alerting severity of the entity
@@ -1359,6 +1421,8 @@ type ApmApplicationEntity struct {
 	ApmSummary ApmApplicationSummaryData `json:"apmSummary,omitempty"`
 	// The ID of the APM Application.
 	ApplicationID int `json:"applicationId,omitempty"`
+	// List of APM application instances.
+	ApplicationInstances []AgentEnvironmentApplicationInstance `json:"applicationInstances"`
 	// Deployments of the APM Application.
 	Deployments []ApmApplicationDeployment `json:"deployments,omitempty"`
 	// The entity's domain
@@ -1446,6 +1510,11 @@ func (x ApmApplicationEntity) GetApmSummary() ApmApplicationSummaryData {
 // GetApplicationID returns a pointer to the value of ApplicationID from ApmApplicationEntity
 func (x ApmApplicationEntity) GetApplicationID() int {
 	return x.ApplicationID
+}
+
+// GetApplicationInstances returns a pointer to the value of ApplicationInstances from ApmApplicationEntity
+func (x ApmApplicationEntity) GetApplicationInstances() []AgentEnvironmentApplicationInstance {
+	return x.ApplicationInstances
 }
 
 // GetDeployments returns a pointer to the value of Deployments from ApmApplicationEntity
