@@ -1,6 +1,7 @@
 package apm
 
 import (
+	"context"
 	"fmt"
 	"strconv"
 
@@ -25,6 +26,11 @@ type DeploymentLinks struct {
 
 // ListDeployments returns deployments for an application.
 func (a *APM) ListDeployments(applicationID int) ([]*Deployment, error) {
+	return a.ListDeploymentsWithContext(context.Background(), applicationID)
+}
+
+// ListDeploymentsWithContext returns deployments for an application.
+func (a *APM) ListDeploymentsWithContext(ctx context.Context, applicationID int) ([]*Deployment, error) {
 	deployments := []*Deployment{}
 	nextURL := a.config.Region().RestURL("applications", strconv.Itoa(applicationID), "deployments.json")
 
@@ -35,6 +41,7 @@ func (a *APM) ListDeployments(applicationID int) ([]*Deployment, error) {
 			return nil, err
 		}
 
+		req.WithContext(ctx)
 		req.SetAuthStrategy(&http.PersonalAPIKeyCapableV2Authorizer{})
 
 		resp, err := a.client.Do(req)
@@ -54,6 +61,11 @@ func (a *APM) ListDeployments(applicationID int) ([]*Deployment, error) {
 
 // CreateDeployment creates a deployment marker for an application.
 func (a *APM) CreateDeployment(applicationID int, deployment Deployment) (*Deployment, error) {
+	return a.CreateDeploymentWithContext(context.Background(), applicationID, deployment)
+}
+
+// CreateDeploymentWithContext creates a deployment marker for an application.
+func (a *APM) CreateDeploymentWithContext(ctx context.Context, applicationID int, deployment Deployment) (*Deployment, error) {
 	reqBody := deploymentRequestBody{
 		Deployment: deployment,
 	}
@@ -65,6 +77,7 @@ func (a *APM) CreateDeployment(applicationID int, deployment Deployment) (*Deplo
 		return nil, err
 	}
 
+	req.WithContext(ctx)
 	req.SetAuthStrategy(&http.PersonalAPIKeyCapableV2Authorizer{})
 
 	_, err = a.client.Do(req)
@@ -78,6 +91,11 @@ func (a *APM) CreateDeployment(applicationID int, deployment Deployment) (*Deplo
 
 // DeleteDeployment deletes a deployment marker for an application.
 func (a *APM) DeleteDeployment(applicationID int, deploymentID int) (*Deployment, error) {
+	return a.DeleteDeploymentWithContext(context.Background(), applicationID, deploymentID)
+}
+
+// DeleteDeploymentWithContext deletes a deployment marker for an application.
+func (a *APM) DeleteDeploymentWithContext(ctx context.Context, applicationID int, deploymentID int) (*Deployment, error) {
 	resp := deploymentResponse{}
 	url := a.config.Region().RestURL("applications", strconv.Itoa(applicationID), "deployments", fmt.Sprintf("%d.json", deploymentID))
 
@@ -86,6 +104,7 @@ func (a *APM) DeleteDeployment(applicationID int, deploymentID int) (*Deployment
 		return nil, err
 	}
 
+	req.WithContext(ctx)
 	req.SetAuthStrategy(&http.PersonalAPIKeyCapableV2Authorizer{})
 
 	_, err = a.client.Do(req)

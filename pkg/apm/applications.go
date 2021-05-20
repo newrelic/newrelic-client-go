@@ -81,42 +81,63 @@ type UpdateApplicationParams struct {
 
 // ListApplications is used to retrieve New Relic applications.
 func (a *APM) ListApplications(params *ListApplicationsParams) ([]*Application, error) {
+	return a.ListApplicationsWithContext(context.Background(), params)
+}
+
+// ListApplicationsWithContext is used to retrieve New Relic applications.
+func (a *APM) ListApplicationsWithContext(ctx context.Context, params *ListApplicationsParams) ([]*Application, error) {
 	accountID := 0
 
 	method := applicationsREST{
 		parent: a,
 	}
 
-	return method.list(context.Background(), accountID, params)
+	return method.list(ctx, accountID, params)
 }
 
 // GetApplication is used to retrieve a single New Relic application.
 func (a *APM) GetApplication(applicationID int) (*Application, error) {
+	return a.GetApplicationWithContext(context.Background(), applicationID)
+}
+
+// GetApplicationWithContext is used to retrieve a single New Relic application.
+func (a *APM) GetApplicationWithContext(ctx context.Context, applicationID int) (*Application, error) {
 	accountID := 0
 	method := applicationsREST{
 		parent: a,
 	}
 
-	return method.get(context.Background(), accountID, applicationID)
+	return method.get(ctx, accountID, applicationID)
 }
 
 // UpdateApplication is used to update a New Relic application's name and/or settings.
 func (a *APM) UpdateApplication(applicationID int, params UpdateApplicationParams) (*Application, error) {
+	return a.UpdateApplicationWithContext(context.Background(), applicationID, params)
+}
+
+// UpdateApplicationWithContext is used to update a New Relic application's name and/or settings.
+func (a *APM) UpdateApplicationWithContext(ctx context.Context, applicationID int, params UpdateApplicationParams) (*Application, error) {
 	accountID := 0
 	method := applicationsREST{
 		parent: a,
 	}
 
-	return method.update(context.Background(), accountID, applicationID, params)
+	return method.update(ctx, accountID, applicationID, params)
 }
 
 // DeleteApplication is used to delete a New Relic application.
 // This process will only succeed if the application is no longer reporting data.
 func (a *APM) DeleteApplication(applicationID int) (*Application, error) {
+	return a.DeleteApplicationWithContext(context.Background(), applicationID)
+}
+
+// DeleteApplicationWithContext is used to delete a New Relic application.
+// This process will only succeed if the application is no longer reporting data.
+func (a *APM) DeleteApplicationWithContext(ctx context.Context, applicationID int) (*Application, error) {
 	accountID := 0
 	method := applicationsREST{
 		parent: a,
 	}
 
-	return method.remove(context.Background(), accountID, applicationID)
+	return method.remove(ctx, accountID, applicationID)
 }

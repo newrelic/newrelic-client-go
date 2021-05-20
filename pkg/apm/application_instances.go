@@ -1,6 +1,9 @@
 package apm
 
-import "fmt"
+import (
+	"context"
+	"fmt"
+)
 
 // ApplicationInstanceLinks represents all the links for a New Relic application instance.
 type ApplicationInstanceLinks struct {
@@ -30,13 +33,18 @@ type ListApplicationInstancesParams struct {
 
 // ListApplicationInstances is used to retrieve New Relic application instances.
 func (a *APM) ListApplicationInstances(applicationID int, params *ListApplicationInstancesParams) ([]*ApplicationInstance, error) {
+	return a.ListApplicationInstancesWithContext(context.Background(), applicationID, params)
+}
+
+// ListApplicationInstancesWithContext is used to retrieve New Relic application instances.
+func (a *APM) ListApplicationInstancesWithContext(ctx context.Context, applicationID int, params *ListApplicationInstancesParams) ([]*ApplicationInstance, error) {
 	instances := []*ApplicationInstance{}
 	url := fmt.Sprintf("/applications/%d/instances.json", applicationID)
 	nextURL := a.config.Region().RestURL(url)
 
 	for nextURL != "" {
 		response := applicationInstancesResponse{}
-		resp, err := a.client.Get(nextURL, &params, &response)
+		resp, err := a.client.GetWithContext(ctx, nextURL, &params, &response)
 
 		if err != nil {
 			return nil, err
@@ -53,10 +61,15 @@ func (a *APM) ListApplicationInstances(applicationID int, params *ListApplicatio
 
 // GetApplicationInstance is used to retrieve a specific New Relic application instance.
 func (a *APM) GetApplicationInstance(applicationID int, instanceID int) (*ApplicationInstance, error) {
+	return a.GetApplicationInstanceWithContext(context.Background(), applicationID, instanceID)
+}
+
+// GetApplicationInstanceWithContext is used to retrieve a specific New Relic application instance.
+func (a *APM) GetApplicationInstanceWithContext(ctx context.Context, applicationID int, instanceID int) (*ApplicationInstance, error) {
 	response := applicationInstanceResponse{}
 	url := fmt.Sprintf("/applications/%d/instances/%d.json", applicationID, instanceID)
 
-	_, err := a.client.Get(a.config.Region().RestURL(url), nil, &response)
+	_, err := a.client.GetWithContext(ctx, a.config.Region().RestURL(url), nil, &response)
 
 	if err != nil {
 		return nil, err
