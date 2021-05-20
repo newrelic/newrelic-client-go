@@ -1,5 +1,7 @@
 package apm
 
+import "context"
+
 // ApplicationsInterface interface should be refactored to be a global interface for fetching NR type things
 type ApplicationsInterface interface {
 	find(accountID int, name string) (*Application, error)
@@ -85,7 +87,7 @@ func (a *APM) ListApplications(params *ListApplicationsParams) ([]*Application, 
 		parent: a,
 	}
 
-	return method.list(accountID, params)
+	return method.list(context.Background(), accountID, params)
 }
 
 // GetApplication is used to retrieve a single New Relic application.
@@ -95,7 +97,7 @@ func (a *APM) GetApplication(applicationID int) (*Application, error) {
 		parent: a,
 	}
 
-	return method.get(accountID, applicationID)
+	return method.get(context.Background(), accountID, applicationID)
 }
 
 // UpdateApplication is used to update a New Relic application's name and/or settings.
@@ -105,7 +107,7 @@ func (a *APM) UpdateApplication(applicationID int, params UpdateApplicationParam
 		parent: a,
 	}
 
-	return method.update(accountID, applicationID, params)
+	return method.update(context.Background(), accountID, applicationID, params)
 }
 
 // DeleteApplication is used to delete a New Relic application.
@@ -116,5 +118,5 @@ func (a *APM) DeleteApplication(applicationID int) (*Application, error) {
 		parent: a,
 	}
 
-	return method.remove(accountID, applicationID)
+	return method.remove(context.Background(), accountID, applicationID)
 }
