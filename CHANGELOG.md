@@ -1,3 +1,8 @@
+<a name="v0.59.1"></a>
+## [v0.59.1] - 2021-05-24
+### Bug Fixes
+- **region:** fix insights key management api url
+
 <a name="v0.59.0"></a>
 ## [v0.59.0] - 2021-05-13
 ### Features
@@ -1024,7 +1029,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.59.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.59.1...HEAD
+[v0.59.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.59.0...v0.59.1
 [v0.59.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.58.5...v0.59.0
 [v0.58.5]: https://github.com/newrelic/newrelic-client-go/compare/v0.58.4...v0.58.5
 [v0.58.4]: https://github.com/newrelic/newrelic-client-go/compare/v0.58.3...v0.58.4
