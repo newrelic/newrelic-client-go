@@ -35,7 +35,7 @@ var Regions = map[Name]*Region{
 		name:                  "EU",
 		infrastructureBaseURL: "https://infra-api.eu.newrelic.com/v2",
 		insightsBaseURL:       "https://insights-collector.eu01.nr-data.net/v1",
-		insightsKeysBaseURL:   "https://insights.eu.newrelic.com/internal_api/1v1",
+		insightsKeysBaseURL:   "https://insights.eu.newrelic.com/internal_api/1",
 		logsBaseURL:           "https://log-api.eu.newrelic.com/log/v1",
 		nerdGraphBaseURL:      "https://api.eu.newrelic.com/graphql",
 		restBaseURL:           "https://api.eu.newrelic.com/v2",
