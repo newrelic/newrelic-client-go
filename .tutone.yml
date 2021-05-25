@@ -569,6 +569,17 @@ packages:
         field_type_override: nrtime.DateTime
         skip_type_create: true
 
+  - name: installevents
+    path: pkg/installevents
+    import_path: github.com/newrelic/newrelic-client-go/pkg/installevents
+    generators:
+      - typegen
+    types:
+      - name: InstallEvent
+    mutations:
+      - name: createInstallEvent
+        max_query_field_depth: 1
+
 
   - name: nerdstorage
     path: pkg/nerdstorage
