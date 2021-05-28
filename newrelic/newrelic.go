@@ -19,6 +19,7 @@ import (
 	"github.com/newrelic/newrelic-client-go/pkg/entities"
 	"github.com/newrelic/newrelic-client-go/pkg/events"
 	"github.com/newrelic/newrelic-client-go/pkg/eventstometrics"
+	"github.com/newrelic/newrelic-client-go/pkg/installevents"
 	"github.com/newrelic/newrelic-client-go/pkg/logs"
 	"github.com/newrelic/newrelic-client-go/pkg/nerdgraph"
 	"github.com/newrelic/newrelic-client-go/pkg/nerdstorage"
@@ -42,6 +43,7 @@ type NewRelic struct {
 	Entities        entities.Entities
 	Events          events.Events
 	EventsToMetrics eventstometrics.EventsToMetrics
+	InstallEvents   installevents.Installevents
 	Logs            logs.Logs
 	NerdGraph       nerdgraph.NerdGraph
 	NerdStorage     nerdstorage.NerdStorage
@@ -88,6 +90,7 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 		Entities:        entities.New(cfg),
 		Events:          events.New(cfg),
 		EventsToMetrics: eventstometrics.New(cfg),
+		InstallEvents:   installevents.New(cfg),
 		Logs:            logs.New(cfg),
 		NerdGraph:       nerdgraph.New(cfg),
 		NerdStorage:     nerdstorage.New(cfg),

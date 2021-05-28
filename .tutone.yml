@@ -574,12 +574,21 @@ packages:
     import_path: github.com/newrelic/newrelic-client-go/pkg/installevents
     generators:
       - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/pkg/nrtime
     types:
-      - name: InstallEvent
+      - name: Timestamp
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
+      - name: ValidationDurationMilliseconds
+        field_type_override: nrtime.EpochMilliseconds
+        skip_type_create: true
     mutations:
       - name: createInstallEvent
         max_query_field_depth: 1
-
+      - name: createInstallMetadata
+        max_query_field_depth: 1
 
   - name: nerdstorage
     path: pkg/nerdstorage
