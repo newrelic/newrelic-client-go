@@ -10,6 +10,7 @@ type RecipeStatusType string
 var RecipeStatusTypeTypes = struct {
 	AVAILABLE   RecipeStatusType
 	CANCELED    RecipeStatusType
+	FAILED      RecipeStatusType
 	INSTALLED   RecipeStatusType
 	INSTALLING  RecipeStatusType
 	RECOMMENDED RecipeStatusType
@@ -17,6 +18,7 @@ var RecipeStatusTypeTypes = struct {
 }{
 	AVAILABLE:   "AVAILABLE",
 	CANCELED:    "CANCELED",
+	FAILED:      "FAILED",
 	INSTALLED:   "INSTALLED",
 	INSTALLING:  "INSTALLING",
 	RECOMMENDED: "RECOMMENDED",
