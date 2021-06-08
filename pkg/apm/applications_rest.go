@@ -32,16 +32,6 @@ func (a *applicationsREST) list(ctx context.Context, accountID int, params *List
 	return apps, nil
 }
 
-// find looks for an account / application name combination and returns the result
-func (a *applicationsREST) find(ctx context.Context, accountID int, name string) (*Application, error) {
-	return nil, fmt.Errorf("find application is not implemented")
-}
-
-// create application is not implemented in the API
-func (a *applicationsREST) create(ctx context.Context, accountID int, name string) (*Application, error) {
-	return nil, fmt.Errorf("create application is not implemented")
-}
-
 // get is used to retrieve a single New Relic application.
 func (a *applicationsREST) get(ctx context.Context, accountID int, applicationID int) (*Application, error) {
 	response := applicationResponse{}
