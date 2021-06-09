@@ -2,7 +2,6 @@ package newrelic
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 	"time"
 
@@ -118,7 +117,7 @@ func (nr *NewRelic) TestEndpoints() error {
 	for _, e := range endpoints {
 		_, err := http.Get(e)
 		if err != nil {
-			return fmt.Errorf("%w: endpoint error %s", err, e)
+			return err
 		}
 	}
 
