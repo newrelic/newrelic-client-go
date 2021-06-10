@@ -120,15 +120,6 @@ const DashboardCreateMutation = `mutation(
 					alertSeverity
 					domain
 					entityType
-					goldenTags {
-						context {
-							account
-							guid
-						}
-						tags {
-							key
-						}
-					}
 					guid
 					indexedAt
 					name
@@ -166,15 +157,6 @@ const DashboardCreateMutation = `mutation(
 							webThroughput
 						}
 						applicationId
-						goldenTags {
-							context {
-								account
-								guid
-							}
-							tags {
-								key
-							}
-						}
 						language
 						runningAgentVersions {
 							maxVersion
@@ -196,15 +178,6 @@ const DashboardCreateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						goldenTags {
-							context {
-								account
-								guid
-							}
-							tags {
-								key
-							}
-						}
 						host
 						portOrPath
 						tags {
@@ -223,15 +196,6 @@ const DashboardCreateMutation = `mutation(
 						externalSummary {
 							responseTimeAverage
 							throughput
-						}
-						goldenTags {
-							context {
-								account
-								guid
-							}
-							tags {
-								key
-							}
 						}
 						host
 						tags {
@@ -258,15 +222,6 @@ const DashboardCreateMutation = `mutation(
 							spaResponseTimeAverage
 							spaResponseTimeMedian
 						}
-						goldenTags {
-							context {
-								account
-								guid
-							}
-							tags {
-								key
-							}
-						}
 						runningAgentVersions {
 							maxVersion
 							minVersion
@@ -289,15 +244,6 @@ const DashboardCreateMutation = `mutation(
 						}
 						createdAt
 						dashboardParentGuid
-						goldenTags {
-							context {
-								account
-								guid
-							}
-							tags {
-								key
-							}
-						}
 						owner {
 							email
 							userId
@@ -316,15 +262,6 @@ const DashboardCreateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						goldenTags {
-							context {
-								account
-								guid
-							}
-							tags {
-								key
-							}
-						}
 						tags {
 							key
 							values
@@ -337,15 +274,6 @@ const DashboardCreateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						goldenTags {
-							context {
-								account
-								guid
-							}
-							tags {
-								key
-							}
-						}
 						tags {
 							key
 							values
@@ -357,15 +285,6 @@ const DashboardCreateMutation = `mutation(
 							id
 							name
 							reportingEventTypes
-						}
-						goldenTags {
-							context {
-								account
-								guid
-							}
-							tags {
-								key
-							}
 						}
 						integrationTypeCode
 						tags {
@@ -380,15 +299,6 @@ const DashboardCreateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						goldenTags {
-							context {
-								account
-								guid
-							}
-							tags {
-								key
-							}
-						}
 						integrationTypeCode
 						runtime
 						tags {
@@ -402,15 +312,6 @@ const DashboardCreateMutation = `mutation(
 							id
 							name
 							reportingEventTypes
-						}
-						goldenTags {
-							context {
-								account
-								guid
-							}
-							tags {
-								key
-							}
 						}
 						hostSummary {
 							cpuUtilizationPercent
@@ -433,15 +334,6 @@ const DashboardCreateMutation = `mutation(
 							reportingEventTypes
 						}
 						applicationId
-						goldenTags {
-							context {
-								account
-								guid
-							}
-							tags {
-								key
-							}
-						}
 						mobileSummary {
 							appLaunchCount
 							crashCount
@@ -467,15 +359,6 @@ const DashboardCreateMutation = `mutation(
 							reportingEventTypes
 						}
 						description
-						goldenTags {
-							context {
-								account
-								guid
-							}
-							tags {
-								key
-							}
-						}
 						secureCredentialId
 						secureCredentialSummary {
 							failingMonitorCount
@@ -493,15 +376,6 @@ const DashboardCreateMutation = `mutation(
 							id
 							name
 							reportingEventTypes
-						}
-						goldenTags {
-							context {
-								account
-								guid
-							}
-							tags {
-								key
-							}
 						}
 						monitorId
 						monitorSummary {
@@ -525,15 +399,6 @@ const DashboardCreateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						goldenTags {
-							context {
-								account
-								guid
-							}
-							tags {
-								key
-							}
-						}
 						tags {
 							key
 							values
@@ -545,15 +410,6 @@ const DashboardCreateMutation = `mutation(
 							id
 							name
 							reportingEventTypes
-						}
-						goldenTags {
-							context {
-								account
-								guid
-							}
-							tags {
-								key
-							}
 						}
 						tags {
 							key
@@ -573,15 +429,6 @@ const DashboardCreateMutation = `mutation(
 							gravatar
 							id
 							name
-						}
-						goldenTags {
-							context {
-								account
-								guid
-							}
-							tags {
-								key
-							}
 						}
 						tags {
 							key
@@ -759,15 +606,6 @@ const DashboardUpdateMutation = `mutation(
 					alertSeverity
 					domain
 					entityType
-					goldenTags {
-						context {
-							account
-							guid
-						}
-						tags {
-							key
-						}
-					}
 					guid
 					indexedAt
 					name
@@ -805,15 +643,6 @@ const DashboardUpdateMutation = `mutation(
 							webThroughput
 						}
 						applicationId
-						goldenTags {
-							context {
-								account
-								guid
-							}
-							tags {
-								key
-							}
-						}
 						language
 						runningAgentVersions {
 							maxVersion
@@ -835,15 +664,6 @@ const DashboardUpdateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						goldenTags {
-							context {
-								account
-								guid
-							}
-							tags {
-								key
-							}
-						}
 						host
 						portOrPath
 						tags {
@@ -862,15 +682,6 @@ const DashboardUpdateMutation = `mutation(
 						externalSummary {
 							responseTimeAverage
 							throughput
-						}
-						goldenTags {
-							context {
-								account
-								guid
-							}
-							tags {
-								key
-							}
 						}
 						host
 						tags {
@@ -897,15 +708,6 @@ const DashboardUpdateMutation = `mutation(
 							spaResponseTimeAverage
 							spaResponseTimeMedian
 						}
-						goldenTags {
-							context {
-								account
-								guid
-							}
-							tags {
-								key
-							}
-						}
 						runningAgentVersions {
 							maxVersion
 							minVersion
@@ -928,15 +730,6 @@ const DashboardUpdateMutation = `mutation(
 						}
 						createdAt
 						dashboardParentGuid
-						goldenTags {
-							context {
-								account
-								guid
-							}
-							tags {
-								key
-							}
-						}
 						owner {
 							email
 							userId
@@ -955,15 +748,6 @@ const DashboardUpdateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						goldenTags {
-							context {
-								account
-								guid
-							}
-							tags {
-								key
-							}
-						}
 						tags {
 							key
 							values
@@ -976,15 +760,6 @@ const DashboardUpdateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						goldenTags {
-							context {
-								account
-								guid
-							}
-							tags {
-								key
-							}
-						}
 						tags {
 							key
 							values
@@ -996,15 +771,6 @@ const DashboardUpdateMutation = `mutation(
 							id
 							name
 							reportingEventTypes
-						}
-						goldenTags {
-							context {
-								account
-								guid
-							}
-							tags {
-								key
-							}
 						}
 						integrationTypeCode
 						tags {
@@ -1019,15 +785,6 @@ const DashboardUpdateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						goldenTags {
-							context {
-								account
-								guid
-							}
-							tags {
-								key
-							}
-						}
 						integrationTypeCode
 						runtime
 						tags {
@@ -1041,15 +798,6 @@ const DashboardUpdateMutation = `mutation(
 							id
 							name
 							reportingEventTypes
-						}
-						goldenTags {
-							context {
-								account
-								guid
-							}
-							tags {
-								key
-							}
 						}
 						hostSummary {
 							cpuUtilizationPercent
@@ -1072,15 +820,6 @@ const DashboardUpdateMutation = `mutation(
 							reportingEventTypes
 						}
 						applicationId
-						goldenTags {
-							context {
-								account
-								guid
-							}
-							tags {
-								key
-							}
-						}
 						mobileSummary {
 							appLaunchCount
 							crashCount
@@ -1106,15 +845,6 @@ const DashboardUpdateMutation = `mutation(
 							reportingEventTypes
 						}
 						description
-						goldenTags {
-							context {
-								account
-								guid
-							}
-							tags {
-								key
-							}
-						}
 						secureCredentialId
 						secureCredentialSummary {
 							failingMonitorCount
@@ -1132,15 +862,6 @@ const DashboardUpdateMutation = `mutation(
 							id
 							name
 							reportingEventTypes
-						}
-						goldenTags {
-							context {
-								account
-								guid
-							}
-							tags {
-								key
-							}
 						}
 						monitorId
 						monitorSummary {
@@ -1164,15 +885,6 @@ const DashboardUpdateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						goldenTags {
-							context {
-								account
-								guid
-							}
-							tags {
-								key
-							}
-						}
 						tags {
 							key
 							values
@@ -1184,15 +896,6 @@ const DashboardUpdateMutation = `mutation(
 							id
 							name
 							reportingEventTypes
-						}
-						goldenTags {
-							context {
-								account
-								guid
-							}
-							tags {
-								key
-							}
 						}
 						tags {
 							key
@@ -1212,15 +915,6 @@ const DashboardUpdateMutation = `mutation(
 							gravatar
 							id
 							name
-						}
-						goldenTags {
-							context {
-								account
-								guid
-							}
-							tags {
-								key
-							}
 						}
 						tags {
 							key
