@@ -116,6 +116,7 @@ const DashboardCreateMutation = `mutation(
 						reportingEventTypes
 					}
 					accountId
+					alertSeverity
 					domain
 					entityType
 					goldenMetrics {
@@ -163,7 +164,6 @@ const DashboardCreateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						alertSeverity
 						apmBrowserSummary {
 							ajaxRequestThroughput
 							ajaxResponseTimeAverage
@@ -322,7 +322,6 @@ const DashboardCreateMutation = `mutation(
 							reportingEventTypes
 						}
 						agentInstallType
-						alertSeverity
 						applicationId
 						browserSummary {
 							ajaxRequestThroughput
@@ -382,6 +381,7 @@ const DashboardCreateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
+						createdAt
 						dashboardParentGuid
 						goldenMetrics {
 							context {
@@ -420,6 +420,7 @@ const DashboardCreateMutation = `mutation(
 							key
 							values
 						}
+						updatedAt
 					}
 					... on ExternalEntityOutline {
 						__typename
@@ -428,7 +429,6 @@ const DashboardCreateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						alertSeverity
 						goldenMetrics {
 							context {
 								account
@@ -509,7 +509,6 @@ const DashboardCreateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						alertSeverity
 						goldenMetrics {
 							context {
 								account
@@ -551,7 +550,6 @@ const DashboardCreateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						alertSeverity
 						goldenMetrics {
 							context {
 								account
@@ -594,7 +592,6 @@ const DashboardCreateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						alertSeverity
 						goldenMetrics {
 							context {
 								account
@@ -643,7 +640,6 @@ const DashboardCreateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						alertSeverity
 						applicationId
 						goldenMetrics {
 							context {
@@ -744,7 +740,6 @@ const DashboardCreateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						alertSeverity
 						goldenMetrics {
 							context {
 								account
@@ -795,7 +790,6 @@ const DashboardCreateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						alertSeverity
 						goldenMetrics {
 							context {
 								account
@@ -876,7 +870,6 @@ const DashboardCreateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						alertSeverity
 						createdAt
 						createdByUser {
 							email
@@ -1085,6 +1078,7 @@ const DashboardUpdateMutation = `mutation(
 						reportingEventTypes
 					}
 					accountId
+					alertSeverity
 					domain
 					entityType
 					goldenMetrics {
@@ -1132,7 +1126,6 @@ const DashboardUpdateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						alertSeverity
 						apmBrowserSummary {
 							ajaxRequestThroughput
 							ajaxResponseTimeAverage
@@ -1291,7 +1284,6 @@ const DashboardUpdateMutation = `mutation(
 							reportingEventTypes
 						}
 						agentInstallType
-						alertSeverity
 						applicationId
 						browserSummary {
 							ajaxRequestThroughput
@@ -1351,6 +1343,7 @@ const DashboardUpdateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
+						createdAt
 						dashboardParentGuid
 						goldenMetrics {
 							context {
@@ -1389,6 +1382,7 @@ const DashboardUpdateMutation = `mutation(
 							key
 							values
 						}
+						updatedAt
 					}
 					... on ExternalEntityOutline {
 						__typename
@@ -1397,7 +1391,6 @@ const DashboardUpdateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						alertSeverity
 						goldenMetrics {
 							context {
 								account
@@ -1478,7 +1471,6 @@ const DashboardUpdateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						alertSeverity
 						goldenMetrics {
 							context {
 								account
@@ -1520,7 +1512,6 @@ const DashboardUpdateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						alertSeverity
 						goldenMetrics {
 							context {
 								account
@@ -1563,7 +1554,6 @@ const DashboardUpdateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						alertSeverity
 						goldenMetrics {
 							context {
 								account
@@ -1612,7 +1602,6 @@ const DashboardUpdateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						alertSeverity
 						applicationId
 						goldenMetrics {
 							context {
@@ -1713,7 +1702,6 @@ const DashboardUpdateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						alertSeverity
 						goldenMetrics {
 							context {
 								account
@@ -1764,7 +1752,6 @@ const DashboardUpdateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						alertSeverity
 						goldenMetrics {
 							context {
 								account
@@ -1845,7 +1832,6 @@ const DashboardUpdateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						alertSeverity
 						createdAt
 						createdByUser {
 							email

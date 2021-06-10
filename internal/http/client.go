@@ -384,8 +384,6 @@ func (c *Client) Do(req *Request) (*http.Response, error) {
 }
 
 func (c *Client) innerDo(req *Request, errorValue ErrorResponse, i int) (*http.Response, []byte, bool, error) {
-	shouldRetry := false
-
 	r, err := req.makeRequest()
 	if err != nil {
 		return nil, nil, false, err
@@ -448,11 +446,11 @@ func (c *Client) innerDo(req *Request, errorValue ErrorResponse, i int) (*http.R
 
 	_ = json.Unmarshal(body, &errorValue)
 
-	if errorValue.IsRetryableError() {
-		shouldRetry = true
+	if errorValue.IsNotFound() {
+		return resp, body, false, nrErrors.NewNotFound(errorValue.Error())
 	}
 
-	if !shouldRetry {
+	if !errorValue.IsRetryableError() {
 		return resp, body, false, nil
 	}
 

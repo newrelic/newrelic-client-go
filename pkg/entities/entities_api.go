@@ -193,6 +193,7 @@ const getEntitiesQuery = `query(
 		reportingEventTypes
 	}
 	accountId
+	alertSeverity
 	domain
 	entityType
 	goldenMetrics {
@@ -219,6 +220,16 @@ const getEntitiesQuery = `query(
 	indexedAt
 	name
 	permalink
+	recentAlertViolations {
+		agentUrl
+		alertSeverity
+		closedAt
+		label
+		level
+		openedAt
+		violationId
+		violationUrl
+	}
 	relationships {
 		source {
 			accountId
@@ -252,7 +263,6 @@ const getEntitiesQuery = `query(
 			name
 			reportingEventTypes
 		}
-		alertSeverity
 		apmBrowserSummary {
 			ajaxRequestThroughput
 			ajaxResponseTimeAverage
@@ -331,6 +341,16 @@ const getEntitiesQuery = `query(
 		}
 		host
 		portOrPath
+		recentAlertViolations {
+			agentUrl
+			alertSeverity
+			closedAt
+			label
+			level
+			openedAt
+			violationId
+			violationUrl
+		}
 		relationships {
 			type
 		}
@@ -355,6 +375,16 @@ const getEntitiesQuery = `query(
 			throughput
 		}
 		host
+		recentAlertViolations {
+			agentUrl
+			alertSeverity
+			closedAt
+			label
+			level
+			openedAt
+			violationId
+			violationUrl
+		}
 		relationships {
 			type
 		}
@@ -374,7 +404,6 @@ const getEntitiesQuery = `query(
 			reportingEventTypes
 		}
 		agentInstallType
-		alertSeverity
 		applicationId
 		browserSummary {
 			ajaxRequestThroughput
@@ -448,6 +477,16 @@ const getEntitiesQuery = `query(
 			updatedAt
 		}
 		permissions
+		recentAlertViolations {
+			agentUrl
+			alertSeverity
+			closedAt
+			label
+			level
+			openedAt
+			violationId
+			violationUrl
+		}
 		relationships {
 			type
 		}
@@ -467,7 +506,6 @@ const getEntitiesQuery = `query(
 			name
 			reportingEventTypes
 		}
-		alertSeverity
 		recentAlertViolations {
 			agentUrl
 			alertSeverity
@@ -496,6 +534,16 @@ const getEntitiesQuery = `query(
 			name
 			reportingEventTypes
 		}
+		recentAlertViolations {
+			agentUrl
+			alertSeverity
+			closedAt
+			label
+			level
+			openedAt
+			violationId
+			violationUrl
+		}
 		relationships {
 			type
 		}
@@ -514,7 +562,6 @@ const getEntitiesQuery = `query(
 			name
 			reportingEventTypes
 		}
-		alertSeverity
 		integrationTypeCode
 		recentAlertViolations {
 			agentUrl
@@ -544,7 +591,6 @@ const getEntitiesQuery = `query(
 			name
 			reportingEventTypes
 		}
-		alertSeverity
 		integrationTypeCode
 		recentAlertViolations {
 			agentUrl
@@ -575,7 +621,6 @@ const getEntitiesQuery = `query(
 			name
 			reportingEventTypes
 		}
-		alertSeverity
 		hostSummary {
 			cpuUtilizationPercent
 			diskUsedPercent
@@ -612,7 +657,6 @@ const getEntitiesQuery = `query(
 			name
 			reportingEventTypes
 		}
-		alertSeverity
 		applicationId
 		metricNormalizationRules {
 			action
@@ -666,6 +710,16 @@ const getEntitiesQuery = `query(
 			reportingEventTypes
 		}
 		description
+		recentAlertViolations {
+			agentUrl
+			alertSeverity
+			closedAt
+			label
+			level
+			openedAt
+			violationId
+			violationUrl
+		}
 		relationships {
 			type
 		}
@@ -690,7 +744,6 @@ const getEntitiesQuery = `query(
 			name
 			reportingEventTypes
 		}
-		alertSeverity
 		monitorId
 		monitorSummary {
 			locationsFailing
@@ -729,7 +782,6 @@ const getEntitiesQuery = `query(
 			name
 			reportingEventTypes
 		}
-		alertSeverity
 		recentAlertViolations {
 			agentUrl
 			alertSeverity
@@ -758,6 +810,16 @@ const getEntitiesQuery = `query(
 			name
 			reportingEventTypes
 		}
+		recentAlertViolations {
+			agentUrl
+			alertSeverity
+			closedAt
+			label
+			level
+			openedAt
+			violationId
+			violationUrl
+		}
 		relationships {
 			type
 		}
@@ -776,7 +838,6 @@ const getEntitiesQuery = `query(
 			name
 			reportingEventTypes
 		}
-		alertSeverity
 		createdAt
 		createdByUser {
 			email
@@ -844,6 +905,7 @@ const getEntityQuery = `query(
 		reportingEventTypes
 	}
 	accountId
+	alertSeverity
 	domain
 	entityType
 	goldenMetrics {
@@ -870,6 +932,16 @@ const getEntityQuery = `query(
 	indexedAt
 	name
 	permalink
+	recentAlertViolations {
+		agentUrl
+		alertSeverity
+		closedAt
+		label
+		level
+		openedAt
+		violationId
+		violationUrl
+	}
 	relationships {
 		source {
 			accountId
@@ -903,7 +975,6 @@ const getEntityQuery = `query(
 			name
 			reportingEventTypes
 		}
-		alertSeverity
 		apmBrowserSummary {
 			ajaxRequestThroughput
 			ajaxResponseTimeAverage
@@ -982,6 +1053,16 @@ const getEntityQuery = `query(
 		}
 		host
 		portOrPath
+		recentAlertViolations {
+			agentUrl
+			alertSeverity
+			closedAt
+			label
+			level
+			openedAt
+			violationId
+			violationUrl
+		}
 		relationships {
 			type
 		}
@@ -1006,6 +1087,16 @@ const getEntityQuery = `query(
 			throughput
 		}
 		host
+		recentAlertViolations {
+			agentUrl
+			alertSeverity
+			closedAt
+			label
+			level
+			openedAt
+			violationId
+			violationUrl
+		}
 		relationships {
 			type
 		}
@@ -1025,7 +1116,6 @@ const getEntityQuery = `query(
 			reportingEventTypes
 		}
 		agentInstallType
-		alertSeverity
 		applicationId
 		browserSummary {
 			ajaxRequestThroughput
@@ -1099,6 +1189,16 @@ const getEntityQuery = `query(
 			updatedAt
 		}
 		permissions
+		recentAlertViolations {
+			agentUrl
+			alertSeverity
+			closedAt
+			label
+			level
+			openedAt
+			violationId
+			violationUrl
+		}
 		relationships {
 			type
 		}
@@ -1118,7 +1218,6 @@ const getEntityQuery = `query(
 			name
 			reportingEventTypes
 		}
-		alertSeverity
 		recentAlertViolations {
 			agentUrl
 			alertSeverity
@@ -1147,6 +1246,16 @@ const getEntityQuery = `query(
 			name
 			reportingEventTypes
 		}
+		recentAlertViolations {
+			agentUrl
+			alertSeverity
+			closedAt
+			label
+			level
+			openedAt
+			violationId
+			violationUrl
+		}
 		relationships {
 			type
 		}
@@ -1165,7 +1274,6 @@ const getEntityQuery = `query(
 			name
 			reportingEventTypes
 		}
-		alertSeverity
 		integrationTypeCode
 		recentAlertViolations {
 			agentUrl
@@ -1195,7 +1303,6 @@ const getEntityQuery = `query(
 			name
 			reportingEventTypes
 		}
-		alertSeverity
 		integrationTypeCode
 		recentAlertViolations {
 			agentUrl
@@ -1226,7 +1333,6 @@ const getEntityQuery = `query(
 			name
 			reportingEventTypes
 		}
-		alertSeverity
 		hostSummary {
 			cpuUtilizationPercent
 			diskUsedPercent
@@ -1263,7 +1369,6 @@ const getEntityQuery = `query(
 			name
 			reportingEventTypes
 		}
-		alertSeverity
 		applicationId
 		metricNormalizationRules {
 			action
@@ -1317,6 +1422,16 @@ const getEntityQuery = `query(
 			reportingEventTypes
 		}
 		description
+		recentAlertViolations {
+			agentUrl
+			alertSeverity
+			closedAt
+			label
+			level
+			openedAt
+			violationId
+			violationUrl
+		}
 		relationships {
 			type
 		}
@@ -1341,7 +1456,6 @@ const getEntityQuery = `query(
 			name
 			reportingEventTypes
 		}
-		alertSeverity
 		monitorId
 		monitorSummary {
 			locationsFailing
@@ -1380,7 +1494,6 @@ const getEntityQuery = `query(
 			name
 			reportingEventTypes
 		}
-		alertSeverity
 		recentAlertViolations {
 			agentUrl
 			alertSeverity
@@ -1409,6 +1522,16 @@ const getEntityQuery = `query(
 			name
 			reportingEventTypes
 		}
+		recentAlertViolations {
+			agentUrl
+			alertSeverity
+			closedAt
+			label
+			level
+			openedAt
+			violationId
+			violationUrl
+		}
 		relationships {
 			type
 		}
@@ -1427,7 +1550,6 @@ const getEntityQuery = `query(
 			name
 			reportingEventTypes
 		}
-		alertSeverity
 		createdAt
 		createdByUser {
 			email
@@ -1505,6 +1627,7 @@ const getEntitySearchQuery = `query(
 		entities {
 			__typename
 			accountId
+			alertSeverity
 			domain
 			entityType
 			guid
@@ -1515,7 +1638,6 @@ const getEntitySearchQuery = `query(
 			type
 			... on ApmApplicationEntityOutline {
 				__typename
-				alertSeverity
 				applicationId
 				language
 			}
@@ -1532,40 +1654,36 @@ const getEntitySearchQuery = `query(
 			... on BrowserApplicationEntityOutline {
 				__typename
 				agentInstallType
-				alertSeverity
 				applicationId
 				servingApmApplicationId
 			}
 			... on DashboardEntityOutline {
 				__typename
+				createdAt
 				dashboardParentGuid
 				permissions
+				updatedAt
 			}
 			... on ExternalEntityOutline {
 				__typename
-				alertSeverity
 			}
 			... on GenericEntityOutline {
 				__typename
 			}
 			... on GenericInfrastructureEntityOutline {
 				__typename
-				alertSeverity
 				integrationTypeCode
 			}
 			... on InfrastructureAwsLambdaFunctionEntityOutline {
 				__typename
-				alertSeverity
 				integrationTypeCode
 				runtime
 			}
 			... on InfrastructureHostEntityOutline {
 				__typename
-				alertSeverity
 			}
 			... on MobileApplicationEntityOutline {
 				__typename
-				alertSeverity
 				applicationId
 			}
 			... on SecureCredentialEntityOutline {
@@ -1576,7 +1694,6 @@ const getEntitySearchQuery = `query(
 			}
 			... on SyntheticMonitorEntityOutline {
 				__typename
-				alertSeverity
 				monitorId
 				monitorType
 				monitoredUrl
@@ -1584,14 +1701,12 @@ const getEntitySearchQuery = `query(
 			}
 			... on ThirdPartyServiceEntityOutline {
 				__typename
-				alertSeverity
 			}
 			... on UnavailableEntityOutline {
 				__typename
 			}
 			... on WorkloadEntityOutline {
 				__typename
-				alertSeverity
 				createdAt
 				updatedAt
 			}
