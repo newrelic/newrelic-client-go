@@ -1,3 +1,8 @@
+<a name="v0.59.3"></a>
+## [v0.59.3] - 2021-06-10
+### Bug Fixes
+- **dashboards:** remove goldenMetrics from dashboard query
+
 <a name="v0.59.2"></a>
 ## [v0.59.2] - 2021-06-10
 ### Bug Fixes
@@ -1039,7 +1044,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.59.2...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.59.3...HEAD
+[v0.59.3]: https://github.com/newrelic/newrelic-client-go/compare/v0.59.2...v0.59.3
 [v0.59.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.59.1...v0.59.2
 [v0.59.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.59.0...v0.59.1
 [v0.59.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.58.5...v0.59.0
