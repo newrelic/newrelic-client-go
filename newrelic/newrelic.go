@@ -105,6 +105,25 @@ func (nr *NewRelic) SetLogLevel(levelName string) {
 	nr.config.Logger.SetLevel(levelName)
 }
 
+// TestEndpoints makes a few calls to determine if the NewRelic enpoints are reachable.
+func (nr *NewRelic) TestEndpoints() error {
+	endpoints := []string{
+		nr.config.Region().InfrastructureURL(),
+		nr.config.Region().LogsURL(),
+		nr.config.Region().NerdGraphURL(),
+		nr.config.Region().RestURL(),
+	}
+
+	for _, e := range endpoints {
+		_, err := http.Get(e)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 // ConfigOption configures the Config when provided to NewApplication.
 // https://docs.newrelic.com/docs/apis/get-started/intro-apis/types-new-relic-api-keys
 type ConfigOption func(*config.Config) error
