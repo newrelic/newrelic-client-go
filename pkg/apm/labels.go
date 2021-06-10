@@ -1,6 +1,8 @@
 package apm
 
 import (
+	"context"
+
 	"github.com/newrelic/newrelic-client-go/pkg/errors"
 )
 
@@ -20,12 +22,17 @@ type LabelLinks struct {
 
 // ListLabels returns the labels within an account.
 func (a *APM) ListLabels() ([]*Label, error) {
+	return a.ListLabelsWithContext(context.Background())
+}
+
+// ListLabelsWithContext returns the labels within an account.
+func (a *APM) ListLabelsWithContext(ctx context.Context) ([]*Label, error) {
 	labels := []*Label{}
 	nextURL := a.config.Region().RestURL("labels.json")
 
 	for nextURL != "" {
 		response := labelsResponse{}
-		resp, err := a.client.Get(nextURL, nil, &response)
+		resp, err := a.client.GetWithContext(ctx, nextURL, nil, &response)
 
 		if err != nil {
 			return nil, err
@@ -43,7 +50,13 @@ func (a *APM) ListLabels() ([]*Label, error) {
 // GetLabel gets a label by key. A label's key
 // is a string hash formatted as <Category>:<Name>.
 func (a *APM) GetLabel(key string) (*Label, error) {
-	labels, err := a.ListLabels()
+	return a.GetLabelWithContext(context.Background(), key)
+}
+
+// GetLabelWithContext gets a label by key. A label's key
+// is a string hash formatted as <Category>:<Name>.
+func (a *APM) GetLabelWithContext(ctx context.Context, key string) (*Label, error) {
+	labels, err := a.ListLabelsWithContext(ctx)
 
 	if err != nil {
 		return nil, err
@@ -60,13 +73,18 @@ func (a *APM) GetLabel(key string) (*Label, error) {
 
 // CreateLabel creates a new label within an account.
 func (a *APM) CreateLabel(label Label) (*Label, error) {
+	return a.CreateLabelWithContext(context.Background(), label)
+}
+
+// CreateLabelWithContext creates a new label within an account.
+func (a *APM) CreateLabelWithContext(ctx context.Context, label Label) (*Label, error) {
 	reqBody := labelRequestBody{
 		Label: label,
 	}
 	resp := labelResponse{}
 
 	// The API currently uses a PUT request for label creation
-	_, err := a.client.Put(a.config.Region().RestURL("labels.json"), nil, &reqBody, &resp)
+	_, err := a.client.PutWithContext(ctx, a.config.Region().RestURL("labels.json"), nil, &reqBody, &resp)
 
 	if err != nil {
 		return nil, err
@@ -78,9 +96,15 @@ func (a *APM) CreateLabel(label Label) (*Label, error) {
 // DeleteLabel deletes a label by key. A label's key
 // is a string hash formatted as <Category>:<Name>.
 func (a *APM) DeleteLabel(key string) (*Label, error) {
+	return a.DeleteLabelWithContext(context.Background(), key)
+}
+
+// DeleteLabelWithContext deletes a label by key. A label's key
+// is a string hash formatted as <Category>:<Name>.
+func (a *APM) DeleteLabelWithContext(ctx context.Context, key string) (*Label, error) {
 	resp := labelResponse{}
 
-	_, err := a.client.Delete(a.config.Region().RestURL("labels", key+".json"), nil, &resp)
+	_, err := a.client.DeleteWithContext(ctx, a.config.Region().RestURL("labels", key+".json"), nil, &resp)
 
 	if err != nil {
 		return nil, err
