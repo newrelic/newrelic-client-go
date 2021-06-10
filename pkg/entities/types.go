@@ -1351,7 +1351,7 @@ type AgentEnvironmentLoadedModuleAttribute struct {
 
 // AlertableEntity -
 type AlertableEntity struct {
-	// The current alerting severity of the entity
+	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
 	// Violations on the entity that were open during the specified time window.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
@@ -1378,7 +1378,7 @@ func (x *AlertableEntity) ImplementsAlertableEntity() {}
 
 // AlertableEntityOutline -
 type AlertableEntityOutline struct {
-	// The current alerting severity of the entity
+	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
 }
 
@@ -1411,9 +1411,9 @@ type ApmApplicationEntity struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
-	// The current alerting severity of the APM Application.
+	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the APM Application that were open during the specified time window.
+	// Violations on the entity that were open during the specified time window.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// Summary statistics about the Browser App injected by an APM Application.
 	ApmBrowserSummary ApmBrowserApplicationSummaryData `json:"apmBrowserSummary,omitempty"`
@@ -1455,7 +1455,7 @@ type ApmApplicationEntity struct {
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
-	// Recent violations on the APM Application.
+	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
 	// A list of the entities' relationships.
 	//
@@ -1639,7 +1639,7 @@ type ApmApplicationEntityOutline struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
-	// The current alerting severity of the APM Application.
+	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
 	// Summary statistics about the Browser App injected by an APM Application.
 	ApmBrowserSummary ApmBrowserApplicationSummaryData `json:"apmBrowserSummary,omitempty"`
@@ -1872,6 +1872,10 @@ type ApmDatabaseInstanceEntity struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
+	// The current alerting severity of the entity.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// Violations on the entity that were open during the specified time window.
+	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -1900,6 +1904,8 @@ type ApmDatabaseInstanceEntity struct {
 	Permalink string `json:"permalink,omitempty"`
 	// The port or path the database instance is running on. ex: `3306` | `/tmp/mysql.sock`
 	PortOrPath string `json:"portOrPath,omitempty"`
+	// Recent violations on the entity.
+	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
 	// A list of the entities' relationships.
 	//
 	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
@@ -1926,6 +1932,16 @@ func (x ApmDatabaseInstanceEntity) GetAccount() accounts.AccountOutline {
 // GetAccountID returns a pointer to the value of AccountID from ApmDatabaseInstanceEntity
 func (x ApmDatabaseInstanceEntity) GetAccountID() int {
 	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
+}
+
+// GetAlertViolations returns a pointer to the value of AlertViolations from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetAlertViolations() []EntityAlertViolation {
+	return x.AlertViolations
 }
 
 // GetDomain returns a pointer to the value of Domain from ApmDatabaseInstanceEntity
@@ -1988,6 +2004,11 @@ func (x ApmDatabaseInstanceEntity) GetPortOrPath() string {
 	return x.PortOrPath
 }
 
+// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetRecentAlertViolations() []EntityAlertViolation {
+	return x.RecentAlertViolations
+}
+
 // GetRelationships returns a pointer to the value of Relationships from ApmDatabaseInstanceEntity
 func (x ApmDatabaseInstanceEntity) GetRelationships() []EntityRelationship {
 	return x.Relationships
@@ -2018,6 +2039,8 @@ func (x ApmDatabaseInstanceEntity) GetVendor() string {
 	return x.Vendor
 }
 
+func (x *ApmDatabaseInstanceEntity) ImplementsAlertableEntity() {}
+
 func (x *ApmDatabaseInstanceEntity) ImplementsEntity() {}
 
 // ApmDatabaseInstanceEntityOutline - A database instance seen by an APM Application
@@ -2026,6 +2049,8 @@ type ApmDatabaseInstanceEntityOutline struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
+	// The current alerting severity of the entity.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -2066,6 +2091,11 @@ func (x ApmDatabaseInstanceEntityOutline) GetAccount() accounts.AccountOutline {
 // GetAccountID returns a pointer to the value of AccountID from ApmDatabaseInstanceEntityOutline
 func (x ApmDatabaseInstanceEntityOutline) GetAccountID() int {
 	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
 }
 
 // GetDomain returns a pointer to the value of Domain from ApmDatabaseInstanceEntityOutline
@@ -2138,6 +2168,8 @@ func (x ApmDatabaseInstanceEntityOutline) GetVendor() string {
 	return x.Vendor
 }
 
+func (x *ApmDatabaseInstanceEntityOutline) ImplementsAlertableEntityOutline() {}
+
 func (x *ApmDatabaseInstanceEntityOutline) ImplementsEntityOutline() {}
 
 // ApmExternalServiceEntity - An external service seen by an APM Application.
@@ -2146,6 +2178,10 @@ type ApmExternalServiceEntity struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
+	// The current alerting severity of the entity.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// Violations on the entity that were open during the specified time window.
+	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -2174,6 +2210,8 @@ type ApmExternalServiceEntity struct {
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
+	// Recent violations on the entity.
+	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
 	// A list of the entities' relationships.
 	//
 	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
@@ -2198,6 +2236,16 @@ func (x ApmExternalServiceEntity) GetAccount() accounts.AccountOutline {
 // GetAccountID returns a pointer to the value of AccountID from ApmExternalServiceEntity
 func (x ApmExternalServiceEntity) GetAccountID() int {
 	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
+}
+
+// GetAlertViolations returns a pointer to the value of AlertViolations from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetAlertViolations() []EntityAlertViolation {
+	return x.AlertViolations
 }
 
 // GetDomain returns a pointer to the value of Domain from ApmExternalServiceEntity
@@ -2260,6 +2308,11 @@ func (x ApmExternalServiceEntity) GetPermalink() string {
 	return x.Permalink
 }
 
+// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetRecentAlertViolations() []EntityAlertViolation {
+	return x.RecentAlertViolations
+}
+
 // GetRelationships returns a pointer to the value of Relationships from ApmExternalServiceEntity
 func (x ApmExternalServiceEntity) GetRelationships() []EntityRelationship {
 	return x.Relationships
@@ -2285,6 +2338,8 @@ func (x ApmExternalServiceEntity) GetType() string {
 	return x.Type
 }
 
+func (x *ApmExternalServiceEntity) ImplementsAlertableEntity() {}
+
 func (x *ApmExternalServiceEntity) ImplementsEntity() {}
 
 // ApmExternalServiceEntityOutline - An external service seen by an APM Application.
@@ -2293,6 +2348,8 @@ type ApmExternalServiceEntityOutline struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
+	// The current alerting severity of the entity.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -2331,6 +2388,11 @@ func (x ApmExternalServiceEntityOutline) GetAccount() accounts.AccountOutline {
 // GetAccountID returns a pointer to the value of AccountID from ApmExternalServiceEntityOutline
 func (x ApmExternalServiceEntityOutline) GetAccountID() int {
 	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
 }
 
 // GetDomain returns a pointer to the value of Domain from ApmExternalServiceEntityOutline
@@ -2398,6 +2460,8 @@ func (x ApmExternalServiceEntityOutline) GetType() string {
 	return x.Type
 }
 
+func (x *ApmExternalServiceEntityOutline) ImplementsAlertableEntityOutline() {}
+
 func (x *ApmExternalServiceEntityOutline) ImplementsEntityOutline() {}
 
 // ApmExternalServiceSummaryData - Summary statistics about an External Service called by an APM App.
@@ -2416,9 +2480,9 @@ type BrowserApplicationEntity struct {
 	AccountID int `json:"accountId,omitempty"`
 	// The type of Browser agent installed for this application.
 	AgentInstallType BrowserAgentInstallType `json:"agentInstallType,omitempty"`
-	// The current alerting severity of the Browser App.
+	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the Browser App that were open during the specified time window.
+	// Violations on the entity that were open during the specified time window.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// The ID of the Browser App.
 	ApplicationID int `json:"applicationId,omitempty"`
@@ -2452,7 +2516,7 @@ type BrowserApplicationEntity struct {
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
-	// Recent violations on the Browser App.
+	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
 	// A list of the entities' relationships.
 	//
@@ -2628,7 +2692,7 @@ type BrowserApplicationEntityOutline struct {
 	AccountID int `json:"accountId,omitempty"`
 	// The type of Browser agent installed for this application.
 	AgentInstallType BrowserAgentInstallType `json:"agentInstallType,omitempty"`
-	// The current alerting severity of the Browser App.
+	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
 	// The ID of the Browser App.
 	ApplicationID int `json:"applicationId,omitempty"`
@@ -2859,6 +2923,10 @@ type DashboardEntity struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
+	// The current alerting severity of the entity.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// Violations on the entity that were open during the specified time window.
+	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// Dashboard creation timestamp.
 	CreatedAt nrtime.DateTime `json:"createdAt,omitempty"`
 	// The parent entity `guid` of the dashboard.
@@ -2895,6 +2963,8 @@ type DashboardEntity struct {
 	Permalink string `json:"permalink,omitempty"`
 	// Dashboard permissions configuration.
 	Permissions DashboardPermissions `json:"permissions,omitempty"`
+	// Recent violations on the entity.
+	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
 	// A list of the entities' relationships.
 	//
 	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
@@ -2921,6 +2991,16 @@ func (x DashboardEntity) GetAccount() accounts.AccountOutline {
 // GetAccountID returns a pointer to the value of AccountID from DashboardEntity
 func (x DashboardEntity) GetAccountID() int {
 	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from DashboardEntity
+func (x DashboardEntity) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
+}
+
+// GetAlertViolations returns a pointer to the value of AlertViolations from DashboardEntity
+func (x DashboardEntity) GetAlertViolations() []EntityAlertViolation {
+	return x.AlertViolations
 }
 
 // GetCreatedAt returns a pointer to the value of CreatedAt from DashboardEntity
@@ -3003,6 +3083,11 @@ func (x DashboardEntity) GetPermissions() DashboardPermissions {
 	return x.Permissions
 }
 
+// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from DashboardEntity
+func (x DashboardEntity) GetRecentAlertViolations() []EntityAlertViolation {
+	return x.RecentAlertViolations
+}
+
 // GetRelationships returns a pointer to the value of Relationships from DashboardEntity
 func (x DashboardEntity) GetRelationships() []EntityRelationship {
 	return x.Relationships
@@ -3033,6 +3118,8 @@ func (x DashboardEntity) GetUpdatedAt() nrtime.DateTime {
 	return x.UpdatedAt
 }
 
+func (x *DashboardEntity) ImplementsAlertableEntity() {}
+
 func (x *DashboardEntity) ImplementsEntity() {}
 
 // DashboardEntityOutline - A Dashboard entity outline.
@@ -3041,6 +3128,10 @@ type DashboardEntityOutline struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
+	// The current alerting severity of the entity.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// The date and time the dashboard was created
+	CreatedAt nrtime.DateTime `json:"createdAt,omitempty"`
 	// The parent entity `guid` of the dashboard.
 	DashboardParentGUID EntityGUID `json:"dashboardParentGuid,omitempty"`
 	// The entity's domain
@@ -3071,6 +3162,8 @@ type DashboardEntityOutline struct {
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// The date and time the dashboard was updated
+	UpdatedAt nrtime.DateTime `json:"updatedAt,omitempty"`
 }
 
 // GetAccount returns a pointer to the value of Account from DashboardEntityOutline
@@ -3081,6 +3174,16 @@ func (x DashboardEntityOutline) GetAccount() accounts.AccountOutline {
 // GetAccountID returns a pointer to the value of AccountID from DashboardEntityOutline
 func (x DashboardEntityOutline) GetAccountID() int {
 	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from DashboardEntityOutline
+func (x DashboardEntityOutline) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
+}
+
+// GetCreatedAt returns a pointer to the value of CreatedAt from DashboardEntityOutline
+func (x DashboardEntityOutline) GetCreatedAt() nrtime.DateTime {
+	return x.CreatedAt
 }
 
 // GetDashboardParentGUID returns a pointer to the value of DashboardParentGUID from DashboardEntityOutline
@@ -3152,6 +3255,13 @@ func (x DashboardEntityOutline) GetTags() []EntityTag {
 func (x DashboardEntityOutline) GetType() string {
 	return x.Type
 }
+
+// GetUpdatedAt returns a pointer to the value of UpdatedAt from DashboardEntityOutline
+func (x DashboardEntityOutline) GetUpdatedAt() nrtime.DateTime {
+	return x.UpdatedAt
+}
+
+func (x *DashboardEntityOutline) ImplementsAlertableEntityOutline() {}
 
 func (x *DashboardEntityOutline) ImplementsEntityOutline() {}
 
@@ -3353,6 +3463,10 @@ type Entity struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
+	// The current alerting severity of the entity.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// Violations on the entity that were open during the specified time window.
+	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -3377,6 +3491,8 @@ type Entity struct {
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
+	// Recent violations on the entity.
+	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
 	// A list of the entities' relationships.
 	//
 	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
@@ -3392,6 +3508,8 @@ type Entity struct {
 	// The entity's type
 	Type string `json:"type,omitempty"`
 }
+
+func (x *Entity) ImplementsAlertableEntity() {}
 
 func (x *Entity) ImplementsEntity() {}
 
@@ -3533,6 +3651,8 @@ type EntityOutline struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
+	// The current alerting severity of the entity.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -3558,6 +3678,8 @@ type EntityOutline struct {
 	// The entity's type
 	Type string `json:"type,omitempty"`
 }
+
+func (x *EntityOutline) ImplementsAlertableEntityOutline() {}
 
 func (x *EntityOutline) ImplementsEntityOutline() {}
 
@@ -3695,7 +3817,9 @@ type EntitySearchQueryBuilder struct {
 
 // EntitySearchQueryBuilderTag - An entity tag.
 type EntitySearchQueryBuilderTag struct {
-	// The tag key.
+	// The tag key. You can search using a `tags.` prefix or omit it and receive the same results.
+	//
+	// Examples: `tags.environment`, `environment`.
 	Key string `json:"key"`
 	// The tag value.
 	Value string `json:"value"`
@@ -3801,9 +3925,9 @@ type ExternalEntity struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
-	// The current alerting severity of the External Entity.
+	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the External Entity that were open during the specified time window.
+	// Violations on the entity that were open during the specified time window.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
@@ -3829,7 +3953,7 @@ type ExternalEntity struct {
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
-	// Recent violations on the External Entity.
+	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
 	// A list of the entities' relationships.
 	//
@@ -3957,7 +4081,7 @@ type ExternalEntityOutline struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
-	// The current alerting severity of the External Entity.
+	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
@@ -4065,6 +4189,10 @@ type GenericEntity struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
+	// The current alerting severity of the entity.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// Violations on the entity that were open during the specified time window.
+	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -4089,6 +4217,8 @@ type GenericEntity struct {
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
+	// Recent violations on the entity.
+	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
 	// A list of the entities' relationships.
 	//
 	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
@@ -4113,6 +4243,16 @@ func (x GenericEntity) GetAccount() accounts.AccountOutline {
 // GetAccountID returns a pointer to the value of AccountID from GenericEntity
 func (x GenericEntity) GetAccountID() int {
 	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from GenericEntity
+func (x GenericEntity) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
+}
+
+// GetAlertViolations returns a pointer to the value of AlertViolations from GenericEntity
+func (x GenericEntity) GetAlertViolations() []EntityAlertViolation {
+	return x.AlertViolations
 }
 
 // GetDomain returns a pointer to the value of Domain from GenericEntity
@@ -4165,6 +4305,11 @@ func (x GenericEntity) GetPermalink() string {
 	return x.Permalink
 }
 
+// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from GenericEntity
+func (x GenericEntity) GetRecentAlertViolations() []EntityAlertViolation {
+	return x.RecentAlertViolations
+}
+
 // GetRelationships returns a pointer to the value of Relationships from GenericEntity
 func (x GenericEntity) GetRelationships() []EntityRelationship {
 	return x.Relationships
@@ -4190,6 +4335,8 @@ func (x GenericEntity) GetType() string {
 	return x.Type
 }
 
+func (x *GenericEntity) ImplementsAlertableEntity() {}
+
 func (x *GenericEntity) ImplementsEntity() {}
 
 // GenericEntityOutline - A generic entity outline.
@@ -4198,6 +4345,8 @@ type GenericEntityOutline struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
+	// The current alerting severity of the entity.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -4232,6 +4381,11 @@ func (x GenericEntityOutline) GetAccount() accounts.AccountOutline {
 // GetAccountID returns a pointer to the value of AccountID from GenericEntityOutline
 func (x GenericEntityOutline) GetAccountID() int {
 	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from GenericEntityOutline
+func (x GenericEntityOutline) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
 }
 
 // GetDomain returns a pointer to the value of Domain from GenericEntityOutline
@@ -4289,6 +4443,8 @@ func (x GenericEntityOutline) GetType() string {
 	return x.Type
 }
 
+func (x *GenericEntityOutline) ImplementsAlertableEntityOutline() {}
+
 func (x *GenericEntityOutline) ImplementsEntityOutline() {}
 
 // GenericInfrastructureEntity - An Infrastructure entity.
@@ -4297,9 +4453,9 @@ type GenericInfrastructureEntity struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
-	// The current alerting severity of the Infrastructure entity.
+	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Recent violations on the Infrastructure entity.
+	// Violations on the entity that were open during the specified time window.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
@@ -4327,7 +4483,7 @@ type GenericInfrastructureEntity struct {
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
-	// Recent violations on the Infrastructure entity.
+	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
 	// A list of the entities' relationships.
 	//
@@ -4462,7 +4618,7 @@ type GenericInfrastructureEntityOutline struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
-	// The current alerting severity of the Infrastructure entity.
+	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
@@ -4579,9 +4735,9 @@ type InfrastructureAwsLambdaFunctionEntity struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
-	// The current alerting severity of the Infrastructure entity.
+	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Recent violations on the Infrastructure entity.
+	// Violations on the entity that were open during the specified time window.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
@@ -4609,7 +4765,7 @@ type InfrastructureAwsLambdaFunctionEntity struct {
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
-	// Recent violations on the Infrastructure entity.
+	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
 	// A list of the entities' relationships.
 	//
@@ -4751,7 +4907,7 @@ type InfrastructureAwsLambdaFunctionEntityOutline struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
-	// The current alerting severity of the Infrastructure entity.
+	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
@@ -4876,9 +5032,9 @@ type InfrastructureHostEntity struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
-	// The current alerting severity of the Infrastructure entity.
+	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Recent violations on the Infrastructure entity.
+	// Violations on the entity that were open during the specified time window.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
@@ -4906,7 +5062,7 @@ type InfrastructureHostEntity struct {
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
-	// Recent violations on the Infrastructure entity.
+	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
 	// A list of the entities' relationships.
 	//
@@ -5039,7 +5195,7 @@ type InfrastructureHostEntityOutline struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
-	// The current alerting severity of the Infrastructure entity.
+	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
@@ -5242,9 +5398,9 @@ type MobileApplicationEntity struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
-	// The current alerting severity of the Mobile App.
+	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the Mobile App that were open during the specified time window.
+	// Violations on the entity that were open during the specified time window.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// The ID of the Mobile App.
 	ApplicationID int `json:"applicationId,omitempty"`
@@ -5278,7 +5434,7 @@ type MobileApplicationEntity struct {
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
-	// Recent violations on the Mobile App.
+	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
 	// A list of the entities' relationships.
 	//
@@ -5426,7 +5582,7 @@ type MobileApplicationEntityOutline struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
-	// The current alerting severity of the Mobile App.
+	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
 	// The ID of the Mobile App.
 	ApplicationID int `json:"applicationId,omitempty"`
@@ -5564,6 +5720,10 @@ type SecureCredentialEntity struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
+	// The current alerting severity of the entity.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// Violations on the entity that were open during the specified time window.
+	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// The description of the entity.
 	Description string `json:"description,omitempty"`
 	// The entity's domain
@@ -5590,6 +5750,8 @@ type SecureCredentialEntity struct {
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
+	// Recent violations on the entity.
+	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
 	// A list of the entities' relationships.
 	//
 	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
@@ -5620,6 +5782,16 @@ func (x SecureCredentialEntity) GetAccount() accounts.AccountOutline {
 // GetAccountID returns a pointer to the value of AccountID from SecureCredentialEntity
 func (x SecureCredentialEntity) GetAccountID() int {
 	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from SecureCredentialEntity
+func (x SecureCredentialEntity) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
+}
+
+// GetAlertViolations returns a pointer to the value of AlertViolations from SecureCredentialEntity
+func (x SecureCredentialEntity) GetAlertViolations() []EntityAlertViolation {
+	return x.AlertViolations
 }
 
 // GetDescription returns a pointer to the value of Description from SecureCredentialEntity
@@ -5677,6 +5849,11 @@ func (x SecureCredentialEntity) GetPermalink() string {
 	return x.Permalink
 }
 
+// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from SecureCredentialEntity
+func (x SecureCredentialEntity) GetRecentAlertViolations() []EntityAlertViolation {
+	return x.RecentAlertViolations
+}
+
 // GetRelationships returns a pointer to the value of Relationships from SecureCredentialEntity
 func (x SecureCredentialEntity) GetRelationships() []EntityRelationship {
 	return x.Relationships
@@ -5717,6 +5894,8 @@ func (x SecureCredentialEntity) GetUpdatedAt() *nrtime.EpochMilliseconds {
 	return x.UpdatedAt
 }
 
+func (x *SecureCredentialEntity) ImplementsAlertableEntity() {}
+
 func (x *SecureCredentialEntity) ImplementsEntity() {}
 
 // SecureCredentialEntityOutline - A secure credential entity outline.
@@ -5725,6 +5904,8 @@ type SecureCredentialEntityOutline struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
+	// The current alerting severity of the entity.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
 	// The description of the entity.
 	Description string `json:"description,omitempty"`
 	// The entity's domain
@@ -5767,6 +5948,11 @@ func (x SecureCredentialEntityOutline) GetAccount() accounts.AccountOutline {
 // GetAccountID returns a pointer to the value of AccountID from SecureCredentialEntityOutline
 func (x SecureCredentialEntityOutline) GetAccountID() int {
 	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
 }
 
 // GetDescription returns a pointer to the value of Description from SecureCredentialEntityOutline
@@ -5844,6 +6030,8 @@ func (x SecureCredentialEntityOutline) GetUpdatedAt() *nrtime.EpochMilliseconds 
 	return x.UpdatedAt
 }
 
+func (x *SecureCredentialEntityOutline) ImplementsAlertableEntityOutline() {}
+
 func (x *SecureCredentialEntityOutline) ImplementsEntityOutline() {}
 
 // SecureCredentialSummaryData - Summary statistics for the Synthetic Monitor Secure Credential.
@@ -5860,9 +6048,9 @@ type SyntheticMonitorEntity struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
-	// The current alerting severity of the Synthetic Monitor entity.
+	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the Synthetics Monitor that were open during the specified time window.
+	// Violations on the entity that were open during the specified time window.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// Assets produced during the execution of the check, such as screenshots
 	Assets []SyntheticsSyntheticMonitorAsset `json:"assets,omitempty"`
@@ -5900,7 +6088,7 @@ type SyntheticMonitorEntity struct {
 	Period nrtime.Minutes `json:"period,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
-	// Recent violations on the Synthetics Monitor.
+	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
 	// A list of the entities' relationships.
 	//
@@ -6058,7 +6246,7 @@ type SyntheticMonitorEntityOutline struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
-	// The current alerting severity of the Synthetic Monitor entity.
+	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
@@ -6251,9 +6439,9 @@ type ThirdPartyServiceEntity struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
-	// The current alerting severity of the Third Party Service entity.
+	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the Third Party Service entity that were open during the specified time window.
+	// Violations on the entity that were open during the specified time window.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
@@ -6279,7 +6467,7 @@ type ThirdPartyServiceEntity struct {
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
-	// Recent violations on the Third Party Service entity.
+	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
 	// A list of the entities' relationships.
 	//
@@ -6407,7 +6595,7 @@ type ThirdPartyServiceEntityOutline struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
-	// The current alerting severity of the Third Party Service entity.
+	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
@@ -6523,6 +6711,10 @@ type UnavailableEntity struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
+	// The current alerting severity of the entity.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// Violations on the entity that were open during the specified time window.
+	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -6547,6 +6739,8 @@ type UnavailableEntity struct {
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
+	// Recent violations on the entity.
+	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
 	// A list of the entities' relationships.
 	//
 	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
@@ -6571,6 +6765,16 @@ func (x UnavailableEntity) GetAccount() accounts.AccountOutline {
 // GetAccountID returns a pointer to the value of AccountID from UnavailableEntity
 func (x UnavailableEntity) GetAccountID() int {
 	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from UnavailableEntity
+func (x UnavailableEntity) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
+}
+
+// GetAlertViolations returns a pointer to the value of AlertViolations from UnavailableEntity
+func (x UnavailableEntity) GetAlertViolations() []EntityAlertViolation {
+	return x.AlertViolations
 }
 
 // GetDomain returns a pointer to the value of Domain from UnavailableEntity
@@ -6623,6 +6827,11 @@ func (x UnavailableEntity) GetPermalink() string {
 	return x.Permalink
 }
 
+// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from UnavailableEntity
+func (x UnavailableEntity) GetRecentAlertViolations() []EntityAlertViolation {
+	return x.RecentAlertViolations
+}
+
 // GetRelationships returns a pointer to the value of Relationships from UnavailableEntity
 func (x UnavailableEntity) GetRelationships() []EntityRelationship {
 	return x.Relationships
@@ -6648,6 +6857,8 @@ func (x UnavailableEntity) GetType() string {
 	return x.Type
 }
 
+func (x *UnavailableEntity) ImplementsAlertableEntity() {}
+
 func (x *UnavailableEntity) ImplementsEntity() {}
 
 // UnavailableEntityOutline - An entity outline that is unavailable.
@@ -6656,6 +6867,8 @@ type UnavailableEntityOutline struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
+	// The current alerting severity of the entity.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -6690,6 +6903,11 @@ func (x UnavailableEntityOutline) GetAccount() accounts.AccountOutline {
 // GetAccountID returns a pointer to the value of AccountID from UnavailableEntityOutline
 func (x UnavailableEntityOutline) GetAccountID() int {
 	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from UnavailableEntityOutline
+func (x UnavailableEntityOutline) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
 }
 
 // GetDomain returns a pointer to the value of Domain from UnavailableEntityOutline
@@ -6746,6 +6964,8 @@ func (x UnavailableEntityOutline) GetTags() []EntityTag {
 func (x UnavailableEntityOutline) GetType() string {
 	return x.Type
 }
+
+func (x *UnavailableEntityOutline) ImplementsAlertableEntityOutline() {}
 
 func (x *UnavailableEntityOutline) ImplementsEntityOutline() {}
 
@@ -7165,6 +7385,26 @@ func UnmarshalAlertableEntityInterface(b []byte) (*AlertableEntityInterface, err
 			var xxx AlertableEntityInterface = &interfaceType
 
 			return &xxx, nil
+		case "ApmDatabaseInstanceEntity":
+			var interfaceType ApmDatabaseInstanceEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertableEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "ApmExternalServiceEntity":
+			var interfaceType ApmExternalServiceEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertableEntityInterface = &interfaceType
+
+			return &xxx, nil
 		case "BrowserApplicationEntity":
 			var interfaceType BrowserApplicationEntity
 			err = json.Unmarshal(b, &interfaceType)
@@ -7175,8 +7415,38 @@ func UnmarshalAlertableEntityInterface(b []byte) (*AlertableEntityInterface, err
 			var xxx AlertableEntityInterface = &interfaceType
 
 			return &xxx, nil
+		case "DashboardEntity":
+			var interfaceType DashboardEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertableEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "Entity":
+			var interfaceType Entity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertableEntityInterface = &interfaceType
+
+			return &xxx, nil
 		case "ExternalEntity":
 			var interfaceType ExternalEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertableEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "GenericEntity":
+			var interfaceType GenericEntity
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
@@ -7225,6 +7495,16 @@ func UnmarshalAlertableEntityInterface(b []byte) (*AlertableEntityInterface, err
 			var xxx AlertableEntityInterface = &interfaceType
 
 			return &xxx, nil
+		case "SecureCredentialEntity":
+			var interfaceType SecureCredentialEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertableEntityInterface = &interfaceType
+
+			return &xxx, nil
 		case "SyntheticMonitorEntity":
 			var interfaceType SyntheticMonitorEntity
 			err = json.Unmarshal(b, &interfaceType)
@@ -7237,6 +7517,16 @@ func UnmarshalAlertableEntityInterface(b []byte) (*AlertableEntityInterface, err
 			return &xxx, nil
 		case "ThirdPartyServiceEntity":
 			var interfaceType ThirdPartyServiceEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertableEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "UnavailableEntity":
+			var interfaceType UnavailableEntity
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
@@ -7307,6 +7597,26 @@ func UnmarshalAlertableEntityOutlineInterface(b []byte) (*AlertableEntityOutline
 			var xxx AlertableEntityOutlineInterface = &interfaceType
 
 			return &xxx, nil
+		case "ApmDatabaseInstanceEntityOutline":
+			var interfaceType ApmDatabaseInstanceEntityOutline
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertableEntityOutlineInterface = &interfaceType
+
+			return &xxx, nil
+		case "ApmExternalServiceEntityOutline":
+			var interfaceType ApmExternalServiceEntityOutline
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertableEntityOutlineInterface = &interfaceType
+
+			return &xxx, nil
 		case "BrowserApplicationEntityOutline":
 			var interfaceType BrowserApplicationEntityOutline
 			err = json.Unmarshal(b, &interfaceType)
@@ -7317,8 +7627,38 @@ func UnmarshalAlertableEntityOutlineInterface(b []byte) (*AlertableEntityOutline
 			var xxx AlertableEntityOutlineInterface = &interfaceType
 
 			return &xxx, nil
+		case "DashboardEntityOutline":
+			var interfaceType DashboardEntityOutline
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertableEntityOutlineInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityOutline":
+			var interfaceType EntityOutline
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertableEntityOutlineInterface = &interfaceType
+
+			return &xxx, nil
 		case "ExternalEntityOutline":
 			var interfaceType ExternalEntityOutline
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertableEntityOutlineInterface = &interfaceType
+
+			return &xxx, nil
+		case "GenericEntityOutline":
+			var interfaceType GenericEntityOutline
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
@@ -7367,6 +7707,16 @@ func UnmarshalAlertableEntityOutlineInterface(b []byte) (*AlertableEntityOutline
 			var xxx AlertableEntityOutlineInterface = &interfaceType
 
 			return &xxx, nil
+		case "SecureCredentialEntityOutline":
+			var interfaceType SecureCredentialEntityOutline
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertableEntityOutlineInterface = &interfaceType
+
+			return &xxx, nil
 		case "SyntheticMonitorEntityOutline":
 			var interfaceType SyntheticMonitorEntityOutline
 			err = json.Unmarshal(b, &interfaceType)
@@ -7379,6 +7729,16 @@ func UnmarshalAlertableEntityOutlineInterface(b []byte) (*AlertableEntityOutline
 			return &xxx, nil
 		case "ThirdPartyServiceEntityOutline":
 			var interfaceType ThirdPartyServiceEntityOutline
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertableEntityOutlineInterface = &interfaceType
+
+			return &xxx, nil
+		case "UnavailableEntityOutline":
+			var interfaceType UnavailableEntityOutline
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
