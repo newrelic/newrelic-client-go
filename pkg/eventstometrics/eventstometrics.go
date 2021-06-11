@@ -1,6 +1,7 @@
 package eventstometrics
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"strings"
@@ -34,12 +35,17 @@ func New(config config.Config) EventsToMetrics {
 
 // ListRules retrieves a set of New Relic events to metrics rules by their account ID.
 func (e *EventsToMetrics) ListRules(accountID int) ([]EventsToMetricsRule, error) {
+	return e.ListRulesWithContext(context.Background(), accountID)
+}
+
+// ListRulesWithContext retrieves a set of New Relic events to metrics rules by their account ID.
+func (e *EventsToMetrics) ListRulesWithContext(ctx context.Context, accountID int) ([]EventsToMetricsRule, error) {
 	resp := listRulesResponse{}
 	vars := map[string]interface{}{
 		"accountId": accountID,
 	}
 
-	if err := e.client.NerdGraphQuery(listEventsToMetricsRulesQuery, vars, &resp); err != nil {
+	if err := e.client.NerdGraphQueryWithContext(ctx, listEventsToMetricsRulesQuery, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -52,6 +58,11 @@ func (e *EventsToMetrics) ListRules(accountID int) ([]EventsToMetricsRule, error
 
 // GetRule retrieves one or more New Relic events to metrics rules by their IDs.
 func (e *EventsToMetrics) GetRule(accountID int, ruleID string) (*EventsToMetricsRule, error) {
+	return e.GetRuleWithContext(context.Background(), accountID, ruleID)
+}
+
+// GetRuleWithContext retrieves one or more New Relic events to metrics rules by their IDs.
+func (e *EventsToMetrics) GetRuleWithContext(ctx context.Context, accountID int, ruleID string) (*EventsToMetricsRule, error) {
 	rules, err := e.GetRules(accountID, []string{ruleID})
 	if err != nil {
 		return nil, err
@@ -62,13 +73,18 @@ func (e *EventsToMetrics) GetRule(accountID int, ruleID string) (*EventsToMetric
 
 // GetRules retrieves one or more New Relic events to metrics rules by their IDs.
 func (e *EventsToMetrics) GetRules(accountID int, ruleIDs []string) ([]EventsToMetricsRule, error) {
+	return e.GetRulesWithContext(context.Background(), accountID, ruleIDs)
+}
+
+// GetRulesWithContext retrieves one or more New Relic events to metrics rules by their IDs.
+func (e *EventsToMetrics) GetRulesWithContext(ctx context.Context, accountID int, ruleIDs []string) ([]EventsToMetricsRule, error) {
 	resp := getRulesResponse{}
 	vars := map[string]interface{}{
 		"accountId": accountID,
 		"ruleIds":   ruleIDs,
 	}
 
-	if err := e.client.NerdGraphQuery(getEventsToMetricsRulesQuery, vars, &resp); err != nil {
+	if err := e.client.NerdGraphQueryWithContext(ctx, getEventsToMetricsRulesQuery, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -81,12 +97,17 @@ func (e *EventsToMetrics) GetRules(accountID int, ruleIDs []string) ([]EventsToM
 
 // CreateRules creates one or more New Relic events to metrics rules.
 func (e *EventsToMetrics) CreateRules(createInput []EventsToMetricsCreateRuleInput) ([]EventsToMetricsRule, error) {
+	return e.CreateRulesWithContext(context.Background(), createInput)
+}
+
+// CreateRulesWithContext creates one or more New Relic events to metrics rules.
+func (e *EventsToMetrics) CreateRulesWithContext(ctx context.Context, createInput []EventsToMetricsCreateRuleInput) ([]EventsToMetricsRule, error) {
 	resp := createRuleResponse{}
 	vars := map[string]interface{}{
 		"createInput": createInput,
 	}
 
-	if err := e.client.NerdGraphQuery(eventsToMetricsCreateRuleMutation, vars, &resp); err != nil {
+	if err := e.client.NerdGraphQueryWithContext(ctx, eventsToMetricsCreateRuleMutation, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -99,12 +120,17 @@ func (e *EventsToMetrics) CreateRules(createInput []EventsToMetricsCreateRuleInp
 
 // DeleteRules deletes one or more New Relic events to metrics rules.
 func (e *EventsToMetrics) DeleteRules(deleteInput []EventsToMetricsDeleteRuleInput) ([]EventsToMetricsRule, error) {
+	return e.DeleteRulesWithContext(context.Background(), deleteInput)
+}
+
+// DeleteRulesWithContext deletes one or more New Relic events to metrics rules.
+func (e *EventsToMetrics) DeleteRulesWithContext(ctx context.Context, deleteInput []EventsToMetricsDeleteRuleInput) ([]EventsToMetricsRule, error) {
 	resp := deleteRuleResponse{}
 	vars := map[string]interface{}{
 		"deleteInput": deleteInput,
 	}
 
-	if err := e.client.NerdGraphQuery(eventsToMetricsDeleteRuleMutation, vars, &resp); err != nil {
+	if err := e.client.NerdGraphQueryWithContext(ctx, eventsToMetricsDeleteRuleMutation, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -117,12 +143,17 @@ func (e *EventsToMetrics) DeleteRules(deleteInput []EventsToMetricsDeleteRuleInp
 
 // UpdateRules updates one or more New Relic events to metrics rules.
 func (e *EventsToMetrics) UpdateRules(updateInput []EventsToMetricsUpdateRuleInput) ([]EventsToMetricsRule, error) {
+	return e.UpdateRulesWithContext(context.Background(), updateInput)
+}
+
+// UpdateRulesWithContext updates one or more New Relic events to metrics rules.
+func (e *EventsToMetrics) UpdateRulesWithContext(ctx context.Context, updateInput []EventsToMetricsUpdateRuleInput) ([]EventsToMetricsRule, error) {
 	resp := updateRuleResponse{}
 	vars := map[string]interface{}{
 		"updateInput": updateInput,
 	}
 
-	if err := e.client.NerdGraphQuery(eventsToMetricsUpdateRuleMutation, vars, &resp); err != nil {
+	if err := e.client.NerdGraphQueryWithContext(ctx, eventsToMetricsUpdateRuleMutation, vars, &resp); err != nil {
 		return nil, err
 	}
 

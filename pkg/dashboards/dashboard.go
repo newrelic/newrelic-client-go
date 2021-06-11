@@ -1,6 +1,7 @@
 package dashboards
 
 import (
+	"context"
 	"fmt"
 	"time"
 
@@ -46,6 +47,11 @@ func (d *Dashboards) ListDashboards(params *ListDashboardsParams) ([]*Dashboard,
 
 // GetDashboardEntity is used to retrieve a single New Relic One Dashboard
 func (d *Dashboards) GetDashboardEntity(gUID entities.EntityGUID) (*entities.DashboardEntity, error) {
+	return d.GetDashboardEntityWithContext(context.Background(), gUID)
+}
+
+// GetDashboardEntityWithContext is used to retrieve a single New Relic One Dashboard
+func (d *Dashboards) GetDashboardEntityWithContext(ctx context.Context, gUID entities.EntityGUID) (*entities.DashboardEntity, error) {
 	resp := struct {
 		Actor entities.Actor `json:"actor"`
 	}{}
@@ -53,7 +59,7 @@ func (d *Dashboards) GetDashboardEntity(gUID entities.EntityGUID) (*entities.Das
 		"guid": gUID,
 	}
 
-	if err := d.client.NerdGraphQuery(getDashboardEntityQuery, vars, &resp); err != nil {
+	if err := d.client.NerdGraphQueryWithContext(ctx, getDashboardEntityQuery, vars, &resp); err != nil {
 		return nil, err
 	}
 

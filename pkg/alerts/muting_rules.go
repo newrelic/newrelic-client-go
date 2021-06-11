@@ -1,6 +1,7 @@
 package alerts
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"time"
@@ -153,13 +154,18 @@ type MutingRuleUpdateInput struct {
 
 // ListMutingRules queries for all muting rules in a given account.
 func (a *Alerts) ListMutingRules(accountID int) ([]MutingRule, error) {
+	return a.ListMutingRulesWithContext(context.Background(), accountID)
+}
+
+// ListMutingRulesWithContext queries for all muting rules in a given account.
+func (a *Alerts) ListMutingRulesWithContext(ctx context.Context, accountID int) ([]MutingRule, error) {
 	vars := map[string]interface{}{
 		"accountID": accountID,
 	}
 
 	resp := alertMutingRuleListResponse{}
 
-	if err := a.client.NerdGraphQuery(alertsMutingRulesQuery, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, alertsMutingRulesQuery, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -168,6 +174,11 @@ func (a *Alerts) ListMutingRules(accountID int) ([]MutingRule, error) {
 
 // GetMutingRule queries for a single muting rule matching the given ID.
 func (a *Alerts) GetMutingRule(accountID, ruleID int) (*MutingRule, error) {
+	return a.GetMutingRuleWithContext(context.Background(), accountID, ruleID)
+}
+
+// GetMutingRuleWithContext queries for a single muting rule matching the given ID.
+func (a *Alerts) GetMutingRuleWithContext(ctx context.Context, accountID, ruleID int) (*MutingRule, error) {
 	vars := map[string]interface{}{
 		"accountID": accountID,
 		"ruleID":    ruleID,
@@ -175,7 +186,7 @@ func (a *Alerts) GetMutingRule(accountID, ruleID int) (*MutingRule, error) {
 
 	resp := alertMutingRulesGetResponse{}
 
-	if err := a.client.NerdGraphQuery(alertsMutingRulesGet, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, alertsMutingRulesGet, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -184,6 +195,11 @@ func (a *Alerts) GetMutingRule(accountID, ruleID int) (*MutingRule, error) {
 
 // CreateMutingRule is the mutation to create a muting rule for the given account and input.
 func (a *Alerts) CreateMutingRule(accountID int, rule MutingRuleCreateInput) (*MutingRule, error) {
+	return a.CreateMutingRuleWithContext(context.Background(), accountID, rule)
+}
+
+// CreateMutingRuleWithContext is the mutation to create a muting rule for the given account and input.
+func (a *Alerts) CreateMutingRuleWithContext(ctx context.Context, accountID int, rule MutingRuleCreateInput) (*MutingRule, error) {
 	vars := map[string]interface{}{
 		"accountID": accountID,
 		"rule":      rule,
@@ -191,7 +207,7 @@ func (a *Alerts) CreateMutingRule(accountID int, rule MutingRuleCreateInput) (*M
 
 	resp := alertMutingRuleCreateResponse{}
 
-	if err := a.client.NerdGraphQuery(alertsMutingRulesCreate, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, alertsMutingRulesCreate, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -200,6 +216,11 @@ func (a *Alerts) CreateMutingRule(accountID int, rule MutingRuleCreateInput) (*M
 
 // UpdateMutingRule is the mutation to update an existing muting rule.
 func (a *Alerts) UpdateMutingRule(accountID int, ruleID int, rule MutingRuleUpdateInput) (*MutingRule, error) {
+	return a.UpdateMutingRuleWithContext(context.Background(), accountID, ruleID, rule)
+}
+
+// UpdateMutingRuleWithContext is the mutation to update an existing muting rule.
+func (a *Alerts) UpdateMutingRuleWithContext(ctx context.Context, accountID int, ruleID int, rule MutingRuleUpdateInput) (*MutingRule, error) {
 	vars := map[string]interface{}{
 		"accountID": accountID,
 		"ruleID":    ruleID,
@@ -208,7 +229,7 @@ func (a *Alerts) UpdateMutingRule(accountID int, ruleID int, rule MutingRuleUpda
 
 	resp := alertMutingRuleUpdateResponse{}
 
-	if err := a.client.NerdGraphQuery(alertsMutingRulesUpdate, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, alertsMutingRulesUpdate, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -217,6 +238,11 @@ func (a *Alerts) UpdateMutingRule(accountID int, ruleID int, rule MutingRuleUpda
 
 // DeleteMutingRule is the mutation to delete an existing muting rule.
 func (a *Alerts) DeleteMutingRule(accountID int, ruleID int) error {
+	return a.DeleteMutingRuleWithContext(context.Background(), accountID, ruleID)
+}
+
+// DeleteMutingRuleWithContext is the mutation to delete an existing muting rule.
+func (a *Alerts) DeleteMutingRuleWithContext(ctx context.Context, accountID int, ruleID int) error {
 	vars := map[string]interface{}{
 		"accountID": accountID,
 		"ruleID":    ruleID,
@@ -224,7 +250,7 @@ func (a *Alerts) DeleteMutingRule(accountID int, ruleID int) error {
 
 	resp := alertMutingRuleDeleteResponse{}
 
-	if err := a.client.NerdGraphQuery(alertsMutingRuleDelete, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, alertsMutingRuleDelete, vars, &resp); err != nil {
 		return err
 	}
 

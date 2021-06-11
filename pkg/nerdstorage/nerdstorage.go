@@ -1,6 +1,7 @@
 package nerdstorage
 
 import (
+	"context"
 	"fmt"
 	"strconv"
 
@@ -26,6 +27,11 @@ type GetDocumentInput struct {
 
 // GetDocumentWithAccountScope retrieves a NerdStorage document with account scope.
 func (e *NerdStorage) GetDocumentWithAccountScope(accountID int, input GetDocumentInput) (interface{}, error) {
+	return e.GetDocumentWithAccountScopeWithContext(context.Background(), accountID, input)
+}
+
+// GetDocumentWithAccountScopeWithContext retrieves a NerdStorage document with account scope.
+func (e *NerdStorage) GetDocumentWithAccountScopeWithContext(ctx context.Context, accountID int, input GetDocumentInput) (interface{}, error) {
 	if accountID == 0 {
 		return nil, fmt.Errorf("account ID is required when using account scope")
 	}
@@ -33,7 +39,7 @@ func (e *NerdStorage) GetDocumentWithAccountScope(accountID int, input GetDocume
 	scopeID := strconv.Itoa(accountID)
 	vars := map[string]interface{}{"accountId": accountID}
 
-	resp, err := e.getDocumentWithScope(accountScope, scopeID, getDocumentWithAccountScopeQuery, vars, input)
+	resp, err := e.getDocumentWithScope(ctx, accountScope, scopeID, getDocumentWithAccountScopeQuery, vars, input)
 	if err != nil {
 		return nil, err
 	}
@@ -43,14 +49,19 @@ func (e *NerdStorage) GetDocumentWithAccountScope(accountID int, input GetDocume
 
 // GetDocumentWithUserScope retrieves a NerdStorage document with user scope.
 func (e *NerdStorage) GetDocumentWithUserScope(input GetDocumentInput) (interface{}, error) {
-	userID, err := e.getUserID()
+	return e.GetDocumentWithUserScopeWithContext(context.Background(), input)
+}
+
+// GetDocumentWithUserScopeWithContext retrieves a NerdStorage document with user scope.
+func (e *NerdStorage) GetDocumentWithUserScopeWithContext(ctx context.Context, input GetDocumentInput) (interface{}, error) {
+	userID, err := e.getUserID(ctx)
 	if err != nil {
 		return nil, err
 	}
 
 	scopeID := strconv.Itoa(userID)
 
-	resp, err := e.getDocumentWithScope(actorScope, scopeID, getDocumentWithUserScopeQuery, nil, input)
+	resp, err := e.getDocumentWithScope(ctx, actorScope, scopeID, getDocumentWithUserScopeQuery, nil, input)
 	if err != nil {
 		return nil, err
 	}
@@ -60,12 +71,17 @@ func (e *NerdStorage) GetDocumentWithUserScope(input GetDocumentInput) (interfac
 
 // GetDocumentWithEntityScope retrieves a NerdStorage document with entity scope.
 func (e *NerdStorage) GetDocumentWithEntityScope(entityGUID string, input GetDocumentInput) (interface{}, error) {
+	return e.GetDocumentWithEntityScopeWithContext(context.Background(), entityGUID, input)
+}
+
+// GetDocumentWithEntityScopeWithContext retrieves a NerdStorage document with entity scope.
+func (e *NerdStorage) GetDocumentWithEntityScopeWithContext(ctx context.Context, entityGUID string, input GetDocumentInput) (interface{}, error) {
 	if entityGUID == "" {
 		return nil, fmt.Errorf("entity GUID is required when using entity scope")
 	}
 
 	vars := map[string]interface{}{"entityGuid": entityGUID}
-	resp, err := e.getDocumentWithScope(entityScope, entityGUID, getDocumentWithEntityScopeQuery, vars, input)
+	resp, err := e.getDocumentWithScope(ctx, entityScope, entityGUID, getDocumentWithEntityScopeQuery, vars, input)
 	if err != nil {
 		return nil, err
 	}
@@ -81,6 +97,11 @@ type GetCollectionInput struct {
 
 // GetCollectionWithAccountScope retrieves a NerdStorage collection with account scope.
 func (e *NerdStorage) GetCollectionWithAccountScope(accountID int, input GetCollectionInput) ([]interface{}, error) {
+	return e.GetCollectionWithAccountScopeWithContext(context.Background(), accountID, input)
+}
+
+// GetCollectionWithAccountScopeWithContext retrieves a NerdStorage collection with account scope.
+func (e *NerdStorage) GetCollectionWithAccountScopeWithContext(ctx context.Context, accountID int, input GetCollectionInput) ([]interface{}, error) {
 	if accountID == 0 {
 		return nil, fmt.Errorf("account ID is required when using account scope")
 	}
@@ -88,7 +109,7 @@ func (e *NerdStorage) GetCollectionWithAccountScope(accountID int, input GetColl
 	scopeID := strconv.Itoa(accountID)
 	vars := map[string]interface{}{"accountId": accountID}
 
-	resp, err := e.getCollectionWithScope(accountScope, scopeID, getCollectionWithAccountScopeQuery, vars, input)
+	resp, err := e.getCollectionWithScope(ctx, accountScope, scopeID, getCollectionWithAccountScopeQuery, vars, input)
 	if err != nil {
 		return nil, err
 	}
@@ -98,13 +119,18 @@ func (e *NerdStorage) GetCollectionWithAccountScope(accountID int, input GetColl
 
 // GetCollectionWithUserScope retrieves a NerdStorage collection with user scope.
 func (e *NerdStorage) GetCollectionWithUserScope(input GetCollectionInput) ([]interface{}, error) {
-	userID, err := e.getUserID()
+	return e.GetCollectionWithUserScopeWithContext(context.Background(), input)
+}
+
+// GetCollectionWithUserScopeWithContext retrieves a NerdStorage collection with user scope.
+func (e *NerdStorage) GetCollectionWithUserScopeWithContext(ctx context.Context, input GetCollectionInput) ([]interface{}, error) {
+	userID, err := e.getUserID(ctx)
 	if err != nil {
 		return nil, err
 	}
 
 	scopeID := strconv.Itoa(userID)
-	resp, err := e.getCollectionWithScope(actorScope, scopeID, getCollectionWithUserScopeQuery, nil, input)
+	resp, err := e.getCollectionWithScope(ctx, actorScope, scopeID, getCollectionWithUserScopeQuery, nil, input)
 	if err != nil {
 		return nil, err
 	}
@@ -114,12 +140,17 @@ func (e *NerdStorage) GetCollectionWithUserScope(input GetCollectionInput) ([]in
 
 // GetCollectionWithEntityScope wretrieves a NerdStorage collection with entity scope.
 func (e *NerdStorage) GetCollectionWithEntityScope(entityGUID string, input GetCollectionInput) ([]interface{}, error) {
+	return e.GetCollectionWithEntityScopeWithContext(context.Background(), entityGUID, input)
+}
+
+// GetCollectionWithEntityScopeWithContext wretrieves a NerdStorage collection with entity scope.
+func (e *NerdStorage) GetCollectionWithEntityScopeWithContext(ctx context.Context, entityGUID string, input GetCollectionInput) ([]interface{}, error) {
 	if entityGUID == "" {
 		return nil, fmt.Errorf("entity GUID is required when using entity scope")
 	}
 
 	vars := map[string]interface{}{"entityGuid": entityGUID}
-	resp, err := e.getCollectionWithScope(entityScope, entityGUID, getCollectionWithEntityScopeQuery, vars, input)
+	resp, err := e.getCollectionWithScope(ctx, entityScope, entityGUID, getCollectionWithEntityScopeQuery, vars, input)
 	if err != nil {
 		return nil, err
 	}
@@ -137,33 +168,48 @@ type WriteDocumentInput struct {
 
 // WriteDocumentWithAccountScope writes a NerdStorage document with account scope.
 func (e *NerdStorage) WriteDocumentWithAccountScope(accountID int, input WriteDocumentInput) (interface{}, error) {
+	return e.WriteDocumentWithAccountScopeWithContext(context.Background(), accountID, input)
+}
+
+// WriteDocumentWithAccountScopeWithContext writes a NerdStorage document with account scope.
+func (e *NerdStorage) WriteDocumentWithAccountScopeWithContext(ctx context.Context, accountID int, input WriteDocumentInput) (interface{}, error) {
 	if accountID == 0 {
 		return nil, fmt.Errorf("account ID is required when using account scope")
 	}
 
 	scopeID := strconv.Itoa(accountID)
 
-	return e.writeDocumentWithScope(accountScope, scopeID, input)
+	return e.writeDocumentWithScope(ctx, accountScope, scopeID, input)
 }
 
 // WriteDocumentWithUserScope writes a NerdStorage document with user scope.
 func (e *NerdStorage) WriteDocumentWithUserScope(input WriteDocumentInput) (interface{}, error) {
-	userID, err := e.getUserID()
+	return e.WriteDocumentWithUserScopeWithContext(context.Background(), input)
+}
+
+// WriteDocumentWithUserScopeWithContext writes a NerdStorage document with user scope.
+func (e *NerdStorage) WriteDocumentWithUserScopeWithContext(ctx context.Context, input WriteDocumentInput) (interface{}, error) {
+	userID, err := e.getUserID(ctx)
 	if err != nil {
 		return nil, err
 	}
 
 	scopeID := strconv.Itoa(userID)
-	return e.writeDocumentWithScope(actorScope, scopeID, input)
+	return e.writeDocumentWithScope(ctx, actorScope, scopeID, input)
 }
 
 // WriteDocumentWithEntityScope writes a NerdStorage document with entity scope.
 func (e *NerdStorage) WriteDocumentWithEntityScope(entityGUID string, input WriteDocumentInput) (interface{}, error) {
+	return e.WriteDocumentWithEntityScopeWithContext(context.Background(), entityGUID, input)
+}
+
+// WriteDocumentWithEntityScopeWithContext writes a NerdStorage document with entity scope.
+func (e *NerdStorage) WriteDocumentWithEntityScopeWithContext(ctx context.Context, entityGUID string, input WriteDocumentInput) (interface{}, error) {
 	if entityGUID == "" {
 		return nil, fmt.Errorf("entity GUID is required when using entity scope")
 	}
 
-	return e.writeDocumentWithScope(entityScope, entityGUID, input)
+	return e.writeDocumentWithScope(ctx, entityScope, entityGUID, input)
 }
 
 // DeleteDocumentInput represents the input data required for the DeleteDocument mutation.
@@ -175,33 +221,48 @@ type DeleteDocumentInput struct {
 
 // DeleteDocumentWithAccountScope deletes a NerdStorage document with account scope.
 func (e *NerdStorage) DeleteDocumentWithAccountScope(accountID int, input DeleteDocumentInput) (bool, error) {
+	return e.DeleteDocumentWithAccountScopeWithContext(context.Background(), accountID, input)
+}
+
+// DeleteDocumentWithAccountScopeWithContext deletes a NerdStorage document with account scope.
+func (e *NerdStorage) DeleteDocumentWithAccountScopeWithContext(ctx context.Context, accountID int, input DeleteDocumentInput) (bool, error) {
 	if accountID == 0 {
 		return false, fmt.Errorf("account ID is required when using account scope")
 	}
 
 	scopeID := strconv.Itoa(accountID)
 
-	return e.deleteDocumentWithScope(accountScope, scopeID, input)
+	return e.deleteDocumentWithScope(ctx, accountScope, scopeID, input)
 }
 
 // DeleteDocumentWithUserScope deletes a NerdStorage document with user scope.
 func (e *NerdStorage) DeleteDocumentWithUserScope(input DeleteDocumentInput) (bool, error) {
-	userID, err := e.getUserID()
+	return e.DeleteDocumentWithUserScopeWithContext(context.Background(), input)
+}
+
+// DeleteDocumentWithUserScopeWithContext deletes a NerdStorage document with user scope.
+func (e *NerdStorage) DeleteDocumentWithUserScopeWithContext(ctx context.Context, input DeleteDocumentInput) (bool, error) {
+	userID, err := e.getUserID(ctx)
 	if err != nil {
 		return false, err
 	}
 
 	scopeID := strconv.Itoa(userID)
-	return e.deleteDocumentWithScope(actorScope, scopeID, input)
+	return e.deleteDocumentWithScope(ctx, actorScope, scopeID, input)
 }
 
 // DeleteDocumentWithEntityScope deletes a NerdStorage document with entity scope.
 func (e *NerdStorage) DeleteDocumentWithEntityScope(entityGUID string, input DeleteDocumentInput) (bool, error) {
+	return e.DeleteDocumentWithEntityScopeWithContext(context.Background(), entityGUID, input)
+}
+
+// DeleteDocumentWithEntityScopeWithContext deletes a NerdStorage document with entity scope.
+func (e *NerdStorage) DeleteDocumentWithEntityScopeWithContext(ctx context.Context, entityGUID string, input DeleteDocumentInput) (bool, error) {
 	if entityGUID == "" {
 		return false, fmt.Errorf("entity GUID is required when using entity scope")
 	}
 
-	return e.deleteDocumentWithScope(entityScope, entityGUID, input)
+	return e.deleteDocumentWithScope(ctx, entityScope, entityGUID, input)
 }
 
 // DeleteCollectionInput represents the input data required for the DeleteCollection mutation.
@@ -212,37 +273,52 @@ type DeleteCollectionInput struct {
 
 // DeleteCollectionWithAccountScope deletes a NerdStorage collection with account scope.
 func (e *NerdStorage) DeleteCollectionWithAccountScope(accountID int, input DeleteCollectionInput) (bool, error) {
+	return e.DeleteCollectionWithAccountScopeWithContext(context.Background(), accountID, input)
+}
+
+// DeleteCollectionWithAccountScopeWithContext deletes a NerdStorage collection with account scope.
+func (e *NerdStorage) DeleteCollectionWithAccountScopeWithContext(ctx context.Context, accountID int, input DeleteCollectionInput) (bool, error) {
 	if accountID == 0 {
 		return false, fmt.Errorf("account ID is required when using account scope")
 	}
 
 	scopeID := strconv.Itoa(accountID)
 
-	return e.deleteCollectionWithScope(accountScope, scopeID, input)
+	return e.deleteCollectionWithScope(ctx, accountScope, scopeID, input)
 }
 
 // DeleteCollectionWithUserScope deletes a NerdStorage collection with user scope.
 func (e *NerdStorage) DeleteCollectionWithUserScope(input DeleteCollectionInput) (bool, error) {
-	userID, err := e.getUserID()
+	return e.DeleteCollectionWithUserScopeWithContext(context.Background(), input)
+}
+
+// DeleteCollectionWithUserScopeWithContext deletes a NerdStorage collection with user scope.
+func (e *NerdStorage) DeleteCollectionWithUserScopeWithContext(ctx context.Context, input DeleteCollectionInput) (bool, error) {
+	userID, err := e.getUserID(ctx)
 	if err != nil {
 		return false, err
 	}
 
 	scopeID := strconv.Itoa(userID)
 
-	return e.deleteCollectionWithScope(actorScope, scopeID, input)
+	return e.deleteCollectionWithScope(ctx, actorScope, scopeID, input)
 }
 
 // DeleteCollectionWithEntityScope deletes a NerdStorage collection with entity scope.
 func (e *NerdStorage) DeleteCollectionWithEntityScope(entityGUID string, input DeleteCollectionInput) (bool, error) {
+	return e.DeleteCollectionWithEntityScopeWithContext(context.Background(), entityGUID, input)
+}
+
+// DeleteCollectionWithEntityScopeWithContext deletes a NerdStorage collection with entity scope.
+func (e *NerdStorage) DeleteCollectionWithEntityScopeWithContext(ctx context.Context, entityGUID string, input DeleteCollectionInput) (bool, error) {
 	if entityGUID == "" {
 		return false, fmt.Errorf("entity GUID is required when using entity scope")
 	}
 
-	return e.deleteCollectionWithScope(entityScope, entityGUID, input)
+	return e.deleteCollectionWithScope(ctx, entityScope, entityGUID, input)
 }
 
-func (e *NerdStorage) getDocumentWithScope(scope string, scopeID string, query string, vars map[string]interface{}, input GetDocumentInput) (*getResponse, error) {
+func (e *NerdStorage) getDocumentWithScope(ctx context.Context, scope string, scopeID string, query string, vars map[string]interface{}, input GetDocumentInput) (*getResponse, error) {
 	var resp getResponse
 
 	v := map[string]interface{}{
@@ -264,6 +340,7 @@ func (e *NerdStorage) getDocumentWithScope(scope string, scopeID string, query s
 		return nil, err
 	}
 
+	req.WithContext(ctx)
 	req.SetHeader("NewRelic-Package-ID", input.PackageID)
 
 	_, err = e.client.Do(req)
@@ -274,7 +351,7 @@ func (e *NerdStorage) getDocumentWithScope(scope string, scopeID string, query s
 	return &resp, nil
 }
 
-func (e *NerdStorage) getCollectionWithScope(scope string, scopeID string, query string, vars map[string]interface{}, input GetCollectionInput) (*getResponse, error) {
+func (e *NerdStorage) getCollectionWithScope(ctx context.Context, scope string, scopeID string, query string, vars map[string]interface{}, input GetCollectionInput) (*getResponse, error) {
 	var resp getResponse
 
 	v := map[string]interface{}{
@@ -295,6 +372,7 @@ func (e *NerdStorage) getCollectionWithScope(scope string, scopeID string, query
 		return nil, err
 	}
 
+	req.WithContext(ctx)
 	req.SetHeader("NewRelic-Package-ID", input.PackageID)
 
 	_, err = e.client.Do(req)
@@ -305,7 +383,7 @@ func (e *NerdStorage) getCollectionWithScope(scope string, scopeID string, query
 	return &resp, nil
 }
 
-func (e *NerdStorage) writeDocumentWithScope(scope string, scopeID string, input WriteDocumentInput) (interface{}, error) {
+func (e *NerdStorage) writeDocumentWithScope(ctx context.Context, scope string, scopeID string, input WriteDocumentInput) (interface{}, error) {
 	var resp writeDocumentResponse
 
 	vars := map[string]interface{}{
@@ -323,6 +401,7 @@ func (e *NerdStorage) writeDocumentWithScope(scope string, scopeID string, input
 		return "", err
 	}
 
+	req.WithContext(ctx)
 	req.SetHeader("NewRelic-Package-ID", input.PackageID)
 
 	_, err = e.client.Do(req)
@@ -333,7 +412,7 @@ func (e *NerdStorage) writeDocumentWithScope(scope string, scopeID string, input
 	return resp.NerdStorageWriteDocument, nil
 }
 
-func (e *NerdStorage) deleteDocumentWithScope(scope string, scopeID string, input DeleteDocumentInput) (bool, error) {
+func (e *NerdStorage) deleteDocumentWithScope(ctx context.Context, scope string, scopeID string, input DeleteDocumentInput) (bool, error) {
 	var resp deleteDocumentResponse
 
 	vars := map[string]interface{}{
@@ -350,6 +429,7 @@ func (e *NerdStorage) deleteDocumentWithScope(scope string, scopeID string, inpu
 		return false, err
 	}
 
+	req.WithContext(ctx)
 	req.SetHeader("NewRelic-Package-ID", input.PackageID)
 
 	_, err = e.client.Do(req)
@@ -360,7 +440,7 @@ func (e *NerdStorage) deleteDocumentWithScope(scope string, scopeID string, inpu
 	return resp.NerdStorageDeleteDocument.Deleted != 0, nil
 }
 
-func (e *NerdStorage) deleteCollectionWithScope(scope string, scopeID string, input DeleteCollectionInput) (bool, error) {
+func (e *NerdStorage) deleteCollectionWithScope(ctx context.Context, scope string, scopeID string, input DeleteCollectionInput) (bool, error) {
 	var resp deleteCollectionResponse
 
 	vars := map[string]interface{}{
@@ -376,6 +456,7 @@ func (e *NerdStorage) deleteCollectionWithScope(scope string, scopeID string, in
 		return false, err
 	}
 
+	req.WithContext(ctx)
 	req.SetHeader("NewRelic-Package-ID", input.PackageID)
 
 	_, err = e.client.Do(req)
@@ -386,10 +467,10 @@ func (e *NerdStorage) deleteCollectionWithScope(scope string, scopeID string, in
 	return resp.NerdStorageDeleteCollection.Deleted != 0, nil
 }
 
-func (e *NerdStorage) getUserID() (int, error) {
+func (e *NerdStorage) getUserID(ctx context.Context) (int, error) {
 	var resp userIDResponse
 
-	err := e.client.NerdGraphQuery(getUserIDQuery, nil, &resp)
+	err := e.client.NerdGraphQueryWithContext(ctx, getUserIDQuery, nil, &resp)
 	if err != nil {
 		return 0, err
 	}

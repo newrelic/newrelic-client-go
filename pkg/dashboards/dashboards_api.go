@@ -2,11 +2,25 @@
 package dashboards
 
 import (
+	"context"
+
 	"github.com/newrelic/newrelic-client-go/pkg/entities"
 )
 
 // Create a `DashboardEntity`
 func (a *Dashboards) DashboardCreate(
+	accountID int,
+	dashboard DashboardInput,
+) (*DashboardCreateResult, error) {
+	return a.DashboardCreateWithContext(context.Background(),
+		accountID,
+		dashboard,
+	)
+}
+
+// Create a `DashboardEntity`
+func (a *Dashboards) DashboardCreateWithContext(
+	ctx context.Context,
 	accountID int,
 	dashboard DashboardInput,
 ) (*DashboardCreateResult, error) {
@@ -17,7 +31,7 @@ func (a *Dashboards) DashboardCreate(
 		"dashboard": dashboard,
 	}
 
-	if err := a.client.NerdGraphQuery(DashboardCreateMutation, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, DashboardCreateMutation, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -463,13 +477,23 @@ const DashboardCreateMutation = `mutation(
 func (a *Dashboards) DashboardDelete(
 	gUID entities.EntityGUID,
 ) (*DashboardDeleteResult, error) {
+	return a.DashboardDeleteWithContext(context.Background(),
+		gUID,
+	)
+}
+
+// Delete an existing `DashboardEntity`
+func (a *Dashboards) DashboardDeleteWithContext(
+	ctx context.Context,
+	gUID entities.EntityGUID,
+) (*DashboardDeleteResult, error) {
 
 	resp := DashboardDeleteQueryResponse{}
 	vars := map[string]interface{}{
 		"guid": gUID,
 	}
 
-	if err := a.client.NerdGraphQuery(DashboardDeleteMutation, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, DashboardDeleteMutation, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -497,6 +521,18 @@ func (a *Dashboards) DashboardUpdate(
 	dashboard DashboardInput,
 	gUID entities.EntityGUID,
 ) (*DashboardUpdateResult, error) {
+	return a.DashboardUpdateWithContext(context.Background(),
+		dashboard,
+		gUID,
+	)
+}
+
+// Update an existing `DashboardEntity`
+func (a *Dashboards) DashboardUpdateWithContext(
+	ctx context.Context,
+	dashboard DashboardInput,
+	gUID entities.EntityGUID,
+) (*DashboardUpdateResult, error) {
 
 	resp := DashboardUpdateQueryResponse{}
 	vars := map[string]interface{}{
@@ -504,7 +540,7 @@ func (a *Dashboards) DashboardUpdate(
 		"guid":      gUID,
 	}
 
-	if err := a.client.NerdGraphQuery(DashboardUpdateMutation, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, DashboardUpdateMutation, vars, &resp); err != nil {
 		return nil, err
 	}
 

@@ -1,6 +1,8 @@
 package workloads
 
 import (
+	"context"
+
 	"github.com/newrelic/newrelic-client-go/internal/serialization"
 	"github.com/newrelic/newrelic-client-go/pkg/errors"
 	"github.com/newrelic/newrelic-client-go/pkg/nerdgraph"
@@ -81,12 +83,17 @@ type UpdateInput struct {
 
 // ListWorkloads retrieves a set of New Relic One workloads by their account ID.
 func (e *Workloads) ListWorkloads(accountID int) ([]*Workload, error) {
+	return e.ListWorkloadsWithContext(context.Background(), accountID)
+}
+
+// ListWorkloadsWithContext retrieves a set of New Relic One workloads by their account ID.
+func (e *Workloads) ListWorkloadsWithContext(ctx context.Context, accountID int) ([]*Workload, error) {
 	resp := workloadsResponse{}
 	vars := map[string]interface{}{
 		"accountId": accountID,
 	}
 
-	if err := e.client.NerdGraphQuery(listWorkloadsQuery, vars, &resp); err != nil {
+	if err := e.client.NerdGraphQueryWithContext(ctx, listWorkloadsQuery, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -99,13 +106,18 @@ func (e *Workloads) ListWorkloads(accountID int) ([]*Workload, error) {
 
 // GetWorkload retrieves a New Relic One workload by its GUID.
 func (e *Workloads) GetWorkload(accountID int, workloadGUID string) (*Workload, error) {
+	return e.GetWorkloadWithContext(context.Background(), accountID, workloadGUID)
+}
+
+// GetWorkloadWithContext retrieves a New Relic One workload by its GUID.
+func (e *Workloads) GetWorkloadWithContext(ctx context.Context, accountID int, workloadGUID string) (*Workload, error) {
 	resp := workloadResponse{}
 	vars := map[string]interface{}{
 		"accountId": accountID,
 		"guid":      workloadGUID,
 	}
 
-	if err := e.client.NerdGraphQuery(getWorkloadQuery, vars, &resp); err != nil {
+	if err := e.client.NerdGraphQueryWithContext(ctx, getWorkloadQuery, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -114,13 +126,18 @@ func (e *Workloads) GetWorkload(accountID int, workloadGUID string) (*Workload, 
 
 // CreateWorkload creates a New Relic One workload.
 func (e *Workloads) CreateWorkload(accountID int, workload CreateInput) (*Workload, error) {
+	return e.CreateWorkloadWithContext(context.Background(), accountID, workload)
+}
+
+// CreateWorkloadWithContext creates a New Relic One workload.
+func (e *Workloads) CreateWorkloadWithContext(ctx context.Context, accountID int, workload CreateInput) (*Workload, error) {
 	resp := workloadCreateResponse{}
 	vars := map[string]interface{}{
 		"accountId": accountID,
 		"workload":  workload,
 	}
 
-	if err := e.client.NerdGraphQuery(createWorkloadMutation, vars, &resp); err != nil {
+	if err := e.client.NerdGraphQueryWithContext(ctx, createWorkloadMutation, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -129,12 +146,17 @@ func (e *Workloads) CreateWorkload(accountID int, workload CreateInput) (*Worklo
 
 // DeleteWorkload deletes a New Relic One workload.
 func (e *Workloads) DeleteWorkload(guid string) (*Workload, error) {
+	return e.DeleteWorkloadWithContext(context.Background(), guid)
+}
+
+// DeleteWorkloadWithContext deletes a New Relic One workload.
+func (e *Workloads) DeleteWorkloadWithContext(ctx context.Context, guid string) (*Workload, error) {
 	resp := workloadDeleteResponse{}
 	vars := map[string]interface{}{
 		"guid": guid,
 	}
 
-	if err := e.client.NerdGraphQuery(deleteWorkloadMutation, vars, &resp); err != nil {
+	if err := e.client.NerdGraphQueryWithContext(ctx, deleteWorkloadMutation, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -143,6 +165,11 @@ func (e *Workloads) DeleteWorkload(guid string) (*Workload, error) {
 
 // DuplicateWorkload duplicates a New Relic One workload.
 func (e *Workloads) DuplicateWorkload(accountID int, sourceGUID string, workload *DuplicateInput) (*Workload, error) {
+	return e.DuplicateWorkloadWithContext(context.Background(), accountID, sourceGUID, workload)
+}
+
+// DuplicateWorkloadWithContext duplicates a New Relic One workload.
+func (e *Workloads) DuplicateWorkloadWithContext(ctx context.Context, accountID int, sourceGUID string, workload *DuplicateInput) (*Workload, error) {
 	resp := workloadDuplicateResponse{}
 	vars := map[string]interface{}{
 		"accountId":  accountID,
@@ -150,7 +177,7 @@ func (e *Workloads) DuplicateWorkload(accountID int, sourceGUID string, workload
 		"workload":   workload,
 	}
 
-	if err := e.client.NerdGraphQuery(duplicateWorkloadMutation, vars, &resp); err != nil {
+	if err := e.client.NerdGraphQueryWithContext(ctx, duplicateWorkloadMutation, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -159,13 +186,18 @@ func (e *Workloads) DuplicateWorkload(accountID int, sourceGUID string, workload
 
 // UpdateWorkload updates a New Relic One workload.
 func (e *Workloads) UpdateWorkload(guid string, workload UpdateInput) (*Workload, error) {
+	return e.UpdateWorkloadWithContext(context.Background(), guid, workload)
+}
+
+// UpdateWorkloadWithContext updates a New Relic One workload.
+func (e *Workloads) UpdateWorkloadWithContext(ctx context.Context, guid string, workload UpdateInput) (*Workload, error) {
 	resp := workloadUpdateResponse{}
 	vars := map[string]interface{}{
 		"guid":     guid,
 		"workload": workload,
 	}
 
-	if err := e.client.NerdGraphQuery(updateWorkloadMutation, vars, &resp); err != nil {
+	if err := e.client.NerdGraphQueryWithContext(ctx, updateWorkloadMutation, vars, &resp); err != nil {
 		return nil, err
 	}
 
