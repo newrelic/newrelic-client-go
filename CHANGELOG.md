@@ -1,3 +1,11 @@
+<a name="v0.60.0"></a>
+## [v0.60.0] - 2021-06-11
+### Bug Fixes
+- **client:** remove over-strict cast
+
+### Features
+- add context-aware methods
+
 <a name="v0.59.4"></a>
 ## [v0.59.4] - 2021-06-10
 ### Bug Fixes
@@ -1049,7 +1057,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.59.4...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.60.0...HEAD
+[v0.60.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.59.4...v0.60.0
 [v0.59.4]: https://github.com/newrelic/newrelic-client-go/compare/v0.59.3...v0.59.4
 [v0.59.3]: https://github.com/newrelic/newrelic-client-go/compare/v0.59.2...v0.59.3
 [v0.59.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.59.1...v0.59.2
