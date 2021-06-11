@@ -1,17 +1,23 @@
 package edge
 
 import (
+	"context"
 	"fmt"
 )
 
 // ListTraceObservers lists the trace observers for an account.
 func (e *Edge) ListTraceObservers(accountID int) ([]EdgeTraceObserver, error) {
+	return e.ListTraceObserversWithContext(context.Background(), accountID)
+}
+
+// ListTraceObserversWithContext lists the trace observers for an account.
+func (e *Edge) ListTraceObserversWithContext(ctx context.Context, accountID int) ([]EdgeTraceObserver, error) {
 	resp := traceObserverResponse{}
 	vars := map[string]interface{}{
 		"accountId": accountID,
 	}
 
-	if err := e.client.NerdGraphQuery(listTraceObserversQuery, vars, &resp); err != nil {
+	if err := e.client.NerdGraphQueryWithContext(ctx, listTraceObserversQuery, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -20,13 +26,18 @@ func (e *Edge) ListTraceObservers(accountID int) ([]EdgeTraceObserver, error) {
 
 // CreateTraceObserver creates a trace observer for an account.
 func (e *Edge) CreateTraceObserver(accountID int, name string, providerRegion EdgeProviderRegion) (*EdgeTraceObserver, error) {
+	return e.CreateTraceObserverWithContext(context.Background(), accountID, name, providerRegion)
+}
+
+// CreateTraceObserverWithContext creates a trace observer for an account.
+func (e *Edge) CreateTraceObserverWithContext(ctx context.Context, accountID int, name string, providerRegion EdgeProviderRegion) (*EdgeTraceObserver, error) {
 	resp := createTraceObserverResponse{}
 	vars := map[string]interface{}{
 		"accountId":            accountID,
 		"traceObserverConfigs": []EdgeCreateTraceObserverInput{{true, name, providerRegion}},
 	}
 
-	if err := e.client.NerdGraphQuery(createTraceObserverMutation, vars, &resp); err != nil {
+	if err := e.client.NerdGraphQueryWithContext(ctx, createTraceObserverMutation, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -40,6 +51,11 @@ func (e *Edge) CreateTraceObserver(accountID int, name string, providerRegion Ed
 
 // DeleteTraceObserver deletes a trace observer for an account.
 func (e *Edge) DeleteTraceObserver(accountID int, id int) (*EdgeTraceObserver, error) {
+	return e.DeleteTraceObserverWithContext(context.Background(), accountID, id)
+}
+
+// DeleteTraceObserverWithContext deletes a trace observer for an account.
+func (e *Edge) DeleteTraceObserverWithContext(ctx context.Context, accountID int, id int) (*EdgeTraceObserver, error) {
 	resp := deleteTraceObserversResponse{}
 
 	vars := map[string]interface{}{
@@ -47,7 +63,7 @@ func (e *Edge) DeleteTraceObserver(accountID int, id int) (*EdgeTraceObserver, e
 		"traceObserverConfigs": []EdgeDeleteTraceObserverInput{{id}},
 	}
 
-	if err := e.client.NerdGraphQuery(deleteTraceObserverMutation, vars, &resp); err != nil {
+	if err := e.client.NerdGraphQueryWithContext(ctx, deleteTraceObserverMutation, vars, &resp); err != nil {
 		return nil, err
 	}
 

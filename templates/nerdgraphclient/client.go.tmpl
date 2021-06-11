@@ -23,6 +23,20 @@ func (a *{{$packageName|title}}) {{.Name | title}}(
   {{- range .Signature.Input}}
     {{.Name | untitle}} {{.Type}},
   {{- end}}
+) (*{{ .Signature.Return | join ", "}}) {
+  return a.{{.Name | title}}WithContext(context.Background(),
+  {{- range .Signature.Input}}
+    {{.Name | untitle}},
+  {{- end}}
+  )
+}
+
+{{ .Description }}
+func (a *{{$packageName|title}}) {{.Name | title}}WithContext(
+  ctx context.Context,
+  {{- range .Signature.Input}}
+    {{.Name | untitle}} {{.Type}},
+  {{- end}}
     ) (*{{ .Signature.Return | join ", "}}) {
 
 	resp := {{.Name}}QueryResponse{}
@@ -32,7 +46,7 @@ func (a *{{$packageName|title}}) {{.Name | title}}(
   {{- end}}
 	}
 
-	if err := a.client.NerdGraphQuery({{.Name}}Mutation, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, {{.Name}}Mutation, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -56,6 +70,20 @@ func (a *{{$packageName|title}}) Get{{.Name | title}}(
     {{.Name | untitle}} {{.Type}},
   {{- end}}
 ) (*{{ .Signature.Return | join ", "}}) {
+  return a.Get{{.Name | title}}WithContext(context.Background(),
+  {{- range .Signature.Input}}
+    {{.Name | untitle}},
+  {{- end}}
+  )
+}
+
+{{ .Description }}
+func (a *{{$packageName|title}}) Get{{.Name | title}}WithContext(
+  ctx context.Context,
+  {{- range .Signature.Input}}
+    {{.Name | untitle}} {{.Type}},
+  {{- end}}
+) (*{{ .Signature.Return | join ", "}}) {
 
 	resp := {{.ResponseObjectType}}{}
 	vars := map[string]interface{}{
@@ -64,7 +92,7 @@ func (a *{{$packageName|title}}) Get{{.Name | title}}(
   {{- end}}
 	}
 
-	if err := a.client.NerdGraphQuery(get{{.Name}}Query, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, get{{.Name}}Query, vars, &resp); err != nil {
 		return nil, err
 	}
 

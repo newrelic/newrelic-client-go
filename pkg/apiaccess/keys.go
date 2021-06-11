@@ -1,6 +1,7 @@
 package apiaccess
 
 import (
+	"context"
 	"errors"
 
 	"github.com/newrelic/newrelic-client-go/internal/http"
@@ -27,13 +28,18 @@ func (x *APIAccessUserKeyError) GetError() error {
 
 // CreateAPIAccessKeys create keys. You can create keys for multiple accounts at once.
 func (a *APIAccess) CreateAPIAccessKeys(keys APIAccessCreateInput) ([]APIKey, error) {
+	return a.CreateAPIAccessKeysWithContext(context.Background(), keys)
+}
+
+// CreateAPIAccessKeysWithContext create keys. You can create keys for multiple accounts at once.
+func (a *APIAccess) CreateAPIAccessKeysWithContext(ctx context.Context, keys APIAccessCreateInput) ([]APIKey, error) {
 	vars := map[string]interface{}{
 		"keys": keys,
 	}
 
 	resp := apiAccessKeyCreateResponse{}
 
-	if err := a.client.NerdGraphQuery(apiAccessKeyCreateKeys, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, apiAccessKeyCreateKeys, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -46,6 +52,11 @@ func (a *APIAccess) CreateAPIAccessKeys(keys APIAccessCreateInput) ([]APIKey, er
 
 // GetAPIAccessKey returns a single API access key.
 func (a *APIAccess) GetAPIAccessKey(keyID string, keyType APIAccessKeyType) (*APIKey, error) {
+	return a.GetAPIAccessKeyWithContext(context.Background(), keyID, keyType)
+}
+
+// GetAPIAccessKeyWithContext returns a single API access key.
+func (a *APIAccess) GetAPIAccessKeyWithContext(ctx context.Context, keyID string, keyType APIAccessKeyType) (*APIKey, error) {
 	vars := map[string]interface{}{
 		"id":      keyID,
 		"keyType": keyType,
@@ -53,7 +64,7 @@ func (a *APIAccess) GetAPIAccessKey(keyID string, keyType APIAccessKeyType) (*AP
 
 	resp := apiAccessKeyGetResponse{}
 
-	if err := a.client.NerdGraphQuery(apiAccessKeyGetKey, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, apiAccessKeyGetKey, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -66,13 +77,18 @@ func (a *APIAccess) GetAPIAccessKey(keyID string, keyType APIAccessKeyType) (*AP
 
 // SearchAPIAccessKeys returns the relevant keys based on search criteria. Returns keys are scoped to the current user.
 func (a *APIAccess) SearchAPIAccessKeys(params APIAccessKeySearchQuery) ([]APIKey, error) {
+	return a.SearchAPIAccessKeysWithContext(context.Background(), params)
+}
+
+// SearchAPIAccessKeysWithContext returns the relevant keys based on search criteria. Returns keys are scoped to the current user.
+func (a *APIAccess) SearchAPIAccessKeysWithContext(ctx context.Context, params APIAccessKeySearchQuery) ([]APIKey, error) {
 	vars := map[string]interface{}{
 		"query": params,
 	}
 
 	resp := apiAccessKeySearchResponse{}
 
-	if err := a.client.NerdGraphQuery(apiAccessKeySearch, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, apiAccessKeySearch, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -85,13 +101,18 @@ func (a *APIAccess) SearchAPIAccessKeys(params APIAccessKeySearchQuery) ([]APIKe
 
 // UpdateAPIAccessKeys updates keys. You can update keys for multiple accounts at once.
 func (a *APIAccess) UpdateAPIAccessKeys(keys APIAccessUpdateInput) ([]APIKey, error) {
+	return a.UpdateAPIAccessKeysWithContext(context.Background(), keys)
+}
+
+// UpdateAPIAccessKeysWithContext updates keys. You can update keys for multiple accounts at once.
+func (a *APIAccess) UpdateAPIAccessKeysWithContext(ctx context.Context, keys APIAccessUpdateInput) ([]APIKey, error) {
 	vars := map[string]interface{}{
 		"keys": keys,
 	}
 
 	resp := apiAccessKeyUpdateResponse{}
 
-	if err := a.client.NerdGraphQuery(apiAccessKeyUpdateKeys, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, apiAccessKeyUpdateKeys, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -104,13 +125,18 @@ func (a *APIAccess) UpdateAPIAccessKeys(keys APIAccessUpdateInput) ([]APIKey, er
 
 // DeleteAPIAccessKey deletes one or more keys.
 func (a *APIAccess) DeleteAPIAccessKey(keys APIAccessDeleteInput) ([]APIAccessDeletedKey, error) {
+	return a.DeleteAPIAccessKeyWithContext(context.Background(), keys)
+}
+
+// DeleteAPIAccessKeyWithContext deletes one or more keys.
+func (a *APIAccess) DeleteAPIAccessKeyWithContext(ctx context.Context, keys APIAccessDeleteInput) ([]APIAccessDeletedKey, error) {
 	vars := map[string]interface{}{
 		"keys": keys,
 	}
 
 	resp := apiAccessKeyDeleteResponse{}
 
-	if err := a.client.NerdGraphQuery(apiAccessKeyDeleteKeys, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, apiAccessKeyDeleteKeys, vars, &resp); err != nil {
 		return nil, err
 	}
 
