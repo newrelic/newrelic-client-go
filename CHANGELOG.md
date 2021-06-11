@@ -1,3 +1,45 @@
+<a name="v0.59.4"></a>
+## [v0.59.4] - 2021-06-10
+### Bug Fixes
+- **dashboards:** remove goldenTags from dashboard query
+
+<a name="v0.59.3"></a>
+## [v0.59.3] - 2021-06-10
+### Bug Fixes
+- **dashboards:** remove goldenMetrics from dashboard query
+
+<a name="v0.59.2"></a>
+## [v0.59.2] - 2021-06-10
+### Bug Fixes
+- **apm:** remove applicationsREST unused funcs
+- **http:** Look inside response body for downstream NotFound errors
+
+### Features
+- **apm:** allow passing context to apm methods
+- **apm:** allow passing context to applicationsREST funcs
+
+<a name="v0.59.1"></a>
+## [v0.59.1] - 2021-05-24
+### Bug Fixes
+- **region:** fix insights key management api url
+
+<a name="v0.59.0"></a>
+## [v0.59.0] - 2021-05-13
+### Features
+- **apiaccess:** add methods for managing insights insert keys
+- **serialization:** Add Unix() command to EpochTime
+
+<a name="v0.58.5"></a>
+## [v0.58.5] - 2021-04-27
+### Bug Fixes
+- **graphql:** retry on server errors
+
+<a name="v0.58.4"></a>
+## [v0.58.4] - 2021-04-15
+### Bug Fixes
+- **cloud:** regenerate types
+- **synthetics:** add paging to monitors resource
+
 <a name="v0.58.3"></a>
 ## [v0.58.3] - 2021-02-19
 ### Bug Fixes
@@ -1007,7 +1049,14 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.58.3...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.59.4...HEAD
+[v0.59.4]: https://github.com/newrelic/newrelic-client-go/compare/v0.59.3...v0.59.4
+[v0.59.3]: https://github.com/newrelic/newrelic-client-go/compare/v0.59.2...v0.59.3
+[v0.59.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.59.1...v0.59.2
+[v0.59.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.59.0...v0.59.1
+[v0.59.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.58.5...v0.59.0
+[v0.58.5]: https://github.com/newrelic/newrelic-client-go/compare/v0.58.4...v0.58.5
+[v0.58.4]: https://github.com/newrelic/newrelic-client-go/compare/v0.58.3...v0.58.4
 [v0.58.3]: https://github.com/newrelic/newrelic-client-go/compare/v0.58.2...v0.58.3
 [v0.58.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.58.1...v0.58.2
 [v0.58.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.58.0...v0.58.1

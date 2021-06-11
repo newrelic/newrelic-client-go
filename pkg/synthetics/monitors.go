@@ -1,6 +1,7 @@
 package synthetics
 
 import (
+	"context"
 	"path"
 )
 
@@ -79,25 +80,45 @@ var (
 
 // ListMonitors is used to retrieve New Relic Synthetics monitors.
 func (s *Synthetics) ListMonitors() ([]*Monitor, error) {
-	resp := listMonitorsResponse{}
+	return s.ListMonitorsWithContext(context.Background())
+}
+
+// ListMonitorsWithContext is used to retrieve New Relic Synthetics monitors.
+func (s *Synthetics) ListMonitorsWithContext(ctx context.Context) ([]*Monitor, error) {
+	results := []*Monitor{}
+	nextURL := s.config.Region().SyntheticsURL("/v4/monitors")
 	queryParams := listMonitorsParams{
 		Limit: listMonitorsLimit,
 	}
 
-	_, err := s.client.Get(s.config.Region().SyntheticsURL("/v4/monitors"), &queryParams, &resp)
+	for nextURL != "" {
+		response := listMonitorsResponse{}
 
-	if err != nil {
-		return nil, err
+		resp, err := s.client.GetWithContext(ctx, nextURL, &queryParams, &response)
+
+		if err != nil {
+			return nil, err
+		}
+
+		results = append(results, response.Monitors...)
+
+		paging := s.pager.Parse(resp)
+		nextURL = paging.Next
 	}
 
-	return resp.Monitors, nil
+	return results, nil
 }
 
 // GetMonitor is used to retrieve a specific New Relic Synthetics monitor.
 func (s *Synthetics) GetMonitor(monitorID string) (*Monitor, error) {
+	return s.GetMonitorWithContext(context.Background(), monitorID)
+}
+
+// GetMonitorWithContext is used to retrieve a specific New Relic Synthetics monitor.
+func (s *Synthetics) GetMonitorWithContext(ctx context.Context, monitorID string) (*Monitor, error) {
 	resp := Monitor{}
 
-	_, err := s.client.Get(s.config.Region().SyntheticsURL("/v4/monitors", monitorID), nil, &resp)
+	_, err := s.client.GetWithContext(ctx, s.config.Region().SyntheticsURL("/v4/monitors", monitorID), nil, &resp)
 
 	if err != nil {
 		return nil, err
@@ -108,7 +129,12 @@ func (s *Synthetics) GetMonitor(monitorID string) (*Monitor, error) {
 
 // CreateMonitor is used to create a New Relic Synthetics monitor.
 func (s *Synthetics) CreateMonitor(monitor Monitor) (*Monitor, error) {
-	resp, err := s.client.Post(s.config.Region().SyntheticsURL("/v4/monitors"), nil, &monitor, nil)
+	return s.CreateMonitorWithContext(context.Background(), monitor)
+}
+
+// CreateMonitorWithContext is used to create a New Relic Synthetics monitor.
+func (s *Synthetics) CreateMonitorWithContext(ctx context.Context, monitor Monitor) (*Monitor, error) {
+	resp, err := s.client.PostWithContext(ctx, s.config.Region().SyntheticsURL("/v4/monitors"), nil, &monitor, nil)
 
 	if err != nil {
 		return nil, err
@@ -124,7 +150,12 @@ func (s *Synthetics) CreateMonitor(monitor Monitor) (*Monitor, error) {
 
 // UpdateMonitor is used to update a New Relic Synthetics monitor.
 func (s *Synthetics) UpdateMonitor(monitor Monitor) (*Monitor, error) {
-	_, err := s.client.Put(s.config.Region().SyntheticsURL("/v4/monitors", monitor.ID), nil, &monitor, nil)
+	return s.UpdateMonitorWithContext(context.Background(), monitor)
+}
+
+// UpdateMonitorWithContext is used to update a New Relic Synthetics monitor.
+func (s *Synthetics) UpdateMonitorWithContext(ctx context.Context, monitor Monitor) (*Monitor, error) {
+	_, err := s.client.PutWithContext(ctx, s.config.Region().SyntheticsURL("/v4/monitors", monitor.ID), nil, &monitor, nil)
 
 	if err != nil {
 		return nil, err
@@ -135,7 +166,12 @@ func (s *Synthetics) UpdateMonitor(monitor Monitor) (*Monitor, error) {
 
 // DeleteMonitor is used to delete a New Relic Synthetics monitor.
 func (s *Synthetics) DeleteMonitor(monitorID string) error {
-	_, err := s.client.Delete(s.config.Region().SyntheticsURL("/v4/monitors", monitorID), nil, nil)
+	return s.DeleteMonitorWithContext(context.Background(), monitorID)
+}
+
+// DeleteMonitorWithContext is used to delete a New Relic Synthetics monitor.
+func (s *Synthetics) DeleteMonitorWithContext(ctx context.Context, monitorID string) error {
+	_, err := s.client.DeleteWithContext(ctx, s.config.Region().SyntheticsURL("/v4/monitors", monitorID), nil, nil)
 
 	if err != nil {
 		return err

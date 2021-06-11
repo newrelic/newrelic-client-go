@@ -2,11 +2,25 @@
 package dashboards
 
 import (
+	"context"
+
 	"github.com/newrelic/newrelic-client-go/pkg/entities"
 )
 
 // Create a `DashboardEntity`
 func (a *Dashboards) DashboardCreate(
+	accountID int,
+	dashboard DashboardInput,
+) (*DashboardCreateResult, error) {
+	return a.DashboardCreateWithContext(context.Background(),
+		accountID,
+		dashboard,
+	)
+}
+
+// Create a `DashboardEntity`
+func (a *Dashboards) DashboardCreateWithContext(
+	ctx context.Context,
 	accountID int,
 	dashboard DashboardInput,
 ) (*DashboardCreateResult, error) {
@@ -17,7 +31,7 @@ func (a *Dashboards) DashboardCreate(
 		"dashboard": dashboard,
 	}
 
-	if err := a.client.NerdGraphQuery(DashboardCreateMutation, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, DashboardCreateMutation, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -28,6 +42,7 @@ type DashboardCreateQueryResponse struct {
 	DashboardCreateResult DashboardCreateResult `json:"DashboardCreate"`
 }
 
+// DashboardCreateMutation requires manual overrides.  When generated from schema it creates a query that returns errors.
 const DashboardCreateMutation = `mutation(
 	$accountId: Int!,
 	$dashboard: DashboardInput!,
@@ -116,6 +131,7 @@ const DashboardCreateMutation = `mutation(
 						reportingEventTypes
 					}
 					accountId
+					alertSeverity
 					domain
 					entityType
 					guid
@@ -135,7 +151,6 @@ const DashboardCreateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						alertSeverity
 						apmBrowserSummary {
 							ajaxRequestThroughput
 							ajaxResponseTimeAverage
@@ -210,7 +225,6 @@ const DashboardCreateMutation = `mutation(
 							reportingEventTypes
 						}
 						agentInstallType
-						alertSeverity
 						applicationId
 						browserSummary {
 							ajaxRequestThroughput
@@ -242,7 +256,26 @@ const DashboardCreateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
+						createdAt
 						dashboardParentGuid
+						owner {
+							email
+							userId
+						}
+						permissions
+						tags {
+							key
+							values
+						}
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+						account {
+							id
+							name
+							reportingEventTypes
+						}
 						tags {
 							key
 							values
@@ -267,7 +300,6 @@ const DashboardCreateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						alertSeverity
 						integrationTypeCode
 						tags {
 							key
@@ -281,7 +313,6 @@ const DashboardCreateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						alertSeverity
 						integrationTypeCode
 						runtime
 						tags {
@@ -296,7 +327,6 @@ const DashboardCreateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						alertSeverity
 						hostSummary {
 							cpuUtilizationPercent
 							diskUsedPercent
@@ -317,7 +347,6 @@ const DashboardCreateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						alertSeverity
 						applicationId
 						mobileSummary {
 							appLaunchCount
@@ -362,7 +391,6 @@ const DashboardCreateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						alertSeverity
 						monitorId
 						monitorSummary {
 							locationsFailing
@@ -385,7 +413,6 @@ const DashboardCreateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						alertSeverity
 						tags {
 							key
 							values
@@ -410,7 +437,6 @@ const DashboardCreateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						alertSeverity
 						createdAt
 						createdByUser {
 							email
@@ -451,13 +477,23 @@ const DashboardCreateMutation = `mutation(
 func (a *Dashboards) DashboardDelete(
 	gUID entities.EntityGUID,
 ) (*DashboardDeleteResult, error) {
+	return a.DashboardDeleteWithContext(context.Background(),
+		gUID,
+	)
+}
+
+// Delete an existing `DashboardEntity`
+func (a *Dashboards) DashboardDeleteWithContext(
+	ctx context.Context,
+	gUID entities.EntityGUID,
+) (*DashboardDeleteResult, error) {
 
 	resp := DashboardDeleteQueryResponse{}
 	vars := map[string]interface{}{
 		"guid": gUID,
 	}
 
-	if err := a.client.NerdGraphQuery(DashboardDeleteMutation, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, DashboardDeleteMutation, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -480,8 +516,20 @@ const DashboardDeleteMutation = `mutation(
 	status
 } }`
 
-// ) Update an existing `DashboardEntity`
+// Update an existing `DashboardEntity`
 func (a *Dashboards) DashboardUpdate(
+	dashboard DashboardInput,
+	gUID entities.EntityGUID,
+) (*DashboardUpdateResult, error) {
+	return a.DashboardUpdateWithContext(context.Background(),
+		dashboard,
+		gUID,
+	)
+}
+
+// Update an existing `DashboardEntity`
+func (a *Dashboards) DashboardUpdateWithContext(
+	ctx context.Context,
 	dashboard DashboardInput,
 	gUID entities.EntityGUID,
 ) (*DashboardUpdateResult, error) {
@@ -492,7 +540,7 @@ func (a *Dashboards) DashboardUpdate(
 		"guid":      gUID,
 	}
 
-	if err := a.client.NerdGraphQuery(DashboardUpdateMutation, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, DashboardUpdateMutation, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -591,6 +639,7 @@ const DashboardUpdateMutation = `mutation(
 						reportingEventTypes
 					}
 					accountId
+					alertSeverity
 					domain
 					entityType
 					guid
@@ -610,7 +659,6 @@ const DashboardUpdateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						alertSeverity
 						apmBrowserSummary {
 							ajaxRequestThroughput
 							ajaxResponseTimeAverage
@@ -685,7 +733,6 @@ const DashboardUpdateMutation = `mutation(
 							reportingEventTypes
 						}
 						agentInstallType
-						alertSeverity
 						applicationId
 						browserSummary {
 							ajaxRequestThroughput
@@ -717,7 +764,26 @@ const DashboardUpdateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
+						createdAt
 						dashboardParentGuid
+						owner {
+							email
+							userId
+						}
+						permissions
+						tags {
+							key
+							values
+						}
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+						account {
+							id
+							name
+							reportingEventTypes
+						}
 						tags {
 							key
 							values
@@ -742,7 +808,6 @@ const DashboardUpdateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						alertSeverity
 						integrationTypeCode
 						tags {
 							key
@@ -756,7 +821,6 @@ const DashboardUpdateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						alertSeverity
 						integrationTypeCode
 						runtime
 						tags {
@@ -771,7 +835,6 @@ const DashboardUpdateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						alertSeverity
 						hostSummary {
 							cpuUtilizationPercent
 							diskUsedPercent
@@ -792,7 +855,6 @@ const DashboardUpdateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						alertSeverity
 						applicationId
 						mobileSummary {
 							appLaunchCount
@@ -837,7 +899,6 @@ const DashboardUpdateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						alertSeverity
 						monitorId
 						monitorSummary {
 							locationsFailing
@@ -860,7 +921,6 @@ const DashboardUpdateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						alertSeverity
 						tags {
 							key
 							values
@@ -885,7 +945,6 @@ const DashboardUpdateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
-						alertSeverity
 						createdAt
 						createdByUser {
 							email

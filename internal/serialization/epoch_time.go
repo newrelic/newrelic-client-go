@@ -71,3 +71,8 @@ func (e EpochTime) Equal(u EpochTime) bool {
 func (e EpochTime) String() string {
 	return time.Time(e).String()
 }
+
+// Unix returns the time formatted as seconds since Jan 1st, 1970
+func (e EpochTime) Unix() int64 {
+	return time.Time(e).Unix()
+}

@@ -25,6 +25,7 @@ type Region struct {
 	nerdGraphBaseURL      string
 	restBaseURL           string
 	syntheticsBaseURL     string
+	insightsKeysBaseURL   string
 }
 
 // String returns a human readable value for the specified Region Name
@@ -187,6 +188,30 @@ func concatURLPaths(host string, path []string) (string, error) {
 	}
 
 	return strings.Join(elements, "/"), nil
+}
+
+//
+// Insights Keys
+//
+
+func (r *Region) SetInsightsKeysBaseURL(url string) {
+	if r != nil && url != "" {
+		r.insightsKeysBaseURL = url
+	}
+}
+
+// InsightsURL returns the Full URL for Insights custom insert API calls
+func (r *Region) InsightsKeysURL(accountID int, path string) string {
+	if r == nil {
+		log.Errorf("call to nil region.InsightsKeysURL")
+		return ""
+	}
+	if accountID < 1 {
+		log.Errorf("invalid account ID: %d", accountID)
+		return ""
+	}
+
+	return fmt.Sprintf("%s/accounts/%d/%s", r.insightsKeysBaseURL, accountID, path)
 }
 
 //

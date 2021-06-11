@@ -1,6 +1,7 @@
 package apm
 
 import (
+	"context"
 	"encoding/json"
 	"strconv"
 	"time"
@@ -82,12 +83,19 @@ func (m *MetricTimesliceValues) UnmarshalJSON(b []byte) error {
 //
 // https://rpm.newrelic.com/api/explore/applications/metric_names
 func (a *APM) GetMetricNames(applicationID int, params MetricNamesParams) ([]*MetricName, error) {
+	return a.GetMetricNamesWithContext(context.Background(), applicationID, params)
+}
+
+// GetMetricNamesWithContext is used to retrieve a list of known metrics and their value names for the given resource.
+//
+// https://rpm.newrelic.com/api/explore/applications/metric_names
+func (a *APM) GetMetricNamesWithContext(ctx context.Context, applicationID int, params MetricNamesParams) ([]*MetricName, error) {
 	nextURL := a.config.Region().RestURL("applications", strconv.Itoa(applicationID), "metrics.json")
 	response := metricNamesResponse{}
 	metrics := []*MetricName{}
 
 	for nextURL != "" {
-		resp, err := a.client.Get(nextURL, &params, &response)
+		resp, err := a.client.GetWithContext(ctx, nextURL, &params, &response)
 
 		if err != nil {
 			return nil, err
@@ -106,13 +114,20 @@ func (a *APM) GetMetricNames(applicationID int, params MetricNamesParams) ([]*Me
 //
 // https://rpm.newrelic.com/api/explore/applications/metric_data
 func (a *APM) GetMetricData(applicationID int, params MetricDataParams) ([]*MetricData, error) {
+	return a.GetMetricDataWithContext(context.Background(), applicationID, params)
+}
+
+// GetMetricDataWithContext is used to retrieve a list of values for each of the requested metrics.
+//
+// https://rpm.newrelic.com/api/explore/applications/metric_data
+func (a *APM) GetMetricDataWithContext(ctx context.Context, applicationID int, params MetricDataParams) ([]*MetricData, error) {
 	nextURL := a.config.Region().RestURL("applications", strconv.Itoa(applicationID), "/metrics/data.json")
 
 	response := metricDataResponse{}
 	data := []*MetricData{}
 
 	for nextURL != "" {
-		resp, err := a.client.Get(nextURL, &params, &response)
+		resp, err := a.client.GetWithContext(ctx, nextURL, &params, &response)
 
 		if err != nil {
 			return nil, err

@@ -1,6 +1,7 @@
 package apm
 
 import (
+	"context"
 	"fmt"
 )
 
@@ -31,12 +32,17 @@ type ListKeyTransactionsParams struct {
 
 // ListKeyTransactions returns all key transactions for an account.
 func (a *APM) ListKeyTransactions(params *ListKeyTransactionsParams) ([]*KeyTransaction, error) {
+	return a.ListKeyTransactionsWithContext(context.Background(), params)
+}
+
+// ListKeyTransactionsWithContext returns all key transactions for an account.
+func (a *APM) ListKeyTransactionsWithContext(ctx context.Context, params *ListKeyTransactionsParams) ([]*KeyTransaction, error) {
 	results := []*KeyTransaction{}
 	nextURL := a.config.Region().RestURL("key_transactions.json")
 
 	for nextURL != "" {
 		response := keyTransactionsResponse{}
-		resp, err := a.client.Get(nextURL, &params, &response)
+		resp, err := a.client.GetWithContext(ctx, nextURL, &params, &response)
 
 		if err != nil {
 			return nil, err
@@ -53,10 +59,15 @@ func (a *APM) ListKeyTransactions(params *ListKeyTransactionsParams) ([]*KeyTran
 
 // GetKeyTransaction returns a specific key transaction by ID.
 func (a *APM) GetKeyTransaction(id int) (*KeyTransaction, error) {
+	return a.GetKeyTransactionWithContext(context.Background(), id)
+}
+
+// GetKeyTransactionWithContext returns a specific key transaction by ID.
+func (a *APM) GetKeyTransactionWithContext(ctx context.Context, id int) (*KeyTransaction, error) {
 	response := keyTransactionResponse{}
 	url := fmt.Sprintf("/key_transactions/%d.json", id)
 
-	_, err := a.client.Get(a.config.Region().RestURL(url), nil, &response)
+	_, err := a.client.GetWithContext(ctx, a.config.Region().RestURL(url), nil, &response)
 
 	if err != nil {
 		return nil, err
