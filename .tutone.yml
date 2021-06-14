@@ -177,10 +177,20 @@ packages:
     mutations:
       - name: dashboardCreate
         max_query_field_depth: 10
+        # These fields are currently not returned correctly and error
+        # out, so we'll filter them off 6/14/2021 JT
+        exclude_fields:
+          - goldenMetrics
+          - goldenTags
       - name: dashboardDelete
         max_query_field_depth: 10
       - name: dashboardUpdate
         max_query_field_depth: 10
+        # These fields are currently not returned correctly and error
+        # out, so we'll filter them off 6/14/2021 JT
+        exclude_fields:
+          - goldenMetrics
+          - goldenTags
     types:
       # This must be a string, as where ID is used the type is a string...
       - name: ID
