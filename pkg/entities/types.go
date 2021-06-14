@@ -7934,6 +7934,7 @@ type EntityInterface interface {
 	GetDomain() string
 	GetGUID() EntityGUID
 	GetName() string
+	GetTags() []EntityTag
 	GetType() string
 }
 

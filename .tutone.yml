@@ -351,6 +351,7 @@ packages:
           - "GetDomain() string"
           - "GetGUID() EntityGUID"
           - "GetName() string"
+          - "GetTags() []EntityTag"
           - "GetType() string"
       - name: AlertableEntity
         generate_struct_getters: true
