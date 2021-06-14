@@ -42,7 +42,6 @@ type DashboardCreateQueryResponse struct {
 	DashboardCreateResult DashboardCreateResult `json:"DashboardCreate"`
 }
 
-// DashboardCreateMutation requires manual overrides.  When generated from schema it creates a query that returns errors.
 const DashboardCreateMutation = `mutation(
 	$accountId: Int!,
 	$dashboard: DashboardInput!,
