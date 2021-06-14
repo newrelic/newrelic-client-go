@@ -6,6 +6,33 @@ import (
 	"fmt"
 )
 
+// EdgeCreateSpanAttributeRuleResponseErrorType - Known error codes and messages for `CreateSpanAttributeRuleResponseError`.
+type EdgeCreateSpanAttributeRuleResponseErrorType string
+
+var EdgeCreateSpanAttributeRuleResponseErrorTypeTypes = struct {
+	// Duplicate span attribute trace filter rules found
+	DUPLICATE_RULES EdgeCreateSpanAttributeRuleResponseErrorType
+	// The trace filter rule creation exceeds the number of allowed span attribute rules for a trace observer
+	EXCEEDS_SPAN_ATTRIBUTE_RULE_LIMITS EdgeCreateSpanAttributeRuleResponseErrorType
+	// Invalid trace filter rule input provided.
+	INVALID_INPUT EdgeCreateSpanAttributeRuleResponseErrorType
+	// No trace observer was found with the id given.
+	NOT_FOUND EdgeCreateSpanAttributeRuleResponseErrorType
+	// Span attribute trace filter rules found that would cancel each other out
+	OPPOSING_RULES EdgeCreateSpanAttributeRuleResponseErrorType
+}{
+	// Duplicate span attribute trace filter rules found
+	DUPLICATE_RULES: "DUPLICATE_RULES",
+	// The trace filter rule creation exceeds the number of allowed span attribute rules for a trace observer
+	EXCEEDS_SPAN_ATTRIBUTE_RULE_LIMITS: "EXCEEDS_SPAN_ATTRIBUTE_RULE_LIMITS",
+	// Invalid trace filter rule input provided.
+	INVALID_INPUT: "INVALID_INPUT",
+	// No trace observer was found with the id given.
+	NOT_FOUND: "NOT_FOUND",
+	// Span attribute trace filter rules found that would cancel each other out
+	OPPOSING_RULES: "OPPOSING_RULES",
+}
+
 // EdgeCreateTraceObserverResponseErrorType - Known error codes and messages for `CreateTraceObserverResponseError`.
 type EdgeCreateTraceObserverResponseErrorType string
 
@@ -19,6 +46,17 @@ var EdgeCreateTraceObserverResponseErrorTypeTypes = struct {
 	ALREADY_EXISTS: "ALREADY_EXISTS",
 	// Trace observers aren’t available in provider region.
 	NO_AVAILABILITY_IN_REGION: "NO_AVAILABILITY_IN_REGION",
+}
+
+// EdgeDeleteSpanAttributeRuleResponseErrorType - Known error codes and messages for `DeleteSpanAttributeRuleResponseError`.
+type EdgeDeleteSpanAttributeRuleResponseErrorType string
+
+var EdgeDeleteSpanAttributeRuleResponseErrorTypeTypes = struct {
+	// No trace observer was found with the id given.
+	NOT_FOUND EdgeDeleteSpanAttributeRuleResponseErrorType
+}{
+	// No trace observer was found with the id given.
+	NOT_FOUND: "NOT_FOUND",
 }
 
 // EdgeDeleteTraceObserverResponseErrorType - Known error codes and messages for `DeleteTraceObserverResponseError`.
@@ -149,6 +187,43 @@ var EdgeTraceObserverStatusTypes = struct {
 	DELETED: "DELETED",
 }
 
+// EdgeUpdateTraceObserverResponseErrorType - Known error codes and messages for `UpdateTraceObserverResponseError`.
+type EdgeUpdateTraceObserverResponseErrorType string
+
+var EdgeUpdateTraceObserverResponseErrorTypeTypes = struct {
+	// Invalid input provided.
+	INVALID_INPUT EdgeUpdateTraceObserverResponseErrorType
+	// No trace observer was found with the id given.
+	NOT_FOUND EdgeUpdateTraceObserverResponseErrorType
+}{
+	// Invalid input provided.
+	INVALID_INPUT: "INVALID_INPUT",
+	// No trace observer was found with the id given.
+	NOT_FOUND: "NOT_FOUND",
+}
+
+// Account - The `Account` object provides general data about the account, as well as
+// being the entry point into more detailed data about a single account.
+//
+// Account configuration data is queried through this object, as well as
+// telemetry data that is specific to a single account.
+type Account struct {
+	// This field provides access to Edge data.
+	Edge EdgeAccountStitchedFields `json:"edge,omitempty"`
+	//
+	ID int `json:"id,omitempty"`
+	//
+	LicenseKey string `json:"licenseKey,omitempty"`
+	//
+	Name string `json:"name,omitempty"`
+}
+
+// Actor - The `Actor` object contains fields that are scoped to the API user's access level.
+type Actor struct {
+	// The `account` field is the entry point into data that is scoped to a single account.
+	Account Account `json:"account,omitempty"`
+}
+
 // EdgeAccountStitchedFields -
 type EdgeAccountStitchedFields struct {
 	// Provides access to Tracing data.
@@ -164,6 +239,48 @@ type EdgeAgentEndpointDetail struct {
 }
 
 func (x *EdgeAgentEndpointDetail) ImplementsEdgeEndpointDetail() {}
+
+// EdgeCreateSpanAttributeRuleInput - Data required to create a span attribute trace filter rule.
+type EdgeCreateSpanAttributeRuleInput struct {
+	// The action that this trace filter rule takes if it matches the provided attribute name and value
+	Action EdgeTraceFilterAction `json:"action"`
+	// Name of the attribute to match on
+	Key string `json:"key"`
+	// Type of match to apply to the attribute name (EQUALS, LIKE). Key match type is required.
+	KeyOperator EdgeSpanAttributeKeyOperator `json:"keyOperator"`
+	// Value of the attribute to match on. Value is required unless the `SpanAttributeValueOperator` is set to `IS_NOT_NULL`
+	Value string `json:"value,omitempty"`
+	// Type of match to apply to the attribute value (EQUALS, LIKE, IS_NOT_NULL).
+	ValueOperator EdgeSpanAttributeValueOperator `json:"valueOperator"`
+}
+
+// EdgeCreateSpanAttributeRuleResponseError - Description of errors that may occur while attempting to create a span attribute trace filter rule.
+type EdgeCreateSpanAttributeRuleResponseError struct {
+	// Error message, with further detail to help resolve the issue.
+	Message string `json:"message"`
+	// Error that may occur while attempting to create a trace filter rule.
+	Type EdgeCreateSpanAttributeRuleResponseErrorType `json:"type"`
+}
+
+// EdgeCreateSpanAttributeRulesResponse - Successfully created span attribute trace filter rule, or one or more error responses if there were issues.
+type EdgeCreateSpanAttributeRulesResponse struct {
+	// Errors that may occur when creating a `SpanAttributeTraceFilter`. Defaults to `null` in case of success.
+	Errors []EdgeCreateSpanAttributeRuleResponseError `json:"errors,omitempty"`
+	// The trace filter rules that were created. Defaults to `null` in case of failure.
+	Rules []EdgeSpanAttributeRule `json:"rules,omitempty"`
+}
+
+// EdgeCreateTraceFilterRuleResponses - Array of responses, one for each span attribute trace filter rule creation request.
+type EdgeCreateTraceFilterRuleResponses struct {
+	// Span attribute trace filter rule creation response
+	SpanAttributeRules EdgeCreateSpanAttributeRulesResponse `json:"spanAttributeRules"`
+}
+
+// EdgeCreateTraceFilterRulesInput - Input for creating multiple trace filter rules
+type EdgeCreateTraceFilterRulesInput struct {
+	// One or more `CreateSpanAttributeRuleInput` that describe the span attribute trace filter rule(s) to be created.
+	SpanAttributeRules []EdgeCreateSpanAttributeRuleInput `json:"spanAttributeRules,omitempty"`
+}
 
 // EdgeCreateTraceObserverInput - Data required to create a trace observer.
 type EdgeCreateTraceObserverInput struct {
@@ -195,6 +312,34 @@ type EdgeCreateTraceObserverResponseError struct {
 type EdgeCreateTraceObserverResponses struct {
 	// Array of trace observer creation responses, one for each `CreateTraceObserverInput`.
 	Responses []EdgeCreateTraceObserverResponse `json:"responses"`
+}
+
+// EdgeDeleteSpanAttributeRuleResponse - Successfully deleted span attribute trace filter rule, or one or more error responses if there were issues.
+type EdgeDeleteSpanAttributeRuleResponse struct {
+	// Errors that may occur when deleting a `SpanAttributeRule`. Defaults to `null` in case of success.
+	Errors []EdgeDeleteSpanAttributeRuleResponseError `json:"errors,omitempty"`
+	// The trace filter rule that was deleted. Defaults to `null` in case of failure.
+	Rule EdgeSpanAttributeRule `json:"rule,omitempty"`
+}
+
+// EdgeDeleteSpanAttributeRuleResponseError - Description of errors that may occur while attempting to delete a span attribute trace filter.
+type EdgeDeleteSpanAttributeRuleResponseError struct {
+	// Error message, with further detail to help resolve the issue.
+	Message string `json:"message"`
+	// Error that may occur while attempting to delete a span attribute trace filter.
+	Type EdgeDeleteSpanAttributeRuleResponseErrorType `json:"type"`
+}
+
+// EdgeDeleteTraceFilterRuleResponses - Array of responses, one for each trace filter rule deletion request
+type EdgeDeleteTraceFilterRuleResponses struct {
+	// Array of span attribute trace filter rule deletion responses, one for each id provided to `DeleteTraceFilterRulesInput`.
+	SpanAttributeRules []EdgeDeleteSpanAttributeRuleResponse `json:"spanAttributeRules"`
+}
+
+// EdgeDeleteTraceFilterRulesInput - Input for deleting multiple trace filter rules by id
+type EdgeDeleteTraceFilterRulesInput struct {
+	// One or more SpanAttributeRule id(s) to be deleted.
+	SpanAttributeRuleIds []int `json:"spanAttributeRuleIds"`
 }
 
 // EdgeDeleteTraceObserverInput - Data required to delete a trace observer.
@@ -268,6 +413,12 @@ type EdgeRandomTraceFilter struct {
 	PercentKept float64 `json:"percentKept"`
 }
 
+// EdgeRandomTraceFilterInput - Data required to change the random trace filter configuration.
+type EdgeRandomTraceFilterInput struct {
+	// The percentage of randomly selected traces to keep. Acceptable values are between 0.0001 and 100.
+	PercentKept float64 `json:"percentKept"`
+}
+
 // EdgeSpanAttributeRule - A `SpanAttributeRule` applies a filtering rule (keep or discard) to traces within a particular `TraceObserver`
 type EdgeSpanAttributeRule struct {
 	// The action that this filter takes if it matches the provided attribute name and value
@@ -320,6 +471,44 @@ type EdgeTraceObserver struct {
 type EdgeTracing struct {
 	// Lists the existing trace observers for this account family.
 	TraceObservers []EdgeTraceObserver `json:"traceObservers"`
+}
+
+// EdgeUpdateTraceObserverInput - Data required to update a trace observer.
+type EdgeUpdateTraceObserverInput struct {
+	// Globally unique identifier of the trace observer being updated.
+	ID int `json:"id"`
+	// When set to `true` a trace observer will write trace metrics to the current account.
+	Monitoring bool `json:"monitoring,omitempty"`
+	// Name of the trace observer.
+	Name string `json:"name,omitempty"`
+	// When set, allows changing the random trace filter configuration.
+	RandomTraceFilterConfig EdgeRandomTraceFilterInput `json:"randomTraceFilterConfig,omitempty"`
+}
+
+// EdgeUpdateTraceObserverResponse - Successfully updated trace observers, or one or more error responses if there were issues.
+type EdgeUpdateTraceObserverResponse struct {
+	// Errors that may occur when creating a `TraceObserver`. Defaults to `null` in case of success.
+	Errors []EdgeUpdateTraceObserverResponseError `json:"errors,omitempty"`
+	// The trace observer defined in `UpdateTraceObserverInput`. Defaults to `null` in case of failure.
+	TraceObserver EdgeTraceObserver `json:"traceObserver,omitempty"`
+}
+
+// EdgeUpdateTraceObserverResponseError - Description of errors that may occur while attempting to update a trace observer.
+type EdgeUpdateTraceObserverResponseError struct {
+	// Error message, with further detail to help resolve the issue.
+	Message string `json:"message"`
+	// Error that may occur while attempting to create a trace observer.
+	Type EdgeUpdateTraceObserverResponseErrorType `json:"type"`
+}
+
+// EdgeUpdateTraceObserverResponses - Array of responses, one for each trace observer update request.
+type EdgeUpdateTraceObserverResponses struct {
+	// Array of trace observer update responses, one for each `UpdateTraceObserverInput`.
+	Responses []EdgeUpdateTraceObserverResponse `json:"responses"`
+}
+
+type traceObserversResponse struct {
+	Actor Actor `json:"actor"`
 }
 
 // Float - The `Float` scalar type represents signed double-precision fractional
