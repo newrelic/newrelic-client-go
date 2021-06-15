@@ -284,15 +284,7 @@ packages:
           - name: traceObservers
             max_query_field_depth: 2
     mutations:
-      - name: edgeCreateTraceFilterRules
-        max_query_field_depth: 3
-      - name: edgeCreateTraceObserver
-        max_query_field_depth: 3
-      - name: edgeDeleteTraceFilterRules
-        max_query_field_depth: 3
-      - name: edgeDeleteTraceObservers
-        max_query_field_depth: 3
-      - name: edgeUpdateTraceObservers
+      - name: "edge.*"
         max_query_field_depth: 3
     types:
       - name: EdgeAccountStitchedFields
