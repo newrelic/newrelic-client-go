@@ -22,6 +22,9 @@ type EpochMilliseconds serialization.EpochTime
 // EpochSeconds - The `EpochSeconds` scalar represents the number of seconds since the Unix epoch
 type EpochSeconds serialization.EpochTime
 
+// Milliseconds - The `Milliseconds` scalar represents a duration in milliseconds
+type Milliseconds int
+
 // Minutes - The `Minutes` scalar represents a duration in minutes
 type Minutes int
 
