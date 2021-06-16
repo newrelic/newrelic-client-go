@@ -214,6 +214,9 @@ packages:
       - name: DashboardTableWidgetConfigurationInput
         field_type_override: "*DashboardTableWidgetConfigurationInput"
 
+      #
+      # Types that we should auto-detect are in another package someday
+      #
       - name: DashboardAlertSeverity
         field_type_override: entities.DashboardAlertSeverity
         skip_type_create: true
@@ -253,8 +256,14 @@ packages:
       - name: EntityResult
         field_type_override: entities.EntityResult
         skip_type_create: true
+      - name: EpochMilliseconds
+        field_type_override: nrtime.EpochMilliseconds
+        skip_type_create: true
       - name: GenericEntityOutline
         field_type_override: entities.GenericEntityOutline
+        skip_type_create: true
+      - name: Milliseconds
+        field_type_override: nrtime.Milliseconds
         skip_type_create: true
       - name: Nrql
         field_type_override: nrdb.NRQL
@@ -671,14 +680,14 @@ packages:
         create_as: serialization.EpochTime
       - name: EpochSeconds
         create_as: serialization.EpochTime
+      - name: Milliseconds
+        create_as: int
       - name: Minutes
-        create_as: string
+        create_as: int
       - name: NaiveDateTime
         create_as: string
       - name: Seconds
         create_as: string
-      - name: Minutes
-        create_as: int
       - name: TimeWindowInput
 
 

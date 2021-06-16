@@ -63,6 +63,48 @@ var DashboardUpdateErrorTypeTypes = struct {
 	INVALID_INPUT: "INVALID_INPUT",
 }
 
+// DashboardUpdatePageErrorType - Expected error types that can be returned by updatePage operation
+type DashboardUpdatePageErrorType string
+
+var DashboardUpdatePageErrorTypeTypes = struct {
+	// User is not allowed to execute the operation
+	FORBIDDEN_OPERATION DashboardUpdatePageErrorType
+	// Invalid input error
+	INVALID_INPUT DashboardUpdatePageErrorType
+	// Page not found in the system
+	PAGE_NOT_FOUND DashboardUpdatePageErrorType
+}{
+	// User is not allowed to execute the operation
+	FORBIDDEN_OPERATION: "FORBIDDEN_OPERATION",
+	// Invalid input error
+	INVALID_INPUT: "INVALID_INPUT",
+	// Page not found in the system
+	PAGE_NOT_FOUND: "PAGE_NOT_FOUND",
+}
+
+// DashboardUpdateWidgetsInPageErrorType - Expected error types that can be returned by updateWidgetsInPage operation
+type DashboardUpdateWidgetsInPageErrorType string
+
+var DashboardUpdateWidgetsInPageErrorTypeTypes = struct {
+	// User is not allowed to execute the operation
+	FORBIDDEN_OPERATION DashboardUpdateWidgetsInPageErrorType
+	// Invalid input error
+	INVALID_INPUT DashboardUpdateWidgetsInPageErrorType
+	// Page not found in the system
+	PAGE_NOT_FOUND DashboardUpdateWidgetsInPageErrorType
+	// Widget not found in the system
+	WIDGET_NOT_FOUND DashboardUpdateWidgetsInPageErrorType
+}{
+	// User is not allowed to execute the operation
+	FORBIDDEN_OPERATION: "FORBIDDEN_OPERATION",
+	// Invalid input error
+	INVALID_INPUT: "INVALID_INPUT",
+	// Page not found in the system
+	PAGE_NOT_FOUND: "PAGE_NOT_FOUND",
+	// Widget not found in the system
+	WIDGET_NOT_FOUND: "WIDGET_NOT_FOUND",
+}
+
 // DashboardAreaWidgetConfigurationInput - Configuration for visualization type 'viz.area'
 type DashboardAreaWidgetConfigurationInput struct {
 	// nrql queries
@@ -187,6 +229,22 @@ type DashboardPieWidgetConfigurationInput struct {
 	NRQLQueries []DashboardWidgetNRQLQueryInput `json:"nrqlQueries,omitempty"`
 }
 
+// DashboardSnapshotURLInput - Parameters that affect the data and the rendering of the dashboards returned by the snapshot url mutation.
+type DashboardSnapshotURLInput struct {
+	// Period of time from which the data to be displayed on the dashboard will be obtained.
+	TimeWindow DashboardSnapshotURLTimeWindowInput `json:"timeWindow,omitempty"`
+}
+
+// DashboardSnapshotURLTimeWindowInput - Period of time from which the data to be displayed on the dashboard will be obtained.
+type DashboardSnapshotURLTimeWindowInput struct {
+	// The starting time of the time window. If specified, an endTime or a duration must also be specified.
+	BeginTime nrtime.EpochMilliseconds `json:"beginTime,omitempty"`
+	// The duration of the time window.
+	Duration nrtime.Milliseconds `json:"duration,omitempty"`
+	// The end time of the time window. If specified, a beginTime or a duration must also be specified.
+	EndTime nrtime.EpochMilliseconds `json:"endTime,omitempty"`
+}
+
 // DashboardTableWidgetConfigurationInput - Configuration for visualization type 'viz.table'
 type DashboardTableWidgetConfigurationInput struct {
 	// nrql queries
@@ -201,12 +259,68 @@ type DashboardUpdateError struct {
 	Type DashboardUpdateErrorType `json:"type"`
 }
 
+// DashboardUpdatePageError - Expected errors that can be returned by updatePage operation
+type DashboardUpdatePageError struct {
+	// Error description
+	Description string `json:"description,omitempty"`
+	// Error type
+	Type DashboardUpdatePageErrorType `json:"type"`
+}
+
+// DashboardUpdatePageInput - Page input used when updating an individual page
+type DashboardUpdatePageInput struct {
+	// Page description.
+	Description string `json:"description,omitempty"`
+	// Page name.
+	Name string `json:"name"`
+	// Page widgets.
+	Widgets []DashboardWidgetInput `json:"widgets,omitempty"`
+}
+
+// DashboardUpdatePageResult - Result of updatePage operation.
+type DashboardUpdatePageResult struct {
+	// Expected errors while processing request. No errors means successful request.
+	Errors []DashboardUpdatePageError `json:"errors,omitempty"`
+}
+
 // DashboardUpdateResult - Result of update operation.
 type DashboardUpdateResult struct {
 	// Dashboard update result
 	EntityResult DashboardEntityResult `json:"entityResult,omitempty"`
 	// Expected errors while processing request
 	Errors []DashboardUpdateError `json:"errors,omitempty"`
+}
+
+// DashboardUpdateWidgetInput - Input type used when updating widgets
+type DashboardUpdateWidgetInput struct {
+	// Typed configuration for the widget
+	Configuration DashboardWidgetConfigurationInput `json:"configuration,omitempty"`
+	// Id of the widget to be updated.
+	ID string `json:"id"`
+	// layout
+	Layout DashboardWidgetLayoutInput `json:"layout,omitempty"`
+	// Related entities. Currently only supports Dashboard entities, but may allow other cases in the future.
+	LinkedEntityGUIDs []entities.EntityGUID `json:"linkedEntityGuids"`
+	// Untyped scalar of configuration for the widget
+	RawConfiguration entities.DashboardWidgetRawConfiguration `json:"rawConfiguration,omitempty"`
+	// title
+	Title string `json:"title,omitempty"`
+	// Specifies how this widget will be visualized. If null, the WidgetConfigurationInput will be used to determine the visualization.
+	Visualization DashboardWidgetVisualizationInput `json:"visualization,omitempty"`
+}
+
+// DashboardUpdateWidgetsInPageError - Expected errors that can be returned by updateWidgetsInPage operation
+type DashboardUpdateWidgetsInPageError struct {
+	// Error description
+	Description string `json:"description,omitempty"`
+	// Error type
+	Type DashboardUpdateWidgetsInPageErrorType `json:"type"`
+}
+
+// DashboardUpdateWidgetsInPageResult - Result of updateWidgetsInPage operation.
+type DashboardUpdateWidgetsInPageResult struct {
+	// Expected errors while processing request. No errors means successful request.
+	Errors []DashboardUpdateWidgetsInPageError `json:"errors,omitempty"`
 }
 
 // DashboardWidgetConfigurationInput - Typed configuration for known visualizations. At most one may be populated.
