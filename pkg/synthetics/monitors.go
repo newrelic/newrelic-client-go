@@ -29,7 +29,7 @@ type Monitor struct {
 // MonitorScriptLocation represents a New Relic Synthetics monitor script location.
 type MonitorScriptLocation struct {
 	Name string `json:"name"`
-	HMAC string `json:"hmac"`
+	HMAC string `json:"hmac,omitempty"`
 }
 
 // MonitorScript represents a New Relic Synthetics monitor script.
