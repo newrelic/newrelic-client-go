@@ -1,3 +1,13 @@
+<a name="v0.60.1"></a>
+## [v0.60.1] - 2021-06-28
+### Features
+- **apiaccess:** add context-aware methods for insights keys
+- **entity:** Add EntityInterface.GetTags()
+- **events:** add context-aware method to event creation method
+
+### Refactor
+- **workloads:** Generate workload code, deprecate old functions
+
 <a name="v0.60.0"></a>
 ## [v0.60.0] - 2021-06-11
 ### Bug Fixes
@@ -1057,7 +1067,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.60.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.60.1...HEAD
+[v0.60.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.60.0...v0.60.1
 [v0.60.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.59.4...v0.60.0
 [v0.59.4]: https://github.com/newrelic/newrelic-client-go/compare/v0.59.3...v0.59.4
 [v0.59.3]: https://github.com/newrelic/newrelic-client-go/compare/v0.59.2...v0.59.3
