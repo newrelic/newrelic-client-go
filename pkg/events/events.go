@@ -1,6 +1,7 @@
 package events
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -57,6 +58,11 @@ func New(cfg config.Config) Events {
 
 // CreateEvent reports a custom event to New Relic.
 func (e *Events) CreateEvent(accountID int, event interface{}) error {
+	return e.CreateEventWithContext(context.Background(), accountID, event)
+}
+
+// CreateEventWithContext reports a custom event to New Relic.
+func (e *Events) CreateEventWithContext(ctx context.Context, accountID int, event interface{}) error {
 	jsonData, err := e.marshalEvent(event)
 	if err != nil {
 		return err
@@ -67,7 +73,7 @@ func (e *Events) CreateEvent(accountID int, event interface{}) error {
 
 	resp := &createEventResponse{}
 
-	_, err = e.client.Post(e.config.Region().InsightsURL(accountID), nil, *jsonData, resp)
+	_, err = e.client.PostWithContext(ctx, e.config.Region().InsightsURL(accountID), nil, *jsonData, resp)
 	if err != nil {
 		return err
 	}
