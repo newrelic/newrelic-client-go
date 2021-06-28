@@ -125,14 +125,6 @@ type DashboardBillboardWidgetConfigurationInput struct {
 	Thresholds []DashboardBillboardWidgetThresholdInput `json:"thresholds,omitempty"`
 }
 
-// DashboardBillboardWidgetThresholdInput - Billboard widget threshold input.
-type DashboardBillboardWidgetThresholdInput struct {
-	// alert severity.
-	AlertSeverity entities.DashboardAlertSeverity `json:"alertSeverity,omitempty"`
-	// value.
-	Value float64 `json:"value,omitempty"`
-}
-
 // DashboardCreateError - Expected errors that can be returned by create operation
 type DashboardCreateError struct {
 	// Error description
