@@ -66,10 +66,9 @@ func TestIntegrationAPIAccess_InsightsQueryKeys(t *testing.T) {
 	require.NotZero(t, getResult)
 
 	// Test: Delete
-	updateResult, err := client.DeleteInsightsQueryKey(testAccountID, getResult.ID)
+	deleteResult, err := client.DeleteInsightsQueryKey(testAccountID, getResult.ID)
 	require.NoError(t, err)
-	require.NotNil(t, updateResult)
-
+	require.NotNil(t, deleteResult)
 }
 
 func newIntegrationTestClient(t *testing.T) APIAccess {
