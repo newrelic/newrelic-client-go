@@ -1,6 +1,7 @@
 package entities
 
 import (
+	"context"
 	"errors"
 	"strings"
 )
@@ -24,29 +25,41 @@ type TagValue struct {
 // GetTagsForEntity returns a collection of all tags (mutable and not) for a given
 // entity by entity GUID.
 func (e *Entities) GetTagsForEntity(guid EntityGUID) ([]*EntityTag, error) {
+	return e.GetTagsForEntityWithContext(context.Background(), guid)
+}
+
+// GetTagsForEntityWithContext returns a collection of all tags (mutable and not) for a given
+// entity by entity GUID.
+func (e *Entities) GetTagsForEntityWithContext(ctx context.Context, guid EntityGUID) ([]*EntityTag, error) {
 	resp := getTagsResponse{}
 	vars := map[string]interface{}{
 		"guid": guid,
 	}
 
-	if err := e.client.NerdGraphQuery(listTagsQuery, vars, &resp); err != nil {
+	if err := e.client.NerdGraphQueryWithContext(ctx, listTagsQuery, vars, &resp); err != nil {
 		return nil, err
 	}
 
 	return resp.Actor.Entity.Tags, nil
 }
 
-// ListTags returns a collection of mutable tags for a given entity by entity
-// GUID.
+// ListTags returns a collection of mutable tags for a given entity by entity GUID.
 //
 // Deprecated: Use GetTagsForEntity instead.
 func (e *Entities) ListTags(guid EntityGUID) ([]*Tag, error) {
+	return e.ListTagsWithContext(context.Background(), guid)
+}
+
+// ListTagsWithContext returns a collection of mutable tags for a given entity by entity GUID.
+//
+// Deprecated: Use GetTagsForEntity instead.
+func (e *Entities) ListTagsWithContext(ctx context.Context, guid EntityGUID) ([]*Tag, error) {
 	resp := listTagsResponse{}
 	vars := map[string]interface{}{
 		"guid": guid,
 	}
 
-	if err := e.client.NerdGraphQuery(listTagsQuery, vars, &resp); err != nil {
+	if err := e.client.NerdGraphQueryWithContext(ctx, listTagsQuery, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -58,12 +71,20 @@ func (e *Entities) ListTags(guid EntityGUID) ([]*Tag, error) {
 //
 // Deprecated: Use GetTagsForEntity instead.
 func (e *Entities) ListAllTags(guid EntityGUID) ([]*Tag, error) {
+	return e.ListAllTagsWithContext(context.Background(), guid)
+}
+
+// ListAllTagsWithContext returns a collection of all tags (mutable and not) for a given
+// entity by entity GUID.
+//
+// Deprecated: Use GetTagsForEntity instead.
+func (e *Entities) ListAllTagsWithContext(ctx context.Context, guid EntityGUID) ([]*Tag, error) {
 	resp := listTagsResponse{}
 	vars := map[string]interface{}{
 		"guid": guid,
 	}
 
-	if err := e.client.NerdGraphQuery(listTagsQuery, vars, &resp); err != nil {
+	if err := e.client.NerdGraphQueryWithContext(ctx, listTagsQuery, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -103,13 +124,20 @@ func filterMutable(resp listTagsResponse) ([]*Tag, error) {
 //
 // Deprecated: Use TaggingAddTagsToEntity instead.
 func (e *Entities) AddTags(guid EntityGUID, tags []Tag) error {
+	return e.AddTagsWithContext(context.Background(), guid, tags)
+}
+
+// AddTagsWithContext writes tags to the entity specified by the provided entity GUID.
+//
+// Deprecated: Use TaggingAddTagsToEntity instead.
+func (e *Entities) AddTagsWithContext(ctx context.Context, guid EntityGUID, tags []Tag) error {
 	resp := addTagsResponse{}
 	vars := map[string]interface{}{
 		"guid": guid,
 		"tags": tags,
 	}
 
-	if err := e.client.NerdGraphQuery(addTagsMutation, vars, &resp); err != nil {
+	if err := e.client.NerdGraphQueryWithContext(ctx, addTagsMutation, vars, &resp); err != nil {
 		return err
 	}
 
@@ -124,13 +152,20 @@ func (e *Entities) AddTags(guid EntityGUID, tags []Tag) error {
 //
 // Deprecated: Use TaggingReplaceTagsOnEntity instead.
 func (e *Entities) ReplaceTags(guid EntityGUID, tags []Tag) error {
+	return e.ReplaceTagsWithContext(context.Background(), guid, tags)
+}
+
+// ReplaceTagsWithContext replaces the entity's entire set of tags with the provided tag set.
+//
+// Deprecated: Use TaggingReplaceTagsOnEntity instead.
+func (e *Entities) ReplaceTagsWithContext(ctx context.Context, guid EntityGUID, tags []Tag) error {
 	resp := replaceTagsResponse{}
 	vars := map[string]interface{}{
 		"guid": guid,
 		"tags": tags,
 	}
 
-	if err := e.client.NerdGraphQuery(replaceTagsMutation, vars, &resp); err != nil {
+	if err := e.client.NerdGraphQueryWithContext(ctx, replaceTagsMutation, vars, &resp); err != nil {
 		return err
 	}
 
@@ -145,13 +180,20 @@ func (e *Entities) ReplaceTags(guid EntityGUID, tags []Tag) error {
 //
 // Deprecated: Use TaggingDeleteTagFromEntity instead.
 func (e *Entities) DeleteTags(guid EntityGUID, tagKeys []string) error {
+	return e.DeleteTagsWithContext(context.Background(), guid, tagKeys)
+}
+
+// DeleteTagsWithContext deletes specific tag keys from the entity.
+//
+// Deprecated: Use TaggingDeleteTagFromEntity instead.
+func (e *Entities) DeleteTagsWithContext(ctx context.Context, guid EntityGUID, tagKeys []string) error {
 	resp := deleteTagsResponse{}
 	vars := map[string]interface{}{
 		"guid":    guid,
 		"tagKeys": tagKeys,
 	}
 
-	if err := e.client.NerdGraphQuery(deleteTagsMutation, vars, &resp); err != nil {
+	if err := e.client.NerdGraphQueryWithContext(ctx, deleteTagsMutation, vars, &resp); err != nil {
 		return err
 	}
 
@@ -166,13 +208,20 @@ func (e *Entities) DeleteTags(guid EntityGUID, tagKeys []string) error {
 //
 // Deprecated: Use TaggingDeleteTagValuesFromEntity instead.
 func (e *Entities) DeleteTagValues(guid EntityGUID, tagValues []TagValue) error {
+	return e.DeleteTagValuesWithContext(context.Background(), guid, tagValues)
+}
+
+// DeleteTagValuesWithContext deletes specific tag key and value pairs from the entity.
+//
+// Deprecated: Use TaggingDeleteTagValuesFromEntity instead.
+func (e *Entities) DeleteTagValuesWithContext(ctx context.Context, guid EntityGUID, tagValues []TagValue) error {
 	resp := deleteTagValuesResponse{}
 	vars := map[string]interface{}{
 		"guid":      guid,
 		"tagValues": tagValues,
 	}
 
-	if err := e.client.NerdGraphQuery(deleteTagValuesMutation, vars, &resp); err != nil {
+	if err := e.client.NerdGraphQueryWithContext(ctx, deleteTagValuesMutation, vars, &resp); err != nil {
 		return err
 	}
 
