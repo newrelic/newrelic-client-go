@@ -52,7 +52,7 @@ func (e *Entities) ListTags(guid EntityGUID) ([]*Tag, error) {
 
 // ListTagsWithContext returns a collection of mutable tags for a given entity by entity GUID.
 //
-// Deprecated: Use GetTagsForEntity instead.
+// Deprecated: Use GetTagsForEntityWithContext instead.
 func (e *Entities) ListTagsWithContext(ctx context.Context, guid EntityGUID) ([]*Tag, error) {
 	resp := listTagsResponse{}
 	vars := map[string]interface{}{
@@ -77,7 +77,7 @@ func (e *Entities) ListAllTags(guid EntityGUID) ([]*Tag, error) {
 // ListAllTagsWithContext returns a collection of all tags (mutable and not) for a given
 // entity by entity GUID.
 //
-// Deprecated: Use GetTagsForEntity instead.
+// Deprecated: Use GetTagsForEntityWithContext instead.
 func (e *Entities) ListAllTagsWithContext(ctx context.Context, guid EntityGUID) ([]*Tag, error) {
 	resp := listTagsResponse{}
 	vars := map[string]interface{}{
@@ -129,7 +129,7 @@ func (e *Entities) AddTags(guid EntityGUID, tags []Tag) error {
 
 // AddTagsWithContext writes tags to the entity specified by the provided entity GUID.
 //
-// Deprecated: Use TaggingAddTagsToEntity instead.
+// Deprecated: Use TaggingAddTagsToEntityWithContext instead.
 func (e *Entities) AddTagsWithContext(ctx context.Context, guid EntityGUID, tags []Tag) error {
 	resp := addTagsResponse{}
 	vars := map[string]interface{}{
@@ -157,7 +157,7 @@ func (e *Entities) ReplaceTags(guid EntityGUID, tags []Tag) error {
 
 // ReplaceTagsWithContext replaces the entity's entire set of tags with the provided tag set.
 //
-// Deprecated: Use TaggingReplaceTagsOnEntity instead.
+// Deprecated: Use TaggingReplaceTagsOnEntityWithContext instead.
 func (e *Entities) ReplaceTagsWithContext(ctx context.Context, guid EntityGUID, tags []Tag) error {
 	resp := replaceTagsResponse{}
 	vars := map[string]interface{}{
@@ -185,7 +185,7 @@ func (e *Entities) DeleteTags(guid EntityGUID, tagKeys []string) error {
 
 // DeleteTagsWithContext deletes specific tag keys from the entity.
 //
-// Deprecated: Use TaggingDeleteTagFromEntity instead.
+// Deprecated: Use TaggingDeleteTagFromEntityWithContext instead.
 func (e *Entities) DeleteTagsWithContext(ctx context.Context, guid EntityGUID, tagKeys []string) error {
 	resp := deleteTagsResponse{}
 	vars := map[string]interface{}{
@@ -213,7 +213,7 @@ func (e *Entities) DeleteTagValues(guid EntityGUID, tagValues []TagValue) error 
 
 // DeleteTagValuesWithContext deletes specific tag key and value pairs from the entity.
 //
-// Deprecated: Use TaggingDeleteTagValuesFromEntity instead.
+// Deprecated: Use TaggingDeleteTagValuesFromEntityWithContext instead.
 func (e *Entities) DeleteTagValuesWithContext(ctx context.Context, guid EntityGUID, tagValues []TagValue) error {
 	resp := deleteTagValuesResponse{}
 	vars := map[string]interface{}{
