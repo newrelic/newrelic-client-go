@@ -37,54 +37,10 @@ const CreateInstallEventMutation = `mutation(
 ) { createInstallEvent(
 	input: $input,
 ) {
-	displayName
-	entityGuid
-	error {
-		details
-		message
-	}
-	name
-	status
-	timestamp
-	validationDurationMilliseconds
-} }`
-
-func (a *Installevents) CreateInstallMetadata(
-	input InputInstallMetadata,
-) (*InstallMetadata, error) {
-	return a.CreateInstallMetadataWithContext(context.Background(),
-		input,
-	)
-}
-
-func (a *Installevents) CreateInstallMetadataWithContext(
-	ctx context.Context,
-	input InputInstallMetadata,
-) (*InstallMetadata, error) {
-
-	resp := CreateInstallMetadataQueryResponse{}
-	vars := map[string]interface{}{
-		"input": input,
-	}
-
-	if err := a.client.NerdGraphQueryWithContext(ctx, CreateInstallMetadataMutation, vars, &resp); err != nil {
-		return nil, err
-	}
-
-	return &resp.InstallMetadata, nil
-}
-
-type CreateInstallMetadataQueryResponse struct {
-	InstallMetadata InstallMetadata `json:"CreateInstallMetadata"`
-}
-
-const CreateInstallMetadataMutation = `mutation(
-	$input: InputInstallMetadata!,
-) { createInstallMetadata(
-	input: $input,
-) {
 	cliVersion
 	complete
+	displayName
+	entityGuid
 	error {
 		details
 		message
@@ -93,10 +49,14 @@ const CreateInstallMetadataMutation = `mutation(
 	kernelArch
 	kernelVersion
 	logFilePath
+	name
 	os
 	platform
 	platformFamily
 	platformVersion
 	redirectUrl
+	status
 	targetedInstall
+	timestamp
+	validationDurationMilliseconds
 } }`

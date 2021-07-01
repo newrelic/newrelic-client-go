@@ -587,8 +587,6 @@ packages:
     mutations:
       - name: createInstallEvent
         max_query_field_depth: 1
-      - name: createInstallMetadata
-        max_query_field_depth: 1
 
   - name: nerdstorage
     path: pkg/nerdstorage

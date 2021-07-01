@@ -15,6 +15,7 @@ var RecipeStatusTypeTypes = struct {
 	INSTALLING  RecipeStatusType
 	RECOMMENDED RecipeStatusType
 	SKIPPED     RecipeStatusType
+	UNSUPPORTED RecipeStatusType
 }{
 	AVAILABLE:   "AVAILABLE",
 	CANCELED:    "CANCELED",
@@ -23,22 +24,7 @@ var RecipeStatusTypeTypes = struct {
 	INSTALLING:  "INSTALLING",
 	RECOMMENDED: "RECOMMENDED",
 	SKIPPED:     "SKIPPED",
-}
-
-type InputInstallMetadata struct {
-	CliVersion      string           `json:"cliVersion"`
-	Complete        bool             `json:"complete"`
-	Error           InputStatusError `json:"error,omitempty"`
-	HostName        string           `json:"hostName"`
-	KernelArch      string           `json:"kernelArch"`
-	KernelVersion   string           `json:"kernelVersion"`
-	LogFilePath     string           `json:"logFilePath"`
-	Os              string           `json:"os"`
-	Platform        string           `json:"platform"`
-	PlatformFamily  string           `json:"platformFamily"`
-	PlatformVersion string           `json:"platformVersion"`
-	RedirectURL     string           `json:"redirectUrl,omitempty"`
-	TargetedInstall bool             `json:"targetedInstall"`
+	UNSUPPORTED: "UNSUPPORTED",
 }
 
 type InputStatusError struct {
@@ -47,37 +33,45 @@ type InputStatusError struct {
 }
 
 type InstallEvent struct {
+	CliVersion                     string           `json:"cliVersion"`
+	Complete                       bool             `json:"complete"`
 	DisplayName                    string           `json:"displayName"`
 	EntityGUID                     string           `json:"entityGuid"`
 	Error                          StatusError      `json:"error"`
+	HostName                       string           `json:"hostName"`
+	KernelArch                     string           `json:"kernelArch"`
+	KernelVersion                  string           `json:"kernelVersion"`
+	LogFilePath                    string           `json:"logFilePath"`
 	Name                           string           `json:"name"`
+	Os                             string           `json:"os"`
+	Platform                       string           `json:"platform"`
+	PlatformFamily                 string           `json:"platformFamily"`
+	PlatformVersion                string           `json:"platformVersion"`
+	RedirectURL                    string           `json:"redirectUrl,omitempty"`
 	Status                         RecipeStatusType `json:"status"`
+	TargetedInstall                bool             `json:"targetedInstall"`
 	Timestamp                      nrtime.DateTime  `json:"timestamp,omitempty"`
 	ValidationDurationMilliseconds float64          `json:"validationDurationMilliseconds"`
 }
 
-type InstallMetadata struct {
-	CliVersion      string      `json:"cliVersion"`
-	Complete        bool        `json:"complete"`
-	Error           StatusError `json:"error"`
-	HostName        string      `json:"hostName"`
-	KernelArch      string      `json:"kernelArch"`
-	KernelVersion   string      `json:"kernelVersion"`
-	LogFilePath     string      `json:"logFilePath"`
-	Os              string      `json:"os"`
-	Platform        string      `json:"platform"`
-	PlatformFamily  string      `json:"platformFamily"`
-	PlatformVersion string      `json:"platformVersion"`
-	RedirectURL     string      `json:"redirectUrl,omitempty"`
-	TargetedInstall bool        `json:"targetedInstall"`
-}
-
 type InstallStatus struct {
+	CliVersion                     string           `json:"cliVersion"`
+	Complete                       bool             `json:"complete"`
 	DisplayName                    string           `json:"displayName"`
 	EntityGUID                     string           `json:"entityGuid"`
 	Error                          InputStatusError `json:"error,omitempty"`
+	HostName                       string           `json:"hostName"`
+	KernelArch                     string           `json:"kernelArch"`
+	KernelVersion                  string           `json:"kernelVersion"`
+	LogFilePath                    string           `json:"logFilePath"`
 	Name                           string           `json:"name"`
+	Os                             string           `json:"os"`
+	Platform                       string           `json:"platform"`
+	PlatformFamily                 string           `json:"platformFamily"`
+	PlatformVersion                string           `json:"platformVersion"`
+	RedirectURL                    string           `json:"redirectUrl,omitempty"`
 	Status                         RecipeStatusType `json:"status"`
+	TargetedInstall                bool             `json:"targetedInstall"`
 	ValidationDurationMilliseconds float64          `json:"validationDurationMilliseconds"`
 }
 
