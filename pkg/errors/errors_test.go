@@ -17,6 +17,14 @@ func TestErrorNotFound(t *testing.T) {
 	assert.Equal(t, "resource not found", e.Error())
 }
 
+func TestErrorInvalidInput(t *testing.T) {
+	t.Parallel()
+
+	var e InvalidInput
+
+	assert.Equal(t, "invalid input error", e.Error())
+}
+
 func TestErrorUnexpectedStatusCode(t *testing.T) {
 	t.Parallel()
 
