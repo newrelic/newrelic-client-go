@@ -115,3 +115,31 @@ type MaxRetriesReached struct {
 func (e *MaxRetriesReached) Error() string {
 	return fmt.Sprintf("maximum retries reached: %s", e.err)
 }
+
+// NewInvalidInput returns a new instance of InvalidInput with an optional custom error message.
+func NewInvalidInput(err string) *InvalidInput {
+	e := InvalidInput{
+		err: err,
+	}
+
+	return &e
+}
+
+// NewInvalidInputf returns a new instance of InvalidInput
+// with an optional formatted custom error message.
+func NewInvalidInputf(format string, args ...interface{}) *InvalidInput {
+	return NewInvalidInput(fmt.Sprintf(format, args...))
+}
+
+// InvalidInput is returned when the user input is invalid.
+type InvalidInput struct {
+	err string
+}
+
+func (e *InvalidInput) Error() string {
+	if e.err == "" {
+		return "invalid input error"
+	}
+
+	return e.err
+}
