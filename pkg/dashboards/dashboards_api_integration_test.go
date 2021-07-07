@@ -9,6 +9,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/newrelic/newrelic-client-go/pkg/entities"
+	"github.com/newrelic/newrelic-client-go/pkg/errors"
 	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
 
@@ -220,4 +221,52 @@ func TestIntegrationDashboard_LinkedEntities(t *testing.T) {
 	// Clean up dashboard B
 	_, err = client.DashboardDelete(resultDashB.EntityResult.GUID)
 	require.NoError(t, err)
+}
+
+func TestIntegrationDashboard_InvalidInput(t *testing.T) {
+	t.Parallel()
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	client := newIntegrationTestClient(t)
+
+	// Test vars
+	dashboardName := "newrelic-client-go test-dashboard-" + mock.RandSeq(5)
+	dashboardInput := DashboardInput{
+		Description: "Testing dashboard widget with linked entities",
+		Name:        dashboardName,
+		Permissions: entities.DashboardPermissionsTypes.PRIVATE,
+		Pages: []DashboardPageInput{
+			{
+				Description: "Test page description",
+				Name:        "Test Page",
+				Widgets: []DashboardWidgetInput{
+					{
+						Title: "Widget with bad NRQL",
+						Configuration: DashboardWidgetConfigurationInput{
+							Bar: &DashboardBarWidgetConfigurationInput{
+								NRQLQueries: []DashboardWidgetNRQLQueryInput{
+									{
+										AccountID: testAccountID,
+										Query:     "This is bad NRQL input",
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+
+	// Test: DashboardCreate
+	dash, err := client.DashboardCreate(testAccountID, dashboardInput)
+
+	require.Nil(t, dash)
+	require.Error(t, err)
+	_, ok := err.(*errors.InvalidInput)
+	assert.True(t, ok)
 }
