@@ -3,39 +3,47 @@ package installevents
 
 import "context"
 
-func (a *Installevents) CreateInstallEvent(
-	input InstallStatus,
-) (*InstallEvent, error) {
-	return a.CreateInstallEventWithContext(context.Background(),
-		input,
+// Creates a new recipe event.
+func (a *Installevents) CreateRecipeEvent(
+	accountID int,
+	status RecipeStatus,
+) (*RecipeEvent, error) {
+	return a.CreateRecipeEventWithContext(context.Background(),
+		accountID,
+		status,
 	)
 }
 
-func (a *Installevents) CreateInstallEventWithContext(
+// Creates a new recipe event.
+func (a *Installevents) CreateRecipeEventWithContext(
 	ctx context.Context,
-	input InstallStatus,
-) (*InstallEvent, error) {
+	accountID int,
+	status RecipeStatus,
+) (*RecipeEvent, error) {
 
-	resp := CreateInstallEventQueryResponse{}
+	resp := CreateRecipeEventQueryResponse{}
 	vars := map[string]interface{}{
-		"input": input,
+		"accountId": accountID,
+		"status":    status,
 	}
 
-	if err := a.client.NerdGraphQueryWithContext(ctx, CreateInstallEventMutation, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, CreateRecipeEventMutation, vars, &resp); err != nil {
 		return nil, err
 	}
 
-	return &resp.InstallEvent, nil
+	return &resp.RecipeEvent, nil
 }
 
-type CreateInstallEventQueryResponse struct {
-	InstallEvent InstallEvent `json:"CreateInstallEvent"`
+type CreateRecipeEventQueryResponse struct {
+	RecipeEvent RecipeEvent `json:"CreateRecipeEvent"`
 }
 
-const CreateInstallEventMutation = `mutation(
-	$input: InstallStatus!,
-) { createInstallEvent(
-	input: $input,
+const CreateRecipeEventMutation = `mutation(
+	$accountId: Int!,
+	$status: RecipeStatus!,
+) { createRecipeEvent(
+	accountId: $accountId,
+	status: $status,
 ) {
 	cliVersion
 	complete

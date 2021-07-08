@@ -576,6 +576,7 @@ packages:
       - typegen
       - nerdgraphclient
     imports:
+      - github.com/newrelic/newrelic-client-go/pkg/entities
       - github.com/newrelic/newrelic-client-go/pkg/nrtime
     types:
       - name: Timestamp
@@ -584,8 +585,20 @@ packages:
       - name: ValidationDurationMilliseconds
         field_type_override: nrtime.EpochMilliseconds
         skip_type_create: true
+      - name: EpochMilliseconds
+        field_type_override: nrtime.EpochMilliseconds
+        skip_type_create: true
+      - name: EpochSeconds
+        field_type_override: nrtime.EpochSeconds
+        skip_type_create: true
+      - name: EntityGuid
+        field_type_override: entities.EntityGUID
+        skip_type_create: true
+      - name: SemVer
+        field_type_override: string
+        skip_type_create: true
     mutations:
-      - name: createInstallEvent
+      - name: createRecipeEvent
         max_query_field_depth: 1
 
   - name: nerdstorage
