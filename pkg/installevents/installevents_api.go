@@ -4,43 +4,53 @@ package installevents
 import "context"
 
 // Creates a new recipe event.
-func (a *Installevents) CreateRecipeEvent(
+// - A recipe event is created on behalf of the newrelic-cli whenever the CLI attempts to install the infrastructure-agent, for example.
+// - A recipe event is appended to any existing recipe events, if there are any present in the cache.
+//
+// Guided install: https://docs.newrelic.com/docs/full-stack-observability/observe-everything/get-started/new-relic-guided-install-overview/
+// newrelic-cli: https://github.com/newrelic/newrelic-cli
+func (a *Installevents) InstallationCreateRecipeEvent(
 	accountID int,
-	status RecipeStatus,
-) (*RecipeEvent, error) {
-	return a.CreateRecipeEventWithContext(context.Background(),
+	status InstallationRecipeStatus,
+) (*InstallationRecipeEvent, error) {
+	return a.InstallationCreateRecipeEventWithContext(context.Background(),
 		accountID,
 		status,
 	)
 }
 
 // Creates a new recipe event.
-func (a *Installevents) CreateRecipeEventWithContext(
+// - A recipe event is created on behalf of the newrelic-cli whenever the CLI attempts to install the infrastructure-agent, for example.
+// - A recipe event is appended to any existing recipe events, if there are any present in the cache.
+//
+// Guided install: https://docs.newrelic.com/docs/full-stack-observability/observe-everything/get-started/new-relic-guided-install-overview/
+// newrelic-cli: https://github.com/newrelic/newrelic-cli
+func (a *Installevents) InstallationCreateRecipeEventWithContext(
 	ctx context.Context,
 	accountID int,
-	status RecipeStatus,
-) (*RecipeEvent, error) {
+	status InstallationRecipeStatus,
+) (*InstallationRecipeEvent, error) {
 
-	resp := CreateRecipeEventQueryResponse{}
+	resp := InstallationCreateRecipeEventQueryResponse{}
 	vars := map[string]interface{}{
 		"accountId": accountID,
 		"status":    status,
 	}
 
-	if err := a.client.NerdGraphQueryWithContext(ctx, CreateRecipeEventMutation, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, InstallationCreateRecipeEventMutation, vars, &resp); err != nil {
 		return nil, err
 	}
 
-	return &resp.RecipeEvent, nil
+	return &resp.InstallationRecipeEvent, nil
 }
 
-type CreateRecipeEventQueryResponse struct {
-	RecipeEvent RecipeEvent `json:"CreateRecipeEvent"`
+type InstallationCreateRecipeEventQueryResponse struct {
+	InstallationRecipeEvent InstallationRecipeEvent `json:"InstallationCreateRecipeEvent"`
 }
 
-const CreateRecipeEventMutation = `mutation(
+const InstallationCreateRecipeEventMutation = `mutation(
 	$accountId: Int!,
-	$status: RecipeStatus!,
+	$status: InstallationRecipeStatus!,
 ) { installationCreateRecipeEvent(
 	accountId: $accountId,
 	status: $status,

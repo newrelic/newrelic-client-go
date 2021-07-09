@@ -6,26 +6,26 @@ import (
 	"github.com/newrelic/newrelic-client-go/pkg/nrtime"
 )
 
-// RecipeStatusType - An enum that represents the various recipe statuses.
-type RecipeStatusType string
+// InstallationRecipeStatusType - An enum that represents the various recipe statuses.
+type InstallationRecipeStatusType string
 
-var RecipeStatusTypeTypes = struct {
+var InstallationRecipeStatusTypeTypes = struct {
 	// Defines an available recipe when attempting to install.
-	AVAILABLE RecipeStatusType
+	AVAILABLE InstallationRecipeStatusType
 	// Defines a canceled recipe when attempting to install.
-	CANCELED RecipeStatusType
+	CANCELED InstallationRecipeStatusType
 	// Defines a recipe that has failed during installation.
-	FAILED RecipeStatusType
+	FAILED InstallationRecipeStatusType
 	// Defines a recipe that has been installed.
-	INSTALLED RecipeStatusType
+	INSTALLED InstallationRecipeStatusType
 	// Defines a recipe currently being installed.
-	INSTALLING RecipeStatusType
+	INSTALLING InstallationRecipeStatusType
 	// Defines a recipe that has been recommended during installation.
-	RECOMMENDED RecipeStatusType
+	RECOMMENDED InstallationRecipeStatusType
 	// Defines a recipe that has been skipped during installation.
-	SKIPPED RecipeStatusType
+	SKIPPED InstallationRecipeStatusType
 	// Defines a recipe that is unsupported.
-	UNSUPPORTED RecipeStatusType
+	UNSUPPORTED InstallationRecipeStatusType
 }{
 	// Defines an available recipe when attempting to install.
 	AVAILABLE: "AVAILABLE",
@@ -45,60 +45,18 @@ var RecipeStatusTypeTypes = struct {
 	UNSUPPORTED: "UNSUPPORTED",
 }
 
-// RecipeEvent - An object that contains an installation event created from within the newrelic-cli.
-type RecipeEvent struct {
-	// The version of the newrelic-cli that was used for a given integration.
+// InstallationRecipeEvent - An object that contains an installation event created from within the newrelic-cli.
+type InstallationRecipeEvent struct {
+	// The version of the newrelic-cli that was used for a given recipe.
 	CliVersion string `json:"cliVersion"`
-	// Whether or not the integration has been installed and all steps have been completed.
+	// Whether or not the recipe has been installed and all steps have been completed.
 	Complete bool `json:"complete"`
-	// The display name for a given integration.
+	// The display name for a given recipe.
 	DisplayName string `json:"displayName"`
-	// The entity Guid for a given integration.
+	// The entity Guid for a given recipe.
 	EntityGUID entities.EntityGUID `json:"entityGuid"`
-	// The error returned for a given integration.
-	Error StatusError `json:"error"`
-	// The host name of the customer's machine.
-	HostName string `json:"hostName"`
-	// The kernel architecture of the customer's machine.
-	KernelArch string `json:"kernelArch"`
-	// The OS of the customer's machine.
-	KernelVersion string `json:"kernelVersion"`
-	// The path to the log file on the customer's host.
-	LogFilePath string `json:"logFilePath"`
-	// The unique name for a given integration.
-	Name string `json:"name"`
-	// The OS of the customer's machine.
-	Os string `json:"os"`
-	// The platform name provided by the open-install-library.
-	Platform string `json:"platform"`
-	// The platform family name provided by the open-install-library.
-	PlatformFamily string `json:"platformFamily"`
-	// The platform version provided by the open-install-library.
-	PlatformVersion string `json:"platformVersion"`
-	// The redirect URL created by the CLI used for redirecting to a particular entity.
-	RedirectURL string `json:"redirectUrl,omitempty"`
-	// The status for a given integration.
-	Status RecipeStatusType `json:"status"`
-	// Whether or not the integration being installed is a targeted install.
-	TargetedInstall bool `json:"targetedInstall"`
-	// The timestamp for when the recipe event occurred.
-	Timestamp nrtime.EpochSeconds `json:"timestamp"`
-	// The number of milliseconds it took to validate the integration.
-	ValidationDurationMilliseconds nrtime.EpochMilliseconds `json:"validationDurationMilliseconds"`
-}
-
-// RecipeStatus - An object that represents a recipe status.
-type RecipeStatus struct {
-	// The version of the newrelic-cli that was used for a given integration.
-	CliVersion string `json:"cliVersion"`
-	// Whether or not the integration has been installed and all steps have been completed.
-	Complete bool `json:"complete"`
-	// The display name for a given integration.
-	DisplayName string `json:"displayName"`
-	// The entity Guid for a given integration.
-	EntityGUID entities.EntityGUID `json:"entityGuid"`
-	// The error returned for a given integration.
-	Error StatusErrorInput `json:"error,omitempty"`
+	// The error returned for a given recipe.
+	Error InstallationStatusError `json:"error"`
 	// The host name of the customer's machine.
 	HostName string `json:"hostName"`
 	// The kernel architecture of the customer's machine.
@@ -107,7 +65,7 @@ type RecipeStatus struct {
 	KernelVersion string `json:"kernelVersion"`
 	// The path to the log file on the customer's host.
 	LogFilePath string `json:"logFilePath"`
-	// The unique name for a given integration.
+	// The unique name for a given recipe.
 	Name string `json:"name"`
 	// The OS of the customer's machine.
 	Os string `json:"os"`
@@ -119,24 +77,66 @@ type RecipeStatus struct {
 	PlatformVersion string `json:"platformVersion"`
 	// The redirect URL created by the CLI used for redirecting to a particular entity.
 	RedirectURL string `json:"redirectUrl,omitempty"`
-	// The status for a given integration.
-	Status RecipeStatusType `json:"status"`
-	// Whether or not the integration being installed is a targeted install.
+	// The status for a given recipe.
+	Status InstallationRecipeStatusType `json:"status"`
+	// Whether or not the recipe being installed is a targeted install.
 	TargetedInstall bool `json:"targetedInstall"`
-	// The number of milliseconds it took to validate the integration.
+	// The timestamp for when the recipe event occurred.
+	Timestamp nrtime.EpochSeconds `json:"timestamp"`
+	// The number of milliseconds it took to validate the recipe.
 	ValidationDurationMilliseconds nrtime.EpochMilliseconds `json:"validationDurationMilliseconds"`
 }
 
-// StatusError - An object that represents a status error whenever an integration has failed to install.
-type StatusError struct {
+// InstallationRecipeStatus - An object that represents a recipe status.
+type InstallationRecipeStatus struct {
+	// The version of the newrelic-cli that was used for a given recipe.
+	CliVersion string `json:"cliVersion"`
+	// Whether or not the recipe has been installed and all steps have been completed.
+	Complete bool `json:"complete"`
+	// The display name for a given recipe.
+	DisplayName string `json:"displayName"`
+	// The entity Guid for a given recipe.
+	EntityGUID entities.EntityGUID `json:"entityGuid"`
+	// The error returned for a given recipe.
+	Error InstallationStatusErrorInput `json:"error,omitempty"`
+	// The host name of the customer's machine.
+	HostName string `json:"hostName"`
+	// The kernel architecture of the customer's machine.
+	KernelArch string `json:"kernelArch"`
+	// The kernel version of the customer's machine.
+	KernelVersion string `json:"kernelVersion"`
+	// The path to the log file on the customer's host.
+	LogFilePath string `json:"logFilePath"`
+	// The unique name for a given recipe.
+	Name string `json:"name"`
+	// The OS of the customer's machine.
+	Os string `json:"os"`
+	// The platform name provided by the open-install-library.
+	Platform string `json:"platform"`
+	// The platform family name provided by the open-install-library.
+	PlatformFamily string `json:"platformFamily"`
+	// The platform version provided by the open-install-library.
+	PlatformVersion string `json:"platformVersion"`
+	// The redirect URL created by the CLI used for redirecting to a particular entity.
+	RedirectURL string `json:"redirectUrl,omitempty"`
+	// The status for a given recipe.
+	Status InstallationRecipeStatusType `json:"status"`
+	// Whether or not the recipe being installed is a targeted install.
+	TargetedInstall bool `json:"targetedInstall"`
+	// The number of milliseconds it took to validate the recipe.
+	ValidationDurationMilliseconds nrtime.EpochMilliseconds `json:"validationDurationMilliseconds"`
+}
+
+// InstallationStatusError - An object that represents a status error whenever an recipe has failed to install.
+type InstallationStatusError struct {
 	// Error details, if any.
 	Details string `json:"details,omitempty"`
 	// The actual error message.
 	Message string `json:"message,omitempty"`
 }
 
-// StatusErrorInput - An object that represents a status error whenever an integration has failed to install.
-type StatusErrorInput struct {
+// InstallationStatusErrorInput - An object that represents a status error whenever an recipe has failed to install.
+type InstallationStatusErrorInput struct {
 	// Error details, if any.
 	Details string `json:"details,omitempty"`
 	// The actual error message.
