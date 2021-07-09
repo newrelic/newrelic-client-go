@@ -376,8 +376,3 @@ type DashboardWidgetVisualizationInput struct {
 	// Nerdpack artifact ID
 	ID string `json:"id,omitempty"`
 }
-
-// Float - The `Float` scalar type represents signed double-precision fractional
-// values as specified by
-// [IEEE 754](http://en.wikipedia.org/wiki/IEEE_floating_point).
-type Float string
