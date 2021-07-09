@@ -41,7 +41,7 @@ type CreateRecipeEventQueryResponse struct {
 const CreateRecipeEventMutation = `mutation(
 	$accountId: Int!,
 	$status: RecipeStatus!,
-) { createRecipeEvent(
+) { installationCreateRecipeEvent(
 	accountId: $accountId,
 	status: $status,
 ) {
