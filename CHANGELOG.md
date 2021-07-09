@@ -1,3 +1,12 @@
+<a name="v0.61.0"></a>
+## [v0.61.0] - 2021-07-09
+### Bug Fixes
+- **dashboard:** Linked entities must be the page GUID, update the test
+
+### Features
+- **Error:** Add InvalidInput error
+- **installevents:** start package to track install-events-service
+
 <a name="v0.60.2"></a>
 ## [v0.60.2] - 2021-06-29
 <a name="v0.60.1"></a>
@@ -1069,7 +1078,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.60.2...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.61.0...HEAD
+[v0.61.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.60.2...v0.61.0
 [v0.60.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.60.1...v0.60.2
 [v0.60.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.60.0...v0.60.1
 [v0.60.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.59.4...v0.60.0
