@@ -2,13 +2,12 @@
 package {{.PackageName | lower}}
 {{$packageName := .PackageName}}
 
-{{- if gt (len .Imports) 0 }}
 import(
+  "fmt"
   {{- range .Imports}}
   "{{.}}"
   {{- end}}
 )
-{{- end}}
 
 {{range .Mutations}}
 {{/*
@@ -49,6 +48,15 @@ func (a *{{$packageName|title}}) {{.Name | title}}WithContext(
 	if err := a.client.NerdGraphQueryWithContext(ctx, {{.Name}}Mutation, vars, &resp); err != nil {
 		return nil, err
 	}
+
+  // If we got errors back, wrap them all up
+  if len(resp.{{.Name}}Result.Errors) > 0 {
+    errs := fmt.Errorf("query error")
+    for _, err := range resp.{{.Name}}Result.Errors {
+      errs = fmt.Errorf("%w; %s", errs, err.Description)
+    }
+    return nil, errs
+  }
 
 	return &resp.{{first .Signature.Return}}, nil
 }
