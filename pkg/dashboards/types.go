@@ -117,14 +117,6 @@ type DashboardBarWidgetConfigurationInput struct {
 	NRQLQueries []DashboardWidgetNRQLQueryInput `json:"nrqlQueries,omitempty"`
 }
 
-// DashboardBillboardWidgetConfigurationInput - Configuration for visualization type 'viz.billboard'
-type DashboardBillboardWidgetConfigurationInput struct {
-	// nrql queries
-	NRQLQueries []DashboardWidgetNRQLQueryInput `json:"nrqlQueries,omitempty"`
-	// thresholds
-	Thresholds []DashboardBillboardWidgetThresholdInput `json:"thresholds,omitempty"`
-}
-
 // DashboardCreateError - Expected errors that can be returned by create operation
 type DashboardCreateError struct {
 	// Error description
@@ -376,8 +368,3 @@ type DashboardWidgetVisualizationInput struct {
 	// Nerdpack artifact ID
 	ID string `json:"id,omitempty"`
 }
-
-// Float - The `Float` scalar type represents signed double-precision fractional
-// values as specified by
-// [IEEE 754](http://en.wikipedia.org/wiki/IEEE_floating_point).
-type Float string
