@@ -167,6 +167,7 @@ func TestIntegrationDashboard_LinkedEntities(t *testing.T) {
 	resultDashA, err := client.DashboardCreate(testAccountID, dashboardAInput)
 	require.NoError(t, err)
 	require.NotNil(t, resultDashA)
+	defer client.DashboardDelete(resultDashA.EntityResult.GUID) // Clean up dashboard A
 
 	dashboardBName := "newrelic-client-go test-dashboard-" + mock.RandSeq(5)
 	dashboardBInput := DashboardInput{
@@ -191,7 +192,7 @@ func TestIntegrationDashboard_LinkedEntities(t *testing.T) {
 							},
 						},
 						LinkedEntityGUIDs: []entities.EntityGUID{
-							entities.EntityGUID(resultDashA.EntityResult.GUID),
+							entities.EntityGUID(resultDashA.EntityResult.Pages[0].GUID),
 						},
 					},
 				},
@@ -201,26 +202,18 @@ func TestIntegrationDashboard_LinkedEntities(t *testing.T) {
 
 	// Test: Create dashboard with a widget that includes `linkedEntityGuids`
 	resultDashB, err := client.DashboardCreate(testAccountID, dashboardBInput)
-
 	require.NoError(t, err)
 	require.NotNil(t, resultDashB)
+	defer client.DashboardDelete(resultDashB.EntityResult.GUID) // Clean up dashboard B
+
 	assert.Equal(t, 0, len(resultDashB.Errors))
-	require.NotNil(t, resultDashB.EntityResult.GUID)
-	require.Greater(t, len(resultDashB.EntityResult.Pages[0].Widgets[0].LinkedEntities), 0)
+	assert.NotNil(t, resultDashB.EntityResult.GUID)
 
 	// Test: GetDashboardEntity
 	dashB, err := client.GetDashboardEntity(resultDashB.EntityResult.GUID)
 	require.NoError(t, err)
 	require.NotNil(t, dashB)
-	require.Greater(t, len(resultDashB.EntityResult.Pages[0].Widgets[0].LinkedEntities), 0)
-
-	// Clean up dashboard A
-	_, err = client.DashboardDelete(resultDashA.EntityResult.GUID)
-	require.NoError(t, err)
-
-	// Clean up dashboard B
-	_, err = client.DashboardDelete(resultDashB.EntityResult.GUID)
-	require.NoError(t, err)
+	assert.Greater(t, len(dashB.Pages[0].Widgets[0].LinkedEntities), 0)
 }
 
 func TestIntegrationDashboard_InvalidInput(t *testing.T) {
