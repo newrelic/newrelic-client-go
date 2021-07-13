@@ -9,7 +9,6 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/newrelic/newrelic-client-go/pkg/entities"
-	"github.com/newrelic/newrelic-client-go/pkg/errors"
 	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
 
@@ -260,6 +259,4 @@ func TestIntegrationDashboard_InvalidInput(t *testing.T) {
 
 	require.Nil(t, dash)
 	require.Error(t, err)
-	_, ok := err.(*errors.InvalidInput)
-	assert.True(t, ok)
 }

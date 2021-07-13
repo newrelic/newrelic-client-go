@@ -3,9 +3,9 @@ package dashboards
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/newrelic/newrelic-client-go/pkg/entities"
-	"github.com/newrelic/newrelic-client-go/pkg/errors"
 )
 
 // Create a `DashboardEntity`
@@ -36,12 +36,13 @@ func (a *Dashboards) DashboardCreateWithContext(
 		return nil, err
 	}
 
+	// If we got errors back, wrap them all up
 	if len(resp.DashboardCreateResult.Errors) > 0 {
+		errs := fmt.Errorf("query error")
 		for _, err := range resp.DashboardCreateResult.Errors {
-			if err.Type == DashboardCreateErrorTypeTypes.INVALID_INPUT {
-				return nil, errors.NewInvalidInput(err.Description)
-			}
+			errs = fmt.Errorf("%w; %s", errs, err.Description)
 		}
+		return nil, errs
 	}
 
 	return &resp.DashboardCreateResult, nil
@@ -505,6 +506,15 @@ func (a *Dashboards) DashboardDeleteWithContext(
 		return nil, err
 	}
 
+	// If we got errors back, wrap them all up
+	if len(resp.DashboardDeleteResult.Errors) > 0 {
+		errs := fmt.Errorf("query error")
+		for _, err := range resp.DashboardDeleteResult.Errors {
+			errs = fmt.Errorf("%w; %s", errs, err.Description)
+		}
+		return nil, errs
+	}
+
 	return &resp.DashboardDeleteResult, nil
 }
 
@@ -550,6 +560,15 @@ func (a *Dashboards) DashboardUpdateWithContext(
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, DashboardUpdateMutation, vars, &resp); err != nil {
 		return nil, err
+	}
+
+	// If we got errors back, wrap them all up
+	if len(resp.DashboardUpdateResult.Errors) > 0 {
+		errs := fmt.Errorf("query error")
+		for _, err := range resp.DashboardUpdateResult.Errors {
+			errs = fmt.Errorf("%w; %s", errs, err.Description)
+		}
+		return nil, errs
 	}
 
 	return &resp.DashboardUpdateResult, nil
