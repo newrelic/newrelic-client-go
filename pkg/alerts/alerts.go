@@ -1,6 +1,7 @@
 package alerts
 
 import (
+	"github.com/newrelic/newrelic-client-go/internal/cache"
 	"github.com/newrelic/newrelic-client-go/internal/http"
 	"github.com/newrelic/newrelic-client-go/internal/logging"
 	"github.com/newrelic/newrelic-client-go/pkg/config"
@@ -14,6 +15,7 @@ type Alerts struct {
 	infraClient http.Client
 	logger      logging.Logger
 	pager       http.Pager
+	caches      map[string]*cache.GroupCache
 }
 
 // New is used to create a new Alerts client instance.
@@ -33,6 +35,7 @@ func New(config config.Config) Alerts {
 		infraClient: infraClient,
 		logger:      config.GetLogger(),
 		pager:       &http.LinkHeaderPager{},
+		caches:      make(map[string]*cache.GroupCache),
 	}
 
 	return pkg

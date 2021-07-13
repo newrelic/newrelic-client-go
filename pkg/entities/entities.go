@@ -2,6 +2,7 @@
 package entities
 
 import (
+	"github.com/newrelic/newrelic-client-go/internal/cache"
 	"github.com/newrelic/newrelic-client-go/internal/http"
 	"github.com/newrelic/newrelic-client-go/internal/logging"
 	"github.com/newrelic/newrelic-client-go/pkg/config"
@@ -11,6 +12,7 @@ import (
 type Entities struct {
 	client http.Client
 	logger logging.Logger
+	caches map[string]*cache.GroupCache
 }
 
 // New returns a new client for interacting with New Relic One entities.
@@ -18,5 +20,6 @@ func New(config config.Config) Entities {
 	return Entities{
 		client: http.NewClient(config),
 		logger: config.GetLogger(),
+		caches: make(map[string]*cache.GroupCache),
 	}
 }
