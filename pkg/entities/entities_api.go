@@ -306,6 +306,20 @@ const getEntitiesQuery = `query(
 		violationId
 		violationUrl
 	}
+	relatedEntities {
+		nextCursor
+		results {
+			__typename
+			createdAt
+			type
+			... on EntityRelationshipDetectedEdge {
+				__typename
+			}
+			... on EntityRelationshipUserDefinedEdge {
+				__typename
+			}
+		}
+	}
 	relationships {
 		source {
 			accountId
@@ -389,6 +403,9 @@ const getEntitiesQuery = `query(
 			violationId
 			violationUrl
 		}
+		relatedEntities {
+			nextCursor
+		}
 		relationships {
 			type
 		}
@@ -427,6 +444,9 @@ const getEntitiesQuery = `query(
 			violationId
 			violationUrl
 		}
+		relatedEntities {
+			nextCursor
+		}
 		relationships {
 			type
 		}
@@ -460,6 +480,9 @@ const getEntitiesQuery = `query(
 			openedAt
 			violationId
 			violationUrl
+		}
+		relatedEntities {
+			nextCursor
 		}
 		relationships {
 			type
@@ -512,6 +535,9 @@ const getEntitiesQuery = `query(
 			violationId
 			violationUrl
 		}
+		relatedEntities {
+			nextCursor
+		}
 		relationships {
 			type
 		}
@@ -563,6 +589,9 @@ const getEntitiesQuery = `query(
 			violationId
 			violationUrl
 		}
+		relatedEntities {
+			nextCursor
+		}
 		relationships {
 			type
 		}
@@ -592,6 +621,9 @@ const getEntitiesQuery = `query(
 			violationId
 			violationUrl
 		}
+		relatedEntities {
+			nextCursor
+		}
 		relationships {
 			type
 		}
@@ -619,6 +651,9 @@ const getEntitiesQuery = `query(
 			openedAt
 			violationId
 			violationUrl
+		}
+		relatedEntities {
+			nextCursor
 		}
 		relationships {
 			type
@@ -649,6 +684,9 @@ const getEntitiesQuery = `query(
 			violationId
 			violationUrl
 		}
+		relatedEntities {
+			nextCursor
+		}
 		relationships {
 			type
 		}
@@ -677,6 +715,9 @@ const getEntitiesQuery = `query(
 			openedAt
 			violationId
 			violationUrl
+		}
+		relatedEntities {
+			nextCursor
 		}
 		relationships {
 			type
@@ -714,6 +755,9 @@ const getEntitiesQuery = `query(
 			openedAt
 			violationId
 			violationUrl
+		}
+		relatedEntities {
+			nextCursor
 		}
 		relationships {
 			type
@@ -767,6 +811,9 @@ const getEntitiesQuery = `query(
 			violationId
 			violationUrl
 		}
+		relatedEntities {
+			nextCursor
+		}
 		relationships {
 			type
 		}
@@ -795,6 +842,9 @@ const getEntitiesQuery = `query(
 			openedAt
 			violationId
 			violationUrl
+		}
+		relatedEntities {
+			nextCursor
 		}
 		relationships {
 			type
@@ -840,6 +890,9 @@ const getEntitiesQuery = `query(
 			violationId
 			violationUrl
 		}
+		relatedEntities {
+			nextCursor
+		}
 		relationships {
 			type
 		}
@@ -868,6 +921,9 @@ const getEntitiesQuery = `query(
 			violationId
 			violationUrl
 		}
+		relatedEntities {
+			nextCursor
+		}
 		relationships {
 			type
 		}
@@ -895,6 +951,9 @@ const getEntitiesQuery = `query(
 			openedAt
 			violationId
 			violationUrl
+		}
+		relatedEntities {
+			nextCursor
 		}
 		relationships {
 			type
@@ -930,6 +989,9 @@ const getEntitiesQuery = `query(
 			openedAt
 			violationId
 			violationUrl
+		}
+		relatedEntities {
+			nextCursor
 		}
 		relationships {
 			type
@@ -1030,6 +1092,20 @@ const getEntityQuery = `query(
 		violationId
 		violationUrl
 	}
+	relatedEntities {
+		nextCursor
+		results {
+			__typename
+			createdAt
+			type
+			... on EntityRelationshipDetectedEdge {
+				__typename
+			}
+			... on EntityRelationshipUserDefinedEdge {
+				__typename
+			}
+		}
+	}
 	relationships {
 		source {
 			accountId
@@ -1113,6 +1189,9 @@ const getEntityQuery = `query(
 			violationId
 			violationUrl
 		}
+		relatedEntities {
+			nextCursor
+		}
 		relationships {
 			type
 		}
@@ -1151,6 +1230,9 @@ const getEntityQuery = `query(
 			violationId
 			violationUrl
 		}
+		relatedEntities {
+			nextCursor
+		}
 		relationships {
 			type
 		}
@@ -1184,6 +1266,9 @@ const getEntityQuery = `query(
 			openedAt
 			violationId
 			violationUrl
+		}
+		relatedEntities {
+			nextCursor
 		}
 		relationships {
 			type
@@ -1236,6 +1321,9 @@ const getEntityQuery = `query(
 			violationId
 			violationUrl
 		}
+		relatedEntities {
+			nextCursor
+		}
 		relationships {
 			type
 		}
@@ -1287,6 +1375,9 @@ const getEntityQuery = `query(
 			violationId
 			violationUrl
 		}
+		relatedEntities {
+			nextCursor
+		}
 		relationships {
 			type
 		}
@@ -1316,6 +1407,9 @@ const getEntityQuery = `query(
 			violationId
 			violationUrl
 		}
+		relatedEntities {
+			nextCursor
+		}
 		relationships {
 			type
 		}
@@ -1343,6 +1437,9 @@ const getEntityQuery = `query(
 			openedAt
 			violationId
 			violationUrl
+		}
+		relatedEntities {
+			nextCursor
 		}
 		relationships {
 			type
@@ -1373,6 +1470,9 @@ const getEntityQuery = `query(
 			violationId
 			violationUrl
 		}
+		relatedEntities {
+			nextCursor
+		}
 		relationships {
 			type
 		}
@@ -1401,6 +1501,9 @@ const getEntityQuery = `query(
 			openedAt
 			violationId
 			violationUrl
+		}
+		relatedEntities {
+			nextCursor
 		}
 		relationships {
 			type
@@ -1438,6 +1541,9 @@ const getEntityQuery = `query(
 			openedAt
 			violationId
 			violationUrl
+		}
+		relatedEntities {
+			nextCursor
 		}
 		relationships {
 			type
@@ -1491,6 +1597,9 @@ const getEntityQuery = `query(
 			violationId
 			violationUrl
 		}
+		relatedEntities {
+			nextCursor
+		}
 		relationships {
 			type
 		}
@@ -1519,6 +1628,9 @@ const getEntityQuery = `query(
 			openedAt
 			violationId
 			violationUrl
+		}
+		relatedEntities {
+			nextCursor
 		}
 		relationships {
 			type
@@ -1564,6 +1676,9 @@ const getEntityQuery = `query(
 			violationId
 			violationUrl
 		}
+		relatedEntities {
+			nextCursor
+		}
 		relationships {
 			type
 		}
@@ -1592,6 +1707,9 @@ const getEntityQuery = `query(
 			violationId
 			violationUrl
 		}
+		relatedEntities {
+			nextCursor
+		}
 		relationships {
 			type
 		}
@@ -1619,6 +1737,9 @@ const getEntityQuery = `query(
 			openedAt
 			violationId
 			violationUrl
+		}
+		relatedEntities {
+			nextCursor
 		}
 		relationships {
 			type
@@ -1654,6 +1775,9 @@ const getEntityQuery = `query(
 			openedAt
 			violationId
 			violationUrl
+		}
+		relatedEntities {
+			nextCursor
 		}
 		relationships {
 			type

@@ -887,6 +887,52 @@ var EntityInfrastructureIntegrationTypeTypes = struct {
 	VARNISH_INSTANCE: "VARNISH_INSTANCE",
 }
 
+// EntityRelationshipEdgeDirection - Values for relationship direction filter.
+type EntityRelationshipEdgeDirection string
+
+var EntityRelationshipEdgeDirectionTypes = struct {
+	// Traverse both inbound and outbound connections.
+	BOTH EntityRelationshipEdgeDirection
+	// Traverse inbound connections to the source of the relationship.
+	INBOUND EntityRelationshipEdgeDirection
+	// Traverse outbound connections to the target of the relationship.
+	OUTBOUND EntityRelationshipEdgeDirection
+}{
+	// Traverse both inbound and outbound connections.
+	BOTH: "BOTH",
+	// Traverse inbound connections to the source of the relationship.
+	INBOUND: "INBOUND",
+	// Traverse outbound connections to the target of the relationship.
+	OUTBOUND: "OUTBOUND",
+}
+
+// EntityRelationshipEdgeType - The type of the relationship.
+type EntityRelationshipEdgeType string
+
+var EntityRelationshipEdgeTypeTypes = struct {
+	// The source entity calls the target entity.
+	CALLS EntityRelationshipEdgeType
+	// The source entity contains the target entity.
+	CONTAINS EntityRelationshipEdgeType
+	// The source entity hosts the target.
+	HOSTS EntityRelationshipEdgeType
+	// The source and target entities are perspectives on the same thing.
+	IS EntityRelationshipEdgeType
+	// The source is an Application that serves the target Browser application.
+	SERVES EntityRelationshipEdgeType
+}{
+	// The source entity calls the target entity.
+	CALLS: "CALLS",
+	// The source entity contains the target entity.
+	CONTAINS: "CONTAINS",
+	// The source entity hosts the target.
+	HOSTS: "HOSTS",
+	// The source and target entities are perspectives on the same thing.
+	IS: "IS",
+	// The source is an Application that serves the target Browser application.
+	SERVES: "SERVES",
+}
+
 // EntityRelationshipType - The type of the relationship.
 //
 // For details, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
@@ -1457,6 +1503,8 @@ type ApmApplicationEntity struct {
 	Permalink string `json:"permalink,omitempty"`
 	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// Related entities result with optional filtering.
+	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// A list of the entities' relationships.
 	//
 	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
@@ -1590,6 +1638,11 @@ func (x ApmApplicationEntity) GetPermalink() string {
 // GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from ApmApplicationEntity
 func (x ApmApplicationEntity) GetRecentAlertViolations() []EntityAlertViolation {
 	return x.RecentAlertViolations
+}
+
+// GetRelatedEntities returns a pointer to the value of RelatedEntities from ApmApplicationEntity
+func (x ApmApplicationEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
+	return x.RelatedEntities
 }
 
 // GetRelationships returns a pointer to the value of Relationships from ApmApplicationEntity
@@ -1906,6 +1959,8 @@ type ApmDatabaseInstanceEntity struct {
 	PortOrPath string `json:"portOrPath,omitempty"`
 	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// Related entities result with optional filtering.
+	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// A list of the entities' relationships.
 	//
 	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
@@ -2007,6 +2062,11 @@ func (x ApmDatabaseInstanceEntity) GetPortOrPath() string {
 // GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from ApmDatabaseInstanceEntity
 func (x ApmDatabaseInstanceEntity) GetRecentAlertViolations() []EntityAlertViolation {
 	return x.RecentAlertViolations
+}
+
+// GetRelatedEntities returns a pointer to the value of RelatedEntities from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
+	return x.RelatedEntities
 }
 
 // GetRelationships returns a pointer to the value of Relationships from ApmDatabaseInstanceEntity
@@ -2212,6 +2272,8 @@ type ApmExternalServiceEntity struct {
 	Permalink string `json:"permalink,omitempty"`
 	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// Related entities result with optional filtering.
+	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// A list of the entities' relationships.
 	//
 	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
@@ -2311,6 +2373,11 @@ func (x ApmExternalServiceEntity) GetPermalink() string {
 // GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from ApmExternalServiceEntity
 func (x ApmExternalServiceEntity) GetRecentAlertViolations() []EntityAlertViolation {
 	return x.RecentAlertViolations
+}
+
+// GetRelatedEntities returns a pointer to the value of RelatedEntities from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
+	return x.RelatedEntities
 }
 
 // GetRelationships returns a pointer to the value of Relationships from ApmExternalServiceEntity
@@ -2518,6 +2585,8 @@ type BrowserApplicationEntity struct {
 	Permalink string `json:"permalink,omitempty"`
 	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// Related entities result with optional filtering.
+	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// A list of the entities' relationships.
 	//
 	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
@@ -2638,6 +2707,11 @@ func (x BrowserApplicationEntity) GetPermalink() string {
 // GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from BrowserApplicationEntity
 func (x BrowserApplicationEntity) GetRecentAlertViolations() []EntityAlertViolation {
 	return x.RecentAlertViolations
+}
+
+// GetRelatedEntities returns a pointer to the value of RelatedEntities from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
+	return x.RelatedEntities
 }
 
 // GetRelationships returns a pointer to the value of Relationships from BrowserApplicationEntity
@@ -2965,6 +3039,8 @@ type DashboardEntity struct {
 	Permissions DashboardPermissions `json:"permissions,omitempty"`
 	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// Related entities result with optional filtering.
+	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// A list of the entities' relationships.
 	//
 	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
@@ -3086,6 +3162,11 @@ func (x DashboardEntity) GetPermissions() DashboardPermissions {
 // GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from DashboardEntity
 func (x DashboardEntity) GetRecentAlertViolations() []EntityAlertViolation {
 	return x.RecentAlertViolations
+}
+
+// GetRelatedEntities returns a pointer to the value of RelatedEntities from DashboardEntity
+func (x DashboardEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
+	return x.RelatedEntities
 }
 
 // GetRelationships returns a pointer to the value of Relationships from DashboardEntity
@@ -3455,6 +3536,20 @@ type DashboardWidgetVisualization struct {
 	ID string `json:"id,omitempty"`
 }
 
+// DomainTypeInput - Input for getting details about an entity type
+type DomainTypeInput struct {
+	// The domain of the entity.
+	//
+	// The domain must be a value matching /[A-Z][A-Z0-9_]{2,14}/.
+	Domain string `json:"domain"`
+	// The type of the entity.
+	//
+	// The type must be a value matching /[A-Z][A-Z0-9_]{2,49}/.
+	//
+	// Some examples are APPLICATION, HOST or CONTAINER.
+	Type string `json:"type"`
+}
+
 // Entity - The `Entity` interface allows fetching detailed entity information for a single entity.
 //
 // To understand more about entities and entity types, look at [our docs](https://docs.newrelic.com/docs/what-are-new-relic-entities).
@@ -3493,6 +3588,8 @@ type Entity struct {
 	Permalink string `json:"permalink,omitempty"`
 	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// Related entities result with optional filtering.
+	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// A list of the entities' relationships.
 	//
 	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
@@ -3693,6 +3790,60 @@ type EntityRelationship struct {
 	Type EntityRelationshipType `json:"type,omitempty"`
 }
 
+// EntityRelationshipDetectedEdge - An entity relationship automatically detected by NewRelic.
+type EntityRelationshipDetectedEdge struct {
+	// The time the relationship was created.
+	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt"`
+	// The source entity of the relationship.
+	Source EntityRelationshipVertex `json:"source"`
+	// The target entity of the relationship.
+	Target EntityRelationshipVertex `json:"target"`
+	// The type of the relationship.
+	Type EntityRelationshipEdgeType `json:"type"`
+}
+
+func (x *EntityRelationshipDetectedEdge) ImplementsEntityRelationshipEdge() {}
+
+// EntityRelationshipEdge - An entity relationship.
+type EntityRelationshipEdge struct {
+	// The time the relationship was created.
+	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt"`
+	// The source entity of the relationship.
+	Source EntityRelationshipVertex `json:"source"`
+	// The target entity of the relationship.
+	Target EntityRelationshipVertex `json:"target"`
+	// The type of the relationship.
+	Type EntityRelationshipEdgeType `json:"type"`
+}
+
+func (x *EntityRelationshipEdge) ImplementsEntityRelationshipEdge() {}
+
+// EntityRelationshipEdgeFilter - EntityRelationship edge filter.
+type EntityRelationshipEdgeFilter struct {
+	// Filter by direction of relationship.
+	Direction EntityRelationshipEdgeDirection `json:"direction,omitempty"`
+	// Filter on entity domain-types.
+	EntityDomainTypes EntityRelationshipEntityDomainTypeFilter `json:"entityDomainTypes,omitempty"`
+	// Filter on relationship types.
+	RelationshipTypes EntityRelationshipEdgeTypeFilter `json:"relationshipTypes,omitempty"`
+}
+
+// EntityRelationshipEdgeTypeFilter - Filter on relationship types.
+type EntityRelationshipEdgeTypeFilter struct {
+	// Filter the relationships to those that are not of specific relationship types.
+	Exclude []EntityRelationshipEdgeType `json:"exclude"`
+	// Filter the relationships to those of specific relationship types.
+	Include []EntityRelationshipEdgeType `json:"include"`
+}
+
+// EntityRelationshipEntityDomainTypeFilter - Filter on entity domain-types.
+type EntityRelationshipEntityDomainTypeFilter struct {
+	// Filter the relationships to those between entities that are not of specific domain-types.
+	Exclude []DomainTypeInput `json:"exclude,omitempty"`
+	// Filter the relationships to those between entities of specific domain-types.
+	Include []DomainTypeInput `json:"include,omitempty"`
+}
+
 // EntityRelationshipFilter - Relationship filter
 type EntityRelationshipFilter struct {
 	// Filter the relationships to those that contain a specific entity type.
@@ -3748,6 +3899,127 @@ func (x *EntityRelationshipNode) UnmarshalJSON(b []byte) error {
 			err = json.Unmarshal(*v, &x.EntityType)
 			if err != nil {
 				return err
+			}
+		case "guid":
+			err = json.Unmarshal(*v, &x.GUID)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
+}
+
+// EntityRelationshipRelatedEntitiesResult - Response containing related entities
+type EntityRelationshipRelatedEntitiesResult struct {
+	// The next cursor for fetching additional paginated results.
+	NextCursor string `json:"nextCursor,omitempty"`
+	// The list of related entities.
+	Results []EntityRelationshipEdgeInterface `json:"results"`
+}
+
+// special
+func (x *EntityRelationshipRelatedEntitiesResult) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+
+	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
+		switch k {
+		case "nextCursor":
+			err = json.Unmarshal(*v, &x.NextCursor)
+			if err != nil {
+				return err
+			}
+		case "results":
+			if v == nil {
+				continue
+			}
+			var rawMessageResults []*json.RawMessage
+			err = json.Unmarshal(*v, &rawMessageResults)
+			if err != nil {
+				return err
+			}
+
+			for _, m := range rawMessageResults {
+				xxx, err := UnmarshalEntityRelationshipEdgeInterface(*m)
+				if err != nil {
+					return err
+				}
+
+				if xxx != nil {
+					x.Results = append(x.Results, *xxx)
+				}
+			}
+		}
+	}
+
+	return nil
+}
+
+// EntityRelationshipUserDefinedEdge - An entity user-defined relationship.
+type EntityRelationshipUserDefinedEdge struct {
+	// The time the relationship was created.
+	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt"`
+	// The user that created the relationship.
+	CreatedByUser users.UserReference `json:"createdByUser"`
+	// The source entity of the relationship.
+	Source EntityRelationshipVertex `json:"source"`
+	// The target entity of the relationship.
+	Target EntityRelationshipVertex `json:"target"`
+	// The type of the relationship.
+	Type EntityRelationshipEdgeType `json:"type"`
+}
+
+func (x *EntityRelationshipUserDefinedEdge) ImplementsEntityRelationshipEdge() {}
+
+// EntityRelationshipVertex - A vertex in an entity relationship edge.
+type EntityRelationshipVertex struct {
+	// The account ID of the relationship node.
+	AccountID int `json:"accountId"`
+	// The entity of the relationship node.
+	Entity EntityOutlineInterface `json:"entity"`
+	// The entity guid of the relationship node.
+	GUID EntityGUID `json:"guid"`
+}
+
+// special
+func (x *EntityRelationshipVertex) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+
+	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
+		switch k {
+		case "accountId":
+			err = json.Unmarshal(*v, &x.AccountID)
+			if err != nil {
+				return err
+			}
+		case "entity":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalEntityOutlineInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.Entity = *xxx
 			}
 		case "guid":
 			err = json.Unmarshal(*v, &x.GUID)
@@ -3955,6 +4227,8 @@ type ExternalEntity struct {
 	Permalink string `json:"permalink,omitempty"`
 	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// Related entities result with optional filtering.
+	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// A list of the entities' relationships.
 	//
 	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
@@ -4044,6 +4318,11 @@ func (x ExternalEntity) GetPermalink() string {
 // GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from ExternalEntity
 func (x ExternalEntity) GetRecentAlertViolations() []EntityAlertViolation {
 	return x.RecentAlertViolations
+}
+
+// GetRelatedEntities returns a pointer to the value of RelatedEntities from ExternalEntity
+func (x ExternalEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
+	return x.RelatedEntities
 }
 
 // GetRelationships returns a pointer to the value of Relationships from ExternalEntity
@@ -4219,6 +4498,8 @@ type GenericEntity struct {
 	Permalink string `json:"permalink,omitempty"`
 	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// Related entities result with optional filtering.
+	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// A list of the entities' relationships.
 	//
 	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
@@ -4308,6 +4589,11 @@ func (x GenericEntity) GetPermalink() string {
 // GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from GenericEntity
 func (x GenericEntity) GetRecentAlertViolations() []EntityAlertViolation {
 	return x.RecentAlertViolations
+}
+
+// GetRelatedEntities returns a pointer to the value of RelatedEntities from GenericEntity
+func (x GenericEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
+	return x.RelatedEntities
 }
 
 // GetRelationships returns a pointer to the value of Relationships from GenericEntity
@@ -4485,6 +4771,8 @@ type GenericInfrastructureEntity struct {
 	Permalink string `json:"permalink,omitempty"`
 	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// Related entities result with optional filtering.
+	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// A list of the entities' relationships.
 	//
 	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
@@ -4579,6 +4867,11 @@ func (x GenericInfrastructureEntity) GetPermalink() string {
 // GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from GenericInfrastructureEntity
 func (x GenericInfrastructureEntity) GetRecentAlertViolations() []EntityAlertViolation {
 	return x.RecentAlertViolations
+}
+
+// GetRelatedEntities returns a pointer to the value of RelatedEntities from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
+	return x.RelatedEntities
 }
 
 // GetRelationships returns a pointer to the value of Relationships from GenericInfrastructureEntity
@@ -4767,6 +5060,8 @@ type InfrastructureAwsLambdaFunctionEntity struct {
 	Permalink string `json:"permalink,omitempty"`
 	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// Related entities result with optional filtering.
+	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// A list of the entities' relationships.
 	//
 	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
@@ -4863,6 +5158,11 @@ func (x InfrastructureAwsLambdaFunctionEntity) GetPermalink() string {
 // GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from InfrastructureAwsLambdaFunctionEntity
 func (x InfrastructureAwsLambdaFunctionEntity) GetRecentAlertViolations() []EntityAlertViolation {
 	return x.RecentAlertViolations
+}
+
+// GetRelatedEntities returns a pointer to the value of RelatedEntities from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
+	return x.RelatedEntities
 }
 
 // GetRelationships returns a pointer to the value of Relationships from InfrastructureAwsLambdaFunctionEntity
@@ -5064,6 +5364,8 @@ type InfrastructureHostEntity struct {
 	Permalink string `json:"permalink,omitempty"`
 	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// Related entities result with optional filtering.
+	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// A list of the entities' relationships.
 	//
 	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
@@ -5158,6 +5460,11 @@ func (x InfrastructureHostEntity) GetPermalink() string {
 // GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from InfrastructureHostEntity
 func (x InfrastructureHostEntity) GetRecentAlertViolations() []EntityAlertViolation {
 	return x.RecentAlertViolations
+}
+
+// GetRelatedEntities returns a pointer to the value of RelatedEntities from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
+	return x.RelatedEntities
 }
 
 // GetRelationships returns a pointer to the value of Relationships from InfrastructureHostEntity
@@ -5436,6 +5743,8 @@ type MobileApplicationEntity struct {
 	Permalink string `json:"permalink,omitempty"`
 	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// Related entities result with optional filtering.
+	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// A list of the entities' relationships.
 	//
 	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
@@ -5545,6 +5854,11 @@ func (x MobileApplicationEntity) GetPermalink() string {
 // GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from MobileApplicationEntity
 func (x MobileApplicationEntity) GetRecentAlertViolations() []EntityAlertViolation {
 	return x.RecentAlertViolations
+}
+
+// GetRelatedEntities returns a pointer to the value of RelatedEntities from MobileApplicationEntity
+func (x MobileApplicationEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
+	return x.RelatedEntities
 }
 
 // GetRelationships returns a pointer to the value of Relationships from MobileApplicationEntity
@@ -5752,6 +6066,8 @@ type SecureCredentialEntity struct {
 	Permalink string `json:"permalink,omitempty"`
 	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// Related entities result with optional filtering.
+	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// A list of the entities' relationships.
 	//
 	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
@@ -5852,6 +6168,11 @@ func (x SecureCredentialEntity) GetPermalink() string {
 // GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from SecureCredentialEntity
 func (x SecureCredentialEntity) GetRecentAlertViolations() []EntityAlertViolation {
 	return x.RecentAlertViolations
+}
+
+// GetRelatedEntities returns a pointer to the value of RelatedEntities from SecureCredentialEntity
+func (x SecureCredentialEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
+	return x.RelatedEntities
 }
 
 // GetRelationships returns a pointer to the value of Relationships from SecureCredentialEntity
@@ -6090,6 +6411,8 @@ type SyntheticMonitorEntity struct {
 	Permalink string `json:"permalink,omitempty"`
 	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// Related entities result with optional filtering.
+	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// A list of the entities' relationships.
 	//
 	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
@@ -6209,6 +6532,11 @@ func (x SyntheticMonitorEntity) GetPermalink() string {
 // GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from SyntheticMonitorEntity
 func (x SyntheticMonitorEntity) GetRecentAlertViolations() []EntityAlertViolation {
 	return x.RecentAlertViolations
+}
+
+// GetRelatedEntities returns a pointer to the value of RelatedEntities from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
+	return x.RelatedEntities
 }
 
 // GetRelationships returns a pointer to the value of Relationships from SyntheticMonitorEntity
@@ -6469,6 +6797,8 @@ type ThirdPartyServiceEntity struct {
 	Permalink string `json:"permalink,omitempty"`
 	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// Related entities result with optional filtering.
+	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// A list of the entities' relationships.
 	//
 	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
@@ -6558,6 +6888,11 @@ func (x ThirdPartyServiceEntity) GetPermalink() string {
 // GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from ThirdPartyServiceEntity
 func (x ThirdPartyServiceEntity) GetRecentAlertViolations() []EntityAlertViolation {
 	return x.RecentAlertViolations
+}
+
+// GetRelatedEntities returns a pointer to the value of RelatedEntities from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
+	return x.RelatedEntities
 }
 
 // GetRelationships returns a pointer to the value of Relationships from ThirdPartyServiceEntity
@@ -6741,6 +7076,8 @@ type UnavailableEntity struct {
 	Permalink string `json:"permalink,omitempty"`
 	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// Related entities result with optional filtering.
+	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// A list of the entities' relationships.
 	//
 	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
@@ -6830,6 +7167,11 @@ func (x UnavailableEntity) GetPermalink() string {
 // GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from UnavailableEntity
 func (x UnavailableEntity) GetRecentAlertViolations() []EntityAlertViolation {
 	return x.RecentAlertViolations
+}
+
+// GetRelatedEntities returns a pointer to the value of RelatedEntities from UnavailableEntity
+func (x UnavailableEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
+	return x.RelatedEntities
 }
 
 // GetRelationships returns a pointer to the value of Relationships from UnavailableEntity
@@ -7011,6 +7353,8 @@ type WorkloadEntity struct {
 	Permalink string `json:"permalink,omitempty"`
 	// Recent violations on the members of the workload.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// Related entities result with optional filtering.
+	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// A list of the entities' relationships.
 	//
 	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
@@ -7119,6 +7463,11 @@ func (x WorkloadEntity) GetPermalink() string {
 // GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from WorkloadEntity
 func (x WorkloadEntity) GetRecentAlertViolations() []EntityAlertViolation {
 	return x.RecentAlertViolations
+}
+
+// GetRelatedEntities returns a pointer to the value of RelatedEntities from WorkloadEntity
+func (x WorkloadEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
+	return x.RelatedEntities
 }
 
 // GetRelationships returns a pointer to the value of Relationships from WorkloadEntity
@@ -8342,6 +8691,68 @@ func UnmarshalEntityOutlineInterface(b []byte) (*EntityOutlineInterface, error) 
 	}
 
 	return nil, fmt.Errorf("interface EntityOutline was not matched against all PossibleTypes: %s", typeName)
+}
+
+// EntityRelationshipEdge - An entity relationship.
+type EntityRelationshipEdgeInterface interface {
+	ImplementsEntityRelationshipEdge()
+}
+
+// UnmarshalEntityRelationshipEdgeInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
+func UnmarshalEntityRelationshipEdgeInterface(b []byte) (*EntityRelationshipEdgeInterface, error) {
+	var err error
+
+	var rawMessageEntityRelationshipEdge map[string]*json.RawMessage
+	err = json.Unmarshal(b, &rawMessageEntityRelationshipEdge)
+	if err != nil {
+		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageEntityRelationshipEdge) < 1 {
+		return nil, nil
+	}
+
+	var typeName string
+
+	if rawTypeName, ok := rawMessageEntityRelationshipEdge["__typename"]; ok {
+		err = json.Unmarshal(*rawTypeName, &typeName)
+		if err != nil {
+			return nil, err
+		}
+
+		switch typeName {
+		case "EntityRelationshipDetectedEdge":
+			var interfaceType EntityRelationshipDetectedEdge
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityRelationshipEdgeInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityRelationshipUserDefinedEdge":
+			var interfaceType EntityRelationshipUserDefinedEdge
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityRelationshipEdgeInterface = &interfaceType
+
+			return &xxx, nil
+		}
+	} else {
+		keys := []string{}
+		for k := range rawMessageEntityRelationshipEdge {
+			keys = append(keys, k)
+		}
+		return nil, fmt.Errorf("interface EntityRelationshipEdge did not include a __typename field for inspection: %s", keys)
+	}
+
+	return nil, fmt.Errorf("interface EntityRelationshipEdge was not matched against all PossibleTypes: %s", typeName)
 }
 
 // InfrastructureIntegrationEntity -
