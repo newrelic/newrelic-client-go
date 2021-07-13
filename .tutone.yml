@@ -586,7 +586,7 @@ packages:
         field_type_override: nrtime.EpochMilliseconds
         skip_type_create: true
       - name: EpochMilliseconds
-        field_type_override: nrtime.EpochMilliseconds
+        field_type_override: int64
         skip_type_create: true
       - name: EpochSeconds
         field_type_override: nrtime.EpochSeconds
@@ -598,7 +598,7 @@ packages:
         field_type_override: string
         skip_type_create: true
     mutations:
-      - name: createRecipeEvent
+      - name: installationCreateRecipeEvent
         max_query_field_depth: 1
 
   - name: nerdstorage
