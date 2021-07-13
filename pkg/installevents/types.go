@@ -84,7 +84,7 @@ type InstallationRecipeEvent struct {
 	// The timestamp for when the recipe event occurred.
 	Timestamp nrtime.EpochSeconds `json:"timestamp"`
 	// The number of milliseconds it took to validate the recipe.
-	ValidationDurationMilliseconds nrtime.EpochMilliseconds `json:"validationDurationMilliseconds"`
+	ValidationDurationMilliseconds int64 `json:"validationDurationMilliseconds"`
 }
 
 // InstallationRecipeStatus - An object that represents a recipe status.
@@ -124,7 +124,7 @@ type InstallationRecipeStatus struct {
 	// Whether or not the recipe being installed is a targeted install.
 	TargetedInstall bool `json:"targetedInstall"`
 	// The number of milliseconds it took to validate the recipe.
-	ValidationDurationMilliseconds nrtime.EpochMilliseconds `json:"validationDurationMilliseconds"`
+	ValidationDurationMilliseconds int64 `json:"validationDurationMilliseconds"`
 }
 
 // InstallationStatusError - An object that represents a status error whenever an recipe has failed to install.
