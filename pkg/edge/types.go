@@ -66,6 +66,8 @@ var EdgeEndpointTypeTypes = struct {
 type EdgeProviderRegion string
 
 var EdgeProviderRegionTypes = struct {
+	// Provider: `AWS`, Region: `ap-southeast-1`
+	AWS_AP_SOUTHEAST_1 EdgeProviderRegion
 	// Provider: `AWS`, Region: `eu-west-1`
 	AWS_EU_WEST_1 EdgeProviderRegion
 	// Provider: `AWS`, Region: `us-east-1`
@@ -75,6 +77,8 @@ var EdgeProviderRegionTypes = struct {
 	// Provider: `AWS`, Region: `us-west-2`
 	AWS_US_WEST_2 EdgeProviderRegion
 }{
+	// Provider: `AWS`, Region: `ap-southeast-1`
+	AWS_AP_SOUTHEAST_1: "AWS_AP_SOUTHEAST_1",
 	// Provider: `AWS`, Region: `eu-west-1`
 	AWS_EU_WEST_1: "AWS_EU_WEST_1",
 	// Provider: `AWS`, Region: `us-east-1`

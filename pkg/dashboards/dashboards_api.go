@@ -5,7 +5,6 @@ import (
 	"context"
 
 	"github.com/newrelic/newrelic-client-go/pkg/entities"
-	"github.com/newrelic/newrelic-client-go/pkg/errors"
 )
 
 // Create a `DashboardEntity`
@@ -34,14 +33,6 @@ func (a *Dashboards) DashboardCreateWithContext(
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, DashboardCreateMutation, vars, &resp); err != nil {
 		return nil, err
-	}
-
-	if len(resp.DashboardCreateResult.Errors) > 0 {
-		for _, err := range resp.DashboardCreateResult.Errors {
-			if err.Type == DashboardCreateErrorTypeTypes.INVALID_INPUT {
-				return nil, errors.NewInvalidInput(err.Description)
-			}
-		}
 	}
 
 	return &resp.DashboardCreateResult, nil
