@@ -205,7 +205,6 @@ packages:
         field_type_override: "*DashboardBarWidgetConfigurationInput"
       - name: DashboardBillboardWidgetConfigurationInput
         field_type_override: "*DashboardBillboardWidgetConfigurationInput"
-        skip_type_create: true
       - name: DashboardLineWidgetConfigurationInput
         field_type_override: "*DashboardLineWidgetConfigurationInput"
       - name: DashboardMarkdownWidgetConfigurationInput
@@ -214,6 +213,10 @@ packages:
         field_type_override: "*DashboardPieWidgetConfigurationInput"
       - name: DashboardTableWidgetConfigurationInput
         field_type_override: "*DashboardTableWidgetConfigurationInput"
+
+      # Override this in type_overrides.go
+      - name: DashboardBillboardWidgetThresholdInput
+        skip_type_create: true
 
       #
       # Types that we should auto-detect are in another package someday
