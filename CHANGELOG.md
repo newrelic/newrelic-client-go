@@ -1,3 +1,11 @@
+<a name="v0.61.1"></a>
+## [v0.61.1] - 2021-07-20
+### Bug Fixes
+- **dashboard:** skip DashboardBillboardWidgetThresholdInput not DashboardBillboardWidgetConfigurationInput
+
+### Refactor
+- **tutone:** Add error wrapping to mutation results
+
 <a name="v0.61.0"></a>
 ## [v0.61.0] - 2021-07-13
 ### Bug Fixes
@@ -1079,7 +1087,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.61.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.61.1...HEAD
+[v0.61.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.61.0...v0.61.1
 [v0.61.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.60.2...v0.61.0
 [v0.60.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.60.1...v0.60.2
 [v0.60.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.60.0...v0.60.1
