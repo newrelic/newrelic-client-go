@@ -250,11 +250,7 @@ func (a *Alerts) DeleteMutingRuleWithContext(ctx context.Context, accountID int,
 
 	resp := alertMutingRuleDeleteResponse{}
 
-	if err := a.client.NerdGraphQueryWithContext(ctx, alertsMutingRuleDelete, vars, &resp); err != nil {
-		return err
-	}
-
-	return nil
+	return a.client.NerdGraphQueryWithContext(ctx, alertsMutingRuleDelete, vars, &resp)
 }
 
 type alertMutingRuleCreateResponse struct {

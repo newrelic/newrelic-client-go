@@ -9,12 +9,12 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestNewStructuredLogger_private(t *testing.T) {
+func TestNewLogrusLogger_private(t *testing.T) {
 	t.Parallel()
 
 	logrusLevel := log.GetLevel()
 
-	l := NewStructuredLogger()
+	l := NewLogrusLogger()
 
 	l.SetLevel("debug")
 
@@ -27,7 +27,7 @@ func TestNewStructuredLogger_private(t *testing.T) {
 
 func TestSetLevel(t *testing.T) {
 	t.Parallel()
-	l := NewStructuredLogger()
+	l := NewLogrusLogger()
 
 	defaultLevel, err := log.ParseLevel(defaultLogLevel)
 
@@ -43,7 +43,7 @@ func TestSetLevel(t *testing.T) {
 
 }
 
-func TestStructuredLogger_interface(t *testing.T) {
-	var l Logger = NewStructuredLogger()
+func TestLogrusLogger_interface(t *testing.T) {
+	var l Logger = NewLogrusLogger()
 	l.Info("testing")
 }

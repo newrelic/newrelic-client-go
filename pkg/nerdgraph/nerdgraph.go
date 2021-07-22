@@ -5,8 +5,8 @@ import (
 	"context"
 
 	"github.com/newrelic/newrelic-client-go/internal/http"
-	"github.com/newrelic/newrelic-client-go/internal/logging"
 	"github.com/newrelic/newrelic-client-go/pkg/config"
+	"github.com/newrelic/newrelic-client-go/pkg/logging"
 )
 
 // NerdGraph is used to communicate with the New Relic's GraphQL API, NerdGraph.
@@ -58,11 +58,7 @@ func (n *NerdGraph) QueryWithResponse(query string, variables map[string]interfa
 // QueryWithResponseAndContext functions similarly to QueryWithContext, but alows for full customization of the returned data payload.
 // QueryWithContext should be preferred most of the time.
 func (n *NerdGraph) QueryWithResponseAndContext(ctx context.Context, query string, variables map[string]interface{}, respBody interface{}) error {
-	if err := n.client.NerdGraphQueryWithContext(ctx, query, variables, respBody); err != nil {
-		return err
-	}
-
-	return nil
+	return n.client.NerdGraphQueryWithContext(ctx, query, variables, respBody)
 }
 
 // AccountReference represents the NerdGraph schema for a New Relic account.

@@ -11,7 +11,7 @@ import (
 
 // AlertsNrqlConditionExpiration
 // Settings for how violations are opened or closed when a signal expires.
-// nolint:golint
+// nolint:revive
 type AlertsNrqlConditionExpiration struct {
 	ExpirationDuration          *int `json:"expirationDuration"`
 	CloseViolationsOnExpiration bool `json:"closeViolationsOnExpiration"`
@@ -19,7 +19,7 @@ type AlertsNrqlConditionExpiration struct {
 }
 
 // AlertsNrqlConditionSignal - Configuration that defines the signal that the NRQL condition will use to evaluate.
-// nolint:golint
+// nolint:revive
 type AlertsNrqlConditionSignal struct {
 	AggregationWindow *int              `json:"aggregationWindow,omitempty"`
 	EvaluationOffset  *int              `json:"evaluationOffset,omitempty"`
@@ -28,8 +28,10 @@ type AlertsNrqlConditionSignal struct {
 }
 
 // AlertsFillOption - The available fill options.
+// nolint:revive
 type AlertsFillOption string // nolint:golint
 
+// nolint:revive
 var AlertsFillOptionTypes = struct {
 	// Fill using the last known value.
 	LAST_VALUE AlertsFillOption // nolint:golint
