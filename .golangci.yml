@@ -46,7 +46,7 @@ linters:
     - errcheck
     - gocyclo
     - gofmt
-    - golint
+    - revive
     - gosimple
     - govet
     - ineffassign

@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/newrelic/newrelic-client-go/internal/logging"
 	"github.com/newrelic/newrelic-client-go/internal/version"
+	"github.com/newrelic/newrelic-client-go/pkg/logging"
 	"github.com/newrelic/newrelic-client-go/pkg/region"
 )
 
@@ -96,7 +96,7 @@ func (c *Config) GetLogger() logging.Logger {
 		return c.Logger
 	}
 
-	l := logging.NewStructuredLogger()
+	l := logging.NewLogrusLogger()
 	l.SetDefaultFields(map[string]string{"newrelic-client-go": version.Version})
 	l.SetLogJSON(c.LogJSON)
 	l.SetLevel(c.LogLevel)

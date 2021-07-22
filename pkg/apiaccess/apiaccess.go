@@ -3,8 +3,8 @@ package apiaccess
 
 import (
 	"github.com/newrelic/newrelic-client-go/internal/http"
-	"github.com/newrelic/newrelic-client-go/internal/logging"
 	"github.com/newrelic/newrelic-client-go/pkg/config"
+	"github.com/newrelic/newrelic-client-go/pkg/logging"
 )
 
 // APIAccess is used to communicate with the New Relic APIKeys product.

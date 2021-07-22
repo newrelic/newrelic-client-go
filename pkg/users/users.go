@@ -3,8 +3,8 @@ package users
 
 import (
 	"github.com/newrelic/newrelic-client-go/internal/http"
-	"github.com/newrelic/newrelic-client-go/internal/logging"
 	"github.com/newrelic/newrelic-client-go/pkg/config"
+	"github.com/newrelic/newrelic-client-go/pkg/logging"
 )
 
 // Users is used to interact with New Relic users.

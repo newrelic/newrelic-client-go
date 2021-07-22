@@ -11,20 +11,37 @@ var (
 	defaultLogLevel = "info"
 )
 
-// StructuredLogger is a logger based on logrus.
-type StructuredLogger struct {
+// LogrusLogger is a logger based on logrus.
+type LogrusLogger struct {
 	logger *log.Logger
 }
 
-// NewStructuredLogger creates a new structured logger.
-func NewStructuredLogger() *StructuredLogger {
-	return &StructuredLogger{
-		logger: log.New(),
+type ConfigOption func(*LogrusLogger)
+
+func ConfigLoggerInstance(logger *log.Logger) ConfigOption {
+	return func(l *LogrusLogger) {
+		l.logger = logger
 	}
 }
 
+// NewLogrusLogger creates a new structured logger.
+func NewLogrusLogger(opts ...ConfigOption) *LogrusLogger {
+	l := &LogrusLogger{
+		logger: log.New(),
+	}
+
+	// Loop through config options
+	for _, fn := range opts {
+		if nil != fn {
+			fn(l)
+		}
+	}
+
+	return l
+}
+
 // SetLevel allows the log level to be set.
-func (l StructuredLogger) SetLevel(levelName string) {
+func (l LogrusLogger) SetLevel(levelName string) {
 	if levelName == "" {
 		levelName = defaultLogLevel
 	}
@@ -39,39 +56,39 @@ func (l StructuredLogger) SetLevel(levelName string) {
 }
 
 // LogJSON determines whether or not to format the logs as JSON.
-func (l StructuredLogger) SetLogJSON(value bool) {
+func (l LogrusLogger) SetLogJSON(value bool) {
 	if value {
 		l.logger.SetFormatter(&log.JSONFormatter{})
 	}
 }
 
 // SetDefaultFields sets fields to be logged on every use of the logger.
-func (l StructuredLogger) SetDefaultFields(defaultFields map[string]string) {
+func (l LogrusLogger) SetDefaultFields(defaultFields map[string]string) {
 	l.logger.AddHook(&defaultFieldHook{})
 }
 
 // Error logs an error message.
-func (l StructuredLogger) Error(msg string, fields ...interface{}) {
+func (l LogrusLogger) Error(msg string, fields ...interface{}) {
 	l.logger.WithFields(createFieldMap(fields)).Error(msg)
 }
 
 // Warn logs an warning message.
-func (l StructuredLogger) Warn(msg string, fields ...interface{}) {
+func (l LogrusLogger) Warn(msg string, fields ...interface{}) {
 	l.logger.WithFields(createFieldMap(fields)).Warn(msg)
 }
 
 // Info logs an info message.
-func (l StructuredLogger) Info(msg string, fields ...interface{}) {
+func (l LogrusLogger) Info(msg string, fields ...interface{}) {
 	l.logger.WithFields(createFieldMap(fields)).Info(msg)
 }
 
 // Debug logs a debug message.
-func (l StructuredLogger) Debug(msg string, fields ...interface{}) {
+func (l LogrusLogger) Debug(msg string, fields ...interface{}) {
 	l.logger.WithFields(createFieldMap(fields)).Debug(msg)
 }
 
 // Trace logs a trace message.
-func (l StructuredLogger) Trace(msg string, fields ...interface{}) {
+func (l LogrusLogger) Trace(msg string, fields ...interface{}) {
 	l.logger.WithFields(createFieldMap(fields)).Trace(msg)
 }
 
