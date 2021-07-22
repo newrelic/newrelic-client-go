@@ -61,13 +61,13 @@ jobs:
       - name: Unit Tests
         run: make test-unit
 
-      - name: New Relic JUnit Reporter
-        if: github.event.pull_request.head.repo.full_name == github.repository
-        uses: newrelic/junit-reporter-action@v0.1.1
-        with:
-          accountId: ${{ secrets.NEW_RELIC_ACCOUNT_ID }}
-          insertApiKey: ${{ secrets.NEW_RELIC_INSIGHTS_INSERT_KEY }}
-          testOutputPath: coverage/unit.xml
+      # - name: New Relic JUnit Reporter
+      #   if: github.event.pull_request.head.repo.full_name == github.repository
+      #   uses: newrelic/junit-reporter-action@v0.1.1
+      #   with:
+      #     accountId: ${{ secrets.NEW_RELIC_ACCOUNT_ID }}
+      #     insertApiKey: ${{ secrets.NEW_RELIC_INSIGHTS_INSERT_KEY }}
+      #     testOutputPath: coverage/unit.xml
 
   test-integration:
     runs-on: ubuntu-latest
@@ -104,10 +104,10 @@ jobs:
           NEW_RELIC_REGION: ${{ secrets.NEW_RELIC_REGION }}
           INTEGRATION_TESTING_AWS_ARN: ${{ secrets.INTEGRATION_TESTING_AWS_ARN }}
 
-      - name: New Relic JUnit Reporter
-        if: github.event.pull_request.head.repo.full_name == github.repository
-        uses: newrelic/junit-reporter-action@v0.1.1
-        with:
-          accountId: ${{ secrets.NEW_RELIC_ACCOUNT_ID }}
-          insertApiKey: ${{ secrets.NEW_RELIC_INSIGHTS_INSERT_KEY }}
-          testOutputPath: coverage/integration.xml
+      # - name: New Relic JUnit Reporter
+      #   if: github.event.pull_request.head.repo.full_name == github.repository
+      #   uses: newrelic/junit-reporter-action@v0.1.1
+      #   with:
+      #     accountId: ${{ secrets.NEW_RELIC_ACCOUNT_ID }}
+      #     insertApiKey: ${{ secrets.NEW_RELIC_INSIGHTS_INSERT_KEY }}
+      #     testOutputPath: coverage/integration.xml
