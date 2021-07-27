@@ -285,15 +285,9 @@ func (r *alertPoliciesErrorResponse) IsNotFound() bool {
 	}
 
 	for _, err := range r.Errors {
-		if len(err.DownstreamResponse) == 0 {
-			continue
-		}
-
-		for _, downstreamRes := range err.DownstreamResponse {
-			if downstreamRes.Message == "Not Found" &&
-				downstreamRes.Extensions.Code == "BAD_USER_INPUT" {
-				return true
-			}
+		if err.Message == "Not Found" &&
+			err.Extensions.ErrorCode == "BAD_USER_INPUT" {
+			return true
 		}
 	}
 
