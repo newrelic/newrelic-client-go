@@ -721,10 +721,8 @@ func (r *nrqlConditionErrorResponse) IsNotFound() bool {
 	}
 
 	for _, err := range r.Errors {
-		for _, downStreamResp := range err.DownstreamResponse {
-			if strings.Contains(downStreamResp.Message, "Not Found") {
-				return true
-			}
+		if strings.Contains(err.Message, "Not Found") {
+			return true
 		}
 	}
 
