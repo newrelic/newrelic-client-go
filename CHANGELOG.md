@@ -1,3 +1,8 @@
+<a name="v0.61.3"></a>
+## [v0.61.3] - 2021-07-27
+### Bug Fixes
+- retire usages of deprecated error schema
+
 <a name="v0.61.2"></a>
 ## [v0.61.2] - 2021-07-22
 ### Bug Fixes
@@ -1092,7 +1097,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.61.2...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.61.3...HEAD
+[v0.61.3]: https://github.com/newrelic/newrelic-client-go/compare/v0.61.2...v0.61.3
 [v0.61.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.61.1...v0.61.2
 [v0.61.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.61.0...v0.61.1
 [v0.61.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.60.2...v0.61.0
