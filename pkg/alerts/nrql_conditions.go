@@ -54,11 +54,11 @@ type ThresholdOccurrence string
 var (
 	// ThresholdOccurrences enumerates the possible threshold occurrence values for NRQL alert condition terms.
 	ThresholdOccurrences = struct {
-		All         ThresholdOccurrence
-		AtLeastOnce ThresholdOccurrence
+		All ThresholdOccurrence
+		Any ThresholdOccurrence
 	}{
-		All:         "ALL",
-		AtLeastOnce: "AT_LEAST_ONCE",
+		All: "ALL",
+		Any: "ANY",
 	}
 )
 
