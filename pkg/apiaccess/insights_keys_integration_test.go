@@ -10,6 +10,7 @@ import (
 
 func TestIntegrationAPIAccess_InsightsInsertKeys(t *testing.T) {
 	t.Parallel()
+	t.Skip("For manual use only.")
 
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
@@ -42,6 +43,7 @@ func TestIntegrationAPIAccess_InsightsInsertKeys(t *testing.T) {
 
 func TestIntegrationAPIAccess_InsightsQueryKeys(t *testing.T) {
 	t.Parallel()
+	t.Skip("For manual use only.")
 
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
@@ -71,6 +73,7 @@ func TestIntegrationAPIAccess_InsightsQueryKeys(t *testing.T) {
 	require.NotNil(t, deleteResult)
 }
 
+//nolint: unused
 func newIntegrationTestClient(t *testing.T) APIAccess {
 	tc := mock.NewIntegrationTestConfig(t)
 
