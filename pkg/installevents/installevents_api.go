@@ -3,6 +3,78 @@ package installevents
 
 import "context"
 
+// Creates a new install status.
+// An install status is created on behalf of the newrelic-cli whenever the CLI has started an installation and completed an installation.
+//
+// Guided install: https://docs.newrelic.com/docs/full-stack-observability/observe-everything/get-started/new-relic-guided-install-overview/
+// newrelic-cli: https://github.com/newrelic/newrelic-cli
+func (a *Installevents) InstallationCreateInstallStatus(
+	accountID int,
+	installStatus InstallationInstallStatusInput,
+) (*InstallationInstallStatus, error) {
+	return a.InstallationCreateInstallStatusWithContext(context.Background(),
+		accountID,
+		installStatus,
+	)
+}
+
+// Creates a new install status.
+// An install status is created on behalf of the newrelic-cli whenever the CLI has started an installation and completed an installation.
+//
+// Guided install: https://docs.newrelic.com/docs/full-stack-observability/observe-everything/get-started/new-relic-guided-install-overview/
+// newrelic-cli: https://github.com/newrelic/newrelic-cli
+func (a *Installevents) InstallationCreateInstallStatusWithContext(
+	ctx context.Context,
+	accountID int,
+	installStatus InstallationInstallStatusInput,
+) (*InstallationInstallStatus, error) {
+
+	resp := InstallationCreateInstallStatusQueryResponse{}
+	vars := map[string]interface{}{
+		"accountId":     accountID,
+		"installStatus": installStatus,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, InstallationCreateInstallStatusMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.InstallationInstallStatus, nil
+}
+
+type InstallationCreateInstallStatusQueryResponse struct {
+	InstallationInstallStatus InstallationInstallStatus `json:"InstallationCreateInstallStatus"`
+}
+
+const InstallationCreateInstallStatusMutation = `mutation(
+	$accountId: Int!,
+	$installStatus: InstallationInstallStatusInput!,
+) { installationCreateInstallStatus(
+	accountId: $accountId,
+	installStatus: $installStatus,
+) {
+	cliVersion
+	enabledProxy
+	error {
+		details
+		message
+	}
+	hostName
+	installId
+	installLibraryVersion
+	isUnsupported
+	kernelArch
+	kernelVersion
+	logFilePath
+	os
+	platform
+	platformFamily
+	platformVersion
+	redirectUrl
+	state
+	targetedInstall
+} }`
+
 // Creates a new recipe event.
 // - A recipe event is created on behalf of the newrelic-cli whenever the CLI attempts to install the infrastructure-agent, for example.
 // - A recipe event is appended to any existing recipe events, if there are any present in the cache.
@@ -64,6 +136,8 @@ const InstallationCreateRecipeEventMutation = `mutation(
 		message
 	}
 	hostName
+	installId
+	installLibraryVersion
 	kernelArch
 	kernelVersion
 	logFilePath
@@ -75,6 +149,7 @@ const InstallationCreateRecipeEventMutation = `mutation(
 	redirectUrl
 	status
 	targetedInstall
+	taskPath
 	timestamp
 	validationDurationMilliseconds
 } }`

@@ -3,6 +3,7 @@ package alerts
 import (
 	"context"
 	"fmt"
+	"reflect"
 
 	"github.com/newrelic/newrelic-client-go/pkg/errors"
 
@@ -285,8 +286,8 @@ func (r *alertPoliciesErrorResponse) IsNotFound() bool {
 	}
 
 	for _, err := range r.Errors {
-		if err.Message == "Not Found" &&
-			err.Extensions.ErrorCode == "BAD_USER_INPUT" {
+		if err.Extensions.ErrorClass == "SERVER_ERROR" &&
+			reflect.DeepEqual(err.Path, []string{"actor", "account", "alerts", "policy"}) {
 			return true
 		}
 	}

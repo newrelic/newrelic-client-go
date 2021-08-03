@@ -600,8 +600,13 @@ packages:
       - name: SemVer
         field_type_override: string
         skip_type_create: true
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
     mutations:
       - name: installationCreateRecipeEvent
+        max_query_field_depth: 1
+      - name: installationCreateInstallStatus
         max_query_field_depth: 1
 
   - name: nerdstorage
