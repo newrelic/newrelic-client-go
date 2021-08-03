@@ -71,7 +71,7 @@ type InstallationInstallStatus struct {
 	// The host name of the customer's machine.
 	HostName string `json:"hostName"`
 	// The unique ID that corresponds to an install status.
-	InstallId int `json:"installId"`
+	InstallId string `json:"installId"`
 	// The version of the open-install-library that is being used.
 	InstallLibraryVersion string `json:"installLibraryVersion"`
 	// Whether or not the installation is supported on the host machine.
@@ -109,7 +109,7 @@ type InstallationInstallStatusInput struct {
 	// The host name of the customer's machine.
 	HostName string `json:"hostName"`
 	// The unique ID that corresponds to an install status.
-	InstallId int `json:"installId"`
+	InstallId string `json:"installId"`
 	// The version of the open-install-library that is being used.
 	InstallLibraryVersion string `json:"installLibraryVersion"`
 	// Whether or not the installation is supported on the host machine.
@@ -151,7 +151,7 @@ type InstallationRecipeEvent struct {
 	// The host name of the customer's machine.
 	HostName string `json:"hostName"`
 	// The unique ID that corresponds to an install event.
-	InstallId int `json:"installId,omitempty"`
+	InstallId string `json:"installId,omitempty"`
 	// The version of the open-install-library that is being used.
 	InstallLibraryVersion string `json:"installLibraryVersion,omitempty"`
 	// The kernel architecture of the customer's machine.
@@ -199,7 +199,7 @@ type InstallationRecipeStatus struct {
 	// The host name of the customer's machine.
 	HostName string `json:"hostName"`
 	// The unique ID that corresponds to an install event.
-	InstallId int `json:"installId,omitempty"`
+	InstallId string `json:"installId,omitempty"`
 	// The version of the open-install-library that is being used.
 	InstallLibraryVersion string `json:"installLibraryVersion,omitempty"`
 	// The kernel architecture of the customer's machine.
@@ -245,10 +245,3 @@ type InstallationStatusErrorInput struct {
 	// The actual error message.
 	Message string `json:"message,omitempty"`
 }
-
-// ID - The `ID` scalar type represents a unique identifier, often used to
-// refetch an object or as key for a cache. The ID type appears in a JSON
-// response as a String; however, it is not intended to be human-readable.
-// When expected as an input type, any string (such as `"4"`) or integer
-// (such as `4`) input value will be accepted as an ID.
-type ID string
