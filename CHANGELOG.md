@@ -1,3 +1,14 @@
+<a name="v0.62.0"></a>
+## [v0.62.0] - 2021-08-03
+### Bug Fixes
+- override ID type as string
+
+### Features
+- add installstatus schema for install-events-service
+
+### Refactor
+- delete installationeventresult if statement
+
 <a name="v0.61.4"></a>
 ## [v0.61.4] - 2021-07-28
 ### Bug Fixes
@@ -1102,7 +1113,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.61.4...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.62.0...HEAD
+[v0.62.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.61.4...v0.62.0
 [v0.61.4]: https://github.com/newrelic/newrelic-client-go/compare/v0.61.3...v0.61.4
 [v0.61.3]: https://github.com/newrelic/newrelic-client-go/compare/v0.61.2...v0.61.3
 [v0.61.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.61.1...v0.61.2
