@@ -3,7 +3,6 @@ package alerts
 import (
 	"context"
 	"fmt"
-	"reflect"
 
 	"github.com/newrelic/newrelic-client-go/pkg/errors"
 
@@ -286,8 +285,13 @@ func (r *alertPoliciesErrorResponse) IsNotFound() bool {
 	}
 
 	for _, err := range r.Errors {
-		if err.Extensions.ErrorClass == "SERVER_ERROR" &&
-			reflect.DeepEqual(err.Path, []string{"actor", "account", "alerts", "policy"}) {
+		if err.Message == "Not Found" &&
+			// TODO: When the alerts API begins using `errorClass`
+			// instead of `code` to specify error type, the conditional
+			// checking the `code` field can be removed.
+			//
+			// https://newrelic.atlassian.net/browse/AINTER-7746
+			(err.Extensions.Code == "BAD_USER_INPUT" || err.Extensions.ErrorClass == "BAD_USER_INPUT") {
 			return true
 		}
 	}

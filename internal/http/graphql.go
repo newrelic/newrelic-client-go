@@ -21,6 +21,7 @@ type GraphQLError struct {
 	Extensions struct {
 		ErrorClass string `json:"errorClass,omitempty"`
 		ErrorCode  string `json:"error_code,omitempty"`
+		Code       string `json:"code,omitempty"`
 	} `json:"extensions,omitempty"`
 }
 
