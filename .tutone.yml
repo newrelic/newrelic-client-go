@@ -603,6 +603,8 @@ packages:
     mutations:
       - name: installationCreateRecipeEvent
         max_query_field_depth: 1
+      - name: installationCreateInstallStatus
+        max_query_field_depth: 1
 
   - name: nerdstorage
     path: pkg/nerdstorage
