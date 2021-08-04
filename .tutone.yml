@@ -376,6 +376,7 @@ packages:
           - "GetName() string"
           - "GetTags() []EntityTag"
           - "GetType() string"
+          - "GetServiceLevel() ServiceLevelDefinition"
       - name: AlertableEntity
         generate_struct_getters: true
       - name: ApmApplicationEntity
@@ -794,6 +795,46 @@ packages:
         skip_type_create: true
       - name: UserReference
         field_type_override: users.UserReference
+        skip_type_create: true
+
+  - name: servicelevel
+    path: pkg/servicelevel
+    import_path: github.com/newrelic/newrelic-client-go/pkg/servicelevel
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/pkg/entities
+      - github.com/newrelic/newrelic-client-go/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/pkg/users
+    types:
+      - name: User
+      - name: UserReference
+    mutations:
+      - name: serviceLevelCreate
+        max_query_field_depth: 3
+      - name: serviceLevelDelete
+        max_query_field_depth: 3
+      - name: serviceLevelUpdate
+        max_query_field_depth: 3
+    types:
+      - name: ServiceLevelIndicator
+      - name: ServiceLevelIndicatorCreateInput
+      - name: ServiceLevelIndicatorUpdateInput
+      #
+      # Types owned by other packages
+      #
+      # List of entities
+      - name: Entity
+        field_type_override: entities.Entity
+        skip_type_create: true
+      - name: EntityGuid
+        field_type_override: entities.EntityGUID
+        skip_type_create: true
+      # UpdateAt returns `null`, so this needs to be a ptr (can't override just the UpdatedAt field)
+      - name: EpochMilliseconds
+        field_type_override: "*nrtime.EpochMilliseconds"
         skip_type_create: true
 
 generators:

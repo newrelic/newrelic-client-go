@@ -27,6 +27,7 @@ import (
 	"github.com/newrelic/newrelic-client-go/pkg/nrqldroprules"
 	"github.com/newrelic/newrelic-client-go/pkg/plugins"
 	"github.com/newrelic/newrelic-client-go/pkg/region"
+	"github.com/newrelic/newrelic-client-go/pkg/servicelevel"
 	"github.com/newrelic/newrelic-client-go/pkg/synthetics"
 	"github.com/newrelic/newrelic-client-go/pkg/workloads"
 )
@@ -50,6 +51,7 @@ type NewRelic struct {
 	Nrdb            nrdb.Nrdb
 	Nrqldroprules   nrqldroprules.Nrqldroprules
 	Plugins         plugins.Plugins
+	ServiceLevel    servicelevel.Servicelevel
 	Synthetics      synthetics.Synthetics
 	Workloads       workloads.Workloads
 

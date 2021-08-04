@@ -49,14 +49,16 @@ func (a *{{$packageName|title}}) {{.Name | title}}WithContext(
 		return nil, err
 	}
 
+  {{   if hasField (first .Signature.Return) "Errors" }}
   // If we got errors back, wrap them all up
-  if len(resp.{{.Name}}Result.Errors) > 0 {
+  if len(resp.{{first .Signature.Return}}.Errors) > 0 {
     errs := fmt.Errorf("query error")
-    for _, err := range resp.{{.Name}}Result.Errors {
+    for _, err := range resp.{{first .Signature.Return}}.Errors {
       errs = fmt.Errorf("%w; %s", errs, err.Description)
     }
     return nil, errs
   }
+  {{   end}}
 
 	return &resp.{{first .Signature.Return}}, nil
 }
