@@ -1,5 +1,5 @@
 <a name="v0.62.1"></a>
-## [v0.62.1] - 2021-08-03
+## [v0.62.1] - 2021-08-04
 ### Bug Fixes
 - update error handling to reflect schema changes
 
