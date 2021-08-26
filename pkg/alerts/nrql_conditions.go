@@ -3,9 +3,7 @@ package alerts
 import (
 	"context"
 	"fmt"
-	"strings"
 
-	"github.com/newrelic/newrelic-client-go/internal/http"
 	"github.com/newrelic/newrelic-client-go/pkg/errors"
 )
 
@@ -395,17 +393,7 @@ func (a *Alerts) GetNrqlConditionQueryWithContext(
 		"id":        conditionID,
 	}
 
-	req, err := a.client.NewNerdGraphRequest(getNrqlConditionQuery, vars, &resp)
-	if err != nil {
-		return nil, err
-	}
-
-	req.WithContext(ctx)
-
-	var errorResponse nrqlConditionErrorResponse
-	req.SetErrorValue(&errorResponse)
-
-	if _, err := a.client.Do(req); err != nil {
+	if err := a.NerdGraphQueryWithContext(ctx, getNrqlConditionQuery, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -437,7 +425,7 @@ func (a *Alerts) SearchNrqlConditionsQueryWithContext(
 			"cursor":         nextCursor,
 		}
 
-		if err := a.client.NerdGraphQueryWithContext(ctx, searchNrqlConditionsQuery, vars, &resp); err != nil {
+		if err := a.NerdGraphQueryWithContext(ctx, searchNrqlConditionsQuery, vars, &resp); err != nil {
 			return nil, err
 		}
 
@@ -471,7 +459,7 @@ func (a *Alerts) CreateNrqlConditionBaselineMutationWithContext(
 		"condition": nrqlCondition,
 	}
 
-	if err := a.client.NerdGraphQueryWithContext(ctx, createNrqlConditionBaselineMutation, vars, &resp); err != nil {
+	if err := a.NerdGraphQueryWithContext(ctx, createNrqlConditionBaselineMutation, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -501,7 +489,7 @@ func (a *Alerts) UpdateNrqlConditionBaselineMutationWithContext(
 		"condition": nrqlCondition,
 	}
 
-	if err := a.client.NerdGraphQueryWithContext(ctx, updateNrqlConditionBaselineMutation, vars, &resp); err != nil {
+	if err := a.NerdGraphQueryWithContext(ctx, updateNrqlConditionBaselineMutation, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -531,7 +519,7 @@ func (a *Alerts) CreateNrqlConditionStaticMutationWithContext(
 		"condition": nrqlCondition,
 	}
 
-	if err := a.client.NerdGraphQueryWithContext(ctx, createNrqlConditionStaticMutation, vars, &resp); err != nil {
+	if err := a.NerdGraphQueryWithContext(ctx, createNrqlConditionStaticMutation, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -561,7 +549,7 @@ func (a *Alerts) UpdateNrqlConditionStaticMutationWithContext(
 		"condition": nrqlCondition,
 	}
 
-	if err := a.client.NerdGraphQueryWithContext(ctx, updateNrqlConditionStaticMutation, vars, &resp); err != nil {
+	if err := a.NerdGraphQueryWithContext(ctx, updateNrqlConditionStaticMutation, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -591,7 +579,7 @@ func (a *Alerts) CreateNrqlConditionOutlierMutationWithContext(
 		"condition": nrqlCondition,
 	}
 
-	if err := a.client.NerdGraphQueryWithContext(ctx, createNrqlConditionOutlierMutation, vars, &resp); err != nil {
+	if err := a.NerdGraphQueryWithContext(ctx, createNrqlConditionOutlierMutation, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -621,7 +609,7 @@ func (a *Alerts) UpdateNrqlConditionOutlierMutationWithContext(
 		"condition": nrqlCondition,
 	}
 
-	if err := a.client.NerdGraphQueryWithContext(ctx, updateNrqlConditionOutlierMutation, vars, &resp); err != nil {
+	if err := a.NerdGraphQueryWithContext(ctx, updateNrqlConditionOutlierMutation, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -709,32 +697,6 @@ type getNrqlConditionQueryResponse struct {
 			} `json:"alerts"`
 		} `json:"account"`
 	} `json:"actor"`
-}
-
-type nrqlConditionErrorResponse struct {
-	http.GraphQLErrorResponse
-}
-
-func (r *nrqlConditionErrorResponse) IsNotFound() bool {
-	if len(r.Errors) == 0 {
-		return false
-	}
-
-	for _, err := range r.Errors {
-		if strings.Contains(err.Message, "Not Found") {
-			return true
-		}
-	}
-
-	return false
-}
-
-func (r *nrqlConditionErrorResponse) Error() string {
-	return r.GraphQLErrorResponse.Error()
-}
-
-func (r *nrqlConditionErrorResponse) New() http.ErrorResponse {
-	return &nrqlConditionErrorResponse{}
 }
 
 const (

@@ -3,7 +3,6 @@ package http
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -366,7 +365,7 @@ func (c *Client) Do(req *Request) (*http.Response, error) {
 	}
 
 	if errorValue.Error() != "" {
-		return nil, errors.New(errorValue.Error())
+		return nil, errorValue
 	}
 
 	if req.value == nil {
