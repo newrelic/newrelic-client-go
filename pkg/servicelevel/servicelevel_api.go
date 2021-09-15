@@ -117,7 +117,7 @@ const ServiceLevelCreateMutation = `mutation(
 
 // Deletes an existing SLI by the ID.
 func (a *Servicelevel) ServiceLevelDelete(
-	iD int,
+	iD string,
 ) (*ServiceLevelIndicator, error) {
 	return a.ServiceLevelDeleteWithContext(context.Background(),
 		iD,
@@ -127,7 +127,7 @@ func (a *Servicelevel) ServiceLevelDelete(
 // Deletes an existing SLI by the ID.
 func (a *Servicelevel) ServiceLevelDeleteWithContext(
 	ctx context.Context,
-	iD int,
+	iD string,
 ) (*ServiceLevelIndicator, error) {
 
 	resp := ServiceLevelDeleteQueryResponse{}
@@ -219,7 +219,7 @@ const ServiceLevelDeleteMutation = `mutation(
 
 // Updates an existing SLI by the ID.
 func (a *Servicelevel) ServiceLevelUpdate(
-	iD int,
+	iD string,
 	indicator ServiceLevelIndicatorUpdateInput,
 ) (*ServiceLevelIndicator, error) {
 	return a.ServiceLevelUpdateWithContext(context.Background(),
@@ -231,7 +231,7 @@ func (a *Servicelevel) ServiceLevelUpdate(
 // Updates an existing SLI by the ID.
 func (a *Servicelevel) ServiceLevelUpdateWithContext(
 	ctx context.Context,
-	iD int,
+	iD string,
 	indicator ServiceLevelIndicatorUpdateInput,
 ) (*ServiceLevelIndicator, error) {
 

@@ -819,9 +819,17 @@ packages:
       - name: serviceLevelUpdate
         max_query_field_depth: 3
     types:
+      - name: ID
+        field_type_override: string
       - name: ServiceLevelIndicator
+        skip_fields:
+          - Slug
       - name: ServiceLevelIndicatorCreateInput
+        skip_fields:
+          - Slug
       - name: ServiceLevelIndicatorUpdateInput
+        skip_fields:
+          - Slug
       #
       # Types owned by other packages
       #
