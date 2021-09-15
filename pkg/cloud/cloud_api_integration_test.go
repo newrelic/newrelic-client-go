@@ -12,6 +12,8 @@ import (
 )
 
 func TestCloudAccount_Basic(t *testing.T) {
+	t.Skipf("Skipping this test tdue to an upstream API failure")
+
 	t.Parallel()
 
 	testAccountID, err := mock.GetTestAccountID()
