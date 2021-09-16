@@ -105,7 +105,6 @@ const ServiceLevelCreateMutation = `mutation(
 			nrql
 		}
 	}
-	slug
 	updatedAt
 	updatedBy {
 		email
@@ -207,7 +206,6 @@ const ServiceLevelDeleteMutation = `mutation(
 			nrql
 		}
 	}
-	slug
 	updatedAt
 	updatedBy {
 		email
@@ -315,7 +313,6 @@ const ServiceLevelUpdateMutation = `mutation(
 			nrql
 		}
 	}
-	slug
 	updatedAt
 	updatedBy {
 		email

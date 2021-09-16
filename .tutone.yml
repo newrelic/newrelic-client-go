@@ -321,10 +321,16 @@ packages:
         endpoints:
           - name: entities
             max_query_field_depth: 2
+            exclude_fields:
+              - slug
           - name: entity
             max_query_field_depth: 2
+            exclude_fields:
+              - slug
           - name: entitySearch
             max_query_field_depth: 2
+            exclude_fields:
+              - slug
             include_arguments:
               - "queryBuilder"
     mutations:
@@ -530,6 +536,9 @@ packages:
         skip_type_create: true
       - name: SuggestedNRQLQueryAnomaly
         field_type_override: nrdb.SuggestedNRQLQueryAnomaly
+        skip_type_create: true
+      - name: ServiceLevelIndicator
+        field_type_override: servicelevel.ServiceLevelIndicator
         skip_type_create: true
 
       # users imports
@@ -813,10 +822,16 @@ packages:
       - name: UserReference
     mutations:
       - name: serviceLevelCreate
+        exclude_fields:
+          - slug
         max_query_field_depth: 3
       - name: serviceLevelDelete
+        exclude_fields:
+          - slug
         max_query_field_depth: 3
       - name: serviceLevelUpdate
+        exclude_fields:
+          - slug
         max_query_field_depth: 3
     types:
       - name: ID
