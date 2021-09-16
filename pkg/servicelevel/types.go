@@ -2,7 +2,6 @@
 package servicelevel
 
 import (
-	"github.com/newrelic/newrelic-client-go/pkg/entities"
 	"github.com/newrelic/newrelic-client-go/pkg/nrtime"
 )
 
@@ -92,7 +91,7 @@ type ServiceLevelIndicator struct {
 	// The description of the SLI.
 	Description string `json:"description,omitempty"`
 	// The entity which the SLI is attached to.
-	EntityGUID entities.EntityGUID `json:"entityGuid"`
+	EntityGUID EntityGUID `json:"entityGuid"`
 	// The events that define the SLI.
 	Events ServiceLevelEvents `json:"events"`
 	// The unique identifier of the SLI.
@@ -246,6 +245,9 @@ type UserReference struct {
 	//
 	Name string `json:"name,omitempty"`
 }
+
+// EntityGUID - An encoded Entity GUID
+type EntityGUID string
 
 // Float - The `Float` scalar type represents signed double-precision fractional
 // values as specified by

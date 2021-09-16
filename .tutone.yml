@@ -848,13 +848,6 @@ packages:
       #
       # Types owned by other packages
       #
-      # List of entities
-      - name: Entity
-        field_type_override: entities.Entity
-        skip_type_create: true
-      - name: EntityGuid
-        field_type_override: entities.EntityGUID
-        skip_type_create: true
       # UpdateAt returns `null`, so this needs to be a ptr (can't override just the UpdatedAt field)
       - name: EpochMilliseconds
         field_type_override: "*nrtime.EpochMilliseconds"
