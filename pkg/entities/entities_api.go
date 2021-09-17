@@ -341,7 +341,6 @@ const getEntitiesQuery = `query(
 			entityGuid
 			id
 			name
-			slug
 			updatedAt
 		}
 	}
@@ -1138,7 +1137,6 @@ const getEntityQuery = `query(
 			entityGuid
 			id
 			name
-			slug
 			updatedAt
 		}
 	}

@@ -2,7 +2,6 @@
 package servicelevel
 
 import (
-	"github.com/newrelic/newrelic-client-go/pkg/entities"
 	"github.com/newrelic/newrelic-client-go/pkg/nrtime"
 )
 
@@ -92,19 +91,17 @@ type ServiceLevelIndicator struct {
 	// The description of the SLI.
 	Description string `json:"description,omitempty"`
 	// The entity which the SLI is attached to.
-	EntityGUID entities.EntityGUID `json:"entityGuid"`
+	EntityGUID EntityGUID `json:"entityGuid"`
 	// The events that define the SLI.
 	Events ServiceLevelEvents `json:"events"`
 	// The unique identifier of the SLI.
-	ID int `json:"id"`
+	ID string `json:"id"`
 	// The name of the SLI.
 	Name string `json:"name"`
 	// A list of objective definitions.
 	Objectives []ServiceLevelObjective `json:"objectives"`
 	// The resulting NRQL queries that help consume the metrics of the SLI.
 	ResultQueries ServiceLevelIndicatorResultQueries `json:"resultQueries,omitempty"`
-	// A human-readable text that uniquely identifies the SLI within a New Relic account.
-	Slug string `json:"slug"`
 	// The date when the SLI was last updated represented in the number of milliseconds since the Unix epoch.
 	UpdatedAt *nrtime.EpochMilliseconds `json:"updatedAt,omitempty"`
 	// The user who last update the SLI.
@@ -121,8 +118,6 @@ type ServiceLevelIndicatorCreateInput struct {
 	Name string `json:"name"`
 	// A list of objective definitions.
 	Objectives []ServiceLevelObjectiveCreateInput `json:"objectives,omitempty"`
-	// A human-readable text that uniquely identifies the SLI within a New Relic account. All characters must be alphanumeric and lowercase separated by hyphens, maximum length is 63 characters.
-	Slug string `json:"slug"`
 }
 
 // ServiceLevelIndicatorResultQueries - The resulting NRQL queries that help consume the metrics of the SLI.
@@ -250,6 +245,9 @@ type UserReference struct {
 	//
 	Name string `json:"name,omitempty"`
 }
+
+// EntityGUID - An encoded Entity GUID
+type EntityGUID string
 
 // Float - The `Float` scalar type represents signed double-precision fractional
 // values as specified by

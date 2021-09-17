@@ -8,6 +8,7 @@ import (
 	"github.com/newrelic/newrelic-client-go/pkg/accounts"
 	"github.com/newrelic/newrelic-client-go/pkg/nrdb"
 	"github.com/newrelic/newrelic-client-go/pkg/nrtime"
+	"github.com/newrelic/newrelic-client-go/pkg/servicelevel"
 	"github.com/newrelic/newrelic-client-go/pkg/users"
 )
 
@@ -1178,17 +1179,6 @@ var MetricNormalizationRuleActionTypes = struct {
 	IGNORE: "IGNORE",
 	// Replace metrics.
 	REPLACE: "REPLACE",
-}
-
-// ServiceLevelObjectiveRollingTimeWindowUnit - The rolling time window units.
-type ServiceLevelObjectiveRollingTimeWindowUnit string
-
-var ServiceLevelObjectiveRollingTimeWindowUnitTypes = struct {
-	// Day.
-	DAY ServiceLevelObjectiveRollingTimeWindowUnit
-}{
-	// Day.
-	DAY: "DAY",
 }
 
 // SyntheticMonitorStatus -
@@ -6555,105 +6545,7 @@ type SecureCredentialSummaryData struct {
 // ServiceLevelDefinition - The service level defined for a specific entity.
 type ServiceLevelDefinition struct {
 	// The SLIs attached to the entity.
-	Indicators []ServiceLevelIndicator `json:"indicators"`
-}
-
-// ServiceLevelEvents - The events that define the SLI.
-type ServiceLevelEvents struct {
-	// The New Relic account to fetch the events from.
-	Account accounts.AccountReference `json:"account"`
-	// The definition of bad events.
-	BadEvents ServiceLevelEventsQuery `json:"badEvents,omitempty"`
-	// The definition of good events.
-	GoodEvents ServiceLevelEventsQuery `json:"goodEvents,omitempty"`
-	// The definition of valid events.
-	ValidEvents ServiceLevelEventsQuery `json:"validEvents"`
-}
-
-// ServiceLevelEventsQuery - The query that represents the events to fetch.
-type ServiceLevelEventsQuery struct {
-	// The NRDB event or metric to fetch the data from.
-	From nrdb.NRQL `json:"from"`
-	// The NRQL condition to filter the events.
-	Where nrdb.NRQL `json:"where,omitempty"`
-}
-
-// ServiceLevelIndicator - The definition of the SLI.
-type ServiceLevelIndicator struct {
-	// The date when the SLI was created represented in the number of milliseconds since the Unix epoch.
-	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt"`
-	// The user who created the SLI.
-	CreatedBy users.UserReference `json:"createdBy"`
-	// The description of the SLI.
-	Description string `json:"description,omitempty"`
-	// The entity which the SLI is attached to.
-	EntityGUID EntityGUID `json:"entityGuid"`
-	// The events that define the SLI.
-	Events ServiceLevelEvents `json:"events"`
-	// The unique identifier of the SLI.
-	ID string `json:"id"`
-	// The name of the SLI.
-	Name string `json:"name"`
-	// A list of objective definitions.
-	Objectives []ServiceLevelObjective `json:"objectives"`
-	// The resulting NRQL queries that help consume the metrics of the SLI.
-	ResultQueries ServiceLevelIndicatorResultQueries `json:"resultQueries,omitempty"`
-	// A human-readable text that uniquely identifies the SLI within a New Relic account.
-	Slug string `json:"slug"`
-	// The date when the SLI was last updated represented in the number of milliseconds since the Unix epoch.
-	UpdatedAt *nrtime.EpochMilliseconds `json:"updatedAt,omitempty"`
-	// The user who last update the SLI.
-	UpdatedBy users.UserReference `json:"updatedBy,omitempty"`
-}
-
-// ServiceLevelIndicatorResultQueries - The resulting NRQL queries that help consume the metrics of the SLI.
-type ServiceLevelIndicatorResultQueries struct {
-	// The NRQL query that measures the good events.
-	GoodEvents ServiceLevelResultQuery `json:"goodEvents"`
-	// The NRQL query that measures the value of the SLI.
-	Indicator ServiceLevelResultQuery `json:"indicator"`
-	// The NRQL query that measures the valid events.
-	ValidEvents ServiceLevelResultQuery `json:"validEvents"`
-}
-
-// ServiceLevelObjective - An objective definition.
-type ServiceLevelObjective struct {
-	// The description of the SLO.
-	Description string `json:"description,omitempty"`
-	// The name of the SLO.
-	Name string `json:"name,omitempty"`
-	// The resulting NRQL queries that help consume the metrics of the SLO.
-	ResultQueries ServiceLevelObjectiveResultQueries `json:"resultQueries,omitempty"`
-	// The target percentage of the SLO.
-	Target float64 `json:"target"`
-	// The time window configuration of the SLO.
-	TimeWindow ServiceLevelObjectiveTimeWindow `json:"timeWindow"`
-}
-
-// ServiceLevelObjectiveResultQueries - The resulting NRQL queries that help consume the metrics of the SLO.
-type ServiceLevelObjectiveResultQueries struct {
-	// The NRQL query that measures the attainment of the SLO target.
-	Attainment ServiceLevelResultQuery `json:"attainment"`
-}
-
-// ServiceLevelObjectiveRollingTimeWindow - The rolling time window configuration of the SLO.
-type ServiceLevelObjectiveRollingTimeWindow struct {
-	// The count of time units.
-	Count int `json:"count"`
-	// The time unit.
-	Unit ServiceLevelObjectiveRollingTimeWindowUnit `json:"unit"`
-}
-
-// ServiceLevelObjectiveTimeWindow - The time window configuration of the SLO.
-type ServiceLevelObjectiveTimeWindow struct {
-	// The rolling time window configuration of the SLO.
-	Rolling ServiceLevelObjectiveRollingTimeWindow `json:"rolling,omitempty"`
-}
-
-// ServiceLevelResultQuery - A resulting query.
-type ServiceLevelResultQuery struct {
-	// A NRQL query.
-	NRQL nrdb.NRQL `json:"nrql"`
+	Indicators []servicelevel.ServiceLevelIndicator `json:"indicators"`
 }
 
 // SyntheticMonitorEntity - A Synthetic Monitor entity.

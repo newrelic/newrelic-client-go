@@ -321,10 +321,16 @@ packages:
         endpoints:
           - name: entities
             max_query_field_depth: 2
+            exclude_fields:
+              - slug
           - name: entity
             max_query_field_depth: 2
+            exclude_fields:
+              - slug
           - name: entitySearch
             max_query_field_depth: 2
+            exclude_fields:
+              - slug
             include_arguments:
               - "queryBuilder"
     mutations:
@@ -530,6 +536,9 @@ packages:
         skip_type_create: true
       - name: SuggestedNRQLQueryAnomaly
         field_type_override: nrdb.SuggestedNRQLQueryAnomaly
+        skip_type_create: true
+      - name: ServiceLevelIndicator
+        field_type_override: servicelevel.ServiceLevelIndicator
         skip_type_create: true
 
       # users imports
@@ -813,25 +822,32 @@ packages:
       - name: UserReference
     mutations:
       - name: serviceLevelCreate
+        exclude_fields:
+          - slug
         max_query_field_depth: 3
       - name: serviceLevelDelete
+        exclude_fields:
+          - slug
         max_query_field_depth: 3
       - name: serviceLevelUpdate
+        exclude_fields:
+          - slug
         max_query_field_depth: 3
     types:
+      - name: ID
+        field_type_override: string
       - name: ServiceLevelIndicator
+        skip_fields:
+          - Slug
       - name: ServiceLevelIndicatorCreateInput
+        skip_fields:
+          - Slug
       - name: ServiceLevelIndicatorUpdateInput
+        skip_fields:
+          - Slug
       #
       # Types owned by other packages
       #
-      # List of entities
-      - name: Entity
-        field_type_override: entities.Entity
-        skip_type_create: true
-      - name: EntityGuid
-        field_type_override: entities.EntityGUID
-        skip_type_create: true
       # UpdateAt returns `null`, so this needs to be a ptr (can't override just the UpdatedAt field)
       - name: EpochMilliseconds
         field_type_override: "*nrtime.EpochMilliseconds"
