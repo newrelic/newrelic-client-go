@@ -23,6 +23,15 @@ auth:
   api_key_env_var: NEW_RELIC_API_KEY
 
 packages:
+  - name: common
+    path: pkg/common
+    import_path: github.com/newrelic/newrelic-client-go/pkg/common
+    generators:
+      - typegen
+    types:
+      - name: EntityGUID
+        field_type_override: string
+
   - name: accounts
     path: pkg/accounts
     import_path: github.com/newrelic/newrelic-client-go/pkg/accounts
@@ -172,6 +181,7 @@ packages:
       - typegen
       - nerdgraphclient
     imports:
+      - github.com/newrelic/newrelic-client-go/pkg/common
       - github.com/newrelic/newrelic-client-go/pkg/entities
       - github.com/newrelic/newrelic-client-go/pkg/nrdb
     mutations:
@@ -316,6 +326,7 @@ packages:
       - nerdgraphclient
     imports:
       - github.com/newrelic/newrelic-client-go/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/pkg/common
       - github.com/newrelic/newrelic-client-go/pkg/nrdb
       - github.com/newrelic/newrelic-client-go/pkg/nrtime
       - github.com/newrelic/newrelic-client-go/pkg/users
@@ -362,7 +373,6 @@ packages:
         create_as: "[]byte"
 
       # Types this package owns
-      - name: EntityGuid
       - name: EntityRelationship
       - name: EntityRelationshipFilter
       - name: EntityRelationshipNode
@@ -385,7 +395,7 @@ packages:
         interface_methods:
           - "GetAccountID() int"
           - "GetDomain() string"
-          - "GetGUID() EntityGUID"
+          - "GetGUID() common.EntityGUID"
           - "GetName() string"
           - "GetTags() []EntityTag"
           - "GetType() string"
@@ -436,7 +446,7 @@ packages:
         interface_methods:
           - "GetAccountID() int"
           - "GetDomain() string"
-          - "GetGUID() EntityGUID"
+          - "GetGUID() common.EntityGUID"
           - "GetName() string"
           - "GetType() string"
       - name: AlertableEntityOutline
@@ -596,6 +606,7 @@ packages:
       - typegen
       - nerdgraphclient
     imports:
+      - github.com/newrelic/newrelic-client-go/pkg/common
       - github.com/newrelic/newrelic-client-go/pkg/entities
       - github.com/newrelic/newrelic-client-go/pkg/nrtime
     types:
@@ -772,6 +783,7 @@ packages:
       - nerdgraphclient
     imports:
       - github.com/newrelic/newrelic-client-go/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/pkg/common
       - github.com/newrelic/newrelic-client-go/pkg/entities
       - github.com/newrelic/newrelic-client-go/pkg/nrtime
       - github.com/newrelic/newrelic-client-go/pkg/users
