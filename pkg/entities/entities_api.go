@@ -4,6 +4,7 @@ package entities
 import (
 	"context"
 
+	"github.com/newrelic/newrelic-client-go/pkg/common"
 	"github.com/newrelic/newrelic-client-go/pkg/errors"
 )
 
@@ -12,7 +13,7 @@ import (
 //
 //  For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
 func (a *Entities) TaggingAddTagsToEntity(
-	gUID EntityGUID,
+	gUID common.EntityGUID,
 	tags []TaggingTagInput,
 ) (*TaggingMutationResult, error) {
 	return a.TaggingAddTagsToEntityWithContext(context.Background(),
@@ -27,7 +28,7 @@ func (a *Entities) TaggingAddTagsToEntity(
 //  For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
 func (a *Entities) TaggingAddTagsToEntityWithContext(
 	ctx context.Context,
-	gUID EntityGUID,
+	gUID common.EntityGUID,
 	tags []TaggingTagInput,
 ) (*TaggingMutationResult, error) {
 
@@ -65,7 +66,7 @@ const TaggingAddTagsToEntityMutation = `mutation(
 //
 //  For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
 func (a *Entities) TaggingDeleteTagFromEntity(
-	gUID EntityGUID,
+	gUID common.EntityGUID,
 	tagKeys []string,
 ) (*TaggingMutationResult, error) {
 	return a.TaggingDeleteTagFromEntityWithContext(context.Background(),
@@ -79,7 +80,7 @@ func (a *Entities) TaggingDeleteTagFromEntity(
 //  For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
 func (a *Entities) TaggingDeleteTagFromEntityWithContext(
 	ctx context.Context,
-	gUID EntityGUID,
+	gUID common.EntityGUID,
 	tagKeys []string,
 ) (*TaggingMutationResult, error) {
 
@@ -117,7 +118,7 @@ const TaggingDeleteTagFromEntityMutation = `mutation(
 //
 //  For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
 func (a *Entities) TaggingDeleteTagValuesFromEntity(
-	gUID EntityGUID,
+	gUID common.EntityGUID,
 	tagValues []TaggingTagValueInput,
 ) (*TaggingMutationResult, error) {
 	return a.TaggingDeleteTagValuesFromEntityWithContext(context.Background(),
@@ -131,7 +132,7 @@ func (a *Entities) TaggingDeleteTagValuesFromEntity(
 //  For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
 func (a *Entities) TaggingDeleteTagValuesFromEntityWithContext(
 	ctx context.Context,
-	gUID EntityGUID,
+	gUID common.EntityGUID,
 	tagValues []TaggingTagValueInput,
 ) (*TaggingMutationResult, error) {
 
@@ -170,7 +171,7 @@ const TaggingDeleteTagValuesFromEntityMutation = `mutation(
 //
 //  For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
 func (a *Entities) TaggingReplaceTagsOnEntity(
-	gUID EntityGUID,
+	gUID common.EntityGUID,
 	tags []TaggingTagInput,
 ) (*TaggingMutationResult, error) {
 	return a.TaggingReplaceTagsOnEntityWithContext(context.Background(),
@@ -185,7 +186,7 @@ func (a *Entities) TaggingReplaceTagsOnEntity(
 //  For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
 func (a *Entities) TaggingReplaceTagsOnEntityWithContext(
 	ctx context.Context,
-	gUID EntityGUID,
+	gUID common.EntityGUID,
 	tags []TaggingTagInput,
 ) (*TaggingMutationResult, error) {
 
@@ -225,7 +226,7 @@ const TaggingReplaceTagsOnEntityMutation = `mutation(
 //
 // For more details on entities, visit our [entity docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/use-new-relic-graphql-api-query-entities).
 func (a *Entities) GetEntities(
-	gUIDs []EntityGUID,
+	gUIDs []common.EntityGUID,
 ) (*[]EntityInterface, error) {
 	return a.GetEntitiesWithContext(context.Background(),
 		gUIDs,
@@ -239,7 +240,7 @@ func (a *Entities) GetEntities(
 // For more details on entities, visit our [entity docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/use-new-relic-graphql-api-query-entities).
 func (a *Entities) GetEntitiesWithContext(
 	ctx context.Context,
-	gUIDs []EntityGUID,
+	gUIDs []common.EntityGUID,
 ) (*[]EntityInterface, error) {
 
 	resp := entitiesResponse{}
@@ -1027,7 +1028,7 @@ const getEntitiesQuery = `query(
 //
 // For more details on entities, visit our [entity docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/use-new-relic-graphql-api-query-entities).
 func (a *Entities) GetEntity(
-	gUID EntityGUID,
+	gUID common.EntityGUID,
 ) (*EntityInterface, error) {
 	return a.GetEntityWithContext(context.Background(),
 		gUID,
@@ -1039,7 +1040,7 @@ func (a *Entities) GetEntity(
 // For more details on entities, visit our [entity docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/use-new-relic-graphql-api-query-entities).
 func (a *Entities) GetEntityWithContext(
 	ctx context.Context,
-	gUID EntityGUID,
+	gUID common.EntityGUID,
 ) (*EntityInterface, error) {
 
 	resp := entityResponse{}

@@ -6,13 +6,15 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
+
+	"github.com/newrelic/newrelic-client-go/pkg/common"
 )
 
 func TestIntegrationListTags(t *testing.T) {
 	t.Parallel()
 
 	var (
-		testGUID = EntityGUID("MjUwODI1OXxBUE18QVBQTElDQVRJT058MjA0MjYxMzY4")
+		testGUID = common.EntityGUID("MjUwODI1OXxBUE18QVBQTElDQVRJT058MjA0MjYxMzY4")
 	)
 
 	client := newIntegrationTestClient(t)
@@ -30,7 +32,7 @@ func TestIntegrationTaggingAddTagsToEntity(t *testing.T) {
 	t.Parallel()
 
 	var (
-		testGUID = EntityGUID("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
+		testGUID = common.EntityGUID("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
 	)
 
 	client := newIntegrationTestClient(t)
@@ -52,7 +54,7 @@ func TestIntegrationTaggingReplaceTagsOnEntity(t *testing.T) {
 	t.Parallel()
 
 	var (
-		testGUID = EntityGUID("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
+		testGUID = common.EntityGUID("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
 	)
 
 	client := newIntegrationTestClient(t)
@@ -74,7 +76,7 @@ func TestIntegrationDeleteTags(t *testing.T) {
 	t.Parallel()
 
 	var (
-		testGUID = EntityGUID("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
+		testGUID = common.EntityGUID("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
 	)
 
 	client := newIntegrationTestClient(t)
@@ -91,7 +93,7 @@ func TestIntegrationDeleteTagValues(t *testing.T) {
 	t.Parallel()
 
 	var (
-		testGUID = EntityGUID("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
+		testGUID = common.EntityGUID("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
 	)
 
 	client := newIntegrationTestClient(t)

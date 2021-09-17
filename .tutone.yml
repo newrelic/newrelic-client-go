@@ -196,6 +196,9 @@ packages:
       - name: ID
         field_type_override: string
         skip_type_create: true
+      - name: EntityGuid
+        field_type_override: common.EntityGUID
+        skip_type_create: true
 
       # These need to be pointers within DashboardWidgetConfigurationInput, so
       # they can be nullable
@@ -252,7 +255,7 @@ packages:
         field_type_override: entities.Entity
         skip_type_create: true
       - name: EntityGuid
-        field_type_override: entities.EntityGUID
+        field_type_override: common.EntityGUID
         skip_type_create: true
       - name: EntityOutline
         field_type_override: entities.EntityOutline
@@ -351,6 +354,10 @@ packages:
       - name: ID
         field_type_override: string
         skip_type_create: true
+      - name: EntityGuid
+        field_type_override: common.EntityGUID
+        skip_type_create: true
+
       - name: DashboardWidgetRawConfiguration
         create_as: "[]byte"
 
@@ -605,7 +612,7 @@ packages:
         field_type_override: nrtime.EpochSeconds
         skip_type_create: true
       - name: EntityGuid
-        field_type_override: entities.EntityGUID
+        field_type_override: common.EntityGUID
         skip_type_create: true
       - name: SemVer
         field_type_override: string
@@ -796,7 +803,7 @@ packages:
         field_type_override: accounts.AccountReference
         skip_type_create: true
       - name: EntityGuid
-        field_type_override: entities.EntityGUID
+        field_type_override: common.EntityGUID
         skip_type_create: true
       # UpdateAt returns `null`, so this needs to be a ptr (can't override just the UpdatedAt field)
       - name: EpochMilliseconds

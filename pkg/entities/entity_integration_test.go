@@ -8,6 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
+	"github.com/newrelic/newrelic-client-go/pkg/common"
 	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
 
@@ -105,7 +106,7 @@ func TestIntegrationGetEntities(t *testing.T) {
 
 	client := newIntegrationTestClient(t)
 
-	guids := []EntityGUID{"MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1"}
+	guids := []common.EntityGUID{"MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1"}
 	actual, err := client.GetEntities(guids)
 
 	require.NoError(t, err)
@@ -115,7 +116,7 @@ func TestIntegrationGetEntities(t *testing.T) {
 func TestIntegrationGetEntity(t *testing.T) {
 	t.Parallel()
 
-	entityGUID := EntityGUID("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
+	entityGUID := common.EntityGUID("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
 	client := newIntegrationTestClient(t)
 
 	result, err := client.GetEntity(entityGUID)

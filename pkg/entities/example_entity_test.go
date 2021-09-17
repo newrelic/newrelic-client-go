@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/newrelic/newrelic-client-go/pkg/common"
 	"github.com/newrelic/newrelic-client-go/pkg/config"
 )
 
@@ -34,7 +35,7 @@ func Example_entity() {
 	}
 
 	// Get several entities by GUID.
-	var entityGuids []EntityGUID
+	var entityGuids []common.EntityGUID
 	for _, x := range entitySearch.Results.Entities {
 		e := x.(*GenericEntityOutline)
 		entityGuids = append(entityGuids, e.GUID)
