@@ -1,3 +1,4 @@
+//go:build integration
 // +build integration
 
 package dashboards
@@ -8,6 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
+	"github.com/newrelic/newrelic-client-go/pkg/common"
 	"github.com/newrelic/newrelic-client-go/pkg/entities"
 	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
@@ -190,8 +192,8 @@ func TestIntegrationDashboard_LinkedEntities(t *testing.T) {
 								},
 							},
 						},
-						LinkedEntityGUIDs: []entities.EntityGUID{
-							entities.EntityGUID(resultDashA.EntityResult.Pages[0].GUID),
+						LinkedEntityGUIDs: []common.EntityGUID{
+							common.EntityGUID(resultDashA.EntityResult.Pages[0].GUID),
 						},
 					},
 				},

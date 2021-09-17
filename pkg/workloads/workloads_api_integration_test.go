@@ -1,3 +1,4 @@
+//go:build integration
 // +build integration
 
 package workloads
@@ -9,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/newrelic/newrelic-client-go/pkg/entities"
+	"github.com/newrelic/newrelic-client-go/pkg/common"
 	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
 
@@ -50,7 +51,7 @@ func TestIntegrationWorkloadCreate(t *testing.T) {
 	time.Sleep(30 * time.Second)
 
 	// Cleanup
-	_, err = client.WorkloadDelete(entities.EntityGUID(created.GUID))
+	_, err = client.WorkloadDelete(common.EntityGUID(created.GUID))
 	require.NoError(t, err)
 }
 
@@ -97,9 +98,9 @@ func TestIntegrationWorkloadDuplicate(t *testing.T) {
 	time.Sleep(30 * time.Second)
 
 	// Cleanup
-	_, err = client.WorkloadDelete(entities.EntityGUID(created.GUID))
+	_, err = client.WorkloadDelete(common.EntityGUID(created.GUID))
 	assert.NoError(t, err)
-	_, err = client.WorkloadDelete(entities.EntityGUID(dup.GUID))
+	_, err = client.WorkloadDelete(common.EntityGUID(dup.GUID))
 	assert.NoError(t, err)
 }
 
@@ -143,6 +144,6 @@ func TestIntegrationWorkloadUpdate(t *testing.T) {
 	require.NotEmpty(t, up.GUID)
 
 	// Cleanup
-	_, err = client.WorkloadDelete(entities.EntityGUID(up.GUID))
+	_, err = client.WorkloadDelete(common.EntityGUID(up.GUID))
 	assert.NoError(t, err)
 }

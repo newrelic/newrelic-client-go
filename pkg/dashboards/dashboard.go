@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/newrelic/newrelic-client-go/pkg/common"
 	"github.com/newrelic/newrelic-client-go/pkg/entities"
 	"github.com/newrelic/newrelic-client-go/pkg/errors"
 )
@@ -46,12 +47,12 @@ func (d *Dashboards) ListDashboards(params *ListDashboardsParams) ([]*Dashboard,
 }
 
 // GetDashboardEntity is used to retrieve a single New Relic One Dashboard
-func (d *Dashboards) GetDashboardEntity(gUID entities.EntityGUID) (*entities.DashboardEntity, error) {
+func (d *Dashboards) GetDashboardEntity(gUID common.EntityGUID) (*entities.DashboardEntity, error) {
 	return d.GetDashboardEntityWithContext(context.Background(), gUID)
 }
 
 // GetDashboardEntityWithContext is used to retrieve a single New Relic One Dashboard
-func (d *Dashboards) GetDashboardEntityWithContext(ctx context.Context, gUID entities.EntityGUID) (*entities.DashboardEntity, error) {
+func (d *Dashboards) GetDashboardEntityWithContext(ctx context.Context, gUID common.EntityGUID) (*entities.DashboardEntity, error) {
 	resp := struct {
 		Actor entities.Actor `json:"actor"`
 	}{}

@@ -6,7 +6,7 @@ import (
 	"fmt"
 
 	"github.com/newrelic/newrelic-client-go/pkg/accounts"
-	"github.com/newrelic/newrelic-client-go/pkg/entities"
+	"github.com/newrelic/newrelic-client-go/pkg/common"
 	"github.com/newrelic/newrelic-client-go/pkg/nrtime"
 	"github.com/newrelic/newrelic-client-go/pkg/users"
 )
@@ -173,7 +173,7 @@ type WorkloadCollection struct {
 	// The entity search query that returns the full collection of entities.
 	EntitySearchQuery string `json:"entitySearchQuery,omitempty"`
 	// The unique entity identifier of the workload in New Relic.
-	GUID entities.EntityGUID `json:"guid"`
+	GUID common.EntityGUID `json:"guid"`
 	// The unique identifier of the workload.
 	ID int `json:"id"`
 	// The workload's name.
@@ -197,7 +197,7 @@ type WorkloadCreateInput struct {
 	// Relevant information about the workload.
 	Description string `json:"description,omitempty"`
 	// A list of entity GUIDs composing the workload.
-	EntityGUIDs []entities.EntityGUID `json:"entityGuids"`
+	EntityGUIDs []common.EntityGUID `json:"entityGuids"`
 	// A list of entity search queries used to retrieve the entities that compose the workload.
 	EntitySearchQueries []WorkloadEntitySearchQueryInput `json:"entitySearchQueries,omitempty"`
 	// The name of the workload.
@@ -217,7 +217,7 @@ type WorkloadDuplicateInput struct {
 // WorkloadEntityRef - A reference to a New Relic entity.
 type WorkloadEntityRef struct {
 	// The unique entity identifier in New Relic.
-	GUID entities.EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 }
 
 // WorkloadEntitySearchQuery - An entity search query used to dynamically retrieve a group of entities.
@@ -255,7 +255,7 @@ type WorkloadRegularRule struct {
 // WorkloadRegularRuleInput - The input object used to represent a rule.
 type WorkloadRegularRuleInput struct {
 	// A list of entity GUIDs composing the rule.
-	EntityGUIDs []entities.EntityGUID `json:"entityGuids"`
+	EntityGUIDs []common.EntityGUID `json:"entityGuids"`
 	// A list of entity search queries used to retrieve the entities that compose the rule.
 	EntitySearchQueries []WorkloadEntitySearchQueryInput `json:"entitySearchQueries,omitempty"`
 	// The input object used to represent a rollup strategy.
@@ -449,7 +449,7 @@ type WorkloadUpdateInput struct {
 	// Relevant information about the workload.
 	Description string `json:"description,omitempty"`
 	// A list of entity GUIDs composing the workload.
-	EntityGUIDs []entities.EntityGUID `json:"entityGuids"`
+	EntityGUIDs []common.EntityGUID `json:"entityGuids"`
 	// A list of entity search queries used to retrieve the groups of entities that compose the workload.
 	EntitySearchQueries []WorkloadUpdateCollectionEntitySearchQueryInput `json:"entitySearchQueries,omitempty"`
 	// The name of the workload.
@@ -463,7 +463,7 @@ type WorkloadUpdateInput struct {
 // WorkloadUpdateRegularRuleInput - The input object used to represent a rule.
 type WorkloadUpdateRegularRuleInput struct {
 	// A list of entity GUIDs composing the rule.
-	EntityGUIDs []entities.EntityGUID `json:"entityGuids"`
+	EntityGUIDs []common.EntityGUID `json:"entityGuids"`
 	// A list of entity search queries used to retrieve the groups of entities that compose the rule.
 	EntitySearchQueries []WorkloadUpdateCollectionEntitySearchQueryInput `json:"entitySearchQueries,omitempty"`
 	// The unique identifier of the rule to be updated. If not provided, a new rule is created.

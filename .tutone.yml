@@ -23,6 +23,15 @@ auth:
   api_key_env_var: NEW_RELIC_API_KEY
 
 packages:
+  - name: common
+    path: pkg/common
+    import_path: github.com/newrelic/newrelic-client-go/pkg/common
+    generators:
+      - typegen
+    types:
+      - name: EntityGUID
+        field_type_override: string
+
   - name: accounts
     path: pkg/accounts
     import_path: github.com/newrelic/newrelic-client-go/pkg/accounts
@@ -172,6 +181,7 @@ packages:
       - typegen
       - nerdgraphclient
     imports:
+      - github.com/newrelic/newrelic-client-go/pkg/common
       - github.com/newrelic/newrelic-client-go/pkg/entities
       - github.com/newrelic/newrelic-client-go/pkg/nrdb
     mutations:
@@ -195,6 +205,9 @@ packages:
       # This must be a string, as where ID is used the type is a string...
       - name: ID
         field_type_override: string
+        skip_type_create: true
+      - name: EntityGuid
+        field_type_override: common.EntityGUID
         skip_type_create: true
 
       # These need to be pointers within DashboardWidgetConfigurationInput, so
@@ -252,7 +265,7 @@ packages:
         field_type_override: entities.Entity
         skip_type_create: true
       - name: EntityGuid
-        field_type_override: entities.EntityGUID
+        field_type_override: common.EntityGUID
         skip_type_create: true
       - name: EntityOutline
         field_type_override: entities.EntityOutline
@@ -313,6 +326,7 @@ packages:
       - nerdgraphclient
     imports:
       - github.com/newrelic/newrelic-client-go/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/pkg/common
       - github.com/newrelic/newrelic-client-go/pkg/nrdb
       - github.com/newrelic/newrelic-client-go/pkg/nrtime
       - github.com/newrelic/newrelic-client-go/pkg/users
@@ -351,11 +365,14 @@ packages:
       - name: ID
         field_type_override: string
         skip_type_create: true
+      - name: EntityGuid
+        field_type_override: common.EntityGUID
+        skip_type_create: true
+
       - name: DashboardWidgetRawConfiguration
         create_as: "[]byte"
 
       # Types this package owns
-      - name: EntityGuid
       - name: EntityRelationship
       - name: EntityRelationshipFilter
       - name: EntityRelationshipNode
@@ -378,7 +395,7 @@ packages:
         interface_methods:
           - "GetAccountID() int"
           - "GetDomain() string"
-          - "GetGUID() EntityGUID"
+          - "GetGUID() common.EntityGUID"
           - "GetName() string"
           - "GetTags() []EntityTag"
           - "GetType() string"
@@ -429,7 +446,7 @@ packages:
         interface_methods:
           - "GetAccountID() int"
           - "GetDomain() string"
-          - "GetGUID() EntityGUID"
+          - "GetGUID() common.EntityGUID"
           - "GetName() string"
           - "GetType() string"
       - name: AlertableEntityOutline
@@ -589,6 +606,7 @@ packages:
       - typegen
       - nerdgraphclient
     imports:
+      - github.com/newrelic/newrelic-client-go/pkg/common
       - github.com/newrelic/newrelic-client-go/pkg/entities
       - github.com/newrelic/newrelic-client-go/pkg/nrtime
     types:
@@ -605,7 +623,7 @@ packages:
         field_type_override: nrtime.EpochSeconds
         skip_type_create: true
       - name: EntityGuid
-        field_type_override: entities.EntityGUID
+        field_type_override: common.EntityGUID
         skip_type_create: true
       - name: SemVer
         field_type_override: string
@@ -765,6 +783,7 @@ packages:
       - nerdgraphclient
     imports:
       - github.com/newrelic/newrelic-client-go/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/pkg/common
       - github.com/newrelic/newrelic-client-go/pkg/entities
       - github.com/newrelic/newrelic-client-go/pkg/nrtime
       - github.com/newrelic/newrelic-client-go/pkg/users
@@ -796,7 +815,7 @@ packages:
         field_type_override: accounts.AccountReference
         skip_type_create: true
       - name: EntityGuid
-        field_type_override: entities.EntityGUID
+        field_type_override: common.EntityGUID
         skip_type_create: true
       # UpdateAt returns `null`, so this needs to be a ptr (can't override just the UpdatedAt field)
       - name: EpochMilliseconds

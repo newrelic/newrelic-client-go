@@ -1,3 +1,4 @@
+//go:build integration
 // +build integration
 
 package workloads
@@ -7,8 +8,8 @@ import (
 	"log"
 	"os"
 
+	"github.com/newrelic/newrelic-client-go/pkg/common"
 	"github.com/newrelic/newrelic-client-go/pkg/config"
-	"github.com/newrelic/newrelic-client-go/pkg/entities"
 )
 
 func Example_basic() {
@@ -21,12 +22,12 @@ func Example_basic() {
 	client := New(cfg)
 
 	accountID := 12345678
-	entityGUID := entities.EntityGUID("MjUwODy1OXxOUjF8V097S0xPQ3R8ODcz")
+	entityGUID := common.EntityGUID("MjUwODy1OXxOUjF8V097S0xPQ3R8ODcz")
 
 	// Create a new workload.
 	createInput := WorkloadCreateInput{
 		Name:        "Example workload",
-		EntityGUIDs: []entities.EntityGUID{entityGUID},
+		EntityGUIDs: []common.EntityGUID{entityGUID},
 		EntitySearchQueries: []WorkloadEntitySearchQueryInput{
 			{
 				Query: fmt.Sprintf("(accountId IN ('%d')) AND (((name like 'Example application' or id = 'Example application' or domainId = 'Example application')))", accountID),

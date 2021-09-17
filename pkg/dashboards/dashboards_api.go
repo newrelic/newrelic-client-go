@@ -5,7 +5,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/newrelic/newrelic-client-go/pkg/entities"
+	"github.com/newrelic/newrelic-client-go/pkg/common"
 )
 
 // Create a `DashboardEntity`
@@ -484,7 +484,7 @@ const DashboardCreateMutation = `mutation(
 
 // Delete an existing `DashboardEntity`
 func (a *Dashboards) DashboardDelete(
-	gUID entities.EntityGUID,
+	gUID common.EntityGUID,
 ) (*DashboardDeleteResult, error) {
 	return a.DashboardDeleteWithContext(context.Background(),
 		gUID,
@@ -494,7 +494,7 @@ func (a *Dashboards) DashboardDelete(
 // Delete an existing `DashboardEntity`
 func (a *Dashboards) DashboardDeleteWithContext(
 	ctx context.Context,
-	gUID entities.EntityGUID,
+	gUID common.EntityGUID,
 ) (*DashboardDeleteResult, error) {
 
 	resp := DashboardDeleteQueryResponse{}
@@ -537,7 +537,7 @@ const DashboardDeleteMutation = `mutation(
 // Update an existing `DashboardEntity`
 func (a *Dashboards) DashboardUpdate(
 	dashboard DashboardInput,
-	gUID entities.EntityGUID,
+	gUID common.EntityGUID,
 ) (*DashboardUpdateResult, error) {
 	return a.DashboardUpdateWithContext(context.Background(),
 		dashboard,
@@ -549,7 +549,7 @@ func (a *Dashboards) DashboardUpdate(
 func (a *Dashboards) DashboardUpdateWithContext(
 	ctx context.Context,
 	dashboard DashboardInput,
-	gUID entities.EntityGUID,
+	gUID common.EntityGUID,
 ) (*DashboardUpdateResult, error) {
 
 	resp := DashboardUpdateQueryResponse{}
