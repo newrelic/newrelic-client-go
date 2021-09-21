@@ -171,6 +171,23 @@ This refers to what part of the code is the focus of the work. For example:
 $ make docs
 ```
 
+### Releasing
+
+Releases are automated via the Release Github Action on merges to the default branch.  No user interaction is required.
+
+Using [svu](https://github.com/caarlos0/svu), commit messages are parsed to identify if a new release is needed, and to what extent.  Here's the breakdown:
+
+| Commit message                                                                         | Tag increase |
+| -------------------------------------------------------------------------------------- | ------------ |
+| `fix: fixed something`                                                                 | Patch        |
+| `feat: added new button to do X`                                                       | Minor        |
+| `fix: fixed thing xyz`<br><br>`BREAKING CHANGE: this will break users because of blah` | Major        |
+| `fix!: fixed something`                                                                | Major        |
+| `feat!: added blah`                                                                    | Major        |
+| `chore: foo`                                                                           | Nothing      |
+| `refactor: updated bar`                                                                | Nothing      |
+
+
 ## Community Support
 
 New Relic hosts and moderates an online forum where you can interact with New Relic employees as well as other customers to get help and share best practices. Like all New Relic open source community projects, there's a related topic in the New Relic Explorers Hub. You can find our team's project topic/threads here:

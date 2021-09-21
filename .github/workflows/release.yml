@@ -1,9 +1,7 @@
 name: Release
-
 on:
   push:
-    tags:
-      - 'v*'
+    branches: [main]
 
 jobs:
   release:
@@ -26,10 +24,15 @@ jobs:
         run: |
           git fetch --prune --unshallow
 
+      - name: Set up git user
+        run: |
+          git config --global user.name nr-developer-toolkit
+          git config --global user.email nr-developer-toolkit@users.noreply.github.com
+
       - name: Publish Release
         shell: bash
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        run: make release-publish
+        run: make release
