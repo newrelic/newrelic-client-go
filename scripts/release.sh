@@ -56,4 +56,3 @@ ${CHANGELOG_CMD} --silent -o ${RELEASE_NOTES_FILE} v${VER_NEXT}
 
 # Publish the release
 ${REL_CMD} release --release-notes=${RELEASE_NOTES_FILE}
-
