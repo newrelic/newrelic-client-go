@@ -28,6 +28,7 @@ fi
 
 GIT_USER=$(git config user.name)
 GIT_EMAIL=$(git config user.email)
+
 if [ -z "${GIT_USER}" ]; then
   echo "git user.name not set"
   exit 1
