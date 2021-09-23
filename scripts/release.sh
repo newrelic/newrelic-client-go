@@ -38,6 +38,7 @@ if [ -z "${GIT_EMAIL}" ]; then
 fi
 
 echo "Generating release for v${VER_NEXT}"
+
 # Bump package version
 ${VER_BUMP} set ${VER_NEXT} -r -w ${VER_PACKAGE}
 
