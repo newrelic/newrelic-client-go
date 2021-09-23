@@ -17,7 +17,7 @@ VER_CURR=$(${VER_CMD} current --strip-prefix --tag-mode all-branches)
 VER_NEXT=$(${VER_CMD} next --strip-prefix --tag-mode all-branches)
 
 echo " "
-echo "Comparing versions..."
+echo "Comparing tag versions..."
 echo "Current version: ${VER_CURR}"
 echo "Next version:    ${VER_NEXT}"
 echo " "
