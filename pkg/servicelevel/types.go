@@ -2,6 +2,8 @@
 package servicelevel
 
 import (
+	"github.com/newrelic/newrelic-client-go/pkg/accounts"
+	"github.com/newrelic/newrelic-client-go/pkg/common"
 	"github.com/newrelic/newrelic-client-go/pkg/nrtime"
 )
 
@@ -16,24 +18,48 @@ var ServiceLevelObjectiveRollingTimeWindowUnitTypes = struct {
 	DAY: "DAY",
 }
 
-// AccountReference - The `AccountReference` object provides basic identifying information about the account.
-type AccountReference struct {
+// Actor - The `Actor` object contains fields that are scoped to the API user's access level.
+type Actor struct {
+	// Fetch a single entity.
 	//
-	ID int `json:"id,omitempty"`
-	//
+	// For more details on entities, visit our [entity docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/use-new-relic-graphql-api-query-entities).
+	Entity EntityInterface `json:"entity,omitempty"`
+}
+
+// Entity - The `Entity` interface allows fetching detailed entity information for a single entity.
+//
+// To understand more about entities and entity types, look at [our docs](https://docs.newrelic.com/docs/what-are-new-relic-entities).
+type Entity struct {
+	// The New Relic account ID associated with this entity.
+	AccountID int `json:"accountId,omitempty"`
+	// The entity's domain
+	Domain string `json:"domain,omitempty"`
+	// The name of this entity.
 	Name string `json:"name,omitempty"`
+	// The url to the entity.
+	Permalink string `json:"permalink,omitempty"`
+	// The service level defined for the entity.
+	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The entity's type
+	Type string `json:"type,omitempty"`
+}
+
+// ServiceLevelDefinition - The service level defined for a specific entity.
+type ServiceLevelDefinition struct {
+	// The SLIs attached to the entity.
+	Indicators []ServiceLevelIndicator `json:"indicators"`
 }
 
 // ServiceLevelEvents - The events that define the SLI.
 type ServiceLevelEvents struct {
 	// The New Relic account to fetch the events from.
-	Account AccountReference `json:"account"`
+	Account accounts.AccountReference `json:"account"`
 	// The definition of bad events.
-	BadEvents ServiceLevelEventsQuery `json:"badEvents,omitempty"`
+	BadEvents *ServiceLevelEventsQuery `json:"badEvents,omitempty"`
 	// The definition of good events.
-	GoodEvents ServiceLevelEventsQuery `json:"goodEvents,omitempty"`
+	GoodEvents *ServiceLevelEventsQuery `json:"goodEvents,omitempty"`
 	// The definition of valid events.
-	ValidEvents ServiceLevelEventsQuery `json:"validEvents"`
+	ValidEvents *ServiceLevelEventsQuery `json:"validEvents"`
 }
 
 // ServiceLevelEventsCreateInput - The events that define the SLI.
@@ -41,11 +67,11 @@ type ServiceLevelEventsCreateInput struct {
 	// The New Relic account ID where the events are fetched from.
 	AccountID int `json:"accountId"`
 	// The definition of bad events.
-	BadEvents ServiceLevelEventsQueryCreateInput `json:"badEvents,omitempty"`
+	BadEvents *ServiceLevelEventsQueryCreateInput `json:"badEvents,omitempty"`
 	// The definition of good events.
-	GoodEvents ServiceLevelEventsQueryCreateInput `json:"goodEvents,omitempty"`
+	GoodEvents *ServiceLevelEventsQueryCreateInput `json:"goodEvents,omitempty"`
 	// The definition of valid events.
-	ValidEvents ServiceLevelEventsQueryCreateInput `json:"validEvents,omitempty"`
+	ValidEvents *ServiceLevelEventsQueryCreateInput `json:"validEvents,omitempty"`
 }
 
 // ServiceLevelEventsQuery - The query that represents the events to fetch.
@@ -75,11 +101,11 @@ type ServiceLevelEventsQueryUpdateInput struct {
 // ServiceLevelEventsUpdateInput - The events that define the SLI.
 type ServiceLevelEventsUpdateInput struct {
 	// The definition of bad events.
-	BadEvents ServiceLevelEventsQueryUpdateInput `json:"badEvents,omitempty"`
+	BadEvents *ServiceLevelEventsQueryUpdateInput `json:"badEvents,omitempty"`
 	// The definition of good events.
-	GoodEvents ServiceLevelEventsQueryUpdateInput `json:"goodEvents,omitempty"`
+	GoodEvents *ServiceLevelEventsQueryUpdateInput `json:"goodEvents,omitempty"`
 	// The definition of valid events.
-	ValidEvents ServiceLevelEventsQueryUpdateInput `json:"validEvents,omitempty"`
+	ValidEvents *ServiceLevelEventsQueryUpdateInput `json:"validEvents,omitempty"`
 }
 
 // ServiceLevelIndicator - The definition of the SLI.
@@ -91,7 +117,7 @@ type ServiceLevelIndicator struct {
 	// The description of the SLI.
 	Description string `json:"description,omitempty"`
 	// The entity which the SLI is attached to.
-	EntityGUID EntityGUID `json:"entityGuid"`
+	EntityGUID common.EntityGUID `json:"entityGuid"`
 	// The events that define the SLI.
 	Events ServiceLevelEvents `json:"events"`
 	// The unique identifier of the SLI.
@@ -100,8 +126,6 @@ type ServiceLevelIndicator struct {
 	Name string `json:"name"`
 	// A list of objective definitions.
 	Objectives []ServiceLevelObjective `json:"objectives"`
-	// The resulting NRQL queries that help consume the metrics of the SLI.
-	ResultQueries ServiceLevelIndicatorResultQueries `json:"resultQueries,omitempty"`
 	// The date when the SLI was last updated represented in the number of milliseconds since the Unix epoch.
 	UpdatedAt *nrtime.EpochMilliseconds `json:"updatedAt,omitempty"`
 	// The user who last update the SLI.
@@ -135,7 +159,7 @@ type ServiceLevelIndicatorUpdateInput struct {
 	// The description of the SLI.
 	Description string `json:"description,omitempty"`
 	// The events that define the SLI.
-	Events ServiceLevelEventsUpdateInput `json:"events,omitempty"`
+	Events *ServiceLevelEventsUpdateInput `json:"events,omitempty"`
 	// The name of the SLI.
 	Name string `json:"name,omitempty"`
 	// A list of objective definitions.
@@ -148,8 +172,6 @@ type ServiceLevelObjective struct {
 	Description string `json:"description,omitempty"`
 	// The name of the SLO.
 	Name string `json:"name,omitempty"`
-	// The resulting NRQL queries that help consume the metrics of the SLO.
-	ResultQueries ServiceLevelObjectiveResultQueries `json:"resultQueries,omitempty"`
 	// The target percentage of the SLO.
 	Target float64 `json:"target"`
 	// The time window configuration of the SLO.
@@ -236,18 +258,15 @@ type ServiceLevelResultQuery struct {
 
 // UserReference - The `UserReference` object provides basic identifying information about the user.
 type UserReference struct {
-	//
-	Email string `json:"email,omitempty"`
-	//
+	Email    string `json:"email,omitempty"`
 	Gravatar string `json:"gravatar,omitempty"`
-	//
-	ID int `json:"id,omitempty"`
-	//
-	Name string `json:"name,omitempty"`
+	ID       int    `json:"id,omitempty"`
+	Name     string `json:"name,omitempty"`
 }
 
-// EntityGUID - An encoded Entity GUID
-type EntityGUID string
+type indicatorsResponse struct {
+	Actor Actor `json:"actor"`
+}
 
 // Float - The `Float` scalar type represents signed double-precision fractional
 // values as specified by
