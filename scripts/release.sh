@@ -38,18 +38,27 @@ if [ -z "${GIT_EMAIL}" ]; then
   exit 1
 fi
 
-echo "Generating release for v${VER_NEXT}"
+echo "Generating release for v${VER_NEXT} with git user ${GIT_USER}"
 
-# Bump package version
+# Update version in version.go file manually
+echo -e "package version\n\n// Version of this library\nconst Version string = \"${VER_NEXT}\"" > internal/version/version.go
+
+echo "version.go updated using echo"
+cat internal/version/version.go
+
+# Update package version in version.go file using svu
 ${VER_BUMP} set ${VER_NEXT} -r -w ${VER_PACKAGE}
+
+echo "version.go updated by svu"
+cat internal/version/version.go
 
 # Auto-generate CHANGELOG updates
 ${CHANGELOG_CMD} --next-tag v${VER_NEXT} -o CHANGELOG.md
 
 # Commit CHANGELOG updates
-git add CHANGELOG.md ${VER_PACKAGE}/
+git add CHANGELOG.md internal/version/version.go
 
-git commit --no-verify -m "chore(release): Releasing v${VER_NEXT}"
+git commit --no-verify -m "chore(release): release v${VER_NEXT}"
 git tag v${VER_NEXT}
 git push --no-verify origin HEAD:${DEFAULT_BRANCH} --tags
 
