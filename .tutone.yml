@@ -833,24 +833,36 @@ packages:
       - nerdgraphclient
     imports:
       - github.com/newrelic/newrelic-client-go/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/pkg/common
       - github.com/newrelic/newrelic-client-go/pkg/entities
       - github.com/newrelic/newrelic-client-go/pkg/nrtime
       - github.com/newrelic/newrelic-client-go/pkg/users
     types:
       - name: User
       - name: UserReference
+    # Custom query to fetch SLIs from the entity API
+    queries:
+      - path: ["actor", "entity", "serviceLevel"]
+        endpoints:
+          - name: "indicators"
+            max_query_field_depth: 3
+            exclude_fields:
+              - resultQueries
     mutations:
       - name: serviceLevelCreate
         exclude_fields:
           - slug
+          - resultQueries
         max_query_field_depth: 3
       - name: serviceLevelDelete
         exclude_fields:
           - slug
+          - resultQueries
         max_query_field_depth: 3
       - name: serviceLevelUpdate
         exclude_fields:
           - slug
+          - resultQueries
         max_query_field_depth: 3
     types:
       - name: ID
@@ -858,18 +870,36 @@ packages:
       - name: ServiceLevelIndicator
         skip_fields:
           - Slug
+          - ResultQueries
       - name: ServiceLevelIndicatorCreateInput
         skip_fields:
           - Slug
-      - name: ServiceLevelIndicatorUpdateInput
+      - name: ServiceLevelObjective
         skip_fields:
-          - Slug
+          - ResultQueries
+      
+      # Overrides needed
+      - name: ServiceLevelEventsQuery
+        field_type_override: "*ServiceLevelEventsQuery"
+      - name: ServiceLevelEventsQueryCreateInput
+        field_type_override: "*ServiceLevelEventsQueryCreateInput"
+      - name: ServiceLevelEventsQueryUpdateInput
+        field_type_override: "*ServiceLevelEventsQueryUpdateInput"
+      - name: ServiceLevelEventsUpdateInput
+        field_type_override: "*ServiceLevelEventsUpdateInput"
+
       #
       # Types owned by other packages
       #
       # UpdateAt returns `null`, so this needs to be a ptr (can't override just the UpdatedAt field)
       - name: EpochMilliseconds
         field_type_override: "*nrtime.EpochMilliseconds"
+        skip_type_create: true
+      - name: AccountReference
+        field_type_override: accounts.AccountReference
+        skip_type_create: true
+      - name: EntityGuid
+        field_type_override: common.EntityGUID
         skip_type_create: true
 
 generators:
