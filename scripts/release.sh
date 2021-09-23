@@ -13,8 +13,8 @@ REL_CMD=${GOBIN}/goreleaser
 RELEASE_NOTES_FILE=${SRCDIR}/tmp/relnotes.md
 
 # Compare versions
-VER_CURR=$(${VER_CMD} current --strip-prefix)
-VER_NEXT=$(${VER_CMD} next --strip-prefix)
+VER_CURR=$(${VER_CMD} current --strip-prefix --tag-mode all-branches)
+VER_NEXT=$(${VER_CMD} next --strip-prefix --tag-mode all-branches)
 
 if [ $CURRENT_GIT_BRANCH != ${DEFAULT_BRANCH} ]; then
   echo "Not on ${DEFAULT_BRANCH}, skipping"
