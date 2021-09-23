@@ -1,5 +1,31 @@
+<a name="v0.63.2"></a>
+## [v0.63.2] - 2021-09-23
+### Bug Fixes
+- release test
+
+<a name="v0.63.1"></a>
+## [v0.63.1] - 2021-09-23
+### Bug Fixes
+- add additional output to verify release tag info
+- update to correct current version in version.go
+- use all branches for tag-mode  to get current and next tag with svu
+- release test
+- release test
+- release test
+- release
+- **servicelevel:** Update code gen strategy
+- **servicelevel:** avoid import cycle
+- **servicelevel:** Initalize service level API with config
+
+### Features
+- **servicelevel:** update code gen strategy
+- **servicelevel:** generate servicelevel API
+
+### Refactor
+- move EntityGUID to a common package
+
 <a name="v0.62.1"></a>
-## [v0.62.1] - 2021-08-03
+## [v0.62.1] - 2021-08-04
 ### Bug Fixes
 - update error handling to reflect schema changes
 
@@ -447,16 +473,6 @@
 
 ### Features
 - **graphql:** capture validation error output from response
-
-<a name="v0.33.2"></a>
-## [v0.33.2] - 2020-07-27
-### Bug Fixes
-- **alerts:** infra condition threshold value should be pointer to support zero-value thresholds
-
-<a name="v0.33.1"></a>
-## [v0.33.1] - 2020-07-24
-### Bug Fixes
-- **alerts:** always send infra condition description even if its an empty string
 
 <a name="v0.33.0"></a>
 ## [v0.33.0] - 2020-07-23
@@ -1118,7 +1134,9 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.62.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.63.2...HEAD
+[v0.63.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.63.1...v0.63.2
+[v0.63.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.62.1...v0.63.1
 [v0.62.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.62.0...v0.62.1
 [v0.62.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.61.4...v0.62.0
 [v0.61.4]: https://github.com/newrelic/newrelic-client-go/compare/v0.61.3...v0.61.4
@@ -1184,9 +1202,7 @@
 [v0.36.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.35.1...v0.36.0
 [v0.35.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.35.0...v0.35.1
 [v0.35.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.34.0...v0.35.0
-[v0.34.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.33.2...v0.34.0
-[v0.33.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.33.1...v0.33.2
-[v0.33.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.33.0...v0.33.1
+[v0.34.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.33.0...v0.34.0
 [v0.33.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.32.1...v0.33.0
 [v0.32.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.32.0...v0.32.1
 [v0.32.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.31.3...v0.32.0
