@@ -39,6 +39,7 @@ if [ -z "${GIT_USER}" ]; then
   echo "git user.name not set"
   exit 1
 fi
+
 if [ -z "${GIT_EMAIL}" ]; then
   echo "git user.email not set"
   exit 1
