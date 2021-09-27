@@ -27,12 +27,12 @@ jobs:
       - name: Set up git user
         run: |
           git config --global user.name nr-developer-toolkit
-          git config --global user.email nr-developer-toolkit@users.noreply.github.com
+          git config --global user.email 62031461+nr-developer-toolkit@users.noreply.github.com
 
       - name: Publish Release
         shell: bash
         env:
-          GITHUB_TOKEN:    ${{ secrets.DEV_TOOLKIT_TOKEN }}
+          GITHUB_TOKEN:    ${{ secrets.RELEASE_TOKEN }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: make release
