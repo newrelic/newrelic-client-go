@@ -66,7 +66,7 @@ fi
 
 # Tag and push
 git tag v${VER_NEXT}
-git push --no-verify origin HEAD:${DEFAULT_BRANCH} --tags
+git push --no-verify origin ${CURRENT_GIT_BRANCH}:${DEFAULT_BRANCH} --tags
 
 if [ $? -ne 0 ]; then
   echo "Failed to push tag, exiting"
