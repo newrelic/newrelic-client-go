@@ -3,6 +3,8 @@ on:
   push:
     branches: [main]
 
+permissions: write-all
+
 jobs:
   release:
     runs-on: ubuntu-latest
