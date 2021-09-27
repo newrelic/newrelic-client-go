@@ -20,21 +20,16 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v2
-
-        # Needed for release notes
-      - name: Full git history
-        run: |
-          git fetch --prune --unshallow --tags
-
-      - name: Set up git user
-        run: |
-          git config --global user.name nr-developer-toolkit
-          git config --global user.email 62031461+nr-developer-toolkit@users.noreply.github.com
+        with:
+          fetch-depth: 0
 
       - name: Publish Release
-        shell: bash
+        uses: actions/checkout@v2
         env:
           GITHUB_TOKEN:    ${{ secrets.RELEASE_TOKEN }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        run: make release
+        run: |
+          git config --global user.name nr-developer-toolkit
+          git config --global user.email 62031461+nr-developer-toolkit@users.noreply.github.com
+          make release
