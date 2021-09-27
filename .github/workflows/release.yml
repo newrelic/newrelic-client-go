@@ -22,12 +22,12 @@ jobs:
         # Needed for release notes
       - name: Full git history
         run: |
-          git fetch --prune --unshallow
+          git fetch --prune --unshallow --tags
 
       - name: Set up git user
         run: |
-          git config --global user.name sblue
-          git config --global user.email sblue@newrelic.com
+          git config --global user.name nr-developer-toolkit
+          git config --global user.email nr-developer-toolkit@users.noreply.github.com
 
       - name: Publish Release
         shell: bash

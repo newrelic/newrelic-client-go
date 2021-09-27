@@ -12,20 +12,20 @@ CHANGELOG_CMD=${GOBIN}/git-chglog
 REL_CMD=${GOBIN}/goreleaser
 RELEASE_NOTES_FILE=${SRCDIR}/tmp/relnotes.md
 
+if [ $CURRENT_GIT_BRANCH != ${DEFAULT_BRANCH} ]; then
+  echo "Not on ${DEFAULT_BRANCH}, skipping"
+  exit 0
+fi
+
 # Compare versions
-VER_CURR=$(${VER_CMD} current --strip-prefix --tag-mode all-branches)
-VER_NEXT=$(${VER_CMD} next --strip-prefix --tag-mode all-branches)
+VER_CURR=$(${VER_CMD} current --strip-prefix)
+VER_NEXT=$(${VER_CMD} next --strip-prefix)
 
 echo " "
 echo "Comparing tag versions..."
 echo "Current version: ${VER_CURR}"
 echo "Next version:    ${VER_NEXT}"
 echo " "
-
-if [ $CURRENT_GIT_BRANCH != ${DEFAULT_BRANCH} ]; then
-  echo "Not on ${DEFAULT_BRANCH}, skipping"
-  exit 0
-fi
 
 if [ "${VER_CURR}" = "${VER_NEXT}" ]; then
   echo "No new version recommended, skipping"
@@ -47,27 +47,23 @@ fi
 
 echo "Generating release for v${VER_NEXT} with git user ${GIT_USER}"
 
-# Update version in version.go file manually
-echo -e "package version\n\n// Version of this library\nconst Version string = \"${VER_NEXT}\"" > internal/version/version.go
-
-echo "version.go updated using echo"
-cat internal/version/version.go
-
 # Update package version in version.go file using svu
 ${VER_BUMP} set ${VER_NEXT} -r -w ${VER_PACKAGE}
-
-echo "version.go updated by svu"
-cat internal/version/version.go
 
 # Auto-generate CHANGELOG updates
 ${CHANGELOG_CMD} --next-tag v${VER_NEXT} -o CHANGELOG.md
 
 # Commit CHANGELOG updates
-git add CHANGELOG.md internal/version/version.go
+git add CHANGELOG.md ${VER_PACKAGE}
 
 git commit --no-verify -m "chore(release): release v${VER_NEXT}"
 git tag v${VER_NEXT}
 git push --no-verify origin HEAD:${DEFAULT_BRANCH} --tags
+
+if [ $? -ne 0 ]; then
+  echo "Failed push, exiting"
+  exit 1
+fi
 
 # Make release notes
 ${CHANGELOG_CMD} --silent -o ${RELEASE_NOTES_FILE} v${VER_NEXT}
