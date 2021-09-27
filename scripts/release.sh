@@ -57,11 +57,19 @@ ${CHANGELOG_CMD} --next-tag v${VER_NEXT} -o CHANGELOG.md
 git add CHANGELOG.md ${VER_PACKAGE}
 
 git commit --no-verify -m "chore(release): release v${VER_NEXT}"
+git push --no-verify origin HEAD:${DEFAULT_BRANCH}
+
+if [ $? -ne 0 ]; then
+  echo "Failed to push branch updates, exiting"
+  exit 1
+fi
+
+# Tag and push
 git tag v${VER_NEXT}
 git push --no-verify origin HEAD:${DEFAULT_BRANCH} --tags
 
 if [ $? -ne 0 ]; then
-  echo "Failed push, exiting"
+  echo "Failed to push tag, exiting"
   exit 1
 fi
 
