@@ -1,3 +1,9 @@
+<a name="v0.64.1"></a>
+## [v0.64.1] - 2021-09-28
+### Bug Fixes
+- add spell check for auto-generated CHANGELOG.md
+- let goreleaser generate the release notes. git-chglog for CHANGELOG
+
 <a name="v0.64.0"></a>
 ## [v0.64.0] - 2021-09-28
 ### Features
@@ -40,7 +46,7 @@
 ## [v0.63.0] - 2021-09-21
 ### Bug Fixes
 - **servicelevel:** avoid import cycle
-- **servicelevel:** Initalize service level API with config
+- **servicelevel:** Initialize service level API with config
 
 ### Features
 - **servicelevel:** update code gen strategy
@@ -1169,7 +1175,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.64.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.64.1...HEAD
+[v0.64.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.64.0...v0.64.1
 [v0.64.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.63.5...v0.64.0
 [v0.63.5]: https://github.com/newrelic/newrelic-client-go/compare/v0.63.4...v0.63.5
 [v0.63.4]: https://github.com/newrelic/newrelic-client-go/compare/v0.63.3...v0.63.4
