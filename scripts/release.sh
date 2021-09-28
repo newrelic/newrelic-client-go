@@ -9,8 +9,10 @@ VER_PACKAGE="internal/version"
 VER_CMD=${GOBIN}/svu
 VER_BUMP=${GOBIN}/gobump
 CHANGELOG_CMD=${GOBIN}/git-chglog
+CHANGELOG_FILE=CHANGELOG.md
 REL_CMD=${GOBIN}/goreleaser
 RELEASE_NOTES_FILE=${SRCDIR}/tmp/relnotes.md
+SPELL_CMD=${GOBIN}/misspell
 
 if [ $CURRENT_GIT_BRANCH != ${DEFAULT_BRANCH} ]; then
   echo "Not on ${DEFAULT_BRANCH}, skipping"
@@ -51,7 +53,8 @@ echo "Generating release for v${VER_NEXT} with git user ${GIT_USER}"
 ${VER_BUMP} set ${VER_NEXT} -r -w ${VER_PACKAGE}
 
 # Auto-generate CHANGELOG updates
-${CHANGELOG_CMD} --next-tag v${VER_NEXT} -o CHANGELOG.md
+${CHANGELOG_CMD} --next-tag v${VER_NEXT} -o ${CHANGELOG_FILE}
+${SPELL_CMD}  -source text -w ${CHANGELOG_FILE}
 
 # Commit CHANGELOG updates
 git add CHANGELOG.md ${VER_PACKAGE}
@@ -66,7 +69,7 @@ fi
 
 # Tag and push
 git tag v${VER_NEXT}
-git push --no-verify origin ${CURRENT_GIT_BRANCH}:${DEFAULT_BRANCH} --tags
+git push --no-verify origin HEAD:${DEFAULT_BRANCH} --tags
 
 if [ $? -ne 0 ]; then
   echo "Failed to push tag, exiting"
@@ -75,4 +78,3 @@ fi
 
 # Publish the release
 ${REL_CMD} release
-
