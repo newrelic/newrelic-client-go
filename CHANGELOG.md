@@ -1,3 +1,8 @@
+<a name="v0.64.0"></a>
+## [v0.64.0] - 2021-09-28
+### Features
+- **install:** add DETECTED status via code gen
+
 <a name="v0.63.5"></a>
 ## [v0.63.5] - 2021-09-27
 ### Bug Fixes
@@ -1164,7 +1169,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.63.5...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.64.0...HEAD
+[v0.64.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.63.5...v0.64.0
 [v0.63.5]: https://github.com/newrelic/newrelic-client-go/compare/v0.63.4...v0.63.5
 [v0.63.4]: https://github.com/newrelic/newrelic-client-go/compare/v0.63.3...v0.63.4
 [v0.63.3]: https://github.com/newrelic/newrelic-client-go/compare/v0.63.2...v0.63.3
