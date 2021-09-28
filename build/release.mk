@@ -27,18 +27,18 @@ release-clean:
 	@echo "=== $(PROJECT_NAME) === [ release-clean    ]: distribution files..."
 	@rm -rfv $(DIST_DIR) $(SRCDIR)/tmp
 
-release-build: clean tools release-notes
+release-build: clean tools
 	@echo "=== $(PROJECT_NAME) === [ release-build    ]: Building release..."
 	$(REL_CMD) build
 
-release-package: clean tools release-notes
+release-package: clean tools
 	@echo "=== $(PROJECT_NAME) === [ release-publish  ]: Packaging release..."
-	$(REL_CMD) release --skip-publish --release-notes=$(SRCDIR)/tmp/$(RELEASE_NOTES_FILE)
+	$(REL_CMD) release --skip-publish
 
 # Local Snapshot
-snapshot: clean tools release-notes
+snapshot: clean tools
 	@echo "=== $(PROJECT_NAME) === [ snapshot         ]: Creating release snapshot..."
 	@echo "=== $(PROJECT_NAME) === [ snapshot         ]:   THIS WILL NOT BE PUBLISHED!"
-	@$(REL_CMD) --skip-publish --snapshot --release-notes=$(SRCDIR)/tmp/$(RELEASE_NOTES_FILE)
+	@$(REL_CMD) --skip-publish --snapshot
 
 .PHONY: release release-clean release-publish snapshot

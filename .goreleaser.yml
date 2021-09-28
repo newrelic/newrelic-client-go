@@ -11,10 +11,6 @@ build:
   skip: true
 
 release:
-  # Mark as a pre-release for now
   prerelease: false
   name_template: "{{.ProjectName}} v{{.Version}}"
 
-# Already using git-chglog
-changelog:
-  skip: true

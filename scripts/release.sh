@@ -73,8 +73,6 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-# Make release notes
-${CHANGELOG_CMD} --silent -o ${RELEASE_NOTES_FILE} v${VER_NEXT}
-
 # Publish the release
-${REL_CMD} release --release-notes=${RELEASE_NOTES_FILE}
+${REL_CMD} release
+
