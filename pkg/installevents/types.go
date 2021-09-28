@@ -29,6 +29,8 @@ var InstallationRecipeStatusTypeTypes = struct {
 	AVAILABLE InstallationRecipeStatusType
 	// Defines a canceled recipe when attempting to install.
 	CANCELED InstallationRecipeStatusType
+	// Defines when New Relic instrumentation compatibility is detected.
+	DETECTED InstallationRecipeStatusType
 	// Defines a recipe that has failed during installation.
 	FAILED InstallationRecipeStatusType
 	// Defines a recipe that has been installed.
@@ -46,6 +48,8 @@ var InstallationRecipeStatusTypeTypes = struct {
 	AVAILABLE: "AVAILABLE",
 	// Defines a canceled recipe when attempting to install.
 	CANCELED: "CANCELED",
+	// Defines when New Relic instrumentation compatibility is detected.
+	DETECTED: "DETECTED",
 	// Defines a recipe that has failed during installation.
 	FAILED: "FAILED",
 	// Defines a recipe that has been installed.
