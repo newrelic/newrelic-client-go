@@ -1,3 +1,4 @@
+//go:build integration
 // +build integration
 
 // Requires NEW_RELIC_LICENSE_KEY envvar (APM License Key)

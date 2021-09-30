@@ -99,6 +99,7 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 		Nrdb:            nrdb.New(cfg),
 		Nrqldroprules:   nrqldroprules.New(cfg),
 		Plugins:         plugins.New(cfg),
+		ServiceLevel:    servicelevel.New(cfg),
 		Synthetics:      synthetics.New(cfg),
 		Workloads:       workloads.New(cfg),
 	}

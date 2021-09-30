@@ -2,6 +2,7 @@
 package dashboards
 
 import (
+	"github.com/newrelic/newrelic-client-go/pkg/common"
 	"github.com/newrelic/newrelic-client-go/pkg/entities"
 	"github.com/newrelic/newrelic-client-go/pkg/nrdb"
 	"github.com/newrelic/newrelic-client-go/pkg/nrtime"
@@ -166,7 +167,7 @@ type DashboardEntityResult struct {
 	// Dashboard description.
 	Description string `json:"description,omitempty"`
 	// Unique entity identifier.
-	GUID entities.EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// Dashboard name.
 	Name string `json:"name,omitempty"`
 	// Dashboard owner
@@ -208,7 +209,7 @@ type DashboardPageInput struct {
 	// Page description.
 	Description string `json:"description,omitempty"`
 	// Unique entity identifier of the Page to be updated. When null, it means a new Page will be created.
-	GUID entities.EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// Page name.
 	Name string `json:"name"`
 	// Page widgets.
@@ -292,7 +293,7 @@ type DashboardUpdateWidgetInput struct {
 	// layout
 	Layout DashboardWidgetLayoutInput `json:"layout,omitempty"`
 	// Related entities. Currently only supports Dashboard entities, but may allow other cases in the future.
-	LinkedEntityGUIDs []entities.EntityGUID `json:"linkedEntityGuids"`
+	LinkedEntityGUIDs []common.EntityGUID `json:"linkedEntityGuids"`
 	// Untyped scalar of configuration for the widget
 	RawConfiguration entities.DashboardWidgetRawConfiguration `json:"rawConfiguration,omitempty"`
 	// title
@@ -342,7 +343,7 @@ type DashboardWidgetInput struct {
 	// layout
 	Layout DashboardWidgetLayoutInput `json:"layout,omitempty"`
 	// Related entities. Currently only supports Dashboard entities, but may allow other cases in the future.
-	LinkedEntityGUIDs []entities.EntityGUID `json:"linkedEntityGuids"`
+	LinkedEntityGUIDs []common.EntityGUID `json:"linkedEntityGuids"`
 	// Untyped scalar of configuration for the widget
 	RawConfiguration entities.DashboardWidgetRawConfiguration `json:"rawConfiguration,omitempty"`
 	// title

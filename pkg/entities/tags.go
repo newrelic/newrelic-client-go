@@ -4,6 +4,8 @@ import (
 	"context"
 	"errors"
 	"strings"
+
+	"github.com/newrelic/newrelic-client-go/pkg/common"
 )
 
 // Tag represents a New Relic One entity tag.
@@ -24,13 +26,13 @@ type TagValue struct {
 
 // GetTagsForEntity returns a collection of all tags (mutable and not) for a given
 // entity by entity GUID.
-func (e *Entities) GetTagsForEntity(guid EntityGUID) ([]*EntityTag, error) {
+func (e *Entities) GetTagsForEntity(guid common.EntityGUID) ([]*EntityTag, error) {
 	return e.GetTagsForEntityWithContext(context.Background(), guid)
 }
 
 // GetTagsForEntityWithContext returns a collection of all tags (mutable and not) for a given
 // entity by entity GUID.
-func (e *Entities) GetTagsForEntityWithContext(ctx context.Context, guid EntityGUID) ([]*EntityTag, error) {
+func (e *Entities) GetTagsForEntityWithContext(ctx context.Context, guid common.EntityGUID) ([]*EntityTag, error) {
 	resp := getTagsResponse{}
 	vars := map[string]interface{}{
 		"guid": guid,
@@ -46,14 +48,14 @@ func (e *Entities) GetTagsForEntityWithContext(ctx context.Context, guid EntityG
 // ListTags returns a collection of mutable tags for a given entity by entity GUID.
 //
 // Deprecated: Use GetTagsForEntity instead.
-func (e *Entities) ListTags(guid EntityGUID) ([]*Tag, error) {
+func (e *Entities) ListTags(guid common.EntityGUID) ([]*Tag, error) {
 	return e.ListTagsWithContext(context.Background(), guid)
 }
 
 // ListTagsWithContext returns a collection of mutable tags for a given entity by entity GUID.
 //
 // Deprecated: Use GetTagsForEntityWithContext instead.
-func (e *Entities) ListTagsWithContext(ctx context.Context, guid EntityGUID) ([]*Tag, error) {
+func (e *Entities) ListTagsWithContext(ctx context.Context, guid common.EntityGUID) ([]*Tag, error) {
 	resp := listTagsResponse{}
 	vars := map[string]interface{}{
 		"guid": guid,
@@ -70,7 +72,7 @@ func (e *Entities) ListTagsWithContext(ctx context.Context, guid EntityGUID) ([]
 // entity by entity GUID.
 //
 // Deprecated: Use GetTagsForEntity instead.
-func (e *Entities) ListAllTags(guid EntityGUID) ([]*Tag, error) {
+func (e *Entities) ListAllTags(guid common.EntityGUID) ([]*Tag, error) {
 	return e.ListAllTagsWithContext(context.Background(), guid)
 }
 
@@ -78,7 +80,7 @@ func (e *Entities) ListAllTags(guid EntityGUID) ([]*Tag, error) {
 // entity by entity GUID.
 //
 // Deprecated: Use GetTagsForEntityWithContext instead.
-func (e *Entities) ListAllTagsWithContext(ctx context.Context, guid EntityGUID) ([]*Tag, error) {
+func (e *Entities) ListAllTagsWithContext(ctx context.Context, guid common.EntityGUID) ([]*Tag, error) {
 	resp := listTagsResponse{}
 	vars := map[string]interface{}{
 		"guid": guid,
@@ -123,14 +125,14 @@ func filterMutable(resp listTagsResponse) ([]*Tag, error) {
 // AddTags writes tags to the entity specified by the provided entity GUID.
 //
 // Deprecated: Use TaggingAddTagsToEntity instead.
-func (e *Entities) AddTags(guid EntityGUID, tags []Tag) error {
+func (e *Entities) AddTags(guid common.EntityGUID, tags []Tag) error {
 	return e.AddTagsWithContext(context.Background(), guid, tags)
 }
 
 // AddTagsWithContext writes tags to the entity specified by the provided entity GUID.
 //
 // Deprecated: Use TaggingAddTagsToEntityWithContext instead.
-func (e *Entities) AddTagsWithContext(ctx context.Context, guid EntityGUID, tags []Tag) error {
+func (e *Entities) AddTagsWithContext(ctx context.Context, guid common.EntityGUID, tags []Tag) error {
 	resp := addTagsResponse{}
 	vars := map[string]interface{}{
 		"guid": guid,
@@ -151,14 +153,14 @@ func (e *Entities) AddTagsWithContext(ctx context.Context, guid EntityGUID, tags
 // ReplaceTags replaces the entity's entire set of tags with the provided tag set.
 //
 // Deprecated: Use TaggingReplaceTagsOnEntity instead.
-func (e *Entities) ReplaceTags(guid EntityGUID, tags []Tag) error {
+func (e *Entities) ReplaceTags(guid common.EntityGUID, tags []Tag) error {
 	return e.ReplaceTagsWithContext(context.Background(), guid, tags)
 }
 
 // ReplaceTagsWithContext replaces the entity's entire set of tags with the provided tag set.
 //
 // Deprecated: Use TaggingReplaceTagsOnEntityWithContext instead.
-func (e *Entities) ReplaceTagsWithContext(ctx context.Context, guid EntityGUID, tags []Tag) error {
+func (e *Entities) ReplaceTagsWithContext(ctx context.Context, guid common.EntityGUID, tags []Tag) error {
 	resp := replaceTagsResponse{}
 	vars := map[string]interface{}{
 		"guid": guid,
@@ -179,14 +181,14 @@ func (e *Entities) ReplaceTagsWithContext(ctx context.Context, guid EntityGUID, 
 // DeleteTags deletes specific tag keys from the entity.
 //
 // Deprecated: Use TaggingDeleteTagFromEntity instead.
-func (e *Entities) DeleteTags(guid EntityGUID, tagKeys []string) error {
+func (e *Entities) DeleteTags(guid common.EntityGUID, tagKeys []string) error {
 	return e.DeleteTagsWithContext(context.Background(), guid, tagKeys)
 }
 
 // DeleteTagsWithContext deletes specific tag keys from the entity.
 //
 // Deprecated: Use TaggingDeleteTagFromEntityWithContext instead.
-func (e *Entities) DeleteTagsWithContext(ctx context.Context, guid EntityGUID, tagKeys []string) error {
+func (e *Entities) DeleteTagsWithContext(ctx context.Context, guid common.EntityGUID, tagKeys []string) error {
 	resp := deleteTagsResponse{}
 	vars := map[string]interface{}{
 		"guid":    guid,
@@ -207,14 +209,14 @@ func (e *Entities) DeleteTagsWithContext(ctx context.Context, guid EntityGUID, t
 // DeleteTagValues deletes specific tag key and value pairs from the entity.
 //
 // Deprecated: Use TaggingDeleteTagValuesFromEntity instead.
-func (e *Entities) DeleteTagValues(guid EntityGUID, tagValues []TagValue) error {
+func (e *Entities) DeleteTagValues(guid common.EntityGUID, tagValues []TagValue) error {
 	return e.DeleteTagValuesWithContext(context.Background(), guid, tagValues)
 }
 
 // DeleteTagValuesWithContext deletes specific tag key and value pairs from the entity.
 //
 // Deprecated: Use TaggingDeleteTagValuesFromEntityWithContext instead.
-func (e *Entities) DeleteTagValuesWithContext(ctx context.Context, guid EntityGUID, tagValues []TagValue) error {
+func (e *Entities) DeleteTagValuesWithContext(ctx context.Context, guid common.EntityGUID, tagValues []TagValue) error {
 	resp := deleteTagValuesResponse{}
 	vars := map[string]interface{}{
 		"guid":      guid,

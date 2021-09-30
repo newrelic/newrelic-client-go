@@ -2,7 +2,7 @@
 package installevents
 
 import (
-	"github.com/newrelic/newrelic-client-go/pkg/entities"
+	"github.com/newrelic/newrelic-client-go/pkg/common"
 	"github.com/newrelic/newrelic-client-go/pkg/nrtime"
 )
 
@@ -29,6 +29,8 @@ var InstallationRecipeStatusTypeTypes = struct {
 	AVAILABLE InstallationRecipeStatusType
 	// Defines a canceled recipe when attempting to install.
 	CANCELED InstallationRecipeStatusType
+	// Defines when New Relic instrumentation compatibility is detected.
+	DETECTED InstallationRecipeStatusType
 	// Defines a recipe that has failed during installation.
 	FAILED InstallationRecipeStatusType
 	// Defines a recipe that has been installed.
@@ -46,6 +48,8 @@ var InstallationRecipeStatusTypeTypes = struct {
 	AVAILABLE: "AVAILABLE",
 	// Defines a canceled recipe when attempting to install.
 	CANCELED: "CANCELED",
+	// Defines when New Relic instrumentation compatibility is detected.
+	DETECTED: "DETECTED",
 	// Defines a recipe that has failed during installation.
 	FAILED: "FAILED",
 	// Defines a recipe that has been installed.
@@ -145,7 +149,7 @@ type InstallationRecipeEvent struct {
 	// The display name for a given recipe.
 	DisplayName string `json:"displayName"`
 	// The entity Guid for a given recipe.
-	EntityGUID entities.EntityGUID `json:"entityGuid"`
+	EntityGUID common.EntityGUID `json:"entityGuid"`
 	// The error returned for a given recipe.
 	Error InstallationStatusError `json:"error"`
 	// The host name of the customer's machine.
@@ -193,7 +197,7 @@ type InstallationRecipeStatus struct {
 	// The display name for a given recipe.
 	DisplayName string `json:"displayName"`
 	// The entity Guid for a given recipe.
-	EntityGUID entities.EntityGUID `json:"entityGuid"`
+	EntityGUID common.EntityGUID `json:"entityGuid"`
 	// The error returned for a given recipe.
 	Error InstallationStatusErrorInput `json:"error,omitempty"`
 	// The host name of the customer's machine.
