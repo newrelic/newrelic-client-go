@@ -1,3 +1,8 @@
+<a name="v0.65.0"></a>
+## [v0.65.0] - 2021-10-05
+### Features
+- **alerts:** streaming triggers for nrql alerts
+
 <a name="v0.64.1"></a>
 ## [v0.64.1] - 2021-09-28
 ### Bug Fixes
@@ -1175,7 +1180,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.64.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.65.0...HEAD
+[v0.65.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.64.1...v0.65.0
 [v0.64.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.64.0...v0.64.1
 [v0.64.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.63.5...v0.64.0
 [v0.63.5]: https://github.com/newrelic/newrelic-client-go/compare/v0.63.4...v0.63.5
