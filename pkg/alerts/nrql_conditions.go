@@ -21,10 +21,62 @@ type AlertsNrqlConditionExpiration struct {
 // AlertsNrqlConditionSignal - Configuration that defines the signal that the NRQL condition will use to evaluate.
 // nolint:revive
 type AlertsNrqlConditionSignal struct {
-	AggregationWindow *int              `json:"aggregationWindow,omitempty"`
-	EvaluationOffset  *int              `json:"evaluationOffset,omitempty"`
-	FillOption        *AlertsFillOption `json:"fillOption"`
-	FillValue         *float64          `json:"fillValue"`
+	AggregationWindow *int                            `json:"aggregationWindow,omitempty"`
+	EvaluationOffset  *int                            `json:"evaluationOffset,omitempty"`
+	FillOption        *AlertsFillOption               `json:"fillOption"`
+	FillValue         *float64                        `json:"fillValue"`
+	AggregationMethod *NrqlConditionAggregationMethod `json:"aggregationMethod,omitempty"`
+	AggregationDelay  *int                            `json:"aggregationDelay,omitempty"`
+	AggregationTimer  *int                            `json:"aggregationTimer,omitempty"`
+}
+
+// AlertsNrqlConditionCreateSignal - Configuration that defines the signal that the NRQL condition will use to evaluate for Create.
+// nolint:revive
+type AlertsNrqlConditionCreateSignal struct {
+	AggregationWindow *int                            `json:"aggregationWindow,omitempty"`
+	EvaluationOffset  *int                            `json:"evaluationOffset,omitempty"`
+	FillOption        *AlertsFillOption               `json:"fillOption"`
+	FillValue         *float64                        `json:"fillValue"`
+	AggregationMethod *NrqlConditionAggregationMethod `json:"aggregationMethod,omitempty"`
+	AggregationDelay  *int                            `json:"aggregationDelay,omitempty"`
+	AggregationTimer  *int                            `json:"aggregationTimer,omitempty"`
+}
+
+// AlertsNrqlConditionUpdateSignal - Configuration that defines the signal that the NRQL condition will use to evaluate for Update.
+// nolint:revive
+type AlertsNrqlConditionUpdateSignal struct {
+	AggregationWindow *int                            `json:"aggregationWindow,omitempty"`
+	EvaluationOffset  *int                            `json:"evaluationOffset,omitempty"`
+	FillOption        *AlertsFillOption               `json:"fillOption"`
+	FillValue         *float64                        `json:"fillValue"`
+	AggregationMethod *NrqlConditionAggregationMethod `json:"aggregationMethod"`
+	AggregationDelay  *int                            `json:"aggregationDelay"`
+	AggregationTimer  *int                            `json:"aggregationTimer"`
+}
+
+// NrqlConditionAggregationMethod - The available aggregation methods.
+type NrqlConditionAggregationMethod string
+
+var NrqlConditionAggregationMethodTypes = struct {
+	// Streams data points as the clocks at New Relic advance past the end of their window. This ensures a rigorous evaluation cadence,
+	// but does not take into account extraneous data latency.
+	Cadence NrqlConditionAggregationMethod
+	// Streams data points for evaluation as data for newer time windows arrive. Whenever data is received,
+	// any data points older than the specified delay will be evaluated.
+	EventFlow NrqlConditionAggregationMethod
+	// Streams data points after the specified timer elapses since data last arrived for that window. Special measures are
+	// taken to make sure data points flow in order.
+	EventTimer NrqlConditionAggregationMethod
+}{
+	// Streams data points as the clocks at New Relic advance past the end of their window. This ensures a rigorous evaluation cadence,
+	// but does not take into account extraneous data latency.
+	Cadence: "CADENCE",
+	// Streams data points for evaluation as data for newer time windows arrive. Whenever data is received,
+	// any data points older than the specified delay will be evaluated.
+	EventFlow: "EVENT_FLOW",
+	// Streams data points after the specified timer elapses since data last arrived for that window. Special measures are
+	// taken to make sure data points flow in order.
+	EventTimer: "EVENT_TIMER",
 }
 
 // AlertsFillOption - The available fill options.
@@ -172,11 +224,22 @@ type NrqlConditionTerm struct {
 // NrqlConditionQuery represents the NRQL query object returned in a NerdGraph response object.
 type NrqlConditionQuery struct {
 	Query            string `json:"query,omitempty"`
-	EvaluationOffset int    `json:"evaluationOffset,omitempty"`
+	EvaluationOffset *int   `json:"evaluationOffset,omitempty"`
 }
 
-// NrqlConditionBase represents the base fields for a New Relic NRQL Alert condition. These fields
-// shared between the NrqlConditionMutationInput struct and NrqlConditionMutationResponse struct.
+// NrqlConditionCreateQuery represents the NRQL query object for create.
+type NrqlConditionCreateQuery struct {
+	Query            string `json:"query,omitempty"`
+	EvaluationOffset *int   `json:"evaluationOffset,omitempty"`
+}
+
+// NrqlConditionUpdateQuery represents the NRQL query object for update.
+type NrqlConditionUpdateQuery struct {
+	Query            string `json:"query"`
+	EvaluationOffset *int   `json:"evaluationOffset"`
+}
+
+// NrqlConditionBase represents the base fields for a New Relic NRQL Alert condition.
 type NrqlConditionBase struct {
 	Description               string                          `json:"description,omitempty"`
 	Enabled                   bool                            `json:"enabled"`
@@ -191,9 +254,56 @@ type NrqlConditionBase struct {
 	Signal                    *AlertsNrqlConditionSignal      `json:"signal,omitempty"`
 }
 
-// NrqlConditionInput represents the input options for creating or updating a Nrql Condition.
-type NrqlConditionInput struct {
-	NrqlConditionBase
+// NrqlConditionCreateBase represents the base fields for creating a New Relic NRQL Alert condition.
+type NrqlConditionCreateBase struct {
+	Description               string                           `json:"description,omitempty"`
+	Enabled                   bool                             `json:"enabled"`
+	Name                      string                           `json:"name,omitempty"`
+	Nrql                      NrqlConditionCreateQuery         `json:"nrql,omitempty"`
+	RunbookURL                string                           `json:"runbookUrl,omitempty"`
+	Terms                     []NrqlConditionTerm              `json:"terms,omitempty"`
+	Type                      NrqlConditionType                `json:"type,omitempty"`
+	ViolationTimeLimit        NrqlConditionViolationTimeLimit  `json:"violationTimeLimit,omitempty"`
+	ViolationTimeLimitSeconds int                              `json:"violationTimeLimitSeconds,omitempty"`
+	Expiration                *AlertsNrqlConditionExpiration   `json:"expiration,omitempty"`
+	Signal                    *AlertsNrqlConditionCreateSignal `json:"signal,omitempty"`
+}
+
+// NrqlConditionUpdateBase represents the base fields for a updating a New Relic NRQL Alert condition.
+type NrqlConditionUpdateBase struct {
+	Description               string                           `json:"description,omitempty"`
+	Enabled                   bool                             `json:"enabled"`
+	Name                      string                           `json:"name,omitempty"`
+	Nrql                      NrqlConditionUpdateQuery         `json:"nrql"`
+	RunbookURL                string                           `json:"runbookUrl,omitempty"`
+	Terms                     []NrqlConditionTerm              `json:"terms,omitempty"`
+	Type                      NrqlConditionType                `json:"type,omitempty"`
+	ViolationTimeLimit        NrqlConditionViolationTimeLimit  `json:"violationTimeLimit,omitempty"`
+	ViolationTimeLimitSeconds int                              `json:"violationTimeLimitSeconds,omitempty"`
+	Expiration                *AlertsNrqlConditionExpiration   `json:"expiration,omitempty"`
+	Signal                    *AlertsNrqlConditionUpdateSignal `json:"signal"`
+}
+
+// NrqlConditionCreateInput represents the input options for creating a Nrql Condition.
+type NrqlConditionCreateInput struct {
+	NrqlConditionCreateBase
+
+	// BaselineDirection ONLY applies to NRQL conditions of type BASELINE.
+	BaselineDirection *NrqlBaselineDirection `json:"baselineDirection,omitempty"`
+
+	// ValueFunction ONLY applies to NRQL conditions of type STATIC.
+	ValueFunction *NrqlConditionValueFunction `json:"valueFunction,omitempty"`
+
+	// ExpectedGroups ONLY applies to NRQL conditions of type OUTLIER.
+	ExpectedGroups *int `json:"expectedGroups,omitempty"`
+
+	// OpenViolationOnGroupOverlap ONLY applies to NRQL conditions of type OUTLIER.
+	OpenViolationOnGroupOverlap *bool `json:"openViolationOnGroupOverlap,omitempty"`
+}
+
+// NrqlConditionUpdateInput represents the input options for updating a Nrql Condition.
+type NrqlConditionUpdateInput struct {
+	NrqlConditionUpdateBase
 
 	// BaselineDirection ONLY applies to NRQL conditions of type BASELINE.
 	BaselineDirection *NrqlBaselineDirection `json:"baselineDirection,omitempty"`
@@ -452,7 +562,7 @@ func (a *Alerts) SearchNrqlConditionsQueryWithContext(
 func (a *Alerts) CreateNrqlConditionBaselineMutation(
 	accountID int,
 	policyID string,
-	nrqlCondition NrqlConditionInput,
+	nrqlCondition NrqlConditionCreateInput,
 ) (*NrqlAlertCondition, error) {
 	return a.CreateNrqlConditionBaselineMutationWithContext(context.Background(), accountID, policyID, nrqlCondition)
 }
@@ -462,7 +572,7 @@ func (a *Alerts) CreateNrqlConditionBaselineMutationWithContext(
 	ctx context.Context,
 	accountID int,
 	policyID string,
-	nrqlCondition NrqlConditionInput,
+	nrqlCondition NrqlConditionCreateInput,
 ) (*NrqlAlertCondition, error) {
 	resp := nrqlConditionBaselineCreateResponse{}
 	vars := map[string]interface{}{
@@ -482,7 +592,7 @@ func (a *Alerts) CreateNrqlConditionBaselineMutationWithContext(
 func (a *Alerts) UpdateNrqlConditionBaselineMutation(
 	accountID int,
 	conditionID string,
-	nrqlCondition NrqlConditionInput,
+	nrqlCondition NrqlConditionUpdateInput,
 ) (*NrqlAlertCondition, error) {
 	return a.UpdateNrqlConditionBaselineMutationWithContext(context.Background(), accountID, conditionID, nrqlCondition)
 }
@@ -492,7 +602,7 @@ func (a *Alerts) UpdateNrqlConditionBaselineMutationWithContext(
 	ctx context.Context,
 	accountID int,
 	conditionID string,
-	nrqlCondition NrqlConditionInput,
+	nrqlCondition NrqlConditionUpdateInput,
 ) (*NrqlAlertCondition, error) {
 	resp := nrqlConditionBaselineUpdateResponse{}
 	vars := map[string]interface{}{
@@ -512,7 +622,7 @@ func (a *Alerts) UpdateNrqlConditionBaselineMutationWithContext(
 func (a *Alerts) CreateNrqlConditionStaticMutation(
 	accountID int,
 	policyID string,
-	nrqlCondition NrqlConditionInput,
+	nrqlCondition NrqlConditionCreateInput,
 ) (*NrqlAlertCondition, error) {
 	return a.CreateNrqlConditionStaticMutationWithContext(context.Background(), accountID, policyID, nrqlCondition)
 }
@@ -522,7 +632,7 @@ func (a *Alerts) CreateNrqlConditionStaticMutationWithContext(
 	ctx context.Context,
 	accountID int,
 	policyID string,
-	nrqlCondition NrqlConditionInput,
+	nrqlCondition NrqlConditionCreateInput,
 ) (*NrqlAlertCondition, error) {
 	resp := nrqlConditionStaticCreateResponse{}
 	vars := map[string]interface{}{
@@ -542,7 +652,7 @@ func (a *Alerts) CreateNrqlConditionStaticMutationWithContext(
 func (a *Alerts) UpdateNrqlConditionStaticMutation(
 	accountID int,
 	conditionID string,
-	nrqlCondition NrqlConditionInput,
+	nrqlCondition NrqlConditionUpdateInput,
 ) (*NrqlAlertCondition, error) {
 	return a.UpdateNrqlConditionStaticMutationWithContext(context.Background(), accountID, conditionID, nrqlCondition)
 }
@@ -552,7 +662,7 @@ func (a *Alerts) UpdateNrqlConditionStaticMutationWithContext(
 	ctx context.Context,
 	accountID int,
 	conditionID string,
-	nrqlCondition NrqlConditionInput,
+	nrqlCondition NrqlConditionUpdateInput,
 ) (*NrqlAlertCondition, error) {
 	resp := nrqlConditionStaticUpdateResponse{}
 	vars := map[string]interface{}{
@@ -572,7 +682,7 @@ func (a *Alerts) UpdateNrqlConditionStaticMutationWithContext(
 func (a *Alerts) CreateNrqlConditionOutlierMutation(
 	accountID int,
 	policyID string,
-	nrqlCondition NrqlConditionInput,
+	nrqlCondition NrqlConditionCreateInput,
 ) (*NrqlAlertCondition, error) {
 	return a.CreateNrqlConditionOutlierMutationWithContext(context.Background(), accountID, policyID, nrqlCondition)
 }
@@ -582,7 +692,7 @@ func (a *Alerts) CreateNrqlConditionOutlierMutationWithContext(
 	ctx context.Context,
 	accountID int,
 	policyID string,
-	nrqlCondition NrqlConditionInput,
+	nrqlCondition NrqlConditionCreateInput,
 ) (*NrqlAlertCondition, error) {
 	resp := nrqlConditionOutlierCreateResponse{}
 	vars := map[string]interface{}{
@@ -598,11 +708,11 @@ func (a *Alerts) CreateNrqlConditionOutlierMutationWithContext(
 	return &resp.AlertsNrqlConditionOutlierCreate, nil
 }
 
-// UpdateNrqlConditionOutlierMutation updates an outlier NRQL alert condition via New Relic's NerdGraph API.
+// [p--=0poleNrqlConditionOutlierMutation updates an outlier NRQL alert condition via New Relic's NerdGraph API.
 func (a *Alerts) UpdateNrqlConditionOutlierMutation(
 	accountID int,
 	conditionID string,
-	nrqlCondition NrqlConditionInput,
+	nrqlCondition NrqlConditionUpdateInput,
 ) (*NrqlAlertCondition, error) {
 	return a.UpdateNrqlConditionOutlierMutationWithContext(context.Background(), accountID, conditionID, nrqlCondition)
 }
@@ -612,7 +722,7 @@ func (a *Alerts) UpdateNrqlConditionOutlierMutationWithContext(
 	ctx context.Context,
 	accountID int,
 	conditionID string,
-	nrqlCondition NrqlConditionInput,
+	nrqlCondition NrqlConditionUpdateInput,
 ) (*NrqlAlertCondition, error) {
 	resp := nrqlConditionOutlierUpdateResponse{}
 	vars := map[string]interface{}{
@@ -769,6 +879,9 @@ const (
       evaluationOffset
       fillOption
       fillValue
+      aggregationMethod
+      aggregationDelay
+      aggregationTimer
     }
   `
 
