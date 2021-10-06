@@ -30,6 +30,12 @@ func (e *Entities) GetTagsForEntity(guid common.EntityGUID) ([]*EntityTag, error
 	return e.GetTagsForEntityWithContext(context.Background(), guid)
 }
 
+// GetTagsForEntityMutable returns a collection of all tags (mutable only) for a given
+// entity by entity GUID.
+func (e *Entities) GetTagsForEntityMutable(guid common.EntityGUID) ([]*EntityTag, error) {
+	return e.GetTagsForEntityWithContextMutable(context.Background(), guid)
+}
+
 // GetTagsForEntityWithContext returns a collection of all tags (mutable and not) for a given
 // entity by entity GUID.
 func (e *Entities) GetTagsForEntityWithContext(ctx context.Context, guid common.EntityGUID) ([]*EntityTag, error) {
@@ -43,6 +49,50 @@ func (e *Entities) GetTagsForEntityWithContext(ctx context.Context, guid common.
 	}
 
 	return resp.Actor.Entity.Tags, nil
+}
+
+// GetTagsForEntityWithContextMutable returns a collection of all tags (mutable only) for a given
+// entity by entity GUID.
+func (e *Entities) GetTagsForEntityWithContextMutable(ctx context.Context, guid common.EntityGUID) ([]*EntityTag, error) {
+	resp := getTagsResponse{}
+	vars := map[string]interface{}{
+		"guid": guid,
+	}
+
+	if err := e.client.NerdGraphQueryWithContext(ctx, listTagsQuery, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return filterEntityTagMutable(resp)
+}
+
+// filterMutable removes tag values that are read-only from the received response.
+func filterEntityTagMutable(resp getTagsResponse) ([]*EntityTag, error) {
+	var tags []*EntityTag
+
+	for _, responseTag := range resp.Actor.Entity.TagsWithMetadata {
+		if responseTag != nil {
+			tag := EntityTag{
+				Key: responseTag.Key,
+			}
+
+			mutable := 0
+			for _, responseTagValue := range responseTag.Values {
+				if responseTagValue.Mutable {
+					mutable++
+					tag.Values = append(tag.Values, responseTagValue.Value)
+				}
+			}
+
+			// All values were mutable
+			if len(responseTag.Values) == mutable {
+				tags = append(tags, &tag)
+			}
+
+		}
+	}
+
+	return tags, nil
 }
 
 // ListTags returns a collection of mutable tags for a given entity by entity GUID.
