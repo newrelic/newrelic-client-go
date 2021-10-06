@@ -31,7 +31,7 @@ var (
 		Name:        fmt.Sprintf("test-nrql-condition-%s", testNrqlConditionRandomString),
 		Nrql: NrqlConditionCreateQuery{
 			Query:            "SELECT uniqueCount(host) from Transaction where appName='Dummy App'",
-			EvaluationOffset: 3,
+			EvaluationOffset: &nrqlConditionBaseEvalOffset,
 		},
 		RunbookURL: "test.com",
 		Terms: []NrqlConditionTerm{
@@ -63,7 +63,7 @@ var (
 		Name:        fmt.Sprintf("test-nrql-condition-%s", testNrqlConditionRandomString),
 		Nrql: NrqlConditionUpdateQuery{
 			Query:            "SELECT uniqueCount(host) from Transaction where appName='Dummy App'",
-			EvaluationOffset: 3,
+			EvaluationOffset: &nrqlConditionBaseEvalOffset,
 		},
 		RunbookURL: "test.com",
 		Terms: []NrqlConditionTerm{
@@ -383,7 +383,7 @@ func TestIntegrationNrqlConditions_Outlier(t *testing.T) {
 				Name:        fmt.Sprintf("test-nrql-condition-%s", randStr),
 				Nrql: NrqlConditionCreateQuery{
 					Query:            "SELECT average(duration) FROM Transaction WHERE appName='Dummy App' FACET host",
-					EvaluationOffset: 3,
+					EvaluationOffset: &nrqlConditionBaseEvalOffset,
 				},
 				RunbookURL: "http://example.com",
 				Terms: []NrqlConditionTerm{
@@ -408,7 +408,7 @@ func TestIntegrationNrqlConditions_Outlier(t *testing.T) {
 				Name:        fmt.Sprintf("test-nrql-condition-%s", randStr),
 				Nrql: NrqlConditionUpdateQuery{
 					Query:            "SELECT average(duration) FROM Transaction WHERE appName='Dummy App' FACET host",
-					EvaluationOffset: 3,
+					EvaluationOffset: &nrqlConditionBaseEvalOffset,
 				},
 				RunbookURL: "http://example.com",
 				Terms: []NrqlConditionTerm{
@@ -561,7 +561,7 @@ func TestIntegrationNrqlConditions_Search(t *testing.T) {
 				Name:        conditionName,
 				Nrql: NrqlConditionCreateQuery{
 					Query:            "SELECT uniqueCount(host) from Transaction where appName='Dummy App'",
-					EvaluationOffset: 3,
+					EvaluationOffset: &nrqlConditionBaseEvalOffset,
 				},
 				RunbookURL: "test.com",
 				Terms: []NrqlConditionTerm{
@@ -628,7 +628,7 @@ func TestIntegrationNrqlConditions_CreateStatic(t *testing.T) {
 				Name:        conditionName,
 				Nrql: NrqlConditionCreateQuery{
 					Query:            "SELECT uniqueCount(host) from Transaction where appName='Dummy App'",
-					EvaluationOffset: 3,
+					EvaluationOffset: &nrqlConditionBaseEvalOffset,
 				},
 				RunbookURL: "test.com",
 				Terms: []NrqlConditionTerm{
@@ -694,7 +694,7 @@ func TestIntegrationNrqlConditions_ZeroValueThreshold(t *testing.T) {
 				Name:        conditionName,
 				Nrql: NrqlConditionCreateQuery{
 					Query:            "SELECT uniqueCount(host) from Transaction where appName='Dummy App'",
-					EvaluationOffset: 3,
+					EvaluationOffset: &nrqlConditionBaseEvalOffset,
 				},
 				RunbookURL: "test.com",
 				Terms: []NrqlConditionTerm{
