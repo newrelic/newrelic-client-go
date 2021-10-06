@@ -18,3 +18,18 @@ func New(config config.Config) Servicelevel {
 		logger: config.GetLogger(),
 	}
 }
+
+type EntityInterface struct {
+	// The New Relic account ID associated with this entity.
+	AccountID int `json:"accountId,omitempty"`
+	// The entity's domain
+	Domain string `json:"domain,omitempty"`
+	// The name of this entity.
+	Name string `json:"name,omitempty"`
+	// The url to the entity.
+	Permalink string `json:"permalink,omitempty"`
+	// The service level defined for the entity.
+	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The entity's type
+	Type string `json:"type,omitempty"`
+}

@@ -1,3 +1,4 @@
+//go:build tools
 // +build tools
 
 package tools
@@ -19,7 +20,9 @@ import (
 	_ "golang.org/x/tools/cmd/godoc"
 
 	// build/release.mk
+	_ "github.com/caarlos0/svu"
 	_ "github.com/goreleaser/goreleaser"
+	_ "github.com/x-motemen/gobump/cmd/gobump"
 
 	// build/generate.mk
 	_ "github.com/newrelic/tutone/cmd/tutone"

@@ -1,43 +1,80 @@
 #!/bin/bash
 
-COLOR_RED='\033[0;31m'
-COLOR_NONE='\033[0m'
+DEFAULT_BRANCH='main'
 CURRENT_GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
-if [ $CURRENT_GIT_BRANCH != 'main' ]; then
-  printf "\n"
-  printf "${COLOR_RED} Error: The release.sh script must be run while on the main branch. \n ${COLOR_NONE}"
-  printf "\n"
+SRCDIR=${SRCDIR:-"."}
+GOBIN=$(go env GOPATH)/bin
+VER_PACKAGE="internal/version"
+VER_CMD=${GOBIN}/svu
+VER_BUMP=${GOBIN}/gobump
+CHANGELOG_CMD=${GOBIN}/git-chglog
+CHANGELOG_FILE=CHANGELOG.md
+REL_CMD=${GOBIN}/goreleaser
+RELEASE_NOTES_FILE=${SRCDIR}/tmp/relnotes.md
+SPELL_CMD=${GOBIN}/misspell
 
+if [ $CURRENT_GIT_BRANCH != ${DEFAULT_BRANCH} ]; then
+  echo "Not on ${DEFAULT_BRANCH}, skipping"
+  exit 0
+fi
+
+# Compare versions
+VER_CURR=$(${VER_CMD} current --strip-prefix)
+VER_NEXT=$(${VER_CMD} next --strip-prefix)
+
+echo " "
+echo "Comparing tag versions..."
+echo "Current version: ${VER_CURR}"
+echo "Next version:    ${VER_NEXT}"
+echo " "
+
+if [ "${VER_CURR}" = "${VER_NEXT}" ]; then
+  echo "No new version recommended, skipping"
+  exit 0
+fi
+
+GIT_USER=$(git config user.name)
+GIT_EMAIL=$(git config user.email)
+
+if [ -z "${GIT_USER}" ]; then
+  echo "git user.name not set"
   exit 1
 fi
 
-if [ $# -ne 1 ]; then
-  printf "\n"
-  printf "${COLOR_RED} Error: Release version argument required. \n\n ${COLOR_NONE}"
-  printf " Example: \n\n    ./tools/release.sh 0.9.0 \n\n"
-  printf "  Example (make): \n\n    make release version=0.9.0 \n"
-  printf "\n"
-
+if [ -z "${GIT_EMAIL}" ]; then
+  echo "git user.email not set"
   exit 1
 fi
 
-# Ensure there is no leading 'v'
-RELEASE_VERSION=$(echo $1 | sed -e '/^v/s/^v\(.*\)$/\1/g')
-GIT_USER=$(git config user.email)
+echo "Generating release for v${VER_NEXT} with git user ${GIT_USER}"
 
-echo "Generating release for v${RELEASE_VERSION} using system user git user ${GIT_USER}"
-
-git checkout -b release/v${RELEASE_VERSION}
+# Update package version in version.go file using svu
+${VER_BUMP} set ${VER_NEXT} -r -w ${VER_PACKAGE}
 
 # Auto-generate CHANGELOG updates
-git-chglog --next-tag v${RELEASE_VERSION} -o CHANGELOG.md
-
-# Update version in version.go file
-echo -e "package version\n\n// Version of this library\nconst Version string = \"${RELEASE_VERSION}\"" > internal/version/version.go
+${CHANGELOG_CMD} --next-tag v${VER_NEXT} -o ${CHANGELOG_FILE}
+${SPELL_CMD}  -source text -w ${CHANGELOG_FILE}
 
 # Commit CHANGELOG updates
-git add CHANGELOG.md internal/version/version.go
-git commit --no-verify -m "chore(changelog): Update CHANGELOG for v${RELEASE_VERSION}"
-git push --no-verify origin release/v${RELEASE_VERSION}
+git add CHANGELOG.md ${VER_PACKAGE}
 
+git commit --no-verify -m "chore(release): release v${VER_NEXT}"
+git push --no-verify origin HEAD:${DEFAULT_BRANCH}
+
+if [ $? -ne 0 ]; then
+  echo "Failed to push branch updates, exiting"
+  exit 1
+fi
+
+# Tag and push
+git tag v${VER_NEXT}
+git push --no-verify origin HEAD:${DEFAULT_BRANCH} --tags
+
+if [ $? -ne 0 ]; then
+  echo "Failed to push tag, exiting"
+  exit 1
+fi
+
+# Publish the release
+${REL_CMD} release

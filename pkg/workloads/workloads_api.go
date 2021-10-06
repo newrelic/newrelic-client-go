@@ -4,7 +4,7 @@ package workloads
 import (
 	"context"
 
-	"github.com/newrelic/newrelic-client-go/pkg/entities"
+	"github.com/newrelic/newrelic-client-go/pkg/common"
 )
 
 // Creates a new workload.
@@ -129,7 +129,7 @@ const WorkloadCreateMutation = `mutation(
 
 // Deletes an existing workload.
 func (a *Workloads) WorkloadDelete(
-	gUID entities.EntityGUID,
+	gUID common.EntityGUID,
 ) (*WorkloadCollection, error) {
 	return a.WorkloadDeleteWithContext(context.Background(),
 		gUID,
@@ -139,7 +139,7 @@ func (a *Workloads) WorkloadDelete(
 // Deletes an existing workload.
 func (a *Workloads) WorkloadDeleteWithContext(
 	ctx context.Context,
-	gUID entities.EntityGUID,
+	gUID common.EntityGUID,
 ) (*WorkloadCollection, error) {
 
 	resp := WorkloadDeleteQueryResponse{}
@@ -244,7 +244,7 @@ const WorkloadDeleteMutation = `mutation(
 // Duplicates an existing workload.
 func (a *Workloads) WorkloadDuplicate(
 	accountID int,
-	sourceGUID entities.EntityGUID,
+	sourceGUID common.EntityGUID,
 	workload WorkloadDuplicateInput,
 ) (*WorkloadCollection, error) {
 	return a.WorkloadDuplicateWithContext(context.Background(),
@@ -258,7 +258,7 @@ func (a *Workloads) WorkloadDuplicate(
 func (a *Workloads) WorkloadDuplicateWithContext(
 	ctx context.Context,
 	accountID int,
-	sourceGUID entities.EntityGUID,
+	sourceGUID common.EntityGUID,
 	workload WorkloadDuplicateInput,
 ) (*WorkloadCollection, error) {
 
@@ -369,7 +369,7 @@ const WorkloadDuplicateMutation = `mutation(
 
 // Updates an existing workload.
 func (a *Workloads) WorkloadUpdate(
-	gUID entities.EntityGUID,
+	gUID common.EntityGUID,
 	workload WorkloadUpdateInput,
 ) (*WorkloadCollection, error) {
 	return a.WorkloadUpdateWithContext(context.Background(),
@@ -381,7 +381,7 @@ func (a *Workloads) WorkloadUpdate(
 // Updates an existing workload.
 func (a *Workloads) WorkloadUpdateWithContext(
 	ctx context.Context,
-	gUID entities.EntityGUID,
+	gUID common.EntityGUID,
 	workload WorkloadUpdateInput,
 ) (*WorkloadCollection, error) {
 

@@ -4,12 +4,13 @@ package servicelevel
 import (
 	"context"
 
-	"github.com/newrelic/newrelic-client-go/pkg/entities"
+	"github.com/newrelic/newrelic-client-go/pkg/common"
+	"github.com/newrelic/newrelic-client-go/pkg/errors"
 )
 
 // Creates a new SLI.
 func (a *Servicelevel) ServiceLevelCreate(
-	entityGUID entities.EntityGUID,
+	entityGUID common.EntityGUID,
 	indicator ServiceLevelIndicatorCreateInput,
 ) (*ServiceLevelIndicator, error) {
 	return a.ServiceLevelCreateWithContext(context.Background(),
@@ -21,7 +22,7 @@ func (a *Servicelevel) ServiceLevelCreate(
 // Creates a new SLI.
 func (a *Servicelevel) ServiceLevelCreateWithContext(
 	ctx context.Context,
-	entityGUID entities.EntityGUID,
+	entityGUID common.EntityGUID,
 	indicator ServiceLevelIndicatorCreateInput,
 ) (*ServiceLevelIndicator, error) {
 
@@ -81,11 +82,6 @@ const ServiceLevelCreateMutation = `mutation(
 	objectives {
 		description
 		name
-		resultQueries {
-			attainment {
-				nrql
-			}
-		}
 		target
 		timeWindow {
 			rolling {
@@ -94,18 +90,6 @@ const ServiceLevelCreateMutation = `mutation(
 			}
 		}
 	}
-	resultQueries {
-		goodEvents {
-			nrql
-		}
-		indicator {
-			nrql
-		}
-		validEvents {
-			nrql
-		}
-	}
-	slug
 	updatedAt
 	updatedBy {
 		email
@@ -117,7 +101,7 @@ const ServiceLevelCreateMutation = `mutation(
 
 // Deletes an existing SLI by the ID.
 func (a *Servicelevel) ServiceLevelDelete(
-	iD int,
+	iD string,
 ) (*ServiceLevelIndicator, error) {
 	return a.ServiceLevelDeleteWithContext(context.Background(),
 		iD,
@@ -127,7 +111,7 @@ func (a *Servicelevel) ServiceLevelDelete(
 // Deletes an existing SLI by the ID.
 func (a *Servicelevel) ServiceLevelDeleteWithContext(
 	ctx context.Context,
-	iD int,
+	iD string,
 ) (*ServiceLevelIndicator, error) {
 
 	resp := ServiceLevelDeleteQueryResponse{}
@@ -183,11 +167,6 @@ const ServiceLevelDeleteMutation = `mutation(
 	objectives {
 		description
 		name
-		resultQueries {
-			attainment {
-				nrql
-			}
-		}
 		target
 		timeWindow {
 			rolling {
@@ -196,18 +175,6 @@ const ServiceLevelDeleteMutation = `mutation(
 			}
 		}
 	}
-	resultQueries {
-		goodEvents {
-			nrql
-		}
-		indicator {
-			nrql
-		}
-		validEvents {
-			nrql
-		}
-	}
-	slug
 	updatedAt
 	updatedBy {
 		email
@@ -219,7 +186,7 @@ const ServiceLevelDeleteMutation = `mutation(
 
 // Updates an existing SLI by the ID.
 func (a *Servicelevel) ServiceLevelUpdate(
-	iD int,
+	iD string,
 	indicator ServiceLevelIndicatorUpdateInput,
 ) (*ServiceLevelIndicator, error) {
 	return a.ServiceLevelUpdateWithContext(context.Background(),
@@ -231,7 +198,7 @@ func (a *Servicelevel) ServiceLevelUpdate(
 // Updates an existing SLI by the ID.
 func (a *Servicelevel) ServiceLevelUpdateWithContext(
 	ctx context.Context,
-	iD int,
+	iD string,
 	indicator ServiceLevelIndicatorUpdateInput,
 ) (*ServiceLevelIndicator, error) {
 
@@ -291,11 +258,6 @@ const ServiceLevelUpdateMutation = `mutation(
 	objectives {
 		description
 		name
-		resultQueries {
-			attainment {
-				nrql
-			}
-		}
 		target
 		timeWindow {
 			rolling {
@@ -304,15 +266,87 @@ const ServiceLevelUpdateMutation = `mutation(
 			}
 		}
 	}
-	resultQueries {
-		goodEvents {
-			nrql
+	updatedAt
+	updatedBy {
+		email
+		gravatar
+		id
+		name
+	}
+} }`
+
+// The SLIs attached to the entity.
+func (a *Servicelevel) GetIndicators(
+	entityGUID common.EntityGUID,
+) (*[]ServiceLevelIndicator, error) {
+	return a.GetIndicatorsWithContext(context.Background(),
+		entityGUID,
+	)
+}
+
+// The SLIs attached to the entity.
+func (a *Servicelevel) GetIndicatorsWithContext(
+	ctx context.Context,
+	entityGUID common.EntityGUID,
+) (*[]ServiceLevelIndicator, error) {
+
+	resp := indicatorsResponse{}
+	vars := map[string]interface{}{
+		"entityGUID": entityGUID,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, getIndicatorsQuery, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	if len(resp.Actor.Entity.ServiceLevel.Indicators) == 0 {
+		return nil, errors.NewNotFound("")
+	}
+
+	return &resp.Actor.Entity.ServiceLevel.Indicators, nil
+}
+
+const getIndicatorsQuery = `query(
+	$entityGUID: EntityGuid!,
+) { actor { entity(guid: $entityGUID) { serviceLevel { indicators {
+	createdAt
+	createdBy {
+		email
+		gravatar
+		id
+		name
+	}
+	description
+	entityGuid
+	events {
+		account {
+			id
+			name
 		}
-		indicator {
-			nrql
+		badEvents {
+			from
+			where
+		}
+		goodEvents {
+			from
+			where
 		}
 		validEvents {
-			nrql
+			from
+			where
+		}
+	}
+	id
+	name
+	objectives {
+		description
+		name
+		target
+		timeWindow {
+			rolling {
+				count
+				unit
+			}
 		}
 	}
 	slug
@@ -323,4 +357,4 @@ const ServiceLevelUpdateMutation = `mutation(
 		id
 		name
 	}
-} }`
+} } } } }`

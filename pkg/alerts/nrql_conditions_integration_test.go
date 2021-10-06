@@ -1,31 +1,35 @@
+//go:build integration
 // +build integration
 
 package alerts
 
 import (
 	"fmt"
+	"github.com/newrelic/newrelic-client-go/pkg/errors"
+	"github.com/stretchr/testify/require"
 	"strconv"
 	"testing"
 
-	"github.com/stretchr/testify/require"
-
-	"github.com/newrelic/newrelic-client-go/pkg/errors"
 	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
 
 var (
 	testNrqlConditionRandomString       = mock.RandSeq(5)
-	nrqlConditionBaseThreshold          = 1.0          // needed for setting pointer
-	nrqlConditionBaseThresholdZeroValue = float64(0)   // needed for setting pointer
-	nrqlConditionBaseSignalFillValue    = float64(0.1) // needed for setting pointer
-	nrqlConditionBaseExpirationDuration = 1200         // needed for setting pointer
-	nrqlConditionBaseEvalOffset         = 3            // needed for setting pointer
-	nrqlConditionBaseAggWindow          = 60           // needed for setting pointer
-	nrqlConditionBase                   = NrqlConditionBase{
+	nrqlConditionBaseThreshold          = 1.0                                         // needed for setting pointer
+	nrqlConditionBaseThresholdZeroValue = float64(0)                                  // needed for setting pointer
+	nrqlConditionBaseSignalFillValue    = float64(0.1)                                // needed for setting pointer
+	nrqlConditionBaseExpirationDuration = 1200                                        // needed for setting pointer
+	nrqlConditionBaseEvalOffset         = 3                                           // needed for setting pointer
+	nrqlConditionBaseAggWindow          = 60                                          // needed for setting pointer
+	nrqlConditionBaseAggMethod          = NrqlConditionAggregationMethodTypes.Cadence // needed for setting pointer
+	nrqlConditionBaseAggDelay           = 2                                           // needed for setting pointer
+	nrqlConditionBaseAggTimer           = 5                                           // needed for setting pointer
+
+	nrqlConditionCreateBase = NrqlConditionCreateBase{
 		Description: "test description",
 		Enabled:     true,
 		Name:        fmt.Sprintf("test-nrql-condition-%s", testNrqlConditionRandomString),
-		Nrql: NrqlConditionQuery{
+		Nrql: NrqlConditionCreateQuery{
 			Query:            "SELECT uniqueCount(host) from Transaction where appName='Dummy App'",
 			EvaluationOffset: 3,
 		},
@@ -45,16 +49,112 @@ var (
 			ExpirationDuration:          &nrqlConditionBaseExpirationDuration,
 			OpenViolationOnExpiration:   false,
 		},
-		Signal: &AlertsNrqlConditionSignal{
+		Signal: &AlertsNrqlConditionCreateSignal{
 			AggregationWindow: &nrqlConditionBaseAggWindow,
 			EvaluationOffset:  &nrqlConditionBaseEvalOffset,
 			FillOption:        &AlertsFillOptionTypes.STATIC,
 			FillValue:         &nrqlConditionBaseSignalFillValue,
 		},
 	}
+
+	nrqlConditionUpdateBase = NrqlConditionUpdateBase{
+		Description: "test description",
+		Enabled:     true,
+		Name:        fmt.Sprintf("test-nrql-condition-%s", testNrqlConditionRandomString),
+		Nrql: NrqlConditionUpdateQuery{
+			Query:            "SELECT uniqueCount(host) from Transaction where appName='Dummy App'",
+			EvaluationOffset: 3,
+		},
+		RunbookURL: "test.com",
+		Terms: []NrqlConditionTerm{
+			{
+				Threshold:            &nrqlConditionBaseThreshold,
+				ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
+				ThresholdDuration:    600,
+				Operator:             AlertsNRQLConditionTermsOperatorTypes.ABOVE,
+				Priority:             NrqlConditionPriorities.Critical,
+			},
+		},
+		ViolationTimeLimitSeconds: 3600,
+		Expiration: &AlertsNrqlConditionExpiration{
+			CloseViolationsOnExpiration: true,
+			ExpirationDuration:          &nrqlConditionBaseExpirationDuration,
+			OpenViolationOnExpiration:   false,
+		},
+		Signal: &AlertsNrqlConditionUpdateSignal{
+			AggregationWindow: &nrqlConditionBaseAggWindow,
+			EvaluationOffset:  &nrqlConditionBaseEvalOffset,
+			FillOption:        &AlertsFillOptionTypes.STATIC,
+			FillValue:         &nrqlConditionBaseSignalFillValue,
+		},
+	}
+
+	nrqlConditionCreateWithStreamingMethods = NrqlConditionCreateBase{
+		Description: "test description",
+		Enabled:     true,
+		Name:        fmt.Sprintf("test-nrql-condition-%s", testNrqlConditionRandomString),
+		Nrql: NrqlConditionCreateQuery{
+			Query: "SELECT uniqueCount(host) from Transaction where appName='Dummy App'",
+		},
+		RunbookURL: "test.com",
+		Terms: []NrqlConditionTerm{
+			{
+				Threshold:            &nrqlConditionBaseThreshold,
+				ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
+				ThresholdDuration:    600,
+				Operator:             AlertsNRQLConditionTermsOperatorTypes.ABOVE,
+				Priority:             NrqlConditionPriorities.Critical,
+			},
+		},
+		ViolationTimeLimitSeconds: 3600,
+		Expiration: &AlertsNrqlConditionExpiration{
+			CloseViolationsOnExpiration: true,
+			ExpirationDuration:          &nrqlConditionBaseExpirationDuration,
+			OpenViolationOnExpiration:   false,
+		},
+		Signal: &AlertsNrqlConditionCreateSignal{
+			AggregationWindow: &nrqlConditionBaseAggWindow,
+			FillOption:        &AlertsFillOptionTypes.STATIC,
+			FillValue:         &nrqlConditionBaseSignalFillValue,
+			AggregationMethod: &nrqlConditionBaseAggMethod,
+			AggregationDelay:  &nrqlConditionBaseAggDelay,
+		},
+	}
+
+	nrqlConditionUpdateWithStreamingMethods = NrqlConditionUpdateBase{
+		Description: "test description",
+		Enabled:     true,
+		Name:        fmt.Sprintf("test-nrql-condition-%s", testNrqlConditionRandomString),
+		Nrql: NrqlConditionUpdateQuery{
+			Query: "SELECT uniqueCount(host) from Transaction where appName='Dummy App'",
+		},
+		RunbookURL: "test.com",
+		Terms: []NrqlConditionTerm{
+			{
+				Threshold:            &nrqlConditionBaseThreshold,
+				ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
+				ThresholdDuration:    600,
+				Operator:             AlertsNRQLConditionTermsOperatorTypes.ABOVE,
+				Priority:             NrqlConditionPriorities.Critical,
+			},
+		},
+		ViolationTimeLimitSeconds: 3600,
+		Expiration: &AlertsNrqlConditionExpiration{
+			CloseViolationsOnExpiration: true,
+			ExpirationDuration:          &nrqlConditionBaseExpirationDuration,
+			OpenViolationOnExpiration:   false,
+		},
+		Signal: &AlertsNrqlConditionUpdateSignal{
+			AggregationWindow: &nrqlConditionBaseAggWindow,
+			FillOption:        &AlertsFillOptionTypes.STATIC,
+			FillValue:         &nrqlConditionBaseSignalFillValue,
+			AggregationMethod: &nrqlConditionBaseAggMethod,
+			AggregationDelay:  &nrqlConditionBaseAggDelay,
+		},
+	}
 )
 
-// REST API integration test (deprecated)
+//REST API integration test (deprecated)
 func TestIntegrationNrqlConditions(t *testing.T) {
 	t.Parallel()
 
@@ -148,13 +248,13 @@ func TestIntegrationNrqlConditions_Baseline(t *testing.T) {
 
 	var (
 		randStr             = mock.RandSeq(5)
-		createBaselineInput = NrqlConditionInput{
-			NrqlConditionBase: nrqlConditionBase,
-			BaselineDirection: &NrqlBaselineDirections.LowerOnly,
+		createBaselineInput = NrqlConditionCreateInput{
+			NrqlConditionCreateBase: nrqlConditionCreateBase,
+			BaselineDirection:       &NrqlBaselineDirections.LowerOnly,
 		}
-		updateBaselineInput = NrqlConditionInput{
-			NrqlConditionBase: nrqlConditionBase,
-			BaselineDirection: &NrqlBaselineDirections.LowerOnly,
+		updateBaselineInput = NrqlConditionUpdateInput{
+			NrqlConditionUpdateBase: nrqlConditionUpdateBase,
+			BaselineDirection:       &NrqlBaselineDirections.LowerOnly,
 		}
 	)
 
@@ -211,13 +311,13 @@ func TestIntegrationNrqlConditions_Static(t *testing.T) {
 
 	var (
 		randStr           = mock.RandSeq(5)
-		createStaticInput = NrqlConditionInput{
-			NrqlConditionBase: nrqlConditionBase,
-			ValueFunction:     &NrqlConditionValueFunctions.SingleValue,
+		createStaticInput = NrqlConditionCreateInput{
+			NrqlConditionCreateBase: nrqlConditionCreateBase,
+			ValueFunction:           &NrqlConditionValueFunctions.SingleValue,
 		}
-		updateStaticInput = NrqlConditionInput{
-			NrqlConditionBase: nrqlConditionBase,
-			ValueFunction:     &NrqlConditionValueFunctions.Sum,
+		updateStaticInput = NrqlConditionUpdateInput{
+			NrqlConditionUpdateBase: nrqlConditionUpdateBase,
+			ValueFunction:           &NrqlConditionValueFunctions.Sum,
 		}
 	)
 
@@ -276,12 +376,37 @@ func TestIntegrationNrqlConditions_Outlier(t *testing.T) {
 		violationOverlap   = false
 		randStr            = mock.RandSeq(5)
 		thresholdCritical  = 0.1
-		createOutlierInput = NrqlConditionInput{
-			NrqlConditionBase: NrqlConditionBase{
+		createOutlierInput = NrqlConditionCreateInput{
+			NrqlConditionCreateBase: NrqlConditionCreateBase{
 				Description: "test description",
 				Enabled:     true,
 				Name:        fmt.Sprintf("test-nrql-condition-%s", randStr),
-				Nrql: NrqlConditionQuery{
+				Nrql: NrqlConditionCreateQuery{
+					Query:            "SELECT average(duration) FROM Transaction WHERE appName='Dummy App' FACET host",
+					EvaluationOffset: 3,
+				},
+				RunbookURL: "http://example.com",
+				Terms: []NrqlConditionTerm{
+					{
+						Threshold:            &thresholdCritical,
+						ThresholdOccurrences: ThresholdOccurrences.All,
+						ThresholdDuration:    120,
+						Operator:             AlertsNRQLConditionTermsOperatorTypes.ABOVE,
+						Priority:             NrqlConditionPriorities.Critical,
+					},
+				},
+				ViolationTimeLimitSeconds: 3600,
+			},
+			ExpectedGroups:              &expectedGroups,
+			OpenViolationOnGroupOverlap: &violationOverlap,
+		}
+
+		updateOutlierInput = NrqlConditionUpdateInput{
+			NrqlConditionUpdateBase: NrqlConditionUpdateBase{
+				Description: "test description",
+				Enabled:     true,
+				Name:        fmt.Sprintf("test-nrql-condition-%s", randStr),
+				Nrql: NrqlConditionUpdateQuery{
 					Query:            "SELECT average(duration) FROM Transaction WHERE appName='Dummy App' FACET host",
 					EvaluationOffset: 3,
 				},
@@ -329,8 +454,8 @@ func TestIntegrationNrqlConditions_Outlier(t *testing.T) {
 	require.Equal(t, "test description", readResult.Description)
 
 	// Test: Update (outlier condition)
-	createOutlierInput.Description = "test description updated"
-	updated, err := client.UpdateNrqlConditionOutlierMutation(testAccountID, createdOutlier.ID, createOutlierInput)
+	updateOutlierInput.Description = "test description updated"
+	updated, err := client.UpdateNrqlConditionOutlierMutation(testAccountID, createdOutlier.ID, updateOutlierInput)
 	require.NoError(t, err)
 	require.Equal(t, "test description updated", updated.Description)
 
@@ -354,9 +479,18 @@ func TestIntegrationNrqlConditions_ErrorScenarios(t *testing.T) {
 	var (
 		randStr = mock.RandSeq(5)
 
-		// Invalid NrqlConditionInput (Baseline and ValueFunction cannot exist together)
-		testInvalidMutationInput = NrqlConditionInput{
-			NrqlConditionBase: nrqlConditionBase,
+		// Invalid NrqlConditionCreateInput (Baseline and ValueFunction cannot exist together)
+		testInvalidMutationCreateInput = NrqlConditionCreateInput{
+			NrqlConditionCreateBase: nrqlConditionCreateBase,
+
+			// Having both of the following fields should result in an error returned from the API
+			BaselineDirection: &NrqlBaselineDirections.LowerOnly,
+			ValueFunction:     &NrqlConditionValueFunctions.SingleValue,
+		}
+
+		// Invalid NrqlConditionUpdateInput (Baseline and ValueFunction cannot exist together)
+		testInvalidMutationUpdateInput = NrqlConditionUpdateInput{
+			NrqlConditionUpdateBase: nrqlConditionUpdateBase,
 
 			// Having both of the following fields should result in an error returned from the API
 			BaselineDirection: &NrqlBaselineDirections.LowerOnly,
@@ -374,22 +508,22 @@ func TestIntegrationNrqlConditions_ErrorScenarios(t *testing.T) {
 	require.NoError(t, err)
 
 	// Test: Create Invalid (should result in an error)
-	createdBaseline, err := client.CreateNrqlConditionBaselineMutation(testAccountID, policy.ID, testInvalidMutationInput)
+	createdBaseline, err := client.CreateNrqlConditionBaselineMutation(testAccountID, policy.ID, testInvalidMutationCreateInput)
 	require.Error(t, err)
 	require.Nil(t, createdBaseline)
 
 	// Test: Update Invalid (should result in an error)
-	updatedBaseline, err := client.UpdateNrqlConditionBaselineMutation(testAccountID, "8675309", testInvalidMutationInput)
+	updatedBaseline, err := client.UpdateNrqlConditionBaselineMutation(testAccountID, "8675309", testInvalidMutationUpdateInput)
 	require.Error(t, err)
 	require.Nil(t, updatedBaseline)
 
 	// Test: Create Invalid (should result in an error)
-	createdStatic, err := client.CreateNrqlConditionStaticMutation(testAccountID, policy.ID, testInvalidMutationInput)
+	createdStatic, err := client.CreateNrqlConditionStaticMutation(testAccountID, policy.ID, testInvalidMutationCreateInput)
 	require.Error(t, err)
 	require.Nil(t, createdStatic)
 
 	// Test: Update Invalid (should result in an error)
-	updatedStatic, err := client.UpdateNrqlConditionStaticMutation(testAccountID, "8675309", testInvalidMutationInput)
+	updatedStatic, err := client.UpdateNrqlConditionStaticMutation(testAccountID, "8675309", testInvalidMutationUpdateInput)
 	require.Error(t, err)
 	require.Nil(t, updatedStatic)
 
@@ -420,12 +554,12 @@ func TestIntegrationNrqlConditions_Search(t *testing.T) {
 		randStr            = mock.RandSeq(5)
 		conditionName      = fmt.Sprintf("test-nrql-condition-%s", randStr)
 		thresholdCritical  = 1.0
-		testConditionInput = NrqlConditionInput{
-			NrqlConditionBase: NrqlConditionBase{
+		testConditionInput = NrqlConditionCreateInput{
+			NrqlConditionCreateBase: NrqlConditionCreateBase{
 				Description: "test description",
 				Enabled:     true,
 				Name:        conditionName,
-				Nrql: NrqlConditionQuery{
+				Nrql: NrqlConditionCreateQuery{
 					Query:            "SELECT uniqueCount(host) from Transaction where appName='Dummy App'",
 					EvaluationOffset: 3,
 				},
@@ -487,12 +621,12 @@ func TestIntegrationNrqlConditions_CreateStatic(t *testing.T) {
 	var (
 		randStr            = mock.RandSeq(5)
 		conditionName      = fmt.Sprintf("test-nrql-condition-%s", randStr)
-		testConditionInput = NrqlConditionInput{
-			NrqlConditionBase: NrqlConditionBase{
+		testConditionInput = NrqlConditionCreateInput{
+			NrqlConditionCreateBase: NrqlConditionCreateBase{
 				Description: "test description",
 				Enabled:     true,
 				Name:        conditionName,
-				Nrql: NrqlConditionQuery{
+				Nrql: NrqlConditionCreateQuery{
 					Query:            "SELECT uniqueCount(host) from Transaction where appName='Dummy App'",
 					EvaluationOffset: 3,
 				},
@@ -553,12 +687,12 @@ func TestIntegrationNrqlConditions_ZeroValueThreshold(t *testing.T) {
 	var (
 		randStr            = mock.RandSeq(5)
 		conditionName      = fmt.Sprintf("test-nrql-condition-%s", randStr)
-		testConditionInput = NrqlConditionInput{
-			NrqlConditionBase: NrqlConditionBase{
+		testConditionInput = NrqlConditionCreateInput{
+			NrqlConditionCreateBase: NrqlConditionCreateBase{
 				Description: "test description",
 				Enabled:     true,
 				Name:        conditionName,
-				Nrql: NrqlConditionQuery{
+				Nrql: NrqlConditionCreateQuery{
 					Query:            "SELECT uniqueCount(host) from Transaction where appName='Dummy App'",
 					EvaluationOffset: 3,
 				},
@@ -591,6 +725,88 @@ func TestIntegrationNrqlConditions_ZeroValueThreshold(t *testing.T) {
 	condition, err := client.CreateNrqlConditionStaticMutation(testAccountID, policy.ID, testConditionInput)
 	require.NoError(t, err)
 	require.NotNil(t, condition)
+
+	// Deferred teardown
+	defer func() {
+		_, err := client.DeletePolicyMutation(testAccountID, policy.ID)
+		if err != nil {
+			t.Logf("error cleaning up alert policy %s (%s): %s", policy.ID, policy.Name, err)
+		}
+	}()
+}
+
+func TestIntegrationNrqlConditions_StreamingMethods(t *testing.T) {
+	t.Parallel()
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	var (
+		randStr                     = mock.RandSeq(5)
+		createStreamingMethodsInput = NrqlConditionCreateInput{
+			NrqlConditionCreateBase: nrqlConditionCreateWithStreamingMethods,
+			ValueFunction:           &NrqlConditionValueFunctions.SingleValue,
+		}
+		updateStreamingMethodsInput = NrqlConditionUpdateInput{
+			NrqlConditionUpdateBase: nrqlConditionUpdateWithStreamingMethods,
+			ValueFunction:           &NrqlConditionValueFunctions.Sum,
+		}
+	)
+
+	// Setup
+	client := newIntegrationTestClient(t)
+	testPolicy := AlertsPolicyInput{
+		IncidentPreference: AlertsIncidentPreferenceTypes.PER_POLICY,
+		Name:               fmt.Sprintf("test-alert-policy-%s", randStr),
+	}
+	policy, err := client.CreatePolicyMutation(testAccountID, testPolicy)
+	require.NoError(t, err)
+
+	// Test: Create (static condition with streaming methods fields)
+	createdStaticWithStreamingMethods, err := client.CreateNrqlConditionStaticMutation(testAccountID, policy.ID, createStreamingMethodsInput)
+	require.NoError(t, err)
+	require.NotNil(t, createdStaticWithStreamingMethods)
+	require.NotNil(t, createdStaticWithStreamingMethods.ID)
+	require.NotNil(t, createdStaticWithStreamingMethods.PolicyID)
+	require.NotNil(t, createdStaticWithStreamingMethods.Signal)
+	require.NotNil(t, createdStaticWithStreamingMethods.Expiration)
+	require.Equal(t, &nrqlConditionBaseAggMethod, createdStaticWithStreamingMethods.Signal.AggregationMethod)
+
+	// Test: Get (static condition with streaming methods fields)
+	readResult, err := client.GetNrqlConditionQuery(testAccountID, createdStaticWithStreamingMethods.ID)
+	require.NoError(t, err)
+	require.NotNil(t, readResult)
+	require.Equal(t, &nrqlConditionBaseAggMethod, readResult.Signal.AggregationMethod)
+	require.Equal(t, &nrqlConditionBaseAggDelay, readResult.Signal.AggregationDelay)
+	require.Nil(t, createdStaticWithStreamingMethods.Signal.AggregationTimer)
+
+	// Test: Update (static condition with streaming methods fields modified)
+	nrqlConditionBaseAggMethodUpdated := NrqlConditionAggregationMethodTypes.EventTimer // needed for setting pointer
+
+	updateStreamingMethodsInput.Signal.AggregationMethod = &nrqlConditionBaseAggMethodUpdated
+	updateStreamingMethodsInput.Signal.AggregationDelay = nil
+	updateStreamingMethodsInput.Signal.AggregationTimer = &nrqlConditionBaseAggTimer
+
+	updatedStaticWithStreamingMethods, err := client.UpdateNrqlConditionStaticMutation(testAccountID, readResult.ID, updateStreamingMethodsInput)
+	require.NoError(t, err)
+	require.Equal(t, &nrqlConditionBaseAggMethodUpdated, updatedStaticWithStreamingMethods.Signal.AggregationMethod)
+	require.Equal(t, &nrqlConditionBaseAggTimer, updatedStaticWithStreamingMethods.Signal.AggregationTimer)
+	require.Nil(t, updatedStaticWithStreamingMethods.Signal.AggregationDelay)
+
+	// Test: Update (static condition without streaming methods fields)
+	updateStreamingMethodsInput.Signal.AggregationMethod = nil
+	updateStreamingMethodsInput.Signal.AggregationDelay = nil
+	updateStreamingMethodsInput.Signal.AggregationTimer = nil
+	updateStreamingMethodsInput.Signal.EvaluationOffset = &nrqlConditionBaseEvalOffset
+
+	updatedStaticWithoutStreamingMethods, err := client.UpdateNrqlConditionStaticMutation(testAccountID, readResult.ID, updateStreamingMethodsInput)
+	require.NoError(t, err)
+	require.Nil(t, updatedStaticWithoutStreamingMethods.Signal.AggregationMethod)
+	require.Nil(t, updatedStaticWithoutStreamingMethods.Signal.AggregationDelay)
+	require.Nil(t, updatedStaticWithoutStreamingMethods.Signal.AggregationTimer)
+	require.Equal(t, &nrqlConditionBaseEvalOffset, updatedStaticWithoutStreamingMethods.Signal.EvaluationOffset)
 
 	// Deferred teardown
 	defer func() {

@@ -6,8 +6,10 @@ import (
 	"fmt"
 
 	"github.com/newrelic/newrelic-client-go/pkg/accounts"
+	"github.com/newrelic/newrelic-client-go/pkg/common"
 	"github.com/newrelic/newrelic-client-go/pkg/nrdb"
 	"github.com/newrelic/newrelic-client-go/pkg/nrtime"
+	"github.com/newrelic/newrelic-client-go/pkg/servicelevel"
 	"github.com/newrelic/newrelic-client-go/pkg/users"
 )
 
@@ -1180,17 +1182,6 @@ var MetricNormalizationRuleActionTypes = struct {
 	REPLACE: "REPLACE",
 }
 
-// ServiceLevelObjectiveRollingTimeWindowUnit - The rolling time window units.
-type ServiceLevelObjectiveRollingTimeWindowUnit string
-
-var ServiceLevelObjectiveRollingTimeWindowUnitTypes = struct {
-	// Day.
-	DAY ServiceLevelObjectiveRollingTimeWindowUnit
-}{
-	// Day.
-	DAY: "DAY",
-}
-
 // SyntheticMonitorStatus -
 type SyntheticMonitorStatus string
 
@@ -1487,7 +1478,7 @@ type ApmApplicationEntity struct {
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
 	// The list of golden tags for a specific entityType.
@@ -1594,7 +1585,7 @@ func (x ApmApplicationEntity) GetEntityType() EntityType {
 }
 
 // GetGUID returns a pointer to the value of GUID from ApmApplicationEntity
-func (x ApmApplicationEntity) GetGUID() EntityGUID {
+func (x ApmApplicationEntity) GetGUID() common.EntityGUID {
 	return x.GUID
 }
 
@@ -1723,7 +1714,7 @@ type ApmApplicationEntityOutline struct {
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
 	// The list of golden tags for a specific entityType.
@@ -1793,7 +1784,7 @@ func (x ApmApplicationEntityOutline) GetEntityType() EntityType {
 }
 
 // GetGUID returns a pointer to the value of GUID from ApmApplicationEntityOutline
-func (x ApmApplicationEntityOutline) GetGUID() EntityGUID {
+func (x ApmApplicationEntityOutline) GetGUID() common.EntityGUID {
 	return x.GUID
 }
 
@@ -1959,7 +1950,7 @@ type ApmDatabaseInstanceEntity struct {
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
 	// The list of golden tags for a specific entityType.
@@ -2037,7 +2028,7 @@ func (x ApmDatabaseInstanceEntity) GetEntityType() EntityType {
 }
 
 // GetGUID returns a pointer to the value of GUID from ApmDatabaseInstanceEntity
-func (x ApmDatabaseInstanceEntity) GetGUID() EntityGUID {
+func (x ApmDatabaseInstanceEntity) GetGUID() common.EntityGUID {
 	return x.GUID
 }
 
@@ -2148,7 +2139,7 @@ type ApmDatabaseInstanceEntityOutline struct {
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
 	// The list of golden tags for a specific entityType.
@@ -2203,7 +2194,7 @@ func (x ApmDatabaseInstanceEntityOutline) GetEntityType() EntityType {
 }
 
 // GetGUID returns a pointer to the value of GUID from ApmDatabaseInstanceEntityOutline
-func (x ApmDatabaseInstanceEntityOutline) GetGUID() EntityGUID {
+func (x ApmDatabaseInstanceEntityOutline) GetGUID() common.EntityGUID {
 	return x.GUID
 }
 
@@ -2288,7 +2279,7 @@ type ApmExternalServiceEntity struct {
 	//
 	ExternalSummary ApmExternalServiceSummaryData `json:"externalSummary,omitempty"`
 	// A unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
 	// The list of golden tags for a specific entityType.
@@ -2367,7 +2358,7 @@ func (x ApmExternalServiceEntity) GetExternalSummary() ApmExternalServiceSummary
 }
 
 // GetGUID returns a pointer to the value of GUID from ApmExternalServiceEntity
-func (x ApmExternalServiceEntity) GetGUID() EntityGUID {
+func (x ApmExternalServiceEntity) GetGUID() common.EntityGUID {
 	return x.GUID
 }
 
@@ -2470,7 +2461,7 @@ type ApmExternalServiceEntityOutline struct {
 	//
 	ExternalSummary ApmExternalServiceSummaryData `json:"externalSummary,omitempty"`
 	// A unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
 	// The list of golden tags for a specific entityType.
@@ -2526,7 +2517,7 @@ func (x ApmExternalServiceEntityOutline) GetExternalSummary() ApmExternalService
 }
 
 // GetGUID returns a pointer to the value of GUID from ApmExternalServiceEntityOutline
-func (x ApmExternalServiceEntityOutline) GetGUID() EntityGUID {
+func (x ApmExternalServiceEntityOutline) GetGUID() common.EntityGUID {
 	return x.GUID
 }
 
@@ -2613,7 +2604,7 @@ type BrowserApplicationEntity struct {
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
 	// The list of golden tags for a specific entityType.
@@ -2710,7 +2701,7 @@ func (x BrowserApplicationEntity) GetEntityType() EntityType {
 }
 
 // GetGUID returns a pointer to the value of GUID from BrowserApplicationEntity
-func (x BrowserApplicationEntity) GetGUID() EntityGUID {
+func (x BrowserApplicationEntity) GetGUID() common.EntityGUID {
 	return x.GUID
 }
 
@@ -2837,7 +2828,7 @@ type BrowserApplicationEntityOutline struct {
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
 	// The list of golden tags for a specific entityType.
@@ -2907,7 +2898,7 @@ func (x BrowserApplicationEntityOutline) GetEntityType() EntityType {
 }
 
 // GetGUID returns a pointer to the value of GUID from BrowserApplicationEntityOutline
-func (x BrowserApplicationEntityOutline) GetGUID() EntityGUID {
+func (x BrowserApplicationEntityOutline) GetGUID() common.EntityGUID {
 	return x.GUID
 }
 
@@ -3015,7 +3006,7 @@ type CollectionEntity struct {
 	//
 	Collection EntityCollection `json:"collection,omitempty"`
 	//
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 }
 
 // GetCollection returns a pointer to the value of Collection from CollectionEntity
@@ -3024,7 +3015,7 @@ func (x CollectionEntity) GetCollection() EntityCollection {
 }
 
 // GetGUID returns a pointer to the value of GUID from CollectionEntity
-func (x CollectionEntity) GetGUID() EntityGUID {
+func (x CollectionEntity) GetGUID() common.EntityGUID {
 	return x.GUID
 }
 
@@ -3071,7 +3062,7 @@ type DashboardEntity struct {
 	// Dashboard creation timestamp.
 	CreatedAt nrtime.DateTime `json:"createdAt,omitempty"`
 	// The parent entity `guid` of the dashboard.
-	DashboardParentGUID EntityGUID `json:"dashboardParentGuid,omitempty"`
+	DashboardParentGUID common.EntityGUID `json:"dashboardParentGuid,omitempty"`
 	// Dashboard description.
 	Description string `json:"description,omitempty"`
 	// The entity's domain
@@ -3079,7 +3070,7 @@ type DashboardEntity struct {
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
 	// The list of golden tags for a specific entityType.
@@ -3154,7 +3145,7 @@ func (x DashboardEntity) GetCreatedAt() nrtime.DateTime {
 }
 
 // GetDashboardParentGUID returns a pointer to the value of DashboardParentGUID from DashboardEntity
-func (x DashboardEntity) GetDashboardParentGUID() EntityGUID {
+func (x DashboardEntity) GetDashboardParentGUID() common.EntityGUID {
 	return x.DashboardParentGUID
 }
 
@@ -3174,7 +3165,7 @@ func (x DashboardEntity) GetEntityType() EntityType {
 }
 
 // GetGUID returns a pointer to the value of GUID from DashboardEntity
-func (x DashboardEntity) GetGUID() EntityGUID {
+func (x DashboardEntity) GetGUID() common.EntityGUID {
 	return x.GUID
 }
 
@@ -3288,13 +3279,13 @@ type DashboardEntityOutline struct {
 	// The date and time the dashboard was created
 	CreatedAt nrtime.DateTime `json:"createdAt,omitempty"`
 	// The parent entity `guid` of the dashboard.
-	DashboardParentGUID EntityGUID `json:"dashboardParentGuid,omitempty"`
+	DashboardParentGUID common.EntityGUID `json:"dashboardParentGuid,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
 	// The list of golden tags for a specific entityType.
@@ -3344,7 +3335,7 @@ func (x DashboardEntityOutline) GetCreatedAt() nrtime.DateTime {
 }
 
 // GetDashboardParentGUID returns a pointer to the value of DashboardParentGUID from DashboardEntityOutline
-func (x DashboardEntityOutline) GetDashboardParentGUID() EntityGUID {
+func (x DashboardEntityOutline) GetDashboardParentGUID() common.EntityGUID {
 	return x.DashboardParentGUID
 }
 
@@ -3359,7 +3350,7 @@ func (x DashboardEntityOutline) GetEntityType() EntityType {
 }
 
 // GetGUID returns a pointer to the value of GUID from DashboardEntityOutline
-func (x DashboardEntityOutline) GetGUID() EntityGUID {
+func (x DashboardEntityOutline) GetGUID() common.EntityGUID {
 	return x.GUID
 }
 
@@ -3462,7 +3453,7 @@ type DashboardPage struct {
 	// Page description.
 	Description string `json:"description,omitempty"`
 	// Unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// Page name.
 	Name string `json:"name,omitempty"`
 	// Page owner
@@ -3648,7 +3639,7 @@ type Entity struct {
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
 	// The list of golden tags for a specific entityType.
@@ -3722,7 +3713,7 @@ type EntityCollection struct {
 	// The definition of the collection.
 	Definition EntityCollectionDefinition `json:"definition,omitempty"`
 	// The GUID of the Entity
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The result of searching for the members of the collection.
 	Members EntitySearch `json:"members,omitempty"`
 	// The name of the collection.
@@ -3734,7 +3725,7 @@ type EntityCollection struct {
 // EntityCollectionDefinition - The definition of a collection.
 type EntityCollectionDefinition struct {
 	// A list of entity GUIDs. These entities will belong to the collection as long as their accounts are included in the scope accounts of the collection.
-	EntityGUIDs []EntityGUID `json:"entityGuids,omitempty"`
+	EntityGUIDs []common.EntityGUID `json:"entityGuids,omitempty"`
 	// The Entity Search query that returns the full collection of entities.
 	EntitySearchQuery string `json:"entitySearchQuery,omitempty"`
 	// The Accounts that will be used to scope the collection.
@@ -3754,7 +3745,7 @@ type EntityGoldenContext struct {
 	// Account context.
 	Account int `json:"account,omitempty"`
 	// Collection guid context.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 }
 
 // EntityGoldenContextInput - Input type used to define the context for the golden metrics.
@@ -3762,7 +3753,7 @@ type EntityGoldenContextInput struct {
 	// Account context.
 	Account int `json:"account,omitempty"`
 	// Collection guid context.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 }
 
 // EntityGoldenContextScopedGoldenMetrics - An object that represents the golden metrics scoped by context
@@ -3838,7 +3829,7 @@ type EntityOutline struct {
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
 	// The list of golden tags for a specific entityType.
@@ -3946,7 +3937,7 @@ type EntityRelationshipNode struct {
 	// The `EntityType` of the relationship node.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// The Entity `guid` for the relationship node.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 }
 
 // special
@@ -4072,7 +4063,7 @@ type EntityRelationshipVertex struct {
 	// The entity of the relationship node.
 	Entity EntityOutlineInterface `json:"entity"`
 	// The entity guid of the relationship node.
-	GUID EntityGUID `json:"guid"`
+	GUID common.EntityGUID `json:"guid"`
 }
 
 // special
@@ -4291,7 +4282,7 @@ type ExternalEntity struct {
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
 	// The list of golden tags for a specific entityType.
@@ -4363,7 +4354,7 @@ func (x ExternalEntity) GetEntityType() EntityType {
 }
 
 // GetGUID returns a pointer to the value of GUID from ExternalEntity
-func (x ExternalEntity) GetGUID() EntityGUID {
+func (x ExternalEntity) GetGUID() common.EntityGUID {
 	return x.GUID
 }
 
@@ -4459,7 +4450,7 @@ type ExternalEntityOutline struct {
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
 	// The list of golden tags for a specific entityType.
@@ -4508,7 +4499,7 @@ func (x ExternalEntityOutline) GetEntityType() EntityType {
 }
 
 // GetGUID returns a pointer to the value of GUID from ExternalEntityOutline
-func (x ExternalEntityOutline) GetGUID() EntityGUID {
+func (x ExternalEntityOutline) GetGUID() common.EntityGUID {
 	return x.GUID
 }
 
@@ -4576,7 +4567,7 @@ type GenericEntity struct {
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
 	// The list of golden tags for a specific entityType.
@@ -4648,7 +4639,7 @@ func (x GenericEntity) GetEntityType() EntityType {
 }
 
 // GetGUID returns a pointer to the value of GUID from GenericEntity
-func (x GenericEntity) GetGUID() EntityGUID {
+func (x GenericEntity) GetGUID() common.EntityGUID {
 	return x.GUID
 }
 
@@ -4744,7 +4735,7 @@ type GenericEntityOutline struct {
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
 	// The list of golden tags for a specific entityType.
@@ -4793,7 +4784,7 @@ func (x GenericEntityOutline) GetEntityType() EntityType {
 }
 
 // GetGUID returns a pointer to the value of GUID from GenericEntityOutline
-func (x GenericEntityOutline) GetGUID() EntityGUID {
+func (x GenericEntityOutline) GetGUID() common.EntityGUID {
 	return x.GUID
 }
 
@@ -4861,7 +4852,7 @@ type GenericInfrastructureEntity struct {
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
 	// The list of golden tags for a specific entityType.
@@ -4935,7 +4926,7 @@ func (x GenericInfrastructureEntity) GetEntityType() EntityType {
 }
 
 // GetGUID returns a pointer to the value of GUID from GenericInfrastructureEntity
-func (x GenericInfrastructureEntity) GetGUID() EntityGUID {
+func (x GenericInfrastructureEntity) GetGUID() common.EntityGUID {
 	return x.GUID
 }
 
@@ -5038,7 +5029,7 @@ type GenericInfrastructureEntityOutline struct {
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
 	// The list of golden tags for a specific entityType.
@@ -5089,7 +5080,7 @@ func (x GenericInfrastructureEntityOutline) GetEntityType() EntityType {
 }
 
 // GetGUID returns a pointer to the value of GUID from GenericInfrastructureEntityOutline
-func (x GenericInfrastructureEntityOutline) GetGUID() EntityGUID {
+func (x GenericInfrastructureEntityOutline) GetGUID() common.EntityGUID {
 	return x.GUID
 }
 
@@ -5164,7 +5155,7 @@ type InfrastructureAwsLambdaFunctionEntity struct {
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
 	// The list of golden tags for a specific entityType.
@@ -5240,7 +5231,7 @@ func (x InfrastructureAwsLambdaFunctionEntity) GetEntityType() EntityType {
 }
 
 // GetGUID returns a pointer to the value of GUID from InfrastructureAwsLambdaFunctionEntity
-func (x InfrastructureAwsLambdaFunctionEntity) GetGUID() EntityGUID {
+func (x InfrastructureAwsLambdaFunctionEntity) GetGUID() common.EntityGUID {
 	return x.GUID
 }
 
@@ -5348,7 +5339,7 @@ type InfrastructureAwsLambdaFunctionEntityOutline struct {
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
 	// The list of golden tags for a specific entityType.
@@ -5401,7 +5392,7 @@ func (x InfrastructureAwsLambdaFunctionEntityOutline) GetEntityType() EntityType
 }
 
 // GetGUID returns a pointer to the value of GUID from InfrastructureAwsLambdaFunctionEntityOutline
-func (x InfrastructureAwsLambdaFunctionEntityOutline) GetGUID() EntityGUID {
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetGUID() common.EntityGUID {
 	return x.GUID
 }
 
@@ -5482,7 +5473,7 @@ type InfrastructureHostEntity struct {
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
 	// The list of golden tags for a specific entityType.
@@ -5556,7 +5547,7 @@ func (x InfrastructureHostEntity) GetEntityType() EntityType {
 }
 
 // GetGUID returns a pointer to the value of GUID from InfrastructureHostEntity
-func (x InfrastructureHostEntity) GetGUID() EntityGUID {
+func (x InfrastructureHostEntity) GetGUID() common.EntityGUID {
 	return x.GUID
 }
 
@@ -5657,7 +5648,7 @@ type InfrastructureHostEntityOutline struct {
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
 	// The list of golden tags for a specific entityType.
@@ -5708,7 +5699,7 @@ func (x InfrastructureHostEntityOutline) GetEntityType() EntityType {
 }
 
 // GetGUID returns a pointer to the value of GUID from InfrastructureHostEntityOutline
-func (x InfrastructureHostEntityOutline) GetGUID() EntityGUID {
+func (x InfrastructureHostEntityOutline) GetGUID() common.EntityGUID {
 	return x.GUID
 }
 
@@ -5813,7 +5804,7 @@ type MetricNormalizationRule struct {
 	// Rule action.
 	Action MetricNormalizationRuleAction `json:"action,omitempty"`
 	// Application GUID
-	ApplicationGUID EntityGUID `json:"applicationGuid,omitempty"`
+	ApplicationGUID common.EntityGUID `json:"applicationGuid,omitempty"`
 	// Application Name
 	ApplicationName string `json:"applicationName,omitempty"`
 	// Date of rule creation.
@@ -5871,7 +5862,7 @@ type MobileApplicationEntity struct {
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
 	// The list of golden tags for a specific entityType.
@@ -5954,7 +5945,7 @@ func (x MobileApplicationEntity) GetEntityType() EntityType {
 }
 
 // GetGUID returns a pointer to the value of GUID from MobileApplicationEntity
-func (x MobileApplicationEntity) GetGUID() EntityGUID {
+func (x MobileApplicationEntity) GetGUID() common.EntityGUID {
 	return x.GUID
 }
 
@@ -6067,7 +6058,7 @@ type MobileApplicationEntityOutline struct {
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
 	// The list of golden tags for a specific entityType.
@@ -6123,7 +6114,7 @@ func (x MobileApplicationEntityOutline) GetEntityType() EntityType {
 }
 
 // GetGUID returns a pointer to the value of GUID from MobileApplicationEntityOutline
-func (x MobileApplicationEntityOutline) GetGUID() EntityGUID {
+func (x MobileApplicationEntityOutline) GetGUID() common.EntityGUID {
 	return x.GUID
 }
 
@@ -6220,7 +6211,7 @@ type SecureCredentialEntity struct {
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
 	// The list of golden tags for a specific entityType.
@@ -6303,7 +6294,7 @@ func (x SecureCredentialEntity) GetEntityType() EntityType {
 }
 
 // GetGUID returns a pointer to the value of GUID from SecureCredentialEntity
-func (x SecureCredentialEntity) GetGUID() EntityGUID {
+func (x SecureCredentialEntity) GetGUID() common.EntityGUID {
 	return x.GUID
 }
 
@@ -6416,7 +6407,7 @@ type SecureCredentialEntityOutline struct {
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
 	// The list of golden tags for a specific entityType.
@@ -6476,7 +6467,7 @@ func (x SecureCredentialEntityOutline) GetEntityType() EntityType {
 }
 
 // GetGUID returns a pointer to the value of GUID from SecureCredentialEntityOutline
-func (x SecureCredentialEntityOutline) GetGUID() EntityGUID {
+func (x SecureCredentialEntityOutline) GetGUID() common.EntityGUID {
 	return x.GUID
 }
 
@@ -6555,105 +6546,7 @@ type SecureCredentialSummaryData struct {
 // ServiceLevelDefinition - The service level defined for a specific entity.
 type ServiceLevelDefinition struct {
 	// The SLIs attached to the entity.
-	Indicators []ServiceLevelIndicator `json:"indicators"`
-}
-
-// ServiceLevelEvents - The events that define the SLI.
-type ServiceLevelEvents struct {
-	// The New Relic account to fetch the events from.
-	Account accounts.AccountReference `json:"account"`
-	// The definition of bad events.
-	BadEvents ServiceLevelEventsQuery `json:"badEvents,omitempty"`
-	// The definition of good events.
-	GoodEvents ServiceLevelEventsQuery `json:"goodEvents,omitempty"`
-	// The definition of valid events.
-	ValidEvents ServiceLevelEventsQuery `json:"validEvents"`
-}
-
-// ServiceLevelEventsQuery - The query that represents the events to fetch.
-type ServiceLevelEventsQuery struct {
-	// The NRDB event or metric to fetch the data from.
-	From nrdb.NRQL `json:"from"`
-	// The NRQL condition to filter the events.
-	Where nrdb.NRQL `json:"where,omitempty"`
-}
-
-// ServiceLevelIndicator - The definition of the SLI.
-type ServiceLevelIndicator struct {
-	// The date when the SLI was created represented in the number of milliseconds since the Unix epoch.
-	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt"`
-	// The user who created the SLI.
-	CreatedBy users.UserReference `json:"createdBy"`
-	// The description of the SLI.
-	Description string `json:"description,omitempty"`
-	// The entity which the SLI is attached to.
-	EntityGUID EntityGUID `json:"entityGuid"`
-	// The events that define the SLI.
-	Events ServiceLevelEvents `json:"events"`
-	// The unique identifier of the SLI.
-	ID string `json:"id"`
-	// The name of the SLI.
-	Name string `json:"name"`
-	// A list of objective definitions.
-	Objectives []ServiceLevelObjective `json:"objectives"`
-	// The resulting NRQL queries that help consume the metrics of the SLI.
-	ResultQueries ServiceLevelIndicatorResultQueries `json:"resultQueries,omitempty"`
-	// A human-readable text that uniquely identifies the SLI within a New Relic account.
-	Slug string `json:"slug"`
-	// The date when the SLI was last updated represented in the number of milliseconds since the Unix epoch.
-	UpdatedAt *nrtime.EpochMilliseconds `json:"updatedAt,omitempty"`
-	// The user who last update the SLI.
-	UpdatedBy users.UserReference `json:"updatedBy,omitempty"`
-}
-
-// ServiceLevelIndicatorResultQueries - The resulting NRQL queries that help consume the metrics of the SLI.
-type ServiceLevelIndicatorResultQueries struct {
-	// The NRQL query that measures the good events.
-	GoodEvents ServiceLevelResultQuery `json:"goodEvents"`
-	// The NRQL query that measures the value of the SLI.
-	Indicator ServiceLevelResultQuery `json:"indicator"`
-	// The NRQL query that measures the valid events.
-	ValidEvents ServiceLevelResultQuery `json:"validEvents"`
-}
-
-// ServiceLevelObjective - An objective definition.
-type ServiceLevelObjective struct {
-	// The description of the SLO.
-	Description string `json:"description,omitempty"`
-	// The name of the SLO.
-	Name string `json:"name,omitempty"`
-	// The resulting NRQL queries that help consume the metrics of the SLO.
-	ResultQueries ServiceLevelObjectiveResultQueries `json:"resultQueries,omitempty"`
-	// The target percentage of the SLO.
-	Target float64 `json:"target"`
-	// The time window configuration of the SLO.
-	TimeWindow ServiceLevelObjectiveTimeWindow `json:"timeWindow"`
-}
-
-// ServiceLevelObjectiveResultQueries - The resulting NRQL queries that help consume the metrics of the SLO.
-type ServiceLevelObjectiveResultQueries struct {
-	// The NRQL query that measures the attainment of the SLO target.
-	Attainment ServiceLevelResultQuery `json:"attainment"`
-}
-
-// ServiceLevelObjectiveRollingTimeWindow - The rolling time window configuration of the SLO.
-type ServiceLevelObjectiveRollingTimeWindow struct {
-	// The count of time units.
-	Count int `json:"count"`
-	// The time unit.
-	Unit ServiceLevelObjectiveRollingTimeWindowUnit `json:"unit"`
-}
-
-// ServiceLevelObjectiveTimeWindow - The time window configuration of the SLO.
-type ServiceLevelObjectiveTimeWindow struct {
-	// The rolling time window configuration of the SLO.
-	Rolling ServiceLevelObjectiveRollingTimeWindow `json:"rolling,omitempty"`
-}
-
-// ServiceLevelResultQuery - A resulting query.
-type ServiceLevelResultQuery struct {
-	// A NRQL query.
-	NRQL nrdb.NRQL `json:"nrql"`
+	Indicators []servicelevel.ServiceLevelIndicator `json:"indicators"`
 }
 
 // SyntheticMonitorEntity - A Synthetic Monitor entity.
@@ -6673,7 +6566,7 @@ type SyntheticMonitorEntity struct {
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
 	// The list of golden tags for a specific entityType.
@@ -6760,7 +6653,7 @@ func (x SyntheticMonitorEntity) GetEntityType() EntityType {
 }
 
 // GetGUID returns a pointer to the value of GUID from SyntheticMonitorEntity
-func (x SyntheticMonitorEntity) GetGUID() EntityGUID {
+func (x SyntheticMonitorEntity) GetGUID() common.EntityGUID {
 	return x.GUID
 }
 
@@ -6881,7 +6774,7 @@ type SyntheticMonitorEntityOutline struct {
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
 	// The list of golden tags for a specific entityType.
@@ -6940,7 +6833,7 @@ func (x SyntheticMonitorEntityOutline) GetEntityType() EntityType {
 }
 
 // GetGUID returns a pointer to the value of GUID from SyntheticMonitorEntityOutline
-func (x SyntheticMonitorEntityOutline) GetGUID() EntityGUID {
+func (x SyntheticMonitorEntityOutline) GetGUID() common.EntityGUID {
 	return x.GUID
 }
 
@@ -7083,7 +6976,7 @@ type ThirdPartyServiceEntity struct {
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
 	// The list of golden tags for a specific entityType.
@@ -7155,7 +7048,7 @@ func (x ThirdPartyServiceEntity) GetEntityType() EntityType {
 }
 
 // GetGUID returns a pointer to the value of GUID from ThirdPartyServiceEntity
-func (x ThirdPartyServiceEntity) GetGUID() EntityGUID {
+func (x ThirdPartyServiceEntity) GetGUID() common.EntityGUID {
 	return x.GUID
 }
 
@@ -7251,7 +7144,7 @@ type ThirdPartyServiceEntityOutline struct {
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
 	// The list of golden tags for a specific entityType.
@@ -7300,7 +7193,7 @@ func (x ThirdPartyServiceEntityOutline) GetEntityType() EntityType {
 }
 
 // GetGUID returns a pointer to the value of GUID from ThirdPartyServiceEntityOutline
-func (x ThirdPartyServiceEntityOutline) GetGUID() EntityGUID {
+func (x ThirdPartyServiceEntityOutline) GetGUID() common.EntityGUID {
 	return x.GUID
 }
 
@@ -7376,7 +7269,7 @@ type UnavailableEntity struct {
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
 	// The list of golden tags for a specific entityType.
@@ -7448,7 +7341,7 @@ func (x UnavailableEntity) GetEntityType() EntityType {
 }
 
 // GetGUID returns a pointer to the value of GUID from UnavailableEntity
-func (x UnavailableEntity) GetGUID() EntityGUID {
+func (x UnavailableEntity) GetGUID() common.EntityGUID {
 	return x.GUID
 }
 
@@ -7544,7 +7437,7 @@ type UnavailableEntityOutline struct {
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
 	// The list of golden tags for a specific entityType.
@@ -7593,7 +7486,7 @@ func (x UnavailableEntityOutline) GetEntityType() EntityType {
 }
 
 // GetGUID returns a pointer to the value of GUID from UnavailableEntityOutline
-func (x UnavailableEntityOutline) GetGUID() EntityGUID {
+func (x UnavailableEntityOutline) GetGUID() common.EntityGUID {
 	return x.GUID
 }
 
@@ -7667,7 +7560,7 @@ type WorkloadEntity struct {
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
 	// The list of golden tags for a specific entityType.
@@ -7758,7 +7651,7 @@ func (x WorkloadEntity) GetEntityType() EntityType {
 }
 
 // GetGUID returns a pointer to the value of GUID from WorkloadEntity
-func (x WorkloadEntity) GetGUID() EntityGUID {
+func (x WorkloadEntity) GetGUID() common.EntityGUID {
 	return x.GUID
 }
 
@@ -7870,7 +7763,7 @@ type WorkloadEntityOutline struct {
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
 	// The list of golden tags for a specific entityType.
@@ -7933,7 +7826,7 @@ func (x WorkloadEntityOutline) GetEntityType() EntityType {
 }
 
 // GetGUID returns a pointer to the value of GUID from WorkloadEntityOutline
-func (x WorkloadEntityOutline) GetGUID() EntityGUID {
+func (x WorkloadEntityOutline) GetGUID() common.EntityGUID {
 	return x.GUID
 }
 
@@ -7999,7 +7892,7 @@ func (x *WorkloadEntityOutline) ImplementsEntityOutline() {}
 // WorkloadEntityRef - A reference to a New Relic entity.
 type WorkloadEntityRef struct {
 	// The unique entity identifier in New Relic.
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID common.EntityGUID `json:"guid,omitempty"`
 }
 
 // WorkloadStatus - Detailed information about the status of a workload.
@@ -8031,9 +7924,6 @@ type AttributeMap map[string]interface{}
 
 // DashboardWidgetRawConfiguration - Raw JSON payload with full configuration of a widget.
 type DashboardWidgetRawConfiguration []byte
-
-// EntityGUID - An encoded Entity GUID
-type EntityGUID string
 
 // Float - The `Float` scalar type represents signed double-precision fractional
 // values as specified by
@@ -8630,7 +8520,7 @@ type EntityInterface interface {
 	ImplementsEntity()
 	GetAccountID() int
 	GetDomain() string
-	GetGUID() EntityGUID
+	GetGUID() common.EntityGUID
 	GetName() string
 	GetTags() []EntityTag
 	GetType() string
@@ -8841,7 +8731,7 @@ type EntityOutlineInterface interface {
 	ImplementsEntityOutline()
 	GetAccountID() int
 	GetDomain() string
-	GetGUID() EntityGUID
+	GetGUID() common.EntityGUID
 	GetName() string
 	GetType() string
 }
