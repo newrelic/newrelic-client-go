@@ -1,3 +1,8 @@
+<a name="v0.66.1"></a>
+## [v0.66.1] - 2021-10-07
+### Bug Fixes
+- use pointer for EvaluationOffset
+
 <a name="v0.66.0"></a>
 ## [v0.66.0] - 2021-10-06
 ### Features
@@ -1185,7 +1190,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.66.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.66.1...HEAD
+[v0.66.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.66.0...v0.66.1
 [v0.66.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.65.0...v0.66.0
 [v0.65.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.64.1...v0.65.0
 [v0.64.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.64.0...v0.64.1
