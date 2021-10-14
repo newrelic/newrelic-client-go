@@ -60,12 +60,24 @@ packages:
     import_path: github.com/newrelic/newrelic-client-go/pkg/alerts
     generators:
       - typegen
+      - nerdgraphclient
     imports:
       - github.com/newrelic/newrelic-client-go/pkg/apiaccess
+      - github.com/newrelic/newrelic-client-go/pkg/entities
+      - github.com/newrelic/newrelic-client-go/pkg/nrdb
+    mutations:
+      - name: alertsNotificationChannelAddToPolicy
+      - name: alertsNotificationChannelsRemoveFromPolicy
+      - name: alertsNotificationChannelCreate
+      - name: alertsNotificationChannelDelete
+      - name: alertsNotificationChannelUpdate
     types:
       - name: AlertsMutingRuleConditionInput
       - name: AlertsMutingRuleInput
       - name: AlertsMutingRuleScheduleInput
+      - name: AlertsNotificationChannel
+      - name: AlertsNotificationChannelMutation
+      - name: AlertsNotificationChannelType
       - name: AlertsNrqlConditionTermsOperator
       - name: AlertsPoliciesSearchCriteriaInput
       - name: AlertsPoliciesSearchResultSet
