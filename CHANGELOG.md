@@ -1,3 +1,8 @@
+<a name="v0.67.0"></a>
+## [v0.67.0] - 2021-10-21
+### Features
+- **tags:** added method to get only mutable tags
+
 <a name="v0.66.2"></a>
 ## [v0.66.2] - 2021-10-21
 ### Bug Fixes
@@ -1195,7 +1200,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.66.2...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.67.0...HEAD
+[v0.67.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.66.2...v0.67.0
 [v0.66.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.66.1...v0.66.2
 [v0.66.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.66.0...v0.66.1
 [v0.66.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.65.0...v0.66.0
