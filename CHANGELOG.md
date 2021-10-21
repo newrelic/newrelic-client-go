@@ -1,3 +1,8 @@
+<a name="v0.66.2"></a>
+## [v0.66.2] - 2021-10-21
+### Bug Fixes
+- update NRQL query for alert condition tests
+
 <a name="v0.66.1"></a>
 ## [v0.66.1] - 2021-10-07
 ### Bug Fixes
@@ -1190,7 +1195,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.66.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.66.2...HEAD
+[v0.66.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.66.1...v0.66.2
 [v0.66.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.66.0...v0.66.1
 [v0.66.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.65.0...v0.66.0
 [v0.65.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.64.1...v0.65.0
