@@ -5,10 +5,11 @@ package alerts
 
 import (
 	"fmt"
-	"github.com/newrelic/newrelic-client-go/pkg/errors"
-	"github.com/stretchr/testify/require"
 	"strconv"
 	"testing"
+
+	"github.com/newrelic/newrelic-client-go/pkg/errors"
+	"github.com/stretchr/testify/require"
 
 	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
@@ -30,7 +31,7 @@ var (
 		Enabled:     true,
 		Name:        fmt.Sprintf("test-nrql-condition-%s", testNrqlConditionRandomString),
 		Nrql: NrqlConditionCreateQuery{
-			Query:            "SELECT uniqueCount(host) from Transaction where appName='Dummy App'",
+			Query:            "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
 			EvaluationOffset: &nrqlConditionBaseEvalOffset,
 		},
 		RunbookURL: "test.com",
@@ -62,7 +63,7 @@ var (
 		Enabled:     true,
 		Name:        fmt.Sprintf("test-nrql-condition-%s", testNrqlConditionRandomString),
 		Nrql: NrqlConditionUpdateQuery{
-			Query:            "SELECT uniqueCount(host) from Transaction where appName='Dummy App'",
+			Query:            "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
 			EvaluationOffset: &nrqlConditionBaseEvalOffset,
 		},
 		RunbookURL: "test.com",
@@ -94,7 +95,7 @@ var (
 		Enabled:     true,
 		Name:        fmt.Sprintf("test-nrql-condition-%s", testNrqlConditionRandomString),
 		Nrql: NrqlConditionCreateQuery{
-			Query: "SELECT uniqueCount(host) from Transaction where appName='Dummy App'",
+			Query: "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
 		},
 		RunbookURL: "test.com",
 		Terms: []NrqlConditionTerm{
@@ -126,7 +127,7 @@ var (
 		Enabled:     true,
 		Name:        fmt.Sprintf("test-nrql-condition-%s", testNrqlConditionRandomString),
 		Nrql: NrqlConditionUpdateQuery{
-			Query: "SELECT uniqueCount(host) from Transaction where appName='Dummy App'",
+			Query: "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
 		},
 		RunbookURL: "test.com",
 		Terms: []NrqlConditionTerm{
@@ -560,7 +561,7 @@ func TestIntegrationNrqlConditions_Search(t *testing.T) {
 				Enabled:     true,
 				Name:        conditionName,
 				Nrql: NrqlConditionCreateQuery{
-					Query:            "SELECT uniqueCount(host) from Transaction where appName='Dummy App'",
+					Query:            "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
 					EvaluationOffset: &nrqlConditionBaseEvalOffset,
 				},
 				RunbookURL: "test.com",
@@ -627,7 +628,7 @@ func TestIntegrationNrqlConditions_CreateStatic(t *testing.T) {
 				Enabled:     true,
 				Name:        conditionName,
 				Nrql: NrqlConditionCreateQuery{
-					Query:            "SELECT uniqueCount(host) from Transaction where appName='Dummy App'",
+					Query:            "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
 					EvaluationOffset: &nrqlConditionBaseEvalOffset,
 				},
 				RunbookURL: "test.com",
@@ -693,7 +694,7 @@ func TestIntegrationNrqlConditions_ZeroValueThreshold(t *testing.T) {
 				Enabled:     true,
 				Name:        conditionName,
 				Nrql: NrqlConditionCreateQuery{
-					Query:            "SELECT uniqueCount(host) from Transaction where appName='Dummy App'",
+					Query:            "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
 					EvaluationOffset: &nrqlConditionBaseEvalOffset,
 				},
 				RunbookURL: "test.com",
