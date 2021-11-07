@@ -80,6 +80,9 @@ packages:
       - name: AlertsNotificationChannelType
       - name: AlertsNrqlConditionTermsOperator
       - name: AlertsPoliciesSearchCriteriaInput
+      - name: AlertsNotificationChannelMutation
+        field_type_override: AlertsNotificationChannel
+        skip_type_create: true
       - name: AlertsPoliciesSearchResultSet
       - name: AlertsPolicy
       - name: AlertsPolicyInput

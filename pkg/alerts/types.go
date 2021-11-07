@@ -188,15 +188,19 @@ var AlertsNotificationChannelCreateErrorTypeTypes = struct {
 	BAD_USER_INPUT AlertsNotificationChannelCreateErrorType
 	// Forbidden error.
 	FORBIDDEN_ERROR AlertsNotificationChannelCreateErrorType
-	// Unknown error.
-	UNKNOWN_ERROR AlertsNotificationChannelCreateErrorType
+	// Server error.
+	SERVER_ERROR AlertsNotificationChannelCreateErrorType
+	// Too many requests error.
+	TOO_MANY_REQUESTS_ERROR AlertsNotificationChannelCreateErrorType
 }{
 	// Bad user input error.
 	BAD_USER_INPUT: "BAD_USER_INPUT",
 	// Forbidden error.
 	FORBIDDEN_ERROR: "FORBIDDEN_ERROR",
-	// Unknown error.
-	UNKNOWN_ERROR: "UNKNOWN_ERROR",
+	// Server error.
+	SERVER_ERROR: "SERVER_ERROR",
+	// Too many requests error.
+	TOO_MANY_REQUESTS_ERROR: "TOO_MANY_REQUESTS_ERROR",
 }
 
 // AlertsNotificationChannelDeleteErrorType - The error type for deleting a notification channel.
@@ -209,8 +213,10 @@ var AlertsNotificationChannelDeleteErrorTypeTypes = struct {
 	FORBIDDEN_ERROR AlertsNotificationChannelDeleteErrorType
 	// Not found error.
 	NOT_FOUND_ERROR AlertsNotificationChannelDeleteErrorType
-	// Unknown error.
-	UNKNOWN_ERROR AlertsNotificationChannelDeleteErrorType
+	// Server error.
+	SERVER_ERROR AlertsNotificationChannelDeleteErrorType
+	// Too many requests error.
+	TOO_MANY_REQUESTS_ERROR AlertsNotificationChannelDeleteErrorType
 }{
 	// Bad user input error.
 	BAD_USER_INPUT: "BAD_USER_INPUT",
@@ -218,8 +224,10 @@ var AlertsNotificationChannelDeleteErrorTypeTypes = struct {
 	FORBIDDEN_ERROR: "FORBIDDEN_ERROR",
 	// Not found error.
 	NOT_FOUND_ERROR: "NOT_FOUND_ERROR",
-	// Unknown error.
-	UNKNOWN_ERROR: "UNKNOWN_ERROR",
+	// Server error.
+	SERVER_ERROR: "SERVER_ERROR",
+	// Too many requests error.
+	TOO_MANY_REQUESTS_ERROR: "TOO_MANY_REQUESTS_ERROR",
 }
 
 // AlertsNotificationChannelType - The type of the notification channel which determines its configuration field.
@@ -279,8 +287,10 @@ var AlertsNotificationChannelUpdateErrorTypeTypes = struct {
 	FORBIDDEN_ERROR AlertsNotificationChannelUpdateErrorType
 	// Not found error.
 	NOT_FOUND_ERROR AlertsNotificationChannelUpdateErrorType
-	// Unknown error.
-	UNKNOWN_ERROR AlertsNotificationChannelUpdateErrorType
+	// Server error.
+	SERVER_ERROR AlertsNotificationChannelUpdateErrorType
+	// Too many requests error.
+	TOO_MANY_REQUESTS_ERROR AlertsNotificationChannelUpdateErrorType
 }{
 	// Bad user input error.
 	BAD_USER_INPUT: "BAD_USER_INPUT",
@@ -288,8 +298,10 @@ var AlertsNotificationChannelUpdateErrorTypeTypes = struct {
 	FORBIDDEN_ERROR: "FORBIDDEN_ERROR",
 	// Not found error.
 	NOT_FOUND_ERROR: "NOT_FOUND_ERROR",
-	// Unknown error.
-	UNKNOWN_ERROR: "UNKNOWN_ERROR",
+	// Server error.
+	SERVER_ERROR: "SERVER_ERROR",
+	// Too many requests error.
+	TOO_MANY_REQUESTS_ERROR: "TOO_MANY_REQUESTS_ERROR",
 }
 
 // AlertsNotificationChannelsRemoveFromPolicyErrorType - The error type for dissociating notification channels from a policy.
@@ -302,8 +314,10 @@ var AlertsNotificationChannelsRemoveFromPolicyErrorTypeTypes = struct {
 	FORBIDDEN_ERROR AlertsNotificationChannelsRemoveFromPolicyErrorType
 	// Not found error.
 	NOT_FOUND_ERROR AlertsNotificationChannelsRemoveFromPolicyErrorType
-	// Unknown error.
-	UNKNOWN_ERROR AlertsNotificationChannelsRemoveFromPolicyErrorType
+	// Server error.
+	SERVER_ERROR AlertsNotificationChannelsRemoveFromPolicyErrorType
+	// Too many requests error.
+	TOO_MANY_REQUESTS_ERROR AlertsNotificationChannelsRemoveFromPolicyErrorType
 }{
 	// Bad user input error.
 	BAD_USER_INPUT: "BAD_USER_INPUT",
@@ -311,8 +325,10 @@ var AlertsNotificationChannelsRemoveFromPolicyErrorTypeTypes = struct {
 	FORBIDDEN_ERROR: "FORBIDDEN_ERROR",
 	// Not found error.
 	NOT_FOUND_ERROR: "NOT_FOUND_ERROR",
-	// Unknown error.
-	UNKNOWN_ERROR: "UNKNOWN_ERROR",
+	// Server error.
+	SERVER_ERROR: "SERVER_ERROR",
+	// Too many requests error.
+	TOO_MANY_REQUESTS_ERROR: "TOO_MANY_REQUESTS_ERROR",
 }
 
 // AlertsOpsGenieDataCenterRegion - OpsGenie data center region
@@ -455,17 +471,18 @@ type AlertsMutingRuleConditionInput struct {
 	//
 	// * **accountId** - The account id
 	// * **conditionId** - The alert condition id
+	// * **conditionName** - The alert condition name
+	// * **conditionRunbookUrl** - The alert condition's runbook url
+	// * **conditionType** - The alert condition type, such as `metric`
+	// * **entity.guid** - The entity GUID
+	// * **nrqlEventType** - The NRQL event type
+	// * **nrqlQuery** - The NRQL query string
 	// * **policyId** - The alert policy id
 	// * **policyName** - The alert policy name
-	// * **conditionName** - The alert condition name
-	// * **conditionType** - The alert condition type, such as `metric`
-	// * **conditionRunbookUrl** - The alert condition's runbook url
 	// * **product** - The target product (e.g., `SYNTHETICS`)
+	// * **tags.<NAME>** - Arbitrary tags associated with some entity (e.g., FACET from a NRQL query, for example `tags.appName` or `tags.host`)
 	// * **targetId** - The ID of the alerts target
 	// * **targetName** - The name of the alerts target
-	// * **nrqlEventType** - The NRQL event type
-	// * **tag** - Arbitrary tags associated with some entity (e.g., FACET from a NRQL query)
-	// * **nrqlQuery** - The NRQL query string
 	Attribute string `json:"attribute"`
 	// The operator used to compare the attribute's value with the supplied value(s).
 	Operator AlertsMutingRuleConditionOperator `json:"operator"`
@@ -575,7 +592,7 @@ type AlertsNotificationChannelCreateResponse struct {
 	// Error.
 	Error AlertsNotificationChannelCreateError `json:"error,omitempty"`
 	// Notification channel.
-	NotificationChannel AlertsNotificationChannelMutation `json:"notificationChannel,omitempty"`
+	NotificationChannel AlertsNotificationChannel `json:"notificationChannel,omitempty"`
 }
 
 // AlertsNotificationChannelDeleteError - The error for deleting a notification channel.
@@ -651,7 +668,7 @@ type AlertsNotificationChannelUpdateResponse struct {
 	// Error.
 	Error AlertsNotificationChannelUpdateError `json:"error,omitempty"`
 	// Notification channel.
-	NotificationChannel AlertsNotificationChannelMutation `json:"notificationChannel,omitempty"`
+	NotificationChannel AlertsNotificationChannel `json:"notificationChannel,omitempty"`
 }
 
 // AlertsNotificationChannelsRemoveFromPolicyError - The error for dissociating notification channels from a policy.
