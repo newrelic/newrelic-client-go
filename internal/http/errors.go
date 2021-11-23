@@ -12,6 +12,7 @@ type ErrorResponse interface {
 	IsNotFound() bool
 	IsRetryableError() bool
 	IsUnauthorized(resp *http.Response) bool
+	IsDeprecated() bool
 	Error() string
 	New() ErrorResponse
 }
@@ -41,6 +42,10 @@ func (e *DefaultErrorResponse) IsNotFound() bool {
 }
 
 func (e *DefaultErrorResponse) IsRetryableError() bool {
+	return false
+}
+
+func (e *DefaultErrorResponse) IsDeprecated() bool {
 	return false
 }
 
