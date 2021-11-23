@@ -2,10 +2,9 @@ package alerts
 
 import (
 	"context"
-	"net/http"
 	"strings"
 
-	nrhttp "github.com/newrelic/newrelic-client-go/internal/http"
+	"github.com/newrelic/newrelic-client-go/internal/http"
 )
 
 // NerdGraphQueryWithContext works similarly to the default client's NerdGraphQueryWithContext but with a custom error
@@ -29,6 +28,8 @@ func (a *Alerts) NerdGraphQueryWithContext(ctx context.Context, query string, va
 
 // GraphQLErrorResponse is a special GraphQL response produced by Alerts GraphQL Service and provides additional context
 type GraphQLErrorResponse struct {
+	http.GraphQLErrorResponse
+
 	Errors []struct {
 		Message    string   `json:"message"`
 		Path       []string `json:"path"`
@@ -47,6 +48,7 @@ type GraphQLErrorResponse struct {
 func (r *GraphQLErrorResponse) Error() string {
 	if len(r.Errors) > 0 {
 		var messages []string
+
 		for _, e := range r.Errors {
 			if e.Message != "" {
 				messages = append(messages, e.Message)
@@ -68,41 +70,6 @@ func (r *GraphQLErrorResponse) IsNotFound() bool {
 	return false
 }
 
-func (r *GraphQLErrorResponse) IsRetryableError() bool {
-
-	if len(r.Errors) == 0 {
-		return false
-	}
-
-	for _, err := range r.Errors {
-		errorClass := err.Extensions.ErrorClass
-		if errorClass == "TIMEOUT" || errorClass == "INTERNAL_SERVER_ERROR" || errorClass == "SERVER_ERROR" {
-			return true
-		}
-	}
-
-	return false
-}
-
-func (r *GraphQLErrorResponse) IsUnauthorized(resp *http.Response) bool {
-	if len(r.Errors) == 0 {
-		return false
-	}
-
-	if resp.StatusCode == http.StatusUnauthorized {
-		return true
-	}
-
-	// Handle invalid or missing API key
-	for _, err := range r.Errors {
-		if err.Extensions.ErrorCode == "BAD_API_KEY" {
-			return true
-		}
-	}
-
-	return false
-}
-
-func (r *GraphQLErrorResponse) New() nrhttp.ErrorResponse {
+func (r *GraphQLErrorResponse) New() http.ErrorResponse {
 	return &GraphQLErrorResponse{}
 }
