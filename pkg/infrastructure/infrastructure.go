@@ -45,6 +45,10 @@ func (e *ErrorResponse) IsRetryableError() bool {
 	return false
 }
 
+func (e *ErrorResponse) IsDeprecated() bool {
+	return false
+}
+
 // IsUnauthorized checks a response for a 401 Unauthorize HTTP status code.
 func (e *ErrorResponse) IsUnauthorized(resp *http.Response) bool {
 	return resp.StatusCode == http.StatusUnauthorized
