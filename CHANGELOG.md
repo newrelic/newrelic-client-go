@@ -1,3 +1,8 @@
+<a name="v0.68.3"></a>
+## [v0.68.3] - 2021-12-03
+### Bug Fixes
+- **dashboards:** make billboard widget thresholds optional, add test cases around them
+
 <a name="v0.68.2"></a>
 ## [v0.68.2] - 2021-12-03
 ### Bug Fixes
@@ -1216,7 +1221,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.68.2...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.68.3...HEAD
+[v0.68.3]: https://github.com/newrelic/newrelic-client-go/compare/v0.68.2...v0.68.3
 [v0.68.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.68.1...v0.68.2
 [v0.68.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.68.0...v0.68.1
 [v0.68.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.67.0...v0.68.0
