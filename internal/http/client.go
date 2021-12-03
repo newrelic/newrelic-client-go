@@ -364,8 +364,11 @@ func (c *Client) Do(req *Request) (*http.Response, error) {
 		return nil, nrErrors.NewNotFound("resource not found")
 	}
 
-	if errorValue.Error() != "" {
-		return nil, errorValue
+	// Ignore deprecation errors
+	if !errorValue.IsDeprecated() {
+		if errorValue.Error() != "" {
+			return nil, errorValue
+		}
 	}
 
 	if req.value == nil {

@@ -2,24 +2,25 @@
 package synthetics
 
 import (
-	"net/http"
 	"strings"
 
-	nrhttp "github.com/newrelic/newrelic-client-go/internal/http"
+	"github.com/newrelic/newrelic-client-go/internal/http"
 	"github.com/newrelic/newrelic-client-go/pkg/config"
 	"github.com/newrelic/newrelic-client-go/pkg/logging"
 )
 
 // Synthetics is used to communicate with the New Relic Synthetics product.
 type Synthetics struct {
-	client nrhttp.Client
+	client http.Client
 	config config.Config
 	logger logging.Logger
-	pager  nrhttp.Pager
+	pager  http.Pager
 }
 
 // ErrorResponse represents an error response from New Relic Synthetics.
 type ErrorResponse struct {
+	http.DefaultErrorResponse
+
 	Message            string        `json:"error,omitempty"`
 	Messages           []ErrorDetail `json:"errors,omitempty"`
 	ServerErrorMessage string        `json:"message,omitempty"`
@@ -52,34 +53,21 @@ func (e *ErrorResponse) Error() string {
 }
 
 // New creates a new instance of ErrorResponse.
-func (e *ErrorResponse) New() nrhttp.ErrorResponse {
+func (e *ErrorResponse) New() http.ErrorResponse {
 	return &ErrorResponse{}
-}
-
-func (e *ErrorResponse) IsNotFound() bool {
-	return false
-}
-
-func (e *ErrorResponse) IsRetryableError() bool {
-	return false
-}
-
-// IsUnauthorized checks the response for a 401 Unauthorize HTTP status code.
-func (e *ErrorResponse) IsUnauthorized(resp *http.Response) bool {
-	return resp.StatusCode == http.StatusUnauthorized
 }
 
 // New is used to create a new Synthetics client instance.
 func New(config config.Config) Synthetics {
-	client := nrhttp.NewClient(config)
-	client.SetAuthStrategy(&nrhttp.PersonalAPIKeyCapableV2Authorizer{})
+	client := http.NewClient(config)
+	client.SetAuthStrategy(&http.PersonalAPIKeyCapableV2Authorizer{})
 	client.SetErrorValue(&ErrorResponse{})
 
 	pkg := Synthetics{
 		client: client,
 		config: config,
 		logger: config.GetLogger(),
-		pager:  &nrhttp.LinkHeaderPager{},
+		pager:  &http.LinkHeaderPager{},
 	}
 
 	return pkg
