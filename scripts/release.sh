@@ -76,5 +76,11 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
+# Generate release notes for GoReleaser to add to the GitHub release description
+${CHANGELOG_CMD} -o ${RELEASE_NOTES_FILE} ${VER_NEXT} --sort semver
+
+# Correct spelling mistakes in release notes
+${SPELL_CMD} -source text -w ${RELEASE_NOTES_FILE}
+
 # Publish the release
-${REL_CMD} release
+${REL_CMD} release --release-notes=${RELEASE_NOTES_FILE}
