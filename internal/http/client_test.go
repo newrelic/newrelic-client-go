@@ -118,6 +118,10 @@ func (c *CustomErrorResponse) IsRetryableError() bool {
 	return false
 }
 
+func (c *CustomErrorResponse) IsDeprecated() bool {
+	return false
+}
+
 func (c *CustomErrorResponse) IsUnauthorized(resp *http.Response) bool {
 	return resp.StatusCode == http.StatusUnauthorized
 }
