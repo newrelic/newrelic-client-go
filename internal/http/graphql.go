@@ -87,6 +87,21 @@ func (r *GraphQLErrorResponse) IsUnauthorized(resp *http.Response) bool {
 	return false
 }
 
+// IsDeprecated parses error messages for warnings that a field being used
+// is deprecated.  We want to bubble that up, but not stop returning data
+//
+// Example deprecation message:
+//   This field is deprecated! Please use `relatedEntities` instead.
+func (r *GraphQLErrorResponse) IsDeprecated() bool {
+	for _, err := range r.Errors {
+		if strings.HasPrefix(err.Message, "This field is deprecated!") {
+			return true
+		}
+	}
+
+	return false
+}
+
 // New creates a new instance of GraphQLErrorRepsonse.
 func (r *GraphQLErrorResponse) New() ErrorResponse {
 	return &GraphQLErrorResponse{}

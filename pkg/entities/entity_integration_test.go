@@ -9,6 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
+	"github.com/newrelic/newrelic-client-go/internal/http"
 	"github.com/newrelic/newrelic-client-go/pkg/common"
 	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
@@ -110,7 +111,11 @@ func TestIntegrationGetEntities(t *testing.T) {
 	guids := []common.EntityGUID{"MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1"}
 	actual, err := client.GetEntities(guids)
 
-	require.NoError(t, err)
+	if e, ok := err.(*http.GraphQLErrorResponse); ok {
+		if !e.IsDeprecated() {
+			require.NoError(t, e)
+		}
+	}
 	require.Greater(t, len((*actual)), 0)
 }
 
@@ -122,7 +127,11 @@ func TestIntegrationGetEntity(t *testing.T) {
 
 	result, err := client.GetEntity(entityGUID)
 
-	require.NoError(t, err)
+	if e, ok := err.(*http.GraphQLErrorResponse); ok {
+		if !e.IsDeprecated() {
+			require.NoError(t, e)
+		}
+	}
 	require.NotNil(t, result)
 
 	actual := (*result).(*ApmApplicationEntity)
@@ -145,7 +154,11 @@ func TestIntegrationGetEntity_ApmEntity(t *testing.T) {
 
 	result, err := client.GetEntity("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
 
-	require.NoError(t, err)
+	if e, ok := err.(*http.GraphQLErrorResponse); ok {
+		if !e.IsDeprecated() {
+			require.NoError(t, e)
+		}
+	}
 	require.NotNil(t, result)
 
 	actual := (*result).(*ApmApplicationEntity)
@@ -172,7 +185,11 @@ func TestIntegrationGetEntity_BrowserEntity(t *testing.T) {
 
 	result, err := client.GetEntity("MjUwODI1OXxCUk9XU0VSfEFQUExJQ0FUSU9OfDIwNDI2MTYyOA")
 
-	require.NoError(t, err)
+	if e, ok := err.(*http.GraphQLErrorResponse); ok {
+		if !e.IsDeprecated() {
+			require.NoError(t, e)
+		}
+	}
 	require.NotNil(t, result)
 
 	actual := (*result).(*BrowserApplicationEntity)
@@ -193,8 +210,12 @@ func TestIntegrationGetEntity_MobileEntity(t *testing.T) {
 
 	result, err := client.GetEntity("NDQ0NTN8TU9CSUxFfEFQUExJQ0FUSU9OfDE3ODg1NDI")
 
-	require.NoError(t, err)
-	require.NotNil(t, result)
+	if e, ok := err.(*http.GraphQLErrorResponse); ok {
+		if !e.IsDeprecated() {
+			require.NoError(t, e)
+		}
+	}
+	require.NotNil(t, (*result))
 
 	actual := (*result).(*MobileApplicationEntity)
 
