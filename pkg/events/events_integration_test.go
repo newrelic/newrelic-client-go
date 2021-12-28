@@ -72,6 +72,28 @@ func TestIntegrationEvents(t *testing.T) {
 	}
 }
 
+func TestIntegrationEventsLicenseKey(t *testing.T) {
+	t.Parallel()
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	tc := mock.NewIntegrationTestConfig(t)
+	tc.InsightsInsertKey = ""
+	client := New(tc)
+
+	for _, event := range testEvents {
+		err := client.CreateEvent(testAccountID, event.Event)
+		if event.err == nil {
+			assert.NoError(t, err)
+		} else {
+			assert.Equal(t, event.err, err)
+		}
+	}
+}
+
 func TestIntegrationEvents_BatchMode_Timeout(t *testing.T) {
 	t.Parallel()
 

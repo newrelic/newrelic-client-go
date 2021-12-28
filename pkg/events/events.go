@@ -42,7 +42,11 @@ func New(cfg config.Config) Events {
 	cfg.Compression = config.Compression.Gzip
 
 	client := http.NewClient(cfg)
-	client.SetAuthStrategy(&http.InsightsInsertKeyAuthorizer{})
+	if cfg.InsightsInsertKey != "" {
+		client.SetAuthStrategy(&http.InsightsInsertKeyAuthorizer{})
+	} else {
+		client.SetAuthStrategy(&http.LicenseKeyAuthorizer{})
+	}
 
 	pkg := Events{
 		client:       client,
