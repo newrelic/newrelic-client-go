@@ -146,6 +146,12 @@ packages:
             max_query_field_depth: 2
             include_arguments:
               - "provider"
+      - path: ["actor", "account", "cloud"]
+        endpoints:
+          - name: linkedAccount
+            max_query_field_depth: 2
+            include_arguments:
+              - "id"
     mutations:
       - name: cloudConfigureIntegration
         max_query_field_depth: 1

@@ -23,8 +23,29 @@ var CloudMetricCollectionModeTypes = struct {
 	PUSH: "PUSH",
 }
 
+// Account - The `Account` object provides general data about the account, as well as
+// being the entry point into more detailed data about a single account.
+//
+// Account configuration data is queried through this object, as well as
+// telemetry data that is specific to a single account.
+type Account struct {
+	// The `cloud` field provides access to cloud integrations configuration data.
+	//
+	// For details and query examples visit
+	// [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/manage-your-aws-azure-google-cloud-integrations-graphql-api).
+	Cloud CloudAccountFields `json:"cloud,omitempty"`
+	//
+	ID int `json:"id,omitempty"`
+	//
+	LicenseKey string `json:"licenseKey,omitempty"`
+	//
+	Name string `json:"name,omitempty"`
+}
+
 // Actor - The `Actor` object contains fields that are scoped to the API user's access level.
 type Actor struct {
+	// The `account` field is the entry point into data that is scoped to a single account.
+	Account Account `json:"account,omitempty"`
 	// The `cloud` field provides access to cloud integrations configuration data scoped to the Actor.
 	Cloud CloudActorFields `json:"cloud,omitempty"`
 }
@@ -77,6 +98,19 @@ type CloudAPIgatewayIntegrationInput struct {
 	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
 	TagValue string `json:"tagValue,omitempty"`
+}
+
+// CloudAccountFields - Cloud integrations related data, including configured integrations and
+// all available cloud provider service integrations.
+type CloudAccountFields struct {
+	// Get one linked provider account.
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
+	// Get all linked cloud provider accounts.
+	LinkedAccounts []CloudLinkedAccount `json:"linkedAccounts,omitempty"`
+	// Get one cloud provider by short name.
+	Provider CloudProviderInterface `json:"provider,omitempty"`
+	// Get all available cloud providers.
+	Providers []CloudProviderInterface `json:"providers,omitempty"`
 }
 
 // CloudAccountMutationError - Account Mutation Error
@@ -5533,6 +5567,10 @@ type CloudVpcIntegrationInput struct {
 	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
 	TagValue string `json:"tagValue,omitempty"`
+}
+
+type linkedAccountResponse struct {
+	Actor Actor `json:"actor"`
 }
 
 type linkedAccountsResponse struct {
