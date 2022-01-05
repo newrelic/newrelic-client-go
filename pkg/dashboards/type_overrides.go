@@ -7,5 +7,5 @@ type DashboardBillboardWidgetThresholdInput struct {
 	// alert severity.
 	AlertSeverity entities.DashboardAlertSeverity `json:"alertSeverity,omitempty"`
 	// value.
-	Value float64 `json:"value"`
+	Value *float64 `json:"value,omitempty"`
 }
