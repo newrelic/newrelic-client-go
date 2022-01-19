@@ -141,6 +141,7 @@ const InstallationCreateRecipeEventMutation = `mutation(
 	kernelArch
 	kernelVersion
 	logFilePath
+	metadata
 	name
 	os
 	platform
