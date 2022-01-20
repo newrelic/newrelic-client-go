@@ -74,7 +74,7 @@ const CloudConfigureIntegrationMutation = `mutation(
 			awsRegions
 			fetchExtendedInventory
 			fetchTags
-			inventoryPollingInterval
+			
 			loadBalancerPrefixes
 			metricsPollingInterval
 			tagKey
@@ -83,7 +83,7 @@ const CloudConfigureIntegrationMutation = `mutation(
 		... on CloudApigatewayIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			stagePrefixes
 			tagKey
@@ -92,322 +92,316 @@ const CloudConfigureIntegrationMutation = `mutation(
 		... on CloudAutoscalingIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsAppsyncIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsAthenaIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsCognitoIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsConnectIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsDirectconnectIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsDocdbIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsFsxIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsGlueIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsKinesisanalyticsIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsMediaconvertIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsMediapackagevodIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsMetadataIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsMqIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsMskIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsNeptuneIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsQldbIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsRoute53resolverIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsStatesIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsTagsGlobalIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsTransitgatewayIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsWafIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsWafv2Integration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsXrayIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAzureApimanagementIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureAppgatewayIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureAppserviceIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureContainersIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureCosmosdbIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureCostmanagementIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKeys
 		}
 		... on CloudAzureDatafactoryIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureEventhubIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureExpressrouteIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureFirewallsIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureFrontdoorIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureFunctionsIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureKeyvaultIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureLoadbalancerIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureLogicappsIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureMachinelearningIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureMariadbIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureMysqlIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzurePostgresqlIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzurePowerbidedicatedIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureRediscacheIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureServicebusIntegration {
 			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-			resourceGroups
-		}
-		... on CloudAzureServicefabricIntegration {
-			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureSqlIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureSqlmanagedIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureStorageIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureVirtualmachineIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureVirtualnetworksIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureVmsIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureVpngatewaysIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
@@ -416,14 +410,14 @@ const CloudConfigureIntegrationMutation = `mutation(
 		}
 		... on CloudBillingIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudCloudfrontIntegration {
 			__typename
 			fetchLambdasAtEdge
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -431,7 +425,7 @@ const CloudConfigureIntegrationMutation = `mutation(
 		... on CloudCloudtrailIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudDynamodbIntegration {
@@ -439,7 +433,7 @@ const CloudConfigureIntegrationMutation = `mutation(
 			awsRegions
 			fetchExtendedInventory
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -448,7 +442,7 @@ const CloudConfigureIntegrationMutation = `mutation(
 			__typename
 			awsRegions
 			fetchExtendedInventory
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -457,7 +451,7 @@ const CloudConfigureIntegrationMutation = `mutation(
 			__typename
 			awsRegions
 			fetchIpAddresses
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -466,7 +460,7 @@ const CloudConfigureIntegrationMutation = `mutation(
 			__typename
 			awsRegions
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -475,7 +469,7 @@ const CloudConfigureIntegrationMutation = `mutation(
 			__typename
 			awsRegions
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -484,7 +478,7 @@ const CloudConfigureIntegrationMutation = `mutation(
 			__typename
 			awsRegions
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -494,7 +488,7 @@ const CloudConfigureIntegrationMutation = `mutation(
 			awsRegions
 			fetchExtendedInventory
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -503,7 +497,7 @@ const CloudConfigureIntegrationMutation = `mutation(
 			__typename
 			awsRegions
 			fetchNodes
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -513,155 +507,155 @@ const CloudConfigureIntegrationMutation = `mutation(
 			awsRegions
 			fetchExtendedInventory
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudEmrIntegration {
 			__typename
 			awsRegions
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
 		}
 		... on CloudGcpAppengineIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpBigqueryIntegration {
 			__typename
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpBigtableIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpComposerIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpDataflowIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpDataprocIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpDatastoreIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpFirebasedatabaseIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpFirebasehostingIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpFirebasestorageIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpFirestoreIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpFunctionsIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpInterconnectIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpKubernetesIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpLoadbalancingIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpMemcacheIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpPubsubIntegration {
 			__typename
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpRedisIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpRouterIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpRunIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpSpannerIntegration {
 			__typename
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpSqlIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpStorageIntegration {
 			__typename
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpVmsIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpVpcaccessIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudHealthIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudIamIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -669,13 +663,13 @@ const CloudConfigureIntegrationMutation = `mutation(
 		... on CloudIotIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudKinesisFirehoseIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudKinesisIntegration {
@@ -683,7 +677,7 @@ const CloudConfigureIntegrationMutation = `mutation(
 			awsRegions
 			fetchShards
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -692,7 +686,7 @@ const CloudConfigureIntegrationMutation = `mutation(
 			__typename
 			awsRegions
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -701,7 +695,7 @@ const CloudConfigureIntegrationMutation = `mutation(
 			__typename
 			awsRegions
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -709,7 +703,7 @@ const CloudConfigureIntegrationMutation = `mutation(
 		... on CloudRedshiftIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -717,14 +711,14 @@ const CloudConfigureIntegrationMutation = `mutation(
 		... on CloudRoute53Integration {
 			__typename
 			fetchExtendedInventory
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudS3Integration {
 			__typename
 			fetchExtendedInventory
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -732,14 +726,14 @@ const CloudConfigureIntegrationMutation = `mutation(
 		... on CloudSesIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudSnsIntegration {
 			__typename
 			awsRegions
 			fetchExtendedInventory
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudSqsIntegration {
@@ -747,7 +741,7 @@ const CloudConfigureIntegrationMutation = `mutation(
 			awsRegions
 			fetchExtendedInventory
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			queuePrefixes
 			tagKey
@@ -755,7 +749,7 @@ const CloudConfigureIntegrationMutation = `mutation(
 		}
 		... on CloudTrustedadvisorIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudVpcIntegration {
@@ -763,7 +757,7 @@ const CloudConfigureIntegrationMutation = `mutation(
 			awsRegions
 			fetchNatGateway
 			fetchVpn
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -831,7 +825,7 @@ const CloudDisableIntegrationMutation = `mutation(
 			awsRegions
 			fetchExtendedInventory
 			fetchTags
-			inventoryPollingInterval
+			
 			loadBalancerPrefixes
 			metricsPollingInterval
 			tagKey
@@ -840,7 +834,7 @@ const CloudDisableIntegrationMutation = `mutation(
 		... on CloudApigatewayIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			stagePrefixes
 			tagKey
@@ -849,322 +843,316 @@ const CloudDisableIntegrationMutation = `mutation(
 		... on CloudAutoscalingIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsAppsyncIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsAthenaIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsCognitoIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsConnectIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsDirectconnectIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsDocdbIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsFsxIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsGlueIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsKinesisanalyticsIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsMediaconvertIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsMediapackagevodIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsMetadataIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsMqIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsMskIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsNeptuneIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsQldbIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsRoute53resolverIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsStatesIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsTagsGlobalIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsTransitgatewayIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsWafIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsWafv2Integration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsXrayIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAzureApimanagementIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureAppgatewayIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureAppserviceIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureContainersIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureCosmosdbIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureCostmanagementIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKeys
 		}
 		... on CloudAzureDatafactoryIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureEventhubIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureExpressrouteIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureFirewallsIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureFrontdoorIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureFunctionsIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureKeyvaultIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureLoadbalancerIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureLogicappsIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureMachinelearningIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureMariadbIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureMysqlIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzurePostgresqlIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzurePowerbidedicatedIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureRediscacheIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureServicebusIntegration {
 			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-			resourceGroups
-		}
-		... on CloudAzureServicefabricIntegration {
-			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureSqlIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureSqlmanagedIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureStorageIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureVirtualmachineIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureVirtualnetworksIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureVmsIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureVpngatewaysIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
@@ -1173,14 +1161,14 @@ const CloudDisableIntegrationMutation = `mutation(
 		}
 		... on CloudBillingIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudCloudfrontIntegration {
 			__typename
 			fetchLambdasAtEdge
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -1188,7 +1176,7 @@ const CloudDisableIntegrationMutation = `mutation(
 		... on CloudCloudtrailIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudDynamodbIntegration {
@@ -1196,7 +1184,7 @@ const CloudDisableIntegrationMutation = `mutation(
 			awsRegions
 			fetchExtendedInventory
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -1205,7 +1193,7 @@ const CloudDisableIntegrationMutation = `mutation(
 			__typename
 			awsRegions
 			fetchExtendedInventory
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -1214,7 +1202,7 @@ const CloudDisableIntegrationMutation = `mutation(
 			__typename
 			awsRegions
 			fetchIpAddresses
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -1223,7 +1211,7 @@ const CloudDisableIntegrationMutation = `mutation(
 			__typename
 			awsRegions
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -1232,7 +1220,7 @@ const CloudDisableIntegrationMutation = `mutation(
 			__typename
 			awsRegions
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -1241,7 +1229,7 @@ const CloudDisableIntegrationMutation = `mutation(
 			__typename
 			awsRegions
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -1251,7 +1239,7 @@ const CloudDisableIntegrationMutation = `mutation(
 			awsRegions
 			fetchExtendedInventory
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -1260,7 +1248,7 @@ const CloudDisableIntegrationMutation = `mutation(
 			__typename
 			awsRegions
 			fetchNodes
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -1270,155 +1258,155 @@ const CloudDisableIntegrationMutation = `mutation(
 			awsRegions
 			fetchExtendedInventory
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudEmrIntegration {
 			__typename
 			awsRegions
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
 		}
 		... on CloudGcpAppengineIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpBigqueryIntegration {
 			__typename
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpBigtableIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpComposerIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpDataflowIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpDataprocIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpDatastoreIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpFirebasedatabaseIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpFirebasehostingIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpFirebasestorageIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpFirestoreIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpFunctionsIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpInterconnectIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpKubernetesIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpLoadbalancingIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpMemcacheIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpPubsubIntegration {
 			__typename
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpRedisIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpRouterIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpRunIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpSpannerIntegration {
 			__typename
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpSqlIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpStorageIntegration {
 			__typename
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpVmsIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpVpcaccessIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudHealthIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudIamIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -1426,13 +1414,13 @@ const CloudDisableIntegrationMutation = `mutation(
 		... on CloudIotIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudKinesisFirehoseIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudKinesisIntegration {
@@ -1440,7 +1428,7 @@ const CloudDisableIntegrationMutation = `mutation(
 			awsRegions
 			fetchShards
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -1449,7 +1437,7 @@ const CloudDisableIntegrationMutation = `mutation(
 			__typename
 			awsRegions
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -1458,7 +1446,7 @@ const CloudDisableIntegrationMutation = `mutation(
 			__typename
 			awsRegions
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -1466,7 +1454,7 @@ const CloudDisableIntegrationMutation = `mutation(
 		... on CloudRedshiftIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -1474,14 +1462,14 @@ const CloudDisableIntegrationMutation = `mutation(
 		... on CloudRoute53Integration {
 			__typename
 			fetchExtendedInventory
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudS3Integration {
 			__typename
 			fetchExtendedInventory
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -1489,14 +1477,14 @@ const CloudDisableIntegrationMutation = `mutation(
 		... on CloudSesIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudSnsIntegration {
 			__typename
 			awsRegions
 			fetchExtendedInventory
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudSqsIntegration {
@@ -1504,7 +1492,7 @@ const CloudDisableIntegrationMutation = `mutation(
 			awsRegions
 			fetchExtendedInventory
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			queuePrefixes
 			tagKey
@@ -1512,7 +1500,7 @@ const CloudDisableIntegrationMutation = `mutation(
 		}
 		... on CloudTrustedadvisorIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudVpcIntegration {
@@ -1520,7 +1508,7 @@ const CloudDisableIntegrationMutation = `mutation(
 			awsRegions
 			fetchNatGateway
 			fetchVpn
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -1775,780 +1763,555 @@ func (a *Cloud) GetLinkedAccountWithContext(
 const getLinkedAccountQuery = `query(
 	$accountID: Int!,
 	$id: Int,
-) { actor { account(id: $accountID) { cloud { linkedAccount(
-	id: $id,
 ) {
-	authLabel
-	createdAt
-	disabled
-	externalId
-	id
-	integrations {
-		__typename
-		createdAt
-		id
-		linkedAccount {
-			authLabel
-			createdAt
-			disabled
-			externalId
-			id
-			metricCollectionMode
-			name
-			nrAccountId
-			updatedAt
-		}
-		name
-		nrAccountId
-		service {
-			createdAt
-			icon
-			id
-			isEnabled
-			name
-			slug
-			updatedAt
-		}
-		updatedAt
-		... on CloudAlbIntegration {
-			__typename
-			awsRegions
-			fetchExtendedInventory
-			fetchTags
-			inventoryPollingInterval
-			loadBalancerPrefixes
-			metricsPollingInterval
-			tagKey
-			tagValue
-		}
-		... on CloudApigatewayIntegration {
-			__typename
-			awsRegions
-			inventoryPollingInterval
-			metricsPollingInterval
-			stagePrefixes
-			tagKey
-			tagValue
-		}
-		... on CloudAutoscalingIntegration {
-			__typename
-			awsRegions
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudAwsAppsyncIntegration {
-			__typename
-			awsRegions
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudAwsAthenaIntegration {
-			__typename
-			awsRegions
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudAwsCognitoIntegration {
-			__typename
-			awsRegions
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudAwsConnectIntegration {
-			__typename
-			awsRegions
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudAwsDirectconnectIntegration {
-			__typename
-			awsRegions
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudAwsDocdbIntegration {
-			__typename
-			awsRegions
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudAwsFsxIntegration {
-			__typename
-			awsRegions
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudAwsGlueIntegration {
-			__typename
-			awsRegions
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudAwsKinesisanalyticsIntegration {
-			__typename
-			awsRegions
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudAwsMediaconvertIntegration {
-			__typename
-			awsRegions
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudAwsMediapackagevodIntegration {
-			__typename
-			awsRegions
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudAwsMetadataIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudAwsMqIntegration {
-			__typename
-			awsRegions
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudAwsMskIntegration {
-			__typename
-			awsRegions
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudAwsNeptuneIntegration {
-			__typename
-			awsRegions
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudAwsQldbIntegration {
-			__typename
-			awsRegions
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudAwsRoute53resolverIntegration {
-			__typename
-			awsRegions
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudAwsStatesIntegration {
-			__typename
-			awsRegions
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudAwsTagsGlobalIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudAwsTransitgatewayIntegration {
-			__typename
-			awsRegions
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudAwsWafIntegration {
-			__typename
-			awsRegions
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudAwsWafv2Integration {
-			__typename
-			awsRegions
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudAwsXrayIntegration {
-			__typename
-			awsRegions
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudAzureApimanagementIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-			resourceGroups
-		}
-		... on CloudAzureAppgatewayIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-			resourceGroups
-		}
-		... on CloudAzureAppserviceIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-			resourceGroups
-		}
-		... on CloudAzureContainersIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-			resourceGroups
-		}
-		... on CloudAzureCosmosdbIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-			resourceGroups
-		}
-		... on CloudAzureCostmanagementIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-			tagKeys
-		}
-		... on CloudAzureDatafactoryIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-			resourceGroups
-		}
-		... on CloudAzureEventhubIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-			resourceGroups
-		}
-		... on CloudAzureExpressrouteIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-			resourceGroups
-		}
-		... on CloudAzureFirewallsIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-			resourceGroups
-		}
-		... on CloudAzureFrontdoorIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-			resourceGroups
-		}
-		... on CloudAzureFunctionsIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-			resourceGroups
-		}
-		... on CloudAzureKeyvaultIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-			resourceGroups
-		}
-		... on CloudAzureLoadbalancerIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-			resourceGroups
-		}
-		... on CloudAzureLogicappsIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-			resourceGroups
-		}
-		... on CloudAzureMachinelearningIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-			resourceGroups
-		}
-		... on CloudAzureMariadbIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-			resourceGroups
-		}
-		... on CloudAzureMysqlIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-			resourceGroups
-		}
-		... on CloudAzurePostgresqlIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-			resourceGroups
-		}
-		... on CloudAzurePowerbidedicatedIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-			resourceGroups
-		}
-		... on CloudAzureRediscacheIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-			resourceGroups
-		}
-		... on CloudAzureServicebusIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-			resourceGroups
-		}
-		... on CloudAzureServicefabricIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-			resourceGroups
-		}
-		... on CloudAzureSqlIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-			resourceGroups
-		}
-		... on CloudAzureSqlmanagedIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-			resourceGroups
-		}
-		... on CloudAzureStorageIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-			resourceGroups
-		}
-		... on CloudAzureVirtualmachineIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-			resourceGroups
-		}
-		... on CloudAzureVirtualnetworksIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-			resourceGroups
-		}
-		... on CloudAzureVmsIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-			resourceGroups
-		}
-		... on CloudAzureVpngatewaysIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-			resourceGroups
-		}
-		... on CloudBaseIntegration {
-			__typename
-		}
-		... on CloudBillingIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudCloudfrontIntegration {
-			__typename
-			fetchLambdasAtEdge
-			fetchTags
-			inventoryPollingInterval
-			metricsPollingInterval
-			tagKey
-			tagValue
-		}
-		... on CloudCloudtrailIntegration {
-			__typename
-			awsRegions
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudDynamodbIntegration {
-			__typename
-			awsRegions
-			fetchExtendedInventory
-			fetchTags
-			inventoryPollingInterval
-			metricsPollingInterval
-			tagKey
-			tagValue
-		}
-		... on CloudEbsIntegration {
-			__typename
-			awsRegions
-			fetchExtendedInventory
-			inventoryPollingInterval
-			metricsPollingInterval
-			tagKey
-			tagValue
-		}
-		... on CloudEc2Integration {
-			__typename
-			awsRegions
-			fetchIpAddresses
-			inventoryPollingInterval
-			metricsPollingInterval
-			tagKey
-			tagValue
-		}
-		... on CloudEcsIntegration {
-			__typename
-			awsRegions
-			fetchTags
-			inventoryPollingInterval
-			metricsPollingInterval
-			tagKey
-			tagValue
-		}
-		... on CloudEfsIntegration {
-			__typename
-			awsRegions
-			fetchTags
-			inventoryPollingInterval
-			metricsPollingInterval
-			tagKey
-			tagValue
-		}
-		... on CloudElasticacheIntegration {
-			__typename
-			awsRegions
-			fetchTags
-			inventoryPollingInterval
-			metricsPollingInterval
-			tagKey
-			tagValue
-		}
-		... on CloudElasticbeanstalkIntegration {
-			__typename
-			awsRegions
-			fetchExtendedInventory
-			fetchTags
-			inventoryPollingInterval
-			metricsPollingInterval
-			tagKey
-			tagValue
-		}
-		... on CloudElasticsearchIntegration {
-			__typename
-			awsRegions
-			fetchNodes
-			inventoryPollingInterval
-			metricsPollingInterval
-			tagKey
-			tagValue
-		}
-		... on CloudElbIntegration {
-			__typename
-			awsRegions
-			fetchExtendedInventory
-			fetchTags
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudEmrIntegration {
-			__typename
-			awsRegions
-			fetchTags
-			inventoryPollingInterval
-			metricsPollingInterval
-			tagKey
-			tagValue
-		}
-		... on CloudGcpAppengineIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudGcpBigqueryIntegration {
-			__typename
-			fetchTags
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudGcpBigtableIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudGcpComposerIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudGcpDataflowIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudGcpDataprocIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudGcpDatastoreIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudGcpFirebasedatabaseIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudGcpFirebasehostingIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudGcpFirebasestorageIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudGcpFirestoreIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudGcpFunctionsIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudGcpInterconnectIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudGcpKubernetesIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudGcpLoadbalancingIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudGcpMemcacheIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudGcpPubsubIntegration {
-			__typename
-			fetchTags
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudGcpRedisIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudGcpRouterIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudGcpRunIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudGcpSpannerIntegration {
-			__typename
-			fetchTags
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudGcpSqlIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudGcpStorageIntegration {
-			__typename
-			fetchTags
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudGcpVmsIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudGcpVpcaccessIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudHealthIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudIamIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-			tagKey
-			tagValue
-		}
-		... on CloudIotIntegration {
-			__typename
-			awsRegions
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudKinesisFirehoseIntegration {
-			__typename
-			awsRegions
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudKinesisIntegration {
-			__typename
-			awsRegions
-			fetchShards
-			fetchTags
-			inventoryPollingInterval
-			metricsPollingInterval
-			tagKey
-			tagValue
-		}
-		... on CloudLambdaIntegration {
-			__typename
-			awsRegions
-			fetchTags
-			inventoryPollingInterval
-			metricsPollingInterval
-			tagKey
-			tagValue
-		}
-		... on CloudRdsIntegration {
-			__typename
-			awsRegions
-			fetchTags
-			inventoryPollingInterval
-			metricsPollingInterval
-			tagKey
-			tagValue
-		}
-		... on CloudRedshiftIntegration {
-			__typename
-			awsRegions
-			inventoryPollingInterval
-			metricsPollingInterval
-			tagKey
-			tagValue
-		}
-		... on CloudRoute53Integration {
-			__typename
-			fetchExtendedInventory
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudS3Integration {
-			__typename
-			fetchExtendedInventory
-			fetchTags
-			inventoryPollingInterval
-			metricsPollingInterval
-			tagKey
-			tagValue
-		}
-		... on CloudSesIntegration {
-			__typename
-			awsRegions
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudSnsIntegration {
-			__typename
-			awsRegions
-			fetchExtendedInventory
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudSqsIntegration {
-			__typename
-			awsRegions
-			fetchExtendedInventory
-			fetchTags
-			inventoryPollingInterval
-			metricsPollingInterval
-			queuePrefixes
-			tagKey
-			tagValue
-		}
-		... on CloudTrustedadvisorIntegration {
-			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-		}
-		... on CloudVpcIntegration {
-			__typename
-			awsRegions
-			fetchNatGateway
-			fetchVpn
-			inventoryPollingInterval
-			metricsPollingInterval
-			tagKey
-			tagValue
-		}
-	}
-	metricCollectionMode
-	name
-	nrAccountId
-	provider {
-		__typename
-		createdAt
-		icon
-		id
-		name
-		services {
-			createdAt
-			icon
-			id
-			isEnabled
-			name
-			slug
-			updatedAt
-		}
-		slug
-		updatedAt
-		... on CloudAwsGovCloudProvider {
-			__typename
-			awsAccountId
-		}
-		... on CloudAwsProvider {
-			__typename
-			roleAccountId
-			roleExternalId
-		}
-		... on CloudBaseProvider {
-			__typename
-		}
-		... on CloudGcpProvider {
-			__typename
-			serviceAccountId
-		}
-	}
-	updatedAt
-} } } } }`
+  actor {
+    account(id: $accountID) {
+      cloud {
+        linkedAccount(id: $id) {
+          authLabel
+          createdAt
+          disabled
+          externalId
+          id
+          integrations {
+            createdAt
+            id
+            linkedAccount {
+              authLabel
+              createdAt
+              disabled
+              externalId
+              id
+              metricCollectionMode
+              name
+              nrAccountId
+              updatedAt
+            }
+            name
+            nrAccountId
+            service {
+              createdAt
+              icon
+              id
+              isEnabled
+              name
+              slug
+              updatedAt
+            }
+            updatedAt
+            ... on CloudAlbIntegration {
+              awsRegions
+              fetchExtendedInventory
+              fetchTags
+              loadBalancerPrefixes
+              metricsPollingInterval
+              tagKey
+              tagValue
+            }
+            ... on CloudApigatewayIntegration {
+              awsRegions
+              metricsPollingInterval
+              stagePrefixes
+              tagKey
+              tagValue
+            }
+            ... on CloudAutoscalingIntegration {
+              awsRegions
+              metricsPollingInterval
+            }
+            ... on CloudAwsAppsyncIntegration {
+              awsRegions
+              metricsPollingInterval
+            }
+            ... on CloudAwsAthenaIntegration {
+              awsRegions
+              metricsPollingInterval
+            }
+            ... on CloudAwsCognitoIntegration {
+              awsRegions
+              metricsPollingInterval
+            }
+            ... on CloudAwsConnectIntegration {
+              awsRegions
+              metricsPollingInterval
+            }
+            ... on CloudAwsDirectconnectIntegration {
+              awsRegions
+              metricsPollingInterval
+            }
+            ... on CloudAwsDocdbIntegration {
+              awsRegions
+              metricsPollingInterval
+            }
+            ... on CloudAwsFsxIntegration {
+              awsRegions
+              metricsPollingInterval
+            }
+            ... on CloudAwsGlueIntegration {
+              awsRegions
+              metricsPollingInterval
+            }
+            ... on CloudAwsKinesisanalyticsIntegration {
+              awsRegions
+              metricsPollingInterval
+            }
+            ... on CloudAwsMediaconvertIntegration {
+              awsRegions
+              metricsPollingInterval
+            }
+            ... on CloudAwsMediapackagevodIntegration {
+              awsRegions
+              metricsPollingInterval
+            }
+            ... on CloudAwsMetadataIntegration {
+              metricsPollingInterval
+            }
+            ... on CloudAwsMqIntegration {
+              awsRegions
+              metricsPollingInterval
+            }
+            ... on CloudAwsMskIntegration {
+              awsRegions
+              metricsPollingInterval
+            }
+            ... on CloudAwsNeptuneIntegration {
+              awsRegions
+              metricsPollingInterval
+            }
+            ... on CloudAwsQldbIntegration {
+              awsRegions
+              metricsPollingInterval
+            }
+            ... on CloudAwsRoute53resolverIntegration {
+              awsRegions
+              metricsPollingInterval
+            }
+            ... on CloudAwsStatesIntegration {
+              awsRegions
+              metricsPollingInterval
+            }
+            ... on CloudAwsTagsGlobalIntegration {
+              metricsPollingInterval
+            }
+            ... on CloudAwsTransitgatewayIntegration {
+              awsRegions
+              metricsPollingInterval
+            }
+            ... on CloudAwsWafIntegration {
+              awsRegions
+              metricsPollingInterval
+            }
+            ... on CloudAwsWafv2Integration {
+              awsRegions
+              metricsPollingInterval
+            }
+            ... on CloudAwsXrayIntegration {
+              awsRegions
+              metricsPollingInterval
+            }
+            ... on CloudAzureApimanagementIntegration {
+              metricsPollingInterval
+              resourceGroups
+            }
+            ... on CloudAzureAppgatewayIntegration {
+              metricsPollingInterval
+              resourceGroups
+            }
+            ... on CloudAzureAppserviceIntegration {
+              metricsPollingInterval
+              resourceGroups
+            }
+            ... on CloudAzureContainersIntegration {
+              metricsPollingInterval
+              resourceGroups
+            }
+            ... on CloudAzureCosmosdbIntegration {
+              metricsPollingInterval
+              resourceGroups
+            }
+            ... on CloudAzureCostmanagementIntegration {
+              metricsPollingInterval
+              tagKeys
+            }
+            ... on CloudAzureDatafactoryIntegration {
+              metricsPollingInterval
+              resourceGroups
+            }
+            ... on CloudAzureEventhubIntegration {
+              metricsPollingInterval
+              resourceGroups
+            }
+            ... on CloudAzureExpressrouteIntegration {
+              metricsPollingInterval
+              resourceGroups
+            }
+            ... on CloudAzureFirewallsIntegration {
+              metricsPollingInterval
+              resourceGroups
+            }
+            ... on CloudAzureFrontdoorIntegration {
+              metricsPollingInterval
+              resourceGroups
+            }
+            ... on CloudAzureFunctionsIntegration {
+              metricsPollingInterval
+              resourceGroups
+            }
+            ... on CloudAzureKeyvaultIntegration {
+              metricsPollingInterval
+              resourceGroups
+            }
+            ... on CloudAzureLoadbalancerIntegration {
+              metricsPollingInterval
+              resourceGroups
+            }
+            ... on CloudAzureLogicappsIntegration {
+              metricsPollingInterval
+              resourceGroups
+            }
+            ... on CloudAzureMachinelearningIntegration {
+              metricsPollingInterval
+              resourceGroups
+            }
+            ... on CloudAzureMariadbIntegration {
+              metricsPollingInterval
+              resourceGroups
+            }
+            ... on CloudAzureMysqlIntegration {
+              metricsPollingInterval
+              resourceGroups
+            }
+            ... on CloudAzurePostgresqlIntegration {
+              metricsPollingInterval
+              resourceGroups
+            }
+            ... on CloudAzurePowerbidedicatedIntegration {
+              metricsPollingInterval
+              resourceGroups
+            }
+            ... on CloudAzureRediscacheIntegration {
+              metricsPollingInterval
+              resourceGroups
+            }
+            ... on CloudAzureServicebusIntegration {
+              metricsPollingInterval
+              resourceGroups
+            }
+            ... on CloudAzureSqlIntegration {
+              metricsPollingInterval
+              resourceGroups
+            }
+            ... on CloudAzureSqlmanagedIntegration {
+              metricsPollingInterval
+              resourceGroups
+            }
+            ... on CloudAzureStorageIntegration {
+              metricsPollingInterval
+              resourceGroups
+            }
+            ... on CloudAzureVirtualmachineIntegration {
+              metricsPollingInterval
+              resourceGroups
+            }
+            ... on CloudAzureVirtualnetworksIntegration {
+              metricsPollingInterval
+              resourceGroups
+            }
+            ... on CloudAzureVmsIntegration {
+              metricsPollingInterval
+              resourceGroups
+            }
+            ... on CloudAzureVpngatewaysIntegration {
+              metricsPollingInterval
+              resourceGroups
+            }
+            ... on CloudBillingIntegration {
+              metricsPollingInterval
+            }
+            ... on CloudCloudfrontIntegration {
+              fetchLambdasAtEdge
+              fetchTags
+              metricsPollingInterval
+              tagKey
+              tagValue
+            }
+            ... on CloudCloudtrailIntegration {
+              awsRegions
+              metricsPollingInterval
+            }
+            ... on CloudDynamodbIntegration {
+              awsRegions
+              fetchExtendedInventory
+              fetchTags
+              metricsPollingInterval
+              tagKey
+              tagValue
+            }
+            ... on CloudEbsIntegration {
+              awsRegions
+              fetchExtendedInventory
+              metricsPollingInterval
+              tagKey
+              tagValue
+            }
+            ... on CloudEc2Integration {
+              awsRegions
+              fetchIpAddresses
+              metricsPollingInterval
+              tagKey
+              tagValue
+            }
+            ... on CloudEcsIntegration {
+              awsRegions
+              fetchTags
+              metricsPollingInterval
+              tagKey
+              tagValue
+            }
+            ... on CloudEfsIntegration {
+              awsRegions
+              fetchTags
+              metricsPollingInterval
+              tagKey
+              tagValue
+            }
+            ... on CloudElasticacheIntegration {
+              awsRegions
+              fetchTags
+              metricsPollingInterval
+              tagKey
+              tagValue
+            }
+            ... on CloudElasticbeanstalkIntegration {
+              awsRegions
+              fetchExtendedInventory
+              fetchTags
+              metricsPollingInterval
+              tagKey
+              tagValue
+            }
+            ... on CloudElasticsearchIntegration {
+              awsRegions
+              fetchNodes
+              metricsPollingInterval
+              tagKey
+              tagValue
+            }
+            ... on CloudElbIntegration {
+              awsRegions
+              fetchExtendedInventory
+              fetchTags
+              metricsPollingInterval
+            }
+            ... on CloudEmrIntegration {
+              awsRegions
+              fetchTags
+              metricsPollingInterval
+              tagKey
+              tagValue
+            }
+            ... on CloudGcpAppengineIntegration {
+              metricsPollingInterval
+            }
+            ... on CloudGcpBigqueryIntegration {
+              fetchTags
+              metricsPollingInterval
+            }
+            ... on CloudGcpBigtableIntegration {
+              metricsPollingInterval
+            }
+            ... on CloudGcpComposerIntegration {
+              metricsPollingInterval
+            }
+            ... on CloudGcpDataflowIntegration {
+              metricsPollingInterval
+            }
+            ... on CloudGcpDataprocIntegration {
+              metricsPollingInterval
+            }
+            ... on CloudGcpDatastoreIntegration {
+              metricsPollingInterval
+            }
+            ... on CloudGcpFirebasedatabaseIntegration {
+              metricsPollingInterval
+            }
+            ... on CloudGcpFirebasehostingIntegration {
+              metricsPollingInterval
+            }
+            ... on CloudGcpFirebasestorageIntegration {
+              metricsPollingInterval
+            }
+            ... on CloudGcpFirestoreIntegration {
+              metricsPollingInterval
+            }
+            ... on CloudGcpFunctionsIntegration {
+              metricsPollingInterval
+            }
+            ... on CloudGcpInterconnectIntegration {
+              metricsPollingInterval
+            }
+            ... on CloudGcpKubernetesIntegration {
+              metricsPollingInterval
+            }
+            ... on CloudGcpLoadbalancingIntegration {
+              metricsPollingInterval
+            }
+            ... on CloudGcpMemcacheIntegration {
+              metricsPollingInterval
+            }
+            ... on CloudGcpPubsubIntegration {
+              fetchTags
+
+              metricsPollingInterval
+            }
+            ... on CloudGcpRedisIntegration {
+              metricsPollingInterval
+            }
+            ... on CloudGcpRouterIntegration {
+              metricsPollingInterval
+            }
+            ... on CloudGcpRunIntegration {
+              metricsPollingInterval
+            }
+            ... on CloudGcpSpannerIntegration {
+              fetchTags
+              metricsPollingInterval
+            }
+            ... on CloudGcpSqlIntegration {
+              metricsPollingInterval
+            }
+            ... on CloudGcpStorageIntegration {
+              fetchTags
+              metricsPollingInterval
+            }
+            ... on CloudGcpVmsIntegration {
+              metricsPollingInterval
+            }
+            ... on CloudGcpVpcaccessIntegration {
+              metricsPollingInterval
+            }
+            ... on CloudHealthIntegration {
+              metricsPollingInterval
+            }
+            ... on CloudIamIntegration {
+              metricsPollingInterval
+              tagKey
+              tagValue
+            }
+            ... on CloudIotIntegration {
+              awsRegions
+              metricsPollingInterval
+            }
+            ... on CloudKinesisFirehoseIntegration {
+              awsRegions
+              metricsPollingInterval
+            }
+            ... on CloudKinesisIntegration {
+              awsRegions
+              fetchShards
+              fetchTags
+              metricsPollingInterval
+              tagKey
+              tagValue
+            }
+            ... on CloudLambdaIntegration {
+              awsRegions
+              fetchTags
+              metricsPollingInterval
+              tagKey
+              tagValue
+            }
+            ... on CloudRdsIntegration {
+              awsRegions
+              fetchTags
+              metricsPollingInterval
+              tagKey
+              tagValue
+            }
+            ... on CloudRedshiftIntegration {
+              awsRegions
+              metricsPollingInterval
+              tagKey
+              tagValue
+            }
+            ... on CloudRoute53Integration {
+              fetchExtendedInventory
+              metricsPollingInterval
+            }
+            ... on CloudS3Integration {
+              fetchExtendedInventory
+              fetchTags
+              metricsPollingInterval
+              tagKey
+              tagValue
+            }
+            ... on CloudSesIntegration {
+              awsRegions
+              metricsPollingInterval
+            }
+            ... on CloudSnsIntegration {
+              awsRegions
+              fetchExtendedInventory
+              metricsPollingInterval
+            }
+            ... on CloudSqsIntegration {
+              awsRegions
+              fetchExtendedInventory
+              fetchTags
+              metricsPollingInterval
+              queuePrefixes
+              tagKey
+              tagValue
+            }
+            ... on CloudTrustedadvisorIntegration {
+              metricsPollingInterval
+            }
+            ... on CloudVpcIntegration {
+              awsRegions
+              fetchNatGateway
+              fetchVpn
+              metricsPollingInterval
+              tagKey
+              tagValue
+            }
+          }
+          metricCollectionMode
+          name
+          nrAccountId
+          provider {
+            createdAt
+            icon
+            id
+            name
+            services {
+              createdAt
+              icon
+              id
+              isEnabled
+              name
+              slug
+              updatedAt
+            }
+            slug
+            updatedAt
+            ... on CloudAwsGovCloudProvider {
+              awsAccountId
+            }
+            ... on CloudAwsProvider {
+              roleAccountId
+              roleExternalId
+            }
+            ... on CloudGcpProvider {
+              serviceAccountId
+            }
+          }
+          updatedAt
+        }
+      }
+    }
+  }
+}
+`
 
 // Get all linked cloud provider accounts scoped to the Actor.
 func (a *Cloud) GetLinkedAccounts(
@@ -2623,7 +2386,7 @@ const getLinkedAccountsQuery = `query(
 			awsRegions
 			fetchExtendedInventory
 			fetchTags
-			inventoryPollingInterval
+			
 			loadBalancerPrefixes
 			metricsPollingInterval
 			tagKey
@@ -2632,7 +2395,7 @@ const getLinkedAccountsQuery = `query(
 		... on CloudApigatewayIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			stagePrefixes
 			tagKey
@@ -2641,322 +2404,316 @@ const getLinkedAccountsQuery = `query(
 		... on CloudAutoscalingIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsAppsyncIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsAthenaIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsCognitoIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsConnectIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsDirectconnectIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsDocdbIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsFsxIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsGlueIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsKinesisanalyticsIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsMediaconvertIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsMediapackagevodIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsMetadataIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsMqIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsMskIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsNeptuneIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsQldbIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsRoute53resolverIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsStatesIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsTagsGlobalIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsTransitgatewayIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsWafIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsWafv2Integration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAwsXrayIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudAzureApimanagementIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureAppgatewayIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureAppserviceIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureContainersIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureCosmosdbIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureCostmanagementIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKeys
 		}
 		... on CloudAzureDatafactoryIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureEventhubIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureExpressrouteIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureFirewallsIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureFrontdoorIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureFunctionsIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureKeyvaultIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureLoadbalancerIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureLogicappsIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureMachinelearningIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureMariadbIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureMysqlIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzurePostgresqlIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzurePowerbidedicatedIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureRediscacheIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureServicebusIntegration {
 			__typename
-			inventoryPollingInterval
-			metricsPollingInterval
-			resourceGroups
-		}
-		... on CloudAzureServicefabricIntegration {
-			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureSqlIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureSqlmanagedIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureStorageIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureVirtualmachineIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureVirtualnetworksIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureVmsIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
 		... on CloudAzureVpngatewaysIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			resourceGroups
 		}
@@ -2965,14 +2722,14 @@ const getLinkedAccountsQuery = `query(
 		}
 		... on CloudBillingIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudCloudfrontIntegration {
 			__typename
 			fetchLambdasAtEdge
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -2980,7 +2737,7 @@ const getLinkedAccountsQuery = `query(
 		... on CloudCloudtrailIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudDynamodbIntegration {
@@ -2988,7 +2745,7 @@ const getLinkedAccountsQuery = `query(
 			awsRegions
 			fetchExtendedInventory
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -2997,7 +2754,7 @@ const getLinkedAccountsQuery = `query(
 			__typename
 			awsRegions
 			fetchExtendedInventory
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -3006,7 +2763,7 @@ const getLinkedAccountsQuery = `query(
 			__typename
 			awsRegions
 			fetchIpAddresses
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -3015,7 +2772,7 @@ const getLinkedAccountsQuery = `query(
 			__typename
 			awsRegions
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -3024,7 +2781,7 @@ const getLinkedAccountsQuery = `query(
 			__typename
 			awsRegions
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -3033,7 +2790,7 @@ const getLinkedAccountsQuery = `query(
 			__typename
 			awsRegions
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -3043,7 +2800,7 @@ const getLinkedAccountsQuery = `query(
 			awsRegions
 			fetchExtendedInventory
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -3052,7 +2809,7 @@ const getLinkedAccountsQuery = `query(
 			__typename
 			awsRegions
 			fetchNodes
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -3062,155 +2819,155 @@ const getLinkedAccountsQuery = `query(
 			awsRegions
 			fetchExtendedInventory
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudEmrIntegration {
 			__typename
 			awsRegions
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
 		}
 		... on CloudGcpAppengineIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpBigqueryIntegration {
 			__typename
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpBigtableIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpComposerIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpDataflowIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpDataprocIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpDatastoreIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpFirebasedatabaseIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpFirebasehostingIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpFirebasestorageIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpFirestoreIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpFunctionsIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpInterconnectIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpKubernetesIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpLoadbalancingIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpMemcacheIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpPubsubIntegration {
 			__typename
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpRedisIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpRouterIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpRunIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpSpannerIntegration {
 			__typename
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpSqlIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpStorageIntegration {
 			__typename
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpVmsIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudGcpVpcaccessIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudHealthIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudIamIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -3218,13 +2975,13 @@ const getLinkedAccountsQuery = `query(
 		... on CloudIotIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudKinesisFirehoseIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudKinesisIntegration {
@@ -3232,7 +2989,7 @@ const getLinkedAccountsQuery = `query(
 			awsRegions
 			fetchShards
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -3241,7 +2998,7 @@ const getLinkedAccountsQuery = `query(
 			__typename
 			awsRegions
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -3250,7 +3007,7 @@ const getLinkedAccountsQuery = `query(
 			__typename
 			awsRegions
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -3258,7 +3015,7 @@ const getLinkedAccountsQuery = `query(
 		... on CloudRedshiftIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -3266,14 +3023,14 @@ const getLinkedAccountsQuery = `query(
 		... on CloudRoute53Integration {
 			__typename
 			fetchExtendedInventory
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudS3Integration {
 			__typename
 			fetchExtendedInventory
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue
@@ -3281,14 +3038,14 @@ const getLinkedAccountsQuery = `query(
 		... on CloudSesIntegration {
 			__typename
 			awsRegions
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudSnsIntegration {
 			__typename
 			awsRegions
 			fetchExtendedInventory
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudSqsIntegration {
@@ -3296,7 +3053,7 @@ const getLinkedAccountsQuery = `query(
 			awsRegions
 			fetchExtendedInventory
 			fetchTags
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			queuePrefixes
 			tagKey
@@ -3304,7 +3061,7 @@ const getLinkedAccountsQuery = `query(
 		}
 		... on CloudTrustedadvisorIntegration {
 			__typename
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 		}
 		... on CloudVpcIntegration {
@@ -3312,7 +3069,7 @@ const getLinkedAccountsQuery = `query(
 			awsRegions
 			fetchNatGateway
 			fetchVpn
-			inventoryPollingInterval
+			
 			metricsPollingInterval
 			tagKey
 			tagValue

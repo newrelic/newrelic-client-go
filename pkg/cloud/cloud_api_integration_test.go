@@ -13,7 +13,7 @@ import (
 )
 
 func TestCloudAccount_Basic(t *testing.T) {
-	t.Skipf("Skipping this test tdue to an upstream API failure")
+	// t.Skipf("Skipping this test tdue to an upstream API failure")
 
 	t.Parallel()
 
@@ -83,6 +83,65 @@ func TestCloudAccount_Basic(t *testing.T) {
 	// unlinkResponse, err := a.CloudUnlinkAccount(testAccountID, CloudUnlinkAccountsInput{linkedAccountID})
 	// require.NoError(t, err)
 	// require.NotNil(t, unlinkResponse)
+}
+
+func TestCloudAccount_SingleLinkedAccount(t *testing.T) {
+	// t.Skipf("Skipping this test tdue to an upstream API failure")
+
+	t.Parallel()
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	testARN := os.Getenv("INTEGRATION_TESTING_AWS_ARN")
+	if testARN == "" {
+		t.Skip("an AWS ARN is required to run cloud account tests")
+		return
+	}
+
+	a := newIntegrationTestClient(t)
+
+	// Link the account
+	// linkResponse, err := a.CloudLinkAccount(testAccountID, CloudLinkCloudAccountsInput{
+	// 	Aws: []CloudAwsLinkAccountInput{
+	// 		{
+	// 			Arn:  testARN,
+	// 			Name: "DTK Integration Testing",
+	// 		},
+	// 	},
+	// })
+	// require.NoError(t, err)
+	// require.NotNil(t, linkResponse)
+
+	// Get the linked account
+	linkedAccountId := 100093
+	_, err = a.GetLinkedAccount(testAccountID, linkedAccountId)
+	//foundLinkedAccountId := getResponse.ID
+
+	require.NoError(t, err)
+	//require.Equal(t, linkedAccountId, foundLinkedAccountId)
+
+	// Rename the account
+	newName := "NEW-DTK-NAME"
+	renameResponse, err := a.CloudRenameAccount(testAccountID, []CloudRenameAccountsInput{
+		{
+			LinkedAccountId: linkedAccountId,
+			Name:            newName,
+		},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, renameResponse)
+
+	// Unlink the account
+	unlinkResponse, err := a.CloudUnlinkAccount(testAccountID, []CloudUnlinkAccountsInput{
+		{
+			LinkedAccountId: linkedAccountId,
+		},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, unlinkResponse)
 }
 
 func newIntegrationTestClient(t *testing.T) Cloud {
