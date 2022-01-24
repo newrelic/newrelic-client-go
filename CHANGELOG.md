@@ -1,3 +1,8 @@
+<a name="v0.70.0"></a>
+## [v0.70.0] - 2022-01-19
+### Features
+- **installevents:** add recipe event metadata field, update mutation via tutone
+
 <a name="v0.69.0"></a>
 ## [v0.69.0] - 2021-12-28
 ### Features
@@ -1226,7 +1231,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.69.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.70.0...HEAD
+[v0.70.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.69.0...v0.70.0
 [v0.69.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.68.3...v0.69.0
 [v0.68.3]: https://github.com/newrelic/newrelic-client-go/compare/v0.68.2...v0.68.3
 [v0.68.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.68.1...v0.68.2
