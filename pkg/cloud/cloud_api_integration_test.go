@@ -80,9 +80,13 @@ func TestCloudAccount_Basic(t *testing.T) {
 	require.NotNil(t, renameResponse)
 
 	// Unlink the account
-	// unlinkResponse, err := a.CloudUnlinkAccount(testAccountID, CloudUnlinkAccountsInput{linkedAccountID})
-	// require.NoError(t, err)
-	// require.NotNil(t, unlinkResponse)
+	unlinkResponse, err := a.CloudUnlinkAccount(testAccountID, []CloudUnlinkAccountsInput{
+		{
+			LinkedAccountId: linkedAccountID,
+		},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, unlinkResponse)
 }
 
 func TestCloudAccount_SingleLinkedAccount(t *testing.T) {
@@ -104,24 +108,24 @@ func TestCloudAccount_SingleLinkedAccount(t *testing.T) {
 	a := newIntegrationTestClient(t)
 
 	// Link the account
-	// linkResponse, err := a.CloudLinkAccount(testAccountID, CloudLinkCloudAccountsInput{
-	// 	Aws: []CloudAwsLinkAccountInput{
-	// 		{
-	// 			Arn:  testARN,
-	// 			Name: "DTK Integration Testing",
-	// 		},
-	// 	},
-	// })
-	// require.NoError(t, err)
-	// require.NotNil(t, linkResponse)
+	linkResponse, err := a.CloudLinkAccount(testAccountID, CloudLinkCloudAccountsInput{
+		Aws: []CloudAwsLinkAccountInput{
+			{
+				Arn:  testARN,
+				Name: "DTK Integration Testing",
+			},
+		},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, linkResponse)
 
 	// Get the linked account
-	linkedAccountId := 100093
-	_, err = a.GetLinkedAccount(testAccountID, linkedAccountId)
-	//foundLinkedAccountId := getResponse.ID
+	linkedAccountId := linkResponse.LinkedAccounts[0].ID
+	getResponse, err := a.GetLinkedAccount(testAccountID, linkedAccountId)
+	foundLinkedAccountId := getResponse.ID
 
 	require.NoError(t, err)
-	//require.Equal(t, linkedAccountId, foundLinkedAccountId)
+	require.Equal(t, linkedAccountId, foundLinkedAccountId)
 
 	// Rename the account
 	newName := "NEW-DTK-NAME"
