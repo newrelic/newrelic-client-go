@@ -363,6 +363,12 @@ const CloudConfigureIntegrationMutation = `mutation(
 			metricsPollingInterval
 			resourceGroups
 		}
+		... on CloudAzureServicefabricIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+			resourceGroups
+		}
 		... on CloudAzureSqlIntegration {
 			__typename
 			inventoryPollingInterval
@@ -1114,6 +1120,12 @@ const CloudDisableIntegrationMutation = `mutation(
 			metricsPollingInterval
 			resourceGroups
 		}
+		... on CloudAzureServicefabricIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+			resourceGroups
+		}
 		... on CloudAzureSqlIntegration {
 			__typename
 			inventoryPollingInterval
@@ -1762,7 +1774,7 @@ func (a *Cloud) GetLinkedAccountWithContext(
 
 const getLinkedAccountQuery = `query(
 	$accountID: Int!,
-	$id: Int!,
+	$id: Int,
 ) { actor { account(id: $accountID) { cloud { linkedAccount(
 	id: $id,
 ) {
@@ -2087,6 +2099,12 @@ const getLinkedAccountQuery = `query(
 			resourceGroups
 		}
 		... on CloudAzureServicebusIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+			resourceGroups
+		}
+		... on CloudAzureServicefabricIntegration {
 			__typename
 			inventoryPollingInterval
 			metricsPollingInterval
@@ -2889,6 +2907,12 @@ const getLinkedAccountsQuery = `query(
 			resourceGroups
 		}
 		... on CloudAzureServicebusIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+			resourceGroups
+		}
+		... on CloudAzureServicefabricIntegration {
 			__typename
 			inventoryPollingInterval
 			metricsPollingInterval

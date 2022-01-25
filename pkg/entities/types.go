@@ -13,6 +13,76 @@ import (
 	"github.com/newrelic/newrelic-client-go/pkg/users"
 )
 
+// AgentApplicationSettingsRecordSqlEnum - Obfuscation level for SQL queries reported in transaction trace nodes.
+//
+// When turned on, the New Relic agent will attempt to remove values from SQL qeries.
+//
+// For example:
+//
+// ```
+// SELECT * FROM Table WHERE ssn='123-45-6789'
+// ```
+//
+// might become:
+//
+// ```
+// SELECT * FROM Table WHERE ssn=?
+// ```
+//
+// This can behave differently for differnet applications and frameworks, please test for your specific case.
+// Note: RAW collection is not campatible with High Security mode and cannot be set if your agent is running in that mode.
+type AgentApplicationSettingsRecordSqlEnum string
+
+var AgentApplicationSettingsRecordSqlEnumTypes = struct {
+	// This is the default value. This setting strips string literals and numeric sequences from your queries and replaces them with the ? character. For example: the query select * from table where ssn='123-45-6789' would become select * from table where ssn=?.
+	OBFUSCATED AgentApplicationSettingsRecordSqlEnum
+	// Query collection is turned off entirely.
+	OFF AgentApplicationSettingsRecordSqlEnum
+	// If you are confident that full query data collection will not impact your data security or your users' privacy, you can change the setting to Raw, which will record all query values. NOTE: 'Raw' is not permitted when 'High security mode' is enabled.
+	RAW AgentApplicationSettingsRecordSqlEnum
+}{
+	// This is the default value. This setting strips string literals and numeric sequences from your queries and replaces them with the ? character. For example: the query select * from table where ssn='123-45-6789' would become select * from table where ssn=?.
+	OBFUSCATED: "OBFUSCATED",
+	// Query collection is turned off entirely.
+	OFF: "OFF",
+	// If you are confident that full query data collection will not impact your data security or your users' privacy, you can change the setting to Raw, which will record all query values. NOTE: 'Raw' is not permitted when 'High security mode' is enabled.
+	RAW: "RAW",
+}
+
+// AgentApplicationSettingsThresholdTypeEnum - Determines whether a threshold is statically configured or dynamically configured.
+type AgentApplicationSettingsThresholdTypeEnum string
+
+var AgentApplicationSettingsThresholdTypeEnumTypes = struct {
+	// Configures the threshold to be 4 times the value of APDEX_T
+	APDEX_F AgentApplicationSettingsThresholdTypeEnum
+	// Threshold will be statically configured via the corresponding "value" field.
+	VALUE AgentApplicationSettingsThresholdTypeEnum
+}{
+	// Configures the threshold to be 4 times the value of APDEX_T
+	APDEX_F: "APDEX_F",
+	// Threshold will be statically configured via the corresponding "value" field.
+	VALUE: "VALUE",
+}
+
+// AgentApplicationSettingsTracer - The type of tracing being done.
+type AgentApplicationSettingsTracer string
+
+var AgentApplicationSettingsTracerTypes = struct {
+	// cross application tracing feature enabled
+	CROSS_APPLICATION_TRACER AgentApplicationSettingsTracer
+	// distributed tracing feature enabled
+	DISTRIBUTED_TRACING AgentApplicationSettingsTracer
+	// both cross application & distributed tracing disabled
+	NONE AgentApplicationSettingsTracer
+}{
+	// cross application tracing feature enabled
+	CROSS_APPLICATION_TRACER: "CROSS_APPLICATION_TRACER",
+	// distributed tracing feature enabled
+	DISTRIBUTED_TRACING: "DISTRIBUTED_TRACING",
+	// both cross application & distributed tracing disabled
+	NONE: "NONE",
+}
+
 // BrowserAgentInstallType - Browser agent install types.
 type BrowserAgentInstallType string
 
@@ -89,26 +159,26 @@ var DashboardPermissionsTypes = struct {
 	PUBLIC_READ_WRITE: "PUBLIC_READ_WRITE",
 }
 
-// EntityAlertSeverity -
+// EntityAlertSeverity - The alert severity of the entity.
 type EntityAlertSeverity string
 
 var EntityAlertSeverityTypes = struct {
-	// Critical violation in progress
+	// Indicates an entity has a critical violation in progress.
 	CRITICAL EntityAlertSeverity
-	// Not alerting
+	// Indicates an entity has no violations and therefore is not alerting.
 	NOT_ALERTING EntityAlertSeverity
-	// No alert conditions set up
+	// Indicates an entity is not configured for alerting.
 	NOT_CONFIGURED EntityAlertSeverity
-	// Warning violation in progress
+	// Indicates an entity  has a warning violation in progress.
 	WARNING EntityAlertSeverity
 }{
-	// Critical violation in progress
+	// Indicates an entity has a critical violation in progress.
 	CRITICAL: "CRITICAL",
-	// Not alerting
+	// Indicates an entity has no violations and therefore is not alerting.
 	NOT_ALERTING: "NOT_ALERTING",
-	// No alert conditions set up
+	// Indicates an entity is not configured for alerting.
 	NOT_CONFIGURED: "NOT_CONFIGURED",
-	// Warning violation in progress
+	// Indicates an entity  has a warning violation in progress.
 	WARNING: "WARNING",
 }
 
@@ -144,6 +214,73 @@ var EntityGoldenEventObjectIdTypes = struct {
 	ENTITY_GUIDS: "ENTITY_GUIDS",
 	// The WHERE clause will be done against the name of the entity.
 	ENTITY_NAMES: "ENTITY_NAMES",
+}
+
+// EntityGoldenMetricUnit - The different units that can be used to express golden metrics.
+type EntityGoldenMetricUnit string
+
+var EntityGoldenMetricUnitTypes = struct {
+	// Apdex (Application Performance Index).
+	APDEX EntityGoldenMetricUnit
+	// Bits.
+	BITS EntityGoldenMetricUnit
+	// Bits per second.
+	BITS_PER_SECOND EntityGoldenMetricUnit
+	// Bytes.
+	BYTES EntityGoldenMetricUnit
+	// Bytes per second.
+	BYTES_PER_SECOND EntityGoldenMetricUnit
+	// Degrees celsius.
+	CELSIUS EntityGoldenMetricUnit
+	// Count.
+	COUNT EntityGoldenMetricUnit
+	// Hertz.
+	HERTZ EntityGoldenMetricUnit
+	// Messages per second.
+	MESSAGES_PER_SECOND EntityGoldenMetricUnit
+	// Operations per second.
+	OPERATIONS_PER_SECOND EntityGoldenMetricUnit
+	// Pages loaded per second.
+	PAGES_PER_SECOND EntityGoldenMetricUnit
+	// Percentage.
+	PERCENTAGE EntityGoldenMetricUnit
+	// Requests received per second.
+	REQUESTS_PER_SECOND EntityGoldenMetricUnit
+	// Seconds.
+	SECONDS EntityGoldenMetricUnit
+	// Timestamp.
+	TIMESTAMP EntityGoldenMetricUnit
+}{
+	// Apdex (Application Performance Index).
+	APDEX: "APDEX",
+	// Bits.
+	BITS: "BITS",
+	// Bits per second.
+	BITS_PER_SECOND: "BITS_PER_SECOND",
+	// Bytes.
+	BYTES: "BYTES",
+	// Bytes per second.
+	BYTES_PER_SECOND: "BYTES_PER_SECOND",
+	// Degrees celsius.
+	CELSIUS: "CELSIUS",
+	// Count.
+	COUNT: "COUNT",
+	// Hertz.
+	HERTZ: "HERTZ",
+	// Messages per second.
+	MESSAGES_PER_SECOND: "MESSAGES_PER_SECOND",
+	// Operations per second.
+	OPERATIONS_PER_SECOND: "OPERATIONS_PER_SECOND",
+	// Pages loaded per second.
+	PAGES_PER_SECOND: "PAGES_PER_SECOND",
+	// Percentage.
+	PERCENTAGE: "PERCENTAGE",
+	// Requests received per second.
+	REQUESTS_PER_SECOND: "REQUESTS_PER_SECOND",
+	// Seconds.
+	SECONDS: "SECONDS",
+	// Timestamp.
+	TIMESTAMP: "TIMESTAMP",
 }
 
 // EntityInfrastructureIntegrationType - The type of Infrastructure Integration
@@ -912,8 +1049,12 @@ var EntityRelationshipEdgeDirectionTypes = struct {
 type EntityRelationshipEdgeType string
 
 var EntityRelationshipEdgeTypeTypes = struct {
+	// The target entity contains the code for the source entity.
+	BUILT_FROM EntityRelationshipEdgeType
 	// The source entity calls the target entity.
 	CALLS EntityRelationshipEdgeType
+	// The source entity has a connection to the target entity.
+	CONNECTS_TO EntityRelationshipEdgeType
 	// The source entity contains the target entity.
 	CONTAINS EntityRelationshipEdgeType
 	// The source entity hosts the target.
@@ -923,8 +1064,12 @@ var EntityRelationshipEdgeTypeTypes = struct {
 	// The source is an Application that serves the target Browser application.
 	SERVES EntityRelationshipEdgeType
 }{
+	// The target entity contains the code for the source entity.
+	BUILT_FROM: "BUILT_FROM",
 	// The source entity calls the target entity.
 	CALLS: "CALLS",
+	// The source entity has a connection to the target entity.
+	CONNECTS_TO: "CONNECTS_TO",
 	// The source entity contains the target entity.
 	CONTAINS: "CONTAINS",
 	// The source entity hosts the target.
@@ -941,8 +1086,12 @@ var EntityRelationshipEdgeTypeTypes = struct {
 type EntityRelationshipType string
 
 var EntityRelationshipTypeTypes = struct {
+	// The source repository containing the code for the target
+	BUILT_FROM EntityRelationshipType
 	// The source entity calls the target entity.
 	CALLS EntityRelationshipType
+	// The source establishes TCP connections to the target
+	CONNECTS_TO EntityRelationshipType
 	// The source entity contains the target entity
 	CONTAINS EntityRelationshipType
 	// The source entity hosts the target
@@ -954,8 +1103,12 @@ var EntityRelationshipTypeTypes = struct {
 	// Type not known
 	UNKNOWN EntityRelationshipType
 }{
+	// The source repository containing the code for the target
+	BUILT_FROM: "BUILT_FROM",
 	// The source entity calls the target entity.
 	CALLS: "CALLS",
+	// The source establishes TCP connections to the target
+	CONNECTS_TO: "CONNECTS_TO",
 	// The source entity contains the target entity
 	CONTAINS: "CONTAINS",
 	// The source entity hosts the target
@@ -1238,6 +1391,8 @@ var TaggingMutationErrorTypeTypes = struct {
 	NOT_FOUND TaggingMutationErrorType
 	// You've attempted to do something your Domain/EntityType is not permitted to do. Its also possible that an api key is required.
 	NOT_PERMITTED TaggingMutationErrorType
+	// One of the query filters exceeds the character limit.
+	TOO_MANY_CHARS_QUERY_FILTER TaggingMutationErrorType
 	// The given entity has reached its tag key count limit. You will need to delete existing tags for the given GUID before continuing.
 	TOO_MANY_TAG_KEYS TaggingMutationErrorType
 	// The given entity has reached its tag value count limit. You will need to delete existing values for the given GUID before continuing.
@@ -1259,6 +1414,8 @@ var TaggingMutationErrorTypeTypes = struct {
 	NOT_FOUND: "NOT_FOUND",
 	// You've attempted to do something your Domain/EntityType is not permitted to do. Its also possible that an api key is required.
 	NOT_PERMITTED: "NOT_PERMITTED",
+	// One of the query filters exceeds the character limit.
+	TOO_MANY_CHARS_QUERY_FILTER: "TOO_MANY_CHARS_QUERY_FILTER",
 	// The given entity has reached its tag key count limit. You will need to delete existing tags for the given GUID before continuing.
 	TOO_MANY_TAG_KEYS: "TOO_MANY_TAG_KEYS",
 	// The given entity has reached its tag value count limit. You will need to delete existing values for the given GUID before continuing.
@@ -1335,6 +1492,92 @@ type Actor struct {
 	EntitySearch EntitySearch `json:"entitySearch,omitempty"`
 }
 
+// AgentApplicationSettingsApmBase - Settings that are applicable to APM applications and their agents.
+type AgentApplicationSettingsApmBase struct {
+	// General settings for the application can be accessed via this field.
+	ApmConfig AgentApplicationSettingsApmConfig `json:"apmConfig"`
+	// Error Collector settings for the application can be accessed via this field. The error collector captures information about uncaught exceptions and sends them to New Relic for viewing.
+	ErrorCollector AgentApplicationSettingsErrorCollector `json:"errorCollector,omitempty"`
+	// In APM, when transaction traces are collected, there may be additional Slow query data available.
+	SlowSql AgentApplicationSettingsSlowSql `json:"slowSql,omitempty"`
+	// Thread profiler measures wall clock time, CPU time, and method call counts in your application's threads as they run.
+	ThreadProfiler AgentApplicationSettingsThreadProfiler `json:"threadProfiler,omitempty"`
+	// Type of tracer used. APM's cross application tracing link transactions between APM apps in your service-oriented architecture (SOA).  Distributed tracing is an improvement on the cross application tracing feature and is recommended for large, distributed systems.
+	TracerType AgentApplicationSettingsTracer `json:"tracerType,omitempty"`
+	// Transaction Tracer settings for the application can be accessed via this field.
+	TransactionTracer AgentApplicationSettingsTransactionTracer `json:"transactionTracer,omitempty"`
+}
+
+// AgentApplicationSettingsApmConfig - General settings related to APM applications.
+type AgentApplicationSettingsApmConfig struct {
+	// The desired target for the APDEX measurement of this APM application.
+	ApdexTarget float64 `json:"apdexTarget,omitempty"`
+	// Should agents for this APM application get some of their configuration from the server.
+	UseServerSideConfig bool `json:"useServerSideConfig,omitempty"`
+}
+
+// AgentApplicationSettingsBrowserBase - Settings that are applicable to browser applications.
+type AgentApplicationSettingsBrowserBase struct {
+	// General settings for the application can be accessed via this field.
+	BrowserConfig AgentApplicationSettingsBrowserConfig `json:"browserConfig"`
+}
+
+// AgentApplicationSettingsBrowserConfig - General settings related to APM applications.
+type AgentApplicationSettingsBrowserConfig struct {
+	// The desired target for the APDEX measurement of this browser application.
+	ApdexTarget float64 `json:"apdexTarget,omitempty"`
+}
+
+// AgentApplicationSettingsErrorCollector - The error collector captures information about uncaught exceptions and sends them to New Relic for viewing. For more information about what these settings do and which ones are applicable for your application, please see docs.newrelic.com for more information about agent configuration for your language agent.
+type AgentApplicationSettingsErrorCollector struct {
+	// Enable error collector
+	Enabled bool `json:"enabled,omitempty"`
+	// Prevents specified exception classes from affecting error rate or Apdex score while still reporting the errors to APM.
+	ExpectedErrorClasses []string `json:"expectedErrorClasses"`
+	// A list comprised of individual and dashed ranges of HTTP status codes to be marked as expected and thus prevented from affecting error rate or Apdex score.
+	ExpectedErrorCodes []AgentApplicationSettingsErrorCollectorHttpStatus `json:"expectedErrorCodes"`
+	// Specified exception class names will be ignored and will not affect error rate or Apdex score, or be reported to APM.
+	IgnoredErrorClasses []string `json:"ignoredErrorClasses"`
+	// A list comprised of individual and dashed ranges of HTTP status codes that should not be treated as errors.
+	IgnoredErrorCodes []AgentApplicationSettingsErrorCollectorHttpStatus `json:"ignoredErrorCodes"`
+}
+
+// AgentApplicationSettingsSlowSql - In APM, when transaction traces are collected, there may be additional Slow query data available.
+type AgentApplicationSettingsSlowSql struct {
+	// If true, the agent collects slow SQL queries.
+	Enabled bool `json:"enabled,omitempty"`
+}
+
+// AgentApplicationSettingsThreadProfiler - Thread profiler measures wall clock time, CPU time, and method call counts in your application's threads as they run.
+type AgentApplicationSettingsThreadProfiler struct {
+	// Whether or not the Thread Profiler is enabled for your application.
+	Enabled bool `json:"enabled,omitempty"`
+}
+
+// AgentApplicationSettingsTransactionTracer - Transaction Tracer settings related to APM applications. For more information about what these settings do and which ones are applicable for your application, please see docs.newrelic.com for more information about agent configuration for your language agent.
+type AgentApplicationSettingsTransactionTracer struct {
+	// Enable or disable the capture of memcache keys from transaction traces.
+	CaptureMemcacheKeys bool `json:"captureMemcacheKeys,omitempty"`
+	// If true, this enables the Transaction Tracer feature, enabling collection of transaction traces.
+	Enabled bool `json:"enabled,omitempty"`
+	// If true, enables the collection of explain plans in transaction traces. This setting will also apply to explain plans in slow SQL traces if slow_sql.explain_enabled is not set separately.
+	ExplainEnabled bool `json:"explainEnabled,omitempty"`
+	// Relevant only when explain_enabled is true. Can be set to automatic configuration (APDEX_F) or manual (see explainThresholdValue).
+	ExplainThresholdType AgentApplicationSettingsThresholdTypeEnum `json:"explainThresholdType,omitempty"`
+	// Threshold (in seconds) above which the agent will collect explain plans. Relevant only when explainEnabled is true and explainThresholdType is set to VALUE.
+	ExplainThresholdValue nrtime.Seconds `json:"explainThresholdValue,omitempty"`
+	// Set to true to enable logging of queries to the agent log file instead of uploading to New Relic. Queries are logged using the record_sql mode.
+	LogSql bool `json:"logSql,omitempty"`
+	// Obfuscation level for SQL queries reported in transaction trace nodes.
+	RecordSql AgentApplicationSettingsRecordSqlEnum `json:"recordSql,omitempty"`
+	// Specify a threshold in seconds. The agent includes stack traces in transaction trace nodes when the stack trace duration exceeds this threshold.
+	StackTraceThreshold nrtime.Seconds `json:"stackTraceThreshold,omitempty"`
+	// Relevant only when TransactionTracer is enabled. Can be set to automatic configuration (APDEX_F) or manual (see TransactionThresholdValue).
+	TransactionThresholdType AgentApplicationSettingsThresholdTypeEnum `json:"transactionThresholdType,omitempty"`
+	// Threshold (in seconds) that transactions with a duration longer than this threshold are eligible for transaction traces.  Relevant only when Transaction Tracer is enabled and transaction_threshold_type is set to VALUE.
+	TransactionThresholdValue nrtime.Seconds `json:"transactionThresholdValue,omitempty"`
+}
+
 // AgentEnvironmentApplicationInstance - Representation of the New Relic agent collecting data.
 type AgentEnvironmentApplicationInstance struct {
 	// Contains environment attributes regarding the reported setting of the reporting agent.
@@ -1401,7 +1644,7 @@ type AgentEnvironmentLoadedModuleAttribute struct {
 type AlertableEntity struct {
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the entity that were open during the specified time window.
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
@@ -1461,10 +1704,12 @@ type ApmApplicationEntity struct {
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the entity that were open during the specified time window.
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// Summary statistics about the Browser App injected by an APM Application.
 	ApmBrowserSummary ApmBrowserApplicationSummaryData `json:"apmBrowserSummary,omitempty"`
+	// Settings that are common across APM applications.
+	ApmSettings AgentApplicationSettingsApmBase `json:"apmSettings,omitempty"`
 	// Summary statistics about the APM App.
 	ApmSummary ApmApplicationSummaryData `json:"apmSummary,omitempty"`
 	// The ID of the APM Application.
@@ -1477,12 +1722,14 @@ type ApmApplicationEntity struct {
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
+	// An Exception that occurred in your Application.
+	Exception StackTraceApmException `json:"exception,omitempty"`
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The programming language of the APM Application.
@@ -1525,6 +1772,8 @@ type ApmApplicationEntity struct {
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The tags applied to the entity with their metadata.
 	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
 }
@@ -1552,6 +1801,11 @@ func (x ApmApplicationEntity) GetAlertViolations() []EntityAlertViolation {
 // GetApmBrowserSummary returns a pointer to the value of ApmBrowserSummary from ApmApplicationEntity
 func (x ApmApplicationEntity) GetApmBrowserSummary() ApmBrowserApplicationSummaryData {
 	return x.ApmBrowserSummary
+}
+
+// GetApmSettings returns a pointer to the value of ApmSettings from ApmApplicationEntity
+func (x ApmApplicationEntity) GetApmSettings() AgentApplicationSettingsApmBase {
+	return x.ApmSettings
 }
 
 // GetApmSummary returns a pointer to the value of ApmSummary from ApmApplicationEntity
@@ -1582,6 +1836,11 @@ func (x ApmApplicationEntity) GetDomain() string {
 // GetEntityType returns a pointer to the value of EntityType from ApmApplicationEntity
 func (x ApmApplicationEntity) GetEntityType() EntityType {
 	return x.EntityType
+}
+
+// GetException returns a pointer to the value of Exception from ApmApplicationEntity
+func (x ApmApplicationEntity) GetException() StackTraceApmException {
+	return x.Exception
 }
 
 // GetGUID returns a pointer to the value of GUID from ApmApplicationEntity
@@ -1684,6 +1943,11 @@ func (x ApmApplicationEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
 	return x.TagsWithMetadata
 }
 
+// GetTracingSummary returns a pointer to the value of TracingSummary from ApmApplicationEntity
+func (x ApmApplicationEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
 // GetType returns a pointer to the value of Type from ApmApplicationEntity
 func (x ApmApplicationEntity) GetType() string {
 	return x.Type
@@ -1716,9 +1980,9 @@ type ApmApplicationEntityOutline struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The programming language of the APM Application.
@@ -1943,7 +2207,7 @@ type ApmDatabaseInstanceEntity struct {
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the entity that were open during the specified time window.
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
@@ -1952,9 +2216,9 @@ type ApmDatabaseInstanceEntity struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The host the database instance is running on.
 	Host string `json:"host,omitempty"`
 	// The time the entity was indexed.
@@ -1991,6 +2255,8 @@ type ApmDatabaseInstanceEntity struct {
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The tags applied to the entity with their metadata.
 	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
 	// The type of database. ex: `Postgres` | `Redis`
@@ -2112,6 +2378,11 @@ func (x ApmDatabaseInstanceEntity) GetTagsWithMetadata() []EntityTagWithMetadata
 	return x.TagsWithMetadata
 }
 
+// GetTracingSummary returns a pointer to the value of TracingSummary from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
 // GetType returns a pointer to the value of Type from ApmDatabaseInstanceEntity
 func (x ApmDatabaseInstanceEntity) GetType() string {
 	return x.Type
@@ -2141,9 +2412,9 @@ type ApmDatabaseInstanceEntityOutline struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The host the database instance is running on.
 	Host string `json:"host,omitempty"`
 	// The time the entity was indexed.
@@ -2270,7 +2541,7 @@ type ApmExternalServiceEntity struct {
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the entity that were open during the specified time window.
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
@@ -2281,9 +2552,9 @@ type ApmExternalServiceEntity struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The host of the external service.
 	Host string `json:"host,omitempty"`
 	// The time the entity was indexed.
@@ -2318,6 +2589,8 @@ type ApmExternalServiceEntity struct {
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The tags applied to the entity with their metadata.
 	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
 }
@@ -2437,6 +2710,11 @@ func (x ApmExternalServiceEntity) GetTagsWithMetadata() []EntityTagWithMetadata 
 	return x.TagsWithMetadata
 }
 
+// GetTracingSummary returns a pointer to the value of TracingSummary from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
 // GetType returns a pointer to the value of Type from ApmExternalServiceEntity
 func (x ApmExternalServiceEntity) GetType() string {
 	return x.Type
@@ -2463,9 +2741,9 @@ type ApmExternalServiceEntityOutline struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The host of the external service.
 	Host string `json:"host,omitempty"`
 	// The time the entity was indexed.
@@ -2593,22 +2871,26 @@ type BrowserApplicationEntity struct {
 	AgentInstallType BrowserAgentInstallType `json:"agentInstallType,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the entity that were open during the specified time window.
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// The ID of the Browser App.
 	ApplicationID int `json:"applicationId,omitempty"`
+	// Settings that are common across browser applications.
+	BrowserSettings AgentApplicationSettingsBrowserBase `json:"browserSettings,omitempty"`
 	// Summary statistics about the Browser App.
 	BrowserSummary BrowserApplicationSummaryData `json:"browserSummary,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
+	// An Exception that occurred in your Browser Application.
+	Exception StackTraceBrowserException `json:"exception,omitempty"`
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Retrieves a rule.
@@ -2651,6 +2933,8 @@ type BrowserApplicationEntity struct {
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The tags applied to the entity with their metadata.
 	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
 }
@@ -2685,6 +2969,11 @@ func (x BrowserApplicationEntity) GetApplicationID() int {
 	return x.ApplicationID
 }
 
+// GetBrowserSettings returns a pointer to the value of BrowserSettings from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetBrowserSettings() AgentApplicationSettingsBrowserBase {
+	return x.BrowserSettings
+}
+
 // GetBrowserSummary returns a pointer to the value of BrowserSummary from BrowserApplicationEntity
 func (x BrowserApplicationEntity) GetBrowserSummary() BrowserApplicationSummaryData {
 	return x.BrowserSummary
@@ -2698,6 +2987,11 @@ func (x BrowserApplicationEntity) GetDomain() string {
 // GetEntityType returns a pointer to the value of EntityType from BrowserApplicationEntity
 func (x BrowserApplicationEntity) GetEntityType() EntityType {
 	return x.EntityType
+}
+
+// GetException returns a pointer to the value of Exception from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetException() StackTraceBrowserException {
+	return x.Exception
 }
 
 // GetGUID returns a pointer to the value of GUID from BrowserApplicationEntity
@@ -2800,6 +3094,11 @@ func (x BrowserApplicationEntity) GetTagsWithMetadata() []EntityTagWithMetadata 
 	return x.TagsWithMetadata
 }
 
+// GetTracingSummary returns a pointer to the value of TracingSummary from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
 // GetType returns a pointer to the value of Type from BrowserApplicationEntity
 func (x BrowserApplicationEntity) GetType() string {
 	return x.Type
@@ -2830,9 +3129,9 @@ type BrowserApplicationEntityOutline struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
@@ -3057,7 +3356,7 @@ type DashboardEntity struct {
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the entity that were open during the specified time window.
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// Dashboard creation timestamp.
 	CreatedAt nrtime.DateTime `json:"createdAt,omitempty"`
@@ -3072,9 +3371,9 @@ type DashboardEntity struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
@@ -3113,6 +3412,8 @@ type DashboardEntity struct {
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The tags applied to the entity with their metadata.
 	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
 	// Dashboard update timestamp.
@@ -3254,6 +3555,11 @@ func (x DashboardEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
 	return x.TagsWithMetadata
 }
 
+// GetTracingSummary returns a pointer to the value of TracingSummary from DashboardEntity
+func (x DashboardEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
 // GetType returns a pointer to the value of Type from DashboardEntity
 func (x DashboardEntity) GetType() string {
 	return x.Type
@@ -3287,9 +3593,9 @@ type DashboardEntityOutline struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
@@ -3484,7 +3790,7 @@ type DashboardWidget struct {
 	ID string `json:"id"`
 	// layout
 	Layout DashboardWidgetLayout `json:"layout,omitempty"`
-	// Related entities. Currently only supports Dashboard entities, but may allow other cases in the future.
+	// Entities related to the widget. Currently only supports one Dashboard entity guid, but may allow other cases in the future.
 	LinkedEntities []EntityOutlineInterface `json:"linkedEntities,omitempty"`
 	// Untyped configuration
 	RawConfiguration DashboardWidgetRawConfiguration `json:"rawConfiguration"`
@@ -3608,6 +3914,14 @@ type DashboardWidgetVisualization struct {
 	ID string `json:"id,omitempty"`
 }
 
+// DistributedTracingEntityTracingSummary - Details tracing summary data for the provided `EntityGuid` that occurred during the provided `startTime` and `endTime`
+type DistributedTracingEntityTracingSummary struct {
+	// The number of traces where this entity produced an error
+	ErrorTraceCount int `json:"errorTraceCount,omitempty"`
+	// The percentage of error traces produced by this entity compared to all error traces in the system
+	PercentOfAllErrorTraces float64 `json:"percentOfAllErrorTraces,omitempty"`
+}
+
 // DomainTypeInput - Input for getting details about an entity type
 type DomainTypeInput struct {
 	// The domain of the entity.
@@ -3632,7 +3946,7 @@ type Entity struct {
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the entity that were open during the specified time window.
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
@@ -3641,9 +3955,9 @@ type Entity struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
@@ -3676,6 +3990,8 @@ type Entity struct {
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The tags applied to the entity with their metadata.
 	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
 }
@@ -3782,6 +4098,8 @@ type EntityGoldenMetric struct {
 	Query string `json:"query"`
 	// The title of the golden metric.
 	Title string `json:"title"`
+	// The unit used to represent the golden metric.
+	Unit EntityGoldenMetricUnit `json:"unit"`
 }
 
 // EntityGoldenMetricDefinition - The definition of the metric.
@@ -3831,9 +4149,9 @@ type EntityOutline struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
@@ -4119,7 +4437,7 @@ type EntitySearch struct {
 	//
 	// Note: Unlike a NRQL facet, the facet results do not include entities where the facet value does not exist. Additionally, entities can be tagged with multiple tag values for one tag key. For these reasons, depending on the facet values chosen, the `counts` field will not always equal the `entitySearch.count` field.
 	Counts []EntitySearchCounts `json:"counts,omitempty"`
-	// The entity search query string.
+	// The entity search query string that was generated by the `query` argument or the `queryBuilder` argument.
 	Query string `json:"query,omitempty"`
 	// The paginated results of the entity search.
 	Results EntitySearchResult `json:"results,omitempty"`
@@ -4149,6 +4467,8 @@ type EntitySearchQueryBuilder struct {
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
 	// The entity domain.
 	Domain EntitySearchQueryBuilderDomain `json:"domain,omitempty"`
+	// **WARNING! This argument is deprecated and will not be updated with new infrastructure integration types.** If you want to query for a type not in this list, use the `query` argument instead of `queryBuilder`. To see the query string that is generated by your `queryBuilder` search, ask for the `query` field in the result object. You can then use this to build a query supplied to the `query` argument and remove your `queryBuilder`.
+	//
 	// The Infrastructure integration type. This should be used in place of the `type` field to search for Infrastructure integration specific types.
 	InfrastructureIntegrationType EntityInfrastructureIntegrationType `json:"infrastructureIntegrationType,omitempty"`
 	// The entity name.
@@ -4275,7 +4595,7 @@ type ExternalEntity struct {
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the entity that were open during the specified time window.
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
@@ -4284,9 +4604,9 @@ type ExternalEntity struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
@@ -4319,6 +4639,8 @@ type ExternalEntity struct {
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The tags applied to the entity with their metadata.
 	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
 }
@@ -4428,6 +4750,11 @@ func (x ExternalEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
 	return x.TagsWithMetadata
 }
 
+// GetTracingSummary returns a pointer to the value of TracingSummary from ExternalEntity
+func (x ExternalEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
 // GetType returns a pointer to the value of Type from ExternalEntity
 func (x ExternalEntity) GetType() string {
 	return x.Type
@@ -4452,9 +4779,9 @@ type ExternalEntityOutline struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
@@ -4560,7 +4887,7 @@ type GenericEntity struct {
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the entity that were open during the specified time window.
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
@@ -4569,9 +4896,9 @@ type GenericEntity struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
@@ -4604,6 +4931,8 @@ type GenericEntity struct {
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The tags applied to the entity with their metadata.
 	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
 }
@@ -4713,6 +5042,11 @@ func (x GenericEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
 	return x.TagsWithMetadata
 }
 
+// GetTracingSummary returns a pointer to the value of TracingSummary from GenericEntity
+func (x GenericEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
 // GetType returns a pointer to the value of Type from GenericEntity
 func (x GenericEntity) GetType() string {
 	return x.Type
@@ -4737,9 +5071,9 @@ type GenericEntityOutline struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
@@ -4845,7 +5179,7 @@ type GenericInfrastructureEntity struct {
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the entity that were open during the specified time window.
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
@@ -4854,9 +5188,9 @@ type GenericInfrastructureEntity struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	//
@@ -4891,6 +5225,8 @@ type GenericInfrastructureEntity struct {
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The tags applied to the entity with their metadata.
 	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
 }
@@ -5005,6 +5341,11 @@ func (x GenericInfrastructureEntity) GetTagsWithMetadata() []EntityTagWithMetada
 	return x.TagsWithMetadata
 }
 
+// GetTracingSummary returns a pointer to the value of TracingSummary from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
 // GetType returns a pointer to the value of Type from GenericInfrastructureEntity
 func (x GenericInfrastructureEntity) GetType() string {
 	return x.Type
@@ -5031,9 +5372,9 @@ type GenericInfrastructureEntityOutline struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	//
@@ -5148,7 +5489,7 @@ type InfrastructureAwsLambdaFunctionEntity struct {
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the entity that were open during the specified time window.
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
@@ -5157,9 +5498,9 @@ type InfrastructureAwsLambdaFunctionEntity struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	//
@@ -5196,6 +5537,8 @@ type InfrastructureAwsLambdaFunctionEntity struct {
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The tags applied to the entity with their metadata.
 	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
 }
@@ -5315,6 +5658,11 @@ func (x InfrastructureAwsLambdaFunctionEntity) GetTagsWithMetadata() []EntityTag
 	return x.TagsWithMetadata
 }
 
+// GetTracingSummary returns a pointer to the value of TracingSummary from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
 // GetType returns a pointer to the value of Type from InfrastructureAwsLambdaFunctionEntity
 func (x InfrastructureAwsLambdaFunctionEntity) GetType() string {
 	return x.Type
@@ -5341,9 +5689,9 @@ type InfrastructureAwsLambdaFunctionEntityOutline struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	//
@@ -5466,7 +5814,7 @@ type InfrastructureHostEntity struct {
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the entity that were open during the specified time window.
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
@@ -5475,9 +5823,9 @@ type InfrastructureHostEntity struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	//
 	HostSummary InfrastructureHostSummaryData `json:"hostSummary,omitempty"`
 	// The time the entity was indexed.
@@ -5512,6 +5860,8 @@ type InfrastructureHostEntity struct {
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The tags applied to the entity with their metadata.
 	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
 }
@@ -5626,6 +5976,11 @@ func (x InfrastructureHostEntity) GetTagsWithMetadata() []EntityTagWithMetadata 
 	return x.TagsWithMetadata
 }
 
+// GetTracingSummary returns a pointer to the value of TracingSummary from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
 // GetType returns a pointer to the value of Type from InfrastructureHostEntity
 func (x InfrastructureHostEntity) GetType() string {
 	return x.Type
@@ -5650,9 +6005,9 @@ type InfrastructureHostEntityOutline struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	//
 	HostSummary InfrastructureHostSummaryData `json:"hostSummary,omitempty"`
 	// The time the entity was indexed.
@@ -5811,6 +6166,8 @@ type MetricNormalizationRule struct {
 	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
 	// Is rule enabled?
 	Enabled bool `json:"enabled"`
+	// Rule evaluation order
+	EvalOrder int `json:"evalOrder,omitempty"`
 	// Rule Id
 	ID int `json:"id"`
 	// Metric Match Expression.
@@ -5819,6 +6176,8 @@ type MetricNormalizationRule struct {
 	Notes string `json:"notes,omitempty"`
 	// Metric Replacement Expression.
 	Replacement string `json:"replacement,omitempty"`
+	// Whether it terminates the evaluation chain or not
+	TerminateChain bool `json:"terminateChain,omitempty"`
 }
 
 // MobileAppSummaryData - Mobile application summary data
@@ -5853,20 +6212,24 @@ type MobileApplicationEntity struct {
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the entity that were open during the specified time window.
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// The ID of the Mobile App.
 	ApplicationID int `json:"applicationId,omitempty"`
+	// A Crash that occurred in your Mobile Application.
+	Crash StackTraceMobileCrash `json:"crash,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
+	// A Handled Exception that occurred in your Mobile Application.
+	Exception StackTraceMobileException `json:"exception,omitempty"`
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Retrieves a rule.
@@ -5905,6 +6268,8 @@ type MobileApplicationEntity struct {
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The tags applied to the entity with their metadata.
 	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
 }
@@ -5934,6 +6299,11 @@ func (x MobileApplicationEntity) GetApplicationID() int {
 	return x.ApplicationID
 }
 
+// GetCrash returns a pointer to the value of Crash from MobileApplicationEntity
+func (x MobileApplicationEntity) GetCrash() StackTraceMobileCrash {
+	return x.Crash
+}
+
 // GetDomain returns a pointer to the value of Domain from MobileApplicationEntity
 func (x MobileApplicationEntity) GetDomain() string {
 	return x.Domain
@@ -5942,6 +6312,11 @@ func (x MobileApplicationEntity) GetDomain() string {
 // GetEntityType returns a pointer to the value of EntityType from MobileApplicationEntity
 func (x MobileApplicationEntity) GetEntityType() EntityType {
 	return x.EntityType
+}
+
+// GetException returns a pointer to the value of Exception from MobileApplicationEntity
+func (x MobileApplicationEntity) GetException() StackTraceMobileException {
+	return x.Exception
 }
 
 // GetGUID returns a pointer to the value of GUID from MobileApplicationEntity
@@ -6034,6 +6409,11 @@ func (x MobileApplicationEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
 	return x.TagsWithMetadata
 }
 
+// GetTracingSummary returns a pointer to the value of TracingSummary from MobileApplicationEntity
+func (x MobileApplicationEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
 // GetType returns a pointer to the value of Type from MobileApplicationEntity
 func (x MobileApplicationEntity) GetType() string {
 	return x.Type
@@ -6060,9 +6440,9 @@ type MobileApplicationEntityOutline struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Summary statistics about the Mobile App.
@@ -6174,7 +6554,14 @@ func (x *MobileApplicationEntityOutline) ImplementsEntityOutline() {}
 
 // NRQLQueryOptions - Additional options for NRQL queries.
 type NRQLQueryOptions struct {
-	// Limit the NRQL query to return results from the chosen [Event Namespaces](https://docs.newrelic.com/docs/accounts/new-relic-account-usage/getting-started-usage/insights-subscription-usage/#namespace).
+	// Limit the NRQL query to return results from the chosen Event Namespaces.
+	//
+	// You must supply at least 1 valid event namespace when using this option.
+	// Invalid event namespaces will be filtered out.
+	//
+	// If omitted, the default list will be `["Default"]`
+	//
+	// For more details about Event Namespaces, visit our [docs](https://docs.newrelic.com/docs/accounts/new-relic-account-usage/getting-started-usage/insights-subscription-usage/#namespace).
 	EventNamespaces []string `json:"eventNamespaces"`
 }
 
@@ -6202,7 +6589,7 @@ type SecureCredentialEntity struct {
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the entity that were open during the specified time window.
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// The description of the entity.
 	Description string `json:"description,omitempty"`
@@ -6213,9 +6600,9 @@ type SecureCredentialEntity struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
@@ -6252,6 +6639,8 @@ type SecureCredentialEntity struct {
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The tags applied to the entity with their metadata.
 	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
 	// The time at which the entity was last updated.
@@ -6378,6 +6767,11 @@ func (x SecureCredentialEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
 	return x.TagsWithMetadata
 }
 
+// GetTracingSummary returns a pointer to the value of TracingSummary from SecureCredentialEntity
+func (x SecureCredentialEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
 // GetType returns a pointer to the value of Type from SecureCredentialEntity
 func (x SecureCredentialEntity) GetType() string {
 	return x.Type
@@ -6409,9 +6803,9 @@ type SecureCredentialEntityOutline struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
@@ -6549,6 +6943,106 @@ type ServiceLevelDefinition struct {
 	Indicators []servicelevel.ServiceLevelIndicator `json:"indicators"`
 }
 
+// StackTraceApmException - A structured representation of an exception for an APM application.
+type StackTraceApmException struct {
+	// The top level message associated with the exception.
+	Message string `json:"message,omitempty"`
+	// The stack trace associated with the exception.
+	StackTrace StackTraceApmStackTrace `json:"stackTrace,omitempty"`
+}
+
+// StackTraceApmStackTrace - A structured representation of a stack trace for an APM application.
+type StackTraceApmStackTrace struct {
+	// Stack trace frames.
+	Frames []StackTraceApmStackTraceFrame `json:"frames,omitempty"`
+}
+
+// StackTraceApmStackTraceFrame - An object representing a stack trace segment
+type StackTraceApmStackTraceFrame struct {
+	// Frame filepath
+	Filepath string `json:"filepath,omitempty"`
+	// Formatted frame
+	Formatted string `json:"formatted"`
+	// Frame line number
+	Line int `json:"line,omitempty"`
+	// Frame name
+	Name string `json:"name,omitempty"`
+}
+
+// StackTraceBrowserException - A structured representation of an exception for a Browser application.
+type StackTraceBrowserException struct {
+	// The top level message associated to the stack trace.
+	Message string `json:"message,omitempty"`
+	// The stack trace associated with the exception.
+	StackTrace StackTraceBrowserStackTrace `json:"stackTrace,omitempty"`
+}
+
+// StackTraceBrowserStackTrace - A structured representation of a stack trace for a Browser application.
+type StackTraceBrowserStackTrace struct {
+	// Stack trace frames.
+	Frames []StackTraceBrowserStackTraceFrame `json:"frames,omitempty"`
+}
+
+// StackTraceBrowserStackTraceFrame - An object representing a stack trace segment
+type StackTraceBrowserStackTraceFrame struct {
+	// Frame column number
+	Column int `json:"column,omitempty"`
+	// Formatted frame
+	Formatted string `json:"formatted"`
+	// Frame line number
+	Line int `json:"line,omitempty"`
+	// Frame name
+	Name string `json:"name,omitempty"`
+}
+
+// StackTraceMobileCrash - A structured representation of a crash occurring in a mobile application.
+type StackTraceMobileCrash struct {
+	// A structured representation of a stack trace for a crash that occurs on a mobile application.
+	StackTrace StackTraceMobileCrashStackTrace `json:"stackTrace,omitempty"`
+}
+
+// StackTraceMobileCrashStackTrace - A structured representation of a stack trace of a crash in a mobile application.
+type StackTraceMobileCrashStackTrace struct {
+	// Stack trace frames.
+	Frames []StackTraceMobileCrashStackTraceFrame `json:"frames,omitempty"`
+}
+
+// StackTraceMobileCrashStackTraceFrame - An object representing a stack trace segment
+type StackTraceMobileCrashStackTraceFrame struct {
+	// Frame filepath
+	Filepath string `json:"filepath,omitempty"`
+	// Formatted frame
+	Formatted string `json:"formatted"`
+	// Frame line number
+	Line int `json:"line,omitempty"`
+	// Frame name
+	Name string `json:"name,omitempty"`
+}
+
+// StackTraceMobileException - A structured representation of a handled exception occurring in a mobile application.
+type StackTraceMobileException struct {
+	// A structured representation of a handled exception in a mobile application.
+	StackTrace StackTraceMobileExceptionStackTrace `json:"stackTrace,omitempty"`
+}
+
+// StackTraceMobileExceptionStackTrace - A structured representation of a handled exception in a mobile application.
+type StackTraceMobileExceptionStackTrace struct {
+	// Stack trace frames.
+	Frames []StackTraceMobileExceptionStackTraceFrame `json:"frames,omitempty"`
+}
+
+// StackTraceMobileExceptionStackTraceFrame - An object representing a stack trace segment
+type StackTraceMobileExceptionStackTraceFrame struct {
+	// Frame filepath
+	Filepath string `json:"filepath,omitempty"`
+	// Formatted frame
+	Formatted string `json:"formatted"`
+	// Frame line number
+	Line int `json:"line,omitempty"`
+	// Frame name
+	Name string `json:"name,omitempty"`
+}
+
 // SyntheticMonitorEntity - A Synthetic Monitor entity.
 type SyntheticMonitorEntity struct {
 	//
@@ -6557,7 +7051,7 @@ type SyntheticMonitorEntity struct {
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the entity that were open during the specified time window.
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// Assets produced during the execution of the check, such as screenshots
 	Assets []SyntheticsSyntheticMonitorAsset `json:"assets,omitempty"`
@@ -6568,9 +7062,9 @@ type SyntheticMonitorEntity struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The Synthetic Monitor ID
@@ -6613,6 +7107,8 @@ type SyntheticMonitorEntity struct {
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The tags applied to the entity with their metadata.
 	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
 }
@@ -6752,6 +7248,11 @@ func (x SyntheticMonitorEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
 	return x.TagsWithMetadata
 }
 
+// GetTracingSummary returns a pointer to the value of TracingSummary from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
 // GetType returns a pointer to the value of Type from SyntheticMonitorEntity
 func (x SyntheticMonitorEntity) GetType() string {
 	return x.Type
@@ -6776,9 +7277,9 @@ type SyntheticMonitorEntityOutline struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The Synthetic Monitor ID
@@ -6969,7 +7470,7 @@ type ThirdPartyServiceEntity struct {
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the entity that were open during the specified time window.
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
@@ -6978,9 +7479,9 @@ type ThirdPartyServiceEntity struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
@@ -7013,6 +7514,8 @@ type ThirdPartyServiceEntity struct {
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The tags applied to the entity with their metadata.
 	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
 }
@@ -7122,6 +7625,11 @@ func (x ThirdPartyServiceEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
 	return x.TagsWithMetadata
 }
 
+// GetTracingSummary returns a pointer to the value of TracingSummary from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
 // GetType returns a pointer to the value of Type from ThirdPartyServiceEntity
 func (x ThirdPartyServiceEntity) GetType() string {
 	return x.Type
@@ -7146,9 +7654,9 @@ type ThirdPartyServiceEntityOutline struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
@@ -7262,7 +7770,7 @@ type UnavailableEntity struct {
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the entity that were open during the specified time window.
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
@@ -7271,9 +7779,9 @@ type UnavailableEntity struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
@@ -7306,6 +7814,8 @@ type UnavailableEntity struct {
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The tags applied to the entity with their metadata.
 	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
 }
@@ -7415,6 +7925,11 @@ func (x UnavailableEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
 	return x.TagsWithMetadata
 }
 
+// GetTracingSummary returns a pointer to the value of TracingSummary from UnavailableEntity
+func (x UnavailableEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
 // GetType returns a pointer to the value of Type from UnavailableEntity
 func (x UnavailableEntity) GetType() string {
 	return x.Type
@@ -7439,9 +7954,9 @@ type UnavailableEntityOutline struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
@@ -7562,9 +8077,9 @@ type WorkloadEntity struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
@@ -7597,6 +8112,8 @@ type WorkloadEntity struct {
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The tags applied to the entity with their metadata.
 	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
 	// When the workload was last updated.
@@ -7725,6 +8242,11 @@ func (x WorkloadEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
 	return x.TagsWithMetadata
 }
 
+// GetTracingSummary returns a pointer to the value of TracingSummary from WorkloadEntity
+func (x WorkloadEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
 // GetType returns a pointer to the value of Type from WorkloadEntity
 func (x WorkloadEntity) GetType() string {
 	return x.Type
@@ -7765,9 +8287,9 @@ type WorkloadEntityOutline struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
@@ -7918,6 +8440,9 @@ type entityResponse struct {
 type entitySearchResponse struct {
 	Actor Actor `json:"actor"`
 }
+
+// AgentApplicationSettingsErrorCollectorHttpStatus - A list of HTTP status codes and/or status code ranges, such as "404" or "500-599"
+type AgentApplicationSettingsErrorCollectorHttpStatus string
 
 // AttributeMap - This scalar represents a map of attributes in the form of key-value pairs.
 type AttributeMap map[string]interface{}

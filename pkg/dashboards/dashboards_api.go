@@ -3,7 +3,6 @@ package dashboards
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/newrelic/newrelic-client-go/pkg/common"
 )
@@ -34,15 +33,6 @@ func (a *Dashboards) DashboardCreateWithContext(
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, DashboardCreateMutation, vars, &resp); err != nil {
 		return nil, err
-	}
-
-	// If we got errors back, wrap them all up
-	if len(resp.DashboardCreateResult.Errors) > 0 {
-		errs := fmt.Errorf("query error")
-		for _, err := range resp.DashboardCreateResult.Errors {
-			errs = fmt.Errorf("%w; %s", errs, err.Description)
-		}
-		return nil, errs
 	}
 
 	return &resp.DashboardCreateResult, nil
@@ -148,6 +138,74 @@ const DashboardCreateMutation = `mutation(
 					name
 					permalink
 					reporting
+					serviceLevel {
+						indicators {
+							createdAt
+							createdBy {
+								email
+								gravatar
+								id
+								name
+							}
+							description
+							entityGuid
+							events {
+								account {
+									id
+									name
+								}
+								badEvents {
+									from
+									where
+								}
+								goodEvents {
+									from
+									where
+								}
+								validEvents {
+									from
+									where
+								}
+							}
+							id
+							name
+							objectives {
+								description
+								name
+								resultQueries {
+									attainment {
+										nrql
+									}
+								}
+								target
+								timeWindow {
+									rolling {
+										count
+										unit
+									}
+								}
+							}
+							resultQueries {
+								goodEvents {
+									nrql
+								}
+								indicator {
+									nrql
+								}
+								validEvents {
+									nrql
+								}
+							}
+							slug
+							updatedAt
+							updatedBy {
+								email
+								gravatar
+								id
+								name
+							}
+						}
+					}
 					tags {
 						key
 						values
@@ -185,6 +243,74 @@ const DashboardCreateMutation = `mutation(
 							maxVersion
 							minVersion
 						}
+						serviceLevel {
+							indicators {
+								createdAt
+								createdBy {
+									email
+									gravatar
+									id
+									name
+								}
+								description
+								entityGuid
+								events {
+									account {
+										id
+										name
+									}
+									badEvents {
+										from
+										where
+									}
+									goodEvents {
+										from
+										where
+									}
+									validEvents {
+										from
+										where
+									}
+								}
+								id
+								name
+								objectives {
+									description
+									name
+									resultQueries {
+										attainment {
+											nrql
+										}
+									}
+									target
+									timeWindow {
+										rolling {
+											count
+											unit
+										}
+									}
+								}
+								resultQueries {
+									goodEvents {
+										nrql
+									}
+									indicator {
+										nrql
+									}
+									validEvents {
+										nrql
+									}
+								}
+								slug
+								updatedAt
+								updatedBy {
+									email
+									gravatar
+									id
+									name
+								}
+							}
+						}
 						settings {
 							apdexTarget
 							serverSideConfig
@@ -203,6 +329,74 @@ const DashboardCreateMutation = `mutation(
 						}
 						host
 						portOrPath
+						serviceLevel {
+							indicators {
+								createdAt
+								createdBy {
+									email
+									gravatar
+									id
+									name
+								}
+								description
+								entityGuid
+								events {
+									account {
+										id
+										name
+									}
+									badEvents {
+										from
+										where
+									}
+									goodEvents {
+										from
+										where
+									}
+									validEvents {
+										from
+										where
+									}
+								}
+								id
+								name
+								objectives {
+									description
+									name
+									resultQueries {
+										attainment {
+											nrql
+										}
+									}
+									target
+									timeWindow {
+										rolling {
+											count
+											unit
+										}
+									}
+								}
+								resultQueries {
+									goodEvents {
+										nrql
+									}
+									indicator {
+										nrql
+									}
+									validEvents {
+										nrql
+									}
+								}
+								slug
+								updatedAt
+								updatedBy {
+									email
+									gravatar
+									id
+									name
+								}
+							}
+						}
 						tags {
 							key
 							values
@@ -221,6 +415,74 @@ const DashboardCreateMutation = `mutation(
 							throughput
 						}
 						host
+						serviceLevel {
+							indicators {
+								createdAt
+								createdBy {
+									email
+									gravatar
+									id
+									name
+								}
+								description
+								entityGuid
+								events {
+									account {
+										id
+										name
+									}
+									badEvents {
+										from
+										where
+									}
+									goodEvents {
+										from
+										where
+									}
+									validEvents {
+										from
+										where
+									}
+								}
+								id
+								name
+								objectives {
+									description
+									name
+									resultQueries {
+										attainment {
+											nrql
+										}
+									}
+									target
+									timeWindow {
+										rolling {
+											count
+											unit
+										}
+									}
+								}
+								resultQueries {
+									goodEvents {
+										nrql
+									}
+									indicator {
+										nrql
+									}
+									validEvents {
+										nrql
+									}
+								}
+								slug
+								updatedAt
+								updatedBy {
+									email
+									gravatar
+									id
+									name
+								}
+							}
+						}
 						tags {
 							key
 							values
@@ -249,6 +511,74 @@ const DashboardCreateMutation = `mutation(
 							maxVersion
 							minVersion
 						}
+						serviceLevel {
+							indicators {
+								createdAt
+								createdBy {
+									email
+									gravatar
+									id
+									name
+								}
+								description
+								entityGuid
+								events {
+									account {
+										id
+										name
+									}
+									badEvents {
+										from
+										where
+									}
+									goodEvents {
+										from
+										where
+									}
+									validEvents {
+										from
+										where
+									}
+								}
+								id
+								name
+								objectives {
+									description
+									name
+									resultQueries {
+										attainment {
+											nrql
+										}
+									}
+									target
+									timeWindow {
+										rolling {
+											count
+											unit
+										}
+									}
+								}
+								resultQueries {
+									goodEvents {
+										nrql
+									}
+									indicator {
+										nrql
+									}
+									validEvents {
+										nrql
+									}
+								}
+								slug
+								updatedAt
+								updatedBy {
+									email
+									gravatar
+									id
+									name
+								}
+							}
+						}
 						servingApmApplicationId
 						settings {
 							apdexTarget
@@ -272,6 +602,74 @@ const DashboardCreateMutation = `mutation(
 							userId
 						}
 						permissions
+						serviceLevel {
+							indicators {
+								createdAt
+								createdBy {
+									email
+									gravatar
+									id
+									name
+								}
+								description
+								entityGuid
+								events {
+									account {
+										id
+										name
+									}
+									badEvents {
+										from
+										where
+									}
+									goodEvents {
+										from
+										where
+									}
+									validEvents {
+										from
+										where
+									}
+								}
+								id
+								name
+								objectives {
+									description
+									name
+									resultQueries {
+										attainment {
+											nrql
+										}
+									}
+									target
+									timeWindow {
+										rolling {
+											count
+											unit
+										}
+									}
+								}
+								resultQueries {
+									goodEvents {
+										nrql
+									}
+									indicator {
+										nrql
+									}
+									validEvents {
+										nrql
+									}
+								}
+								slug
+								updatedAt
+								updatedBy {
+									email
+									gravatar
+									id
+									name
+								}
+							}
+						}
 						tags {
 							key
 							values
@@ -285,6 +683,74 @@ const DashboardCreateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
+						serviceLevel {
+							indicators {
+								createdAt
+								createdBy {
+									email
+									gravatar
+									id
+									name
+								}
+								description
+								entityGuid
+								events {
+									account {
+										id
+										name
+									}
+									badEvents {
+										from
+										where
+									}
+									goodEvents {
+										from
+										where
+									}
+									validEvents {
+										from
+										where
+									}
+								}
+								id
+								name
+								objectives {
+									description
+									name
+									resultQueries {
+										attainment {
+											nrql
+										}
+									}
+									target
+									timeWindow {
+										rolling {
+											count
+											unit
+										}
+									}
+								}
+								resultQueries {
+									goodEvents {
+										nrql
+									}
+									indicator {
+										nrql
+									}
+									validEvents {
+										nrql
+									}
+								}
+								slug
+								updatedAt
+								updatedBy {
+									email
+									gravatar
+									id
+									name
+								}
+							}
+						}
 						tags {
 							key
 							values
@@ -296,6 +762,74 @@ const DashboardCreateMutation = `mutation(
 							id
 							name
 							reportingEventTypes
+						}
+						serviceLevel {
+							indicators {
+								createdAt
+								createdBy {
+									email
+									gravatar
+									id
+									name
+								}
+								description
+								entityGuid
+								events {
+									account {
+										id
+										name
+									}
+									badEvents {
+										from
+										where
+									}
+									goodEvents {
+										from
+										where
+									}
+									validEvents {
+										from
+										where
+									}
+								}
+								id
+								name
+								objectives {
+									description
+									name
+									resultQueries {
+										attainment {
+											nrql
+										}
+									}
+									target
+									timeWindow {
+										rolling {
+											count
+											unit
+										}
+									}
+								}
+								resultQueries {
+									goodEvents {
+										nrql
+									}
+									indicator {
+										nrql
+									}
+									validEvents {
+										nrql
+									}
+								}
+								slug
+								updatedAt
+								updatedBy {
+									email
+									gravatar
+									id
+									name
+								}
+							}
 						}
 						tags {
 							key
@@ -310,6 +844,74 @@ const DashboardCreateMutation = `mutation(
 							reportingEventTypes
 						}
 						integrationTypeCode
+						serviceLevel {
+							indicators {
+								createdAt
+								createdBy {
+									email
+									gravatar
+									id
+									name
+								}
+								description
+								entityGuid
+								events {
+									account {
+										id
+										name
+									}
+									badEvents {
+										from
+										where
+									}
+									goodEvents {
+										from
+										where
+									}
+									validEvents {
+										from
+										where
+									}
+								}
+								id
+								name
+								objectives {
+									description
+									name
+									resultQueries {
+										attainment {
+											nrql
+										}
+									}
+									target
+									timeWindow {
+										rolling {
+											count
+											unit
+										}
+									}
+								}
+								resultQueries {
+									goodEvents {
+										nrql
+									}
+									indicator {
+										nrql
+									}
+									validEvents {
+										nrql
+									}
+								}
+								slug
+								updatedAt
+								updatedBy {
+									email
+									gravatar
+									id
+									name
+								}
+							}
+						}
 						tags {
 							key
 							values
@@ -324,6 +926,74 @@ const DashboardCreateMutation = `mutation(
 						}
 						integrationTypeCode
 						runtime
+						serviceLevel {
+							indicators {
+								createdAt
+								createdBy {
+									email
+									gravatar
+									id
+									name
+								}
+								description
+								entityGuid
+								events {
+									account {
+										id
+										name
+									}
+									badEvents {
+										from
+										where
+									}
+									goodEvents {
+										from
+										where
+									}
+									validEvents {
+										from
+										where
+									}
+								}
+								id
+								name
+								objectives {
+									description
+									name
+									resultQueries {
+										attainment {
+											nrql
+										}
+									}
+									target
+									timeWindow {
+										rolling {
+											count
+											unit
+										}
+									}
+								}
+								resultQueries {
+									goodEvents {
+										nrql
+									}
+									indicator {
+										nrql
+									}
+									validEvents {
+										nrql
+									}
+								}
+								slug
+								updatedAt
+								updatedBy {
+									email
+									gravatar
+									id
+									name
+								}
+							}
+						}
 						tags {
 							key
 							values
@@ -343,6 +1013,74 @@ const DashboardCreateMutation = `mutation(
 							networkReceiveRate
 							networkTransmitRate
 							servicesCount
+						}
+						serviceLevel {
+							indicators {
+								createdAt
+								createdBy {
+									email
+									gravatar
+									id
+									name
+								}
+								description
+								entityGuid
+								events {
+									account {
+										id
+										name
+									}
+									badEvents {
+										from
+										where
+									}
+									goodEvents {
+										from
+										where
+									}
+									validEvents {
+										from
+										where
+									}
+								}
+								id
+								name
+								objectives {
+									description
+									name
+									resultQueries {
+										attainment {
+											nrql
+										}
+									}
+									target
+									timeWindow {
+										rolling {
+											count
+											unit
+										}
+									}
+								}
+								resultQueries {
+									goodEvents {
+										nrql
+									}
+									indicator {
+										nrql
+									}
+									validEvents {
+										nrql
+									}
+								}
+								slug
+								updatedAt
+								updatedBy {
+									email
+									gravatar
+									id
+									name
+								}
+							}
 						}
 						tags {
 							key
@@ -369,6 +1107,74 @@ const DashboardCreateMutation = `mutation(
 							networkFailureRate
 							usersAffectedCount
 						}
+						serviceLevel {
+							indicators {
+								createdAt
+								createdBy {
+									email
+									gravatar
+									id
+									name
+								}
+								description
+								entityGuid
+								events {
+									account {
+										id
+										name
+									}
+									badEvents {
+										from
+										where
+									}
+									goodEvents {
+										from
+										where
+									}
+									validEvents {
+										from
+										where
+									}
+								}
+								id
+								name
+								objectives {
+									description
+									name
+									resultQueries {
+										attainment {
+											nrql
+										}
+									}
+									target
+									timeWindow {
+										rolling {
+											count
+											unit
+										}
+									}
+								}
+								resultQueries {
+									goodEvents {
+										nrql
+									}
+									indicator {
+										nrql
+									}
+									validEvents {
+										nrql
+									}
+								}
+								slug
+								updatedAt
+								updatedBy {
+									email
+									gravatar
+									id
+									name
+								}
+							}
+						}
 						tags {
 							key
 							values
@@ -386,6 +1192,74 @@ const DashboardCreateMutation = `mutation(
 						secureCredentialSummary {
 							failingMonitorCount
 							monitorCount
+						}
+						serviceLevel {
+							indicators {
+								createdAt
+								createdBy {
+									email
+									gravatar
+									id
+									name
+								}
+								description
+								entityGuid
+								events {
+									account {
+										id
+										name
+									}
+									badEvents {
+										from
+										where
+									}
+									goodEvents {
+										from
+										where
+									}
+									validEvents {
+										from
+										where
+									}
+								}
+								id
+								name
+								objectives {
+									description
+									name
+									resultQueries {
+										attainment {
+											nrql
+										}
+									}
+									target
+									timeWindow {
+										rolling {
+											count
+											unit
+										}
+									}
+								}
+								resultQueries {
+									goodEvents {
+										nrql
+									}
+									indicator {
+										nrql
+									}
+									validEvents {
+										nrql
+									}
+								}
+								slug
+								updatedAt
+								updatedBy {
+									email
+									gravatar
+									id
+									name
+								}
+							}
 						}
 						tags {
 							key
@@ -410,6 +1284,74 @@ const DashboardCreateMutation = `mutation(
 						monitorType
 						monitoredUrl
 						period
+						serviceLevel {
+							indicators {
+								createdAt
+								createdBy {
+									email
+									gravatar
+									id
+									name
+								}
+								description
+								entityGuid
+								events {
+									account {
+										id
+										name
+									}
+									badEvents {
+										from
+										where
+									}
+									goodEvents {
+										from
+										where
+									}
+									validEvents {
+										from
+										where
+									}
+								}
+								id
+								name
+								objectives {
+									description
+									name
+									resultQueries {
+										attainment {
+											nrql
+										}
+									}
+									target
+									timeWindow {
+										rolling {
+											count
+											unit
+										}
+									}
+								}
+								resultQueries {
+									goodEvents {
+										nrql
+									}
+									indicator {
+										nrql
+									}
+									validEvents {
+										nrql
+									}
+								}
+								slug
+								updatedAt
+								updatedBy {
+									email
+									gravatar
+									id
+									name
+								}
+							}
+						}
 						tags {
 							key
 							values
@@ -422,6 +1364,74 @@ const DashboardCreateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
+						serviceLevel {
+							indicators {
+								createdAt
+								createdBy {
+									email
+									gravatar
+									id
+									name
+								}
+								description
+								entityGuid
+								events {
+									account {
+										id
+										name
+									}
+									badEvents {
+										from
+										where
+									}
+									goodEvents {
+										from
+										where
+									}
+									validEvents {
+										from
+										where
+									}
+								}
+								id
+								name
+								objectives {
+									description
+									name
+									resultQueries {
+										attainment {
+											nrql
+										}
+									}
+									target
+									timeWindow {
+										rolling {
+											count
+											unit
+										}
+									}
+								}
+								resultQueries {
+									goodEvents {
+										nrql
+									}
+									indicator {
+										nrql
+									}
+									validEvents {
+										nrql
+									}
+								}
+								slug
+								updatedAt
+								updatedBy {
+									email
+									gravatar
+									id
+									name
+								}
+							}
+						}
 						tags {
 							key
 							values
@@ -433,6 +1443,74 @@ const DashboardCreateMutation = `mutation(
 							id
 							name
 							reportingEventTypes
+						}
+						serviceLevel {
+							indicators {
+								createdAt
+								createdBy {
+									email
+									gravatar
+									id
+									name
+								}
+								description
+								entityGuid
+								events {
+									account {
+										id
+										name
+									}
+									badEvents {
+										from
+										where
+									}
+									goodEvents {
+										from
+										where
+									}
+									validEvents {
+										from
+										where
+									}
+								}
+								id
+								name
+								objectives {
+									description
+									name
+									resultQueries {
+										attainment {
+											nrql
+										}
+									}
+									target
+									timeWindow {
+										rolling {
+											count
+											unit
+										}
+									}
+								}
+								resultQueries {
+									goodEvents {
+										nrql
+									}
+									indicator {
+										nrql
+									}
+									validEvents {
+										nrql
+									}
+								}
+								slug
+								updatedAt
+								updatedBy {
+									email
+									gravatar
+									id
+									name
+								}
+							}
 						}
 						tags {
 							key
@@ -452,6 +1530,74 @@ const DashboardCreateMutation = `mutation(
 							gravatar
 							id
 							name
+						}
+						serviceLevel {
+							indicators {
+								createdAt
+								createdBy {
+									email
+									gravatar
+									id
+									name
+								}
+								description
+								entityGuid
+								events {
+									account {
+										id
+										name
+									}
+									badEvents {
+										from
+										where
+									}
+									goodEvents {
+										from
+										where
+									}
+									validEvents {
+										from
+										where
+									}
+								}
+								id
+								name
+								objectives {
+									description
+									name
+									resultQueries {
+										attainment {
+											nrql
+										}
+									}
+									target
+									timeWindow {
+										rolling {
+											count
+											unit
+										}
+									}
+								}
+								resultQueries {
+									goodEvents {
+										nrql
+									}
+									indicator {
+										nrql
+									}
+									validEvents {
+										nrql
+									}
+								}
+								slug
+								updatedAt
+								updatedBy {
+									email
+									gravatar
+									id
+									name
+								}
+							}
 						}
 						tags {
 							key
@@ -506,15 +1652,6 @@ func (a *Dashboards) DashboardDeleteWithContext(
 		return nil, err
 	}
 
-	// If we got errors back, wrap them all up
-	if len(resp.DashboardDeleteResult.Errors) > 0 {
-		errs := fmt.Errorf("query error")
-		for _, err := range resp.DashboardDeleteResult.Errors {
-			errs = fmt.Errorf("%w; %s", errs, err.Description)
-		}
-		return nil, errs
-	}
-
 	return &resp.DashboardDeleteResult, nil
 }
 
@@ -560,15 +1697,6 @@ func (a *Dashboards) DashboardUpdateWithContext(
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, DashboardUpdateMutation, vars, &resp); err != nil {
 		return nil, err
-	}
-
-	// If we got errors back, wrap them all up
-	if len(resp.DashboardUpdateResult.Errors) > 0 {
-		errs := fmt.Errorf("query error")
-		for _, err := range resp.DashboardUpdateResult.Errors {
-			errs = fmt.Errorf("%w; %s", errs, err.Description)
-		}
-		return nil, errs
 	}
 
 	return &resp.DashboardUpdateResult, nil
@@ -674,6 +1802,74 @@ const DashboardUpdateMutation = `mutation(
 					name
 					permalink
 					reporting
+					serviceLevel {
+						indicators {
+							createdAt
+							createdBy {
+								email
+								gravatar
+								id
+								name
+							}
+							description
+							entityGuid
+							events {
+								account {
+									id
+									name
+								}
+								badEvents {
+									from
+									where
+								}
+								goodEvents {
+									from
+									where
+								}
+								validEvents {
+									from
+									where
+								}
+							}
+							id
+							name
+							objectives {
+								description
+								name
+								resultQueries {
+									attainment {
+										nrql
+									}
+								}
+								target
+								timeWindow {
+									rolling {
+										count
+										unit
+									}
+								}
+							}
+							resultQueries {
+								goodEvents {
+									nrql
+								}
+								indicator {
+									nrql
+								}
+								validEvents {
+									nrql
+								}
+							}
+							slug
+							updatedAt
+							updatedBy {
+								email
+								gravatar
+								id
+								name
+							}
+						}
+					}
 					tags {
 						key
 						values
@@ -711,6 +1907,74 @@ const DashboardUpdateMutation = `mutation(
 							maxVersion
 							minVersion
 						}
+						serviceLevel {
+							indicators {
+								createdAt
+								createdBy {
+									email
+									gravatar
+									id
+									name
+								}
+								description
+								entityGuid
+								events {
+									account {
+										id
+										name
+									}
+									badEvents {
+										from
+										where
+									}
+									goodEvents {
+										from
+										where
+									}
+									validEvents {
+										from
+										where
+									}
+								}
+								id
+								name
+								objectives {
+									description
+									name
+									resultQueries {
+										attainment {
+											nrql
+										}
+									}
+									target
+									timeWindow {
+										rolling {
+											count
+											unit
+										}
+									}
+								}
+								resultQueries {
+									goodEvents {
+										nrql
+									}
+									indicator {
+										nrql
+									}
+									validEvents {
+										nrql
+									}
+								}
+								slug
+								updatedAt
+								updatedBy {
+									email
+									gravatar
+									id
+									name
+								}
+							}
+						}
 						settings {
 							apdexTarget
 							serverSideConfig
@@ -729,6 +1993,74 @@ const DashboardUpdateMutation = `mutation(
 						}
 						host
 						portOrPath
+						serviceLevel {
+							indicators {
+								createdAt
+								createdBy {
+									email
+									gravatar
+									id
+									name
+								}
+								description
+								entityGuid
+								events {
+									account {
+										id
+										name
+									}
+									badEvents {
+										from
+										where
+									}
+									goodEvents {
+										from
+										where
+									}
+									validEvents {
+										from
+										where
+									}
+								}
+								id
+								name
+								objectives {
+									description
+									name
+									resultQueries {
+										attainment {
+											nrql
+										}
+									}
+									target
+									timeWindow {
+										rolling {
+											count
+											unit
+										}
+									}
+								}
+								resultQueries {
+									goodEvents {
+										nrql
+									}
+									indicator {
+										nrql
+									}
+									validEvents {
+										nrql
+									}
+								}
+								slug
+								updatedAt
+								updatedBy {
+									email
+									gravatar
+									id
+									name
+								}
+							}
+						}
 						tags {
 							key
 							values
@@ -747,6 +2079,74 @@ const DashboardUpdateMutation = `mutation(
 							throughput
 						}
 						host
+						serviceLevel {
+							indicators {
+								createdAt
+								createdBy {
+									email
+									gravatar
+									id
+									name
+								}
+								description
+								entityGuid
+								events {
+									account {
+										id
+										name
+									}
+									badEvents {
+										from
+										where
+									}
+									goodEvents {
+										from
+										where
+									}
+									validEvents {
+										from
+										where
+									}
+								}
+								id
+								name
+								objectives {
+									description
+									name
+									resultQueries {
+										attainment {
+											nrql
+										}
+									}
+									target
+									timeWindow {
+										rolling {
+											count
+											unit
+										}
+									}
+								}
+								resultQueries {
+									goodEvents {
+										nrql
+									}
+									indicator {
+										nrql
+									}
+									validEvents {
+										nrql
+									}
+								}
+								slug
+								updatedAt
+								updatedBy {
+									email
+									gravatar
+									id
+									name
+								}
+							}
+						}
 						tags {
 							key
 							values
@@ -775,6 +2175,74 @@ const DashboardUpdateMutation = `mutation(
 							maxVersion
 							minVersion
 						}
+						serviceLevel {
+							indicators {
+								createdAt
+								createdBy {
+									email
+									gravatar
+									id
+									name
+								}
+								description
+								entityGuid
+								events {
+									account {
+										id
+										name
+									}
+									badEvents {
+										from
+										where
+									}
+									goodEvents {
+										from
+										where
+									}
+									validEvents {
+										from
+										where
+									}
+								}
+								id
+								name
+								objectives {
+									description
+									name
+									resultQueries {
+										attainment {
+											nrql
+										}
+									}
+									target
+									timeWindow {
+										rolling {
+											count
+											unit
+										}
+									}
+								}
+								resultQueries {
+									goodEvents {
+										nrql
+									}
+									indicator {
+										nrql
+									}
+									validEvents {
+										nrql
+									}
+								}
+								slug
+								updatedAt
+								updatedBy {
+									email
+									gravatar
+									id
+									name
+								}
+							}
+						}
 						servingApmApplicationId
 						settings {
 							apdexTarget
@@ -798,6 +2266,74 @@ const DashboardUpdateMutation = `mutation(
 							userId
 						}
 						permissions
+						serviceLevel {
+							indicators {
+								createdAt
+								createdBy {
+									email
+									gravatar
+									id
+									name
+								}
+								description
+								entityGuid
+								events {
+									account {
+										id
+										name
+									}
+									badEvents {
+										from
+										where
+									}
+									goodEvents {
+										from
+										where
+									}
+									validEvents {
+										from
+										where
+									}
+								}
+								id
+								name
+								objectives {
+									description
+									name
+									resultQueries {
+										attainment {
+											nrql
+										}
+									}
+									target
+									timeWindow {
+										rolling {
+											count
+											unit
+										}
+									}
+								}
+								resultQueries {
+									goodEvents {
+										nrql
+									}
+									indicator {
+										nrql
+									}
+									validEvents {
+										nrql
+									}
+								}
+								slug
+								updatedAt
+								updatedBy {
+									email
+									gravatar
+									id
+									name
+								}
+							}
+						}
 						tags {
 							key
 							values
@@ -811,6 +2347,74 @@ const DashboardUpdateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
+						serviceLevel {
+							indicators {
+								createdAt
+								createdBy {
+									email
+									gravatar
+									id
+									name
+								}
+								description
+								entityGuid
+								events {
+									account {
+										id
+										name
+									}
+									badEvents {
+										from
+										where
+									}
+									goodEvents {
+										from
+										where
+									}
+									validEvents {
+										from
+										where
+									}
+								}
+								id
+								name
+								objectives {
+									description
+									name
+									resultQueries {
+										attainment {
+											nrql
+										}
+									}
+									target
+									timeWindow {
+										rolling {
+											count
+											unit
+										}
+									}
+								}
+								resultQueries {
+									goodEvents {
+										nrql
+									}
+									indicator {
+										nrql
+									}
+									validEvents {
+										nrql
+									}
+								}
+								slug
+								updatedAt
+								updatedBy {
+									email
+									gravatar
+									id
+									name
+								}
+							}
+						}
 						tags {
 							key
 							values
@@ -822,6 +2426,74 @@ const DashboardUpdateMutation = `mutation(
 							id
 							name
 							reportingEventTypes
+						}
+						serviceLevel {
+							indicators {
+								createdAt
+								createdBy {
+									email
+									gravatar
+									id
+									name
+								}
+								description
+								entityGuid
+								events {
+									account {
+										id
+										name
+									}
+									badEvents {
+										from
+										where
+									}
+									goodEvents {
+										from
+										where
+									}
+									validEvents {
+										from
+										where
+									}
+								}
+								id
+								name
+								objectives {
+									description
+									name
+									resultQueries {
+										attainment {
+											nrql
+										}
+									}
+									target
+									timeWindow {
+										rolling {
+											count
+											unit
+										}
+									}
+								}
+								resultQueries {
+									goodEvents {
+										nrql
+									}
+									indicator {
+										nrql
+									}
+									validEvents {
+										nrql
+									}
+								}
+								slug
+								updatedAt
+								updatedBy {
+									email
+									gravatar
+									id
+									name
+								}
+							}
 						}
 						tags {
 							key
@@ -836,6 +2508,74 @@ const DashboardUpdateMutation = `mutation(
 							reportingEventTypes
 						}
 						integrationTypeCode
+						serviceLevel {
+							indicators {
+								createdAt
+								createdBy {
+									email
+									gravatar
+									id
+									name
+								}
+								description
+								entityGuid
+								events {
+									account {
+										id
+										name
+									}
+									badEvents {
+										from
+										where
+									}
+									goodEvents {
+										from
+										where
+									}
+									validEvents {
+										from
+										where
+									}
+								}
+								id
+								name
+								objectives {
+									description
+									name
+									resultQueries {
+										attainment {
+											nrql
+										}
+									}
+									target
+									timeWindow {
+										rolling {
+											count
+											unit
+										}
+									}
+								}
+								resultQueries {
+									goodEvents {
+										nrql
+									}
+									indicator {
+										nrql
+									}
+									validEvents {
+										nrql
+									}
+								}
+								slug
+								updatedAt
+								updatedBy {
+									email
+									gravatar
+									id
+									name
+								}
+							}
+						}
 						tags {
 							key
 							values
@@ -850,6 +2590,74 @@ const DashboardUpdateMutation = `mutation(
 						}
 						integrationTypeCode
 						runtime
+						serviceLevel {
+							indicators {
+								createdAt
+								createdBy {
+									email
+									gravatar
+									id
+									name
+								}
+								description
+								entityGuid
+								events {
+									account {
+										id
+										name
+									}
+									badEvents {
+										from
+										where
+									}
+									goodEvents {
+										from
+										where
+									}
+									validEvents {
+										from
+										where
+									}
+								}
+								id
+								name
+								objectives {
+									description
+									name
+									resultQueries {
+										attainment {
+											nrql
+										}
+									}
+									target
+									timeWindow {
+										rolling {
+											count
+											unit
+										}
+									}
+								}
+								resultQueries {
+									goodEvents {
+										nrql
+									}
+									indicator {
+										nrql
+									}
+									validEvents {
+										nrql
+									}
+								}
+								slug
+								updatedAt
+								updatedBy {
+									email
+									gravatar
+									id
+									name
+								}
+							}
+						}
 						tags {
 							key
 							values
@@ -869,6 +2677,74 @@ const DashboardUpdateMutation = `mutation(
 							networkReceiveRate
 							networkTransmitRate
 							servicesCount
+						}
+						serviceLevel {
+							indicators {
+								createdAt
+								createdBy {
+									email
+									gravatar
+									id
+									name
+								}
+								description
+								entityGuid
+								events {
+									account {
+										id
+										name
+									}
+									badEvents {
+										from
+										where
+									}
+									goodEvents {
+										from
+										where
+									}
+									validEvents {
+										from
+										where
+									}
+								}
+								id
+								name
+								objectives {
+									description
+									name
+									resultQueries {
+										attainment {
+											nrql
+										}
+									}
+									target
+									timeWindow {
+										rolling {
+											count
+											unit
+										}
+									}
+								}
+								resultQueries {
+									goodEvents {
+										nrql
+									}
+									indicator {
+										nrql
+									}
+									validEvents {
+										nrql
+									}
+								}
+								slug
+								updatedAt
+								updatedBy {
+									email
+									gravatar
+									id
+									name
+								}
+							}
 						}
 						tags {
 							key
@@ -895,6 +2771,74 @@ const DashboardUpdateMutation = `mutation(
 							networkFailureRate
 							usersAffectedCount
 						}
+						serviceLevel {
+							indicators {
+								createdAt
+								createdBy {
+									email
+									gravatar
+									id
+									name
+								}
+								description
+								entityGuid
+								events {
+									account {
+										id
+										name
+									}
+									badEvents {
+										from
+										where
+									}
+									goodEvents {
+										from
+										where
+									}
+									validEvents {
+										from
+										where
+									}
+								}
+								id
+								name
+								objectives {
+									description
+									name
+									resultQueries {
+										attainment {
+											nrql
+										}
+									}
+									target
+									timeWindow {
+										rolling {
+											count
+											unit
+										}
+									}
+								}
+								resultQueries {
+									goodEvents {
+										nrql
+									}
+									indicator {
+										nrql
+									}
+									validEvents {
+										nrql
+									}
+								}
+								slug
+								updatedAt
+								updatedBy {
+									email
+									gravatar
+									id
+									name
+								}
+							}
+						}
 						tags {
 							key
 							values
@@ -912,6 +2856,74 @@ const DashboardUpdateMutation = `mutation(
 						secureCredentialSummary {
 							failingMonitorCount
 							monitorCount
+						}
+						serviceLevel {
+							indicators {
+								createdAt
+								createdBy {
+									email
+									gravatar
+									id
+									name
+								}
+								description
+								entityGuid
+								events {
+									account {
+										id
+										name
+									}
+									badEvents {
+										from
+										where
+									}
+									goodEvents {
+										from
+										where
+									}
+									validEvents {
+										from
+										where
+									}
+								}
+								id
+								name
+								objectives {
+									description
+									name
+									resultQueries {
+										attainment {
+											nrql
+										}
+									}
+									target
+									timeWindow {
+										rolling {
+											count
+											unit
+										}
+									}
+								}
+								resultQueries {
+									goodEvents {
+										nrql
+									}
+									indicator {
+										nrql
+									}
+									validEvents {
+										nrql
+									}
+								}
+								slug
+								updatedAt
+								updatedBy {
+									email
+									gravatar
+									id
+									name
+								}
+							}
 						}
 						tags {
 							key
@@ -936,6 +2948,74 @@ const DashboardUpdateMutation = `mutation(
 						monitorType
 						monitoredUrl
 						period
+						serviceLevel {
+							indicators {
+								createdAt
+								createdBy {
+									email
+									gravatar
+									id
+									name
+								}
+								description
+								entityGuid
+								events {
+									account {
+										id
+										name
+									}
+									badEvents {
+										from
+										where
+									}
+									goodEvents {
+										from
+										where
+									}
+									validEvents {
+										from
+										where
+									}
+								}
+								id
+								name
+								objectives {
+									description
+									name
+									resultQueries {
+										attainment {
+											nrql
+										}
+									}
+									target
+									timeWindow {
+										rolling {
+											count
+											unit
+										}
+									}
+								}
+								resultQueries {
+									goodEvents {
+										nrql
+									}
+									indicator {
+										nrql
+									}
+									validEvents {
+										nrql
+									}
+								}
+								slug
+								updatedAt
+								updatedBy {
+									email
+									gravatar
+									id
+									name
+								}
+							}
+						}
 						tags {
 							key
 							values
@@ -948,6 +3028,74 @@ const DashboardUpdateMutation = `mutation(
 							name
 							reportingEventTypes
 						}
+						serviceLevel {
+							indicators {
+								createdAt
+								createdBy {
+									email
+									gravatar
+									id
+									name
+								}
+								description
+								entityGuid
+								events {
+									account {
+										id
+										name
+									}
+									badEvents {
+										from
+										where
+									}
+									goodEvents {
+										from
+										where
+									}
+									validEvents {
+										from
+										where
+									}
+								}
+								id
+								name
+								objectives {
+									description
+									name
+									resultQueries {
+										attainment {
+											nrql
+										}
+									}
+									target
+									timeWindow {
+										rolling {
+											count
+											unit
+										}
+									}
+								}
+								resultQueries {
+									goodEvents {
+										nrql
+									}
+									indicator {
+										nrql
+									}
+									validEvents {
+										nrql
+									}
+								}
+								slug
+								updatedAt
+								updatedBy {
+									email
+									gravatar
+									id
+									name
+								}
+							}
+						}
 						tags {
 							key
 							values
@@ -959,6 +3107,74 @@ const DashboardUpdateMutation = `mutation(
 							id
 							name
 							reportingEventTypes
+						}
+						serviceLevel {
+							indicators {
+								createdAt
+								createdBy {
+									email
+									gravatar
+									id
+									name
+								}
+								description
+								entityGuid
+								events {
+									account {
+										id
+										name
+									}
+									badEvents {
+										from
+										where
+									}
+									goodEvents {
+										from
+										where
+									}
+									validEvents {
+										from
+										where
+									}
+								}
+								id
+								name
+								objectives {
+									description
+									name
+									resultQueries {
+										attainment {
+											nrql
+										}
+									}
+									target
+									timeWindow {
+										rolling {
+											count
+											unit
+										}
+									}
+								}
+								resultQueries {
+									goodEvents {
+										nrql
+									}
+									indicator {
+										nrql
+									}
+									validEvents {
+										nrql
+									}
+								}
+								slug
+								updatedAt
+								updatedBy {
+									email
+									gravatar
+									id
+									name
+								}
+							}
 						}
 						tags {
 							key
@@ -978,6 +3194,74 @@ const DashboardUpdateMutation = `mutation(
 							gravatar
 							id
 							name
+						}
+						serviceLevel {
+							indicators {
+								createdAt
+								createdBy {
+									email
+									gravatar
+									id
+									name
+								}
+								description
+								entityGuid
+								events {
+									account {
+										id
+										name
+									}
+									badEvents {
+										from
+										where
+									}
+									goodEvents {
+										from
+										where
+									}
+									validEvents {
+										from
+										where
+									}
+								}
+								id
+								name
+								objectives {
+									description
+									name
+									resultQueries {
+										attainment {
+											nrql
+										}
+									}
+									target
+									timeWindow {
+										rolling {
+											count
+											unit
+										}
+									}
+								}
+								resultQueries {
+									goodEvents {
+										nrql
+									}
+									indicator {
+										nrql
+									}
+									validEvents {
+										nrql
+									}
+								}
+								slug
+								updatedAt
+								updatedBy {
+									email
+									gravatar
+									id
+									name
+								}
+							}
 						}
 						tags {
 							key

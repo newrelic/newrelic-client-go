@@ -144,10 +144,20 @@ const getListQuery = `query(
 		reason
 	}
 	rules {
+		account {
+			id
+			name
+		}
 		accountId
 		action
 		createdAt
 		createdBy
+		creator {
+			email
+			gravatar
+			id
+			name
+		}
 		description
 		id
 		nrql

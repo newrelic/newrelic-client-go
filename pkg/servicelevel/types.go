@@ -258,10 +258,14 @@ type ServiceLevelResultQuery struct {
 
 // UserReference - The `UserReference` object provides basic identifying information about the user.
 type UserReference struct {
-	Email    string `json:"email,omitempty"`
+	//
+	Email string `json:"email,omitempty"`
+	//
 	Gravatar string `json:"gravatar,omitempty"`
-	ID       int    `json:"id,omitempty"`
-	Name     string `json:"name,omitempty"`
+	//
+	ID int `json:"id,omitempty"`
+	//
+	Name string `json:"name,omitempty"`
 }
 
 type indicatorsResponse struct {

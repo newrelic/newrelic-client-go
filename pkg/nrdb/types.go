@@ -180,10 +180,12 @@ type NRDBResultContainer struct {
 	// The [NRQL](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) query that was executed to yield these results.
 	NRQL NRQL `json:"nrql,omitempty"`
 	// In a `FACET` query, the `otherResult` contains the aggregates representing the events _not_
-	// contained in an individual `results` facet
+	// contained in an individual `results` facet.
 	OtherResult NRDBResult `json:"otherResult,omitempty"`
 	// In a `COMPARE WITH` query, the `previousResults` contain the results for the previous comparison time window.
 	PreviousResults []NRDBResult `json:"previousResults,omitempty"`
+	// The raw query results exactly as they are returned from NRDB. NerdGraph provides no additional transformation.
+	RawResponse NRDBRawResults `json:"rawResponse,omitempty"`
 	// The query results. This is a flat list of objects who's structure matches the query submitted.
 	Results []NRDBResult `json:"results,omitempty"`
 	// Generate a publicly sharable static chart URL for the NRQL query.
@@ -205,7 +207,7 @@ type NRDBResultContainer struct {
 	// Input NRQL must be a TIMESERIES query and must have exactly one result.
 	SuggestedQueries SuggestedNRQLQueryResponse `json:"suggestedQueries,omitempty"`
 	// In a `FACET` query, the `totalResult` contains the aggregates representing _all_ the events,
-	// whether or not they are contained in an individual `results` facet
+	// whether or not they are contained in an individual `results` facet.
 	TotalResult NRDBResult `json:"totalResult,omitempty"`
 }
 
@@ -324,6 +326,12 @@ type TimeWindow struct {
 	// The start time of the time window the number of milliseconds since the Unix epoch.
 	StartTime nrtime.EpochMilliseconds `json:"startTime,omitempty"`
 }
+
+// NRDBRawResults - This scalar represents the raw nrql query results as returned from NRDB. It is a `Map` of `String` keys to values.
+//
+// The shape of these objects reflect the query used to generate them, the contents
+// of the objects is not part of the GraphQL schema.
+type NRDBRawResults string
 
 // NRDBResult - This scalar represents a NRDB Result. It is a `Map` of `String` keys to values.
 //

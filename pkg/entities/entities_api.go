@@ -282,6 +282,7 @@ const getEntitiesQuery = `query(
 			name
 			query
 			title
+			unit
 		}
 	}
 	goldenTags {
@@ -356,6 +357,10 @@ const getEntitiesQuery = `query(
 			value
 		}
 	}
+	tracingSummary {
+		errorTraceCount
+		percentOfAllErrorTraces
+	}
 	type
 	... on ApmApplicationEntity {
 		__typename
@@ -370,6 +375,9 @@ const getEntitiesQuery = `query(
 			jsErrorRate
 			pageLoadThroughput
 			pageLoadTimeAverage
+		}
+		apmSettings {
+			tracerType
 		}
 		apmSummary {
 			apdexScore
@@ -399,10 +407,12 @@ const getEntitiesQuery = `query(
 			applicationName
 			createdAt
 			enabled
+			evalOrder
 			id
 			matchExpression
 			notes
 			replacement
+			terminateChain
 		}
 		recentAlertViolations {
 			agentUrl
@@ -434,6 +444,10 @@ const getEntitiesQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on ApmDatabaseInstanceEntity {
@@ -467,6 +481,10 @@ const getEntitiesQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 		vendor
 	}
@@ -505,6 +523,10 @@ const getEntitiesQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 	}
 	... on BrowserApplicationEntity {
 		__typename
@@ -531,10 +553,12 @@ const getEntitiesQuery = `query(
 			applicationName
 			createdAt
 			enabled
+			evalOrder
 			id
 			matchExpression
 			notes
 			replacement
+			terminateChain
 		}
 		recentAlertViolations {
 			agentUrl
@@ -566,6 +590,10 @@ const getEntitiesQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on DashboardEntity {
@@ -613,6 +641,10 @@ const getEntitiesQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 		updatedAt
 	}
 	... on ExternalEntity {
@@ -645,6 +677,10 @@ const getEntitiesQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 	}
 	... on GenericEntity {
 		__typename
@@ -675,6 +711,10 @@ const getEntitiesQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on GenericInfrastructureEntity {
@@ -708,6 +748,10 @@ const getEntitiesQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 	}
 	... on InfrastructureAwsLambdaFunctionEntity {
 		__typename
@@ -740,6 +784,10 @@ const getEntitiesQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on InfrastructureHostEntity {
@@ -780,6 +828,10 @@ const getEntitiesQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 	}
 	... on MobileApplicationEntity {
 		__typename
@@ -795,10 +847,12 @@ const getEntitiesQuery = `query(
 			applicationName
 			createdAt
 			enabled
+			evalOrder
 			id
 			matchExpression
 			notes
 			replacement
+			terminateChain
 		}
 		mobileSummary {
 			appLaunchCount
@@ -834,6 +888,10 @@ const getEntitiesQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on SecureCredentialEntity {
@@ -871,6 +929,10 @@ const getEntitiesQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 		updatedAt
 	}
@@ -914,6 +976,10 @@ const getEntitiesQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 	}
 	... on ThirdPartyServiceEntity {
 		__typename
@@ -945,6 +1011,10 @@ const getEntitiesQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 	}
 	... on UnavailableEntity {
 		__typename
@@ -975,6 +1045,10 @@ const getEntitiesQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on WorkloadEntity {
@@ -1013,6 +1087,10 @@ const getEntitiesQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 		updatedAt
 		workloadStatus {
@@ -1078,6 +1156,7 @@ const getEntityQuery = `query(
 			name
 			query
 			title
+			unit
 		}
 	}
 	goldenTags {
@@ -1152,6 +1231,10 @@ const getEntityQuery = `query(
 			value
 		}
 	}
+	tracingSummary {
+		errorTraceCount
+		percentOfAllErrorTraces
+	}
 	type
 	... on ApmApplicationEntity {
 		__typename
@@ -1166,6 +1249,9 @@ const getEntityQuery = `query(
 			jsErrorRate
 			pageLoadThroughput
 			pageLoadTimeAverage
+		}
+		apmSettings {
+			tracerType
 		}
 		apmSummary {
 			apdexScore
@@ -1195,10 +1281,12 @@ const getEntityQuery = `query(
 			applicationName
 			createdAt
 			enabled
+			evalOrder
 			id
 			matchExpression
 			notes
 			replacement
+			terminateChain
 		}
 		recentAlertViolations {
 			agentUrl
@@ -1230,6 +1318,10 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on ApmDatabaseInstanceEntity {
@@ -1263,6 +1355,10 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 		vendor
 	}
@@ -1301,6 +1397,10 @@ const getEntityQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 	}
 	... on BrowserApplicationEntity {
 		__typename
@@ -1327,10 +1427,12 @@ const getEntityQuery = `query(
 			applicationName
 			createdAt
 			enabled
+			evalOrder
 			id
 			matchExpression
 			notes
 			replacement
+			terminateChain
 		}
 		recentAlertViolations {
 			agentUrl
@@ -1362,6 +1464,10 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on DashboardEntity {
@@ -1409,6 +1515,10 @@ const getEntityQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 		updatedAt
 	}
 	... on ExternalEntity {
@@ -1441,6 +1551,10 @@ const getEntityQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 	}
 	... on GenericEntity {
 		__typename
@@ -1471,6 +1585,10 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on GenericInfrastructureEntity {
@@ -1504,6 +1622,10 @@ const getEntityQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 	}
 	... on InfrastructureAwsLambdaFunctionEntity {
 		__typename
@@ -1536,6 +1658,10 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on InfrastructureHostEntity {
@@ -1576,6 +1702,10 @@ const getEntityQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 	}
 	... on MobileApplicationEntity {
 		__typename
@@ -1591,10 +1721,12 @@ const getEntityQuery = `query(
 			applicationName
 			createdAt
 			enabled
+			evalOrder
 			id
 			matchExpression
 			notes
 			replacement
+			terminateChain
 		}
 		mobileSummary {
 			appLaunchCount
@@ -1630,6 +1762,10 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on SecureCredentialEntity {
@@ -1667,6 +1803,10 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 		updatedAt
 	}
@@ -1710,6 +1850,10 @@ const getEntityQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 	}
 	... on ThirdPartyServiceEntity {
 		__typename
@@ -1741,6 +1885,10 @@ const getEntityQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 	}
 	... on UnavailableEntity {
 		__typename
@@ -1771,6 +1919,10 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on WorkloadEntity {
@@ -1809,6 +1961,10 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 		updatedAt
 		workloadStatus {

@@ -214,7 +214,7 @@ type InstallationRecipeStatus struct {
 	KernelVersion string `json:"kernelVersion"`
 	// The path to the log file on the customer's host.
 	LogFilePath string `json:"logFilePath"`
-	// Additional key:value data related to an error or related to the environment where the installation ocurred.
+	// Additional key:value data related to an error or related to the environment where the installation occurred.
 	Metadata map[string]interface{} `json:"metadata,omitempty"`
 	// The unique name for a given recipe.
 	Name string `json:"name"`

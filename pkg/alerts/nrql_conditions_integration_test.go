@@ -7,8 +7,9 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/newrelic/newrelic-client-go/pkg/errors"
 	"github.com/stretchr/testify/require"
+
+	"github.com/newrelic/newrelic-client-go/pkg/errors"
 
 	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )

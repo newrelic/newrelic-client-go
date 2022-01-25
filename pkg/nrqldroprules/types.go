@@ -11,11 +11,15 @@ type NRQLDropRulesAction string
 var NRQLDropRulesActionTypes = struct {
 	// This action will strip the attributes specified in the SELECT clause of the NRQL string for all events that match the associated NRQL string.
 	DROP_ATTRIBUTES NRQLDropRulesAction
+	// This action will strip the attributes specified in the SELECT clause of the NRQL string for metric aggregates. The event type must be Metric.
+	DROP_ATTRIBUTES_FROM_METRIC_AGGREGATES NRQLDropRulesAction
 	// This action will drop all data that match the associated NRQL string. That string MUST be a `SELECT *`.
 	DROP_DATA NRQLDropRulesAction
 }{
 	// This action will strip the attributes specified in the SELECT clause of the NRQL string for all events that match the associated NRQL string.
 	DROP_ATTRIBUTES: "DROP_ATTRIBUTES",
+	// This action will strip the attributes specified in the SELECT clause of the NRQL string for metric aggregates. The event type must be Metric.
+	DROP_ATTRIBUTES_FROM_METRIC_AGGREGATES: "DROP_ATTRIBUTES_FROM_METRIC_AGGREGATES",
 	// This action will drop all data that match the associated NRQL string. That string MUST be a `SELECT *`.
 	DROP_DATA: "DROP_DATA",
 }
@@ -65,6 +69,14 @@ type Account struct {
 	Name string `json:"name,omitempty"`
 	// This field provides access to NrqlDropRules data.
 	NRQLDropRules NRQLDropRulesAccountStitchedFields `json:"nrqlDropRules,omitempty"`
+}
+
+// AccountReference - The `AccountReference` object provides basic identifying information about the account.
+type AccountReference struct {
+	//
+	ID int `json:"id,omitempty"`
+	//
+	Name string `json:"name,omitempty"`
 }
 
 // Actor - The `Actor` object contains fields that are scoped to the API user's access level.
@@ -144,6 +156,8 @@ type NRQLDropRulesDeleteDropRuleSubmission struct {
 // NRQLDropRulesDropRule - Details of a drop rule.
 type NRQLDropRulesDropRule struct {
 	// The account this drop rule targets.
+	Account AccountReference `json:"account"`
+	// The account this drop rule targets.
 	AccountID int `json:"accountId"`
 	// The behavior of the drop rule.
 	Action NRQLDropRulesAction `json:"action"`
@@ -151,6 +165,8 @@ type NRQLDropRulesDropRule struct {
 	CreatedAt nrtime.DateTime `json:"createdAt"`
 	// The id of the user that created the drop rule.
 	CreatedBy int `json:"createdBy"`
+	// The user reference of the user that created the drop rule
+	Creator UserReference `json:"creator"`
 	// Additional information about the rule.
 	Description string `json:"description,omitempty"`
 	// The unique id for the drop rule.
@@ -173,6 +189,18 @@ type NRQLDropRulesListDropRulesResult struct {
 	Error NRQLDropRulesError `json:"error,omitempty"`
 	// The list of drop rules queried on the targeted account.
 	Rules []NRQLDropRulesDropRule `json:"rules,omitempty"`
+}
+
+// UserReference - The `UserReference` object provides basic identifying information about the user.
+type UserReference struct {
+	//
+	Email string `json:"email,omitempty"`
+	//
+	Gravatar string `json:"gravatar,omitempty"`
+	//
+	ID int `json:"id,omitempty"`
+	//
+	Name string `json:"name,omitempty"`
 }
 
 type listResponse struct {

@@ -292,7 +292,7 @@ type DashboardUpdateWidgetInput struct {
 	ID string `json:"id"`
 	// layout
 	Layout DashboardWidgetLayoutInput `json:"layout,omitempty"`
-	// Related entities. Currently only supports Dashboard entities, but may allow other cases in the future.
+	// Entities related to the widget. Currently only supports one Dashboard entity guid, but may allow other cases in the future.
 	LinkedEntityGUIDs []common.EntityGUID `json:"linkedEntityGuids"`
 	// Untyped scalar of configuration for the widget
 	RawConfiguration entities.DashboardWidgetRawConfiguration `json:"rawConfiguration,omitempty"`
@@ -342,7 +342,7 @@ type DashboardWidgetInput struct {
 	ID string `json:"id,omitempty"`
 	// layout
 	Layout DashboardWidgetLayoutInput `json:"layout,omitempty"`
-	// Related entities. Currently only supports Dashboard entities, but may allow other cases in the future.
+	// Entities related to the widget. Currently only supports one Dashboard entity guid, but may allow other cases in the future.
 	LinkedEntityGUIDs []common.EntityGUID `json:"linkedEntityGuids"`
 	// Untyped scalar of configuration for the widget
 	RawConfiguration entities.DashboardWidgetRawConfiguration `json:"rawConfiguration,omitempty"`
