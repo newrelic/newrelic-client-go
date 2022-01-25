@@ -5,7 +5,6 @@ package alerts
 
 import (
 	"fmt"
-	"strconv"
 	"testing"
 
 	"github.com/newrelic/newrelic-client-go/pkg/errors"
@@ -360,111 +359,6 @@ func TestIntegrationNrqlConditions_Static(t *testing.T) {
 		_, err := client.DeletePolicyMutation(testAccountID, policy.ID)
 		if err != nil {
 			t.Logf("error cleaning up alert policy %s (%s): %s", policy.ID, policy.Name, err)
-		}
-	}()
-}
-
-func TestIntegrationNrqlConditions_Outlier(t *testing.T) {
-	t.Parallel()
-
-	testAccountID, err := mock.GetTestAccountID()
-	if err != nil {
-		t.Skipf("%s", err)
-	}
-
-	var (
-		expectedGroups     = 1
-		violationOverlap   = false
-		randStr            = mock.RandSeq(5)
-		thresholdCritical  = 0.1
-		createOutlierInput = NrqlConditionCreateInput{
-			NrqlConditionCreateBase: NrqlConditionCreateBase{
-				Description: "test description",
-				Enabled:     true,
-				Name:        fmt.Sprintf("test-nrql-condition-%s", randStr),
-				Nrql: NrqlConditionCreateQuery{
-					Query:            "SELECT average(duration) FROM Transaction WHERE appName='Dummy App' FACET host",
-					EvaluationOffset: &nrqlConditionBaseEvalOffset,
-				},
-				RunbookURL: "http://example.com",
-				Terms: []NrqlConditionTerm{
-					{
-						Threshold:            &thresholdCritical,
-						ThresholdOccurrences: ThresholdOccurrences.All,
-						ThresholdDuration:    120,
-						Operator:             AlertsNRQLConditionTermsOperatorTypes.ABOVE,
-						Priority:             NrqlConditionPriorities.Critical,
-					},
-				},
-				ViolationTimeLimitSeconds: 3600,
-			},
-			ExpectedGroups:              &expectedGroups,
-			OpenViolationOnGroupOverlap: &violationOverlap,
-		}
-
-		updateOutlierInput = NrqlConditionUpdateInput{
-			NrqlConditionUpdateBase: NrqlConditionUpdateBase{
-				Description: "test description",
-				Enabled:     true,
-				Name:        fmt.Sprintf("test-nrql-condition-%s", randStr),
-				Nrql: NrqlConditionUpdateQuery{
-					Query:            "SELECT average(duration) FROM Transaction WHERE appName='Dummy App' FACET host",
-					EvaluationOffset: &nrqlConditionBaseEvalOffset,
-				},
-				RunbookURL: "http://example.com",
-				Terms: []NrqlConditionTerm{
-					{
-						Threshold:            &thresholdCritical,
-						ThresholdOccurrences: ThresholdOccurrences.All,
-						ThresholdDuration:    120,
-						Operator:             AlertsNRQLConditionTermsOperatorTypes.ABOVE,
-						Priority:             NrqlConditionPriorities.Critical,
-					},
-				},
-				ViolationTimeLimitSeconds: 3600,
-			},
-			ExpectedGroups:              &expectedGroups,
-			OpenViolationOnGroupOverlap: &violationOverlap,
-		}
-	)
-
-	// Setup
-	client := newIntegrationTestClient(t)
-	testPolicy := Policy{
-		IncidentPreference: IncidentPreferenceTypes.PerPolicy,
-		Name:               fmt.Sprintf("test-alert-policy-%s", randStr),
-	}
-	policy, err := client.CreatePolicy(testPolicy)
-	require.NoError(t, err)
-
-	// Test: Create (outlier condition)
-	createdOutlier, err := client.CreateNrqlConditionOutlierMutation(testAccountID, strconv.Itoa(policy.ID), createOutlierInput)
-	require.NoError(t, err)
-	require.NotNil(t, createdOutlier)
-	require.NotNil(t, createdOutlier.ID)
-	require.NotNil(t, createdOutlier.PolicyID)
-	require.NotNil(t, createdOutlier.Signal)
-	require.NotNil(t, createdOutlier.Expiration)
-	require.Equal(t, NrqlConditionTypes.Outlier, createdOutlier.Type)
-
-	// Test: Get (outlier condition)
-	readResult, err := client.GetNrqlConditionQuery(testAccountID, createdOutlier.ID)
-	require.NoError(t, err)
-	require.NotNil(t, readResult)
-	require.Equal(t, NrqlConditionTypes.Outlier, readResult.Type)
-	require.Equal(t, "test description", readResult.Description)
-
-	// Test: Update (outlier condition)
-	updateOutlierInput.Description = "test description updated"
-	updated, err := client.UpdateNrqlConditionOutlierMutation(testAccountID, createdOutlier.ID, updateOutlierInput)
-	require.NoError(t, err)
-	require.Equal(t, "test description updated", updated.Description)
-
-	// Deferred teardown
-	defer func() {
-		_, err := client.DeletePolicy(policy.ID)
-		if err != nil {
-			t.Logf("error cleaning up alert policy %d (%s): %s", policy.ID, policy.Name, err)
 		}
 	}()
 }
