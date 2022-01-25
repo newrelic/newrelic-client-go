@@ -1,3 +1,8 @@
+<a name="v0.71.0"></a>
+## [v0.71.0] - 2022-01-25
+### Features
+- **cloud:** add query to get a single linked account
+
 <a name="v0.70.0"></a>
 ## [v0.70.0] - 2022-01-19
 ### Features
@@ -1231,7 +1236,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.70.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.71.0...HEAD
+[v0.71.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.70.0...v0.71.0
 [v0.70.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.69.0...v0.70.0
 [v0.69.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.68.3...v0.69.0
 [v0.68.3]: https://github.com/newrelic/newrelic-client-go/compare/v0.68.2...v0.68.3
