@@ -1,3 +1,8 @@
+<a name="v0.72.0"></a>
+## [v0.72.0] - 2022-02-01
+### Features
+- **nrql_conditions:** add optional SlideBy field to signal
+
 <a name="v0.71.0"></a>
 ## [v0.71.0] - 2022-01-25
 ### Features
@@ -1236,7 +1241,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.71.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.72.0...HEAD
+[v0.72.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.71.0...v0.72.0
 [v0.71.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.70.0...v0.71.0
 [v0.70.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.69.0...v0.70.0
 [v0.69.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.68.3...v0.69.0
