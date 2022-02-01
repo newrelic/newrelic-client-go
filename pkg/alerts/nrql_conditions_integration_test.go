@@ -24,6 +24,7 @@ var (
 	nrqlConditionBaseAggMethod          = NrqlConditionAggregationMethodTypes.Cadence // needed for setting pointer
 	nrqlConditionBaseAggDelay           = 2                                           // needed for setting pointer
 	nrqlConditionBaseAggTimer           = 5                                           // needed for setting pointer
+	nrqlConditionBaseSlideBy            = 30                                          // needed for setting pointer
 
 	nrqlConditionCreateBase = NrqlConditionCreateBase{
 		Description: "test description",
@@ -152,6 +153,72 @@ var (
 			AggregationDelay:  &nrqlConditionBaseAggDelay,
 		},
 	}
+
+	nrqlConditionCreateWithSlideBy = NrqlConditionCreateBase{
+		Description: "test description",
+		Enabled:     true,
+		Name:        fmt.Sprintf("test-nrql-condition-%s", testNrqlConditionRandomString),
+		Nrql: NrqlConditionCreateQuery{
+			Query: "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App' FACET OtherStuff",
+		},
+		RunbookURL: "test.com",
+		Terms: []NrqlConditionTerm{
+			{
+				Threshold:            &nrqlConditionBaseThreshold,
+				ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
+				ThresholdDuration:    600,
+				Operator:             AlertsNRQLConditionTermsOperatorTypes.ABOVE,
+				Priority:             NrqlConditionPriorities.Critical,
+			},
+		},
+		ViolationTimeLimitSeconds: 3600,
+		Expiration: &AlertsNrqlConditionExpiration{
+			CloseViolationsOnExpiration: true,
+			ExpirationDuration:          &nrqlConditionBaseExpirationDuration,
+			OpenViolationOnExpiration:   false,
+		},
+		Signal: &AlertsNrqlConditionCreateSignal{
+			AggregationWindow: &nrqlConditionBaseAggWindow,
+			FillOption:        &AlertsFillOptionTypes.STATIC,
+			FillValue:         &nrqlConditionBaseSignalFillValue,
+			AggregationMethod: &nrqlConditionBaseAggMethod,
+			AggregationDelay:  &nrqlConditionBaseAggDelay,
+			SlideBy:           &nrqlConditionBaseSlideBy,
+		},
+	}
+
+	nrqlConditionUpdateWithSlideBy = NrqlConditionUpdateBase{
+		Description: "test description",
+		Enabled:     true,
+		Name:        fmt.Sprintf("test-nrql-condition-%s", testNrqlConditionRandomString),
+		Nrql: NrqlConditionUpdateQuery{
+			Query: "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
+		},
+		RunbookURL: "test.com",
+		Terms: []NrqlConditionTerm{
+			{
+				Threshold:            &nrqlConditionBaseThreshold,
+				ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
+				ThresholdDuration:    600,
+				Operator:             AlertsNRQLConditionTermsOperatorTypes.ABOVE,
+				Priority:             NrqlConditionPriorities.Critical,
+			},
+		},
+		ViolationTimeLimitSeconds: 3600,
+		Expiration: &AlertsNrqlConditionExpiration{
+			CloseViolationsOnExpiration: true,
+			ExpirationDuration:          &nrqlConditionBaseExpirationDuration,
+			OpenViolationOnExpiration:   false,
+		},
+		Signal: &AlertsNrqlConditionUpdateSignal{
+			AggregationWindow: &nrqlConditionBaseAggWindow,
+			FillOption:        &AlertsFillOptionTypes.STATIC,
+			FillValue:         &nrqlConditionBaseSignalFillValue,
+			AggregationMethod: &nrqlConditionBaseAggMethod,
+			AggregationDelay:  &nrqlConditionBaseAggDelay,
+			SlideBy:           &nrqlConditionBaseSlideBy,
+		},
+	}
 )
 
 //REST API integration test (deprecated)
@@ -249,11 +316,11 @@ func TestIntegrationNrqlConditions_Baseline(t *testing.T) {
 	var (
 		randStr             = mock.RandSeq(5)
 		createBaselineInput = NrqlConditionCreateInput{
-			NrqlConditionCreateBase: nrqlConditionCreateBase,
+			NrqlConditionCreateBase: nrqlConditionCreateWithSlideBy,
 			BaselineDirection:       &NrqlBaselineDirections.LowerOnly,
 		}
 		updateBaselineInput = NrqlConditionUpdateInput{
-			NrqlConditionUpdateBase: nrqlConditionUpdateBase,
+			NrqlConditionUpdateBase: nrqlConditionUpdateWithSlideBy,
 			BaselineDirection:       &NrqlBaselineDirections.LowerOnly,
 		}
 	)
