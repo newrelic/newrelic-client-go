@@ -146,6 +146,17 @@ packages:
             max_query_field_depth: 2
             include_arguments:
               - "provider"
+            argument_type_overrides:
+              - accountId: "Int!"
+      - path: ["actor", "account", "cloud"]
+        endpoints:
+          - name: "linkedAccount"
+            max_query_field_depth: 2
+            include_arguments:
+              - "id"
+            argument_type_overrides:
+              - accountId: "Int!"
+              - id: "Int!"
     mutations:
       - name: cloudConfigureIntegration
         max_query_field_depth: 1
@@ -163,6 +174,9 @@ packages:
           accounts: "[CloudRenameAccountsInput!]!"
       - name: cloudUnlinkAccount
         max_query_field_depth: 1
+        argument_type_overrides:
+          accountId: "Int!"
+          accounts: "[CloudUnlinkAccountsInput!]!"
     types:
       #
       # Types that we should auto-detect are in another package someday
@@ -631,6 +645,9 @@ packages:
       - name: ID
         field_type_override: string
         skip_type_create: true
+      - name: InstallationRawMetadata
+        field_type_override: map[string]interface{}
+        skip_type_create: true
     mutations:
       - name: installationCreateRecipeEvent
         max_query_field_depth: 1
@@ -877,7 +894,7 @@ packages:
       - name: ServiceLevelObjective
         skip_fields:
           - ResultQueries
-      
+
       # Overrides needed
       - name: ServiceLevelEventsQuery
         field_type_override: "*ServiceLevelEventsQuery"
