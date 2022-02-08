@@ -6,12 +6,828 @@ import (
 	"fmt"
 
 	"github.com/newrelic/newrelic-client-go/pkg/accounts"
+	"github.com/newrelic/newrelic-client-go/pkg/ai"
 	"github.com/newrelic/newrelic-client-go/pkg/common"
 	"github.com/newrelic/newrelic-client-go/pkg/nrdb"
 	"github.com/newrelic/newrelic-client-go/pkg/nrtime"
 	"github.com/newrelic/newrelic-client-go/pkg/servicelevel"
 	"github.com/newrelic/newrelic-client-go/pkg/users"
 )
+
+type AccountStatus string
+
+var AccountStatusTypes = struct {
+	ACTIVE                 AccountStatus
+	AWAITING_USER_FROM_API AccountStatus
+	CANCELLED              AccountStatus
+	DOWNGRADED             AccountStatus
+	NEW                    AccountStatus
+	PAID_ACTIVE            AccountStatus
+	PAID_NEW               AccountStatus
+	PAID_PENDING           AccountStatus
+	PENDING                AccountStatus
+	UPGRADED               AccountStatus
+}{
+	ACTIVE:                 "ACTIVE",
+	AWAITING_USER_FROM_API: "AWAITING_USER_FROM_API",
+	CANCELLED:              "CANCELLED",
+	DOWNGRADED:             "DOWNGRADED",
+	NEW:                    "NEW",
+	PAID_ACTIVE:            "PAID_ACTIVE",
+	PAID_NEW:               "PAID_NEW",
+	PAID_PENDING:           "PAID_PENDING",
+	PENDING:                "PENDING",
+	UPGRADED:               "UPGRADED",
+}
+
+// AgentApplicationSettingsBrowserLoader - Determines which Browser Loader will be configured. Some allowed return values are specified for backwards-compatability and do not represent currently allowed values for new applications.
+// See [documentation](https://docs.newrelic.com/docs/browser/browser-monitoring/installation/install-browser-monitoring-agent/#agent-types) for further information.
+type AgentApplicationSettingsBrowserLoader string
+
+var AgentApplicationSettingsBrowserLoaderTypes = struct {
+	// "full" maps to "FULL".
+	FULL AgentApplicationSettingsBrowserLoader
+	// "lite" maps to "LITE".
+	LITE AgentApplicationSettingsBrowserLoader
+	// "none" maps to "NONE".
+	NONE AgentApplicationSettingsBrowserLoader
+	// "spa" maps to "SPA".
+	SPA AgentApplicationSettingsBrowserLoader
+	// "xhr" maps to "XHR".
+	XHR AgentApplicationSettingsBrowserLoader
+}{
+	// "full" maps to "FULL".
+	FULL: "FULL",
+	// "lite" maps to "LITE".
+	LITE: "LITE",
+	// "none" maps to "NONE".
+	NONE: "NONE",
+	// "spa" maps to "SPA".
+	SPA: "SPA",
+	// "xhr" maps to "XHR".
+	XHR: "XHR",
+}
+
+// AgentApplicationSettingsRecordSqlEnum - Obfuscation level for SQL queries reported in transaction trace nodes.
+//
+// When turned on, the New Relic agent will attempt to remove values from SQL qeries.
+//
+// For example:
+//
+// ```
+// SELECT * FROM Table WHERE ssn='123-45-6789'
+// ```
+//
+// might become:
+//
+// ```
+// SELECT * FROM Table WHERE ssn=?
+// ```
+//
+// This can behave differently for differnet applications and frameworks, please test for your specific case.
+// Note: RAW collection is not campatible with High Security mode and cannot be set if your agent is running in that mode.
+type AgentApplicationSettingsRecordSqlEnum string
+
+var AgentApplicationSettingsRecordSqlEnumTypes = struct {
+	// This is the default value. This setting strips string literals and numeric sequences from your queries and replaces them with the ? character. For example: the query select * from table where ssn='123-45-6789' would become select * from table where ssn=?.
+	OBFUSCATED AgentApplicationSettingsRecordSqlEnum
+	// Query collection is turned off entirely.
+	OFF AgentApplicationSettingsRecordSqlEnum
+	// If you are confident that full query data collection will not impact your data security or your users' privacy, you can change the setting to Raw, which will record all query values. NOTE: 'Raw' is not permitted when 'High security mode' is enabled.
+	RAW AgentApplicationSettingsRecordSqlEnum
+}{
+	// This is the default value. This setting strips string literals and numeric sequences from your queries and replaces them with the ? character. For example: the query select * from table where ssn='123-45-6789' would become select * from table where ssn=?.
+	OBFUSCATED: "OBFUSCATED",
+	// Query collection is turned off entirely.
+	OFF: "OFF",
+	// If you are confident that full query data collection will not impact your data security or your users' privacy, you can change the setting to Raw, which will record all query values. NOTE: 'Raw' is not permitted when 'High security mode' is enabled.
+	RAW: "RAW",
+}
+
+// AgentApplicationSettingsThresholdTypeEnum - Determines whether a threshold is statically configured or dynamically configured.
+type AgentApplicationSettingsThresholdTypeEnum string
+
+var AgentApplicationSettingsThresholdTypeEnumTypes = struct {
+	// Configures the threshold to be 4 times the value of APDEX_T
+	APDEX_F AgentApplicationSettingsThresholdTypeEnum
+	// Threshold will be statically configured via the corresponding "value" field.
+	VALUE AgentApplicationSettingsThresholdTypeEnum
+}{
+	// Configures the threshold to be 4 times the value of APDEX_T
+	APDEX_F: "APDEX_F",
+	// Threshold will be statically configured via the corresponding "value" field.
+	VALUE: "VALUE",
+}
+
+// AgentApplicationSettingsTracer - The type of tracing being done.
+type AgentApplicationSettingsTracer string
+
+var AgentApplicationSettingsTracerTypes = struct {
+	// cross application tracing feature enabled
+	CROSS_APPLICATION_TRACER AgentApplicationSettingsTracer
+	// distributed tracing feature enabled
+	DISTRIBUTED_TRACING AgentApplicationSettingsTracer
+	// both cross application & distributed tracing disabled
+	NONE AgentApplicationSettingsTracer
+}{
+	// cross application tracing feature enabled
+	CROSS_APPLICATION_TRACER: "CROSS_APPLICATION_TRACER",
+	// distributed tracing feature enabled
+	DISTRIBUTED_TRACING: "DISTRIBUTED_TRACING",
+	// both cross application & distributed tracing disabled
+	NONE: "NONE",
+}
+
+// AgentTracesErrorTraceOrderByField - The different error trace fields to order by.
+type AgentTracesErrorTraceOrderByField string
+
+var AgentTracesErrorTraceOrderByFieldTypes = struct {
+	// Error count.
+	COUNT AgentTracesErrorTraceOrderByField
+	// Error exception class.
+	EXCEPTION_CLASS AgentTracesErrorTraceOrderByField
+	// Error message.
+	MESSAGE AgentTracesErrorTraceOrderByField
+	// Error trace path.
+	PATH AgentTracesErrorTraceOrderByField
+	// Trace start time.
+	TIMESTAMP AgentTracesErrorTraceOrderByField
+}{
+	// Error count.
+	COUNT: "COUNT",
+	// Error exception class.
+	EXCEPTION_CLASS: "EXCEPTION_CLASS",
+	// Error message.
+	MESSAGE: "MESSAGE",
+	// Error trace path.
+	PATH: "PATH",
+	// Trace start time.
+	TIMESTAMP: "TIMESTAMP",
+}
+
+// AgentTracesOrderByDirection - Order by diraction
+type AgentTracesOrderByDirection string
+
+var AgentTracesOrderByDirectionTypes = struct {
+	// Ascending.
+	ASC AgentTracesOrderByDirection
+	// Descending.
+	DESC AgentTracesOrderByDirection
+}{
+	// Ascending.
+	ASC: "ASC",
+	// Descending.
+	DESC: "DESC",
+}
+
+// AgentTracesSqlTraceOrderByField - The different SQL trace fields to order by.
+type AgentTracesSqlTraceOrderByField string
+
+var AgentTracesSqlTraceOrderByFieldTypes = struct {
+	// Trace duration.
+	DURATION AgentTracesSqlTraceOrderByField
+	// Call time, maximum of all `call_count` traces.
+	MAX_CALL_TIME AgentTracesSqlTraceOrderByField
+	// SQL trace path.
+	PATH AgentTracesSqlTraceOrderByField
+	// Agent generated `sql_id`.
+	SQL_ID AgentTracesSqlTraceOrderByField
+	// Trace start time.
+	TIMESTAMP AgentTracesSqlTraceOrderByField
+	// Call time, as added across all `call_count` traces.
+	TOTAL_CALL_TIME AgentTracesSqlTraceOrderByField
+}{
+	// Trace duration.
+	DURATION: "DURATION",
+	// Call time, maximum of all `call_count` traces.
+	MAX_CALL_TIME: "MAX_CALL_TIME",
+	// SQL trace path.
+	PATH: "PATH",
+	// Agent generated `sql_id`.
+	SQL_ID: "SQL_ID",
+	// Trace start time.
+	TIMESTAMP: "TIMESTAMP",
+	// Call time, as added across all `call_count` traces.
+	TOTAL_CALL_TIME: "TOTAL_CALL_TIME",
+}
+
+// AgentTracesTransactionTraceOrderByField - The different transaction trace fields to order by.
+type AgentTracesTransactionTraceOrderByField string
+
+var AgentTracesTransactionTraceOrderByFieldTypes = struct {
+	// Trace duration.
+	DURATION AgentTracesTransactionTraceOrderByField
+	// Transaction trace path.
+	PATH AgentTracesTransactionTraceOrderByField
+	// Trace start time.
+	TIMESTAMP AgentTracesTransactionTraceOrderByField
+}{
+	// Trace duration.
+	DURATION: "DURATION",
+	// Transaction trace path.
+	PATH: "PATH",
+	// Trace start time.
+	TIMESTAMP: "TIMESTAMP",
+}
+
+// AiNotificationsChannelStatus - Channel statuses
+type AiNotificationsChannelStatus string
+
+var AiNotificationsChannelStatusTypes = struct {
+	// Configuration Error channel status
+	CONFIGURATION_ERROR AiNotificationsChannelStatus
+	// Configuration Warning channel status
+	CONFIGURATION_WARNING AiNotificationsChannelStatus
+	// Default channel status
+	DEFAULT AiNotificationsChannelStatus
+	// Draft channel status
+	DRAFT AiNotificationsChannelStatus
+	// Error channel status
+	ERROR AiNotificationsChannelStatus
+	// Tested channel status
+	TESTED AiNotificationsChannelStatus
+	// Throttled channel status
+	THROTTLED AiNotificationsChannelStatus
+	// Unknown Error channel status
+	UNKNOWN_ERROR AiNotificationsChannelStatus
+}{
+	// Configuration Error channel status
+	CONFIGURATION_ERROR: "CONFIGURATION_ERROR",
+	// Configuration Warning channel status
+	CONFIGURATION_WARNING: "CONFIGURATION_WARNING",
+	// Default channel status
+	DEFAULT: "DEFAULT",
+	// Draft channel status
+	DRAFT: "DRAFT",
+	// Error channel status
+	ERROR: "ERROR",
+	// Tested channel status
+	TESTED: "TESTED",
+	// Throttled channel status
+	THROTTLED: "THROTTLED",
+	// Unknown Error channel status
+	UNKNOWN_ERROR: "UNKNOWN_ERROR",
+}
+
+// AiNotificationsChannelType - Channel type
+type AiNotificationsChannelType string
+
+var AiNotificationsChannelTypeTypes = struct {
+	// Email channel type
+	EMAIL AiNotificationsChannelType
+	// Event Bridge channel type
+	EVENT_BRIDGE AiNotificationsChannelType
+	// Jira Classic channel type
+	JIRA_CLASSIC AiNotificationsChannelType
+	// Jira Nextgen channel type
+	JIRA_NEXTGEN AiNotificationsChannelType
+	// PagerDuty channel type
+	PAGERDUTY_ACCOUNT_INTEGRATION AiNotificationsChannelType
+	// Pager Duty channel type
+	PAGERDUTY_SERVICE_INTEGRATION AiNotificationsChannelType
+	// Servicenow events channel type
+	SERVICENOW_EVENTS AiNotificationsChannelType
+	// Servicenow incidents channel type
+	SERVICENOW_INCIDENTS AiNotificationsChannelType
+	// Slack channel type
+	SLACK AiNotificationsChannelType
+	// Webhook channel type
+	WEBHOOK AiNotificationsChannelType
+}{
+	// Email channel type
+	EMAIL: "EMAIL",
+	// Event Bridge channel type
+	EVENT_BRIDGE: "EVENT_BRIDGE",
+	// Jira Classic channel type
+	JIRA_CLASSIC: "JIRA_CLASSIC",
+	// Jira Nextgen channel type
+	JIRA_NEXTGEN: "JIRA_NEXTGEN",
+	// PagerDuty channel type
+	PAGERDUTY_ACCOUNT_INTEGRATION: "PAGERDUTY_ACCOUNT_INTEGRATION",
+	// Pager Duty channel type
+	PAGERDUTY_SERVICE_INTEGRATION: "PAGERDUTY_SERVICE_INTEGRATION",
+	// Servicenow events channel type
+	SERVICENOW_EVENTS: "SERVICENOW_EVENTS",
+	// Servicenow incidents channel type
+	SERVICENOW_INCIDENTS: "SERVICENOW_INCIDENTS",
+	// Slack channel type
+	SLACK: "SLACK",
+	// Webhook channel type
+	WEBHOOK: "WEBHOOK",
+}
+
+// AiNotificationsDestinationStatus - Destination statuses
+type AiNotificationsDestinationStatus string
+
+var AiNotificationsDestinationStatusTypes = struct {
+	// Authentication Error destination status
+	AUTHENTICATION_ERROR AiNotificationsDestinationStatus
+	// Authorization Error destination status
+	AUTHORIZATION_ERROR AiNotificationsDestinationStatus
+	// Authorization Warning destination status
+	AUTHORIZATION_WARNING AiNotificationsDestinationStatus
+	// Configuration Error destination status
+	CONFIGURATION_ERROR AiNotificationsDestinationStatus
+	// Default destination status
+	DEFAULT AiNotificationsDestinationStatus
+	// Draft channel status
+	DRAFT AiNotificationsDestinationStatus
+	// Error channel status
+	ERROR AiNotificationsDestinationStatus
+	// Temporary Warning destination status
+	TEMPORARY_WARNING AiNotificationsDestinationStatus
+	// Tested channel status
+	TESTED AiNotificationsDestinationStatus
+	// Throttled channel status
+	THROTTLED AiNotificationsDestinationStatus
+	// Throttling Warning destination status
+	THROTTLING_WARNING AiNotificationsDestinationStatus
+	// Unknown Error destination status
+	UNKNOWN_ERROR AiNotificationsDestinationStatus
+}{
+	// Authentication Error destination status
+	AUTHENTICATION_ERROR: "AUTHENTICATION_ERROR",
+	// Authorization Error destination status
+	AUTHORIZATION_ERROR: "AUTHORIZATION_ERROR",
+	// Authorization Warning destination status
+	AUTHORIZATION_WARNING: "AUTHORIZATION_WARNING",
+	// Configuration Error destination status
+	CONFIGURATION_ERROR: "CONFIGURATION_ERROR",
+	// Default destination status
+	DEFAULT: "DEFAULT",
+	// Draft channel status
+	DRAFT: "DRAFT",
+	// Error channel status
+	ERROR: "ERROR",
+	// Temporary Warning destination status
+	TEMPORARY_WARNING: "TEMPORARY_WARNING",
+	// Tested channel status
+	TESTED: "TESTED",
+	// Throttled channel status
+	THROTTLED: "THROTTLED",
+	// Throttling Warning destination status
+	THROTTLING_WARNING: "THROTTLING_WARNING",
+	// Unknown Error destination status
+	UNKNOWN_ERROR: "UNKNOWN_ERROR",
+}
+
+// AiNotificationsDestinationType - Destination types
+type AiNotificationsDestinationType string
+
+var AiNotificationsDestinationTypeTypes = struct {
+	// Email destination type
+	EMAIL AiNotificationsDestinationType
+	// EventBridge destination type
+	EVENT_BRIDGE AiNotificationsDestinationType
+	// Jira destination type
+	JIRA AiNotificationsDestinationType
+	// PagerDuty destination type
+	PAGERDUTY_ACCOUNT_INTEGRATION AiNotificationsDestinationType
+	// PagerDuty destination type}
+	PAGERDUTY_SERVICE_INTEGRATION AiNotificationsDestinationType
+	// ServiceNow destination type
+	SERVICE_NOW AiNotificationsDestinationType
+	// Slack destination type
+	SLACK AiNotificationsDestinationType
+	// WebHook destination type
+	WEBHOOK AiNotificationsDestinationType
+}{
+	// Email destination type
+	EMAIL: "EMAIL",
+	// EventBridge destination type
+	EVENT_BRIDGE: "EVENT_BRIDGE",
+	// Jira destination type
+	JIRA: "JIRA",
+	// PagerDuty destination type
+	PAGERDUTY_ACCOUNT_INTEGRATION: "PAGERDUTY_ACCOUNT_INTEGRATION",
+	// PagerDuty destination type}
+	PAGERDUTY_SERVICE_INTEGRATION: "PAGERDUTY_SERVICE_INTEGRATION",
+	// ServiceNow destination type
+	SERVICE_NOW: "SERVICE_NOW",
+	// Slack destination type
+	SLACK: "SLACK",
+	// WebHook destination type
+	WEBHOOK: "WEBHOOK",
+}
+
+// AiNotificationsProduct - Product types
+type AiNotificationsProduct string
+
+var AiNotificationsProductTypes = struct {
+	// Alerts product type
+	ALERTS AiNotificationsProduct
+	// Error Tracking product type
+	ERROR_TRACKING AiNotificationsProduct
+	// Incident Intelligence product type
+	IINT AiNotificationsProduct
+	// Notifications internal product type
+	NTFC AiNotificationsProduct
+	// Proactive Detection product type
+	PD AiNotificationsProduct
+	// Sharing product type
+	SHARING AiNotificationsProduct
+}{
+	// Alerts product type
+	ALERTS: "ALERTS",
+	// Error Tracking product type
+	ERROR_TRACKING: "ERROR_TRACKING",
+	// Incident Intelligence product type
+	IINT: "IINT",
+	// Notifications internal product type
+	NTFC: "NTFC",
+	// Proactive Detection product type
+	PD: "PD",
+	// Sharing product type
+	SHARING: "SHARING",
+}
+
+// AiNotificationsVariableType - Variable types
+type AiNotificationsVariableType string
+
+var AiNotificationsVariableTypeTypes = struct {
+	// Boolean variable type
+	BOOLEAN AiNotificationsVariableType
+	// List variable type
+	LIST AiNotificationsVariableType
+	// number variable type
+	NUMBER AiNotificationsVariableType
+	// Object variable type
+	OBJECT AiNotificationsVariableType
+	// String variable type
+	STRING AiNotificationsVariableType
+}{
+	// Boolean variable type
+	BOOLEAN: "BOOLEAN",
+	// List variable type
+	LIST: "LIST",
+	// number variable type
+	NUMBER: "NUMBER",
+	// Object variable type
+	OBJECT: "OBJECT",
+	// String variable type
+	STRING: "STRING",
+}
+
+// AiOpsEventsQueryContext - User preference context by which to scope event query results
+type AiOpsEventsQueryContext string
+
+var AiOpsEventsQueryContextTypes = struct {
+	// AiOps overview and anomaly pages
+	AI_OPS AiOpsEventsQueryContext
+	// Activity feeds and other NR One contexts
+	GLOBAL AiOpsEventsQueryContext
+}{
+	// AiOps overview and anomaly pages
+	AI_OPS: "AI_OPS",
+	// Activity feeds and other NR One contexts
+	GLOBAL: "GLOBAL",
+}
+
+// AiOpsProactiveDetectionEventConfigurationType - The type of configuration that is monitoring the event.
+type AiOpsProactiveDetectionEventConfigurationType string
+
+var AiOpsProactiveDetectionEventConfigurationTypeTypes = struct {
+	// Entity is not monitored by a specific configuration and was automatically detected.
+	AUTOMATIC AiOpsProactiveDetectionEventConfigurationType
+	// Entity is being monitored by a Proactive Detection configuration.
+	CONFIGURATION AiOpsProactiveDetectionEventConfigurationType
+	// Entity is being monitored by a custom configuration
+	CUSTOM AiOpsProactiveDetectionEventConfigurationType
+	// Unknown configuration type.
+	UNKNOWN AiOpsProactiveDetectionEventConfigurationType
+}{
+	// Entity is not monitored by a specific configuration and was automatically detected.
+	AUTOMATIC: "AUTOMATIC",
+	// Entity is being monitored by a Proactive Detection configuration.
+	CONFIGURATION: "CONFIGURATION",
+	// Entity is being monitored by a custom configuration
+	CUSTOM: "CUSTOM",
+	// Unknown configuration type.
+	UNKNOWN: "UNKNOWN",
+}
+
+// AiOpsProactiveDetectionEventMonitoringStatus - Proactive Detection monitoring status
+type AiOpsProactiveDetectionEventMonitoringStatus string
+
+var AiOpsProactiveDetectionEventMonitoringStatusTypes = struct {
+	// Event recorded for an entity that is monitored by Proactive Detection
+	MONITORED AiOpsProactiveDetectionEventMonitoringStatus
+	// Unknown Proactive Detection event monitoring status
+	UNKNOWN AiOpsProactiveDetectionEventMonitoringStatus
+	// Event recorded for an entity that is NOT monitored by Proactive Detection
+	UNMONITORED AiOpsProactiveDetectionEventMonitoringStatus
+}{
+	// Event recorded for an entity that is monitored by Proactive Detection
+	MONITORED: "MONITORED",
+	// Unknown Proactive Detection event monitoring status
+	UNKNOWN: "UNKNOWN",
+	// Event recorded for an entity that is NOT monitored by Proactive Detection
+	UNMONITORED: "UNMONITORED",
+}
+
+// AiOpsProactiveDetectionEventType - Proactive Detection event types
+type AiOpsProactiveDetectionEventType string
+
+var AiOpsProactiveDetectionEventTypeTypes = struct {
+	// Event recorded when a Proactive Detection anomaly has ended
+	ANOMALY_CLOSE AiOpsProactiveDetectionEventType
+	// Event recorded when a Proactive Detection anomaly has begun
+	ANOMALY_OPEN AiOpsProactiveDetectionEventType
+	// Unknown Proactive Detection event type
+	UNKNOWN AiOpsProactiveDetectionEventType
+}{
+	// Event recorded when a Proactive Detection anomaly has ended
+	ANOMALY_CLOSE: "ANOMALY_CLOSE",
+	// Event recorded when a Proactive Detection anomaly has begun
+	ANOMALY_OPEN: "ANOMALY_OPEN",
+	// Unknown Proactive Detection event type
+	UNKNOWN: "UNKNOWN",
+}
+
+// AiOpsSignalType - The signal type
+type AiOpsSignalType string
+
+var AiOpsSignalTypeTypes = struct {
+	// APM application error count
+	APM_APPLICATION_ERRORCOUNT AiOpsSignalType
+	// APM application response time ms
+	APM_APPLICATION_RESPONSETIMEMS AiOpsSignalType
+	// APM application throughput
+	APM_APPLICATION_THROUGHPUT AiOpsSignalType
+	// Browser application errors
+	BROWSER_APPLICATION_ERRORS AiOpsSignalType
+	// Browser application first Input Delay (75 percentile) (ms)
+	BROWSER_APPLICATION_FIRSTINPUTDELAY75PERCENTILEMS AiOpsSignalType
+	// Browser application largest Contentful Paint (75 percentile) (s)
+	BROWSER_APPLICATION_LARGESTCONTENTFULPAINT75PERCENTILES AiOpsSignalType
+	// Browser application throughput (ppm)
+	BROWSER_APPLICATION_THROUGHPUTPPM AiOpsSignalType
+	// Error rate
+	ERROR_RATE AiOpsSignalType
+	// AWS volume average write time
+	INFRA_AWSEBSVOLUME_AVERAGEWRITETIMEMS AiOpsSignalType
+	// Container cpu usage
+	INFRA_CONTAINER_CPUUSAGE AiOpsSignalType
+	// Container cpu utilitization
+	INFRA_CONTAINER_CPUUTILIZATION AiOpsSignalType
+	// Container memory usage
+	INFRA_CONTAINER_MEMORYUSAGE AiOpsSignalType
+	// Container storage usage
+	INFRA_CONTAINER_STORAGEUSAGE AiOpsSignalType
+	// Host network traffic
+	INFRA_HOST_NETWORKTRAFFIC AiOpsSignalType
+	// Redis instance connected clients
+	INFRA_REDISINSTANCE_CONNECTEDCLIENTS AiOpsSignalType
+	// Redis instance keyspace misses per second
+	INFRA_REDISINSTANCE_KEYSPACEMISSESPERSECOND AiOpsSignalType
+	// Mobile application HTTP errors and network failures
+	MOBILE_APPLICATION_HTTPERRORSANDNETWORKFAILURES AiOpsSignalType
+	// Mobile application HTTP response time (95%) (s)
+	MOBILE_APPLICATION_HTTPRESPONSETIME95S AiOpsSignalType
+	// Mobile application requests per minute
+	MOBILE_APPLICATION_REQUESTSPERMINUTE AiOpsSignalType
+	// Custom NRQL query
+	NRQL AiOpsSignalType
+	// Non-web response time
+	RESPONSE_TIME_NON_WEB AiOpsSignalType
+	// Web Response time
+	RESPONSE_TIME_WEB AiOpsSignalType
+	// Synthetic monitor failures
+	SYNTH_MONITOR_FAILURES AiOpsSignalType
+	// Synthetic monitor median duration (s)
+	SYNTH_MONITOR_MEDIANDURATIONS AiOpsSignalType
+	// Non-web throughput
+	THROUGHPUT_NON_WEB AiOpsSignalType
+	// Web throughput
+	THROUGHPUT_WEB AiOpsSignalType
+	// Unknown
+	UNKNOWN AiOpsSignalType
+}{
+	// APM application error count
+	APM_APPLICATION_ERRORCOUNT: "APM_APPLICATION_ERRORCOUNT",
+	// APM application response time ms
+	APM_APPLICATION_RESPONSETIMEMS: "APM_APPLICATION_RESPONSETIMEMS",
+	// APM application throughput
+	APM_APPLICATION_THROUGHPUT: "APM_APPLICATION_THROUGHPUT",
+	// Browser application errors
+	BROWSER_APPLICATION_ERRORS: "BROWSER_APPLICATION_ERRORS",
+	// Browser application first Input Delay (75 percentile) (ms)
+	BROWSER_APPLICATION_FIRSTINPUTDELAY75PERCENTILEMS: "BROWSER_APPLICATION_FIRSTINPUTDELAY75PERCENTILEMS",
+	// Browser application largest Contentful Paint (75 percentile) (s)
+	BROWSER_APPLICATION_LARGESTCONTENTFULPAINT75PERCENTILES: "BROWSER_APPLICATION_LARGESTCONTENTFULPAINT75PERCENTILES",
+	// Browser application throughput (ppm)
+	BROWSER_APPLICATION_THROUGHPUTPPM: "BROWSER_APPLICATION_THROUGHPUTPPM",
+	// Error rate
+	ERROR_RATE: "ERROR_RATE",
+	// AWS volume average write time
+	INFRA_AWSEBSVOLUME_AVERAGEWRITETIMEMS: "INFRA_AWSEBSVOLUME_AVERAGEWRITETIMEMS",
+	// Container cpu usage
+	INFRA_CONTAINER_CPUUSAGE: "INFRA_CONTAINER_CPUUSAGE",
+	// Container cpu utilitization
+	INFRA_CONTAINER_CPUUTILIZATION: "INFRA_CONTAINER_CPUUTILIZATION",
+	// Container memory usage
+	INFRA_CONTAINER_MEMORYUSAGE: "INFRA_CONTAINER_MEMORYUSAGE",
+	// Container storage usage
+	INFRA_CONTAINER_STORAGEUSAGE: "INFRA_CONTAINER_STORAGEUSAGE",
+	// Host network traffic
+	INFRA_HOST_NETWORKTRAFFIC: "INFRA_HOST_NETWORKTRAFFIC",
+	// Redis instance connected clients
+	INFRA_REDISINSTANCE_CONNECTEDCLIENTS: "INFRA_REDISINSTANCE_CONNECTEDCLIENTS",
+	// Redis instance keyspace misses per second
+	INFRA_REDISINSTANCE_KEYSPACEMISSESPERSECOND: "INFRA_REDISINSTANCE_KEYSPACEMISSESPERSECOND",
+	// Mobile application HTTP errors and network failures
+	MOBILE_APPLICATION_HTTPERRORSANDNETWORKFAILURES: "MOBILE_APPLICATION_HTTPERRORSANDNETWORKFAILURES",
+	// Mobile application HTTP response time (95%) (s)
+	MOBILE_APPLICATION_HTTPRESPONSETIME95S: "MOBILE_APPLICATION_HTTPRESPONSETIME95S",
+	// Mobile application requests per minute
+	MOBILE_APPLICATION_REQUESTSPERMINUTE: "MOBILE_APPLICATION_REQUESTSPERMINUTE",
+	// Custom NRQL query
+	NRQL: "NRQL",
+	// Non-web response time
+	RESPONSE_TIME_NON_WEB: "RESPONSE_TIME_NON_WEB",
+	// Web Response time
+	RESPONSE_TIME_WEB: "RESPONSE_TIME_WEB",
+	// Synthetic monitor failures
+	SYNTH_MONITOR_FAILURES: "SYNTH_MONITOR_FAILURES",
+	// Synthetic monitor median duration (s)
+	SYNTH_MONITOR_MEDIANDURATIONS: "SYNTH_MONITOR_MEDIANDURATIONS",
+	// Non-web throughput
+	THROUGHPUT_NON_WEB: "THROUGHPUT_NON_WEB",
+	// Web throughput
+	THROUGHPUT_WEB: "THROUGHPUT_WEB",
+	// Unknown
+	UNKNOWN: "UNKNOWN",
+}
+
+// AiOpsWebhookPayloadTemplateType - The type of template that will be used when the webhook is called.
+type AiOpsWebhookPayloadTemplateType string
+
+var AiOpsWebhookPayloadTemplateTypeTypes = struct {
+	// The webhook will use a template that was provided by the user.
+	// No new attributes will be included uness the user manually updates the custom template.
+	CUSTOM AiOpsWebhookPayloadTemplateType
+	// The webhook to use the most recent default template.
+	// Any new attributes available to the webhook will be automatically included in the payload.
+	DEFAULT AiOpsWebhookPayloadTemplateType
+}{
+	// The webhook will use a template that was provided by the user.
+	// No new attributes will be included uness the user manually updates the custom template.
+	CUSTOM: "CUSTOM",
+	// The webhook to use the most recent default template.
+	// Any new attributes available to the webhook will be automatically included in the payload.
+	DEFAULT: "DEFAULT",
+}
+
+// AiWorkflowsDestinationType - Type of Destination Configuration
+type AiWorkflowsDestinationType string
+
+var AiWorkflowsDestinationTypeTypes = struct {
+	// Email Destination Configuration type
+	EMAIL AiWorkflowsDestinationType
+	// Event Bridge Destination Configuration type
+	EVENT_BRIDGE AiWorkflowsDestinationType
+	// Jira Destination Configuration type
+	JIRA AiWorkflowsDestinationType
+	// Pager Duty Destination Configuration type
+	PAGERDUTY AiWorkflowsDestinationType
+	// Pager Duty with account integration Destination Configuration type
+	PAGERDUTY_ACCOUNT_INTEGRATION AiWorkflowsDestinationType
+	// Pager Duty with service integration Destination Configuration type
+	PAGERDUTY_SERVICE_INTEGRATION AiWorkflowsDestinationType
+	// Service Now Destination Configuration type
+	SERVICE_NOW AiWorkflowsDestinationType
+	// Slack Destination Configuration type
+	SLACK AiWorkflowsDestinationType
+	// Webhook Destination Configuration type
+	WEBHOOK AiWorkflowsDestinationType
+}{
+	// Email Destination Configuration type
+	EMAIL: "EMAIL",
+	// Event Bridge Destination Configuration type
+	EVENT_BRIDGE: "EVENT_BRIDGE",
+	// Jira Destination Configuration type
+	JIRA: "JIRA",
+	// Pager Duty Destination Configuration type
+	PAGERDUTY: "PAGERDUTY",
+	// Pager Duty with account integration Destination Configuration type
+	PAGERDUTY_ACCOUNT_INTEGRATION: "PAGERDUTY_ACCOUNT_INTEGRATION",
+	// Pager Duty with service integration Destination Configuration type
+	PAGERDUTY_SERVICE_INTEGRATION: "PAGERDUTY_SERVICE_INTEGRATION",
+	// Service Now Destination Configuration type
+	SERVICE_NOW: "SERVICE_NOW",
+	// Slack Destination Configuration type
+	SLACK: "SLACK",
+	// Webhook Destination Configuration type
+	WEBHOOK: "WEBHOOK",
+}
+
+// AiWorkflowsEnrichmentType - Type of Enrichment
+type AiWorkflowsEnrichmentType string
+
+var AiWorkflowsEnrichmentTypeTypes = struct {
+	// NRQL Enrichment type
+	NRQL AiWorkflowsEnrichmentType
+}{
+	// NRQL Enrichment type
+	NRQL: "NRQL",
+}
+
+// AiWorkflowsFilterType - Type of Filter
+type AiWorkflowsFilterType string
+
+var AiWorkflowsFilterTypeTypes = struct {
+	// Standard Filter type
+	FILTER AiWorkflowsFilterType
+	// View Filter type
+	VIEW AiWorkflowsFilterType
+}{
+	// Standard Filter type
+	FILTER: "FILTER",
+	// View Filter type
+	VIEW: "VIEW",
+}
+
+// AiWorkflowsOperator - Type of Filter
+type AiWorkflowsOperator string
+
+var AiWorkflowsOperatorTypes = struct {
+	// Contains this value
+	CONTAINS AiWorkflowsOperator
+	// Does not contain this value
+	DOES_NOT_CONTAIN AiWorkflowsOperator
+	// Not equal this value
+	DOES_NOT_EQUAL AiWorkflowsOperator
+	// Does not exactly match this value
+	DOES_NOT_EXACTLY_MATCH AiWorkflowsOperator
+	// Ends with this value
+	ENDS_WITH AiWorkflowsOperator
+	// Equals this value
+	EQUAL AiWorkflowsOperator
+	// Exactly matches this value
+	EXACTLY_MATCHES AiWorkflowsOperator
+	// Greater or equal to this value
+	GREATER_OR_EQUAL AiWorkflowsOperator
+	// Greater than
+	GREATER_THAN AiWorkflowsOperator
+	// is this boolean value
+	IS AiWorkflowsOperator
+	// is not this boolean value
+	IS_NOT AiWorkflowsOperator
+	// Less or equal to this value
+	LESS_OR_EQUAL AiWorkflowsOperator
+	// Less than this value
+	LESS_THAN AiWorkflowsOperator
+	// Starts with this value
+	STARTS_WITH AiWorkflowsOperator
+}{
+	// Contains this value
+	CONTAINS: "CONTAINS",
+	// Does not contain this value
+	DOES_NOT_CONTAIN: "DOES_NOT_CONTAIN",
+	// Not equal this value
+	DOES_NOT_EQUAL: "DOES_NOT_EQUAL",
+	// Does not exactly match this value
+	DOES_NOT_EXACTLY_MATCH: "DOES_NOT_EXACTLY_MATCH",
+	// Ends with this value
+	ENDS_WITH: "ENDS_WITH",
+	// Equals this value
+	EQUAL: "EQUAL",
+	// Exactly matches this value
+	EXACTLY_MATCHES: "EXACTLY_MATCHES",
+	// Greater or equal to this value
+	GREATER_OR_EQUAL: "GREATER_OR_EQUAL",
+	// Greater than
+	GREATER_THAN: "GREATER_THAN",
+	// is this boolean value
+	IS: "IS",
+	// is not this boolean value
+	IS_NOT: "IS_NOT",
+	// Less or equal to this value
+	LESS_OR_EQUAL: "LESS_OR_EQUAL",
+	// Less than this value
+	LESS_THAN: "LESS_THAN",
+	// Starts with this value
+	STARTS_WITH: "STARTS_WITH",
+}
+
+// ApmApplicationRecentActivityType - Recent activity types for an APM application.
+type ApmApplicationRecentActivityType string
+
+var ApmApplicationRecentActivityTypeTypes = struct {
+	// An update to the agent instrumentation on an APM application.
+	INSTRUMENTATION ApmApplicationRecentActivityType
+	// A notification relating to the APM application agent.
+	NOTIFICATION ApmApplicationRecentActivityType
+	// A change to the agent settings of an APM application.
+	SETTINGS_CHANGE ApmApplicationRecentActivityType
+}{
+	// An update to the agent instrumentation on an APM application.
+	INSTRUMENTATION: "INSTRUMENTATION",
+	// A notification relating to the APM application agent.
+	NOTIFICATION: "NOTIFICATION",
+	// A change to the agent settings of an APM application.
+	SETTINGS_CHANGE: "SETTINGS_CHANGE",
+}
 
 // BrowserAgentInstallType - Browser agent install types.
 type BrowserAgentInstallType string
@@ -51,7 +867,53 @@ var DashboardAlertSeverityTypes = struct {
 	WARNING: "WARNING",
 }
 
-// DashboardEntityPermissions - Permission that represent visibility & editability
+// DashboardEditable - Editable.
+type DashboardEditable string
+
+var DashboardEditableTypes = struct {
+	// EDITABLE_BY_ALL.
+	EDITABLE_BY_ALL DashboardEditable
+	// EDITABLE_BY_OWNER.
+	EDITABLE_BY_OWNER DashboardEditable
+	// READ_ONLY.
+	READ_ONLY DashboardEditable
+}{
+	// EDITABLE_BY_ALL.
+	EDITABLE_BY_ALL: "EDITABLE_BY_ALL",
+	// EDITABLE_BY_OWNER.
+	EDITABLE_BY_OWNER: "EDITABLE_BY_OWNER",
+	// READ_ONLY.
+	READ_ONLY: "READ_ONLY",
+}
+
+// DashboardEntityAlertStatus - Entity alert status.
+type DashboardEntityAlertStatus string
+
+var DashboardEntityAlertStatusTypes = struct {
+	// Not alerting.
+	GREEN DashboardEntityAlertStatus
+	// Entity not reporting.
+	GREY DashboardEntityAlertStatus
+	// No alerts set up.
+	LIGHT_GREEN DashboardEntityAlertStatus
+	// Critical violation.
+	RED DashboardEntityAlertStatus
+	// Warning violation.
+	YELLOW DashboardEntityAlertStatus
+}{
+	// Not alerting.
+	GREEN: "GREEN",
+	// Entity not reporting.
+	GREY: "GREY",
+	// No alerts set up.
+	LIGHT_GREEN: "LIGHT_GREEN",
+	// Critical violation.
+	RED: "RED",
+	// Warning violation.
+	YELLOW: "YELLOW",
+}
+
+// DashboardEntityPermissions - Permisions that represent visibility & editability
 type DashboardEntityPermissions string
 
 var DashboardEntityPermissionsTypes = struct {
@@ -70,7 +932,137 @@ var DashboardEntityPermissionsTypes = struct {
 	PUBLIC_READ_WRITE: "PUBLIC_READ_WRITE",
 }
 
-// DashboardPermissions - Permission that represent visibility & editability
+// DashboardEntityType - Entity type.
+type DashboardEntityType string
+
+var DashboardEntityTypeTypes = struct {
+	// An APM Application.
+	APM_APPLICATION_ENTITY DashboardEntityType
+	// A database instance seen by an APM Application.
+	APM_DATABASE_INSTANCE_ENTITY DashboardEntityType
+	// An external service seen by an APM Application.
+	APM_EXTERNAL_SERVICE_ENTITY DashboardEntityType
+	// A Browser Application.
+	BROWSER_APPLICATION_ENTITY DashboardEntityType
+	// An Insights  entity.
+	DASHBOARD_ENTITY DashboardEntityType
+	// A Generic Entity with no detailed data.
+	GENERIC_ENTITY DashboardEntityType
+	// An Infrastructure entity.
+	GENERIC_INFRASTRUCTURE_ENTITY DashboardEntityType
+	// An Infrastructure Integration AWS Lambda Function entity.
+	INFRASTRUCTURE_AWS_LAMBDA_FUNCTION_ENTITY DashboardEntityType
+	// An Infrastructure Host entity.
+	INFRASTRUCTURE_HOST_ENTITY DashboardEntityType
+	// A Mobile Application.
+	MOBILE_APPLICATION_ENTITY DashboardEntityType
+	// A entity that is unavailable.
+	UNAVAILABLE_ENTITY DashboardEntityType
+	// A Workload Entity.
+	WORKLOAD_ENTITY DashboardEntityType
+}{
+	// An APM Application.
+	APM_APPLICATION_ENTITY: "APM_APPLICATION_ENTITY",
+	// A database instance seen by an APM Application.
+	APM_DATABASE_INSTANCE_ENTITY: "APM_DATABASE_INSTANCE_ENTITY",
+	// An external service seen by an APM Application.
+	APM_EXTERNAL_SERVICE_ENTITY: "APM_EXTERNAL_SERVICE_ENTITY",
+	// A Browser Application.
+	BROWSER_APPLICATION_ENTITY: "BROWSER_APPLICATION_ENTITY",
+	// An Insights  entity.
+	DASHBOARD_ENTITY: "DASHBOARD_ENTITY",
+	// A Generic Entity with no detailed data.
+	GENERIC_ENTITY: "GENERIC_ENTITY",
+	// An Infrastructure entity.
+	GENERIC_INFRASTRUCTURE_ENTITY: "GENERIC_INFRASTRUCTURE_ENTITY",
+	// An Infrastructure Integration AWS Lambda Function entity.
+	INFRASTRUCTURE_AWS_LAMBDA_FUNCTION_ENTITY: "INFRASTRUCTURE_AWS_LAMBDA_FUNCTION_ENTITY",
+	// An Infrastructure Host entity.
+	INFRASTRUCTURE_HOST_ENTITY: "INFRASTRUCTURE_HOST_ENTITY",
+	// A Mobile Application.
+	MOBILE_APPLICATION_ENTITY: "MOBILE_APPLICATION_ENTITY",
+	// A entity that is unavailable.
+	UNAVAILABLE_ENTITY: "UNAVAILABLE_ENTITY",
+	// A Workload Entity.
+	WORKLOAD_ENTITY: "WORKLOAD_ENTITY",
+}
+
+// DashboardFacetChartWidgetVisualizationType - Facet chart widget visualization type.
+type DashboardFacetChartWidgetVisualizationType string
+
+var DashboardFacetChartWidgetVisualizationTypeTypes = struct {
+	// FACETED_AREA_CHART.
+	FACETED_AREA_CHART DashboardFacetChartWidgetVisualizationType
+	// FACETED_LINE_CHART.
+	FACETED_LINE_CHART DashboardFacetChartWidgetVisualizationType
+	// FACET_BAR_CHART.
+	FACET_BAR_CHART DashboardFacetChartWidgetVisualizationType
+	// FACET_PIE_CHART.
+	FACET_PIE_CHART DashboardFacetChartWidgetVisualizationType
+	// FACET_TABLE.
+	FACET_TABLE DashboardFacetChartWidgetVisualizationType
+	// HEATMAP.
+	HEATMAP DashboardFacetChartWidgetVisualizationType
+}{
+	// FACETED_AREA_CHART.
+	FACETED_AREA_CHART: "FACETED_AREA_CHART",
+	// FACETED_LINE_CHART.
+	FACETED_LINE_CHART: "FACETED_LINE_CHART",
+	// FACET_BAR_CHART.
+	FACET_BAR_CHART: "FACET_BAR_CHART",
+	// FACET_PIE_CHART.
+	FACET_PIE_CHART: "FACET_PIE_CHART",
+	// FACET_TABLE.
+	FACET_TABLE: "FACET_TABLE",
+	// HEATMAP.
+	HEATMAP: "HEATMAP",
+}
+
+// DashboardInaccessibleWidgetVisualizationType - Inaccessible widget visualization type.
+type DashboardInaccessibleWidgetVisualizationType string
+
+var DashboardInaccessibleWidgetVisualizationTypeTypes = struct {
+	// INACCESSIBLE.
+	INACCESSIBLE DashboardInaccessibleWidgetVisualizationType
+}{
+	// INACCESSIBLE.
+	INACCESSIBLE: "INACCESSIBLE",
+}
+
+// DashboardInventoryWidgetVisualizationType - Inventory widget visualization type.
+type DashboardInventoryWidgetVisualizationType string
+
+var DashboardInventoryWidgetVisualizationTypeTypes = struct {
+	// INVENTORY.
+	INVENTORY DashboardInventoryWidgetVisualizationType
+}{
+	// INVENTORY.
+	INVENTORY: "INVENTORY",
+}
+
+// DashboardMarkdownWidgetVisualizationType - Markdown widget visualization type.
+type DashboardMarkdownWidgetVisualizationType string
+
+var DashboardMarkdownWidgetVisualizationTypeTypes = struct {
+	// MARKDOWN.
+	MARKDOWN DashboardMarkdownWidgetVisualizationType
+}{
+	// MARKDOWN.
+	MARKDOWN: "MARKDOWN",
+}
+
+// DashboardMetricLineChartWidgetVisualizationType - Metric line chart widget visualization type.
+type DashboardMetricLineChartWidgetVisualizationType string
+
+var DashboardMetricLineChartWidgetVisualizationTypeTypes = struct {
+	// METRIC_LINE_CHART.
+	METRIC_LINE_CHART DashboardMetricLineChartWidgetVisualizationType
+}{
+	// METRIC_LINE_CHART.
+	METRIC_LINE_CHART: "METRIC_LINE_CHART",
+}
+
+// DashboardPermissions - Permisions that represent visibility & editability
 type DashboardPermissions string
 
 var DashboardPermissionsTypes = struct {
@@ -89,27 +1081,176 @@ var DashboardPermissionsTypes = struct {
 	PUBLIC_READ_WRITE: "PUBLIC_READ_WRITE",
 }
 
-// EntityAlertSeverity -
+// DashboardPredefinedMetricChartWidgetVisualizationType - Predefined metric chart widget visualization type.
+type DashboardPredefinedMetricChartWidgetVisualizationType string
+
+var DashboardPredefinedMetricChartWidgetVisualizationTypeTypes = struct {
+	// APPLICATION_BREAKDOWN.
+	APPLICATION_BREAKDOWN DashboardPredefinedMetricChartWidgetVisualizationType
+	// BACKGROUND_BREAKDOWN.
+	BACKGROUND_BREAKDOWN DashboardPredefinedMetricChartWidgetVisualizationType
+	// BROWSER_BREAKDOWN.
+	BROWSER_BREAKDOWN DashboardPredefinedMetricChartWidgetVisualizationType
+	// GC_RUNS_BREAKDOWN.
+	GC_RUNS_BREAKDOWN DashboardPredefinedMetricChartWidgetVisualizationType
+	// SCOPE_BREAKDOWN.
+	SCOPE_BREAKDOWN DashboardPredefinedMetricChartWidgetVisualizationType
+	// SOLR_BREAKDOWN.
+	SOLR_BREAKDOWN DashboardPredefinedMetricChartWidgetVisualizationType
+}{
+	// APPLICATION_BREAKDOWN.
+	APPLICATION_BREAKDOWN: "APPLICATION_BREAKDOWN",
+	// BACKGROUND_BREAKDOWN.
+	BACKGROUND_BREAKDOWN: "BACKGROUND_BREAKDOWN",
+	// BROWSER_BREAKDOWN.
+	BROWSER_BREAKDOWN: "BROWSER_BREAKDOWN",
+	// GC_RUNS_BREAKDOWN.
+	GC_RUNS_BREAKDOWN: "GC_RUNS_BREAKDOWN",
+	// SCOPE_BREAKDOWN.
+	SCOPE_BREAKDOWN: "SCOPE_BREAKDOWN",
+	// SOLR_BREAKDOWN.
+	SOLR_BREAKDOWN: "SOLR_BREAKDOWN",
+}
+
+// DashboardServiceMapWidgetVisualizationType - Service map widget visualization type.
+type DashboardServiceMapWidgetVisualizationType string
+
+var DashboardServiceMapWidgetVisualizationTypeTypes = struct {
+	// SERVICE_MAP.
+	SERVICE_MAP DashboardServiceMapWidgetVisualizationType
+}{
+	// SERVICE_MAP.
+	SERVICE_MAP: "SERVICE_MAP",
+}
+
+// DashboardSimpleEventWidgetVisualizationType - Simple event widget visualization type.
+type DashboardSimpleEventWidgetVisualizationType string
+
+var DashboardSimpleEventWidgetVisualizationTypeTypes = struct {
+	// ATTRIBUTE_SHEET.
+	ATTRIBUTE_SHEET DashboardSimpleEventWidgetVisualizationType
+	// COMPARISON_LINE_CHART.
+	COMPARISON_LINE_CHART DashboardSimpleEventWidgetVisualizationType
+	// EVENT_FEED.
+	EVENT_FEED DashboardSimpleEventWidgetVisualizationType
+	// EVENT_TABLE.
+	EVENT_TABLE DashboardSimpleEventWidgetVisualizationType
+	// FUNNEL.
+	FUNNEL DashboardSimpleEventWidgetVisualizationType
+	// HISTOGRAM.
+	HISTOGRAM DashboardSimpleEventWidgetVisualizationType
+	// LINE_CHART.
+	LINE_CHART DashboardSimpleEventWidgetVisualizationType
+	// RAW_JSON.
+	RAW_JSON DashboardSimpleEventWidgetVisualizationType
+	// SINGLE_EVENT.
+	SINGLE_EVENT DashboardSimpleEventWidgetVisualizationType
+	// UNIQUES_LIST.
+	UNIQUES_LIST DashboardSimpleEventWidgetVisualizationType
+}{
+	// ATTRIBUTE_SHEET.
+	ATTRIBUTE_SHEET: "ATTRIBUTE_SHEET",
+	// COMPARISON_LINE_CHART.
+	COMPARISON_LINE_CHART: "COMPARISON_LINE_CHART",
+	// EVENT_FEED.
+	EVENT_FEED: "EVENT_FEED",
+	// EVENT_TABLE.
+	EVENT_TABLE: "EVENT_TABLE",
+	// FUNNEL.
+	FUNNEL: "FUNNEL",
+	// HISTOGRAM.
+	HISTOGRAM: "HISTOGRAM",
+	// LINE_CHART.
+	LINE_CHART: "LINE_CHART",
+	// RAW_JSON.
+	RAW_JSON: "RAW_JSON",
+	// SINGLE_EVENT.
+	SINGLE_EVENT: "SINGLE_EVENT",
+	// UNIQUES_LIST.
+	UNIQUES_LIST: "UNIQUES_LIST",
+}
+
+// DashboardThresholdEventWidgetVisualizationType - Threshold event widget visualization type.
+type DashboardThresholdEventWidgetVisualizationType string
+
+var DashboardThresholdEventWidgetVisualizationTypeTypes = struct {
+	// BILLBOARD.
+	BILLBOARD DashboardThresholdEventWidgetVisualizationType
+	// BILLBOARD_COMPARISON.
+	BILLBOARD_COMPARISON DashboardThresholdEventWidgetVisualizationType
+	// GAUGE.
+	GAUGE DashboardThresholdEventWidgetVisualizationType
+}{
+	// BILLBOARD.
+	BILLBOARD: "BILLBOARD",
+	// BILLBOARD_COMPARISON.
+	BILLBOARD_COMPARISON: "BILLBOARD_COMPARISON",
+	// GAUGE.
+	GAUGE: "GAUGE",
+}
+
+// DashboardVisibility - Visibility.
+type DashboardVisibility string
+
+var DashboardVisibilityTypes = struct {
+	// ALL.
+	ALL DashboardVisibility
+	// OWNER.
+	OWNER DashboardVisibility
+}{
+	// ALL.
+	ALL: "ALL",
+	// OWNER.
+	OWNER: "OWNER",
+}
+
+// EntityAlertSeverity - The alert severity of the entity.
 type EntityAlertSeverity string
 
 var EntityAlertSeverityTypes = struct {
-	// Critical violation in progress
+	// Indicates an entity has a critical violation in progress.
 	CRITICAL EntityAlertSeverity
-	// Not alerting
+	// Indicates an entity has no violations and therefore is not alerting.
 	NOT_ALERTING EntityAlertSeverity
-	// No alert conditions set up
+	// Indicates an entity is not configured for alerting.
 	NOT_CONFIGURED EntityAlertSeverity
-	// Warning violation in progress
+	// Indicates an entity  has a warning violation in progress.
 	WARNING EntityAlertSeverity
 }{
-	// Critical violation in progress
+	// Indicates an entity has a critical violation in progress.
 	CRITICAL: "CRITICAL",
-	// Not alerting
+	// Indicates an entity has no violations and therefore is not alerting.
 	NOT_ALERTING: "NOT_ALERTING",
-	// No alert conditions set up
+	// Indicates an entity is not configured for alerting.
 	NOT_CONFIGURED: "NOT_CONFIGURED",
-	// Warning violation in progress
+	// Indicates an entity  has a warning violation in progress.
 	WARNING: "WARNING",
+}
+
+type EntityAlertStatus string
+
+var EntityAlertStatusTypes = struct {
+	// Not alerting
+	GREEN EntityAlertStatus
+	// Entity not reporting
+	GREY EntityAlertStatus
+	// No alerts set up
+	LIGHT_GREEN EntityAlertStatus
+	// Critical violation
+	RED EntityAlertStatus
+	// Warning violation
+	YELLOW EntityAlertStatus
+}{
+	// Not alerting
+	GREEN: "GREEN",
+	// Entity not reporting
+	GREY: "GREY",
+	// No alerts set up
+	LIGHT_GREEN: "LIGHT_GREEN",
+	// Critical violation
+	RED: "RED",
+	// Warning violation
+	YELLOW: "YELLOW",
 }
 
 // EntityCollectionType - Indicates where this collection is used
@@ -144,6 +1285,88 @@ var EntityGoldenEventObjectIdTypes = struct {
 	ENTITY_GUIDS: "ENTITY_GUIDS",
 	// The WHERE clause will be done against the name of the entity.
 	ENTITY_NAMES: "ENTITY_NAMES",
+}
+
+// EntityGoldenMetricUnit - The different units that can be used to express golden metrics.
+type EntityGoldenMetricUnit string
+
+var EntityGoldenMetricUnitTypes = struct {
+	// Apdex (Application Performance Index).
+	APDEX EntityGoldenMetricUnit
+	// Bits.
+	BITS EntityGoldenMetricUnit
+	// Bits per second.
+	BITS_PER_SECOND EntityGoldenMetricUnit
+	// Bytes.
+	BYTES EntityGoldenMetricUnit
+	// Bytes per second.
+	BYTES_PER_SECOND EntityGoldenMetricUnit
+	// Degrees celsius.
+	CELSIUS EntityGoldenMetricUnit
+	// Count.
+	COUNT EntityGoldenMetricUnit
+	// Hertz.
+	HERTZ EntityGoldenMetricUnit
+	// Messages per second.
+	MESSAGES_PER_SECOND EntityGoldenMetricUnit
+	// Operations per second.
+	OPERATIONS_PER_SECOND EntityGoldenMetricUnit
+	// Pages loaded per second.
+	PAGES_PER_SECOND EntityGoldenMetricUnit
+	// Percentage.
+	PERCENTAGE EntityGoldenMetricUnit
+	// Requests received per second.
+	REQUESTS_PER_SECOND EntityGoldenMetricUnit
+	// Seconds.
+	SECONDS EntityGoldenMetricUnit
+	// Timestamp.
+	TIMESTAMP EntityGoldenMetricUnit
+}{
+	// Apdex (Application Performance Index).
+	APDEX: "APDEX",
+	// Bits.
+	BITS: "BITS",
+	// Bits per second.
+	BITS_PER_SECOND: "BITS_PER_SECOND",
+	// Bytes.
+	BYTES: "BYTES",
+	// Bytes per second.
+	BYTES_PER_SECOND: "BYTES_PER_SECOND",
+	// Degrees celsius.
+	CELSIUS: "CELSIUS",
+	// Count.
+	COUNT: "COUNT",
+	// Hertz.
+	HERTZ: "HERTZ",
+	// Messages per second.
+	MESSAGES_PER_SECOND: "MESSAGES_PER_SECOND",
+	// Operations per second.
+	OPERATIONS_PER_SECOND: "OPERATIONS_PER_SECOND",
+	// Pages loaded per second.
+	PAGES_PER_SECOND: "PAGES_PER_SECOND",
+	// Percentage.
+	PERCENTAGE: "PERCENTAGE",
+	// Requests received per second.
+	REQUESTS_PER_SECOND: "REQUESTS_PER_SECOND",
+	// Seconds.
+	SECONDS: "SECONDS",
+	// Timestamp.
+	TIMESTAMP: "TIMESTAMP",
+}
+
+// EntityGraphEntityFlags - Flags used to indicate special information about an entity
+type EntityGraphEntityFlags string
+
+var EntityGraphEntityFlagsTypes = struct {
+	// This entity does not match the normal filters, but was included because it is realted to an entity in the results.
+	RELATED_ENTITY EntityGraphEntityFlags
+	// This entity is the source of a relationshipOf filter.
+	RELATIONSHIP_OF_SOURCE EntityGraphEntityFlags
+}{
+	// This entity does not match the normal filters, but was included because it is realted to an entity in the results.
+	RELATED_ENTITY: "RELATED_ENTITY",
+	// This entity is the source of a relationshipOf filter.
+	RELATIONSHIP_OF_SOURCE: "RELATIONSHIP_OF_SOURCE",
 }
 
 // EntityInfrastructureIntegrationType - The type of Infrastructure Integration
@@ -912,8 +2135,12 @@ var EntityRelationshipEdgeDirectionTypes = struct {
 type EntityRelationshipEdgeType string
 
 var EntityRelationshipEdgeTypeTypes = struct {
+	// The target entity contains the code for the source entity.
+	BUILT_FROM EntityRelationshipEdgeType
 	// The source entity calls the target entity.
 	CALLS EntityRelationshipEdgeType
+	// The source entity has a connection to the target entity.
+	CONNECTS_TO EntityRelationshipEdgeType
 	// The source entity contains the target entity.
 	CONTAINS EntityRelationshipEdgeType
 	// The source entity hosts the target.
@@ -923,8 +2150,12 @@ var EntityRelationshipEdgeTypeTypes = struct {
 	// The source is an Application that serves the target Browser application.
 	SERVES EntityRelationshipEdgeType
 }{
+	// The target entity contains the code for the source entity.
+	BUILT_FROM: "BUILT_FROM",
 	// The source entity calls the target entity.
 	CALLS: "CALLS",
+	// The source entity has a connection to the target entity.
+	CONNECTS_TO: "CONNECTS_TO",
 	// The source entity contains the target entity.
 	CONTAINS: "CONTAINS",
 	// The source entity hosts the target.
@@ -941,8 +2172,12 @@ var EntityRelationshipEdgeTypeTypes = struct {
 type EntityRelationshipType string
 
 var EntityRelationshipTypeTypes = struct {
+	// The source repository containing the code for the target
+	BUILT_FROM EntityRelationshipType
 	// The source entity calls the target entity.
 	CALLS EntityRelationshipType
+	// The source establishes TCP connections to the target
+	CONNECTS_TO EntityRelationshipType
 	// The source entity contains the target entity
 	CONTAINS EntityRelationshipType
 	// The source entity hosts the target
@@ -954,8 +2189,12 @@ var EntityRelationshipTypeTypes = struct {
 	// Type not known
 	UNKNOWN EntityRelationshipType
 }{
+	// The source repository containing the code for the target
+	BUILT_FROM: "BUILT_FROM",
 	// The source entity calls the target entity.
 	CALLS: "CALLS",
+	// The source establishes TCP connections to the target
+	CONNECTS_TO: "CONNECTS_TO",
 	// The source entity contains the target entity
 	CONTAINS: "CONTAINS",
 	// The source entity hosts the target
@@ -1003,6 +2242,41 @@ var EntitySearchCountsFacetTypes = struct {
 	TYPE: "TYPE",
 }
 
+// EntitySearchGroupingAttribute - Entity attributes to group by.
+type EntitySearchGroupingAttribute string
+
+var EntitySearchGroupingAttributeTypes = struct {
+	// Group by account id.
+	ACCOUNT_ID EntitySearchGroupingAttribute
+	// Group by alert severity.
+	ALERT_SEVERITY EntitySearchGroupingAttribute
+	// Group by entity domain.
+	DOMAIN EntitySearchGroupingAttribute
+	// Group by entity domain and entity type.
+	DOMAIN_TYPE EntitySearchGroupingAttribute
+	// Group by entity name
+	NAME EntitySearchGroupingAttribute
+	// Group by reporting state.
+	REPORTING EntitySearchGroupingAttribute
+	// Group by entity type.
+	TYPE EntitySearchGroupingAttribute
+}{
+	// Group by account id.
+	ACCOUNT_ID: "ACCOUNT_ID",
+	// Group by alert severity.
+	ALERT_SEVERITY: "ALERT_SEVERITY",
+	// Group by entity domain.
+	DOMAIN: "DOMAIN",
+	// Group by entity domain and entity type.
+	DOMAIN_TYPE: "DOMAIN_TYPE",
+	// Group by entity name
+	NAME: "NAME",
+	// Group by reporting state.
+	REPORTING: "REPORTING",
+	// Group by entity type.
+	TYPE: "TYPE",
+}
+
 // EntitySearchQueryBuilderDomain - The domain to search
 type EntitySearchQueryBuilderDomain string
 
@@ -1046,6 +2320,8 @@ var EntitySearchQueryBuilderTypeTypes = struct {
 	HOST EntitySearchQueryBuilderType
 	// A monitor
 	MONITOR EntitySearchQueryBuilderType
+	// A service
+	SERVICE EntitySearchQueryBuilderType
 	// A workload
 	WORKLOAD EntitySearchQueryBuilderType
 }{
@@ -1057,6 +2333,8 @@ var EntitySearchQueryBuilderTypeTypes = struct {
 	HOST: "HOST",
 	// A monitor
 	MONITOR: "MONITOR",
+	// A service
+	SERVICE: "SERVICE",
 	// A workload
 	WORKLOAD: "WORKLOAD",
 }
@@ -1090,6 +2368,77 @@ var EntitySearchSortCriteriaTypes = struct {
 	REPORTING: "REPORTING",
 	// Sort by entity type.
 	TYPE: "TYPE",
+}
+
+// EntitySummaryMetricUnit - The different units that can be used to express summary metrics.
+type EntitySummaryMetricUnit string
+
+var EntitySummaryMetricUnitTypes = struct {
+	// Apdex (Application Performance Index).
+	APDEX EntitySummaryMetricUnit
+	// Bits.
+	BITS EntitySummaryMetricUnit
+	// Bits per second.
+	BITS_PER_SECOND EntitySummaryMetricUnit
+	// Bytes.
+	BYTES EntitySummaryMetricUnit
+	// Bytes per second.
+	BYTES_PER_SECOND EntitySummaryMetricUnit
+	// Degrees celsius.
+	CELSIUS EntitySummaryMetricUnit
+	// Count.
+	COUNT EntitySummaryMetricUnit
+	// Hertz.
+	HERTZ EntitySummaryMetricUnit
+	// Messages per second.
+	MESSAGES_PER_SECOND EntitySummaryMetricUnit
+	// Operations per second.
+	OPERATIONS_PER_SECOND EntitySummaryMetricUnit
+	// Pages loaded per second.
+	PAGES_PER_SECOND EntitySummaryMetricUnit
+	// Percentage.
+	PERCENTAGE EntitySummaryMetricUnit
+	// Requests received per second.
+	REQUESTS_PER_SECOND EntitySummaryMetricUnit
+	// Seconds.
+	SECONDS EntitySummaryMetricUnit
+	// String.
+	STRING EntitySummaryMetricUnit
+	// Timestamp.
+	TIMESTAMP EntitySummaryMetricUnit
+}{
+	// Apdex (Application Performance Index).
+	APDEX: "APDEX",
+	// Bits.
+	BITS: "BITS",
+	// Bits per second.
+	BITS_PER_SECOND: "BITS_PER_SECOND",
+	// Bytes.
+	BYTES: "BYTES",
+	// Bytes per second.
+	BYTES_PER_SECOND: "BYTES_PER_SECOND",
+	// Degrees celsius.
+	CELSIUS: "CELSIUS",
+	// Count.
+	COUNT: "COUNT",
+	// Hertz.
+	HERTZ: "HERTZ",
+	// Messages per second.
+	MESSAGES_PER_SECOND: "MESSAGES_PER_SECOND",
+	// Operations per second.
+	OPERATIONS_PER_SECOND: "OPERATIONS_PER_SECOND",
+	// Pages loaded per second.
+	PAGES_PER_SECOND: "PAGES_PER_SECOND",
+	// Percentage.
+	PERCENTAGE: "PERCENTAGE",
+	// Requests received per second.
+	REQUESTS_PER_SECOND: "REQUESTS_PER_SECOND",
+	// Seconds.
+	SECONDS: "SECONDS",
+	// String.
+	STRING: "STRING",
+	// Timestamp.
+	TIMESTAMP: "TIMESTAMP",
 }
 
 // EntityType - The specific type of entity
@@ -1163,6 +2512,107 @@ var EntityTypeTypes = struct {
 	WORKLOAD_ENTITY: "WORKLOAD_ENTITY",
 }
 
+// ErrorTrackingErrorGroupState - Current state of the error group.
+type ErrorTrackingErrorGroupState string
+
+var ErrorTrackingErrorGroupStateTypes = struct {
+	// Error group is ignored.
+	IGNORED ErrorTrackingErrorGroupState
+	// Error group is resolved.
+	RESOLVED ErrorTrackingErrorGroupState
+	// Error group is unresolved.
+	UNRESOLVED ErrorTrackingErrorGroupState
+}{
+	// Error group is ignored.
+	IGNORED: "IGNORED",
+	// Error group is resolved.
+	RESOLVED: "RESOLVED",
+	// Error group is unresolved.
+	UNRESOLVED: "UNRESOLVED",
+}
+
+// ErrorTrackingNotificationDestination - Notification Destination type
+type ErrorTrackingNotificationDestination string
+
+var ErrorTrackingNotificationDestinationTypes = struct {
+	// Jira Classic destination
+	JIRA_CLASSIC ErrorTrackingNotificationDestination
+	// Slack destination
+	SLACK ErrorTrackingNotificationDestination
+}{
+	// Jira Classic destination
+	JIRA_CLASSIC: "JIRA_CLASSIC",
+	// Slack destination
+	SLACK: "SLACK",
+}
+
+// ErrorTrackingNotificationEventStatus - Notification Event Status type
+type ErrorTrackingNotificationEventStatus string
+
+var ErrorTrackingNotificationEventStatusTypes = struct {
+	// Failed
+	FAIL ErrorTrackingNotificationEventStatus
+	// Successful
+	SUCCESS ErrorTrackingNotificationEventStatus
+}{
+	// Failed
+	FAIL: "FAIL",
+	// Successful
+	SUCCESS: "SUCCESS",
+}
+
+type FeatureFlagContext string
+
+var FeatureFlagContextTypes = struct {
+	ACCOUNT  FeatureFlagContext
+	CRITERIA FeatureFlagContext
+	NR_ADMIN FeatureFlagContext
+	USER     FeatureFlagContext
+}{
+	ACCOUNT:  "ACCOUNT",
+	CRITERIA: "CRITERIA",
+	NR_ADMIN: "NR_ADMIN",
+	USER:     "USER",
+}
+
+// InfrastructureAgentInstrumentationStrategy - The strategy for how we can instrument this service
+type InfrastructureAgentInstrumentationStrategy string
+
+var InfrastructureAgentInstrumentationStrategyTypes = struct {
+	// Instrumentation strategy: New Relic Java Agent. InfrastructureEvent strategy value: java_apm
+	JAVAAPM InfrastructureAgentInstrumentationStrategy
+	// Instrumentation strategy: Java Flight Recorder. InfrastructureEvent strategy value: jfr
+	JFR InfrastructureAgentInstrumentationStrategy
+	// Instrumentation strategy: Jafa Flight Recorder-Daemon. InfrastructureEvent strategy value: jfrd
+	JFRD InfrastructureAgentInstrumentationStrategy
+	// Instrumentation strategy: Java Management Extensions. InfrastructureEvent strategy value: jmx
+	JMX InfrastructureAgentInstrumentationStrategy
+}{
+	// Instrumentation strategy: New Relic Java Agent. InfrastructureEvent strategy value: java_apm
+	JAVAAPM: "JAVAAPM",
+	// Instrumentation strategy: Java Flight Recorder. InfrastructureEvent strategy value: jfr
+	JFR: "JFR",
+	// Instrumentation strategy: Jafa Flight Recorder-Daemon. InfrastructureEvent strategy value: jfrd
+	JFRD: "JFRD",
+	// Instrumentation strategy: Java Management Extensions. InfrastructureEvent strategy value: jmx
+	JMX: "JMX",
+}
+
+// InfrastructureAgentServiceStatus - The status of an individual service
+type InfrastructureAgentServiceStatus string
+
+var InfrastructureAgentServiceStatusTypes = struct {
+	// The service is being instrumented
+	INSTRUMENTED InfrastructureAgentServiceStatus
+	// Known service status
+	KNOWN InfrastructureAgentServiceStatus
+}{
+	// The service is being instrumented
+	INSTRUMENTED: "INSTRUMENTED",
+	// Known service status
+	KNOWN: "KNOWN",
+}
+
 // MetricNormalizationRuleAction - The different rule actions.
 type MetricNormalizationRuleAction string
 
@@ -1182,7 +2632,55 @@ var MetricNormalizationRuleActionTypes = struct {
 	REPLACE: "REPLACE",
 }
 
-// SyntheticMonitorStatus -
+// RelatedExternalsDirection - The direction of a connected entity.
+type RelatedExternalsDirection string
+
+var RelatedExternalsDirectionTypes = struct {
+	// A downstream dependency.
+	DOWNSTREAM RelatedExternalsDirection
+	// The entity at the center of these dependencies.
+	FOCAL_ENTITY RelatedExternalsDirection
+	// An upstream dependency.
+	UPSTREAM RelatedExternalsDirection
+}{
+	// A downstream dependency.
+	DOWNSTREAM: "DOWNSTREAM",
+	// The entity at the center of these dependencies.
+	FOCAL_ENTITY: "FOCAL_ENTITY",
+	// An upstream dependency.
+	UPSTREAM: "UPSTREAM",
+}
+
+// SortBy - The `SortBy` enum is for designating sort order.
+type SortBy string
+
+var SortByTypes = struct {
+	// Sort in ascending order.
+	ASC SortBy
+	// Sort in descending order.
+	DESC SortBy
+}{
+	// Sort in ascending order.
+	ASC: "ASC",
+	// Sort in descending order.
+	DESC: "DESC",
+}
+
+// SyntheticMonitorCheckStatus - The status of a synthetic monitor check.
+type SyntheticMonitorCheckStatus string
+
+var SyntheticMonitorCheckStatusTypes = struct {
+	// Failed check
+	FAILED SyntheticMonitorCheckStatus
+	// Successful check
+	SUCCESS SyntheticMonitorCheckStatus
+}{
+	// Failed check
+	FAILED: "FAILED",
+	// Successful check
+	SUCCESS: "SUCCESS",
+}
+
 type SyntheticMonitorStatus string
 
 var SyntheticMonitorStatusTypes = struct {
@@ -1238,6 +2736,8 @@ var TaggingMutationErrorTypeTypes = struct {
 	NOT_FOUND TaggingMutationErrorType
 	// You've attempted to do something your Domain/EntityType is not permitted to do. Its also possible that an api key is required.
 	NOT_PERMITTED TaggingMutationErrorType
+	// One of the query filters exceeds the character limit.
+	TOO_MANY_CHARS_QUERY_FILTER TaggingMutationErrorType
 	// The given entity has reached its tag key count limit. You will need to delete existing tags for the given GUID before continuing.
 	TOO_MANY_TAG_KEYS TaggingMutationErrorType
 	// The given entity has reached its tag value count limit. You will need to delete existing values for the given GUID before continuing.
@@ -1259,6 +2759,8 @@ var TaggingMutationErrorTypeTypes = struct {
 	NOT_FOUND: "NOT_FOUND",
 	// You've attempted to do something your Domain/EntityType is not permitted to do. Its also possible that an api key is required.
 	NOT_PERMITTED: "NOT_PERMITTED",
+	// One of the query filters exceeds the character limit.
+	TOO_MANY_CHARS_QUERY_FILTER: "TOO_MANY_CHARS_QUERY_FILTER",
 	// The given entity has reached its tag key count limit. You will need to delete existing tags for the given GUID before continuing.
 	TOO_MANY_TAG_KEYS: "TOO_MANY_TAG_KEYS",
 	// The given entity has reached its tag value count limit. You will need to delete existing values for the given GUID before continuing.
@@ -1313,6 +2815,32 @@ var WorkloadStatusValueTypes = struct {
 	UNKNOWN: "UNKNOWN",
 }
 
+type AccountAccessInfo struct {
+	Capabilities []Capability         `json:"capabilities,omitempty"`
+	Entitlements []AccountEntitlement `json:"entitlements,omitempty"`
+	// These Feature Flags will be evaluated differently depending on their context:
+	// * `currentUser.currentAccount` - Current User ID, current Account ID, NR admin
+	// * `currentUser.account(id: N)` - Current User ID, given Account ID, NR admin
+	// * `user(id: N).account(id: N)` - Given User ID, given Account ID, NR admin
+	// * `account(id: N)` - Just the given Account ID
+	FeatureFlags []FeatureFlag     `json:"featureFlags,omitempty"`
+	ID           int               `json:"id,omitempty"`
+	InRegion     bool              `json:"inRegion,omitempty"`
+	Name         string            `json:"name,omitempty"`
+	Parent       ParentAccountInfo `json:"parent,omitempty"`
+	Region       Region            `json:"region,omitempty"`
+	// Returns event types that are currently reporting in the account.
+	ReportingEventTypes []string `json:"reportingEventTypes,omitempty"`
+}
+
+type AccountEntitlement struct {
+	Name string `json:"name,omitempty"`
+}
+
+type AccountEntitlementFilter struct {
+	Names []string `json:"names"`
+}
+
 // Actor - The `Actor` object contains fields that are scoped to the API user's access level.
 type Actor struct {
 	// Fetch a list of entities.
@@ -1333,6 +2861,132 @@ type Actor struct {
 	//
 	// Note: you must supply either a `query` OR a `queryBuilder` argument, not both.
 	EntitySearch EntitySearch `json:"entitySearch,omitempty"`
+	// Contains information about the entity types specified in the `entityTypes` argument.
+	EntityTypes         []EntityTypeResults         `json:"entityTypes,omitempty"`
+	NerdStoreCollection []NerdStoreCollectionMember `json:"nerdStoreCollection,omitempty"`
+	NerdStoreDocument   NerdStoreDocument           `json:"nerdStoreDocument,omitempty"`
+}
+
+// AgentApplicationSettingsApmBase - Settings that are applicable to APM applications and their agents.
+type AgentApplicationSettingsApmBase struct {
+	// The name for the application
+	Alias string `json:"alias,omitempty"`
+	// General settings for the application can be accessed via this field.
+	ApmConfig AgentApplicationSettingsApmConfig `json:"apmConfig"`
+	// Application settings regarding how events are handled with NRDB can be accessed via this field.
+	DataManagement AgentApplicationSettingsDataManagement `json:"dataManagement"`
+	// Error Collector settings for the application can be accessed via this field. The error collector captures information about uncaught exceptions and sends them to New Relic for viewing.
+	ErrorCollector AgentApplicationSettingsErrorCollector `json:"errorCollector,omitempty"`
+	// In APM, when transaction traces are collected, there may be additional Slow query data available.
+	SlowSql AgentApplicationSettingsSlowSql `json:"slowSql,omitempty"`
+	// Thread profiler measures wall clock time, CPU time, and method call counts in your application's threads as they run.
+	ThreadProfiler AgentApplicationSettingsThreadProfiler `json:"threadProfiler,omitempty"`
+	// Type of tracer used. APM's cross application tracing link transactions between APM apps in your service-oriented architecture (SOA).  Distributed tracing is an improvement on the cross application tracing feature and is recommended for large, distributed systems.
+	TracerType AgentApplicationSettingsTracer `json:"tracerType,omitempty"`
+	// Transaction Tracer settings for the application can be accessed via this field.
+	TransactionTracer AgentApplicationSettingsTransactionTracer `json:"transactionTracer,omitempty"`
+}
+
+// AgentApplicationSettingsApmConfig - General settings related to APM applications.
+type AgentApplicationSettingsApmConfig struct {
+	// The desired target for the APDEX measurement of this APM application.
+	ApdexTarget float64 `json:"apdexTarget,omitempty"`
+	// Should agents for this APM application get some of their configuration from the server.
+	UseServerSideConfig bool `json:"useServerSideConfig,omitempty"`
+}
+
+// AgentApplicationSettingsBrowserBase - Settings that are applicable to browser applications.
+type AgentApplicationSettingsBrowserBase struct {
+	// General settings for the application can be accessed via this field.
+	BrowserConfig AgentApplicationSettingsBrowserConfig `json:"browserConfig"`
+	// Browser monitoring provides Real User Monitoring (RUM) that measures the speed and performance of end users as they navigate the application using different web browsers, devices, operating systems, and networks.
+	BrowserMonitoring AgentApplicationSettingsBrowserMonitoring `json:"browserMonitoring"`
+	// Application settings regarding how events are handled with NRDB can be accessed via this field.
+	DataManagement AgentApplicationSettingsDataManagement `json:"dataManagement"`
+}
+
+// AgentApplicationSettingsBrowserConfig - General settings related to APM applications.
+type AgentApplicationSettingsBrowserConfig struct {
+	// The desired target for the APDEX measurement of this browser application.
+	ApdexTarget float64 `json:"apdexTarget,omitempty"`
+}
+
+// AgentApplicationSettingsBrowserDistributedTracing - Distributed tracing type. See [documentation](https://docs.newrelic.com/docs/browser/new-relic-browser/browser-pro-features/browser-data-distributed-tracing/) for further information.
+type AgentApplicationSettingsBrowserDistributedTracing struct {
+	// Whether or not Distributed Tracing is enabled.
+	Enabled bool `json:"enabled,omitempty"`
+}
+
+// AgentApplicationSettingsBrowserMonitoring - Browser monitoring.
+type AgentApplicationSettingsBrowserMonitoring struct {
+	// If you use browser to monitor end-user browser activity, you can now see end-user-originating browser-side traces in distributed tracing.
+	DistributedTracing AgentApplicationSettingsBrowserDistributedTracing `json:"distributedTracing"`
+	// The type of browser agent that will be loaded.
+	Loader AgentApplicationSettingsBrowserLoader `json:"loader"`
+	// Browser monitoring's page load timing feature can track sessions by using cookies that contain a simple session identifier.
+	Privacy AgentApplicationSettingsBrowserPrivacy `json:"privacy"`
+}
+
+// AgentApplicationSettingsBrowserPrivacy - Browser privacy. See [documentation](https://docs.newrelic.com/docs/browser/browser-monitoring/page-load-timing-resources/cookie-collection-session-tracking/) for further information.
+type AgentApplicationSettingsBrowserPrivacy struct {
+	// Whether or not cookies are enabled.
+	CookiesEnabled bool `json:"cookiesEnabled"`
+}
+
+// AgentApplicationSettingsDataManagement - Settings related to the management of Transaction data sent to NRDB.
+type AgentApplicationSettingsDataManagement struct {
+	// Should transaction events be sent to the internal stream.
+	SendTransactionEventsToInternalStream bool `json:"sendTransactionEventsToInternalStream,omitempty"`
+}
+
+// AgentApplicationSettingsErrorCollector - The error collector captures information about uncaught exceptions and sends them to New Relic for viewing. For more information about what these settings do and which ones are applicable for your application, please see docs.newrelic.com for more information about agent configuration for your language agent.
+type AgentApplicationSettingsErrorCollector struct {
+	// Enable error collector
+	Enabled bool `json:"enabled,omitempty"`
+	// Prevents specified exception classes from affecting error rate or Apdex score while still reporting the errors to APM.
+	ExpectedErrorClasses []string `json:"expectedErrorClasses"`
+	// A list comprised of individual and dashed ranges of HTTP status codes to be marked as expected and thus prevented from affecting error rate or Apdex score.
+	ExpectedErrorCodes []AgentApplicationSettingsErrorCollectorHttpStatus `json:"expectedErrorCodes"`
+	// Specified exception class names will be ignored and will not affect error rate or Apdex score, or be reported to APM.
+	IgnoredErrorClasses []string `json:"ignoredErrorClasses"`
+	// A list comprised of individual and dashed ranges of HTTP status codes that should not be treated as errors.
+	IgnoredErrorCodes []AgentApplicationSettingsErrorCollectorHttpStatus `json:"ignoredErrorCodes"`
+}
+
+// AgentApplicationSettingsSlowSql - In APM, when transaction traces are collected, there may be additional Slow query data available.
+type AgentApplicationSettingsSlowSql struct {
+	// If true, the agent collects slow SQL queries.
+	Enabled bool `json:"enabled,omitempty"`
+}
+
+// AgentApplicationSettingsThreadProfiler - Thread profiler measures wall clock time, CPU time, and method call counts in your application's threads as they run.
+type AgentApplicationSettingsThreadProfiler struct {
+	// Whether or not the Thread Profiler is enabled for your application.
+	Enabled bool `json:"enabled,omitempty"`
+}
+
+// AgentApplicationSettingsTransactionTracer - Transaction Tracer settings related to APM applications. For more information about what these settings do and which ones are applicable for your application, please see docs.newrelic.com for more information about agent configuration for your language agent.
+type AgentApplicationSettingsTransactionTracer struct {
+	// Enable or disable the capture of memcache keys from transaction traces.
+	CaptureMemcacheKeys bool `json:"captureMemcacheKeys,omitempty"`
+	// If true, this enables the Transaction Tracer feature, enabling collection of transaction traces.
+	Enabled bool `json:"enabled,omitempty"`
+	// If true, enables the collection of explain plans in transaction traces. This setting will also apply to explain plans in slow SQL traces if slow_sql.explain_enabled is not set separately.
+	ExplainEnabled bool `json:"explainEnabled,omitempty"`
+	// Relevant only when explain_enabled is true. Can be set to automatic configuration (APDEX_F) or manual (see explainThresholdValue).
+	ExplainThresholdType AgentApplicationSettingsThresholdTypeEnum `json:"explainThresholdType,omitempty"`
+	// Threshold (in seconds) above which the agent will collect explain plans. Relevant only when explainEnabled is true and explainThresholdType is set to VALUE.
+	ExplainThresholdValue nrtime.Seconds `json:"explainThresholdValue,omitempty"`
+	// Set to true to enable logging of queries to the agent log file instead of uploading to New Relic. Queries are logged using the record_sql mode.
+	LogSql bool `json:"logSql,omitempty"`
+	// Obfuscation level for SQL queries reported in transaction trace nodes.
+	RecordSql AgentApplicationSettingsRecordSqlEnum `json:"recordSql,omitempty"`
+	// Specify a threshold in seconds. The agent includes stack traces in transaction trace nodes when the stack trace duration exceeds this threshold.
+	StackTraceThreshold nrtime.Seconds `json:"stackTraceThreshold,omitempty"`
+	// Relevant only when TransactionTracer is enabled. Can be set to automatic configuration (APDEX_F) or manual (see TransactionThresholdValue).
+	TransactionThresholdType AgentApplicationSettingsThresholdTypeEnum `json:"transactionThresholdType,omitempty"`
+	// Threshold (in seconds) that transactions with a duration longer than this threshold are eligible for transaction traces.  Relevant only when Transaction Tracer is enabled and transaction_threshold_type is set to VALUE.
+	TransactionThresholdValue nrtime.Seconds `json:"transactionThresholdValue,omitempty"`
 }
 
 // AgentEnvironmentApplicationInstance - Representation of the New Relic agent collecting data.
@@ -1397,11 +3051,956 @@ type AgentEnvironmentLoadedModuleAttribute struct {
 	Value string `json:"value"`
 }
 
-// AlertableEntity -
+// AgentTracesErrorTrace - An object that represents an error trace sample.
+type AgentTracesErrorTrace struct {
+	// Map of attributes collected by the agent.
+	AgentAttributes AgentTracesTraceAttributes `json:"agentAttributes,omitempty"`
+	// Error count.
+	Count int `json:"count,omitempty"`
+	// Exception class.
+	ExceptionClass string `json:"exceptionClass,omitempty"`
+	// Agent host.
+	Host string `json:"host,omitempty"`
+	// Trace identifier.
+	ID string `json:"id"`
+	// Map Attributes which can not be turned off by the user.These are generally not shown to the customer (NR only).
+	IntrinsicAttributes AgentTracesTraceAttributes `json:"intrinsicAttributes,omitempty"`
+	// Error message.
+	Message string `json:"message,omitempty"`
+	// Path, as definted by agents.
+	Path string `json:"path"`
+	// Error stack trace.
+	StackTrace []AgentTracesStackTraceFrame `json:"stackTrace,omitempty"`
+	// When the error occured.
+	StartTime *nrtime.EpochMilliseconds `json:"startTime"`
+	// URI.
+	Uri string `json:"uri,omitempty"`
+	// Map of attributes collected by the user using the API.
+	UserAttributes AgentTracesTraceAttributes `json:"userAttributes,omitempty"`
+}
+
+// AgentTracesErrorTraceOrderBy - An object that represents error trace ordering.
+type AgentTracesErrorTraceOrderBy struct {
+	// Order by direction.
+	Direction AgentTracesOrderByDirection `json:"direction,omitempty"`
+	// Field to order by.
+	Field AgentTracesErrorTraceOrderByField `json:"field"`
+}
+
+// AgentTracesErrorTraceQuery - An object that reppresents an error trace query.
+type AgentTracesErrorTraceQuery struct {
+	// Exception class pattern. Wildcard (SQL LIKE syntax)
+	ExceptionClassPattern string `json:"exceptionClassPattern,omitempty"`
+	// List of trace Ids.
+	IDs []string `json:"ids,omitempty"`
+	// Maximum number of traces returned.
+	Limit int `json:"limit,omitempty"`
+	// Error message pattern. Wildcard (SQL LIKE syntax)
+	MessagePattern string `json:"messagePattern,omitempty"`
+	// Error trace ordering.
+	OrderBy AgentTracesErrorTraceOrderBy `json:"orderBy,omitempty"`
+	// Error path pattern. Wildcard (SQL LIKE syntax)
+	PathPattern string `json:"pathPattern,omitempty"`
+	// End time.
+	StartTimeMax *nrtime.EpochMilliseconds `json:"startTimeMax,omitempty"`
+	// Start time.
+	StartTimeMin *nrtime.EpochMilliseconds `json:"startTimeMin,omitempty"`
+}
+
+// AgentTracesExplainPlan - An object representing a sql explain plan.
+type AgentTracesExplainPlan struct {
+	// Explain plan headers.
+	Headers []string `json:"headers,omitempty"`
+	// Explain plan rows.
+	Rows []AgentTracesExplainPlanRow `json:"rows,omitempty"`
+}
+
+// AgentTracesSqlTrace - An object that represents a sql trace sample.
+type AgentTracesSqlTrace struct {
+	// Backtrace
+	Backtrace []AgentTracesStackTraceFrame `json:"backtrace,omitempty"`
+	// Number of SQL statements like this.
+	CallCount int `json:"callCount,omitempty"`
+	// Database instance name
+	DatabaseInstanceName string `json:"databaseInstanceName,omitempty"`
+	// Database metric name, as defined by agents.
+	DatabaseMetricName string `json:"databaseMetricName"`
+	// Database name
+	DatabaseName string `json:"databaseName,omitempty"`
+	// Explain plan
+	ExplainPlan AgentTracesExplainPlan `json:"explainPlan,omitempty"`
+	// Trace identifier.
+	ID string `json:"id"`
+	// Call time, maximum of all `call_count` traces.
+	MaxCallTime Milliseconds `json:"maxCallTime,omitempty"`
+	// Call time, minimum of all `call_count` traces.
+	MinCallTime Milliseconds `json:"minCallTime,omitempty"`
+	// ORM input query
+	OrmInputQuery string `json:"ormInputQuery,omitempty"`
+	// ORM name
+	OrmName string `json:"ormName,omitempty"`
+	// Path, as definted by agents.
+	Path string `json:"path"`
+	// Query parameters
+	QueryParameters AgentTracesQueryParameters `json:"queryParameters,omitempty"`
+	// SQL statement.
+	Sql string `json:"sql,omitempty"`
+	// An agent generated `sql_id`.
+	SqlId string `json:"sqlId"`
+	// When the SQL query occured.
+	StartTime *nrtime.EpochMilliseconds `json:"startTime"`
+	// Call time, as added across all `call_count` traces.
+	TotalCallTime Milliseconds `json:"totalCallTime,omitempty"`
+	// URI of SQL, as defined by agents.
+	Uri string `json:"uri"`
+}
+
+// AgentTracesSqlTraceOrderBy - An object that represents SQL trace ordering
+type AgentTracesSqlTraceOrderBy struct {
+	// Order by direction.
+	Direction AgentTracesOrderByDirection `json:"direction,omitempty"`
+	// Field to order by.
+	Field AgentTracesSqlTraceOrderByField `json:"field"`
+}
+
+// AgentTracesSqlTraceQuery - An object that reppresents a SQL trace query.
+type AgentTracesSqlTraceQuery struct {
+	// Database metric name pattern. Wildcard (SQL LIKE syntax)
+	DatabaseMetricNamePattern string `json:"databaseMetricNamePattern,omitempty"`
+	// List of trace Ids.
+	IDs []string `json:"ids,omitempty"`
+	// Maximum number of traces returned.
+	Limit int `json:"limit,omitempty"`
+	// SQL trace ordering.
+	OrderBy AgentTracesSqlTraceOrderBy `json:"orderBy,omitempty"`
+	// Path pattern. Wildcard (SQL LIKE syntax)
+	PathPattern string `json:"pathPattern,omitempty"`
+	// An agent generated `sql_id`.
+	SqlId string `json:"sqlId,omitempty"`
+	// SQL pattern. Wildcard (SQL LIKE syntax)
+	SqlPattern string `json:"sqlPattern,omitempty"`
+	// End time.
+	StartTimeMax *nrtime.EpochMilliseconds `json:"startTimeMax,omitempty"`
+	// Start time.
+	StartTimeMin *nrtime.EpochMilliseconds `json:"startTimeMin,omitempty"`
+	// URI pattern. Wildcard (SQL LIKE syntax)
+	UriPattern string `json:"uriPattern,omitempty"`
+}
+
+// AgentTracesStackTraceFrame - An object representing an stack trace segment
+type AgentTracesStackTraceFrame struct {
+	// Frame filepath
+	Filepath string `json:"filepath,omitempty"`
+	// Formatted frame
+	Formatted string `json:"formatted"`
+	// Frame line number
+	Line int `json:"line,omitempty"`
+	// Frame name
+	Name string `json:"name,omitempty"`
+}
+
+// AgentTracesTransactionTrace - An object that represents a transaction trace sample.
+type AgentTracesTransactionTrace struct {
+	// Map of attributes collected by the agent.
+	AgentAttributes AgentTracesTraceAttributes `json:"agentAttributes,omitempty"`
+	// Duration from when the response is received to when the response is returned in milliseconds.
+	Duration Milliseconds `json:"duration"`
+	// List of trace segment edges.
+	Edges []AgentTracesTransactionTraceEdge `json:"edges,omitempty"`
+	// GUID of the transaction which was used for CAT.
+	GUID string `json:"guid,omitempty"`
+	// Trace identifier
+	ID string `json:"id,omitempty"`
+	// Map Attributes which can not be turned off by the user.These are generally not shown to the customer (NR only).
+	IntrinsicAttributes AgentTracesTraceAttributes `json:"intrinsicAttributes,omitempty"`
+	// List of trace segment nodes.
+	Nodes []AgentTracesTransactionTraceNode `json:"nodes,omitempty"`
+	// The transaction metric name.
+	Path string `json:"path"`
+	// Agent protocol version.
+	ProtocolVersion int `json:"protocolVersion"`
+	// Transaction start time in milliseconds since the unix epoch.
+	StartTime *nrtime.EpochMilliseconds `json:"startTime"`
+	// The transaction url.
+	Uri string `json:"uri"`
+	// Map of attributes collected by the user using the API.
+	UserAttributes AgentTracesTraceAttributes `json:"userAttributes,omitempty"`
+}
+
+// AgentTracesTransactionTraceEdge - An object that represents parent/child relationship between to trace segment nodes
+type AgentTracesTransactionTraceEdge struct {
+	// Child segment GUID.
+	ChildId string `json:"childId,omitempty"`
+	// Parent segment GUID.
+	ParentId string `json:"parentId,omitempty"`
+}
+
+// AgentTracesTransactionTraceNode - An object that represent a Trace Node.
+type AgentTracesTransactionTraceNode struct {
+	// Map of segment attributes.
+	Attributes AgentTracesTraceAttributes `json:"attributes,omitempty"`
+	// Segment duration.
+	Duration Milliseconds `json:"duration,omitempty"`
+	// Segment exlusive duration.
+	ExclusiveDurationMs *nrtime.EpochMilliseconds `json:"exclusiveDurationMs,omitempty"`
+	// Segment ID.
+	ID string `json:"id,omitempty"`
+	// Segment name.
+	Name string `json:"name,omitempty"`
+	// Segment start time in milliseconds since the unix epoch.
+	Timestamp *nrtime.EpochMilliseconds `json:"timestamp,omitempty"`
+}
+
+// AgentTracesTransactionTraceOrderBy - An object that represents transaction trace ordering.
+type AgentTracesTransactionTraceOrderBy struct {
+	// Order by direction.
+	Direction AgentTracesOrderByDirection `json:"direction,omitempty"`
+	// Field to order by.
+	Field AgentTracesTransactionTraceOrderByField `json:"field"`
+}
+
+// AgentTracesTransactionTraceQuery - An object that reppresents a transaction trace query.
+type AgentTracesTransactionTraceQuery struct {
+	// Exact GUIDs.
+	GUIDs []string `json:"guids,omitempty"`
+	// List of trace Ids.
+	IDs []string `json:"ids,omitempty"`
+	// Maximum number of traces returned.
+	Limit int `json:"limit,omitempty"`
+	// Transaction trace ordering.
+	OrderBy AgentTracesTransactionTraceOrderBy `json:"orderBy,omitempty"`
+	// Parameters pattern. Wildcard (SQL LIKE syntax)
+	ParametersPattern string `json:"parametersPattern,omitempty"`
+	// Transaction path pattern. Wildcard (SQL LIKE syntax)
+	PathPattern string `json:"pathPattern,omitempty"`
+	// Exact paths.
+	Paths []string `json:"paths,omitempty"`
+	// List of Real Agent Ids
+	RealAgentIds []string `json:"realAgentIds,omitempty"`
+	// End time.
+	StartTimeMax *nrtime.EpochMilliseconds `json:"startTimeMax,omitempty"`
+	// Start time.
+	StartTimeMin *nrtime.EpochMilliseconds `json:"startTimeMin,omitempty"`
+	// URL pattern. Wildcard (SQL LIKE syntax)
+	URLPattern string `json:"urlPattern,omitempty"`
+}
+
+// AiNotificationsAuth - Authentication interface
+type AiNotificationsAuth struct {
+}
+
+func (x *AiNotificationsAuth) ImplementsAiNotificationsAuth() {}
+
+// AiNotificationsChannel - Channel object
+type AiNotificationsChannel struct {
+	// The accountId of the creator of the channel
+	AccountID int `json:"accountId"`
+	// Is channel active
+	Active bool `json:"active"`
+	// Channel creation time
+	CreatedAt nrtime.DateTime `json:"createdAt"`
+	// Related destination type
+	DestinationId string `json:"destinationId"`
+	// Channel id
+	ID string `json:"id"`
+	// Channel name
+	Name string `json:"name"`
+	// Related product type
+	Product AiNotificationsProduct `json:"product"`
+	// List of destination property types
+	Properties []AiNotificationsProperty `json:"properties"`
+	// Channel Status
+	Status AiNotificationsChannelStatus `json:"status"`
+	// Channel type
+	Type AiNotificationsChannelType `json:"type"`
+	// Channel last update time
+	UpdatedAt nrtime.DateTime `json:"updatedAt"`
+	// Message template creator userId
+	UpdatedBy int `json:"updatedBy"`
+}
+
+// AiNotificationsDestination - Destination Object
+type AiNotificationsDestination struct {
+	// The accountId of the creator of the destination
+	AccountID int `json:"accountId"`
+	// Destination active
+	Active bool `json:"active"`
+	// Authentication for this destination
+	Auth AiNotificationsAuth `json:"auth,omitempty"`
+	// Destination created at
+	CreatedAt nrtime.DateTime `json:"createdAt"`
+	// Destination id
+	ID string `json:"id"`
+	// Indicates whether the user is authenticated with the destination
+	IsUserAuthenticated bool `json:"isUserAuthenticated"`
+	// Last time a notification was sent
+	LastSent nrtime.DateTime `json:"lastSent,omitempty"`
+	// Destination name
+	Name string `json:"name"`
+	// List of destination property types
+	Properties []AiNotificationsProperty `json:"properties"`
+	// Destination status
+	Status AiNotificationsDestinationStatus `json:"status"`
+	// Destination type
+	Type AiNotificationsDestinationType `json:"type"`
+	// Destination updated at
+	UpdatedAt nrtime.DateTime `json:"updatedAt"`
+	// Destination updated by
+	UpdatedBy int `json:"updatedBy"`
+}
+
+// special
+func (x *AiNotificationsDestination) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+
+	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
+		switch k {
+		case "accountId":
+			err = json.Unmarshal(*v, &x.AccountID)
+			if err != nil {
+				return err
+			}
+		case "active":
+			err = json.Unmarshal(*v, &x.Active)
+			if err != nil {
+				return err
+			}
+		case "auth":
+			err = json.Unmarshal(*v, &x.Auth)
+			if err != nil {
+				return err
+			}
+		case "createdAt":
+			err = json.Unmarshal(*v, &x.CreatedAt)
+			if err != nil {
+				return err
+			}
+		case "id":
+			err = json.Unmarshal(*v, &x.ID)
+			if err != nil {
+				return err
+			}
+		case "isUserAuthenticated":
+			err = json.Unmarshal(*v, &x.IsUserAuthenticated)
+			if err != nil {
+				return err
+			}
+		case "lastSent":
+			err = json.Unmarshal(*v, &x.LastSent)
+			if err != nil {
+				return err
+			}
+		case "name":
+			err = json.Unmarshal(*v, &x.Name)
+			if err != nil {
+				return err
+			}
+		case "properties":
+			err = json.Unmarshal(*v, &x.Properties)
+			if err != nil {
+				return err
+			}
+		case "status":
+			err = json.Unmarshal(*v, &x.Status)
+			if err != nil {
+				return err
+			}
+		case "type":
+			err = json.Unmarshal(*v, &x.Type)
+			if err != nil {
+				return err
+			}
+		case "updatedAt":
+			err = json.Unmarshal(*v, &x.UpdatedAt)
+			if err != nil {
+				return err
+			}
+		case "updatedBy":
+			err = json.Unmarshal(*v, &x.UpdatedBy)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
+}
+
+// AiNotificationsProperty - Channel property Object
+type AiNotificationsProperty struct {
+	// Channel property display key
+	DisplayValue string `json:"displayValue,omitempty"`
+	// Channel property key
+	Key string `json:"key"`
+	// Channel property display key
+	Label string `json:"label,omitempty"`
+	// Channel property value
+	Value string `json:"value"`
+}
+
+// AiNotificationsSuggestion - Suggestion object
+type AiNotificationsSuggestion struct {
+	// Suggestion label
+	DisplayValue string `json:"displayValue"`
+	// Should suggestion be the default selection
+	Icon string `json:"icon,omitempty"`
+	// Suggestion key
+	Value string `json:"value"`
+}
+
+// AiNotificationsVariable - Variable object
+type AiNotificationsVariable struct {
+	// Is variable active
+	Active bool `json:"active"`
+	// Variable creation time
+	CreatedAt nrtime.DateTime `json:"createdAt"`
+	// Variable description
+	Description string `json:"description,omitempty"`
+	// Variable example
+	Example string `json:"example"`
+	// Variable id
+	ID string `json:"id"`
+	// Variable key
+	Key string `json:"key"`
+	// Variable label
+	Label string `json:"label,omitempty"`
+	// Variable name
+	Name string `json:"name"`
+	// Related product type
+	Product AiNotificationsProduct `json:"product"`
+	// Variable type
+	Type AiNotificationsVariableType `json:"type"`
+	// Variable update time
+	UpdatedAt nrtime.DateTime `json:"updatedAt"`
+	// Variable creator userId
+	UpdatedBy int `json:"updatedBy"`
+}
+
+// AiOpsIncidentIntelligenceDestination - Destination containing information required to send events to Incident Intelligence.
+type AiOpsIncidentIntelligenceDestination struct {
+	// The id of the Incident Intelligence environment to which events will be sent.
+	EnvironmentId int `json:"environmentId"`
+}
+
+// AiOpsMonitoredSignal - Description of a signal that is being monitored.
+type AiOpsMonitoredSignal struct {
+	// Whether or not the signal is enabled.
+	Enabled bool `json:"enabled"`
+	// The type of signal that is being monitored.
+	SignalType AiOpsSignalType `json:"signalType"`
+}
+
+// AiOpsProactiveDetection - Data related to Proactive Detection
+type AiOpsProactiveDetection struct {
+	// Retrieve all Proactive Detection configurations
+	Configurations AiOpsProactiveDetectionConfigSearchResults `json:"configurations,omitempty"`
+	// Retrieve Proactive Detection-related events for an entity
+	Events AiOpsProactiveDetectionEventsResult `json:"events,omitempty"`
+}
+
+// AiOpsProactiveDetectionConfig - A Proactive Detection configuration. These allow users to subscribe to events detected by the AiOps platform.
+type AiOpsProactiveDetectionConfig struct {
+	// The account to which the Proactive Detection configuration belongs.
+	Account accounts.AccountReference `json:"account,omitempty"`
+	// The entities whose real time failure warnings will be sent to the configured slack channels.
+	Entities []EntityOutlineInterface `json:"entities"`
+	// The number of entities being monitored
+	EntityCount int `json:"entityCount"`
+	// The unique id of the Proactive Detection configuration.
+	ID string `json:"id"`
+	// The list of incident intelligence destinations to notify when a real time failure warning is detected.
+	IncidentIntelligenceDestinations []AiOpsIncidentIntelligenceDestination `json:"incidentIntelligenceDestinations"`
+	// Timestamp of the last time the configuration was updated.
+	LastUpdatedAt *nrtime.EpochMilliseconds `json:"lastUpdatedAt,omitempty"`
+	// The list of signals that the configuration is monitoring.
+	MonitoredSignals []AiOpsMonitoredSignal `json:"monitoredSignals"`
+	// The name of the configuration
+	Name string `json:"name,omitempty"`
+	// The list of slack channels to notify when a real time failure warning is detected.
+	SlackChannels []AiOpsSlackChannel `json:"slackChannels"`
+	// The list of webhooks to notify when a real time failure warning is detected.
+	Webhooks []AiOpsWebhook `json:"webhooks"`
+}
+
+// special
+func (x *AiOpsProactiveDetectionConfig) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+
+	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
+		switch k {
+		case "account":
+			err = json.Unmarshal(*v, &x.Account)
+			if err != nil {
+				return err
+			}
+		case "entities":
+			if v == nil {
+				continue
+			}
+			var rawMessageEntities []*json.RawMessage
+			err = json.Unmarshal(*v, &rawMessageEntities)
+			if err != nil {
+				return err
+			}
+
+			for _, m := range rawMessageEntities {
+				xxx, err := UnmarshalEntityOutlineInterface(*m)
+				if err != nil {
+					return err
+				}
+
+				if xxx != nil {
+					x.Entities = append(x.Entities, *xxx)
+				}
+			}
+		case "entityCount":
+			err = json.Unmarshal(*v, &x.EntityCount)
+			if err != nil {
+				return err
+			}
+		case "id":
+			err = json.Unmarshal(*v, &x.ID)
+			if err != nil {
+				return err
+			}
+		case "incidentIntelligenceDestinations":
+			err = json.Unmarshal(*v, &x.IncidentIntelligenceDestinations)
+			if err != nil {
+				return err
+			}
+		case "lastUpdatedAt":
+			err = json.Unmarshal(*v, &x.LastUpdatedAt)
+			if err != nil {
+				return err
+			}
+		case "monitoredSignals":
+			err = json.Unmarshal(*v, &x.MonitoredSignals)
+			if err != nil {
+				return err
+			}
+		case "name":
+			err = json.Unmarshal(*v, &x.Name)
+			if err != nil {
+				return err
+			}
+		case "slackChannels":
+			err = json.Unmarshal(*v, &x.SlackChannels)
+			if err != nil {
+				return err
+			}
+		case "webhooks":
+			err = json.Unmarshal(*v, &x.Webhooks)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
+}
+
+// AiOpsProactiveDetectionConfigOutline - Simplified version of a Proactive Detection configuration
+type AiOpsProactiveDetectionConfigOutline struct {
+	// The account to which the Proactive Detection configuration belongs.
+	Account accounts.AccountReference `json:"account,omitempty"`
+	// The unique id of the Proactive Detection configuration.
+	ID string `json:"id"`
+	// The name of the configuration
+	Name string `json:"name,omitempty"`
+}
+
+// AiOpsProactiveDetectionConfigSearchResults - The result of any operation that is querying Proactive Detection configurations.
+type AiOpsProactiveDetectionConfigSearchResults struct {
+	// The number of Proactive Detection configurations matching the search result.
+	Count int `json:"count"`
+	// The list of Proactive Detection configurations that were found.
+	Results []AiOpsProactiveDetectionConfig `json:"results"`
+}
+
+// AiOpsProactiveDetectionEntityEventsQuery - Criteria used to filter Proactive Detection events by entity
+type AiOpsProactiveDetectionEntityEventsQuery struct {
+	// User preference context to scope query by
+	Context AiOpsEventsQueryContext `json:"context,omitempty"`
+	// Cursor to paginate results by
+	Cursor string `json:"cursor,omitempty"`
+	// Filter to events that were recorded at or before this timestamp
+	EndTime *nrtime.EpochMilliseconds `json:"endTime"`
+	// Filter to these Proactive Detection event types
+	FilterTypes []AiOpsProactiveDetectionEventType `json:"filterTypes"`
+	// Filter to events that were recorded at or after this timestamp
+	StartTime *nrtime.EpochMilliseconds `json:"startTime"`
+}
+
+// AiOpsProactiveDetectionEvent - A Proactive Detection event
+type AiOpsProactiveDetectionEvent struct {
+	// Account ID of the event
+	AccountID int `json:"accountId"`
+	// Anomaly ID of the event
+	AnomalyId string `json:"anomalyId"`
+	// Human readable category related to the type of signal evaluated
+	Category string `json:"category"`
+	// Flag describing the configuration type associated with the event.
+	ConfigurationType AiOpsProactiveDetectionEventConfigurationType `json:"configurationType"`
+	// Related configurations
+	Configurations []AiOpsProactiveDetectionConfigOutline `json:"configurations"`
+	// Description of the event
+	Description string `json:"description"`
+	// The time the event ended
+	EndedAt *nrtime.EpochMilliseconds `json:"endedAt,omitempty"`
+	// The Entity associated with the event
+	Entity EntityOutlineInterface `json:"entity"`
+	// ID of the event
+	ID string `json:"id"`
+	// Flag describing the monitoring status of the entity associated with the event.
+	MonitoringStatus AiOpsProactiveDetectionEventMonitoringStatus `json:"monitoringStatus"`
+	// Nrql query that can be used to chart the event
+	NRQL nrdb.NRQL `json:"nrql"`
+	// Type of signal that was evaluated
+	SignalId string `json:"signalId"`
+	// DEPRECATED - Use SignalId - Type of signal that was evaluated
+	SignalType AiOpsSignalType `json:"signalType"`
+	// The time the event started
+	StartedAt *nrtime.EpochMilliseconds `json:"startedAt"`
+	// The time the event was recorded
+	Timestamp *nrtime.EpochMilliseconds `json:"timestamp"`
+	// Human readable version of the event type
+	Title string `json:"title"`
+	// Type of event
+	Type AiOpsProactiveDetectionEventType `json:"type"`
+}
+
+// special
+func (x *AiOpsProactiveDetectionEvent) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+
+	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
+		switch k {
+		case "accountId":
+			err = json.Unmarshal(*v, &x.AccountID)
+			if err != nil {
+				return err
+			}
+		case "anomalyId":
+			err = json.Unmarshal(*v, &x.AnomalyId)
+			if err != nil {
+				return err
+			}
+		case "category":
+			err = json.Unmarshal(*v, &x.Category)
+			if err != nil {
+				return err
+			}
+		case "configurationType":
+			err = json.Unmarshal(*v, &x.ConfigurationType)
+			if err != nil {
+				return err
+			}
+		case "configurations":
+			err = json.Unmarshal(*v, &x.Configurations)
+			if err != nil {
+				return err
+			}
+		case "description":
+			err = json.Unmarshal(*v, &x.Description)
+			if err != nil {
+				return err
+			}
+		case "endedAt":
+			err = json.Unmarshal(*v, &x.EndedAt)
+			if err != nil {
+				return err
+			}
+		case "entity":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalEntityOutlineInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.Entity = *xxx
+			}
+		case "id":
+			err = json.Unmarshal(*v, &x.ID)
+			if err != nil {
+				return err
+			}
+		case "monitoringStatus":
+			err = json.Unmarshal(*v, &x.MonitoringStatus)
+			if err != nil {
+				return err
+			}
+		case "nrql":
+			err = json.Unmarshal(*v, &x.NRQL)
+			if err != nil {
+				return err
+			}
+		case "signalId":
+			err = json.Unmarshal(*v, &x.SignalId)
+			if err != nil {
+				return err
+			}
+		case "signalType":
+			err = json.Unmarshal(*v, &x.SignalType)
+			if err != nil {
+				return err
+			}
+		case "startedAt":
+			err = json.Unmarshal(*v, &x.StartedAt)
+			if err != nil {
+				return err
+			}
+		case "timestamp":
+			err = json.Unmarshal(*v, &x.Timestamp)
+			if err != nil {
+				return err
+			}
+		case "title":
+			err = json.Unmarshal(*v, &x.Title)
+			if err != nil {
+				return err
+			}
+		case "type":
+			err = json.Unmarshal(*v, &x.Type)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
+}
+
+// AiOpsProactiveDetectionEventsResult - Result of a query to retrieve Proactive Detection events
+type AiOpsProactiveDetectionEventsResult struct {
+	// Cursor to fetch additional events; null if no additional results
+	NextCursor string `json:"nextCursor,omitempty"`
+	// List of Proactive Detection events filtered by criteria
+	Results []AiOpsProactiveDetectionEvent `json:"results"`
+}
+
+// AiOpsSlackChannel - The information needed to identify a slack channel.
+type AiOpsSlackChannel struct {
+	// The id of the channel
+	ChannelId string `json:"channelId"`
+	// The name of the channel.
+	ChannelName string `json:"channelName"`
+	// The id of the team to which the channel belongs.
+	TeamId string `json:"teamId"`
+	// The name of the team to which the channel belongs.
+	TeamName string `json:"teamName"`
+	// time zone set by the user creating the Slack destination configuration, stored as IANA database name string
+	TimeZone string `json:"timeZone,omitempty"`
+	// The default visibility of the slack channel in the UI -- PUBLIC or PRIVATE
+	// If private, the user does not have permission to see the information about the slack channel.
+	// If public, the user has permission to see the information about the slack channel.
+	Visibility string `json:"visibility"`
+}
+
+// AiOpsWebhook - The information needed to communicate with a webhook.
+type AiOpsWebhook struct {
+	// The custom headers that will be included when the message is delivered
+	CustomHeaders []AiOpsWebhookCustomHeader `json:"customHeaders"`
+	// The information describing the payload that will be provided when the webhook is called
+	PayloadMetadata AiOpsWebhookPayloadMetadata `json:"payloadMetadata,omitempty"`
+	// The url to which messages will be delivered
+	URL string `json:"url"`
+}
+
+// AiOpsWebhookCustomHeader - A custom header that will be provided when calling the webhook.
+type AiOpsWebhookCustomHeader struct {
+	// The name of the custom header that will be included in the webhook message
+	Name string `json:"name"`
+	// The value of the custom header that will be included in the webhook message
+	Value string `json:"value"`
+	// The default visibility of the value in the UI text input-- PUBLIC or PRIVATE
+	// Setting this PRIVATE will obfuscate the field in the UI on page load
+	Visibility string `json:"visibility"`
+}
+
+// AiOpsWebhookPayloadMetadata - The information describing the payload that will be provided when the webhook is called
+type AiOpsWebhookPayloadMetadata struct {
+	// The template that will be used when the webhook is called
+	Template string `json:"template"`
+	// The type of template that will be used when the webhook is called
+	TemplateType AiOpsWebhookPayloadTemplateType `json:"templateType,omitempty"`
+	// The version of the payload
+	Version string `json:"version"`
+}
+
+// AiWorkflowsConfigurationDto - Enrichment configuration object
+type AiWorkflowsConfigurationDto struct {
+}
+
+func (x *AiWorkflowsConfigurationDto) ImplementsAiWorkflowsConfigurationDto() {}
+
+// AiWorkflowsDestinationConfiguration - Destination Configuration Object
+type AiWorkflowsDestinationConfiguration struct {
+	// Channel Id of the Destination Configuration
+	ChannelId string `json:"channelId"`
+	// Name of the Destination Configuration
+	Name string `json:"name"`
+	// Type of the Destination Configuration
+	Type AiWorkflowsDestinationType `json:"type"`
+}
+
+// AiWorkflowsEnrichment - Enrichment Object
+type AiWorkflowsEnrichment struct {
+	// Account Id of the Enrichment
+	AccountID int `json:"accountId"`
+	// List of configurations for the enrichment
+	Configuration []AiWorkflowsConfigurationDto `json:"configuration"`
+	// The time the Enrichment was created
+	CreatedAt nrtime.DateTime `json:"createdAt"`
+	// Enrichment Id
+	ID string `json:"id"`
+	// Name of the Enrichment
+	Name string `json:"name"`
+	// Type of the Enrichment
+	Type AiWorkflowsEnrichmentType `json:"type"`
+	// The time the Enrichment was last updated
+	UpdatedAt nrtime.DateTime `json:"updatedAt"`
+}
+
+// special
+func (x *AiWorkflowsEnrichment) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+
+	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
+		switch k {
+		case "accountId":
+			err = json.Unmarshal(*v, &x.AccountID)
+			if err != nil {
+				return err
+			}
+		case "configuration":
+			err = json.Unmarshal(*v, &x.Configuration)
+			if err != nil {
+				return err
+			}
+		case "createdAt":
+			err = json.Unmarshal(*v, &x.CreatedAt)
+			if err != nil {
+				return err
+			}
+		case "id":
+			err = json.Unmarshal(*v, &x.ID)
+			if err != nil {
+				return err
+			}
+		case "name":
+			err = json.Unmarshal(*v, &x.Name)
+			if err != nil {
+				return err
+			}
+		case "type":
+			err = json.Unmarshal(*v, &x.Type)
+			if err != nil {
+				return err
+			}
+		case "updatedAt":
+			err = json.Unmarshal(*v, &x.UpdatedAt)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
+}
+
+// AiWorkflowsFilter - Filter Object
+type AiWorkflowsFilter struct {
+	// Account ID of this Filter
+	AccountID int `json:"accountId"`
+	// Filter ID
+	ID string `json:"id"`
+	// Name of the Filter
+	Name string `json:"name"`
+	// Rules of the Filter
+	Predicates []AiWorkflowsPredicate `json:"predicates"`
+	// The type of the Filter
+	Type AiWorkflowsFilterType `json:"type"`
+}
+
+// AiWorkflowsPredicate - Predicate Object
+type AiWorkflowsPredicate struct {
+	// Index of the predicate
+	Attribute string `json:"attribute"`
+	// Type of comparison
+	Operator AiWorkflowsOperator `json:"operator"`
+	// Values to compare
+	Values []string `json:"values"`
+}
+
+// AiWorkflowsWorkflow - Workflow object
+type AiWorkflowsWorkflow struct {
+	// Account Id of this Workflow
+	AccountID int `json:"accountId"`
+	// The time the Workflow was created
+	CreatedAt nrtime.DateTime `json:"createdAt"`
+	// List of destination configurations that are attached to the workflow
+	DestinationConfigurations []AiWorkflowsDestinationConfiguration `json:"destinationConfigurations"`
+	// Are Destinations enabled
+	DestinationsEnabled bool `json:"destinationsEnabled"`
+	// List of enrichments that are attached to the workflow
+	Enrichments []AiWorkflowsEnrichment `json:"enrichments"`
+	// Is Enrichments enabled
+	EnrichmentsEnabled bool `json:"enrichmentsEnabled"`
+	// Filter attached to the Workflow
+	Filter AiWorkflowsFilter `json:"filter"`
+	// Workflow Id
+	ID string `json:"id"`
+	// Last time a notification was sent regarding this workflow
+	LastRun nrtime.DateTime `json:"lastRun,omitempty"`
+	// Name of the Workflow
+	Name string `json:"name"`
+	// The time the Workflow was last updated
+	UpdatedAt nrtime.DateTime `json:"updatedAt"`
+	// Is Workflow enabled
+	WorkflowEnabled bool `json:"workflowEnabled"`
+}
+
 type AlertableEntity struct {
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the entity that were open during the specified time window.
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
@@ -1410,6 +4009,11 @@ type AlertableEntity struct {
 // GetAlertSeverity returns a pointer to the value of AlertSeverity from AlertableEntity
 func (x AlertableEntity) GetAlertSeverity() EntityAlertSeverity {
 	return x.AlertSeverity
+}
+
+// GetAlertStatus returns a pointer to the value of AlertStatus from AlertableEntity
+func (x AlertableEntity) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
 }
 
 // GetAlertViolations returns a pointer to the value of AlertViolations from AlertableEntity
@@ -1424,10 +4028,11 @@ func (x AlertableEntity) GetRecentAlertViolations() []EntityAlertViolation {
 
 func (x *AlertableEntity) ImplementsAlertableEntity() {}
 
-// AlertableEntityOutline -
 type AlertableEntityOutline struct {
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
 }
 
 // GetAlertSeverity returns a pointer to the value of AlertSeverity from AlertableEntityOutline
@@ -1435,54 +4040,68 @@ func (x AlertableEntityOutline) GetAlertSeverity() EntityAlertSeverity {
 	return x.AlertSeverity
 }
 
-func (x *AlertableEntityOutline) ImplementsAlertableEntityOutline() {}
-
-// ApmApplicationDeployment - An APM application deployment marker
-type ApmApplicationDeployment struct {
-	// The changelog of the deployment
-	Changelog string `json:"changelog,omitempty"`
-	// Description of the deployment
-	Description string `json:"description,omitempty"`
-	// A link to view the deployment in the UI
-	Permalink string `json:"permalink,omitempty"`
-	// The revision of the app that was deployed
-	Revision string `json:"revision,omitempty"`
-	// The moment the deployment occurred
-	Timestamp *nrtime.EpochMilliseconds `json:"timestamp,omitempty"`
-	// The user who triggered the deployment
-	User string `json:"user,omitempty"`
+// GetAlertStatus returns a pointer to the value of AlertStatus from AlertableEntityOutline
+func (x AlertableEntityOutline) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
 }
 
-// ApmApplicationEntity - An APM Application entity.
-type ApmApplicationEntity struct {
-	//
+func (x *AlertableEntityOutline) ImplementsAlertableEntityOutline() {}
+
+// ApmAgentInstrumentedServiceEntity - A service entity that is instrumented by an APM Agent.
+type ApmAgentInstrumentedServiceEntity struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the entity that were open during the specified time window.
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// Summary statistics about the Browser App injected by an APM Application.
 	ApmBrowserSummary ApmBrowserApplicationSummaryData `json:"apmBrowserSummary,omitempty"`
+	// Settings that are common across APM applications.
+	ApmSettings AgentApplicationSettingsApmBase `json:"apmSettings,omitempty"`
 	// Summary statistics about the APM App.
 	ApmSummary ApmApplicationSummaryData `json:"apmSummary,omitempty"`
 	// The ID of the APM Application.
 	ApplicationID int `json:"applicationId,omitempty"`
 	// List of APM application instances.
 	ApplicationInstances []AgentEnvironmentApplicationInstance `json:"applicationInstances"`
+	// Query upstream and downstream dependencies for an entity
+	Connections RelatedExternalsEntityResult `json:"connections,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
 	// Deployments of the APM Application.
 	Deployments []ApmApplicationDeployment `json:"deployments,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
+	// Retrieve metadata on a specific error group.
+	ErrorGroup ErrorTrackingErrorGroup `json:"errorGroup,omitempty"`
+	// Fetch the number of error groups counted within a given time range (default 3 hours).
+	ErrorGroupCount ErrorTrackingErrorGroupCount `json:"errorGroupCount,omitempty"`
+	// Fetch a list of error groups.
+	ErrorGroupListing []ErrorTrackingErrorGroup `json:"errorGroupListing"`
+	// Retrieves an error trace given its ID.
+	ErrorTrace AgentTracesErrorTrace `json:"errorTrace,omitempty"`
+	// Retrieve a list of error traces that match the given search query.
+	ErrorTraces []AgentTracesErrorTrace `json:"errorTraces,omitempty"`
+	// An Exception that occurred in your Application.
+	Exception StackTraceApmException `json:"exception,omitempty"`
+	// Retrieves a flamegraph for the specific entity over the time period specified.
+	Flamegraph JavaFlightRecorderFlamegraph `json:"flamegraph,omitempty"`
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The programming language of the APM Application.
@@ -1498,15 +4117,26 @@ type ApmApplicationEntity struct {
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
-	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
+	Name                string                      `json:"name,omitempty"`
+	NerdStorage         NerdStorageEntityScope      `json:"nerdStorage,omitempty"`
+	NerdStoreCollection []NerdStoreCollectionMember `json:"nerdStoreCollection,omitempty"`
+	NerdStoreDocument   NerdStoreDocument           `json:"nerdStoreDocument,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
+	// Proactive Detection events
+	ProactiveDetection AiOpsProactiveDetection `json:"proactiveDetection,omitempty"`
+	// Recent agent activity for an APM Application.
+	RecentAgentActivity []ApmApplicationRecentAgentActivity `json:"recentAgentActivity,omitempty"`
 	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// Related entities result with optional filtering.
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
+	// Query upstream and downstream transaction dependencies for an entity
+	RelatedTransactions RelatedExternalsTransactionResult `json:"relatedTransactions,omitempty"`
 	// A list of the entities' relationships.
 	//
 	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
@@ -1519,14 +4149,693 @@ type ApmApplicationEntity struct {
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
 	// Configuration settings for the APM Application
 	Settings ApmApplicationSettings `json:"settings,omitempty"`
+	// Retrieves a SQL trace given its ID.
+	SqlTrace AgentTracesSqlTrace `json:"sqlTrace,omitempty"`
+	// Retrieve a list of SQL traces that match the given search query.
+	SqlTraces []AgentTracesSqlTrace `json:"sqlTraces,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
 	// The tags applied to the entity.
 	//
 	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The tags applied to the entity with their metadata.
 	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
+	// Retrieves a transaction trace given its ID.
+	TransactionTrace AgentTracesTransactionTrace `json:"transactionTrace,omitempty"`
+	// Retrieve a list of transaction traces that match the given search query.
+	TransactionTraces []AgentTracesTransactionTrace `json:"transactionTraces,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
+}
+
+// GetAccount returns a pointer to the value of Account from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
+}
+
+// GetAlertStatus returns a pointer to the value of AlertStatus from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
+// GetAlertViolations returns a pointer to the value of AlertViolations from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetAlertViolations() []EntityAlertViolation {
+	return x.AlertViolations
+}
+
+// GetApmBrowserSummary returns a pointer to the value of ApmBrowserSummary from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetApmBrowserSummary() ApmBrowserApplicationSummaryData {
+	return x.ApmBrowserSummary
+}
+
+// GetApmSettings returns a pointer to the value of ApmSettings from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetApmSettings() AgentApplicationSettingsApmBase {
+	return x.ApmSettings
+}
+
+// GetApmSummary returns a pointer to the value of ApmSummary from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetApmSummary() ApmApplicationSummaryData {
+	return x.ApmSummary
+}
+
+// GetApplicationID returns a pointer to the value of ApplicationID from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetApplicationID() int {
+	return x.ApplicationID
+}
+
+// GetApplicationInstances returns a pointer to the value of ApplicationInstances from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetApplicationInstances() []AgentEnvironmentApplicationInstance {
+	return x.ApplicationInstances
+}
+
+// GetConnections returns a pointer to the value of Connections from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetConnections() RelatedExternalsEntityResult {
+	return x.Connections
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
+}
+
+// GetDeployments returns a pointer to the value of Deployments from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetDeployments() []ApmApplicationDeployment {
+	return x.Deployments
+}
+
+// GetDomain returns a pointer to the value of Domain from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetErrorGroup returns a pointer to the value of ErrorGroup from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetErrorGroup() ErrorTrackingErrorGroup {
+	return x.ErrorGroup
+}
+
+// GetErrorGroupCount returns a pointer to the value of ErrorGroupCount from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetErrorGroupCount() ErrorTrackingErrorGroupCount {
+	return x.ErrorGroupCount
+}
+
+// GetErrorGroupListing returns a pointer to the value of ErrorGroupListing from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetErrorGroupListing() []ErrorTrackingErrorGroup {
+	return x.ErrorGroupListing
+}
+
+// GetErrorTrace returns a pointer to the value of ErrorTrace from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetErrorTrace() AgentTracesErrorTrace {
+	return x.ErrorTrace
+}
+
+// GetErrorTraces returns a pointer to the value of ErrorTraces from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetErrorTraces() []AgentTracesErrorTrace {
+	return x.ErrorTraces
+}
+
+// GetException returns a pointer to the value of Exception from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetException() StackTraceApmException {
+	return x.Exception
+}
+
+// GetFlamegraph returns a pointer to the value of Flamegraph from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetFlamegraph() JavaFlightRecorderFlamegraph {
+	return x.Flamegraph
+}
+
+// GetGUID returns a pointer to the value of GUID from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetGUID() common.EntityGUID {
+	return x.GUID
+}
+
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetLanguage returns a pointer to the value of Language from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetLanguage() string {
+	return x.Language
+}
+
+// GetMetricNormalizationRule returns a pointer to the value of MetricNormalizationRule from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetMetricNormalizationRule() MetricNormalizationRule {
+	return x.MetricNormalizationRule
+}
+
+// GetMetricNormalizationRules returns a pointer to the value of MetricNormalizationRules from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetMetricNormalizationRules() []MetricNormalizationRule {
+	return x.MetricNormalizationRules
+}
+
+// GetNRDBQuery returns a pointer to the value of NRDBQuery from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetNRDBQuery() nrdb.NRDBResultContainer {
+	return x.NRDBQuery
+}
+
+// GetName returns a pointer to the value of Name from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetName() string {
+	return x.Name
+}
+
+// GetNerdStorage returns a pointer to the value of NerdStorage from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetNerdStorage() NerdStorageEntityScope {
+	return x.NerdStorage
+}
+
+// GetNerdStoreCollection returns a pointer to the value of NerdStoreCollection from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetNerdStoreCollection() []NerdStoreCollectionMember {
+	return x.NerdStoreCollection
+}
+
+// GetNerdStoreDocument returns a pointer to the value of NerdStoreDocument from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetNerdStoreDocument() NerdStoreDocument {
+	return x.NerdStoreDocument
+}
+
+// GetPermalink returns a pointer to the value of Permalink from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetProactiveDetection returns a pointer to the value of ProactiveDetection from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetProactiveDetection() AiOpsProactiveDetection {
+	return x.ProactiveDetection
+}
+
+// GetRecentAgentActivity returns a pointer to the value of RecentAgentActivity from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetRecentAgentActivity() []ApmApplicationRecentAgentActivity {
+	return x.RecentAgentActivity
+}
+
+// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetRecentAlertViolations() []EntityAlertViolation {
+	return x.RecentAlertViolations
+}
+
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
+}
+
+// GetRelatedEntities returns a pointer to the value of RelatedEntities from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
+	return x.RelatedEntities
+}
+
+// GetRelatedTransactions returns a pointer to the value of RelatedTransactions from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetRelatedTransactions() RelatedExternalsTransactionResult {
+	return x.RelatedTransactions
+}
+
+// GetRelationships returns a pointer to the value of Relationships from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetRelationships() []EntityRelationship {
+	return x.Relationships
+}
+
+// GetReporting returns a pointer to the value of Reporting from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetRunningAgentVersions returns a pointer to the value of RunningAgentVersions from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetRunningAgentVersions() ApmApplicationRunningAgentVersions {
+	return x.RunningAgentVersions
+}
+
+// GetServiceLevel returns a pointer to the value of ServiceLevel from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetServiceLevel() ServiceLevelDefinition {
+	return x.ServiceLevel
+}
+
+// GetSettings returns a pointer to the value of Settings from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetSettings() ApmApplicationSettings {
+	return x.Settings
+}
+
+// GetSqlTrace returns a pointer to the value of SqlTrace from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetSqlTrace() AgentTracesSqlTrace {
+	return x.SqlTrace
+}
+
+// GetSqlTraces returns a pointer to the value of SqlTraces from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetSqlTraces() []AgentTracesSqlTrace {
+	return x.SqlTraces
+}
+
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
+}
+
+// GetTags returns a pointer to the value of Tags from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
+	return x.TagsWithMetadata
+}
+
+// GetTracingSummary returns a pointer to the value of TracingSummary from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
+// GetTransactionTrace returns a pointer to the value of TransactionTrace from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetTransactionTrace() AgentTracesTransactionTrace {
+	return x.TransactionTrace
+}
+
+// GetTransactionTraces returns a pointer to the value of TransactionTraces from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetTransactionTraces() []AgentTracesTransactionTrace {
+	return x.TransactionTraces
+}
+
+// GetType returns a pointer to the value of Type from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetType() string {
+	return x.Type
+}
+
+// GetUiTemplates returns a pointer to the value of UiTemplates from ApmAgentInstrumentedServiceEntity
+func (x ApmAgentInstrumentedServiceEntity) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
+}
+
+func (x *ApmAgentInstrumentedServiceEntity) ImplementsAlertableEntity() {}
+
+func (x *ApmAgentInstrumentedServiceEntity) ImplementsApmApplicationEntity() {}
+
+func (x *ApmAgentInstrumentedServiceEntity) ImplementsApmBrowserApplicationEntity() {}
+
+func (x *ApmAgentInstrumentedServiceEntity) ImplementsEntity() {}
+
+func (x *ApmAgentInstrumentedServiceEntity) ImplementsServiceEntity() {}
+
+// ApmAgentInstrumentedServiceEntityOutline - A service entity outline that is instrumented by an APM Agent.
+type ApmAgentInstrumentedServiceEntityOutline struct {
+	Account accounts.AccountOutline `json:"account,omitempty"`
+	// The New Relic account ID associated with this entity.
+	AccountID int `json:"accountId,omitempty"`
+	// The current alerting severity of the entity.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// Summary statistics about the Browser App injected by an APM Application.
+	ApmBrowserSummary ApmBrowserApplicationSummaryData `json:"apmBrowserSummary,omitempty"`
+	// Summary statistics about the APM App.
+	ApmSummary ApmApplicationSummaryData `json:"apmSummary,omitempty"`
+	// The ID of the APM Application.
+	ApplicationID int `json:"applicationId,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
+	// The entity's domain
+	Domain string `json:"domain,omitempty"`
+	// A value representing the combination of the entity's domain and type.
+	EntityType EntityType `json:"entityType,omitempty"`
+	// A unique entity identifier.
+	GUID common.EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
+	// The time the entity was indexed.
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	// The programming language of the APM Application.
+	Language string `json:"language,omitempty"`
+	// The name of this entity.
+	Name string `json:"name,omitempty"`
+	// The url to the entity.
+	Permalink string `json:"permalink,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
+	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
+	Reporting bool `json:"reporting,omitempty"`
+	// The running versions of the language agent in the APM Application.
+	RunningAgentVersions ApmApplicationRunningAgentVersions `json:"runningAgentVersions,omitempty"`
+	// The service level defined for the entity.
+	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// Configuration settings for the APM Application
+	Settings ApmApplicationSettings `json:"settings,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
+	// The tags applied to the entity.
+	//
+	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
+	Tags []EntityTag `json:"tags,omitempty"`
+	// The entity's type
+	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
+}
+
+// GetAccount returns a pointer to the value of Account from ApmAgentInstrumentedServiceEntityOutline
+func (x ApmAgentInstrumentedServiceEntityOutline) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from ApmAgentInstrumentedServiceEntityOutline
+func (x ApmAgentInstrumentedServiceEntityOutline) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from ApmAgentInstrumentedServiceEntityOutline
+func (x ApmAgentInstrumentedServiceEntityOutline) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
+}
+
+// GetAlertStatus returns a pointer to the value of AlertStatus from ApmAgentInstrumentedServiceEntityOutline
+func (x ApmAgentInstrumentedServiceEntityOutline) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
+// GetApmBrowserSummary returns a pointer to the value of ApmBrowserSummary from ApmAgentInstrumentedServiceEntityOutline
+func (x ApmAgentInstrumentedServiceEntityOutline) GetApmBrowserSummary() ApmBrowserApplicationSummaryData {
+	return x.ApmBrowserSummary
+}
+
+// GetApmSummary returns a pointer to the value of ApmSummary from ApmAgentInstrumentedServiceEntityOutline
+func (x ApmAgentInstrumentedServiceEntityOutline) GetApmSummary() ApmApplicationSummaryData {
+	return x.ApmSummary
+}
+
+// GetApplicationID returns a pointer to the value of ApplicationID from ApmAgentInstrumentedServiceEntityOutline
+func (x ApmAgentInstrumentedServiceEntityOutline) GetApplicationID() int {
+	return x.ApplicationID
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from ApmAgentInstrumentedServiceEntityOutline
+func (x ApmAgentInstrumentedServiceEntityOutline) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
+}
+
+// GetDomain returns a pointer to the value of Domain from ApmAgentInstrumentedServiceEntityOutline
+func (x ApmAgentInstrumentedServiceEntityOutline) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from ApmAgentInstrumentedServiceEntityOutline
+func (x ApmAgentInstrumentedServiceEntityOutline) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetGUID returns a pointer to the value of GUID from ApmAgentInstrumentedServiceEntityOutline
+func (x ApmAgentInstrumentedServiceEntityOutline) GetGUID() common.EntityGUID {
+	return x.GUID
+}
+
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from ApmAgentInstrumentedServiceEntityOutline
+func (x ApmAgentInstrumentedServiceEntityOutline) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from ApmAgentInstrumentedServiceEntityOutline
+func (x ApmAgentInstrumentedServiceEntityOutline) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from ApmAgentInstrumentedServiceEntityOutline
+func (x ApmAgentInstrumentedServiceEntityOutline) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from ApmAgentInstrumentedServiceEntityOutline
+func (x ApmAgentInstrumentedServiceEntityOutline) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from ApmAgentInstrumentedServiceEntityOutline
+func (x ApmAgentInstrumentedServiceEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetLanguage returns a pointer to the value of Language from ApmAgentInstrumentedServiceEntityOutline
+func (x ApmAgentInstrumentedServiceEntityOutline) GetLanguage() string {
+	return x.Language
+}
+
+// GetName returns a pointer to the value of Name from ApmAgentInstrumentedServiceEntityOutline
+func (x ApmAgentInstrumentedServiceEntityOutline) GetName() string {
+	return x.Name
+}
+
+// GetPermalink returns a pointer to the value of Permalink from ApmAgentInstrumentedServiceEntityOutline
+func (x ApmAgentInstrumentedServiceEntityOutline) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from ApmAgentInstrumentedServiceEntityOutline
+func (x ApmAgentInstrumentedServiceEntityOutline) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from ApmAgentInstrumentedServiceEntityOutline
+func (x ApmAgentInstrumentedServiceEntityOutline) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
+}
+
+// GetReporting returns a pointer to the value of Reporting from ApmAgentInstrumentedServiceEntityOutline
+func (x ApmAgentInstrumentedServiceEntityOutline) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetRunningAgentVersions returns a pointer to the value of RunningAgentVersions from ApmAgentInstrumentedServiceEntityOutline
+func (x ApmAgentInstrumentedServiceEntityOutline) GetRunningAgentVersions() ApmApplicationRunningAgentVersions {
+	return x.RunningAgentVersions
+}
+
+// GetServiceLevel returns a pointer to the value of ServiceLevel from ApmAgentInstrumentedServiceEntityOutline
+func (x ApmAgentInstrumentedServiceEntityOutline) GetServiceLevel() ServiceLevelDefinition {
+	return x.ServiceLevel
+}
+
+// GetSettings returns a pointer to the value of Settings from ApmAgentInstrumentedServiceEntityOutline
+func (x ApmAgentInstrumentedServiceEntityOutline) GetSettings() ApmApplicationSettings {
+	return x.Settings
+}
+
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from ApmAgentInstrumentedServiceEntityOutline
+func (x ApmAgentInstrumentedServiceEntityOutline) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
+}
+
+// GetTags returns a pointer to the value of Tags from ApmAgentInstrumentedServiceEntityOutline
+func (x ApmAgentInstrumentedServiceEntityOutline) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetType returns a pointer to the value of Type from ApmAgentInstrumentedServiceEntityOutline
+func (x ApmAgentInstrumentedServiceEntityOutline) GetType() string {
+	return x.Type
+}
+
+// GetUiTemplates returns a pointer to the value of UiTemplates from ApmAgentInstrumentedServiceEntityOutline
+func (x ApmAgentInstrumentedServiceEntityOutline) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
+}
+
+func (x *ApmAgentInstrumentedServiceEntityOutline) ImplementsAlertableEntityOutline() {}
+
+func (x *ApmAgentInstrumentedServiceEntityOutline) ImplementsApmApplicationEntityOutline() {}
+
+func (x *ApmAgentInstrumentedServiceEntityOutline) ImplementsApmBrowserApplicationEntityOutline() {}
+
+func (x *ApmAgentInstrumentedServiceEntityOutline) ImplementsEntityOutline() {}
+
+func (x *ApmAgentInstrumentedServiceEntityOutline) ImplementsServiceEntityOutline() {}
+
+// ApmApplicationDeployment - An APM application deployment marker
+type ApmApplicationDeployment struct {
+	// The changelog of the deployment
+	Changelog string `json:"changelog,omitempty"`
+	// Description of the deployment
+	Description string `json:"description,omitempty"`
+	// A link to view the deployment in the UI
+	Permalink string `json:"permalink,omitempty"`
+	// The revision of the app that was deployed
+	Revision string `json:"revision,omitempty"`
+	// The moment the deployment occured
+	Timestamp *nrtime.EpochMilliseconds `json:"timestamp,omitempty"`
+	// The user who triggered the deployment
+	User string `json:"user,omitempty"`
+}
+
+// ApmApplicationEntity - An APM Application entity.
+type ApmApplicationEntity struct {
+	Account accounts.AccountOutline `json:"account,omitempty"`
+	// The New Relic account ID associated with this entity.
+	AccountID int `json:"accountId,omitempty"`
+	// The current alerting severity of the entity.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
+	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
+	// Summary statistics about the Browser App injected by an APM Application.
+	ApmBrowserSummary ApmBrowserApplicationSummaryData `json:"apmBrowserSummary,omitempty"`
+	// Settings that are common across APM applications.
+	ApmSettings AgentApplicationSettingsApmBase `json:"apmSettings,omitempty"`
+	// Summary statistics about the APM App.
+	ApmSummary ApmApplicationSummaryData `json:"apmSummary,omitempty"`
+	// The ID of the APM Application.
+	ApplicationID int `json:"applicationId,omitempty"`
+	// List of APM application instances.
+	ApplicationInstances []AgentEnvironmentApplicationInstance `json:"applicationInstances"`
+	// Query upstream and downstream dependencies for an entity
+	Connections RelatedExternalsEntityResult `json:"connections,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
+	// Deployments of the APM Application.
+	Deployments []ApmApplicationDeployment `json:"deployments,omitempty"`
+	// The entity's domain
+	Domain string `json:"domain,omitempty"`
+	// A value representing the combination of the entity's domain and type.
+	EntityType EntityType `json:"entityType,omitempty"`
+	// Retrieve metadata on a specific error group.
+	ErrorGroup ErrorTrackingErrorGroup `json:"errorGroup,omitempty"`
+	// Fetch the number of error groups counted within a given time range (default 3 hours).
+	ErrorGroupCount ErrorTrackingErrorGroupCount `json:"errorGroupCount,omitempty"`
+	// Fetch a list of error groups.
+	ErrorGroupListing []ErrorTrackingErrorGroup `json:"errorGroupListing"`
+	// Retrieves an error trace given its ID.
+	ErrorTrace AgentTracesErrorTrace `json:"errorTrace,omitempty"`
+	// Retrieve a list of error traces that match the given search query.
+	ErrorTraces []AgentTracesErrorTrace `json:"errorTraces,omitempty"`
+	// An Exception that occurred in your Application.
+	Exception StackTraceApmException `json:"exception,omitempty"`
+	// Retrieves a flamegraph for the specific entity over the time period specified.
+	Flamegraph JavaFlightRecorderFlamegraph `json:"flamegraph,omitempty"`
+	// A unique entity identifier.
+	GUID common.EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
+	// The time the entity was indexed.
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	// The programming language of the APM Application.
+	Language string `json:"language,omitempty"`
+	// Retrieves a rule.
+	MetricNormalizationRule MetricNormalizationRule `json:"metricNormalizationRule,omitempty"`
+	// Retrieves the rules for the application.
+	MetricNormalizationRules []MetricNormalizationRule `json:"metricNormalizationRules"`
+	// Make an `Entity` scoped query to NRDB with a NRQL string.
+	//
+	// A relevant `WHERE` clause will be added to your query to scope data to the entity in question.
+	//
+	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
+	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
+	// The name of this entity.
+	Name                string                      `json:"name,omitempty"`
+	NerdStorage         NerdStorageEntityScope      `json:"nerdStorage,omitempty"`
+	NerdStoreCollection []NerdStoreCollectionMember `json:"nerdStoreCollection,omitempty"`
+	NerdStoreDocument   NerdStoreDocument           `json:"nerdStoreDocument,omitempty"`
+	// The url to the entity.
+	Permalink string `json:"permalink,omitempty"`
+	// Proactive Detection events
+	ProactiveDetection AiOpsProactiveDetection `json:"proactiveDetection,omitempty"`
+	// Recent agent activity for an APM Application.
+	RecentAgentActivity []ApmApplicationRecentAgentActivity `json:"recentAgentActivity,omitempty"`
+	// Recent violations on the entity.
+	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
+	// Related entities result with optional filtering.
+	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
+	// Query upstream and downstream transaction dependencies for an entity
+	RelatedTransactions RelatedExternalsTransactionResult `json:"relatedTransactions,omitempty"`
+	// A list of the entities' relationships.
+	//
+	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
+	Relationships []EntityRelationship `json:"relationships,omitempty"`
+	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
+	Reporting bool `json:"reporting,omitempty"`
+	// The running versions of the language agent in the APM Application.
+	RunningAgentVersions ApmApplicationRunningAgentVersions `json:"runningAgentVersions,omitempty"`
+	// The service level defined for the entity.
+	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// Configuration settings for the APM Application
+	Settings ApmApplicationSettings `json:"settings,omitempty"`
+	// Retrieves a SQL trace given its ID.
+	SqlTrace AgentTracesSqlTrace `json:"sqlTrace,omitempty"`
+	// Retrieve a list of SQL traces that match the given search query.
+	SqlTraces []AgentTracesSqlTrace `json:"sqlTraces,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
+	// The tags applied to the entity.
+	//
+	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
+	Tags []EntityTag `json:"tags,omitempty"`
+	// The tags applied to the entity with their metadata.
+	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
+	// Retrieves a transaction trace given its ID.
+	TransactionTrace AgentTracesTransactionTrace `json:"transactionTrace,omitempty"`
+	// Retrieve a list of transaction traces that match the given search query.
+	TransactionTraces []AgentTracesTransactionTrace `json:"transactionTraces,omitempty"`
+	// The entity's type
+	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 }
 
 // GetAccount returns a pointer to the value of Account from ApmApplicationEntity
@@ -1544,6 +4853,11 @@ func (x ApmApplicationEntity) GetAlertSeverity() EntityAlertSeverity {
 	return x.AlertSeverity
 }
 
+// GetAlertStatus returns a pointer to the value of AlertStatus from ApmApplicationEntity
+func (x ApmApplicationEntity) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
 // GetAlertViolations returns a pointer to the value of AlertViolations from ApmApplicationEntity
 func (x ApmApplicationEntity) GetAlertViolations() []EntityAlertViolation {
 	return x.AlertViolations
@@ -1552,6 +4866,11 @@ func (x ApmApplicationEntity) GetAlertViolations() []EntityAlertViolation {
 // GetApmBrowserSummary returns a pointer to the value of ApmBrowserSummary from ApmApplicationEntity
 func (x ApmApplicationEntity) GetApmBrowserSummary() ApmBrowserApplicationSummaryData {
 	return x.ApmBrowserSummary
+}
+
+// GetApmSettings returns a pointer to the value of ApmSettings from ApmApplicationEntity
+func (x ApmApplicationEntity) GetApmSettings() AgentApplicationSettingsApmBase {
+	return x.ApmSettings
 }
 
 // GetApmSummary returns a pointer to the value of ApmSummary from ApmApplicationEntity
@@ -1569,6 +4888,16 @@ func (x ApmApplicationEntity) GetApplicationInstances() []AgentEnvironmentApplic
 	return x.ApplicationInstances
 }
 
+// GetConnections returns a pointer to the value of Connections from ApmApplicationEntity
+func (x ApmApplicationEntity) GetConnections() RelatedExternalsEntityResult {
+	return x.Connections
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from ApmApplicationEntity
+func (x ApmApplicationEntity) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
+}
+
 // GetDeployments returns a pointer to the value of Deployments from ApmApplicationEntity
 func (x ApmApplicationEntity) GetDeployments() []ApmApplicationDeployment {
 	return x.Deployments
@@ -1584,6 +4913,41 @@ func (x ApmApplicationEntity) GetEntityType() EntityType {
 	return x.EntityType
 }
 
+// GetErrorGroup returns a pointer to the value of ErrorGroup from ApmApplicationEntity
+func (x ApmApplicationEntity) GetErrorGroup() ErrorTrackingErrorGroup {
+	return x.ErrorGroup
+}
+
+// GetErrorGroupCount returns a pointer to the value of ErrorGroupCount from ApmApplicationEntity
+func (x ApmApplicationEntity) GetErrorGroupCount() ErrorTrackingErrorGroupCount {
+	return x.ErrorGroupCount
+}
+
+// GetErrorGroupListing returns a pointer to the value of ErrorGroupListing from ApmApplicationEntity
+func (x ApmApplicationEntity) GetErrorGroupListing() []ErrorTrackingErrorGroup {
+	return x.ErrorGroupListing
+}
+
+// GetErrorTrace returns a pointer to the value of ErrorTrace from ApmApplicationEntity
+func (x ApmApplicationEntity) GetErrorTrace() AgentTracesErrorTrace {
+	return x.ErrorTrace
+}
+
+// GetErrorTraces returns a pointer to the value of ErrorTraces from ApmApplicationEntity
+func (x ApmApplicationEntity) GetErrorTraces() []AgentTracesErrorTrace {
+	return x.ErrorTraces
+}
+
+// GetException returns a pointer to the value of Exception from ApmApplicationEntity
+func (x ApmApplicationEntity) GetException() StackTraceApmException {
+	return x.Exception
+}
+
+// GetFlamegraph returns a pointer to the value of Flamegraph from ApmApplicationEntity
+func (x ApmApplicationEntity) GetFlamegraph() JavaFlightRecorderFlamegraph {
+	return x.Flamegraph
+}
+
 // GetGUID returns a pointer to the value of GUID from ApmApplicationEntity
 func (x ApmApplicationEntity) GetGUID() common.EntityGUID {
 	return x.GUID
@@ -1592,6 +4956,16 @@ func (x ApmApplicationEntity) GetGUID() common.EntityGUID {
 // GetGoldenMetrics returns a pointer to the value of GoldenMetrics from ApmApplicationEntity
 func (x ApmApplicationEntity) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
 	return x.GoldenMetrics
+}
+
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from ApmApplicationEntity
+func (x ApmApplicationEntity) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from ApmApplicationEntity
+func (x ApmApplicationEntity) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
 }
 
 // GetGoldenTags returns a pointer to the value of GoldenTags from ApmApplicationEntity
@@ -1634,9 +5008,29 @@ func (x ApmApplicationEntity) GetNerdStorage() NerdStorageEntityScope {
 	return x.NerdStorage
 }
 
+// GetNerdStoreCollection returns a pointer to the value of NerdStoreCollection from ApmApplicationEntity
+func (x ApmApplicationEntity) GetNerdStoreCollection() []NerdStoreCollectionMember {
+	return x.NerdStoreCollection
+}
+
+// GetNerdStoreDocument returns a pointer to the value of NerdStoreDocument from ApmApplicationEntity
+func (x ApmApplicationEntity) GetNerdStoreDocument() NerdStoreDocument {
+	return x.NerdStoreDocument
+}
+
 // GetPermalink returns a pointer to the value of Permalink from ApmApplicationEntity
 func (x ApmApplicationEntity) GetPermalink() string {
 	return x.Permalink
+}
+
+// GetProactiveDetection returns a pointer to the value of ProactiveDetection from ApmApplicationEntity
+func (x ApmApplicationEntity) GetProactiveDetection() AiOpsProactiveDetection {
+	return x.ProactiveDetection
+}
+
+// GetRecentAgentActivity returns a pointer to the value of RecentAgentActivity from ApmApplicationEntity
+func (x ApmApplicationEntity) GetRecentAgentActivity() []ApmApplicationRecentAgentActivity {
+	return x.RecentAgentActivity
 }
 
 // GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from ApmApplicationEntity
@@ -1644,9 +5038,24 @@ func (x ApmApplicationEntity) GetRecentAlertViolations() []EntityAlertViolation 
 	return x.RecentAlertViolations
 }
 
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from ApmApplicationEntity
+func (x ApmApplicationEntity) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from ApmApplicationEntity
+func (x ApmApplicationEntity) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
+}
+
 // GetRelatedEntities returns a pointer to the value of RelatedEntities from ApmApplicationEntity
 func (x ApmApplicationEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
 	return x.RelatedEntities
+}
+
+// GetRelatedTransactions returns a pointer to the value of RelatedTransactions from ApmApplicationEntity
+func (x ApmApplicationEntity) GetRelatedTransactions() RelatedExternalsTransactionResult {
+	return x.RelatedTransactions
 }
 
 // GetRelationships returns a pointer to the value of Relationships from ApmApplicationEntity
@@ -1674,6 +5083,21 @@ func (x ApmApplicationEntity) GetSettings() ApmApplicationSettings {
 	return x.Settings
 }
 
+// GetSqlTrace returns a pointer to the value of SqlTrace from ApmApplicationEntity
+func (x ApmApplicationEntity) GetSqlTrace() AgentTracesSqlTrace {
+	return x.SqlTrace
+}
+
+// GetSqlTraces returns a pointer to the value of SqlTraces from ApmApplicationEntity
+func (x ApmApplicationEntity) GetSqlTraces() []AgentTracesSqlTrace {
+	return x.SqlTraces
+}
+
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from ApmApplicationEntity
+func (x ApmApplicationEntity) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
+}
+
 // GetTags returns a pointer to the value of Tags from ApmApplicationEntity
 func (x ApmApplicationEntity) GetTags() []EntityTag {
 	return x.Tags
@@ -1684,9 +5108,29 @@ func (x ApmApplicationEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
 	return x.TagsWithMetadata
 }
 
+// GetTracingSummary returns a pointer to the value of TracingSummary from ApmApplicationEntity
+func (x ApmApplicationEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
+// GetTransactionTrace returns a pointer to the value of TransactionTrace from ApmApplicationEntity
+func (x ApmApplicationEntity) GetTransactionTrace() AgentTracesTransactionTrace {
+	return x.TransactionTrace
+}
+
+// GetTransactionTraces returns a pointer to the value of TransactionTraces from ApmApplicationEntity
+func (x ApmApplicationEntity) GetTransactionTraces() []AgentTracesTransactionTrace {
+	return x.TransactionTraces
+}
+
 // GetType returns a pointer to the value of Type from ApmApplicationEntity
 func (x ApmApplicationEntity) GetType() string {
 	return x.Type
+}
+
+// GetUiTemplates returns a pointer to the value of UiTemplates from ApmApplicationEntity
+func (x ApmApplicationEntity) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
 }
 
 func (x *ApmApplicationEntity) ImplementsAlertableEntity() {}
@@ -1695,20 +5139,25 @@ func (x *ApmApplicationEntity) ImplementsApmBrowserApplicationEntity() {}
 
 func (x *ApmApplicationEntity) ImplementsEntity() {}
 
+func (x *ApmApplicationEntity) ImplementsApmApplicationEntity() {}
+
 // ApmApplicationEntityOutline - An APM Application entity outline.
 type ApmApplicationEntityOutline struct {
-	//
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
 	// Summary statistics about the Browser App injected by an APM Application.
 	ApmBrowserSummary ApmBrowserApplicationSummaryData `json:"apmBrowserSummary,omitempty"`
 	// Summary statistics about the APM App.
 	ApmSummary ApmApplicationSummaryData `json:"apmSummary,omitempty"`
 	// The ID of the APM Application.
 	ApplicationID int `json:"applicationId,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -1716,9 +5165,13 @@ type ApmApplicationEntityOutline struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The programming language of the APM Application.
@@ -1727,6 +5180,10 @@ type ApmApplicationEntityOutline struct {
 	Name string `json:"name,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The running versions of the language agent in the APM Application.
@@ -1735,12 +5192,16 @@ type ApmApplicationEntityOutline struct {
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
 	// Configuration settings for the APM Application
 	Settings ApmApplicationSettings `json:"settings,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
 	// The tags applied to the entity.
 	//
 	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 }
 
 // GetAccount returns a pointer to the value of Account from ApmApplicationEntityOutline
@@ -1758,6 +5219,11 @@ func (x ApmApplicationEntityOutline) GetAlertSeverity() EntityAlertSeverity {
 	return x.AlertSeverity
 }
 
+// GetAlertStatus returns a pointer to the value of AlertStatus from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
 // GetApmBrowserSummary returns a pointer to the value of ApmBrowserSummary from ApmApplicationEntityOutline
 func (x ApmApplicationEntityOutline) GetApmBrowserSummary() ApmBrowserApplicationSummaryData {
 	return x.ApmBrowserSummary
@@ -1771,6 +5237,11 @@ func (x ApmApplicationEntityOutline) GetApmSummary() ApmApplicationSummaryData {
 // GetApplicationID returns a pointer to the value of ApplicationID from ApmApplicationEntityOutline
 func (x ApmApplicationEntityOutline) GetApplicationID() int {
 	return x.ApplicationID
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
 }
 
 // GetDomain returns a pointer to the value of Domain from ApmApplicationEntityOutline
@@ -1791,6 +5262,16 @@ func (x ApmApplicationEntityOutline) GetGUID() common.EntityGUID {
 // GetGoldenMetrics returns a pointer to the value of GoldenMetrics from ApmApplicationEntityOutline
 func (x ApmApplicationEntityOutline) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
 	return x.GoldenMetrics
+}
+
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
 }
 
 // GetGoldenTags returns a pointer to the value of GoldenTags from ApmApplicationEntityOutline
@@ -1818,6 +5299,16 @@ func (x ApmApplicationEntityOutline) GetPermalink() string {
 	return x.Permalink
 }
 
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
+}
+
 // GetReporting returns a pointer to the value of Reporting from ApmApplicationEntityOutline
 func (x ApmApplicationEntityOutline) GetReporting() bool {
 	return x.Reporting
@@ -1838,6 +5329,11 @@ func (x ApmApplicationEntityOutline) GetSettings() ApmApplicationSettings {
 	return x.Settings
 }
 
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
+}
+
 // GetTags returns a pointer to the value of Tags from ApmApplicationEntityOutline
 func (x ApmApplicationEntityOutline) GetTags() []EntityTag {
 	return x.Tags
@@ -1848,11 +5344,30 @@ func (x ApmApplicationEntityOutline) GetType() string {
 	return x.Type
 }
 
+// GetUiTemplates returns a pointer to the value of UiTemplates from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
+}
+
 func (x *ApmApplicationEntityOutline) ImplementsAlertableEntityOutline() {}
 
 func (x *ApmApplicationEntityOutline) ImplementsApmBrowserApplicationEntityOutline() {}
 
 func (x *ApmApplicationEntityOutline) ImplementsEntityOutline() {}
+
+func (x *ApmApplicationEntityOutline) ImplementsApmApplicationEntityOutline() {}
+
+// ApmApplicationRecentAgentActivity - A recent agent acvitiy on an APM application.
+type ApmApplicationRecentAgentActivity struct {
+	// The category of activity that occurred.
+	ActivityType ApmApplicationRecentActivityType `json:"activityType,omitempty"`
+	// Description of the recent acvitiy.
+	Description string `json:"description,omitempty"`
+	// A link to view the recent activity in the UI.
+	Permalink string `json:"permalink,omitempty"`
+	// The moment the recent activity occurred.
+	Timestamp *nrtime.EpochMilliseconds `json:"timestamp,omitempty"`
+}
 
 // ApmApplicationRunningAgentVersions - Represents the currently running agent versions in an APM Application.
 // An application could be running multiple versions of an agent (across different hosts, for example).
@@ -1897,7 +5412,6 @@ type ApmApplicationSummaryData struct {
 
 // ApmBrowserApplicationEntity - The `ApmBrowserApplicationEntity` interface provides detailed information for the Browser App injected by an APM Application.
 type ApmBrowserApplicationEntity struct {
-	//
 	ApmBrowserSummary ApmBrowserApplicationSummaryData `json:"apmBrowserSummary,omitempty"`
 }
 
@@ -1910,7 +5424,6 @@ func (x *ApmBrowserApplicationEntity) ImplementsApmBrowserApplicationEntity() {}
 
 // ApmBrowserApplicationEntityOutline - The `ApmBrowserApplicationEntityOutline` interface provides detailed information for the Browser App injected by an APM Application.
 type ApmBrowserApplicationEntityOutline struct {
-	//
 	ApmBrowserSummary ApmBrowserApplicationSummaryData `json:"apmBrowserSummary,omitempty"`
 }
 
@@ -1937,14 +5450,17 @@ type ApmBrowserApplicationSummaryData struct {
 
 // ApmDatabaseInstanceEntity - A database instance seen by an APM Application
 type ApmDatabaseInstanceEntity struct {
-	//
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the entity that were open during the specified time window.
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -1952,9 +5468,13 @@ type ApmDatabaseInstanceEntity struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The host the database instance is running on.
 	Host string `json:"host,omitempty"`
 	// The time the entity was indexed.
@@ -1966,15 +5486,20 @@ type ApmDatabaseInstanceEntity struct {
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
-	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
+	Name                string                      `json:"name,omitempty"`
+	NerdStorage         NerdStorageEntityScope      `json:"nerdStorage,omitempty"`
+	NerdStoreCollection []NerdStoreCollectionMember `json:"nerdStoreCollection,omitempty"`
+	NerdStoreDocument   NerdStoreDocument           `json:"nerdStoreDocument,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
 	// The port or path the database instance is running on. ex: `3306` | `/tmp/mysql.sock`
 	PortOrPath string `json:"portOrPath,omitempty"`
 	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// Related entities result with optional filtering.
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// A list of the entities' relationships.
@@ -1985,14 +5510,20 @@ type ApmDatabaseInstanceEntity struct {
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
 	// The tags applied to the entity.
 	//
 	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The tags applied to the entity with their metadata.
 	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 	// The type of database. ex: `Postgres` | `Redis`
 	Vendor string `json:"vendor,omitempty"`
 }
@@ -2012,9 +5543,19 @@ func (x ApmDatabaseInstanceEntity) GetAlertSeverity() EntityAlertSeverity {
 	return x.AlertSeverity
 }
 
+// GetAlertStatus returns a pointer to the value of AlertStatus from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
 // GetAlertViolations returns a pointer to the value of AlertViolations from ApmDatabaseInstanceEntity
 func (x ApmDatabaseInstanceEntity) GetAlertViolations() []EntityAlertViolation {
 	return x.AlertViolations
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
 }
 
 // GetDomain returns a pointer to the value of Domain from ApmDatabaseInstanceEntity
@@ -2035,6 +5576,16 @@ func (x ApmDatabaseInstanceEntity) GetGUID() common.EntityGUID {
 // GetGoldenMetrics returns a pointer to the value of GoldenMetrics from ApmDatabaseInstanceEntity
 func (x ApmDatabaseInstanceEntity) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
 	return x.GoldenMetrics
+}
+
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
 }
 
 // GetGoldenTags returns a pointer to the value of GoldenTags from ApmDatabaseInstanceEntity
@@ -2067,6 +5618,16 @@ func (x ApmDatabaseInstanceEntity) GetNerdStorage() NerdStorageEntityScope {
 	return x.NerdStorage
 }
 
+// GetNerdStoreCollection returns a pointer to the value of NerdStoreCollection from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetNerdStoreCollection() []NerdStoreCollectionMember {
+	return x.NerdStoreCollection
+}
+
+// GetNerdStoreDocument returns a pointer to the value of NerdStoreDocument from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetNerdStoreDocument() NerdStoreDocument {
+	return x.NerdStoreDocument
+}
+
 // GetPermalink returns a pointer to the value of Permalink from ApmDatabaseInstanceEntity
 func (x ApmDatabaseInstanceEntity) GetPermalink() string {
 	return x.Permalink
@@ -2080,6 +5641,16 @@ func (x ApmDatabaseInstanceEntity) GetPortOrPath() string {
 // GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from ApmDatabaseInstanceEntity
 func (x ApmDatabaseInstanceEntity) GetRecentAlertViolations() []EntityAlertViolation {
 	return x.RecentAlertViolations
+}
+
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
 }
 
 // GetRelatedEntities returns a pointer to the value of RelatedEntities from ApmDatabaseInstanceEntity
@@ -2102,6 +5673,11 @@ func (x ApmDatabaseInstanceEntity) GetServiceLevel() ServiceLevelDefinition {
 	return x.ServiceLevel
 }
 
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
+}
+
 // GetTags returns a pointer to the value of Tags from ApmDatabaseInstanceEntity
 func (x ApmDatabaseInstanceEntity) GetTags() []EntityTag {
 	return x.Tags
@@ -2112,9 +5688,19 @@ func (x ApmDatabaseInstanceEntity) GetTagsWithMetadata() []EntityTagWithMetadata
 	return x.TagsWithMetadata
 }
 
+// GetTracingSummary returns a pointer to the value of TracingSummary from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
 // GetType returns a pointer to the value of Type from ApmDatabaseInstanceEntity
 func (x ApmDatabaseInstanceEntity) GetType() string {
 	return x.Type
+}
+
+// GetUiTemplates returns a pointer to the value of UiTemplates from ApmDatabaseInstanceEntity
+func (x ApmDatabaseInstanceEntity) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
 }
 
 // GetVendor returns a pointer to the value of Vendor from ApmDatabaseInstanceEntity
@@ -2128,12 +5714,15 @@ func (x *ApmDatabaseInstanceEntity) ImplementsEntity() {}
 
 // ApmDatabaseInstanceEntityOutline - A database instance seen by an APM Application
 type ApmDatabaseInstanceEntityOutline struct {
-	//
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -2141,9 +5730,13 @@ type ApmDatabaseInstanceEntityOutline struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The host the database instance is running on.
 	Host string `json:"host,omitempty"`
 	// The time the entity was indexed.
@@ -2154,16 +5747,24 @@ type ApmDatabaseInstanceEntityOutline struct {
 	Permalink string `json:"permalink,omitempty"`
 	// The port or path the database instance is running on. ex: `3306` | `/tmp/mysql.sock`
 	PortOrPath string `json:"portOrPath,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
 	// The tags applied to the entity.
 	//
 	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 	// The type of database. ex: `Postgres` | `Redis`
 	Vendor string `json:"vendor,omitempty"`
 }
@@ -2181,6 +5782,16 @@ func (x ApmDatabaseInstanceEntityOutline) GetAccountID() int {
 // GetAlertSeverity returns a pointer to the value of AlertSeverity from ApmDatabaseInstanceEntityOutline
 func (x ApmDatabaseInstanceEntityOutline) GetAlertSeverity() EntityAlertSeverity {
 	return x.AlertSeverity
+}
+
+// GetAlertStatus returns a pointer to the value of AlertStatus from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
 }
 
 // GetDomain returns a pointer to the value of Domain from ApmDatabaseInstanceEntityOutline
@@ -2201,6 +5812,16 @@ func (x ApmDatabaseInstanceEntityOutline) GetGUID() common.EntityGUID {
 // GetGoldenMetrics returns a pointer to the value of GoldenMetrics from ApmDatabaseInstanceEntityOutline
 func (x ApmDatabaseInstanceEntityOutline) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
 	return x.GoldenMetrics
+}
+
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
 }
 
 // GetGoldenTags returns a pointer to the value of GoldenTags from ApmDatabaseInstanceEntityOutline
@@ -2233,6 +5854,16 @@ func (x ApmDatabaseInstanceEntityOutline) GetPortOrPath() string {
 	return x.PortOrPath
 }
 
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
+}
+
 // GetReporting returns a pointer to the value of Reporting from ApmDatabaseInstanceEntityOutline
 func (x ApmDatabaseInstanceEntityOutline) GetReporting() bool {
 	return x.Reporting
@@ -2243,6 +5874,11 @@ func (x ApmDatabaseInstanceEntityOutline) GetServiceLevel() ServiceLevelDefiniti
 	return x.ServiceLevel
 }
 
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
+}
+
 // GetTags returns a pointer to the value of Tags from ApmDatabaseInstanceEntityOutline
 func (x ApmDatabaseInstanceEntityOutline) GetTags() []EntityTag {
 	return x.Tags
@@ -2251,6 +5887,11 @@ func (x ApmDatabaseInstanceEntityOutline) GetTags() []EntityTag {
 // GetType returns a pointer to the value of Type from ApmDatabaseInstanceEntityOutline
 func (x ApmDatabaseInstanceEntityOutline) GetType() string {
 	return x.Type
+}
+
+// GetUiTemplates returns a pointer to the value of UiTemplates from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
 }
 
 // GetVendor returns a pointer to the value of Vendor from ApmDatabaseInstanceEntityOutline
@@ -2264,26 +5905,32 @@ func (x *ApmDatabaseInstanceEntityOutline) ImplementsEntityOutline() {}
 
 // ApmExternalServiceEntity - An external service seen by an APM Application.
 type ApmExternalServiceEntity struct {
-	//
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the entity that were open during the specified time window.
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
-	EntityType EntityType `json:"entityType,omitempty"`
-	//
+	EntityType      EntityType                    `json:"entityType,omitempty"`
 	ExternalSummary ApmExternalServiceSummaryData `json:"externalSummary,omitempty"`
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The host of the external service.
 	Host string `json:"host,omitempty"`
 	// The time the entity was indexed.
@@ -2295,13 +5942,18 @@ type ApmExternalServiceEntity struct {
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
-	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
+	Name                string                      `json:"name,omitempty"`
+	NerdStorage         NerdStorageEntityScope      `json:"nerdStorage,omitempty"`
+	NerdStoreCollection []NerdStoreCollectionMember `json:"nerdStoreCollection,omitempty"`
+	NerdStoreDocument   NerdStoreDocument           `json:"nerdStoreDocument,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
 	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// Related entities result with optional filtering.
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// A list of the entities' relationships.
@@ -2312,14 +5964,20 @@ type ApmExternalServiceEntity struct {
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
 	// The tags applied to the entity.
 	//
 	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The tags applied to the entity with their metadata.
 	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 }
 
 // GetAccount returns a pointer to the value of Account from ApmExternalServiceEntity
@@ -2337,9 +5995,19 @@ func (x ApmExternalServiceEntity) GetAlertSeverity() EntityAlertSeverity {
 	return x.AlertSeverity
 }
 
+// GetAlertStatus returns a pointer to the value of AlertStatus from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
 // GetAlertViolations returns a pointer to the value of AlertViolations from ApmExternalServiceEntity
 func (x ApmExternalServiceEntity) GetAlertViolations() []EntityAlertViolation {
 	return x.AlertViolations
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
 }
 
 // GetDomain returns a pointer to the value of Domain from ApmExternalServiceEntity
@@ -2365,6 +6033,16 @@ func (x ApmExternalServiceEntity) GetGUID() common.EntityGUID {
 // GetGoldenMetrics returns a pointer to the value of GoldenMetrics from ApmExternalServiceEntity
 func (x ApmExternalServiceEntity) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
 	return x.GoldenMetrics
+}
+
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
 }
 
 // GetGoldenTags returns a pointer to the value of GoldenTags from ApmExternalServiceEntity
@@ -2397,6 +6075,16 @@ func (x ApmExternalServiceEntity) GetNerdStorage() NerdStorageEntityScope {
 	return x.NerdStorage
 }
 
+// GetNerdStoreCollection returns a pointer to the value of NerdStoreCollection from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetNerdStoreCollection() []NerdStoreCollectionMember {
+	return x.NerdStoreCollection
+}
+
+// GetNerdStoreDocument returns a pointer to the value of NerdStoreDocument from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetNerdStoreDocument() NerdStoreDocument {
+	return x.NerdStoreDocument
+}
+
 // GetPermalink returns a pointer to the value of Permalink from ApmExternalServiceEntity
 func (x ApmExternalServiceEntity) GetPermalink() string {
 	return x.Permalink
@@ -2405,6 +6093,16 @@ func (x ApmExternalServiceEntity) GetPermalink() string {
 // GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from ApmExternalServiceEntity
 func (x ApmExternalServiceEntity) GetRecentAlertViolations() []EntityAlertViolation {
 	return x.RecentAlertViolations
+}
+
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
 }
 
 // GetRelatedEntities returns a pointer to the value of RelatedEntities from ApmExternalServiceEntity
@@ -2427,6 +6125,11 @@ func (x ApmExternalServiceEntity) GetServiceLevel() ServiceLevelDefinition {
 	return x.ServiceLevel
 }
 
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
+}
+
 // GetTags returns a pointer to the value of Tags from ApmExternalServiceEntity
 func (x ApmExternalServiceEntity) GetTags() []EntityTag {
 	return x.Tags
@@ -2437,9 +6140,19 @@ func (x ApmExternalServiceEntity) GetTagsWithMetadata() []EntityTagWithMetadata 
 	return x.TagsWithMetadata
 }
 
+// GetTracingSummary returns a pointer to the value of TracingSummary from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
 // GetType returns a pointer to the value of Type from ApmExternalServiceEntity
 func (x ApmExternalServiceEntity) GetType() string {
 	return x.Type
+}
+
+// GetUiTemplates returns a pointer to the value of UiTemplates from ApmExternalServiceEntity
+func (x ApmExternalServiceEntity) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
 }
 
 func (x *ApmExternalServiceEntity) ImplementsAlertableEntity() {}
@@ -2448,24 +6161,30 @@ func (x *ApmExternalServiceEntity) ImplementsEntity() {}
 
 // ApmExternalServiceEntityOutline - An external service seen by an APM Application.
 type ApmExternalServiceEntityOutline struct {
-	//
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
-	EntityType EntityType `json:"entityType,omitempty"`
-	//
+	EntityType      EntityType                    `json:"entityType,omitempty"`
 	ExternalSummary ApmExternalServiceSummaryData `json:"externalSummary,omitempty"`
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The host of the external service.
 	Host string `json:"host,omitempty"`
 	// The time the entity was indexed.
@@ -2474,16 +6193,24 @@ type ApmExternalServiceEntityOutline struct {
 	Name string `json:"name,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
 	// The tags applied to the entity.
 	//
 	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 }
 
 // GetAccount returns a pointer to the value of Account from ApmExternalServiceEntityOutline
@@ -2499,6 +6226,16 @@ func (x ApmExternalServiceEntityOutline) GetAccountID() int {
 // GetAlertSeverity returns a pointer to the value of AlertSeverity from ApmExternalServiceEntityOutline
 func (x ApmExternalServiceEntityOutline) GetAlertSeverity() EntityAlertSeverity {
 	return x.AlertSeverity
+}
+
+// GetAlertStatus returns a pointer to the value of AlertStatus from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
 }
 
 // GetDomain returns a pointer to the value of Domain from ApmExternalServiceEntityOutline
@@ -2526,6 +6263,16 @@ func (x ApmExternalServiceEntityOutline) GetGoldenMetrics() EntityGoldenContextS
 	return x.GoldenMetrics
 }
 
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
+}
+
 // GetGoldenTags returns a pointer to the value of GoldenTags from ApmExternalServiceEntityOutline
 func (x ApmExternalServiceEntityOutline) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
 	return x.GoldenTags
@@ -2551,6 +6298,16 @@ func (x ApmExternalServiceEntityOutline) GetPermalink() string {
 	return x.Permalink
 }
 
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
+}
+
 // GetReporting returns a pointer to the value of Reporting from ApmExternalServiceEntityOutline
 func (x ApmExternalServiceEntityOutline) GetReporting() bool {
 	return x.Reporting
@@ -2561,6 +6318,11 @@ func (x ApmExternalServiceEntityOutline) GetServiceLevel() ServiceLevelDefinitio
 	return x.ServiceLevel
 }
 
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
+}
+
 // GetTags returns a pointer to the value of Tags from ApmExternalServiceEntityOutline
 func (x ApmExternalServiceEntityOutline) GetTags() []EntityTag {
 	return x.Tags
@@ -2569,6 +6331,11 @@ func (x ApmExternalServiceEntityOutline) GetTags() []EntityTag {
 // GetType returns a pointer to the value of Type from ApmExternalServiceEntityOutline
 func (x ApmExternalServiceEntityOutline) GetType() string {
 	return x.Type
+}
+
+// GetUiTemplates returns a pointer to the value of UiTemplates from ApmExternalServiceEntityOutline
+func (x ApmExternalServiceEntityOutline) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
 }
 
 func (x *ApmExternalServiceEntityOutline) ImplementsAlertableEntityOutline() {}
@@ -2585,7 +6352,6 @@ type ApmExternalServiceSummaryData struct {
 
 // BrowserApplicationEntity - A Browser Application entity.
 type BrowserApplicationEntity struct {
-	//
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -2593,22 +6359,36 @@ type BrowserApplicationEntity struct {
 	AgentInstallType BrowserAgentInstallType `json:"agentInstallType,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the entity that were open during the specified time window.
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// The ID of the Browser App.
 	ApplicationID int `json:"applicationId,omitempty"`
+	// Settings that are common across browser applications.
+	BrowserSettings AgentApplicationSettingsBrowserBase `json:"browserSettings,omitempty"`
 	// Summary statistics about the Browser App.
 	BrowserSummary BrowserApplicationSummaryData `json:"browserSummary,omitempty"`
+	// Query upstream and downstream dependencies for an entity
+	Connections RelatedExternalsEntityResult `json:"connections,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
+	// An Exception that occurred in your Browser Application.
+	Exception StackTraceBrowserException `json:"exception,omitempty"`
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Retrieves a rule.
@@ -2622,15 +6402,22 @@ type BrowserApplicationEntity struct {
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
-	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
+	Name                string                      `json:"name,omitempty"`
+	NerdStorage         NerdStorageEntityScope      `json:"nerdStorage,omitempty"`
+	NerdStoreCollection []NerdStoreCollectionMember `json:"nerdStoreCollection,omitempty"`
+	NerdStoreDocument   NerdStoreDocument           `json:"nerdStoreDocument,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
 	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// Related entities result with optional filtering.
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
+	// Query upstream and downstream transaction dependencies for an entity
+	RelatedTransactions RelatedExternalsTransactionResult `json:"relatedTransactions,omitempty"`
 	// A list of the entities' relationships.
 	//
 	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
@@ -2645,14 +6432,20 @@ type BrowserApplicationEntity struct {
 	ServingApmApplicationID int `json:"servingApmApplicationId,omitempty"`
 	// Configuration settings for the Browser App
 	Settings BrowserApplicationSettings `json:"settings,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
 	// The tags applied to the entity.
 	//
 	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The tags applied to the entity with their metadata.
 	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 }
 
 // GetAccount returns a pointer to the value of Account from BrowserApplicationEntity
@@ -2675,6 +6468,11 @@ func (x BrowserApplicationEntity) GetAlertSeverity() EntityAlertSeverity {
 	return x.AlertSeverity
 }
 
+// GetAlertStatus returns a pointer to the value of AlertStatus from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
 // GetAlertViolations returns a pointer to the value of AlertViolations from BrowserApplicationEntity
 func (x BrowserApplicationEntity) GetAlertViolations() []EntityAlertViolation {
 	return x.AlertViolations
@@ -2685,9 +6483,24 @@ func (x BrowserApplicationEntity) GetApplicationID() int {
 	return x.ApplicationID
 }
 
+// GetBrowserSettings returns a pointer to the value of BrowserSettings from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetBrowserSettings() AgentApplicationSettingsBrowserBase {
+	return x.BrowserSettings
+}
+
 // GetBrowserSummary returns a pointer to the value of BrowserSummary from BrowserApplicationEntity
 func (x BrowserApplicationEntity) GetBrowserSummary() BrowserApplicationSummaryData {
 	return x.BrowserSummary
+}
+
+// GetConnections returns a pointer to the value of Connections from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetConnections() RelatedExternalsEntityResult {
+	return x.Connections
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
 }
 
 // GetDomain returns a pointer to the value of Domain from BrowserApplicationEntity
@@ -2700,6 +6513,11 @@ func (x BrowserApplicationEntity) GetEntityType() EntityType {
 	return x.EntityType
 }
 
+// GetException returns a pointer to the value of Exception from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetException() StackTraceBrowserException {
+	return x.Exception
+}
+
 // GetGUID returns a pointer to the value of GUID from BrowserApplicationEntity
 func (x BrowserApplicationEntity) GetGUID() common.EntityGUID {
 	return x.GUID
@@ -2708,6 +6526,16 @@ func (x BrowserApplicationEntity) GetGUID() common.EntityGUID {
 // GetGoldenMetrics returns a pointer to the value of GoldenMetrics from BrowserApplicationEntity
 func (x BrowserApplicationEntity) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
 	return x.GoldenMetrics
+}
+
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
 }
 
 // GetGoldenTags returns a pointer to the value of GoldenTags from BrowserApplicationEntity
@@ -2745,6 +6573,16 @@ func (x BrowserApplicationEntity) GetNerdStorage() NerdStorageEntityScope {
 	return x.NerdStorage
 }
 
+// GetNerdStoreCollection returns a pointer to the value of NerdStoreCollection from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetNerdStoreCollection() []NerdStoreCollectionMember {
+	return x.NerdStoreCollection
+}
+
+// GetNerdStoreDocument returns a pointer to the value of NerdStoreDocument from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetNerdStoreDocument() NerdStoreDocument {
+	return x.NerdStoreDocument
+}
+
 // GetPermalink returns a pointer to the value of Permalink from BrowserApplicationEntity
 func (x BrowserApplicationEntity) GetPermalink() string {
 	return x.Permalink
@@ -2755,9 +6593,24 @@ func (x BrowserApplicationEntity) GetRecentAlertViolations() []EntityAlertViolat
 	return x.RecentAlertViolations
 }
 
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
+}
+
 // GetRelatedEntities returns a pointer to the value of RelatedEntities from BrowserApplicationEntity
 func (x BrowserApplicationEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
 	return x.RelatedEntities
+}
+
+// GetRelatedTransactions returns a pointer to the value of RelatedTransactions from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetRelatedTransactions() RelatedExternalsTransactionResult {
+	return x.RelatedTransactions
 }
 
 // GetRelationships returns a pointer to the value of Relationships from BrowserApplicationEntity
@@ -2790,6 +6643,11 @@ func (x BrowserApplicationEntity) GetSettings() BrowserApplicationSettings {
 	return x.Settings
 }
 
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
+}
+
 // GetTags returns a pointer to the value of Tags from BrowserApplicationEntity
 func (x BrowserApplicationEntity) GetTags() []EntityTag {
 	return x.Tags
@@ -2800,9 +6658,19 @@ func (x BrowserApplicationEntity) GetTagsWithMetadata() []EntityTagWithMetadata 
 	return x.TagsWithMetadata
 }
 
+// GetTracingSummary returns a pointer to the value of TracingSummary from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
 // GetType returns a pointer to the value of Type from BrowserApplicationEntity
 func (x BrowserApplicationEntity) GetType() string {
 	return x.Type
+}
+
+// GetUiTemplates returns a pointer to the value of UiTemplates from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
 }
 
 func (x *BrowserApplicationEntity) ImplementsAlertableEntity() {}
@@ -2811,7 +6679,6 @@ func (x *BrowserApplicationEntity) ImplementsEntity() {}
 
 // BrowserApplicationEntityOutline - A Browser Application entity outline.
 type BrowserApplicationEntityOutline struct {
-	//
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -2819,10 +6686,14 @@ type BrowserApplicationEntityOutline struct {
 	AgentInstallType BrowserAgentInstallType `json:"agentInstallType,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
 	// The ID of the Browser App.
 	ApplicationID int `json:"applicationId,omitempty"`
 	// Summary statistics about the Browser App.
 	BrowserSummary BrowserApplicationSummaryData `json:"browserSummary,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -2830,15 +6701,23 @@ type BrowserApplicationEntityOutline struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The running versions of the agent in the Browser App.
@@ -2849,12 +6728,16 @@ type BrowserApplicationEntityOutline struct {
 	ServingApmApplicationID int `json:"servingApmApplicationId,omitempty"`
 	// Configuration settings for the Browser App
 	Settings BrowserApplicationSettings `json:"settings,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
 	// The tags applied to the entity.
 	//
 	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 }
 
 // GetAccount returns a pointer to the value of Account from BrowserApplicationEntityOutline
@@ -2877,6 +6760,11 @@ func (x BrowserApplicationEntityOutline) GetAlertSeverity() EntityAlertSeverity 
 	return x.AlertSeverity
 }
 
+// GetAlertStatus returns a pointer to the value of AlertStatus from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
 // GetApplicationID returns a pointer to the value of ApplicationID from BrowserApplicationEntityOutline
 func (x BrowserApplicationEntityOutline) GetApplicationID() int {
 	return x.ApplicationID
@@ -2885,6 +6773,11 @@ func (x BrowserApplicationEntityOutline) GetApplicationID() int {
 // GetBrowserSummary returns a pointer to the value of BrowserSummary from BrowserApplicationEntityOutline
 func (x BrowserApplicationEntityOutline) GetBrowserSummary() BrowserApplicationSummaryData {
 	return x.BrowserSummary
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
 }
 
 // GetDomain returns a pointer to the value of Domain from BrowserApplicationEntityOutline
@@ -2907,6 +6800,16 @@ func (x BrowserApplicationEntityOutline) GetGoldenMetrics() EntityGoldenContextS
 	return x.GoldenMetrics
 }
 
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
+}
+
 // GetGoldenTags returns a pointer to the value of GoldenTags from BrowserApplicationEntityOutline
 func (x BrowserApplicationEntityOutline) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
 	return x.GoldenTags
@@ -2925,6 +6828,16 @@ func (x BrowserApplicationEntityOutline) GetName() string {
 // GetPermalink returns a pointer to the value of Permalink from BrowserApplicationEntityOutline
 func (x BrowserApplicationEntityOutline) GetPermalink() string {
 	return x.Permalink
+}
+
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
 }
 
 // GetReporting returns a pointer to the value of Reporting from BrowserApplicationEntityOutline
@@ -2952,6 +6865,11 @@ func (x BrowserApplicationEntityOutline) GetSettings() BrowserApplicationSetting
 	return x.Settings
 }
 
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
+}
+
 // GetTags returns a pointer to the value of Tags from BrowserApplicationEntityOutline
 func (x BrowserApplicationEntityOutline) GetTags() []EntityTag {
 	return x.Tags
@@ -2960,6 +6878,11 @@ func (x BrowserApplicationEntityOutline) GetTags() []EntityTag {
 // GetType returns a pointer to the value of Type from BrowserApplicationEntityOutline
 func (x BrowserApplicationEntityOutline) GetType() string {
 	return x.Type
+}
+
+// GetUiTemplates returns a pointer to the value of UiTemplates from BrowserApplicationEntityOutline
+func (x BrowserApplicationEntityOutline) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
 }
 
 func (x *BrowserApplicationEntityOutline) ImplementsAlertableEntityOutline() {}
@@ -3001,12 +6924,14 @@ type BrowserApplicationSummaryData struct {
 	SpaResponseTimeMedian nrtime.Seconds `json:"spaResponseTimeMedian,omitempty"`
 }
 
+type Capability struct {
+	Name string `json:"name,omitempty"`
+}
+
 // CollectionEntity - A group of entities defined by entity search queries and specific GUIDs
 type CollectionEntity struct {
-	//
-	Collection EntityCollection `json:"collection,omitempty"`
-	//
-	GUID common.EntityGUID `json:"guid,omitempty"`
+	Collection EntityCollection  `json:"collection,omitempty"`
+	GUID       common.EntityGUID `json:"guid,omitempty"`
 }
 
 // GetCollection returns a pointer to the value of Collection from CollectionEntity
@@ -3051,30 +6976,43 @@ type DashboardBillboardWidgetThreshold struct {
 
 // DashboardEntity - A Dashboard entity.
 type DashboardEntity struct {
-	//
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the entity that were open during the specified time window.
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// Dashboard creation timestamp.
 	CreatedAt nrtime.DateTime `json:"createdAt,omitempty"`
+	// Dashboard creation timestamp.
+	CreatedAtInternal string `json:"createdAtInternal,omitempty"`
 	// The parent entity `guid` of the dashboard.
 	DashboardParentGUID common.EntityGUID `json:"dashboardParentGuid,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
 	// Dashboard description.
 	Description string `json:"description,omitempty"`
+	// Dashboard description.
+	DescriptionInternal string `json:"descriptionInternal,omitempty"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
+	// Dashboard editable configuration.
+	EditableInternal DashboardEditable `json:"editableInternal,omitempty"`
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
@@ -3084,19 +7022,28 @@ type DashboardEntity struct {
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
-	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
+	Name                string                      `json:"name,omitempty"`
+	NerdStorage         NerdStorageEntityScope      `json:"nerdStorage,omitempty"`
+	NerdStoreCollection []NerdStoreCollectionMember `json:"nerdStoreCollection,omitempty"`
+	NerdStoreDocument   NerdStoreDocument           `json:"nerdStoreDocument,omitempty"`
 	// Dashboard owner.
 	Owner DashboardOwnerInfo `json:"owner,omitempty"`
+	// Dashboard owner's email.
+	OwnerEmailInternal string `json:"ownerEmailInternal,omitempty"`
 	// Dashboard pages.
 	Pages []DashboardPage `json:"pages,omitempty"`
+	// Dashboard pages.
+	PagesInternal []DashboardPageInternal `json:"pagesInternal,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
 	// Dashboard permissions configuration.
 	Permissions DashboardPermissions `json:"permissions,omitempty"`
 	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// Related entities result with optional filtering.
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// A list of the entities' relationships.
@@ -3107,16 +7054,26 @@ type DashboardEntity struct {
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
 	// The tags applied to the entity.
 	//
 	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The tags applied to the entity with their metadata.
 	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 	// Dashboard update timestamp.
 	UpdatedAt nrtime.DateTime `json:"updatedAt,omitempty"`
+	// Dashboard update timestamp.
+	UpdatedAtInternal string `json:"updatedAtInternal,omitempty"`
+	// Dashboard visibility configuration.
+	VisibilityInternal DashboardVisibility `json:"visibilityInternal,omitempty"`
 }
 
 // GetAccount returns a pointer to the value of Account from DashboardEntity
@@ -3134,6 +7091,11 @@ func (x DashboardEntity) GetAlertSeverity() EntityAlertSeverity {
 	return x.AlertSeverity
 }
 
+// GetAlertStatus returns a pointer to the value of AlertStatus from DashboardEntity
+func (x DashboardEntity) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
 // GetAlertViolations returns a pointer to the value of AlertViolations from DashboardEntity
 func (x DashboardEntity) GetAlertViolations() []EntityAlertViolation {
 	return x.AlertViolations
@@ -3144,9 +7106,19 @@ func (x DashboardEntity) GetCreatedAt() nrtime.DateTime {
 	return x.CreatedAt
 }
 
+// GetCreatedAtInternal returns a pointer to the value of CreatedAtInternal from DashboardEntity
+func (x DashboardEntity) GetCreatedAtInternal() string {
+	return x.CreatedAtInternal
+}
+
 // GetDashboardParentGUID returns a pointer to the value of DashboardParentGUID from DashboardEntity
 func (x DashboardEntity) GetDashboardParentGUID() common.EntityGUID {
 	return x.DashboardParentGUID
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from DashboardEntity
+func (x DashboardEntity) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
 }
 
 // GetDescription returns a pointer to the value of Description from DashboardEntity
@@ -3154,9 +7126,19 @@ func (x DashboardEntity) GetDescription() string {
 	return x.Description
 }
 
+// GetDescriptionInternal returns a pointer to the value of DescriptionInternal from DashboardEntity
+func (x DashboardEntity) GetDescriptionInternal() string {
+	return x.DescriptionInternal
+}
+
 // GetDomain returns a pointer to the value of Domain from DashboardEntity
 func (x DashboardEntity) GetDomain() string {
 	return x.Domain
+}
+
+// GetEditableInternal returns a pointer to the value of EditableInternal from DashboardEntity
+func (x DashboardEntity) GetEditableInternal() DashboardEditable {
+	return x.EditableInternal
 }
 
 // GetEntityType returns a pointer to the value of EntityType from DashboardEntity
@@ -3172,6 +7154,16 @@ func (x DashboardEntity) GetGUID() common.EntityGUID {
 // GetGoldenMetrics returns a pointer to the value of GoldenMetrics from DashboardEntity
 func (x DashboardEntity) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
 	return x.GoldenMetrics
+}
+
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from DashboardEntity
+func (x DashboardEntity) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from DashboardEntity
+func (x DashboardEntity) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
 }
 
 // GetGoldenTags returns a pointer to the value of GoldenTags from DashboardEntity
@@ -3199,14 +7191,34 @@ func (x DashboardEntity) GetNerdStorage() NerdStorageEntityScope {
 	return x.NerdStorage
 }
 
+// GetNerdStoreCollection returns a pointer to the value of NerdStoreCollection from DashboardEntity
+func (x DashboardEntity) GetNerdStoreCollection() []NerdStoreCollectionMember {
+	return x.NerdStoreCollection
+}
+
+// GetNerdStoreDocument returns a pointer to the value of NerdStoreDocument from DashboardEntity
+func (x DashboardEntity) GetNerdStoreDocument() NerdStoreDocument {
+	return x.NerdStoreDocument
+}
+
 // GetOwner returns a pointer to the value of Owner from DashboardEntity
 func (x DashboardEntity) GetOwner() DashboardOwnerInfo {
 	return x.Owner
 }
 
+// GetOwnerEmailInternal returns a pointer to the value of OwnerEmailInternal from DashboardEntity
+func (x DashboardEntity) GetOwnerEmailInternal() string {
+	return x.OwnerEmailInternal
+}
+
 // GetPages returns a pointer to the value of Pages from DashboardEntity
 func (x DashboardEntity) GetPages() []DashboardPage {
 	return x.Pages
+}
+
+// GetPagesInternal returns a pointer to the value of PagesInternal from DashboardEntity
+func (x DashboardEntity) GetPagesInternal() []DashboardPageInternal {
+	return x.PagesInternal
 }
 
 // GetPermalink returns a pointer to the value of Permalink from DashboardEntity
@@ -3222,6 +7234,16 @@ func (x DashboardEntity) GetPermissions() DashboardPermissions {
 // GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from DashboardEntity
 func (x DashboardEntity) GetRecentAlertViolations() []EntityAlertViolation {
 	return x.RecentAlertViolations
+}
+
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from DashboardEntity
+func (x DashboardEntity) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from DashboardEntity
+func (x DashboardEntity) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
 }
 
 // GetRelatedEntities returns a pointer to the value of RelatedEntities from DashboardEntity
@@ -3244,6 +7266,11 @@ func (x DashboardEntity) GetServiceLevel() ServiceLevelDefinition {
 	return x.ServiceLevel
 }
 
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from DashboardEntity
+func (x DashboardEntity) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
+}
+
 // GetTags returns a pointer to the value of Tags from DashboardEntity
 func (x DashboardEntity) GetTags() []EntityTag {
 	return x.Tags
@@ -3254,14 +7281,34 @@ func (x DashboardEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
 	return x.TagsWithMetadata
 }
 
+// GetTracingSummary returns a pointer to the value of TracingSummary from DashboardEntity
+func (x DashboardEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
 // GetType returns a pointer to the value of Type from DashboardEntity
 func (x DashboardEntity) GetType() string {
 	return x.Type
 }
 
+// GetUiTemplates returns a pointer to the value of UiTemplates from DashboardEntity
+func (x DashboardEntity) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
+}
+
 // GetUpdatedAt returns a pointer to the value of UpdatedAt from DashboardEntity
 func (x DashboardEntity) GetUpdatedAt() nrtime.DateTime {
 	return x.UpdatedAt
+}
+
+// GetUpdatedAtInternal returns a pointer to the value of UpdatedAtInternal from DashboardEntity
+func (x DashboardEntity) GetUpdatedAtInternal() string {
+	return x.UpdatedAtInternal
+}
+
+// GetVisibilityInternal returns a pointer to the value of VisibilityInternal from DashboardEntity
+func (x DashboardEntity) GetVisibilityInternal() DashboardVisibility {
+	return x.VisibilityInternal
 }
 
 func (x *DashboardEntity) ImplementsAlertableEntity() {}
@@ -3270,16 +7317,19 @@ func (x *DashboardEntity) ImplementsEntity() {}
 
 // DashboardEntityOutline - A Dashboard entity outline.
 type DashboardEntityOutline struct {
-	//
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
 	// The date and time the dashboard was created
 	CreatedAt nrtime.DateTime `json:"createdAt,omitempty"`
 	// The parent entity `guid` of the dashboard.
 	DashboardParentGUID common.EntityGUID `json:"dashboardParentGuid,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -3287,9 +7337,13 @@ type DashboardEntityOutline struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
@@ -3300,16 +7354,24 @@ type DashboardEntityOutline struct {
 	Permalink string `json:"permalink,omitempty"`
 	// The permissions of the dashboard.
 	Permissions DashboardEntityPermissions `json:"permissions,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
 	// The tags applied to the entity.
 	//
 	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 	// The date and time the dashboard was updated
 	UpdatedAt nrtime.DateTime `json:"updatedAt,omitempty"`
 }
@@ -3329,6 +7391,11 @@ func (x DashboardEntityOutline) GetAlertSeverity() EntityAlertSeverity {
 	return x.AlertSeverity
 }
 
+// GetAlertStatus returns a pointer to the value of AlertStatus from DashboardEntityOutline
+func (x DashboardEntityOutline) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
 // GetCreatedAt returns a pointer to the value of CreatedAt from DashboardEntityOutline
 func (x DashboardEntityOutline) GetCreatedAt() nrtime.DateTime {
 	return x.CreatedAt
@@ -3337,6 +7404,11 @@ func (x DashboardEntityOutline) GetCreatedAt() nrtime.DateTime {
 // GetDashboardParentGUID returns a pointer to the value of DashboardParentGUID from DashboardEntityOutline
 func (x DashboardEntityOutline) GetDashboardParentGUID() common.EntityGUID {
 	return x.DashboardParentGUID
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from DashboardEntityOutline
+func (x DashboardEntityOutline) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
 }
 
 // GetDomain returns a pointer to the value of Domain from DashboardEntityOutline
@@ -3357,6 +7429,16 @@ func (x DashboardEntityOutline) GetGUID() common.EntityGUID {
 // GetGoldenMetrics returns a pointer to the value of GoldenMetrics from DashboardEntityOutline
 func (x DashboardEntityOutline) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
 	return x.GoldenMetrics
+}
+
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from DashboardEntityOutline
+func (x DashboardEntityOutline) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from DashboardEntityOutline
+func (x DashboardEntityOutline) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
 }
 
 // GetGoldenTags returns a pointer to the value of GoldenTags from DashboardEntityOutline
@@ -3389,6 +7471,16 @@ func (x DashboardEntityOutline) GetPermissions() DashboardEntityPermissions {
 	return x.Permissions
 }
 
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from DashboardEntityOutline
+func (x DashboardEntityOutline) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from DashboardEntityOutline
+func (x DashboardEntityOutline) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
+}
+
 // GetReporting returns a pointer to the value of Reporting from DashboardEntityOutline
 func (x DashboardEntityOutline) GetReporting() bool {
 	return x.Reporting
@@ -3399,6 +7491,11 @@ func (x DashboardEntityOutline) GetServiceLevel() ServiceLevelDefinition {
 	return x.ServiceLevel
 }
 
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from DashboardEntityOutline
+func (x DashboardEntityOutline) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
+}
+
 // GetTags returns a pointer to the value of Tags from DashboardEntityOutline
 func (x DashboardEntityOutline) GetTags() []EntityTag {
 	return x.Tags
@@ -3407,6 +7504,11 @@ func (x DashboardEntityOutline) GetTags() []EntityTag {
 // GetType returns a pointer to the value of Type from DashboardEntityOutline
 func (x DashboardEntityOutline) GetType() string {
 	return x.Type
+}
+
+// GetUiTemplates returns a pointer to the value of UiTemplates from DashboardEntityOutline
+func (x DashboardEntityOutline) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
 }
 
 // GetUpdatedAt returns a pointer to the value of UpdatedAt from DashboardEntityOutline
@@ -3426,16 +7528,170 @@ type DashboardEntityOwnerInfo struct {
 	UserID int `json:"userId,omitempty"`
 }
 
+// DashboardFacetChartWidget - Facet chart widget.
+type DashboardFacetChartWidget struct {
+	// accountId.
+	AccountID int `json:"accountId,omitempty"`
+	// data.
+	Data []DashboardNRQLWidgetData `json:"data"`
+	// layout.
+	Layout DashboardWidgetLayoutInternal `json:"layout,omitempty"`
+	// presentation.
+	Presentation DashboardFacetChartWidgetPresentation `json:"presentation"`
+	// visualization.
+	Visualization DashboardFacetChartWidgetVisualizationType `json:"visualization"`
+	// widgetId.
+	WidgetId int `json:"widgetId,omitempty"`
+}
+
+func (x *DashboardFacetChartWidget) ImplementsDashboardWidgetCommons() {}
+
+// DashboardFacetChartWidgetPresentation - Facet chart widget presentation.
+type DashboardFacetChartWidgetPresentation struct {
+	// drilldownDashboardId.
+	DrilldownDashboardId int `json:"drilldownDashboardId,omitempty"`
+	// notes.
+	Notes string `json:"notes,omitempty"`
+	// title.
+	Title string `json:"title,omitempty"`
+}
+
+// DashboardInaccessibleWidget - Inaccessible widget.
+type DashboardInaccessibleWidget struct {
+	// layout.
+	Layout DashboardWidgetLayoutInternal `json:"layout,omitempty"`
+	// visualization.
+	Visualization DashboardInaccessibleWidgetVisualizationType `json:"visualization,omitempty"`
+	// widgetId.
+	WidgetId int `json:"widgetId,omitempty"`
+}
+
+func (x *DashboardInaccessibleWidget) ImplementsDashboardWidgetCommons() {}
+
+// DashboardInventoryWidget - Inventory widget.
+type DashboardInventoryWidget struct {
+	// accountId.
+	AccountID int `json:"accountId,omitempty"`
+	// data.
+	Data []DashboardInventoryWidgetData `json:"data,omitempty"`
+	// layout.
+	Layout DashboardWidgetLayoutInternal `json:"layout,omitempty"`
+	// presentation.
+	Presentation DashboardWidgetPresentation `json:"presentation,omitempty"`
+	// visualization.
+	Visualization DashboardInventoryWidgetVisualizationType `json:"visualization"`
+	// widgetId.
+	WidgetId int `json:"widgetId,omitempty"`
+}
+
+func (x *DashboardInventoryWidget) ImplementsDashboardWidgetCommons() {}
+
+// DashboardInventoryWidgetData - Inventory widget data.
+type DashboardInventoryWidgetData struct {
+	// filters.
+	Filters DashboardEncodedInfraFilterSet `json:"filters,omitempty"`
+	// sources.
+	Sources []string `json:"sources,omitempty"`
+}
+
 // DashboardLineWidgetConfiguration - Configuration for visualization type 'viz.line'
 type DashboardLineWidgetConfiguration struct {
 	// nrql queries
 	NRQLQueries []DashboardWidgetNRQLQuery `json:"nrqlQueries,omitempty"`
 }
 
+// DashboardMarkdownWidget - Markdown widget.
+type DashboardMarkdownWidget struct {
+	// accountId.
+	AccountID int `json:"accountId,omitempty"`
+	// data.
+	Data []DashboardMarkdownWidgetData `json:"data,omitempty"`
+	// layout.
+	Layout DashboardWidgetLayoutInternal `json:"layout,omitempty"`
+	// presentation.
+	Presentation DashboardWidgetPresentation `json:"presentation,omitempty"`
+	// visualization.
+	Visualization DashboardMarkdownWidgetVisualizationType `json:"visualization"`
+	// widgetId.
+	WidgetId int `json:"widgetId,omitempty"`
+}
+
+func (x *DashboardMarkdownWidget) ImplementsDashboardWidgetCommons() {}
+
 // DashboardMarkdownWidgetConfiguration - Configuration for visualization type 'viz.markdown'
 type DashboardMarkdownWidgetConfiguration struct {
 	// Markdown content of the widget
 	Text string `json:"text"`
+}
+
+// DashboardMarkdownWidgetData - Markdown widget data.
+type DashboardMarkdownWidgetData struct {
+	// source.
+	Source string `json:"source,omitempty"`
+}
+
+// DashboardMetricLineChartWidget - Metric line chart widget.
+type DashboardMetricLineChartWidget struct {
+	// accountId.
+	AccountID int `json:"accountId,omitempty"`
+	// data.
+	Data []DashboardMetricLineChartWidgetData `json:"data,omitempty"`
+	// layout.
+	Layout DashboardWidgetLayoutInternal `json:"layout,omitempty"`
+	// presentation.
+	Presentation DashboardWidgetPresentation `json:"presentation,omitempty"`
+	// visualization.
+	Visualization DashboardMetricLineChartWidgetVisualizationType `json:"visualization"`
+	// widgetId.
+	WidgetId int `json:"widgetId,omitempty"`
+}
+
+func (x *DashboardMetricLineChartWidget) ImplementsDashboardWidgetCommons() {}
+
+// DashboardMetricLineChartWidgetData - Metric line chart widget data.
+type DashboardMetricLineChartWidgetData struct {
+	// compareWith.
+	CompareWith []DashboardMetricWidgetCompareWith `json:"compareWith,omitempty"`
+	// Period of time of the requested data in milliseconds.
+	Duration Milliseconds `json:"duration"`
+	// endTime.
+	EndTime *nrtime.EpochMilliseconds `json:"endTime,omitempty"`
+	// entityIds.
+	EntityIds []int `json:"entityIds"`
+	// facet.
+	Facet string `json:"facet,omitempty"`
+	// limit.
+	Limit int `json:"limit,omitempty"`
+	// metrics.
+	Metrics []DashboardWidgetDataMetric `json:"metrics"`
+	// orderBy.
+	OrderBy string `json:"orderBy,omitempty"`
+	// rawMetricName.
+	RawMetricName string `json:"rawMetricName,omitempty"`
+}
+
+// DashboardMetricWidgetCompareWith - Metric widget compare with.
+type DashboardMetricWidgetCompareWith struct {
+	// offsetDuration.
+	OffsetDuration string `json:"offsetDuration,omitempty"`
+	// presentation.
+	Presentation DashboardMetricWidgetCompareWithPresentation `json:"presentation,omitempty"`
+}
+
+// DashboardMetricWidgetCompareWithPresentation - Metric widget compare with presentation.
+type DashboardMetricWidgetCompareWithPresentation struct {
+	// color.
+	Color string `json:"color,omitempty"`
+	// name.
+	Name string `json:"name,omitempty"`
+}
+
+// DashboardNRQLWidgetData - Nrql widget data.
+type DashboardNRQLWidgetData struct {
+	// Unique identifier for the account.
+	AccountID int `json:"accountId,omitempty"`
+	// nrql.
+	NRQL string `json:"nrql,omitempty"`
 }
 
 // DashboardOwnerInfo - Information on the owner of a dashboard or page
@@ -3464,16 +7720,192 @@ type DashboardPage struct {
 	Widgets []DashboardWidget `json:"widgets,omitempty"`
 }
 
+// DashboardPageInternal - Page in a `DashboardEntity`.
+type DashboardPageInternal struct {
+	// Page creation timestamp.
+	CreatedAt string `json:"createdAt,omitempty"`
+	// Page description.
+	Description string `json:"description,omitempty"`
+	// Page editable configuration.
+	Editable DashboardEditable `json:"editable,omitempty"`
+	// Unique entity identifier.
+	GUID common.EntityGUID `json:"guid,omitempty"`
+	// Number of columns configured in the Page grid.
+	GridColumnCount int `json:"gridColumnCount,omitempty"`
+	// Page name.
+	Name string `json:"name,omitempty"`
+	// Page owner's email.
+	OwnerEmail string `json:"ownerEmail,omitempty"`
+	// Page update timestamp.
+	UpdatedAt string `json:"updatedAt,omitempty"`
+	// Page visibility configuration.
+	Visibility DashboardVisibility `json:"visibility,omitempty"`
+	// Page widgets.
+	Widgets DashboardWidgetsInternal `json:"widgets,omitempty"`
+}
+
 // DashboardPieWidgetConfiguration - Configuration for visualization type 'viz.pie'
 type DashboardPieWidgetConfiguration struct {
 	// nrql queries
 	NRQLQueries []DashboardWidgetNRQLQuery `json:"nrqlQueries,omitempty"`
 }
 
+// DashboardPredefinedMetricChartWidget - Predefined metric chart widget.
+type DashboardPredefinedMetricChartWidget struct {
+	// accountId.
+	AccountID int `json:"accountId,omitempty"`
+	// data.
+	Data []DashboardPredefinedMetricChartWidgetData `json:"data,omitempty"`
+	// layout.
+	Layout DashboardWidgetLayoutInternal `json:"layout,omitempty"`
+	// presentation.
+	Presentation DashboardWidgetPresentation `json:"presentation,omitempty"`
+	// visualization.
+	Visualization DashboardPredefinedMetricChartWidgetVisualizationType `json:"visualization"`
+	// widgetId.
+	WidgetId int `json:"widgetId,omitempty"`
+}
+
+func (x *DashboardPredefinedMetricChartWidget) ImplementsDashboardWidgetCommons() {}
+
+// DashboardPredefinedMetricChartWidgetData - Predefined metric chart widget data.
+type DashboardPredefinedMetricChartWidgetData struct {
+	// Period of time of the requested data in milliseconds.
+	Duration Milliseconds `json:"duration,omitempty"`
+	// endTime.
+	EndTime *nrtime.EpochMilliseconds `json:"endTime,omitempty"`
+	// entityIds.
+	EntityIds []int `json:"entityIds,omitempty"`
+	// metrics.
+	Metrics []DashboardWidgetDataMetric `json:"metrics,omitempty"`
+}
+
+// DashboardServiceMapWidget - Service map widget.
+type DashboardServiceMapWidget struct {
+	// accountId.
+	AccountID int `json:"accountId,omitempty"`
+	// data.
+	Data []DashboardServiceMapWidgetData `json:"data,omitempty"`
+	// layout.
+	Layout DashboardWidgetLayoutInternal `json:"layout,omitempty"`
+	// presentation.
+	Presentation DashboardWidgetPresentation `json:"presentation,omitempty"`
+	// visualization.
+	Visualization DashboardServiceMapWidgetVisualizationType `json:"visualization"`
+	// widgetId.
+	WidgetId int `json:"widgetId,omitempty"`
+}
+
+func (x *DashboardServiceMapWidget) ImplementsDashboardWidgetCommons() {}
+
+// DashboardServiceMapWidgetAdditionalEntityData - Service map widget additional entity data.
+type DashboardServiceMapWidgetAdditionalEntityData struct {
+	// guid.
+	GUID common.EntityGUID `json:"guid,omitempty"`
+	// sourceGuid.
+	SourceGUID common.EntityGUID `json:"sourceGuid,omitempty"`
+	// targetGuid.
+	TargetGUID common.EntityGUID `json:"targetGuid,omitempty"`
+}
+
+// DashboardServiceMapWidgetData - Service map widget data.
+type DashboardServiceMapWidgetData struct {
+	// additionalEntities.
+	AdditionalEntities []DashboardServiceMapWidgetAdditionalEntityData `json:"additionalEntities,omitempty"`
+	// deemphasizedConditions.
+	DeemphasizedConditions DashboardServiceMapWidgetDeemphasizedData `json:"deemphasizedConditions,omitempty"`
+	// entitySearchQuery.
+	EntitySearchQuery string `json:"entitySearchQuery,omitempty"`
+	// hiddenEntities.
+	HiddenEntities []DashboardServiceMapWidgetHiddenEntityData `json:"hiddenEntities,omitempty"`
+	// primaryEntities.
+	PrimaryEntities []DashboardServiceMapWidgetEntityData `json:"primaryEntities,omitempty"`
+}
+
+// DashboardServiceMapWidgetDeemphasizedData - Service map widget deemphasized data.
+type DashboardServiceMapWidgetDeemphasizedData struct {
+	// alertStatus.
+	AlertStatus []DashboardEntityAlertStatus `json:"alertStatus,omitempty"`
+	// entityType.
+	EntityType []DashboardEntityType `json:"entityType,omitempty"`
+}
+
+// DashboardServiceMapWidgetEntityData - Service map widget entity data.
+type DashboardServiceMapWidgetEntityData struct {
+	// guid.
+	GUID common.EntityGUID `json:"guid,omitempty"`
+}
+
+// DashboardServiceMapWidgetHiddenEntityData - Service map widget hidden entity data.
+type DashboardServiceMapWidgetHiddenEntityData struct {
+	// guid.
+	GUID common.EntityGUID `json:"guid,omitempty"`
+	// sourceGuid.
+	SourceGUID common.EntityGUID `json:"sourceGuid,omitempty"`
+	// targetGuid.
+	TargetGUID common.EntityGUID `json:"targetGuid,omitempty"`
+}
+
+// DashboardSimpleEventWidget - Simple event widget.
+type DashboardSimpleEventWidget struct {
+	// accountId.
+	AccountID int `json:"accountId,omitempty"`
+	// data.
+	Data []DashboardNRQLWidgetData `json:"data,omitempty"`
+	// layout.
+	Layout DashboardWidgetLayoutInternal `json:"layout,omitempty"`
+	// presentation.
+	Presentation DashboardWidgetPresentation `json:"presentation,omitempty"`
+	// visualization.
+	Visualization DashboardSimpleEventWidgetVisualizationType `json:"visualization"`
+	// widgetId.
+	WidgetId int `json:"widgetId,omitempty"`
+}
+
+func (x *DashboardSimpleEventWidget) ImplementsDashboardWidgetCommons() {}
+
 // DashboardTableWidgetConfiguration - Configuration for visualization type 'viz.table'
 type DashboardTableWidgetConfiguration struct {
 	// nrql queries
 	NRQLQueries []DashboardWidgetNRQLQuery `json:"nrqlQueries,omitempty"`
+}
+
+// DashboardThresholdEventWidget - Threshold event widget.
+type DashboardThresholdEventWidget struct {
+	// accountId.
+	AccountID int `json:"accountId,omitempty"`
+	// data.
+	Data []DashboardNRQLWidgetData `json:"data,omitempty"`
+	// layout.
+	Layout DashboardWidgetLayoutInternal `json:"layout,omitempty"`
+	// presentation.
+	Presentation DashboardThresholdEventWidgetPresentation `json:"presentation,omitempty"`
+	// visualization.
+	Visualization DashboardThresholdEventWidgetVisualizationType `json:"visualization"`
+	// widgetId.
+	WidgetId int `json:"widgetId,omitempty"`
+}
+
+func (x *DashboardThresholdEventWidget) ImplementsDashboardWidgetCommons() {}
+
+// DashboardThresholdEventWidgetPresentation - Threshold event widget presentation.
+type DashboardThresholdEventWidgetPresentation struct {
+	// notes.
+	Notes string `json:"notes,omitempty"`
+	// threshold.
+	Threshold DashboardThresholdEventWidgetPresentationThreshold `json:"threshold,omitempty"`
+	// title.
+	Title string `json:"title,omitempty"`
+}
+
+// DashboardThresholdEventWidgetPresentationThreshold - Threshold event widget presentation threshold.
+type DashboardThresholdEventWidgetPresentationThreshold struct {
+	// green.
+	Green float64 `json:"green,omitempty"`
+	// red.
+	Red float64 `json:"red,omitempty"`
+	// yellow.
+	Yellow float64 `json:"yellow,omitempty"`
 }
 
 // DashboardWidget - Widgets in a Dashboard Page.
@@ -3484,7 +7916,7 @@ type DashboardWidget struct {
 	ID string `json:"id"`
 	// layout
 	Layout DashboardWidgetLayout `json:"layout,omitempty"`
-	// Related entities. Currently only supports Dashboard entities, but may allow other cases in the future.
+	// Entities related to the widget. Currently only supports one Dashboard entity guid, but may allow other cases in the future.
 	LinkedEntities []EntityOutlineInterface `json:"linkedEntities,omitempty"`
 	// Untyped configuration
 	RawConfiguration DashboardWidgetRawConfiguration `json:"rawConfiguration"`
@@ -3564,6 +7996,16 @@ func (x *DashboardWidget) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+// DashboardWidgetCommons - Common interface for all widgets.
+type DashboardWidgetCommons struct {
+	// layout.
+	Layout DashboardWidgetLayoutInternal `json:"layout,omitempty"`
+	// widgetId.
+	WidgetId int `json:"widgetId,omitempty"`
+}
+
+func (x *DashboardWidgetCommons) ImplementsDashboardWidgetCommons() {}
+
 // DashboardWidgetConfiguration - Typed configuration for known visualizations. Only one (at most) will be populated for a given widget.
 type DashboardWidgetConfiguration struct {
 	// Configuration for visualization type 'viz.area'
@@ -3582,6 +8024,18 @@ type DashboardWidgetConfiguration struct {
 	Table DashboardTableWidgetConfiguration `json:"table,omitempty"`
 }
 
+// DashboardWidgetDataMetric - Widget data metric.
+type DashboardWidgetDataMetric struct {
+	// name.
+	Name string `json:"name,omitempty"`
+	// scope.
+	Scope string `json:"scope,omitempty"`
+	// units.
+	Units string `json:"units,omitempty"`
+	// values.
+	Values []string `json:"values,omitempty"`
+}
+
 // DashboardWidgetLayout - Widget layout.
 type DashboardWidgetLayout struct {
 	// column.
@@ -3594,6 +8048,19 @@ type DashboardWidgetLayout struct {
 	Width int `json:"width,omitempty"`
 }
 
+// DashboardWidgetLayoutInternal - Widget layout.
+type DashboardWidgetLayoutInternal struct {
+	// Indicates the column within the Page grid where the widget will be placed.
+	Column int `json:"column,omitempty"`
+	// Indicates the number of columns within the Page grid that the widget will occupy vertically.
+	Height int `json:"height,omitempty"`
+	// Indicates the row within the Page grid system where the widget will be placed.
+	Row int `json:"row,omitempty"`
+	// Indicates the number of rows within the Page grid that the widget will occupy horizontally.
+	//  The maximum width is 12. When the input width is greater than the maximum is set to the maximum by default.
+	Width int `json:"width,omitempty"`
+}
+
 // DashboardWidgetNRQLQuery - Single NRQL query for a widget.
 type DashboardWidgetNRQLQuery struct {
 	// accountId
@@ -3602,10 +8069,62 @@ type DashboardWidgetNRQLQuery struct {
 	Query nrdb.NRQL `json:"query"`
 }
 
+// DashboardWidgetPresentation - Widget presentation.
+type DashboardWidgetPresentation struct {
+	// notes.
+	Notes string `json:"notes,omitempty"`
+	// title.
+	Title string `json:"title,omitempty"`
+}
+
 // DashboardWidgetVisualization - Visualization configuration
 type DashboardWidgetVisualization struct {
 	// Nerdpack artifact ID
 	ID string `json:"id,omitempty"`
+}
+
+// DashboardWidgetsInternal - Widgets in a `DashboardPage`.
+type DashboardWidgetsInternal struct {
+	// Facet chart widgets.
+	FacetChart []DashboardFacetChartWidget `json:"facetChart,omitempty"`
+	// Inaccessible widgets.
+	Inaccessible []DashboardInaccessibleWidget `json:"inaccessible,omitempty"`
+	// Inventory widgets.
+	Inventory []DashboardInventoryWidget `json:"inventory,omitempty"`
+	// Markdown widgets.
+	Markdown []DashboardMarkdownWidget `json:"markdown,omitempty"`
+	// Metric line chart widgets.
+	MetricLineChart []DashboardMetricLineChartWidget `json:"metricLineChart,omitempty"`
+	// Predefined metric chart widgets.
+	PredefinedMetricChart []DashboardPredefinedMetricChartWidget `json:"predefinedMetricChart,omitempty"`
+	// Service map widgets.
+	ServiceMap []DashboardServiceMapWidget `json:"serviceMap,omitempty"`
+	// Simple event widgets.
+	SimpleEvent []DashboardSimpleEventWidget `json:"simpleEvent,omitempty"`
+	// Threshold event widgets.
+	ThresholdEvent []DashboardThresholdEventWidget `json:"thresholdEvent,omitempty"`
+}
+
+// DistributedTracingEntityTracingSummary - Details tracing summary data for the provided `EntityGuid` that occurred during the provided `startTime` and `endTime`
+type DistributedTracingEntityTracingSummary struct {
+	// The number of traces where this entity produced an error
+	ErrorTraceCount int `json:"errorTraceCount,omitempty"`
+	// The percentage of error traces produced by this entity compared to all error traces in the system
+	PercentOfAllErrorTraces float64 `json:"percentOfAllErrorTraces,omitempty"`
+}
+
+// DomainType - Details about an entity type
+type DomainType struct {
+	// The domain of the entity.
+	//
+	// The domain must be a value matching /[A-Z][A-Z0-9_]{2,14}/.
+	Domain string `json:"domain"`
+	// The type of the entity.
+	//
+	// The type must be a value matching /[A-Z][A-Z0-9_]{2,49}/.
+	//
+	// Some examples are APPLICATION, HOST or CONTAINER.
+	Type string `json:"type"`
 }
 
 // DomainTypeInput - Input for getting details about an entity type
@@ -3626,14 +8145,17 @@ type DomainTypeInput struct {
 //
 // To understand more about entities and entity types, look at [our docs](https://docs.newrelic.com/docs/what-are-new-relic-entities).
 type Entity struct {
-	//
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the entity that were open during the specified time window.
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -3641,9 +8163,13 @@ type Entity struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
@@ -3653,13 +8179,18 @@ type Entity struct {
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
-	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
+	Name                string                      `json:"name,omitempty"`
+	NerdStorage         NerdStorageEntityScope      `json:"nerdStorage,omitempty"`
+	NerdStoreCollection []NerdStoreCollectionMember `json:"nerdStoreCollection,omitempty"`
+	NerdStoreDocument   NerdStoreDocument           `json:"nerdStoreDocument,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
 	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// Related entities result with optional filtering.
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// A list of the entities' relationships.
@@ -3670,26 +8201,33 @@ type Entity struct {
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
 	// The tags applied to the entity.
 	//
 	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The tags applied to the entity with their metadata.
 	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 }
 
 func (x *Entity) ImplementsAlertableEntity() {}
 
 func (x *Entity) ImplementsEntity() {}
 
-// EntityAlertViolation -
 type EntityAlertViolation struct {
 	// A link to the agent in the time window in which the violation occurred.
 	AgentURL string `json:"agentUrl,omitempty"`
 	// The severity of the violation.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// The current alert status of the violation.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
 	// Timestamp of when the violation was closed.
 	ClosedAt *nrtime.EpochMilliseconds `json:"closedAt,omitempty"`
 	// The description of the violation.
@@ -3740,6 +8278,52 @@ type EntityCollectionScopeAccounts struct {
 	AccountIDs []int `json:"accountIds,omitempty"`
 }
 
+// EntityDashboardTemplatesDashboardTemplate - Object that contains a dashboard templates
+type EntityDashboardTemplatesDashboardTemplate struct {
+	// Dashboard template in Mosaic format, obtained from a dashboard template located in the Entity Synthesis Definitions repository.
+	MosaicTemplate EntityDashboardTemplatesRawMosaicTemplate `json:"mosaicTemplate"`
+}
+
+// EntityDashboardTemplatesUi - A type that encapsulates the templates configuration for the UI.
+type EntityDashboardTemplatesUi struct {
+	// The template to feed mosaic with in order to build an interface.
+	Template EntityDashboardTemplatesRawMosaicTemplate `json:"template,omitempty"`
+}
+
+type EntityGUIDSegments struct {
+	AccountID int               `json:"accountId,omitempty"`
+	Domain    string            `json:"domain,omitempty"`
+	DomainId  string            `json:"domainId,omitempty"`
+	GUID      common.EntityGUID `json:"guid,omitempty"`
+	Type      string            `json:"type,omitempty"`
+}
+
+// EntityGoldenAggregatedMetrics - metrics aggregated by title and name.
+type EntityGoldenAggregatedMetrics struct {
+	// The kind of the golden metric. i.e: counter, average,..
+	Kind string `json:"kind"`
+	// The synthesised metric name. i.e: mewrelic.goldenmetrics.apm.application.throughput
+	MetricName string `json:"metricName"`
+	// The name of the golden metric.
+	Name string `json:"name"`
+	// queries aggregated by accountID
+	Queries []EntityGoldenAggregatedQueries `json:"queries,omitempty"`
+	// The title of the golden metric.
+	Title string `json:"title"`
+	// The unit used to represent the golden metric.
+	Unit EntityGoldenMetricUnit `json:"unit"`
+}
+
+// EntityGoldenAggregatedQueries - queries aggregated by accountId. for multiple guids under same account and domainType will be concatenated in IN CLAUSE of query
+type EntityGoldenAggregatedQueries struct {
+	// accountID that the golden metrics belong to
+	AccountID int `json:"accountId"`
+	// The definition of the golden metric.
+	Definition EntityGoldenMetricDefinition `json:"definition"`
+	// The golden metric NRQL query.
+	Query string `json:"query"`
+}
+
 // EntityGoldenContext - An object that represent the context.
 type EntityGoldenContext struct {
 	// Account context.
@@ -3772,16 +8356,30 @@ type EntityGoldenContextScopedGoldenTags struct {
 	Tags []EntityGoldenTag `json:"tags"`
 }
 
+// EntityGoldenGroupedGoldenMetrics - golden metrics grouped by domainType and account
+type EntityGoldenGroupedGoldenMetrics struct {
+	// entity domain and entity type which the grouped golden metrics belong to
+	DomainType DomainType `json:"domainType"`
+	// golden metrics grouped by account
+	Metrics []EntityGoldenAggregatedMetrics `json:"metrics"`
+}
+
 // EntityGoldenMetric - An object that represents a golden metric.
 type EntityGoldenMetric struct {
 	// The definition of the golden metric.
 	Definition EntityGoldenMetricDefinition `json:"definition"`
+	// The kind of the golden metric. i.e: counter, average,..
+	Kind string `json:"kind"`
+	// The synthesised metric name. i.e: mewrelic.goldenmetrics.apm.application.throughput
+	MetricName string `json:"metricName"`
 	// The name of the golden metric.
 	Name string `json:"name"`
 	// The golden metric NRQL query.
 	Query string `json:"query"`
 	// The title of the golden metric.
 	Title string `json:"title"`
+	// The unit used to represent the golden metric.
+	Unit EntityGoldenMetricUnit `json:"unit"`
 }
 
 // EntityGoldenMetricDefinition - The definition of the metric.
@@ -3814,16 +8412,45 @@ type EntityGoldenTag struct {
 	Key string `json:"key"`
 }
 
+// EntityGraphAttribute - A key and a list of values
+type EntityGraphAttribute struct {
+	// The attribute key
+	Key string `json:"key"`
+	// The attribute values
+	Values []string `json:"values"`
+}
+
+// EntityGraphVertex - A single vertex that represents an Entity.
+type EntityGraphVertex struct {
+	// The alert status
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity"`
+	// A list of user defined tag values
+	Attributes []EntityGraphAttribute `json:"attributes,omitempty"`
+	// A boolean representing if the entity is currently deleted.
+	Deleted bool `json:"deleted"`
+	// The entity domain type.
+	EntityDomainType DomainType `json:"entityDomainType"`
+	// Flags used to indicate special information about an entity
+	EntityFlags []EntityGraphEntityFlags `json:"entityFlags"`
+	// The entity guid.
+	EntityGUID common.EntityGUID `json:"entityGuid"`
+	// The entity name.
+	Name string `json:"name"`
+}
+
 // EntityOutline - The `EntityOutline` interface object allows fetching basic entity data for many entities at a time.
 //
 // To understand more about entities and entity types, look at [our docs](https://docs.newrelic.com/docs/what-are-new-relic-entities).
 type EntityOutline struct {
-	//
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -3831,25 +8458,37 @@ type EntityOutline struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
 	// The tags applied to the entity.
 	//
 	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 }
 
 func (x *EntityOutline) ImplementsAlertableEntityOutline() {}
@@ -3914,6 +8553,8 @@ type EntityRelationshipEdgeTypeFilter struct {
 
 // EntityRelationshipEntityDomainTypeFilter - Filter on entity domain-types.
 type EntityRelationshipEntityDomainTypeFilter struct {
+	// Filter based on the isAlertable field in the entity domain type definition. If true, will exclude all non alertable entities from the result. If false, will exclude the alertable entities.
+	Alertable bool `json:"alertable,omitempty"`
 	// Filter the relationships to those between entities that are not of specific domain-types.
 	Exclude []DomainTypeInput `json:"exclude,omitempty"`
 	// Filter the relationships to those between entities of specific domain-types.
@@ -3931,9 +8572,8 @@ type EntityRelationshipFilter struct {
 // EntityRelationshipNode - A node in an Entity relationship.
 type EntityRelationshipNode struct {
 	// The Account ID for the relationship node.
-	AccountID int `json:"accountId,omitempty"`
-	//
-	Entity EntityOutlineInterface `json:"entity,omitempty"`
+	AccountID int                    `json:"accountId,omitempty"`
+	Entity    EntityOutlineInterface `json:"entity,omitempty"`
 	// The `EntityType` of the relationship node.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// The Entity `guid` for the relationship node.
@@ -3989,6 +8629,8 @@ func (x *EntityRelationshipNode) UnmarshalJSON(b []byte) error {
 
 // EntityRelationshipRelatedEntitiesResult - Response containing related entities
 type EntityRelationshipRelatedEntitiesResult struct {
+	// The total number of related entities.
+	Count int `json:"count"`
 	// The next cursor for fetching additional paginated results.
 	NextCursor string `json:"nextCursor,omitempty"`
 	// The list of related entities.
@@ -4009,6 +8651,11 @@ func (x *EntityRelationshipRelatedEntitiesResult) UnmarshalJSON(b []byte) error 
 		}
 
 		switch k {
+		case "count":
+			err = json.Unmarshal(*v, &x.Count)
+			if err != nil {
+				return err
+			}
 		case "nextCursor":
 			err = json.Unmarshal(*v, &x.NextCursor)
 			if err != nil {
@@ -4119,7 +8766,13 @@ type EntitySearch struct {
 	//
 	// Note: Unlike a NRQL facet, the facet results do not include entities where the facet value does not exist. Additionally, entities can be tagged with multiple tag values for one tag key. For these reasons, depending on the facet values chosen, the `counts` field will not always equal the `entitySearch.count` field.
 	Counts []EntitySearchCounts `json:"counts,omitempty"`
-	// The entity search query string.
+	// A count of the Entity Search results faceted by a chosen set of criteria.
+	//
+	// Note: Unlike a NRQL facet, the facet results do not include entities where the facet value does not exist. Additionally, entities can be tagged with multiple tag values for one tag key. For these reasons, depending on the facet values chosen, the `counts` field will not always equal the `entitySearch.count` field.
+	FacetedCounts EntitySearchFacetedCountsResult `json:"facetedCounts,omitempty"`
+	// Results of the entity search grouped by the supplied criteria.
+	GroupedResults []EntitySearchGroupedResult `json:"groupedResults,omitempty"`
+	// The entity search query string that was generated by the `query` argument or the `queryBuilder` argument.
 	Query string `json:"query,omitempty"`
 	// The paginated results of the entity search.
 	Results EntitySearchResult `json:"results,omitempty"`
@@ -4135,6 +8788,106 @@ type EntitySearchCounts struct {
 	Facet AttributeMap `json:"facet,omitempty"`
 }
 
+// EntitySearchCountsFacetInput - An object representing facets to count by.
+type EntitySearchCountsFacetInput struct {
+	// A criterion on which to facet entity search counts.
+	FacetCriterion FacetCriterion `json:"facetCriterion,omitempty"`
+	// The ordering that will be applied to the entity search facet.
+	OrderBy SortBy `json:"orderBy,omitempty"`
+}
+
+// EntitySearchFacetedCountsResult - The result of a faceted entity search counts query.
+type EntitySearchFacetedCountsResult struct {
+	// The groupings and counts of entities returned for the specified criteria.
+	Counts []EntitySearchCounts `json:"counts,omitempty"`
+	// The list of facets for which the search results exceeded the limit.
+	FacetLimits []string `json:"facetLimits,omitempty"`
+}
+
+// EntitySearchGroupedResult - Entity search results that have been grouped by criteria
+type EntitySearchGroupedResult struct {
+	// The total number of entities in this group
+	Count int `json:"count,omitempty"`
+	// The entities contained in this group.
+	//
+	// For information on New Relic entities, visit [our docs](https://docs.newrelic.com/docs/what-are-new-relic-entities).
+	//
+	// To see some query examples of entity information,
+	// visit [our entity GraphQL API docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/use-new-relic-graphql-api-query-entities).
+	Entities []EntityOutlineInterface `json:"entities,omitempty"`
+	// The group value for this collection of entities
+	Group AttributeMap `json:"group,omitempty"`
+}
+
+// special
+func (x *EntitySearchGroupedResult) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+
+	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
+		switch k {
+		case "count":
+			err = json.Unmarshal(*v, &x.Count)
+			if err != nil {
+				return err
+			}
+		case "entities":
+			if v == nil {
+				continue
+			}
+			var rawMessageEntities []*json.RawMessage
+			err = json.Unmarshal(*v, &rawMessageEntities)
+			if err != nil {
+				return err
+			}
+
+			for _, m := range rawMessageEntities {
+				xxx, err := UnmarshalEntityOutlineInterface(*m)
+				if err != nil {
+					return err
+				}
+
+				if xxx != nil {
+					x.Entities = append(x.Entities, *xxx)
+				}
+			}
+		case "group":
+			err = json.Unmarshal(*v, &x.Group)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
+}
+
+// EntitySearchGroupedResultsOptions - Additional entity search result grouping options.
+type EntitySearchGroupedResultsOptions struct {
+	// A limit on the number of result groups returned.
+	GroupLimit int `json:"groupLimit,omitempty"`
+	// A list of group values to filter grouped results by. For example, if you group search results by account ID, and add a `groupValueFilter` of `["1", "2"]`, the only groups returned will be groups for accounts 1 and 2 (if entities belonging to those accounts are returned by the search).
+	//
+	// Note this should always be a list of strings, even when the value is normally an int (ex: account ID).
+	GroupValuesFilter []string `json:"groupValuesFilter"`
+}
+
+// EntitySearchGroupingCriterion - A single value to group entity results by. You may supply either an entity `attribute` or `tag` value, but not both.
+type EntitySearchGroupingCriterion struct {
+	// An entity attribute to group results by.
+	Attribute EntitySearchGroupingAttribute `json:"attribute,omitempty"`
+	// An entity tag key to group by. Do not use a `tags.` prefix.
+	// Examples: "environment", "team".
+	Tag string `json:"tag,omitempty"`
+}
+
 // EntitySearchOptions - Additional entity search options.
 type EntitySearchOptions struct {
 	// Whether or not matching on tag keys and values should be case-sensitive.
@@ -4147,8 +8900,12 @@ type EntitySearchOptions struct {
 type EntitySearchQueryBuilder struct {
 	// The alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// The alertable status of the entity
+	Alertable bool `json:"alertable,omitempty"`
 	// The entity domain.
 	Domain EntitySearchQueryBuilderDomain `json:"domain,omitempty"`
+	// **WARNING! This argument is deprecated and will not be updated with new infrastructure integration types.** If you want to query for a type not in this list, use the `query` argument instead of `queryBuilder`. To see the query string that is generated by your `queryBuilder` search, ask for the `query` field in the result object. You can then use this to build a query supplied to the `query` argument and remove your `queryBuilder`.
+	//
 	// The Infrastructure integration type. This should be used in place of the `type` field to search for Infrastructure integration specific types.
 	InfrastructureIntegrationType EntityInfrastructureIntegrationType `json:"infrastructureIntegrationType,omitempty"`
 	// The entity name.
@@ -4175,6 +8932,8 @@ type EntitySearchQueryBuilderTag struct {
 
 // EntitySearchResult - A section of the entity search results. If there is a `nextCursor` present, there are more results available.
 type EntitySearchResult struct {
+	// The accounts that hold the entities contained in this section entity search results.
+	Accounts []AccountAccessInfo `json:"accounts,omitempty"`
 	// The entities contained in this section of the entity search results.
 	//
 	// For information on New Relic entities, visit [our docs](https://docs.newrelic.com/docs/what-are-new-relic-entities).
@@ -4182,6 +8941,10 @@ type EntitySearchResult struct {
 	// To see some query examples of entity information,
 	// visit [our entity GraphQL API docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/use-new-relic-graphql-api-query-entities).
 	Entities []EntityOutlineInterface `json:"entities,omitempty"`
+	// Contains information about the different entity types returned in the entity search results.
+	EntityTypes []EntityTypeResults `json:"entityTypes,omitempty"`
+	// golden metrics grouped by domainAndEntityType-accountId-entityGuid
+	GroupedGoldenMetrics []EntityGoldenGroupedGoldenMetrics `json:"groupedGoldenMetrics,omitempty"`
 	// The next cursor for fetching additional paginated entity search results.
 	NextCursor string `json:"nextCursor,omitempty"`
 }
@@ -4200,6 +8963,11 @@ func (x *EntitySearchResult) UnmarshalJSON(b []byte) error {
 		}
 
 		switch k {
+		case "accounts":
+			err = json.Unmarshal(*v, &x.Accounts)
+			if err != nil {
+				return err
+			}
 		case "entities":
 			if v == nil {
 				continue
@@ -4219,6 +8987,16 @@ func (x *EntitySearchResult) UnmarshalJSON(b []byte) error {
 				if xxx != nil {
 					x.Entities = append(x.Entities, *xxx)
 				}
+			}
+		case "entityTypes":
+			err = json.Unmarshal(*v, &x.EntityTypes)
+			if err != nil {
+				return err
+			}
+		case "groupedGoldenMetrics":
+			err = json.Unmarshal(*v, &x.GroupedGoldenMetrics)
+			if err != nil {
+				return err
 			}
 		case "nextCursor":
 			err = json.Unmarshal(*v, &x.NextCursor)
@@ -4242,6 +9020,96 @@ type EntitySearchTypes struct {
 	// The type of the search result group.
 	Type string `json:"type,omitempty"`
 }
+
+// EntitySummaryMetric - A single summary metric object.
+type EntitySummaryMetric struct {
+	// The name of the summary metric.
+	Name string `json:"name,omitempty"`
+	// The human-readable title of the summary metric.
+	Title string `json:"title,omitempty"`
+	// The value of the summary metric.
+	Value EntitySummaryMetricValueInterface `json:"value,omitempty"`
+}
+
+// special
+func (x *EntitySummaryMetric) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+
+	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
+		switch k {
+		case "name":
+			err = json.Unmarshal(*v, &x.Name)
+			if err != nil {
+				return err
+			}
+		case "title":
+			err = json.Unmarshal(*v, &x.Title)
+			if err != nil {
+				return err
+			}
+		case "value":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalEntitySummaryMetricValueInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.Value = *xxx
+			}
+		}
+	}
+
+	return nil
+}
+
+// EntitySummaryMetricDefinition - An object which provides the definition of a single entity summary metric.
+type EntitySummaryMetricDefinition struct {
+	// The name of the summary metric.
+	Name string `json:"name"`
+	// The human-readable title of the summary metric.
+	Title string `json:"title"`
+	// The unit of the summary metric.
+	Unit EntitySummaryMetricUnit `json:"unit"`
+}
+
+// EntitySummaryMetricValue - The interface representing the summary metric value.
+type EntitySummaryMetricValue struct {
+	// The unit of the summary metric.
+	Unit EntitySummaryMetricUnit `json:"unit,omitempty"`
+}
+
+func (x *EntitySummaryMetricValue) ImplementsEntitySummaryMetricValue() {}
+
+// EntitySummaryNumericMetricValue - A numeric summary metric value.
+type EntitySummaryNumericMetricValue struct {
+	// The numeric value of a summary metric.
+	NumericValue float64 `json:"numericValue,omitempty"`
+	// The unit of the summary metric.
+	Unit EntitySummaryMetricUnit `json:"unit,omitempty"`
+}
+
+func (x *EntitySummaryNumericMetricValue) ImplementsEntitySummaryMetricValue() {}
+
+// EntitySummaryStringMetricValue - A string summary metric value.
+type EntitySummaryStringMetricValue struct {
+	// The string value of a summary metric.
+	StringValue string `json:"stringValue,omitempty"`
+	// The unit of the summary metric.
+	Unit EntitySummaryMetricUnit `json:"unit,omitempty"`
+}
+
+func (x *EntitySummaryStringMetricValue) ImplementsEntitySummaryMetricValue() {}
 
 // EntityTag - A tag that has been applied to an entity.
 type EntityTag struct {
@@ -4267,16 +9135,183 @@ type EntityTagWithMetadata struct {
 	Values []EntityTagValueWithMetadata `json:"values,omitempty"`
 }
 
+// EntityTypeResults - Detailed information about entity types.
+type EntityTypeResults struct {
+	// The list of dashboard templates available for a specific entity and type.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
+	// The domain of the entity type
+	Domain string `json:"domain,omitempty"`
+	// The list of golden metrics for a specific entityType. This query will contain a template query with a WHERE filtering by GUID or domainId. You will need to replace the 'DOMAIN_IDS' or 'ENTITY_GUIDS' strings with the list of ids you want to display
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
+	// The list of metric definitions.
+	SummaryMetricDefinitions []EntitySummaryMetricDefinition `json:"summaryMetricDefinitions"`
+	// The type of the entity type
+	Type string `json:"type,omitempty"`
+	// Entity type UI definitions for this domain and type
+	UiDefinitions EntityTypeUiDefinitionsResult `json:"uiDefinitions,omitempty"`
+}
+
+// EntityTypeUiDefinitionsContext - Represents an entity type context.
+type EntityTypeUiDefinitionsContext struct {
+	// Only entities of the following domain types are able to use this entity type.
+	EntityTypesDomainType []DomainType `json:"entityTypesDomainType,omitempty"`
+	// Only the following entity guids are able to use this entity type.
+	EntityTypesGUID []string `json:"entityTypesGuid,omitempty"`
+	// Only launchers in the following list are able to use this entity type.
+	Launchers []string `json:"launchers,omitempty"`
+	// Only nerdlets in the following list are able to use this entity type.
+	Nerdlets []string `json:"nerdlets,omitempty"`
+}
+
+// EntityTypeUiDefinitionsNerdletSection - Represents a nerdlet section.
+type EntityTypeUiDefinitionsNerdletSection struct {
+	// Name of the section.
+	Name string `json:"name"`
+	// Nerdlets that belong to the section.
+	Nerdlets []string `json:"nerdlets"`
+}
+
+// EntityTypeUiDefinitionsResult - An object that an entity type UI definition.
+type EntityTypeUiDefinitionsResult struct {
+	// The category of the entity type. This is used in the New Relic One platform to group entity types.
+	Category string `json:"category"`
+	// Context for this entity type.
+	Context EntityTypeUiDefinitionsContext `json:"context,omitempty"`
+	// Entity type's description.
+	Description string `json:"description"`
+	// Entity type's display name.
+	DisplayName string `json:"displayName"`
+	// Entity type's plural display name. When present, it should override the default pluralization.
+	DisplayNamePlural string `json:"displayNamePlural,omitempty"`
+	// Domain of an entity.
+	Domain string `json:"domain"`
+	// The Legacy product name this entity type is replacing.
+	DomainName string `json:"domainName,omitempty"`
+	// The icon to be used for this Entity Type. It has to be the name of any of the icons in NR-UI.
+	Icon string `json:"icon"`
+	// Indicates if this entity type is a collection that can contain one or more other entity types i.e. 'FAVORITE' (Watching) or 'ALERT' (Alerting).
+	IsCollection bool `json:"isCollection,omitempty"`
+	// The nerdlet sections to be shown in the entity detail view.
+	NerdletSections []EntityTypeUiDefinitionsNerdletSection `json:"nerdletSections,omitempty"`
+	// The id of the Nerdlet to be rendered as the overview for this type of entity in the Explorer.
+	OverviewNerdletId string `json:"overviewNerdletId,omitempty"`
+	// Type of an entity within the given domain.
+	Type string `json:"type"`
+}
+
+// ErrorTrackingErrorGroup - A grouping of similar error events.
+type ErrorTrackingErrorGroup struct {
+	// User assigned to the error group
+	AssignedUser users.UserReference `json:"assignedUser,omitempty"`
+	// Notifications channels associated with the error group
+	Channels []ErrorTrackingNotificationChannel `json:"channels"`
+	// User comments
+	Comments ErrorTrackingErrorGroupCommentsResponse `json:"comments,omitempty"`
+	// A unique identifier for the error group
+	ID string `json:"id"`
+	// Notification sessions generated from this error group
+	NotificationSessions ErrorTrackingErrorGroupNotificationSessionsResponse `json:"notificationSessions,omitempty"`
+	// Value to indicate the current state of the group.
+	State ErrorTrackingErrorGroupState `json:"state,omitempty"`
+}
+
+// ErrorTrackingErrorGroupComment - A comment associated with an error group.
+type ErrorTrackingErrorGroupComment struct {
+	// User that authored the comment.
+	Author users.UserReference `json:"author"`
+	// Comment deletion status
+	Deleted bool `json:"deleted"`
+	// Timestamp of last update.
+	EditedAt *nrtime.EpochMilliseconds `json:"editedAt,omitempty"`
+	// Text body of the comment.
+	Text string `json:"text"`
+	// Comment creation time.
+	Timestamp *nrtime.EpochMilliseconds `json:"timestamp"`
+}
+
+// ErrorTrackingErrorGroupCommentsResponse - Response for error group comments.
+type ErrorTrackingErrorGroupCommentsResponse struct {
+	// Cursor to get the next page of results.
+	NextCursor string `json:"nextCursor,omitempty"`
+	// List of comments.
+	Results []ErrorTrackingErrorGroupComment `json:"results"`
+	// Total comments matching query
+	TotalCount int `json:"totalCount,omitempty"`
+}
+
+// ErrorTrackingErrorGroupCount - Number of error group events.
+type ErrorTrackingErrorGroupCount struct {
+	// Numeric count of the events
+	Count int `json:"count"`
+}
+
+// ErrorTrackingErrorGroupNotificationSessionsResponse - Response for error group sessions.
+type ErrorTrackingErrorGroupNotificationSessionsResponse struct {
+	// Cursor to get the next page of results.
+	NextCursor string `json:"nextCursor,omitempty"`
+	// List of sessions.
+	Results []ErrorTrackingNotificationSession `json:"results"`
+	// Total sessions matching query
+	TotalCount int `json:"totalCount,omitempty"`
+}
+
+// ErrorTrackingNotificationChannel - Channel configured in the notifications gateway
+type ErrorTrackingNotificationChannel struct {
+	// The destination of the notification
+	Destination ErrorTrackingNotificationDestination `json:"destination,omitempty"`
+	// The unique identifier of the notifications service channel used for delivery
+	ID string `json:"id"`
+}
+
+// ErrorTrackingNotificationEvent - A notification sent from a channel.
+type ErrorTrackingNotificationEvent struct {
+	// Time of event
+	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt"`
+	// Notification event response
+	Evidence string `json:"evidence,omitempty"`
+	// Event status
+	Status ErrorTrackingNotificationEventStatus `json:"status,omitempty"`
+}
+
+// ErrorTrackingNotificationPolicy - Policy associated with a workload and grouping rule for notifications.
+type ErrorTrackingNotificationPolicy struct {
+	// List of possible routes for delivery, first match will be used
+	Channels []ErrorTrackingNotificationChannel `json:"channels"`
+	// Unique identifier of the policy.
+	ID string `json:"id"`
+	// Name of the policy.
+	Name string `json:"name"`
+	// Unique identifier of the workload the policy is associated with.
+	WorkloadGUID common.EntityGUID `json:"workloadGuid"`
+}
+
+// ErrorTrackingNotificationSession - A unique session initiated via notification channel.
+type ErrorTrackingNotificationSession struct {
+	// Notification channel used to generate the session
+	Channel ErrorTrackingNotificationChannel `json:"channel"`
+	// Notification events related to the session
+	Events []ErrorTrackingNotificationEvent `json:"events"`
+	// Unique identifier of the session
+	ID string `json:"id"`
+	// Timestamp when session was initiated
+	InitiatedAt *nrtime.EpochMilliseconds `json:"initiatedAt"`
+}
+
 // ExternalEntity - An External entity.
 type ExternalEntity struct {
-	//
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the entity that were open during the specified time window.
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -4284,9 +9319,13 @@ type ExternalEntity struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
@@ -4296,13 +9335,18 @@ type ExternalEntity struct {
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
-	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
+	Name                string                      `json:"name,omitempty"`
+	NerdStorage         NerdStorageEntityScope      `json:"nerdStorage,omitempty"`
+	NerdStoreCollection []NerdStoreCollectionMember `json:"nerdStoreCollection,omitempty"`
+	NerdStoreDocument   NerdStoreDocument           `json:"nerdStoreDocument,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
 	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// Related entities result with optional filtering.
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// A list of the entities' relationships.
@@ -4313,14 +9357,20 @@ type ExternalEntity struct {
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
 	// The tags applied to the entity.
 	//
 	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The tags applied to the entity with their metadata.
 	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 }
 
 // GetAccount returns a pointer to the value of Account from ExternalEntity
@@ -4338,9 +9388,19 @@ func (x ExternalEntity) GetAlertSeverity() EntityAlertSeverity {
 	return x.AlertSeverity
 }
 
+// GetAlertStatus returns a pointer to the value of AlertStatus from ExternalEntity
+func (x ExternalEntity) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
 // GetAlertViolations returns a pointer to the value of AlertViolations from ExternalEntity
 func (x ExternalEntity) GetAlertViolations() []EntityAlertViolation {
 	return x.AlertViolations
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from ExternalEntity
+func (x ExternalEntity) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
 }
 
 // GetDomain returns a pointer to the value of Domain from ExternalEntity
@@ -4361,6 +9421,16 @@ func (x ExternalEntity) GetGUID() common.EntityGUID {
 // GetGoldenMetrics returns a pointer to the value of GoldenMetrics from ExternalEntity
 func (x ExternalEntity) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
 	return x.GoldenMetrics
+}
+
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from ExternalEntity
+func (x ExternalEntity) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from ExternalEntity
+func (x ExternalEntity) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
 }
 
 // GetGoldenTags returns a pointer to the value of GoldenTags from ExternalEntity
@@ -4388,6 +9458,16 @@ func (x ExternalEntity) GetNerdStorage() NerdStorageEntityScope {
 	return x.NerdStorage
 }
 
+// GetNerdStoreCollection returns a pointer to the value of NerdStoreCollection from ExternalEntity
+func (x ExternalEntity) GetNerdStoreCollection() []NerdStoreCollectionMember {
+	return x.NerdStoreCollection
+}
+
+// GetNerdStoreDocument returns a pointer to the value of NerdStoreDocument from ExternalEntity
+func (x ExternalEntity) GetNerdStoreDocument() NerdStoreDocument {
+	return x.NerdStoreDocument
+}
+
 // GetPermalink returns a pointer to the value of Permalink from ExternalEntity
 func (x ExternalEntity) GetPermalink() string {
 	return x.Permalink
@@ -4396,6 +9476,16 @@ func (x ExternalEntity) GetPermalink() string {
 // GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from ExternalEntity
 func (x ExternalEntity) GetRecentAlertViolations() []EntityAlertViolation {
 	return x.RecentAlertViolations
+}
+
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from ExternalEntity
+func (x ExternalEntity) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from ExternalEntity
+func (x ExternalEntity) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
 }
 
 // GetRelatedEntities returns a pointer to the value of RelatedEntities from ExternalEntity
@@ -4418,6 +9508,11 @@ func (x ExternalEntity) GetServiceLevel() ServiceLevelDefinition {
 	return x.ServiceLevel
 }
 
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from ExternalEntity
+func (x ExternalEntity) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
+}
+
 // GetTags returns a pointer to the value of Tags from ExternalEntity
 func (x ExternalEntity) GetTags() []EntityTag {
 	return x.Tags
@@ -4428,9 +9523,19 @@ func (x ExternalEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
 	return x.TagsWithMetadata
 }
 
+// GetTracingSummary returns a pointer to the value of TracingSummary from ExternalEntity
+func (x ExternalEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
 // GetType returns a pointer to the value of Type from ExternalEntity
 func (x ExternalEntity) GetType() string {
 	return x.Type
+}
+
+// GetUiTemplates returns a pointer to the value of UiTemplates from ExternalEntity
+func (x ExternalEntity) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
 }
 
 func (x *ExternalEntity) ImplementsAlertableEntity() {}
@@ -4439,12 +9544,15 @@ func (x *ExternalEntity) ImplementsEntity() {}
 
 // ExternalEntityOutline - An External entity outline.
 type ExternalEntityOutline struct {
-	//
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -4452,25 +9560,37 @@ type ExternalEntityOutline struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
 	// The tags applied to the entity.
 	//
 	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 }
 
 // GetAccount returns a pointer to the value of Account from ExternalEntityOutline
@@ -4486,6 +9606,16 @@ func (x ExternalEntityOutline) GetAccountID() int {
 // GetAlertSeverity returns a pointer to the value of AlertSeverity from ExternalEntityOutline
 func (x ExternalEntityOutline) GetAlertSeverity() EntityAlertSeverity {
 	return x.AlertSeverity
+}
+
+// GetAlertStatus returns a pointer to the value of AlertStatus from ExternalEntityOutline
+func (x ExternalEntityOutline) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from ExternalEntityOutline
+func (x ExternalEntityOutline) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
 }
 
 // GetDomain returns a pointer to the value of Domain from ExternalEntityOutline
@@ -4508,6 +9638,16 @@ func (x ExternalEntityOutline) GetGoldenMetrics() EntityGoldenContextScopedGolde
 	return x.GoldenMetrics
 }
 
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from ExternalEntityOutline
+func (x ExternalEntityOutline) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from ExternalEntityOutline
+func (x ExternalEntityOutline) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
+}
+
 // GetGoldenTags returns a pointer to the value of GoldenTags from ExternalEntityOutline
 func (x ExternalEntityOutline) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
 	return x.GoldenTags
@@ -4528,6 +9668,16 @@ func (x ExternalEntityOutline) GetPermalink() string {
 	return x.Permalink
 }
 
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from ExternalEntityOutline
+func (x ExternalEntityOutline) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from ExternalEntityOutline
+func (x ExternalEntityOutline) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
+}
+
 // GetReporting returns a pointer to the value of Reporting from ExternalEntityOutline
 func (x ExternalEntityOutline) GetReporting() bool {
 	return x.Reporting
@@ -4536,6 +9686,11 @@ func (x ExternalEntityOutline) GetReporting() bool {
 // GetServiceLevel returns a pointer to the value of ServiceLevel from ExternalEntityOutline
 func (x ExternalEntityOutline) GetServiceLevel() ServiceLevelDefinition {
 	return x.ServiceLevel
+}
+
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from ExternalEntityOutline
+func (x ExternalEntityOutline) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
 }
 
 // GetTags returns a pointer to the value of Tags from ExternalEntityOutline
@@ -4548,20 +9703,46 @@ func (x ExternalEntityOutline) GetType() string {
 	return x.Type
 }
 
+// GetUiTemplates returns a pointer to the value of UiTemplates from ExternalEntityOutline
+func (x ExternalEntityOutline) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
+}
+
 func (x *ExternalEntityOutline) ImplementsAlertableEntityOutline() {}
 
 func (x *ExternalEntityOutline) ImplementsEntityOutline() {}
 
+// FacetCriterion - A single faceting criterion. You may supply either a `facet` or a `tag` value, but not both.
+type FacetCriterion struct {
+	// One of a list of possible entity search facets.
+	Facet EntitySearchCountsFacet `json:"facet,omitempty"`
+	// An entity tag key on which to facet entity search results.
+	Tag string `json:"tag,omitempty"`
+}
+
+// FeatureFlag - Feature Flags will be evaluated against existing flags only. Querying a flag that
+// does not exist will not create the flag.
+//
+// To create a flag, please visit the Feature Flag UI
+type FeatureFlag struct {
+	Context []FeatureFlagContext `json:"context,omitempty"`
+	Name    string               `json:"name,omitempty"`
+	Value   bool                 `json:"value,omitempty"`
+}
+
 // GenericEntity - A generic entity.
 type GenericEntity struct {
-	//
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the entity that were open during the specified time window.
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -4569,9 +9750,13 @@ type GenericEntity struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
@@ -4581,13 +9766,18 @@ type GenericEntity struct {
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
-	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
+	Name                string                      `json:"name,omitempty"`
+	NerdStorage         NerdStorageEntityScope      `json:"nerdStorage,omitempty"`
+	NerdStoreCollection []NerdStoreCollectionMember `json:"nerdStoreCollection,omitempty"`
+	NerdStoreDocument   NerdStoreDocument           `json:"nerdStoreDocument,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
 	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// Related entities result with optional filtering.
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// A list of the entities' relationships.
@@ -4598,14 +9788,20 @@ type GenericEntity struct {
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
 	// The tags applied to the entity.
 	//
 	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The tags applied to the entity with their metadata.
 	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 }
 
 // GetAccount returns a pointer to the value of Account from GenericEntity
@@ -4623,9 +9819,19 @@ func (x GenericEntity) GetAlertSeverity() EntityAlertSeverity {
 	return x.AlertSeverity
 }
 
+// GetAlertStatus returns a pointer to the value of AlertStatus from GenericEntity
+func (x GenericEntity) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
 // GetAlertViolations returns a pointer to the value of AlertViolations from GenericEntity
 func (x GenericEntity) GetAlertViolations() []EntityAlertViolation {
 	return x.AlertViolations
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from GenericEntity
+func (x GenericEntity) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
 }
 
 // GetDomain returns a pointer to the value of Domain from GenericEntity
@@ -4646,6 +9852,16 @@ func (x GenericEntity) GetGUID() common.EntityGUID {
 // GetGoldenMetrics returns a pointer to the value of GoldenMetrics from GenericEntity
 func (x GenericEntity) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
 	return x.GoldenMetrics
+}
+
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from GenericEntity
+func (x GenericEntity) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from GenericEntity
+func (x GenericEntity) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
 }
 
 // GetGoldenTags returns a pointer to the value of GoldenTags from GenericEntity
@@ -4673,6 +9889,16 @@ func (x GenericEntity) GetNerdStorage() NerdStorageEntityScope {
 	return x.NerdStorage
 }
 
+// GetNerdStoreCollection returns a pointer to the value of NerdStoreCollection from GenericEntity
+func (x GenericEntity) GetNerdStoreCollection() []NerdStoreCollectionMember {
+	return x.NerdStoreCollection
+}
+
+// GetNerdStoreDocument returns a pointer to the value of NerdStoreDocument from GenericEntity
+func (x GenericEntity) GetNerdStoreDocument() NerdStoreDocument {
+	return x.NerdStoreDocument
+}
+
 // GetPermalink returns a pointer to the value of Permalink from GenericEntity
 func (x GenericEntity) GetPermalink() string {
 	return x.Permalink
@@ -4681,6 +9907,16 @@ func (x GenericEntity) GetPermalink() string {
 // GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from GenericEntity
 func (x GenericEntity) GetRecentAlertViolations() []EntityAlertViolation {
 	return x.RecentAlertViolations
+}
+
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from GenericEntity
+func (x GenericEntity) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from GenericEntity
+func (x GenericEntity) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
 }
 
 // GetRelatedEntities returns a pointer to the value of RelatedEntities from GenericEntity
@@ -4703,6 +9939,11 @@ func (x GenericEntity) GetServiceLevel() ServiceLevelDefinition {
 	return x.ServiceLevel
 }
 
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from GenericEntity
+func (x GenericEntity) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
+}
+
 // GetTags returns a pointer to the value of Tags from GenericEntity
 func (x GenericEntity) GetTags() []EntityTag {
 	return x.Tags
@@ -4713,9 +9954,19 @@ func (x GenericEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
 	return x.TagsWithMetadata
 }
 
+// GetTracingSummary returns a pointer to the value of TracingSummary from GenericEntity
+func (x GenericEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
 // GetType returns a pointer to the value of Type from GenericEntity
 func (x GenericEntity) GetType() string {
 	return x.Type
+}
+
+// GetUiTemplates returns a pointer to the value of UiTemplates from GenericEntity
+func (x GenericEntity) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
 }
 
 func (x *GenericEntity) ImplementsAlertableEntity() {}
@@ -4724,12 +9975,15 @@ func (x *GenericEntity) ImplementsEntity() {}
 
 // GenericEntityOutline - A generic entity outline.
 type GenericEntityOutline struct {
-	//
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -4737,25 +9991,37 @@ type GenericEntityOutline struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
 	// The tags applied to the entity.
 	//
 	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 }
 
 // GetAccount returns a pointer to the value of Account from GenericEntityOutline
@@ -4771,6 +10037,16 @@ func (x GenericEntityOutline) GetAccountID() int {
 // GetAlertSeverity returns a pointer to the value of AlertSeverity from GenericEntityOutline
 func (x GenericEntityOutline) GetAlertSeverity() EntityAlertSeverity {
 	return x.AlertSeverity
+}
+
+// GetAlertStatus returns a pointer to the value of AlertStatus from GenericEntityOutline
+func (x GenericEntityOutline) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from GenericEntityOutline
+func (x GenericEntityOutline) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
 }
 
 // GetDomain returns a pointer to the value of Domain from GenericEntityOutline
@@ -4793,6 +10069,16 @@ func (x GenericEntityOutline) GetGoldenMetrics() EntityGoldenContextScopedGolden
 	return x.GoldenMetrics
 }
 
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from GenericEntityOutline
+func (x GenericEntityOutline) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from GenericEntityOutline
+func (x GenericEntityOutline) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
+}
+
 // GetGoldenTags returns a pointer to the value of GoldenTags from GenericEntityOutline
 func (x GenericEntityOutline) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
 	return x.GoldenTags
@@ -4813,6 +10099,16 @@ func (x GenericEntityOutline) GetPermalink() string {
 	return x.Permalink
 }
 
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from GenericEntityOutline
+func (x GenericEntityOutline) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from GenericEntityOutline
+func (x GenericEntityOutline) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
+}
+
 // GetReporting returns a pointer to the value of Reporting from GenericEntityOutline
 func (x GenericEntityOutline) GetReporting() bool {
 	return x.Reporting
@@ -4821,6 +10117,11 @@ func (x GenericEntityOutline) GetReporting() bool {
 // GetServiceLevel returns a pointer to the value of ServiceLevel from GenericEntityOutline
 func (x GenericEntityOutline) GetServiceLevel() ServiceLevelDefinition {
 	return x.ServiceLevel
+}
+
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from GenericEntityOutline
+func (x GenericEntityOutline) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
 }
 
 // GetTags returns a pointer to the value of Tags from GenericEntityOutline
@@ -4833,20 +10134,28 @@ func (x GenericEntityOutline) GetType() string {
 	return x.Type
 }
 
+// GetUiTemplates returns a pointer to the value of UiTemplates from GenericEntityOutline
+func (x GenericEntityOutline) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
+}
+
 func (x *GenericEntityOutline) ImplementsAlertableEntityOutline() {}
 
 func (x *GenericEntityOutline) ImplementsEntityOutline() {}
 
 // GenericInfrastructureEntity - An Infrastructure entity.
 type GenericInfrastructureEntity struct {
-	//
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the entity that were open during the specified time window.
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -4854,13 +10163,16 @@ type GenericInfrastructureEntity struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
-	//
-	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
+	IndexedAt           *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IntegrationTypeCode string                    `json:"integrationTypeCode,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
 	//
 	// A relevant `WHERE` clause will be added to your query to scope data to the entity in question.
@@ -4868,13 +10180,18 @@ type GenericInfrastructureEntity struct {
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
-	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
+	Name                string                      `json:"name,omitempty"`
+	NerdStorage         NerdStorageEntityScope      `json:"nerdStorage,omitempty"`
+	NerdStoreCollection []NerdStoreCollectionMember `json:"nerdStoreCollection,omitempty"`
+	NerdStoreDocument   NerdStoreDocument           `json:"nerdStoreDocument,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
 	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// Related entities result with optional filtering.
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// A list of the entities' relationships.
@@ -4885,14 +10202,20 @@ type GenericInfrastructureEntity struct {
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
 	// The tags applied to the entity.
 	//
 	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The tags applied to the entity with their metadata.
 	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 }
 
 // GetAccount returns a pointer to the value of Account from GenericInfrastructureEntity
@@ -4910,9 +10233,19 @@ func (x GenericInfrastructureEntity) GetAlertSeverity() EntityAlertSeverity {
 	return x.AlertSeverity
 }
 
+// GetAlertStatus returns a pointer to the value of AlertStatus from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
 // GetAlertViolations returns a pointer to the value of AlertViolations from GenericInfrastructureEntity
 func (x GenericInfrastructureEntity) GetAlertViolations() []EntityAlertViolation {
 	return x.AlertViolations
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
 }
 
 // GetDomain returns a pointer to the value of Domain from GenericInfrastructureEntity
@@ -4933,6 +10266,16 @@ func (x GenericInfrastructureEntity) GetGUID() common.EntityGUID {
 // GetGoldenMetrics returns a pointer to the value of GoldenMetrics from GenericInfrastructureEntity
 func (x GenericInfrastructureEntity) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
 	return x.GoldenMetrics
+}
+
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
 }
 
 // GetGoldenTags returns a pointer to the value of GoldenTags from GenericInfrastructureEntity
@@ -4965,6 +10308,16 @@ func (x GenericInfrastructureEntity) GetNerdStorage() NerdStorageEntityScope {
 	return x.NerdStorage
 }
 
+// GetNerdStoreCollection returns a pointer to the value of NerdStoreCollection from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetNerdStoreCollection() []NerdStoreCollectionMember {
+	return x.NerdStoreCollection
+}
+
+// GetNerdStoreDocument returns a pointer to the value of NerdStoreDocument from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetNerdStoreDocument() NerdStoreDocument {
+	return x.NerdStoreDocument
+}
+
 // GetPermalink returns a pointer to the value of Permalink from GenericInfrastructureEntity
 func (x GenericInfrastructureEntity) GetPermalink() string {
 	return x.Permalink
@@ -4973,6 +10326,16 @@ func (x GenericInfrastructureEntity) GetPermalink() string {
 // GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from GenericInfrastructureEntity
 func (x GenericInfrastructureEntity) GetRecentAlertViolations() []EntityAlertViolation {
 	return x.RecentAlertViolations
+}
+
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
 }
 
 // GetRelatedEntities returns a pointer to the value of RelatedEntities from GenericInfrastructureEntity
@@ -4995,6 +10358,11 @@ func (x GenericInfrastructureEntity) GetServiceLevel() ServiceLevelDefinition {
 	return x.ServiceLevel
 }
 
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
+}
+
 // GetTags returns a pointer to the value of Tags from GenericInfrastructureEntity
 func (x GenericInfrastructureEntity) GetTags() []EntityTag {
 	return x.Tags
@@ -5005,9 +10373,19 @@ func (x GenericInfrastructureEntity) GetTagsWithMetadata() []EntityTagWithMetada
 	return x.TagsWithMetadata
 }
 
+// GetTracingSummary returns a pointer to the value of TracingSummary from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
 // GetType returns a pointer to the value of Type from GenericInfrastructureEntity
 func (x GenericInfrastructureEntity) GetType() string {
 	return x.Type
+}
+
+// GetUiTemplates returns a pointer to the value of UiTemplates from GenericInfrastructureEntity
+func (x GenericInfrastructureEntity) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
 }
 
 func (x *GenericInfrastructureEntity) ImplementsAlertableEntity() {}
@@ -5018,12 +10396,15 @@ func (x *GenericInfrastructureEntity) ImplementsInfrastructureIntegrationEntity(
 
 // GenericInfrastructureEntityOutline - An Infrastructure entity outline.
 type GenericInfrastructureEntityOutline struct {
-	//
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -5031,27 +10412,38 @@ type GenericInfrastructureEntityOutline struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
-	//
-	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
+	IndexedAt           *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IntegrationTypeCode string                    `json:"integrationTypeCode,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
 	// The tags applied to the entity.
 	//
 	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 }
 
 // GetAccount returns a pointer to the value of Account from GenericInfrastructureEntityOutline
@@ -5067,6 +10459,16 @@ func (x GenericInfrastructureEntityOutline) GetAccountID() int {
 // GetAlertSeverity returns a pointer to the value of AlertSeverity from GenericInfrastructureEntityOutline
 func (x GenericInfrastructureEntityOutline) GetAlertSeverity() EntityAlertSeverity {
 	return x.AlertSeverity
+}
+
+// GetAlertStatus returns a pointer to the value of AlertStatus from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
 }
 
 // GetDomain returns a pointer to the value of Domain from GenericInfrastructureEntityOutline
@@ -5087,6 +10489,16 @@ func (x GenericInfrastructureEntityOutline) GetGUID() common.EntityGUID {
 // GetGoldenMetrics returns a pointer to the value of GoldenMetrics from GenericInfrastructureEntityOutline
 func (x GenericInfrastructureEntityOutline) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
 	return x.GoldenMetrics
+}
+
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
 }
 
 // GetGoldenTags returns a pointer to the value of GoldenTags from GenericInfrastructureEntityOutline
@@ -5114,6 +10526,16 @@ func (x GenericInfrastructureEntityOutline) GetPermalink() string {
 	return x.Permalink
 }
 
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
+}
+
 // GetReporting returns a pointer to the value of Reporting from GenericInfrastructureEntityOutline
 func (x GenericInfrastructureEntityOutline) GetReporting() bool {
 	return x.Reporting
@@ -5122,6 +10544,11 @@ func (x GenericInfrastructureEntityOutline) GetReporting() bool {
 // GetServiceLevel returns a pointer to the value of ServiceLevel from GenericInfrastructureEntityOutline
 func (x GenericInfrastructureEntityOutline) GetServiceLevel() ServiceLevelDefinition {
 	return x.ServiceLevel
+}
+
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
 }
 
 // GetTags returns a pointer to the value of Tags from GenericInfrastructureEntityOutline
@@ -5134,22 +10561,32 @@ func (x GenericInfrastructureEntityOutline) GetType() string {
 	return x.Type
 }
 
+// GetUiTemplates returns a pointer to the value of UiTemplates from GenericInfrastructureEntityOutline
+func (x GenericInfrastructureEntityOutline) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
+}
+
 func (x *GenericInfrastructureEntityOutline) ImplementsAlertableEntityOutline() {}
 
 func (x *GenericInfrastructureEntityOutline) ImplementsEntityOutline() {}
 
 func (x *GenericInfrastructureEntityOutline) ImplementsInfrastructureIntegrationEntityOutline() {}
 
-// InfrastructureAwsLambdaFunctionEntity - An AWS Lambda Function entity.
-type InfrastructureAwsLambdaFunctionEntity struct {
-	//
+// GenericServiceEntity - A generic service entity. Details about a service entity that is instrumented by something other than, or in addition to an APM Agent.
+type GenericServiceEntity struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the entity that were open during the specified time window.
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
+	// Query upstream and downstream dependencies for an entity
+	Connections RelatedExternalsEntityResult `json:"connections,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -5157,13 +10594,15 @@ type InfrastructureAwsLambdaFunctionEntity struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
-	//
-	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
 	//
 	// A relevant `WHERE` clause will be added to your query to scope data to the entity in question.
@@ -5171,33 +10610,517 @@ type InfrastructureAwsLambdaFunctionEntity struct {
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
-	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
+	Name                string                      `json:"name,omitempty"`
+	NerdStorage         NerdStorageEntityScope      `json:"nerdStorage,omitempty"`
+	NerdStoreCollection []NerdStoreCollectionMember `json:"nerdStoreCollection,omitempty"`
+	NerdStoreDocument   NerdStoreDocument           `json:"nerdStoreDocument,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
 	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// Related entities result with optional filtering.
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
+	// Query upstream and downstream transaction dependencies for an entity
+	RelatedTransactions RelatedExternalsTransactionResult `json:"relatedTransactions,omitempty"`
 	// A list of the entities' relationships.
 	//
 	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
 	Relationships []EntityRelationship `json:"relationships,omitempty"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
-	//
-	Runtime string `json:"runtime,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
 	// The tags applied to the entity.
 	//
 	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The tags applied to the entity with their metadata.
 	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
+}
+
+// GetAccount returns a pointer to the value of Account from GenericServiceEntity
+func (x GenericServiceEntity) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from GenericServiceEntity
+func (x GenericServiceEntity) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from GenericServiceEntity
+func (x GenericServiceEntity) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
+}
+
+// GetAlertStatus returns a pointer to the value of AlertStatus from GenericServiceEntity
+func (x GenericServiceEntity) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
+// GetAlertViolations returns a pointer to the value of AlertViolations from GenericServiceEntity
+func (x GenericServiceEntity) GetAlertViolations() []EntityAlertViolation {
+	return x.AlertViolations
+}
+
+// GetConnections returns a pointer to the value of Connections from GenericServiceEntity
+func (x GenericServiceEntity) GetConnections() RelatedExternalsEntityResult {
+	return x.Connections
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from GenericServiceEntity
+func (x GenericServiceEntity) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
+}
+
+// GetDomain returns a pointer to the value of Domain from GenericServiceEntity
+func (x GenericServiceEntity) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from GenericServiceEntity
+func (x GenericServiceEntity) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetGUID returns a pointer to the value of GUID from GenericServiceEntity
+func (x GenericServiceEntity) GetGUID() common.EntityGUID {
+	return x.GUID
+}
+
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from GenericServiceEntity
+func (x GenericServiceEntity) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from GenericServiceEntity
+func (x GenericServiceEntity) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from GenericServiceEntity
+func (x GenericServiceEntity) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from GenericServiceEntity
+func (x GenericServiceEntity) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from GenericServiceEntity
+func (x GenericServiceEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetNRDBQuery returns a pointer to the value of NRDBQuery from GenericServiceEntity
+func (x GenericServiceEntity) GetNRDBQuery() nrdb.NRDBResultContainer {
+	return x.NRDBQuery
+}
+
+// GetName returns a pointer to the value of Name from GenericServiceEntity
+func (x GenericServiceEntity) GetName() string {
+	return x.Name
+}
+
+// GetNerdStorage returns a pointer to the value of NerdStorage from GenericServiceEntity
+func (x GenericServiceEntity) GetNerdStorage() NerdStorageEntityScope {
+	return x.NerdStorage
+}
+
+// GetNerdStoreCollection returns a pointer to the value of NerdStoreCollection from GenericServiceEntity
+func (x GenericServiceEntity) GetNerdStoreCollection() []NerdStoreCollectionMember {
+	return x.NerdStoreCollection
+}
+
+// GetNerdStoreDocument returns a pointer to the value of NerdStoreDocument from GenericServiceEntity
+func (x GenericServiceEntity) GetNerdStoreDocument() NerdStoreDocument {
+	return x.NerdStoreDocument
+}
+
+// GetPermalink returns a pointer to the value of Permalink from GenericServiceEntity
+func (x GenericServiceEntity) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from GenericServiceEntity
+func (x GenericServiceEntity) GetRecentAlertViolations() []EntityAlertViolation {
+	return x.RecentAlertViolations
+}
+
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from GenericServiceEntity
+func (x GenericServiceEntity) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from GenericServiceEntity
+func (x GenericServiceEntity) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
+}
+
+// GetRelatedEntities returns a pointer to the value of RelatedEntities from GenericServiceEntity
+func (x GenericServiceEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
+	return x.RelatedEntities
+}
+
+// GetRelatedTransactions returns a pointer to the value of RelatedTransactions from GenericServiceEntity
+func (x GenericServiceEntity) GetRelatedTransactions() RelatedExternalsTransactionResult {
+	return x.RelatedTransactions
+}
+
+// GetRelationships returns a pointer to the value of Relationships from GenericServiceEntity
+func (x GenericServiceEntity) GetRelationships() []EntityRelationship {
+	return x.Relationships
+}
+
+// GetReporting returns a pointer to the value of Reporting from GenericServiceEntity
+func (x GenericServiceEntity) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetServiceLevel returns a pointer to the value of ServiceLevel from GenericServiceEntity
+func (x GenericServiceEntity) GetServiceLevel() ServiceLevelDefinition {
+	return x.ServiceLevel
+}
+
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from GenericServiceEntity
+func (x GenericServiceEntity) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
+}
+
+// GetTags returns a pointer to the value of Tags from GenericServiceEntity
+func (x GenericServiceEntity) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from GenericServiceEntity
+func (x GenericServiceEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
+	return x.TagsWithMetadata
+}
+
+// GetTracingSummary returns a pointer to the value of TracingSummary from GenericServiceEntity
+func (x GenericServiceEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
+// GetType returns a pointer to the value of Type from GenericServiceEntity
+func (x GenericServiceEntity) GetType() string {
+	return x.Type
+}
+
+// GetUiTemplates returns a pointer to the value of UiTemplates from GenericServiceEntity
+func (x GenericServiceEntity) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
+}
+
+func (x *GenericServiceEntity) ImplementsAlertableEntity() {}
+
+func (x *GenericServiceEntity) ImplementsEntity() {}
+
+func (x *GenericServiceEntity) ImplementsServiceEntity() {}
+
+func (x *GenericServiceEntity) ImplementsThirdPartyServiceEntity() {}
+
+// GenericServiceEntityOutline - A generic service entity outline. Details about a service entity that is instrumented by something other than, or in addition to an APM Agent.
+type GenericServiceEntityOutline struct {
+	Account accounts.AccountOutline `json:"account,omitempty"`
+	// The New Relic account ID associated with this entity.
+	AccountID int `json:"accountId,omitempty"`
+	// The current alerting severity of the entity.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
+	// The entity's domain
+	Domain string `json:"domain,omitempty"`
+	// A value representing the combination of the entity's domain and type.
+	EntityType EntityType `json:"entityType,omitempty"`
+	// A unique entity identifier.
+	GUID common.EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
+	// The time the entity was indexed.
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	// The name of this entity.
+	Name string `json:"name,omitempty"`
+	// The url to the entity.
+	Permalink string `json:"permalink,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
+	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
+	Reporting bool `json:"reporting,omitempty"`
+	// The service level defined for the entity.
+	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
+	// The tags applied to the entity.
+	//
+	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
+	Tags []EntityTag `json:"tags,omitempty"`
+	// The entity's type
+	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
+}
+
+// GetAccount returns a pointer to the value of Account from GenericServiceEntityOutline
+func (x GenericServiceEntityOutline) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from GenericServiceEntityOutline
+func (x GenericServiceEntityOutline) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from GenericServiceEntityOutline
+func (x GenericServiceEntityOutline) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
+}
+
+// GetAlertStatus returns a pointer to the value of AlertStatus from GenericServiceEntityOutline
+func (x GenericServiceEntityOutline) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from GenericServiceEntityOutline
+func (x GenericServiceEntityOutline) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
+}
+
+// GetDomain returns a pointer to the value of Domain from GenericServiceEntityOutline
+func (x GenericServiceEntityOutline) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from GenericServiceEntityOutline
+func (x GenericServiceEntityOutline) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetGUID returns a pointer to the value of GUID from GenericServiceEntityOutline
+func (x GenericServiceEntityOutline) GetGUID() common.EntityGUID {
+	return x.GUID
+}
+
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from GenericServiceEntityOutline
+func (x GenericServiceEntityOutline) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from GenericServiceEntityOutline
+func (x GenericServiceEntityOutline) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from GenericServiceEntityOutline
+func (x GenericServiceEntityOutline) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from GenericServiceEntityOutline
+func (x GenericServiceEntityOutline) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from GenericServiceEntityOutline
+func (x GenericServiceEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetName returns a pointer to the value of Name from GenericServiceEntityOutline
+func (x GenericServiceEntityOutline) GetName() string {
+	return x.Name
+}
+
+// GetPermalink returns a pointer to the value of Permalink from GenericServiceEntityOutline
+func (x GenericServiceEntityOutline) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from GenericServiceEntityOutline
+func (x GenericServiceEntityOutline) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from GenericServiceEntityOutline
+func (x GenericServiceEntityOutline) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
+}
+
+// GetReporting returns a pointer to the value of Reporting from GenericServiceEntityOutline
+func (x GenericServiceEntityOutline) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetServiceLevel returns a pointer to the value of ServiceLevel from GenericServiceEntityOutline
+func (x GenericServiceEntityOutline) GetServiceLevel() ServiceLevelDefinition {
+	return x.ServiceLevel
+}
+
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from GenericServiceEntityOutline
+func (x GenericServiceEntityOutline) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
+}
+
+// GetTags returns a pointer to the value of Tags from GenericServiceEntityOutline
+func (x GenericServiceEntityOutline) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetType returns a pointer to the value of Type from GenericServiceEntityOutline
+func (x GenericServiceEntityOutline) GetType() string {
+	return x.Type
+}
+
+// GetUiTemplates returns a pointer to the value of UiTemplates from GenericServiceEntityOutline
+func (x GenericServiceEntityOutline) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
+}
+
+func (x *GenericServiceEntityOutline) ImplementsAlertableEntityOutline() {}
+
+func (x *GenericServiceEntityOutline) ImplementsEntityOutline() {}
+
+func (x *GenericServiceEntityOutline) ImplementsServiceEntityOutline() {}
+
+func (x *GenericServiceEntityOutline) ImplementsThirdPartyServiceEntityOutline() {}
+
+// GoldenSignalSignalValues - Individual signal data. Contains a timeseries, summary over the query, and metadata.
+type GoldenSignalSignalValues struct {
+	// The fully qualified signal name.
+	FullyQualifiedSignalName string `json:"fullyQualifiedSignalName,omitempty"`
+	// The name of the golden signal.
+	Name string `json:"name,omitempty"`
+	// The aggregate value of the Golden Signal over the entire requested time window.
+	SummaryValue float64 `json:"summaryValue,omitempty"`
+	// Units of the values.
+	Units string `json:"units,omitempty"`
+	// The signal timeseries values. They correspond to the timeIndex.
+	Values []float64 `json:"values,omitempty"`
+}
+
+// GoldenSignalValues - Response type for Golden Signal Service (buffer) data.
+type GoldenSignalValues struct {
+	// The list of signals which have data for the requested entity.
+	SignalValues []GoldenSignalSignalValues `json:"signalValues"`
+	// The list of timestamps corresponding to all signal timeseries values.
+	TimeIndex []*nrtime.EpochMilliseconds `json:"timeIndex"`
+}
+
+// InfrastructureAgentServiceDetails - A service that can be instrumented on a host
+type InfrastructureAgentServiceDetails struct {
+	// How the process should be displayed to the user
+	DisplayName string `json:"displayName"`
+	// The GUID of the infra agent that is (or could) manage this service
+	GUID common.EntityGUID `json:"guid"`
+	// The process ID
+	ProcessId string `json:"processId"`
+	// Status of the service
+	Status InfrastructureAgentServiceStatus `json:"status"`
+	// Instrumentation strategy for this service
+	Strategy InfrastructureAgentInstrumentationStrategy `json:"strategy"`
+}
+
+// InfrastructureAwsLambdaFunctionEntity - An AWS Lambda Function entity.
+type InfrastructureAwsLambdaFunctionEntity struct {
+	Account accounts.AccountOutline `json:"account,omitempty"`
+	// The New Relic account ID associated with this entity.
+	AccountID int `json:"accountId,omitempty"`
+	// The current alerting severity of the entity.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
+	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
+	// Query upstream and downstream dependencies for an entity
+	Connections RelatedExternalsEntityResult `json:"connections,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
+	// The entity's domain
+	Domain string `json:"domain,omitempty"`
+	// A value representing the combination of the entity's domain and type.
+	EntityType EntityType `json:"entityType,omitempty"`
+	// A unique entity identifier.
+	GUID common.EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
+	// The time the entity was indexed.
+	IndexedAt           *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IntegrationTypeCode string                    `json:"integrationTypeCode,omitempty"`
+	// Make an `Entity` scoped query to NRDB with a NRQL string.
+	//
+	// A relevant `WHERE` clause will be added to your query to scope data to the entity in question.
+	//
+	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
+	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
+	// The name of this entity.
+	Name                string                      `json:"name,omitempty"`
+	NerdStorage         NerdStorageEntityScope      `json:"nerdStorage,omitempty"`
+	NerdStoreCollection []NerdStoreCollectionMember `json:"nerdStoreCollection,omitempty"`
+	NerdStoreDocument   NerdStoreDocument           `json:"nerdStoreDocument,omitempty"`
+	// The url to the entity.
+	Permalink string `json:"permalink,omitempty"`
+	// Recent violations on the entity.
+	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
+	// Related entities result with optional filtering.
+	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
+	// Query upstream and downstream transaction dependencies for an entity
+	RelatedTransactions RelatedExternalsTransactionResult `json:"relatedTransactions,omitempty"`
+	// A list of the entities' relationships.
+	//
+	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
+	Relationships []EntityRelationship `json:"relationships,omitempty"`
+	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
+	Reporting bool   `json:"reporting,omitempty"`
+	Runtime   string `json:"runtime,omitempty"`
+	// The service level defined for the entity.
+	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
+	// The tags applied to the entity.
+	//
+	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
+	Tags []EntityTag `json:"tags,omitempty"`
+	// The tags applied to the entity with their metadata.
+	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
+	// The entity's type
+	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 }
 
 // GetAccount returns a pointer to the value of Account from InfrastructureAwsLambdaFunctionEntity
@@ -5215,9 +11138,24 @@ func (x InfrastructureAwsLambdaFunctionEntity) GetAlertSeverity() EntityAlertSev
 	return x.AlertSeverity
 }
 
+// GetAlertStatus returns a pointer to the value of AlertStatus from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
 // GetAlertViolations returns a pointer to the value of AlertViolations from InfrastructureAwsLambdaFunctionEntity
 func (x InfrastructureAwsLambdaFunctionEntity) GetAlertViolations() []EntityAlertViolation {
 	return x.AlertViolations
+}
+
+// GetConnections returns a pointer to the value of Connections from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetConnections() RelatedExternalsEntityResult {
+	return x.Connections
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
 }
 
 // GetDomain returns a pointer to the value of Domain from InfrastructureAwsLambdaFunctionEntity
@@ -5238,6 +11176,16 @@ func (x InfrastructureAwsLambdaFunctionEntity) GetGUID() common.EntityGUID {
 // GetGoldenMetrics returns a pointer to the value of GoldenMetrics from InfrastructureAwsLambdaFunctionEntity
 func (x InfrastructureAwsLambdaFunctionEntity) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
 	return x.GoldenMetrics
+}
+
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
 }
 
 // GetGoldenTags returns a pointer to the value of GoldenTags from InfrastructureAwsLambdaFunctionEntity
@@ -5270,6 +11218,16 @@ func (x InfrastructureAwsLambdaFunctionEntity) GetNerdStorage() NerdStorageEntit
 	return x.NerdStorage
 }
 
+// GetNerdStoreCollection returns a pointer to the value of NerdStoreCollection from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetNerdStoreCollection() []NerdStoreCollectionMember {
+	return x.NerdStoreCollection
+}
+
+// GetNerdStoreDocument returns a pointer to the value of NerdStoreDocument from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetNerdStoreDocument() NerdStoreDocument {
+	return x.NerdStoreDocument
+}
+
 // GetPermalink returns a pointer to the value of Permalink from InfrastructureAwsLambdaFunctionEntity
 func (x InfrastructureAwsLambdaFunctionEntity) GetPermalink() string {
 	return x.Permalink
@@ -5280,9 +11238,24 @@ func (x InfrastructureAwsLambdaFunctionEntity) GetRecentAlertViolations() []Enti
 	return x.RecentAlertViolations
 }
 
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
+}
+
 // GetRelatedEntities returns a pointer to the value of RelatedEntities from InfrastructureAwsLambdaFunctionEntity
 func (x InfrastructureAwsLambdaFunctionEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
 	return x.RelatedEntities
+}
+
+// GetRelatedTransactions returns a pointer to the value of RelatedTransactions from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetRelatedTransactions() RelatedExternalsTransactionResult {
+	return x.RelatedTransactions
 }
 
 // GetRelationships returns a pointer to the value of Relationships from InfrastructureAwsLambdaFunctionEntity
@@ -5305,6 +11278,11 @@ func (x InfrastructureAwsLambdaFunctionEntity) GetServiceLevel() ServiceLevelDef
 	return x.ServiceLevel
 }
 
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
+}
+
 // GetTags returns a pointer to the value of Tags from InfrastructureAwsLambdaFunctionEntity
 func (x InfrastructureAwsLambdaFunctionEntity) GetTags() []EntityTag {
 	return x.Tags
@@ -5315,9 +11293,19 @@ func (x InfrastructureAwsLambdaFunctionEntity) GetTagsWithMetadata() []EntityTag
 	return x.TagsWithMetadata
 }
 
+// GetTracingSummary returns a pointer to the value of TracingSummary from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
 // GetType returns a pointer to the value of Type from InfrastructureAwsLambdaFunctionEntity
 func (x InfrastructureAwsLambdaFunctionEntity) GetType() string {
 	return x.Type
+}
+
+// GetUiTemplates returns a pointer to the value of UiTemplates from InfrastructureAwsLambdaFunctionEntity
+func (x InfrastructureAwsLambdaFunctionEntity) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
 }
 
 func (x *InfrastructureAwsLambdaFunctionEntity) ImplementsAlertableEntity() {}
@@ -5328,12 +11316,15 @@ func (x *InfrastructureAwsLambdaFunctionEntity) ImplementsInfrastructureIntegrat
 
 // InfrastructureAwsLambdaFunctionEntityOutline - An AWS Lambda Function entity outline.
 type InfrastructureAwsLambdaFunctionEntityOutline struct {
-	//
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -5341,29 +11332,39 @@ type InfrastructureAwsLambdaFunctionEntityOutline struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
-	//
-	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
+	IndexedAt           *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IntegrationTypeCode string                    `json:"integrationTypeCode,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
-	Reporting bool `json:"reporting,omitempty"`
-	//
-	Runtime string `json:"runtime,omitempty"`
+	Reporting bool   `json:"reporting,omitempty"`
+	Runtime   string `json:"runtime,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
 	// The tags applied to the entity.
 	//
 	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 }
 
 // GetAccount returns a pointer to the value of Account from InfrastructureAwsLambdaFunctionEntityOutline
@@ -5379,6 +11380,16 @@ func (x InfrastructureAwsLambdaFunctionEntityOutline) GetAccountID() int {
 // GetAlertSeverity returns a pointer to the value of AlertSeverity from InfrastructureAwsLambdaFunctionEntityOutline
 func (x InfrastructureAwsLambdaFunctionEntityOutline) GetAlertSeverity() EntityAlertSeverity {
 	return x.AlertSeverity
+}
+
+// GetAlertStatus returns a pointer to the value of AlertStatus from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
 }
 
 // GetDomain returns a pointer to the value of Domain from InfrastructureAwsLambdaFunctionEntityOutline
@@ -5399,6 +11410,16 @@ func (x InfrastructureAwsLambdaFunctionEntityOutline) GetGUID() common.EntityGUI
 // GetGoldenMetrics returns a pointer to the value of GoldenMetrics from InfrastructureAwsLambdaFunctionEntityOutline
 func (x InfrastructureAwsLambdaFunctionEntityOutline) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
 	return x.GoldenMetrics
+}
+
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
 }
 
 // GetGoldenTags returns a pointer to the value of GoldenTags from InfrastructureAwsLambdaFunctionEntityOutline
@@ -5426,6 +11447,16 @@ func (x InfrastructureAwsLambdaFunctionEntityOutline) GetPermalink() string {
 	return x.Permalink
 }
 
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
+}
+
 // GetReporting returns a pointer to the value of Reporting from InfrastructureAwsLambdaFunctionEntityOutline
 func (x InfrastructureAwsLambdaFunctionEntityOutline) GetReporting() bool {
 	return x.Reporting
@@ -5441,6 +11472,11 @@ func (x InfrastructureAwsLambdaFunctionEntityOutline) GetServiceLevel() ServiceL
 	return x.ServiceLevel
 }
 
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
+}
+
 // GetTags returns a pointer to the value of Tags from InfrastructureAwsLambdaFunctionEntityOutline
 func (x InfrastructureAwsLambdaFunctionEntityOutline) GetTags() []EntityTag {
 	return x.Tags
@@ -5449,6 +11485,11 @@ func (x InfrastructureAwsLambdaFunctionEntityOutline) GetTags() []EntityTag {
 // GetType returns a pointer to the value of Type from InfrastructureAwsLambdaFunctionEntityOutline
 func (x InfrastructureAwsLambdaFunctionEntityOutline) GetType() string {
 	return x.Type
+}
+
+// GetUiTemplates returns a pointer to the value of UiTemplates from InfrastructureAwsLambdaFunctionEntityOutline
+func (x InfrastructureAwsLambdaFunctionEntityOutline) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
 }
 
 func (x *InfrastructureAwsLambdaFunctionEntityOutline) ImplementsAlertableEntityOutline() {}
@@ -5460,14 +11501,19 @@ func (x *InfrastructureAwsLambdaFunctionEntityOutline) ImplementsInfrastructureI
 
 // InfrastructureHostEntity - An Infrastructure Host entity.
 type InfrastructureHostEntity struct {
-	//
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the entity that were open during the specified time window.
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
+	// Retrieves deployed instrumentation given a host GUID.
+	AvailableServices []InfrastructureAgentServiceDetails `json:"availableServices,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -5475,11 +11521,14 @@ type InfrastructureHostEntity struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
-	//
-	HostSummary InfrastructureHostSummaryData `json:"hostSummary,omitempty"`
+	GoldenTags  EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
+	HostSummary InfrastructureHostSummaryData       `json:"hostSummary,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
@@ -5489,13 +11538,18 @@ type InfrastructureHostEntity struct {
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
-	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
+	Name                string                      `json:"name,omitempty"`
+	NerdStorage         NerdStorageEntityScope      `json:"nerdStorage,omitempty"`
+	NerdStoreCollection []NerdStoreCollectionMember `json:"nerdStoreCollection,omitempty"`
+	NerdStoreDocument   NerdStoreDocument           `json:"nerdStoreDocument,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
 	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// Related entities result with optional filtering.
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// A list of the entities' relationships.
@@ -5506,14 +11560,20 @@ type InfrastructureHostEntity struct {
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
 	// The tags applied to the entity.
 	//
 	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The tags applied to the entity with their metadata.
 	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 }
 
 // GetAccount returns a pointer to the value of Account from InfrastructureHostEntity
@@ -5531,9 +11591,24 @@ func (x InfrastructureHostEntity) GetAlertSeverity() EntityAlertSeverity {
 	return x.AlertSeverity
 }
 
+// GetAlertStatus returns a pointer to the value of AlertStatus from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
 // GetAlertViolations returns a pointer to the value of AlertViolations from InfrastructureHostEntity
 func (x InfrastructureHostEntity) GetAlertViolations() []EntityAlertViolation {
 	return x.AlertViolations
+}
+
+// GetAvailableServices returns a pointer to the value of AvailableServices from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetAvailableServices() []InfrastructureAgentServiceDetails {
+	return x.AvailableServices
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
 }
 
 // GetDomain returns a pointer to the value of Domain from InfrastructureHostEntity
@@ -5554,6 +11629,16 @@ func (x InfrastructureHostEntity) GetGUID() common.EntityGUID {
 // GetGoldenMetrics returns a pointer to the value of GoldenMetrics from InfrastructureHostEntity
 func (x InfrastructureHostEntity) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
 	return x.GoldenMetrics
+}
+
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
 }
 
 // GetGoldenTags returns a pointer to the value of GoldenTags from InfrastructureHostEntity
@@ -5586,6 +11671,16 @@ func (x InfrastructureHostEntity) GetNerdStorage() NerdStorageEntityScope {
 	return x.NerdStorage
 }
 
+// GetNerdStoreCollection returns a pointer to the value of NerdStoreCollection from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetNerdStoreCollection() []NerdStoreCollectionMember {
+	return x.NerdStoreCollection
+}
+
+// GetNerdStoreDocument returns a pointer to the value of NerdStoreDocument from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetNerdStoreDocument() NerdStoreDocument {
+	return x.NerdStoreDocument
+}
+
 // GetPermalink returns a pointer to the value of Permalink from InfrastructureHostEntity
 func (x InfrastructureHostEntity) GetPermalink() string {
 	return x.Permalink
@@ -5594,6 +11689,16 @@ func (x InfrastructureHostEntity) GetPermalink() string {
 // GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from InfrastructureHostEntity
 func (x InfrastructureHostEntity) GetRecentAlertViolations() []EntityAlertViolation {
 	return x.RecentAlertViolations
+}
+
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
 }
 
 // GetRelatedEntities returns a pointer to the value of RelatedEntities from InfrastructureHostEntity
@@ -5616,6 +11721,11 @@ func (x InfrastructureHostEntity) GetServiceLevel() ServiceLevelDefinition {
 	return x.ServiceLevel
 }
 
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
+}
+
 // GetTags returns a pointer to the value of Tags from InfrastructureHostEntity
 func (x InfrastructureHostEntity) GetTags() []EntityTag {
 	return x.Tags
@@ -5626,9 +11736,19 @@ func (x InfrastructureHostEntity) GetTagsWithMetadata() []EntityTagWithMetadata 
 	return x.TagsWithMetadata
 }
 
+// GetTracingSummary returns a pointer to the value of TracingSummary from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
 // GetType returns a pointer to the value of Type from InfrastructureHostEntity
 func (x InfrastructureHostEntity) GetType() string {
 	return x.Type
+}
+
+// GetUiTemplates returns a pointer to the value of UiTemplates from InfrastructureHostEntity
+func (x InfrastructureHostEntity) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
 }
 
 func (x *InfrastructureHostEntity) ImplementsAlertableEntity() {}
@@ -5637,12 +11757,15 @@ func (x *InfrastructureHostEntity) ImplementsEntity() {}
 
 // InfrastructureHostEntityOutline - An Infrastructure Host entity outline.
 type InfrastructureHostEntityOutline struct {
-	//
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -5650,27 +11773,38 @@ type InfrastructureHostEntityOutline struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
-	//
-	HostSummary InfrastructureHostSummaryData `json:"hostSummary,omitempty"`
+	GoldenTags  EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
+	HostSummary InfrastructureHostSummaryData       `json:"hostSummary,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
 	// The tags applied to the entity.
 	//
 	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 }
 
 // GetAccount returns a pointer to the value of Account from InfrastructureHostEntityOutline
@@ -5686,6 +11820,16 @@ func (x InfrastructureHostEntityOutline) GetAccountID() int {
 // GetAlertSeverity returns a pointer to the value of AlertSeverity from InfrastructureHostEntityOutline
 func (x InfrastructureHostEntityOutline) GetAlertSeverity() EntityAlertSeverity {
 	return x.AlertSeverity
+}
+
+// GetAlertStatus returns a pointer to the value of AlertStatus from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
 }
 
 // GetDomain returns a pointer to the value of Domain from InfrastructureHostEntityOutline
@@ -5706,6 +11850,16 @@ func (x InfrastructureHostEntityOutline) GetGUID() common.EntityGUID {
 // GetGoldenMetrics returns a pointer to the value of GoldenMetrics from InfrastructureHostEntityOutline
 func (x InfrastructureHostEntityOutline) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
 	return x.GoldenMetrics
+}
+
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
 }
 
 // GetGoldenTags returns a pointer to the value of GoldenTags from InfrastructureHostEntityOutline
@@ -5733,6 +11887,16 @@ func (x InfrastructureHostEntityOutline) GetPermalink() string {
 	return x.Permalink
 }
 
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
+}
+
 // GetReporting returns a pointer to the value of Reporting from InfrastructureHostEntityOutline
 func (x InfrastructureHostEntityOutline) GetReporting() bool {
 	return x.Reporting
@@ -5743,6 +11907,11 @@ func (x InfrastructureHostEntityOutline) GetServiceLevel() ServiceLevelDefinitio
 	return x.ServiceLevel
 }
 
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
+}
+
 // GetTags returns a pointer to the value of Tags from InfrastructureHostEntityOutline
 func (x InfrastructureHostEntityOutline) GetTags() []EntityTag {
 	return x.Tags
@@ -5751,6 +11920,11 @@ func (x InfrastructureHostEntityOutline) GetTags() []EntityTag {
 // GetType returns a pointer to the value of Type from InfrastructureHostEntityOutline
 func (x InfrastructureHostEntityOutline) GetType() string {
 	return x.Type
+}
+
+// GetUiTemplates returns a pointer to the value of UiTemplates from InfrastructureHostEntityOutline
+func (x InfrastructureHostEntityOutline) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
 }
 
 func (x *InfrastructureHostEntityOutline) ImplementsAlertableEntityOutline() {}
@@ -5773,9 +11947,7 @@ type InfrastructureHostSummaryData struct {
 	ServicesCount int `json:"servicesCount,omitempty"`
 }
 
-// InfrastructureIntegrationEntity -
 type InfrastructureIntegrationEntity struct {
-	//
 	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
 }
 
@@ -5786,9 +11958,7 @@ func (x InfrastructureIntegrationEntity) GetIntegrationTypeCode() string {
 
 func (x *InfrastructureIntegrationEntity) ImplementsInfrastructureIntegrationEntity() {}
 
-// InfrastructureIntegrationEntityOutline -
 type InfrastructureIntegrationEntityOutline struct {
-	//
 	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
 }
 
@@ -5798,6 +11968,24 @@ func (x InfrastructureIntegrationEntityOutline) GetIntegrationTypeCode() string 
 }
 
 func (x *InfrastructureIntegrationEntityOutline) ImplementsInfrastructureIntegrationEntityOutline() {}
+
+// JavaFlightRecorderFlamegraph - The flamegraph built from the strack trace samples
+type JavaFlightRecorderFlamegraph struct {
+	// List of stack frames for the flamegraph
+	AllFrames []JavaFlightRecorderStackFrame `json:"allFrames"`
+}
+
+// JavaFlightRecorderStackFrame - A method within the flamegraph
+type JavaFlightRecorderStackFrame struct {
+	// The number of stack traces that this frame is in
+	Count int `json:"count"`
+	// This stackframe's id
+	ID string `json:"id"`
+	// The stackframe's class and method name
+	Name string `json:"name"`
+	// This stackframe's parent id
+	ParentId string `json:"parentId,omitempty"`
+}
 
 // MetricNormalizationRule - An object that represents a metric rename rule.
 type MetricNormalizationRule struct {
@@ -5811,6 +11999,8 @@ type MetricNormalizationRule struct {
 	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
 	// Is rule enabled?
 	Enabled bool `json:"enabled"`
+	// Rule evaluation order
+	EvalOrder int `json:"evalOrder,omitempty"`
 	// Rule Id
 	ID int `json:"id"`
 	// Metric Match Expression.
@@ -5819,6 +12009,8 @@ type MetricNormalizationRule struct {
 	Notes string `json:"notes,omitempty"`
 	// Metric Replacement Expression.
 	Replacement string `json:"replacement,omitempty"`
+	// Whether it terminates the evaluation chain or not
+	TerminateChain bool `json:"terminateChain,omitempty"`
 }
 
 // MobileAppSummaryData - Mobile application summary data
@@ -5847,26 +12039,39 @@ type MobileAppSummaryData struct {
 
 // MobileApplicationEntity - A Mobile Application entity.
 type MobileApplicationEntity struct {
-	//
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the entity that were open during the specified time window.
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// The ID of the Mobile App.
 	ApplicationID int `json:"applicationId,omitempty"`
+	// Query upstream and downstream dependencies for an entity
+	Connections RelatedExternalsEntityResult `json:"connections,omitempty"`
+	// A Crash that occurred in your Mobile Application.
+	Crash StackTraceMobileCrash `json:"crash,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
+	// A Handled Exception that occurred in your Mobile Application.
+	Exception StackTraceMobileException `json:"exception,omitempty"`
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Retrieves a rule.
@@ -5882,15 +12087,22 @@ type MobileApplicationEntity struct {
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
-	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
+	Name                string                      `json:"name,omitempty"`
+	NerdStorage         NerdStorageEntityScope      `json:"nerdStorage,omitempty"`
+	NerdStoreCollection []NerdStoreCollectionMember `json:"nerdStoreCollection,omitempty"`
+	NerdStoreDocument   NerdStoreDocument           `json:"nerdStoreDocument,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
 	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// Related entities result with optional filtering.
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
+	// Query upstream and downstream transaction dependencies for an entity
+	RelatedTransactions RelatedExternalsTransactionResult `json:"relatedTransactions,omitempty"`
 	// A list of the entities' relationships.
 	//
 	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
@@ -5899,14 +12111,20 @@ type MobileApplicationEntity struct {
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
 	// The tags applied to the entity.
 	//
 	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The tags applied to the entity with their metadata.
 	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 }
 
 // GetAccount returns a pointer to the value of Account from MobileApplicationEntity
@@ -5924,6 +12142,11 @@ func (x MobileApplicationEntity) GetAlertSeverity() EntityAlertSeverity {
 	return x.AlertSeverity
 }
 
+// GetAlertStatus returns a pointer to the value of AlertStatus from MobileApplicationEntity
+func (x MobileApplicationEntity) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
 // GetAlertViolations returns a pointer to the value of AlertViolations from MobileApplicationEntity
 func (x MobileApplicationEntity) GetAlertViolations() []EntityAlertViolation {
 	return x.AlertViolations
@@ -5932,6 +12155,21 @@ func (x MobileApplicationEntity) GetAlertViolations() []EntityAlertViolation {
 // GetApplicationID returns a pointer to the value of ApplicationID from MobileApplicationEntity
 func (x MobileApplicationEntity) GetApplicationID() int {
 	return x.ApplicationID
+}
+
+// GetConnections returns a pointer to the value of Connections from MobileApplicationEntity
+func (x MobileApplicationEntity) GetConnections() RelatedExternalsEntityResult {
+	return x.Connections
+}
+
+// GetCrash returns a pointer to the value of Crash from MobileApplicationEntity
+func (x MobileApplicationEntity) GetCrash() StackTraceMobileCrash {
+	return x.Crash
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from MobileApplicationEntity
+func (x MobileApplicationEntity) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
 }
 
 // GetDomain returns a pointer to the value of Domain from MobileApplicationEntity
@@ -5944,6 +12182,11 @@ func (x MobileApplicationEntity) GetEntityType() EntityType {
 	return x.EntityType
 }
 
+// GetException returns a pointer to the value of Exception from MobileApplicationEntity
+func (x MobileApplicationEntity) GetException() StackTraceMobileException {
+	return x.Exception
+}
+
 // GetGUID returns a pointer to the value of GUID from MobileApplicationEntity
 func (x MobileApplicationEntity) GetGUID() common.EntityGUID {
 	return x.GUID
@@ -5952,6 +12195,16 @@ func (x MobileApplicationEntity) GetGUID() common.EntityGUID {
 // GetGoldenMetrics returns a pointer to the value of GoldenMetrics from MobileApplicationEntity
 func (x MobileApplicationEntity) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
 	return x.GoldenMetrics
+}
+
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from MobileApplicationEntity
+func (x MobileApplicationEntity) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from MobileApplicationEntity
+func (x MobileApplicationEntity) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
 }
 
 // GetGoldenTags returns a pointer to the value of GoldenTags from MobileApplicationEntity
@@ -5994,6 +12247,16 @@ func (x MobileApplicationEntity) GetNerdStorage() NerdStorageEntityScope {
 	return x.NerdStorage
 }
 
+// GetNerdStoreCollection returns a pointer to the value of NerdStoreCollection from MobileApplicationEntity
+func (x MobileApplicationEntity) GetNerdStoreCollection() []NerdStoreCollectionMember {
+	return x.NerdStoreCollection
+}
+
+// GetNerdStoreDocument returns a pointer to the value of NerdStoreDocument from MobileApplicationEntity
+func (x MobileApplicationEntity) GetNerdStoreDocument() NerdStoreDocument {
+	return x.NerdStoreDocument
+}
+
 // GetPermalink returns a pointer to the value of Permalink from MobileApplicationEntity
 func (x MobileApplicationEntity) GetPermalink() string {
 	return x.Permalink
@@ -6004,9 +12267,24 @@ func (x MobileApplicationEntity) GetRecentAlertViolations() []EntityAlertViolati
 	return x.RecentAlertViolations
 }
 
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from MobileApplicationEntity
+func (x MobileApplicationEntity) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from MobileApplicationEntity
+func (x MobileApplicationEntity) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
+}
+
 // GetRelatedEntities returns a pointer to the value of RelatedEntities from MobileApplicationEntity
 func (x MobileApplicationEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
 	return x.RelatedEntities
+}
+
+// GetRelatedTransactions returns a pointer to the value of RelatedTransactions from MobileApplicationEntity
+func (x MobileApplicationEntity) GetRelatedTransactions() RelatedExternalsTransactionResult {
+	return x.RelatedTransactions
 }
 
 // GetRelationships returns a pointer to the value of Relationships from MobileApplicationEntity
@@ -6024,6 +12302,11 @@ func (x MobileApplicationEntity) GetServiceLevel() ServiceLevelDefinition {
 	return x.ServiceLevel
 }
 
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from MobileApplicationEntity
+func (x MobileApplicationEntity) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
+}
+
 // GetTags returns a pointer to the value of Tags from MobileApplicationEntity
 func (x MobileApplicationEntity) GetTags() []EntityTag {
 	return x.Tags
@@ -6034,9 +12317,19 @@ func (x MobileApplicationEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
 	return x.TagsWithMetadata
 }
 
+// GetTracingSummary returns a pointer to the value of TracingSummary from MobileApplicationEntity
+func (x MobileApplicationEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
 // GetType returns a pointer to the value of Type from MobileApplicationEntity
 func (x MobileApplicationEntity) GetType() string {
 	return x.Type
+}
+
+// GetUiTemplates returns a pointer to the value of UiTemplates from MobileApplicationEntity
+func (x MobileApplicationEntity) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
 }
 
 func (x *MobileApplicationEntity) ImplementsAlertableEntity() {}
@@ -6045,14 +12338,17 @@ func (x *MobileApplicationEntity) ImplementsEntity() {}
 
 // MobileApplicationEntityOutline - A Mobile Application entity outline.
 type MobileApplicationEntityOutline struct {
-	//
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
 	// The ID of the Mobile App.
 	ApplicationID int `json:"applicationId,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -6060,9 +12356,13 @@ type MobileApplicationEntityOutline struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Summary statistics about the Mobile App.
@@ -6071,16 +12371,24 @@ type MobileApplicationEntityOutline struct {
 	Name string `json:"name,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
 	// The tags applied to the entity.
 	//
 	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 }
 
 // GetAccount returns a pointer to the value of Account from MobileApplicationEntityOutline
@@ -6098,9 +12406,19 @@ func (x MobileApplicationEntityOutline) GetAlertSeverity() EntityAlertSeverity {
 	return x.AlertSeverity
 }
 
+// GetAlertStatus returns a pointer to the value of AlertStatus from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
 // GetApplicationID returns a pointer to the value of ApplicationID from MobileApplicationEntityOutline
 func (x MobileApplicationEntityOutline) GetApplicationID() int {
 	return x.ApplicationID
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
 }
 
 // GetDomain returns a pointer to the value of Domain from MobileApplicationEntityOutline
@@ -6121,6 +12439,16 @@ func (x MobileApplicationEntityOutline) GetGUID() common.EntityGUID {
 // GetGoldenMetrics returns a pointer to the value of GoldenMetrics from MobileApplicationEntityOutline
 func (x MobileApplicationEntityOutline) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
 	return x.GoldenMetrics
+}
+
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
 }
 
 // GetGoldenTags returns a pointer to the value of GoldenTags from MobileApplicationEntityOutline
@@ -6148,6 +12476,16 @@ func (x MobileApplicationEntityOutline) GetPermalink() string {
 	return x.Permalink
 }
 
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
+}
+
 // GetReporting returns a pointer to the value of Reporting from MobileApplicationEntityOutline
 func (x MobileApplicationEntityOutline) GetReporting() bool {
 	return x.Reporting
@@ -6156,6 +12494,11 @@ func (x MobileApplicationEntityOutline) GetReporting() bool {
 // GetServiceLevel returns a pointer to the value of ServiceLevel from MobileApplicationEntityOutline
 func (x MobileApplicationEntityOutline) GetServiceLevel() ServiceLevelDefinition {
 	return x.ServiceLevel
+}
+
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
 }
 
 // GetTags returns a pointer to the value of Tags from MobileApplicationEntityOutline
@@ -6168,17 +12511,28 @@ func (x MobileApplicationEntityOutline) GetType() string {
 	return x.Type
 }
 
+// GetUiTemplates returns a pointer to the value of UiTemplates from MobileApplicationEntityOutline
+func (x MobileApplicationEntityOutline) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
+}
+
 func (x *MobileApplicationEntityOutline) ImplementsAlertableEntityOutline() {}
 
 func (x *MobileApplicationEntityOutline) ImplementsEntityOutline() {}
 
 // NRQLQueryOptions - Additional options for NRQL queries.
 type NRQLQueryOptions struct {
-	// Limit the NRQL query to return results from the chosen [Event Namespaces](https://docs.newrelic.com/docs/accounts/new-relic-account-usage/getting-started-usage/insights-subscription-usage/#namespace).
+	// Limit the NRQL query to return results from the chosen Event Namespaces.
+	//
+	// You must supply at least 1 valid event namespace when using this option.
+	// Invalid event namespaces will be filtered out.
+	//
+	// If omitted, the default list will be `["Default"]`
+	//
+	// For more details about Event Namespaces, visit our [docs](https://docs.newrelic.com/docs/accounts/new-relic-account-usage/getting-started-usage/insights-subscription-usage/#namespace).
 	EventNamespaces []string `json:"eventNamespaces"`
 }
 
-// NerdStorageCollectionMember -
 type NerdStorageCollectionMember struct {
 	// The NerdStorage document.
 	Document NerdStorageDocument `json:"document,omitempty"`
@@ -6186,24 +12540,376 @@ type NerdStorageCollectionMember struct {
 	ID string `json:"id,omitempty"`
 }
 
-// NerdStorageEntityScope -
 type NerdStorageEntityScope struct {
-	//
 	Collection []NerdStorageCollectionMember `json:"collection,omitempty"`
-	//
-	Document NerdStorageDocument `json:"document,omitempty"`
+	Document   NerdStorageDocument           `json:"document,omitempty"`
+}
+
+type NerdStoreCollectionMember struct {
+	Document NerdStoreDocument `json:"document,omitempty"`
+	ID       string            `json:"id,omitempty"`
+}
+
+type ParentAccountInfo struct {
+	CreatedAt int           `json:"createdAt,omitempty"`
+	ID        int           `json:"id,omitempty"`
+	Name      string        `json:"name,omitempty"`
+	Region    Region        `json:"region,omitempty"`
+	Status    AccountStatus `json:"status,omitempty"`
+}
+
+type Region struct {
+	Code string `json:"code,omitempty"`
+	ID   int    `json:"id,omitempty"`
+	Name string `json:"name,omitempty"`
+}
+
+// RelatedDashboardsRelatedDashboardResult - Related dashboards found for an entity GUID
+type RelatedDashboardsRelatedDashboardResult struct {
+	// GUIDs of dashboards related to the given entity; empty if none found
+	DashboardGUIDs []common.EntityGUID `json:"dashboardGuids"`
+	// EntityOutlines of dashboards related to the given entity; empty if none found
+	Dashboards []EntityOutlineInterface `json:"dashboards"`
+}
+
+// special
+func (x *RelatedDashboardsRelatedDashboardResult) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+
+	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
+		switch k {
+		case "dashboardGuids":
+			err = json.Unmarshal(*v, &x.DashboardGUIDs)
+			if err != nil {
+				return err
+			}
+		case "dashboards":
+			if v == nil {
+				continue
+			}
+			var rawMessageDashboards []*json.RawMessage
+			err = json.Unmarshal(*v, &rawMessageDashboards)
+			if err != nil {
+				return err
+			}
+
+			for _, m := range rawMessageDashboards {
+				xxx, err := UnmarshalEntityOutlineInterface(*m)
+				if err != nil {
+					return err
+				}
+
+				if xxx != nil {
+					x.Dashboards = append(x.Dashboards, *xxx)
+				}
+			}
+		}
+	}
+
+	return nil
+}
+
+// RelatedExternalsEntityEdge - A connection between two entities in the entity connections result graph.
+type RelatedExternalsEntityEdge struct {
+	// Performance data for an edge in the entity connections result graph.
+	Performance []RelatedExternalsPerformance `json:"performance"`
+	// The entity of the source (upstream) vertex in the entity connections result graph.
+	SourceEntity EntityOutlineInterface `json:"sourceEntity"`
+	// The entity guid of the source (upstream) vertex in the entity connections result graph.
+	SourceEntityGUID common.EntityGUID `json:"sourceEntityGuid"`
+	// The ID of the source (upstream) vertex in the entity connections result graph.
+	SourceId string `json:"sourceId"`
+	// The entity of the target (downstream) vertex in the entity result graph.
+	TargetEntity EntityOutlineInterface `json:"targetEntity"`
+	// The entity guid of the target (downstream) vertex in the entity connections result graph.
+	TargetEntityGUID common.EntityGUID `json:"targetEntityGuid"`
+	// The ID of the target (downstream) vertex in the entity transaction connections result graph.
+	TargetId string `json:"targetId"`
+}
+
+// special
+func (x *RelatedExternalsEntityEdge) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+
+	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
+		switch k {
+		case "performance":
+			err = json.Unmarshal(*v, &x.Performance)
+			if err != nil {
+				return err
+			}
+		case "sourceEntity":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalEntityOutlineInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.SourceEntity = *xxx
+			}
+		case "sourceEntityGuid":
+			err = json.Unmarshal(*v, &x.SourceEntityGUID)
+			if err != nil {
+				return err
+			}
+		case "sourceId":
+			err = json.Unmarshal(*v, &x.SourceId)
+			if err != nil {
+				return err
+			}
+		case "targetEntity":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalEntityOutlineInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.TargetEntity = *xxx
+			}
+		case "targetEntityGuid":
+			err = json.Unmarshal(*v, &x.TargetEntityGUID)
+			if err != nil {
+				return err
+			}
+		case "targetId":
+			err = json.Unmarshal(*v, &x.TargetId)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
+}
+
+// RelatedExternalsEntityResult - Lists upstream and downstream dependencies for the specified entity, including performance data during the given time window.
+type RelatedExternalsEntityResult struct {
+	// Dependencies between entities in the entity connections result graph.
+	Edges []RelatedExternalsEntityEdge `json:"edges"`
+	// Entities in the entity connections result graph.
+	Vertices []RelatedExternalsEntityVertex `json:"vertices"`
+}
+
+// RelatedExternalsEntityVertex - An entity in the entity connections result graph.
+type RelatedExternalsEntityVertex struct {
+	// The direction of the vertex
+	Direction RelatedExternalsDirection `json:"direction"`
+	// The entity for a vertex in the entity connections result graph.
+	Entity EntityOutlineInterface `json:"entity"`
+	// The entity guid for a vertex in the entity connections result graph.
+	EntityGUID common.EntityGUID `json:"entityGuid"`
+	// The ID for a vertex in the entity transaction connections result graph.
+	ID string `json:"id"`
+	// Performance data for a vertex in the entity connections result graph.
+	Performance []RelatedExternalsPerformance `json:"performance"`
+}
+
+// special
+func (x *RelatedExternalsEntityVertex) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+
+	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
+		switch k {
+		case "direction":
+			err = json.Unmarshal(*v, &x.Direction)
+			if err != nil {
+				return err
+			}
+		case "entity":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalEntityOutlineInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.Entity = *xxx
+			}
+		case "entityGuid":
+			err = json.Unmarshal(*v, &x.EntityGUID)
+			if err != nil {
+				return err
+			}
+		case "id":
+			err = json.Unmarshal(*v, &x.ID)
+			if err != nil {
+				return err
+			}
+		case "performance":
+			err = json.Unmarshal(*v, &x.Performance)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
+}
+
+// RelatedExternalsPerformance - Entity connection performance values
+type RelatedExternalsPerformance struct {
+	// The average value for the signal over the queried time window.
+	AverageValue float64 `json:"averageValue"`
+	// The name of the performance signal.
+	Name string `json:"name"`
+	// Time series performance data for the performance signal.
+	Timeseries []RelatedExternalsPerformanceValue `json:"timeseries"`
+	// The unit for the performance signal.
+	Unit string `json:"unit"`
+}
+
+// RelatedExternalsPerformanceValue - A time series value for an entity connection performance signal.
+type RelatedExternalsPerformanceValue struct {
+	// The average value of the signal at the given time.
+	AverageValue float64 `json:"averageValue"`
+	// The start time in epoch milliseconds for this value.
+	Timestamp *nrtime.EpochMilliseconds `json:"timestamp"`
+}
+
+// RelatedExternalsSearch - Specifies an entity, either upstream or downstream of the queried entity, to filter results to.
+type RelatedExternalsSearch struct {
+	// Specify the direction of the connected entity: (UPSTREAM or DOWNSTREAM).
+	Direction RelatedExternalsDirection `json:"direction"`
+	// Filter to a specific connected entity.
+	EntityGUID common.EntityGUID `json:"entityGuid"`
+}
+
+// RelatedExternalsTransactionEdge - A connection between two entity transactions on two entities in the entity transaction connections result graph.
+type RelatedExternalsTransactionEdge struct {
+	// Performance data for an edge in the entity transaction connections result graph.
+	Performance []RelatedExternalsPerformance `json:"performance"`
+	// The ID of the source (upstream) vertex in the entity transaction connections result graph.
+	SourceId string `json:"sourceId"`
+	// The ID of the target (downstream) vertex in the entity transaction connections result graph.
+	TargetId string `json:"targetId"`
+}
+
+// RelatedExternalsTransactionResult - Lists transaction dependencies between the two specified entities, including performance data during the given time window.
+type RelatedExternalsTransactionResult struct {
+	// Dependencies between transactions on two specified entities.
+	Edges []RelatedExternalsTransactionEdge `json:"edges"`
+	// Transactions for each entity in the entity transaction connections result graph.
+	Vertices []RelatedExternalsTransactionVertex `json:"vertices"`
+}
+
+// RelatedExternalsTransactionVertex - An entity transaction in the entity transaction connections result graph.
+type RelatedExternalsTransactionVertex struct {
+	// The direction of the vertex
+	Direction RelatedExternalsDirection `json:"direction"`
+	// The entity for a vertex in the entity transaction connections result graph.
+	Entity EntityOutlineInterface `json:"entity"`
+	// The entity guid for a vertex in the entity transaction connections result graph.
+	EntityGUID common.EntityGUID `json:"entityGuid"`
+	// The ID for a vertex in the entity transaction connections result graph.
+	ID string `json:"id"`
+	// Performance data for a vertex in the entity transaction connections result graph.
+	Performance []RelatedExternalsPerformance `json:"performance"`
+	// The transaction for a vertex in the entity transaction connections result graph.
+	TransactionName string `json:"transactionName,omitempty"`
+}
+
+// special
+func (x *RelatedExternalsTransactionVertex) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+
+	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
+		switch k {
+		case "direction":
+			err = json.Unmarshal(*v, &x.Direction)
+			if err != nil {
+				return err
+			}
+		case "entity":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalEntityOutlineInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.Entity = *xxx
+			}
+		case "entityGuid":
+			err = json.Unmarshal(*v, &x.EntityGUID)
+			if err != nil {
+				return err
+			}
+		case "id":
+			err = json.Unmarshal(*v, &x.ID)
+			if err != nil {
+				return err
+			}
+		case "performance":
+			err = json.Unmarshal(*v, &x.Performance)
+			if err != nil {
+				return err
+			}
+		case "transactionName":
+			err = json.Unmarshal(*v, &x.TransactionName)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
 }
 
 // SecureCredentialEntity - A secure credential entity.
 type SecureCredentialEntity struct {
-	//
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the entity that were open during the specified time window.
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
 	// The description of the entity.
 	Description string `json:"description,omitempty"`
 	// The entity's domain
@@ -6213,9 +12919,13 @@ type SecureCredentialEntity struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
@@ -6225,13 +12935,18 @@ type SecureCredentialEntity struct {
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
-	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
+	Name                string                      `json:"name,omitempty"`
+	NerdStorage         NerdStorageEntityScope      `json:"nerdStorage,omitempty"`
+	NerdStoreCollection []NerdStoreCollectionMember `json:"nerdStoreCollection,omitempty"`
+	NerdStoreDocument   NerdStoreDocument           `json:"nerdStoreDocument,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
 	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// Related entities result with optional filtering.
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// A list of the entities' relationships.
@@ -6246,14 +12961,20 @@ type SecureCredentialEntity struct {
 	SecureCredentialSummary SecureCredentialSummaryData `json:"secureCredentialSummary,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
 	// The tags applied to the entity.
 	//
 	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The tags applied to the entity with their metadata.
 	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 	// The time at which the entity was last updated.
 	UpdatedAt *nrtime.EpochMilliseconds `json:"updatedAt,omitempty"`
 }
@@ -6273,9 +12994,19 @@ func (x SecureCredentialEntity) GetAlertSeverity() EntityAlertSeverity {
 	return x.AlertSeverity
 }
 
+// GetAlertStatus returns a pointer to the value of AlertStatus from SecureCredentialEntity
+func (x SecureCredentialEntity) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
 // GetAlertViolations returns a pointer to the value of AlertViolations from SecureCredentialEntity
 func (x SecureCredentialEntity) GetAlertViolations() []EntityAlertViolation {
 	return x.AlertViolations
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from SecureCredentialEntity
+func (x SecureCredentialEntity) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
 }
 
 // GetDescription returns a pointer to the value of Description from SecureCredentialEntity
@@ -6303,6 +13034,16 @@ func (x SecureCredentialEntity) GetGoldenMetrics() EntityGoldenContextScopedGold
 	return x.GoldenMetrics
 }
 
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from SecureCredentialEntity
+func (x SecureCredentialEntity) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from SecureCredentialEntity
+func (x SecureCredentialEntity) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
+}
+
 // GetGoldenTags returns a pointer to the value of GoldenTags from SecureCredentialEntity
 func (x SecureCredentialEntity) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
 	return x.GoldenTags
@@ -6328,6 +13069,16 @@ func (x SecureCredentialEntity) GetNerdStorage() NerdStorageEntityScope {
 	return x.NerdStorage
 }
 
+// GetNerdStoreCollection returns a pointer to the value of NerdStoreCollection from SecureCredentialEntity
+func (x SecureCredentialEntity) GetNerdStoreCollection() []NerdStoreCollectionMember {
+	return x.NerdStoreCollection
+}
+
+// GetNerdStoreDocument returns a pointer to the value of NerdStoreDocument from SecureCredentialEntity
+func (x SecureCredentialEntity) GetNerdStoreDocument() NerdStoreDocument {
+	return x.NerdStoreDocument
+}
+
 // GetPermalink returns a pointer to the value of Permalink from SecureCredentialEntity
 func (x SecureCredentialEntity) GetPermalink() string {
 	return x.Permalink
@@ -6336,6 +13087,16 @@ func (x SecureCredentialEntity) GetPermalink() string {
 // GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from SecureCredentialEntity
 func (x SecureCredentialEntity) GetRecentAlertViolations() []EntityAlertViolation {
 	return x.RecentAlertViolations
+}
+
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from SecureCredentialEntity
+func (x SecureCredentialEntity) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from SecureCredentialEntity
+func (x SecureCredentialEntity) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
 }
 
 // GetRelatedEntities returns a pointer to the value of RelatedEntities from SecureCredentialEntity
@@ -6368,6 +13129,11 @@ func (x SecureCredentialEntity) GetServiceLevel() ServiceLevelDefinition {
 	return x.ServiceLevel
 }
 
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from SecureCredentialEntity
+func (x SecureCredentialEntity) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
+}
+
 // GetTags returns a pointer to the value of Tags from SecureCredentialEntity
 func (x SecureCredentialEntity) GetTags() []EntityTag {
 	return x.Tags
@@ -6378,9 +13144,19 @@ func (x SecureCredentialEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
 	return x.TagsWithMetadata
 }
 
+// GetTracingSummary returns a pointer to the value of TracingSummary from SecureCredentialEntity
+func (x SecureCredentialEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
 // GetType returns a pointer to the value of Type from SecureCredentialEntity
 func (x SecureCredentialEntity) GetType() string {
 	return x.Type
+}
+
+// GetUiTemplates returns a pointer to the value of UiTemplates from SecureCredentialEntity
+func (x SecureCredentialEntity) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
 }
 
 // GetUpdatedAt returns a pointer to the value of UpdatedAt from SecureCredentialEntity
@@ -6394,12 +13170,15 @@ func (x *SecureCredentialEntity) ImplementsEntity() {}
 
 // SecureCredentialEntityOutline - A secure credential entity outline.
 type SecureCredentialEntityOutline struct {
-	//
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
 	// The description of the entity.
 	Description string `json:"description,omitempty"`
 	// The entity's domain
@@ -6409,15 +13188,23 @@ type SecureCredentialEntityOutline struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The domain-specific identifier for the entity.
@@ -6426,12 +13213,16 @@ type SecureCredentialEntityOutline struct {
 	SecureCredentialSummary SecureCredentialSummaryData `json:"secureCredentialSummary,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
 	// The tags applied to the entity.
 	//
 	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 	// The time at which the entity was last updated.
 	UpdatedAt *nrtime.EpochMilliseconds `json:"updatedAt,omitempty"`
 }
@@ -6449,6 +13240,16 @@ func (x SecureCredentialEntityOutline) GetAccountID() int {
 // GetAlertSeverity returns a pointer to the value of AlertSeverity from SecureCredentialEntityOutline
 func (x SecureCredentialEntityOutline) GetAlertSeverity() EntityAlertSeverity {
 	return x.AlertSeverity
+}
+
+// GetAlertStatus returns a pointer to the value of AlertStatus from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
 }
 
 // GetDescription returns a pointer to the value of Description from SecureCredentialEntityOutline
@@ -6476,6 +13277,16 @@ func (x SecureCredentialEntityOutline) GetGoldenMetrics() EntityGoldenContextSco
 	return x.GoldenMetrics
 }
 
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
+}
+
 // GetGoldenTags returns a pointer to the value of GoldenTags from SecureCredentialEntityOutline
 func (x SecureCredentialEntityOutline) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
 	return x.GoldenTags
@@ -6494,6 +13305,16 @@ func (x SecureCredentialEntityOutline) GetName() string {
 // GetPermalink returns a pointer to the value of Permalink from SecureCredentialEntityOutline
 func (x SecureCredentialEntityOutline) GetPermalink() string {
 	return x.Permalink
+}
+
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
 }
 
 // GetReporting returns a pointer to the value of Reporting from SecureCredentialEntityOutline
@@ -6516,6 +13337,11 @@ func (x SecureCredentialEntityOutline) GetServiceLevel() ServiceLevelDefinition 
 	return x.ServiceLevel
 }
 
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
+}
+
 // GetTags returns a pointer to the value of Tags from SecureCredentialEntityOutline
 func (x SecureCredentialEntityOutline) GetTags() []EntityTag {
 	return x.Tags
@@ -6524,6 +13350,11 @@ func (x SecureCredentialEntityOutline) GetTags() []EntityTag {
 // GetType returns a pointer to the value of Type from SecureCredentialEntityOutline
 func (x SecureCredentialEntityOutline) GetType() string {
 	return x.Type
+}
+
+// GetUiTemplates returns a pointer to the value of UiTemplates from SecureCredentialEntityOutline
+func (x SecureCredentialEntityOutline) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
 }
 
 // GetUpdatedAt returns a pointer to the value of UpdatedAt from SecureCredentialEntityOutline
@@ -6543,24 +13374,19 @@ type SecureCredentialSummaryData struct {
 	MonitorCount int `json:"monitorCount,omitempty"`
 }
 
-// ServiceLevelDefinition - The service level defined for a specific entity.
-type ServiceLevelDefinition struct {
-	// The SLIs attached to the entity.
-	Indicators []servicelevel.ServiceLevelIndicator `json:"indicators"`
-}
-
-// SyntheticMonitorEntity - A Synthetic Monitor entity.
-type SyntheticMonitorEntity struct {
-	//
+// ServiceEntity - A service entity.
+type ServiceEntity struct {
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the entity that were open during the specified time window.
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
-	// Assets produced during the execution of the check, such as screenshots
-	Assets []SyntheticsSyntheticMonitorAsset `json:"assets,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -6568,9 +13394,630 @@ type SyntheticMonitorEntity struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
+	// The time the entity was indexed.
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	// Make an `Entity` scoped query to NRDB with a NRQL string.
+	//
+	// A relevant `WHERE` clause will be added to your query to scope data to the entity in question.
+	//
+	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
+	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
+	// The name of this entity.
+	Name                string                      `json:"name,omitempty"`
+	NerdStorage         NerdStorageEntityScope      `json:"nerdStorage,omitempty"`
+	NerdStoreCollection []NerdStoreCollectionMember `json:"nerdStoreCollection,omitempty"`
+	NerdStoreDocument   NerdStoreDocument           `json:"nerdStoreDocument,omitempty"`
+	// The url to the entity.
+	Permalink string `json:"permalink,omitempty"`
+	// Recent violations on the entity.
+	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
+	// Related entities result with optional filtering.
+	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
+	// A list of the entities' relationships.
+	//
+	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
+	Relationships []EntityRelationship `json:"relationships,omitempty"`
+	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
+	Reporting bool `json:"reporting,omitempty"`
+	// The service level defined for the entity.
+	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
+	// The tags applied to the entity.
+	//
+	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
+	Tags []EntityTag `json:"tags,omitempty"`
+	// The tags applied to the entity with their metadata.
+	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
+	// The entity's type
+	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
+}
+
+// GetAccount returns a pointer to the value of Account from ServiceEntity
+func (x ServiceEntity) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from ServiceEntity
+func (x ServiceEntity) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from ServiceEntity
+func (x ServiceEntity) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
+}
+
+// GetAlertStatus returns a pointer to the value of AlertStatus from ServiceEntity
+func (x ServiceEntity) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
+// GetAlertViolations returns a pointer to the value of AlertViolations from ServiceEntity
+func (x ServiceEntity) GetAlertViolations() []EntityAlertViolation {
+	return x.AlertViolations
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from ServiceEntity
+func (x ServiceEntity) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
+}
+
+// GetDomain returns a pointer to the value of Domain from ServiceEntity
+func (x ServiceEntity) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from ServiceEntity
+func (x ServiceEntity) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetGUID returns a pointer to the value of GUID from ServiceEntity
+func (x ServiceEntity) GetGUID() common.EntityGUID {
+	return x.GUID
+}
+
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from ServiceEntity
+func (x ServiceEntity) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from ServiceEntity
+func (x ServiceEntity) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from ServiceEntity
+func (x ServiceEntity) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from ServiceEntity
+func (x ServiceEntity) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from ServiceEntity
+func (x ServiceEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetNRDBQuery returns a pointer to the value of NRDBQuery from ServiceEntity
+func (x ServiceEntity) GetNRDBQuery() nrdb.NRDBResultContainer {
+	return x.NRDBQuery
+}
+
+// GetName returns a pointer to the value of Name from ServiceEntity
+func (x ServiceEntity) GetName() string {
+	return x.Name
+}
+
+// GetNerdStorage returns a pointer to the value of NerdStorage from ServiceEntity
+func (x ServiceEntity) GetNerdStorage() NerdStorageEntityScope {
+	return x.NerdStorage
+}
+
+// GetNerdStoreCollection returns a pointer to the value of NerdStoreCollection from ServiceEntity
+func (x ServiceEntity) GetNerdStoreCollection() []NerdStoreCollectionMember {
+	return x.NerdStoreCollection
+}
+
+// GetNerdStoreDocument returns a pointer to the value of NerdStoreDocument from ServiceEntity
+func (x ServiceEntity) GetNerdStoreDocument() NerdStoreDocument {
+	return x.NerdStoreDocument
+}
+
+// GetPermalink returns a pointer to the value of Permalink from ServiceEntity
+func (x ServiceEntity) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from ServiceEntity
+func (x ServiceEntity) GetRecentAlertViolations() []EntityAlertViolation {
+	return x.RecentAlertViolations
+}
+
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from ServiceEntity
+func (x ServiceEntity) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from ServiceEntity
+func (x ServiceEntity) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
+}
+
+// GetRelatedEntities returns a pointer to the value of RelatedEntities from ServiceEntity
+func (x ServiceEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
+	return x.RelatedEntities
+}
+
+// GetRelationships returns a pointer to the value of Relationships from ServiceEntity
+func (x ServiceEntity) GetRelationships() []EntityRelationship {
+	return x.Relationships
+}
+
+// GetReporting returns a pointer to the value of Reporting from ServiceEntity
+func (x ServiceEntity) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetServiceLevel returns a pointer to the value of ServiceLevel from ServiceEntity
+func (x ServiceEntity) GetServiceLevel() ServiceLevelDefinition {
+	return x.ServiceLevel
+}
+
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from ServiceEntity
+func (x ServiceEntity) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
+}
+
+// GetTags returns a pointer to the value of Tags from ServiceEntity
+func (x ServiceEntity) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from ServiceEntity
+func (x ServiceEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
+	return x.TagsWithMetadata
+}
+
+// GetTracingSummary returns a pointer to the value of TracingSummary from ServiceEntity
+func (x ServiceEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
+// GetType returns a pointer to the value of Type from ServiceEntity
+func (x ServiceEntity) GetType() string {
+	return x.Type
+}
+
+// GetUiTemplates returns a pointer to the value of UiTemplates from ServiceEntity
+func (x ServiceEntity) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
+}
+
+func (x *ServiceEntity) ImplementsAlertableEntity() {}
+
+func (x *ServiceEntity) ImplementsEntity() {}
+
+func (x *ServiceEntity) ImplementsServiceEntity() {}
+
+// ServiceEntityOutline - A service entity outline.
+type ServiceEntityOutline struct {
+	Account accounts.AccountOutline `json:"account,omitempty"`
+	// The New Relic account ID associated with this entity.
+	AccountID int `json:"accountId,omitempty"`
+	// The current alerting severity of the entity.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
+	// The entity's domain
+	Domain string `json:"domain,omitempty"`
+	// A value representing the combination of the entity's domain and type.
+	EntityType EntityType `json:"entityType,omitempty"`
+	// A unique entity identifier.
+	GUID common.EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
+	// The time the entity was indexed.
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	// The name of this entity.
+	Name string `json:"name,omitempty"`
+	// The url to the entity.
+	Permalink string `json:"permalink,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
+	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
+	Reporting bool `json:"reporting,omitempty"`
+	// The service level defined for the entity.
+	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
+	// The tags applied to the entity.
+	//
+	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
+	Tags []EntityTag `json:"tags,omitempty"`
+	// The entity's type
+	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
+}
+
+// GetAccount returns a pointer to the value of Account from ServiceEntityOutline
+func (x ServiceEntityOutline) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from ServiceEntityOutline
+func (x ServiceEntityOutline) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from ServiceEntityOutline
+func (x ServiceEntityOutline) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
+}
+
+// GetAlertStatus returns a pointer to the value of AlertStatus from ServiceEntityOutline
+func (x ServiceEntityOutline) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from ServiceEntityOutline
+func (x ServiceEntityOutline) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
+}
+
+// GetDomain returns a pointer to the value of Domain from ServiceEntityOutline
+func (x ServiceEntityOutline) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from ServiceEntityOutline
+func (x ServiceEntityOutline) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetGUID returns a pointer to the value of GUID from ServiceEntityOutline
+func (x ServiceEntityOutline) GetGUID() common.EntityGUID {
+	return x.GUID
+}
+
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from ServiceEntityOutline
+func (x ServiceEntityOutline) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from ServiceEntityOutline
+func (x ServiceEntityOutline) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from ServiceEntityOutline
+func (x ServiceEntityOutline) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from ServiceEntityOutline
+func (x ServiceEntityOutline) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from ServiceEntityOutline
+func (x ServiceEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetName returns a pointer to the value of Name from ServiceEntityOutline
+func (x ServiceEntityOutline) GetName() string {
+	return x.Name
+}
+
+// GetPermalink returns a pointer to the value of Permalink from ServiceEntityOutline
+func (x ServiceEntityOutline) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from ServiceEntityOutline
+func (x ServiceEntityOutline) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from ServiceEntityOutline
+func (x ServiceEntityOutline) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
+}
+
+// GetReporting returns a pointer to the value of Reporting from ServiceEntityOutline
+func (x ServiceEntityOutline) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetServiceLevel returns a pointer to the value of ServiceLevel from ServiceEntityOutline
+func (x ServiceEntityOutline) GetServiceLevel() ServiceLevelDefinition {
+	return x.ServiceLevel
+}
+
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from ServiceEntityOutline
+func (x ServiceEntityOutline) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
+}
+
+// GetTags returns a pointer to the value of Tags from ServiceEntityOutline
+func (x ServiceEntityOutline) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetType returns a pointer to the value of Type from ServiceEntityOutline
+func (x ServiceEntityOutline) GetType() string {
+	return x.Type
+}
+
+// GetUiTemplates returns a pointer to the value of UiTemplates from ServiceEntityOutline
+func (x ServiceEntityOutline) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
+}
+
+func (x *ServiceEntityOutline) ImplementsAlertableEntityOutline() {}
+
+func (x *ServiceEntityOutline) ImplementsEntityOutline() {}
+
+func (x *ServiceEntityOutline) ImplementsServiceEntityOutline() {}
+
+// ServiceLevelComputedValueLimits - The limits of the computed value and the default value to fall back if it cannot be computed successfully
+type ServiceLevelComputedValueLimits struct {
+	// A default value to fall back if the computation cannot be completed successfully.
+	Fallback float64 `json:"fallback,omitempty"`
+	// Computed values greater than the maximum limit must fall back to the maximum value. If null, ignore it.
+	Maximum float64 `json:"maximum,omitempty"`
+	// Computed values less than the minimum limit must fall back to the minimum value. If null, ignore it.
+	Minimum float64 `json:"minimum,omitempty"`
+}
+
+// ServiceLevelDefinition - The service level defined for a specific entity.
+type ServiceLevelDefinition struct {
+	// The SLIs attached to the entity.
+	Indicators []servicelevel.ServiceLevelIndicator `json:"indicators"`
+}
+
+// ServiceLevelQueryTemplates - The template of the NRQL queries that define how is calculated the recommended SLI.
+type ServiceLevelQueryTemplates struct {
+	// The events that define the recommended SLI.
+	Events ServiceLevelRecommendedEvents `json:"events,omitempty"`
+	// The recommended SLOs for the SLI.
+	RecommendedObjectives []ServiceLevelRecommendedObjective `json:"recommendedObjectives"`
+	// The details of the parameters to be replaced in the query templates.
+	TemplateParameters []ServiceLevelTemplateParameters `json:"templateParameters"`
+}
+
+// ServiceLevelRecommendation - The recommended service level for a specific entity.
+type ServiceLevelRecommendation struct {
+	// A list of recommended SLIs with the recommended SLOs for a specific entity.
+	Indicators []ServiceLevelRecommendedIndicator `json:"indicators"`
+}
+
+// ServiceLevelRecommendedEvents - The events that define the recommended SLI.
+type ServiceLevelRecommendedEvents struct {
+	// The query template that defines the bad events.
+	BadEvents ServiceLevelRecommendedEventsQuery `json:"badEvents,omitempty"`
+	// The query template that defines the good events.
+	GoodEvents ServiceLevelRecommendedEventsQuery `json:"goodEvents,omitempty"`
+	// The query template that defines the valid events.
+	ValidEvents ServiceLevelRecommendedEventsQuery `json:"validEvents"`
+}
+
+// ServiceLevelRecommendedEventsQuery - The query template that represents the events to fetch.
+type ServiceLevelRecommendedEventsQuery struct {
+	// The NRDB event or metric to fetch the data from.
+	From nrdb.NRQL `json:"from"`
+	// The NRQL condition to filter the events.
+	Where nrdb.NRQL `json:"where,omitempty"`
+}
+
+// ServiceLevelRecommendedIndicator - A recommended SLI with the recommended SLOs for a specific entity.
+type ServiceLevelRecommendedIndicator struct {
+	// The category of the recommended SLI.
+	Category string `json:"category,omitempty"`
+	// The description of the recommended SLI.
+	Description string `json:"description,omitempty"`
+	// The name of the recommended SLI.
+	Name string `json:"name,omitempty"`
+	// The template of the NRQL queries that define how is calculated the SLI.
+	QueryTemplates ServiceLevelQueryTemplates `json:"queryTemplates,omitempty"`
+}
+
+// ServiceLevelRecommendedObjective - A recommended SLO for the SLI.
+type ServiceLevelRecommendedObjective struct {
+	// The limits of the target and the default value to fall back if it cannot be computed successfully
+	ComputedTargetLimits ServiceLevelComputedValueLimits `json:"computedTargetLimits,omitempty"`
+	// The recommended target percentage of the SLO.
+	Target float64 `json:"target,omitempty"`
+	// The query that defines how to calculate the recommended target of SLO.
+	TargetQuery nrdb.NRQL `json:"targetQuery,omitempty"`
+}
+
+// ServiceLevelTemplateParameters - The details of the parameters to be replaced in the query templates.
+type ServiceLevelTemplateParameters struct {
+	// The limits of the baseline and the default value to fall back if it cannot be computed successfully
+	ComputedBaselineLimits ServiceLevelComputedValueLimits `json:"computedBaselineLimits,omitempty"`
+	// The description of the parameter.
+	Description string `json:"description,omitempty"`
+	// The key to be replaced in a query template.
+	Key string `json:"key"`
+	// The name of the parameter.
+	Name string `json:"name,omitempty"`
+	// The operator of the parameter.
+	Operator string `json:"operator,omitempty"`
+	// The query that defines how the value should be calculated.
+	Query nrdb.NRQL `json:"query"`
+	// The unit of the parameter.
+	Unit string `json:"unit,omitempty"`
+}
+
+// StackTraceApmException - A structured representation of an exception for an APM application.
+type StackTraceApmException struct {
+	// The top level message associated with the exception.
+	Message string `json:"message,omitempty"`
+	// The stack trace associated with the exception.
+	StackTrace StackTraceApmStackTrace `json:"stackTrace,omitempty"`
+}
+
+// StackTraceApmStackTrace - A structured representation of a stack trace for an APM application.
+type StackTraceApmStackTrace struct {
+	// Stack trace frames.
+	Frames []StackTraceApmStackTraceFrame `json:"frames,omitempty"`
+}
+
+// StackTraceApmStackTraceFrame - An object representing a stack trace segment
+type StackTraceApmStackTraceFrame struct {
+	// Frame filepath
+	Filepath string `json:"filepath,omitempty"`
+	// Formatted frame
+	Formatted string `json:"formatted"`
+	// Frame line number
+	Line int `json:"line,omitempty"`
+	// Frame name
+	Name string `json:"name,omitempty"`
+}
+
+// StackTraceBrowserException - A structured representation of an exception for a Browser application.
+type StackTraceBrowserException struct {
+	// The top level message associated to the stack trace.
+	Message string `json:"message,omitempty"`
+	// The stack trace associated with the exception.
+	StackTrace StackTraceBrowserStackTrace `json:"stackTrace,omitempty"`
+}
+
+// StackTraceBrowserStackTrace - A structured representation of a stack trace for a Browser application.
+type StackTraceBrowserStackTrace struct {
+	// Stack trace frames.
+	Frames []StackTraceBrowserStackTraceFrame `json:"frames,omitempty"`
+}
+
+// StackTraceBrowserStackTraceFrame - An object representing a stack trace segment
+type StackTraceBrowserStackTraceFrame struct {
+	// Frame column number
+	Column int `json:"column,omitempty"`
+	// Formatted frame
+	Formatted string `json:"formatted"`
+	// Frame line number
+	Line int `json:"line,omitempty"`
+	// Frame name
+	Name string `json:"name,omitempty"`
+}
+
+// StackTraceMobileCrash - A structured representation of a crash occurring in a mobile application.
+type StackTraceMobileCrash struct {
+	// A structured representation of a stack trace for a crash that occurs on a mobile application.
+	StackTrace StackTraceMobileCrashStackTrace `json:"stackTrace,omitempty"`
+}
+
+// StackTraceMobileCrashStackTrace - A structured representation of a stack trace of a crash in a mobile application.
+type StackTraceMobileCrashStackTrace struct {
+	// Stack trace frames.
+	Frames []StackTraceMobileCrashStackTraceFrame `json:"frames,omitempty"`
+}
+
+// StackTraceMobileCrashStackTraceFrame - An object representing a stack trace segment
+type StackTraceMobileCrashStackTraceFrame struct {
+	// Frame filepath
+	Filepath string `json:"filepath,omitempty"`
+	// Formatted frame
+	Formatted string `json:"formatted"`
+	// Frame line number
+	Line int `json:"line,omitempty"`
+	// Frame name
+	Name string `json:"name,omitempty"`
+}
+
+// StackTraceMobileException - A structured representation of a handled exception occurring in a mobile application.
+type StackTraceMobileException struct {
+	// A structured representation of a handled exception in a mobile application.
+	StackTrace StackTraceMobileExceptionStackTrace `json:"stackTrace,omitempty"`
+}
+
+// StackTraceMobileExceptionStackTrace - A structured representation of a handled exception in a mobile application.
+type StackTraceMobileExceptionStackTrace struct {
+	// Stack trace frames.
+	Frames []StackTraceMobileExceptionStackTraceFrame `json:"frames,omitempty"`
+}
+
+// StackTraceMobileExceptionStackTraceFrame - An object representing a stack trace segment
+type StackTraceMobileExceptionStackTraceFrame struct {
+	// Frame filepath
+	Filepath string `json:"filepath,omitempty"`
+	// Formatted frame
+	Formatted string `json:"formatted"`
+	// Frame line number
+	Line int `json:"line,omitempty"`
+	// Frame name
+	Name string `json:"name,omitempty"`
+}
+
+// SyntheticMonitorCheckResult - The result of a synthetic monitor check
+type SyntheticMonitorCheckResult struct {
+	// The synthetic monitor check result id
+	ID string `json:"id,omitempty"`
+	// The synthetic monitor check result status
+	Status SyntheticMonitorCheckStatus `json:"status,omitempty"`
+}
+
+// SyntheticMonitorEntity - A Synthetic Monitor entity.
+type SyntheticMonitorEntity struct {
+	Account accounts.AccountOutline `json:"account,omitempty"`
+	// The New Relic account ID associated with this entity.
+	AccountID int `json:"accountId,omitempty"`
+	// The current alerting severity of the entity.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
+	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
+	// Assets produced during the execution of the check, such as screenshots
+	Assets []SyntheticsSyntheticMonitorAsset `json:"assets,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
+	// The entity's domain
+	Domain string `json:"domain,omitempty"`
+	// A value representing the combination of the entity's domain and type.
+	EntityType EntityType `json:"entityType,omitempty"`
+	// A unique entity identifier.
+	GUID common.EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The Synthetic Monitor ID
@@ -6588,15 +14035,20 @@ type SyntheticMonitorEntity struct {
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
-	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
+	Name                string                      `json:"name,omitempty"`
+	NerdStorage         NerdStorageEntityScope      `json:"nerdStorage,omitempty"`
+	NerdStoreCollection []NerdStoreCollectionMember `json:"nerdStoreCollection,omitempty"`
+	NerdStoreDocument   NerdStoreDocument           `json:"nerdStoreDocument,omitempty"`
 	// The duration in minutes between Synthetic Monitor runs.
 	Period nrtime.Minutes `json:"period,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
 	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// Related entities result with optional filtering.
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// A list of the entities' relationships.
@@ -6607,14 +14059,20 @@ type SyntheticMonitorEntity struct {
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
 	// The tags applied to the entity.
 	//
 	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The tags applied to the entity with their metadata.
 	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 }
 
 // GetAccount returns a pointer to the value of Account from SyntheticMonitorEntity
@@ -6632,6 +14090,11 @@ func (x SyntheticMonitorEntity) GetAlertSeverity() EntityAlertSeverity {
 	return x.AlertSeverity
 }
 
+// GetAlertStatus returns a pointer to the value of AlertStatus from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
 // GetAlertViolations returns a pointer to the value of AlertViolations from SyntheticMonitorEntity
 func (x SyntheticMonitorEntity) GetAlertViolations() []EntityAlertViolation {
 	return x.AlertViolations
@@ -6640,6 +14103,11 @@ func (x SyntheticMonitorEntity) GetAlertViolations() []EntityAlertViolation {
 // GetAssets returns a pointer to the value of Assets from SyntheticMonitorEntity
 func (x SyntheticMonitorEntity) GetAssets() []SyntheticsSyntheticMonitorAsset {
 	return x.Assets
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
 }
 
 // GetDomain returns a pointer to the value of Domain from SyntheticMonitorEntity
@@ -6660,6 +14128,16 @@ func (x SyntheticMonitorEntity) GetGUID() common.EntityGUID {
 // GetGoldenMetrics returns a pointer to the value of GoldenMetrics from SyntheticMonitorEntity
 func (x SyntheticMonitorEntity) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
 	return x.GoldenMetrics
+}
+
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
 }
 
 // GetGoldenTags returns a pointer to the value of GoldenTags from SyntheticMonitorEntity
@@ -6707,6 +14185,16 @@ func (x SyntheticMonitorEntity) GetNerdStorage() NerdStorageEntityScope {
 	return x.NerdStorage
 }
 
+// GetNerdStoreCollection returns a pointer to the value of NerdStoreCollection from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetNerdStoreCollection() []NerdStoreCollectionMember {
+	return x.NerdStoreCollection
+}
+
+// GetNerdStoreDocument returns a pointer to the value of NerdStoreDocument from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetNerdStoreDocument() NerdStoreDocument {
+	return x.NerdStoreDocument
+}
+
 // GetPeriod returns a pointer to the value of Period from SyntheticMonitorEntity
 func (x SyntheticMonitorEntity) GetPeriod() nrtime.Minutes {
 	return x.Period
@@ -6720,6 +14208,16 @@ func (x SyntheticMonitorEntity) GetPermalink() string {
 // GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from SyntheticMonitorEntity
 func (x SyntheticMonitorEntity) GetRecentAlertViolations() []EntityAlertViolation {
 	return x.RecentAlertViolations
+}
+
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
 }
 
 // GetRelatedEntities returns a pointer to the value of RelatedEntities from SyntheticMonitorEntity
@@ -6742,6 +14240,11 @@ func (x SyntheticMonitorEntity) GetServiceLevel() ServiceLevelDefinition {
 	return x.ServiceLevel
 }
 
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
+}
+
 // GetTags returns a pointer to the value of Tags from SyntheticMonitorEntity
 func (x SyntheticMonitorEntity) GetTags() []EntityTag {
 	return x.Tags
@@ -6752,9 +14255,19 @@ func (x SyntheticMonitorEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
 	return x.TagsWithMetadata
 }
 
+// GetTracingSummary returns a pointer to the value of TracingSummary from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
 // GetType returns a pointer to the value of Type from SyntheticMonitorEntity
 func (x SyntheticMonitorEntity) GetType() string {
 	return x.Type
+}
+
+// GetUiTemplates returns a pointer to the value of UiTemplates from SyntheticMonitorEntity
+func (x SyntheticMonitorEntity) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
 }
 
 func (x *SyntheticMonitorEntity) ImplementsAlertableEntity() {}
@@ -6763,12 +14276,15 @@ func (x *SyntheticMonitorEntity) ImplementsEntity() {}
 
 // SyntheticMonitorEntityOutline - A Synthetic Monitor entity outline.
 type SyntheticMonitorEntityOutline struct {
-	//
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -6776,9 +14292,13 @@ type SyntheticMonitorEntityOutline struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The Synthetic Monitor ID
@@ -6795,16 +14315,24 @@ type SyntheticMonitorEntityOutline struct {
 	Period nrtime.Minutes `json:"period,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
 	// The tags applied to the entity.
 	//
 	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 }
 
 // GetAccount returns a pointer to the value of Account from SyntheticMonitorEntityOutline
@@ -6820,6 +14348,16 @@ func (x SyntheticMonitorEntityOutline) GetAccountID() int {
 // GetAlertSeverity returns a pointer to the value of AlertSeverity from SyntheticMonitorEntityOutline
 func (x SyntheticMonitorEntityOutline) GetAlertSeverity() EntityAlertSeverity {
 	return x.AlertSeverity
+}
+
+// GetAlertStatus returns a pointer to the value of AlertStatus from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
 }
 
 // GetDomain returns a pointer to the value of Domain from SyntheticMonitorEntityOutline
@@ -6840,6 +14378,16 @@ func (x SyntheticMonitorEntityOutline) GetGUID() common.EntityGUID {
 // GetGoldenMetrics returns a pointer to the value of GoldenMetrics from SyntheticMonitorEntityOutline
 func (x SyntheticMonitorEntityOutline) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
 	return x.GoldenMetrics
+}
+
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
 }
 
 // GetGoldenTags returns a pointer to the value of GoldenTags from SyntheticMonitorEntityOutline
@@ -6887,6 +14435,16 @@ func (x SyntheticMonitorEntityOutline) GetPermalink() string {
 	return x.Permalink
 }
 
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
+}
+
 // GetReporting returns a pointer to the value of Reporting from SyntheticMonitorEntityOutline
 func (x SyntheticMonitorEntityOutline) GetReporting() bool {
 	return x.Reporting
@@ -6895,6 +14453,11 @@ func (x SyntheticMonitorEntityOutline) GetReporting() bool {
 // GetServiceLevel returns a pointer to the value of ServiceLevel from SyntheticMonitorEntityOutline
 func (x SyntheticMonitorEntityOutline) GetServiceLevel() ServiceLevelDefinition {
 	return x.ServiceLevel
+}
+
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
 }
 
 // GetTags returns a pointer to the value of Tags from SyntheticMonitorEntityOutline
@@ -6907,18 +14470,30 @@ func (x SyntheticMonitorEntityOutline) GetType() string {
 	return x.Type
 }
 
+// GetUiTemplates returns a pointer to the value of UiTemplates from SyntheticMonitorEntityOutline
+func (x SyntheticMonitorEntityOutline) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
+}
+
 func (x *SyntheticMonitorEntityOutline) ImplementsAlertableEntityOutline() {}
 
 func (x *SyntheticMonitorEntityOutline) ImplementsEntityOutline() {}
 
 // SyntheticMonitorSummaryData - Summary statistics for the Synthetic Monitor.
 type SyntheticMonitorSummaryData struct {
+	// The latest 5 synthetic monitor check results.
+	LatestResults []SyntheticMonitorCheckResult `json:"latestResults,omitempty"`
+	// The mean load size in bytes for synthetic monitor checks in the last 24 hours.
+	LoadSizeAverage float64 `json:"loadSizeAverage,omitempty"`
+	// The 50th percentile load time in milliseconds for synthetic monitor checks in the last 24 hours.
+	LoadTimeP50 Milliseconds `json:"loadTimeP50,omitempty"`
+	// The 95th percentile load time in milliseconds for synthetic monitor checks in the last 24 hours.
+	LoadTimeP95 Milliseconds `json:"loadTimeP95,omitempty"`
 	// The number of locations that are currently failing.
 	LocationsFailing int `json:"locationsFailing,omitempty"`
 	// The number of locations that are currently running.
-	LocationsRunning int `json:"locationsRunning,omitempty"`
-	//
-	Status SyntheticMonitorStatus `json:"status,omitempty"`
+	LocationsRunning int                    `json:"locationsRunning,omitempty"`
+	Status           SyntheticMonitorStatus `json:"status,omitempty"`
 	// The percentage of successful synthetic monitor checks in the last 24 hours.
 	SuccessRate float64 `json:"successRate,omitempty"`
 }
@@ -6963,14 +14538,19 @@ type TaggingTagValueInput struct {
 
 // ThirdPartyServiceEntity - A third party service entity.
 type ThirdPartyServiceEntity struct {
-	//
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the entity that were open during the specified time window.
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
+	// Query upstream and downstream dependencies for an entity
+	Connections RelatedExternalsEntityResult `json:"connections,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -6978,9 +14558,13 @@ type ThirdPartyServiceEntity struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
@@ -6990,15 +14574,22 @@ type ThirdPartyServiceEntity struct {
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
-	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
+	Name                string                      `json:"name,omitempty"`
+	NerdStorage         NerdStorageEntityScope      `json:"nerdStorage,omitempty"`
+	NerdStoreCollection []NerdStoreCollectionMember `json:"nerdStoreCollection,omitempty"`
+	NerdStoreDocument   NerdStoreDocument           `json:"nerdStoreDocument,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
 	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// Related entities result with optional filtering.
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
+	// Query upstream and downstream transaction dependencies for an entity
+	RelatedTransactions RelatedExternalsTransactionResult `json:"relatedTransactions,omitempty"`
 	// A list of the entities' relationships.
 	//
 	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
@@ -7007,14 +14598,20 @@ type ThirdPartyServiceEntity struct {
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
 	// The tags applied to the entity.
 	//
 	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The tags applied to the entity with their metadata.
 	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 }
 
 // GetAccount returns a pointer to the value of Account from ThirdPartyServiceEntity
@@ -7032,9 +14629,24 @@ func (x ThirdPartyServiceEntity) GetAlertSeverity() EntityAlertSeverity {
 	return x.AlertSeverity
 }
 
+// GetAlertStatus returns a pointer to the value of AlertStatus from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
 // GetAlertViolations returns a pointer to the value of AlertViolations from ThirdPartyServiceEntity
 func (x ThirdPartyServiceEntity) GetAlertViolations() []EntityAlertViolation {
 	return x.AlertViolations
+}
+
+// GetConnections returns a pointer to the value of Connections from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetConnections() RelatedExternalsEntityResult {
+	return x.Connections
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
 }
 
 // GetDomain returns a pointer to the value of Domain from ThirdPartyServiceEntity
@@ -7055,6 +14667,16 @@ func (x ThirdPartyServiceEntity) GetGUID() common.EntityGUID {
 // GetGoldenMetrics returns a pointer to the value of GoldenMetrics from ThirdPartyServiceEntity
 func (x ThirdPartyServiceEntity) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
 	return x.GoldenMetrics
+}
+
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
 }
 
 // GetGoldenTags returns a pointer to the value of GoldenTags from ThirdPartyServiceEntity
@@ -7082,6 +14704,16 @@ func (x ThirdPartyServiceEntity) GetNerdStorage() NerdStorageEntityScope {
 	return x.NerdStorage
 }
 
+// GetNerdStoreCollection returns a pointer to the value of NerdStoreCollection from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetNerdStoreCollection() []NerdStoreCollectionMember {
+	return x.NerdStoreCollection
+}
+
+// GetNerdStoreDocument returns a pointer to the value of NerdStoreDocument from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetNerdStoreDocument() NerdStoreDocument {
+	return x.NerdStoreDocument
+}
+
 // GetPermalink returns a pointer to the value of Permalink from ThirdPartyServiceEntity
 func (x ThirdPartyServiceEntity) GetPermalink() string {
 	return x.Permalink
@@ -7092,9 +14724,24 @@ func (x ThirdPartyServiceEntity) GetRecentAlertViolations() []EntityAlertViolati
 	return x.RecentAlertViolations
 }
 
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
+}
+
 // GetRelatedEntities returns a pointer to the value of RelatedEntities from ThirdPartyServiceEntity
 func (x ThirdPartyServiceEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
 	return x.RelatedEntities
+}
+
+// GetRelatedTransactions returns a pointer to the value of RelatedTransactions from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetRelatedTransactions() RelatedExternalsTransactionResult {
+	return x.RelatedTransactions
 }
 
 // GetRelationships returns a pointer to the value of Relationships from ThirdPartyServiceEntity
@@ -7112,6 +14759,11 @@ func (x ThirdPartyServiceEntity) GetServiceLevel() ServiceLevelDefinition {
 	return x.ServiceLevel
 }
 
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
+}
+
 // GetTags returns a pointer to the value of Tags from ThirdPartyServiceEntity
 func (x ThirdPartyServiceEntity) GetTags() []EntityTag {
 	return x.Tags
@@ -7122,23 +14774,38 @@ func (x ThirdPartyServiceEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
 	return x.TagsWithMetadata
 }
 
+// GetTracingSummary returns a pointer to the value of TracingSummary from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
 // GetType returns a pointer to the value of Type from ThirdPartyServiceEntity
 func (x ThirdPartyServiceEntity) GetType() string {
 	return x.Type
+}
+
+// GetUiTemplates returns a pointer to the value of UiTemplates from ThirdPartyServiceEntity
+func (x ThirdPartyServiceEntity) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
 }
 
 func (x *ThirdPartyServiceEntity) ImplementsAlertableEntity() {}
 
 func (x *ThirdPartyServiceEntity) ImplementsEntity() {}
 
+func (x *ThirdPartyServiceEntity) ImplementsThirdPartyServiceEntity() {}
+
 // ThirdPartyServiceEntityOutline - A third party service entity outline.
 type ThirdPartyServiceEntityOutline struct {
-	//
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -7146,25 +14813,37 @@ type ThirdPartyServiceEntityOutline struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
 	// The tags applied to the entity.
 	//
 	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 }
 
 // GetAccount returns a pointer to the value of Account from ThirdPartyServiceEntityOutline
@@ -7180,6 +14859,16 @@ func (x ThirdPartyServiceEntityOutline) GetAccountID() int {
 // GetAlertSeverity returns a pointer to the value of AlertSeverity from ThirdPartyServiceEntityOutline
 func (x ThirdPartyServiceEntityOutline) GetAlertSeverity() EntityAlertSeverity {
 	return x.AlertSeverity
+}
+
+// GetAlertStatus returns a pointer to the value of AlertStatus from ThirdPartyServiceEntityOutline
+func (x ThirdPartyServiceEntityOutline) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from ThirdPartyServiceEntityOutline
+func (x ThirdPartyServiceEntityOutline) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
 }
 
 // GetDomain returns a pointer to the value of Domain from ThirdPartyServiceEntityOutline
@@ -7202,6 +14891,16 @@ func (x ThirdPartyServiceEntityOutline) GetGoldenMetrics() EntityGoldenContextSc
 	return x.GoldenMetrics
 }
 
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from ThirdPartyServiceEntityOutline
+func (x ThirdPartyServiceEntityOutline) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from ThirdPartyServiceEntityOutline
+func (x ThirdPartyServiceEntityOutline) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
+}
+
 // GetGoldenTags returns a pointer to the value of GoldenTags from ThirdPartyServiceEntityOutline
 func (x ThirdPartyServiceEntityOutline) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
 	return x.GoldenTags
@@ -7222,6 +14921,16 @@ func (x ThirdPartyServiceEntityOutline) GetPermalink() string {
 	return x.Permalink
 }
 
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from ThirdPartyServiceEntityOutline
+func (x ThirdPartyServiceEntityOutline) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from ThirdPartyServiceEntityOutline
+func (x ThirdPartyServiceEntityOutline) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
+}
+
 // GetReporting returns a pointer to the value of Reporting from ThirdPartyServiceEntityOutline
 func (x ThirdPartyServiceEntityOutline) GetReporting() bool {
 	return x.Reporting
@@ -7230,6 +14939,11 @@ func (x ThirdPartyServiceEntityOutline) GetReporting() bool {
 // GetServiceLevel returns a pointer to the value of ServiceLevel from ThirdPartyServiceEntityOutline
 func (x ThirdPartyServiceEntityOutline) GetServiceLevel() ServiceLevelDefinition {
 	return x.ServiceLevel
+}
+
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from ThirdPartyServiceEntityOutline
+func (x ThirdPartyServiceEntityOutline) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
 }
 
 // GetTags returns a pointer to the value of Tags from ThirdPartyServiceEntityOutline
@@ -7242,9 +14956,16 @@ func (x ThirdPartyServiceEntityOutline) GetType() string {
 	return x.Type
 }
 
+// GetUiTemplates returns a pointer to the value of UiTemplates from ThirdPartyServiceEntityOutline
+func (x ThirdPartyServiceEntityOutline) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
+}
+
 func (x *ThirdPartyServiceEntityOutline) ImplementsAlertableEntityOutline() {}
 
 func (x *ThirdPartyServiceEntityOutline) ImplementsEntityOutline() {}
+
+func (x *ThirdPartyServiceEntityOutline) ImplementsThirdPartyServiceEntityOutline() {}
 
 // TimeWindowInput - Represents a time window input.
 type TimeWindowInput struct {
@@ -7256,14 +14977,17 @@ type TimeWindowInput struct {
 
 // UnavailableEntity - An entity that is unavailable.
 type UnavailableEntity struct {
-	//
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
-	// Violations on the entity that were open during the specified time window.
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the timewindow or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -7271,9 +14995,13 @@ type UnavailableEntity struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
@@ -7283,13 +15011,18 @@ type UnavailableEntity struct {
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
-	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
+	Name                string                      `json:"name,omitempty"`
+	NerdStorage         NerdStorageEntityScope      `json:"nerdStorage,omitempty"`
+	NerdStoreCollection []NerdStoreCollectionMember `json:"nerdStoreCollection,omitempty"`
+	NerdStoreDocument   NerdStoreDocument           `json:"nerdStoreDocument,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
 	// Recent violations on the entity.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// Related entities result with optional filtering.
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// A list of the entities' relationships.
@@ -7300,14 +15033,20 @@ type UnavailableEntity struct {
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
 	// The tags applied to the entity.
 	//
 	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The tags applied to the entity with their metadata.
 	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 }
 
 // GetAccount returns a pointer to the value of Account from UnavailableEntity
@@ -7325,9 +15064,19 @@ func (x UnavailableEntity) GetAlertSeverity() EntityAlertSeverity {
 	return x.AlertSeverity
 }
 
+// GetAlertStatus returns a pointer to the value of AlertStatus from UnavailableEntity
+func (x UnavailableEntity) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
 // GetAlertViolations returns a pointer to the value of AlertViolations from UnavailableEntity
 func (x UnavailableEntity) GetAlertViolations() []EntityAlertViolation {
 	return x.AlertViolations
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from UnavailableEntity
+func (x UnavailableEntity) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
 }
 
 // GetDomain returns a pointer to the value of Domain from UnavailableEntity
@@ -7348,6 +15097,16 @@ func (x UnavailableEntity) GetGUID() common.EntityGUID {
 // GetGoldenMetrics returns a pointer to the value of GoldenMetrics from UnavailableEntity
 func (x UnavailableEntity) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
 	return x.GoldenMetrics
+}
+
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from UnavailableEntity
+func (x UnavailableEntity) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from UnavailableEntity
+func (x UnavailableEntity) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
 }
 
 // GetGoldenTags returns a pointer to the value of GoldenTags from UnavailableEntity
@@ -7375,6 +15134,16 @@ func (x UnavailableEntity) GetNerdStorage() NerdStorageEntityScope {
 	return x.NerdStorage
 }
 
+// GetNerdStoreCollection returns a pointer to the value of NerdStoreCollection from UnavailableEntity
+func (x UnavailableEntity) GetNerdStoreCollection() []NerdStoreCollectionMember {
+	return x.NerdStoreCollection
+}
+
+// GetNerdStoreDocument returns a pointer to the value of NerdStoreDocument from UnavailableEntity
+func (x UnavailableEntity) GetNerdStoreDocument() NerdStoreDocument {
+	return x.NerdStoreDocument
+}
+
 // GetPermalink returns a pointer to the value of Permalink from UnavailableEntity
 func (x UnavailableEntity) GetPermalink() string {
 	return x.Permalink
@@ -7383,6 +15152,16 @@ func (x UnavailableEntity) GetPermalink() string {
 // GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from UnavailableEntity
 func (x UnavailableEntity) GetRecentAlertViolations() []EntityAlertViolation {
 	return x.RecentAlertViolations
+}
+
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from UnavailableEntity
+func (x UnavailableEntity) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from UnavailableEntity
+func (x UnavailableEntity) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
 }
 
 // GetRelatedEntities returns a pointer to the value of RelatedEntities from UnavailableEntity
@@ -7405,6 +15184,11 @@ func (x UnavailableEntity) GetServiceLevel() ServiceLevelDefinition {
 	return x.ServiceLevel
 }
 
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from UnavailableEntity
+func (x UnavailableEntity) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
+}
+
 // GetTags returns a pointer to the value of Tags from UnavailableEntity
 func (x UnavailableEntity) GetTags() []EntityTag {
 	return x.Tags
@@ -7415,9 +15199,19 @@ func (x UnavailableEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
 	return x.TagsWithMetadata
 }
 
+// GetTracingSummary returns a pointer to the value of TracingSummary from UnavailableEntity
+func (x UnavailableEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
 // GetType returns a pointer to the value of Type from UnavailableEntity
 func (x UnavailableEntity) GetType() string {
 	return x.Type
+}
+
+// GetUiTemplates returns a pointer to the value of UiTemplates from UnavailableEntity
+func (x UnavailableEntity) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
 }
 
 func (x *UnavailableEntity) ImplementsAlertableEntity() {}
@@ -7426,12 +15220,15 @@ func (x *UnavailableEntity) ImplementsEntity() {}
 
 // UnavailableEntityOutline - An entity outline that is unavailable.
 type UnavailableEntityOutline struct {
-	//
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// The alert status of the entity.
+	AlertStatus EntityAlertStatus `json:"alertStatus,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -7439,25 +15236,37 @@ type UnavailableEntityOutline struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
 	// The tags applied to the entity.
 	//
 	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 }
 
 // GetAccount returns a pointer to the value of Account from UnavailableEntityOutline
@@ -7473,6 +15282,16 @@ func (x UnavailableEntityOutline) GetAccountID() int {
 // GetAlertSeverity returns a pointer to the value of AlertSeverity from UnavailableEntityOutline
 func (x UnavailableEntityOutline) GetAlertSeverity() EntityAlertSeverity {
 	return x.AlertSeverity
+}
+
+// GetAlertStatus returns a pointer to the value of AlertStatus from UnavailableEntityOutline
+func (x UnavailableEntityOutline) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from UnavailableEntityOutline
+func (x UnavailableEntityOutline) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
 }
 
 // GetDomain returns a pointer to the value of Domain from UnavailableEntityOutline
@@ -7495,6 +15314,16 @@ func (x UnavailableEntityOutline) GetGoldenMetrics() EntityGoldenContextScopedGo
 	return x.GoldenMetrics
 }
 
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from UnavailableEntityOutline
+func (x UnavailableEntityOutline) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from UnavailableEntityOutline
+func (x UnavailableEntityOutline) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
+}
+
 // GetGoldenTags returns a pointer to the value of GoldenTags from UnavailableEntityOutline
 func (x UnavailableEntityOutline) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
 	return x.GoldenTags
@@ -7515,6 +15344,16 @@ func (x UnavailableEntityOutline) GetPermalink() string {
 	return x.Permalink
 }
 
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from UnavailableEntityOutline
+func (x UnavailableEntityOutline) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from UnavailableEntityOutline
+func (x UnavailableEntityOutline) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
+}
+
 // GetReporting returns a pointer to the value of Reporting from UnavailableEntityOutline
 func (x UnavailableEntityOutline) GetReporting() bool {
 	return x.Reporting
@@ -7523,6 +15362,11 @@ func (x UnavailableEntityOutline) GetReporting() bool {
 // GetServiceLevel returns a pointer to the value of ServiceLevel from UnavailableEntityOutline
 func (x UnavailableEntityOutline) GetServiceLevel() ServiceLevelDefinition {
 	return x.ServiceLevel
+}
+
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from UnavailableEntityOutline
+func (x UnavailableEntityOutline) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
 }
 
 // GetTags returns a pointer to the value of Tags from UnavailableEntityOutline
@@ -7535,36 +15379,54 @@ func (x UnavailableEntityOutline) GetType() string {
 	return x.Type
 }
 
+// GetUiTemplates returns a pointer to the value of UiTemplates from UnavailableEntityOutline
+func (x UnavailableEntityOutline) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
+}
+
 func (x *UnavailableEntityOutline) ImplementsAlertableEntityOutline() {}
 
 func (x *UnavailableEntityOutline) ImplementsEntityOutline() {}
 
 // WorkloadEntity - A workload entity.
 type WorkloadEntity struct {
-	//
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the workload entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	AlertStatus   EntityAlertStatus   `json:"alertStatus,omitempty"`
 	// Violations on the members of the workload that were open during the specified time window.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
-	//
-	Collection EntityCollection `json:"collection,omitempty"`
+	Collection      EntityCollection       `json:"collection,omitempty"`
 	// When the workload was created.
 	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
 	// The user that created the workload.
 	CreatedByUser users.UserReference `json:"createdByUser,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
 	EntityType EntityType `json:"entityType,omitempty"`
+	// Retrieve metadata on a specific error group.
+	ErrorGroup ErrorTrackingErrorGroup `json:"errorGroup,omitempty"`
+	// Fetch the number of error groups counted within a given time range (default 3 hours).
+	ErrorGroupCount ErrorTrackingErrorGroupCount `json:"errorGroupCount,omitempty"`
+	// Fetch a list of error groups.
+	ErrorGroupListing []ErrorTrackingErrorGroup `json:"errorGroupListing"`
+	// The associated error group notification policy.
+	ErrorGroupNotificationPolicy ErrorTrackingNotificationPolicy `json:"errorGroupNotificationPolicy,omitempty"`
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
@@ -7574,13 +15436,18 @@ type WorkloadEntity struct {
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
-	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
+	Name                string                      `json:"name,omitempty"`
+	NerdStorage         NerdStorageEntityScope      `json:"nerdStorage,omitempty"`
+	NerdStoreCollection []NerdStoreCollectionMember `json:"nerdStoreCollection,omitempty"`
+	NerdStoreDocument   NerdStoreDocument           `json:"nerdStoreDocument,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
 	// Recent violations on the members of the workload.
 	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// Related entities result with optional filtering.
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// A list of the entities' relationships.
@@ -7591,14 +15458,20 @@ type WorkloadEntity struct {
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
 	// The tags applied to the entity.
 	//
 	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The tags applied to the entity with their metadata.
 	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 	// When the workload was last updated.
 	UpdatedAt *nrtime.EpochMilliseconds `json:"updatedAt,omitempty"`
 	// Status of the workload.
@@ -7618,6 +15491,11 @@ func (x WorkloadEntity) GetAccountID() int {
 // GetAlertSeverity returns a pointer to the value of AlertSeverity from WorkloadEntity
 func (x WorkloadEntity) GetAlertSeverity() EntityAlertSeverity {
 	return x.AlertSeverity
+}
+
+// GetAlertStatus returns a pointer to the value of AlertStatus from WorkloadEntity
+func (x WorkloadEntity) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
 }
 
 // GetAlertViolations returns a pointer to the value of AlertViolations from WorkloadEntity
@@ -7640,6 +15518,11 @@ func (x WorkloadEntity) GetCreatedByUser() users.UserReference {
 	return x.CreatedByUser
 }
 
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from WorkloadEntity
+func (x WorkloadEntity) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
+}
+
 // GetDomain returns a pointer to the value of Domain from WorkloadEntity
 func (x WorkloadEntity) GetDomain() string {
 	return x.Domain
@@ -7650,6 +15533,26 @@ func (x WorkloadEntity) GetEntityType() EntityType {
 	return x.EntityType
 }
 
+// GetErrorGroup returns a pointer to the value of ErrorGroup from WorkloadEntity
+func (x WorkloadEntity) GetErrorGroup() ErrorTrackingErrorGroup {
+	return x.ErrorGroup
+}
+
+// GetErrorGroupCount returns a pointer to the value of ErrorGroupCount from WorkloadEntity
+func (x WorkloadEntity) GetErrorGroupCount() ErrorTrackingErrorGroupCount {
+	return x.ErrorGroupCount
+}
+
+// GetErrorGroupListing returns a pointer to the value of ErrorGroupListing from WorkloadEntity
+func (x WorkloadEntity) GetErrorGroupListing() []ErrorTrackingErrorGroup {
+	return x.ErrorGroupListing
+}
+
+// GetErrorGroupNotificationPolicy returns a pointer to the value of ErrorGroupNotificationPolicy from WorkloadEntity
+func (x WorkloadEntity) GetErrorGroupNotificationPolicy() ErrorTrackingNotificationPolicy {
+	return x.ErrorGroupNotificationPolicy
+}
+
 // GetGUID returns a pointer to the value of GUID from WorkloadEntity
 func (x WorkloadEntity) GetGUID() common.EntityGUID {
 	return x.GUID
@@ -7658,6 +15561,16 @@ func (x WorkloadEntity) GetGUID() common.EntityGUID {
 // GetGoldenMetrics returns a pointer to the value of GoldenMetrics from WorkloadEntity
 func (x WorkloadEntity) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
 	return x.GoldenMetrics
+}
+
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from WorkloadEntity
+func (x WorkloadEntity) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from WorkloadEntity
+func (x WorkloadEntity) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
 }
 
 // GetGoldenTags returns a pointer to the value of GoldenTags from WorkloadEntity
@@ -7685,6 +15598,16 @@ func (x WorkloadEntity) GetNerdStorage() NerdStorageEntityScope {
 	return x.NerdStorage
 }
 
+// GetNerdStoreCollection returns a pointer to the value of NerdStoreCollection from WorkloadEntity
+func (x WorkloadEntity) GetNerdStoreCollection() []NerdStoreCollectionMember {
+	return x.NerdStoreCollection
+}
+
+// GetNerdStoreDocument returns a pointer to the value of NerdStoreDocument from WorkloadEntity
+func (x WorkloadEntity) GetNerdStoreDocument() NerdStoreDocument {
+	return x.NerdStoreDocument
+}
+
 // GetPermalink returns a pointer to the value of Permalink from WorkloadEntity
 func (x WorkloadEntity) GetPermalink() string {
 	return x.Permalink
@@ -7693,6 +15616,16 @@ func (x WorkloadEntity) GetPermalink() string {
 // GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from WorkloadEntity
 func (x WorkloadEntity) GetRecentAlertViolations() []EntityAlertViolation {
 	return x.RecentAlertViolations
+}
+
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from WorkloadEntity
+func (x WorkloadEntity) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from WorkloadEntity
+func (x WorkloadEntity) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
 }
 
 // GetRelatedEntities returns a pointer to the value of RelatedEntities from WorkloadEntity
@@ -7715,6 +15648,11 @@ func (x WorkloadEntity) GetServiceLevel() ServiceLevelDefinition {
 	return x.ServiceLevel
 }
 
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from WorkloadEntity
+func (x WorkloadEntity) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
+}
+
 // GetTags returns a pointer to the value of Tags from WorkloadEntity
 func (x WorkloadEntity) GetTags() []EntityTag {
 	return x.Tags
@@ -7725,9 +15663,19 @@ func (x WorkloadEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
 	return x.TagsWithMetadata
 }
 
+// GetTracingSummary returns a pointer to the value of TracingSummary from WorkloadEntity
+func (x WorkloadEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
 // GetType returns a pointer to the value of Type from WorkloadEntity
 func (x WorkloadEntity) GetType() string {
 	return x.Type
+}
+
+// GetUiTemplates returns a pointer to the value of UiTemplates from WorkloadEntity
+func (x WorkloadEntity) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
 }
 
 // GetUpdatedAt returns a pointer to the value of UpdatedAt from WorkloadEntity
@@ -7748,16 +15696,18 @@ func (x *WorkloadEntity) ImplementsEntity() {}
 
 // WorkloadEntityOutline - A workload entity outline.
 type WorkloadEntityOutline struct {
-	//
 	Account accounts.AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
 	// The current alerting severity of the workload entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	AlertStatus   EntityAlertStatus   `json:"alertStatus,omitempty"`
 	// When the workload was created.
 	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
 	// The user that created the workload.
 	CreatedByUser users.UserReference `json:"createdByUser,omitempty"`
+	// The list of dashboard templates available for this entity.
+	DashboardTemplates []EntityDashboardTemplatesDashboardTemplate `json:"dashboardTemplates"`
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
@@ -7765,25 +15715,37 @@ type WorkloadEntityOutline struct {
 	// A unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
-	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics"`
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// Existing API - to be replaced with V2 implementation.
+	GoldenSignalValues []GoldenSignalSignalValues `json:"goldenSignalValues"`
+	// The stored golden signal(s) for the given entity.
+	GoldenSignalValuesV2 GoldenSignalValues `json:"goldenSignalValuesV2,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The name of this entity.
 	Name string `json:"name,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
+	// The recommended service levels for the entity.
+	RecommendedServiceLevel ServiceLevelRecommendation `json:"recommendedServiceLevel,omitempty"`
+	// Related dashboards results
+	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The list of summary metrics.
+	SummaryMetrics []EntitySummaryMetric `json:"summaryMetrics,omitempty"`
 	// The tags applied to the entity.
 	//
 	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
 	Tags []EntityTag `json:"tags,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+	// List of templates availables for this entity.
+	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 	// When the workload was last updated.
 	UpdatedAt *nrtime.EpochMilliseconds `json:"updatedAt,omitempty"`
 	// Status of the workload.
@@ -7805,6 +15767,11 @@ func (x WorkloadEntityOutline) GetAlertSeverity() EntityAlertSeverity {
 	return x.AlertSeverity
 }
 
+// GetAlertStatus returns a pointer to the value of AlertStatus from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetAlertStatus() EntityAlertStatus {
+	return x.AlertStatus
+}
+
 // GetCreatedAt returns a pointer to the value of CreatedAt from WorkloadEntityOutline
 func (x WorkloadEntityOutline) GetCreatedAt() *nrtime.EpochMilliseconds {
 	return x.CreatedAt
@@ -7813,6 +15780,11 @@ func (x WorkloadEntityOutline) GetCreatedAt() *nrtime.EpochMilliseconds {
 // GetCreatedByUser returns a pointer to the value of CreatedByUser from WorkloadEntityOutline
 func (x WorkloadEntityOutline) GetCreatedByUser() users.UserReference {
 	return x.CreatedByUser
+}
+
+// GetDashboardTemplates returns a pointer to the value of DashboardTemplates from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetDashboardTemplates() []EntityDashboardTemplatesDashboardTemplate {
+	return x.DashboardTemplates
 }
 
 // GetDomain returns a pointer to the value of Domain from WorkloadEntityOutline
@@ -7835,6 +15807,16 @@ func (x WorkloadEntityOutline) GetGoldenMetrics() EntityGoldenContextScopedGolde
 	return x.GoldenMetrics
 }
 
+// GetGoldenSignalValues returns a pointer to the value of GoldenSignalValues from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetGoldenSignalValues() []GoldenSignalSignalValues {
+	return x.GoldenSignalValues
+}
+
+// GetGoldenSignalValuesV2 returns a pointer to the value of GoldenSignalValuesV2 from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetGoldenSignalValuesV2() GoldenSignalValues {
+	return x.GoldenSignalValuesV2
+}
+
 // GetGoldenTags returns a pointer to the value of GoldenTags from WorkloadEntityOutline
 func (x WorkloadEntityOutline) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
 	return x.GoldenTags
@@ -7855,6 +15837,16 @@ func (x WorkloadEntityOutline) GetPermalink() string {
 	return x.Permalink
 }
 
+// GetRecommendedServiceLevel returns a pointer to the value of RecommendedServiceLevel from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetRecommendedServiceLevel() ServiceLevelRecommendation {
+	return x.RecommendedServiceLevel
+}
+
+// GetRelatedDashboards returns a pointer to the value of RelatedDashboards from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetRelatedDashboards() RelatedDashboardsRelatedDashboardResult {
+	return x.RelatedDashboards
+}
+
 // GetReporting returns a pointer to the value of Reporting from WorkloadEntityOutline
 func (x WorkloadEntityOutline) GetReporting() bool {
 	return x.Reporting
@@ -7865,6 +15857,11 @@ func (x WorkloadEntityOutline) GetServiceLevel() ServiceLevelDefinition {
 	return x.ServiceLevel
 }
 
+// GetSummaryMetrics returns a pointer to the value of SummaryMetrics from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetSummaryMetrics() []EntitySummaryMetric {
+	return x.SummaryMetrics
+}
+
 // GetTags returns a pointer to the value of Tags from WorkloadEntityOutline
 func (x WorkloadEntityOutline) GetTags() []EntityTag {
 	return x.Tags
@@ -7873,6 +15870,11 @@ func (x WorkloadEntityOutline) GetTags() []EntityTag {
 // GetType returns a pointer to the value of Type from WorkloadEntityOutline
 func (x WorkloadEntityOutline) GetType() string {
 	return x.Type
+}
+
+// GetUiTemplates returns a pointer to the value of UiTemplates from WorkloadEntityOutline
+func (x WorkloadEntityOutline) GetUiTemplates() []EntityDashboardTemplatesUi {
+	return x.UiTemplates
 }
 
 // GetUpdatedAt returns a pointer to the value of UpdatedAt from WorkloadEntityOutline
@@ -7919,21 +15921,158 @@ type entitySearchResponse struct {
 	Actor Actor `json:"actor"`
 }
 
+// AgentApplicationSettingsErrorCollectorHttpStatus - A list of HTTP status codes and/or status code ranges, such as "404" or "500-599"
+type AgentApplicationSettingsErrorCollectorHttpStatus string
+
+// AgentTracesExplainPlanRow - This scalar represents a explain plan row (list of values)
+type AgentTracesExplainPlanRow string
+
+// AgentTracesQueryParameters - This scalar represents a map of sql query parameters in the form of key-value pairs.
+type AgentTracesQueryParameters string
+
+// AgentTracesTraceAttributes - This scalar represents a map of attributes in the form of key-value pairs.
+type AgentTracesTraceAttributes string
+
 // AttributeMap - This scalar represents a map of attributes in the form of key-value pairs.
 type AttributeMap map[string]interface{}
 
+// DashboardEncodedInfraFilterSet - Encoded infra filter set
+type DashboardEncodedInfraFilterSet string
+
 // DashboardWidgetRawConfiguration - Raw JSON payload with full configuration of a widget.
 type DashboardWidgetRawConfiguration []byte
+
+// EntityDashboardTemplatesRawMosaicTemplate - Dashboard template in Mosaic format, obtained from a dashboard template located in the Entity Synthesis Definitions repository.
+type EntityDashboardTemplatesRawMosaicTemplate string
 
 // Float - The `Float` scalar type represents signed double-precision fractional
 // values as specified by
 // [IEEE 754](http://en.wikipedia.org/wiki/IEEE_floating_point).
 type Float string
 
+// Milliseconds - The `Milliseconds` scalar represents a duration in milliseconds
+type Milliseconds string
+
 // NerdStorageDocument - This scalar represents a NerdStorage document.
 type NerdStorageDocument string
 
-// AlertableEntity -
+// NerdStoreDocument - This scalar represents a NerdStore document.
+type NerdStoreDocument string
+
+// AiNotificationsAuth - Authentication interface
+type AiNotificationsAuthInterface interface {
+	ImplementsAiNotificationsAuth()
+}
+
+// UnmarshalAiNotificationsAuthInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
+func UnmarshalAiNotificationsAuthInterface(b []byte) (*AiNotificationsAuthInterface, error) {
+	var err error
+
+	var rawMessageAiNotificationsAuth map[string]*json.RawMessage
+	err = json.Unmarshal(b, &rawMessageAiNotificationsAuth)
+	if err != nil {
+		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageAiNotificationsAuth) < 1 {
+		return nil, nil
+	}
+
+	var typeName string
+
+	if rawTypeName, ok := rawMessageAiNotificationsAuth["__typename"]; ok {
+		err = json.Unmarshal(*rawTypeName, &typeName)
+		if err != nil {
+			return nil, err
+		}
+
+		switch typeName {
+		case "AiNotificationsBasicAuth":
+			var interfaceType ai.AiNotificationsBasicAuth
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AiNotificationsAuthInterface = &interfaceType
+
+			return &xxx, nil
+		case "AiNotificationsTokenAuth":
+			var interfaceType ai.AiNotificationsTokenAuth
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AiNotificationsAuthInterface = &interfaceType
+
+			return &xxx, nil
+		}
+	} else {
+		keys := []string{}
+		for k := range rawMessageAiNotificationsAuth {
+			keys = append(keys, k)
+		}
+		return nil, fmt.Errorf("interface AiNotificationsAuth did not include a __typename field for inspection: %s", keys)
+	}
+
+	return nil, fmt.Errorf("interface AiNotificationsAuth was not matched against all PossibleTypes: %s", typeName)
+}
+
+// AiWorkflowsConfigurationDto - Enrichment configuration object
+type AiWorkflowsConfigurationDtoInterface interface {
+	ImplementsAiWorkflowsConfigurationDto()
+}
+
+// UnmarshalAiWorkflowsConfigurationDtoInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
+func UnmarshalAiWorkflowsConfigurationDtoInterface(b []byte) (*AiWorkflowsConfigurationDtoInterface, error) {
+	var err error
+
+	var rawMessageAiWorkflowsConfigurationDto map[string]*json.RawMessage
+	err = json.Unmarshal(b, &rawMessageAiWorkflowsConfigurationDto)
+	if err != nil {
+		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageAiWorkflowsConfigurationDto) < 1 {
+		return nil, nil
+	}
+
+	var typeName string
+
+	if rawTypeName, ok := rawMessageAiWorkflowsConfigurationDto["__typename"]; ok {
+		err = json.Unmarshal(*rawTypeName, &typeName)
+		if err != nil {
+			return nil, err
+		}
+
+		switch typeName {
+		case "AiWorkflowsNrqlConfigurationDto":
+			var interfaceType ai.AiWorkflowsNRQLConfigurationDto
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AiWorkflowsConfigurationDtoInterface = &interfaceType
+
+			return &xxx, nil
+		}
+	} else {
+		keys := []string{}
+		for k := range rawMessageAiWorkflowsConfigurationDto {
+			keys = append(keys, k)
+		}
+		return nil, fmt.Errorf("interface AiWorkflowsConfigurationDto did not include a __typename field for inspection: %s", keys)
+	}
+
+	return nil, fmt.Errorf("interface AiWorkflowsConfigurationDto was not matched against all PossibleTypes: %s", typeName)
+}
+
 type AlertableEntityInterface interface {
 	ImplementsAlertableEntity()
 }
@@ -7963,6 +16102,16 @@ func UnmarshalAlertableEntityInterface(b []byte) (*AlertableEntityInterface, err
 		}
 
 		switch typeName {
+		case "ApmAgentInstrumentedServiceEntity":
+			var interfaceType ApmAgentInstrumentedServiceEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertableEntityInterface = &interfaceType
+
+			return &xxx, nil
 		case "ApmApplicationEntity":
 			var interfaceType ApmApplicationEntity
 			err = json.Unmarshal(b, &interfaceType)
@@ -8053,6 +16202,16 @@ func UnmarshalAlertableEntityInterface(b []byte) (*AlertableEntityInterface, err
 			var xxx AlertableEntityInterface = &interfaceType
 
 			return &xxx, nil
+		case "GenericServiceEntity":
+			var interfaceType GenericServiceEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertableEntityInterface = &interfaceType
+
+			return &xxx, nil
 		case "InfrastructureAwsLambdaFunctionEntity":
 			var interfaceType InfrastructureAwsLambdaFunctionEntity
 			err = json.Unmarshal(b, &interfaceType)
@@ -8085,6 +16244,16 @@ func UnmarshalAlertableEntityInterface(b []byte) (*AlertableEntityInterface, err
 			return &xxx, nil
 		case "SecureCredentialEntity":
 			var interfaceType SecureCredentialEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertableEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "ServiceEntity":
+			var interfaceType ServiceEntity
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
@@ -8145,7 +16314,6 @@ func UnmarshalAlertableEntityInterface(b []byte) (*AlertableEntityInterface, err
 	return nil, fmt.Errorf("interface AlertableEntity was not matched against all PossibleTypes: %s", typeName)
 }
 
-// AlertableEntityOutline -
 type AlertableEntityOutlineInterface interface {
 	ImplementsAlertableEntityOutline()
 }
@@ -8175,6 +16343,16 @@ func UnmarshalAlertableEntityOutlineInterface(b []byte) (*AlertableEntityOutline
 		}
 
 		switch typeName {
+		case "ApmAgentInstrumentedServiceEntityOutline":
+			var interfaceType ApmAgentInstrumentedServiceEntityOutline
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertableEntityOutlineInterface = &interfaceType
+
+			return &xxx, nil
 		case "ApmApplicationEntityOutline":
 			var interfaceType ApmApplicationEntityOutline
 			err = json.Unmarshal(b, &interfaceType)
@@ -8265,6 +16443,16 @@ func UnmarshalAlertableEntityOutlineInterface(b []byte) (*AlertableEntityOutline
 			var xxx AlertableEntityOutlineInterface = &interfaceType
 
 			return &xxx, nil
+		case "GenericServiceEntityOutline":
+			var interfaceType GenericServiceEntityOutline
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertableEntityOutlineInterface = &interfaceType
+
+			return &xxx, nil
 		case "InfrastructureAwsLambdaFunctionEntityOutline":
 			var interfaceType InfrastructureAwsLambdaFunctionEntityOutline
 			err = json.Unmarshal(b, &interfaceType)
@@ -8297,6 +16485,16 @@ func UnmarshalAlertableEntityOutlineInterface(b []byte) (*AlertableEntityOutline
 			return &xxx, nil
 		case "SecureCredentialEntityOutline":
 			var interfaceType SecureCredentialEntityOutline
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertableEntityOutlineInterface = &interfaceType
+
+			return &xxx, nil
+		case "ServiceEntityOutline":
+			var interfaceType ServiceEntityOutline
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
@@ -8357,6 +16555,110 @@ func UnmarshalAlertableEntityOutlineInterface(b []byte) (*AlertableEntityOutline
 	return nil, fmt.Errorf("interface AlertableEntityOutline was not matched against all PossibleTypes: %s", typeName)
 }
 
+// ApmApplicationEntity - An APM Application entity.
+type ApmApplicationEntityInterface interface {
+	ImplementsApmApplicationEntity()
+}
+
+// UnmarshalApmApplicationEntityInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
+func UnmarshalApmApplicationEntityInterface(b []byte) (*ApmApplicationEntityInterface, error) {
+	var err error
+
+	var rawMessageApmApplicationEntity map[string]*json.RawMessage
+	err = json.Unmarshal(b, &rawMessageApmApplicationEntity)
+	if err != nil {
+		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageApmApplicationEntity) < 1 {
+		return nil, nil
+	}
+
+	var typeName string
+
+	if rawTypeName, ok := rawMessageApmApplicationEntity["__typename"]; ok {
+		err = json.Unmarshal(*rawTypeName, &typeName)
+		if err != nil {
+			return nil, err
+		}
+
+		switch typeName {
+		case "ApmAgentInstrumentedServiceEntity":
+			var interfaceType ApmAgentInstrumentedServiceEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx ApmApplicationEntityInterface = &interfaceType
+
+			return &xxx, nil
+		}
+	} else {
+		keys := []string{}
+		for k := range rawMessageApmApplicationEntity {
+			keys = append(keys, k)
+		}
+		return nil, fmt.Errorf("interface ApmApplicationEntity did not include a __typename field for inspection: %s", keys)
+	}
+
+	return nil, fmt.Errorf("interface ApmApplicationEntity was not matched against all PossibleTypes: %s", typeName)
+}
+
+// ApmApplicationEntityOutline - An APM Application entity outline.
+type ApmApplicationEntityOutlineInterface interface {
+	ImplementsApmApplicationEntityOutline()
+}
+
+// UnmarshalApmApplicationEntityOutlineInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
+func UnmarshalApmApplicationEntityOutlineInterface(b []byte) (*ApmApplicationEntityOutlineInterface, error) {
+	var err error
+
+	var rawMessageApmApplicationEntityOutline map[string]*json.RawMessage
+	err = json.Unmarshal(b, &rawMessageApmApplicationEntityOutline)
+	if err != nil {
+		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageApmApplicationEntityOutline) < 1 {
+		return nil, nil
+	}
+
+	var typeName string
+
+	if rawTypeName, ok := rawMessageApmApplicationEntityOutline["__typename"]; ok {
+		err = json.Unmarshal(*rawTypeName, &typeName)
+		if err != nil {
+			return nil, err
+		}
+
+		switch typeName {
+		case "ApmAgentInstrumentedServiceEntityOutline":
+			var interfaceType ApmAgentInstrumentedServiceEntityOutline
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx ApmApplicationEntityOutlineInterface = &interfaceType
+
+			return &xxx, nil
+		}
+	} else {
+		keys := []string{}
+		for k := range rawMessageApmApplicationEntityOutline {
+			keys = append(keys, k)
+		}
+		return nil, fmt.Errorf("interface ApmApplicationEntityOutline did not include a __typename field for inspection: %s", keys)
+	}
+
+	return nil, fmt.Errorf("interface ApmApplicationEntityOutline was not matched against all PossibleTypes: %s", typeName)
+}
+
 // ApmBrowserApplicationEntity - The `ApmBrowserApplicationEntity` interface provides detailed information for the Browser App injected by an APM Application.
 type ApmBrowserApplicationEntityInterface interface {
 	ImplementsApmBrowserApplicationEntity()
@@ -8387,6 +16689,16 @@ func UnmarshalApmBrowserApplicationEntityInterface(b []byte) (*ApmBrowserApplica
 		}
 
 		switch typeName {
+		case "ApmAgentInstrumentedServiceEntity":
+			var interfaceType ApmAgentInstrumentedServiceEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx ApmBrowserApplicationEntityInterface = &interfaceType
+
+			return &xxx, nil
 		case "ApmApplicationEntity":
 			var interfaceType ApmApplicationEntity
 			err = json.Unmarshal(b, &interfaceType)
@@ -8439,6 +16751,16 @@ func UnmarshalApmBrowserApplicationEntityOutlineInterface(b []byte) (*ApmBrowser
 		}
 
 		switch typeName {
+		case "ApmAgentInstrumentedServiceEntityOutline":
+			var interfaceType ApmAgentInstrumentedServiceEntityOutline
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx ApmBrowserApplicationEntityOutlineInterface = &interfaceType
+
+			return &xxx, nil
 		case "ApmApplicationEntityOutline":
 			var interfaceType ApmApplicationEntityOutline
 			err = json.Unmarshal(b, &interfaceType)
@@ -8513,6 +16835,138 @@ func UnmarshalCollectionEntityInterface(b []byte) (*CollectionEntityInterface, e
 	return nil, fmt.Errorf("interface CollectionEntity was not matched against all PossibleTypes: %s", typeName)
 }
 
+// DashboardWidgetCommons - Common interface for all widgets.
+type DashboardWidgetCommonsInterface interface {
+	ImplementsDashboardWidgetCommons()
+}
+
+// UnmarshalDashboardWidgetCommonsInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
+func UnmarshalDashboardWidgetCommonsInterface(b []byte) (*DashboardWidgetCommonsInterface, error) {
+	var err error
+
+	var rawMessageDashboardWidgetCommons map[string]*json.RawMessage
+	err = json.Unmarshal(b, &rawMessageDashboardWidgetCommons)
+	if err != nil {
+		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageDashboardWidgetCommons) < 1 {
+		return nil, nil
+	}
+
+	var typeName string
+
+	if rawTypeName, ok := rawMessageDashboardWidgetCommons["__typename"]; ok {
+		err = json.Unmarshal(*rawTypeName, &typeName)
+		if err != nil {
+			return nil, err
+		}
+
+		switch typeName {
+		case "DashboardFacetChartWidget":
+			var interfaceType DashboardFacetChartWidget
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx DashboardWidgetCommonsInterface = &interfaceType
+
+			return &xxx, nil
+		case "DashboardInaccessibleWidget":
+			var interfaceType DashboardInaccessibleWidget
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx DashboardWidgetCommonsInterface = &interfaceType
+
+			return &xxx, nil
+		case "DashboardInventoryWidget":
+			var interfaceType DashboardInventoryWidget
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx DashboardWidgetCommonsInterface = &interfaceType
+
+			return &xxx, nil
+		case "DashboardMarkdownWidget":
+			var interfaceType DashboardMarkdownWidget
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx DashboardWidgetCommonsInterface = &interfaceType
+
+			return &xxx, nil
+		case "DashboardMetricLineChartWidget":
+			var interfaceType DashboardMetricLineChartWidget
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx DashboardWidgetCommonsInterface = &interfaceType
+
+			return &xxx, nil
+		case "DashboardPredefinedMetricChartWidget":
+			var interfaceType DashboardPredefinedMetricChartWidget
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx DashboardWidgetCommonsInterface = &interfaceType
+
+			return &xxx, nil
+		case "DashboardServiceMapWidget":
+			var interfaceType DashboardServiceMapWidget
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx DashboardWidgetCommonsInterface = &interfaceType
+
+			return &xxx, nil
+		case "DashboardSimpleEventWidget":
+			var interfaceType DashboardSimpleEventWidget
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx DashboardWidgetCommonsInterface = &interfaceType
+
+			return &xxx, nil
+		case "DashboardThresholdEventWidget":
+			var interfaceType DashboardThresholdEventWidget
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx DashboardWidgetCommonsInterface = &interfaceType
+
+			return &xxx, nil
+		}
+	} else {
+		keys := []string{}
+		for k := range rawMessageDashboardWidgetCommons {
+			keys = append(keys, k)
+		}
+		return nil, fmt.Errorf("interface DashboardWidgetCommons did not include a __typename field for inspection: %s", keys)
+	}
+
+	return nil, fmt.Errorf("interface DashboardWidgetCommons was not matched against all PossibleTypes: %s", typeName)
+}
+
 // Entity - The `Entity` interface allows fetching detailed entity information for a single entity.
 //
 // To understand more about entities and entity types, look at [our docs](https://docs.newrelic.com/docs/what-are-new-relic-entities).
@@ -8552,6 +17006,16 @@ func UnmarshalEntityInterface(b []byte) (*EntityInterface, error) {
 		}
 
 		switch typeName {
+		case "ApmAgentInstrumentedServiceEntity":
+			var interfaceType ApmAgentInstrumentedServiceEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityInterface = &interfaceType
+
+			return &xxx, nil
 		case "ApmApplicationEntity":
 			var interfaceType ApmApplicationEntity
 			err = json.Unmarshal(b, &interfaceType)
@@ -8632,6 +17096,16 @@ func UnmarshalEntityInterface(b []byte) (*EntityInterface, error) {
 			var xxx EntityInterface = &interfaceType
 
 			return &xxx, nil
+		case "GenericServiceEntity":
+			var interfaceType GenericServiceEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityInterface = &interfaceType
+
+			return &xxx, nil
 		case "InfrastructureAwsLambdaFunctionEntity":
 			var interfaceType InfrastructureAwsLambdaFunctionEntity
 			err = json.Unmarshal(b, &interfaceType)
@@ -8664,6 +17138,16 @@ func UnmarshalEntityInterface(b []byte) (*EntityInterface, error) {
 			return &xxx, nil
 		case "SecureCredentialEntity":
 			var interfaceType SecureCredentialEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "ServiceEntity":
+			var interfaceType ServiceEntity
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
@@ -8761,6 +17245,16 @@ func UnmarshalEntityOutlineInterface(b []byte) (*EntityOutlineInterface, error) 
 		}
 
 		switch typeName {
+		case "ApmAgentInstrumentedServiceEntityOutline":
+			var interfaceType ApmAgentInstrumentedServiceEntityOutline
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityOutlineInterface = &interfaceType
+
+			return &xxx, nil
 		case "ApmApplicationEntityOutline":
 			var interfaceType ApmApplicationEntityOutline
 			err = json.Unmarshal(b, &interfaceType)
@@ -8841,6 +17335,16 @@ func UnmarshalEntityOutlineInterface(b []byte) (*EntityOutlineInterface, error) 
 			var xxx EntityOutlineInterface = &interfaceType
 
 			return &xxx, nil
+		case "GenericServiceEntityOutline":
+			var interfaceType GenericServiceEntityOutline
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityOutlineInterface = &interfaceType
+
+			return &xxx, nil
 		case "InfrastructureAwsLambdaFunctionEntityOutline":
 			var interfaceType InfrastructureAwsLambdaFunctionEntityOutline
 			err = json.Unmarshal(b, &interfaceType)
@@ -8873,6 +17377,16 @@ func UnmarshalEntityOutlineInterface(b []byte) (*EntityOutlineInterface, error) 
 			return &xxx, nil
 		case "SecureCredentialEntityOutline":
 			var interfaceType SecureCredentialEntityOutline
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityOutlineInterface = &interfaceType
+
+			return &xxx, nil
+		case "ServiceEntityOutline":
+			var interfaceType ServiceEntityOutline
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
@@ -8995,7 +17509,68 @@ func UnmarshalEntityRelationshipEdgeInterface(b []byte) (*EntityRelationshipEdge
 	return nil, fmt.Errorf("interface EntityRelationshipEdge was not matched against all PossibleTypes: %s", typeName)
 }
 
-// InfrastructureIntegrationEntity -
+// EntitySummaryMetricValue - The interface representing the summary metric value.
+type EntitySummaryMetricValueInterface interface {
+	ImplementsEntitySummaryMetricValue()
+}
+
+// UnmarshalEntitySummaryMetricValueInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
+func UnmarshalEntitySummaryMetricValueInterface(b []byte) (*EntitySummaryMetricValueInterface, error) {
+	var err error
+
+	var rawMessageEntitySummaryMetricValue map[string]*json.RawMessage
+	err = json.Unmarshal(b, &rawMessageEntitySummaryMetricValue)
+	if err != nil {
+		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageEntitySummaryMetricValue) < 1 {
+		return nil, nil
+	}
+
+	var typeName string
+
+	if rawTypeName, ok := rawMessageEntitySummaryMetricValue["__typename"]; ok {
+		err = json.Unmarshal(*rawTypeName, &typeName)
+		if err != nil {
+			return nil, err
+		}
+
+		switch typeName {
+		case "EntitySummaryNumericMetricValue":
+			var interfaceType EntitySummaryNumericMetricValue
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntitySummaryMetricValueInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntitySummaryStringMetricValue":
+			var interfaceType EntitySummaryStringMetricValue
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntitySummaryMetricValueInterface = &interfaceType
+
+			return &xxx, nil
+		}
+	} else {
+		keys := []string{}
+		for k := range rawMessageEntitySummaryMetricValue {
+			keys = append(keys, k)
+		}
+		return nil, fmt.Errorf("interface EntitySummaryMetricValue did not include a __typename field for inspection: %s", keys)
+	}
+
+	return nil, fmt.Errorf("interface EntitySummaryMetricValue was not matched against all PossibleTypes: %s", typeName)
+}
+
 type InfrastructureIntegrationEntityInterface interface {
 	ImplementsInfrastructureIntegrationEntity()
 }
@@ -9057,7 +17632,6 @@ func UnmarshalInfrastructureIntegrationEntityInterface(b []byte) (*Infrastructur
 	return nil, fmt.Errorf("interface InfrastructureIntegrationEntity was not matched against all PossibleTypes: %s", typeName)
 }
 
-// InfrastructureIntegrationEntityOutline -
 type InfrastructureIntegrationEntityOutlineInterface interface {
 	ImplementsInfrastructureIntegrationEntityOutline()
 }
@@ -9117,4 +17691,232 @@ func UnmarshalInfrastructureIntegrationEntityOutlineInterface(b []byte) (*Infras
 	}
 
 	return nil, fmt.Errorf("interface InfrastructureIntegrationEntityOutline was not matched against all PossibleTypes: %s", typeName)
+}
+
+// ServiceEntity - A service entity.
+type ServiceEntityInterface interface {
+	ImplementsServiceEntity()
+}
+
+// UnmarshalServiceEntityInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
+func UnmarshalServiceEntityInterface(b []byte) (*ServiceEntityInterface, error) {
+	var err error
+
+	var rawMessageServiceEntity map[string]*json.RawMessage
+	err = json.Unmarshal(b, &rawMessageServiceEntity)
+	if err != nil {
+		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageServiceEntity) < 1 {
+		return nil, nil
+	}
+
+	var typeName string
+
+	if rawTypeName, ok := rawMessageServiceEntity["__typename"]; ok {
+		err = json.Unmarshal(*rawTypeName, &typeName)
+		if err != nil {
+			return nil, err
+		}
+
+		switch typeName {
+		case "ApmAgentInstrumentedServiceEntity":
+			var interfaceType ApmAgentInstrumentedServiceEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx ServiceEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "GenericServiceEntity":
+			var interfaceType GenericServiceEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx ServiceEntityInterface = &interfaceType
+
+			return &xxx, nil
+		}
+	} else {
+		keys := []string{}
+		for k := range rawMessageServiceEntity {
+			keys = append(keys, k)
+		}
+		return nil, fmt.Errorf("interface ServiceEntity did not include a __typename field for inspection: %s", keys)
+	}
+
+	return nil, fmt.Errorf("interface ServiceEntity was not matched against all PossibleTypes: %s", typeName)
+}
+
+// ServiceEntityOutline - A service entity outline.
+type ServiceEntityOutlineInterface interface {
+	ImplementsServiceEntityOutline()
+}
+
+// UnmarshalServiceEntityOutlineInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
+func UnmarshalServiceEntityOutlineInterface(b []byte) (*ServiceEntityOutlineInterface, error) {
+	var err error
+
+	var rawMessageServiceEntityOutline map[string]*json.RawMessage
+	err = json.Unmarshal(b, &rawMessageServiceEntityOutline)
+	if err != nil {
+		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageServiceEntityOutline) < 1 {
+		return nil, nil
+	}
+
+	var typeName string
+
+	if rawTypeName, ok := rawMessageServiceEntityOutline["__typename"]; ok {
+		err = json.Unmarshal(*rawTypeName, &typeName)
+		if err != nil {
+			return nil, err
+		}
+
+		switch typeName {
+		case "ApmAgentInstrumentedServiceEntityOutline":
+			var interfaceType ApmAgentInstrumentedServiceEntityOutline
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx ServiceEntityOutlineInterface = &interfaceType
+
+			return &xxx, nil
+		case "GenericServiceEntityOutline":
+			var interfaceType GenericServiceEntityOutline
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx ServiceEntityOutlineInterface = &interfaceType
+
+			return &xxx, nil
+		}
+	} else {
+		keys := []string{}
+		for k := range rawMessageServiceEntityOutline {
+			keys = append(keys, k)
+		}
+		return nil, fmt.Errorf("interface ServiceEntityOutline did not include a __typename field for inspection: %s", keys)
+	}
+
+	return nil, fmt.Errorf("interface ServiceEntityOutline was not matched against all PossibleTypes: %s", typeName)
+}
+
+// ThirdPartyServiceEntity - A third party service entity.
+type ThirdPartyServiceEntityInterface interface {
+	ImplementsThirdPartyServiceEntity()
+}
+
+// UnmarshalThirdPartyServiceEntityInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
+func UnmarshalThirdPartyServiceEntityInterface(b []byte) (*ThirdPartyServiceEntityInterface, error) {
+	var err error
+
+	var rawMessageThirdPartyServiceEntity map[string]*json.RawMessage
+	err = json.Unmarshal(b, &rawMessageThirdPartyServiceEntity)
+	if err != nil {
+		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageThirdPartyServiceEntity) < 1 {
+		return nil, nil
+	}
+
+	var typeName string
+
+	if rawTypeName, ok := rawMessageThirdPartyServiceEntity["__typename"]; ok {
+		err = json.Unmarshal(*rawTypeName, &typeName)
+		if err != nil {
+			return nil, err
+		}
+
+		switch typeName {
+		case "GenericServiceEntity":
+			var interfaceType GenericServiceEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx ThirdPartyServiceEntityInterface = &interfaceType
+
+			return &xxx, nil
+		}
+	} else {
+		keys := []string{}
+		for k := range rawMessageThirdPartyServiceEntity {
+			keys = append(keys, k)
+		}
+		return nil, fmt.Errorf("interface ThirdPartyServiceEntity did not include a __typename field for inspection: %s", keys)
+	}
+
+	return nil, fmt.Errorf("interface ThirdPartyServiceEntity was not matched against all PossibleTypes: %s", typeName)
+}
+
+// ThirdPartyServiceEntityOutline - A third party service entity outline.
+type ThirdPartyServiceEntityOutlineInterface interface {
+	ImplementsThirdPartyServiceEntityOutline()
+}
+
+// UnmarshalThirdPartyServiceEntityOutlineInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
+func UnmarshalThirdPartyServiceEntityOutlineInterface(b []byte) (*ThirdPartyServiceEntityOutlineInterface, error) {
+	var err error
+
+	var rawMessageThirdPartyServiceEntityOutline map[string]*json.RawMessage
+	err = json.Unmarshal(b, &rawMessageThirdPartyServiceEntityOutline)
+	if err != nil {
+		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageThirdPartyServiceEntityOutline) < 1 {
+		return nil, nil
+	}
+
+	var typeName string
+
+	if rawTypeName, ok := rawMessageThirdPartyServiceEntityOutline["__typename"]; ok {
+		err = json.Unmarshal(*rawTypeName, &typeName)
+		if err != nil {
+			return nil, err
+		}
+
+		switch typeName {
+		case "GenericServiceEntityOutline":
+			var interfaceType GenericServiceEntityOutline
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx ThirdPartyServiceEntityOutlineInterface = &interfaceType
+
+			return &xxx, nil
+		}
+	} else {
+		keys := []string{}
+		for k := range rawMessageThirdPartyServiceEntityOutline {
+			keys = append(keys, k)
+		}
+		return nil, fmt.Errorf("interface ThirdPartyServiceEntityOutline did not include a __typename field for inspection: %s", keys)
+	}
+
+	return nil, fmt.Errorf("interface ThirdPartyServiceEntityOutline was not matched against all PossibleTypes: %s", typeName)
 }
