@@ -108,6 +108,7 @@ func TestIntegrationGetEntities(t *testing.T) {
 
 	client := newIntegrationTestClient(t)
 
+	// GUID of Dummy App
 	guids := []common.EntityGUID{"MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1"}
 	actual, err := client.GetEntities(guids)
 
@@ -122,6 +123,7 @@ func TestIntegrationGetEntities(t *testing.T) {
 func TestIntegrationGetEntity(t *testing.T) {
 	t.Parallel()
 
+	// GUID of Dummy App
 	entityGUID := common.EntityGUID("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
 	client := newIntegrationTestClient(t)
 
@@ -152,6 +154,7 @@ func TestIntegrationGetEntity_ApmEntity(t *testing.T) {
 
 	client := newIntegrationTestClient(t)
 
+	// GUID of Dummy App
 	result, err := client.GetEntity("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
 
 	if e, ok := err.(*http.GraphQLErrorResponse); ok {
@@ -163,10 +166,16 @@ func TestIntegrationGetEntity_ApmEntity(t *testing.T) {
 
 	actual := (*result).(*ApmApplicationEntity)
 
+	// NOT_ALERTING or CRITICAL alert status can be expected
+	acceptableAlertStatuses := []EntityAlertSeverity{
+		EntityAlertSeverityTypes.NOT_ALERTING,
+		EntityAlertSeverityTypes.CRITICAL,
+	}
+
 	// These are a bit fragile, if the above GUID ever changes...
 	// from ApmApplicationEntity / ApmApplicationEntityOutline
 	assert.Equal(t, 215037795, actual.ApplicationID)
-	assert.Equal(t, EntityAlertSeverityTypes.NOT_ALERTING, actual.AlertSeverity)
+	assert.Contains(t, acceptableAlertStatuses, actual.AlertSeverity)
 	assert.Equal(t, "nodejs", actual.Language)
 	assert.NotNil(t, actual.RunningAgentVersions)
 	assert.NotNil(t, actual.RunningAgentVersions.MinVersion)
