@@ -1,11 +1,10 @@
+//nolint:revive
 package ai
 
 import (
 	"encoding/json"
 	"fmt"
 )
-
-// This file
 
 // AiNotificationsBasicAuth - Basic user and password authentication.
 type AiNotificationsBasicAuth struct {
