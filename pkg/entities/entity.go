@@ -8,9 +8,7 @@ import (
 )
 
 // Need Outlines to also implement Entity
-func (x AlertableEntityOutline) ImplementsEntity() {}
-
-// func (x ApmAgentInstrumentedServiceEntityOutline) ImplementsEntity()     {}
+func (x AlertableEntityOutline) ImplementsEntity()                       {}
 func (x ApmApplicationEntityOutline) ImplementsEntity()                  {}
 func (x ApmBrowserApplicationEntityOutline) ImplementsEntity()           {}
 func (x ApmDatabaseInstanceEntityOutline) ImplementsEntity()             {}

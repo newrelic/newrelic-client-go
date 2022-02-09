@@ -333,7 +333,7 @@ packages:
 
 
   - name: entities
-    path: tmp/entities
+    path: pkg/entities
     import_path: github.com/newrelic/newrelic-client-go/pkg/entities
     generators:
       - typegen
