@@ -26,6 +26,7 @@ var (
 	nrqlConditionBaseAggDelay           = 2                                           // needed for setting pointer
 	nrqlConditionBaseAggTimer           = 5                                           // needed for setting pointer
 	nrqlConditionBaseSlideBy            = 30                                          // needed for setting pointer
+	nrqlConditionBaseValueFunction      = NrqlConditionValueFunctions.SingleValue     // needed for setting pointer
 
 	nrqlConditionCreateBase = NrqlConditionCreateBase{
 		Description: "test description",
@@ -770,6 +771,66 @@ func TestIntegrationNrqlConditions_StreamingMethods(t *testing.T) {
 	require.Nil(t, updatedStaticWithoutStreamingMethods.Signal.AggregationDelay)
 	require.Nil(t, updatedStaticWithoutStreamingMethods.Signal.AggregationTimer)
 	require.Equal(t, &nrqlConditionBaseEvalOffset, updatedStaticWithoutStreamingMethods.Signal.EvaluationOffset)
+
+	// Deferred teardown
+	defer func() {
+		_, err := client.DeletePolicyMutation(testAccountID, policy.ID)
+		if err != nil {
+			t.Logf("error cleaning up alert policy %s (%s): %s", policy.ID, policy.Name, err)
+		}
+	}()
+}
+
+func TestIntegrationNrqlConditions_ValueFunctionOptional(t *testing.T) {
+	t.Parallel()
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	var (
+		randStr                    = mock.RandSeq(5)
+		createNoValueFunctionInput = NrqlConditionCreateInput{
+			NrqlConditionCreateBase: nrqlConditionCreateBase,
+		}
+		updateToAddValueFunctionInput = NrqlConditionUpdateInput{
+			NrqlConditionUpdateBase: nrqlConditionUpdateBase,
+			ValueFunction:           &NrqlConditionValueFunctions.Sum,
+		}
+	)
+
+	// Setup
+	client := newIntegrationTestClient(t)
+	testPolicy := AlertsPolicyInput{
+		IncidentPreference: AlertsIncidentPreferenceTypes.PER_POLICY,
+		Name:               fmt.Sprintf("test-alert-policy-%s", randStr),
+	}
+	policy, err := client.CreatePolicyMutation(testAccountID, testPolicy)
+	require.NoError(t, err)
+
+	// Test: Create (static condition without value function)
+	createdStaticWithoutValueFunction, err := client.CreateNrqlConditionStaticMutation(testAccountID, policy.ID, createNoValueFunctionInput)
+	require.NoError(t, err)
+	require.NotNil(t, createdStaticWithoutValueFunction)
+	require.NotNil(t, createdStaticWithoutValueFunction.ID)
+	require.NotNil(t, createdStaticWithoutValueFunction.PolicyID)
+	// When static condition is created without value function, API returns single value as value function
+	require.Equal(t, &nrqlConditionBaseValueFunction, createdStaticWithoutValueFunction.ValueFunction)
+
+	// Test: Get (static condition without value function)
+	readResult, err := client.GetNrqlConditionQuery(testAccountID, createdStaticWithoutValueFunction.ID)
+	require.NoError(t, err)
+	require.NotNil(t, readResult)
+	// When static condition is created without value function, API returns single value as value function
+	require.Equal(t, &nrqlConditionBaseValueFunction, readResult.ValueFunction)
+
+	// Test: Update (static condition with value function)
+	nrqlConditionSumValueFunction := NrqlConditionValueFunctions.Sum // needed for setting pointer
+
+	updatedStaticWithValueFunction, err := client.UpdateNrqlConditionStaticMutation(testAccountID, readResult.ID, updateToAddValueFunctionInput)
+	require.NoError(t, err)
+	require.Equal(t, &nrqlConditionSumValueFunction, updatedStaticWithValueFunction.ValueFunction)
 
 	// Deferred teardown
 	defer func() {
