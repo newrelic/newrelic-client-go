@@ -35,17 +35,22 @@ func main() {
 	}
 
 	// Search the current account for entities by name and type.
-	searchParams := entities.SearchEntitiesParams{
+	queryBuilder := entities.EntitySearchQueryBuilder{
 		Name: "Example entity",
-		Type: entities.EntityTypes.Application,
+		Type: entities.EntitySearchQueryBuilderTypeTypes.APPLICATION,
 	}
 
-	entities, err := client.Entities.SearchEntities(searchParams)
+	entitySearch, err := client.Entities.GetEntitySearch(
+		entities.EntitySearchOptions{},
+		"",
+		queryBuilder,
+		[]entities.EntitySearchSortCriteria{},
+	)
 	if err != nil {
 		log.Fatal("error searching entities:", err)
 	}
 
-	fmt.Printf("%+v\n", entities)
+	fmt.Printf("%+v\n", entitySearch.Results.Entities)
 }
 ```
 
