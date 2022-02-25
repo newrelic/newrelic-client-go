@@ -163,6 +163,14 @@ func ConfigAdminAPIKey(adminAPIKey string) ConfigOption {
 	}
 }
 
+// ConfigAccoundId sets the AccoundId to be used when making authenticated network calls.
+func ConfigAccountId(accountId string) ConfigOption {
+	return func(cfg *config.Config) error {
+		cfg.AccountID = accountId
+		return nil
+	}
+}
+
 // ConfigRegion sets the New Relic Region this client will use.
 func ConfigRegion(r string) ConfigOption {
 	return func(cfg *config.Config) error {

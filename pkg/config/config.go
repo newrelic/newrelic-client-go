@@ -25,6 +25,9 @@ type Config struct {
 	// see: https://docs.newrelic.com/docs/apis/get-started/intro-apis/types-new-relic-api-keys#admin
 	AdminAPIKey string
 
+	// AccountID to authenticate API requests with child accounts
+	AccountID string
+
 	// InsightsInsertKey to send custom events to Insights
 	InsightsInsertKey string
 

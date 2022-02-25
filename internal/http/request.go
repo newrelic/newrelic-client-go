@@ -83,6 +83,10 @@ func (c *Client) NewRequest(method string, url string, params interface{}, reqBo
 		req.SetHeader("User-Agent", defaultUserAgent)
 	}
 
+	if cfg.AccountID != "" {
+		req.SetHeader("X-Account-ID", cfg.AccountID)
+	}
+
 	return req, nil
 }
 
