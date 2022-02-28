@@ -4,7 +4,9 @@
 package http
 
 import (
+	"context"
 	"encoding/json"
+	"github.com/newrelic/newrelic-client-go/pkg/contextkeys"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -308,6 +310,29 @@ func TestCustomRequestHeaders(t *testing.T) {
 
 	_, err = c.Do(req)
 
+	assert.Nil(t, err)
+}
+
+func TestXAccountIDHeaderWithPersonalAPIKeyCapableV2Authorizer(t *testing.T) {
+	// Given mock server
+	t.Parallel()
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Then X-Account-ID should be set in the header
+		assert.Equal(t, "custom-account-id", r.Header.Get("X-Account-ID"))
+	}))
+	tc := mock.NewTestConfig(t, ts)
+
+	// Given a client with PersonalAPIKeyCapableV2Authorizer Auth Strategy
+	c := NewClient(tc)
+	c.SetAuthStrategy(&PersonalAPIKeyCapableV2Authorizer{})
+
+	// When a request is made with context
+	req, err := c.NewRequest("GET", c.config.Region().RestURL("path"), nil, nil, nil)
+	ctx := contextkeys.SetXAccountID(context.Background(), "custom-account-id")
+	req.WithContext(ctx)
+
+	// Then there are no errors with the request
+	_, err = c.Do(req)
 	assert.Nil(t, err)
 }
 
