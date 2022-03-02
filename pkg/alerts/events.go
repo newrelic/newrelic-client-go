@@ -60,5 +60,5 @@ func (a *Alerts) ListAlertEventsWithContext(ctx context.Context, params *ListAle
 }
 
 type alertEventsResponse struct {
-	AlertEvents []*AlertEvent `json:"alert_events,omitempty"`
+	AlertEvents []*AlertEvent `json:"recent_events,omitempty"`
 }
