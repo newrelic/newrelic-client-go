@@ -6,11 +6,12 @@ package http
 import (
 	"context"
 	"encoding/json"
-	"github.com/newrelic/newrelic-client-go/pkg/contextkeys"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 	"time"
+
+	"github.com/newrelic/newrelic-client-go/pkg/contextkeys"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

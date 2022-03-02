@@ -5,8 +5,9 @@ package contextkeys
 
 import (
 	"context"
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestGetAccountID_ReturnsAccountIDIfFound(t *testing.T) {
