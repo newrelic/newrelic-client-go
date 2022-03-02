@@ -29,8 +29,8 @@ func (a *PersonalAPIKeyCapableV2Authorizer) AuthorizeRequest(r *Request, c *conf
 		r.SetHeader("X-Api-Key", c.AdminAPIKey)
 	}
 
-	if xAccountID, ok := contextkeys.GetXAccountID(r.request.Context()); ok == true {
-		r.SetHeader("X-Account-ID", xAccountID)
+	if accountID, ok := contextkeys.GetAccountID(r.request.Context()); ok == true {
+		r.SetHeader("X-Account-ID", accountID)
 	}
 }
 

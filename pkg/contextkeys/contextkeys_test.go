@@ -9,34 +9,34 @@ import (
 	"testing"
 )
 
-func TestGetXAccountID_ReturnsAccountIDIfFound(t *testing.T) {
-	testCtx := context.WithValue(context.Background(), keys.xAccountID, "some-account-id")
-	xAccountID, ok := GetXAccountID(testCtx)
+func TestGetAccountID_ReturnsAccountIDIfFound(t *testing.T) {
+	testCtx := context.WithValue(context.Background(), keys.accountID, "some-account-id")
+	accountID, ok := GetAccountID(testCtx)
 
 	assert.Equal(t, true, ok)
-	assert.Equal(t, "some-account-id", xAccountID)
+	assert.Equal(t, "some-account-id", accountID)
 }
 
-func TestGetXAccountID_DefaultReturnValueWhenNoAccountIDFound(t *testing.T) {
-	defaultValue, ok := GetXAccountID(context.Background())
+func TestGetAccountID_DefaultReturnValueWhenNoAccountIDFound(t *testing.T) {
+	defaultValue, ok := GetAccountID(context.Background())
 
 	assert.Equal(t, false, ok)
 	assert.Equal(t, "", defaultValue)
 }
 
-func TestSetXAccountID(t *testing.T) {
-	ctx := SetXAccountID(context.Background(), "some-account-id")
-	result, ok := GetXAccountID(ctx)
+func TestSetAccountID(t *testing.T) {
+	ctx := SetAccountID(context.Background(), "some-account-id")
+	result, ok := GetAccountID(ctx)
 
 	assert.Equal(t, true, ok)
 	assert.Equal(t, "some-account-id", result)
 }
 
-func TestSetXAccountID_CreatesContextIfNil(t *testing.T) {
-	ctx := SetXAccountID(nil, "some-account-id")
+func TestSetAccountID_CreatesContextIfNil(t *testing.T) {
+	ctx := SetAccountID(nil, "some-account-id")
 	assert.NotNil(t, ctx)
 
-	result, ok := GetXAccountID(ctx)
+	result, ok := GetAccountID(ctx)
 	assert.Equal(t, true, ok)
 	assert.Equal(t, "some-account-id", result)
 }

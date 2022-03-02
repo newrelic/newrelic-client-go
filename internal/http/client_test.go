@@ -313,7 +313,7 @@ func TestCustomRequestHeaders(t *testing.T) {
 	assert.Nil(t, err)
 }
 
-func TestXAccountIDHeaderWithPersonalAPIKeyCapableV2Authorizer(t *testing.T) {
+func TestAccountIDHeaderWithPersonalAPIKeyCapableV2Authorizer(t *testing.T) {
 	// Given mock server
 	t.Parallel()
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -328,7 +328,7 @@ func TestXAccountIDHeaderWithPersonalAPIKeyCapableV2Authorizer(t *testing.T) {
 
 	// When a request is made with context
 	req, err := c.NewRequest("GET", c.config.Region().RestURL("path"), nil, nil, nil)
-	ctx := contextkeys.SetXAccountID(context.Background(), "custom-account-id")
+	ctx := contextkeys.SetAccountID(context.Background(), "custom-account-id")
 	req.WithContext(ctx)
 
 	// Then there are no errors with the request
