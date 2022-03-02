@@ -12,7 +12,7 @@ import (
 
 var (
 	testListAlertEventsResponseJSON = `{
-		"alert_events": [
+		"recent_events": [
 			{
 				"id": 123,
 				"event_type": "event",
