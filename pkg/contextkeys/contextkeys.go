@@ -2,7 +2,7 @@ package contextkeys
 
 import "context"
 
-// ContextKeys gets and sets context values from a context.
+// contextKeys gets and sets context values from a context.
 type contextKeys struct {
 	accountID struct{}
 }
@@ -15,27 +15,29 @@ var (
 
 // SetAccountID inserts the account ID value into context.
 func SetAccountID(ctx context.Context, value string) context.Context {
-	return keys.setAccountID(ctx, value)
+	return keys.SetAccountID(ctx, value)
 }
 
 // GetAccountID returns the account ID from the context.
 func GetAccountID(ctx context.Context) (string, bool) {
-	return keys.getAccountIDFromContext(ctx)
+	return keys.GetAccountID(ctx)
 }
 
-func (c contextKeys) getAccountIDFromContext(ctx context.Context) (string, bool) {
+// SetAccountID inserts the account ID value into context.
+func (c contextKeys) SetAccountID(ctx context.Context, value string) context.Context {
+	if nil == ctx {
+		ctx = context.Background()
+	}
+
+	return context.WithValue(ctx, c.accountID, value)
+}
+
+// GetAccountID returns the account ID from the context.
+func (c contextKeys) GetAccountID(ctx context.Context) (string, bool) {
 	if nil != ctx {
 		accountID, ok := ctx.Value(keys.accountID).(string)
 		return accountID, ok
 	}
 
 	return "", false
-}
-
-func (c contextKeys) setAccountID(ctx context.Context, value string) context.Context {
-	if nil == ctx {
-		ctx = context.Background()
-	}
-
-	return context.WithValue(ctx, c.accountID, value)
 }
