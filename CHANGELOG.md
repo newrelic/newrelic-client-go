@@ -1,3 +1,8 @@
+<a name="v0.74.1"></a>
+## [v0.74.1] - 2022-03-04
+### Bug Fixes
+- remove integrations from getLinkedAccounts query
+
 <a name="v0.74.0"></a>
 ## [v0.74.0] - 2022-03-03
 ### Features
@@ -1251,7 +1256,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.74.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.74.1...HEAD
+[v0.74.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.74.0...v0.74.1
 [v0.74.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.73.0...v0.74.0
 [v0.73.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.72.0...v0.73.0
 [v0.72.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.71.0...v0.72.0
