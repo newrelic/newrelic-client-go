@@ -808,7 +808,7 @@ type CloudDisableIntegrationQueryResponse struct {
 
 const CloudDisableIntegrationMutation = `mutation(
 	$accountId: Int!,
-	$integrations: CloudDisableIntegrationsInput,
+	$integrations: CloudDisableIntegrationsInput!,
 ) { cloudDisableIntegration(
 	accountId: $accountId,
 	integrations: $integrations,
