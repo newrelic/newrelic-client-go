@@ -1,3 +1,8 @@
+<a name="v0.74.2"></a>
+## [v0.74.2] - 2022-03-23
+### Bug Fixes
+- use correct input type for cloud disable integrations mutation
+
 <a name="v0.74.1"></a>
 ## [v0.74.1] - 2022-03-04
 ### Bug Fixes
@@ -1256,7 +1261,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.74.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.74.2...HEAD
+[v0.74.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.74.1...v0.74.2
 [v0.74.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.74.0...v0.74.1
 [v0.74.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.73.0...v0.74.0
 [v0.73.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.72.0...v0.73.0
