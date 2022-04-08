@@ -12,6 +12,7 @@ type ErrorResponse interface {
 	IsNotFound() bool
 	IsRetryableError() bool
 	IsUnauthorized(resp *http.Response) bool
+	IsPaymentRequired(resp *http.Response) bool
 	IsDeprecated() bool
 	Error() string
 	New() ErrorResponse
@@ -47,6 +48,10 @@ func (e *DefaultErrorResponse) IsRetryableError() bool {
 
 func (e *DefaultErrorResponse) IsDeprecated() bool {
 	return false
+}
+
+func (e *DefaultErrorResponse) IsPaymentRequired(resp *http.Response) bool {
+	return resp.StatusCode == http.StatusPaymentRequired
 }
 
 // IsUnauthorized checks a response for a 401 Unauthorize HTTP status code.
