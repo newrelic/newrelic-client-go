@@ -155,10 +155,6 @@ func (e *PaymentRequiredError) Error() string {
 	return e.err
 }
 
-func (e *PaymentRequiredError) IsRetryableError() bool {
-	return false
-}
-
 // NewPaymentRequiredError returns a new instance of PaymentRequiredError
 // with an optional custom message.
 func NewPaymentRequiredError() *PaymentRequiredError {
