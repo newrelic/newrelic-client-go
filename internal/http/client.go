@@ -357,10 +357,6 @@ func (c *Client) Do(req *Request) (*http.Response, error) {
 			return nil, nrErrors.NewUnauthorizedError()
 		}
 
-		if errorValue.IsUnauthorized(resp) {
-			return nil, nrErrors.NewUnauthorizedError()
-		}
-
 		if errorValue.IsPaymentRequired(resp) {
 			return nil, nrErrors.NewPaymentRequiredError()
 		}
@@ -438,13 +434,6 @@ func (c *Client) innerDo(req *Request, errorValue ErrorResponse, i int) (*http.R
 	if resp.StatusCode == http.StatusNotFound {
 		return resp, nil, false, &nrErrors.NotFound{}
 	}
-
-	// FOR TESTING ONLY!!! REMOVE BEFORE CODE REVIEW!!!
-	// resp = &http.Response{
-	// 	Status:     http.StatusText(http.StatusPaymentRequired),
-	// 	StatusCode: http.StatusPaymentRequired,
-	// 	Body:       ioutil.NopCloser(bytes.NewBufferString("")),
-	// }
 
 	body, readErr := ioutil.ReadAll(resp.Body)
 
