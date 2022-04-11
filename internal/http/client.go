@@ -454,6 +454,10 @@ func (c *Client) innerDo(req *Request, errorValue ErrorResponse, i int) (*http.R
 		return resp, body, false, nrErrors.NewNotFound(errorValue.Error())
 	}
 
+	if errorValue.IsPaymentRequired(resp) {
+		return resp, body, false, nrErrors.NewPaymentRequiredError()
+	}
+
 	if !errorValue.IsRetryableError() {
 		return resp, body, false, nil
 	}
