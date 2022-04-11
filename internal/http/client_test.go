@@ -129,6 +129,10 @@ func (c *CustomErrorResponse) IsUnauthorized(resp *http.Response) bool {
 	return resp.StatusCode == http.StatusUnauthorized
 }
 
+func (c *CustomErrorResponse) IsPaymentRequired(resp *http.Response) bool {
+	return resp.StatusCode == http.StatusPaymentRequired
+}
+
 func TestCustomErrorValue(t *testing.T) {
 	t.Parallel()
 	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -444,4 +448,15 @@ func TestDelete(t *testing.T) {
 	_, err := c.Delete(c.config.Region().RestURL("path"), &struct{}{}, &struct{}{})
 
 	assert.NoError(t, err)
+}
+
+func TestPaymentRequiredError(t *testing.T) {
+	t.Parallel()
+	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusPaymentRequired)
+	}))
+
+	_, err := c.Get(c.config.Region().RestURL("path"), nil, nil)
+
+	assert.IsType(t, &errors.PaymentRequiredError{}, err)
 }
