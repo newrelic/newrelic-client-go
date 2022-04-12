@@ -201,14 +201,19 @@ func TestIntegrationGetEntity_BrowserEntity(t *testing.T) {
 	}
 	require.NotNil(t, result)
 
-	actual := (*result).(*BrowserApplicationEntity)
+	ref := *result
+	actual, ok := ref.(*BrowserApplicationEntity)
+
+	if actual == nil || !ok {
+		t.Skip("Skipping `TestIntegrationGetEntity_BrowserEntity` integration test due to missing test entity. This entity might have been deleted from this test account.")
+		return
+	}
 
 	// These are a bit fragile, if the above GUID ever changes...
 	// from BrowserApplicationEntity / BrowserApplicationEntityOutline
 	assert.Equal(t, 204261628, actual.ApplicationID)
 	assert.Equal(t, 204261368, actual.ServingApmApplicationID)
 	assert.Equal(t, EntityAlertSeverityTypes.NOT_CONFIGURED, actual.AlertSeverity)
-
 }
 
 // Looking at a Mobile Application, and the result set here.
