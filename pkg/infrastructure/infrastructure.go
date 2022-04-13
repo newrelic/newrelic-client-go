@@ -53,3 +53,7 @@ func (e *ErrorResponse) IsDeprecated() bool {
 func (e *ErrorResponse) IsUnauthorized(resp *http.Response) bool {
 	return resp.StatusCode == http.StatusUnauthorized
 }
+
+func (e *ErrorResponse) IsPaymentRequired(resp *http.Response) bool {
+	return resp.StatusCode == http.StatusPaymentRequired
+}

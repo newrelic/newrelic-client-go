@@ -12,6 +12,7 @@ import (
 )
 
 func TestIntegrationComponents(t *testing.T) {
+	t.Skip("Skipping `GetComponent` integration test due API reaching EOL (returns 410 HTTP status)")
 	t.Parallel()
 
 	tc := mock.NewIntegrationTestConfig(t)

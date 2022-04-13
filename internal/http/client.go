@@ -357,6 +357,10 @@ func (c *Client) Do(req *Request) (*http.Response, error) {
 			return nil, nrErrors.NewUnauthorizedError()
 		}
 
+		if errorValue.IsPaymentRequired(resp) {
+			return nil, nrErrors.NewPaymentRequiredError()
+		}
+
 		return nil, nrErrors.NewUnexpectedStatusCode(resp.StatusCode, errorValue.Error())
 	}
 
@@ -448,6 +452,10 @@ func (c *Client) innerDo(req *Request, errorValue ErrorResponse, i int) (*http.R
 
 	if errorValue.IsNotFound() {
 		return resp, body, false, nrErrors.NewNotFound(errorValue.Error())
+	}
+
+	if errorValue.IsPaymentRequired(resp) {
+		return resp, body, false, nrErrors.NewPaymentRequiredError()
 	}
 
 	if !errorValue.IsRetryableError() {
