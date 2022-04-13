@@ -1,3 +1,8 @@
+<a name="v0.75.0"></a>
+## [v0.75.0] - 2022-04-13
+### Features
+- **errors:** handle 402 payment required HTTP response scenario
+
 <a name="v0.74.2"></a>
 ## [v0.74.2] - 2022-03-23
 ### Bug Fixes
@@ -1261,7 +1266,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.74.2...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.75.0...HEAD
+[v0.75.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.74.2...v0.75.0
 [v0.74.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.74.1...v0.74.2
 [v0.74.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.74.0...v0.74.1
 [v0.74.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.73.0...v0.74.0
