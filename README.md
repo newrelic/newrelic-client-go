@@ -10,7 +10,7 @@
 [![CLA assistant](https://cla-assistant.io/readme/badge/newrelic/newrelic-client-go)](https://cla-assistant.io/newrelic/newrelic-client-go)
 [![Release](https://img.shields.io/github/release/newrelic/newrelic-client-go/all.svg)](https://github.com/newrelic/newrelic-client-go/releases/latest)
 
-The New Relic Client provides the building blocks for tools in the [Developer Toolkit](https://newrelic.github.io/developer-toolkit/), enabling quick access to the suite of New Relic APIs. As a library, it can also be leveraged within your own custom applications.
+The New Relic Client provides the building blocks for tools in the [Developer Toolkit](https://discuss.newrelic.com/t/about-the-developer-toolkit-category/90159), enabling quick access to the suite of New Relic APIs. As a library, it can also be leveraged within your own custom applications.
 
 ## Example
 
