@@ -1,3 +1,8 @@
+<a name="v0.76.0"></a>
+## [v0.76.0] - 2022-04-26
+### Features
+- **build:** compile on Go 1.17.x
+
 <a name="v0.75.0"></a>
 ## [v0.75.0] - 2022-04-13
 ### Features
@@ -1266,7 +1271,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.75.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.76.0...HEAD
+[v0.76.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.75.0...v0.76.0
 [v0.75.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.74.2...v0.75.0
 [v0.74.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.74.1...v0.74.2
 [v0.74.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.74.0...v0.74.1
