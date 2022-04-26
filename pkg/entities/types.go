@@ -40,7 +40,7 @@ var AccountStatusTypes = struct {
 	UPGRADED:               "UPGRADED",
 }
 
-// AgentApplicationSettingsBrowserLoader - Determines which Browser Loader will be configured. Some allowed return values are specified for backwards-compatability and do not represent currently allowed values for new applications.
+// AgentApplicationSettingsBrowserLoader - Determines which Browser Loader will be configured. Some allowed return values are specified for backwards-compatibility and do not represent currently allowed values for new applications.
 // See [documentation](https://docs.newrelic.com/docs/browser/browser-monitoring/installation/install-browser-monitoring-agent/#agent-types) for further information.
 type AgentApplicationSettingsBrowserLoader string
 
@@ -913,7 +913,7 @@ var DashboardEntityAlertStatusTypes = struct {
 	YELLOW: "YELLOW",
 }
 
-// DashboardEntityPermissions - Permisions that represent visibility & editability
+// DashboardEntityPermissions - Permissions that represent visibility & editability
 type DashboardEntityPermissions string
 
 var DashboardEntityPermissionsTypes = struct {
@@ -1062,7 +1062,7 @@ var DashboardMetricLineChartWidgetVisualizationTypeTypes = struct {
 	METRIC_LINE_CHART: "METRIC_LINE_CHART",
 }
 
-// DashboardPermissions - Permisions that represent visibility & editability
+// DashboardPermissions - Permissions that represent visibility & editability
 type DashboardPermissions string
 
 var DashboardPermissionsTypes = struct {
@@ -3071,7 +3071,7 @@ type AgentTracesErrorTrace struct {
 	Path string `json:"path"`
 	// Error stack trace.
 	StackTrace []AgentTracesStackTraceFrame `json:"stackTrace,omitempty"`
-	// When the error occured.
+	// When the error occurred.
 	StartTime *nrtime.EpochMilliseconds `json:"startTime"`
 	// URI.
 	Uri string `json:"uri,omitempty"`
@@ -3147,7 +3147,7 @@ type AgentTracesSqlTrace struct {
 	Sql string `json:"sql,omitempty"`
 	// An agent generated `sql_id`.
 	SqlId string `json:"sqlId"`
-	// When the SQL query occured.
+	// When the SQL query occurred.
 	StartTime *nrtime.EpochMilliseconds `json:"startTime"`
 	// Call time, as added across all `call_count` traces.
 	TotalCallTime Milliseconds `json:"totalCallTime,omitempty"`
@@ -4706,7 +4706,7 @@ type ApmApplicationDeployment struct {
 	Permalink string `json:"permalink,omitempty"`
 	// The revision of the app that was deployed
 	Revision string `json:"revision,omitempty"`
-	// The moment the deployment occured
+	// The moment the deployment occurred
 	Timestamp *nrtime.EpochMilliseconds `json:"timestamp,omitempty"`
 	// The user who triggered the deployment
 	User string `json:"user,omitempty"`

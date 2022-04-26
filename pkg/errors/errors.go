@@ -143,3 +143,23 @@ func (e *InvalidInput) Error() string {
 
 	return e.err
 }
+
+// PaymentRequiredError is returned when a 402 HTTP status code is returned
+// from New Relic's APIs.
+type PaymentRequiredError struct {
+	err        string
+	statusCode int
+}
+
+func (e *PaymentRequiredError) Error() string {
+	return e.err
+}
+
+// NewPaymentRequiredError returns a new instance of PaymentRequiredError
+// with an optional custom message.
+func NewPaymentRequiredError() *PaymentRequiredError {
+	return &PaymentRequiredError{
+		err:        http.StatusText(http.StatusPaymentRequired),
+		statusCode: http.StatusPaymentRequired,
+	}
+}

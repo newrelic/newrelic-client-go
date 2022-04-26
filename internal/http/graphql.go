@@ -51,7 +51,6 @@ func (r *GraphQLErrorResponse) IsNotFound() bool {
 
 // IsRetryableError determines if the error is due to a server timeout, or another error that we might want to retry.
 func (r *GraphQLErrorResponse) IsRetryableError() bool {
-
 	if len(r.Errors) == 0 {
 		return false
 	}
@@ -85,6 +84,10 @@ func (r *GraphQLErrorResponse) IsUnauthorized(resp *http.Response) bool {
 	}
 
 	return false
+}
+
+func (r *GraphQLErrorResponse) IsPaymentRequired(resp *http.Response) bool {
+	return resp.StatusCode == http.StatusPaymentRequired
 }
 
 // IsDeprecated parses error messages for warnings that a field being used

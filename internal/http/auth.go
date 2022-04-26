@@ -2,6 +2,7 @@ package http
 
 import (
 	"github.com/newrelic/newrelic-client-go/pkg/config"
+	"github.com/newrelic/newrelic-client-go/pkg/contextkeys"
 )
 
 // RequestAuthorizer is an interface that allows customizatino of how a request is authorized.
@@ -26,6 +27,10 @@ func (a *PersonalAPIKeyCapableV2Authorizer) AuthorizeRequest(r *Request, c *conf
 		r.SetHeader("Api-Key", c.PersonalAPIKey)
 	} else {
 		r.SetHeader("X-Api-Key", c.AdminAPIKey)
+	}
+
+	if accountID, ok := contextkeys.GetAccountID(r.request.Context()); ok {
+		r.SetHeader("X-Account-ID", accountID)
 	}
 }
 
