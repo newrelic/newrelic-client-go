@@ -4,6 +4,7 @@
 package alerts
 
 import (
+	"github.com/newrelic/newrelic-client-go/pkg/common"
 	"net/http"
 	"testing"
 
@@ -32,12 +33,38 @@ var (
 				"nrql": {
 					"query": "SELECT count(*) FROM Transactions",
 					"since_value": "3"
-				}
+				},
+				"entity_guid": "NDAwQzA0rEFST1BTfENPTkRJVElPTnw3MzUzNjL"
 			}
 		]
 	}`
 
 	testNrqlConditionJSON = `{
+		"nrql_condition": {
+			"type": "static",
+			"id": 12345,
+			"name": "NRQL Test Alert",
+			"enabled": true,
+			"value_function": "single_value",
+			"violation_time_limit_seconds": 3600,
+			"terms": [
+				{
+					"duration": "5",
+					"operator": "above",
+					"priority": "critical",
+					"threshold": "1",
+					"time_function": "all"
+				}
+			],
+			"nrql": {
+				"query": "SELECT count(*) FROM Transactions",
+				"since_value": "3"
+			},
+			"entity_guid": "NDAwQzA0rEFST1BTfENPTkRJVElPTnw3MzUzNjL"
+		}
+	}`
+
+	testNrqlConditionCreateJSON = `{
 		"nrql_condition": {
 			"type": "static",
 			"id": 12345,
@@ -85,6 +112,8 @@ var (
 			"runbook_url": "https://www.example.com/docs"
 		}
 	}`
+
+	testNrqlConditionEntityGUID = common.EntityGUID("NDAwQzA0rEFST1BTfENPTkRJVElPTnw3MzUzNjL")
 )
 
 func TestListNrqlConditions(t *testing.T) {
@@ -113,6 +142,7 @@ func TestListNrqlConditions(t *testing.T) {
 			ID:                  12345,
 			ViolationCloseTimer: 3600,
 			Enabled:             true,
+			EntityGUID:          &testNrqlConditionEntityGUID,
 		},
 	}
 
@@ -148,6 +178,7 @@ func TestGetNrqlCondition(t *testing.T) {
 		ID:                  12345,
 		ViolationCloseTimer: 3600,
 		Enabled:             true,
+		EntityGUID:          &testNrqlConditionEntityGUID,
 	}
 
 	actual, err := alerts.GetNrqlCondition(123, 12345)
@@ -159,7 +190,7 @@ func TestGetNrqlCondition(t *testing.T) {
 
 func TestCreateNrqlCondition(t *testing.T) {
 	t.Parallel()
-	alerts := newMockResponse(t, testNrqlConditionJSON, http.StatusCreated)
+	alerts := newMockResponse(t, testNrqlConditionCreateJSON, http.StatusCreated)
 	policyID := 333
 
 	condition := NrqlCondition{
@@ -219,6 +250,7 @@ func TestUpdateNrqlCondition(t *testing.T) {
 		ID:                  12345,
 		ViolationCloseTimer: 3600,
 		Enabled:             true,
+		EntityGUID:          &testNrqlConditionEntityGUID,
 	}
 
 	expected := &NrqlCondition{
@@ -254,7 +286,6 @@ func TestUpdateNrqlCondition(t *testing.T) {
 func TestDeleteNrqlCondition(t *testing.T) {
 	t.Parallel()
 	alerts := newMockResponse(t, testNrqlConditionJSON, http.StatusOK)
-
 	expected := &NrqlCondition{
 		Nrql: NrqlQuery{
 			Query:      "SELECT count(*) FROM Transactions",
@@ -276,6 +307,7 @@ func TestDeleteNrqlCondition(t *testing.T) {
 		ID:                  12345,
 		ViolationCloseTimer: 3600,
 		Enabled:             true,
+		EntityGUID:          &testNrqlConditionEntityGUID,
 	}
 
 	actual, err := alerts.DeleteNrqlCondition(12345)

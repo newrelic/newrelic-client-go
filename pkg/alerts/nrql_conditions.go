@@ -3,6 +3,7 @@ package alerts
 import (
 	"context"
 	"fmt"
+	"github.com/newrelic/newrelic-client-go/pkg/common"
 
 	"github.com/newrelic/newrelic-client-go/pkg/errors"
 )
@@ -350,17 +351,18 @@ type NrqlAlertCondition struct {
 
 // NrqlCondition represents a New Relic NRQL Alert condition.
 type NrqlCondition struct {
-	Enabled             bool              `json:"enabled"`
-	IgnoreOverlap       bool              `json:"ignore_overlap,omitempty"`
-	ExpectedGroups      int               `json:"expected_groups,omitempty"`
-	ID                  int               `json:"id,omitempty"`
-	ViolationCloseTimer int               `json:"violation_time_limit_seconds,omitempty"`
-	Name                string            `json:"name,omitempty"`
-	Nrql                NrqlQuery         `json:"nrql,omitempty"`
-	RunbookURL          string            `json:"runbook_url,omitempty"`
-	Terms               []ConditionTerm   `json:"terms,omitempty"`
-	Type                string            `json:"type,omitempty"`
-	ValueFunction       ValueFunctionType `json:"value_function,omitempty"`
+	Enabled             bool               `json:"enabled"`
+	IgnoreOverlap       bool               `json:"ignore_overlap,omitempty"`
+	ExpectedGroups      int                `json:"expected_groups,omitempty"`
+	ID                  int                `json:"id,omitempty"`
+	ViolationCloseTimer int                `json:"violation_time_limit_seconds,omitempty"`
+	Name                string             `json:"name,omitempty"`
+	Nrql                NrqlQuery          `json:"nrql,omitempty"`
+	RunbookURL          string             `json:"runbook_url,omitempty"`
+	Terms               []ConditionTerm    `json:"terms,omitempty"`
+	Type                string             `json:"type,omitempty"`
+	ValueFunction       ValueFunctionType  `json:"value_function,omitempty"`
+	EntityGUID          *common.EntityGUID `json:"entity_guid,omitempty"`
 }
 
 // NrqlQuery represents a NRQL query to use with a NRQL alert condition
