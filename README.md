@@ -69,13 +69,13 @@ Keep in mind that when you submit your pull request, you'll need to sign the CLA
 
 ### Requirements
 
-- Go 1.14.0+
+- Go 1.17.0+
 - GNU Make
 - git
 
 ### Building
 
-This package does not generate any direct usable assets (it's a library). You can still run the build scripts to validate you code, and generate coverage information.
+This package does not generate any direct usable assets (it's a library). You can still run the build scripts to validate your code, and generate coverage information.
 
 ```bash
 # Default target is 'build'
@@ -85,7 +85,7 @@ $ make
 $ make build
 
 # Locally test the CI build scripts
-# make build-ci
+$ make build-ci
 ```
 
 ### Testing
