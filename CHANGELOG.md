@@ -1,3 +1,12 @@
+<a name="v0.77.0"></a>
+## [v0.77.0] - 2022-04-28
+### Documentation Updates
+- update minimum Go version requirement in development section
+- Update example in readme to compile and run with v0.73.0
+
+### Features
+- Expose EntityGUID on NRQL Conditions.
+
 <a name="v0.76.0"></a>
 ## [v0.76.0] - 2022-04-26
 ### Features
@@ -1271,7 +1280,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.76.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.77.0...HEAD
+[v0.77.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.76.0...v0.77.0
 [v0.76.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.75.0...v0.76.0
 [v0.75.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.74.2...v0.75.0
 [v0.74.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.74.1...v0.74.2
