@@ -254,6 +254,7 @@ type NrqlConditionBase struct {
 	ViolationTimeLimitSeconds int                             `json:"violationTimeLimitSeconds,omitempty"`
 	Expiration                *AlertsNrqlConditionExpiration  `json:"expiration,omitempty"`
 	Signal                    *AlertsNrqlConditionSignal      `json:"signal,omitempty"`
+	EntityGUID                common.EntityGUID               `json:"entityGuid,omitempty"`
 }
 
 // NrqlConditionCreateBase represents the base fields for creating a New Relic NRQL Alert condition.
@@ -271,7 +272,7 @@ type NrqlConditionCreateBase struct {
 	Signal                    *AlertsNrqlConditionCreateSignal `json:"signal,omitempty"`
 }
 
-// NrqlConditionUpdateBase represents the base fields for a updating a New Relic NRQL Alert condition.
+// NrqlConditionUpdateBase represents the base fields for updating a New Relic NRQL Alert condition.
 type NrqlConditionUpdateBase struct {
 	Description               string                           `json:"description,omitempty"`
 	Enabled                   bool                             `json:"enabled"`
@@ -637,7 +638,6 @@ func (a *Alerts) CreateNrqlConditionStaticMutationWithContext(
 	if err := a.NerdGraphQueryWithContext(ctx, createNrqlConditionStaticMutation, vars, &resp); err != nil {
 		return nil, err
 	}
-
 	return &resp.AlertsNrqlConditionStaticCreate, nil
 }
 
@@ -823,6 +823,7 @@ const (
       query
     }
     enabled
+    entityGuid
     description
     policyId
     runbookUrl
