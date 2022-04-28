@@ -58,11 +58,25 @@ func (e *ErrorResponse) New() http.ErrorResponse {
 }
 
 // New is used to create a new Synthetics client instance.
-// Deprecated: Function should not be used to create a new Synthetics client
+// Deprecated: Use NewV2 instead
 func New(config config.Config) Synthetics {
 	client := http.NewClient(config)
 	client.SetAuthStrategy(&http.PersonalAPIKeyCapableV2Authorizer{})
 	client.SetErrorValue(&ErrorResponse{})
+
+	pkg := Synthetics{
+		client: client,
+		config: config,
+		logger: config.GetLogger(),
+		pager:  &http.LinkHeaderPager{},
+	}
+
+	return pkg
+}
+
+func NewV2(config config.Config) Synthetics {
+	client := http.NewClient(config)
+	client.SetAuthStrategy(&http.PersonalAPIKeyCapableV2Authorizer{})
 
 	pkg := Synthetics{
 		client: client,
