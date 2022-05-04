@@ -24,16 +24,19 @@ func TestIntegrationDropRules(t *testing.T) {
 		testRuleDescription      = "testRuleDescription_" + rand
 		testOtherRuleDescription = "testRuleOtherDescription_" + rand
 		testRuleNrql             = "SELECT * FROM Log WHERE container_name = 'noise'"
+		testRuleSource           = "Logging"
 		testCreateInput          = []NRQLDropRulesCreateDropRuleInput{
 			{
 				Description: testRuleDescription,
 				NRQL:        testRuleNrql,
 				Action:      NRQLDropRulesActionTypes.DROP_DATA,
+				Source:      testRuleSource,
 			},
 			{
 				Description: testOtherRuleDescription,
 				NRQL:        testRuleNrql,
 				Action:      NRQLDropRulesActionTypes.DROP_DATA,
+				Source:      testRuleSource,
 			},
 		}
 	)

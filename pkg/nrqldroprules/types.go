@@ -95,6 +95,8 @@ type NRQLDropRulesCreateDropRuleInput struct {
 	Description string `json:"description,omitempty"`
 	// The NRQL string used to match data you want to take the specified action on.
 	NRQL string `json:"nrql"`
+	// The source of the drop rule. Set to `Logging` to display the rule in the Logs UI. Defaults to `NerdGraph`.
+	Source string `json:"source,omitempty"`
 }
 
 // NRQLDropRulesCreateDropRuleResult - The result of which submitted drop rules were successfully and unsuccessfully created.
@@ -115,6 +117,8 @@ type NRQLDropRulesCreateDropRuleSubmission struct {
 	Description string `json:"description,omitempty"`
 	// The NRQL string used to match data you want to take the specified action on.
 	NRQL string `json:"nrql"`
+	// The source of the drop rule. Set to `Logging` to display the rule in the Logs UI. Defaults to `NerdGraph`.
+	Source string `json:"source,omitempty"`
 }
 
 // NRQLDropRulesDeleteDropRuleFailure - Error details about the rule that failed to be deleted and why.
@@ -157,6 +161,8 @@ type NRQLDropRulesDropRule struct {
 	ID string `json:"id"`
 	// The NRQL used to match data that will receive the `action`.
 	NRQL string `json:"nrql"`
+	// The source of the drop rule. Set to `Logging` to display the rule in the Logs UI. Defaults to `NerdGraph`.
+	Source string `json:"source,omitempty"`
 }
 
 // NRQLDropRulesError - Error details when processing drop rule requests.

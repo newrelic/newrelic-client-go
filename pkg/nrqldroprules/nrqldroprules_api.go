@@ -53,6 +53,7 @@ const NRQLDropRulesCreateMutation = `mutation(
 		description
 		id
 		nrql
+		source
 	}
 } }`
 
@@ -106,6 +107,7 @@ const NRQLDropRulesDeleteMutation = `mutation(
 		description
 		id
 		nrql
+		source
 	}
 } }`
 
@@ -151,5 +153,6 @@ const getListQuery = `query(
 		description
 		id
 		nrql
+		source
 	}
 } } } } }`

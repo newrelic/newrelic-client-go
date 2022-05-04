@@ -33,6 +33,7 @@ func Example_basic() {
 			Action:      NRQLDropRulesActionTypes.DROP_DATA,
 			Description: "NRQL drop rule description",
 			NRQL:        "SELECT * FROM Log WHERE container_name = 'noise'",
+			Source:      "Logging",
 		},
 	}
 
