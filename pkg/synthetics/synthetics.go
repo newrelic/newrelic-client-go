@@ -72,3 +72,17 @@ func New(config config.Config) Synthetics {
 
 	return pkg
 }
+
+func NewV2(config config.Config) Synthetics {
+	client := http.NewClient(config)
+	client.SetAuthStrategy(&http.PersonalAPIKeyCapableV2Authorizer{})
+
+	pkg := Synthetics{
+		client: client,
+		config: config,
+		logger: config.GetLogger(),
+		pager:  &http.LinkHeaderPager{},
+	}
+
+	return pkg
+}
