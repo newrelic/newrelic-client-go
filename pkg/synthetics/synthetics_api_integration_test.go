@@ -42,5 +42,5 @@ func TestSyntheticsSecureCredential_Basic(t *testing.T) {
 func newIntegrationTestClient(t *testing.T) Synthetics {
 	tc := mock.NewIntegrationTestConfig(t)
 
-	return NewV2(tc)
+	return New(tc)
 }
