@@ -1,3 +1,8 @@
+<a name="v0.79.0"></a>
+## [v0.79.0] - 2022-05-09
+### Features
+- add synthetics secure credentials GraphQL API
+
 <a name="v0.78.0"></a>
 ## [v0.78.0] - 2022-04-28
 ### Features
@@ -1285,7 +1290,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.78.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.79.0...HEAD
+[v0.79.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.78.0...v0.79.0
 [v0.78.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.77.0...v0.78.0
 [v0.77.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.76.0...v0.77.0
 [v0.76.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.75.0...v0.76.0
