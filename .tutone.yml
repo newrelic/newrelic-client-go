@@ -68,6 +68,15 @@ packages:
         max_query_field_depth: 2
       - name: syntheticsDeleteMonitor
         max_query_field_depth: 2
+      - name: syntheticsCreatePrivateLocation
+        max_query_field_depth: 2
+      - name: syntheticsDeletePrivateLocation
+        max_query_field_depth: 2
+      - name: syntheticsUpdatePrivateLocation
+        max_query_field_depth: 2
+      - name: syntheticsPurgePrivateLocationQueue
+        max_query_field_depth: 2
+
     types:
       - name: EpochMilliseconds
         field_type_override: nrtime.EpochMilliseconds
