@@ -128,7 +128,10 @@ func (s *Synthetics) GetMonitorWithContext(ctx context.Context, monitorID string
 }
 
 // CreateMonitor is used to create a New Relic Synthetics monitor.
-// Deprecated
+//Deprecated: Use one of the following methods instead based on your needs -
+//syntheticsCreateBrokenLinksMonitor, syntheticsCreateCertCheckMonitor,
+//syntheticsCreatePrivateLocation, syntheticsCreateScriptBrowserMonitor,syntheticsCreateSimpleBrowserMonitor,
+//syntheticsCreateSimpleMonitor, syntheticsCreateStepMonitor.
 func (s *Synthetics) CreateMonitor(monitor Monitor) (*Monitor, error) {
 	return s.CreateMonitorWithContext(context.Background(), monitor)
 }
