@@ -52,13 +52,13 @@ func TestSyntheticsPrivateLocation_Basic(t *testing.T) {
 	a := newIntegrationTestClient(t)
 
 	// Create a private location
-	createResp, err := a.SyntheticsCreatePrivateLocation(testAccountID, "test secure credential", "TEST", "true")
+	createResp, err := a.SyntheticsCreatePrivateLocation(testAccountID, "test secure credential", "TEST", true)
 
 	require.NoError(t, err)
 	require.NotNil(t, createResp)
 
 	// Update private location
-	updateResp, err := a.SyntheticsUpdatePrivateLocation("test secure credential", createResp.GUID, "true")
+	updateResp, err := a.SyntheticsUpdatePrivateLocation("test secure credential", createResp.GUID, true)
 
 	require.NoError(t, err)
 	require.NotNil(t, updateResp)
