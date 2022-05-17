@@ -70,6 +70,12 @@ type SyntheticsPrivateLocationMutationResult struct {
 	VerifiedScriptExecution bool `json:"verifiedScriptExecution,omitempty"`
 }
 
+// SyntheticsPrivateLocationPurgeQueueResult - Result of a Synthetics purge private location queue mutation
+type SyntheticsPrivateLocationPurgeQueueResult struct {
+	// An array containing errors resulting from the mutation, if any
+	Errors []SyntheticsPrivateLocationMutationError `json:"errors,omitempty"`
+}
+
 // SyntheticsSecureCredentialMutationResult - The result of a secure credential mutation
 type SyntheticsSecureCredentialMutationResult struct {
 	// The moment when the secure credential was created, represented in milliseconds since the Unix epoch.

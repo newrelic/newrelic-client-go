@@ -227,6 +227,48 @@ const SyntheticsDeleteSecureCredentialMutation = `mutation(
 	lastUpdate
 } }`
 
+// Purge the job queue for a specified private location
+func (a *Synthetics) SyntheticsPurgePrivateLocationQueue(
+	gUID EntityGUID,
+) (*SyntheticsPrivateLocationPurgeQueueResult, error) {
+	return a.SyntheticsPurgePrivateLocationQueueWithContext(context.Background(),
+		gUID,
+	)
+}
+
+// Purge the job queue for a specified private location
+func (a *Synthetics) SyntheticsPurgePrivateLocationQueueWithContext(
+	ctx context.Context,
+	gUID EntityGUID,
+) (*SyntheticsPrivateLocationPurgeQueueResult, error) {
+
+	resp := SyntheticsPurgePrivateLocationQueueQueryResponse{}
+	vars := map[string]interface{}{
+		"guid": gUID,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, SyntheticsPurgePrivateLocationQueueMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.SyntheticsPrivateLocationPurgeQueueResult, nil
+}
+
+type SyntheticsPurgePrivateLocationQueueQueryResponse struct {
+	SyntheticsPrivateLocationPurgeQueueResult SyntheticsPrivateLocationPurgeQueueResult `json:"SyntheticsPurgePrivateLocationQueue"`
+}
+
+const SyntheticsPurgePrivateLocationQueueMutation = `mutation(
+	$guid: EntityGuid!,
+) { syntheticsPurgePrivateLocationQueue(
+	guid: $guid,
+) {
+	errors {
+		description
+		type
+	}
+} }`
+
 // Update a Synthetics Private Location
 func (a *Synthetics) SyntheticsUpdatePrivateLocation(
 	description string,
