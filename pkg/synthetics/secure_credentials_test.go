@@ -49,19 +49,3 @@ func TestGetSecureCredentials(t *testing.T) {
 	assert.Equal(t, 2, len(r))
 	assert.Equal(t, r[0], testSecureCredential)
 }
-
-func TestAddSecureCredential(t *testing.T) {
-	t.Parallel()
-	synthetics := newMockResponse(t, "", http.StatusOK)
-
-	err := synthetics.AddMonitorLabel(testSecureCredentialKey, "test", "test")
-	assert.NoError(t, err)
-}
-
-func TestDeleteSecureCredenti(t *testing.T) {
-	t.Parallel()
-	synthetics := newMockResponse(t, "", http.StatusOK)
-
-	err := synthetics.DeleteMonitorLabel(testSecureCredentialKey, "test", "test")
-	assert.NoError(t, err)
-}
