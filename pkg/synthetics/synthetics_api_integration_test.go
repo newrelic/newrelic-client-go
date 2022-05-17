@@ -52,15 +52,32 @@ func TestSyntheticsMonitors_Basic(t *testing.T) {
 		Key:    "Name",
 		Values: "testSimpleBrowserMonitor",
 	}
+	runtime := SyntheticsRuntimeInput{
+		RuntimeType:        "CHROME_BROWSER",
+		RuntimeTypeVersion: 100,
+		ScriptLanguage:     "JAVASCRIPT",
+	}
+
+	advanceOptions := SyntheticsSimpleBrowserMonitorAdvancedOptionsInput{
+		EnableScreenshotOnFailureAndScript: true,
+		ResponseValidationText:             "Success",
+		CustomHeaders: SyntheticsCustomHeaderInput{
+			Name:  "Monitor",
+			Value: "synthetics",
+		},
+		UseTlsValidation: true,
+	}
 
 	//Create synthetic script api Monitor
 	simpleBrowserMonitor := SyntheticsCreateSimpleBrowserMonitorInput{
-		Locations: location,
-		Name:      "testSimpleMonitor",
-		Period:    "EVERY_5_MINUTES",
-		Status:    "ENABLED",
-		Tags:      tags,
-		Uri:       "https://www.one.newrelic.com",
+		Locations:       location,
+		Name:            "testSimpleMonitor",
+		Period:          "EVERY_5_MINUTES",
+		Status:          "ENABLED",
+		Tags:            tags,
+		Uri:             "https://www.one.newrelic.com",
+		Runtime:         runtime,
+		AdvancedOptions: advanceOptions,
 	}
 	a := newIntegrationTestClient(t)
 
@@ -71,12 +88,14 @@ func TestSyntheticsMonitors_Basic(t *testing.T) {
 	require.NotNil(t, createSimpleBrowserMonitor)
 
 	simpleBrowserMonitor := SyntheticsCreateSimpleBrowserMonitorInput{
-		Locations: location,
-		Name:      "testSimpleMonitor-updated",
-		Period:    "EVERY_5_MINUTES",
-		Status:    "ENABLED",
-		Tags:      tags,
-		Uri:       "https://www.one.newrelic.com",
+		Locations:       location,
+		Name:            "testSimpleMonitor-updated",
+		Period:          "EVERY_5_MINUTES",
+		Status:          "ENABLED",
+		Tags:            tags,
+		Uri:             "https://www.one.newrelic.com",
+		Runtime:         runtime,
+		AdvancedOptions: advanceOptions,
 	}
 	//update a simple browser monitor
 	updateSimpleBrowerMonitor, err := a.SyntheticsUpdateSimpleBrowserMonitor(createSimpleBrowserMonitor.Monitor.GUID, simpleBrowserMonitor)
@@ -90,12 +109,13 @@ func TestSyntheticsMonitors_Basic(t *testing.T) {
 	require.NotNil(t, deleteSimpleBrowserMonitor)
 
 	simpleMonitor := SyntheticsCreateSimpleMonitorInput{
-		Locations: location,
-		Name:      "testSimpleMonitor",
-		Period:    "EVERY_5_MINUTES",
-		Status:    "ENABLED",
-		Tags:      tags,
-		Uri:       "https://www.one.newrelic.com",
+		Locations:       location,
+		Name:            "testSimpleMonitor",
+		Period:          "EVERY_5_MINUTES",
+		Status:          "ENABLED",
+		Tags:            tags,
+		Uri:             "https://www.one.newrelic.com",
+		AdvancedOptions: advanceOptions,
 	}
 
 	//create a simple monitor
@@ -105,12 +125,13 @@ func TestSyntheticsMonitors_Basic(t *testing.T) {
 	require.NotNil(t, createSimpleMonitor)
 
 	simpleMonitor := SyntheticsCreateSimpleMonitorInput{
-		Locations: location,
-		Name:      "testSimpleMonitor-updated",
-		Period:    "EVERY_5_MINUTES",
-		Status:    "ENABLED",
-		Tags:      tags,
-		Uri:       "https://www.one.newrelic.com",
+		Locations:       location,
+		Name:            "testSimpleMonitor-updated",
+		Period:          "EVERY_5_MINUTES",
+		Status:          "ENABLED",
+		Tags:            tags,
+		Uri:             "https://www.one.newrelic.com",
+		AdvancedOptions: advanceOptions,
 	}
 	//update a simple monitor
 	updateSimpleMonitor, err := a.SyntheticsUpdateSimpleMonitor(createSimpleMonitor.Monitor.GUID, simpleBrowserMonitor)
