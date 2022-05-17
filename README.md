@@ -12,7 +12,8 @@
 
 The New Relic Client provides the building blocks for tools in the [Developer Toolkit](https://newrelic.github.io/observability-as-code), enabling quick access to the suite of New Relic APIs. As a library, it can also be leveraged within your own custom applications.
 
-- [Example](#example)
+- [Getting Started and Example Usage](#getting-started-and-example-usage)
+- [Upgrade to the latest version](#upgrade-to-the-latest-version)
 - [Community](#community)
 - [Development](#development)
 	- [Requirements](#requirements)
@@ -31,47 +32,90 @@ The New Relic Client provides the building blocks for tools in the [Developer To
 
 <br>
 
-## Example
+## Getting Started and Example Usage
 
-```go
-package main
+Follow the steps below to add `github.com/newrelic/newrelic-client-go` as a dependency in your Go project.
 
-import (
-	"fmt"
-	"os"
+1. In the root directory of your project, run `go get github.com/newrelic/newrelic-client-go@latest`. This will update your `go.mod` file with the latest version `newrelic-client-go`.
 
-	log "github.com/sirupsen/logrus"
 
-	"github.com/newrelic/newrelic-client-go/newrelic"
-	"github.com/newrelic/newrelic-client-go/pkg/entities"
-)
+2. Import `newrelic-client-go` in your project code.
+    ```go
+    package main
 
-func main() {
-	// Initialize the client.
-	client, err := newrelic.New(newrelic.ConfigPersonalAPIKey(os.Getenv("NEW_RELIC_API_KEY")))
-	if err != nil {
-		log.Fatal("error initializing client:", err)
-	}
+    import "github.com/newrelic/newrelic-client-go/newrelic"
 
-	// Search the current account for entities by name and type.
-	queryBuilder := entities.EntitySearchQueryBuilder{
-		Name: "Example entity",
-		Type: entities.EntitySearchQueryBuilderTypeTypes.APPLICATION,
-	}
+    func main() {
+      // Initialize the client.
+      client, err := newrelic.New(newrelic.ConfigPersonalAPIKey(os.Getenv("NEW_RELIC_API_KEY")))
+      if err != nil {
+        // ...
+      }
+    }
+    ```
 
-	entitySearch, err := client.Entities.GetEntitySearch(
-		entities.EntitySearchOptions{},
-		"",
-		queryBuilder,
-		[]entities.EntitySearchSortCriteria{},
-	)
-	if err != nil {
-		log.Fatal("error searching entities:", err)
-	}
+3. Run `go mod tidy`. This will ensure all your dependencies are in sync with your code.
+4. Your module's `go.mod` file should now be updated with the latest version of the client and should look similar to the following example (version number is hypothetical in the example below).
+    ```
+    module example.com/yourmodule
 
-	fmt.Printf("%+v\n", entitySearch.Results.Entities)
-}
-```
+    go 1.18
+
+    require (
+      github.com/newrelic/newrelic-client-go v0.80.0
+    )
+    ```
+5. The example below demonstrates fetching New Relic entities.
+   ```go
+    package main
+
+    import (
+      "fmt"
+      "os"
+
+      log "github.com/sirupsen/logrus"
+
+      "github.com/newrelic/newrelic-client-go/newrelic"
+      "github.com/newrelic/newrelic-client-go/pkg/entities"
+    )
+
+    func main() {
+      // Initialize the client.
+      client, err := newrelic.New(newrelic.ConfigPersonalAPIKey(os.Getenv("NEW_RELIC_API_KEY")))
+      if err != nil {
+        log.Fatal("error initializing client:", err)
+      }
+
+      // Search the current account for entities by name and type.
+      queryBuilder := entities.EntitySearchQueryBuilder{
+        Name: "Example entity",
+        Type: entities.EntitySearchQueryBuilderTypeTypes.APPLICATION,
+      }
+
+      entitySearch, err := client.Entities.GetEntitySearch(
+        entities.EntitySearchOptions{},
+        "",
+        queryBuilder,
+        []entities.EntitySearchSortCriteria{},
+      )
+      if err != nil {
+        log.Fatal("error searching entities:", err)
+      }
+
+      fmt.Printf("%+v\n", entitySearch.Results.Entities)
+    }
+    ```
+
+
+## Upgrade to the latest version
+
+1. Run the following command to tell Go to download the latest version.
+   ```
+   go get github.com/newrelic/newrelic-client-go@latest
+   ```
+2. Run `go mod tidy` to sync your dependencies with your code.
+3. Confirm your `go.mod` file is referencing the [latest version](https://github.com/newrelic/newrelic-client-go/releases/latest).
+
 
 ## Community
 
@@ -87,7 +131,7 @@ Keep in mind that when you submit your pull request, you'll need to sign the CLA
 
 ### Requirements
 
-- Go 1.17.0+
+- Go 1.18+
 - GNU Make
 - git
 
