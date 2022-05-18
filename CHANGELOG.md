@@ -1,3 +1,8 @@
+<a name="v0.80.0"></a>
+## [v0.80.0] - 2022-05-12
+### Features
+- **alerts:** Adds 3 term threshold operators for NRQL conditions
+
 <a name="v0.79.0"></a>
 ## [v0.79.0] - 2022-05-09
 ### Features
@@ -1290,7 +1295,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.79.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.80.0...HEAD
+[v0.80.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.79.0...v0.80.0
 [v0.79.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.78.0...v0.79.0
 [v0.78.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.77.0...v0.78.0
 [v0.77.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.76.0...v0.77.0
