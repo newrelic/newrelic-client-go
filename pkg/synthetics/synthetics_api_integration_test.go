@@ -69,9 +69,9 @@ func TestSyntheticsPrivateLocation_Basic(t *testing.T) {
 	require.NotNil(t, deleteResp)
 
 	// Purge private location queue
-	//purgeresp, err := a.SyntheticsPurgePrivateLocationQueue(createResp.GUID)
-	//
-	//require.NotNil(t, purgeresp)
+	purgeresp, err := a.SyntheticsPurgePrivateLocationQueue(createResp.GUID)
+
+	require.NotNil(t, purgeresp)
 }
 
 func newIntegrationTestClient(t *testing.T) Synthetics {
