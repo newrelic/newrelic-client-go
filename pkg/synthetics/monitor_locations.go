@@ -2,6 +2,7 @@ package synthetics
 
 import "context"
 
+// Deprecated: MonitorLocation is now a considered an Entity and adheres to the SyntheticMonitorEntityOutline interface.
 // MonitorLocation represents a valid location for a New Relic Synthetics monitor.
 type MonitorLocation struct {
 	HighSecurityMode bool   `json:"highSecurityMode"`
@@ -11,11 +12,13 @@ type MonitorLocation struct {
 	Description      string `json:"description"`
 }
 
+// Deprecated: Use entities.GetEntitySearch instead.
 // GetMonitorLocations is used to retrieve all valid locations for Synthetics monitors.
 func (s *Synthetics) GetMonitorLocations() ([]*MonitorLocation, error) {
 	return s.GetMonitorLocationsWithContext(context.Background())
 }
 
+// Deprecated: Use entities.GetEntitySearchWithContext instead.
 // GetMonitorLocationsWithContext is used to retrieve all valid locations for Synthetics monitors.
 func (s *Synthetics) GetMonitorLocationsWithContext(ctx context.Context) ([]*MonitorLocation, error) {
 	url := "/v1/locations"
