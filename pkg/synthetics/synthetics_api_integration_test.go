@@ -51,27 +51,28 @@ func TestSyntheticsPrivateLocation_Basic(t *testing.T) {
 
 	a := newIntegrationTestClient(t)
 
-	// Create a private location
+	// Test to Create private location
 	createResp, err := a.SyntheticsCreatePrivateLocation(testAccountID, "test secure credential", "TEST", true)
 
 	require.NoError(t, err)
 	require.NotNil(t, createResp)
 
-	// Update private location
+	// Test to update private location
 	updateResp, err := a.SyntheticsUpdatePrivateLocation("test secure credential", createResp.GUID, true)
 
 	require.NoError(t, err)
 	require.NotNil(t, updateResp)
 
-	// Delete private location
+	// Test to purge private location queue
+	purgeresp, err := a.SyntheticsPurgePrivateLocationQueue(createResp.GUID)
+
+	require.NotNil(t, purgeresp)
+
+	// Test to delete private location
 	deleteResp, err := a.SyntheticsDeletePrivateLocation(createResp.GUID)
 
 	require.NotNil(t, deleteResp)
 
-	// Purge private location queue
-	purgeresp, err := a.SyntheticsPurgePrivateLocationQueue(createResp.GUID)
-
-	require.NotNil(t, purgeresp)
 }
 
 func newIntegrationTestClient(t *testing.T) Synthetics {
