@@ -1983,7 +1983,7 @@ const getEntitySearchQuery = `query(
 // [entity docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/use-new-relic-graphql-api-query-entities).
 //
 // Note: you must supply either a `query` OR a `queryBuilder` argument, not both.
-func (a *Entities) GetEntityByQuerySearch(
+func (a *Entities) GetEntitySearchByQuery(
 	options EntitySearchOptions,
 	query string,
 	sortBy []EntitySearchSortCriteria,
