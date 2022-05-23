@@ -1,3 +1,11 @@
+<a name="v0.81.0"></a>
+## [v0.81.0] - 2022-05-23
+### Documentation Updates
+- add upgrade instructions and update example usage steps
+
+### Features
+- **dashboards:** remove deprecated and disabled legacy dashboards REST API methods
+
 <a name="v0.80.0"></a>
 ## [v0.80.0] - 2022-05-12
 ### Features
@@ -1295,7 +1303,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.80.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.81.0...HEAD
+[v0.81.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.80.0...v0.81.0
 [v0.80.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.79.0...v0.80.0
 [v0.79.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.78.0...v0.79.0
 [v0.78.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.77.0...v0.78.0
