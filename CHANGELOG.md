@@ -1,3 +1,8 @@
+<a name="v0.82.0"></a>
+## [v0.82.0] - 2022-05-23
+### Features
+- add entitySearch with query parameter
+
 <a name="v0.81.0"></a>
 ## [v0.81.0] - 2022-05-23
 ### Documentation Updates
@@ -1303,7 +1308,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.81.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.82.0...HEAD
+[v0.82.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.81.0...v0.82.0
 [v0.81.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.80.0...v0.81.0
 [v0.80.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.79.0...v0.80.0
 [v0.79.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.78.0...v0.79.0
