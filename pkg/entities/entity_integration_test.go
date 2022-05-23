@@ -48,6 +48,23 @@ func TestIntegrationSearchEntities(t *testing.T) {
 	require.Greater(t, len(actual.Results.Entities), 0)
 }
 
+func TestIntegrationSearchEntitiesByQuery(t *testing.T) {
+	t.Parallel()
+
+	client := newIntegrationTestClient(t)
+
+	query := "domain = 'APM' AND type = 'APPLICATION' and name = 'Dummy App'"
+
+	actual, err := client.GetEntitySearchByQuery(
+		EntitySearchOptions{},
+		query,
+		[]EntitySearchSortCriteria{},
+	)
+
+	require.NoError(t, err)
+	require.Greater(t, len(actual.Results.Entities), 0)
+}
+
 func TestIntegrationSearchEntities_domain(t *testing.T) {
 	t.Parallel()
 
