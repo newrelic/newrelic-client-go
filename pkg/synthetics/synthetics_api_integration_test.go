@@ -40,14 +40,8 @@ func TestSyntheticsSecureCredential_Basic(t *testing.T) {
 	require.Nil(t, deleteResp)
 }
 
-
 //Test simple browser monitor
 func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
-
-
-// Integration testing for private location
-
-func TestSyntheticsPrivateLocation_Basic(t *testing.T) {
 
 	t.Parallel()
 
@@ -361,7 +355,7 @@ func TestSyntheticsScriptApiMonitor_Basic(t *testing.T) {
 	require.Equal(t, 0, len(updateScriptApiMonitor.Errors))
 
 	//Test to delete scripted api monitor
-	deleteScriptApiMonitor, err := a.SyntheticsDeleteMonitor(updateScriptApiMonitor.Monitor.GUID)
+	deleteScriptApiMonitor, err := a.SyntheticsDeleteMonitor(createScriptApiMonitor.Monitor.GUID)
 
 	require.NoError(t, err)
 	require.NotNil(t, deleteScriptApiMonitor)
@@ -454,6 +448,20 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 
 	require.NoError(t, err)
 	require.NotNil(t, deleteScriptBrowserMonitor)
+}
+
+// Integration testing for private location
+
+func TestSyntheticsPrivateLocation_Basic(t *testing.T) {
+
+	t.Parallel()
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	a := newIntegrationTestClient(t)
 
 	// Test to Create private location
 	createResp, err := a.SyntheticsCreatePrivateLocation(testAccountID, "test secure credential", "TEST", true)
@@ -476,7 +484,6 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 	deleteResp, err := a.SyntheticsDeletePrivateLocation(createResp.GUID)
 
 	require.NotNil(t, deleteResp)
-
 }
 
 func newIntegrationTestClient(t *testing.T) Synthetics {
