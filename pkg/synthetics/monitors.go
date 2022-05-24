@@ -128,11 +128,25 @@ func (s *Synthetics) GetMonitorWithContext(ctx context.Context, monitorID string
 }
 
 // CreateMonitor is used to create a New Relic Synthetics monitor.
+//Deprecated: Use one of the following methods instead based on your needs -
+//syntheticsCreateBrokenLinksMonitor(Broken links monitor),
+//syntheticsCreateCertCheckMonitor(Cert Check Monitor),
+// syntheticsCreateScriptBrowserMonitor(Script Browser Monitor),
+//syntheticsCreateSimpleBrowserMonitor(Simple Browser Monitor),
+//syntheticsCreateSimpleMonitor(Simple Monitor),
+//syntheticsCreateStepMonitor(Step Monitor).
 func (s *Synthetics) CreateMonitor(monitor Monitor) (*Monitor, error) {
 	return s.CreateMonitorWithContext(context.Background(), monitor)
 }
 
 // CreateMonitorWithContext is used to create a New Relic Synthetics monitor.
+//Deprecated: Use one of the following methods instead based on your needs -
+//syntheticsCreateBrokenLinksMonitorWithContext(Broken links monitor),
+//syntheticsCreateCertCheckMonitorWithContext(Cert Check Monitor),
+// syntheticsCreateScriptBrowserMonitorWithContext(Script Browser Monitor),
+//syntheticsCreateSimpleBrowserMonitorWithContext(Simple Browser Monitor),
+//syntheticsCreateSimpleMonitorWithContext(Simple Monitor),
+//syntheticsCreateStepMonitorWithContext(Step Monitor).
 func (s *Synthetics) CreateMonitorWithContext(ctx context.Context, monitor Monitor) (*Monitor, error) {
 	resp, err := s.client.PostWithContext(ctx, s.config.Region().SyntheticsURL("/v4/monitors"), nil, &monitor, nil)
 
@@ -149,11 +163,25 @@ func (s *Synthetics) CreateMonitorWithContext(ctx context.Context, monitor Monit
 }
 
 // UpdateMonitor is used to update a New Relic Synthetics monitor.
+//Deprecated: Use one of the following methods instead based on your needs -
+//syntheticsUpdateBrokenLinksMonitor(Broken links monitor),
+//syntheticsUpdateCertCheckMonitor(Cert Check Monitor),
+// syntheticsUpdateScriptBrowserMonitor(Script Browser Monitor),
+//syntheticsUpdateSimpleBrowserMonitor(Simple Browser Monitor),
+//syntheticsUpdateSimpleMonitor(Simple Monitor),
+//syntheticsUpdateStepMonitor(Step Monitor).
 func (s *Synthetics) UpdateMonitor(monitor Monitor) (*Monitor, error) {
 	return s.UpdateMonitorWithContext(context.Background(), monitor)
 }
 
 // UpdateMonitorWithContext is used to update a New Relic Synthetics monitor.
+//Deprecated: Use one of the following methods instead based on your needs -
+//syntheticsUpdateBrokenLinksMonitorWithContext(Broken links monitor),
+//syntheticsUpdateCertCheckMonitorWithContext(Cert Check Monitor),
+// syntheticsUpdateScriptBrowserMonitorWithContext(Script Browser Monitor),
+//syntheticsUpdateSimpleBrowserMonitorWithContext(Simple Browser Monitor),
+//syntheticsUpdateSimpleMonitorWithContext(Simple Monitor),
+//syntheticsUpdateStepMonitorWithContext(Step Monitor).
 func (s *Synthetics) UpdateMonitorWithContext(ctx context.Context, monitor Monitor) (*Monitor, error) {
 	_, err := s.client.PutWithContext(ctx, s.config.Region().SyntheticsURL("/v4/monitors", monitor.ID), nil, &monitor, nil)
 
@@ -165,11 +193,15 @@ func (s *Synthetics) UpdateMonitorWithContext(ctx context.Context, monitor Monit
 }
 
 // DeleteMonitor is used to delete a New Relic Synthetics monitor.
+// Deprecated: Use the following method to delete all New Relic Synthetics Monitors.
+//SyntheticsDeleteMonitor
 func (s *Synthetics) DeleteMonitor(monitorID string) error {
 	return s.DeleteMonitorWithContext(context.Background(), monitorID)
 }
 
 // DeleteMonitorWithContext is used to delete a New Relic Synthetics monitor.
+// Deprecated: Use the following method to delete all New Relic Synthetics Monitors.
+//SyntheticsDeleteMonitorWithContext
 func (s *Synthetics) DeleteMonitorWithContext(ctx context.Context, monitorID string) error {
 	_, err := s.client.DeleteWithContext(ctx, s.config.Region().SyntheticsURL("/v4/monitors", monitorID), nil, nil)
 
