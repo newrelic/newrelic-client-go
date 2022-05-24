@@ -1,3 +1,9 @@
+<a name="v0.85.0"></a>
+## [v0.85.0] - 2022-05-24
+### Features
+- added testing scripts to test synthetic monitors
+- added synthetics monitoring
+
 <a name="v0.84.0"></a>
 ## [v0.84.0] - 2022-05-23
 ### Features
@@ -1318,7 +1324,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.84.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.85.0...HEAD
+[v0.85.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.84.0...v0.85.0
 [v0.84.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.83.0...v0.84.0
 [v0.83.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.82.0...v0.83.0
 [v0.82.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.81.0...v0.82.0
