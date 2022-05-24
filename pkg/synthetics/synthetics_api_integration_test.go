@@ -40,8 +40,14 @@ func TestSyntheticsSecureCredential_Basic(t *testing.T) {
 	require.Nil(t, deleteResp)
 }
 
+
 //Test simple browser monitor
 func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
+
+
+// Integration testing for private location
+
+func TestSyntheticsPrivateLocation_Basic(t *testing.T) {
 
 	t.Parallel()
 
@@ -448,6 +454,29 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 
 	require.NoError(t, err)
 	require.NotNil(t, deleteScriptBrowserMonitor)
+
+	// Test to Create private location
+	createResp, err := a.SyntheticsCreatePrivateLocation(testAccountID, "test secure credential", "TEST", true)
+
+	require.NoError(t, err)
+	require.NotNil(t, createResp)
+
+	// Test to update private location
+	updateResp, err := a.SyntheticsUpdatePrivateLocation("test secure credential", createResp.GUID, true)
+
+	require.NoError(t, err)
+	require.NotNil(t, updateResp)
+
+	// Test to purge private location queue
+	purgeresp, err := a.SyntheticsPurgePrivateLocationQueue(createResp.GUID)
+
+	require.NotNil(t, purgeresp)
+
+	// Test to delete private location
+	deleteResp, err := a.SyntheticsDeletePrivateLocation(createResp.GUID)
+
+	require.NotNil(t, deleteResp)
+
 }
 
 func newIntegrationTestClient(t *testing.T) Synthetics {

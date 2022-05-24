@@ -1,3 +1,26 @@
+<a name="v0.84.0"></a>
+## [v0.84.0] - 2022-05-23
+### Features
+- **build:** upgrade to Go 1.18
+
+<a name="v0.83.0"></a>
+## [v0.83.0] - 2022-05-23
+### Features
+- Generate the client code for synthetics private locations
+
+<a name="v0.82.0"></a>
+## [v0.82.0] - 2022-05-23
+### Features
+- add entitySearch with query parameter
+
+<a name="v0.81.0"></a>
+## [v0.81.0] - 2022-05-23
+### Documentation Updates
+- add upgrade instructions and update example usage steps
+
+### Features
+- **dashboards:** remove deprecated and disabled legacy dashboards REST API methods
+
 <a name="v0.80.0"></a>
 ## [v0.80.0] - 2022-05-12
 ### Features
@@ -1295,7 +1318,11 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.80.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.84.0...HEAD
+[v0.84.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.83.0...v0.84.0
+[v0.83.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.82.0...v0.83.0
+[v0.82.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.81.0...v0.82.0
+[v0.81.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.80.0...v0.81.0
 [v0.80.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.79.0...v0.80.0
 [v0.79.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.78.0...v0.79.0
 [v0.78.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.77.0...v0.78.0

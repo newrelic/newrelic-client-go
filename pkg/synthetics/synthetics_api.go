@@ -45,6 +45,64 @@ const SyntheticsCreateBrokenLinksMonitorMutation = `mutation(
 	accountId: $accountId,
 	monitor: $monitor,
 ) {
+
+// Create a Synthetics Private Location
+func (a *Synthetics) SyntheticsCreatePrivateLocation(
+	accountID int,
+	description string,
+	name string,
+	verifiedScriptExecution bool,
+) (*SyntheticsPrivateLocationMutationResult, error) {
+	return a.SyntheticsCreatePrivateLocationWithContext(context.Background(),
+		accountID,
+		description,
+		name,
+		verifiedScriptExecution,
+	)
+}
+
+// Create a Synthetics Private Location
+func (a *Synthetics) SyntheticsCreatePrivateLocationWithContext(
+	ctx context.Context,
+	accountID int,
+	description string,
+	name string,
+	verifiedScriptExecution bool,
+) (*SyntheticsPrivateLocationMutationResult, error) {
+
+	resp := SyntheticsCreatePrivateLocationQueryResponse{}
+	vars := map[string]interface{}{
+		"accountId":               accountID,
+		"description":             description,
+		"name":                    name,
+		"verifiedScriptExecution": verifiedScriptExecution,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, SyntheticsCreatePrivateLocationMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.SyntheticsPrivateLocationMutationResult, nil
+}
+
+type SyntheticsCreatePrivateLocationQueryResponse struct {
+	SyntheticsPrivateLocationMutationResult SyntheticsPrivateLocationMutationResult `json:"SyntheticsCreatePrivateLocation"`
+}
+
+const SyntheticsCreatePrivateLocationMutation = `mutation(
+	$accountId: Int!,
+	$description: String,
+	$name: String!,
+	$verifiedScriptExecution: Boolean!,
+) { syntheticsCreatePrivateLocation(
+	accountId: $accountId,
+	description: $description,
+	name: $name,
+	verifiedScriptExecution: $verifiedScriptExecution,
+) {
+	accountId
+	description
+	domainId
 	errors {
 		description
 		type
@@ -257,6 +315,11 @@ const SyntheticsCreateScriptBrowserMonitorMutation = `mutation(
 		}
 		status
 	}
+	guid
+	key
+	locationId
+	name
+	verifiedScriptExecution
 } }`
 
 // Queues a request to create a secure credential
@@ -321,6 +384,7 @@ const SyntheticsCreateSecureCredentialMutation = `mutation(
 	key
 	lastUpdate
 } }`
+
 
 // Create a Synthetic Simple (Ping) monitor
 func (a *Synthetics) SyntheticsCreateSimpleBrowserMonitor(
@@ -537,9 +601,16 @@ func (a *Synthetics) SyntheticsDeleteMonitor(
 	gUID EntityGUID,
 ) (*SyntheticsMonitorDeleteMutationResult, error) {
 	return a.SyntheticsDeleteMonitorWithContext(context.Background(),
+
+// Delete a Synthetics Private Location
+func (a *Synthetics) SyntheticsDeletePrivateLocation(
+	gUID EntityGUID,
+) (*SyntheticsPrivateLocationDeleteResult, error) {
+	return a.SyntheticsDeletePrivateLocationWithContext(context.Background(),
 		gUID,
 	)
 }
+
 
 // Delete a Synthetic Monitor
 func (a *Synthetics) SyntheticsDeleteMonitorWithContext(
@@ -548,9 +619,19 @@ func (a *Synthetics) SyntheticsDeleteMonitorWithContext(
 ) (*SyntheticsMonitorDeleteMutationResult, error) {
 
 	resp := SyntheticsDeleteMonitorQueryResponse{}
+
+// Delete a Synthetics Private Location
+func (a *Synthetics) SyntheticsDeletePrivateLocationWithContext(
+	ctx context.Context,
+	gUID EntityGUID,
+) (*SyntheticsPrivateLocationDeleteResult, error) {
+
+	resp := SyntheticsDeletePrivateLocationQueryResponse{}
+
 	vars := map[string]interface{}{
 		"guid": gUID,
 	}
+
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, SyntheticsDeleteMonitorMutation, vars, &resp); err != nil {
 		return nil, err
@@ -569,6 +650,28 @@ const SyntheticsDeleteMonitorMutation = `mutation(
 	guid: $guid,
 ) {
 	deletedGuid
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, SyntheticsDeletePrivateLocationMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.SyntheticsPrivateLocationDeleteResult, nil
+}
+
+type SyntheticsDeletePrivateLocationQueryResponse struct {
+	SyntheticsPrivateLocationDeleteResult SyntheticsPrivateLocationDeleteResult `json:"SyntheticsDeletePrivateLocation"`
+}
+
+const SyntheticsDeletePrivateLocationMutation = `mutation(
+	$guid: EntityGuid!,
+) { syntheticsDeletePrivateLocation(
+	guid: $guid,
+) {
+	errors {
+		description
+		type
+	}
+
 } }`
 
 // Queues a request to delete an existing secure credential
@@ -622,6 +725,7 @@ const SyntheticsDeleteSecureCredentialMutation = `mutation(
 	lastUpdate
 } }`
 
+
 // Update a Synthetic Broken Links monitor
 func (a *Synthetics) SyntheticsUpdateBrokenLinksMonitor(
 	gUID EntityGUID,
@@ -663,11 +767,48 @@ const SyntheticsUpdateBrokenLinksMonitorMutation = `mutation(
 ) { syntheticsUpdateBrokenLinksMonitor(
 	guid: $guid,
 	monitor: $monitor,
+
+// Purge the job queue for a specified private location
+func (a *Synthetics) SyntheticsPurgePrivateLocationQueue(
+	gUID EntityGUID,
+) (*SyntheticsPrivateLocationPurgeQueueResult, error) {
+	return a.SyntheticsPurgePrivateLocationQueueWithContext(context.Background(),
+		gUID,
+	)
+}
+
+// Purge the job queue for a specified private location
+func (a *Synthetics) SyntheticsPurgePrivateLocationQueueWithContext(
+	ctx context.Context,
+	gUID EntityGUID,
+) (*SyntheticsPrivateLocationPurgeQueueResult, error) {
+
+	resp := SyntheticsPurgePrivateLocationQueueQueryResponse{}
+	vars := map[string]interface{}{
+		"guid": gUID,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, SyntheticsPurgePrivateLocationQueueMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.SyntheticsPrivateLocationPurgeQueueResult, nil
+}
+
+type SyntheticsPurgePrivateLocationQueueQueryResponse struct {
+	SyntheticsPrivateLocationPurgeQueueResult SyntheticsPrivateLocationPurgeQueueResult `json:"SyntheticsPurgePrivateLocationQueue"`
+}
+
+const SyntheticsPurgePrivateLocationQueueMutation = `mutation(
+	$guid: EntityGuid!,
+) { syntheticsPurgePrivateLocationQueue(
+	guid: $guid,
 ) {
 	errors {
 		description
 		type
 	}
+
 	monitor {
 		createdAt
 		guid
@@ -787,10 +928,65 @@ const SyntheticsUpdateScriptAPIMonitorMutation = `mutation(
 	guid: $guid,
 	monitor: $monitor,
 ) {
+
+} }`
+
+// Update a Synthetics Private Location
+func (a *Synthetics) SyntheticsUpdatePrivateLocation(
+	description string,
+	gUID EntityGUID,
+	verifiedScriptExecution bool,
+) (*SyntheticsPrivateLocationMutationResult, error) {
+	return a.SyntheticsUpdatePrivateLocationWithContext(context.Background(),
+		description,
+		gUID,
+		verifiedScriptExecution,
+	)
+}
+
+// Update a Synthetics Private Location
+func (a *Synthetics) SyntheticsUpdatePrivateLocationWithContext(
+	ctx context.Context,
+	description string,
+	gUID EntityGUID,
+	verifiedScriptExecution bool,
+) (*SyntheticsPrivateLocationMutationResult, error) {
+
+	resp := SyntheticsUpdatePrivateLocationQueryResponse{}
+	vars := map[string]interface{}{
+		"description":             description,
+		"guid":                    gUID,
+		"verifiedScriptExecution": verifiedScriptExecution,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, SyntheticsUpdatePrivateLocationMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.SyntheticsPrivateLocationMutationResult, nil
+}
+
+type SyntheticsUpdatePrivateLocationQueryResponse struct {
+	SyntheticsPrivateLocationMutationResult SyntheticsPrivateLocationMutationResult `json:"SyntheticsUpdatePrivateLocation"`
+}
+
+const SyntheticsUpdatePrivateLocationMutation = `mutation(
+	$description: String,
+	$guid: EntityGuid!,
+	$verifiedScriptExecution: Boolean,
+) { syntheticsUpdatePrivateLocation(
+	description: $description,
+	guid: $guid,
+	verifiedScriptExecution: $verifiedScriptExecution,
+) {
+	accountId
+	description
+	domainId
 	errors {
 		description
 		type
 	}
+
 	monitor {
 		createdAt
 		guid
@@ -876,6 +1072,11 @@ const SyntheticsUpdateScriptBrowserMonitorMutation = `mutation(
 		}
 		status
 	}
+	guid
+	key
+	locationId
+	name
+	verifiedScriptExecution
 } }`
 
 // Queues a request to update an existing secure credential
