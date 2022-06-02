@@ -297,6 +297,8 @@ packages:
         field_type_override: "*DashboardMarkdownWidgetConfigurationInput"
       - name: DashboardPieWidgetConfigurationInput
         field_type_override: "*DashboardPieWidgetConfigurationInput"
+      - name: DashboardLogTableWidgetConfigurationInput # TODO the "visualization id" value for this is wrong. According to exported dashes, it should be logger.log-table-widget
+        field_type_override: "*DashboardLogTableWidgetConfigurationInput"
       - name: DashboardTableWidgetConfigurationInput
         field_type_override: "*DashboardTableWidgetConfigurationInput"
 
