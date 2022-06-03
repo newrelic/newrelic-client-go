@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"context"
 	"crypto/x509"
-	"fmt"
 	"io"
 	"net/http"
 	"net/url"
@@ -76,9 +75,9 @@ func RetryPolicy(ctx context.Context, resp *http.Response, err error) (bool, err
 	json, jErr := io.ReadAll(resp.Body)
 	resp.Body = io.NopCloser(bytes.NewBuffer(json))
 	if jErr == nil {
-		errorClass := fastjson.GetBytes(json, "errors", "0", "extensions", "errorClass")
-		if errorClass != nil && bytes.Compare(errorClass, []byte("TOO_MANY_REQUESTS")) == 0 {
-			return true, fmt.Errorf("TOO_MANY_REQUESTS")
+		errorClass := fastjson.GetString(json, "errors", "0", "extensions", "errorClass")
+		if errorClass == ErrClassTooManyRequests.Error() {
+			return true, ErrClassTooManyRequests
 		}
 	}
 
