@@ -352,6 +352,24 @@ func TestErrNotFound(t *testing.T) {
 	assert.IsType(t, &errors.NotFound{}, err)
 }
 
+func TestRetryOnNerdGraphTooManyRequests(t *testing.T) {
+	t.Parallel()
+	attempts := 0
+	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`{"errors":[{"message": "some error", "extensions":{"errorClass":"TOO_MANY_REQUESTS"}}]}`))
+		attempts++
+	}))
+
+	c.client.RetryWaitMax = 10 * time.Millisecond
+	c.errorValue = &GraphQLErrorResponse{}
+	_, err := c.Get(c.config.Region().NerdGraphURL("graphql"), nil, nil)
+
+	assert.Equal(t, 4, attempts)
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), ErrClassTooManyRequests.Error())
+}
+
 func TestRetryOnNerdGraphTimeout(t *testing.T) {
 	t.Parallel()
 	attempts := 0
