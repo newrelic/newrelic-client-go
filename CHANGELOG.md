@@ -1,3 +1,8 @@
+<a name="v0.86.0"></a>
+## [v0.86.0] - 2022-06-06
+### Features
+- **http:** Add retry condition for graphql TOO_MANY_REQUESTS error response on json
+
 <a name="v0.85.0"></a>
 ## [v0.85.0] - 2022-05-24
 ### Features
@@ -1324,7 +1329,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.85.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.86.0...HEAD
+[v0.86.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.85.0...v0.86.0
 [v0.85.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.84.0...v0.85.0
 [v0.84.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.83.0...v0.84.0
 [v0.83.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.82.0...v0.83.0
