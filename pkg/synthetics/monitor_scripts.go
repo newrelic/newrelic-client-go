@@ -6,12 +6,14 @@ import (
 	"fmt"
 )
 
+// Deprecated: Use entities.GetEntitySearch instead.
 // GetMonitorScript is used to retrieve the script that belongs
 // to a New Relic Synthetics scripted monitor.
 func (s *Synthetics) GetMonitorScript(monitorID string) (*MonitorScript, error) {
 	return s.GetMonitorScriptWithContext(context.Background(), monitorID)
 }
 
+// Deprecated: Use entities.GetEntitySearchWithContext instead.
 // GetMonitorScriptWithContext is used to retrieve the script that belongs
 // to a New Relic Synthetics scripted monitor.
 func (s *Synthetics) GetMonitorScriptWithContext(ctx context.Context, monitorID string) (*MonitorScript, error) {
@@ -34,11 +36,19 @@ func (s *Synthetics) GetMonitorScriptWithContext(ctx context.Context, monitorID 
 	return &resp, nil
 }
 
+// Deprecated: Use one of following instead:
+//    synthetics.SyntheticsUpdateScriptAPIMonitor
+//    synthetics.SyntheticsUpdateScriptBrowserMonitor
+//
 // UpdateMonitorScript is used to add a script to an existing New Relic Synthetics monitor_script.
 func (s *Synthetics) UpdateMonitorScript(monitorID string, script MonitorScript) (*MonitorScript, error) {
 	return s.UpdateMonitorScriptWithContext(context.Background(), monitorID, script)
 }
 
+// Deprecated: Use one of following instead:
+//    synthetics.SyntheticsUpdateScriptAPIMonitorWithContext
+//    synthetics.SyntheticsUpdateScriptBrowserMonitorWithContext
+//
 // UpdateMonitorScriptWithContext is used to add a script to an existing New Relic Synthetics monitor_script.
 func (s *Synthetics) UpdateMonitorScriptWithContext(ctx context.Context, monitorID string, script MonitorScript) (*MonitorScript, error) {
 	script.Text = base64.StdEncoding.EncodeToString([]byte(script.Text))
