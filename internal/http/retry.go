@@ -1,11 +1,15 @@
 package http
 
 import (
+	"bytes"
 	"context"
 	"crypto/x509"
+	"io"
 	"net/http"
 	"net/url"
 	"regexp"
+
+	"github.com/valyala/fastjson"
 )
 
 var (
@@ -63,6 +67,18 @@ func RetryPolicy(ctx context.Context, resp *http.Response, err error) (bool, err
 		resp.StatusCode == 500 ||
 		resp.StatusCode >= 502 {
 		return true, nil
+	}
+
+	// Check for json response and description for retries.
+	// i.e.: when receiving TOO_MANY_REQUESTS it is a HTTP 200 code with an
+	// error status that needed to be retried.
+	json, jErr := io.ReadAll(resp.Body)
+	resp.Body = io.NopCloser(bytes.NewBuffer(json))
+	if jErr == nil {
+		errorClass := fastjson.GetString(json, "errors", "0", "extensions", "errorClass")
+		if errorClass == ErrClassTooManyRequests.Error() {
+			return true, ErrClassTooManyRequests
+		}
 	}
 
 	return false, nil
