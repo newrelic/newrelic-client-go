@@ -4,6 +4,7 @@
 package installevents
 
 import (
+	log "github.com/sirupsen/logrus"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -26,6 +27,7 @@ func TestInstallationCreateRecipeEvent(t *testing.T) {
 		Status:     InstallationRecipeStatusTypeTypes.AVAILABLE,
 	}
 
+	log.Infof("Sending this InstallationRecipeStatus from the test: %v", status)
 	response, err := client.InstallationCreateRecipeEvent(testAccountID, status)
 	require.NoError(t, err)
 	require.NotNil(t, response)
@@ -50,6 +52,7 @@ func TestInstallationCreateRecipeEvent_ShouldSendMetadata(t *testing.T) {
 		},
 	}
 
+	log.Infof("Sending this InstallationRecipeStatus from the test: %v", status)
 	response, err := client.InstallationCreateRecipeEvent(testAccountID, status)
 
 	require.NoError(t, err)

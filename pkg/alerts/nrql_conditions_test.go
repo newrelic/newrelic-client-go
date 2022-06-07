@@ -4,9 +4,10 @@
 package alerts
 
 import (
-	"github.com/newrelic/newrelic-client-go/pkg/common"
 	"net/http"
 	"testing"
+
+	"github.com/newrelic/newrelic-client-go/pkg/common"
 
 	"github.com/stretchr/testify/assert"
 )

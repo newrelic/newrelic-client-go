@@ -4,12 +4,14 @@
 package synthetics
 
 import (
-	"github.com/stretchr/testify/require"
 	"testing"
 
+	"github.com/stretchr/testify/require"
+
 	"fmt"
-	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 	"os"
+
+	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
 
 func TestSyntheticsSecureCredential_Basic(t *testing.T) {
@@ -179,7 +181,7 @@ func TestSyntheticsSimpleMonitor_Basic(t *testing.T) {
 				"AP_SOUTH_1",
 			},
 		},
-		Name:   "testSimpleMonitor",
+		Name:   "test_simpleMonitor",
 		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
 		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
 		Tags: []SyntheticsTag{
@@ -219,7 +221,7 @@ func TestSyntheticsSimpleMonitor_Basic(t *testing.T) {
 				"AP_SOUTH_1",
 			},
 		},
-		Name:   "testSimpleMonitorUpdated",
+		Name:   "test_simpleMonitorUpdated",
 		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
 		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
 		Tags: []SyntheticsTag{
@@ -382,7 +384,7 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 				"AP_SOUTH_1",
 			},
 		},
-		Name:   "testScriptBrowserScript",
+		Name:   "test_scriptBrowserScript",
 		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
 		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
 		Runtime: SyntheticsRuntimeInput{
@@ -418,7 +420,7 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 				"AP_SOUTH_1",
 			},
 		},
-		Name:   "testScriptBrowserScriptUpdated",
+		Name:   "test_scriptBrowserScriptUpdated",
 		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
 		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
 		Runtime: SyntheticsRuntimeInput{
