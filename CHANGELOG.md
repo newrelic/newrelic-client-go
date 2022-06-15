@@ -1,3 +1,8 @@
+<a name="v0.86.1"></a>
+## [v0.86.1] - 2022-06-15
+### Bug Fixes
+- remove deprecated field from service level query
+
 <a name="v0.86.0"></a>
 ## [v0.86.0] - 2022-06-06
 ### Features
@@ -1329,7 +1334,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.86.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.86.1...HEAD
+[v0.86.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.86.0...v0.86.1
 [v0.86.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.85.0...v0.86.0
 [v0.85.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.84.0...v0.85.0
 [v0.84.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.83.0...v0.84.0
