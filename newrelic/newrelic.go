@@ -23,6 +23,7 @@ import (
 	"github.com/newrelic/newrelic-client-go/pkg/logs"
 	"github.com/newrelic/newrelic-client-go/pkg/nerdgraph"
 	"github.com/newrelic/newrelic-client-go/pkg/nerdstorage"
+	"github.com/newrelic/newrelic-client-go/pkg/notifications"
 	"github.com/newrelic/newrelic-client-go/pkg/nrdb"
 	"github.com/newrelic/newrelic-client-go/pkg/nrqldroprules"
 	"github.com/newrelic/newrelic-client-go/pkg/plugins"
@@ -48,6 +49,7 @@ type NewRelic struct {
 	Logs            logs.Logs
 	NerdGraph       nerdgraph.NerdGraph
 	NerdStorage     nerdstorage.NerdStorage
+	Notifications    notifications.Notifications
 	Nrdb            nrdb.Nrdb
 	Nrqldroprules   nrqldroprules.Nrqldroprules
 	Plugins         plugins.Plugins
@@ -96,6 +98,7 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 		Logs:            logs.New(cfg),
 		NerdGraph:       nerdgraph.New(cfg),
 		NerdStorage:     nerdstorage.New(cfg),
+		Notifications:    notifications.New(cfg),
 		Nrdb:            nrdb.New(cfg),
 		Nrqldroprules:   nrqldroprules.New(cfg),
 		Plugins:         plugins.New(cfg),
