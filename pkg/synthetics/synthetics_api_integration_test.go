@@ -12,6 +12,9 @@ import (
 	"os"
 )
 
+var tv bool = true
+var fv bool = false
+
 func TestSyntheticsSecureCredential_Basic(t *testing.T) {
 	t.Parallel()
 
@@ -42,7 +45,6 @@ func TestSyntheticsSecureCredential_Basic(t *testing.T) {
 
 //Test simple browser monitor
 func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
-
 	t.Parallel()
 
 	testAccountID, err := mock.GetTestAccountID()
@@ -78,7 +80,7 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 			ScriptLanguage:     "JAVASCRIPT",
 		},
 		AdvancedOptions: SyntheticsSimpleBrowserMonitorAdvancedOptionsInput{
-			EnableScreenshotOnFailureAndScript: true,
+			EnableScreenshotOnFailureAndScript: &tv,
 			ResponseValidationText:             "SUCCESS",
 			CustomHeaders: []SyntheticsCustomHeaderInput{
 				{
@@ -86,7 +88,7 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 					Value: "synthetics",
 				},
 			},
-			UseTlsValidation: true,
+			UseTlsValidation: &tv,
 		},
 	}
 
@@ -106,9 +108,9 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 					Value: "Synthetics",
 				},
 			},
-			EnableScreenshotOnFailureAndScript: true,
+			EnableScreenshotOnFailureAndScript: &tv,
 			ResponseValidationText:             "Success",
-			UseTlsValidation:                   true,
+			UseTlsValidation:                   &tv,
 		},
 		Locations: SyntheticsLocationsInput{
 			Public: []string{
@@ -150,7 +152,6 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 
 //TestSyntheticsSimpleMonitor_Basic function to test simple monitor
 func TestSyntheticsSimpleMonitor_Basic(t *testing.T) {
-
 	t.Parallel()
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
@@ -170,9 +171,9 @@ func TestSyntheticsSimpleMonitor_Basic(t *testing.T) {
 				},
 			},
 			ResponseValidationText:  "Success",
-			RedirectIsFailure:       true,
-			ShouldBypassHeadRequest: true,
-			UseTlsValidation:        true,
+			RedirectIsFailure:       &tv,
+			ShouldBypassHeadRequest: &tv,
+			UseTlsValidation:        &tv,
 		},
 		Locations: SyntheticsLocationsInput{
 			Public: []string{
@@ -210,9 +211,9 @@ func TestSyntheticsSimpleMonitor_Basic(t *testing.T) {
 				},
 			},
 			ResponseValidationText:  "Success",
-			RedirectIsFailure:       true,
-			ShouldBypassHeadRequest: true,
-			UseTlsValidation:        true,
+			RedirectIsFailure:       &tv,
+			ShouldBypassHeadRequest: &tv,
+			UseTlsValidation:        &tv,
 		},
 		Locations: SyntheticsLocationsInput{
 			Public: []string{
@@ -375,7 +376,7 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 	//Input to create script browser monitor
 	scriptBrowserMonitorInput := SyntheticsCreateScriptBrowserMonitorInput{
 		AdvancedOptions: SyntheticsScriptBrowserMonitorAdvancedOptionsInput{
-			EnableScreenshotOnFailureAndScript: true,
+			EnableScreenshotOnFailureAndScript: &tv,
 		},
 		Locations: SyntheticsScriptedMonitorLocationsInput{
 			Public: []string{
@@ -411,7 +412,7 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 	//Input to update script browser monitor
 	updatedScriptBrowserMonitorInput := SyntheticsUpdateScriptBrowserMonitorInput{
 		AdvancedOptions: SyntheticsScriptBrowserMonitorAdvancedOptionsInput{
-			EnableScreenshotOnFailureAndScript: true,
+			EnableScreenshotOnFailureAndScript: &tv,
 		},
 		Locations: SyntheticsScriptedMonitorLocationsInput{
 			Public: []string{
