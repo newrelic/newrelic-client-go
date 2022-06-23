@@ -949,7 +949,6 @@ packages:
           - name: "indicators"
             max_query_field_depth: 3
             exclude_fields:
-              - slug
               - resultQueries
     mutations:
       - name: serviceLevelCreate
