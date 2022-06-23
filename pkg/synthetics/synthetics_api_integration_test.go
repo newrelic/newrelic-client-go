@@ -54,6 +54,8 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 
 	a := newIntegrationTestClient(t)
 
+	monitorName := mock.RandSeq(5)
+
 	////Simple Browser monitor
 	//Input for simple browser monitor
 	simpleBrowserMonitorInput := SyntheticsCreateSimpleBrowserMonitorInput{
@@ -62,7 +64,7 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 				"AP_SOUTH_1",
 			},
 		},
-		Name:   "testSimpleBrowserMonitor",
+		Name:   monitorName,
 		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
 		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
 		Tags: []SyntheticsTag{
@@ -117,7 +119,7 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 				"AP_SOUTH_1",
 			},
 		},
-		Name:   "testSimpleBrowserMonitorUpdated",
+		Name:   monitorName + "-updated",
 		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
 		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
 		Tags: []SyntheticsTag{
@@ -160,6 +162,8 @@ func TestSyntheticsSimpleMonitor_Basic(t *testing.T) {
 
 	a := newIntegrationTestClient(t)
 
+	monitorName := mock.RandSeq(5)
+
 	////simple monitor
 	//Input for creating a simple monitor
 	simpleMonitorInput := SyntheticsCreateSimpleMonitorInput{
@@ -180,7 +184,7 @@ func TestSyntheticsSimpleMonitor_Basic(t *testing.T) {
 				"AP_SOUTH_1",
 			},
 		},
-		Name:   "testSimpleMonitor",
+		Name:   monitorName,
 		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
 		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
 		Tags: []SyntheticsTag{
@@ -220,7 +224,7 @@ func TestSyntheticsSimpleMonitor_Basic(t *testing.T) {
 				"AP_SOUTH_1",
 			},
 		},
-		Name:   "testSimpleMonitorUpdated",
+		Name:   monitorName + "-updated",
 		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
 		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
 		Tags: []SyntheticsTag{
@@ -250,14 +254,16 @@ func TestSyntheticsSimpleMonitor_Basic(t *testing.T) {
 
 //TestSyntheticsScriptApiMonitor_Basic to test the script api monitor
 func TestSyntheticsScriptApiMonitor_Basic(t *testing.T) {
-
 	t.Parallel()
+
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
 		t.Skipf("%s", err)
 	}
 
 	a := newIntegrationTestClient(t)
+
+	monitorName := mock.RandSeq(5)
 
 	////Scripted API monitor
 	apiScript := fmt.Sprintf(`
@@ -296,7 +302,7 @@ func TestSyntheticsScriptApiMonitor_Basic(t *testing.T) {
 				"AP_SOUTH_1",
 			},
 		},
-		Name:   "testScriptApiMonitor",
+		Name:   monitorName,
 		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
 		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
 		Script: apiScript,
@@ -329,7 +335,7 @@ func TestSyntheticsScriptApiMonitor_Basic(t *testing.T) {
 				"AP_SOUTH_1",
 			},
 		},
-		Name:   "testScriptApiMonitorUpdated",
+		Name:   monitorName + "-updated",
 		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
 		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
 		Script: apiScript,
@@ -372,6 +378,8 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 
 	a := newIntegrationTestClient(t)
 
+	monitorName := mock.RandSeq(5)
+
 	//Input to create script browser monitor
 	scriptBrowserMonitorInput := SyntheticsCreateScriptBrowserMonitorInput{
 		AdvancedOptions: SyntheticsScriptBrowserMonitorAdvancedOptionsInput{
@@ -382,7 +390,7 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 				"AP_SOUTH_1",
 			},
 		},
-		Name:   "testScriptBrowserScript",
+		Name:   monitorName,
 		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
 		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
 		Runtime: SyntheticsRuntimeInput{
@@ -418,7 +426,7 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 				"AP_SOUTH_1",
 			},
 		},
-		Name:   "testScriptBrowserScriptUpdated",
+		Name:   monitorName + "-updated",
 		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
 		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
 		Runtime: SyntheticsRuntimeInput{
