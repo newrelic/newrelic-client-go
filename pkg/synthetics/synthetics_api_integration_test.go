@@ -67,9 +67,9 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
 		Tags: []SyntheticsTag{
 			{
-				Key: "Name",
+				Key: "pineapple",
 				Values: []string{
-					"synthetics",
+					"pizza",
 				},
 			},
 		},
@@ -122,9 +122,9 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
 		Tags: []SyntheticsTag{
 			{
-				Key: "Name",
+				Key: "pineapple",
 				Values: []string{
-					"synthetics",
+					"pizza",
 				},
 			},
 		},
@@ -185,9 +185,9 @@ func TestSyntheticsSimpleMonitor_Basic(t *testing.T) {
 		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
 		Tags: []SyntheticsTag{
 			{
-				Key: "Name",
+				Key: "pineapple",
 				Values: []string{
-					"Synthetics",
+					"pizza",
 				},
 			},
 		},
@@ -225,9 +225,9 @@ func TestSyntheticsSimpleMonitor_Basic(t *testing.T) {
 		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
 		Tags: []SyntheticsTag{
 			{
-				Key: "Name",
+				Key: "pineapple",
 				Values: []string{
-					"Synthetics",
+					"pizza",
 				},
 			},
 		},
@@ -302,9 +302,9 @@ func TestSyntheticsScriptApiMonitor_Basic(t *testing.T) {
 		Script: apiScript,
 		Tags: []SyntheticsTag{
 			{
-				Key: "Name",
+				Key: "pineapple",
 				Values: []string{
-					"ScriptAPIMonitor",
+					"pizza",
 				},
 			},
 		},
@@ -335,9 +335,9 @@ func TestSyntheticsScriptApiMonitor_Basic(t *testing.T) {
 		Script: apiScript,
 		Tags: []SyntheticsTag{
 			{
-				Key: "Name",
+				Key: "pineapple",
 				Values: []string{
-					"ScriptAPIMonitor",
+					"pizza",
 				},
 			},
 		},
@@ -364,7 +364,6 @@ func TestSyntheticsScriptApiMonitor_Basic(t *testing.T) {
 
 //TestSyntheticsScriptBrowserMonitor_Basic function to test script browser monitor
 func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
-
 	t.Parallel()
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
@@ -393,9 +392,9 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 		},
 		Tags: []SyntheticsTag{
 			{
-				Key: "NAME",
+				Key: "pineapple",
 				Values: []string{
-					"scriptBrowserScript",
+					"pizza",
 				},
 			},
 		},
@@ -429,9 +428,9 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 		},
 		Tags: []SyntheticsTag{
 			{
-				Key: "NAME",
+				Key: "pineapple",
 				Values: []string{
-					"script_browser_script",
+					"script_browser_pizza",
 				},
 			},
 		},
@@ -452,9 +451,7 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 }
 
 // Integration testing for private location
-
 func TestSyntheticsPrivateLocation_Basic(t *testing.T) {
-
 	t.Parallel()
 
 	testAccountID, err := mock.GetTestAccountID()
