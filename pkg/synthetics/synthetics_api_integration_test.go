@@ -13,7 +13,6 @@ import (
 )
 
 var tv bool = true
-var fv bool = false
 
 func TestSyntheticsSecureCredential_Basic(t *testing.T) {
 	t.Parallel()
