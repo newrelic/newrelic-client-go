@@ -7,16 +7,16 @@ import (
 	"github.com/newrelic/newrelic-client-go/pkg/logging"
 )
 
-// Notifications is used to communicate with New Relic Notifications.
+// Notifications are used to communicate with New Relic Notifications.
 type Notifications struct {
 	client      http.Client
-	config      	config.Config
+	config      config.Config
 	infraClient http.Client
 	logger      logging.Logger
 	pager       http.Pager
 }
 
-// New is used to create a new Notifications client instance.
+// New is used to create a new Notifications' client instance.
 func New(config config.Config) Notifications {
 	infraConfig := config
 
@@ -28,11 +28,11 @@ func New(config config.Config) Notifications {
 	client.SetAuthStrategy(&http.PersonalAPIKeyCapableV2Authorizer{})
 
 	pkg := Notifications{
-		client:			client,
-		config:      	config,
-		infraClient: 	infraClient,
-		logger:      	config.GetLogger(),
-		pager:       	&http.LinkHeaderPager{},
+		client:      client,
+		config:      config,
+		infraClient: infraClient,
+		logger:      config.GetLogger(),
+		pager:       &http.LinkHeaderPager{},
 	}
 
 	return pkg
