@@ -12,6 +12,8 @@ import (
 	"os"
 )
 
+var tv bool = true
+
 func TestSyntheticsSecureCredential_Basic(t *testing.T) {
 	t.Parallel()
 
@@ -42,7 +44,6 @@ func TestSyntheticsSecureCredential_Basic(t *testing.T) {
 
 //Test simple browser monitor
 func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
-
 	t.Parallel()
 
 	testAccountID, err := mock.GetTestAccountID()
@@ -52,6 +53,8 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 
 	a := newIntegrationTestClient(t)
 
+	monitorName := mock.RandSeq(5)
+
 	////Simple Browser monitor
 	//Input for simple browser monitor
 	simpleBrowserMonitorInput := SyntheticsCreateSimpleBrowserMonitorInput{
@@ -60,14 +63,14 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 				"AP_SOUTH_1",
 			},
 		},
-		Name:   "testSimpleBrowserMonitor",
+		Name:   monitorName,
 		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
 		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
 		Tags: []SyntheticsTag{
 			{
-				Key: "Name",
+				Key: "pineapple",
 				Values: []string{
-					"synthetics",
+					"pizza",
 				},
 			},
 		},
@@ -78,7 +81,7 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 			ScriptLanguage:     "JAVASCRIPT",
 		},
 		AdvancedOptions: SyntheticsSimpleBrowserMonitorAdvancedOptionsInput{
-			EnableScreenshotOnFailureAndScript: true,
+			EnableScreenshotOnFailureAndScript: &tv,
 			ResponseValidationText:             "SUCCESS",
 			CustomHeaders: []SyntheticsCustomHeaderInput{
 				{
@@ -86,7 +89,7 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 					Value: "synthetics",
 				},
 			},
-			UseTlsValidation: true,
+			UseTlsValidation: &tv,
 		},
 	}
 
@@ -106,23 +109,23 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 					Value: "Synthetics",
 				},
 			},
-			EnableScreenshotOnFailureAndScript: true,
+			EnableScreenshotOnFailureAndScript: &tv,
 			ResponseValidationText:             "Success",
-			UseTlsValidation:                   true,
+			UseTlsValidation:                   &tv,
 		},
 		Locations: SyntheticsLocationsInput{
 			Public: []string{
 				"AP_SOUTH_1",
 			},
 		},
-		Name:   "testSimpleBrowserMonitorUpdated",
+		Name:   monitorName + "-updated",
 		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
 		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
 		Tags: []SyntheticsTag{
 			{
-				Key: "Name",
+				Key: "pineapple",
 				Values: []string{
-					"synthetics",
+					"pizza",
 				},
 			},
 		},
@@ -150,7 +153,6 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 
 //TestSyntheticsSimpleMonitor_Basic function to test simple monitor
 func TestSyntheticsSimpleMonitor_Basic(t *testing.T) {
-
 	t.Parallel()
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
@@ -158,6 +160,8 @@ func TestSyntheticsSimpleMonitor_Basic(t *testing.T) {
 	}
 
 	a := newIntegrationTestClient(t)
+
+	monitorName := mock.RandSeq(5)
 
 	////simple monitor
 	//Input for creating a simple monitor
@@ -170,23 +174,23 @@ func TestSyntheticsSimpleMonitor_Basic(t *testing.T) {
 				},
 			},
 			ResponseValidationText:  "Success",
-			RedirectIsFailure:       true,
-			ShouldBypassHeadRequest: true,
-			UseTlsValidation:        true,
+			RedirectIsFailure:       &tv,
+			ShouldBypassHeadRequest: &tv,
+			UseTlsValidation:        &tv,
 		},
 		Locations: SyntheticsLocationsInput{
 			Public: []string{
 				"AP_SOUTH_1",
 			},
 		},
-		Name:   "testSimpleMonitor",
+		Name:   monitorName,
 		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
 		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
 		Tags: []SyntheticsTag{
 			{
-				Key: "Name",
+				Key: "pineapple",
 				Values: []string{
-					"Synthetics",
+					"pizza",
 				},
 			},
 		},
@@ -210,23 +214,23 @@ func TestSyntheticsSimpleMonitor_Basic(t *testing.T) {
 				},
 			},
 			ResponseValidationText:  "Success",
-			RedirectIsFailure:       true,
-			ShouldBypassHeadRequest: true,
-			UseTlsValidation:        true,
+			RedirectIsFailure:       &tv,
+			ShouldBypassHeadRequest: &tv,
+			UseTlsValidation:        &tv,
 		},
 		Locations: SyntheticsLocationsInput{
 			Public: []string{
 				"AP_SOUTH_1",
 			},
 		},
-		Name:   "testSimpleMonitorUpdated",
+		Name:   monitorName + "-updated",
 		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
 		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
 		Tags: []SyntheticsTag{
 			{
-				Key: "Name",
+				Key: "pineapple",
 				Values: []string{
-					"Synthetics",
+					"pizza",
 				},
 			},
 		},
@@ -249,14 +253,16 @@ func TestSyntheticsSimpleMonitor_Basic(t *testing.T) {
 
 //TestSyntheticsScriptApiMonitor_Basic to test the script api monitor
 func TestSyntheticsScriptApiMonitor_Basic(t *testing.T) {
-
 	t.Parallel()
+
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
 		t.Skipf("%s", err)
 	}
 
 	a := newIntegrationTestClient(t)
+
+	monitorName := mock.RandSeq(5)
 
 	////Scripted API monitor
 	apiScript := fmt.Sprintf(`
@@ -295,15 +301,15 @@ func TestSyntheticsScriptApiMonitor_Basic(t *testing.T) {
 				"AP_SOUTH_1",
 			},
 		},
-		Name:   "testScriptApiMonitor",
+		Name:   monitorName,
 		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
 		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
 		Script: apiScript,
 		Tags: []SyntheticsTag{
 			{
-				Key: "Name",
+				Key: "pineapple",
 				Values: []string{
-					"ScriptAPIMonitor",
+					"pizza",
 				},
 			},
 		},
@@ -328,15 +334,15 @@ func TestSyntheticsScriptApiMonitor_Basic(t *testing.T) {
 				"AP_SOUTH_1",
 			},
 		},
-		Name:   "testScriptApiMonitorUpdated",
+		Name:   monitorName + "-updated",
 		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
 		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
 		Script: apiScript,
 		Tags: []SyntheticsTag{
 			{
-				Key: "Name",
+				Key: "pineapple",
 				Values: []string{
-					"ScriptAPIMonitor",
+					"pizza",
 				},
 			},
 		},
@@ -363,7 +369,6 @@ func TestSyntheticsScriptApiMonitor_Basic(t *testing.T) {
 
 //TestSyntheticsScriptBrowserMonitor_Basic function to test script browser monitor
 func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
-
 	t.Parallel()
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
@@ -372,17 +377,19 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 
 	a := newIntegrationTestClient(t)
 
+	monitorName := mock.RandSeq(5)
+
 	//Input to create script browser monitor
 	scriptBrowserMonitorInput := SyntheticsCreateScriptBrowserMonitorInput{
 		AdvancedOptions: SyntheticsScriptBrowserMonitorAdvancedOptionsInput{
-			EnableScreenshotOnFailureAndScript: true,
+			EnableScreenshotOnFailureAndScript: &tv,
 		},
 		Locations: SyntheticsScriptedMonitorLocationsInput{
 			Public: []string{
 				"AP_SOUTH_1",
 			},
 		},
-		Name:   "testScriptBrowserScript",
+		Name:   monitorName,
 		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
 		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
 		Runtime: SyntheticsRuntimeInput{
@@ -392,9 +399,9 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 		},
 		Tags: []SyntheticsTag{
 			{
-				Key: "NAME",
+				Key: "pineapple",
 				Values: []string{
-					"scriptBrowserScript",
+					"pizza",
 				},
 			},
 		},
@@ -411,14 +418,14 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 	//Input to update script browser monitor
 	updatedScriptBrowserMonitorInput := SyntheticsUpdateScriptBrowserMonitorInput{
 		AdvancedOptions: SyntheticsScriptBrowserMonitorAdvancedOptionsInput{
-			EnableScreenshotOnFailureAndScript: true,
+			EnableScreenshotOnFailureAndScript: &tv,
 		},
 		Locations: SyntheticsScriptedMonitorLocationsInput{
 			Public: []string{
 				"AP_SOUTH_1",
 			},
 		},
-		Name:   "testScriptBrowserScriptUpdated",
+		Name:   monitorName + "-updated",
 		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
 		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
 		Runtime: SyntheticsRuntimeInput{
@@ -428,9 +435,9 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 		},
 		Tags: []SyntheticsTag{
 			{
-				Key: "NAME",
+				Key: "pineapple",
 				Values: []string{
-					"script_browser_script",
+					"script_browser_pizza",
 				},
 			},
 		},
@@ -451,9 +458,7 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 }
 
 // Integration testing for private location
-
 func TestSyntheticsPrivateLocation_Basic(t *testing.T) {
-
 	t.Parallel()
 
 	testAccountID, err := mock.GetTestAccountID()
