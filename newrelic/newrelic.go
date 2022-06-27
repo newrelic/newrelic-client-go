@@ -49,7 +49,7 @@ type NewRelic struct {
 	Logs            logs.Logs
 	NerdGraph       nerdgraph.NerdGraph
 	NerdStorage     nerdstorage.NerdStorage
-	Notifications    notifications.Notifications
+	Notifications   notifications.Notifications
 	Nrdb            nrdb.Nrdb
 	Nrqldroprules   nrqldroprules.Nrqldroprules
 	Plugins         plugins.Plugins
@@ -98,7 +98,7 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 		Logs:            logs.New(cfg),
 		NerdGraph:       nerdgraph.New(cfg),
 		NerdStorage:     nerdstorage.New(cfg),
-		Notifications:    notifications.New(cfg),
+		Notifications:   notifications.New(cfg),
 		Nrdb:            nrdb.New(cfg),
 		Nrqldroprules:   nrqldroprules.New(cfg),
 		Plugins:         plugins.New(cfg),
