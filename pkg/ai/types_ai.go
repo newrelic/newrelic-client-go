@@ -93,3 +93,58 @@ func UnmarshalAiWorkflowsConfigurationDtoInterface(b []byte) (*AiWorkflowsConfig
 
 	return nil, fmt.Errorf("interface AiWorkflowsConfigurationDto was not matched against all PossibleTypes: %s", typeName)
 }
+
+// AiNotificationsSuggestionError - Object for suggestion errors
+type AiNotificationsSuggestionError struct {
+	// SuggestionError description
+	Description string `json:"description"`
+	// SuggestionError details
+	Details string `json:"details"`
+	// SuggestionError type
+	Type AiNotificationsErrorType `json:"type"`
+}
+
+// AiNotificationsErrorType - Error types
+type AiNotificationsErrorType string
+
+func (x *AiNotificationsSuggestionError) ImplementsAiNotificationsError() {}
+
+// AiNotificationsDataValidationError - Object for validation errors
+type AiNotificationsDataValidationError struct {
+	// Top level error details
+	Details string `json:"details"`
+	// List of invalid fields
+	Fields []AiNotificationsFieldError `json:"fields"`
+}
+
+// AiNotificationsFieldError - Invalid field object
+type AiNotificationsFieldError struct {
+	// Field name
+	Field string `json:"field"`
+	// Validation error
+	Message string `json:"message"`
+}
+
+func (x *AiNotificationsDataValidationError) ImplementsAiNotificationsError() {}
+
+// AiNotificationsConstraintError - Missing constraint error. Constraints can be retrieved using suggestion api
+type AiNotificationsConstraintError struct {
+	// Names of other constraints this constraint is dependent on
+	Dependencies []string `json:"dependencies"`
+	// Name of the missing constraint
+	Name string `json:"name"`
+}
+
+func (x *AiNotificationsConstraintError) ImplementsAiNotificationsError() {}
+
+// AiNotificationsResponseError - Response error object
+type AiNotificationsResponseError struct {
+	// Error description
+	Description string `json:"description"`
+	// Error details
+	Details string `json:"details"`
+	// Error type
+	Type AiNotificationsErrorType `json:"type"`
+}
+
+func (x *AiNotificationsResponseError) ImplementsAiNotificationsError() {}
