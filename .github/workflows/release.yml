@@ -7,7 +7,6 @@ permissions: write-all
 
 jobs:
   release:
-    needs: [lint, test-unit, test-integration]
     runs-on: ubuntu-latest
     steps:
       - name: Install Go
