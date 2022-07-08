@@ -21,7 +21,7 @@ fi
 
 # Compare versions
 VER_CURR=$(${VER_CMD} current --strip-prefix)
-VER_NEXT=$(${VER_CMD} next --strip-prefix)
+VER_NEXT="0.86.4"
 
 echo " "
 echo "Comparing tag versions..."
