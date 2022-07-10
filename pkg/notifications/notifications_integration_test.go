@@ -9,53 +9,80 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	nr "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
+	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
 
-func TestNotificationMutationDestination_GraphQL(t *testing.T) {
+func TestNotificationMutationDestination(t *testing.T) {
 	t.Parallel()
 
 	n := newIntegrationTestClient(t)
 
-	// Notifications test account
-	accountID := 10867072
+	accountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
 
 	// Create a destination to work with in this test
-	testIntegrationDestinationNameRandStr := nr.RandSeq(5)
-	destination := DestinationInput{}
-	destination.Type = DestinationTypes.Webhook
-	destination.Properties = []PropertyInput{
+	testIntegrationDestinationNameRandStr := mock.RandSeq(5)
+	destination := AiNotificationsDestinationInput{}
+	destination.Type = AiNotificationsDestinationTypeTypes.WEBHOOK
+	destination.Properties = []AiNotificationsPropertyInput{
 		{
-			Key:   "url",
-			Value: "https://webhook.site/94193c01-4a81-4782-8f1b-554d5230395b",
+			Key:          "url",
+			Value:        "https://webhook.site/94193c01-4a81-4782-8f1b-554d5230395b",
+			Label:        "",
+			DisplayValue: "",
 		},
 	}
 	destination.Auth = AiNotificationsCredentialsInput{
-		Type: AuthTypes.Token,
-		Token: TokenAuth{
+		Type: AiNotificationsAuthTypeTypes.TOKEN,
+		Token: AiNotificationsTokenAuthInput{
 			Token:  "Token",
 			Prefix: "Bearer",
 		},
 	}
 	destination.Name = fmt.Sprintf("test-notifications-destination-%s", testIntegrationDestinationNameRandStr)
 
-	// Test: Get List
-	listResult, err := n.ListDestinations(accountID)
-	require.NoError(t, err)
-	require.Greater(t, len(listResult), 0)
-
 	// Test: Create
-	createResult, err := n.CreateDestinationMutation(accountID, destination)
+	createResult, err := n.AiNotificationsCreateDestination(accountID, destination)
 	require.NoError(t, err)
 	require.NotNil(t, createResult)
 
 	// Test: Get Destination
-	getDestinationResult, err := n.GetDestination(accountID, createResult.ID)
+	filters := AiNotificationsDestinationFilter{
+		ID: createResult.Destination.ID,
+	}
+	sorter := AiNotificationsDestinationSorter{}
+	getDestinationResult, err := n.GetDestinations(accountID, "", filters, sorter)
 	require.NoError(t, err)
 	require.NotNil(t, getDestinationResult)
 
+	// Test: Update Destination
+	updateDestination := AiNotificationsDestinationUpdate{}
+	updateDestination.Active = false
+	updateDestination.Properties = []AiNotificationsPropertyInput{
+		{
+			Key:          "url",
+			Value:        "https://webhook.site/94193c01-4a81-4782-8f1b-554d5230395b",
+			Label:        "",
+			DisplayValue: "",
+		},
+	}
+	updateDestination.Auth = AiNotificationsCredentialsInput{
+		Type: AiNotificationsAuthTypeTypes.TOKEN,
+		Token: AiNotificationsTokenAuthInput{
+			Token:  "TokenUpdate",
+			Prefix: "BearerUpdate",
+		},
+	}
+	updateDestination.Name = fmt.Sprintf("test-notifications-update-destination-%s", testIntegrationDestinationNameRandStr)
+
+	updateDestinationResult, err := n.AiNotificationsUpdateDestination(accountID, updateDestination, createResult.Destination.ID)
+	require.NoError(t, err)
+	require.NotNil(t, updateDestinationResult)
+
 	// Test: Delete
-	deleteResult, err := n.DeleteDestinationMutation(accountID, createResult.ID)
+	deleteResult, err := n.AiNotificationsDeleteDestination(accountID, createResult.Destination.ID)
 	require.NoError(t, err)
 	require.NotNil(t, deleteResult)
 }

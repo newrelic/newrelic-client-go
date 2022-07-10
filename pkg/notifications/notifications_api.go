@@ -48,7 +48,26 @@ const AiNotificationsCreateDestinationMutation = `mutation(
 	destination {
 		accountId
 		active
-		auth
+		auth {
+			... on AiNotificationsBasicAuth {
+			  authType
+			  user
+			}
+			... on AiNotificationsOAuth2Auth {
+			  accessTokenUrl
+			  scope
+			  refreshable
+			  refreshInterval
+			  prefix
+			  clientId
+			  authorizationUrl
+			  authType
+			}
+			... on AiNotificationsTokenAuth {
+			  authType
+			  prefix
+			}
+		}
 		createdAt
 		id
 		isUserAuthenticated
@@ -223,7 +242,26 @@ const AiNotificationsUpdateDestinationMutation = `mutation(
 	destination {
 		accountId
 		active
-		auth
+		auth {
+			... on AiNotificationsBasicAuth {
+			  authType
+			  user
+			}
+			... on AiNotificationsOAuth2Auth {
+			  accessTokenUrl
+			  scope
+			  refreshable
+			  refreshInterval
+			  prefix
+			  clientId
+			  authorizationUrl
+			  authType
+			}
+			... on AiNotificationsTokenAuth {
+			  authType
+			  prefix
+			}
+		}
 		createdAt
 		id
 		isUserAuthenticated
@@ -337,7 +375,26 @@ const getDestinationsQuery = `query(
 	entities {
 		accountId
 		active
-		auth
+		auth {
+			... on AiNotificationsBasicAuth {
+			  authType
+			  user
+			}
+			... on AiNotificationsOAuth2Auth {
+			  accessTokenUrl
+			  scope
+			  refreshable
+			  refreshInterval
+			  prefix
+			  clientId
+			  authorizationUrl
+			  authType
+			}
+			... on AiNotificationsTokenAuth {
+			  authType
+			  prefix
+			}
+		}
 		createdAt
 		id
 		isUserAuthenticated
