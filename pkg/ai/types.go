@@ -83,3 +83,91 @@ func UnmarshalAiNotificationsAuthInterface(b []byte) (*AiNotificationsAuthInterf
 
 	return nil, fmt.Errorf("interface AiNotificationsAuth was not matched against all PossibleTypes: %s", typeName)
 }
+
+// AiNotificationsError - Notifications error interface
+type AiNotificationsError struct {
+}
+
+func (x *AiNotificationsError) ImplementsAiNotificationsError() {}
+
+// AiNotificationsErrorInterface - Notifications error interface
+type AiNotificationsErrorInterface interface {
+	ImplementsAiNotificationsError()
+}
+
+// UnmarshalAiNotificationsAuthInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
+func UnmarshalAiNotificationsErrorInterface(b []byte) (*AiNotificationsErrorInterface, error) {
+	var err error
+
+	var rawMessageAiNotificationsError map[string]*json.RawMessage
+	err = json.Unmarshal(b, &rawMessageAiNotificationsError)
+	if err != nil {
+		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageAiNotificationsError) < 1 {
+		return nil, nil
+	}
+
+	var typeName string
+
+	if rawTypeName, ok := rawMessageAiNotificationsError["__typename"]; ok {
+		err = json.Unmarshal(*rawTypeName, &typeName)
+		if err != nil {
+			return nil, err
+		}
+
+		switch typeName {
+		case "AiNotificationsSuggestionError":
+			var interfaceType AiNotificationsSuggestionError
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AiNotificationsErrorInterface = &interfaceType
+
+			return &xxx, nil
+		case "AiNotificationsDataValidationError":
+			var interfaceType AiNotificationsDataValidationError
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AiNotificationsErrorInterface = &interfaceType
+
+			return &xxx, nil
+		case "AiNotificationsConstraintError":
+			var interfaceType AiNotificationsConstraintError
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AiNotificationsErrorInterface = &interfaceType
+
+			return &xxx, nil
+		case "AiNotificationsResponseError":
+			var interfaceType AiNotificationsResponseError
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AiNotificationsErrorInterface = &interfaceType
+
+			return &xxx, nil
+		}
+	} else {
+		keys := []string{}
+		for k := range rawMessageAiNotificationsError {
+			keys = append(keys, k)
+		}
+		return nil, fmt.Errorf("interface AiNotificationsError did not include a __typename field for inspection: %s", keys)
+	}
+
+	return nil, fmt.Errorf("interface AiNotificationsError was not matched against all PossibleTypes: %s", typeName)
+}

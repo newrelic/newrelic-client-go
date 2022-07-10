@@ -752,6 +752,45 @@ packages:
       - name: NerdStorageScopeInput
 
 
+  - name: notifications
+    path: pkg/notifications
+    import_path: github.com/newrelic/newrelic-client-go/pkg/notifications
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/pkg/nrtime
+    queries:
+      - path: [ "actor", "account", "aiNotifications" ]
+        endpoints:
+          - name: destinations
+            max_query_field_depth: 4
+    mutations:
+      - name: aiNotificationsCreateDestination
+        max_query_field_depth: 3
+      - name: aiNotificationsUpdateDestination
+        max_query_field_depth: 3
+      - name: aiNotificationsDeleteDestination
+        max_query_field_depth: 3
+    types:
+      - name: AiNotificationsDestinationSorter
+      - name: AiNotificationsDestinationFilter
+      - name: AiNotificationsAuthType
+      - name: AiNotificationsDestination
+      - name: AiNotificationsAuth
+        field_type_override: "ai.AiNotificationsAuth"
+      - name: AiNotificationsError
+        field_type_override: "ai.AiNotificationsError"
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+
+      # nrtime imports
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
+
+
   - name: nrdb
     path: pkg/nrdb
     import_path: github.com/newrelic/newrelic-client-go/pkg/nrdb
