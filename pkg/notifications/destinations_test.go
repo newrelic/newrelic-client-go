@@ -5,88 +5,102 @@ package notifications
 
 import (
 	"fmt"
+	"github.com/newrelic/newrelic-client-go/pkg/ai"
+	"github.com/newrelic/newrelic-client-go/pkg/nrtime"
+	"github.com/stretchr/testify/assert"
 	"net/http"
 	"testing"
-	"time"
-
-	"github.com/stretchr/testify/assert"
 )
 
 var (
-	accountId           = 1
-	testTimestampString = "2021-07-08T12:30:00-07:00"
-	testTimestamp, err1 = time.Parse(time.RFC3339, "2021-07-08T12:30:00-07:00")
+	testTimestampString = "2022-07-10T11:10:43.123715Z"
+	timestamp           = nrtime.DateTime(testTimestampString)
 	user                = "test-user"
-	id                  = "6f820700-6a3b-4c0f-9bc7-2c322a1455e6"
+	accountId           = 1
+	id                  = "7463c367-6d61-416b-9aac-47f4a285fe5a"
 
 	testCreateDestinationResponseJSON = `{
-		"AiNotificationsCreateDestination": {
-			"destination": {
-				"id": "6f820700-6a3b-4c0f-9bc7-2c322a1455e6",
-				"name": "test-notification-destination-1",
-				"createdAt": "2021-07-08T12:30:00-07:00",
-				"updatedAt": "2021-07-08T12:30:00-07:00",
-				"accountId": 1,
-				"active": true,
-				"auth": {
-				  "authType": "BASIC",
-				  "user": "test-user"
-				},
-				"lastSent": "2021-07-08T12:30:00-07:00",
-				"properties": [{
-						"displayValue": "",
-						"key": "email",
-						"label": "",
-						"value": "dshemesh@newrelic.com"
-				}],
-				"status": "default",
-				"type": "EMAIL",
-				"updatedBy": 1547846
-			}
+	 "aiNotificationsCreateDestination": {
+		  "destination": {
+			"accountId": 1,
+			"active": true,
+			"auth": {
+			  "authType": "BASIC",
+			  "user": "test-user"
+			},
+			"createdAt": "2022-07-10T11:10:43.123715Z",
+			"id": "7463c367-6d61-416b-9aac-47f4a285fe5a",
+			"isUserAuthenticated": false,
+			"lastSent": "2022-07-10T11:10:43.123715Z",
+			"name": "test-notification-destination-1",
+			"properties": [
+			  {
+				"displayValue": null,
+				"key": "email",
+				"label": null,
+				"value": "test@newrelic.com"
+			  }
+			],
+			"status": "DEFAULT",
+			"type": "EMAIL",
+			"updatedAt": "2022-07-10T11:10:43.123715Z",
+			"updatedBy": 1547846
+		  },
+		  "error": null,
+		  "errors": []
 		}
 	}`
 
 	testDeleteDestinationResponseJSON = `{
 		"aiNotificationsDeleteDestination": {
-			"ids": [
-				"6f820700-6a3b-4c0f-9bc7-2c322a1455e6"
-			]
+		  "error": null,
+		  "errors": [],
+		  "ids": [
+			"7463c367-6d61-416b-9aac-47f4a285fe5a"
+		  ]
 		}
 	}`
 
 	testGetDestinationResponseJSON = `{
-		"actor": {
-			"account": {
-				"aiNotifications": {
-					"destinations": {
-						"entities": [
-							{
-								"id": "6f820700-6a3b-4c0f-9bc7-2c322a1455e6",
-								"name": "test-notification-destination-1",
-								"createdAt": "2021-07-08T12:30:00-07:00",
-								"updatedAt": "2021-07-08T12:30:00-07:00",
-								"accountId": 1,
-								"active": true,
-								"auth": {
-								  "authType": "BASIC",
-								  "user": "test-user"
-								},
-								"lastSent": "2021-07-08T12:30:00-07:00",
-								"properties": [{
-										"displayValue": "",
-										"key": "email",
-										"label": "",
-										"value": "dshemesh@newrelic.com"
-								}],
-								"status": "default",
-								"type": "EMAIL",
-								"updatedBy": 1547846
-							}
-						]
-					}
-				}
+    "actor": {
+      "account": {
+        "aiNotifications": {
+          "destinations": {
+            "entities": [
+              {
+                "accountId": 1,
+                "active": true,
+                "auth": {
+                  "authType": "BASIC",
+                  "user": "test-user"
+                },
+                "createdAt": "2022-07-10T11:10:43.123715Z",
+                "id": "7463c367-6d61-416b-9aac-47f4a285fe5a",
+                "isUserAuthenticated": false,
+                "lastSent": "2022-07-10T11:10:43.123715Z",
+                "name": "test-notification-destination-1",
+                "properties": [
+                  {
+                    "displayValue": null,
+                    "key": "email",
+                    "label": null,
+                    "value": "test@newrelic.com"
+                  }
+                ],
+                "status": "DEFAULT",
+                "type": "EMAIL",
+                "updatedAt": "2022-07-10T11:10:43.123715Z",
+                "updatedBy": 1547846
+              }
+            ],
+            "error": null,
+            "errors": [],
+            "nextCursor": null,
+            "totalCount": 1
 			}
-		}
+          }
+        }
+      }
 	}`
 )
 
@@ -95,50 +109,54 @@ func TestCreateDestination(t *testing.T) {
 	respJSON := fmt.Sprintf(`{ "data":%s }`, testCreateDestinationResponseJSON)
 	notifications := newMockResponse(t, respJSON, http.StatusCreated)
 
-	destinationInput := DestinationInput{
-		Type: DestinationTypes.Email,
+	destinationInput := AiNotificationsDestinationInput{
+		Type: AiNotificationsDestinationTypeTypes.EMAIL,
 		Name: "test-notification-destination-1",
-		Properties: []PropertyInput{
+		Properties: []AiNotificationsPropertyInput{
 			{
 				Key:   "email",
-				Value: "dshemesh@newrelic.com",
+				Value: "test@newrelic.com",
 			},
 		},
 		Auth: AiNotificationsCredentialsInput{
-			Basic: BasicAuth{
+			Basic: AiNotificationsBasicAuthInput{
 				User:     user,
 				Password: "Pass",
 			},
-			Type: AuthTypes.Basic,
+			Type: AiNotificationsAuthTypeTypes.BASIC,
 		},
 	}
 
-	expected := &Destination{
-		ID:        UUID(id),
-		Name:      "test-notification-destination-1",
-		Type:      DestinationTypes.Email,
-		CreatedAt: testTimestamp,
-		UpdatedAt: testTimestamp,
-		UpdatedBy: 1547846,
-		AccountId: 1,
-		Status:    DestinationStatuses.Default,
-		Active:    true,
-		LastSent:  testTimestamp,
-		Auth: Auth{
-			AuthType: &AuthTypes.Basic,
-			User:     &user,
-		},
-		Properties: []Property{
-			{
-				DisplayValue: "",
-				Key:          "email",
-				Label:        "",
-				Value:        "dshemesh@newrelic.com",
+	auth := ai.AiNotificationsAuth{}
+	auth.ImplementsAiNotificationsAuth()
+
+	expected := &AiNotificationsDestinationResponse{
+		Destination: AiNotificationsDestination{
+			AccountID:           accountId,
+			Active:              true,
+			Auth:                auth,
+			CreatedAt:           timestamp,
+			ID:                  id,
+			IsUserAuthenticated: false,
+			LastSent:            timestamp,
+			Name:                "test-notification-destination-1",
+			Properties: []AiNotificationsProperty{
+				{
+					DisplayValue: "",
+					Key:          "email",
+					Label:        "",
+					Value:        "test@newrelic.com",
+				},
 			},
+			Status:    AiNotificationsDestinationStatusTypes.DEFAULT,
+			Type:      AiNotificationsDestinationTypeTypes.EMAIL,
+			UpdatedAt: timestamp,
+			UpdatedBy: 1547846,
 		},
+		Errors: []ai.AiNotificationsError{},
 	}
 
-	actual, err := notifications.CreateDestinationMutation(accountId, destinationInput)
+	actual, err := notifications.AiNotificationsCreateDestination(accountId, destinationInput)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)
@@ -150,32 +168,46 @@ func TestGetChannel(t *testing.T) {
 	respJSON := fmt.Sprintf(`{ "data":%s }`, testGetDestinationResponseJSON)
 	notifications := newMockResponse(t, respJSON, http.StatusOK)
 
-	expected := &Destination{
-		ID:        UUID(id),
-		Name:      "test-notification-destination-1",
-		Type:      DestinationTypes.Email,
-		CreatedAt: testTimestamp,
-		UpdatedAt: testTimestamp,
-		UpdatedBy: 1547846,
-		AccountId: 1,
-		Status:    DestinationStatuses.Default,
-		Active:    true,
-		LastSent:  testTimestamp,
-		Auth: Auth{
-			AuthType: &AuthTypes.Basic,
-			User:     &user,
-		},
-		Properties: []Property{
+	auth := ai.AiNotificationsAuth{}
+	auth.ImplementsAiNotificationsAuth()
+
+	expected := &AiNotificationsDestinationsResponse{
+		Entities: []AiNotificationsDestination{
 			{
-				DisplayValue: "",
-				Key:          "email",
-				Label:        "",
-				Value:        "dshemesh@newrelic.com",
+				AccountID:           accountId,
+				Active:              true,
+				Auth:                auth,
+				CreatedAt:           timestamp,
+				ID:                  id,
+				IsUserAuthenticated: false,
+				LastSent:            timestamp,
+				Name:                "test-notification-destination-1",
+				Properties: []AiNotificationsProperty{
+					{
+						DisplayValue: "",
+						Key:          "email",
+						Label:        "",
+						Value:        "test@newrelic.com",
+					},
+				},
+				Status:    AiNotificationsDestinationStatusTypes.DEFAULT,
+				Type:      AiNotificationsDestinationTypeTypes.EMAIL,
+				UpdatedAt: timestamp,
+				UpdatedBy: 1547846,
 			},
 		},
+		Errors:     []AiNotificationsResponseError{},
+		Error:      AiNotificationsResponseError{},
+		NextCursor: "",
+		TotalCount: 1,
 	}
 
-	actual, err := notifications.GetDestination(accountId, UUID(id))
+	filters := ai.AiNotificationsDestinationFilter{
+		ID: id,
+	}
+	sorter := AiNotificationsDestinationSorter{}
+
+	actual, err := notifications.GetDestinations(accountId, "", filters, sorter)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)
@@ -187,9 +219,12 @@ func TestDeleteDestination(t *testing.T) {
 	respJSON := fmt.Sprintf(`{ "data":%s }`, testDeleteDestinationResponseJSON)
 	notifications := newMockResponse(t, respJSON, http.StatusOK)
 
-	expected := []string{id}
+	expected := &AiNotificationsDeleteResponse{
+		IDs:    []string{id},
+		Errors: []AiNotificationsResponseError{},
+	}
 
-	actual, err := notifications.DeleteDestinationMutation(accountId, UUID(id))
+	actual, err := notifications.AiNotificationsDeleteDestination(accountId, id)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)

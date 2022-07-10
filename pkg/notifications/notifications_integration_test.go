@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/newrelic/newrelic-client-go/pkg/ai"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
 	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
@@ -49,13 +51,14 @@ func TestNotificationMutationDestination(t *testing.T) {
 	require.NotNil(t, createResult)
 
 	// Test: Get Destination
-	filters := AiNotificationsDestinationFilter{
+	filters := ai.AiNotificationsDestinationFilter{
 		ID: createResult.Destination.ID,
 	}
 	sorter := AiNotificationsDestinationSorter{}
 	getDestinationResult, err := n.GetDestinations(accountID, "", filters, sorter)
 	require.NoError(t, err)
 	require.NotNil(t, getDestinationResult)
+	assert.Equal(t, 1, getDestinationResult.TotalCount)
 
 	// Test: Update Destination
 	updateDestination := AiNotificationsDestinationUpdate{}
