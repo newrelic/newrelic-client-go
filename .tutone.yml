@@ -775,6 +775,7 @@ packages:
     types:
       - name: AiNotificationsDestinationSorter
       - name: AiNotificationsDestinationFilter
+        field_type_override: "ai.AiNotificationsDestinationFilter"
       - name: AiNotificationsAuthType
       - name: AiNotificationsDestination
       - name: AiNotificationsAuth
