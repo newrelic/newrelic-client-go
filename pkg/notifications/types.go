@@ -9,6 +9,25 @@ import (
 	"github.com/newrelic/newrelic-client-go/pkg/nrtime"
 )
 
+// AiNotificationsAuthType - Authentication types
+type AiNotificationsAuthType string
+
+var AiNotificationsAuthTypeTypes = struct {
+	// Basic user and password authentication
+	BASIC AiNotificationsAuthType
+	// OAuth based authentication
+	OAUTH2 AiNotificationsAuthType
+	// Token based authentication
+	TOKEN AiNotificationsAuthType
+}{
+	// Basic user and password authentication
+	BASIC: "BASIC",
+	// OAuth based authentication
+	OAUTH2: "OAUTH2",
+	// Token based authentication
+	TOKEN: "TOKEN",
+}
+
 // AiNotificationsChannelFields - Channel fields to filter by
 type AiNotificationsChannelFields string
 
@@ -147,6 +166,151 @@ var AiNotificationsChannelTypeTypes = struct {
 	// Slack Collaboration channel type
 	SLACK_COLLABORATION: "SLACK_COLLABORATION",
 	// Webhook channel type
+	WEBHOOK: "WEBHOOK",
+}
+
+// AiNotificationsDestinationFields - Destination fields
+type AiNotificationsDestinationFields string
+
+var AiNotificationsDestinationFieldsTypes = struct {
+	// active field
+	ACTIVE AiNotificationsDestinationFields
+	// created_at field
+	CREATED_AT AiNotificationsDestinationFields
+	// default field
+	DEFAULT AiNotificationsDestinationFields
+	// last_sent field
+	LAST_SENT AiNotificationsDestinationFields
+	// name field
+	NAME AiNotificationsDestinationFields
+	// status field
+	STATUS AiNotificationsDestinationFields
+	// type field
+	TYPE AiNotificationsDestinationFields
+	// updated_at field
+	UPDATED_AT AiNotificationsDestinationFields
+	// updated_by field
+	UPDATED_BY AiNotificationsDestinationFields
+}{
+	// active field
+	ACTIVE: "ACTIVE",
+	// created_at field
+	CREATED_AT: "CREATED_AT",
+	// default field
+	DEFAULT: "DEFAULT",
+	// last_sent field
+	LAST_SENT: "LAST_SENT",
+	// name field
+	NAME: "NAME",
+	// status field
+	STATUS: "STATUS",
+	// type field
+	TYPE: "TYPE",
+	// updated_at field
+	UPDATED_AT: "UPDATED_AT",
+	// updated_by field
+	UPDATED_BY: "UPDATED_BY",
+}
+
+// AiNotificationsDestinationStatus - Destination statuses
+type AiNotificationsDestinationStatus string
+
+var AiNotificationsDestinationStatusTypes = struct {
+	// Authentication Error destination status
+	AUTHENTICATION_ERROR AiNotificationsDestinationStatus
+	// Authorization Error destination status
+	AUTHORIZATION_ERROR AiNotificationsDestinationStatus
+	// Authorization Warning destination status
+	AUTHORIZATION_WARNING AiNotificationsDestinationStatus
+	// Configuration Error destination status
+	CONFIGURATION_ERROR AiNotificationsDestinationStatus
+	// Default destination status
+	DEFAULT AiNotificationsDestinationStatus
+	// Draft channel status
+	DRAFT AiNotificationsDestinationStatus
+	// Error channel status
+	ERROR AiNotificationsDestinationStatus
+	// Temporary Warning destination status
+	TEMPORARY_WARNING AiNotificationsDestinationStatus
+	// Tested channel status
+	TESTED AiNotificationsDestinationStatus
+	// Throttled channel status
+	THROTTLED AiNotificationsDestinationStatus
+	// Throttling Warning destination status
+	THROTTLING_WARNING AiNotificationsDestinationStatus
+	// Unknown Error destination status
+	UNKNOWN_ERROR AiNotificationsDestinationStatus
+}{
+	// Authentication Error destination status
+	AUTHENTICATION_ERROR: "AUTHENTICATION_ERROR",
+	// Authorization Error destination status
+	AUTHORIZATION_ERROR: "AUTHORIZATION_ERROR",
+	// Authorization Warning destination status
+	AUTHORIZATION_WARNING: "AUTHORIZATION_WARNING",
+	// Configuration Error destination status
+	CONFIGURATION_ERROR: "CONFIGURATION_ERROR",
+	// Default destination status
+	DEFAULT: "DEFAULT",
+	// Draft channel status
+	DRAFT: "DRAFT",
+	// Error channel status
+	ERROR: "ERROR",
+	// Temporary Warning destination status
+	TEMPORARY_WARNING: "TEMPORARY_WARNING",
+	// Tested channel status
+	TESTED: "TESTED",
+	// Throttled channel status
+	THROTTLED: "THROTTLED",
+	// Throttling Warning destination status
+	THROTTLING_WARNING: "THROTTLING_WARNING",
+	// Unknown Error destination status
+	UNKNOWN_ERROR: "UNKNOWN_ERROR",
+}
+
+// AiNotificationsDestinationType - Destination types
+type AiNotificationsDestinationType string
+
+var AiNotificationsDestinationTypeTypes = struct {
+	// Email destination type
+	EMAIL AiNotificationsDestinationType
+	// EventBridge destination type
+	EVENT_BRIDGE AiNotificationsDestinationType
+	// Jira destination type
+	JIRA AiNotificationsDestinationType
+	// Mobile push destination type
+	MOBILE_PUSH AiNotificationsDestinationType
+	// PagerDuty destination type
+	PAGERDUTY_ACCOUNT_INTEGRATION AiNotificationsDestinationType
+	// PagerDuty destination type}
+	PAGERDUTY_SERVICE_INTEGRATION AiNotificationsDestinationType
+	// ServiceNow destination type
+	SERVICE_NOW AiNotificationsDestinationType
+	// Slack destination type
+	SLACK AiNotificationsDestinationType
+	// Slack Collaboration destination type
+	SLACK_COLLABORATION AiNotificationsDestinationType
+	// WebHook destination type
+	WEBHOOK AiNotificationsDestinationType
+}{
+	// Email destination type
+	EMAIL: "EMAIL",
+	// EventBridge destination type
+	EVENT_BRIDGE: "EVENT_BRIDGE",
+	// Jira destination type
+	JIRA: "JIRA",
+	// Mobile push destination type
+	MOBILE_PUSH: "MOBILE_PUSH",
+	// PagerDuty destination type
+	PAGERDUTY_ACCOUNT_INTEGRATION: "PAGERDUTY_ACCOUNT_INTEGRATION",
+	// PagerDuty destination type}
+	PAGERDUTY_SERVICE_INTEGRATION: "PAGERDUTY_SERVICE_INTEGRATION",
+	// ServiceNow destination type
+	SERVICE_NOW: "SERVICE_NOW",
+	// Slack destination type
+	SLACK: "SLACK",
+	// Slack Collaboration destination type
+	SLACK_COLLABORATION: "SLACK_COLLABORATION",
+	// WebHook destination type
 	WEBHOOK: "WEBHOOK",
 }
 
@@ -374,6 +538,16 @@ type Actor struct {
 type AiNotificationsAccountStitchedFields struct {
 	// Fetch a Channel by product
 	Channels AiNotificationsChannelsResponse `json:"channels,omitempty"`
+	// Fetch a Destinations by type
+	Destinations AiNotificationsDestinationsResponse `json:"destinations,omitempty"`
+}
+
+// AiNotificationsBasicAuthInput - Basic auth input object
+type AiNotificationsBasicAuthInput struct {
+	// password
+	Password SecureValue `json:"password"`
+	// user
+	User string `json:"user"`
 }
 
 // AiNotificationsChannel - Channel object
@@ -478,6 +652,18 @@ type AiNotificationsChannelsResponse struct {
 	TotalCount int `json:"totalCount"`
 }
 
+// AiNotificationsCredentialsInput - Credential input object
+type AiNotificationsCredentialsInput struct {
+	// basic
+	Basic AiNotificationsBasicAuthInput `json:"basic,omitempty"`
+	// oauth2
+	Oauth2 AiNotificationsOAuth2AuthInput `json:"oauth2,omitempty"`
+	// token
+	Token AiNotificationsTokenAuthInput `json:"token,omitempty"`
+	// type
+	Type AiNotificationsAuthType `json:"type"`
+}
+
 // AiNotificationsDeleteResponse - Delete response object
 type AiNotificationsDeleteResponse struct {
 	// Error in object deletion
@@ -486,6 +672,134 @@ type AiNotificationsDeleteResponse struct {
 	Errors []AiNotificationsResponseError `json:"errors"`
 	// Deleted object ids
 	IDs []string `json:"ids"`
+}
+
+// AiNotificationsDestination - Destination Object
+type AiNotificationsDestination struct {
+	// The accountId of the creator of the destination
+	AccountID int `json:"accountId"`
+	// Destination active
+	Active bool `json:"active"`
+	// Authentication for this destination
+	Auth ai.AiNotificationsAuth `json:"auth,omitempty"`
+	// Destination created at
+	CreatedAt nrtime.DateTime `json:"createdAt"`
+	// Destination id
+	ID string `json:"id"`
+	// Indicates whether the user is authenticated with the destination
+	IsUserAuthenticated bool `json:"isUserAuthenticated"`
+	// Last time a notification was sent
+	LastSent nrtime.DateTime `json:"lastSent,omitempty"`
+	// Destination name
+	Name string `json:"name"`
+	// List of destination property types
+	Properties []AiNotificationsProperty `json:"properties"`
+	// Destination status
+	Status AiNotificationsDestinationStatus `json:"status"`
+	// Destination type
+	Type AiNotificationsDestinationType `json:"type"`
+	// Destination updated at
+	UpdatedAt nrtime.DateTime `json:"updatedAt"`
+	// Destination updated by
+	UpdatedBy int `json:"updatedBy"`
+}
+
+// AiNotificationsDestinationFilter - Filter destination object
+type AiNotificationsDestinationFilter struct {
+	// active
+	Active bool `json:"active,omitempty"`
+	// authType
+	AuthType AiNotificationsAuthType `json:"authType,omitempty"`
+	// id
+	ID string `json:"id,omitempty"`
+	// name
+	Name string `json:"name,omitempty"`
+	// property
+	Property AiNotificationsPropertyFilter `json:"property,omitempty"`
+	// type
+	Type AiNotificationsDestinationType `json:"type,omitempty"`
+	// updatedAt
+	UpdatedAt nrtime.DateTime `json:"updatedAt,omitempty"`
+}
+
+// AiNotificationsDestinationInput - Destination input object
+type AiNotificationsDestinationInput struct {
+	// auth
+	Auth AiNotificationsCredentialsInput `json:"auth,omitempty"`
+	// name
+	Name string `json:"name"`
+	// properties
+	Properties []AiNotificationsPropertyInput `json:"properties,omitempty"`
+	// type
+	Type AiNotificationsDestinationType `json:"type"`
+}
+
+// AiNotificationsDestinationResponse - Response for all destinations related mutation. Includes relevant destination and/or errors
+type AiNotificationsDestinationResponse struct {
+	// Successfully mutated destination
+	Destination AiNotificationsDestination `json:"destination,omitempty"`
+	// Error in destination mutation
+	Error ai.AiNotificationsError `json:"error,omitempty"`
+	// Deprecated list of errors
+	Errors []ai.AiNotificationsError `json:"errors"`
+}
+
+// AiNotificationsDestinationSorter - Sort object
+type AiNotificationsDestinationSorter struct {
+	// direction
+	Direction AiNotificationsSortOrder `json:"direction"`
+	// field
+	Field AiNotificationsDestinationFields `json:"field"`
+}
+
+// AiNotificationsDestinationUpdate - Destination update object
+type AiNotificationsDestinationUpdate struct {
+	// active
+	Active bool `json:"active,omitempty"`
+	// auth
+	Auth AiNotificationsCredentialsInput `json:"auth,omitempty"`
+	// name
+	Name string `json:"name,omitempty"`
+	// properties
+	Properties []AiNotificationsPropertyInput `json:"properties,omitempty"`
+}
+
+// AiNotificationsDestinationsResponse - Destinations result object
+type AiNotificationsDestinationsResponse struct {
+	// Destination entities
+	Entities []AiNotificationsDestination `json:"entities"`
+	// Error in destinations entities fetching
+	Error AiNotificationsResponseError `json:"error,omitempty"`
+	// Deprecated list of errors
+	Errors []AiNotificationsResponseError `json:"errors"`
+	// Cursor to get the next batch of results
+	NextCursor string `json:"nextCursor,omitempty"`
+	// Count of all destination entities
+	TotalCount int `json:"totalCount"`
+}
+
+// AiNotificationsOAuth2AuthInput - OAuth2 auth input object
+type AiNotificationsOAuth2AuthInput struct {
+	// accessTokenUrl
+	AccessTokenURL string `json:"accessTokenUrl"`
+	// authorizationUrl
+	AuthorizationURL string `json:"authorizationUrl"`
+	// clientId
+	ClientId string `json:"clientId"`
+	// clientSecret
+	ClientSecret SecureValue `json:"clientSecret"`
+	// prefix
+	Prefix string `json:"prefix,omitempty"`
+	// refreshInterval
+	RefreshInterval int `json:"refreshInterval,omitempty"`
+	// refreshToken
+	RefreshToken SecureValue `json:"refreshToken,omitempty"`
+	// refreshable
+	Refreshable bool `json:"refreshable"`
+	// scope
+	Scope string `json:"scope,omitempty"`
+	// token
+	Token SecureValue `json:"token"`
 }
 
 // AiNotificationsProperty - Channel property Object
@@ -528,6 +842,14 @@ type AiNotificationsResponseError struct {
 	Details string `json:"details"`
 	// Error type
 	Type AiNotificationsErrorType `json:"type"`
+}
+
+// AiNotificationsTokenAuthInput - Token auth input object
+type AiNotificationsTokenAuthInput struct {
+	// prefix
+	Prefix string `json:"prefix,omitempty"`
+	// token
+	Token SecureValue `json:"token"`
 }
 
 // AlertsCampfireNotificationChannel - Campfire notification channel.
@@ -827,6 +1149,10 @@ type AlertsXMattersNotificationChannelConfig struct {
 }
 
 type channelsResponse struct {
+	Actor Actor `json:"actor"`
+}
+
+type destinationsResponse struct {
 	Actor Actor `json:"actor"`
 }
 

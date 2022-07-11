@@ -148,3 +148,15 @@ type AiNotificationsResponseError struct {
 }
 
 func (x *AiNotificationsResponseError) ImplementsAiNotificationsError() {}
+
+// AiNotificationsDestinationFilter - Filter destination object
+type AiNotificationsDestinationFilter struct {
+	// id
+	ID string `json:"id,omitempty"`
+}
+
+// AiNotificationsChannelFilter - Filter channel object
+type AiNotificationsChannelFilter struct {
+	// id
+	ID string `json:"id,omitempty"`
+}

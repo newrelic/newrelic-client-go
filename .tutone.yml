@@ -704,9 +704,17 @@ packages:
     queries:
       - path: [ "actor", "account", "aiNotifications" ]
         endpoints:
+          - name: destinations
+            max_query_field_depth: 4
           - name: channels
             max_query_field_depth: 4
     mutations:
+      - name: aiNotificationsCreateDestination
+        max_query_field_depth: 3
+      - name: aiNotificationsUpdateDestination
+        max_query_field_depth: 3
+      - name: aiNotificationsDeleteDestination
+        max_query_field_depth: 3
       - name: aiNotificationsCreateChannel
         max_query_field_depth: 3
       - name: aiNotificationsUpdateChannel
@@ -714,8 +722,16 @@ packages:
       - name: aiNotificationsDeleteChannel
         max_query_field_depth: 3
     types:
+      - name: AiNotificationsDestinationSorter
+      - name: AiNotificationsDestinationFilter
+        field_type_override: "ai.AiNotificationsDestinationFilter"
       - name: AiNotificationsChannelFilter
+        field_type_override: "ai.AiNotificationsChannelFilter"
       - name: AiNotificationsChannelSorter
+      - name: AiNotificationsAuthType
+      - name: AiNotificationsDestination
+      - name: AiNotificationsAuth
+        field_type_override: "ai.AiNotificationsAuth"
       - name: AiNotificationsError
         field_type_override: "ai.AiNotificationsError"
       - name: ID
