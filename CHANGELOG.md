@@ -1,3 +1,8 @@
+<a name="v0.86.5"></a>
+## [v0.86.5] - 2022-07-11
+### Bug Fixes
+- change private location GUID to string from int
+
 <a name="v0.86.4"></a>
 ## [v0.86.4] - 2022-07-08
 ### Bug Fixes
@@ -1351,7 +1356,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.86.4...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.86.5...HEAD
+[v0.86.5]: https://github.com/newrelic/newrelic-client-go/compare/v0.86.4...v0.86.5
 [v0.86.4]: https://github.com/newrelic/newrelic-client-go/compare/v0.86.3...v0.86.4
 [v0.86.3]: https://github.com/newrelic/newrelic-client-go/compare/v0.86.2...v0.86.3
 [v0.86.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.86.1...v0.86.2
