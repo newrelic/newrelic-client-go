@@ -349,7 +349,6 @@ const getIndicatorsQuery = `query(
 			}
 		}
 	}
-	slug
 	updatedAt
 	updatedBy {
 		email

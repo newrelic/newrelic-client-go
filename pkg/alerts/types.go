@@ -162,17 +162,29 @@ type AlertsNRQLConditionTermsOperator string
 var AlertsNRQLConditionTermsOperatorTypes = struct {
 	// For comparing values above a threshold.
 	ABOVE AlertsNRQLConditionTermsOperator
+	// For comparing values above or equal to a threshold.
+	ABOVE_OR_EQUALS AlertsNRQLConditionTermsOperator
 	// For comparing values below a threshold.
 	BELOW AlertsNRQLConditionTermsOperator
+	// For comparing values below or equal to a threshold.
+	BELOW_OR_EQUALS AlertsNRQLConditionTermsOperator
 	// For comparing values equal to a threshold.
 	EQUALS AlertsNRQLConditionTermsOperator
+	// For comparing values that do not equal a threshold.
+	NOT_EQUALS AlertsNRQLConditionTermsOperator
 }{
 	// For comparing values above a threshold.
 	ABOVE: "ABOVE",
+	// For comparing values above or equal to a threshold.
+	ABOVE_OR_EQUALS: "ABOVE_OR_EQUALS",
 	// For comparing values below a threshold.
 	BELOW: "BELOW",
+	// For comparing values below or equal to a threshold.
+	BELOW_OR_EQUALS: "BELOW_OR_EQUALS",
 	// For comparing values equal to a threshold.
 	EQUALS: "EQUALS",
+	// For comparing values that do not equal a threshold.
+	NOT_EQUALS: "NOT_EQUALS",
 }
 
 // AlertsMutingRuleConditionGroupInput - A group of MutingRuleConditions combined by an operator.

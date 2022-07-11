@@ -1,3 +1,83 @@
+<a name="v0.86.4"></a>
+## [v0.86.4] - 2022-07-08
+### Bug Fixes
+- remove deprecated field from service level query
+- remove deprecated field from service level query
+- **synthetics:** use *bool type to avoid removing false values
+
+<a name="v0.86.3"></a>
+## [v0.86.3] - 2022-06-27
+### Bug Fixes
+- **synthetics:** use *bool type to avoid removing false values
+
+<a name="v0.86.2"></a>
+## [v0.86.2] - 2022-06-23
+### Bug Fixes
+- remove deprecated field from service level query
+
+<a name="v0.86.1"></a>
+## [v0.86.1] - 2022-06-15
+### Bug Fixes
+- remove deprecated field from service level query
+
+<a name="v0.86.0"></a>
+## [v0.86.0] - 2022-06-06
+### Features
+- **http:** Add retry condition for graphql TOO_MANY_REQUESTS error response on json
+
+<a name="v0.85.0"></a>
+## [v0.85.0] - 2022-05-24
+### Features
+- added testing scripts to test synthetic monitors
+- added synthetics monitoring
+
+<a name="v0.84.0"></a>
+## [v0.84.0] - 2022-05-23
+### Features
+- **build:** upgrade to Go 1.18
+
+<a name="v0.83.0"></a>
+## [v0.83.0] - 2022-05-23
+### Features
+- Generate the client code for synthetics private locations
+
+<a name="v0.82.0"></a>
+## [v0.82.0] - 2022-05-23
+### Features
+- add entitySearch with query parameter
+
+<a name="v0.81.0"></a>
+## [v0.81.0] - 2022-05-23
+### Documentation Updates
+- add upgrade instructions and update example usage steps
+
+### Features
+- **dashboards:** remove deprecated and disabled legacy dashboards REST API methods
+
+<a name="v0.80.0"></a>
+## [v0.80.0] - 2022-05-12
+### Features
+- **alerts:** Adds 3 term threshold operators for NRQL conditions
+
+<a name="v0.79.0"></a>
+## [v0.79.0] - 2022-05-09
+### Features
+- add synthetics secure credentials GraphQL API
+
+<a name="v0.78.0"></a>
+## [v0.78.0] - 2022-04-28
+### Features
+- Expose EntityGUID on NRQL Conditions when using NerdGraph.
+
+<a name="v0.77.0"></a>
+## [v0.77.0] - 2022-04-28
+### Documentation Updates
+- update minimum Go version requirement in development section
+- Update example in readme to compile and run with v0.73.0
+
+### Features
+- Expose EntityGUID on NRQL Conditions.
+
 <a name="v0.76.0"></a>
 ## [v0.76.0] - 2022-04-26
 ### Features
@@ -1271,7 +1351,21 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.76.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.86.4...HEAD
+[v0.86.4]: https://github.com/newrelic/newrelic-client-go/compare/v0.86.3...v0.86.4
+[v0.86.3]: https://github.com/newrelic/newrelic-client-go/compare/v0.86.2...v0.86.3
+[v0.86.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.86.1...v0.86.2
+[v0.86.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.86.0...v0.86.1
+[v0.86.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.85.0...v0.86.0
+[v0.85.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.84.0...v0.85.0
+[v0.84.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.83.0...v0.84.0
+[v0.83.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.82.0...v0.83.0
+[v0.82.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.81.0...v0.82.0
+[v0.81.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.80.0...v0.81.0
+[v0.80.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.79.0...v0.80.0
+[v0.79.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.78.0...v0.79.0
+[v0.78.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.77.0...v0.78.0
+[v0.77.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.76.0...v0.77.0
 [v0.76.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.75.0...v0.76.0
 [v0.75.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.74.2...v0.75.0
 [v0.74.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.74.1...v0.74.2

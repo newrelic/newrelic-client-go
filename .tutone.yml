@@ -23,6 +23,65 @@ auth:
   api_key_env_var: NEW_RELIC_API_KEY
 
 packages:
+  - name: synthetics
+    path: pkg/synthetics
+    import_path: github.com/newrelic/newrelic-client-go/pkg/synthetics
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/pkg/nrtime
+    mutations:
+      - name: syntheticsCreateSecureCredential
+        max_query_field_depth: 2
+      - name: syntheticsDeleteSecureCredential
+        max_query_field_depth: 2
+      - name: syntheticsUpdateSecureCredential
+        max_query_field_depth: 2
+      - name: syntheticsCreateScriptApiMonitor
+        max_query_field_depth: 2
+      - name: syntheticsUpdateScriptApiMonitor
+        max_query_field_depth: 2
+      - name: syntheticsCreateScriptBrowserMonitor
+        max_query_field_depth: 2
+      - name: syntheticsUpdateScriptBrowserMonitor
+        max_query_field_depth: 2
+      - name: syntheticsCreateSimpleBrowserMonitor
+        max_query_field_depth: 2
+      - name: syntheticsUpdateSimpleBrowserMonitor
+        max_query_field_depth: 2
+      - name: syntheticsCreateSimpleMonitor
+        max_query_field_depth: 2
+      - name: syntheticsUpdateSimpleMonitor
+        max_query_field_depth: 2
+      - name: syntheticsCreateBrokenLinksMonitor
+        max_query_field_depth: 2
+      - name: syntheticsUpdateBrokenLinksMonitor
+        max_query_field_depth: 2
+      - name: syntheticsCreateCertCheckMonitor
+        max_query_field_depth: 2
+      - name: syntheticsUpdateCertCheckMonitor
+        max_query_field_depth: 2
+      - name: syntheticsCreateStepMonitor
+        max_query_field_depth: 2
+      - name: syntheticsUpdateStepMonitor
+        max_query_field_depth: 2
+      - name: syntheticsDeleteMonitor
+        max_query_field_depth: 2
+      - name: syntheticsCreatePrivateLocation
+        max_query_field_depth: 2
+      - name: syntheticsDeletePrivateLocation
+        max_query_field_depth: 2
+      - name: syntheticsUpdatePrivateLocation
+        max_query_field_depth: 2
+      - name: syntheticsPurgePrivateLocationQueue
+        max_query_field_depth: 2
+
+    types:
+      - name: EpochMilliseconds
+        field_type_override: nrtime.EpochMilliseconds
+        skip_type_create: true
+
   - name: common
     path: pkg/common
     import_path: github.com/newrelic/newrelic-client-go/pkg/common
@@ -941,6 +1000,7 @@ packages:
           - name: "indicators"
             max_query_field_depth: 3
             exclude_fields:
+              - slug
               - resultQueries
     mutations:
       - name: serviceLevelCreate

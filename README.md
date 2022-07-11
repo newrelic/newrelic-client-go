@@ -10,57 +10,119 @@
 [![CLA assistant](https://cla-assistant.io/readme/badge/newrelic/newrelic-client-go)](https://cla-assistant.io/newrelic/newrelic-client-go)
 [![Release](https://img.shields.io/github/release/newrelic/newrelic-client-go/all.svg)](https://github.com/newrelic/newrelic-client-go/releases/latest)
 
-The New Relic Client provides the building blocks for tools in the [Developer Toolkit](https://newrelic.github.io/developer-toolkit/), enabling quick access to the suite of New Relic APIs. As a library, it can also be leveraged within your own custom applications.
+The New Relic Client provides the building blocks for tools in the [Developer Toolkit](https://newrelic.github.io/observability-as-code), enabling quick access to the suite of New Relic APIs. As a library, it can also be leveraged within your own custom applications.
 
-## Example
+- [Getting Started and Example Usage](#getting-started-and-example-usage)
+- [Upgrade to the latest version](#upgrade-to-the-latest-version)
+- [Community](#community)
+- [Development](#development)
+	- [Requirements](#requirements)
+	- [Building](#building)
+	- [Testing](#testing)
+		- [Integration tests](#integration-tests)
+		- [Go Version Support](#go-version-support)
+	- [Commit Messages](#commit-messages)
+		- [Format](#format)
+		- [Scope](#scope)
+	- [Documentation](#documentation)
+- [Community Support](#community-support)
+- [Issues / Enhancement Requests](#issues--enhancement-requests)
+- [Contributing](#contributing)
+- [Open Source License](#open-source-license)
 
-```go
-package main
+<br>
 
-import (
-	"fmt"
-	"os"
+## Getting Started and Example Usage
 
-	log "github.com/sirupsen/logrus"
+Follow the steps below to add `github.com/newrelic/newrelic-client-go` as a dependency in your Go project.
 
-	"github.com/newrelic/newrelic-client-go/newrelic"
-	"github.com/newrelic/newrelic-client-go/pkg/entities"
-)
+1. In the root directory of your project, run `go get github.com/newrelic/newrelic-client-go@latest`. This will update your `go.mod` file with the latest version `newrelic-client-go`.
 
-func main() {
-	// Initialize the client.
-	client, err := newrelic.New(newrelic.ConfigPersonalAPIKey(os.Getenv("NEW_RELIC_API_KEY")))
-	if err != nil {
-		log.Fatal("error initializing client:", err)
-	}
 
-	// Search the current account for entities by name and type.
-	queryBuilder := entities.EntitySearchQueryBuilder{
-		Name: "Example entity",
-		Type: entities.EntitySearchQueryBuilderTypeTypes.APPLICATION,
-	}
+2. Import `newrelic-client-go` in your project code.
+    ```go
+    package main
 
-	entitySearch, err := client.Entities.GetEntitySearch(
-		entities.EntitySearchOptions{},
-		"",
-		queryBuilder,
-		[]entities.EntitySearchSortCriteria{},
-	)
-	if err != nil {
-		log.Fatal("error searching entities:", err)
-	}
+    import "github.com/newrelic/newrelic-client-go/newrelic"
 
-	fmt.Printf("%+v\n", entitySearch.Results.Entities)
-}
-```
+    func main() {
+      // Initialize the client.
+      client, err := newrelic.New(newrelic.ConfigPersonalAPIKey(os.Getenv("NEW_RELIC_API_KEY")))
+      if err != nil {
+        // ...
+      }
+    }
+    ```
+
+3. Run `go mod tidy`. This will ensure all your dependencies are in sync with your code.
+4. Your module's `go.mod` file should now be updated with the latest version of the client and should look similar to the following example (version number is hypothetical in the example below).
+    ```
+    module example.com/yourmodule
+
+    go 1.18
+
+    require (
+      github.com/newrelic/newrelic-client-go v0.80.0
+    )
+    ```
+5. The example below demonstrates fetching New Relic entities.
+   ```go
+    package main
+
+    import (
+      "fmt"
+      "os"
+
+      log "github.com/sirupsen/logrus"
+
+      "github.com/newrelic/newrelic-client-go/newrelic"
+      "github.com/newrelic/newrelic-client-go/pkg/entities"
+    )
+
+    func main() {
+      // Initialize the client.
+      client, err := newrelic.New(newrelic.ConfigPersonalAPIKey(os.Getenv("NEW_RELIC_API_KEY")))
+      if err != nil {
+        log.Fatal("error initializing client:", err)
+      }
+
+      // Search the current account for entities by name and type.
+      queryBuilder := entities.EntitySearchQueryBuilder{
+        Name: "Example entity",
+        Type: entities.EntitySearchQueryBuilderTypeTypes.APPLICATION,
+      }
+
+      entitySearch, err := client.Entities.GetEntitySearch(
+        entities.EntitySearchOptions{},
+        "",
+        queryBuilder,
+        []entities.EntitySearchSortCriteria{},
+      )
+      if err != nil {
+        log.Fatal("error searching entities:", err)
+      }
+
+      fmt.Printf("%+v\n", entitySearch.Results.Entities)
+    }
+    ```
+
+
+## Upgrade to the latest version
+
+1. Run the following command to tell Go to download the latest version.
+   ```
+   go get github.com/newrelic/newrelic-client-go@latest
+   ```
+2. Run `go mod tidy` to sync your dependencies with your code.
+3. Confirm your `go.mod` file is referencing the [latest version](https://github.com/newrelic/newrelic-client-go/releases/latest).
+
 
 ## Community
 
 New Relic hosts and moderates an online forum where customers can interact with New Relic employees as well as other customers to get help and share best practices.
 
-- [Roadmap](https://newrelic.github.io/developer-toolkit/roadmap/) - As part of the Developer Toolkit, the roadmap for this project follows the same RFC process
-- [Issues or Enhancement Requests](https://github.com/newrelic/newrelic-client-go/issues) - Issues and enhancement requests can be submitted in the Issues tab of this repository. Please search for and review the existing open issues before submitting a new issue.
-- [Contributors Guide](CONTRIBUTING.md) - Contributions are welcome (and if you submit a Enhancement Request, expect to be invited to contribute it yourself :grin:).
+- [Issues or Enhancement Requests](https://github.com/newrelic/newrelic-client-go/issues/new/choose) - Issues and enhancement requests can be submitted in the Issues tab of this repository. Please search for and review the existing open issues before submitting a new issue.
+- [Contributors Guide](CONTRIBUTING.md) - Contributions are welcome.
 - [Community discussion board](https://discuss.newrelic.com/c/build-on-new-relic/developer-toolkit) - Like all official New Relic open source projects, there's a related Community topic in the New Relic Explorers Hub.
 
 Keep in mind that when you submit your pull request, you'll need to sign the CLA via the click-through using CLA-Assistant. If you'd like to execute our corporate CLA, or if you have any questions, please drop us an email at opensource@newrelic.com.
@@ -69,13 +131,13 @@ Keep in mind that when you submit your pull request, you'll need to sign the CLA
 
 ### Requirements
 
-- Go 1.14.0+
+- Go 1.18+
 - GNU Make
 - git
 
 ### Building
 
-This package does not generate any direct usable assets (it's a library). You can still run the build scripts to validate you code, and generate coverage information.
+This package does not generate any direct usable assets (it's a library). You can still run the build scripts to validate your code, and generate coverage information.
 
 ```bash
 # Default target is 'build'
@@ -85,7 +147,7 @@ $ make
 $ make build
 
 # Locally test the CI build scripts
-# make build-ci
+$ make build-ci
 ```
 
 ### Testing

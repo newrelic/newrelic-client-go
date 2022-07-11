@@ -7,7 +7,6 @@ import (
 
 	"github.com/newrelic/newrelic-client-go/pkg/alerts"
 	"github.com/newrelic/newrelic-client-go/pkg/apm"
-	"github.com/newrelic/newrelic-client-go/pkg/dashboards"
 	"github.com/newrelic/newrelic-client-go/pkg/entities"
 	"github.com/newrelic/newrelic-client-go/pkg/plugins"
 	"github.com/newrelic/newrelic-client-go/pkg/workloads"
@@ -43,16 +42,6 @@ func Example_basic() {
 	}
 
 	fmt.Printf("Applications: %v+\n", apps)
-
-	// Interact with New Relic Insights dashboards.
-	dashboards, err := client.Dashboards.ListDashboards(&dashboards.ListDashboardsParams{
-		Title: "Example dashboard",
-	})
-	if err != nil {
-		log.Fatal("error listing dashboards:", err)
-	}
-
-	fmt.Printf("Dashboards: %v+\n", dashboards)
 
 	// Interact with New Relic One entities.
 	entities, err := client.Entities.GetEntitySearch(
