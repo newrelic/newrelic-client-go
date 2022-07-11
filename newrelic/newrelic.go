@@ -2,6 +2,7 @@ package newrelic
 
 import (
 	"errors"
+	"github.com/newrelic/newrelic-client-go/pkg/notifications"
 	"net/http"
 	"time"
 
@@ -48,6 +49,7 @@ type NewRelic struct {
 	Logs            logs.Logs
 	NerdGraph       nerdgraph.NerdGraph
 	NerdStorage     nerdstorage.NerdStorage
+	Notifications   notifications.Notifications
 	Nrdb            nrdb.Nrdb
 	Nrqldroprules   nrqldroprules.Nrqldroprules
 	Plugins         plugins.Plugins
