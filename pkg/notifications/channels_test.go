@@ -5,30 +5,29 @@ package notifications
 
 import (
 	"fmt"
+	"github.com/stretchr/testify/assert"
 	"net/http"
 	"testing"
-	"time"
-
-	"github.com/stretchr/testify/assert"
 
 	"github.com/newrelic/newrelic-client-go/pkg/ai"
+	"github.com/newrelic/newrelic-client-go/pkg/nrtime"
 )
 
 var (
-	accountId           = 1
-	testTimestampString = "2022-07-07T16:51:29.469355Z"
-	testTimestamp, err1 = time.Parse(time.RFC3339, testTimestampString)
-	id                  = "742e6f13-2de1-4627-a6dc-0e62b2caa1cf"
-	destinationId       = "4a43c21f-427d-4a44-9061-29c455d8df3b"
+	accountId           = 10867072
+	testTimestampString = "2022-07-11T08:43:38.943355Z"
+	testTimestamp       = nrtime.DateTime(testTimestampString)
+	id                  = "28932668-a894-41f9-bdd2-f7c094d164df"
+	destinationId       = "b1e90a32-23b7-4028-b2c7-ffbdfe103852"
 
 	testCreateChannelResponseJSON = `{
 		"aiNotificationsCreateChannel": {
 		  "channel": {
-			"accountId": 1,
+			"accountId": 10867072,
 			"active": true,
-			"createdAt": "2022-07-07T16:51:29.469355Z",
-			"destinationId": "4a43c21f-427d-4a44-9061-29c455d8df3b",
-			"id": "742e6f13-2de1-4627-a6dc-0e62b2caa1cf",
+			"createdAt": "2022-07-11T08:43:38.943355Z",
+			"destinationId": "b1e90a32-23b7-4028-b2c7-ffbdfe103852",
+			"id": "28932668-a894-41f9-bdd2-f7c094d164df",
 			"name": "test-notification-channel-1",
 			"product": "IINT",
 			"properties": [
@@ -36,18 +35,12 @@ var (
 				"displayValue": "",
 				"key": "payload",
 				"label": "Payload Template",
-				"value": "{\\n\\t\\\"id\\\": \\\"blabla\\\"\\n}"
-			  },
-			  {
-				"displayValue": "",
-				"key": "headers",
-				"label": "Custom headers",
-				"value": "{}"
+				"value": "{\\n\\t\\\"id\\\": \\\"test\\\"\\n}"
 			  }
 			],
 			"status": "DEFAULT",
 			"type": "WEBHOOK",
-			"updatedAt": "2022-07-07T16:51:29.469355Z",
+			"updatedAt": "2022-07-11T08:43:38.943355Z",
 			"updatedBy": 1547846
 		  },
 		  "error": null,
@@ -55,46 +48,79 @@ var (
 		}
 	}`
 
-	testDeleteDestinationResponseJSON = `{
-		"aiNotificationsDeleteDestination": {
-			"ids": [
-				"6f820700-6a3b-4c0f-9bc7-2c322a1455e6"
-			]
+	testUpdateChannelResponseJSON = `{
+		"aiNotificationsUpdateChannel": {
+		  "channel": {
+			"accountId": 10867072,
+			"active": false,
+			"createdAt": "2022-07-11T08:43:38.943355Z",
+			"destinationId": "b1e90a32-23b7-4028-b2c7-ffbdfe103852",
+			"id": "28932668-a894-41f9-bdd2-f7c094d164df",
+			"name": "test-notification-channel-1-update",
+			"product": "IINT",
+			"properties": [
+			  {
+				"displayValue": "",
+				"key": "payload",
+				"label": "Payload Template",
+				"value": "{\\n\\t\\\"id\\\": \\\"test-update\\\"\\n}"
+			  }
+			],
+			"status": "DEFAULT",
+			"type": "WEBHOOK",
+			"updatedAt": "2022-07-11T08:43:38.943355Z",
+			"updatedBy": 1547846
+		  },
+		  "error": null,
+		  "errors": []
 		}
 	}`
 
-	testGetDestinationResponseJSON = `{
+	testDeleteChannelResponseJSON = `{
+		"aiNotificationsDeleteChannel": {
+		  "error": null,
+		  "errors": [],
+		  "ids": [
+			"28932668-a894-41f9-bdd2-f7c094d164df"
+		  ]
+		}
+	}`
+
+	testGetChannelResponseJSON = `{
 		"actor": {
-			"account": {
-				"aiNotifications": {
-					"destinations": {
-						"entities": [
-							{
-								"id": "6f820700-6a3b-4c0f-9bc7-2c322a1455e6",
-								"name": "test-notification-destination-1",
-								"createdAt": "2021-07-08T12:30:00-07:00",
-								"updatedAt": "2021-07-08T12:30:00-07:00",
-								"accountId": 1,
-								"active": true,
-								"auth": {
-								  "authType": "BASIC",
-								  "user": "test-user"
-								},
-								"lastSent": "2021-07-08T12:30:00-07:00",
-								"properties": [{
-										"displayValue": "",
-										"key": "email",
-										"label": "",
-										"value": "dshemesh@newrelic.com"
-								}],
-								"status": "default",
-								"type": "EMAIL",
-								"updatedBy": 1547846
-							}
-						]
-					}
-				}
+		  "account": {
+			"aiNotifications": {
+			  "channels": {
+				"entities": [
+				  {
+					"accountId": 10867072,
+					"active": true,
+					"createdAt": "2022-07-11T08:43:38.943355Z",
+					"destinationId": "b1e90a32-23b7-4028-b2c7-ffbdfe103852",
+					"id": "28932668-a894-41f9-bdd2-f7c094d164df",
+					"name": "test-notification-channel-1",
+					"product": "IINT",
+					"properties": [
+					  {
+						"displayValue": "",
+						"key": "payload",
+						"label": "Payload Template",
+						"value": "{\\n\\t\\\"id\\\": \\\"test\\\"\\n}"
+					  }
+					],
+					"status": "DEFAULT",
+					"type": "WEBHOOK",
+					"updatedAt": "2022-07-11T08:43:38.943355Z",
+					"updatedBy": 1547846
+				  }
+				],
+				"error": null,
+				"errors": [],
+				"nextCursor": null,
+				"totalCount": 1
+			  }
 			}
+		  }
 		}
 	}`
 )
@@ -105,19 +131,14 @@ func TestCreateChannel(t *testing.T) {
 	notifications := newMockResponse(t, respJSON, http.StatusCreated)
 
 	channelInput := AiNotificationsChannelInput{
-		DestinationId: "4a43c21f-427d-4a44-9061-29c455d8df3b",
+		DestinationId: destinationId,
 		Name:          "test-notification-channel-1",
 		Product:       AiNotificationsProductTypes.IINT,
 		Properties: []AiNotificationsPropertyInput{
 			{
 				Key:   "payload",
 				Label: "Payload Template",
-				Value: "{\\n\\t\\\"id\\\": \\\"blabla\\\"\\n}",
-			},
-			{
-				Key:   "headers",
-				Label: "Custom headers",
-				Value: "{}",
+				Value: "{\\n\\t\\\"id\\\": \\\"test\\\"\\n}",
 			},
 		},
 		Type: AiNotificationsChannelTypeTypes.WEBHOOK,
@@ -125,7 +146,7 @@ func TestCreateChannel(t *testing.T) {
 
 	expected := &AiNotificationsChannelResponse{
 		Channel: AiNotificationsChannel{
-			AccountId:     accountId,
+			AccountID:     accountId,
 			Active:        true,
 			CreatedAt:     testTimestamp,
 			DestinationId: destinationId,
@@ -135,15 +156,9 @@ func TestCreateChannel(t *testing.T) {
 			Properties: []AiNotificationsProperty{
 				{
 					DisplayValue: "",
-					Key:          "headers",
-					Label:        "Custom headers",
-					Value:        "{}",
-				},
-				{
-					DisplayValue: "",
 					Key:          "payload",
 					Label:        "Payload Template",
-					Value:        "{\\n\\t\\\"id\\\": \\\"blabla\\\"\\n}",
+					Value:        "{\\n\\t\\\"id\\\": \\\"test\\\"\\n}",
 				},
 			},
 			Status:    AiNotificationsChannelStatusTypes.DEFAULT,
@@ -162,67 +177,117 @@ func TestCreateChannel(t *testing.T) {
 	assert.Equal(t, expected, actual)
 }
 
-//func TestGetChannel(t *testing.T) {
-//	t.Parallel()
-//	respJSON := fmt.Sprintf(`{ "data":%s }`, testGetDestinationResponseJSON)
-//	notifications := newMockResponse(t, respJSON, http.StatusOK)
-//
-//	expected := &Destination{
-//		ID:        UUID(id),
-//		Name:      "test-notification-destination-1",
-//		Type:      DestinationTypes.Email,
-//		CreatedAt: testTimestamp,
-//		UpdatedAt: testTimestamp,
-//		UpdatedBy: 1547846,
-//		AccountId: 1,
-//		Status:    DestinationStatuses.Default,
-//		Active:    true,
-//		LastSent:  testTimestamp,
-//		Auth: Auth{
-//			AuthType: &AuthTypes.Basic,
-//			User:     &user,
-//		},
-//		Properties: []Property{
-//			{
-//				DisplayValue: "",
-//				Key:          "email",
-//				Label:        "",
-//				Value:        "dshemesh@newrelic.com",
-//			},
-//		},
-//	}
-//
-//	actual, err := notifications.GetDestination(accountId, UUID(id))
-//
-//	assert.NoError(t, err)
-//	assert.NotNil(t, actual)
-//	assert.Equal(t, expected, actual)
-//}
-//
-//func TestUpdateChannel(t *testing.T) {
-//	t.Parallel()
-//	respJSON := fmt.Sprintf(`{ "data":%s }`, testDeleteDestinationResponseJSON)
-//	notifications := newMockResponse(t, respJSON, http.StatusOK)
-//
-//	expected := []string{id}
-//
-//	actual, err := notifications.DeleteDestinationMutation(accountId, UUID(id))
-//
-//	assert.NoError(t, err)
-//	assert.NotNil(t, actual)
-//	assert.Equal(t, expected, actual)
-//}
-//
-//func TestDeleteChannel(t *testing.T) {
-//	t.Parallel()
-//	respJSON := fmt.Sprintf(`{ "data":%s }`, testDeleteDestinationResponseJSON)
-//	notifications := newMockResponse(t, respJSON, http.StatusOK)
-//
-//	expected := []string{id}
-//
-//	actual, err := notifications.DeleteDestinationMutation(accountId, UUID(id))
-//
-//	assert.NoError(t, err)
-//	assert.NotNil(t, actual)
-//	assert.Equal(t, expected, actual)
-//}
+func TestGetChannel(t *testing.T) {
+	t.Parallel()
+	respJSON := fmt.Sprintf(`{ "data":%s }`, testGetChannelResponseJSON)
+	notifications := newMockResponse(t, respJSON, http.StatusOK)
+
+	expected := &AiNotificationsChannelsResponse{
+		Entities: []AiNotificationsChannel{
+			{
+				AccountID:     accountId,
+				Active:        true,
+				CreatedAt:     testTimestamp,
+				DestinationId: destinationId,
+				ID:            id,
+				Name:          "test-notification-channel-1",
+				Product:       AiNotificationsProductTypes.IINT,
+				Properties: []AiNotificationsProperty{
+					{
+						DisplayValue: "",
+						Key:          "payload",
+						Label:        "Payload Template",
+						Value:        "{\\n\\t\\\"id\\\": \\\"test\\\"\\n}",
+					},
+				},
+				Status:    AiNotificationsChannelStatusTypes.DEFAULT,
+				Type:      AiNotificationsChannelTypeTypes.WEBHOOK,
+				UpdatedAt: testTimestamp,
+				UpdatedBy: 1547846,
+			},
+		},
+		Error:      AiNotificationsResponseError{},
+		Errors:     []AiNotificationsResponseError{},
+		NextCursor: "",
+		TotalCount: 1,
+	}
+
+	filters := ai.AiNotificationsChannelFilter{
+		ID: id,
+	}
+	sorter := AiNotificationsChannelSorter{}
+
+	actual, err := notifications.GetChannels(accountId, "", filters, sorter)
+
+	assert.NoError(t, err)
+	assert.NotNil(t, actual)
+	assert.Equal(t, expected, actual)
+}
+
+func TestUpdateChannel(t *testing.T) {
+	t.Parallel()
+	respJSON := fmt.Sprintf(`{ "data":%s }`, testUpdateChannelResponseJSON)
+	notifications := newMockResponse(t, respJSON, http.StatusCreated)
+
+	updateChannelInput := AiNotificationsChannelUpdate{
+		Name: "test-notification-channel-1-update",
+		Properties: []AiNotificationsPropertyInput{
+			{
+				Key:   "payload",
+				Label: "Payload Template",
+				Value: "{\\n\\t\\\"id\\\": \\\"test-update\\\"\\n}",
+			},
+		},
+		Active: false,
+	}
+
+	expected := &AiNotificationsChannelResponse{
+		Channel: AiNotificationsChannel{
+			AccountID:     accountId,
+			Active:        false,
+			CreatedAt:     testTimestamp,
+			DestinationId: destinationId,
+			ID:            id,
+			Name:          "test-notification-channel-1-update",
+			Product:       AiNotificationsProductTypes.IINT,
+			Properties: []AiNotificationsProperty{
+				{
+					DisplayValue: "",
+					Key:          "payload",
+					Label:        "Payload Template",
+					Value:        "{\\n\\t\\\"id\\\": \\\"test-update\\\"\\n}",
+				},
+			},
+			Status:    AiNotificationsChannelStatusTypes.DEFAULT,
+			Type:      AiNotificationsChannelTypeTypes.WEBHOOK,
+			UpdatedAt: testTimestamp,
+			UpdatedBy: 1547846,
+		},
+		Error:  ai.AiNotificationsError{},
+		Errors: []ai.AiNotificationsError{},
+	}
+
+	actual, err := notifications.AiNotificationsUpdateChannel(accountId, updateChannelInput, id)
+
+	assert.NoError(t, err)
+	assert.NotNil(t, actual)
+	assert.Equal(t, expected, actual)
+}
+
+func TestDeleteChannel(t *testing.T) {
+	t.Parallel()
+	respJSON := fmt.Sprintf(`{ "data":%s }`, testDeleteChannelResponseJSON)
+	notifications := newMockResponse(t, respJSON, http.StatusOK)
+
+	expected := &AiNotificationsDeleteResponse{
+		IDs:    []string{id},
+		Errors: []AiNotificationsResponseError{},
+		Error:  AiNotificationsResponseError{},
+	}
+
+	actual, err := notifications.AiNotificationsDeleteChannel(accountId, id)
+
+	assert.NoError(t, err)
+	assert.NotNil(t, actual)
+	assert.Equal(t, expected, actual)
+}
