@@ -49,6 +49,8 @@ func TestNotificationMutationDestination(t *testing.T) {
 	createResult, err := n.AiNotificationsCreateDestination(accountID, destination)
 	require.NoError(t, err)
 	require.NotNil(t, createResult)
+	require.NotEmpty(t, createResult.Destination.Auth)
+	require.Equal(t, ai.AiNotificationsAuthType("TOKEN"), createResult.Destination.Auth.AuthType)
 
 	// Test: Get Destination
 	filters := ai.AiNotificationsDestinationFilter{
