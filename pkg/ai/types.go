@@ -6,12 +6,6 @@ import (
 	"fmt"
 )
 
-// AiNotificationsAuth - Authentication interface
-type AiNotificationsAuth struct {
-}
-
-func (x *AiNotificationsAuth) ImplementsAiNotificationsAuth() {}
-
 // AiWorkflowsNRQLConfigurationDto - Enrichment configuration for NRQL type
 type AiWorkflowsNRQLConfigurationDto struct {
 	// The NRQL query
@@ -20,66 +14,90 @@ type AiWorkflowsNRQLConfigurationDto struct {
 
 func (x *AiWorkflowsNRQLConfigurationDto) ImplementsAiWorkflowsConfigurationDto() {}
 
-// AiNotificationsAuth - Authentication interface
-type AiNotificationsAuthInterface interface {
-	ImplementsAiNotificationsAuth()
-	GetUser() string
-	GetPrefix() string
+// AiNotificationsError - Notifications error interface
+type AiNotificationsError struct {
+}
+
+func (x *AiNotificationsError) ImplementsAiNotificationsError() {}
+
+// AiNotificationsErrorInterface - Notifications error interface
+type AiNotificationsErrorInterface interface {
+	ImplementsAiNotificationsError()
 }
 
 // UnmarshalAiNotificationsAuthInterface unmarshals the interface into the correct type
 // based on __typename provided by GraphQL
-func UnmarshalAiNotificationsAuthInterface(b []byte) (*AiNotificationsAuthInterface, error) {
+func UnmarshalAiNotificationsErrorInterface(b []byte) (*AiNotificationsErrorInterface, error) {
 	var err error
 
-	var rawMessageAiNotificationsAuth map[string]*json.RawMessage
-	err = json.Unmarshal(b, &rawMessageAiNotificationsAuth)
+	var rawMessageAiNotificationsError map[string]*json.RawMessage
+	err = json.Unmarshal(b, &rawMessageAiNotificationsError)
 	if err != nil {
 		return nil, err
 	}
 
 	// Nothing to unmarshal
-	if len(rawMessageAiNotificationsAuth) < 1 {
+	if len(rawMessageAiNotificationsError) < 1 {
 		return nil, nil
 	}
 
 	var typeName string
 
-	if rawTypeName, ok := rawMessageAiNotificationsAuth["__typename"]; ok {
+	if rawTypeName, ok := rawMessageAiNotificationsError["__typename"]; ok {
 		err = json.Unmarshal(*rawTypeName, &typeName)
 		if err != nil {
 			return nil, err
 		}
 
 		switch typeName {
-		case "AiNotificationsBasicAuth":
-			var interfaceType AiNotificationsBasicAuth
+		case "AiNotificationsSuggestionError":
+			var interfaceType AiNotificationsSuggestionError
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
 			}
 
-			var xxx AiNotificationsAuthInterface = &interfaceType
+			var xxx AiNotificationsErrorInterface = &interfaceType
 
 			return &xxx, nil
-		case "AiNotificationsTokenAuth":
-			var interfaceType AiNotificationsTokenAuth
+		case "AiNotificationsDataValidationError":
+			var interfaceType AiNotificationsDataValidationError
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
 			}
 
-			var xxx AiNotificationsAuthInterface = &interfaceType
+			var xxx AiNotificationsErrorInterface = &interfaceType
+
+			return &xxx, nil
+		case "AiNotificationsConstraintError":
+			var interfaceType AiNotificationsConstraintError
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AiNotificationsErrorInterface = &interfaceType
+
+			return &xxx, nil
+		case "AiNotificationsResponseError":
+			var interfaceType AiNotificationsResponseError
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AiNotificationsErrorInterface = &interfaceType
 
 			return &xxx, nil
 		}
 	} else {
 		keys := []string{}
-		for k := range rawMessageAiNotificationsAuth {
+		for k := range rawMessageAiNotificationsError {
 			keys = append(keys, k)
 		}
-		return nil, fmt.Errorf("interface AiNotificationsAuth did not include a __typename field for inspection: %s", keys)
+		return nil, fmt.Errorf("interface AiNotificationsError did not include a __typename field for inspection: %s", keys)
 	}
 
-	return nil, fmt.Errorf("interface AiNotificationsAuth was not matched against all PossibleTypes: %s", typeName)
+	return nil, fmt.Errorf("interface AiNotificationsError was not matched against all PossibleTypes: %s", typeName)
 }
