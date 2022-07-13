@@ -1,3 +1,16 @@
+<a name="v0.87.0"></a>
+## [v0.87.0] - 2022-07-13
+### Bug Fixes
+- **destinations:** add integration tests and unit tests
+- **destinations:** add integration tests + small fix for union type
+- **destinations:** use tutone generator
+- **destinations:** fix lint
+
+### Features
+- **destinations:** fix tests
+- **destinations:** fix tests
+- **notifications:** add notifications destinations api calls
+
 <a name="v0.86.5"></a>
 ## [v0.86.5] - 2022-07-11
 ### Bug Fixes
@@ -1356,7 +1369,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.86.5...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.87.0...HEAD
+[v0.87.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.86.5...v0.87.0
 [v0.86.5]: https://github.com/newrelic/newrelic-client-go/compare/v0.86.4...v0.86.5
 [v0.86.4]: https://github.com/newrelic/newrelic-client-go/compare/v0.86.3...v0.86.4
 [v0.86.3]: https://github.com/newrelic/newrelic-client-go/compare/v0.86.2...v0.86.3
