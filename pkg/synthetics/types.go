@@ -482,7 +482,7 @@ type SyntheticsPrivateLocationDeleteResult struct {
 // SyntheticsPrivateLocationInput - Information realating to a private location
 type SyntheticsPrivateLocationInput struct {
 	// The unique identifier for the Synthetics private location in New Relic
-	GUID int `json:"guid"`
+	GUID string `json:"guid"`
 	// The location's Verified Script Execution password (Only necessary if Verified Script Execution is enabled for the location)
 	VsePassword SecureValue `json:"vsePassword,omitempty"`
 }
