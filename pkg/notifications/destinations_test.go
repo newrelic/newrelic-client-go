@@ -127,7 +127,10 @@ func TestCreateDestination(t *testing.T) {
 		},
 	}
 
-	auth := ai.AiNotificationsAuth{}
+	auth := ai.AiNotificationsAuth{
+		AuthType: "BASIC",
+		User:     user,
+	}
 	auth.ImplementsAiNotificationsAuth()
 
 	expected := &AiNotificationsDestinationResponse{
@@ -163,12 +166,15 @@ func TestCreateDestination(t *testing.T) {
 	assert.Equal(t, expected, actual)
 }
 
-func TestGetChannel(t *testing.T) {
+func TestGetDestinations(t *testing.T) {
 	t.Parallel()
 	respJSON := fmt.Sprintf(`{ "data":%s }`, testGetDestinationResponseJSON)
 	notifications := newMockResponse(t, respJSON, http.StatusOK)
 
-	auth := ai.AiNotificationsAuth{}
+	auth := ai.AiNotificationsAuth{
+		AuthType: "BASIC",
+		User:     user,
+	}
 	auth.ImplementsAiNotificationsAuth()
 
 	expected := &AiNotificationsDestinationsResponse{
