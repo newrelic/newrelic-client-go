@@ -14,10 +14,10 @@ import (
 )
 
 var (
-	accountId           = 10867072
+	accountID           = 10867072
 	testTimestampString = "2022-07-11T08:43:38.943355Z"
 	testTimestamp       = nrtime.DateTime(testTimestampString)
-	id                  = "28932668-a894-41f9-bdd2-f7c094d164df"
+	ID                  = "28932668-a894-41f9-bdd2-f7c094d164df"
 	destinationId       = "b1e90a32-23b7-4028-b2c7-ffbdfe103852"
 
 	testCreateChannelResponseJSON = `{
@@ -146,11 +146,11 @@ func TestCreateChannel(t *testing.T) {
 
 	expected := &AiNotificationsChannelResponse{
 		Channel: AiNotificationsChannel{
-			AccountID:     accountId,
+			AccountID:     accountID,
 			Active:        true,
 			CreatedAt:     testTimestamp,
 			DestinationId: destinationId,
-			ID:            id,
+			ID:            ID,
 			Name:          "test-notification-channel-1",
 			Product:       AiNotificationsProductTypes.IINT,
 			Properties: []AiNotificationsProperty{
@@ -170,7 +170,7 @@ func TestCreateChannel(t *testing.T) {
 		Errors: []ai.AiNotificationsError{},
 	}
 
-	actual, err := notifications.AiNotificationsCreateChannel(accountId, channelInput)
+	actual, err := notifications.AiNotificationsCreateChannel(accountID, channelInput)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)
@@ -185,11 +185,11 @@ func TestGetChannel(t *testing.T) {
 	expected := &AiNotificationsChannelsResponse{
 		Entities: []AiNotificationsChannel{
 			{
-				AccountID:     accountId,
+				AccountID:     accountID,
 				Active:        true,
 				CreatedAt:     testTimestamp,
 				DestinationId: destinationId,
-				ID:            id,
+				ID:            ID,
 				Name:          "test-notification-channel-1",
 				Product:       AiNotificationsProductTypes.IINT,
 				Properties: []AiNotificationsProperty{
@@ -213,11 +213,11 @@ func TestGetChannel(t *testing.T) {
 	}
 
 	filters := ai.AiNotificationsChannelFilter{
-		ID: id,
+		ID: ID,
 	}
 	sorter := AiNotificationsChannelSorter{}
 
-	actual, err := notifications.GetChannels(accountId, "", filters, sorter)
+	actual, err := notifications.GetChannels(accountID, "", filters, sorter)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)
@@ -243,11 +243,11 @@ func TestUpdateChannel(t *testing.T) {
 
 	expected := &AiNotificationsChannelResponse{
 		Channel: AiNotificationsChannel{
-			AccountID:     accountId,
+			AccountID:     accountID,
 			Active:        false,
 			CreatedAt:     testTimestamp,
 			DestinationId: destinationId,
-			ID:            id,
+			ID:            ID,
 			Name:          "test-notification-channel-1-update",
 			Product:       AiNotificationsProductTypes.IINT,
 			Properties: []AiNotificationsProperty{
@@ -267,7 +267,7 @@ func TestUpdateChannel(t *testing.T) {
 		Errors: []ai.AiNotificationsError{},
 	}
 
-	actual, err := notifications.AiNotificationsUpdateChannel(accountId, updateChannelInput, id)
+	actual, err := notifications.AiNotificationsUpdateChannel(accountID, updateChannelInput, ID)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)
@@ -280,12 +280,12 @@ func TestDeleteChannel(t *testing.T) {
 	notifications := newMockResponse(t, respJSON, http.StatusOK)
 
 	expected := &AiNotificationsDeleteResponse{
-		IDs:    []string{id},
+		IDs:    []string{ID},
 		Errors: []AiNotificationsResponseError{},
 		Error:  AiNotificationsResponseError{},
 	}
 
-	actual, err := notifications.AiNotificationsDeleteChannel(accountId, id)
+	actual, err := notifications.AiNotificationsDeleteChannel(accountID, ID)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)
