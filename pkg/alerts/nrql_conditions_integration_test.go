@@ -386,7 +386,7 @@ func TestIntegrationNrqlConditions_Static(t *testing.T) {
 		}
 		updateStaticInput = NrqlConditionUpdateInput{
 			NrqlConditionUpdateBase: nrqlConditionUpdateBase,
-			ValueFunction:           &NrqlConditionValueFunctions.Sum,
+			ValueFunction:           &NrqlConditionValueFunctions.SingleValue,
 		}
 	)
 
@@ -715,7 +715,7 @@ func TestIntegrationNrqlConditions_StreamingMethods(t *testing.T) {
 		}
 		updateStreamingMethodsInput = NrqlConditionUpdateInput{
 			NrqlConditionUpdateBase: nrqlConditionUpdateWithStreamingMethods,
-			ValueFunction:           &NrqlConditionValueFunctions.Sum,
+			ValueFunction:           &NrqlConditionValueFunctions.SingleValue,
 		}
 	)
 
@@ -745,6 +745,13 @@ func TestIntegrationNrqlConditions_StreamingMethods(t *testing.T) {
 	require.Equal(t, &nrqlConditionBaseAggMethod, readResult.Signal.AggregationMethod)
 	require.Equal(t, &nrqlConditionBaseAggDelay, readResult.Signal.AggregationDelay)
 	require.Nil(t, createdStaticWithStreamingMethods.Signal.AggregationTimer)
+
+	// Test: Not found
+	notFoundResult, err := client.GetNrqlConditionQuery(testAccountID, "1")
+	require.Error(t, err)
+	require.Nil(t, notFoundResult)
+	_, ok := err.(*errors.NotFound)
+	require.True(t, ok)
 
 	// Test: Update (static condition with streaming methods fields modified)
 	nrqlConditionBaseAggMethodUpdated := NrqlConditionAggregationMethodTypes.EventTimer // needed for setting pointer
@@ -796,7 +803,7 @@ func TestIntegrationNrqlConditions_ValueFunctionOptional(t *testing.T) {
 		}
 		updateToAddValueFunctionInput = NrqlConditionUpdateInput{
 			NrqlConditionUpdateBase: nrqlConditionUpdateBase,
-			ValueFunction:           &NrqlConditionValueFunctions.Sum,
+			ValueFunction:           &NrqlConditionValueFunctions.SingleValue,
 		}
 	)
 
@@ -826,7 +833,7 @@ func TestIntegrationNrqlConditions_ValueFunctionOptional(t *testing.T) {
 	require.Equal(t, &nrqlConditionBaseValueFunction, readResult.ValueFunction)
 
 	// Test: Update (static condition with value function)
-	nrqlConditionSumValueFunction := NrqlConditionValueFunctions.Sum // needed for setting pointer
+	nrqlConditionSumValueFunction := NrqlConditionValueFunctions.SingleValue // needed for setting pointer
 
 	updatedStaticWithValueFunction, err := client.UpdateNrqlConditionStaticMutation(testAccountID, readResult.ID, updateToAddValueFunctionInput)
 	require.NoError(t, err)
