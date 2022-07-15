@@ -2,6 +2,9 @@
 package notifications
 
 import (
+	"encoding/json"
+	"fmt"
+
 	"github.com/newrelic/newrelic-client-go/pkg/ai"
 	"github.com/newrelic/newrelic-client-go/pkg/nrtime"
 )
@@ -23,6 +26,147 @@ var AiNotificationsAuthTypeTypes = struct {
 	OAUTH2: "OAUTH2",
 	// Token based authentication
 	TOKEN: "TOKEN",
+}
+
+// AiNotificationsChannelFields - Channel fields to filter by
+type AiNotificationsChannelFields string
+
+var AiNotificationsChannelFieldsTypes = struct {
+	// active field
+	ACTIVE AiNotificationsChannelFields
+	// created timestamp field
+	CREATED_AT AiNotificationsChannelFields
+	// default field
+	DEFAULT AiNotificationsChannelFields
+	// destination id field
+	DESTINATION_ID AiNotificationsChannelFields
+	// name field
+	NAME AiNotificationsChannelFields
+	// product field
+	PRODUCT AiNotificationsChannelFields
+	// status field
+	STATUS AiNotificationsChannelFields
+	// type field
+	TYPE AiNotificationsChannelFields
+	// updated timestamp field
+	UPDATED_AT AiNotificationsChannelFields
+	// updated_by field
+	UPDATED_BY AiNotificationsChannelFields
+}{
+	// active field
+	ACTIVE: "ACTIVE",
+	// created timestamp field
+	CREATED_AT: "CREATED_AT",
+	// default field
+	DEFAULT: "DEFAULT",
+	// destination id field
+	DESTINATION_ID: "DESTINATION_ID",
+	// name field
+	NAME: "NAME",
+	// product field
+	PRODUCT: "PRODUCT",
+	// status field
+	STATUS: "STATUS",
+	// type field
+	TYPE: "TYPE",
+	// updated timestamp field
+	UPDATED_AT: "UPDATED_AT",
+	// updated_by field
+	UPDATED_BY: "UPDATED_BY",
+}
+
+// AiNotificationsChannelStatus - Channel statuses
+type AiNotificationsChannelStatus string
+
+var AiNotificationsChannelStatusTypes = struct {
+	// Configuration Error channel status
+	CONFIGURATION_ERROR AiNotificationsChannelStatus
+	// Configuration Warning channel status
+	CONFIGURATION_WARNING AiNotificationsChannelStatus
+	// Default channel status
+	DEFAULT AiNotificationsChannelStatus
+	// Draft channel status
+	DRAFT AiNotificationsChannelStatus
+	// Error channel status
+	ERROR AiNotificationsChannelStatus
+	// Tested channel status
+	TESTED AiNotificationsChannelStatus
+	// Throttled channel status
+	THROTTLED AiNotificationsChannelStatus
+	// Unknown Error channel status
+	UNKNOWN_ERROR AiNotificationsChannelStatus
+}{
+	// Configuration Error channel status
+	CONFIGURATION_ERROR: "CONFIGURATION_ERROR",
+	// Configuration Warning channel status
+	CONFIGURATION_WARNING: "CONFIGURATION_WARNING",
+	// Default channel status
+	DEFAULT: "DEFAULT",
+	// Draft channel status
+	DRAFT: "DRAFT",
+	// Error channel status
+	ERROR: "ERROR",
+	// Tested channel status
+	TESTED: "TESTED",
+	// Throttled channel status
+	THROTTLED: "THROTTLED",
+	// Unknown Error channel status
+	UNKNOWN_ERROR: "UNKNOWN_ERROR",
+}
+
+// AiNotificationsChannelType - Channel type
+type AiNotificationsChannelType string
+
+var AiNotificationsChannelTypeTypes = struct {
+	// Email channel type
+	EMAIL AiNotificationsChannelType
+	// Event Bridge channel type
+	EVENT_BRIDGE AiNotificationsChannelType
+	// Jira Classic channel type
+	JIRA_CLASSIC AiNotificationsChannelType
+	// Jira Nextgen channel type
+	JIRA_NEXTGEN AiNotificationsChannelType
+	// Mobile push channel type
+	MOBILE_PUSH AiNotificationsChannelType
+	// PagerDuty channel type
+	PAGERDUTY_ACCOUNT_INTEGRATION AiNotificationsChannelType
+	// Pager Duty channel type
+	PAGERDUTY_SERVICE_INTEGRATION AiNotificationsChannelType
+	// Servicenow events channel type
+	SERVICENOW_EVENTS AiNotificationsChannelType
+	// Servicenow incidents channel type
+	SERVICENOW_INCIDENTS AiNotificationsChannelType
+	// Slack channel type
+	SLACK AiNotificationsChannelType
+	// Slack Collaboration channel type
+	SLACK_COLLABORATION AiNotificationsChannelType
+	// Webhook channel type
+	WEBHOOK AiNotificationsChannelType
+}{
+	// Email channel type
+	EMAIL: "EMAIL",
+	// Event Bridge channel type
+	EVENT_BRIDGE: "EVENT_BRIDGE",
+	// Jira Classic channel type
+	JIRA_CLASSIC: "JIRA_CLASSIC",
+	// Jira Nextgen channel type
+	JIRA_NEXTGEN: "JIRA_NEXTGEN",
+	// Mobile push channel type
+	MOBILE_PUSH: "MOBILE_PUSH",
+	// PagerDuty channel type
+	PAGERDUTY_ACCOUNT_INTEGRATION: "PAGERDUTY_ACCOUNT_INTEGRATION",
+	// Pager Duty channel type
+	PAGERDUTY_SERVICE_INTEGRATION: "PAGERDUTY_SERVICE_INTEGRATION",
+	// Servicenow events channel type
+	SERVICENOW_EVENTS: "SERVICENOW_EVENTS",
+	// Servicenow incidents channel type
+	SERVICENOW_INCIDENTS: "SERVICENOW_INCIDENTS",
+	// Slack channel type
+	SLACK: "SLACK",
+	// Slack Collaboration channel type
+	SLACK_COLLABORATION: "SLACK_COLLABORATION",
+	// Webhook channel type
+	WEBHOOK: "WEBHOOK",
 }
 
 // AiNotificationsDestinationFields - Destination fields
@@ -241,6 +385,41 @@ var AiNotificationsErrorTypeTypes = struct {
 	UNKNOWN_ERROR: "UNKNOWN_ERROR",
 }
 
+// AiNotificationsProduct - Product types
+type AiNotificationsProduct string
+
+var AiNotificationsProductTypes = struct {
+	// Alerts product type
+	ALERTS AiNotificationsProduct
+	// Discussions and comments product type
+	DISCUSSIONS AiNotificationsProduct
+	// Error Tracking product type
+	ERROR_TRACKING AiNotificationsProduct
+	// Incident Intelligence product type
+	IINT AiNotificationsProduct
+	// Notifications internal product type
+	NTFC AiNotificationsProduct
+	// Proactive Detection product type
+	PD AiNotificationsProduct
+	// Sharing product type
+	SHARING AiNotificationsProduct
+}{
+	// Alerts product type
+	ALERTS: "ALERTS",
+	// Discussions and comments product type
+	DISCUSSIONS: "DISCUSSIONS",
+	// Error Tracking product type
+	ERROR_TRACKING: "ERROR_TRACKING",
+	// Incident Intelligence product type
+	IINT: "IINT",
+	// Notifications internal product type
+	NTFC: "NTFC",
+	// Proactive Detection product type
+	PD: "PD",
+	// Sharing product type
+	SHARING: "SHARING",
+}
+
 // AiNotificationsSortOrder - Sort order
 type AiNotificationsSortOrder string
 
@@ -254,6 +433,83 @@ var AiNotificationsSortOrderTypes = struct {
 	ASC: "ASC",
 	// Descending sort order
 	DESC: "DESC",
+}
+
+// AlertsNotificationChannelType - The type of the notification channel which determines its configuration field.
+type AlertsNotificationChannelType string
+
+var AlertsNotificationChannelTypeTypes = struct {
+	// Campfire notification channel.
+	CAMPFIRE AlertsNotificationChannelType
+	// Email notification channel.
+	EMAIL AlertsNotificationChannelType
+	// HipChat notification channel.
+	HIP_CHAT AlertsNotificationChannelType
+	// OpsGenie notification channel.
+	OPSGENIE AlertsNotificationChannelType
+	// PagerDuty notification channel.
+	PAGERDUTY AlertsNotificationChannelType
+	// Slack notification channel.
+	SLACK AlertsNotificationChannelType
+	// User notification channel.
+	USER AlertsNotificationChannelType
+	// VictorOps notification channel.
+	VICTOROPS AlertsNotificationChannelType
+	// Webhook notification channel.
+	WEBHOOK AlertsNotificationChannelType
+	// xMatters notification channel.
+	XMATTERS AlertsNotificationChannelType
+}{
+	// Campfire notification channel.
+	CAMPFIRE: "CAMPFIRE",
+	// Email notification channel.
+	EMAIL: "EMAIL",
+	// HipChat notification channel.
+	HIP_CHAT: "HIP_CHAT",
+	// OpsGenie notification channel.
+	OPSGENIE: "OPSGENIE",
+	// PagerDuty notification channel.
+	PAGERDUTY: "PAGERDUTY",
+	// Slack notification channel.
+	SLACK: "SLACK",
+	// User notification channel.
+	USER: "USER",
+	// VictorOps notification channel.
+	VICTOROPS: "VICTOROPS",
+	// Webhook notification channel.
+	WEBHOOK: "WEBHOOK",
+	// xMatters notification channel.
+	XMATTERS: "XMATTERS",
+}
+
+// AlertsOpsGenieDataCenterRegion - OpsGenie data center region
+type AlertsOpsGenieDataCenterRegion string
+
+var AlertsOpsGenieDataCenterRegionTypes = struct {
+	// EU data center region
+	EU AlertsOpsGenieDataCenterRegion
+	// US data center region
+	US AlertsOpsGenieDataCenterRegion
+}{
+	// EU data center region
+	EU: "EU",
+	// US data center region
+	US: "US",
+}
+
+// AlertsWebhookCustomPayloadType - Webhook custom payload type
+type AlertsWebhookCustomPayloadType string
+
+var AlertsWebhookCustomPayloadTypeTypes = struct {
+	// FORM payload type
+	FORM AlertsWebhookCustomPayloadType
+	// JSON payload type
+	JSON AlertsWebhookCustomPayloadType
+}{
+	// FORM payload type
+	FORM: "FORM",
+	// JSON payload type
+	JSON: "JSON",
 }
 
 // Account - The `Account` object provides general data about the account, as well as
@@ -280,6 +536,8 @@ type Actor struct {
 
 // AiNotificationsAccountStitchedFields -
 type AiNotificationsAccountStitchedFields struct {
+	// Fetch a Channel by product
+	Channels AiNotificationsChannelsResponse `json:"channels,omitempty"`
 	// Fetch a Destinations by type
 	Destinations AiNotificationsDestinationsResponse `json:"destinations,omitempty"`
 }
@@ -290,6 +548,108 @@ type AiNotificationsBasicAuthInput struct {
 	Password SecureValue `json:"password"`
 	// user
 	User string `json:"user"`
+}
+
+// AiNotificationsChannel - Channel object
+type AiNotificationsChannel struct {
+	// The accountId of the creator of the channel
+	AccountID int `json:"accountId"`
+	// Is channel active
+	Active bool `json:"active"`
+	// Channel creation time
+	CreatedAt nrtime.DateTime `json:"createdAt"`
+	// Related destination type
+	DestinationId string `json:"destinationId"`
+	// Channel id
+	ID string `json:"id"`
+	// Channel name
+	Name string `json:"name"`
+	// Related product type
+	Product AiNotificationsProduct `json:"product"`
+	// List of destination property types
+	Properties []AiNotificationsProperty `json:"properties"`
+	// Channel Status
+	Status AiNotificationsChannelStatus `json:"status"`
+	// Channel type
+	Type AiNotificationsChannelType `json:"type"`
+	// Channel last update time
+	UpdatedAt nrtime.DateTime `json:"updatedAt"`
+	// Message template creator userId
+	UpdatedBy int `json:"updatedBy"`
+}
+
+// AiNotificationsChannelFilter - Filter channel object
+type AiNotificationsChannelFilter struct {
+	// active
+	Active bool `json:"active,omitempty"`
+	// destinationId
+	DestinationId string `json:"destinationId,omitempty"`
+	// id
+	ID string `json:"id,omitempty"`
+	// name
+	Name string `json:"name,omitempty"`
+	// product
+	Product AiNotificationsProduct `json:"product,omitempty"`
+	// property
+	Property AiNotificationsPropertyFilter `json:"property,omitempty"`
+	// type
+	Type AiNotificationsChannelType `json:"type,omitempty"`
+}
+
+// AiNotificationsChannelInput - Channel input object
+type AiNotificationsChannelInput struct {
+	// destinationId
+	DestinationId string `json:"destinationId"`
+	// name
+	Name string `json:"name"`
+	// product
+	Product AiNotificationsProduct `json:"product"`
+	// properties
+	Properties []AiNotificationsPropertyInput `json:"properties,omitempty"`
+	// type
+	Type AiNotificationsChannelType `json:"type"`
+}
+
+// AiNotificationsChannelResponse - Response for all channel related mutations. Includes relevant channel and/or errors
+type AiNotificationsChannelResponse struct {
+	// Successfully mutated channel
+	Channel AiNotificationsChannel `json:"channel,omitempty"`
+	// Error in channel mutation
+	Error ai.AiNotificationsError `json:"error,omitempty"`
+	// Deprecated list of errors
+	Errors []ai.AiNotificationsError `json:"errors"`
+}
+
+// AiNotificationsChannelSorter - Sort object
+type AiNotificationsChannelSorter struct {
+	// direction
+	Direction AiNotificationsSortOrder `json:"direction"`
+	// field
+	Field AiNotificationsChannelFields `json:"field"`
+}
+
+// AiNotificationsChannelUpdate - Channel update object
+type AiNotificationsChannelUpdate struct {
+	// active
+	Active bool `json:"active,omitempty"`
+	// name
+	Name string `json:"name,omitempty"`
+	// properties
+	Properties []AiNotificationsPropertyInput `json:"properties,omitempty"`
+}
+
+// AiNotificationsChannelsResponse - Channel result object
+type AiNotificationsChannelsResponse struct {
+	// Channel entities
+	Entities []AiNotificationsChannel `json:"entities"`
+	// Error in channel entities fetching
+	Error AiNotificationsResponseError `json:"error,omitempty"`
+	// Deprecated list of errors
+	Errors []AiNotificationsResponseError `json:"errors"`
+	// Cursor to get the next batch of results
+	NextCursor string `json:"nextCursor,omitempty"`
+	// Count of all channel entities
+	TotalCount int `json:"totalCount"`
 }
 
 // AiNotificationsCredentialsInput - Credential input object
@@ -492,9 +852,451 @@ type AiNotificationsTokenAuthInput struct {
 	Token SecureValue `json:"token"`
 }
 
+// AlertsCampfireNotificationChannel - Campfire notification channel.
+type AlertsCampfireNotificationChannel struct {
+	// Policies associated with the channel.
+	AssociatedPolicies AlertsNotificationChannelPoliciesResultSet `json:"associatedPolicies"`
+	// Campfire channel specific configuration.
+	Config AlertsCampfireNotificationChannelConfig `json:"config"`
+	// Channel ID.
+	ID string `json:"id"`
+	// Channel name.
+	Name string `json:"name"`
+	// Channel type.
+	Type AlertsNotificationChannelType `json:"type"`
+}
+
+func (x *AlertsCampfireNotificationChannel) ImplementsAlertsNotificationChannel() {}
+
+// AlertsCampfireNotificationChannelConfig - Configuration for Campfire notification channel.
+type AlertsCampfireNotificationChannelConfig struct {
+	// Room.
+	Room string `json:"room"`
+	// Subdomain.
+	Subdomain string `json:"subdomain"`
+	// Authentication token.
+	Token SecureValue `json:"token"`
+}
+
+// AlertsEmailNotificationChannel - Email notification channel.
+type AlertsEmailNotificationChannel struct {
+	// Policies associated with the channel.
+	AssociatedPolicies AlertsNotificationChannelPoliciesResultSet `json:"associatedPolicies"`
+	// Email channel specific configuration.
+	Config AlertsEmailNotificationChannelConfig `json:"config"`
+	// Channel ID.
+	ID string `json:"id"`
+	// Channel name.
+	Name string `json:"name"`
+	// Channel type.
+	Type AlertsNotificationChannelType `json:"type"`
+}
+
+func (x *AlertsEmailNotificationChannel) ImplementsAlertsNotificationChannel() {}
+
+// AlertsEmailNotificationChannelConfig - Configuration for Email notification channel.
+type AlertsEmailNotificationChannelConfig struct {
+	// List of email recipients.
+	Emails []string `json:"emails"`
+	// Include details about the violation as a JSON attachment.
+	IncludeJson bool `json:"includeJson"`
+}
+
+// AlertsHipChatNotificationChannel - HipChat notification channel.
+type AlertsHipChatNotificationChannel struct {
+	// Policies associated with the channel.
+	AssociatedPolicies AlertsNotificationChannelPoliciesResultSet `json:"associatedPolicies"`
+	// HipChat channel specific configuration.
+	Config AlertsHipChatNotificationChannelConfig `json:"config"`
+	// Channel ID.
+	ID string `json:"id"`
+	// Channel name.
+	Name string `json:"name"`
+	// Channel type.
+	Type AlertsNotificationChannelType `json:"type"`
+}
+
+func (x *AlertsHipChatNotificationChannel) ImplementsAlertsNotificationChannel() {}
+
+// AlertsHipChatNotificationChannelConfig - Configuration for HipChat notification channel.
+type AlertsHipChatNotificationChannelConfig struct {
+	// Authentication token.
+	AuthToken SecureValue `json:"authToken"`
+	// Base URL.
+	BaseURL string `json:"baseUrl"`
+	// Room ID.
+	RoomId string `json:"roomId"`
+}
+
+// AlertsNotificationChannel - A notification channel.
+type AlertsNotificationChannel struct {
+	// Policies associated with the channel.
+	AssociatedPolicies AlertsNotificationChannelPoliciesResultSet `json:"associatedPolicies"`
+	// Channel ID.
+	ID string `json:"id"`
+	// Channel name.
+	Name string `json:"name"`
+	// Channel type.
+	Type AlertsNotificationChannelType `json:"type"`
+}
+
+func (x *AlertsNotificationChannel) ImplementsAlertsNotificationChannel() {}
+
+// AlertsNotificationChannelPoliciesResultSet - A result set containing associated policies information for a notification channel.
+type AlertsNotificationChannelPoliciesResultSet struct {
+	// A set of policies associated with the channel.
+	Policies []AlertsNotificationChannelPolicy `json:"policies"`
+	// Total number of policies associated with the channel.
+	TotalCount int `json:"totalCount"`
+}
+
+// AlertsNotificationChannelPolicy - Information about a policy associated with a notification channel.
+type AlertsNotificationChannelPolicy struct {
+	// Policy ID.
+	ID string `json:"id"`
+	// Policy name.
+	Name string `json:"name"`
+}
+
+// AlertsOpsGenieNotificationChannel - OpsGenie notification channel.
+type AlertsOpsGenieNotificationChannel struct {
+	// Policies associated with the channel.
+	AssociatedPolicies AlertsNotificationChannelPoliciesResultSet `json:"associatedPolicies"`
+	// OpsGenie channel specific configuration.
+	Config AlertsOpsGenieNotificationChannelConfig `json:"config"`
+	// Channel ID.
+	ID string `json:"id"`
+	// Channel name.
+	Name string `json:"name"`
+	// Channel type.
+	Type AlertsNotificationChannelType `json:"type"`
+}
+
+func (x *AlertsOpsGenieNotificationChannel) ImplementsAlertsNotificationChannel() {}
+
+// AlertsOpsGenieNotificationChannelConfig - Configuration for OpsGenie notification channel.
+type AlertsOpsGenieNotificationChannelConfig struct {
+	// API key.
+	APIKey SecureValue `json:"apiKey"`
+	// OpsGenie data center region.
+	DataCenterRegion AlertsOpsGenieDataCenterRegion `json:"dataCenterRegion"`
+	// List of email recipients.
+	Recipients []string `json:"recipients"`
+	// Tags.
+	Tags []string `json:"tags"`
+	// Teams.
+	Teams []string `json:"teams"`
+}
+
+// AlertsPagerDutyNotificationChannel - PagerDuty notification channel.
+type AlertsPagerDutyNotificationChannel struct {
+	// Policies associated with the channel.
+	AssociatedPolicies AlertsNotificationChannelPoliciesResultSet `json:"associatedPolicies"`
+	// PagerDuty channel specific configuration.
+	Config AlertsPagerDutyNotificationChannelConfig `json:"config"`
+	// Channel ID.
+	ID string `json:"id"`
+	// Channel name.
+	Name string `json:"name"`
+	// Channel type.
+	Type AlertsNotificationChannelType `json:"type"`
+}
+
+func (x *AlertsPagerDutyNotificationChannel) ImplementsAlertsNotificationChannel() {}
+
+// AlertsPagerDutyNotificationChannelConfig - Configuration for PagerDuty notification channel.
+type AlertsPagerDutyNotificationChannelConfig struct {
+	// API key.
+	APIKey SecureValue `json:"apiKey"`
+}
+
+// AlertsSlackNotificationChannel - Slack notification channel.
+type AlertsSlackNotificationChannel struct {
+	// Policies associated with the channel.
+	AssociatedPolicies AlertsNotificationChannelPoliciesResultSet `json:"associatedPolicies"`
+	// Slack channel specific configuration.
+	Config AlertsSlackNotificationChannelConfig `json:"config"`
+	// Channel ID.
+	ID string `json:"id"`
+	// Channel name.
+	Name string `json:"name"`
+	// Channel type.
+	Type AlertsNotificationChannelType `json:"type"`
+}
+
+func (x *AlertsSlackNotificationChannel) ImplementsAlertsNotificationChannel() {}
+
+// AlertsSlackNotificationChannelConfig - Configuration for Slack notification channel.
+type AlertsSlackNotificationChannelConfig struct {
+	// Slack channel name.
+	TeamChannel string `json:"teamChannel,omitempty"`
+	// Slack channel URL.
+	URL SecureValue `json:"url"`
+}
+
+// AlertsUserNotificationChannel - User notification channel.
+type AlertsUserNotificationChannel struct {
+	// Policies associated with the channel.
+	AssociatedPolicies AlertsNotificationChannelPoliciesResultSet `json:"associatedPolicies"`
+	// User channel specific configuration.
+	Config AlertsUserNotificationChannelConfig `json:"config"`
+	// Channel ID.
+	ID string `json:"id"`
+	// Channel name.
+	Name string `json:"name"`
+	// Channel type.
+	Type AlertsNotificationChannelType `json:"type"`
+}
+
+func (x *AlertsUserNotificationChannel) ImplementsAlertsNotificationChannel() {}
+
+// AlertsUserNotificationChannelConfig - Configuration for user notification channel.
+type AlertsUserNotificationChannelConfig struct {
+	// User ID.
+	UserID string `json:"userId"`
+}
+
+// AlertsVictorOpsNotificationChannel - VictorOps notification channel.
+type AlertsVictorOpsNotificationChannel struct {
+	// Policies associated with the channel.
+	AssociatedPolicies AlertsNotificationChannelPoliciesResultSet `json:"associatedPolicies"`
+	// VictorOps channel specific configuration.
+	Config AlertsVictorOpsNotificationChannelConfig `json:"config"`
+	// Channel ID.
+	ID string `json:"id"`
+	// Channel name.
+	Name string `json:"name"`
+	// Channel type.
+	Type AlertsNotificationChannelType `json:"type"`
+}
+
+func (x *AlertsVictorOpsNotificationChannel) ImplementsAlertsNotificationChannel() {}
+
+// AlertsVictorOpsNotificationChannelConfig - Configuration for VictorOps notification channel.
+type AlertsVictorOpsNotificationChannelConfig struct {
+	// Key.
+	Key SecureValue `json:"key"`
+	// Route key.
+	RouteKey string `json:"routeKey"`
+}
+
+// AlertsWebhookBasicAuthInput - Webhook basic auth
+type AlertsWebhookBasicAuthInput struct {
+	// Password
+	Password SecureValue `json:"password"`
+	// Username
+	Username string `json:"username"`
+}
+
+// AlertsWebhookCustomHeaderInput - Webhook header
+type AlertsWebhookCustomHeaderInput struct {
+	// Header name
+	Name string `json:"name"`
+	// Header value
+	Value SecureValue `json:"value"`
+}
+
+// AlertsWebhookNotificationChannel - Webhook notification channel.
+type AlertsWebhookNotificationChannel struct {
+	// Policies associated with the channel.
+	AssociatedPolicies AlertsNotificationChannelPoliciesResultSet `json:"associatedPolicies"`
+	// Webhook channel specific configuration.
+	Config AlertsWebhookNotificationChannelConfig `json:"config"`
+	// Channel ID.
+	ID string `json:"id"`
+	// Channel name.
+	Name string `json:"name"`
+	// Channel type.
+	Type AlertsNotificationChannelType `json:"type"`
+}
+
+func (x *AlertsWebhookNotificationChannel) ImplementsAlertsNotificationChannel() {}
+
+// AlertsWebhookNotificationChannelConfig - Configuration for Webhook notification channel.
+type AlertsWebhookNotificationChannelConfig struct {
+	// Base URL.
+	BaseURL string `json:"baseUrl"`
+	// Basic auth.
+	BasicAuth AlertsWebhookBasicAuthInput `json:"basicAuth,omitempty"`
+	// Custom HTTP headers.
+	CustomHttpHeaders []AlertsWebhookCustomHeaderInput `json:"customHttpHeaders"`
+	// Custom payload body.
+	CustomPayloadBody string `json:"customPayloadBody,omitempty"`
+	// Custom payload type.
+	CustomPayloadType AlertsWebhookCustomPayloadType `json:"customPayloadType,omitempty"`
+}
+
+// AlertsXMattersNotificationChannel - xMatters notification channel.
+type AlertsXMattersNotificationChannel struct {
+	// Policies associated with the channel.
+	AssociatedPolicies AlertsNotificationChannelPoliciesResultSet `json:"associatedPolicies"`
+	// xMatters channel specific configuration.
+	Config AlertsXMattersNotificationChannelConfig `json:"config"`
+	// Channel ID.
+	ID string `json:"id"`
+	// Channel name.
+	Name string `json:"name"`
+	// Channel type.
+	Type AlertsNotificationChannelType `json:"type"`
+}
+
+func (x *AlertsXMattersNotificationChannel) ImplementsAlertsNotificationChannel() {}
+
+// AlertsXMattersNotificationChannelConfig - Configuration for xMatters notification channel.
+type AlertsXMattersNotificationChannelConfig struct {
+	// Integration URL.
+	IntegrationURL SecureValue `json:"integrationUrl"`
+}
+
+type channelsResponse struct {
+	Actor Actor `json:"actor"`
+}
+
 type destinationsResponse struct {
 	Actor Actor `json:"actor"`
 }
 
 // SecureValue - The `SecureValue` scalar represents a secure value, ie a password, an API key, etc.
 type SecureValue string
+
+// AlertsNotificationChannel - A notification channel.
+type AlertsNotificationChannelInterface interface {
+	ImplementsAlertsNotificationChannel()
+}
+
+// UnmarshalAlertsNotificationChannelInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
+func UnmarshalAlertsNotificationChannelInterface(b []byte) (*AlertsNotificationChannelInterface, error) {
+	var err error
+
+	var rawMessageAlertsNotificationChannel map[string]*json.RawMessage
+	err = json.Unmarshal(b, &rawMessageAlertsNotificationChannel)
+	if err != nil {
+		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageAlertsNotificationChannel) < 1 {
+		return nil, nil
+	}
+
+	var typeName string
+
+	if rawTypeName, ok := rawMessageAlertsNotificationChannel["__typename"]; ok {
+		err = json.Unmarshal(*rawTypeName, &typeName)
+		if err != nil {
+			return nil, err
+		}
+
+		switch typeName {
+		case "AlertsCampfireNotificationChannel":
+			var interfaceType AlertsCampfireNotificationChannel
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertsNotificationChannelInterface = &interfaceType
+
+			return &xxx, nil
+		case "AlertsEmailNotificationChannel":
+			var interfaceType AlertsEmailNotificationChannel
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertsNotificationChannelInterface = &interfaceType
+
+			return &xxx, nil
+		case "AlertsHipChatNotificationChannel":
+			var interfaceType AlertsHipChatNotificationChannel
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertsNotificationChannelInterface = &interfaceType
+
+			return &xxx, nil
+		case "AlertsOpsGenieNotificationChannel":
+			var interfaceType AlertsOpsGenieNotificationChannel
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertsNotificationChannelInterface = &interfaceType
+
+			return &xxx, nil
+		case "AlertsPagerDutyNotificationChannel":
+			var interfaceType AlertsPagerDutyNotificationChannel
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertsNotificationChannelInterface = &interfaceType
+
+			return &xxx, nil
+		case "AlertsSlackNotificationChannel":
+			var interfaceType AlertsSlackNotificationChannel
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertsNotificationChannelInterface = &interfaceType
+
+			return &xxx, nil
+		case "AlertsUserNotificationChannel":
+			var interfaceType AlertsUserNotificationChannel
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertsNotificationChannelInterface = &interfaceType
+
+			return &xxx, nil
+		case "AlertsVictorOpsNotificationChannel":
+			var interfaceType AlertsVictorOpsNotificationChannel
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertsNotificationChannelInterface = &interfaceType
+
+			return &xxx, nil
+		case "AlertsWebhookNotificationChannel":
+			var interfaceType AlertsWebhookNotificationChannel
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertsNotificationChannelInterface = &interfaceType
+
+			return &xxx, nil
+		case "AlertsXMattersNotificationChannel":
+			var interfaceType AlertsXMattersNotificationChannel
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertsNotificationChannelInterface = &interfaceType
+
+			return &xxx, nil
+		}
+	} else {
+		keys := []string{}
+		for k := range rawMessageAlertsNotificationChannel {
+			keys = append(keys, k)
+		}
+		return nil, fmt.Errorf("interface AlertsNotificationChannel did not include a __typename field for inspection: %s", keys)
+	}
+
+	return nil, fmt.Errorf("interface AlertsNotificationChannel was not matched against all PossibleTypes: %s", typeName)
+}

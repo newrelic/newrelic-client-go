@@ -3,8 +3,122 @@ package notifications
 
 import (
 	"context"
+
 	"github.com/newrelic/newrelic-client-go/pkg/ai"
 )
+
+// Create a Channel
+func (a *Notifications) AiNotificationsCreateChannel(
+	accountID int,
+	channel AiNotificationsChannelInput,
+) (*AiNotificationsChannelResponse, error) {
+	return a.AiNotificationsCreateChannelWithContext(context.Background(),
+		accountID,
+		channel,
+	)
+}
+
+// Create a Channel
+func (a *Notifications) AiNotificationsCreateChannelWithContext(
+	ctx context.Context,
+	accountID int,
+	channel AiNotificationsChannelInput,
+) (*AiNotificationsChannelResponse, error) {
+
+	resp := AiNotificationsCreateChannelQueryResponse{}
+	vars := map[string]interface{}{
+		"accountId": accountID,
+		"channel":   channel,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, AiNotificationsCreateChannelMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.AiNotificationsChannelResponse, nil
+}
+
+type AiNotificationsCreateChannelQueryResponse struct {
+	AiNotificationsChannelResponse AiNotificationsChannelResponse `json:"AiNotificationsCreateChannel"`
+}
+
+const AiNotificationsCreateChannelMutation = `mutation(
+	$accountId: Int!,
+	$channel: AiNotificationsChannelInput!,
+) { aiNotificationsCreateChannel(
+	accountId: $accountId,
+	channel: $channel,
+) {
+	channel {
+		accountId
+		active
+		createdAt
+		destinationId
+		id
+		name
+		product
+		properties {
+			displayValue
+			key
+			label
+			value
+		}
+		status
+		type
+		updatedAt
+		updatedBy
+	}
+    error {
+      ... on AiNotificationsConstraintsError {
+        constraints {
+          dependencies
+          name
+        }
+      }
+      ... on AiNotificationsDataValidationError {
+        details
+        fields {
+          field
+          message
+        }
+      }
+      ... on AiNotificationsSuggestionError {
+        description
+        details
+        type
+      }
+      ... on AiNotificationsResponseError {
+        description
+        details
+        type
+      }
+    }
+    errors {
+      ... on AiNotificationsSuggestionError {
+        description
+        type
+        details
+      }
+      ... on AiNotificationsResponseError {
+        description
+        type
+        details
+      }
+      ... on AiNotificationsDataValidationError {
+        details
+        fields {
+          message
+          field
+        }
+      }
+      ... on AiNotificationsConstraintsError {
+        constraints {
+          dependencies
+          name
+        }
+      }
+    }
+} }`
 
 // Create a Destination
 func (a *Notifications) AiNotificationsCreateDestination(
@@ -87,7 +201,7 @@ const AiNotificationsCreateDestinationMutation = `mutation(
 		updatedAt
 		updatedBy
 	}
-    errors {
+	errors {
       ... on AiNotificationsConstraintsError {
         constraints {
           dependencies
@@ -137,6 +251,61 @@ const AiNotificationsCreateDestinationMutation = `mutation(
         }
       }
     }
+} }`
+
+// Delete a Channel
+func (a *Notifications) AiNotificationsDeleteChannel(
+	accountID int,
+	channelId string,
+) (*AiNotificationsDeleteResponse, error) {
+	return a.AiNotificationsDeleteChannelWithContext(context.Background(),
+		accountID,
+		channelId,
+	)
+}
+
+// Delete a Channel
+func (a *Notifications) AiNotificationsDeleteChannelWithContext(
+	ctx context.Context,
+	accountID int,
+	channelId string,
+) (*AiNotificationsDeleteResponse, error) {
+
+	resp := AiNotificationsDeleteChannelQueryResponse{}
+	vars := map[string]interface{}{
+		"accountId": accountID,
+		"channelId": channelId,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, AiNotificationsDeleteChannelMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.AiNotificationsDeleteResponse, nil
+}
+
+type AiNotificationsDeleteChannelQueryResponse struct {
+	AiNotificationsDeleteResponse AiNotificationsDeleteResponse `json:"AiNotificationsDeleteChannel"`
+}
+
+const AiNotificationsDeleteChannelMutation = `mutation(
+	$accountId: Int!,
+	$channelId: ID!,
+) { aiNotificationsDeleteChannel(
+	accountId: $accountId,
+	channelId: $channelId,
+) {
+	error {
+		description
+		details
+		type
+	}
+	errors {
+		description
+		details
+		type
+	}
+	ids
 } }`
 
 // Delete a Destination
@@ -192,6 +361,125 @@ const AiNotificationsDeleteDestinationMutation = `mutation(
 		type
 	}
 	ids
+} }`
+
+// Update a Channel
+func (a *Notifications) AiNotificationsUpdateChannel(
+	accountID int,
+	channel AiNotificationsChannelUpdate,
+	channelId string,
+) (*AiNotificationsChannelResponse, error) {
+	return a.AiNotificationsUpdateChannelWithContext(context.Background(),
+		accountID,
+		channel,
+		channelId,
+	)
+}
+
+// Update a Channel
+func (a *Notifications) AiNotificationsUpdateChannelWithContext(
+	ctx context.Context,
+	accountID int,
+	channel AiNotificationsChannelUpdate,
+	channelId string,
+) (*AiNotificationsChannelResponse, error) {
+
+	resp := AiNotificationsUpdateChannelQueryResponse{}
+	vars := map[string]interface{}{
+		"accountId": accountID,
+		"channel":   channel,
+		"channelId": channelId,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, AiNotificationsUpdateChannelMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.AiNotificationsChannelResponse, nil
+}
+
+type AiNotificationsUpdateChannelQueryResponse struct {
+	AiNotificationsChannelResponse AiNotificationsChannelResponse `json:"AiNotificationsUpdateChannel"`
+}
+
+const AiNotificationsUpdateChannelMutation = `mutation(
+	$accountId: Int!,
+	$channel: AiNotificationsChannelUpdate!,
+	$channelId: ID!,
+) { aiNotificationsUpdateChannel(
+	accountId: $accountId,
+	channel: $channel,
+	channelId: $channelId,
+) {
+	channel {
+		accountId
+		active
+		createdAt
+		destinationId
+		id
+		name
+		product
+		properties {
+			displayValue
+			key
+			label
+			value
+		}
+		status
+		type
+		updatedAt
+		updatedBy
+	}
+    error {
+      ... on AiNotificationsConstraintsError {
+        constraints {
+          dependencies
+          name
+        }
+      }
+      ... on AiNotificationsDataValidationError {
+        details
+        fields {
+          field
+          message
+        }
+      }
+      ... on AiNotificationsSuggestionError {
+        description
+        details
+        type
+      }
+      ... on AiNotificationsResponseError {
+        description
+        details
+        type
+      }
+    }
+    errors {
+      ... on AiNotificationsSuggestionError {
+        description
+        type
+        details
+      }
+      ... on AiNotificationsResponseError {
+        description
+        type
+        details
+      }
+      ... on AiNotificationsDataValidationError {
+        details
+        fields {
+          message
+          field
+        }
+      }
+      ... on AiNotificationsConstraintsError {
+        constraints {
+          dependencies
+          name
+        }
+      }
+    }
 } }`
 
 // Update a Destination
@@ -281,7 +569,7 @@ const AiNotificationsUpdateDestinationMutation = `mutation(
 		updatedAt
 		updatedBy
 	}
-    errors {
+	errors {
       ... on AiNotificationsConstraintsError {
         constraints {
           dependencies
@@ -332,6 +620,81 @@ const AiNotificationsUpdateDestinationMutation = `mutation(
       }
     }
 } }`
+
+// Fetch a Channel by product
+func (a *Notifications) GetChannels(
+	accountID int,
+	cursor string,
+	filters ai.AiNotificationsChannelFilter,
+	sorter AiNotificationsChannelSorter,
+) (*AiNotificationsChannelsResponse, error) {
+	return a.GetChannelsWithContext(context.Background(),
+		accountID,
+		cursor,
+		filters,
+		sorter,
+	)
+}
+
+// Fetch a Channel by product
+func (a *Notifications) GetChannelsWithContext(
+	ctx context.Context,
+	accountID int,
+	cursor string,
+	filters ai.AiNotificationsChannelFilter,
+	sorter AiNotificationsChannelSorter,
+) (*AiNotificationsChannelsResponse, error) {
+
+	resp := channelsResponse{}
+	vars := map[string]interface{}{
+		"accountID": accountID,
+		"cursor":    cursor,
+		"filters":   filters,
+		"sorter":    sorter,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, getChannelsQuery, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.Actor.Account.AiNotifications.Channels, nil
+}
+
+const getChannelsQuery = `query(
+	$accountID: Int!, $filters: AiNotificationsChannelFilter,
+) { actor { account(id: $accountID) { aiNotifications { channels(filters: $filters) {
+	entities {
+		accountId
+		active
+		createdAt
+		destinationId
+		id
+		name
+		product
+		properties {
+			displayValue
+			key
+			label
+			value
+		}
+		status
+		type
+		updatedAt
+		updatedBy
+	}
+	error {
+		description
+		details
+		type
+	}
+	errors {
+		description
+		details
+		type
+	}
+	nextCursor
+	totalCount
+} } } } }`
 
 // Fetch a Destinations by type
 func (a *Notifications) GetDestinations(
