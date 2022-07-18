@@ -1,3 +1,20 @@
+<a name="v0.88.0"></a>
+## [v0.88.0] - 2022-07-15
+### Bug Fixes
+- **channels:** add small fix
+- **channels:** add unit tests
+- **channels:** add integration tests and destinations missing data
+
+### Features
+- **channels:** remove duplicate declartion
+- **channels:** remove duplicate code and fix tests
+- **channels:** add notifications channels API using tutone tool
+
+<a name="v0.87.1"></a>
+## [v0.87.1] - 2022-07-14
+### Bug Fixes
+- **muting_rules:** client not setting err.NotFound
+
 <a name="v0.87.0"></a>
 ## [v0.87.0] - 2022-07-13
 ### Bug Fixes
@@ -1369,7 +1386,9 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.87.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.88.0...HEAD
+[v0.88.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.87.1...v0.88.0
+[v0.87.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.87.0...v0.87.1
 [v0.87.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.86.5...v0.87.0
 [v0.86.5]: https://github.com/newrelic/newrelic-client-go/compare/v0.86.4...v0.86.5
 [v0.86.4]: https://github.com/newrelic/newrelic-client-go/compare/v0.86.3...v0.86.4

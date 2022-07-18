@@ -13,11 +13,11 @@ import (
 )
 
 var (
-	testTimestampString = "2022-07-10T11:10:43.123715Z"
-	timestamp           = nrtime.DateTime(testTimestampString)
-	user                = "test-user"
-	accountId           = 1
-	id                  = "7463c367-6d61-416b-9aac-47f4a285fe5a"
+	timestampString = "2022-07-10T11:10:43.123715Z"
+	timestamp       = nrtime.DateTime(timestampString)
+	user            = "test-user"
+	accountId       = 1
+	id              = "7463c367-6d61-416b-9aac-47f4a285fe5a"
 
 	testCreateDestinationResponseJSON = `{
 	 "aiNotificationsCreateDestination": {

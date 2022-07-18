@@ -4,12 +4,14 @@
 package synthetics
 
 import (
-	"github.com/stretchr/testify/require"
 	"testing"
 
+	"github.com/stretchr/testify/require"
+
 	"fmt"
-	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 	"os"
+
+	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
 
 var tv bool = true
