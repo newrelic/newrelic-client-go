@@ -284,14 +284,14 @@ func TestSyntheticsScriptApiMonitor_Basic(t *testing.T) {
 		account(id: $accountId) {
 		nrql(query: $nrql) {results}}}}",
 		variables: {accountId: Number(myAccountId),nrql: 'SELECT average(duration) FROM Transaction'}})};
-		
+
 		// Define expected results using callback function
 		function callback(err, response, body) {
 		// Log JSON results from endpoint to Synthetics console
 		console.log(body);
 		console.log('Script execution completed');
 		}
-		
+
 		// Make POST request, passing in options and callback
 		$http.post(options, callback);
 		`, os.Getenv("NEW_RELIC_ACCOUNT_ID"), os.Getenv("NEW_RELIC_API_KEY"))
@@ -491,6 +491,60 @@ func TestSyntheticsPrivateLocation_Basic(t *testing.T) {
 	deleteResp, err := a.SyntheticsDeletePrivateLocation(createResp.GUID)
 
 	require.NotNil(t, deleteResp)
+}
+
+func TestSyntheticsBrokenLinksMonitor_Basic(t *testing.T) {
+	t.Parallel()
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	a := newIntegrationTestClient(t)
+
+	monitorName := fmt.Sprintf("client-integration-test-%s", mock.RandSeq(5))
+	monitorInput := SyntheticsCreateBrokenLinksMonitorInput{
+		Name:   monitorName,
+		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
+		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.DISABLED),
+		Locations: SyntheticsLocationsInput{
+			Public: []string{"AP_SOUTH_1"},
+		},
+		Tags: []SyntheticsTag{
+			{
+				Key:    "coconut",
+				Values: []string{"avocado"},
+			},
+		},
+		Uri: "https://www.google.com",
+	}
+
+	createdMonitor, err := a.SyntheticsCreateBrokenLinksMonitor(testAccountID, monitorInput)
+	require.NoError(t, err)
+	require.NotNil(t, createdMonitor)
+	require.Equal(t, 0, len(createdMonitor.Errors))
+
+	monitorNameUpdate := fmt.Sprintf("%s-updated", monitorName)
+	monitorUpdateInput := SyntheticsUpdateBrokenLinksMonitorInput{
+		Name:      fmt.Sprintf("%s-updated", monitorName),
+		Period:    monitorInput.Period,
+		Status:    monitorInput.Status,
+		Locations: monitorInput.Locations,
+		Tags:      monitorInput.Tags,
+		Uri:       fmt.Sprintf("%s?updated=true", monitorInput.Uri),
+	}
+	updatedMonitor, err := a.SyntheticsUpdateBrokenLinksMonitor(createdMonitor.Monitor.GUID, monitorUpdateInput)
+	require.NoError(t, err)
+	require.NotNil(t, updatedMonitor.Monitor)
+	require.Equal(t, 0, len(updatedMonitor.Errors))
+	require.Equal(t, monitorNameUpdate, updatedMonitor.Monitor.Name)
+	require.Equal(t, "https://www.google.com?updated=true", updatedMonitor.Monitor.Uri)
+	require.Equal(t, createdMonitor.Monitor.GUID, updatedMonitor.Monitor.GUID)
+
+	deletedMonitor, err := a.SyntheticsDeleteMonitor(createdMonitor.Monitor.GUID)
+	require.NoError(t, err)
+	require.NotNil(t, deletedMonitor)
+	require.Equal(t, createdMonitor.Monitor.GUID, deletedMonitor.DeletedGUID)
 }
 
 func newIntegrationTestClient(t *testing.T) Synthetics {
