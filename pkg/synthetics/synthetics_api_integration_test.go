@@ -547,6 +547,63 @@ func TestSyntheticsBrokenLinksMonitor_Basic(t *testing.T) {
 	require.Equal(t, createdMonitor.Monitor.GUID, deletedMonitor.DeletedGUID)
 }
 
+func TestSyntheticsCertCheckMonitor_Basic(t *testing.T) {
+	t.Parallel()
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	a := newIntegrationTestClient(t)
+
+	monitorName := fmt.Sprintf("client-integration-test-%s", mock.RandSeq(5))
+	monitorInput := SyntheticsCreateCertCheckMonitorInput{
+		Name:   monitorName,
+		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
+		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.DISABLED),
+		Locations: SyntheticsLocationsInput{
+			Public: []string{"AP_SOUTH_1"},
+		},
+		Tags: []SyntheticsTag{
+			{
+				Key:    "coconut",
+				Values: []string{"avocado"},
+			},
+		},
+		Domain:                            "https://www.google.com",
+		NumberDaysToFailBeforeCertExpires: 1,
+	}
+
+	createdMonitor, err := a.SyntheticsCreateCertCheckMonitor(testAccountID, monitorInput)
+	require.NoError(t, err)
+	require.NotNil(t, createdMonitor)
+	require.Equal(t, 0, len(createdMonitor.Errors))
+
+	monitorNameUpdate := fmt.Sprintf("%s-updated", monitorName)
+	monitorUpdateInput := SyntheticsUpdateCertCheckMonitorInput{
+		Name:                              fmt.Sprintf("%s-updated", monitorName),
+		Period:                            monitorInput.Period,
+		Status:                            monitorInput.Status,
+		Locations:                         monitorInput.Locations,
+		Tags:                              monitorInput.Tags,
+		Domain:                            fmt.Sprintf("%s?updated=true", monitorInput.Domain),
+		NumberDaysToFailBeforeCertExpires: 2,
+	}
+	updatedMonitor, err := a.SyntheticsUpdateCertCheckMonitor(createdMonitor.Monitor.GUID, monitorUpdateInput)
+	require.NoError(t, err)
+	require.NotNil(t, updatedMonitor.Monitor)
+	require.Equal(t, 0, len(updatedMonitor.Errors))
+	require.Equal(t, monitorNameUpdate, updatedMonitor.Monitor.Name)
+	require.Equal(t, "https://www.google.com?updated=true", updatedMonitor.Monitor.Domain)
+	require.Equal(t, 2, updatedMonitor.Monitor.NumberDaysToFailBeforeCertExpires)
+	require.Equal(t, createdMonitor.Monitor.GUID, updatedMonitor.Monitor.GUID)
+
+	deletedMonitor, err := a.SyntheticsDeleteMonitor(createdMonitor.Monitor.GUID)
+	require.NoError(t, err)
+	require.NotNil(t, deletedMonitor)
+	require.Equal(t, createdMonitor.Monitor.GUID, deletedMonitor.DeletedGUID)
+}
+
 func newIntegrationTestClient(t *testing.T) Synthetics {
 	tc := mock.NewIntegrationTestConfig(t)
 
