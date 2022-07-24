@@ -1,3 +1,8 @@
+<a name="v0.88.1"></a>
+## [v0.88.1] - 2022-07-24
+### Bug Fixes
+- **destinations:** change credentials type to pointer
+
 <a name="v0.88.0"></a>
 ## [v0.88.0] - 2022-07-15
 ### Bug Fixes
@@ -1386,7 +1391,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.88.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.88.1...HEAD
+[v0.88.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.88.0...v0.88.1
 [v0.88.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.87.1...v0.88.0
 [v0.87.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.87.0...v0.87.1
 [v0.87.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.86.5...v0.87.0
