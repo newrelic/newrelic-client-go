@@ -789,6 +789,8 @@ packages:
       - name: AiNotificationsChannelSorter
       - name: AiNotificationsAuthType
       - name: AiNotificationsDestination
+      - name: AiNotificationsCredentialsInput
+        field_type_override: "*AiNotificationsCredentialsInput"
       - name: AiNotificationsAuth
         field_type_override: "ai.AiNotificationsAuth"
       - name: AiNotificationsError
