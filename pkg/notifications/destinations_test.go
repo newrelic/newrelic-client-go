@@ -118,7 +118,7 @@ func TestCreateDestination(t *testing.T) {
 				Value: "test@newrelic.com",
 			},
 		},
-		Auth: AiNotificationsCredentialsInput{
+		Auth: &AiNotificationsCredentialsInput{
 			Basic: AiNotificationsBasicAuthInput{
 				User:     user,
 				Password: "Pass",

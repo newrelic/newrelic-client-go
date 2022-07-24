@@ -36,7 +36,7 @@ func TestNotificationMutationDestination(t *testing.T) {
 			DisplayValue: "",
 		},
 	}
-	destination.Auth = AiNotificationsCredentialsInput{
+	destination.Auth = &AiNotificationsCredentialsInput{
 		Type: AiNotificationsAuthTypeTypes.TOKEN,
 		Token: AiNotificationsTokenAuthInput{
 			Token:  "Token",
@@ -73,7 +73,7 @@ func TestNotificationMutationDestination(t *testing.T) {
 			DisplayValue: "",
 		},
 	}
-	updateDestination.Auth = AiNotificationsCredentialsInput{
+	updateDestination.Auth = &AiNotificationsCredentialsInput{
 		Type: AiNotificationsAuthTypeTypes.TOKEN,
 		Token: AiNotificationsTokenAuthInput{
 			Token:  "TokenUpdate",
@@ -114,7 +114,7 @@ func TestNotificationMutationChannel(t *testing.T) {
 			DisplayValue: "",
 		},
 	}
-	destination.Auth = AiNotificationsCredentialsInput{
+	destination.Auth = &AiNotificationsCredentialsInput{
 		Type: AiNotificationsAuthTypeTypes.TOKEN,
 		Token: AiNotificationsTokenAuthInput{
 			Token:  "Token",

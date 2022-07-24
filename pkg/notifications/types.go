@@ -725,7 +725,7 @@ type AiNotificationsDestinationFilter struct {
 // AiNotificationsDestinationInput - Destination input object
 type AiNotificationsDestinationInput struct {
 	// auth
-	Auth AiNotificationsCredentialsInput `json:"auth,omitempty"`
+	Auth *AiNotificationsCredentialsInput `json:"auth,omitempty"`
 	// name
 	Name string `json:"name"`
 	// properties
@@ -757,7 +757,7 @@ type AiNotificationsDestinationUpdate struct {
 	// active
 	Active bool `json:"active,omitempty"`
 	// auth
-	Auth AiNotificationsCredentialsInput `json:"auth,omitempty"`
+	Auth *AiNotificationsCredentialsInput `json:"auth,omitempty"`
 	// name
 	Name string `json:"name,omitempty"`
 	// properties
