@@ -533,6 +533,7 @@ func TestSyntheticsBrokenLinksMonitor_Basic(t *testing.T) {
 		Tags:      monitorInput.Tags,
 		Uri:       fmt.Sprintf("%s?updated=true", monitorInput.Uri),
 	}
+
 	updatedMonitor, err := a.SyntheticsUpdateBrokenLinksMonitor(createdMonitor.Monitor.GUID, monitorUpdateInput)
 	require.NoError(t, err)
 	require.NotNil(t, updatedMonitor.Monitor)
@@ -589,6 +590,7 @@ func TestSyntheticsCertCheckMonitor_Basic(t *testing.T) {
 		Domain:                            fmt.Sprintf("%s?updated=true", monitorInput.Domain),
 		NumberDaysToFailBeforeCertExpires: 2,
 	}
+
 	updatedMonitor, err := a.SyntheticsUpdateCertCheckMonitor(createdMonitor.Monitor.GUID, monitorUpdateInput)
 	require.NoError(t, err)
 	require.NotNil(t, updatedMonitor.Monitor)
@@ -597,6 +599,88 @@ func TestSyntheticsCertCheckMonitor_Basic(t *testing.T) {
 	require.Equal(t, "https://www.google.com?updated=true", updatedMonitor.Monitor.Domain)
 	require.Equal(t, 2, updatedMonitor.Monitor.NumberDaysToFailBeforeCertExpires)
 	require.Equal(t, createdMonitor.Monitor.GUID, updatedMonitor.Monitor.GUID)
+
+	deletedMonitor, err := a.SyntheticsDeleteMonitor(createdMonitor.Monitor.GUID)
+	require.NoError(t, err)
+	require.NotNil(t, deletedMonitor)
+	require.Equal(t, createdMonitor.Monitor.GUID, deletedMonitor.DeletedGUID)
+}
+
+func TestSyntheticsStepMonitor_Basic(t *testing.T) {
+	t.Parallel()
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	a := newIntegrationTestClient(t)
+
+	monitorName := fmt.Sprintf("client-integration-test-%s", mock.RandSeq(5))
+	enableScreenshotOnFailureAndScript := true
+	monitorInput := SyntheticsCreateStepMonitorInput{
+		Name:   monitorName,
+		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_DAY),
+		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.DISABLED),
+		AdvancedOptions: SyntheticsStepMonitorAdvancedOptionsInput{
+			EnableScreenshotOnFailureAndScript: &enableScreenshotOnFailureAndScript,
+		},
+		Locations: SyntheticsScriptedMonitorLocationsInput{
+			Public: []string{"AP_SOUTH_1"},
+		},
+		Tags: []SyntheticsTag{
+			{
+				Key:    "step",
+				Values: []string{"monitor"},
+			},
+		},
+		Steps: []SyntheticsStepInput{
+			{
+				Ordinal: 0,
+				Type:    SyntheticsStepTypeTypes.NAVIGATE,
+				Values:  []string{"https://one.newrelic.com"},
+			},
+			{
+				Ordinal: 1,
+				Type:    SyntheticsStepTypeTypes.ASSERT_TITLE,
+				Values:  []string{"%=", "New Relic"}, // %= is used for "contains" logic
+			},
+		},
+	}
+
+	createdMonitor, err := a.SyntheticsCreateStepMonitor(testAccountID, monitorInput)
+	require.NoError(t, err)
+	require.NotNil(t, createdMonitor)
+	require.Equal(t, 0, len(createdMonitor.Errors))
+	require.Equal(t, 2, len(createdMonitor.Monitor.Steps))
+
+	monitorNameUpdate := fmt.Sprintf("%s-updated", monitorName)
+	monitorUpdateInput := SyntheticsUpdateStepMonitorInput{
+		Name: fmt.Sprintf("%s-updated", monitorName),
+		Steps: []SyntheticsStepInput{
+			{
+				Ordinal: 0,
+				Type:    SyntheticsStepTypeTypes.NAVIGATE,
+				Values:  []string{"https://one.newrelic.com"},
+			},
+			{
+				Ordinal: 1,
+				Type:    SyntheticsStepTypeTypes.ASSERT_TITLE,
+				Values:  []string{"%=", "New Relic"}, // %= is used for "contains" logic
+			},
+			{
+				Ordinal: 2,
+				Type:    SyntheticsStepTypeTypes.ASSERT_ELEMENT,
+				Values:  []string{"h2.NewDesign", "present", "true"},
+			},
+		},
+	}
+
+	updatedMonitor, err := a.SyntheticsUpdateStepMonitor(createdMonitor.Monitor.GUID, monitorUpdateInput)
+	require.NoError(t, err)
+	require.NotNil(t, updatedMonitor.Monitor)
+	require.Equal(t, 0, len(updatedMonitor.Errors))
+	require.Equal(t, monitorNameUpdate, updatedMonitor.Monitor.Name)
+	require.Equal(t, 3, len(updatedMonitor.Monitor.Steps))
 
 	deletedMonitor, err := a.SyntheticsDeleteMonitor(createdMonitor.Monitor.GUID)
 	require.NoError(t, err)
