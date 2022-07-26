@@ -930,6 +930,45 @@ packages:
       - name: UserReference
 
 
+  - name: workflows
+    path: pkg/workflows
+    import_path: github.com/newrelic/newrelic-client-go/pkg/workflows
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/pkg/nrtime
+    queries:
+      - path: [ "actor", "account", "aiWorkflows" ]
+        endpoints:
+          - name: workflows
+            max_query_field_depth: 4
+    mutations:
+      - name: aiWorkflowsCreateWorkflow
+        max_query_field_depth: 3
+      - name: aiWorkflowsUpdateWorkflow
+        max_query_field_depth: 3
+      - name: aiWorkflowsDeleteWorkflow
+        max_query_field_depth: 3
+    types:
+      - name: AiWorkflowsFilters
+        field_type_override: "ai.AiWorkflowsFilters"
+      - name: AiWorkflowsConfiguration
+        field_type_override: "ai.AiWorkflowsConfiguration"
+      - name: AiWorkflowsUpdateEnrichmentsInput
+        field_type_override: "*AiWorkflowsUpdateEnrichmentsInput"
+      - name: AiWorkflowsEnrichmentsInput
+        field_type_override: "*AiWorkflowsEnrichmentsInput"
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+
+      # nrtime imports
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
+
+
   - name: workloads
     path: pkg/workloads
     import_path: github.com/newrelic/newrelic-client-go/pkg/workloads
