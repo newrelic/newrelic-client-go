@@ -31,6 +31,14 @@ packages:
       - nerdgraphclient
     imports:
       - github.com/newrelic/newrelic-client-go/pkg/nrtime
+    queries:
+      - path: ["actor", "account", "synthetics"]
+        endpoints:
+          - name: "script"
+            max_query_field_depth: 1
+          - name: "steps"
+            max_query_field_depth: 1
+
     mutations:
       - name: syntheticsCreateSecureCredential
         max_query_field_depth: 2
@@ -80,6 +88,10 @@ packages:
     types:
       - name: EpochMilliseconds
         field_type_override: nrtime.EpochMilliseconds
+        skip_type_create: true
+      # This must be a string, as where ID is used the type is a string...
+      - name: ID
+        field_type_override: string
         skip_type_create: true
 
   - name: common

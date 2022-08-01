@@ -28,13 +28,11 @@ func TestSyntheticsSecureCredential_Basic(t *testing.T) {
 
 	// Create a secure credential
 	createResp, err := a.SyntheticsCreateSecureCredential(testAccountID, "test secure credential", "TEST", "secure value")
-
 	require.NoError(t, err)
 	require.NotNil(t, createResp)
 
 	// Update secure credential
 	updateResp, err := a.SyntheticsUpdateSecureCredential(testAccountID, "test secure credential", "TEST", "new secure value")
-
 	require.NoError(t, err)
 	require.NotNil(t, updateResp)
 
@@ -98,9 +96,9 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 	//Test to create simple browser monitor
 	createSimpleBrowserMonitor, err := a.SyntheticsCreateSimpleBrowserMonitor(testAccountID, simpleBrowserMonitorInput)
 
-	require.Equal(t, 0, len(createSimpleBrowserMonitor.Errors))
 	require.NoError(t, err)
 	require.NotNil(t, createSimpleBrowserMonitor)
+	require.Equal(t, 0, len(createSimpleBrowserMonitor.Errors))
 
 	//Input for simple browser monitor for updating
 	simpleBrowserMonitorInputUpdated := SyntheticsUpdateSimpleBrowserMonitorInput{
@@ -141,14 +139,12 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 
 	//Test to update simple browser monitor
 	updateSimpleBrowserMonitor, err := a.SyntheticsUpdateSimpleBrowserMonitor(createSimpleBrowserMonitor.Monitor.GUID, simpleBrowserMonitorInputUpdated)
-
-	require.Equal(t, 0, len(updateSimpleBrowserMonitor.Errors))
 	require.NoError(t, err)
 	require.NotNil(t, updateSimpleBrowserMonitor)
+	require.Equal(t, 0, len(updateSimpleBrowserMonitor.Errors))
 
 	//Test to delete a simple browser monitor
 	deleteSimpleBrowserMonitor, err := a.SyntheticsDeleteMonitor(createSimpleBrowserMonitor.Monitor.GUID)
-
 	require.NotNil(t, deleteSimpleBrowserMonitor)
 	require.NoError(t, err)
 }
@@ -202,9 +198,9 @@ func TestSyntheticsSimpleMonitor_Basic(t *testing.T) {
 	//Test to create simple monitor
 	createSimpleMonitor, err := a.SyntheticsCreateSimpleMonitor(testAccountID, simpleMonitorInput)
 
-	require.Equal(t, 0, len(createSimpleMonitor.Errors))
 	require.NoError(t, err)
 	require.NotNil(t, createSimpleMonitor)
+	require.Equal(t, 0, len(createSimpleMonitor.Errors))
 
 	//Input to update simple monitor
 	simpleMonitorInputUpdated := SyntheticsUpdateSimpleMonitorInput{
@@ -241,14 +237,12 @@ func TestSyntheticsSimpleMonitor_Basic(t *testing.T) {
 
 	//Test to update simple monitor
 	updateSimpleMonitor, err := a.SyntheticsUpdateSimpleMonitor(createSimpleMonitor.Monitor.GUID, simpleMonitorInputUpdated)
-
-	require.Equal(t, 0, len(updateSimpleMonitor.Errors))
 	require.NoError(t, err)
 	require.NotNil(t, updateSimpleMonitor)
+	require.Equal(t, 0, len(updateSimpleMonitor.Errors))
 
 	//Test to delete simple monitor
 	deleteSimpleMonitor, err := a.SyntheticsDeleteMonitor(createSimpleMonitor.Monitor.GUID)
-
 	require.NotNil(t, deleteSimpleMonitor)
 	require.NoError(t, err)
 }
@@ -324,7 +318,6 @@ func TestSyntheticsScriptApiMonitor_Basic(t *testing.T) {
 
 	//Test to Create scripted api monitor
 	createScriptApiMonitor, err := a.SyntheticsCreateScriptAPIMonitor(testAccountID, scriptApiMonitorInput)
-
 	require.NoError(t, err)
 	require.NotNil(t, createScriptApiMonitor)
 	require.Equal(t, 0, len(createScriptApiMonitor.Errors))
@@ -357,14 +350,12 @@ func TestSyntheticsScriptApiMonitor_Basic(t *testing.T) {
 
 	//Test to update scripted api monitor
 	updateScriptApiMonitor, err := a.SyntheticsUpdateScriptAPIMonitor(createScriptApiMonitor.Monitor.GUID, updatedScriptApiMonitorInput)
-
 	require.NoError(t, err)
 	require.NotNil(t, updateScriptApiMonitor)
 	require.Equal(t, 0, len(updateScriptApiMonitor.Errors))
 
 	//Test to delete scripted api monitor
 	deleteScriptApiMonitor, err := a.SyntheticsDeleteMonitor(createScriptApiMonitor.Monitor.GUID)
-
 	require.NoError(t, err)
 	require.NotNil(t, deleteScriptApiMonitor)
 }
@@ -412,7 +403,6 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 
 	//test to create script browser monitor
 	createScriptBrowserMonitor, err := a.SyntheticsCreateScriptBrowserMonitor(testAccountID, scriptBrowserMonitorInput)
-
 	require.NoError(t, err)
 	require.NotNil(t, createScriptBrowserMonitor)
 	require.Equal(t, 0, len(createScriptBrowserMonitor.Errors))
@@ -445,16 +435,15 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 		},
 		Script: "var assert = require('assert');\n\n$browser.get('https://one.newrelic.com')",
 	}
+
 	//test to update script browser monitor
 	updateScriptBrowserMonitor, err := a.SyntheticsUpdateScriptBrowserMonitor(createScriptBrowserMonitor.Monitor.GUID, updatedScriptBrowserMonitorInput)
-
 	require.NoError(t, err)
 	require.NotNil(t, updateScriptBrowserMonitor)
 	require.Equal(t, 0, len(updateScriptBrowserMonitor.Errors))
 
 	//test to delete script browser monitor
 	deleteScriptBrowserMonitor, err := a.SyntheticsDeleteMonitor(createScriptBrowserMonitor.Monitor.GUID)
-
 	require.NoError(t, err)
 	require.NotNil(t, deleteScriptBrowserMonitor)
 }
@@ -472,24 +461,20 @@ func TestSyntheticsPrivateLocation_Basic(t *testing.T) {
 
 	// Test to Create private location
 	createResp, err := a.SyntheticsCreatePrivateLocation(testAccountID, "test secure credential", "TEST", true)
-
 	require.NoError(t, err)
 	require.NotNil(t, createResp)
 
 	// Test to update private location
 	updateResp, err := a.SyntheticsUpdatePrivateLocation("test secure credential", createResp.GUID, true)
-
 	require.NoError(t, err)
 	require.NotNil(t, updateResp)
 
 	// Test to purge private location queue
 	purgeresp, err := a.SyntheticsPurgePrivateLocationQueue(createResp.GUID)
-
 	require.NotNil(t, purgeresp)
 
 	// Test to delete private location
 	deleteResp, err := a.SyntheticsDeletePrivateLocation(createResp.GUID)
-
 	require.NotNil(t, deleteResp)
 }
 
@@ -681,6 +666,104 @@ func TestSyntheticsStepMonitor_Basic(t *testing.T) {
 	require.Equal(t, 0, len(updatedMonitor.Errors))
 	require.Equal(t, monitorNameUpdate, updatedMonitor.Monitor.Name)
 	require.Equal(t, 3, len(updatedMonitor.Monitor.Steps))
+
+	deletedMonitor, err := a.SyntheticsDeleteMonitor(createdMonitor.Monitor.GUID)
+	require.NoError(t, err)
+	require.NotNil(t, deletedMonitor)
+	require.Equal(t, createdMonitor.Monitor.GUID, deletedMonitor.DeletedGUID)
+}
+
+func TestSyntheticsStepMonitor_GetSteps(t *testing.T) {
+	t.Parallel()
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	a := newIntegrationTestClient(t)
+
+	monitorName := fmt.Sprintf("client-integration-test-%s", mock.RandSeq(5))
+	enableScreenshotOnFailureAndScript := true
+	monitorInput := SyntheticsCreateStepMonitorInput{
+		Name:   monitorName,
+		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_DAY),
+		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.DISABLED),
+		AdvancedOptions: SyntheticsStepMonitorAdvancedOptionsInput{
+			EnableScreenshotOnFailureAndScript: &enableScreenshotOnFailureAndScript,
+		},
+		Locations: SyntheticsScriptedMonitorLocationsInput{
+			Public: []string{"AP_SOUTH_1"},
+		},
+		Tags: []SyntheticsTag{
+			{
+				Key:    "step",
+				Values: []string{"monitor"},
+			},
+		},
+		Steps: []SyntheticsStepInput{
+			{
+				Ordinal: 0,
+				Type:    SyntheticsStepTypeTypes.NAVIGATE,
+				Values:  []string{"https://one.newrelic.com"},
+			},
+			{
+				Ordinal: 1,
+				Type:    SyntheticsStepTypeTypes.ASSERT_TITLE,
+				Values:  []string{"%=", "New Relic"}, // %= is used for "contains" logic
+			},
+		},
+	}
+
+	createdMonitor, err := a.SyntheticsCreateStepMonitor(testAccountID, monitorInput)
+	require.NoError(t, err)
+	require.NotNil(t, createdMonitor)
+
+	// Test the `steps` query endpoint
+	steps, err := a.GetSteps(testAccountID, createdMonitor.Monitor.GUID)
+	require.NoError(t, err)
+	require.NotNil(t, steps)
+	require.Equal(t, 2, len(*steps))
+
+	deletedMonitor, err := a.SyntheticsDeleteMonitor(createdMonitor.Monitor.GUID)
+	require.NoError(t, err)
+	require.NotNil(t, deletedMonitor)
+	require.Equal(t, createdMonitor.Monitor.GUID, deletedMonitor.DeletedGUID)
+}
+
+func TestSyntheticsStepMonitor_GetScript(t *testing.T) {
+	t.Parallel()
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	a := newIntegrationTestClient(t)
+
+	monitorName := fmt.Sprintf("client-integration-test-%s", mock.RandSeq(5))
+	monitorInput := SyntheticsCreateScriptBrowserMonitorInput{
+		Locations: SyntheticsScriptedMonitorLocationsInput{
+			Public: []string{"AP_SOUTH_1"},
+		},
+		Name:   monitorName,
+		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_HOUR),
+		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
+		Runtime: SyntheticsRuntimeInput{
+			RuntimeTypeVersion: "100",
+			RuntimeType:        "CHROME_BROWSER",
+			ScriptLanguage:     "JAVASCRIPT",
+		},
+		Script: "var assert = require('assert');\n\n$browser.get('https://api.newrelic.com')",
+	}
+
+	createdMonitor, err := a.SyntheticsCreateScriptBrowserMonitor(testAccountID, monitorInput)
+	require.NoError(t, err)
+	require.NotNil(t, createdMonitor)
+
+	// Test the `steps` query endpoint
+	script, err := a.GetScript(testAccountID, createdMonitor.Monitor.GUID)
+	require.NoError(t, err)
+	require.NotNil(t, script)
+	require.NotEmpty(t, script.Text)
 
 	deletedMonitor, err := a.SyntheticsDeleteMonitor(createdMonitor.Monitor.GUID)
 	require.NoError(t, err)
