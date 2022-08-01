@@ -674,8 +674,6 @@ func TestSyntheticsStepMonitor_Basic(t *testing.T) {
 }
 
 func TestSyntheticsStepMonitor_GetSteps(t *testing.T) {
-	t.Skip("Skipping TestSyntheticsStepMonitor_GetSteps until the endpoint actually works. Currently getting ACCESS_DENIED error.")
-
 	t.Parallel()
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
@@ -720,11 +718,52 @@ func TestSyntheticsStepMonitor_GetSteps(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, createdMonitor)
 
-	// Test the query endpoint
+	// Test the `steps` query endpoint
 	steps, err := a.GetSteps(testAccountID, createdMonitor.Monitor.GUID)
 	require.NoError(t, err)
 	require.NotNil(t, steps)
 	require.Equal(t, 2, len(*steps))
+
+	deletedMonitor, err := a.SyntheticsDeleteMonitor(createdMonitor.Monitor.GUID)
+	require.NoError(t, err)
+	require.NotNil(t, deletedMonitor)
+	require.Equal(t, createdMonitor.Monitor.GUID, deletedMonitor.DeletedGUID)
+}
+
+func TestSyntheticsStepMonitor_GetScript(t *testing.T) {
+	t.Parallel()
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	a := newIntegrationTestClient(t)
+
+	monitorName := fmt.Sprintf("client-integration-test-%s", mock.RandSeq(5))
+	monitorInput := SyntheticsCreateScriptBrowserMonitorInput{
+		Locations: SyntheticsScriptedMonitorLocationsInput{
+			Public: []string{"AP_SOUTH_1"},
+		},
+		Name:   monitorName,
+		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_HOUR),
+		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
+		Runtime: SyntheticsRuntimeInput{
+			RuntimeTypeVersion: "100",
+			RuntimeType:        "CHROME_BROWSER",
+			ScriptLanguage:     "JAVASCRIPT",
+		},
+		Script: "var assert = require('assert');\n\n$browser.get('https://api.newrelic.com')",
+	}
+
+	createdMonitor, err := a.SyntheticsCreateScriptBrowserMonitor(testAccountID, monitorInput)
+	require.NoError(t, err)
+	require.NotNil(t, createdMonitor)
+
+	// Test the `steps` query endpoint
+	script, err := a.GetScript(testAccountID, createdMonitor.Monitor.GUID)
+	require.NoError(t, err)
+	require.NotNil(t, script)
+	require.NotEmpty(t, script.Text)
 
 	deletedMonitor, err := a.SyntheticsDeleteMonitor(createdMonitor.Monitor.GUID)
 	require.NoError(t, err)
