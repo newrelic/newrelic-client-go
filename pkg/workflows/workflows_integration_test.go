@@ -18,6 +18,7 @@ func TestNotificationMutationWorkflow(t *testing.T) {
 	t.Parallel()
 
 	n := newIntegrationTestClient(t)
+	//newrelicClient := newrelicIntegrationTestClient(t)
 
 	accountID, err := mock.GetTestAccountID()
 	if err != nil {
@@ -46,7 +47,7 @@ func TestNotificationMutationWorkflow(t *testing.T) {
 	destination.Name = fmt.Sprintf("test-notifications-destination-%s", testIntegrationDestinationNameRandStr)
 
 	// Test: Create Destination
-	createDestinationResult, err := n.AiNotificationsCreateDestination(accountID, destination)
+	createDestinationResult, err := newrelicClient.Notifications.AiNotificationsCreateDestination(accountID, destination)
 	require.NoError(t, err)
 	require.NotNil(t, createDestinationResult)
 
@@ -73,7 +74,7 @@ func TestNotificationMutationWorkflow(t *testing.T) {
 	channel.Name = fmt.Sprintf("test-notifications-channel-%s", testIntegrationChannelNameRandStr)
 
 	// Test: Create Channel
-	createChannelResult, err := n.AiNotificationsCreateChannel(accountID, channel)
+	createChannelResult, err := newrelicClient.Notifications.AiNotificationsCreateChannel(accountID, channel)
 	require.NoError(t, err)
 	require.NotNil(t, createChannelResult)
 

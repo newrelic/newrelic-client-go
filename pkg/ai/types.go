@@ -3,6 +3,8 @@ package ai
 
 // AiWorkflowsConfiguration - Workflows configuration interface
 type AiWorkflowsConfiguration struct {
+	// NRQL enrichment query
+	Query string `json:"query,omitempty"`
 }
 
 func (x *AiWorkflowsConfiguration) ImplementsAiWorkflowsConfiguration() {}
