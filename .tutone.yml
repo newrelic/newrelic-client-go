@@ -23,6 +23,56 @@ auth:
   api_key_env_var: NEW_RELIC_API_KEY
 
 packages:
+  - name: workloads
+    path: pkg/workloads
+    import_path: github.com/newrelic/newrelic-client-go/pkg/workloads
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/pkg/common
+      - github.com/newrelic/newrelic-client-go/pkg/entities
+      - github.com/newrelic/newrelic-client-go/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/pkg/users
+    mutations:
+      - name: workloadCreate
+        max_query_field_depth: 6
+      - name: workloadDelete
+        max_query_field_depth: 6
+      - name: workloadDuplicate
+        max_query_field_depth: 6
+      - name: workloadUpdate
+        max_query_field_depth: 6
+    types:
+      - name: WorkloadCreateInput
+      - name: WorkloadDuplicateInput
+
+      # Some overrides we need
+      - name: WorkloadStatusConfigInput
+        field_type_override: "*WorkloadStatusConfigInput"
+      - name: WorkloadScopeAccountsInput
+        field_type_override: "*WorkloadScopeAccountsInput"
+      - name: WorkloadUpdateStatusConfigInput
+        field_type_override: "*WorkloadUpdateStatusConfigInput"
+
+      #
+      # Types owned by other packages
+      #
+      - name: AccountReference
+        field_type_override: accounts.AccountReference
+        skip_type_create: true
+      - name: EntityGuid
+        field_type_override: common.EntityGUID
+        skip_type_create: true
+      # UpdateAt returns `null`, so this needs to be a ptr (can't override just the UpdatedAt field)
+      - name: EpochMilliseconds
+        field_type_override: "*nrtime.EpochMilliseconds"
+        skip_type_create: true
+      - name: UserReference
+        field_type_override: users.UserReference
+        skip_type_create: true
+
   - name: synthetics
     path: pkg/synthetics
     import_path: github.com/newrelic/newrelic-client-go/pkg/synthetics
@@ -941,56 +991,6 @@ packages:
       - name: User
       - name: UserReference
 
-
-  - name: workloads
-    path: pkg/workloads
-    import_path: github.com/newrelic/newrelic-client-go/pkg/workloads
-    generators:
-      - typegen
-      - nerdgraphclient
-    imports:
-      - github.com/newrelic/newrelic-client-go/pkg/accounts
-      - github.com/newrelic/newrelic-client-go/pkg/common
-      - github.com/newrelic/newrelic-client-go/pkg/entities
-      - github.com/newrelic/newrelic-client-go/pkg/nrtime
-      - github.com/newrelic/newrelic-client-go/pkg/users
-    mutations:
-      - name: workloadCreate
-        max_query_field_depth: 3
-      - name: workloadDelete
-        max_query_field_depth: 3
-      - name: workloadDuplicate
-        max_query_field_depth: 3
-      - name: workloadUpdate
-        max_query_field_depth: 3
-    types:
-      - name: WorkloadCreateInput
-      - name: WorkloadDuplicateInput
-
-      # Some overrides we need
-      - name: WorkloadStatusConfigInput
-        field_type_override: "*WorkloadStatusConfigInput"
-      - name: WorkloadScopeAccountsInput
-        field_type_override: "*WorkloadScopeAccountsInput"
-      - name: WorkloadUpdateStatusConfigInput
-        field_type_override: "*WorkloadUpdateStatusConfigInput"
-
-      #
-      # Types owned by other packages
-      #
-      - name: AccountReference
-        field_type_override: accounts.AccountReference
-        skip_type_create: true
-      - name: EntityGuid
-        field_type_override: common.EntityGUID
-        skip_type_create: true
-      # UpdateAt returns `null`, so this needs to be a ptr (can't override just the UpdatedAt field)
-      - name: EpochMilliseconds
-        field_type_override: "*nrtime.EpochMilliseconds"
-        skip_type_create: true
-      - name: UserReference
-        field_type_override: users.UserReference
-        skip_type_create: true
 
   - name: servicelevel
     path: pkg/servicelevel

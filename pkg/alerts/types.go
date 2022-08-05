@@ -201,17 +201,18 @@ type AlertsMutingRuleConditionInput struct {
 	//
 	// * **accountId** - The account id
 	// * **conditionId** - The alert condition id
+	// * **conditionName** - The alert condition name
+	// * **conditionRunbookUrl** - The alert condition's runbook url
+	// * **conditionType** - The alert condition type, such as `metric`
+	// * **entity.guid** - The entity GUID
+	// * **nrqlEventType** - The NRQL event type
+	// * **nrqlQuery** - The NRQL query string
 	// * **policyId** - The alert policy id
 	// * **policyName** - The alert policy name
-	// * **conditionName** - The alert condition name
-	// * **conditionType** - The alert condition type, such as `metric`
-	// * **conditionRunbookUrl** - The alert condition's runbook url
 	// * **product** - The target product (e.g., `SYNTHETICS`)
+	// * **tags.<NAME>** - Arbitrary tags associated with some entity (e.g., FACET from a NRQL query, for example `tags.appName` or `tags.host`)
 	// * **targetId** - The ID of the alerts target
 	// * **targetName** - The name of the alerts target
-	// * **nrqlEventType** - The NRQL event type
-	// * **tag** - Arbitrary tags associated with some entity (e.g., FACET from a NRQL query)
-	// * **nrqlQuery** - The NRQL query string
 	Attribute string `json:"attribute"`
 	// The operator used to compare the attribute's value with the supplied value(s).
 	Operator AlertsMutingRuleConditionOperator `json:"operator"`
@@ -280,6 +281,10 @@ type AlertsMutingRuleScheduleInput struct {
 type AlertsPoliciesSearchCriteriaInput struct {
 	// The list of policy ids to return.
 	IDs []string `json:"ids"`
+	// Exact name of the policy.
+	Name string `json:"name,omitempty"`
+	// String to partially match a policy name.
+	NameLike string `json:"nameLike,omitempty"`
 }
 
 // AlertsPoliciesSearchResultSet - Collection of policies with pagination information.
