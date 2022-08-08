@@ -12,6 +12,8 @@ import (
 
 	"github.com/newrelic/newrelic-client-go/pkg/ai"
 	"github.com/newrelic/newrelic-client-go/pkg/nrtime"
+
+	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
 
 var (
@@ -147,6 +149,13 @@ var (
       }
 	}}`
 )
+
+func newMockResponse(t *testing.T, mockJSONResponse string, statusCode int) Workflows {
+	ts := mock.NewMockServer(t, mockJSONResponse, statusCode)
+	tc := mock.NewTestConfig(t, ts)
+
+	return New(tc)
+}
 
 func TestCreateWorkflow(t *testing.T) {
 	t.Parallel()
