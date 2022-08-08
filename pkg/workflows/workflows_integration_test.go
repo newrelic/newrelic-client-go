@@ -8,17 +8,18 @@ import (
 	"testing"
 
 	"github.com/newrelic/newrelic-client-go/pkg/ai"
+	"github.com/newrelic/newrelic-client-go/pkg/notifications"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
 	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
 
-func TestNotificationMutationWorkflow(t *testing.T) {
+func TestMutationWorkflow(t *testing.T) {
 	t.Parallel()
 
 	n := newIntegrationTestClient(t)
-	//newrelicClient := newrelicIntegrationTestClient(t)
+	newrelicClient := newrelicIntegrationTestClient(t)
 
 	accountID, err := mock.GetTestAccountID()
 	if err != nil {
@@ -27,9 +28,9 @@ func TestNotificationMutationWorkflow(t *testing.T) {
 
 	// Create a destination to work with in this test
 	testIntegrationDestinationNameRandStr := mock.RandSeq(5)
-	destination := AiNotificationsDestinationInput{}
-	destination.Type = AiNotificationsDestinationTypeTypes.WEBHOOK
-	destination.Properties = []AiNotificationsPropertyInput{
+	destination := notifications.AiNotificationsDestinationInput{}
+	destination.Type = notifications.AiNotificationsDestinationTypeTypes.WEBHOOK
+	destination.Properties = []notifications.AiNotificationsPropertyInput{
 		{
 			Key:          "url",
 			Value:        "https://webhook.site/94193c01-4a81-4782-8f1b-554d5230395b",
@@ -37,9 +38,9 @@ func TestNotificationMutationWorkflow(t *testing.T) {
 			DisplayValue: "",
 		},
 	}
-	destination.Auth = &AiNotificationsCredentialsInput{
-		Type: AiNotificationsAuthTypeTypes.TOKEN,
-		Token: AiNotificationsTokenAuthInput{
+	destination.Auth = &notifications.AiNotificationsCredentialsInput{
+		Type: notifications.AiNotificationsAuthTypeTypes.TOKEN,
+		Token: notifications.AiNotificationsTokenAuthInput{
 			Token:  "Token",
 			Prefix: "Bearer",
 		},
@@ -51,18 +52,14 @@ func TestNotificationMutationWorkflow(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, createDestinationResult)
 
+	destinationID := createDestinationResult.Destination.ID
+
 	// Create a channel to work with in this test
 	testIntegrationChannelNameRandStr := mock.RandSeq(5)
-	channel := AiNotificationsChannelInput{}
-	channel.Type = AiNotificationsChannelTypeTypes.WEBHOOK
-	channel.Product = AiNotificationsProductTypes.IINT
-	channel.Properties = []AiNotificationsPropertyInput{
-		{
-			Key:          "headers",
-			Value:        "{}",
-			Label:        "Custom headers",
-			DisplayValue: "",
-		},
+	channel := notifications.AiNotificationsChannelInput{}
+	channel.Type = notifications.AiNotificationsChannelTypeTypes.WEBHOOK
+	channel.Product = notifications.AiNotificationsProductTypes.IINT
+	channel.Properties = []notifications.AiNotificationsPropertyInput{
 		{
 			Key:          "payload",
 			Value:        "{\\n\\t\\\"id\\\": \\\"test\\\"\\n}",
@@ -162,8 +159,13 @@ func TestNotificationMutationWorkflow(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, updateWorkflowResult)
 
-	// Test: Delete Workflow
+	// Test: Delete Workflow (with channel)
 	deleteResult, err := n.AiWorkflowsDeleteWorkflow(accountID, id)
 	require.NoError(t, err)
 	require.NotNil(t, deleteResult)
+
+	// Delete Destination
+	deleteDestinationResult, err := newrelicClient.notifications.AiNotificationsDeleteDestination(accountID, destinationID)
+	require.NoError(t, err)
+	require.NotNil(t, deleteDestinationResult)
 }
