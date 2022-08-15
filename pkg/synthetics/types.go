@@ -2,8 +2,99 @@
 package synthetics
 
 import (
+	"encoding/json"
+	"fmt"
+
 	"github.com/newrelic/newrelic-client-go/pkg/nrtime"
 )
+
+// Nr1CatalogInstallPlanDestination - Possible destinations for the install plan target
+type Nr1CatalogInstallPlanDestination string
+
+var Nr1CatalogInstallPlanDestinationTypes = struct {
+	// Application (APM) install
+	APPLICATION Nr1CatalogInstallPlanDestination
+	// Cloud provider install
+	CLOUD Nr1CatalogInstallPlanDestination
+	// Host install
+	HOST Nr1CatalogInstallPlanDestination
+	// Kubernetes install
+	KUBERNETES Nr1CatalogInstallPlanDestination
+	// Unknown install - special case when the target where the install takes place is unknown (such as guided install)
+	UNKNOWN Nr1CatalogInstallPlanDestination
+}{
+	// Application (APM) install
+	APPLICATION: "APPLICATION",
+	// Cloud provider install
+	CLOUD: "CLOUD",
+	// Host install
+	HOST: "HOST",
+	// Kubernetes install
+	KUBERNETES: "KUBERNETES",
+	// Unknown install - special case when the target where the install takes place is unknown (such as guided install)
+	UNKNOWN: "UNKNOWN",
+}
+
+// Nr1CatalogInstallPlanDirectiveMode - Possible modes for an install plan directive
+type Nr1CatalogInstallPlanDirectiveMode string
+
+var Nr1CatalogInstallPlanDirectiveModeTypes = struct {
+	// Directs the installation toward an external link
+	LINK Nr1CatalogInstallPlanDirectiveMode
+	// Directs the installation to open a stacked Nerdlet to perform the installation
+	NERDLET Nr1CatalogInstallPlanDirectiveMode
+	// Directs the installation toward a specific target
+	TARGETED Nr1CatalogInstallPlanDirectiveMode
+}{
+	// Directs the installation toward an external link
+	LINK: "LINK",
+	// Directs the installation to open a stacked Nerdlet to perform the installation
+	NERDLET: "NERDLET",
+	// Directs the installation toward a specific target
+	TARGETED: "TARGETED",
+}
+
+// Nr1CatalogInstallPlanOperatingSystem - Possible types for the install plan operating system
+type Nr1CatalogInstallPlanOperatingSystem string
+
+var Nr1CatalogInstallPlanOperatingSystemTypes = struct {
+	// Mac operating system
+	DARWIN Nr1CatalogInstallPlanOperatingSystem
+	// Linux operating system
+	LINUX Nr1CatalogInstallPlanOperatingSystem
+	// Windows operating system
+	WINDOWS Nr1CatalogInstallPlanOperatingSystem
+}{
+	// Mac operating system
+	DARWIN: "DARWIN",
+	// Linux operating system
+	LINUX: "LINUX",
+	// Windows operating system
+	WINDOWS: "WINDOWS",
+}
+
+// Nr1CatalogInstallPlanTargetType - Possible types for the install plan target
+type Nr1CatalogInstallPlanTargetType string
+
+var Nr1CatalogInstallPlanTargetTypeTypes = struct {
+	// Agent install
+	AGENT Nr1CatalogInstallPlanTargetType
+	// Integration install
+	INTEGRATION Nr1CatalogInstallPlanTargetType
+	// On host integration install
+	ON_HOST_INTEGRATION Nr1CatalogInstallPlanTargetType
+	// Unknown install - special case when the target where the install takes place is unknown (such as guided install)
+	UNKNOWN Nr1CatalogInstallPlanTargetType
+}{
+	// Agent install
+	AGENT: "AGENT",
+	// Integration install
+	INTEGRATION: "INTEGRATION",
+	// On host integration install
+	ON_HOST_INTEGRATION: "ON_HOST_INTEGRATION",
+	// Unknown install - special case when the target where the install takes place is unknown (such as guided install)
+	UNKNOWN: "UNKNOWN",
+}
 
 // SyntheticsMonitorCreateErrorType - Types of errors that can be returned from a create monitor request
 type SyntheticsMonitorCreateErrorType string
@@ -211,12 +302,181 @@ var SyntheticsStepTypeTypes = struct {
 	TEXT_ENTRY: "TEXT_ENTRY",
 }
 
+// Account - The `Account` object provides general data about the account, as well as
+// being the entry point into more detailed data about a single account.
+//
+// Account configuration data is queried through this object, as well as
+// telemetry data that is specific to a single account.
+type Account struct {
+	//
+	ID int `json:"id,omitempty"`
+	//
+	LicenseKey string `json:"licenseKey,omitempty"`
+	//
+	Name string `json:"name,omitempty"`
+	// This field provides access to Synthetics data.
+	Synthetics SyntheticsAccountStitchedFields `json:"synthetics,omitempty"`
+}
+
+// Actor - The `Actor` object contains fields that are scoped to the API user's access level.
+type Actor struct {
+	// The `account` field is the entry point into data that is scoped to a single account.
+	Account Account `json:"account,omitempty"`
+}
+
+// Nr1CatalogInstallPlanDirective - Information about an install plan directive
+type Nr1CatalogInstallPlanDirective struct {
+	// The mode of the install plan directive
+	Mode Nr1CatalogInstallPlanDirectiveMode `json:"mode"`
+}
+
+func (x *Nr1CatalogInstallPlanDirective) ImplementsNr1CatalogInstallPlanDirective() {}
+
+// Nr1CatalogInstallPlanStep - Information pertaining to a specific step in the installation plan
+type Nr1CatalogInstallPlanStep struct {
+	// A short form description for the install plan step
+	Description string `json:"description,omitempty"`
+	// The human-readable name for the install plan step
+	DisplayName string `json:"displayName"`
+	// Provides context about how the fallback install plan step should proceed
+	Fallback Nr1CatalogInstallPlanDirectiveInterface `json:"fallback,omitempty"`
+	// Used as a heading for the install plan step
+	Heading string `json:"heading"`
+	// The unique identifier for the install plan step
+	ID string `json:"id"`
+	// Provides context about how the primary install plan step should proceed
+	Primary Nr1CatalogInstallPlanDirectiveInterface `json:"primary"`
+	// Provides context about where the install will occur
+	Target Nr1CatalogInstallPlanTarget `json:"target"`
+}
+
+// special
+func (x *Nr1CatalogInstallPlanStep) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+
+	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
+		switch k {
+		case "description":
+			err = json.Unmarshal(*v, &x.Description)
+			if err != nil {
+				return err
+			}
+		case "displayName":
+			err = json.Unmarshal(*v, &x.DisplayName)
+			if err != nil {
+				return err
+			}
+		case "fallback":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalNr1CatalogInstallPlanDirectiveInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.Fallback = *xxx
+			}
+		case "heading":
+			err = json.Unmarshal(*v, &x.Heading)
+			if err != nil {
+				return err
+			}
+		case "id":
+			err = json.Unmarshal(*v, &x.ID)
+			if err != nil {
+				return err
+			}
+		case "primary":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalNr1CatalogInstallPlanDirectiveInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.Primary = *xxx
+			}
+		case "target":
+			err = json.Unmarshal(*v, &x.Target)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
+}
+
+// Nr1CatalogInstallPlanTarget - Represents the location of an install
+type Nr1CatalogInstallPlanTarget struct {
+	// Provides context on the location the install will take place
+	Destination Nr1CatalogInstallPlanDestination `json:"destination"`
+	// Provides context for the operating system that will be targeted
+	Os []Nr1CatalogInstallPlanOperatingSystem `json:"os"`
+	// Provides context for the type of installation that will take place
+	Type Nr1CatalogInstallPlanTargetType `json:"type"`
+}
+
+// Nr1CatalogLinkInstallPlanDirective - Information about a link install plan directive
+type Nr1CatalogLinkInstallPlanDirective struct {
+	// The mode of the install plan directive
+	Mode Nr1CatalogInstallPlanDirectiveMode `json:"mode"`
+	// The URL of the external link used to guide the user through installation
+	URL string `json:"url"`
+}
+
+func (x *Nr1CatalogLinkInstallPlanDirective) ImplementsNr1CatalogInstallPlanDirective() {}
+
+// Nr1CatalogNerdletInstallPlanDirective - Information about a targeted install plan directive
+type Nr1CatalogNerdletInstallPlanDirective struct {
+	// The mode of the install plan directive
+	Mode Nr1CatalogInstallPlanDirectiveMode `json:"mode"`
+	// The nerdlet ID used to guide the user through installation
+	NerdletId string `json:"nerdletId"`
+	// The nerdlet state used to intialize the nerdlet
+	NerdletState Nr1CatalogRawNerdletState `json:"nerdletState,omitempty"`
+}
+
+func (x *Nr1CatalogNerdletInstallPlanDirective) ImplementsNr1CatalogInstallPlanDirective() {}
+
+// Nr1CatalogTargetedInstallPlanDirective - Information about a targeted install plan directive
+type Nr1CatalogTargetedInstallPlanDirective struct {
+	// The mode of the install plan directive
+	Mode Nr1CatalogInstallPlanDirectiveMode `json:"mode"`
+	// The name of the recipe used for the installation
+	RecipeName string `json:"recipeName"`
+}
+
+func (x *Nr1CatalogTargetedInstallPlanDirective) ImplementsNr1CatalogInstallPlanDirective() {}
+
+// SyntheticsAccountStitchedFields - Nerdgraph account field
+type SyntheticsAccountStitchedFields struct {
+	// Query that fetches the script of a specific scripted monitor
+	Script SyntheticsMonitorScriptQueryResponse `json:"script,omitempty"`
+	// visiblity(flag:Synthetics/setGraphqlCustomerVisible) Query that fetches the steps used by the specified Step Monitor
+	Steps []SyntheticsStep `json:"steps"`
+}
+
 // SyntheticsBrokenLinksMonitor - A Broken Links monitor resulting from a Broken Links monitor mutation
 type SyntheticsBrokenLinksMonitor struct {
 	// The creation time of the monitor in millis
 	CreatedAt nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
 	// The unique client identifier for the Synthetics Monitor in New Relic
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The unique identifier of the monitor within the Synthetics domain
+	ID string `json:"id,omitempty"`
 	// The locations the monitor runs from
 	Locations SyntheticsLocations `json:"locations,omitempty"`
 	// The last modification time of the monitor in millis
@@ -255,6 +515,8 @@ type SyntheticsCertCheckMonitor struct {
 	Domain string `json:"domain,omitempty"`
 	// The unique client identifier for the Synthetics Monitor in New Relic
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The unique identifier of the monitor within the Synthetics domain
+	ID string `json:"id,omitempty"`
 	// The locations the monitor runs from
 	Locations SyntheticsLocations `json:"locations,omitempty"`
 	// The last modification time of the monitor in millis
@@ -465,6 +727,12 @@ type SyntheticsMonitorDeleteMutationResult struct {
 	DeletedGUID EntityGUID `json:"deletedGuid,omitempty"`
 }
 
+// SyntheticsMonitorScriptQueryResponse - The script that a monitor runs
+type SyntheticsMonitorScriptQueryResponse struct {
+	// The script associated with the specified monitor
+	Text string `json:"text,omitempty"`
+}
+
 // SyntheticsMonitorUpdateError - Error object for Synthetics monitor update request
 type SyntheticsMonitorUpdateError struct {
 	// String description of error
@@ -549,6 +817,8 @@ type SyntheticsScriptAPIMonitor struct {
 	CreatedAt nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
 	// The unique client identifier for the Synthetics Monitor in New Relic
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The unique identifier of the monitor within the Synthetics domain
+	ID string `json:"id,omitempty"`
 	// The locations the monitor runs from
 	Locations SyntheticsLocations `json:"locations,omitempty"`
 	// The last modification time of the monitor in millis
@@ -587,6 +857,8 @@ type SyntheticsScriptBrowserMonitor struct {
 	CreatedAt nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
 	// The unique client identifier for the Synthetics Monitor in New Relic
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The unique identifier of the monitor within the Synthetics domain
+	ID string `json:"id,omitempty"`
 	// The locations the monitor runs from
 	Locations SyntheticsLocations `json:"locations,omitempty"`
 	// The last modification time of the monitor in millis
@@ -659,6 +931,8 @@ type SyntheticsSimpleBrowserMonitor struct {
 	CreatedAt nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
 	// The unique client identifier for the Synthetics Monitor in New Relic
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The unique identifier of the monitor within the Synthetics domain
+	ID string `json:"id,omitempty"`
 	// The locations the monitor runs from
 	Locations SyntheticsLocations `json:"locations,omitempty"`
 	// The last modification time of the monitor in millis
@@ -723,6 +997,8 @@ type SyntheticsSimpleMonitor struct {
 	CreatedAt nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
 	// The unique client identifier for the Synthetics Monitor in New Relic
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The unique identifier of the monitor within the Synthetics domain
+	ID string `json:"id,omitempty"`
 	// The locations the monitor runs from
 	Locations SyntheticsLocations `json:"locations,omitempty"`
 	// The last modification time of the monitor in millis
@@ -801,6 +1077,8 @@ type SyntheticsStepMonitor struct {
 	CreatedAt nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
 	// The unique client identifier for the Synthetics Monitor in New Relic
 	GUID EntityGUID `json:"guid,omitempty"`
+	// The unique identifier of the monitor within the Synthetics domain
+	ID string `json:"id,omitempty"`
 	// The locations the monitor runs from
 	Locations SyntheticsLocations `json:"locations,omitempty"`
 	// The last modification time of the monitor in millis
@@ -979,18 +1257,94 @@ type SyntheticsUpdateStepMonitorInput struct {
 	Tags []SyntheticsTag `json:"tags,omitempty"`
 }
 
+type scriptResponse struct {
+	Actor Actor `json:"actor"`
+}
+
+type stepsResponse struct {
+	Actor Actor `json:"actor"`
+}
+
 // EntityGUID - An encoded Entity GUID
 type EntityGUID string
 
-// ID - The `ID` scalar type represents a unique identifier, often used to
-// refetch an object or as key for a cache. The ID type appears in a JSON
-// response as a String; however, it is not intended to be human-readable.
-// When expected as an input type, any string (such as `"4"`) or integer
-// (such as `4`) input value will be accepted as an ID.
-type ID string
+// Nr1CatalogRawNerdletState - Represents JSON nerdlet state data
+type Nr1CatalogRawNerdletState string
 
 // SecureValue - The `SecureValue` scalar represents a secure value, ie a password, an API key, etc.
 type SecureValue string
 
 // SemVer - The `SemVer` scalar represents a version designation conforming to the SemVer specification.
 type SemVer string
+
+// Nr1CatalogInstallPlanDirective - Information about an install plan directive
+type Nr1CatalogInstallPlanDirectiveInterface interface {
+	ImplementsNr1CatalogInstallPlanDirective()
+}
+
+// UnmarshalNr1CatalogInstallPlanDirectiveInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
+func UnmarshalNr1CatalogInstallPlanDirectiveInterface(b []byte) (*Nr1CatalogInstallPlanDirectiveInterface, error) {
+	var err error
+
+	var rawMessageNr1CatalogInstallPlanDirective map[string]*json.RawMessage
+	err = json.Unmarshal(b, &rawMessageNr1CatalogInstallPlanDirective)
+	if err != nil {
+		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageNr1CatalogInstallPlanDirective) < 1 {
+		return nil, nil
+	}
+
+	var typeName string
+
+	if rawTypeName, ok := rawMessageNr1CatalogInstallPlanDirective["__typename"]; ok {
+		err = json.Unmarshal(*rawTypeName, &typeName)
+		if err != nil {
+			return nil, err
+		}
+
+		switch typeName {
+		case "Nr1CatalogLinkInstallPlanDirective":
+			var interfaceType Nr1CatalogLinkInstallPlanDirective
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx Nr1CatalogInstallPlanDirectiveInterface = &interfaceType
+
+			return &xxx, nil
+		case "Nr1CatalogNerdletInstallPlanDirective":
+			var interfaceType Nr1CatalogNerdletInstallPlanDirective
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx Nr1CatalogInstallPlanDirectiveInterface = &interfaceType
+
+			return &xxx, nil
+		case "Nr1CatalogTargetedInstallPlanDirective":
+			var interfaceType Nr1CatalogTargetedInstallPlanDirective
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx Nr1CatalogInstallPlanDirectiveInterface = &interfaceType
+
+			return &xxx, nil
+		}
+	} else {
+		keys := []string{}
+		for k := range rawMessageNr1CatalogInstallPlanDirective {
+			keys = append(keys, k)
+		}
+		return nil, fmt.Errorf("interface Nr1CatalogInstallPlanDirective did not include a __typename field for inspection: %s", keys)
+	}
+
+	return nil, fmt.Errorf("interface Nr1CatalogInstallPlanDirective was not matched against all PossibleTypes: %s", typeName)
+}
