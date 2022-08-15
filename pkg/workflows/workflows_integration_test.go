@@ -16,11 +16,12 @@ import (
 	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
 
-func TestMutationWorkflow(t *testing.T) {
+func TestWorkflows(t *testing.T) {
 	t.Parallel()
 
 	n := newIntegrationTestClient(t)
-	newrelicClient := newrelicIntegrationTestClient(t)
+
+	notificationsClient := newNotificationsIntegrationTestClient(t)
 
 	accountID, err := mock.GetTestAccountID()
 	if err != nil {
@@ -49,7 +50,7 @@ func TestMutationWorkflow(t *testing.T) {
 	destination.Name = fmt.Sprintf("test-notifications-destination-%s", testIntegrationDestinationNameRandStr)
 
 	// Test: Create Destination
-	createDestinationResult, err := newrelicClient.Notifications.AiNotificationsCreateDestination(accountID, destination)
+	createDestinationResult, err := notificationsClient.AiNotificationsCreateDestination(accountID, destination)
 	require.NoError(t, err)
 	require.NotNil(t, createDestinationResult)
 
@@ -72,7 +73,7 @@ func TestMutationWorkflow(t *testing.T) {
 	channel.Name = fmt.Sprintf("test-notifications-channel-%s", testIntegrationChannelNameRandStr)
 
 	// Test: Create Channel
-	createChannelResult, err := newrelicClient.Notifications.AiNotificationsCreateChannel(accountID, channel)
+	createChannelResult, err := notificationsClient.AiNotificationsCreateChannel(accountID, channel)
 	require.NoError(t, err)
 	require.NotNil(t, createChannelResult)
 
@@ -166,7 +167,7 @@ func TestMutationWorkflow(t *testing.T) {
 	require.NotNil(t, deleteResult)
 
 	// Delete Destination
-	deleteDestinationResult, err := newrelicClient.notifications.AiNotificationsDeleteDestination(accountID, destinationID)
+	deleteDestinationResult, err := notificationsClient.AiNotificationsDeleteDestination(accountID, destinationID)
 	require.NoError(t, err)
 	require.NotNil(t, deleteDestinationResult)
 }
