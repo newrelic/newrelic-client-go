@@ -3854,11 +3854,11 @@ type AiOpsWebhookPayloadMetadata struct {
 	Version string `json:"version"`
 }
 
-// AiWorkflowsConfigurationDto - Enrichment configuration object
-type AiWorkflowsConfigurationDto struct {
+// AiWorkflowsConfiguration - Enrichment configuration object
+type AiWorkflowsConfiguration struct {
 }
 
-func (x *AiWorkflowsConfigurationDto) ImplementsAiWorkflowsConfigurationDto() {}
+func (x *AiWorkflowsConfiguration) ImplementsAiWorkflowsConfiguration() {}
 
 // AiWorkflowsDestinationConfiguration - Destination Configuration Object
 type AiWorkflowsDestinationConfiguration struct {
@@ -3875,7 +3875,7 @@ type AiWorkflowsEnrichment struct {
 	// Account Id of the Enrichment
 	AccountID int `json:"accountId"`
 	// List of configurations for the enrichment
-	Configuration []AiWorkflowsConfigurationDto `json:"configuration"`
+	Configuration []AiWorkflowsConfiguration `json:"configuration"`
 	// The time the Enrichment was created
 	CreatedAt nrtime.DateTime `json:"createdAt"`
 	// Enrichment Id
@@ -16021,56 +16021,56 @@ func UnmarshalAiNotificationsAuthInterface(b []byte) (*AiNotificationsAuthInterf
 	return nil, fmt.Errorf("interface AiNotificationsAuth was not matched against all PossibleTypes: %s", typeName)
 }
 
-// AiWorkflowsConfigurationDto - Enrichment configuration object
-type AiWorkflowsConfigurationDtoInterface interface {
-	ImplementsAiWorkflowsConfigurationDto()
+// AiWorkflowsConfiguration - Enrichment configuration object
+type AiWorkflowsConfigurationInterface interface {
+	ImplementsAiWorkflowsConfiguration()
 }
 
-// UnmarshalAiWorkflowsConfigurationDtoInterface unmarshals the interface into the correct type
+// UnmarshalAiWorkflowsConfigurationInterface unmarshals the interface into the correct type
 // based on __typename provided by GraphQL
-func UnmarshalAiWorkflowsConfigurationDtoInterface(b []byte) (*AiWorkflowsConfigurationDtoInterface, error) {
+func UnmarshalAiWorkflowsConfigurationInterface(b []byte) (*AiWorkflowsConfigurationInterface, error) {
 	var err error
 
-	var rawMessageAiWorkflowsConfigurationDto map[string]*json.RawMessage
-	err = json.Unmarshal(b, &rawMessageAiWorkflowsConfigurationDto)
+	var rawMessageAiWorkflowsConfiguration map[string]*json.RawMessage
+	err = json.Unmarshal(b, &rawMessageAiWorkflowsConfiguration)
 	if err != nil {
 		return nil, err
 	}
 
 	// Nothing to unmarshal
-	if len(rawMessageAiWorkflowsConfigurationDto) < 1 {
+	if len(rawMessageAiWorkflowsConfiguration) < 1 {
 		return nil, nil
 	}
 
 	var typeName string
 
-	if rawTypeName, ok := rawMessageAiWorkflowsConfigurationDto["__typename"]; ok {
+	if rawTypeName, ok := rawMessageAiWorkflowsConfiguration["__typename"]; ok {
 		err = json.Unmarshal(*rawTypeName, &typeName)
 		if err != nil {
 			return nil, err
 		}
 
 		switch typeName {
-		case "AiWorkflowsNrqlConfigurationDto":
-			var interfaceType ai.AiWorkflowsNRQLConfigurationDto
+		case "AiWorkflowsNrqlConfiguration":
+			var interfaceType ai.AiWorkflowsNRQLConfiguration
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
 			}
 
-			var xxx AiWorkflowsConfigurationDtoInterface = &interfaceType
+			var xxx AiWorkflowsConfigurationInterface = &interfaceType
 
 			return &xxx, nil
 		}
 	} else {
 		keys := []string{}
-		for k := range rawMessageAiWorkflowsConfigurationDto {
+		for k := range rawMessageAiWorkflowsConfiguration {
 			keys = append(keys, k)
 		}
-		return nil, fmt.Errorf("interface AiWorkflowsConfigurationDto did not include a __typename field for inspection: %s", keys)
+		return nil, fmt.Errorf("interface AiWorkflowsConfiguration did not include a __typename field for inspection: %s", keys)
 	}
 
-	return nil, fmt.Errorf("interface AiWorkflowsConfigurationDto was not matched against all PossibleTypes: %s", typeName)
+	return nil, fmt.Errorf("interface AiWorkflowsConfiguration was not matched against all PossibleTypes: %s", typeName)
 }
 
 type AlertableEntityInterface interface {
