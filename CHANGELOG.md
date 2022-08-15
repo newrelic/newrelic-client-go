@@ -1,3 +1,8 @@
+<a name="v0.89.0"></a>
+## [v0.89.0] - 2022-08-01
+### Features
+- **synthetics:** generate code for queries synthetics.script and synthetics.steps
+
 <a name="v0.88.1"></a>
 ## [v0.88.1] - 2022-07-24
 ### Bug Fixes
@@ -1391,7 +1396,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.88.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.89.0...HEAD
+[v0.89.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.88.1...v0.89.0
 [v0.88.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.88.0...v0.88.1
 [v0.88.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.87.1...v0.88.0
 [v0.87.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.87.0...v0.87.1
