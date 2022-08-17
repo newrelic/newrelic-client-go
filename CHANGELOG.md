@@ -1,3 +1,20 @@
+<a name="v0.90.0"></a>
+## [v0.90.0] - 2022-08-15
+### Bug Fixes
+- **notifications:** fix tests
+
+### Features
+- **workflows:** fix lint
+- **workflows:** fix intgration tests
+- **workflows:** fix unit tests + add readme
+- **workflows:** add workflows API - fix tests
+- **workflows:** add workflows API
+
+<a name="v0.89.1"></a>
+## [v0.89.1] - 2022-08-15
+### Bug Fixes
+- **notifications:** add fileds to error interface
+
 <a name="v0.89.0"></a>
 ## [v0.89.0] - 2022-08-01
 ### Features
@@ -1396,7 +1413,9 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.89.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.90.0...HEAD
+[v0.90.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.89.1...v0.90.0
+[v0.89.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.89.0...v0.89.1
 [v0.89.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.88.1...v0.89.0
 [v0.88.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.88.0...v0.88.1
 [v0.88.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.87.1...v0.88.0

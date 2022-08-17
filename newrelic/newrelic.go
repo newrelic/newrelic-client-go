@@ -30,6 +30,7 @@ import (
 	"github.com/newrelic/newrelic-client-go/pkg/region"
 	"github.com/newrelic/newrelic-client-go/pkg/servicelevel"
 	"github.com/newrelic/newrelic-client-go/pkg/synthetics"
+	"github.com/newrelic/newrelic-client-go/pkg/workflows"
 	"github.com/newrelic/newrelic-client-go/pkg/workloads"
 )
 
@@ -55,6 +56,7 @@ type NewRelic struct {
 	Plugins         plugins.Plugins
 	ServiceLevel    servicelevel.Servicelevel
 	Synthetics      synthetics.Synthetics
+	Workflows       workflows.Workflows
 	Workloads       workloads.Workloads
 
 	config config.Config
@@ -104,6 +106,7 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 		Plugins:         plugins.New(cfg),
 		ServiceLevel:    servicelevel.New(cfg),
 		Synthetics:      synthetics.New(cfg),
+		Workflows:       workflows.New(cfg),
 		Workloads:       workloads.New(cfg),
 	}
 
