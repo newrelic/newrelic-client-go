@@ -292,3 +292,24 @@ type DashboardFilter struct {
 	EventTypes []string `json:"event_types,omitempty"`
 	Attributes []string `json:"attributes,omitempty"`
 }
+
+// RawConfiguration represents the configuration for widgets, it's a replacement for configuration field
+type RawConfiguration struct {
+	// Used by all widgets
+	NRQLQueries     []DashboardWidgetNRQLQueryInput  `json:"nrqlQueries,omitempty"`
+	PlatformOptions *RawConfigurationPlatformOptions `json:"platformOptions,omitempty"`
+
+	// Used by viz.bullet
+	Limit float64 `json:"limit,omitempty"`
+
+	// Used by viz.markdown
+	Text string `json:"text,omitempty"`
+
+	// Used by viz.billboard
+	Thresholds []DashboardBillboardWidgetThresholdInput `json:"thresholds,omitempty"`
+}
+
+// RawConfigurationPlatformOptions represents the platform widget options
+type RawConfigurationPlatformOptions struct {
+	IgnoreTimeRange bool `json:"ignoreTimeRange,omitempty"`
+}
