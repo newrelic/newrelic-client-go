@@ -995,13 +995,13 @@ packages:
       - github.com/newrelic/newrelic-client-go/pkg/users
     mutations:
       - name: workloadCreate
-        max_query_field_depth: 3
+        max_query_field_depth: 6
       - name: workloadDelete
-        max_query_field_depth: 3
+        max_query_field_depth: 6
       - name: workloadDuplicate
-        max_query_field_depth: 3
+        max_query_field_depth: 6
       - name: workloadUpdate
-        max_query_field_depth: 3
+        max_query_field_depth: 6
     types:
       - name: WorkloadCreateInput
       - name: WorkloadDuplicateInput
