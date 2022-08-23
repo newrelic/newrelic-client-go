@@ -6,7 +6,7 @@ package workflows
 import (
 	"testing"
 
-	"github.com/newrelic/newrelic-client-go/newrelic"
+	"github.com/newrelic/newrelic-client-go/pkg/notifications"
 	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
 )
 
@@ -17,14 +17,9 @@ func newIntegrationTestClient(t *testing.T) Workflows {
 	return client
 }
 
-func newrelicIntegrationTestClient(t *testing.T) newrelic.NewRelic {
-	tc := mock.NewIntegrationTestConfig(t)
+func newNotificationsIntegrationTestClient(t *testing.T) notifications.Notifications {
+	cfg := mock.NewIntegrationTestConfig(t)
+	client := notifications.New(cfg)
 
-	client, _ := newrelic.New(
-		newrelic.ConfigPersonalAPIKey(tc.PersonalAPIKey),
-		newrelic.ConfigInsightsInsertKey(tc.InsightsInsertKey),
-		newrelic.ConfigUserAgent(tc.UserAgent),
-	)
-
-	return *client
+	return client
 }
