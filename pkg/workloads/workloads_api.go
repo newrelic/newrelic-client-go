@@ -93,6 +93,15 @@ const WorkloadCreateMutation = `mutation(
 			value
 			... on WorkloadRollupRuleStatusResult {
 				__typename
+				rollupRuleDetails {
+					entitySearchQueries
+					hasIndividualEntities
+					notOperationalEntities
+					operationalEntities
+					resultingGroupType
+					thresholdType
+					unknownStatusEntities
+				}
 			}
 			... on WorkloadStaticStatusResult {
 				__typename
@@ -106,8 +115,36 @@ const WorkloadCreateMutation = `mutation(
 	statusConfig {
 		automatic {
 			enabled
+			remainingEntitiesRule {
+				rollup {
+					groupBy
+					strategy
+					thresholdType
+					thresholdValue
+				}
+			}
 			rules {
+				entities {
+					guid
+				}
+				entitySearchQueries {
+					createdAt
+					createdBy {
+						email
+						gravatar
+						id
+						name
+					}
+					id
+					query
+					updatedAt
+				}
 				id
+				rollup {
+					strategy
+					thresholdType
+					thresholdValue
+				}
 			}
 		}
 		static {
@@ -207,6 +244,15 @@ const WorkloadDeleteMutation = `mutation(
 			value
 			... on WorkloadRollupRuleStatusResult {
 				__typename
+				rollupRuleDetails {
+					entitySearchQueries
+					hasIndividualEntities
+					notOperationalEntities
+					operationalEntities
+					resultingGroupType
+					thresholdType
+					unknownStatusEntities
+				}
 			}
 			... on WorkloadStaticStatusResult {
 				__typename
@@ -220,8 +266,36 @@ const WorkloadDeleteMutation = `mutation(
 	statusConfig {
 		automatic {
 			enabled
+			remainingEntitiesRule {
+				rollup {
+					groupBy
+					strategy
+					thresholdType
+					thresholdValue
+				}
+			}
 			rules {
+				entities {
+					guid
+				}
+				entitySearchQueries {
+					createdAt
+					createdBy {
+						email
+						gravatar
+						id
+						name
+					}
+					id
+					query
+					updatedAt
+				}
 				id
+				rollup {
+					strategy
+					thresholdType
+					thresholdValue
+				}
 			}
 		}
 		static {
@@ -333,6 +407,15 @@ const WorkloadDuplicateMutation = `mutation(
 			value
 			... on WorkloadRollupRuleStatusResult {
 				__typename
+				rollupRuleDetails {
+					entitySearchQueries
+					hasIndividualEntities
+					notOperationalEntities
+					operationalEntities
+					resultingGroupType
+					thresholdType
+					unknownStatusEntities
+				}
 			}
 			... on WorkloadStaticStatusResult {
 				__typename
@@ -346,8 +429,36 @@ const WorkloadDuplicateMutation = `mutation(
 	statusConfig {
 		automatic {
 			enabled
+			remainingEntitiesRule {
+				rollup {
+					groupBy
+					strategy
+					thresholdType
+					thresholdValue
+				}
+			}
 			rules {
+				entities {
+					guid
+				}
+				entitySearchQueries {
+					createdAt
+					createdBy {
+						email
+						gravatar
+						id
+						name
+					}
+					id
+					query
+					updatedAt
+				}
 				id
+				rollup {
+					strategy
+					thresholdType
+					thresholdValue
+				}
 			}
 		}
 		static {
@@ -453,6 +564,15 @@ const WorkloadUpdateMutation = `mutation(
 			value
 			... on WorkloadRollupRuleStatusResult {
 				__typename
+				rollupRuleDetails {
+					entitySearchQueries
+					hasIndividualEntities
+					notOperationalEntities
+					operationalEntities
+					resultingGroupType
+					thresholdType
+					unknownStatusEntities
+				}
 			}
 			... on WorkloadStaticStatusResult {
 				__typename
@@ -466,8 +586,36 @@ const WorkloadUpdateMutation = `mutation(
 	statusConfig {
 		automatic {
 			enabled
+			remainingEntitiesRule {
+				rollup {
+					groupBy
+					strategy
+					thresholdType
+					thresholdValue
+				}
+			}
 			rules {
+				entities {
+					guid
+				}
+				entitySearchQueries {
+					createdAt
+					createdBy {
+						email
+						gravatar
+						id
+						name
+					}
+					id
+					query
+					updatedAt
+				}
 				id
+				rollup {
+					strategy
+					thresholdType
+					thresholdValue
+				}
 			}
 		}
 		static {

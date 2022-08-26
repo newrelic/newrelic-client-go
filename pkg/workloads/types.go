@@ -163,7 +163,7 @@ type WorkloadCollection struct {
 	// The moment when the object was created, represented in milliseconds since the Unix epoch.
 	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt"`
 	// The user who created the workload.
-	CreatedBy users.UserReference `json:"createdBy"`
+	CreatedBy users.UserReference `json:"createdBy,omitempty"`
 	// Relevant information about the workload.
 	Description string `json:"description,omitempty"`
 	// A list of entity GUIDs. These entities will belong to the collection as long as their accounts are included in the scope accounts of the collection.
@@ -225,7 +225,7 @@ type WorkloadEntitySearchQuery struct {
 	// The moment when the object was created, represented in milliseconds since the Unix epoch.
 	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt"`
 	// The user who created the entity search query.
-	CreatedBy users.UserReference `json:"createdBy"`
+	CreatedBy users.UserReference `json:"createdBy,omitempty"`
 	// The unique identifier of the entity search query.
 	ID int `json:"id"`
 	// The entity search query that is used to perform the search of a group of entities.
