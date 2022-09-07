@@ -1,3 +1,8 @@
+<a name="v0.91.1"></a>
+## [v0.91.1] - 2022-09-07
+### Bug Fixes
+- **notifications:** add missing destination type via tutone
+
 <a name="v0.91.0"></a>
 ## [v0.91.0] - 2022-08-17
 ### Features
@@ -1418,7 +1423,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.91.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.91.1...HEAD
+[v0.91.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.91.0...v0.91.1
 [v0.91.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.90.0...v0.91.0
 [v0.90.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.89.1...v0.90.0
 [v0.89.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.89.0...v0.89.1
