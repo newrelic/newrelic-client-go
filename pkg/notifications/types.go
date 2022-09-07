@@ -140,6 +140,8 @@ var AiNotificationsChannelTypeTypes = struct {
 	SLACK AiNotificationsChannelType
 	// Slack Collaboration channel type
 	SLACK_COLLABORATION AiNotificationsChannelType
+	// Legacy Slack channel type based on Incoming Webhooks
+	SLACK_LEGACY AiNotificationsChannelType
 	// Webhook channel type
 	WEBHOOK AiNotificationsChannelType
 }{
@@ -165,6 +167,8 @@ var AiNotificationsChannelTypeTypes = struct {
 	SLACK: "SLACK",
 	// Slack Collaboration channel type
 	SLACK_COLLABORATION: "SLACK_COLLABORATION",
+	// Legacy Slack channel type based on Incoming Webhooks
+	SLACK_LEGACY: "SLACK_LEGACY",
 	// Webhook channel type
 	WEBHOOK: "WEBHOOK",
 }
@@ -289,6 +293,8 @@ var AiNotificationsDestinationTypeTypes = struct {
 	SLACK AiNotificationsDestinationType
 	// Slack Collaboration destination type
 	SLACK_COLLABORATION AiNotificationsDestinationType
+	// Legacy Slack destination type based on Incoming Webhooks
+	SLACK_LEGACY AiNotificationsDestinationType
 	// WebHook destination type
 	WEBHOOK AiNotificationsDestinationType
 }{
@@ -310,6 +316,8 @@ var AiNotificationsDestinationTypeTypes = struct {
 	SLACK: "SLACK",
 	// Slack Collaboration destination type
 	SLACK_COLLABORATION: "SLACK_COLLABORATION",
+	// Legacy Slack destination type based on Incoming Webhooks
+	SLACK_LEGACY: "SLACK_LEGACY",
 	// WebHook destination type
 	WEBHOOK: "WEBHOOK",
 }
@@ -758,6 +766,8 @@ type AiNotificationsDestinationUpdate struct {
 	Active bool `json:"active,omitempty"`
 	// auth
 	Auth *AiNotificationsCredentialsInput `json:"auth,omitempty"`
+	// disableAuth
+	DisableAuth bool `json:"disableAuth,omitempty"`
 	// name
 	Name string `json:"name,omitempty"`
 	// properties
