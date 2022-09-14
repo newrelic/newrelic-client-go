@@ -1013,6 +1013,17 @@ packages:
         field_type_override: "*WorkloadScopeAccountsInput"
       - name: WorkloadUpdateStatusConfigInput
         field_type_override: "*WorkloadUpdateStatusConfigInput"
+      #status config overrides
+      #      - name: WorkloadRemainingEntitiesRuleInput
+      #      - name: WorkloadRollupInput
+      #      - name: WorkloadRemainingEntitiesRuleRollupInput
+      #      - name: WorkloadRuleThresholdType
+      #      - name: WorkloadRollupRuleDetails
+      #      - name: WorkloadAutomaticStatus
+      - name: WorkloadAutomaticStatusInput
+        field_type_override: "*WorkloadAutomaticStatusInput"
+      - name: WorkloadUpdateAutomaticStatusInput
+        field_type_override: "*WorkloadUpdateAutomaticStatusInput"
 
       #
       # Types owned by other packages

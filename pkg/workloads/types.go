@@ -411,7 +411,7 @@ type WorkloadStatusConfig struct {
 // WorkloadStatusConfigInput - The input object used to provide the configuration that defines how the status of the workload is calculated.
 type WorkloadStatusConfigInput struct {
 	// An input object used to represent an automatic status configuration.
-	Automatic WorkloadAutomaticStatusInput `json:"automatic,omitempty"`
+	Automatic *WorkloadAutomaticStatusInput `json:"automatic,omitempty"`
 	// A list of static status configurations. You can only configure one static status for a workload.
 	Static []WorkloadStaticStatusInput `json:"static,omitempty"`
 }
@@ -489,7 +489,7 @@ type WorkloadUpdateStaticStatusInput struct {
 // WorkloadUpdateStatusConfigInput - The input object used to provide the configuration that defines how the status of the workload is calculated.
 type WorkloadUpdateStatusConfigInput struct {
 	// An input object used to represent an automatic status configuration.
-	Automatic WorkloadUpdateAutomaticStatusInput `json:"automatic,omitempty"`
+	Automatic *WorkloadUpdateAutomaticStatusInput `json:"automatic,omitempty"`
 	// A list of static status configurations. You can only configure one static status for a workload.
 	Static []WorkloadUpdateStaticStatusInput `json:"static,omitempty"`
 }
