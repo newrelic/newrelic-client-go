@@ -7,6 +7,21 @@ import (
 	"github.com/newrelic/newrelic-client-go/pkg/nrtime"
 )
 
+// ServiceLevelEventsQuerySelectFunction - The function to use in the SELECT clause.
+type ServiceLevelEventsQuerySelectFunction string
+
+var ServiceLevelEventsQuerySelectFunctionTypes = struct {
+	// COUNT.
+	COUNT ServiceLevelEventsQuerySelectFunction
+	// SUM.
+	SUM ServiceLevelEventsQuerySelectFunction
+}{
+	// COUNT.
+	COUNT: "COUNT",
+	// SUM.
+	SUM: "SUM",
+}
+
 // ServiceLevelObjectiveRollingTimeWindowUnit - The rolling time window units.
 type ServiceLevelObjectiveRollingTimeWindowUnit string
 
@@ -53,7 +68,7 @@ type ServiceLevelDefinition struct {
 // ServiceLevelEvents - The events that define the SLI.
 type ServiceLevelEvents struct {
 	// The New Relic account to fetch the events from.
-	Account accounts.AccountReference `json:"account"`
+	Account accounts.AccountReference `json:"account,omitempty"`
 	// The definition of bad events.
 	BadEvents *ServiceLevelEventsQuery `json:"badEvents,omitempty"`
 	// The definition of good events.
@@ -76,24 +91,54 @@ type ServiceLevelEventsCreateInput struct {
 
 // ServiceLevelEventsQuery - The query that represents the events to fetch.
 type ServiceLevelEventsQuery struct {
-	// The NRDB event or metric to fetch the data from.
+	// The NRDB event to fetch the data from.
 	From NRQL `json:"from"`
+	// The NRQL SELECT clause to aggregate events.
+	Select ServiceLevelEventsQuerySelect `json:"select,omitempty"`
 	// The NRQL condition to filter the events.
 	Where NRQL `json:"where,omitempty"`
 }
 
 // ServiceLevelEventsQueryCreateInput - The query that represents the events to fetch.
 type ServiceLevelEventsQueryCreateInput struct {
-	// The NRDB event or metric to fetch the data from.
+	// The NRDB event to fetch the data from.
 	From NRQL `json:"from"`
+	// The NRQL SELECT clause to aggregate events. Default is COUNT(*).
+	Select ServiceLevelEventsQuerySelectCreateInput `json:"select,omitempty"`
 	// The NRQL condition to filter the events.
 	Where NRQL `json:"where,omitempty"`
 }
 
+// ServiceLevelEventsQuerySelect - The resulting NRQL SELECT clause to aggregate events.
+type ServiceLevelEventsQuerySelect struct {
+	// The event attribute to use in the SELECT clause.
+	Attribute string `json:"attribute,omitempty"`
+	// The function to use in the SELECT clause.
+	Function ServiceLevelEventsQuerySelectFunction `json:"function"`
+}
+
+// ServiceLevelEventsQuerySelectCreateInput - The NRQL SELECT clause to aggregate events.
+type ServiceLevelEventsQuerySelectCreateInput struct {
+	// The event attribute to use in the SELECT clause.
+	Attribute string `json:"attribute,omitempty"`
+	// The function to use in the SELECT clause.
+	Function ServiceLevelEventsQuerySelectFunction `json:"function"`
+}
+
+// ServiceLevelEventsQuerySelectUpdateInput - The NRQL SELECT clause to aggregate events.
+type ServiceLevelEventsQuerySelectUpdateInput struct {
+	// The event attribute to use in the SELECT clause.
+	Attribute string `json:"attribute,omitempty"`
+	// The function to use in the SELECT clause.
+	Function ServiceLevelEventsQuerySelectFunction `json:"function"`
+}
+
 // ServiceLevelEventsQueryUpdateInput - The query that represents the events to fetch.
 type ServiceLevelEventsQueryUpdateInput struct {
-	// The NRDB event or metric to fetch the data from.
+	// The NRDB event to fetch the data from.
 	From NRQL `json:"from"`
+	// The NRQL SELECT clause to aggregate events. Default is COUNT(*).
+	Select ServiceLevelEventsQuerySelectUpdateInput `json:"select,omitempty"`
 	// The NRQL condition to filter the events.
 	Where NRQL `json:"where,omitempty"`
 }
@@ -113,13 +158,15 @@ type ServiceLevelIndicator struct {
 	// The date when the SLI was created represented in the number of milliseconds since the Unix epoch.
 	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt"`
 	// The user who created the SLI.
-	CreatedBy UserReference `json:"createdBy"`
+	CreatedBy UserReference `json:"createdBy,omitempty"`
 	// The description of the SLI.
 	Description string `json:"description,omitempty"`
 	// The entity which the SLI is attached to.
 	EntityGUID common.EntityGUID `json:"entityGuid"`
 	// The events that define the SLI.
 	Events ServiceLevelEvents `json:"events"`
+	// The unique entity identifier of the SLI.
+	GUID common.EntityGUID `json:"guid"`
 	// The unique identifier of the SLI.
 	ID string `json:"id"`
 	// The name of the SLI.
@@ -206,7 +253,7 @@ type ServiceLevelObjectiveRollingTimeWindow struct {
 
 // ServiceLevelObjectiveRollingTimeWindowCreateInput - The rolling time window configuration of the SLO.
 type ServiceLevelObjectiveRollingTimeWindowCreateInput struct {
-	// The count of time units. Accepted values are 1, 7, 14, 28 and 30 days.
+	// The count of time units. Accepted values are 1, 7 and 28 days.
 	Count int `json:"count"`
 	// The time unit.
 	Unit ServiceLevelObjectiveRollingTimeWindowUnit `json:"unit"`
@@ -214,7 +261,7 @@ type ServiceLevelObjectiveRollingTimeWindowCreateInput struct {
 
 // ServiceLevelObjectiveRollingTimeWindowUpdateInput - The rolling time window configuration of the SLO.
 type ServiceLevelObjectiveRollingTimeWindowUpdateInput struct {
-	// The count of time units. Accepted values are 1, 7, 14, 28 and 30 days.
+	// The count of time units. Accepted values are 1, 7 and 28 days.
 	Count int `json:"count"`
 	// The time unit.
 	Unit ServiceLevelObjectiveRollingTimeWindowUnit `json:"unit"`
@@ -258,10 +305,14 @@ type ServiceLevelResultQuery struct {
 
 // UserReference - The `UserReference` object provides basic identifying information about the user.
 type UserReference struct {
-	Email    string `json:"email,omitempty"`
+	//
+	Email string `json:"email,omitempty"`
+	//
 	Gravatar string `json:"gravatar,omitempty"`
-	ID       int    `json:"id,omitempty"`
-	Name     string `json:"name,omitempty"`
+	//
+	ID int `json:"id,omitempty"`
+	//
+	Name string `json:"name,omitempty"`
 }
 
 type indicatorsResponse struct {

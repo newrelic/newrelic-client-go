@@ -66,17 +66,30 @@ const ServiceLevelCreateMutation = `mutation(
 		}
 		badEvents {
 			from
+			select {
+				attribute
+				function
+			}
 			where
 		}
 		goodEvents {
 			from
+			select {
+				attribute
+				function
+			}
 			where
 		}
 		validEvents {
 			from
+			select {
+				attribute
+				function
+			}
 			where
 		}
 	}
+	guid
 	id
 	name
 	objectives {
@@ -99,24 +112,28 @@ const ServiceLevelCreateMutation = `mutation(
 	}
 } }`
 
-// Deletes an existing SLI by the ID.
+// Deletes an existing SLI by the GUID.
 func (a *Servicelevel) ServiceLevelDelete(
+	gUID common.EntityGUID,
 	iD string,
 ) (*ServiceLevelIndicator, error) {
 	return a.ServiceLevelDeleteWithContext(context.Background(),
+		gUID,
 		iD,
 	)
 }
 
-// Deletes an existing SLI by the ID.
+// Deletes an existing SLI by the GUID.
 func (a *Servicelevel) ServiceLevelDeleteWithContext(
 	ctx context.Context,
+	gUID common.EntityGUID,
 	iD string,
 ) (*ServiceLevelIndicator, error) {
 
 	resp := ServiceLevelDeleteQueryResponse{}
 	vars := map[string]interface{}{
-		"id": iD,
+		"guid": gUID,
+		"id":   iD,
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, ServiceLevelDeleteMutation, vars, &resp); err != nil {
@@ -131,8 +148,10 @@ type ServiceLevelDeleteQueryResponse struct {
 }
 
 const ServiceLevelDeleteMutation = `mutation(
-	$id: ID!,
+	$guid: EntityGuid,
+	$id: ID,
 ) { serviceLevelDelete(
+	guid: $guid,
 	id: $id,
 ) {
 	createdAt
@@ -151,17 +170,30 @@ const ServiceLevelDeleteMutation = `mutation(
 		}
 		badEvents {
 			from
+			select {
+				attribute
+				function
+			}
 			where
 		}
 		goodEvents {
 			from
+			select {
+				attribute
+				function
+			}
 			where
 		}
 		validEvents {
 			from
+			select {
+				attribute
+				function
+			}
 			where
 		}
 	}
+	guid
 	id
 	name
 	objectives {
@@ -184,26 +216,30 @@ const ServiceLevelDeleteMutation = `mutation(
 	}
 } }`
 
-// Updates an existing SLI by the ID.
+// Updates an existing SLI by the GUID.
 func (a *Servicelevel) ServiceLevelUpdate(
+	gUID common.EntityGUID,
 	iD string,
 	indicator ServiceLevelIndicatorUpdateInput,
 ) (*ServiceLevelIndicator, error) {
 	return a.ServiceLevelUpdateWithContext(context.Background(),
+		gUID,
 		iD,
 		indicator,
 	)
 }
 
-// Updates an existing SLI by the ID.
+// Updates an existing SLI by the GUID.
 func (a *Servicelevel) ServiceLevelUpdateWithContext(
 	ctx context.Context,
+	gUID common.EntityGUID,
 	iD string,
 	indicator ServiceLevelIndicatorUpdateInput,
 ) (*ServiceLevelIndicator, error) {
 
 	resp := ServiceLevelUpdateQueryResponse{}
 	vars := map[string]interface{}{
+		"guid":      gUID,
 		"id":        iD,
 		"indicator": indicator,
 	}
@@ -220,9 +256,11 @@ type ServiceLevelUpdateQueryResponse struct {
 }
 
 const ServiceLevelUpdateMutation = `mutation(
-	$id: ID!,
+	$guid: EntityGuid,
+	$id: ID,
 	$indicator: ServiceLevelIndicatorUpdateInput!,
 ) { serviceLevelUpdate(
+	guid: $guid,
 	id: $id,
 	indicator: $indicator,
 ) {
@@ -242,17 +280,30 @@ const ServiceLevelUpdateMutation = `mutation(
 		}
 		badEvents {
 			from
+			select {
+				attribute
+				function
+			}
 			where
 		}
 		goodEvents {
 			from
+			select {
+				attribute
+				function
+			}
 			where
 		}
 		validEvents {
 			from
+			select {
+				attribute
+				function
+			}
 			where
 		}
 	}
+	guid
 	id
 	name
 	objectives {
@@ -325,17 +376,30 @@ const getIndicatorsQuery = `query(
 		}
 		badEvents {
 			from
+			select {
+				attribute
+				function
+			}
 			where
 		}
 		goodEvents {
 			from
+			select {
+				attribute
+				function
+			}
 			where
 		}
 		validEvents {
 			from
+			select {
+				attribute
+				function
+			}
 			where
 		}
 	}
+	guid
 	id
 	name
 	objectives {
