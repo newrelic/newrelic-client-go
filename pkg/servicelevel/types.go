@@ -104,7 +104,7 @@ type ServiceLevelEventsQueryCreateInput struct {
 	// The NRDB event to fetch the data from.
 	From NRQL `json:"from"`
 	// The NRQL SELECT clause to aggregate events. Default is COUNT(*).
-	Select ServiceLevelEventsQuerySelectCreateInput `json:"select,omitempty"`
+	Select *ServiceLevelEventsQuerySelectCreateInput `json:"select,omitempty"`
 	// The NRQL condition to filter the events.
 	Where NRQL `json:"where,omitempty"`
 }
@@ -138,7 +138,7 @@ type ServiceLevelEventsQueryUpdateInput struct {
 	// The NRDB event to fetch the data from.
 	From NRQL `json:"from"`
 	// The NRQL SELECT clause to aggregate events. Default is COUNT(*).
-	Select ServiceLevelEventsQuerySelectUpdateInput `json:"select,omitempty"`
+	Select *ServiceLevelEventsQuerySelectUpdateInput `json:"select,omitempty"`
 	// The NRQL condition to filter the events.
 	Where NRQL `json:"where,omitempty"`
 }
