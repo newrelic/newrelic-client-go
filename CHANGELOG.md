@@ -1,3 +1,8 @@
+<a name="v0.91.2"></a>
+## [v0.91.2] - 2022-09-22
+### Bug Fixes
+- omit filter ID when empty
+
 <a name="v0.91.1"></a>
 ## [v0.91.1] - 2022-09-07
 ### Bug Fixes
@@ -1423,7 +1428,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.91.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.91.2...HEAD
+[v0.91.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.91.1...v0.91.2
 [v0.91.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.91.0...v0.91.1
 [v0.91.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.90.0...v0.91.0
 [v0.90.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.89.1...v0.90.0
