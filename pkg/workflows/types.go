@@ -579,7 +579,7 @@ type AiWorkflowsUpdatedFilterInput struct {
 	// filterInput
 	FilterInput AiWorkflowsFilterInput `json:"filterInput,omitempty"`
 	// id
-	ID string `json:"id"`
+	ID string `json:"id,omitempty"`
 }
 
 // AiWorkflowsWorkflow - Workflow object
