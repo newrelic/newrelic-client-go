@@ -1,3 +1,8 @@
+<a name="v0.91.3"></a>
+## [v0.91.3] - 2022-09-26
+### Bug Fixes
+- make some workloads types nullable
+
 <a name="v0.91.2"></a>
 ## [v0.91.2] - 2022-09-22
 ### Bug Fixes
@@ -1428,7 +1433,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.91.2...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.91.3...HEAD
+[v0.91.3]: https://github.com/newrelic/newrelic-client-go/compare/v0.91.2...v0.91.3
 [v0.91.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.91.1...v0.91.2
 [v0.91.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.91.0...v0.91.1
 [v0.91.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.90.0...v0.91.0
