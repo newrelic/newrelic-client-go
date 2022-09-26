@@ -1,3 +1,11 @@
+<a name="v1.0.0"></a>
+## [v1.0.0] - 2022-09-26
+### Bug Fixes
+- add servicelevel select types as nullables
+
+### Features
+- update servicelevel model
+
 <a name="v0.91.3"></a>
 ## [v0.91.3] - 2022-09-26
 ### Bug Fixes
@@ -1433,7 +1441,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.91.3...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v1.0.0...HEAD
+[v1.0.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.91.3...v1.0.0
 [v0.91.3]: https://github.com/newrelic/newrelic-client-go/compare/v0.91.2...v0.91.3
 [v0.91.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.91.1...v0.91.2
 [v0.91.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.91.0...v0.91.1
