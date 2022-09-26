@@ -1106,6 +1106,11 @@ packages:
         field_type_override: "*ServiceLevelEventsQueryUpdateInput"
       - name: ServiceLevelEventsUpdateInput
         field_type_override: "*ServiceLevelEventsUpdateInput"
+      - name: ServiceLevelEventsQuerySelectCreateInput
+        field_type_override: "*ServiceLevelEventsQuerySelectCreateInput"
+      - name: ServiceLevelEventsQuerySelectUpdateInput
+        field_type_override: "*ServiceLevelEventsQuerySelectUpdateInput"
+
 
       #
       # Types owned by other packages
