@@ -151,7 +151,7 @@ type WorkloadAutomaticStatusInput struct {
 	// Whether the automatic status configuration is enabled or not.
 	Enabled bool `json:"enabled"`
 	// An additional meta-rule that can consider all entities that haven't been evaluated by any other rule.
-	RemainingEntitiesRule WorkloadRemainingEntitiesRuleInput `json:"remainingEntitiesRule,omitempty"`
+	RemainingEntitiesRule *WorkloadRemainingEntitiesRuleInput `json:"remainingEntitiesRule,omitempty"`
 	// A list of rules.
 	Rules []WorkloadRegularRuleInput `json:"rules,omitempty"`
 }
@@ -259,7 +259,7 @@ type WorkloadRegularRuleInput struct {
 	// A list of entity search queries used to retrieve the entities that compose the rule.
 	EntitySearchQueries []WorkloadEntitySearchQueryInput `json:"entitySearchQueries,omitempty"`
 	// The input object used to represent a rollup strategy.
-	Rollup WorkloadRollupInput `json:"rollup,omitempty"`
+	Rollup *WorkloadRollupInput `json:"rollup,omitempty"`
 }
 
 // WorkloadRemainingEntitiesRule - The definition of a remaining entities rule.
@@ -271,7 +271,7 @@ type WorkloadRemainingEntitiesRule struct {
 // WorkloadRemainingEntitiesRuleInput - The input object used to represent a remaining entities rule.
 type WorkloadRemainingEntitiesRuleInput struct {
 	// The input object used to represent a rollup strategy.
-	Rollup WorkloadRemainingEntitiesRuleRollupInput `json:"rollup,omitempty"`
+	Rollup *WorkloadRemainingEntitiesRuleRollupInput `json:"rollup,omitempty"`
 }
 
 // WorkloadRemainingEntitiesRuleRollup - The rollup strategy.
@@ -411,7 +411,7 @@ type WorkloadStatusConfig struct {
 // WorkloadStatusConfigInput - The input object used to provide the configuration that defines how the status of the workload is calculated.
 type WorkloadStatusConfigInput struct {
 	// An input object used to represent an automatic status configuration.
-	Automatic WorkloadAutomaticStatusInput `json:"automatic,omitempty"`
+	Automatic *WorkloadAutomaticStatusInput `json:"automatic,omitempty"`
 	// A list of static status configurations. You can only configure one static status for a workload.
 	Static []WorkloadStaticStatusInput `json:"static,omitempty"`
 }
@@ -431,7 +431,7 @@ type WorkloadUpdateAutomaticStatusInput struct {
 	// Whether the automatic status configuration is enabled or not.
 	Enabled bool `json:"enabled"`
 	// An additional meta-rule that can consider all entities that haven't been evaluated by any other rule.
-	RemainingEntitiesRule WorkloadRemainingEntitiesRuleInput `json:"remainingEntitiesRule,omitempty"`
+	RemainingEntitiesRule *WorkloadRemainingEntitiesRuleInput `json:"remainingEntitiesRule,omitempty"`
 	// A list of rules.
 	Rules []WorkloadUpdateRegularRuleInput `json:"rules,omitempty"`
 }
@@ -469,7 +469,7 @@ type WorkloadUpdateRegularRuleInput struct {
 	// The unique identifier of the rule to be updated. If not provided, a new rule is created.
 	ID int `json:"id,omitempty"`
 	// The input object used to represent a roll-up strategy.
-	Rollup WorkloadRollupInput `json:"rollup,omitempty"`
+	Rollup *WorkloadRollupInput `json:"rollup,omitempty"`
 }
 
 // WorkloadUpdateStaticStatusInput - The input object used to represent the configuration of a static status.
@@ -489,7 +489,7 @@ type WorkloadUpdateStaticStatusInput struct {
 // WorkloadUpdateStatusConfigInput - The input object used to provide the configuration that defines how the status of the workload is calculated.
 type WorkloadUpdateStatusConfigInput struct {
 	// An input object used to represent an automatic status configuration.
-	Automatic WorkloadUpdateAutomaticStatusInput `json:"automatic,omitempty"`
+	Automatic *WorkloadUpdateAutomaticStatusInput `json:"automatic,omitempty"`
 	// A list of static status configurations. You can only configure one static status for a workload.
 	Static []WorkloadUpdateStaticStatusInput `json:"static,omitempty"`
 }
