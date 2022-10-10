@@ -53,6 +53,28 @@ func TestAiWorkflowsUpdateWorkflowResponse_EmptyDestinations_JsonFormat(t *testi
 	)
 }
 
+// Verify that if the user wants to erase all workflow name, we explicitly pass an empty value
+// While it might not be impossible to remove a workflow name workflow, we should at least forward the user intent
+// to out backend API. This way the user would see a meaningful error.
+// If we just silently omit empty name update, the changes just won't be applied while reporting a success, which is really confusing
+func TestAiWorkflowsUpdateWorkflowResponse_EmptyName_JsonFormat(t *testing.T) {
+	t.Parallel()
+	var emptyStr = ""
+	var input = AiWorkflowsUpdateWorkflowInput{
+		ID:   "10",
+		Name: &emptyStr,
+	}
+
+	var serialized, err = json.Marshal(input)
+
+	assert.NoError(t, err)
+	assert.Equal(
+		t,
+		"{\"id\":\"10\",\"name\":\"\"}",
+		string(serialized),
+	)
+}
+
 // Verify that an empty update input is serialized into an empty json
 func TestAiWorkflowsUpdateWorkflowResponse_EmptyInput_JsonFormat(t *testing.T) {
 	t.Parallel()

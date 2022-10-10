@@ -561,7 +561,7 @@ type AiWorkflowsUpdateWorkflowInput struct {
 	// mutingRulesHandling
 	MutingRulesHandling AiWorkflowsMutingRulesHandling `json:"mutingRulesHandling,omitempty"`
 	// name
-	Name string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 	// workflowEnabled
 	WorkflowEnabled *bool `json:"workflowEnabled,omitempty"`
 }
