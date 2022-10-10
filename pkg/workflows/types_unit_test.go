@@ -75,6 +75,24 @@ func TestAiWorkflowsUpdateWorkflowResponse_EmptyName_JsonFormat(t *testing.T) {
 	)
 }
 
+// Verify that it is possible to pass an empty value for muting rules
+func TestAiWorkflowsUpdateWorkflowResponse_EmptyMutingRules_JsonFormat(t *testing.T) {
+	t.Parallel()
+	var input = AiWorkflowsUpdateWorkflowInput{
+		ID:                  "10",
+		MutingRulesHandling: "",
+	}
+
+	var serialized, err = json.Marshal(input)
+
+	assert.NoError(t, err)
+	assert.Equal(
+		t,
+		"{\"id\":\"10\"}",
+		string(serialized),
+	)
+}
+
 // Verify that an empty update input is serialized into an empty json
 func TestAiWorkflowsUpdateWorkflowResponse_EmptyInput_JsonFormat(t *testing.T) {
 	t.Parallel()
