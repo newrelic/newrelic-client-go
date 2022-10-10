@@ -557,7 +557,7 @@ type AiWorkflowsUpdateWorkflowInput struct {
 	// id
 	ID string `json:"id"`
 	// issuesFilter
-	IssuesFilter AiWorkflowsUpdatedFilterInput `json:"issuesFilter,omitempty"`
+	IssuesFilter *AiWorkflowsUpdatedFilterInput `json:"issuesFilter,omitempty"`
 	// mutingRulesHandling
 	MutingRulesHandling AiWorkflowsMutingRulesHandling `json:"mutingRulesHandling,omitempty"`
 	// name
