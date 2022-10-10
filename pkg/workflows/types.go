@@ -547,7 +547,7 @@ func (x *AiWorkflowsUpdateResponseError) ImplementsAiWorkflowsResponseError() {}
 // AiWorkflowsUpdateWorkflowInput - Update Workflow input object
 type AiWorkflowsUpdateWorkflowInput struct {
 	// destinationConfigurations
-	DestinationConfigurations []AiWorkflowsDestinationConfigurationInput `json:"destinationConfigurations,omitempty"`
+	DestinationConfigurations *[]AiWorkflowsDestinationConfigurationInput `json:"destinationConfigurations,omitempty"`
 	// destinationsEnabled
 	DestinationsEnabled *bool `json:"destinationsEnabled,omitempty"`
 	// enrichments

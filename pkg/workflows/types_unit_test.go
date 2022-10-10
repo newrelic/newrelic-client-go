@@ -32,6 +32,27 @@ func TestAiWorkflowsUpdateWorkflowResponse_OptionalBooleans_JsonFormat(t *testin
 	)
 }
 
+// Verify that if the user wants to erase all destinations, we explicitly pass an empty destination list
+// While it might not be impossible to remove all destinations from a workflow, we should at least forward the user intent
+// to out backend API. This way the user would see a meaningful error.
+// If we just silently omit empty arrays, the changes just won't be applied while reporting a success, which is really confusing
+func TestAiWorkflowsUpdateWorkflowResponse_EmptyDestinations_JsonFormat(t *testing.T) {
+	t.Parallel()
+	var input = AiWorkflowsUpdateWorkflowInput{
+		ID:                        "10",
+		DestinationConfigurations: &[]AiWorkflowsDestinationConfigurationInput{},
+	}
+
+	var serialized, err = json.Marshal(input)
+
+	assert.NoError(t, err)
+	assert.Equal(
+		t,
+		"{\"destinationConfigurations\":[],\"id\":\"10\"}",
+		string(serialized),
+	)
+}
+
 // Verify that an empty update input is serialized into an empty json
 func TestAiWorkflowsUpdateWorkflowResponse_EmptyInput_JsonFormat(t *testing.T) {
 	t.Parallel()
