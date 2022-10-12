@@ -634,3 +634,155 @@ const WorkloadUpdateMutation = `mutation(
 		name
 	}
 } }`
+
+// [DEPRECATED] Retrieves a workload.
+func (a *Workloads) GetCollection(
+	accountID int,
+	gUID common.EntityGUID,
+) (*WorkloadCollection, error) {
+	return a.GetCollectionWithContext(context.Background(),
+		accountID,
+		gUID,
+	)
+}
+
+// [DEPRECATED] Retrieves a workload.
+func (a *Workloads) GetCollectionWithContext(
+	ctx context.Context,
+	accountID int,
+	gUID common.EntityGUID,
+) (*WorkloadCollection, error) {
+
+	resp := collectionResponse{}
+	vars := map[string]interface{}{
+		"accountID": accountID,
+		"guid":      gUID,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, getCollectionQuery, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.Actor.Account.Workload.Collection, nil
+}
+
+const getCollectionQuery = `query(
+	$accountID: Int!,
+	$guid: EntityGuid!,
+) { actor { account(id: $accountID) { workload { collection(
+	guid: $guid,
+) {
+	account {
+		id
+		name
+	}
+	createdAt
+	createdBy {
+		email
+		gravatar
+		id
+		name
+	}
+	description
+	entities {
+		guid
+	}
+	entitySearchQueries {
+		createdAt
+		createdBy {
+			email
+			gravatar
+			id
+			name
+		}
+		id
+		query
+		updatedAt
+	}
+	entitySearchQuery
+	guid
+	id
+	name
+	permalink
+	scopeAccounts {
+		accountIds
+	}
+	status {
+		description
+		source
+		statusDetails {
+			__typename
+			source
+			value
+			... on WorkloadRollupRuleStatusResult {
+				__typename
+				rollupRuleDetails {
+					entitySearchQueries
+					hasIndividualEntities
+					notOperationalEntities
+					operationalEntities
+					resultingGroupType
+					thresholdType
+					unknownStatusEntities
+				}
+			}
+			... on WorkloadStaticStatusResult {
+				__typename
+				description
+				summary
+			}
+		}
+		summary
+		value
+	}
+	statusConfig {
+		automatic {
+			enabled
+			remainingEntitiesRule {
+				rollup {
+					groupBy
+					strategy
+					thresholdType
+					thresholdValue
+				}
+			}
+			rules {
+				entities {
+					guid
+				}
+				entitySearchQueries {
+					createdAt
+					createdBy {
+						email
+						gravatar
+						id
+						name
+					}
+					id
+					query
+					updatedAt
+				}
+				id
+				rollup {
+					strategy
+					thresholdType
+					thresholdValue
+				}
+			}
+		}
+		static {
+			description
+			enabled
+			id
+			status
+			summary
+		}
+	}
+	updatedAt
+	updatedBy {
+		email
+		gravatar
+		id
+		name
+	}
+} } } } }`
