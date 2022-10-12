@@ -1125,10 +1125,6 @@ packages:
       - name: EntityGuid
         field_type_override: common.EntityGUID
         skip_type_create: true
-      - name: EntitySearch
-        skip_type_create: true
-      - name: AccountsOutline
-        skip_type_create: true
 
 generators:
   - name: typegen
