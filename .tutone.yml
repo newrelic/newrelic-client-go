@@ -992,9 +992,13 @@ packages:
     imports:
       - github.com/newrelic/newrelic-client-go/pkg/accounts
       - github.com/newrelic/newrelic-client-go/pkg/common
-      - github.com/newrelic/newrelic-client-go/pkg/entities
       - github.com/newrelic/newrelic-client-go/pkg/nrtime
       - github.com/newrelic/newrelic-client-go/pkg/users
+    queries:
+      - path: ["actor", "account", "workload"]
+        endpoints:
+          - name: collection
+            max_query_field_depth: 6
     mutations:
       - name: workloadCreate
         max_query_field_depth: 6
@@ -1015,7 +1019,7 @@ packages:
         field_type_override: "*WorkloadScopeAccountsInput"
       - name: WorkloadUpdateStatusConfigInput
         field_type_override: "*WorkloadUpdateStatusConfigInput"
-      #status config overrides
+      # Status config overrides
       - name: WorkloadAutomaticStatusInput
         field_type_override: "*WorkloadAutomaticStatusInput"
       - name: WorkloadUpdateAutomaticStatusInput
@@ -1027,10 +1031,7 @@ packages:
       - name: WorkloadRollupInput
         field_type_override: "*WorkloadRollupInput"
       - name: WorkloadRuleThresholdType
-
-      #
       # Types owned by other packages
-      #
       - name: AccountReference
         field_type_override: accounts.AccountReference
         skip_type_create: true
@@ -1057,9 +1058,6 @@ packages:
       - github.com/newrelic/newrelic-client-go/pkg/entities
       - github.com/newrelic/newrelic-client-go/pkg/nrtime
       - github.com/newrelic/newrelic-client-go/pkg/users
-    types:
-      - name: User
-      - name: UserReference
     # Custom query to fetch SLIs from the entity API
     queries:
       - path: ["actor", "entity", "serviceLevel"]
@@ -1086,6 +1084,8 @@ packages:
           - resultQueries
         max_query_field_depth: 3
     types:
+      - name: User
+      - name: UserReference
       - name: ID
         field_type_override: string
       - name: ServiceLevelIndicator

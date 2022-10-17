@@ -11,6 +11,21 @@ import (
 	"github.com/newrelic/newrelic-client-go/pkg/users"
 )
 
+// EntityCollectionType - Indicates where this collection is used
+type EntityCollectionType string
+
+var EntityCollectionTypeTypes = struct {
+	// Collections that define the entities that belong to a workload
+	WORKLOAD EntityCollectionType
+	// Collections that define the entity groups that are used to calculate the status of a workload
+	WORKLOAD_STATUS_RULE_GROUP EntityCollectionType
+}{
+	// Collections that define the entities that belong to a workload
+	WORKLOAD: "WORKLOAD",
+	// Collections that define the entity groups that are used to calculate the status of a workload
+	WORKLOAD_STATUS_RULE_GROUP: "WORKLOAD_STATUS_RULE_GROUP",
+}
+
 // WorkloadGroupRemainingEntitiesRuleBy - Indicates by which field the remaining entities rule should be grouped.
 type WorkloadGroupRemainingEntitiesRuleBy string
 
@@ -134,6 +149,36 @@ var WorkloadStatusValueInputTypes = struct {
 	DISRUPTED: "DISRUPTED",
 	// The status of the workload is operational.
 	OPERATIONAL: "OPERATIONAL",
+}
+
+// Account - The `Account` object provides general data about the account, as well as
+// being the entry point into more detailed data about a single account.
+//
+// Account configuration data is queried through this object, as well as
+// telemetry data that is specific to a single account.
+type Account struct {
+	//
+	ID int `json:"id,omitempty"`
+	//
+	LicenseKey string `json:"licenseKey,omitempty"`
+	//
+	Name string `json:"name,omitempty"`
+	// This field provides access to Workload data.
+	Workload WorkloadAccountStitchedFields `json:"workload,omitempty"`
+}
+
+// Actor - The `Actor` object contains fields that are scoped to the API user's access level.
+type Actor struct {
+	// The `account` field is the entry point into data that is scoped to a single account.
+	Account Account `json:"account,omitempty"`
+}
+
+// WorkloadAccountStitchedFields -
+type WorkloadAccountStitchedFields struct {
+	// [DEPRECATED] Retrieves a workload.
+	Collection WorkloadCollection `json:"collection,omitempty"`
+	// [DEPRECATED] Status and breakdown preview.
+	StatusBreakdownPreview WorkloadWorkloadStatus `json:"statusBreakdownPreview"`
 }
 
 // WorkloadAutomaticStatus - The automatic status configuration.
@@ -400,6 +445,18 @@ type WorkloadStaticStatusResult struct {
 
 func (x *WorkloadStaticStatusResult) ImplementsWorkloadStatusResult() {}
 
+// WorkloadStatus - Detailed information about the status of a workload.
+type WorkloadStatus struct {
+	// A description that provides additional details about the status of the workload.
+	Description string `json:"description,omitempty"`
+	// Indicates where the status value derives from.
+	StatusSource WorkloadStatusSource `json:"statusSource,omitempty"`
+	// The status of the workload.
+	StatusValue WorkloadStatusValue `json:"statusValue,omitempty"`
+	// A short description of the status of the workload.
+	Summary string `json:"summary,omitempty"`
+}
+
 // WorkloadStatusConfig - The configuration that defines how the status of the workload is calculated.
 type WorkloadStatusConfig struct {
 	// An automatic status configuration.
@@ -567,6 +624,42 @@ func (x *WorkloadWorkloadStatus) UnmarshalJSON(b []byte) error {
 
 	return nil
 }
+
+type collectionResponse struct {
+	Actor Actor `json:"actor"`
+}
+
+// AttributeMap - This scalar represents a map of attributes in the form of key-value pairs.
+type AttributeMap string
+
+// DateTime - The `DateTime` scalar represents a date and time. The `DateTime` appears as an ISO8601 formatted string.
+type DateTime string
+
+// Float - The `Float` scalar type represents signed double-precision fractional
+// values as specified by
+// [IEEE 754](http://en.wikipedia.org/wiki/IEEE_floating_point).
+type Float string
+
+// ID - The `ID` scalar type represents a unique identifier, often used to
+// refetch an object or as key for a cache. The ID type appears in a JSON
+// response as a String; however, it is not intended to be human-readable.
+// When expected as an input type, any string (such as `"4"`) or integer
+// (such as `4`) input value will be accepted as an ID.
+type ID string
+
+// Minutes - The `Minutes` scalar represents a duration in minutes
+type Minutes string
+
+// NRQL - This scalar represents a NRQL query string.
+//
+// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about NRQL syntax.
+type NRQL string
+
+// NerdStorageDocument - This scalar represents a NerdStorage document.
+type NerdStorageDocument string
+
+// Seconds - The `Seconds` scalar represents a duration in seconds
+type Seconds string
 
 // WorkloadStatusResult - The details of a status that was involved in the calculation of the workload status.
 type WorkloadStatusResultInterface interface {
