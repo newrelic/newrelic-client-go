@@ -971,6 +971,8 @@ packages:
         field_type_override: "*AiWorkflowsUpdateEnrichmentsInput"
       - name: AiWorkflowsEnrichmentsInput
         field_type_override: "*AiWorkflowsEnrichmentsInput"
+      - name: AiWorkflowsUpdatedFilterInput
+        field_type_override: "*AiWorkflowsUpdatedFilterInput"
       - name: ID
         field_type_override: string
         skip_type_create: true
