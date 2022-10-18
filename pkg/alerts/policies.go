@@ -4,10 +4,10 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/newrelic/newrelic-client-go/pkg/errors"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/errors"
 
-	"github.com/newrelic/newrelic-client-go/internal/http"
-	"github.com/newrelic/newrelic-client-go/internal/serialization"
+	"github.com/newrelic/newrelic-client-go/v2/internal/http"
+	"github.com/newrelic/newrelic-client-go/v2/internal/serialization"
 )
 
 // IncidentPreferenceType specifies rollup settings for alert policies.

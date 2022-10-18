@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	"github.com/newrelic/newrelic-client-go/internal/http"
+	"github.com/newrelic/newrelic-client-go/v2/internal/http"
 )
 
 type APIKey struct {
@@ -15,9 +15,7 @@ type APIKey struct {
 	UserID     *int                   `json:"userId,omitempty"`
 }
 
-//
 // Additional Interface methods
-//
 func (x *APIAccessIngestKeyError) GetError() error {
 	return errors.New(x.Message)
 }

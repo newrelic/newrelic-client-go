@@ -9,7 +9,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	nr "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
+	nr "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
 func TestIntegrationPluginsConditions(t *testing.T) {
