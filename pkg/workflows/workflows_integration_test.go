@@ -5,14 +5,14 @@ package workflows
 
 import (
 	"fmt"
-	"github.com/newrelic/newrelic-client-go/pkg/ai"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/ai"
 	"testing"
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/newrelic/newrelic-client-go/pkg/notifications"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/notifications"
 
-	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
+	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
 func TestIntegrationCreateWorkflow(t *testing.T) {

@@ -6,8 +6,8 @@ package workflows
 import (
 	"testing"
 
-	"github.com/newrelic/newrelic-client-go/pkg/notifications"
-	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/notifications"
+	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
 func newIntegrationTestClient(t *testing.T) Workflows {

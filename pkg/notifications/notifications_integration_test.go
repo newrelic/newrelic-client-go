@@ -10,9 +10,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/newrelic/newrelic-client-go/pkg/ai"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/ai"
 
-	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
+	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
 func TestNotificationMutationDestination(t *testing.T) {

@@ -9,7 +9,7 @@ import (
 	"github.com/google/go-querystring/query"
 	retryablehttp "github.com/hashicorp/go-retryablehttp"
 
-	"github.com/newrelic/newrelic-client-go/pkg/config"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/config"
 )
 
 // Request represents a configurable HTTP request.
