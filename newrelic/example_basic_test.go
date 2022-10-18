@@ -5,11 +5,11 @@ import (
 	"log"
 	"os"
 
-	"github.com/newrelic/newrelic-client-go/pkg/alerts"
-	"github.com/newrelic/newrelic-client-go/pkg/apm"
-	"github.com/newrelic/newrelic-client-go/pkg/entities"
-	"github.com/newrelic/newrelic-client-go/pkg/plugins"
-	"github.com/newrelic/newrelic-client-go/pkg/workloads"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/alerts"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/apm"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/entities"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/plugins"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/workloads"
 )
 
 func Example_basic() {

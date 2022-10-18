@@ -2,7 +2,7 @@
 package nrqldroprules
 
 import (
-	"github.com/newrelic/newrelic-client-go/pkg/nrtime"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/nrtime"
 )
 
 // NRQLDropRulesAction - Specifies how data matching the drop rule's NRQL string should be processed.

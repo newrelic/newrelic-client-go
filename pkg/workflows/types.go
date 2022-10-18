@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/newrelic/newrelic-client-go/pkg/ai"
-	"github.com/newrelic/newrelic-client-go/pkg/nrtime"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/ai"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/nrtime"
 )
 
 // AiWorkflowsCreateErrorType - Type of create error
@@ -547,23 +547,23 @@ func (x *AiWorkflowsUpdateResponseError) ImplementsAiWorkflowsResponseError() {}
 // AiWorkflowsUpdateWorkflowInput - Update Workflow input object
 type AiWorkflowsUpdateWorkflowInput struct {
 	// destinationConfigurations
-	DestinationConfigurations []AiWorkflowsDestinationConfigurationInput `json:"destinationConfigurations,omitempty"`
+	DestinationConfigurations *[]AiWorkflowsDestinationConfigurationInput `json:"destinationConfigurations,omitempty"`
 	// destinationsEnabled
-	DestinationsEnabled bool `json:"destinationsEnabled,omitempty"`
+	DestinationsEnabled *bool `json:"destinationsEnabled,omitempty"`
 	// enrichments
 	Enrichments *AiWorkflowsUpdateEnrichmentsInput `json:"enrichments,omitempty"`
 	// enrichmentsEnabled
-	EnrichmentsEnabled bool `json:"enrichmentsEnabled,omitempty"`
+	EnrichmentsEnabled *bool `json:"enrichmentsEnabled,omitempty"`
 	// id
 	ID string `json:"id"`
 	// issuesFilter
-	IssuesFilter AiWorkflowsUpdatedFilterInput `json:"issuesFilter,omitempty"`
+	IssuesFilter *AiWorkflowsUpdatedFilterInput `json:"issuesFilter,omitempty"`
 	// mutingRulesHandling
 	MutingRulesHandling AiWorkflowsMutingRulesHandling `json:"mutingRulesHandling,omitempty"`
 	// name
-	Name string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 	// workflowEnabled
-	WorkflowEnabled bool `json:"workflowEnabled,omitempty"`
+	WorkflowEnabled *bool `json:"workflowEnabled,omitempty"`
 }
 
 // AiWorkflowsUpdateWorkflowResponse - Update workflow mutation response including errors

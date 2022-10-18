@@ -9,8 +9,8 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/newrelic/newrelic-client-go/pkg/errors"
-	nr "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/errors"
+	nr "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
 func TestIntegrationAlertsMutingRules(t *testing.T) {
