@@ -2,13 +2,13 @@
 
 # newrelic-client-go
 
-[![Testing](https://github.com/newrelic/newrelic-client-go/v2/workflows/Testing/badge.svg)](https://github.com/newrelic/newrelic-client-go/v2/actions)
-[![Security Scan](https://github.com/newrelic/newrelic-client-go/v2/workflows/Security%20Scan/badge.svg)](https://github.com/newrelic/newrelic-client-go/v2/actions)
+[![Testing](https://github.com/newrelic/newrelic-client-go/v2/workflows/Testing/badge.svg)](https://github.com/newrelic/newrelic-client-go/actions)
+[![Security Scan](https://github.com/newrelic/newrelic-client-go/v2/workflows/Security%20Scan/badge.svg)](https://github.com/newrelic/newrelic-client-go/actions)
 [![Go Report Card](https://goreportcard.com/badge/github.com/newrelic/newrelic-client-go?style=flat-square)](https://goreportcard.com/report/github.com/newrelic/newrelic-client-go)
 [![GoDoc](https://godoc.org/github.com/newrelic/newrelic-client-go?status.svg)](https://godoc.org/github.com/newrelic/newrelic-client-go)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/newrelic/newrelic-client-go/v2/blob/main/LICENSE)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/newrelic/newrelic-client-go/blob/main/LICENSE)
 [![CLA assistant](https://cla-assistant.io/readme/badge/newrelic/newrelic-client-go)](https://cla-assistant.io/newrelic/newrelic-client-go)
-[![Release](https://img.shields.io/github/release/newrelic/newrelic-client-go/all.svg)](https://github.com/newrelic/newrelic-client-go/v2/releases/latest)
+[![Release](https://img.shields.io/github/release/newrelic/newrelic-client-go/all.svg)](https://github.com/newrelic/newrelic-client-go/releases/latest)
 
 The New Relic Client provides the building blocks for tools in the [Developer Toolkit](https://newrelic.github.io/observability-as-code), enabling quick access to the suite of New Relic APIs. As a library, it can also be leveraged within your own custom applications.
 
@@ -62,7 +62,7 @@ Follow the steps below to add `github.com/newrelic/newrelic-client-go` as a depe
     go 1.18
 
     require (
-      github.com/newrelic/newrelic-client-go v0.80.0
+      github.com/newrelic/newrelic-client-go/v2 v2.0.1
     )
     ```
 5. The example below demonstrates fetching New Relic entities.
@@ -111,17 +111,17 @@ Follow the steps below to add `github.com/newrelic/newrelic-client-go` as a depe
 
 1. Run the following command to tell Go to download the latest version.
    ```
-   go get github.com/newrelic/newrelic-client-go@latest
+   go get github.com/newrelic/newrelic-client-go/v2@latest
    ```
 2. Run `go mod tidy` to sync your dependencies with your code.
-3. Confirm your `go.mod` file is referencing the [latest version](https://github.com/newrelic/newrelic-client-go/v2/releases/latest).
+3. Confirm your `go.mod` file is referencing the [latest version](https://github.com/newrelic/newrelic-client-go/releases/latest).
 
 
 ## Community
 
 New Relic hosts and moderates an online forum where customers can interact with New Relic employees as well as other customers to get help and share best practices.
 
-- [Issues or Enhancement Requests](https://github.com/newrelic/newrelic-client-go/v2/issues/new/choose) - Issues and enhancement requests can be submitted in the Issues tab of this repository. Please search for and review the existing open issues before submitting a new issue.
+- [Issues or Enhancement Requests](https://github.com/newrelic/newrelic-client-go/issues/new/choose) - Issues and enhancement requests can be submitted in the Issues tab of this repository. Please search for and review the existing open issues before submitting a new issue.
 - [Contributors Guide](CONTRIBUTING.md) - Contributions are welcome.
 - [Community discussion board](https://discuss.newrelic.com/c/build-on-new-relic/developer-toolkit) - Like all official New Relic open source projects, there's a related Community topic in the New Relic Explorers Hub.
 
