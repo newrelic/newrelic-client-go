@@ -4,7 +4,7 @@ package infrastructure
 import (
 	"net/http"
 
-	nrhttp "github.com/newrelic/newrelic-client-go/internal/http"
+	nrhttp "github.com/newrelic/newrelic-client-go/v2/internal/http"
 )
 
 // ErrorResponse represents an error response from New Relic Infrastructure.

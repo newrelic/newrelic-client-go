@@ -4,9 +4,9 @@ package synthetics
 import (
 	"strings"
 
-	"github.com/newrelic/newrelic-client-go/internal/http"
-	"github.com/newrelic/newrelic-client-go/pkg/config"
-	"github.com/newrelic/newrelic-client-go/pkg/logging"
+	"github.com/newrelic/newrelic-client-go/v2/internal/http"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/config"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/logging"
 )
 
 // Synthetics is used to communicate with the New Relic Synthetics product.

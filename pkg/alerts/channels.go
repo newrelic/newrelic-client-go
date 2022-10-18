@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/newrelic/newrelic-client-go/pkg/errors"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/errors"
 
-	"github.com/newrelic/newrelic-client-go/internal/serialization"
+	"github.com/newrelic/newrelic-client-go/v2/internal/serialization"
 )
 
 // ChannelType specifies the channel type used when creating the alert channel.
