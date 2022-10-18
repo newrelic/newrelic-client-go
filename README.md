@@ -2,8 +2,8 @@
 
 # newrelic-client-go
 
-[![Testing](https://github.com/newrelic/newrelic-client-go/v2/workflows/Testing/badge.svg)](https://github.com/newrelic/newrelic-client-go/actions)
-[![Security Scan](https://github.com/newrelic/newrelic-client-go/v2/workflows/Security%20Scan/badge.svg)](https://github.com/newrelic/newrelic-client-go/actions)
+[![Testing](https://github.com/newrelic/newrelic-client-go/workflows/Testing/badge.svg)](https://github.com/newrelic/newrelic-client-go/actions)
+[![Security Scan](https://github.com/newrelic/newrelic-client-go/workflows/Security%20Scan/badge.svg)](https://github.com/newrelic/newrelic-client-go/actions)
 [![Go Report Card](https://goreportcard.com/badge/github.com/newrelic/newrelic-client-go?style=flat-square)](https://goreportcard.com/report/github.com/newrelic/newrelic-client-go)
 [![GoDoc](https://godoc.org/github.com/newrelic/newrelic-client-go?status.svg)](https://godoc.org/github.com/newrelic/newrelic-client-go)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/newrelic/newrelic-client-go/blob/main/LICENSE)
