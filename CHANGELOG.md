@@ -1,3 +1,9 @@
+<a name="v2.0.2"></a>
+## [v2.0.2] - 2022-10-19
+### Bug Fixes
+- update module path to have v2
+- **alert_conditions:** added missing userdef values
+
 <a name="v2.0.1"></a>
 ## [v2.0.1] - 2022-10-18
 ### Bug Fixes
@@ -1453,7 +1459,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.0.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.0.2...HEAD
+[v2.0.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.0.1...v2.0.2
 [v2.0.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.0.0...v2.0.1
 [v2.0.0]: https://github.com/newrelic/newrelic-client-go/compare/v1.1.0...v2.0.0
 [v1.1.0]: https://github.com/newrelic/newrelic-client-go/compare/v1.0.0...v1.1.0
