@@ -160,6 +160,8 @@ var (
 		Total       ValueFunctionType
 		SampleSize  ValueFunctionType
 		SingleValue ValueFunctionType
+		Rate        ValueFunctionType
+		Percent     ValueFunctionType
 	}{
 		Average:     "average",
 		Min:         "min",
@@ -167,6 +169,8 @@ var (
 		Total:       "total",
 		SampleSize:  "sample_size",
 		SingleValue: "single_value",
+		Rate:        "rate",
+		Percent:     "percent",
 	}
 )
 
