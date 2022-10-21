@@ -37,10 +37,10 @@ func TestIntegrationCreateWorkflow(t *testing.T) {
 	var createdWorkflow = createResult.Workflow
 
 	// compare plain fields
-	require.Equal(t, workflowInput.WorkflowEnabled, createdWorkflow.WorkflowEnabled)
-	require.Equal(t, workflowInput.DestinationsEnabled, createdWorkflow.DestinationsEnabled)
-	require.Equal(t, workflowInput.EnrichmentsEnabled, createdWorkflow.EnrichmentsEnabled)
-	require.Equal(t, workflowInput.Name, createdWorkflow.Name)
+	require.Equal(t, *workflowInput.WorkflowEnabled, createdWorkflow.WorkflowEnabled)
+	require.Equal(t, *workflowInput.DestinationsEnabled, createdWorkflow.DestinationsEnabled)
+	require.Equal(t, *workflowInput.EnrichmentsEnabled, createdWorkflow.EnrichmentsEnabled)
+	require.Equal(t, *workflowInput.Name, createdWorkflow.Name)
 	require.Equal(t, workflowInput.MutingRulesHandling, createdWorkflow.MutingRulesHandling)
 
 	// compare filter input to actual filter
@@ -57,8 +57,8 @@ func TestIntegrationCreateWorkflow(t *testing.T) {
 	require.Equal(t, workflowInput.Enrichments.NRQL[0].Configuration[0].Query, createdWorkflow.Enrichments[0].Configurations[0].Query)
 
 	// compare destinations
-	require.Equal(t, len(workflowInput.DestinationConfigurations), len(createdWorkflow.DestinationConfigurations))
-	require.Equal(t, workflowInput.DestinationConfigurations[0].ChannelId, createdWorkflow.DestinationConfigurations[0].ChannelId)
+	require.Equal(t, len(*workflowInput.DestinationConfigurations), len(createdWorkflow.DestinationConfigurations))
+	require.Equal(t, (*workflowInput.DestinationConfigurations)[0].ChannelId, createdWorkflow.DestinationConfigurations[0].ChannelId)
 }
 
 func TestIntegrationDeleteWorkflow(t *testing.T) {
@@ -274,15 +274,20 @@ func generateCreateWorkflowInput(channel *notifications.AiNotificationsChannel) 
 		ChannelId: channel.ID,
 	}}
 
+	var workflowEnabled = true
+	var destinationsEnabled = true
+	var enrichmentsEnabled = true
+	var name = fmt.Sprintf("test-workflows-workflow-%s", mock.RandSeq(5))
+
 	return AiWorkflowsCreateWorkflowInput{
-		WorkflowEnabled:           true,
-		DestinationsEnabled:       true,
-		EnrichmentsEnabled:        true,
+		WorkflowEnabled:           &workflowEnabled,
+		DestinationsEnabled:       &destinationsEnabled,
+		EnrichmentsEnabled:        &enrichmentsEnabled,
 		MutingRulesHandling:       AiWorkflowsMutingRulesHandlingTypes.DONT_NOTIFY_FULLY_OR_PARTIALLY_MUTED_ISSUES,
-		Name:                      fmt.Sprintf("test-workflows-workflow-%s", mock.RandSeq(5)),
+		Name:                      &name,
 		Enrichments:               &enrichmentsInput,
-		IssuesFilter:              filterInput,
-		DestinationConfigurations: destinationsInput,
+		IssuesFilter:              &filterInput,
+		DestinationConfigurations: &destinationsInput,
 	}
 }
 

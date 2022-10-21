@@ -341,21 +341,21 @@ func (x *AiWorkflowsCreateResponseError) ImplementsAiWorkflowsResponseError() {}
 // AiWorkflowsCreateWorkflowInput - Workflow input object
 type AiWorkflowsCreateWorkflowInput struct {
 	// destinationConfigurations
-	DestinationConfigurations []AiWorkflowsDestinationConfigurationInput `json:"destinationConfigurations,omitempty"`
+	DestinationConfigurations *[]AiWorkflowsDestinationConfigurationInput `json:"destinationConfigurations,omitempty"`
 	// destinationsEnabled
-	DestinationsEnabled bool `json:"destinationsEnabled,omitempty"`
+	DestinationsEnabled *bool `json:"destinationsEnabled,omitempty"`
 	// enrichments
 	Enrichments *AiWorkflowsEnrichmentsInput `json:"enrichments,omitempty"`
 	// enrichmentsEnabled
-	EnrichmentsEnabled bool `json:"enrichmentsEnabled,omitempty"`
+	EnrichmentsEnabled *bool `json:"enrichmentsEnabled,omitempty"`
 	// issuesFilter
-	IssuesFilter AiWorkflowsFilterInput `json:"issuesFilter,omitempty"`
+	IssuesFilter *AiWorkflowsFilterInput `json:"issuesFilter,omitempty"`
 	// mutingRulesHandling
-	MutingRulesHandling AiWorkflowsMutingRulesHandling `json:"mutingRulesHandling"`
+	MutingRulesHandling AiWorkflowsMutingRulesHandling `json:"mutingRulesHandling,omitempty"`
 	// name
-	Name string `json:"name"`
+	Name *string `json:"name,omitempty"`
 	// workflowEnabled
-	WorkflowEnabled bool `json:"workflowEnabled,omitempty"`
+	WorkflowEnabled *bool `json:"workflowEnabled,omitempty"`
 }
 
 // AiWorkflowsCreateWorkflowResponse - Create workflow mutation response including errors

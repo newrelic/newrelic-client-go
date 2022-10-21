@@ -177,17 +177,23 @@ func TestCreateWorkflow(t *testing.T) {
 			Values:    []string{"newrelic"},
 		}},
 	}
+
+	var workflowEnabled = false
+	var destinationsEnabled = false
+	var enrichmentsEnabled = false
+	var workflowName = "workflow-test"
+
 	workflowInput := AiWorkflowsCreateWorkflowInput{
-		Name:                "workflow-test",
+		Name:                &workflowName,
 		MutingRulesHandling: AiWorkflowsMutingRulesHandlingTypes.DONT_NOTIFY_FULLY_MUTED_ISSUES,
-		WorkflowEnabled:     false,
-		DestinationsEnabled: false,
-		EnrichmentsEnabled:  false,
-		DestinationConfigurations: []AiWorkflowsDestinationConfigurationInput{{
+		WorkflowEnabled:     &workflowEnabled,
+		DestinationsEnabled: &destinationsEnabled,
+		EnrichmentsEnabled:  &enrichmentsEnabled,
+		DestinationConfigurations: &[]AiWorkflowsDestinationConfigurationInput{{
 			ChannelId: channelId,
 		}},
 		Enrichments:  enrichmentsInput,
-		IssuesFilter: issuesFilterInput,
+		IssuesFilter: &issuesFilterInput,
 	}
 
 	expectedDestinationConfiguration := []AiWorkflowsDestinationConfiguration{{
