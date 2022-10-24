@@ -154,7 +154,6 @@ packages:
         field_type_override: nrtime.NaiveDateTime
         skip_type_create: true
 
-
   - name: apiaccess
     path: pkg/apiaccess
     import_path: github.com/newrelic/newrelic-client-go/v2/pkg/apiaccess
@@ -200,6 +199,27 @@ packages:
         field_type_override: users.UserReference
         skip_type_create: true
 
+  - name: changetracking
+    path: pkg/changetracking
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/changetracking
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/entities
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+    generators:
+      - typegen
+      - nerdgraphclient
+    types:
+      - name: ChangeTrackingDeployment
+      - name: ChangeTrackingDeploymentInput
+      - name: EpochMilliseconds
+        field_type_override: nrtime.EpochMilliseconds
+        skip_type_create: true
+      - name: EntityGuid
+        field_type_override: common.EntityGUID
+        skip_type_create: true
+    mutations:
+      - name: changeTrackingCreateDeployment
+        max_query_field_depth: 2
 
   - name: cloud
     path: pkg/cloud
