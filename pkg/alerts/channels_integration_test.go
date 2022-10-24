@@ -12,6 +12,7 @@ import (
 )
 
 func TestIntegrationChannel(t *testing.T) {
+	t.Skipf("Legacy alerts have been migrated to destinations for our test account")
 	t.Parallel()
 
 	var (
@@ -112,9 +113,9 @@ func TestIntegrationChannel(t *testing.T) {
 			},
 		}
 
-		// Currently the v2 API has minimal validation on the data
-		// structure for Headers and Payload, so we need to test
-		// as many scenarios as possible.
+		//Currently the v2 API has minimal validation on the data
+		//structure for Headers and Payload, so we need to test
+		//as many scenarios as possible.
 		testChannelWebhookComplexHeadersPayload = Channel{
 			Name: "integration-test-webhook",
 			Type: ChannelTypes.Webhook,
