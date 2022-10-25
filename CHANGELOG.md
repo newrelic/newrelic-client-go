@@ -1,3 +1,8 @@
+<a name="v2.1.0"></a>
+## [v2.1.0] - 2022-10-25
+### Features
+- **change_tracking:** add change tracking create deployment endpoint
+
 <a name="v2.0.3"></a>
 ## [v2.0.3] - 2022-10-24
 ### Bug Fixes
@@ -1464,7 +1469,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.0.3...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.1.0...HEAD
+[v2.1.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.0.3...v2.1.0
 [v2.0.3]: https://github.com/newrelic/newrelic-client-go/compare/v2.0.2...v2.0.3
 [v2.0.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.0.1...v2.0.2
 [v2.0.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.0.0...v2.0.1
