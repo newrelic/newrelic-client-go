@@ -12,7 +12,6 @@ import (
 )
 
 func TestIntegrationChannel(t *testing.T) {
-	t.Skipf("Legacy alerts have been migrated to destinations for our test account")
 	t.Parallel()
 
 	var (
