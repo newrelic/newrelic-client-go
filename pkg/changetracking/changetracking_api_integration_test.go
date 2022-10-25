@@ -11,8 +11,6 @@ import (
 )
 
 func TestChangeTrackingCreateDeployment_Basic(t *testing.T) {
-	t.Skipf("Should we skip this test in CI to avoid creating deployments every time since there's no clean up API?")
-
 	t.Parallel()
 
 	a := newIntegrationTestClient(t)
