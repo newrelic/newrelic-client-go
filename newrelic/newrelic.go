@@ -11,6 +11,7 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/alerts"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/apiaccess"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/apm"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/changetracking"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/cloud"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/config"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/dashboards"
@@ -40,6 +41,7 @@ type NewRelic struct {
 	Alerts          alerts.Alerts
 	APIAccess       apiaccess.APIAccess
 	APM             apm.APM
+	ChangeTracking  changetracking.Changetracking
 	Cloud           cloud.Cloud
 	Dashboards      dashboards.Dashboards
 	Edge            edge.Edge
@@ -90,6 +92,7 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 		Alerts:          alerts.New(cfg),
 		APIAccess:       apiaccess.New(cfg),
 		APM:             apm.New(cfg),
+		ChangeTracking:  changetracking.New(cfg),
 		Cloud:           cloud.New(cfg),
 		Dashboards:      dashboards.New(cfg),
 		Edge:            edge.New(cfg),
