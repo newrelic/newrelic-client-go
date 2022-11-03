@@ -175,7 +175,28 @@ func TestIntegrationUpdateWorkflow_UpdateEverything(t *testing.T) {
 	require.Equal(t, (*workflowInput.DestinationConfigurations)[0].ChannelId, updatedWorkflow.DestinationConfigurations[0].ChannelId)
 }
 
-// TODO: test enrichment removal (does not work currently)
+func TestIntegrationUpdateWorkflow_RemoveEnrichments(t *testing.T) {
+	t.Parallel()
+
+	// Create stuff to update
+	workflow, destination := createTestWorkflow(t)
+	defer cleanupDestination(t, destination)
+	defer cleanupWorkflow(t, workflow)
+
+	// just assert that the created workflow is enabled
+	require.Equal(t, true, workflow.WorkflowEnabled)
+
+	workflowsClient := newIntegrationTestClient(t)
+	emptyEnrichments := AiWorkflowsUpdateEnrichmentsInput{NRQL: []AiWorkflowsNRQLUpdateEnrichmentInput{}}
+	updatedWorkflow, err := workflowsClient.AiWorkflowsUpdateWorkflow(workflow.AccountID, AiWorkflowsUpdateWorkflowInput{
+		ID:          workflow.ID,
+		Enrichments: &emptyEnrichments,
+	})
+
+	require.NoError(t, err)
+	require.NotNil(t, updatedWorkflow)
+	require.Empty(t, updatedWorkflow.Workflow.Enrichments)
+}
 
 func TestIntegrationUpdateWorkflow_DisableWorkflow(t *testing.T) {
 	t.Parallel()

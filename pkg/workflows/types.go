@@ -531,7 +531,7 @@ func (x *AiWorkflowsTestResponseError) ImplementsAiWorkflowsResponseError() {}
 // AiWorkflowsUpdateEnrichmentsInput - Update Enrichment input object
 type AiWorkflowsUpdateEnrichmentsInput struct {
 	// nrql
-	NRQL []AiWorkflowsNRQLUpdateEnrichmentInput `json:"nrql,omitempty"`
+	NRQL []AiWorkflowsNRQLUpdateEnrichmentInput `json:"nrql"`
 }
 
 // AiWorkflowsUpdateResponseError - Update error description
