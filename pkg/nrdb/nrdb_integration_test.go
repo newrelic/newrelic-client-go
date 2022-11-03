@@ -48,8 +48,6 @@ func TestIntegrationNrdbQuery(t *testing.T) {
 }
 
 func TestIntegrationNrdbQueryHistoryQuery(t *testing.T) {
-	t.Skipf("This endpoint is going away in favor of actor.queryHistory")
-
 	t.Parallel()
 
 	client := newNrdbIntegrationTestClient(t)
