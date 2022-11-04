@@ -1,3 +1,23 @@
+<a name="v2.2.1"></a>
+## [v2.2.1] - 2022-11-03
+### Bug Fixes
+- **nrdb:** Use actor.queryHistory NG endpoint
+
+<a name="v2.2.0"></a>
+## [v2.2.0] - 2022-10-28
+### Features
+- add ChangeTracking to NewRelic client
+
+<a name="v2.1.0"></a>
+## [v2.1.0] - 2022-10-25
+### Features
+- **change_tracking:** add change tracking create deployment endpoint
+
+<a name="v2.0.3"></a>
+## [v2.0.3] - 2022-10-24
+### Bug Fixes
+- remove slug field which is causing timeout
+
 <a name="v2.0.2"></a>
 ## [v2.0.2] - 2022-10-19
 ### Bug Fixes
@@ -1459,7 +1479,11 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.0.2...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.2.1...HEAD
+[v2.2.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.2.0...v2.2.1
+[v2.2.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.1.0...v2.2.0
+[v2.1.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.0.3...v2.1.0
+[v2.0.3]: https://github.com/newrelic/newrelic-client-go/compare/v2.0.2...v2.0.3
 [v2.0.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.0.1...v2.0.2
 [v2.0.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.0.0...v2.0.1
 [v2.0.0]: https://github.com/newrelic/newrelic-client-go/compare/v1.1.0...v2.0.0

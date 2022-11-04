@@ -2588,7 +2588,6 @@ const getLinkedAccountsQuery = `query(
 			id
 			isEnabled
 			name
-			slug
 			updatedAt
 		}
 		slug
