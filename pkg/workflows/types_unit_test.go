@@ -96,6 +96,27 @@ func TestAiWorkflowsUpdateWorkflowResponse_EmptyName_JsonFormat(t *testing.T) {
 	)
 }
 
+// Verify that if the user wants to remove all enrichments name, we explicitly pass an empty value
+func TestAiWorkflowsUpdateWorkflowResponse_EmptyEnrichments_JsonFormat(t *testing.T) {
+	t.Parallel()
+	emptyEnrichments := AiWorkflowsUpdateEnrichmentsInput{
+		NRQL: []AiWorkflowsNRQLUpdateEnrichmentInput{},
+	}
+	input := AiWorkflowsUpdateWorkflowInput{
+		ID:          "10",
+		Enrichments: &emptyEnrichments,
+	}
+
+	serialized, err := json.Marshal(input)
+
+	assert.NoError(t, err)
+	assert.Equal(
+		t,
+		"{\"enrichments\":{\"nrql\":[]},\"id\":\"10\"}",
+		string(serialized),
+	)
+}
+
 // Verify that it is possible to pass an empty value for muting rules
 func TestAiWorkflowsUpdateWorkflowResponse_EmptyMutingRules_JsonFormat(t *testing.T) {
 	t.Parallel()
