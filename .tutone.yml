@@ -51,6 +51,9 @@ packages:
       - name: ID
         field_type_override: string
         skip_type_create: true
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
 
   - name: synthetics
     path: pkg/synthetics
