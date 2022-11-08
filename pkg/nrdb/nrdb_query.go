@@ -35,11 +35,11 @@ func (n *Nrdb) QueryHistoryWithContext(ctx context.Context) (*[]NRQLHistoricalQu
 		return nil, err
 	}
 
-	return &respBody.Actor.NRQLQueryHistory, nil
+	return &respBody.Actor.QueryHistory.Nrql, nil
 }
 
 const (
-	gqlNrqlQueryHistoryQuery = `{ actor { nrqlQueryHistory { accountId nrql timestamp } } }`
+	gqlNrqlQueryHistoryQuery = `{ actor { queryHistory { nrql { accountIds query createdAt } } } }`
 
 	gqlNrqlQuery = `query($query: Nrql!, $accountId: Int!) { actor { account(id: $accountId) { nrql(query: $query) {
     currentResults otherResult previousResults results totalResult
@@ -57,6 +57,8 @@ type gqlNrglQueryResponse struct {
 
 type gqlNrglQueryHistoryResponse struct {
 	Actor struct {
-		NRQLQueryHistory []NRQLHistoricalQuery
+		QueryHistory struct {
+			Nrql []NRQLHistoricalQuery
+		}
 	}
 }

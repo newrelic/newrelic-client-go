@@ -8,7 +8,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/newrelic/newrelic-client-go/internal/serialization"
+	"github.com/newrelic/newrelic-client-go/v2/internal/serialization"
 )
 
 func TestIntegrationChannel(t *testing.T) {
@@ -112,9 +112,9 @@ func TestIntegrationChannel(t *testing.T) {
 			},
 		}
 
-		// Currently the v2 API has minimal validation on the data
-		// structure for Headers and Payload, so we need to test
-		// as many scenarios as possible.
+		//Currently the v2 API has minimal validation on the data
+		//structure for Headers and Payload, so we need to test
+		//as many scenarios as possible.
 		testChannelWebhookComplexHeadersPayload = Channel{
 			Name: "integration-test-webhook",
 			Type: ChannelTypes.Webhook,

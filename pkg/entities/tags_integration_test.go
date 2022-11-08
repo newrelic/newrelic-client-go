@@ -4,11 +4,9 @@
 package entities
 
 import (
-	"testing"
-
+	"github.com/newrelic/newrelic-client-go/v2/pkg/common"
 	"github.com/stretchr/testify/require"
-
-	"github.com/newrelic/newrelic-client-go/pkg/common"
+	"testing"
 )
 
 func TestIntegrationListTags(t *testing.T) {
@@ -41,10 +39,25 @@ func TestIntegrationGetTagsForEntity(t *testing.T) {
 	client := newIntegrationTestClient(t)
 
 	actual, err := client.GetTagsForEntity(testGUID)
+
 	require.NoError(t, err)
 	require.Greater(t, len(actual), 0)
 
 	actual, err = client.GetTagsForEntityMutable(testGUID)
+
+	if len(actual) < 1 {
+		tags := []TaggingTagInput{
+			{
+				Key:    "pineapple",
+				Values: []string{"pizza"},
+			},
+		}
+		result, err := client.TaggingAddTagsToEntity(testGUID, tags)
+		require.NoError(t, err)
+		require.NotNil(t, result)
+
+	}
+
 	require.NoError(t, err)
 	require.Greater(t, len(actual), 0)
 }

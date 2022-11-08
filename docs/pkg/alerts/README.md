@@ -1,6 +1,6 @@
 # alerts
 --
-    import "github.com/newrelic/newrelic-client-go/pkg/alerts"
+    import "github.com/newrelic/newrelic-client-go/v2/pkg/alerts"
 
 
 ## Usage

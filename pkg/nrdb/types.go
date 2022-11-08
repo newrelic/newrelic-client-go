@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/newrelic/newrelic-client-go/pkg/nrtime"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/nrtime"
 )
 
 // ChartFormatType - Represents all the format types available for static charts.
@@ -225,11 +225,11 @@ type NRQLFacetSuggestion struct {
 // NRQLHistoricalQuery - An NRQL query executed in the past.
 type NRQLHistoricalQuery struct {
 	// The Account ID queried.
-	AccountID int `json:"accountId,omitempty"`
+	AccountIDs []int `json:"accountIds,omitempty"`
 	// The NRQL query executed.
-	NRQL NRQL `json:"nrql,omitempty"`
+	Query NRQL `json:"query,omitempty"`
 	// The time the query was executed.
-	Timestamp nrtime.EpochSeconds `json:"timestamp,omitempty"`
+	CreatedAt nrtime.DateTime `json:"createdAt,omitempty"`
 }
 
 // SuggestedAnomalyBasedNRQLQuery - A query suggestion based on analysis of events within a specific anomalous time

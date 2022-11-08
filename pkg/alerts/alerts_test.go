@@ -8,7 +8,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
+	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
 // TODO: This is used by incidents_test.go still, need to refactor

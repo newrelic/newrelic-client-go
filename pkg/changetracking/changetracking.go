@@ -1,4 +1,4 @@
-package cloud
+package changetracking
 
 import (
 	"github.com/newrelic/newrelic-client-go/v2/internal/http"
@@ -6,19 +6,19 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/logging"
 )
 
-type Cloud struct {
+type Changetracking struct {
 	client http.Client
 	config config.Config
 	logger logging.Logger
 	pager  http.Pager
 }
 
-func New(config config.Config) Cloud {
+func New(config config.Config) Changetracking {
 
 	client := http.NewClient(config)
 	client.SetAuthStrategy(&http.PersonalAPIKeyCapableV2Authorizer{})
 
-	pkg := Cloud{
+	pkg := Changetracking{
 		client: client,
 		config: config,
 		logger: config.GetLogger(),
