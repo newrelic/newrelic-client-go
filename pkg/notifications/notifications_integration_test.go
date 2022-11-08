@@ -20,6 +20,7 @@ func TestNotificationMutationDestination(t *testing.T) {
 
 	n := newIntegrationTestClient(t)
 
+	falseValue := false
 	accountID, err := mock.GetTestAccountID()
 	if err != nil {
 		t.Skipf("%s", err)
@@ -65,7 +66,7 @@ func TestNotificationMutationDestination(t *testing.T) {
 
 	// Test: Update Destination
 	updateDestination := AiNotificationsDestinationUpdate{}
-	updateDestination.Active = false
+	updateDestination.Active = &falseValue
 	updateDestination.Properties = []AiNotificationsPropertyInput{
 		{
 			Key:          "url",
@@ -98,6 +99,7 @@ func TestNotificationMutationChannel(t *testing.T) {
 
 	n := newIntegrationTestClient(t)
 
+	falseValue := false
 	accountID, err := mock.GetTestAccountID()
 	if err != nil {
 		t.Skipf("%s", err)
@@ -171,7 +173,7 @@ func TestNotificationMutationChannel(t *testing.T) {
 
 	// Test: Update Channel
 	updateChannel := AiNotificationsChannelUpdate{}
-	updateChannel.Active = false
+	updateChannel.Active = &falseValue
 	updateChannel.Properties = []AiNotificationsPropertyInput{
 		{
 			Key:          "headers",
