@@ -4,12 +4,11 @@
 package notifications
 
 import (
-"encoding/json"
-"testing"
+	"encoding/json"
+	"testing"
 
-"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/assert"
 )
-
 
 // Verify that boolean values with "empty" values (== false) are not ignored by json marshaller
 // If `false` is not included into input, it would be impossible to change any boolean flag to `false` in an update
@@ -17,7 +16,7 @@ func TestAiNotificationsChannelFilter_OptionalBooleans_JsonFormat(t *testing.T) 
 	t.Parallel()
 	var falseValue = false
 	var input = AiNotificationsChannelFilter{
-		Name: "test-notification-channel-1-update",
+		Name:   "test-notification-channel-1-update",
 		Active: &falseValue,
 	}
 	var serialized, err = json.Marshal(input)
@@ -33,8 +32,7 @@ func TestAiNotificationsChannelFilter_OptionalBooleans_JsonFormat(t *testing.T) 
 // Verify that an empty update input is serialized into an empty json
 func TestAiNotificationsChannelFilter_EmptyInput_JsonFormat(t *testing.T) {
 	t.Parallel()
-	var input = AiNotificationsChannelFilter{
-	}
+	var input = AiNotificationsChannelFilter{}
 
 	var serialized, err = json.Marshal(input)
 
@@ -48,9 +46,9 @@ func TestAiNotificationsChannelUpdate_OptionalBooleans_JsonFormat(t *testing.T) 
 	t.Parallel()
 	var falseValue = false
 	var input = AiNotificationsChannelUpdate{
-		Name: "test-notification-channel-1-update",
+		Name:       "test-notification-channel-1-update",
 		Properties: []AiNotificationsPropertyInput{},
-		Active: &falseValue,
+		Active:     &falseValue,
 	}
 	var serialized, err = json.Marshal(input)
 
@@ -79,7 +77,7 @@ func TestAiNotificationsDestinationFilter_OptionalBooleans_JsonFormat(t *testing
 	t.Parallel()
 	var falseValue = false
 	var input = AiNotificationsDestinationFilter{
-		Name: "test-notification-channel-1-update",
+		Name:   "test-notification-channel-1-update",
 		Active: &falseValue,
 	}
 	var serialized, err = json.Marshal(input)
@@ -109,9 +107,9 @@ func TestAiNotificationsDestinationUpdate_OptionalBooleans_JsonFormat(t *testing
 	t.Parallel()
 	var falseValue = false
 	var input = AiNotificationsDestinationUpdate{
-		Name: "test-notification-channel-1-update",
-		Properties: []AiNotificationsPropertyInput{},
-		Active: &falseValue,
+		Name:        "test-notification-channel-1-update",
+		Properties:  []AiNotificationsPropertyInput{},
+		Active:      &falseValue,
 		DisableAuth: &falseValue,
 	}
 	var serialized, err = json.Marshal(input)
