@@ -11,7 +11,7 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/config"
 )
 
-func Example_basic() {
+func LogConfigurationsObfuscationExpression_Basic() {
 	// Initialize the client configuration.  A Personal API key is required to
 	// communicate with the backend API.
 	cfg := config.New()
