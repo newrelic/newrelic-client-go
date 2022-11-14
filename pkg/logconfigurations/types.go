@@ -5,6 +5,21 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/nrtime"
 )
 
+// LogConfigurationsObfuscationMethod - Methods for replacing obfuscated values.
+type LogConfigurationsObfuscationMethod string
+
+var LogConfigurationsObfuscationMethodTypes = struct {
+	// Replace the matched data with a SHA256 hash.
+	HASH_SHA256 LogConfigurationsObfuscationMethod
+	// Replace the matched data with a static value.
+	MASK LogConfigurationsObfuscationMethod
+}{
+	// Replace the matched data with a SHA256 hash.
+	HASH_SHA256: "HASH_SHA256",
+	// Replace the matched data with a static value.
+	MASK: "MASK",
+}
+
 // Account - The `Account` object provides general data about the account, as well as
 // being the entry point into more detailed data about a single account.
 //
@@ -31,6 +46,18 @@ type Actor struct {
 type LogConfigurationsAccountStitchedFields struct {
 	// Look up for all obfuscation expressions for a given account
 	ObfuscationExpressions []LogConfigurationsObfuscationExpression `json:"obfuscationExpressions"`
+	// Look up for all obfuscation rules for a given account.
+	ObfuscationRules []LogConfigurationsObfuscationRule `json:"obfuscationRules"`
+}
+
+// LogConfigurationsCreateObfuscationActionInput - Input for creating an obfuscation action on a rule being created.
+type LogConfigurationsCreateObfuscationActionInput struct {
+	// Attribute names for action. An empty list applies the action to all the attributes.
+	Attributes []string `json:"attributes"`
+	// Expression Id for action.
+	ExpressionId string `json:"expressionId"`
+	// Obfuscation method to use.
+	Method LogConfigurationsObfuscationMethod `json:"method"`
 }
 
 // LogConfigurationsCreateObfuscationExpressionInput - Input for creating an obfuscation expression.
@@ -41,6 +68,32 @@ type LogConfigurationsCreateObfuscationExpressionInput struct {
 	Name string `json:"name"`
 	// Regex of expression.
 	Regex string `json:"regex"`
+}
+
+// LogConfigurationsCreateObfuscationRuleInput - Input for creating an obfuscation rule.
+type LogConfigurationsCreateObfuscationRuleInput struct {
+	// Actions for the rule. The actions will be applied in the order specified by this list.
+	Actions []LogConfigurationsCreateObfuscationActionInput `json:"actions,omitempty"`
+	// Description of rule.
+	Description string `json:"description,omitempty"`
+	// Whether the rule should be applied or not to incoming data.
+	Enabled bool `json:"enabled"`
+	// NRQL for determining whether a given log record should have obfuscation actions applied.
+	Filter NRQL `json:"filter"`
+	// Name of rule.
+	Name string `json:"name"`
+}
+
+// LogConfigurationsObfuscationAction - Application of an obfuscation expression with specific a replacement method.
+type LogConfigurationsObfuscationAction struct {
+	// Log record attributes to apply this expression to. An empty list applies the action to all the attributes.
+	Attributes []string `json:"attributes"`
+	// Obfuscation expression applied by this action.
+	Expression LogConfigurationsObfuscationExpression `json:"expression"`
+	// The id of the obfuscation action.
+	ID string `json:"id"`
+	// How to obfuscate matches for the applied expression.
+	Method LogConfigurationsObfuscationMethod `json:"method"`
 }
 
 // LogConfigurationsObfuscationExpression - Reusable obfuscation expression.
@@ -63,6 +116,40 @@ type LogConfigurationsObfuscationExpression struct {
 	UpdatedBy UserReference `json:"updatedBy,omitempty"`
 }
 
+// LogConfigurationsObfuscationRule - Rule for identifying a set of log data to apply specific obfuscation actions to.
+type LogConfigurationsObfuscationRule struct {
+	// Obfuscation actions to take if a record passes the matching criteria.
+	Actions []LogConfigurationsObfuscationAction `json:"actions"`
+	// Identifies the date and time when the rule was created.
+	CreatedAt nrtime.DateTime `json:"createdAt"`
+	// Identifies the user who has created the rule.
+	CreatedBy UserReference `json:"createdBy,omitempty"`
+	// Description of the obfuscation rule.
+	Description string `json:"description,omitempty"`
+	// Whether the rule should be applied to incoming logs
+	Enabled bool `json:"enabled"`
+	// NRQL filter to determine if a log record should have obfuscation actions applied.
+	Filter NRQL `json:"filter"`
+	// The id of the obfuscation rule.
+	ID string `json:"id"`
+	// Name of the obfuscation rule.
+	Name string `json:"name"`
+	// Identifies the date and time when the rule was last updated.
+	UpdatedAt nrtime.DateTime `json:"updatedAt"`
+	// Identifies the user who has last updated the rule.
+	UpdatedBy UserReference `json:"updatedBy,omitempty"`
+}
+
+// LogConfigurationsUpdateObfuscationActionInput - Input for creating an obfuscation action on a rule being updated.
+type LogConfigurationsUpdateObfuscationActionInput struct {
+	// Attribute names for action. An empty list applies the action to all the attributes.
+	Attributes []string `json:"attributes"`
+	// Expression Id for action.
+	ExpressionId string `json:"expressionId"`
+	// Obfuscation method to use.
+	Method LogConfigurationsObfuscationMethod `json:"method"`
+}
+
 // LogConfigurationsUpdateObfuscationExpressionInput - Input for updating an obfuscation expression.
 // Null fields are left untouched by mutation.
 type LogConfigurationsUpdateObfuscationExpressionInput struct {
@@ -74,6 +161,25 @@ type LogConfigurationsUpdateObfuscationExpressionInput struct {
 	Name string `json:"name,omitempty"`
 	// Regex of expression.
 	Regex string `json:"regex,omitempty"`
+}
+
+// LogConfigurationsUpdateObfuscationRuleInput - Input for updating an obfuscation rule.
+// Null fields are left untouched by mutation.
+type LogConfigurationsUpdateObfuscationRuleInput struct {
+	// Actions for the rule. When non-null, this list of actions is used to replace
+	// the existing list of actions of the rule. The actions will be applied in the
+	// order specified by this list.
+	Actions []LogConfigurationsUpdateObfuscationActionInput `json:"actions,omitempty"`
+	// Description of rule.
+	Description string `json:"description,omitempty"`
+	// Whether the rule should be applied or not to incoming data.
+	Enabled bool `json:"enabled,omitempty"`
+	// NRQL for determining whether a given log record should have obfuscation actions applied.
+	Filter NRQL `json:"filter,omitempty"`
+	// Rule Id.
+	ID string `json:"id"`
+	// Name of rule.
+	Name string `json:"name,omitempty"`
 }
 
 // UserReference - The `UserReference` object provides basic identifying information about the user.
@@ -91,3 +197,12 @@ type UserReference struct {
 type obfuscationExpressionsResponse struct {
 	Actor Actor `json:"actor"`
 }
+
+type obfuscationRulesResponse struct {
+	Actor Actor `json:"actor"`
+}
+
+// NRQL - This scalar represents a NRQL query string.
+//
+// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about NRQL syntax.
+type NRQL string

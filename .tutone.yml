@@ -40,6 +40,8 @@ packages:
         endpoints:
           - name: obfuscationExpressions
             max_query_field_depth: 2
+          - name: obfuscationRules
+            max_query_field_depth: 5
     mutations:
       - name: logConfigurationsCreateObfuscationExpression
         max_query_field_depth: 3
@@ -47,6 +49,12 @@ packages:
         max_query_field_depth: 1
       - name: logConfigurationsUpdateObfuscationExpression
         max_query_field_depth: 2
+      - name: logConfigurationsCreateObfuscationRule
+        max_query_field_depth: 4
+      - name: logConfigurationsUpdateObfuscationRule
+        max_query_field_depth: 4
+      - name: logConfigurationsDeleteObfuscationRule
+        max_query_field_depth: 4
     types:
       - name: ID
         field_type_override: string
