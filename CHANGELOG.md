@@ -1,3 +1,8 @@
+<a name="v2.3.0"></a>
+## [v2.3.0] - 2022-11-10
+### Features
+- **obfuscation_expression:** added obfuscation expression
+
 <a name="v2.2.2"></a>
 ## [v2.2.2] - 2022-11-04
 ### Bug Fixes
@@ -1484,7 +1489,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.2.2...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.3.0...HEAD
+[v2.3.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.2.2...v2.3.0
 [v2.2.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.2.1...v2.2.2
 [v2.2.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.2.0...v2.2.1
 [v2.2.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.1.0...v2.2.0
