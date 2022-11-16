@@ -69,6 +69,94 @@ const LogConfigurationsCreateObfuscationExpressionMutation = `mutation(
 	}
 } }`
 
+// Create an obfuscation rule.
+func (a *Logconfigurations) LogConfigurationsCreateObfuscationRule(
+	accountID int,
+	rule LogConfigurationsCreateObfuscationRuleInput,
+) (*LogConfigurationsObfuscationRule, error) {
+	return a.LogConfigurationsCreateObfuscationRuleWithContext(context.Background(),
+		accountID,
+		rule,
+	)
+}
+
+// Create an obfuscation rule.
+func (a *Logconfigurations) LogConfigurationsCreateObfuscationRuleWithContext(
+	ctx context.Context,
+	accountID int,
+	rule LogConfigurationsCreateObfuscationRuleInput,
+) (*LogConfigurationsObfuscationRule, error) {
+
+	resp := LogConfigurationsCreateObfuscationRuleQueryResponse{}
+	vars := map[string]interface{}{
+		"accountId": accountID,
+		"rule":      rule,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, LogConfigurationsCreateObfuscationRuleMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.LogConfigurationsObfuscationRule, nil
+}
+
+type LogConfigurationsCreateObfuscationRuleQueryResponse struct {
+	LogConfigurationsObfuscationRule LogConfigurationsObfuscationRule `json:"LogConfigurationsCreateObfuscationRule"`
+}
+
+const LogConfigurationsCreateObfuscationRuleMutation = `mutation(
+	$accountId: Int!,
+	$rule: LogConfigurationsCreateObfuscationRuleInput!,
+) { logConfigurationsCreateObfuscationRule(
+	accountId: $accountId,
+	rule: $rule,
+) {
+	actions {
+		attributes
+		expression {
+			createdAt
+			createdBy {
+				email
+				gravatar
+				id
+				name
+			}
+			description
+			id
+			name
+			regex
+			updatedAt
+			updatedBy {
+				email
+				gravatar
+				id
+				name
+			}
+		}
+		id
+		method
+	}
+	createdAt
+	createdBy {
+		email
+		gravatar
+		id
+		name
+	}
+	description
+	enabled
+	filter
+	id
+	name
+	updatedAt
+	updatedBy {
+		email
+		gravatar
+		id
+		name
+	}
+} }`
+
 // Delete an obfuscation expression.
 func (a *Logconfigurations) LogConfigurationsDeleteObfuscationExpression(
 	accountID int,
@@ -122,6 +210,94 @@ const LogConfigurationsDeleteObfuscationExpressionMutation = `mutation(
 	id
 	name
 	regex
+	updatedAt
+	updatedBy {
+		email
+		gravatar
+		id
+		name
+	}
+} }`
+
+// Delete an obfuscation rule.
+func (a *Logconfigurations) LogConfigurationsDeleteObfuscationRule(
+	accountID int,
+	iD string,
+) (*LogConfigurationsObfuscationRule, error) {
+	return a.LogConfigurationsDeleteObfuscationRuleWithContext(context.Background(),
+		accountID,
+		iD,
+	)
+}
+
+// Delete an obfuscation rule.
+func (a *Logconfigurations) LogConfigurationsDeleteObfuscationRuleWithContext(
+	ctx context.Context,
+	accountID int,
+	iD string,
+) (*LogConfigurationsObfuscationRule, error) {
+
+	resp := LogConfigurationsDeleteObfuscationRuleQueryResponse{}
+	vars := map[string]interface{}{
+		"accountId": accountID,
+		"id":        iD,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, LogConfigurationsDeleteObfuscationRuleMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.LogConfigurationsObfuscationRule, nil
+}
+
+type LogConfigurationsDeleteObfuscationRuleQueryResponse struct {
+	LogConfigurationsObfuscationRule LogConfigurationsObfuscationRule `json:"LogConfigurationsDeleteObfuscationRule"`
+}
+
+const LogConfigurationsDeleteObfuscationRuleMutation = `mutation(
+	$accountId: Int!,
+	$id: ID!,
+) { logConfigurationsDeleteObfuscationRule(
+	accountId: $accountId,
+	id: $id,
+) {
+	actions {
+		attributes
+		expression {
+			createdAt
+			createdBy {
+				email
+				gravatar
+				id
+				name
+			}
+			description
+			id
+			name
+			regex
+			updatedAt
+			updatedBy {
+				email
+				gravatar
+				id
+				name
+			}
+		}
+		id
+		method
+	}
+	createdAt
+	createdBy {
+		email
+		gravatar
+		id
+		name
+	}
+	description
+	enabled
+	filter
+	id
+	name
 	updatedAt
 	updatedBy {
 		email
@@ -193,6 +369,94 @@ const LogConfigurationsUpdateObfuscationExpressionMutation = `mutation(
 	}
 } }`
 
+// Update an existing data partition rule.
+func (a *Logconfigurations) LogConfigurationsUpdateObfuscationRule(
+	accountID int,
+	rule LogConfigurationsUpdateObfuscationRuleInput,
+) (*LogConfigurationsObfuscationRule, error) {
+	return a.LogConfigurationsUpdateObfuscationRuleWithContext(context.Background(),
+		accountID,
+		rule,
+	)
+}
+
+// Update an existing data partition rule.
+func (a *Logconfigurations) LogConfigurationsUpdateObfuscationRuleWithContext(
+	ctx context.Context,
+	accountID int,
+	rule LogConfigurationsUpdateObfuscationRuleInput,
+) (*LogConfigurationsObfuscationRule, error) {
+
+	resp := LogConfigurationsUpdateObfuscationRuleQueryResponse{}
+	vars := map[string]interface{}{
+		"accountId": accountID,
+		"rule":      rule,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, LogConfigurationsUpdateObfuscationRuleMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.LogConfigurationsObfuscationRule, nil
+}
+
+type LogConfigurationsUpdateObfuscationRuleQueryResponse struct {
+	LogConfigurationsObfuscationRule LogConfigurationsObfuscationRule `json:"LogConfigurationsUpdateObfuscationRule"`
+}
+
+const LogConfigurationsUpdateObfuscationRuleMutation = `mutation(
+	$accountId: Int!,
+	$rule: LogConfigurationsUpdateObfuscationRuleInput!,
+) { logConfigurationsUpdateObfuscationRule(
+	accountId: $accountId,
+	rule: $rule,
+) {
+	actions {
+		attributes
+		expression {
+			createdAt
+			createdBy {
+				email
+				gravatar
+				id
+				name
+			}
+			description
+			id
+			name
+			regex
+			updatedAt
+			updatedBy {
+				email
+				gravatar
+				id
+				name
+			}
+		}
+		id
+		method
+	}
+	createdAt
+	createdBy {
+		email
+		gravatar
+		id
+		name
+	}
+	description
+	enabled
+	filter
+	id
+	name
+	updatedAt
+	updatedBy {
+		email
+		gravatar
+		id
+		name
+	}
+} }`
+
 // Look up for all obfuscation expressions for a given account
 func (a *Logconfigurations) GetObfuscationExpressions(
 	accountID int,
@@ -238,6 +502,86 @@ const getObfuscationExpressionsQuery = `query(
 	id
 	name
 	regex
+	updatedAt
+	updatedBy {
+		email
+		gravatar
+		id
+		name
+	}
+} } } } }`
+
+// Look up for all obfuscation rules for a given account.
+func (a *Logconfigurations) GetObfuscationRules(
+	accountID int,
+) (*[]LogConfigurationsObfuscationRule, error) {
+	return a.GetObfuscationRulesWithContext(context.Background(),
+		accountID,
+	)
+}
+
+// Look up for all obfuscation rules for a given account.
+func (a *Logconfigurations) GetObfuscationRulesWithContext(
+	ctx context.Context,
+	accountID int,
+) (*[]LogConfigurationsObfuscationRule, error) {
+
+	resp := obfuscationRulesResponse{}
+	vars := map[string]interface{}{
+		"accountID": accountID,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, getObfuscationRulesQuery, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	if len(resp.Actor.Account.LogConfigurations.ObfuscationRules) == 0 {
+		return nil, errors.NewNotFound("")
+	}
+
+	return &resp.Actor.Account.LogConfigurations.ObfuscationRules, nil
+}
+
+const getObfuscationRulesQuery = `query(
+	$accountID: Int!,
+) { actor { account(id: $accountID) { logConfigurations { obfuscationRules {
+	actions {
+		attributes
+		expression {
+			createdAt
+			createdBy {
+				email
+				gravatar
+				id
+				name
+			}
+			description
+			id
+			name
+			regex
+			updatedAt
+			updatedBy {
+				email
+				gravatar
+				id
+				name
+			}
+		}
+		id
+		method
+	}
+	createdAt
+	createdBy {
+		email
+		gravatar
+		id
+		name
+	}
+	description
+	enabled
+	filter
+	id
+	name
 	updatedAt
 	updatedBy {
 		email
