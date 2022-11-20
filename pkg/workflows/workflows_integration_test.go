@@ -5,8 +5,9 @@ package workflows
 
 import (
 	"fmt"
-	"github.com/newrelic/newrelic-client-go/v2/pkg/ai"
 	"testing"
+
+	"github.com/newrelic/newrelic-client-go/v2/pkg/ai"
 
 	"github.com/stretchr/testify/require"
 
