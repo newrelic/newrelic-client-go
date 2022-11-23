@@ -333,13 +333,34 @@ const CloudConfigureIntegrationMutation = `mutation(
 			metricsPollingInterval
 			resourceGroups
 		}
+		... on CloudAzureMonitorIntegration {
+			__typename
+			excludeTags
+			includeTags
+			inventoryPollingInterval
+			metricsPollingInterval
+			resourceGroups
+			resourceTypes
+		}
 		... on CloudAzureMysqlIntegration {
 			__typename
 			inventoryPollingInterval
 			metricsPollingInterval
 			resourceGroups
 		}
+		... on CloudAzureMysqlflexibleIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+			resourceGroups
+		}
 		... on CloudAzurePostgresqlIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+			resourceGroups
+		}
+		... on CloudAzurePostgresqlflexibleIntegration {
 			__typename
 			inventoryPollingInterval
 			metricsPollingInterval
@@ -450,6 +471,7 @@ const CloudConfigureIntegrationMutation = `mutation(
 		... on CloudEc2Integration {
 			__typename
 			awsRegions
+			duplicateEc2Tags
 			fetchIpAddresses
 			inventoryPollingInterval
 			metricsPollingInterval
@@ -519,6 +541,11 @@ const CloudConfigureIntegrationMutation = `mutation(
 			tagKey
 			tagValue
 		}
+		... on CloudGcpAlloydbIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudGcpAppengineIntegration {
 			__typename
 			inventoryPollingInterval
@@ -526,6 +553,7 @@ const CloudConfigureIntegrationMutation = `mutation(
 		}
 		... on CloudGcpBigqueryIntegration {
 			__typename
+			fetchTableMetrics
 			fetchTags
 			inventoryPollingInterval
 			metricsPollingInterval
@@ -1084,13 +1112,34 @@ const CloudDisableIntegrationMutation = `mutation(
 			metricsPollingInterval
 			resourceGroups
 		}
+		... on CloudAzureMonitorIntegration {
+			__typename
+			excludeTags
+			includeTags
+			inventoryPollingInterval
+			metricsPollingInterval
+			resourceGroups
+			resourceTypes
+		}
 		... on CloudAzureMysqlIntegration {
 			__typename
 			inventoryPollingInterval
 			metricsPollingInterval
 			resourceGroups
 		}
+		... on CloudAzureMysqlflexibleIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+			resourceGroups
+		}
 		... on CloudAzurePostgresqlIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+			resourceGroups
+		}
+		... on CloudAzurePostgresqlflexibleIntegration {
 			__typename
 			inventoryPollingInterval
 			metricsPollingInterval
@@ -1201,6 +1250,7 @@ const CloudDisableIntegrationMutation = `mutation(
 		... on CloudEc2Integration {
 			__typename
 			awsRegions
+			duplicateEc2Tags
 			fetchIpAddresses
 			inventoryPollingInterval
 			metricsPollingInterval
@@ -1270,6 +1320,11 @@ const CloudDisableIntegrationMutation = `mutation(
 			tagKey
 			tagValue
 		}
+		... on CloudGcpAlloydbIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudGcpAppengineIntegration {
 			__typename
 			inventoryPollingInterval
@@ -1277,6 +1332,7 @@ const CloudDisableIntegrationMutation = `mutation(
 		}
 		... on CloudGcpBigqueryIntegration {
 			__typename
+			fetchTableMetrics
 			fetchTags
 			inventoryPollingInterval
 			metricsPollingInterval
@@ -2062,13 +2118,34 @@ const getLinkedAccountQuery = `query(
 			metricsPollingInterval
 			resourceGroups
 		}
+		... on CloudAzureMonitorIntegration {
+			__typename
+			excludeTags
+			includeTags
+			inventoryPollingInterval
+			metricsPollingInterval
+			resourceGroups
+			resourceTypes
+		}
 		... on CloudAzureMysqlIntegration {
 			__typename
 			inventoryPollingInterval
 			metricsPollingInterval
 			resourceGroups
 		}
+		... on CloudAzureMysqlflexibleIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+			resourceGroups
+		}
 		... on CloudAzurePostgresqlIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+			resourceGroups
+		}
+		... on CloudAzurePostgresqlflexibleIntegration {
 			__typename
 			inventoryPollingInterval
 			metricsPollingInterval
@@ -2179,6 +2256,7 @@ const getLinkedAccountQuery = `query(
 		... on CloudEc2Integration {
 			__typename
 			awsRegions
+			duplicateEc2Tags
 			fetchIpAddresses
 			inventoryPollingInterval
 			metricsPollingInterval
@@ -2248,6 +2326,11 @@ const getLinkedAccountQuery = `query(
 			tagKey
 			tagValue
 		}
+		... on CloudGcpAlloydbIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudGcpAppengineIntegration {
 			__typename
 			inventoryPollingInterval
@@ -2255,6 +2338,7 @@ const getLinkedAccountQuery = `query(
 		}
 		... on CloudGcpBigqueryIntegration {
 			__typename
+			fetchTableMetrics
 			fetchTags
 			inventoryPollingInterval
 			metricsPollingInterval
