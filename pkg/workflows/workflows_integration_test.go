@@ -386,6 +386,36 @@ func TestIntegrationGetWorkflow_WorkflowDoesNotExist(t *testing.T) {
 	require.Equal(t, 0, len(workflows.Entities))
 }
 
+func TestIntegrationCreateDisabledWorkflow(t *testing.T) {
+	t.Parallel()
+	accountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	// Create a destination to work with in this test
+	destination, channel := createTestChannel(t, accountID)
+	defer cleanupDestination(t, destination)
+
+	// Create a workflow to work with in this test
+	workflowInput := generateCreateWorkflowInput(channel, []AiWorkflowsNotificationTrigger{"ACTIVATED"})
+	workflowInput.WorkflowEnabled = false
+	workflowInput.EnrichmentsEnabled = false
+	workflowInput.DestinationsEnabled = false
+
+	n := newIntegrationTestClient(t)
+	createResult, err := n.AiWorkflowsCreateWorkflow(accountID, workflowInput)
+	require.NoError(t, err)
+	require.NotNil(t, createResult)
+	defer cleanupWorkflow(t, &createResult.Workflow)
+	var createdWorkflow = createResult.Workflow
+
+	// compare plain fields
+	require.Equal(t, false, createdWorkflow.WorkflowEnabled)
+	require.Equal(t, false, createdWorkflow.DestinationsEnabled)
+	require.Equal(t, false, createdWorkflow.EnrichmentsEnabled)
+}
+
 func createTestWorkflow(t *testing.T) (*AiWorkflowsWorkflow, *notifications.AiNotificationsDestination, *notifications.AiNotificationsChannel) {
 	accountID, err := mock.GetTestAccountID()
 	if err != nil {
