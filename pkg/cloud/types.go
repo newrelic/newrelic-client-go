@@ -1783,18 +1783,22 @@ type CloudAzureDisableIntegrationsInput struct {
 	AzureMachinelearning []CloudDisableAccountIntegrationInput `json:"azureMachinelearning,omitempty"`
 	// Database for MariaDB integration
 	AzureMariadb []CloudDisableAccountIntegrationInput `json:"azureMariadb,omitempty"`
+	// Azure Monitor metrics integration
+	AzureMonitor []CloudDisableAccountIntegrationInput `json:"azureMonitor,omitempty"`
 	// Database for MySQL integration
 	AzureMysql []CloudDisableAccountIntegrationInput `json:"azureMysql,omitempty"`
+	// MySQL Flexible Server integration
+	AzureMysqlflexible []CloudDisableAccountIntegrationInput `json:"azureMysqlflexible,omitempty"`
 	// Database for PostgreSQL integration
 	AzurePostgresql []CloudDisableAccountIntegrationInput `json:"azurePostgresql,omitempty"`
+	// PostgreSQL Flexible Server integration
+	AzurePostgresqlflexible []CloudDisableAccountIntegrationInput `json:"azurePostgresqlflexible,omitempty"`
 	// Power BI Dedicated integration
 	AzurePowerbidedicated []CloudDisableAccountIntegrationInput `json:"azurePowerbidedicated,omitempty"`
 	// Redis Cache integration
 	AzureRediscache []CloudDisableAccountIntegrationInput `json:"azureRediscache,omitempty"`
 	// Service Bus integration
 	AzureServicebus []CloudDisableAccountIntegrationInput `json:"azureServicebus,omitempty"`
-	// Service Fabric integration
-	AzureServicefabric []CloudDisableAccountIntegrationInput `json:"azureServicefabric,omitempty"`
 	// SQL Database integration
 	AzureSql []CloudDisableAccountIntegrationInput `json:"azureSql,omitempty"`
 	// SQL Managed Instances integration
@@ -2037,18 +2041,22 @@ type CloudAzureIntegrationsInput struct {
 	AzureMachinelearning []CloudAzureMachinelearningIntegrationInput `json:"azureMachinelearning,omitempty"`
 	// Database for MariaDB integration
 	AzureMariadb []CloudAzureMariadbIntegrationInput `json:"azureMariadb,omitempty"`
+	// Azure Monitor metrics integration
+	AzureMonitor []CloudAzureMonitorIntegrationInput `json:"azureMonitor,omitempty"`
 	// Database for MySQL integration
 	AzureMysql []CloudAzureMysqlIntegrationInput `json:"azureMysql,omitempty"`
+	// MySQL Flexible Server integration
+	AzureMysqlflexible []CloudAzureMysqlflexibleIntegrationInput `json:"azureMysqlflexible,omitempty"`
 	// Database for PostgreSQL integration
 	AzurePostgresql []CloudAzurePostgresqlIntegrationInput `json:"azurePostgresql,omitempty"`
+	// PostgreSQL Flexible Server integration
+	AzurePostgresqlflexible []CloudAzurePostgresqlflexibleIntegrationInput `json:"azurePostgresqlflexible,omitempty"`
 	// Power BI Dedicated integration
 	AzurePowerbidedicated []CloudAzurePowerbidedicatedIntegrationInput `json:"azurePowerbidedicated,omitempty"`
 	// Redis Cache integration
 	AzureRediscache []CloudAzureRediscacheIntegrationInput `json:"azureRediscache,omitempty"`
 	// Service Bus integration
 	AzureServicebus []CloudAzureServicebusIntegrationInput `json:"azureServicebus,omitempty"`
-	// Service Fabric integration
-	AzureServicefabric []CloudAzureServicefabricIntegrationInput `json:"azureServicefabric,omitempty"`
 	// SQL Database integration
 	AzureSql []CloudAzureSqlIntegrationInput `json:"azureSql,omitempty"`
 	// SQL Managed Instances integration
@@ -2269,6 +2277,56 @@ type CloudAzureMariadbIntegrationInput struct {
 	ResourceGroups []string `json:"resourceGroups,omitempty"`
 }
 
+// CloudAzureMonitorIntegration - Azure Monitor metrics Integration
+type CloudAzureMonitorIntegration struct {
+	// The object creation date, in epoch (Unix) time
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
+	// Specify resource tags (in 'key:value' form) associated with the resources that you want to exclude from monitoring. Exclusion takes precedence over inclusion.
+	ExcludeTags []string `json:"excludeTags,omitempty"`
+	// The cloud service integration identifier.
+	ID int `json:"id,omitempty"`
+	// Specify resource tags (in 'key:value' form) associated with the resources that you want to monitor. If empty, all resources will be monitored.
+	IncludeTags []string `json:"includeTags,omitempty"`
+	// The polling interval for metadata and tags, in seconds.
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
+	// The parent linked account identifier.
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
+	// The polling interval for metrics, in seconds.
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
+	// The cloud service integration name.
+	Name string `json:"name,omitempty"`
+	// The parent NewRelic account identifier.
+	NrAccountId int `json:"nrAccountId"`
+	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
+	// Specify each Azure resource type that you want to monitor.
+	ResourceTypes []string `json:"resourceTypes,omitempty"`
+	// The cloud service used in the integration.
+	Service CloudService `json:"service,omitempty"`
+	// The object last update date, in epoch (Unix) time
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
+}
+
+func (x *CloudAzureMonitorIntegration) ImplementsCloudIntegration() {}
+
+// CloudAzureMonitorIntegrationInput - Azure Monitor metrics
+type CloudAzureMonitorIntegrationInput struct {
+	// Specify resource tags (in 'key:value' form) associated with the resources that you want to exclude from monitoring. Exclusion takes precedence over inclusion.
+	ExcludeTags []string `json:"excludeTags,omitempty"`
+	// Specify resource tags (in 'key:value' form) associated with the resources that you want to monitor. If empty, all resources will be monitored.
+	IncludeTags []string `json:"includeTags,omitempty"`
+	// The polling interval for metadata and tags, in seconds.
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
+	// The linked account identifier.
+	LinkedAccountId int `json:"linkedAccountId"`
+	// The polling interval for metrics, in seconds.
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
+	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
+	// Specify each Azure resource type that you want to monitor.
+	ResourceTypes []string `json:"resourceTypes,omitempty"`
+}
+
 // CloudAzureMysqlIntegration - Database for MySQL Integration
 type CloudAzureMysqlIntegration struct {
 	// The object creation date, in epoch (Unix) time
@@ -2307,6 +2365,44 @@ type CloudAzureMysqlIntegrationInput struct {
 	ResourceGroups []string `json:"resourceGroups,omitempty"`
 }
 
+// CloudAzureMysqlflexibleIntegration - MySQL Flexible Server Integration
+type CloudAzureMysqlflexibleIntegration struct {
+	// The object creation date, in epoch (Unix) time
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
+	// The cloud service integration identifier.
+	ID int `json:"id,omitempty"`
+	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
+	// The parent linked account identifier.
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
+	// The data polling interval in seconds.
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
+	// The cloud service integration name.
+	Name string `json:"name,omitempty"`
+	// The parent NewRelic account identifier.
+	NrAccountId int `json:"nrAccountId"`
+	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
+	// The cloud service used in the integration.
+	Service CloudService `json:"service,omitempty"`
+	// The object last update date, in epoch (Unix) time
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
+}
+
+func (x *CloudAzureMysqlflexibleIntegration) ImplementsCloudIntegration() {}
+
+// CloudAzureMysqlflexibleIntegrationInput - MySQL Flexible Server
+type CloudAzureMysqlflexibleIntegrationInput struct {
+	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
+	// The linked account identifier.
+	LinkedAccountId int `json:"linkedAccountId"`
+	// The data polling interval in seconds.
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
+	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
+}
+
 // CloudAzurePostgresqlIntegration - Database for PostgreSQL Integration
 type CloudAzurePostgresqlIntegration struct {
 	// The object creation date, in epoch (Unix) time
@@ -2335,6 +2431,44 @@ func (x *CloudAzurePostgresqlIntegration) ImplementsCloudIntegration() {}
 
 // CloudAzurePostgresqlIntegrationInput - Database for PostgreSQL
 type CloudAzurePostgresqlIntegrationInput struct {
+	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
+	// The linked account identifier.
+	LinkedAccountId int `json:"linkedAccountId"`
+	// The data polling interval in seconds.
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
+	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
+}
+
+// CloudAzurePostgresqlflexibleIntegration - PostgreSQL Flexible Server Integration
+type CloudAzurePostgresqlflexibleIntegration struct {
+	// The object creation date, in epoch (Unix) time
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
+	// The cloud service integration identifier.
+	ID int `json:"id,omitempty"`
+	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
+	// The parent linked account identifier.
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
+	// The data polling interval in seconds.
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
+	// The cloud service integration name.
+	Name string `json:"name,omitempty"`
+	// The parent NewRelic account identifier.
+	NrAccountId int `json:"nrAccountId"`
+	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
+	ResourceGroups []string `json:"resourceGroups,omitempty"`
+	// The cloud service used in the integration.
+	Service CloudService `json:"service,omitempty"`
+	// The object last update date, in epoch (Unix) time
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
+}
+
+func (x *CloudAzurePostgresqlflexibleIntegration) ImplementsCloudIntegration() {}
+
+// CloudAzurePostgresqlflexibleIntegrationInput - PostgreSQL Flexible Server
+type CloudAzurePostgresqlflexibleIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
 	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
@@ -2449,44 +2583,6 @@ func (x *CloudAzureServicebusIntegration) ImplementsCloudIntegration() {}
 
 // CloudAzureServicebusIntegrationInput - Azure Service Bus
 type CloudAzureServicebusIntegrationInput struct {
-	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
-	// The linked account identifier.
-	LinkedAccountId int `json:"linkedAccountId"`
-	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
-	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups,omitempty"`
-}
-
-// CloudAzureServicefabricIntegration - Service Fabric Integration
-type CloudAzureServicefabricIntegration struct {
-	// The object creation date, in epoch (Unix) time
-	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
-	// The cloud service integration identifier.
-	ID int `json:"id,omitempty"`
-	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
-	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
-	// The parent linked account identifier.
-	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
-	// The data polling interval in seconds.
-	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
-	// The cloud service integration name.
-	Name string `json:"name,omitempty"`
-	// The parent NewRelic account identifier.
-	NrAccountId int `json:"nrAccountId"`
-	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
-	ResourceGroups []string `json:"resourceGroups,omitempty"`
-	// The cloud service used in the integration.
-	Service CloudService `json:"service,omitempty"`
-	// The object last update date, in epoch (Unix) time
-	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
-}
-
-func (x *CloudAzureServicefabricIntegration) ImplementsCloudIntegration() {}
-
-// CloudAzureServicefabricIntegrationInput - Service Fabric
-type CloudAzureServicefabricIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
 	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
@@ -3161,6 +3257,8 @@ type CloudEc2Integration struct {
 	AwsRegions []string `json:"awsRegions,omitempty"`
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
+	// Specify if the old legacy metadata and tag names have to be kept, it will consume more ingest data size
+	DuplicateEc2Tags bool `json:"duplicateEc2Tags,omitempty"`
 	// Specify if IP addresses of ec2 instance should be collected
 	FetchIpAddresses bool `json:"fetchIpAddresses,omitempty"`
 	// The cloud service integration identifier.
@@ -3191,6 +3289,8 @@ func (x *CloudEc2Integration) ImplementsCloudIntegration() {}
 type CloudEc2IntegrationInput struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
 	AwsRegions []string `json:"awsRegions,omitempty"`
+	// Specify if the old legacy metadata and tag names have to be kept, it will consume more ingest data size
+	DuplicateEc2Tags bool `json:"duplicateEc2Tags,omitempty"`
 	// Specify if IP addresses of ec2 instance should be collected
 	FetchIpAddresses bool `json:"fetchIpAddresses,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -3555,6 +3655,40 @@ type CloudEmrIntegrationInput struct {
 	TagValue string `json:"tagValue,omitempty"`
 }
 
+// CloudGcpAlloydbIntegration - AlloyDB Integration
+type CloudGcpAlloydbIntegration struct {
+	// The object creation date, in epoch (Unix) time
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
+	// The cloud service integration identifier.
+	ID int `json:"id,omitempty"`
+	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
+	// The parent linked account identifier.
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
+	// The data polling interval in seconds.
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
+	// The cloud service integration name.
+	Name string `json:"name,omitempty"`
+	// The parent NewRelic account identifier.
+	NrAccountId int `json:"nrAccountId"`
+	// The cloud service used in the integration.
+	Service CloudService `json:"service,omitempty"`
+	// The object last update date, in epoch (Unix) time
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
+}
+
+func (x *CloudGcpAlloydbIntegration) ImplementsCloudIntegration() {}
+
+// CloudGcpAlloydbIntegrationInput - AlloyDB
+type CloudGcpAlloydbIntegrationInput struct {
+	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
+	// The linked account identifier.
+	LinkedAccountId int `json:"linkedAccountId"`
+	// The data polling interval in seconds.
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
+}
+
 // CloudGcpAppengineIntegration - App Engine Integration
 type CloudGcpAppengineIntegration struct {
 	// The object creation date, in epoch (Unix) time
@@ -3593,6 +3727,8 @@ type CloudGcpAppengineIntegrationInput struct {
 type CloudGcpBigqueryIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
+	// Fetch BigQuery Table metrics, disabled by default
+	FetchTableMetrics bool `json:"fetchTableMetrics,omitempty"`
 	// Specify if labels and the extended inventory should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
 	FetchTags bool `json:"fetchTags,omitempty"`
 	// The cloud service integration identifier.
@@ -3617,6 +3753,8 @@ func (x *CloudGcpBigqueryIntegration) ImplementsCloudIntegration() {}
 
 // CloudGcpBigqueryIntegrationInput - BigQuery
 type CloudGcpBigqueryIntegrationInput struct {
+	// Fetch BigQuery Table metrics, disabled by default
+	FetchTableMetrics bool `json:"fetchTableMetrics,omitempty"`
 	// Specify if labels and the extended inventory should be collected. May affect total data collection time and contribute to the Cloud provider API rate limit.
 	FetchTags bool `json:"fetchTags,omitempty"`
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
@@ -3799,6 +3937,8 @@ type CloudGcpDatastoreIntegrationInput struct {
 
 // CloudGcpDisableIntegrationsInput - List of integrations
 type CloudGcpDisableIntegrationsInput struct {
+	// AlloyDB integration
+	GcpAlloydb []CloudDisableAccountIntegrationInput `json:"gcpAlloydb,omitempty"`
 	// App Engine integration
 	GcpAppengine []CloudDisableAccountIntegrationInput `json:"gcpAppengine,omitempty"`
 	// BigQuery integration
@@ -4023,6 +4163,8 @@ type CloudGcpFunctionsIntegrationInput struct {
 
 // CloudGcpIntegrationsInput - List of integrations
 type CloudGcpIntegrationsInput struct {
+	// AlloyDB integration
+	GcpAlloydb []CloudGcpAlloydbIntegrationInput `json:"gcpAlloydb,omitempty"`
 	// App Engine integration
 	GcpAppengine []CloudGcpAppengineIntegrationInput `json:"gcpAppengine,omitempty"`
 	// BigQuery integration
@@ -6040,6 +6182,16 @@ func UnmarshalCloudIntegrationInterface(b []byte) (*CloudIntegrationInterface, e
 			var xxx CloudIntegrationInterface = &interfaceType
 
 			return &xxx, nil
+		case "CloudAzureMonitorIntegration":
+			var interfaceType CloudAzureMonitorIntegration
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx CloudIntegrationInterface = &interfaceType
+
+			return &xxx, nil
 		case "CloudAzureMysqlIntegration":
 			var interfaceType CloudAzureMysqlIntegration
 			err = json.Unmarshal(b, &interfaceType)
@@ -6050,8 +6202,28 @@ func UnmarshalCloudIntegrationInterface(b []byte) (*CloudIntegrationInterface, e
 			var xxx CloudIntegrationInterface = &interfaceType
 
 			return &xxx, nil
+		case "CloudAzureMysqlflexibleIntegration":
+			var interfaceType CloudAzureMysqlflexibleIntegration
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx CloudIntegrationInterface = &interfaceType
+
+			return &xxx, nil
 		case "CloudAzurePostgresqlIntegration":
 			var interfaceType CloudAzurePostgresqlIntegration
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx CloudIntegrationInterface = &interfaceType
+
+			return &xxx, nil
+		case "CloudAzurePostgresqlflexibleIntegration":
+			var interfaceType CloudAzurePostgresqlflexibleIntegration
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
@@ -6082,16 +6254,6 @@ func UnmarshalCloudIntegrationInterface(b []byte) (*CloudIntegrationInterface, e
 			return &xxx, nil
 		case "CloudAzureServicebusIntegration":
 			var interfaceType CloudAzureServicebusIntegration
-			err = json.Unmarshal(b, &interfaceType)
-			if err != nil {
-				return nil, err
-			}
-
-			var xxx CloudIntegrationInterface = &interfaceType
-
-			return &xxx, nil
-		case "CloudAzureServicefabricIntegration":
-			var interfaceType CloudAzureServicefabricIntegration
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
@@ -6302,6 +6464,16 @@ func UnmarshalCloudIntegrationInterface(b []byte) (*CloudIntegrationInterface, e
 			return &xxx, nil
 		case "CloudEmrIntegration":
 			var interfaceType CloudEmrIntegration
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx CloudIntegrationInterface = &interfaceType
+
+			return &xxx, nil
+		case "CloudGcpAlloydbIntegration":
+			var interfaceType CloudGcpAlloydbIntegration
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err

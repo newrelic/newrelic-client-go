@@ -42,6 +42,8 @@ packages:
             max_query_field_depth: 2
           - name: obfuscationRules
             max_query_field_depth: 5
+          - name: dataPartitionRules
+            max_query_field_depth: 2
     mutations:
       - name: logConfigurationsCreateObfuscationExpression
         max_query_field_depth: 3
@@ -55,7 +57,15 @@ packages:
         max_query_field_depth: 4
       - name: logConfigurationsDeleteObfuscationRule
         max_query_field_depth: 4
+      - name: logConfigurationsCreateDataPartitionRule
+        max_query_field_depth: 3
+      - name: logConfigurationsUpdateDataPartitionRule
+        max_query_field_depth: 3
+      - name: logConfigurationsDeleteDataPartitionRule
+        max_query_field_depth: 3
     types:
+      - name: LogConfigurationsDataPartitionRuleMatchingCriteriaInput
+        field_type_override: "*LogConfigurationsDataPartitionRuleMatchingCriteriaInput"
       - name: ID
         field_type_override: string
         skip_type_create: true
