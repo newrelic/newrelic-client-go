@@ -7,6 +7,81 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/errors"
 )
 
+// Create a new data partition rule.
+func (a *Logconfigurations) LogConfigurationsCreateDataPartitionRule(
+	accountID int,
+	rule LogConfigurationsCreateDataPartitionRuleInput,
+) (*LogConfigurationsCreateDataPartitionRuleResponse, error) {
+	return a.LogConfigurationsCreateDataPartitionRuleWithContext(context.Background(),
+		accountID,
+		rule,
+	)
+}
+
+// Create a new data partition rule.
+func (a *Logconfigurations) LogConfigurationsCreateDataPartitionRuleWithContext(
+	ctx context.Context,
+	accountID int,
+	rule LogConfigurationsCreateDataPartitionRuleInput,
+) (*LogConfigurationsCreateDataPartitionRuleResponse, error) {
+
+	resp := LogConfigurationsCreateDataPartitionRuleQueryResponse{}
+	vars := map[string]interface{}{
+		"accountId": accountID,
+		"rule":      rule,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, LogConfigurationsCreateDataPartitionRuleMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.LogConfigurationsCreateDataPartitionRuleResponse, nil
+}
+
+type LogConfigurationsCreateDataPartitionRuleQueryResponse struct {
+	LogConfigurationsCreateDataPartitionRuleResponse LogConfigurationsCreateDataPartitionRuleResponse `json:"LogConfigurationsCreateDataPartitionRule"`
+}
+
+const LogConfigurationsCreateDataPartitionRuleMutation = `mutation(
+	$accountId: Int!,
+	$rule: LogConfigurationsCreateDataPartitionRuleInput!,
+) { logConfigurationsCreateDataPartitionRule(
+	accountId: $accountId,
+	rule: $rule,
+) {
+	errors {
+		message
+		type
+	}
+	rule {
+		createdAt
+		createdBy {
+			email
+			gravatar
+			id
+			name
+		}
+		deleted
+		description
+		enabled
+		id
+		matchingCriteria {
+			attributeName
+			matchingExpression
+			matchingOperator
+		}
+		retentionPolicy
+		targetDataPartition
+		updatedAt
+		updatedBy {
+			email
+			gravatar
+			id
+			name
+		}
+	}
+} }`
+
 // Create an obfuscation expression.
 func (a *Logconfigurations) LogConfigurationsCreateObfuscationExpression(
 	accountID int,
@@ -154,6 +229,58 @@ const LogConfigurationsCreateObfuscationRuleMutation = `mutation(
 		gravatar
 		id
 		name
+	}
+} }`
+
+// Delete an existing data partition rule.
+// This operation will result in data to be allocated in the main NRDB storage (Log) if no other data partition rule exists intercepting the logs matching this rule.
+// A deleted data partition rule can be recreated using the same name.
+func (a *Logconfigurations) LogConfigurationsDeleteDataPartitionRule(
+	accountID int,
+	iD string,
+) (*LogConfigurationsDeleteDataPartitionRuleResponse, error) {
+	return a.LogConfigurationsDeleteDataPartitionRuleWithContext(context.Background(),
+		accountID,
+		iD,
+	)
+}
+
+// Delete an existing data partition rule.
+// This operation will result in data to be allocated in the main NRDB storage (Log) if no other data partition rule exists intercepting the logs matching this rule.
+// A deleted data partition rule can be recreated using the same name.
+func (a *Logconfigurations) LogConfigurationsDeleteDataPartitionRuleWithContext(
+	ctx context.Context,
+	accountID int,
+	iD string,
+) (*LogConfigurationsDeleteDataPartitionRuleResponse, error) {
+
+	resp := LogConfigurationsDeleteDataPartitionRuleQueryResponse{}
+	vars := map[string]interface{}{
+		"accountId": accountID,
+		"id":        iD,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, LogConfigurationsDeleteDataPartitionRuleMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.LogConfigurationsDeleteDataPartitionRuleResponse, nil
+}
+
+type LogConfigurationsDeleteDataPartitionRuleQueryResponse struct {
+	LogConfigurationsDeleteDataPartitionRuleResponse LogConfigurationsDeleteDataPartitionRuleResponse `json:"LogConfigurationsDeleteDataPartitionRule"`
+}
+
+const LogConfigurationsDeleteDataPartitionRuleMutation = `mutation(
+	$accountId: Int!,
+	$id: ID!,
+) { logConfigurationsDeleteDataPartitionRule(
+	accountId: $accountId,
+	id: $id,
+) {
+	errors {
+		message
+		type
 	}
 } }`
 
@@ -308,6 +435,81 @@ const LogConfigurationsDeleteObfuscationRuleMutation = `mutation(
 } }`
 
 // Update an existing data partition rule.
+func (a *Logconfigurations) LogConfigurationsUpdateDataPartitionRule(
+	accountID int,
+	rule LogConfigurationsUpdateDataPartitionRuleInput,
+) (*LogConfigurationsUpdateDataPartitionRuleResponse, error) {
+	return a.LogConfigurationsUpdateDataPartitionRuleWithContext(context.Background(),
+		accountID,
+		rule,
+	)
+}
+
+// Update an existing data partition rule.
+func (a *Logconfigurations) LogConfigurationsUpdateDataPartitionRuleWithContext(
+	ctx context.Context,
+	accountID int,
+	rule LogConfigurationsUpdateDataPartitionRuleInput,
+) (*LogConfigurationsUpdateDataPartitionRuleResponse, error) {
+
+	resp := LogConfigurationsUpdateDataPartitionRuleQueryResponse{}
+	vars := map[string]interface{}{
+		"accountId": accountID,
+		"rule":      rule,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, LogConfigurationsUpdateDataPartitionRuleMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.LogConfigurationsUpdateDataPartitionRuleResponse, nil
+}
+
+type LogConfigurationsUpdateDataPartitionRuleQueryResponse struct {
+	LogConfigurationsUpdateDataPartitionRuleResponse LogConfigurationsUpdateDataPartitionRuleResponse `json:"LogConfigurationsUpdateDataPartitionRule"`
+}
+
+const LogConfigurationsUpdateDataPartitionRuleMutation = `mutation(
+	$accountId: Int!,
+	$rule: LogConfigurationsUpdateDataPartitionRuleInput,
+) { logConfigurationsUpdateDataPartitionRule(
+	accountId: $accountId,
+	rule: $rule,
+) {
+	errors {
+		message
+		type
+	}
+	rule {
+		createdAt
+		createdBy {
+			email
+			gravatar
+			id
+			name
+		}
+		deleted
+		description
+		enabled
+		id
+		matchingCriteria {
+			attributeName
+			matchingExpression
+			matchingOperator
+		}
+		retentionPolicy
+		targetDataPartition
+		updatedAt
+		updatedBy {
+			email
+			gravatar
+			id
+			name
+		}
+	}
+} }`
+
+// Update an existing data partition rule.
 func (a *Logconfigurations) LogConfigurationsUpdateObfuscationExpression(
 	accountID int,
 	expression LogConfigurationsUpdateObfuscationExpressionInput,
@@ -456,6 +658,67 @@ const LogConfigurationsUpdateObfuscationRuleMutation = `mutation(
 		name
 	}
 } }`
+
+// Look up for all data partition rules for a given account.
+func (a *Logconfigurations) GetDataPartitionRules(
+	accountID int,
+) (*[]LogConfigurationsDataPartitionRule, error) {
+	return a.GetDataPartitionRulesWithContext(context.Background(),
+		accountID,
+	)
+}
+
+// Look up for all data partition rules for a given account.
+func (a *Logconfigurations) GetDataPartitionRulesWithContext(
+	ctx context.Context,
+	accountID int,
+) (*[]LogConfigurationsDataPartitionRule, error) {
+
+	resp := dataPartitionRulesResponse{}
+	vars := map[string]interface{}{
+		"accountID": accountID,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, getDataPartitionRulesQuery, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	if len(resp.Actor.Account.LogConfigurations.DataPartitionRules) == 0 {
+		return nil, errors.NewNotFound("")
+	}
+
+	return &resp.Actor.Account.LogConfigurations.DataPartitionRules, nil
+}
+
+const getDataPartitionRulesQuery = `query(
+	$accountID: Int!,
+) { actor { account(id: $accountID) { logConfigurations { dataPartitionRules {
+	createdAt
+	createdBy {
+		email
+		gravatar
+		id
+		name
+	}
+	deleted
+	description
+	enabled
+	id
+	matchingCriteria {
+		attributeName
+		matchingExpression
+		matchingOperator
+	}
+	retentionPolicy
+	targetDataPartition
+	updatedAt
+	updatedBy {
+		email
+		gravatar
+		id
+		name
+	}
+} } } } }`
 
 // Look up for all obfuscation expressions for a given account
 func (a *Logconfigurations) GetObfuscationExpressions(
