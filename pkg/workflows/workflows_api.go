@@ -59,6 +59,7 @@ const AiWorkflowsCreateWorkflowMutation = `mutation(
 		destinationConfigurations {
 			channelId
 			name
+			notificationTriggers
 			type
 		}
 		destinationsEnabled
@@ -197,6 +198,7 @@ const AiWorkflowsUpdateWorkflowMutation = `mutation(
 		destinationConfigurations {
 			channelId
 			name
+			notificationTriggers
 			type
 		}
 		destinationsEnabled
@@ -278,6 +280,7 @@ const getWorkflowsQuery = `query(
 		destinationConfigurations {
 			channelId
 			name
+			notificationTriggers
 			type
 		}
 		destinationsEnabled
