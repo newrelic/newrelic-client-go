@@ -221,7 +221,7 @@ type DashboardEntityResult struct {
 	// Dashboard update timestamp.
 	UpdatedAt nrtime.DateTime `json:"updatedAt,omitempty"`
 	// Dashboard-local variable definitions.
-	Variables []DashboardVariable `json:"variables,omitempty"`
+	Variables []entities.DashboardVariable `json:"variables,omitempty"`
 }
 
 // DashboardInput - Dashboard input.

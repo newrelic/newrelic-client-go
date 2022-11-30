@@ -5,9 +5,8 @@ package workflows
 
 import (
 	"fmt"
-	"testing"
-
 	"github.com/newrelic/newrelic-client-go/v2/pkg/ai"
+	"testing"
 
 	"github.com/stretchr/testify/require"
 
@@ -27,10 +26,8 @@ func TestIntegrationCreateWorkflow(t *testing.T) {
 	destination, channel := createTestChannel(t, accountID)
 	defer cleanupDestination(t, destination)
 
-	notificationTriggers := []AiWorkflowsNotificationTrigger{"ACTIVATED"}
-
 	// Create a workflow to work with in this test
-	workflowInput := generateCreateWorkflowInput(channel, notificationTriggers)
+	workflowInput := generateCreateWorkflowInput(channel)
 
 	n := newIntegrationTestClient(t)
 	createResult, err := n.AiWorkflowsCreateWorkflow(accountID, workflowInput)
@@ -62,31 +59,6 @@ func TestIntegrationCreateWorkflow(t *testing.T) {
 	// compare destinations
 	require.Equal(t, len(workflowInput.DestinationConfigurations), len(createdWorkflow.DestinationConfigurations))
 	require.Equal(t, workflowInput.DestinationConfigurations[0].ChannelId, createdWorkflow.DestinationConfigurations[0].ChannelId)
-	require.Equal(t, workflowInput.DestinationConfigurations[0].NotificationTriggers, createdWorkflow.DestinationConfigurations[0].NotificationTriggers)
-}
-
-func TestIntegrationCreateWorkflowWithoutNotificationTriggers(t *testing.T) {
-	t.Parallel()
-	accountID, err := mock.GetTestAccountID()
-	if err != nil {
-		t.Skipf("%s", err)
-	}
-
-	// Create a destination to work with in this test
-	destination, channel := createTestChannel(t, accountID)
-	defer cleanupDestination(t, destination)
-
-	// Create a workflow to work with in this test
-	workflowInput := generateCreateWorkflowInput(channel, nil)
-
-	n := newIntegrationTestClient(t)
-	createResult, err := n.AiWorkflowsCreateWorkflow(accountID, workflowInput)
-	require.NoError(t, err)
-	require.NotNil(t, createResult)
-	defer cleanupWorkflow(t, &createResult.Workflow)
-	var createdWorkflow = createResult.Workflow
-
-	require.Equal(t, []AiWorkflowsNotificationTrigger(nil), createdWorkflow.DestinationConfigurations[0].NotificationTriggers)
 }
 
 func TestIntegrationDeleteWorkflow(t *testing.T) {
@@ -168,7 +140,6 @@ func TestIntegrationUpdateWorkflow_UpdateEverything(t *testing.T) {
 		},
 		DestinationConfigurations: &[]AiWorkflowsDestinationConfigurationInput{{
 			ChannelId: newChannel.ID,
-			NotificationTriggers: []AiWorkflowsNotificationTrigger{"ACTIVATED", "CLOSED"},
 		}},
 		Name: &newName,
 	}
@@ -202,7 +173,6 @@ func TestIntegrationUpdateWorkflow_UpdateEverything(t *testing.T) {
 	// compare destinations
 	require.Equal(t, len(*workflowInput.DestinationConfigurations), len(updatedWorkflow.DestinationConfigurations))
 	require.Equal(t, (*workflowInput.DestinationConfigurations)[0].ChannelId, updatedWorkflow.DestinationConfigurations[0].ChannelId)
-	require.Equal(t, (*workflowInput.DestinationConfigurations)[0].NotificationTriggers, updatedWorkflow.DestinationConfigurations[0].NotificationTriggers)
 }
 
 func TestIntegrationUpdateWorkflow_RemoveEnrichments(t *testing.T) {
@@ -251,34 +221,6 @@ func TestIntegrationUpdateWorkflow_DisableWorkflow(t *testing.T) {
 	require.Equal(t, false, updatedWorkflow.Workflow.WorkflowEnabled)
 }
 
-func TestIntegrationUpdateWorkflow_AddNotificationTriggers(t *testing.T) {
-	t.Parallel()
-
-	// Create stuff to update
-	workflow, destination := createTestWorkflow(t)
-	defer cleanupDestination(t, destination)
-	defer cleanupWorkflow(t, workflow)
-
-	// just assert that the created workflow is enabled
-	require.Equal(t, true, workflow.WorkflowEnabled)
-
-	destinationWithNotificationTriggers := workflow.DestinationConfigurations
-	destinationWithNotificationTriggers[0].NotificationTriggers = []AiWorkflowsNotificationTrigger{"ACTIVATED"}
-
-	workflowsClient := newIntegrationTestClient(t)
-	updatedWorkflow, err := workflowsClient.AiWorkflowsUpdateWorkflow(workflow.AccountID, AiWorkflowsUpdateWorkflowInput{
-		ID: workflow.ID,
-		DestinationConfigurations: &[]AiWorkflowsDestinationConfigurationInput{{
-			ChannelId:            destinationWithNotificationTriggers[0].ChannelId,
-			NotificationTriggers: destinationWithNotificationTriggers[0].NotificationTriggers,
-		}},
-	})
-
-	require.NoError(t, err)
-	require.NotNil(t, updatedWorkflow)
-	require.Equal(t, []AiWorkflowsNotificationTrigger{"ACTIVATED"}, updatedWorkflow.Workflow.DestinationConfigurations[0].NotificationTriggers)
-}
-
 func TestIntegrationGetWorkflow(t *testing.T) {
 	workflow, destination := createTestWorkflow(t)
 	defer cleanupDestination(t, destination)
@@ -317,10 +259,8 @@ func createTestWorkflow(t *testing.T) (*AiWorkflowsWorkflow, *notifications.AiNo
 
 	destination, channel := createTestChannel(t, accountID)
 
-	notificationTriggers := []AiWorkflowsNotificationTrigger{"ACTIVATED"}
-
 	workflowsClient := newIntegrationTestClient(t)
-	workflowInput := generateCreateWorkflowInput(channel, notificationTriggers)
+	workflowInput := generateCreateWorkflowInput(channel)
 	createResult, err := workflowsClient.AiWorkflowsCreateWorkflow(accountID, workflowInput)
 	if err != nil {
 		cleanupChannel(t, channel)
@@ -333,7 +273,7 @@ func createTestWorkflow(t *testing.T) (*AiWorkflowsWorkflow, *notifications.AiNo
 
 }
 
-func generateCreateWorkflowInput(channel *notifications.AiNotificationsChannel, notificationTriggers []AiWorkflowsNotificationTrigger) AiWorkflowsCreateWorkflowInput {
+func generateCreateWorkflowInput(channel *notifications.AiNotificationsChannel) AiWorkflowsCreateWorkflowInput {
 	enrichmentsInput := AiWorkflowsEnrichmentsInput{
 		NRQL: []AiWorkflowsNRQLEnrichmentInput{{
 			Name: "enrichment-test",
@@ -353,7 +293,6 @@ func generateCreateWorkflowInput(channel *notifications.AiNotificationsChannel, 
 	}
 	destinationsInput := []AiWorkflowsDestinationConfigurationInput{{
 		ChannelId: channel.ID,
-		NotificationTriggers: notificationTriggers,
 	}}
 
 	return AiWorkflowsCreateWorkflowInput{

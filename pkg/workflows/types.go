@@ -89,8 +89,6 @@ var AiWorkflowsDestinationTypeTypes = struct {
 	SERVICE_NOW AiWorkflowsDestinationType
 	// Slack Destination Configuration type
 	SLACK AiWorkflowsDestinationType
-	// Slack legacy Destination Configuration type
-	SLACK_LEGACY AiWorkflowsDestinationType
 	// Webhook Destination Configuration type
 	WEBHOOK AiWorkflowsDestinationType
 }{
@@ -112,8 +110,6 @@ var AiWorkflowsDestinationTypeTypes = struct {
 	SERVICE_NOW: "SERVICE_NOW",
 	// Slack Destination Configuration type
 	SLACK: "SLACK",
-	// Slack legacy Destination Configuration type
-	SLACK_LEGACY: "SLACK_LEGACY",
 	// Webhook Destination Configuration type
 	WEBHOOK: "WEBHOOK",
 }
@@ -161,33 +157,6 @@ var AiWorkflowsMutingRulesHandlingTypes = struct {
 	DONT_NOTIFY_FULLY_OR_PARTIALLY_MUTED_ISSUES: "DONT_NOTIFY_FULLY_OR_PARTIALLY_MUTED_ISSUES",
 	// Notify about all issues
 	NOTIFY_ALL_ISSUES: "NOTIFY_ALL_ISSUES",
-}
-
-// AiWorkflowsNotificationTrigger - Notification Triggers for the Destination Configuration
-type AiWorkflowsNotificationTrigger string
-
-var AiWorkflowsNotificationTriggerTypes = struct {
-	// Send a notification when the issue is acknowledged
-	ACKNOWLEDGED AiWorkflowsNotificationTrigger
-	// Send a notification when the issue is activated
-	ACTIVATED AiWorkflowsNotificationTrigger
-	// Send a notification when the issue is closed
-	CLOSED AiWorkflowsNotificationTrigger
-	// Sends notification when the issue has other updates
-	OTHER_UPDATES AiWorkflowsNotificationTrigger
-	// Send a notification when the issue's priority has changed
-	PRIORITY_CHANGED AiWorkflowsNotificationTrigger
-}{
-	// Send a notification when the issue is acknowledged
-	ACKNOWLEDGED: "ACKNOWLEDGED",
-	// Send a notification when the issue is activated
-	ACTIVATED: "ACTIVATED",
-	// Send a notification when the issue is closed
-	CLOSED: "CLOSED",
-	// Sends notification when the issue has other updates
-	OTHER_UPDATES: "OTHER_UPDATES",
-	// Send a notification when the issue's priority has changed
-	PRIORITY_CHANGED: "PRIORITY_CHANGED",
 }
 
 // AiWorkflowsOperator - Type of Filter
@@ -421,8 +390,6 @@ type AiWorkflowsDestinationConfiguration struct {
 	ChannelId string `json:"channelId"`
 	// Name of the Destination Configuration
 	Name string `json:"name"`
-	// Notification triggers of the Destination Configuration
-	NotificationTriggers []AiWorkflowsNotificationTrigger `json:"notificationTriggers"`
 	// Type of the Destination Configuration
 	Type AiWorkflowsDestinationType `json:"type"`
 }
@@ -431,8 +398,6 @@ type AiWorkflowsDestinationConfiguration struct {
 type AiWorkflowsDestinationConfigurationInput struct {
 	// channelId
 	ChannelId string `json:"channelId"`
-	// notificationTriggers
-	NotificationTriggers []AiWorkflowsNotificationTrigger `json:"notificationTriggers"`
 }
 
 // AiWorkflowsEnrichment - Makes it possible to augment the notification with additional data from the New Relic platform
@@ -497,8 +462,6 @@ type AiWorkflowsFilters struct {
 	ID string `json:"id,omitempty"`
 	// name
 	Name string `json:"name,omitempty"`
-	// nameLike
-	NameLike string `json:"nameLike,omitempty"`
 	// workflowEnabled
 	WorkflowEnabled bool `json:"workflowEnabled,omitempty"`
 }
@@ -623,7 +586,7 @@ type AiWorkflowsUpdatedFilterInput struct {
 type AiWorkflowsWorkflow struct {
 	// Account Id of this Workflow
 	AccountID int `json:"accountId"`
-	// The time this workflow was created
+	// The time the Workflow was created
 	CreatedAt nrtime.DateTime `json:"createdAt"`
 	// Specifies where to send the notifications
 	DestinationConfigurations []AiWorkflowsDestinationConfiguration `json:"destinationConfigurations"`
@@ -643,7 +606,7 @@ type AiWorkflowsWorkflow struct {
 	MutingRulesHandling AiWorkflowsMutingRulesHandling `json:"mutingRulesHandling"`
 	// Name of the Workflow
 	Name string `json:"name"`
-	// The time this workflow was updated
+	// The time the Workflow was last updated
 	UpdatedAt nrtime.DateTime `json:"updatedAt"`
 	// Is Workflow enabled
 	WorkflowEnabled bool `json:"workflowEnabled"`
