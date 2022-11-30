@@ -348,6 +348,7 @@ func TestIntegrationDashboard_Variables(t *testing.T) {
 	assert.Equal(t, len(dashboardInput.Pages), len(dash.Pages))
 	require.Equal(t, 1, len(dash.Pages))
 	require.Equal(t, 1, len(dash.Pages[0].Widgets))
+	require.Equal(t, 1, len(dash.Variables))
 
 	assert.Equal(t, dashboardInput.Pages[0].Widgets[0].Title, dash.Pages[0].Widgets[0].Title)
 	assert.Equal(t, dashboardInput.Pages[0].Widgets[0].Configuration.Markdown.Text, dash.Pages[0].Widgets[0].Configuration.Markdown.Text)

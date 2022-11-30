@@ -87,6 +87,26 @@ const getDashboardEntityQuery = `query ($guid: EntityGuid!) {
         tags { key values }
         tagsWithMetadata { key values { mutable value } }
         updatedAt
+		variables {
+          defaultValues {
+            value {
+              string
+            }
+          }
+          isMultiSelection
+          items {
+            title
+            value
+          }
+          name
+          nrqlQuery {
+            accountIds
+            query
+          }
+          replacementStrategy
+          title
+          type
+        }
       }
     }
   }
