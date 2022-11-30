@@ -87,7 +87,7 @@ const getDashboardEntityQuery = `query ($guid: EntityGuid!) {
         tags { key values }
         tagsWithMetadata { key values { mutable value } }
         updatedAt
-		variables {
+	variables {
           defaultValues {
             value {
               string
