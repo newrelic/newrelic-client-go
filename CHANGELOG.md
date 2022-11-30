@@ -1,3 +1,11 @@
+<a name="v2.5.0"></a>
+## [v2.5.0] - 2022-11-30
+### Features
+- **Workflow:** Add notification triggers
+- **cloud:** add newly supported cloud service integrations
+- **dashboards:** add variables
+- **data_pratition_rule:** Added Data partition and tests
+
 <a name="v2.4.0"></a>
 ## [v2.4.0] - 2022-11-16
 ### Features
@@ -1494,7 +1502,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.4.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.5.0...HEAD
+[v2.5.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.4.0...v2.5.0
 [v2.4.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.3.0...v2.4.0
 [v2.3.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.2.2...v2.3.0
 [v2.2.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.2.1...v2.2.2
