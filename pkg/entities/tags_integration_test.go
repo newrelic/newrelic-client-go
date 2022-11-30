@@ -4,11 +4,9 @@
 package entities
 
 import (
-	"testing"
-
-	"github.com/stretchr/testify/require"
-
 	"github.com/newrelic/newrelic-client-go/v2/pkg/common"
+	"github.com/stretchr/testify/require"
+	"testing"
 )
 
 func TestIntegrationListTags(t *testing.T) {
