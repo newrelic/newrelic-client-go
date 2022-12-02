@@ -75,7 +75,7 @@ func TestIntegrationDropRules_Fail(t *testing.T) {
 		rand                     = mock.RandSeq(5)
 		testRuleDescription      = "testRuleDescription_" + rand
 		testOtherRuleDescription = "testRuleOtherDescription_" + rand
-		testRuleNrql             = "xxxxxxxxx"
+		testRuleNrql             = "not a query"
 		testCreateInput          = []NRQLDropRulesCreateDropRuleInput{
 			{
 				Description: testRuleDescription,

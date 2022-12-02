@@ -45,14 +45,37 @@ const NRQLDropRulesCreateMutation = `mutation(
 	accountId: $accountId,
 	rules: $rules,
 ) {
+	failures {
+		error {
+			description
+			reason
+		}
+		submitted {
+			accountId
+			action
+			description
+			nrql
+		}
+	}
 	successes {
+		account {
+			id
+			name
+		}
 		accountId
 		action
 		createdAt
 		createdBy
+		creator {
+			email
+			gravatar
+			id
+			name
+		}
 		description
 		id
 		nrql
+		source
 	}
 } }`
 
@@ -98,14 +121,35 @@ const NRQLDropRulesDeleteMutation = `mutation(
 	accountId: $accountId,
 	ruleIds: $ruleIds,
 ) {
+	failures {
+		error {
+			description
+			reason
+		}
+		submitted {
+			accountId
+			ruleId
+		}
+	}
 	successes {
+		account {
+			id
+			name
+		}
 		accountId
 		action
 		createdAt
 		createdBy
+		creator {
+			email
+			gravatar
+			id
+			name
+		}
 		description
 		id
 		nrql
+		source
 	}
 } }`
 
@@ -144,12 +188,23 @@ const getListQuery = `query(
 		reason
 	}
 	rules {
+		account {
+			id
+			name
+		}
 		accountId
 		action
 		createdAt
 		createdBy
+		creator {
+			email
+			gravatar
+			id
+			name
+		}
 		description
 		id
 		nrql
+		source
 	}
 } } } } }`
