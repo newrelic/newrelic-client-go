@@ -42,7 +42,23 @@ func TestSyntheticsSecureCredential_Basic(t *testing.T) {
 	require.Nil(t, deleteResp)
 }
 
-//Test simple browser monitor
+func TestSyntheticsSecureCredential_Error(t *testing.T) {
+	t.Parallel()
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	a := newIntegrationTestClient(t)
+
+	// Create a secure credential
+	createResp, respErr := a.SyntheticsCreateSecureCredential(testAccountID, "test secure credential", "TEST-BAD-KEY", "secure value")
+	require.NoError(t, respErr)
+	require.Greater(t, len(createResp.Errors), 0)
+}
+
+// Test simple browser monitor
 func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 	t.Parallel()
 
@@ -149,7 +165,7 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 	require.NoError(t, err)
 }
 
-//TestSyntheticsSimpleMonitor_Basic function to test simple monitor
+// TestSyntheticsSimpleMonitor_Basic function to test simple monitor
 func TestSyntheticsSimpleMonitor_Basic(t *testing.T) {
 	t.Parallel()
 	testAccountID, err := mock.GetTestAccountID()
@@ -247,7 +263,7 @@ func TestSyntheticsSimpleMonitor_Basic(t *testing.T) {
 	require.NoError(t, err)
 }
 
-//TestSyntheticsScriptApiMonitor_Basic to test the script api monitor
+// TestSyntheticsScriptApiMonitor_Basic to test the script api monitor
 func TestSyntheticsScriptApiMonitor_Basic(t *testing.T) {
 	t.Parallel()
 
@@ -360,7 +376,7 @@ func TestSyntheticsScriptApiMonitor_Basic(t *testing.T) {
 	require.NotNil(t, deleteScriptApiMonitor)
 }
 
-//TestSyntheticsScriptBrowserMonitor_Basic function to test script browser monitor
+// TestSyntheticsScriptBrowserMonitor_Basic function to test script browser monitor
 func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 	t.Parallel()
 	testAccountID, err := mock.GetTestAccountID()
