@@ -32,7 +32,7 @@ func (e *EpochTime) UnmarshalJSON(s []byte) error {
 		nano  int64
 	)
 
-	if (string(s) == "null") {
+	if string(s) == "null" {
 		return nil
 	}
 
