@@ -32,10 +32,6 @@ func (e *EpochTime) UnmarshalJSON(s []byte) error {
 		nano  int64
 	)
 
-	if string(s) == "null" {
-		return nil
-	}
-
 	// detect type of timestamp based on length
 	switch l := len(s); {
 	case l <= 10: // seconds
