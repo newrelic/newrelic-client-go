@@ -39,7 +39,7 @@ func TestSyntheticsSecureCredential_Basic(t *testing.T) {
 	// Delete secure credential
 	deleteResp, err := a.SyntheticsDeleteSecureCredential(testAccountID, "TEST")
 
-	require.Nil(t, deleteResp)
+	require.Equal(t, "", deleteResp.Key)
 }
 
 func TestSyntheticsSecureCredential_Error(t *testing.T) {
