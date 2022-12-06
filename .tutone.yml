@@ -935,9 +935,9 @@ packages:
             max_query_field_depth: 2
     mutations:
       - name: nrqlDropRulesCreate
-        max_query_field_depth: 1
+        max_query_field_depth: 3
       - name: nrqlDropRulesDelete
-        max_query_field_depth: 1
+        max_query_field_depth: 3
     types:
       - name: NRQLDropRulesAccountStitchedFields
       - name: NrqlDropRulesAction

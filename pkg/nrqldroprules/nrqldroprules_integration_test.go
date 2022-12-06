@@ -63,6 +63,45 @@ func TestIntegrationDropRules(t *testing.T) {
 	require.Equal(t, 2, len(deleted.Successes))
 }
 
+func TestIntegrationDropRules_Fail(t *testing.T) {
+	t.Parallel()
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	var (
+		rand                     = mock.RandSeq(5)
+		testRuleDescription      = "testRuleDescription_" + rand
+		testOtherRuleDescription = "testRuleOtherDescription_" + rand
+		testRuleNrql             = "not a query"
+		testCreateInput          = []NRQLDropRulesCreateDropRuleInput{
+			{
+				Description: testRuleDescription,
+				NRQL:        testRuleNrql,
+				Action:      NRQLDropRulesActionTypes.DROP_DATA,
+			},
+			{
+				Description: testOtherRuleDescription,
+				NRQL:        testRuleNrql,
+				Action:      NRQLDropRulesActionTypes.DROP_DATA,
+			},
+		}
+	)
+
+	client := newIntegrationTestClient(t)
+
+	// Test: Create
+	created, err := client.NRQLDropRulesCreate(testAccountID, testCreateInput)
+
+	require.NoError(t, err)
+	require.NotNil(t, created)
+	require.NotEmpty(t, created)
+	require.Equal(t, 2, len(created.Failures))
+
+}
+
 func newIntegrationTestClient(t *testing.T) Nrqldroprules {
 	tc := mock.NewIntegrationTestConfig(t)
 

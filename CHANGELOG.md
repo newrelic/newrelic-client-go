@@ -1,3 +1,8 @@
+<a name="v2.6.1"></a>
+## [v2.6.1] - 2022-12-06
+### Bug Fixes
+- **drop_rules:** generated errors from schema :bug:
+
 <a name="v2.6.0"></a>
 ## [v2.6.0] - 2022-11-30
 ### Features
@@ -1507,7 +1512,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.6.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.6.1...HEAD
+[v2.6.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.6.0...v2.6.1
 [v2.6.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.5.0...v2.6.0
 [v2.5.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.4.0...v2.5.0
 [v2.4.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.3.0...v2.4.0
