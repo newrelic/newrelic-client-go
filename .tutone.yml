@@ -137,7 +137,7 @@ packages:
 
     types:
       - name: EpochMilliseconds
-        field_type_override: nrtime.EpochMilliseconds
+        field_type_override: "*nrtime.EpochMilliseconds"
         skip_type_create: true
       # This must be a string, as where ID is used the type is a string...
       - name: ID
