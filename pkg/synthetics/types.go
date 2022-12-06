@@ -912,7 +912,7 @@ type SyntheticsScriptedMonitorLocationsInput struct {
 // SyntheticsSecureCredentialMutationResult - The result of a secure credential mutation
 type SyntheticsSecureCredentialMutationResult struct {
 	// The moment when the secure credential was created, represented in milliseconds since the Unix epoch.
-	CreatedAt nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
+	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
 	// Description of the secure credential, if available
 	Description string `json:"description,omitempty"`
 	// An array containing errors, if any
@@ -920,7 +920,7 @@ type SyntheticsSecureCredentialMutationResult struct {
 	// The unique identifier of the secure credential, if available
 	Key string `json:"key,omitempty"`
 	// The moment when the secure credential was last updated, represented in milliseconds since the Unix epoch.
-	LastUpdate nrtime.EpochMilliseconds `json:"lastUpdate,omitempty"`
+	LastUpdate *nrtime.EpochMilliseconds `json:"lastUpdate,omitempty"`
 }
 
 // SyntheticsSimpleBrowserMonitor - A Simple Browser monitor resulting from a Simple Browser monitor mutation
