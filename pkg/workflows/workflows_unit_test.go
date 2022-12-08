@@ -34,7 +34,8 @@ var (
 			  {
 				"channelId": "0d11fd42-5919-4767-8cf5-e07cb71c1b04",
 				"name": "EMPTY",
-				"type": "EMAIL"
+				"type": "EMAIL",
+				"notificationTriggers": ["ACTIVATED"]
 			  }
 			],
 			"destinationsEnabled": false,
@@ -99,7 +100,8 @@ var (
                   {
                     "channelId": "0d11fd42-5919-4767-8cf5-e07cb71c1b04",
                     "name": "EMPTY",
-                    "type": "EMAIL"
+                    "type": "EMAIL",
+                    "notificationTriggers": ["ACTIVATED"]
                   }
                 ],
                 "destinationsEnabled": false,
@@ -194,6 +196,7 @@ func TestCreateWorkflow(t *testing.T) {
 		ChannelId: channelId,
 		Name:      "EMPTY",
 		Type:      "EMAIL",
+		NotificationTriggers: []AiWorkflowsNotificationTrigger{"ACTIVATED"},
 	}}
 	expectedIssuedFilter := AiWorkflowsFilter{
 		AccountID: accountId,
@@ -257,6 +260,7 @@ func TestGetWorkflow(t *testing.T) {
 		ChannelId: channelId,
 		Name:      "EMPTY",
 		Type:      "EMAIL",
+		NotificationTriggers: []AiWorkflowsNotificationTrigger{"ACTIVATED"},
 	}}
 	expectedEnrichments := []AiWorkflowsEnrichment{{
 		AccountID: accountId,
