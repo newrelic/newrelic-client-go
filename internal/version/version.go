@@ -1,4 +1,4 @@
 package version
 
 // Version of this library
-const Version string = "2.7.0"
+const Version string = "2.8.0"
