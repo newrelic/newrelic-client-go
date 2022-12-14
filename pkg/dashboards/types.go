@@ -427,15 +427,15 @@ type DashboardVariableEnumItemInput struct {
 // DashboardVariableInput - Definition of a variable that is local to this dashboard. Variables are placeholders for dynamic values in widget NRQLs.
 type DashboardVariableInput struct {
 	// [DEPRECATED] Default value for this variable. The actual value to be used will depend on the type.
-	DefaultValue DashboardVariableDefaultValueInput `json:"defaultValue,omitempty"`
+	DefaultValue *DashboardVariableDefaultValueInput `json:"defaultValue,omitempty"`
 	// Default values for this variable. The actual value to be used will depend on the type.
-	DefaultValues []DashboardVariableDefaultItemInput `json:"defaultValues,omitempty"`
+	DefaultValues *[]DashboardVariableDefaultItemInput `json:"defaultValues,omitempty"`
 	// Indicates whether this variable supports multiple selection or not. Only applies to variables of type NRQL or ENUM.
 	IsMultiSelection bool `json:"isMultiSelection,omitempty"`
 	// List of possible values for variables of type ENUM
 	Items []DashboardVariableEnumItemInput `json:"items,omitempty"`
 	// Configuration for variables of type NRQL.
-	NRQLQuery DashboardVariableNRQLQueryInput `json:"nrqlQuery,omitempty"`
+	NRQLQuery *DashboardVariableNRQLQueryInput `json:"nrqlQuery,omitempty"`
 	// Variable identifier.
 	Name string `json:"name"`
 	// Indicates the strategy to apply when replacing a variable in a NRQL query.

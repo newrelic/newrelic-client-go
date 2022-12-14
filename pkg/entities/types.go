@@ -7960,15 +7960,15 @@ type DashboardThresholdEventWidgetPresentationThreshold struct {
 // DashboardVariable - Definition of a variable that is local to this dashboard. Variables are placeholders for dynamic values in widget NRQLs.
 type DashboardVariable struct {
 	// [DEPRECATED] Default value for this variable. The actual value to be used will depend on the type.
-	DefaultValue DashboardVariableDefaultValue `json:"defaultValue,omitempty"`
+	DefaultValue *DashboardVariableDefaultValue `json:"defaultValue,omitempty"`
 	// Default values for this variable. The actual value to be used will depend on the type.
-	DefaultValues []DashboardVariableDefaultItem `json:"defaultValues,omitempty"`
+	DefaultValues *[]DashboardVariableDefaultItem `json:"defaultValues,omitempty"`
 	// Indicates whether this variable supports multiple selection or not. Only applies to variables of type NRQL or ENUM.
 	IsMultiSelection bool `json:"isMultiSelection,omitempty"`
 	// List of possible values for variables of type ENUM.
 	Items []DashboardVariableEnumItem `json:"items,omitempty"`
 	// Configuration for variables of type NRQL.
-	NRQLQuery DashboardVariableNRQLQuery `json:"nrqlQuery,omitempty"`
+	NRQLQuery *DashboardVariableNRQLQuery `json:"nrqlQuery,omitempty"`
 	// Variable identifier.
 	Name string `json:"name,omitempty"`
 	// Indicates the strategy to apply when replacing a variable in a NRQL query.
