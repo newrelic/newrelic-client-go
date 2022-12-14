@@ -327,7 +327,7 @@ func TestDeleteWorkflow(t *testing.T) {
 		Errors: []AiWorkflowsDeleteResponseError{},
 	}
 
-	actual, err := workflows.AiWorkflowsDeleteWorkflow(accountId, id)
+	actual, err := workflows.AiWorkflowsDeleteWorkflow(accountId, true, id)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)

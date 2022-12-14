@@ -100,10 +100,12 @@ const AiWorkflowsCreateWorkflowMutation = `mutation(
 // Delete a workflow and all it's sub entities: filter, enrichments and destinations
 func (a *Workflows) AiWorkflowsDeleteWorkflow(
 	accountID int,
+	deleteChannels bool,
 	iD string,
 ) (*AiWorkflowsDeleteWorkflowResponse, error) {
 	return a.AiWorkflowsDeleteWorkflowWithContext(context.Background(),
 		accountID,
+		deleteChannels,
 		iD,
 	)
 }
@@ -112,13 +114,15 @@ func (a *Workflows) AiWorkflowsDeleteWorkflow(
 func (a *Workflows) AiWorkflowsDeleteWorkflowWithContext(
 	ctx context.Context,
 	accountID int,
+	deleteChannels bool,
 	iD string,
 ) (*AiWorkflowsDeleteWorkflowResponse, error) {
 
 	resp := AiWorkflowsDeleteWorkflowQueryResponse{}
 	vars := map[string]interface{}{
-		"accountId": accountID,
-		"id":        iD,
+		"accountId":      accountID,
+		"deleteChannels": deleteChannels,
+		"id":             iD,
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, AiWorkflowsDeleteWorkflowMutation, vars, &resp); err != nil {
@@ -134,9 +138,11 @@ type AiWorkflowsDeleteWorkflowQueryResponse struct {
 
 const AiWorkflowsDeleteWorkflowMutation = `mutation(
 	$accountId: Int!,
+	$deleteChannels: Boolean!,
 	$id: ID!,
 ) { aiWorkflowsDeleteWorkflow(
 	accountId: $accountId,
+	deleteChannels: $deleteChannels,
 	id: $id,
 ) {
 	errors {
@@ -149,10 +155,12 @@ const AiWorkflowsDeleteWorkflowMutation = `mutation(
 // Update Workflow with issues filter, enrichments and destinations
 func (a *Workflows) AiWorkflowsUpdateWorkflow(
 	accountID int,
+	deleteUnusedChannels bool,
 	updateWorkflowData AiWorkflowsUpdateWorkflowInput,
 ) (*AiWorkflowsUpdateWorkflowResponse, error) {
 	return a.AiWorkflowsUpdateWorkflowWithContext(context.Background(),
 		accountID,
+		deleteUnusedChannels,
 		updateWorkflowData,
 	)
 }
@@ -161,13 +169,15 @@ func (a *Workflows) AiWorkflowsUpdateWorkflow(
 func (a *Workflows) AiWorkflowsUpdateWorkflowWithContext(
 	ctx context.Context,
 	accountID int,
+	deleteUnusedChannels bool,
 	updateWorkflowData AiWorkflowsUpdateWorkflowInput,
 ) (*AiWorkflowsUpdateWorkflowResponse, error) {
 
 	resp := AiWorkflowsUpdateWorkflowQueryResponse{}
 	vars := map[string]interface{}{
-		"accountId":          accountID,
-		"updateWorkflowData": updateWorkflowData,
+		"accountId":            accountID,
+		"deleteUnusedChannels": deleteUnusedChannels,
+		"updateWorkflowData":   updateWorkflowData,
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, AiWorkflowsUpdateWorkflowMutation, vars, &resp); err != nil {
@@ -183,9 +193,11 @@ type AiWorkflowsUpdateWorkflowQueryResponse struct {
 
 const AiWorkflowsUpdateWorkflowMutation = `mutation(
 	$accountId: Int!,
+	$deleteUnusedChannels: Boolean!,
 	$updateWorkflowData: AiWorkflowsUpdateWorkflowInput!,
 ) { aiWorkflowsUpdateWorkflow(
 	accountId: $accountId,
+	deleteUnusedChannels: $deleteUnusedChannels,
 	updateWorkflowData: $updateWorkflowData,
 ) {
 	errors {
