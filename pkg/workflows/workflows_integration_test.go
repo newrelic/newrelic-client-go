@@ -89,31 +89,50 @@ func TestIntegrationCreateWorkflowWithoutNotificationTriggers(t *testing.T) {
 	require.Equal(t, []AiWorkflowsNotificationTrigger(nil), createdWorkflow.DestinationConfigurations[0].NotificationTriggers)
 }
 
-func TestIntegrationDeleteWorkflow(t *testing.T) {
+func TestIntegrationDeleteWorkflow_CanDeleteChannels(t *testing.T) {
 	t.Parallel()
 
 	// Create stuff to delete
-	workflow, destination := createTestWorkflow(t)
+	workflow, destination, channel := createTestWorkflow(t)
 	defer cleanupDestination(t, destination)
+	defer cleanupChannel(t, channel)
 	workflowsClient := newIntegrationTestClient(t)
 
 	// Test: Delete Workflow (with channel)
-	deleteResult, err := workflowsClient.AiWorkflowsDeleteWorkflow(workflow.AccountID, workflow.ID)
+	deleteResult, err := workflowsClient.AiWorkflowsDeleteWorkflow(workflow.AccountID, true, workflow.ID)
 	require.NoError(t, err)
 	require.NotNil(t, deleteResult)
 	requireDoesNotExist(t, workflow)
+	requireChannelDoesNotExist(t, channel)
+}
+
+func TestIntegrationDeleteWorkflow_CanLeaveChannelsAlive(t *testing.T) {
+	t.Parallel()
+
+	// Create stuff to delete
+	workflow, destination, channel := createTestWorkflow(t)
+	defer cleanupDestination(t, destination)
+	defer cleanupChannel(t, channel)
+	workflowsClient := newIntegrationTestClient(t)
+
+	// Test: Delete Workflow (with channel)
+	deleteResult, err := workflowsClient.AiWorkflowsDeleteWorkflow(workflow.AccountID, false, workflow.ID)
+	require.NoError(t, err)
+	require.NotNil(t, deleteResult)
+	requireChannelExists(t, channel)
 }
 
 func TestIntegrationUpdateWorkflow_EmptyUpdate(t *testing.T) {
 	t.Parallel()
 
 	// Create stuff to update
-	workflow, destination := createTestWorkflow(t)
+	workflow, destination, channel := createTestWorkflow(t)
 	defer cleanupDestination(t, destination)
 	defer cleanupWorkflow(t, workflow)
+	defer cleanupChannel(t, channel)
 	workflowsClient := newIntegrationTestClient(t)
 
-	updatedWorkflow, err := workflowsClient.AiWorkflowsUpdateWorkflow(workflow.AccountID, AiWorkflowsUpdateWorkflowInput{
+	updatedWorkflow, err := workflowsClient.AiWorkflowsUpdateWorkflow(workflow.AccountID, true, AiWorkflowsUpdateWorkflowInput{
 		ID: workflow.ID,
 	})
 
@@ -122,15 +141,73 @@ func TestIntegrationUpdateWorkflow_EmptyUpdate(t *testing.T) {
 	require.Equal(t, workflow, &updatedWorkflow.Workflow)
 }
 
+func TestIntegrationUpdateWorkflow_UpdateDestinations_CanLeaveOldChannelAlive(t *testing.T) {
+	t.Parallel()
+
+	// Create stuff to update
+	workflow, destination, channel := createTestWorkflow(t)
+	defer cleanupWorkflow(t, workflow)
+	defer cleanupChannel(t, channel)
+	defer cleanupDestination(t, destination)
+	workflowsClient := newIntegrationTestClient(t)
+
+	newDestination, newChannel := createTestChannel(t, workflow.AccountID)
+	defer cleanupDestination(t, newDestination)
+	defer cleanupChannel(t, newChannel)
+
+	updatedWorkflow, err := workflowsClient.AiWorkflowsUpdateWorkflow(workflow.AccountID, false, AiWorkflowsUpdateWorkflowInput{
+		ID: workflow.ID,
+		DestinationConfigurations: &[]AiWorkflowsDestinationConfigurationInput{{
+			ChannelId: newChannel.ID,
+			NotificationTriggers: []AiWorkflowsNotificationTrigger{"ACTIVATED", "CLOSED"},
+		}},
+	})
+
+	require.NoError(t, err)
+	require.NotNil(t, updatedWorkflow)
+	requireChannelExists(t, newChannel)
+	requireChannelExists(t, channel)
+}
+
+func TestIntegrationUpdateWorkflow_UpdateDestinations_CanDeleteOldChannel(t *testing.T) {
+	t.Parallel()
+
+	// Create stuff to update
+	workflow, destination, channel := createTestWorkflow(t)
+	defer cleanupWorkflow(t, workflow)
+	defer cleanupChannel(t, channel)
+	defer cleanupDestination(t, destination)
+	workflowsClient := newIntegrationTestClient(t)
+
+	newDestination, newChannel := createTestChannel(t, workflow.AccountID)
+	defer cleanupDestination(t, newDestination)
+	defer cleanupChannel(t, newChannel)
+
+	updatedWorkflow, err := workflowsClient.AiWorkflowsUpdateWorkflow(workflow.AccountID, true, AiWorkflowsUpdateWorkflowInput{
+		ID: workflow.ID,
+		DestinationConfigurations: &[]AiWorkflowsDestinationConfigurationInput{{
+			ChannelId: newChannel.ID,
+			NotificationTriggers: []AiWorkflowsNotificationTrigger{"ACTIVATED", "CLOSED"},
+		}},
+	})
+
+	require.NoError(t, err)
+	require.NotNil(t, updatedWorkflow)
+	requireChannelExists(t, newChannel)
+	requireChannelDoesNotExist(t, channel)
+}
+
 func TestIntegrationUpdateWorkflow_UpdateEverything(t *testing.T) {
 	t.Parallel()
 
 	// Create stuff to update
-	workflow, destination := createTestWorkflow(t)
+	workflow, destination, channel := createTestWorkflow(t)
 	newDestination, newChannel := createTestChannel(t, workflow.AccountID)
 	defer cleanupDestination(t, destination)
 	defer cleanupDestination(t, newDestination)
 	defer cleanupWorkflow(t, workflow)
+	defer cleanupChannel(t, channel)
+	defer cleanupChannel(t, newChannel)
 
 	workflowsClient := newIntegrationTestClient(t)
 
@@ -173,7 +250,7 @@ func TestIntegrationUpdateWorkflow_UpdateEverything(t *testing.T) {
 		Name: &newName,
 	}
 
-	workflowUpdateResult, err := workflowsClient.AiWorkflowsUpdateWorkflow(workflow.AccountID, workflowInput)
+	workflowUpdateResult, err := workflowsClient.AiWorkflowsUpdateWorkflow(workflow.AccountID, true, workflowInput)
 
 	require.NoError(t, err)
 	require.NotNil(t, workflowUpdateResult)
@@ -209,7 +286,7 @@ func TestIntegrationUpdateWorkflow_RemoveEnrichments(t *testing.T) {
 	t.Parallel()
 
 	// Create stuff to update
-	workflow, destination := createTestWorkflow(t)
+	workflow, destination, _ := createTestWorkflow(t)
 	defer cleanupDestination(t, destination)
 	defer cleanupWorkflow(t, workflow)
 
@@ -218,7 +295,7 @@ func TestIntegrationUpdateWorkflow_RemoveEnrichments(t *testing.T) {
 
 	workflowsClient := newIntegrationTestClient(t)
 	emptyEnrichments := AiWorkflowsUpdateEnrichmentsInput{NRQL: []AiWorkflowsNRQLUpdateEnrichmentInput{}}
-	updatedWorkflow, err := workflowsClient.AiWorkflowsUpdateWorkflow(workflow.AccountID, AiWorkflowsUpdateWorkflowInput{
+	updatedWorkflow, err := workflowsClient.AiWorkflowsUpdateWorkflow(workflow.AccountID, true, AiWorkflowsUpdateWorkflowInput{
 		ID:          workflow.ID,
 		Enrichments: &emptyEnrichments,
 	})
@@ -232,7 +309,7 @@ func TestIntegrationUpdateWorkflow_DisableWorkflow(t *testing.T) {
 	t.Parallel()
 
 	// Create stuff to update
-	workflow, destination := createTestWorkflow(t)
+	workflow, destination, _ := createTestWorkflow(t)
 	defer cleanupDestination(t, destination)
 	defer cleanupWorkflow(t, workflow)
 
@@ -241,7 +318,7 @@ func TestIntegrationUpdateWorkflow_DisableWorkflow(t *testing.T) {
 
 	workflowsClient := newIntegrationTestClient(t)
 	falseValue := false
-	updatedWorkflow, err := workflowsClient.AiWorkflowsUpdateWorkflow(workflow.AccountID, AiWorkflowsUpdateWorkflowInput{
+	updatedWorkflow, err := workflowsClient.AiWorkflowsUpdateWorkflow(workflow.AccountID, true, AiWorkflowsUpdateWorkflowInput{
 		ID:              workflow.ID,
 		WorkflowEnabled: &falseValue,
 	})
@@ -255,7 +332,7 @@ func TestIntegrationUpdateWorkflow_AddNotificationTriggers(t *testing.T) {
 	t.Parallel()
 
 	// Create stuff to update
-	workflow, destination := createTestWorkflow(t)
+	workflow, destination, _ := createTestWorkflow(t)
 	defer cleanupDestination(t, destination)
 	defer cleanupWorkflow(t, workflow)
 
@@ -266,7 +343,7 @@ func TestIntegrationUpdateWorkflow_AddNotificationTriggers(t *testing.T) {
 	destinationWithNotificationTriggers[0].NotificationTriggers = []AiWorkflowsNotificationTrigger{"ACTIVATED"}
 
 	workflowsClient := newIntegrationTestClient(t)
-	updatedWorkflow, err := workflowsClient.AiWorkflowsUpdateWorkflow(workflow.AccountID, AiWorkflowsUpdateWorkflowInput{
+	updatedWorkflow, err := workflowsClient.AiWorkflowsUpdateWorkflow(workflow.AccountID, true, AiWorkflowsUpdateWorkflowInput{
 		ID: workflow.ID,
 		DestinationConfigurations: &[]AiWorkflowsDestinationConfigurationInput{{
 			ChannelId:            destinationWithNotificationTriggers[0].ChannelId,
@@ -280,7 +357,7 @@ func TestIntegrationUpdateWorkflow_AddNotificationTriggers(t *testing.T) {
 }
 
 func TestIntegrationGetWorkflow(t *testing.T) {
-	workflow, destination := createTestWorkflow(t)
+	workflow, destination, _ := createTestWorkflow(t)
 	defer cleanupDestination(t, destination)
 	defer cleanupWorkflow(t, workflow)
 
@@ -309,7 +386,7 @@ func TestIntegrationGetWorkflow_WorkflowDoesNotExist(t *testing.T) {
 	require.Equal(t, 0, len(workflows.Entities))
 }
 
-func createTestWorkflow(t *testing.T) (*AiWorkflowsWorkflow, *notifications.AiNotificationsDestination) {
+func createTestWorkflow(t *testing.T) (*AiWorkflowsWorkflow, *notifications.AiNotificationsDestination, *notifications.AiNotificationsChannel) {
 	accountID, err := mock.GetTestAccountID()
 	if err != nil {
 		t.Skipf("%s", err)
@@ -328,8 +405,7 @@ func createTestWorkflow(t *testing.T) (*AiWorkflowsWorkflow, *notifications.AiNo
 	}
 	require.NoError(t, err)
 
-	// no need to return channel because it's removed automatically when deleting a workflow
-	return &createResult.Workflow, destination
+	return &createResult.Workflow, destination, channel
 
 }
 
@@ -431,7 +507,7 @@ func cleanupChannel(t *testing.T, channel *notifications.AiNotificationsChannel)
 
 func cleanupWorkflow(t *testing.T, workflow *AiWorkflowsWorkflow) {
 	client := newIntegrationTestClient(t)
-	_, err := client.AiWorkflowsDeleteWorkflow(workflow.AccountID, workflow.ID)
+	_, err := client.AiWorkflowsDeleteWorkflow(workflow.AccountID, true, workflow.ID)
 	require.NoError(t, err)
 }
 
@@ -443,4 +519,25 @@ func requireDoesNotExist(t *testing.T, workflow *AiWorkflowsWorkflow) {
 	require.NoError(t, err)
 	require.Equal(t, 0, workflows.TotalCount)
 	require.Equal(t, 0, len(workflows.Entities))
+}
+
+func requireChannelExists(t *testing.T, channel *notifications.AiNotificationsChannel) {
+	workflowsClient := newNotificationsIntegrationTestClient(t)
+	channels, err := workflowsClient.GetChannels(channel.AccountID, "", ai.AiNotificationsChannelFilter{
+		ID: channel.ID,
+	}, notifications.AiNotificationsChannelSorter{})
+	require.NoError(t, err)
+	require.Equal(t, 1, channels.TotalCount)
+	require.Equal(t, 1, len(channels.Entities))
+	require.Equal(t, channel.ID, channels.Entities[0].ID)
+}
+
+func requireChannelDoesNotExist(t *testing.T, channel *notifications.AiNotificationsChannel) {
+	workflowsClient := newNotificationsIntegrationTestClient(t)
+	channels, err := workflowsClient.GetChannels(channel.AccountID, "", ai.AiNotificationsChannelFilter{
+		ID: channel.ID,
+	}, notifications.AiNotificationsChannelSorter{})
+	require.NoError(t, err)
+	require.Equal(t, 0, channels.TotalCount)
+	require.Equal(t, 0, len(channels.Entities))
 }
