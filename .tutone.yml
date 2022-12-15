@@ -512,6 +512,8 @@ packages:
         max_query_field_depth: 1
       - name: taggingReplaceTagsOnEntity
         max_query_field_depth: 1
+      - name: entityDelete
+        max_query_field_depth: 1
 
     types:
       # Overrides for types this package owns
@@ -545,6 +547,7 @@ packages:
       - name: EntityTagValueWithMetadata
       - name: EntityTagWithMetadata
       - name: EntityType
+      - name: SortCriterionWithDirection
 
       # List of entities
       - name: Entity
@@ -670,6 +673,10 @@ packages:
         generate_struct_getters: true
       - name: WorkloadEntityOutline
         generate_struct_getters: true
+      - name: KeyTransactionEntity
+        generate_struct_getters: true
+      - name: KeyTransactionEntityOutline
+        generate_struct_getters: true
 
       #
       # Types that our other packages define
@@ -682,6 +689,14 @@ packages:
         skip_type_create: true
       - name: AccountReference
         field_type_override: accounts.AccountReference
+        skip_type_create: true
+
+      # ai imports
+      - name: AiNotificationsAuth
+        field_type_override: ai.AiNotificationsAuth
+        skip_type_create: true
+      - name: AiWorkflowsConfiguration
+        field_type_override: ai.AiWorkflowsConfiguration
         skip_type_create: true
 
       # nrtime imports

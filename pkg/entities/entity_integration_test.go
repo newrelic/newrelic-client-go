@@ -28,6 +28,7 @@ func TestIntegrationSearchEntities(t *testing.T) {
 		"",
 		params,
 		[]EntitySearchSortCriteria{},
+		[]SortCriterionWithDirection{},
 	)
 
 	require.NoError(t, err)
@@ -42,6 +43,7 @@ func TestIntegrationSearchEntities(t *testing.T) {
 		"",
 		params,
 		[]EntitySearchSortCriteria{},
+		[]SortCriterionWithDirection{},
 	)
 
 	require.NoError(t, err)
@@ -88,6 +90,7 @@ func TestIntegrationSearchEntities_domain(t *testing.T) {
 			"",
 			params,
 			[]EntitySearchSortCriteria{},
+			[]SortCriterionWithDirection{},
 		)
 
 		require.NoError(t, err)
@@ -114,6 +117,7 @@ func TestIntegrationSearchEntitiesByTags(t *testing.T) {
 		"",
 		params,
 		[]EntitySearchSortCriteria{},
+		[]SortCriterionWithDirection{},
 	)
 
 	require.NoError(t, err)
@@ -255,6 +259,24 @@ func TestIntegrationGetEntity_MobileEntity(t *testing.T) {
 	assert.Equal(t, 1788542, actual.ApplicationID)
 	assert.Equal(t, EntityAlertSeverityTypes.NOT_CONFIGURED, actual.AlertSeverity)
 
+}
+
+func TestIntegrationDeleteEntity(t *testing.T) {
+	t.Parallel()
+
+	entityGUID := common.EntityGUID("MjUyMDUyOHxTWU5USHxNT05JVE9SfDliNDFjMmRjLTg1MDktNGRhNi04MjUwLTk0NzBiZGZjOTY3Yg")
+	client := newIntegrationTestClient(t)
+
+	result, err := client.EntityDelete(true, []common.EntityGUID{entityGUID})
+
+	if e, ok := err.(*http.GraphQLErrorResponse); ok {
+		if !e.IsDeprecated() {
+			require.NoError(t, e)
+		}
+	}
+
+	require.NoError(t, err)
+	require.Len(t, result.DeletedEntities, 1)
 }
 
 func newIntegrationTestClient(t *testing.T) Entities {

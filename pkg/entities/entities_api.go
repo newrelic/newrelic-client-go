@@ -8,10 +8,61 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/errors"
 )
 
+// Delete an entity
+func (a *Entities) EntityDelete(
+	forceDelete bool,
+	gUIDs []common.EntityGUID,
+) (*EntityDeleteResult, error) {
+	return a.EntityDeleteWithContext(context.Background(),
+		forceDelete,
+		gUIDs,
+	)
+}
+
+// Delete an entity
+func (a *Entities) EntityDeleteWithContext(
+	ctx context.Context,
+	forceDelete bool,
+	gUIDs []common.EntityGUID,
+) (*EntityDeleteResult, error) {
+
+	resp := EntityDeleteQueryResponse{}
+	vars := map[string]interface{}{
+		"forceDelete": forceDelete,
+		"guids":       gUIDs,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, EntityDeleteMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.EntityDeleteResult, nil
+}
+
+type EntityDeleteQueryResponse struct {
+	EntityDeleteResult EntityDeleteResult `json:"EntityDelete"`
+}
+
+const EntityDeleteMutation = `mutation(
+	$forceDelete: Boolean!,
+	$guids: [EntityGuid!]!,
+) { entityDelete(
+	forceDelete: $forceDelete,
+	guids: $guids,
+) {
+	deletedEntities
+	failures {
+		guid
+		message
+		type
+	}
+} }`
+
 // Adds the provided tags to your specified entity, without deleting existing ones.
-//  The maximum number of tag-values per entity is 100; if the sum of existing and new tag-values if over the limit this mutation will fail.
 //
-//  For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
+//	The maximum number of tag-values per entity is 100; if the sum of existing and new tag-values if over the limit this mutation will fail.
+//
+//	For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
 func (a *Entities) TaggingAddTagsToEntity(
 	gUID common.EntityGUID,
 	tags []TaggingTagInput,
@@ -23,9 +74,10 @@ func (a *Entities) TaggingAddTagsToEntity(
 }
 
 // Adds the provided tags to your specified entity, without deleting existing ones.
-//  The maximum number of tag-values per entity is 100; if the sum of existing and new tag-values if over the limit this mutation will fail.
 //
-//  For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
+//	The maximum number of tag-values per entity is 100; if the sum of existing and new tag-values if over the limit this mutation will fail.
+//
+//	For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
 func (a *Entities) TaggingAddTagsToEntityWithContext(
 	ctx context.Context,
 	gUID common.EntityGUID,
@@ -64,7 +116,7 @@ const TaggingAddTagsToEntityMutation = `mutation(
 
 // Delete specific tag keys from the entity.
 //
-//  For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
+//	For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
 func (a *Entities) TaggingDeleteTagFromEntity(
 	gUID common.EntityGUID,
 	tagKeys []string,
@@ -77,7 +129,7 @@ func (a *Entities) TaggingDeleteTagFromEntity(
 
 // Delete specific tag keys from the entity.
 //
-//  For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
+//	For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
 func (a *Entities) TaggingDeleteTagFromEntityWithContext(
 	ctx context.Context,
 	gUID common.EntityGUID,
@@ -116,7 +168,7 @@ const TaggingDeleteTagFromEntityMutation = `mutation(
 
 // Delete specific tag key-values from the entity.
 //
-//  For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
+//	For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
 func (a *Entities) TaggingDeleteTagValuesFromEntity(
 	gUID common.EntityGUID,
 	tagValues []TaggingTagValueInput,
@@ -129,7 +181,7 @@ func (a *Entities) TaggingDeleteTagValuesFromEntity(
 
 // Delete specific tag key-values from the entity.
 //
-//  For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
+//	For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
 func (a *Entities) TaggingDeleteTagValuesFromEntityWithContext(
 	ctx context.Context,
 	gUID common.EntityGUID,
@@ -167,9 +219,10 @@ const TaggingDeleteTagValuesFromEntityMutation = `mutation(
 } }`
 
 // Replaces the entity's entire set of tags with the provided tag set.
-//  The maximum number of tag-values per entity is 100; if more than 100 tag-values are provided this mutation will fail.
 //
-//  For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
+//	The maximum number of tag-values per entity is 100; if more than 100 tag-values are provided this mutation will fail.
+//
+//	For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
 func (a *Entities) TaggingReplaceTagsOnEntity(
 	gUID common.EntityGUID,
 	tags []TaggingTagInput,
@@ -181,9 +234,10 @@ func (a *Entities) TaggingReplaceTagsOnEntity(
 }
 
 // Replaces the entity's entire set of tags with the provided tag set.
-//  The maximum number of tag-values per entity is 100; if more than 100 tag-values are provided this mutation will fail.
 //
-//  For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
+//	The maximum number of tag-values per entity is 100; if more than 100 tag-values are provided this mutation will fail.
+//
+//	For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
 func (a *Entities) TaggingReplaceTagsOnEntityWithContext(
 	ctx context.Context,
 	gUID common.EntityGUID,
@@ -273,15 +327,18 @@ const getEntitiesQuery = `query(
 	alertSeverity
 	domain
 	entityType
+	firstIndexedAt
 	goldenMetrics {
 		context {
 			account
 			guid
 		}
 		metrics {
+			metricName
 			name
 			query
 			title
+			unit
 		}
 	}
 	goldenTags {
@@ -295,6 +352,7 @@ const getEntitiesQuery = `query(
 	}
 	guid
 	indexedAt
+	lastReportingChangeAt
 	name
 	permalink
 	recentAlertViolations {
@@ -340,6 +398,7 @@ const getEntitiesQuery = `query(
 			createdAt
 			description
 			entityGuid
+			guid
 			id
 			name
 			updatedAt
@@ -356,6 +415,10 @@ const getEntitiesQuery = `query(
 			value
 		}
 	}
+	tracingSummary {
+		errorTraceCount
+		percentOfAllErrorTraces
+	}
 	type
 	... on ApmApplicationEntity {
 		__typename
@@ -370,6 +433,11 @@ const getEntitiesQuery = `query(
 			jsErrorRate
 			pageLoadThroughput
 			pageLoadTimeAverage
+		}
+		apmSettings {
+			alias
+			originalName
+			tracerType
 		}
 		apmSummary {
 			apdexScore
@@ -393,16 +461,26 @@ const getEntitiesQuery = `query(
 			user
 		}
 		language
+		metricGroupingIssues {
+			deniedMetricsCount
+			deniedMetricsRatePerMinute
+			metricNormalizationRuleId
+			mitigated
+			mitigationRateThreshold
+			mitigationRateWindowSize
+		}
 		metricNormalizationRules {
 			action
 			applicationGuid
 			applicationName
 			createdAt
 			enabled
+			evalOrder
 			id
 			matchExpression
 			notes
 			replacement
+			terminateChain
 		}
 		recentAlertViolations {
 			agentUrl
@@ -434,6 +512,10 @@ const getEntitiesQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on ApmDatabaseInstanceEntity {
@@ -467,6 +549,10 @@ const getEntitiesQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 		vendor
 	}
@@ -505,6 +591,10 @@ const getEntitiesQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 	}
 	... on BrowserApplicationEntity {
 		__typename
@@ -515,6 +605,9 @@ const getEntitiesQuery = `query(
 		}
 		agentInstallType
 		applicationId
+		browserProperties {
+			jsLoaderScript
+		}
 		browserSummary {
 			ajaxRequestThroughput
 			ajaxResponseTimeAverage
@@ -525,16 +618,26 @@ const getEntitiesQuery = `query(
 			spaResponseTimeAverage
 			spaResponseTimeMedian
 		}
+		metricGroupingIssues {
+			deniedMetricsCount
+			deniedMetricsRatePerMinute
+			metricNormalizationRuleId
+			mitigated
+			mitigationRateThreshold
+			mitigationRateWindowSize
+		}
 		metricNormalizationRules {
 			action
 			applicationGuid
 			applicationName
 			createdAt
 			enabled
+			evalOrder
 			id
 			matchExpression
 			notes
 			replacement
+			terminateChain
 		}
 		recentAlertViolations {
 			agentUrl
@@ -566,6 +669,10 @@ const getEntitiesQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on DashboardEntity {
@@ -613,7 +720,18 @@ const getEntitiesQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 		updatedAt
+		variables {
+			isMultiSelection
+			name
+			replacementStrategy
+			title
+			type
+		}
 	}
 	... on ExternalEntity {
 		__typename
@@ -645,6 +763,10 @@ const getEntitiesQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 	}
 	... on GenericEntity {
 		__typename
@@ -675,6 +797,10 @@ const getEntitiesQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on GenericInfrastructureEntity {
@@ -708,6 +834,10 @@ const getEntitiesQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 	}
 	... on InfrastructureAwsLambdaFunctionEntity {
 		__typename
@@ -740,6 +870,10 @@ const getEntitiesQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on InfrastructureHostEntity {
@@ -780,6 +914,45 @@ const getEntitiesQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
+	}
+	... on KeyTransactionEntity {
+		__typename
+		account {
+			id
+			name
+			reportingEventTypes
+		}
+		recentAlertViolations {
+			agentUrl
+			alertSeverity
+			closedAt
+			label
+			level
+			openedAt
+			violationId
+			violationUrl
+		}
+		relatedEntities {
+			nextCursor
+		}
+		relationships {
+			type
+		}
+		tags {
+			key
+			values
+		}
+		tagsWithMetadata {
+			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 	}
 	... on MobileApplicationEntity {
 		__typename
@@ -789,16 +962,29 @@ const getEntitiesQuery = `query(
 			reportingEventTypes
 		}
 		applicationId
+		metricGroupingIssues {
+			deniedMetricsCount
+			deniedMetricsRatePerMinute
+			metricNormalizationRuleId
+			mitigated
+			mitigationRateThreshold
+			mitigationRateWindowSize
+		}
 		metricNormalizationRules {
 			action
 			applicationGuid
 			applicationName
 			createdAt
 			enabled
+			evalOrder
 			id
 			matchExpression
 			notes
 			replacement
+			terminateChain
+		}
+		mobileProperties {
+			applicationToken
 		}
 		mobileSummary {
 			appLaunchCount
@@ -834,6 +1020,10 @@ const getEntitiesQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on SecureCredentialEntity {
@@ -871,6 +1061,10 @@ const getEntitiesQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 		updatedAt
 	}
@@ -914,6 +1108,10 @@ const getEntitiesQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 	}
 	... on ThirdPartyServiceEntity {
 		__typename
@@ -945,6 +1143,10 @@ const getEntitiesQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 	}
 	... on UnavailableEntity {
 		__typename
@@ -975,6 +1177,10 @@ const getEntitiesQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on WorkloadEntity {
@@ -1013,6 +1219,10 @@ const getEntitiesQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 		updatedAt
 		workloadStatus {
@@ -1069,15 +1279,18 @@ const getEntityQuery = `query(
 	alertSeverity
 	domain
 	entityType
+	firstIndexedAt
 	goldenMetrics {
 		context {
 			account
 			guid
 		}
 		metrics {
+			metricName
 			name
 			query
 			title
+			unit
 		}
 	}
 	goldenTags {
@@ -1091,6 +1304,7 @@ const getEntityQuery = `query(
 	}
 	guid
 	indexedAt
+	lastReportingChangeAt
 	name
 	permalink
 	recentAlertViolations {
@@ -1136,6 +1350,7 @@ const getEntityQuery = `query(
 			createdAt
 			description
 			entityGuid
+			guid
 			id
 			name
 			updatedAt
@@ -1152,6 +1367,10 @@ const getEntityQuery = `query(
 			value
 		}
 	}
+	tracingSummary {
+		errorTraceCount
+		percentOfAllErrorTraces
+	}
 	type
 	... on ApmApplicationEntity {
 		__typename
@@ -1166,6 +1385,11 @@ const getEntityQuery = `query(
 			jsErrorRate
 			pageLoadThroughput
 			pageLoadTimeAverage
+		}
+		apmSettings {
+			alias
+			originalName
+			tracerType
 		}
 		apmSummary {
 			apdexScore
@@ -1189,16 +1413,26 @@ const getEntityQuery = `query(
 			user
 		}
 		language
+		metricGroupingIssues {
+			deniedMetricsCount
+			deniedMetricsRatePerMinute
+			metricNormalizationRuleId
+			mitigated
+			mitigationRateThreshold
+			mitigationRateWindowSize
+		}
 		metricNormalizationRules {
 			action
 			applicationGuid
 			applicationName
 			createdAt
 			enabled
+			evalOrder
 			id
 			matchExpression
 			notes
 			replacement
+			terminateChain
 		}
 		recentAlertViolations {
 			agentUrl
@@ -1230,6 +1464,10 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on ApmDatabaseInstanceEntity {
@@ -1263,6 +1501,10 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 		vendor
 	}
@@ -1301,6 +1543,10 @@ const getEntityQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 	}
 	... on BrowserApplicationEntity {
 		__typename
@@ -1311,6 +1557,9 @@ const getEntityQuery = `query(
 		}
 		agentInstallType
 		applicationId
+		browserProperties {
+			jsLoaderScript
+		}
 		browserSummary {
 			ajaxRequestThroughput
 			ajaxResponseTimeAverage
@@ -1321,16 +1570,26 @@ const getEntityQuery = `query(
 			spaResponseTimeAverage
 			spaResponseTimeMedian
 		}
+		metricGroupingIssues {
+			deniedMetricsCount
+			deniedMetricsRatePerMinute
+			metricNormalizationRuleId
+			mitigated
+			mitigationRateThreshold
+			mitigationRateWindowSize
+		}
 		metricNormalizationRules {
 			action
 			applicationGuid
 			applicationName
 			createdAt
 			enabled
+			evalOrder
 			id
 			matchExpression
 			notes
 			replacement
+			terminateChain
 		}
 		recentAlertViolations {
 			agentUrl
@@ -1362,6 +1621,10 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on DashboardEntity {
@@ -1409,7 +1672,18 @@ const getEntityQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 		updatedAt
+		variables {
+			isMultiSelection
+			name
+			replacementStrategy
+			title
+			type
+		}
 	}
 	... on ExternalEntity {
 		__typename
@@ -1441,6 +1715,10 @@ const getEntityQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 	}
 	... on GenericEntity {
 		__typename
@@ -1471,6 +1749,10 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on GenericInfrastructureEntity {
@@ -1504,6 +1786,10 @@ const getEntityQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 	}
 	... on InfrastructureAwsLambdaFunctionEntity {
 		__typename
@@ -1536,6 +1822,10 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on InfrastructureHostEntity {
@@ -1576,6 +1866,45 @@ const getEntityQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
+	}
+	... on KeyTransactionEntity {
+		__typename
+		account {
+			id
+			name
+			reportingEventTypes
+		}
+		recentAlertViolations {
+			agentUrl
+			alertSeverity
+			closedAt
+			label
+			level
+			openedAt
+			violationId
+			violationUrl
+		}
+		relatedEntities {
+			nextCursor
+		}
+		relationships {
+			type
+		}
+		tags {
+			key
+			values
+		}
+		tagsWithMetadata {
+			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 	}
 	... on MobileApplicationEntity {
 		__typename
@@ -1585,16 +1914,29 @@ const getEntityQuery = `query(
 			reportingEventTypes
 		}
 		applicationId
+		metricGroupingIssues {
+			deniedMetricsCount
+			deniedMetricsRatePerMinute
+			metricNormalizationRuleId
+			mitigated
+			mitigationRateThreshold
+			mitigationRateWindowSize
+		}
 		metricNormalizationRules {
 			action
 			applicationGuid
 			applicationName
 			createdAt
 			enabled
+			evalOrder
 			id
 			matchExpression
 			notes
 			replacement
+			terminateChain
+		}
+		mobileProperties {
+			applicationToken
 		}
 		mobileSummary {
 			appLaunchCount
@@ -1630,6 +1972,10 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on SecureCredentialEntity {
@@ -1667,6 +2013,10 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 		updatedAt
 	}
@@ -1710,6 +2060,10 @@ const getEntityQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 	}
 	... on ThirdPartyServiceEntity {
 		__typename
@@ -1741,6 +2095,10 @@ const getEntityQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 	}
 	... on UnavailableEntity {
 		__typename
@@ -1771,6 +2129,10 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on WorkloadEntity {
@@ -1810,6 +2172,10 @@ const getEntityQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 		updatedAt
 		workloadStatus {
 			description
@@ -1832,12 +2198,14 @@ func (a *Entities) GetEntitySearch(
 	query string,
 	queryBuilder EntitySearchQueryBuilder,
 	sortBy []EntitySearchSortCriteria,
+	sortByWithDirection []SortCriterionWithDirection,
 ) (*EntitySearch, error) {
 	return a.GetEntitySearchWithContext(context.Background(),
 		options,
 		query,
 		queryBuilder,
 		sortBy,
+		sortByWithDirection,
 	)
 }
 
@@ -1854,14 +2222,16 @@ func (a *Entities) GetEntitySearchWithContext(
 	query string,
 	queryBuilder EntitySearchQueryBuilder,
 	sortBy []EntitySearchSortCriteria,
+	sortByWithDirection []SortCriterionWithDirection,
 ) (*EntitySearch, error) {
 
 	resp := entitySearchResponse{}
 	vars := map[string]interface{}{
-		"options":      options,
-		"query":        query,
-		"queryBuilder": queryBuilder,
-		"sortBy":       sortBy,
+		"options":             options,
+		"query":               query,
+		"queryBuilder":        queryBuilder,
+		"sortBy":              sortBy,
+		"sortByWithDirection": sortByWithDirection,
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, getEntitySearchQuery, vars, &resp); err != nil {
@@ -1885,8 +2255,10 @@ const getEntitySearchQuery = `query(
 			alertSeverity
 			domain
 			entityType
+			firstIndexedAt
 			guid
 			indexedAt
+			lastReportingChangeAt
 			name
 			permalink
 			reporting
@@ -1937,156 +2309,7 @@ const getEntitySearchQuery = `query(
 			... on InfrastructureHostEntityOutline {
 				__typename
 			}
-			... on MobileApplicationEntityOutline {
-				__typename
-				applicationId
-			}
-			... on SecureCredentialEntityOutline {
-				__typename
-				description
-				secureCredentialId
-				updatedAt
-			}
-			... on SyntheticMonitorEntityOutline {
-				__typename
-				monitorId
-				monitorType
-				monitoredUrl
-				period
-			}
-			... on ThirdPartyServiceEntityOutline {
-				__typename
-			}
-			... on UnavailableEntityOutline {
-				__typename
-			}
-			... on WorkloadEntityOutline {
-				__typename
-				createdAt
-				updatedAt
-			}
-		}
-		nextCursor
-	}
-	types {
-		count
-		domain
-		entityType
-		type
-	}
-} } }`
-
-// Search for entities using a custom query.
-//
-// For more details on how to create a custom query
-// and what entity data you can request, visit our
-// [entity docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/use-new-relic-graphql-api-query-entities).
-//
-// Note: you must supply either a `query` OR a `queryBuilder` argument, not both.
-func (a *Entities) GetEntitySearchByQuery(
-	options EntitySearchOptions,
-	query string,
-	sortBy []EntitySearchSortCriteria,
-) (*EntitySearch, error) {
-	return a.GetEntitySearchByQueryWithContext(context.Background(),
-		options,
-		query,
-		sortBy,
-	)
-}
-
-// Search for entities using a custom query.
-//
-// For more details on how to create a custom query
-// and what entity data you can request, visit our
-// [entity docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/use-new-relic-graphql-api-query-entities).
-//
-// Note: you must supply either a `query` OR a `queryBuilder` argument, not both.
-func (a *Entities) GetEntitySearchByQueryWithContext(
-	ctx context.Context,
-	options EntitySearchOptions,
-	query string,
-	sortBy []EntitySearchSortCriteria,
-) (*EntitySearch, error) {
-
-	resp := entitySearchResponse{}
-	vars := map[string]interface{}{
-		"options": options,
-		"query":   query,
-		"sortBy":  sortBy,
-	}
-
-	if err := a.client.NerdGraphQueryWithContext(ctx, getEntitySearchByQuery, vars, &resp); err != nil {
-		return nil, err
-	}
-
-	return &resp.Actor.EntitySearch, nil
-}
-
-const getEntitySearchByQuery = `query(
-	$query: String,
-) { actor { entitySearch(
-	query: $query,
-) {
-	count
-	query
-	results {
-		entities {
-			__typename
-			accountId
-			alertSeverity
-			domain
-			entityType
-			guid
-			indexedAt
-			name
-			permalink
-			reporting
-			type
-			... on ApmApplicationEntityOutline {
-				__typename
-				applicationId
-				language
-			}
-			... on ApmDatabaseInstanceEntityOutline {
-				__typename
-				host
-				portOrPath
-				vendor
-			}
-			... on ApmExternalServiceEntityOutline {
-				__typename
-				host
-			}
-			... on BrowserApplicationEntityOutline {
-				__typename
-				agentInstallType
-				applicationId
-				servingApmApplicationId
-			}
-			... on DashboardEntityOutline {
-				__typename
-				createdAt
-				dashboardParentGuid
-				permissions
-				updatedAt
-			}
-			... on ExternalEntityOutline {
-				__typename
-			}
-			... on GenericEntityOutline {
-				__typename
-			}
-			... on GenericInfrastructureEntityOutline {
-				__typename
-				integrationTypeCode
-			}
-			... on InfrastructureAwsLambdaFunctionEntityOutline {
-				__typename
-				integrationTypeCode
-				runtime
-			}
-			... on InfrastructureHostEntityOutline {
+			... on KeyTransactionEntityOutline {
 				__typename
 			}
 			... on MobileApplicationEntityOutline {
