@@ -44,6 +44,8 @@ packages:
             max_query_field_depth: 5
           - name: dataPartitionRules
             max_query_field_depth: 2
+          - name: testGrok
+            max_query_field_depth: 2
     mutations:
       - name: logConfigurationsCreateObfuscationExpression
         max_query_field_depth: 3

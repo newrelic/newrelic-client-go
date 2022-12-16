@@ -853,3 +853,58 @@ const getObfuscationRulesQuery = `query(
 		name
 	}
 } } } } }`
+
+// Test a Grok pattern against a list of log lines.
+func (a *Logconfigurations) GetTestGrok(
+	accountID int,
+	grok string,
+	logLines []string,
+) (*[]LogConfigurationsGrokTestResult, error) {
+	return a.GetTestGrokWithContext(context.Background(),
+		accountID,
+		grok,
+		logLines,
+	)
+}
+
+// Test a Grok pattern against a list of log lines.
+func (a *Logconfigurations) GetTestGrokWithContext(
+	ctx context.Context,
+	accountID int,
+	grok string,
+	logLines []string,
+) (*[]LogConfigurationsGrokTestResult, error) {
+
+	resp := testGrokResponse{}
+	vars := map[string]interface{}{
+		"accountID": accountID,
+		"grok":      grok,
+		"logLines":  logLines,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, getTestGrokQuery, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	if len(resp.Actor.Account.LogConfigurations.TestGrok) == 0 {
+		return nil, errors.NewNotFound("")
+	}
+
+	return &resp.Actor.Account.LogConfigurations.TestGrok, nil
+}
+
+const getTestGrokQuery = `query(
+	$accountID: Int!,
+	$grok: String!,
+	$logLines: [String!]!,
+) { actor { account(id: $accountID) { logConfigurations { testGrok(
+	grok: $grok,
+	logLines: $logLines,
+) {
+	attributes {
+		name
+		value
+	}
+	logLine
+	matched
+} } } } }`
