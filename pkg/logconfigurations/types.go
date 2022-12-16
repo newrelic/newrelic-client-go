@@ -115,6 +115,8 @@ type LogConfigurationsAccountStitchedFields struct {
 	ObfuscationExpressions []LogConfigurationsObfuscationExpression `json:"obfuscationExpressions"`
 	// Look up for all obfuscation rules for a given account.
 	ObfuscationRules []LogConfigurationsObfuscationRule `json:"obfuscationRules"`
+	// Test a Grok pattern against a list of log lines.
+	TestGrok []LogConfigurationsGrokTestResult `json:"testGrok"`
 }
 
 // LogConfigurationsCreateDataPartitionRuleError - Expected errors as a result of creating a new data partition rule.
@@ -239,6 +241,24 @@ type LogConfigurationsDataPartitionRuleMutationError struct {
 type LogConfigurationsDeleteDataPartitionRuleResponse struct {
 	// List of errors, if any.
 	Errors []LogConfigurationsDataPartitionRuleMutationError `json:"errors,omitempty"`
+}
+
+// LogConfigurationsGrokTestExtractedAttribute - An attribute that was extracted from a Grok test.
+type LogConfigurationsGrokTestExtractedAttribute struct {
+	// The attribute name.
+	Name string `json:"name"`
+	// A string representation of the extracted value (which might not be a String).
+	Value string `json:"value"`
+}
+
+// LogConfigurationsGrokTestResult - The result of testing Grok on a log line.
+type LogConfigurationsGrokTestResult struct {
+	// Any attributes that were extracted.
+	Attributes []LogConfigurationsGrokTestExtractedAttribute `json:"attributes"`
+	// The log line that was tested against.
+	LogLine string `json:"logLine"`
+	// Whether the Grok pattern matched.
+	Matched bool `json:"matched"`
 }
 
 // LogConfigurationsObfuscationAction - Application of an obfuscation expression with specific a replacement method.
@@ -380,6 +400,10 @@ type obfuscationExpressionsResponse struct {
 }
 
 type obfuscationRulesResponse struct {
+	Actor Actor `json:"actor"`
+}
+
+type testGrokResponse struct {
 	Actor Actor `json:"actor"`
 }
 
