@@ -383,6 +383,12 @@ packages:
         field_type_override: "*DashboardPieWidgetConfigurationInput"
       - name: DashboardTableWidgetConfigurationInput
         field_type_override: "*DashboardTableWidgetConfigurationInput"
+      - name: DashboardVariableDefaultValueInput
+        field_type_override: "*DashboardVariableDefaultValueInput"
+      - name: DashboardVariableDefaultItemInput
+        field_type_override: "*DashboardVariableDefaultItemInput"
+      - name: DashboardVariableNRQLQueryInput
+        field_type_override: "*DashboardVariableNRQLQueryInput"
 
       # Override this in type_overrides.go
       - name: DashboardBillboardWidgetThresholdInput

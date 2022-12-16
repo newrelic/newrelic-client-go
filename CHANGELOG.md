@@ -1,3 +1,11 @@
+<a name="v2.8.0"></a>
+## [v2.8.0] - 2022-12-14
+### Bug Fixes
+- **dashboards:** make some fields on variables nullable
+
+### Features
+- **workflows:** support a new flag to optionally disable channel deletion on workflow updates/deletes
+
 <a name="v2.7.0"></a>
 ## [v2.7.0] - 2022-12-06
 ### Bug Fixes
@@ -1517,7 +1525,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.7.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.8.0...HEAD
+[v2.8.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.7.0...v2.8.0
 [v2.7.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.6.1...v2.7.0
 [v2.6.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.6.0...v2.6.1
 [v2.6.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.5.0...v2.6.0
