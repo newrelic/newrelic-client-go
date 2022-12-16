@@ -374,11 +374,11 @@ type AiWorkflowsCreateWorkflowInput struct {
 	// destinationConfigurations
 	DestinationConfigurations []AiWorkflowsDestinationConfigurationInput `json:"destinationConfigurations,omitempty"`
 	// destinationsEnabled
-	DestinationsEnabled bool `json:"destinationsEnabled,omitempty"`
+	DestinationsEnabled bool `json:"destinationsEnabled"`
 	// enrichments
 	Enrichments *AiWorkflowsEnrichmentsInput `json:"enrichments,omitempty"`
 	// enrichmentsEnabled
-	EnrichmentsEnabled bool `json:"enrichmentsEnabled,omitempty"`
+	EnrichmentsEnabled bool `json:"enrichmentsEnabled"`
 	// issuesFilter
 	IssuesFilter AiWorkflowsFilterInput `json:"issuesFilter,omitempty"`
 	// mutingRulesHandling
@@ -386,7 +386,7 @@ type AiWorkflowsCreateWorkflowInput struct {
 	// name
 	Name string `json:"name"`
 	// workflowEnabled
-	WorkflowEnabled bool `json:"workflowEnabled,omitempty"`
+	WorkflowEnabled bool `json:"workflowEnabled"`
 }
 
 // AiWorkflowsCreateWorkflowResponse - Create workflow mutation response including errors
