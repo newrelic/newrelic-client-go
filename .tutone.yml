@@ -46,6 +46,8 @@ packages:
             max_query_field_depth: 2
           - name: testGrok
             max_query_field_depth: 2
+          - name: parsingRules
+            max_query_field_depth: 2
     mutations:
       - name: logConfigurationsCreateObfuscationExpression
         max_query_field_depth: 3
@@ -65,6 +67,12 @@ packages:
         max_query_field_depth: 3
       - name: logConfigurationsDeleteDataPartitionRule
         max_query_field_depth: 3
+      - name: logConfigurationsCreateParsingRule
+        max_query_field_depth: 2
+      - name: logConfigurationsUpdateParsingRule
+        max_query_field_depth: 2
+      - name: logConfigurationsDeleteParsingRule
+        max_query_field_depth: 2
     types:
       - name: LogConfigurationsDataPartitionRuleMatchingCriteriaInput
         field_type_override: "*LogConfigurationsDataPartitionRuleMatchingCriteriaInput"
@@ -74,6 +82,8 @@ packages:
       - name: DateTime
         field_type_override: nrtime.DateTime
         skip_type_create: true
+      - name: LogConfigurationsParsingRule
+        field_type_override: "*LogConfigurationsParsingRule"
 
   - name: synthetics
     path: pkg/synthetics
