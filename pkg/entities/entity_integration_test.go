@@ -257,6 +257,24 @@ func TestIntegrationGetEntity_MobileEntity(t *testing.T) {
 
 }
 
+func TestIntegrationGetEntity_SyntheticsEntity(t *testing.T) {
+	t.Parallel()
+
+	client := newIntegrationTestClient(t)
+
+	result, err := client.GetEntity("MjUyMDUyOHxTWU5USHxNT05JVE9SfDViZjE3ODgwLTNhYjQtNGEyNC04ODFiLTI2YmU0OTA4NDk2Yg")
+	if e, ok := err.(*http.GraphQLErrorResponse); ok {
+		if !e.IsDeprecated() {
+			require.NoError(t, e)
+		}
+	}
+	require.NotNil(t, result)
+
+	actual := (*result).(*SyntheticMonitorEntity)
+	require.NotNil(t, actual)
+
+}
+
 func newIntegrationTestClient(t *testing.T) Entities {
 	tc := mock.NewIntegrationTestConfig(t)
 
