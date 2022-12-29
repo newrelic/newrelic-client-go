@@ -60,6 +60,26 @@ func TestInstallationCreateRecipeEvent_ShouldSendMetadata(t *testing.T) {
 	}
 }
 
+func TestInstallationCreateInstallStatus(t *testing.T) {
+	t.Parallel()
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	client := newIntegrationTestClient(t)
+
+	status := InstallationInstallStatusInput{
+		CliVersion: "0.0.1",
+		State:      InstallationInstallStateTypeTypes.COMPLETED,
+	}
+
+	response, err := client.InstallationCreateInstallStatus(testAccountID, status)
+	require.NotNil(t, response)
+	require.NoError(t, err)
+}
+
 func newIntegrationTestClient(t *testing.T) Installevents {
 	tc := mock.NewIntegrationTestConfig(t)
 

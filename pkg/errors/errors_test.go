@@ -62,7 +62,7 @@ func TestInvalidInput(t *testing.T) {
 func TestInvalidInputWithOptionalMsg(t *testing.T) {
 	t.Parallel()
 
-	e := NewInvalidInput("oops")
+	e := NewInvalidInput("oopsies")
 
-	assert.Equal(t, e.Error(), "oops")
+	assert.Equal(t, e.Error(), "oopsies")
 }

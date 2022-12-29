@@ -106,7 +106,7 @@ func TestServiceLevel_GoodOrBadEventsRequiredError(t *testing.T) {
 		},
 		Objectives: []ServiceLevelObjectiveCreateInput{
 			{
-				Name:        "intgration-test-sli-objective",
+				Name:        "intgration-test-sli-test-objective",
 				Description: "testing",
 				Target:      1.1,
 				TimeWindow: ServiceLevelObjectiveTimeWindowCreateInput{
