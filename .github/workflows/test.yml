@@ -59,12 +59,12 @@ jobs:
             ${{ runner.os }}-go-
 
       - name: Unit Tests
-        run: make test-unit
+        run: make test-unit coverage-report-unit
 
       - name: Report unit test coverage via Codecov
         uses: codecov/codecov-action@v3
         with:
-          files: ./coverage/unit.tmp
+          files: ./coverage/unit.html
           flags: unit
 
       # - name: New Relic JUnit Reporter
@@ -100,7 +100,7 @@ jobs:
 
       - name: Integration Tests
         if: github.event.pull_request.head.repo.full_name == github.repository
-        run: make test-integration
+        run: make test-integration coverage-report-integration
         env:
           NEW_RELIC_ACCOUNT_ID: ${{ secrets.NEW_RELIC_ACCOUNT_ID }}
           NEW_RELIC_ADMIN_API_KEY: ${{ secrets.NEW_RELIC_ADMIN_API_KEY }}
@@ -113,7 +113,7 @@ jobs:
       - name: Report integration test coverage via Codecov
         uses: codecov/codecov-action@v3
         with:
-          files: ./coverage/integration.tmp
+          files: ./coverage/integration.html
           flags: integration
 
       # - name: New Relic JUnit Reporter
