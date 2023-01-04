@@ -42,3 +42,27 @@ func TestErrorUnauthorized(t *testing.T) {
 	assert.Equal(t, 401, e.statusCode)
 	assert.True(t, strings.Contains(e.Error(), "Invalid credentials provided"))
 }
+
+func TestErrorMaxRetriesReached(t *testing.T) {
+	t.Parallel()
+
+	e := NewMaxRetriesReached("2")
+
+	assert.Equal(t, e.Error(), "maximum retries reached: 2")
+}
+
+func TestInvalidInput(t *testing.T) {
+	t.Parallel()
+
+	e := NewInvalidInput("")
+
+	assert.Equal(t, e.Error(), "invalid input error")
+}
+
+func TestInvalidInputWithOptionalMsg(t *testing.T) {
+	t.Parallel()
+
+	e := NewInvalidInput("oopsies")
+
+	assert.Equal(t, e.Error(), "oopsies")
+}

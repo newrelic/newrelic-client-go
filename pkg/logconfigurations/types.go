@@ -85,6 +85,29 @@ var LogConfigurationsObfuscationMethodTypes = struct {
 	MASK: "MASK",
 }
 
+// LogConfigurationsParsingRuleMutationErrorType - Expected default error types as result of mutating an existing parsing rule.
+type LogConfigurationsParsingRuleMutationErrorType string
+
+var LogConfigurationsParsingRuleMutationErrorTypeTypes = struct {
+	// Invalid Grok
+	INVALID_GROK LogConfigurationsParsingRuleMutationErrorType
+	// Number format error. ID should be convertible to int.
+	INVALID_ID LogConfigurationsParsingRuleMutationErrorType
+	// Invalid NRQL
+	INVALID_NRQL LogConfigurationsParsingRuleMutationErrorType
+	// Couldn't find the specified parsing rule.
+	NOT_FOUND LogConfigurationsParsingRuleMutationErrorType
+}{
+	// Invalid Grok
+	INVALID_GROK: "INVALID_GROK",
+	// Number format error. ID should be convertible to int.
+	INVALID_ID: "INVALID_ID",
+	// Invalid NRQL
+	INVALID_NRQL: "INVALID_NRQL",
+	// Couldn't find the specified parsing rule.
+	NOT_FOUND: "NOT_FOUND",
+}
+
 // Account - The `Account` object provides general data about the account, as well as
 // being the entry point into more detailed data about a single account.
 //
@@ -115,6 +138,10 @@ type LogConfigurationsAccountStitchedFields struct {
 	ObfuscationExpressions []LogConfigurationsObfuscationExpression `json:"obfuscationExpressions"`
 	// Look up for all obfuscation rules for a given account.
 	ObfuscationRules []LogConfigurationsObfuscationRule `json:"obfuscationRules"`
+	// Look up for all parsing rules for a given account.
+	ParsingRules []*LogConfigurationsParsingRule `json:"parsingRules"`
+	// Test a Grok pattern against a list of log lines.
+	TestGrok []LogConfigurationsGrokTestResult `json:"testGrok"`
 }
 
 // LogConfigurationsCreateDataPartitionRuleError - Expected errors as a result of creating a new data partition rule.
@@ -181,6 +208,14 @@ type LogConfigurationsCreateObfuscationRuleInput struct {
 	Name string `json:"name"`
 }
 
+// LogConfigurationsCreateParsingRuleResponse - The result after creating a new parsing rule.
+type LogConfigurationsCreateParsingRuleResponse struct {
+	// List of errors, if any.
+	Errors []LogConfigurationsParsingRuleMutationError `json:"errors,omitempty"`
+	// The created parsing rule.
+	Rule *LogConfigurationsParsingRule `json:"rule,omitempty"`
+}
+
 // LogConfigurationsDataPartitionRule - The data partition rule for an account.
 type LogConfigurationsDataPartitionRule struct {
 	// Identifies the date and time when the rule was created.
@@ -241,6 +276,30 @@ type LogConfigurationsDeleteDataPartitionRuleResponse struct {
 	Errors []LogConfigurationsDataPartitionRuleMutationError `json:"errors,omitempty"`
 }
 
+// LogConfigurationsDeleteParsingRuleResponse - The result after deleting a parsing rule.
+type LogConfigurationsDeleteParsingRuleResponse struct {
+	// List of errors, if any.
+	Errors []LogConfigurationsParsingRuleMutationError `json:"errors,omitempty"`
+}
+
+// LogConfigurationsGrokTestExtractedAttribute - An attribute that was extracted from a Grok test.
+type LogConfigurationsGrokTestExtractedAttribute struct {
+	// The attribute name.
+	Name string `json:"name"`
+	// A string representation of the extracted value (which might not be a String).
+	Value string `json:"value"`
+}
+
+// LogConfigurationsGrokTestResult - The result of testing Grok on a log line.
+type LogConfigurationsGrokTestResult struct {
+	// Any attributes that were extracted.
+	Attributes []LogConfigurationsGrokTestExtractedAttribute `json:"attributes"`
+	// The log line that was tested against.
+	LogLine string `json:"logLine"`
+	// Whether the Grok pattern matched.
+	Matched bool `json:"matched"`
+}
+
 // LogConfigurationsObfuscationAction - Application of an obfuscation expression with specific a replacement method.
 type LogConfigurationsObfuscationAction struct {
 	// Log record attributes to apply this expression to. An empty list applies the action to all the attributes.
@@ -295,6 +354,58 @@ type LogConfigurationsObfuscationRule struct {
 	UpdatedAt nrtime.DateTime `json:"updatedAt"`
 	// Identifies the user who has last updated the rule.
 	UpdatedBy UserReference `json:"updatedBy,omitempty"`
+}
+
+// LogConfigurationsParsingRule - A parsing rule for an account.
+type LogConfigurationsParsingRule struct {
+	// The account id associated with the rule.
+	AccountID int `json:"accountId"`
+	// The parsing rule will apply to value of this attribute.
+	Attribute string `json:"attribute"`
+	// Identifies the user who has created the rule.
+	CreatedBy UserReference `json:"createdBy,omitempty"`
+	// Whether or not this rule is deleted.
+	Deleted bool `json:"deleted"`
+	// A description of what this parsing rule represents.
+	Description string `json:"description"`
+	// Whether or not this rule is enabled.
+	Enabled bool `json:"enabled"`
+	// The Grok of what to parse.
+	Grok string `json:"grok"`
+	// Unique parsing rule identifier.
+	ID string `json:"id"`
+	// The Lucene to match events to the parsing rule.
+	Lucene string `json:"lucene"`
+	// The NRQL to match events to the parsing rule.
+	NRQL NRQL `json:"nrql"`
+	// Identifies the date and time when the rule was last updated.
+	UpdatedAt nrtime.DateTime `json:"updatedAt,omitempty"`
+	// Identifies the user who has last updated the rule.
+	UpdatedBy UserReference `json:"updatedBy,omitempty"`
+}
+
+// LogConfigurationsParsingRuleConfiguration - A new parsing rule.
+type LogConfigurationsParsingRuleConfiguration struct {
+	// The parsing rule will apply to value of this attribute. If field is not provided, value will default to message.
+	Attribute string `json:"attribute,omitempty"`
+	// A description of what this parsing rule represents.
+	Description string `json:"description"`
+	// Whether or not this rule is enabled.
+	Enabled bool `json:"enabled"`
+	// The Grok of what to parse.
+	Grok string `json:"grok"`
+	// The Lucene to match events to the parsing rule.
+	Lucene string `json:"lucene"`
+	// The NRQL to match events to the parsing rule.
+	NRQL NRQL `json:"nrql"`
+}
+
+// LogConfigurationsParsingRuleMutationError - Expected errors as a result of mutating a parsing rule.
+type LogConfigurationsParsingRuleMutationError struct {
+	// The message with the error cause.
+	Message string `json:"message,omitempty"`
+	// Type of error.
+	Type LogConfigurationsParsingRuleMutationErrorType `json:"type,omitempty"`
 }
 
 // LogConfigurationsUpdateDataPartitionRuleInput - An object for updating an existing data partition rule.
@@ -359,6 +470,14 @@ type LogConfigurationsUpdateObfuscationRuleInput struct {
 	Name string `json:"name,omitempty"`
 }
 
+// LogConfigurationsUpdateParsingRuleResponse - The result after updating a parsing rule.
+type LogConfigurationsUpdateParsingRuleResponse struct {
+	// List of errors, if any.
+	Errors []LogConfigurationsParsingRuleMutationError `json:"errors,omitempty"`
+	// The updated parsing rule.
+	Rule *LogConfigurationsParsingRule `json:"rule,omitempty"`
+}
+
 // UserReference - The `UserReference` object provides basic identifying information about the user.
 type UserReference struct {
 	//
@@ -380,6 +499,14 @@ type obfuscationExpressionsResponse struct {
 }
 
 type obfuscationRulesResponse struct {
+	Actor Actor `json:"actor"`
+}
+
+type parsingRulesResponse struct {
+	Actor Actor `json:"actor"`
+}
+
+type testGrokResponse struct {
 	Actor Actor `json:"actor"`
 }
 
