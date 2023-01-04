@@ -8,7 +8,7 @@ TEST_RUNNER  ?= gotestsum
 COVERAGE_DIR ?= ./coverage/
 COVERMODE    ?= atomic
 SRCDIR       ?= .
-GO_PKGS      ?= $(shell $(GO) list ./... | grep -v -e "/vendor/" -e "/example")
+GO_PKGS      ?= $(shell $(GO) list ./... | grep -v -e "/vendor/" -e "/example" -e "/testhelpers")
 
 PROJECT_MODULE ?= $(shell $(GO) list -m)
 
@@ -38,9 +38,25 @@ cover-report:
 	@echo "=== $(PROJECT_NAME) === [ cover-report     ]: generating coverage results..."
 	@mkdir -p $(COVERAGE_DIR)
 	@echo 'mode: $(COVERMODE)' > $(COVERAGE_DIR)/coverage.out
-	@cat $(COVERAGE_DIR)/*.tmp | grep -v 'mode: $(COVERMODE)' >> $(COVERAGE_DIR)/coverage.out || true
+	@cat $(COVERAGE_DIR)/*.tmp | grep -v 'mode: $(COVERMODE)' | grep -v -e "types.go" >> $(COVERAGE_DIR)/coverage.out || true
 	@$(GO) tool cover -html=$(COVERAGE_DIR)/coverage.out -o $(COVERAGE_DIR)/coverage.html
 	@echo "=== $(PROJECT_NAME) === [ cover-report     ]:     $(COVERAGE_DIR)coverage.html"
+
+coverage-report-unit:
+	@echo "=== $(PROJECT_NAME) === [ cover-report     ]: generating coverage results..."
+	@mkdir -p $(COVERAGE_DIR)
+	@echo 'mode: $(COVERMODE)' > $(COVERAGE_DIR)/unit.out
+	@cat $(COVERAGE_DIR)/*.tmp | grep -v 'mode: $(COVERMODE)' | grep -v -e "types.go" >> $(COVERAGE_DIR)/unit.out || true
+	@$(GO) tool cover -html=$(COVERAGE_DIR)/unit.out -o $(COVERAGE_DIR)/unit.html
+	@echo "=== $(PROJECT_NAME) === [ cover-report     ]:     $(COVERAGE_DIR)unit.html"
+
+coverage-report-integration:
+	@echo "=== $(PROJECT_NAME) === [ cover-report     ]: generating coverage results..."
+	@mkdir -p $(COVERAGE_DIR)
+	@echo 'mode: $(COVERMODE)' > $(COVERAGE_DIR)/integration.out
+	@cat $(COVERAGE_DIR)/integration.tmp | grep -v 'mode: $(COVERMODE)' | grep -v -e "types.go" >> $(COVERAGE_DIR)/integration.out || true
+	@$(GO) tool cover -html=$(COVERAGE_DIR)/integration.out -o $(COVERAGE_DIR)/integration.html
+	@echo "=== $(PROJECT_NAME) === [ cover-report     ]:     $(COVERAGE_DIR)integration.html"
 
 cover-view: cover-report
 	@$(GO) tool cover -html=$(COVERAGE_DIR)/coverage.out
