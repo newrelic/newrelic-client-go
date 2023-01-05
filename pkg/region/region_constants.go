@@ -86,25 +86,25 @@ func Parse(r string) (Name, error) {
 func Get(r Name) (*Region, error) {
 	if reg, ok := Regions[r]; ok {
 		ret := *reg // Make a copy
-		if val := os.Getenv("NEWRELIC_INFRASTRUCTURE_BASE_URL"); val != "" {
+		if val := os.Getenv("NEW_RELIC_INFRASTRUCTURE_BASE_URL"); val != "" {
 			ret.infrastructureBaseURL = val
 		}
-		if val := os.Getenv("NEWRELIC_INSIGHTS_BASE_URL"); val != "" {
+		if val := os.Getenv("NEW_RELIC_INSIGHTS_BASE_URL"); val != "" {
 			ret.insightsBaseURL = val
 		}
-		if val := os.Getenv("NEWRELIC_INSIGHTS_KEY_BASE_URL"); val != "" {
+		if val := os.Getenv("NEW_RELIC_INSIGHTS_KEY_BASE_URL"); val != "" {
 			ret.insightsKeysBaseURL = val
 		}
-		if val := os.Getenv("NEWRELIC_LOGS_BASE_URL"); val != "" {
+		if val := os.Getenv("NEW_RELIC_LOGS_BASE_URL"); val != "" {
 			ret.logsBaseURL = val
 		}
-		if val := os.Getenv("NEWRELIC_NERDGRAPH_BASE_URL"); val != "" {
+		if val := os.Getenv("NEW_RELIC_NERDGRAPH_BASE_URL"); val != "" {
 			ret.nerdGraphBaseURL = val
 		}
-		if val := os.Getenv("NEWRELIC_REST_BASE_URL"); val != "" {
+		if val := os.Getenv("NEW_RELIC_REST_BASE_URL"); val != "" {
 			ret.restBaseURL = val
 		}
-		if val := os.Getenv("NEWRELIC_SYNTHETICS_BASE_URL"); val != "" {
+		if val := os.Getenv("NEW_RELIC_SYNTHETICS_BASE_URL"); val != "" {
 			ret.syntheticsBaseURL = val
 		}
 		return &ret, nil
