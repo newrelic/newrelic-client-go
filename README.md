@@ -43,7 +43,7 @@ Follow the steps below to add `github.com/newrelic/newrelic-client-go` as a depe
     ```go
     package main
 
-    import "github.com/newrelic/newrelic-client-go/newrelic"
+    import "github.com/newrelic/newrelic-client-go/v2/newrelic"
 
     func main() {
       // Initialize the client.
@@ -62,7 +62,7 @@ Follow the steps below to add `github.com/newrelic/newrelic-client-go` as a depe
     go 1.18
 
     require (
-      github.com/newrelic/newrelic-client-go v0.80.0
+      github.com/newrelic/newrelic-client-go/v2 v2.0.1
     )
     ```
 5. The example below demonstrates fetching New Relic entities.
@@ -75,8 +75,8 @@ Follow the steps below to add `github.com/newrelic/newrelic-client-go` as a depe
 
       log "github.com/sirupsen/logrus"
 
-      "github.com/newrelic/newrelic-client-go/newrelic"
-      "github.com/newrelic/newrelic-client-go/pkg/entities"
+      "github.com/newrelic/newrelic-client-go/v2/newrelic"
+      "github.com/newrelic/newrelic-client-go/v2/pkg/entities"
     )
 
     func main() {
@@ -111,7 +111,7 @@ Follow the steps below to add `github.com/newrelic/newrelic-client-go` as a depe
 
 1. Run the following command to tell Go to download the latest version.
    ```
-   go get github.com/newrelic/newrelic-client-go@latest
+   go get github.com/newrelic/newrelic-client-go/v2@latest
    ```
 2. Run `go mod tidy` to sync your dependencies with your code.
 3. Confirm your `go.mod` file is referencing the [latest version](https://github.com/newrelic/newrelic-client-go/releases/latest).

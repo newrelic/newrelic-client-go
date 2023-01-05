@@ -1,4 +1,4 @@
-module github.com/newrelic/newrelic-client-go/tools
+module github.com/newrelic/newrelic-client-go/v2/tools
 
 go 1.18
 
@@ -13,7 +13,7 @@ require (
 	github.com/psampaz/go-mod-outdated v0.8.0
 	github.com/stretchr/testify v1.7.1
 	github.com/x-motemen/gobump v0.2.0
-	golang.org/x/tools v0.1.9
+	golang.org/x/tools v0.1.10
 	gotest.tools/gotestsum v1.7.0
 )
 
@@ -270,7 +270,7 @@ require (
 	go.opencensus.io v0.23.0 // indirect
 	gocloud.dev v0.24.0 // indirect
 	golang.org/x/crypto v0.0.0-20220307211146-efcb8507fb70 // indirect
-	golang.org/x/mod v0.5.1 // indirect
+	golang.org/x/mod v0.6.0-dev.0.20220106191415-9b9b3d81d5e3 // indirect
 	golang.org/x/net v0.0.0-20220127200216-cd36cc0744dd // indirect
 	golang.org/x/oauth2 v0.0.0-20211104180415-d3ed0bb246c8 // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect

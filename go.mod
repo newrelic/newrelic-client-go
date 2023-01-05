@@ -1,4 +1,4 @@
-module github.com/newrelic/newrelic-client-go
+module github.com/newrelic/newrelic-client-go/v2
 
 go 1.18
 
@@ -9,8 +9,9 @@ require (
 	github.com/imdario/mergo v0.3.12
 	github.com/mitchellh/mapstructure v1.4.3
 	github.com/sirupsen/logrus v1.8.1
-	github.com/stretchr/testify v1.7.0
+	github.com/stretchr/testify v1.7.1
 	github.com/tomnomnom/linkheader v0.0.0-20180905144013-02ca5825eb80
+	github.com/valyala/fastjson v1.6.3
 )
 
 require (

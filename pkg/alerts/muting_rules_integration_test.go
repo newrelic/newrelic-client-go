@@ -9,7 +9,8 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	nr "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/errors"
+	nr "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
 func TestIntegrationAlertsMutingRules(t *testing.T) {
@@ -77,8 +78,14 @@ func TestIntegrationAlertsMutingRules(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, updateResult)
 
-	// Test: delete
+	// Test: Delete
 	err = a.DeleteMutingRule(accountID, createResult.ID)
 	require.NoError(t, err)
 
+	// Test: Not found
+	getResult, err = a.GetMutingRule(accountID, createResult.ID)
+	require.Error(t, err)
+	require.Nil(t, getResult)
+	_, ok := err.(*errors.NotFound)
+	require.True(t, ok)
 }

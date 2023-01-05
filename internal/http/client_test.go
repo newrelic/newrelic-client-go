@@ -11,15 +11,15 @@ import (
 	"testing"
 	"time"
 
-	"github.com/newrelic/newrelic-client-go/pkg/contextkeys"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/contextkeys"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/newrelic/newrelic-client-go/pkg/config"
-	"github.com/newrelic/newrelic-client-go/pkg/errors"
-	"github.com/newrelic/newrelic-client-go/pkg/logging"
-	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/config"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/errors"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/logging"
+	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
 const (
@@ -350,6 +350,24 @@ func TestErrNotFound(t *testing.T) {
 	_, err := c.Get(c.config.Region().RestURL("path"), nil, nil)
 
 	assert.IsType(t, &errors.NotFound{}, err)
+}
+
+func TestRetryOnNerdGraphTooManyRequests(t *testing.T) {
+	t.Parallel()
+	attempts := 0
+	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`{"errors":[{"message": "some error", "extensions":{"errorClass":"TOO_MANY_REQUESTS"}}]}`))
+		attempts++
+	}))
+
+	c.client.RetryWaitMax = 10 * time.Millisecond
+	c.errorValue = &GraphQLErrorResponse{}
+	_, err := c.Get(c.config.Region().NerdGraphURL("graphql"), nil, nil)
+
+	assert.Equal(t, 4, attempts)
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), ErrClassTooManyRequests.Error())
 }
 
 func TestRetryOnNerdGraphTimeout(t *testing.T) {

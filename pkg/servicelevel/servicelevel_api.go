@@ -4,8 +4,8 @@ package servicelevel
 import (
 	"context"
 
-	"github.com/newrelic/newrelic-client-go/pkg/common"
-	"github.com/newrelic/newrelic-client-go/pkg/errors"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/common"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/errors"
 )
 
 // Creates a new SLI.
@@ -66,17 +66,30 @@ const ServiceLevelCreateMutation = `mutation(
 		}
 		badEvents {
 			from
+			select {
+				attribute
+				function
+			}
 			where
 		}
 		goodEvents {
 			from
+			select {
+				attribute
+				function
+			}
 			where
 		}
 		validEvents {
 			from
+			select {
+				attribute
+				function
+			}
 			where
 		}
 	}
+	guid
 	id
 	name
 	objectives {
@@ -99,24 +112,26 @@ const ServiceLevelCreateMutation = `mutation(
 	}
 } }`
 
-// Deletes an existing SLI by the ID.
+// Deletes an existing SLI by the GUID.
+// iD optional field manually removed in favor of gUID to favor it's deprecation
 func (a *Servicelevel) ServiceLevelDelete(
-	iD string,
+	gUID common.EntityGUID,
 ) (*ServiceLevelIndicator, error) {
 	return a.ServiceLevelDeleteWithContext(context.Background(),
-		iD,
+		gUID,
 	)
 }
 
-// Deletes an existing SLI by the ID.
+// Deletes an existing SLI by the GUID.
+// iD optional field manually removed in favor of gUID to favor it's deprecation
 func (a *Servicelevel) ServiceLevelDeleteWithContext(
 	ctx context.Context,
-	iD string,
+	gUID common.EntityGUID,
 ) (*ServiceLevelIndicator, error) {
 
 	resp := ServiceLevelDeleteQueryResponse{}
 	vars := map[string]interface{}{
-		"id": iD,
+		"guid": gUID,
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, ServiceLevelDeleteMutation, vars, &resp); err != nil {
@@ -130,10 +145,11 @@ type ServiceLevelDeleteQueryResponse struct {
 	ServiceLevelIndicator ServiceLevelIndicator `json:"ServiceLevelDelete"`
 }
 
+// id optional field manually removed in favor of guid to favor it's deprecation
 const ServiceLevelDeleteMutation = `mutation(
-	$id: ID!,
+	$guid: EntityGuid,
 ) { serviceLevelDelete(
-	id: $id,
+	guid: $guid,
 ) {
 	createdAt
 	createdBy {
@@ -151,17 +167,30 @@ const ServiceLevelDeleteMutation = `mutation(
 		}
 		badEvents {
 			from
+			select {
+				attribute
+				function
+			}
 			where
 		}
 		goodEvents {
 			from
+			select {
+				attribute
+				function
+			}
 			where
 		}
 		validEvents {
 			from
+			select {
+				attribute
+				function
+			}
 			where
 		}
 	}
+	guid
 	id
 	name
 	objectives {
@@ -184,27 +213,29 @@ const ServiceLevelDeleteMutation = `mutation(
 	}
 } }`
 
-// Updates an existing SLI by the ID.
+// Updates an existing SLI by the GUID.
+// iD optional field manually removed in favor of gUID to favor it's deprecation
 func (a *Servicelevel) ServiceLevelUpdate(
-	iD string,
+	gUID common.EntityGUID,
 	indicator ServiceLevelIndicatorUpdateInput,
 ) (*ServiceLevelIndicator, error) {
 	return a.ServiceLevelUpdateWithContext(context.Background(),
-		iD,
+		gUID,
 		indicator,
 	)
 }
 
-// Updates an existing SLI by the ID.
+// Updates an existing SLI by the GUID.
+// iD optional field manually removed in favor of gUID to favor it's deprecation
 func (a *Servicelevel) ServiceLevelUpdateWithContext(
 	ctx context.Context,
-	iD string,
+	gUID common.EntityGUID,
 	indicator ServiceLevelIndicatorUpdateInput,
 ) (*ServiceLevelIndicator, error) {
 
 	resp := ServiceLevelUpdateQueryResponse{}
 	vars := map[string]interface{}{
-		"id":        iD,
+		"guid":      gUID,
 		"indicator": indicator,
 	}
 
@@ -219,11 +250,12 @@ type ServiceLevelUpdateQueryResponse struct {
 	ServiceLevelIndicator ServiceLevelIndicator `json:"ServiceLevelUpdate"`
 }
 
+// id optional field manually removed in favor of guid to favor it's deprecation
 const ServiceLevelUpdateMutation = `mutation(
-	$id: ID!,
+	$guid: EntityGuid,
 	$indicator: ServiceLevelIndicatorUpdateInput!,
 ) { serviceLevelUpdate(
-	id: $id,
+	guid: $guid,
 	indicator: $indicator,
 ) {
 	createdAt
@@ -242,17 +274,30 @@ const ServiceLevelUpdateMutation = `mutation(
 		}
 		badEvents {
 			from
+			select {
+				attribute
+				function
+			}
 			where
 		}
 		goodEvents {
 			from
+			select {
+				attribute
+				function
+			}
 			where
 		}
 		validEvents {
 			from
+			select {
+				attribute
+				function
+			}
 			where
 		}
 	}
+	guid
 	id
 	name
 	objectives {
@@ -325,17 +370,30 @@ const getIndicatorsQuery = `query(
 		}
 		badEvents {
 			from
+			select {
+				attribute
+				function
+			}
 			where
 		}
 		goodEvents {
 			from
+			select {
+				attribute
+				function
+			}
 			where
 		}
 		validEvents {
 			from
+			select {
+				attribute
+				function
+			}
 			where
 		}
 	}
+	guid
 	id
 	name
 	objectives {
@@ -349,7 +407,6 @@ const getIndicatorsQuery = `query(
 			}
 		}
 	}
-	slug
 	updatedAt
 	updatedBy {
 		email

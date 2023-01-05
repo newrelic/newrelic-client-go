@@ -2,35 +2,35 @@
 package dashboards
 
 import (
-	"github.com/newrelic/newrelic-client-go/pkg/common"
-	"github.com/newrelic/newrelic-client-go/pkg/entities"
-	"github.com/newrelic/newrelic-client-go/pkg/nrdb"
-	"github.com/newrelic/newrelic-client-go/pkg/nrtime"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/common"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/entities"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/nrdb"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/nrtime"
 )
 
-// DashboardCreateErrorType - Expected error types that can be returned by create operation
+// DashboardCreateErrorType - Expected error types that can be returned by create operation.
 type DashboardCreateErrorType string
 
 var DashboardCreateErrorTypeTypes = struct {
-	// Invalid input error
+	// Invalid input error.
 	INVALID_INPUT DashboardCreateErrorType
 }{
-	// Invalid input error
+	// Invalid input error.
 	INVALID_INPUT: "INVALID_INPUT",
 }
 
-// DashboardDeleteErrorType - Expected error types that can be returned by delete operation
+// DashboardDeleteErrorType - Expected error types that can be returned by delete operation.
 type DashboardDeleteErrorType string
 
 var DashboardDeleteErrorTypeTypes = struct {
-	// Dashboard not found in the system
+	// Dashboard not found in the system.
 	DASHBOARD_NOT_FOUND DashboardDeleteErrorType
-	// User is not allowed to execute the operation
+	// User is not allowed to execute the operation.
 	FORBIDDEN_OPERATION DashboardDeleteErrorType
 }{
-	// Dashboard not found in the system
+	// Dashboard not found in the system.
 	DASHBOARD_NOT_FOUND: "DASHBOARD_NOT_FOUND",
-	// User is not allowed to execute the operation
+	// User is not allowed to execute the operation.
 	FORBIDDEN_OPERATION: "FORBIDDEN_OPERATION",
 }
 
@@ -49,110 +49,152 @@ var DashboardDeleteResultStatusTypes = struct {
 	SUCCESS: "SUCCESS",
 }
 
-// DashboardUpdateErrorType - Expected error types that can be returned by update operation
+// DashboardUpdateErrorType - Expected error types that can be returned by update operation.
 type DashboardUpdateErrorType string
 
 var DashboardUpdateErrorTypeTypes = struct {
-	// User is not allowed to execute the operation
+	// User is not allowed to execute the operation.
 	FORBIDDEN_OPERATION DashboardUpdateErrorType
-	// Invalid input error
+	// Invalid input error.
 	INVALID_INPUT DashboardUpdateErrorType
 }{
-	// User is not allowed to execute the operation
+	// User is not allowed to execute the operation.
 	FORBIDDEN_OPERATION: "FORBIDDEN_OPERATION",
-	// Invalid input error
+	// Invalid input error.
 	INVALID_INPUT: "INVALID_INPUT",
 }
 
-// DashboardUpdatePageErrorType - Expected error types that can be returned by updatePage operation
+// DashboardUpdatePageErrorType - Expected error types that can be returned by updatePage operation.
 type DashboardUpdatePageErrorType string
 
 var DashboardUpdatePageErrorTypeTypes = struct {
-	// User is not allowed to execute the operation
+	// User is not allowed to execute the operation.
 	FORBIDDEN_OPERATION DashboardUpdatePageErrorType
-	// Invalid input error
+	// Invalid input error.
 	INVALID_INPUT DashboardUpdatePageErrorType
-	// Page not found in the system
+	// Page not found in the system.
 	PAGE_NOT_FOUND DashboardUpdatePageErrorType
 }{
-	// User is not allowed to execute the operation
+	// User is not allowed to execute the operation.
 	FORBIDDEN_OPERATION: "FORBIDDEN_OPERATION",
-	// Invalid input error
+	// Invalid input error.
 	INVALID_INPUT: "INVALID_INPUT",
-	// Page not found in the system
+	// Page not found in the system.
 	PAGE_NOT_FOUND: "PAGE_NOT_FOUND",
 }
 
-// DashboardUpdateWidgetsInPageErrorType - Expected error types that can be returned by updateWidgetsInPage operation
+// DashboardUpdateWidgetsInPageErrorType - Expected error types that can be returned by updateWidgetsInPage operation.
 type DashboardUpdateWidgetsInPageErrorType string
 
 var DashboardUpdateWidgetsInPageErrorTypeTypes = struct {
-	// User is not allowed to execute the operation
+	// User is not allowed to execute the operation.
 	FORBIDDEN_OPERATION DashboardUpdateWidgetsInPageErrorType
-	// Invalid input error
+	// Invalid input error.
 	INVALID_INPUT DashboardUpdateWidgetsInPageErrorType
-	// Page not found in the system
+	// Page not found in the system.
 	PAGE_NOT_FOUND DashboardUpdateWidgetsInPageErrorType
-	// Widget not found in the system
+	// Widget not found in the system.
 	WIDGET_NOT_FOUND DashboardUpdateWidgetsInPageErrorType
 }{
-	// User is not allowed to execute the operation
+	// User is not allowed to execute the operation.
 	FORBIDDEN_OPERATION: "FORBIDDEN_OPERATION",
-	// Invalid input error
+	// Invalid input error.
 	INVALID_INPUT: "INVALID_INPUT",
-	// Page not found in the system
+	// Page not found in the system.
 	PAGE_NOT_FOUND: "PAGE_NOT_FOUND",
-	// Widget not found in the system
+	// Widget not found in the system.
 	WIDGET_NOT_FOUND: "WIDGET_NOT_FOUND",
+}
+
+// DashboardVariableReplacementStrategy - Possible strategies when replacing variables in a NRQL query.
+type DashboardVariableReplacementStrategy string
+
+var DashboardVariableReplacementStrategyTypes = struct {
+	// Replace the variable based on its automatically-inferred type.
+	DEFAULT DashboardVariableReplacementStrategy
+	// Replace the variable value as an identifier.
+	IDENTIFIER DashboardVariableReplacementStrategy
+	// Replace the variable value as a number.
+	NUMBER DashboardVariableReplacementStrategy
+	// Replace the variable value as a string.
+	STRING DashboardVariableReplacementStrategy
+}{
+	// Replace the variable based on its automatically-inferred type.
+	DEFAULT: "DEFAULT",
+	// Replace the variable value as an identifier.
+	IDENTIFIER: "IDENTIFIER",
+	// Replace the variable value as a number.
+	NUMBER: "NUMBER",
+	// Replace the variable value as a string.
+	STRING: "STRING",
+}
+
+// DashboardVariableType - Indicates where a variable's possible values may come from.
+type DashboardVariableType string
+
+var DashboardVariableTypeTypes = struct {
+	// Value comes from an enumerated list of possible values.
+	ENUM DashboardVariableType
+	// Value comes from the results of a NRQL query.
+	NRQL DashboardVariableType
+	// Dashboard user can supply an arbitrary string value to variable.
+	STRING DashboardVariableType
+}{
+	// Value comes from an enumerated list of possible values.
+	ENUM: "ENUM",
+	// Value comes from the results of a NRQL query.
+	NRQL: "NRQL",
+	// Dashboard user can supply an arbitrary string value to variable.
+	STRING: "STRING",
 }
 
 // DashboardAreaWidgetConfigurationInput - Configuration for visualization type 'viz.area'
 type DashboardAreaWidgetConfigurationInput struct {
-	// nrql queries
+	// NRQL queries.
 	NRQLQueries []DashboardWidgetNRQLQueryInput `json:"nrqlQueries,omitempty"`
 }
 
-// DashboardBarWidgetConfigurationInput - Configuration for visualization type 'viz.bar'
+// DashboardBarWidgetConfigurationInput - Configuration for visualization type 'viz.bar'. Learn more about [bar](https://docs.newrelic.com/docs/apis/nerdgraph/examples/create-widgets-dashboards-api/#bar) widget.
 type DashboardBarWidgetConfigurationInput struct {
-	// nrql queries
+	// NRQL queries.
 	NRQLQueries []DashboardWidgetNRQLQueryInput `json:"nrqlQueries,omitempty"`
 }
 
-// DashboardBillboardWidgetConfigurationInput - Configuration for visualization type 'viz.billboard'
+// DashboardBillboardWidgetConfigurationInput - Configuration for visualization type 'viz.billboard'. Learn more about [billboard](https://docs.newrelic.com/docs/apis/nerdgraph/examples/create-widgets-dashboards-api/#billboard) widget.
 type DashboardBillboardWidgetConfigurationInput struct {
-	// nrql queries
+	// NRQL queries.
 	NRQLQueries []DashboardWidgetNRQLQueryInput `json:"nrqlQueries,omitempty"`
-	// thresholds
+	// Array of thresholds to categorize the results of the query in different groups.
 	Thresholds []DashboardBillboardWidgetThresholdInput `json:"thresholds,omitempty"`
 }
 
-// DashboardCreateError - Expected errors that can be returned by create operation
+// DashboardCreateError - Expected errors that can be returned by create operation.
 type DashboardCreateError struct {
-	// Error description
+	// Error description.
 	Description string `json:"description,omitempty"`
-	// Error type
+	// Error type.
 	Type DashboardCreateErrorType `json:"type"`
 }
 
 // DashboardCreateResult - Result of create operation.
 type DashboardCreateResult struct {
-	// Dashboard creation result
+	// Dashboard creation result.
 	EntityResult DashboardEntityResult `json:"entityResult,omitempty"`
-	// Expected errors while processing request
+	// Expected errors while processing request.
 	Errors []DashboardCreateError `json:"errors,omitempty"`
 }
 
-// DashboardDeleteError - Expected error types that can be returned by delete operation
+// DashboardDeleteError - Expected error types that can be returned by delete operation.
 type DashboardDeleteError struct {
-	// Error description
+	// Error description.
 	Description string `json:"description,omitempty"`
-	// Error type
+	// Error type.
 	Type DashboardDeleteErrorType `json:"type"`
 }
 
 // DashboardDeleteResult - Result of delete operation.
 type DashboardDeleteResult struct {
-	// Expected errors while processing request
+	// Expected errors while processing request.
 	Errors []DashboardDeleteError `json:"errors,omitempty"`
 	// The status of the attempted delete.
 	Status DashboardDeleteResultStatus `json:"status,omitempty"`
@@ -160,65 +202,69 @@ type DashboardDeleteResult struct {
 
 // DashboardEntityResult - Public schema - `DashboardEntity` result representation for mutations. It's a subset of the `DashboardEntity` that inherits from the Entity type, but a complete different type.
 type DashboardEntityResult struct {
-	// Account ID.
+	// The New Relic account where the dashboard is created.
 	AccountID int `json:"accountId,omitempty"`
 	// Dashboard creation timestamp.
 	CreatedAt nrtime.DateTime `json:"createdAt,omitempty"`
-	// Dashboard description.
+	// Brief text describing the dashboard.
 	Description string `json:"description,omitempty"`
 	// Unique entity identifier.
 	GUID common.EntityGUID `json:"guid,omitempty"`
-	// Dashboard name.
+	// The name of the dashboard.
 	Name string `json:"name,omitempty"`
-	// Dashboard owner
+	// Information of the user that owns the dashboard.
 	Owner entities.DashboardOwnerInfo `json:"owner,omitempty"`
-	// Dashboard pages.
+	// A nested block of all pages belonging to the dashboard.
 	Pages []entities.DashboardPage `json:"pages,omitempty"`
 	// Dashboard permissions configuration.
 	Permissions entities.DashboardPermissions `json:"permissions,omitempty"`
 	// Dashboard update timestamp.
 	UpdatedAt nrtime.DateTime `json:"updatedAt,omitempty"`
+	// Dashboard-local variable definitions.
+	Variables []entities.DashboardVariable `json:"variables,omitempty"`
 }
 
-// DashboardInput - Dashboard input
+// DashboardInput - Dashboard input.
 type DashboardInput struct {
-	// Dashboard description.
+	// Brief text describing the dashboard.
 	Description string `json:"description,omitempty"`
-	// Dashboard name.
+	// The name of the dashboard.
 	Name string `json:"name"`
-	// Dashboard page input.
+	// A nested block of all pages belonging to the dashboard.
 	Pages []DashboardPageInput `json:"pages,omitempty"`
-	// Dashboard permissions configuration.
+	// Permissions to set level of visibility & editing.
 	Permissions entities.DashboardPermissions `json:"permissions"`
+	// Dashboard-local variable definitions.
+	Variables []DashboardVariableInput `json:"variables,omitempty"`
 }
 
-// DashboardLineWidgetConfigurationInput - Configuration for visualization type 'viz.line'
+// DashboardLineWidgetConfigurationInput - Configuration for visualization type 'viz.line'. Learn more about [line](https://docs.newrelic.com/docs/apis/nerdgraph/examples/create-widgets-dashboards-api/#line) widget.
 type DashboardLineWidgetConfigurationInput struct {
-	// nrql queries
+	// NRQL queries.
 	NRQLQueries []DashboardWidgetNRQLQueryInput `json:"nrqlQueries,omitempty"`
 }
 
-// DashboardMarkdownWidgetConfigurationInput - Configuration for visualization type 'viz.markdown'
+// DashboardMarkdownWidgetConfigurationInput - Configuration for visualization type 'viz.markdown'. Learn more about [markdown](https://docs.newrelic.com/docs/apis/nerdgraph/examples/create-widgets-dashboards-api/#markdown) widget.
 type DashboardMarkdownWidgetConfigurationInput struct {
-	// Markdown content of the widget
+	// Markdown content of the widget.
 	Text string `json:"text"`
 }
 
-// DashboardPageInput - Page input
+// DashboardPageInput - Page input.
 type DashboardPageInput struct {
-	// Page description.
+	// Brief text describing the page.
 	Description string `json:"description,omitempty"`
 	// Unique entity identifier of the Page to be updated. When null, it means a new Page will be created.
 	GUID common.EntityGUID `json:"guid,omitempty"`
-	// Page name.
+	// The name of the page.
 	Name string `json:"name"`
-	// Page widgets.
+	// A nested block of all widgets belonging to the page.
 	Widgets []DashboardWidgetInput `json:"widgets,omitempty"`
 }
 
-// DashboardPieWidgetConfigurationInput - Configuration for visualization type 'viz.pie'
+// DashboardPieWidgetConfigurationInput - Configuration for visualization type 'viz.pie'.  Learn more about [pie](https://docs.newrelic.com/docs/apis/nerdgraph/examples/create-widgets-dashboards-api/#pie) widget.
 type DashboardPieWidgetConfigurationInput struct {
-	// nrql queries
+	// NRQL queries.
 	NRQLQueries []DashboardWidgetNRQLQueryInput `json:"nrqlQueries,omitempty"`
 }
 
@@ -238,29 +284,29 @@ type DashboardSnapshotURLTimeWindowInput struct {
 	EndTime nrtime.EpochMilliseconds `json:"endTime,omitempty"`
 }
 
-// DashboardTableWidgetConfigurationInput - Configuration for visualization type 'viz.table'
+// DashboardTableWidgetConfigurationInput - Configuration for visualization type 'viz.table'.  Learn more about [table](https://docs.newrelic.com/docs/apis/nerdgraph/examples/create-widgets-dashboards-api/#table) widget.
 type DashboardTableWidgetConfigurationInput struct {
-	// nrql queries
+	// NRQL queries.
 	NRQLQueries []DashboardWidgetNRQLQueryInput `json:"nrqlQueries,omitempty"`
 }
 
-// DashboardUpdateError - Expected errors that can be returned by update operation
+// DashboardUpdateError - Expected errors that can be returned by update operation.
 type DashboardUpdateError struct {
-	// Error description
+	// Error description.
 	Description string `json:"description,omitempty"`
-	// Error type
+	// Error type.
 	Type DashboardUpdateErrorType `json:"type"`
 }
 
-// DashboardUpdatePageError - Expected errors that can be returned by updatePage operation
+// DashboardUpdatePageError - Expected errors that can be returned by updatePage operation.
 type DashboardUpdatePageError struct {
-	// Error description
+	// Error description.
 	Description string `json:"description,omitempty"`
-	// Error type
+	// Error type.
 	Type DashboardUpdatePageErrorType `json:"type"`
 }
 
-// DashboardUpdatePageInput - Page input used when updating an individual page
+// DashboardUpdatePageInput - Page input used when updating an individual page.
 type DashboardUpdatePageInput struct {
 	// Page description.
 	Description string `json:"description,omitempty"`
@@ -278,35 +324,35 @@ type DashboardUpdatePageResult struct {
 
 // DashboardUpdateResult - Result of update operation.
 type DashboardUpdateResult struct {
-	// Dashboard update result
+	// Dashboard update result.
 	EntityResult DashboardEntityResult `json:"entityResult,omitempty"`
-	// Expected errors while processing request
+	// Expected errors while processing request.
 	Errors []DashboardUpdateError `json:"errors,omitempty"`
 }
 
-// DashboardUpdateWidgetInput - Input type used when updating widgets
+// DashboardUpdateWidgetInput - Input type used when updating widgets.
 type DashboardUpdateWidgetInput struct {
-	// Typed configuration for the widget
+	// Typed widgets are area, bar, billboard, line, markdown, pie, and table. Check our [docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/create-widgets-dashboards-api/#widget-typed) for more info.
 	Configuration DashboardWidgetConfigurationInput `json:"configuration,omitempty"`
-	// Id of the widget to be updated.
+	// ID of the widget to be updated.
 	ID string `json:"id"`
-	// layout
+	// The widget's position and size in the dashboard.
 	Layout DashboardWidgetLayoutInput `json:"layout,omitempty"`
-	// Related entities. Currently only supports Dashboard entities, but may allow other cases in the future.
+	// Entities related to the widget. Currently only supports one Dashboard entity guid, but may allow other cases in the future.
 	LinkedEntityGUIDs []common.EntityGUID `json:"linkedEntityGuids"`
-	// Untyped scalar of configuration for the widget
+	// Untyped widgets are all other widgets, such as bullet, histogram, inventory, etc. Check our [docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/create-widgets-dashboards-api/#widget-untyped) for more info.
 	RawConfiguration entities.DashboardWidgetRawConfiguration `json:"rawConfiguration,omitempty"`
-	// title
+	// A title for the widget.
 	Title string `json:"title,omitempty"`
 	// Specifies how this widget will be visualized. If null, the WidgetConfigurationInput will be used to determine the visualization.
 	Visualization DashboardWidgetVisualizationInput `json:"visualization,omitempty"`
 }
 
-// DashboardUpdateWidgetsInPageError - Expected errors that can be returned by updateWidgetsInPage operation
+// DashboardUpdateWidgetsInPageError - Expected errors that can be returned by updateWidgetsInPage operation.
 type DashboardUpdateWidgetsInPageError struct {
-	// Error description
+	// Error description.
 	Description string `json:"description,omitempty"`
-	// Error type
+	// Error type.
 	Type DashboardUpdateWidgetsInPageErrorType `json:"type"`
 }
 
@@ -314,6 +360,106 @@ type DashboardUpdateWidgetsInPageError struct {
 type DashboardUpdateWidgetsInPageResult struct {
 	// Expected errors while processing request. No errors means successful request.
 	Errors []DashboardUpdateWidgetsInPageError `json:"errors,omitempty"`
+}
+
+// DashboardVariable - Definition of a variable that is local to this dashboard. Variables are placeholders for dynamic values in widget NRQLs.
+type DashboardVariable struct {
+	// [DEPRECATED] Default value for this variable. The actual value to be used will depend on the type.
+	DefaultValue DashboardVariableDefaultValue `json:"defaultValue,omitempty"`
+	// Default values for this variable. The actual value to be used will depend on the type.
+	DefaultValues []DashboardVariableDefaultItem `json:"defaultValues,omitempty"`
+	// Indicates whether this variable supports multiple selection or not. Only applies to variables of type NRQL or ENUM.
+	IsMultiSelection bool `json:"isMultiSelection,omitempty"`
+	// List of possible values for variables of type ENUM.
+	Items []DashboardVariableEnumItem `json:"items,omitempty"`
+	// Configuration for variables of type NRQL.
+	NRQLQuery DashboardVariableNRQLQuery `json:"nrqlQuery,omitempty"`
+	// Variable identifier.
+	Name string `json:"name,omitempty"`
+	// Indicates the strategy to apply when replacing a variable in a NRQL query.
+	ReplacementStrategy DashboardVariableReplacementStrategy `json:"replacementStrategy,omitempty"`
+	// Human-friendly display string for this variable.
+	Title string `json:"title,omitempty"`
+	// Specifies the data type of the variable and where its possible values may come from.
+	Type DashboardVariableType `json:"type,omitempty"`
+}
+
+// DashboardVariableDefaultItem - Represents a possible default value item.
+type DashboardVariableDefaultItem struct {
+	// The value of this default item.
+	Value DashboardVariableDefaultValue `json:"value,omitempty"`
+}
+
+// DashboardVariableDefaultItemInput - Represents a possible default value item.
+type DashboardVariableDefaultItemInput struct {
+	// The value of this default item.
+	Value DashboardVariableDefaultValueInput `json:"value,omitempty"`
+}
+
+// DashboardVariableDefaultValue - Specifies a default value for variables.
+type DashboardVariableDefaultValue struct {
+	// Default string value.
+	String string `json:"string,omitempty"`
+}
+
+// DashboardVariableDefaultValueInput - Specifies a default value for variables.
+type DashboardVariableDefaultValueInput struct {
+	// Default string value.
+	String string `json:"string,omitempty"`
+}
+
+// DashboardVariableEnumItem - Represents a possible value for a variable of type ENUM.
+type DashboardVariableEnumItem struct {
+	// A human-friendly display string for this value.
+	Title string `json:"title,omitempty"`
+	// A possible variable value.
+	Value string `json:"value,omitempty"`
+}
+
+// DashboardVariableEnumItemInput - Input type that represents a possible value for a variable of type ENUM.
+type DashboardVariableEnumItemInput struct {
+	// A human-friendly display string for this value.
+	Title string `json:"title,omitempty"`
+	// A possible variable value
+	Value string `json:"value"`
+}
+
+// DashboardVariableInput - Definition of a variable that is local to this dashboard. Variables are placeholders for dynamic values in widget NRQLs.
+type DashboardVariableInput struct {
+	// [DEPRECATED] Default value for this variable. The actual value to be used will depend on the type.
+	DefaultValue *DashboardVariableDefaultValueInput `json:"defaultValue,omitempty"`
+	// Default values for this variable. The actual value to be used will depend on the type.
+	DefaultValues *[]DashboardVariableDefaultItemInput `json:"defaultValues,omitempty"`
+	// Indicates whether this variable supports multiple selection or not. Only applies to variables of type NRQL or ENUM.
+	IsMultiSelection bool `json:"isMultiSelection,omitempty"`
+	// List of possible values for variables of type ENUM
+	Items []DashboardVariableEnumItemInput `json:"items,omitempty"`
+	// Configuration for variables of type NRQL.
+	NRQLQuery *DashboardVariableNRQLQueryInput `json:"nrqlQuery,omitempty"`
+	// Variable identifier.
+	Name string `json:"name"`
+	// Indicates the strategy to apply when replacing a variable in a NRQL query.
+	ReplacementStrategy DashboardVariableReplacementStrategy `json:"replacementStrategy,omitempty"`
+	// Human-friendly display string for this variable.
+	Title string `json:"title,omitempty"`
+	// Specifies the data type of the variable and where its possible values may come from.
+	Type DashboardVariableType `json:"type"`
+}
+
+// DashboardVariableNRQLQuery - Configuration for variables of type NRQL.
+type DashboardVariableNRQLQuery struct {
+	// New Relic account ID(s) to issue the query against.
+	AccountIDs []int `json:"accountIds,omitempty"`
+	// NRQL formatted query.
+	Query nrdb.NRQL `json:"query"`
+}
+
+// DashboardVariableNRQLQueryInput - Configuration for variables of type NRQL.
+type DashboardVariableNRQLQueryInput struct {
+	// New Relic account ID(s) to issue the query against.
+	AccountIDs []int `json:"accountIds"`
+	// NRQL formatted query.
+	Query nrdb.NRQL `json:"query"`
 }
 
 // DashboardWidgetConfigurationInput - Typed configuration for known visualizations. At most one may be populated.
@@ -334,46 +480,46 @@ type DashboardWidgetConfigurationInput struct {
 	Table *DashboardTableWidgetConfigurationInput `json:"table,omitempty"`
 }
 
-// DashboardWidgetInput - Widget input
+// DashboardWidgetInput - Widget input.
 type DashboardWidgetInput struct {
-	// Typed configuration for the widget
+	// Typed widgets are area, bar, billboard, line, markdown, pie, and table. Check our [docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/create-widgets-dashboards-api/#widget-typed) for more info.
 	Configuration DashboardWidgetConfigurationInput `json:"configuration,omitempty"`
-	// Id of the widget. If null, a new widget will be created and added to a dashboard.
+	// ID of the widget. If null, a new widget will be created and added to a dashboard.
 	ID string `json:"id,omitempty"`
-	// layout
+	// The widget's position and size in the dashboard.
 	Layout DashboardWidgetLayoutInput `json:"layout,omitempty"`
-	// Related entities. Currently only supports Dashboard entities, but may allow other cases in the future.
+	// Entities related to the widget. Currently only supports one Dashboard entity guid, but may allow other cases in the future.
 	LinkedEntityGUIDs []common.EntityGUID `json:"linkedEntityGuids"`
-	// Untyped scalar of configuration for the widget
+	// Untyped widgets are all other widgets, such as bullet, histogram, inventory, etc. Check our [docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/create-widgets-dashboards-api/#widget-untyped) for more info.
 	RawConfiguration entities.DashboardWidgetRawConfiguration `json:"rawConfiguration,omitempty"`
-	// title
+	// A title for the widget.
 	Title string `json:"title,omitempty"`
 	// Specifies how this widget will be visualized. If null, the WidgetConfigurationInput will be used to determine the visualization.
 	Visualization DashboardWidgetVisualizationInput `json:"visualization,omitempty"`
 }
 
-// DashboardWidgetLayoutInput - Widget layout input
+// DashboardWidgetLayoutInput - Widget layout input.
 type DashboardWidgetLayoutInput struct {
-	// column.
+	// Column position of widget from top left, starting at 1.
 	Column int `json:"column,omitempty"`
-	// height.
+	// Height of the widget. Valid values are 1 to 12 inclusive. Defaults to 3.
 	Height int `json:"height,omitempty"`
-	// row.
+	// Row position of widget from top left, starting at 1.
 	Row int `json:"row,omitempty"`
-	// width.
+	// Width of the widget. Valid values are 1 to 12 inclusive. Defaults to 4.
 	Width int `json:"width,omitempty"`
 }
 
-// DashboardWidgetNRQLQueryInput - NRQL query used by a widget
+// DashboardWidgetNRQLQueryInput - NRQL query used by a widget.
 type DashboardWidgetNRQLQueryInput struct {
-	// accountId
+	// New Relic account ID to issue the query against.
 	AccountID int `json:"accountId"`
-	// NRQL formatted query
+	// NRQL formatted query.
 	Query nrdb.NRQL `json:"query"`
 }
 
-// DashboardWidgetVisualizationInput - Visualization configuration
+// DashboardWidgetVisualizationInput - Visualization configuration.
 type DashboardWidgetVisualizationInput struct {
-	// Nerdpack artifact ID
+	// This field can either have a known type like `viz.area` or `<nerdpack-id>.<visualization-id>` in the case of [custom visualizations](https://developer.newrelic.com/explore-docs/custom-viz/build-visualization/). Check out [docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/create-widgets-dashboards-api/#widget-schema) for more info.
 	ID string `json:"id,omitempty"`
 }

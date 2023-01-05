@@ -4,9 +4,10 @@
 package alerts
 
 import (
-	"github.com/newrelic/newrelic-client-go/pkg/common"
 	"net/http"
 	"testing"
+
+	"github.com/newrelic/newrelic-client-go/v2/pkg/common"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -19,7 +20,6 @@ var (
 				"id": 12345,
 				"name": "NRQL Test Alert",
 				"enabled": true,
-				"value_function": "single_value",
 				"violation_time_limit_seconds": 3600,
 				"terms": [
 					{
@@ -45,7 +45,6 @@ var (
 			"id": 12345,
 			"name": "NRQL Test Alert",
 			"enabled": true,
-			"value_function": "single_value",
 			"violation_time_limit_seconds": 3600,
 			"terms": [
 				{
@@ -70,7 +69,6 @@ var (
 			"id": 12345,
 			"name": "NRQL Test Alert",
 			"enabled": true,
-			"value_function": "single_value",
 			"violation_time_limit_seconds": 3600,
 			"terms": [
 				{
@@ -94,7 +92,6 @@ var (
 			"id": 12345,
 			"name": "NRQL Test Alert Updated",
 			"enabled": false,
-			"value_function": "single_value",
 			"violation_time_limit_seconds": 3600,
 			"terms": [
 				{
@@ -138,7 +135,6 @@ func TestListNrqlConditions(t *testing.T) {
 			Type:                "static",
 			Name:                "NRQL Test Alert",
 			RunbookURL:          "",
-			ValueFunction:       "single_value",
 			ID:                  12345,
 			ViolationCloseTimer: 3600,
 			Enabled:             true,
@@ -174,7 +170,6 @@ func TestGetNrqlCondition(t *testing.T) {
 		Type:                "static",
 		Name:                "NRQL Test Alert",
 		RunbookURL:          "",
-		ValueFunction:       "single_value",
 		ID:                  12345,
 		ViolationCloseTimer: 3600,
 		Enabled:             true,
@@ -210,7 +205,6 @@ func TestCreateNrqlCondition(t *testing.T) {
 		Type:                "static",
 		Name:                "NRQL Test Alert",
 		RunbookURL:          "",
-		ValueFunction:       "single_value",
 		ID:                  12345,
 		ViolationCloseTimer: 3600,
 		Enabled:             true,
@@ -246,7 +240,6 @@ func TestUpdateNrqlCondition(t *testing.T) {
 		Type:                "static",
 		Name:                "NRQL Test Alert",
 		RunbookURL:          "",
-		ValueFunction:       "single_value",
 		ID:                  12345,
 		ViolationCloseTimer: 3600,
 		Enabled:             true,
@@ -270,7 +263,6 @@ func TestUpdateNrqlCondition(t *testing.T) {
 		Type:                "static",
 		Name:                "NRQL Test Alert Updated",
 		RunbookURL:          "https://www.example.com/docs",
-		ValueFunction:       "single_value",
 		ID:                  12345,
 		ViolationCloseTimer: 3600,
 		Enabled:             false,
@@ -303,7 +295,6 @@ func TestDeleteNrqlCondition(t *testing.T) {
 		Type:                "static",
 		Name:                "NRQL Test Alert",
 		RunbookURL:          "",
-		ValueFunction:       "single_value",
 		ID:                  12345,
 		ViolationCloseTimer: 3600,
 		Enabled:             true,

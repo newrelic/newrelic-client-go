@@ -8,7 +8,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	mock "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
+	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
 func TestInstallationCreateRecipeEvent(t *testing.T) {
@@ -58,6 +58,26 @@ func TestInstallationCreateRecipeEvent_ShouldSendMetadata(t *testing.T) {
 	if metaValue, ok := response.Metadata["someKey"].(string); ok {
 		require.Equal(t, "some value", metaValue)
 	}
+}
+
+func TestInstallationCreateInstallStatus(t *testing.T) {
+	t.Parallel()
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	client := newIntegrationTestClient(t)
+
+	status := InstallationInstallStatusInput{
+		CliVersion: "0.0.1",
+		State:      InstallationInstallStateTypeTypes.COMPLETED,
+	}
+
+	response, err := client.InstallationCreateInstallStatus(testAccountID, status)
+	require.NotNil(t, response)
+	require.NoError(t, err)
 }
 
 func newIntegrationTestClient(t *testing.T) Installevents {

@@ -7,53 +7,61 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/newrelic/newrelic-client-go/pkg/accounts"
-	"github.com/newrelic/newrelic-client-go/pkg/alerts"
-	"github.com/newrelic/newrelic-client-go/pkg/apiaccess"
-	"github.com/newrelic/newrelic-client-go/pkg/apm"
-	"github.com/newrelic/newrelic-client-go/pkg/cloud"
-	"github.com/newrelic/newrelic-client-go/pkg/config"
-	"github.com/newrelic/newrelic-client-go/pkg/dashboards"
-	"github.com/newrelic/newrelic-client-go/pkg/edge"
-	"github.com/newrelic/newrelic-client-go/pkg/entities"
-	"github.com/newrelic/newrelic-client-go/pkg/events"
-	"github.com/newrelic/newrelic-client-go/pkg/eventstometrics"
-	"github.com/newrelic/newrelic-client-go/pkg/installevents"
-	"github.com/newrelic/newrelic-client-go/pkg/logging"
-	"github.com/newrelic/newrelic-client-go/pkg/logs"
-	"github.com/newrelic/newrelic-client-go/pkg/nerdgraph"
-	"github.com/newrelic/newrelic-client-go/pkg/nerdstorage"
-	"github.com/newrelic/newrelic-client-go/pkg/nrdb"
-	"github.com/newrelic/newrelic-client-go/pkg/nrqldroprules"
-	"github.com/newrelic/newrelic-client-go/pkg/plugins"
-	"github.com/newrelic/newrelic-client-go/pkg/region"
-	"github.com/newrelic/newrelic-client-go/pkg/servicelevel"
-	"github.com/newrelic/newrelic-client-go/pkg/synthetics"
-	"github.com/newrelic/newrelic-client-go/pkg/workloads"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/accounts"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/alerts"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/apiaccess"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/apm"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/changetracking"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/cloud"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/config"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/dashboards"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/edge"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/entities"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/events"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/eventstometrics"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/installevents"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/logconfigurations"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/logging"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/logs"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/nerdgraph"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/nerdstorage"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/notifications"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/nrdb"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/nrqldroprules"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/plugins"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/region"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/servicelevel"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/synthetics"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/workflows"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/workloads"
 )
 
 // NewRelic is a collection of New Relic APIs.
 type NewRelic struct {
-	Accounts        accounts.Accounts
-	Alerts          alerts.Alerts
-	APIAccess       apiaccess.APIAccess
-	APM             apm.APM
-	Cloud           cloud.Cloud
-	Dashboards      dashboards.Dashboards
-	Edge            edge.Edge
-	Entities        entities.Entities
-	Events          events.Events
-	EventsToMetrics eventstometrics.EventsToMetrics
-	InstallEvents   installevents.Installevents
-	Logs            logs.Logs
-	NerdGraph       nerdgraph.NerdGraph
-	NerdStorage     nerdstorage.NerdStorage
-	Nrdb            nrdb.Nrdb
-	Nrqldroprules   nrqldroprules.Nrqldroprules
-	Plugins         plugins.Plugins
-	ServiceLevel    servicelevel.Servicelevel
-	Synthetics      synthetics.Synthetics
-	Workloads       workloads.Workloads
+	Accounts          accounts.Accounts
+	Alerts            alerts.Alerts
+	APIAccess         apiaccess.APIAccess
+	APM               apm.APM
+	ChangeTracking    changetracking.Changetracking
+	Cloud             cloud.Cloud
+	Dashboards        dashboards.Dashboards
+	Edge              edge.Edge
+	Entities          entities.Entities
+	Events            events.Events
+	EventsToMetrics   eventstometrics.EventsToMetrics
+	InstallEvents     installevents.Installevents
+	Logs              logs.Logs
+	Logconfigurations logconfigurations.Logconfigurations
+	NerdGraph         nerdgraph.NerdGraph
+	NerdStorage       nerdstorage.NerdStorage
+	Notifications     notifications.Notifications
+	Nrdb              nrdb.Nrdb
+	Nrqldroprules     nrqldroprules.Nrqldroprules
+	Plugins           plugins.Plugins
+	ServiceLevel      servicelevel.Servicelevel
+	Synthetics        synthetics.Synthetics
+	Workflows         workflows.Workflows
+	Workloads         workloads.Workloads
 
 	config config.Config
 }
@@ -82,26 +90,30 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 	nr := &NewRelic{
 		config: cfg,
 
-		Accounts:        accounts.New(cfg),
-		Alerts:          alerts.New(cfg),
-		APIAccess:       apiaccess.New(cfg),
-		APM:             apm.New(cfg),
-		Cloud:           cloud.New(cfg),
-		Dashboards:      dashboards.New(cfg),
-		Edge:            edge.New(cfg),
-		Entities:        entities.New(cfg),
-		Events:          events.New(cfg),
-		EventsToMetrics: eventstometrics.New(cfg),
-		InstallEvents:   installevents.New(cfg),
-		Logs:            logs.New(cfg),
-		NerdGraph:       nerdgraph.New(cfg),
-		NerdStorage:     nerdstorage.New(cfg),
-		Nrdb:            nrdb.New(cfg),
-		Nrqldroprules:   nrqldroprules.New(cfg),
-		Plugins:         plugins.New(cfg),
-		ServiceLevel:    servicelevel.New(cfg),
-		Synthetics:      synthetics.New(cfg),
-		Workloads:       workloads.New(cfg),
+		Accounts:          accounts.New(cfg),
+		Alerts:            alerts.New(cfg),
+		APIAccess:         apiaccess.New(cfg),
+		APM:               apm.New(cfg),
+		ChangeTracking:    changetracking.New(cfg),
+		Cloud:             cloud.New(cfg),
+		Dashboards:        dashboards.New(cfg),
+		Edge:              edge.New(cfg),
+		Entities:          entities.New(cfg),
+		Events:            events.New(cfg),
+		EventsToMetrics:   eventstometrics.New(cfg),
+		InstallEvents:     installevents.New(cfg),
+		Logs:              logs.New(cfg),
+		Logconfigurations: logconfigurations.New(cfg),
+		NerdGraph:         nerdgraph.New(cfg),
+		NerdStorage:       nerdstorage.New(cfg),
+		Notifications:     notifications.New(cfg),
+		Nrdb:              nrdb.New(cfg),
+		Nrqldroprules:     nrqldroprules.New(cfg),
+		Plugins:           plugins.New(cfg),
+		ServiceLevel:      servicelevel.New(cfg),
+		Synthetics:        synthetics.New(cfg),
+		Workflows:         workflows.New(cfg),
+		Workloads:         workloads.New(cfg),
 	}
 
 	return nr, nil

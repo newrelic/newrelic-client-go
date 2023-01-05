@@ -3,9 +3,10 @@ package alerts
 import (
 	"context"
 	"fmt"
-	"github.com/newrelic/newrelic-client-go/pkg/common"
 
-	"github.com/newrelic/newrelic-client-go/pkg/errors"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/common"
+
+	"github.com/newrelic/newrelic-client-go/v2/pkg/errors"
 )
 
 // AlertsNrqlConditionExpiration
@@ -127,20 +128,6 @@ var (
 	}{
 		Baseline: "BASELINE",
 		Static:   "STATIC",
-	}
-)
-
-// NrqlConditionValueFunction specifies the value function of NRQL alert condition.
-type NrqlConditionValueFunction string
-
-var (
-	// NrqlConditionValueFunctions enumerates the possible NRQL condition value function values for NRQL alert conditions.
-	NrqlConditionValueFunctions = struct {
-		SingleValue NrqlConditionValueFunction
-		Sum         NrqlConditionValueFunction
-	}{
-		SingleValue: "SINGLE_VALUE",
-		Sum:         "SUM",
 	}
 )
 
@@ -291,9 +278,6 @@ type NrqlConditionCreateInput struct {
 
 	// BaselineDirection ONLY applies to NRQL conditions of type BASELINE.
 	BaselineDirection *NrqlBaselineDirection `json:"baselineDirection,omitempty"`
-
-	// ValueFunction ONLY applies to NRQL conditions of type STATIC.
-	ValueFunction *NrqlConditionValueFunction `json:"valueFunction,omitempty"`
 }
 
 // NrqlConditionUpdateInput represents the input options for updating a Nrql Condition.
@@ -302,9 +286,6 @@ type NrqlConditionUpdateInput struct {
 
 	// BaselineDirection ONLY applies to NRQL conditions of type BASELINE.
 	BaselineDirection *NrqlBaselineDirection `json:"baselineDirection,omitempty"`
-
-	// ValueFunction ONLY applies to NRQL conditions of type STATIC.
-	ValueFunction *NrqlConditionValueFunction `json:"valueFunction,omitempty"`
 }
 
 type NrqlConditionsSearchCriteria struct {
@@ -325,9 +306,6 @@ type NrqlAlertCondition struct {
 
 	// BaselineDirection exists ONLY for NRQL conditions of type BASELINE.
 	BaselineDirection *NrqlBaselineDirection `json:"baselineDirection,omitempty"`
-
-	// ValueFunction is returned ONLY for NRQL conditions of type STATIC.
-	ValueFunction *NrqlConditionValueFunction `json:"valueFunction,omitempty"`
 }
 
 // NrqlCondition represents a New Relic NRQL Alert condition.
@@ -340,7 +318,6 @@ type NrqlCondition struct {
 	RunbookURL          string             `json:"runbook_url,omitempty"`
 	Terms               []ConditionTerm    `json:"terms,omitempty"`
 	Type                string             `json:"type,omitempty"`
-	ValueFunction       ValueFunctionType  `json:"value_function,omitempty"`
 	EntityGUID          *common.EntityGUID `json:"entity_guid,omitempty"`
 }
 
@@ -770,12 +747,6 @@ const (
 		}
 	`
 
-	graphqlFragmentNrqlStaticConditionFields = `
-		... on AlertsNrqlStaticCondition {
-			valueFunction
-		}
-	`
-
 	searchNrqlConditionsQuery = `
 		query($accountId: Int!, $searchCriteria: AlertsNrqlConditionsSearchCriteriaInput, $cursor: String) {
 			actor {
@@ -787,7 +758,6 @@ const (
 							nrqlConditions {` +
 		graphqlNrqlConditionStructFields +
 		graphqlFragmentNrqlBaselineConditionFields +
-		graphqlFragmentNrqlStaticConditionFields +
 		`} } } } } }`
 
 	getNrqlConditionQuery = `
@@ -798,7 +768,6 @@ const (
 						nrqlCondition(id: $id) {` +
 		graphqlNrqlConditionStructFields +
 		graphqlFragmentNrqlBaselineConditionFields +
-		graphqlFragmentNrqlStaticConditionFields +
 		`} } } } }`
 
 	// Baseline
@@ -820,16 +789,14 @@ const (
 	// Static
 	createNrqlConditionStaticMutation = `
 		mutation($accountId: Int!, $policyId: ID!, $condition: AlertsNrqlConditionStaticInput!) {
-			alertsNrqlConditionStaticCreate(accountId: $accountId, policyId: $policyId, condition: $condition) {
-				valueFunction` +
+			alertsNrqlConditionStaticCreate(accountId: $accountId, policyId: $policyId, condition: $condition) {` +
 		graphqlNrqlConditionStructFields +
 		` } }`
 
 	// Static
 	updateNrqlConditionStaticMutation = `
 		mutation($accountId: Int!, $id: ID!, $condition: AlertsNrqlConditionUpdateStaticInput!) {
-			alertsNrqlConditionStaticUpdate(accountId: $accountId, id: $id, condition: $condition) {
-				valueFunction` +
+			alertsNrqlConditionStaticUpdate(accountId: $accountId, id: $id, condition: $condition) {` +
 		graphqlNrqlConditionStructFields +
 		` } }`
 )

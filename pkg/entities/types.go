@@ -5,13 +5,13 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/newrelic/newrelic-client-go/pkg/accounts"
-	"github.com/newrelic/newrelic-client-go/pkg/ai"
-	"github.com/newrelic/newrelic-client-go/pkg/common"
-	"github.com/newrelic/newrelic-client-go/pkg/nrdb"
-	"github.com/newrelic/newrelic-client-go/pkg/nrtime"
-	"github.com/newrelic/newrelic-client-go/pkg/servicelevel"
-	"github.com/newrelic/newrelic-client-go/pkg/users"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/accounts"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/ai"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/common"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/nrdb"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/nrtime"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/servicelevel"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/users"
 )
 
 type AccountStatus string
@@ -1079,6 +1079,48 @@ var DashboardPermissionsTypes = struct {
 	PUBLIC_READ_ONLY: "PUBLIC_READ_ONLY",
 	// Public read & write
 	PUBLIC_READ_WRITE: "PUBLIC_READ_WRITE",
+}
+
+// DashboardVariableReplacementStrategy - Possible strategies when replacing variables in a NRQL query.
+type DashboardVariableReplacementStrategy string
+
+var DashboardVariableReplacementStrategyTypes = struct {
+	// Replace the variable based on its automatically-inferred type.
+	DEFAULT DashboardVariableReplacementStrategy
+	// Replace the variable value as an identifier.
+	IDENTIFIER DashboardVariableReplacementStrategy
+	// Replace the variable value as a number.
+	NUMBER DashboardVariableReplacementStrategy
+	// Replace the variable value as a string.
+	STRING DashboardVariableReplacementStrategy
+}{
+	// Replace the variable based on its automatically-inferred type.
+	DEFAULT: "DEFAULT",
+	// Replace the variable value as an identifier.
+	IDENTIFIER: "IDENTIFIER",
+	// Replace the variable value as a number.
+	NUMBER: "NUMBER",
+	// Replace the variable value as a string.
+	STRING: "STRING",
+}
+
+// DashboardVariableType - Indicates where a variable's possible values may come from.
+type DashboardVariableType string
+
+var DashboardVariableTypeTypes = struct {
+	// Value comes from an enumerated list of possible values.
+	ENUM DashboardVariableType
+	// Value comes from the results of a NRQL query.
+	NRQL DashboardVariableType
+	// Dashboard user can supply an arbitrary string value to variable.
+	STRING DashboardVariableType
+}{
+	// Value comes from an enumerated list of possible values.
+	ENUM: "ENUM",
+	// Value comes from the results of a NRQL query.
+	NRQL: "NRQL",
+	// Dashboard user can supply an arbitrary string value to variable.
+	STRING: "STRING",
 }
 
 // DashboardPredefinedMetricChartWidgetVisualizationType - Predefined metric chart widget visualization type.
@@ -3854,11 +3896,11 @@ type AiOpsWebhookPayloadMetadata struct {
 	Version string `json:"version"`
 }
 
-// AiWorkflowsConfigurationDto - Enrichment configuration object
-type AiWorkflowsConfigurationDto struct {
+// AiWorkflowsConfiguration - Enrichment configuration object
+type AiWorkflowsConfiguration struct {
 }
 
-func (x *AiWorkflowsConfigurationDto) ImplementsAiWorkflowsConfigurationDto() {}
+func (x *AiWorkflowsConfiguration) ImplementsAiWorkflowsConfiguration() {}
 
 // AiWorkflowsDestinationConfiguration - Destination Configuration Object
 type AiWorkflowsDestinationConfiguration struct {
@@ -3875,7 +3917,7 @@ type AiWorkflowsEnrichment struct {
 	// Account Id of the Enrichment
 	AccountID int `json:"accountId"`
 	// List of configurations for the enrichment
-	Configuration []AiWorkflowsConfigurationDto `json:"configuration"`
+	Configuration []AiWorkflowsConfiguration `json:"configuration"`
 	// The time the Enrichment was created
 	CreatedAt nrtime.DateTime `json:"createdAt"`
 	// Enrichment Id
@@ -7074,6 +7116,8 @@ type DashboardEntity struct {
 	UpdatedAtInternal string `json:"updatedAtInternal,omitempty"`
 	// Dashboard visibility configuration.
 	VisibilityInternal DashboardVisibility `json:"visibilityInternal,omitempty"`
+	// Dashboard-local variable definitions.
+	Variables []DashboardVariable `json:"variables,omitempty"`
 }
 
 // GetAccount returns a pointer to the value of Account from DashboardEntity
@@ -7304,6 +7348,11 @@ func (x DashboardEntity) GetUpdatedAt() nrtime.DateTime {
 // GetUpdatedAtInternal returns a pointer to the value of UpdatedAtInternal from DashboardEntity
 func (x DashboardEntity) GetUpdatedAtInternal() string {
 	return x.UpdatedAtInternal
+}
+
+// GetVariables returns a pointer to the value of Variables from DashboardEntity
+func (x DashboardEntity) GetVariables() []DashboardVariable {
+	return x.Variables
 }
 
 // GetVisibilityInternal returns a pointer to the value of VisibilityInternal from DashboardEntity
@@ -7906,6 +7955,56 @@ type DashboardThresholdEventWidgetPresentationThreshold struct {
 	Red float64 `json:"red,omitempty"`
 	// yellow.
 	Yellow float64 `json:"yellow,omitempty"`
+}
+
+// DashboardVariable - Definition of a variable that is local to this dashboard. Variables are placeholders for dynamic values in widget NRQLs.
+type DashboardVariable struct {
+	// [DEPRECATED] Default value for this variable. The actual value to be used will depend on the type.
+	DefaultValue *DashboardVariableDefaultValue `json:"defaultValue,omitempty"`
+	// Default values for this variable. The actual value to be used will depend on the type.
+	DefaultValues *[]DashboardVariableDefaultItem `json:"defaultValues,omitempty"`
+	// Indicates whether this variable supports multiple selection or not. Only applies to variables of type NRQL or ENUM.
+	IsMultiSelection bool `json:"isMultiSelection,omitempty"`
+	// List of possible values for variables of type ENUM.
+	Items []DashboardVariableEnumItem `json:"items,omitempty"`
+	// Configuration for variables of type NRQL.
+	NRQLQuery *DashboardVariableNRQLQuery `json:"nrqlQuery,omitempty"`
+	// Variable identifier.
+	Name string `json:"name,omitempty"`
+	// Indicates the strategy to apply when replacing a variable in a NRQL query.
+	ReplacementStrategy DashboardVariableReplacementStrategy `json:"replacementStrategy,omitempty"`
+	// Human-friendly display string for this variable.
+	Title string `json:"title,omitempty"`
+	// Specifies the data type of the variable and where its possible values may come from.
+	Type DashboardVariableType `json:"type,omitempty"`
+}
+
+// DashboardVariableDefaultItem - Represents a possible default value item.
+type DashboardVariableDefaultItem struct {
+	// The value of this default item.
+	Value DashboardVariableDefaultValue `json:"value,omitempty"`
+}
+
+// DashboardVariableDefaultValue - Specifies a default value for variables.
+type DashboardVariableDefaultValue struct {
+	// Default string value.
+	String string `json:"string,omitempty"`
+}
+
+// DashboardVariableEnumItem - Represents a possible value for a variable of type ENUM.
+type DashboardVariableEnumItem struct {
+	// A human-friendly display string for this value.
+	Title string `json:"title,omitempty"`
+	// A possible variable value.
+	Value string `json:"value,omitempty"`
+}
+
+// DashboardVariableNRQLQuery - Configuration for variables of type NRQL.
+type DashboardVariableNRQLQuery struct {
+	// New Relic account ID(s) to issue the query against.
+	AccountIDs []int `json:"accountIds,omitempty"`
+	// NRQL formatted query.
+	Query nrdb.NRQL `json:"query"`
 }
 
 // DashboardWidget - Widgets in a Dashboard Page.
@@ -16021,56 +16120,56 @@ func UnmarshalAiNotificationsAuthInterface(b []byte) (*AiNotificationsAuthInterf
 	return nil, fmt.Errorf("interface AiNotificationsAuth was not matched against all PossibleTypes: %s", typeName)
 }
 
-// AiWorkflowsConfigurationDto - Enrichment configuration object
-type AiWorkflowsConfigurationDtoInterface interface {
-	ImplementsAiWorkflowsConfigurationDto()
+// AiWorkflowsConfiguration - Enrichment configuration object
+type AiWorkflowsConfigurationInterface interface {
+	ImplementsAiWorkflowsConfiguration()
 }
 
-// UnmarshalAiWorkflowsConfigurationDtoInterface unmarshals the interface into the correct type
+// UnmarshalAiWorkflowsConfigurationInterface unmarshals the interface into the correct type
 // based on __typename provided by GraphQL
-func UnmarshalAiWorkflowsConfigurationDtoInterface(b []byte) (*AiWorkflowsConfigurationDtoInterface, error) {
+func UnmarshalAiWorkflowsConfigurationInterface(b []byte) (*AiWorkflowsConfigurationInterface, error) {
 	var err error
 
-	var rawMessageAiWorkflowsConfigurationDto map[string]*json.RawMessage
-	err = json.Unmarshal(b, &rawMessageAiWorkflowsConfigurationDto)
+	var rawMessageAiWorkflowsConfiguration map[string]*json.RawMessage
+	err = json.Unmarshal(b, &rawMessageAiWorkflowsConfiguration)
 	if err != nil {
 		return nil, err
 	}
 
 	// Nothing to unmarshal
-	if len(rawMessageAiWorkflowsConfigurationDto) < 1 {
+	if len(rawMessageAiWorkflowsConfiguration) < 1 {
 		return nil, nil
 	}
 
 	var typeName string
 
-	if rawTypeName, ok := rawMessageAiWorkflowsConfigurationDto["__typename"]; ok {
+	if rawTypeName, ok := rawMessageAiWorkflowsConfiguration["__typename"]; ok {
 		err = json.Unmarshal(*rawTypeName, &typeName)
 		if err != nil {
 			return nil, err
 		}
 
 		switch typeName {
-		case "AiWorkflowsNrqlConfigurationDto":
-			var interfaceType ai.AiWorkflowsNRQLConfigurationDto
+		case "AiWorkflowsNrqlConfiguration":
+			var interfaceType ai.AiWorkflowsNRQLConfiguration
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
 			}
 
-			var xxx AiWorkflowsConfigurationDtoInterface = &interfaceType
+			var xxx AiWorkflowsConfigurationInterface = &interfaceType
 
 			return &xxx, nil
 		}
 	} else {
 		keys := []string{}
-		for k := range rawMessageAiWorkflowsConfigurationDto {
+		for k := range rawMessageAiWorkflowsConfiguration {
 			keys = append(keys, k)
 		}
-		return nil, fmt.Errorf("interface AiWorkflowsConfigurationDto did not include a __typename field for inspection: %s", keys)
+		return nil, fmt.Errorf("interface AiWorkflowsConfiguration did not include a __typename field for inspection: %s", keys)
 	}
 
-	return nil, fmt.Errorf("interface AiWorkflowsConfigurationDto was not matched against all PossibleTypes: %s", typeName)
+	return nil, fmt.Errorf("interface AiWorkflowsConfiguration was not matched against all PossibleTypes: %s", typeName)
 }
 
 type AlertableEntityInterface interface {

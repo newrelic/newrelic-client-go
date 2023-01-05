@@ -186,7 +186,7 @@ func (a *Alerts) GetMutingRuleWithContext(ctx context.Context, accountID, ruleID
 
 	resp := alertMutingRulesGetResponse{}
 
-	if err := a.client.NerdGraphQueryWithContext(ctx, alertsMutingRulesGet, vars, &resp); err != nil {
+	if err := a.NerdGraphQueryWithContext(ctx, alertsMutingRulesGet, vars, &resp); err != nil {
 		return nil, err
 	}
 

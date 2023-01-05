@@ -1,3 +1,212 @@
+<a name="v2.9.0"></a>
+## [v2.9.0] - 2022-12-16
+### Bug Fixes
+- **workflows:** fix issue that prevents creation of disabled workflows
+
+### Features
+- **testgrok:** generated code and added tests
+
+<a name="v2.8.0"></a>
+## [v2.8.0] - 2022-12-14
+### Bug Fixes
+- **dashboards:** make some fields on variables nullable
+
+### Features
+- **workflows:** support a new flag to optionally disable channel deletion on workflow updates/deletes
+
+<a name="v2.7.0"></a>
+## [v2.7.0] - 2022-12-06
+### Bug Fixes
+- **synthetics_secure_cred:** handle null timestamp
+
+<a name="v2.6.1"></a>
+## [v2.6.1] - 2022-12-06
+### Bug Fixes
+- **drop_rules:** generated errors from schema :bug:
+
+<a name="v2.6.0"></a>
+## [v2.6.0] - 2022-11-30
+### Features
+- **dashboard:** update dashboard entity query with variables
+
+<a name="v2.5.0"></a>
+## [v2.5.0] - 2022-11-30
+### Features
+- **Workflow:** Add notification triggers
+- **cloud:** add newly supported cloud service integrations
+- **dashboards:** add variables
+- **data_pratition_rule:** Added Data partition and tests
+
+<a name="v2.4.0"></a>
+## [v2.4.0] - 2022-11-16
+### Features
+- **obfuscation_rule:** Added Obfuscation rule and tests
+
+<a name="v2.3.0"></a>
+## [v2.3.0] - 2022-11-10
+### Features
+- **obfuscation_expression:** added obfuscation expression
+
+<a name="v2.2.2"></a>
+## [v2.2.2] - 2022-11-04
+### Bug Fixes
+- **workflows:** allow to remove enrichments from workflows
+
+<a name="v2.2.1"></a>
+## [v2.2.1] - 2022-11-03
+### Bug Fixes
+- **nrdb:** Use actor.queryHistory NG endpoint
+
+<a name="v2.2.0"></a>
+## [v2.2.0] - 2022-10-28
+### Features
+- add ChangeTracking to NewRelic client
+
+<a name="v2.1.0"></a>
+## [v2.1.0] - 2022-10-25
+### Features
+- **change_tracking:** add change tracking create deployment endpoint
+
+<a name="v2.0.3"></a>
+## [v2.0.3] - 2022-10-24
+### Bug Fixes
+- remove slug field which is causing timeout
+
+<a name="v2.0.2"></a>
+## [v2.0.2] - 2022-10-19
+### Bug Fixes
+- update module path to have v2
+- **alert_conditions:** added missing userdef values
+
+<a name="v2.0.1"></a>
+## [v2.0.1] - 2022-10-18
+### Bug Fixes
+- update module path to have v2
+
+<a name="v2.0.0"></a>
+## [v2.0.0] - 2022-10-17
+<a name="v1.1.0"></a>
+## [v1.1.0] - 2022-10-17
+### Features
+- get workload collection
+
+<a name="v1.0.0"></a>
+## [v1.0.0] - 2022-09-26
+### Bug Fixes
+- add servicelevel select types as nullables
+
+### Features
+- update servicelevel model
+
+<a name="v0.91.3"></a>
+## [v0.91.3] - 2022-09-26
+### Bug Fixes
+- make some workloads types nullable
+
+<a name="v0.91.2"></a>
+## [v0.91.2] - 2022-09-22
+### Bug Fixes
+- omit filter ID when empty
+
+<a name="v0.91.1"></a>
+## [v0.91.1] - 2022-09-07
+### Bug Fixes
+- **notifications:** add missing destination type via tutone
+
+<a name="v0.91.0"></a>
+## [v0.91.0] - 2022-08-17
+### Features
+- **dashboards:** added RawConfiguration structure
+
+<a name="v0.90.0"></a>
+## [v0.90.0] - 2022-08-15
+### Bug Fixes
+- **notifications:** fix tests
+
+### Features
+- **workflows:** fix lint
+- **workflows:** fix intgration tests
+- **workflows:** fix unit tests + add readme
+- **workflows:** add workflows API - fix tests
+- **workflows:** add workflows API
+
+<a name="v0.89.1"></a>
+## [v0.89.1] - 2022-08-15
+### Bug Fixes
+- **notifications:** add fileds to error interface
+
+<a name="v0.89.0"></a>
+## [v0.89.0] - 2022-08-01
+### Features
+- **synthetics:** generate code for queries synthetics.script and synthetics.steps
+
+<a name="v0.88.1"></a>
+## [v0.88.1] - 2022-07-24
+### Bug Fixes
+- **destinations:** change credentials type to pointer
+
+<a name="v0.88.0"></a>
+## [v0.88.0] - 2022-07-15
+### Bug Fixes
+- **channels:** add small fix
+- **channels:** add unit tests
+- **channels:** add integration tests and destinations missing data
+
+### Features
+- **channels:** remove duplicate declartion
+- **channels:** remove duplicate code and fix tests
+- **channels:** add notifications channels API using tutone tool
+
+<a name="v0.87.1"></a>
+## [v0.87.1] - 2022-07-14
+### Bug Fixes
+- **muting_rules:** client not setting err.NotFound
+
+<a name="v0.87.0"></a>
+## [v0.87.0] - 2022-07-13
+### Bug Fixes
+- **destinations:** add integration tests and unit tests
+- **destinations:** add integration tests + small fix for union type
+- **destinations:** use tutone generator
+- **destinations:** fix lint
+
+### Features
+- **destinations:** fix tests
+- **destinations:** fix tests
+- **notifications:** add notifications destinations api calls
+
+<a name="v0.86.5"></a>
+## [v0.86.5] - 2022-07-11
+### Bug Fixes
+- change private location GUID to string from int
+
+<a name="v0.86.4"></a>
+## [v0.86.4] - 2022-07-08
+### Bug Fixes
+- remove deprecated field from service level query
+- remove deprecated field from service level query
+- **synthetics:** use *bool type to avoid removing false values
+
+<a name="v0.86.3"></a>
+## [v0.86.3] - 2022-06-27
+### Bug Fixes
+- **synthetics:** use *bool type to avoid removing false values
+
+<a name="v0.86.2"></a>
+## [v0.86.2] - 2022-06-23
+### Bug Fixes
+- remove deprecated field from service level query
+
+<a name="v0.86.1"></a>
+## [v0.86.1] - 2022-06-15
+### Bug Fixes
+- remove deprecated field from service level query
+
+<a name="v0.86.0"></a>
+## [v0.86.0] - 2022-06-06
+### Features
+- **http:** Add retry condition for graphql TOO_MANY_REQUESTS error response on json
+
 <a name="v0.85.0"></a>
 ## [v0.85.0] - 2022-05-24
 ### Features
@@ -1324,7 +1533,42 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v0.85.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.9.0...HEAD
+[v2.9.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.8.0...v2.9.0
+[v2.8.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.7.0...v2.8.0
+[v2.7.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.6.1...v2.7.0
+[v2.6.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.6.0...v2.6.1
+[v2.6.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.5.0...v2.6.0
+[v2.5.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.4.0...v2.5.0
+[v2.4.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.3.0...v2.4.0
+[v2.3.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.2.2...v2.3.0
+[v2.2.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.2.1...v2.2.2
+[v2.2.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.2.0...v2.2.1
+[v2.2.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.1.0...v2.2.0
+[v2.1.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.0.3...v2.1.0
+[v2.0.3]: https://github.com/newrelic/newrelic-client-go/compare/v2.0.2...v2.0.3
+[v2.0.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.0.1...v2.0.2
+[v2.0.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.0.0...v2.0.1
+[v2.0.0]: https://github.com/newrelic/newrelic-client-go/compare/v1.1.0...v2.0.0
+[v1.1.0]: https://github.com/newrelic/newrelic-client-go/compare/v1.0.0...v1.1.0
+[v1.0.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.91.3...v1.0.0
+[v0.91.3]: https://github.com/newrelic/newrelic-client-go/compare/v0.91.2...v0.91.3
+[v0.91.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.91.1...v0.91.2
+[v0.91.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.91.0...v0.91.1
+[v0.91.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.90.0...v0.91.0
+[v0.90.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.89.1...v0.90.0
+[v0.89.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.89.0...v0.89.1
+[v0.89.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.88.1...v0.89.0
+[v0.88.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.88.0...v0.88.1
+[v0.88.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.87.1...v0.88.0
+[v0.87.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.87.0...v0.87.1
+[v0.87.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.86.5...v0.87.0
+[v0.86.5]: https://github.com/newrelic/newrelic-client-go/compare/v0.86.4...v0.86.5
+[v0.86.4]: https://github.com/newrelic/newrelic-client-go/compare/v0.86.3...v0.86.4
+[v0.86.3]: https://github.com/newrelic/newrelic-client-go/compare/v0.86.2...v0.86.3
+[v0.86.2]: https://github.com/newrelic/newrelic-client-go/compare/v0.86.1...v0.86.2
+[v0.86.1]: https://github.com/newrelic/newrelic-client-go/compare/v0.86.0...v0.86.1
+[v0.86.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.85.0...v0.86.0
 [v0.85.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.84.0...v0.85.0
 [v0.84.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.83.0...v0.84.0
 [v0.83.0]: https://github.com/newrelic/newrelic-client-go/compare/v0.82.0...v0.83.0

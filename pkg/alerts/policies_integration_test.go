@@ -10,7 +10,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	nr "github.com/newrelic/newrelic-client-go/pkg/testhelpers"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/errors"
+	nr "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
 func TestAlertsPolicy_Legacy(t *testing.T) {
@@ -48,6 +49,13 @@ func TestAlertsPolicy_Legacy(t *testing.T) {
 
 	require.NoError(t, err)
 	require.NotNil(t, *deleteResult)
+
+	// Test: Not found
+	readResult, err = a.GetPolicy(createResult.ID)
+	require.Error(t, err)
+	require.Nil(t, readResult)
+	_, ok := err.(*errors.NotFound)
+	require.True(t, ok)
 }
 
 func TestAlertsQueryPolicy_GraphQL_Enabled(t *testing.T) {
@@ -99,4 +107,6 @@ func TestAlertsQueryPolicy_GraphQL_Enabled(t *testing.T) {
 	queryResult, err = a.QueryPolicy(accountID, createResult.ID)
 	require.Error(t, err)
 	require.Nil(t, queryResult)
+	_, ok := err.(*errors.NotFound)
+	require.True(t, ok)
 }
