@@ -13,7 +13,7 @@ import (
 
 func TestIntegrationDataPartitionRule(t *testing.T) {
 	t.Parallel()
-
+	t.Skipf("Skipping `TestIntegrationDataPartitionRule` as the API endpoint is not recommended.")
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
 		t.Skipf("%s", err)
@@ -58,10 +58,11 @@ func TestIntegrationDataPartitionRule(t *testing.T) {
 
 }
 
-//Create with invalid name
-//It should always begin with Log_
+// Create with invalid name
+// It should always begin with Log_
 func TestIntegrationDataPartitionRule_ValidName(t *testing.T) {
 	t.Parallel()
+	t.Skipf("Skipping `TestIntegrationDataPartitionRule_ValidName` as the API endpoint is not recommended.")
 
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
@@ -106,10 +107,11 @@ func TestIntegrationDataPartitionRule_ValidName(t *testing.T) {
 	require.Equal(t, 1, len(deleted.Errors))
 }
 
-//Create with invalid name
-//It should always be Unique
+// Create with invalid name
+// It should always be Unique
 func TestIntegrationDataPartitionRule_DuplicateName(t *testing.T) {
 	t.Parallel()
+	t.Skipf("Skipping `TestIntegrationDataPartitionRule_DuplicateName` as the API endpoint is not recommended.")
 
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
@@ -155,10 +157,11 @@ func TestIntegrationDataPartitionRule_DuplicateName(t *testing.T) {
 	require.Equal(t, 1, len(deleted.Errors))
 }
 
-//Create with invalid attributeName
-//It must be a combination of a-z A-Z 0-9
+// Create with invalid attributeName
+// It must be a combination of a-z A-Z 0-9
 func TestIntegrationDataPartitionRule_attributeName(t *testing.T) {
 	t.Parallel()
+	t.Skipf("Skipping `TestIntegrationDataPartitionRule_attributeName` as the API endpoint is not recommended.")
 
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
@@ -203,9 +206,10 @@ func TestIntegrationDataPartitionRule_attributeName(t *testing.T) {
 	require.Equal(t, 1, len(deleted.Errors))
 }
 
-//Update
+// Update
 func TestIntegrationDataPartitionRuleUpdate(t *testing.T) {
 	t.Parallel()
+	t.Skipf("Skipping `TestIntegrationDataPartitionRuleUpdate` as the API endpoint is not recommended.")
 
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
