@@ -51,11 +51,10 @@ func Example_policy() {
 
 	// Create a new NRQL alert condition.
 	nc := &NrqlCondition{
-		Name:          "Example NRQL condition",
-		Type:          "static",
-		RunbookURL:    "https://www.example.com/myrunbook",
-		Enabled:       true,
-		ValueFunction: ValueFunctionTypes.SingleValue,
+		Name:       "Example NRQL condition",
+		Type:       "static",
+		RunbookURL: "https://www.example.com/myrunbook",
+		Enabled:    true,
 		Nrql: NrqlQuery{
 			Query:      "FROM Transaction SELECT average(duration) WHERE appName = 'Example Application'",
 			SinceValue: "3",
