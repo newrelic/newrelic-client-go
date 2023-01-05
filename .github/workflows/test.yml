@@ -64,7 +64,7 @@ jobs:
       - name: Report unit test coverage via Codecov
         uses: codecov/codecov-action@v3
         with:
-          files: ./coverage/unit.tmp
+          files: ./coverage/unit.out
           flags: unit
 
       # - name: New Relic JUnit Reporter
@@ -113,7 +113,7 @@ jobs:
       - name: Report integration test coverage via Codecov
         uses: codecov/codecov-action@v3
         with:
-          files: ./coverage/integration.tmp
+          files: ./coverage/integration.out
           flags: integration
 
       # - name: New Relic JUnit Reporter
