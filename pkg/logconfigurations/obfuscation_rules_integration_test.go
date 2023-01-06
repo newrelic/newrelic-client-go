@@ -57,7 +57,7 @@ func TestIntegrationObfuscationRule(t *testing.T) {
 	require.NotEmpty(t, deleted)
 }
 
-//Update
+// Update
 func TestIntegrationObfuscationRuleUpdate(t *testing.T) {
 	t.Parallel()
 
@@ -95,16 +95,16 @@ func TestIntegrationObfuscationRuleUpdate(t *testing.T) {
 	require.NotNil(t, created)
 	require.NotEmpty(t, created)
 
-	//Test: Update - fail
+	//Test: Update
 	//Actions attribute not given
 	update, err := client.LogConfigurationsUpdateObfuscationRule(testAccountID, LogConfigurationsUpdateObfuscationRuleInput{
 		Name: testName + "_update",
 		ID:   created.ID,
 	})
 
-	require.Error(t, err)
-	require.Nil(t, update)
-	require.Empty(t, update)
+	require.NoError(t, err)
+	require.NotNil(t, update)
+	require.NotEmpty(t, update)
 
 	//Test: Update
 	//Actions attribute given
