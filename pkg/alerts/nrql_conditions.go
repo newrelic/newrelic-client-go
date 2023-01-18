@@ -23,6 +23,7 @@ type AlertsNrqlConditionExpiration struct {
 type AlertsNrqlConditionSignal struct {
 	AggregationWindow *int                            `json:"aggregationWindow,omitempty"`
 	EvaluationOffset  *int                            `json:"evaluationOffset,omitempty"`
+	EvaluationDelay   *int                            `json:"evaluationDelay,omitempty"`
 	FillOption        *AlertsFillOption               `json:"fillOption"`
 	FillValue         *float64                        `json:"fillValue"`
 	AggregationMethod *NrqlConditionAggregationMethod `json:"aggregationMethod,omitempty"`
@@ -36,6 +37,7 @@ type AlertsNrqlConditionSignal struct {
 type AlertsNrqlConditionCreateSignal struct {
 	AggregationWindow *int                            `json:"aggregationWindow,omitempty"`
 	EvaluationOffset  *int                            `json:"evaluationOffset,omitempty"`
+	EvaluationDelay   *int                            `json:"evaluationDelay,omitempty"`
 	FillOption        *AlertsFillOption               `json:"fillOption"`
 	FillValue         *float64                        `json:"fillValue"`
 	AggregationMethod *NrqlConditionAggregationMethod `json:"aggregationMethod,omitempty"`
@@ -49,6 +51,7 @@ type AlertsNrqlConditionCreateSignal struct {
 type AlertsNrqlConditionUpdateSignal struct {
 	AggregationWindow *int                            `json:"aggregationWindow,omitempty"`
 	EvaluationOffset  *int                            `json:"evaluationOffset,omitempty"`
+	EvaluationDelay   *int                            `json:"evaluationDelay,omitempty"`
 	FillOption        *AlertsFillOption               `json:"fillOption"`
 	FillValue         *float64                        `json:"fillValue"`
 	AggregationMethod *NrqlConditionAggregationMethod `json:"aggregationMethod"`
@@ -732,6 +735,7 @@ const (
     signal {
 	  aggregationWindow
       evaluationOffset
+ 	  evaluationDelay
       fillOption
       fillValue
       aggregationMethod

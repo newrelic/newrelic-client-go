@@ -26,8 +26,8 @@ var (
 	nrqlConditionBaseAggDelay           = 2                                           // needed for setting pointer
 	nrqlConditionBaseAggTimer           = 5                                           // needed for setting pointer
 	nrqlConditionBaseSlideBy            = 30                                          // needed for setting pointer
-
-	nrqlConditionCreateBase = NrqlConditionCreateBase{
+	nrqlConditionEvaluationDelay        = 60                                          // needed for setting pointer
+	nrqlConditionCreateBase             = NrqlConditionCreateBase{
 		Description: "test description",
 		Enabled:     true,
 		Name:        fmt.Sprintf("test-nrql-condition-%s", testNrqlConditionRandomString),
@@ -54,6 +54,7 @@ var (
 		Signal: &AlertsNrqlConditionCreateSignal{
 			AggregationWindow: &nrqlConditionBaseAggWindow,
 			EvaluationOffset:  &nrqlConditionBaseEvalOffset,
+			EvaluationDelay:   &nrqlConditionEvaluationDelay,
 			FillOption:        &AlertsFillOptionTypes.STATIC,
 			FillValue:         &nrqlConditionBaseSignalFillValue,
 		},
@@ -86,6 +87,7 @@ var (
 		Signal: &AlertsNrqlConditionUpdateSignal{
 			AggregationWindow: &nrqlConditionBaseAggWindow,
 			EvaluationOffset:  &nrqlConditionBaseEvalOffset,
+			EvaluationDelay:   &nrqlConditionEvaluationDelay,
 			FillOption:        &AlertsFillOptionTypes.STATIC,
 			FillValue:         &nrqlConditionBaseSignalFillValue,
 		},
@@ -118,6 +120,7 @@ var (
 			AggregationWindow: &nrqlConditionBaseAggWindow,
 			FillOption:        &AlertsFillOptionTypes.STATIC,
 			FillValue:         &nrqlConditionBaseSignalFillValue,
+			EvaluationDelay:   &nrqlConditionEvaluationDelay,
 			AggregationMethod: &nrqlConditionBaseAggMethod,
 			AggregationDelay:  &nrqlConditionBaseAggDelay,
 		},
@@ -151,6 +154,7 @@ var (
 			FillOption:        &AlertsFillOptionTypes.STATIC,
 			FillValue:         &nrqlConditionBaseSignalFillValue,
 			AggregationMethod: &nrqlConditionBaseAggMethod,
+			EvaluationDelay:   &nrqlConditionEvaluationDelay,
 			AggregationDelay:  &nrqlConditionBaseAggDelay,
 		},
 	}
@@ -184,6 +188,7 @@ var (
 			FillValue:         &nrqlConditionBaseSignalFillValue,
 			AggregationMethod: &nrqlConditionBaseAggMethod,
 			AggregationDelay:  &nrqlConditionBaseAggDelay,
+			EvaluationDelay:   &nrqlConditionEvaluationDelay,
 			SlideBy:           &nrqlConditionBaseSlideBy,
 		},
 	}
@@ -217,6 +222,7 @@ var (
 			FillValue:         &nrqlConditionBaseSignalFillValue,
 			AggregationMethod: &nrqlConditionBaseAggMethod,
 			AggregationDelay:  &nrqlConditionBaseAggDelay,
+			EvaluationDelay:   &nrqlConditionEvaluationDelay,
 			SlideBy:           &nrqlConditionBaseSlideBy,
 		},
 	}
@@ -662,6 +668,7 @@ func TestIntegrationNrqlConditions_StreamingMethods(t *testing.T) {
 	require.NotNil(t, readResult)
 	require.Equal(t, &nrqlConditionBaseAggMethod, readResult.Signal.AggregationMethod)
 	require.Equal(t, &nrqlConditionBaseAggDelay, readResult.Signal.AggregationDelay)
+	require.Equal(t, &nrqlConditionEvaluationDelay, readResult.Signal.EvaluationDelay)
 	require.Nil(t, createdStaticWithStreamingMethods.Signal.AggregationTimer)
 
 	// Test: Not found
