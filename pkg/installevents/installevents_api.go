@@ -54,6 +54,7 @@ const InstallationCreateInstallStatusMutation = `mutation(
 	installStatus: $installStatus,
 ) {
 	cliVersion
+	deployedBy
 	enabledProxy
 	error {
 		details
@@ -73,6 +74,7 @@ const InstallationCreateInstallStatusMutation = `mutation(
 	redirectUrl
 	state
 	targetedInstall
+	timestamp
 } }`
 
 // Creates a new recipe event.

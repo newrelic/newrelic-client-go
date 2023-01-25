@@ -23,6 +23,8 @@ func TestInstallationCreateRecipeEvent(t *testing.T) {
 
 	status := InstallationRecipeStatus{
 		CliVersion: "0.0.1",
+		Name:       "test",
+		InstallId:  "test123",
 		Status:     InstallationRecipeStatusTypeTypes.AVAILABLE,
 	}
 
@@ -43,7 +45,8 @@ func TestInstallationCreateRecipeEvent_ShouldSendMetadata(t *testing.T) {
 
 	status := InstallationRecipeStatus{
 		CliVersion: "0.0.1",
-		Name:       "test",
+		Name:       "testMetadata",
+		InstallId:  "test456",
 		Status:     InstallationRecipeStatusTypeTypes.AVAILABLE,
 		Metadata: map[string]interface{}{
 			"someKey": "some value",
@@ -72,6 +75,7 @@ func TestInstallationCreateInstallStatus(t *testing.T) {
 
 	status := InstallationInstallStatusInput{
 		CliVersion: "0.0.1",
+		InstallId:  "test000",
 		State:      InstallationInstallStateTypeTypes.COMPLETED,
 	}
 
