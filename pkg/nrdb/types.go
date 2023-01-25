@@ -157,6 +157,20 @@ type NRDBMetadataTimeWindow struct {
 	Until string `json:"until,omitempty"`
 }
 
+// NRDBQueryProgress - An object containing metadata about the execution of an asynchronous NRQL query.
+type NRDBQueryProgress struct {
+	// Whether the query has finished executing.
+	Completed bool `json:"completed,omitempty"`
+	// A token for retrieving the results of a previously executed asynchronous query.
+	QueryId int `json:"queryId,omitempty"`
+	// Results of the completed query will expire permanently after this long.
+	ResultExpiration Seconds `json:"resultExpiration,omitempty"`
+	// Wait at least this long before querying for completed results with the `queryId`.
+	RetryAfter Seconds `json:"retryAfter,omitempty"`
+	// The server may cancel the NRDB query after this long if no GraphQL queries have been made to check the `queryId`'s status.
+	RetryDeadline Seconds `json:"retryDeadline,omitempty"`
+}
+
 // NRDBResultContainer - A data structure that contains the results of the NRDB query along
 // with other capabilities that enhance those results.
 //
@@ -180,10 +194,14 @@ type NRDBResultContainer struct {
 	// The [NRQL](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) query that was executed to yield these results.
 	NRQL NRQL `json:"nrql,omitempty"`
 	// In a `FACET` query, the `otherResult` contains the aggregates representing the events _not_
-	// contained in an individual `results` facet
+	// contained in an individual `results` facet.
 	OtherResult NRDBResult `json:"otherResult,omitempty"`
 	// In a `COMPARE WITH` query, the `previousResults` contain the results for the previous comparison time window.
 	PreviousResults []NRDBResult `json:"previousResults,omitempty"`
+	// Metadata about the execution of an asynchronous NRQL query.
+	QueryProgress NRDBQueryProgress `json:"queryProgress,omitempty"`
+	// The raw query results exactly as they are returned from NRDB. NerdGraph provides no additional transformation.
+	RawResponse NRDBRawResults `json:"rawResponse,omitempty"`
 	// The query results. This is a flat list of objects who's structure matches the query submitted.
 	Results []NRDBResult `json:"results,omitempty"`
 	// Generate a publicly sharable static chart URL for the NRQL query.
@@ -205,7 +223,7 @@ type NRDBResultContainer struct {
 	// Input NRQL must be a TIMESERIES query and must have exactly one result.
 	SuggestedQueries SuggestedNRQLQueryResponse `json:"suggestedQueries,omitempty"`
 	// In a `FACET` query, the `totalResult` contains the aggregates representing _all_ the events,
-	// whether or not they are contained in an individual `results` facet
+	// whether or not they are contained in an individual `results` facet.
 	TotalResult NRDBResult `json:"totalResult,omitempty"`
 }
 
@@ -225,11 +243,11 @@ type NRQLFacetSuggestion struct {
 // NRQLHistoricalQuery - An NRQL query executed in the past.
 type NRQLHistoricalQuery struct {
 	// The Account ID queried.
-	AccountIDs []int `json:"accountIds,omitempty"`
+	AccountID int `json:"accountId,omitempty"`
 	// The NRQL query executed.
-	Query NRQL `json:"query,omitempty"`
+	NRQL NRQL `json:"nrql,omitempty"`
 	// The time the query was executed.
-	CreatedAt nrtime.DateTime `json:"createdAt,omitempty"`
+	Timestamp nrtime.EpochSeconds `json:"timestamp,omitempty"`
 }
 
 // SuggestedAnomalyBasedNRQLQuery - A query suggestion based on analysis of events within a specific anomalous time
@@ -325,6 +343,19 @@ type TimeWindow struct {
 	StartTime nrtime.EpochMilliseconds `json:"startTime,omitempty"`
 }
 
+// ID - The `ID` scalar type represents a unique identifier, often used to
+// refetch an object or as key for a cache. The ID type appears in a JSON
+// response as a String; however, it is not intended to be human-readable.
+// When expected as an input type, any string (such as `"4"`) or integer
+// (such as `4`) input value will be accepted as an ID.
+type ID string
+
+// NRDBRawResults - This scalar represents the raw nrql query results as returned from NRDB. It is a `Map` of `String` keys to values.
+//
+// The shape of these objects reflect the query used to generate them, the contents
+// of the objects is not part of the GraphQL schema.
+type NRDBRawResults string
+
 // NRDBResult - This scalar represents a NRDB Result. It is a `Map` of `String` keys to values.
 //
 // The shape of these objects reflect the query used to generate them, the contents
@@ -335,6 +366,9 @@ type NRDBResult map[string]interface{}
 //
 // See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about NRQL syntax.
 type NRQL string
+
+// Seconds - The `Seconds` scalar represents a duration in seconds
+type Seconds string
 
 // SuggestedNRQLQuery - Interface type representing a query suggestion.
 type SuggestedNRQLQueryInterface interface {

@@ -39,6 +39,8 @@ type Actor struct {
 	//
 	// For more details on entities, visit our [entity docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/use-new-relic-graphql-api-query-entities).
 	Entity EntityInterface `json:"entity,omitempty"`
+	// The authenticated `User` who made this request.
+	User User `json:"user,omitempty"`
 }
 
 // Entity - The `Entity` interface allows fetching detailed entity information for a single entity.
@@ -301,6 +303,16 @@ type ServiceLevelObjectiveUpdateInput struct {
 type ServiceLevelResultQuery struct {
 	// A NRQL query.
 	NRQL NRQL `json:"nrql"`
+}
+
+// User - The `User` object provides general data about the user.
+type User struct {
+	//
+	Email string `json:"email,omitempty"`
+	//
+	ID int `json:"id,omitempty"`
+	//
+	Name string `json:"name,omitempty"`
 }
 
 // UserReference - The `UserReference` object provides basic identifying information about the user.

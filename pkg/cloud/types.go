@@ -46,6 +46,10 @@ type Account struct {
 type Actor struct {
 	// The `cloud` field provides access to cloud integrations configuration data scoped to the Actor.
 	Cloud CloudActorFields `json:"cloud,omitempty"`
+}
+
+// Actor - The `Actor` object contains fields that are scoped to the API user's access level.
+type Actor struct {
 	// The `account` field is the entry point into data that is scoped to a single account.
 	Account Account `json:"account,omitempty"`
 }
@@ -2281,6 +2285,8 @@ type CloudAzureMariadbIntegrationInput struct {
 type CloudAzureMonitorIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
+	// Specify if integration is active
+	Enabled bool `json:"enabled,omitempty"`
 	// Specify resource tags (in 'key:value' form) associated with the resources that you want to exclude from monitoring. Exclusion takes precedence over inclusion.
 	ExcludeTags []string `json:"excludeTags,omitempty"`
 	// The cloud service integration identifier.
@@ -2311,6 +2317,8 @@ func (x *CloudAzureMonitorIntegration) ImplementsCloudIntegration() {}
 
 // CloudAzureMonitorIntegrationInput - Azure Monitor metrics
 type CloudAzureMonitorIntegrationInput struct {
+	// Specify if integration is active
+	Enabled bool `json:"enabled,omitempty"`
 	// Specify resource tags (in 'key:value' form) associated with the resources that you want to exclude from monitoring. Exclusion takes precedence over inclusion.
 	ExcludeTags []string `json:"excludeTags,omitempty"`
 	// Specify resource tags (in 'key:value' form) associated with the resources that you want to monitor. If empty, all resources will be monitored.

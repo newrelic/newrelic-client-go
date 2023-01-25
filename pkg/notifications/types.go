@@ -226,6 +226,8 @@ var AiNotificationsDestinationStatusTypes = struct {
 	AUTHORIZATION_ERROR AiNotificationsDestinationStatus
 	// Authorization Warning destination status
 	AUTHORIZATION_WARNING AiNotificationsDestinationStatus
+	// Auth Error destination status
+	AUTH_ERROR AiNotificationsDestinationStatus
 	// Configuration Error destination status
 	CONFIGURATION_ERROR AiNotificationsDestinationStatus
 	// Default destination status
@@ -234,6 +236,8 @@ var AiNotificationsDestinationStatusTypes = struct {
 	DRAFT AiNotificationsDestinationStatus
 	// Error channel status
 	ERROR AiNotificationsDestinationStatus
+	// External Server Error destination status
+	EXTERNAL_SERVER_ERROR AiNotificationsDestinationStatus
 	// Temporary Warning destination status
 	TEMPORARY_WARNING AiNotificationsDestinationStatus
 	// Tested channel status
@@ -242,6 +246,10 @@ var AiNotificationsDestinationStatusTypes = struct {
 	THROTTLED AiNotificationsDestinationStatus
 	// Throttling Warning destination status
 	THROTTLING_WARNING AiNotificationsDestinationStatus
+	// Timeout Error destination status
+	TIMEOUT_ERROR AiNotificationsDestinationStatus
+	// Uninstalled destination status
+	UNINSTALLED AiNotificationsDestinationStatus
 	// Unknown Error destination status
 	UNKNOWN_ERROR AiNotificationsDestinationStatus
 }{
@@ -251,6 +259,8 @@ var AiNotificationsDestinationStatusTypes = struct {
 	AUTHORIZATION_ERROR: "AUTHORIZATION_ERROR",
 	// Authorization Warning destination status
 	AUTHORIZATION_WARNING: "AUTHORIZATION_WARNING",
+	// Auth Error destination status
+	AUTH_ERROR: "AUTH_ERROR",
 	// Configuration Error destination status
 	CONFIGURATION_ERROR: "CONFIGURATION_ERROR",
 	// Default destination status
@@ -259,6 +269,8 @@ var AiNotificationsDestinationStatusTypes = struct {
 	DRAFT: "DRAFT",
 	// Error channel status
 	ERROR: "ERROR",
+	// External Server Error destination status
+	EXTERNAL_SERVER_ERROR: "EXTERNAL_SERVER_ERROR",
 	// Temporary Warning destination status
 	TEMPORARY_WARNING: "TEMPORARY_WARNING",
 	// Tested channel status
@@ -267,6 +279,10 @@ var AiNotificationsDestinationStatusTypes = struct {
 	THROTTLED: "THROTTLED",
 	// Throttling Warning destination status
 	THROTTLING_WARNING: "THROTTLING_WARNING",
+	// Timeout Error destination status
+	TIMEOUT_ERROR: "TIMEOUT_ERROR",
+	// Uninstalled destination status
+	UNINSTALLED: "UNINSTALLED",
 	// Unknown Error destination status
 	UNKNOWN_ERROR: "UNKNOWN_ERROR",
 }
@@ -356,6 +372,8 @@ var AiNotificationsErrorTypeTypes = struct {
 	UNAUTHORIZED_ACCOUNT AiNotificationsErrorType
 	// Received one or more unexpected parameters
 	UNEXPECTED_PARAMETER AiNotificationsErrorType
+	// The New Relic application was removed
+	UNINSTALLED_DESTINATION AiNotificationsErrorType
 	// An unknown error has occurred
 	UNKNOWN_ERROR AiNotificationsErrorType
 }{
@@ -389,6 +407,8 @@ var AiNotificationsErrorTypeTypes = struct {
 	UNAUTHORIZED_ACCOUNT: "UNAUTHORIZED_ACCOUNT",
 	// Received one or more unexpected parameters
 	UNEXPECTED_PARAMETER: "UNEXPECTED_PARAMETER",
+	// The New Relic application was removed
+	UNINSTALLED_DESTINATION: "UNINSTALLED_DESTINATION",
 	// An unknown error has occurred
 	UNKNOWN_ERROR: "UNKNOWN_ERROR",
 }
@@ -594,6 +614,8 @@ type AiNotificationsChannelFilter struct {
 	DestinationId string `json:"destinationId,omitempty"`
 	// id
 	ID string `json:"id,omitempty"`
+	// ids
+	IDs []string `json:"ids"`
 	// name
 	Name string `json:"name,omitempty"`
 	// product
@@ -720,6 +742,8 @@ type AiNotificationsDestinationFilter struct {
 	AuthType AiNotificationsAuthType `json:"authType,omitempty"`
 	// id
 	ID string `json:"id,omitempty"`
+	// ids
+	IDs []string `json:"ids"`
 	// name
 	Name string `json:"name,omitempty"`
 	// property

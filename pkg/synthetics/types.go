@@ -102,11 +102,13 @@ type SyntheticsMonitorCreateErrorType string
 var SyntheticsMonitorCreateErrorTypeTypes = struct {
 	// Received a request missing required fields or containing invalid data
 	BAD_REQUEST SyntheticsMonitorCreateErrorType
-	// An unknown error occured while processing request to mutate monitor
+	// An unknown error occurred while processing request to mutate monitor
 	INTERNAL_SERVER_ERROR SyntheticsMonitorCreateErrorType
 	// Monitor not found for given guid (monitor does not exist on account or has already been deleted)
 	NOT_FOUND SyntheticsMonitorCreateErrorType
-	// Monitor tags were not udpated.
+	// Monitor creation exceeds account subscription limits
+	PAYMENT_REQUIRED SyntheticsMonitorCreateErrorType
+	// Monitor tags were not updated.
 	TAGGING_ERROR SyntheticsMonitorCreateErrorType
 	// User does not have authorization to perform monitor mutation.
 	UNAUTHORIZED SyntheticsMonitorCreateErrorType
@@ -115,11 +117,13 @@ var SyntheticsMonitorCreateErrorTypeTypes = struct {
 }{
 	// Received a request missing required fields or containing invalid data
 	BAD_REQUEST: "BAD_REQUEST",
-	// An unknown error occured while processing request to mutate monitor
+	// An unknown error occurred while processing request to mutate monitor
 	INTERNAL_SERVER_ERROR: "INTERNAL_SERVER_ERROR",
 	// Monitor not found for given guid (monitor does not exist on account or has already been deleted)
 	NOT_FOUND: "NOT_FOUND",
-	// Monitor tags were not udpated.
+	// Monitor creation exceeds account subscription limits
+	PAYMENT_REQUIRED: "PAYMENT_REQUIRED",
+	// Monitor tags were not updated.
 	TAGGING_ERROR: "TAGGING_ERROR",
 	// User does not have authorization to perform monitor mutation.
 	UNAUTHORIZED: "UNAUTHORIZED",
@@ -195,13 +199,13 @@ type SyntheticsMonitorUpdateErrorType string
 var SyntheticsMonitorUpdateErrorTypeTypes = struct {
 	// Received a request missing required fields or containing invalid data
 	BAD_REQUEST SyntheticsMonitorUpdateErrorType
-	// An unknown error occured while processing request to mutate monitor
+	// An unknown error occurred while processing request to mutate monitor
 	INTERNAL_SERVER_ERROR SyntheticsMonitorUpdateErrorType
 	// Monitor not found for given guid (monitor does not exist on account or has already been deleted)
 	NOT_FOUND SyntheticsMonitorUpdateErrorType
 	// An error occurred while updating monitor script
 	SCRIPT_ERROR SyntheticsMonitorUpdateErrorType
-	// Monitor tags were not udpated.
+	// Monitor tags were not updated.
 	TAGGING_ERROR SyntheticsMonitorUpdateErrorType
 	// User does not have authorization to perform monitor mutation.
 	UNAUTHORIZED SyntheticsMonitorUpdateErrorType
@@ -210,13 +214,13 @@ var SyntheticsMonitorUpdateErrorTypeTypes = struct {
 }{
 	// Received a request missing required fields or containing invalid data
 	BAD_REQUEST: "BAD_REQUEST",
-	// An unknown error occured while processing request to mutate monitor
+	// An unknown error occurred while processing request to mutate monitor
 	INTERNAL_SERVER_ERROR: "INTERNAL_SERVER_ERROR",
 	// Monitor not found for given guid (monitor does not exist on account or has already been deleted)
 	NOT_FOUND: "NOT_FOUND",
 	// An error occurred while updating monitor script
 	SCRIPT_ERROR: "SCRIPT_ERROR",
-	// Monitor tags were not udpated.
+	// Monitor tags were not updated.
 	TAGGING_ERROR: "TAGGING_ERROR",
 	// User does not have authorization to perform monitor mutation.
 	UNAUTHORIZED: "UNAUTHORIZED",
@@ -230,7 +234,7 @@ type SyntheticsPrivateLocationMutationErrorType string
 var SyntheticsPrivateLocationMutationErrorTypeTypes = struct {
 	// Received a request missing required fields or containing invalid data
 	BAD_REQUEST SyntheticsPrivateLocationMutationErrorType
-	// An unknown error occured while processing request to purge specified private location job queue
+	// An unknown error occurred while processing request to purge specified private location job queue
 	INTERNAL_SERVER_ERROR SyntheticsPrivateLocationMutationErrorType
 	// Private location not found for key (private location does not exist on account or has already been deleted)
 	NOT_FOUND SyntheticsPrivateLocationMutationErrorType
@@ -239,7 +243,7 @@ var SyntheticsPrivateLocationMutationErrorTypeTypes = struct {
 }{
 	// Received a request missing required fields or containing invalid data
 	BAD_REQUEST: "BAD_REQUEST",
-	// An unknown error occured while processing request to purge specified private location job queue
+	// An unknown error occurred while processing request to purge specified private location job queue
 	INTERNAL_SERVER_ERROR: "INTERNAL_SERVER_ERROR",
 	// Private location not found for key (private location does not exist on account or has already been deleted)
 	NOT_FOUND: "NOT_FOUND",
@@ -472,7 +476,7 @@ type SyntheticsAccountStitchedFields struct {
 // SyntheticsBrokenLinksMonitor - A Broken Links monitor resulting from a Broken Links monitor mutation
 type SyntheticsBrokenLinksMonitor struct {
 	// The creation time of the monitor in millis
-	CreatedAt nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
+	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
 	// The unique client identifier for the Synthetics Monitor in New Relic
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The unique identifier of the monitor within the Synthetics domain
@@ -480,7 +484,7 @@ type SyntheticsBrokenLinksMonitor struct {
 	// The locations the monitor runs from
 	Locations SyntheticsLocations `json:"locations,omitempty"`
 	// The last modification time of the monitor in millis
-	ModifiedAt nrtime.EpochMilliseconds `json:"modifiedAt,omitempty"`
+	ModifiedAt *nrtime.EpochMilliseconds `json:"modifiedAt,omitempty"`
 	// The human readable identifier for the monitor
 	Name string `json:"name,omitempty"`
 	// The interval at which the monitor runs in minutes
@@ -510,7 +514,7 @@ type SyntheticsBrokenLinksMonitorUpdateMutationResult struct {
 // SyntheticsCertCheckMonitor - A Cert Check monitor resulting from a Cert Check monitor mutation
 type SyntheticsCertCheckMonitor struct {
 	// The creation time of the monitor in millis
-	CreatedAt nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
+	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
 	// The domain of the host that will have its certificate checked
 	Domain string `json:"domain,omitempty"`
 	// The unique client identifier for the Synthetics Monitor in New Relic
@@ -520,7 +524,7 @@ type SyntheticsCertCheckMonitor struct {
 	// The locations the monitor runs from
 	Locations SyntheticsLocations `json:"locations,omitempty"`
 	// The last modification time of the monitor in millis
-	ModifiedAt nrtime.EpochMilliseconds `json:"modifiedAt,omitempty"`
+	ModifiedAt *nrtime.EpochMilliseconds `json:"modifiedAt,omitempty"`
 	// The human readable identifier for the monitor
 	Name string `json:"name,omitempty"`
 	// The desired number of remaining days until the certificate expires to trigger a monitor failure
@@ -549,6 +553,8 @@ type SyntheticsCertCheckMonitorUpdateMutationResult struct {
 
 // SyntheticsCreateBrokenLinksMonitorInput - The monitor input values needed to create a Broken Links monitor
 type SyntheticsCreateBrokenLinksMonitorInput struct {
+	// The monitor's Apdex target used to populate SLA reports
+	ApdexTarget float64 `json:"apdexTarget,omitempty"`
 	// The locations the monitor will run from
 	Locations SyntheticsLocationsInput `json:"locations,omitempty"`
 	// The human readable identifier for the monitor
@@ -565,6 +571,8 @@ type SyntheticsCreateBrokenLinksMonitorInput struct {
 
 // SyntheticsCreateCertCheckMonitorInput - The monitor input values needed to create a Cert Check monitor
 type SyntheticsCreateCertCheckMonitorInput struct {
+	// The monitor's Apdex target used to populate SLA reports
+	ApdexTarget float64 `json:"apdexTarget,omitempty"`
 	// The domain of the host that will have its certificate checked
 	Domain string `json:"domain"`
 	// The locations the monitor will run from
@@ -583,6 +591,8 @@ type SyntheticsCreateCertCheckMonitorInput struct {
 
 // SyntheticsCreateScriptAPIMonitorInput - The monitor input values needed to create a Script Api monitor
 type SyntheticsCreateScriptAPIMonitorInput struct {
+	// The monitor's Apdex target used to populate SLA reports
+	ApdexTarget float64 `json:"apdexTarget,omitempty"`
 	// The locations the monitor will run from
 	Locations SyntheticsScriptedMonitorLocationsInput `json:"locations,omitempty"`
 	// The human readable identifier for the monitor
@@ -603,6 +613,8 @@ type SyntheticsCreateScriptAPIMonitorInput struct {
 type SyntheticsCreateScriptBrowserMonitorInput struct {
 	// The monitor advanced options
 	AdvancedOptions SyntheticsScriptBrowserMonitorAdvancedOptionsInput `json:"advancedOptions,omitempty"`
+	// The monitor's Apdex target used to populate SLA reports
+	ApdexTarget float64 `json:"apdexTarget,omitempty"`
 	// The locations the monitor will run from
 	Locations SyntheticsScriptedMonitorLocationsInput `json:"locations,omitempty"`
 	// The human readable identifier for the monitor
@@ -623,6 +635,8 @@ type SyntheticsCreateScriptBrowserMonitorInput struct {
 type SyntheticsCreateSimpleBrowserMonitorInput struct {
 	// The monitor advanced options
 	AdvancedOptions SyntheticsSimpleBrowserMonitorAdvancedOptionsInput `json:"advancedOptions,omitempty"`
+	// The monitor's Apdex target used to populate SLA reports
+	ApdexTarget float64 `json:"apdexTarget,omitempty"`
 	// The locations the monitor will run from
 	Locations SyntheticsLocationsInput `json:"locations,omitempty"`
 	// The human readable identifier for the monitor
@@ -643,6 +657,8 @@ type SyntheticsCreateSimpleBrowserMonitorInput struct {
 type SyntheticsCreateSimpleMonitorInput struct {
 	// The monitor advanced options
 	AdvancedOptions SyntheticsSimpleMonitorAdvancedOptionsInput `json:"advancedOptions,omitempty"`
+	// The monitor's Apdex target used to populate SLA reports
+	ApdexTarget float64 `json:"apdexTarget,omitempty"`
 	// The locations the monitor will run from
 	Locations SyntheticsLocationsInput `json:"locations,omitempty"`
 	// The human readable identifier for the monitor
@@ -661,6 +677,8 @@ type SyntheticsCreateSimpleMonitorInput struct {
 type SyntheticsCreateStepMonitorInput struct {
 	// The monitor advanced options
 	AdvancedOptions SyntheticsStepMonitorAdvancedOptionsInput `json:"advancedOptions,omitempty"`
+	// The monitor's Apdex target used to populate SLA reports
+	ApdexTarget float64 `json:"apdexTarget,omitempty"`
 	// The locations the monitor will run from
 	Locations SyntheticsScriptedMonitorLocationsInput `json:"locations,omitempty"`
 	// The human readable identifier for the monitor
@@ -701,7 +719,7 @@ type SyntheticsError struct {
 type SyntheticsLocations struct {
 	// Existing private location(s) in which the monitor will run
 	Private []string `json:"private,omitempty"`
-	// Publicly available location(s) in which the monitor will run
+	// Publicly available location(s) in which the monitor will run. For formatting tips, see [this link](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-synthetics-tutorial/#location-field)
 	Public []string `json:"public,omitempty"`
 }
 
@@ -709,7 +727,7 @@ type SyntheticsLocations struct {
 type SyntheticsLocationsInput struct {
 	// Existing private location(s) in which the monitor will run
 	Private []string `json:"private,omitempty"`
-	// Publicly available location(s) in which the monitor will run
+	// Publicly available location(s) in which the monitor will run. For formatting tips, see [this link](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-synthetics-tutorial/#location-field)
 	Public []string `json:"public,omitempty"`
 }
 
@@ -782,7 +800,7 @@ type SyntheticsPrivateLocationMutationResult struct {
 	// The name of the private location
 	Name string `json:"name,omitempty"`
 	// Specifies whether the private location requires a password for scripted monitors
-	VerifiedScriptExecution *bool `json:"verifiedScriptExecution,omitempty"`
+	VerifiedScriptExecution bool `json:"verifiedScriptExecution,omitempty"`
 }
 
 // SyntheticsPrivateLocationPurgeQueueResult - Result of a Synthetics purge private location queue mutation
@@ -814,7 +832,7 @@ type SyntheticsRuntimeInput struct {
 // SyntheticsScriptAPIMonitor - A Script Api monitor resulting from a Script Api mutation
 type SyntheticsScriptAPIMonitor struct {
 	// The creation time of the monitor in millis
-	CreatedAt nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
+	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
 	// The unique client identifier for the Synthetics Monitor in New Relic
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The unique identifier of the monitor within the Synthetics domain
@@ -822,7 +840,7 @@ type SyntheticsScriptAPIMonitor struct {
 	// The locations the monitor runs from
 	Locations SyntheticsLocations `json:"locations,omitempty"`
 	// The last modification time of the monitor in millis
-	ModifiedAt nrtime.EpochMilliseconds `json:"modifiedAt,omitempty"`
+	ModifiedAt *nrtime.EpochMilliseconds `json:"modifiedAt,omitempty"`
 	// The human readable identifier for the monitor
 	Name string `json:"name,omitempty"`
 	// The interval at which the monitor runs in minutes
@@ -854,7 +872,7 @@ type SyntheticsScriptBrowserMonitor struct {
 	// The monitor advanced options
 	AdvancedOptions SyntheticsScriptBrowserMonitorAdvancedOptions `json:"advancedOptions,omitempty"`
 	// The creation time of the monitor in millis
-	CreatedAt nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
+	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
 	// The unique client identifier for the Synthetics Monitor in New Relic
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The unique identifier of the monitor within the Synthetics domain
@@ -862,7 +880,7 @@ type SyntheticsScriptBrowserMonitor struct {
 	// The locations the monitor runs from
 	Locations SyntheticsLocations `json:"locations,omitempty"`
 	// The last modification time of the monitor in millis
-	ModifiedAt nrtime.EpochMilliseconds `json:"modifiedAt,omitempty"`
+	ModifiedAt *nrtime.EpochMilliseconds `json:"modifiedAt,omitempty"`
 	// The human readable identifier for the monitor
 	Name string `json:"name,omitempty"`
 	// The interval at which the monitor runs in minutes
@@ -876,13 +894,13 @@ type SyntheticsScriptBrowserMonitor struct {
 // SyntheticsScriptBrowserMonitorAdvancedOptions - The advanced options available for a Script Browser monitor
 type SyntheticsScriptBrowserMonitorAdvancedOptions struct {
 	// Capture a screenshot during job execution
-	EnableScreenshotOnFailureAndScript *bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
+	EnableScreenshotOnFailureAndScript bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
 }
 
 // SyntheticsScriptBrowserMonitorAdvancedOptionsInput - The advanced options inputs available for a Script Browser monitor
 type SyntheticsScriptBrowserMonitorAdvancedOptionsInput struct {
 	// Capture a screenshot during job execution
-	EnableScreenshotOnFailureAndScript *bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
+	EnableScreenshotOnFailureAndScript bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
 }
 
 // SyntheticsScriptBrowserMonitorCreateMutationResult - The result of a Script Browser monitor create mutation
@@ -928,7 +946,7 @@ type SyntheticsSimpleBrowserMonitor struct {
 	// The monitor advanced options
 	AdvancedOptions SyntheticsSimpleBrowserMonitorAdvancedOptions `json:"advancedOptions,omitempty"`
 	// The creation time of the monitor in millis
-	CreatedAt nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
+	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
 	// The unique client identifier for the Synthetics Monitor in New Relic
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The unique identifier of the monitor within the Synthetics domain
@@ -936,7 +954,7 @@ type SyntheticsSimpleBrowserMonitor struct {
 	// The locations the monitor runs from
 	Locations SyntheticsLocations `json:"locations,omitempty"`
 	// The last modification time of the monitor in millis
-	ModifiedAt nrtime.EpochMilliseconds `json:"modifiedAt,omitempty"`
+	ModifiedAt *nrtime.EpochMilliseconds `json:"modifiedAt,omitempty"`
 	// The human readable identifier for the monitor
 	Name string `json:"name,omitempty"`
 	// The interval at which the monitor runs in minutes
@@ -954,11 +972,11 @@ type SyntheticsSimpleBrowserMonitorAdvancedOptions struct {
 	// Custom headers to use in monitor job
 	CustomHeaders []SyntheticsCustomHeader `json:"customHeaders,omitempty"`
 	// Capture a screenshot during job execution
-	EnableScreenshotOnFailureAndScript *bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
+	EnableScreenshotOnFailureAndScript bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
 	// Validation text for monitor to search for at given URI
 	ResponseValidationText string `json:"responseValidationText,omitempty"`
 	// Monitor should validate SSL certificate chain
-	UseTlsValidation *bool `json:"useTlsValidation,omitempty"`
+	UseTlsValidation bool `json:"useTlsValidation,omitempty"`
 }
 
 // SyntheticsSimpleBrowserMonitorAdvancedOptionsInput - The advanced options inputs available for a Simple Browser monitor
@@ -966,11 +984,11 @@ type SyntheticsSimpleBrowserMonitorAdvancedOptionsInput struct {
 	// Custom headers to use in monitor job
 	CustomHeaders []SyntheticsCustomHeaderInput `json:"customHeaders,omitempty"`
 	// Capture a screenshot during job execution
-	EnableScreenshotOnFailureAndScript *bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
+	EnableScreenshotOnFailureAndScript bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
 	// Validation text for monitor to search for at given URI
 	ResponseValidationText string `json:"responseValidationText,omitempty"`
 	// Monitor should validate SSL certificate chain
-	UseTlsValidation *bool `json:"useTlsValidation,omitempty"`
+	UseTlsValidation bool `json:"useTlsValidation,omitempty"`
 }
 
 // SyntheticsSimpleBrowserMonitorCreateMutationResult - The result of a Simple Browser monitor create mutation
@@ -994,7 +1012,7 @@ type SyntheticsSimpleMonitor struct {
 	// The monitor advanced options
 	AdvancedOptions SyntheticsSimpleMonitorAdvancedOptions `json:"advancedOptions,omitempty"`
 	// The creation time of the monitor in millis
-	CreatedAt nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
+	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
 	// The unique client identifier for the Synthetics Monitor in New Relic
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The unique identifier of the monitor within the Synthetics domain
@@ -1002,7 +1020,7 @@ type SyntheticsSimpleMonitor struct {
 	// The locations the monitor runs from
 	Locations SyntheticsLocations `json:"locations,omitempty"`
 	// The last modification time of the monitor in millis
-	ModifiedAt nrtime.EpochMilliseconds `json:"modifiedAt,omitempty"`
+	ModifiedAt *nrtime.EpochMilliseconds `json:"modifiedAt,omitempty"`
 	// The human readable identifier for the monitor
 	Name string `json:"name,omitempty"`
 	// The interval at which the monitor runs in minutes
@@ -1018,13 +1036,13 @@ type SyntheticsSimpleMonitorAdvancedOptions struct {
 	// Custom headers to use in monitor job
 	CustomHeaders []SyntheticsCustomHeader `json:"customHeaders,omitempty"`
 	// Categorize redirects during a monitor job as a failure
-	RedirectIsFailure *bool `json:"redirectIsFailure,omitempty"`
+	RedirectIsFailure bool `json:"redirectIsFailure,omitempty"`
 	// Validation text for monitor to search for at given URI
 	ResponseValidationText string `json:"responseValidationText,omitempty"`
 	// Monitor should skip default HEAD request and instead use GET verb in check
-	ShouldBypassHeadRequest *bool `json:"shouldBypassHeadRequest,omitempty"`
+	ShouldBypassHeadRequest bool `json:"shouldBypassHeadRequest,omitempty"`
 	// Monitor should validate SSL certificate chain
-	UseTlsValidation *bool `json:"useTlsValidation,omitempty"`
+	UseTlsValidation bool `json:"useTlsValidation,omitempty"`
 }
 
 // SyntheticsSimpleMonitorAdvancedOptionsInput - The advanced options inputs available for a Simple (ping) monitor
@@ -1032,13 +1050,13 @@ type SyntheticsSimpleMonitorAdvancedOptionsInput struct {
 	// Custom headers to use in monitor job
 	CustomHeaders []SyntheticsCustomHeaderInput `json:"customHeaders,omitempty"`
 	// Categorize redirects during a monitor job as a failure
-	RedirectIsFailure *bool `json:"redirectIsFailure,omitempty"`
+	RedirectIsFailure bool `json:"redirectIsFailure,omitempty"`
 	// Validation text for monitor to search for at given URI
 	ResponseValidationText string `json:"responseValidationText,omitempty"`
 	// Monitor should skip default HEAD request and instead use GET verb in check
-	ShouldBypassHeadRequest *bool `json:"shouldBypassHeadRequest,omitempty"`
+	ShouldBypassHeadRequest bool `json:"shouldBypassHeadRequest,omitempty"`
 	// Monitor should validate SSL certificate chain
-	UseTlsValidation *bool `json:"useTlsValidation,omitempty"`
+	UseTlsValidation bool `json:"useTlsValidation,omitempty"`
 }
 
 // SyntheticsSimpleMonitorUpdateMutationResult - The result of a Simple (ping) monitor update mutation
@@ -1074,7 +1092,7 @@ type SyntheticsStepMonitor struct {
 	// The monitor advanced options
 	AdvancedOptions SyntheticsStepMonitorAdvancedOptions `json:"advancedOptions,omitempty"`
 	// The creation time of the monitor in millis
-	CreatedAt nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
+	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
 	// The unique client identifier for the Synthetics Monitor in New Relic
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The unique identifier of the monitor within the Synthetics domain
@@ -1082,7 +1100,7 @@ type SyntheticsStepMonitor struct {
 	// The locations the monitor runs from
 	Locations SyntheticsLocations `json:"locations,omitempty"`
 	// The last modification time of the monitor in millis
-	ModifiedAt nrtime.EpochMilliseconds `json:"modifiedAt,omitempty"`
+	ModifiedAt *nrtime.EpochMilliseconds `json:"modifiedAt,omitempty"`
 	// The human readable identifier for the monitor
 	Name string `json:"name,omitempty"`
 	// The interval at which the monitor runs in minutes
@@ -1096,13 +1114,13 @@ type SyntheticsStepMonitor struct {
 // SyntheticsStepMonitorAdvancedOptions - The advanced options available for a Step monitor
 type SyntheticsStepMonitorAdvancedOptions struct {
 	// Capture a screenshot during job execution
-	EnableScreenshotOnFailureAndScript *bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
+	EnableScreenshotOnFailureAndScript bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
 }
 
 // SyntheticsStepMonitorAdvancedOptionsInput - The advanced options inputs available for a Step monitor
 type SyntheticsStepMonitorAdvancedOptionsInput struct {
 	// Capture a screenshot during job execution
-	EnableScreenshotOnFailureAndScript *bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
+	EnableScreenshotOnFailureAndScript bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
 }
 
 // SyntheticsStepMonitorCreateMutationResult - The result of a Step monitor create mutation
@@ -1131,6 +1149,8 @@ type SyntheticsTag struct {
 
 // SyntheticsUpdateBrokenLinksMonitorInput - The monitor values that can be updated on a Broken Links monitor
 type SyntheticsUpdateBrokenLinksMonitorInput struct {
+	// The monitor's Apdex target used to populate SLA reports
+	ApdexTarget float64 `json:"apdexTarget,omitempty"`
 	// The locations the monitor will run from
 	Locations SyntheticsLocationsInput `json:"locations,omitempty"`
 	// The human readable identifier for the monitor
@@ -1147,6 +1167,8 @@ type SyntheticsUpdateBrokenLinksMonitorInput struct {
 
 // SyntheticsUpdateCertCheckMonitorInput - The monitor values that can be updated on a Cert Check monitor
 type SyntheticsUpdateCertCheckMonitorInput struct {
+	// The monitor's Apdex target used to populate SLA reports
+	ApdexTarget float64 `json:"apdexTarget,omitempty"`
 	// The domain of the host that will have its certificate checked
 	Domain string `json:"domain,omitempty"`
 	// The locations the monitor will run from
@@ -1165,6 +1187,8 @@ type SyntheticsUpdateCertCheckMonitorInput struct {
 
 // SyntheticsUpdateScriptAPIMonitorInput - The monitor values that can be updated on a Script Api monitor
 type SyntheticsUpdateScriptAPIMonitorInput struct {
+	// The monitor's Apdex target used to populate SLA reports
+	ApdexTarget float64 `json:"apdexTarget,omitempty"`
 	// The locations the monitor will run from
 	Locations SyntheticsScriptedMonitorLocationsInput `json:"locations,omitempty"`
 	// The human readable identifier for the monitor
@@ -1185,6 +1209,8 @@ type SyntheticsUpdateScriptAPIMonitorInput struct {
 type SyntheticsUpdateScriptBrowserMonitorInput struct {
 	// The monitor advanced options
 	AdvancedOptions SyntheticsScriptBrowserMonitorAdvancedOptionsInput `json:"advancedOptions,omitempty"`
+	// The monitor's Apdex target used to populate SLA reports
+	ApdexTarget float64 `json:"apdexTarget,omitempty"`
 	// The locations the monitor will run from
 	Locations SyntheticsScriptedMonitorLocationsInput `json:"locations,omitempty"`
 	// The human readable identifier for the monitor
@@ -1205,6 +1231,8 @@ type SyntheticsUpdateScriptBrowserMonitorInput struct {
 type SyntheticsUpdateSimpleBrowserMonitorInput struct {
 	// The monitor advanced options
 	AdvancedOptions SyntheticsSimpleBrowserMonitorAdvancedOptionsInput `json:"advancedOptions,omitempty"`
+	// The monitor's Apdex target used to populate SLA reports
+	ApdexTarget float64 `json:"apdexTarget,omitempty"`
 	// The locations the monitor will run from
 	Locations SyntheticsLocationsInput `json:"locations,omitempty"`
 	// The human readable identifier for the monitor
@@ -1225,6 +1253,8 @@ type SyntheticsUpdateSimpleBrowserMonitorInput struct {
 type SyntheticsUpdateSimpleMonitorInput struct {
 	// The monitor advanced options
 	AdvancedOptions SyntheticsSimpleMonitorAdvancedOptionsInput `json:"advancedOptions,omitempty"`
+	// The monitor's Apdex target used to populate SLA reports
+	ApdexTarget float64 `json:"apdexTarget,omitempty"`
 	// The locations the monitor will run from
 	Locations SyntheticsLocationsInput `json:"locations,omitempty"`
 	// The human readable identifier for the monitor
@@ -1243,6 +1273,8 @@ type SyntheticsUpdateSimpleMonitorInput struct {
 type SyntheticsUpdateStepMonitorInput struct {
 	// The monitor advanced options
 	AdvancedOptions SyntheticsStepMonitorAdvancedOptionsInput `json:"advancedOptions,omitempty"`
+	// The monitor's Apdex target used to populate SLA reports
+	ApdexTarget float64 `json:"apdexTarget,omitempty"`
 	// The locations the monitor will run from
 	Locations SyntheticsScriptedMonitorLocationsInput `json:"locations,omitempty"`
 	// The human readable identifier for the monitor
@@ -1267,6 +1299,11 @@ type stepsResponse struct {
 
 // EntityGUID - An encoded Entity GUID
 type EntityGUID string
+
+// Float - The `Float` scalar type represents signed double-precision fractional
+// values as specified by
+// [IEEE 754](http://en.wikipedia.org/wiki/IEEE_floating_point).
+type Float string
 
 // Nr1CatalogRawNerdletState - Represents JSON nerdlet state data
 type Nr1CatalogRawNerdletState string

@@ -1,0 +1,211 @@
+=== newrelic-client-go === [ generate-tutone  ]: Running tutone generate...
+
+✅ Code generation complete: 
+
+   Package:   pkg/logconfigurations 
+   File:      pkg/logconfigurations/types.go 
+
+
+✅ Code generation complete: 
+
+   Package:   pkg/logconfigurations 
+   File:      pkg/logconfigurations/logconfigurations_api.go 
+
+
+✅ Code generation complete: 
+
+   Package:   pkg/synthetics 
+   File:      pkg/synthetics/types.go 
+
+
+✅ Code generation complete: 
+
+   Package:   pkg/synthetics 
+   File:      pkg/synthetics/synthetics_api.go 
+
+
+✅ Code generation complete: 
+
+   Package:   pkg/common 
+   File:      pkg/common/types.go 
+
+
+✅ Code generation complete: 
+
+   Package:   pkg/accounts 
+   File:      pkg/accounts/types.go 
+
+
+✅ Code generation complete: 
+
+   Package:   pkg/alerts 
+   File:      pkg/alerts/types.go 
+
+
+✅ Code generation complete: 
+
+   Package:   pkg/apiaccess 
+   File:      pkg/apiaccess/types.go 
+
+
+✅ Code generation complete: 
+
+   Package:   pkg/changetracking 
+   File:      pkg/changetracking/types.go 
+
+
+✅ Code generation complete: 
+
+   Package:   pkg/changetracking 
+   File:      pkg/changetracking/changetracking_api.go 
+
+
+✅ Code generation complete: 
+
+   Package:   pkg/cloud 
+   File:      pkg/cloud/types.go 
+
+
+✅ Code generation complete: 
+
+   Package:   pkg/cloud 
+   File:      pkg/cloud/cloud_api.go 
+
+
+✅ Code generation complete: 
+
+   Package:   pkg/dashboards 
+   File:      pkg/dashboards/types.go 
+
+
+✅ Code generation complete: 
+
+   Package:   pkg/dashboards 
+   File:      pkg/dashboards/dashboards_api.go 
+
+
+✅ Code generation complete: 
+
+   Package:   pkg/edge 
+   File:      pkg/edge/types.go 
+
+
+✅ Code generation complete: 
+
+   Package:   pkg/entities 
+   File:      pkg/entities/types.go 
+
+
+✅ Code generation complete: 
+
+   Package:   pkg/entities 
+   File:      pkg/entities/entities_api.go 
+
+
+✅ Code generation complete: 
+
+   Package:   pkg/eventstometrics 
+   File:      pkg/eventstometrics/types.go 
+
+
+✅ Code generation complete: 
+
+   Package:   pkg/installevents 
+   File:      pkg/installevents/types.go 
+
+
+✅ Code generation complete: 
+
+   Package:   pkg/installevents 
+   File:      pkg/installevents/installevents_api.go 
+
+
+✅ Code generation complete: 
+
+   Package:   pkg/nerdstorage 
+   File:      pkg/nerdstorage/types.go 
+
+
+✅ Code generation complete: 
+
+   Package:   pkg/notifications 
+   File:      pkg/notifications/types.go 
+
+
+✅ Code generation complete: 
+
+   Package:   pkg/notifications 
+   File:      pkg/notifications/notifications_api.go 
+
+
+✅ Code generation complete: 
+
+   Package:   pkg/nrdb 
+   File:      pkg/nrdb/types.go 
+
+
+✅ Code generation complete: 
+
+   Package:   pkg/nrqldroprules 
+   File:      pkg/nrqldroprules/types.go 
+
+
+✅ Code generation complete: 
+
+   Package:   pkg/nrqldroprules 
+   File:      pkg/nrqldroprules/nrqldroprules_api.go 
+
+
+✅ Code generation complete: 
+
+   Package:   pkg/nrtime 
+   File:      pkg/nrtime/types.go 
+
+
+✅ Code generation complete: 
+
+   Package:   pkg/users 
+   File:      pkg/users/types.go 
+
+
+✅ Code generation complete: 
+
+   Package:   pkg/users 
+   File:      pkg/users/users_api.go 
+
+
+✅ Code generation complete: 
+
+   Package:   pkg/workflows 
+   File:      pkg/workflows/types.go 
+
+
+✅ Code generation complete: 
+
+   Package:   pkg/workflows 
+   File:      pkg/workflows/workflows_api.go 
+
+
+✅ Code generation complete: 
+
+   Package:   pkg/workloads 
+   File:      pkg/workloads/types.go 
+
+
+✅ Code generation complete: 
+
+   Package:   pkg/workloads 
+   File:      pkg/workloads/workloads_api.go 
+
+
+✅ Code generation complete: 
+
+   Package:   pkg/servicelevel 
+   File:      pkg/servicelevel/types.go 
+
+
+✅ Code generation complete: 
+
+   Package:   pkg/servicelevel 
+   File:      pkg/servicelevel/servicelevel_api.go 
+

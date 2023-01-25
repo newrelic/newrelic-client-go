@@ -68,6 +68,8 @@ var InstallationRecipeStatusTypeTypes = struct {
 type InstallationInstallStatus struct {
 	// The version of the newrelic-cli that was used for a given installation attempt.
 	CliVersion string `json:"cliVersion"`
+	// Refers to the source of the installation.
+	DeployedBy string `json:"deployedBy"`
 	// Whether or not the installation is using a proxy.
 	EnabledProxy bool `json:"enabledProxy"`
 	// The error returned for a given installation attempt.
@@ -100,12 +102,16 @@ type InstallationInstallStatus struct {
 	State InstallationInstallStateType `json:"state"`
 	// Whether or not the installation is a targeted install.
 	TargetedInstall bool `json:"targetedInstall"`
+	// The timestamp for when the install event occurred.
+	Timestamp nrtime.EpochSeconds `json:"timestamp,omitempty"`
 }
 
 // InstallationInstallStatusInput - An object that contains the overall installation status to be created.
 type InstallationInstallStatusInput struct {
 	// The version of the newrelic-cli that was used for a given installation attempt.
 	CliVersion string `json:"cliVersion"`
+	// Refers to the source of the installation.
+	DeployedBy string `json:"deployedBy,omitempty"`
 	// Whether or not the installation is using a proxy.
 	EnabledProxy bool `json:"enabledProxy"`
 	// The error for a given installation attempt.
@@ -138,6 +144,8 @@ type InstallationInstallStatusInput struct {
 	State InstallationInstallStateType `json:"state"`
 	// Whether or not the installation is a targeted install.
 	TargetedInstall bool `json:"targetedInstall"`
+	// The timestamp for when the install event occurred.
+	Timestamp nrtime.EpochSeconds `json:"timestamp,omitempty"`
 }
 
 // InstallationRecipeEvent - An object that contains an installation event created from within the newrelic-cli.

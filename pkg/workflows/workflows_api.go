@@ -65,11 +65,7 @@ const AiWorkflowsCreateWorkflowMutation = `mutation(
 		destinationsEnabled
 		enrichments {
 			accountId
-			configurations {
-                ... on AiWorkflowsNrqlConfiguration {
-                  query
-                }
-		  	}
+			configurations
 			createdAt
 			id
 			name
@@ -216,11 +212,7 @@ const AiWorkflowsUpdateWorkflowMutation = `mutation(
 		destinationsEnabled
 		enrichments {
 			accountId
-			configurations {
-                ... on AiWorkflowsNrqlConfiguration {
-                  query
-                }
-		  	}
+			configurations
 			createdAt
 			id
 			name
@@ -284,8 +276,8 @@ func (a *Workflows) GetWorkflowsWithContext(
 }
 
 const getWorkflowsQuery = `query(
-	$accountID: Int!, $filters: AiWorkflowsFilters,
-) { actor { account(id: $accountID) { aiWorkflows { workflows(filters: $filters) {
+	$accountID: Int!,
+) { actor { account(id: $accountID) { aiWorkflows { workflows {
 	entities {
 		accountId
 		createdAt
@@ -298,11 +290,7 @@ const getWorkflowsQuery = `query(
 		destinationsEnabled
 		enrichments {
 			accountId
-			configurations {
-                ... on AiWorkflowsNrqlConfiguration {
-                  query
-                }
-		  	}
+			configurations
 			createdAt
 			id
 			name

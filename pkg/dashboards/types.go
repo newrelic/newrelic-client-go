@@ -221,7 +221,7 @@ type DashboardEntityResult struct {
 	// Dashboard update timestamp.
 	UpdatedAt nrtime.DateTime `json:"updatedAt,omitempty"`
 	// Dashboard-local variable definitions.
-	Variables []entities.DashboardVariable `json:"variables,omitempty"`
+	Variables []DashboardVariable `json:"variables,omitempty"`
 }
 
 // DashboardInput - Dashboard input.
@@ -393,7 +393,7 @@ type DashboardVariableDefaultItem struct {
 // DashboardVariableDefaultItemInput - Represents a possible default value item.
 type DashboardVariableDefaultItemInput struct {
 	// The value of this default item.
-	Value DashboardVariableDefaultValueInput `json:"value,omitempty"`
+	Value *DashboardVariableDefaultValueInput `json:"value,omitempty"`
 }
 
 // DashboardVariableDefaultValue - Specifies a default value for variables.
@@ -429,13 +429,13 @@ type DashboardVariableInput struct {
 	// [DEPRECATED] Default value for this variable. The actual value to be used will depend on the type.
 	DefaultValue *DashboardVariableDefaultValueInput `json:"defaultValue,omitempty"`
 	// Default values for this variable. The actual value to be used will depend on the type.
-	DefaultValues *[]DashboardVariableDefaultItemInput `json:"defaultValues,omitempty"`
+	DefaultValues []*DashboardVariableDefaultItemInput `json:"defaultValues,omitempty"`
 	// Indicates whether this variable supports multiple selection or not. Only applies to variables of type NRQL or ENUM.
 	IsMultiSelection bool `json:"isMultiSelection,omitempty"`
 	// List of possible values for variables of type ENUM
 	Items []DashboardVariableEnumItemInput `json:"items,omitempty"`
 	// Configuration for variables of type NRQL.
-	NRQLQuery *DashboardVariableNRQLQueryInput `json:"nrqlQuery,omitempty"`
+	NRQLQuery DashboardVariableNRQLQueryInput `json:"nrqlQuery,omitempty"`
 	// Variable identifier.
 	Name string `json:"name"`
 	// Indicates the strategy to apply when replacing a variable in a NRQL query.

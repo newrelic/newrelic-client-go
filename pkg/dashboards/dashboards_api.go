@@ -3,7 +3,6 @@ package dashboards
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/newrelic/newrelic-client-go/v2/pkg/common"
 )
@@ -34,14 +33,6 @@ func (a *Dashboards) DashboardCreateWithContext(
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, DashboardCreateMutation, vars, &resp); err != nil {
 		return nil, err
-	}
-
-	if len(resp.DashboardCreateResult.Errors) > 0 {
-		errs := fmt.Errorf("query error")
-		for _, err := range resp.DashboardCreateResult.Errors {
-			errs = fmt.Errorf("%w; %s", errs, err.Description)
-		}
-		return nil, errs
 	}
 
 	return &resp.DashboardCreateResult, nil
@@ -2000,15 +1991,6 @@ func (a *Dashboards) DashboardDeleteWithContext(
 		return nil, err
 	}
 
-	// If we got errors back, wrap them all up
-	if len(resp.DashboardDeleteResult.Errors) > 0 {
-		errs := fmt.Errorf("query error")
-		for _, err := range resp.DashboardDeleteResult.Errors {
-			errs = fmt.Errorf("%w; %s", errs, err.Description)
-		}
-		return nil, errs
-	}
-
 	return &resp.DashboardDeleteResult, nil
 }
 
@@ -2054,15 +2036,6 @@ func (a *Dashboards) DashboardUpdateWithContext(
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, DashboardUpdateMutation, vars, &resp); err != nil {
 		return nil, err
-	}
-
-	// If we got errors back, wrap them all up
-	if len(resp.DashboardUpdateResult.Errors) > 0 {
-		errs := fmt.Errorf("query error")
-		for _, err := range resp.DashboardUpdateResult.Errors {
-			errs = fmt.Errorf("%w; %s", errs, err.Description)
-		}
-		return nil, errs
 	}
 
 	return &resp.DashboardUpdateResult, nil
