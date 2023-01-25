@@ -1,5 +1,6 @@
 name: Tutone Generate
 on:
+  workflow_dispatch:
   schedule:
     - cron: '5 5 * * 1'
 
