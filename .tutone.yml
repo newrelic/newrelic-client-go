@@ -95,6 +95,43 @@ packages:
       - name: AgentApplicationSettingsBrowserPrivacyInput
         field_type_override: "*AgentApplicationSettingsBrowserPrivacyInput"
 
+  - name: usermanagement
+    path: pkg/usermanagement
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/usermanagement
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v2/pkg/users
+    queries:
+      - path: ["actor", "organization", "userManagement", "authenticationDomains"]
+        endpoints:
+          - name: authenticationDomains
+            max_query_field_depth: 4
+    mutations:
+      - name: userManagementCreateUser
+        max_query_field_depth: 2
+      - name: userManagementDeleteUser
+        max_query_field_depth: 2
+      - name: userManagementUpdateUser
+        max_query_field_depth: 2
+      - name: userManagementCreateGroup
+        max_query_field_depth: 2
+      - name: userManagementDeleteGroup
+        max_query_field_depth: 2
+      - name: userManagementUpdateGroup
+        max_query_field_depth: 2
+    types:
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
+
   - name: logconfigurations
     path: pkg/logconfigurations
     import_path: github.com/newrelic/newrelic-client-go/v2/pkg/logconfigurations
