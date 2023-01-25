@@ -1,3 +1,8 @@
+<a name="v2.11.1"></a>
+## [v2.11.1] - 2023-01-25
+### Bug Fixes
+- **tutone:** release build
+
 <a name="v2.11.0"></a>
 ## [v2.11.0] - 2023-01-18
 ### Features
@@ -1544,7 +1549,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.11.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.11.1...HEAD
+[v2.11.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.11.0...v2.11.1
 [v2.11.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.10.0...v2.11.0
 [v2.10.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.9.0...v2.10.0
 [v2.9.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.8.0...v2.9.0
