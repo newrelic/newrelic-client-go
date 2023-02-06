@@ -148,6 +148,10 @@ packages:
         max_query_field_depth: 2
 
     types:
+      - name: SyntheticsRuntimeInput
+        struct_tags:
+          tags: ["json"]
+          omitempty: false # exclude omitempty from struct tags
       - name: EpochMilliseconds
         field_type_override: "*nrtime.EpochMilliseconds"
         skip_type_create: true
