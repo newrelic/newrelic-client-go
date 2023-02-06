@@ -808,7 +808,7 @@ type SyntheticsRuntimeInput struct {
 	// The specific version of the runtime type selected
 	RuntimeTypeVersion SemVer `json:"runtimeTypeVersion"`
 	// The programing language that should execute the script
-	ScriptLanguage string `json:"scriptLanguage,omitempty"`
+	ScriptLanguage string `json:"scriptLanguage"`
 }
 
 // SyntheticsScriptAPIMonitor - A Script Api monitor resulting from a Script Api mutation
