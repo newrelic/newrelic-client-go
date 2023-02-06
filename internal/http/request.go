@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"os"
 
 	"github.com/google/go-querystring/query"
 	retryablehttp "github.com/hashicorp/go-retryablehttp"
@@ -121,6 +122,12 @@ func (r *Request) SetErrorValue(e ErrorResponse) {
 // SetServiceName sets the service name for the request.
 func (r *Request) SetServiceName(serviceName string) {
 	serviceName = fmt.Sprintf("%s|%s", serviceName, defaultServiceName)
+
+	customServiceName := os.Getenv("NEW_RELIC_SERVICE_NAME")
+	if customServiceName != "" {
+		serviceName = fmt.Sprintf("%s|%s", customServiceName, serviceName)
+	}
+
 	r.SetHeader(defaultNewRelicRequestingServiceHeader, serviceName)
 }
 
