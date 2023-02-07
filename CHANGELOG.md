@@ -1,3 +1,8 @@
+<a name="v2.11.2"></a>
+## [v2.11.2] - 2023-02-06
+### Bug Fixes
+- **synthetics:** resolved error targeting legacy runtimes
+
 <a name="v2.11.1"></a>
 ## [v2.11.1] - 2023-01-25
 ### Bug Fixes
@@ -1549,7 +1554,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.11.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.11.2...HEAD
+[v2.11.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.11.1...v2.11.2
 [v2.11.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.11.0...v2.11.1
 [v2.11.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.10.0...v2.11.0
 [v2.10.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.9.0...v2.10.0
