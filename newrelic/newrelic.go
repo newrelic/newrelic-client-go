@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/newrelic/newrelic-client-go/v2/pkg/usermanagement"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/newrelic/newrelic-client-go/v2/pkg/accounts"
@@ -60,6 +61,7 @@ type NewRelic struct {
 	Plugins           plugins.Plugins
 	ServiceLevel      servicelevel.Servicelevel
 	Synthetics        synthetics.Synthetics
+	UserManagement    usermanagement.Usermanagement
 	Workflows         workflows.Workflows
 	Workloads         workloads.Workloads
 
@@ -112,6 +114,7 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 		Plugins:           plugins.New(cfg),
 		ServiceLevel:      servicelevel.New(cfg),
 		Synthetics:        synthetics.New(cfg),
+		UserManagement:    usermanagement.New(cfg),
 		Workflows:         workflows.New(cfg),
 		Workloads:         workloads.New(cfg),
 	}
