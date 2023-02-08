@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"testing"
 	"time"
 
@@ -316,6 +317,37 @@ func TestCustomRequestHeaders(t *testing.T) {
 	_, err = c.Do(req)
 
 	assert.Nil(t, err)
+	assert.Equal(t, "custom-requesting-service|newrelic-client-go", req.GetHeader("NewRelic-Requesting-Services"))
+}
+
+func TestCustomRequestHeadersWithEnvironmentVariable(t *testing.T) {
+	// Set environment variable for testing
+	_ = os.Setenv("NEW_RELIC_SERVICE_NAME", "testing")
+
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+
+		assert.Equal(t, "custom-user-agent", r.Header.Get("user-agent"))
+		assert.Equal(t, "testing|custom-requesting-service|newrelic-client-go", r.Header.Get("newrelic-requesting-services"))
+	}))
+
+	tc := mock.NewTestConfig(t, ts)
+
+	c := NewClient(tc)
+
+	req, err := c.NewRequest("GET", c.config.Region().RestURL("path"), nil, nil, nil)
+
+	req.SetHeader("user-agent", "custom-user-agent")
+	req.SetServiceName("custom-requesting-service")
+
+	_, err = c.Do(req)
+
+	assert.Nil(t, err)
+	assert.Equal(t, "testing|custom-requesting-service|newrelic-client-go", req.GetHeader("NewRelic-Requesting-Services"))
+
+	// Unset environment variable to prevent polluting the rest of the test run
+	_ = os.Unsetenv("NEW_RELIC_SERVICE_NAME")
 }
 
 func TestAccountIDHeaderWithPersonalAPIKeyCapableV2Authorizer(t *testing.T) {
