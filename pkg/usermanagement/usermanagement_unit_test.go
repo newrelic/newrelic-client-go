@@ -55,12 +55,7 @@ var (
   }`
 )
 
-func newMockResponse(t *testing.T, mockJSONResponse string, statusCode int) Usermanagement {
-	ts := mock.NewMockServer(t, mockJSONResponse, statusCode)
-	tc := mock.NewTestConfig(t, ts)
 
-	return New(tc)
-}
 
 func TestCreateUser(t *testing.T) {
 	t.Parallel()

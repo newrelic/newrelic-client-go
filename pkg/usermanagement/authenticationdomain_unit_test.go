@@ -5,19 +5,10 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/newrelic/newrelic-client-go/v2/pkg/nrtime"
-	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 	"github.com/stretchr/testify/assert"
 )
 
 var (
-	timestampString = "2022-07-25T12:08:07.179638Z"
-	timestamp       = nrtime.DateTime(timestampString)
-	user            = "test-user"
-	accountId       = 10867072
-	channelId       = "0d11fd42-5919-4767-8cf5-e07cb71c1b04"
-	id              = "03bd4929-3d86-4447-a077-a901b5d511ff"
-
 	testGetAllAuthDomains = `{
     "actor": {
       "organization": {
@@ -69,12 +60,6 @@ var (
   }`
 )
 
-func newMockResponse(t *testing.T, mockJSONResponse string, statusCode int) Usermanagement {
-	ts := mock.NewMockServer(t, mockJSONResponse, statusCode)
-	tc := mock.NewTestConfig(t, ts)
-
-	return New(tc)
-}
 
 func TestGetAllAuthDomains(t *testing.T) {
 	t.Parallel()
