@@ -376,6 +376,119 @@ func TestSyntheticsScriptApiMonitor_Basic(t *testing.T) {
 	require.NotNil(t, deleteScriptApiMonitor)
 }
 
+// TestSyntheticsScriptApiMonitor_Basic to test the script api monitor targeting legacy runtime
+func TestSyntheticsScriptApiMonitorLegacy_Basic(t *testing.T) {
+	t.Parallel()
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	a := newIntegrationTestClient(t)
+
+	monitorName := mock.RandSeq(5)
+
+	////Scripted API monitor
+	apiScript := fmt.Sprintf(`
+		const myAccountId = '%s';
+		const myAPIKey = '%s';
+		const options = {
+		// Define endpoint URI, https://api.eu.newrelic.com/graphql for EU accounts
+		uri: 'https://api.newrelic.com/graphql',
+		headers: {
+		'API-key': myAPIKey,
+		'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+		query: "
+		query getNrqlResults($accountId: Int!, $nrql: Nrql!) {
+		actor {
+		account(id: $accountId) {
+		nrql(query: $nrql) {results}}}}",
+		variables: {accountId: Number(myAccountId),nrql: 'SELECT average(duration) FROM Transaction'}})};
+
+		// Define expected results using callback function
+		function callback(err, response, body) {
+		// Log JSON results from endpoint to Synthetics console
+		console.log(body);
+		console.log('Script execution completed');
+		}
+
+		// Make POST request, passing in options and callback
+		$http.post(options, callback);
+		`, os.Getenv("NEW_RELIC_ACCOUNT_ID"), os.Getenv("NEW_RELIC_API_KEY"))
+
+	//input for script api monitor
+	scriptApiMonitorInput := SyntheticsCreateScriptAPIMonitorInput{
+		Locations: SyntheticsScriptedMonitorLocationsInput{
+			Public: []string{
+				"AP_SOUTH_1",
+			},
+		},
+		Name:   monitorName,
+		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
+		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
+		Script: apiScript,
+		Tags: []SyntheticsTag{
+			{
+				Key: "pineapple",
+				Values: []string{
+					"pizza",
+				},
+			},
+		},
+		Runtime: SyntheticsRuntimeInput{
+			RuntimeTypeVersion: "",
+			RuntimeType:        "",
+			ScriptLanguage:     "",
+		},
+	}
+
+	//Test to Create scripted api monitor
+	createScriptApiMonitor, err := a.SyntheticsCreateScriptAPIMonitor(testAccountID, scriptApiMonitorInput)
+	require.NoError(t, err)
+	require.NotNil(t, createScriptApiMonitor)
+	require.Equal(t, 0, len(createScriptApiMonitor.Errors))
+
+	//input to update script api monitor
+	updatedScriptApiMonitorInput := SyntheticsUpdateScriptAPIMonitorInput{
+		Locations: SyntheticsScriptedMonitorLocationsInput{
+			Public: []string{
+				"AP_SOUTH_1",
+			},
+		},
+		Name:   monitorName + "-updated",
+		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
+		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
+		Script: apiScript,
+		Tags: []SyntheticsTag{
+			{
+				Key: "pineapple",
+				Values: []string{
+					"pizza",
+				},
+			},
+		},
+		Runtime: SyntheticsRuntimeInput{
+			RuntimeTypeVersion: "",
+			RuntimeType:        "",
+			ScriptLanguage:     "",
+		},
+	}
+
+	//Test to update scripted api monitor
+	updateScriptApiMonitor, err := a.SyntheticsUpdateScriptAPIMonitor(createScriptApiMonitor.Monitor.GUID, updatedScriptApiMonitorInput)
+	require.NoError(t, err)
+	require.NotNil(t, updateScriptApiMonitor)
+	require.Equal(t, 0, len(updateScriptApiMonitor.Errors))
+
+	//Test to delete scripted api monitor
+	deleteScriptApiMonitor, err := a.SyntheticsDeleteMonitor(createScriptApiMonitor.Monitor.GUID)
+	require.NoError(t, err)
+	require.NotNil(t, deleteScriptApiMonitor)
+}
+
 // TestSyntheticsScriptBrowserMonitor_Basic function to test script browser monitor
 func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 	t.Parallel()
@@ -440,6 +553,94 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 			RuntimeTypeVersion: "100",
 			RuntimeType:        "CHROME_BROWSER",
 			ScriptLanguage:     "JAVASCRIPT",
+		},
+		Tags: []SyntheticsTag{
+			{
+				Key: "pineapple",
+				Values: []string{
+					"script_browser_pizza",
+				},
+			},
+		},
+		Script: "var assert = require('assert');\n\n$browser.get('https://one.newrelic.com')",
+	}
+
+	//test to update script browser monitor
+	updateScriptBrowserMonitor, err := a.SyntheticsUpdateScriptBrowserMonitor(createScriptBrowserMonitor.Monitor.GUID, updatedScriptBrowserMonitorInput)
+	require.NoError(t, err)
+	require.NotNil(t, updateScriptBrowserMonitor)
+	require.Equal(t, 0, len(updateScriptBrowserMonitor.Errors))
+
+	//test to delete script browser monitor
+	deleteScriptBrowserMonitor, err := a.SyntheticsDeleteMonitor(createScriptBrowserMonitor.Monitor.GUID)
+	require.NoError(t, err)
+	require.NotNil(t, deleteScriptBrowserMonitor)
+}
+
+// TestSyntheticsScriptBrowserMonitor_Basic function to test script browser monitor targeting legacy runtime
+func TestSyntheticsScriptBrowserMonitorLegacy_Basic(t *testing.T) {
+	t.Parallel()
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	a := newIntegrationTestClient(t)
+
+	monitorName := mock.RandSeq(5)
+
+	//Input to create script browser monitor
+	scriptBrowserMonitorInput := SyntheticsCreateScriptBrowserMonitorInput{
+		AdvancedOptions: SyntheticsScriptBrowserMonitorAdvancedOptionsInput{
+			EnableScreenshotOnFailureAndScript: &tv,
+		},
+		Locations: SyntheticsScriptedMonitorLocationsInput{
+			Public: []string{
+				"AP_SOUTH_1",
+			},
+		},
+		Name:   monitorName,
+		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
+		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
+		Runtime: SyntheticsRuntimeInput{
+			RuntimeTypeVersion: "",
+			RuntimeType:        "",
+			ScriptLanguage:     "",
+		},
+		Tags: []SyntheticsTag{
+			{
+				Key: "pineapple",
+				Values: []string{
+					"pizza",
+				},
+			},
+		},
+		Script: "var assert = require('assert');\n\n$browser.get('https://one.newrelic.com')",
+	}
+
+	//test to create script browser monitor
+	createScriptBrowserMonitor, err := a.SyntheticsCreateScriptBrowserMonitor(testAccountID, scriptBrowserMonitorInput)
+	require.NoError(t, err)
+	require.NotNil(t, createScriptBrowserMonitor)
+	require.Equal(t, 0, len(createScriptBrowserMonitor.Errors))
+
+	//Input to update script browser monitor
+	updatedScriptBrowserMonitorInput := SyntheticsUpdateScriptBrowserMonitorInput{
+		AdvancedOptions: SyntheticsScriptBrowserMonitorAdvancedOptionsInput{
+			EnableScreenshotOnFailureAndScript: &tv,
+		},
+		Locations: SyntheticsScriptedMonitorLocationsInput{
+			Public: []string{
+				"AP_SOUTH_1",
+			},
+		},
+		Name:   monitorName + "-updated",
+		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
+		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
+		Runtime: SyntheticsRuntimeInput{
+			RuntimeTypeVersion: "",
+			RuntimeType:        "",
+			ScriptLanguage:     "",
 		},
 		Tags: []SyntheticsTag{
 			{

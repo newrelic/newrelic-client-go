@@ -2,7 +2,9 @@
 package config
 
 import (
+	"fmt"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/newrelic/newrelic-client-go/v2/internal/version"
@@ -86,6 +88,19 @@ func (c *Config) SetRegion(reg *region.Region) error {
 	}
 
 	c.region = reg
+
+	return nil
+}
+
+func (c *Config) SetServiceName(serviceName string) error {
+	if c.ServiceName == "" {
+		c.ServiceName = serviceName
+	}
+
+	customServiceName := os.Getenv("NEW_RELIC_SERVICE_NAME")
+	if customServiceName != "" {
+		c.ServiceName = fmt.Sprintf("%s|%s", customServiceName, c.ServiceName)
+	}
 
 	return nil
 }

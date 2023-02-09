@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"reflect"
 	"regexp"
 	"strings"
@@ -74,6 +75,16 @@ func NewClient(cfg config.Config) Client {
 		cfg.ServiceName = defaultServiceName
 	} else {
 		cfg.ServiceName = fmt.Sprintf("%s|%s", cfg.ServiceName, defaultServiceName)
+	}
+
+	// If a requesting service sets the NEW_RELIC_SERVICE_NAME env variable,
+	// we prepend this additional custom service name to the existing service name.
+	// The service name is used to track which requesting service is being utilized.
+	// e.g. We can track usage of the New Relic Deployment Marker GitHub Action by
+	// setting this environment variable when executing a command.
+	customServiceName := os.Getenv("NEW_RELIC_SERVICE_NAME")
+	if customServiceName != "" {
+		cfg.ServiceName = fmt.Sprintf("%s|%s", customServiceName, cfg.ServiceName)
 	}
 
 	r := retryablehttp.NewClient()
