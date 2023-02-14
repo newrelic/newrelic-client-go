@@ -62,3 +62,9 @@ type AgentApplicationCreateBrowserResult struct {
 	// Fields related to browser settings.
 	Settings AgentApplicationBrowserSettings `json:"settings,omitempty"`
 }
+
+// AgentApplicationDeleteResult - The result of deleting an application.
+type AgentApplicationDeleteResult struct {
+	// Did the delete succeed?
+	Success bool `json:"success"`
+}

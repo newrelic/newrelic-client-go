@@ -33,6 +33,8 @@ packages:
     mutations:
       - name: agentApplicationCreateBrowser
         max_query_field_depth: 2
+      - name: agentApplicationDelete
+        max_query_field_depth: 1
     types:
       - name: EntityGuid
         field_type_override: common.EntityGUID
