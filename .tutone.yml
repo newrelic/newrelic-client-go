@@ -23,6 +23,21 @@ auth:
   api_key_env_var: NEW_RELIC_API_KEY
 
 packages:
+  - name: agentApplication
+    path: pkg/agentapplication
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/agentapplication
+    imports: []
+    generators:
+      - typegen
+      - nerdgraphclient
+    mutations:
+      - name: agentApplicationCreateBrowser
+        max_query_field_depth: 2
+    types:
+      - name: EntityGuid
+        field_type_override: common.EntityGUID
+        skip_type_create: true
+
 
   - name: logconfigurations
     path: pkg/logconfigurations
