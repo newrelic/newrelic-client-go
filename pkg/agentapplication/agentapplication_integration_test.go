@@ -70,6 +70,26 @@ func TestIntegrationAgentApplicationBrowser_BasicSettings(t *testing.T) {
 	require.True(t, deleteResult.Success)
 }
 
+func TestIntegrationAgentApplicationBrowser_InvalidLoaderTypeError(t *testing.T) {
+	t.Parallel()
+
+	testAccountID, err := testhelpers.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	client := newAgentApplicationIntegrationTestClient(t)
+	appName := testhelpers.GenerateRandomName(10)
+	applicationSettings := AgentApplicationBrowserSettingsInput{
+		LoaderType: AgentApplicationBrowserLoader("INVALID"),
+	}
+
+	// Should result in an error
+	result, err := client.AgentApplicationCreateBrowser(testAccountID, appName, applicationSettings)
+	require.Error(t, err)
+	require.Nil(t, result)
+}
+
 func TestIntegrationAgentApplicationEnableAPMBrowser_DefaultSettings(t *testing.T) {
 	t.Parallel()
 
