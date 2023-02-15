@@ -103,3 +103,53 @@ const AgentApplicationDeleteMutation = `mutation(
 ) {
 	success
 } }`
+
+// Enable browser monitoring for an application monitored by APM. For information about specific APM agents, [see our docs](https://docs.newrelic.com/docs/browser/browser-monitoring/installation/install-browser-monitoring-agent/#agent-instrumentation)
+func (a *AgentApplication) AgentApplicationEnableApmBrowser(
+	gUID common.EntityGUID,
+	settings AgentApplicationBrowserSettingsInput,
+) (*AgentApplicationEnableBrowserResult, error) {
+	return a.AgentApplicationEnableApmBrowserWithContext(context.Background(),
+		gUID,
+		settings,
+	)
+}
+
+// Enable browser monitoring for an application monitored by APM. For information about specific APM agents, [see our docs](https://docs.newrelic.com/docs/browser/browser-monitoring/installation/install-browser-monitoring-agent/#agent-instrumentation)
+func (a *AgentApplication) AgentApplicationEnableApmBrowserWithContext(
+	ctx context.Context,
+	gUID common.EntityGUID,
+	settings AgentApplicationBrowserSettingsInput,
+) (*AgentApplicationEnableBrowserResult, error) {
+
+	resp := AgentApplicationEnableApmBrowserQueryResponse{}
+	vars := map[string]interface{}{
+		"guid":     gUID,
+		"settings": settings,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, AgentApplicationEnableApmBrowserMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.AgentApplicationEnableBrowserResult, nil
+}
+
+type AgentApplicationEnableApmBrowserQueryResponse struct {
+	AgentApplicationEnableBrowserResult AgentApplicationEnableBrowserResult `json:"AgentApplicationEnableApmBrowser"`
+}
+
+const AgentApplicationEnableApmBrowserMutation = `mutation(
+	$guid: EntityGuid!,
+	$settings: AgentApplicationBrowserSettingsInput,
+) { agentApplicationEnableApmBrowser(
+	guid: $guid,
+	settings: $settings,
+) {
+	name
+	settings {
+		cookiesEnabled
+		distributedTracingEnabled
+		loaderType
+	}
+} }`

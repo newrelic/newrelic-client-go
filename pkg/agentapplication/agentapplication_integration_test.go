@@ -15,6 +15,9 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
+// GUID for Dummy App in our test account
+const INTEGRATION_TEST_APM_APPLICATION_GUID = "MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1"
+
 func TestIntegrationAgentApplicationBrowser_DefaultSettings(t *testing.T) {
 	t.Parallel()
 
@@ -65,6 +68,34 @@ func TestIntegrationAgentApplicationBrowser_BasicSettings(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, deleteResult)
 	require.True(t, deleteResult.Success)
+}
+
+func TestIntegrationAgentApplicationEnableAPMBrowser_DefaultSettings(t *testing.T) {
+	t.Parallel()
+
+	client := newAgentApplicationIntegrationTestClient(t)
+	guid := common.EntityGUID(INTEGRATION_TEST_APM_APPLICATION_GUID)
+	applicationSettings := AgentApplicationBrowserSettingsInput{}
+
+	result, err := client.AgentApplicationEnableApmBrowser(guid, applicationSettings)
+	require.NoError(t, err)
+	require.NotNil(t, result)
+}
+
+func TestIntegrationAgentApplicationEnableAPMBrowser_BasicSettings(t *testing.T) {
+	t.Parallel()
+
+	client := newAgentApplicationIntegrationTestClient(t)
+	guid := common.EntityGUID(INTEGRATION_TEST_APM_APPLICATION_GUID)
+	applicationSettings := AgentApplicationBrowserSettingsInput{
+		CookiesEnabled:            true,
+		DistributedTracingEnabled: true,
+		LoaderType:                AgentApplicationBrowserLoaderTypes.LITE,
+	}
+
+	result, err := client.AgentApplicationEnableApmBrowser(guid, applicationSettings)
+	require.NoError(t, err)
+	require.NotNil(t, result)
 }
 
 func newAgentApplicationIntegrationTestClient(t *testing.T) AgentApplication {

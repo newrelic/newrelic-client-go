@@ -35,11 +35,12 @@ packages:
         max_query_field_depth: 2
       - name: agentApplicationDelete
         max_query_field_depth: 1
+      - name: agentApplicationEnableApmBrowser
+        max_query_field_depth: 2
     types:
       - name: EntityGuid
         field_type_override: common.EntityGUID
         skip_type_create: true
-
 
   - name: logconfigurations
     path: pkg/logconfigurations

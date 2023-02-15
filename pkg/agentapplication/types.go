@@ -31,6 +31,16 @@ var AgentApplicationBrowserLoaderTypes = struct {
 	SPA: "SPA",
 }
 
+// AgentApplicationApmBrowserSettings - The settings of a browser application.
+type AgentApplicationApmBrowserSettings struct {
+	// Configure cookies. The default is enabled: true.
+	CookiesEnabled bool `json:"cookiesEnabled"`
+	// Configure distributed tracing in browser apps. The default is enabled: true.
+	DistributedTracingEnabled bool `json:"distributedTracingEnabled"`
+	// Determines which browser loader will be configured. The default is "SPA".
+	LoaderType AgentApplicationBrowserLoader `json:"loaderType"`
+}
+
 // AgentApplicationBrowserSettings - The settings of a browser application. Includes loader script.
 type AgentApplicationBrowserSettings struct {
 	// Configure cookies. The default is enabled: true.
@@ -67,4 +77,12 @@ type AgentApplicationCreateBrowserResult struct {
 type AgentApplicationDeleteResult struct {
 	// Did the delete succeed?
 	Success bool `json:"success"`
+}
+
+// AgentApplicationEnableBrowserResult - The result of enabling browser monitoring for an APM-monitored application.
+type AgentApplicationEnableBrowserResult struct {
+	// The application's name
+	Name string `json:"name"`
+	// Fields related to browser settings.
+	Settings AgentApplicationApmBrowserSettings `json:"settings,omitempty"`
 }
