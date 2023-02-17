@@ -633,6 +633,8 @@ type AiWorkflowsWorkflow struct {
 	Enrichments []AiWorkflowsEnrichment `json:"enrichments"`
 	// Are Enrichments enabled
 	EnrichmentsEnabled bool `json:"enrichmentsEnabled"`
+	// Entity Id of the workflow
+	GUID EntityGUID `json:"guid"`
 	// Workflow Id
 	ID string `json:"id"`
 	// Specifies which issues the workflow will handle
@@ -662,6 +664,9 @@ type AiWorkflowsWorkflows struct {
 type workflowsResponse struct {
 	Actor Actor `json:"actor"`
 }
+
+// EntityGUID - An encoded Entity GUID
+type EntityGUID string
 
 // AiWorkflowsResponseError - Error description
 type AiWorkflowsResponseErrorInterface interface {
