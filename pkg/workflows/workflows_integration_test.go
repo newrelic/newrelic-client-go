@@ -370,6 +370,7 @@ func TestIntegrationGetWorkflow(t *testing.T) {
 	require.NotNil(t, workflows)
 	require.Len(t, workflows.Entities, 1)
 	require.Equal(t, workflow, &workflows.Entities[0])
+	require.NotEmpty(t, workflows.Entities[0].GUID)
 }
 
 func TestIntegrationGetWorkflow_WorkflowDoesNotExist(t *testing.T) {

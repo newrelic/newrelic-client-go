@@ -77,6 +77,7 @@ const AiWorkflowsCreateWorkflowMutation = `mutation(
 			updatedAt
 		}
 		enrichmentsEnabled
+		guid
 		id
 		issuesFilter {
 			accountId
@@ -228,6 +229,7 @@ const AiWorkflowsUpdateWorkflowMutation = `mutation(
 			updatedAt
 		}
 		enrichmentsEnabled
+		guid
 		id
 		issuesFilter {
 			accountId
@@ -310,6 +312,7 @@ const getWorkflowsQuery = `query(
 			updatedAt
 		}
 		enrichmentsEnabled
+		guid
 		id
 		issuesFilter {
 			accountId
