@@ -70,6 +70,7 @@ const LogConfigurationsCreateDataPartitionRuleMutation = `mutation(
 			matchingExpression
 			matchingOperator
 		}
+		nrql
 		retentionPolicy
 		targetDataPartition
 		updatedAt
@@ -617,6 +618,7 @@ const LogConfigurationsUpdateDataPartitionRuleMutation = `mutation(
 			matchingExpression
 			matchingOperator
 		}
+		nrql
 		retentionPolicy
 		targetDataPartition
 		updatedAt
@@ -907,6 +909,7 @@ const getDataPartitionRulesQuery = `query(
 		matchingExpression
 		matchingOperator
 	}
+	nrql
 	retentionPolicy
 	targetDataPartition
 	updatedAt
