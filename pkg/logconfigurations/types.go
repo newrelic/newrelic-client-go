@@ -46,11 +46,15 @@ type LogConfigurationsDataPartitionRuleMutationErrorType string
 var LogConfigurationsDataPartitionRuleMutationErrorTypeTypes = struct {
 	// Number format error. ID should be convertible to int.
 	INVALID_ID LogConfigurationsDataPartitionRuleMutationErrorType
+	// Partition rule must be specified with a valid nrql where clause
+	INVALID_RULE LogConfigurationsDataPartitionRuleMutationErrorType
 	// Couldn't find the provided data partition rule.
 	NOT_FOUND LogConfigurationsDataPartitionRuleMutationErrorType
 }{
 	// Number format error. ID should be convertible to int.
 	INVALID_ID: "INVALID_ID",
+	// Partition rule must be specified with a valid nrql where clause
+	INVALID_RULE: "INVALID_RULE",
 	// Couldn't find the provided data partition rule.
 	NOT_FOUND: "NOT_FOUND",
 }
@@ -160,6 +164,8 @@ type LogConfigurationsCreateDataPartitionRuleInput struct {
 	Enabled bool `json:"enabled"`
 	// The matching criteria of the data partition rule.
 	MatchingCriteria *LogConfigurationsDataPartitionRuleMatchingCriteriaInput `json:"matchingCriteria,omitempty"`
+	// The NRQL to match events for this data partition rule. Logs matching this criteria will be routed to the specified data partition.
+	NRQL NRQL `json:"nrql,omitempty"`
 	// The retention policy of the data partition data.
 	RetentionPolicy LogConfigurationsDataPartitionRuleRetentionPolicyType `json:"retentionPolicy"`
 	// The name of the data partition where logs will be allocated once the rule is enabled.
@@ -231,7 +237,9 @@ type LogConfigurationsDataPartitionRule struct {
 	// Unique data partition rule identifier.
 	ID string `json:"id"`
 	// The matching criteria for this data partition rule. Logs matching this criteria will be routed to the specified data partition once the rule is enabled.
-	MatchingCriteria LogConfigurationsDataPartitionRuleMatchingCriteria `json:"matchingCriteria"`
+	MatchingCriteria LogConfigurationsDataPartitionRuleMatchingCriteria `json:"matchingCriteria,omitempty"`
+	// The NRQL to match events for this data partition rule. Logs matching this criteria will be routed to the specified data partition once the rule is enabled.
+	NRQL NRQL `json:"nrql,omitempty"`
 	// The retention policy of the data partition data.
 	RetentionPolicy LogConfigurationsDataPartitionRuleRetentionPolicyType `json:"retentionPolicy"`
 	// The name of the data partition.
@@ -418,6 +426,8 @@ type LogConfigurationsUpdateDataPartitionRuleInput struct {
 	ID string `json:"id"`
 	// The criteria of the data partition rule.
 	MatchingCriteria *LogConfigurationsDataPartitionRuleMatchingCriteriaInput `json:"matchingCriteria,omitempty"`
+	// The NRQL to match events for this data partition rule. Logs matching this criteria will be routed to the specified data partition.
+	NRQL NRQL `json:"nrql,omitempty"`
 }
 
 // LogConfigurationsUpdateDataPartitionRuleResponse - An object that represents the result after updating a data partition rule.
