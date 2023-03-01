@@ -25,7 +25,7 @@ func TestServiceLevel_Basic(t *testing.T) {
 	client := newIntegrationTestClient(t)
 
 	// GUID of Dummy App
-	guid := common.EntityGUID("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
+	guid := common.EntityGUID("MzgwNjUyNnxJTkZSQXxOQXwyMDMyMzE2MjQ0NDA3NDQ4MTg2")
 
 	createInput := ServiceLevelIndicatorCreateInput{
 		Name:        "integration-test-sli",
@@ -92,7 +92,7 @@ func TestServiceLevel_GoodOrBadEventsRequiredError(t *testing.T) {
 	client := newIntegrationTestClient(t)
 
 	// GUID of Dummy App
-	guid := common.EntityGUID("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
+	guid := common.EntityGUID("MzgwNjUyNnxJTkZSQXxOQXwyMDMyMzE2MjQ0NDA3NDQ4MTg2")
 
 	// This input is missing some required fields to create a service level (i.e. GoodEvents, BadEvents)
 	createInput := ServiceLevelIndicatorCreateInput{

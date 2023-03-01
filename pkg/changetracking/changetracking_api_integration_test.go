@@ -50,7 +50,7 @@ func TestChangeTrackingCreateDeployment_TimestampError(t *testing.T) {
 		DeepLink:       "newrelic-client-go",
 		DeploymentType: ChangeTrackingDeploymentTypeTypes.BASIC,
 		Description:    "This is a test description",
-		EntityGUID:     common.EntityGUID("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1"),
+		EntityGUID:     common.EntityGUID("MzgwNjUyNnxJTkZSQXxOQXwyMDMyMzE2MjQ0NDA3NDQ4MTg2"),
 		GroupId:        "deployment",
 		Timestamp:      nrtime.EpochMilliseconds(time.UnixMilli(0)),
 		User:           "newrelic-go-client",

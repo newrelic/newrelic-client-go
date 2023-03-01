@@ -156,7 +156,7 @@ func TestIntegrationGetEntity(t *testing.T) {
 	actual := (*result).(*ApmApplicationEntity)
 
 	// These are a bit fragile, if the above GUID ever changes...
-	assert.Equal(t, 2520528, actual.AccountID)
+	assert.Equal(t, 3806526, actual.AccountID)
 	assert.Equal(t, "APM", actual.Domain)
 	assert.Equal(t, EntityType("APM_APPLICATION_ENTITY"), actual.EntityType)
 	assert.Equal(t, entityGUID, actual.GUID)

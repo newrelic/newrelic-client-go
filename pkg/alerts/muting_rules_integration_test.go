@@ -19,7 +19,7 @@ func TestIntegrationAlertsMutingRules(t *testing.T) {
 	a := newIntegrationTestClient(t)
 
 	// DTK terraform account
-	accountID := 2520528
+	accountID := 3806526
 
 	// Schedule fields
 	startTime, err1 := time.Parse(time.RFC3339, "2021-07-08T12:30:00Z")

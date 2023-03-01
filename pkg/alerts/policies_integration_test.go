@@ -64,7 +64,7 @@ func TestAlertsQueryPolicy_GraphQL_Enabled(t *testing.T) {
 	a := newIntegrationTestClient(t)
 
 	// DTK terraform account
-	accountID := 2520528
+	accountID := 3806526
 
 	// Create a policy to work with in this test
 	testIntegrationPolicyNameRandStr := nr.RandSeq(5)

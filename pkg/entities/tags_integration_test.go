@@ -112,7 +112,7 @@ func TestIntegrationDeleteTags(t *testing.T) {
 	t.Parallel()
 
 	var (
-		testGUID = common.EntityGUID("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
+		testGUID = common.EntityGUID("MzgwNjUyNnxJTkZSQXxOQXwyMDMyMzE2MjQ0NDA3NDQ4MTg2")
 	)
 
 	client := newIntegrationTestClient(t)
@@ -129,7 +129,7 @@ func TestIntegrationDeleteTagValues(t *testing.T) {
 	t.Parallel()
 
 	var (
-		testGUID = common.EntityGUID("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
+		testGUID = common.EntityGUID("MzgwNjUyNnxJTkZSQXxOQXwyMDMyMzE2MjQ0NDA3NDQ4MTg2")
 	)
 
 	client := newIntegrationTestClient(t)

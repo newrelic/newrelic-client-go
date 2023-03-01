@@ -13,7 +13,7 @@ import (
 
 var (
 	testPackageID           = "8e57e72a-e3ac-4272-9bb8-aea1d71dde3d"
-	testEntityID            = "MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1"
+	testEntityID            = "MzgwNjUyNnxJTkZSQXxOQXwyMDMyMzE2MjQ0NDA3NDQ4MTg2"
 	testCollection          = "myCol"
 	testDocumentID          = "myDoc"
 	testAlternateDocumentID = "myOtherDoc"
