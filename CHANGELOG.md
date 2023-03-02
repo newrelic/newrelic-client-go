@@ -1,3 +1,8 @@
+<a name="v2.14.0"></a>
+## [v2.14.0] - 2023-03-01
+### Features
+- **data_partition:** new attribute nrql and updated tests
+
 <a name="v2.13.0"></a>
 ## [v2.13.0] - 2023-02-17
 ### Features
@@ -1564,7 +1569,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.13.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.14.0...HEAD
+[v2.14.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.13.0...v2.14.0
 [v2.13.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.12.0...v2.13.0
 [v2.12.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.11.2...v2.12.0
 [v2.11.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.11.1...v2.11.2
