@@ -60,7 +60,7 @@ var testEpochValuesSuccess = []struct {
 		Bytes:  []byte(emptyTimeCase), // Invalid
 		Epoch:  EpochTime{},
 		String: "0001-01-01 00:00:00 +0000 UTC",
-		Unix:   0,
+		Unix:   -62135596800,
 		Err:    nil,
 		Msg:    "Epoch: invalid",
 	},
@@ -113,10 +113,12 @@ func TestEpochString(t *testing.T) {
 	t.Parallel()
 
 	for _, v := range testEpochValuesSuccess {
-		if v.Err == nil {
-			res := v.Epoch.String()
-			assert.Equal(t, v.String, res, v.Msg)
-		}
+		t.Run(v.Name, func(t *testing.T) {
+			if v.Err == nil {
+				res := v.Epoch.String()
+				assert.Equal(t, v.String, res, v.Msg)
+			}
+		})
 	}
 }
 
@@ -124,9 +126,11 @@ func TestEpochUnix(t *testing.T) {
 	t.Parallel()
 
 	for _, v := range testEpochValuesSuccess {
-		if v.Err == nil {
-			res := v.Epoch.Unix()
-			assert.Equal(t, v.Unix, res, v.Msg)
-		}
+		t.Run(v.Name, func(t *testing.T) {
+			if v.Err == nil {
+				res := v.Epoch.Unix()
+				assert.Equal(t, v.Unix, res, v.Msg)
+			}
+		})
 	}
 }
