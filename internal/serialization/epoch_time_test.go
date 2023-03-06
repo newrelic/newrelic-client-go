@@ -60,7 +60,7 @@ var testEpochValuesSuccess = []struct {
 		Bytes:  []byte(emptyTimeCase), // Invalid
 		Epoch:  EpochTime{},
 		String: "0001-01-01 00:00:00 +0000 UTC",
-		Unix:   0,
+		Unix:   -62135596800,
 		Err:    nil,
 		Msg:    "Epoch: invalid",
 	},
