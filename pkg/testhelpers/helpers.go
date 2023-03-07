@@ -51,3 +51,17 @@ func getEnvInt(name string) (int, error) {
 
 	return n, nil
 }
+
+// Use this method to generate a random name to be used in integration tests
+// for whatever resource you might be trying to create and/or test.
+// If no random character count is provided, the default behavior is to append 5 random
+// letters to the end of the name.
+//
+// Example random name: nr-test-xmnvb
+func GenerateRandomName(randCharCount int) string {
+	if randCharCount == 0 {
+		randCharCount = 5
+	}
+
+	return fmt.Sprintf("nr-test-%s", RandSeq(randCharCount))
+}
