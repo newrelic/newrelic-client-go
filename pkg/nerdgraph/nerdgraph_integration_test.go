@@ -53,7 +53,7 @@ func TestIntegrationQueryWithVariables(t *testing.T) {
 	`
 
 	variables := map[string]interface{}{
-		"guid": "MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1",
+		"guid": "MzgwNjUyNnxBUE18QVBQTElDQVRJT058NTczNDgyNjM4",
 	}
 
 	actual, err := gqlClient.Query(query, variables)
