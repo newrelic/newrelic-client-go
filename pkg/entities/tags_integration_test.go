@@ -5,6 +5,7 @@ package entities
 
 import (
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/require"
 
@@ -24,7 +25,7 @@ func TestIntegrationListTags(t *testing.T) {
 	actual, err := client.ListTags(testGUID)
 	require.NoError(t, err)
 	require.Greater(t, len(actual), 0)
-
+	time.Sleep(2 * time.Second)
 	actual, err = client.ListAllTags(testGUID)
 	require.NoError(t, err)
 	require.Greater(t, len(actual), 0)
