@@ -16,7 +16,7 @@ func TestIntegrationListTags(t *testing.T) {
 
 	var (
 		// GUID of Dummy App
-		testGUID = common.EntityGUID("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
+		testGUID = common.EntityGUID("MzgwNjUyNnxBUE18QVBQTElDQVRJT058NTczNDgyNjM4")
 	)
 
 	client := newIntegrationTestClient(t)
@@ -35,7 +35,7 @@ func TestIntegrationGetTagsForEntity(t *testing.T) {
 
 	var (
 		// GUID of Dummy App
-		testGUID = common.EntityGUID("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
+		testGUID = common.EntityGUID("MzgwNjUyNnxBUE18QVBQTElDQVRJT058NTczNDgyNjM4")
 	)
 
 	client := newIntegrationTestClient(t)
@@ -68,7 +68,7 @@ func TestIntegrationTaggingAddTagsToEntity(t *testing.T) {
 	t.Parallel()
 
 	var (
-		testGUID = common.EntityGUID("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
+		testGUID = common.EntityGUID("MzgwNjUyNnxBUE18QVBQTElDQVRJT058NTczNDgyNjM4")
 	)
 
 	client := newIntegrationTestClient(t)
@@ -90,7 +90,7 @@ func TestIntegrationTaggingReplaceTagsOnEntity(t *testing.T) {
 	t.Parallel()
 
 	var (
-		testGUID = common.EntityGUID("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
+		testGUID = common.EntityGUID("MzgwNjUyNnxBUE18QVBQTElDQVRJT058NTczNDgyNjM4")
 	)
 
 	client := newIntegrationTestClient(t)
@@ -112,7 +112,7 @@ func TestIntegrationDeleteTags(t *testing.T) {
 	t.Parallel()
 
 	var (
-		testGUID = common.EntityGUID("MzgwNjUyNnxJTkZSQXxOQXwyMDMyMzE2MjQ0NDA3NDQ4MTg2")
+		testGUID = common.EntityGUID("MzgwNjUyNnxBUE18QVBQTElDQVRJT058NTczNDgyNjM4")
 	)
 
 	client := newIntegrationTestClient(t)
@@ -129,7 +129,7 @@ func TestIntegrationDeleteTagValues(t *testing.T) {
 	t.Parallel()
 
 	var (
-		testGUID = common.EntityGUID("MzgwNjUyNnxJTkZSQXxOQXwyMDMyMzE2MjQ0NDA3NDQ4MTg2")
+		testGUID = common.EntityGUID("MzgwNjUyNnxBUE18QVBQTElDQVRJT058NTczNDgyNjM4")
 	)
 
 	client := newIntegrationTestClient(t)

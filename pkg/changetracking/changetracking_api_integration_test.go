@@ -25,7 +25,7 @@ func TestChangeTrackingCreateDeployment_Basic(t *testing.T) {
 		DeepLink:       "newrelic-client-go",
 		DeploymentType: ChangeTrackingDeploymentTypeTypes.BASIC,
 		Description:    "This is a test description",
-		EntityGUID:     common.EntityGUID("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1"),
+		EntityGUID:     common.EntityGUID("MzgwNjUyNnxBUE18QVBQTElDQVRJT058NTczNDgyNjM4"),
 		GroupId:        "deployment",
 		Timestamp:      nrtime.EpochMilliseconds(time.Now()),
 		User:           "newrelic-go-client",

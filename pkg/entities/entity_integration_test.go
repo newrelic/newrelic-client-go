@@ -126,7 +126,7 @@ func TestIntegrationGetEntities(t *testing.T) {
 	client := newIntegrationTestClient(t)
 
 	// GUID of Dummy App
-	guids := []common.EntityGUID{"MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1"}
+	guids := []common.EntityGUID{"MzgwNjUyNnxBUE18QVBQTElDQVRJT058NTczNDgyNjM4"}
 	actual, err := client.GetEntities(guids)
 
 	if e, ok := err.(*http.GraphQLErrorResponse); ok {
@@ -141,7 +141,7 @@ func TestIntegrationGetEntity(t *testing.T) {
 	t.Parallel()
 
 	// GUID of Dummy App
-	entityGUID := common.EntityGUID("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
+	entityGUID := common.EntityGUID("MzgwNjUyNnxBUE18QVBQTElDQVRJT058NTczNDgyNjM4")
 	client := newIntegrationTestClient(t)
 
 	result, err := client.GetEntity(entityGUID)
@@ -172,7 +172,7 @@ func TestIntegrationGetEntity_ApmEntity(t *testing.T) {
 	client := newIntegrationTestClient(t)
 
 	// GUID of Dummy App
-	result, err := client.GetEntity("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
+	result, err := client.GetEntity("MzgwNjUyNnxBUE18QVBQTElDQVRJT058NTczNDgyNjM4")
 
 	if e, ok := err.(*http.GraphQLErrorResponse); ok {
 		if !e.IsDeprecated() {
@@ -191,7 +191,7 @@ func TestIntegrationGetEntity_ApmEntity(t *testing.T) {
 
 	// These are a bit fragile, if the above GUID ever changes...
 	// from ApmApplicationEntity / ApmApplicationEntityOutline
-	assert.Equal(t, 215037795, actual.ApplicationID)
+	assert.Equal(t, 573482638, actual.ApplicationID)
 	assert.Contains(t, acceptableAlertStatuses, actual.AlertSeverity)
 	assert.Equal(t, "nodejs", actual.Language)
 	assert.NotNil(t, actual.RunningAgentVersions)
@@ -239,7 +239,7 @@ func TestIntegrationGetEntity_MobileEntity(t *testing.T) {
 
 	client := newIntegrationTestClient(t)
 
-	result, err := client.GetEntity("NDQ0NTN8TU9CSUxFfEFQUExJQ0FUSU9OfDE3ODg1NDI")
+	result, err := client.GetEntity("MzgwNjUyNnxNT0JJTEV8QVBQTElDQVRJT058NjAxMzc1OTAx")
 
 	if e, ok := err.(*http.GraphQLErrorResponse); ok {
 		if !e.IsDeprecated() {
@@ -252,7 +252,7 @@ func TestIntegrationGetEntity_MobileEntity(t *testing.T) {
 
 	// These are a bit fragile, if the above GUID ever changes...
 	// from MobileApplicationEntity / MobileApplicationEntityOutline
-	assert.Equal(t, 1788542, actual.ApplicationID)
+	assert.Equal(t, 601375901, actual.ApplicationID)
 	assert.Equal(t, EntityAlertSeverityTypes.NOT_CONFIGURED, actual.AlertSeverity)
 
 }
