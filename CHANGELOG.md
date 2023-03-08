@@ -1,3 +1,8 @@
+<a name="v2.15.1"></a>
+## [v2.15.1] - 2023-03-08
+### Bug Fixes
+- **one_dashboard:** added raw configuration properties to one dashboard resource ([#1001](https://github.com/newrelic/newrelic-client-go/issues/1001))
+
 <a name="v2.15.0"></a>
 ## [v2.15.0] - 2023-03-07
 ### Bug Fixes
@@ -1577,7 +1582,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.15.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.15.1...HEAD
+[v2.15.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.15.0...v2.15.1
 [v2.15.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.14.0...v2.15.0
 [v2.14.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.13.0...v2.14.0
 [v2.13.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.12.0...v2.13.0
