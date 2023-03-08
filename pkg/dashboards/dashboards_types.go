@@ -307,9 +307,56 @@ type RawConfiguration struct {
 
 	// Used by viz.billboard
 	Thresholds []DashboardBillboardWidgetThresholdInput `json:"thresholds,omitempty"`
+	Legend     *DashboardWidgetLegend                   `json:"legend,omitempty"`
+	YAxisLeft  *DashboardWidgetYAxisLeft                `json:"yAxisLeft,omitempty"`
+	NullValues *DashboardWidgetNullValues               `json:"nullValues,omitempty"`
+	Units      *DashboardWidgetUnits                    `json:"units,omitempty"`
+	Colors     *DashboardWidgetColors                   `json:"colors,omitempty"`
+	Facet      *DashboardWidgetFacet                    `json:"facet,omitempty"`
 }
 
 // RawConfigurationPlatformOptions represents the platform widget options
 type RawConfigurationPlatformOptions struct {
 	IgnoreTimeRange bool `json:"ignoreTimeRange,omitempty"`
+}
+
+type DashboardWidgetLegend struct {
+	Enabled bool `json:"enabled,omitempty"`
+}
+
+type DashboardWidgetYAxisLeft struct {
+	Max float64 `json:"max,omitempty"`
+	Min float64 `json:"min,omitempty"`
+}
+
+type DashboardWidgetNullValues struct {
+	NullValue       string                              `json:"nullValue,omitempty"`
+	SeriesOverrides []DashboardWidgetNullValueOverrides `json:"seriesOverrides,omitempty"`
+}
+
+type DashboardWidgetNullValueOverrides struct {
+	NullValue  string `json:"nullValue,omitempty"`
+	SeriesName string `json:"seriesName,omitempty"`
+}
+type DashboardWidgetUnits struct {
+	Unit            string                         `json:"unit,omitempty"`
+	SeriesOverrides []DashboardWidgetUnitOverrides `json:"seriesOverrides,omitempty"`
+}
+
+type DashboardWidgetUnitOverrides struct {
+	Unit       string `json:"unit,omitempty"`
+	SeriesName string `json:"seriesName"`
+}
+
+type DashboardWidgetColors struct {
+	Color           string                          `json:"color,omitempty"`
+	SeriesOverrides []DashboardWidgetColorOverrides `json:"seriesOverrides,omitempty"`
+}
+
+type DashboardWidgetColorOverrides struct {
+	Color      string `json:"color,omitempty"`
+	SeriesName string `json:"seriesName,omitempty"`
+}
+type DashboardWidgetFacet struct {
+	ShowOtherSeries bool `json:"showOtherSeries,omitempty"`
 }
