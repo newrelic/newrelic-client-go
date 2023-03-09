@@ -11,13 +11,13 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/newrelic/newrelic-client-go/v2/pkg/common"
-	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
 func TestServiceLevel_Basic(t *testing.T) {
 	t.Parallel()
 
-	testAccountID, err := mock.GetTestAccountID()
+	testAccountID, err := testhelpers.GetTestAccountID()
 	if err != nil {
 		t.Skipf("%s", err)
 	}
@@ -25,7 +25,7 @@ func TestServiceLevel_Basic(t *testing.T) {
 	client := newIntegrationTestClient(t)
 
 	// GUID of Dummy App
-	guid := common.EntityGUID("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
+	guid := common.EntityGUID(testhelpers.IntegrationTestApplicationEntityGUID)
 
 	createInput := ServiceLevelIndicatorCreateInput{
 		Name:        "integration-test-sli",
@@ -84,7 +84,7 @@ func TestServiceLevel_Basic(t *testing.T) {
 func TestServiceLevel_GoodOrBadEventsRequiredError(t *testing.T) {
 	t.Parallel()
 
-	testAccountID, err := mock.GetTestAccountID()
+	testAccountID, err := testhelpers.GetTestAccountID()
 	if err != nil {
 		t.Skipf("%s", err)
 	}
@@ -92,7 +92,7 @@ func TestServiceLevel_GoodOrBadEventsRequiredError(t *testing.T) {
 	client := newIntegrationTestClient(t)
 
 	// GUID of Dummy App
-	guid := common.EntityGUID("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
+	guid := common.EntityGUID(testhelpers.IntegrationTestApplicationEntityGUID)
 
 	// This input is missing some required fields to create a service level (i.e. GoodEvents, BadEvents)
 	createInput := ServiceLevelIndicatorCreateInput{
@@ -127,7 +127,7 @@ func TestServiceLevel_GoodOrBadEventsRequiredError(t *testing.T) {
 }
 
 func newIntegrationTestClient(t *testing.T) Servicelevel {
-	tc := mock.NewIntegrationTestConfig(t)
+	tc := testhelpers.NewIntegrationTestConfig(t)
 
 	return New(tc)
 }
