@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/newrelic/newrelic-client-go/v2/pkg/errors"
-	nr "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
 func TestAlertsPolicy_Legacy(t *testing.T) {
@@ -19,7 +19,7 @@ func TestAlertsPolicy_Legacy(t *testing.T) {
 
 	a := newIntegrationTestClient(t)
 
-	testIntegrationPolicyNameRandStr := nr.RandSeq(5)
+	testIntegrationPolicyNameRandStr := testhelpers.RandSeq(5)
 	policy := Policy{
 		IncidentPreference: IncidentPreferenceTypes.PerPolicy,
 		Name:               fmt.Sprintf("test-alert-policy-%s", testIntegrationPolicyNameRandStr),
@@ -64,10 +64,10 @@ func TestAlertsQueryPolicy_GraphQL_Enabled(t *testing.T) {
 	a := newIntegrationTestClient(t)
 
 	// DTK terraform account
-	accountID := 2520528
+	accountID := testhelpers.IntegrationTestAccountID
 
 	// Create a policy to work with in this test
-	testIntegrationPolicyNameRandStr := nr.RandSeq(5)
+	testIntegrationPolicyNameRandStr := testhelpers.RandSeq(5)
 	policy := AlertsPolicyInput{}
 	policy.IncidentPreference = AlertsIncidentPreferenceTypes.PER_POLICY
 	policy.Name = fmt.Sprintf("test-alert-policy-%s", testIntegrationPolicyNameRandStr)

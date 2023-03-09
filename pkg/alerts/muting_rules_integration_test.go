@@ -10,16 +10,14 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/newrelic/newrelic-client-go/v2/pkg/errors"
-	nr "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
 func TestIntegrationAlertsMutingRules(t *testing.T) {
 	t.Parallel()
 
 	a := newIntegrationTestClient(t)
-
-	// DTK terraform account
-	accountID := 2520528
+	accountID := testhelpers.IntegrationTestAccountID
 
 	// Schedule fields
 	startTime, err1 := time.Parse(time.RFC3339, "2021-07-08T12:30:00Z")
@@ -34,7 +32,7 @@ func TestIntegrationAlertsMutingRules(t *testing.T) {
 
 	// Create a muting rule to work with in this test
 	rule := MutingRuleCreateInput{
-		Name:        nr.RandSeq(5),
+		Name:        testhelpers.RandSeq(5),
 		Description: "Mute host-1 violations",
 		Enabled:     true,
 		Schedule: &MutingRuleScheduleCreateInput{
@@ -70,7 +68,7 @@ func TestIntegrationAlertsMutingRules(t *testing.T) {
 	require.True(t, len(listResult) > 0)
 
 	// Test: Update
-	testIntegrationMutingRuleNewName := nr.RandSeq(5)
+	testIntegrationMutingRuleNewName := testhelpers.RandSeq(5)
 	updateRule := MutingRuleUpdateInput{}
 	updateRule.Name = testIntegrationMutingRuleNewName
 

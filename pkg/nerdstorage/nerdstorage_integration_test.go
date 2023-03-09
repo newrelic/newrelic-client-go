@@ -8,12 +8,12 @@ import (
 
 	"github.com/stretchr/testify/require"
 
+	"github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
 var (
 	testPackageID           = "8e57e72a-e3ac-4272-9bb8-aea1d71dde3d"
-	testEntityID            = "MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1"
 	testCollection          = "myCol"
 	testDocumentID          = "myDoc"
 	testAlternateDocumentID = "myOtherDoc"
@@ -124,30 +124,30 @@ func TestIntegrationNerdStorageWithEntityScope(t *testing.T) {
 
 	client := newIntegrationTestClient(t)
 
-	document, err := client.WriteDocumentWithEntityScope(testEntityID, testWriteInput)
+	document, err := client.WriteDocumentWithEntityScope(testhelpers.IntegrationTestApplicationEntityGUID, testWriteInput)
 	require.NoError(t, err)
 	require.NotNil(t, document)
 
 	testAlternateWriteInput := testWriteInput
 	testAlternateWriteInput.DocumentID = testAlternateDocumentID
 
-	document, err = client.WriteDocumentWithEntityScope(testEntityID, testAlternateWriteInput)
+	document, err = client.WriteDocumentWithEntityScope(testhelpers.IntegrationTestApplicationEntityGUID, testAlternateWriteInput)
 	require.NoError(t, err)
 	require.NotNil(t, document)
 
-	collection, err := client.GetCollectionWithEntityScope(testEntityID, testGetCollectionInput)
+	collection, err := client.GetCollectionWithEntityScope(testhelpers.IntegrationTestApplicationEntityGUID, testGetCollectionInput)
 	require.NoError(t, err)
 	require.NotNil(t, collection)
 
-	document, err = client.GetDocumentWithEntityScope(testEntityID, testGetDocumentInput)
+	document, err = client.GetDocumentWithEntityScope(testhelpers.IntegrationTestApplicationEntityGUID, testGetDocumentInput)
 	require.NoError(t, err)
 	require.NotNil(t, document)
 
-	ok, err := client.DeleteDocumentWithEntityScope(testEntityID, testDeleteDocumentInput)
+	ok, err := client.DeleteDocumentWithEntityScope(testhelpers.IntegrationTestApplicationEntityGUID, testDeleteDocumentInput)
 	require.NoError(t, err)
 	require.True(t, ok)
 
-	ok, err = client.DeleteCollectionWithEntityScope(testEntityID, testDeleteCollectionInput)
+	ok, err = client.DeleteCollectionWithEntityScope(testhelpers.IntegrationTestApplicationEntityGUID, testDeleteCollectionInput)
 	require.NoError(t, err)
 	require.True(t, ok)
 }
