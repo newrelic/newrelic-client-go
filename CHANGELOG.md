@@ -1,3 +1,21 @@
+<a name="v2.15.1"></a>
+## [v2.15.1] - 2023-03-08
+### Bug Fixes
+- **one_dashboard:** added raw configuration properties to one dashboard resource ([#1001](https://github.com/newrelic/newrelic-client-go/issues/1001))
+
+<a name="v2.15.0"></a>
+## [v2.15.0] - 2023-03-07
+### Bug Fixes
+- **EpochTime:** fix unmarshal/marshal of empty EpochTime ([#997](https://github.com/newrelic/newrelic-client-go/issues/997))
+
+### Features
+- **agentapplication:** add ability to manage browser applications ([#991](https://github.com/newrelic/newrelic-client-go/issues/991))
+
+<a name="v2.14.0"></a>
+## [v2.14.0] - 2023-03-02
+### Features
+- **data_partition:** new attribute nrql and updated tests
+
 <a name="v2.13.0"></a>
 ## [v2.13.0] - 2023-02-17
 ### Features
@@ -1564,7 +1582,10 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.13.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.15.1...HEAD
+[v2.15.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.15.0...v2.15.1
+[v2.15.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.14.0...v2.15.0
+[v2.14.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.13.0...v2.14.0
 [v2.13.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.12.0...v2.13.0
 [v2.12.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.11.2...v2.12.0
 [v2.11.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.11.1...v2.11.2

@@ -11,7 +11,7 @@ import (
 
 	"github.com/newrelic/newrelic-client-go/v2/pkg/common"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/nrtime"
-	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
 func TestChangeTrackingCreateDeployment_Basic(t *testing.T) {
@@ -25,7 +25,7 @@ func TestChangeTrackingCreateDeployment_Basic(t *testing.T) {
 		DeepLink:       "newrelic-client-go",
 		DeploymentType: ChangeTrackingDeploymentTypeTypes.BASIC,
 		Description:    "This is a test description",
-		EntityGUID:     common.EntityGUID("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1"),
+		EntityGUID:     common.EntityGUID(testhelpers.IntegrationTestApplicationEntityGUID),
 		GroupId:        "deployment",
 		Timestamp:      nrtime.EpochMilliseconds(time.Now()),
 		User:           "newrelic-go-client",
@@ -50,7 +50,7 @@ func TestChangeTrackingCreateDeployment_TimestampError(t *testing.T) {
 		DeepLink:       "newrelic-client-go",
 		DeploymentType: ChangeTrackingDeploymentTypeTypes.BASIC,
 		Description:    "This is a test description",
-		EntityGUID:     common.EntityGUID("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1"),
+		EntityGUID:     common.EntityGUID(testhelpers.IntegrationTestApplicationEntityGUID),
 		GroupId:        "deployment",
 		Timestamp:      nrtime.EpochMilliseconds(time.UnixMilli(0)),
 		User:           "newrelic-go-client",
@@ -63,7 +63,7 @@ func TestChangeTrackingCreateDeployment_TimestampError(t *testing.T) {
 }
 
 func newIntegrationTestClient(t *testing.T) Changetracking {
-	tc := mock.NewIntegrationTestConfig(t)
+	tc := testhelpers.NewIntegrationTestConfig(t)
 
 	return New(tc)
 }

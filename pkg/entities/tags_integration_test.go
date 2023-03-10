@@ -9,6 +9,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/newrelic/newrelic-client-go/v2/pkg/common"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
 func TestIntegrationListTags(t *testing.T) {
@@ -16,7 +17,7 @@ func TestIntegrationListTags(t *testing.T) {
 
 	var (
 		// GUID of Dummy App
-		testGUID = common.EntityGUID("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
+		testGUID = common.EntityGUID(testhelpers.IntegrationTestApplicationEntityGUID)
 	)
 
 	client := newIntegrationTestClient(t)
@@ -35,7 +36,7 @@ func TestIntegrationGetTagsForEntity(t *testing.T) {
 
 	var (
 		// GUID of Dummy App
-		testGUID = common.EntityGUID("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
+		testGUID = common.EntityGUID(testhelpers.IntegrationTestApplicationEntityGUID)
 	)
 
 	client := newIntegrationTestClient(t)
@@ -47,19 +48,6 @@ func TestIntegrationGetTagsForEntity(t *testing.T) {
 
 	actual, err = client.GetTagsForEntityMutable(testGUID)
 
-	if len(actual) < 1 {
-		tags := []TaggingTagInput{
-			{
-				Key:    "pineapple",
-				Values: []string{"pizza"},
-			},
-		}
-		result, err := client.TaggingAddTagsToEntity(testGUID, tags)
-		require.NoError(t, err)
-		require.NotNil(t, result)
-
-	}
-
 	require.NoError(t, err)
 	require.Greater(t, len(actual), 0)
 }
@@ -68,7 +56,7 @@ func TestIntegrationTaggingAddTagsToEntity(t *testing.T) {
 	t.Parallel()
 
 	var (
-		testGUID = common.EntityGUID("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
+		testGUID = common.EntityGUID(testhelpers.IntegrationTestApplicationEntityGUID)
 	)
 
 	client := newIntegrationTestClient(t)
@@ -90,7 +78,7 @@ func TestIntegrationTaggingReplaceTagsOnEntity(t *testing.T) {
 	t.Parallel()
 
 	var (
-		testGUID = common.EntityGUID("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
+		testGUID = common.EntityGUID(testhelpers.IntegrationTestApplicationEntityGUID)
 	)
 
 	client := newIntegrationTestClient(t)
@@ -112,7 +100,7 @@ func TestIntegrationDeleteTags(t *testing.T) {
 	t.Parallel()
 
 	var (
-		testGUID = common.EntityGUID("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
+		testGUID = common.EntityGUID(testhelpers.IntegrationTestApplicationEntityGUID)
 	)
 
 	client := newIntegrationTestClient(t)
@@ -129,7 +117,7 @@ func TestIntegrationDeleteTagValues(t *testing.T) {
 	t.Parallel()
 
 	var (
-		testGUID = common.EntityGUID("MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1")
+		testGUID = common.EntityGUID(testhelpers.IntegrationTestApplicationEntityGUID)
 	)
 
 	client := newIntegrationTestClient(t)

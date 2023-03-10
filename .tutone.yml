@@ -23,6 +23,56 @@ auth:
   api_key_env_var: NEW_RELIC_API_KEY
 
 packages:
+  - name: agentApplications
+    path: pkg/agentapplications
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/agentapplications
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+    mutations:
+      - name: agentApplicationCreateBrowser
+        max_query_field_depth: 2
+      - name: agentApplicationDelete
+        max_query_field_depth: 1
+      - name: agentApplicationEnableApmBrowser
+        max_query_field_depth: 2
+      - name: agentApplicationSettingsUpdate
+        max_query_field_depth: 5
+    types:
+      - name: EntityGuid
+        field_type_override: common.EntityGUID
+        skip_type_create: true
+      - name: AgentApplicationSettingsApmConfigInput
+        field_type_override: "*AgentApplicationSettingsApmConfigInput"
+      - name: AgentApplicationSettingsBrowserConfigInput
+        field_type_override: "*AgentApplicationSettingsBrowserConfigInput"
+      - name: AgentApplicationSettingsBrowserMonitoringInput
+        field_type_override: "*AgentApplicationSettingsBrowserMonitoringInput"
+      - name: AgentApplicationSettingsErrorCollectorInput
+        field_type_override: "*AgentApplicationSettingsErrorCollectorInput"
+      - name: AgentApplicationSettingsJfrInput
+        field_type_override: "*AgentApplicationSettingsJfrInput"
+      - name: AgentApplicationSettingsMobileSettingsInput
+        field_type_override: "*AgentApplicationSettingsMobileSettingsInput"
+      - name: AgentApplicationSettingsSlowSqlInput
+        field_type_override: "*AgentApplicationSettingsSlowSqlInput"
+      - name: AgentApplicationSettingsThreadProfilerInput
+        field_type_override: "*AgentApplicationSettingsThreadProfilerInput"
+      - name: AgentApplicationSettingsTracerTypeInput
+        field_type_override: "*AgentApplicationSettingsTracerTypeInput"
+      - name: AgentApplicationSettingsTransactionTracerInput
+        field_type_override: "*AgentApplicationSettingsTransactionTracerInput"
+      - name: AgentApplicationSettingsBrowserAjaxInput
+        field_type_override: "*AgentApplicationSettingsBrowserAjaxInput"
+      - name: AgentApplicationSettingsBrowserDistributedTracingInput
+        field_type_override: "*AgentApplicationSettingsBrowserDistributedTracingInput"
+      - name: AgentApplicationSettingsBrowserLoaderInput
+        field_type_override: "*AgentApplicationSettingsBrowserLoaderInput"
+      - name: AgentApplicationSettingsBrowserPrivacyInput
+        field_type_override: "*AgentApplicationSettingsBrowserPrivacyInput"
+
 
   - name: accountmanagement
     path: pkg/accountmanagement

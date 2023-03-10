@@ -1311,6 +1311,31 @@ const getEntityQuery = `query(
 		}
 		agentInstallType
 		applicationId
+		browserSettings {
+			browserConfig {
+				apdexTarget
+			}
+			browserMonitoring {
+				ajax {
+					denyList
+				}
+				loader
+				distributedTracing {
+					allowedOrigins
+					corsEnabled
+					corsUseNewrelicHeader
+					corsUseTracecontextHeaders
+					enabled
+					excludeNewrelicHeader
+				}
+				privacy {
+					cookiesEnabled
+				}
+			}
+		}
+		browserProperties {
+			jsLoaderScript
+		}
 		browserSummary {
 			ajaxRequestThroughput
 			ajaxResponseTimeAverage

@@ -8,7 +8,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
 func TestIntegrationQuery(t *testing.T) {
@@ -53,7 +53,7 @@ func TestIntegrationQueryWithVariables(t *testing.T) {
 	`
 
 	variables := map[string]interface{}{
-		"guid": "MjUyMDUyOHxBUE18QVBQTElDQVRJT058MjE1MDM3Nzk1",
+		"guid": testhelpers.IntegrationTestApplicationEntityGUID,
 	}
 
 	actual, err := gqlClient.Query(query, variables)
@@ -64,7 +64,7 @@ func TestIntegrationQueryWithVariables(t *testing.T) {
 
 // nolint
 func newNerdGraphIntegrationTestClient(t *testing.T) NerdGraph {
-	tc := mock.NewIntegrationTestConfig(t)
+	tc := testhelpers.NewIntegrationTestConfig(t)
 
 	return New(tc)
 }

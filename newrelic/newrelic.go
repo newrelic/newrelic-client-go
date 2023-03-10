@@ -9,6 +9,7 @@ import (
 
 	"github.com/newrelic/newrelic-client-go/v2/pkg/accountmanagement"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/accounts"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/agentapplications"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/alerts"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/apiaccess"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/apm"
@@ -40,6 +41,7 @@ import (
 // NewRelic is a collection of New Relic APIs.
 type NewRelic struct {
 	AccountManagement accountmanagement.Accountmanagement
+	AgentApplications agentapplications.AgentApplications
 	Accounts          accounts.Accounts
 	Alerts            alerts.Alerts
 	APIAccess         apiaccess.APIAccess
@@ -93,6 +95,7 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 		config: cfg,
 
 		AccountManagement: accountmanagement.New(cfg),
+		AgentApplications: agentapplications.New(cfg),
 		Accounts:          accounts.New(cfg),
 		Alerts:            alerts.New(cfg),
 		APIAccess:         apiaccess.New(cfg),
