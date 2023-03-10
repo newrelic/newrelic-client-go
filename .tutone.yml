@@ -30,20 +30,20 @@ packages:
       - typegen
       - nerdgraphclient
     imports:
-        - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
-        - github.com/newrelic/newrelic-client-go/v2/pkg/common
-        - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
-        - github.com/newrelic/newrelic-client-go/v2/pkg/users
+      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v2/pkg/users
     queries:
-        - path: [ "actor", "organization", "accountManagement" ]
-          endpoints:
-            - name: managedAccounts
-              max_query_field_depth: 2
+      - path: [ "actor", "organization", "accountManagement" ]
+        endpoints:
+          - name: managedAccounts
+            max_query_field_depth: 2
     mutations:
-        - name: accountManagementCreateAccount
-          max_query_field_depth: 3
-        - name: accountManagementUpdateAccount
-          max_query_field_depth: 3
+      - name: accountManagementCreateAccount
+        max_query_field_depth: 3
+      - name: accountManagementUpdateAccount
+        max_query_field_depth: 3
 
 
 

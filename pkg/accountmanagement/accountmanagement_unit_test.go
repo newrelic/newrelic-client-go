@@ -9,8 +9,7 @@ import (
 )
 
 var (
-
-	testCreateAccountResponseJson = `{
+	testCreateAccountResponseJSON = `{
     "accountManagementCreateAccount": {
       "managedAccount": {
         "id": 3833407,
@@ -19,7 +18,7 @@ var (
       }
     }
   }`
-	testUpdateAccountResponseJson = `{
+	testUpdateAccountResponseJSON = `{
     "accountManagementUpdateAccount": {
       "managedAccount": {
         "id": 3833407,
@@ -32,7 +31,7 @@ var (
 
 func TestUpdateAccount(t *testing.T) {
 	t.Parallel()
-	respJSON := fmt.Sprintf(`{ "data":%s }`, testUpdateAccountResponseJson)
+	respJSON := fmt.Sprintf(`{ "data":%s }`, testUpdateAccountResponseJSON)
 	accountManagement := newMockResponse(t, respJSON, http.StatusCreated)
 
 	updateAccountInput := AccountManagementUpdateInput{
@@ -57,7 +56,7 @@ func TestUpdateAccount(t *testing.T) {
 
 func TestCreateAccount(t *testing.T) {
 	t.Parallel()
-	respJSON := fmt.Sprintf(`{ "data":%s }`, testCreateAccountResponseJson)
+	respJSON := fmt.Sprintf(`{ "data":%s }`, testCreateAccountResponseJSON)
 	accountManagement := newMockResponse(t, respJSON, http.StatusCreated)
 
 	createAccountInput := AccountManagementCreateInput{
