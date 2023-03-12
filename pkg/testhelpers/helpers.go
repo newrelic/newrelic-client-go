@@ -12,6 +12,12 @@ var (
 	letters = []rune("abcdefghijklmnopqrstuvwxyz")
 )
 
+// Our integration test Dummy App
+const IntegrationTestApplicationEntityGUID = "MzgwNjUyNnxBUE18QVBQTElDQVRJT058NTczNDgyNjM4"
+
+// Our integration test account ID (v2 account)
+const IntegrationTestAccountID = 3806526
+
 // RandSeq is used to get a string made up of n random lowercase letters.
 func RandSeq(n int) string {
 	rand.Seed(time.Now().UnixNano())
