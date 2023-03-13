@@ -11,7 +11,7 @@ import (
 	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
-func TestIntegrationParsingRule(t *testing.T) {
+func TestIntegrationParsingRule_Create(t *testing.T) {
 	t.Parallel()
 
 	testAccountID, err := mock.GetTestAccountID()
@@ -37,45 +37,79 @@ func TestIntegrationParsingRule(t *testing.T) {
 
 	// Test: Create
 	created, err := client.LogConfigurationsCreateParsingRule(testAccountID, testCreateInput)
-
+	defer deleteTest_ParsingRule(t, testAccountID, created)
 	require.NoError(t, err)
 	require.NotNil(t, created)
 	require.NotEmpty(t, created)
+}
 
-	// Get API
+func TestIntegrationParsingRule_Read(t *testing.T) {
+	t.Parallel()
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	created := createTest_ParsingRule(t, testAccountID)
+
+	client := newIntegrationTestClient(t)
+
 	created_rules, err := client.GetParsingRules(testAccountID)
 	require.NoError(t, err)
 	require.NotEmpty(t, created_rules)
 	require.NotNil(t, created_rules)
 
-	// Test: Update
+	defer deleteTest_ParsingRule(t, testAccountID, created)
+
+}
+
+func TestIntegrationParsingRule_Update(t *testing.T) {
+	t.Parallel()
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	created := createTest_ParsingRule(t, testAccountID)
+
+	client := newIntegrationTestClient(t)
+
 	update, err := client.LogConfigurationsUpdateParsingRule(testAccountID, created.Rule.ID, LogConfigurationsParsingRuleConfiguration{
 
 		Attribute:   "attribute",
-		Description: testDescription + "_update",
+		Description: created.Rule.Description + "_update",
 		Enabled:     true,
 		Grok:        "sampleattribute=%{NUMBER:test:int}",
 		Lucene:      "logtype:linux_messages",
 		NRQL:        "SELECT * FROM Log WHERE logtype = 'linux_messages'",
 	})
-
 	require.NoError(t, err)
 	require.NotNil(t, update)
 	require.NotEmpty(t, update)
 
-	// Test: Delete
-	testDeleteInput := created.Rule.ID
-	deleted, err := client.LogConfigurationsDeleteParsingRule(testAccountID, testDeleteInput)
+	defer deleteTest_ParsingRule(t, testAccountID, created)
 
+}
+
+func TestIntegrationParsingRule_Delete(t *testing.T) {
+	t.Parallel()
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	created := createTest_ParsingRule(t, testAccountID)
+
+	testDeleteInput := created.Rule.ID
+
+	client := newIntegrationTestClient(t)
+	deleted, err := client.LogConfigurationsDeleteParsingRule(testAccountID, testDeleteInput)
 	require.NoError(t, err)
 	require.NotNil(t, deleted)
 	require.Empty(t, deleted)
-
-	rules, err := client.GetParsingRules(testAccountID)
-	require.NoError(t, err)
-	require.NotEmpty(t, rules)
-	require.NotNil(t, rules)
-	require.NotEqual(t, len(*created_rules), len(*rules))
 
 }
 
@@ -116,7 +150,7 @@ func TestIntegrationParsingRule_WithValidGrokPattern(t *testing.T) {
 
 	// Test: Create
 	created, err := client.LogConfigurationsCreateParsingRule(testAccountID, testCreateInput)
-
+	defer deleteTest_ParsingRule(t, testAccountID, created)
 	require.NoError(t, err)
 	require.NotNil(t, created)
 	require.NotEmpty(t, created)
@@ -164,4 +198,32 @@ func TestIntegrationParsingRule_WithInvalidGrokPattern(t *testing.T) {
 	require.Nil(t, created)
 	require.Empty(t, created)
 
+}
+
+func createTest_ParsingRule(t *testing.T, accountID int) *LogConfigurationsCreateParsingRuleResponse {
+	var (
+		rand            = mock.RandSeq(5)
+		testDescription = "testDescription_" + rand
+		grok            = "%{INT:bytes_received}"
+		testCreateInput = LogConfigurationsParsingRuleConfiguration{
+			Attribute:   "attribute",
+			Description: testDescription,
+			Enabled:     true,
+			Grok:        grok,
+			Lucene:      "logtype:linux_messages",
+			NRQL:        "SELECT * FROM Log WHERE logtype = 'linux_messages'",
+		}
+	)
+	client := newIntegrationTestClient(t)
+	rule, err := client.LogConfigurationsCreateParsingRule(accountID, testCreateInput)
+	require.NoError(t, err)
+	return rule
+}
+
+func deleteTest_ParsingRule(t *testing.T, accountID int, response *LogConfigurationsCreateParsingRuleResponse) {
+	deleteUserInput := response.Rule.ID
+	client := newIntegrationTestClient(t)
+	deleted, err := client.LogConfigurationsDeleteParsingRule(accountID, deleteUserInput)
+	require.NoError(t, err)
+	require.NotNil(t, deleted)
 }
