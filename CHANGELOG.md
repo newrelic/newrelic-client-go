@@ -1,3 +1,8 @@
+<a name="v2.16.0"></a>
+## [v2.16.0] - 2023-03-10
+### Features
+- **account_management:** added account management api and test cases
+
 <a name="v2.15.1"></a>
 ## [v2.15.1] - 2023-03-08
 ### Bug Fixes
@@ -1582,7 +1587,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.15.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.16.0...HEAD
+[v2.16.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.15.1...v2.16.0
 [v2.15.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.15.0...v2.15.1
 [v2.15.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.14.0...v2.15.0
 [v2.14.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.13.0...v2.14.0
