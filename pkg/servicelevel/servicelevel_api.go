@@ -69,6 +69,7 @@ const ServiceLevelCreateMutation = `mutation(
 			select {
 				attribute
 				function
+				threshold
 			}
 			where
 		}
@@ -77,6 +78,7 @@ const ServiceLevelCreateMutation = `mutation(
 			select {
 				attribute
 				function
+				threshold
 			}
 			where
 		}
@@ -85,6 +87,7 @@ const ServiceLevelCreateMutation = `mutation(
 			select {
 				attribute
 				function
+				threshold
 			}
 			where
 		}
@@ -170,6 +173,7 @@ const ServiceLevelDeleteMutation = `mutation(
 			select {
 				attribute
 				function
+				threshold
 			}
 			where
 		}
@@ -178,6 +182,7 @@ const ServiceLevelDeleteMutation = `mutation(
 			select {
 				attribute
 				function
+				threshold
 			}
 			where
 		}
@@ -186,6 +191,7 @@ const ServiceLevelDeleteMutation = `mutation(
 			select {
 				attribute
 				function
+				threshold
 			}
 			where
 		}
@@ -277,6 +283,7 @@ const ServiceLevelUpdateMutation = `mutation(
 			select {
 				attribute
 				function
+				threshold
 			}
 			where
 		}
@@ -285,6 +292,7 @@ const ServiceLevelUpdateMutation = `mutation(
 			select {
 				attribute
 				function
+				threshold
 			}
 			where
 		}
@@ -293,6 +301,7 @@ const ServiceLevelUpdateMutation = `mutation(
 			select {
 				attribute
 				function
+				threshold
 			}
 			where
 		}
@@ -373,6 +382,7 @@ const getIndicatorsQuery = `query(
 			select {
 				attribute
 				function
+				threshold
 			}
 			where
 		}
@@ -381,6 +391,7 @@ const getIndicatorsQuery = `query(
 			select {
 				attribute
 				function
+				threshold
 			}
 			where
 		}
@@ -389,6 +400,7 @@ const getIndicatorsQuery = `query(
 			select {
 				attribute
 				function
+				threshold
 			}
 			where
 		}
