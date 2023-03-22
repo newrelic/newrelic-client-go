@@ -11,14 +11,22 @@ import (
 type ServiceLevelEventsQuerySelectFunction string
 
 var ServiceLevelEventsQuerySelectFunctionTypes = struct {
-	// COUNT.
+	// Use on events and unaggregated data.
 	COUNT ServiceLevelEventsQuerySelectFunction
-	// SUM.
+	// Use on distribution metric types.
+	GET_CDF_COUNT ServiceLevelEventsQuerySelectFunction
+	// Use in valid events combined with GET_CDF_COUNT.
+	GET_FIELD ServiceLevelEventsQuerySelectFunction
+	// Use on aggregated counts.
 	SUM ServiceLevelEventsQuerySelectFunction
 }{
-	// COUNT.
+	// Use on events and unaggregated data.
 	COUNT: "COUNT",
-	// SUM.
+	// Use on distribution metric types.
+	GET_CDF_COUNT: "GET_CDF_COUNT",
+	// Use in valid events combined with GET_CDF_COUNT.
+	GET_FIELD: "GET_FIELD",
+	// Use on aggregated counts.
 	SUM: "SUM",
 }
 
@@ -39,6 +47,8 @@ type Actor struct {
 	//
 	// For more details on entities, visit our [entity docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/use-new-relic-graphql-api-query-entities).
 	Entity EntityInterface `json:"entity,omitempty"`
+	// The authenticated `User` who made this request.
+	User User `json:"user,omitempty"`
 }
 
 // Entity - The `Entity` interface allows fetching detailed entity information for a single entity.
@@ -111,26 +121,32 @@ type ServiceLevelEventsQueryCreateInput struct {
 
 // ServiceLevelEventsQuerySelect - The resulting NRQL SELECT clause to aggregate events.
 type ServiceLevelEventsQuerySelect struct {
-	// The event attribute to use in the SELECT clause.
+	// The attribute used in the selected function.
 	Attribute string `json:"attribute,omitempty"`
 	// The function to use in the SELECT clause.
 	Function ServiceLevelEventsQuerySelectFunction `json:"function"`
+	// The threshold used in the selected function.
+	Threshold float64 `json:"threshold,omitempty"`
 }
 
 // ServiceLevelEventsQuerySelectCreateInput - The NRQL SELECT clause to aggregate events.
 type ServiceLevelEventsQuerySelectCreateInput struct {
-	// The event attribute to use in the SELECT clause.
+	// The attribute used in the selected function. Only use it in combination with the SUM, GET_FIELD and GET_CDF_COUNT functions.
 	Attribute string `json:"attribute,omitempty"`
 	// The function to use in the SELECT clause.
 	Function ServiceLevelEventsQuerySelectFunction `json:"function"`
+	// The threshold used in the selected function. Only use it in combination with the GET_CDF_COUNT function.
+	Threshold float64 `json:"threshold,omitempty"`
 }
 
 // ServiceLevelEventsQuerySelectUpdateInput - The NRQL SELECT clause to aggregate events.
 type ServiceLevelEventsQuerySelectUpdateInput struct {
-	// The event attribute to use in the SELECT clause.
+	// The attribute used in the selected function. Only use it in combination with the SUM, GET_FIELD and GET_CDF_COUNT functions.
 	Attribute string `json:"attribute,omitempty"`
 	// The function to use in the SELECT clause.
 	Function ServiceLevelEventsQuerySelectFunction `json:"function"`
+	// The threshold used in the selected function. Only use it in combination with the GET_CDF_COUNT function.
+	Threshold float64 `json:"threshold,omitempty"`
 }
 
 // ServiceLevelEventsQueryUpdateInput - The query that represents the events to fetch.
@@ -303,6 +319,16 @@ type ServiceLevelResultQuery struct {
 	NRQL NRQL `json:"nrql"`
 }
 
+// User - The `User` object provides general data about the user.
+type User struct {
+	//
+	Email string `json:"email,omitempty"`
+	//
+	ID int `json:"id,omitempty"`
+	//
+	Name string `json:"name,omitempty"`
+}
+
 // UserReference - The `UserReference` object provides basic identifying information about the user.
 type UserReference struct {
 	//
@@ -321,7 +347,7 @@ type indicatorsResponse struct {
 
 // Float - The `Float` scalar type represents signed double-precision fractional
 // values as specified by
-// [IEEE 754](http://en.wikipedia.org/wiki/IEEE_floating_point).
+// [IEEE 754](https://en.wikipedia.org/wiki/IEEE_754).
 type Float string
 
 // ID - The `ID` scalar type represents a unique identifier, often used to
