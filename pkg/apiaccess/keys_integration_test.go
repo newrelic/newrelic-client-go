@@ -4,9 +4,9 @@
 package apiaccess
 
 import (
-	"testing"
-
 	"github.com/stretchr/testify/require"
+	"log"
+	"testing"
 
 	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
@@ -15,6 +15,7 @@ func TestIntegrationAPIAccess_IngestKeys(t *testing.T) {
 	t.Parallel()
 
 	testAccountID, err := mock.GetTestAccountID()
+	log.Printf("%d", testAccountID)
 	if err != nil {
 		t.Skipf("%s", err)
 	}
@@ -132,4 +133,46 @@ func TestIntegrationAPIAccess_UserKeys(t *testing.T) {
 	})
 	require.NoError(t, err)
 	require.NotNil(t, deleteResult)
+}
+
+func TestIntegrationAPIAccess_UpdateIngestKeyError(t *testing.T) {
+	t.Parallel()
+	client := newIntegrationTestClient(t)
+	_, err := client.UpdateAPIAccessKeys(APIAccessUpdateInput{
+		Ingest: []APIAccessUpdateIngestKeyInput{
+			{
+				KeyID: "a8c1d7828076950d9a33FFFFFFFFFFFFFFFFFFFF",
+				Name:  "Lorem Ipsum",
+				Notes: "Lorem Ipsum",
+			},
+		},
+	})
+	require.Error(t, err)
+	require.Equal(t, err.Error(), "INGEST : NOT_FOUND : Key not found.")
+}
+
+func TestIntegrationAPIAccess_UpdateUserKeyError(t *testing.T) {
+	t.Parallel()
+	client := newIntegrationTestClient(t)
+	_, err := client.UpdateAPIAccessKeys(APIAccessUpdateInput{
+		User: []APIAccessUpdateUserKeyInput{
+			{
+				KeyID: "NRAK-NRNRNRNRNRNRNRNRNRNRNRNRNRR",
+				Name:  "Lorem Ipsum",
+				Notes: "Lorem Ipsum",
+			},
+		},
+	})
+	require.Error(t, err)
+	require.Equal(t, err.Error(), "USER : NOT_FOUND : Key not found.")
+}
+
+func TestIntegrationAPIAccess_DeleteIngestKeyError(t *testing.T) {
+	t.Parallel()
+	client := newIntegrationTestClient(t)
+	_, err := client.DeleteAPIAccessKey(APIAccessDeleteInput{
+		IngestKeyIDs: []string{"a8c1d7828076950d9a33FFFFFFFFFFFFFFFFFFFF"},
+	})
+	log.Printf(err.Error())
+	require.Error(t, err)
 }

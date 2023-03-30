@@ -18,6 +18,7 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/config"
 	nrErrors "github.com/newrelic/newrelic-client-go/v2/pkg/errors"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/logging"
+	"log"
 )
 
 const (
@@ -346,24 +347,31 @@ func (c *Client) Do(req *Request) (*http.Response, error) {
 		var shouldRetry bool
 		var err error
 		errorValue = req.errorValue.New()
+		log.Printf("STATEMENT 1")
 		resp, body, shouldRetry, err = c.innerDo(req, errorValue, i)
-
+		log.Printf("STATEMENT 2")
 		if serr, ok := err.(*nrErrors.MaxRetriesReached); ok {
+			log.Printf("STATEMENT 2.1")
 			return nil, serr
 		}
 
 		if shouldRetry {
+			log.Printf("STATEMENT 2.2")
 			continue
 		}
 
 		if err != nil {
+			log.Printf("STATEMENT 2.3")
 			return nil, err
 		}
 
+		log.Printf("ITERATIVE STATEMENT")
 		break
 	}
 
+	log.Printf("STATEMENT BEFORE IS RESPONSE SUCCESS")
 	if !isResponseSuccess(resp) {
+		log.Printf("ENTERED THIS STATEMENT AFTER STATEMENT 2")
 		if errorValue.IsUnauthorized(resp) {
 			return nil, nrErrors.NewUnauthorizedError()
 		}
@@ -390,8 +398,12 @@ func (c *Client) Do(req *Request) (*http.Response, error) {
 		return resp, nil
 	}
 
+	log.Printf("STATEMENT BEFORE JSON UNMARSHAL")
+	log.Printf("JSON MARSHAL ARGS ::: body - %s ; req.value - %d", body, req.value)
 	jsonErr := json.Unmarshal(body, req.value)
+	log.Printf("STATEMENT AFTER JSON UNMARSHAL")
 	if jsonErr != nil {
+		log.Printf("REACHED IS JSON ERROR. JSON ERROR ::::: %s", jsonErr.Error())
 		return nil, jsonErr
 	}
 
@@ -442,6 +454,7 @@ func (c *Client) innerDo(req *Request, errorValue ErrorResponse, i int) (*http.R
 
 	defer resp.Body.Close()
 
+	log.Printf("STATUS CODE INSIDE INNER DO : %d", resp.StatusCode)
 	if resp.StatusCode == http.StatusNotFound {
 		return resp, nil, false, &nrErrors.NotFound{}
 	}
@@ -490,8 +503,9 @@ func (c *Client) innerDo(req *Request, errorValue ErrorResponse, i int) (*http.R
 // status codes that are commonly considered successful.
 func isResponseSuccess(resp *http.Response) bool {
 	statusCode := resp.StatusCode
-
+	log.Printf("STATUS CODE ::::: %d", statusCode)
 	return statusCode >= http.StatusOK && statusCode <= 299
+	// return false
 }
 
 // NerdGraphQuery runs a Nerdgraph query.
@@ -501,7 +515,9 @@ func (c *Client) NerdGraphQuery(query string, vars map[string]interface{}, respB
 
 // NerdGraphQueryWithContext runs a Nerdgraph query.
 func (c *Client) NerdGraphQueryWithContext(ctx context.Context, query string, vars map[string]interface{}, respBody interface{}) error {
+	log.Printf("Entered NerdGraphQueryWithContext")
 	req, err := c.NewNerdGraphRequest(query, vars, respBody)
+
 	if err != nil {
 		return err
 	}
@@ -510,6 +526,7 @@ func (c *Client) NerdGraphQueryWithContext(ctx context.Context, query string, va
 
 	_, err = c.Do(req)
 	if err != nil {
+		log.Printf("THE ERROR IS NOT NULL. It says %s", err.Error())
 		return err
 	}
 

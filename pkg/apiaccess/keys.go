@@ -2,9 +2,11 @@ package apiaccess
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
-
+	"fmt"
 	"github.com/newrelic/newrelic-client-go/v2/internal/http"
+	"log"
 )
 
 type APIKey struct {
@@ -36,12 +38,18 @@ func (a *APIAccess) CreateAPIAccessKeysWithContext(ctx context.Context, keys API
 	}
 
 	resp := apiAccessKeyCreateResponse{}
+	byteArr, _ := json.Marshal(vars)
+	log.Printf("KEYS ::::: %s", string(byteArr))
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, apiAccessKeyCreateKeys, vars, &resp); err != nil {
+		log.Printf("Error caught at the API response level : %s", err.Error())
 		return nil, err
 	}
 
 	if len(resp.APIAccessCreateKeys.Errors) > 0 {
+		for i := 0; i < len(resp.APIAccessCreateKeys.Errors); i++ {
+			log.Printf("ERROR OBSERVED : %s", resp.APIAccessCreateKeys.Errors[i])
+		}
 		return nil, errors.New(formatAPIAccessKeyErrors(resp.APIAccessCreateKeys.Errors))
 	}
 
@@ -139,13 +147,13 @@ func (a *APIAccess) DeleteAPIAccessKeyWithContext(ctx context.Context, keys APIA
 	}
 
 	if len(resp.APIAccessDeleteKeys.Errors) > 0 {
-		return nil, errors.New(formatAPIAccessKeyErrors(resp.APIAccessDeleteKeys.Errors))
+		return nil, errors.New(formatAPIAccessKeyErrorsOld(resp.APIAccessDeleteKeys.Errors))
 	}
 
 	return resp.APIAccessDeleteKeys.DeletedKeys, nil
 }
 
-func formatAPIAccessKeyErrors(errs []APIAccessKeyErrorInterface) string {
+func formatAPIAccessKeyErrorsOld(errs []APIAccessKeyErrorInterface) string {
 	errorString := ""
 	for _, e := range errs {
 		errorString += e.GetError().Error() + "\n"
@@ -153,19 +161,33 @@ func formatAPIAccessKeyErrors(errs []APIAccessKeyErrorInterface) string {
 	return errorString
 }
 
+func formatAPIAccessKeyErrors(errs []APIAccessKeyErrorResponse) string {
+	errorString := ""
+	for _, e := range errs {
+		if e.Type == "USER" {
+			errorString += fmt.Sprintf("%s : %s : %s", e.Type, e.UserKeyErrorType, e.Message)
+		} else if e.Type == "INGEST" {
+			errorString += fmt.Sprintf("%s : %s : %s", e.Type, e.IngestKeyErrorType, e.Message)
+		} else {
+			errorString += e.Message
+		}
+	}
+	return errorString
+}
+
 // apiAccessKeyCreateResponse represents the JSON response returned from creating key(s).
 type apiAccessKeyCreateResponse struct {
 	APIAccessCreateKeys struct {
-		CreatedKeys []APIKey                     `json:"createdKeys"`
-		Errors      []APIAccessKeyErrorInterface `json:"errors"`
+		CreatedKeys []APIKey                    `json:"createdKeys"`
+		Errors      []APIAccessKeyErrorResponse `json:"errors,omitempty"`
 	} `json:"apiAccessCreateKeys"`
 }
 
 // apiAccessKeyUpdateResponse represents the JSON response returned from updating key(s).
 type apiAccessKeyUpdateResponse struct {
 	APIAccessUpdateKeys struct {
-		UpdatedKeys []APIKey                     `json:"updatedKeys"`
-		Errors      []APIAccessKeyErrorInterface `json:"errors"`
+		UpdatedKeys []APIKey                    `json:"updatedKeys"`
+		Errors      []APIAccessKeyErrorResponse `json:"errors,omitempty"`
 	} `json:"apiAccessUpdateKeys"`
 }
 

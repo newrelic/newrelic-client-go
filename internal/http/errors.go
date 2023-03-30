@@ -2,6 +2,7 @@ package http
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"strings"
 )
@@ -56,6 +57,9 @@ func (e *DefaultErrorResponse) IsPaymentRequired(resp *http.Response) bool {
 
 // IsUnauthorized checks a response for a 401 Unauthorize HTTP status code.
 func (e *DefaultErrorResponse) IsUnauthorized(resp *http.Response) bool {
+	log.Printf("INSIDE UNAUTHORIZED :::::")
+	log.Printf("RESP.STATUS_CODE ==== %d", resp.StatusCode)
+	log.Printf("UNAUTHORIZED.STATUS_CODE === %d", http.StatusUnauthorized)
 	return resp.StatusCode == http.StatusUnauthorized
 }
 

@@ -648,6 +648,15 @@ type APIAccessKeyErrorInterface interface {
 	GetError() error
 }
 
+type APIAccessKeyErrorResponse struct {
+	// The message with the error cause.
+	Message string `json:"message,omitempty"`
+	// Type of error.
+	Type               string                      `json:"type,omitempty"`
+	UserKeyErrorType   APIAccessUserKeyErrorType   `json:"userErrorType,omitempty"`
+	IngestKeyErrorType APIAccessIngestKeyErrorType `json:"ingestErrorType,omitempty"`
+}
+
 // UnmarshalAPIAccessKeyErrorInterface unmarshals the interface into the correct type
 // based on __typename provided by GraphQL
 func UnmarshalAPIAccessKeyErrorInterface(b []byte) (*APIAccessKeyErrorInterface, error) {
