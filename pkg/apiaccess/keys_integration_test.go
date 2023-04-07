@@ -4,11 +4,11 @@
 package apiaccess
 
 import (
-	"testing"
-
-	"github.com/stretchr/testify/require"
-
 	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
+	"github.com/stretchr/testify/require"
+	"regexp"
+	"strings"
+	"testing"
 )
 
 func TestIntegrationAPIAccess_IngestKeys(t *testing.T) {
@@ -132,4 +132,112 @@ func TestIntegrationAPIAccess_UserKeys(t *testing.T) {
 	})
 	require.NoError(t, err)
 	require.NotNil(t, deleteResult)
+}
+
+func TestIntegrationAPIAccess_UpdateIngestKeyError(t *testing.T) {
+	t.Parallel()
+	client := newIntegrationTestClient(t)
+	mockIngestKeyID, _ := mock.GetNonExistentIDs()
+	_, err := client.UpdateAPIAccessKeys(APIAccessUpdateInput{
+		Ingest: []APIAccessUpdateIngestKeyInput{
+			{
+				KeyID: mockIngestKeyID,
+				Name:  "Lorem Ipsum",
+				Notes: "Lorem Ipsum",
+			},
+		},
+	})
+	require.Error(t, err)
+	require.Equal(t, validateAPIAccessKeyError(err, "INGEST"), true)
+}
+
+func TestIntegrationAPIAccess_UpdateUserKeyError(t *testing.T) {
+	t.Parallel()
+	client := newIntegrationTestClient(t)
+	_, mockUserKeyID := mock.GetNonExistentIDs()
+	_, err := client.UpdateAPIAccessKeys(APIAccessUpdateInput{
+		User: []APIAccessUpdateUserKeyInput{
+			{
+				KeyID: mockUserKeyID,
+				Name:  "Lorem Ipsum",
+				Notes: "Lorem Ipsum",
+			},
+		},
+	})
+	require.Error(t, err)
+	require.Equal(t, validateAPIAccessKeyError(err, "USER"), true)
+}
+
+func TestIntegrationAPIAccess_DeleteIngestKeyError(t *testing.T) {
+	t.Parallel()
+	client := newIntegrationTestClient(t)
+	mockIngestKeyIDOne, mockIngestKeyIDTwo := mock.GetNonExistentIDs()
+	_, err := client.DeleteAPIAccessKey(APIAccessDeleteInput{
+		IngestKeyIDs: []string{
+			mockIngestKeyIDOne,
+			mockIngestKeyIDTwo,
+		},
+	})
+	require.Error(t, err)
+	require.Equal(t, validateAPIAccessKeyError(err, "INGEST"), true)
+}
+
+func TestIntegrationAPIAccess_DeleteUserKeyError(t *testing.T) {
+	t.Parallel()
+	client := newIntegrationTestClient(t)
+	_, mockUserKeyID := mock.GetNonExistentIDs()
+	_, err := client.DeleteAPIAccessKey(APIAccessDeleteInput{
+		UserKeyIDs: []string{
+			mockUserKeyID,
+		},
+	})
+	require.Error(t, err)
+	require.Equal(t, validateAPIAccessKeyError(err, "USER"), true)
+}
+
+var possibleIngestKeyErrors = []string{
+	string(APIAccessIngestKeyErrorTypeTypes.NOT_FOUND),
+	string(APIAccessIngestKeyErrorTypeTypes.INVALID),
+	string(APIAccessIngestKeyErrorTypeTypes.FORBIDDEN),
+}
+
+var possibleUserKeyErrors = []string{
+	string(APIAccessUserKeyErrorTypeTypes.NOT_FOUND),
+	string(APIAccessUserKeyErrorTypeTypes.INVALID),
+	string(APIAccessUserKeyErrorTypeTypes.FORBIDDEN),
+}
+
+func validateAPIAccessKeyError(err error, errorType string) (status bool) {
+	errorMessage := err.Error()
+	listOfErrorMessages := strings.Split(errorMessage, "\n")
+	listOfErrorMessages = listOfErrorMessages[1 : len(listOfErrorMessages)-1]
+	validatedErrorMessages := 0
+
+	if errorType == "USER" {
+		for errorIndex := 0; errorIndex < len(listOfErrorMessages); errorIndex++ {
+			for listIndex := 0; listIndex < len(possibleUserKeyErrors); listIndex++ {
+				match, _ := regexp.MatchString(possibleUserKeyErrors[listIndex], listOfErrorMessages[errorIndex])
+				if match {
+					validatedErrorMessages += 1
+					break
+				}
+			}
+		}
+	} else if errorType == "INGEST" {
+		for errorIndex := 0; errorIndex < len(listOfErrorMessages); errorIndex++ {
+			for listIndex := 0; listIndex < len(possibleIngestKeyErrors); listIndex++ {
+				match, _ := regexp.MatchString(possibleIngestKeyErrors[listIndex], listOfErrorMessages[errorIndex])
+				if match {
+					validatedErrorMessages += 1
+					break
+				}
+			}
+		}
+	}
+
+	if validatedErrorMessages == len(listOfErrorMessages) {
+		return true
+	}
+
+	return false
 }
