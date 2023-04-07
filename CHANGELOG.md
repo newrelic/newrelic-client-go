@@ -1,3 +1,8 @@
+<a name="v2.17.1"></a>
+## [v2.17.1] - 2023-04-07
+### Bug Fixes
+- **apiaccess:** fix to the error thrown when API Access Key creation fails ([#1015](https://github.com/newrelic/newrelic-client-go/issues/1015))
+
 <a name="v2.17.0"></a>
 ## [v2.17.0] - 2023-03-22
 ### Features
@@ -1592,7 +1597,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.17.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.17.1...HEAD
+[v2.17.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.17.0...v2.17.1
 [v2.17.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.16.0...v2.17.0
 [v2.16.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.15.1...v2.16.0
 [v2.15.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.15.0...v2.15.1
