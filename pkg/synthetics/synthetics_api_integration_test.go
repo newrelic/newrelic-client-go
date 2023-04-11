@@ -58,7 +58,6 @@ func TestSyntheticsSecureCredential_Error(t *testing.T) {
 	require.Greater(t, len(createResp.Errors), 0)
 }
 
-// Test simple browser monitor
 func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 	t.Parallel()
 
@@ -165,7 +164,6 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 	require.NoError(t, err)
 }
 
-// TestSyntheticsSimpleMonitor_Basic function to test simple monitor
 func TestSyntheticsSimpleMonitor_Basic(t *testing.T) {
 	t.Parallel()
 	testAccountID, err := mock.GetTestAccountID()
@@ -263,7 +261,6 @@ func TestSyntheticsSimpleMonitor_Basic(t *testing.T) {
 	require.NoError(t, err)
 }
 
-// TestSyntheticsScriptApiMonitor_Basic to test the script api monitor
 func TestSyntheticsScriptApiMonitor_Basic(t *testing.T) {
 	t.Parallel()
 
@@ -376,7 +373,6 @@ func TestSyntheticsScriptApiMonitor_Basic(t *testing.T) {
 	require.NotNil(t, deleteScriptApiMonitor)
 }
 
-// TestSyntheticsScriptApiMonitor_Basic to test the script api monitor targeting legacy runtime
 func TestSyntheticsScriptApiMonitorLegacy_Basic(t *testing.T) {
 	t.Parallel()
 
@@ -489,7 +485,6 @@ func TestSyntheticsScriptApiMonitorLegacy_Basic(t *testing.T) {
 	require.NotNil(t, deleteScriptApiMonitor)
 }
 
-// TestSyntheticsScriptBrowserMonitor_Basic function to test script browser monitor
 func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 	t.Parallel()
 	testAccountID, err := mock.GetTestAccountID()
@@ -577,7 +572,77 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 	require.NotNil(t, deleteScriptBrowserMonitor)
 }
 
-// TestSyntheticsScriptBrowserMonitor_Basic function to test script browser monitor targeting legacy runtime
+func TestSyntheticsScriptBrowserMonitor_DeviceEmulation(t *testing.T) {
+	t.Parallel()
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	a := newIntegrationTestClient(t)
+
+	monitorName := mock.RandSeq(5)
+
+	scriptBrowserMonitorInput := SyntheticsCreateScriptBrowserMonitorInput{
+		AdvancedOptions: SyntheticsScriptBrowserMonitorAdvancedOptionsInput{
+			EnableScreenshotOnFailureAndScript: &tv,
+			DeviceEmulation: SyntheticsDeviceEmulationInput{
+				DeviceOrientation: SyntheticsDeviceOrientationTypes.PORTRAIT,
+				DeviceType:        SyntheticsDeviceTypeTypes.MOBILE,
+			},
+		},
+		Locations: SyntheticsScriptedMonitorLocationsInput{
+			Public: []string{"AP_SOUTH_1"},
+		},
+		Name:   monitorName,
+		Period: SyntheticsMonitorPeriodTypes.EVERY_12_HOURS,
+		Status: SyntheticsMonitorStatusTypes.ENABLED,
+		Runtime: SyntheticsRuntimeInput{
+			RuntimeTypeVersion: "100",
+			RuntimeType:        "CHROME_BROWSER",
+			ScriptLanguage:     "JAVASCRIPT",
+		},
+		Script: "console.log('test')",
+	}
+
+	createScriptBrowserMonitor, err := a.SyntheticsCreateScriptBrowserMonitor(testAccountID, scriptBrowserMonitorInput)
+	require.NoError(t, err)
+	require.NotNil(t, createScriptBrowserMonitor)
+	require.Equal(t, 0, len(createScriptBrowserMonitor.Errors))
+
+	updatedScriptBrowserMonitorInput := SyntheticsUpdateScriptBrowserMonitorInput{
+		AdvancedOptions: SyntheticsScriptBrowserMonitorAdvancedOptionsInput{
+			EnableScreenshotOnFailureAndScript: &tv,
+			// Test changing device emulation options
+			DeviceEmulation: SyntheticsDeviceEmulationInput{
+				DeviceOrientation: SyntheticsDeviceOrientationTypes.LANDSCAPE,
+				DeviceType:        SyntheticsDeviceTypeTypes.TABLET,
+			},
+		},
+		Locations: SyntheticsScriptedMonitorLocationsInput{
+			Public: []string{"AP_SOUTH_1"},
+		},
+		Name:   monitorName + "-updated",
+		Period: SyntheticsMonitorPeriodTypes.EVERY_12_HOURS,
+		Status: SyntheticsMonitorStatusTypes.ENABLED,
+		Runtime: SyntheticsRuntimeInput{
+			RuntimeTypeVersion: "100",
+			RuntimeType:        "CHROME_BROWSER",
+			ScriptLanguage:     "JAVASCRIPT",
+		},
+		Script: "console.log('test)",
+	}
+
+	updateScriptBrowserMonitor, err := a.SyntheticsUpdateScriptBrowserMonitor(createScriptBrowserMonitor.Monitor.GUID, updatedScriptBrowserMonitorInput)
+	require.NoError(t, err)
+	require.NotNil(t, updateScriptBrowserMonitor)
+	require.Equal(t, 0, len(updateScriptBrowserMonitor.Errors))
+
+	deleteScriptBrowserMonitor, err := a.SyntheticsDeleteMonitor(createScriptBrowserMonitor.Monitor.GUID)
+	require.NoError(t, err)
+	require.NotNil(t, deleteScriptBrowserMonitor)
+}
+
 func TestSyntheticsScriptBrowserMonitorLegacy_Basic(t *testing.T) {
 	t.Parallel()
 	testAccountID, err := mock.GetTestAccountID()
@@ -665,7 +730,6 @@ func TestSyntheticsScriptBrowserMonitorLegacy_Basic(t *testing.T) {
 	require.NotNil(t, deleteScriptBrowserMonitor)
 }
 
-// Integration testing for private location
 func TestSyntheticsPrivateLocation_Basic(t *testing.T) {
 	t.Parallel()
 

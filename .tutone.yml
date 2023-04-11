@@ -45,8 +45,6 @@ packages:
       - name: accountManagementUpdateAccount
         max_query_field_depth: 3
 
-
-
   - name: agentApplications
     path: pkg/agentapplications
     import_path: github.com/newrelic/newrelic-client-go/v2/pkg/agentapplications
@@ -96,7 +94,6 @@ packages:
         field_type_override: "*AgentApplicationSettingsBrowserLoaderInput"
       - name: AgentApplicationSettingsBrowserPrivacyInput
         field_type_override: "*AgentApplicationSettingsBrowserPrivacyInput"
-
 
   - name: logconfigurations
     path: pkg/logconfigurations
@@ -174,7 +171,6 @@ packages:
             max_query_field_depth: 1
           - name: "steps"
             max_query_field_depth: 1
-
     mutations:
       - name: syntheticsCreateSecureCredential
         max_query_field_depth: 2
