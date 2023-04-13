@@ -216,7 +216,6 @@ packages:
         max_query_field_depth: 2
       - name: syntheticsPurgePrivateLocationQueue
         max_query_field_depth: 2
-
     types:
       - name: EpochMilliseconds
         field_type_override: "*nrtime.EpochMilliseconds"
@@ -225,6 +224,8 @@ packages:
       - name: ID
         field_type_override: string
         skip_type_create: true
+      - name: SyntheticsDeviceEmulationInput
+        field_type_override: "*SyntheticsDeviceEmulationInput"
 
   - name: common
     path: pkg/common

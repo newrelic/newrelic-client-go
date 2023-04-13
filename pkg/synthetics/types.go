@@ -953,7 +953,7 @@ type SyntheticsScriptBrowserMonitorAdvancedOptions struct {
 // SyntheticsScriptBrowserMonitorAdvancedOptionsInput - The advanced options inputs available for a Script Browser monitor
 type SyntheticsScriptBrowserMonitorAdvancedOptionsInput struct {
 	// Emulate a device
-	DeviceEmulation SyntheticsDeviceEmulationInput `json:"deviceEmulation,omitempty"`
+	DeviceEmulation *SyntheticsDeviceEmulationInput `json:"deviceEmulation,omitempty"`
 	// Capture a screenshot during job execution
 	EnableScreenshotOnFailureAndScript *bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
 }
@@ -1041,7 +1041,7 @@ type SyntheticsSimpleBrowserMonitorAdvancedOptionsInput struct {
 	// Custom headers to use in monitor job
 	CustomHeaders []SyntheticsCustomHeaderInput `json:"customHeaders,omitempty"`
 	// Emulate a device
-	DeviceEmulation SyntheticsDeviceEmulationInput `json:"deviceEmulation,omitempty"`
+	DeviceEmulation *SyntheticsDeviceEmulationInput `json:"deviceEmulation,omitempty"`
 	// Capture a screenshot during job execution
 	EnableScreenshotOnFailureAndScript *bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
 	// Validation text for monitor to search for at given URI

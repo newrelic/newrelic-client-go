@@ -586,7 +586,7 @@ func TestSyntheticsScriptBrowserMonitor_DeviceEmulation(t *testing.T) {
 	scriptBrowserMonitorInput := SyntheticsCreateScriptBrowserMonitorInput{
 		AdvancedOptions: SyntheticsScriptBrowserMonitorAdvancedOptionsInput{
 			EnableScreenshotOnFailureAndScript: &tv,
-			DeviceEmulation: SyntheticsDeviceEmulationInput{
+			DeviceEmulation: &SyntheticsDeviceEmulationInput{
 				DeviceOrientation: SyntheticsDeviceOrientationTypes.PORTRAIT,
 				DeviceType:        SyntheticsDeviceTypeTypes.MOBILE,
 			},
@@ -614,7 +614,7 @@ func TestSyntheticsScriptBrowserMonitor_DeviceEmulation(t *testing.T) {
 		AdvancedOptions: SyntheticsScriptBrowserMonitorAdvancedOptionsInput{
 			EnableScreenshotOnFailureAndScript: &tv,
 			// Test changing device emulation options
-			DeviceEmulation: SyntheticsDeviceEmulationInput{
+			DeviceEmulation: &SyntheticsDeviceEmulationInput{
 				DeviceOrientation: SyntheticsDeviceOrientationTypes.LANDSCAPE,
 				DeviceType:        SyntheticsDeviceTypeTypes.TABLET,
 			},
