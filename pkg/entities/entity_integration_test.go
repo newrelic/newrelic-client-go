@@ -262,3 +262,23 @@ func newIntegrationTestClient(t *testing.T) Entities {
 
 	return New(tc)
 }
+
+func TestIntegrationGetEntity_KeyTransactionEntity(t *testing.T) {
+	t.Parallel()
+
+	client := newIntegrationTestClient(t)
+
+	result, err := client.GetEntity("MjUyMDUyOHxFWFR8S0VZX1RSQU5TQUNUSU9OfDEyMDE4OTEyNTgzMDg5MjYyOTY")
+
+	if e, ok := err.(*http.GraphQLErrorResponse); ok {
+		if !e.IsDeprecated() {
+			require.NoError(t, e)
+		}
+	}
+	require.NotNil(t, (*result))
+
+	actual := (*result).(*KeyTransactionEntity)
+
+	assert.Equal(t, "testing-this-out", actual.Name)
+
+}
