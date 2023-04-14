@@ -527,6 +527,37 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 	require.NotNil(t, deleteScriptBrowserMonitor)
 }
 
+func TestSyntheticsScriptBrowserMonitor_InvalidRuntimeValues(t *testing.T) {
+	t.Parallel()
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	a := newIntegrationTestClient(t)
+
+	monitorName := mock.RandSeq(5)
+
+	scriptBrowserMonitorInput := SyntheticsCreateScriptBrowserMonitorInput{
+		Locations: SyntheticsScriptedMonitorLocationsInput{
+			Public: []string{"AP_SOUTH_1"},
+		},
+		Name:   monitorName,
+		Period: SyntheticsMonitorPeriodTypes.EVERY_12_HOURS,
+		Status: SyntheticsMonitorStatusTypes.ENABLED,
+		Runtime: &SyntheticsRuntimeInput{
+			RuntimeTypeVersion: "12345",
+			RuntimeType:        "CHROME",
+			ScriptLanguage:     "FORTRAN",
+		},
+		Script: "console.log('test')",
+	}
+
+	result, err := a.SyntheticsCreateScriptBrowserMonitor(testAccountID, scriptBrowserMonitorInput)
+	require.Greater(t, len(result.Errors), 0)
+	require.Contains(t, result.Errors[0].Description, "Runtime values are invalid combination")
+}
+
 func TestSyntheticsScriptBrowserMonitor_DeviceEmulation(t *testing.T) {
 	t.Parallel()
 	testAccountID, err := mock.GetTestAccountID()
