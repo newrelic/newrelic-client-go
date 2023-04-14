@@ -635,7 +635,7 @@ type SyntheticsCreateScriptAPIMonitorInput struct {
 	// The interval at which the monitor runs in minutes
 	Period SyntheticsMonitorPeriod `json:"period"`
 	// The runtime that the monitor will use to run jobs
-	Runtime SyntheticsRuntimeInput `json:"runtime,omitempty"`
+	Runtime *SyntheticsRuntimeInput `json:"runtime,omitempty"`
 	// The script that the monitor runs
 	Script string `json:"script"`
 	// The run state of the monitor
@@ -657,7 +657,7 @@ type SyntheticsCreateScriptBrowserMonitorInput struct {
 	// The interval at which the monitor runs in minutes
 	Period SyntheticsMonitorPeriod `json:"period"`
 	// The runtime that the monitor will use to run jobs
-	Runtime SyntheticsRuntimeInput `json:"runtime,omitempty"`
+	Runtime *SyntheticsRuntimeInput `json:"runtime,omitempty"`
 	// The script that the monitor runs
 	Script string `json:"script"`
 	// The run state of the monitor
@@ -679,7 +679,7 @@ type SyntheticsCreateSimpleBrowserMonitorInput struct {
 	// The interval at which the monitor runs in minutes
 	Period SyntheticsMonitorPeriod `json:"period"`
 	// The runtime that the monitor will use to run jobs
-	Runtime SyntheticsRuntimeInput `json:"runtime,omitempty"`
+	Runtime *SyntheticsRuntimeInput `json:"runtime,omitempty"`
 	// The run state of the monitor
 	Status SyntheticsMonitorStatus `json:"status"`
 	// The tags that will be associated with the monitor
@@ -1255,7 +1255,7 @@ type SyntheticsUpdateScriptAPIMonitorInput struct {
 	// The interval at which the monitor runs in minutes
 	Period SyntheticsMonitorPeriod `json:"period,omitempty"`
 	// The runtime that the monitor will use to run jobs
-	Runtime SyntheticsRuntimeInput `json:"runtime,omitempty"`
+	Runtime *SyntheticsRuntimeInput `json:"runtime,omitempty"`
 	// The script that the monitor runs
 	Script string `json:"script,omitempty"`
 	// The run state of the monitor
@@ -1277,7 +1277,7 @@ type SyntheticsUpdateScriptBrowserMonitorInput struct {
 	// The interval at which the monitor runs in minutes
 	Period SyntheticsMonitorPeriod `json:"period,omitempty"`
 	// The runtime that the monitor will use to run jobs
-	Runtime SyntheticsRuntimeInput `json:"runtime,omitempty"`
+	Runtime *SyntheticsRuntimeInput `json:"runtime,omitempty"`
 	// The script that the monitor runs
 	Script string `json:"script,omitempty"`
 	// The run state of the monitor
@@ -1299,7 +1299,7 @@ type SyntheticsUpdateSimpleBrowserMonitorInput struct {
 	// The interval at which the monitor runs in minutes
 	Period SyntheticsMonitorPeriod `json:"period,omitempty"`
 	// The runtime that the monitor will use to run jobs
-	Runtime SyntheticsRuntimeInput `json:"runtime,omitempty"`
+	Runtime *SyntheticsRuntimeInput `json:"runtime,omitempty"`
 	// The run state of the monitor
 	Status SyntheticsMonitorStatus `json:"status,omitempty"`
 	// The tags that will be associated with the monitor

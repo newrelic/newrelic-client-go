@@ -226,6 +226,8 @@ packages:
         skip_type_create: true
       - name: SyntheticsDeviceEmulationInput
         field_type_override: "*SyntheticsDeviceEmulationInput"
+      - name: SyntheticsRuntimeInput
+        field_type_override: "*SyntheticsRuntimeInput"
 
   - name: common
     path: pkg/common

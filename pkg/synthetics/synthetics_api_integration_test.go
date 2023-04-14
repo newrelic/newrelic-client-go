@@ -26,19 +26,15 @@ func TestSyntheticsSecureCredential_Basic(t *testing.T) {
 
 	a := newIntegrationTestClient(t)
 
-	// Create a secure credential
 	createResp, err := a.SyntheticsCreateSecureCredential(testAccountID, "test secure credential", "TEST", "secure value")
 	require.NoError(t, err)
 	require.NotNil(t, createResp)
 
-	// Update secure credential
 	updateResp, err := a.SyntheticsUpdateSecureCredential(testAccountID, "test secure credential", "TEST", "new secure value")
 	require.NoError(t, err)
 	require.NotNil(t, updateResp)
 
-	// Delete secure credential
 	deleteResp, err := a.SyntheticsDeleteSecureCredential(testAccountID, "TEST")
-
 	require.Equal(t, "", deleteResp.Key)
 }
 
@@ -52,7 +48,6 @@ func TestSyntheticsSecureCredential_Error(t *testing.T) {
 
 	a := newIntegrationTestClient(t)
 
-	// Create a secure credential
 	createResp, respErr := a.SyntheticsCreateSecureCredential(testAccountID, "test secure credential", "TEST-BAD-KEY", "secure value")
 	require.NoError(t, respErr)
 	require.Greater(t, len(createResp.Errors), 0)
@@ -70,8 +65,6 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 
 	monitorName := mock.RandSeq(5)
 
-	////Simple Browser monitor
-	//Input for simple browser monitor
 	simpleBrowserMonitorInput := SyntheticsCreateSimpleBrowserMonitorInput{
 		Locations: SyntheticsLocationsInput{
 			Public: []string{
@@ -79,7 +72,7 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 			},
 		},
 		Name:   monitorName,
-		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
+		Period: SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
 		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
 		Tags: []SyntheticsTag{
 			{
@@ -90,7 +83,7 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 			},
 		},
 		Uri: "https://www.one.newrelic.com",
-		Runtime: SyntheticsRuntimeInput{
+		Runtime: &SyntheticsRuntimeInput{
 			RuntimeType:        "CHROME_BROWSER",
 			RuntimeTypeVersion: SemVer("100"),
 			ScriptLanguage:     "JAVASCRIPT",
@@ -108,14 +101,11 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 		},
 	}
 
-	//Test to create simple browser monitor
 	createSimpleBrowserMonitor, err := a.SyntheticsCreateSimpleBrowserMonitor(testAccountID, simpleBrowserMonitorInput)
-
 	require.NoError(t, err)
 	require.NotNil(t, createSimpleBrowserMonitor)
 	require.Equal(t, 0, len(createSimpleBrowserMonitor.Errors))
 
-	//Input for simple browser monitor for updating
 	simpleBrowserMonitorInputUpdated := SyntheticsUpdateSimpleBrowserMonitorInput{
 		AdvancedOptions: SyntheticsSimpleBrowserMonitorAdvancedOptionsInput{
 			CustomHeaders: []SyntheticsCustomHeaderInput{
@@ -134,7 +124,7 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 			},
 		},
 		Name:   monitorName + "-updated",
-		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
+		Period: SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
 		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
 		Tags: []SyntheticsTag{
 			{
@@ -145,20 +135,18 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 			},
 		},
 		Uri: "https://www.one.newrelic.com",
-		Runtime: SyntheticsRuntimeInput{
+		Runtime: &SyntheticsRuntimeInput{
 			RuntimeType:        "CHROME_BROWSER",
 			RuntimeTypeVersion: SemVer("100"),
 			ScriptLanguage:     "JAVASCRIPT",
 		},
 	}
 
-	//Test to update simple browser monitor
 	updateSimpleBrowserMonitor, err := a.SyntheticsUpdateSimpleBrowserMonitor(createSimpleBrowserMonitor.Monitor.GUID, simpleBrowserMonitorInputUpdated)
 	require.NoError(t, err)
 	require.NotNil(t, updateSimpleBrowserMonitor)
 	require.Equal(t, 0, len(updateSimpleBrowserMonitor.Errors))
 
-	//Test to delete a simple browser monitor
 	deleteSimpleBrowserMonitor, err := a.SyntheticsDeleteMonitor(createSimpleBrowserMonitor.Monitor.GUID)
 	require.NotNil(t, deleteSimpleBrowserMonitor)
 	require.NoError(t, err)
@@ -175,8 +163,6 @@ func TestSyntheticsSimpleMonitor_Basic(t *testing.T) {
 
 	monitorName := mock.RandSeq(5)
 
-	////simple monitor
-	//Input for creating a simple monitor
 	simpleMonitorInput := SyntheticsCreateSimpleMonitorInput{
 		AdvancedOptions: SyntheticsSimpleMonitorAdvancedOptionsInput{
 			CustomHeaders: []SyntheticsCustomHeaderInput{
@@ -196,7 +182,7 @@ func TestSyntheticsSimpleMonitor_Basic(t *testing.T) {
 			},
 		},
 		Name:   monitorName,
-		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
+		Period: SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
 		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
 		Tags: []SyntheticsTag{
 			{
@@ -209,14 +195,12 @@ func TestSyntheticsSimpleMonitor_Basic(t *testing.T) {
 		Uri: "https://www.one.newrelic.com",
 	}
 
-	//Test to create simple monitor
 	createSimpleMonitor, err := a.SyntheticsCreateSimpleMonitor(testAccountID, simpleMonitorInput)
 
 	require.NoError(t, err)
 	require.NotNil(t, createSimpleMonitor)
 	require.Equal(t, 0, len(createSimpleMonitor.Errors))
 
-	//Input to update simple monitor
 	simpleMonitorInputUpdated := SyntheticsUpdateSimpleMonitorInput{
 		AdvancedOptions: SyntheticsSimpleMonitorAdvancedOptionsInput{
 			CustomHeaders: []SyntheticsCustomHeaderInput{
@@ -236,7 +220,7 @@ func TestSyntheticsSimpleMonitor_Basic(t *testing.T) {
 			},
 		},
 		Name:   monitorName + "-updated",
-		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
+		Period: SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
 		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
 		Tags: []SyntheticsTag{
 			{
@@ -249,13 +233,11 @@ func TestSyntheticsSimpleMonitor_Basic(t *testing.T) {
 		Uri: "https://www.one.newrelic.com",
 	}
 
-	//Test to update simple monitor
 	updateSimpleMonitor, err := a.SyntheticsUpdateSimpleMonitor(createSimpleMonitor.Monitor.GUID, simpleMonitorInputUpdated)
 	require.NoError(t, err)
 	require.NotNil(t, updateSimpleMonitor)
 	require.Equal(t, 0, len(updateSimpleMonitor.Errors))
 
-	//Test to delete simple monitor
 	deleteSimpleMonitor, err := a.SyntheticsDeleteMonitor(createSimpleMonitor.Monitor.GUID)
 	require.NotNil(t, deleteSimpleMonitor)
 	require.NoError(t, err)
@@ -273,7 +255,6 @@ func TestSyntheticsScriptApiMonitor_Basic(t *testing.T) {
 
 	monitorName := mock.RandSeq(5)
 
-	////Scripted API monitor
 	apiScript := fmt.Sprintf(`
 		const myAccountId = '%s';
 		const myAPIKey = '%s';
@@ -303,7 +284,6 @@ func TestSyntheticsScriptApiMonitor_Basic(t *testing.T) {
 		$http.post(options, callback);
 		`, os.Getenv("NEW_RELIC_ACCOUNT_ID"), os.Getenv("NEW_RELIC_API_KEY"))
 
-	//input for script api monitor
 	scriptApiMonitorInput := SyntheticsCreateScriptAPIMonitorInput{
 		Locations: SyntheticsScriptedMonitorLocationsInput{
 			Public: []string{
@@ -311,8 +291,8 @@ func TestSyntheticsScriptApiMonitor_Basic(t *testing.T) {
 			},
 		},
 		Name:   monitorName,
-		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
-		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
+		Period: SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
+		Status: SyntheticsMonitorStatusTypes.ENABLED,
 		Script: apiScript,
 		Tags: []SyntheticsTag{
 			{
@@ -322,20 +302,18 @@ func TestSyntheticsScriptApiMonitor_Basic(t *testing.T) {
 				},
 			},
 		},
-		Runtime: SyntheticsRuntimeInput{
+		Runtime: &SyntheticsRuntimeInput{
 			RuntimeTypeVersion: SemVer("16.10"),
 			RuntimeType:        "NODE_API",
 			ScriptLanguage:     "JAVASCRIPT",
 		},
 	}
 
-	//Test to Create scripted api monitor
 	createScriptApiMonitor, err := a.SyntheticsCreateScriptAPIMonitor(testAccountID, scriptApiMonitorInput)
 	require.NoError(t, err)
 	require.NotNil(t, createScriptApiMonitor)
 	require.Equal(t, 0, len(createScriptApiMonitor.Errors))
 
-	//input to update script api monitor
 	updatedScriptApiMonitorInput := SyntheticsUpdateScriptAPIMonitorInput{
 		Locations: SyntheticsScriptedMonitorLocationsInput{
 			Public: []string{
@@ -343,8 +321,8 @@ func TestSyntheticsScriptApiMonitor_Basic(t *testing.T) {
 			},
 		},
 		Name:   monitorName + "-updated",
-		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
-		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
+		Period: SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
+		Status: SyntheticsMonitorStatusTypes.ENABLED,
 		Script: apiScript,
 		Tags: []SyntheticsTag{
 			{
@@ -354,20 +332,18 @@ func TestSyntheticsScriptApiMonitor_Basic(t *testing.T) {
 				},
 			},
 		},
-		Runtime: SyntheticsRuntimeInput{
+		Runtime: &SyntheticsRuntimeInput{
 			RuntimeTypeVersion: SemVer("16.10"),
 			RuntimeType:        "NODE_API",
 			ScriptLanguage:     "JAVASCRIPT",
 		},
 	}
 
-	//Test to update scripted api monitor
 	updateScriptApiMonitor, err := a.SyntheticsUpdateScriptAPIMonitor(createScriptApiMonitor.Monitor.GUID, updatedScriptApiMonitorInput)
 	require.NoError(t, err)
 	require.NotNil(t, updateScriptApiMonitor)
 	require.Equal(t, 0, len(updateScriptApiMonitor.Errors))
 
-	//Test to delete scripted api monitor
 	deleteScriptApiMonitor, err := a.SyntheticsDeleteMonitor(createScriptApiMonitor.Monitor.GUID)
 	require.NoError(t, err)
 	require.NotNil(t, deleteScriptApiMonitor)
@@ -385,7 +361,6 @@ func TestSyntheticsScriptApiMonitorLegacy_Basic(t *testing.T) {
 
 	monitorName := mock.RandSeq(5)
 
-	////Scripted API monitor
 	apiScript := fmt.Sprintf(`
 		const myAccountId = '%s';
 		const myAPIKey = '%s';
@@ -415,7 +390,6 @@ func TestSyntheticsScriptApiMonitorLegacy_Basic(t *testing.T) {
 		$http.post(options, callback);
 		`, os.Getenv("NEW_RELIC_ACCOUNT_ID"), os.Getenv("NEW_RELIC_API_KEY"))
 
-	//input for script api monitor
 	scriptApiMonitorInput := SyntheticsCreateScriptAPIMonitorInput{
 		Locations: SyntheticsScriptedMonitorLocationsInput{
 			Public: []string{
@@ -423,8 +397,8 @@ func TestSyntheticsScriptApiMonitorLegacy_Basic(t *testing.T) {
 			},
 		},
 		Name:   monitorName,
-		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
-		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
+		Period: SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
+		Status: SyntheticsMonitorStatusTypes.ENABLED,
 		Script: apiScript,
 		Tags: []SyntheticsTag{
 			{
@@ -434,20 +408,13 @@ func TestSyntheticsScriptApiMonitorLegacy_Basic(t *testing.T) {
 				},
 			},
 		},
-		Runtime: SyntheticsRuntimeInput{
-			RuntimeTypeVersion: "",
-			RuntimeType:        "",
-			ScriptLanguage:     "",
-		},
 	}
 
-	//Test to Create scripted api monitor
 	createScriptApiMonitor, err := a.SyntheticsCreateScriptAPIMonitor(testAccountID, scriptApiMonitorInput)
 	require.NoError(t, err)
 	require.NotNil(t, createScriptApiMonitor)
-	require.Equal(t, 0, len(createScriptApiMonitor.Errors))
+	require.Equal(t, 0, len(createScriptApiMonitor.Errors), createScriptApiMonitor.Errors)
 
-	//input to update script api monitor
 	updatedScriptApiMonitorInput := SyntheticsUpdateScriptAPIMonitorInput{
 		Locations: SyntheticsScriptedMonitorLocationsInput{
 			Public: []string{
@@ -455,8 +422,8 @@ func TestSyntheticsScriptApiMonitorLegacy_Basic(t *testing.T) {
 			},
 		},
 		Name:   monitorName + "-updated",
-		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
-		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
+		Period: SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
+		Status: SyntheticsMonitorStatusTypes.ENABLED,
 		Script: apiScript,
 		Tags: []SyntheticsTag{
 			{
@@ -466,20 +433,13 @@ func TestSyntheticsScriptApiMonitorLegacy_Basic(t *testing.T) {
 				},
 			},
 		},
-		Runtime: SyntheticsRuntimeInput{
-			RuntimeTypeVersion: "",
-			RuntimeType:        "",
-			ScriptLanguage:     "",
-		},
 	}
 
-	//Test to update scripted api monitor
 	updateScriptApiMonitor, err := a.SyntheticsUpdateScriptAPIMonitor(createScriptApiMonitor.Monitor.GUID, updatedScriptApiMonitorInput)
 	require.NoError(t, err)
 	require.NotNil(t, updateScriptApiMonitor)
 	require.Equal(t, 0, len(updateScriptApiMonitor.Errors))
 
-	//Test to delete scripted api monitor
 	deleteScriptApiMonitor, err := a.SyntheticsDeleteMonitor(createScriptApiMonitor.Monitor.GUID)
 	require.NoError(t, err)
 	require.NotNil(t, deleteScriptApiMonitor)
@@ -496,7 +456,6 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 
 	monitorName := mock.RandSeq(5)
 
-	//Input to create script browser monitor
 	scriptBrowserMonitorInput := SyntheticsCreateScriptBrowserMonitorInput{
 		AdvancedOptions: SyntheticsScriptBrowserMonitorAdvancedOptionsInput{
 			EnableScreenshotOnFailureAndScript: &tv,
@@ -507,9 +466,9 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 			},
 		},
 		Name:   monitorName,
-		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
-		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
-		Runtime: SyntheticsRuntimeInput{
+		Period: SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
+		Status: SyntheticsMonitorStatusTypes.ENABLED,
+		Runtime: &SyntheticsRuntimeInput{
 			RuntimeTypeVersion: "100",
 			RuntimeType:        "CHROME_BROWSER",
 			ScriptLanguage:     "JAVASCRIPT",
@@ -525,13 +484,11 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 		Script: "var assert = require('assert');\n\n$browser.get('https://one.newrelic.com')",
 	}
 
-	//test to create script browser monitor
 	createScriptBrowserMonitor, err := a.SyntheticsCreateScriptBrowserMonitor(testAccountID, scriptBrowserMonitorInput)
 	require.NoError(t, err)
 	require.NotNil(t, createScriptBrowserMonitor)
 	require.Equal(t, 0, len(createScriptBrowserMonitor.Errors))
 
-	//Input to update script browser monitor
 	updatedScriptBrowserMonitorInput := SyntheticsUpdateScriptBrowserMonitorInput{
 		AdvancedOptions: SyntheticsScriptBrowserMonitorAdvancedOptionsInput{
 			EnableScreenshotOnFailureAndScript: &tv,
@@ -542,9 +499,9 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 			},
 		},
 		Name:   monitorName + "-updated",
-		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
-		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
-		Runtime: SyntheticsRuntimeInput{
+		Period: SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
+		Status: SyntheticsMonitorStatusTypes.ENABLED,
+		Runtime: &SyntheticsRuntimeInput{
 			RuntimeTypeVersion: "100",
 			RuntimeType:        "CHROME_BROWSER",
 			ScriptLanguage:     "JAVASCRIPT",
@@ -560,13 +517,11 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 		Script: "var assert = require('assert');\n\n$browser.get('https://one.newrelic.com')",
 	}
 
-	//test to update script browser monitor
 	updateScriptBrowserMonitor, err := a.SyntheticsUpdateScriptBrowserMonitor(createScriptBrowserMonitor.Monitor.GUID, updatedScriptBrowserMonitorInput)
 	require.NoError(t, err)
 	require.NotNil(t, updateScriptBrowserMonitor)
 	require.Equal(t, 0, len(updateScriptBrowserMonitor.Errors))
 
-	//test to delete script browser monitor
 	deleteScriptBrowserMonitor, err := a.SyntheticsDeleteMonitor(createScriptBrowserMonitor.Monitor.GUID)
 	require.NoError(t, err)
 	require.NotNil(t, deleteScriptBrowserMonitor)
@@ -597,7 +552,7 @@ func TestSyntheticsScriptBrowserMonitor_DeviceEmulation(t *testing.T) {
 		Name:   monitorName,
 		Period: SyntheticsMonitorPeriodTypes.EVERY_12_HOURS,
 		Status: SyntheticsMonitorStatusTypes.ENABLED,
-		Runtime: SyntheticsRuntimeInput{
+		Runtime: &SyntheticsRuntimeInput{
 			RuntimeTypeVersion: "100",
 			RuntimeType:        "CHROME_BROWSER",
 			ScriptLanguage:     "JAVASCRIPT",
@@ -625,7 +580,7 @@ func TestSyntheticsScriptBrowserMonitor_DeviceEmulation(t *testing.T) {
 		Name:   monitorName + "-updated",
 		Period: SyntheticsMonitorPeriodTypes.EVERY_12_HOURS,
 		Status: SyntheticsMonitorStatusTypes.ENABLED,
-		Runtime: SyntheticsRuntimeInput{
+		Runtime: &SyntheticsRuntimeInput{
 			RuntimeTypeVersion: "100",
 			RuntimeType:        "CHROME_BROWSER",
 			ScriptLanguage:     "JAVASCRIPT",
@@ -643,7 +598,7 @@ func TestSyntheticsScriptBrowserMonitor_DeviceEmulation(t *testing.T) {
 	require.NotNil(t, deleteScriptBrowserMonitor)
 }
 
-func TestSyntheticsScriptBrowserMonitorLegacy_Basic(t *testing.T) {
+func TestSyntheticsScriptBrowserMonitor_LegacyRuntime(t *testing.T) {
 	t.Parallel()
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
@@ -654,77 +609,51 @@ func TestSyntheticsScriptBrowserMonitorLegacy_Basic(t *testing.T) {
 
 	monitorName := mock.RandSeq(5)
 
-	//Input to create script browser monitor
 	scriptBrowserMonitorInput := SyntheticsCreateScriptBrowserMonitorInput{
 		AdvancedOptions: SyntheticsScriptBrowserMonitorAdvancedOptionsInput{
 			EnableScreenshotOnFailureAndScript: &tv,
 		},
 		Locations: SyntheticsScriptedMonitorLocationsInput{
-			Public: []string{
-				"AP_SOUTH_1",
-			},
-		},
-		Name:   monitorName,
-		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
-		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
-		Runtime: SyntheticsRuntimeInput{
-			RuntimeTypeVersion: "",
-			RuntimeType:        "",
-			ScriptLanguage:     "",
-		},
-		Tags: []SyntheticsTag{
-			{
-				Key: "pineapple",
-				Values: []string{
-					"pizza",
+			Private: []SyntheticsPrivateLocationInput{
+				{
+					GUID: "MzgwNjUyNnxTWU5USHxQUklWQVRFX0xPQ0FUSU9OfGNhNmZmNTY3LTJlZWItNGNkNi04ODhhLTAxMTFjMGMzMTBjNA",
 				},
 			},
 		},
-		Script: "var assert = require('assert');\n\n$browser.get('https://one.newrelic.com')",
+		Name:   monitorName,
+		Period: SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
+		Status: SyntheticsMonitorStatusTypes.ENABLED,
+		Script: "console.log('test')",
+		// Note: Omitting `Runtime` defaults to the legacy runtime
 	}
 
-	//test to create script browser monitor
 	createScriptBrowserMonitor, err := a.SyntheticsCreateScriptBrowserMonitor(testAccountID, scriptBrowserMonitorInput)
 	require.NoError(t, err)
 	require.NotNil(t, createScriptBrowserMonitor)
 	require.Equal(t, 0, len(createScriptBrowserMonitor.Errors))
 
-	//Input to update script browser monitor
 	updatedScriptBrowserMonitorInput := SyntheticsUpdateScriptBrowserMonitorInput{
 		AdvancedOptions: SyntheticsScriptBrowserMonitorAdvancedOptionsInput{
 			EnableScreenshotOnFailureAndScript: &tv,
 		},
 		Locations: SyntheticsScriptedMonitorLocationsInput{
-			Public: []string{
-				"AP_SOUTH_1",
-			},
-		},
-		Name:   monitorName + "-updated",
-		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
-		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
-		Runtime: SyntheticsRuntimeInput{
-			RuntimeTypeVersion: "",
-			RuntimeType:        "",
-			ScriptLanguage:     "",
-		},
-		Tags: []SyntheticsTag{
-			{
-				Key: "pineapple",
-				Values: []string{
-					"script_browser_pizza",
+			Private: []SyntheticsPrivateLocationInput{
+				{
+					GUID: "MzgwNjUyNnxTWU5USHxQUklWQVRFX0xPQ0FUSU9OfGNhNmZmNTY3LTJlZWItNGNkNi04ODhhLTAxMTFjMGMzMTBjNA",
 				},
 			},
 		},
+		Name:   monitorName + "-updated",
+		Period: SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
+		Status: SyntheticsMonitorStatusTypes.ENABLED,
 		Script: "var assert = require('assert');\n\n$browser.get('https://one.newrelic.com')",
 	}
 
-	//test to update script browser monitor
 	updateScriptBrowserMonitor, err := a.SyntheticsUpdateScriptBrowserMonitor(createScriptBrowserMonitor.Monitor.GUID, updatedScriptBrowserMonitorInput)
 	require.NoError(t, err)
 	require.NotNil(t, updateScriptBrowserMonitor)
 	require.Equal(t, 0, len(updateScriptBrowserMonitor.Errors))
 
-	//test to delete script browser monitor
 	deleteScriptBrowserMonitor, err := a.SyntheticsDeleteMonitor(createScriptBrowserMonitor.Monitor.GUID)
 	require.NoError(t, err)
 	require.NotNil(t, deleteScriptBrowserMonitor)
@@ -740,21 +669,17 @@ func TestSyntheticsPrivateLocation_Basic(t *testing.T) {
 
 	a := newIntegrationTestClient(t)
 
-	// Test to Create private location
 	createResp, err := a.SyntheticsCreatePrivateLocation(testAccountID, "test secure credential", "TEST", true)
 	require.NoError(t, err)
 	require.NotNil(t, createResp)
 
-	// Test to update private location
 	updateResp, err := a.SyntheticsUpdatePrivateLocation("test secure credential", createResp.GUID, true)
 	require.NoError(t, err)
 	require.NotNil(t, updateResp)
 
-	// Test to purge private location queue
 	purgeresp, err := a.SyntheticsPurgePrivateLocationQueue(createResp.GUID)
 	require.NotNil(t, purgeresp)
 
-	// Test to delete private location
 	deleteResp, err := a.SyntheticsDeletePrivateLocation(createResp.GUID)
 	require.NotNil(t, deleteResp)
 }
@@ -771,8 +696,8 @@ func TestSyntheticsBrokenLinksMonitor_Basic(t *testing.T) {
 	monitorName := fmt.Sprintf("client-integration-test-%s", mock.RandSeq(5))
 	monitorInput := SyntheticsCreateBrokenLinksMonitorInput{
 		Name:   monitorName,
-		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
-		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.DISABLED),
+		Period: SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
+		Status: SyntheticsMonitorStatusTypes.DISABLED,
 		Locations: SyntheticsLocationsInput{
 			Public: []string{"AP_SOUTH_1"},
 		},
@@ -826,8 +751,8 @@ func TestSyntheticsCertCheckMonitor_Basic(t *testing.T) {
 	monitorName := fmt.Sprintf("client-integration-test-%s", mock.RandSeq(5))
 	monitorInput := SyntheticsCreateCertCheckMonitorInput{
 		Name:   monitorName,
-		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES),
-		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.DISABLED),
+		Period: SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
+		Status: SyntheticsMonitorStatusTypes.DISABLED,
 		Locations: SyntheticsLocationsInput{
 			Public: []string{"AP_SOUTH_1"},
 		},
@@ -885,8 +810,8 @@ func TestSyntheticsStepMonitor_Basic(t *testing.T) {
 	enableScreenshotOnFailureAndScript := true
 	monitorInput := SyntheticsCreateStepMonitorInput{
 		Name:   monitorName,
-		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_DAY),
-		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.DISABLED),
+		Period: SyntheticsMonitorPeriodTypes.EVERY_DAY,
+		Status: SyntheticsMonitorStatusTypes.DISABLED,
 		AdvancedOptions: SyntheticsStepMonitorAdvancedOptionsInput{
 			EnableScreenshotOnFailureAndScript: &enableScreenshotOnFailureAndScript,
 		},
@@ -967,8 +892,8 @@ func TestSyntheticsStepMonitor_GetSteps(t *testing.T) {
 	enableScreenshotOnFailureAndScript := true
 	monitorInput := SyntheticsCreateStepMonitorInput{
 		Name:   monitorName,
-		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_DAY),
-		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.DISABLED),
+		Period: SyntheticsMonitorPeriodTypes.EVERY_DAY,
+		Status: SyntheticsMonitorStatusTypes.DISABLED,
 		AdvancedOptions: SyntheticsStepMonitorAdvancedOptionsInput{
 			EnableScreenshotOnFailureAndScript: &enableScreenshotOnFailureAndScript,
 		},
@@ -1026,9 +951,9 @@ func TestSyntheticsStepMonitor_GetScript(t *testing.T) {
 			Public: []string{"AP_SOUTH_1"},
 		},
 		Name:   monitorName,
-		Period: SyntheticsMonitorPeriod(SyntheticsMonitorPeriodTypes.EVERY_HOUR),
-		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
-		Runtime: SyntheticsRuntimeInput{
+		Period: SyntheticsMonitorPeriodTypes.EVERY_HOUR,
+		Status: SyntheticsMonitorStatusTypes.ENABLED,
+		Runtime: &SyntheticsRuntimeInput{
 			RuntimeTypeVersion: "100",
 			RuntimeType:        "CHROME_BROWSER",
 			ScriptLanguage:     "JAVASCRIPT",
