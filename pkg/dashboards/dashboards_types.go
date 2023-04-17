@@ -326,7 +326,7 @@ type DashboardWidgetLegend struct {
 
 type DashboardWidgetYAxisLeft struct {
 	Max float64 `json:"max,omitempty"`
-	Min float64 `json:"min"`
+	Min float64 `json:"min,omitempty"`
 }
 
 type DashboardWidgetNullValues struct {
