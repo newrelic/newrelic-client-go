@@ -1,3 +1,12 @@
+<a name="v2.18.0"></a>
+## [v2.18.0] - 2023-04-18
+### Bug Fixes
+- **dashboard:** altering the 'Min' field in DashboardWidgetYAxisLeft ([#1020](https://github.com/newrelic/newrelic-client-go/issues/1020))
+
+### Features
+- **entity:** Add method to support the key transaction entities in client go. ([#1019](https://github.com/newrelic/newrelic-client-go/issues/1019))
+- **synthetics:** add device emulation functionality ([#1017](https://github.com/newrelic/newrelic-client-go/issues/1017))
+
 <a name="v2.17.1"></a>
 ## [v2.17.1] - 2023-04-07
 ### Bug Fixes
@@ -1597,7 +1606,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.17.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.18.0...HEAD
+[v2.18.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.17.1...v2.18.0
 [v2.17.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.17.0...v2.17.1
 [v2.17.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.16.0...v2.17.0
 [v2.16.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.15.1...v2.16.0
