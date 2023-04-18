@@ -200,7 +200,6 @@ func TestIntegrationGetEntity_ApmEntity(t *testing.T) {
 	assert.NotNil(t, actual.Settings)
 	assert.NotNil(t, actual.Settings.ApdexTarget)
 	assert.NotNil(t, actual.Settings.ServerSideConfig)
-
 }
 
 // Looking at a Browser Application, and the result set here.
@@ -254,7 +253,34 @@ func TestIntegrationGetEntity_MobileEntity(t *testing.T) {
 	// from MobileApplicationEntity / MobileApplicationEntityOutline
 	assert.Equal(t, 601375901, actual.ApplicationID)
 	assert.Equal(t, EntityAlertSeverityTypes.NOT_CONFIGURED, actual.AlertSeverity)
+}
 
+func TestIntegrationGetEntity_SyntheticsEntity(t *testing.T) {
+	t.Parallel()
+	syntheticsEntityMonitorGUID := "MzgwNjUyNnxTWU5USHxNT05JVE9SfGVhMjA5MWE4LTM3OTktNDAxOC1iMzU5LWJiYTE0NGY3ZjViMw"
+	client := newIntegrationTestClient(t)
+
+	result, err := client.GetEntity(common.EntityGUID(syntheticsEntityMonitorGUID))
+	if err != nil || result == nil {
+		t.Skipf("Entity not found with GUID: %s. Skipping entity integration test for synthetics entity.", syntheticsEntityMonitorGUID)
+	}
+
+	if e, ok := err.(*http.GraphQLErrorResponse); ok {
+		if !e.IsDeprecated() {
+			require.NoError(t, e)
+		}
+	}
+	require.NotNil(t, result)
+
+	entity := (*result).(*SyntheticMonitorEntity)
+	require.NotNil(t, entity)
+
+	deviceOrientation := FindTagByKey(entity.Tags, "deviceOrientation")
+	runtimeType := FindTagByKey(entity.Tags, "runtimeType")
+	runtimeTypeVersion := FindTagByKey(entity.Tags, "runtimeTypeVersion")
+	require.Greater(t, len(deviceOrientation), 0)
+	require.Greater(t, len(runtimeType), 0)
+	require.Greater(t, len(runtimeTypeVersion), 0)
 }
 
 func newIntegrationTestClient(t *testing.T) Entities {

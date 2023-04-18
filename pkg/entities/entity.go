@@ -3,6 +3,7 @@ package entities
 import (
 	"encoding/json"
 	"errors"
+	"strings"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -104,4 +105,14 @@ func (d *DashboardWidgetRawConfiguration) UnmarshalJSON(data []byte) error {
 
 	*d = append((*d)[0:0], data...)
 	return nil
+}
+
+func FindTagByKey(tags []EntityTag, key string) []string {
+	for _, t := range tags {
+		if strings.EqualFold(t.Key, key) {
+			return t.Values
+		}
+	}
+
+	return []string{}
 }
