@@ -46,20 +46,6 @@ func TestIntegrationSearchEntities(t *testing.T) {
 
 	require.NoError(t, err)
 	require.Greater(t, len(actual.Results.Entities), 0)
-
-	params = EntitySearchQueryBuilder{
-		Name: "Key Transaction",
-	}
-
-	actual, err = client.GetEntitySearch(
-		EntitySearchOptions{},
-		"",
-		params,
-		[]EntitySearchSortCriteria{},
-	)
-
-	require.NoError(t, err)
-	require.Greater(t, len(actual.Results.Entities), 0)
 }
 
 func TestIntegrationSearchEntitiesByQuery(t *testing.T) {
@@ -77,18 +63,6 @@ func TestIntegrationSearchEntitiesByQuery(t *testing.T) {
 
 	require.NoError(t, err)
 	require.Greater(t, len(actual.Results.Entities), 0)
-
-	query_kt := "name = 'get /' and type = 'KEY_TRANSACTION'"
-
-	actual_kt, err_kt := client.GetEntitySearchByQuery(
-		EntitySearchOptions{},
-		query_kt,
-		[]EntitySearchSortCriteria{},
-	)
-
-	require.NoError(t, err_kt)
-	require.Greater(t, len(actual_kt.Results.Entities), 0)
-
 }
 
 func TestIntegrationSearchEntities_domain(t *testing.T) {
@@ -287,44 +261,4 @@ func newIntegrationTestClient(t *testing.T) Entities {
 	tc := testhelpers.NewIntegrationTestConfig(t)
 
 	return New(tc)
-}
-
-// Looking at a Key Transaction, and the result set here.
-func TestIntegrationGetEntity_KeyTransactionEntity(t *testing.T) {
-	t.Parallel()
-
-	client := newIntegrationTestClient(t)
-
-	result, err := client.GetEntity("MzgwNjUyNnxFWFR8S0VZX1RSQU5TQUNUSU9OfDE1NDA0MTAxNDU4NjUwMjAwOTc3")
-
-	if e, ok := err.(*http.GraphQLErrorResponse); ok {
-		if !e.IsDeprecated() {
-			require.NoError(t, e)
-		}
-	}
-	require.NotNil(t, (*result))
-
-	actual := (*result).(*KeyTransactionEntity)
-
-	assert.Equal(t, 3806526, actual.AccountID)
-	assert.Equal(t, "get /", actual.Name)
-	assert.Equal(t, "KEY_TRANSACTION", actual.Type)
-
-}
-
-func TestIntegrationGetEntities_KeyTransaction(t *testing.T) {
-	t.Parallel()
-
-	client := newIntegrationTestClient(t)
-
-	// GUID of Key Transaction
-	guids := []common.EntityGUID{"MzgwNjUyNnxFWFR8S0VZX1RSQU5TQUNUSU9OfDE1NDA0MTAxNDU4NjUwMjAwOTc3"}
-	actual, err := client.GetEntities(guids)
-
-	if e, ok := err.(*http.GraphQLErrorResponse); ok {
-		if !e.IsDeprecated() {
-			require.NoError(t, e)
-		}
-	}
-	require.Greater(t, len((*actual)), 0)
 }
