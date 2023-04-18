@@ -1,3 +1,8 @@
+<a name="v2.18.1"></a>
+## [v2.18.1] - 2023-04-18
+### Bug Fixes
+- **dashboards:** addition of the attribute zero to DashboardWidgetYAxisLeft
+
 <a name="v2.18.0"></a>
 ## [v2.18.0] - 2023-04-18
 ### Bug Fixes
@@ -1606,7 +1611,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.18.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.18.1...HEAD
+[v2.18.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.18.0...v2.18.1
 [v2.18.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.17.1...v2.18.0
 [v2.17.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.17.0...v2.17.1
 [v2.17.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.16.0...v2.17.0
