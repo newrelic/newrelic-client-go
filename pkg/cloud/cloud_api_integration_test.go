@@ -4,10 +4,10 @@
 package cloud
 
 import (
-	"os"
-	"testing"
-
 	"github.com/stretchr/testify/require"
+	"os"
+	"strings"
+	"testing"
 
 	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
@@ -270,4 +270,117 @@ func newIntegrationTestClient(t *testing.T) Cloud {
 	tc := mock.NewIntegrationTestConfig(t)
 
 	return New(tc)
+}
+
+func TestCloudAccount_AzureMonitorIntegration(t *testing.T) {
+	t.Parallel()
+	client := newIntegrationTestClient(t)
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	azureCredentials := map[string]string{
+		"INTEGRATION_TESTING_AZURE_APPLICATION_ID":   os.Getenv("INTEGRATION_TESTING_AZURE_APPLICATION_ID"),
+		"INTEGRATION_TESTING_AZURE_CLIENT_SECRET_ID": os.Getenv("INTEGRATION_TESTING_AZURE_CLIENT_SECRET_ID"),
+		"INTEGRATION_TESTING_AZURE_SUBSCRIPTION_ID":  os.Getenv("INTEGRATION_TESTING_AZURE_SUBSCRIPTION_ID"),
+		"INTEGRATION_TESTING_AZURE_TENANT_ID":        os.Getenv("INTEGRATION_TESTING_AZURE_TENANT_ID"),
+	}
+
+	var credentialsNotFound []string
+
+	for key, value := range azureCredentials {
+		if value == "" {
+			credentialsNotFound = append(credentialsNotFound, key)
+		}
+	}
+
+	if len(credentialsNotFound) != 0 {
+		t.Skipf("Skipping this test, as the following required Azure credentials do not exist in the environment: \n%s", strings.Join(credentialsNotFound[:], ", "))
+	}
+
+	// Reset everything - unlink the account if linked already.
+	getResponse, err := client.GetLinkedAccounts("azure")
+	require.NoError(t, err)
+
+	for _, linkedAccount := range *getResponse {
+		if linkedAccount.NrAccountId == testAccountID {
+			client.CloudUnlinkAccount(testAccountID, []CloudUnlinkAccountsInput{
+				{
+					LinkedAccountId: linkedAccount.ID,
+				},
+			})
+		}
+	}
+
+	// Link the account
+	linkResponse, err := client.CloudLinkAccount(testAccountID, CloudLinkCloudAccountsInput{
+		Azure: []CloudAzureLinkAccountInput{
+			{
+				Name:           "TEST_AZURE_ACCOUNT",
+				ApplicationID:  azureCredentials["INTEGRATION_TESTING_AZURE_APPLICATION_ID"],
+				ClientSecret:   SecureValue(azureCredentials["INTEGRATION_TESTING_AZURE_CLIENT_SECRET_ID"]),
+				SubscriptionId: azureCredentials["INTEGRATION_TESTING_AZURE_SUBSCRIPTION_ID"],
+				TenantId:       azureCredentials["INTEGRATION_TESTING_AZURE_TENANT_ID"],
+			},
+		},
+	})
+
+	require.NoError(t, err)
+	require.NotNil(t, linkResponse)
+
+	// Get the linked account
+	getResponse, err = client.GetLinkedAccounts("azure")
+	require.NoError(t, err)
+
+	var linkedAccountID int
+	for _, linkedAccount := range *getResponse {
+		if linkedAccount.NrAccountId == testAccountID {
+			linkedAccountID = linkedAccount.ID
+			break
+		}
+	}
+	require.NotZero(t, linkedAccountID)
+
+	// Create a new AzureMonitor Cloud Integration.
+	azureMonitorIntegrationRes, azureMonitorIntegrationErr := client.CloudConfigureIntegration(testAccountID, CloudIntegrationsInput{
+		Azure: CloudAzureIntegrationsInput{
+			AzureMonitor: []CloudAzureMonitorIntegrationInput{{
+				LinkedAccountId:        linkedAccountID,
+				Enabled:                true,
+				ExcludeTags:            []string{"env:staging", "env:testing"},
+				IncludeTags:            []string{"env:production"},
+				MetricsPollingInterval: 1200,
+				ResourceTypes:          []string{"microsoft.datashare/accounts"},
+				ResourceGroups:         []string{"resource_groups"},
+			}},
+		},
+	})
+
+	require.NoError(t, azureMonitorIntegrationErr)
+	require.NotNil(t, azureMonitorIntegrationRes)
+	require.Len(t, azureMonitorIntegrationRes.Errors, 0)
+	require.Greater(t, len(azureMonitorIntegrationRes.Integrations), 0)
+
+	// Delete the created AzureMonitor Cloud Integration.
+	azureMonitorDisableIntegrationRes, azureMonitorDisableIntegrationErr := client.CloudDisableIntegration(testAccountID, CloudDisableIntegrationsInput{
+		Azure: CloudAzureDisableIntegrationsInput{
+			AzureMonitor: []CloudDisableAccountIntegrationInput{{
+				LinkedAccountId: linkedAccountID,
+			}},
+		},
+	})
+
+	require.NoError(t, azureMonitorDisableIntegrationErr)
+	require.NotNil(t, azureMonitorDisableIntegrationRes)
+	require.Len(t, azureMonitorDisableIntegrationRes.Errors, 0)
+
+	// Unlink the linked account.
+	unlinkResponse, err := client.CloudUnlinkAccount(testAccountID, []CloudUnlinkAccountsInput{
+		{
+			LinkedAccountId: linkedAccountID,
+		},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, unlinkResponse)
 }
