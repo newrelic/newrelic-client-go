@@ -4,12 +4,12 @@
 package cloud
 
 import (
-	"github.com/stretchr/testify/require"
 	"os"
 	"strings"
 	"testing"
 
 	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
+	"github.com/stretchr/testify/require"
 )
 
 func TestCloudAccount_Basic(t *testing.T) {

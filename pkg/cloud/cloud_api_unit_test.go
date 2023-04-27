@@ -3,12 +3,13 @@ package cloud
 import (
 	"encoding/json"
 	"fmt"
-	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
-	"github.com/stretchr/testify/assert"
 	"math/rand"
 	"net/http"
 	"strconv"
 	"testing"
+
+	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
+	"github.com/stretchr/testify/assert"
 )
 
 var (
