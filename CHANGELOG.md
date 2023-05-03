@@ -1,3 +1,8 @@
+<a name="v2.19.0"></a>
+## [v2.19.0] - 2023-04-28
+### Features
+- **cloud:** update to queries, types to support azure monitor integration from TF ([#1029](https://github.com/newrelic/newrelic-client-go/issues/1029))
+
 <a name="v2.18.1"></a>
 ## [v2.18.1] - 2023-04-18
 ### Bug Fixes
@@ -1611,7 +1616,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.18.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.19.0...HEAD
+[v2.19.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.18.1...v2.19.0
 [v2.18.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.18.0...v2.18.1
 [v2.18.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.17.1...v2.18.0
 [v2.17.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.17.0...v2.17.1
