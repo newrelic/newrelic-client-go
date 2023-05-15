@@ -1,5 +1,10 @@
+<a name="v2.19.1"></a>
+## [v2.19.1] - 2023-05-03
+### Bug Fixes
+- **alerts:** Removed omitempty from RunbookURL in NrqlConditionUpdateBase ([#1030](https://github.com/newrelic/newrelic-client-go/issues/1030))
+
 <a name="v2.19.0"></a>
-## [v2.19.0] - 2023-04-28
+## [v2.19.0] - 2023-05-02
 ### Features
 - **cloud:** update to queries, types to support azure monitor integration from TF ([#1029](https://github.com/newrelic/newrelic-client-go/issues/1029))
 
@@ -1616,7 +1621,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.19.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.19.1...HEAD
+[v2.19.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.19.0...v2.19.1
 [v2.19.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.18.1...v2.19.0
 [v2.18.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.18.0...v2.18.1
 [v2.18.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.17.1...v2.18.0
