@@ -2975,6 +2975,16 @@ type AgentApplicationSettingsBrowserPrivacy struct {
 	CookiesEnabled bool `json:"cookiesEnabled"`
 }
 
+// AgentApplicationSettingsBrowserProperties - General Properties related to browser applications.
+type AgentApplicationSettingsBrowserProperties struct {
+	// The configuration required to run the npm version of the JS agent. This is the "pure" JSON configuration block without surrounding HTML <script> tags.
+	JsConfig AgentApplicationSettingsRawJsConfiguration `json:"jsConfig,omitempty"`
+	// The configuration block required to run the npm version of the JS agent. This includes the HTML <script> tags.
+	JsConfigScript string `json:"jsConfigScript,omitempty"`
+	// The snippet of JavaScript used to copy/paste into your JavaScript app if you aren’t using an auto-instrumentating agent on the backend.
+	JsLoaderScript string `json:"jsLoaderScript,omitempty"`
+}
+
 // AgentApplicationSettingsDataManagement - Settings related to the management of Transaction data sent to NRDB.
 type AgentApplicationSettingsDataManagement struct {
 	// Should transaction events be sent to the internal stream.
@@ -6407,6 +6417,8 @@ type BrowserApplicationEntity struct {
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
 	// The ID of the Browser App.
 	ApplicationID int `json:"applicationId,omitempty"`
+	// Access general properties for the application.
+	BrowserProperties AgentApplicationSettingsBrowserProperties `json:"browserProperties,omitempty"`
 	// Settings that are common across browser applications.
 	BrowserSettings AgentApplicationSettingsBrowserBase `json:"browserSettings,omitempty"`
 	// Summary statistics about the Browser App.
@@ -6523,6 +6535,11 @@ func (x BrowserApplicationEntity) GetAlertViolations() []EntityAlertViolation {
 // GetApplicationID returns a pointer to the value of ApplicationID from BrowserApplicationEntity
 func (x BrowserApplicationEntity) GetApplicationID() int {
 	return x.ApplicationID
+}
+
+// GetBrowserProperties returns a pointer to the value of BrowserProperties from BrowserApplicationEntity
+func (x BrowserApplicationEntity) GetBrowserProperties() AgentApplicationSettingsBrowserProperties {
+	return x.BrowserProperties
 }
 
 // GetBrowserSettings returns a pointer to the value of BrowserSettings from BrowserApplicationEntity
@@ -16022,6 +16039,9 @@ type entitySearchResponse struct {
 
 // AgentApplicationSettingsErrorCollectorHttpStatus - A list of HTTP status codes and/or status code ranges, such as "404" or "500-599"
 type AgentApplicationSettingsErrorCollectorHttpStatus string
+
+// AgentApplicationSettingsRawJsConfiguration - The "raw" configuration values for configuring the javascript client.
+type AgentApplicationSettingsRawJsConfiguration string
 
 // AgentTracesExplainPlanRow - This scalar represents a explain plan row (list of values)
 type AgentTracesExplainPlanRow string
