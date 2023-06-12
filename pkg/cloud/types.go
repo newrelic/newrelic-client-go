@@ -33,13 +33,10 @@ type Account struct {
 	//
 	// For details and query examples visit
 	// [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/manage-your-aws-azure-google-cloud-integrations-graphql-api).
-	Cloud CloudAccountFields `json:"cloud,omitempty"`
-	//
-	ID int `json:"id,omitempty"`
-	//
-	LicenseKey string `json:"licenseKey,omitempty"`
-	//
-	Name string `json:"name,omitempty"`
+	Cloud      CloudAccountFields `json:"cloud,omitempty"`
+	ID         int                `json:"id,omitempty"`
+	LicenseKey string             `json:"licenseKey,omitempty"`
+	Name       string             `json:"name,omitempty"`
 }
 
 // Actor - The `Actor` object contains fields that are scoped to the API user's access level.
@@ -127,7 +124,6 @@ type CloudAccountMutationError struct {
 	Type string `json:"type"`
 }
 
-// CloudActorFields -
 type CloudActorFields struct {
 	// Get all linked cloud provider accounts scoped to the Actor.
 	LinkedAccounts []CloudLinkedAccount `json:"linkedAccounts,omitempty"`
@@ -645,6 +641,20 @@ type CloudAwsGlueIntegrationInput struct {
 	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
+// CloudAwsGovCloudLinkAccountInput - Information required to link an AWS GovCloud account to a NewRelic account.
+type CloudAwsGovCloudLinkAccountInput struct {
+	// The key used to make requests to AWS service APIs
+	AccessKeyId string `json:"accessKeyId"`
+	// The AWS account id
+	AwsAccountId string `json:"awsAccountId"`
+	// How metrics will be collected.
+	MetricCollectionMode CloudMetricCollectionMode `json:"metricCollectionMode,omitempty"`
+	// The linked account name.
+	Name string `json:"name"`
+	// The secret key used to make requests to AWS service APIs
+	SecretAccessKey SecureValue `json:"secretAccessKey"`
+}
+
 // CloudAwsGovCloudProvider - The Amazon Web Services cloud provider (GovCloud)
 type CloudAwsGovCloudProvider struct {
 	// The AWS Account ID
@@ -755,20 +765,6 @@ type CloudAwsGovcloudIntegrationsInput struct {
 	Sns []CloudSnsIntegrationInput `json:"sns,omitempty"`
 	// SQS integration
 	Sqs []CloudSqsIntegrationInput `json:"sqs,omitempty"`
-}
-
-// CloudAwsGovcloudLinkAccountInput - Information required to link an AWS GovCloud account to a NewRelic account.
-type CloudAwsGovcloudLinkAccountInput struct {
-	// The key used to make requests to AWS service APIs
-	AccessKeyId string `json:"accessKeyId"`
-	// The AWS account id
-	AwsAccountId string `json:"awsAccountId"`
-	// How metrics will be collected.
-	MetricCollectionMode CloudMetricCollectionMode `json:"metricCollectionMode,omitempty"`
-	// The linked account name.
-	Name string `json:"name"`
-	// The secret key used to make requests to AWS service APIs
-	SecretAccessKey SecureValue `json:"secretAccessKey"`
 }
 
 // CloudAwsIntegrationsInput - List of integrations
@@ -2281,6 +2277,8 @@ type CloudAzureMariadbIntegrationInput struct {
 type CloudAzureMonitorIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
+	// Specify if integration is active
+	Enabled bool `json:"enabled,omitempty"`
 	// Specify resource tags (in 'key:value' form) associated with the resources that you want to exclude from monitoring. Exclusion takes precedence over inclusion.
 	ExcludeTags []string `json:"excludeTags,omitempty"`
 	// The cloud service integration identifier.
@@ -2311,6 +2309,8 @@ func (x *CloudAzureMonitorIntegration) ImplementsCloudIntegration() {}
 
 // CloudAzureMonitorIntegrationInput - Azure Monitor metrics
 type CloudAzureMonitorIntegrationInput struct {
+	// Specify if integration is active
+	Enabled bool `json:"enabled,omitempty"`
 	// Specify resource tags (in 'key:value' form) associated with the resources that you want to exclude from monitoring. Exclusion takes precedence over inclusion.
 	ExcludeTags []string `json:"excludeTags,omitempty"`
 	// Specify resource tags (in 'key:value' form) associated with the resources that you want to monitor. If empty, all resources will be monitored.
@@ -5017,8 +5017,8 @@ type CloudLinkAccountPayload struct {
 type CloudLinkCloudAccountsInput struct {
 	// Aws provider
 	Aws []CloudAwsLinkAccountInput `json:"aws,omitempty"`
-	// AwsGovcloud provider
-	AwsGovcloud []CloudAwsGovcloudLinkAccountInput `json:"awsGovcloud,omitempty"`
+	// AwsGovCloud provider
+	AwsGovcloud []CloudAwsGovCloudLinkAccountInput `json:"awsGovcloud,omitempty"`
 	// Azure provider
 	Azure []CloudAzureLinkAccountInput `json:"azure,omitempty"`
 	// Gcp provider

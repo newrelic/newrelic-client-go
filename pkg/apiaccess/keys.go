@@ -3,7 +3,7 @@ package apiaccess
 import (
 	"context"
 	"errors"
-
+	"fmt"
 	"github.com/newrelic/newrelic-client-go/v2/internal/http"
 )
 
@@ -145,10 +145,28 @@ func (a *APIAccess) DeleteAPIAccessKeyWithContext(ctx context.Context, keys APIA
 	return resp.APIAccessDeleteKeys.DeletedKeys, nil
 }
 
-func formatAPIAccessKeyErrors(errs []APIAccessKeyErrorInterface) string {
-	errorString := ""
+var AccessKeyErrorPrefix = "The following errors have been thrown.\n"
+
+func formatAPIAccessKeyErrors(errs []APIAccessKeyErrorResponse) string {
+	errorString := AccessKeyErrorPrefix
 	for _, e := range errs {
-		errorString += e.GetError().Error() + "\n"
+		IDAsString := ""
+		if len(e.Id) != 0 {
+			// Id is returned in the 'error' block only in the case of update and delete but not with create.
+			// So; in the case of create, it is made an empty string to generalize the usage of IDAsString.
+			IDAsString = fmt.Sprintf("%s: ", e.Id)
+		}
+		if e.Type == "USER" {
+			errorString += fmt.Sprintf("%s: %s%s\n", e.UserKeyErrorType, IDAsString, e.Message)
+		} else if e.Type == "INGEST" {
+			errorString += fmt.Sprintf("%s: %s%s\n", e.IngestKeyErrorType, IDAsString, e.Message)
+		} else if len(e.Type) == 0 {
+			// When Ingest Keys are deleted, the "type" attribute is currently null in the response sent,
+			// in the "errors" attribute - hence, this condition. However, this is not the case with User Keys.
+			errorString += fmt.Sprintf("%s: %s%s\n", e.IngestKeyErrorType, IDAsString, e.Message)
+		} else {
+			errorString += e.Message
+		}
 	}
 	return errorString
 }
@@ -156,16 +174,16 @@ func formatAPIAccessKeyErrors(errs []APIAccessKeyErrorInterface) string {
 // apiAccessKeyCreateResponse represents the JSON response returned from creating key(s).
 type apiAccessKeyCreateResponse struct {
 	APIAccessCreateKeys struct {
-		CreatedKeys []APIKey                     `json:"createdKeys"`
-		Errors      []APIAccessKeyErrorInterface `json:"errors"`
+		CreatedKeys []APIKey                    `json:"createdKeys"`
+		Errors      []APIAccessKeyErrorResponse `json:"errors,omitempty"`
 	} `json:"apiAccessCreateKeys"`
 }
 
 // apiAccessKeyUpdateResponse represents the JSON response returned from updating key(s).
 type apiAccessKeyUpdateResponse struct {
 	APIAccessUpdateKeys struct {
-		UpdatedKeys []APIKey                     `json:"updatedKeys"`
-		Errors      []APIAccessKeyErrorInterface `json:"errors"`
+		UpdatedKeys []APIKey                    `json:"updatedKeys"`
+		Errors      []APIAccessKeyErrorResponse `json:"errors,omitempty"`
 	} `json:"apiAccessUpdateKeys"`
 }
 
@@ -190,9 +208,11 @@ type apiAccessKeySearchResponse struct {
 	http.GraphQLErrorResponse
 }
 
-// apiAccessKeyDeleteResponse represents the JSON response returned from creating key(s).
 type apiAccessKeyDeleteResponse struct {
-	APIAccessDeleteKeys APIAccessDeleteKeyResponse `json:"apiAccessDeleteKeys"`
+	APIAccessDeleteKeys struct {
+		DeletedKeys []APIAccessDeletedKey       `json:"deletedKeys,omitempty"`
+		Errors      []APIAccessKeyErrorResponse `json:"errors,omitempty"`
+	} `json:"apiAccessDeleteKeys"`
 }
 
 const (

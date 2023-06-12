@@ -266,7 +266,7 @@ type NrqlConditionUpdateBase struct {
 	Enabled                   bool                             `json:"enabled"`
 	Name                      string                           `json:"name,omitempty"`
 	Nrql                      NrqlConditionUpdateQuery         `json:"nrql"`
-	RunbookURL                string                           `json:"runbookUrl,omitempty"`
+	RunbookURL                string                           `json:"runbookUrl"`
 	Terms                     []NrqlConditionTerm              `json:"terms,omitempty"`
 	Type                      NrqlConditionType                `json:"type,omitempty"`
 	ViolationTimeLimit        NrqlConditionViolationTimeLimit  `json:"violationTimeLimit,omitempty"`
