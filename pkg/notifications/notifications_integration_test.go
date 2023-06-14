@@ -15,7 +15,7 @@ import (
 	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
-func TestNotificationMutationDestinationById(t *testing.T) {
+func TestNotificationMutationDestination(t *testing.T) {
 	t.Parallel()
 
 	n := newIntegrationTestClient(t)
@@ -93,7 +93,7 @@ func TestNotificationMutationDestinationById(t *testing.T) {
 	require.NotNil(t, deleteResult)
 }
 
-func TestNotificationMutationDestinationByName(t *testing.T) {
+func TestNotificationMutationDestination_FilterByName(t *testing.T) {
 	t.Parallel()
 
 	n := newIntegrationTestClient(t)
@@ -140,30 +140,6 @@ func TestNotificationMutationDestinationByName(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, getDestinationByNameResult)
 	assert.Equal(t, 1, getDestinationByNameResult.TotalCount)
-
-	// Test: Update Destination
-	updateDestination := AiNotificationsDestinationUpdate{}
-	updateDestination.Active = false
-	updateDestination.Properties = []AiNotificationsPropertyInput{
-		{
-			Key:          "url",
-			Value:        "https://webhook.site/94193c01-4a81-4782-8f1b-554d5230395b",
-			Label:        "",
-			DisplayValue: "",
-		},
-	}
-	updateDestination.Auth = &AiNotificationsCredentialsInput{
-		Type: AiNotificationsAuthTypeTypes.TOKEN,
-		Token: AiNotificationsTokenAuthInput{
-			Token:  "TokenUpdate",
-			Prefix: "BearerUpdate",
-		},
-	}
-	updateDestination.Name = fmt.Sprintf("test-notifications-update-destination-%s", testIntegrationDestinationNameRandStr)
-
-	updateDestinationResult, err := n.AiNotificationsUpdateDestination(accountID, updateDestination, createResult.Destination.ID)
-	require.NoError(t, err)
-	require.NotNil(t, updateDestinationResult)
 
 	// Test: Delete
 	deleteResult, err := n.AiNotificationsDeleteDestination(accountID, createResult.Destination.ID)
