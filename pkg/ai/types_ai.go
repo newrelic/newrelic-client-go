@@ -197,6 +197,8 @@ func UnmarshalAiNotificationsErrorInterface(b []byte) (*AiNotificationsErrorInte
 type AiNotificationsDestinationFilter struct {
 	// id
 	ID string `json:"id,omitempty"`
+	// Name
+	Name string `json:"name,omitempty"`
 }
 
 // SecureValue - The `SecureValue` scalar represents a secure value, ie a password, an API key, etc.

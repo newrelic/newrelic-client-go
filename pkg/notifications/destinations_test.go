@@ -20,6 +20,7 @@ var (
 	user            = "test-user"
 	accountId       = 1
 	id              = "7463c367-6d61-416b-9aac-47f4a285fe5a"
+	name            = "test-notification-destination-1"
 
 	testCreateDestinationResponseJSON = `{
 	 "aiNotificationsCreateDestination": {
@@ -212,6 +213,60 @@ func TestGetDestinations(t *testing.T) {
 
 	filters := ai.AiNotificationsDestinationFilter{
 		ID: id,
+	}
+	sorter := AiNotificationsDestinationSorter{}
+
+	actual, err := notifications.GetDestinations(accountId, "", filters, sorter)
+
+	assert.NoError(t, err)
+	assert.NotNil(t, actual)
+	assert.Equal(t, expected, actual)
+}
+
+func TestGetDestinationsByName(t *testing.T) {
+	t.Parallel()
+	respJSON := fmt.Sprintf(`{ "data":%s }`, testGetDestinationResponseJSON)
+	notifications := newMockResponse(t, respJSON, http.StatusOK)
+
+	auth := ai.AiNotificationsAuth{
+		AuthType: "BASIC",
+		User:     user,
+	}
+	auth.ImplementsAiNotificationsAuth()
+
+	expected := &AiNotificationsDestinationsResponse{
+		Entities: []AiNotificationsDestination{
+			{
+				AccountID:           accountId,
+				Active:              true,
+				Auth:                auth,
+				CreatedAt:           timestamp,
+				ID:                  id,
+				IsUserAuthenticated: false,
+				LastSent:            timestamp,
+				Name:                "test-notification-destination-1",
+				Properties: []AiNotificationsProperty{
+					{
+						DisplayValue: "",
+						Key:          "email",
+						Label:        "",
+						Value:        "test@newrelic.com",
+					},
+				},
+				Status:    AiNotificationsDestinationStatusTypes.DEFAULT,
+				Type:      AiNotificationsDestinationTypeTypes.EMAIL,
+				UpdatedAt: timestamp,
+				UpdatedBy: 1547846,
+			},
+		},
+		Errors:     []AiNotificationsResponseError{},
+		Error:      AiNotificationsResponseError{},
+		NextCursor: "",
+		TotalCount: 1,
+	}
+
+	filters := ai.AiNotificationsDestinationFilter{
+		Name: name,
 	}
 	sorter := AiNotificationsDestinationSorter{}
 
