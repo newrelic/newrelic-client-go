@@ -1,5 +1,10 @@
+<a name="v2.19.2"></a>
+## [v2.19.2] - 2023-06-14
+### Bug Fixes
+- **notifications:** add name to filter ([#1014](https://github.com/newrelic/newrelic-client-go/issues/1014))
+
 <a name="v2.19.1"></a>
-## [v2.19.1] - 2023-05-03
+## [v2.19.1] - 2023-05-15
 ### Bug Fixes
 - **alerts:** Removed omitempty from RunbookURL in NrqlConditionUpdateBase ([#1030](https://github.com/newrelic/newrelic-client-go/issues/1030))
 
@@ -1621,7 +1626,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.19.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.19.2...HEAD
+[v2.19.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.19.1...v2.19.2
 [v2.19.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.19.0...v2.19.1
 [v2.19.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.18.1...v2.19.0
 [v2.18.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.18.0...v2.18.1
