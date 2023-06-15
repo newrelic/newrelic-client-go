@@ -259,7 +259,7 @@ type DashboardPageInput struct {
 	// The name of the page.
 	Name string `json:"name"`
 	// A nested block of all widgets belonging to the page.
-	Widgets []DashboardWidgetInput `json:"widgets,omitempty"`
+	Widgets []DashboardWidgetInput `json:"widgets"`
 }
 
 // DashboardPieWidgetConfigurationInput - Configuration for visualization type 'viz.pie'.  Learn more about [pie](https://docs.newrelic.com/docs/apis/nerdgraph/examples/create-widgets-dashboards-api/#pie) widget.
@@ -313,7 +313,7 @@ type DashboardUpdatePageInput struct {
 	// Page name.
 	Name string `json:"name"`
 	// Page widgets.
-	Widgets []DashboardWidgetInput `json:"widgets,omitempty"`
+	Widgets []DashboardWidgetInput `json:"widgets"`
 }
 
 // DashboardUpdatePageResult - Result of updatePage operation.
