@@ -1,3 +1,8 @@
+<a name="v2.19.3"></a>
+## [v2.19.3] - 2023-06-19
+### Bug Fixes
+- **dashboards:** remove omitempty on widgets to allow creating pages with no widgets ([#1033](https://github.com/newrelic/newrelic-client-go/issues/1033))
+
 <a name="v2.19.2"></a>
 ## [v2.19.2] - 2023-06-14
 ### Bug Fixes
@@ -1626,7 +1631,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.19.2...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.19.3...HEAD
+[v2.19.3]: https://github.com/newrelic/newrelic-client-go/compare/v2.19.2...v2.19.3
 [v2.19.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.19.1...v2.19.2
 [v2.19.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.19.0...v2.19.1
 [v2.19.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.18.1...v2.19.0
