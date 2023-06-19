@@ -3,7 +3,7 @@ module github.com/newrelic/newrelic-client-go/v2
 go 1.18
 
 require (
-	github.com/elazarl/goproxy v0.0.0-20220417044921-416226498f94
+	github.com/elazarl/goproxy v0.0.0-20221015165544-a0805db90819
 	github.com/google/go-querystring v1.1.0
 	github.com/hashicorp/go-retryablehttp v0.7.0
 	github.com/imdario/mergo v0.3.13
