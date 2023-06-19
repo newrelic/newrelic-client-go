@@ -149,3 +149,87 @@ func TestIntegrationDashboard_Billboard(t *testing.T) {
 	assert.Equal(t, 0, len(delRes.Errors))
 	assert.Equal(t, DashboardDeleteResultStatusTypes.SUCCESS, delRes.Status)
 }
+
+// TestIntegrationDashboard_EmptyPage tests creating a dashboard with a page comprising no widgets
+func TestIntegrationDashboard_EmptyPage(t *testing.T) {
+	t.Parallel()
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	client := newIntegrationTestClient(t)
+
+	dashboardName := "newrelic-client-go-test-dashboard-empty-pages" + mock.RandSeq(5)
+	dashboardInput := DashboardInput{
+		Description: "newrelic-client-go-test-dashboard-description",
+		Name:        dashboardName,
+		Permissions: entities.DashboardPermissionsTypes.PUBLIC_READ_WRITE,
+		Pages: []DashboardPageInput{{
+			Name:    "Test Page",
+			Widgets: []DashboardWidgetInput{},
+		}},
+	}
+
+	// Test: Create Dashboard
+	result, err := client.DashboardCreate(testAccountID, dashboardInput)
+
+	require.NoError(t, err)
+	require.NotNil(t, result)
+	assert.Equal(t, 0, len(result.Errors))
+	require.NotNil(t, result.EntityResult.GUID)
+
+	dashGUID := result.EntityResult.GUID
+
+	// Test: Get Dashboard
+	dash, err := client.GetDashboardEntity(dashGUID)
+	require.NoError(t, err)
+	require.NotNil(t, dash)
+
+	assert.Equal(t, dashGUID, dash.GUID)
+	assert.Equal(t, dashboardInput.Description, dash.Description)
+	assert.Equal(t, dashboardInput.Name, dash.Name)
+	assert.Equal(t, dashboardInput.Permissions, dash.Permissions)
+
+	// Test: Update Dashboard
+	updatedDashboard := DashboardInput{
+		Name:        dash.Name,
+		Permissions: dash.Permissions,
+		Pages: []DashboardPageInput{
+			{
+				Name: dash.Pages[0].Name,
+				Widgets: []DashboardWidgetInput{
+					{
+						Title: "Test BillboardText Widget",
+						Configuration: DashboardWidgetConfigurationInput{
+							Billboard: &DashboardBillboardWidgetConfigurationInput{
+								NRQLQueries: []DashboardWidgetNRQLQueryInput{
+									{
+										AccountID: testAccountID,
+										Query:     "FROM Metric SELECT 1",
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+			{
+				Name:    "Test Page Two",
+				Widgets: []DashboardWidgetInput{},
+			},
+		},
+	}
+
+	upDash, err := client.DashboardUpdate(updatedDashboard, dashGUID)
+	require.NoError(t, err)
+	require.NotNil(t, upDash)
+
+	//// Test: Delete Dashboard
+	delRes, err := client.DashboardDelete(dashGUID)
+	require.NoError(t, err)
+	require.NotNil(t, delRes)
+	assert.Equal(t, 0, len(delRes.Errors))
+	assert.Equal(t, DashboardDeleteResultStatusTypes.SUCCESS, delRes.Status)
+}

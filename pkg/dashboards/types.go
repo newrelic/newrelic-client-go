@@ -258,8 +258,13 @@ type DashboardPageInput struct {
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The name of the page.
 	Name string `json:"name"`
+
+	// NOTE: The JSON description of the following attribute, "Widgets" has been modified manually
+	// (removal of "omitempty") to facilitate creating pages with no widgets (empty pages).
+	// Please DO NOT regenerate/modify this attribute and its datatype via Tutone (which would add "omitempty" back).
+
 	// A nested block of all widgets belonging to the page.
-	Widgets []DashboardWidgetInput `json:"widgets,omitempty"`
+	Widgets []DashboardWidgetInput `json:"widgets"`
 }
 
 // DashboardPieWidgetConfigurationInput - Configuration for visualization type 'viz.pie'.  Learn more about [pie](https://docs.newrelic.com/docs/apis/nerdgraph/examples/create-widgets-dashboards-api/#pie) widget.
@@ -312,8 +317,13 @@ type DashboardUpdatePageInput struct {
 	Description string `json:"description,omitempty"`
 	// Page name.
 	Name string `json:"name"`
+
+	// NOTE: The JSON description of the following attribute, "Widgets" has been modified manually
+	// (removal of "omitempty") to facilitate creating pages with no widgets (empty pages).
+	// Please DO NOT regenerate/modify this attribute and its datatype via Tutone (which would add "omitempty" back).
+
 	// Page widgets.
-	Widgets []DashboardWidgetInput `json:"widgets,omitempty"`
+	Widgets []DashboardWidgetInput `json:"widgets"`
 }
 
 // DashboardUpdatePageResult - Result of updatePage operation.
