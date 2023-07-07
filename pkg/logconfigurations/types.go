@@ -421,7 +421,7 @@ type LogConfigurationsUpdateDataPartitionRuleInput struct {
 	// The description of the data partition rule.
 	Description string `json:"description,omitempty"`
 	// Whether or not this data partition rule is enabled.
-	Enabled bool `json:"enabled,omitempty"`
+	Enabled bool `json:"enabled"`
 	// Unique data partition rule identifier.
 	ID string `json:"id"`
 	// The criteria of the data partition rule.
