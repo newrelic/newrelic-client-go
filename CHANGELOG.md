@@ -1,3 +1,8 @@
+<a name="v2.19.4"></a>
+## [v2.19.4] - 2023-07-11
+### Bug Fixes
+- **data_partition:** fix issue with enable attribute ([#1034](https://github.com/newrelic/newrelic-client-go/issues/1034))
+
 <a name="v2.19.3"></a>
 ## [v2.19.3] - 2023-06-19
 ### Bug Fixes
@@ -1631,7 +1636,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.19.3...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.19.4...HEAD
+[v2.19.4]: https://github.com/newrelic/newrelic-client-go/compare/v2.19.3...v2.19.4
 [v2.19.3]: https://github.com/newrelic/newrelic-client-go/compare/v2.19.2...v2.19.3
 [v2.19.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.19.1...v2.19.2
 [v2.19.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.19.0...v2.19.1
