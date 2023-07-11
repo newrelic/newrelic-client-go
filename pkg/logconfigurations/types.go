@@ -421,7 +421,9 @@ type LogConfigurationsUpdateDataPartitionRuleInput struct {
 	// The description of the data partition rule.
 	Description string `json:"description,omitempty"`
 	// Whether or not this data partition rule is enabled.
-	Enabled bool `json:"enabled,omitempty"`
+	// NOTE: DO NOT add 'omitempty' to the JSON description of Enabled as fetched from Tutone.
+	// It omits 'enabled' even if the calling service sends it as 'false', which is why 'omitempty' has been manually discarded.
+	Enabled bool `json:"enabled"`
 	// Unique data partition rule identifier.
 	ID string `json:"id"`
 	// The criteria of the data partition rule.
