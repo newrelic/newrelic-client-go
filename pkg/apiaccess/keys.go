@@ -221,6 +221,7 @@ const (
 		key
 		name
 		notes
+		createdAt
 		type
 		... on ApiAccessIngestKey {
 			id

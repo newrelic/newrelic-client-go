@@ -578,7 +578,7 @@ type APIAccessUserKeyError struct {
 func (x *APIAccessUserKeyError) ImplementsAPIAccessKeyError() {}
 
 // EpochSeconds - The `EpochSeconds` scalar represents the number of seconds since the Unix epoch
-type EpochSeconds string
+type EpochSeconds int
 
 // APIAccessKey - A key for accessing New Relic APIs.
 type APIAccessKeyInterface interface {

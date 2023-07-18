@@ -111,6 +111,7 @@ func TestIntegrationAPIAccess_UserKeys(t *testing.T) {
 	})
 	require.NoError(t, err)
 	require.Greater(t, len(searchResult), 0)
+	require.Greater(t, len(searchResult[0].CreatedAt), 0)
 
 	// Test: Update
 	updateResult, err := client.UpdateAPIAccessKeys(APIAccessUpdateInput{
