@@ -136,11 +136,9 @@ func (e *Events) Flush() error {
 	return nil
 }
 
-//
 // batchWorker reads []byte from the queue until a threshold is passed,
 // then copies the []byte it has read and sends that batch along to Insights
 // in its own goroutine.
-//
 func (e *Events) batchWorker(ctx context.Context, id int) (err error) {
 	if e == nil {
 		return errors.New("batchWorker: invalid Events, unable to start worker")
@@ -173,10 +171,8 @@ func (e *Events) batchWorker(ctx context.Context, id int) (err error) {
 	}
 }
 
-//
 // watchdog has a Timer that will send the results once the
 // it has expired.
-//
 func (e *Events) watchdog(ctx context.Context) (err error) {
 	if e.eventTimer == nil {
 		return errors.New("invalid timer for watchdog()")

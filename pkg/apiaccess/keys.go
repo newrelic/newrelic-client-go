@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+
 	"github.com/newrelic/newrelic-client-go/v2/internal/http"
 )
 
@@ -220,6 +221,7 @@ const (
 		id
 		key
 		name
+		createdAt
 		notes
 		type
 		... on ApiAccessIngestKey {

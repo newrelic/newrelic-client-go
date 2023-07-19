@@ -330,6 +330,12 @@ packages:
       - name: AccountReference
         field_type_override: accounts.AccountReference
         skip_type_create: true
+      - name: EpochSeconds
+        field_type_override: nrtime.EpochSeconds
+        skip_type_create: true
+      - name: EpochMilliseconds
+        field_type_override: nrtime.EpochMilliseconds
+        skip_type_create: true
       - name: UserReference
         field_type_override: users.UserReference
         skip_type_create: true

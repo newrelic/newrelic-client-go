@@ -130,11 +130,9 @@ func (e *Logs) Flush() error {
 	return nil
 }
 
-//
 // batchWorker reads []byte from the queue until a threshold is passed,
 // then copies the []byte it has read and sends that batch along to Logs
 // in its own goroutine.
-//
 func (e *Logs) batchWorker(ctx context.Context, id int) (err error) {
 	e.logger.Trace("batchWorker")
 
@@ -166,10 +164,8 @@ func (e *Logs) batchWorker(ctx context.Context, id int) (err error) {
 	}
 }
 
-//
 // watchdog has a Timer that will send the results once the
 // it has expired.
-//
 func (e *Logs) watchdog(ctx context.Context) (err error) {
 	e.logger.Trace("watchdog")
 	if e.logTimer == nil {

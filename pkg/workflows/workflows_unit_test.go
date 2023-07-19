@@ -193,9 +193,9 @@ func TestCreateWorkflow(t *testing.T) {
 	}
 
 	expectedDestinationConfiguration := []AiWorkflowsDestinationConfiguration{{
-		ChannelId: channelId,
-		Name:      "EMPTY",
-		Type:      "EMAIL",
+		ChannelId:            channelId,
+		Name:                 "EMPTY",
+		Type:                 "EMAIL",
 		NotificationTriggers: []AiWorkflowsNotificationTrigger{"ACTIVATED"},
 	}}
 	expectedIssuedFilter := AiWorkflowsFilter{
@@ -257,9 +257,9 @@ func TestGetWorkflow(t *testing.T) {
 	workflows := newMockResponse(t, respJSON, http.StatusOK)
 
 	expectedDestinationConfiguration := []AiWorkflowsDestinationConfiguration{{
-		ChannelId: channelId,
-		Name:      "EMPTY",
-		Type:      "EMAIL",
+		ChannelId:            channelId,
+		Name:                 "EMPTY",
+		Type:                 "EMAIL",
 		NotificationTriggers: []AiWorkflowsNotificationTrigger{"ACTIVATED"},
 	}}
 	expectedEnrichments := []AiWorkflowsEnrichment{{

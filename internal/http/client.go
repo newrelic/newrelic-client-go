@@ -4,6 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+
+	//nolint:staticcheck // SA1019 "io/ioutil" has been deprecated since Go 1.16
 	"io/ioutil"
 	"net/http"
 	"os"

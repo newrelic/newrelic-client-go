@@ -16,7 +16,7 @@ const (
 	BatchTimeoutSeconds = 5
 )
 
-//func TestExample_log_batch(t *testing.T) {
+// func TestExample_log_batch(t *testing.T) {
 func Example_basic() {
 	// Initialize the client configuration.  A New Relic License Key is required to communicate with the backend API.
 	cfg := config.New()

@@ -9,9 +9,10 @@ import (
 )
 
 // Adds the provided tags to your specified entity, without deleting existing ones.
-//  The maximum number of tag-values per entity is 100; if the sum of existing and new tag-values if over the limit this mutation will fail.
 //
-//  For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
+//	The maximum number of tag-values per entity is 100; if the sum of existing and new tag-values if over the limit this mutation will fail.
+//
+//	For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
 func (a *Entities) TaggingAddTagsToEntity(
 	gUID common.EntityGUID,
 	tags []TaggingTagInput,
@@ -23,9 +24,10 @@ func (a *Entities) TaggingAddTagsToEntity(
 }
 
 // Adds the provided tags to your specified entity, without deleting existing ones.
-//  The maximum number of tag-values per entity is 100; if the sum of existing and new tag-values if over the limit this mutation will fail.
 //
-//  For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
+//	The maximum number of tag-values per entity is 100; if the sum of existing and new tag-values if over the limit this mutation will fail.
+//
+//	For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
 func (a *Entities) TaggingAddTagsToEntityWithContext(
 	ctx context.Context,
 	gUID common.EntityGUID,
@@ -64,7 +66,7 @@ const TaggingAddTagsToEntityMutation = `mutation(
 
 // Delete specific tag keys from the entity.
 //
-//  For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
+//	For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
 func (a *Entities) TaggingDeleteTagFromEntity(
 	gUID common.EntityGUID,
 	tagKeys []string,
@@ -77,7 +79,7 @@ func (a *Entities) TaggingDeleteTagFromEntity(
 
 // Delete specific tag keys from the entity.
 //
-//  For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
+//	For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
 func (a *Entities) TaggingDeleteTagFromEntityWithContext(
 	ctx context.Context,
 	gUID common.EntityGUID,
@@ -116,7 +118,7 @@ const TaggingDeleteTagFromEntityMutation = `mutation(
 
 // Delete specific tag key-values from the entity.
 //
-//  For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
+//	For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
 func (a *Entities) TaggingDeleteTagValuesFromEntity(
 	gUID common.EntityGUID,
 	tagValues []TaggingTagValueInput,
@@ -129,7 +131,7 @@ func (a *Entities) TaggingDeleteTagValuesFromEntity(
 
 // Delete specific tag key-values from the entity.
 //
-//  For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
+//	For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
 func (a *Entities) TaggingDeleteTagValuesFromEntityWithContext(
 	ctx context.Context,
 	gUID common.EntityGUID,
@@ -167,9 +169,10 @@ const TaggingDeleteTagValuesFromEntityMutation = `mutation(
 } }`
 
 // Replaces the entity's entire set of tags with the provided tag set.
-//  The maximum number of tag-values per entity is 100; if more than 100 tag-values are provided this mutation will fail.
 //
-//  For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
+//	The maximum number of tag-values per entity is 100; if more than 100 tag-values are provided this mutation will fail.
+//
+//	For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
 func (a *Entities) TaggingReplaceTagsOnEntity(
 	gUID common.EntityGUID,
 	tags []TaggingTagInput,
@@ -181,9 +184,10 @@ func (a *Entities) TaggingReplaceTagsOnEntity(
 }
 
 // Replaces the entity's entire set of tags with the provided tag set.
-//  The maximum number of tag-values per entity is 100; if more than 100 tag-values are provided this mutation will fail.
 //
-//  For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
+//	The maximum number of tag-values per entity is 100; if more than 100 tag-values are provided this mutation will fail.
+//
+//	For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
 func (a *Entities) TaggingReplaceTagsOnEntityWithContext(
 	ctx context.Context,
 	gUID common.EntityGUID,

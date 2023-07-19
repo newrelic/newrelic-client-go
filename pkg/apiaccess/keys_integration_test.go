@@ -4,11 +4,13 @@
 package apiaccess
 
 import (
-	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
-	"github.com/stretchr/testify/require"
 	"regexp"
 	"strings"
 	"testing"
+
+	"github.com/stretchr/testify/require"
+
+	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
 func TestIntegrationAPIAccess_IngestKeys(t *testing.T) {
