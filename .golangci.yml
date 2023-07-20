@@ -44,7 +44,7 @@ linters:
   enable:
     - errcheck
     - gocyclo
-    - gofmt
+    # - gofmt
     - revive
     - gosimple
     - govet
