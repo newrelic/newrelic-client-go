@@ -1,3 +1,8 @@
+<a name="v2.19.6"></a>
+## [v2.19.6] - 2023-07-20
+### Bug Fixes
+- **apiaccess:** converted CreatedAt to int64
+
 <a name="v2.19.5"></a>
 ## [v2.19.5] - 2023-07-20
 ### Bug Fixes
@@ -1641,7 +1646,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.19.5...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.19.6...HEAD
+[v2.19.6]: https://github.com/newrelic/newrelic-client-go/compare/v2.19.5...v2.19.6
 [v2.19.5]: https://github.com/newrelic/newrelic-client-go/compare/v2.19.4...v2.19.5
 [v2.19.4]: https://github.com/newrelic/newrelic-client-go/compare/v2.19.3...v2.19.4
 [v2.19.3]: https://github.com/newrelic/newrelic-client-go/compare/v2.19.2...v2.19.3
