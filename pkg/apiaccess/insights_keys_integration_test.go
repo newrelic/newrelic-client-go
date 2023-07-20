@@ -73,7 +73,7 @@ func TestIntegrationAPIAccess_InsightsQueryKeys(t *testing.T) {
 	require.NotNil(t, deleteResult)
 }
 
-//nolint: unused
+// nolint: unused
 func newIntegrationTestClient(t *testing.T) APIAccess {
 	tc := mock.NewIntegrationTestConfig(t)
 

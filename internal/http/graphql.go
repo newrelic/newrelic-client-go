@@ -94,7 +94,8 @@ func (r *GraphQLErrorResponse) IsPaymentRequired(resp *http.Response) bool {
 // is deprecated.  We want to bubble that up, but not stop returning data
 //
 // Example deprecation message:
-//   This field is deprecated! Please use `relatedEntities` instead.
+//
+//	This field is deprecated! Please use `relatedEntities` instead.
 func (r *GraphQLErrorResponse) IsDeprecated() bool {
 	for _, err := range r.Errors {
 		if strings.HasPrefix(err.Message, "This field is deprecated!") {

@@ -8,8 +8,9 @@ import (
 	"strings"
 	"testing"
 
-	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 	"github.com/stretchr/testify/require"
+
+	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
 func TestCloudAccount_Basic(t *testing.T) {

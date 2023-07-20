@@ -6,9 +6,10 @@ package agentapplications
 import (
 	"testing"
 
+	"github.com/stretchr/testify/require"
+
 	"github.com/newrelic/newrelic-client-go/v2/pkg/common"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
-	"github.com/stretchr/testify/require"
 )
 
 // GUID for Dummy App in integration test account
