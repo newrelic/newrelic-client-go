@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+
 	"github.com/newrelic/newrelic-client-go/v2/internal/http"
 )
 

@@ -8,8 +8,9 @@ import (
 	"strconv"
 	"testing"
 
-	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 	"github.com/stretchr/testify/assert"
+
+	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
 var (

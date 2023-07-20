@@ -228,7 +228,7 @@ var (
 	}
 )
 
-//REST API integration test (deprecated)
+// REST API integration test (deprecated)
 func TestIntegrationNrqlConditions(t *testing.T) {
 	t.Parallel()
 

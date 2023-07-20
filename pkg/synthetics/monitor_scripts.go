@@ -37,8 +37,9 @@ func (s *Synthetics) GetMonitorScriptWithContext(ctx context.Context, monitorID 
 }
 
 // Deprecated: Use one of following instead:
-//    synthetics.SyntheticsUpdateScriptAPIMonitor
-//    synthetics.SyntheticsUpdateScriptBrowserMonitor
+//
+//	synthetics.SyntheticsUpdateScriptAPIMonitor
+//	synthetics.SyntheticsUpdateScriptBrowserMonitor
 //
 // UpdateMonitorScript is used to add a script to an existing New Relic Synthetics monitor_script.
 func (s *Synthetics) UpdateMonitorScript(monitorID string, script MonitorScript) (*MonitorScript, error) {
@@ -46,8 +47,9 @@ func (s *Synthetics) UpdateMonitorScript(monitorID string, script MonitorScript)
 }
 
 // Deprecated: Use one of following instead:
-//    synthetics.SyntheticsUpdateScriptAPIMonitorWithContext
-//    synthetics.SyntheticsUpdateScriptBrowserMonitorWithContext
+//
+//	synthetics.SyntheticsUpdateScriptAPIMonitorWithContext
+//	synthetics.SyntheticsUpdateScriptBrowserMonitorWithContext
 //
 // UpdateMonitorScriptWithContext is used to add a script to an existing New Relic Synthetics monitor_script.
 func (s *Synthetics) UpdateMonitorScriptWithContext(ctx context.Context, monitorID string, script MonitorScript) (*MonitorScript, error) {
