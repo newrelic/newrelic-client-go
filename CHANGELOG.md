@@ -1,3 +1,8 @@
+<a name="v2.19.5"></a>
+## [v2.19.5] - 2023-07-20
+### Bug Fixes
+- **apiaccess:** Returning createdAt on keysearch
+
 <a name="v2.19.4"></a>
 ## [v2.19.4] - 2023-07-11
 ### Bug Fixes
@@ -764,12 +769,12 @@
 - **entities:** Mostly code generated Entities queries (entities/entity/entitySearch)
 
 ### Refactor
-- DRY up some of the time based items into nrtime
 - Add omitempty to nullable and input objects for all packages
 - Selective generation on type in Entities, Infrastructure, and NerdStorage
+- DRY up some of the time based items into nrtime
 - **cloud:** Cloud auto-generating via tutone
-- **entities:** DRY up Nrdb from Entities
 - **entities:** Cleanup unused structs in entities
+- **entities:** DRY up Nrdb from Entities
 - **typegen:** If we override a type to be in another package, properly generate the Unmarshal func call
 
 <a name="v0.52.0"></a>
@@ -1223,20 +1228,20 @@
 ### Refactor
 - **alerts:** fix alerts tests
 - **alerts:** Move FQDN/URL creation into package, out of http client for REST
-- **apm:** Update apm tests
 - **apm:** Move FQDN/URL creation into package, out of http client for REST
-- **config:** Migrate Region to pkg/region
-- **config:** Add new func for config
+- **apm:** Update apm tests
 - **config:** Remove unused config fields
-- **dashboards:** Update dashboard tests
+- **config:** Add new func for config
+- **config:** Migrate Region to pkg/region
 - **dashboards:** Move FQDN/URL creation into package, out of http client for REST
+- **dashboards:** Update dashboard tests
 - **entities:** Update entities tests
 - **http:** introduce a request-scoped API for NerdGraph queries
-- **http:** Remove assumption that we are talking to a REST endpoint
 - **http:** Move HTTP client to use new region format
+- **http:** Remove assumption that we are talking to a REST endpoint
 - **nerdgraph:** Update nerdgraph tests
-- **plugins:** Update plugin tests
 - **plugins:** Move FQDN/URL creation into package, out of http client for REST
+- **plugins:** Update plugin tests
 - **region:** Change access to config.Region to ensure it exists
 - **synthetics:** Update synthetics tests
 - **synthetics:** Move FQDN/URL creation into package, out of http client for REST
@@ -1289,8 +1294,8 @@
 - **errors:** update package-level documentation
 - **infrastructure:** add package-level documentation
 - **nerdgraph:** add package-level documentation and examples
-- **newrelic:** add package-level documentation and examples
 - **newrelic:** use single-letter vars for receivers
+- **newrelic:** add package-level documentation and examples
 - **plugins:** add package-level documentation and examples
 - **synthetics:** add package-level documentation and examples
 
@@ -1479,26 +1484,26 @@
 - update monitor scripts with return design pattern, update tests
 
 ### Refactor
-- update alerts incidents to follow return design pattern, parallelize and use assert lib in alert incidents tests
+- update monitors to use return design pattern where applicable, update tests
+- consistent use of pointers for &reqBody structs
+- move logging config code into logging package
+- use centralized test helpers and remove old ones
 - update ListDashboards to return array of pointers, update Dashboard test to use assert
 - update ListApplications to return array of pointers, update tests to use assert
-- update alert channels to return array of pointers, update tests to use assert
-- update synthetics conditions to return array of pointers
-- use require lib for dashboards integration tests
 - refactor to package-based types files
 - remove config pointer references
 - remove unnecessary else
-- create a logger instance per package
-- move logging config code into logging package
-- use centralized test helpers and remove old ones
 - rescope vars for integration tests to avoid variable name conflicts
+- update alert channels to return array of pointers, update tests to use assert
+- update synthetics conditions to return array of pointers
+- create a logger instance per package
 - remove redundant 'alert' from file names
 - remove redundant 'Alert' from naming convention
-- update monitors to use return design pattern where applicable, update tests
 - incorporate code review feedback
-- consistent use of pointers for &reqBody structs
-- **alerts:** Spike example of changes to the mock setup
+- update alerts incidents to follow return design pattern, parallelize and use assert lib in alert incidents tests
+- use require lib for dashboards integration tests
 - **alerts:** Update mock server format, continue to have pkg helper
+- **alerts:** Spike example of changes to the mock setup
 - **config:** Change Region to a string, then parse with region package
 - **newrelic:** Extract config setting to opts ... format
 - **region:** Move region out of config into package, add Parse(string)
@@ -1636,7 +1641,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.19.4...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.19.5...HEAD
+[v2.19.5]: https://github.com/newrelic/newrelic-client-go/compare/v2.19.4...v2.19.5
 [v2.19.4]: https://github.com/newrelic/newrelic-client-go/compare/v2.19.3...v2.19.4
 [v2.19.3]: https://github.com/newrelic/newrelic-client-go/compare/v2.19.2...v2.19.3
 [v2.19.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.19.1...v2.19.2
