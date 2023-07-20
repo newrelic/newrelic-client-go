@@ -334,7 +334,7 @@ packages:
         field_type_override: users.UserReference
         skip_type_create: true
       - name: EpochSeconds
-        field_type_override: nrtime.EpochSeconds
+        field_type_override: int64
         skip_type_create: true
 
 
