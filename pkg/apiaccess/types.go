@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	"github.com/newrelic/newrelic-client-go/v2/pkg/accounts"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/nrtime"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/users"
 )
 
@@ -296,16 +297,16 @@ type APIAccessIngestKey struct {
 	// The account attached to the ingest key. Agents using this key will report to the account the key belongs to.
 	AccountID int `json:"accountId,omitempty"`
 	// The UNIX epoch when the key was created, in seconds.
-	CreatedAt EpochSeconds `json:"createdAt,omitempty"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt,omitempty"`
 	// The ID of the ingest key. This can be used to identify a key without revealing the key itself (used to update and delete).
 	ID string `json:"id,omitempty"`
 	// The type of ingest key, which dictates what types of agents can use it to report.
 	IngestType APIAccessIngestKeyType `json:"ingestType,omitempty"`
 	// The keystring of the key.
 	Key string `json:"key,omitempty"`
-	// The name of the key.
+	// The name of the key. Limited to 120 characters.
 	Name string `json:"name,omitempty"`
-	// Any notes can be attached to an key.
+	// Any notes can be attached to an key. Limited to 120 characters.
 	Notes string `json:"notes,omitempty"`
 	// The type of key, indicating what New Relic APIs it can be used to access.
 	Type APIAccessKeyType `json:"type,omitempty"`
@@ -334,12 +335,12 @@ func (x *APIAccessIngestKeyError) ImplementsAPIAccessKeyError() {}
 // APIAccessKey - A key for accessing New Relic APIs.
 type APIAccessKey struct {
 	// The UNIX epoch when the key was created, in seconds.
-	CreatedAt EpochSeconds `json:"createdAt,omitempty"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt,omitempty"`
 	// The ID of the key. This can be used to identify a key without revealing the key itself (used to update and delete).
 	ID string `json:"id,omitempty"`
 	// The keystring of the key.
 	Key string `json:"key,omitempty"`
-	// The name of the key. This can be used a short identifier for easy reference.
+	// The name of the key. This can be used as a short identifier for easy reference.
 	Name string `json:"name,omitempty"`
 	// Any notes can be attached to a key. This is intended for more a more detailed description of the key use if desired.
 	Notes string `json:"notes,omitempty"`
@@ -540,14 +541,14 @@ type APIAccessUserKey struct {
 	// The account ID of the key.
 	AccountID int `json:"accountId,omitempty"`
 	// The UNIX epoch when the key was created, in seconds.
-	CreatedAt EpochSeconds `json:"createdAt,omitempty"`
+	CreatedAt nrtime.EpochSeconds `json:"createdAt,omitempty"`
 	// The ID of the user key. This can be used to identify a key without revealing the key itself (used to update and delete).
 	ID string `json:"id,omitempty"`
 	// The keystring of the key.
 	Key string `json:"key,omitempty"`
-	// The name of the key.
+	// The name of the key. Limited to 120 characters.
 	Name string `json:"name,omitempty"`
-	// Any notes can be attached to a key.
+	// Any notes can be attached to a key. Limited to 120 characters.
 	Notes string `json:"notes,omitempty"`
 	// The type of key, indicating what New Relic APIs it can be used to access.
 	Type APIAccessKeyType `json:"type,omitempty"`
@@ -576,9 +577,6 @@ type APIAccessUserKeyError struct {
 }
 
 func (x *APIAccessUserKeyError) ImplementsAPIAccessKeyError() {}
-
-// EpochSeconds - The `EpochSeconds` scalar represents the number of seconds since the Unix epoch
-type EpochSeconds string
 
 // APIAccessKey - A key for accessing New Relic APIs.
 type APIAccessKeyInterface interface {
@@ -646,16 +644,6 @@ func UnmarshalAPIAccessKeyInterface(b []byte) (*APIAccessKeyInterface, error) {
 type APIAccessKeyErrorInterface interface {
 	ImplementsAPIAccessKeyError()
 	GetError() error
-}
-
-type APIAccessKeyErrorResponse struct {
-	// The message with the error cause.
-	Message string `json:"message,omitempty"`
-	// Type of error.
-	Type               string                      `json:"type,omitempty"`
-	UserKeyErrorType   APIAccessUserKeyErrorType   `json:"userErrorType,omitempty"`
-	IngestKeyErrorType APIAccessIngestKeyErrorType `json:"ingestErrorType,omitempty"`
-	Id                 string                      `json:"id,omitempty"`
 }
 
 // UnmarshalAPIAccessKeyErrorInterface unmarshals the interface into the correct type

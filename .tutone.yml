@@ -333,6 +333,10 @@ packages:
       - name: UserReference
         field_type_override: users.UserReference
         skip_type_create: true
+      - name: EpochSeconds
+        field_type_override: nrtime.EpochSeconds
+        skip_type_create: true
+
 
   - name: changetracking
     path: pkg/changetracking
