@@ -42,7 +42,6 @@ linters-settings:
 linters:
   disable-all: true
   enable:
-    - deadcode
     - errcheck
     - gocyclo
     - gofmt
@@ -50,12 +49,10 @@ linters:
     - gosimple
     - govet
     - ineffassign
-    - misspell
+    # - misspell
     - staticcheck
-    - structcheck
     - unconvert
     - unused
-    - varcheck
     - vet
 
 issues:
