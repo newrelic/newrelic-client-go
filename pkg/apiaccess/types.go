@@ -6,7 +6,6 @@ import (
 	"fmt"
 
 	"github.com/newrelic/newrelic-client-go/v2/pkg/accounts"
-	"github.com/newrelic/newrelic-client-go/v2/pkg/nrtime"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/users"
 )
 
@@ -297,7 +296,7 @@ type APIAccessIngestKey struct {
 	// The account attached to the ingest key. Agents using this key will report to the account the key belongs to.
 	AccountID int `json:"accountId,omitempty"`
 	// The UNIX epoch when the key was created, in seconds.
-	CreatedAt nrtime.EpochSeconds `json:"createdAt,omitempty"`
+	CreatedAt int64 `json:"createdAt,omitempty"`
 	// The ID of the ingest key. This can be used to identify a key without revealing the key itself (used to update and delete).
 	ID string `json:"id,omitempty"`
 	// The type of ingest key, which dictates what types of agents can use it to report.
@@ -335,7 +334,7 @@ func (x *APIAccessIngestKeyError) ImplementsAPIAccessKeyError() {}
 // APIAccessKey - A key for accessing New Relic APIs.
 type APIAccessKey struct {
 	// The UNIX epoch when the key was created, in seconds.
-	CreatedAt nrtime.EpochSeconds `json:"createdAt,omitempty"`
+	CreatedAt int64 `json:"createdAt,omitempty"`
 	// The ID of the key. This can be used to identify a key without revealing the key itself (used to update and delete).
 	ID string `json:"id,omitempty"`
 	// The keystring of the key.
@@ -541,7 +540,7 @@ type APIAccessUserKey struct {
 	// The account ID of the key.
 	AccountID int `json:"accountId,omitempty"`
 	// The UNIX epoch when the key was created, in seconds.
-	CreatedAt nrtime.EpochSeconds `json:"createdAt,omitempty"`
+	CreatedAt int64 `json:"createdAt,omitempty"`
 	// The ID of the user key. This can be used to identify a key without revealing the key itself (used to update and delete).
 	ID string `json:"id,omitempty"`
 	// The keystring of the key.
