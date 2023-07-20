@@ -59,7 +59,7 @@ Follow the steps below to add `github.com/newrelic/newrelic-client-go` as a depe
     ```
     module example.com/yourmodule
 
-    go 1.18
+    go 1.19
 
     require (
       github.com/newrelic/newrelic-client-go/v2 v2.0.1
@@ -131,7 +131,7 @@ Keep in mind that when you submit your pull request, you'll need to sign the CLA
 
 ### Requirements
 
-- Go 1.18+
+- Go 1.19+
 - GNU Make
 - git
 
