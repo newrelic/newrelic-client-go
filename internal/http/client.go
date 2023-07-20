@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"os"
 	"reflect"
@@ -446,7 +446,7 @@ func (c *Client) innerDo(req *Request, errorValue ErrorResponse, i int) (*http.R
 		return resp, nil, false, &nrErrors.NotFound{}
 	}
 
-	body, readErr := ioutil.ReadAll(resp.Body)
+	body, readErr := io.ReadAll(resp.Body)
 
 	if readErr != nil {
 		return resp, body, false, readErr

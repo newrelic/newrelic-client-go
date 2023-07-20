@@ -5,7 +5,6 @@ package http
 
 import (
 	"io"
-	"io/ioutil"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -59,7 +58,7 @@ func TestNoneCompressor(t *testing.T) {
 		assert.NoError(t, err)
 		assert.Equal(t, "", req.GetHeader("content-encoding"))
 
-		res, err := ioutil.ReadAll(bodyReader)
+		res, err := io.ReadAll(bodyReader)
 		assert.NoError(t, err)
 		assert.Equal(t, d.data, res)
 	}
@@ -83,7 +82,7 @@ func TestGzipCompressor(t *testing.T) {
 		bodyReader, err = compress.Compress(req, d.data)
 		assert.NoError(t, err)
 
-		res, err := ioutil.ReadAll(bodyReader)
+		res, err := io.ReadAll(bodyReader)
 		assert.NoError(t, err)
 
 		if d.compress {
