@@ -151,10 +151,10 @@ func formatAPIAccessKeyErrors(errs []APIAccessKeyErrorResponse) string {
 	errorString := AccessKeyErrorPrefix
 	for _, e := range errs {
 		IDAsString := ""
-		if len(e.Id) != 0 {
+		if len(e.ID) != 0 {
 			// Id is returned in the 'error' block only in the case of update and delete but not with create.
 			// So; in the case of create, it is made an empty string to generalize the usage of IDAsString.
-			IDAsString = fmt.Sprintf("%s: ", e.Id)
+			IDAsString = fmt.Sprintf("%s: ", e.ID)
 		}
 		if e.Type == "USER" {
 			errorString += fmt.Sprintf("%s: %s%s\n", e.UserKeyErrorType, IDAsString, e.Message)
@@ -220,6 +220,7 @@ const (
 		id
 		key
 		name
+		createdAt
 		notes
 		type
 		... on ApiAccessIngestKey {
