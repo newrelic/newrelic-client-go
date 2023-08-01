@@ -7,8 +7,8 @@ import (
 )
 
 /*
-Defer ChangeTrackingDeploymentInput placement into types.go
-until CustomAttributes GA.
+Since we can't yet generate the CustomAttributes type with Tutone, 
+defer ChangeTrackingDeploymentInput placement into types.go until CustomAttributes GA.
 */
 
 // ChangeTrackingDeploymentInput - A deployment.
