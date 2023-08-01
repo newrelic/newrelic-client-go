@@ -19,17 +19,23 @@ func TestChangeTrackingCreateDeployment_Basic(t *testing.T) {
 
 	a := newIntegrationTestClient(t)
 
+	var customAttributes = map[string]string{
+		"test":  "123",
+		"test2": "456",
+	}
+
 	input := ChangeTrackingDeploymentInput{
-		Changelog:      "test",
-		Commit:         "12345a",
-		DeepLink:       "newrelic-client-go",
-		DeploymentType: ChangeTrackingDeploymentTypeTypes.BASIC,
-		Description:    "This is a test description",
-		EntityGUID:     common.EntityGUID(testhelpers.IntegrationTestApplicationEntityGUID),
-		GroupId:        "deployment",
-		Timestamp:      nrtime.EpochMilliseconds(time.Now()),
-		User:           "newrelic-go-client",
-		Version:        "0.0.1",
+		Changelog:        "test",
+		Commit:           "12345a",
+		CustomAttributes: &customAttributes,
+		DeepLink:         "newrelic-client-go",
+		DeploymentType:   ChangeTrackingDeploymentTypeTypes.BASIC,
+		Description:      "This is a test description",
+		EntityGUID:       common.EntityGUID(testhelpers.IntegrationTestApplicationEntityGUID),
+		GroupId:          "deployment",
+		Timestamp:        nrtime.EpochMilliseconds(time.Now()),
+		User:             "newrelic-go-client",
+		Version:          "0.0.1",
 	}
 
 	res, err := a.ChangeTrackingCreateDeployment(input)
