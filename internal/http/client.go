@@ -534,6 +534,7 @@ func (c *Client) NewNerdGraphRequest(query string, vars map[string]interface{}, 
 
 	req.SetAuthStrategy(&NerdGraphAuthorizer{})
 	req.SetErrorValue(&GraphQLErrorResponse{})
+	req.SetHeader("X-Query-Source-Capability-Id", "IO")
 
 	return req, nil
 }
