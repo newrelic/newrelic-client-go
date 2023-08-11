@@ -187,7 +187,7 @@ func TestIntegrationDashboard_LinkedEntities(t *testing.T) {
 							Bar: &DashboardBarWidgetConfigurationInput{
 								NRQLQueries: []DashboardWidgetNRQLQueryInput{
 									{
-										AccountID: testAccountID,
+										AccountID: []int{testAccountID},
 										Query:     "FROM Transaction SELECT average(duration) FACET appName",
 									},
 								},
@@ -245,7 +245,7 @@ func TestIntegrationDashboard_InvalidInput(t *testing.T) {
 							Bar: &DashboardBarWidgetConfigurationInput{
 								NRQLQueries: []DashboardWidgetNRQLQueryInput{
 									{
-										AccountID: testAccountID,
+										AccountID: []int{testAccountID},
 										Query:     "This is bad NRQL input",
 									},
 								},
