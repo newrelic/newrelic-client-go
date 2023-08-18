@@ -2105,6 +2105,10 @@ const getEntitySearchByQuery = `query(
 			}
 			... on GenericEntityOutline {
 				__typename
+				tags {
+					key
+					values
+				}
 			}
 			... on GenericInfrastructureEntityOutline {
 				__typename
