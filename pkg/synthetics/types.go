@@ -96,6 +96,29 @@ var Nr1CatalogInstallPlanTargetTypeTypes = struct {
 	UNKNOWN: "UNKNOWN",
 }
 
+// SyntheticsAutomatedTestStatus - Enum of automated test status
+type SyntheticsAutomatedTestStatus string
+
+var SyntheticsAutomatedTestStatusTypes = struct {
+	// At least one blocking job in the automated test has failed
+	FAILED SyntheticsAutomatedTestStatus
+	// Indicates jobs in the automated test are still running
+	IN_PROGRESS SyntheticsAutomatedTestStatus
+	// All blocking jobs in the automated test has passed
+	PASSED SyntheticsAutomatedTestStatus
+	// Some jobs in the automated test failed to provide a status within the timeout
+	TIMEOUT SyntheticsAutomatedTestStatus
+}{
+	// At least one blocking job in the automated test has failed
+	FAILED: "FAILED",
+	// Indicates jobs in the automated test are still running
+	IN_PROGRESS: "IN_PROGRESS",
+	// All blocking jobs in the automated test has passed
+	PASSED: "PASSED",
+	// Some jobs in the automated test failed to provide a status within the timeout
+	TIMEOUT: "TIMEOUT",
+}
+
 // SyntheticsDeviceOrientation - enum of Orientations that the user can select for their emulated device
 type SyntheticsDeviceOrientation string
 
@@ -132,6 +155,29 @@ var SyntheticsDeviceTypeTypes = struct {
 	NONE: "NONE",
 	// This will be dimensions for a typical tablet device
 	TABLET: "TABLET",
+}
+
+// SyntheticsJobStatus - Enum of job status
+type SyntheticsJobStatus string
+
+var SyntheticsJobStatusTypes = struct {
+	// Indicates the job has failed
+	FAILED SyntheticsJobStatus
+	// Indicates an in-progress job
+	PENDING SyntheticsJobStatus
+	// Indicates the job has succeeded
+	SUCCESS SyntheticsJobStatus
+	// Indicates the job status was lost or unknown
+	UNKNOWN SyntheticsJobStatus
+}{
+	// Indicates the job has failed
+	FAILED: "FAILED",
+	// Indicates an in-progress job
+	PENDING: "PENDING",
+	// Indicates the job has succeeded
+	SUCCESS: "SUCCESS",
+	// Indicates the job status was lost or unknown
+	UNKNOWN: "UNKNOWN",
 }
 
 // SyntheticsMonitorCreateErrorType - Types of errors that can be returned from a create monitor request
@@ -229,6 +275,41 @@ var SyntheticsMonitorStatusTypes = struct {
 	ENABLED: "ENABLED",
 	// Alerts muted status of a monitor
 	MUTED: "MUTED",
+}
+
+// SyntheticsMonitorType - Enum of monitor types
+type SyntheticsMonitorType string
+
+var SyntheticsMonitorTypeTypes = struct {
+	// Broken links monitor
+	BROKEN_LINKS SyntheticsMonitorType
+	// Simple browser monitor
+	BROWSER SyntheticsMonitorType
+	// Certificate Check
+	CERT_CHECK SyntheticsMonitorType
+	// Script API monitor
+	SCRIPT_API SyntheticsMonitorType
+	// Script browser monitor
+	SCRIPT_BROWSER SyntheticsMonitorType
+	// Simple (ping) monitor
+	SIMPLE SyntheticsMonitorType
+	// Step Monitor
+	STEP_MONITOR SyntheticsMonitorType
+}{
+	// Broken links monitor
+	BROKEN_LINKS: "BROKEN_LINKS",
+	// Simple browser monitor
+	BROWSER: "BROWSER",
+	// Certificate Check
+	CERT_CHECK: "CERT_CHECK",
+	// Script API monitor
+	SCRIPT_API: "SCRIPT_API",
+	// Script browser monitor
+	SCRIPT_BROWSER: "SCRIPT_BROWSER",
+	// Simple (ping) monitor
+	SIMPLE: "SIMPLE",
+	// Step Monitor
+	STEP_MONITOR: "STEP_MONITOR",
 }
 
 // SyntheticsMonitorUpdateErrorType - Types of errors that can be returned from a Monitor mutation request
@@ -350,9 +431,12 @@ var SyntheticsStepTypeTypes = struct {
 // Account configuration data is queried through this object, as well as
 // telemetry data that is specific to a single account.
 type Account struct {
-	ID         int    `json:"id,omitempty"`
+	//
+	ID int `json:"id,omitempty"`
+	//
 	LicenseKey string `json:"licenseKey,omitempty"`
-	Name       string `json:"name,omitempty"`
+	//
+	Name string `json:"name,omitempty"`
 	// This field provides access to Synthetics data.
 	Synthetics SyntheticsAccountStitchedFields `json:"synthetics,omitempty"`
 }
@@ -502,10 +586,140 @@ func (x *Nr1CatalogTargetedInstallPlanDirective) ImplementsNr1CatalogInstallPlan
 
 // SyntheticsAccountStitchedFields - Nerdgraph account field
 type SyntheticsAccountStitchedFields struct {
+	// Query that fetches results for an automated test
+	AutomatedTestResult SyntheticsAutomatedTestResult `json:"automatedTestResult,omitempty"`
 	// Query that fetches the script of a specific scripted monitor
 	Script SyntheticsMonitorScriptQueryResponse `json:"script,omitempty"`
 	// visiblity(flag:Synthetics/setGraphqlCustomerVisible) Query that fetches the steps used by the specified Step Monitor
 	Steps []SyntheticsStep `json:"steps"`
+}
+
+// SyntheticsAutomatedTestConfig - Global automated test config
+type SyntheticsAutomatedTestConfig struct {
+	// An identifier for the automated test run
+	BatchName string `json:"batchName,omitempty"`
+	// Branch metadata to indicate what triggered the automated test
+	Branch string `json:"branch,omitempty"`
+	// Commit metadata to indicate what commit triggered the automated test
+	Commit string `json:"commit,omitempty"`
+	// Metadata for the automated test
+	DeepLink string `json:"deepLink,omitempty"`
+	// Metadata about the platform target the automated test will run against
+	Platform string `json:"platform,omitempty"`
+	// The unique client identifier for the Synthetics Monitor in New Relic
+	Repository string `json:"repository,omitempty"`
+}
+
+// SyntheticsAutomatedTestConfigInput - Global automated test config
+type SyntheticsAutomatedTestConfigInput struct {
+	// An identifier for the automated test run
+	BatchName string `yaml:"batchName,omitempty"`
+	// Branch metadata to indicate what triggered the automated test
+	Branch string `yaml:"branch,omitempty"`
+	// Commit metadata to indicate what commit triggered the automated test
+	Commit string `yaml:"commit,omitempty"`
+	// Metadata for the automated test
+	DeepLink string `yaml:"deepLink,omitempty"`
+	// Metadata about the platform target the automated test will run against
+	Platform string `yaml:"platform,omitempty"`
+	// The unique client identifier for the Synthetics Monitor in New Relic
+	Repository string `yaml:"repository,omitempty"`
+}
+
+// SyntheticsAutomatedTestJobResult - Information on a job that was apart of a batch of automated test jobs
+type SyntheticsAutomatedTestJobResult struct {
+	// Test overrides
+	AutomatedTestMonitorConfig SyntheticsAutomatedTestMonitorConfig `json:"automatedTestMonitorConfig,omitempty"`
+	// Job batch Id
+	BatchId string `json:"batchId,omitempty"`
+	// Job duration
+	Duration int `json:"duration,omitempty"`
+	// Job error if any
+	Error string `json:"error,omitempty"`
+	// Job Id
+	ID string `json:"id,omitempty"`
+	// Job location
+	Location string `json:"location,omitempty"`
+	// Job location label
+	LocationLabel string `json:"locationLabel,omitempty"`
+	// Monitor nr1 entity guid
+	MonitorGUID EntityGUID `json:"monitorGuid,omitempty"`
+	// Job monitor Id
+	MonitorId string `json:"monitorId,omitempty"`
+	// Job monitor name
+	MonitorName string `json:"monitorName,omitempty"`
+	// Job result
+	Result SyntheticsJobStatus `json:"result,omitempty"`
+	// Link to job results
+	ResultsURL string `json:"resultsUrl,omitempty"`
+	// Job type
+	Type SyntheticsMonitorType `json:"type,omitempty"`
+	// Job type label
+	TypeLabel string `json:"typeLabel,omitempty"`
+}
+
+// SyntheticsAutomatedTestMonitorConfig - Monitor specific test config
+type SyntheticsAutomatedTestMonitorConfig struct {
+	// Specifies whether a failure of this monitor should fail the entire automated test
+	IsBlocking bool `json:"isBlocking,omitempty"`
+	// Specific overrides for the given monitor
+	Overrides SyntheticsAutomatedTestOverrides `json:"overrides,omitempty"`
+}
+
+// SyntheticsAutomatedTestMonitorConfigInput - Monitor specific test configuration
+type SyntheticsAutomatedTestMonitorConfigInput struct {
+	// Specifies whether a failure of this monitor should fail the entire automated test
+	IsBlocking bool `yaml:"isBlocking,omitempty"`
+	// Specific overrides for the given monitor
+	Overrides *SyntheticsAutomatedTestOverridesInput `yaml:"overrides"`
+}
+
+// SyntheticsAutomatedTestMonitorInput - Monitor test definition to be included in the automated test
+type SyntheticsAutomatedTestMonitorInput struct {
+	// The monitor config for an automated test
+	Config SyntheticsAutomatedTestMonitorConfigInput `yaml:"config,omitempty"`
+	// The unique client identifier for the Synthetics Monitor in New Relic
+	MonitorGUID EntityGUID `yaml:"monitorGuid"`
+}
+
+// SyntheticsAutomatedTestOverrides - Automated test monitor overrides
+type SyntheticsAutomatedTestOverrides struct {
+	// Override a domain throughout a scripted monitor
+	Domain []SyntheticsScriptDomainOverride `json:"domain,omitempty"`
+	// Override monitor to use a specific location
+	Location string `json:"location,omitempty"`
+	// Override a script secure credential with another credential value
+	SecureCredential []SyntheticsSecureCredentialOverride `json:"secureCredential,omitempty"`
+	// Override a browser monitor starting url
+	StartingURL string `json:"startingUrl,omitempty"`
+}
+
+// SyntheticsAutomatedTestOverridesInput - Automated test monitor overrides
+type SyntheticsAutomatedTestOverridesInput struct {
+	// Override a domain throughout a scripted monitor
+	Domain SyntheticsScriptDomainOverrideInput `yaml:"domain,omitempty"`
+	// Override monitor to use a specific location
+	Location string `yaml:"location,omitempty"`
+	// Override a script secure credential with another credential value
+	SecureCredential SyntheticsSecureCredentialOverrideInput `yaml:"secureCredential,omitempty"`
+	// Override a browser monitor starting url
+	StartingURL string `yaml:"startingUrl,omitempty"`
+}
+
+// SyntheticsAutomatedTestResult - Results from fetching automated test job
+type SyntheticsAutomatedTestResult struct {
+	// Automated test config
+	Config SyntheticsAutomatedTestConfig `json:"config,omitempty"`
+	// Calculated status of automated test as a whole
+	Status SyntheticsAutomatedTestStatus `json:"status,omitempty"`
+	// List of completed automated test jobs
+	Tests []SyntheticsAutomatedTestJobResult `json:"tests,omitempty"`
+}
+
+// SyntheticsAutomatedTestStartResult - Results from starting automated test job
+type SyntheticsAutomatedTestStartResult struct {
+	// Job batch Id
+	BatchId string `json:"batchId,omitempty"`
 }
 
 // SyntheticsBrokenLinksMonitor - A Broken Links monitor resulting from a Broken Links monitor mutation
@@ -974,6 +1188,22 @@ type SyntheticsScriptBrowserMonitorUpdateMutationResult struct {
 	Monitor SyntheticsScriptBrowserMonitor `json:"monitor,omitempty"`
 }
 
+// SyntheticsScriptDomainOverride - Override a script url domain
+type SyntheticsScriptDomainOverride struct {
+	// The target domain to override
+	Domain string `json:"domain,omitempty"`
+	// The override value for the domain
+	Override string `json:"override,omitempty"`
+}
+
+// SyntheticsScriptDomainOverrideInput - Override a script url domain
+type SyntheticsScriptDomainOverrideInput struct {
+	// The target domain to override
+	Domain string `yaml:"domain,omitempty"`
+	// The override value for the domain
+	Override string `yaml:"override,omitempty"`
+}
+
 // SyntheticsScriptedMonitorLocationsInput - The location(s) from which the scripted monitor runs.
 type SyntheticsScriptedMonitorLocationsInput struct {
 	// The private location(s) that the monitor will run jobs from
@@ -994,6 +1224,22 @@ type SyntheticsSecureCredentialMutationResult struct {
 	Key string `json:"key,omitempty"`
 	// The moment when the secure credential was last updated, represented in milliseconds since the Unix epoch.
 	LastUpdate *nrtime.EpochMilliseconds `json:"lastUpdate,omitempty"`
+}
+
+// SyntheticsSecureCredentialOverride - Override a monitor scripts secure credential key with a different key
+type SyntheticsSecureCredentialOverride struct {
+	// The target secure credential key to override
+	Key string `json:"key,omitempty"`
+	// The secure credential key override
+	OverrideKey string `json:"overrideKey,omitempty"`
+}
+
+// SyntheticsSecureCredentialOverrideInput - Override a monitor scripts secure credential key with a different key
+type SyntheticsSecureCredentialOverrideInput struct {
+	// The target secure credential key to override
+	Key string `yaml:"key,omitempty"`
+	// The secure credential key override
+	OverrideKey string `yaml:"overrideKey,omitempty"`
 }
 
 // SyntheticsSimpleBrowserMonitor - A Simple Browser monitor resulting from a Simple Browser monitor mutation
@@ -1348,6 +1594,10 @@ type SyntheticsUpdateStepMonitorInput struct {
 	Tags []SyntheticsTag `json:"tags,omitempty"`
 }
 
+type automatedTestResultResponse struct {
+	Actor Actor `json:"actor"`
+}
+
 type scriptResponse struct {
 	Actor Actor `json:"actor"`
 }
@@ -1363,6 +1613,9 @@ type EntityGUID string
 // values as specified by
 // [IEEE 754](https://en.wikipedia.org/wiki/IEEE_754).
 type Float string
+
+// Milliseconds - The `Milliseconds` scalar represents a duration in milliseconds
+type Milliseconds string
 
 // Nr1CatalogRawNerdletState - Represents JSON nerdlet state data
 type Nr1CatalogRawNerdletState string

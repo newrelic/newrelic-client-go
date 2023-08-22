@@ -171,6 +171,8 @@ packages:
             max_query_field_depth: 1
           - name: "steps"
             max_query_field_depth: 1
+          - name: "automatedTestResult"
+            max_query_field_depth: 6
     mutations:
       - name: syntheticsCreateSecureCredential
         max_query_field_depth: 2
@@ -216,6 +218,8 @@ packages:
         max_query_field_depth: 2
       - name: syntheticsPurgePrivateLocationQueue
         max_query_field_depth: 2
+      - name: syntheticsStartAutomatedTest
+        max_query-field_depth: 4
     types:
       - name: EpochMilliseconds
         field_type_override: "*nrtime.EpochMilliseconds"
