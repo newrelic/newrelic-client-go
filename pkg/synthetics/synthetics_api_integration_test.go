@@ -100,8 +100,8 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 			UseTlsValidation: &tv,
 			DeviceEmulation: &SyntheticsDeviceEmulationInput{
 				DeviceOrientation: SyntheticsDeviceOrientationTypes.PORTRAIT,
-				DeviceType: SyntheticDeviceTypeTypes.MOBILE,
-			}
+				DeviceType:        SyntheticDeviceTypeTypes.MOBILE,
+			},
 		},
 	}
 
