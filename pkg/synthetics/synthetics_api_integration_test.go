@@ -98,6 +98,10 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 				},
 			},
 			UseTlsValidation: &tv,
+			DeviceEmulation: &SyntheticsDeviceEmulationInput{
+				DeviceOrientation: SyntheticsDeviceOrientationTypes.PORTRAIT,
+				DeviceType: SyntheticDeviceTypeTypes.MOBILE,
+			}
 		},
 	}
 
@@ -117,6 +121,11 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 			EnableScreenshotOnFailureAndScript: &tv,
 			ResponseValidationText:             "Success",
 			UseTlsValidation:                   &tv,
+			// Test changing device emulation options
+			DeviceEmulation: &SyntheticsDeviceEmulationInput{
+				DeviceOrientation: SyntheticsDeviceOrientationTypes.LANDSCAPE,
+				DeviceType:        SyntheticsDeviceTypeTypes.TABLET,
+			},
 		},
 		Locations: SyntheticsLocationsInput{
 			Public: []string{
