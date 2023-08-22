@@ -1419,7 +1419,7 @@ const getScriptQuery = `query(
 	text
 } } } } }`
 
-// Query that fetches the steps used by the specified Step Monitor
+// visiblity(flag:Synthetics/setGraphqlCustomerVisible) Query that fetches the steps used by the specified Step Monitor
 func (a *Synthetics) GetSteps(
 	accountID int,
 	monitorGUID EntityGUID,
@@ -1430,7 +1430,7 @@ func (a *Synthetics) GetSteps(
 	)
 }
 
-// Query that fetches the steps used by the specified Step Monitor
+// visiblity(flag:Synthetics/setGraphqlCustomerVisible) Query that fetches the steps used by the specified Step Monitor
 func (a *Synthetics) GetStepsWithContext(
 	ctx context.Context,
 	accountID int,
