@@ -1120,6 +1120,8 @@ type SyntheticsSimpleMonitorAdvancedOptionsInput struct {
 	ShouldBypassHeadRequest *bool `json:"shouldBypassHeadRequest,omitempty"`
 	// Monitor should validate SSL certificate chain
 	UseTlsValidation *bool `json:"useTlsValidation,omitempty"`
+	// Emulate a device
+	DeviceEmulation *SyntheticsDeviceEmulationInput `json:"deviceEmulation,omitempty"`
 }
 
 // SyntheticsSimpleMonitorUpdateMutationResult - The result of a Simple (ping) monitor update mutation
