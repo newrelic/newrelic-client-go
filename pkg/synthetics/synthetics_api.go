@@ -785,6 +785,51 @@ const SyntheticsPurgePrivateLocationQueueMutation = `mutation(
 	}
 } }`
 
+// Starts automated testing job
+func (a *Synthetics) SyntheticsStartAutomatedTest(
+	config SyntheticsAutomatedTestConfigInput,
+	tests []SyntheticsAutomatedTestMonitorInput,
+) (*SyntheticsAutomatedTestStartResult, error) {
+	return a.SyntheticsStartAutomatedTestWithContext(context.Background(),
+		config,
+		tests,
+	)
+}
+
+// Starts automated testing job
+func (a *Synthetics) SyntheticsStartAutomatedTestWithContext(
+	ctx context.Context,
+	config SyntheticsAutomatedTestConfigInput,
+	tests []SyntheticsAutomatedTestMonitorInput,
+) (*SyntheticsAutomatedTestStartResult, error) {
+
+	resp := SyntheticsStartAutomatedTestQueryResponse{}
+	vars := map[string]interface{}{
+		"config": config,
+		"tests":  tests,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, SyntheticsStartAutomatedTestMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.SyntheticsAutomatedTestStartResult, nil
+}
+
+type SyntheticsStartAutomatedTestQueryResponse struct {
+	SyntheticsAutomatedTestStartResult SyntheticsAutomatedTestStartResult `json:"SyntheticsStartAutomatedTest"`
+}
+
+const SyntheticsStartAutomatedTestMutation = `mutation(
+	$config: SyntheticsAutomatedTestConfigInput,
+	$tests: [SyntheticsAutomatedTestMonitorInput],
+) { syntheticsStartAutomatedTest(
+	config: $config,
+	tests: $tests,
+) {
+	batchId
+} }`
+
 // Update a Synthetic Broken Links monitor
 func (a *Synthetics) SyntheticsUpdateBrokenLinksMonitor(
 	gUID EntityGUID,
@@ -1378,6 +1423,84 @@ const SyntheticsUpdateStepMonitorMutation = `mutation(
 		}
 	}
 } }`
+
+// Query that fetches results for an automated test
+func (a *Synthetics) GetAutomatedTestResult(
+	accountID int,
+	batchId string,
+) (*SyntheticsAutomatedTestResult, error) {
+	return a.GetAutomatedTestResultWithContext(context.Background(),
+		accountID,
+		batchId,
+	)
+}
+
+// Query that fetches results for an automated test
+func (a *Synthetics) GetAutomatedTestResultWithContext(
+	ctx context.Context,
+	accountID int,
+	batchId string,
+) (*SyntheticsAutomatedTestResult, error) {
+
+	resp := automatedTestResultResponse{}
+	vars := map[string]interface{}{
+		"accountID": accountID,
+		"batchId":   batchId,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, getAutomatedTestResultQuery, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.Actor.Account.Synthetics.AutomatedTestResult, nil
+}
+
+const getAutomatedTestResultQuery = `query(
+	$accountID: Int!,
+	$batchId: String!,
+) { actor { account(id: $accountID) { synthetics { automatedTestResult(
+	batchId: $batchId,
+) {
+	config {
+		batchName
+		branch
+		commit
+		deepLink
+		platform
+		repository
+	}
+	status
+	tests {
+		automatedTestMonitorConfig {
+			isBlocking
+			overrides {
+				domain {
+					domain
+					override
+				}
+				location
+				secureCredential {
+					key
+					overrideKey
+				}
+				startingUrl
+			}
+		}
+		batchId
+		duration
+		error
+		id
+		location
+		locationLabel
+		monitorGuid
+		monitorId
+		monitorName
+		result
+		resultsUrl
+		type
+		typeLabel
+	}
+} } } } }`
 
 // Query that fetches the script of a specific scripted monitor
 func (a *Synthetics) GetScript(
