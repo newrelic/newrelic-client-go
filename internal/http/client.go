@@ -534,8 +534,12 @@ func (c *Client) NewNerdGraphRequest(query string, vars map[string]interface{}, 
 
 	req.SetAuthStrategy(&NerdGraphAuthorizer{})
 	req.SetErrorValue(&GraphQLErrorResponse{})
-	req.SetHeader("X-Query-Source-Capability-Id", "IO")
-	req.SetHeader("X-Query-Source-Component-Id", c.config.ServiceName)
+
+	if strings.Contains(c.config.ServiceName, "terraform-provider-newrelic") {
+		req.SetHeader("X-Query-Source-Capability-Id", "TERRAFORM")
+	} else {
+		req.SetHeader("X-Query-Source-Component-Id", c.config.ServiceName)
+	}
 
 	return req, nil
 }
