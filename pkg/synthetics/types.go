@@ -241,6 +241,8 @@ var SyntheticsMonitorUpdateErrorTypeTypes = struct {
 	INTERNAL_SERVER_ERROR SyntheticsMonitorUpdateErrorType
 	// Monitor not found for given guid (monitor does not exist on account or has already been deleted)
 	NOT_FOUND SyntheticsMonitorUpdateErrorType
+	// Monitor update exceeds account subscription limits
+	PAYMENT_REQUIRED SyntheticsMonitorUpdateErrorType
 	// An error occurred while updating monitor script
 	SCRIPT_ERROR SyntheticsMonitorUpdateErrorType
 	// Monitor tags were not updated.
@@ -256,6 +258,8 @@ var SyntheticsMonitorUpdateErrorTypeTypes = struct {
 	INTERNAL_SERVER_ERROR: "INTERNAL_SERVER_ERROR",
 	// Monitor not found for given guid (monitor does not exist on account or has already been deleted)
 	NOT_FOUND: "NOT_FOUND",
+	// Monitor update exceeds account subscription limits
+	PAYMENT_REQUIRED: "PAYMENT_REQUIRED",
 	// An error occurred while updating monitor script
 	SCRIPT_ERROR: "SCRIPT_ERROR",
 	// Monitor tags were not updated.
