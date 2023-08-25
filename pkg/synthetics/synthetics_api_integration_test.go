@@ -1030,6 +1030,10 @@ func newIntegrationTestClient(t *testing.T) Synthetics {
 // behaviour of this test is to return a valid batchId and throw no error.
 func TestSyntheticsStartAutomatedTest_Basic(t *testing.T) {
 	t.Parallel()
+	t.Skipf(
+		`Temporarily skipping tests associated with the Synthetics Automated Tests feature, ` +
+			`given the API is currently unstable and endpoint access is not configured to all accounts at the moment.
+	`)
 
 	a := newIntegrationTestClient(t)
 	testAccountID, err := mock.GetTestAccountID()
@@ -1173,6 +1177,10 @@ func TestSyntheticsStartAutomatedTest_Basic(t *testing.T) {
 // an invalid GUID in the input field of a monitor to obtain an error, in alignment with expected behaviour.
 func TestSyntheticsStartAutomatedTest_Error(t *testing.T) {
 	t.Parallel()
+	t.Skipf(
+		`Temporarily skipping tests associated with the Synthetics Automated Tests feature, ` +
+			`given the API is currently unstable and endpoint access is not configured to all accounts at the moment.
+	`)
 	a := newIntegrationTestClient(t)
 
 	configInput := SyntheticsAutomatedTestConfigInput{}
@@ -1191,6 +1199,10 @@ func TestSyntheticsStartAutomatedTest_Error(t *testing.T) {
 // creating a batch with those monitors, querying the batch and evaluating the status accordingly.
 func TestSyntheticsAutomatedTestResults_TwoMonitorsTest(t *testing.T) {
 	t.Parallel()
+	t.Skipf(
+		`Temporarily skipping tests associated with the Synthetics Automated Tests feature, ` +
+			`given the API is currently unstable and endpoint access is not configured to all accounts at the moment.
+	`)
 
 	a := newIntegrationTestClient(t)
 	testAccountID, err := mock.GetTestAccountID()
@@ -1274,6 +1286,10 @@ func TestSyntheticsAutomatedTestResults_TwoMonitorsTest(t *testing.T) {
 // browser monitor is bound to fail, this tests inspects the consolidated status and the status of the monitor.
 func TestSyntheticsAutomatedTestResults_OneMonitorTest(t *testing.T) {
 	t.Parallel()
+	t.Skipf(
+		`Temporarily skipping tests associated with the Synthetics Automated Tests feature, ` +
+			`given the API is currently unstable and endpoint access is not configured to all accounts at the moment.
+	`)
 
 	a := newIntegrationTestClient(t)
 	testAccountID, err := mock.GetTestAccountID()
@@ -1336,6 +1352,10 @@ func TestSyntheticsAutomatedTestResults_OneMonitorTest(t *testing.T) {
 // specifying an invalid batchId, which is expected to throw an error.
 func TestSyntheticsAutomatedTestResults_ErrorTest(t *testing.T) {
 	t.Parallel()
+	t.Skipf(
+		`Temporarily skipping tests associated with the Synthetics Automated Tests feature, ` +
+			`given the API is currently unstable and endpoint access is not configured to all accounts at the moment.
+	`)
 
 	a := newIntegrationTestClient(t)
 	testAccountID, fetchErr := mock.GetTestAccountID()

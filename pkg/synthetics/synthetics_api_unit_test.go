@@ -241,6 +241,11 @@ var (
 
 func TestUnit_SyntheticsStartAutomatedTest(t *testing.T) {
 	t.Parallel()
+	t.Skipf(
+		`Temporarily skipping tests associated with the Synthetics Automated Tests feature, ` +
+			`given the API is currently unstable and endpoint access is not configured to all accounts at the moment.
+	`)
+
 	synthetics := newMockResponse(t, mockSyntheticsStartAutomatedTestResponse, http.StatusOK)
 
 	expected := SyntheticsAutomatedTestStartResult{BatchId: mockBatchID}
@@ -253,6 +258,11 @@ func TestUnit_SyntheticsStartAutomatedTest(t *testing.T) {
 
 func TestUnit_AutomatedTestResults_Failure(t *testing.T) {
 	t.Parallel()
+	t.Skipf(
+		`Temporarily skipping tests associated with the Synthetics Automated Tests feature, ` +
+			`given the API is currently unstable and endpoint access is not configured to all accounts at the moment.
+	`)
+
 	synthetics := newMockResponse(t, mockAutomatedTestResultsResponse, http.StatusOK)
 
 	expected := automatedTestResults
@@ -268,6 +278,10 @@ func TestUnit_AutomatedTestResults_Failure(t *testing.T) {
 
 func TestUnit_AutomatedTestResults(t *testing.T) {
 	t.Parallel()
+	t.Skipf(
+		`Temporarily skipping tests associated with the Synthetics Automated Tests feature, ` +
+			`given the API is currently unstable and endpoint access is not configured to all accounts at the moment.
+	`)
 	synthetics := newMockResponse(t, mockAutomatedTestResultsResponse, http.StatusOK)
 
 	expected := automatedTestResults
