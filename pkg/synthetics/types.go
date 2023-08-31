@@ -665,17 +665,17 @@ type SyntheticsAutomatedTestJobResult struct {
 // SyntheticsAutomatedTestMonitorConfig - Monitor specific test config
 type SyntheticsAutomatedTestMonitorConfig struct {
 	// Specifies whether a failure of this monitor should fail the entire automated test
-	IsBlocking bool `json:"isBlocking"`
+	IsBlocking *bool `json:"isBlocking,omitempty"`
 	// Specific overrides for the given monitor
-	Overrides *SyntheticsAutomatedTestOverrides `json:"overrides"`
+	Overrides *SyntheticsAutomatedTestOverrides `json:"overrides,omitempty"`
 }
 
 // SyntheticsAutomatedTestMonitorConfigInput - Monitor specific test configuration
 type SyntheticsAutomatedTestMonitorConfigInput struct {
 	// Specifies whether a failure of this monitor should fail the entire automated test
-	IsBlocking bool `json:"isBlocking" yaml:"isBlocking"`
+	IsBlocking *bool `json:"isBlocking,omitempty" yaml:"isBlocking,omitempty"`
 	// Specific overrides for the given monitor
-	Overrides *SyntheticsAutomatedTestOverridesInput `json:"overrides" yaml:"overrides"`
+	Overrides *SyntheticsAutomatedTestOverridesInput `json:"overrides,omitempty" yaml:"overrides,omitempty"`
 }
 
 // SyntheticsAutomatedTestMonitorInput - Monitor test definition to be included in the automated test
@@ -1069,7 +1069,7 @@ type SyntheticsPrivateLocationMutationResult struct {
 	// The name of the private location
 	Name string `json:"name,omitempty"`
 	// Specifies whether the private location requires a password for scripted monitors
-	VerifiedScriptExecution bool `json:"verifiedScriptExecution,omitempty"`
+	VerifiedScriptExecution *bool `json:"verifiedScriptExecution,omitempty"`
 }
 
 // SyntheticsPrivateLocationPurgeQueueResult - Result of a Synthetics purge private location queue mutation

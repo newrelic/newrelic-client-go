@@ -446,6 +446,14 @@ const SyntheticsCreateSimpleBrowserMonitorMutation = `mutation(
 	}
 	monitor {
 		advancedOptions {
+			customHeaders {
+				name
+				value
+			}
+			deviceEmulation {
+				deviceOrientation
+				deviceType
+			}
 			enableScreenshotOnFailureAndScript
 			responseValidationText
 			useTlsValidation
@@ -1263,6 +1271,14 @@ const SyntheticsUpdateSimpleBrowserMonitorMutation = `mutation(
 	}
 	monitor {
 		advancedOptions {
+			customHeaders {
+				name
+				value
+			}
+			deviceEmulation {
+				deviceOrientation
+				deviceType
+			}
 			enableScreenshotOnFailureAndScript
 			responseValidationText
 			useTlsValidation
