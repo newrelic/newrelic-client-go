@@ -4,12 +4,14 @@
 package synthetics
 
 import (
+	"errors"
+	"fmt"
+	"log"
+	"os"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/require"
-
-	"fmt"
-	"os"
 
 	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
@@ -98,6 +100,10 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 				},
 			},
 			UseTlsValidation: &tv,
+			DeviceEmulation: &SyntheticsDeviceEmulationInput{
+				DeviceOrientation: SyntheticsDeviceOrientationTypes.PORTRAIT,
+				DeviceType:        SyntheticsDeviceTypeTypes.MOBILE,
+			},
 		},
 	}
 
@@ -117,6 +123,11 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 			EnableScreenshotOnFailureAndScript: &tv,
 			ResponseValidationText:             "Success",
 			UseTlsValidation:                   &tv,
+			// Test changing device emulation options
+			DeviceEmulation: &SyntheticsDeviceEmulationInput{
+				DeviceOrientation: SyntheticsDeviceOrientationTypes.LANDSCAPE,
+				DeviceType:        SyntheticsDeviceTypeTypes.TABLET,
+			},
 		},
 		Locations: SyntheticsLocationsInput{
 			Public: []string{
@@ -1012,4 +1023,346 @@ func newIntegrationTestClient(t *testing.T) Synthetics {
 	tc := mock.NewIntegrationTestConfig(t)
 
 	return New(tc)
+}
+
+// TestSyntheticsStartAutomatedTest_Basic performs a test by creating three monitors and using the
+// syntheticsStartAutomatedTest mutation to create a batch with these three monitors. The expected
+// behaviour of this test is to return a valid batchId and throw no error.
+func TestSyntheticsStartAutomatedTest_Basic(t *testing.T) {
+	t.Parallel()
+	t.Skipf(
+		`Temporarily skipping tests associated with the Synthetics Automated Tests feature, ` +
+			`given the API is currently unstable and endpoint access is not configured to all accounts at the moment.
+	`)
+
+	a := newIntegrationTestClient(t)
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	// Defining the first monitor
+	monitorOneName := fmt.Sprintf("newrelic-client-go-syntheticStartAutomatedTest-test-monitor-%s", mock.RandSeq(5))
+	monitorOneInput := SyntheticsCreateScriptBrowserMonitorInput{
+		Locations: SyntheticsScriptedMonitorLocationsInput{
+			Public: []string{"AP_SOUTH_1"},
+		},
+		Name:   monitorOneName,
+		Period: SyntheticsMonitorPeriodTypes.EVERY_HOUR,
+		Status: SyntheticsMonitorStatusTypes.ENABLED,
+		Runtime: &SyntheticsRuntimeInput{
+			RuntimeTypeVersion: "100",
+			RuntimeType:        "CHROME_BROWSER",
+			ScriptLanguage:     "JAVASCRIPT",
+		},
+		Script: "$browser.get(\"https://www.example.com\").then(function() {\n  // Simulate a failure scenario by deliberately causing an error\n  throw new Error(\"Synthetics CLI Failure scenario Testing !!!\");\n});\n",
+	}
+
+	// Defining the second monitor
+	monitorTwoName := fmt.Sprintf("newrelic-client-go-syntheticStartAutomatedTest-test-monitor-%s", mock.RandSeq(5))
+	monitorTwoInput := SyntheticsCreateSimpleBrowserMonitorInput{
+		Locations: SyntheticsLocationsInput{
+			Public: []string{
+				"AP_SOUTH_1",
+			},
+		},
+		Name:   monitorTwoName,
+		Period: SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
+		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
+		Tags: []SyntheticsTag{
+			{
+				Key: "random-key",
+				Values: []string{
+					"random-value",
+				},
+			},
+		},
+		Uri: "https://www.one.newrelic.com",
+		Runtime: &SyntheticsRuntimeInput{
+			RuntimeType:        "CHROME_BROWSER",
+			RuntimeTypeVersion: SemVer("100"),
+			ScriptLanguage:     "JAVASCRIPT",
+		},
+		AdvancedOptions: SyntheticsSimpleBrowserMonitorAdvancedOptionsInput{
+			EnableScreenshotOnFailureAndScript: &tv,
+			ResponseValidationText:             "SUCCESS",
+			CustomHeaders: []SyntheticsCustomHeaderInput{
+				{
+					Name:  "Monitor",
+					Value: "synthetics",
+				},
+			},
+			UseTlsValidation: &tv,
+		},
+	}
+
+	// Defining the third monitor
+	monitorThreeName := fmt.Sprintf("newrelic-client-go-syntheticStartAutomatedTest-test-monitor-%s", mock.RandSeq(5))
+	monitorThreeInput := SyntheticsCreateSimpleMonitorInput{
+		AdvancedOptions: SyntheticsSimpleMonitorAdvancedOptionsInput{
+			CustomHeaders: []SyntheticsCustomHeaderInput{
+				{
+					Name:  monitorThreeName,
+					Value: "Synthetics",
+				},
+			},
+			ResponseValidationText:  "Success",
+			RedirectIsFailure:       &tv,
+			ShouldBypassHeadRequest: &tv,
+			UseTlsValidation:        &tv,
+		},
+		Locations: SyntheticsLocationsInput{
+			Public: []string{
+				"AP_SOUTH_1",
+			},
+		},
+		Name:   monitorThreeName,
+		Period: SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
+		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
+		Tags: []SyntheticsTag{
+			{
+				Key: "random-key",
+				Values: []string{
+					"random-value",
+				},
+			},
+		},
+		Uri: "https://www.one.newrelic.com",
+	}
+
+	// Creating all three monitors
+	monitorThree, _ := a.SyntheticsCreateSimpleMonitor(testAccountID, monitorThreeInput)
+	monitorTwo, _ := a.SyntheticsCreateSimpleBrowserMonitor(testAccountID, monitorTwoInput)
+	monitorOne, _ := a.SyntheticsCreateScriptBrowserMonitor(testAccountID, monitorOneInput)
+
+	log.Println(monitorThree.Monitor.GUID)
+	log.Println(monitorTwo.Monitor.GUID)
+	log.Println(monitorOne.Monitor.GUID)
+
+	configInput := SyntheticsAutomatedTestConfigInput{
+		BatchName:  "some-batch",
+		Branch:     "some-branch",
+		Commit:     "some-commit",
+		DeepLink:   "some-deeplink",
+		Platform:   "some-platform",
+		Repository: "some-repository",
+	}
+
+	var testsInput []SyntheticsAutomatedTestMonitorInput
+	testsInput = append(testsInput, SyntheticsAutomatedTestMonitorInput{
+		Config:      SyntheticsAutomatedTestMonitorConfigInput{},
+		MonitorGUID: monitorOne.Monitor.GUID,
+	})
+	testsInput = append(testsInput, SyntheticsAutomatedTestMonitorInput{
+		Config:      SyntheticsAutomatedTestMonitorConfigInput{},
+		MonitorGUID: monitorTwo.Monitor.GUID,
+	})
+	testsInput = append(testsInput, SyntheticsAutomatedTestMonitorInput{
+		Config:      SyntheticsAutomatedTestMonitorConfigInput{},
+		MonitorGUID: monitorThree.Monitor.GUID,
+	})
+
+	result, err := a.SyntheticsStartAutomatedTest(configInput, testsInput)
+	require.NoError(t, err)
+
+	log.Println("Created Batch ID: ", result.BatchId)
+
+	// Deleting all three monitors
+	a.SyntheticsDeleteMonitor(monitorThree.Monitor.GUID)
+	a.SyntheticsDeleteMonitor(monitorTwo.Monitor.GUID)
+	a.SyntheticsDeleteMonitor(monitorOne.Monitor.GUID)
+}
+
+// TestSyntheticsStartAutomatedTest_Error performs a test on the syntheticsStartAutomatedTest mutation by specifying
+// an invalid GUID in the input field of a monitor to obtain an error, in alignment with expected behaviour.
+func TestSyntheticsStartAutomatedTest_Error(t *testing.T) {
+	t.Parallel()
+	t.Skipf(
+		`Temporarily skipping tests associated with the Synthetics Automated Tests feature, ` +
+			`given the API is currently unstable and endpoint access is not configured to all accounts at the moment.
+	`)
+	a := newIntegrationTestClient(t)
+
+	configInput := SyntheticsAutomatedTestConfigInput{}
+	var testsInput []SyntheticsAutomatedTestMonitorInput
+	testsInput = append(testsInput, SyntheticsAutomatedTestMonitorInput{
+		Config:      SyntheticsAutomatedTestMonitorConfigInput{},
+		MonitorGUID: "invalid-GUID",
+	})
+
+	result, err := a.SyntheticsStartAutomatedTest(configInput, testsInput)
+	log.Println(result)
+	require.Error(t, errors.New("Expected type \"EntityGuid!\", found"), err)
+}
+
+// TestSyntheticsAutomatedTestResults_TwoMonitorsTest performs a test by creating two scripted browser monitors,
+// creating a batch with those monitors, querying the batch and evaluating the status accordingly.
+func TestSyntheticsAutomatedTestResults_TwoMonitorsTest(t *testing.T) {
+	t.Parallel()
+	t.Skipf(
+		`Temporarily skipping tests associated with the Synthetics Automated Tests feature, ` +
+			`given the API is currently unstable and endpoint access is not configured to all accounts at the moment.
+	`)
+
+	a := newIntegrationTestClient(t)
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	// Defining the first monitor
+	monitorOneName := fmt.Sprintf("newrelic-client-go-automatedTestResults-test-monitor-failure%s", mock.RandSeq(5))
+	monitorOneInput := SyntheticsCreateScriptBrowserMonitorInput{
+		Locations: SyntheticsScriptedMonitorLocationsInput{
+			Public: []string{"AP_SOUTH_1"},
+		},
+		Name:   monitorOneName,
+		Period: SyntheticsMonitorPeriodTypes.EVERY_HOUR,
+		Status: SyntheticsMonitorStatusTypes.ENABLED,
+		Runtime: &SyntheticsRuntimeInput{
+			RuntimeTypeVersion: "100",
+			RuntimeType:        "CHROME_BROWSER",
+			ScriptLanguage:     "JAVASCRIPT",
+		},
+		Script: "$browser.get(\"https://www.example.com\").then(function() {\n  // Simulate a failure scenario by deliberately causing an error\n  throw new Error(\"Synthetics CLI Failure scenario Testing.\");\n});\n",
+	}
+
+	// Defining the second monitor
+	monitorTwoName := fmt.Sprintf("newrelic-client-go-automatedTestResults-test-monitor-failure%s", mock.RandSeq(5))
+	monitorTwoInput := SyntheticsCreateScriptBrowserMonitorInput{
+		Locations: SyntheticsScriptedMonitorLocationsInput{
+			Public: []string{"AP_SOUTH_1"},
+		},
+		Name:   monitorTwoName,
+		Period: SyntheticsMonitorPeriodTypes.EVERY_HOUR,
+		Status: SyntheticsMonitorStatusTypes.ENABLED,
+		Runtime: &SyntheticsRuntimeInput{
+			RuntimeTypeVersion: "100",
+			RuntimeType:        "CHROME_BROWSER",
+			ScriptLanguage:     "JAVASCRIPT",
+		},
+		Script: "$browser.get(\"https://www.example.com\").then(function() {\n  // Intentionally introduce a delay to simulate a timeout\n  return new Promise(function(resolve, reject) {\n    setTimeout(function() {\n // Do not resolve or reject the promise, causing a timeout\n    }, 90000); // 5 minutes delay\n  });\n});",
+	}
+
+	monitorTwo, _ := a.SyntheticsCreateScriptBrowserMonitor(testAccountID, monitorTwoInput)
+	monitorOne, _ := a.SyntheticsCreateScriptBrowserMonitor(testAccountID, monitorOneInput)
+
+	configInput := SyntheticsAutomatedTestConfigInput{}
+	var testsInput []SyntheticsAutomatedTestMonitorInput
+
+	testsInput = append(testsInput, SyntheticsAutomatedTestMonitorInput{
+		Config:      SyntheticsAutomatedTestMonitorConfigInput{},
+		MonitorGUID: monitorOne.Monitor.GUID,
+	})
+
+	testsInput = append(testsInput, SyntheticsAutomatedTestMonitorInput{
+		Config:      SyntheticsAutomatedTestMonitorConfigInput{},
+		MonitorGUID: monitorTwo.Monitor.GUID,
+	})
+
+	result, err := a.SyntheticsStartAutomatedTest(configInput, testsInput)
+	require.NoError(t, err)
+
+	log.Println("Created Batch ID: ", result.BatchId)
+
+	// time interval needed between the creation of a batch and querying it
+	time.Sleep(time.Second * 5)
+
+	queryResult, err := a.GetAutomatedTestResult(testAccountID, result.BatchId)
+
+	// deletion of monitors placed here to avoid being prevented by an erroneous result above
+	a.SyntheticsDeleteMonitor(monitorTwo.Monitor.GUID)
+	a.SyntheticsDeleteMonitor(monitorOne.Monitor.GUID)
+
+	require.NoError(t, err)
+
+	// this step will fail, as the API is currently unstable and is throwing "PASSED" even if
+	// the second monitor is in progress in the background. After the API is stable, the test shall pass.
+	require.Equal(t, SyntheticsAutomatedTestStatusTypes.IN_PROGRESS, queryResult.Status)
+}
+
+// TestSyntheticsAutomatedTestResults_OneMonitorsTest performs a test by creating one blocking scripted browser monitor,
+// creating a batch with the monitor, querying the batch and evaluating the status accordingly. Since the scripted
+// browser monitor is bound to fail, this tests inspects the consolidated status and the status of the monitor.
+func TestSyntheticsAutomatedTestResults_OneMonitorTest(t *testing.T) {
+	t.Parallel()
+	t.Skipf(
+		`Temporarily skipping tests associated with the Synthetics Automated Tests feature, ` +
+			`given the API is currently unstable and endpoint access is not configured to all accounts at the moment.
+	`)
+
+	a := newIntegrationTestClient(t)
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	// Defining the first monitor
+	monitorOneName := fmt.Sprintf("newrelic-client-go-automatedTestResults-test-monitor-failure%s", mock.RandSeq(5))
+	monitorOneInput := SyntheticsCreateScriptBrowserMonitorInput{
+		Locations: SyntheticsScriptedMonitorLocationsInput{
+			Public: []string{"AP_SOUTH_1"},
+		},
+		Name:   monitorOneName,
+		Period: SyntheticsMonitorPeriodTypes.EVERY_HOUR,
+		Status: SyntheticsMonitorStatusTypes.ENABLED,
+		Runtime: &SyntheticsRuntimeInput{
+			RuntimeTypeVersion: "100",
+			RuntimeType:        "CHROME_BROWSER",
+			ScriptLanguage:     "JAVASCRIPT",
+		},
+		Script: "$browser.get(\"https://www.example.com\").then(function() {\n  // Simulate a failure scenario by deliberately causing an error\n  throw new Error(\"Synthetics CLI Failure scenario Testing.\");\n});\n",
+	}
+
+	monitorOne, _ := a.SyntheticsCreateScriptBrowserMonitor(testAccountID, monitorOneInput)
+
+	configInput := SyntheticsAutomatedTestConfigInput{}
+	var testsInput []SyntheticsAutomatedTestMonitorInput
+
+	testsInput = append(testsInput, SyntheticsAutomatedTestMonitorInput{
+		Config: SyntheticsAutomatedTestMonitorConfigInput{
+			IsBlocking: true,
+			Overrides:  nil,
+		},
+		MonitorGUID: monitorOne.Monitor.GUID,
+	})
+
+	result, err := a.SyntheticsStartAutomatedTest(configInput, testsInput)
+	require.NoError(t, err)
+
+	log.Println("Created Batch ID: ", result.BatchId)
+
+	// time interval needed between the creation of a batch and querying it
+	time.Sleep(time.Second * 5)
+
+	queryResult, err := a.GetAutomatedTestResult(testAccountID, result.BatchId)
+
+	// deletion of monitor placed here to avoid being prevented by an erroneous result above
+	a.SyntheticsDeleteMonitor(monitorOne.Monitor.GUID)
+
+	require.NoError(t, err)
+	require.Equal(t, SyntheticsJobStatusTypes.FAILED, queryResult.Tests[0].Result)
+
+	// this step will fail, as the API is currently unstable and is throwing "PASSED" even if
+	// the monitor has status "FAILED" and is a blocking monitor. After the API is stable, the test shall pass.
+	require.Equal(t, SyntheticsAutomatedTestStatusTypes.FAILED, queryResult.Status)
+}
+
+// TestSyntheticsAutomatedTestResults_ErrorTest performs a test on the automatedTestResults query by
+// specifying an invalid batchId, which is expected to throw an error.
+func TestSyntheticsAutomatedTestResults_ErrorTest(t *testing.T) {
+	t.Parallel()
+	t.Skipf(
+		`Temporarily skipping tests associated with the Synthetics Automated Tests feature, ` +
+			`given the API is currently unstable and endpoint access is not configured to all accounts at the moment.
+	`)
+
+	a := newIntegrationTestClient(t)
+	testAccountID, fetchErr := mock.GetTestAccountID()
+	if fetchErr != nil {
+		t.Skipf("%s", fetchErr)
+	}
+
+	_, err := a.GetAutomatedTestResult(testAccountID, "invalid_batchId")
+	require.Error(t, errors.New("No automated test results found for batchId"), err)
 }

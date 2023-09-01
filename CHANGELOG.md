@@ -1,3 +1,9 @@
+<a name="v2.21.0"></a>
+## [v2.21.0] - 2023-08-28
+### Features
+- Add capability id header for all NerdGraph requests ([#1049](https://github.com/newrelic/newrelic-client-go/issues/1049))
+- **synthetics:** Update device emulation test for Simple Browser monitor synthetics ([#1054](https://github.com/newrelic/newrelic-client-go/issues/1054))
+
 <a name="v2.20.0"></a>
 ## [v2.20.0] - 2023-08-01
 ### Features
@@ -1651,7 +1657,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.20.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.21.0...HEAD
+[v2.21.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.20.0...v2.21.0
 [v2.20.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.19.6...v2.20.0
 [v2.19.6]: https://github.com/newrelic/newrelic-client-go/compare/v2.19.5...v2.19.6
 [v2.19.5]: https://github.com/newrelic/newrelic-client-go/compare/v2.19.4...v2.19.5

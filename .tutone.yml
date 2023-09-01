@@ -171,6 +171,8 @@ packages:
             max_query_field_depth: 1
           - name: "steps"
             max_query_field_depth: 1
+          - name: "automatedTestResult"
+            max_query_field_depth: 6
     mutations:
       - name: syntheticsCreateSecureCredential
         max_query_field_depth: 2
@@ -216,6 +218,8 @@ packages:
         max_query_field_depth: 2
       - name: syntheticsPurgePrivateLocationQueue
         max_query_field_depth: 2
+      - name: syntheticsStartAutomatedTest
+        max_query-field_depth: 4
     types:
       - name: EpochMilliseconds
         field_type_override: "*nrtime.EpochMilliseconds"
@@ -228,6 +232,38 @@ packages:
         field_type_override: "*SyntheticsDeviceEmulationInput"
       - name: SyntheticsRuntimeInput
         field_type_override: "*SyntheticsRuntimeInput"
+      # overrides and specifications of fields associated with the syntheticsStartAutomatedTest mutation start here
+      - name: SyntheticsAutomatedTestConfigInput
+        struct_tags:
+          - json
+          - yaml
+      - name: SyntheticsAutomatedTestMonitorInput
+        struct_tags:
+          - json
+          - yaml
+      - name: SyntheticsAutomatedTestMonitorConfigInput
+        struct_tags:
+          - json
+          - yaml
+      - name: SyntheticsAutomatedTestOverridesInput
+        field_type_override: "*SyntheticsAutomatedTestOverridesInput"
+        struct_tags:
+          - json
+          - yaml
+      - name: SyntheticsScriptDomainOverrideInput
+        struct_tags:
+          - json
+          - yaml
+      - name: SyntheticsSecureCredentialOverrideInput
+        struct_tags:
+          - json
+          - yaml
+      # overrides and specifications of fields associated with the automatedTestResults query start here
+      - name: Milliseconds
+        field_type_override: int
+      - name: SyntheticsAutomatedTestOverrides
+        field_type_override: "*SyntheticsAutomatedTestOverrides"
+
 
   - name: common
     path: pkg/common

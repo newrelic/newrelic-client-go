@@ -33,7 +33,7 @@ var AgentApplicationBrowserLoaderTypes = struct {
 	SPA: "SPA",
 }
 
-// AgentApplicationSettingsBrowserLoader - Determines which browser loader will be configured. Some allowed return values are specified for backwards-compatability and do not represent currently allowed values for new applications.
+// AgentApplicationSettingsBrowserLoader - Determines which browser loader will be configured. Some allowed return values are specified for backwards-compatibility and do not represent currently allowed values for new applications.
 // See [documentation](https://docs.newrelic.com/docs/browser/browser-monitoring/installation/install-browser-monitoring-agent/#agent-types) for further information.
 type AgentApplicationSettingsBrowserLoader string
 
@@ -50,7 +50,7 @@ var AgentApplicationSettingsBrowserLoaderTypes = struct {
 	RUM AgentApplicationSettingsBrowserLoader
 	// Pro+SPA: This is the default installed agent when you enable browser monitoring. Gives you access to all of the Browser Pro features and to Single Page App (SPA) monitoring. Provides detailed page timing data and the most up-to-date New Relic features, including distributed tracing, for all types of applications.
 	SPA AgentApplicationSettingsBrowserLoader
-	// This value is specified for backwards-compatability.
+	// This value is specified for backwards-compatibility.
 	XHR AgentApplicationSettingsBrowserLoader
 }{
 	// Use PRO instead
