@@ -189,9 +189,9 @@ packages:
       - name: syntheticsUpdateScriptBrowserMonitor
         max_query_field_depth: 2
       - name: syntheticsCreateSimpleBrowserMonitor
-        max_query_field_depth: 2
+        max_query_field_depth: 3
       - name: syntheticsUpdateSimpleBrowserMonitor
-        max_query_field_depth: 2
+        max_query_field_depth: 3
       - name: syntheticsCreateSimpleMonitor
         max_query_field_depth: 2
       - name: syntheticsUpdateSimpleMonitor
