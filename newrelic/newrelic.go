@@ -7,6 +7,7 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
+	abtest "github.com/newrelic/newrelic-client-go/v2/pkg/abTest"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/accountmanagement"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/accounts"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/agentapplications"
@@ -40,6 +41,7 @@ import (
 
 // NewRelic is a collection of New Relic APIs.
 type NewRelic struct {
+	AbTest            abtest.AbTest
 	AccountManagement accountmanagement.Accountmanagement
 	AgentApplications agentapplications.AgentApplications
 	Accounts          accounts.Accounts
@@ -94,6 +96,7 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 	nr := &NewRelic{
 		config: cfg,
 
+		AbTest:            abtest.New(cfg),
 		AccountManagement: accountmanagement.New(cfg),
 		AgentApplications: agentapplications.New(cfg),
 		Accounts:          accounts.New(cfg),
