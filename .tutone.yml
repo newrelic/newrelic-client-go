@@ -875,6 +875,9 @@ packages:
         field_type_override: users.UserReference
         skip_type_create: true
 
+      - name: AgentApplicationSettingsRawJsConfiguration
+        create_as: map[string]interface{}
+
 
   - name: eventstometrics
     path: pkg/eventstometrics

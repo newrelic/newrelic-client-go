@@ -519,6 +519,11 @@ const getEntitiesQuery = `query(
 		}
 		agentInstallType
 		applicationId
+		browserProperties {
+			jsConfig
+			jsConfigScript
+			jsLoaderScript
+		}
 		browserSummary {
 			ajaxRequestThroughput
 			ajaxResponseTimeAverage
@@ -1338,6 +1343,8 @@ const getEntityQuery = `query(
 			}
 		}
 		browserProperties {
+			jsConfig
+			jsConfigScript
 			jsLoaderScript
 		}
 		browserSummary {
