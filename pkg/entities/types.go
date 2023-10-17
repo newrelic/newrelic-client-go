@@ -4189,10 +4189,6 @@ type ApmAgentInstrumentedServiceEntity struct {
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// Query upstream and downstream transaction dependencies for an entity
 	RelatedTransactions RelatedExternalsTransactionResult `json:"relatedTransactions,omitempty"`
-	// A list of the entities' relationships.
-	//
-	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
-	Relationships []EntityRelationship `json:"relationships,omitempty"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The running versions of the language agent in the APM Application.
@@ -4443,11 +4439,6 @@ func (x ApmAgentInstrumentedServiceEntity) GetRelatedEntities() EntityRelationsh
 // GetRelatedTransactions returns a pointer to the value of RelatedTransactions from ApmAgentInstrumentedServiceEntity
 func (x ApmAgentInstrumentedServiceEntity) GetRelatedTransactions() RelatedExternalsTransactionResult {
 	return x.RelatedTransactions
-}
-
-// GetRelationships returns a pointer to the value of Relationships from ApmAgentInstrumentedServiceEntity
-func (x ApmAgentInstrumentedServiceEntity) GetRelationships() []EntityRelationship {
-	return x.Relationships
 }
 
 // GetReporting returns a pointer to the value of Reporting from ApmAgentInstrumentedServiceEntity
@@ -4854,10 +4845,6 @@ type ApmApplicationEntity struct {
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// Query upstream and downstream transaction dependencies for an entity
 	RelatedTransactions RelatedExternalsTransactionResult `json:"relatedTransactions,omitempty"`
-	// A list of the entities' relationships.
-	//
-	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
-	Relationships []EntityRelationship `json:"relationships,omitempty"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The running versions of the language agent in the APM Application.
@@ -5108,11 +5095,6 @@ func (x ApmApplicationEntity) GetRelatedEntities() EntityRelationshipRelatedEnti
 // GetRelatedTransactions returns a pointer to the value of RelatedTransactions from ApmApplicationEntity
 func (x ApmApplicationEntity) GetRelatedTransactions() RelatedExternalsTransactionResult {
 	return x.RelatedTransactions
-}
-
-// GetRelationships returns a pointer to the value of Relationships from ApmApplicationEntity
-func (x ApmApplicationEntity) GetRelationships() []EntityRelationship {
-	return x.Relationships
 }
 
 // GetReporting returns a pointer to the value of Reporting from ApmApplicationEntity
@@ -5554,10 +5536,6 @@ type ApmDatabaseInstanceEntity struct {
 	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// Related entities result with optional filtering.
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
-	// A list of the entities' relationships.
-	//
-	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
-	Relationships []EntityRelationship `json:"relationships,omitempty"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
@@ -5708,11 +5686,6 @@ func (x ApmDatabaseInstanceEntity) GetRelatedDashboards() RelatedDashboardsRelat
 // GetRelatedEntities returns a pointer to the value of RelatedEntities from ApmDatabaseInstanceEntity
 func (x ApmDatabaseInstanceEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
 	return x.RelatedEntities
-}
-
-// GetRelationships returns a pointer to the value of Relationships from ApmDatabaseInstanceEntity
-func (x ApmDatabaseInstanceEntity) GetRelationships() []EntityRelationship {
-	return x.Relationships
 }
 
 // GetReporting returns a pointer to the value of Reporting from ApmDatabaseInstanceEntity
@@ -6008,10 +5981,6 @@ type ApmExternalServiceEntity struct {
 	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// Related entities result with optional filtering.
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
-	// A list of the entities' relationships.
-	//
-	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
-	Relationships []EntityRelationship `json:"relationships,omitempty"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
@@ -6160,11 +6129,6 @@ func (x ApmExternalServiceEntity) GetRelatedDashboards() RelatedDashboardsRelate
 // GetRelatedEntities returns a pointer to the value of RelatedEntities from ApmExternalServiceEntity
 func (x ApmExternalServiceEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
 	return x.RelatedEntities
-}
-
-// GetRelationships returns a pointer to the value of Relationships from ApmExternalServiceEntity
-func (x ApmExternalServiceEntity) GetRelationships() []EntityRelationship {
-	return x.Relationships
 }
 
 // GetReporting returns a pointer to the value of Reporting from ApmExternalServiceEntity
@@ -6472,10 +6436,6 @@ type BrowserApplicationEntity struct {
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// Query upstream and downstream transaction dependencies for an entity
 	RelatedTransactions RelatedExternalsTransactionResult `json:"relatedTransactions,omitempty"`
-	// A list of the entities' relationships.
-	//
-	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
-	Relationships []EntityRelationship `json:"relationships,omitempty"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The running versions of the agent in the Browser App.
@@ -6670,11 +6630,6 @@ func (x BrowserApplicationEntity) GetRelatedEntities() EntityRelationshipRelated
 // GetRelatedTransactions returns a pointer to the value of RelatedTransactions from BrowserApplicationEntity
 func (x BrowserApplicationEntity) GetRelatedTransactions() RelatedExternalsTransactionResult {
 	return x.RelatedTransactions
-}
-
-// GetRelationships returns a pointer to the value of Relationships from BrowserApplicationEntity
-func (x BrowserApplicationEntity) GetRelationships() []EntityRelationship {
-	return x.Relationships
 }
 
 // GetReporting returns a pointer to the value of Reporting from BrowserApplicationEntity
@@ -7105,10 +7060,6 @@ type DashboardEntity struct {
 	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// Related entities result with optional filtering.
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
-	// A list of the entities' relationships.
-	//
-	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
-	Relationships []EntityRelationship `json:"relationships,omitempty"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
@@ -7310,11 +7261,6 @@ func (x DashboardEntity) GetRelatedDashboards() RelatedDashboardsRelatedDashboar
 // GetRelatedEntities returns a pointer to the value of RelatedEntities from DashboardEntity
 func (x DashboardEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
 	return x.RelatedEntities
-}
-
-// GetRelationships returns a pointer to the value of Relationships from DashboardEntity
-func (x DashboardEntity) GetRelationships() []EntityRelationship {
-	return x.Relationships
 }
 
 // GetReporting returns a pointer to the value of Reporting from DashboardEntity
@@ -8309,10 +8255,6 @@ type Entity struct {
 	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// Related entities result with optional filtering.
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
-	// A list of the entities' relationships.
-	//
-	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
-	Relationships []EntityRelationship `json:"relationships,omitempty"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
@@ -9465,10 +9407,6 @@ type ExternalEntity struct {
 	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// Related entities result with optional filtering.
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
-	// A list of the entities' relationships.
-	//
-	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
-	Relationships []EntityRelationship `json:"relationships,omitempty"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
@@ -9607,11 +9545,6 @@ func (x ExternalEntity) GetRelatedDashboards() RelatedDashboardsRelatedDashboard
 // GetRelatedEntities returns a pointer to the value of RelatedEntities from ExternalEntity
 func (x ExternalEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
 	return x.RelatedEntities
-}
-
-// GetRelationships returns a pointer to the value of Relationships from ExternalEntity
-func (x ExternalEntity) GetRelationships() []EntityRelationship {
-	return x.Relationships
 }
 
 // GetReporting returns a pointer to the value of Reporting from ExternalEntity
@@ -9896,10 +9829,6 @@ type GenericEntity struct {
 	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// Related entities result with optional filtering.
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
-	// A list of the entities' relationships.
-	//
-	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
-	Relationships []EntityRelationship `json:"relationships,omitempty"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
@@ -10038,11 +9967,6 @@ func (x GenericEntity) GetRelatedDashboards() RelatedDashboardsRelatedDashboardR
 // GetRelatedEntities returns a pointer to the value of RelatedEntities from GenericEntity
 func (x GenericEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
 	return x.RelatedEntities
-}
-
-// GetRelationships returns a pointer to the value of Relationships from GenericEntity
-func (x GenericEntity) GetRelationships() []EntityRelationship {
-	return x.Relationships
 }
 
 // GetReporting returns a pointer to the value of Reporting from GenericEntity
@@ -10310,10 +10234,6 @@ type GenericInfrastructureEntity struct {
 	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// Related entities result with optional filtering.
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
-	// A list of the entities' relationships.
-	//
-	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
-	Relationships []EntityRelationship `json:"relationships,omitempty"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
@@ -10457,11 +10377,6 @@ func (x GenericInfrastructureEntity) GetRelatedDashboards() RelatedDashboardsRel
 // GetRelatedEntities returns a pointer to the value of RelatedEntities from GenericInfrastructureEntity
 func (x GenericInfrastructureEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
 	return x.RelatedEntities
-}
-
-// GetRelationships returns a pointer to the value of Relationships from GenericInfrastructureEntity
-func (x GenericInfrastructureEntity) GetRelationships() []EntityRelationship {
-	return x.Relationships
 }
 
 // GetReporting returns a pointer to the value of Reporting from GenericInfrastructureEntity
@@ -10742,10 +10657,6 @@ type GenericServiceEntity struct {
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// Query upstream and downstream transaction dependencies for an entity
 	RelatedTransactions RelatedExternalsTransactionResult `json:"relatedTransactions,omitempty"`
-	// A list of the entities' relationships.
-	//
-	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
-	Relationships []EntityRelationship `json:"relationships,omitempty"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
@@ -10894,11 +10805,6 @@ func (x GenericServiceEntity) GetRelatedEntities() EntityRelationshipRelatedEnti
 // GetRelatedTransactions returns a pointer to the value of RelatedTransactions from GenericServiceEntity
 func (x GenericServiceEntity) GetRelatedTransactions() RelatedExternalsTransactionResult {
 	return x.RelatedTransactions
-}
-
-// GetRelationships returns a pointer to the value of Relationships from GenericServiceEntity
-func (x GenericServiceEntity) GetRelationships() []EntityRelationship {
-	return x.Relationships
 }
 
 // GetReporting returns a pointer to the value of Reporting from GenericServiceEntity
@@ -11214,10 +11120,6 @@ type InfrastructureAwsLambdaFunctionEntity struct {
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// Query upstream and downstream transaction dependencies for an entity
 	RelatedTransactions RelatedExternalsTransactionResult `json:"relatedTransactions,omitempty"`
-	// A list of the entities' relationships.
-	//
-	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
-	Relationships []EntityRelationship `json:"relationships,omitempty"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool   `json:"reporting,omitempty"`
 	Runtime   string `json:"runtime,omitempty"`
@@ -11372,11 +11274,6 @@ func (x InfrastructureAwsLambdaFunctionEntity) GetRelatedEntities() EntityRelati
 // GetRelatedTransactions returns a pointer to the value of RelatedTransactions from InfrastructureAwsLambdaFunctionEntity
 func (x InfrastructureAwsLambdaFunctionEntity) GetRelatedTransactions() RelatedExternalsTransactionResult {
 	return x.RelatedTransactions
-}
-
-// GetRelationships returns a pointer to the value of Relationships from InfrastructureAwsLambdaFunctionEntity
-func (x InfrastructureAwsLambdaFunctionEntity) GetRelationships() []EntityRelationship {
-	return x.Relationships
 }
 
 // GetReporting returns a pointer to the value of Reporting from InfrastructureAwsLambdaFunctionEntity
@@ -11668,10 +11565,6 @@ type InfrastructureHostEntity struct {
 	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// Related entities result with optional filtering.
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
-	// A list of the entities' relationships.
-	//
-	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
-	Relationships []EntityRelationship `json:"relationships,omitempty"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
@@ -11820,11 +11713,6 @@ func (x InfrastructureHostEntity) GetRelatedDashboards() RelatedDashboardsRelate
 // GetRelatedEntities returns a pointer to the value of RelatedEntities from InfrastructureHostEntity
 func (x InfrastructureHostEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
 	return x.RelatedEntities
-}
-
-// GetRelationships returns a pointer to the value of Relationships from InfrastructureHostEntity
-func (x InfrastructureHostEntity) GetRelationships() []EntityRelationship {
-	return x.Relationships
 }
 
 // GetReporting returns a pointer to the value of Reporting from InfrastructureHostEntity
@@ -12219,10 +12107,6 @@ type MobileApplicationEntity struct {
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// Query upstream and downstream transaction dependencies for an entity
 	RelatedTransactions RelatedExternalsTransactionResult `json:"relatedTransactions,omitempty"`
-	// A list of the entities' relationships.
-	//
-	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
-	Relationships []EntityRelationship `json:"relationships,omitempty"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
@@ -12401,11 +12285,6 @@ func (x MobileApplicationEntity) GetRelatedEntities() EntityRelationshipRelatedE
 // GetRelatedTransactions returns a pointer to the value of RelatedTransactions from MobileApplicationEntity
 func (x MobileApplicationEntity) GetRelatedTransactions() RelatedExternalsTransactionResult {
 	return x.RelatedTransactions
-}
-
-// GetRelationships returns a pointer to the value of Relationships from MobileApplicationEntity
-func (x MobileApplicationEntity) GetRelationships() []EntityRelationship {
-	return x.Relationships
 }
 
 // GetReporting returns a pointer to the value of Reporting from MobileApplicationEntity
@@ -13065,10 +12944,6 @@ type SecureCredentialEntity struct {
 	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// Related entities result with optional filtering.
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
-	// A list of the entities' relationships.
-	//
-	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
-	Relationships []EntityRelationship `json:"relationships,omitempty"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The domain-specific identifier for the entity.
@@ -13218,11 +13093,6 @@ func (x SecureCredentialEntity) GetRelatedDashboards() RelatedDashboardsRelatedD
 // GetRelatedEntities returns a pointer to the value of RelatedEntities from SecureCredentialEntity
 func (x SecureCredentialEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
 	return x.RelatedEntities
-}
-
-// GetRelationships returns a pointer to the value of Relationships from SecureCredentialEntity
-func (x SecureCredentialEntity) GetRelationships() []EntityRelationship {
-	return x.Relationships
 }
 
 // GetReporting returns a pointer to the value of Reporting from SecureCredentialEntity
@@ -13540,10 +13410,6 @@ type ServiceEntity struct {
 	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// Related entities result with optional filtering.
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
-	// A list of the entities' relationships.
-	//
-	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
-	Relationships []EntityRelationship `json:"relationships,omitempty"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
@@ -13682,11 +13548,6 @@ func (x ServiceEntity) GetRelatedDashboards() RelatedDashboardsRelatedDashboardR
 // GetRelatedEntities returns a pointer to the value of RelatedEntities from ServiceEntity
 func (x ServiceEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
 	return x.RelatedEntities
-}
-
-// GetRelationships returns a pointer to the value of Relationships from ServiceEntity
-func (x ServiceEntity) GetRelationships() []EntityRelationship {
-	return x.Relationships
 }
 
 // GetReporting returns a pointer to the value of Reporting from ServiceEntity
@@ -14167,10 +14028,6 @@ type SyntheticMonitorEntity struct {
 	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// Related entities result with optional filtering.
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
-	// A list of the entities' relationships.
-	//
-	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
-	Relationships []EntityRelationship `json:"relationships,omitempty"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
@@ -14339,11 +14196,6 @@ func (x SyntheticMonitorEntity) GetRelatedDashboards() RelatedDashboardsRelatedD
 // GetRelatedEntities returns a pointer to the value of RelatedEntities from SyntheticMonitorEntity
 func (x SyntheticMonitorEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
 	return x.RelatedEntities
-}
-
-// GetRelationships returns a pointer to the value of Relationships from SyntheticMonitorEntity
-func (x SyntheticMonitorEntity) GetRelationships() []EntityRelationship {
-	return x.Relationships
 }
 
 // GetReporting returns a pointer to the value of Reporting from SyntheticMonitorEntity
@@ -14706,10 +14558,6 @@ type ThirdPartyServiceEntity struct {
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
 	// Query upstream and downstream transaction dependencies for an entity
 	RelatedTransactions RelatedExternalsTransactionResult `json:"relatedTransactions,omitempty"`
-	// A list of the entities' relationships.
-	//
-	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
-	Relationships []EntityRelationship `json:"relationships,omitempty"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
@@ -14858,11 +14706,6 @@ func (x ThirdPartyServiceEntity) GetRelatedEntities() EntityRelationshipRelatedE
 // GetRelatedTransactions returns a pointer to the value of RelatedTransactions from ThirdPartyServiceEntity
 func (x ThirdPartyServiceEntity) GetRelatedTransactions() RelatedExternalsTransactionResult {
 	return x.RelatedTransactions
-}
-
-// GetRelationships returns a pointer to the value of Relationships from ThirdPartyServiceEntity
-func (x ThirdPartyServiceEntity) GetRelationships() []EntityRelationship {
-	return x.Relationships
 }
 
 // GetReporting returns a pointer to the value of Reporting from ThirdPartyServiceEntity
@@ -15141,10 +14984,6 @@ type UnavailableEntity struct {
 	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// Related entities result with optional filtering.
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
-	// A list of the entities' relationships.
-	//
-	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
-	Relationships []EntityRelationship `json:"relationships,omitempty"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
@@ -15283,11 +15122,6 @@ func (x UnavailableEntity) GetRelatedDashboards() RelatedDashboardsRelatedDashbo
 // GetRelatedEntities returns a pointer to the value of RelatedEntities from UnavailableEntity
 func (x UnavailableEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
 	return x.RelatedEntities
-}
-
-// GetRelationships returns a pointer to the value of Relationships from UnavailableEntity
-func (x UnavailableEntity) GetRelationships() []EntityRelationship {
-	return x.Relationships
 }
 
 // GetReporting returns a pointer to the value of Reporting from UnavailableEntity
@@ -15566,10 +15400,6 @@ type WorkloadEntity struct {
 	RelatedDashboards RelatedDashboardsRelatedDashboardResult `json:"relatedDashboards"`
 	// Related entities result with optional filtering.
 	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
-	// A list of the entities' relationships.
-	//
-	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
-	Relationships []EntityRelationship `json:"relationships,omitempty"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
 	Reporting bool `json:"reporting,omitempty"`
 	// The service level defined for the entity.
@@ -15747,11 +15577,6 @@ func (x WorkloadEntity) GetRelatedDashboards() RelatedDashboardsRelatedDashboard
 // GetRelatedEntities returns a pointer to the value of RelatedEntities from WorkloadEntity
 func (x WorkloadEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
 	return x.RelatedEntities
-}
-
-// GetRelationships returns a pointer to the value of Relationships from WorkloadEntity
-func (x WorkloadEntity) GetRelationships() []EntityRelationship {
-	return x.Relationships
 }
 
 // GetReporting returns a pointer to the value of Reporting from WorkloadEntity
