@@ -1,10 +1,12 @@
 package http
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"reflect"
@@ -347,6 +349,8 @@ func (c *Client) Do(req *Request) (*http.Response, error) {
 		var err error
 		errorValue = req.errorValue.New()
 		resp, body, shouldRetry, err = c.innerDo(req, errorValue, i)
+		fmt.Println("POINT 1")
+		fmt.Println(errorValue)
 
 		if serr, ok := err.(*nrErrors.MaxRetriesReached); ok {
 			return nil, serr
@@ -435,10 +439,384 @@ func (c *Client) innerDo(req *Request, errorValue ErrorResponse, i int) (*http.R
 		c.logger.Debug(fmt.Sprintf("retrying request (attempt %d)", i), "method", req.method, "url", r.URL)
 	}
 
+	const jsonStr = `
+{
+    "data":{
+        "actor":{
+            "entity":{
+                "__typename":"SyntheticMonitorEntity",
+                "account":{
+                    "id":3806526,
+                    "name":"New Relic Terraform Provider Acceptance Testing",
+                    "reportingEventTypes":[
+                        "AgentUpdate",
+                        "ApplicationAgentContext",
+                        "Deployment",
+                        "Dessert",
+                        "DistributedTraceSummary",
+                        "EntityAudits",
+                        "InfrastructureEvent",
+                        "Log_test_2",
+                        "Metric",
+                        "NetworkSample",
+                        "NrAiIncident",
+                        "NrAiSignal",
+                        "NrAuditEvent",
+                        "NrConsumption",
+                        "NrIntegrationError",
+                        "NrMTDConsumption",
+                        "NrUsage",
+                        "NrdbQuery",
+                        "ProcessSample",
+                        "Public_APICall",
+                        "Purchase",
+                        "Relationship",
+                        "Span",
+                        "StorageSample",
+                        "SyntheticCheck",
+                        "SyntheticRequest",
+                        "SyntheticsPrivateLocationStatus",
+                        "SystemSample",
+                        "WorkloadStatus",
+                        "terraform test",
+                        "tf_test_1gftz",
+                        "tf_test_221kr",
+                        "tf_test_807hk",
+                        "tf_test_d1v3q",
+                        "tf_test_fj3p2",
+                        "tf_test_h21dh",
+                        "tf_test_himtw",
+                        "tf_test_jkdkm",
+                        "tf_test_kd9gm",
+                        "tf_test_lucio",
+                        "tf_test_qp0fk",
+                        "tf_test_t46gl",
+                        "tf_test_txru2",
+                        "tf_test_v8fb0",
+                        "tf_test_vu1gc",
+                        "tf_test_xmifv",
+                        "tf_test_y2783",
+                        "tf_test_yxl6e",
+                        "tf_test_zzak1"
+                    ]
+                },
+                "accountId":3806526,
+                "alertSeverity":"NOT_CONFIGURED",
+                "domain":"SYNTH",
+                "entityType":"SYNTHETIC_MONITOR_ENTITY",
+                "goldenMetrics":{
+                    "context":{
+                        "account":null,
+                        "guid":null
+                    },
+                    "metrics":[
+                        {
+                            "name":"medianDurationS",
+                            "query":"SELECT percentile(newrelic.goldenmetrics.synth.monitor.medianDurationS, 50) AS 'Median Duration S' FROM Metric WHERE entity.guid in ('MzgwNjUyNnxTWU5USHxNT05JVE9SfDc2NmE5MWQ1LTFiNTctNDRkYi05MWM0LWJhMjU0MTZjYjNiNg') LIMIT MAX TIMESERIES",
+                            "title":"Median duration (s)"
+                        },
+                        {
+                            "name":"failures",
+                            "query":"SELECT count(newrelic.goldenmetrics.synth.monitor.failures) AS 'Failures' FROM Metric WHERE entity.guid in ('MzgwNjUyNnxTWU5USHxNT05JVE9SfDc2NmE5MWQ1LTFiNTctNDRkYi05MWM0LWJhMjU0MTZjYjNiNg') LIMIT MAX TIMESERIES",
+                            "title":"Failures"
+                        }
+                    ]
+                },
+                "goldenTags":{
+                    "context":{
+                        "account":null,
+                        "guid":null
+                    },
+                    "tags":[
+                        {
+                            "key":"monitorStatus"
+                        },
+                        {
+                            "key":"monitorType"
+                        },
+                        {
+                            "key":"period"
+                        },
+                        {
+                            "key":"publicLocation"
+                        },
+                        {
+                            "key":"privateLocation"
+                        }
+                    ]
+                },
+                "guid":"MzgwNjUyNnxTWU5USHxNT05JVE9SfDc2NmE5MWQ1LTFiNTctNDRkYi05MWM0LWJhMjU0MTZjYjNiNg",
+                "indexedAt":1697553649848,
+                "monitorId":"766a91d5-1b57-44db-91c4-ba25416cb3b6",
+                "monitorSummary":{
+                    "locationsFailing":0,
+                    "locationsRunning":2,
+                    "status":"ENABLED",
+                    "successRate":1.0
+                },
+                "monitorType":"SCRIPT_API",
+                "monitoredUrl":null,
+                "name":"Metrics API Healthcheck Script Monitor Y",
+                "period":1,
+                "permalink":"https://one.newrelic.com/redirect/entity/MzgwNjUyNnxTWU5USHxNT05JVE9SfDc2NmE5MWQ1LTFiNTctNDRkYi05MWM0LWJhMjU0MTZjYjNiNg",
+                "recentAlertViolations":[
+                    
+                ],
+                "relatedEntities":{
+                    "nextCursor":null,
+                    "results":[
+                        
+                    ]
+                },
+                "relationships":null,
+                "reporting":true,
+                "serviceLevel":{
+                    "indicators":null
+                },
+                "tags":[
+                    {
+                        "key":"account",
+                        "values":[
+                            "New Relic Terraform Provider Acceptance Testing"
+                        ]
+                    },
+                    {
+                        "key":"accountId",
+                        "values":[
+                            "3806526"
+                        ]
+                    },
+                    {
+                        "key":"apdexTarget",
+                        "values":[
+                            "7.0"
+                        ]
+                    },
+                    {
+                        "key":"monitorStatus",
+                        "values":[
+                            "Enabled"
+                        ]
+                    },
+                    {
+                        "key":"monitorType",
+                        "values":[
+                            "Scripted API"
+                        ]
+                    },
+                    {
+                        "key":"period",
+                        "values":[
+                            "1"
+                        ]
+                    },
+                    {
+                        "key":"publicLocation",
+                        "values":[
+                            "Columbus, OH, USA",
+                            "Portland, OR, USA"
+                        ]
+                    },
+                    {
+                        "key":"runtimeType",
+                        "values":[
+                            "NODE_API"
+                        ]
+                    },
+                    {
+                        "key":"runtimeTypeVersion",
+                        "values":[
+                            "16.10"
+                        ]
+                    },
+                    {
+                        "key":"scriptLanguage",
+                        "values":[
+                            "JAVASCRIPT"
+                        ]
+                    },
+                    {
+                        "key":"service",
+                        "values":[
+                            "metrics-api"
+                        ]
+                    },
+                    {
+                        "key":"trustedAccountId",
+                        "values":[
+                            "3806526"
+                        ]
+                    }
+                ],
+                "tagsWithMetadata":[
+                    {
+                        "key":"account",
+                        "values":[
+                            {
+                                "mutable":false,
+                                "value":"New Relic Terraform Provider Acceptance Testing"
+                            }
+                        ]
+                    },
+                    {
+                        "key":"accountId",
+                        "values":[
+                            {
+                                "mutable":false,
+                                "value":"3806526"
+                            }
+                        ]
+                    },
+                    {
+                        "key":"apdexTarget",
+                        "values":[
+                            {
+                                "mutable":false,
+                                "value":"7.0"
+                            }
+                        ]
+                    },
+                    {
+                        "key":"monitorStatus",
+                        "values":[
+                            {
+                                "mutable":false,
+                                "value":"Enabled"
+                            }
+                        ]
+                    },
+                    {
+                        "key":"monitorType",
+                        "values":[
+                            {
+                                "mutable":false,
+                                "value":"Scripted API"
+                            }
+                        ]
+                    },
+                    {
+                        "key":"period",
+                        "values":[
+                            {
+                                "mutable":false,
+                                "value":"1"
+                            }
+                        ]
+                    },
+                    {
+                        "key":"publicLocation",
+                        "values":[
+                            {
+                                "mutable":false,
+                                "value":"Columbus, OH, USA"
+                            },
+                            {
+                                "mutable":false,
+                                "value":"Portland, OR, USA"
+                            }
+                        ]
+                    },
+                    {
+                        "key":"runtimeType",
+                        "values":[
+                            {
+                                "mutable":false,
+                                "value":"NODE_API"
+                            }
+                        ]
+                    },
+                    {
+                        "key":"runtimeTypeVersion",
+                        "values":[
+                            {
+                                "mutable":false,
+                                "value":"16.10"
+                            }
+                        ]
+                    },
+                    {
+                        "key":"scriptLanguage",
+                        "values":[
+                            {
+                                "mutable":false,
+                                "value":"JAVASCRIPT"
+                            }
+                        ]
+                    },
+                    {
+                        "key":"service",
+                        "values":[
+                            {
+                                "mutable":true,
+                                "value":"metrics-api"
+                            }
+                        ]
+                    },
+                    {
+                        "key":"trustedAccountId",
+                        "values":[
+                            {
+                                "mutable":false,
+                                "value":"3806526"
+                            }
+                        ]
+                    }
+                ],
+                "type":"MONITOR"
+            }
+        }
+    },
+    "errors":[
+		{
+            "message":"Some Random Error",
+            "path":[
+                "actor",
+                "entity",
+                "relationships"
+            ]
+        },
+		{
+            "message":"This field is deprecated! Please use relatedEntities instead.",
+            "path":[
+                "actor",
+                "entity",
+                "relationships"
+            ]
+        }
+    ]
+}
+	`
+
 	resp, retryErr := c.client.Do(r)
 	if retryErr != nil {
 		return resp, nil, false, retryErr
 	}
+
+	fakeBody := bytes.NewBufferString(jsonStr)
+	respNew := &http.Response{
+		StatusCode:       resp.StatusCode,
+		Body:             ioutil.NopCloser(fakeBody),
+		Proto:            resp.Proto,
+		ProtoMajor:       resp.ProtoMajor,
+		ProtoMinor:       resp.ProtoMinor,
+		Header:           resp.Header,
+		ContentLength:    resp.ContentLength,
+		TransferEncoding: resp.TransferEncoding,
+		Close:            resp.Close,
+		Uncompressed:     resp.Uncompressed,
+		Trailer:          resp.Trailer,
+		Request:          resp.Request,
+		TLS:              resp.TLS,
+	}
+
+	resp = respNew
+	fmt.Println("POINT 2")
+	//bytes, err := io.ReadAll(resp.Body)
+	//if err != nil {
+	//	return resp, nil, false, retryErr
+	//}
+	//
+	//fmt.Println(string(bytes))
 
 	defer resp.Body.Close()
 

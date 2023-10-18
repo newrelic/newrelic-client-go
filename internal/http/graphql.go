@@ -1,6 +1,7 @@
 package http
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 )
@@ -98,6 +99,8 @@ func (r *GraphQLErrorResponse) IsPaymentRequired(resp *http.Response) bool {
 //	This field is deprecated! Please use `relatedEntities` instead.
 func (r *GraphQLErrorResponse) IsDeprecated() bool {
 	for _, err := range r.Errors {
+		fmt.Println("POINT 3")
+		fmt.Printf("%s :: %s\n", err.Path, err.Message)
 		if strings.HasPrefix(err.Message, "This field is deprecated!") {
 			return true
 		}
