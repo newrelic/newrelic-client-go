@@ -21,12 +21,7 @@ func TestChangeTrackingCreateDeployment_Basic(t *testing.T) {
 
 	a := newIntegrationTestClient(t)
 
-	var customAttributes = map[string]interface{}{
-		"a": 1,
-		"b": "two",
-		"c": 1.5,
-		"d": true,
-	}
+	var customAttributes = `{"a":"1","b":"two","c":"1.5","d":"true"}`
 	attrs := make(map[string]interface{})
 	err := json.Unmarshal([]byte(customAttributes), &attrs)
 	if err != nil {
