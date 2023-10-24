@@ -3,24 +3,28 @@ package changetracking
 
 import "context"
 
-// Creates a new deployment record in NRDB and associated deployment marker.
+// Creates a new deployment record in NRDB and its associated deployment marker.
 func (a *Changetracking) ChangeTrackingCreateDeployment(
+	dataHandlingRules ChangeTrackingDataHandlingRules,
 	deployment ChangeTrackingDeploymentInput,
 ) (*ChangeTrackingDeployment, error) {
 	return a.ChangeTrackingCreateDeploymentWithContext(context.Background(),
+		dataHandlingRules,
 		deployment,
 	)
 }
 
-// Creates a new deployment record in NRDB and associated deployment marker.
+// Creates a new deployment record in NRDB and its associated deployment marker.
 func (a *Changetracking) ChangeTrackingCreateDeploymentWithContext(
 	ctx context.Context,
+	dataHandlingRules ChangeTrackingDataHandlingRules,
 	deployment ChangeTrackingDeploymentInput,
 ) (*ChangeTrackingDeployment, error) {
 
 	resp := ChangeTrackingCreateDeploymentQueryResponse{}
 	vars := map[string]interface{}{
-		"deployment": deployment,
+		"dataHandlingRules": dataHandlingRules,
+		"deployment":        deployment,
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, ChangeTrackingCreateDeploymentMutation, vars, &resp); err != nil {
@@ -35,12 +39,15 @@ type ChangeTrackingCreateDeploymentQueryResponse struct {
 }
 
 const ChangeTrackingCreateDeploymentMutation = `mutation(
+	$dataHandlingRules: ChangeTrackingDataHandlingRules,
 	$deployment: ChangeTrackingDeploymentInput!,
 ) { changeTrackingCreateDeployment(
+	dataHandlingRules: $dataHandlingRules,
 	deployment: $deployment,
 ) {
 	changelog
 	commit
+	customAttributes
 	deepLink
 	deploymentId
 	deploymentType
