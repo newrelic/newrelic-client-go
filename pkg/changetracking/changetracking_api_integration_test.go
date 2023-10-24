@@ -42,7 +42,10 @@ func TestChangeTrackingCreateDeployment_Basic(t *testing.T) {
 		Version:          "0.0.1",
 	}
 
-	res, err := a.ChangeTrackingCreateDeployment([]ChangeTrackingValidationFlag{ChangeTrackingValidationFlagTypes.FAIL_ON_FIELD_LENGTH}, input)
+	res, err := a.ChangeTrackingCreateDeployment(
+		ChangeTrackingDataHandlingRules{ValidationFlags: []ChangeTrackingValidationFlag{ChangeTrackingValidationFlagTypes.FAIL_ON_FIELD_LENGTH}},
+		input,
+	)
 	require.NoError(t, err)
 
 	require.NotNil(t, res)
@@ -67,7 +70,10 @@ func TestChangeTrackingCreateDeployment_TimestampError(t *testing.T) {
 		Version:        "0.0.1",
 	}
 
-	res, err := a.ChangeTrackingCreateDeployment(input)
+	res, err := a.ChangeTrackingCreateDeployment(
+		ChangeTrackingDataHandlingRules{ValidationFlags: []ChangeTrackingValidationFlag{ChangeTrackingValidationFlagTypes.FAIL_ON_FIELD_LENGTH}},
+		input,
+	)
 	require.Error(t, err)
 	require.Nil(t, res)
 }
