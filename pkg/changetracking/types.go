@@ -37,28 +37,91 @@ var ChangeTrackingDeploymentTypeTypes = struct {
 	SHADOW: "SHADOW",
 }
 
+// ChangeTrackingValidationFlag - Validation flags to determine how we handle input data.
+type ChangeTrackingValidationFlag string
+
+var ChangeTrackingValidationFlagTypes = struct {
+	// Will validate all string fields to be within max size limit. An error is returned and data is not saved if any of the fields exceeds max size limit.
+	FAIL_ON_FIELD_LENGTH ChangeTrackingValidationFlag
+	// For APM entities, a call is made to the legacy New Relic v2 REST API. When this flag is set, if the call fails for any reason, an error will be returned containing the failure message.
+	FAIL_ON_REST_API_FAILURES ChangeTrackingValidationFlag
+}{
+	// Will validate all string fields to be within max size limit. An error is returned and data is not saved if any of the fields exceeds max size limit.
+	FAIL_ON_FIELD_LENGTH: "FAIL_ON_FIELD_LENGTH",
+	// For APM entities, a call is made to the legacy New Relic v2 REST API. When this flag is set, if the call fails for any reason, an error will be returned containing the failure message.
+	FAIL_ON_REST_API_FAILURES: "FAIL_ON_REST_API_FAILURES",
+}
+
+// ChangeTrackingDataHandlingRules - Validation and data handling rules to be applied to deployment input data.
+type ChangeTrackingDataHandlingRules struct {
+	// Flags for validation, for example, ‘FAIL_ON_FIELD_LENGTH’.
+	ValidationFlags []ChangeTrackingValidationFlag `json:"validationFlags"`
+}
+
 // ChangeTrackingDeployment - A deployment.
 type ChangeTrackingDeployment struct {
-	// A URL for the changelog or list of changes if not linkable.
+	// A URL to the changelog or, if not linkable, a list of changes.
 	Changelog string `json:"changelog,omitempty"`
 	// The commit identifier, for example, a Git commit SHA.
 	Commit string `json:"commit,omitempty"`
-	// A link back to the system generating the deployment.
+	// Represents key-value pairs of custom attributes in JSON format.
+	CustomAttributes ChangeTrackingRawCustomAttributesMap `json:"customAttributes,omitempty"`
+	// A link to the system that generated the deployment.
 	DeepLink string `json:"deepLink,omitempty"`
-	// Optional: deployment identifier.
+	// A unique deployment identifier.
 	DeploymentId string `json:"deploymentId,omitempty"`
 	// The type of deployment, for example, ‘Blue green’ or ‘Rolling’.
 	DeploymentType ChangeTrackingDeploymentType `json:"deploymentType,omitempty"`
 	// A description of the deployment.
 	Description string `json:"description,omitempty"`
-	// The NR1 entity that was deployed.
+	// The NR entity that was deployed.
 	EntityGUID common.EntityGUID `json:"entityGuid"`
-	// String that can be used to correlate two or more events.
+	// An identifier used to correlate two or more events.
 	GroupId string `json:"groupId,omitempty"`
-	// The start time of the deployment, the number of milliseconds since the Unix epoch.
+	// The start time of the deployment as the number of milliseconds since the Unix epoch.
 	Timestamp nrtime.EpochMilliseconds `json:"timestamp"`
-	// Username of the deployer or bot.
+	// The username of the deployer or bot.
+	User string `json:"user,omitempty"`
+	// The version of the deployed software, for example, something like v1.1.
+	Version string `json:"version"`
+}
+
+// ChangeTrackingDeploymentInput - A deployment.
+type ChangeTrackingDeploymentInput struct {
+	// A URL for the changelog or, if not linkable, a list of changes.
+	Changelog string `json:"changelog,omitempty"`
+	// The commit identifier, for example, a Git commit SHA.
+	Commit string `json:"commit,omitempty"`
+	// Represents key-value pairs of custom attributes in JSON format. Attribute values can be of type string, boolean, or numeric.
+	//
+	// **Restricted attributes names:**  accountId, appID, changelog, commit, customAttributes, deepLink, deploymentType, description, entity.guid, entity.name, entity.type, entityGuid, entityName, eventType, groupId, timestamp, user, version
+	//
+	// **Restricted attribute name prefixes:**  'nr.', 'newrelic.'
+	//
+	// For more information on limitations, see [our docs](https://docs.newrelic.com/docs/change-tracking/change-tracking-graphql/)
+	//
+	// **Examples:**
+	//
+	//     • {cloudVendor : "vendorName", region : "us-east-1", environment : "staging"}
+	//     • {isProd : true, region : "us-east-1", instances: 2, deployTime : 10.5}
+	CustomAttributes ChangeTrackingRawCustomAttributesMap `json:"customAttributes,omitempty"`
+	// A URL to the system that generated the deployment.
+	DeepLink string `json:"deepLink,omitempty"`
+	// The type of deployment, for example, ‘Blue green’ or ‘Rolling’.
+	DeploymentType ChangeTrackingDeploymentType `json:"deploymentType,omitempty"`
+	// A description of the deployment.
+	Description string `json:"description,omitempty"`
+	// The NR entity that was deployed.
+	EntityGUID common.EntityGUID `json:"entityGuid"`
+	// An identifier used to correlate two or more events.
+	GroupId string `json:"groupId,omitempty"`
+	// The start time of the deployment as the number of milliseconds since the Unix epoch. Should be within the boundary of the past or future 24 hours. Defaults to now.
+	Timestamp nrtime.EpochMilliseconds `json:"timestamp,omitempty"`
+	// The username of the deployer or bot.
 	User string `json:"user,omitempty"`
 	// The version of the deployed software, for example, something like v1.1
 	Version string `json:"version"`
 }
+
+// ChangeTrackingRawCustomAttributesMap - A JSON scalar
+type ChangeTrackingRawCustomAttributesMap map[string]interface{}

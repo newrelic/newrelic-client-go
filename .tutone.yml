@@ -392,6 +392,8 @@ packages:
       - name: EntityGuid
         field_type_override: common.EntityGUID
         skip_type_create: true
+      - name: ChangeTrackingRawCustomAttributesMap
+        create_as: "map[string]interface{}"
     mutations:
       - name: changeTrackingCreateDeployment
         max_query_field_depth: 2

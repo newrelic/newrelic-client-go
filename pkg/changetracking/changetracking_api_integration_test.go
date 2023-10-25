@@ -4,6 +4,8 @@
 package changetracking
 
 import (
+	"encoding/json"
+	"log"
 	"testing"
 	"time"
 
@@ -19,15 +21,17 @@ func TestChangeTrackingCreateDeployment_Basic(t *testing.T) {
 
 	a := newIntegrationTestClient(t)
 
-	var customAttributes = map[string]string{
-		"test":  "123",
-		"test2": "456",
+	var customAttributes = `{"a":"1","b":"two","c":"1.5","d":"true"}`
+	attrs := make(map[string]interface{})
+	err := json.Unmarshal([]byte(customAttributes), &attrs)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	input := ChangeTrackingDeploymentInput{
 		Changelog:        "test",
 		Commit:           "12345a",
-		CustomAttributes: &customAttributes,
+		CustomAttributes: attrs,
 		DeepLink:         "newrelic-client-go",
 		DeploymentType:   ChangeTrackingDeploymentTypeTypes.BASIC,
 		Description:      "This is a test description",
@@ -38,7 +42,10 @@ func TestChangeTrackingCreateDeployment_Basic(t *testing.T) {
 		Version:          "0.0.1",
 	}
 
-	res, err := a.ChangeTrackingCreateDeployment(input)
+	res, err := a.ChangeTrackingCreateDeployment(
+		ChangeTrackingDataHandlingRules{ValidationFlags: []ChangeTrackingValidationFlag{ChangeTrackingValidationFlagTypes.FAIL_ON_FIELD_LENGTH}},
+		input,
+	)
 	require.NoError(t, err)
 
 	require.NotNil(t, res)
@@ -63,7 +70,10 @@ func TestChangeTrackingCreateDeployment_TimestampError(t *testing.T) {
 		Version:        "0.0.1",
 	}
 
-	res, err := a.ChangeTrackingCreateDeployment(input)
+	res, err := a.ChangeTrackingCreateDeployment(
+		ChangeTrackingDataHandlingRules{ValidationFlags: []ChangeTrackingValidationFlag{ChangeTrackingValidationFlagTypes.FAIL_ON_FIELD_LENGTH}},
+		input,
+	)
 	require.Error(t, err)
 	require.Nil(t, res)
 }
