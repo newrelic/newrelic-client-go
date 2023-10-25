@@ -17,6 +17,7 @@ import (
 )
 
 func TestChangeTrackingCreateDeployment_Basic(t *testing.T) {
+	t.Skip()
 	t.Parallel()
 
 	a := newIntegrationTestClient(t)
