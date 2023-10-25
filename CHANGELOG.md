@@ -1,5 +1,10 @@
+<a name="v2.22.0"></a>
+## [v2.22.0] - 2023-10-25
+### Features
+- **changetracking:** Support custom attributes JSON ([#1060](https://github.com/newrelic/newrelic-client-go/issues/1060))
+
 <a name="v2.21.2"></a>
-## [v2.21.2] - 2023-10-12
+## [v2.21.2] - 2023-10-16
 ### Bug Fixes
 - **BrowserApplicationEntity:** addition of browserProperties fields ([#1035](https://github.com/newrelic/newrelic-client-go/issues/1035))
 
@@ -1668,7 +1673,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.21.2...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.22.0...HEAD
+[v2.22.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.21.2...v2.22.0
 [v2.21.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.21.1...v2.21.2
 [v2.21.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.21.0...v2.21.1
 [v2.21.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.20.0...v2.21.0
