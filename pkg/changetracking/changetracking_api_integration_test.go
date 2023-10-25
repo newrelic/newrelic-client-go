@@ -5,6 +5,7 @@ package changetracking
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"testing"
 	"time"
@@ -17,7 +18,36 @@ import (
 )
 
 func TestChangeTrackingCreateDeployment_Basic(t *testing.T) {
-	t.Skip()
+	t.Parallel()
+
+	a := newIntegrationTestClient(t)
+
+	input := ChangeTrackingDeploymentInput{
+		Changelog:      "test",
+		Commit:         "12345a",
+		DeepLink:       "newrelic-client-go",
+		DeploymentType: ChangeTrackingDeploymentTypeTypes.BASIC,
+		Description:    "This is a test description",
+		EntityGUID:     common.EntityGUID(testhelpers.IntegrationTestApplicationEntityGUID),
+		GroupId:        "deployment",
+		Timestamp:      nrtime.EpochMilliseconds(time.Now()),
+		User:           "newrelic-go-client",
+		Version:        "0.0.1",
+	}
+
+	res, err := a.ChangeTrackingCreateDeployment(
+		ChangeTrackingDataHandlingRules{ValidationFlags: []ChangeTrackingValidationFlag{ChangeTrackingValidationFlagTypes.FAIL_ON_FIELD_LENGTH}},
+		input,
+	)
+	require.NoError(t, err)
+
+	require.NotNil(t, res)
+	require.Equal(t, res.EntityGUID, input.EntityGUID)
+}
+
+func TestChangeTrackingCreateDeployment_CustomAttributes(t *testing.T) {
+	skipMsg := fmt.Sprintf("Skipping %s until custom attributes are out of limited preview.", t.Name())
+	t.Skip(skipMsg)
 	t.Parallel()
 
 	a := newIntegrationTestClient(t)
@@ -32,7 +62,7 @@ func TestChangeTrackingCreateDeployment_Basic(t *testing.T) {
 	input := ChangeTrackingDeploymentInput{
 		Changelog:        "test",
 		Commit:           "12345a",
-		CustomAttributes: attrs,
+		CustomAttributes: ChangeTrackingRawCustomAttributesMap(attrs),
 		DeepLink:         "newrelic-client-go",
 		DeploymentType:   ChangeTrackingDeploymentTypeTypes.BASIC,
 		Description:      "This is a test description",
