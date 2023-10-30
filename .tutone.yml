@@ -219,7 +219,19 @@ packages:
       - name: syntheticsPurgePrivateLocationQueue
         max_query_field_depth: 2
       - name: syntheticsStartAutomatedTest
-        max_query-field_depth: 4
+        max_query_field_depth: 4
+      - name: syntheticsCreateOnceMonitorDowntime
+        max_query_field_depth: 2
+      - name: syntheticsCreateDailyMonitorDowntime
+        max_query_field_depth: 2
+      - name: syntheticsCreateWeeklyMonitorDowntime
+        max_query_field_depth: 2
+      - name: syntheticsCreateMonthlyMonitorDowntime
+        max_query_field_depth: 2
+      - name: syntheticsEditMonitorDowntime
+        max_query_field_depth: 4
+      - name: syntheticsDeleteMonitorDowntime
+        max_query_field_depth: 1
     types:
       - name: EpochMilliseconds
         field_type_override: "*nrtime.EpochMilliseconds"
@@ -263,6 +275,9 @@ packages:
         field_type_override: int
       - name: SyntheticsAutomatedTestOverrides
         field_type_override: "*SyntheticsAutomatedTestOverrides"
+      # overrides and specifications of fields associated with Monitor Downtimes start here
+      - name: SyntheticsDaysOfWeek
+        field_type_override: "*SyntheticsDaysOfWeek"
 
 
   - name: common
