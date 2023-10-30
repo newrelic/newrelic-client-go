@@ -435,12 +435,9 @@ var SyntheticsStepTypeTypes = struct {
 // Account configuration data is queried through this object, as well as
 // telemetry data that is specific to a single account.
 type Account struct {
-	//
-	ID int `json:"id,omitempty"`
-	//
+	ID         int    `json:"id,omitempty"`
 	LicenseKey string `json:"licenseKey,omitempty"`
-	//
-	Name string `json:"name,omitempty"`
+	Name       string `json:"name,omitempty"`
 	// This field provides access to Synthetics data.
 	Synthetics SyntheticsAccountStitchedFields `json:"synthetics,omitempty"`
 }
@@ -701,11 +698,11 @@ type SyntheticsAutomatedTestOverrides struct {
 // SyntheticsAutomatedTestOverridesInput - Automated test monitor overrides
 type SyntheticsAutomatedTestOverridesInput struct {
 	// Override a domain throughout a scripted monitor
-	Domain SyntheticsScriptDomainOverrideInput `json:"domain,omitempty" yaml:"domain,omitempty"`
+	Domain []SyntheticsScriptDomainOverrideInput `json:"domain,omitempty" yaml:"domain,omitempty"`
 	// Override monitor to use a specific location
 	Location string `json:"location,omitempty" yaml:"location,omitempty"`
 	// Override a script secure credential with another credential value
-	SecureCredential SyntheticsSecureCredentialOverrideInput `json:"secureCredential,omitempty" yaml:"secureCredential,omitempty"`
+	SecureCredential []SyntheticsSecureCredentialOverrideInput `json:"secureCredential,omitempty" yaml:"secureCredential,omitempty"`
 	// Override a browser monitor starting url
 	StartingURL string `json:"startingUrl,omitempty" yaml:"startingUrl,omitempty"`
 }
@@ -714,6 +711,10 @@ type SyntheticsAutomatedTestOverridesInput struct {
 type SyntheticsAutomatedTestResult struct {
 	// Automated test config
 	Config SyntheticsAutomatedTestConfig `json:"config,omitempty"`
+	// Finished time of the automated test batch
+	FinishTimestamp *nrtime.EpochMilliseconds `json:"finishTimestamp,omitempty"`
+	// Start time of the automated test batch
+	StartTimestamp *nrtime.EpochMilliseconds `json:"startTimestamp,omitempty"`
 	// Calculated status of automated test as a whole
 	Status SyntheticsAutomatedTestStatus `json:"status,omitempty"`
 	// List of completed automated test jobs
