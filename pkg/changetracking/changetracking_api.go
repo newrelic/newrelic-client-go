@@ -47,7 +47,6 @@ const ChangeTrackingCreateDeploymentMutation = `mutation(
 ) {
 	changelog
 	commit
-	customAttributes
 	deepLink
 	deploymentId
 	deploymentType
