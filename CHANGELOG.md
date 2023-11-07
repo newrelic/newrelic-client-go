@@ -1,3 +1,9 @@
+<a name="v2.22.1"></a>
+## [v2.22.1] - 2023-11-07
+### Bug Fixes
+- **changetracking:** remove customAttributes from response fields to avoid error
+- **synthetics_automated_testing:** update to schema based on NG updates ([#1062](https://github.com/newrelic/newrelic-client-go/issues/1062))
+
 <a name="v2.22.0"></a>
 ## [v2.22.0] - 2023-10-25
 ### Features
@@ -1673,7 +1679,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.22.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.22.1...HEAD
+[v2.22.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.22.0...v2.22.1
 [v2.22.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.21.2...v2.22.0
 [v2.21.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.21.1...v2.21.2
 [v2.21.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.21.0...v2.21.1
