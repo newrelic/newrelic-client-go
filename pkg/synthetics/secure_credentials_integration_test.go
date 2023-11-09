@@ -24,7 +24,7 @@ var (
 )
 
 func TestIntegrationSecureCredentials(t *testing.T) {
-	t.Parallel()
+	t.Skipf("Synthetics REST API is deprecated")
 
 	tc := mock.NewIntegrationTestConfig(t)
 	synthetics := New(tc)
