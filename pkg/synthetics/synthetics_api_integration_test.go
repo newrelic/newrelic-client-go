@@ -892,16 +892,12 @@ func TestSyntheticsStepMonitor_Basic(t *testing.T) {
 		},
 	}
 
-	time.Sleep(10 * time.Second)
-
 	updatedMonitor, err := a.SyntheticsUpdateStepMonitor(createdMonitor.Monitor.GUID, monitorUpdateInput)
 	require.NoError(t, err)
 	require.NotNil(t, updatedMonitor.Monitor)
 	require.Equal(t, 0, len(updatedMonitor.Errors))
 	require.Equal(t, monitorNameUpdate, updatedMonitor.Monitor.Name)
 	require.Equal(t, 3, len(updatedMonitor.Monitor.Steps))
-
-	time.Sleep(10 * time.Second)
 
 	deletedMonitor, err := a.SyntheticsDeleteMonitor(createdMonitor.Monitor.GUID)
 	require.NoError(t, err)
