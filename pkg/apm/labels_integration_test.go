@@ -13,7 +13,7 @@ import (
 )
 
 func TestIntegrationLabels(t *testing.T) {
-	t.Parallel()
+	t.Skipf("This API is deprecated so it always returns an error")
 
 	client := newIntegrationTestClient(t)
 

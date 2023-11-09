@@ -12,7 +12,7 @@ import (
 )
 
 func TestIntegrationGetMonitorLocations(t *testing.T) {
-	t.Parallel()
+	t.Skipf("Synthetics REST API is deprecated")
 
 	tc := mock.NewIntegrationTestConfig(t)
 

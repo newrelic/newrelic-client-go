@@ -13,7 +13,7 @@ import (
 )
 
 func TestIntegrationConditions(t *testing.T) {
-	t.Parallel()
+	t.Skipf("This a legacy API which will be deprecated soon")
 
 	var (
 		testConditionRandStr = nr.RandSeq(5)

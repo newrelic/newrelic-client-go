@@ -19,8 +19,6 @@ import (
 var tv bool = true
 
 func TestSyntheticsSecureCredential_Basic(t *testing.T) {
-	t.Parallel()
-
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
 		t.Skipf("%s", err)
@@ -41,8 +39,6 @@ func TestSyntheticsSecureCredential_Basic(t *testing.T) {
 }
 
 func TestSyntheticsSecureCredential_Error(t *testing.T) {
-	t.Parallel()
-
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
 		t.Skipf("%s", err)
@@ -56,7 +52,6 @@ func TestSyntheticsSecureCredential_Error(t *testing.T) {
 }
 
 func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
-	t.Parallel()
 
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
@@ -164,7 +159,6 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 }
 
 func TestSyntheticsSimpleMonitor_Basic(t *testing.T) {
-	t.Parallel()
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
 		t.Skipf("%s", err)
@@ -255,7 +249,6 @@ func TestSyntheticsSimpleMonitor_Basic(t *testing.T) {
 }
 
 func TestSyntheticsScriptApiMonitor_Basic(t *testing.T) {
-	t.Parallel()
 
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
@@ -361,7 +354,6 @@ func TestSyntheticsScriptApiMonitor_Basic(t *testing.T) {
 }
 
 func TestSyntheticsScriptApiMonitorLegacy_Basic(t *testing.T) {
-	t.Parallel()
 
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
@@ -457,7 +449,6 @@ func TestSyntheticsScriptApiMonitorLegacy_Basic(t *testing.T) {
 }
 
 func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
-	t.Parallel()
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
 		t.Skipf("%s", err)
@@ -539,7 +530,6 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 }
 
 func TestSyntheticsScriptBrowserMonitor_InvalidRuntimeValues(t *testing.T) {
-	t.Parallel()
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
 		t.Skipf("%s", err)
@@ -570,7 +560,6 @@ func TestSyntheticsScriptBrowserMonitor_InvalidRuntimeValues(t *testing.T) {
 }
 
 func TestSyntheticsScriptBrowserMonitor_DeviceEmulation(t *testing.T) {
-	t.Parallel()
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
 		t.Skipf("%s", err)
@@ -641,7 +630,6 @@ func TestSyntheticsScriptBrowserMonitor_DeviceEmulation(t *testing.T) {
 }
 
 func TestSyntheticsScriptBrowserMonitor_LegacyRuntime(t *testing.T) {
-	t.Parallel()
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
 		t.Skipf("%s", err)
@@ -702,7 +690,6 @@ func TestSyntheticsScriptBrowserMonitor_LegacyRuntime(t *testing.T) {
 }
 
 func TestSyntheticsPrivateLocation_Basic(t *testing.T) {
-	t.Parallel()
 
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
@@ -727,7 +714,6 @@ func TestSyntheticsPrivateLocation_Basic(t *testing.T) {
 }
 
 func TestSyntheticsBrokenLinksMonitor_Basic(t *testing.T) {
-	t.Parallel()
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
 		t.Skipf("%s", err)
@@ -782,7 +768,6 @@ func TestSyntheticsBrokenLinksMonitor_Basic(t *testing.T) {
 }
 
 func TestSyntheticsCertCheckMonitor_Basic(t *testing.T) {
-	t.Parallel()
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
 		t.Skipf("%s", err)
@@ -840,7 +825,6 @@ func TestSyntheticsCertCheckMonitor_Basic(t *testing.T) {
 }
 
 func TestSyntheticsStepMonitor_Basic(t *testing.T) {
-	t.Parallel()
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
 		t.Skipf("%s", err)
@@ -922,7 +906,6 @@ func TestSyntheticsStepMonitor_Basic(t *testing.T) {
 }
 
 func TestSyntheticsStepMonitor_GetSteps(t *testing.T) {
-	t.Parallel()
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
 		t.Skipf("%s", err)
@@ -979,7 +962,6 @@ func TestSyntheticsStepMonitor_GetSteps(t *testing.T) {
 }
 
 func TestSyntheticsStepMonitor_GetScript(t *testing.T) {
-	t.Parallel()
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
 		t.Skipf("%s", err)
@@ -1029,7 +1011,6 @@ func newIntegrationTestClient(t *testing.T) Synthetics {
 // syntheticsStartAutomatedTest mutation to create a batch with these three monitors. The expected
 // behaviour of this test is to return a valid batchId and throw no error.
 func TestSyntheticsStartAutomatedTest_Basic(t *testing.T) {
-	t.Parallel()
 	t.Skipf(
 		`Temporarily skipping tests associated with the Synthetics Automated Tests feature, ` +
 			`given the API is currently unstable and endpoint access is not configured to all accounts at the moment.
@@ -1176,7 +1157,6 @@ func TestSyntheticsStartAutomatedTest_Basic(t *testing.T) {
 // TestSyntheticsStartAutomatedTest_Error performs a test on the syntheticsStartAutomatedTest mutation by specifying
 // an invalid GUID in the input field of a monitor to obtain an error, in alignment with expected behaviour.
 func TestSyntheticsStartAutomatedTest_Error(t *testing.T) {
-	t.Parallel()
 	t.Skipf(
 		`Temporarily skipping tests associated with the Synthetics Automated Tests feature, ` +
 			`given the API is currently unstable and endpoint access is not configured to all accounts at the moment.
@@ -1198,7 +1178,6 @@ func TestSyntheticsStartAutomatedTest_Error(t *testing.T) {
 // TestSyntheticsAutomatedTestResults_TwoMonitorsTest performs a test by creating two scripted browser monitors,
 // creating a batch with those monitors, querying the batch and evaluating the status accordingly.
 func TestSyntheticsAutomatedTestResults_TwoMonitorsTest(t *testing.T) {
-	t.Parallel()
 	t.Skipf(
 		`Temporarily skipping tests associated with the Synthetics Automated Tests feature, ` +
 			`given the API is currently unstable and endpoint access is not configured to all accounts at the moment.
@@ -1285,7 +1264,6 @@ func TestSyntheticsAutomatedTestResults_TwoMonitorsTest(t *testing.T) {
 // creating a batch with the monitor, querying the batch and evaluating the status accordingly. Since the scripted
 // browser monitor is bound to fail, this tests inspects the consolidated status and the status of the monitor.
 func TestSyntheticsAutomatedTestResults_OneMonitorTest(t *testing.T) {
-	t.Parallel()
 	t.Skipf(
 		`Temporarily skipping tests associated with the Synthetics Automated Tests feature, ` +
 			`given the API is currently unstable and endpoint access is not configured to all accounts at the moment.
@@ -1351,7 +1329,6 @@ func TestSyntheticsAutomatedTestResults_OneMonitorTest(t *testing.T) {
 // TestSyntheticsAutomatedTestResults_ErrorTest performs a test on the automatedTestResults query by
 // specifying an invalid batchId, which is expected to throw an error.
 func TestSyntheticsAutomatedTestResults_ErrorTest(t *testing.T) {
-	t.Parallel()
 	t.Skipf(
 		`Temporarily skipping tests associated with the Synthetics Automated Tests feature, ` +
 			`given the API is currently unstable and endpoint access is not configured to all accounts at the moment.
