@@ -1485,6 +1485,8 @@ const getAutomatedTestResultQuery = `query(
 		platform
 		repository
 	}
+	finishTimestamp
+	startTimestamp
 	status
 	tests {
 		automatedTestMonitorConfig {

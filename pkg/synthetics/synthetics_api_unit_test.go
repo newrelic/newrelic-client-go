@@ -142,13 +142,25 @@ var (
 			Config: SyntheticsAutomatedTestMonitorConfigInput{
 				IsBlocking: true,
 				Overrides: &SyntheticsAutomatedTestOverridesInput{
-					Domain: SyntheticsScriptDomainOverrideInput{
-						Domain:   "sample-domain",
-						Override: "sample-override",
+					Domain: []SyntheticsScriptDomainOverrideInput{
+						{
+							Domain:   "sample-domain",
+							Override: "sample-override",
+						},
+						{
+							Domain:   "sample-domain-two",
+							Override: "sample-override-two",
+						},
 					},
-					SecureCredential: SyntheticsSecureCredentialOverrideInput{
-						Key:         "sample-key",
-						OverrideKey: "sample-override-key",
+					SecureCredential: []SyntheticsSecureCredentialOverrideInput{
+						{
+							Key:         "sample-key",
+							OverrideKey: "sample-override-key",
+						},
+						{
+							Key:         "sample-key-two",
+							OverrideKey: "sample-override-key-two",
+						},
 					},
 					StartingURL: "sample-starting-url.com",
 					Location:    "sample-location",

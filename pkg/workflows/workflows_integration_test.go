@@ -86,7 +86,7 @@ func TestIntegrationCreateWorkflowWithoutNotificationTriggers(t *testing.T) {
 	defer cleanupWorkflow(t, &createResult.Workflow)
 	var createdWorkflow = createResult.Workflow
 
-	require.Equal(t, []AiWorkflowsNotificationTrigger(nil), createdWorkflow.DestinationConfigurations[0].NotificationTriggers)
+	require.Equal(t, []AiWorkflowsNotificationTrigger{"ACKNOWLEDGED", "ACTIVATED", "CLOSED", "PRIORITY_CHANGED"}, createdWorkflow.DestinationConfigurations[0].NotificationTriggers)
 }
 
 func TestIntegrationDeleteWorkflow_CanDeleteChannels(t *testing.T) {
@@ -235,7 +235,7 @@ func TestIntegrationUpdateWorkflow_UpdateEverything(t *testing.T) {
 				Name: "filter-test-update",
 				Type: AiWorkflowsFilterTypeTypes.FILTER,
 				Predicates: []AiWorkflowsPredicateInput{{
-					Attribute: "source",
+					Attribute: "accumulations.sources",
 					Operator:  AiWorkflowsOperatorTypes.CONTAINS,
 					Values:    []string{"servicenow"},
 				}},
@@ -453,7 +453,7 @@ func generateCreateWorkflowInput(channel *notifications.AiNotificationsChannel, 
 		Name: "filter-test",
 		Type: AiWorkflowsFilterTypeTypes.FILTER,
 		Predicates: []AiWorkflowsPredicateInput{{
-			Attribute: "source",
+			Attribute: "accumulations.sources",
 			Operator:  AiWorkflowsOperatorTypes.CONTAINS,
 			Values:    []string{"newrelic"},
 		}},
