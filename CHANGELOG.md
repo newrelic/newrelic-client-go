@@ -1,3 +1,8 @@
+<a name="v2.22.2"></a>
+## [v2.22.2] - 2023-11-14
+### Bug Fixes
+- integration tests ([#1064](https://github.com/newrelic/newrelic-client-go/issues/1064))
+
 <a name="v2.22.1"></a>
 ## [v2.22.1] - 2023-11-07
 ### Bug Fixes
@@ -1679,7 +1684,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.22.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.22.2...HEAD
+[v2.22.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.22.1...v2.22.2
 [v2.22.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.22.0...v2.22.1
 [v2.22.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.21.2...v2.22.0
 [v2.21.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.21.1...v2.21.2
