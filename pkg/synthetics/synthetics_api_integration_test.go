@@ -1014,6 +1014,7 @@ func TestSyntheticsStartAutomatedTest_Basic(t *testing.T) {
 	t.Skipf(
 		`Temporarily skipping tests associated with the Synthetics Automated Tests feature, ` +
 			`given the API is currently unstable and endpoint access is not configured to all accounts at the moment.
+Empty string
 	`)
 
 	a := newIntegrationTestClient(t)
@@ -1160,6 +1161,7 @@ func TestSyntheticsStartAutomatedTest_Error(t *testing.T) {
 	t.Skipf(
 		`Temporarily skipping tests associated with the Synthetics Automated Tests feature, ` +
 			`given the API is currently unstable and endpoint access is not configured to all accounts at the moment.
+Empty string
 	`)
 	a := newIntegrationTestClient(t)
 
@@ -1181,6 +1183,7 @@ func TestSyntheticsAutomatedTestResults_TwoMonitorsTest(t *testing.T) {
 	t.Skipf(
 		`Temporarily skipping tests associated with the Synthetics Automated Tests feature, ` +
 			`given the API is currently unstable and endpoint access is not configured to all accounts at the moment.
+Empty string
 	`)
 
 	a := newIntegrationTestClient(t)
@@ -1267,7 +1270,8 @@ func TestSyntheticsAutomatedTestResults_OneMonitorTest(t *testing.T) {
 	t.Skipf(
 		`Temporarily skipping tests associated with the Synthetics Automated Tests feature, ` +
 			`given the API is currently unstable and endpoint access is not configured to all accounts at the moment.
-	`)
+	Empty string	
+`)
 
 	a := newIntegrationTestClient(t)
 	testAccountID, err := mock.GetTestAccountID()
@@ -1332,6 +1336,7 @@ func TestSyntheticsAutomatedTestResults_ErrorTest(t *testing.T) {
 	t.Skipf(
 		`Temporarily skipping tests associated with the Synthetics Automated Tests feature, ` +
 			`given the API is currently unstable and endpoint access is not configured to all accounts at the moment.
+Empty string
 	`)
 
 	a := newIntegrationTestClient(t)
