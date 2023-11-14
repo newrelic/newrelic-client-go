@@ -2,6 +2,7 @@
 package config
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"os"
@@ -68,6 +69,27 @@ func New() Config {
 		LogLevel:    "info",
 		Compression: Compression.None,
 	}
+}
+
+func (cfg *Config) Init(opts []ConfigOption) error {
+	// Loop through config options
+	for _, fn := range opts {
+		if nil != fn {
+			if err := fn(cfg); err != nil {
+				return err
+			}
+		}
+	}
+
+	if cfg.PersonalAPIKey == "" && cfg.AdminAPIKey == "" && cfg.InsightsInsertKey == "" {
+		return errors.New("must use at least one of: ConfigPersonalAPIKey, ConfigAdminAPIKey, ConfigInsightsInsertKey")
+	}
+
+	if cfg.Logger == nil {
+		cfg.Logger = cfg.GetLogger()
+	}
+
+	return nil
 }
 
 // Region returns the region configuration struct

@@ -1,11 +1,8 @@
 package newrelic
 
 import (
-	"errors"
 	"net/http"
 	"time"
-
-	log "github.com/sirupsen/logrus"
 
 	"github.com/newrelic/newrelic-client-go/v2/pkg/accountmanagement"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/accounts"
@@ -31,7 +28,6 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/nrdb"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/nrqldroprules"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/plugins"
-	"github.com/newrelic/newrelic-client-go/v2/pkg/region"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/servicelevel"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/synthetics"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/workflows"
@@ -74,21 +70,9 @@ type NewRelic struct {
 func New(opts ...ConfigOption) (*NewRelic, error) {
 	cfg := config.New()
 
-	// Loop through config options
-	for _, fn := range opts {
-		if nil != fn {
-			if err := fn(&cfg); err != nil {
-				return nil, err
-			}
-		}
-	}
-
-	if cfg.PersonalAPIKey == "" && cfg.AdminAPIKey == "" && cfg.InsightsInsertKey == "" {
-		return nil, errors.New("must use at least one of: ConfigPersonalAPIKey, ConfigAdminAPIKey, ConfigInsightsInsertKey")
-	}
-
-	if cfg.Logger == nil {
-		cfg.Logger = cfg.GetLogger()
+	err := cfg.Init(opts)
+	if err != nil {
+		return nil, err
 	}
 
 	nr := &NewRelic{
@@ -150,182 +134,85 @@ func (nr *NewRelic) TestEndpoints() error {
 
 // ConfigOption configures the Config when provided to NewApplication.
 // https://docs.newrelic.com/docs/apis/get-started/intro-apis/types-new-relic-api-keys
-type ConfigOption func(*config.Config) error
+type ConfigOption = config.ConfigOption
 
 // ConfigPersonalAPIKey sets the New Relic Admin API key this client will use.
 // This key should be used to create a client instance.
 // https://docs.newrelic.com/docs/apis/get-started/intro-apis/types-new-relic-api-keys
 func ConfigPersonalAPIKey(apiKey string) ConfigOption {
-	return func(cfg *config.Config) error {
-		cfg.PersonalAPIKey = apiKey
-		return nil
-	}
+	return config.ConfigPersonalAPIKey(apiKey)
 }
 
 // ConfigInsightsInsertKey sets the New Relic Insights insert key this client will use.
 // https://docs.newrelic.com/docs/apis/get-started/intro-apis/types-new-relic-api-keys
 func ConfigInsightsInsertKey(insightsInsertKey string) ConfigOption {
-	return func(cfg *config.Config) error {
-		cfg.InsightsInsertKey = insightsInsertKey
-		return nil
-	}
+	return config.ConfigInsightsInsertKey(insightsInsertKey)
 }
 
 // ConfigAdminAPIKey sets the New Relic Admin API key this client will use.
 // Deprecated.  Use a personal API key for authentication.
 // https://docs.newrelic.com/docs/apis/get-started/intro-apis/types-new-relic-api-keys
 func ConfigAdminAPIKey(adminAPIKey string) ConfigOption {
-	return func(cfg *config.Config) error {
-		cfg.AdminAPIKey = adminAPIKey
-		return nil
-	}
+	return config.ConfigAdminAPIKey(adminAPIKey)
 }
 
 // ConfigRegion sets the New Relic Region this client will use.
 func ConfigRegion(r string) ConfigOption {
-	return func(cfg *config.Config) error {
-		// We can ignore this error since we will be defaulting in the next step
-		regName, _ := region.Parse(r)
-
-		reg, err := region.Get(regName)
-		if err != nil {
-			if _, ok := err.(region.UnknownUsingDefaultError); ok {
-				// If region wasn't provided, output a warning message
-				// indicating the default region "US" is being used.
-				log.Warn(err)
-				return nil
-			}
-
-			return err
-		}
-
-		err = cfg.SetRegion(reg)
-
-		return err
-	}
+	return config.ConfigRegion(r)
 }
 
 // ConfigHTTPTimeout sets the timeout for HTTP requests.
 func ConfigHTTPTimeout(t time.Duration) ConfigOption {
-	return func(cfg *config.Config) error {
-		var timeout = &t
-		cfg.Timeout = timeout
-		return nil
-	}
+	return config.ConfigHTTPTimeout(t)
 }
 
 // ConfigHTTPTransport sets the HTTP Transporter.
 func ConfigHTTPTransport(transport http.RoundTripper) ConfigOption {
-	return func(cfg *config.Config) error {
-		if transport != nil {
-			cfg.HTTPTransport = transport
-			return nil
-		}
-
-		return errors.New("HTTP Transport can not be nil")
-	}
+	return config.ConfigHTTPTransport(transport)
 }
 
 // ConfigUserAgent sets the HTTP UserAgent for API requests.
 func ConfigUserAgent(ua string) ConfigOption {
-	return func(cfg *config.Config) error {
-		if ua != "" {
-			cfg.UserAgent = ua
-			return nil
-		}
-
-		return errors.New("user-agent can not be empty")
-	}
+	return config.ConfigUserAgent(ua)
 }
 
 // ConfigServiceName sets the service name logged
 func ConfigServiceName(name string) ConfigOption {
-	return func(cfg *config.Config) error {
-		if name != "" {
-			cfg.ServiceName = name
-		}
-
-		return nil
-	}
+	return config.ConfigServiceName(name)
 }
 
 // ConfigBaseURL sets the base URL used to make requests to the REST API V2.
 func ConfigBaseURL(url string) ConfigOption {
-	return func(cfg *config.Config) error {
-		if url != "" {
-			cfg.Region().SetRestBaseURL(url)
-			return nil
-		}
-
-		return errors.New("base URL can not be empty")
-	}
+	return config.ConfigBaseURL(url)
 }
 
 // ConfigInfrastructureBaseURL sets the base URL used to make requests to the Infrastructure API.
 func ConfigInfrastructureBaseURL(url string) ConfigOption {
-	return func(cfg *config.Config) error {
-		if url != "" {
-			cfg.Region().SetInfrastructureBaseURL(url)
-			return nil
-		}
-
-		return errors.New("infrastructure base URL can not be empty")
-	}
+	return config.ConfigInfrastructureBaseURL(url)
 }
 
 // ConfigSyntheticsBaseURL sets the base URL used to make requests to the Synthetics API.
 func ConfigSyntheticsBaseURL(url string) ConfigOption {
-	return func(cfg *config.Config) error {
-		if url != "" {
-			cfg.Region().SetSyntheticsBaseURL(url)
-			return nil
-		}
-
-		return errors.New("synthetics base URL can not be empty")
-	}
+	return config.ConfigSyntheticsBaseURL(url)
 }
 
 // ConfigNerdGraphBaseURL sets the base URL used to make requests to the NerdGraph API.
 func ConfigNerdGraphBaseURL(url string) ConfigOption {
-	return func(cfg *config.Config) error {
-		if url != "" {
-			cfg.Region().SetNerdGraphBaseURL(url)
-			return nil
-		}
-
-		return errors.New("nerdgraph base URL can not be empty")
-	}
+	return config.ConfigNerdGraphBaseURL(url)
 }
 
 // ConfigLogLevel sets the log level for the client.
 func ConfigLogLevel(logLevel string) ConfigOption {
-	return func(cfg *config.Config) error {
-		if logLevel != "" {
-			cfg.LogLevel = logLevel
-			return nil
-		}
-
-		return errors.New("log level can not be empty")
-	}
+	return config.ConfigLogLevel(logLevel)
 }
 
 // ConfigLogJSON toggles JSON formatting on for the logger if set to true.
 func ConfigLogJSON(logJSON bool) ConfigOption {
-	return func(cfg *config.Config) error {
-		cfg.LogJSON = logJSON
-		return nil
-	}
+	return config.ConfigLogJSON(logJSON)
 }
 
 // ConfigLogger can be used to customize the client's logger.
 // Custom loggers must conform to the logging.Logger interface.
 func ConfigLogger(logger logging.Logger) ConfigOption {
-	return func(cfg *config.Config) error {
-		if logger != nil {
-			cfg.Logger = logger
-			return nil
-		}
-
-		return errors.New("logger can not be nil")
-	}
+	return config.ConfigLogger(logger)
 }
