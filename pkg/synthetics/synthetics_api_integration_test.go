@@ -60,7 +60,7 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 
 	a := newIntegrationTestClient(t)
 
-	monitorName := mock.RandSeq(5)
+	monitorName := generateSyntheticsEntityNameForIntegrationTest("MONITOR", false)
 
 	simpleBrowserMonitorInput := SyntheticsCreateSimpleBrowserMonitorInput{
 		Locations: SyntheticsLocationsInput{
@@ -129,7 +129,7 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 				"AP_SOUTH_1",
 			},
 		},
-		Name:   monitorName + "-updated",
+		Name:   generateSyntheticsEntityNameForIntegrationTest("MONITOR", true),
 		Period: SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
 		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
 		Tags: []SyntheticsTag{
@@ -166,7 +166,7 @@ func TestSyntheticsSimpleMonitor_Basic(t *testing.T) {
 
 	a := newIntegrationTestClient(t)
 
-	monitorName := mock.RandSeq(5)
+	monitorName := generateSyntheticsEntityNameForIntegrationTest("MONITOR", false)
 
 	simpleMonitorInput := SyntheticsCreateSimpleMonitorInput{
 		AdvancedOptions: SyntheticsSimpleMonitorAdvancedOptionsInput{
@@ -224,7 +224,7 @@ func TestSyntheticsSimpleMonitor_Basic(t *testing.T) {
 				"AP_SOUTH_1",
 			},
 		},
-		Name:   monitorName + "-updated",
+		Name:   generateSyntheticsEntityNameForIntegrationTest("MONITOR", true),
 		Period: SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
 		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
 		Tags: []SyntheticsTag{
@@ -257,7 +257,7 @@ func TestSyntheticsScriptApiMonitor_Basic(t *testing.T) {
 
 	a := newIntegrationTestClient(t)
 
-	monitorName := mock.RandSeq(5)
+	monitorName := generateSyntheticsEntityNameForIntegrationTest("MONITOR", false)
 
 	apiScript := fmt.Sprintf(`
 		const myAccountId = '%s';
@@ -324,7 +324,7 @@ func TestSyntheticsScriptApiMonitor_Basic(t *testing.T) {
 				"AP_SOUTH_1",
 			},
 		},
-		Name:   monitorName + "-updated",
+		Name:   generateSyntheticsEntityNameForIntegrationTest("MONITOR", true),
 		Period: SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
 		Status: SyntheticsMonitorStatusTypes.ENABLED,
 		Script: apiScript,
@@ -362,7 +362,7 @@ func TestSyntheticsScriptApiMonitorLegacy_Basic(t *testing.T) {
 
 	a := newIntegrationTestClient(t)
 
-	monitorName := mock.RandSeq(5)
+	monitorName := generateSyntheticsEntityNameForIntegrationTest("MONITOR", false)
 
 	apiScript := fmt.Sprintf(`
 		const myAccountId = '%s';
@@ -424,7 +424,7 @@ func TestSyntheticsScriptApiMonitorLegacy_Basic(t *testing.T) {
 				"AP_SOUTH_1",
 			},
 		},
-		Name:   monitorName + "-updated",
+		Name:   generateSyntheticsEntityNameForIntegrationTest("MONITOR", true),
 		Period: SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
 		Status: SyntheticsMonitorStatusTypes.ENABLED,
 		Script: apiScript,
@@ -456,8 +456,6 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 
 	a := newIntegrationTestClient(t)
 
-	monitorName := mock.RandSeq(5)
-
 	scriptBrowserMonitorInput := SyntheticsCreateScriptBrowserMonitorInput{
 		AdvancedOptions: SyntheticsScriptBrowserMonitorAdvancedOptionsInput{
 			EnableScreenshotOnFailureAndScript: &tv,
@@ -467,7 +465,7 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 				"AP_SOUTH_1",
 			},
 		},
-		Name:   monitorName,
+		Name:   generateSyntheticsEntityNameForIntegrationTest("MONITOR", false),
 		Period: SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
 		Status: SyntheticsMonitorStatusTypes.ENABLED,
 		Runtime: &SyntheticsRuntimeInput{
@@ -500,7 +498,7 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 				"AP_SOUTH_1",
 			},
 		},
-		Name:   monitorName + "-updated",
+		Name:   generateSyntheticsEntityNameForIntegrationTest("MONITOR", true),
 		Period: SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
 		Status: SyntheticsMonitorStatusTypes.ENABLED,
 		Runtime: &SyntheticsRuntimeInput{
@@ -537,13 +535,11 @@ func TestSyntheticsScriptBrowserMonitor_InvalidRuntimeValues(t *testing.T) {
 
 	a := newIntegrationTestClient(t)
 
-	monitorName := mock.RandSeq(5)
-
 	scriptBrowserMonitorInput := SyntheticsCreateScriptBrowserMonitorInput{
 		Locations: SyntheticsScriptedMonitorLocationsInput{
 			Public: []string{"AP_SOUTH_1"},
 		},
-		Name:   monitorName,
+		Name:   generateSyntheticsEntityNameForIntegrationTest("MONITOR", false),
 		Period: SyntheticsMonitorPeriodTypes.EVERY_12_HOURS,
 		Status: SyntheticsMonitorStatusTypes.ENABLED,
 		Runtime: &SyntheticsRuntimeInput{
@@ -567,7 +563,7 @@ func TestSyntheticsScriptBrowserMonitor_DeviceEmulation(t *testing.T) {
 
 	a := newIntegrationTestClient(t)
 
-	monitorName := mock.RandSeq(5)
+	monitorName := generateSyntheticsEntityNameForIntegrationTest("MONITOR", false)
 
 	scriptBrowserMonitorInput := SyntheticsCreateScriptBrowserMonitorInput{
 		AdvancedOptions: SyntheticsScriptBrowserMonitorAdvancedOptionsInput{
@@ -608,7 +604,7 @@ func TestSyntheticsScriptBrowserMonitor_DeviceEmulation(t *testing.T) {
 		Locations: SyntheticsScriptedMonitorLocationsInput{
 			Public: []string{"AP_SOUTH_1"},
 		},
-		Name:   monitorName + "-updated",
+		Name:   generateSyntheticsEntityNameForIntegrationTest("MONITOR", true),
 		Period: SyntheticsMonitorPeriodTypes.EVERY_12_HOURS,
 		Status: SyntheticsMonitorStatusTypes.ENABLED,
 		Runtime: &SyntheticsRuntimeInput{
@@ -637,7 +633,7 @@ func TestSyntheticsScriptBrowserMonitor_LegacyRuntime(t *testing.T) {
 
 	a := newIntegrationTestClient(t)
 
-	monitorName := mock.RandSeq(5)
+	monitorName := generateSyntheticsEntityNameForIntegrationTest("MONITOR", false)
 
 	scriptBrowserMonitorInput := SyntheticsCreateScriptBrowserMonitorInput{
 		AdvancedOptions: SyntheticsScriptBrowserMonitorAdvancedOptionsInput{
@@ -673,7 +669,7 @@ func TestSyntheticsScriptBrowserMonitor_LegacyRuntime(t *testing.T) {
 				},
 			},
 		},
-		Name:   monitorName + "-updated",
+		Name:   generateSyntheticsEntityNameForIntegrationTest("MONITOR", true),
 		Period: SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
 		Status: SyntheticsMonitorStatusTypes.ENABLED,
 		Script: "var assert = require('assert');\n\n$browser.get('https://one.newrelic.com')",
@@ -690,7 +686,6 @@ func TestSyntheticsScriptBrowserMonitor_LegacyRuntime(t *testing.T) {
 }
 
 func TestSyntheticsPrivateLocation_Basic(t *testing.T) {
-
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
 		t.Skipf("%s", err)
@@ -698,11 +693,22 @@ func TestSyntheticsPrivateLocation_Basic(t *testing.T) {
 
 	a := newIntegrationTestClient(t)
 
-	createResp, err := a.SyntheticsCreatePrivateLocation(testAccountID, "test secure credential", "TEST", true)
+	createResp, err := a.SyntheticsCreatePrivateLocation(
+		testAccountID,
+		"Test Private Location",
+		generateSyntheticsEntityNameForIntegrationTest("PRIVATE_LOCATION", false),
+		true,
+	)
+
 	require.NoError(t, err)
 	require.NotNil(t, createResp)
 
-	updateResp, err := a.SyntheticsUpdatePrivateLocation("test secure credential", createResp.GUID, true)
+	updateResp, err := a.SyntheticsUpdatePrivateLocation(
+		"Test Private Location Description Updated",
+		createResp.GUID,
+		true,
+	)
+
 	require.NoError(t, err)
 	require.NotNil(t, updateResp)
 
@@ -721,7 +727,7 @@ func TestSyntheticsBrokenLinksMonitor_Basic(t *testing.T) {
 
 	a := newIntegrationTestClient(t)
 
-	monitorName := fmt.Sprintf("client-integration-test-%s", mock.RandSeq(5))
+	monitorName := generateSyntheticsEntityNameForIntegrationTest("MONITOR", false)
 	monitorInput := SyntheticsCreateBrokenLinksMonitorInput{
 		Name:   monitorName,
 		Period: SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
@@ -743,9 +749,9 @@ func TestSyntheticsBrokenLinksMonitor_Basic(t *testing.T) {
 	require.NotNil(t, createdMonitor)
 	require.Equal(t, 0, len(createdMonitor.Errors))
 
-	monitorNameUpdate := fmt.Sprintf("%s-updated", monitorName)
+	monitorNameUpdate := generateSyntheticsEntityNameForIntegrationTest("MONITOR", true)
 	monitorUpdateInput := SyntheticsUpdateBrokenLinksMonitorInput{
-		Name:      fmt.Sprintf("%s-updated", monitorName),
+		Name:      monitorNameUpdate,
 		Period:    monitorInput.Period,
 		Status:    monitorInput.Status,
 		Locations: monitorInput.Locations,
@@ -775,7 +781,7 @@ func TestSyntheticsCertCheckMonitor_Basic(t *testing.T) {
 
 	a := newIntegrationTestClient(t)
 
-	monitorName := fmt.Sprintf("client-integration-test-%s", mock.RandSeq(5))
+	monitorName := generateSyntheticsEntityNameForIntegrationTest("MONITOR", false)
 	monitorInput := SyntheticsCreateCertCheckMonitorInput{
 		Name:   monitorName,
 		Period: SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
@@ -798,9 +804,9 @@ func TestSyntheticsCertCheckMonitor_Basic(t *testing.T) {
 	require.NotNil(t, createdMonitor)
 	require.Equal(t, 0, len(createdMonitor.Errors))
 
-	monitorNameUpdate := fmt.Sprintf("%s-updated", monitorName)
+	monitorNameUpdate := generateSyntheticsEntityNameForIntegrationTest("MONITOR", true)
 	monitorUpdateInput := SyntheticsUpdateCertCheckMonitorInput{
-		Name:                              fmt.Sprintf("%s-updated", monitorName),
+		Name:                              monitorNameUpdate,
 		Period:                            monitorInput.Period,
 		Status:                            monitorInput.Status,
 		Locations:                         monitorInput.Locations,
@@ -832,7 +838,7 @@ func TestSyntheticsStepMonitor_Basic(t *testing.T) {
 
 	a := newIntegrationTestClient(t)
 
-	monitorName := fmt.Sprintf("client-integration-test-%s", mock.RandSeq(5))
+	monitorName := generateSyntheticsEntityNameForIntegrationTest("MONITOR", false)
 	enableScreenshotOnFailureAndScript := true
 	monitorInput := SyntheticsCreateStepMonitorInput{
 		Name:   monitorName,
@@ -870,9 +876,9 @@ func TestSyntheticsStepMonitor_Basic(t *testing.T) {
 	require.Equal(t, 0, len(createdMonitor.Errors))
 	require.Equal(t, 2, len(createdMonitor.Monitor.Steps))
 
-	monitorNameUpdate := fmt.Sprintf("%s-updated", monitorName)
+	monitorNameUpdate := generateSyntheticsEntityNameForIntegrationTest("MONITOR", true)
 	monitorUpdateInput := SyntheticsUpdateStepMonitorInput{
-		Name: fmt.Sprintf("%s-updated", monitorName),
+		Name: monitorNameUpdate,
 		Steps: []SyntheticsStepInput{
 			{
 				Ordinal: 0,
@@ -913,7 +919,7 @@ func TestSyntheticsStepMonitor_GetSteps(t *testing.T) {
 
 	a := newIntegrationTestClient(t)
 
-	monitorName := fmt.Sprintf("client-integration-test-%s", mock.RandSeq(5))
+	monitorName := generateSyntheticsEntityNameForIntegrationTest("MONITOR", false)
 	enableScreenshotOnFailureAndScript := true
 	monitorInput := SyntheticsCreateStepMonitorInput{
 		Name:   monitorName,
@@ -969,7 +975,7 @@ func TestSyntheticsStepMonitor_GetScript(t *testing.T) {
 
 	a := newIntegrationTestClient(t)
 
-	monitorName := fmt.Sprintf("client-integration-test-%s", mock.RandSeq(5))
+	monitorName := generateSyntheticsEntityNameForIntegrationTest("MONITOR", false)
 	monitorInput := SyntheticsCreateScriptBrowserMonitorInput{
 		Locations: SyntheticsScriptedMonitorLocationsInput{
 			Public: []string{"AP_SOUTH_1"},
@@ -1023,7 +1029,7 @@ func TestSyntheticsStartAutomatedTest_Basic(t *testing.T) {
 	}
 
 	// Defining the first monitor
-	monitorOneName := fmt.Sprintf("newrelic-client-go-syntheticStartAutomatedTest-test-monitor-%s", mock.RandSeq(5))
+	monitorOneName := fmt.Sprintf("%s-syntheticsStartAutomatedTest", generateSyntheticsEntityNameForIntegrationTest("MONITOR", false))
 	monitorOneInput := SyntheticsCreateScriptBrowserMonitorInput{
 		Locations: SyntheticsScriptedMonitorLocationsInput{
 			Public: []string{"AP_SOUTH_1"},
@@ -1040,7 +1046,7 @@ func TestSyntheticsStartAutomatedTest_Basic(t *testing.T) {
 	}
 
 	// Defining the second monitor
-	monitorTwoName := fmt.Sprintf("newrelic-client-go-syntheticStartAutomatedTest-test-monitor-%s", mock.RandSeq(5))
+	monitorTwoName := fmt.Sprintf("%s-syntheticsStartAutomatedTest", generateSyntheticsEntityNameForIntegrationTest("MONITOR", false))
 	monitorTwoInput := SyntheticsCreateSimpleBrowserMonitorInput{
 		Locations: SyntheticsLocationsInput{
 			Public: []string{
@@ -1078,7 +1084,7 @@ func TestSyntheticsStartAutomatedTest_Basic(t *testing.T) {
 	}
 
 	// Defining the third monitor
-	monitorThreeName := fmt.Sprintf("newrelic-client-go-syntheticStartAutomatedTest-test-monitor-%s", mock.RandSeq(5))
+	monitorThreeName := fmt.Sprintf("%s-syntheticsStartAutomatedTest", generateSyntheticsEntityNameForIntegrationTest("MONITOR", false))
 	monitorThreeInput := SyntheticsCreateSimpleMonitorInput{
 		AdvancedOptions: SyntheticsSimpleMonitorAdvancedOptionsInput{
 			CustomHeaders: []SyntheticsCustomHeaderInput{
@@ -1190,7 +1196,7 @@ func TestSyntheticsAutomatedTestResults_TwoMonitorsTest(t *testing.T) {
 	}
 
 	// Defining the first monitor
-	monitorOneName := fmt.Sprintf("newrelic-client-go-automatedTestResults-test-monitor-failure%s", mock.RandSeq(5))
+	monitorOneName := fmt.Sprintf("%s-syntheticsStartAutomatedTest", generateSyntheticsEntityNameForIntegrationTest("MONITOR", false))
 	monitorOneInput := SyntheticsCreateScriptBrowserMonitorInput{
 		Locations: SyntheticsScriptedMonitorLocationsInput{
 			Public: []string{"AP_SOUTH_1"},
@@ -1207,7 +1213,7 @@ func TestSyntheticsAutomatedTestResults_TwoMonitorsTest(t *testing.T) {
 	}
 
 	// Defining the second monitor
-	monitorTwoName := fmt.Sprintf("newrelic-client-go-automatedTestResults-test-monitor-failure%s", mock.RandSeq(5))
+	monitorTwoName := fmt.Sprintf("%s-syntheticsStartAutomatedTest", generateSyntheticsEntityNameForIntegrationTest("MONITOR", false))
 	monitorTwoInput := SyntheticsCreateScriptBrowserMonitorInput{
 		Locations: SyntheticsScriptedMonitorLocationsInput{
 			Public: []string{"AP_SOUTH_1"},
@@ -1276,7 +1282,7 @@ func TestSyntheticsAutomatedTestResults_OneMonitorTest(t *testing.T) {
 	}
 
 	// Defining the first monitor
-	monitorOneName := fmt.Sprintf("newrelic-client-go-automatedTestResults-test-monitor-failure%s", mock.RandSeq(5))
+	monitorOneName := fmt.Sprintf("%s-syntheticsStartAutomatedTest", generateSyntheticsEntityNameForIntegrationTest("MONITOR", false))
 	monitorOneInput := SyntheticsCreateScriptBrowserMonitorInput{
 		Locations: SyntheticsScriptedMonitorLocationsInput{
 			Public: []string{"AP_SOUTH_1"},
@@ -1342,4 +1348,23 @@ func TestSyntheticsAutomatedTestResults_ErrorTest(t *testing.T) {
 
 	_, err := a.GetAutomatedTestResult(testAccountID, "invalid_batchId")
 	require.Error(t, errors.New("No automated test results found for batchId"), err)
+}
+
+func generateSyntheticsEntityNameForIntegrationTest(entityType string, updated bool) string {
+	switch entityType {
+	case "MONITOR":
+		if updated {
+			return fmt.Sprintf("client-go-test-synthetic-monitor-updated-%s", mock.RandSeq(5))
+		}
+		return fmt.Sprintf("client-go-test-synthetic-monitor-%s", mock.RandSeq(5))
+	case "SECURE_CRED":
+		if updated {
+			return fmt.Sprintf("CLIENT-GO-TEST-SYNTHETICS-SECURE-CREDENTIAL-UPDATED-%s", mock.RandSeq(5))
+		}
+		return fmt.Sprintf("CLIENT-GO-TEST-SYNTHETICS-SECURE-CREDENTIAL-%s", mock.RandSeq(5))
+	case "PRIVATE_LOCATION":
+		// name cannot exceed 32 characters, else, an error is thrown upon creation
+		return fmt.Sprintf("client-go-test-synth-PL-%s", mock.RandSeq(5))
+	}
+	return ""
 }
