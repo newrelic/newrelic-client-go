@@ -4,8 +4,6 @@
 package synthetics
 
 import (
-	"fmt"
-	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -30,8 +28,8 @@ func TestIntegrationSecureCredentials(t *testing.T) {
 	synthetics := New(tc)
 
 	// Setup
-	rand := strings.ToUpper(mock.RandSeq(5))
-	key := fmt.Sprintf("TEST_SYNTHETICS_SECURE_CREDENTIAL_%s", rand)
+
+	key := generateSyntheticsEntityNameForIntegrationTest("SECURE_CRED", false)
 	testIntegrationSecureCredential.Key = key
 	creds, err := synthetics.GetSecureCredentials()
 	require.NoError(t, err)

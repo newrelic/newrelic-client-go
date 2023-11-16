@@ -4,7 +4,6 @@
 package synthetics
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -33,8 +32,7 @@ func TestIntegrationMonitors(t *testing.T) {
 
 	synthetics := New(tc)
 
-	rand := mock.RandSeq(5)
-	testIntegrationMonitor.Name = fmt.Sprintf("test-synthetics-monitor-%s", rand)
+	testIntegrationMonitor.Name = generateSyntheticsEntityNameForIntegrationTest("MONITOR", false)
 
 	// Test: Create
 	created, err := synthetics.CreateMonitor(testIntegrationMonitor)
@@ -57,7 +55,7 @@ func TestIntegrationMonitors(t *testing.T) {
 	require.NotNil(t, *monitor)
 
 	// Test: Update
-	updatedName := fmt.Sprintf("test-synthetics-monitor-updated-%s", rand)
+	updatedName := generateSyntheticsEntityNameForIntegrationTest("MONITOR", true)
 	monitor.Name = updatedName
 	updated, err := synthetics.UpdateMonitor(*monitor)
 

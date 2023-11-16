@@ -257,7 +257,7 @@ func TestIntegrationGetEntity_MobileEntity(t *testing.T) {
 
 func TestIntegrationGetEntity_SyntheticsEntity(t *testing.T) {
 	t.Parallel()
-	syntheticsEntityMonitorGUID := "MzgwNjUyNnxTWU5USHxNT05JVE9SfGVhMjA5MWE4LTM3OTktNDAxOC1iMzU5LWJiYTE0NGY3ZjViMw"
+	syntheticsEntityMonitorGUID := "MzgwNjUyNnxTWU5USHxNT05JVE9SfGFmZmM0MTRiLTVhNmMtNGI5NS1iMzYwLThhNmQ2ZTkzOTM3Yw"
 	client := newIntegrationTestClient(t)
 
 	result, err := client.GetEntity(common.EntityGUID(syntheticsEntityMonitorGUID))
