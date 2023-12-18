@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"math/rand"
 	"os"
 	"testing"
 	"time"
@@ -1350,6 +1351,497 @@ func TestSyntheticsAutomatedTestResults_ErrorTest(t *testing.T) {
 	require.Error(t, errors.New("No automated test results found for batchId"), err)
 }
 
+func TestSynthetics_MonitorDowntimeOnce(t *testing.T) {
+	a := newIntegrationTestClient(t)
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	monitorOneName := fmt.Sprintf("%s-downtime-helper", generateSyntheticsEntityNameForIntegrationTest("MONITOR", false))
+	monitorTwoName := fmt.Sprintf("%s-downtime-helper", generateSyntheticsEntityNameForIntegrationTest("MONITOR", false))
+
+	monitorOneInput := getSampleScriptedBrowserMonitorInput(monitorOneName)
+	monitorTwoInput := getSampleScriptedBrowserMonitorInput(monitorTwoName)
+
+	monitorTwo, _ := a.SyntheticsCreateScriptBrowserMonitor(testAccountID, monitorTwoInput)
+	monitorOne, _ := a.SyntheticsCreateScriptBrowserMonitor(testAccountID, monitorOneInput)
+
+	var monitorGUIDs []EntityGUID
+	monitorGUIDs = append(monitorGUIDs, EntityGUID(monitorOne.Monitor.GUID))
+
+	result, err := a.SyntheticsCreateOnceMonitorDowntime(
+		testAccountID,
+		NaiveDateTime(generateRandomEndTime()),
+		monitorGUIDs,
+		generateSyntheticsEntityNameForIntegrationTest("MONITOR_DOWNTIME", false),
+		NaiveDateTime(generateRandomStartTime()),
+		generateRandomTimeZone(),
+	)
+
+	require.NoError(t, err)
+	require.NotNil(t, result.GUID)
+
+	monitorGUIDs = append(monitorGUIDs, EntityGUID(monitorTwo.Monitor.GUID))
+
+	editResult, err := a.SyntheticsEditOneTimeMonitorDowntime(
+		result.GUID,
+		monitorGUIDs,
+		generateSyntheticsEntityNameForIntegrationTest("MONITOR_DOWNTIME", true),
+		SyntheticsMonitorDowntimeOnceConfig{
+			EndTime:   NaiveDateTime(generateRandomEndTime()),
+			StartTime: NaiveDateTime(generateRandomStartTime()),
+			Timezone:  generateRandomTimeZone(),
+		})
+
+	require.NoError(t, err)
+	require.NotNil(t, editResult.GUID)
+
+	a.SyntheticsDeleteMonitorDowntime(editResult.GUID)
+	a.SyntheticsDeleteMonitor(monitorOne.Monitor.GUID)
+	a.SyntheticsDeleteMonitor(monitorTwo.Monitor.GUID)
+}
+
+func TestSynthetics_MonitorDowntimeDaily(t *testing.T) {
+	a := newIntegrationTestClient(t)
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	monitorOneName := fmt.Sprintf("%s-downtime-helper", generateSyntheticsEntityNameForIntegrationTest("MONITOR", false))
+	monitorTwoName := fmt.Sprintf("%s-downtime-helper", generateSyntheticsEntityNameForIntegrationTest("MONITOR", false))
+
+	monitorOneInput := getSampleScriptedBrowserMonitorInput(monitorOneName)
+	monitorTwoInput := getSampleScriptedBrowserMonitorInput(monitorTwoName)
+
+	monitorTwo, _ := a.SyntheticsCreateScriptBrowserMonitor(testAccountID, monitorTwoInput)
+	monitorOne, _ := a.SyntheticsCreateScriptBrowserMonitor(testAccountID, monitorOneInput)
+
+	var monitorGUIDs []EntityGUID
+	monitorGUIDs = append(monitorGUIDs, EntityGUID(monitorOne.Monitor.GUID))
+
+	result, err := a.SyntheticsCreateDailyMonitorDowntime(
+		testAccountID,
+		SyntheticsDateWindowEndConfig{
+			OnRepeat: 3,
+		},
+		NaiveDateTime(generateRandomEndTime()),
+		monitorGUIDs,
+		generateSyntheticsEntityNameForIntegrationTest("MONITOR_DOWNTIME", false),
+		NaiveDateTime(generateRandomStartTime()),
+		generateRandomTimeZone(),
+	)
+
+	require.NoError(t, err)
+	require.NotNil(t, result.GUID)
+
+	monitorGUIDs = append(monitorGUIDs, EntityGUID(monitorTwo.Monitor.GUID))
+
+	editResult, err := a.SyntheticsEditDailyMonitorDowntime(
+		result.GUID,
+		monitorGUIDs,
+		generateSyntheticsEntityNameForIntegrationTest("MONITOR_DOWNTIME", true),
+		SyntheticsMonitorDowntimeDailyConfig{
+			EndRepeat: SyntheticsDateWindowEndConfig{
+				OnDate: Date(generateRandomEndRepeatDate()),
+			},
+			EndTime:   NaiveDateTime(generateRandomEndTime()),
+			StartTime: NaiveDateTime(generateRandomStartTime()),
+			Timezone:  generateRandomTimeZone(),
+		})
+
+	require.NoError(t, err)
+	require.NotNil(t, editResult.GUID)
+
+	a.SyntheticsDeleteMonitorDowntime(editResult.GUID)
+	a.SyntheticsDeleteMonitor(monitorOne.Monitor.GUID)
+	a.SyntheticsDeleteMonitor(monitorTwo.Monitor.GUID)
+}
+
+func TestSynthetics_MonitorDowntimeWeekly(t *testing.T) {
+	a := newIntegrationTestClient(t)
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	monitorOneName := fmt.Sprintf("%s-downtime-helper", generateSyntheticsEntityNameForIntegrationTest("MONITOR", false))
+	monitorTwoName := fmt.Sprintf("%s-downtime-helper", generateSyntheticsEntityNameForIntegrationTest("MONITOR", false))
+
+	monitorOneInput := getSampleScriptedBrowserMonitorInput(monitorOneName)
+	monitorTwoInput := getSampleScriptedBrowserMonitorInput(monitorTwoName)
+
+	monitorTwo, _ := a.SyntheticsCreateScriptBrowserMonitor(testAccountID, monitorTwoInput)
+	monitorOne, _ := a.SyntheticsCreateScriptBrowserMonitor(testAccountID, monitorOneInput)
+
+	var monitorGUIDs []EntityGUID
+	monitorGUIDs = append(monitorGUIDs, EntityGUID(monitorOne.Monitor.GUID))
+
+	result, err := a.SyntheticsCreateWeeklyMonitorDowntime(
+		testAccountID,
+		SyntheticsDateWindowEndConfig{
+			OnDate: Date(generateRandomEndRepeatDate()),
+		},
+		NaiveDateTime(generateRandomEndTime()),
+		[]SyntheticsMonitorDowntimeWeekDays{
+			SyntheticsMonitorDowntimeWeekDaysTypes.MONDAY,
+			SyntheticsMonitorDowntimeWeekDaysTypes.SATURDAY,
+		},
+		monitorGUIDs,
+		generateSyntheticsEntityNameForIntegrationTest("MONITOR_DOWNTIME", false),
+		NaiveDateTime(generateRandomStartTime()),
+		generateRandomTimeZone(),
+	)
+
+	require.NoError(t, err)
+	require.NotNil(t, result.GUID)
+
+	monitorGUIDs = append(monitorGUIDs, EntityGUID(monitorTwo.Monitor.GUID))
+
+	editResult, err := a.SyntheticsEditWeeklyMonitorDowntime(
+		result.GUID,
+		monitorGUIDs,
+		generateSyntheticsEntityNameForIntegrationTest("MONITOR_DOWNTIME", true),
+		SyntheticsMonitorDowntimeWeeklyConfig{
+			EndTime:   NaiveDateTime(generateRandomEndTime()),
+			StartTime: NaiveDateTime(generateRandomStartTime()),
+			Timezone:  generateRandomTimeZone(),
+			MaintenanceDays: []SyntheticsMonitorDowntimeWeekDays{
+				SyntheticsMonitorDowntimeWeekDaysTypes.SUNDAY,
+				SyntheticsMonitorDowntimeWeekDaysTypes.FRIDAY,
+			},
+		})
+
+	require.NoError(t, err)
+	require.NotNil(t, editResult.GUID)
+
+	a.SyntheticsDeleteMonitorDowntime(editResult.GUID)
+	a.SyntheticsDeleteMonitor(monitorOne.Monitor.GUID)
+	a.SyntheticsDeleteMonitor(monitorTwo.Monitor.GUID)
+}
+
+func TestSynthetics_MonitorDowntimeMonthly(t *testing.T) {
+	a := newIntegrationTestClient(t)
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	monitorOneName := fmt.Sprintf("%s-downtime-helper", generateSyntheticsEntityNameForIntegrationTest("MONITOR", false))
+	monitorTwoName := fmt.Sprintf("%s-downtime-helper", generateSyntheticsEntityNameForIntegrationTest("MONITOR", false))
+
+	monitorOneInput := getSampleScriptedBrowserMonitorInput(monitorOneName)
+	monitorTwoInput := getSampleScriptedBrowserMonitorInput(monitorTwoName)
+
+	monitorTwo, _ := a.SyntheticsCreateScriptBrowserMonitor(testAccountID, monitorTwoInput)
+	monitorOne, _ := a.SyntheticsCreateScriptBrowserMonitor(testAccountID, monitorOneInput)
+
+	var monitorGUIDs []EntityGUID
+	monitorGUIDs = append(monitorGUIDs, EntityGUID(monitorOne.Monitor.GUID))
+
+	result, err := a.SyntheticsCreateMonthlyMonitorDowntime(
+		testAccountID,
+		SyntheticsDateWindowEndConfig{},
+		NaiveDateTime(generateRandomEndTime()),
+		SyntheticsMonitorDowntimeMonthlyFrequency{
+			DaysOfMonth: []int{5, 10, 15},
+		},
+		monitorGUIDs,
+		generateSyntheticsEntityNameForIntegrationTest("MONITOR_DOWNTIME", false),
+		NaiveDateTime(generateRandomStartTime()),
+		generateRandomTimeZone(),
+	)
+
+	require.NoError(t, err)
+	require.NotNil(t, result.GUID)
+
+	monitorGUIDs = append(monitorGUIDs, EntityGUID(monitorTwo.Monitor.GUID))
+
+	editResult, err := a.SyntheticsEditMonthlyMonitorDowntime(
+		result.GUID,
+		monitorGUIDs,
+		generateSyntheticsEntityNameForIntegrationTest("MONITOR_DOWNTIME", true),
+		SyntheticsMonitorDowntimeMonthlyConfig{
+			EndTime:   NaiveDateTime(generateRandomEndTime()),
+			StartTime: NaiveDateTime(generateRandomStartTime()),
+			Timezone:  generateRandomTimeZone(),
+			EndRepeat: SyntheticsDateWindowEndConfig{OnDate: Date(generateRandomEndRepeatDate())},
+			Frequency: SyntheticsMonitorDowntimeMonthlyFrequency{
+				DaysOfWeek: &SyntheticsDaysOfWeek{
+					OrdinalDayOfMonth: "SECOND",
+					WeekDay:           "SATURDAY",
+				},
+			},
+		})
+
+	require.NoError(t, err)
+	require.NotNil(t, editResult.GUID)
+
+	a.SyntheticsDeleteMonitorDowntime(editResult.GUID)
+	a.SyntheticsDeleteMonitor(monitorOne.Monitor.GUID)
+	a.SyntheticsDeleteMonitor(monitorTwo.Monitor.GUID)
+}
+
+func TestSynthetics_MonitorDowntimeMultiMode(t *testing.T) {
+	a := newIntegrationTestClient(t)
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	monitorOneName := fmt.Sprintf("%s-downtime-helper", generateSyntheticsEntityNameForIntegrationTest("MONITOR", false))
+	monitorTwoName := fmt.Sprintf("%s-downtime-helper", generateSyntheticsEntityNameForIntegrationTest("MONITOR", false))
+
+	monitorOneInput := getSampleScriptedBrowserMonitorInput(monitorOneName)
+	monitorTwoInput := getSampleScriptedBrowserMonitorInput(monitorTwoName)
+
+	monitorTwo, _ := a.SyntheticsCreateScriptBrowserMonitor(testAccountID, monitorTwoInput)
+	monitorOne, _ := a.SyntheticsCreateScriptBrowserMonitor(testAccountID, monitorOneInput)
+
+	var monitorGUIDs []EntityGUID
+	monitorGUIDs = append(monitorGUIDs, EntityGUID(monitorOne.Monitor.GUID))
+
+	result, err := a.SyntheticsCreateMonthlyMonitorDowntime(
+		testAccountID,
+		SyntheticsDateWindowEndConfig{},
+		NaiveDateTime(generateRandomEndTime()),
+		SyntheticsMonitorDowntimeMonthlyFrequency{
+			DaysOfMonth: []int{5, 10, 15},
+		},
+		monitorGUIDs,
+		generateSyntheticsEntityNameForIntegrationTest("MONITOR_DOWNTIME", false),
+		NaiveDateTime(generateRandomStartTime()),
+		generateRandomTimeZone(),
+	)
+
+	require.NoError(t, err)
+	require.NotNil(t, result.GUID)
+
+	monitorGUIDs = append(monitorGUIDs, EntityGUID(monitorTwo.Monitor.GUID))
+
+	editResult, err := a.SyntheticsEditDailyMonitorDowntime(
+		result.GUID,
+		monitorGUIDs,
+		generateSyntheticsEntityNameForIntegrationTest("MONITOR_DOWNTIME", true),
+		SyntheticsMonitorDowntimeDailyConfig{
+			EndTime:   NaiveDateTime(generateRandomEndTime()),
+			StartTime: NaiveDateTime(generateRandomStartTime()),
+			Timezone:  generateRandomTimeZone(),
+			EndRepeat: SyntheticsDateWindowEndConfig{OnDate: Date(generateRandomEndRepeatDate())},
+		})
+
+	require.NoError(t, err)
+	require.NotNil(t, editResult.GUID)
+
+	editResult, err = a.SyntheticsEditWeeklyMonitorDowntime(
+		result.GUID,
+		monitorGUIDs,
+		generateSyntheticsEntityNameForIntegrationTest("MONITOR_DOWNTIME", true),
+		SyntheticsMonitorDowntimeWeeklyConfig{
+			EndTime:   NaiveDateTime(generateRandomEndTime()),
+			StartTime: NaiveDateTime(generateRandomStartTime()),
+			Timezone:  generateRandomTimeZone(),
+			MaintenanceDays: []SyntheticsMonitorDowntimeWeekDays{
+				SyntheticsMonitorDowntimeWeekDaysTypes.SUNDAY,
+				SyntheticsMonitorDowntimeWeekDaysTypes.FRIDAY,
+			},
+		})
+
+	require.NoError(t, err)
+	require.NotNil(t, editResult.GUID)
+
+	editResult, err = a.SyntheticsEditMonthlyMonitorDowntime(
+		result.GUID,
+		monitorGUIDs,
+		generateSyntheticsEntityNameForIntegrationTest("MONITOR_DOWNTIME", true),
+		SyntheticsMonitorDowntimeMonthlyConfig{
+			EndTime:   NaiveDateTime(generateRandomEndTime()),
+			StartTime: NaiveDateTime(generateRandomStartTime()),
+			Timezone:  generateRandomTimeZone(),
+			EndRepeat: SyntheticsDateWindowEndConfig{OnDate: Date(generateRandomEndRepeatDate())},
+			Frequency: SyntheticsMonitorDowntimeMonthlyFrequency{
+				DaysOfWeek: &SyntheticsDaysOfWeek{
+					OrdinalDayOfMonth: "SECOND",
+					WeekDay:           "SATURDAY",
+				},
+			},
+		})
+
+	require.NoError(t, err)
+	require.NotNil(t, editResult.GUID)
+
+	editResult, err = a.SyntheticsEditOneTimeMonitorDowntime(
+		result.GUID,
+		monitorGUIDs,
+		generateSyntheticsEntityNameForIntegrationTest("MONITOR_DOWNTIME", true),
+		SyntheticsMonitorDowntimeOnceConfig{
+			EndTime:   NaiveDateTime(generateRandomEndTime()),
+			StartTime: NaiveDateTime(generateRandomStartTime()),
+			Timezone:  generateRandomTimeZone(),
+		})
+
+	require.NoError(t, err)
+	require.NotNil(t, editResult.GUID)
+
+	a.SyntheticsDeleteMonitorDowntime(editResult.GUID)
+	a.SyntheticsDeleteMonitor(monitorOne.Monitor.GUID)
+	a.SyntheticsDeleteMonitor(monitorTwo.Monitor.GUID)
+}
+
+func TestSynthetics_MonitorDowntimeOnce_Error(t *testing.T) {
+	a := newIntegrationTestClient(t)
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	_, err = a.SyntheticsCreateOnceMonitorDowntime(
+		testAccountID,
+		NaiveDateTime(generateRandomStartTime()),
+		[]EntityGUID{},
+		generateSyntheticsEntityNameForIntegrationTest("MONITOR_DOWNTIME", false),
+		NaiveDateTime(generateRandomEndTime()),
+		generateRandomTimeZone(),
+	)
+
+	// maximum retries reached: End of downtime window cannot occur before start
+	require.Error(t, err)
+}
+
+func TestSynthetics_MonitorDowntimeOnce_ErrorByInvalidTimezone(t *testing.T) {
+	a := newIntegrationTestClient(t)
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	_, err = a.SyntheticsCreateOnceMonitorDowntime(
+		testAccountID,
+		NaiveDateTime(generateRandomEndTime()),
+		[]EntityGUID{},
+		generateSyntheticsEntityNameForIntegrationTest("MONITOR_DOWNTIME", false),
+		NaiveDateTime(generateRandomStartTime()),
+		"INVALID_TIMEZONE",
+	)
+
+	// maximum retries reached: The entered timezone code is invalid.
+	require.Error(t, err)
+}
+
+func TestSynthetics_MonitorDowntimeOnce_ErrorByGUID(t *testing.T) {
+	a := newIntegrationTestClient(t)
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	_, err = a.SyntheticsCreateOnceMonitorDowntime(
+		testAccountID,
+		NaiveDateTime(generateRandomEndTime()),
+		[]EntityGUID{EntityGUID("INVALID_GUID_ONE"), EntityGUID("INVALID_GUID_TWO")},
+		generateSyntheticsEntityNameForIntegrationTest("MONITOR_DOWNTIME", false),
+		NaiveDateTime(generateRandomStartTime()),
+		generateRandomTimeZone(),
+	)
+
+	// Expected type "EntityGuid", found "INVALID_GUID_ONE"
+	require.Error(t, err)
+}
+
+func TestSynthetics_MonitorDowntimeDaily_Error(t *testing.T) {
+	a := newIntegrationTestClient(t)
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	_, err = a.SyntheticsCreateDailyMonitorDowntime(
+		testAccountID,
+		SyntheticsDateWindowEndConfig{
+			// wrong date that is way before start_date and end_date to simulate an error
+			OnDate: Date("2023-01-01"),
+		},
+		NaiveDateTime(generateRandomEndTime()),
+		[]EntityGUID{},
+		generateSyntheticsEntityNameForIntegrationTest("MONITOR_DOWNTIME", false),
+		NaiveDateTime(generateRandomStartTime()),
+		generateRandomTimeZone(),
+	)
+
+	// maximum retries reached: Value endRepeat/onDate must occur after endTime.
+	require.Error(t, err)
+}
+
+func TestSynthetics_MonitorDowntimeWeekly_Error(t *testing.T) {
+	a := newIntegrationTestClient(t)
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	_, err = a.SyntheticsCreateWeeklyMonitorDowntime(
+		testAccountID,
+		SyntheticsDateWindowEndConfig{
+			OnDate: Date(generateRandomEndRepeatDate()),
+		},
+		NaiveDateTime(generateRandomEndTime()),
+		[]SyntheticsMonitorDowntimeWeekDays{
+			SyntheticsMonitorDowntimeWeekDaysTypes.MONDAY,
+			"INVALID_VALUE",
+		},
+		[]EntityGUID{},
+		generateSyntheticsEntityNameForIntegrationTest("MONITOR_DOWNTIME", false),
+		NaiveDateTime(generateRandomStartTime()),
+		generateRandomTimeZone(),
+	)
+
+	require.Error(t, err)
+}
+
+func TestSynthetics_MonitorDowntimeMonthly_Error(t *testing.T) {
+	a := newIntegrationTestClient(t)
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	_, err = a.SyntheticsCreateMonthlyMonitorDowntime(
+		testAccountID,
+		SyntheticsDateWindowEndConfig{},
+		NaiveDateTime(generateRandomEndTime()),
+		SyntheticsMonitorDowntimeMonthlyFrequency{
+			DaysOfWeek: &SyntheticsDaysOfWeek{
+				OrdinalDayOfMonth: "INVALID_INPUT",
+				WeekDay:           "INVALID_INPUT",
+			},
+		},
+		[]EntityGUID{},
+		generateSyntheticsEntityNameForIntegrationTest("MONITOR_DOWNTIME", false),
+		NaiveDateTime(generateRandomStartTime()),
+		generateRandomTimeZone(),
+	)
+
+	require.Error(t, err)
+}
+
+func getSampleScriptedBrowserMonitorInput(name string) SyntheticsCreateScriptBrowserMonitorInput {
+	return SyntheticsCreateScriptBrowserMonitorInput{
+		Locations: SyntheticsScriptedMonitorLocationsInput{
+			Public: []string{"AWS_US_WEST_2", "AWS_AP_EAST_1"},
+		},
+		Name:   name,
+		Period: SyntheticsMonitorPeriodTypes.EVERY_HOUR,
+		Status: SyntheticsMonitorStatusTypes.ENABLED,
+		Runtime: &SyntheticsRuntimeInput{
+			RuntimeTypeVersion: "100",
+			RuntimeType:        "CHROME_BROWSER",
+			ScriptLanguage:     "JAVASCRIPT",
+		},
+		Script: "$console.log('New Relic')",
+	}
+}
+
 func generateSyntheticsEntityNameForIntegrationTest(entityType string, updated bool) string {
 	switch entityType {
 	case "MONITOR":
@@ -1357,7 +1849,13 @@ func generateSyntheticsEntityNameForIntegrationTest(entityType string, updated b
 			return fmt.Sprintf("client-go-test-synthetic-monitor-updated-%s", mock.RandSeq(5))
 		}
 		return fmt.Sprintf("client-go-test-synthetic-monitor-%s", mock.RandSeq(5))
+	case "MONITOR_DOWNTIME":
+		if updated {
+			return fmt.Sprintf("client-go-test-synthetic-monitor-downtime-updated-%s", mock.RandSeq(5))
+		}
+		return fmt.Sprintf("client-go-test-synthetic-monitor-downtime-%s", mock.RandSeq(5))
 	case "SECURE_CRED":
+		// secure credentials accept names in caps - API doesn't throw an error if in smallcase, but converts the name into caps
 		if updated {
 			return fmt.Sprintf("CLIENT-GO-TEST-SYNTHETICS-SECURE-CREDENTIAL-UPDATED-%s", mock.RandSeq(5))
 		}
@@ -1367,4 +1865,54 @@ func generateSyntheticsEntityNameForIntegrationTest(entityType string, updated b
 		return fmt.Sprintf("client-go-test-synth-PL-%s", mock.RandSeq(5))
 	}
 	return ""
+}
+
+// helpers for monitor downtime tests written above
+var fewValidTimeZones = []string{
+	"Asia/Kolkata",
+	"America/Los_Angeles",
+	"Europe/Madrid",
+	"Asia/Tokyo",
+	"America/Vancouver",
+	"Asia/Tel_Aviv",
+	"Europe/Dublin",
+	"Asia/Tashkent",
+	"Europe/London",
+	"Asia/Riyadh",
+	"America/Chicago",
+	"Australia/Sydney",
+}
+
+func generateRandomTimeZone() string {
+	rand.Seed(time.Now().Unix())
+	return fewValidTimeZones[rand.Intn(len(fewValidTimeZones))]
+}
+
+func generateRandomStartTime() string {
+	rand.Seed(time.Now().Unix())
+	now := time.Now()
+	hourLater := now.Add(time.Hour * 2)
+	return hourLater.Format("2006-01-02T15:04:05")
+}
+
+func generateRandomEndTime() string {
+	rand.Seed(time.Now().Unix())
+	now := time.Now()
+
+	// "5 +" to make sure end_time exceeds start_time by a minimum of 5 days
+	randomDays := 5 + rand.Intn(25)
+	daysLater := now.AddDate(0, 0, randomDays)
+
+	return daysLater.Format("2006-01-02T15:04:05")
+}
+
+func generateRandomEndRepeatDate() string {
+	rand.Seed(time.Now().Unix())
+	now := time.Now()
+
+	// "31 +" so that end_repeat > on_date can succeed the date in endTime by 30 days - endRepeat needs to be after endTime
+	randomDays := 31 + rand.Intn(30)
+	daysLater := now.AddDate(0, 0, randomDays)
+
+	return daysLater.Format("2006-01-02")
 }

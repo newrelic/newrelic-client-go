@@ -132,6 +132,264 @@ const SyntheticsCreateCertCheckMonitorMutation = `mutation(
 	}
 } }`
 
+// Create a monitor downtime that runs daily
+func (a *Synthetics) SyntheticsCreateDailyMonitorDowntime(
+	accountID int,
+	endRepeat SyntheticsDateWindowEndConfig,
+	endTime NaiveDateTime,
+	monitorGUIDs []EntityGUID,
+	name string,
+	startTime NaiveDateTime,
+	timezone string,
+) (*SyntheticsDailyMonitorDowntimeMutationResult, error) {
+	return a.SyntheticsCreateDailyMonitorDowntimeWithContext(context.Background(),
+		accountID,
+		endRepeat,
+		endTime,
+		monitorGUIDs,
+		name,
+		startTime,
+		timezone,
+	)
+}
+
+// Create a monitor downtime that runs daily
+func (a *Synthetics) SyntheticsCreateDailyMonitorDowntimeWithContext(
+	ctx context.Context,
+	accountID int,
+	endRepeat SyntheticsDateWindowEndConfig,
+	endTime NaiveDateTime,
+	monitorGUIDs []EntityGUID,
+	name string,
+	startTime NaiveDateTime,
+	timezone string,
+) (*SyntheticsDailyMonitorDowntimeMutationResult, error) {
+
+	resp := SyntheticsCreateDailyMonitorDowntimeQueryResponse{}
+	vars := map[string]interface{}{
+		"accountId":    accountID,
+		"endRepeat":    endRepeat,
+		"endTime":      endTime,
+		"monitorGuids": monitorGUIDs,
+		"name":         name,
+		"startTime":    startTime,
+		"timezone":     timezone,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, SyntheticsCreateDailyMonitorDowntimeMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.SyntheticsDailyMonitorDowntimeMutationResult, nil
+}
+
+type SyntheticsCreateDailyMonitorDowntimeQueryResponse struct {
+	SyntheticsDailyMonitorDowntimeMutationResult SyntheticsDailyMonitorDowntimeMutationResult `json:"SyntheticsCreateDailyMonitorDowntime"`
+}
+
+const SyntheticsCreateDailyMonitorDowntimeMutation = `mutation(
+	$accountId: Int!,
+	$endRepeat: SyntheticsDateWindowEndConfig,
+	$endTime: NaiveDateTime!,
+	$monitorGuids: [EntityGuid],
+	$name: String!,
+	$startTime: NaiveDateTime!,
+	$timezone: String!,
+) { syntheticsCreateDailyMonitorDowntime(
+	accountId: $accountId,
+	endRepeat: $endRepeat,
+	endTime: $endTime,
+	monitorGuids: $monitorGuids,
+	name: $name,
+	startTime: $startTime,
+	timezone: $timezone,
+) {
+	accountId
+	endRepeat {
+		onDate
+		onRepeat
+	}
+	endTime
+	guid
+	monitorGuids
+	name
+	startTime
+	timezone
+} }`
+
+// Create a monitor downtime that runs monthly
+func (a *Synthetics) SyntheticsCreateMonthlyMonitorDowntime(
+	accountID int,
+	endRepeat SyntheticsDateWindowEndConfig,
+	endTime NaiveDateTime,
+	frequency SyntheticsMonitorDowntimeMonthlyFrequency,
+	monitorGUIDs []EntityGUID,
+	name string,
+	startTime NaiveDateTime,
+	timezone string,
+) (*SyntheticsMonthlyMonitorDowntimeMutationResult, error) {
+	return a.SyntheticsCreateMonthlyMonitorDowntimeWithContext(context.Background(),
+		accountID,
+		endRepeat,
+		endTime,
+		frequency,
+		monitorGUIDs,
+		name,
+		startTime,
+		timezone,
+	)
+}
+
+// Create a monitor downtime that runs monthly
+func (a *Synthetics) SyntheticsCreateMonthlyMonitorDowntimeWithContext(
+	ctx context.Context,
+	accountID int,
+	endRepeat SyntheticsDateWindowEndConfig,
+	endTime NaiveDateTime,
+	frequency SyntheticsMonitorDowntimeMonthlyFrequency,
+	monitorGUIDs []EntityGUID,
+	name string,
+	startTime NaiveDateTime,
+	timezone string,
+) (*SyntheticsMonthlyMonitorDowntimeMutationResult, error) {
+
+	resp := SyntheticsCreateMonthlyMonitorDowntimeQueryResponse{}
+	vars := map[string]interface{}{
+		"accountId":    accountID,
+		"endRepeat":    endRepeat,
+		"endTime":      endTime,
+		"frequency":    frequency,
+		"monitorGuids": monitorGUIDs,
+		"name":         name,
+		"startTime":    startTime,
+		"timezone":     timezone,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, SyntheticsCreateMonthlyMonitorDowntimeMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.SyntheticsMonthlyMonitorDowntimeMutationResult, nil
+}
+
+type SyntheticsCreateMonthlyMonitorDowntimeQueryResponse struct {
+	SyntheticsMonthlyMonitorDowntimeMutationResult SyntheticsMonthlyMonitorDowntimeMutationResult `json:"SyntheticsCreateMonthlyMonitorDowntime"`
+}
+
+const SyntheticsCreateMonthlyMonitorDowntimeMutation = `mutation(
+	$accountId: Int!,
+	$endRepeat: SyntheticsDateWindowEndConfig,
+	$endTime: NaiveDateTime!,
+	$frequency: SyntheticsMonitorDowntimeMonthlyFrequency!,
+	$monitorGuids: [EntityGuid],
+	$name: String!,
+	$startTime: NaiveDateTime!,
+	$timezone: String!,
+) { syntheticsCreateMonthlyMonitorDowntime(
+	accountId: $accountId,
+	endRepeat: $endRepeat,
+	endTime: $endTime,
+	frequency: $frequency,
+	monitorGuids: $monitorGuids,
+	name: $name,
+	startTime: $startTime,
+	timezone: $timezone,
+) {
+	accountId
+	endRepeat {
+		onDate
+		onRepeat
+	}
+	endTime
+	frequency {
+		daysOfMonth
+		daysOfWeek {
+			ordinalDayOfMonth
+			weekDay
+		}
+	}
+	guid
+	monitorGuids
+	name
+	startTime
+	timezone
+} }`
+
+// Create a monitor downtime that runs once
+func (a *Synthetics) SyntheticsCreateOnceMonitorDowntime(
+	accountID int,
+	endTime NaiveDateTime,
+	monitorGUIDs []EntityGUID,
+	name string,
+	startTime NaiveDateTime,
+	timezone string,
+) (*SyntheticsOnceMonitorDowntimeMutationResult, error) {
+	return a.SyntheticsCreateOnceMonitorDowntimeWithContext(context.Background(),
+		accountID,
+		endTime,
+		monitorGUIDs,
+		name,
+		startTime,
+		timezone,
+	)
+}
+
+// Create a monitor downtime that runs once
+func (a *Synthetics) SyntheticsCreateOnceMonitorDowntimeWithContext(
+	ctx context.Context,
+	accountID int,
+	endTime NaiveDateTime,
+	monitorGUIDs []EntityGUID,
+	name string,
+	startTime NaiveDateTime,
+	timezone string,
+) (*SyntheticsOnceMonitorDowntimeMutationResult, error) {
+
+	resp := SyntheticsCreateOnceMonitorDowntimeQueryResponse{}
+	vars := map[string]interface{}{
+		"accountId":    accountID,
+		"endTime":      endTime,
+		"monitorGuids": monitorGUIDs,
+		"name":         name,
+		"startTime":    startTime,
+		"timezone":     timezone,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, SyntheticsCreateOnceMonitorDowntimeMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.SyntheticsOnceMonitorDowntimeMutationResult, nil
+}
+
+type SyntheticsCreateOnceMonitorDowntimeQueryResponse struct {
+	SyntheticsOnceMonitorDowntimeMutationResult SyntheticsOnceMonitorDowntimeMutationResult `json:"SyntheticsCreateOnceMonitorDowntime"`
+}
+
+const SyntheticsCreateOnceMonitorDowntimeMutation = `mutation(
+	$accountId: Int!,
+	$endTime: NaiveDateTime!,
+	$monitorGuids: [EntityGuid],
+	$name: String!,
+	$startTime: NaiveDateTime!,
+	$timezone: String!,
+) { syntheticsCreateOnceMonitorDowntime(
+	accountId: $accountId,
+	endTime: $endTime,
+	monitorGuids: $monitorGuids,
+	name: $name,
+	startTime: $startTime,
+	timezone: $timezone,
+) {
+	accountId
+	endTime
+	guid
+	monitorGuids
+	name
+	startTime
+	timezone
+} }`
+
 // Create a Synthetics Private Location
 func (a *Synthetics) SyntheticsCreatePrivateLocation(
 	accountID int,
@@ -619,6 +877,98 @@ const SyntheticsCreateStepMonitorMutation = `mutation(
 	}
 } }`
 
+// Create a monitor downtime that runs weekly
+func (a *Synthetics) SyntheticsCreateWeeklyMonitorDowntime(
+	accountID int,
+	endRepeat SyntheticsDateWindowEndConfig,
+	endTime NaiveDateTime,
+	maintenanceDays []SyntheticsMonitorDowntimeWeekDays,
+	monitorGUIDs []EntityGUID,
+	name string,
+	startTime NaiveDateTime,
+	timezone string,
+) (*SyntheticsWeeklyMonitorDowntimeMutationResult, error) {
+	return a.SyntheticsCreateWeeklyMonitorDowntimeWithContext(context.Background(),
+		accountID,
+		endRepeat,
+		endTime,
+		maintenanceDays,
+		monitorGUIDs,
+		name,
+		startTime,
+		timezone,
+	)
+}
+
+// Create a monitor downtime that runs weekly
+func (a *Synthetics) SyntheticsCreateWeeklyMonitorDowntimeWithContext(
+	ctx context.Context,
+	accountID int,
+	endRepeat SyntheticsDateWindowEndConfig,
+	endTime NaiveDateTime,
+	maintenanceDays []SyntheticsMonitorDowntimeWeekDays,
+	monitorGUIDs []EntityGUID,
+	name string,
+	startTime NaiveDateTime,
+	timezone string,
+) (*SyntheticsWeeklyMonitorDowntimeMutationResult, error) {
+
+	resp := SyntheticsCreateWeeklyMonitorDowntimeQueryResponse{}
+	vars := map[string]interface{}{
+		"accountId":       accountID,
+		"endRepeat":       endRepeat,
+		"endTime":         endTime,
+		"maintenanceDays": maintenanceDays,
+		"monitorGuids":    monitorGUIDs,
+		"name":            name,
+		"startTime":       startTime,
+		"timezone":        timezone,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, SyntheticsCreateWeeklyMonitorDowntimeMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.SyntheticsWeeklyMonitorDowntimeMutationResult, nil
+}
+
+type SyntheticsCreateWeeklyMonitorDowntimeQueryResponse struct {
+	SyntheticsWeeklyMonitorDowntimeMutationResult SyntheticsWeeklyMonitorDowntimeMutationResult `json:"SyntheticsCreateWeeklyMonitorDowntime"`
+}
+
+const SyntheticsCreateWeeklyMonitorDowntimeMutation = `mutation(
+	$accountId: Int!,
+	$endRepeat: SyntheticsDateWindowEndConfig,
+	$endTime: NaiveDateTime!,
+	$maintenanceDays: [SyntheticsMonitorDowntimeWeekDays]!,
+	$monitorGuids: [EntityGuid],
+	$name: String!,
+	$startTime: NaiveDateTime!,
+	$timezone: String!,
+) { syntheticsCreateWeeklyMonitorDowntime(
+	accountId: $accountId,
+	endRepeat: $endRepeat,
+	endTime: $endTime,
+	maintenanceDays: $maintenanceDays,
+	monitorGuids: $monitorGuids,
+	name: $name,
+	startTime: $startTime,
+	timezone: $timezone,
+) {
+	accountId
+	endRepeat {
+		onDate
+		onRepeat
+	}
+	endTime
+	guid
+	maintenanceDays
+	monitorGuids
+	name
+	startTime
+	timezone
+} }`
+
 // Delete a Synthetic Monitor
 func (a *Synthetics) SyntheticsDeleteMonitor(
 	gUID EntityGUID,
@@ -656,6 +1006,45 @@ const SyntheticsDeleteMonitorMutation = `mutation(
 	guid: $guid,
 ) {
 	deletedGuid
+} }`
+
+// Delete a monitor downtime
+func (a *Synthetics) SyntheticsDeleteMonitorDowntime(
+	gUID EntityGUID,
+) (*SyntheticsMonitorDowntimeDeleteResult, error) {
+	return a.SyntheticsDeleteMonitorDowntimeWithContext(context.Background(),
+		gUID,
+	)
+}
+
+// Delete a monitor downtime
+func (a *Synthetics) SyntheticsDeleteMonitorDowntimeWithContext(
+	ctx context.Context,
+	gUID EntityGUID,
+) (*SyntheticsMonitorDowntimeDeleteResult, error) {
+
+	resp := SyntheticsDeleteMonitorDowntimeQueryResponse{}
+	vars := map[string]interface{}{
+		"guid": gUID,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, SyntheticsDeleteMonitorDowntimeMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.SyntheticsMonitorDowntimeDeleteResult, nil
+}
+
+type SyntheticsDeleteMonitorDowntimeQueryResponse struct {
+	SyntheticsMonitorDowntimeDeleteResult SyntheticsMonitorDowntimeDeleteResult `json:"SyntheticsDeleteMonitorDowntime"`
+}
+
+const SyntheticsDeleteMonitorDowntimeMutation = `mutation(
+	$guid: EntityGuid!,
+) { syntheticsDeleteMonitorDowntime(
+	guid: $guid,
+) {
+	guid
 } }`
 
 // Delete a Synthetics Private Location
@@ -749,6 +1138,103 @@ const SyntheticsDeleteSecureCredentialMutation = `mutation(
 	}
 	key
 	lastUpdate
+} }`
+
+// Edit a monitor downtime
+func (a *Synthetics) SyntheticsEditMonitorDowntime(
+	daily SyntheticsMonitorDowntimeDailyConfig,
+	gUID EntityGUID,
+	monitorGUIDs []EntityGUID,
+	monthly SyntheticsMonitorDowntimeMonthlyConfig,
+	name string,
+	once SyntheticsMonitorDowntimeOnceConfig,
+	weekly SyntheticsMonitorDowntimeWeeklyConfig,
+) (*SyntheticsMonitorDowntimeMutationResult, error) {
+	return a.SyntheticsEditMonitorDowntimeWithContext(context.Background(),
+		daily,
+		gUID,
+		monitorGUIDs,
+		monthly,
+		name,
+		once,
+		weekly,
+	)
+}
+
+// Edit a monitor downtime
+// Function generated by Tutone, but currently not being used, replaced by synthetics_api_monitor_downtime.go
+// If Tutone is seen to make changes to the following mutation, they would need to be manually changed in in the above file
+func (a *Synthetics) SyntheticsEditMonitorDowntimeWithContext(
+	ctx context.Context,
+	daily SyntheticsMonitorDowntimeDailyConfig,
+	gUID EntityGUID,
+	monitorGUIDs []EntityGUID,
+	monthly SyntheticsMonitorDowntimeMonthlyConfig,
+	name string,
+	once SyntheticsMonitorDowntimeOnceConfig,
+	weekly SyntheticsMonitorDowntimeWeeklyConfig,
+) (*SyntheticsMonitorDowntimeMutationResult, error) {
+
+	resp := SyntheticsEditMonitorDowntimeQueryResponse{}
+	vars := map[string]interface{}{
+		"daily":        daily,
+		"guid":         gUID,
+		"monitorGuids": monitorGUIDs,
+		"monthly":      monthly,
+		"name":         name,
+		"once":         once,
+		"weekly":       weekly,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, SyntheticsEditMonitorDowntimeMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.SyntheticsMonitorDowntimeMutationResult, nil
+}
+
+type SyntheticsEditMonitorDowntimeQueryResponse struct {
+	SyntheticsMonitorDowntimeMutationResult SyntheticsMonitorDowntimeMutationResult `json:"SyntheticsEditMonitorDowntime"`
+}
+
+// Mutation generated by Tutone, but currently not being used, replaced by synthetics_api_monitor_downtime.go
+// If Tutone is seen to make changes to the following mutation, they would need to be manually changed in in the above file
+const SyntheticsEditMonitorDowntimeMutation = `mutation(
+	$daily: SyntheticsMonitorDowntimeDailyConfig,
+	$guid: EntityGuid!,
+	$monitorGuids: [EntityGuid],
+	$monthly: SyntheticsMonitorDowntimeMonthlyConfig,
+	$name: String,
+	$once: SyntheticsMonitorDowntimeOnceConfig,
+	$weekly: SyntheticsMonitorDowntimeWeeklyConfig,
+) { syntheticsEditMonitorDowntime(
+	daily: $daily,
+	guid: $guid,
+	monitorGuids: $monitorGuids,
+	monthly: $monthly,
+	name: $name,
+	once: $once,
+	weekly: $weekly,
+) {
+	accountId
+	endRepeat {
+		onDate
+		onRepeat
+	}
+	endTime
+	frequency {
+		daysOfMonth
+		daysOfWeek {
+			ordinalDayOfMonth
+			weekDay
+		}
+	}
+	guid
+	maintenanceDays
+	monitorGuids
+	name
+	startTime
+	timezone
 } }`
 
 // Purge the job queue for a specified private location

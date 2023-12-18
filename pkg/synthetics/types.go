@@ -215,6 +215,68 @@ var SyntheticsMonitorCreateErrorTypeTypes = struct {
 	UNKNOWN_ERROR: "UNKNOWN_ERROR",
 }
 
+// SyntheticsMonitorDowntimeDayOfMonthOrdinal - enum of which day in the month a customer can have a monitor downtime run
+type SyntheticsMonitorDowntimeDayOfMonthOrdinal string
+
+var SyntheticsMonitorDowntimeDayOfMonthOrdinalTypes = struct {
+	// First selected day of the month
+	FIRST SyntheticsMonitorDowntimeDayOfMonthOrdinal
+	// Fourth selected day of the month
+	FOURTH SyntheticsMonitorDowntimeDayOfMonthOrdinal
+	// Last selected day of the month
+	LAST SyntheticsMonitorDowntimeDayOfMonthOrdinal
+	// Second selected day of the month
+	SECOND SyntheticsMonitorDowntimeDayOfMonthOrdinal
+	// Third selected day of the month
+	THIRD SyntheticsMonitorDowntimeDayOfMonthOrdinal
+}{
+	// First selected day of the month
+	FIRST: "FIRST",
+	// Fourth selected day of the month
+	FOURTH: "FOURTH",
+	// Last selected day of the month
+	LAST: "LAST",
+	// Second selected day of the month
+	SECOND: "SECOND",
+	// Third selected day of the month
+	THIRD: "THIRD",
+}
+
+// SyntheticsMonitorDowntimeWeekDays - enum of weekdays customers can select monitor downtimes to run
+type SyntheticsMonitorDowntimeWeekDays string
+
+var SyntheticsMonitorDowntimeWeekDaysTypes = struct {
+	// Select monitor downtime to run on Friday
+	FRIDAY SyntheticsMonitorDowntimeWeekDays
+	// Select monitor downtime to run on Monday
+	MONDAY SyntheticsMonitorDowntimeWeekDays
+	// Select monitor downtime to run on Saturday
+	SATURDAY SyntheticsMonitorDowntimeWeekDays
+	// Select monitor downtime to run on Sunday
+	SUNDAY SyntheticsMonitorDowntimeWeekDays
+	// Select monitor downtime to run on Thursday
+	THURSDAY SyntheticsMonitorDowntimeWeekDays
+	// Select monitor downtime to run on Tuesday
+	TUESDAY SyntheticsMonitorDowntimeWeekDays
+	// Select monitor downtime to run on Wednesday
+	WEDNESDAY SyntheticsMonitorDowntimeWeekDays
+}{
+	// Select monitor downtime to run on Friday
+	FRIDAY: "FRIDAY",
+	// Select monitor downtime to run on Monday
+	MONDAY: "MONDAY",
+	// Select monitor downtime to run on Saturday
+	SATURDAY: "SATURDAY",
+	// Select monitor downtime to run on Sunday
+	SUNDAY: "SUNDAY",
+	// Select monitor downtime to run on Thursday
+	THURSDAY: "THURSDAY",
+	// Select monitor downtime to run on Tuesday
+	TUESDAY: "TUESDAY",
+	// Select monitor downtime to run on Wednesday
+	WEDNESDAY: "WEDNESDAY",
+}
+
 // SyntheticsMonitorPeriod - Enum of monitor period types
 type SyntheticsMonitorPeriod string
 
@@ -963,6 +1025,58 @@ type SyntheticsCustomHeaderInput struct {
 	Value string `json:"value"`
 }
 
+// SyntheticsDailyMonitorDowntimeMutationResult - Monitor downtime object returned to the customer for a downtime run daily
+type SyntheticsDailyMonitorDowntimeMutationResult struct {
+	// The account ID associated with the monitor downtime
+	AccountID int `json:"accountId,omitempty"`
+	// Configuration options if the customer wants the monitor to end at a specific date
+	EndRepeat SyntheticsDateWindowEndOutput `json:"endRepeat,omitempty"`
+	// The date and time in which the monitor downtime will end
+	EndTime NaiveDateTime `json:"endTime,omitempty"`
+	// The entity GUID associated with the monitor downtime
+	GUID EntityGUID `json:"guid,omitempty"`
+	// The monitor GUIDs associated with the monitor downtime
+	MonitorGUIDs []EntityGUID `json:"monitorGuids,omitempty"`
+	// The name of the monitor downtime
+	Name string `json:"name,omitempty"`
+	// The date and time in which the monitor downtime will begin
+	StartTime NaiveDateTime `json:"startTime,omitempty"`
+	// The timezone the time values will be in
+	Timezone string `json:"timezone,omitempty"`
+}
+
+// SyntheticsDateWindowEndConfig - Configuration options for when a monitor downtime should end
+type SyntheticsDateWindowEndConfig struct {
+	// End the monitor downtime on a particular date
+	OnDate Date `json:"onDate,omitempty"`
+	// End the monitor downtime after a set number of occurrences
+	OnRepeat int `json:"onRepeat,omitempty"`
+}
+
+// SyntheticsDateWindowEndOutput - Configuration options for when a monitor downtime should end
+type SyntheticsDateWindowEndOutput struct {
+	// End the monitor downtime on a particular date
+	OnDate Date `json:"onDate,omitempty"`
+	// End the monitor downtime after a set number of occurrences
+	OnRepeat int `json:"onRepeat,omitempty"`
+}
+
+// SyntheticsDaysOfWeek - Configuration options for a monthly monitor downtime that runs on days of the week
+type SyntheticsDaysOfWeek struct {
+	// Which occurrence of the day selected within the month
+	OrdinalDayOfMonth SyntheticsMonitorDowntimeDayOfMonthOrdinal `json:"ordinalDayOfMonth"`
+	// Which day of the week the monitor downtime runs
+	WeekDay SyntheticsMonitorDowntimeWeekDays `json:"weekDay"`
+}
+
+// SyntheticsDaysOfWeekOutput - Configuration options for a monthly monitor downtime that runs on days of the week
+type SyntheticsDaysOfWeekOutput struct {
+	// Which occurrence of the day selected within the month
+	OrdinalDayOfMonth SyntheticsMonitorDowntimeDayOfMonthOrdinal `json:"ordinalDayOfMonth,omitempty"`
+	// Which day of the week the monitor downtime runs
+	WeekDay SyntheticsMonitorDowntimeWeekDays `json:"weekDay,omitempty"`
+}
+
 // SyntheticsDeviceEmulation - Information related to device emulation
 type SyntheticsDeviceEmulation struct {
 	// The device orientation the user would like to represent
@@ -1015,6 +1129,104 @@ type SyntheticsMonitorDeleteMutationResult struct {
 	DeletedGUID EntityGUID `json:"deletedGuid,omitempty"`
 }
 
+// SyntheticsMonitorDowntimeDailyConfig - Configuration options for a monitor downtime that runs daily
+type SyntheticsMonitorDowntimeDailyConfig struct {
+	// Configuration options if the customer wants the monitor to end at a specific date
+	EndRepeat SyntheticsDateWindowEndConfig `json:"endRepeat,omitempty"`
+	// The date and time in which the monitor downtime will end
+	EndTime NaiveDateTime `json:"endTime,omitempty"`
+	// The date and time in which the monitor downtime will begin
+	StartTime NaiveDateTime `json:"startTime,omitempty"`
+	// The timezone the time values will be in
+	Timezone string `json:"timezone,omitempty"`
+}
+
+// SyntheticsMonitorDowntimeDeleteResult - Monitor downtime object returned to the customer once a monitor downtime is deleted
+type SyntheticsMonitorDowntimeDeleteResult struct {
+	// The entity guid of the deleted MonitorDowntime
+	GUID EntityGUID `json:"guid,omitempty"`
+}
+
+// SyntheticsMonitorDowntimeMonthlyConfig - Configuration options for a monitor downtime that runs monthly
+type SyntheticsMonitorDowntimeMonthlyConfig struct {
+	// Configuration options if the customer wants the monitor to end at a specific date
+	EndRepeat SyntheticsDateWindowEndConfig `json:"endRepeat,omitempty"`
+	// The date and time in which the monitor downtime will end
+	EndTime NaiveDateTime `json:"endTime,omitempty"`
+	// Configuration options for which days of the month a monitor downtime will occur
+	Frequency SyntheticsMonitorDowntimeMonthlyFrequency `json:"frequency,omitempty"`
+	// The date and time in which the monitor downtime will begin
+	StartTime NaiveDateTime `json:"startTime,omitempty"`
+	// The timezone the time values will be in
+	Timezone string `json:"timezone,omitempty"`
+}
+
+// SyntheticsMonitorDowntimeMonthlyFrequency - Configuration options for when a monthly monitor downtime should run
+type SyntheticsMonitorDowntimeMonthlyFrequency struct {
+	// Which dates a monitor downtime is run (only 1 of these can be selected)
+	DaysOfMonth []int `json:"daysOfMonth,omitempty"`
+	// Which weekdays in the month the monitor downtime will run (only 1 of these can be selected)
+	DaysOfWeek *SyntheticsDaysOfWeek `json:"daysOfWeek,omitempty"`
+}
+
+// SyntheticsMonitorDowntimeMonthlyFrequencyOutput - Configuration options for when a monthly monitor downtime should run
+type SyntheticsMonitorDowntimeMonthlyFrequencyOutput struct {
+	// Which dates a monitor downtime is run
+	//  (only 1 of these can be selected)
+	DaysOfMonth []int `json:"daysOfMonth,omitempty"`
+	// Which weekdays in the month the monitor downtime will run
+	//  (only 1 of these can be selected)
+	DaysOfWeek SyntheticsDaysOfWeekOutput `json:"daysOfWeek,omitempty"`
+}
+
+// SyntheticsMonitorDowntimeMutationResult - Monitor downtime object returned to the customer for an edit mutation
+type SyntheticsMonitorDowntimeMutationResult struct {
+	// The account ID associated with the monitor downtime
+	AccountID int `json:"accountId,omitempty"`
+	// Configuration options if the customer wants the monitor to end at a specific date
+	EndRepeat SyntheticsDateWindowEndOutput `json:"endRepeat,omitempty"`
+	// The date and time in which the monitor downtime will end
+	EndTime NaiveDateTime `json:"endTime,omitempty"`
+	// Configuration options for which days of the month a monitor downtime will occur
+	Frequency SyntheticsMonitorDowntimeMonthlyFrequencyOutput `json:"frequency,omitempty"`
+	// The entity GUID associated with the monitor downtime
+	GUID EntityGUID `json:"guid,omitempty"`
+	// Days of the week the monitor downtime will run
+	MaintenanceDays []SyntheticsMonitorDowntimeWeekDays `json:"maintenanceDays,omitempty"`
+	// The monitor GUIDs associated with the monitor downtime
+	MonitorGUIDs []EntityGUID `json:"monitorGuids,omitempty"`
+	// The name of the monitor downtime
+	Name string `json:"name,omitempty"`
+	// The date and time in which the monitor downtime will begin
+	StartTime NaiveDateTime `json:"startTime,omitempty"`
+	// The timezone the time values will be in
+	Timezone string `json:"timezone,omitempty"`
+}
+
+// SyntheticsMonitorDowntimeOnceConfig - Configuration options for a monitor downtime that runs once
+type SyntheticsMonitorDowntimeOnceConfig struct {
+	// The date and time in which the monitor downtime will end
+	EndTime NaiveDateTime `json:"endTime,omitempty"`
+	// The date and time in which the monitor downtime will begin
+	StartTime NaiveDateTime `json:"startTime,omitempty"`
+	// The timezone the time values will be in
+	Timezone string `json:"timezone,omitempty"`
+}
+
+// SyntheticsMonitorDowntimeWeeklyConfig - Configuration options for a monitor downtime that runs weekly
+type SyntheticsMonitorDowntimeWeeklyConfig struct {
+	// Configuration options if the customer wants the monitor to end at a specific date
+	EndRepeat SyntheticsDateWindowEndConfig `json:"endRepeat,omitempty"`
+	// The date and time in which the monitor downtime will end
+	EndTime NaiveDateTime `json:"endTime,omitempty"`
+	// Configuration options if the customer wants the monitor to end at a specific date
+	MaintenanceDays []SyntheticsMonitorDowntimeWeekDays `json:"maintenanceDays,omitempty"`
+	// The date and time in which the monitor downtime will begin
+	StartTime NaiveDateTime `json:"startTime,omitempty"`
+	// The timezone the time values will be in
+	Timezone string `json:"timezone,omitempty"`
+}
+
 // SyntheticsMonitorScriptQueryResponse - The script that a monitor runs
 type SyntheticsMonitorScriptQueryResponse struct {
 	// The script associated with the specified monitor
@@ -1027,6 +1239,46 @@ type SyntheticsMonitorUpdateError struct {
 	Description string `json:"description"`
 	// Enum of error that was returned during monitor update
 	Type SyntheticsMonitorUpdateErrorType `json:"type"`
+}
+
+// SyntheticsMonthlyMonitorDowntimeMutationResult - Monitor downtime object returned to the customer for a downtime run monthly
+type SyntheticsMonthlyMonitorDowntimeMutationResult struct {
+	// The account ID associated with the monitor downtime
+	AccountID int `json:"accountId,omitempty"`
+	// Configuration options if the customer wants the monitor to end at a specific date
+	EndRepeat SyntheticsDateWindowEndOutput `json:"endRepeat,omitempty"`
+	// The date and time in which the monitor downtime will end
+	EndTime NaiveDateTime `json:"endTime,omitempty"`
+	// Configuration options for which days of the month a monitor downtime will occur
+	Frequency SyntheticsMonitorDowntimeMonthlyFrequencyOutput `json:"frequency,omitempty"`
+	// The entity GUID associated with the monitor downtime
+	GUID EntityGUID `json:"guid,omitempty"`
+	// The monitor GUIDs associated with the monitor downtime
+	MonitorGUIDs []EntityGUID `json:"monitorGuids,omitempty"`
+	// The name of the monitor downtime
+	Name string `json:"name,omitempty"`
+	// The date and time in which the monitor downtime will begin
+	StartTime NaiveDateTime `json:"startTime,omitempty"`
+	// The timezone the time values will be in
+	Timezone string `json:"timezone,omitempty"`
+}
+
+// SyntheticsOnceMonitorDowntimeMutationResult - Monitor downtime object returned to the customer for a downtime run once
+type SyntheticsOnceMonitorDowntimeMutationResult struct {
+	// The account ID associated with the monitor downtime
+	AccountID int `json:"accountId,omitempty"`
+	// The date and time in which the monitor downtime will end
+	EndTime NaiveDateTime `json:"endTime,omitempty"`
+	// The entity GUID associated with the monitor downtime
+	GUID EntityGUID `json:"guid,omitempty"`
+	// The monitor GUIDs associated with the monitor downtime
+	MonitorGUIDs []EntityGUID `json:"monitorGuids,omitempty"`
+	// The name of the monitor downtime
+	Name string `json:"name,omitempty"`
+	// The date and time in which the monitor downtime will begin
+	StartTime NaiveDateTime `json:"startTime,omitempty"`
+	// The timezone the time values will be in
+	Timezone string `json:"timezone,omitempty"`
 }
 
 // SyntheticsPrivateLocationDeleteResult - An array containing errors from the deletion of a private location, if any
@@ -1599,6 +1851,28 @@ type SyntheticsUpdateStepMonitorInput struct {
 	Tags []SyntheticsTag `json:"tags,omitempty"`
 }
 
+// SyntheticsWeeklyMonitorDowntimeMutationResult - Monitor downtime object returned to the customer for a downtime run weekly
+type SyntheticsWeeklyMonitorDowntimeMutationResult struct {
+	// The account ID associated with the monitor downtime
+	AccountID int `json:"accountId,omitempty"`
+	// Configuration options if the customer wants the monitor to end at a specific date
+	EndRepeat SyntheticsDateWindowEndOutput `json:"endRepeat,omitempty"`
+	// The date and time in which the monitor downtime will end
+	EndTime NaiveDateTime `json:"endTime,omitempty"`
+	// The entity GUID associated with the monitor downtime
+	GUID EntityGUID `json:"guid,omitempty"`
+	// Days of the week the monitor downtime will run
+	MaintenanceDays []SyntheticsMonitorDowntimeWeekDays `json:"maintenanceDays,omitempty"`
+	// The monitor GUIDs associated with the monitor downtime
+	MonitorGUIDs []EntityGUID `json:"monitorGuids,omitempty"`
+	// The name of the monitor downtime
+	Name string `json:"name,omitempty"`
+	// The date and time in which the monitor downtime will begin
+	StartTime NaiveDateTime `json:"startTime,omitempty"`
+	// The timezone the time values will be in
+	Timezone string `json:"timezone,omitempty"`
+}
+
 type automatedTestResultResponse struct {
 	Actor Actor `json:"actor"`
 }
@@ -1611,6 +1885,9 @@ type stepsResponse struct {
 	Actor Actor `json:"actor"`
 }
 
+// Date - The `Date` scalar represents a date. The `Date` appears as an ISO8601 formatted string.
+type Date string
+
 // EntityGUID - An encoded Entity GUID
 type EntityGUID string
 
@@ -1621,6 +1898,9 @@ type Float string
 
 // Milliseconds - The `Milliseconds` scalar represents a duration in milliseconds
 type Milliseconds string
+
+// NaiveDateTime - The `NaiveDateTime` scalar represents a date and time without a Time Zone. The `NaiveDateTime` appears as an ISO8601 formatted string.
+type NaiveDateTime string
 
 // Nr1CatalogRawNerdletState - Represents JSON nerdlet state data
 type Nr1CatalogRawNerdletState string
