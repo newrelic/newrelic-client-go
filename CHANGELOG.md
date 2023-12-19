@@ -1,3 +1,8 @@
+<a name="v2.23.0"></a>
+## [v2.23.0] - 2023-12-18
+### Features
+- **synthetics:** addition of mutations for the monitor downtime feature ([#1070](https://github.com/newrelic/newrelic-client-go/issues/1070))
+
 <a name="v2.22.2"></a>
 ## [v2.22.2] - 2023-11-14
 ### Bug Fixes
@@ -1684,7 +1689,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.22.2...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.23.0...HEAD
+[v2.23.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.22.2...v2.23.0
 [v2.22.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.22.1...v2.22.2
 [v2.22.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.22.0...v2.22.1
 [v2.22.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.21.2...v2.22.0
