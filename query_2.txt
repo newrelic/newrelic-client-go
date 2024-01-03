@@ -1,0 +1,15 @@
+#####################
+# These are comments for the team's reference, kindly ignore these
+# QueryType/RootMutationType
+# https://github.com/newrelic/tutone/blob/edabc961bc0e630f799c568c98a2d417e84c4052/pkg/fetch/http.go#L64-L72
+#####################
+
+POST /graphql HTTP/1.1
+Host: api.newrelic.com
+User-Agent: Go-http-client/1.1
+Content-Length: 783
+Api-Key: redacted
+Content-Type: application/json
+Accept-Encoding: gzip
+
+{"query":"query($typeName:String!) { __type(name: $typeName) { ...FullType } } \nfragment FullType on __Type {\n  kind\n  name\n  description\n  fields(includeDeprecated: true) { name description args { ...InputValue } type { ...TypeRef } isDeprecated deprecationReason }\n  inputFields { ...InputValue }\n  interfaces { ...TypeRef }\n  enumValues(includeDeprecated: true) { name description isDeprecated deprecationReason }\n  possibleTypes { ...TypeRef }\n} fragment InputValue on __InputValue { name description type { ...TypeRef } defaultValue } fragment TypeRef on __Type { kind name ofType { kind name ofType { kind name ofType { kind name ofType { kind name ofType { kind name ofType { kind name ofType { kind name } } } } } } } }","variables":{"typeName":"RootMutationType"}}
