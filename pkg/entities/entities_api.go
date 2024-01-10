@@ -375,6 +375,44 @@ const getEntitiesQuery = `query(
 			pageLoadThroughput
 			pageLoadTimeAverage
 		}
+		apmSettings {
+			alias
+			apmConfig {
+				apdexTarget
+				useServerSideConfig
+			}
+			captureMemcacheKeys
+			errorCollector {
+				enabled
+				expectedErrorClasses
+				expectedErrorCodes
+				ignoredErrorClasses
+				ignoredErrorCodes
+			}
+			jfr {
+				enabled
+			}
+			originalName
+			slowSql {
+				enabled
+			}
+			threadProfiler {
+				enabled
+			}
+			tracerType
+			transactionTracer {
+				captureMemcacheKeys
+				enabled
+				explainEnabled
+				explainThresholdType
+				explainThresholdValue
+				logSql
+				recordSql
+				stackTraceThreshold
+				transactionThresholdType
+				transactionThresholdValue
+			}
+		}
 		apmSummary {
 			apdexScore
 			errorRate
@@ -790,6 +828,48 @@ const getEntitiesQuery = `query(
 			key
 		}
 	}
+	... on KeyTransactionEntity {
+		__typename
+		account {
+			id
+			name
+			reportingEventTypes
+		}
+		apdexTarget
+		application {
+			guid
+		}
+		browserApdexTarget
+		metricName
+		name
+		recentAlertViolations {
+			agentUrl
+			alertSeverity
+			closedAt
+			label
+			level
+			openedAt
+			violationId
+			violationUrl
+		}
+		relatedEntities {
+			nextCursor
+		}
+		relationships {
+			type
+		}
+		tags {
+			key
+			values
+		}
+		tagsWithMetadata {
+			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
+	}
 	... on MobileApplicationEntity {
 		__typename
 		account {
@@ -1175,6 +1255,44 @@ const getEntityQuery = `query(
 			jsErrorRate
 			pageLoadThroughput
 			pageLoadTimeAverage
+		}
+		apmSettings {
+			alias
+			apmConfig {
+				apdexTarget
+				useServerSideConfig
+			}
+			captureMemcacheKeys
+			errorCollector {
+				enabled
+				expectedErrorClasses
+				expectedErrorCodes
+				ignoredErrorClasses
+				ignoredErrorCodes
+			}
+			jfr {
+				enabled
+			}
+			originalName
+			slowSql {
+				enabled
+			}
+			threadProfiler {
+				enabled
+			}
+			tracerType
+			transactionTracer {
+				captureMemcacheKeys
+				enabled
+				explainEnabled
+				explainThresholdType
+				explainThresholdValue
+				logSql
+				recordSql
+				stackTraceThreshold
+				transactionThresholdType
+				transactionThresholdValue
+			}
 		}
 		apmSummary {
 			apdexScore
@@ -1613,6 +1731,48 @@ const getEntityQuery = `query(
 			key
 		}
 	}
+	... on KeyTransactionEntity {
+		__typename
+		account {
+			id
+			name
+			reportingEventTypes
+		}
+		apdexTarget
+		application {
+			guid
+		}
+		browserApdexTarget
+		metricName
+		name
+		recentAlertViolations {
+			agentUrl
+			alertSeverity
+			closedAt
+			label
+			level
+			openedAt
+			violationId
+			violationUrl
+		}
+		relatedEntities {
+			nextCursor
+		}
+		relationships {
+			type
+		}
+		tags {
+			key
+			values
+		}
+		tagsWithMetadata {
+			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
+	}
 	... on MobileApplicationEntity {
 		__typename
 		account {
@@ -1973,6 +2133,9 @@ const getEntitySearchQuery = `query(
 			... on InfrastructureHostEntityOutline {
 				__typename
 			}
+			... on KeyTransactionEntityOutline {
+				__typename
+			}
 			... on MobileApplicationEntityOutline {
 				__typename
 				applicationId
@@ -2127,6 +2290,9 @@ const getEntitySearchByQuery = `query(
 				runtime
 			}
 			... on InfrastructureHostEntityOutline {
+				__typename
+			}
+			... on KeyTransactionEntityOutline {
 				__typename
 			}
 			... on MobileApplicationEntityOutline {
