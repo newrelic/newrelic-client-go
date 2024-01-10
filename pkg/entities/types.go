@@ -1081,6 +1081,12 @@ var DashboardPermissionsTypes = struct {
 	PUBLIC_READ_WRITE: "PUBLIC_READ_WRITE",
 }
 
+// DashboardVariableOptionsInput - Options applied to the variable
+type DashboardVariableOptionsInput struct {
+	// Only applies to variables of type NRQL. With this turned on, the time range for the NRQL query will override the time picker on dashboards and other pages. Turn this off to use the time picker as normal.
+	IgnoreTimeRange bool `json:"ignoreTimeRange,omitempty"`
+}
+
 // DashboardVariableReplacementStrategy - Possible strategies when replacing variables in a NRQL query.
 type DashboardVariableReplacementStrategy string
 
@@ -7988,6 +7994,8 @@ type DashboardVariable struct {
 	NRQLQuery *DashboardVariableNRQLQuery `json:"nrqlQuery,omitempty"`
 	// Variable identifier.
 	Name string `json:"name,omitempty"`
+	// Options applied to the variable
+	Options DashboardVariableOptionsInput `json:"options,omitempty"`
 	// Indicates the strategy to apply when replacing a variable in a NRQL query.
 	ReplacementStrategy DashboardVariableReplacementStrategy `json:"replacementStrategy,omitempty"`
 	// Human-friendly display string for this variable.

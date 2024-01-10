@@ -99,6 +99,9 @@ const getDashboardEntityQuery = `query ($guid: EntityGuid!) {
             value
           }
           name
+          options {
+				ignoreTimeRange
+			}
           nrqlQuery {
             accountIds
             query
