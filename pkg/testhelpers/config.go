@@ -33,6 +33,7 @@ func NewTestConfig(t *testing.T, testServer *httptest.Server) config.Config {
 
 	if testServer != nil {
 		cfg.Region().SetInfrastructureBaseURL(testServer.URL)
+		cfg.Region().SetInsightsBaseURL(testServer.URL)
 		cfg.Region().SetNerdGraphBaseURL(testServer.URL)
 		cfg.Region().SetRestBaseURL(testServer.URL)
 		cfg.Region().SetSyntheticsBaseURL(testServer.URL)
