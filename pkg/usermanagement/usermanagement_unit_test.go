@@ -8,8 +8,9 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/newrelic/newrelic-client-go/v2/pkg/nrtime"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/newrelic/newrelic-client-go/v2/pkg/nrtime"
 
 	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )

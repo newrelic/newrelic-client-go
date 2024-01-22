@@ -293,13 +293,16 @@ const UserManagementUpdateUserMutation = `mutation(
 } }`
 
 // container for authentication_domains enabling cursor based pagination
-func (a *Usermanagement) GetAuthenticationDomains(
-	authenticationDomainsID []string,
-) (*[]UserManagementAuthenticationDomain, error) {
-	return a.GetAuthenticationDomainsWithContext(context.Background(),
-		authenticationDomainsID,
-	)
-}
+// ------ TO BE REMOVED -------
+// commented out for now
+
+//func (a *Usermanagement) GetAuthenticationDomains(
+//	authenticationDomainsID []string,
+//) (*[]UserManagementAuthenticationDomain, error) {
+//	return a.GetAuthenticationDomainsWithContext(context.Background(),
+//		authenticationDomainsID,
+//	)
+//}
 
 // container for authentication_domains enabling cursor based pagination
 func (a *Usermanagement) GetAllAuthenticationDomains() (*[]UserManagementAuthenticationDomain, error) {
@@ -307,26 +310,29 @@ func (a *Usermanagement) GetAllAuthenticationDomains() (*[]UserManagementAuthent
 }
 
 // container for authentication_domains enabling cursor based pagination
-func (a *Usermanagement) GetAuthenticationDomainsWithContext(
-	ctx context.Context,
-	authenticationDomainsID []string,
-) (*[]UserManagementAuthenticationDomain, error) {
+// ------ TO BE REMOVED -------
+// commented out for now
 
-	resp := authenticationDomainsResponse{}
-	vars := map[string]interface{}{
-		"authenticationDomainsID": authenticationDomainsID,
-	}
-
-	if err := a.client.NerdGraphQueryWithContext(ctx, getAuthenticationDomainsQuery, vars, &resp); err != nil {
-		return nil, err
-	}
-
-	if len(resp.Actor.Organization.UserManagement.AuthenticationDomains.AuthenticationDomains) == 0 {
-		return nil, errors.NewNotFound("")
-	}
-
-	return &resp.Actor.Organization.UserManagement.AuthenticationDomains.AuthenticationDomains, nil
-}
+//func (a *Usermanagement) GetAuthenticationDomainsWithContext(
+//	ctx context.Context,
+//	authenticationDomainsID []string,
+//) (*[]UserManagementAuthenticationDomain, error) {
+//
+//	resp := authenticationDomainsResponse{}
+//	vars := map[string]interface{}{
+//		"authenticationDomainsID": authenticationDomainsID,
+//	}
+//
+//	if err := a.client.NerdGraphQueryWithContext(ctx, getAuthenticationDomainsQuery, vars, &resp); err != nil {
+//		return nil, err
+//	}
+//
+//	if len(resp.Actor.Organization.UserManagement.AuthenticationDomains.AuthenticationDomains) == 0 {
+//		return nil, errors.NewNotFound("")
+//	}
+//
+//	return &resp.Actor.Organization.UserManagement.AuthenticationDomains.AuthenticationDomains, nil
+//}
 
 // GetAllAuthenticationDomainsWithContext is a modified function that uses a modified query to fetch all authentication domains (not query by ID)
 func (a *Usermanagement) GetAllAuthenticationDomainsWithContext(
@@ -358,71 +364,75 @@ func (a *Usermanagement) GetAllAuthenticationDomainsWithContext(
 
 // The following query is out of the scope of Tutone. DO NOT DELETE THIS.
 // To be split into two queries based on user/group management usage (e.g. users need not be fetched if groups are needed)
-const getAuthenticationDomainsQuery = `query ($authenticationDomainsID: [ID!]) {
-  actor {
-    organization {
-      userManagement {
-        authenticationDomains(id: $authenticationDomainsID) {
-          authenticationDomains {
-            groups {
-              groups {
-                displayName
-                id
-                users {
-                  users {
-                    email
-                    id
-                    name
-                    timeZone
-                  }
-                  nextCursor
-                  totalCount
-                }
-              }
-              nextCursor
-              totalCount
-            }
-            id
-            name
-            provisioningType
-            users {
-              users {
-                email
-                emailVerificationState
-                groups {
-                  groups {
-                    displayName
-                    id
-                  }
-                  nextCursor
-                  totalCount
-                }
-                id
-                lastActive
-                name
-                pendingUpgradeRequest {
-                  id
-                  message
-                  requestedUserType {
-                    displayName
-                    id
-                  }
-                }
-                timeZone
-                type {
-                  displayName
-                  id
-                }
-              }
-              nextCursor
-              totalCount
-            }
-          }
-        }
-      }
-    }
-  }
-}`
+
+// ------ TO BE REMOVED -------
+// commented out for now
+
+//const getAuthenticationDomainsQuery = `query ($authenticationDomainsID: [ID!]) {
+//  actor {
+//    organization {
+//      userManagement {
+//        authenticationDomains(id: $authenticationDomainsID) {
+//          authenticationDomains {
+//            groups {
+//              groups {
+//                displayName
+//                id
+//                users {
+//                  users {
+//                    email
+//                    id
+//                    name
+//                    timeZone
+//                  }
+//                  nextCursor
+//                  totalCount
+//                }
+//              }
+//              nextCursor
+//              totalCount
+//            }
+//            id
+//            name
+//            provisioningType
+//            users {
+//              users {
+//                email
+//                emailVerificationState
+//                groups {
+//                  groups {
+//                    displayName
+//                    id
+//                  }
+//                  nextCursor
+//                  totalCount
+//                }
+//                id
+//                lastActive
+//                name
+//                pendingUpgradeRequest {
+//                  id
+//                  message
+//                  requestedUserType {
+//                    displayName
+//                    id
+//                  }
+//                }
+//                timeZone
+//                type {
+//                  displayName
+//                  id
+//                }
+//              }
+//              nextCursor
+//              totalCount
+//            }
+//          }
+//        }
+//      }
+//    }
+//  }
+//}`
 
 // The following query is out of the scope of Tutone. DO NOT DELETE THIS.
 // To be split into two queries based on user/group management usage (e.g. users need not be fetched if groups are needed)

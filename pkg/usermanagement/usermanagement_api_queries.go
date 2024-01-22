@@ -1,0 +1,178 @@
+package usermanagement
+
+import "context"
+
+// An "authentication domain" is a grouping of New Relic users governed by the same user management settings, like how they're provisioned (added and updated), how they're authenticated (logged in), session settings, and how user upgrades are managed.
+func (a *Usermanagement) GetAuthenticationDomains(
+	cursor string,
+	iD []string,
+) (*UserManagementAuthenticationDomains, error) {
+	return a.GetAuthenticationDomainsWithContext(context.Background(),
+		cursor,
+		iD,
+	)
+}
+
+// An "authentication domain" is a grouping of New Relic users governed by the same user management settings, like how they're provisioned (added and updated), how they're authenticated (logged in), session settings, and how user upgrades are managed.
+func (a *Usermanagement) GetAuthenticationDomainsWithContext(
+	ctx context.Context,
+	cursor string,
+	iD []string,
+) (*UserManagementAuthenticationDomains, error) {
+
+	resp := authenticationDomainsResponse{}
+	vars := map[string]interface{}{
+		"cursor": cursor,
+		"id":     iD,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, getAuthenticationDomainsQuery, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.Actor.Organization.UserManagement.AuthenticationDomains, nil
+}
+
+const getAuthenticationDomainsQuery = `query(
+	$id: [ID!],
+) { actor { organization { userManagement { authenticationDomains(
+	id: $id,
+) {
+	authenticationDomains {
+		id
+		name
+		provisioningType
+	}
+	nextCursor
+	totalCount
+} } } } }`
+
+// GET Groups
+
+func (a *Usermanagement) GetGroups(
+	authenticationDomainIDs []string,
+	groupIDs []string,
+	name string,
+) (*UserManagementAuthenticationDomains, error) {
+	return a.GetGroupsWithContext(context.Background(),
+		authenticationDomainIDs,
+		groupIDs,
+		name,
+	)
+}
+
+func (a *Usermanagement) GetGroupsWithContext(
+	ctx context.Context,
+	authenticationDomainIDs []string,
+	groupIDs []string,
+	name string,
+) (*UserManagementAuthenticationDomains, error) {
+
+	resp := authenticationDomainsResponse{}
+	vars := map[string]interface{}{
+		"authenticationDomainIDs": authenticationDomainIDs,
+	}
+
+	if len(groupIDs) != 0 {
+		vars["groupIDs"] = groupIDs
+	}
+
+	if name != "" {
+		vars["name"] = name
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, getGroupsQuery, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.Actor.Organization.UserManagement.AuthenticationDomains, nil
+}
+
+const getGroupsQuery = `query(
+	$authenticationDomainIDs: [ID!],
+	$groupIDs: [ID!],
+	$name: String,
+) {
+  actor {
+    organization {
+      userManagement {
+        authenticationDomains(
+          id: $authenticationDomainIDs
+        ) {
+          authenticationDomains {
+            groups(filter: {displayName: {contains: $name}, id: {in: $groupIDs}}) {
+              groups {
+                id
+                displayName
+              }
+            }
+            id
+            name
+            provisioningType
+          }
+        }
+      }
+    }
+  }
+}`
+
+// GET Groups and Users belonging to them
+
+func (a *Usermanagement) GetGroupsWithUsers(
+	authenticationDomainIDs []string,
+	groupIDs []string,
+) (*UserManagementAuthenticationDomains, error) {
+	return a.GetGroupsWithUsersWithContext(context.Background(),
+		authenticationDomainIDs,
+		groupIDs,
+	)
+}
+
+func (a *Usermanagement) GetGroupsWithUsersWithContext(
+	ctx context.Context,
+	authenticationDomainIDs []string,
+	groupIDs []string,
+) (*UserManagementAuthenticationDomains, error) {
+
+	resp := authenticationDomainsResponse{}
+	vars := map[string]interface{}{
+		"authenticationDomainIDs": authenticationDomainIDs,
+		"groupIDs":                groupIDs,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, getGroupsWithUsersQuery, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.Actor.Organization.UserManagement.AuthenticationDomains, nil
+}
+
+const getGroupsWithUsersQuery = `query(
+	$authenticationDomainIDs: [ID!],
+	$groupIDs: [ID!],
+) {
+  actor {
+    organization {
+      userManagement {
+        authenticationDomains(id: $authenticationDomainIDs) {
+          authenticationDomains {
+            groups(filter: {id: {in: $groupIDs}}) {
+              groups {
+                displayName
+                id
+                users {
+                  users {
+                    email
+                    id
+                    name
+                    timeZone
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`
