@@ -1267,6 +1267,7 @@ packages:
         field_type_override: users.UserReference
         skip_type_create: true
 
+
   - name: servicelevel
     path: pkg/servicelevel
     import_path: github.com/newrelic/newrelic-client-go/v2/pkg/servicelevel
@@ -1349,6 +1350,29 @@ packages:
         field_type_override: common.EntityGUID
         skip_type_create: true
 
+  - name: usermanagement
+    path: pkg/usermanagement
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/usermanagement
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v2/pkg/users
+    queries:
+      - path: [ "actor", "organization", "userManagement" ]
+        endpoints:
+          - name: authenticationDomains
+            max_query_field_depth: 4
+    types:
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
 generators:
   - name: typegen
     fileName: "types.go"
