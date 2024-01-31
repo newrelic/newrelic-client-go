@@ -1,5 +1,10 @@
+<a name="v2.24.0"></a>
+## [v2.24.0] - 2024-01-31
+### Features
+- **authentication_domains:** addition of client code to fetch auth domains ([#1086](https://github.com/newrelic/newrelic-client-go/issues/1086))
+
 <a name="v2.23.0"></a>
-## [v2.23.0] - 2023-12-18
+## [v2.23.0] - 2023-12-19
 ### Features
 - **synthetics:** addition of mutations for the monitor downtime feature ([#1070](https://github.com/newrelic/newrelic-client-go/issues/1070))
 
@@ -1689,7 +1694,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.23.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.24.0...HEAD
+[v2.24.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.23.0...v2.24.0
 [v2.23.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.22.2...v2.23.0
 [v2.22.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.22.1...v2.22.2
 [v2.22.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.22.0...v2.22.1
