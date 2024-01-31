@@ -107,7 +107,7 @@ packages:
       - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
       - github.com/newrelic/newrelic-client-go/v2/pkg/users
     queries:
-      - path: ["actor", "organization", "userManagement", "authenticationDomains"]
+      - path: ["actor", "organization", "userManagement"]
         endpoints:
           - name: authenticationDomains
             max_query_field_depth: 4
@@ -123,6 +123,10 @@ packages:
       - name: userManagementDeleteGroup
         max_query_field_depth: 2
       - name: userManagementUpdateGroup
+        max_query_field_depth: 2
+      - name: userManagementAddUsersToGroups
+        max_query_field_depth: 2
+      - name: userManagementRemoveUsersFromGroups
         max_query_field_depth: 2
     types:
       - name: ID
