@@ -213,6 +213,22 @@ func (a *Usermanagement) GetUsersWithContext(
 		"emailContains":           emailContains,
 	}
 
+	if len(authenticationDomainIDs) == 0 {
+		delete(vars, "authenticationDomainIDs")
+	}
+
+	if len(userIDs) == 0 {
+		delete(vars, "userIDs")
+	}
+
+	if nameContains == "" {
+		delete(vars, "nameContains")
+	}
+
+	if emailContains == "" {
+		delete(vars, "emailContains")
+	}
+
 	if err := a.client.NerdGraphQueryWithContext(ctx, getUsersQuery, vars, &resp); err != nil {
 		return nil, err
 	}
@@ -269,6 +285,8 @@ const getUsersQuery = `query(
 			id
 			name
           }
+		nextCursor
+		totalCount
         }
       }
     }

@@ -10,50 +10,105 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/newrelic/newrelic-client-go/v2/pkg/nrtime"
-
 	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
 var (
-	timestampString = "2022-07-25T12:08:07.179638Z"
-	timestamp       = nrtime.DateTime(timestampString)
-	user            = "test-user"
-	accountId       = 10867072
-	channelId       = "0d11fd42-5919-4767-8cf5-e07cb71c1b04"
-	id              = "03bd4929-3d86-4447-a077-a901b5d511ff"
+	authenticationDomainName = "Mock Authentication Domain 1"
+	userId                   = "9999999999"
+	mockUserEmail            = "mock@mock.mock"
+	mockUserEmailUpdated     = fmt.Sprintf("updated_%s", mockUserEmail)
 
-	testCreateUserRequestJSON = `{
-    "userManagementCreateUser": {
-      "createdUser": {
-        "authenticationDomainId": "0cc21d98-8dc2-484a-bb26-258e17ede584",
-        "email": "unittest@tf.com",
-        "name": "unit test tf",
-        "type": {
-          "displayName": "Core"
+	testCreateUserResponseJSON = `{
+    "data":{
+        "userManagementCreateUser":{
+            "createdUser":{
+                "authenticationDomainId":"` + mockAuthenticationDomainId + `",
+                "email":"` + mockUserEmail + `",
+				"id": "` + userId + `",
+				"name":"` + userName + `",
+                "type":{
+                    "displayName":"Basic",
+					"id":"1"
+                }
+            }
         }
-      }
     }
-  }`
+}`
 
-	testUpdateUserRequestJSON = `{
-    "userManagementUpdateUser": {
-      "user": {
-        "email": "unittest@tf.com",
-        "name": "test unit",
-        "type": {
-          "displayName": "Basic"
+	testUpdateUserResponseJSON = `{
+	"data": {
+		"userManagementUpdateUser": {
+			"user": {
+				"email": "` + mockUserEmailUpdated + `",
+				"emailVerificationState": "Pending",
+				"groups": {
+					"nextCursor": null,
+					"totalCount": 0
+				},
+				"id": "` + userId + `",
+				"lastActive": null,
+				"name": "` + userNameUpdated + `",
+				"pendingUpgradeRequest": null,
+				"timeZone": "Etc/UTC",
+				"type": {
+					"displayName": "Core",
+					"id": "2"
+				}
+			}
+		}
+	}
+}`
+	testDeleteUserResponseJson = `{
+    "data":{
+        "userManagementDeleteUser":{
+            "deletedUser":{
+                "id":"` + userId + `"
+            }
         }
-      }
     }
-  }`
-	testDeletedResponseJson = `{
-    "userManagementDeleteUser": {
-      "deletedUser": {
-        "id": "1000081687"
-      }
+}`
+
+	testGetUserResponseJSON = `{
+    "data":{
+        "actor":{
+            "organization":{
+                "userManagement":{
+                    "authenticationDomains":{
+                        "authenticationDomains":[
+                            {
+                                "id":"` + mockAuthenticationDomainId + `",
+                                "name":"` + authenticationDomainName + `",
+                                "users":{
+                                    "users":[
+                                        {
+                                            "email":"` + mockUserEmail + `",
+                                            "emailVerificationState":"Pending",
+                                            "groups":{
+                                                "groups":[]
+                                            },
+                                            "id":"` + userId + `",
+                                            "lastActive":null,
+                                            "name":"` + userName + `",
+                                            "pendingUpgradeRequest":null,
+                                            "timeZone":"Etc/UTC",
+                                            "type":{
+                                                "displayName":"Basic",
+                                                "id":"1"
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ],
+                        "nextCursor":null,
+                        "totalCount":1
+                    }
+                }
+            }
+        }
     }
-  }`
+}`
 )
 
 func newMockResponse(t *testing.T, mockJSONResponse string, statusCode int) Usermanagement {
@@ -63,28 +118,29 @@ func newMockResponse(t *testing.T, mockJSONResponse string, statusCode int) User
 	return New(tc)
 }
 
-func TestCreateUser(t *testing.T) {
+func TestUnitCreateUser(t *testing.T) {
 	t.Parallel()
-	respJSON := fmt.Sprintf(`{ "data":%s }`, testCreateUserRequestJSON)
-	user := newMockResponse(t, respJSON, http.StatusCreated)
+	user := newMockResponse(t, testCreateUserResponseJSON, http.StatusCreated)
 	createUserInput := UserManagementCreateUser{
-		AuthenticationDomainId: "0cc21d98-8dc2-484a-bb26-258e17ede584",
-		Name:                   "unit test tf",
-		Email:                  "unittest@tf.com",
-		UserType:               UserManagementRequestedTierNameTypes.CORE_USER_TIER,
+		AuthenticationDomainId: mockAuthenticationDomainId,
+		Name:                   userName,
+		Email:                  mockUserEmail,
+		UserType:               UserManagementRequestedTierNameTypes.BASIC_USER_TIER,
 	}
-	userManagementUserType := UserManagementUserType{
-		DisplayName: "Core",
-	}
-	createdUser := UserManagementCreatedUser{
-		Name:                   createUserInput.Name,
-		AuthenticationDomainId: createUserInput.AuthenticationDomainId,
-		Email:                  createUserInput.Email,
-		Type:                   userManagementUserType,
-	}
+
 	expected := &UserManagementCreateUserPayload{
-		CreatedUser: createdUser,
+		CreatedUser: UserManagementCreatedUser{
+			AuthenticationDomainId: mockAuthenticationDomainId,
+			Email:                  mockUserEmail,
+			ID:                     userId,
+			Name:                   userName,
+			Type: UserManagementUserType{
+				DisplayName: "Basic",
+				ID:          "1",
+			},
+		},
 	}
+
 	actual, err := user.UserManagementCreateUser(createUserInput)
 
 	assert.NoError(t, err)
@@ -92,47 +148,98 @@ func TestCreateUser(t *testing.T) {
 	assert.Equal(t, expected, actual)
 }
 
-func TestUpdateUser(t *testing.T) {
+func TestUnitUpdateUser(t *testing.T) {
 	t.Parallel()
-	respJSON := fmt.Sprintf(`{ "data":%s }`, testUpdateUserRequestJSON)
-	user := newMockResponse(t, respJSON, http.StatusCreated)
+	user := newMockResponse(t, testUpdateUserResponseJSON, http.StatusCreated)
 	updateUserInput := UserManagementUpdateUser{
-		Name:     "test unit",
-		Email:    "unittest@tf.com",
-		UserType: UserManagementRequestedTierNameTypes.BASIC_USER_TIER,
+		Name:     userNameUpdated,
+		Email:    mockUserEmailUpdated,
+		UserType: UserManagementRequestedTierNameTypes.CORE_USER_TIER,
 	}
-	userManagementUserType := UserManagementUserType{
-		DisplayName: "Basic",
-	}
-	updatedUser := UserManagementUser{
-		Name:  updateUserInput.Name,
-		Email: updateUserInput.Email,
-		Type:  userManagementUserType,
-	}
+
 	expected := &UserManagementUpdateUserPayload{
-		User: updatedUser,
+		User: UserManagementUser{
+			Email:                  mockUserEmailUpdated,
+			EmailVerificationState: "Pending",
+			TimeZone:               "Etc/UTC",
+			Groups:                 UserManagementUserGroups{},
+			ID:                     userId,
+			Name:                   userNameUpdated,
+			PendingUpgradeRequest:  UserManagementPendingUpgradeRequest{},
+			Type: UserManagementUserType{
+				DisplayName: "Core",
+				ID:          "2",
+			},
+		},
 	}
+
 	actual, err := user.UserManagementUpdateUser(updateUserInput)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)
 	assert.Equal(t, expected, actual)
 }
-func TestDeleteUser(t *testing.T) {
+func TestUnitDeleteUser(t *testing.T) {
 	t.Parallel()
-	respJSON := fmt.Sprintf(`{ "data":%s }`, testDeletedResponseJson)
-	user := newMockResponse(t, respJSON, http.StatusCreated)
+	user := newMockResponse(t, testDeleteUserResponseJson, http.StatusCreated)
 	deleteUserInput := UserManagementDeleteUser{
-		ID: "1000081687",
+		ID: userId,
 	}
-	deletedUser := UserManagementDeletedUser{
-		ID: deleteUserInput.ID,
-	}
+
 	expected := &UserManagementDeleteUserPayload{
-		DeletedUser: deletedUser,
+		DeletedUser: UserManagementDeletedUser{
+			ID: userId,
+		},
 	}
 
 	actual, err := user.UserManagementDeleteUser(deleteUserInput)
+
+	assert.NoError(t, err)
+	assert.NotNil(t, actual)
+	assert.Equal(t, expected, actual)
+}
+
+func TestUnitGetUser(t *testing.T) {
+	t.Parallel()
+	user := newMockResponse(t, testGetUserResponseJSON, http.StatusCreated)
+
+	expected := &UserManagementAuthenticationDomains{
+		AuthenticationDomains: []UserManagementAuthenticationDomain{
+			{
+				ID:   mockAuthenticationDomainId,
+				Name: authenticationDomainName,
+				Users: UserManagementUsers{
+					Users: []UserManagementUser{
+						{
+							ID:                     userId,
+							Name:                   userName,
+							Email:                  mockUserEmail,
+							EmailVerificationState: "Pending",
+							TimeZone:               "Etc/UTC",
+							PendingUpgradeRequest:  UserManagementPendingUpgradeRequest{},
+							Type: UserManagementUserType{
+								DisplayName: "Basic",
+								ID:          "1",
+							},
+							Groups: UserManagementUserGroups{
+								Groups: []UserManagementUserGroup{},
+							},
+						},
+					},
+				},
+			},
+		},
+		NextCursor: "",
+		TotalCount: 1,
+	}
+
+	actual, err := user.GetUsers(
+		[]string{mockAuthenticationDomainId},
+		[]string{userId},
+		"",
+		"",
+	)
+
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)
 	assert.Equal(t, expected, actual)
