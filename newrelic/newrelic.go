@@ -61,7 +61,7 @@ type NewRelic struct {
 	Plugins           plugins.Plugins
 	ServiceLevel      servicelevel.Servicelevel
 	Synthetics        synthetics.Synthetics
-	UserManagement    usermanagement.UserManagement
+	UserManagement    usermanagement.Usermanagement
 	Workflows         workflows.Workflows
 	Workloads         workloads.Workloads
 
