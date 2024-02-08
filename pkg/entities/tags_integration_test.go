@@ -31,28 +31,7 @@ func TestIntegrationListTags(t *testing.T) {
 	require.Greater(t, len(actual), 0)
 }
 
-func TestIntegrationGetTagsForEntity(t *testing.T) {
-	t.Parallel()
-
-	var (
-		// GUID of Dummy App
-		testGUID = common.EntityGUID(testhelpers.IntegrationTestApplicationEntityGUID)
-	)
-
-	client := newIntegrationTestClient(t)
-
-	actual, err := client.GetTagsForEntity(testGUID)
-
-	require.NoError(t, err)
-	require.Greater(t, len(actual), 0)
-
-	actual, err = client.GetTagsForEntityMutable(testGUID)
-
-	require.NoError(t, err)
-	require.Greater(t, len(actual), 0)
-}
-
-func TestIntegrationTaggingAddTagsToEntity(t *testing.T) {
+func TestIntegrationTaggingAddTagsToEntityAndGetTags(t *testing.T) {
 	t.Parallel()
 
 	var (
@@ -72,6 +51,16 @@ func TestIntegrationTaggingAddTagsToEntity(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, result)
 	require.Equal(t, 0, len(result.Errors))
+
+	actual, err := client.GetTagsForEntity(testGUID)
+
+	require.NoError(t, err)
+	require.Greater(t, len(actual), 0)
+
+	actual, err = client.GetTagsForEntityMutable(testGUID)
+
+	require.NoError(t, err)
+	require.Greater(t, len(actual), 0)
 }
 
 func TestIntegrationTaggingReplaceTagsOnEntity(t *testing.T) {

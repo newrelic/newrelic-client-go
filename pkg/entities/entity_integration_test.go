@@ -140,8 +140,10 @@ func TestIntegrationGetEntities(t *testing.T) {
 func TestIntegrationGetEntity(t *testing.T) {
 	t.Parallel()
 
-	// GUID of Dummy App
-	entityGUID := common.EntityGUID(testhelpers.IntegrationTestApplicationEntityGUID)
+	// GUID of 'Dummy App Pro Max', a replacement to 'Dummy App' (testhelpers.IntegrationTestApplicationEntityGUID)
+	// as Dummy App is no longer reporting
+	entityGUID := common.EntityGUID("MzgwNjUyNnxBUE18QVBQTElDQVRJT058NTUzNDQ4MjAy")
+
 	client := newIntegrationTestClient(t)
 
 	result, err := client.GetEntity(entityGUID)
@@ -160,7 +162,7 @@ func TestIntegrationGetEntity(t *testing.T) {
 	assert.Equal(t, "APM", actual.Domain)
 	assert.Equal(t, EntityType("APM_APPLICATION_ENTITY"), actual.EntityType)
 	assert.Equal(t, entityGUID, actual.GUID)
-	assert.Equal(t, "Dummy App", actual.Name)
+	assert.Equal(t, "Dummy App Pro Max", actual.Name)
 	assert.Equal(t, "https://one.newrelic.com/redirect/entity/"+string(entityGUID), actual.Permalink)
 	assert.Equal(t, true, actual.Reporting)
 }
@@ -171,8 +173,9 @@ func TestIntegrationGetEntity_ApmEntity(t *testing.T) {
 
 	client := newIntegrationTestClient(t)
 
-	// GUID of Dummy App
-	result, err := client.GetEntity(testhelpers.IntegrationTestApplicationEntityGUID)
+	// GUID of 'Dummy App Pro Max', a replacement to 'Dummy App' (testhelpers.IntegrationTestApplicationEntityGUID)
+	// as Dummy App is no longer reporting
+	result, err := client.GetEntity("MzgwNjUyNnxBUE18QVBQTElDQVRJT058NTUzNDQ4MjAy")
 
 	if e, ok := err.(*http.GraphQLErrorResponse); ok {
 		if !e.IsDeprecated() {
@@ -191,9 +194,9 @@ func TestIntegrationGetEntity_ApmEntity(t *testing.T) {
 
 	// These are a bit fragile, if the above GUID ever changes...
 	// from ApmApplicationEntity / ApmApplicationEntityOutline
-	assert.Equal(t, 573482638, actual.ApplicationID)
+	assert.Equal(t, 553448202, actual.ApplicationID)
 	assert.Contains(t, acceptableAlertStatuses, actual.AlertSeverity)
-	assert.Equal(t, "nodejs", actual.Language)
+	assert.Equal(t, "python", actual.Language)
 	assert.NotNil(t, actual.RunningAgentVersions)
 	assert.NotNil(t, actual.RunningAgentVersions.MinVersion)
 	assert.NotNil(t, actual.RunningAgentVersions.MaxVersion)
@@ -238,20 +241,24 @@ func TestIntegrationGetEntity_MobileEntity(t *testing.T) {
 
 	client := newIntegrationTestClient(t)
 
-	result, err := client.GetEntity("MzgwNjUyNnxNT0JJTEV8QVBQTElDQVRJT058NjAxMzc1OTAx")
+	result, err := client.GetEntity("MzgwNjUyNnxNT0JJTEV8QVBQTElDQVRJT058NjAxNDQ1MTYx")
 
 	if e, ok := err.(*http.GraphQLErrorResponse); ok {
 		if !e.IsDeprecated() {
 			require.NoError(t, e)
 		}
 	}
-	require.NotNil(t, (*result))
 
+	if *result == nil {
+		t.Skipf("Skipping this test as MobileApplicationEntities are fragile, need to be recreated")
+	}
+
+	require.NotNil(t, (*result))
 	actual := (*result).(*MobileApplicationEntity)
 
 	// These are a bit fragile, if the above GUID ever changes...
 	// from MobileApplicationEntity / MobileApplicationEntityOutline
-	assert.Equal(t, 601375901, actual.ApplicationID)
+	assert.Equal(t, 601445161, actual.ApplicationID)
 	assert.Equal(t, EntityAlertSeverityTypes.NOT_CONFIGURED, actual.AlertSeverity)
 }
 
