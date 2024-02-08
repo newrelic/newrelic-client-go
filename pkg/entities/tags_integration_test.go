@@ -31,7 +31,7 @@ func TestIntegrationListTags(t *testing.T) {
 	require.Greater(t, len(actual), 0)
 }
 
-func TestIntegrationTaggingAddTagsToEntityAndGet(t *testing.T) {
+func TestIntegrationTaggingAddTagsToEntityAndGetTags(t *testing.T) {
 	t.Parallel()
 
 	var (
