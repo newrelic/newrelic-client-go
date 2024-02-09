@@ -901,6 +901,7 @@ packages:
     import_path: github.com/newrelic/newrelic-client-go/v2/pkg/eventstometrics
     generators:
       - typegen
+      - nerdgraphclient
     imports:
       - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
     types:
@@ -930,6 +931,18 @@ packages:
       - name: DateTime
         field_type_override: nrtime.DateTime
         skip_type_create: true
+    queries:
+      - path: [ "actor", "account", "eventsToMetrics" ]
+        endpoints:
+          - name: rulesById
+            max_query_field_depth: 2
+    mutations:
+      - name: eventsToMetricsCreateRule
+        max_query_field_depth: 2
+      - name: eventsToMetricsDeleteRule
+        max_query_field_depth: 2
+      - name: eventsToMetricsUpdateRule
+        max_query_field_depth: 2
 
   - name: installevents
     path: pkg/installevents

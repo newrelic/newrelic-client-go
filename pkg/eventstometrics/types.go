@@ -24,6 +24,28 @@ var EventsToMetricsErrorReasonTypes = struct {
 	USER_NOT_AUTHORIZED: "USER_NOT_AUTHORIZED",
 }
 
+// Account - The `Account` object provides general data about the account, as well as
+// being the entry point into more detailed data about a single account.
+//
+// Account configuration data is queried through this object, as well as
+// telemetry data that is specific to a single account.
+type Account struct {
+	// This field provides access to EventsToMetrics data.
+	EventsToMetrics EventsToMetricsAccountStitchedFields `json:"eventsToMetrics,omitempty"`
+	//
+	ID int `json:"id,omitempty"`
+	//
+	LicenseKey string `json:"licenseKey,omitempty"`
+	//
+	Name string `json:"name,omitempty"`
+}
+
+// Actor - The `Actor` object contains fields that are scoped to the API user's access level.
+type Actor struct {
+	// The `account` field is the entry point into data that is scoped to a single account.
+	Account Account `json:"account,omitempty"`
+}
+
 // EventsToMetricsAccountStitchedFields - Account stitched fields to enable autostitching in NerdGraph
 type EventsToMetricsAccountStitchedFields struct {
 	// List all rules for your account.
@@ -172,4 +194,8 @@ type EventsToMetricsUpdateRuleSubmission struct {
 	Enabled bool `json:"enabled"`
 	// A submitted rule id.
 	RuleId string `json:"ruleId"`
+}
+
+type rulesByIdResponse struct {
+	Actor Actor `json:"actor"`
 }

@@ -48,7 +48,7 @@ type NewRelic struct {
 	Edge              edge.Edge
 	Entities          entities.Entities
 	Events            events.Events
-	EventsToMetrics   eventstometrics.EventsToMetrics
+	EventsToMetrics   eventstometrics.Eventstometrics
 	InstallEvents     installevents.Installevents
 	Logs              logs.Logs
 	Logconfigurations logconfigurations.Logconfigurations
