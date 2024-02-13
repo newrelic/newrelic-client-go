@@ -805,6 +805,8 @@ type SyntheticsBrokenLinksMonitor struct {
 	Name string `json:"name,omitempty"`
 	// The interval at which the monitor runs in minutes
 	Period SyntheticsMonitorPeriod `json:"period,omitempty"`
+	// The runtime that the monitor will use to run jobs
+	Runtime SyntheticsExtendedTypeMonitorRuntime `json:"runtime,omitempty"`
 	// The run state of the monitor
 	Status SyntheticsMonitorStatus `json:"status,omitempty"`
 	// The uri the monitor runs against
@@ -847,6 +849,8 @@ type SyntheticsCertCheckMonitor struct {
 	NumberDaysToFailBeforeCertExpires int `json:"numberDaysToFailBeforeCertExpires,omitempty"`
 	// The interval at which the monitor runs in minutes
 	Period SyntheticsMonitorPeriod `json:"period,omitempty"`
+	// The runtime that the monitor will use to run jobs
+	Runtime SyntheticsExtendedTypeMonitorRuntime `json:"runtime,omitempty"`
 	// The run state of the monitor
 	Status SyntheticsMonitorStatus `json:"status,omitempty"`
 }
@@ -877,6 +881,8 @@ type SyntheticsCreateBrokenLinksMonitorInput struct {
 	Name string `json:"name"`
 	// The interval at which the monitor runs in minutes
 	Period SyntheticsMonitorPeriod `json:"period"`
+	// The runtime that the monitor will use to run jobs. The only accepted values are runtimeType: NODE_API & runtimeTypeVersion: 16.10
+	Runtime *SyntheticsExtendedTypeMonitorRuntimeInput `json:"runtime,omitempty"`
 	// The run state of the monitor
 	Status SyntheticsMonitorStatus `json:"status"`
 	// The tags that will be associated with the monitor
@@ -899,6 +905,8 @@ type SyntheticsCreateCertCheckMonitorInput struct {
 	NumberDaysToFailBeforeCertExpires int `json:"numberDaysToFailBeforeCertExpires"`
 	// The interval at which the monitor runs in minutes
 	Period SyntheticsMonitorPeriod `json:"period"`
+	// The runtime that the monitor will use to run jobs. The only accepted values are runtimeType: NODE_API & runtimeTypeVersion: 16.10
+	Runtime *SyntheticsExtendedTypeMonitorRuntimeInput `json:"runtime,omitempty"`
 	// The run state of the monitor
 	Status SyntheticsMonitorStatus `json:"status"`
 	// The tags that will be associated with the monitor
@@ -1001,6 +1009,8 @@ type SyntheticsCreateStepMonitorInput struct {
 	Name string `json:"name"`
 	// The interval at which the monitor runs in minutes
 	Period SyntheticsMonitorPeriod `json:"period"`
+	// The runtime that the monitor will use to run jobs. The only accepted values are runtimeType: CHROME_BROWSER & runtimeTypeVersion: 100
+	Runtime *SyntheticsExtendedTypeMonitorRuntimeInput `json:"runtime,omitempty"`
 	// The run state of the monitor
 	Status SyntheticsMonitorStatus `json:"status"`
 	// The steps that make up the script the monitor will run
@@ -1097,6 +1107,22 @@ type SyntheticsDeviceEmulationInput struct {
 type SyntheticsError struct {
 	// Description explaining the cause of the error
 	Description string `json:"description,omitempty"`
+}
+
+// SyntheticsExtendedTypeMonitorRuntime - The runtime that a step monitor runs
+type SyntheticsExtendedTypeMonitorRuntime struct {
+	// The runtime type that the monitor will run
+	RuntimeType string `json:"runtimeType,omitempty"`
+	// The specific version of the runtime type selected
+	RuntimeTypeVersion SemVer `json:"runtimeTypeVersion,omitempty"`
+}
+
+// SyntheticsExtendedTypeMonitorRuntimeInput - Input to determine which runtime the step monitor will run
+type SyntheticsExtendedTypeMonitorRuntimeInput struct {
+	// The runtime type that the monitor will run.
+	RuntimeType string `json:"runtimeType"`
+	// The specific version of the runtime type selected.
+	RuntimeTypeVersion SemVer `json:"runtimeTypeVersion"`
 }
 
 // SyntheticsLocations - The location(s) from which the monitor runs
@@ -1667,6 +1693,8 @@ type SyntheticsStepMonitor struct {
 	Name string `json:"name,omitempty"`
 	// The interval at which the monitor runs in minutes
 	Period SyntheticsMonitorPeriod `json:"period,omitempty"`
+	// The runtime that the monitor will use to run jobs
+	Runtime SyntheticsExtendedTypeMonitorRuntime `json:"runtime,omitempty"`
 	// The run state of the monitor
 	Status SyntheticsMonitorStatus `json:"status,omitempty"`
 	// The steps that make up the script the monitor will run
@@ -1719,6 +1747,8 @@ type SyntheticsUpdateBrokenLinksMonitorInput struct {
 	Name string `json:"name,omitempty"`
 	// The interval at which the monitor runs in minutes
 	Period SyntheticsMonitorPeriod `json:"period,omitempty"`
+	// The runtime that the monitor will use to run jobs. The only accepted values are runtimeType: NODE_API & runtimeTypeVersion: 16.10
+	Runtime *SyntheticsExtendedTypeMonitorRuntimeInput `json:"runtime,omitempty"`
 	// The run state of the monitor
 	Status SyntheticsMonitorStatus `json:"status,omitempty"`
 	// The tags that will be associated with the monitor
@@ -1741,6 +1771,8 @@ type SyntheticsUpdateCertCheckMonitorInput struct {
 	NumberDaysToFailBeforeCertExpires int `json:"numberDaysToFailBeforeCertExpires,omitempty"`
 	// The interval at which the monitor runs in minutes
 	Period SyntheticsMonitorPeriod `json:"period,omitempty"`
+	// The runtime that the monitor will use to run jobs. The only accepted values are runtimeType: NODE_API & runtimeTypeVersion: 16.10
+	Runtime *SyntheticsExtendedTypeMonitorRuntimeInput `json:"runtime,omitempty"`
 	// The run state of the monitor
 	Status SyntheticsMonitorStatus `json:"status,omitempty"`
 	// The tags that will be associated with the monitor
@@ -1843,6 +1875,8 @@ type SyntheticsUpdateStepMonitorInput struct {
 	Name string `json:"name,omitempty"`
 	// The interval at which the monitor runs in minutes
 	Period SyntheticsMonitorPeriod `json:"period,omitempty"`
+	// The runtime that the monitor will use to run jobs. The only accepted values are runtimeType: CHROME_BROWSER & runtimeTypeVersion: 100
+	Runtime *SyntheticsExtendedTypeMonitorRuntimeInput `json:"runtime,omitempty"`
 	// The run state of the monitor
 	Status SyntheticsMonitorStatus `json:"status,omitempty"`
 	// The steps that make up the script the monitor will run
