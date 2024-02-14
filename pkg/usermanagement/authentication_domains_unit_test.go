@@ -7,16 +7,8 @@ import (
 	"net/http"
 	"testing"
 
-	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 	"github.com/stretchr/testify/assert"
 )
-
-func newMockResponse(t *testing.T, mockJSONResponse string, statusCode int) UserManagement {
-	ts := mock.NewMockServer(t, mockJSONResponse, statusCode)
-	tc := mock.NewTestConfig(t, ts)
-
-	return New(tc)
-}
 
 var (
 	testGetAuthenticationDomainsRequestJSON = `{
@@ -26,12 +18,12 @@ var (
 				"userManagement": {
 					"authenticationDomains": {
 						"authenticationDomains": [{
-							"id": "fae55e6b-b1ce-4a0f-83b2-ee774798f2cc",
-							"name": "Mock Authentication Domain 1",
+							"id": "` + mockAuthenticationDomainId + `",
+							"name": "` + mockAuthenticationDomainName + `",
 							"provisioningType": "manual"
 						}, {
-							"id": "841acb6f-b14b-47d0-b811-3209ce97aa07",
-							"name": "Mock Authentication Domain 2",
+							"id": "` + mockAuthenticationDomainIdTwo + `",
+							"name": "` + mockAuthenticationDomainNameTwo + `",
 							"provisioningType": "manual"
 						}],
 						"nextCursor": null,
@@ -50,8 +42,8 @@ func TestUnitGetAuthenticationDomains(t *testing.T) {
 
 	expected := &UserManagementAuthenticationDomains{
 		[]UserManagementAuthenticationDomain{
-			{ID: "fae55e6b-b1ce-4a0f-83b2-ee774798f2cc", Name: "Mock Authentication Domain 1", ProvisioningType: "manual"},
-			{ID: "841acb6f-b14b-47d0-b811-3209ce97aa07", Name: "Mock Authentication Domain 2", ProvisioningType: "manual"},
+			{ID: mockAuthenticationDomainId, Name: mockAuthenticationDomainName, ProvisioningType: "manual"},
+			{ID: mockAuthenticationDomainIdTwo, Name: mockAuthenticationDomainNameTwo, ProvisioningType: "manual"},
 		},
 		"",
 		2,

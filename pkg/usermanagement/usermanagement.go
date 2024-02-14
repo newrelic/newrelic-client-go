@@ -6,16 +6,16 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/logging"
 )
 
-type UserManagement struct {
+type Usermanagement struct {
 	client http.Client
 	logger logging.Logger
 	config config.Config
 }
 
-func New(config config.Config) UserManagement {
+func New(config config.Config) Usermanagement {
 	client := http.NewClient(config)
 
-	pkg := UserManagement{
+	pkg := Usermanagement{
 		client: client,
 		logger: config.GetLogger(),
 		config: config,
