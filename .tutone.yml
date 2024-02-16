@@ -1404,6 +1404,73 @@ packages:
       - name: DateTime
         field_type_override: nrtime.DateTime
         skip_type_create: true
+
+  - name: customeradministration
+    path: pkg/customeradministration
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/customeradministration
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v2/pkg/users
+    queries:
+      - path: ["customerAdministration"]
+        endpoints:
+          - name: accountShares
+            max_query_field_depth: 4
+          - name: accounts
+            max_query_field_depth: 4
+          - name: authenticationDomains
+            max_query_field_depth: 4
+          - name: consumption
+            max_query_field_depth: 4
+          - name: contracts
+            max_query_field_depth: 4
+          - name: grants
+            max_query_field_depth: 4
+          - name: groups
+            max_query_field_depth: 4
+          - name: jobs
+            max_query_field_depth: 4
+          - name: organizations
+            max_query_field_depth: 4
+          - name: permissions
+            max_query_field_depth: 4
+          - name: roles
+            max_query_field_depth: 4
+          - name: user
+            max_query_field_depth: 4
+          - name: users
+            max_query_field_depth: 4
+    types:
+      - name: OrganizationAccountShareFilterInput
+      - name: OrganizationAccountShareSortInput
+      - name: OrganizationAccountFilterInput
+      - name: OrganizationAccountSortInput
+      - name: OrganizationAuthenticationDomainFilterInput
+      - name: OrganizationAuthenticationDomainSortInput
+      - name: OrganizationCustomerContractFilterInput
+      - name: MultiTenantAuthorizationGrantFilterInputExpression
+      - name: MultiTenantAuthorizationGrantSortInput
+      - name: MultiTenantIdentityGroupFilterInput
+      - name: MultiTenantIdentityGroupSortInput
+      - name: OrganizationCustomerOrganizationFilterInput
+      - name: MultiTenantAuthorizationPermissionFilter
+      - name: MultiTenantAuthorizationRoleFilterInputExpression
+      - name: MultiTenantAuthorizationRoleSortInput
+      - name: MultiTenantIdentityUserFilterInput
+      - name: MultiTenantIdentityUserSortInput
+
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
+
 generators:
   - name: typegen
     fileName: "types.go"

@@ -13,6 +13,7 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/changetracking"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/cloud"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/config"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/customeradministration"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/dashboards"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/edge"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/entities"
@@ -37,33 +38,34 @@ import (
 
 // NewRelic is a collection of New Relic APIs.
 type NewRelic struct {
-	AccountManagement accountmanagement.Accountmanagement
-	AgentApplications agentapplications.AgentApplications
-	Accounts          accounts.Accounts
-	Alerts            alerts.Alerts
-	APIAccess         apiaccess.APIAccess
-	APM               apm.APM
-	ChangeTracking    changetracking.Changetracking
-	Cloud             cloud.Cloud
-	Dashboards        dashboards.Dashboards
-	Edge              edge.Edge
-	Entities          entities.Entities
-	Events            events.Events
-	EventsToMetrics   eventstometrics.EventsToMetrics
-	InstallEvents     installevents.Installevents
-	Logs              logs.Logs
-	Logconfigurations logconfigurations.Logconfigurations
-	NerdGraph         nerdgraph.NerdGraph
-	NerdStorage       nerdstorage.NerdStorage
-	Notifications     notifications.Notifications
-	Nrdb              nrdb.Nrdb
-	Nrqldroprules     nrqldroprules.Nrqldroprules
-	Plugins           plugins.Plugins
-	ServiceLevel      servicelevel.Servicelevel
-	Synthetics        synthetics.Synthetics
-	UserManagement    usermanagement.Usermanagement
-	Workflows         workflows.Workflows
-	Workloads         workloads.Workloads
+	AccountManagement      accountmanagement.Accountmanagement
+	AgentApplications      agentapplications.AgentApplications
+	Accounts               accounts.Accounts
+	Alerts                 alerts.Alerts
+	APIAccess              apiaccess.APIAccess
+	APM                    apm.APM
+	ChangeTracking         changetracking.Changetracking
+	Cloud                  cloud.Cloud
+	CustomerAdministration customeradministration.Customeradministration
+	Dashboards             dashboards.Dashboards
+	Edge                   edge.Edge
+	Entities               entities.Entities
+	Events                 events.Events
+	EventsToMetrics        eventstometrics.EventsToMetrics
+	InstallEvents          installevents.Installevents
+	Logs                   logs.Logs
+	Logconfigurations      logconfigurations.Logconfigurations
+	NerdGraph              nerdgraph.NerdGraph
+	NerdStorage            nerdstorage.NerdStorage
+	Notifications          notifications.Notifications
+	Nrdb                   nrdb.Nrdb
+	Nrqldroprules          nrqldroprules.Nrqldroprules
+	Plugins                plugins.Plugins
+	ServiceLevel           servicelevel.Servicelevel
+	Synthetics             synthetics.Synthetics
+	UserManagement         usermanagement.Usermanagement
+	Workflows              workflows.Workflows
+	Workloads              workloads.Workloads
 
 	config config.Config
 }
@@ -80,33 +82,34 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 	nr := &NewRelic{
 		config: cfg,
 
-		AccountManagement: accountmanagement.New(cfg),
-		AgentApplications: agentapplications.New(cfg),
-		Accounts:          accounts.New(cfg),
-		Alerts:            alerts.New(cfg),
-		APIAccess:         apiaccess.New(cfg),
-		APM:               apm.New(cfg),
-		ChangeTracking:    changetracking.New(cfg),
-		Cloud:             cloud.New(cfg),
-		Dashboards:        dashboards.New(cfg),
-		Edge:              edge.New(cfg),
-		Entities:          entities.New(cfg),
-		Events:            events.New(cfg),
-		EventsToMetrics:   eventstometrics.New(cfg),
-		InstallEvents:     installevents.New(cfg),
-		Logs:              logs.New(cfg),
-		Logconfigurations: logconfigurations.New(cfg),
-		NerdGraph:         nerdgraph.New(cfg),
-		NerdStorage:       nerdstorage.New(cfg),
-		Notifications:     notifications.New(cfg),
-		Nrdb:              nrdb.New(cfg),
-		Nrqldroprules:     nrqldroprules.New(cfg),
-		Plugins:           plugins.New(cfg),
-		ServiceLevel:      servicelevel.New(cfg),
-		Synthetics:        synthetics.New(cfg),
-		UserManagement:    usermanagement.New(cfg),
-		Workflows:         workflows.New(cfg),
-		Workloads:         workloads.New(cfg),
+		AccountManagement:      accountmanagement.New(cfg),
+		AgentApplications:      agentapplications.New(cfg),
+		Accounts:               accounts.New(cfg),
+		Alerts:                 alerts.New(cfg),
+		APIAccess:              apiaccess.New(cfg),
+		APM:                    apm.New(cfg),
+		ChangeTracking:         changetracking.New(cfg),
+		Cloud:                  cloud.New(cfg),
+		CustomerAdministration: customeradministration.New(cfg),
+		Dashboards:             dashboards.New(cfg),
+		Edge:                   edge.New(cfg),
+		Entities:               entities.New(cfg),
+		Events:                 events.New(cfg),
+		EventsToMetrics:        eventstometrics.New(cfg),
+		InstallEvents:          installevents.New(cfg),
+		Logs:                   logs.New(cfg),
+		Logconfigurations:      logconfigurations.New(cfg),
+		NerdGraph:              nerdgraph.New(cfg),
+		NerdStorage:            nerdstorage.New(cfg),
+		Notifications:          notifications.New(cfg),
+		Nrdb:                   nrdb.New(cfg),
+		Nrqldroprules:          nrqldroprules.New(cfg),
+		Plugins:                plugins.New(cfg),
+		ServiceLevel:           servicelevel.New(cfg),
+		Synthetics:             synthetics.New(cfg),
+		UserManagement:         usermanagement.New(cfg),
+		Workflows:              workflows.New(cfg),
+		Workloads:              workloads.New(cfg),
 	}
 
 	return nr, nil
