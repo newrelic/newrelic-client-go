@@ -156,128 +156,6 @@ packages:
       - name: LogConfigurationsParsingRule
         field_type_override: "*LogConfigurationsParsingRule"
 
-  - name: synthetics
-    path: pkg/synthetics
-    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/synthetics
-    generators:
-      - typegen
-      - nerdgraphclient
-    imports:
-      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
-    queries:
-      - path: ["actor", "account", "synthetics"]
-        endpoints:
-          - name: "script"
-            max_query_field_depth: 1
-          - name: "steps"
-            max_query_field_depth: 1
-          - name: "automatedTestResult"
-            max_query_field_depth: 6
-    mutations:
-      - name: syntheticsCreateSecureCredential
-        max_query_field_depth: 2
-      - name: syntheticsDeleteSecureCredential
-        max_query_field_depth: 2
-      - name: syntheticsUpdateSecureCredential
-        max_query_field_depth: 2
-      - name: syntheticsCreateScriptApiMonitor
-        max_query_field_depth: 2
-      - name: syntheticsUpdateScriptApiMonitor
-        max_query_field_depth: 2
-      - name: syntheticsCreateScriptBrowserMonitor
-        max_query_field_depth: 2
-      - name: syntheticsUpdateScriptBrowserMonitor
-        max_query_field_depth: 2
-      - name: syntheticsCreateSimpleBrowserMonitor
-        max_query_field_depth: 3
-      - name: syntheticsUpdateSimpleBrowserMonitor
-        max_query_field_depth: 3
-      - name: syntheticsCreateSimpleMonitor
-        max_query_field_depth: 2
-      - name: syntheticsUpdateSimpleMonitor
-        max_query_field_depth: 2
-      - name: syntheticsCreateBrokenLinksMonitor
-        max_query_field_depth: 2
-      - name: syntheticsUpdateBrokenLinksMonitor
-        max_query_field_depth: 2
-      - name: syntheticsCreateCertCheckMonitor
-        max_query_field_depth: 2
-      - name: syntheticsUpdateCertCheckMonitor
-        max_query_field_depth: 2
-      - name: syntheticsCreateStepMonitor
-        max_query_field_depth: 2
-      - name: syntheticsUpdateStepMonitor
-        max_query_field_depth: 2
-      - name: syntheticsDeleteMonitor
-        max_query_field_depth: 2
-      - name: syntheticsCreatePrivateLocation
-        max_query_field_depth: 2
-      - name: syntheticsDeletePrivateLocation
-        max_query_field_depth: 2
-      - name: syntheticsUpdatePrivateLocation
-        max_query_field_depth: 2
-      - name: syntheticsPurgePrivateLocationQueue
-        max_query_field_depth: 2
-      - name: syntheticsStartAutomatedTest
-        max_query_field_depth: 4
-      - name: syntheticsCreateOnceMonitorDowntime
-        max_query_field_depth: 2
-      - name: syntheticsCreateDailyMonitorDowntime
-        max_query_field_depth: 2
-      - name: syntheticsCreateWeeklyMonitorDowntime
-        max_query_field_depth: 2
-      - name: syntheticsCreateMonthlyMonitorDowntime
-        max_query_field_depth: 2
-      - name: syntheticsEditMonitorDowntime
-        max_query_field_depth: 4
-      - name: syntheticsDeleteMonitorDowntime
-        max_query_field_depth: 1
-    types:
-      - name: EpochMilliseconds
-        field_type_override: "*nrtime.EpochMilliseconds"
-        skip_type_create: true
-      # This must be a string, as where ID is used the type is a string...
-      - name: ID
-        field_type_override: string
-        skip_type_create: true
-      - name: SyntheticsDeviceEmulationInput
-        field_type_override: "*SyntheticsDeviceEmulationInput"
-      - name: SyntheticsRuntimeInput
-        field_type_override: "*SyntheticsRuntimeInput"
-      # overrides and specifications of fields associated with the syntheticsStartAutomatedTest mutation start here
-      - name: SyntheticsAutomatedTestConfigInput
-        struct_tags:
-          - json
-          - yaml
-      - name: SyntheticsAutomatedTestMonitorInput
-        struct_tags:
-          - json
-          - yaml
-      - name: SyntheticsAutomatedTestMonitorConfigInput
-        struct_tags:
-          - json
-          - yaml
-      - name: SyntheticsAutomatedTestOverridesInput
-        field_type_override: "*SyntheticsAutomatedTestOverridesInput"
-        struct_tags:
-          - json
-          - yaml
-      - name: SyntheticsScriptDomainOverrideInput
-        struct_tags:
-          - json
-          - yaml
-      - name: SyntheticsSecureCredentialOverrideInput
-        struct_tags:
-          - json
-          - yaml
-      # overrides and specifications of fields associated with the automatedTestResults query start here
-      - name: Milliseconds
-        field_type_override: int
-      - name: SyntheticsAutomatedTestOverrides
-        field_type_override: "*SyntheticsAutomatedTestOverrides"
-      # overrides and specifications of fields associated with Monitor Downtimes start here
-      - name: SyntheticsDaysOfWeek
-        field_type_override: "*SyntheticsDaysOfWeek"
 
 
   - name: common
@@ -1390,6 +1268,73 @@ packages:
       - name: DateTime
         field_type_override: nrtime.DateTime
         skip_type_create: true
+
+  - name: customeradministration
+    path: pkg/customeradministration
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/customeradministration
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v2/pkg/users
+    queries:
+      - path: ["customerAdministration"]
+        endpoints:
+          - name: accountShares
+            max_query_field_depth: 4
+          - name: accounts
+            max_query_field_depth: 4
+          - name: authenticationDomains
+            max_query_field_depth: 4
+          - name: consumption
+            max_query_field_depth: 4
+          - name: contracts
+            max_query_field_depth: 4
+          - name: grants
+            max_query_field_depth: 4
+          - name: groups
+            max_query_field_depth: 4
+          - name: jobs
+            max_query_field_depth: 4
+          - name: organizations
+            max_query_field_depth: 4
+          - name: permissions
+            max_query_field_depth: 4
+          - name: roles
+            max_query_field_depth: 4
+          - name: user
+            max_query_field_depth: 4
+          - name: users
+            max_query_field_depth: 4
+    types:
+      - name: OrganizationAccountShareFilterInput
+      - name: OrganizationAccountShareSortInput
+      - name: OrganizationAccountFilterInput
+      - name: OrganizationAccountSortInput
+      - name: OrganizationAuthenticationDomainFilterInput
+      - name: OrganizationAuthenticationDomainSortInput
+      - name: OrganizationCustomerContractFilterInput
+      - name: MultiTenantAuthorizationGrantFilterInputExpression
+      - name: MultiTenantAuthorizationGrantSortInput
+      - name: MultiTenantIdentityGroupFilterInput
+      - name: MultiTenantIdentityGroupSortInput
+      - name: OrganizationCustomerOrganizationFilterInput
+      - name: MultiTenantAuthorizationPermissionFilter
+      - name: MultiTenantAuthorizationRoleFilterInputExpression
+      - name: MultiTenantAuthorizationRoleSortInput
+      - name: MultiTenantIdentityUserFilterInput
+      - name: MultiTenantIdentityUserSortInput
+
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
+
 generators:
   - name: typegen
     fileName: "types.go"
