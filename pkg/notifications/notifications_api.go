@@ -187,6 +187,7 @@ const AiNotificationsCreateDestinationMutation = `mutation(
 		}
 		createdAt
 		id
+		guid
 		isUserAuthenticated
 		lastSent
 		name
@@ -555,6 +556,7 @@ const AiNotificationsUpdateDestinationMutation = `mutation(
 		}
 		createdAt
 		id
+		guid
 		isUserAuthenticated
 		lastSent
 		name
@@ -763,6 +765,7 @@ const getDestinationsQuery = `query(
 		}
 		createdAt
 		id
+		guid
 		isUserAuthenticated
 		lastSent
 		name

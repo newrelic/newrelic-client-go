@@ -694,6 +694,8 @@ type AiNotificationsDestination struct {
 	CreatedAt nrtime.DateTime `json:"createdAt"`
 	// Destination id
 	ID string `json:"id"`
+	// Entity Id of the destination
+	GUID EntityGUID `json:"guid"`
 	// Indicates whether the user is authenticated with the destination
 	IsUserAuthenticated bool `json:"isUserAuthenticated"`
 	// Last time a notification was sent
@@ -711,6 +713,9 @@ type AiNotificationsDestination struct {
 	// Destination updated by
 	UpdatedBy int `json:"updatedBy"`
 }
+
+// EntityGUID - An encoded Entity GUID
+type EntityGUID string
 
 // AiNotificationsDestinationFilter - Filter destination object
 type AiNotificationsDestinationFilter struct {
