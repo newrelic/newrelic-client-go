@@ -62,6 +62,7 @@ func TestNotificationMutationDestination(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, getDestinationResult)
 	assert.Equal(t, 1, getDestinationResult.TotalCount)
+	require.NotEmpty(t, getDestinationResult.Entities[0].GUID)
 
 	// Test: Update Destination
 	updateDestination := AiNotificationsDestinationUpdate{}
