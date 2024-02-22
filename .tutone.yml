@@ -1390,6 +1390,29 @@ packages:
       - name: DateTime
         field_type_override: nrtime.DateTime
         skip_type_create: true
+
+  - name: organization
+    path: pkg/organization
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/organization
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+    queries:
+      - path: [ "customerAdministration" ]
+        endpoints:
+          - name: organizations
+            max_query_field_depth: 4
+    mutations:
+      - name: organizationCreate
+        max_query_field_depth: 2
+    types:
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
 generators:
   - name: typegen
     fileName: "types.go"
