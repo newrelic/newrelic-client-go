@@ -435,3 +435,64 @@ const getAuthenticationDomainsQuery = `query(
 	nextCursor
 	totalCount
 } } } } }`
+
+// Named sets of New Relic users within an authentication domain
+func (a *Usermanagement) GetGroups(
+	cursor string,
+	filter MultiTenantIdentityGroupFilterInput,
+	sort []MultiTenantIdentityGroupSortInput,
+) (*MultiTenantIdentityGroupCollection, error) {
+	return a.GetGroupsWithContext(context.Background(),
+		cursor,
+		filter,
+		sort,
+	)
+}
+
+// Named sets of New Relic users within an authentication domain
+func (a *Usermanagement) GetGroupsWithContext(
+	ctx context.Context,
+	cursor string,
+	filter MultiTenantIdentityGroupFilterInput,
+	sort []MultiTenantIdentityGroupSortInput,
+) (*MultiTenantIdentityGroupCollection, error) {
+
+	resp := groupsResponse{}
+	vars := map[string]interface{}{
+		"cursor": cursor,
+		"filter": filter,
+		"sort":   sort,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, getGroupsQuery, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.CustomerAdministration.Groups, nil
+}
+
+const getGroupsQuery = `query(
+	$filter: MultiTenantIdentityGroupFilterInput!,
+	$sort: [MultiTenantIdentityGroupSortInput!],
+) { customerAdministration { groups(
+	filter: $filter,
+	sort: $sort,
+) {
+	items {
+		authenticationDomainId
+		id
+		name
+		users {
+			items {
+				email
+				id
+				name
+				timeZone
+			}
+			nextCursor
+			totalCount
+		}
+	}
+	nextCursor
+	totalCount
+} } }`

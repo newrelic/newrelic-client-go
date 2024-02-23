@@ -203,3 +203,18 @@ const getGroupsWithUsersQuery = `query (
   }
 }
 `
+
+// Get Group(s) by organization ID
+func (a *Usermanagement) UserManagementGetGroupsByOrganizationID(
+	organizationID string,
+) (*MultiTenantIdentityGroupCollection, error) {
+	return a.GetGroups(
+		"",
+		MultiTenantIdentityGroupFilterInput{
+			OrganizationID: &MultiTenantIdentityGroupOrganizationIDInput{
+				Eq: organizationID,
+			},
+		},
+		[]MultiTenantIdentityGroupSortInput{},
+	)
+}

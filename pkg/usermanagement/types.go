@@ -195,6 +195,90 @@ type AuthorizationManagementGroupSearch struct {
 	TotalCount int `json:"totalCount"`
 }
 
+// CustomerAdministration - The `CustomerAdministration` object contains fields for managing the configuration that defines the business relationships between New Relic, partners, and customers.
+type CustomerAdministration struct {
+	// Authentication domains
+	AuthenticationDomains OrganizationAuthenticationDomainCollection `json:"authenticationDomains,omitempty"`
+	// Named sets of New Relic users within an authentication domain
+	Groups MultiTenantIdentityGroupCollection `json:"groups,omitempty"`
+}
+
+// MultiTenantIdentityGroup - For users on our New Relic One user model, a "group" represents a group of users. Putting users in a group allows the managing of permissions for multiple users at the same time.
+type MultiTenantIdentityGroup struct {
+	// The authentication domain the group belongs to
+	AuthenticationDomainId string `json:"authenticationDomainId"`
+	// a value that uniquely identifies this object
+	ID string `json:"id"`
+	// the name of the object
+	Name string `json:"name"`
+	// Active users belonging to a group
+	Users MultiTenantIdentityGroupUsers `json:"users,omitempty"`
+}
+
+// MultiTenantIdentityGroupCollection - List of groups representing named sets of New Relic users within an authentication domain
+type MultiTenantIdentityGroupCollection struct {
+	// groups
+	Items []MultiTenantIdentityGroup `json:"items"`
+	// an opaque cursor to supply with subsequent     requests to get the next page of results, null if there are no more pages
+	NextCursor string `json:"nextCursor,omitempty"`
+	// the total number of results
+	TotalCount int `json:"totalCount"`
+}
+
+// MultiTenantIdentityGroupUser - Active user within group
+type MultiTenantIdentityGroupUser struct {
+	// The email of the user.
+	Email string `json:"email"`
+	// a value that uniquely identifies this object
+	ID string `json:"id"`
+	// The full name of the user.
+	Name string `json:"name"`
+	// The configured time zone of the user.
+	TimeZone string `json:"timeZone,omitempty"`
+}
+
+// MultiTenantIdentityGroupUserFilterInput - The input object representing the filter parameters for user groups
+type MultiTenantIdentityGroupUserFilterInput struct {
+	// Filter users by IDs
+	ID MultiTenantIdentityUserIdInput `json:"id,omitempty"`
+}
+
+// MultiTenantIdentityGroupUsers - List of active users belonging to a group
+type MultiTenantIdentityGroupUsers struct {
+	// Active users within group
+	Items []MultiTenantIdentityGroupUser `json:"items"`
+	// an opaque cursor to supply with subsequent     requests to get the next page of results, null if there are no more pages
+	NextCursor string `json:"nextCursor,omitempty"`
+	// the total number of results
+	TotalCount int `json:"totalCount"`
+}
+
+// MultiTenantIdentityUserGroup - A group of users.
+type MultiTenantIdentityUserGroup struct {
+	// a value that uniquely identifies this object
+	ID string `json:"id"`
+	// the name of the object
+	Name string `json:"name"`
+}
+
+// MultiTenantIdentityUserGroups - List of groups representing named sets of New Relic users within an authentication domain
+type MultiTenantIdentityUserGroups struct {
+	// User groups
+	Items []MultiTenantIdentityUserGroup `json:"items"`
+	// an opaque cursor to supply with subsequent     requests to get the next page of results, null if there are no more pages
+	NextCursor string `json:"nextCursor,omitempty"`
+	// the total number of results
+	TotalCount int `json:"totalCount"`
+}
+
+// MultiTenantIdentityUserIdInput - Filters by user id
+type MultiTenantIdentityUserIdInput struct {
+	// A user id
+	Eq string `json:"eq,omitempty"`
+	// A list of user IDs
+	In []string `json:"in"`
+}
+
 // Organization - The `Organization` object provides basic data about an organization.
 type Organization struct {
 	// The customer id for the organization.
@@ -520,7 +604,7 @@ type UserManagementUser struct {
 	Name string `json:"name,omitempty"`
 	// The pending upgrade request for the user (if any).
 	PendingUpgradeRequest UserManagementPendingUpgradeRequest `json:"pendingUpgradeRequest,omitempty"`
-	// Time zone of the user in IANA Time Zone database format, also known as the "Olson" time zone database format (for exmaple, "America/Los_Angeles").
+	// Time zone of the user in IANA Time Zone database format, also known as the "Olson" time zone database format (for example, "America/Los_Angeles").
 	TimeZone string `json:"timeZone,omitempty"`
 	// A "user type" is what determines the set of New Relic capabilities a user can theoretically access.
 	Type UserManagementUserType `json:"type"`
@@ -596,4 +680,8 @@ type UserManagementUsersGroupsInput struct {
 
 type authenticationDomainsResponse struct {
 	Actor Actor `json:"actor"`
+}
+
+type groupsResponse struct {
+	CustomerAdministration CustomerAdministration `json:"customerAdministration"`
 }

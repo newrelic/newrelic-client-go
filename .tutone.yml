@@ -1366,6 +1366,10 @@ packages:
         endpoints:
           - name: authenticationDomains
             max_query_field_depth: 4
+      - path: [ "customerAdministration" ]
+        endpoints:
+          - name: groups
+            max_query_field_depth: 4
     mutations:
       - name: userManagementCreateUser
         max_query_field_depth: 2
