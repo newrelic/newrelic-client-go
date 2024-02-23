@@ -4,11 +4,13 @@ package organization
 import "context"
 
 // The new organization to create.
+// The mutation actually only accepts one between newManagedAccount and sharedAccount, but the schema allows both so updating this manually.
+// Do not accept changes from tutone about this.
 func (a *Organization) OrganizationCreate(
 	customerId string,
-	newManagedAccount OrganizationNewManagedAccountInput,
+	newManagedAccount *OrganizationNewManagedAccountInput,
 	organization OrganizationCreateOrganizationInput,
-	sharedAccount OrganizationSharedAccountInput,
+	sharedAccount *OrganizationSharedAccountInput,
 ) (*OrganizationCreateOrganizationResponse, error) {
 	return a.OrganizationCreateWithContext(context.Background(),
 		customerId,
@@ -19,12 +21,14 @@ func (a *Organization) OrganizationCreate(
 }
 
 // The new organization to create.
+// The mutation actually only accepts one between newManagedAccount and sharedAccount, but the schema allows both so updating this manually.
+// Do not accept changes from tutone about this.
 func (a *Organization) OrganizationCreateWithContext(
 	ctx context.Context,
 	customerId string,
-	newManagedAccount OrganizationNewManagedAccountInput,
+	newManagedAccount *OrganizationNewManagedAccountInput,
 	organization OrganizationCreateOrganizationInput,
-	sharedAccount OrganizationSharedAccountInput,
+	sharedAccount *OrganizationSharedAccountInput,
 ) (*OrganizationCreateOrganizationResponse, error) {
 
 	resp := OrganizationCreateQueryResponse{}
