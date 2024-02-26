@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"testing"
 
+	"github.com/newrelic/newrelic-client-go/v2/pkg/common"
 	"github.com/stretchr/testify/assert"
 
 	"github.com/newrelic/newrelic-client-go/v2/pkg/ai"
@@ -146,7 +147,7 @@ func TestCreateDestination(t *testing.T) {
 			Auth:                auth,
 			CreatedAt:           timestamp,
 			ID:                  id,
-			GUID:                guid,
+			GUID:                common.EntityGUID(guid),
 			IsUserAuthenticated: false,
 			LastSent:            timestamp,
 			Name:                "test-notification-destination-1",
@@ -192,7 +193,7 @@ func TestGetDestinations(t *testing.T) {
 				Auth:                auth,
 				CreatedAt:           timestamp,
 				ID:                  id,
-				GUID:                guid,
+				GUID:                common.EntityGUID(guid),
 				IsUserAuthenticated: false,
 				LastSent:            timestamp,
 				Name:                "test-notification-destination-1",
@@ -247,7 +248,7 @@ func TestGetDestinationsByName(t *testing.T) {
 				Auth:                auth,
 				CreatedAt:           timestamp,
 				ID:                  id,
-				GUID:                guid,
+				GUID:                common.EntityGUID(guid),
 				IsUserAuthenticated: false,
 				LastSent:            timestamp,
 				Name:                "test-notification-destination-1",
