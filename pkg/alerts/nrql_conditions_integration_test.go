@@ -9,9 +9,9 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/newrelic/newrelic-client-go/v2/pkg/errors"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/errors"
 
-	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
+	mock "github.com/newrelic/newrelic-client-go/v3/pkg/testhelpers"
 )
 
 var (

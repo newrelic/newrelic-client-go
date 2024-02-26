@@ -3,7 +3,7 @@ package events
 import (
 	"context"
 
-	"github.com/newrelic/newrelic-client-go/v2/pkg/config"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/config"
 )
 
 // EventsAPI provides an interface to enable mocking the service implementation.

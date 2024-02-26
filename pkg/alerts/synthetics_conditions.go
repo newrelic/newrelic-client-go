@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/newrelic/newrelic-client-go/v2/pkg/errors"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/errors"
 )
 
 // SyntheticsCondition represents a New Relic Synthetics alert condition.

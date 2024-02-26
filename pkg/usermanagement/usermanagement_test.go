@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"testing"
 
-	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
+	mock "github.com/newrelic/newrelic-client-go/v3/pkg/testhelpers"
 )
 
 func newIntegrationTestClient(t *testing.T) Usermanagement {

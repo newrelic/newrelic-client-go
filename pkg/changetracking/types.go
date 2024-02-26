@@ -2,8 +2,8 @@
 package changetracking
 
 import (
-	"github.com/newrelic/newrelic-client-go/v2/pkg/common"
-	"github.com/newrelic/newrelic-client-go/v2/pkg/nrtime"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/common"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/nrtime"
 )
 
 // ChangeTrackingDeploymentType - Type of deployment.

@@ -4,8 +4,8 @@ package entities
 import (
 	"context"
 
-	"github.com/newrelic/newrelic-client-go/v2/pkg/common"
-	"github.com/newrelic/newrelic-client-go/v2/pkg/errors"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/common"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/errors"
 )
 
 // Adds the provided tags to your specified entity, without deleting existing ones.

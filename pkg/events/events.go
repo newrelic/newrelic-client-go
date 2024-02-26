@@ -8,9 +8,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/newrelic/newrelic-client-go/v2/internal/http"
-	"github.com/newrelic/newrelic-client-go/v2/pkg/config"
-	"github.com/newrelic/newrelic-client-go/v2/pkg/logging"
+	"github.com/newrelic/newrelic-client-go/v3/internal/http"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/config"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/logging"
 )
 
 const (

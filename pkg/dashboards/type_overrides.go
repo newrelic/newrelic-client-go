@@ -1,7 +1,7 @@
 // DashboardBillboardWidgetThresholdInput - Billboard widget threshold input.
 package dashboards
 
-import "github.com/newrelic/newrelic-client-go/v2/pkg/entities"
+import "github.com/newrelic/newrelic-client-go/v3/pkg/entities"
 
 type DashboardBillboardWidgetThresholdInput struct {
 	// alert severity.

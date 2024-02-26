@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
+	mock "github.com/newrelic/newrelic-client-go/v3/pkg/testhelpers"
 )
 
 // NewTestAPIClient returns a test Client instance that is configured to communicate with a mock server.

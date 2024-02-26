@@ -3,7 +3,7 @@ package alerts
 import (
 	"context"
 
-	"github.com/newrelic/newrelic-client-go/v2/internal/serialization"
+	"github.com/newrelic/newrelic-client-go/v3/internal/serialization"
 )
 
 // AlertEvent response struct

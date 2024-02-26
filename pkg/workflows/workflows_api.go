@@ -4,7 +4,7 @@ package workflows
 import (
 	"context"
 
-	"github.com/newrelic/newrelic-client-go/v2/pkg/ai"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/ai"
 )
 
 // Create a new Workflow with issues filter, enrichments and destinations

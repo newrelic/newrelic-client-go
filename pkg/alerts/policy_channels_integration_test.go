@@ -9,7 +9,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	nr "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
+	nr "github.com/newrelic/newrelic-client-go/v3/pkg/testhelpers"
 )
 
 func TestIntegrationPolicyChannels(t *testing.T) {

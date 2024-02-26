@@ -10,8 +10,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/newrelic/newrelic-client-go/v2/pkg/errors"
-	"github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/errors"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/testhelpers"
 )
 
 func TestAlertsPolicy_Legacy(t *testing.T) {

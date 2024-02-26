@@ -2,7 +2,7 @@
 package usermanagement
 
 import (
-	"github.com/newrelic/newrelic-client-go/v2/pkg/nrtime"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/nrtime"
 )
 
 // OrganizationAuthenticationTypeEnum - Provides the available values for authentication type

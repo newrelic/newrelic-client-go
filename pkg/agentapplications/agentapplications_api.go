@@ -4,7 +4,7 @@ package agentapplications
 import (
 	"context"
 
-	"github.com/newrelic/newrelic-client-go/v2/pkg/common"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/common"
 )
 
 // If you aren't using an auto-instrumenting agent on the backend, use this to set up browser monitoring for an application. For more information on enabling copy/paste, [see our docs](https://docs.newrelic.com/docs/browser/browser-monitoring/installation/install-browser-monitoring-agent/#copy-paste-app)

@@ -14,7 +14,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
+	mock "github.com/newrelic/newrelic-client-go/v3/pkg/testhelpers"
 )
 
 var tv bool = true

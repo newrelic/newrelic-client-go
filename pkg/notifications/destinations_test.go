@@ -10,8 +10,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/newrelic/newrelic-client-go/v2/pkg/ai"
-	"github.com/newrelic/newrelic-client-go/v2/pkg/nrtime"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/ai"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/nrtime"
 )
 
 var (

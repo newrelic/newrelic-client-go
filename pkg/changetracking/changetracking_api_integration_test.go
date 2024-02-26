@@ -12,9 +12,9 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/newrelic/newrelic-client-go/v2/pkg/common"
-	"github.com/newrelic/newrelic-client-go/v2/pkg/nrtime"
-	"github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/common"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/nrtime"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/testhelpers"
 )
 
 func TestChangeTrackingCreateDeployment_Basic(t *testing.T) {

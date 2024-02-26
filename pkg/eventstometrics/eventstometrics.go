@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/newrelic/newrelic-client-go/v2/internal/http"
-	"github.com/newrelic/newrelic-client-go/v2/pkg/config"
-	nrErrors "github.com/newrelic/newrelic-client-go/v2/pkg/errors"
-	"github.com/newrelic/newrelic-client-go/v2/pkg/logging"
+	"github.com/newrelic/newrelic-client-go/v3/internal/http"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/config"
+	nrErrors "github.com/newrelic/newrelic-client-go/v3/pkg/errors"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/logging"
 )
 
 // EventsToMetrics is used to communicate with New Relic EventsToMetrics.

@@ -2,7 +2,7 @@
 package agentapplications
 
 import (
-	"github.com/newrelic/newrelic-client-go/v2/pkg/common"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/common"
 )
 
 // AgentApplicationBrowserLoader - Determines which browser loader will be configured. There are three browser loader types. They are Pro+SPA, Pro, and Lite.

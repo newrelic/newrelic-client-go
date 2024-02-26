@@ -1,10 +1,10 @@
 package workflows
 
 import (
-	"github.com/newrelic/newrelic-client-go/v2/internal/http"
-	"github.com/newrelic/newrelic-client-go/v2/pkg/config"
-	"github.com/newrelic/newrelic-client-go/v2/pkg/infrastructure"
-	"github.com/newrelic/newrelic-client-go/v2/pkg/logging"
+	"github.com/newrelic/newrelic-client-go/v3/internal/http"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/config"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/infrastructure"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/logging"
 )
 
 // Workflows are used to communicate with New Relic Workflows.

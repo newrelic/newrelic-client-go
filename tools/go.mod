@@ -1,4 +1,4 @@
-module github.com/newrelic/newrelic-client-go/v2/tools
+module github.com/newrelic/newrelic-client-go/v3/tools
 
 go 1.19
 

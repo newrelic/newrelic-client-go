@@ -2,7 +2,7 @@
 package logconfigurations
 
 import (
-	"github.com/newrelic/newrelic-client-go/v2/pkg/nrtime"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/nrtime"
 )
 
 // LogConfigurationsCreateDataPartitionRuleErrorType - Expected error types as result of creating a new data partition rule.

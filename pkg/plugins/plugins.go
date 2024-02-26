@@ -4,9 +4,9 @@ package plugins
 import (
 	"fmt"
 
-	"github.com/newrelic/newrelic-client-go/v2/internal/http"
-	"github.com/newrelic/newrelic-client-go/v2/pkg/config"
-	"github.com/newrelic/newrelic-client-go/v2/pkg/logging"
+	"github.com/newrelic/newrelic-client-go/v3/internal/http"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/config"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/logging"
 )
 
 // Plugins is used to communicate with the New Relic Plugins product.

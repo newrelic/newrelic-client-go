@@ -1,6 +1,6 @@
 # workflows
 --
-    import "github.com/newrelic/newrelic-client-go/v2/pkg/worklfows"
+    import "github.com/newrelic/newrelic-client-go/v3/pkg/worklfows"
 
 ## Usage
 

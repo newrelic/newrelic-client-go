@@ -3,9 +3,9 @@ package dashboards
 import (
 	"context"
 
-	"github.com/newrelic/newrelic-client-go/v2/pkg/common"
-	"github.com/newrelic/newrelic-client-go/v2/pkg/entities"
-	"github.com/newrelic/newrelic-client-go/v2/pkg/errors"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/common"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/entities"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/errors"
 )
 
 // GetDashboardEntity is used to retrieve a single New Relic One Dashboard

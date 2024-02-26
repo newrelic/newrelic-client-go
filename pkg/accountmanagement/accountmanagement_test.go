@@ -3,7 +3,7 @@ package accountmanagement
 import (
 	"testing"
 
-	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
+	mock "github.com/newrelic/newrelic-client-go/v3/pkg/testhelpers"
 )
 
 func newAccountManagementTestClient(t *testing.T) Accountmanagement {

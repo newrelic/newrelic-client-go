@@ -4,7 +4,7 @@ package accountmanagement
 import (
 	"context"
 
-	"github.com/newrelic/newrelic-client-go/v2/pkg/errors"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/errors"
 )
 
 // Creates an organization-scoped account.

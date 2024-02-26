@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/newrelic/newrelic-client-go/v2/internal/serialization"
+	"github.com/newrelic/newrelic-client-go/v3/internal/serialization"
 )
 
 // InfrastructureCondition represents a New Relic Infrastructure alert condition.

@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/newrelic/newrelic-client-go/v2/pkg/config"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/config"
 )
 
 func Example_application() {

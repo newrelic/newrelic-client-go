@@ -25,15 +25,15 @@ auth:
 packages:
   - name: accountmanagement
     path: pkg/accountmanagement
-    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/accountmanagement
+    import_path: github.com/newrelic/newrelic-client-go/v3/pkg/accountmanagement
     generators:
       - typegen
       - nerdgraphclient
     imports:
-      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
-      - github.com/newrelic/newrelic-client-go/v2/pkg/common
-      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
-      - github.com/newrelic/newrelic-client-go/v2/pkg/users
+      - github.com/newrelic/newrelic-client-go/v3/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/v3/pkg/common
+      - github.com/newrelic/newrelic-client-go/v3/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v3/pkg/users
     queries:
       - path: [ "actor", "organization", "accountManagement" ]
         endpoints:
@@ -47,12 +47,12 @@ packages:
 
   - name: agentApplications
     path: pkg/agentapplications
-    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/agentapplications
+    import_path: github.com/newrelic/newrelic-client-go/v3/pkg/agentapplications
     generators:
       - typegen
       - nerdgraphclient
     imports:
-      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+      - github.com/newrelic/newrelic-client-go/v3/pkg/common
     mutations:
       - name: agentApplicationCreateBrowser
         max_query_field_depth: 2
@@ -97,15 +97,15 @@ packages:
 
   - name: logconfigurations
     path: pkg/logconfigurations
-    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/logconfigurations
+    import_path: github.com/newrelic/newrelic-client-go/v3/pkg/logconfigurations
     generators:
       - typegen
       - nerdgraphclient
     imports:
-      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
-      - github.com/newrelic/newrelic-client-go/v2/pkg/common
-      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
-      - github.com/newrelic/newrelic-client-go/v2/pkg/users
+      - github.com/newrelic/newrelic-client-go/v3/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/v3/pkg/common
+      - github.com/newrelic/newrelic-client-go/v3/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v3/pkg/users
     queries:
       - path: ["actor", "account", "logConfigurations"]
         endpoints:
@@ -158,12 +158,12 @@ packages:
 
   - name: synthetics
     path: pkg/synthetics
-    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/synthetics
+    import_path: github.com/newrelic/newrelic-client-go/v3/pkg/synthetics
     generators:
       - typegen
       - nerdgraphclient
     imports:
-      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v3/pkg/nrtime
     queries:
       - path: ["actor", "account", "synthetics"]
         endpoints:
@@ -282,7 +282,7 @@ packages:
 
   - name: common
     path: pkg/common
-    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/common
+    import_path: github.com/newrelic/newrelic-client-go/v3/pkg/common
     generators:
       - typegen
     types:
@@ -291,11 +291,11 @@ packages:
 
   - name: accounts
     path: pkg/accounts
-    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/accounts
+    import_path: github.com/newrelic/newrelic-client-go/v3/pkg/accounts
     generators:
       - typegen
     imports:
-      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v3/pkg/nrtime
     types:
       - name: AccountOutline
       - name: AccountReference
@@ -314,11 +314,11 @@ packages:
 
   - name: alerts
     path: pkg/alerts
-    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/alerts
+    import_path: github.com/newrelic/newrelic-client-go/v3/pkg/alerts
     generators:
       - typegen
     imports:
-      - github.com/newrelic/newrelic-client-go/v2/pkg/apiaccess
+      - github.com/newrelic/newrelic-client-go/v3/pkg/apiaccess
     types:
       - name: AlertsMutingRuleConditionInput
       - name: AlertsMutingRuleInput
@@ -342,11 +342,11 @@ packages:
 
   - name: apiaccess
     path: pkg/apiaccess
-    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/apiaccess
+    import_path: github.com/newrelic/newrelic-client-go/v3/pkg/apiaccess
     generators:
       - typegen
     imports:
-      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/v3/pkg/accounts
     types:
       - name: ApiAccessActorStitchedFields
       - name: ApiAccessCreateIngestKeyInput
@@ -391,10 +391,10 @@ packages:
 
   - name: changetracking
     path: pkg/changetracking
-    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/changetracking
+    import_path: github.com/newrelic/newrelic-client-go/v3/pkg/changetracking
     imports:
-      - github.com/newrelic/newrelic-client-go/v2/pkg/entities
-      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v3/pkg/entities
+      - github.com/newrelic/newrelic-client-go/v3/pkg/nrtime
     generators:
       - typegen
       - nerdgraphclient
@@ -416,7 +416,7 @@ packages:
   - name: cloud
     path: pkg/cloud
     imports:
-      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v3/pkg/nrtime
       - encoding/json
       - fmt
     generators:
@@ -473,14 +473,14 @@ packages:
 
   - name: dashboards
     path: pkg/dashboards
-    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/dashboards
+    import_path: github.com/newrelic/newrelic-client-go/v3/pkg/dashboards
     generators:
       - typegen
       - nerdgraphclient
     imports:
-      - github.com/newrelic/newrelic-client-go/v2/pkg/common
-      - github.com/newrelic/newrelic-client-go/v2/pkg/entities
-      - github.com/newrelic/newrelic-client-go/v2/pkg/nrdb
+      - github.com/newrelic/newrelic-client-go/v3/pkg/common
+      - github.com/newrelic/newrelic-client-go/v3/pkg/entities
+      - github.com/newrelic/newrelic-client-go/v3/pkg/nrdb
     mutations:
       - name: dashboardCreate
         max_query_field_depth: 10
@@ -592,7 +592,7 @@ packages:
 
   - name: edge
     path: pkg/edge
-    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/edge
+    import_path: github.com/newrelic/newrelic-client-go/v3/pkg/edge
     generators:
       - typegen
     types:
@@ -623,17 +623,17 @@ packages:
 
   - name: entities
     path: pkg/entities
-    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/entities
+    import_path: github.com/newrelic/newrelic-client-go/v3/pkg/entities
     generators:
       - typegen
       - nerdgraphclient
     imports:
-      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
-      - github.com/newrelic/newrelic-client-go/v2/pkg/ai
-      - github.com/newrelic/newrelic-client-go/v2/pkg/common
-      - github.com/newrelic/newrelic-client-go/v2/pkg/nrdb
-      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
-      - github.com/newrelic/newrelic-client-go/v2/pkg/users
+      - github.com/newrelic/newrelic-client-go/v3/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/v3/pkg/ai
+      - github.com/newrelic/newrelic-client-go/v3/pkg/common
+      - github.com/newrelic/newrelic-client-go/v3/pkg/nrdb
+      - github.com/newrelic/newrelic-client-go/v3/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v3/pkg/users
     queries:
       - path: ["actor"]
         endpoints:
@@ -898,11 +898,11 @@ packages:
 
   - name: eventstometrics
     path: pkg/eventstometrics
-    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/eventstometrics
+    import_path: github.com/newrelic/newrelic-client-go/v3/pkg/eventstometrics
     generators:
       - typegen
     imports:
-      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v3/pkg/nrtime
     types:
       - name: EventsToMetricsAccountStitchedFields
       - name: EventsToMetricsCreateRuleFailure
@@ -933,14 +933,14 @@ packages:
 
   - name: installevents
     path: pkg/installevents
-    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/installevents
+    import_path: github.com/newrelic/newrelic-client-go/v3/pkg/installevents
     generators:
       - typegen
       - nerdgraphclient
     imports:
-      - github.com/newrelic/newrelic-client-go/v2/pkg/common
-      - github.com/newrelic/newrelic-client-go/v2/pkg/entities
-      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v3/pkg/common
+      - github.com/newrelic/newrelic-client-go/v3/pkg/entities
+      - github.com/newrelic/newrelic-client-go/v3/pkg/nrtime
     types:
       - name: Timestamp
         field_type_override: nrtime.DateTime
@@ -974,7 +974,7 @@ packages:
 
   - name: nerdstorage
     path: pkg/nerdstorage
-    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/nerdstorage
+    import_path: github.com/newrelic/newrelic-client-go/v3/pkg/nerdstorage
     generators:
       - typegen
     types:
@@ -987,12 +987,12 @@ packages:
 
   - name: notifications
     path: pkg/notifications
-    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/notifications
+    import_path: github.com/newrelic/newrelic-client-go/v3/pkg/notifications
     generators:
       - typegen
       - nerdgraphclient
     imports:
-      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v3/pkg/nrtime
     queries:
       - path: [ "actor", "account", "aiNotifications" ]
         endpoints:
@@ -1040,11 +1040,11 @@ packages:
 
   - name: nrdb
     path: pkg/nrdb
-    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/nrdb
+    import_path: github.com/newrelic/newrelic-client-go/v3/pkg/nrdb
     generators:
       - typegen
     imports:
-      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v3/pkg/nrtime
     types:
       - name: Nrql
         create_as: string
@@ -1072,13 +1072,13 @@ packages:
 
   - name: nrqldroprules
     path: pkg/nrqldroprules
-    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/nrqldroprules
+    import_path: github.com/newrelic/newrelic-client-go/v3/pkg/nrqldroprules
     generators:
       - typegen
       - nerdgraphclient
     imports:
-      - github.com/newrelic/newrelic-client-go/v2/pkg/nrdb
-      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v3/pkg/nrdb
+      - github.com/newrelic/newrelic-client-go/v3/pkg/nrtime
     queries:
       - path: ["actor", "account", "nrqlDropRules"]
         endpoints:
@@ -1124,11 +1124,11 @@ packages:
 
   - name: nrtime
     path: pkg/nrtime
-    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+    import_path: github.com/newrelic/newrelic-client-go/v3/pkg/nrtime
     generators:
       - typegen
     imports:
-      - github.com/newrelic/newrelic-client-go/v2/internal/serialization
+      - github.com/newrelic/newrelic-client-go/v3/internal/serialization
     types:
       - name: DateTime
         create_as: string
@@ -1149,7 +1149,7 @@ packages:
 
   - name: users
     path: pkg/users
-    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/users
+    import_path: github.com/newrelic/newrelic-client-go/v3/pkg/users
     generators:
       - typegen
       - nerdgraphclient
@@ -1165,12 +1165,12 @@ packages:
 
   - name: workflows
     path: pkg/workflows
-    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/workflows
+    import_path: github.com/newrelic/newrelic-client-go/v3/pkg/workflows
     generators:
       - typegen
       - nerdgraphclient
     imports:
-      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v3/pkg/nrtime
     queries:
       - path: [ "actor", "account", "aiWorkflows" ]
         endpoints:
@@ -1206,15 +1206,15 @@ packages:
 
   - name: workloads
     path: pkg/workloads
-    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/workloads
+    import_path: github.com/newrelic/newrelic-client-go/v3/pkg/workloads
     generators:
       - typegen
       - nerdgraphclient
     imports:
-      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
-      - github.com/newrelic/newrelic-client-go/v2/pkg/common
-      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
-      - github.com/newrelic/newrelic-client-go/v2/pkg/users
+      - github.com/newrelic/newrelic-client-go/v3/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/v3/pkg/common
+      - github.com/newrelic/newrelic-client-go/v3/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v3/pkg/users
     queries:
       - path: ["actor", "account", "workload"]
         endpoints:
@@ -1270,16 +1270,16 @@ packages:
 
   - name: servicelevel
     path: pkg/servicelevel
-    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/servicelevel
+    import_path: github.com/newrelic/newrelic-client-go/v3/pkg/servicelevel
     generators:
       - typegen
       - nerdgraphclient
     imports:
-      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
-      - github.com/newrelic/newrelic-client-go/v2/pkg/common
-      - github.com/newrelic/newrelic-client-go/v2/pkg/entities
-      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
-      - github.com/newrelic/newrelic-client-go/v2/pkg/users
+      - github.com/newrelic/newrelic-client-go/v3/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/v3/pkg/common
+      - github.com/newrelic/newrelic-client-go/v3/pkg/entities
+      - github.com/newrelic/newrelic-client-go/v3/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v3/pkg/users
     # Custom query to fetch SLIs from the entity API
     queries:
       - path: ["actor", "entity", "serviceLevel"]
@@ -1352,15 +1352,15 @@ packages:
 
   - name: usermanagement
     path: pkg/usermanagement
-    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/usermanagement
+    import_path: github.com/newrelic/newrelic-client-go/v3/pkg/usermanagement
     generators:
       - typegen
       - nerdgraphclient
     imports:
-      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
-      - github.com/newrelic/newrelic-client-go/v2/pkg/common
-      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
-      - github.com/newrelic/newrelic-client-go/v2/pkg/users
+      - github.com/newrelic/newrelic-client-go/v3/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/v3/pkg/common
+      - github.com/newrelic/newrelic-client-go/v3/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v3/pkg/users
     queries:
       - path: [ "actor", "organization", "userManagement" ]
         endpoints:

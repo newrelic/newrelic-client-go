@@ -5,13 +5,13 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/newrelic/newrelic-client-go/v2/pkg/accounts"
-	"github.com/newrelic/newrelic-client-go/v2/pkg/ai"
-	"github.com/newrelic/newrelic-client-go/v2/pkg/common"
-	"github.com/newrelic/newrelic-client-go/v2/pkg/nrdb"
-	"github.com/newrelic/newrelic-client-go/v2/pkg/nrtime"
-	"github.com/newrelic/newrelic-client-go/v2/pkg/servicelevel"
-	"github.com/newrelic/newrelic-client-go/v2/pkg/users"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/accounts"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/ai"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/common"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/nrdb"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/nrtime"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/servicelevel"
+	"github.com/newrelic/newrelic-client-go/v3/pkg/users"
 )
 
 type AccountStatus string
@@ -2730,14 +2730,12 @@ var SyntheticMonitorStatusTypes = struct {
 	DISABLED SyntheticMonitorStatus
 	ENABLED  SyntheticMonitorStatus
 	FAULTY   SyntheticMonitorStatus
-	MUTED    SyntheticMonitorStatus
 	PAUSED   SyntheticMonitorStatus
 }{
 	DELETED:  "DELETED",
 	DISABLED: "DISABLED",
 	ENABLED:  "ENABLED",
 	FAULTY:   "FAULTY",
-	MUTED:    "MUTED",
 	PAUSED:   "PAUSED",
 }
 
