@@ -796,7 +796,8 @@ func TestSyntheticsCertCheckMonitor_Basic(t *testing.T) {
 				Values: []string{"avocado"},
 			},
 		},
-		Domain:                            "https://www.google.com",
+		// do not add a "https://" to the domain; recent error handling in Synthetics throws an "invalid domain" error with "https://"
+		Domain:                            "www.google.com",
 		NumberDaysToFailBeforeCertExpires: 1,
 	}
 
@@ -821,7 +822,7 @@ func TestSyntheticsCertCheckMonitor_Basic(t *testing.T) {
 	require.NotNil(t, updatedMonitor.Monitor)
 	require.Equal(t, 0, len(updatedMonitor.Errors))
 	require.Equal(t, monitorNameUpdate, updatedMonitor.Monitor.Name)
-	require.Equal(t, "https://www.google.com?updated=true", updatedMonitor.Monitor.Domain)
+	require.Equal(t, "www.google.com?updated=true", updatedMonitor.Monitor.Domain)
 	require.Equal(t, 2, updatedMonitor.Monitor.NumberDaysToFailBeforeCertExpires)
 	require.Equal(t, createdMonitor.Monitor.GUID, updatedMonitor.Monitor.GUID)
 

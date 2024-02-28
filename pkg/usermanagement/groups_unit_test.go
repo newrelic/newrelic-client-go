@@ -41,7 +41,7 @@ var (
 	}
 }`
 
-	testUpdateUserResponseJSON = `{
+	testUpdateGroupResponseJSON = `{
 	"data": {
 		"userManagementUpdateGroup": {
 			"group": {
@@ -181,7 +181,7 @@ func TestUnitAddUsersToGroups(t *testing.T) {
 
 func TestUnitUpdateGroup(t *testing.T) {
 	t.Parallel()
-	user := newMockResponse(t, testUpdateUserResponseJSON, http.StatusCreated)
+	user := newMockResponse(t, testUpdateGroupResponseJSON, http.StatusCreated)
 	updateGroupInput := UserManagementUpdateGroup{
 		DisplayName: groupName,
 	}

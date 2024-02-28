@@ -171,8 +171,8 @@ func TestIntegrationAddUsersToGroupsAndRemove(t *testing.T) {
 	client := newIntegrationTestClient(t)
 
 	// fetch a user and a group to link the user to
-	groupSearchTerm := "Integration Test Group 1"
-	userSearchTerm := "Integration Test User 1"
+	groupSearchTerm := "Integration Test Group 1 DO NOT DELETE"
+	userSearchTerm := "Integration Test User 1 DO NOT DELETE"
 
 	getGroupsResponse, err := client.UserManagementGetGroupsWithUsers(
 		[]string{authenticationDomainId},
