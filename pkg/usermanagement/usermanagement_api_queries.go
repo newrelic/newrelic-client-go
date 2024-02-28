@@ -9,14 +9,14 @@ import (
 func (a *Usermanagement) UserManagementGetUsers(
 	authenticationDomainIDs []string,
 	userIDs []string,
-	nameContains string,
-	emailContains string,
+	name string,
+	emailID string,
 ) (*UserManagementAuthenticationDomains, error) {
 	return a.UserManagementGetUsersWithContext(context.Background(),
 		authenticationDomainIDs,
 		userIDs,
-		nameContains,
-		emailContains,
+		name,
+		emailID,
 	)
 }
 
@@ -24,16 +24,16 @@ func (a *Usermanagement) UserManagementGetUsersWithContext(
 	ctx context.Context,
 	authenticationDomainIDs []string,
 	userIDs []string,
-	nameContains string,
-	emailContains string,
+	name string,
+	emailID string,
 ) (*UserManagementAuthenticationDomains, error) {
 
 	resp := authenticationDomainsResponse{}
 	vars := map[string]interface{}{
 		"authenticationDomainIDs": authenticationDomainIDs,
 		"userIDs":                 userIDs,
-		"nameContains":            nameContains,
-		"emailContains":           emailContains,
+		"name":                    name,
+		"emailID":                 emailID,
 	}
 
 	if len(authenticationDomainIDs) == 0 {
@@ -44,12 +44,12 @@ func (a *Usermanagement) UserManagementGetUsersWithContext(
 		delete(vars, "userIDs")
 	}
 
-	if nameContains == "" {
-		delete(vars, "nameContains")
+	if name == "" {
+		delete(vars, "name")
 	}
 
-	if emailContains == "" {
-		delete(vars, "emailContains")
+	if emailID == "" {
+		delete(vars, "emailID")
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, getUsersQuery, vars, &resp); err != nil {
@@ -62,8 +62,8 @@ func (a *Usermanagement) UserManagementGetUsersWithContext(
 const getUsersQuery = `query(
   $authenticationDomainIDs: [ID!],
   $userIDs: [ID!],
-  $nameContains: String,
-  $emailContains: String
+  $name: String,
+  $emailID: String
 )
 {
   actor {
@@ -73,8 +73,8 @@ const getUsersQuery = `query(
           authenticationDomains {
             users(
               filter: {
-                email: { contains: $emailContains }
-                name: { contains: $nameContains }
+                email: { eq: $emailID }
+                name: { eq: $name }
                 id: { in: $userIDs }
               }
             ) {
@@ -121,12 +121,12 @@ const getUsersQuery = `query(
 func (a *Usermanagement) UserManagementGetGroupsWithUsers(
 	authenticationDomainIDs []string,
 	groupIDs []string,
-	nameContains string,
+	name string,
 ) (*UserManagementAuthenticationDomains, error) {
 	return a.UserManagementGetGroupsWithUsersWithContext(context.Background(),
 		authenticationDomainIDs,
 		groupIDs,
-		nameContains,
+		name,
 	)
 }
 
@@ -134,14 +134,14 @@ func (a *Usermanagement) UserManagementGetGroupsWithUsersWithContext(
 	ctx context.Context,
 	authenticationDomainIDs []string,
 	groupIDs []string,
-	nameContains string,
+	name string,
 ) (*UserManagementAuthenticationDomains, error) {
 
 	resp := authenticationDomainsResponse{}
 	vars := map[string]interface{}{
 		"authenticationDomainIDs": authenticationDomainIDs,
 		"groupIDs":                groupIDs,
-		"nameContains":            nameContains,
+		"name":                    name,
 	}
 
 	if len(authenticationDomainIDs) == 0 {
@@ -152,8 +152,8 @@ func (a *Usermanagement) UserManagementGetGroupsWithUsersWithContext(
 		delete(vars, "groupIDs")
 	}
 
-	if nameContains == "" {
-		delete(vars, "nameContains")
+	if name == "" {
+		delete(vars, "name")
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, getGroupsWithUsersQuery, vars, &resp); err != nil {
@@ -166,7 +166,7 @@ func (a *Usermanagement) UserManagementGetGroupsWithUsersWithContext(
 const getGroupsWithUsersQuery = `query (
   $authenticationDomainIDs: [ID!]
   $groupIDs: [ID!]
-  $nameContains: String
+  $name: String
 ) {
   actor {
     organization {
@@ -175,7 +175,7 @@ const getGroupsWithUsersQuery = `query (
           authenticationDomains {
             groups(
               filter: {
-                displayName: { contains: $nameContains }
+                displayName: { eq: $name }
                 id: { in: $groupIDs }
               }
             ) {

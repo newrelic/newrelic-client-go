@@ -35,6 +35,7 @@ var (
 	userNameUpdated  = fmt.Sprintf("%s-updated", userName)
 
 	mockUserId                      = "9999999999"
+	mockUserIdTwo                   = "0000000000"
 	mockAuthenticationDomainId      = "fae55e6b-b1ce-4a0f-83b2-ee774798f2cc"
 	mockGroupId                     = "e5f30c8d-acf6-481c-a492-ef516957b479"
 	mockAuthenticationDomainName    = "Mock Authentication Domain 1"
