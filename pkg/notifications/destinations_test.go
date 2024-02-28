@@ -20,6 +20,7 @@ var (
 	user            = "test-user"
 	accountId       = 1
 	id              = "7463c367-6d61-416b-9aac-47f4a285fe5a"
+	guid            = "MXxBSU9QU3xERVNUSU5BVElPTnw3NDYzYzM2Ny02ZDYxLTQxNmItOWFhYy00N2Y0YTI4NWZlNWE="
 	name            = "test-notification-destination-1"
 
 	testCreateDestinationResponseJSON = `{
@@ -33,6 +34,7 @@ var (
 			},
 			"createdAt": "2022-07-10T11:10:43.123715Z",
 			"id": "7463c367-6d61-416b-9aac-47f4a285fe5a",
+			"guid": "MXxBSU9QU3xERVNUSU5BVElPTnw3NDYzYzM2Ny02ZDYxLTQxNmItOWFhYy00N2Y0YTI4NWZlNWE=",
 			"isUserAuthenticated": false,
 			"lastSent": "2022-07-10T11:10:43.123715Z",
 			"name": "test-notification-destination-1",
@@ -79,6 +81,7 @@ var (
                 },
                 "createdAt": "2022-07-10T11:10:43.123715Z",
                 "id": "7463c367-6d61-416b-9aac-47f4a285fe5a",
+                "guid": "MXxBSU9QU3xERVNUSU5BVElPTnw3NDYzYzM2Ny02ZDYxLTQxNmItOWFhYy00N2Y0YTI4NWZlNWE=",
                 "isUserAuthenticated": false,
                 "lastSent": "2022-07-10T11:10:43.123715Z",
                 "name": "test-notification-destination-1",
@@ -143,6 +146,7 @@ func TestCreateDestination(t *testing.T) {
 			Auth:                auth,
 			CreatedAt:           timestamp,
 			ID:                  id,
+			GUID:                EntityGUID(guid),
 			IsUserAuthenticated: false,
 			LastSent:            timestamp,
 			Name:                "test-notification-destination-1",
@@ -188,6 +192,7 @@ func TestGetDestinations(t *testing.T) {
 				Auth:                auth,
 				CreatedAt:           timestamp,
 				ID:                  id,
+				GUID:                EntityGUID(guid),
 				IsUserAuthenticated: false,
 				LastSent:            timestamp,
 				Name:                "test-notification-destination-1",
@@ -242,6 +247,7 @@ func TestGetDestinationsByName(t *testing.T) {
 				Auth:                auth,
 				CreatedAt:           timestamp,
 				ID:                  id,
+				GUID:                EntityGUID(guid),
 				IsUserAuthenticated: false,
 				LastSent:            timestamp,
 				Name:                "test-notification-destination-1",
