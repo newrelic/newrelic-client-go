@@ -1,3 +1,11 @@
+<a name="v2.26.0"></a>
+## [v2.26.0] - 2024-02-28
+### Bug Fixes
+- **group_management:** alter group management queries and add tests ([#1103](https://github.com/newrelic/newrelic-client-go/issues/1103))
+
+### Features
+- **destinations:** expose destination guid ([#1096](https://github.com/newrelic/newrelic-client-go/issues/1096))
+
 <a name="v2.25.0"></a>
 ## [v2.25.0] - 2024-02-14
 ### Features
@@ -1699,7 +1707,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.25.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.26.0...HEAD
+[v2.26.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.25.0...v2.26.0
 [v2.25.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.24.0...v2.25.0
 [v2.24.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.23.0...v2.24.0
 [v2.23.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.22.2...v2.23.0
