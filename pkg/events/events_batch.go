@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"errors"
+	"fmt"
 	"time"
 )
 
@@ -165,7 +166,7 @@ func (e *Events) batchWorker(ctx context.Context, id int) (err error) {
 				count = 0
 			}
 		case <-ctx.Done():
-			e.logger.Trace("batchWorker[", id, "]: exiting per context Done")
+			e.logger.Trace(fmt.Sprintf("batchWorker[%d]: exiting per context Done", id))
 			return ctx.Err()
 		}
 	}
