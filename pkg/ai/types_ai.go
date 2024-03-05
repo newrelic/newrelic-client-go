@@ -215,7 +215,7 @@ type AiNotificationsTokenAuth struct {
 	Prefix string `json:"prefix"`
 }
 
-func (x AiNotificationsTokenAuth) GetHeaders() map[string]string {
+func (x AiNotificationsTokenAuth) GetHeaders() []AiNotificationsCustomHeaders {
 	return nil
 }
 
@@ -272,7 +272,7 @@ type AiNotificationsBasicAuth struct {
 	User string `json:"user"`
 }
 
-func (x AiNotificationsBasicAuth) GetHeaders() map[string]string {
+func (x AiNotificationsBasicAuth) GetHeaders() []AiNotificationsCustomHeaders {
 	return nil
 }
 
@@ -398,6 +398,8 @@ type AiNotificationsAuth struct {
 	Password SecureValue `json:"password,omitempty"`
 	// Basic auth user
 	User string `json:"user,omitempty"`
+	// Custom headers
+	Headers []AiNotificationsCustomHeaders `json:"headers,omitempty"`
 }
 
 func (x *AiNotificationsAuth) ImplementsAiNotificationsAuth() {}
@@ -413,7 +415,12 @@ type AiNotificationsAuthInterface interface {
 	GetRefreshInterval() int
 	GetRefreshable() bool
 	GetScope() string
-	GetHeaders() map[string]string
+	GetHeaders() []AiNotificationsCustomHeaders
+}
+
+// AiNotificationsCustomHeaders - Custom headers
+type AiNotificationsCustomHeaders struct {
+	Key string `json:"key"`
 }
 
 // AiNotificationsCustomHeadersAuth - Custom headers based authentication
@@ -421,7 +428,7 @@ type AiNotificationsCustomHeadersAuth struct {
 	// Authentication Type - CustomHeaders
 	AuthType AiNotificationsAuthType `json:"authType"`
 	// Custom headers
-	Headers map[string]string `json:"headers"`
+	Headers []AiNotificationsCustomHeaders `json:"headers"`
 }
 
 func (x AiNotificationsCustomHeadersAuth) GetUser() string {
@@ -460,7 +467,7 @@ func (x AiNotificationsCustomHeadersAuth) GetAuthType() AiNotificationsAuthType 
 	return x.AuthType
 }
 
-func (x AiNotificationsCustomHeadersAuth) GetHeaders() map[string]string {
+func (x AiNotificationsCustomHeadersAuth) GetHeaders() []AiNotificationsCustomHeaders {
 	return x.Headers
 }
 
