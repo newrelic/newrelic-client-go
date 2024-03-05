@@ -762,6 +762,12 @@ const getDestinationsQuery = `query(
 			  authType
 			  prefix
 			}
+			... on AiNotificationsCustomHeadersAuth {	
+			  authType
+			  headers {
+				key
+				value
+			  }
 		}
 		createdAt
 		id

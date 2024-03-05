@@ -215,6 +215,10 @@ type AiNotificationsTokenAuth struct {
 	Prefix string `json:"prefix"`
 }
 
+func (x AiNotificationsTokenAuth) GetHeaders() map[string]string {
+	return nil
+}
+
 func (x AiNotificationsTokenAuth) GetAccessTokenURL() string {
 	return ""
 }
@@ -266,6 +270,10 @@ type AiNotificationsBasicAuth struct {
 	AuthType AiNotificationsAuthType `json:"authType"`
 	// Username
 	User string `json:"user"`
+}
+
+func (x AiNotificationsBasicAuth) GetHeaders() map[string]string {
+	return nil
 }
 
 // GetAuthType returns a pointer to the value of AuthType from AiNotificationsBasicAuth
@@ -405,7 +413,58 @@ type AiNotificationsAuthInterface interface {
 	GetRefreshInterval() int
 	GetRefreshable() bool
 	GetScope() string
+	GetHeaders() map[string]string
 }
+
+// AiNotificationsCustomHeadersAuth - Custom headers based authentication
+type AiNotificationsCustomHeadersAuth struct {
+	// Authentication Type - CustomHeaders
+	AuthType AiNotificationsAuthType `json:"authType"`
+	// Custom headers
+	Headers map[string]string `json:"headers"`
+}
+
+func (x AiNotificationsCustomHeadersAuth) GetUser() string {
+	return ""
+}
+
+func (x AiNotificationsCustomHeadersAuth) GetPrefix() string {
+	return ""
+}
+
+func (x AiNotificationsCustomHeadersAuth) GetAccessTokenURL() string {
+	return ""
+}
+
+func (x AiNotificationsCustomHeadersAuth) GetAuthorizationURL() string {
+	return ""
+}
+
+func (x AiNotificationsCustomHeadersAuth) GetClientId() string {
+	return ""
+}
+
+func (x AiNotificationsCustomHeadersAuth) GetRefreshInterval() int {
+	return 0
+}
+
+func (x AiNotificationsCustomHeadersAuth) GetRefreshable() bool {
+	return false
+}
+
+func (x AiNotificationsCustomHeadersAuth) GetScope() string {
+	return ""
+}
+
+func (x AiNotificationsCustomHeadersAuth) GetAuthType() AiNotificationsAuthType {
+	return x.AuthType
+}
+
+func (x AiNotificationsCustomHeadersAuth) GetHeaders() map[string]string {
+	return x.Headers
+}
+
+func (x AiNotificationsCustomHeadersAuth) ImplementsAiNotificationsAuth() {}
 
 // UnmarshalAiNotificationsAuthInterface unmarshals the interface into the correct type
 // based on __typename provided by GraphQL
@@ -444,6 +503,16 @@ func UnmarshalAiNotificationsAuthInterface(b []byte) (*AiNotificationsAuthInterf
 			return &xxx, nil
 		case "AiNotificationsTokenAuth":
 			var interfaceType AiNotificationsTokenAuth
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AiNotificationsAuthInterface = &interfaceType
+
+			return &xxx, nil
+		case "AiNotificationsCustomHeadersAuth":
+			var interfaceType AiNotificationsCustomHeadersAuth
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
