@@ -184,6 +184,12 @@ const AiNotificationsCreateDestinationMutation = `mutation(
 			  authType
 			  prefix
 			}
+			... on AiNotificationsCustomHeadersAuth {	
+			  authType
+			  headers {
+				key
+			  }
+			}
 		}
 		createdAt
 		id
@@ -553,6 +559,12 @@ const AiNotificationsUpdateDestinationMutation = `mutation(
 			  authType
 			  prefix
 			}
+			... on AiNotificationsCustomHeadersAuth {	
+			  authType
+			  headers {
+				key
+			  }
+			}
 		}
 		createdAt
 		id
@@ -766,8 +778,8 @@ const getDestinationsQuery = `query(
 			  authType
 			  headers {
 				key
-				value
 			  }
+			}
 		}
 		createdAt
 		id
