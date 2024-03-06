@@ -313,6 +313,9 @@ func TestIntegrationDashboard_Variables(t *testing.T) {
 					},
 				},
 				Name: "variable",
+				Options: DashboardVariableOptionsInput{
+					IgnoreTimeRange: true,
+				},
 				NRQLQuery: &DashboardVariableNRQLQueryInput{
 					AccountIDs: []int{testAccountID},
 					Query:      nrdb.NRQL("SELECT average(duration) FROM Transaction TIMESERIES WHERE appName = 'Dummy App'"),
@@ -343,6 +346,7 @@ func TestIntegrationDashboard_Variables(t *testing.T) {
 	assert.Equal(t, dashboardInput.Description, dash.Description)
 	assert.Equal(t, dashboardInput.Name, dash.Name)
 	assert.Equal(t, dashboardInput.Permissions, dash.Permissions)
+	assert.Equal(t, dashboardInput.Variables[0].Options.IgnoreTimeRange, dash.Variables[0].Options.IgnoreTimeRange)
 
 	// Input and Pages are different types so we can not easily compare them...
 	assert.Equal(t, len(dashboardInput.Pages), len(dash.Pages))
@@ -388,6 +392,9 @@ func TestIntegrationDashboard_Variables(t *testing.T) {
 					},
 				},
 				Name: "variableUpdated",
+				Options: DashboardVariableOptionsInput{
+					IgnoreTimeRange: true,
+				},
 				NRQLQuery: &DashboardVariableNRQLQueryInput{
 					AccountIDs: []int{testAccountID},
 					Query:      nrdb.NRQL("SELECT average(duration) FROM Transaction TIMESERIES WHERE appName = 'Dummy App'"),
