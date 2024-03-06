@@ -7988,12 +7988,20 @@ type DashboardVariable struct {
 	NRQLQuery *DashboardVariableNRQLQuery `json:"nrqlQuery,omitempty"`
 	// Variable identifier.
 	Name string `json:"name,omitempty"`
+	// Options applied to the variable
+	Options DashboardVariableOptionsInput `json:"options,omitempty"`
 	// Indicates the strategy to apply when replacing a variable in a NRQL query.
 	ReplacementStrategy DashboardVariableReplacementStrategy `json:"replacementStrategy,omitempty"`
 	// Human-friendly display string for this variable.
 	Title string `json:"title,omitempty"`
 	// Specifies the data type of the variable and where its possible values may come from.
 	Type DashboardVariableType `json:"type,omitempty"`
+}
+
+// DashboardVariableOptionsInput - Options applied to the variable
+type DashboardVariableOptionsInput struct {
+	// Only applies to variables of type NRQL. With this turned on, the time range for the NRQL query will override the time picker on dashboards and other pages. Turn this off to use the time picker as normal.
+	IgnoreTimeRange bool `json:"ignoreTimeRange,omitempty"`
 }
 
 // DashboardVariableDefaultItem - Represents a possible default value item.

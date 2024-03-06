@@ -49,6 +49,21 @@ var DashboardDeleteResultStatusTypes = struct {
 	SUCCESS: "SUCCESS",
 }
 
+// DashboardLiveURLType - Live URL type.
+type DashboardLiveURLType string
+
+var DashboardLiveURLTypeTypes = struct {
+	// Dashboard.
+	DASHBOARD DashboardLiveURLType
+	// Widget.
+	WIDGET DashboardLiveURLType
+}{
+	// Dashboard.
+	DASHBOARD: "DASHBOARD",
+	// Widget.
+	WIDGET: "WIDGET",
+}
+
 // DashboardUpdateErrorType - Expected error types that can be returned by update operation.
 type DashboardUpdateErrorType string
 
@@ -221,7 +236,7 @@ type DashboardEntityResult struct {
 	// Dashboard update timestamp.
 	UpdatedAt nrtime.DateTime `json:"updatedAt,omitempty"`
 	// Dashboard-local variable definitions.
-	Variables []entities.DashboardVariable `json:"variables,omitempty"`
+	Variables []DashboardVariable `json:"variables,omitempty"`
 }
 
 // DashboardInput - Dashboard input.
@@ -244,6 +259,20 @@ type DashboardLineWidgetConfigurationInput struct {
 	NRQLQueries []DashboardWidgetNRQLQueryInput `json:"nrqlQueries,omitempty"`
 }
 
+// DashboardLiveURL - Live URL.
+type DashboardLiveURL struct {
+	// Creation date.
+	CreatedAt nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
+	// Title that describes the source entity that is accessible through the public live URL.
+	Title string `json:"title,omitempty"`
+	// Live URL type.
+	Type DashboardLiveURLType `json:"type,omitempty"`
+	// Public URL.
+	URL string `json:"url"`
+	// The unique identifier of the public live URL.
+	Uuid string `json:"uuid"`
+}
+
 // DashboardMarkdownWidgetConfigurationInput - Configuration for visualization type 'viz.markdown'. Learn more about [markdown](https://docs.newrelic.com/docs/apis/nerdgraph/examples/create-widgets-dashboards-api/#markdown) widget.
 type DashboardMarkdownWidgetConfigurationInput struct {
 	// Markdown content of the widget.
@@ -258,13 +287,8 @@ type DashboardPageInput struct {
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The name of the page.
 	Name string `json:"name"`
-
-	// NOTE: The JSON description of the following attribute, "Widgets" has been modified manually
-	// (removal of "omitempty") to facilitate creating pages with no widgets (empty pages).
-	// Please DO NOT regenerate/modify this attribute and its datatype via Tutone (which would add "omitempty" back).
-
 	// A nested block of all widgets belonging to the page.
-	Widgets []DashboardWidgetInput `json:"widgets"`
+	Widgets []DashboardWidgetInput `json:"widgets,omitempty"`
 }
 
 // DashboardPieWidgetConfigurationInput - Configuration for visualization type 'viz.pie'.  Learn more about [pie](https://docs.newrelic.com/docs/apis/nerdgraph/examples/create-widgets-dashboards-api/#pie) widget.
@@ -317,13 +341,8 @@ type DashboardUpdatePageInput struct {
 	Description string `json:"description,omitempty"`
 	// Page name.
 	Name string `json:"name"`
-
-	// NOTE: The JSON description of the following attribute, "Widgets" has been modified manually
-	// (removal of "omitempty") to facilitate creating pages with no widgets (empty pages).
-	// Please DO NOT regenerate/modify this attribute and its datatype via Tutone (which would add "omitempty" back).
-
 	// Page widgets.
-	Widgets []DashboardWidgetInput `json:"widgets"`
+	Widgets []DashboardWidgetInput `json:"widgets,omitempty"`
 }
 
 // DashboardUpdatePageResult - Result of updatePage operation.
@@ -386,6 +405,8 @@ type DashboardVariable struct {
 	NRQLQuery DashboardVariableNRQLQuery `json:"nrqlQuery,omitempty"`
 	// Variable identifier.
 	Name string `json:"name,omitempty"`
+	// Options applied to the variable.
+	Options DashboardVariableOptions `json:"options,omitempty"`
 	// Indicates the strategy to apply when replacing a variable in a NRQL query.
 	ReplacementStrategy DashboardVariableReplacementStrategy `json:"replacementStrategy,omitempty"`
 	// Human-friendly display string for this variable.
@@ -403,7 +424,7 @@ type DashboardVariableDefaultItem struct {
 // DashboardVariableDefaultItemInput - Represents a possible default value item.
 type DashboardVariableDefaultItemInput struct {
 	// The value of this default item.
-	Value DashboardVariableDefaultValueInput `json:"value,omitempty"`
+	Value *DashboardVariableDefaultValueInput `json:"value,omitempty"`
 }
 
 // DashboardVariableDefaultValue - Specifies a default value for variables.
@@ -439,15 +460,17 @@ type DashboardVariableInput struct {
 	// [DEPRECATED] Default value for this variable. The actual value to be used will depend on the type.
 	DefaultValue *DashboardVariableDefaultValueInput `json:"defaultValue,omitempty"`
 	// Default values for this variable. The actual value to be used will depend on the type.
-	DefaultValues *[]DashboardVariableDefaultItemInput `json:"defaultValues,omitempty"`
+	DefaultValues []*DashboardVariableDefaultItemInput `json:"defaultValues,omitempty"`
 	// Indicates whether this variable supports multiple selection or not. Only applies to variables of type NRQL or ENUM.
 	IsMultiSelection bool `json:"isMultiSelection,omitempty"`
 	// List of possible values for variables of type ENUM
 	Items []DashboardVariableEnumItemInput `json:"items,omitempty"`
 	// Configuration for variables of type NRQL.
-	NRQLQuery *DashboardVariableNRQLQueryInput `json:"nrqlQuery,omitempty"`
+	NRQLQuery DashboardVariableNRQLQueryInput `json:"nrqlQuery,omitempty"`
 	// Variable identifier.
 	Name string `json:"name"`
+	// Options applied to the variable
+	Options DashboardVariableOptionsInput `json:"options,omitempty"`
 	// Indicates the strategy to apply when replacing a variable in a NRQL query.
 	ReplacementStrategy DashboardVariableReplacementStrategy `json:"replacementStrategy,omitempty"`
 	// Human-friendly display string for this variable.
@@ -470,6 +493,18 @@ type DashboardVariableNRQLQueryInput struct {
 	AccountIDs []int `json:"accountIds"`
 	// NRQL formatted query.
 	Query nrdb.NRQL `json:"query"`
+}
+
+// DashboardVariableOptions - Options applied to the variable.
+type DashboardVariableOptions struct {
+	// Only applies to variables of type NRQL. With this turned on, the time range for the NRQL query will override the time picker on dashboards and other pages. Turn this off to use the time picker as normal.
+	IgnoreTimeRange bool `json:"ignoreTimeRange,omitempty"`
+}
+
+// DashboardVariableOptionsInput - Options applied to the variable
+type DashboardVariableOptionsInput struct {
+	// Only applies to variables of type NRQL. With this turned on, the time range for the NRQL query will override the time picker on dashboards and other pages. Turn this off to use the time picker as normal.
+	IgnoreTimeRange bool `json:"ignoreTimeRange,omitempty"`
 }
 
 // DashboardWidgetConfigurationInput - Typed configuration for known visualizations. At most one may be populated.
