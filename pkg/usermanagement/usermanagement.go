@@ -27,9 +27,9 @@ func New(config config.Config) Usermanagement {
 
 type MultiTenantIdentityGroupFilterInput struct {
 	// Filter by allow capability.
-	AllowsCapability *MultiTenantIdentityGroupAllowCapabilityInput `json:"allows_capability,omitempty"`
+	AllowsCapability *MultiTenantIdentityGroupAllowCapabilityInput `json:"allowsCapability,omitempty"`
 	// Filter by authentication domain.
-	AuthenticationDomainId *MultiTenantIdentityGroupAuthenticationDomainInput `json:"authentication_domain_id,omitempty"`
+	AuthenticationDomainId *MultiTenantIdentityGroupAuthenticationDomainInput `json:"authenticationDomainId,omitempty"`
 	// Filter by ID.
 	ID *MultiTenantIdentityGroupIDInput `json:"id,omitempty"`
 	// Filter by members.
@@ -37,7 +37,7 @@ type MultiTenantIdentityGroupFilterInput struct {
 	// Filter by name.
 	Name *MultiTenantIdentityGroupNameInput `json:"name,omitempty"`
 	// Filter by organization ID.
-	OrganizationID *MultiTenantIdentityGroupOrganizationIDInput `json:"organization_id,omitempty"`
+	OrganizationID *MultiTenantIdentityGroupOrganizationIDInput `json:"organizationId,omitempty"`
 }
 
 type MultiTenantIdentityGroupAllowCapabilityInput struct {
