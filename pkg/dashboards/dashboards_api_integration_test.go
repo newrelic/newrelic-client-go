@@ -298,9 +298,9 @@ func TestIntegrationDashboard_Variables(t *testing.T) {
 		},
 		Variables: []DashboardVariableInput{
 			{
-				DefaultValues: []*DashboardVariableDefaultItemInput{
+				DefaultValues: &[]DashboardVariableDefaultItemInput{
 					{
-						Value: &DashboardVariableDefaultValueInput{
+						Value: DashboardVariableDefaultValueInput{
 							String: "default value",
 						},
 					},
@@ -316,7 +316,7 @@ func TestIntegrationDashboard_Variables(t *testing.T) {
 				Options: DashboardVariableOptionsInput{
 					IgnoreTimeRange: true,
 				},
-				NRQLQuery: DashboardVariableNRQLQueryInput{
+				NRQLQuery: &DashboardVariableNRQLQueryInput{
 					AccountIDs: []int{testAccountID},
 					Query:      nrdb.NRQL("SELECT average(duration) FROM Transaction TIMESERIES WHERE appName = 'Dummy App'"),
 				},
@@ -377,9 +377,9 @@ func TestIntegrationDashboard_Variables(t *testing.T) {
 		},
 		Variables: []DashboardVariableInput{
 			{
-				DefaultValues: []*DashboardVariableDefaultItemInput{
+				DefaultValues: &[]DashboardVariableDefaultItemInput{
 					{
-						Value: &DashboardVariableDefaultValueInput{
+						Value: DashboardVariableDefaultValueInput{
 							String: "default value-updated",
 						},
 					},
@@ -395,7 +395,7 @@ func TestIntegrationDashboard_Variables(t *testing.T) {
 				Options: DashboardVariableOptionsInput{
 					IgnoreTimeRange: true,
 				},
-				NRQLQuery: DashboardVariableNRQLQueryInput{
+				NRQLQuery: &DashboardVariableNRQLQueryInput{
 					AccountIDs: []int{testAccountID},
 					Query:      nrdb.NRQL("SELECT average(duration) FROM Transaction TIMESERIES WHERE appName = 'Dummy App'"),
 				},
