@@ -288,7 +288,7 @@ type DashboardPageInput struct {
 	// The name of the page.
 	Name string `json:"name"`
 	// A nested block of all widgets belonging to the page.
-	Widgets []DashboardWidgetInput `json:"widgets,omitempty"`
+	Widgets []DashboardWidgetInput `json:"widgets"`
 }
 
 // DashboardPieWidgetConfigurationInput - Configuration for visualization type 'viz.pie'.  Learn more about [pie](https://docs.newrelic.com/docs/apis/nerdgraph/examples/create-widgets-dashboards-api/#pie) widget.
@@ -342,7 +342,7 @@ type DashboardUpdatePageInput struct {
 	// Page name.
 	Name string `json:"name"`
 	// Page widgets.
-	Widgets []DashboardWidgetInput `json:"widgets,omitempty"`
+	Widgets []DashboardWidgetInput `json:"widgets"`
 }
 
 // DashboardUpdatePageResult - Result of updatePage operation.
@@ -424,7 +424,7 @@ type DashboardVariableDefaultItem struct {
 // DashboardVariableDefaultItemInput - Represents a possible default value item.
 type DashboardVariableDefaultItemInput struct {
 	// The value of this default item.
-	Value *DashboardVariableDefaultValueInput `json:"value,omitempty"`
+	Value DashboardVariableDefaultValueInput `json:"value,omitempty"`
 }
 
 // DashboardVariableDefaultValue - Specifies a default value for variables.
@@ -460,13 +460,13 @@ type DashboardVariableInput struct {
 	// [DEPRECATED] Default value for this variable. The actual value to be used will depend on the type.
 	DefaultValue *DashboardVariableDefaultValueInput `json:"defaultValue,omitempty"`
 	// Default values for this variable. The actual value to be used will depend on the type.
-	DefaultValues []*DashboardVariableDefaultItemInput `json:"defaultValues,omitempty"`
+	DefaultValues *[]DashboardVariableDefaultItemInput `json:"defaultValues,omitempty"`
 	// Indicates whether this variable supports multiple selection or not. Only applies to variables of type NRQL or ENUM.
 	IsMultiSelection bool `json:"isMultiSelection,omitempty"`
 	// List of possible values for variables of type ENUM
 	Items []DashboardVariableEnumItemInput `json:"items,omitempty"`
 	// Configuration for variables of type NRQL.
-	NRQLQuery DashboardVariableNRQLQueryInput `json:"nrqlQuery,omitempty"`
+	NRQLQuery *DashboardVariableNRQLQueryInput `json:"nrqlQuery,omitempty"`
 	// Variable identifier.
 	Name string `json:"name"`
 	// Options applied to the variable
