@@ -51,7 +51,7 @@ func TestServiceLevel_Basic(t *testing.T) {
 	client := newIntegrationTestClient(t)
 
 	// GUID of Dummy App
-	guid := common.EntityGUID(testhelpers.IntegrationTestApplicationEntityGUID)
+	guid := common.EntityGUID(testhelpers.IntegrationTestApplicationEntityGUIDNew)
 
 	eventsInput := ServiceLevelEventsCreateInput{
 		AccountID: testAccountID,
