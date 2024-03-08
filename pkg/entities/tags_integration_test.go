@@ -17,7 +17,7 @@ func TestIntegrationListTags(t *testing.T) {
 
 	var (
 		// GUID of Dummy App
-		testGUID = common.EntityGUID(testhelpers.IntegrationTestApplicationEntityGUID)
+		testGUID = common.EntityGUID(testhelpers.IntegrationTestApplicationEntityGUIDNew)
 	)
 
 	client := newIntegrationTestClient(t)
@@ -35,7 +35,7 @@ func TestIntegrationTaggingAddTagsToEntityAndGetTags(t *testing.T) {
 	t.Parallel()
 
 	var (
-		testGUID = common.EntityGUID(testhelpers.IntegrationTestApplicationEntityGUID)
+		testGUID = common.EntityGUID(testhelpers.IntegrationTestApplicationEntityGUIDNew)
 	)
 
 	client := newIntegrationTestClient(t)
