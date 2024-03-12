@@ -1471,6 +1471,12 @@ packages:
             max_query_field_depth: 4
     types:
       - name: OrganizationOrganizationCreateAsyncResultFilterInput
+      - name: OrganizationOrganizationCreateJobCustomerIdInput
+        field_type_override: "*OrganizationOrganizationCreateJobCustomerIdInput"
+      - name: OrganizationOrganizationCreateJobIdInput
+        field_type_override: "*OrganizationOrganizationCreateJobIdInput"
+      - name: OrganizationOrganizationCreateJobStatusInput
+        field_type_override: "*OrganizationOrganizationCreateJobStatusInput"
       - name: ID
         field_type_override: string
         skip_type_create: true

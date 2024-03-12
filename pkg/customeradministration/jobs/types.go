@@ -111,11 +111,11 @@ type OrganizationOrganizationCreateAsyncResultCollection struct {
 // OrganizationOrganizationCreateAsyncResultFilterInput - A filter for organization create job results
 type OrganizationOrganizationCreateAsyncResultFilterInput struct {
 	// Filter organization create job results by customer ID
-	CustomerId OrganizationOrganizationCreateJobCustomerIdInput `json:"customerId,omitempty"`
+	CustomerId *OrganizationOrganizationCreateJobCustomerIdInput `json:"customerId,omitempty"`
 	// Filter oganization create job results by id
-	JobId OrganizationOrganizationCreateJobIdInput `json:"jobId,omitempty"`
+	JobId *OrganizationOrganizationCreateJobIdInput `json:"jobId,omitempty"`
 	// Filter organization create job results by status
-	Status OrganizationOrganizationCreateJobStatusInput `json:"status,omitempty"`
+	Status *OrganizationOrganizationCreateJobStatusInput `json:"status,omitempty"`
 }
 
 // OrganizationOrganizationCreateJobCustomerIdInput - The customer id search for jobs
