@@ -1447,6 +1447,18 @@ packages:
       - name: MultiTenantAuthorizationRoleSortInput
       - name: MultiTenantIdentityUserFilterInput
       - name: MultiTenantIdentityUserSortInput
+      - name: MultiTenantIdentityAllowsCapabilityInput
+        field_type_override: "*MultiTenantIdentityAllowsCapabilityInput"
+      - name: MultiTenantIdentityAuthenticationDomainIdInput
+        field_type_override: "*MultiTenantIdentityAuthenticationDomainIdInput"
+      - name: MultiTenantIdentityGroupIdInput
+        field_type_override: "*MultiTenantIdentityGroupIdInput"
+      - name: MultiTenantIdentityGroupMemberIdInput
+        field_type_override: "*MultiTenantIdentityGroupMemberIdInput"
+      - name: MultiTenantIdentityGroupNameInput
+        field_type_override: "*MultiTenantIdentityGroupNameInput"
+      - name: MultiTenantIdentityOrganizationIdInput
+        field_type_override: "*MultiTenantIdentityOrganizationIdInput"
       - name: ID
         field_type_override: string
         skip_type_create: true

@@ -7,7 +7,7 @@ func (a *Customeradministration) GetGroupsByOrganizationID(
 	return a.GetGroups(
 		"",
 		MultiTenantIdentityGroupFilterInput{
-			OrganizationId: MultiTenantIdentityOrganizationIdInput{
+			OrganizationId: &MultiTenantIdentityOrganizationIdInput{
 				Eq: organizationID,
 			},
 		},
