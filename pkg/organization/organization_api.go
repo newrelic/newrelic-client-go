@@ -6,9 +6,9 @@ import "context"
 // The new organization to create.
 func (a *Organization) OrganizationCreate(
 	customerId string,
-	newManagedAccount OrganizationNewManagedAccountInput,
+	newManagedAccount *OrganizationNewManagedAccountInput,
 	organization OrganizationCreateOrganizationInput,
-	sharedAccount OrganizationSharedAccountInput,
+	sharedAccount *OrganizationSharedAccountInput,
 ) (*OrganizationCreateOrganizationResponse, error) {
 	return a.OrganizationCreateWithContext(context.Background(),
 		customerId,
@@ -22,9 +22,9 @@ func (a *Organization) OrganizationCreate(
 func (a *Organization) OrganizationCreateWithContext(
 	ctx context.Context,
 	customerId string,
-	newManagedAccount OrganizationNewManagedAccountInput,
+	newManagedAccount *OrganizationNewManagedAccountInput,
 	organization OrganizationCreateOrganizationInput,
-	sharedAccount OrganizationSharedAccountInput,
+	sharedAccount *OrganizationSharedAccountInput,
 ) (*OrganizationCreateOrganizationResponse, error) {
 
 	resp := OrganizationCreateQueryResponse{}

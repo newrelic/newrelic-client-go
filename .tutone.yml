@@ -1415,6 +1415,10 @@ packages:
       - name: OrganizationCustomerIDInput
       - name: OrganizationNameInput
       - name: OrganizationOrganizationIDInput
+      - name: OrganizationNewManagedAccountInput
+        field_type_override: "*OrganizationNewManagedAccountInput"
+      - name: OrganizationSharedAccountInput
+        field_type_override: "*OrganizationSharedAccountInput"
       - name: ID
         field_type_override: string
         skip_type_create: true
