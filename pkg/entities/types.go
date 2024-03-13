@@ -7989,7 +7989,7 @@ type DashboardVariable struct {
 	// Variable identifier.
 	Name string `json:"name,omitempty"`
 	// Options applied to the variable
-	Options DashboardVariableOptions `json:"options,omitempty"`
+	Options *DashboardVariableOptions `json:"options,omitempty"`
 	// Indicates the strategy to apply when replacing a variable in a NRQL query.
 	ReplacementStrategy DashboardVariableReplacementStrategy `json:"replacementStrategy,omitempty"`
 	// Human-friendly display string for this variable.
