@@ -50,6 +50,7 @@ var (
 			CloseViolationsOnExpiration: true,
 			ExpirationDuration:          &nrqlConditionBaseExpirationDuration,
 			OpenViolationOnExpiration:   false,
+			InfraHostCleanShutdown:      false,
 		},
 		Signal: &AlertsNrqlConditionCreateSignal{
 			AggregationWindow: &nrqlConditionBaseAggWindow,
@@ -83,6 +84,7 @@ var (
 			CloseViolationsOnExpiration: true,
 			ExpirationDuration:          &nrqlConditionBaseExpirationDuration,
 			OpenViolationOnExpiration:   false,
+			InfraHostCleanShutdown:      false,
 		},
 		Signal: &AlertsNrqlConditionUpdateSignal{
 			AggregationWindow: &nrqlConditionBaseAggWindow,
@@ -115,6 +117,7 @@ var (
 			CloseViolationsOnExpiration: true,
 			ExpirationDuration:          &nrqlConditionBaseExpirationDuration,
 			OpenViolationOnExpiration:   false,
+			InfraHostCleanShutdown:      false,
 		},
 		Signal: &AlertsNrqlConditionCreateSignal{
 			AggregationWindow: &nrqlConditionBaseAggWindow,
@@ -148,6 +151,7 @@ var (
 			CloseViolationsOnExpiration: true,
 			ExpirationDuration:          &nrqlConditionBaseExpirationDuration,
 			OpenViolationOnExpiration:   false,
+			InfraHostCleanShutdown:      false,
 		},
 		Signal: &AlertsNrqlConditionUpdateSignal{
 			AggregationWindow: &nrqlConditionBaseAggWindow,
@@ -181,6 +185,7 @@ var (
 			CloseViolationsOnExpiration: true,
 			ExpirationDuration:          &nrqlConditionBaseExpirationDuration,
 			OpenViolationOnExpiration:   false,
+			InfraHostCleanShutdown:      false,
 		},
 		Signal: &AlertsNrqlConditionCreateSignal{
 			AggregationWindow: &nrqlConditionBaseAggWindow,
@@ -215,6 +220,7 @@ var (
 			CloseViolationsOnExpiration: true,
 			ExpirationDuration:          &nrqlConditionBaseExpirationDuration,
 			OpenViolationOnExpiration:   false,
+			InfraHostCleanShutdown:      false,
 		},
 		Signal: &AlertsNrqlConditionUpdateSignal{
 			AggregationWindow: &nrqlConditionBaseAggWindow,

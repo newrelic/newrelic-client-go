@@ -15,6 +15,7 @@ import (
 type AlertsNrqlConditionExpiration struct {
 	ExpirationDuration          *int `json:"expirationDuration"`
 	CloseViolationsOnExpiration bool `json:"closeViolationsOnExpiration"`
+	InfraHostCleanShutdown      bool `json:"infraHostCleanShutdown"`
 	OpenViolationOnExpiration   bool `json:"openViolationOnExpiration"`
 }
 
@@ -731,6 +732,7 @@ const (
       closeViolationsOnExpiration
       expirationDuration
       openViolationOnExpiration
+			infraHostCleanShutdown
     }
     signal {
 	  aggregationWindow
