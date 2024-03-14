@@ -325,19 +325,6 @@ const getEntitiesQuery = `query(
 			}
 		}
 	}
-	relationships {
-		source {
-			accountId
-			entityType
-			guid
-		}
-		target {
-			accountId
-			entityType
-			guid
-		}
-		type
-	}
 	reporting
 	serviceLevel {
 		indicators {
@@ -421,9 +408,6 @@ const getEntitiesQuery = `query(
 		relatedEntities {
 			nextCursor
 		}
-		relationships {
-			type
-		}
 		runningAgentVersions {
 			maxVersion
 			minVersion
@@ -462,9 +446,6 @@ const getEntitiesQuery = `query(
 		relatedEntities {
 			nextCursor
 		}
-		relationships {
-			type
-		}
 		tags {
 			key
 			values
@@ -498,9 +479,6 @@ const getEntitiesQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
-		}
-		relationships {
-			type
 		}
 		tags {
 			key
@@ -558,9 +536,6 @@ const getEntitiesQuery = `query(
 		relatedEntities {
 			nextCursor
 		}
-		relationships {
-			type
-		}
 		runningAgentVersions {
 			maxVersion
 			minVersion
@@ -612,9 +587,6 @@ const getEntitiesQuery = `query(
 		relatedEntities {
 			nextCursor
 		}
-		relationships {
-			type
-		}
 		tags {
 			key
 			values
@@ -644,9 +616,6 @@ const getEntitiesQuery = `query(
 		relatedEntities {
 			nextCursor
 		}
-		relationships {
-			type
-		}
 		tags {
 			key
 			values
@@ -674,9 +643,6 @@ const getEntitiesQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
-		}
-		relationships {
-			type
 		}
 		tags {
 			key
@@ -707,9 +673,6 @@ const getEntitiesQuery = `query(
 		relatedEntities {
 			nextCursor
 		}
-		relationships {
-			type
-		}
 		tags {
 			key
 			values
@@ -738,9 +701,6 @@ const getEntitiesQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
-		}
-		relationships {
-			type
 		}
 		runtime
 		tags {
@@ -778,9 +738,6 @@ const getEntitiesQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
-		}
-		relationships {
-			type
 		}
 		tags {
 			key
@@ -834,9 +791,6 @@ const getEntitiesQuery = `query(
 		relatedEntities {
 			nextCursor
 		}
-		relationships {
-			type
-		}
 		tags {
 			key
 			values
@@ -865,9 +819,6 @@ const getEntitiesQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
-		}
-		relationships {
-			type
 		}
 		secureCredentialId
 		secureCredentialSummary {
@@ -913,9 +864,6 @@ const getEntitiesQuery = `query(
 		relatedEntities {
 			nextCursor
 		}
-		relationships {
-			type
-		}
 		tags {
 			key
 			values
@@ -944,9 +892,6 @@ const getEntitiesQuery = `query(
 		relatedEntities {
 			nextCursor
 		}
-		relationships {
-			type
-		}
 		tags {
 			key
 			values
@@ -974,9 +919,6 @@ const getEntitiesQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
-		}
-		relationships {
-			type
 		}
 		tags {
 			key
@@ -1012,9 +954,6 @@ const getEntitiesQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
-		}
-		relationships {
-			type
 		}
 		tags {
 			key
@@ -1126,19 +1065,6 @@ const getEntityQuery = `query(
 			}
 		}
 	}
-	relationships {
-		source {
-			accountId
-			entityType
-			guid
-		}
-		target {
-			accountId
-			entityType
-			guid
-		}
-		type
-	}
 	reporting
 	serviceLevel {
 		indicators {
@@ -1222,9 +1148,6 @@ const getEntityQuery = `query(
 		relatedEntities {
 			nextCursor
 		}
-		relationships {
-			type
-		}
 		runningAgentVersions {
 			maxVersion
 			minVersion
@@ -1263,9 +1186,6 @@ const getEntityQuery = `query(
 		relatedEntities {
 			nextCursor
 		}
-		relationships {
-			type
-		}
 		tags {
 			key
 			values
@@ -1299,9 +1219,6 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
-		}
-		relationships {
-			type
 		}
 		tags {
 			key
@@ -1381,9 +1298,6 @@ const getEntityQuery = `query(
 		relatedEntities {
 			nextCursor
 		}
-		relationships {
-			type
-		}
 		runningAgentVersions {
 			maxVersion
 			minVersion
@@ -1435,9 +1349,6 @@ const getEntityQuery = `query(
 		relatedEntities {
 			nextCursor
 		}
-		relationships {
-			type
-		}
 		tags {
 			key
 			values
@@ -1467,9 +1378,6 @@ const getEntityQuery = `query(
 		relatedEntities {
 			nextCursor
 		}
-		relationships {
-			type
-		}
 		tags {
 			key
 			values
@@ -1497,9 +1405,6 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
-		}
-		relationships {
-			type
 		}
 		tags {
 			key
@@ -1530,9 +1435,6 @@ const getEntityQuery = `query(
 		relatedEntities {
 			nextCursor
 		}
-		relationships {
-			type
-		}
 		tags {
 			key
 			values
@@ -1561,9 +1463,6 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
-		}
-		relationships {
-			type
 		}
 		runtime
 		tags {
@@ -1601,9 +1500,6 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
-		}
-		relationships {
-			type
 		}
 		tags {
 			key
@@ -1657,9 +1553,6 @@ const getEntityQuery = `query(
 		relatedEntities {
 			nextCursor
 		}
-		relationships {
-			type
-		}
 		tags {
 			key
 			values
@@ -1688,9 +1581,6 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
-		}
-		relationships {
-			type
 		}
 		secureCredentialId
 		secureCredentialSummary {
@@ -1736,9 +1626,6 @@ const getEntityQuery = `query(
 		relatedEntities {
 			nextCursor
 		}
-		relationships {
-			type
-		}
 		tags {
 			key
 			values
@@ -1767,9 +1654,6 @@ const getEntityQuery = `query(
 		relatedEntities {
 			nextCursor
 		}
-		relationships {
-			type
-		}
 		tags {
 			key
 			values
@@ -1797,9 +1681,6 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
-		}
-		relationships {
-			type
 		}
 		tags {
 			key
@@ -1835,9 +1716,6 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
-		}
-		relationships {
-			type
 		}
 		tags {
 			key
