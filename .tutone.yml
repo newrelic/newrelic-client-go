@@ -595,6 +595,17 @@ packages:
     import_path: github.com/newrelic/newrelic-client-go/v2/pkg/edge
     generators:
       - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/pkg/accounts
+    queries:
+      - path: ["actor", "account", "edge", "tracing"]
+        endpoints:
+          - name: traceObservers
+            max_query_field_depth: 2
+    mutations:
+      - name: "edge.*"
+        max_query_field_depth: 3
     types:
       - name: EdgeAccountStitchedFields
       - name: EdgeAgentEndpointDetail

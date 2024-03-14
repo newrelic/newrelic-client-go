@@ -25,11 +25,15 @@ func (e *Edge) ListTraceObserversWithContext(ctx context.Context, accountID int)
 }
 
 // CreateTraceObserver creates a trace observer for an account.
+//
+// Deprecated: use EdgeCreateTraceObserver instead
 func (e *Edge) CreateTraceObserver(accountID int, name string, providerRegion EdgeProviderRegion) (*EdgeTraceObserver, error) {
 	return e.CreateTraceObserverWithContext(context.Background(), accountID, name, providerRegion)
 }
 
 // CreateTraceObserverWithContext creates a trace observer for an account.
+//
+// Deprecated: use EdgeCreateTraceObserverWithContext instead
 func (e *Edge) CreateTraceObserverWithContext(ctx context.Context, accountID int, name string, providerRegion EdgeProviderRegion) (*EdgeTraceObserver, error) {
 	resp := createTraceObserverResponse{}
 	vars := map[string]interface{}{
@@ -50,11 +54,15 @@ func (e *Edge) CreateTraceObserverWithContext(ctx context.Context, accountID int
 }
 
 // DeleteTraceObserver deletes a trace observer for an account.
+//
+// Deprecated: use EdgeDeleteTraceObservers instead
 func (e *Edge) DeleteTraceObserver(accountID int, id int) (*EdgeTraceObserver, error) {
 	return e.DeleteTraceObserverWithContext(context.Background(), accountID, id)
 }
 
 // DeleteTraceObserverWithContext deletes a trace observer for an account.
+//
+// Deprecated: use EdgeDeleteTraceObserversWithContext instead
 func (e *Edge) DeleteTraceObserverWithContext(ctx context.Context, accountID int, id int) (*EdgeTraceObserver, error) {
 	resp := deleteTraceObserversResponse{}
 
