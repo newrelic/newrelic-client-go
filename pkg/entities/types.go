@@ -2913,19 +2913,23 @@ type Actor struct {
 type AgentApplicationSettingsApmBase struct {
 	// The name for the application
 	Alias string `json:"alias,omitempty"`
-	// General settings for the application can be accessed via this field.
+	// Access general settings for the application.
 	ApmConfig AgentApplicationSettingsApmConfig `json:"apmConfig"`
-	// Application settings regarding how events are handled with NRDB can be accessed via this field.
-	DataManagement AgentApplicationSettingsDataManagement `json:"dataManagement"`
-	// Error Collector settings for the application can be accessed via this field. The error collector captures information about uncaught exceptions and sends them to New Relic for viewing.
+	// Enable or disable the capture of memcache keys.
+	CaptureMemcacheKeys bool `json:"captureMemcacheKeys,omitempty"`
+	// Access error collector settings for the application. The error collector captures information about uncaught exceptions and sends them to New Relic for viewing.
 	ErrorCollector AgentApplicationSettingsErrorCollector `json:"errorCollector,omitempty"`
+	// Access enabled state for the Java Flight Recorder. This is available only for the Java language agent version 8.0.0 or later.
+	Jfr AgentApplicationSettingsJfr `json:"jfr,omitempty"`
+	// The name originally given to the application for reporting.
+	OriginalName string `json:"originalName,omitempty"`
 	// In APM, when transaction traces are collected, there may be additional Slow query data available.
 	SlowSql AgentApplicationSettingsSlowSql `json:"slowSql,omitempty"`
-	// Thread profiler measures wall clock time, CPU time, and method call counts in your application's threads as they run.
+	// Measures wall clock time, CPU time, and method call counts in your application's threads as they run.
 	ThreadProfiler AgentApplicationSettingsThreadProfiler `json:"threadProfiler,omitempty"`
-	// Type of tracer used. APM's cross application tracing link transactions between APM apps in your service-oriented architecture (SOA).  Distributed tracing is an improvement on the cross application tracing feature and is recommended for large, distributed systems.
+	// Type of tracer used. APM's cross application tracing links transactions between APM apps in your service-oriented architecture (SOA).  Distributed tracing is an improvement on the cross application tracing feature, and is recommended for large, distributed systems.
 	TracerType AgentApplicationSettingsTracer `json:"tracerType,omitempty"`
-	// Transaction Tracer settings for the application can be accessed via this field.
+	// Access transaction tracer settings for the application.
 	TransactionTracer AgentApplicationSettingsTransactionTracer `json:"transactionTracer,omitempty"`
 }
 
@@ -2933,7 +2937,7 @@ type AgentApplicationSettingsApmBase struct {
 type AgentApplicationSettingsApmConfig struct {
 	// The desired target for the APDEX measurement of this APM application.
 	ApdexTarget float64 `json:"apdexTarget,omitempty"`
-	// Should agents for this APM application get some of their configuration from the server.
+	// Sets if agents for this APM application should get some of their configuration from the server.
 	UseServerSideConfig bool `json:"useServerSideConfig,omitempty"`
 }
 
@@ -2991,18 +2995,24 @@ type AgentApplicationSettingsDataManagement struct {
 	SendTransactionEventsToInternalStream bool `json:"sendTransactionEventsToInternalStream,omitempty"`
 }
 
-// AgentApplicationSettingsErrorCollector - The error collector captures information about uncaught exceptions and sends them to New Relic for viewing. For more information about what these settings do and which ones are applicable for your application, please see docs.newrelic.com for more information about agent configuration for your language agent.
+// AgentApplicationSettingsErrorCollector - The error collector captures information about uncaught exceptions and sends them to New Relic for viewing. For more information about what these settings do and which ones are applicable for your application, please see https://docs.newrelic.com for more information about agent configuration for your language agent.
 type AgentApplicationSettingsErrorCollector struct {
-	// Enable error collector
+	// Enables error collector.
 	Enabled bool `json:"enabled,omitempty"`
 	// Prevents specified exception classes from affecting error rate or Apdex score while still reporting the errors to APM.
 	ExpectedErrorClasses []string `json:"expectedErrorClasses"`
-	// A list comprised of individual and dashed ranges of HTTP status codes to be marked as expected and thus prevented from affecting error rate or Apdex score.
+	// An array of individual HTTP status codes to be marked as expected and thus prevented from affecting error rate or Apdex score.
 	ExpectedErrorCodes []AgentApplicationSettingsErrorCollectorHttpStatus `json:"expectedErrorCodes"`
 	// Specified exception class names will be ignored and will not affect error rate or Apdex score, or be reported to APM.
 	IgnoredErrorClasses []string `json:"ignoredErrorClasses"`
-	// A list comprised of individual and dashed ranges of HTTP status codes that should not be treated as errors.
+	// An array of individual HTTP status codes that should not be treated as errors.
 	IgnoredErrorCodes []AgentApplicationSettingsErrorCollectorHttpStatus `json:"ignoredErrorCodes"`
+}
+
+// AgentApplicationSettingsJfr - Access to the enabled state of the Java Flight Recorder. This feature only available on the Java language agent version 8.0.0 or later.
+type AgentApplicationSettingsJfr struct {
+	// If true, the java agent collects Java Flight Recorder data. (Java Agent version 8.0.0 required.)
+	Enabled bool `json:"enabled,omitempty"`
 }
 
 // AgentApplicationSettingsSlowSql - In APM, when transaction traces are collected, there may be additional Slow query data available.
@@ -3011,17 +3021,17 @@ type AgentApplicationSettingsSlowSql struct {
 	Enabled bool `json:"enabled,omitempty"`
 }
 
-// AgentApplicationSettingsThreadProfiler - Thread profiler measures wall clock time, CPU time, and method call counts in your application's threads as they run.
+// AgentApplicationSettingsThreadProfiler - Measures wall clock time, CPU time, and method call counts in your application's threads as they run.
 type AgentApplicationSettingsThreadProfiler struct {
 	// Whether or not the Thread Profiler is enabled for your application.
 	Enabled bool `json:"enabled,omitempty"`
 }
 
-// AgentApplicationSettingsTransactionTracer - Transaction Tracer settings related to APM applications. For more information about what these settings do and which ones are applicable for your application, please see docs.newrelic.com for more information about agent configuration for your language agent.
+// AgentApplicationSettingsTransactionTracer - Transaction tracer settings related to APM applications. For more information about what these settings do and which ones are applicable for your application, please see https://docs.newrelic.com for more information about agent configuration for your language agent.
 type AgentApplicationSettingsTransactionTracer struct {
-	// Enable or disable the capture of memcache keys from transaction traces.
+	// DEPRECATED: Please use capture_memcache_keys on parent type.
 	CaptureMemcacheKeys bool `json:"captureMemcacheKeys,omitempty"`
-	// If true, this enables the Transaction Tracer feature, enabling collection of transaction traces.
+	// If true, this enables the transaction tracer feature, enabling collection of transaction traces.
 	Enabled bool `json:"enabled,omitempty"`
 	// If true, enables the collection of explain plans in transaction traces. This setting will also apply to explain plans in slow SQL traces if slow_sql.explain_enabled is not set separately.
 	ExplainEnabled bool `json:"explainEnabled,omitempty"`
@@ -3037,7 +3047,7 @@ type AgentApplicationSettingsTransactionTracer struct {
 	StackTraceThreshold nrtime.Seconds `json:"stackTraceThreshold,omitempty"`
 	// Relevant only when TransactionTracer is enabled. Can be set to automatic configuration (APDEX_F) or manual (see TransactionThresholdValue).
 	TransactionThresholdType AgentApplicationSettingsThresholdTypeEnum `json:"transactionThresholdType,omitempty"`
-	// Threshold (in seconds) that transactions with a duration longer than this threshold are eligible for transaction traces.  Relevant only when Transaction Tracer is enabled and transaction_threshold_type is set to VALUE.
+	// Threshold (in seconds) that transactions with a duration longer than this threshold are eligible for transaction traces.  Relevant only when transaction tracer is enabled and transaction_threshold_type is set to VALUE.
 	TransactionThresholdValue nrtime.Seconds `json:"transactionThresholdValue,omitempty"`
 }
 
@@ -12103,6 +12113,220 @@ type JavaFlightRecorderStackFrame struct {
 	ParentId string `json:"parentId,omitempty"`
 }
 
+// KeyTransactionApplication - The application wrapper.
+type KeyTransactionApplication struct {
+	// The application outline.
+	Entity EntityOutlineInterface `json:"entity,omitempty"`
+	// The guid of the application.
+	GUID common.EntityGUID `json:"guid"`
+}
+
+// special
+func (x *KeyTransactionApplication) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+
+	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
+		switch k {
+		case "entity":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalEntityOutlineInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.Entity = *xxx
+			}
+		case "guid":
+			err = json.Unmarshal(*v, &x.GUID)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
+}
+
+// KeyTransactionEntity - A Key Transaction entity.
+type KeyTransactionEntity struct {
+	Account accounts.AccountOutline `json:"account,omitempty"`
+	// The New Relic account ID associated with this entity.
+	AccountID int `json:"accountId,omitempty"`
+	// The current alerting severity of the entity.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the time window or look at fewer entities.
+	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
+	// The acceptable amount of time spent in the backend before customers get frustrated (Apdex target).
+	ApdexTarget float64 `json:"apdexTarget"`
+	// The application associated with this key transaction
+	Application KeyTransactionApplication `json:"application"`
+	// The acceptable amount of time for rendering a page in a browser before customers get frustrated (browser Apdex target).
+	BrowserApdexTarget float64 `json:"browserApdexTarget,omitempty"`
+	// The entity's domain
+	Domain string `json:"domain,omitempty"`
+	// A value representing the combination of the entity's domain and type.
+	EntityType EntityType `json:"entityType,omitempty"`
+	// The date of last time the entity has updated any of its fields.
+	FirstIndexedAt *nrtime.EpochMilliseconds `json:"firstIndexedAt,omitempty"`
+	// A unique entity identifier.
+	GUID common.EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
+	// The time the entity was indexed.
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	// The last time the entity's reporting status changed.
+	LastReportingChangeAt *nrtime.EpochMilliseconds `json:"lastReportingChangeAt,omitempty"`
+	// The name of the metric underlying this key transaction.
+	MetricName string `json:"metricName"`
+	// Make an `Entity` scoped query to NRDB with a NRQL string.
+	//
+	// A relevant `WHERE` clause will be added to your query to scope data to the entity in question.
+	//
+	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
+	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
+	// Poll for the results of a previously-executed asychronous NRDB query.
+	//
+	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
+	//
+	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
+	NRDBQueryProgress nrdb.NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
+	// The name of this entity.
+	Name        string                 `json:"name,omitempty"`
+	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
+	// The url to the entity.
+	Permalink string `json:"permalink,omitempty"`
+	// Recent violations on the entity.
+	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// Related entities result with optional filtering.
+	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
+	// A list of the entities' relationships.
+	//
+	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
+	Relationships []EntityRelationship `json:"relationships,omitempty"`
+	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
+	Reporting bool `json:"reporting,omitempty"`
+	// The service level defined for the entity.
+	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The tags applied to the entity.
+	//
+	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
+	Tags []EntityTag `json:"tags,omitempty"`
+	// The tags applied to the entity with their metadata.
+	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
+	// The entity's type
+	Type string `json:"type,omitempty"`
+}
+
+func (x *KeyTransactionEntity) GetAccountID() int {
+	return x.AccountID
+}
+
+func (x *KeyTransactionEntity) GetDomain() string {
+	return x.Domain
+}
+
+func (x *KeyTransactionEntity) GetGUID() common.EntityGUID {
+	return x.GUID
+}
+
+func (x *KeyTransactionEntity) GetName() string {
+	return x.Name
+}
+
+func (x *KeyTransactionEntity) GetTags() []EntityTag {
+	return x.Tags
+}
+
+func (x *KeyTransactionEntity) GetType() string {
+	return x.Type
+}
+
+func (x *KeyTransactionEntity) GetServiceLevel() ServiceLevelDefinition {
+	return x.ServiceLevel
+}
+
+func (x *KeyTransactionEntity) ImplementsAlertableEntity() {}
+
+func (x *KeyTransactionEntity) ImplementsEntity() {}
+
+// KeyTransactionEntityOutline - A Key Transaction entity outline.
+type KeyTransactionEntityOutline struct {
+	Account accounts.AccountOutline `json:"account,omitempty"`
+	// The New Relic account ID associated with this entity.
+	AccountID int `json:"accountId,omitempty"`
+	// The current alerting severity of the entity.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// The entity's domain
+	Domain string `json:"domain,omitempty"`
+	// A value representing the combination of the entity's domain and type.
+	EntityType EntityType `json:"entityType,omitempty"`
+	// The date of last time the entity has updated any of its fields.
+	FirstIndexedAt *nrtime.EpochMilliseconds `json:"firstIndexedAt,omitempty"`
+	// A unique entity identifier.
+	GUID common.EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
+	// The time the entity was indexed.
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	// The last time the entity's reporting status changed.
+	LastReportingChangeAt *nrtime.EpochMilliseconds `json:"lastReportingChangeAt,omitempty"`
+	// The name of this entity.
+	Name string `json:"name,omitempty"`
+	// The url to the entity.
+	Permalink string `json:"permalink,omitempty"`
+	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
+	Reporting bool `json:"reporting,omitempty"`
+	// The service level defined for the entity.
+	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The tags applied to the entity.
+	//
+	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
+	Tags []EntityTag `json:"tags,omitempty"`
+	// The entity's type
+	Type string `json:"type,omitempty"`
+}
+
+func (x *KeyTransactionEntityOutline) GetAccountID() int {
+	return x.AccountID
+}
+
+func (x *KeyTransactionEntityOutline) GetDomain() string {
+	return x.Domain
+}
+
+func (x *KeyTransactionEntityOutline) GetGUID() common.EntityGUID {
+	return x.GUID
+}
+
+func (x *KeyTransactionEntityOutline) GetName() string {
+	return x.Name
+}
+
+func (x *KeyTransactionEntityOutline) GetType() string {
+	return x.Type
+}
+
+func (x *KeyTransactionEntityOutline) ImplementsAlertableEntityOutline() {}
+
+func (x *KeyTransactionEntityOutline) ImplementsEntityOutline() {}
+
 // MetricNormalizationRule - An object that represents a metric rename rule.
 type MetricNormalizationRule struct {
 	// Rule action.
@@ -16353,6 +16577,16 @@ func UnmarshalAlertableEntityInterface(b []byte) (*AlertableEntityInterface, err
 			var xxx AlertableEntityInterface = &interfaceType
 
 			return &xxx, nil
+		case "KeyTransactionEntity":
+			var interfaceType KeyTransactionEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertableEntityInterface = &interfaceType
+
+			return &xxx, nil
 		case "MobileApplicationEntity":
 			var interfaceType MobileApplicationEntity
 			err = json.Unmarshal(b, &interfaceType)
@@ -16586,6 +16820,16 @@ func UnmarshalAlertableEntityOutlineInterface(b []byte) (*AlertableEntityOutline
 			return &xxx, nil
 		case "InfrastructureHostEntityOutline":
 			var interfaceType InfrastructureHostEntityOutline
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx AlertableEntityOutlineInterface = &interfaceType
+
+			return &xxx, nil
+		case "KeyTransactionEntityOutline":
+			var interfaceType KeyTransactionEntityOutline
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
@@ -17247,6 +17491,16 @@ func UnmarshalEntityInterface(b []byte) (*EntityInterface, error) {
 			var xxx EntityInterface = &interfaceType
 
 			return &xxx, nil
+		case "KeyTransactionEntity":
+			var interfaceType KeyTransactionEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityInterface = &interfaceType
+
+			return &xxx, nil
 		case "MobileApplicationEntity":
 			var interfaceType MobileApplicationEntity
 			err = json.Unmarshal(b, &interfaceType)
@@ -17478,6 +17732,16 @@ func UnmarshalEntityOutlineInterface(b []byte) (*EntityOutlineInterface, error) 
 			return &xxx, nil
 		case "InfrastructureHostEntityOutline":
 			var interfaceType InfrastructureHostEntityOutline
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityOutlineInterface = &interfaceType
+
+			return &xxx, nil
+		case "KeyTransactionEntityOutline":
+			var interfaceType KeyTransactionEntityOutline
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
