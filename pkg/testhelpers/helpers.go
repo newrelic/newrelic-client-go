@@ -14,6 +14,7 @@ var (
 
 // Our integration test Dummy App
 const IntegrationTestApplicationEntityGUID = "MzgwNjUyNnxBUE18QVBQTElDQVRJT058NTczNDgyNjM4"
+const IntegrationTestApplicationEntityGUIDNew = "MzgwNjUyNnxBUE18QVBQTElDQVRJT058NTUzNDQ4MjAy"
 
 // Our integration test account ID (v2 account)
 const IntegrationTestAccountID = 3806526

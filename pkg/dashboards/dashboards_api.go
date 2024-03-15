@@ -170,6 +170,7 @@ const DashboardCreateMutation = `mutation(
 									select {
 										attribute
 										function
+										threshold
 									}
 									where
 								}
@@ -178,6 +179,7 @@ const DashboardCreateMutation = `mutation(
 									select {
 										attribute
 										function
+										threshold
 									}
 									where
 								}
@@ -186,6 +188,7 @@ const DashboardCreateMutation = `mutation(
 									select {
 										attribute
 										function
+										threshold
 									}
 									where
 								}
@@ -288,6 +291,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -296,6 +300,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -304,6 +309,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -387,6 +393,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -395,6 +402,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -403,6 +411,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -486,6 +495,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -494,6 +504,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -502,6 +513,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -571,7 +583,9 @@ const DashboardCreateMutation = `mutation(
 							spaResponseTimeMedian
 						}
 						runningAgentVersions {
+							maxSemanticVersion
 							maxVersion
+							minSemanticVersion
 							minVersion
 						}
 						serviceLevel {
@@ -595,6 +609,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -603,6 +618,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -611,6 +627,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -699,6 +716,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -707,6 +725,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -715,6 +734,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -793,6 +813,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -801,6 +822,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -809,6 +831,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -886,6 +909,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -894,6 +918,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -902,6 +927,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -980,6 +1006,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -988,6 +1015,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -996,6 +1024,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -1075,6 +1104,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -1083,6 +1113,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -1091,6 +1122,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -1176,6 +1208,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -1184,6 +1217,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -1192,6 +1226,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -1269,6 +1304,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -1277,6 +1313,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -1285,6 +1322,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -1375,6 +1413,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -1383,6 +1422,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -1391,6 +1431,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -1474,6 +1515,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -1482,6 +1524,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -1490,6 +1533,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -1578,6 +1622,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -1586,6 +1631,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -1594,6 +1640,103 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
+										}
+										where
+									}
+								}
+								guid
+								id
+								name
+								objectives {
+									description
+									name
+									resultQueries {
+										attainment {
+											nrql
+										}
+									}
+									target
+									timeWindow {
+										rolling {
+											count
+											unit
+										}
+									}
+								}
+								resultQueries {
+									goodEvents {
+										nrql
+									}
+									indicator {
+										nrql
+									}
+									validEvents {
+										nrql
+									}
+								}
+								slug
+								updatedAt
+								updatedBy {
+									email
+									gravatar
+									id
+									name
+								}
+							}
+						}
+						tags {
+							key
+							values
+						}
+					}
+					... on TeamEntityOutline {
+						__typename
+						account {
+							id
+							name
+							reportingEventTypes
+						}
+						serviceLevel {
+							indicators {
+								createdAt
+								createdBy {
+									email
+									gravatar
+									id
+									name
+								}
+								description
+								entityGuid
+								events {
+									account {
+										id
+										name
+									}
+									badEvents {
+										from
+										select {
+											attribute
+											function
+											threshold
+										}
+										where
+									}
+									goodEvents {
+										from
+										select {
+											attribute
+											function
+											threshold
+										}
+										where
+									}
+									validEvents {
+										from
+										select {
+											attribute
+											function
+											threshold
 										}
 										where
 									}
@@ -1671,6 +1814,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -1679,6 +1823,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -1687,6 +1832,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -1764,6 +1910,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -1772,6 +1919,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -1780,6 +1928,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -1864,6 +2013,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -1872,6 +2022,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -1880,6 +2031,7 @@ const DashboardCreateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -1964,6 +2116,9 @@ const DashboardCreateMutation = `mutation(
 			nrqlQuery {
 				accountIds
 				query
+			}
+			options {
+				ignoreTimeRange
 			}
 			replacementStrategy
 			title
@@ -2191,6 +2346,7 @@ const DashboardUpdateMutation = `mutation(
 									select {
 										attribute
 										function
+										threshold
 									}
 									where
 								}
@@ -2199,6 +2355,7 @@ const DashboardUpdateMutation = `mutation(
 									select {
 										attribute
 										function
+										threshold
 									}
 									where
 								}
@@ -2207,6 +2364,7 @@ const DashboardUpdateMutation = `mutation(
 									select {
 										attribute
 										function
+										threshold
 									}
 									where
 								}
@@ -2309,6 +2467,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -2317,6 +2476,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -2325,6 +2485,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -2408,6 +2569,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -2416,6 +2578,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -2424,6 +2587,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -2507,6 +2671,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -2515,6 +2680,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -2523,6 +2689,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -2592,7 +2759,9 @@ const DashboardUpdateMutation = `mutation(
 							spaResponseTimeMedian
 						}
 						runningAgentVersions {
+							maxSemanticVersion
 							maxVersion
+							minSemanticVersion
 							minVersion
 						}
 						serviceLevel {
@@ -2616,6 +2785,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -2624,6 +2794,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -2632,6 +2803,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -2720,6 +2892,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -2728,6 +2901,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -2736,6 +2910,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -2814,6 +2989,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -2822,6 +2998,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -2830,6 +3007,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -2907,6 +3085,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -2915,6 +3094,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -2923,6 +3103,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -3001,6 +3182,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -3009,6 +3191,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -3017,6 +3200,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -3096,6 +3280,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -3104,6 +3289,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -3112,6 +3298,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -3197,6 +3384,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -3205,6 +3393,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -3213,6 +3402,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -3290,6 +3480,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -3298,6 +3489,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -3306,6 +3498,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -3396,6 +3589,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -3404,6 +3598,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -3412,6 +3607,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -3495,6 +3691,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -3503,6 +3700,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -3511,6 +3709,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -3599,6 +3798,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -3607,6 +3807,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -3615,6 +3816,103 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
+										}
+										where
+									}
+								}
+								guid
+								id
+								name
+								objectives {
+									description
+									name
+									resultQueries {
+										attainment {
+											nrql
+										}
+									}
+									target
+									timeWindow {
+										rolling {
+											count
+											unit
+										}
+									}
+								}
+								resultQueries {
+									goodEvents {
+										nrql
+									}
+									indicator {
+										nrql
+									}
+									validEvents {
+										nrql
+									}
+								}
+								slug
+								updatedAt
+								updatedBy {
+									email
+									gravatar
+									id
+									name
+								}
+							}
+						}
+						tags {
+							key
+							values
+						}
+					}
+					... on TeamEntityOutline {
+						__typename
+						account {
+							id
+							name
+							reportingEventTypes
+						}
+						serviceLevel {
+							indicators {
+								createdAt
+								createdBy {
+									email
+									gravatar
+									id
+									name
+								}
+								description
+								entityGuid
+								events {
+									account {
+										id
+										name
+									}
+									badEvents {
+										from
+										select {
+											attribute
+											function
+											threshold
+										}
+										where
+									}
+									goodEvents {
+										from
+										select {
+											attribute
+											function
+											threshold
+										}
+										where
+									}
+									validEvents {
+										from
+										select {
+											attribute
+											function
+											threshold
 										}
 										where
 									}
@@ -3692,6 +3990,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -3700,6 +3999,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -3708,6 +4008,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -3785,6 +4086,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -3793,6 +4095,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -3801,6 +4104,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -3885,6 +4189,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -3893,6 +4198,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -3901,6 +4207,7 @@ const DashboardUpdateMutation = `mutation(
 										select {
 											attribute
 											function
+											threshold
 										}
 										where
 									}
@@ -3985,6 +4292,9 @@ const DashboardUpdateMutation = `mutation(
 			nrqlQuery {
 				accountIds
 				query
+			}
+			options {
+				ignoreTimeRange
 			}
 			replacementStrategy
 			title
