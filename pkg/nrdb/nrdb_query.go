@@ -9,14 +9,53 @@ func (n *Nrdb) Query(accountID int, query NRQL) (*NRDBResultContainer, error) {
 
 // QueryWithContext facilitates making a NRQL query.
 func (n *Nrdb) QueryWithContext(ctx context.Context, accountID int, query NRQL) (*NRDBResultContainer, error) {
-	respBody := gqlNrglQueryResponse{}
+	respBody := gqlNRQLQueryResponse{}
 
 	vars := map[string]interface{}{
 		"accountId": accountID,
 		"query":     query,
 	}
 
-	if err := n.client.NerdGraphQueryWithContext(ctx, gqlNrqlQuery, vars, &respBody); err != nil {
+	if err := n.client.NerdGraphQueryWithContext(ctx, gqlNRQLQuery, vars, &respBody); err != nil {
+		return nil, err
+	}
+
+	return &respBody.Actor.Account.NRQL, nil
+}
+
+func (n *Nrdb) QueryWithAdditionalOptions(
+	accountID int,
+	query NRQL,
+	timeout Seconds,
+	async bool,
+) (*NRDBResultContainer, error) {
+	return n.QueryWithAdditionalOptionsWithContext(
+		context.Background(),
+		accountID,
+		query,
+		timeout,
+		async,
+	)
+}
+
+// QueryWithAdditionalOptionsWithContext facilitates making a NRQL query with the specification of a timeout between 5 and 120 seconds.
+func (n *Nrdb) QueryWithAdditionalOptionsWithContext(
+	ctx context.Context,
+	accountID int,
+	query NRQL,
+	timeout Seconds,
+	async bool,
+) (*NRDBResultContainer, error) {
+	respBody := gqlNRQLQueryResponse{}
+
+	vars := map[string]interface{}{
+		"accountId": accountID,
+		"query":     query,
+		"timeout":   timeout,
+		"async":     async,
+	}
+
+	if err := n.client.NerdGraphQueryWithContext(ctx, gqlNRQLQueryWithTimeout, vars, &respBody); err != nil {
 		return nil, err
 	}
 
@@ -28,26 +67,146 @@ func (n *Nrdb) QueryHistory() (*[]NRQLHistoricalQuery, error) {
 }
 
 func (n *Nrdb) QueryHistoryWithContext(ctx context.Context) (*[]NRQLHistoricalQuery, error) {
-	respBody := gqlNrglQueryHistoryResponse{}
+	respBody := gqlNRQLQueryHistoryResponse{}
 	vars := map[string]interface{}{}
 
-	if err := n.client.NerdGraphQueryWithContext(ctx, gqlNrqlQueryHistoryQuery, vars, &respBody); err != nil {
+	if err := n.client.NerdGraphQueryWithContext(ctx, gqlNRQLQueryHistoryQuery, vars, &respBody); err != nil {
 		return nil, err
 	}
 
 	return &respBody.Actor.QueryHistory.Nrql, nil
 }
 
-const (
-	gqlNrqlQueryHistoryQuery = `{ actor { queryHistory { nrql { accountIds query createdAt } } } }`
+const gqlNRQLQueryHistoryQuery = `
+	{
+	  actor {
+		queryHistory {
+		  nrql {
+			accountIds
+			query
+			createdAt
+		  }
+		}
+	  }
+}`
 
-	gqlNrqlQuery = `query($query: Nrql!, $accountId: Int!) { actor { account(id: $accountId) { nrql(query: $query) {
-    currentResults otherResult previousResults results totalResult
-    metadata { eventTypes facets messages timeWindow { begin compareWith end since until } }
-  } } } }`
-)
+const gqlNRQLQuery = `query(
+	$query: Nrql!, 
+	$accountId: Int!
+) 
+{
+  actor {
+    account(id: $accountId) {
+      nrql(query: $query) {
+        currentResults
+        nrql
+        otherResult
+        previousResults
+        queryProgress {
+          completed
+          queryId
+          retryAfter
+          resultExpiration
+          retryDeadline
+        }
+        rawResponse
+        results
+        totalResult
+        metadata {
+          eventTypes
+          facets
+          messages
+          timeWindow {
+            begin
+            compareWith
+            end
+            since
+            until
+          }
+        }
+        suggestedFacets {
+          attributes
+          nrql
+        }
+        eventDefinitions {
+          definition
+          label
+          name
+          attributes {
+            definition
+            documentationUrl
+            label
+            name
+          }
+        }
+        embeddedChartUrl
+        staticChartUrl
+      }
+    }
+  }
+}
+`
 
-type gqlNrglQueryResponse struct {
+const gqlNRQLQueryWithTimeout = `query (
+	$query: Nrql!, 
+	$accountId: Int!, 
+	$timeout: Seconds, 
+	$async: Boolean
+) 
+{
+  actor {
+    account(id: $accountId) {
+      nrql(query: $query, timeout: $timeout, async: $async) {
+        currentResults
+        nrql
+        otherResult
+        previousResults
+        queryProgress {
+          completed
+          queryId
+          retryAfter
+          resultExpiration
+          retryDeadline
+        }
+        rawResponse
+        results
+        totalResult
+        metadata {
+          eventTypes
+          facets
+          messages
+          timeWindow {
+            begin
+            compareWith
+            end
+            since
+            until
+          }
+        }
+        suggestedFacets {
+          attributes
+          nrql
+        }
+        eventDefinitions {
+          definition
+          label
+          name
+          attributes {
+            definition
+            documentationUrl
+            label
+            name
+          }
+        }
+        embeddedChartUrl
+        staticChartUrl
+      }
+    }
+  }
+}
+`
+
+type gqlNRQLQueryResponse struct {
 	Actor struct {
 		Account struct {
 			NRQL NRDBResultContainer
@@ -55,7 +214,7 @@ type gqlNrglQueryResponse struct {
 	}
 }
 
-type gqlNrglQueryHistoryResponse struct {
+type gqlNRQLQueryHistoryResponse struct {
 	Actor struct {
 		QueryHistory struct {
 			Nrql []NRQLHistoricalQuery
