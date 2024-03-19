@@ -1058,6 +1058,12 @@ packages:
       - name: NrdbResultContainer
       - name: EventDefinition
 
+        # overriding Seconds with int as it is being created as a string, while it is required as an integer
+      - name: Seconds
+        create_as: int
+      - name: NRDBRawResults
+        create_as: map[string]interface{}
+
       #
       # Types that we should auto-detect are in another package someday
       #
