@@ -244,6 +244,8 @@ packages:
         field_type_override: "*SyntheticsDeviceEmulationInput"
       - name: SyntheticsRuntimeInput
         field_type_override: "*SyntheticsRuntimeInput"
+      - name: SyntheticsExtendedTypeMonitorRuntimeInput
+        field_type_override: "*SyntheticsExtendedTypeMonitorRuntimeInput"
       # overrides and specifications of fields associated with the syntheticsStartAutomatedTest mutation start here
       - name: SyntheticsAutomatedTestConfigInput
         struct_tags:
