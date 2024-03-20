@@ -1,7 +1,19 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-echo
-echo "Checking commit message format..."
-echo
+commit_types="(chore|docs|feat|fix|refactor|tests?)"
+convetional_commit_regex="^${commit_types}(\([a-z \-]+\))?!?: .+$"
 
-make lint-commit COMMIT_MSG_FILE=$1
+commit_message=$(cat "$1")
+
+if [[ "$commit_message" =~ $convetional_commit_regex ]]; then
+   echo -e "Commit message meets Conventional Commit standards..."
+   exit 0
+fi
+
+
+echo -e "The commit message does not meet the Conventional Commit standard"
+echo "An example of a valid message is: "
+echo "  feat(login): add the 'remember me' button"
+echo "More details at: https://www.conventionalcommits.org/en/v1.0.0/#summary"
+
+exit 1
