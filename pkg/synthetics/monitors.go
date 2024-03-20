@@ -69,11 +69,9 @@ var (
 	// MonitorStatus specifies the possible Synthetics monitor status types.
 	MonitorStatus = struct {
 		Enabled  MonitorStatusType
-		Muted    MonitorStatusType
 		Disabled MonitorStatusType
 	}{
 		Enabled:  "ENABLED",
-		Muted:    "MUTED",
 		Disabled: "DISABLED",
 	}
 )

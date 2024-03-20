@@ -328,15 +328,11 @@ var SyntheticsMonitorStatusTypes = struct {
 	DISABLED SyntheticsMonitorStatus
 	// Enabled status of a monitor
 	ENABLED SyntheticsMonitorStatus
-	// Alerts muted status of a monitor
-	MUTED SyntheticsMonitorStatus
 }{
 	// Monitor disabled runs status of a monitor
 	DISABLED: "DISABLED",
 	// Enabled status of a monitor
 	ENABLED: "ENABLED",
-	// Alerts muted status of a monitor
-	MUTED: "MUTED",
 }
 
 // SyntheticsMonitorType - Enum of monitor types
