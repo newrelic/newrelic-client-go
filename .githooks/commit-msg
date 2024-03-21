@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 commit_types="(chore|docs|feat|fix|refactor|tests?)"
-convetional_commit_regex="^${commit_types}(\([a-z \-]+\))?!?: .+$"
+conventional_commit_regex="^${commit_types}(\([a-z \-]+\))?!?: .+$"
 
 commit_message=$(cat "$1")
 
-if [[ "$commit_message" =~ $convetional_commit_regex ]]; then
+if [[ "$commit_message" =~ $conventional_commit_regex ]]; then
    echo -e "Commit message meets Conventional Commit standards..."
    exit 0
 fi

@@ -52,4 +52,4 @@ outdated: deps tools-outdated
 	@echo "=== $(PROJECT_NAME) === [ outdated         ]: Finding outdated deps with $(GO_MOD_OUTDATED)..."
 	@$(GO) list -u -m -json all | $(GO_MOD_OUTDATED) -direct -update
 
-.PHONY: lint spell-check spell-check-fix gofmt gofmt-fix lint-fix lint-commit outdated goimports
+.PHONY: lint spell-check spell-check-fix gofmt gofmt-fix lint-fix outdated goimports
