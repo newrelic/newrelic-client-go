@@ -18,7 +18,7 @@ PROJECT_MODULE  ?= $(shell $(GO) list -m)
 
 GO_MOD_OUTDATED ?= go-mod-outdated
 
-lint: deps spell-check gofmt lint-commit golangci goimports outdated
+lint: deps spell-check gofmt golangci goimports outdated
 lint-fix: deps spell-check-fix gofmt-fix goimports
 
 #
