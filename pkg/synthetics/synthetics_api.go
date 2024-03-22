@@ -64,6 +64,10 @@ const SyntheticsCreateBrokenLinksMonitorMutation = `mutation(
 		modifiedAt
 		name
 		period
+		runtime {
+			runtimeType
+			runtimeTypeVersion
+		}
 		status
 		uri
 	}
@@ -128,6 +132,10 @@ const SyntheticsCreateCertCheckMonitorMutation = `mutation(
 		name
 		numberDaysToFailBeforeCertExpires
 		period
+		runtime {
+			runtimeType
+			runtimeTypeVersion
+		}
 		status
 	}
 } }`
@@ -868,6 +876,10 @@ const SyntheticsCreateStepMonitorMutation = `mutation(
 		modifiedAt
 		name
 		period
+		runtime {
+			runtimeType
+			runtimeTypeVersion
+		}
 		status
 		steps {
 			ordinal
@@ -1381,6 +1393,10 @@ const SyntheticsUpdateBrokenLinksMonitorMutation = `mutation(
 		modifiedAt
 		name
 		period
+		runtime {
+			runtimeType
+			runtimeTypeVersion
+		}
 		status
 		uri
 	}
@@ -1445,6 +1461,10 @@ const SyntheticsUpdateCertCheckMonitorMutation = `mutation(
 		name
 		numberDaysToFailBeforeCertExpires
 		period
+		runtime {
+			runtimeType
+			runtimeTypeVersion
+		}
 		status
 	}
 } }`
@@ -1917,6 +1937,10 @@ const SyntheticsUpdateStepMonitorMutation = `mutation(
 		modifiedAt
 		name
 		period
+		runtime {
+			runtimeType
+			runtimeTypeVersion
+		}
 		status
 		steps {
 			ordinal

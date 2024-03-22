@@ -2730,14 +2730,12 @@ var SyntheticMonitorStatusTypes = struct {
 	DISABLED SyntheticMonitorStatus
 	ENABLED  SyntheticMonitorStatus
 	FAULTY   SyntheticMonitorStatus
-	MUTED    SyntheticMonitorStatus
 	PAUSED   SyntheticMonitorStatus
 }{
 	DELETED:  "DELETED",
 	DISABLED: "DISABLED",
 	ENABLED:  "ENABLED",
 	FAULTY:   "FAULTY",
-	MUTED:    "MUTED",
 	PAUSED:   "PAUSED",
 }
 
