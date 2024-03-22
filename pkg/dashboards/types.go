@@ -437,6 +437,8 @@ type DashboardVariableDefaultItemInput struct {
 	Value DashboardVariableDefaultValueInput `json:"value,omitempty"`
 }
 
+// empty comment
+
 // DashboardVariableDefaultValue - Specifies a default value for variables.
 type DashboardVariableDefaultValue struct {
 	// Default string value.
