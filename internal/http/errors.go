@@ -8,6 +8,7 @@ import (
 
 // ErrorResponse provides an interface for obtaining
 // a single error message from an error response object.
+// random comment for no reason
 type ErrorResponse interface {
 	IsNotFound() bool
 	IsRetryableError() bool
