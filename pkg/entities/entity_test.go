@@ -92,35 +92,62 @@ func TestBuildTagsQueryFragment_EmptyTags(t *testing.T) {
 func TestBuildEntitySearchQuery(t *testing.T) {
 	t.Parallel()
 
-	tags := []map[string]string{}
-
 	// Name only
-	expected := "name = 'Dummy App'"
-	result := BuildEntitySearchQuery("Dummy App", "", "", tags)
+	expected := "name LIKE 'Dummy App'"
+	searchParams := EntitySearchParams{
+		Name: "Dummy App",
+	}
+	result := BuildEntitySearchQuery(searchParams)
+	require.Equal(t, expected, result)
+
+	// Case-sensitive search (applies to `name` only)
+	expected = "name = 'Dummy App'"
+	searchParams = EntitySearchParams{
+		Name:            "Dummy App",
+		IsCaseSensitive: true,
+	}
+	result = BuildEntitySearchQuery(searchParams)
 	require.Equal(t, expected, result)
 
 	// Name & Domain
-	expected = "name = 'Dummy App' AND domain = 'APM'"
-	result = BuildEntitySearchQuery("Dummy App", "APM", "", tags)
-	require.Equal(t, expected, result)
+	searchParams = EntitySearchParams{
+		Name:   "Dummy App",
+		Domain: "APM",
+	}
+	result = BuildEntitySearchQuery(searchParams)
+	require.Contains(t, result, "name LIKE 'Dummy App'")
+	require.Contains(t, result, "domain = 'APM'")
 
 	// Name, domain, and type
-	expected = "name = 'Dummy App' AND domain = 'APM' AND type = 'APPLICATION'"
-	result = BuildEntitySearchQuery("Dummy App", "APM", "APPLICATION", tags)
-	require.Equal(t, expected, result)
+	searchParams = EntitySearchParams{
+		Name:   "Dummy App",
+		Domain: "APM",
+		Type:   "APPLICATION",
+	}
+	result = BuildEntitySearchQuery(searchParams)
+	require.Contains(t, result, "name LIKE 'Dummy App'")
+	require.Contains(t, result, "domain = 'APM'")
+	require.Contains(t, result, "type = 'APPLICATION'")
 
 	// Name, domain, type, and tags
-	expected = "name = 'Dummy App' AND domain = 'APM' AND type = 'APPLICATION' AND tags.`tagKey` = 'tagValue' AND tags.`tagKey2` = 'tagValue2'"
-	tags = []map[string]string{
-		map[string]string{
-			"key":   "tagKey",
-			"value": "tagValue",
-		},
-		map[string]string{
-			"key":   "tagKey2",
-			"value": "tagValue2",
+	searchParams = EntitySearchParams{
+		Name:   "Dummy App",
+		Domain: "APM",
+		Type:   "APPLICATION",
+		Tags: []map[string]string{
+			map[string]string{
+				"key":   "tagKey",
+				"value": "tagValue",
+			},
+			map[string]string{
+				"key":   "tagKey2",
+				"value": "tagValue2",
+			},
 		},
 	}
-	result = BuildEntitySearchQuery("Dummy App", "APM", "APPLICATION", tags)
-	require.Equal(t, expected, result)
+	result = BuildEntitySearchQuery(searchParams)
+	require.Contains(t, result, "name LIKE 'Dummy App'")
+	require.Contains(t, result, "domain = 'APM'")
+	require.Contains(t, result, "type = 'APPLICATION'")
+	require.Contains(t, result, " AND tags.`tagKey` = 'tagValue' AND tags.`tagKey2` = 'tagValue2'")
 }
