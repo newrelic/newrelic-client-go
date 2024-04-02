@@ -34,7 +34,7 @@ type EntitySearchParams struct {
 	Tags            []map[string]string
 }
 
-func BuildEntitySearchQuery(params EntitySearchParams) string {
+func BuildEntitySearchNrqlQuery(params EntitySearchParams) string {
 	paramsMap := map[string]string{
 		"name":   params.Name,
 		"domain": params.Domain,
@@ -77,16 +77,16 @@ func BuildEntitySearchQuery(params EntitySearchParams) string {
 
 	if len(params.Tags) > 0 {
 		if count > 0 {
-			query = fmt.Sprintf("%s AND %s", query, BuildTagsQueryFragment(params.Tags))
+			query = fmt.Sprintf("%s AND %s", query, BuildTagsNrqlQueryFragment(params.Tags))
 		} else {
-			query = BuildTagsQueryFragment(params.Tags)
+			query = BuildTagsNrqlQueryFragment(params.Tags)
 		}
 	}
 
 	return query
 }
 
-func BuildTagsQueryFragment(tags []map[string]string) string {
+func BuildTagsNrqlQueryFragment(tags []map[string]string) string {
 	var query string
 
 	for i, t := range tags {
