@@ -36,7 +36,7 @@ func TestFindTagByKeyNotFound(t *testing.T) {
 	require.Empty(t, result)
 }
 
-func TestBuildTagsQueryFragment_SingleTag(t *testing.T) {
+func TestBuildTagsNrqlQueryFragment_SingleTag(t *testing.T) {
 	t.Parallel()
 
 	expected := "tags.`tagKey` = 'tagValue'"
@@ -48,12 +48,12 @@ func TestBuildTagsQueryFragment_SingleTag(t *testing.T) {
 		},
 	}
 
-	result := BuildTagsQueryFragment(tags)
+	result := BuildTagsNrqlQueryFragment(tags)
 
 	require.Equal(t, expected, result)
 }
 
-func TestBuildTagsQueryFragment_MultipleTags(t *testing.T) {
+func TestBuildTagsNrqlQueryFragment_MultipleTags(t *testing.T) {
 	t.Parallel()
 
 	expected := "tags.`tagKey` = 'tagValue' AND tags.`tagKey2` = 'tagValue2' AND tags.`tagKey3` = 'tagValue3'"
@@ -73,23 +73,23 @@ func TestBuildTagsQueryFragment_MultipleTags(t *testing.T) {
 		},
 	}
 
-	result := BuildTagsQueryFragment(tags)
+	result := BuildTagsNrqlQueryFragment(tags)
 
 	require.Equal(t, expected, result)
 }
 
-func TestBuildTagsQueryFragment_EmptyTags(t *testing.T) {
+func TestBuildTagsNrqlQueryFragment_EmptyTags(t *testing.T) {
 	t.Parallel()
 
 	expected := ""
 	tags := []map[string]string{}
 
-	result := BuildTagsQueryFragment(tags)
+	result := BuildTagsNrqlQueryFragment(tags)
 
 	require.Equal(t, expected, result)
 }
 
-func TestBuildEntitySearchQuery(t *testing.T) {
+func TestBuildEntitySearchNrqlQuery(t *testing.T) {
 	t.Parallel()
 
 	// Name only
@@ -97,7 +97,7 @@ func TestBuildEntitySearchQuery(t *testing.T) {
 	searchParams := EntitySearchParams{
 		Name: "Dummy App",
 	}
-	result := BuildEntitySearchQuery(searchParams)
+	result := BuildEntitySearchNrqlQuery(searchParams)
 	require.Equal(t, expected, result)
 
 	// Case-sensitive search (applies to `name` only)
@@ -106,7 +106,7 @@ func TestBuildEntitySearchQuery(t *testing.T) {
 		Name:            "Dummy App",
 		IsCaseSensitive: true,
 	}
-	result = BuildEntitySearchQuery(searchParams)
+	result = BuildEntitySearchNrqlQuery(searchParams)
 	require.Equal(t, expected, result)
 
 	// Name & Domain
@@ -114,7 +114,7 @@ func TestBuildEntitySearchQuery(t *testing.T) {
 		Name:   "Dummy App",
 		Domain: "APM",
 	}
-	result = BuildEntitySearchQuery(searchParams)
+	result = BuildEntitySearchNrqlQuery(searchParams)
 	require.Contains(t, result, "name LIKE 'Dummy App'")
 	require.Contains(t, result, "domain = 'APM'")
 
@@ -124,7 +124,7 @@ func TestBuildEntitySearchQuery(t *testing.T) {
 		Domain: "APM",
 		Type:   "APPLICATION",
 	}
-	result = BuildEntitySearchQuery(searchParams)
+	result = BuildEntitySearchNrqlQuery(searchParams)
 	require.Contains(t, result, "name LIKE 'Dummy App'")
 	require.Contains(t, result, "domain = 'APM'")
 	require.Contains(t, result, "type = 'APPLICATION'")
@@ -145,7 +145,7 @@ func TestBuildEntitySearchQuery(t *testing.T) {
 			},
 		},
 	}
-	result = BuildEntitySearchQuery(searchParams)
+	result = BuildEntitySearchNrqlQuery(searchParams)
 	require.Contains(t, result, "name LIKE 'Dummy App'")
 	require.Contains(t, result, "domain = 'APM'")
 	require.Contains(t, result, "type = 'APPLICATION'")
