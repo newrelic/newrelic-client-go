@@ -246,32 +246,6 @@ packages:
         field_type_override: "*SyntheticsRuntimeInput"
       - name: SyntheticsExtendedTypeMonitorRuntimeInput
         field_type_override: "*SyntheticsExtendedTypeMonitorRuntimeInput"
-      # overrides and specifications of fields associated with the syntheticsStartAutomatedTest mutation start here
-      - name: SyntheticsAutomatedTestConfigInput
-        struct_tags:
-          - json
-          - yaml
-      - name: SyntheticsAutomatedTestMonitorInput
-        struct_tags:
-          - json
-          - yaml
-      - name: SyntheticsAutomatedTestMonitorConfigInput
-        struct_tags:
-          - json
-          - yaml
-      - name: SyntheticsAutomatedTestOverridesInput
-        field_type_override: "*SyntheticsAutomatedTestOverridesInput"
-        struct_tags:
-          - json
-          - yaml
-      - name: SyntheticsScriptDomainOverrideInput
-        struct_tags:
-          - json
-          - yaml
-      - name: SyntheticsSecureCredentialOverrideInput
-        struct_tags:
-          - json
-          - yaml
       # overrides and specifications of fields associated with the automatedTestResults query start here
       - name: Milliseconds
         field_type_override: int
