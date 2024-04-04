@@ -53,7 +53,7 @@ func TestIntegrationSearchEntitiesByQuery(t *testing.T) {
 
 	client := newIntegrationTestClient(t)
 
-	query := "domain = 'APM' AND type = 'APPLICATION' and name = 'Dummy App'"
+	query := "domain = 'APM' AND type = 'APPLICATION' and name = 'Dummy App Pro Max'"
 
 	actual, err := client.GetEntitySearchByQuery(
 		EntitySearchOptions{},
@@ -126,7 +126,7 @@ func TestIntegrationGetEntities(t *testing.T) {
 	client := newIntegrationTestClient(t)
 
 	// GUID of Dummy App
-	guids := []common.EntityGUID{testhelpers.IntegrationTestApplicationEntityGUID}
+	guids := []common.EntityGUID{testhelpers.IntegrationTestApplicationEntityGUIDNew}
 	actual, err := client.GetEntities(guids)
 
 	if e, ok := err.(*http.GraphQLErrorResponse); ok {

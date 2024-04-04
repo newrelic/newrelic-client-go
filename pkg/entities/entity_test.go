@@ -35,3 +35,119 @@ func TestFindTagByKeyNotFound(t *testing.T) {
 	result := FindTagByKey(entityTags, "notFound")
 	require.Empty(t, result)
 }
+
+func TestBuildTagsNrqlQueryFragment_SingleTag(t *testing.T) {
+	t.Parallel()
+
+	expected := "tags.`tagKey` = 'tagValue'"
+
+	tags := []map[string]string{
+		map[string]string{
+			"key":   "tagKey",
+			"value": "tagValue",
+		},
+	}
+
+	result := BuildTagsNrqlQueryFragment(tags)
+
+	require.Equal(t, expected, result)
+}
+
+func TestBuildTagsNrqlQueryFragment_MultipleTags(t *testing.T) {
+	t.Parallel()
+
+	expected := "tags.`tagKey` = 'tagValue' AND tags.`tagKey2` = 'tagValue2' AND tags.`tagKey3` = 'tagValue3'"
+
+	tags := []map[string]string{
+		map[string]string{
+			"key":   "tagKey",
+			"value": "tagValue",
+		},
+		map[string]string{
+			"key":   "tagKey2",
+			"value": "tagValue2",
+		},
+		map[string]string{
+			"key":   "tagKey3",
+			"value": "tagValue3",
+		},
+	}
+
+	result := BuildTagsNrqlQueryFragment(tags)
+
+	require.Equal(t, expected, result)
+}
+
+func TestBuildTagsNrqlQueryFragment_EmptyTags(t *testing.T) {
+	t.Parallel()
+
+	expected := ""
+	tags := []map[string]string{}
+
+	result := BuildTagsNrqlQueryFragment(tags)
+
+	require.Equal(t, expected, result)
+}
+
+func TestBuildEntitySearchNrqlQuery(t *testing.T) {
+	t.Parallel()
+
+	// Name only
+	expected := "name LIKE 'Dummy App'"
+	searchParams := EntitySearchParams{
+		Name: "Dummy App",
+	}
+	result := BuildEntitySearchNrqlQuery(searchParams)
+	require.Equal(t, expected, result)
+
+	// Case-sensitive search (applies to `name` only)
+	expected = "name = 'Dummy App'"
+	searchParams = EntitySearchParams{
+		Name:            "Dummy App",
+		IsCaseSensitive: true,
+	}
+	result = BuildEntitySearchNrqlQuery(searchParams)
+	require.Equal(t, expected, result)
+
+	// Name & Domain
+	searchParams = EntitySearchParams{
+		Name:   "Dummy App",
+		Domain: "APM",
+	}
+	result = BuildEntitySearchNrqlQuery(searchParams)
+	require.Contains(t, result, "name LIKE 'Dummy App'")
+	require.Contains(t, result, "domain = 'APM'")
+
+	// Name, domain, and type
+	searchParams = EntitySearchParams{
+		Name:   "Dummy App",
+		Domain: "APM",
+		Type:   "APPLICATION",
+	}
+	result = BuildEntitySearchNrqlQuery(searchParams)
+	require.Contains(t, result, "name LIKE 'Dummy App'")
+	require.Contains(t, result, "domain = 'APM'")
+	require.Contains(t, result, "type = 'APPLICATION'")
+
+	// Name, domain, type, and tags
+	searchParams = EntitySearchParams{
+		Name:   "Dummy App",
+		Domain: "APM",
+		Type:   "APPLICATION",
+		Tags: []map[string]string{
+			map[string]string{
+				"key":   "tagKey",
+				"value": "tagValue",
+			},
+			map[string]string{
+				"key":   "tagKey2",
+				"value": "tagValue2",
+			},
+		},
+	}
+	result = BuildEntitySearchNrqlQuery(searchParams)
+	require.Contains(t, result, "name LIKE 'Dummy App'")
+	require.Contains(t, result, "domain = 'APM'")
+	require.Contains(t, result, "type = 'APPLICATION'")
+	require.Contains(t, result, " AND tags.`tagKey` = 'tagValue' AND tags.`tagKey2` = 'tagValue2'")
+}

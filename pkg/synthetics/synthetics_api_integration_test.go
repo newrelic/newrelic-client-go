@@ -742,7 +742,8 @@ func TestSyntheticsBrokenLinksMonitor_Basic(t *testing.T) {
 				Values: []string{"avocado"},
 			},
 		},
-		Uri: "https://www.google.com",
+		Uri:     "https://www.google.com",
+		Runtime: &SyntheticsExtendedTypeMonitorRuntimeInput{},
 	}
 
 	createdMonitor, err := a.SyntheticsCreateBrokenLinksMonitor(testAccountID, monitorInput)
@@ -758,6 +759,10 @@ func TestSyntheticsBrokenLinksMonitor_Basic(t *testing.T) {
 		Locations: monitorInput.Locations,
 		Tags:      monitorInput.Tags,
 		Uri:       fmt.Sprintf("%s?updated=true", monitorInput.Uri),
+		Runtime: &SyntheticsExtendedTypeMonitorRuntimeInput{
+			RuntimeType:        "NODE_API",
+			RuntimeTypeVersion: "16.10",
+		},
 	}
 
 	updatedMonitor, err := a.SyntheticsUpdateBrokenLinksMonitor(createdMonitor.Monitor.GUID, monitorUpdateInput)
@@ -799,6 +804,10 @@ func TestSyntheticsCertCheckMonitor_Basic(t *testing.T) {
 		// do not add a "https://" to the domain; recent error handling in Synthetics throws an "invalid domain" error with "https://"
 		Domain:                            "www.google.com",
 		NumberDaysToFailBeforeCertExpires: 1,
+		Runtime: &SyntheticsExtendedTypeMonitorRuntimeInput{
+			RuntimeType:        "NODE_API",
+			RuntimeTypeVersion: "16.10",
+		},
 	}
 
 	createdMonitor, err := a.SyntheticsCreateCertCheckMonitor(testAccountID, monitorInput)
@@ -815,6 +824,7 @@ func TestSyntheticsCertCheckMonitor_Basic(t *testing.T) {
 		Tags:                              monitorInput.Tags,
 		Domain:                            fmt.Sprintf("%s?updated=true", monitorInput.Domain),
 		NumberDaysToFailBeforeCertExpires: 2,
+		Runtime:                           &SyntheticsExtendedTypeMonitorRuntimeInput{},
 	}
 
 	updatedMonitor, err := a.SyntheticsUpdateCertCheckMonitor(createdMonitor.Monitor.GUID, monitorUpdateInput)
@@ -870,6 +880,10 @@ func TestSyntheticsStepMonitor_Basic(t *testing.T) {
 				Values:  []string{"%=", "New Relic"}, // %= is used for "contains" logic
 			},
 		},
+		Runtime: &SyntheticsExtendedTypeMonitorRuntimeInput{
+			RuntimeType:        "CHROME_BROWSER",
+			RuntimeTypeVersion: "100",
+		},
 	}
 
 	createdMonitor, err := a.SyntheticsCreateStepMonitor(testAccountID, monitorInput)
@@ -898,6 +912,7 @@ func TestSyntheticsStepMonitor_Basic(t *testing.T) {
 				Values:  []string{"h2.NewDesign", "present", "true"},
 			},
 		},
+		Runtime: &SyntheticsExtendedTypeMonitorRuntimeInput{},
 	}
 
 	updatedMonitor, err := a.SyntheticsUpdateStepMonitor(createdMonitor.Monitor.GUID, monitorUpdateInput)
@@ -1824,6 +1839,125 @@ func TestSynthetics_MonitorDowntimeMonthly_Error(t *testing.T) {
 	)
 
 	require.Error(t, err)
+}
+
+func TestSyntheticsBrokenLinksMonitor_IncorrectRuntimeError(t *testing.T) {
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	a := newIntegrationTestClient(t)
+
+	monitorName := generateSyntheticsEntityNameForIntegrationTest("MONITOR", false)
+	monitorInput := SyntheticsCreateBrokenLinksMonitorInput{
+		Name:   monitorName,
+		Period: SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
+		Status: SyntheticsMonitorStatusTypes.DISABLED,
+		Locations: SyntheticsLocationsInput{
+			Public: []string{"AP_SOUTH_1"},
+		},
+		Tags: []SyntheticsTag{
+			{
+				Key:    "coconut",
+				Values: []string{"avocado"},
+			},
+		},
+		Uri: "https://www.google.com",
+		Runtime: &SyntheticsExtendedTypeMonitorRuntimeInput{
+			RuntimeType:        "INVALID_RUNTIME",
+			RuntimeTypeVersion: "INVALID_RUNTIME",
+		},
+	}
+
+	createdMonitor, err := a.SyntheticsCreateBrokenLinksMonitor(testAccountID, monitorInput)
+	require.NotNil(t, createdMonitor.Errors[0].Description)
+	require.Equal(t, createdMonitor.Errors[0].Description, "Runtime values are invalid combination.")
+}
+
+func TestSyntheticsCertCheckMonitor_IncorrectRuntimeError(t *testing.T) {
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	a := newIntegrationTestClient(t)
+
+	monitorName := generateSyntheticsEntityNameForIntegrationTest("MONITOR", false)
+	monitorInput := SyntheticsCreateCertCheckMonitorInput{
+		Name:   monitorName,
+		Period: SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
+		Status: SyntheticsMonitorStatusTypes.DISABLED,
+		Locations: SyntheticsLocationsInput{
+			Public: []string{"AP_SOUTH_1"},
+		},
+		Tags: []SyntheticsTag{
+			{
+				Key:    "coconut",
+				Values: []string{"avocado"},
+			},
+		},
+		// do not add a "https://" to the domain; recent error handling in Synthetics throws an "invalid domain" error with "https://"
+		Domain:                            "www.google.com",
+		NumberDaysToFailBeforeCertExpires: 1,
+		Runtime: &SyntheticsExtendedTypeMonitorRuntimeInput{
+			RuntimeType:        "INVALID_RUNTIME",
+			RuntimeTypeVersion: "INVALID_RUNTIME",
+		},
+	}
+
+	createdMonitor, err := a.SyntheticsCreateCertCheckMonitor(testAccountID, monitorInput)
+	require.NotNil(t, createdMonitor.Errors[0].Description)
+	require.Equal(t, createdMonitor.Errors[0].Description, "Runtime values are invalid combination.")
+}
+
+func TestSyntheticsStepMonitor_IncorrectRuntimeError(t *testing.T) {
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	a := newIntegrationTestClient(t)
+
+	monitorName := generateSyntheticsEntityNameForIntegrationTest("MONITOR", false)
+	enableScreenshotOnFailureAndScript := true
+	monitorInput := SyntheticsCreateStepMonitorInput{
+		Name:   monitorName,
+		Period: SyntheticsMonitorPeriodTypes.EVERY_DAY,
+		Status: SyntheticsMonitorStatusTypes.DISABLED,
+		AdvancedOptions: SyntheticsStepMonitorAdvancedOptionsInput{
+			EnableScreenshotOnFailureAndScript: &enableScreenshotOnFailureAndScript,
+		},
+		Locations: SyntheticsScriptedMonitorLocationsInput{
+			Public: []string{"AP_SOUTH_1"},
+		},
+		Tags: []SyntheticsTag{
+			{
+				Key:    "step",
+				Values: []string{"monitor"},
+			},
+		},
+		Steps: []SyntheticsStepInput{
+			{
+				Ordinal: 0,
+				Type:    SyntheticsStepTypeTypes.NAVIGATE,
+				Values:  []string{"https://one.newrelic.com"},
+			},
+			{
+				Ordinal: 1,
+				Type:    SyntheticsStepTypeTypes.ASSERT_TITLE,
+				Values:  []string{"%=", "New Relic"}, // %= is used for "contains" logic
+			},
+		},
+		Runtime: &SyntheticsExtendedTypeMonitorRuntimeInput{
+			RuntimeType:        "INVALID_RUNTIME",
+			RuntimeTypeVersion: "INVALID_RUNTIME",
+		},
+	}
+
+	_, err = a.SyntheticsCreateStepMonitor(testAccountID, monitorInput)
+	require.Error(t, err)
+	require.ErrorContains(t, err, "Runtime values are invalid combination.")
 }
 
 func getSampleScriptedBrowserMonitorInput(name string) SyntheticsCreateScriptBrowserMonitorInput {

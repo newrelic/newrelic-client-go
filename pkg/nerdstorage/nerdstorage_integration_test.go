@@ -124,30 +124,30 @@ func TestIntegrationNerdStorageWithEntityScope(t *testing.T) {
 
 	client := newIntegrationTestClient(t)
 
-	document, err := client.WriteDocumentWithEntityScope(testhelpers.IntegrationTestApplicationEntityGUID, testWriteInput)
+	document, err := client.WriteDocumentWithEntityScope(testhelpers.IntegrationTestApplicationEntityGUIDNew, testWriteInput)
 	require.NoError(t, err)
 	require.NotNil(t, document)
 
 	testAlternateWriteInput := testWriteInput
 	testAlternateWriteInput.DocumentID = testAlternateDocumentID
 
-	document, err = client.WriteDocumentWithEntityScope(testhelpers.IntegrationTestApplicationEntityGUID, testAlternateWriteInput)
+	document, err = client.WriteDocumentWithEntityScope(testhelpers.IntegrationTestApplicationEntityGUIDNew, testAlternateWriteInput)
 	require.NoError(t, err)
 	require.NotNil(t, document)
 
-	collection, err := client.GetCollectionWithEntityScope(testhelpers.IntegrationTestApplicationEntityGUID, testGetCollectionInput)
+	collection, err := client.GetCollectionWithEntityScope(testhelpers.IntegrationTestApplicationEntityGUIDNew, testGetCollectionInput)
 	require.NoError(t, err)
 	require.NotNil(t, collection)
 
-	document, err = client.GetDocumentWithEntityScope(testhelpers.IntegrationTestApplicationEntityGUID, testGetDocumentInput)
+	document, err = client.GetDocumentWithEntityScope(testhelpers.IntegrationTestApplicationEntityGUIDNew, testGetDocumentInput)
 	require.NoError(t, err)
 	require.NotNil(t, document)
 
-	ok, err := client.DeleteDocumentWithEntityScope(testhelpers.IntegrationTestApplicationEntityGUID, testDeleteDocumentInput)
+	ok, err := client.DeleteDocumentWithEntityScope(testhelpers.IntegrationTestApplicationEntityGUIDNew, testDeleteDocumentInput)
 	require.NoError(t, err)
 	require.True(t, ok)
 
-	ok, err = client.DeleteCollectionWithEntityScope(testhelpers.IntegrationTestApplicationEntityGUID, testDeleteCollectionInput)
+	ok, err = client.DeleteCollectionWithEntityScope(testhelpers.IntegrationTestApplicationEntityGUIDNew, testDeleteCollectionInput)
 	require.NoError(t, err)
 	require.True(t, ok)
 }
