@@ -395,6 +395,61 @@ const getJobsQuery = `query { customerAdministration { jobs {
 	
 } } }`
 
+// Organization Create job results
+func (a *Customeradministration) GetOrganizationCreateAsyncResults(
+	cursor string,
+	filter OrganizationOrganizationCreateAsyncResultFilterInput,
+) (*OrganizationOrganizationCreateAsyncResultCollection, error) {
+	return a.GetOrganizationCreateAsyncResultsWithContext(context.Background(),
+		cursor,
+		filter,
+	)
+}
+
+// Organization Create job results
+func (a *Customeradministration) GetOrganizationCreateAsyncResultsWithContext(
+	ctx context.Context,
+	cursor string,
+	filter OrganizationOrganizationCreateAsyncResultFilterInput,
+) (*OrganizationOrganizationCreateAsyncResultCollection, error) {
+
+	resp := organizationCreateAsyncResultsResponse{}
+	vars := map[string]interface{}{
+		"cursor": cursor,
+		"filter": filter,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, getOrganizationCreateAsyncResultsQuery, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.CustomerAdministration.Jobs.OrganizationCreateAsyncResults, nil
+}
+
+const getOrganizationCreateAsyncResultsQuery = `query(
+	$filter: OrganizationOrganizationCreateAsyncResultFilterInput!,
+) { customerAdministration { jobs { organizationCreateAsyncResults(
+	filter: $filter,
+) {
+	items {
+		customer {
+			customerId
+		}
+		job {
+			createdUtc
+			errorMessage
+			finishedUtc
+			id
+			status
+		}
+		organization {
+			id
+			name
+		}
+	}
+	nextCursor
+} } } }`
+
 // Accessible organizations
 func (a *Customeradministration) GetOrganizations(
 	cursor string,

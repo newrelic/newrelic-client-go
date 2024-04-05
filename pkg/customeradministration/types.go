@@ -110,11 +110,15 @@ type MultiTenantAuthorizationRoleScopeEnum string
 var MultiTenantAuthorizationRoleScopeEnumTypes = struct {
 	// Account scoped role
 	ACCOUNT MultiTenantAuthorizationRoleScopeEnum
+	// Group scoped role
+	GROUP MultiTenantAuthorizationRoleScopeEnum
 	// Organization scoped role
 	ORGANIZATION MultiTenantAuthorizationRoleScopeEnum
 }{
 	// Account scoped role
 	ACCOUNT: "ACCOUNT",
+	// Group scoped role
+	GROUP: "GROUP",
 	// Organization scoped role
 	ORGANIZATION: "ORGANIZATION",
 }
@@ -260,6 +264,8 @@ var MultiTenantIdentityUserSortKeyTypes = struct {
 	LAST_ACTIVE MultiTenantIdentityUserSortKey
 	// User name
 	NAME MultiTenantIdentityUserSortKey
+	// User type
+	TYPE MultiTenantIdentityUserSortKey
 }{
 	// User email address
 	EMAIL: "EMAIL",
@@ -269,6 +275,8 @@ var MultiTenantIdentityUserSortKeyTypes = struct {
 	LAST_ACTIVE: "LAST_ACTIVE",
 	// User name
 	NAME: "NAME",
+	// User type
+	TYPE: "TYPE",
 }
 
 // OrganizationAccountShareSortDirectionEnum - Provides the available values of possible directions to sort the result
@@ -723,6 +731,14 @@ type MultiTenantAuthorizationGrant struct {
 	Scope MultiTenantAuthorizationGrantScope `json:"scope"`
 }
 
+// MultiTenantAuthorizationGrantAuthenticationDomainIdInputFilter - Filters grants by authentication domain id
+type MultiTenantAuthorizationGrantAuthenticationDomainIdInputFilter struct {
+	// Performs an equals operation
+	Eq string `json:"eq,omitempty"`
+	// Performs an in operation
+	In []string `json:"in"`
+}
+
 // MultiTenantAuthorizationGrantCollection - A list of grants
 type MultiTenantAuthorizationGrantCollection struct {
 	// List of grants
@@ -733,6 +749,8 @@ type MultiTenantAuthorizationGrantCollection struct {
 
 // MultiTenantAuthorizationGrantFilterInputExpression - Provides all the available filters on a grant
 type MultiTenantAuthorizationGrantFilterInputExpression struct {
+	// The authentication domain id of the grant
+	AuthenticationDomainId MultiTenantAuthorizationGrantAuthenticationDomainIdInputFilter `json:"authenticationDomainId,omitempty"`
 	// The group id of the grant
 	GroupId MultiTenantAuthorizationGrantGroupIdInputFilter `json:"groupId,omitempty"`
 	// The id of the grant
@@ -877,6 +895,8 @@ type MultiTenantAuthorizationRoleCollection struct {
 
 // MultiTenantAuthorizationRoleFilterInputExpression - Provides all the available filters on a role
 type MultiTenantAuthorizationRoleFilterInputExpression struct {
+	// The group id the role has been granted to
+	GroupId MultiTenantAuthorizationRoleGroupIdInputFilter `json:"groupId,omitempty"`
 	// The id of the role
 	ID MultiTenantAuthorizationRoleIdInputFilter `json:"id,omitempty"`
 	// The name of the role
@@ -889,6 +909,14 @@ type MultiTenantAuthorizationRoleFilterInputExpression struct {
 	Type MultiTenantAuthorizationRoleTypeInputFilter `json:"type,omitempty"`
 }
 
+// MultiTenantAuthorizationRoleGroupIdInputFilter - Provides all the available filters on the group id
+type MultiTenantAuthorizationRoleGroupIdInputFilter struct {
+	// performs an equals operation
+	Eq string `json:"eq,omitempty"`
+	// A list of group IDs
+	In []string `json:"in"`
+}
+
 // MultiTenantAuthorizationRoleIdInputFilter - Provides all the available filters on the role id
 type MultiTenantAuthorizationRoleIdInputFilter struct {
 	// performs an equals operation
@@ -897,8 +925,10 @@ type MultiTenantAuthorizationRoleIdInputFilter struct {
 
 // MultiTenantAuthorizationRoleNameInputFilter - Provides all the available filters on the role name
 type MultiTenantAuthorizationRoleNameInputFilter struct {
+	// performs a contains operation
+	Contains string `json:"contains,omitempty"`
 	// performs an equals operation
-	Eq string `json:"eq"`
+	Eq string `json:"eq,omitempty"`
 }
 
 // MultiTenantAuthorizationRoleOrganizationIdInputFilter - Provides all the available filters on the organization id
@@ -993,6 +1023,8 @@ type MultiTenantIdentityGroupIdInput struct {
 type MultiTenantIdentityGroupMemberIdInput struct {
 	// A list of user IDs. A group will be returned if all listed users are members.
 	Contains []string `json:"contains"`
+	// A list of user IDS. A group will be returned if no listed users are members.
+	Excludes []string `json:"excludes"`
 }
 
 // MultiTenantIdentityGroupNameInput - The input object representing parameters for the name filter
@@ -1118,6 +1150,8 @@ type MultiTenantIdentityUserFilterInput struct {
 	Email MultiTenantIdentityUserEmailInput `json:"email,omitempty"`
 	// Filter users by email verification state
 	EmailVerificationState MultiTenantIdentityEmailVerificationStateInput `json:"emailVerificationState,omitempty"`
+	// Filter users by group id
+	GroupId MultiTenantIdentityUserGroupIdInput `json:"groupId,omitempty"`
 	// Filter users by id
 	ID MultiTenantIdentityUserIdInput `json:"id,omitempty"`
 	// Filter users by name
@@ -1132,6 +1166,16 @@ type MultiTenantIdentityUserGroup struct {
 	ID string `json:"id"`
 	// the name of the object
 	Name string `json:"name"`
+}
+
+// MultiTenantIdentityUserGroupIdInput - Filters by group id
+type MultiTenantIdentityUserGroupIdInput struct {
+	// A group id
+	Eq string `json:"eq,omitempty"`
+	// A list of group IDs
+	In []string `json:"in"`
+	// Filter users not in group
+	Not MultiTenantIdentityUserNotGroupIdInput `json:"not,omitempty"`
 }
 
 // MultiTenantIdentityUserGroups - List of groups representing named sets of New Relic users within an authentication domain
@@ -1158,6 +1202,12 @@ type MultiTenantIdentityUserNameInput struct {
 	Contains string `json:"contains,omitempty"`
 	// A user name
 	Eq string `json:"eq,omitempty"`
+}
+
+// MultiTenantIdentityUserNotGroupIdInput - Filters by group id
+type MultiTenantIdentityUserNotGroupIdInput struct {
+	// A group id
+	Eq string `json:"eq"`
 }
 
 // MultiTenantIdentityUserSortInput - Sort users
@@ -1962,6 +2012,10 @@ type groupsResponse struct {
 }
 
 type jobsResponse struct {
+	CustomerAdministration CustomerAdministration `json:"customerAdministration"`
+}
+
+type organizationCreateAsyncResultsResponse struct {
 	CustomerAdministration CustomerAdministration `json:"customerAdministration"`
 }
 

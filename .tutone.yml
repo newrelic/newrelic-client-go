@@ -1445,6 +1445,10 @@ packages:
             max_query_field_depth: 4
           - name: users
             max_query_field_depth: 4
+      - path: ["customerAdministration", "jobs"]
+        endpoints:
+          - name: organizationCreateAsyncResults
+            max_query_field_depth: 4
     types:
       - name: OrganizationAccountShareFilterInput
       - name: OrganizationAccountShareSortInput
