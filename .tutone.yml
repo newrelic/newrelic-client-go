@@ -1416,7 +1416,11 @@ packages:
       - github.com/newrelic/newrelic-client-go/v2/pkg/common
       - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
       - github.com/newrelic/newrelic-client-go/v2/pkg/users
-    queries: []
+    queries:
+      - path: ["actor", "organization", "authorizationManagement"]
+        endpoints:
+          - name: roles
+            max_query_field_depth: 4
     mutations:
       - name: authorizationManagementGrantAccess
         max_query_field_depth: 3

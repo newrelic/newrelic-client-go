@@ -98,3 +98,50 @@ const AuthorizationManagementRevokeAccessMutation = `mutation(
 		type
 	}
 } }`
+
+// list of roles
+func (a *Authorizationmanagement) GetRoles(
+	cursor string,
+	iD []int,
+) (*AuthorizationManagementRoleSearch, error) {
+	return a.GetRolesWithContext(context.Background(),
+		cursor,
+		iD,
+	)
+}
+
+// list of roles
+func (a *Authorizationmanagement) GetRolesWithContext(
+	ctx context.Context,
+	cursor string,
+	iD []int,
+) (*AuthorizationManagementRoleSearch, error) {
+
+	resp := rolesResponse{}
+	vars := map[string]interface{}{
+		"cursor": cursor,
+		"id":     iD,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, getRolesQuery, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.Actor.Organization.AuthorizationManagement.Roles, nil
+}
+
+const getRolesQuery = `query(
+	$id: [ID!],
+) { actor { organization { authorizationManagement { roles(
+	id: $id,
+) {
+	nextCursor
+	roles {
+		displayName
+		id
+		name
+		scope
+		type
+	}
+	totalCount
+} } } } }`
