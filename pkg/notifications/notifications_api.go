@@ -68,8 +68,56 @@ const AiNotificationsCreateChannelMutation = `mutation(
 		updatedAt
 		updatedBy
 	}
-	error
-	errors
+    error {
+      ... on AiNotificationsConstraintsError {
+        constraints {
+          dependencies
+          name
+        }
+      }
+      ... on AiNotificationsDataValidationError {
+        details
+        fields {
+          field
+          message
+        }
+      }
+      ... on AiNotificationsSuggestionError {
+        description
+        details
+        type
+      }
+      ... on AiNotificationsResponseError {
+        description
+        details
+        type
+      }
+    }
+    errors {
+      ... on AiNotificationsSuggestionError {
+        description
+        type
+        details
+      }
+      ... on AiNotificationsResponseError {
+        description
+        type
+        details
+      }
+      ... on AiNotificationsDataValidationError {
+        details
+        fields {
+          message
+          field
+        }
+      }
+      ... on AiNotificationsConstraintsError {
+        constraints {
+          dependencies
+          name
+        }
+      }
+    }
 } }`
 
 // Create a Destination
@@ -141,8 +189,8 @@ const AiNotificationsCreateDestinationMutation = `mutation(
 			  prefix
 		}
 		createdAt
-		guid
 		id
+		guid
 		isUserAuthenticated
 		lastSent
 		name
@@ -516,8 +564,8 @@ const AiNotificationsUpdateDestinationMutation = `mutation(
 			  prefix
 		}
 		createdAt
-		guid
 		id
+		guid
 		isUserAuthenticated
 		lastSent
 		name
@@ -535,7 +583,7 @@ const AiNotificationsUpdateDestinationMutation = `mutation(
 		updatedAt
 		updatedBy
 	}
-    error {
+	errors {
       ... on AiNotificationsConstraintsError {
         constraints {
           dependencies
@@ -549,18 +597,18 @@ const AiNotificationsUpdateDestinationMutation = `mutation(
           message
         }
       }
-      ... on AiNotificationsSuggestionError {
-        description
-        details
-        type
-      }
       ... on AiNotificationsResponseError {
         description
         details
         type
+      }
+      ... on AiNotificationsSuggestionError {
+        description
+        type
+        details
       }
     }
-    errors {
+    error {
       ... on AiNotificationsSuggestionError {
         description
         type
@@ -580,8 +628,8 @@ const AiNotificationsUpdateDestinationMutation = `mutation(
       }
       ... on AiNotificationsConstraintsError {
         constraints {
-          dependencies
           name
+          dependencies
         }
       }
     }
@@ -703,7 +751,7 @@ func (a *Notifications) GetDestinationsWithContext(
 
 const getDestinationsQuery = `query(
 	$accountID: Int!, $filters: AiNotificationsDestinationFilter,
-) { actor { account(id: $accountID) { aiNotifications { destinations(filters: $filters)
+) { actor { account(id: $accountID) { aiNotifications { destinations(filters: $filters) {
 	entities {
 		accountId
 		active
@@ -728,8 +776,8 @@ const getDestinationsQuery = `query(
 			}
 		}
 		createdAt
-		guid
 		id
+		guid
 		isUserAuthenticated
 		lastSent
 		name
