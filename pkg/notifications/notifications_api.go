@@ -208,7 +208,7 @@ const AiNotificationsCreateDestinationMutation = `mutation(
 		updatedAt
 		updatedBy
 	}
-errors {
+	errors {
       ... on AiNotificationsConstraintsError {
         constraints {
           dependencies
@@ -437,7 +437,7 @@ const AiNotificationsUpdateChannelMutation = `mutation(
 		updatedAt
 		updatedBy
 	}
-	    error {
+	error {
       ... on AiNotificationsConstraintsError {
         constraints {
           dependencies
