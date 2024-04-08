@@ -1,3 +1,8 @@
+<a name="v2.28.1"></a>
+## [v2.28.1] - 2024-04-08
+### Bug Fixes
+- **entities:** include 'reporting' if part of entity search NRQL query
+
 <a name="v2.28.0"></a>
 ## [v2.28.0] - 2024-04-02
 ### Bug Fixes
@@ -1731,7 +1736,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.28.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.28.1...HEAD
+[v2.28.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.28.0...v2.28.1
 [v2.28.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.27.0...v2.28.0
 [v2.27.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.26.1...v2.27.0
 [v2.26.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.26.0...v2.26.1
