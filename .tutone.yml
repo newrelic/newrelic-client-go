@@ -736,6 +736,10 @@ packages:
         generate_struct_getters: true
       - name: InfrastructureIntegrationEntity
         generate_struct_getters: true
+      - name: KeyTransactionEntity
+        generate_struct_getters: true
+      - name: KeyTransactionEntityOutline
+        generate_struct_getters: true
       - name: MobileApplicationEntity
         generate_struct_getters: true
       - name: SecureCredentialEntity
