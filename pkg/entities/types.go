@@ -17492,6 +17492,16 @@ func UnmarshalEntityOutlineInterface(b []byte) (*EntityOutlineInterface, error) 
 			var xxx EntityOutlineInterface = &interfaceType
 
 			return &xxx, nil
+		case "KeyTransactionEntityOutline":
+			var interfaceType KeyTransactionEntityOutline
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityOutlineInterface = &interfaceType
+
+			return &xxx, nil
 		case "MobileApplicationEntityOutline":
 			var interfaceType MobileApplicationEntityOutline
 			err = json.Unmarshal(b, &interfaceType)
@@ -18046,4 +18056,475 @@ func UnmarshalThirdPartyServiceEntityOutlineInterface(b []byte) (*ThirdPartyServ
 	}
 
 	return nil, fmt.Errorf("interface ThirdPartyServiceEntityOutline was not matched against all PossibleTypes: %s", typeName)
+}
+
+// KeyTransactionEntityOutline - A Key Transaction entity outline.
+type KeyTransactionEntityOutline struct {
+	Account accounts.AccountOutline `json:"account,omitempty"`
+	// The New Relic account ID associated with this entity.
+	AccountID int `json:"accountId,omitempty"`
+	// The current alerting severity of the entity.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// The entity's domain
+	Domain string `json:"domain,omitempty"`
+	// A value representing the combination of the entity's domain and type.
+	EntityType EntityType `json:"entityType,omitempty"`
+	// The date of last time the entity has updated any of its fields.
+	FirstIndexedAt *nrtime.EpochMilliseconds `json:"firstIndexedAt,omitempty"`
+	// A unique entity identifier.
+	GUID common.EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
+	// The time the entity was indexed.
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	// The last time the entity's reporting status changed.
+	LastReportingChangeAt *nrtime.EpochMilliseconds `json:"lastReportingChangeAt,omitempty"`
+	// The name of this entity.
+	Name string `json:"name,omitempty"`
+	// The url to the entity.
+	Permalink string `json:"permalink,omitempty"`
+	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
+	Reporting bool `json:"reporting,omitempty"`
+	// The service level defined for the entity.
+	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The tags applied to the entity.
+	//
+	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
+	Tags []EntityTag `json:"tags,omitempty"`
+	// The entity's type
+	Type string `json:"type,omitempty"`
+}
+
+// GetAccount returns a pointer to the value of Account from KeyTransactionEntityOutline
+func (x KeyTransactionEntityOutline) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from KeyTransactionEntityOutline
+func (x KeyTransactionEntityOutline) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from KeyTransactionEntityOutline
+func (x KeyTransactionEntityOutline) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
+}
+
+// GetDomain returns a pointer to the value of Domain from KeyTransactionEntityOutline
+func (x KeyTransactionEntityOutline) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from KeyTransactionEntityOutline
+func (x KeyTransactionEntityOutline) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetFirstIndexedAt returns a pointer to the value of FirstIndexedAt from KeyTransactionEntityOutline
+func (x KeyTransactionEntityOutline) GetFirstIndexedAt() *nrtime.EpochMilliseconds {
+	return x.FirstIndexedAt
+}
+
+// GetGUID returns a pointer to the value of GUID from KeyTransactionEntityOutline
+func (x KeyTransactionEntityOutline) GetGUID() common.EntityGUID {
+	return x.GUID
+}
+
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from KeyTransactionEntityOutline
+func (x KeyTransactionEntityOutline) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from KeyTransactionEntityOutline
+func (x KeyTransactionEntityOutline) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from KeyTransactionEntityOutline
+func (x KeyTransactionEntityOutline) GetIndexedAt() *nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetLastReportingChangeAt returns a pointer to the value of LastReportingChangeAt from KeyTransactionEntityOutline
+func (x KeyTransactionEntityOutline) GetLastReportingChangeAt() *nrtime.EpochMilliseconds {
+	return x.LastReportingChangeAt
+}
+
+// GetName returns a pointer to the value of Name from KeyTransactionEntityOutline
+func (x KeyTransactionEntityOutline) GetName() string {
+	return x.Name
+}
+
+// GetPermalink returns a pointer to the value of Permalink from KeyTransactionEntityOutline
+func (x KeyTransactionEntityOutline) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetReporting returns a pointer to the value of Reporting from KeyTransactionEntityOutline
+func (x KeyTransactionEntityOutline) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetServiceLevel returns a pointer to the value of ServiceLevel from KeyTransactionEntityOutline
+func (x KeyTransactionEntityOutline) GetServiceLevel() ServiceLevelDefinition {
+	return x.ServiceLevel
+}
+
+// GetTags returns a pointer to the value of Tags from KeyTransactionEntityOutline
+func (x KeyTransactionEntityOutline) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetType returns a pointer to the value of Type from KeyTransactionEntityOutline
+func (x KeyTransactionEntityOutline) GetType() string {
+	return x.Type
+}
+
+func (x *KeyTransactionEntityOutline) ImplementsAlertableEntityOutline() {}
+
+func (x *KeyTransactionEntityOutline) ImplementsEntityOutline() {}
+
+// KeyTransactionEntity - A Key Transaction entity.
+type KeyTransactionEntity struct {
+	Account accounts.AccountOutline `json:"account,omitempty"`
+	// The New Relic account ID associated with this entity.
+	AccountID int `json:"accountId,omitempty"`
+	// The current alerting severity of the entity.
+	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
+	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the time window or look at fewer entities.
+	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
+	// The acceptable amount of time spent in the backend before customers get frustrated (Apdex target).
+	ApdexTarget float64 `json:"apdexTarget"`
+	// The application associated with this key transaction
+	Application KeyTransactionApplication `json:"application"`
+	// The acceptable amount of time for rendering a page in a browser before customers get frustrated (browser Apdex target).
+	BrowserApdexTarget float64 `json:"browserApdexTarget,omitempty"`
+	// Retrieve the deployment event(s). Ordered by timestamp DESC.
+	DeploymentSearch ChangeTrackingDeploymentSearchResult `json:"deploymentSearch,omitempty"`
+	// The entity's domain
+	Domain string `json:"domain,omitempty"`
+	// A value representing the combination of the entity's domain and type.
+	EntityType EntityType `json:"entityType,omitempty"`
+	// The date of last time the entity has updated any of its fields.
+	FirstIndexedAt *nrtime.EpochMilliseconds `json:"firstIndexedAt,omitempty"`
+	// A unique entity identifier.
+	GUID common.EntityGUID `json:"guid,omitempty"`
+	// The list of golden metrics for a specific entity
+	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
+	// The list of golden tags for a specific entityType.
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
+	// The time the entity was indexed.
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	// The last time the entity's reporting status changed.
+	LastReportingChangeAt *nrtime.EpochMilliseconds `json:"lastReportingChangeAt,omitempty"`
+	// The name of the metric underlying this key transaction.
+	MetricName string `json:"metricName"`
+	// Make an `Entity` scoped query to NRDB with a NRQL string.
+	//
+	// A relevant `WHERE` clause will be added to your query to scope data to the entity in question.
+	//
+	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
+	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
+	// Poll for the results of a previously-executed asychronous NRDB query.
+	//
+	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
+	//
+	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
+	NRDBQueryProgress nrdb.NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
+	// The name of this entity.
+	Name        string                 `json:"name,omitempty"`
+	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
+	// The url to the entity.
+	Permalink string `json:"permalink,omitempty"`
+	// Recent violations on the entity.
+	RecentAlertViolations []EntityAlertViolation `json:"recentAlertViolations,omitempty"`
+	// Related entities result with optional filtering.
+	RelatedEntities EntityRelationshipRelatedEntitiesResult `json:"relatedEntities,omitempty"`
+	// A list of the entities' relationships.
+	//
+	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
+	Relationships []EntityRelationship `json:"relationships,omitempty"`
+	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
+	Reporting bool `json:"reporting,omitempty"`
+	// The service level defined for the entity.
+	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
+	// The tags applied to the entity.
+	//
+	// For details on tags, as well as query and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-tagging-api-tutorial).
+	Tags []EntityTag `json:"tags,omitempty"`
+	// The tags applied to the entity with their metadata.
+	TagsWithMetadata []EntityTagWithMetadata `json:"tagsWithMetadata,omitempty"`
+	// Look up Distributed Tracing summary data for the selected `EntityGuid`
+	TracingSummary DistributedTracingEntityTracingSummary `json:"tracingSummary,omitempty"`
+	// The entity's type
+	Type string `json:"type,omitempty"`
+}
+
+// GetAccount returns a pointer to the value of Account from KeyTransactionEntity
+func (x KeyTransactionEntity) GetAccount() accounts.AccountOutline {
+	return x.Account
+}
+
+// GetAccountID returns a pointer to the value of AccountID from KeyTransactionEntity
+func (x KeyTransactionEntity) GetAccountID() int {
+	return x.AccountID
+}
+
+// GetAlertSeverity returns a pointer to the value of AlertSeverity from KeyTransactionEntity
+func (x KeyTransactionEntity) GetAlertSeverity() EntityAlertSeverity {
+	return x.AlertSeverity
+}
+
+// GetAlertViolations returns a pointer to the value of AlertViolations from KeyTransactionEntity
+func (x KeyTransactionEntity) GetAlertViolations() []EntityAlertViolation {
+	return x.AlertViolations
+}
+
+// GetApdexTarget returns a pointer to the value of ApdexTarget from KeyTransactionEntity
+func (x KeyTransactionEntity) GetApdexTarget() float64 {
+	return x.ApdexTarget
+}
+
+// GetApplication returns a pointer to the value of Application from KeyTransactionEntity
+func (x KeyTransactionEntity) GetApplication() KeyTransactionApplication {
+	return x.Application
+}
+
+// GetBrowserApdexTarget returns a pointer to the value of BrowserApdexTarget from KeyTransactionEntity
+func (x KeyTransactionEntity) GetBrowserApdexTarget() float64 {
+	return x.BrowserApdexTarget
+}
+
+// GetDeploymentSearch returns a pointer to the value of DeploymentSearch from KeyTransactionEntity
+func (x KeyTransactionEntity) GetDeploymentSearch() ChangeTrackingDeploymentSearchResult {
+	return x.DeploymentSearch
+}
+
+// GetDomain returns a pointer to the value of Domain from KeyTransactionEntity
+func (x KeyTransactionEntity) GetDomain() string {
+	return x.Domain
+}
+
+// GetEntityType returns a pointer to the value of EntityType from KeyTransactionEntity
+func (x KeyTransactionEntity) GetEntityType() EntityType {
+	return x.EntityType
+}
+
+// GetFirstIndexedAt returns a pointer to the value of FirstIndexedAt from KeyTransactionEntity
+func (x KeyTransactionEntity) GetFirstIndexedAt() *nrtime.EpochMilliseconds {
+	return x.FirstIndexedAt
+}
+
+// GetGUID returns a pointer to the value of GUID from KeyTransactionEntity
+func (x KeyTransactionEntity) GetGUID() common.EntityGUID {
+	return x.GUID
+}
+
+// GetGoldenMetrics returns a pointer to the value of GoldenMetrics from KeyTransactionEntity
+func (x KeyTransactionEntity) GetGoldenMetrics() EntityGoldenContextScopedGoldenMetrics {
+	return x.GoldenMetrics
+}
+
+// GetGoldenTags returns a pointer to the value of GoldenTags from KeyTransactionEntity
+func (x KeyTransactionEntity) GetGoldenTags() EntityGoldenContextScopedGoldenTags {
+	return x.GoldenTags
+}
+
+// GetIndexedAt returns a pointer to the value of IndexedAt from KeyTransactionEntity
+func (x KeyTransactionEntity) GetIndexedAt() *nrtime.EpochMilliseconds {
+	return x.IndexedAt
+}
+
+// GetLastReportingChangeAt returns a pointer to the value of LastReportingChangeAt from KeyTransactionEntity
+func (x KeyTransactionEntity) GetLastReportingChangeAt() *nrtime.EpochMilliseconds {
+	return x.LastReportingChangeAt
+}
+
+// GetMetricName returns a pointer to the value of MetricName from KeyTransactionEntity
+func (x KeyTransactionEntity) GetMetricName() string {
+	return x.MetricName
+}
+
+// GetNRDBQuery returns a pointer to the value of NRDBQuery from KeyTransactionEntity
+func (x KeyTransactionEntity) GetNRDBQuery() nrdb.NRDBResultContainer {
+	return x.NRDBQuery
+}
+
+// GetNRDBQueryProgress returns a pointer to the value of NRDBQueryProgress from KeyTransactionEntity
+func (x KeyTransactionEntity) GetNRDBQueryProgress() nrdb.NRDBResultContainer {
+	return x.NRDBQueryProgress
+}
+
+// GetName returns a pointer to the value of Name from KeyTransactionEntity
+func (x KeyTransactionEntity) GetName() string {
+	return x.Name
+}
+
+// GetNerdStorage returns a pointer to the value of NerdStorage from KeyTransactionEntity
+func (x KeyTransactionEntity) GetNerdStorage() NerdStorageEntityScope {
+	return x.NerdStorage
+}
+
+// GetPermalink returns a pointer to the value of Permalink from KeyTransactionEntity
+func (x KeyTransactionEntity) GetPermalink() string {
+	return x.Permalink
+}
+
+// GetRecentAlertViolations returns a pointer to the value of RecentAlertViolations from KeyTransactionEntity
+func (x KeyTransactionEntity) GetRecentAlertViolations() []EntityAlertViolation {
+	return x.RecentAlertViolations
+}
+
+// GetRelatedEntities returns a pointer to the value of RelatedEntities from KeyTransactionEntity
+func (x KeyTransactionEntity) GetRelatedEntities() EntityRelationshipRelatedEntitiesResult {
+	return x.RelatedEntities
+}
+
+// GetRelationships returns a pointer to the value of Relationships from KeyTransactionEntity
+func (x KeyTransactionEntity) GetRelationships() []EntityRelationship {
+	return x.Relationships
+}
+
+// GetReporting returns a pointer to the value of Reporting from KeyTransactionEntity
+func (x KeyTransactionEntity) GetReporting() bool {
+	return x.Reporting
+}
+
+// GetServiceLevel returns a pointer to the value of ServiceLevel from KeyTransactionEntity
+func (x KeyTransactionEntity) GetServiceLevel() ServiceLevelDefinition {
+	return x.ServiceLevel
+}
+
+// GetTags returns a pointer to the value of Tags from KeyTransactionEntity
+func (x KeyTransactionEntity) GetTags() []EntityTag {
+	return x.Tags
+}
+
+// GetTagsWithMetadata returns a pointer to the value of TagsWithMetadata from KeyTransactionEntity
+func (x KeyTransactionEntity) GetTagsWithMetadata() []EntityTagWithMetadata {
+	return x.TagsWithMetadata
+}
+
+// GetTracingSummary returns a pointer to the value of TracingSummary from KeyTransactionEntity
+func (x KeyTransactionEntity) GetTracingSummary() DistributedTracingEntityTracingSummary {
+	return x.TracingSummary
+}
+
+// GetType returns a pointer to the value of Type from KeyTransactionEntity
+func (x KeyTransactionEntity) GetType() string {
+	return x.Type
+}
+
+func (x *KeyTransactionEntity) ImplementsAlertableEntity() {}
+
+func (x *KeyTransactionEntity) ImplementsEntity() {}
+
+// KeyTransactionApplication - The application wrapper.
+type KeyTransactionApplication struct {
+	// The application outline.
+	Entity EntityOutlineInterface `json:"entity,omitempty"`
+	// The guid of the application.
+	GUID common.EntityGUID `json:"guid"`
+}
+
+// special
+func (x *KeyTransactionApplication) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+
+	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
+		switch k {
+		case "entity":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalEntityOutlineInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.Entity = *xxx
+			}
+		case "guid":
+			err = json.Unmarshal(*v, &x.GUID)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
+}
+
+// ChangeTrackingDeploymentType - Type of deployment.
+type ChangeTrackingDeploymentType string
+
+var ChangeTrackingDeploymentTypeTypes = struct {
+	// A vanilla deployment
+	BASIC ChangeTrackingDeploymentType
+	// Blue-green deployment
+	BLUE_GREEN ChangeTrackingDeploymentType
+	// Canary deployment
+	CANARY ChangeTrackingDeploymentType
+	// Other types of deployment.
+	OTHER ChangeTrackingDeploymentType
+	// Rolling deployment.
+	ROLLING ChangeTrackingDeploymentType
+	// Shadow deployment
+	SHADOW ChangeTrackingDeploymentType
+}{
+	// A vanilla deployment
+	BASIC: "BASIC",
+	// Blue-green deployment
+	BLUE_GREEN: "BLUE_GREEN",
+	// Canary deployment
+	CANARY: "CANARY",
+	// Other types of deployment.
+	OTHER: "OTHER",
+	// Rolling deployment.
+	ROLLING: "ROLLING",
+	// Shadow deployment
+	SHADOW: "SHADOW",
+}
+
+// ChangeTrackingDeployment - A deployment.
+type ChangeTrackingDeployment struct {
+	// A URL to the changelog or, if not linkable, a list of changes.
+	Changelog string `json:"changelog,omitempty"`
+	// The commit identifier, for example, a Git commit SHA.
+	Commit string `json:"commit,omitempty"`
+	// A link to the system that generated the deployment.
+	DeepLink string `json:"deepLink,omitempty"`
+	// A unique deployment identifier.
+	DeploymentId string `json:"deploymentId,omitempty"`
+	// The type of deployment, for example, ‘Blue green’ or ‘Rolling’.
+	DeploymentType ChangeTrackingDeploymentType `json:"deploymentType,omitempty"`
+	// A description of the deployment.
+	Description string `json:"description,omitempty"`
+	// The NR entity that was deployed.
+	EntityGUID common.EntityGUID `json:"entityGuid"`
+	// An identifier used to correlate two or more events.
+	GroupId string `json:"groupId,omitempty"`
+	// The start time of the deployment as the number of milliseconds since the Unix epoch.
+	Timestamp *nrtime.EpochMilliseconds `json:"timestamp"`
+	// The username of the deployer or bot.
+	User string `json:"user,omitempty"`
+	// The version of the deployed software, for example, something like v1.1.
+	Version string `json:"version"`
+}
+
+// ChangeTrackingDeploymentSearchResult - The result of the deployment search query.
+type ChangeTrackingDeploymentSearchResult struct {
+	// The list of deployment events in the given time window.
+	Results []ChangeTrackingDeployment `json:"results,omitempty"`
 }
