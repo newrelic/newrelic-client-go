@@ -172,8 +172,8 @@ func TestNotificationMutationDestination_CustomHeaderAuth(t *testing.T) {
 	}
 	destination.Auth = &AiNotificationsCredentialsInput{
 		Type: AiNotificationsAuthTypeTypes.CUSTOM_HEADERS,
-		Headers: AiNotificationsCustomHeadersAuthInput{
-			[]AiNotificationsCustomHeadersInput{
+		CustomHeaders: AiNotificationsCustomHeadersAuthInput{
+			[]AiNotificationsCustomHeaderInput{
 				{Key: "key1", Value: "value1"},
 				{Key: "key2", Value: "value2"},
 				{Key: "key3", Value: "value3"},
@@ -222,8 +222,8 @@ func TestNotificationMutationDestination_CustomHeaderAuth(t *testing.T) {
 	}
 	updateDestination.Auth = &AiNotificationsCredentialsInput{
 		Type: AiNotificationsAuthTypeTypes.CUSTOM_HEADERS,
-		Headers: AiNotificationsCustomHeadersAuthInput{
-			[]AiNotificationsCustomHeadersInput{
+		CustomHeaders: AiNotificationsCustomHeadersAuthInput{
+			[]AiNotificationsCustomHeaderInput{
 				{Key: "key1", Value: "value1"},
 				{Key: "key4", Value: "value4"},
 			},
