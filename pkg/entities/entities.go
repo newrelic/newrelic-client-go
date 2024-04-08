@@ -4,6 +4,7 @@ package entities
 import (
 	"errors"
 	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/newrelic/newrelic-client-go/v2/internal/http"
@@ -30,6 +31,7 @@ type EntitySearchParams struct {
 	Domain          string
 	Type            string
 	AlertSeverity   string
+	IsReporting     *bool
 	IsCaseSensitive bool
 	Tags            []map[string]string
 }
@@ -72,6 +74,7 @@ func BuildEntitySearchNrqlQuery(params EntitySearchParams) string {
 
 			query = fmt.Sprintf("%s AND %s = '%s'", query, k, v)
 		}
+
 		count++
 	}
 
@@ -80,6 +83,14 @@ func BuildEntitySearchNrqlQuery(params EntitySearchParams) string {
 			query = fmt.Sprintf("%s AND %s", query, BuildTagsNrqlQueryFragment(params.Tags))
 		} else {
 			query = BuildTagsNrqlQueryFragment(params.Tags)
+		}
+	}
+
+	if params.IsReporting != nil {
+		if count == 0 {
+			query = fmt.Sprintf("reporting = '%s'", strconv.FormatBool(*params.IsReporting))
+		} else {
+			query = fmt.Sprintf("%s AND reporting = '%s'", query, strconv.FormatBool(*params.IsReporting))
 		}
 	}
 

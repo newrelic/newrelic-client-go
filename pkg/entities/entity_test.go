@@ -100,6 +100,44 @@ func TestBuildEntitySearchNrqlQuery(t *testing.T) {
 	result := BuildEntitySearchNrqlQuery(searchParams)
 	require.Equal(t, expected, result)
 
+	// Is reporting = true
+	isReporting := true
+	expected = "reporting = 'true'"
+	searchParams = EntitySearchParams{
+		IsReporting: &isReporting,
+	}
+	result = BuildEntitySearchNrqlQuery(searchParams)
+	require.Equal(t, expected, result)
+
+	// Is reporting = false
+	isReporting = false
+	expected = "reporting = 'false'"
+	searchParams = EntitySearchParams{
+		IsReporting: &isReporting,
+	}
+	result = BuildEntitySearchNrqlQuery(searchParams)
+	require.Equal(t, expected, result)
+
+	// Is reporting = true and type
+	isReporting = true
+	searchParams = EntitySearchParams{
+		Type:        "APPLICATION",
+		IsReporting: &isReporting,
+	}
+	result = BuildEntitySearchNrqlQuery(searchParams)
+	require.Contains(t, result, "reporting = 'true'")
+	require.Contains(t, result, "type = 'APPLICATION'")
+
+	// Is reporting = false and type
+	isReporting = false
+	searchParams = EntitySearchParams{
+		Type:        "APPLICATION",
+		IsReporting: &isReporting,
+	}
+	result = BuildEntitySearchNrqlQuery(searchParams)
+	require.Contains(t, result, "reporting = 'false'")
+	require.Contains(t, result, "type = 'APPLICATION'")
+
 	// Case-sensitive search (applies to `name` only)
 	expected = "name = 'Dummy App'"
 	searchParams = EntitySearchParams{
