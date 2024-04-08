@@ -215,7 +215,7 @@ type AiNotificationsTokenAuth struct {
 	Prefix string `json:"prefix"`
 }
 
-func (x AiNotificationsTokenAuth) GetHeaders() []AiNotificationsCustomHeaders {
+func (x AiNotificationsTokenAuth) GetCustomHeaders() []AiNotificationsCustomHeaders {
 	return nil
 }
 
@@ -272,7 +272,7 @@ type AiNotificationsBasicAuth struct {
 	User string `json:"user"`
 }
 
-func (x AiNotificationsBasicAuth) GetHeaders() []AiNotificationsCustomHeaders {
+func (x AiNotificationsBasicAuth) GetCustomHeaders() []AiNotificationsCustomHeaders {
 	return nil
 }
 
@@ -415,7 +415,7 @@ type AiNotificationsAuthInterface interface {
 	GetRefreshInterval() int
 	GetRefreshable() bool
 	GetScope() string
-	GetHeaders() []AiNotificationsCustomHeaders
+	GetCustomHeaders() []AiNotificationsCustomHeaders
 }
 
 // AiNotificationsCustomHeaders - Custom headers
@@ -467,7 +467,7 @@ func (x AiNotificationsCustomHeadersAuth) GetAuthType() AiNotificationsAuthType 
 	return x.AuthType
 }
 
-func (x AiNotificationsCustomHeadersAuth) GetHeaders() []AiNotificationsCustomHeaders {
+func (x AiNotificationsCustomHeadersAuth) GetCustomHeaders() []AiNotificationsCustomHeaders {
 	return x.CustomHeaders
 }
 
