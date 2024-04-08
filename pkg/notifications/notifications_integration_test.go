@@ -46,7 +46,7 @@ func TestNotificationMutationDestination(t *testing.T) {
 	}
 	destination.Name = fmt.Sprintf("test-notifications-destination-%s", testIntegrationDestinationNameRandStr)
 
-	// Test: Create`
+	// Test: Create
 	createResult, err := n.AiNotificationsCreateDestination(accountID, destination)
 	require.NoError(t, err)
 	require.NotNil(t, createResult)
