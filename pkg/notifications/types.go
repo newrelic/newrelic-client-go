@@ -823,7 +823,7 @@ type AiNotificationsDestinationInput struct {
 	// name
 	Name string `json:"name"`
 	// properties
-	Properties []AiNotificationsPropertyInput `json:"properties,omitempty"`
+	Properties []AiNotificationsPropertyInput `json:"properties"`
 	// secureUrl
 	SecureURL *AiNotificationsSecureURLInput `json:"secureUrl,omitempty"`
 	// type

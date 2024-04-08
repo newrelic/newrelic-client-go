@@ -245,6 +245,85 @@ func TestNotificationMutationDestination_CustomHeaderAuth(t *testing.T) {
 	require.NotNil(t, deleteResult)
 }
 
+func TestNotificationMutationDestination_secureUrl(t *testing.T) {
+	t.Parallel()
+
+	n := newIntegrationTestClient(t)
+
+	accountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	// Create a destination to work with in this test
+	testIntegrationDestinationNameRandStr := mock.RandSeq(5)
+	destination := AiNotificationsDestinationInput{}
+	destination.Type = AiNotificationsDestinationTypeTypes.WEBHOOK
+	destination.Properties = []AiNotificationsPropertyInput{}
+	destination.SecureURL = &AiNotificationsSecureURLInput{
+		Prefix:       "https://webhook.site",
+		SecureSuffix: "/94193c01-4a81-4782-8f1b-554d5230395b",
+	}
+	destination.Auth = &AiNotificationsCredentialsInput{
+		Type: AiNotificationsAuthTypeTypes.TOKEN,
+		Token: AiNotificationsTokenAuthInput{
+			Token:  "Token",
+			Prefix: "Bearer",
+		},
+	}
+	destination.Name = fmt.Sprintf("test-notifications-destination-%s", testIntegrationDestinationNameRandStr)
+
+	// Test: Create
+	createResult, err := n.AiNotificationsCreateDestination(accountID, destination)
+	require.NoError(t, err)
+	require.NotNil(t, createResult)
+	require.NotNil(t, createResult.Destination.SecureURL)
+	require.Equal(t, createResult.Destination.SecureURL.Prefix, "https://webhook.site")
+	require.NotEmpty(t, createResult.Destination.Auth)
+	require.Equal(t, ai.AiNotificationsAuthType("TOKEN"), createResult.Destination.Auth.AuthType)
+
+	// Test: Get Destination by id
+	filters := ai.AiNotificationsDestinationFilter{
+		ID: createResult.Destination.ID,
+	}
+	sorter := AiNotificationsDestinationSorter{}
+	getDestinationResult, err := n.GetDestinations(accountID, "", filters, sorter)
+	require.NoError(t, err)
+	require.NotNil(t, getDestinationResult)
+	assert.Equal(t, 1, getDestinationResult.TotalCount)
+	require.NotEmpty(t, getDestinationResult.Entities[0].GUID)
+	require.NotNil(t, getDestinationResult.Entities[0].SecureURL)
+	require.Equal(t, getDestinationResult.Entities[0].SecureURL.Prefix, "https://webhook.site")
+
+	// Test: Update Destination
+	updateDestination := AiNotificationsDestinationUpdate{}
+	updateDestination.Active = false
+	updateDestination.Properties = []AiNotificationsPropertyInput{}
+	updateDestination.SecureURL = &AiNotificationsSecureURLUpdate{
+		Prefix:       "https://webhook2.site",
+		SecureSuffix: "/59bb0d7a-1708-481a-a178-9161416f8ba6",
+	}
+	updateDestination.Auth = &AiNotificationsCredentialsInput{
+		Type: AiNotificationsAuthTypeTypes.TOKEN,
+		Token: AiNotificationsTokenAuthInput{
+			Token:  "TokenUpdate",
+			Prefix: "BearerUpdate",
+		},
+	}
+	updateDestination.Name = fmt.Sprintf("test-notifications-update-destination-%s", testIntegrationDestinationNameRandStr)
+
+	updateDestinationResult, err := n.AiNotificationsUpdateDestination(accountID, updateDestination, createResult.Destination.ID)
+	require.NoError(t, err)
+	require.NotNil(t, updateDestinationResult)
+	require.NotNil(t, updateDestinationResult.Destination.SecureURL)
+	require.Equal(t, updateDestinationResult.Destination.SecureURL.Prefix, "https://webhook2.site")
+
+	// Test: Delete
+	deleteResult, err := n.AiNotificationsDeleteDestination(accountID, createResult.Destination.ID)
+	require.NoError(t, err)
+	require.NotNil(t, deleteResult)
+}
+
 func TestNotificationMutationChannel(t *testing.T) {
 	t.Parallel()
 
