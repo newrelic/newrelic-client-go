@@ -5,10 +5,10 @@ import "context"
 
 // The new organization to create.
 func (a *Organization) OrganizationCreate(
-	customerId int,
-	newManagedAccount OrganizationNewManagedAccountInput,
+	customerId string,
+	newManagedAccount *OrganizationNewManagedAccountInput,
 	organization OrganizationCreateOrganizationInput,
-	sharedAccount OrganizationSharedAccountInput,
+	sharedAccount *OrganizationSharedAccountInput,
 ) (*OrganizationCreateOrganizationResponse, error) {
 	return a.OrganizationCreateWithContext(context.Background(),
 		customerId,
@@ -21,10 +21,10 @@ func (a *Organization) OrganizationCreate(
 // The new organization to create.
 func (a *Organization) OrganizationCreateWithContext(
 	ctx context.Context,
-	customerId int,
-	newManagedAccount OrganizationNewManagedAccountInput,
+	customerId string,
+	newManagedAccount *OrganizationNewManagedAccountInput,
 	organization OrganizationCreateOrganizationInput,
-	sharedAccount OrganizationSharedAccountInput,
+	sharedAccount *OrganizationSharedAccountInput,
 ) (*OrganizationCreateOrganizationResponse, error) {
 
 	resp := OrganizationCreateQueryResponse{}
@@ -159,7 +159,7 @@ const OrganizationRevokeSharedAccountMutation = `mutation(
 // The organization to update
 func (a *Organization) OrganizationUpdate(
 	organization OrganizationUpdateInput,
-	organizationId int,
+	organizationId string,
 ) (*OrganizationUpdateResponse, error) {
 	return a.OrganizationUpdateWithContext(context.Background(),
 		organization,
@@ -171,7 +171,7 @@ func (a *Organization) OrganizationUpdate(
 func (a *Organization) OrganizationUpdateWithContext(
 	ctx context.Context,
 	organization OrganizationUpdateInput,
-	organizationId int,
+	organizationId string,
 ) (*OrganizationUpdateResponse, error) {
 
 	resp := OrganizationUpdateQueryResponse{}

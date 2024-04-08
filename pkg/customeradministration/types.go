@@ -1000,17 +1000,17 @@ type MultiTenantIdentityGroupCollection struct {
 // MultiTenantIdentityGroupFilterInput - The input object representing the filter parameters for groups
 type MultiTenantIdentityGroupFilterInput struct {
 	// Filter groups by capabilities
-	AllowsCapability MultiTenantIdentityAllowsCapabilityInput `json:"allowsCapability,omitempty"`
+	AllowsCapability *MultiTenantIdentityAllowsCapabilityInput `json:"allowsCapability,omitempty"`
 	// Filter groups by authentication domain
-	AuthenticationDomainId MultiTenantIdentityAuthenticationDomainIdInput `json:"authenticationDomainId,omitempty"`
+	AuthenticationDomainId *MultiTenantIdentityAuthenticationDomainIdInput `json:"authenticationDomainId,omitempty"`
 	// Filter groups by ID
-	ID MultiTenantIdentityGroupIdInput `json:"id,omitempty"`
+	ID *MultiTenantIdentityGroupIdInput `json:"id,omitempty"`
 	// Filter groups that contain specific members
-	Members MultiTenantIdentityGroupMemberIdInput `json:"members,omitempty"`
+	Members *MultiTenantIdentityGroupMemberIdInput `json:"members,omitempty"`
 	// Filter groups by display name
-	Name MultiTenantIdentityGroupNameInput `json:"name,omitempty"`
+	Name *MultiTenantIdentityGroupNameInput `json:"name,omitempty"`
 	// An organization ID to filter groups by
-	OrganizationId MultiTenantIdentityOrganizationIdInput `json:"organizationId,omitempty"`
+	OrganizationId *MultiTenantIdentityOrganizationIdInput `json:"organizationId,omitempty"`
 }
 
 // MultiTenantIdentityGroupIdInput - The input object representing parameters for the ID input filter
@@ -1145,7 +1145,7 @@ type MultiTenantIdentityUserEmailInput struct {
 // MultiTenantIdentityUserFilterInput - Filter users
 type MultiTenantIdentityUserFilterInput struct {
 	// Filter users by authentication domain
-	AuthenticationDomainId MultiTenantIdentityAuthenticationDomainIdInput `json:"authenticationDomainId,omitempty"`
+	AuthenticationDomainId *MultiTenantIdentityAuthenticationDomainIdInput `json:"authenticationDomainId,omitempty"`
 	// Filter users by email address
 	Email MultiTenantIdentityUserEmailInput `json:"email,omitempty"`
 	// Filter users by email verification state
@@ -1557,11 +1557,11 @@ type OrganizationOrganizationCreateAsyncResultCollection struct {
 // OrganizationOrganizationCreateAsyncResultFilterInput - A filter for organization create job results
 type OrganizationOrganizationCreateAsyncResultFilterInput struct {
 	// Filter organization create job results by customer ID
-	CustomerId OrganizationOrganizationCreateJobCustomerIdInput `json:"customerId,omitempty"`
+	CustomerId *OrganizationOrganizationCreateJobCustomerIdInput `json:"customerId,omitempty"`
 	// Filter oganization create job results by id
-	JobId OrganizationOrganizationCreateJobIdInput `json:"jobId,omitempty"`
+	JobId *OrganizationOrganizationCreateJobIdInput `json:"jobId,omitempty"`
 	// Filter organization create job results by status
-	Status OrganizationOrganizationCreateJobStatusInput `json:"status,omitempty"`
+	Status *OrganizationOrganizationCreateJobStatusInput `json:"status,omitempty"`
 }
 
 // OrganizationOrganizationCreateJobCustomerIdInput - The customer id search for jobs

@@ -56,7 +56,7 @@ func TestIntegrationCustomerAdministration_GetUsers(t *testing.T) {
 		"",
 		MultiTenantIdentityUserFilterInput{
 			// Authentication Domain ID is required in this filter
-			AuthenticationDomainId: MultiTenantIdentityAuthenticationDomainIdInput{Eq: "WORK-IN-PROGRESS"},
+			AuthenticationDomainId: &MultiTenantIdentityAuthenticationDomainIdInput{Eq: "WORK-IN-PROGRESS"},
 			Email:                  MultiTenantIdentityUserEmailInput{},
 			EmailVerificationState: MultiTenantIdentityEmailVerificationStateInput{},
 			ID:                     MultiTenantIdentityUserIdInput{},

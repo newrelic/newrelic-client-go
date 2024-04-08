@@ -52,7 +52,7 @@ type OrganizationCreateSharedAccountInput struct {
 	// The name of the shared account
 	Name string `json:"name,omitempty"`
 	// The id of the target organization
-	TargetOrganizationId int `json:"targetOrganizationId"`
+	TargetOrganizationId string `json:"targetOrganizationId"`
 }
 
 // OrganizationCreateSharedAccountResponse - The object that's returned from successfully creating a shared account.
@@ -108,11 +108,11 @@ type OrganizationSharedAccount struct {
 	// The name of the account share.
 	Name string `json:"name,omitempty"`
 	// The ID of the organization sending the account share.
-	SourceOrganizationId int `json:"sourceOrganizationId"`
+	SourceOrganizationId string `json:"sourceOrganizationId"`
 	// The name of the organization sending the account share.
 	SourceOrganizationName string `json:"sourceOrganizationName,omitempty"`
 	// The ID of the organization receiving the account share.
-	TargetOrganizationId int `json:"targetOrganizationId"`
+	TargetOrganizationId string `json:"targetOrganizationId"`
 	// The name of the organization receiving the account share.
 	TargetOrganizationName string `json:"targetOrganizationName,omitempty"`
 }
@@ -152,10 +152,3 @@ type OrganizationUpdateSharedAccountResponse struct {
 	// Information about the updated shared account.
 	SharedAccount OrganizationSharedAccount `json:"sharedAccount,omitempty"`
 }
-
-// ID - The `ID` scalar type represents a unique identifier, often used to
-// refetch an object or as key for a cache. The ID type appears in a JSON
-// response as a String; however, it is not intended to be human-readable.
-// When expected as an input type, any string (such as `"4"`) or integer
-// (such as `4`) input value will be accepted as an ID.
-type ID string

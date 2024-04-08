@@ -1450,6 +1450,17 @@ packages:
         max_query_field_depth: 2
       - name: organizationUpdateSharedAccount
         max_query_field_depth: 2
+    types:
+      - name: OrganizationNewManagedAccountInput
+        field_type_override: "*OrganizationNewManagedAccountInput"
+      - name: OrganizationSharedAccountInput
+        field_type_override: "*OrganizationSharedAccountInput"
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
 
   - name: customeradministration
     path: pkg/customeradministration
@@ -1513,6 +1524,28 @@ packages:
       - name: MultiTenantAuthorizationRoleSortInput
       - name: MultiTenantIdentityUserFilterInput
       - name: MultiTenantIdentityUserSortInput
+        # overrides associated with types starting with MultiTenantIdentityGroupFilterInput
+        # which is used in the 'groups' endpoint in customerAdministration
+      - name: MultiTenantIdentityAllowsCapabilityInput
+        field_type_override: "*MultiTenantIdentityAllowsCapabilityInput"
+      - name: MultiTenantIdentityAuthenticationDomainIdInput
+        field_type_override: "*MultiTenantIdentityAuthenticationDomainIdInput"
+      - name: MultiTenantIdentityGroupIdInput
+        field_type_override: "*MultiTenantIdentityGroupIdInput"
+      - name: MultiTenantIdentityGroupMemberIdInput
+        field_type_override: "*MultiTenantIdentityGroupMemberIdInput"
+      - name: MultiTenantIdentityGroupNameInput
+        field_type_override: "*MultiTenantIdentityGroupNameInput"
+      - name: MultiTenantIdentityOrganizationIdInput
+        field_type_override: "*MultiTenantIdentityOrganizationIdInput"
+        # overrides associated with types starting with OrganizationOrganizationCreateAsyncResultFilterInput
+        # which is used in the 'organizationCreateAsyncResults' endpoint in customerAdministration > jobs
+      - name: OrganizationOrganizationCreateJobCustomerIdInput
+        field_type_override: "*OrganizationOrganizationCreateJobCustomerIdInput"
+      - name: OrganizationOrganizationCreateJobIdInput
+        field_type_override: "*OrganizationOrganizationCreateJobIdInput"
+      - name: OrganizationOrganizationCreateJobStatusInput
+        field_type_override: "*OrganizationOrganizationCreateJobStatusInput"
 
       - name: ID
         field_type_override: string
