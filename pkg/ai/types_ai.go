@@ -399,7 +399,7 @@ type AiNotificationsAuth struct {
 	// Basic auth user
 	User string `json:"user,omitempty"`
 	// Custom headers
-	Headers []AiNotificationsCustomHeaders `json:"headers,omitempty"`
+	CustomHeaders []AiNotificationsCustomHeaders `json:"customHeaders,omitempty"`
 }
 
 func (x *AiNotificationsAuth) ImplementsAiNotificationsAuth() {}
@@ -428,7 +428,7 @@ type AiNotificationsCustomHeadersAuth struct {
 	// Authentication Type - CustomHeaders
 	AuthType AiNotificationsAuthType `json:"authType"`
 	// Custom headers
-	Headers []AiNotificationsCustomHeaders `json:"headers"`
+	CustomHeaders []AiNotificationsCustomHeaders `json:"customHeaders"`
 }
 
 func (x AiNotificationsCustomHeadersAuth) GetUser() string {
@@ -468,7 +468,7 @@ func (x AiNotificationsCustomHeadersAuth) GetAuthType() AiNotificationsAuthType 
 }
 
 func (x AiNotificationsCustomHeadersAuth) GetHeaders() []AiNotificationsCustomHeaders {
-	return x.Headers
+	return x.CustomHeaders
 }
 
 func (x AiNotificationsCustomHeadersAuth) ImplementsAiNotificationsAuth() {}

@@ -46,7 +46,7 @@ func TestNotificationMutationDestination(t *testing.T) {
 	}
 	destination.Name = fmt.Sprintf("test-notifications-destination-%s", testIntegrationDestinationNameRandStr)
 
-	// Test: Create
+	// Test: Create`
 	createResult, err := n.AiNotificationsCreateDestination(accountID, destination)
 	require.NoError(t, err)
 	require.NotNil(t, createResult)
@@ -172,7 +172,7 @@ func TestNotificationMutationDestination_CustomHeaderAuth(t *testing.T) {
 	}
 	destination.Auth = &AiNotificationsCredentialsInput{
 		Type: AiNotificationsAuthTypeTypes.CUSTOM_HEADERS,
-		CustomHeaders: AiNotificationsCustomHeadersAuthInput{
+		CustomHeaders: &AiNotificationsCustomHeadersAuthInput{
 			[]AiNotificationsCustomHeaderInput{
 				{Key: "key1", Value: "value1"},
 				{Key: "key2", Value: "value2"},
@@ -188,10 +188,10 @@ func TestNotificationMutationDestination_CustomHeaderAuth(t *testing.T) {
 	require.NotNil(t, createResult)
 	require.NotEmpty(t, createResult.Destination.Auth)
 	require.Equal(t, ai.AiNotificationsAuthType("CUSTOM_HEADERS"), createResult.Destination.Auth.AuthType)
-	require.Equal(t, 3, len(createResult.Destination.Auth.Headers))
-	require.Equal(t, "key1", createResult.Destination.Auth.Headers[0].Key)
-	require.Equal(t, "key2", createResult.Destination.Auth.Headers[1].Key)
-	require.Equal(t, "key3", createResult.Destination.Auth.Headers[2].Key)
+	require.Equal(t, 3, len(createResult.Destination.Auth.CustomHeaders))
+	require.Equal(t, "key1", createResult.Destination.Auth.CustomHeaders[0].Key)
+	require.Equal(t, "key2", createResult.Destination.Auth.CustomHeaders[1].Key)
+	require.Equal(t, "key3", createResult.Destination.Auth.CustomHeaders[2].Key)
 
 	// Test: Get Destination by id
 	filters := ai.AiNotificationsDestinationFilter{
@@ -203,11 +203,11 @@ func TestNotificationMutationDestination_CustomHeaderAuth(t *testing.T) {
 	require.NotNil(t, getDestinationResult)
 	assert.Equal(t, 1, getDestinationResult.TotalCount)
 	require.NotEmpty(t, getDestinationResult.Entities[0].GUID)
-	require.Equal(t, ai.AiNotificationsAuthType("CUSTOM_HEADERS"), getDestinationResult.Destination.Auth.AuthType)
-	require.Equal(t, 3, len(getDestinationResult.Destination.Auth.Headers))
-	require.Equal(t, "key1", getDestinationResult.Destination.Auth.Headers[0].Key)
-	require.Equal(t, "key2", getDestinationResult.Destination.Auth.Headers[1].Key)
-	require.Equal(t, "key3", getDestinationResult.Destination.Auth.Headers[2].Key)
+	require.Equal(t, ai.AiNotificationsAuthType("CUSTOM_HEADERS"), getDestinationResult.Entities[0].Auth.AuthType)
+	require.Equal(t, 3, len(getDestinationResult.Entities[0].Auth.CustomHeaders))
+	require.Equal(t, "key1", getDestinationResult.Entities[0].Auth.CustomHeaders[0].Key)
+	require.Equal(t, "key2", getDestinationResult.Entities[0].Auth.CustomHeaders[1].Key)
+	require.Equal(t, "key3", getDestinationResult.Entities[0].Auth.CustomHeaders[2].Key)
 
 	// Test: Update Destination
 	updateDestination := AiNotificationsDestinationUpdate{}
@@ -222,7 +222,7 @@ func TestNotificationMutationDestination_CustomHeaderAuth(t *testing.T) {
 	}
 	updateDestination.Auth = &AiNotificationsCredentialsInput{
 		Type: AiNotificationsAuthTypeTypes.CUSTOM_HEADERS,
-		CustomHeaders: AiNotificationsCustomHeadersAuthInput{
+		CustomHeaders: &AiNotificationsCustomHeadersAuthInput{
 			[]AiNotificationsCustomHeaderInput{
 				{Key: "key1", Value: "value1"},
 				{Key: "key4", Value: "value4"},
@@ -234,10 +234,10 @@ func TestNotificationMutationDestination_CustomHeaderAuth(t *testing.T) {
 	updateDestinationResult, err := n.AiNotificationsUpdateDestination(accountID, updateDestination, createResult.Destination.ID)
 	require.NoError(t, err)
 	require.NotNil(t, updateDestinationResult)
-	require.Equal(t, ai.AiNotificationsAuthType("CUSTOM_HEADERS"), getDestinationResult.Destination.Auth.AuthType)
-	require.Equal(t, 2, len(getDestinationResult.Destination.Auth.Headers))
-	require.Equal(t, "key1", getDestinationResult.Destination.Auth.Headers[0].Key)
-	require.Equal(t, "key4", getDestinationResult.Destination.Auth.Headers[1].Key)
+	require.Equal(t, ai.AiNotificationsAuthType("CUSTOM_HEADERS"), updateDestinationResult.Destination.Auth.AuthType)
+	require.Equal(t, 2, len(updateDestinationResult.Destination.Auth.CustomHeaders))
+	require.Equal(t, "key1", updateDestinationResult.Destination.Auth.CustomHeaders[0].Key)
+	require.Equal(t, "key4", updateDestinationResult.Destination.Auth.CustomHeaders[1].Key)
 
 	// Test: Delete
 	deleteResult, err := n.AiNotificationsDeleteDestination(accountID, createResult.Destination.ID)

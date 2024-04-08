@@ -729,7 +729,7 @@ type AiNotificationsCredentialsInput struct {
 	// basic
 	Basic AiNotificationsBasicAuthInput `json:"basic,omitempty"`
 	// customHeaders
-	CustomHeaders AiNotificationsCustomHeadersAuthInput `json:"customHeaders,omitempty"`
+	CustomHeaders *AiNotificationsCustomHeadersAuthInput `json:"customHeaders,omitempty"`
 	// oauth2
 	Oauth2 AiNotificationsOAuth2AuthInput `json:"oauth2,omitempty"`
 	// token
@@ -825,7 +825,7 @@ type AiNotificationsDestinationInput struct {
 	// properties
 	Properties []AiNotificationsPropertyInput `json:"properties,omitempty"`
 	// secureUrl
-	SecureURL AiNotificationsSecureURLInput `json:"secureUrl,omitempty"`
+	SecureURL *AiNotificationsSecureURLInput `json:"secureUrl,omitempty"`
 	// type
 	Type AiNotificationsDestinationType `json:"type"`
 }
@@ -861,7 +861,7 @@ type AiNotificationsDestinationUpdate struct {
 	// properties
 	Properties []AiNotificationsPropertyInput `json:"properties,omitempty"`
 	// secureUrl
-	SecureURL AiNotificationsSecureURLUpdate `json:"secureUrl,omitempty"`
+	SecureURL *AiNotificationsSecureURLUpdate `json:"secureUrl,omitempty"`
 }
 
 // AiNotificationsDestinationsResponse - Destinations result object
