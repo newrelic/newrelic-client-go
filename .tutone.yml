@@ -1426,6 +1426,13 @@ packages:
         max_query_field_depth: 3
       - name: authorizationManagementRevokeAccess
         max_query_field_depth: 3
+    types:
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
 
   - name: organization
     path: pkg/organization

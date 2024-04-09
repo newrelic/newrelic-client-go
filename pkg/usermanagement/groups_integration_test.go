@@ -31,6 +31,12 @@ func TestIntegrationCreateGroup(t *testing.T) {
 
 	require.NoError(t, err)
 	require.NotNil(t, createGroupResponse.Group.ID)
+
+	deleteGroupInput := UserManagementDeleteGroup{ID: createGroupResponse.Group.ID}
+	deleteGroupResponse, err := client.UserManagementDeleteGroup(deleteGroupInput)
+
+	require.NoError(t, err)
+	require.NotNil(t, deleteGroupResponse)
 }
 
 func TestIntegrationCreateGroupError(t *testing.T) {

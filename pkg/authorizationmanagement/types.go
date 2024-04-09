@@ -12,7 +12,7 @@ type AuthorizationManagementAccountAccessGrant struct {
 	// The Account ID the Role will grant access to
 	AccountID int `json:"accountId"`
 	// The Role ID that will define the access
-	RoleId int `json:"roleId"`
+	RoleId string `json:"roleId"`
 }
 
 // AuthorizationManagementGrantAccess - The input object representing the access to grant for the group
@@ -22,7 +22,7 @@ type AuthorizationManagementGrantAccess struct {
 	// The Role and the Group the Target Group should have access to
 	GroupAccessGrants []AuthorizationManagementGroupAccessGrant `json:"groupAccessGrants,omitempty"`
 	// The Group ID that will have access granted
-	GroupId int `json:"groupId"`
+	GroupId string `json:"groupId"`
 	// The Role and the Organization the Target Group should have access to
 	OrganizationAccessGrants []AuthorizationManagementOrganizationAccessGrant `json:"organizationAccessGrants,omitempty"`
 }
@@ -40,17 +40,17 @@ type AuthorizationManagementGrantedRole struct {
 	// the name of the object
 	DisplayName string `json:"displayName,omitempty"`
 	// the group that this role grants access to
-	GroupId int `json:"groupId,omitempty"`
+	GroupId string `json:"groupId,omitempty"`
 	// a value that uniquely identifies this object
-	ID int `json:"id"`
+	ID string `json:"id"`
 	// the name of the object
 	Name string `json:"name"`
 	// the organization this role grants access to
-	OrganizationId int `json:"organizationId,omitempty"`
+	OrganizationId string `json:"organizationId,omitempty"`
 	// the role that defines this access
 	RoleId int `json:"roleId"`
 	// the type of the role
-	Type int `json:"type"`
+	Type string `json:"type"`
 }
 
 // AuthorizationManagementGrantedRoleSearch - container for roles enabling cursor based pagination
@@ -66,15 +66,15 @@ type AuthorizationManagementGrantedRoleSearch struct {
 // AuthorizationManagementGroupAccessGrant - The Group and Role another Group should have access to
 type AuthorizationManagementGroupAccessGrant struct {
 	// The Group ID the Role will grant access to
-	GroupId int `json:"groupId"`
+	GroupId string `json:"groupId"`
 	// The Role ID that will define the access
-	RoleId int `json:"roleId"`
+	RoleId string `json:"roleId"`
 }
 
 // AuthorizationManagementOrganizationAccessGrant - The Organization Role a Group should have access to
 type AuthorizationManagementOrganizationAccessGrant struct {
 	// The Role ID that will define the Organization access
-	RoleId int `json:"roleId"`
+	RoleId string `json:"roleId"`
 }
 
 type AuthorizationManagementOrganizationStitchedFields struct {
@@ -89,7 +89,7 @@ type AuthorizationManagementRevokeAccess struct {
 	// The Role and the Group the Target Group should no longer have access to
 	GroupAccessGrants []AuthorizationManagementGroupAccessGrant `json:"groupAccessGrants,omitempty"`
 	// The Group ID that will have access revoked
-	GroupId int `json:"groupId"`
+	GroupId string `json:"groupId"`
 	// The Role and the Organization the Target Group should no longer have access to
 	OrganizationAccessGrants []AuthorizationManagementOrganizationAccessGrant `json:"organizationAccessGrants,omitempty"`
 }
@@ -105,13 +105,13 @@ type AuthorizationManagementRole struct {
 	// the name of the object
 	DisplayName string `json:"displayName,omitempty"`
 	// a value that uniquely identifies this object
-	ID int `json:"id"`
+	ID string `json:"id"`
 	// the name of the object
 	Name string `json:"name"`
 	// the scope of the role
 	Scope string `json:"scope"`
 	// the type of the role
-	Type int `json:"type"`
+	Type string `json:"type"`
 }
 
 // AuthorizationManagementRoleSearch - container for roles enabling cursor based pagination
@@ -152,8 +152,6 @@ type Organization struct {
 	AuthorizationManagement AuthorizationManagementOrganizationStitchedFields `json:"authorizationManagement,omitempty"`
 	// The customer id for the organization.
 	CustomerId string `json:"customerId,omitempty"`
-	// The ID of the organization.
-	ID int `json:"id,omitempty"`
 	// The name of the organization.
 	Name string `json:"name,omitempty"`
 	// The telemetry id for the organization
@@ -163,10 +161,3 @@ type Organization struct {
 type rolesResponse struct {
 	Actor Actor `json:"actor"`
 }
-
-// ID - The `ID` scalar type represents a unique identifier, often used to
-// refetch an object or as key for a cache. The ID type appears in a JSON
-// response as a String; however, it is not intended to be human-readable.
-// When expected as an input type, any string (such as `"4"`) or integer
-// (such as `4`) input value will be accepted as an ID.
-type ID string

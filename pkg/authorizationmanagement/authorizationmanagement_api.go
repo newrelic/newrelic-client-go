@@ -102,7 +102,7 @@ const AuthorizationManagementRevokeAccessMutation = `mutation(
 // list of roles
 func (a *Authorizationmanagement) GetRoles(
 	cursor string,
-	iD []int,
+	iD []string,
 ) (*AuthorizationManagementRoleSearch, error) {
 	return a.GetRolesWithContext(context.Background(),
 		cursor,
@@ -114,7 +114,7 @@ func (a *Authorizationmanagement) GetRoles(
 func (a *Authorizationmanagement) GetRolesWithContext(
 	ctx context.Context,
 	cursor string,
-	iD []int,
+	iD []string,
 ) (*AuthorizationManagementRoleSearch, error) {
 
 	resp := rolesResponse{}
