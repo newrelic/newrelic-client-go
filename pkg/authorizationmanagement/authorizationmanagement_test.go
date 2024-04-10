@@ -26,8 +26,7 @@ var (
 	mockGroupId   = "fake-group-id"
 	mockRoleId    = "fake-role-id"
 
-	roleId   = "38236"
-	roleName = "Integration Test Role 1 DO NOT DELETE"
+	roleId = "38236"
 
 	invalidGroupErrorRegularExpression              = `An error occurred resolving this field`
 	invalidAccountIdAndRoleIdErrorRegularExpression = `error granting access`

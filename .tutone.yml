@@ -1545,6 +1545,52 @@ packages:
         field_type_override: "*MultiTenantIdentityGroupNameInput"
       - name: MultiTenantIdentityOrganizationIdInput
         field_type_override: "*MultiTenantIdentityOrganizationIdInput"
+        # overrides associated with types starting with MultiTenantIdentityUserFilterInput
+        # which is used in the 'users' endpoint in customerAdministration
+      - name: MultiTenantIdentityUserEmailInput
+        field_type_override: "*MultiTenantIdentityUserEmailInput"
+      - name: MultiTenantIdentityEmailVerificationStateInput
+        field_type_override: "*MultiTenantIdentityEmailVerificationStateInput"
+      - name: MultiTenantIdentityUserIdInput
+        field_type_override: "*MultiTenantIdentityUserIdInput"
+      - name: MultiTenantIdentityUserGroupIdInput
+        field_type_override: "*MultiTenantIdentityUserGroupIdInput"
+      - name:  MultiTenantIdentityUserNameInput
+        field_type_override: "*MultiTenantIdentityUserNameInput"
+      - name:  MultiTenantIdentityPendingUpgradeRequestInput
+        field_type_override: "*MultiTenantIdentityPendingUpgradeRequestInput"
+        # overrides associated with types starting with MultiTenantAuthorizationRoleFilterInputExpression
+        # which is used in the 'roles' endpoint in customerAdministration
+      - name: MultiTenantAuthorizationRoleGroupIdInputFilter
+        field_type_override: "*MultiTenantAuthorizationRoleGroupIdInputFilter"
+      - name: MultiTenantAuthorizationRoleIdInputFilter
+        field_type_override: "*MultiTenantAuthorizationRoleIdInputFilter"
+      - name: MultiTenantAuthorizationRoleNameInputFilter
+        field_type_override: "*MultiTenantAuthorizationRoleNameInputFilter"
+      - name: MultiTenantAuthorizationRoleOrganizationIdInputFilter
+        field_type_override: "*MultiTenantAuthorizationRoleOrganizationIdInputFilter"
+      - name:  MultiTenantAuthorizationRoleScopeInputFilter
+        field_type_override: "*MultiTenantAuthorizationRoleScopeInputFilter"
+      - name:  MultiTenantAuthorizationRoleTypeInputFilter
+        field_type_override: "*MultiTenantAuthorizationRoleTypeInputFilter"
+        #####
+        # overrides associated with types starting with MultiTenantAuthorizationGrantFilterInputExpression{
+        # which is used in the 'grants' endpoint in customerAdministration
+      - name: MultiTenantAuthorizationGrantAuthenticationDomainIdInputFilter
+        field_type_override: "*MultiTenantAuthorizationGrantAuthenticationDomainIdInputFilter"
+      - name: MultiTenantAuthorizationGrantGroupIdInputFilter
+        field_type_override: "*MultiTenantAuthorizationGrantGroupIdInputFilter"
+      - name: MultiTenantAuthorizationGrantIdInputFilter
+        field_type_override: "*MultiTenantAuthorizationGrantIdInputFilter"
+      - name: MultiTenantAuthorizationGrantOrganizationIdInputFilter
+        field_type_override: "*MultiTenantAuthorizationGrantOrganizationIdInputFilter"
+      - name:  MultiTenantAuthorizationGrantRoleIdInputFilter
+        field_type_override: "*MultiTenantAuthorizationGrantRoleIdInputFilter"
+      - name:  MultiTenantAuthorizationGrantScopeIdInputFilter
+        field_type_override: "*MultiTenantAuthorizationGrantScopeIdInputFilter"
+      - name:  MultiTenantAuthorizationGrantScopeTypeInputFilter
+        field_type_override: "*MultiTenantAuthorizationGrantScopeTypeInputFilter"
+        ######
         # overrides associated with types starting with OrganizationOrganizationCreateAsyncResultFilterInput
         # which is used in the 'organizationCreateAsyncResults' endpoint in customerAdministration > jobs
       - name: OrganizationOrganizationCreateJobCustomerIdInput

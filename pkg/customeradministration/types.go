@@ -750,19 +750,19 @@ type MultiTenantAuthorizationGrantCollection struct {
 // MultiTenantAuthorizationGrantFilterInputExpression - Provides all the available filters on a grant
 type MultiTenantAuthorizationGrantFilterInputExpression struct {
 	// The authentication domain id of the grant
-	AuthenticationDomainId MultiTenantAuthorizationGrantAuthenticationDomainIdInputFilter `json:"authenticationDomainId,omitempty"`
+	AuthenticationDomainId *MultiTenantAuthorizationGrantAuthenticationDomainIdInputFilter `json:"authenticationDomainId,omitempty"`
 	// The group id of the grant
-	GroupId MultiTenantAuthorizationGrantGroupIdInputFilter `json:"groupId,omitempty"`
+	GroupId *MultiTenantAuthorizationGrantGroupIdInputFilter `json:"groupId,omitempty"`
 	// The id of the grant
-	ID MultiTenantAuthorizationGrantIdInputFilter `json:"id,omitempty"`
+	ID *MultiTenantAuthorizationGrantIdInputFilter `json:"id,omitempty"`
 	// The organization id the grant belongs to
-	OrganizationId MultiTenantAuthorizationGrantOrganizationIdInputFilter `json:"organizationId,omitempty"`
+	OrganizationId *MultiTenantAuthorizationGrantOrganizationIdInputFilter `json:"organizationId,omitempty"`
 	// The role id of the grant
-	RoleId MultiTenantAuthorizationGrantRoleIdInputFilter `json:"roleId,omitempty"`
+	RoleId *MultiTenantAuthorizationGrantRoleIdInputFilter `json:"roleId,omitempty"`
 	// the scope id of the grant
-	ScopeId MultiTenantAuthorizationGrantScopeIdInputFilter `json:"scopeId,omitempty"`
+	ScopeId *MultiTenantAuthorizationGrantScopeIdInputFilter `json:"scopeId,omitempty"`
 	// The scope type of the grant
-	ScopeType MultiTenantAuthorizationGrantScopeTypeInputFilter `json:"scopeType,omitempty"`
+	ScopeType *MultiTenantAuthorizationGrantScopeTypeInputFilter `json:"scopeType,omitempty"`
 }
 
 // MultiTenantAuthorizationGrantGroup - The group associated to the grant
@@ -896,17 +896,17 @@ type MultiTenantAuthorizationRoleCollection struct {
 // MultiTenantAuthorizationRoleFilterInputExpression - Provides all the available filters on a role
 type MultiTenantAuthorizationRoleFilterInputExpression struct {
 	// The group id the role has been granted to
-	GroupId MultiTenantAuthorizationRoleGroupIdInputFilter `json:"groupId,omitempty"`
+	GroupId *MultiTenantAuthorizationRoleGroupIdInputFilter `json:"groupId,omitempty"`
 	// The id of the role
-	ID MultiTenantAuthorizationRoleIdInputFilter `json:"id,omitempty"`
+	ID *MultiTenantAuthorizationRoleIdInputFilter `json:"id,omitempty"`
 	// The name of the role
-	Name MultiTenantAuthorizationRoleNameInputFilter `json:"name,omitempty"`
+	Name *MultiTenantAuthorizationRoleNameInputFilter `json:"name,omitempty"`
 	// The organization id the role belongs to
-	OrganizationId MultiTenantAuthorizationRoleOrganizationIdInputFilter `json:"organizationId,omitempty"`
+	OrganizationId *MultiTenantAuthorizationRoleOrganizationIdInputFilter `json:"organizationId,omitempty"`
 	// The scope of the role
-	Scope MultiTenantAuthorizationRoleScopeInputFilter `json:"scope,omitempty"`
+	Scope *MultiTenantAuthorizationRoleScopeInputFilter `json:"scope,omitempty"`
 	// The type of the role
-	Type MultiTenantAuthorizationRoleTypeInputFilter `json:"type,omitempty"`
+	Type *MultiTenantAuthorizationRoleTypeInputFilter `json:"type,omitempty"`
 }
 
 // MultiTenantAuthorizationRoleGroupIdInputFilter - Provides all the available filters on the group id
@@ -1058,7 +1058,7 @@ type MultiTenantIdentityGroupUser struct {
 // MultiTenantIdentityGroupUserFilterInput - The input object representing the filter parameters for user groups
 type MultiTenantIdentityGroupUserFilterInput struct {
 	// Filter users by IDs
-	ID MultiTenantIdentityUserIdInput `json:"id,omitempty"`
+	ID *MultiTenantIdentityUserIdInput `json:"id,omitempty"`
 }
 
 // MultiTenantIdentityGroupUsers - List of active users belonging to a group
@@ -1147,17 +1147,17 @@ type MultiTenantIdentityUserFilterInput struct {
 	// Filter users by authentication domain
 	AuthenticationDomainId *MultiTenantIdentityAuthenticationDomainIdInput `json:"authenticationDomainId,omitempty"`
 	// Filter users by email address
-	Email MultiTenantIdentityUserEmailInput `json:"email,omitempty"`
+	Email *MultiTenantIdentityUserEmailInput `json:"email,omitempty"`
 	// Filter users by email verification state
-	EmailVerificationState MultiTenantIdentityEmailVerificationStateInput `json:"emailVerificationState,omitempty"`
+	EmailVerificationState *MultiTenantIdentityEmailVerificationStateInput `json:"emailVerificationState,omitempty"`
 	// Filter users by group id
-	GroupId MultiTenantIdentityUserGroupIdInput `json:"groupId,omitempty"`
+	GroupId *MultiTenantIdentityUserGroupIdInput `json:"groupId,omitempty"`
 	// Filter users by id
-	ID MultiTenantIdentityUserIdInput `json:"id,omitempty"`
+	ID *MultiTenantIdentityUserIdInput `json:"id,omitempty"`
 	// Filter users by name
-	Name MultiTenantIdentityUserNameInput `json:"name,omitempty"`
+	Name *MultiTenantIdentityUserNameInput `json:"name,omitempty"`
 	// Filter users by pending upgrade request
-	PendingUpgradeRequest MultiTenantIdentityPendingUpgradeRequestInput `json:"pendingUpgradeRequest,omitempty"`
+	PendingUpgradeRequest *MultiTenantIdentityPendingUpgradeRequestInput `json:"pendingUpgradeRequest,omitempty"`
 }
 
 // MultiTenantIdentityUserGroup - A group of users.
