@@ -1032,10 +1032,16 @@ packages:
       - name: AiNotificationsDestination
       - name: AiNotificationsCredentialsInput
         field_type_override: "*AiNotificationsCredentialsInput"
+      - name: AiNotificationsSecureURLInput
+        field_type_override: "*AiNotificationsSecureURLInput"
+      - name: AiNotificationsSecureURLUpdate
+        field_type_override: "*AiNotificationsSecureURLUpdate"
       - name: AiNotificationsAuth
         field_type_override: "ai.AiNotificationsAuth"
       - name: AiNotificationsError
         field_type_override: "ai.AiNotificationsError"
+      - name: AiNotificationsCustomHeadersAuthInput
+        field_type_override: "*AiNotificationsCustomHeadersAuthInput"
       - name: ID
         field_type_override: string
         skip_type_create: true

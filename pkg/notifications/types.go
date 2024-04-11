@@ -15,6 +15,8 @@ type AiNotificationsAuthType string
 var AiNotificationsAuthTypeTypes = struct {
 	// Basic user and password authentication
 	BASIC AiNotificationsAuthType
+	// Custom header based authentication
+	CUSTOM_HEADERS AiNotificationsAuthType
 	// OAuth based authentication
 	OAUTH2 AiNotificationsAuthType
 	// Token based authentication
@@ -22,6 +24,8 @@ var AiNotificationsAuthTypeTypes = struct {
 }{
 	// Basic user and password authentication
 	BASIC: "BASIC",
+	// Custom header based authentication
+	CUSTOM_HEADERS: "CUSTOM_HEADERS",
 	// OAuth based authentication
 	OAUTH2: "OAUTH2",
 	// Token based authentication
@@ -136,6 +140,8 @@ var AiNotificationsChannelTypeTypes = struct {
 	SERVICENOW_EVENTS AiNotificationsChannelType
 	// Servicenow incidents channel type
 	SERVICENOW_INCIDENTS AiNotificationsChannelType
+	// ServiceNow app channel type
+	SERVICE_NOW_APP AiNotificationsChannelType
 	// Slack channel type
 	SLACK AiNotificationsChannelType
 	// Slack Collaboration channel type
@@ -163,6 +169,8 @@ var AiNotificationsChannelTypeTypes = struct {
 	SERVICENOW_EVENTS: "SERVICENOW_EVENTS",
 	// Servicenow incidents channel type
 	SERVICENOW_INCIDENTS: "SERVICENOW_INCIDENTS",
+	// ServiceNow app channel type
+	SERVICE_NOW_APP: "SERVICE_NOW_APP",
 	// Slack channel type
 	SLACK: "SLACK",
 	// Slack Collaboration channel type
@@ -226,6 +234,8 @@ var AiNotificationsDestinationStatusTypes = struct {
 	AUTHORIZATION_ERROR AiNotificationsDestinationStatus
 	// Authorization Warning destination status
 	AUTHORIZATION_WARNING AiNotificationsDestinationStatus
+	// Auth Error destination status
+	AUTH_ERROR AiNotificationsDestinationStatus
 	// Configuration Error destination status
 	CONFIGURATION_ERROR AiNotificationsDestinationStatus
 	// Default destination status
@@ -234,6 +244,8 @@ var AiNotificationsDestinationStatusTypes = struct {
 	DRAFT AiNotificationsDestinationStatus
 	// Error channel status
 	ERROR AiNotificationsDestinationStatus
+	// External Server Error destination status
+	EXTERNAL_SERVER_ERROR AiNotificationsDestinationStatus
 	// Temporary Warning destination status
 	TEMPORARY_WARNING AiNotificationsDestinationStatus
 	// Tested channel status
@@ -242,6 +254,10 @@ var AiNotificationsDestinationStatusTypes = struct {
 	THROTTLED AiNotificationsDestinationStatus
 	// Throttling Warning destination status
 	THROTTLING_WARNING AiNotificationsDestinationStatus
+	// Timeout Error destination status
+	TIMEOUT_ERROR AiNotificationsDestinationStatus
+	// Uninstalled destination status
+	UNINSTALLED AiNotificationsDestinationStatus
 	// Unknown Error destination status
 	UNKNOWN_ERROR AiNotificationsDestinationStatus
 }{
@@ -251,6 +267,8 @@ var AiNotificationsDestinationStatusTypes = struct {
 	AUTHORIZATION_ERROR: "AUTHORIZATION_ERROR",
 	// Authorization Warning destination status
 	AUTHORIZATION_WARNING: "AUTHORIZATION_WARNING",
+	// Auth Error destination status
+	AUTH_ERROR: "AUTH_ERROR",
 	// Configuration Error destination status
 	CONFIGURATION_ERROR: "CONFIGURATION_ERROR",
 	// Default destination status
@@ -259,6 +277,8 @@ var AiNotificationsDestinationStatusTypes = struct {
 	DRAFT: "DRAFT",
 	// Error channel status
 	ERROR: "ERROR",
+	// External Server Error destination status
+	EXTERNAL_SERVER_ERROR: "EXTERNAL_SERVER_ERROR",
 	// Temporary Warning destination status
 	TEMPORARY_WARNING: "TEMPORARY_WARNING",
 	// Tested channel status
@@ -267,6 +287,10 @@ var AiNotificationsDestinationStatusTypes = struct {
 	THROTTLED: "THROTTLED",
 	// Throttling Warning destination status
 	THROTTLING_WARNING: "THROTTLING_WARNING",
+	// Timeout Error destination status
+	TIMEOUT_ERROR: "TIMEOUT_ERROR",
+	// Uninstalled destination status
+	UNINSTALLED: "UNINSTALLED",
 	// Unknown Error destination status
 	UNKNOWN_ERROR: "UNKNOWN_ERROR",
 }
@@ -289,6 +313,8 @@ var AiNotificationsDestinationTypeTypes = struct {
 	PAGERDUTY_SERVICE_INTEGRATION AiNotificationsDestinationType
 	// ServiceNow destination type
 	SERVICE_NOW AiNotificationsDestinationType
+	// ServiceNow app destination type
+	SERVICE_NOW_APP AiNotificationsDestinationType
 	// Slack destination type
 	SLACK AiNotificationsDestinationType
 	// Slack Collaboration destination type
@@ -312,6 +338,8 @@ var AiNotificationsDestinationTypeTypes = struct {
 	PAGERDUTY_SERVICE_INTEGRATION: "PAGERDUTY_SERVICE_INTEGRATION",
 	// ServiceNow destination type
 	SERVICE_NOW: "SERVICE_NOW",
+	// ServiceNow app destination type
+	SERVICE_NOW_APP: "SERVICE_NOW_APP",
 	// Slack destination type
 	SLACK: "SLACK",
 	// Slack Collaboration destination type
@@ -330,6 +358,12 @@ var AiNotificationsErrorTypeTypes = struct {
 	CONNECTION_ERROR AiNotificationsErrorType
 	// This operation could not be completed because the entity is in use
 	ENTITY_IN_USE AiNotificationsErrorType
+	// An external server error has occurred
+	EXTERNAL_SERVER_ERROR AiNotificationsErrorType
+	// Targeted account does not have access to this feature
+	FEATURE_FLAG_DISABLED AiNotificationsErrorType
+	// The channel name doesn't exist
+	INVALID_CHANNEL_NAME AiNotificationsErrorType
 	// The credentials provided were invalid, Please check them and try again
 	INVALID_CREDENTIALS AiNotificationsErrorType
 	// Could not provide suggestions for this key
@@ -356,6 +390,8 @@ var AiNotificationsErrorTypeTypes = struct {
 	UNAUTHORIZED_ACCOUNT AiNotificationsErrorType
 	// Received one or more unexpected parameters
 	UNEXPECTED_PARAMETER AiNotificationsErrorType
+	// The New Relic application was removed
+	UNINSTALLED_DESTINATION AiNotificationsErrorType
 	// An unknown error has occurred
 	UNKNOWN_ERROR AiNotificationsErrorType
 }{
@@ -363,6 +399,12 @@ var AiNotificationsErrorTypeTypes = struct {
 	CONNECTION_ERROR: "CONNECTION_ERROR",
 	// This operation could not be completed because the entity is in use
 	ENTITY_IN_USE: "ENTITY_IN_USE",
+	// An external server error has occurred
+	EXTERNAL_SERVER_ERROR: "EXTERNAL_SERVER_ERROR",
+	// Targeted account does not have access to this feature
+	FEATURE_FLAG_DISABLED: "FEATURE_FLAG_DISABLED",
+	// The channel name doesn't exist
+	INVALID_CHANNEL_NAME: "INVALID_CHANNEL_NAME",
 	// The credentials provided were invalid, Please check them and try again
 	INVALID_CREDENTIALS: "INVALID_CREDENTIALS",
 	// Could not provide suggestions for this key
@@ -389,6 +431,8 @@ var AiNotificationsErrorTypeTypes = struct {
 	UNAUTHORIZED_ACCOUNT: "UNAUTHORIZED_ACCOUNT",
 	// Received one or more unexpected parameters
 	UNEXPECTED_PARAMETER: "UNEXPECTED_PARAMETER",
+	// The New Relic application was removed
+	UNINSTALLED_DESTINATION: "UNINSTALLED_DESTINATION",
 	// An unknown error has occurred
 	UNKNOWN_ERROR: "UNKNOWN_ERROR",
 }
@@ -399,6 +443,12 @@ type AiNotificationsProduct string
 var AiNotificationsProductTypes = struct {
 	// Alerts product type
 	ALERTS AiNotificationsProduct
+	// APM product type
+	APM AiNotificationsProduct
+	// Change tracking product type
+	CHANGE_TRACKING AiNotificationsProduct
+	// CSSP (EOPs) product type
+	CSSP AiNotificationsProduct
 	// Discussions and comments product type
 	DISCUSSIONS AiNotificationsProduct
 	// Error Tracking product type
@@ -409,11 +459,19 @@ var AiNotificationsProductTypes = struct {
 	NTFC AiNotificationsProduct
 	// Proactive Detection product type
 	PD AiNotificationsProduct
+	// Security product type
+	SECURITY AiNotificationsProduct
 	// Sharing product type
 	SHARING AiNotificationsProduct
 }{
 	// Alerts product type
 	ALERTS: "ALERTS",
+	// APM product type
+	APM: "APM",
+	// Change tracking product type
+	CHANGE_TRACKING: "CHANGE_TRACKING",
+	// CSSP (EOPs) product type
+	CSSP: "CSSP",
 	// Discussions and comments product type
 	DISCUSSIONS: "DISCUSSIONS",
 	// Error Tracking product type
@@ -424,6 +482,8 @@ var AiNotificationsProductTypes = struct {
 	NTFC: "NTFC",
 	// Proactive Detection product type
 	PD: "PD",
+	// Security product type
+	SECURITY: "SECURITY",
 	// Sharing product type
 	SHARING: "SHARING",
 }
@@ -528,12 +588,9 @@ var AlertsWebhookCustomPayloadTypeTypes = struct {
 type Account struct {
 	// This field provides access to AiNotifications data.
 	AiNotifications AiNotificationsAccountStitchedFields `json:"aiNotifications,omitempty"`
-	//
-	ID int `json:"id,omitempty"`
-	//
-	LicenseKey string `json:"licenseKey,omitempty"`
-	//
-	Name string `json:"name,omitempty"`
+	ID              int                                  `json:"id,omitempty"`
+	LicenseKey      string                               `json:"licenseKey,omitempty"`
+	Name            string                               `json:"name,omitempty"`
 }
 
 // Actor - The `Actor` object contains fields that are scoped to the API user's access level.
@@ -594,12 +651,16 @@ type AiNotificationsChannelFilter struct {
 	DestinationId string `json:"destinationId,omitempty"`
 	// id
 	ID string `json:"id,omitempty"`
+	// ids
+	IDs []string `json:"ids"`
 	// name
 	Name string `json:"name,omitempty"`
 	// product
 	Product AiNotificationsProduct `json:"product,omitempty"`
 	// property
 	Property AiNotificationsPropertyFilter `json:"property,omitempty"`
+	// statuses
+	Statuses []AiNotificationsChannelStatus `json:"statuses"`
 	// type
 	Type AiNotificationsChannelType `json:"type,omitempty"`
 }
@@ -664,12 +725,28 @@ type AiNotificationsChannelsResponse struct {
 type AiNotificationsCredentialsInput struct {
 	// basic
 	Basic AiNotificationsBasicAuthInput `json:"basic,omitempty"`
+	// customHeaders
+	CustomHeaders *AiNotificationsCustomHeadersAuthInput `json:"customHeaders,omitempty"`
 	// oauth2
 	Oauth2 AiNotificationsOAuth2AuthInput `json:"oauth2,omitempty"`
 	// token
 	Token AiNotificationsTokenAuthInput `json:"token,omitempty"`
 	// type
 	Type AiNotificationsAuthType `json:"type"`
+}
+
+// AiNotificationsCustomHeaderInput - Custom header input object
+type AiNotificationsCustomHeaderInput struct {
+	// key
+	Key string `json:"key"`
+	// value
+	Value SecureValue `json:"value,omitempty"`
+}
+
+// AiNotificationsCustomHeadersAuthInput - Custom headers auth input object
+type AiNotificationsCustomHeadersAuthInput struct {
+	// customHeaders
+	CustomHeaders []AiNotificationsCustomHeaderInput `json:"customHeaders,omitempty"`
 }
 
 // AiNotificationsDeleteResponse - Delete response object
@@ -692,10 +769,10 @@ type AiNotificationsDestination struct {
 	Auth ai.AiNotificationsAuth `json:"auth,omitempty"`
 	// Destination created at
 	CreatedAt nrtime.DateTime `json:"createdAt"`
+	// Entity Id of the Destination
+	GUID EntityGUID `json:"guid"`
 	// Destination id
 	ID string `json:"id"`
-	// Entity Id of the destination
-	GUID EntityGUID `json:"guid"`
 	// Indicates whether the user is authenticated with the destination
 	IsUserAuthenticated bool `json:"isUserAuthenticated"`
 	// Last time a notification was sent
@@ -704,6 +781,8 @@ type AiNotificationsDestination struct {
 	Name string `json:"name"`
 	// List of destination property types
 	Properties []AiNotificationsProperty `json:"properties"`
+	// URL in secure format
+	SecureURL AiNotificationsSecureURL `json:"secureUrl,omitempty"`
 	// Destination status
 	Status AiNotificationsDestinationStatus `json:"status"`
 	// Destination type
@@ -714,9 +793,6 @@ type AiNotificationsDestination struct {
 	UpdatedBy int `json:"updatedBy"`
 }
 
-// EntityGUID - An encoded Entity GUID
-type EntityGUID string
-
 // AiNotificationsDestinationFilter - Filter destination object
 type AiNotificationsDestinationFilter struct {
 	// active
@@ -725,6 +801,8 @@ type AiNotificationsDestinationFilter struct {
 	AuthType AiNotificationsAuthType `json:"authType,omitempty"`
 	// id
 	ID string `json:"id,omitempty"`
+	// ids
+	IDs []string `json:"ids"`
 	// name
 	Name string `json:"name,omitempty"`
 	// property
@@ -742,7 +820,9 @@ type AiNotificationsDestinationInput struct {
 	// name
 	Name string `json:"name"`
 	// properties
-	Properties []AiNotificationsPropertyInput `json:"properties,omitempty"`
+	Properties []AiNotificationsPropertyInput `json:"properties"`
+	// secureUrl
+	SecureURL *AiNotificationsSecureURLInput `json:"secureUrl,omitempty"`
 	// type
 	Type AiNotificationsDestinationType `json:"type"`
 }
@@ -777,6 +857,8 @@ type AiNotificationsDestinationUpdate struct {
 	Name string `json:"name,omitempty"`
 	// properties
 	Properties []AiNotificationsPropertyInput `json:"properties,omitempty"`
+	// secureUrl
+	SecureURL *AiNotificationsSecureURLUpdate `json:"secureUrl,omitempty"`
 }
 
 // AiNotificationsDestinationsResponse - Destinations result object
@@ -857,6 +939,28 @@ type AiNotificationsResponseError struct {
 	Details string `json:"details"`
 	// Error type
 	Type AiNotificationsErrorType `json:"type"`
+}
+
+// AiNotificationsSecureURL - URL in secure format
+type AiNotificationsSecureURL struct {
+	// URL prefix
+	Prefix string `json:"prefix"`
+}
+
+// AiNotificationsSecureURLInput - Destination SecureUrlInput object
+type AiNotificationsSecureURLInput struct {
+	// prefix
+	Prefix string `json:"prefix"`
+	// secureSuffix
+	SecureSuffix SecureValue `json:"secureSuffix"`
+}
+
+// AiNotificationsSecureURLUpdate - Destination SecureUrlUpdate object
+type AiNotificationsSecureURLUpdate struct {
+	// prefix
+	Prefix string `json:"prefix,omitempty"`
+	// secureSuffix
+	SecureSuffix SecureValue `json:"secureSuffix,omitempty"`
 }
 
 // AiNotificationsTokenAuthInput - Token auth input object
@@ -1170,6 +1274,9 @@ type channelsResponse struct {
 type destinationsResponse struct {
 	Actor Actor `json:"actor"`
 }
+
+// EntityGUID - An encoded Entity GUID
+type EntityGUID string
 
 // SecureValue - The `SecureValue` scalar represents a secure value, ie a password, an API key, etc.
 type SecureValue string

@@ -184,6 +184,12 @@ const AiNotificationsCreateDestinationMutation = `mutation(
 			  authType
 			  prefix
 			}
+			... on AiNotificationsCustomHeadersAuth {
+			  authType
+        	  customHeaders {
+          	    key
+			  }
+			}
 		}
 		createdAt
 		id
@@ -196,6 +202,9 @@ const AiNotificationsCreateDestinationMutation = `mutation(
 			key
 			label
 			value
+		}
+		secureUrl {
+			prefix
 		}
 		status
 		type
@@ -431,7 +440,7 @@ const AiNotificationsUpdateChannelMutation = `mutation(
 		updatedAt
 		updatedBy
 	}
-    error {
+	error {
       ... on AiNotificationsConstraintsError {
         constraints {
           dependencies
@@ -553,6 +562,12 @@ const AiNotificationsUpdateDestinationMutation = `mutation(
 			  authType
 			  prefix
 			}
+			... on AiNotificationsCustomHeadersAuth {
+			  authType
+        	  customHeaders {
+          	    key
+			  }
+			}
 		}
 		createdAt
 		id
@@ -565,6 +580,9 @@ const AiNotificationsUpdateDestinationMutation = `mutation(
 			key
 			label
 			value
+		}
+		secureUrl {
+			prefix
 		}
 		status
 		type
@@ -762,6 +780,12 @@ const getDestinationsQuery = `query(
 			  authType
 			  prefix
 			}
+			... on AiNotificationsCustomHeadersAuth {
+			  authType
+        	  customHeaders {
+          	    key
+			  }
+			}
 		}
 		createdAt
 		id
@@ -774,6 +798,9 @@ const getDestinationsQuery = `query(
 			key
 			label
 			value
+		}
+		secureUrl {
+			prefix
 		}
 		status
 		type
