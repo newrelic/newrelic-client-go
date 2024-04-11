@@ -37,9 +37,9 @@ var (
 func TestUnit_CustomerAdministration_GetAccounts(t *testing.T) {
 	t.Parallel()
 
-	customeradministration := newMockResponse(t, testCustomerAdministrationGetAccountsResponseJSON, http.StatusOK)
-
 	t.Skipf("Skipping this test as this test needs a fix, based on current API behaviour")
+
+	customeradministration := newMockResponse(t, testCustomerAdministrationGetAccountsResponseJSON, http.StatusOK)
 
 	expected := OrganizationAccountCollection{
 		Items: []OrganizationAccount{
