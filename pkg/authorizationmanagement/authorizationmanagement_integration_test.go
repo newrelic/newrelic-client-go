@@ -225,3 +225,20 @@ func TestIntegration_RevokeAccess_InvalidGroupError(t *testing.T) {
 	require.Error(t, err)
 	require.Regexp(t, regexp.MustCompile(invalidGroupErrorRegularExpression), err.Error())
 }
+
+func TestIntegration_GetRoles(t *testing.T) {
+	t.Parallel()
+	_, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	client := newIntegrationTestClient(t)
+	getRolesResponse, err := client.GetRoles("", []string{roleId})
+	require.NoError(t, err)
+	require.Greater(t, len(getRolesResponse.Roles), 0)
+}
+
+// TODO:
+// we still need to add the authorizationManagement > authenticationDomains endpoint and then add
+// an integration test - work in progress, to be taken up with the access management feature

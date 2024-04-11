@@ -70,7 +70,8 @@ func UserManagementCreateDeleteTestGroupUtility(
 	}
 }
 
-// WORK IN PROGRESS
+// TODO: Add unit tests in the authorizationmanagement package
+
 //func newMockResponse(t *testing.T, mockJSONResponse string, statusCode int) Authorizationmanagement {
 //	ts := mock.NewMockServer(t, mockJSONResponse, statusCode)
 //	tc := mock.NewTestConfig(t, ts)

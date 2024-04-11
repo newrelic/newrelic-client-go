@@ -85,18 +85,6 @@ type OrganizationNewManagedAccountInput struct {
 	RegionCode OrganizationRegionCodeEnum `json:"regionCode,omitempty"`
 }
 
-// OrganizationRevokeSharedAccountInput - Attributes for revoking an account share.
-type OrganizationRevokeSharedAccountInput struct {
-	// The id of the account share to be revoked
-	ID string `json:"id"`
-}
-
-// OrganizationRevokeSharedAccountResponse - The object that's returned from successfully revoking a shared account.
-type OrganizationRevokeSharedAccountResponse struct {
-	// Information about the revoked shared account.
-	SharedAccount OrganizationSharedAccount `json:"sharedAccount,omitempty"`
-}
-
 // OrganizationSharedAccount - The attributes of an account share.
 type OrganizationSharedAccount struct {
 	// The ID of the account being shared.
