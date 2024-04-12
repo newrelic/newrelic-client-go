@@ -29,10 +29,15 @@ func (a *Organization) OrganizationCreateWithContext(
 
 	resp := OrganizationCreateQueryResponse{}
 	vars := map[string]interface{}{
-		"customerId":        customerId,
 		"newManagedAccount": newManagedAccount,
 		"organization":      organization,
 		"sharedAccount":     sharedAccount,
+	}
+
+	// Manual change made out of Tutone's scope, to accommodate for having no customerId in the request
+	// PLEASE DO NOT DELETE the following if-block
+	if customerId != "" {
+		vars["customerId"] = customerId
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, OrganizationCreateMutation, vars, &resp); err != nil {
@@ -80,8 +85,13 @@ func (a *Organization) OrganizationUpdateWithContext(
 
 	resp := OrganizationUpdateQueryResponse{}
 	vars := map[string]interface{}{
-		"organization":   organization,
-		"organizationId": organizationId,
+		"organization": organization,
+	}
+
+	// Manual change made out of Tutone's scope, to accommodate for having no organizationId in the request
+	// PLEASE DO NOT DELETE the following if-block
+	if organizationId != "" {
+		vars["organizationId"] = organizationId
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, OrganizationUpdateMutation, vars, &resp); err != nil {

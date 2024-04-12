@@ -1,6 +1,7 @@
 package customeradministration
 
 import (
+	"regexp"
 	"strconv"
 	"testing"
 
@@ -121,7 +122,7 @@ func TestIntegrationCustomerAdministration_GetUsers(t *testing.T) {
 }
 
 // This is currently throwing an unauthorized error, need to check - skipping the test until then
-func TestIntegrationCustomerAdministration_GetOrganizations(t *testing.T) {
+func TestIntegrationCustomerAdministration_GetOrganizations_UnauthorizedError(t *testing.T) {
 	t.Parallel()
 	_, err := mock.GetTestAccountID()
 	if err != nil {
@@ -132,10 +133,8 @@ func TestIntegrationCustomerAdministration_GetOrganizations(t *testing.T) {
 		t.Errorf("cannot run integration test as the environment variable INTEGRATION_TESTING_NEW_RELIC_ORGANIZATION_ID is missing, or has an empty value")
 	}
 
-	t.Skipf("Skipping this test case as this is currently failing with an access denied error, owing to insufficient privileges")
-
 	client := newIntegrationTestClient(t)
-	getOrganizationsResponse, err := client.GetOrganizations(
+	_, err = client.GetOrganizations(
 		"",
 		OrganizationCustomerOrganizationFilterInput{
 			ID: OrganizationOrganizationIdInputFilter{
@@ -144,8 +143,7 @@ func TestIntegrationCustomerAdministration_GetOrganizations(t *testing.T) {
 		},
 	)
 
-	require.NoError(t, err)
-	require.Greater(t, len(getOrganizationsResponse.Items), 0)
+	require.Regexp(t, regexp.MustCompile("Unauthorized"), err.Error())
 }
 
 func TestIntegrationCustomerAdministration_GetGroups(t *testing.T) {
