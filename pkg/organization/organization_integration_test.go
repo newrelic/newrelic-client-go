@@ -85,7 +85,7 @@ func TestIntegrationOrganizationUpdate(t *testing.T) {
 
 	client := newIntegrationTestClient(t)
 
-	organizationUpdateResponse, err := client.OrganizationUpdate(
+	organizationUpdateResponse, _ := client.OrganizationUpdate(
 		OrganizationUpdateInput{
 			Name: organizationNameUpdated,
 		},
@@ -105,7 +105,7 @@ func TestIntegrationOrganizationUpdate_AccessDeniedError(t *testing.T) {
 
 	client := newIntegrationTestClient(t)
 
-	organizationUpdateResponse, err := client.OrganizationUpdate(
+	organizationUpdateResponse, _ := client.OrganizationUpdate(
 		OrganizationUpdateInput{
 			Name: organizationNameUpdated,
 		},
