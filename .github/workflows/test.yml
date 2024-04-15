@@ -109,6 +109,8 @@ jobs:
           NEW_RELIC_LICENSE_KEY: ${{ secrets.NEW_RELIC_LICENSE_KEY }}
           NEW_RELIC_REGION: ${{ secrets.NEW_RELIC_REGION }}
           INTEGRATION_TESTING_AWS_ARN: ${{ secrets.INTEGRATION_TESTING_AWS_ARN }}
+          INTEGRATION_TESTING_NEW_RELIC_ORGANIZATION_ID: ${{ secrets.INTEGRATION_TESTING_NEW_RELIC_ORGANIZATION_ID}}
+          INTEGRATION_TESTING_NEW_RELIC_AUTHENTICATION_DOMAIN_ID: ${{ secrets.INTEGRATION_TESTING_NEW_RELIC_AUTHENTICATION_DOMAIN_ID}}
 
       - name: Report integration test coverage via Codecov
         uses: codecov/codecov-action@v3

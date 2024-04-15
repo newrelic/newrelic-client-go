@@ -1404,6 +1404,209 @@ packages:
       - name: DateTime
         field_type_override: nrtime.DateTime
         skip_type_create: true
+
+  - name: authorizationmanagement
+    path: pkg/authorizationmanagement
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/authorizationmanagement
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v2/pkg/users
+    queries:
+      - path: ["actor", "organization", "authorizationManagement"]
+        endpoints:
+          - name: roles
+            max_query_field_depth: 4
+    mutations:
+      - name: authorizationManagementGrantAccess
+        max_query_field_depth: 3
+      - name: authorizationManagementRevokeAccess
+        max_query_field_depth: 3
+    types:
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
+
+  - name: organization
+    path: pkg/organization
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/organization
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v2/pkg/users
+    queries: []
+    mutations:
+      - name: organizationCreate
+        max_query_field_depth: 2
+      - name: organizationUpdate
+        max_query_field_depth: 2
+#      - name: organizationCreateSharedAccount
+#        max_query_field_depth: 2
+#      - name: organizationRevokeSharedAccount
+#        max_query_field_depth: 2
+#      - name: organizationUpdateSharedAccount
+#        max_query_field_depth: 2
+    types:
+      - name: OrganizationNewManagedAccountInput
+        field_type_override: "*OrganizationNewManagedAccountInput"
+      - name: OrganizationSharedAccountInput
+        field_type_override: "*OrganizationSharedAccountInput"
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
+
+  - name: customeradministration
+    path: pkg/customeradministration
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/customeradministration
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v2/pkg/users
+    queries:
+      - path: ["customerAdministration"]
+        endpoints:
+          - name: accountShares
+            max_query_field_depth: 4
+          - name: accounts
+            max_query_field_depth: 4
+          - name: authenticationDomains
+            max_query_field_depth: 4
+          - name: consumption
+            max_query_field_depth: 4
+          - name: contracts
+            max_query_field_depth: 4
+          - name: grants
+            max_query_field_depth: 4
+          - name: groups
+            max_query_field_depth: 4
+          - name: jobs
+            max_query_field_depth: 4
+          - name: organizations
+            max_query_field_depth: 4
+          - name: permissions
+            max_query_field_depth: 4
+          - name: roles
+            max_query_field_depth: 4
+          - name: user
+            max_query_field_depth: 4
+          - name: users
+            max_query_field_depth: 4
+      - path: ["customerAdministration", "jobs"]
+        endpoints:
+          - name: organizationCreateAsyncResults
+            max_query_field_depth: 4
+    types:
+      - name: OrganizationAccountShareFilterInput
+      - name: OrganizationAccountShareSortInput
+      - name: OrganizationAccountFilterInput
+      - name: OrganizationAccountSortInput
+      - name: OrganizationAuthenticationDomainFilterInput
+      - name: OrganizationAuthenticationDomainSortInput
+      - name: OrganizationCustomerContractFilterInput
+      - name: MultiTenantAuthorizationGrantFilterInputExpression
+      - name: MultiTenantAuthorizationGrantSortInput
+      - name: MultiTenantIdentityGroupFilterInput
+      - name: MultiTenantIdentityGroupSortInput
+      - name: OrganizationCustomerOrganizationFilterInput
+      - name: MultiTenantAuthorizationPermissionFilter
+      - name: MultiTenantAuthorizationRoleFilterInputExpression
+      - name: MultiTenantAuthorizationRoleSortInput
+      - name: MultiTenantIdentityUserFilterInput
+      - name: MultiTenantIdentityUserSortInput
+        # overrides associated with types starting with MultiTenantIdentityGroupFilterInput
+        # which is used in the 'groups' endpoint in customerAdministration
+      - name: MultiTenantIdentityAllowsCapabilityInput
+        field_type_override: "*MultiTenantIdentityAllowsCapabilityInput"
+      - name: MultiTenantIdentityAuthenticationDomainIdInput
+        field_type_override: "*MultiTenantIdentityAuthenticationDomainIdInput"
+      - name: MultiTenantIdentityGroupIdInput
+        field_type_override: "*MultiTenantIdentityGroupIdInput"
+      - name: MultiTenantIdentityGroupMemberIdInput
+        field_type_override: "*MultiTenantIdentityGroupMemberIdInput"
+      - name: MultiTenantIdentityGroupNameInput
+        field_type_override: "*MultiTenantIdentityGroupNameInput"
+      - name: MultiTenantIdentityOrganizationIdInput
+        field_type_override: "*MultiTenantIdentityOrganizationIdInput"
+        # overrides associated with types starting with MultiTenantIdentityUserFilterInput
+        # which is used in the 'users' endpoint in customerAdministration
+      - name: MultiTenantIdentityUserEmailInput
+        field_type_override: "*MultiTenantIdentityUserEmailInput"
+      - name: MultiTenantIdentityEmailVerificationStateInput
+        field_type_override: "*MultiTenantIdentityEmailVerificationStateInput"
+      - name: MultiTenantIdentityUserIdInput
+        field_type_override: "*MultiTenantIdentityUserIdInput"
+      - name: MultiTenantIdentityUserGroupIdInput
+        field_type_override: "*MultiTenantIdentityUserGroupIdInput"
+      - name:  MultiTenantIdentityUserNameInput
+        field_type_override: "*MultiTenantIdentityUserNameInput"
+      - name:  MultiTenantIdentityPendingUpgradeRequestInput
+        field_type_override: "*MultiTenantIdentityPendingUpgradeRequestInput"
+        # overrides associated with types starting with MultiTenantAuthorizationRoleFilterInputExpression
+        # which is used in the 'roles' endpoint in customerAdministration
+      - name: MultiTenantAuthorizationRoleGroupIdInputFilter
+        field_type_override: "*MultiTenantAuthorizationRoleGroupIdInputFilter"
+      - name: MultiTenantAuthorizationRoleIdInputFilter
+        field_type_override: "*MultiTenantAuthorizationRoleIdInputFilter"
+      - name: MultiTenantAuthorizationRoleNameInputFilter
+        field_type_override: "*MultiTenantAuthorizationRoleNameInputFilter"
+      - name: MultiTenantAuthorizationRoleOrganizationIdInputFilter
+        field_type_override: "*MultiTenantAuthorizationRoleOrganizationIdInputFilter"
+      - name:  MultiTenantAuthorizationRoleScopeInputFilter
+        field_type_override: "*MultiTenantAuthorizationRoleScopeInputFilter"
+      - name:  MultiTenantAuthorizationRoleTypeInputFilter
+        field_type_override: "*MultiTenantAuthorizationRoleTypeInputFilter"
+        #####
+        # overrides associated with types starting with MultiTenantAuthorizationGrantFilterInputExpression{
+        # which is used in the 'grants' endpoint in customerAdministration
+      - name: MultiTenantAuthorizationGrantAuthenticationDomainIdInputFilter
+        field_type_override: "*MultiTenantAuthorizationGrantAuthenticationDomainIdInputFilter"
+      - name: MultiTenantAuthorizationGrantGroupIdInputFilter
+        field_type_override: "*MultiTenantAuthorizationGrantGroupIdInputFilter"
+      - name: MultiTenantAuthorizationGrantIdInputFilter
+        field_type_override: "*MultiTenantAuthorizationGrantIdInputFilter"
+      - name: MultiTenantAuthorizationGrantOrganizationIdInputFilter
+        field_type_override: "*MultiTenantAuthorizationGrantOrganizationIdInputFilter"
+      - name:  MultiTenantAuthorizationGrantRoleIdInputFilter
+        field_type_override: "*MultiTenantAuthorizationGrantRoleIdInputFilter"
+      - name:  MultiTenantAuthorizationGrantScopeIdInputFilter
+        field_type_override: "*MultiTenantAuthorizationGrantScopeIdInputFilter"
+      - name:  MultiTenantAuthorizationGrantScopeTypeInputFilter
+        field_type_override: "*MultiTenantAuthorizationGrantScopeTypeInputFilter"
+        ######
+        # overrides associated with types starting with OrganizationOrganizationCreateAsyncResultFilterInput
+        # which is used in the 'organizationCreateAsyncResults' endpoint in customerAdministration > jobs
+      - name: OrganizationOrganizationCreateJobCustomerIdInput
+        field_type_override: "*OrganizationOrganizationCreateJobCustomerIdInput"
+      - name: OrganizationOrganizationCreateJobIdInput
+        field_type_override: "*OrganizationOrganizationCreateJobIdInput"
+      - name: OrganizationOrganizationCreateJobStatusInput
+        field_type_override: "*OrganizationOrganizationCreateJobStatusInput"
+
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
+
 generators:
   - name: typegen
     fileName: "types.go"
