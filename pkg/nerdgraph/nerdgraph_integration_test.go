@@ -62,6 +62,34 @@ func TestIntegrationQueryWithVariables(t *testing.T) {
 	require.NotNil(t, actual)
 }
 
+func TestIntegrationNerdGraphMutation_ShouldError(t *testing.T) {
+	t.Parallel()
+
+	gqlClient := newNerdGraphIntegrationTestClient(t)
+
+	query := `
+		mutation {
+			entityDelete(guids: [$guid]) {
+				deletedEntities
+				failures {
+					guid
+					message
+					type
+				}
+			}
+		}
+	`
+
+	variables := map[string]interface{}{
+		"guid": "invalid",
+	}
+
+	result, err := gqlClient.Query(query, variables)
+
+	require.Error(t, err)
+	require.Nil(t, result)
+}
+
 // nolint
 func newNerdGraphIntegrationTestClient(t *testing.T) NerdGraph {
 	tc := testhelpers.NewIntegrationTestConfig(t)
