@@ -1,5 +1,10 @@
+<a name="v2.31.0"></a>
+## [v2.31.0] - 2024-04-19
+### Features
+- **destinations:** add custom header auth and secureUrl to destinations ([#1122](https://github.com/newrelic/newrelic-client-go/issues/1122))
+
 <a name="v2.30.0"></a>
-## [v2.30.0] - 2024-04-15
+## [v2.30.0] - 2024-04-18
 ### Features
 - addition of client code corresponding to packages customeradministration +2 ([#1126](https://github.com/newrelic/newrelic-client-go/issues/1126))
 
@@ -1746,7 +1751,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.30.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.31.0...HEAD
+[v2.31.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.30.0...v2.31.0
 [v2.30.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.29.0...v2.30.0
 [v2.29.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.28.1...v2.29.0
 [v2.28.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.28.0...v2.28.1
