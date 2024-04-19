@@ -1,6 +1,6 @@
 module github.com/newrelic/newrelic-client-go/v2
 
-go 1.19
+go 1.21
 
 require (
 	github.com/elazarl/goproxy v0.0.0-20231117061959-7cc037d33fb5
