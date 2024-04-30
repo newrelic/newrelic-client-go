@@ -5,7 +5,6 @@ import (
 	"math/rand"
 	"os"
 	"strconv"
-	"time"
 )
 
 var (
@@ -21,7 +20,8 @@ const IntegrationTestAccountID = 3806526
 
 // RandSeq is used to get a string made up of n random lowercase letters.
 func RandSeq(n int) string {
-	rand.Seed(time.Now().UnixNano())
+	// commented the following line out, since this no longer works with go1.21 and needs no alternative, as seeding isn't needed
+	// rand.Seed(time.Now().UnixNano())
 	b := make([]rune, n)
 	for i := range b {
 		b[i] = letters[rand.Intn(len(letters))]
