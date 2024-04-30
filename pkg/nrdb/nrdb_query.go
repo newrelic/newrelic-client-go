@@ -16,7 +16,27 @@ func (n *Nrdb) QueryWithContext(ctx context.Context, accountID int, query NRQL) 
 		"query":     query,
 	}
 
-	if err := n.client.NerdGraphQueryWithContext(ctx, gqlNRQLQuery, vars, &respBody); err != nil {
+	if err := n.client.NerdGraphQueryWithContext(ctx, gqlNrqlQuery, vars, &respBody); err != nil {
+		return nil, err
+	}
+
+	return &respBody.Actor.Account.NRQL, nil
+}
+
+func (n *Nrdb) QueryExtended(accountID int, query NRQL) (*NRDBResultContainer, error) {
+	return n.QueryWithContext(context.Background(), accountID, query)
+}
+
+// QueryExtendedWithContext facilitates making a NRQL query with additional options.
+func (n *Nrdb) QueryExtendedWithContext(ctx context.Context, accountID int, query NRQL) (*NRDBResultContainer, error) {
+	respBody := gqlNRQLQueryResponse{}
+
+	vars := map[string]interface{}{
+		"accountId": accountID,
+		"query":     query,
+	}
+
+	if err := n.client.NerdGraphQueryWithContext(ctx, gqlNRQLQueryExtended, vars, &respBody); err != nil {
 		return nil, err
 	}
 
@@ -90,7 +110,12 @@ const gqlNRQLQueryHistoryQuery = `
 	  }
 }`
 
-const gqlNRQLQuery = `query(
+const gqlNrqlQuery = `query($query: Nrql!, $accountId: Int!) { actor { account(id: $accountId) { nrql(query: $query) {
+    currentResults otherResult previousResults results totalResult
+    metadata { eventTypes facets messages timeWindow { begin compareWith end since until } }
+  } } } }`
+
+const gqlNRQLQueryExtended = `query(
 	$query: Nrql!, 
 	$accountId: Int!
 ) 
