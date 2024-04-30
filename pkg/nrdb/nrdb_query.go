@@ -24,7 +24,7 @@ func (n *Nrdb) QueryWithContext(ctx context.Context, accountID int, query NRQL) 
 }
 
 func (n *Nrdb) QueryExtended(accountID int, query NRQL) (*NRDBResultContainer, error) {
-	return n.QueryWithContext(context.Background(), accountID, query)
+	return n.QueryExtendedWithContext(context.Background(), accountID, query)
 }
 
 // QueryExtendedWithContext facilitates making a NRQL query with additional options.
