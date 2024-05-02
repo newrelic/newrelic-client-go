@@ -13,14 +13,45 @@ import (
 )
 
 var (
-	testNRQLQuery         = "SELECT * from Metric where entity.guid ='MzgwNjUyNnxBUE18QVBQTElDQVRJT058NTUzNDQ4MjAy' and endTimestamp = 1709446129592"
+	testNRQLQuery                = "SELECT * from Metric where entity.guid ='MzgwNjUyNnxBUE18QVBQTElDQVRJT058NTUzNDQ4MjAy' and endTimestamp = 1709446129592"
+	testNRDBQueryHistoryResponse = `{
+		  "data": {
+			"actor": {
+			  "queryHistory": {
+				"nrql": [
+				  {
+					"accountIds": [
+					  123456
+					],
+					"createdAt": "2024-03-21T07:07:44.663187Z",
+					"query": "select * from Transaction"
+				  },
+				  {
+					"accountIds": [
+					  123456
+					],
+					"createdAt": "2024-03-21T07:07:36.597535Z",
+					"query": "select * from PageView"
+				  },
+				  {
+					"accountIds": [
+					  123456
+					],
+					"createdAt": "2024-03-21T07:07:22.876352Z",
+					"query": "select * from Transaction since 2 days ago"
+				  }
+				]
+			  }
+			}
+		  }
+}`
+
 	testNRDBQueryResponse = `{
   "data": {
     "actor": {
       "account": {
         "nrql": {
           "currentResults": null,
-          "embeddedChartUrl": "https://chart-embed.service.newrelic.com/charts/0ab47fb4-b9e9-4d31-a3bc-539a37a313c2",
           "eventDefinitions": [
             {
               "attributes": [
@@ -136,7 +167,7 @@ var (
               {
                 "events": [
                   {
-                    "appId": 553448202,
+                    "appId": 501234567,
                     "appName": "Dummy App Pro Max",
                     "endTimestamp": 1709446129592,
                     "entity.guid": "MzgwNjUyNnxBUE18QVBQTElDQVRJT058NTUzNDQ4MjAy",
@@ -158,10 +189,10 @@ var (
           },
           "results": [
             {
-              "appId": 553448202,
+              "appId": 501234432,
               "appName": "Dummy App Pro Max",
               "endTimestamp": 1709446129592,
-              "entity.guid": "MzgwNjUyNnxBUE18QVBQTElDQVRJT058NTUzNDQ4MjAy",
+              "entity.guid": "MzgwNjUyNnxABC78QVBQTElMNOPQT058DEFzNDQ4GhjAy",
               "metricName": "newrelic.internal.usage",
               "newrelic.internal.usage": {
                 "count": 49500,
@@ -175,7 +206,6 @@ var (
               "usage.newrelic.source": "agent"
             }
           ],
-          "staticChartUrl": "https://chart-image.service.newrelic.com/image/5bef0ad8-2c65-4d51-bd3d-b35ecec9cb25",
           "suggestedFacets": [],
           "totalResult": null
         }
@@ -184,6 +214,35 @@ var (
   }
 }`
 )
+
+func TestUnitNRDBQueryHistory(t *testing.T) {
+	t.Parallel()
+	nrdbObject := newMockResponse(t, testNRDBQueryHistoryResponse, http.StatusCreated)
+
+	actual, err := nrdbObject.QueryHistory()
+
+	expected := &[]NRQLHistoricalQuery{
+		{
+			AccountIDs: []int{123456},
+			Query:      "select * from Transaction",
+			CreatedAt:  "2024-03-21T07:07:44.663187Z",
+		},
+		{
+			AccountIDs: []int{123456},
+			Query:      "select * from PageView",
+			CreatedAt:  "2024-03-21T07:07:36.597535Z",
+		},
+		{
+			AccountIDs: []int{123456},
+			Query:      "select * from Transaction since 2 days ago",
+			CreatedAt:  "2024-03-21T07:07:22.876352Z",
+		},
+	}
+
+	assert.NoError(t, err)
+	assert.NotNil(t, actual)
+	assert.Equal(t, expected, actual)
+}
 
 func TestUnitNRDBQuery(t *testing.T) {
 	t.Parallel()
@@ -195,6 +254,24 @@ func TestUnitNRDBQuery(t *testing.T) {
 	}
 
 	actual, err := nrdbObject.Query(
+		accountID,
+		NRQL(testNRQLQuery),
+	)
+
+	assert.NoError(t, err)
+	assert.NotNil(t, actual)
+}
+
+func TestUnitNRDBQueryWithExtendedResponse(t *testing.T) {
+	t.Parallel()
+	nrdbObject := newMockResponse(t, testNRDBQueryResponse, http.StatusCreated)
+
+	accountID, err := strconv.Atoi(os.Getenv("NEW_RELIC_ACCOUNT_ID"))
+	if err != nil {
+		t.Skipf("test requires NEW_RELIC_ACOUNT_ID")
+	}
+
+	actual, err := nrdbObject.QueryWithExtendedResponse(
 		accountID,
 		NRQL(testNRQLQuery),
 	)
