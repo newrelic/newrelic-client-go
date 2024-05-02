@@ -1,11 +1,23 @@
-// Package nrdb provides a programmatic API for interacting with NRDB, New Relic's Datastore
+// Package nrdb provides a programmatic API for interacting with NRDB, New Relic's Datastore.
+// This package is NOT covered by Tutone.
+
 package nrdb
 
 import "context"
 
+// WARNING! The following function, 'Query' is used by newrelic-cli to run pre-install
+// validation procedures before the actual installation begins; and is hence, extremely fragile.
+// Please do not resort to changing this function unless necessary, such as in the case
+// of a deprecation or an end-of-life. Kindly duplicate this function to allow more
+// attributes, or carefully modify functions following this function, below.
+
+// Query facilitates making an NRQL query using NerdGraph.
 func (n *Nrdb) Query(accountID int, query NRQL) (*NRDBResultContainer, error) {
 	return n.QueryWithContext(context.Background(), accountID, query)
 }
+
+// WARNING! This function is extremely fragile.
+// Please read the note above the function 'Query': refrain from making changes unless extremely necessary.
 
 // QueryWithContext facilitates making a NRQL query.
 func (n *Nrdb) QueryWithContext(ctx context.Context, accountID int, query NRQL) (*NRDBResultContainer, error) {
@@ -23,12 +35,45 @@ func (n *Nrdb) QueryWithContext(ctx context.Context, accountID int, query NRQL) 
 	return &respBody.Actor.Account.NRQL, nil
 }
 
-func (n *Nrdb) QueryExtended(accountID int, query NRQL) (*NRDBResultContainer, error) {
-	return n.QueryExtendedWithContext(context.Background(), accountID, query)
+// WARNING! This NerdGraph query is extremely fragile.
+// Please read the note above the function 'Query': refrain from making changes unless extremely necessary.
+const gqlNrqlQuery = `query (
+	$query: Nrql!, 
+	$accountId: Int!
+) 
+{
+  actor {
+    account(id: $accountId) {
+      nrql(query: $query) {
+        currentResults
+        otherResult
+        previousResults
+        results
+        totalResult
+        metadata {
+          eventTypes
+          facets
+          messages
+          timeWindow {
+            begin
+            compareWith
+            end
+            since
+            until
+          }
+        }
+      }
+    }
+  }
+}
+`
+
+func (n *Nrdb) QueryWithExtendedResponse(accountID int, query NRQL) (*NRDBResultContainer, error) {
+	return n.QueryWithExtendedResponseWithContext(context.Background(), accountID, query)
 }
 
-// QueryExtendedWithContext facilitates making a NRQL query with additional options.
-func (n *Nrdb) QueryExtendedWithContext(ctx context.Context, accountID int, query NRQL) (*NRDBResultContainer, error) {
+// QueryWithExtendedResponseWithContext facilitates making a NRQL query with additional options.
+func (n *Nrdb) QueryWithExtendedResponseWithContext(ctx context.Context, accountID int, query NRQL) (*NRDBResultContainer, error) {
 	respBody := gqlNRQLQueryResponse{}
 
 	vars := map[string]interface{}{
@@ -36,7 +81,7 @@ func (n *Nrdb) QueryExtendedWithContext(ctx context.Context, accountID int, quer
 		"query":     query,
 	}
 
-	if err := n.client.NerdGraphQueryWithContext(ctx, gqlNRQLQueryExtended, vars, &respBody); err != nil {
+	if err := n.client.NerdGraphQueryWithContext(ctx, gqlNRQLQueryWithExtendedResponse, vars, &respBody); err != nil {
 		return nil, err
 	}
 
@@ -75,7 +120,7 @@ func (n *Nrdb) QueryWithAdditionalOptionsWithContext(
 		"async":     async,
 	}
 
-	if err := n.client.NerdGraphQueryWithContext(ctx, gqlNRQLQueryWithTimeout, vars, &respBody); err != nil {
+	if err := n.client.NerdGraphQueryWithContext(ctx, gqlNRQLQueryWithAdditionalOptions, vars, &respBody); err != nil {
 		return nil, err
 	}
 
@@ -110,12 +155,7 @@ const gqlNRQLQueryHistoryQuery = `
 	  }
 }`
 
-const gqlNrqlQuery = `query($query: Nrql!, $accountId: Int!) { actor { account(id: $accountId) { nrql(query: $query) {
-    currentResults otherResult previousResults results totalResult
-    metadata { eventTypes facets messages timeWindow { begin compareWith end since until } }
-  } } } }`
-
-const gqlNRQLQueryExtended = `query(
+const gqlNRQLQueryWithExtendedResponse = `query(
 	$query: Nrql!, 
 	$accountId: Int!
 ) 
@@ -164,15 +204,13 @@ const gqlNRQLQueryExtended = `query(
             name
           }
         }
-        embeddedChartUrl
-        staticChartUrl
       }
     }
   }
 }
 `
 
-const gqlNRQLQueryWithTimeout = `query (
+const gqlNRQLQueryWithAdditionalOptions = `query (
 	$query: Nrql!, 
 	$accountId: Int!, 
 	$timeout: Seconds, 
@@ -223,8 +261,6 @@ const gqlNRQLQueryWithTimeout = `query (
             name
           }
         }
-        embeddedChartUrl
-        staticChartUrl
       }
     }
   }
