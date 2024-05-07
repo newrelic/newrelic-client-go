@@ -1391,11 +1391,11 @@ type OrganizationAuthenticationDomainCollection struct {
 // OrganizationAuthenticationDomainFilterInput - A filter for authentication domains
 type OrganizationAuthenticationDomainFilterInput struct {
 	// Filter authentication domains by id
-	ID OrganizationIdInput `json:"id,omitempty"`
+	ID *OrganizationIdInput `json:"id,omitempty"`
 	// Filter authentication domains by name
-	Name OrganizationNameInput `json:"name,omitempty"`
+	Name *OrganizationNameInput `json:"name,omitempty"`
 	// Filter authentication domains by organization
-	OrganizationId OrganizationOrganizationIdInput `json:"organizationId,omitempty"`
+	OrganizationId *OrganizationOrganizationIdInput `json:"organizationId,omitempty"`
 }
 
 // OrganizationAuthenticationDomainSortInput - Sort key and direction for authentication domains
