@@ -8,7 +8,7 @@ require (
 	github.com/git-chglog/git-chglog v0.15.1
 	github.com/golangci/golangci-lint v1.53.3
 	github.com/goreleaser/goreleaser v1.15.2
-	github.com/newrelic/tutone v0.10.1
+	github.com/newrelic/tutone v0.11.0
 	github.com/psampaz/go-mod-outdated v0.8.0
 	github.com/stretchr/testify v1.8.4
 	github.com/x-motemen/gobump v0.2.0
@@ -57,7 +57,7 @@ require (
 	github.com/Masterminds/semver v1.5.0 // indirect
 	github.com/Masterminds/semver/v3 v3.2.1 // indirect
 	github.com/Masterminds/sprig v2.22.0+incompatible // indirect
-	github.com/Masterminds/sprig/v3 v3.2.2 // indirect
+	github.com/Masterminds/sprig/v3 v3.2.3 // indirect
 	github.com/Microsoft/go-winio v0.6.1 // indirect
 	github.com/OpenPeeDeeP/depguard/v2 v2.1.0 // indirect
 	github.com/ProtonMail/go-crypto v0.0.0-20230828082145-3c4c8a2d2371 // indirect
@@ -220,7 +220,7 @@ require (
 	github.com/hashicorp/go-version v1.6.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/hexops/gotextdiff v1.0.3 // indirect
-	github.com/huandu/xstrings v1.3.2 // indirect
+	github.com/huandu/xstrings v1.3.3 // indirect
 	github.com/iancoleman/orderedmap v0.2.0 // indirect
 	github.com/imdario/mergo v0.3.15 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
