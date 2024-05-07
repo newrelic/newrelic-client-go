@@ -1,3 +1,11 @@
+<a name="v2.34.0"></a>
+## [v2.34.0] - 2024-05-07
+### Features
+- **cloud:** addition of msElasticCache and AiPlatformIntegration integrations to AWS, GCP ([#1133](https://github.com/newrelic/newrelic-client-go/issues/1133))
+
+### Refactor
+- **nrdb:** clean up package, refactor structure, api endpoints and more ([#1132](https://github.com/newrelic/newrelic-client-go/issues/1132))
+
 <a name="v2.33.0"></a>
 ## [v2.33.0] - 2024-04-30
 ### Features
@@ -1761,7 +1769,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.33.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.34.0...HEAD
+[v2.34.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.33.0...v2.34.0
 [v2.33.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.32.0...v2.33.0
 [v2.32.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.31.0...v2.32.0
 [v2.31.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.30.0...v2.31.0
