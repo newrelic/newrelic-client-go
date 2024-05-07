@@ -64,8 +64,6 @@ type ChangeTrackingDeployment struct {
 	Changelog string `json:"changelog,omitempty"`
 	// The commit identifier, for example, a Git commit SHA.
 	Commit string `json:"commit,omitempty"`
-	// Represents key-value pairs of custom attributes in JSON format.
-	CustomAttributes ChangeTrackingRawCustomAttributesMap `json:"customAttributes,omitempty"`
 	// A link to the system that generated the deployment.
 	DeepLink string `json:"deepLink,omitempty"`
 	// A unique deployment identifier.
@@ -92,19 +90,6 @@ type ChangeTrackingDeploymentInput struct {
 	Changelog string `json:"changelog,omitempty"`
 	// The commit identifier, for example, a Git commit SHA.
 	Commit string `json:"commit,omitempty"`
-	// Represents key-value pairs of custom attributes in JSON format. Attribute values can be of type string, boolean, or numeric.
-	//
-	// **Restricted attributes names:**  accountId, appID, changelog, commit, customAttributes, deepLink, deploymentType, description, entity.guid, entity.name, entity.type, entityGuid, entityName, eventType, groupId, timestamp, user, version
-	//
-	// **Restricted attribute name prefixes:**  'nr.', 'newrelic.'
-	//
-	// For more information on limitations, see [our docs](https://docs.newrelic.com/docs/change-tracking/change-tracking-graphql/)
-	//
-	// **Examples:**
-	//
-	//     • {cloudVendor : "vendorName", region : "us-east-1", environment : "staging"}
-	//     • {isProd : true, region : "us-east-1", instances: 2, deployTime : 10.5}
-	CustomAttributes ChangeTrackingRawCustomAttributesMap `json:"customAttributes,omitempty"`
 	// A URL to the system that generated the deployment.
 	DeepLink string `json:"deepLink,omitempty"`
 	// The type of deployment, for example, ‘Blue green’ or ‘Rolling’.
@@ -122,6 +107,3 @@ type ChangeTrackingDeploymentInput struct {
 	// The version of the deployed software, for example, something like v1.1
 	Version string `json:"version"`
 }
-
-// ChangeTrackingRawCustomAttributesMap - A JSON scalar
-type ChangeTrackingRawCustomAttributesMap map[string]interface{}

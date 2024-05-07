@@ -33,7 +33,7 @@ var AgentApplicationBrowserLoaderTypes = struct {
 	SPA: "SPA",
 }
 
-// AgentApplicationSettingsBrowserLoader - Determines which browser loader will be configured. Some allowed return values are specified for backwards-compatibility and do not represent currently allowed values for new applications.
+// AgentApplicationSettingsBrowserLoader - Determines which browser loader will be configured. Some allowed return values are specified for backwards-compatability and do not represent currently allowed values for new applications.
 // See [documentation](https://docs.newrelic.com/docs/browser/browser-monitoring/installation/install-browser-monitoring-agent/#agent-types) for further information.
 type AgentApplicationSettingsBrowserLoader string
 
@@ -50,7 +50,7 @@ var AgentApplicationSettingsBrowserLoaderTypes = struct {
 	RUM AgentApplicationSettingsBrowserLoader
 	// Pro+SPA: This is the default installed agent when you enable browser monitoring. Gives you access to all of the Browser Pro features and to Single Page App (SPA) monitoring. Provides detailed page timing data and the most up-to-date New Relic features, including distributed tracing, for all types of applications.
 	SPA AgentApplicationSettingsBrowserLoader
-	// This value is specified for backwards-compatibility.
+	// This value is specified for backwards-compatability.
 	XHR AgentApplicationSettingsBrowserLoader
 }{
 	// Use PRO instead
@@ -266,6 +266,8 @@ type AgentApplicationSettingsApmBase struct {
 	Alias string `json:"alias,omitempty"`
 	// Access general settings for the application.
 	ApmConfig AgentApplicationSettingsApmConfig `json:"apmConfig"`
+	// Enable or disable the capture of memcache keys.
+	CaptureMemcacheKeys bool `json:"captureMemcacheKeys,omitempty"`
 	// Access error collector settings for the application. The error collector captures information about uncaught exceptions and sends them to New Relic for viewing.
 	ErrorCollector AgentApplicationSettingsErrorCollector `json:"errorCollector,omitempty"`
 	// Access enabled state for the Java Flight Recorder. This is available only for the Java language agent version 8.0.0 or later.
@@ -298,7 +300,7 @@ type AgentApplicationSettingsApmConfigInput struct {
 	UseServerSideConfig bool `json:"useServerSideConfig,omitempty"`
 }
 
-// AgentApplicationSettingsBrowserAjax - Browser Ajax.
+// AgentApplicationSettingsBrowserAjax - Enables ajax traces in the browser app.
 type AgentApplicationSettingsBrowserAjax struct {
 	// List of domains excluded from Ajax traces by the browser agent.
 	DenyList []string `json:"denyList"`
@@ -349,7 +351,7 @@ type AgentApplicationSettingsBrowserDistributedTracing struct {
 // AgentApplicationSettingsBrowserDistributedTracingInput - Configure distributed traces from within browser apps.
 type AgentApplicationSettingsBrowserDistributedTracingInput struct {
 	// Supplies allowed origins for distributed tracing in browser.
-	AllowedOrigins *[]string `json:"allowedOrigins,omitempty"`
+	AllowedOrigins []string `json:"allowedOrigins"`
 	// Enables CORS for distributed tracing in browser.
 	CorsEnabled bool `json:"corsEnabled,omitempty"`
 	// Enables the use of the `newrelic` header for CORS requests with distributed tracing. [See Docs](https://docs.newrelic.com/docs/browser/new-relic-browser/browser-pro-features/browser-data-distributed-tracing/#cors) for more information.
@@ -357,31 +359,35 @@ type AgentApplicationSettingsBrowserDistributedTracingInput struct {
 	// Enables CORS to use tracecontext headers for distributed tracing in browser.
 	CorsUseTracecontextHeaders bool `json:"corsUseTracecontextHeaders,omitempty"`
 	// Enables distributed tracing in browser.
-	Enabled bool `json:"enabled"`
+	Enabled bool `json:"enabled,omitempty"`
 	// Enables the `newrelic` header to be excluded in distributed tracing in browser.
 	ExcludeNewrelicHeader bool `json:"excludeNewrelicHeader,omitempty"`
 }
 
-// AgentApplicationSettingsBrowserMonitoring - Browser monitoring.
+// AgentApplicationSettingsBrowserMonitoring - Provides fields to set browser monitoring application settings.
 type AgentApplicationSettingsBrowserMonitoring struct {
 	// Enables ajax traces in the browser app.
 	Ajax AgentApplicationSettingsBrowserAjax `json:"ajax,omitempty"`
-	// Configure distributed tracing in browser apps.
+	// Distributed tracing type. See [documentation](https://docs.newrelic.com/docs/browser/new-relic-browser/browser-pro-features/browser-data-distributed-tracing/) for further information.
 	DistributedTracing AgentApplicationSettingsBrowserDistributedTracing `json:"distributedTracing"`
 	// The type of browser agent that will be loaded.
 	Loader AgentApplicationSettingsBrowserLoader `json:"loader"`
-	// Browser monitoring's page load timing feature can track sessions by using cookies that contain a simple session identifier.
+	// Specify the semantic version of the browser agent that you would like your app to use. Leave this blank to use the most recent version. Use 'x' in place of a numeric digit to represent the latest release within the version range. For example, '1.x.x'
+	PinnedVersion string `json:"pinnedVersion,omitempty"`
+	// Browser privacy. See [documentation](https://docs.newrelic.com/docs/browser/browser-monitoring/page-load-timing-resources/cookie-collection-session-tracking/) for further information.
 	Privacy AgentApplicationSettingsBrowserPrivacy `json:"privacy"`
 }
 
 // AgentApplicationSettingsBrowserMonitoringInput - Set browser monitoring application settings.
 type AgentApplicationSettingsBrowserMonitoringInput struct {
-	// Browser monitoring's page load Ajax requests.
+	// Configuration settings related to how a browser agent handles Ajax requests.
 	Ajax *AgentApplicationSettingsBrowserAjaxInput `json:"ajax,omitempty"`
-	// If you use browser to monitor end-user browser activity, you can now see end-user-originating browser-side traces in distributed tracing.
+	// Configure distributed traces from within browser apps.
 	DistributedTracing *AgentApplicationSettingsBrowserDistributedTracingInput `json:"distributedTracing,omitempty"`
 	// Determines which browser loader will be configured.
 	Loader *AgentApplicationSettingsBrowserLoaderInput `json:"loader,omitempty"`
+	// Specify the semantic version of the browser agent that you would like your app to use. Leave this blank to use the most recent version. Use 'x' in place of a numeric digit to represent the latest release within the version range. For example, '1.x.x'
+	PinnedVersion string `json:"pinnedVersion,omitempty"`
 	// Browser monitoring's page load timing feature can track sessions by using cookies that contain a simple session identifier.
 	Privacy *AgentApplicationSettingsBrowserPrivacyInput `json:"privacy,omitempty"`
 }
@@ -400,6 +406,10 @@ type AgentApplicationSettingsBrowserPrivacyInput struct {
 
 // AgentApplicationSettingsBrowserProperties - General Properties related to browser applications.
 type AgentApplicationSettingsBrowserProperties struct {
+	// The configuration required to run the npm version of the JS agent. This is the "pure" JSON configuration block without surrounding HTML <script> tags.
+	JsConfig AgentApplicationSettingsRawJsConfiguration `json:"jsConfig,omitempty"`
+	// The configuration block required to run the npm version of the JS agent. This includes the HTML <script> tags.
+	JsConfigScript string `json:"jsConfigScript,omitempty"`
 	// The snippet of JavaScript used to copy/paste into your JavaScript app if you aren’t using an auto-instrumentating agent on the backend.
 	JsLoaderScript string `json:"jsLoaderScript,omitempty"`
 }
@@ -552,7 +562,7 @@ type AgentApplicationSettingsTracerTypeInput struct {
 
 // AgentApplicationSettingsTransactionTracer - Transaction tracer settings related to APM applications. For more information about what these settings do and which ones are applicable for your application, please see https://docs.newrelic.com for more information about agent configuration for your language agent.
 type AgentApplicationSettingsTransactionTracer struct {
-	// Enable or disable the capture of memcache keys from transaction traces.
+	// DEPRECATED: Please use capture_memcache_keys on parent type.
 	CaptureMemcacheKeys bool `json:"captureMemcacheKeys,omitempty"`
 	// If true, this enables the transaction tracer feature, enabling collection of transaction traces.
 	Enabled bool `json:"enabled,omitempty"`
@@ -576,7 +586,7 @@ type AgentApplicationSettingsTransactionTracer struct {
 
 // AgentApplicationSettingsTransactionTracerInput - Fields related to transaction traces and data collection for traces.
 type AgentApplicationSettingsTransactionTracerInput struct {
-	// Enable or disable the capture of memcache keys from transaction traces.
+	// DEPRECATED: Please use capture_memcache_keys on parent type
 	CaptureMemcacheKeys bool `json:"captureMemcacheKeys,omitempty"`
 	// If true, this enables the transaction tracer feature, enabling collection of transaction traces.
 	Enabled bool `json:"enabled,omitempty"`
@@ -636,6 +646,8 @@ type AgentApplicationSettingsUpdateInput struct {
 	BrowserConfig *AgentApplicationSettingsBrowserConfigInput `json:"browserConfig,omitempty"`
 	// Provides fields to set browser monitoring application settings.
 	BrowserMonitoring *AgentApplicationSettingsBrowserMonitoringInput `json:"browserMonitoring,omitempty"`
+	// Enable or disable the capture of memcache keys
+	CaptureMemcacheKeys bool `json:"captureMemcacheKeys,omitempty"`
 	// Captures information about uncaught exceptions and sends them to New Relic for viewing.
 	ErrorCollector *AgentApplicationSettingsErrorCollectorInput `json:"errorCollector,omitempty"`
 	// In the Java Agent (v8.0.0 or later), it can collect additional data with the Java Flight Recorder enabled.
@@ -676,6 +688,9 @@ type AgentApplicationSettingsUpdateResult struct {
 
 // AgentApplicationSettingsErrorCollectorHttpStatus - A list of HTTP status codes, such as "404" or "500."
 type AgentApplicationSettingsErrorCollectorHttpStatus string
+
+// AgentApplicationSettingsRawJsConfiguration - The "raw" configuration values for configuring the javascript client.
+type AgentApplicationSettingsRawJsConfiguration string
 
 // Float - The `Float` scalar type represents signed double-precision fractional
 // values as specified by

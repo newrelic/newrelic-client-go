@@ -198,10 +198,12 @@ const AgentApplicationSettingsUpdateMutation = `mutation(
 ) {
 	alias
 	apmSettings {
+		alias
 		apmConfig {
 			apdexTarget
 			useServerSideConfig
 		}
+		captureMemcacheKeys
 		errorCollector {
 			enabled
 			expectedErrorClasses
@@ -234,6 +236,8 @@ const AgentApplicationSettingsUpdateMutation = `mutation(
 		}
 	}
 	browserProperties {
+		jsConfig
+		jsConfigScript
 		jsLoaderScript
 	}
 	browserSettings {
@@ -253,6 +257,7 @@ const AgentApplicationSettingsUpdateMutation = `mutation(
 				excludeNewrelicHeader
 			}
 			loader
+			pinnedVersion
 			privacy {
 				cookiesEnabled
 			}

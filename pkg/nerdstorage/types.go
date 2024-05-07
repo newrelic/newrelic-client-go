@@ -20,7 +20,6 @@ var NerdStorageScopeTypes = struct {
 	ENTITY: "ENTITY",
 }
 
-// NerdStorageCollectionMember -
 type NerdStorageCollectionMember struct {
 	// The NerdStorage document.
 	Document NerdStorageDocument `json:"document,omitempty"`
@@ -28,12 +27,9 @@ type NerdStorageCollectionMember struct {
 	ID string `json:"id,omitempty"`
 }
 
-// NerdStorageEntityScope -
 type NerdStorageEntityScope struct {
-	//
 	Collection []NerdStorageCollectionMember `json:"collection,omitempty"`
-	//
-	Document NerdStorageDocument `json:"document,omitempty"`
+	Document   NerdStorageDocument           `json:"document,omitempty"`
 }
 
 // NerdStorageScopeInput - The data access level and ID for the selected scope.

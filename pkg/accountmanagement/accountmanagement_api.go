@@ -45,6 +45,7 @@ const AccountManagementCreateAccountMutation = `mutation(
 ) {
 	managedAccount {
 		id
+		isCanceled
 		name
 		regionCode
 	}
@@ -88,23 +89,31 @@ const AccountManagementUpdateAccountMutation = `mutation(
 ) {
 	managedAccount {
 		id
+		isCanceled
 		name
 		regionCode
 	}
 } }`
 
 // Admin-level info about the accounts in an organization.
-func (a *Accountmanagement) GetManagedAccounts() (*[]AccountManagementManagedAccount, error) {
-	return a.GetManagedAccountsWithContext(context.Background())
+func (a *Accountmanagement) GetManagedAccounts(
+	isCanceled bool,
+) (*[]AccountManagementManagedAccount, error) {
+	return a.GetManagedAccountsWithContext(context.Background(),
+		isCanceled,
+	)
 }
 
 // Admin-level info about the accounts in an organization.
 func (a *Accountmanagement) GetManagedAccountsWithContext(
 	ctx context.Context,
+	isCanceled bool,
 ) (*[]AccountManagementManagedAccount, error) {
 
 	resp := managedAccountsResponse{}
-	vars := map[string]interface{}{}
+	vars := map[string]interface{}{
+		"isCanceled": isCanceled,
+	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, getManagedAccountsQuery, vars, &resp); err != nil {
 		return nil, err
@@ -119,6 +128,7 @@ func (a *Accountmanagement) GetManagedAccountsWithContext(
 
 const getManagedAccountsQuery = `query { actor { organization { accountManagement { managedAccounts {
 	id
+	isCanceled
 	name
 	regionCode
 } } } } }`
