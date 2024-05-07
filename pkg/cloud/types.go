@@ -449,6 +449,8 @@ type CloudAwsDisableIntegrationsInput struct {
 	AwsMetadata []CloudDisableAccountIntegrationInput `json:"awsMetadata,omitempty"`
 	// MQ integration
 	AwsMq []CloudDisableAccountIntegrationInput `json:"awsMq,omitempty"`
+	// Fetch ElastiCache entities integration
+	AwsMsElasticache []CloudDisableAccountIntegrationInput `json:"awsMsElasticache,omitempty"`
 	// Managed Kafka integration
 	AwsMsk []CloudDisableAccountIntegrationInput `json:"awsMsk,omitempty"`
 	// Neptune integration
@@ -673,6 +675,8 @@ type CloudAwsGovCloudProvider struct {
 	Services []CloudService `json:"services"`
 	// The cloud provider short name.
 	Slug string `json:"slug"`
+	// Get template params of one cloud provider service.
+	TemplateParams []CloudTemplateParam `json:"templateParams"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -801,6 +805,8 @@ type CloudAwsIntegrationsInput struct {
 	AwsMetadata []CloudAwsMetadataIntegrationInput `json:"awsMetadata,omitempty"`
 	// MQ integration
 	AwsMq []CloudAwsMqIntegrationInput `json:"awsMq,omitempty"`
+	// Fetch ElastiCache entities integration
+	AwsMsElasticache []CloudAwsMsElasticacheIntegrationInput `json:"awsMsElasticache,omitempty"`
 	// Managed Kafka integration
 	AwsMsk []CloudAwsMskIntegrationInput `json:"awsMsk,omitempty"`
 	// Neptune integration
@@ -1075,6 +1081,40 @@ type CloudAwsMqIntegrationInput struct {
 	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
+// CloudAwsMsElasticacheIntegration - Fetch ElastiCache entities Integration
+type CloudAwsMsElasticacheIntegration struct {
+	// The object creation date, in epoch (Unix) time
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
+	// The cloud service integration identifier.
+	ID int `json:"id,omitempty"`
+	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
+	// The parent linked account identifier.
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
+	// The data polling interval in seconds.
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
+	// The cloud service integration name.
+	Name string `json:"name,omitempty"`
+	// The parent NewRelic account identifier.
+	NrAccountId int `json:"nrAccountId"`
+	// The cloud service used in the integration.
+	Service CloudService `json:"service,omitempty"`
+	// The object last update date, in epoch (Unix) time
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
+}
+
+func (x *CloudAwsMsElasticacheIntegration) ImplementsCloudIntegration() {}
+
+// CloudAwsMsElasticacheIntegrationInput - Fetch ElastiCache entities
+type CloudAwsMsElasticacheIntegrationInput struct {
+	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
+	// The linked account identifier.
+	LinkedAccountId int `json:"linkedAccountId"`
+	// The data polling interval in seconds.
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
+}
+
 // CloudAwsMskIntegration - Managed Kafka Integration
 type CloudAwsMskIntegration struct {
 	// Specify each AWS region that includes the resources that you want to monitor.
@@ -1171,6 +1211,8 @@ type CloudAwsProvider struct {
 	Services []CloudService `json:"services"`
 	// The cloud provider short name.
 	Slug string `json:"slug"`
+	// Get template params of one cloud provider service.
+	TemplateParams []CloudTemplateParam `json:"templateParams"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -2895,6 +2937,8 @@ type CloudBaseProvider struct {
 	Services []CloudService `json:"services"`
 	// The cloud provider short name.
 	Slug string `json:"slug"`
+	// Get template params of one cloud provider service.
+	TemplateParams []CloudTemplateParam `json:"templateParams"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -3074,6 +3118,20 @@ func (x *CloudConfigureIntegrationPayload) UnmarshalJSON(b []byte) error {
 	}
 
 	return nil
+}
+
+// CloudDashboardTemplate - A cloud service dashboard template.
+type CloudDashboardTemplate struct {
+	// The object creation date, in epoch (Unix) time
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
+	// The dashboard layout position.
+	Layout int `json:"layout"`
+	// The dashboard template name.
+	Name string `json:"name"`
+	// The dashboard template slug.
+	Slug string `json:"slug"`
+	// The object last update date, in epoch (Unix) time
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
 
 // CloudDisableAccountIntegrationInput - Information required to disable a cloud service integration from a linked account.
@@ -3655,6 +3713,40 @@ type CloudEmrIntegrationInput struct {
 	TagValue string `json:"tagValue,omitempty"`
 }
 
+// CloudGcpAiplatformIntegration - Vertex AI Integration
+type CloudGcpAiplatformIntegration struct {
+	// The object creation date, in epoch (Unix) time
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
+	// The cloud service integration identifier.
+	ID int `json:"id,omitempty"`
+	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
+	// The parent linked account identifier.
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
+	// The data polling interval in seconds.
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
+	// The cloud service integration name.
+	Name string `json:"name,omitempty"`
+	// The parent NewRelic account identifier.
+	NrAccountId int `json:"nrAccountId"`
+	// The cloud service used in the integration.
+	Service CloudService `json:"service,omitempty"`
+	// The object last update date, in epoch (Unix) time
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
+}
+
+func (x *CloudGcpAiplatformIntegration) ImplementsCloudIntegration() {}
+
+// CloudGcpAiplatformIntegrationInput - Vertex AI
+type CloudGcpAiplatformIntegrationInput struct {
+	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
+	// The linked account identifier.
+	LinkedAccountId int `json:"linkedAccountId"`
+	// The data polling interval in seconds.
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
+}
+
 // CloudGcpAlloydbIntegration - AlloyDB Integration
 type CloudGcpAlloydbIntegration struct {
 	// The object creation date, in epoch (Unix) time
@@ -3937,6 +4029,8 @@ type CloudGcpDatastoreIntegrationInput struct {
 
 // CloudGcpDisableIntegrationsInput - List of integrations
 type CloudGcpDisableIntegrationsInput struct {
+	// Vertex AI integration
+	GcpAiplatform []CloudDisableAccountIntegrationInput `json:"gcpAiplatform,omitempty"`
 	// AlloyDB integration
 	GcpAlloydb []CloudDisableAccountIntegrationInput `json:"gcpAlloydb,omitempty"`
 	// App Engine integration
@@ -4163,6 +4257,8 @@ type CloudGcpFunctionsIntegrationInput struct {
 
 // CloudGcpIntegrationsInput - List of integrations
 type CloudGcpIntegrationsInput struct {
+	// Vertex AI integration
+	GcpAiplatform []CloudGcpAiplatformIntegrationInput `json:"gcpAiplatform,omitempty"`
 	// AlloyDB integration
 	GcpAlloydb []CloudGcpAlloydbIntegrationInput `json:"gcpAlloydb,omitempty"`
 	// App Engine integration
@@ -4379,6 +4475,8 @@ type CloudGcpProvider struct {
 	Services []CloudService `json:"services"`
 	// The cloud provider short name.
 	Slug string `json:"slug"`
+	// Get template params of one cloud provider service.
+	TemplateParams []CloudTemplateParam `json:"templateParams"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -5178,6 +5276,8 @@ type CloudProvider struct {
 	Services []CloudService `json:"services"`
 	// The cloud provider short name.
 	Slug string `json:"slug"`
+	// Get template params of one cloud provider service.
+	TemplateParams []CloudTemplateParam `json:"templateParams"`
 	// The object last update date, in epoch (Unix) time
 	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
 }
@@ -5388,6 +5488,8 @@ type CloudS3IntegrationInput struct {
 type CloudService struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
+	// The cloud service dashboard templates.
+	Dashboards []CloudDashboardTemplate `json:"dashboards"`
 	// The cloud service identifier in NewRelic.
 	ID int `json:"id"`
 	// The cloud service icon name.
@@ -5420,6 +5522,11 @@ func (x *CloudService) UnmarshalJSON(b []byte) error {
 		switch k {
 		case "createdAt":
 			err = json.Unmarshal(*v, &x.CreatedAt)
+			if err != nil {
+				return err
+			}
+		case "dashboards":
+			err = json.Unmarshal(*v, &x.Dashboards)
 			if err != nil {
 				return err
 			}
@@ -5607,6 +5714,22 @@ type CloudSqsIntegrationInput struct {
 	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
 	TagValue string `json:"tagValue,omitempty"`
+}
+
+// CloudTemplateParam - Provider template form params
+type CloudTemplateParam struct {
+	// The provider template param autocomplete.
+	Autocomplete string `json:"autocomplete,omitempty"`
+	// The provider template param immutable.
+	Immutable bool `json:"immutable,omitempty"`
+	// The provider template param label.
+	Label string `json:"label,omitempty"`
+	// The provider template param name.
+	Name string `json:"name"`
+	// The provider template param placeholder.
+	Placeholder string `json:"placeholder,omitempty"`
+	// The provider template param type.
+	Type string `json:"type"`
 }
 
 // CloudTrustedadvisorIntegration - Trusted Advisor Integration
@@ -5904,6 +6027,16 @@ func UnmarshalCloudIntegrationInterface(b []byte) (*CloudIntegrationInterface, e
 			return &xxx, nil
 		case "CloudAwsMqIntegration":
 			var interfaceType CloudAwsMqIntegration
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx CloudIntegrationInterface = &interfaceType
+
+			return &xxx, nil
+		case "CloudAwsMsElasticacheIntegration":
+			var interfaceType CloudAwsMsElasticacheIntegration
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
@@ -6464,6 +6597,16 @@ func UnmarshalCloudIntegrationInterface(b []byte) (*CloudIntegrationInterface, e
 			return &xxx, nil
 		case "CloudEmrIntegration":
 			var interfaceType CloudEmrIntegration
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx CloudIntegrationInterface = &interfaceType
+
+			return &xxx, nil
+		case "CloudGcpAiplatformIntegration":
+			var interfaceType CloudGcpAiplatformIntegration
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err

@@ -172,6 +172,11 @@ const CloudConfigureIntegrationMutation = `mutation(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudAwsMsElasticacheIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudAwsMskIntegration {
 			__typename
 			awsRegions
@@ -541,6 +546,11 @@ const CloudConfigureIntegrationMutation = `mutation(
 			metricsPollingInterval
 			tagKey
 			tagValue
+		}
+		... on CloudGcpAiplatformIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
 		}
 		... on CloudGcpAlloydbIntegration {
 			__typename
@@ -953,6 +963,11 @@ const CloudDisableIntegrationMutation = `mutation(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudAwsMsElasticacheIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudAwsMskIntegration {
 			__typename
 			awsRegions
@@ -1322,6 +1337,11 @@ const CloudDisableIntegrationMutation = `mutation(
 			metricsPollingInterval
 			tagKey
 			tagValue
+		}
+		... on CloudGcpAiplatformIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
 		}
 		... on CloudGcpAlloydbIntegration {
 			__typename
@@ -1961,6 +1981,11 @@ const getLinkedAccountQuery = `query(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudAwsMsElasticacheIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudAwsMskIntegration {
 			__typename
 			awsRegions
@@ -2331,6 +2356,11 @@ const getLinkedAccountQuery = `query(
 			tagKey
 			tagValue
 		}
+		... on CloudGcpAiplatformIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudGcpAlloydbIntegration {
 			__typename
 			inventoryPollingInterval
@@ -2600,6 +2630,14 @@ const getLinkedAccountQuery = `query(
 			updatedAt
 		}
 		slug
+		templateParams {
+			autocomplete
+			immutable
+			label
+			name
+			placeholder
+			type
+		}
 		updatedAt
 		... on CloudAwsGovCloudProvider {
 			__typename
@@ -2792,6 +2830,11 @@ const getLinkedAccountsQuery = `query(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudAwsMsElasticacheIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudAwsMskIntegration {
 			__typename
 			awsRegions
@@ -3162,6 +3205,11 @@ const getLinkedAccountsQuery = `query(
 			tagKey
 			tagValue
 		}
+		... on CloudGcpAiplatformIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudGcpAlloydbIntegration {
 			__typename
 			inventoryPollingInterval
@@ -3431,6 +3479,14 @@ const getLinkedAccountsQuery = `query(
 			updatedAt
 		}
 		slug
+		templateParams {
+			autocomplete
+			immutable
+			label
+			name
+			placeholder
+			type
+		}
 		updatedAt
 		... on CloudAwsGovCloudProvider {
 			__typename
