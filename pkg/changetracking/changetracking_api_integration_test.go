@@ -66,7 +66,7 @@ func TestChangeTrackingCreateDeployment_CustomAttributes(t *testing.T) {
 		DeepLink:         "newrelic-client-go",
 		DeploymentType:   ChangeTrackingDeploymentTypeTypes.BASIC,
 		Description:      "This is a test description",
-		EntityGUID:       common.EntityGUID(testhelpers.IntegrationTestApplicationEntityGUID),
+		EntityGUID:       common.EntityGUID(testhelpers.IntegrationTestApplicationEntityGUIDNew),
 		GroupId:          "deployment",
 		Timestamp:        nrtime.EpochMilliseconds(time.Now()),
 		User:             "newrelic-go-client",
@@ -107,6 +107,122 @@ func TestChangeTrackingCreateDeployment_TimestampError(t *testing.T) {
 	)
 	require.Error(t, err)
 	require.Nil(t, res)
+}
+
+func TestChangeTrackingCreateDeployment_OldTimestampError(t *testing.T) {
+	t.Parallel()
+	now := time.Now()
+
+	a := newIntegrationTestClient(t)
+
+	input := ChangeTrackingDeploymentInput{
+		Changelog:      "test",
+		Commit:         "12345a",
+		DeepLink:       "newrelic-client-go",
+		DeploymentType: ChangeTrackingDeploymentTypeTypes.BASIC,
+		Description:    "This is a test description",
+		EntityGUID:     common.EntityGUID(testhelpers.IntegrationTestApplicationEntityGUID),
+		GroupId:        "deployment",
+		Timestamp: nrtime.EpochMilliseconds(
+			time.Date(
+				now.Year(),
+				now.Month(),
+				now.Day()-2,
+				now.Hour()-3,
+				now.Minute()-30,
+				0,
+				0,
+				time.Local,
+			),
+		),
+		User:    "newrelic-go-client",
+		Version: "0.0.1",
+	}
+
+	res, err := a.ChangeTrackingCreateDeployment(
+		ChangeTrackingDataHandlingRules{ValidationFlags: []ChangeTrackingValidationFlag{ChangeTrackingValidationFlagTypes.FAIL_ON_FIELD_LENGTH}},
+		input,
+	)
+	require.Error(t, err)
+	require.Nil(t, res)
+}
+
+func TestChangeTrackingCreateDeployment_TimestampZeroNanosecondsTest(t *testing.T) {
+	t.Parallel()
+
+	a := newIntegrationTestClient(t)
+	now := time.Now()
+
+	input := ChangeTrackingDeploymentInput{
+		Changelog:      "test",
+		Commit:         "12345a",
+		DeepLink:       "newrelic-client-go",
+		DeploymentType: ChangeTrackingDeploymentTypeTypes.BASIC,
+		Description:    "This is a test description",
+		EntityGUID:     common.EntityGUID(testhelpers.IntegrationTestApplicationEntityGUIDNew),
+		GroupId:        "deployment",
+		Timestamp: nrtime.EpochMilliseconds(
+			time.Date(
+				now.Year(),
+				now.Month(),
+				now.Day(),
+				now.Hour()-3,
+				now.Minute()-30,
+				0,
+				0,
+				time.Local,
+			),
+		),
+		User:    "newrelic-go-client",
+		Version: "0.0.1",
+	}
+
+	res, err := a.ChangeTrackingCreateDeployment(
+		ChangeTrackingDataHandlingRules{ValidationFlags: []ChangeTrackingValidationFlag{ChangeTrackingValidationFlagTypes.FAIL_ON_FIELD_LENGTH}},
+		input,
+	)
+	require.NoError(t, err)
+	require.NotNil(t, res.EntityGUID)
+	require.Equal(t, res.EntityGUID, input.EntityGUID)
+}
+
+func TestChangeTrackingCreateDeployment_TimestampNonZeroNanosecondsTest(t *testing.T) {
+	t.Parallel()
+
+	a := newIntegrationTestClient(t)
+	now := time.Now()
+
+	input := ChangeTrackingDeploymentInput{
+		Changelog:      "test",
+		Commit:         "12345a",
+		DeepLink:       "newrelic-client-go",
+		DeploymentType: ChangeTrackingDeploymentTypeTypes.BASIC,
+		Description:    "This is a test description",
+		EntityGUID:     common.EntityGUID(testhelpers.IntegrationTestApplicationEntityGUIDNew),
+		GroupId:        "deployment",
+		Timestamp: nrtime.EpochMilliseconds(
+			time.Date(
+				now.Year(),
+				now.Month(),
+				now.Day(),
+				now.Hour()-6,
+				now.Minute()-30,
+				0,
+				231567,
+				time.Local,
+			),
+		),
+		User:    "newrelic-go-client",
+		Version: "0.0.1",
+	}
+
+	res, err := a.ChangeTrackingCreateDeployment(
+		ChangeTrackingDataHandlingRules{ValidationFlags: []ChangeTrackingValidationFlag{ChangeTrackingValidationFlagTypes.FAIL_ON_FIELD_LENGTH}},
+		input,
+	)
+	require.NoError(t, err)
+	require.NotNil(t, res.EntityGUID)
+	require.Equal(t, res.EntityGUID, input.EntityGUID)
 }
 
 func newIntegrationTestClient(t *testing.T) Changetracking {
