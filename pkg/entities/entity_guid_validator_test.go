@@ -12,7 +12,7 @@ import (
 )
 
 func TestDecodeEntityGuid_Valid(t *testing.T) {
-	entity := GenericEntity{
+	entity := DecodedEntity{
 		AccountId:  12345,
 		Domain:     "test_domain",
 		EntityType: "user",
@@ -33,7 +33,7 @@ func TestDecodeEntityGuid_Valid(t *testing.T) {
 	}
 }
 
-func encodeEntity(entity GenericEntity) string {
+func encodeEntity(entity DecodedEntity) string {
 	parts := []string{
 		strconv.FormatInt(entity.AccountId, 10),
 		entity.Domain,
