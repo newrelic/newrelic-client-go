@@ -404,7 +404,7 @@ packages:
       - name: ChangeTrackingDeployment
       - name: ChangeTrackingDeploymentInput
       - name: EpochMilliseconds
-        field_type_override: nrtime.EpochMilliseconds
+#        field_type_override: changetracking.EpochMilliseconds
         skip_type_create: true
       - name: EntityGuid
         field_type_override: common.EntityGUID

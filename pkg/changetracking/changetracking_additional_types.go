@@ -1,10 +1,13 @@
-package serialization
+package changetracking
 
 import (
 	"fmt"
 	"strconv"
 	"time"
 )
+
+// EpochMilliseconds - The `EpochMilliseconds` scalar represents the number of milliseconds since the Unix epoch
+type EpochMilliseconds EpochTime
 
 // EpochTime is a type used for unmarshaling timestamps represented in epoch time.
 // Its underlying type is time.Time.
@@ -14,6 +17,12 @@ type EpochTime time.Time
 func (e EpochTime) MarshalJSON() ([]byte, error) {
 	ret := strconv.FormatInt(time.Time(e).UTC().Unix(), 10)
 	milli := int64(time.Time(e).Nanosecond()) / int64(time.Millisecond)
+	if milli == 0 {
+		milliNonZero := time.Duration(1) * time.Millisecond
+		// the above can also be time.Duration(rand.Int63n(1000)) * time.Millisecond
+		milli = milliNonZero.Milliseconds()
+	}
+
 	nano := int64(time.Time(e).Nanosecond())
 
 	// Include milliseconds if there are some
