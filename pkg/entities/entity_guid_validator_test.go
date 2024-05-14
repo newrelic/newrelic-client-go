@@ -5,71 +5,70 @@ package entities
 
 import (
 	"encoding/base64"
+	"errors"
 	"fmt"
-	"strconv"
-	"strings"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
-func TestDecodeEntityGuid_Valid(t *testing.T) {
-	entity := DecodedEntity{
-		AccountId:  12345,
-		Domain:     "test_domain",
-		EntityType: "user",
-		DomainId:   "abc123",
-	}
-	encodedGuid := encodeEntity(entity)
-
-	decodedEntity, err := DecodeEntityGuid(encodedGuid)
-	if err != nil {
-		t.Errorf("Unexpected error: %v", err)
-	}
-
-	if decodedEntity.AccountId != entity.AccountId ||
-		decodedEntity.Domain != entity.Domain ||
-		decodedEntity.EntityType != entity.EntityType ||
-		decodedEntity.DomainId != entity.DomainId {
-		t.Errorf("Decoded entity does not match original entity")
-	}
+type decodeEntityGuidTestCase struct {
+	name           string
+	encodedGuid    string
+	expectedEntity DecodedEntity
+	expectedError  error
 }
 
-func encodeEntity(entity DecodedEntity) string {
-	parts := []string{
-		strconv.FormatInt(entity.AccountId, 10),
-		entity.Domain,
-		entity.EntityType,
-		entity.DomainId,
-	}
-	return base64.StdEncoding.EncodeToString([]byte(strings.Join(parts, DELIMITER)))
-}
+func TestDecodeEntityGuid(t *testing.T) {
+	var testCases []decodeEntityGuidTestCase
 
-func TestDecodeEntityGuid_MissingDelimiter(t *testing.T) {
-	invalidGuid := "invalidentityguid"
+	// Valid case
+	testCases = append(testCases, decodeEntityGuidTestCase{
+		name:           "Valid entity GUID",
+		encodedGuid:    base64.StdEncoding.EncodeToString([]byte("12345|test_domain|user|abc123")),
+		expectedEntity: DecodedEntity{12345, "test_domain", "user", "abc123"},
+		expectedError:  nil,
+	})
 
-	_, err := DecodeEntityGuid(invalidGuid)
+	// Missing delimiter
+	testCases = append(testCases, decodeEntityGuidTestCase{
+		name:           "Missing delimiter",
+		encodedGuid:    "invalidentityguid",
+		expectedEntity: DecodedEntity{},
+		expectedError:  EntityGUIDValidationErrorTypes.INVALID_ENTITY_GUID_ERROR,
+	})
 
-	if err != EntityGUIDValidationErrorTypes.INVALID_ENTITY_GUID_ERROR {
-		t.Errorf("Expected error 'invalid entity GUID format', got %v", err)
-	}
-}
+	// Less than 4 parts
+	testCases = append(testCases, decodeEntityGuidTestCase{
+		name:           "Less than 4 parts",
+		encodedGuid:    base64.StdEncoding.EncodeToString([]byte("account|domain")),
+		expectedEntity: DecodedEntity{},
+		expectedError:  errors.New(fmt.Sprintf("invalid entity GUID format: expected at least 4 parts delimited by '%s': %s", DELIMITER, base64.StdEncoding.EncodeToString([]byte("account|domain")))),
+	})
 
-func TestDecodeEntityGuid_LessThanFourParts(t *testing.T) {
-	invalidGuid := base64.StdEncoding.EncodeToString([]byte("account|domain"))
+	// Empty entity type
+	testCases = append(testCases, decodeEntityGuidTestCase{
+		name:           "Empty entity type",
+		encodedGuid:    base64.StdEncoding.EncodeToString([]byte("12345|domain||domainId")),
+		expectedEntity: DecodedEntity{},
+		expectedError:  errors.New(fmt.Sprintf("%v", EntityGUIDValidationErrorTypes.EMPTY_ENTITY_TYPE_ERROR)),
+	})
 
-	_, err := DecodeEntityGuid(invalidGuid)
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			decodedEntity, err := DecodeEntityGuid(tc.encodedGuid)
 
-	expectedErrorMessage := fmt.Sprintf("invalid entity GUID format: expected at least 4 parts delimited by '%s': %s", DELIMITER, invalidGuid)
-	if err.Error() != expectedErrorMessage {
-		t.Errorf("Expected error message: %s, got %v", expectedErrorMessage, err)
-	}
-}
+			if err != nil {
+				assert.EqualError(t, err, tc.expectedError.Error())
+			} else {
+				assert.Equal(t, tc.expectedEntity, *decodedEntity)
+			}
 
-func TestDecodeEntityGuid_EmptyEntityType(t *testing.T) {
-	encodedGuid := base64.StdEncoding.EncodeToString([]byte("12345|domain||domainId"))
-
-	_, err := DecodeEntityGuid(encodedGuid)
-
-	if err != EntityGUIDValidationErrorTypes.EMPTY_ENTITY_TYPE_ERROR {
-		t.Errorf("Expected error 'entity type is required', got %v", err)
+			if tc.expectedError == nil && (decodedEntity.AccountId != tc.expectedEntity.AccountId ||
+				decodedEntity.Domain != tc.expectedEntity.Domain ||
+				decodedEntity.EntityType != tc.expectedEntity.EntityType ||
+				decodedEntity.DomainId != tc.expectedEntity.DomainId) {
+				t.Errorf("TestCase: %s - Decoded entity does not match original entity", tc.name)
+			}
+		})
 	}
 }
