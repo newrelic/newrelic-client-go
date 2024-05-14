@@ -5,8 +5,9 @@ import (
 	"regexp"
 	"testing"
 
-	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 	"github.com/stretchr/testify/require"
+
+	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
 func TestIntegrationOrganizationCreate_CustomerIdNotFoundError(t *testing.T) {

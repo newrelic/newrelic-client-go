@@ -121,3 +121,51 @@ const OrganizationUpdateMutation = `mutation(
 		name
 	}
 } }`
+
+// The shared account to update
+func (a *Organization) OrganizationUpdateSharedAccount(
+	sharedAccount OrganizationUpdateSharedAccountInput,
+) (*OrganizationUpdateSharedAccountResponse, error) {
+	return a.OrganizationUpdateSharedAccountWithContext(context.Background(),
+		sharedAccount,
+	)
+}
+
+// The shared account to update
+func (a *Organization) OrganizationUpdateSharedAccountWithContext(
+	ctx context.Context,
+	sharedAccount OrganizationUpdateSharedAccountInput,
+) (*OrganizationUpdateSharedAccountResponse, error) {
+
+	resp := OrganizationUpdateSharedAccountQueryResponse{}
+	vars := map[string]interface{}{
+		"sharedAccount": sharedAccount,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, OrganizationUpdateSharedAccountMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.OrganizationUpdateSharedAccountResponse, nil
+}
+
+type OrganizationUpdateSharedAccountQueryResponse struct {
+	OrganizationUpdateSharedAccountResponse OrganizationUpdateSharedAccountResponse `json:"OrganizationUpdateSharedAccount"`
+}
+
+const OrganizationUpdateSharedAccountMutation = `mutation(
+	$sharedAccount: OrganizationUpdateSharedAccountInput!,
+) { organizationUpdateSharedAccount(
+	sharedAccount: $sharedAccount,
+) {
+	sharedAccount {
+		accountId
+		id
+		limitingRoleId
+		name
+		sourceOrganizationId
+		sourceOrganizationName
+		targetOrganizationId
+		targetOrganizationName
+	}
+} }`
