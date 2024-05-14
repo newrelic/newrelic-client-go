@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"regexp"
 	"testing"
 	"time"
 
@@ -109,7 +110,7 @@ func TestChangeTrackingCreateDeployment_TimestampError(t *testing.T) {
 	require.Nil(t, res)
 }
 
-func TestChangeTrackingCreateDeployment_OldTimestampError(t *testing.T) {
+func TestChangeTrackingCreateDeployment_OlderThan24HoursTimestampError(t *testing.T) {
 	t.Parallel()
 	now := time.Now()
 
@@ -144,6 +145,7 @@ func TestChangeTrackingCreateDeployment_OldTimestampError(t *testing.T) {
 		input,
 	)
 	require.Error(t, err)
+	require.Regexp(t, regexp.MustCompile("not be more than 24 hours"), err.Error())
 	require.Nil(t, res)
 }
 

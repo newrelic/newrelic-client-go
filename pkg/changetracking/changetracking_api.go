@@ -8,6 +8,12 @@ func (a *Changetracking) ChangeTrackingCreateDeployment(
 	dataHandlingRules ChangeTrackingDataHandlingRules,
 	deployment ChangeTrackingDeploymentInput,
 ) (*ChangeTrackingDeployment, error) {
+	// DO NOT DELETE the following function call
+	// This is NOT covered by Tutone, but is needed to reformat milliseconds in timestamps
+	// in order to align with the expected format of the timestamp by the API
+	deployment.CorrectTimestampMilliseconds()
+	// DO NOT DELETE the above function call
+
 	return a.ChangeTrackingCreateDeploymentWithContext(context.Background(),
 		dataHandlingRules,
 		deployment,

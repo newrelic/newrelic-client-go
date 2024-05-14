@@ -14,12 +14,6 @@ type EpochTime time.Time
 func (e EpochTime) MarshalJSON() ([]byte, error) {
 	ret := strconv.FormatInt(time.Time(e).UTC().Unix(), 10)
 	milli := int64(time.Time(e).Nanosecond()) / int64(time.Millisecond)
-	if milli == 0 {
-		milliNonZero := time.Duration(1) * time.Millisecond
-		// the above can also be time.Duration(rand.Int63n(1000)) * time.Millisecond
-		milli = milliNonZero.Milliseconds()
-	}
-
 	nano := int64(time.Time(e).Nanosecond())
 
 	// Include milliseconds if there are some
