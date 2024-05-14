@@ -1,3 +1,8 @@
+<a name="v2.34.1"></a>
+## [v2.34.1] - 2024-05-14
+### Bug Fixes
+- **entity:** Entity guid validation ([#1138](https://github.com/newrelic/newrelic-client-go/issues/1138))
+
 <a name="v2.34.0"></a>
 ## [v2.34.0] - 2024-05-07
 ### Features
@@ -1769,7 +1774,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.34.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.34.1...HEAD
+[v2.34.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.34.0...v2.34.1
 [v2.34.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.33.0...v2.34.0
 [v2.33.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.32.0...v2.33.0
 [v2.32.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.31.0...v2.32.0
