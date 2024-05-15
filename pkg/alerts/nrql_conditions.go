@@ -738,9 +738,9 @@ const (
       openViolationOnExpiration
     }
     signal {
-	  aggregationWindow
+    aggregationWindow
       evaluationOffset
- 	  evaluationDelay
+    evaluationDelay
       fillOption
       fillValue
       aggregationMethod
