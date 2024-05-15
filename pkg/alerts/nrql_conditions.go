@@ -243,6 +243,7 @@ type NrqlConditionBase struct {
 	Expiration                *AlertsNrqlConditionExpiration  `json:"expiration,omitempty"`
 	Signal                    *AlertsNrqlConditionSignal      `json:"signal,omitempty"`
 	EntityGUID                common.EntityGUID               `json:"entityGuid,omitempty"`
+	TitleTemplate             *string                         `json:"titleTemplate,omitempty"`
 }
 
 // NrqlConditionCreateBase represents the base fields for creating a New Relic NRQL Alert condition.
@@ -258,6 +259,7 @@ type NrqlConditionCreateBase struct {
 	ViolationTimeLimitSeconds int                              `json:"violationTimeLimitSeconds,omitempty"`
 	Expiration                *AlertsNrqlConditionExpiration   `json:"expiration,omitempty"`
 	Signal                    *AlertsNrqlConditionCreateSignal `json:"signal,omitempty"`
+	TitleTemplate             *string                          `json:"titleTemplate,omitempty"`
 }
 
 // NrqlConditionUpdateBase represents the base fields for updating a New Relic NRQL Alert condition.
@@ -273,6 +275,7 @@ type NrqlConditionUpdateBase struct {
 	ViolationTimeLimitSeconds int                              `json:"violationTimeLimitSeconds,omitempty"`
 	Expiration                *AlertsNrqlConditionExpiration   `json:"expiration,omitempty"`
 	Signal                    *AlertsNrqlConditionUpdateSignal `json:"signal"`
+	TitleTemplate             *string                          `json:"titleTemplate"`
 }
 
 // NrqlConditionCreateInput represents the input options for creating a Nrql Condition.
@@ -322,6 +325,7 @@ type NrqlCondition struct {
 	Terms               []ConditionTerm    `json:"terms,omitempty"`
 	Type                string             `json:"type,omitempty"`
 	EntityGUID          *common.EntityGUID `json:"entity_guid,omitempty"`
+	TitleTemplate       *string            `json:"titleTemplate,omitempty"`
 }
 
 // NrqlQuery represents a NRQL query to use with a NRQL alert condition
@@ -715,6 +719,7 @@ const (
     enabled
     entityGuid
     description
+    titleTemplate
     policyId
     runbookUrl
     terms {
