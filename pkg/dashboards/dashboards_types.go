@@ -1,6 +1,8 @@
 package dashboards
 
-import "time"
+import (
+	"time"
+)
 
 // Dashboard represents information about a New Relic dashboard.
 type Dashboard struct {
@@ -305,14 +307,14 @@ type RawConfiguration struct {
 	// Used by viz.markdown
 	Text string `json:"text,omitempty"`
 
-	// Used by viz.billboard
-	Thresholds []DashboardBillboardWidgetThresholdInput `json:"thresholds,omitempty"`
-	Legend     *DashboardWidgetLegend                   `json:"legend,omitempty"`
-	YAxisLeft  *DashboardWidgetYAxisLeft                `json:"yAxisLeft,omitempty"`
-	NullValues *DashboardWidgetNullValues               `json:"nullValues,omitempty"`
-	Units      *DashboardWidgetUnits                    `json:"units,omitempty"`
-	Colors     *DashboardWidgetColors                   `json:"colors,omitempty"`
-	Facet      *DashboardWidgetFacet                    `json:"facet,omitempty"`
+	Thresholds interface{}                `json:"thresholds,omitempty"`
+	Legend     *DashboardWidgetLegend     `json:"legend,omitempty"`
+	YAxisLeft  *DashboardWidgetYAxisLeft  `json:"yAxisLeft,omitempty"`
+	YAxisRight *DashboardWidgetYAxisRight `json:"yAxisRight,omitempty"`
+	NullValues *DashboardWidgetNullValues `json:"nullValues,omitempty"`
+	Units      *DashboardWidgetUnits      `json:"units,omitempty"`
+	Colors     *DashboardWidgetColors     `json:"colors,omitempty"`
+	Facet      *DashboardWidgetFacet      `json:"facet,omitempty"`
 }
 
 // RawConfigurationPlatformOptions represents the platform widget options
@@ -329,6 +331,17 @@ type DashboardWidgetYAxisLeft struct {
 	Min  *float64 `json:"min,omitempty"`
 	Zero *bool    `json:"zero,omitempty"`
 }
+
+type DashboardWidgetYAxisRight struct {
+	Zero   *bool                             `json:"zero,omitempty"`
+	Series []DashboardWidgetYAxisRightSeries `json:"series,omitempty"`
+}
+
+type DashboardWidgetYAxisRightSeries struct {
+	Name DashboardWidgetYAxisRightSeriesName `json:"name,omitempty"`
+}
+
+type DashboardWidgetYAxisRightSeriesName string
 
 type DashboardWidgetNullValues struct {
 	NullValue       string                              `json:"nullValue,omitempty"`
