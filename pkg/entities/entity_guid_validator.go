@@ -34,14 +34,14 @@ type DecodedEntity struct {
 
 // DecodeEntityGuid decodes a string representation of an entity GUID and returns an GenericEntity (replaced with struct)
 func DecodeEntityGuid(entityGuid string) (*DecodedEntity, error) {
-	decodedGuid, err := base64.StdEncoding.DecodeString(entityGuid)
+	decodedGuid, err := base64.RawStdEncoding.DecodeString(entityGuid)
 	if err != nil {
 		return nil, EntityGUIDValidationErrorTypes.INVALID_ENTITY_GUID_ERROR
 	}
 
 	parts := strings.Split(string(decodedGuid), "|")
 	if len(parts) < 4 {
-		return nil, fmt.Errorf("invalid entity GUID format: expected at least 4 parts delimited by '%s': %s", DELIMITER, entityGuid)
+		return nil, fmt.Errorf("%s: expected at least 4 parts delimited by '%s': %s", EntityGUIDValidationErrorTypes.INVALID_ENTITY_GUID_ERROR, DELIMITER, entityGuid)
 	}
 
 	accountId, err := strconv.ParseInt(parts[0], 10, 64)
