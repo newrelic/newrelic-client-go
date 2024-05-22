@@ -1,14 +1,11 @@
-//go:build integration
-// +build integration
-
 package entities
 
 import (
 	"encoding/base64"
-	"errors"
 	"fmt"
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 type decodeEntityGuidTestCase struct {
@@ -24,7 +21,7 @@ func TestDecodeEntityGuid(t *testing.T) {
 	// Valid case
 	testCases = append(testCases, decodeEntityGuidTestCase{
 		name:           "Valid entity GUID",
-		encodedGuid:    base64.StdEncoding.EncodeToString([]byte("12345|test_domain|user|abc123")),
+		encodedGuid:    base64.RawStdEncoding.EncodeToString([]byte("12345|test_domain|user|abc123")),
 		expectedEntity: DecodedEntity{12345, "test_domain", "user", "abc123"},
 		expectedError:  nil,
 	})
@@ -40,17 +37,34 @@ func TestDecodeEntityGuid(t *testing.T) {
 	// Less than 4 parts
 	testCases = append(testCases, decodeEntityGuidTestCase{
 		name:           "Less than 4 parts",
-		encodedGuid:    base64.StdEncoding.EncodeToString([]byte("account|domain")),
+		encodedGuid:    base64.RawStdEncoding.EncodeToString([]byte("account|domain")),
 		expectedEntity: DecodedEntity{},
-		expectedError:  errors.New(fmt.Sprintf("invalid entity GUID format: expected at least 4 parts delimited by '%s': %s", DELIMITER, base64.StdEncoding.EncodeToString([]byte("account|domain")))),
+		expectedError:  fmt.Errorf("invalid entity GUID format: expected at least 4 parts delimited by '%s': %s", DELIMITER, base64.RawStdEncoding.EncodeToString([]byte("account|domain"))),
 	})
 
 	// Empty entity type
 	testCases = append(testCases, decodeEntityGuidTestCase{
 		name:           "Empty entity type",
-		encodedGuid:    base64.StdEncoding.EncodeToString([]byte("12345|domain||domainId")),
+		encodedGuid:    base64.RawStdEncoding.EncodeToString([]byte("12345|domain||domainId")),
 		expectedEntity: DecodedEntity{},
-		expectedError:  errors.New(fmt.Sprintf("%v", EntityGUIDValidationErrorTypes.EMPTY_ENTITY_TYPE_ERROR)),
+		expectedError:  fmt.Errorf("%v", EntityGUIDValidationErrorTypes.EMPTY_ENTITY_TYPE_ERROR),
+	})
+
+	// Entity test
+	testCases = append(testCases, decodeEntityGuidTestCase{
+		name:           "Dummy entity type",
+		encodedGuid:    "MTIzNDU2N3xCUk9XU0VSfEFQUExJQ0FUSU9OfDEyMzQ1Njc4OTA",
+		expectedEntity: DecodedEntity{1234567, "BROWSER", "APPLICATION", "1234567890"},
+		expectedError:  fmt.Errorf("%v", EntityGUIDValidationErrorTypes.EMPTY_ENTITY_TYPE_ERROR),
+	})
+
+	// Entity test with padding
+	// Occurs when encoded with base64.StdEncoding
+	testCases = append(testCases, decodeEntityGuidTestCase{
+		name:           "Invalid GUID with corrupt value ",
+		encodedGuid:    "MTIzNDU2N3xCUk9XU0VSfEFQUExJQ0FUSU9OfDEyMzQ1Njc4OTA=",
+		expectedEntity: DecodedEntity{1234567, "BROWSER", "APPLICATION", "1234567890"},
+		expectedError:  EntityGUIDValidationErrorTypes.INVALID_ENTITY_GUID_ERROR,
 	})
 
 	for _, tc := range testCases {
