@@ -1,3 +1,11 @@
+<a name="v2.35.0"></a>
+## [v2.35.0] - 2024-05-22
+### Bug Fixes
+- **entity:** refactored entity GUID validation functions to remove padding ([#1143](https://github.com/newrelic/newrelic-client-go/issues/1143))
+
+### Features
+- **automation:** report new API features and updates via Tutone
+
 <a name="v2.34.1"></a>
 ## [v2.34.1] - 2024-05-14
 ### Bug Fixes
@@ -1774,7 +1782,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.34.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.35.0...HEAD
+[v2.35.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.34.1...v2.35.0
 [v2.34.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.34.0...v2.34.1
 [v2.34.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.33.0...v2.34.0
 [v2.33.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.32.0...v2.33.0
