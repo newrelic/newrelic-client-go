@@ -333,6 +333,8 @@ type DashboardWidgetYAxisLeft struct {
 }
 
 type DashboardWidgetYAxisRight struct {
+	Max    float64                           `json:"max,omitempty"`
+	Min    *float64                          `json:"min,omitempty"`
 	Zero   *bool                             `json:"zero,omitempty"`
 	Series []DashboardWidgetYAxisRightSeries `json:"series,omitempty"`
 }
