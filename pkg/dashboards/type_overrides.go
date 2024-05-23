@@ -9,3 +9,38 @@ type DashboardBillboardWidgetThresholdInput struct {
 	// value.
 	Value *float64 `json:"value,omitempty"`
 }
+
+type DashboardLineWidgetThresholdInput struct {
+	IsLabelVisible *bool                                        `json:"isLabelVisible,omitempty"`
+	Thresholds     []DashboardLineWidgetThresholdThresholdInput `json:"thresholds,omitempty"`
+}
+
+type DashboardLineWidgetThresholdThresholdInput struct {
+	From     *int                                   `json:"from,omitempty"`
+	To       *int                                   `json:"to,omitempty"`
+	Name     string                                 `json:"name,omitempty"`
+	Severity DashboardLineTableWidgetsAlertSeverity `json:"severity,omitempty"`
+}
+
+type DashboardTableWidgetThresholdInput struct {
+	From       *int                                   `json:"from,omitempty"`
+	To         *int                                   `json:"to,omitempty"`
+	ColumnName string                                 `json:"columnName,omitempty"`
+	Severity   DashboardLineTableWidgetsAlertSeverity `json:"severity,omitempty"`
+}
+
+type DashboardLineTableWidgetsAlertSeverity string
+
+var DashboardLineTableWidgetsAlertSeverityTypes = struct {
+	SUCCESS     DashboardLineTableWidgetsAlertSeverity
+	WARNING     DashboardLineTableWidgetsAlertSeverity
+	UNAVAILABLE DashboardLineTableWidgetsAlertSeverity
+	SEVERE      DashboardLineTableWidgetsAlertSeverity
+	CRITICAL    DashboardLineTableWidgetsAlertSeverity
+}{
+	SUCCESS:     "success",
+	WARNING:     "warning",
+	UNAVAILABLE: "unavailable",
+	SEVERE:      "severe",
+	CRITICAL:    "critical",
+}
