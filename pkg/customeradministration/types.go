@@ -1228,10 +1228,20 @@ type MultiTenantIdentityUserType struct {
 
 // OrganizationAccount - The account type contains the properties of an account
 type OrganizationAccount struct {
+	// The creation time
+	CreatedAt nrtime.DateTime `json:"createdAt"`
 	// The account id
 	ID int `json:"id"`
 	// The account name
 	Name string `json:"name"`
+	// The parent ID
+	ParentId int `json:"parentId,omitempty"`
+	// The partnership ID
+	PartnershipId int `json:"partnershipId,omitempty"`
+	// The partnership Name
+	PartnershipName string `json:"partnershipName,omitempty"`
+	// The pay method
+	PayMethod string `json:"payMethod,omitempty"`
 	// The account region code
 	RegionCode string `json:"regionCode"`
 	// The status
