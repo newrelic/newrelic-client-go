@@ -1,6 +1,7 @@
 package organization
 
 import (
+	"fmt"
 	"net/http"
 	"testing"
 
@@ -22,6 +23,21 @@ var (
 				"organizationInformation":  {
 					"id":  "` + unitTestMockOrganizationOneId + `",
 					"name":  "` + unitTestMockOrganizationOneName + `"
+				}
+			}
+		}
+	}`
+
+	testUpdateSharedAccountResponseJSON = `{
+		"data":  {
+			"organizationUpdateSharedAccount":  {
+				"sharedAccount":  {
+					"accountId":  ` + fmt.Sprint(unitTestMockAccountOneId) + `,
+					"id":  "` + unitTestMockOrganizationOneId + `",
+					"limitingRoleId":  ` + fmt.Sprint(unitTestMockLimitingRoleId) + `,
+					"name":  "` + unitTestMockOrganizationOneName + `",
+					"sourceOrganizationId":  "` + unitTestMockOrganizationOneId + `",
+					"sourceOrganizationName":  "` + unitTestMockOrganizationOneName + `"
 				}
 			}
 		}
@@ -70,6 +86,34 @@ func TestUnitUpdateOrganization(t *testing.T) {
 			Name: unitTestMockOrganizationOneName,
 		},
 		unitTestMockOrganizationOneId,
+	)
+
+	assert.NoError(t, err)
+	assert.NotNil(t, actual)
+	assert.Equal(t, expected, actual)
+}
+
+func TestUnitOrganizationUpdateSharedAccount(t *testing.T) {
+	t.Parallel()
+
+	organization := newMockResponse(t, testUpdateSharedAccountResponseJSON, http.StatusOK)
+
+	expected := &OrganizationUpdateSharedAccountResponse{
+		SharedAccount: OrganizationSharedAccount{
+			AccountID:              unitTestMockAccountOneId,
+			ID:                     unitTestMockOrganizationOneId,
+			LimitingRoleId:         unitTestMockLimitingRoleId,
+			Name:                   unitTestMockOrganizationOneName,
+			SourceOrganizationId:   unitTestMockOrganizationOneId,
+			SourceOrganizationName: unitTestMockOrganizationOneName,
+		},
+	}
+
+	actual, err := organization.OrganizationUpdateSharedAccount(
+		OrganizationUpdateSharedAccountInput{
+			ID:             fmt.Sprint(unitTestMockAccountOneId),
+			LimitingRoleId: unitTestMockLimitingRoleId,
+		},
 	)
 
 	assert.NoError(t, err)
