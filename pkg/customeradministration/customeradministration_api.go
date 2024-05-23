@@ -107,8 +107,13 @@ const getAccountsQuery = `query(
 	sort: $sort,
 ) {
 	items {
+		createdAt
 		id
 		name
+		parentId
+		partnershipId
+		partnershipName
+		payMethod
 		regionCode
 		status
 	}

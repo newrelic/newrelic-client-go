@@ -1599,6 +1599,15 @@ packages:
         field_type_override: "*OrganizationOrganizationCreateJobIdInput"
       - name: OrganizationOrganizationCreateJobStatusInput
         field_type_override: "*OrganizationOrganizationCreateJobStatusInput"
+        ######
+        # overrides associated with types starting with OrganizationAuthenticationDomainFilterInput
+        # which is used in the 'authenticationdomain' endpoint in customerAdministration
+      - name: OrganizationIdInput
+        field_type_override: "*OrganizationIdInput"
+      - name: OrganizationNameInput
+        field_type_override: "*OrganizationNameInput"
+      - name: OrganizationOrganizationIdInput
+        field_type_override: "*OrganizationOrganizationIdInput"
 
       - name: ID
         field_type_override: string
