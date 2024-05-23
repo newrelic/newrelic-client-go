@@ -26,6 +26,9 @@ var (
 	unitTestMockOrganizationOneName     = "Mock Organization One"
 	unitTestMockOrganizationOneId       = "e1fe1ff8-0032-43d5-935f-caf47567a71d"
 
+	unitTestMockAccountOneId   = 123456
+	unitTestMockLimitingRoleId = 1000
+
 	organizationNameUpdated = "Virtuoso / OaC Organization"
 	organizationId          = os.Getenv("INTEGRATION_TESTING_NEW_RELIC_ORGANIZATION_ID")
 )
