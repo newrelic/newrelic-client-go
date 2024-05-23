@@ -1,3 +1,8 @@
+<a name="v2.36.0"></a>
+## [v2.36.0] - 2024-05-23
+### Features
+- **dashboards:** add yAxisRight, isLabelVisible and alter the functioning of thresholds ([#1144](https://github.com/newrelic/newrelic-client-go/issues/1144))
+
 <a name="v2.35.0"></a>
 ## [v2.35.0] - 2024-05-22
 ### Bug Fixes
@@ -1782,7 +1787,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.35.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.36.0...HEAD
+[v2.36.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.35.0...v2.36.0
 [v2.35.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.34.1...v2.35.0
 [v2.34.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.34.0...v2.34.1
 [v2.34.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.33.0...v2.34.0
