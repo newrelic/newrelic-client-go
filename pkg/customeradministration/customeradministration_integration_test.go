@@ -70,8 +70,8 @@ func TestIntegrationCustomerAdministration_GetAuthenticationDomains(t *testing.T
 	client := newIntegrationTestClient(t)
 	_, err = client.GetAuthenticationDomains("",
 		OrganizationAuthenticationDomainFilterInput{
-			Name:           OrganizationNameInput{Eq: authenticationDomainName},
-			OrganizationId: OrganizationOrganizationIdInput{Eq: organizationId},
+			Name:           &OrganizationNameInput{Eq: authenticationDomainName},
+			OrganizationId: &OrganizationOrganizationIdInput{Eq: organizationId},
 		},
 		[]OrganizationAuthenticationDomainSortInput{},
 	)
