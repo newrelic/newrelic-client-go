@@ -1,3 +1,8 @@
+<a name="v2.36.1"></a>
+## [v2.36.1] - 2024-05-23
+### Bug Fixes
+- **customeradministration:** change auth_domain filter types in the package to use pointers ([#1134](https://github.com/newrelic/newrelic-client-go/issues/1134))
+
 <a name="v2.36.0"></a>
 ## [v2.36.0] - 2024-05-23
 ### Features
@@ -1787,7 +1792,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.36.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.36.1...HEAD
+[v2.36.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.36.0...v2.36.1
 [v2.36.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.35.0...v2.36.0
 [v2.35.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.34.1...v2.35.0
 [v2.34.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.34.0...v2.34.1
