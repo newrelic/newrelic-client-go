@@ -128,7 +128,7 @@ func (nr *NewRelic) SetLogLevel(levelName string) {
 // TestEndpoints makes a few calls to determine if the NewRelic enpoints are reachable.
 func (nr *NewRelic) TestEndpoints() error {
 	endpoints := []string{
-		nr.config.Region().InfrastructureURL(),
+		//	nr.config.Region().InfrastructureURL(),
 		nr.config.Region().LogsURL(),
 		nr.config.Region().NerdGraphURL(),
 		nr.config.Region().RestURL(),
