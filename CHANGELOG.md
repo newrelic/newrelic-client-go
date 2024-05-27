@@ -1,3 +1,8 @@
+<a name="v2.36.2"></a>
+## [v2.36.2] - 2024-05-27
+### Bug Fixes
+- **infra:** Discard the infra test api call to prevent timeout issues ([#1145](https://github.com/newrelic/newrelic-client-go/issues/1145))
+
 <a name="v2.36.1"></a>
 ## [v2.36.1] - 2024-05-23
 ### Bug Fixes
@@ -1792,7 +1797,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.36.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.36.2...HEAD
+[v2.36.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.36.1...v2.36.2
 [v2.36.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.36.0...v2.36.1
 [v2.36.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.35.0...v2.36.0
 [v2.35.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.34.1...v2.35.0
