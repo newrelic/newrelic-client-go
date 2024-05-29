@@ -2083,22 +2083,38 @@ const getEntitySearchByQuery = `query(
 				__typename
 				applicationId
 				language
+				tags {
+					key
+					values
+				}
 			}
 			... on ApmDatabaseInstanceEntityOutline {
 				__typename
 				host
 				portOrPath
 				vendor
+				tags {
+					key
+					values
+				}
 			}
 			... on ApmExternalServiceEntityOutline {
 				__typename
 				host
+				tags {
+					key
+					values
+				}
 			}
 			... on BrowserApplicationEntityOutline {
 				__typename
 				agentInstallType
 				applicationId
 				servingApmApplicationId
+				tags {
+					key
+					values
+				}
 			}
 			... on DashboardEntityOutline {
 				__typename
@@ -2106,9 +2122,17 @@ const getEntitySearchByQuery = `query(
 				dashboardParentGuid
 				permissions
 				updatedAt
+				tags {
+					key
+					values
+				}
 			}
 			... on ExternalEntityOutline {
 				__typename
+				tags {
+					key
+					values
+				}
 			}
 			... on GenericEntityOutline {
 				__typename
@@ -2120,24 +2144,51 @@ const getEntitySearchByQuery = `query(
 			... on GenericInfrastructureEntityOutline {
 				__typename
 				integrationTypeCode
+				tags {
+					key
+					values
+				}
 			}
 			... on InfrastructureAwsLambdaFunctionEntityOutline {
 				__typename
 				integrationTypeCode
 				runtime
+				tags {
+					key
+					values
+				}
 			}
 			... on InfrastructureHostEntityOutline {
 				__typename
+				tags {
+					key
+					values
+				}
+			}
+			... on KeyTransactionEntityOutline {
+				__typename
+				tags {
+					key
+					values
+				}
 			}
 			... on MobileApplicationEntityOutline {
 				__typename
 				applicationId
+				tags {
+					key
+					values
+				}
 			}
 			... on SecureCredentialEntityOutline {
 				__typename
 				description
 				secureCredentialId
 				updatedAt
+				tags {
+					key
+					values
+				}
 			}
 			... on SyntheticMonitorEntityOutline {
 				__typename
@@ -2145,17 +2196,33 @@ const getEntitySearchByQuery = `query(
 				monitorType
 				monitoredUrl
 				period
+				tags {
+					key
+					values
+				}
 			}
 			... on ThirdPartyServiceEntityOutline {
 				__typename
+				tags {
+					key
+					values
+				}
 			}
 			... on UnavailableEntityOutline {
 				__typename
+				tags {
+					key
+					values
+				}
 			}
 			... on WorkloadEntityOutline {
 				__typename
 				createdAt
 				updatedAt
+				tags {
+					key
+					values
+				}
 			}
 		}
 		nextCursor
