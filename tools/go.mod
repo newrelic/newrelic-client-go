@@ -3,13 +3,13 @@ module github.com/newrelic/newrelic-client-go/v2/tools
 go 1.21
 
 require (
-	github.com/caarlos0/svu v1.9.0
+	github.com/caarlos0/svu v1.12.0
 	github.com/client9/misspell v0.3.4
 	github.com/git-chglog/git-chglog v0.15.4
 	github.com/golangci/golangci-lint v1.53.3
 	github.com/goreleaser/goreleaser v1.15.2
 	github.com/newrelic/tutone v0.11.0
-	github.com/psampaz/go-mod-outdated v0.8.0
+	github.com/psampaz/go-mod-outdated v0.9.0
 	github.com/stretchr/testify v1.8.4
 	github.com/x-motemen/gobump v0.2.0
 	golang.org/x/tools v0.13.0
@@ -300,7 +300,7 @@ require (
 	github.com/quasilyte/gogrep v0.5.0 // indirect
 	github.com/quasilyte/regex/syntax v0.0.0-20210819130434-b3f0c404a727 // indirect
 	github.com/quasilyte/stdinfo v0.0.0-20220114132959-f7386bf02567 // indirect
-	github.com/rivo/uniseg v0.4.2 // indirect
+	github.com/rivo/uniseg v0.4.3 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/ryancurrah/gomodguard v1.3.0 // indirect
 	github.com/ryanrolds/sqlclosecheck v0.4.0 // indirect
