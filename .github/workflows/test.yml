@@ -62,7 +62,7 @@ jobs:
         run: make test-unit coverage-report-unit
 
       - name: Report unit test coverage via Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           files: ./coverage/unit.out
           flags: unit
@@ -113,7 +113,7 @@ jobs:
           INTEGRATION_TESTING_NEW_RELIC_AUTHENTICATION_DOMAIN_ID: ${{ secrets.INTEGRATION_TESTING_NEW_RELIC_AUTHENTICATION_DOMAIN_ID}}
 
       - name: Report integration test coverage via Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           files: ./coverage/integration.out
           flags: integration
