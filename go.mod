@@ -6,7 +6,7 @@ require (
 	github.com/elazarl/goproxy v0.0.0-20231117061959-7cc037d33fb5
 	github.com/google/go-querystring v1.1.0
 	github.com/hashicorp/go-retryablehttp v0.7.0
-	github.com/imdario/mergo v0.3.16
+	github.com/imdario/mergo v1.0.0
 	github.com/mitchellh/mapstructure v1.4.3
 	github.com/sirupsen/logrus v1.9.3
 	github.com/stretchr/testify v1.9.0
