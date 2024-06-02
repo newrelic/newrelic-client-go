@@ -282,6 +282,7 @@ github.com/caarlos0/log v0.4.4 h1:LnvgBz/ofsJ00AupP/cEfksJSZglb1L69g4Obk/sdAc=
 github.com/caarlos0/log v0.4.4/go.mod h1:+AmCI9Liv5LKXmzFmFI1htuHdTTj/0R3KuoP9DMY7Mo=
 github.com/caarlos0/svu v1.12.0 h1:p0iOO19zBnXaR1X7CaYTnpKuKQZnnTCIiHJ5ibVYVFM=
 github.com/caarlos0/svu v1.12.0/go.mod h1:oyja+p/n0CJaeoQ5DtPLAvYkQof8JRtf13ZxobkOGl8=
+github.com/caarlos0/svu/v2 v2.0.1/go.mod h1:rMbsHPy1gf6/65xQQmtitgkRzCGkHhylVfZ2IGLR3LQ=
 github.com/caarlos0/testfs v0.4.4 h1:3PHvzHi5Lt+g332CiShwS8ogTgS3HjrmzZxCm6JCDr8=
 github.com/caarlos0/testfs v0.4.4/go.mod h1:bRN55zgG4XCUVVHZCeU+/Tz1Q6AxEJOEJTliBy+1DMk=
 github.com/carlmjohnson/versioninfo v0.22.5 h1:O00sjOLUAFxYQjlN/bzYTuZiS0y6fWDQjMRvwtKgwwc=
