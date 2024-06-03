@@ -63,6 +63,7 @@ func TestIntegrationSearchEntitiesByQuery(t *testing.T) {
 
 	require.NoError(t, err)
 	require.Greater(t, len(actual.Results.Entities), 0)
+	require.Greater(t, len(actual.Results.Entities[0].GetTags()), 0)
 }
 
 func TestIntegrationSearchEntities_domain(t *testing.T) {
