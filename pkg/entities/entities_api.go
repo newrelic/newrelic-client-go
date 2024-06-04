@@ -2079,10 +2079,6 @@ const getEntitySearchByQuery = `query(
 			permalink
 			reporting
 			type
-			tags {
-				key
-				values
-			}
 			... on ApmApplicationEntityOutline {
 				__typename
 				applicationId
