@@ -5254,6 +5254,11 @@ type ApmApplicationEntityOutline struct {
 	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 }
 
+// GetTags returns a pointer to the value of Tags from ApmApplicationEntityOutline
+func (x ApmApplicationEntityOutline) GetTags() []EntityTag {
+	return x.Tags
+}
+
 // GetAccount returns a pointer to the value of Account from ApmApplicationEntityOutline
 func (x ApmApplicationEntityOutline) GetAccount() accounts.AccountOutline {
 	return x.Account
@@ -5382,11 +5387,6 @@ func (x ApmApplicationEntityOutline) GetSettings() ApmApplicationSettings {
 // GetSummaryMetrics returns a pointer to the value of SummaryMetrics from ApmApplicationEntityOutline
 func (x ApmApplicationEntityOutline) GetSummaryMetrics() []EntitySummaryMetric {
 	return x.SummaryMetrics
-}
-
-// GetTags returns a pointer to the value of Tags from ApmApplicationEntityOutline
-func (x ApmApplicationEntityOutline) GetTags() []EntityTag {
-	return x.Tags
 }
 
 // GetType returns a pointer to the value of Type from ApmApplicationEntityOutline
@@ -5819,6 +5819,11 @@ type ApmDatabaseInstanceEntityOutline struct {
 	Vendor string `json:"vendor,omitempty"`
 }
 
+// GetTags returns a pointer to the value of Tags from ApmDatabaseInstanceEntityOutline
+func (x ApmDatabaseInstanceEntityOutline) GetTags() []EntityTag {
+	return x.Tags
+}
+
 // GetAccount returns a pointer to the value of Account from ApmDatabaseInstanceEntityOutline
 func (x ApmDatabaseInstanceEntityOutline) GetAccount() accounts.AccountOutline {
 	return x.Account
@@ -5927,11 +5932,6 @@ func (x ApmDatabaseInstanceEntityOutline) GetServiceLevel() ServiceLevelDefiniti
 // GetSummaryMetrics returns a pointer to the value of SummaryMetrics from ApmDatabaseInstanceEntityOutline
 func (x ApmDatabaseInstanceEntityOutline) GetSummaryMetrics() []EntitySummaryMetric {
 	return x.SummaryMetrics
-}
-
-// GetTags returns a pointer to the value of Tags from ApmDatabaseInstanceEntityOutline
-func (x ApmDatabaseInstanceEntityOutline) GetTags() []EntityTag {
-	return x.Tags
 }
 
 // GetType returns a pointer to the value of Type from ApmDatabaseInstanceEntityOutline
@@ -9715,6 +9715,11 @@ type ExternalEntityOutline struct {
 	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 }
 
+// GetTags returns a pointer to the value of Tags from ExternalEntityOutline
+func (x ExternalEntityOutline) GetTags() []EntityTag {
+    return x.Tags
+}
+
 // GetAccount returns a pointer to the value of Account from ExternalEntityOutline
 func (x ExternalEntityOutline) GetAccount() accounts.AccountOutline {
 	return x.Account
@@ -9813,11 +9818,6 @@ func (x ExternalEntityOutline) GetServiceLevel() ServiceLevelDefinition {
 // GetSummaryMetrics returns a pointer to the value of SummaryMetrics from ExternalEntityOutline
 func (x ExternalEntityOutline) GetSummaryMetrics() []EntitySummaryMetric {
 	return x.SummaryMetrics
-}
-
-// GetTags returns a pointer to the value of Tags from ExternalEntityOutline
-func (x ExternalEntityOutline) GetTags() []EntityTag {
-	return x.Tags
 }
 
 // GetType returns a pointer to the value of Type from ExternalEntityOutline
@@ -10146,6 +10146,11 @@ type GenericEntityOutline struct {
 	UiTemplates []EntityDashboardTemplatesUi `json:"uiTemplates"`
 }
 
+// GetTags returns a pointer to the value of Tags from GenericEntityOutline
+func (x GenericEntityOutline) GetTags() []EntityTag {
+    return x.Tags
+}
+
 // GetAccount returns a pointer to the value of Account from GenericEntityOutline
 func (x GenericEntityOutline) GetAccount() accounts.AccountOutline {
 	return x.Account
@@ -10244,11 +10249,6 @@ func (x GenericEntityOutline) GetServiceLevel() ServiceLevelDefinition {
 // GetSummaryMetrics returns a pointer to the value of SummaryMetrics from GenericEntityOutline
 func (x GenericEntityOutline) GetSummaryMetrics() []EntitySummaryMetric {
 	return x.SummaryMetrics
-}
-
-// GetTags returns a pointer to the value of Tags from GenericEntityOutline
-func (x GenericEntityOutline) GetTags() []EntityTag {
-	return x.Tags
 }
 
 // GetType returns a pointer to the value of Type from GenericEntityOutline
