@@ -45,6 +45,28 @@ packages:
       - name: accountManagementUpdateAccount
         max_query_field_depth: 3
 
+  - name: accounts
+    path: pkg/accounts
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/accounts
+    generators:
+      - typegen
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+    types:
+      - name: AccountOutline
+      - name: AccountReference
+      - name: RegionScope
+
+      #
+      # Types that we should auto-detect are in another package someday
+      #
+      - name: EpochMilliseconds
+        field_type_override: nrtime.EpochMilliseconds
+        skip_type_create: true
+      - name: TimeWindowInput
+        field_type_override: nrtime.TimeWindowInput
+        skip_type_create: true
+
   - name: agentApplications
     path: pkg/agentapplications
     import_path: github.com/newrelic/newrelic-client-go/v2/pkg/agentapplications
@@ -95,9 +117,9 @@ packages:
       - name: AgentApplicationSettingsBrowserPrivacyInput
         field_type_override: "*AgentApplicationSettingsBrowserPrivacyInput"
 
-  - name: logconfigurations
-    path: pkg/logconfigurations
-    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/logconfigurations
+  - name: authorizationmanagement
+    path: pkg/authorizationmanagement
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/authorizationmanagement
     generators:
       - typegen
       - nerdgraphclient
@@ -107,206 +129,22 @@ packages:
       - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
       - github.com/newrelic/newrelic-client-go/v2/pkg/users
     queries:
-      - path: ["actor", "account", "logConfigurations"]
+      - path: ["actor", "organization", "authorizationManagement"]
         endpoints:
-          - name: obfuscationExpressions
-            max_query_field_depth: 2
-          - name: obfuscationRules
-            max_query_field_depth: 5
-          - name: dataPartitionRules
-            max_query_field_depth: 2
-          - name: testGrok
-            max_query_field_depth: 2
-          - name: parsingRules
-            max_query_field_depth: 2
+          - name: roles
+            max_query_field_depth: 4
     mutations:
-      - name: logConfigurationsCreateObfuscationExpression
+      - name: authorizationManagementGrantAccess
         max_query_field_depth: 3
-      - name: logConfigurationsDeleteObfuscationExpression
-        max_query_field_depth: 1
-      - name: logConfigurationsUpdateObfuscationExpression
-        max_query_field_depth: 2
-      - name: logConfigurationsCreateObfuscationRule
-        max_query_field_depth: 4
-      - name: logConfigurationsUpdateObfuscationRule
-        max_query_field_depth: 4
-      - name: logConfigurationsDeleteObfuscationRule
-        max_query_field_depth: 4
-      - name: logConfigurationsCreateDataPartitionRule
+      - name: authorizationManagementRevokeAccess
         max_query_field_depth: 3
-      - name: logConfigurationsUpdateDataPartitionRule
-        max_query_field_depth: 3
-      - name: logConfigurationsDeleteDataPartitionRule
-        max_query_field_depth: 3
-      - name: logConfigurationsCreateParsingRule
-        max_query_field_depth: 2
-      - name: logConfigurationsUpdateParsingRule
-        max_query_field_depth: 2
-      - name: logConfigurationsDeleteParsingRule
-        max_query_field_depth: 2
     types:
-      - name: LogConfigurationsDataPartitionRuleMatchingCriteriaInput
-        field_type_override: "*LogConfigurationsDataPartitionRuleMatchingCriteriaInput"
       - name: ID
         field_type_override: string
         skip_type_create: true
       - name: DateTime
         field_type_override: nrtime.DateTime
         skip_type_create: true
-      - name: LogConfigurationsParsingRule
-        field_type_override: "*LogConfigurationsParsingRule"
-
-  - name: synthetics
-    path: pkg/synthetics
-    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/synthetics
-    generators:
-      - typegen
-      - nerdgraphclient
-    imports:
-      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
-    queries:
-      - path: ["actor", "account", "synthetics"]
-        endpoints:
-          - name: "script"
-            max_query_field_depth: 1
-          - name: "steps"
-            max_query_field_depth: 1
-          - name: "automatedTestResult"
-            max_query_field_depth: 6
-    mutations:
-      - name: syntheticsCreateSecureCredential
-        max_query_field_depth: 2
-      - name: syntheticsDeleteSecureCredential
-        max_query_field_depth: 2
-      - name: syntheticsUpdateSecureCredential
-        max_query_field_depth: 2
-      - name: syntheticsCreateScriptApiMonitor
-        max_query_field_depth: 2
-      - name: syntheticsUpdateScriptApiMonitor
-        max_query_field_depth: 2
-      - name: syntheticsCreateScriptBrowserMonitor
-        max_query_field_depth: 2
-      - name: syntheticsUpdateScriptBrowserMonitor
-        max_query_field_depth: 2
-      - name: syntheticsCreateSimpleBrowserMonitor
-        max_query_field_depth: 3
-      - name: syntheticsUpdateSimpleBrowserMonitor
-        max_query_field_depth: 3
-      - name: syntheticsCreateSimpleMonitor
-        max_query_field_depth: 2
-      - name: syntheticsUpdateSimpleMonitor
-        max_query_field_depth: 2
-      - name: syntheticsCreateBrokenLinksMonitor
-        max_query_field_depth: 2
-      - name: syntheticsUpdateBrokenLinksMonitor
-        max_query_field_depth: 2
-      - name: syntheticsCreateCertCheckMonitor
-        max_query_field_depth: 2
-      - name: syntheticsUpdateCertCheckMonitor
-        max_query_field_depth: 2
-      - name: syntheticsCreateStepMonitor
-        max_query_field_depth: 2
-      - name: syntheticsUpdateStepMonitor
-        max_query_field_depth: 2
-      - name: syntheticsDeleteMonitor
-        max_query_field_depth: 2
-      - name: syntheticsCreatePrivateLocation
-        max_query_field_depth: 2
-      - name: syntheticsDeletePrivateLocation
-        max_query_field_depth: 2
-      - name: syntheticsUpdatePrivateLocation
-        max_query_field_depth: 2
-      - name: syntheticsPurgePrivateLocationQueue
-        max_query_field_depth: 2
-      - name: syntheticsStartAutomatedTest
-        max_query_field_depth: 4
-      - name: syntheticsCreateOnceMonitorDowntime
-        max_query_field_depth: 2
-      - name: syntheticsCreateDailyMonitorDowntime
-        max_query_field_depth: 2
-      - name: syntheticsCreateWeeklyMonitorDowntime
-        max_query_field_depth: 2
-      - name: syntheticsCreateMonthlyMonitorDowntime
-        max_query_field_depth: 2
-      - name: syntheticsEditMonitorDowntime
-        max_query_field_depth: 4
-      - name: syntheticsDeleteMonitorDowntime
-        max_query_field_depth: 1
-    types:
-      - name: EpochMilliseconds
-        field_type_override: "*nrtime.EpochMilliseconds"
-        skip_type_create: true
-      # This must be a string, as where ID is used the type is a string...
-      - name: ID
-        field_type_override: string
-        skip_type_create: true
-      - name: SyntheticsDeviceEmulationInput
-        field_type_override: "*SyntheticsDeviceEmulationInput"
-      - name: SyntheticsRuntimeInput
-        field_type_override: "*SyntheticsRuntimeInput"
-      - name: SyntheticsExtendedTypeMonitorRuntimeInput
-        field_type_override: "*SyntheticsExtendedTypeMonitorRuntimeInput"
-      # overrides and specifications of fields associated with the syntheticsStartAutomatedTest mutation start here
-      - name: SyntheticsAutomatedTestConfigInput
-        struct_tags:
-          tags: [json, yaml]
-      - name: SyntheticsAutomatedTestMonitorInput
-        struct_tags:
-          tags: [json, yaml]
-      - name: SyntheticsAutomatedTestMonitorConfigInput
-        struct_tags:
-          tags: [json, yaml]
-      - name: SyntheticsAutomatedTestOverridesInput
-        field_type_override: "*SyntheticsAutomatedTestOverridesInput"
-        struct_tags:
-          tags: [json, yaml]
-      - name: SyntheticsScriptDomainOverrideInput
-        struct_tags:
-          tags: [json, yaml]
-      - name: SyntheticsSecureCredentialOverrideInput
-        struct_tags:
-          tags: [json, yaml]
-      # overrides and specifications of fields associated with the automatedTestResults query start here
-      - name: Milliseconds
-        field_type_override: int
-      - name: SyntheticsAutomatedTestOverrides
-        field_type_override: "*SyntheticsAutomatedTestOverrides"
-      # overrides and specifications of fields associated with Monitor Downtimes start here
-      - name: SyntheticsDaysOfWeek
-        field_type_override: "*SyntheticsDaysOfWeek"
-
-
-  - name: common
-    path: pkg/common
-    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/common
-    generators:
-      - typegen
-    types:
-      - name: EntityGUID
-        field_type_override: string
-
-  - name: accounts
-    path: pkg/accounts
-    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/accounts
-    generators:
-      - typegen
-    imports:
-      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
-    types:
-      - name: AccountOutline
-      - name: AccountReference
-      - name: RegionScope
-
-      #
-      # Types that we should auto-detect are in another package someday
-      #
-      - name: EpochMilliseconds
-        field_type_override: nrtime.EpochMilliseconds
-        skip_type_create: true
-      - name: TimeWindowInput
-        field_type_override: nrtime.TimeWindowInput
-        skip_type_create: true
-
 
   - name: alerts
     path: pkg/alerts
@@ -384,6 +222,165 @@ packages:
         field_type_override: int64
         skip_type_create: true
 
+  - name: common
+    path: pkg/common
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/common
+    generators:
+      - typegen
+    types:
+      - name: EntityGUID
+        field_type_override: string
+
+  - name: customeradministration
+    path: pkg/customeradministration
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/customeradministration
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v2/pkg/users
+    queries:
+      - path: ["customerAdministration"]
+        endpoints:
+          - name: accountShares
+            max_query_field_depth: 4
+          - name: accounts
+            max_query_field_depth: 4
+          - name: authenticationDomains
+            max_query_field_depth: 4
+          - name: consumption
+            max_query_field_depth: 4
+          - name: contracts
+            max_query_field_depth: 4
+          - name: grants
+            max_query_field_depth: 4
+          - name: groups
+            max_query_field_depth: 4
+          - name: jobs
+            max_query_field_depth: 4
+          - name: organizations
+            max_query_field_depth: 4
+          - name: permissions
+            max_query_field_depth: 4
+          - name: roles
+            max_query_field_depth: 4
+          - name: user
+            max_query_field_depth: 4
+          - name: users
+            max_query_field_depth: 4
+      - path: ["customerAdministration", "jobs"]
+        endpoints:
+          - name: organizationCreateAsyncResults
+            max_query_field_depth: 4
+    types:
+      - name: OrganizationAccountShareFilterInput
+      - name: OrganizationAccountShareSortInput
+      - name: OrganizationAccountFilterInput
+      - name: OrganizationAccountSortInput
+      - name: OrganizationAuthenticationDomainFilterInput
+      - name: OrganizationAuthenticationDomainSortInput
+      - name: OrganizationCustomerContractFilterInput
+      - name: MultiTenantAuthorizationGrantFilterInputExpression
+      - name: MultiTenantAuthorizationGrantSortInput
+      - name: MultiTenantIdentityGroupFilterInput
+      - name: MultiTenantIdentityGroupSortInput
+      - name: OrganizationCustomerOrganizationFilterInput
+      - name: MultiTenantAuthorizationPermissionFilter
+      - name: MultiTenantAuthorizationRoleFilterInputExpression
+      - name: MultiTenantAuthorizationRoleSortInput
+      - name: MultiTenantIdentityUserFilterInput
+      - name: MultiTenantIdentityUserSortInput
+        # overrides associated with types starting with MultiTenantIdentityGroupFilterInput
+        # which is used in the 'groups' endpoint in customerAdministration
+      - name: MultiTenantIdentityAllowsCapabilityInput
+        field_type_override: "*MultiTenantIdentityAllowsCapabilityInput"
+      - name: MultiTenantIdentityAuthenticationDomainIdInput
+        field_type_override: "*MultiTenantIdentityAuthenticationDomainIdInput"
+      - name: MultiTenantIdentityGroupIdInput
+        field_type_override: "*MultiTenantIdentityGroupIdInput"
+      - name: MultiTenantIdentityGroupMemberIdInput
+        field_type_override: "*MultiTenantIdentityGroupMemberIdInput"
+      - name: MultiTenantIdentityGroupNameInput
+        field_type_override: "*MultiTenantIdentityGroupNameInput"
+      - name: MultiTenantIdentityOrganizationIdInput
+        field_type_override: "*MultiTenantIdentityOrganizationIdInput"
+        # overrides associated with types starting with MultiTenantIdentityUserFilterInput
+        # which is used in the 'users' endpoint in customerAdministration
+      - name: MultiTenantIdentityUserEmailInput
+        field_type_override: "*MultiTenantIdentityUserEmailInput"
+      - name: MultiTenantIdentityEmailVerificationStateInput
+        field_type_override: "*MultiTenantIdentityEmailVerificationStateInput"
+      - name: MultiTenantIdentityUserIdInput
+        field_type_override: "*MultiTenantIdentityUserIdInput"
+      - name: MultiTenantIdentityUserGroupIdInput
+        field_type_override: "*MultiTenantIdentityUserGroupIdInput"
+      - name:  MultiTenantIdentityUserNameInput
+        field_type_override: "*MultiTenantIdentityUserNameInput"
+      - name:  MultiTenantIdentityPendingUpgradeRequestInput
+        field_type_override: "*MultiTenantIdentityPendingUpgradeRequestInput"
+        # overrides associated with types starting with MultiTenantAuthorizationRoleFilterInputExpression
+        # which is used in the 'roles' endpoint in customerAdministration
+      - name: MultiTenantAuthorizationRoleGroupIdInputFilter
+        field_type_override: "*MultiTenantAuthorizationRoleGroupIdInputFilter"
+      - name: MultiTenantAuthorizationRoleIdInputFilter
+        field_type_override: "*MultiTenantAuthorizationRoleIdInputFilter"
+      - name: MultiTenantAuthorizationRoleNameInputFilter
+        field_type_override: "*MultiTenantAuthorizationRoleNameInputFilter"
+      - name: MultiTenantAuthorizationRoleOrganizationIdInputFilter
+        field_type_override: "*MultiTenantAuthorizationRoleOrganizationIdInputFilter"
+      - name:  MultiTenantAuthorizationRoleScopeInputFilter
+        field_type_override: "*MultiTenantAuthorizationRoleScopeInputFilter"
+      - name:  MultiTenantAuthorizationRoleTypeInputFilter
+        field_type_override: "*MultiTenantAuthorizationRoleTypeInputFilter"
+        #####
+        # overrides associated with types starting with MultiTenantAuthorizationGrantFilterInputExpression{
+        # which is used in the 'grants' endpoint in customerAdministration
+      - name: MultiTenantAuthorizationGrantAuthenticationDomainIdInputFilter
+        field_type_override: "*MultiTenantAuthorizationGrantAuthenticationDomainIdInputFilter"
+      - name: MultiTenantAuthorizationGrantGroupIdInputFilter
+        field_type_override: "*MultiTenantAuthorizationGrantGroupIdInputFilter"
+      - name: MultiTenantAuthorizationGrantIdInputFilter
+        field_type_override: "*MultiTenantAuthorizationGrantIdInputFilter"
+      - name: MultiTenantAuthorizationGrantOrganizationIdInputFilter
+        field_type_override: "*MultiTenantAuthorizationGrantOrganizationIdInputFilter"
+      - name:  MultiTenantAuthorizationGrantRoleIdInputFilter
+        field_type_override: "*MultiTenantAuthorizationGrantRoleIdInputFilter"
+      - name:  MultiTenantAuthorizationGrantScopeIdInputFilter
+        field_type_override: "*MultiTenantAuthorizationGrantScopeIdInputFilter"
+      - name:  MultiTenantAuthorizationGrantScopeTypeInputFilter
+        field_type_override: "*MultiTenantAuthorizationGrantScopeTypeInputFilter"
+        ######
+        # overrides associated with types starting with OrganizationOrganizationCreateAsyncResultFilterInput
+        # which is used in the 'organizationCreateAsyncResults' endpoint in customerAdministration > jobs
+      - name: OrganizationOrganizationCreateJobCustomerIdInput
+        field_type_override: "*OrganizationOrganizationCreateJobCustomerIdInput"
+      - name: OrganizationOrganizationCreateJobIdInput
+        field_type_override: "*OrganizationOrganizationCreateJobIdInput"
+      - name: OrganizationOrganizationCreateJobStatusInput
+        field_type_override: "*OrganizationOrganizationCreateJobStatusInput"
+        ######
+        # overrides associated with types starting with OrganizationAuthenticationDomainFilterInput
+        # which is used in the 'authenticationdomain' endpoint in customerAdministration
+      - name: OrganizationIdInput
+        field_type_override: "*OrganizationIdInput"
+      - name: OrganizationNameInput
+        field_type_override: "*OrganizationNameInput"
+      - name: OrganizationOrganizationIdInput
+        field_type_override: "*OrganizationOrganizationIdInput"
+        #####
+        # overrides associated with query 'GetAccountShares'
+      - name: OrganizationTargetIdInput
+        field_type_override: "*OrganizationTargetIdInput"
+
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
 
   - name: changetracking
     path: pkg/changetracking
@@ -587,7 +584,6 @@ packages:
         field_type_override: nrdb.NRQL
         skip_type_create: true
 
-
   - name: edge
     path: pkg/edge
     import_path: github.com/newrelic/newrelic-client-go/v2/pkg/edge
@@ -617,7 +613,6 @@ packages:
       - name: EdgeTraceObserverResponseErrorType
       - name: EdgeTraceObserverStatus
       - name: EdgeTracing
-
 
   - name: entities
     path: pkg/entities
@@ -897,7 +892,6 @@ packages:
       - name: AgentApplicationSettingsRawJsConfiguration
         create_as: map[string]interface{}
 
-
   - name: eventstometrics
     path: pkg/eventstometrics
     import_path: github.com/newrelic/newrelic-client-go/v2/pkg/eventstometrics
@@ -974,6 +968,67 @@ packages:
       - name: installationCreateInstallStatus
         max_query_field_depth: 1
 
+  - name: logconfigurations
+    path: pkg/logconfigurations
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/logconfigurations
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v2/pkg/users
+    queries:
+      - path: ["actor", "account", "logConfigurations"]
+        endpoints:
+          - name: obfuscationExpressions
+            max_query_field_depth: 2
+          - name: obfuscationRules
+            max_query_field_depth: 5
+          - name: dataPartitionRules
+            max_query_field_depth: 2
+          - name: testGrok
+            max_query_field_depth: 2
+          - name: parsingRules
+            max_query_field_depth: 2
+    mutations:
+      - name: logConfigurationsCreateObfuscationExpression
+        max_query_field_depth: 3
+      - name: logConfigurationsDeleteObfuscationExpression
+        max_query_field_depth: 1
+      - name: logConfigurationsUpdateObfuscationExpression
+        max_query_field_depth: 2
+      - name: logConfigurationsCreateObfuscationRule
+        max_query_field_depth: 4
+      - name: logConfigurationsUpdateObfuscationRule
+        max_query_field_depth: 4
+      - name: logConfigurationsDeleteObfuscationRule
+        max_query_field_depth: 4
+      - name: logConfigurationsCreateDataPartitionRule
+        max_query_field_depth: 3
+      - name: logConfigurationsUpdateDataPartitionRule
+        max_query_field_depth: 3
+      - name: logConfigurationsDeleteDataPartitionRule
+        max_query_field_depth: 3
+      - name: logConfigurationsCreateParsingRule
+        max_query_field_depth: 2
+      - name: logConfigurationsUpdateParsingRule
+        max_query_field_depth: 2
+      - name: logConfigurationsDeleteParsingRule
+        max_query_field_depth: 2
+    types:
+      - name: LogConfigurationsDataPartitionRuleMatchingCriteriaInput
+        field_type_override: "*LogConfigurationsDataPartitionRuleMatchingCriteriaInput"
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
+      - name: LogConfigurationsParsingRule
+        field_type_override: "*LogConfigurationsParsingRule"
+
   - name: nerdstorage
     path: pkg/nerdstorage
     import_path: github.com/newrelic/newrelic-client-go/v2/pkg/nerdstorage
@@ -985,7 +1040,6 @@ packages:
       - name: NerdStorageEntityScope
       - name: NerdStorageScope
       - name: NerdStorageScopeInput
-
 
   - name: notifications
     path: pkg/notifications
@@ -1045,7 +1099,6 @@ packages:
         field_type_override: nrtime.DateTime
         skip_type_create: true
 
-
   - name: nrdb
     path: pkg/nrdb
     import_path: github.com/newrelic/newrelic-client-go/v2/pkg/nrdb
@@ -1082,7 +1135,6 @@ packages:
       - name: TimeWindowInput
         field_type_override: nrtime.TimeWindowInput
         skip_type_create: true
-
 
   - name: nrqldroprules
     path: pkg/nrqldroprules
@@ -1135,7 +1187,6 @@ packages:
         field_type_override: nrdb.NRQL
         skip_type_create: true
 
-
   - name: nrtime
     path: pkg/nrtime
     import_path: github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
@@ -1160,6 +1211,159 @@ packages:
         create_as: string
       - name: TimeWindowInput
 
+  - name: organization
+    path: pkg/organization
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/organization
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v2/pkg/users
+    queries: []
+    mutations:
+      - name: organizationCreate
+        max_query_field_depth: 2
+      - name: organizationUpdate
+        max_query_field_depth: 2
+      # - name: organizationCreateSharedAccount
+      #   max_query_field_depth: 2
+      # - name: organizationRevokeSharedAccount
+      #   max_query_field_depth: 2
+      - name: organizationUpdateSharedAccount
+        max_query_field_depth: 2
+    types:
+      - name: OrganizationNewManagedAccountInput
+        field_type_override: "*OrganizationNewManagedAccountInput"
+      - name: OrganizationSharedAccountInput
+        field_type_override: "*OrganizationSharedAccountInput"
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
+
+  - name: synthetics
+    path: pkg/synthetics
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/synthetics
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+    queries:
+      - path: ["actor", "account", "synthetics"]
+        endpoints:
+          - name: "script"
+            max_query_field_depth: 1
+          - name: "steps"
+            max_query_field_depth: 1
+          - name: "automatedTestResult"
+            max_query_field_depth: 6
+    mutations:
+      - name: syntheticsCreateSecureCredential
+        max_query_field_depth: 2
+      - name: syntheticsDeleteSecureCredential
+        max_query_field_depth: 2
+      - name: syntheticsUpdateSecureCredential
+        max_query_field_depth: 2
+      - name: syntheticsCreateScriptApiMonitor
+        max_query_field_depth: 2
+      - name: syntheticsUpdateScriptApiMonitor
+        max_query_field_depth: 2
+      - name: syntheticsCreateScriptBrowserMonitor
+        max_query_field_depth: 2
+      - name: syntheticsUpdateScriptBrowserMonitor
+        max_query_field_depth: 2
+      - name: syntheticsCreateSimpleBrowserMonitor
+        max_query_field_depth: 3
+      - name: syntheticsUpdateSimpleBrowserMonitor
+        max_query_field_depth: 3
+      - name: syntheticsCreateSimpleMonitor
+        max_query_field_depth: 2
+      - name: syntheticsUpdateSimpleMonitor
+        max_query_field_depth: 2
+      - name: syntheticsCreateBrokenLinksMonitor
+        max_query_field_depth: 2
+      - name: syntheticsUpdateBrokenLinksMonitor
+        max_query_field_depth: 2
+      - name: syntheticsCreateCertCheckMonitor
+        max_query_field_depth: 2
+      - name: syntheticsUpdateCertCheckMonitor
+        max_query_field_depth: 2
+      - name: syntheticsCreateStepMonitor
+        max_query_field_depth: 2
+      - name: syntheticsUpdateStepMonitor
+        max_query_field_depth: 2
+      - name: syntheticsDeleteMonitor
+        max_query_field_depth: 2
+      - name: syntheticsCreatePrivateLocation
+        max_query_field_depth: 2
+      - name: syntheticsDeletePrivateLocation
+        max_query_field_depth: 2
+      - name: syntheticsUpdatePrivateLocation
+        max_query_field_depth: 2
+      - name: syntheticsPurgePrivateLocationQueue
+        max_query_field_depth: 2
+      - name: syntheticsStartAutomatedTest
+        max_query_field_depth: 4
+      - name: syntheticsCreateOnceMonitorDowntime
+        max_query_field_depth: 2
+      - name: syntheticsCreateDailyMonitorDowntime
+        max_query_field_depth: 2
+      - name: syntheticsCreateWeeklyMonitorDowntime
+        max_query_field_depth: 2
+      - name: syntheticsCreateMonthlyMonitorDowntime
+        max_query_field_depth: 2
+      - name: syntheticsEditMonitorDowntime
+        max_query_field_depth: 4
+      - name: syntheticsDeleteMonitorDowntime
+        max_query_field_depth: 1
+    types:
+      - name: EpochMilliseconds
+        field_type_override: "*nrtime.EpochMilliseconds"
+        skip_type_create: true
+      # This must be a string, as where ID is used the type is a string...
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: SyntheticsDeviceEmulationInput
+        field_type_override: "*SyntheticsDeviceEmulationInput"
+      - name: SyntheticsRuntimeInput
+        field_type_override: "*SyntheticsRuntimeInput"
+      - name: SyntheticsExtendedTypeMonitorRuntimeInput
+        field_type_override: "*SyntheticsExtendedTypeMonitorRuntimeInput"
+      # overrides and specifications of fields associated with the syntheticsStartAutomatedTest mutation start here
+      - name: SyntheticsAutomatedTestConfigInput
+        struct_tags:
+          tags: [json, yaml]
+      - name: SyntheticsAutomatedTestMonitorInput
+        struct_tags:
+          tags: [json, yaml]
+      - name: SyntheticsAutomatedTestMonitorConfigInput
+        struct_tags:
+          tags: [json, yaml]
+      - name: SyntheticsAutomatedTestOverridesInput
+        field_type_override: "*SyntheticsAutomatedTestOverridesInput"
+        struct_tags:
+          tags: [json, yaml]
+      - name: SyntheticsScriptDomainOverrideInput
+        struct_tags:
+          tags: [json, yaml]
+      - name: SyntheticsSecureCredentialOverrideInput
+        struct_tags:
+          tags: [json, yaml]
+      # overrides and specifications of fields associated with the automatedTestResults query start here
+      - name: Milliseconds
+        field_type_override: int
+      - name: SyntheticsAutomatedTestOverrides
+        field_type_override: "*SyntheticsAutomatedTestOverrides"
+      # overrides and specifications of fields associated with Monitor Downtimes start here
+      - name: SyntheticsDaysOfWeek
+        field_type_override: "*SyntheticsDaysOfWeek"
 
   - name: users
     path: pkg/users
@@ -1175,7 +1379,6 @@ packages:
     types:
       - name: User
       - name: UserReference
-
 
   - name: workflows
     path: pkg/workflows
@@ -1216,7 +1419,6 @@ packages:
       - name: DateTime
         field_type_override: nrtime.DateTime
         skip_type_create: true
-
 
   - name: workloads
     path: pkg/workloads
@@ -1280,7 +1482,6 @@ packages:
       - name: UserReference
         field_type_override: users.UserReference
         skip_type_create: true
-
 
   - name: servicelevel
     path: pkg/servicelevel
@@ -1398,221 +1599,6 @@ packages:
       - name: userManagementRemoveUsersFromGroups
         max_query_field_depth: 2
     types:
-      - name: ID
-        field_type_override: string
-        skip_type_create: true
-      - name: DateTime
-        field_type_override: nrtime.DateTime
-        skip_type_create: true
-
-  - name: authorizationmanagement
-    path: pkg/authorizationmanagement
-    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/authorizationmanagement
-    generators:
-      - typegen
-      - nerdgraphclient
-    imports:
-      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
-      - github.com/newrelic/newrelic-client-go/v2/pkg/common
-      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
-      - github.com/newrelic/newrelic-client-go/v2/pkg/users
-    queries:
-      - path: ["actor", "organization", "authorizationManagement"]
-        endpoints:
-          - name: roles
-            max_query_field_depth: 4
-    mutations:
-      - name: authorizationManagementGrantAccess
-        max_query_field_depth: 3
-      - name: authorizationManagementRevokeAccess
-        max_query_field_depth: 3
-    types:
-      - name: ID
-        field_type_override: string
-        skip_type_create: true
-      - name: DateTime
-        field_type_override: nrtime.DateTime
-        skip_type_create: true
-
-  - name: organization
-    path: pkg/organization
-    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/organization
-    generators:
-      - typegen
-      - nerdgraphclient
-    imports:
-      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
-      - github.com/newrelic/newrelic-client-go/v2/pkg/common
-      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
-      - github.com/newrelic/newrelic-client-go/v2/pkg/users
-    queries: []
-    mutations:
-      - name: organizationCreate
-        max_query_field_depth: 2
-      - name: organizationUpdate
-        max_query_field_depth: 2
-#      - name: organizationCreateSharedAccount
-#        max_query_field_depth: 2
-#      - name: organizationRevokeSharedAccount
-#        max_query_field_depth: 2
-      - name: organizationUpdateSharedAccount
-        max_query_field_depth: 2
-    types:
-      - name: OrganizationNewManagedAccountInput
-        field_type_override: "*OrganizationNewManagedAccountInput"
-      - name: OrganizationSharedAccountInput
-        field_type_override: "*OrganizationSharedAccountInput"
-      - name: ID
-        field_type_override: string
-        skip_type_create: true
-      - name: DateTime
-        field_type_override: nrtime.DateTime
-        skip_type_create: true
-
-  - name: customeradministration
-    path: pkg/customeradministration
-    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/customeradministration
-    generators:
-      - typegen
-      - nerdgraphclient
-    imports:
-      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
-      - github.com/newrelic/newrelic-client-go/v2/pkg/common
-      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
-      - github.com/newrelic/newrelic-client-go/v2/pkg/users
-    queries:
-      - path: ["customerAdministration"]
-        endpoints:
-          - name: accountShares
-            max_query_field_depth: 4
-          - name: accounts
-            max_query_field_depth: 4
-          - name: authenticationDomains
-            max_query_field_depth: 4
-          - name: consumption
-            max_query_field_depth: 4
-          - name: contracts
-            max_query_field_depth: 4
-          - name: grants
-            max_query_field_depth: 4
-          - name: groups
-            max_query_field_depth: 4
-          - name: jobs
-            max_query_field_depth: 4
-          - name: organizations
-            max_query_field_depth: 4
-          - name: permissions
-            max_query_field_depth: 4
-          - name: roles
-            max_query_field_depth: 4
-          - name: user
-            max_query_field_depth: 4
-          - name: users
-            max_query_field_depth: 4
-      - path: ["customerAdministration", "jobs"]
-        endpoints:
-          - name: organizationCreateAsyncResults
-            max_query_field_depth: 4
-    types:
-      - name: OrganizationAccountShareFilterInput
-      - name: OrganizationAccountShareSortInput
-      - name: OrganizationAccountFilterInput
-      - name: OrganizationAccountSortInput
-      - name: OrganizationAuthenticationDomainFilterInput
-      - name: OrganizationAuthenticationDomainSortInput
-      - name: OrganizationCustomerContractFilterInput
-      - name: MultiTenantAuthorizationGrantFilterInputExpression
-      - name: MultiTenantAuthorizationGrantSortInput
-      - name: MultiTenantIdentityGroupFilterInput
-      - name: MultiTenantIdentityGroupSortInput
-      - name: OrganizationCustomerOrganizationFilterInput
-      - name: MultiTenantAuthorizationPermissionFilter
-      - name: MultiTenantAuthorizationRoleFilterInputExpression
-      - name: MultiTenantAuthorizationRoleSortInput
-      - name: MultiTenantIdentityUserFilterInput
-      - name: MultiTenantIdentityUserSortInput
-        # overrides associated with types starting with MultiTenantIdentityGroupFilterInput
-        # which is used in the 'groups' endpoint in customerAdministration
-      - name: MultiTenantIdentityAllowsCapabilityInput
-        field_type_override: "*MultiTenantIdentityAllowsCapabilityInput"
-      - name: MultiTenantIdentityAuthenticationDomainIdInput
-        field_type_override: "*MultiTenantIdentityAuthenticationDomainIdInput"
-      - name: MultiTenantIdentityGroupIdInput
-        field_type_override: "*MultiTenantIdentityGroupIdInput"
-      - name: MultiTenantIdentityGroupMemberIdInput
-        field_type_override: "*MultiTenantIdentityGroupMemberIdInput"
-      - name: MultiTenantIdentityGroupNameInput
-        field_type_override: "*MultiTenantIdentityGroupNameInput"
-      - name: MultiTenantIdentityOrganizationIdInput
-        field_type_override: "*MultiTenantIdentityOrganizationIdInput"
-        # overrides associated with types starting with MultiTenantIdentityUserFilterInput
-        # which is used in the 'users' endpoint in customerAdministration
-      - name: MultiTenantIdentityUserEmailInput
-        field_type_override: "*MultiTenantIdentityUserEmailInput"
-      - name: MultiTenantIdentityEmailVerificationStateInput
-        field_type_override: "*MultiTenantIdentityEmailVerificationStateInput"
-      - name: MultiTenantIdentityUserIdInput
-        field_type_override: "*MultiTenantIdentityUserIdInput"
-      - name: MultiTenantIdentityUserGroupIdInput
-        field_type_override: "*MultiTenantIdentityUserGroupIdInput"
-      - name:  MultiTenantIdentityUserNameInput
-        field_type_override: "*MultiTenantIdentityUserNameInput"
-      - name:  MultiTenantIdentityPendingUpgradeRequestInput
-        field_type_override: "*MultiTenantIdentityPendingUpgradeRequestInput"
-        # overrides associated with types starting with MultiTenantAuthorizationRoleFilterInputExpression
-        # which is used in the 'roles' endpoint in customerAdministration
-      - name: MultiTenantAuthorizationRoleGroupIdInputFilter
-        field_type_override: "*MultiTenantAuthorizationRoleGroupIdInputFilter"
-      - name: MultiTenantAuthorizationRoleIdInputFilter
-        field_type_override: "*MultiTenantAuthorizationRoleIdInputFilter"
-      - name: MultiTenantAuthorizationRoleNameInputFilter
-        field_type_override: "*MultiTenantAuthorizationRoleNameInputFilter"
-      - name: MultiTenantAuthorizationRoleOrganizationIdInputFilter
-        field_type_override: "*MultiTenantAuthorizationRoleOrganizationIdInputFilter"
-      - name:  MultiTenantAuthorizationRoleScopeInputFilter
-        field_type_override: "*MultiTenantAuthorizationRoleScopeInputFilter"
-      - name:  MultiTenantAuthorizationRoleTypeInputFilter
-        field_type_override: "*MultiTenantAuthorizationRoleTypeInputFilter"
-        #####
-        # overrides associated with types starting with MultiTenantAuthorizationGrantFilterInputExpression{
-        # which is used in the 'grants' endpoint in customerAdministration
-      - name: MultiTenantAuthorizationGrantAuthenticationDomainIdInputFilter
-        field_type_override: "*MultiTenantAuthorizationGrantAuthenticationDomainIdInputFilter"
-      - name: MultiTenantAuthorizationGrantGroupIdInputFilter
-        field_type_override: "*MultiTenantAuthorizationGrantGroupIdInputFilter"
-      - name: MultiTenantAuthorizationGrantIdInputFilter
-        field_type_override: "*MultiTenantAuthorizationGrantIdInputFilter"
-      - name: MultiTenantAuthorizationGrantOrganizationIdInputFilter
-        field_type_override: "*MultiTenantAuthorizationGrantOrganizationIdInputFilter"
-      - name:  MultiTenantAuthorizationGrantRoleIdInputFilter
-        field_type_override: "*MultiTenantAuthorizationGrantRoleIdInputFilter"
-      - name:  MultiTenantAuthorizationGrantScopeIdInputFilter
-        field_type_override: "*MultiTenantAuthorizationGrantScopeIdInputFilter"
-      - name:  MultiTenantAuthorizationGrantScopeTypeInputFilter
-        field_type_override: "*MultiTenantAuthorizationGrantScopeTypeInputFilter"
-        ######
-        # overrides associated with types starting with OrganizationOrganizationCreateAsyncResultFilterInput
-        # which is used in the 'organizationCreateAsyncResults' endpoint in customerAdministration > jobs
-      - name: OrganizationOrganizationCreateJobCustomerIdInput
-        field_type_override: "*OrganizationOrganizationCreateJobCustomerIdInput"
-      - name: OrganizationOrganizationCreateJobIdInput
-        field_type_override: "*OrganizationOrganizationCreateJobIdInput"
-      - name: OrganizationOrganizationCreateJobStatusInput
-        field_type_override: "*OrganizationOrganizationCreateJobStatusInput"
-        ######
-        # overrides associated with types starting with OrganizationAuthenticationDomainFilterInput
-        # which is used in the 'authenticationdomain' endpoint in customerAdministration
-      - name: OrganizationIdInput
-        field_type_override: "*OrganizationIdInput"
-      - name: OrganizationNameInput
-        field_type_override: "*OrganizationNameInput"
-      - name: OrganizationOrganizationIdInput
-        field_type_override: "*OrganizationOrganizationIdInput"
-        #####
-        # overrides associated with query 'GetAccountShares'
-      - name: OrganizationTargetIdInput
-        field_type_override: "*OrganizationTargetIdInput"
-
       - name: ID
         field_type_override: string
         skip_type_create: true
