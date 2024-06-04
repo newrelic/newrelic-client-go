@@ -2169,6 +2169,13 @@ const getEntitySearchByQuery = `query(
 					values
 				}
 			}
+			... on KeyTransactionEntityOutline {
+				__typename
+				tags {
+					key
+					values
+				}
+			}
 			... on MobileApplicationEntityOutline {
 				__typename
 				applicationId
