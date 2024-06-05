@@ -32,6 +32,7 @@ func Example_tags() {
 		"",
 		queryBuilder,
 		[]EntitySearchSortCriteria{},
+		[]SortCriterionWithDirection{},
 	)
 	if err != nil {
 		log.Fatal("error searching entities:", err)

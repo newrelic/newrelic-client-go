@@ -643,7 +643,7 @@ packages:
             exclude_fields:
               - slug
             include_arguments:
-              - "queryBuilder"
+              - queryBuilder
     mutations:
       - name: taggingAddTagsToEntity
         max_query_field_depth: 1
@@ -737,10 +737,15 @@ packages:
         generate_struct_getters: true
       - name: ThirdPartyServiceEntity
         generate_struct_getters: true
+      - name: TeamEntity
+        generate_struct_getters: true
+      - name: TeamEntityOutline
+        generate_struct_getters: true
       - name: UnavailableEntity
         generate_struct_getters: true
       - name: WorkloadEntity
         generate_struct_getters: true
+      - name: SortCriterionWithDirection
 
 
       # New Entity types
