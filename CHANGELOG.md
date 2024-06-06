@@ -1,3 +1,11 @@
+<a name="v2.37.0"></a>
+## [v2.37.0] - 2024-06-06
+### Bug Fixes
+- **changetracking:** alter the functioning of milli and nanoseconds in timestamps ([#1151](https://github.com/newrelic/newrelic-client-go/issues/1151))
+
+### Features
+- **entities:** add support for tags in EntityOutline types ([#1146](https://github.com/newrelic/newrelic-client-go/issues/1146))
+
 <a name="v2.36.2"></a>
 ## [v2.36.2] - 2024-05-27
 ### Bug Fixes
@@ -1797,7 +1805,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.36.2...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.37.0...HEAD
+[v2.37.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.36.2...v2.37.0
 [v2.36.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.36.1...v2.36.2
 [v2.36.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.36.0...v2.36.1
 [v2.36.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.35.0...v2.36.0
