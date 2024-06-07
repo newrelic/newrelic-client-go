@@ -12177,6 +12177,7 @@ type EntityOutlineInterface interface {
 	GetGUID() common.EntityGUID
 	GetName() string
 	GetType() string
+	GetTags() []EntityTag
 }
 
 // UnmarshalEntityOutlineInterface unmarshals the interface into the correct type
