@@ -766,7 +766,7 @@ packages:
           - "GetGUID() common.EntityGUID"
           - "GetName() string"
           - "GetType() string"
-
+          - "GetTags() []EntityTag"
 
       # Start new EntityOutline types
       - name: ApmAgentInstrumentedServiceEntityOutline
