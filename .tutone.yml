@@ -1608,6 +1608,10 @@ packages:
         field_type_override: "*OrganizationNameInput"
       - name: OrganizationOrganizationIdInput
         field_type_override: "*OrganizationOrganizationIdInput"
+        #####
+        # overrides associated with query 'GetAccountShares'
+      - name: OrganizationTargetIdInput
+        field_type_override: "*OrganizationTargetIdInput"
 
       - name: ID
         field_type_override: string
