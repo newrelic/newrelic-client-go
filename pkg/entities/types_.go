@@ -132,3 +132,26 @@ func UnmarshalAiWorkflowsConfigurationInterface(b []byte) (*AiWorkflowsConfigura
 
 	return nil, fmt.Errorf("interface AiWorkflowsConfiguration was not matched against all PossibleTypes: %s", typeName)
 }
+
+// The following dashboard types should be generated in the dashboards package.
+// These types used to live in the entities package for some reason, but these
+// types should be able to be moved without too much of an issue.
+
+// DashboardPermissions - Permissions that represent visibility & editability
+type DashboardPermissions string
+
+var DashboardPermissionsTypes = struct {
+	// Private
+	PRIVATE DashboardPermissions
+	// Public read only
+	PUBLIC_READ_ONLY DashboardPermissions
+	// Public read & write
+	PUBLIC_READ_WRITE DashboardPermissions
+}{
+	// Private
+	PRIVATE: "PRIVATE",
+	// Public read only
+	PUBLIC_READ_ONLY: "PUBLIC_READ_ONLY",
+	// Public read & write
+	PUBLIC_READ_WRITE: "PUBLIC_READ_WRITE",
+}

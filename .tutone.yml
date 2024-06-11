@@ -746,17 +746,12 @@ packages:
       - name: WorkloadEntity
         generate_struct_getters: true
       - name: SortCriterionWithDirection
-
-
-      # New Entity types
       - name: ApmAgentInstrumentedServiceEntity
         generate_struct_getters: true
       - name: GenericServiceEntity
         generate_struct_getters: true
       - name: ServiceEntity
         generate_struct_getters: true
-      # End new Entity types
-
 
       # Entity Outlines contain the summary of an Entity's data
       - name: EntityOutline
@@ -768,7 +763,6 @@ packages:
           - "GetType() string"
           - "GetTags() []EntityTag"
 
-      # Start new EntityOutline types
       - name: ApmAgentInstrumentedServiceEntityOutline
         generate_struct_getters: true
       - name: GenericServiceEntityOutline
@@ -777,9 +771,6 @@ packages:
         generate_struct_getters: true
       - name: GenericServiceEntityOutline
         generate_struct_getters: true
-      # End new EntityOutline types
-
-
       - name: AlertableEntityOutline
         generate_struct_getters: true
       - name: ApmApplicationEntityOutline
