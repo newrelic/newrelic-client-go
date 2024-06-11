@@ -85,7 +85,7 @@ func TestIntegrationDashboard_Basic(t *testing.T) {
 	assert.Equal(t, dashGUID, dash.GUID)
 	assert.Equal(t, dashboardInput.Description, dash.Description)
 	assert.Equal(t, dashboardInput.Name, dash.Name)
-	assert.Equal(t, dashboardInput.Permissions, dash.Permissions)
+	assert.Equal(t, entities.DashboardEntityPermissions(string(dashboardInput.Permissions)), dash.Permissions)
 
 	// Input and Pages are different types so we can not easily compare them...
 	assert.Equal(t, len(dashboardInput.Pages), len(dash.Pages))
@@ -99,7 +99,7 @@ func TestIntegrationDashboard_Basic(t *testing.T) {
 	// Test: DashboardUpdate
 	updatedDashboard := DashboardInput{
 		Name:        dash.Name,
-		Permissions: dash.Permissions,
+		Permissions: result.EntityResult.Permissions,
 		Pages: []DashboardPageInput{
 			{
 				Name: dash.Pages[0].Name,
@@ -345,7 +345,7 @@ func TestIntegrationDashboard_Variables(t *testing.T) {
 	assert.Equal(t, dashGUID, dash.GUID)
 	assert.Equal(t, dashboardInput.Description, dash.Description)
 	assert.Equal(t, dashboardInput.Name, dash.Name)
-	assert.Equal(t, dashboardInput.Permissions, dash.Permissions)
+	assert.Equal(t, entities.DashboardEntityPermissions(string(dashboardInput.Permissions)), dash.Permissions)
 
 	if dash.Variables[0].Options.IgnoreTimeRange != dashboardInput.Variables[0].Options.IgnoreTimeRange {
 		t.Errorf("Expected value to be %v but got %v\n", dashboardInput.Variables[0].Options.IgnoreTimeRange, dash.Variables[0].Options.IgnoreTimeRange)
@@ -364,7 +364,7 @@ func TestIntegrationDashboard_Variables(t *testing.T) {
 	// Test: DashboardUpdate
 	updatedDashboard := DashboardInput{
 		Name:        dash.Name,
-		Permissions: dash.Permissions,
+		Permissions: result.EntityResult.Permissions,
 		Pages: []DashboardPageInput{
 			{
 				Name: dash.Pages[0].Name,
