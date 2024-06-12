@@ -22,7 +22,7 @@ func TestIntegrationCustomerAdministration_GetAccountShares(t *testing.T) {
 		"",
 		OrganizationAccountShareFilterInput{
 			AccountID: OrganizationAccountIdInput{Eq: mock.IntegrationTestAccountID},
-			TargetId:  OrganizationTargetIdInput{},
+			TargetId:  &OrganizationTargetIdInput{},
 		},
 		[]OrganizationAccountShareSortInput{},
 	)
