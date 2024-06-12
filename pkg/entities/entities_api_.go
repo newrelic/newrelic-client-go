@@ -69,6 +69,10 @@ const getEntitySearchByQuery = `query(
 			name
 			permalink
 			reporting
+			tags {
+				key
+				values
+			}
 			type
 			... on ApmApplicationEntityOutline {
 				__typename

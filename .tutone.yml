@@ -639,7 +639,7 @@ packages:
             exclude_fields:
               - slug
           - name: entitySearch
-            max_query_field_depth: 2
+            max_query_field_depth: 4
             exclude_fields:
               - slug
             include_arguments:
