@@ -811,6 +811,8 @@ packages:
         generate_struct_getters: true
       - name: WorkloadEntityOutline
         generate_struct_getters: true
+      - name: EntityAlertViolationInt
+        create_as: int
 
       #
       # Types that our other packages define
