@@ -30,7 +30,7 @@ func TestIntegrationCreateWorkflow(t *testing.T) {
 	notificationTriggers := []AiWorkflowsNotificationTrigger{"ACTIVATED"}
 
 	// Create a workflow to work with in this test
-	workflowInput := generateCreateWorkflowInput(channel, notificationTriggers)
+	workflowInput := generateCreateWorkflowInput(channel, notificationTriggers, nil)
 
 	n := newIntegrationTestClient(t)
 	createResult, err := n.AiWorkflowsCreateWorkflow(accountID, workflowInput)
@@ -63,6 +63,7 @@ func TestIntegrationCreateWorkflow(t *testing.T) {
 	require.Equal(t, len(workflowInput.DestinationConfigurations), len(createdWorkflow.DestinationConfigurations))
 	require.Equal(t, workflowInput.DestinationConfigurations[0].ChannelId, createdWorkflow.DestinationConfigurations[0].ChannelId)
 	require.Equal(t, workflowInput.DestinationConfigurations[0].NotificationTriggers, createdWorkflow.DestinationConfigurations[0].NotificationTriggers)
+	require.Equal(t, nil, createdWorkflow.DestinationConfigurations[0].UpdateOriginalMessage)
 }
 
 func TestIntegrationCreateWorkflowWithoutNotificationTriggers(t *testing.T) {
@@ -440,7 +441,7 @@ func createTestWorkflow(t *testing.T) (*AiWorkflowsWorkflow, *notifications.AiNo
 
 }
 
-func generateCreateWorkflowInput(channel *notifications.AiNotificationsChannel, notificationTriggers []AiWorkflowsNotificationTrigger) AiWorkflowsCreateWorkflowInput {
+func generateCreateWorkflowInput(channel *notifications.AiNotificationsChannel, notificationTriggers []AiWorkflowsNotificationTrigger, updateOriginalMessage *bool) AiWorkflowsCreateWorkflowInput {
 	enrichmentsInput := AiWorkflowsEnrichmentsInput{
 		NRQL: []AiWorkflowsNRQLEnrichmentInput{{
 			Name: "enrichment-test",
@@ -459,8 +460,9 @@ func generateCreateWorkflowInput(channel *notifications.AiNotificationsChannel, 
 		}},
 	}
 	destinationsInput := []AiWorkflowsDestinationConfigurationInput{{
-		ChannelId:            channel.ID,
-		NotificationTriggers: notificationTriggers,
+		ChannelId:             channel.ID,
+		NotificationTriggers:  notificationTriggers,
+		UpdateOriginalMessage: updateOriginalMessage,
 	}}
 
 	return AiWorkflowsCreateWorkflowInput{
