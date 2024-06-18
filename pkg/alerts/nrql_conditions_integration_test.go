@@ -15,6 +15,11 @@ import (
 )
 
 var (
+	nrqlConditionDataAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
 	testNrqlConditionRandomString       = mock.RandSeq(5)
 	nrqlConditionBaseThreshold          = 1.0                                         // needed for setting pointer
 	nrqlConditionBaseThresholdZeroValue = float64(0)                                  // needed for setting pointer
@@ -224,6 +229,33 @@ var (
 			AggregationDelay:  &nrqlConditionBaseAggDelay,
 			EvaluationDelay:   &nrqlConditionEvaluationDelay,
 			SlideBy:           &nrqlConditionBaseSlideBy,
+		},
+	}
+
+	nrqlConditionCreateWithDataAccountId = NrqlConditionCreateBase{
+		Enabled:     true,
+		Name:        fmt.Sprintf("test-nrql-condition-%s", testNrqlConditionRandomString),
+		Nrql: NrqlConditionCreateQuery{
+			Query: "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
+			DataAccountId: &nrqlConditionDataAccountID,
+		},
+		Terms: []NrqlConditionTerm{
+			{
+				Threshold:            &nrqlConditionBaseThreshold,
+				ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
+				ThresholdDuration:    600,
+				Operator:             AlertsNRQLConditionTermsOperatorTypes.ABOVE,
+				Priority:             NrqlConditionPriorities.Critical,
+			},
+		},
+		ViolationTimeLimitSeconds: 3600,
+		Signal: &AlertsNrqlConditionCreateSignal{
+			AggregationWindow: &nrqlConditionBaseAggWindow,
+			FillOption:        &AlertsFillOptionTypes.STATIC,
+			FillValue:         &nrqlConditionBaseSignalFillValue,
+			EvaluationDelay:   &nrqlConditionEvaluationDelay,
+			AggregationMethod: &nrqlConditionBaseAggMethod,
+			AggregationDelay:  &nrqlConditionBaseAggDelay,
 		},
 	}
 )
@@ -703,6 +735,54 @@ func TestIntegrationNrqlConditions_StreamingMethods(t *testing.T) {
 	require.Nil(t, updatedStaticWithoutStreamingMethods.Signal.AggregationDelay)
 	require.Nil(t, updatedStaticWithoutStreamingMethods.Signal.AggregationTimer)
 	require.Equal(t, &nrqlConditionBaseEvalOffset, updatedStaticWithoutStreamingMethods.Signal.EvaluationOffset)
+
+	// Deferred teardown
+	defer func() {
+		_, err := client.DeletePolicyMutation(testAccountID, policy.ID)
+		if err != nil {
+			t.Logf("error cleaning up alert policy %s (%s): %s", policy.ID, policy.Name, err)
+		}
+	}()
+}
+
+func TestIntegrationNrqlConditions_DataAccountId(t *testing.T) {
+	t.Parallel()
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	var (
+		randStr                     = mock.RandSeq(5)
+		createDataAccountIdInput = NrqlConditionCreateInput{
+			NrqlConditionCreateBase: nrqlConditionCreateWithDataAccountId,
+		}
+	)
+
+	// Setup
+	client := newIntegrationTestClient(t)
+	testPolicy := AlertsPolicyInput{
+		IncidentPreference: AlertsIncidentPreferenceTypes.PER_POLICY,
+		Name:               fmt.Sprintf("test-alert-policy-%s", randStr),
+	}
+	policy, err := client.CreatePolicyMutation(testAccountID, testPolicy)
+	require.NoError(t, err)
+
+	// Test: Create (static condition with dataAccountId field)
+	createdStaticWithDataAccountId, err := client.CreateNrqlConditionStaticMutation(testAccountID, policy.ID, createDataAccountIdInput)
+	require.NoError(t, err)
+	require.NotNil(t, createdStaticWithDataAccountId)
+	require.NotNil(t, createdStaticWithDataAccountId.ID)
+	require.NotNil(t, createdStaticWithDataAccountId.PolicyID)
+	require.NotNil(t, createdStaticWithDataAccountId.Nrql.DataAccountId)
+	require.Equal(t, &nrqlConditionDataAccountID, createdStaticWithDataAccountId.Nrql.DataAccountId)
+
+	// Test: Get (static condition with dataAccountId field)
+	readResult, err := client.GetNrqlConditionQuery(testAccountID, createdStaticWithDataAccountId.ID)
+	require.NoError(t, err)
+	require.NotNil(t, readResult)
+	require.Equal(t, &nrqlConditionDataAccountID, readResult.Nrql.DataAccountId)
 
 	// Deferred teardown
 	defer func() {
