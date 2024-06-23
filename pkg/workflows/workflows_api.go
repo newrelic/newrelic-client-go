@@ -61,7 +61,6 @@ const AiWorkflowsCreateWorkflowMutation = `mutation(
 			name
 			notificationTriggers
 			type
-			updateOriginalMessage
 		}
 		destinationsEnabled
 		enrichments {
@@ -214,7 +213,6 @@ const AiWorkflowsUpdateWorkflowMutation = `mutation(
 			name
 			notificationTriggers
 			type
-			updateOriginalMessage
 		}
 		destinationsEnabled
 		enrichments {
@@ -288,8 +286,8 @@ func (a *Workflows) GetWorkflowsWithContext(
 }
 
 const getWorkflowsQuery = `query(
-	$accountID: Int!, $filters: AiWorkflowsFilters,
-) { actor { account(id: $accountID) { aiWorkflows { workflows(filters: $filters) {
+	$accountID: Int!,
+) { actor { account(id: $accountID) { aiWorkflows { workflows {
 	entities {
 		accountId
 		createdAt
@@ -298,7 +296,6 @@ const getWorkflowsQuery = `query(
 			name
 			notificationTriggers
 			type
-			updateOriginalMessage
 		}
 		destinationsEnabled
 		enrichments {
