@@ -62,7 +62,6 @@ jobs:
 
       - name: Send report to Slack
         id: slack
-
         uses: slackapi/slack-github-action@v1.26
         with:
           # Uses Slack's Block Kit to build the message
@@ -107,7 +106,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "More information can be viewed in the job summary."
+                    "text": "More information can be viewed in the job summary. ${{ steps.schema-diff.outputs.hero_mention }}"
                   },
                   "accessory": {
                     "type": "button",

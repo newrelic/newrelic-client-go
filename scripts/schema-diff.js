@@ -4,9 +4,10 @@ module.exports = async ({
   const fs = require('fs');
   const yaml = require('yaml');
 
-  let tutoneConfig = null
-  let schemaOld = null
-  let schemaLatest = null
+  let tutoneConfig = null;
+  let schemaOld = null;
+  let schemaLatest = null;
+  let heroMention = "";
 
   try {
     const tutoneConfigFile = fs.readFileSync('.tutone.yml', 'utf8')
@@ -29,11 +30,11 @@ module.exports = async ({
   // Get the mutations the client has implemented
   const clientMutations = tutoneConfig.packages.map(pkg => {
     if (!pkg.mutations) {
-      return null
+      return null;
     }
 
     if (!pkg.mutations.length) {
-      return null
+      return null;
     }
 
     return pkg.mutations.map(m => m.name)
@@ -48,6 +49,7 @@ module.exports = async ({
 
   let newApiMutationsMsg = 'No new mutations since last check';
   if (endpointsDiff.length > 0) {
+    heroMention = '@hero';
     newApiMutationsMsg = `'${endpointsDiff.join('\n')}'`;
   }
 
@@ -57,6 +59,7 @@ module.exports = async ({
   }
 
 
+  core.setOutput('hero_mention', heroMention);
   core.setOutput('total_api_mutations_count', schemaMutations.length);
   core.setOutput('client_mutations_count', clientMutations.length);
   core.setOutput('client_mutations_missing_count', clientMutationsDiff.length);
