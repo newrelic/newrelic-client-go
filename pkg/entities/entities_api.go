@@ -1317,8 +1317,23 @@ const getEntityQuery = `query(
 			guid
 		}
 		metrics {
+			definition {
+				eventId
+				eventObjectId
+				facet
+				from
+				select
+				where
+			}
 			metricName
 			name
+			originalDefinitions {
+				selectorValue
+			}
+			originalQueries {
+				query
+				selectorValue
+			}
 			query
 			title
 			unit
@@ -1353,6 +1368,14 @@ const getEntityQuery = `query(
 		results {
 			__typename
 			createdAt
+			source {
+				accountId
+				guid
+			}
+			target {
+				accountId
+				guid
+			}
 			type
 			... on EntityRelationshipDetectedEdge {
 				__typename
@@ -1365,11 +1388,201 @@ const getEntityQuery = `query(
 	relationships {
 		source {
 			accountId
+			entity {
+				__typename
+				accountId
+				alertSeverity
+				domain
+				entityType
+				firstIndexedAt
+				guid
+				indexedAt
+				lastReportingChangeAt
+				name
+				permalink
+				reporting
+				type
+				... on ApmApplicationEntityOutline {
+					__typename
+					applicationId
+					language
+				}
+				... on ApmDatabaseInstanceEntityOutline {
+					__typename
+					host
+					portOrPath
+					vendor
+				}
+				... on ApmExternalServiceEntityOutline {
+					__typename
+					host
+				}
+				... on BrowserApplicationEntityOutline {
+					__typename
+					agentInstallType
+					applicationId
+					servingApmApplicationId
+				}
+				... on DashboardEntityOutline {
+					__typename
+					createdAt
+					dashboardParentGuid
+					permissions
+					updatedAt
+				}
+				... on ExternalEntityOutline {
+					__typename
+				}
+				... on GenericEntityOutline {
+					__typename
+				}
+				... on GenericInfrastructureEntityOutline {
+					__typename
+					integrationTypeCode
+				}
+				... on InfrastructureAwsLambdaFunctionEntityOutline {
+					__typename
+					integrationTypeCode
+					runtime
+				}
+				... on InfrastructureHostEntityOutline {
+					__typename
+				}
+				... on KeyTransactionEntityOutline {
+					__typename
+				}
+				... on MobileApplicationEntityOutline {
+					__typename
+					applicationId
+				}
+				... on SecureCredentialEntityOutline {
+					__typename
+					description
+					secureCredentialId
+					updatedAt
+				}
+				... on SyntheticMonitorEntityOutline {
+					__typename
+					monitorId
+					monitorType
+					monitoredUrl
+					period
+				}
+				... on TeamEntityOutline {
+					__typename
+				}
+				... on ThirdPartyServiceEntityOutline {
+					__typename
+				}
+				... on UnavailableEntityOutline {
+					__typename
+				}
+				... on WorkloadEntityOutline {
+					__typename
+					createdAt
+					updatedAt
+				}
+			}
 			entityType
 			guid
 		}
 		target {
 			accountId
+			entity {
+				__typename
+				accountId
+				alertSeverity
+				domain
+				entityType
+				firstIndexedAt
+				guid
+				indexedAt
+				lastReportingChangeAt
+				name
+				permalink
+				reporting
+				type
+				... on ApmApplicationEntityOutline {
+					__typename
+					applicationId
+					language
+				}
+				... on ApmDatabaseInstanceEntityOutline {
+					__typename
+					host
+					portOrPath
+					vendor
+				}
+				... on ApmExternalServiceEntityOutline {
+					__typename
+					host
+				}
+				... on BrowserApplicationEntityOutline {
+					__typename
+					agentInstallType
+					applicationId
+					servingApmApplicationId
+				}
+				... on DashboardEntityOutline {
+					__typename
+					createdAt
+					dashboardParentGuid
+					permissions
+					updatedAt
+				}
+				... on ExternalEntityOutline {
+					__typename
+				}
+				... on GenericEntityOutline {
+					__typename
+				}
+				... on GenericInfrastructureEntityOutline {
+					__typename
+					integrationTypeCode
+				}
+				... on InfrastructureAwsLambdaFunctionEntityOutline {
+					__typename
+					integrationTypeCode
+					runtime
+				}
+				... on InfrastructureHostEntityOutline {
+					__typename
+				}
+				... on KeyTransactionEntityOutline {
+					__typename
+				}
+				... on MobileApplicationEntityOutline {
+					__typename
+					applicationId
+				}
+				... on SecureCredentialEntityOutline {
+					__typename
+					description
+					secureCredentialId
+					updatedAt
+				}
+				... on SyntheticMonitorEntityOutline {
+					__typename
+					monitorId
+					monitorType
+					monitoredUrl
+					period
+				}
+				... on TeamEntityOutline {
+					__typename
+				}
+				... on ThirdPartyServiceEntityOutline {
+					__typename
+				}
+				... on UnavailableEntityOutline {
+					__typename
+				}
+				... on WorkloadEntityOutline {
+					__typename
+					createdAt
+					updatedAt
+				}
+			}
 			entityType
 			guid
 		}
@@ -1379,12 +1592,29 @@ const getEntityQuery = `query(
 	serviceLevel {
 		indicators {
 			createdAt
+			createdBy {
+				email
+				gravatar
+				id
+				name
+			}
 			description
 			entityGuid
 			guid
 			id
 			name
+			objectives {
+				description
+				name
+				target
+			}
 			updatedAt
+			updatedBy {
+				email
+				gravatar
+				id
+				name
+			}
 		}
 	}
 	tags {
@@ -1419,9 +1649,41 @@ const getEntityQuery = `query(
 		}
 		apmSettings {
 			alias
+			apmConfig {
+				apdexTarget
+				useServerSideConfig
+			}
 			captureMemcacheKeys
+			errorCollector {
+				enabled
+				expectedErrorClasses
+				expectedErrorCodes
+				ignoredErrorClasses
+				ignoredErrorCodes
+			}
+			jfr {
+				enabled
+			}
 			originalName
+			slowSql {
+				enabled
+			}
+			threadProfiler {
+				enabled
+			}
 			tracerType
+			transactionTracer {
+				captureMemcacheKeys
+				enabled
+				explainEnabled
+				explainThresholdType
+				explainThresholdValue
+				logSql
+				recordSql
+				stackTraceThreshold
+				transactionThresholdType
+				transactionThresholdValue
+			}
 		}
 		apmSummary {
 			apdexScore
@@ -1436,8 +1698,45 @@ const getEntityQuery = `query(
 			webThroughput
 		}
 		applicationId
+		applicationInstances {
+			agentSettingsAttributes {
+				attribute
+				value
+			}
+			details {
+				host
+				hostDisplayName
+				id
+				instanceName
+				language
+				name
+			}
+			environmentAttributes {
+				attribute
+				value
+			}
+			modules {
+				name
+				version
+			}
+		}
 		applicationInstancesV2 {
 			nextCursor
+		}
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
 		}
 		deployments {
 			changelog
@@ -1446,6 +1745,28 @@ const getEntityQuery = `query(
 			revision
 			timestamp
 			user
+		}
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				metricName
+				name
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
 		}
 		language
 		metricGroupingIssues {
@@ -1481,13 +1802,45 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
+			results {
+				__typename
+				createdAt
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
 		}
 		relationships {
+			source {
+				accountId
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entityType
+				guid
+			}
 			type
 		}
 		runningAgentVersions {
 			maxVersion
 			minVersion
+		}
+		serviceLevel {
+			indicators {
+				createdAt
+				description
+				entityGuid
+				guid
+				id
+				name
+				updatedAt
+			}
 		}
 		settings {
 			apdexTarget
@@ -1499,6 +1852,10 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+			values {
+				mutable
+				value
+			}
 		}
 		tracingSummary {
 			errorTraceCount
@@ -1511,6 +1868,43 @@ const getEntityQuery = `query(
 			id
 			name
 			reportingEventTypes
+		}
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				metricName
+				name
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
 		}
 		host
 		portOrPath
@@ -1526,9 +1920,41 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
+			results {
+				__typename
+				createdAt
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
 		}
 		relationships {
+			source {
+				accountId
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entityType
+				guid
+			}
 			type
+		}
+		serviceLevel {
+			indicators {
+				createdAt
+				description
+				entityGuid
+				guid
+				id
+				name
+				updatedAt
+			}
 		}
 		tags {
 			key
@@ -1536,6 +1962,10 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+			values {
+				mutable
+				value
+			}
 		}
 		tracingSummary {
 			errorTraceCount
@@ -1550,9 +1980,46 @@ const getEntityQuery = `query(
 			name
 			reportingEventTypes
 		}
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
 		externalSummary {
 			responseTimeAverage
 			throughput
+		}
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				metricName
+				name
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
 		}
 		host
 		recentAlertViolations {
@@ -1567,9 +2034,41 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
+			results {
+				__typename
+				createdAt
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
 		}
 		relationships {
+			source {
+				accountId
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entityType
+				guid
+			}
 			type
+		}
+		serviceLevel {
+			indicators {
+				createdAt
+				description
+				entityGuid
+				guid
+				id
+				name
+				updatedAt
+			}
 		}
 		tags {
 			key
@@ -1577,6 +2076,10 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+			values {
+				mutable
+				value
+			}
 		}
 		tracingSummary {
 			errorTraceCount
@@ -1597,6 +2100,33 @@ const getEntityQuery = `query(
 			jsConfigScript
 			jsLoaderScript
 		}
+		browserSettings {
+			browserConfig {
+				apdexTarget
+			}
+			browserMonitoring {
+				loader
+				pinnedVersion
+			}
+			sessionReplay {
+				autoStart
+				blockSelector
+				collectFonts
+				enabled
+				errorSamplingRate
+				inlineImages
+				inlineStylesheet
+				maskAllInputs
+				maskTextSelector
+				samplingRate
+			}
+			sessionTrace {
+				enabled
+				errorSamplingRate
+				mode
+				samplingRate
+			}
+		}
 		browserSummary {
 			ajaxRequestThroughput
 			ajaxResponseTimeAverage
@@ -1606,6 +2136,43 @@ const getEntityQuery = `query(
 			pageLoadTimeMedian
 			spaResponseTimeAverage
 			spaResponseTimeMedian
+		}
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				metricName
+				name
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
 		}
 		metricGroupingIssues {
 			deniedMetricsCount
@@ -1640,8 +2207,29 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
+			results {
+				__typename
+				createdAt
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
 		}
 		relationships {
+			source {
+				accountId
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entityType
+				guid
+			}
 			type
 		}
 		runningAgentVersions {
@@ -1653,6 +2241,17 @@ const getEntityQuery = `query(
 		segmentAllowListAggregate {
 			segments
 		}
+		serviceLevel {
+			indicators {
+				createdAt
+				description
+				entityGuid
+				guid
+				id
+				name
+				updatedAt
+			}
+		}
 		servingApmApplicationId
 		settings {
 			apdexTarget
@@ -1663,6 +2262,10 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+			values {
+				mutable
+				value
+			}
 		}
 		tracingSummary {
 			errorTraceCount
@@ -1678,7 +2281,44 @@ const getEntityQuery = `query(
 		}
 		createdAt
 		dashboardParentGuid
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
 		description
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				metricName
+				name
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
+		}
 		owner {
 			email
 			userId
@@ -1688,7 +2328,16 @@ const getEntityQuery = `query(
 			description
 			guid
 			name
+			owner {
+				email
+				userId
+			}
 			updatedAt
+			widgets {
+				id
+				rawConfiguration
+				title
+			}
 		}
 		permissions
 		recentAlertViolations {
@@ -1703,9 +2352,41 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
+			results {
+				__typename
+				createdAt
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
 		}
 		relationships {
+			source {
+				accountId
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entityType
+				guid
+			}
 			type
+		}
+		serviceLevel {
+			indicators {
+				createdAt
+				description
+				entityGuid
+				guid
+				id
+				name
+				updatedAt
+			}
 		}
 		tags {
 			key
@@ -1713,6 +2394,10 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+			values {
+				mutable
+				value
+			}
 		}
 		tracingSummary {
 			errorTraceCount
@@ -1720,8 +2405,22 @@ const getEntityQuery = `query(
 		}
 		updatedAt
 		variables {
+			defaultValue {
+				string
+			}
 			isMultiSelection
+			items {
+				title
+				value
+			}
 			name
+			nrqlQuery {
+				accountIds
+				query
+			}
+			options {
+				ignoreTimeRange
+			}
 			replacementStrategy
 			title
 			type
@@ -1733,6 +2432,43 @@ const getEntityQuery = `query(
 			id
 			name
 			reportingEventTypes
+		}
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				metricName
+				name
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
 		}
 		recentAlertViolations {
 			agentUrl
@@ -1746,9 +2482,41 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
+			results {
+				__typename
+				createdAt
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
 		}
 		relationships {
+			source {
+				accountId
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entityType
+				guid
+			}
 			type
+		}
+		serviceLevel {
+			indicators {
+				createdAt
+				description
+				entityGuid
+				guid
+				id
+				name
+				updatedAt
+			}
 		}
 		tags {
 			key
@@ -1756,6 +2524,10 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+			values {
+				mutable
+				value
+			}
 		}
 		tracingSummary {
 			errorTraceCount
@@ -1769,6 +2541,43 @@ const getEntityQuery = `query(
 			name
 			reportingEventTypes
 		}
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				metricName
+				name
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
+		}
 		recentAlertViolations {
 			agentUrl
 			alertSeverity
@@ -1781,9 +2590,41 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
+			results {
+				__typename
+				createdAt
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
 		}
 		relationships {
+			source {
+				accountId
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entityType
+				guid
+			}
 			type
+		}
+		serviceLevel {
+			indicators {
+				createdAt
+				description
+				entityGuid
+				guid
+				id
+				name
+				updatedAt
+			}
 		}
 		tags {
 			key
@@ -1791,6 +2632,10 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+			values {
+				mutable
+				value
+			}
 		}
 		tracingSummary {
 			errorTraceCount
@@ -1804,6 +2649,43 @@ const getEntityQuery = `query(
 			name
 			reportingEventTypes
 		}
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				metricName
+				name
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
+		}
 		integrationTypeCode
 		recentAlertViolations {
 			agentUrl
@@ -1817,9 +2699,41 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
+			results {
+				__typename
+				createdAt
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
 		}
 		relationships {
+			source {
+				accountId
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entityType
+				guid
+			}
 			type
+		}
+		serviceLevel {
+			indicators {
+				createdAt
+				description
+				entityGuid
+				guid
+				id
+				name
+				updatedAt
+			}
 		}
 		tags {
 			key
@@ -1827,6 +2741,10 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+			values {
+				mutable
+				value
+			}
 		}
 		tracingSummary {
 			errorTraceCount
@@ -1840,6 +2758,43 @@ const getEntityQuery = `query(
 			name
 			reportingEventTypes
 		}
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				metricName
+				name
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
+		}
 		integrationTypeCode
 		recentAlertViolations {
 			agentUrl
@@ -1853,17 +2808,53 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
+			results {
+				__typename
+				createdAt
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
 		}
 		relationships {
+			source {
+				accountId
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entityType
+				guid
+			}
 			type
 		}
 		runtime
+		serviceLevel {
+			indicators {
+				createdAt
+				description
+				entityGuid
+				guid
+				id
+				name
+				updatedAt
+			}
+		}
 		tags {
 			key
 			values
 		}
 		tagsWithMetadata {
 			key
+			values {
+				mutable
+				value
+			}
 		}
 		tracingSummary {
 			errorTraceCount
@@ -1876,6 +2867,43 @@ const getEntityQuery = `query(
 			id
 			name
 			reportingEventTypes
+		}
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				metricName
+				name
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
 		}
 		hostSummary {
 			cpuUtilizationPercent
@@ -1897,9 +2925,41 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
+			results {
+				__typename
+				createdAt
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
 		}
 		relationships {
+			source {
+				accountId
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entityType
+				guid
+			}
 			type
+		}
+		serviceLevel {
+			indicators {
+				createdAt
+				description
+				entityGuid
+				guid
+				id
+				name
+				updatedAt
+			}
 		}
 		tags {
 			key
@@ -1907,6 +2967,10 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+			values {
+				mutable
+				value
+			}
 		}
 		tracingSummary {
 			errorTraceCount
@@ -1922,9 +2986,141 @@ const getEntityQuery = `query(
 		}
 		apdexTarget
 		application {
+			entity {
+				__typename
+				accountId
+				alertSeverity
+				domain
+				entityType
+				firstIndexedAt
+				guid
+				indexedAt
+				lastReportingChangeAt
+				name
+				permalink
+				reporting
+				type
+				... on ApmApplicationEntityOutline {
+					__typename
+					applicationId
+					language
+				}
+				... on ApmDatabaseInstanceEntityOutline {
+					__typename
+					host
+					portOrPath
+					vendor
+				}
+				... on ApmExternalServiceEntityOutline {
+					__typename
+					host
+				}
+				... on BrowserApplicationEntityOutline {
+					__typename
+					agentInstallType
+					applicationId
+					servingApmApplicationId
+				}
+				... on DashboardEntityOutline {
+					__typename
+					createdAt
+					dashboardParentGuid
+					permissions
+					updatedAt
+				}
+				... on ExternalEntityOutline {
+					__typename
+				}
+				... on GenericEntityOutline {
+					__typename
+				}
+				... on GenericInfrastructureEntityOutline {
+					__typename
+					integrationTypeCode
+				}
+				... on InfrastructureAwsLambdaFunctionEntityOutline {
+					__typename
+					integrationTypeCode
+					runtime
+				}
+				... on InfrastructureHostEntityOutline {
+					__typename
+				}
+				... on KeyTransactionEntityOutline {
+					__typename
+				}
+				... on MobileApplicationEntityOutline {
+					__typename
+					applicationId
+				}
+				... on SecureCredentialEntityOutline {
+					__typename
+					description
+					secureCredentialId
+					updatedAt
+				}
+				... on SyntheticMonitorEntityOutline {
+					__typename
+					monitorId
+					monitorType
+					monitoredUrl
+					period
+				}
+				... on TeamEntityOutline {
+					__typename
+				}
+				... on ThirdPartyServiceEntityOutline {
+					__typename
+				}
+				... on UnavailableEntityOutline {
+					__typename
+				}
+				... on WorkloadEntityOutline {
+					__typename
+					createdAt
+					updatedAt
+				}
+			}
 			guid
 		}
 		browserApdexTarget
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				metricName
+				name
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
+		}
 		metricName
 		recentAlertViolations {
 			agentUrl
@@ -1938,9 +3134,41 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
+			results {
+				__typename
+				createdAt
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
 		}
 		relationships {
+			source {
+				accountId
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entityType
+				guid
+			}
 			type
+		}
+		serviceLevel {
+			indicators {
+				createdAt
+				description
+				entityGuid
+				guid
+				id
+				name
+				updatedAt
+			}
 		}
 		tags {
 			key
@@ -1948,6 +3176,10 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+			values {
+				mutable
+				value
+			}
 		}
 		tracingSummary {
 			errorTraceCount
@@ -1962,6 +3194,43 @@ const getEntityQuery = `query(
 			reportingEventTypes
 		}
 		applicationId
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				metricName
+				name
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
+		}
 		metricGroupingIssues {
 			deniedMetricsCount
 			deniedMetricsRatePerMinute
@@ -1987,6 +3256,11 @@ const getEntityQuery = `query(
 			applicationToken
 		}
 		mobileSettings {
+			networkSettings {
+				filterMode
+				hideList
+				showList
+			}
 			useCrashReports
 		}
 		mobileSummary {
@@ -2013,9 +3287,41 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
+			results {
+				__typename
+				createdAt
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
 		}
 		relationships {
+			source {
+				accountId
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entityType
+				guid
+			}
 			type
+		}
+		serviceLevel {
+			indicators {
+				createdAt
+				description
+				entityGuid
+				guid
+				id
+				name
+				updatedAt
+			}
 		}
 		tags {
 			key
@@ -2023,6 +3329,10 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+			values {
+				mutable
+				value
+			}
 		}
 		tracingSummary {
 			errorTraceCount
@@ -2036,7 +3346,44 @@ const getEntityQuery = `query(
 			name
 			reportingEventTypes
 		}
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
 		description
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				metricName
+				name
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
+		}
 		recentAlertViolations {
 			agentUrl
 			alertSeverity
@@ -2049,8 +3396,29 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
+			results {
+				__typename
+				createdAt
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
 		}
 		relationships {
+			source {
+				accountId
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entityType
+				guid
+			}
 			type
 		}
 		secureCredentialId
@@ -2058,12 +3426,27 @@ const getEntityQuery = `query(
 			failingMonitorCount
 			monitorCount
 		}
+		serviceLevel {
+			indicators {
+				createdAt
+				description
+				entityGuid
+				guid
+				id
+				name
+				updatedAt
+			}
+		}
 		tags {
 			key
 			values
 		}
 		tagsWithMetadata {
 			key
+			values {
+				mutable
+				value
+			}
 		}
 		tracingSummary {
 			errorTraceCount
@@ -2077,6 +3460,43 @@ const getEntityQuery = `query(
 			id
 			name
 			reportingEventTypes
+		}
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				metricName
+				name
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
 		}
 		monitorId
 		monitorSummary {
@@ -2100,9 +3520,41 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
+			results {
+				__typename
+				createdAt
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
 		}
 		relationships {
+			source {
+				accountId
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entityType
+				guid
+			}
 			type
+		}
+		serviceLevel {
+			indicators {
+				createdAt
+				description
+				entityGuid
+				guid
+				id
+				name
+				updatedAt
+			}
 		}
 		tags {
 			key
@@ -2110,6 +3562,10 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+			values {
+				mutable
+				value
+			}
 		}
 		tracingSummary {
 			errorTraceCount
@@ -2123,6 +3579,43 @@ const getEntityQuery = `query(
 			name
 			reportingEventTypes
 		}
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				metricName
+				name
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
+		}
 		recentAlertViolations {
 			agentUrl
 			alertSeverity
@@ -2135,9 +3628,41 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
+			results {
+				__typename
+				createdAt
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
 		}
 		relationships {
+			source {
+				accountId
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entityType
+				guid
+			}
 			type
+		}
+		serviceLevel {
+			indicators {
+				createdAt
+				description
+				entityGuid
+				guid
+				id
+				name
+				updatedAt
+			}
 		}
 		tags {
 			key
@@ -2145,6 +3670,10 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+			values {
+				mutable
+				value
+			}
 		}
 		tracingSummary {
 			errorTraceCount
@@ -2158,6 +3687,43 @@ const getEntityQuery = `query(
 			name
 			reportingEventTypes
 		}
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				metricName
+				name
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
+		}
 		recentAlertViolations {
 			agentUrl
 			alertSeverity
@@ -2170,9 +3736,41 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
+			results {
+				__typename
+				createdAt
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
 		}
 		relationships {
+			source {
+				accountId
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entityType
+				guid
+			}
 			type
+		}
+		serviceLevel {
+			indicators {
+				createdAt
+				description
+				entityGuid
+				guid
+				id
+				name
+				updatedAt
+			}
 		}
 		tags {
 			key
@@ -2180,6 +3778,10 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+			values {
+				mutable
+				value
+			}
 		}
 		tracingSummary {
 			errorTraceCount
@@ -2193,6 +3795,43 @@ const getEntityQuery = `query(
 			name
 			reportingEventTypes
 		}
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				metricName
+				name
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
+		}
 		recentAlertViolations {
 			agentUrl
 			alertSeverity
@@ -2205,9 +3844,41 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
+			results {
+				__typename
+				createdAt
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
 		}
 		relationships {
+			source {
+				accountId
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entityType
+				guid
+			}
 			type
+		}
+		serviceLevel {
+			indicators {
+				createdAt
+				description
+				entityGuid
+				guid
+				id
+				name
+				updatedAt
+			}
 		}
 		tags {
 			key
@@ -2215,6 +3886,10 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+			values {
+				mutable
+				value
+			}
 		}
 		tracingSummary {
 			errorTraceCount
@@ -2235,6 +3910,43 @@ const getEntityQuery = `query(
 			id
 			name
 		}
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				metricName
+				name
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
+		}
 		recentAlertViolations {
 			agentUrl
 			alertSeverity
@@ -2247,9 +3959,41 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
+			results {
+				__typename
+				createdAt
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
 		}
 		relationships {
+			source {
+				accountId
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entityType
+				guid
+			}
 			type
+		}
+		serviceLevel {
+			indicators {
+				createdAt
+				description
+				entityGuid
+				guid
+				id
+				name
+				updatedAt
+			}
 		}
 		tags {
 			key
@@ -2257,6 +4001,10 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+			values {
+				mutable
+				value
+			}
 		}
 		tracingSummary {
 			errorTraceCount
