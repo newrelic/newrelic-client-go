@@ -288,8 +288,8 @@ func (a *Workflows) GetWorkflowsWithContext(
 }
 
 const getWorkflowsQuery = `query(
-	$accountID: Int!,
-) { actor { account(id: $accountID) { aiWorkflows { workflows {
+	$accountID: Int!, $filters: AiWorkflowsFilters,
+) { actor { account(id: $accountID) { aiWorkflows { workflows(filters: $filters) {
 	entities {
 		accountId
 		createdAt
