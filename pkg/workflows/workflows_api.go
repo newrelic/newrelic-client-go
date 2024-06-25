@@ -61,6 +61,7 @@ const AiWorkflowsCreateWorkflowMutation = `mutation(
 			name
 			notificationTriggers
 			type
+			updateOriginalMessage
 		}
 		destinationsEnabled
 		enrichments {
@@ -213,6 +214,7 @@ const AiWorkflowsUpdateWorkflowMutation = `mutation(
 			name
 			notificationTriggers
 			type
+			updateOriginalMessage
 		}
 		destinationsEnabled
 		enrichments {
@@ -296,6 +298,7 @@ const getWorkflowsQuery = `query(
 			name
 			notificationTriggers
 			type
+			updateOriginalMessage
 		}
 		destinationsEnabled
 		enrichments {

@@ -429,6 +429,8 @@ type AiWorkflowsDestinationConfiguration struct {
 	NotificationTriggers []AiWorkflowsNotificationTrigger `json:"notificationTriggers"`
 	// Type of the Destination Configuration
 	Type AiWorkflowsDestinationType `json:"type"`
+	// Update original notification message (Slack channels only)
+	UpdateOriginalMessage bool `json:"updateOriginalMessage,omitempty"`
 }
 
 // AiWorkflowsDestinationConfigurationInput - Destination Configuration input object
@@ -437,6 +439,8 @@ type AiWorkflowsDestinationConfigurationInput struct {
 	ChannelId string `json:"channelId"`
 	// notificationTriggers
 	NotificationTriggers []AiWorkflowsNotificationTrigger `json:"notificationTriggers"`
+	// updateOriginalMessage
+	UpdateOriginalMessage bool `json:"updateOriginalMessage,omitempty"`
 }
 
 // AiWorkflowsEnrichment - Makes it possible to augment the notification with additional data from the New Relic platform
