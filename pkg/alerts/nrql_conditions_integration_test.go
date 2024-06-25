@@ -27,205 +27,16 @@ var (
 	nrqlConditionBaseAggTimer           = 5                                           // needed for setting pointer
 	nrqlConditionBaseSlideBy            = 30                                          // needed for setting pointer
 	nrqlConditionEvaluationDelay        = 60                                          // needed for setting pointer
-	nrqlConditionCreateBase             = NrqlConditionCreateBase{
-		Description: "test description",
-		Enabled:     true,
-		Name:        fmt.Sprintf("test-nrql-condition-%s", testNrqlConditionRandomString),
-		Nrql: NrqlConditionCreateQuery{
-			Query:            "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
-			EvaluationOffset: &nrqlConditionBaseEvalOffset,
-		},
-		RunbookURL: "test.com",
-		Terms: []NrqlConditionTerm{
-			{
-				Threshold:            &nrqlConditionBaseThreshold,
-				ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
-				ThresholdDuration:    600,
-				Operator:             AlertsNRQLConditionTermsOperatorTypes.ABOVE,
-				Priority:             NrqlConditionPriorities.Critical,
-			},
-		},
-		ViolationTimeLimitSeconds: 3600,
-		Expiration: &AlertsNrqlConditionExpiration{
-			CloseViolationsOnExpiration: true,
-			ExpirationDuration:          &nrqlConditionBaseExpirationDuration,
-			OpenViolationOnExpiration:   false,
-		},
-		Signal: &AlertsNrqlConditionCreateSignal{
-			AggregationWindow: &nrqlConditionBaseAggWindow,
-			EvaluationOffset:  &nrqlConditionBaseEvalOffset,
-			EvaluationDelay:   &nrqlConditionEvaluationDelay,
-			FillOption:        &AlertsFillOptionTypes.STATIC,
-			FillValue:         &nrqlConditionBaseSignalFillValue,
-		},
-	}
-
-	nrqlConditionUpdateBase = NrqlConditionUpdateBase{
-		Description: "test description",
-		Enabled:     true,
-		Name:        fmt.Sprintf("test-nrql-condition-%s", testNrqlConditionRandomString),
-		Nrql: NrqlConditionUpdateQuery{
-			Query:            "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
-			EvaluationOffset: &nrqlConditionBaseEvalOffset,
-		},
-		RunbookURL: "test.com",
-		Terms: []NrqlConditionTerm{
-			{
-				Threshold:            &nrqlConditionBaseThreshold,
-				ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
-				ThresholdDuration:    600,
-				Operator:             AlertsNRQLConditionTermsOperatorTypes.ABOVE,
-				Priority:             NrqlConditionPriorities.Critical,
-			},
-		},
-		ViolationTimeLimitSeconds: 3600,
-		Expiration: &AlertsNrqlConditionExpiration{
-			CloseViolationsOnExpiration: true,
-			ExpirationDuration:          &nrqlConditionBaseExpirationDuration,
-			OpenViolationOnExpiration:   false,
-		},
-		Signal: &AlertsNrqlConditionUpdateSignal{
-			AggregationWindow: &nrqlConditionBaseAggWindow,
-			EvaluationOffset:  &nrqlConditionBaseEvalOffset,
-			EvaluationDelay:   &nrqlConditionEvaluationDelay,
-			FillOption:        &AlertsFillOptionTypes.STATIC,
-			FillValue:         &nrqlConditionBaseSignalFillValue,
-		},
-	}
-
-	nrqlConditionCreateWithStreamingMethods = NrqlConditionCreateBase{
-		Description: "test description",
-		Enabled:     true,
-		Name:        fmt.Sprintf("test-nrql-condition-%s", testNrqlConditionRandomString),
-		Nrql: NrqlConditionCreateQuery{
-			Query: "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
-		},
-		RunbookURL: "test.com",
-		Terms: []NrqlConditionTerm{
-			{
-				Threshold:            &nrqlConditionBaseThreshold,
-				ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
-				ThresholdDuration:    600,
-				Operator:             AlertsNRQLConditionTermsOperatorTypes.ABOVE,
-				Priority:             NrqlConditionPriorities.Critical,
-			},
-		},
-		ViolationTimeLimitSeconds: 3600,
-		Expiration: &AlertsNrqlConditionExpiration{
-			CloseViolationsOnExpiration: true,
-			ExpirationDuration:          &nrqlConditionBaseExpirationDuration,
-			OpenViolationOnExpiration:   false,
-		},
-		Signal: &AlertsNrqlConditionCreateSignal{
-			AggregationWindow: &nrqlConditionBaseAggWindow,
-			FillOption:        &AlertsFillOptionTypes.STATIC,
-			FillValue:         &nrqlConditionBaseSignalFillValue,
-			EvaluationDelay:   &nrqlConditionEvaluationDelay,
-			AggregationMethod: &nrqlConditionBaseAggMethod,
-			AggregationDelay:  &nrqlConditionBaseAggDelay,
-		},
-	}
-
-	nrqlConditionUpdateWithStreamingMethods = NrqlConditionUpdateBase{
-		Description: "test description",
-		Enabled:     true,
-		Name:        fmt.Sprintf("test-nrql-condition-%s", testNrqlConditionRandomString),
-		Nrql: NrqlConditionUpdateQuery{
-			Query: "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
-		},
-		RunbookURL: "test.com",
-		Terms: []NrqlConditionTerm{
-			{
-				Threshold:            &nrqlConditionBaseThreshold,
-				ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
-				ThresholdDuration:    600,
-				Operator:             AlertsNRQLConditionTermsOperatorTypes.ABOVE,
-				Priority:             NrqlConditionPriorities.Critical,
-			},
-		},
-		ViolationTimeLimitSeconds: 3600,
-		Expiration: &AlertsNrqlConditionExpiration{
-			CloseViolationsOnExpiration: true,
-			ExpirationDuration:          &nrqlConditionBaseExpirationDuration,
-			OpenViolationOnExpiration:   false,
-		},
-		Signal: &AlertsNrqlConditionUpdateSignal{
-			AggregationWindow: &nrqlConditionBaseAggWindow,
-			FillOption:        &AlertsFillOptionTypes.STATIC,
-			FillValue:         &nrqlConditionBaseSignalFillValue,
-			AggregationMethod: &nrqlConditionBaseAggMethod,
-			EvaluationDelay:   &nrqlConditionEvaluationDelay,
-			AggregationDelay:  &nrqlConditionBaseAggDelay,
-		},
-	}
-
-	nrqlConditionCreateWithSlideBy = NrqlConditionCreateBase{
-		Description: "test description",
-		Enabled:     true,
-		Name:        fmt.Sprintf("test-nrql-condition-%s", testNrqlConditionRandomString),
-		Nrql: NrqlConditionCreateQuery{
-			Query: "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App' FACET OtherStuff",
-		},
-		RunbookURL: "test.com",
-		Terms: []NrqlConditionTerm{
-			{
-				Threshold:            &nrqlConditionBaseThreshold,
-				ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
-				ThresholdDuration:    600,
-				Operator:             AlertsNRQLConditionTermsOperatorTypes.ABOVE,
-				Priority:             NrqlConditionPriorities.Critical,
-			},
-		},
-		ViolationTimeLimitSeconds: 3600,
-		Expiration: &AlertsNrqlConditionExpiration{
-			CloseViolationsOnExpiration: true,
-			ExpirationDuration:          &nrqlConditionBaseExpirationDuration,
-			OpenViolationOnExpiration:   false,
-		},
-		Signal: &AlertsNrqlConditionCreateSignal{
-			AggregationWindow: &nrqlConditionBaseAggWindow,
-			FillOption:        &AlertsFillOptionTypes.STATIC,
-			FillValue:         &nrqlConditionBaseSignalFillValue,
-			AggregationMethod: &nrqlConditionBaseAggMethod,
-			AggregationDelay:  &nrqlConditionBaseAggDelay,
-			EvaluationDelay:   &nrqlConditionEvaluationDelay,
-			SlideBy:           &nrqlConditionBaseSlideBy,
-		},
-	}
-
-	nrqlConditionUpdateWithSlideBy = NrqlConditionUpdateBase{
-		Description: "test description",
-		Enabled:     true,
-		Name:        fmt.Sprintf("test-nrql-condition-%s", testNrqlConditionRandomString),
-		Nrql: NrqlConditionUpdateQuery{
-			Query: "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
-		},
-		RunbookURL: "test.com",
-		Terms: []NrqlConditionTerm{
-			{
-				Threshold:            &nrqlConditionBaseThreshold,
-				ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
-				ThresholdDuration:    600,
-				Operator:             AlertsNRQLConditionTermsOperatorTypes.ABOVE,
-				Priority:             NrqlConditionPriorities.Critical,
-			},
-		},
-		ViolationTimeLimitSeconds: 3600,
-		Expiration: &AlertsNrqlConditionExpiration{
-			CloseViolationsOnExpiration: true,
-			ExpirationDuration:          &nrqlConditionBaseExpirationDuration,
-			OpenViolationOnExpiration:   false,
-		},
-		Signal: &AlertsNrqlConditionUpdateSignal{
-			AggregationWindow: &nrqlConditionBaseAggWindow,
-			FillOption:        &AlertsFillOptionTypes.STATIC,
-			FillValue:         &nrqlConditionBaseSignalFillValue,
-			AggregationMethod: &nrqlConditionBaseAggMethod,
-			AggregationDelay:  &nrqlConditionBaseAggDelay,
-			EvaluationDelay:   &nrqlConditionEvaluationDelay,
-			SlideBy:           &nrqlConditionBaseSlideBy,
-		},
-	}
+	nrqlConditionCreateBase             = nrqlCreateFactory(ConditionArgs{})
+	nrqlConditionUpdateBase = nrqlUpdateFactory(ConditionArgs{})
+	nrqlConditionCreateWithStreamingMethods = nrqlCreateFactory(ConditionArgs{})
+	nrqlConditionUpdateWithStreamingMethods = nrqlUpdateFactory(ConditionArgs{})
+	nrqlConditionCreateWithSlideBy = nrqlCreateFactory(ConditionArgs{
+		slideBy: nrqlConditionBaseSlideBy,
+	})
+	nrqlConditionUpdateWithSlideBy = nrqlUpdateFactory(ConditionArgs{
+		slideBy: nrqlConditionBaseSlideBy,
+	})
 )
 
 // REST API integration test (deprecated)
@@ -445,29 +256,8 @@ func TestIntegrationNrqlConditions_Search(t *testing.T) {
 	var (
 		randStr            = mock.RandSeq(5)
 		conditionName      = fmt.Sprintf("test-nrql-condition-%s", randStr)
-		thresholdCritical  = 1.0
 		testConditionInput = NrqlConditionCreateInput{
-			NrqlConditionCreateBase: NrqlConditionCreateBase{
-				Description: "test description",
-				Enabled:     true,
-				Name:        conditionName,
-				Nrql: NrqlConditionCreateQuery{
-					Query:            "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
-					EvaluationOffset: &nrqlConditionBaseEvalOffset,
-				},
-				RunbookURL: "test.com",
-				Terms: []NrqlConditionTerm{
-					{
-						Threshold:            &thresholdCritical,
-						ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
-						ThresholdDuration:    600,
-						Operator:             AlertsNRQLConditionTermsOperatorTypes.ABOVE,
-						Priority:             NrqlConditionPriorities.Critical,
-					},
-				},
-				ViolationTimeLimitSeconds: 3600,
-			},
-			BaselineDirection: &NrqlBaselineDirections.LowerOnly,
+			NrqlConditionCreateBase: nrqlCreateFactory(ConditionArgs{name: conditionName}),
 		}
 		searchCriteria = NrqlConditionsSearchCriteria{
 			NameLike: conditionName,
@@ -577,28 +367,10 @@ func TestIntegrationNrqlConditions_ZeroValueThreshold(t *testing.T) {
 
 	var (
 		randStr            = mock.RandSeq(5)
-		conditionName      = fmt.Sprintf("test-nrql-condition-%s", randStr)
 		testConditionInput = NrqlConditionCreateInput{
-			NrqlConditionCreateBase: NrqlConditionCreateBase{
-				Description: "test description",
-				Enabled:     true,
-				Name:        conditionName,
-				Nrql: NrqlConditionCreateQuery{
-					Query:            "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
-					EvaluationOffset: &nrqlConditionBaseEvalOffset,
-				},
-				RunbookURL: "test.com",
-				Terms: []NrqlConditionTerm{
-					{
-						Threshold:            &nrqlConditionBaseThresholdZeroValue,
-						ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
-						ThresholdDuration:    600,
-						Operator:             AlertsNRQLConditionTermsOperatorTypes.ABOVE,
-						Priority:             NrqlConditionPriorities.Critical,
-					},
-				},
-				ViolationTimeLimitSeconds: 3600,
-			},
+			NrqlConditionCreateBase: nrqlCreateFactory(
+				ConditionArgs{threshold: nrqlConditionBaseThresholdZeroValue},
+			),
 		}
 	)
 
@@ -711,4 +483,232 @@ func TestIntegrationNrqlConditions_StreamingMethods(t *testing.T) {
 			t.Logf("error cleaning up alert policy %s (%s): %s", policy.ID, policy.Name, err)
 		}
 	}()
+}
+
+func TestIntegrationNrqlConditions_IgnoreOnExpectedTermination(t *testing.T) {
+	t.Parallel()
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	var (
+		randStr                     = mock.RandSeq(5)
+		createExpectedTermination = NrqlConditionCreateInput{
+			NrqlConditionCreateBase: nrqlCreateFactory(ConditionArgs{
+				ignoreOnExpectedTermination: true,
+			}),
+		}
+		updateExpectedTermination = NrqlConditionUpdateInput{
+			NrqlConditionUpdateBase: nrqlUpdateFactory(ConditionArgs{
+				ignoreOnExpectedTermination: true,
+			}),
+		}
+	)
+
+	// Setup
+	client := newIntegrationTestClient(t)
+	testPolicy := AlertsPolicyInput{
+		IncidentPreference: AlertsIncidentPreferenceTypes.PER_POLICY,
+		Name:               fmt.Sprintf("test-alert-policy-%s", randStr),
+	}
+	policy, err := client.CreatePolicyMutation(testAccountID, testPolicy)
+	require.NoError(t, err)
+
+	// Test: Create (static condition with streaming methods fields)
+	createdCondition, err := client.CreateNrqlConditionStaticMutation(testAccountID, policy.ID, createExpectedTermination)
+	require.NoError(t, err)
+	require.NotNil(t, createdCondition)
+	require.NotNil(t, createdCondition.ID)
+	require.NotNil(t, createdCondition.PolicyID)
+	require.NotNil(t, createdCondition.Expiration)
+	require.Equal(t, true, createdCondition.Expiration.IgnoreOnExpectedTermination)
+
+	// Test: Update (static condition with updated expected termination)
+	updateExpectedTermination.Expiration.IgnoreOnExpectedTermination = false
+	updatedCondition, err := client.UpdateNrqlConditionStaticMutation(testAccountID, createdCondition.ID, updateExpectedTermination)
+	require.NoError(t, err)
+	require.Equal(t, false, updatedCondition.Expiration.IgnoreOnExpectedTermination)
+
+	// Deferred teardown
+	defer func() {
+		_, err := client.DeletePolicyMutation(testAccountID, policy.ID)
+		if err != nil {
+			t.Logf("error cleaning up alert policy %s (%s): %s", policy.ID, policy.Name, err)
+		}
+	}()
+}
+
+func buildFactoryWithDefaults(baseCondition ConditionArgs) ConditionArgs {
+	if baseCondition.description == "" {
+		baseCondition.description = "test description"
+	}
+	if baseCondition.enabled == nil {
+		defaultEnabled := true
+		baseCondition.enabled = &defaultEnabled
+	}
+	if baseCondition.name == "" {
+		baseCondition.name = "default name"
+	}
+	if baseCondition.query == "" {
+		baseCondition.query = "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'"
+	}
+	if baseCondition.runbookURL == "" {
+		baseCondition.runbookURL = "test.com"
+	}
+	if baseCondition.threshold == 0.0 {
+		baseCondition.threshold = nrqlConditionBaseThreshold
+	}
+	if baseCondition.thresholdOccurrences == "" {
+		baseCondition.thresholdOccurrences = ThresholdOccurrences.AtLeastOnce
+	}
+	if baseCondition.thresholdDuration == 0 {
+		baseCondition.thresholdDuration = 600
+	}
+	if baseCondition.operator == "" {
+		baseCondition.operator = AlertsNRQLConditionTermsOperatorTypes.ABOVE
+	}
+	if baseCondition.priority == "" {
+		baseCondition.priority = NrqlConditionPriorities.Critical
+	}
+	if baseCondition.violationTimeLimitSeconds == 0 {
+		baseCondition.violationTimeLimitSeconds = 3600
+	}
+	if baseCondition.closeViolationsOnExpiration == false {
+		baseCondition.closeViolationsOnExpiration = true
+	}
+	if baseCondition.expirationDuration == 0 {
+		baseCondition.expirationDuration = nrqlConditionBaseExpirationDuration
+	}
+	if baseCondition.openViolationOnExpiration == false {
+		baseCondition.openViolationOnExpiration = true
+	}
+	if baseCondition.aggregationWindow == 0 {
+		baseCondition.aggregationWindow = nrqlConditionBaseAggWindow
+	}
+	if baseCondition.fillOption == "" {
+		baseCondition.fillOption = AlertsFillOptionTypes.STATIC
+	}
+	if baseCondition.fillValue == 0.0 {
+		baseCondition.fillValue = nrqlConditionBaseSignalFillValue
+	}
+	if baseCondition.aggregationMethod == "" {
+		baseCondition.aggregationMethod = "average"
+	}
+	if baseCondition.aggregationDelay == 0 {
+		baseCondition.aggregationDelay = 300
+	}
+	if baseCondition.evaluationDelay == 0 {
+		baseCondition.evaluationDelay = nrqlConditionEvaluationDelay
+	}
+	if baseCondition.evaluationOffset == 0 {
+		baseCondition.evaluationOffset = nrqlConditionBaseEvalOffset
+	}
+	if baseCondition.slideBy == 0 {
+		baseCondition.slideBy = 0
+	}
+	return baseCondition
+}
+
+func nrqlUpdateFactory(args ConditionArgs) NrqlConditionUpdateBase {
+	var factory = buildFactoryWithDefaults(args)
+	return NrqlConditionUpdateBase{
+		Description: factory.description,
+		Enabled:     *factory.enabled,
+		Name:        factory.name,
+		Nrql: NrqlConditionUpdateQuery{
+			Query: factory.query,
+			EvaluationOffset: &factory.evaluationOffset,
+		},
+		RunbookURL: factory.runbookURL,
+		Terms: []NrqlConditionTerm{
+			{
+				Threshold:            &factory.threshold,
+				ThresholdOccurrences: factory.thresholdOccurrences,
+				ThresholdDuration:    factory.thresholdDuration,
+				Operator:             factory.operator,
+				Priority:             factory.priority,
+			},
+		},
+		ViolationTimeLimitSeconds: factory.violationTimeLimitSeconds,
+		Expiration: &AlertsNrqlConditionExpiration{
+			CloseViolationsOnExpiration: factory.closeViolationsOnExpiration,
+			ExpirationDuration:          &factory.expirationDuration,
+			OpenViolationOnExpiration:   factory.openViolationOnExpiration,
+		},
+		Signal: &AlertsNrqlConditionUpdateSignal{
+			AggregationWindow: &factory.aggregationWindow,
+			FillOption:        &factory.fillOption,
+			FillValue:         &factory.fillValue,
+			AggregationMethod: &factory.aggregationMethod,
+			AggregationDelay:  &factory.aggregationDelay,
+			EvaluationDelay:   &factory.evaluationDelay,
+			SlideBy:           &factory.slideBy,
+		},
+	}
+}
+
+func nrqlCreateFactory(args ConditionArgs) NrqlConditionCreateBase {
+	var factory = buildFactoryWithDefaults(args)
+	return NrqlConditionCreateBase{
+		Description: factory.description,
+		Enabled:     *factory.enabled,
+		Name:        factory.name,
+		Nrql: NrqlConditionCreateQuery{
+			Query: factory.query,
+			EvaluationOffset: &factory.evaluationOffset,
+		},
+		RunbookURL: factory.runbookURL,
+		Terms: []NrqlConditionTerm{
+			{
+				Threshold:            &factory.threshold,
+				ThresholdOccurrences: factory.thresholdOccurrences,
+				ThresholdDuration:    factory.thresholdDuration,
+				Operator:             factory.operator,
+				Priority:             factory.priority,
+			},
+		},
+		ViolationTimeLimitSeconds: factory.violationTimeLimitSeconds,
+		Expiration: &AlertsNrqlConditionExpiration{
+			CloseViolationsOnExpiration: factory.closeViolationsOnExpiration,
+			ExpirationDuration:          &factory.expirationDuration,
+			OpenViolationOnExpiration:   factory.openViolationOnExpiration,
+		},
+		Signal: &AlertsNrqlConditionCreateSignal{
+			AggregationWindow: &factory.aggregationWindow,
+			FillOption:        &factory.fillOption,
+			FillValue:         &factory.fillValue,
+			AggregationMethod: &factory.aggregationMethod,
+			AggregationDelay:  &factory.aggregationDelay,
+			EvaluationDelay:   &factory.evaluationDelay,
+			SlideBy:           &factory.slideBy,
+		},
+	}
+}
+
+type ConditionArgs struct {
+	description string;
+	enabled *bool;
+	name string;
+	query string;
+	runbookURL string;
+	threshold float64;
+	thresholdOccurrences ThresholdOccurrence;
+	thresholdDuration int;
+	operator AlertsNRQLConditionTermsOperator;
+	priority NrqlConditionPriority;
+	violationTimeLimitSeconds int;
+	closeViolationsOnExpiration bool;
+	expirationDuration int;
+	openViolationOnExpiration bool;
+	ignoreOnExpectedTermination bool;
+	aggregationWindow int;
+	fillOption AlertsFillOption;
+	fillValue float64;
+	aggregationMethod NrqlConditionAggregationMethod;
+	aggregationDelay int;
+	evaluationDelay int;
+	evaluationOffset int;
+	slideBy int;
 }
