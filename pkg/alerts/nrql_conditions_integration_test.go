@@ -495,14 +495,15 @@ func TestIntegrationNrqlConditions_IgnoreOnExpectedTermination(t *testing.T) {
 
 	var (
 		randStr                     = mock.RandSeq(5)
+		defaultExpectedTerm				  = true
 		createExpectedTermination = NrqlConditionCreateInput{
 			NrqlConditionCreateBase: nrqlCreateFactory(ConditionArgs{
-				ignoreOnExpectedTermination: true,
+				ignoreOnExpectedTermination: &defaultExpectedTerm,
 			}),
 		}
 		updateExpectedTermination = NrqlConditionUpdateInput{
 			NrqlConditionUpdateBase: nrqlUpdateFactory(ConditionArgs{
-				ignoreOnExpectedTermination: true,
+				ignoreOnExpectedTermination: &defaultExpectedTerm,
 			}),
 		}
 	)
@@ -575,14 +576,20 @@ func buildFactoryWithDefaults(baseCondition ConditionArgs) ConditionArgs {
 	if baseCondition.violationTimeLimitSeconds == 0 {
 		baseCondition.violationTimeLimitSeconds = 3600
 	}
-	if baseCondition.closeViolationsOnExpiration == false {
-		baseCondition.closeViolationsOnExpiration = true
+	if baseCondition.closeViolationsOnExpiration == nil {
+		closeViolationsDefault := false
+		baseCondition.closeViolationsOnExpiration = &closeViolationsDefault
+	}
+	if baseCondition.ignoreOnExpectedTermination == nil {
+		expectedTermDefault := false
+		baseCondition.ignoreOnExpectedTermination = &expectedTermDefault
 	}
 	if baseCondition.expirationDuration == 0 {
 		baseCondition.expirationDuration = nrqlConditionBaseExpirationDuration
 	}
-	if baseCondition.openViolationOnExpiration == false {
-		baseCondition.openViolationOnExpiration = true
+	if baseCondition.openViolationOnExpiration == nil {
+		openViolationDefault := false
+		baseCondition.openViolationOnExpiration = &openViolationDefault
 	}
 	if baseCondition.aggregationWindow == 0 {
 		baseCondition.aggregationWindow = nrqlConditionBaseAggWindow
@@ -633,9 +640,10 @@ func nrqlUpdateFactory(args ConditionArgs) NrqlConditionUpdateBase {
 		},
 		ViolationTimeLimitSeconds: factory.violationTimeLimitSeconds,
 		Expiration: &AlertsNrqlConditionExpiration{
-			CloseViolationsOnExpiration: factory.closeViolationsOnExpiration,
+			CloseViolationsOnExpiration: *factory.closeViolationsOnExpiration,
 			ExpirationDuration:          &factory.expirationDuration,
-			OpenViolationOnExpiration:   factory.openViolationOnExpiration,
+			OpenViolationOnExpiration:   *factory.openViolationOnExpiration,
+			IgnoreOnExpectedTermination: *factory.ignoreOnExpectedTermination,
 		},
 		Signal: &AlertsNrqlConditionUpdateSignal{
 			AggregationWindow: &factory.aggregationWindow,
@@ -671,9 +679,10 @@ func nrqlCreateFactory(args ConditionArgs) NrqlConditionCreateBase {
 		},
 		ViolationTimeLimitSeconds: factory.violationTimeLimitSeconds,
 		Expiration: &AlertsNrqlConditionExpiration{
-			CloseViolationsOnExpiration: factory.closeViolationsOnExpiration,
+			CloseViolationsOnExpiration: *factory.closeViolationsOnExpiration,
 			ExpirationDuration:          &factory.expirationDuration,
-			OpenViolationOnExpiration:   factory.openViolationOnExpiration,
+			OpenViolationOnExpiration:   *factory.openViolationOnExpiration,
+			IgnoreOnExpectedTermination: *factory.ignoreOnExpectedTermination,
 		},
 		Signal: &AlertsNrqlConditionCreateSignal{
 			AggregationWindow: &factory.aggregationWindow,
@@ -699,10 +708,10 @@ type ConditionArgs struct {
 	operator AlertsNRQLConditionTermsOperator;
 	priority NrqlConditionPriority;
 	violationTimeLimitSeconds int;
-	closeViolationsOnExpiration bool;
+	closeViolationsOnExpiration *bool;
 	expirationDuration int;
-	openViolationOnExpiration bool;
-	ignoreOnExpectedTermination bool;
+	openViolationOnExpiration *bool;
+	ignoreOnExpectedTermination *bool;
 	aggregationWindow int;
 	fillOption AlertsFillOption;
 	fillValue float64;

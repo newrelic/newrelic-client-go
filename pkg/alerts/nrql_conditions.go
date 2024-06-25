@@ -732,6 +732,7 @@ const (
       closeViolationsOnExpiration
       expirationDuration
       openViolationOnExpiration
+			ignoreOnExpectedTermination
     }
     signal {
 	  aggregationWindow
