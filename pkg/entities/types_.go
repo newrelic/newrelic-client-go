@@ -1,3 +1,5 @@
+// Note: Files that end with an underscore represent files with manual edits.
+// This file is for manually adding types to this package.
 package entities
 
 import (
