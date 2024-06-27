@@ -28,7 +28,7 @@ func TestIntegrationCreateWorkflow(t *testing.T) {
 	defer cleanupDestination(t, destination)
 
 	notificationTriggers := []AiWorkflowsNotificationTrigger{"ACTIVATED"}
-
+	var expectedUpdateOriginalMessage *bool = nil
 	// Create a workflow to work with in this test
 	workflowInput := generateCreateWorkflowInput(channel, notificationTriggers)
 
@@ -63,6 +63,7 @@ func TestIntegrationCreateWorkflow(t *testing.T) {
 	require.Equal(t, len(workflowInput.DestinationConfigurations), len(createdWorkflow.DestinationConfigurations))
 	require.Equal(t, workflowInput.DestinationConfigurations[0].ChannelId, createdWorkflow.DestinationConfigurations[0].ChannelId)
 	require.Equal(t, workflowInput.DestinationConfigurations[0].NotificationTriggers, createdWorkflow.DestinationConfigurations[0].NotificationTriggers)
+	require.Equal(t, expectedUpdateOriginalMessage, createdWorkflow.DestinationConfigurations[0].UpdateOriginalMessage)
 }
 
 func TestIntegrationCreateWorkflowWithoutNotificationTriggers(t *testing.T) {
