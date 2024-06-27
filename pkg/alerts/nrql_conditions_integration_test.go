@@ -774,7 +774,7 @@ func TestIntegrationNrqlConditions_IgnoreOnExpectedTermination(t *testing.T) {
 	policy, err := client.CreatePolicyMutation(testAccountID, testPolicy)
 	require.NoError(t, err)
 
-	// Test: Create (static condition with streaming methods fields)
+	// Test: Create (static condition with expected termination field)
 	createdCondition, err := client.CreateNrqlConditionStaticMutation(testAccountID, policy.ID, conditionInput)
 	require.NoError(t, err)
 	require.NotNil(t, createdCondition)
