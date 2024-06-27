@@ -712,3 +712,87 @@ func TestIntegrationNrqlConditions_StreamingMethods(t *testing.T) {
 		}
 	}()
 }
+
+func TestIntegrationNrqlConditions_IgnoreOnExpectedTermination(t *testing.T) {
+	t.Parallel()
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	var (
+		randStr                     = mock.RandSeq(5)
+		conditionName      = fmt.Sprintf("test-nrql-condition-%s", randStr)
+		conditionInput = NrqlConditionCreateInput{
+			NrqlConditionCreateBase: NrqlConditionCreateBase{
+				Description: "test description",
+				Enabled:     true,
+				Name:        conditionName,
+				Nrql: NrqlConditionCreateQuery{
+					Query:            "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
+					EvaluationOffset: &nrqlConditionBaseEvalOffset,
+				},
+				RunbookURL: "test.com",
+				Terms: []NrqlConditionTerm{
+					{
+						Threshold:            &nrqlConditionBaseThresholdZeroValue,
+						ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
+						ThresholdDuration:    600,
+						Operator:             AlertsNRQLConditionTermsOperatorTypes.ABOVE,
+						Priority:             NrqlConditionPriorities.Critical,
+					},
+				},
+				Expiration: &AlertsNrqlConditionExpiration{
+					CloseViolationsOnExpiration: true,
+					ExpirationDuration:          &nrqlConditionBaseExpirationDuration,
+					OpenViolationOnExpiration:   false,
+					IgnoreOnExpectedTermination: true,
+				},
+				ViolationTimeLimitSeconds: 3600,
+			},
+		}
+		updateInput = NrqlConditionUpdateInput{
+			NrqlConditionUpdateBase: NrqlConditionUpdateBase{
+				Expiration: &AlertsNrqlConditionExpiration{
+					CloseViolationsOnExpiration: true,
+					ExpirationDuration:          &nrqlConditionBaseExpirationDuration,
+					OpenViolationOnExpiration:   false,
+					IgnoreOnExpectedTermination: false,
+				},
+			},
+
+		}
+	)
+
+	// Setup
+	client := newIntegrationTestClient(t)
+	testPolicy := AlertsPolicyInput{
+		IncidentPreference: AlertsIncidentPreferenceTypes.PER_POLICY,
+		Name:               fmt.Sprintf("test-alert-policy-%s", randStr),
+	}
+	policy, err := client.CreatePolicyMutation(testAccountID, testPolicy)
+	require.NoError(t, err)
+
+	// Test: Create (static condition with expected termination field)
+	createdCondition, err := client.CreateNrqlConditionStaticMutation(testAccountID, policy.ID, conditionInput)
+	require.NoError(t, err)
+	require.NotNil(t, createdCondition)
+	require.NotNil(t, createdCondition.ID)
+	require.NotNil(t, createdCondition.PolicyID)
+	require.NotNil(t, createdCondition.Expiration)
+	require.Equal(t, true, createdCondition.Expiration.IgnoreOnExpectedTermination)
+
+	// Test: Update (static condition with updated expected termination)
+	updatedCondition, err := client.UpdateNrqlConditionStaticMutation(testAccountID, createdCondition.ID, updateInput)
+	require.NoError(t, err)
+	require.Equal(t, false, updatedCondition.Expiration.IgnoreOnExpectedTermination)
+
+	// Deferred teardown
+	defer func() {
+		_, err := client.DeletePolicyMutation(testAccountID, policy.ID)
+		if err != nil {
+			t.Logf("error cleaning up alert policy %s (%s): %s", policy.ID, policy.Name, err)
+		}
+	}()
+}
