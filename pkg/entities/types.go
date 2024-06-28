@@ -5272,34 +5272,10 @@ type DashboardTableWidgetConfiguration struct {
 	NRQLQueries []DashboardWidgetNRQLQuery `json:"nrqlQueries,omitempty"`
 }
 
-// DashboardVariable - Definition of a variable that is local to this dashboard. Variables are placeholders for dynamic values in widget NRQLs.
-type DashboardVariable struct {
-	// [DEPRECATED] Default value for this variable. The actual value to be used will depend on the type.
-	DefaultValue DashboardVariableDefaultValue `json:"defaultValue,omitempty"`
-	// Default values for this variable. The actual value to be used will depend on the type.
-	DefaultValues []DashboardVariableDefaultItem `json:"defaultValues,omitempty"`
-	// Indicates whether this variable supports multiple selection or not. Only applies to variables of type NRQL or ENUM.
-	IsMultiSelection bool `json:"isMultiSelection,omitempty"`
-	// List of possible values for variables of type ENUM.
-	Items []DashboardVariableEnumItem `json:"items,omitempty"`
-	// Configuration for variables of type NRQL.
-	NRQLQuery DashboardVariableNRQLQuery `json:"nrqlQuery,omitempty"`
-	// Variable identifier.
-	Name string `json:"name,omitempty"`
-	// Options applied to the variable.
-	Options DashboardVariableOptions `json:"options,omitempty"`
-	// Indicates the strategy to apply when replacing a variable in a NRQL query.
-	ReplacementStrategy DashboardVariableReplacementStrategy `json:"replacementStrategy,omitempty"`
-	// Human-friendly display string for this variable.
-	Title string `json:"title,omitempty"`
-	// Specifies the data type of the variable and where its possible values may come from.
-	Type DashboardVariableType `json:"type,omitempty"`
-}
-
 // DashboardVariableDefaultItem - Represents a possible default value item.
 type DashboardVariableDefaultItem struct {
 	// The value of this default item.
-	Value DashboardVariableDefaultValue `json:"value,omitempty"`
+	Value *DashboardVariableDefaultValue `json:"value,omitempty"`
 }
 
 // DashboardVariableDefaultValue - Specifies a default value for variables.
