@@ -814,6 +814,20 @@ packages:
       - name: EntityAlertViolationInt
         create_as: int
 
+      # TODO: These should be generated and referenced from the dashboards package
+      - name: DashboardVariable
+        skip_type_create: true
+      - name: DashboardVariableDefaultValue
+        field_type_override: "*DashboardVariableDefaultValue"
+      - name: DashboardVariableNRQLQuery
+        field_type_override: "*DashboardVariableNRQLQuery"
+      - name: DashboardVariableOptions
+        field_type_override: "*DashboardVariableOptions"
+      - name: DashboardVariableDefaultItem
+      - name: DashboardVariableEnumItem
+      - name: DashboardVariableReplacementStrategy
+      - name: DashboardVariableType
+
       #
       # Types that our other packages define
       #   TODO: Fix tutone to figure this out for us
