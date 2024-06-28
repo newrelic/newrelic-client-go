@@ -1325,7 +1325,7 @@ type OrganizationAccountShareFilterInput struct {
 	// Filter by account id
 	AccountID OrganizationAccountIdInput `json:"accountId,omitempty"`
 	// Filter by target id
-	TargetId OrganizationTargetIdInput `json:"targetId,omitempty"`
+	TargetId *OrganizationTargetIdInput `json:"targetId,omitempty"`
 }
 
 // OrganizationAccountShareLimitingRoleWrapper - An account share's limiting role

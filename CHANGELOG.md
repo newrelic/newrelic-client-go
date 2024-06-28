@@ -1,3 +1,14 @@
+<a name="v2.38.0"></a>
+## [v2.38.0] - 2024-06-26
+### Features
+- **automation:** alert [@hero](https://github.com/hero) when new API endpoints are detected
+- **workflows:** add `updateOriginalMessage` to destination configurations ([#1177](https://github.com/newrelic/newrelic-client-go/issues/1177))
+
+<a name="v2.37.1"></a>
+## [v2.37.1] - 2024-06-12
+### Bug Fixes
+- **customeradministration:** change `OrganizationTargetIdInput` to have a pointer ([#1173](https://github.com/newrelic/newrelic-client-go/issues/1173))
+
 <a name="v2.37.0"></a>
 ## [v2.37.0] - 2024-06-06
 ### Bug Fixes
@@ -1805,7 +1816,9 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.37.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.38.0...HEAD
+[v2.38.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.37.1...v2.38.0
+[v2.37.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.37.0...v2.37.1
 [v2.37.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.36.2...v2.37.0
 [v2.36.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.36.1...v2.36.2
 [v2.36.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.36.0...v2.36.1

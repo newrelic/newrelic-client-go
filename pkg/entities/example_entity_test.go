@@ -29,6 +29,7 @@ func Example_entity() {
 		"",
 		queryBuilder,
 		[]EntitySearchSortCriteria{},
+		[]SortCriterionWithDirection{},
 	)
 	if err != nil {
 		log.Fatal("error searching entities:", err)
