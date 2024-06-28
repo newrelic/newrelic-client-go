@@ -15,11 +15,6 @@ import (
 )
 
 var (
-	nrqlConditionDataAccountID, err := mock.GetTestAccountID()
-	if err != nil {
-		t.Skipf("%s", err)
-	}
-
 	testNrqlConditionRandomString       = mock.RandSeq(5)
 	nrqlConditionBaseThreshold          = 1.0                                         // needed for setting pointer
 	nrqlConditionBaseThresholdZeroValue = float64(0)                                  // needed for setting pointer
@@ -229,33 +224,6 @@ var (
 			AggregationDelay:  &nrqlConditionBaseAggDelay,
 			EvaluationDelay:   &nrqlConditionEvaluationDelay,
 			SlideBy:           &nrqlConditionBaseSlideBy,
-		},
-	}
-
-	nrqlConditionCreateWithDataAccountId = NrqlConditionCreateBase{
-		Enabled:     true,
-		Name:        fmt.Sprintf("test-nrql-condition-%s", testNrqlConditionRandomString),
-		Nrql: NrqlConditionCreateQuery{
-			Query: "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
-			DataAccountId: &nrqlConditionDataAccountID,
-		},
-		Terms: []NrqlConditionTerm{
-			{
-				Threshold:            &nrqlConditionBaseThreshold,
-				ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
-				ThresholdDuration:    600,
-				Operator:             AlertsNRQLConditionTermsOperatorTypes.ABOVE,
-				Priority:             NrqlConditionPriorities.Critical,
-			},
-		},
-		ViolationTimeLimitSeconds: 3600,
-		Signal: &AlertsNrqlConditionCreateSignal{
-			AggregationWindow: &nrqlConditionBaseAggWindow,
-			FillOption:        &AlertsFillOptionTypes.STATIC,
-			FillValue:         &nrqlConditionBaseSignalFillValue,
-			EvaluationDelay:   &nrqlConditionEvaluationDelay,
-			AggregationMethod: &nrqlConditionBaseAggMethod,
-			AggregationDelay:  &nrqlConditionBaseAggDelay,
 		},
 	}
 )
@@ -753,9 +721,36 @@ func TestIntegrationNrqlConditions_DataAccountId(t *testing.T) {
 		t.Skipf("%s", err)
 	}
 
+	var nrqlConditionCreateWithDataAccountId = NrqlConditionCreateBase{
+		Enabled:     true,
+		Name:        fmt.Sprintf("test-nrql-condition-%s", testNrqlConditionRandomString),
+		Nrql: NrqlConditionCreateQuery{
+			Query: "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
+			DataAccountId: &testAccountID,
+		},
+		Terms: []NrqlConditionTerm{
+			{
+				Threshold:            &nrqlConditionBaseThreshold,
+				ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
+				ThresholdDuration:    600,
+				Operator:             AlertsNRQLConditionTermsOperatorTypes.ABOVE,
+				Priority:             NrqlConditionPriorities.Critical,
+			},
+		},
+		ViolationTimeLimitSeconds: 3600,
+		Signal: &AlertsNrqlConditionCreateSignal{
+			AggregationWindow: &nrqlConditionBaseAggWindow,
+			FillOption:        &AlertsFillOptionTypes.STATIC,
+			FillValue:         &nrqlConditionBaseSignalFillValue,
+			EvaluationDelay:   &nrqlConditionEvaluationDelay,
+			AggregationMethod: &nrqlConditionBaseAggMethod,
+			AggregationDelay:  &nrqlConditionBaseAggDelay,
+		},
+	}
+
 	var (
-		randStr                     = mock.RandSeq(5)
-		createDataAccountIdInput = NrqlConditionCreateInput{
+		randStr                    = mock.RandSeq(5)
+		createDataAccountIdInput   = NrqlConditionCreateInput{
 			NrqlConditionCreateBase: nrqlConditionCreateWithDataAccountId,
 		}
 	)
@@ -776,13 +771,13 @@ func TestIntegrationNrqlConditions_DataAccountId(t *testing.T) {
 	require.NotNil(t, createdStaticWithDataAccountId.ID)
 	require.NotNil(t, createdStaticWithDataAccountId.PolicyID)
 	require.NotNil(t, createdStaticWithDataAccountId.Nrql.DataAccountId)
-	require.Equal(t, &nrqlConditionDataAccountID, createdStaticWithDataAccountId.Nrql.DataAccountId)
+	require.Equal(t, &testAccountID, createdStaticWithDataAccountId.Nrql.DataAccountId)
 
 	// Test: Get (static condition with dataAccountId field)
 	readResult, err := client.GetNrqlConditionQuery(testAccountID, createdStaticWithDataAccountId.ID)
 	require.NoError(t, err)
 	require.NotNil(t, readResult)
-	require.Equal(t, &nrqlConditionDataAccountID, readResult.Nrql.DataAccountId)
+	require.Equal(t, &testAccountID, readResult.Nrql.DataAccountId)
 
 	// Deferred teardown
 	defer func() {
