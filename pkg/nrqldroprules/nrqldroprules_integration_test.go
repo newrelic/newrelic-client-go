@@ -6,9 +6,9 @@ package nrqldroprules
 import (
 	"testing"
 
-	"github.com/stretchr/testify/require"
-
 	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
+	"github.com/stretchr/testify/require"
+	"strconv"
 )
 
 func TestIntegrationDropRules(t *testing.T) {
@@ -54,7 +54,7 @@ func TestIntegrationDropRules(t *testing.T) {
 	require.Greater(t, len(rules.Rules), 0)
 
 	// Test: Rule Exist
-	rule, err := client.GetDropRuleByID(testAccountID, created.Successes[0].ID)
+	rule, err := client.GetDropRuleByID(testAccountID, strconv.Atoi(created.Successes[0].ID))
 	require.NoError(t, err)
 	require.NotNil(t, rule)
 
