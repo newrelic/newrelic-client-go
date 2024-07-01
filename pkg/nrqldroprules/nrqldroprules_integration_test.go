@@ -53,6 +53,11 @@ func TestIntegrationDropRules(t *testing.T) {
 	require.NoError(t, err)
 	require.Greater(t, len(rules.Rules), 0)
 
+	// Test: Rule Exist
+	rule, err := client.GetDropRuleByID(testAccountID, created.Successes[0].ID)
+	require.NoError(t, err)
+	require.NotNil(t, rule)
+
 	// Test: Delete
 	testDeleteInput := []string{created.Successes[0].ID, created.Successes[1].ID}
 	deleted, err := client.NRQLDropRulesDelete(testAccountID, testDeleteInput)
