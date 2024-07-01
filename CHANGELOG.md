@@ -1,3 +1,8 @@
+<a name="v2.39.1"></a>
+## [v2.39.1] - 2024-06-28
+### Bug Fixes
+- **entities:** manual adjustments were needed for some dashboard types (pointers)
+
 <a name="v2.39.0"></a>
 ## [v2.39.0] - 2024-07-01
 ### Features
@@ -1821,7 +1826,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.39.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.39.1...HEAD
+[v2.39.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.39.0...v2.39.1
 [v2.39.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.38.0...v2.39.0
 [v2.38.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.37.1...v2.38.0
 [v2.37.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.37.0...v2.37.1
