@@ -54,7 +54,8 @@ func TestIntegrationDropRules(t *testing.T) {
 	require.Greater(t, len(rules.Rules), 0)
 
 	// Test: Rule Exist
-	rule, err := client.GetDropRuleByID(testAccountID, strconv.Atoi(created.Successes[0].ID))
+	dropRuleID, _ := strconv.Atoi(created[0].Successes[0].ID)
+	rule, err := client.GetDropRuleByID(testAccountID, dropRuleID)
 	require.NoError(t, err)
 	require.NotNil(t, rule)
 
