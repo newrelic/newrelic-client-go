@@ -2,10 +2,11 @@ package nrqldroprules
 
 import (
 	"context"
+	"fmt"
 	"strconv"
 )
 
-// Get only particular rule using Rule id from all drop rules list for a given account
+// GetDropRuleByID helps to fetch a drop rule with the specified ID, from the list of drop rules retrieved for a given account
 func (a *Nrqldroprules) GetDropRuleByID(
 	accountID int,
 	dropRuleID int,
@@ -16,10 +17,10 @@ func (a *Nrqldroprules) GetDropRuleByID(
 	if err != nil {
 		return nil, err
 	}
-	for i := 0; i < len(dropRuleResult.Rules); i++ {
-		if dropRuleResult.Rules[i].ID == strconv.Itoa(dropRuleID) {
-			return &dropRuleResult.Rules[i], nil
+	for _, dropRule := range dropRuleResult.Rules {
+		if dropRule.ID == strconv.Itoa(dropRuleID) {
+			return &dropRule, nil
 		}
 	}
-	return nil, err
+	return nil, fmt.Errorf("drop rule with ID %d not found", dropRuleID)
 }
