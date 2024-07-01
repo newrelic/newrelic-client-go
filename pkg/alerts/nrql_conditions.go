@@ -214,18 +214,21 @@ type NrqlConditionTerm struct {
 // NrqlConditionQuery represents the NRQL query object returned in a NerdGraph response object.
 type NrqlConditionQuery struct {
 	Query            string `json:"query,omitempty"`
+	DataAccountId    *int   `json:"dataAccountId,omitempty"`
 	EvaluationOffset *int   `json:"evaluationOffset,omitempty"`
 }
 
 // NrqlConditionCreateQuery represents the NRQL query object for create.
 type NrqlConditionCreateQuery struct {
 	Query            string `json:"query,omitempty"`
+	DataAccountId    *int   `json:"dataAccountId,omitempty"`
 	EvaluationOffset *int   `json:"evaluationOffset,omitempty"`
 }
 
 // NrqlConditionUpdateQuery represents the NRQL query object for update.
 type NrqlConditionUpdateQuery struct {
 	Query            string `json:"query"`
+	DataAccountId    *int   `json:"dataAccountId,omitempty"`
 	EvaluationOffset *int   `json:"evaluationOffset"`
 }
 
@@ -711,6 +714,7 @@ const (
     nrql {
       evaluationOffset
       query
+      dataAccountId
     }
     enabled
     entityGuid
@@ -725,8 +729,8 @@ const (
       thresholdOccurrences
     }
     type
-	violationTimeLimit
-	violationTimeLimitSeconds
+    violationTimeLimit
+    violationTimeLimitSeconds
     expiration {
       closeViolationsOnExpiration
       expirationDuration
@@ -735,7 +739,7 @@ const (
     signal {
 	  aggregationWindow
       evaluationOffset
- 	  evaluationDelay
+      evaluationDelay
       fillOption
       fillValue
       aggregationMethod
