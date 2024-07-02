@@ -31,7 +31,7 @@ jobs:
           NEW_RELIC_API_KEY: ${{ secrets.NEW_RELIC_API_KEY }}
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.DEV_TOOLKIT_TOKEN }}
           commit-message: 'chore(tutone): update generated code'
