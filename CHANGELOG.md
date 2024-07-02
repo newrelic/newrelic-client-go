@@ -1,3 +1,19 @@
+<a name="v2.39.1"></a>
+## [v2.39.1] - 2024-06-28
+### Bug Fixes
+- **entities:** manual adjustments were needed for some dashboard types (pointers)
+
+<a name="v2.39.0"></a>
+## [v2.39.0] - 2024-07-01
+### Features
+- **nrql_alert_conditions:** Add data_account_id for NRQL alert condition ([#1184](https://github.com/newrelic/newrelic-client-go/issues/1184))
+
+<a name="v2.38.0"></a>
+## [v2.38.0] - 2024-06-27
+### Features
+- **automation:** alert [@hero](https://github.com/hero) when new API endpoints are detected
+- **workflows:** add `updateOriginalMessage` to destination configurations ([#1177](https://github.com/newrelic/newrelic-client-go/issues/1177))
+
 <a name="v2.37.1"></a>
 ## [v2.37.1] - 2024-06-12
 ### Bug Fixes
@@ -1810,7 +1826,10 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.37.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.39.1...HEAD
+[v2.39.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.39.0...v2.39.1
+[v2.39.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.38.0...v2.39.0
+[v2.38.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.37.1...v2.38.0
 [v2.37.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.37.0...v2.37.1
 [v2.37.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.36.2...v2.37.0
 [v2.36.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.36.1...v2.36.2
