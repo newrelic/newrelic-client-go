@@ -2105,7 +2105,21 @@ const getEntityQuery = `query(
 				apdexTarget
 			}
 			browserMonitoring {
+				ajax {
+					denyList
+				}
+				distributedTracing {
+					allowedOrigins
+					corsEnabled
+					corsUseNewrelicHeader
+					corsUseTracecontextHeaders
+					enabled
+					excludeNewrelicHeader
+				}
 				loader
+				privacy {
+					cookiesEnabled
+				}
 				pinnedVersion
 			}
 			sessionReplay {
