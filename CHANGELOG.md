@@ -1,5 +1,10 @@
+<a name="v2.40.0"></a>
+## [v2.40.0] - 2024-07-03
+### Features
+- **nrqldroprules:** Added `GetDropRuleByID` function to fetch a droprule by specified ID ([#1183](https://github.com/newrelic/newrelic-client-go/issues/1183))
+
 <a name="v2.39.1"></a>
-## [v2.39.1] - 2024-06-28
+## [v2.39.1] - 2024-07-01
 ### Bug Fixes
 - **entities:** manual adjustments were needed for some dashboard types (pointers)
 
@@ -1826,7 +1831,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.39.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.40.0...HEAD
+[v2.40.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.39.1...v2.40.0
 [v2.39.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.39.0...v2.39.1
 [v2.39.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.38.0...v2.39.0
 [v2.38.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.37.1...v2.38.0
