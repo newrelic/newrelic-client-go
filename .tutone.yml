@@ -1242,8 +1242,8 @@ packages:
         max_query_field_depth: 2
       # - name: organizationCreateSharedAccount
       #   max_query_field_depth: 2
-      # - name: organizationRevokeSharedAccount
-      #   max_query_field_depth: 2
+      - name: organizationRevokeSharedAccount
+        max_query_field_depth: 2
       - name: organizationUpdateSharedAccount
         max_query_field_depth: 2
     types:

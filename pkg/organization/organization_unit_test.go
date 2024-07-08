@@ -42,6 +42,21 @@ var (
 			}
 		}
 	}`
+
+	testRevokeSharedAccountResponseJSON = `{
+		"data":  {
+			"organizationRevokeSharedAccount":  {
+				"sharedAccount":  {
+					"accountId":  ` + fmt.Sprint(unitTestMockAccountOneId) + `,
+					"id":  "` + unitTestMockOrganizationOneId + `",
+					"limitingRoleId":  ` + fmt.Sprint(unitTestMockLimitingRoleId) + `,
+					"name":  "` + unitTestMockOrganizationOneName + `",
+					"sourceOrganizationId":  "` + unitTestMockOrganizationOneId + `",
+					"sourceOrganizationName":  "` + unitTestMockOrganizationOneName + `"
+				}
+			}
+		}
+	}`
 )
 
 func TestUnitCreateOrganization(t *testing.T) {
@@ -113,6 +128,33 @@ func TestUnitOrganizationUpdateSharedAccount(t *testing.T) {
 		OrganizationUpdateSharedAccountInput{
 			ID:             fmt.Sprint(unitTestMockAccountOneId),
 			LimitingRoleId: unitTestMockLimitingRoleId,
+		},
+	)
+
+	assert.NoError(t, err)
+	assert.NotNil(t, actual)
+	assert.Equal(t, expected, actual)
+}
+
+func TestUnitOrganizationRevokeSharedAccount(t *testing.T) {
+	t.Parallel()
+
+	organization := newMockResponse(t, testRevokeSharedAccountResponseJSON, http.StatusOK)
+
+	expected := &OrganizationRevokeSharedAccountResponse{
+		SharedAccount: OrganizationSharedAccount{
+			AccountID:              unitTestMockAccountOneId,
+			ID:                     unitTestMockOrganizationOneId,
+			LimitingRoleId:         unitTestMockLimitingRoleId,
+			Name:                   unitTestMockOrganizationOneName,
+			SourceOrganizationId:   unitTestMockOrganizationOneId,
+			SourceOrganizationName: unitTestMockOrganizationOneName,
+		},
+	}
+
+	actual, err := organization.OrganizationRevokeSharedAccount(
+		OrganizationRevokeSharedAccountInput{
+			ID: fmt.Sprint(unitTestMockAccountOneId),
 		},
 	)
 
