@@ -5,6 +5,8 @@ package accountmanagement
 type AccountManagementCreateInput struct {
 	// The name of the account.
 	Name string `json:"name"`
+	// The id of the managed organization where the account will be created.
+	OrganizationId int `json:"organizationId,omitempty"`
 	// The data center region for the account
 	RegionCode string `json:"regionCode,omitempty"`
 }
@@ -19,6 +21,8 @@ type AccountManagementCreateResponse struct {
 type AccountManagementManagedAccount struct {
 	// The account ID.
 	ID int `json:"id"`
+	// True if account is canceled
+	IsCanceled bool `json:"isCanceled"`
 	// The name of the account.
 	Name string `json:"name"`
 	// The data center region for the account (US or EU).
@@ -57,6 +61,8 @@ type Organization struct {
 	AccountManagement AccountManagementOrganizationStitchedFields `json:"accountManagement,omitempty"`
 	// The customer id for the organization.
 	CustomerId string `json:"customerId,omitempty"`
+	// The ID of the organization.
+	ID int `json:"id,omitempty"`
 	// The name of the organization.
 	Name string `json:"name,omitempty"`
 	// The telemetry id for the organization
@@ -66,3 +72,10 @@ type Organization struct {
 type managedAccountsResponse struct {
 	Actor Actor `json:"actor"`
 }
+
+// ID - The `ID` scalar type represents a unique identifier, often used to
+// refetch an object or as key for a cache. The ID type appears in a JSON
+// response as a String; however, it is not intended to be human-readable.
+// When expected as an input type, any string (such as `"4"`) or integer
+// (such as `4`) input value will be accepted as an ID.
+type ID string

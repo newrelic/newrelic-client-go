@@ -7,6 +7,48 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/errors"
 )
 
+// Cancels an account.
+func (a *Accountmanagement) AccountManagementCancelAccount(
+	iD int,
+) (*AccountManagementManagedAccount, error) {
+	return a.AccountManagementCancelAccountWithContext(context.Background(),
+		iD,
+	)
+}
+
+// Cancels an account.
+func (a *Accountmanagement) AccountManagementCancelAccountWithContext(
+	ctx context.Context,
+	iD int,
+) (*AccountManagementManagedAccount, error) {
+
+	resp := AccountManagementCancelAccountQueryResponse{}
+	vars := map[string]interface{}{
+		"id": iD,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, AccountManagementCancelAccountMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.AccountManagementManagedAccount, nil
+}
+
+type AccountManagementCancelAccountQueryResponse struct {
+	AccountManagementManagedAccount AccountManagementManagedAccount `json:"AccountManagementCancelAccount"`
+}
+
+const AccountManagementCancelAccountMutation = `mutation(
+	$id: Int!,
+) { accountManagementCancelAccount(
+	id: $id,
+) {
+	id
+	isCanceled
+	name
+	regionCode
+} }`
+
 // Creates an organization-scoped account.
 func (a *Accountmanagement) AccountManagementCreateAccount(
 	managedAccount AccountManagementCreateInput,
@@ -45,6 +87,7 @@ const AccountManagementCreateAccountMutation = `mutation(
 ) {
 	managedAccount {
 		id
+		isCanceled
 		name
 		regionCode
 	}
@@ -88,23 +131,31 @@ const AccountManagementUpdateAccountMutation = `mutation(
 ) {
 	managedAccount {
 		id
+		isCanceled
 		name
 		regionCode
 	}
 } }`
 
 // Admin-level info about the accounts in an organization.
-func (a *Accountmanagement) GetManagedAccounts() (*[]AccountManagementManagedAccount, error) {
-	return a.GetManagedAccountsWithContext(context.Background())
+func (a *Accountmanagement) GetManagedAccounts(
+	isCanceled bool,
+) (*[]AccountManagementManagedAccount, error) {
+	return a.GetManagedAccountsWithContext(context.Background(),
+		isCanceled,
+	)
 }
 
 // Admin-level info about the accounts in an organization.
 func (a *Accountmanagement) GetManagedAccountsWithContext(
 	ctx context.Context,
+	isCanceled bool,
 ) (*[]AccountManagementManagedAccount, error) {
 
 	resp := managedAccountsResponse{}
-	vars := map[string]interface{}{}
+	vars := map[string]interface{}{
+		"isCanceled": isCanceled,
+	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, getManagedAccountsQuery, vars, &resp); err != nil {
 		return nil, err
@@ -119,6 +170,7 @@ func (a *Accountmanagement) GetManagedAccountsWithContext(
 
 const getManagedAccountsQuery = `query { actor { organization { accountManagement { managedAccounts {
 	id
+	isCanceled
 	name
 	regionCode
 } } } } }`
