@@ -137,25 +137,22 @@ const AccountManagementUpdateAccountMutation = `mutation(
 	}
 } }`
 
+// NOTE: Tutone changes made to GetManagedAccounts and dependent functions and queries have been reverted
+// owing to a few limitations. In order to use the recently added attribute "isCanceled" with GetManagedAccounts,
+// please see the functions in accountmanagement_api_.go.
+
 // Admin-level info about the accounts in an organization.
-func (a *Accountmanagement) GetManagedAccounts(
-	isCanceled bool,
-) (*[]AccountManagementManagedAccount, error) {
-	return a.GetManagedAccountsWithContext(context.Background(),
-		isCanceled,
-	)
+func (a *Accountmanagement) GetManagedAccounts() (*[]AccountManagementManagedAccount, error) {
+	return a.GetManagedAccountsWithContext(context.Background())
 }
 
 // Admin-level info about the accounts in an organization.
 func (a *Accountmanagement) GetManagedAccountsWithContext(
 	ctx context.Context,
-	isCanceled bool,
 ) (*[]AccountManagementManagedAccount, error) {
 
 	resp := managedAccountsResponse{}
-	vars := map[string]interface{}{
-		"isCanceled": isCanceled,
-	}
+	vars := map[string]interface{}{}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, getManagedAccountsQuery, vars, &resp); err != nil {
 		return nil, err

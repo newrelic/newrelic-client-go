@@ -1,6 +1,7 @@
 package accountmanagement
 
 import (
+	"log"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -63,4 +64,65 @@ func TestIntegrationUpdateAccountError(t *testing.T) {
 	actual, err := acctMgmt.AccountManagementUpdateAccount(updateAccountInput)
 	require.Nil(t, actual)
 	require.NotNil(t, err)
+}
+
+func TestIntegrationGetManagedAccounts(t *testing.T) {
+	t.Parallel()
+	accountManagementClient := newAccountManagementTestClient(t)
+
+	actual, _ := accountManagementClient.GetManagedAccounts()
+
+	log.Println(actual)
+	require.NotNil(t, actual)
+	require.NotZero(t, len(*actual))
+}
+
+func TestIntegrationGetManagedAccountsModified_CanceledAccounts(t *testing.T) {
+	t.Parallel()
+	accountManagementClient := newAccountManagementTestClient(t)
+
+	cancelled := true
+	actual, _ := accountManagementClient.GetManagedAccountsModified(&cancelled)
+	log.Println(actual)
+	require.NotNil(t, actual)
+	require.NotZero(t, len(*actual))
+}
+
+func TestIntegrationGetManagedAccountsModified_NonCanceledAccounts(t *testing.T) {
+	t.Parallel()
+	accountManagementClient := newAccountManagementTestClient(t)
+
+	cancelled := false
+	actual, _ := accountManagementClient.GetManagedAccountsModified(&cancelled)
+	log.Println(actual)
+	require.NotNil(t, actual)
+	require.NotZero(t, len(*actual))
+}
+
+func TestIntegrationGetManagedAccountsModified_AllCancellationStatuses(t *testing.T) {
+	t.Parallel()
+	accountManagementClient := newAccountManagementTestClient(t)
+
+	actual, _ := accountManagementClient.GetManagedAccountsModified(nil)
+
+	require.NotNil(t, actual)
+	require.NotZero(t, len(*actual))
+
+	foundCancelledAccount := false
+	foundUncancelledAccount := false
+
+	for _, acct := range *actual {
+		if foundUncancelledAccount == true && foundCancelledAccount == true {
+			break
+		}
+		if acct.IsCanceled == true {
+			foundCancelledAccount = true
+		}
+		if acct.IsCanceled == false {
+			foundUncancelledAccount = true
+		}
+	}
+
+	require.True(t, foundCancelledAccount)
+	require.True(t, foundUncancelledAccount)
 }
