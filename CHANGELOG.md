@@ -1,3 +1,8 @@
+<a name="v2.41.0"></a>
+## [v2.41.0] - 2024-07-10
+### Features
+- add `organizationRevokeSharedAccount` and `accountManagementCancelAccount` mutations ([#1187](https://github.com/newrelic/newrelic-client-go/issues/1187))
+
 <a name="v2.40.0"></a>
 ## [v2.40.0] - 2024-07-03
 ### Features
@@ -1831,7 +1836,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.40.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.41.0...HEAD
+[v2.41.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.40.0...v2.41.0
 [v2.40.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.39.1...v2.40.0
 [v2.39.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.39.0...v2.39.1
 [v2.39.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.38.0...v2.39.0
