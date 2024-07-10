@@ -120,3 +120,23 @@ func TestIntegrationOrganizationUpdate_AccessDeniedError(t *testing.T) {
 	require.Error(t, err)
 	require.True(t, matchOrganizationUnauthorizedErrorRegex(err.Error()))
 }
+
+func TestIntegrationOrganizationRevokeSharedAccount_Error(t *testing.T) {
+	t.Parallel()
+	_, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	client := newIntegrationTestClient(t)
+
+	response, _ := client.OrganizationRevokeSharedAccount(
+		OrganizationRevokeSharedAccountInput{ID: fmt.Sprint(unitTestMockAccountOneId)},
+	)
+
+	// current API behaviour appears to be returning zero against the Shared Account ID if the operation is unsuccessful
+	require.Zero(t, response.SharedAccount.AccountID)
+
+	//require.Error(t, err)
+	//require.True(t, matchOrganizationUnauthorizedErrorRegex(err.Error()))
+}

@@ -7,6 +7,48 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/errors"
 )
 
+// Cancels an account.
+func (a *Accountmanagement) AccountManagementCancelAccount(
+	iD int,
+) (*AccountManagementManagedAccount, error) {
+	return a.AccountManagementCancelAccountWithContext(context.Background(),
+		iD,
+	)
+}
+
+// Cancels an account.
+func (a *Accountmanagement) AccountManagementCancelAccountWithContext(
+	ctx context.Context,
+	iD int,
+) (*AccountManagementManagedAccount, error) {
+
+	resp := AccountManagementCancelAccountQueryResponse{}
+	vars := map[string]interface{}{
+		"id": iD,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, AccountManagementCancelAccountMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.AccountManagementManagedAccount, nil
+}
+
+type AccountManagementCancelAccountQueryResponse struct {
+	AccountManagementManagedAccount AccountManagementManagedAccount `json:"AccountManagementCancelAccount"`
+}
+
+const AccountManagementCancelAccountMutation = `mutation(
+	$id: Int!,
+) { accountManagementCancelAccount(
+	id: $id,
+) {
+	id
+	isCanceled
+	name
+	regionCode
+} }`
+
 // Creates an organization-scoped account.
 func (a *Accountmanagement) AccountManagementCreateAccount(
 	managedAccount AccountManagementCreateInput,
@@ -45,6 +87,7 @@ const AccountManagementCreateAccountMutation = `mutation(
 ) {
 	managedAccount {
 		id
+		isCanceled
 		name
 		regionCode
 	}
@@ -93,6 +136,10 @@ const AccountManagementUpdateAccountMutation = `mutation(
 	}
 } }`
 
+// NOTE: Tutone changes made to GetManagedAccounts and dependent functions and queries have been reverted
+// owing to a few limitations. In order to use the recently added attribute "isCanceled" with GetManagedAccounts,
+// please see the functions in accountmanagement_api_.go.
+
 // Admin-level info about the accounts in an organization.
 func (a *Accountmanagement) GetManagedAccounts() (*[]AccountManagementManagedAccount, error) {
 	return a.GetManagedAccountsWithContext(context.Background())
@@ -119,6 +166,7 @@ func (a *Accountmanagement) GetManagedAccountsWithContext(
 
 const getManagedAccountsQuery = `query { actor { organization { accountManagement { managedAccounts {
 	id
+	isCanceled
 	name
 	regionCode
 } } } } }`

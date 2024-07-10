@@ -27,6 +27,14 @@ var (
       }
     }
   }`
+	testCancelAccountResponseJSON = `{
+    "accountManagementCancelAccount": {
+      "id": 3833407,
+			"isCanceled": true,
+			"name": "test sub account",
+			"regionCode": "us01"
+    }
+  }`
 )
 
 func TestUpdateAccount(t *testing.T) {
@@ -73,6 +81,25 @@ func TestCreateAccount(t *testing.T) {
 	}
 
 	actual, err := accountManagement.AccountManagementCreateAccount(createAccountInput)
+
+	assert.NoError(t, err)
+	assert.NotNil(t, actual)
+	assert.Equal(t, expected, actual)
+}
+
+func TestCancelAccount(t *testing.T) {
+	t.Parallel()
+	respJSON := fmt.Sprintf(`{ "data":%s }`, testCancelAccountResponseJSON)
+	accountManagement := newMockResponse(t, respJSON, http.StatusCreated)
+
+	expected := &AccountManagementManagedAccount{
+		Name:       "test sub account",
+		RegionCode: "us01",
+		ID:         3833407,
+		IsCanceled: true,
+	}
+
+	actual, err := accountManagement.AccountManagementCancelAccount(3833407)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)
