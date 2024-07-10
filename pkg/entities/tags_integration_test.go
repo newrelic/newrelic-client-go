@@ -74,7 +74,7 @@ func TestIntegrationTaggingAddTagsToEntityAndGetTags(t *testing.T) {
 	require.NotNil(t, result)
 	require.Greater(t, len(result.Errors), 0)
 	message := result.Errors[0].Message
-	match, er := regexp.MatchString("reversed", message)
+	match, er := regexp.MatchString("reserved", message)
 	require.NoError(t, er)
 	require.True(t, match)
 }
@@ -112,7 +112,7 @@ func TestIntegrationTaggingReplaceTagsOnEntity(t *testing.T) {
 	require.NotNil(t, result)
 	require.Greater(t, len(result.Errors), 0)
 	message := result.Errors[0].Message
-	match, er := regexp.MatchString("reversed", message)
+	match, er := regexp.MatchString("reserved", message)
 	require.NoError(t, er)
 	require.True(t, match)
 }
