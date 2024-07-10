@@ -10,7 +10,7 @@ import (
 // --------------------------------------------------------------------
 // NOTE: (for the maintainers and users of newrelic-client-go)
 // --------------------------------------------------------------------
-// The function `GetManagedAccountsModified`, function `GetManagedAccountsWithContextModified` and the query `getManagedAccountsQueryModified` in this file
+// The function `GetManagedAccountsWithAdditionalArguments`, function `GetManagedAccountsWithAdditionalArgumentsWithContext` and the query `getManagedAccountsWithAdditionalArgumentsQuery` in this file
 // are "modified" versions of the function `GetManagedAccounts`, the function `GetManagedAccountsWithContext` and the query `getManagedAccountsQuery` respectively,
 // originally defined in accountmanagement_api.go.
 //
@@ -26,16 +26,16 @@ import (
 // in accountmanagement_api.go .
 
 // Admin-level info about the accounts in an organization.
-func (a *Accountmanagement) GetManagedAccountsModified(
+func (a *Accountmanagement) GetManagedAccountsWithAdditionalArguments(
 	isCanceled *bool,
 ) (*[]AccountManagementManagedAccount, error) {
-	return a.GetManagedAccountsWithContextModified(context.Background(),
+	return a.GetManagedAccountsWithAdditionalArgumentsWithContext(context.Background(),
 		isCanceled,
 	)
 }
 
 // Admin-level info about the accounts in an organization.
-func (a *Accountmanagement) GetManagedAccountsWithContextModified(
+func (a *Accountmanagement) GetManagedAccountsWithAdditionalArgumentsWithContext(
 	ctx context.Context,
 	isCanceled *bool,
 ) (*[]AccountManagementManagedAccount, error) {
@@ -45,7 +45,7 @@ func (a *Accountmanagement) GetManagedAccountsWithContextModified(
 		"isCanceled": &isCanceled,
 	}
 
-	if err := a.client.NerdGraphQueryWithContext(ctx, getManagedAccountsQueryModified, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, getManagedAccountsWithAdditionalArgumentsQuery, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -56,7 +56,7 @@ func (a *Accountmanagement) GetManagedAccountsWithContextModified(
 	return &resp.Actor.Organization.AccountManagement.ManagedAccounts, nil
 }
 
-const getManagedAccountsQueryModified = `query ($isCanceled: Boolean) {
+const getManagedAccountsWithAdditionalArgumentsQuery = `query ($isCanceled: Boolean) {
   actor {
     organization {
       accountManagement {

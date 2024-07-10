@@ -82,7 +82,7 @@ func TestIntegrationGetManagedAccountsModified_CanceledAccounts(t *testing.T) {
 	accountManagementClient := newAccountManagementTestClient(t)
 
 	cancelled := true
-	actual, _ := accountManagementClient.GetManagedAccountsModified(&cancelled)
+	actual, _ := accountManagementClient.GetManagedAccountsWithAdditionalArguments(&cancelled)
 	log.Println(actual)
 	require.NotNil(t, actual)
 	require.NotZero(t, len(*actual))
@@ -93,7 +93,7 @@ func TestIntegrationGetManagedAccountsModified_NonCanceledAccounts(t *testing.T)
 	accountManagementClient := newAccountManagementTestClient(t)
 
 	cancelled := false
-	actual, _ := accountManagementClient.GetManagedAccountsModified(&cancelled)
+	actual, _ := accountManagementClient.GetManagedAccountsWithAdditionalArguments(&cancelled)
 	log.Println(actual)
 	require.NotNil(t, actual)
 	require.NotZero(t, len(*actual))
@@ -103,7 +103,7 @@ func TestIntegrationGetManagedAccountsModified_AllCancellationStatuses(t *testin
 	t.Parallel()
 	accountManagementClient := newAccountManagementTestClient(t)
 
-	actual, _ := accountManagementClient.GetManagedAccountsModified(nil)
+	actual, _ := accountManagementClient.GetManagedAccountsWithAdditionalArguments(nil)
 
 	require.NotNil(t, actual)
 	require.NotZero(t, len(*actual))
