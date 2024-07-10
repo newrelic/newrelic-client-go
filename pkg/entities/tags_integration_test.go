@@ -4,9 +4,9 @@
 package entities
 
 import (
-	"testing"
-
 	"github.com/stretchr/testify/require"
+	"regexp"
+	"testing"
 
 	"github.com/newrelic/newrelic-client-go/v2/pkg/common"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
@@ -61,6 +61,22 @@ func TestIntegrationTaggingAddTagsToEntityAndGetTags(t *testing.T) {
 
 	require.NoError(t, err)
 	require.Greater(t, len(actual), 0)
+
+	//Test: To add a reversed key(immutable keys)
+	tags = []TaggingTagInput{
+		{
+			Key:    "account",
+			Values: []string{"Random-name"},
+		},
+	}
+	result, err = client.TaggingAddTagsToEntity(testGUID, tags)
+	require.NoError(t, err)
+	require.NotNil(t, result)
+	require.Greater(t, 0, len(result.Errors))
+	message := result.Errors[0].Message
+	match, err = regexp.MatchString("reversed", message)
+	require.NoError(t, err)
+	require.True(t, match)
 }
 
 func TestIntegrationTaggingReplaceTagsOnEntity(t *testing.T) {
@@ -83,6 +99,22 @@ func TestIntegrationTaggingReplaceTagsOnEntity(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, result)
 	require.Equal(t, 0, len(result.Errors))
+
+	//Test: To update a reversed key(immutable keys)
+	tags = []TaggingTagInput{
+		{
+			Key:    "account",
+			Values: []string{"Random-name"},
+		},
+	}
+	result, err = client.TaggingReplaceTagsOnEntity(testGUID, tags)
+	require.NoError(t, err)
+	require.NotNil(t, result)
+	require.Greater(t, 0, len(result.Errors))
+	message := result.Errors[0].Message
+	match, err = regexp.MatchString("reversed", message)
+	require.NoError(t, err)
+	require.True(t, match)
 }
 
 func TestIntegrationDeleteTags(t *testing.T) {
