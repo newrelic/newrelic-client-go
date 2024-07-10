@@ -131,7 +131,6 @@ const AccountManagementUpdateAccountMutation = `mutation(
 ) {
 	managedAccount {
 		id
-		isCanceled
 		name
 		regionCode
 	}
