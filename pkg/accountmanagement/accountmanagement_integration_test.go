@@ -3,6 +3,7 @@ package accountmanagement
 import (
 	"log"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/require"
 
@@ -64,6 +65,80 @@ func TestIntegrationUpdateAccountError(t *testing.T) {
 	actual, err := acctMgmt.AccountManagementUpdateAccount(updateAccountInput)
 	require.Nil(t, actual)
 	require.NotNil(t, err)
+}
+
+func TestIntegrationAccountManagement_CreateUpdateCancelAccount(t *testing.T) {
+	t.Parallel()
+	accountManagementClient := newAccountManagementTestClient(t)
+
+	// Create Account
+	name := "client-go-test-account-" + mock.RandSeq(5)
+	createAccountInput := AccountManagementCreateInput{
+		Name:       name,
+		RegionCode: "us01",
+	}
+	createAccountResponse, err := accountManagementClient.AccountManagementCreateAccount(createAccountInput)
+
+	require.Nil(t, err)
+	require.NotNil(t, createAccountResponse.ManagedAccount.ID)
+	require.Equal(t, createAccountInput.RegionCode, createAccountResponse.ManagedAccount.RegionCode)
+	require.Equal(t, createAccountInput.Name, createAccountResponse.ManagedAccount.Name)
+	time.Sleep(time.Second * 2)
+
+	// Update Account
+	updateAccountInput := AccountManagementUpdateInput{
+		ID:   createAccountResponse.ManagedAccount.ID,
+		Name: name + "-updated",
+	}
+	updateAccountResponse, err := accountManagementClient.AccountManagementUpdateAccount(updateAccountInput)
+
+	require.Nil(t, err)
+	require.NotNil(t, updateAccountResponse.ManagedAccount.ID)
+	require.Equal(t, updateAccountResponse.ManagedAccount.ID, createAccountResponse.ManagedAccount.ID)
+	require.Equal(t, updateAccountInput.Name, updateAccountResponse.ManagedAccount.Name)
+	time.Sleep(time.Second * 3)
+
+	// Get Account
+	getAccountResponse, err := accountManagementClient.GetManagedAccounts()
+
+	require.Nil(t, err)
+	require.NotNil(t, getAccountResponse)
+	foundAccountInGetResponse := false
+
+	for _, account := range *getAccountResponse {
+		if account.ID == updateAccountResponse.ManagedAccount.ID {
+			foundAccountInGetResponse = true
+			break
+		}
+	}
+
+	require.True(t, foundAccountInGetResponse)
+
+	// Cancel Account
+	cancelAccountResponse, err := accountManagementClient.AccountManagementCancelAccount(createAccountResponse.ManagedAccount.ID)
+
+	require.Nil(t, err)
+	require.NotNil(t, cancelAccountResponse)
+	time.Sleep(time.Second * 2)
+
+	// Get Account to Confirm Account Cancellation based on the value of `isCanceled`
+	isCancelled := true
+	getAccountResponse, err = accountManagementClient.GetManagedAccountsWithAdditionalArguments(&isCancelled)
+
+	require.Nil(t, err)
+	require.NotNil(t, getAccountResponse)
+	foundAccountInGetResponse = false
+
+	for _, account := range *getAccountResponse {
+		if account.ID == updateAccountResponse.ManagedAccount.ID {
+			foundAccountInGetResponse = true
+			require.True(t, account.IsCanceled)
+			break
+		}
+	}
+
+	require.True(t, foundAccountInGetResponse)
+
 }
 
 func TestIntegrationGetManagedAccounts(t *testing.T) {
