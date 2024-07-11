@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 DEFAULT_BRANCH='main'
 CURRENT_GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
