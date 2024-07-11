@@ -2282,6 +2282,12 @@ type AgentApplicationSettingsApmConfig struct {
 	UseServerSideConfig bool `json:"useServerSideConfig,omitempty"`
 }
 
+// AgentApplicationSettingsApplicationExitInfo - Reports on application exits, which can be used to determine if an application is not responding.
+type AgentApplicationSettingsApplicationExitInfo struct {
+	// Whether or not application exit info is collected.
+	Enabled bool `json:"enabled"`
+}
+
 // AgentApplicationSettingsBrowserAjax - Enables ajax traces in the browser app.
 type AgentApplicationSettingsBrowserAjax struct {
 	// List of domains excluded from Ajax traces by the browser agent.
@@ -2416,6 +2422,8 @@ type AgentApplicationSettingsMaskInputOptions struct {
 
 // AgentApplicationSettingsMobileBase - Settings that are applicable to mobile applications
 type AgentApplicationSettingsMobileBase struct {
+	// Reports on application exits, which can be used to determine if an application is not responding.
+	ApplicationExitInfo AgentApplicationSettingsApplicationExitInfo `json:"applicationExitInfo"`
 	// Network settings associated with the mobile application.
 	NetworkSettings AgentApplicationSettingsMobileNetworkSettings `json:"networkSettings,omitempty"`
 	// Enables viewing in-depth reports for mobile application crashes.
