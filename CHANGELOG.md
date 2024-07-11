@@ -1,3 +1,9 @@
+<a name="v2.41.1"></a>
+## [v2.41.1] - 2024-07-11
+### Bug Fixes
+- **release:** testing org-wide branch protection rules in release process
+- **release:** this is just a test
+
 <a name="v2.41.0"></a>
 ## [v2.41.0] - 2024-07-10
 ### Features
@@ -1836,7 +1842,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.41.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.41.1...HEAD
+[v2.41.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.41.0...v2.41.1
 [v2.41.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.40.0...v2.41.0
 [v2.40.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.39.1...v2.40.0
 [v2.39.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.39.0...v2.39.1
