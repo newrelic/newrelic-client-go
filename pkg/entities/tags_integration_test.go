@@ -62,21 +62,6 @@ func TestIntegrationTaggingAddTagsToEntityAndGetTags(t *testing.T) {
 	require.NoError(t, err)
 	require.Greater(t, len(actual), 0)
 
-	//Test: To add a reversed key(immutable keys)
-	tags = []TaggingTagInput{
-		{
-			Key:    "account",
-			Values: []string{"Random-name"},
-		},
-	}
-	result, err = client.TaggingAddTagsToEntity(testGUID, tags)
-	require.NoError(t, err)
-	require.NotNil(t, result)
-	require.Greater(t, len(result.Errors), 0)
-	message := result.Errors[0].Message
-	match, er := regexp.MatchString("reserved", message)
-	require.NoError(t, er)
-	require.True(t, match)
 }
 
 func TestIntegrationTaggingReplaceTagsOnEntity(t *testing.T) {
@@ -100,21 +85,6 @@ func TestIntegrationTaggingReplaceTagsOnEntity(t *testing.T) {
 	require.NotNil(t, result)
 	require.Equal(t, 0, len(result.Errors))
 
-	//Test: To update a reversed key(immutable keys)
-	tags = []TaggingTagInput{
-		{
-			Key:    "account",
-			Values: []string{"Random-name"},
-		},
-	}
-	result, err = client.TaggingReplaceTagsOnEntity(testGUID, tags)
-	require.NoError(t, err)
-	require.NotNil(t, result)
-	require.Greater(t, len(result.Errors), 0)
-	message := result.Errors[0].Message
-	match, er := regexp.MatchString("reserved", message)
-	require.NoError(t, er)
-	require.True(t, match)
 }
 
 func TestIntegrationDeleteTags(t *testing.T) {
@@ -154,4 +124,40 @@ func TestIntegrationDeleteTagValues(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, result)
 	require.Equal(t, 0, len(result.Errors))
+}
+
+func TestIntegrationEntityTagsReservedKeysMutation(t *testing.T) {
+	t.Parallel()
+
+	var (
+		testGUID = common.EntityGUID(testhelpers.IntegrationTestApplicationEntityGUID)
+	)
+
+	client := newIntegrationTestClient(t)
+
+	// Test: To add a reserved key(immutable key)
+	tags := []TaggingTagInput{
+		{
+			Key:    "account",
+			Values: []string{"Random-name"},
+		},
+	}
+	result, err := client.TaggingAddTagsToEntity(testGUID, tags)
+	require.NoError(t, err)
+	require.NotNil(t, result)
+	require.Greater(t, len(result.Errors), 0)
+	message := result.Errors[0].Message
+	match, er := regexp.MatchString("reserved", message)
+	require.NoError(t, er)
+	require.True(t, match)
+
+	// Test: To update a reserved key(immutable key)
+	result, err = client.TaggingReplaceTagsOnEntity(testGUID, tags)
+	require.NoError(t, err)
+	require.NotNil(t, result)
+	require.Greater(t, len(result.Errors), 0)
+	message = result.Errors[0].Message
+	match, er = regexp.MatchString("reserved", message)
+	require.NoError(t, er)
+	require.True(t, match)
 }
