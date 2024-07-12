@@ -1378,6 +1378,101 @@ const getEntityQuery = `query(
 			createdAt
 			source {
 				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
 				guid
 			}
 			target {
@@ -8219,7 +8314,7 @@ const getEntityQuery = `query(
 				}
 				metricName
 				name
-				git  {
+				originalDefinitions {
 					selectorValue
 				}
 				originalQueries {
