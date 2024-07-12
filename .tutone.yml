@@ -637,7 +637,7 @@ packages:
             exclude_fields:
               - slug
           - name: entity
-            max_query_field_depth: 3
+            max_query_field_depth: 4
             exclude_fields:
               - slug
           - name: entitySearch
