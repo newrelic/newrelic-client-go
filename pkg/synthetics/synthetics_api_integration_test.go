@@ -69,9 +69,11 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 				"AP_SOUTH_1",
 			},
 		},
-		Name:   monitorName,
-		Period: SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
-		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
+		Name:     monitorName,
+		Period:   SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
+		Status:   SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
+		Browsers: []SyntheticsBrowsers{SyntheticsBrowserTypes.CHROME, SyntheticsBrowserTypes.FIREFOX},
+		Devices:  []SyntheticsDevices{SyntheticsDeviceTypes.DESKTOP, SyntheticsDeviceTypes.TABLET},
 		Tags: []SyntheticsTag{
 			{
 				Key: "pineapple",
@@ -130,9 +132,11 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 				"AP_SOUTH_1",
 			},
 		},
-		Name:   generateSyntheticsEntityNameForIntegrationTest("MONITOR", true),
-		Period: SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
-		Status: SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
+		Name:     generateSyntheticsEntityNameForIntegrationTest("MONITOR", true),
+		Period:   SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
+		Status:   SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
+		Browsers: []SyntheticsBrowsers{SyntheticsBrowserTypes.CHROME, SyntheticsBrowserTypes.FIREFOX},
+		Devices:  []SyntheticsDevices{SyntheticsDeviceTypes.DESKTOP, SyntheticsDeviceTypes.TABLET},
 		Tags: []SyntheticsTag{
 			{
 				Key: "pineapple",
@@ -466,9 +470,11 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 				"AP_SOUTH_1",
 			},
 		},
-		Name:   generateSyntheticsEntityNameForIntegrationTest("MONITOR", false),
-		Period: SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
-		Status: SyntheticsMonitorStatusTypes.ENABLED,
+		Name:     generateSyntheticsEntityNameForIntegrationTest("MONITOR", false),
+		Period:   SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
+		Status:   SyntheticsMonitorStatusTypes.ENABLED,
+		Browsers: []SyntheticsBrowsers{SyntheticsBrowserTypes.CHROME, SyntheticsBrowserTypes.FIREFOX},
+		Devices:  []SyntheticsDevices{SyntheticsDeviceTypes.DESKTOP, SyntheticsDeviceTypes.TABLET},
 		Runtime: &SyntheticsRuntimeInput{
 			RuntimeTypeVersion: "100",
 			RuntimeType:        "CHROME_BROWSER",
@@ -499,9 +505,11 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 				"AP_SOUTH_1",
 			},
 		},
-		Name:   generateSyntheticsEntityNameForIntegrationTest("MONITOR", true),
-		Period: SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
-		Status: SyntheticsMonitorStatusTypes.ENABLED,
+		Name:     generateSyntheticsEntityNameForIntegrationTest("MONITOR", true),
+		Period:   SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
+		Status:   SyntheticsMonitorStatusTypes.ENABLED,
+		Browsers: []SyntheticsBrowsers{SyntheticsBrowserTypes.CHROME, SyntheticsBrowserTypes.FIREFOX},
+		Devices:  []SyntheticsDevices{SyntheticsDeviceTypes.DESKTOP, SyntheticsDeviceTypes.TABLET},
 		Runtime: &SyntheticsRuntimeInput{
 			RuntimeTypeVersion: "100",
 			RuntimeType:        "CHROME_BROWSER",
@@ -853,9 +861,11 @@ func TestSyntheticsStepMonitor_Basic(t *testing.T) {
 	monitorName := generateSyntheticsEntityNameForIntegrationTest("MONITOR", false)
 	enableScreenshotOnFailureAndScript := true
 	monitorInput := SyntheticsCreateStepMonitorInput{
-		Name:   monitorName,
-		Period: SyntheticsMonitorPeriodTypes.EVERY_DAY,
-		Status: SyntheticsMonitorStatusTypes.DISABLED,
+		Name:     monitorName,
+		Period:   SyntheticsMonitorPeriodTypes.EVERY_DAY,
+		Status:   SyntheticsMonitorStatusTypes.DISABLED,
+		Browsers: []SyntheticsBrowsers{SyntheticsBrowserTypes.CHROME, SyntheticsBrowserTypes.FIREFOX},
+		Devices:  []SyntheticsDevices{SyntheticsDeviceTypes.DESKTOP, SyntheticsDeviceTypes.TABLET},
 		AdvancedOptions: SyntheticsStepMonitorAdvancedOptionsInput{
 			EnableScreenshotOnFailureAndScript: &enableScreenshotOnFailureAndScript,
 		},
@@ -912,7 +922,9 @@ func TestSyntheticsStepMonitor_Basic(t *testing.T) {
 				Values:  []string{"h2.NewDesign", "present", "true"},
 			},
 		},
-		Runtime: &SyntheticsExtendedTypeMonitorRuntimeInput{},
+		Browsers: []SyntheticsBrowsers{SyntheticsBrowserTypes.CHROME, SyntheticsBrowserTypes.FIREFOX},
+		Devices:  []SyntheticsDevices{SyntheticsDeviceTypes.DESKTOP, SyntheticsDeviceTypes.TABLET},
+		Runtime:  &SyntheticsExtendedTypeMonitorRuntimeInput{},
 	}
 
 	updatedMonitor, err := a.SyntheticsUpdateStepMonitor(createdMonitor.Monitor.GUID, monitorUpdateInput)
