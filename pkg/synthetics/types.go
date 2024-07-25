@@ -1147,7 +1147,7 @@ type SyntheticsDaysOfWeekOutput struct {
 	WeekDay SyntheticsMonitorDowntimeWeekDays `json:"weekDay,omitempty"`
 }
 
-// SyntheticsDeviceEmulation - Information related to device emulation
+// SyntheticsDeviceEmulation - Information related to device emulation - will be deprecated soon
 type SyntheticsDeviceEmulation struct {
 	// The device orientation the user would like to represent
 	DeviceOrientation SyntheticsDeviceOrientation `json:"deviceOrientation"`
