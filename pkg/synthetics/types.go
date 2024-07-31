@@ -129,6 +129,8 @@ var SyntheticsBrowserTypes = struct {
 	EDGE SyntheticsBrowser
 	// Firefox browser
 	FIREFOX SyntheticsBrowser
+	// No Browser/Legacy
+	NONE SyntheticsBrowser
 }{
 	// Chrome browser
 	CHROME: "CHROME",
@@ -136,6 +138,8 @@ var SyntheticsBrowserTypes = struct {
 	EDGE: "EDGE",
 	// Firefox browser
 	FIREFOX: "FIREFOX",
+	// No Browser/Legacy
+	NONE: "NONE",
 }
 
 // SyntheticsDevice - enum for DeviceEmulation
@@ -148,6 +152,8 @@ var SyntheticsDeviceTypes = struct {
 	MOBILE_LANDSCAPE SyntheticsDevice
 	// deviceType: MOBILE, deviceOrientation: PORTRAIT
 	MOBILE_PORTRAIT SyntheticsDevice
+	// No Device Settings
+	NONE SyntheticsDevice
 	// deviceType: TABLET, deviceOrientation: LANDSCAPE
 	TABLET_LANDSCAPE SyntheticsDevice
 	// deviceType: TABLET, deviceOrientation: PORTRAIT
@@ -159,6 +165,8 @@ var SyntheticsDeviceTypes = struct {
 	MOBILE_LANDSCAPE: "MOBILE_LANDSCAPE",
 	// deviceType: MOBILE, deviceOrientation: PORTRAIT
 	MOBILE_PORTRAIT: "MOBILE_PORTRAIT",
+	// No Device Settings
+	NONE: "NONE",
 	// deviceType: TABLET, deviceOrientation: LANDSCAPE
 	TABLET_LANDSCAPE: "TABLET_LANDSCAPE",
 	// deviceType: TABLET, deviceOrientation: PORTRAIT
@@ -871,12 +879,6 @@ type SyntheticsBrokenLinksMonitorUpdateMutationResult struct {
 	Monitor SyntheticsBrokenLinksMonitor `json:"monitor,omitempty"`
 }
 
-// SyntheticsBrowsers - Information related to browsers selection
-type SyntheticsBrowsers struct {
-	// The browsers that a user can select
-	Browsers []SyntheticsBrowser `json:"browsers"`
-}
-
 // SyntheticsCertCheckMonitor - A Cert Check monitor resulting from a Cert Check monitor mutation
 type SyntheticsCertCheckMonitor struct {
 	// The creation time of the monitor in millis
@@ -1161,12 +1163,6 @@ type SyntheticsDeviceEmulationInput struct {
 	DeviceOrientation SyntheticsDeviceOrientation `json:"deviceOrientation"`
 	// The device type that a user can select
 	DeviceType SyntheticsDeviceType `json:"deviceType"`
-}
-
-// SyntheticsDevices - Information related to device emulation
-type SyntheticsDevices struct {
-	// The devices that a user can select
-	Devices []SyntheticsDevice `json:"devices"`
 }
 
 // SyntheticsError - Error object for Synthetics mutations
@@ -1486,11 +1482,11 @@ type SyntheticsScriptBrowserMonitor struct {
 	// The monitor advanced options
 	AdvancedOptions SyntheticsScriptBrowserMonitorAdvancedOptions `json:"advancedOptions,omitempty"`
 	// The browser(s) that the monitor will use to run jobs
-	Browsers SyntheticsBrowsers `json:"browsers,omitempty"`
+	Browsers []SyntheticsBrowser `json:"browsers,omitempty"`
 	// The creation time of the monitor in millis
 	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
 	// The devices that the monitor will use to run jobs
-	Devices SyntheticsDevices `json:"devices,omitempty"`
+	Devices []SyntheticsDevice `json:"devices,omitempty"`
 	// The unique client identifier for the Synthetics Monitor in New Relic
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The unique identifier of the monitor within the Synthetics domain
@@ -1600,11 +1596,11 @@ type SyntheticsSimpleBrowserMonitor struct {
 	// The monitor advanced options
 	AdvancedOptions SyntheticsSimpleBrowserMonitorAdvancedOptions `json:"advancedOptions,omitempty"`
 	// The browser(s) that the monitor will use to run jobs
-	Browsers SyntheticsBrowsers `json:"browsers,omitempty"`
+	Browsers []SyntheticsBrowser `json:"browsers,omitempty"`
 	// The creation time of the monitor in millis
 	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
 	// The devices that the monitor will use to run jobs
-	Devices SyntheticsDevices `json:"devices,omitempty"`
+	Devices []SyntheticsDevice `json:"devices,omitempty"`
 	// The unique client identifier for the Synthetics Monitor in New Relic
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The unique identifier of the monitor within the Synthetics domain
@@ -1754,11 +1750,11 @@ type SyntheticsStepMonitor struct {
 	// The monitor advanced options
 	AdvancedOptions SyntheticsStepMonitorAdvancedOptions `json:"advancedOptions,omitempty"`
 	// The browser(s) that the monitor will use to run jobs
-	Browsers SyntheticsBrowsers `json:"browsers,omitempty"`
+	Browsers []SyntheticsBrowser `json:"browsers,omitempty"`
 	// The creation time of the monitor in millis
 	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
 	// The devices that the monitor will use to run jobs
-	Devices SyntheticsDevices `json:"devices,omitempty"`
+	Devices []SyntheticsDevice `json:"devices,omitempty"`
 	// The unique client identifier for the Synthetics Monitor in New Relic
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The unique identifier of the monitor within the Synthetics domain

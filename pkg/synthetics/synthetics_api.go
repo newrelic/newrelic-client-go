@@ -582,13 +582,9 @@ const SyntheticsCreateScriptBrowserMonitorMutation = `mutation(
 		advancedOptions {
 			enableScreenshotOnFailureAndScript
 		}
-		browsers {
-			browsers
-		}
+		browsers
 		createdAt
-		devices {
-			devices
-		}
+		devices
 		guid
 		id
 		locations {
@@ -730,13 +726,9 @@ const SyntheticsCreateSimpleBrowserMonitorMutation = `mutation(
 			responseValidationText
 			useTlsValidation
 		}
-		browsers {
-			browsers
-		}
+		browsers
 		createdAt
-		devices {
-			devices
-		}
+		devices
 		guid
 		id
 		locations {
@@ -808,13 +800,9 @@ const SyntheticsCreateSimpleMonitorMutation = `mutation(
 			responseValidationText
 			useTlsValidation
 		}
-		browsers {
-			browsers
-		}
+		browsers
 		createdAt
-		devices {
-			devices
-		}
+		devices
 		guid
 		id
 		locations {
@@ -884,13 +872,9 @@ const SyntheticsCreateStepMonitorMutation = `mutation(
 		advancedOptions {
 			enableScreenshotOnFailureAndScript
 		}
-		browsers {
-			browsers
-		}
+		browsers
 		createdAt
-		devices {
-			devices
-		}
+		devices
 		guid
 		id
 		locations {
@@ -1671,13 +1655,9 @@ const SyntheticsUpdateScriptBrowserMonitorMutation = `mutation(
 		advancedOptions {
 			enableScreenshotOnFailureAndScript
 		}
-		browsers {
-			browsers
-		}
+		browsers
 		createdAt
-		devices {
-			devices
-		}
+		devices
 		guid
 		id
 		locations {
@@ -1819,13 +1799,9 @@ const SyntheticsUpdateSimpleBrowserMonitorMutation = `mutation(
 			responseValidationText
 			useTlsValidation
 		}
-		browsers {
-			browsers
-		}
+		browsers
 		createdAt
-		devices {
-			devices
-		}
+		devices
 		guid
 		id
 		locations {
@@ -1963,13 +1939,9 @@ const SyntheticsUpdateStepMonitorMutation = `mutation(
 		advancedOptions {
 			enableScreenshotOnFailureAndScript
 		}
-		browsers {
-			browsers
-		}
+		browsers
 		createdAt
-		devices {
-			devices
-		}
+		devices
 		guid
 		id
 		locations {
