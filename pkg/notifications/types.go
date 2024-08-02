@@ -588,9 +588,12 @@ var AlertsWebhookCustomPayloadTypeTypes = struct {
 type Account struct {
 	// This field provides access to AiNotifications data.
 	AiNotifications AiNotificationsAccountStitchedFields `json:"aiNotifications,omitempty"`
-	ID              int                                  `json:"id,omitempty"`
-	LicenseKey      string                               `json:"licenseKey,omitempty"`
-	Name            string                               `json:"name,omitempty"`
+	//
+	ID int `json:"id,omitempty"`
+	//
+	LicenseKey string `json:"licenseKey,omitempty"`
+	//
+	Name string `json:"name,omitempty"`
 }
 
 // Actor - The `Actor` object contains fields that are scoped to the API user's access level.
@@ -820,9 +823,9 @@ type AiNotificationsDestinationInput struct {
 	// name
 	Name string `json:"name"`
 	// properties
-	Properties []AiNotificationsPropertyInput `json:"properties"`
+	Properties []AiNotificationsPropertyInput `json:"properties,omitempty"`
 	// secureUrl
-	SecureURL *AiNotificationsSecureURLInput `json:"secureUrl,omitempty"`
+	SecureURL AiNotificationsSecureURLInput `json:"secureUrl,omitempty"`
 	// type
 	Type AiNotificationsDestinationType `json:"type"`
 }
@@ -858,7 +861,7 @@ type AiNotificationsDestinationUpdate struct {
 	// properties
 	Properties []AiNotificationsPropertyInput `json:"properties,omitempty"`
 	// secureUrl
-	SecureURL *AiNotificationsSecureURLUpdate `json:"secureUrl,omitempty"`
+	SecureURL AiNotificationsSecureURLUpdate `json:"secureUrl,omitempty"`
 }
 
 // AiNotificationsDestinationsResponse - Destinations result object
