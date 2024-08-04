@@ -677,7 +677,7 @@ type AiNotificationsChannelInput struct {
 	// product
 	Product AiNotificationsProduct `json:"product"`
 	// properties
-	Properties []AiNotificationsPropertyInput `json:"properties"`
+	Properties []AiNotificationsPropertyInput `json:"properties,omitempty"`
 	// type
 	Type AiNotificationsChannelType `json:"type"`
 }
@@ -823,7 +823,7 @@ type AiNotificationsDestinationInput struct {
 	// name
 	Name string `json:"name"`
 	// properties
-	Properties []AiNotificationsPropertyInput `json:"properties,omitempty"`
+	Properties []AiNotificationsPropertyInput `json:"properties"`
 	// secureUrl
 	SecureURL *AiNotificationsSecureURLInput `json:"secureUrl,omitempty"`
 	// type
