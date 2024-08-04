@@ -87,8 +87,6 @@ var AiWorkflowsDestinationTypeTypes = struct {
 	PAGERDUTY_SERVICE_INTEGRATION AiWorkflowsDestinationType
 	// Service Now Destination Configuration type
 	SERVICE_NOW AiWorkflowsDestinationType
-	// ServiceNow official NewRelic app Configuration type
-	SERVICE_NOW_APP AiWorkflowsDestinationType
 	// Slack Destination Configuration type
 	SLACK AiWorkflowsDestinationType
 	// Slack legacy Destination Configuration type
@@ -112,8 +110,6 @@ var AiWorkflowsDestinationTypeTypes = struct {
 	PAGERDUTY_SERVICE_INTEGRATION: "PAGERDUTY_SERVICE_INTEGRATION",
 	// Service Now Destination Configuration type
 	SERVICE_NOW: "SERVICE_NOW",
-	// ServiceNow official NewRelic app Configuration type
-	SERVICE_NOW_APP: "SERVICE_NOW_APP",
 	// Slack Destination Configuration type
 	SLACK: "SLACK",
 	// Slack legacy Destination Configuration type
@@ -378,11 +374,11 @@ type AiWorkflowsCreateWorkflowInput struct {
 	// destinationConfigurations
 	DestinationConfigurations []AiWorkflowsDestinationConfigurationInput `json:"destinationConfigurations,omitempty"`
 	// destinationsEnabled
-	DestinationsEnabled bool `json:"destinationsEnabled,omitempty"`
+	DestinationsEnabled bool `json:"destinationsEnabled"`
 	// enrichments
 	Enrichments *AiWorkflowsEnrichmentsInput `json:"enrichments,omitempty"`
 	// enrichmentsEnabled
-	EnrichmentsEnabled bool `json:"enrichmentsEnabled,omitempty"`
+	EnrichmentsEnabled bool `json:"enrichmentsEnabled"`
 	// issuesFilter
 	IssuesFilter AiWorkflowsFilterInput `json:"issuesFilter,omitempty"`
 	// mutingRulesHandling
@@ -390,7 +386,7 @@ type AiWorkflowsCreateWorkflowInput struct {
 	// name
 	Name string `json:"name"`
 	// workflowEnabled
-	WorkflowEnabled bool `json:"workflowEnabled,omitempty"`
+	WorkflowEnabled bool `json:"workflowEnabled"`
 }
 
 // AiWorkflowsCreateWorkflowResponse - Create workflow mutation response including errors
@@ -430,7 +426,7 @@ type AiWorkflowsDestinationConfiguration struct {
 	// Type of the Destination Configuration
 	Type AiWorkflowsDestinationType `json:"type"`
 	// Update original notification message (Slack channels only)
-	UpdateOriginalMessage bool `json:"updateOriginalMessage,omitempty"`
+	UpdateOriginalMessage *bool `json:"updateOriginalMessage,omitempty"`
 }
 
 // AiWorkflowsDestinationConfigurationInput - Destination Configuration input object
@@ -440,7 +436,7 @@ type AiWorkflowsDestinationConfigurationInput struct {
 	// notificationTriggers
 	NotificationTriggers []AiWorkflowsNotificationTrigger `json:"notificationTriggers"`
 	// updateOriginalMessage
-	UpdateOriginalMessage bool `json:"updateOriginalMessage,omitempty"`
+	UpdateOriginalMessage *bool `json:"updateOriginalMessage,omitempty"`
 }
 
 // AiWorkflowsEnrichment - Makes it possible to augment the notification with additional data from the New Relic platform
@@ -501,8 +497,6 @@ type AiWorkflowsFilters struct {
 	EnrichmentId string `json:"enrichmentId,omitempty"`
 	// filterId
 	FilterId string `json:"filterId,omitempty"`
-	// guid
-	GUID EntityGUID `json:"guid,omitempty"`
 	// id
 	ID string `json:"id,omitempty"`
 	// name
@@ -578,7 +572,7 @@ func (x *AiWorkflowsTestResponseError) ImplementsAiWorkflowsResponseError() {}
 // AiWorkflowsUpdateEnrichmentsInput - Update Enrichment input object
 type AiWorkflowsUpdateEnrichmentsInput struct {
 	// nrql
-	NRQL []AiWorkflowsNRQLUpdateEnrichmentInput `json:"nrql,omitempty"`
+	NRQL []AiWorkflowsNRQLUpdateEnrichmentInput `json:"nrql"`
 }
 
 // AiWorkflowsUpdateResponseError - Update error description
@@ -594,13 +588,13 @@ func (x *AiWorkflowsUpdateResponseError) ImplementsAiWorkflowsResponseError() {}
 // AiWorkflowsUpdateWorkflowInput - Update Workflow input object
 type AiWorkflowsUpdateWorkflowInput struct {
 	// destinationConfigurations
-	DestinationConfigurations []AiWorkflowsDestinationConfigurationInput `json:"destinationConfigurations,omitempty"`
+	DestinationConfigurations *[]AiWorkflowsDestinationConfigurationInput `json:"destinationConfigurations,omitempty"`
 	// destinationsEnabled
-	DestinationsEnabled bool `json:"destinationsEnabled,omitempty"`
+	DestinationsEnabled *bool `json:"destinationsEnabled,omitempty"`
 	// enrichments
 	Enrichments *AiWorkflowsUpdateEnrichmentsInput `json:"enrichments,omitempty"`
 	// enrichmentsEnabled
-	EnrichmentsEnabled bool `json:"enrichmentsEnabled,omitempty"`
+	EnrichmentsEnabled *bool `json:"enrichmentsEnabled,omitempty"`
 	// id
 	ID string `json:"id"`
 	// issuesFilter
@@ -608,9 +602,9 @@ type AiWorkflowsUpdateWorkflowInput struct {
 	// mutingRulesHandling
 	MutingRulesHandling AiWorkflowsMutingRulesHandling `json:"mutingRulesHandling,omitempty"`
 	// name
-	Name string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 	// workflowEnabled
-	WorkflowEnabled bool `json:"workflowEnabled,omitempty"`
+	WorkflowEnabled *bool `json:"workflowEnabled,omitempty"`
 }
 
 // AiWorkflowsUpdateWorkflowResponse - Update workflow mutation response including errors
