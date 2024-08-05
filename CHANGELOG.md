@@ -1,3 +1,9 @@
+<a name="v2.41.3"></a>
+## [v2.41.3] - 2024-08-01
+### Bug Fixes
+- change datatypes of to and from in line and table thresholds from float64 to string ([#1199](https://github.com/newrelic/newrelic-client-go/issues/1199))
+- **entity:** regenerated 'entity' query max depth of 4 ([#1196](https://github.com/newrelic/newrelic-client-go/issues/1196))
+
 <a name="v2.41.2"></a>
 ## [v2.41.2] - 2024-07-15
 ### Bug Fixes
@@ -1847,7 +1853,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.41.2...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.41.3...HEAD
+[v2.41.3]: https://github.com/newrelic/newrelic-client-go/compare/v2.41.2...v2.41.3
 [v2.41.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.41.1...v2.41.2
 [v2.41.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.41.0...v2.41.1
 [v2.41.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.40.0...v2.41.0
