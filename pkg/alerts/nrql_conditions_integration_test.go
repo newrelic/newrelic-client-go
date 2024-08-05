@@ -722,10 +722,10 @@ func TestIntegrationNrqlConditions_DataAccountId(t *testing.T) {
 	}
 
 	var nrqlConditionCreateWithDataAccountId = NrqlConditionCreateBase{
-		Enabled:     true,
-		Name:        fmt.Sprintf("test-nrql-condition-%s", testNrqlConditionRandomString),
+		Enabled: true,
+		Name:    fmt.Sprintf("test-nrql-condition-%s", testNrqlConditionRandomString),
 		Nrql: NrqlConditionCreateQuery{
-			Query: "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
+			Query:         "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
 			DataAccountId: &testAccountID,
 		},
 		Terms: []NrqlConditionTerm{
@@ -749,8 +749,8 @@ func TestIntegrationNrqlConditions_DataAccountId(t *testing.T) {
 	}
 
 	var (
-		randStr                    = mock.RandSeq(5)
-		createDataAccountIdInput   = NrqlConditionCreateInput{
+		randStr                  = mock.RandSeq(5)
+		createDataAccountIdInput = NrqlConditionCreateInput{
 			NrqlConditionCreateBase: nrqlConditionCreateWithDataAccountId,
 		}
 	)

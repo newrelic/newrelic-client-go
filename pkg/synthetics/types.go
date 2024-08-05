@@ -119,6 +119,60 @@ var SyntheticsAutomatedTestStatusTypes = struct {
 	TIMEOUT: "TIMEOUT",
 }
 
+// SyntheticsBrowser - Enum of browser types
+type SyntheticsBrowser string
+
+var SyntheticsBrowserTypes = struct {
+	// Chrome browser
+	CHROME SyntheticsBrowser
+	// Edge browser
+	EDGE SyntheticsBrowser
+	// Firefox browser
+	FIREFOX SyntheticsBrowser
+	// No Browser/Legacy
+	NONE SyntheticsBrowser
+}{
+	// Chrome browser
+	CHROME: "CHROME",
+	// Edge browser
+	EDGE: "EDGE",
+	// Firefox browser
+	FIREFOX: "FIREFOX",
+	// No Browser/Legacy
+	NONE: "NONE",
+}
+
+// SyntheticsDevice - enum for DeviceEmulation
+type SyntheticsDevice string
+
+var SyntheticsDeviceTypes = struct {
+	// deviceType: DESKTOP, deviceOrientation: NONE
+	DESKTOP SyntheticsDevice
+	// deviceType: MOBILE, deviceOrientation: LANDSCAPE
+	MOBILE_LANDSCAPE SyntheticsDevice
+	// deviceType: MOBILE, deviceOrientation: PORTRAIT
+	MOBILE_PORTRAIT SyntheticsDevice
+	// No Device Settings
+	NONE SyntheticsDevice
+	// deviceType: TABLET, deviceOrientation: LANDSCAPE
+	TABLET_LANDSCAPE SyntheticsDevice
+	// deviceType: TABLET, deviceOrientation: PORTRAIT
+	TABLET_PORTRAIT SyntheticsDevice
+}{
+	// deviceType: DESKTOP, deviceOrientation: NONE
+	DESKTOP: "DESKTOP",
+	// deviceType: MOBILE, deviceOrientation: LANDSCAPE
+	MOBILE_LANDSCAPE: "MOBILE_LANDSCAPE",
+	// deviceType: MOBILE, deviceOrientation: PORTRAIT
+	MOBILE_PORTRAIT: "MOBILE_PORTRAIT",
+	// No Device Settings
+	NONE: "NONE",
+	// deviceType: TABLET, deviceOrientation: LANDSCAPE
+	TABLET_LANDSCAPE: "TABLET_LANDSCAPE",
+	// deviceType: TABLET, deviceOrientation: PORTRAIT
+	TABLET_PORTRAIT: "TABLET_PORTRAIT",
+}
+
 // SyntheticsDeviceOrientation - enum of Orientations that the user can select for their emulated device
 type SyntheticsDeviceOrientation string
 
@@ -328,11 +382,15 @@ var SyntheticsMonitorStatusTypes = struct {
 	DISABLED SyntheticsMonitorStatus
 	// Enabled status of a monitor
 	ENABLED SyntheticsMonitorStatus
+	// Alerts muted status of a monitor
+	MUTED SyntheticsMonitorStatus
 }{
 	// Monitor disabled runs status of a monitor
 	DISABLED: "DISABLED",
 	// Enabled status of a monitor
 	ENABLED: "ENABLED",
+	// Alerts muted status of a monitor
+	MUTED: "MUTED",
 }
 
 // SyntheticsMonitorType - Enum of monitor types
@@ -720,17 +778,17 @@ type SyntheticsAutomatedTestJobResult struct {
 // SyntheticsAutomatedTestMonitorConfig - Monitor specific test config
 type SyntheticsAutomatedTestMonitorConfig struct {
 	// Specifies whether a failure of this monitor should fail the entire automated test
-	IsBlocking bool `json:"isBlocking"`
+	IsBlocking bool `json:"isBlocking,omitempty"`
 	// Specific overrides for the given monitor
-	Overrides *SyntheticsAutomatedTestOverrides `json:"overrides"`
+	Overrides *SyntheticsAutomatedTestOverrides `json:"overrides,omitempty"`
 }
 
 // SyntheticsAutomatedTestMonitorConfigInput - Monitor specific test configuration
 type SyntheticsAutomatedTestMonitorConfigInput struct {
 	// Specifies whether a failure of this monitor should fail the entire automated test
-	IsBlocking bool `json:"isBlocking" yaml:"isBlocking"`
+	IsBlocking bool `json:"isBlocking,omitempty" yaml:"isBlocking,omitempty"`
 	// Specific overrides for the given monitor
-	Overrides *SyntheticsAutomatedTestOverridesInput `json:"overrides" yaml:"overrides"`
+	Overrides *SyntheticsAutomatedTestOverridesInput `json:"overrides,omitempty" yaml:"overrides,omitempty"`
 }
 
 // SyntheticsAutomatedTestMonitorInput - Monitor test definition to be included in the automated test
@@ -935,6 +993,10 @@ type SyntheticsCreateScriptBrowserMonitorInput struct {
 	AdvancedOptions SyntheticsScriptBrowserMonitorAdvancedOptionsInput `json:"advancedOptions,omitempty"`
 	// The monitor's Apdex target used to populate SLA reports
 	ApdexTarget float64 `json:"apdexTarget,omitempty"`
+	// The browser(s) that the monitor will use to run jobs
+	Browsers []SyntheticsBrowser `json:"browsers,omitempty"`
+	// The devices that the monitor will use to run jobs
+	Devices []SyntheticsDevice `json:"devices,omitempty"`
 	// The locations the monitor will run from
 	Locations SyntheticsScriptedMonitorLocationsInput `json:"locations,omitempty"`
 	// The human readable identifier for the monitor
@@ -957,6 +1019,10 @@ type SyntheticsCreateSimpleBrowserMonitorInput struct {
 	AdvancedOptions SyntheticsSimpleBrowserMonitorAdvancedOptionsInput `json:"advancedOptions,omitempty"`
 	// The monitor's Apdex target used to populate SLA reports
 	ApdexTarget float64 `json:"apdexTarget,omitempty"`
+	// The browser(s) that the monitor will use to run jobs
+	Browsers []SyntheticsBrowser `json:"browsers,omitempty"`
+	// The devices that the monitor will use to run jobs
+	Devices []SyntheticsDevice `json:"devices,omitempty"`
 	// The locations the monitor will run from
 	Locations SyntheticsLocationsInput `json:"locations,omitempty"`
 	// The human readable identifier for the monitor
@@ -999,6 +1065,10 @@ type SyntheticsCreateStepMonitorInput struct {
 	AdvancedOptions SyntheticsStepMonitorAdvancedOptionsInput `json:"advancedOptions,omitempty"`
 	// The monitor's Apdex target used to populate SLA reports
 	ApdexTarget float64 `json:"apdexTarget,omitempty"`
+	// The browser(s) that the monitor will use to run jobs
+	Browsers []SyntheticsBrowser `json:"browsers,omitempty"`
+	// The devices that the monitor will use to run jobs
+	Devices []SyntheticsDevice `json:"devices,omitempty"`
 	// The locations the monitor will run from
 	Locations SyntheticsScriptedMonitorLocationsInput `json:"locations,omitempty"`
 	// The human readable identifier for the monitor
@@ -1083,7 +1153,7 @@ type SyntheticsDaysOfWeekOutput struct {
 	WeekDay SyntheticsMonitorDowntimeWeekDays `json:"weekDay,omitempty"`
 }
 
-// SyntheticsDeviceEmulation - Information related to device emulation
+// SyntheticsDeviceEmulation - Information related to device emulation - will be deprecated soon
 type SyntheticsDeviceEmulation struct {
 	// The device orientation the user would like to represent
 	DeviceOrientation SyntheticsDeviceOrientation `json:"deviceOrientation"`
@@ -1415,8 +1485,12 @@ type SyntheticsScriptAPIMonitorUpdateMutationResult struct {
 type SyntheticsScriptBrowserMonitor struct {
 	// The monitor advanced options
 	AdvancedOptions SyntheticsScriptBrowserMonitorAdvancedOptions `json:"advancedOptions,omitempty"`
+	// The browser(s) that the monitor will use to run jobs
+	Browsers []SyntheticsBrowser `json:"browsers,omitempty"`
 	// The creation time of the monitor in millis
 	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
+	// The devices that the monitor will use to run jobs
+	Devices []SyntheticsDevice `json:"devices,omitempty"`
 	// The unique client identifier for the Synthetics Monitor in New Relic
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The unique identifier of the monitor within the Synthetics domain
@@ -1440,7 +1514,7 @@ type SyntheticsScriptBrowserMonitorAdvancedOptions struct {
 	// Emulate a device
 	DeviceEmulation SyntheticsDeviceEmulation `json:"deviceEmulation,omitempty"`
 	// Capture a screenshot during job execution
-	EnableScreenshotOnFailureAndScript *bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
+	EnableScreenshotOnFailureAndScript bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
 }
 
 // SyntheticsScriptBrowserMonitorAdvancedOptionsInput - The advanced options inputs available for a Script Browser monitor
@@ -1448,7 +1522,7 @@ type SyntheticsScriptBrowserMonitorAdvancedOptionsInput struct {
 	// Emulate a device
 	DeviceEmulation *SyntheticsDeviceEmulationInput `json:"deviceEmulation,omitempty"`
 	// Capture a screenshot during job execution
-	EnableScreenshotOnFailureAndScript *bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
+	EnableScreenshotOnFailureAndScript bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
 }
 
 // SyntheticsScriptBrowserMonitorCreateMutationResult - The result of a Script Browser monitor create mutation
@@ -1525,8 +1599,12 @@ type SyntheticsSecureCredentialOverrideInput struct {
 type SyntheticsSimpleBrowserMonitor struct {
 	// The monitor advanced options
 	AdvancedOptions SyntheticsSimpleBrowserMonitorAdvancedOptions `json:"advancedOptions,omitempty"`
+	// The browser(s) that the monitor will use to run jobs
+	Browsers []SyntheticsBrowser `json:"browsers,omitempty"`
 	// The creation time of the monitor in millis
 	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
+	// The devices that the monitor will use to run jobs
+	Devices []SyntheticsDevice `json:"devices,omitempty"`
 	// The unique client identifier for the Synthetics Monitor in New Relic
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The unique identifier of the monitor within the Synthetics domain
@@ -1554,11 +1632,11 @@ type SyntheticsSimpleBrowserMonitorAdvancedOptions struct {
 	// Emulate a device
 	DeviceEmulation SyntheticsDeviceEmulation `json:"deviceEmulation,omitempty"`
 	// Capture a screenshot during job execution
-	EnableScreenshotOnFailureAndScript *bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
+	EnableScreenshotOnFailureAndScript bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
 	// Validation text for monitor to search for at given URI
 	ResponseValidationText string `json:"responseValidationText,omitempty"`
 	// Monitor should validate SSL certificate chain
-	UseTlsValidation *bool `json:"useTlsValidation,omitempty"`
+	UseTlsValidation bool `json:"useTlsValidation,omitempty"`
 }
 
 // SyntheticsSimpleBrowserMonitorAdvancedOptionsInput - The advanced options inputs available for a Simple Browser monitor
@@ -1568,11 +1646,11 @@ type SyntheticsSimpleBrowserMonitorAdvancedOptionsInput struct {
 	// Emulate a device
 	DeviceEmulation *SyntheticsDeviceEmulationInput `json:"deviceEmulation,omitempty"`
 	// Capture a screenshot during job execution
-	EnableScreenshotOnFailureAndScript *bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
+	EnableScreenshotOnFailureAndScript bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
 	// Validation text for monitor to search for at given URI
 	ResponseValidationText string `json:"responseValidationText,omitempty"`
 	// Monitor should validate SSL certificate chain
-	UseTlsValidation *bool `json:"useTlsValidation,omitempty"`
+	UseTlsValidation bool `json:"useTlsValidation,omitempty"`
 }
 
 // SyntheticsSimpleBrowserMonitorCreateMutationResult - The result of a Simple Browser monitor create mutation
@@ -1620,13 +1698,13 @@ type SyntheticsSimpleMonitorAdvancedOptions struct {
 	// Custom headers to use in monitor job
 	CustomHeaders []SyntheticsCustomHeader `json:"customHeaders,omitempty"`
 	// Categorize redirects during a monitor job as a failure
-	RedirectIsFailure *bool `json:"redirectIsFailure,omitempty"`
+	RedirectIsFailure bool `json:"redirectIsFailure,omitempty"`
 	// Validation text for monitor to search for at given URI
 	ResponseValidationText string `json:"responseValidationText,omitempty"`
 	// Monitor should skip default HEAD request and instead use GET verb in check
-	ShouldBypassHeadRequest *bool `json:"shouldBypassHeadRequest,omitempty"`
+	ShouldBypassHeadRequest bool `json:"shouldBypassHeadRequest,omitempty"`
 	// Monitor should validate SSL certificate chain
-	UseTlsValidation *bool `json:"useTlsValidation,omitempty"`
+	UseTlsValidation bool `json:"useTlsValidation,omitempty"`
 }
 
 // SyntheticsSimpleMonitorAdvancedOptionsInput - The advanced options inputs available for a Simple (ping) monitor
@@ -1634,13 +1712,13 @@ type SyntheticsSimpleMonitorAdvancedOptionsInput struct {
 	// Custom headers to use in monitor job
 	CustomHeaders []SyntheticsCustomHeaderInput `json:"customHeaders,omitempty"`
 	// Categorize redirects during a monitor job as a failure
-	RedirectIsFailure *bool `json:"redirectIsFailure,omitempty"`
+	RedirectIsFailure bool `json:"redirectIsFailure,omitempty"`
 	// Validation text for monitor to search for at given URI
 	ResponseValidationText string `json:"responseValidationText,omitempty"`
 	// Monitor should skip default HEAD request and instead use GET verb in check
-	ShouldBypassHeadRequest *bool `json:"shouldBypassHeadRequest,omitempty"`
+	ShouldBypassHeadRequest bool `json:"shouldBypassHeadRequest,omitempty"`
 	// Monitor should validate SSL certificate chain
-	UseTlsValidation *bool `json:"useTlsValidation,omitempty"`
+	UseTlsValidation bool `json:"useTlsValidation,omitempty"`
 }
 
 // SyntheticsSimpleMonitorUpdateMutationResult - The result of a Simple (ping) monitor update mutation
@@ -1675,8 +1753,12 @@ type SyntheticsStepInput struct {
 type SyntheticsStepMonitor struct {
 	// The monitor advanced options
 	AdvancedOptions SyntheticsStepMonitorAdvancedOptions `json:"advancedOptions,omitempty"`
+	// The browser(s) that the monitor will use to run jobs
+	Browsers []SyntheticsBrowser `json:"browsers,omitempty"`
 	// The creation time of the monitor in millis
 	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
+	// The devices that the monitor will use to run jobs
+	Devices []SyntheticsDevice `json:"devices,omitempty"`
 	// The unique client identifier for the Synthetics Monitor in New Relic
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The unique identifier of the monitor within the Synthetics domain
@@ -1700,13 +1782,13 @@ type SyntheticsStepMonitor struct {
 // SyntheticsStepMonitorAdvancedOptions - The advanced options available for a Step monitor
 type SyntheticsStepMonitorAdvancedOptions struct {
 	// Capture a screenshot during job execution
-	EnableScreenshotOnFailureAndScript *bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
+	EnableScreenshotOnFailureAndScript bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
 }
 
 // SyntheticsStepMonitorAdvancedOptionsInput - The advanced options inputs available for a Step monitor
 type SyntheticsStepMonitorAdvancedOptionsInput struct {
 	// Capture a screenshot during job execution
-	EnableScreenshotOnFailureAndScript *bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
+	EnableScreenshotOnFailureAndScript bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
 }
 
 // SyntheticsStepMonitorCreateMutationResult - The result of a Step monitor create mutation
@@ -1801,6 +1883,10 @@ type SyntheticsUpdateScriptBrowserMonitorInput struct {
 	AdvancedOptions SyntheticsScriptBrowserMonitorAdvancedOptionsInput `json:"advancedOptions,omitempty"`
 	// The monitor's Apdex target used to populate SLA reports
 	ApdexTarget float64 `json:"apdexTarget,omitempty"`
+	// The browser(s) that the monitor will use to run jobs
+	Browsers []SyntheticsBrowser `json:"browsers,omitempty"`
+	// The device(s) that the monitor will use to run jobs
+	Devices []SyntheticsDevice `json:"devices,omitempty"`
 	// The locations the monitor will run from
 	Locations SyntheticsScriptedMonitorLocationsInput `json:"locations,omitempty"`
 	// The human readable identifier for the monitor
@@ -1823,6 +1909,10 @@ type SyntheticsUpdateSimpleBrowserMonitorInput struct {
 	AdvancedOptions SyntheticsSimpleBrowserMonitorAdvancedOptionsInput `json:"advancedOptions,omitempty"`
 	// The monitor's Apdex target used to populate SLA reports
 	ApdexTarget float64 `json:"apdexTarget,omitempty"`
+	// The browser(s) that the monitor will use to run jobs
+	Browsers []SyntheticsBrowser `json:"browsers,omitempty"`
+	// The devices that the monitor will use to run jobs
+	Devices []SyntheticsDevice `json:"devices,omitempty"`
 	// The locations the monitor will run from
 	Locations SyntheticsLocationsInput `json:"locations,omitempty"`
 	// The human readable identifier for the monitor
@@ -1865,6 +1955,10 @@ type SyntheticsUpdateStepMonitorInput struct {
 	AdvancedOptions SyntheticsStepMonitorAdvancedOptionsInput `json:"advancedOptions,omitempty"`
 	// The monitor's Apdex target used to populate SLA reports
 	ApdexTarget float64 `json:"apdexTarget,omitempty"`
+	// The browser(s) that the monitor will use to run jobs
+	Browsers []SyntheticsBrowser `json:"browsers,omitempty"`
+	// The devices that the monitor will use to run jobs
+	Devices []SyntheticsDevice `json:"devices,omitempty"`
 	// The locations the monitor will run from
 	Locations SyntheticsScriptedMonitorLocationsInput `json:"locations,omitempty"`
 	// The human readable identifier for the monitor

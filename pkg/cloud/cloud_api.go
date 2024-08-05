@@ -845,10 +845,9 @@ type CloudDisableIntegrationQueryResponse struct {
 	CloudDisableIntegrationPayload CloudDisableIntegrationPayload `json:"CloudDisableIntegration"`
 }
 
-// Note: Do not make "$integrations" an optional field (as fetched from Tutone) to avoid a breaking change
 const CloudDisableIntegrationMutation = `mutation(
 	$accountId: Int!,
-	$integrations: CloudDisableIntegrationsInput!,
+	$integrations: CloudDisableIntegrationsInput,
 ) { cloudDisableIntegration(
 	accountId: $accountId,
 	integrations: $integrations,
@@ -1839,10 +1838,9 @@ func (a *Cloud) GetLinkedAccountWithContext(
 	return &resp.Actor.Account.Cloud.LinkedAccount, nil
 }
 
-// Note: Do not make "$id" an optional field (as fetched from Tutone) to avoid a breaking change
 const getLinkedAccountQuery = `query(
 	$accountID: Int!,
-	$id: Int!,
+	$id: Int,
 ) { actor { account(id: $accountID) { cloud { linkedAccount(
 	id: $id,
 ) {
