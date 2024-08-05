@@ -57,7 +57,7 @@ jobs:
         id: schema-diff
         with:
           script: |
-            const script = require('./scripts/schema-diff.js')
+            const script = require('./scripts/schema-diff-reporter.js')
             await script({core})
 
       - name: Send report to Slack
