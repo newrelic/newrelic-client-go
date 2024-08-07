@@ -92,22 +92,32 @@ function compareObjects(obj1, obj2, path = '') {
   let differences = [];
 
   for (let key in obj1) {
-    if (obj1.hasOwnProperty(key) && obj2.hasOwnProperty(key)) {
+    if (!obj2.hasOwnProperty(key)) {
+      differences.push({
+        old: obj1[key],
+        new: undefined,
+        property: `${path}.${key}`,
+      });
+
+      continue;
+    }
+
+    if (obj2.hasOwnProperty(key)) {
       if (typeof obj1[key] === 'object' && typeof obj2[key] === 'object') {
         differences = differences.concat(compareObjects(obj1[key], obj2[key], `${path}.${key}`));
-      } else if (obj1[key] !== obj2[key]) {
+
+        continue;
+      }
+
+      if (obj1[key] !== obj2[key]) {
         differences.push({
           old: obj1[key],
           new: obj2[key],
           property: `${path}.${key}`,
         });
+
+        continue;
       }
-    } else {
-      differences.push({
-        old: obj1[key],
-        new: obj2[key] ? obj2[key] : undefined,
-        property: `${path}.${key}`,
-      });
     }
   }
 
