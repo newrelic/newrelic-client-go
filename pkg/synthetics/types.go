@@ -1564,7 +1564,7 @@ type SyntheticsSimpleBrowserMonitorAdvancedOptions struct {
 // SyntheticsSimpleBrowserMonitorAdvancedOptionsInput - The advanced options inputs available for a Simple Browser monitor
 type SyntheticsSimpleBrowserMonitorAdvancedOptionsInput struct {
 	// Custom headers to use in monitor job
-	CustomHeaders []SyntheticsCustomHeaderInput `json:"customHeaders,omitempty"`
+	CustomHeaders *[]SyntheticsCustomHeaderInput `json:"customHeaders,omitempty"`
 	// Emulate a device
 	DeviceEmulation *SyntheticsDeviceEmulationInput `json:"deviceEmulation,omitempty"`
 	// Capture a screenshot during job execution
@@ -1632,7 +1632,7 @@ type SyntheticsSimpleMonitorAdvancedOptions struct {
 // SyntheticsSimpleMonitorAdvancedOptionsInput - The advanced options inputs available for a Simple (ping) monitor
 type SyntheticsSimpleMonitorAdvancedOptionsInput struct {
 	// Custom headers to use in monitor job
-	CustomHeaders []SyntheticsCustomHeaderInput `json:"customHeaders,omitempty"`
+	CustomHeaders *[]SyntheticsCustomHeaderInput `json:"customHeaders,omitempty"`
 	// Categorize redirects during a monitor job as a failure
 	RedirectIsFailure *bool `json:"redirectIsFailure,omitempty"`
 	// Validation text for monitor to search for at given URI
