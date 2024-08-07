@@ -87,6 +87,8 @@ var AiWorkflowsDestinationTypeTypes = struct {
 	PAGERDUTY_SERVICE_INTEGRATION AiWorkflowsDestinationType
 	// Service Now Destination Configuration type
 	SERVICE_NOW AiWorkflowsDestinationType
+	// ServiceNow official NewRelic app Configuration type
+	SERVICE_NOW_APP AiWorkflowsDestinationType
 	// Slack Destination Configuration type
 	SLACK AiWorkflowsDestinationType
 	// Slack legacy Destination Configuration type
@@ -110,6 +112,8 @@ var AiWorkflowsDestinationTypeTypes = struct {
 	PAGERDUTY_SERVICE_INTEGRATION: "PAGERDUTY_SERVICE_INTEGRATION",
 	// Service Now Destination Configuration type
 	SERVICE_NOW: "SERVICE_NOW",
+	// ServiceNow official NewRelic app Configuration type
+	SERVICE_NOW_APP: "SERVICE_NOW_APP",
 	// Slack Destination Configuration type
 	SLACK: "SLACK",
 	// Slack legacy Destination Configuration type
@@ -497,6 +501,8 @@ type AiWorkflowsFilters struct {
 	EnrichmentId string `json:"enrichmentId,omitempty"`
 	// filterId
 	FilterId string `json:"filterId,omitempty"`
+	// guid
+	GUID EntityGUID `json:"guid,omitempty"`
 	// id
 	ID string `json:"id,omitempty"`
 	// name
