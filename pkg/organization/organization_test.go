@@ -35,5 +35,6 @@ var (
 
 func matchOrganizationUnauthorizedErrorRegex(errorMessage string) bool {
 	errorFound, _ := regexp.MatchString("You are not authorized to perform this action", errorMessage)
-	return errorFound
+	alternateUnauthorizedErrorFound, _ := regexp.MatchString("Unauthorized", errorMessage)
+	return errorFound || alternateUnauthorizedErrorFound
 }

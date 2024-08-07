@@ -65,6 +65,54 @@ const OrganizationCreateMutation = `mutation(
 	jobId
 } }`
 
+// The shared account to revoke
+func (a *Organization) OrganizationRevokeSharedAccount(
+	sharedAccount OrganizationRevokeSharedAccountInput,
+) (*OrganizationRevokeSharedAccountResponse, error) {
+	return a.OrganizationRevokeSharedAccountWithContext(context.Background(),
+		sharedAccount,
+	)
+}
+
+// The shared account to revoke
+func (a *Organization) OrganizationRevokeSharedAccountWithContext(
+	ctx context.Context,
+	sharedAccount OrganizationRevokeSharedAccountInput,
+) (*OrganizationRevokeSharedAccountResponse, error) {
+
+	resp := OrganizationRevokeSharedAccountQueryResponse{}
+	vars := map[string]interface{}{
+		"sharedAccount": sharedAccount,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, OrganizationRevokeSharedAccountMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.OrganizationRevokeSharedAccountResponse, nil
+}
+
+type OrganizationRevokeSharedAccountQueryResponse struct {
+	OrganizationRevokeSharedAccountResponse OrganizationRevokeSharedAccountResponse `json:"OrganizationRevokeSharedAccount"`
+}
+
+const OrganizationRevokeSharedAccountMutation = `mutation(
+	$sharedAccount: OrganizationRevokeSharedAccountInput!,
+) { organizationRevokeSharedAccount(
+	sharedAccount: $sharedAccount,
+) {
+	sharedAccount {
+		accountId
+		id
+		limitingRoleId
+		name
+		sourceOrganizationId
+		sourceOrganizationName
+		targetOrganizationId
+		targetOrganizationName
+	}
+} }`
+
 // The organization to update
 func (a *Organization) OrganizationUpdate(
 	organization OrganizationUpdateInput,

@@ -51,6 +51,7 @@ func Example_basic() {
 			Name: "Example entity",
 		},
 		[]entities.EntitySearchSortCriteria{},
+		[]entities.SortCriterionWithDirection{},
 	)
 	if err != nil {
 		log.Fatal("error listing entities:", err)

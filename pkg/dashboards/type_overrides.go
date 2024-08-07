@@ -16,15 +16,15 @@ type DashboardLineWidgetThresholdInput struct {
 }
 
 type DashboardLineWidgetThresholdThresholdInput struct {
-	From     *int                                   `json:"from,omitempty"`
-	To       *int                                   `json:"to,omitempty"`
+	From     string                                 `json:"from,omitempty"`
+	To       string                                 `json:"to,omitempty"`
 	Name     string                                 `json:"name,omitempty"`
 	Severity DashboardLineTableWidgetsAlertSeverity `json:"severity,omitempty"`
 }
 
 type DashboardTableWidgetThresholdInput struct {
-	From       *int                                   `json:"from,omitempty"`
-	To         *int                                   `json:"to,omitempty"`
+	From       string                                 `json:"from,omitempty"`
+	To         string                                 `json:"to,omitempty"`
 	ColumnName string                                 `json:"columnName,omitempty"`
 	Severity   DashboardLineTableWidgetsAlertSeverity `json:"severity,omitempty"`
 }

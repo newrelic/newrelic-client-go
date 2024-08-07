@@ -9,10 +9,9 @@ import (
 )
 
 // Adds the provided tags to your specified entity, without deleting existing ones.
+// The maximum number of tag-values per entity is 100; if the sum of existing and new tag-values if over the limit this mutation will fail.
 //
-//	The maximum number of tag-values per entity is 100; if the sum of existing and new tag-values if over the limit this mutation will fail.
-//
-//	For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
+// For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
 func (a *Entities) TaggingAddTagsToEntity(
 	gUID common.EntityGUID,
 	tags []TaggingTagInput,
@@ -24,10 +23,9 @@ func (a *Entities) TaggingAddTagsToEntity(
 }
 
 // Adds the provided tags to your specified entity, without deleting existing ones.
+// The maximum number of tag-values per entity is 100; if the sum of existing and new tag-values if over the limit this mutation will fail.
 //
-//	The maximum number of tag-values per entity is 100; if the sum of existing and new tag-values if over the limit this mutation will fail.
-//
-//	For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
+// For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
 func (a *Entities) TaggingAddTagsToEntityWithContext(
 	ctx context.Context,
 	gUID common.EntityGUID,
@@ -66,7 +64,7 @@ const TaggingAddTagsToEntityMutation = `mutation(
 
 // Delete specific tag keys from the entity.
 //
-//	For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
+// For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
 func (a *Entities) TaggingDeleteTagFromEntity(
 	gUID common.EntityGUID,
 	tagKeys []string,
@@ -79,7 +77,7 @@ func (a *Entities) TaggingDeleteTagFromEntity(
 
 // Delete specific tag keys from the entity.
 //
-//	For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
+// For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
 func (a *Entities) TaggingDeleteTagFromEntityWithContext(
 	ctx context.Context,
 	gUID common.EntityGUID,
@@ -118,7 +116,7 @@ const TaggingDeleteTagFromEntityMutation = `mutation(
 
 // Delete specific tag key-values from the entity.
 //
-//	For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
+// For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
 func (a *Entities) TaggingDeleteTagValuesFromEntity(
 	gUID common.EntityGUID,
 	tagValues []TaggingTagValueInput,
@@ -131,7 +129,7 @@ func (a *Entities) TaggingDeleteTagValuesFromEntity(
 
 // Delete specific tag key-values from the entity.
 //
-//	For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
+// For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
 func (a *Entities) TaggingDeleteTagValuesFromEntityWithContext(
 	ctx context.Context,
 	gUID common.EntityGUID,
@@ -169,10 +167,9 @@ const TaggingDeleteTagValuesFromEntityMutation = `mutation(
 } }`
 
 // Replaces the entity's entire set of tags with the provided tag set.
+// The maximum number of tag-values per entity is 100; if more than 100 tag-values are provided this mutation will fail.
 //
-//	The maximum number of tag-values per entity is 100; if more than 100 tag-values are provided this mutation will fail.
-//
-//	For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
+// For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
 func (a *Entities) TaggingReplaceTagsOnEntity(
 	gUID common.EntityGUID,
 	tags []TaggingTagInput,
@@ -184,10 +181,9 @@ func (a *Entities) TaggingReplaceTagsOnEntity(
 }
 
 // Replaces the entity's entire set of tags with the provided tag set.
+// The maximum number of tag-values per entity is 100; if more than 100 tag-values are provided this mutation will fail.
 //
-//	The maximum number of tag-values per entity is 100; if more than 100 tag-values are provided this mutation will fail.
-//
-//	For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
+// For details and mutation examples, visit [our docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-tagging-api-tutorial).
 func (a *Entities) TaggingReplaceTagsOnEntityWithContext(
 	ctx context.Context,
 	gUID common.EntityGUID,
@@ -275,17 +271,35 @@ const getEntitiesQuery = `query(
 	}
 	accountId
 	alertSeverity
+	deploymentSearch {
+		results {
+			changelog
+			commit
+			deepLink
+			deploymentId
+			deploymentType
+			description
+			entityGuid
+			groupId
+			timestamp
+			user
+			version
+		}
+	}
 	domain
 	entityType
+	firstIndexedAt
 	goldenMetrics {
 		context {
 			account
 			guid
 		}
 		metrics {
+			metricName
 			name
 			query
 			title
+			unit
 		}
 	}
 	goldenTags {
@@ -299,6 +313,7 @@ const getEntitiesQuery = `query(
 	}
 	guid
 	indexedAt
+	lastReportingChangeAt
 	name
 	permalink
 	recentAlertViolations {
@@ -344,6 +359,7 @@ const getEntitiesQuery = `query(
 			createdAt
 			description
 			entityGuid
+			guid
 			id
 			name
 			updatedAt
@@ -360,6 +376,10 @@ const getEntitiesQuery = `query(
 			value
 		}
 	}
+	tracingSummary {
+		errorTraceCount
+		percentOfAllErrorTraces
+	}
 	type
 	... on ApmApplicationEntity {
 		__typename
@@ -375,6 +395,12 @@ const getEntitiesQuery = `query(
 			pageLoadThroughput
 			pageLoadTimeAverage
 		}
+		apmSettings {
+			alias
+			captureMemcacheKeys
+			originalName
+			tracerType
+		}
 		apmSummary {
 			apdexScore
 			errorRate
@@ -388,6 +414,9 @@ const getEntitiesQuery = `query(
 			webThroughput
 		}
 		applicationId
+		applicationInstancesV2 {
+			nextCursor
+		}
 		deployments {
 			changelog
 			description
@@ -397,16 +426,26 @@ const getEntitiesQuery = `query(
 			user
 		}
 		language
+		metricGroupingIssues {
+			deniedMetricsCount
+			deniedMetricsRatePerMinute
+			metricNormalizationRuleId
+			mitigated
+			mitigationRateThreshold
+			mitigationRateWindowSize
+		}
 		metricNormalizationRules {
 			action
 			applicationGuid
 			applicationName
 			createdAt
 			enabled
+			evalOrder
 			id
 			matchExpression
 			notes
 			replacement
+			terminateChain
 		}
 		recentAlertViolations {
 			agentUrl
@@ -438,6 +477,10 @@ const getEntitiesQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on ApmDatabaseInstanceEntity {
@@ -471,6 +514,10 @@ const getEntitiesQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 		vendor
 	}
@@ -509,6 +556,10 @@ const getEntitiesQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 	}
 	... on BrowserApplicationEntity {
 		__typename
@@ -534,16 +585,26 @@ const getEntitiesQuery = `query(
 			spaResponseTimeAverage
 			spaResponseTimeMedian
 		}
+		metricGroupingIssues {
+			deniedMetricsCount
+			deniedMetricsRatePerMinute
+			metricNormalizationRuleId
+			mitigated
+			mitigationRateThreshold
+			mitigationRateWindowSize
+		}
 		metricNormalizationRules {
 			action
 			applicationGuid
 			applicationName
 			createdAt
 			enabled
+			evalOrder
 			id
 			matchExpression
 			notes
 			replacement
+			terminateChain
 		}
 		recentAlertViolations {
 			agentUrl
@@ -562,8 +623,13 @@ const getEntitiesQuery = `query(
 			type
 		}
 		runningAgentVersions {
+			maxSemanticVersion
 			maxVersion
+			minSemanticVersion
 			minVersion
+		}
+		segmentAllowListAggregate {
+			segments
 		}
 		servingApmApplicationId
 		settings {
@@ -575,6 +641,10 @@ const getEntitiesQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on DashboardEntity {
@@ -622,7 +692,18 @@ const getEntitiesQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 		updatedAt
+		variables {
+			isMultiSelection
+			name
+			replacementStrategy
+			title
+			type
+		}
 	}
 	... on ExternalEntity {
 		__typename
@@ -654,6 +735,10 @@ const getEntitiesQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 	}
 	... on GenericEntity {
 		__typename
@@ -684,6 +769,10 @@ const getEntitiesQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on GenericInfrastructureEntity {
@@ -717,6 +806,10 @@ const getEntitiesQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 	}
 	... on InfrastructureAwsLambdaFunctionEntity {
 		__typename
@@ -749,6 +842,10 @@ const getEntitiesQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on InfrastructureHostEntity {
@@ -789,6 +886,51 @@ const getEntitiesQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
+	}
+	... on KeyTransactionEntity {
+		__typename
+		account {
+			id
+			name
+			reportingEventTypes
+		}
+		apdexTarget
+		application {
+			guid
+		}
+		browserApdexTarget
+		metricName
+		recentAlertViolations {
+			agentUrl
+			alertSeverity
+			closedAt
+			label
+			level
+			openedAt
+			violationId
+			violationUrl
+		}
+		relatedEntities {
+			nextCursor
+		}
+		relationships {
+			type
+		}
+		tags {
+			key
+			values
+		}
+		tagsWithMetadata {
+			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 	}
 	... on MobileApplicationEntity {
 		__typename
@@ -798,16 +940,32 @@ const getEntitiesQuery = `query(
 			reportingEventTypes
 		}
 		applicationId
+		metricGroupingIssues {
+			deniedMetricsCount
+			deniedMetricsRatePerMinute
+			metricNormalizationRuleId
+			mitigated
+			mitigationRateThreshold
+			mitigationRateWindowSize
+		}
 		metricNormalizationRules {
 			action
 			applicationGuid
 			applicationName
 			createdAt
 			enabled
+			evalOrder
 			id
 			matchExpression
 			notes
 			replacement
+			terminateChain
+		}
+		mobileProperties {
+			applicationToken
+		}
+		mobileSettings {
+			useCrashReports
 		}
 		mobileSummary {
 			appLaunchCount
@@ -843,6 +1001,10 @@ const getEntitiesQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on SecureCredentialEntity {
@@ -880,6 +1042,10 @@ const getEntitiesQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 		updatedAt
 	}
@@ -923,6 +1089,45 @@ const getEntitiesQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
+	}
+	... on TeamEntity {
+		__typename
+		account {
+			id
+			name
+			reportingEventTypes
+		}
+		recentAlertViolations {
+			agentUrl
+			alertSeverity
+			closedAt
+			label
+			level
+			openedAt
+			violationId
+			violationUrl
+		}
+		relatedEntities {
+			nextCursor
+		}
+		relationships {
+			type
+		}
+		tags {
+			key
+			values
+		}
+		tagsWithMetadata {
+			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 	}
 	... on ThirdPartyServiceEntity {
 		__typename
@@ -954,6 +1159,10 @@ const getEntitiesQuery = `query(
 		tagsWithMetadata {
 			key
 		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
 	}
 	... on UnavailableEntity {
 		__typename
@@ -984,6 +1193,10 @@ const getEntitiesQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on WorkloadEntity {
@@ -1022,6 +1235,10 @@ const getEntitiesQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 		updatedAt
 		workloadStatus {
@@ -1076,17 +1293,58 @@ const getEntityQuery = `query(
 	}
 	accountId
 	alertSeverity
+	deploymentSearch {
+		results {
+			changelog
+			commit
+			deepLink
+			deploymentId
+			deploymentType
+			description
+			entityGuid
+			groupId
+			timestamp
+			user
+			version
+		}
+	}
 	domain
 	entityType
+	firstIndexedAt
 	goldenMetrics {
 		context {
 			account
 			guid
 		}
 		metrics {
+			definition {
+				eventId
+				eventObjectId
+				facet
+				from
+				select
+				where
+			}
+			metricName
 			name
+			originalDefinitions {
+				definition {
+					eventId
+					eventObjectId
+					facet
+					from
+					select
+					where
+				}
+				selectorValue
+			}
+			originalQueries {
+				query
+				selectorValue
+			}
 			query
 			title
+			unit
 		}
 	}
 	goldenTags {
@@ -1100,6 +1358,7 @@ const getEntityQuery = `query(
 	}
 	guid
 	indexedAt
+	lastReportingChangeAt
 	name
 	permalink
 	recentAlertViolations {
@@ -1117,23 +1376,451 @@ const getEntityQuery = `query(
 		results {
 			__typename
 			createdAt
+			source {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				guid
+			}
+			target {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				guid
+			}
 			type
 			... on EntityRelationshipDetectedEdge {
 				__typename
+				source {
+					accountId
+					guid
+				}
+				target {
+					accountId
+					guid
+				}
 			}
 			... on EntityRelationshipUserDefinedEdge {
 				__typename
+				createdByUser {
+					email
+					gravatar
+					id
+					name
+				}
+				source {
+					accountId
+					guid
+				}
+				target {
+					accountId
+					guid
+				}
 			}
 		}
 	}
 	relationships {
 		source {
 			accountId
+			entity {
+				__typename
+				account {
+					id
+					name
+					reportingEventTypes
+				}
+				accountId
+				alertSeverity
+				domain
+				entityType
+				firstIndexedAt
+				guid
+				indexedAt
+				lastReportingChangeAt
+				name
+				permalink
+				reporting
+				tags {
+					key
+					values
+				}
+				type
+				... on ApmApplicationEntityOutline {
+					__typename
+					applicationId
+					language
+				}
+				... on ApmDatabaseInstanceEntityOutline {
+					__typename
+					host
+					portOrPath
+					vendor
+				}
+				... on ApmExternalServiceEntityOutline {
+					__typename
+					host
+				}
+				... on BrowserApplicationEntityOutline {
+					__typename
+					agentInstallType
+					applicationId
+					servingApmApplicationId
+				}
+				... on DashboardEntityOutline {
+					__typename
+					createdAt
+					dashboardParentGuid
+					permissions
+					updatedAt
+				}
+				... on ExternalEntityOutline {
+					__typename
+				}
+				... on GenericEntityOutline {
+					__typename
+				}
+				... on GenericInfrastructureEntityOutline {
+					__typename
+					integrationTypeCode
+				}
+				... on InfrastructureAwsLambdaFunctionEntityOutline {
+					__typename
+					integrationTypeCode
+					runtime
+				}
+				... on InfrastructureHostEntityOutline {
+					__typename
+				}
+				... on KeyTransactionEntityOutline {
+					__typename
+				}
+				... on MobileApplicationEntityOutline {
+					__typename
+					applicationId
+				}
+				... on SecureCredentialEntityOutline {
+					__typename
+					description
+					secureCredentialId
+					updatedAt
+				}
+				... on SyntheticMonitorEntityOutline {
+					__typename
+					monitorId
+					monitorType
+					monitoredUrl
+					period
+				}
+				... on TeamEntityOutline {
+					__typename
+				}
+				... on ThirdPartyServiceEntityOutline {
+					__typename
+				}
+				... on UnavailableEntityOutline {
+					__typename
+				}
+				... on WorkloadEntityOutline {
+					__typename
+					createdAt
+					updatedAt
+				}
+			}
 			entityType
 			guid
 		}
 		target {
 			accountId
+			entity {
+				__typename
+				account {
+					id
+					name
+					reportingEventTypes
+				}
+				accountId
+				alertSeverity
+				domain
+				entityType
+				firstIndexedAt
+				guid
+				indexedAt
+				lastReportingChangeAt
+				name
+				permalink
+				reporting
+				tags {
+					key
+					values
+				}
+				type
+				... on ApmApplicationEntityOutline {
+					__typename
+					applicationId
+					language
+				}
+				... on ApmDatabaseInstanceEntityOutline {
+					__typename
+					host
+					portOrPath
+					vendor
+				}
+				... on ApmExternalServiceEntityOutline {
+					__typename
+					host
+				}
+				... on BrowserApplicationEntityOutline {
+					__typename
+					agentInstallType
+					applicationId
+					servingApmApplicationId
+				}
+				... on DashboardEntityOutline {
+					__typename
+					createdAt
+					dashboardParentGuid
+					permissions
+					updatedAt
+				}
+				... on ExternalEntityOutline {
+					__typename
+				}
+				... on GenericEntityOutline {
+					__typename
+				}
+				... on GenericInfrastructureEntityOutline {
+					__typename
+					integrationTypeCode
+				}
+				... on InfrastructureAwsLambdaFunctionEntityOutline {
+					__typename
+					integrationTypeCode
+					runtime
+				}
+				... on InfrastructureHostEntityOutline {
+					__typename
+				}
+				... on KeyTransactionEntityOutline {
+					__typename
+				}
+				... on MobileApplicationEntityOutline {
+					__typename
+					applicationId
+				}
+				... on SecureCredentialEntityOutline {
+					__typename
+					description
+					secureCredentialId
+					updatedAt
+				}
+				... on SyntheticMonitorEntityOutline {
+					__typename
+					monitorId
+					monitorType
+					monitoredUrl
+					period
+				}
+				... on TeamEntityOutline {
+					__typename
+				}
+				... on ThirdPartyServiceEntityOutline {
+					__typename
+				}
+				... on UnavailableEntityOutline {
+					__typename
+				}
+				... on WorkloadEntityOutline {
+					__typename
+					createdAt
+					updatedAt
+				}
+			}
 			entityType
 			guid
 		}
@@ -1143,11 +1830,58 @@ const getEntityQuery = `query(
 	serviceLevel {
 		indicators {
 			createdAt
+			createdBy {
+				email
+				gravatar
+				id
+				name
+			}
 			description
 			entityGuid
+			events {
+				account {
+					id
+					name
+				}
+				badEvents {
+					from
+					where
+				}
+				goodEvents {
+					from
+					where
+				}
+				validEvents {
+					from
+					where
+				}
+			}
+			guid
 			id
 			name
+			objectives {
+				description
+				name
+				target
+			}
+			resultQueries {
+				goodEvents {
+					nrql
+				}
+				indicator {
+					nrql
+				}
+				validEvents {
+					nrql
+				}
+			}
 			updatedAt
+			updatedBy {
+				email
+				gravatar
+				id
+				name
+			}
 		}
 	}
 	tags {
@@ -1160,6 +1894,10 @@ const getEntityQuery = `query(
 			mutable
 			value
 		}
+	}
+	tracingSummary {
+		errorTraceCount
+		percentOfAllErrorTraces
 	}
 	type
 	... on ApmApplicationEntity {
@@ -1176,6 +1914,44 @@ const getEntityQuery = `query(
 			pageLoadThroughput
 			pageLoadTimeAverage
 		}
+		apmSettings {
+			alias
+			apmConfig {
+				apdexTarget
+				useServerSideConfig
+			}
+			captureMemcacheKeys
+			errorCollector {
+				enabled
+				expectedErrorClasses
+				expectedErrorCodes
+				ignoredErrorClasses
+				ignoredErrorCodes
+			}
+			jfr {
+				enabled
+			}
+			originalName
+			slowSql {
+				enabled
+			}
+			threadProfiler {
+				enabled
+			}
+			tracerType
+			transactionTracer {
+				captureMemcacheKeys
+				enabled
+				explainEnabled
+				explainThresholdType
+				explainThresholdValue
+				logSql
+				recordSql
+				stackTraceThreshold
+				transactionThresholdType
+				transactionThresholdValue
+			}
+		}
 		apmSummary {
 			apdexScore
 			errorRate
@@ -1189,6 +1965,72 @@ const getEntityQuery = `query(
 			webThroughput
 		}
 		applicationId
+		applicationInstances {
+			agentSettingsAttributes {
+				attribute
+				value
+			}
+			details {
+				host
+				hostDisplayName
+				id
+				instanceName
+				language
+				name
+			}
+			environmentAttributes {
+				attribute
+				value
+			}
+			modules {
+				attributes {
+					name
+					value
+				}
+				name
+				version
+			}
+		}
+		applicationInstancesV2 {
+			applicationInstances {
+				agentSettingsAttributes {
+					attribute
+					value
+				}
+				details {
+					host
+					hostDisplayName
+					id
+					instanceName
+					language
+					name
+				}
+				environmentAttributes {
+					attribute
+					value
+				}
+				modules {
+					name
+					version
+				}
+			}
+			nextCursor
+		}
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
 		deployments {
 			changelog
 			description
@@ -1197,17 +2039,64 @@ const getEntityQuery = `query(
 			timestamp
 			user
 		}
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				definition {
+					eventId
+					eventObjectId
+					facet
+					from
+					select
+					where
+				}
+				metricName
+				name
+				originalDefinitions {
+					selectorValue
+				}
+				originalQueries {
+					query
+					selectorValue
+				}
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
+		}
 		language
+		metricGroupingIssues {
+			deniedMetricsCount
+			deniedMetricsRatePerMinute
+			metricNormalizationRuleId
+			mitigated
+			mitigationRateThreshold
+			mitigationRateWindowSize
+		}
 		metricNormalizationRules {
 			action
 			applicationGuid
 			applicationName
 			createdAt
 			enabled
+			evalOrder
 			id
 			matchExpression
 			notes
 			replacement
+			terminateChain
 		}
 		recentAlertViolations {
 			agentUrl
@@ -1221,13 +2110,260 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
+			results {
+				__typename
+				createdAt
+				source {
+					accountId
+					guid
+				}
+				target {
+					accountId
+					guid
+				}
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
 		}
 		relationships {
+			source {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
 			type
 		}
 		runningAgentVersions {
 			maxVersion
 			minVersion
+		}
+		serviceLevel {
+			indicators {
+				createdAt
+				createdBy {
+					email
+					gravatar
+					id
+					name
+				}
+				description
+				entityGuid
+				guid
+				id
+				name
+				objectives {
+					description
+					name
+					target
+				}
+				updatedAt
+				updatedBy {
+					email
+					gravatar
+					id
+					name
+				}
+			}
 		}
 		settings {
 			apdexTarget
@@ -1239,6 +2375,14 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+			values {
+				mutable
+				value
+			}
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on ApmDatabaseInstanceEntity {
@@ -1247,6 +2391,58 @@ const getEntityQuery = `query(
 			id
 			name
 			reportingEventTypes
+		}
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				definition {
+					eventId
+					eventObjectId
+					facet
+					from
+					select
+					where
+				}
+				metricName
+				name
+				originalDefinitions {
+					selectorValue
+				}
+				originalQueries {
+					query
+					selectorValue
+				}
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
 		}
 		host
 		portOrPath
@@ -1262,9 +2458,256 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
+			results {
+				__typename
+				createdAt
+				source {
+					accountId
+					guid
+				}
+				target {
+					accountId
+					guid
+				}
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
 		}
 		relationships {
+			source {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
 			type
+		}
+		serviceLevel {
+			indicators {
+				createdAt
+				createdBy {
+					email
+					gravatar
+					id
+					name
+				}
+				description
+				entityGuid
+				guid
+				id
+				name
+				objectives {
+					description
+					name
+					target
+				}
+				updatedAt
+				updatedBy {
+					email
+					gravatar
+					id
+					name
+				}
+			}
 		}
 		tags {
 			key
@@ -1272,6 +2715,14 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+			values {
+				mutable
+				value
+			}
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 		vendor
 	}
@@ -1282,9 +2733,61 @@ const getEntityQuery = `query(
 			name
 			reportingEventTypes
 		}
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
 		externalSummary {
 			responseTimeAverage
 			throughput
+		}
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				definition {
+					eventId
+					eventObjectId
+					facet
+					from
+					select
+					where
+				}
+				metricName
+				name
+				originalDefinitions {
+					selectorValue
+				}
+				originalQueries {
+					query
+					selectorValue
+				}
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
 		}
 		host
 		recentAlertViolations {
@@ -1299,9 +2802,256 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
+			results {
+				__typename
+				createdAt
+				source {
+					accountId
+					guid
+				}
+				target {
+					accountId
+					guid
+				}
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
 		}
 		relationships {
+			source {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
 			type
+		}
+		serviceLevel {
+			indicators {
+				createdAt
+				createdBy {
+					email
+					gravatar
+					id
+					name
+				}
+				description
+				entityGuid
+				guid
+				id
+				name
+				objectives {
+					description
+					name
+					target
+				}
+				updatedAt
+				updatedBy {
+					email
+					gravatar
+					id
+					name
+				}
+			}
 		}
 		tags {
 			key
@@ -1309,6 +3059,14 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+			values {
+				mutable
+				value
+			}
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on BrowserApplicationEntity {
@@ -1320,6 +3078,11 @@ const getEntityQuery = `query(
 		}
 		agentInstallType
 		applicationId
+		browserProperties {
+			jsConfig
+			jsConfigScript
+			jsLoaderScript
+		}
 		browserSettings {
 			browserConfig {
 				apdexTarget
@@ -1328,7 +3091,6 @@ const getEntityQuery = `query(
 				ajax {
 					denyList
 				}
-				loader
 				distributedTracing {
 					allowedOrigins
 					corsEnabled
@@ -1337,15 +3099,47 @@ const getEntityQuery = `query(
 					enabled
 					excludeNewrelicHeader
 				}
+				loader
+				pinnedVersion
 				privacy {
 					cookiesEnabled
 				}
 			}
-		}
-		browserProperties {
-			jsConfig
-			jsConfigScript
-			jsLoaderScript
+			sessionReplay {
+				autoStart
+				blockSelector
+				collectFonts
+				enabled
+				errorSamplingRate
+				inlineImages
+				inlineStylesheet
+				maskAllInputs
+				maskInputOptions {
+					color
+					date
+					datetimeLocal
+					email
+					month
+					number
+					range
+					search
+					select
+					tel
+					text
+					textArea
+					time
+					url
+					week
+				}
+				maskTextSelector
+				samplingRate
+			}
+			sessionTrace {
+				enabled
+				errorSamplingRate
+				mode
+				samplingRate
+			}
 		}
 		browserSummary {
 			ajaxRequestThroughput
@@ -1357,16 +3151,78 @@ const getEntityQuery = `query(
 			spaResponseTimeAverage
 			spaResponseTimeMedian
 		}
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				definition {
+					eventId
+					eventObjectId
+					facet
+					from
+					select
+					where
+				}
+				metricName
+				name
+				originalDefinitions {
+					selectorValue
+				}
+				originalQueries {
+					query
+					selectorValue
+				}
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
+		}
+		metricGroupingIssues {
+			deniedMetricsCount
+			deniedMetricsRatePerMinute
+			metricNormalizationRuleId
+			mitigated
+			mitigationRateThreshold
+			mitigationRateWindowSize
+		}
 		metricNormalizationRules {
 			action
 			applicationGuid
 			applicationName
 			createdAt
 			enabled
+			evalOrder
 			id
 			matchExpression
 			notes
 			replacement
+			terminateChain
 		}
 		recentAlertViolations {
 			agentUrl
@@ -1380,13 +3236,265 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
+			results {
+				__typename
+				createdAt
+				source {
+					accountId
+					guid
+				}
+				target {
+					accountId
+					guid
+				}
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
 		}
 		relationships {
+			source {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
 			type
 		}
 		runningAgentVersions {
+			maxSemanticVersion
 			maxVersion
+			minSemanticVersion
 			minVersion
+		}
+		segmentAllowListAggregate {
+			segments
+		}
+		serviceLevel {
+			indicators {
+				createdAt
+				createdBy {
+					email
+					gravatar
+					id
+					name
+				}
+				description
+				entityGuid
+				guid
+				id
+				name
+				objectives {
+					description
+					name
+					target
+				}
+				updatedAt
+				updatedBy {
+					email
+					gravatar
+					id
+					name
+				}
+			}
 		}
 		servingApmApplicationId
 		settings {
@@ -1398,6 +3506,14 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+			values {
+				mutable
+				value
+			}
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on DashboardEntity {
@@ -1409,7 +3525,59 @@ const getEntityQuery = `query(
 		}
 		createdAt
 		dashboardParentGuid
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
 		description
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				definition {
+					eventId
+					eventObjectId
+					facet
+					from
+					select
+					where
+				}
+				metricName
+				name
+				originalDefinitions {
+					selectorValue
+				}
+				originalQueries {
+					query
+					selectorValue
+				}
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
+		}
 		owner {
 			email
 			userId
@@ -1419,7 +3587,120 @@ const getEntityQuery = `query(
 			description
 			guid
 			name
+			owner {
+				email
+				userId
+			}
 			updatedAt
+			widgets {
+				id
+				layout {
+					column
+					height
+					row
+					width
+				}
+				linkedEntities {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				rawConfiguration
+				title
+				visualization {
+					id
+				}
+			}
 		}
 		permissions
 		recentAlertViolations {
@@ -1434,9 +3715,256 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
+			results {
+				__typename
+				createdAt
+				source {
+					accountId
+					guid
+				}
+				target {
+					accountId
+					guid
+				}
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
 		}
 		relationships {
+			source {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
 			type
+		}
+		serviceLevel {
+			indicators {
+				createdAt
+				createdBy {
+					email
+					gravatar
+					id
+					name
+				}
+				description
+				entityGuid
+				guid
+				id
+				name
+				objectives {
+					description
+					name
+					target
+				}
+				updatedAt
+				updatedBy {
+					email
+					gravatar
+					id
+					name
+				}
+			}
 		}
 		tags {
 			key
@@ -1444,8 +3972,42 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+			values {
+				mutable
+				value
+			}
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 		updatedAt
+		variables {
+			defaultValue {
+				string
+			}
+			defaultValues {
+				value {
+					string
+				}
+			}
+			isMultiSelection
+			items {
+				title
+				value
+			}
+			name
+			nrqlQuery {
+				accountIds
+				query
+			}
+			options {
+				ignoreTimeRange
+			}
+			replacementStrategy
+			title
+			type
+		}
 	}
 	... on ExternalEntity {
 		__typename
@@ -1453,6 +4015,58 @@ const getEntityQuery = `query(
 			id
 			name
 			reportingEventTypes
+		}
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				definition {
+					eventId
+					eventObjectId
+					facet
+					from
+					select
+					where
+				}
+				metricName
+				name
+				originalDefinitions {
+					selectorValue
+				}
+				originalQueries {
+					query
+					selectorValue
+				}
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
 		}
 		recentAlertViolations {
 			agentUrl
@@ -1466,9 +4080,256 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
+			results {
+				__typename
+				createdAt
+				source {
+					accountId
+					guid
+				}
+				target {
+					accountId
+					guid
+				}
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
 		}
 		relationships {
+			source {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
 			type
+		}
+		serviceLevel {
+			indicators {
+				createdAt
+				createdBy {
+					email
+					gravatar
+					id
+					name
+				}
+				description
+				entityGuid
+				guid
+				id
+				name
+				objectives {
+					description
+					name
+					target
+				}
+				updatedAt
+				updatedBy {
+					email
+					gravatar
+					id
+					name
+				}
+			}
 		}
 		tags {
 			key
@@ -1476,6 +4337,14 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+			values {
+				mutable
+				value
+			}
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on GenericEntity {
@@ -1485,6 +4354,58 @@ const getEntityQuery = `query(
 			name
 			reportingEventTypes
 		}
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				definition {
+					eventId
+					eventObjectId
+					facet
+					from
+					select
+					where
+				}
+				metricName
+				name
+				originalDefinitions {
+					selectorValue
+				}
+				originalQueries {
+					query
+					selectorValue
+				}
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
+		}
 		recentAlertViolations {
 			agentUrl
 			alertSeverity
@@ -1497,9 +4418,256 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
+			results {
+				__typename
+				createdAt
+				source {
+					accountId
+					guid
+				}
+				target {
+					accountId
+					guid
+				}
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
 		}
 		relationships {
+			source {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
 			type
+		}
+		serviceLevel {
+			indicators {
+				createdAt
+				createdBy {
+					email
+					gravatar
+					id
+					name
+				}
+				description
+				entityGuid
+				guid
+				id
+				name
+				objectives {
+					description
+					name
+					target
+				}
+				updatedAt
+				updatedBy {
+					email
+					gravatar
+					id
+					name
+				}
+			}
 		}
 		tags {
 			key
@@ -1507,6 +4675,14 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+			values {
+				mutable
+				value
+			}
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on GenericInfrastructureEntity {
@@ -1516,6 +4692,58 @@ const getEntityQuery = `query(
 			name
 			reportingEventTypes
 		}
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				definition {
+					eventId
+					eventObjectId
+					facet
+					from
+					select
+					where
+				}
+				metricName
+				name
+				originalDefinitions {
+					selectorValue
+				}
+				originalQueries {
+					query
+					selectorValue
+				}
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
+		}
 		integrationTypeCode
 		recentAlertViolations {
 			agentUrl
@@ -1529,9 +4757,256 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
+			results {
+				__typename
+				createdAt
+				source {
+					accountId
+					guid
+				}
+				target {
+					accountId
+					guid
+				}
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
 		}
 		relationships {
+			source {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
 			type
+		}
+		serviceLevel {
+			indicators {
+				createdAt
+				createdBy {
+					email
+					gravatar
+					id
+					name
+				}
+				description
+				entityGuid
+				guid
+				id
+				name
+				objectives {
+					description
+					name
+					target
+				}
+				updatedAt
+				updatedBy {
+					email
+					gravatar
+					id
+					name
+				}
+			}
 		}
 		tags {
 			key
@@ -1539,6 +5014,14 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+			values {
+				mutable
+				value
+			}
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on InfrastructureAwsLambdaFunctionEntity {
@@ -1548,6 +5031,58 @@ const getEntityQuery = `query(
 			name
 			reportingEventTypes
 		}
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				definition {
+					eventId
+					eventObjectId
+					facet
+					from
+					select
+					where
+				}
+				metricName
+				name
+				originalDefinitions {
+					selectorValue
+				}
+				originalQueries {
+					query
+					selectorValue
+				}
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
+		}
 		integrationTypeCode
 		recentAlertViolations {
 			agentUrl
@@ -1561,17 +5096,272 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
+			results {
+				__typename
+				createdAt
+				source {
+					accountId
+					guid
+				}
+				target {
+					accountId
+					guid
+				}
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
 		}
 		relationships {
+			source {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
 			type
 		}
 		runtime
+		serviceLevel {
+			indicators {
+				createdAt
+				createdBy {
+					email
+					gravatar
+					id
+					name
+				}
+				description
+				entityGuid
+				guid
+				id
+				name
+				objectives {
+					description
+					name
+					target
+				}
+				updatedAt
+				updatedBy {
+					email
+					gravatar
+					id
+					name
+				}
+			}
+		}
 		tags {
 			key
 			values
 		}
 		tagsWithMetadata {
 			key
+			values {
+				mutable
+				value
+			}
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on InfrastructureHostEntity {
@@ -1580,6 +5370,58 @@ const getEntityQuery = `query(
 			id
 			name
 			reportingEventTypes
+		}
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				definition {
+					eventId
+					eventObjectId
+					facet
+					from
+					select
+					where
+				}
+				metricName
+				name
+				originalDefinitions {
+					selectorValue
+				}
+				originalQueries {
+					query
+					selectorValue
+				}
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
 		}
 		hostSummary {
 			cpuUtilizationPercent
@@ -1601,9 +5443,256 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
+			results {
+				__typename
+				createdAt
+				source {
+					accountId
+					guid
+				}
+				target {
+					accountId
+					guid
+				}
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
 		}
 		relationships {
+			source {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
 			type
+		}
+		serviceLevel {
+			indicators {
+				createdAt
+				createdBy {
+					email
+					gravatar
+					id
+					name
+				}
+				description
+				entityGuid
+				guid
+				id
+				name
+				objectives {
+					description
+					name
+					target
+				}
+				updatedAt
+				updatedBy {
+					email
+					gravatar
+					id
+					name
+				}
+			}
 		}
 		tags {
 			key
@@ -1611,6 +5700,462 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+			values {
+				mutable
+				value
+			}
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
+	}
+	... on KeyTransactionEntity {
+		__typename
+		account {
+			id
+			name
+			reportingEventTypes
+		}
+		apdexTarget
+		application {
+			entity {
+				__typename
+				account {
+					id
+					name
+					reportingEventTypes
+				}
+				accountId
+				alertSeverity
+				domain
+				entityType
+				firstIndexedAt
+				guid
+				indexedAt
+				lastReportingChangeAt
+				name
+				permalink
+				reporting
+				tags {
+					key
+					values
+				}
+				type
+				... on ApmApplicationEntityOutline {
+					__typename
+					applicationId
+					language
+				}
+				... on ApmDatabaseInstanceEntityOutline {
+					__typename
+					host
+					portOrPath
+					vendor
+				}
+				... on ApmExternalServiceEntityOutline {
+					__typename
+					host
+				}
+				... on BrowserApplicationEntityOutline {
+					__typename
+					agentInstallType
+					applicationId
+					servingApmApplicationId
+				}
+				... on DashboardEntityOutline {
+					__typename
+					createdAt
+					dashboardParentGuid
+					permissions
+					updatedAt
+				}
+				... on ExternalEntityOutline {
+					__typename
+				}
+				... on GenericEntityOutline {
+					__typename
+				}
+				... on GenericInfrastructureEntityOutline {
+					__typename
+					integrationTypeCode
+				}
+				... on InfrastructureAwsLambdaFunctionEntityOutline {
+					__typename
+					integrationTypeCode
+					runtime
+				}
+				... on InfrastructureHostEntityOutline {
+					__typename
+				}
+				... on KeyTransactionEntityOutline {
+					__typename
+				}
+				... on MobileApplicationEntityOutline {
+					__typename
+					applicationId
+				}
+				... on SecureCredentialEntityOutline {
+					__typename
+					description
+					secureCredentialId
+					updatedAt
+				}
+				... on SyntheticMonitorEntityOutline {
+					__typename
+					monitorId
+					monitorType
+					monitoredUrl
+					period
+				}
+				... on TeamEntityOutline {
+					__typename
+				}
+				... on ThirdPartyServiceEntityOutline {
+					__typename
+				}
+				... on UnavailableEntityOutline {
+					__typename
+				}
+				... on WorkloadEntityOutline {
+					__typename
+					createdAt
+					updatedAt
+				}
+			}
+			guid
+		}
+		browserApdexTarget
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				definition {
+					eventId
+					eventObjectId
+					facet
+					from
+					select
+					where
+				}
+				metricName
+				name
+				originalDefinitions {
+					selectorValue
+				}
+				originalQueries {
+					query
+					selectorValue
+				}
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
+		}
+		metricName
+		recentAlertViolations {
+			agentUrl
+			alertSeverity
+			closedAt
+			label
+			level
+			openedAt
+			violationId
+			violationUrl
+		}
+		relatedEntities {
+			nextCursor
+			results {
+				__typename
+				createdAt
+				source {
+					accountId
+					guid
+				}
+				target {
+					accountId
+					guid
+				}
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
+		}
+		relationships {
+			source {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
+			type
+		}
+		serviceLevel {
+			indicators {
+				createdAt
+				createdBy {
+					email
+					gravatar
+					id
+					name
+				}
+				description
+				entityGuid
+				guid
+				id
+				name
+				objectives {
+					description
+					name
+					target
+				}
+				updatedAt
+				updatedBy {
+					email
+					gravatar
+					id
+					name
+				}
+			}
+		}
+		tags {
+			key
+			values
+		}
+		tagsWithMetadata {
+			key
+			values {
+				mutable
+				value
+			}
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on MobileApplicationEntity {
@@ -1621,16 +6166,110 @@ const getEntityQuery = `query(
 			reportingEventTypes
 		}
 		applicationId
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
+		exception {
+			stackTrace {
+				frames {
+					filepath
+					formatted
+					line
+					name
+				}
+			}
+		}
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				definition {
+					eventId
+					eventObjectId
+					facet
+					from
+					select
+					where
+				}
+				metricName
+				name
+				originalDefinitions {
+					selectorValue
+				}
+				originalQueries {
+					query
+					selectorValue
+				}
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
+		}
+		metricGroupingIssues {
+			deniedMetricsCount
+			deniedMetricsRatePerMinute
+			metricNormalizationRuleId
+			mitigated
+			mitigationRateThreshold
+			mitigationRateWindowSize
+		}
 		metricNormalizationRules {
 			action
 			applicationGuid
 			applicationName
 			createdAt
 			enabled
+			evalOrder
 			id
 			matchExpression
 			notes
 			replacement
+			terminateChain
+		}
+		mobileProperties {
+			applicationToken
+		}
+		mobileSettings {
+			applicationExitInfo {
+				enabled
+			}
+			networkSettings {
+				aliases {
+					alias
+					hosts
+				}
+				filterMode
+				hideList
+				ignoredStatusCodeRules {
+					hosts
+					statusCodes
+				}
+				showList
+			}
+			useCrashReports
 		}
 		mobileSummary {
 			appLaunchCount
@@ -1656,9 +6295,256 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
+			results {
+				__typename
+				createdAt
+				source {
+					accountId
+					guid
+				}
+				target {
+					accountId
+					guid
+				}
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
 		}
 		relationships {
+			source {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
 			type
+		}
+		serviceLevel {
+			indicators {
+				createdAt
+				createdBy {
+					email
+					gravatar
+					id
+					name
+				}
+				description
+				entityGuid
+				guid
+				id
+				name
+				objectives {
+					description
+					name
+					target
+				}
+				updatedAt
+				updatedBy {
+					email
+					gravatar
+					id
+					name
+				}
+			}
 		}
 		tags {
 			key
@@ -1666,6 +6552,14 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+			values {
+				mutable
+				value
+			}
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on SecureCredentialEntity {
@@ -1675,7 +6569,59 @@ const getEntityQuery = `query(
 			name
 			reportingEventTypes
 		}
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
 		description
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				definition {
+					eventId
+					eventObjectId
+					facet
+					from
+					select
+					where
+				}
+				metricName
+				name
+				originalDefinitions {
+					selectorValue
+				}
+				originalQueries {
+					query
+					selectorValue
+				}
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
+		}
 		recentAlertViolations {
 			agentUrl
 			alertSeverity
@@ -1688,8 +6634,227 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
+			results {
+				__typename
+				createdAt
+				source {
+					accountId
+					guid
+				}
+				target {
+					accountId
+					guid
+				}
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
 		}
 		relationships {
+			source {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
 			type
 		}
 		secureCredentialId
@@ -1697,12 +6862,48 @@ const getEntityQuery = `query(
 			failingMonitorCount
 			monitorCount
 		}
+		serviceLevel {
+			indicators {
+				createdAt
+				createdBy {
+					email
+					gravatar
+					id
+					name
+				}
+				description
+				entityGuid
+				guid
+				id
+				name
+				objectives {
+					description
+					name
+					target
+				}
+				updatedAt
+				updatedBy {
+					email
+					gravatar
+					id
+					name
+				}
+			}
+		}
 		tags {
 			key
 			values
 		}
 		tagsWithMetadata {
 			key
+			values {
+				mutable
+				value
+			}
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 		updatedAt
 	}
@@ -1712,6 +6913,58 @@ const getEntityQuery = `query(
 			id
 			name
 			reportingEventTypes
+		}
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				definition {
+					eventId
+					eventObjectId
+					facet
+					from
+					select
+					where
+				}
+				metricName
+				name
+				originalDefinitions {
+					selectorValue
+				}
+				originalQueries {
+					query
+					selectorValue
+				}
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
 		}
 		monitorId
 		monitorSummary {
@@ -1735,9 +6988,256 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
+			results {
+				__typename
+				createdAt
+				source {
+					accountId
+					guid
+				}
+				target {
+					accountId
+					guid
+				}
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
 		}
 		relationships {
+			source {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
 			type
+		}
+		serviceLevel {
+			indicators {
+				createdAt
+				createdBy {
+					email
+					gravatar
+					id
+					name
+				}
+				description
+				entityGuid
+				guid
+				id
+				name
+				objectives {
+					description
+					name
+					target
+				}
+				updatedAt
+				updatedBy {
+					email
+					gravatar
+					id
+					name
+				}
+			}
 		}
 		tags {
 			key
@@ -1745,6 +7245,352 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+			values {
+				mutable
+				value
+			}
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
+		}
+	}
+	... on TeamEntity {
+		__typename
+		account {
+			id
+			name
+			reportingEventTypes
+		}
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				definition {
+					eventId
+					eventObjectId
+					facet
+					from
+					select
+					where
+				}
+				metricName
+				name
+				originalDefinitions {
+					selectorValue
+				}
+				originalQueries {
+					query
+					selectorValue
+				}
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
+		}
+		recentAlertViolations {
+			agentUrl
+			alertSeverity
+			closedAt
+			label
+			level
+			openedAt
+			violationId
+			violationUrl
+		}
+		relatedEntities {
+			nextCursor
+			results {
+				__typename
+				createdAt
+				source {
+					accountId
+					guid
+				}
+				target {
+					accountId
+					guid
+				}
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
+		}
+		relationships {
+			source {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
+			type
+		}
+		serviceLevel {
+			indicators {
+				createdAt
+				createdBy {
+					email
+					gravatar
+					id
+					name
+				}
+				description
+				entityGuid
+				guid
+				id
+				name
+				objectives {
+					description
+					name
+					target
+				}
+				updatedAt
+				updatedBy {
+					email
+					gravatar
+					id
+					name
+				}
+			}
+		}
+		tags {
+			key
+			values
+		}
+		tagsWithMetadata {
+			key
+			values {
+				mutable
+				value
+			}
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on ThirdPartyServiceEntity {
@@ -1754,6 +7600,58 @@ const getEntityQuery = `query(
 			name
 			reportingEventTypes
 		}
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				definition {
+					eventId
+					eventObjectId
+					facet
+					from
+					select
+					where
+				}
+				metricName
+				name
+				originalDefinitions {
+					selectorValue
+				}
+				originalQueries {
+					query
+					selectorValue
+				}
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
+		}
 		recentAlertViolations {
 			agentUrl
 			alertSeverity
@@ -1766,9 +7664,256 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
+			results {
+				__typename
+				createdAt
+				source {
+					accountId
+					guid
+				}
+				target {
+					accountId
+					guid
+				}
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
 		}
 		relationships {
+			source {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
 			type
+		}
+		serviceLevel {
+			indicators {
+				createdAt
+				createdBy {
+					email
+					gravatar
+					id
+					name
+				}
+				description
+				entityGuid
+				guid
+				id
+				name
+				objectives {
+					description
+					name
+					target
+				}
+				updatedAt
+				updatedBy {
+					email
+					gravatar
+					id
+					name
+				}
+			}
 		}
 		tags {
 			key
@@ -1776,6 +7921,14 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+			values {
+				mutable
+				value
+			}
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on UnavailableEntity {
@@ -1785,6 +7938,58 @@ const getEntityQuery = `query(
 			name
 			reportingEventTypes
 		}
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				definition {
+					eventId
+					eventObjectId
+					facet
+					from
+					select
+					where
+				}
+				metricName
+				name
+				originalDefinitions {
+					selectorValue
+				}
+				originalQueries {
+					query
+					selectorValue
+				}
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
+		}
 		recentAlertViolations {
 			agentUrl
 			alertSeverity
@@ -1797,9 +8002,256 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
+			results {
+				__typename
+				createdAt
+				source {
+					accountId
+					guid
+				}
+				target {
+					accountId
+					guid
+				}
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
 		}
 		relationships {
+			source {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
 			type
+		}
+		serviceLevel {
+			indicators {
+				createdAt
+				createdBy {
+					email
+					gravatar
+					id
+					name
+				}
+				description
+				entityGuid
+				guid
+				id
+				name
+				objectives {
+					description
+					name
+					target
+				}
+				updatedAt
+				updatedBy {
+					email
+					gravatar
+					id
+					name
+				}
+			}
 		}
 		tags {
 			key
@@ -1807,6 +8259,14 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+			values {
+				mutable
+				value
+			}
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 	}
 	... on WorkloadEntity {
@@ -1823,6 +8283,58 @@ const getEntityQuery = `query(
 			id
 			name
 		}
+		deploymentSearch {
+			results {
+				changelog
+				commit
+				deepLink
+				deploymentId
+				deploymentType
+				description
+				entityGuid
+				groupId
+				timestamp
+				user
+				version
+			}
+		}
+		goldenMetrics {
+			context {
+				account
+				guid
+			}
+			metrics {
+				definition {
+					eventId
+					eventObjectId
+					facet
+					from
+					select
+					where
+				}
+				metricName
+				name
+				originalDefinitions {
+					selectorValue
+				}
+				originalQueries {
+					query
+					selectorValue
+				}
+				query
+				title
+				unit
+			}
+		}
+		goldenTags {
+			context {
+				account
+				guid
+			}
+			tags {
+				key
+			}
+		}
 		recentAlertViolations {
 			agentUrl
 			alertSeverity
@@ -1835,9 +8347,256 @@ const getEntityQuery = `query(
 		}
 		relatedEntities {
 			nextCursor
+			results {
+				__typename
+				createdAt
+				source {
+					accountId
+					guid
+				}
+				target {
+					accountId
+					guid
+				}
+				type
+				... on EntityRelationshipDetectedEdge {
+					__typename
+				}
+				... on EntityRelationshipUserDefinedEdge {
+					__typename
+				}
+			}
 		}
 		relationships {
+			source {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
+			target {
+				accountId
+				entity {
+					__typename
+					accountId
+					alertSeverity
+					domain
+					entityType
+					firstIndexedAt
+					guid
+					indexedAt
+					lastReportingChangeAt
+					name
+					permalink
+					reporting
+					type
+					... on ApmApplicationEntityOutline {
+						__typename
+						applicationId
+						language
+					}
+					... on ApmDatabaseInstanceEntityOutline {
+						__typename
+						host
+						portOrPath
+						vendor
+					}
+					... on ApmExternalServiceEntityOutline {
+						__typename
+						host
+					}
+					... on BrowserApplicationEntityOutline {
+						__typename
+						agentInstallType
+						applicationId
+						servingApmApplicationId
+					}
+					... on DashboardEntityOutline {
+						__typename
+						createdAt
+						dashboardParentGuid
+						permissions
+						updatedAt
+					}
+					... on ExternalEntityOutline {
+						__typename
+					}
+					... on GenericEntityOutline {
+						__typename
+					}
+					... on GenericInfrastructureEntityOutline {
+						__typename
+						integrationTypeCode
+					}
+					... on InfrastructureAwsLambdaFunctionEntityOutline {
+						__typename
+						integrationTypeCode
+						runtime
+					}
+					... on InfrastructureHostEntityOutline {
+						__typename
+					}
+					... on KeyTransactionEntityOutline {
+						__typename
+					}
+					... on MobileApplicationEntityOutline {
+						__typename
+						applicationId
+					}
+					... on SecureCredentialEntityOutline {
+						__typename
+						description
+						secureCredentialId
+						updatedAt
+					}
+					... on SyntheticMonitorEntityOutline {
+						__typename
+						monitorId
+						monitorType
+						monitoredUrl
+						period
+					}
+					... on TeamEntityOutline {
+						__typename
+					}
+					... on ThirdPartyServiceEntityOutline {
+						__typename
+					}
+					... on UnavailableEntityOutline {
+						__typename
+					}
+					... on WorkloadEntityOutline {
+						__typename
+						createdAt
+						updatedAt
+					}
+				}
+				entityType
+				guid
+			}
 			type
+		}
+		serviceLevel {
+			indicators {
+				createdAt
+				createdBy {
+					email
+					gravatar
+					id
+					name
+				}
+				description
+				entityGuid
+				guid
+				id
+				name
+				objectives {
+					description
+					name
+					target
+				}
+				updatedAt
+				updatedBy {
+					email
+					gravatar
+					id
+					name
+				}
+			}
 		}
 		tags {
 			key
@@ -1845,6 +8604,14 @@ const getEntityQuery = `query(
 		}
 		tagsWithMetadata {
 			key
+			values {
+				mutable
+				value
+			}
+		}
+		tracingSummary {
+			errorTraceCount
+			percentOfAllErrorTraces
 		}
 		updatedAt
 		workloadStatus {
@@ -1868,12 +8635,14 @@ func (a *Entities) GetEntitySearch(
 	query string,
 	queryBuilder EntitySearchQueryBuilder,
 	sortBy []EntitySearchSortCriteria,
+	sortByWithDirection []SortCriterionWithDirection,
 ) (*EntitySearch, error) {
 	return a.GetEntitySearchWithContext(context.Background(),
 		options,
 		query,
 		queryBuilder,
 		sortBy,
+		sortByWithDirection,
 	)
 }
 
@@ -1890,14 +8659,16 @@ func (a *Entities) GetEntitySearchWithContext(
 	query string,
 	queryBuilder EntitySearchQueryBuilder,
 	sortBy []EntitySearchSortCriteria,
+	sortByWithDirection []SortCriterionWithDirection,
 ) (*EntitySearch, error) {
 
 	resp := entitySearchResponse{}
 	vars := map[string]interface{}{
-		"options":      options,
-		"query":        query,
-		"queryBuilder": queryBuilder,
-		"sortBy":       sortBy,
+		"options":             options,
+		"query":               query,
+		"queryBuilder":        queryBuilder,
+		"sortBy":              sortBy,
+		"sortByWithDirection": sortByWithDirection,
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, getEntitySearchQuery, vars, &resp); err != nil {
@@ -1917,176 +8688,96 @@ const getEntitySearchQuery = `query(
 	results {
 		entities {
 			__typename
+			account {
+				id
+				name
+				reportingEventTypes
+			}
 			accountId
 			alertSeverity
 			domain
 			entityType
+			firstIndexedAt
+			goldenMetrics {
+				context {
+					account
+					guid
+				}
+				metrics {
+					metricName
+					name
+					query
+					title
+					unit
+				}
+			}
+			goldenTags {
+				context {
+					account
+					guid
+				}
+				tags {
+					key
+				}
+			}
 			guid
 			indexedAt
+			lastReportingChangeAt
 			name
 			permalink
 			reporting
-			type
-			... on ApmApplicationEntityOutline {
-				__typename
-				applicationId
-				language
+			serviceLevel {
+				indicators {
+					createdAt
+					description
+					entityGuid
+					guid
+					id
+					name
+					updatedAt
+				}
 			}
-			... on ApmDatabaseInstanceEntityOutline {
-				__typename
-				host
-				portOrPath
-				vendor
-			}
-			... on ApmExternalServiceEntityOutline {
-				__typename
-				host
-			}
-			... on BrowserApplicationEntityOutline {
-				__typename
-				agentInstallType
-				applicationId
-				servingApmApplicationId
-			}
-			... on DashboardEntityOutline {
-				__typename
-				createdAt
-				dashboardParentGuid
-				permissions
-				updatedAt
-			}
-			... on ExternalEntityOutline {
-				__typename
-			}
-			... on GenericEntityOutline {
-				__typename
-			}
-			... on GenericInfrastructureEntityOutline {
-				__typename
-				integrationTypeCode
-			}
-			... on InfrastructureAwsLambdaFunctionEntityOutline {
-				__typename
-				integrationTypeCode
-				runtime
-			}
-			... on InfrastructureHostEntityOutline {
-				__typename
-			}
-			... on MobileApplicationEntityOutline {
-				__typename
-				applicationId
-			}
-			... on SecureCredentialEntityOutline {
-				__typename
-				description
-				secureCredentialId
-				updatedAt
-			}
-			... on SyntheticMonitorEntityOutline {
-				__typename
-				monitorId
-				monitorType
-				monitoredUrl
-				period
-			}
-			... on ThirdPartyServiceEntityOutline {
-				__typename
-			}
-			... on UnavailableEntityOutline {
-				__typename
-			}
-			... on WorkloadEntityOutline {
-				__typename
-				createdAt
-				updatedAt
-			}
-		}
-		nextCursor
-	}
-	types {
-		count
-		domain
-		entityType
-		type
-	}
-} } }`
-
-// Search for entities using a custom query.
-//
-// For more details on how to create a custom query
-// and what entity data you can request, visit our
-// [entity docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/use-new-relic-graphql-api-query-entities).
-//
-// Note: you must supply either a `query` OR a `queryBuilder` argument, not both.
-func (a *Entities) GetEntitySearchByQuery(
-	options EntitySearchOptions,
-	query string,
-	sortBy []EntitySearchSortCriteria,
-) (*EntitySearch, error) {
-	return a.GetEntitySearchByQueryWithContext(context.Background(),
-		options,
-		query,
-		sortBy,
-	)
-}
-
-// Search for entities using a custom query.
-//
-// For more details on how to create a custom query
-// and what entity data you can request, visit our
-// [entity docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/use-new-relic-graphql-api-query-entities).
-//
-// Note: you must supply either a `query` OR a `queryBuilder` argument, not both.
-func (a *Entities) GetEntitySearchByQueryWithContext(
-	ctx context.Context,
-	options EntitySearchOptions,
-	query string,
-	sortBy []EntitySearchSortCriteria,
-) (*EntitySearch, error) {
-
-	resp := entitySearchResponse{}
-	vars := map[string]interface{}{
-		"options": options,
-		"query":   query,
-		"sortBy":  sortBy,
-	}
-
-	if err := a.client.NerdGraphQueryWithContext(ctx, getEntitySearchByQuery, vars, &resp); err != nil {
-		return nil, err
-	}
-
-	return &resp.Actor.EntitySearch, nil
-}
-
-const getEntitySearchByQuery = `query(
-	$query: String,
-) { actor { entitySearch(
-	query: $query,
-) {
-	count
-	query
-	results {
-		entities {
-			__typename
-			accountId
-			alertSeverity
-			domain
-			entityType
-			guid
-			indexedAt
-			name
-			permalink
-			reporting
-			type
 			tags {
 				key
 				values
 			}
+			type
 			... on ApmApplicationEntityOutline {
 				__typename
+				account {
+					id
+					name
+					reportingEventTypes
+				}
+				apmBrowserSummary {
+					ajaxRequestThroughput
+					ajaxResponseTimeAverage
+					jsErrorRate
+					pageLoadThroughput
+					pageLoadTimeAverage
+				}
+				apmSummary {
+					apdexScore
+					errorRate
+					hostCount
+					instanceCount
+					nonWebResponseTimeAverage
+					nonWebThroughput
+					responseTimeAverage
+					throughput
+					webResponseTimeAverage
+					webThroughput
+				}
 				applicationId
 				language
+				runningAgentVersions {
+					maxVersion
+					minVersion
+				}
+				settings {
+					apdexTarget
+					serverSideConfig
+				}
 				tags {
 					key
 					values
@@ -2094,16 +8785,30 @@ const getEntitySearchByQuery = `query(
 			}
 			... on ApmDatabaseInstanceEntityOutline {
 				__typename
+				account {
+					id
+					name
+					reportingEventTypes
+				}
 				host
 				portOrPath
-				vendor
 				tags {
 					key
 					values
 				}
+				vendor
 			}
 			... on ApmExternalServiceEntityOutline {
 				__typename
+				account {
+					id
+					name
+					reportingEventTypes
+				}
+				externalSummary {
+					responseTimeAverage
+					throughput
+				}
 				host
 				tags {
 					key
@@ -2112,9 +8817,33 @@ const getEntitySearchByQuery = `query(
 			}
 			... on BrowserApplicationEntityOutline {
 				__typename
+				account {
+					id
+					name
+					reportingEventTypes
+				}
 				agentInstallType
 				applicationId
+				browserSummary {
+					ajaxRequestThroughput
+					ajaxResponseTimeAverage
+					jsErrorRate
+					pageLoadThroughput
+					pageLoadTimeAverage
+					pageLoadTimeMedian
+					spaResponseTimeAverage
+					spaResponseTimeMedian
+				}
+				runningAgentVersions {
+					maxSemanticVersion
+					maxVersion
+					minSemanticVersion
+					minVersion
+				}
 				servingApmApplicationId
+				settings {
+					apdexTarget
+				}
 				tags {
 					key
 					values
@@ -2122,17 +8851,31 @@ const getEntitySearchByQuery = `query(
 			}
 			... on DashboardEntityOutline {
 				__typename
+				account {
+					id
+					name
+					reportingEventTypes
+				}
 				createdAt
 				dashboardParentGuid
+				owner {
+					email
+					userId
+				}
 				permissions
-				updatedAt
 				tags {
 					key
 					values
 				}
+				updatedAt
 			}
 			... on ExternalEntityOutline {
 				__typename
+				account {
+					id
+					name
+					reportingEventTypes
+				}
 				tags {
 					key
 					values
@@ -2140,6 +8883,11 @@ const getEntitySearchByQuery = `query(
 			}
 			... on GenericEntityOutline {
 				__typename
+				account {
+					id
+					name
+					reportingEventTypes
+				}
 				tags {
 					key
 					values
@@ -2147,6 +8895,11 @@ const getEntitySearchByQuery = `query(
 			}
 			... on GenericInfrastructureEntityOutline {
 				__typename
+				account {
+					id
+					name
+					reportingEventTypes
+				}
 				integrationTypeCode
 				tags {
 					key
@@ -2155,6 +8908,11 @@ const getEntitySearchByQuery = `query(
 			}
 			... on InfrastructureAwsLambdaFunctionEntityOutline {
 				__typename
+				account {
+					id
+					name
+					reportingEventTypes
+				}
 				integrationTypeCode
 				runtime
 				tags {
@@ -2164,6 +8922,19 @@ const getEntitySearchByQuery = `query(
 			}
 			... on InfrastructureHostEntityOutline {
 				__typename
+				account {
+					id
+					name
+					reportingEventTypes
+				}
+				hostSummary {
+					cpuUtilizationPercent
+					diskUsedPercent
+					memoryUsedPercent
+					networkReceiveRate
+					networkTransmitRate
+					servicesCount
+				}
 				tags {
 					key
 					values
@@ -2171,6 +8942,11 @@ const getEntitySearchByQuery = `query(
 			}
 			... on KeyTransactionEntityOutline {
 				__typename
+				account {
+					id
+					name
+					reportingEventTypes
+				}
 				tags {
 					key
 					values
@@ -2178,7 +8954,24 @@ const getEntitySearchByQuery = `query(
 			}
 			... on MobileApplicationEntityOutline {
 				__typename
+				account {
+					id
+					name
+					reportingEventTypes
+				}
 				applicationId
+				mobileSummary {
+					appLaunchCount
+					crashCount
+					crashRate
+					httpErrorRate
+					httpRequestCount
+					httpRequestRate
+					httpResponseTimeAverage
+					mobileSessionCount
+					networkFailureRate
+					usersAffectedCount
+				}
 				tags {
 					key
 					values
@@ -2186,17 +8979,37 @@ const getEntitySearchByQuery = `query(
 			}
 			... on SecureCredentialEntityOutline {
 				__typename
+				account {
+					id
+					name
+					reportingEventTypes
+				}
 				description
 				secureCredentialId
-				updatedAt
+				secureCredentialSummary {
+					failingMonitorCount
+					monitorCount
+				}
 				tags {
 					key
 					values
 				}
+				updatedAt
 			}
 			... on SyntheticMonitorEntityOutline {
 				__typename
+				account {
+					id
+					name
+					reportingEventTypes
+				}
 				monitorId
+				monitorSummary {
+					locationsFailing
+					locationsRunning
+					status
+					successRate
+				}
 				monitorType
 				monitoredUrl
 				period
@@ -2205,8 +9018,25 @@ const getEntitySearchByQuery = `query(
 					values
 				}
 			}
+			... on TeamEntityOutline {
+				__typename
+				account {
+					id
+					name
+					reportingEventTypes
+				}
+				tags {
+					key
+					values
+				}
+			}
 			... on ThirdPartyServiceEntityOutline {
 				__typename
+				account {
+					id
+					name
+					reportingEventTypes
+				}
 				tags {
 					key
 					values
@@ -2214,6 +9044,11 @@ const getEntitySearchByQuery = `query(
 			}
 			... on UnavailableEntityOutline {
 				__typename
+				account {
+					id
+					name
+					reportingEventTypes
+				}
 				tags {
 					key
 					values
@@ -2221,11 +9056,28 @@ const getEntitySearchByQuery = `query(
 			}
 			... on WorkloadEntityOutline {
 				__typename
+				account {
+					id
+					name
+					reportingEventTypes
+				}
 				createdAt
-				updatedAt
+				createdByUser {
+					email
+					gravatar
+					id
+					name
+				}
 				tags {
 					key
 					values
+				}
+				updatedAt
+				workloadStatus {
+					description
+					statusSource
+					statusValue
+					summary
 				}
 			}
 		}

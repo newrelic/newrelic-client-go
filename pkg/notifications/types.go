@@ -588,9 +588,12 @@ var AlertsWebhookCustomPayloadTypeTypes = struct {
 type Account struct {
 	// This field provides access to AiNotifications data.
 	AiNotifications AiNotificationsAccountStitchedFields `json:"aiNotifications,omitempty"`
-	ID              int                                  `json:"id,omitempty"`
-	LicenseKey      string                               `json:"licenseKey,omitempty"`
-	Name            string                               `json:"name,omitempty"`
+	//
+	ID int `json:"id,omitempty"`
+	//
+	LicenseKey string `json:"licenseKey,omitempty"`
+	//
+	Name string `json:"name,omitempty"`
 }
 
 // Actor - The `Actor` object contains fields that are scoped to the API user's access level.

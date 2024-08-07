@@ -89,7 +89,7 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 		AdvancedOptions: SyntheticsSimpleBrowserMonitorAdvancedOptionsInput{
 			EnableScreenshotOnFailureAndScript: &tv,
 			ResponseValidationText:             "SUCCESS",
-			CustomHeaders: []SyntheticsCustomHeaderInput{
+			CustomHeaders: &[]SyntheticsCustomHeaderInput{
 				{
 					Name:  "Monitor",
 					Value: "synthetics",
@@ -110,7 +110,7 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 
 	simpleBrowserMonitorInputUpdated := SyntheticsUpdateSimpleBrowserMonitorInput{
 		AdvancedOptions: SyntheticsSimpleBrowserMonitorAdvancedOptionsInput{
-			CustomHeaders: []SyntheticsCustomHeaderInput{
+			CustomHeaders: &[]SyntheticsCustomHeaderInput{
 				{
 					Name:  "Monitor",
 					Value: "Synthetics",
@@ -171,7 +171,7 @@ func TestSyntheticsSimpleMonitor_Basic(t *testing.T) {
 
 	simpleMonitorInput := SyntheticsCreateSimpleMonitorInput{
 		AdvancedOptions: SyntheticsSimpleMonitorAdvancedOptionsInput{
-			CustomHeaders: []SyntheticsCustomHeaderInput{
+			CustomHeaders: &[]SyntheticsCustomHeaderInput{
 				{
 					Name:  "Monitor",
 					Value: "Synthetics",
@@ -209,7 +209,7 @@ func TestSyntheticsSimpleMonitor_Basic(t *testing.T) {
 
 	simpleMonitorInputUpdated := SyntheticsUpdateSimpleMonitorInput{
 		AdvancedOptions: SyntheticsSimpleMonitorAdvancedOptionsInput{
-			CustomHeaders: []SyntheticsCustomHeaderInput{
+			CustomHeaders: &[]SyntheticsCustomHeaderInput{
 				{
 					Name:  "Monitors",
 					Value: "Synthetics",
@@ -1090,7 +1090,7 @@ func TestSyntheticsStartAutomatedTest_Basic(t *testing.T) {
 		AdvancedOptions: SyntheticsSimpleBrowserMonitorAdvancedOptionsInput{
 			EnableScreenshotOnFailureAndScript: &tv,
 			ResponseValidationText:             "SUCCESS",
-			CustomHeaders: []SyntheticsCustomHeaderInput{
+			CustomHeaders: &[]SyntheticsCustomHeaderInput{
 				{
 					Name:  "Monitor",
 					Value: "synthetics",
@@ -1104,7 +1104,7 @@ func TestSyntheticsStartAutomatedTest_Basic(t *testing.T) {
 	monitorThreeName := fmt.Sprintf("%s-syntheticsStartAutomatedTest", generateSyntheticsEntityNameForIntegrationTest("MONITOR", false))
 	monitorThreeInput := SyntheticsCreateSimpleMonitorInput{
 		AdvancedOptions: SyntheticsSimpleMonitorAdvancedOptionsInput{
-			CustomHeaders: []SyntheticsCustomHeaderInput{
+			CustomHeaders: &[]SyntheticsCustomHeaderInput{
 				{
 					Name:  monitorThreeName,
 					Value: "Synthetics",

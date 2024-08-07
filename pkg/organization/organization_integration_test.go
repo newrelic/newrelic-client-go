@@ -47,7 +47,7 @@ func TestIntegrationOrganizationCreate_AccessDeniedError(t *testing.T) {
 
 	client := newIntegrationTestClient(t)
 
-	organizationCreateResponse, err := client.OrganizationCreate(
+	_, err = client.OrganizationCreate(
 		"",
 		&OrganizationNewManagedAccountInput{
 			Name:       "Some Random Managed Account",
@@ -62,15 +62,14 @@ func TestIntegrationOrganizationCreate_AccessDeniedError(t *testing.T) {
 		},
 	)
 
-	// expected behaviour
-	// require.Error(t, err)
-	// require.Regexp(t, regexp.MustCompile(fmt.Sprintf("%s not found.", unitTestMockCustomerId)), err.Error())
+	// commenting this out since the following commented code was written on the basis of previous API behaviour
+	// an error would not directly be thrown, instead, the error was embedded in the response previously
 
-	// current behaviour
-	// the API isn't throwing an error, the error is instead, embedded in the response
+	//require.NoError(t, err)
+	//require.True(t, matchOrganizationUnauthorizedErrorRegex(organizationCreateResponse.JobId))
 
-	require.NoError(t, err)
-	require.True(t, matchOrganizationUnauthorizedErrorRegex(organizationCreateResponse.JobId))
+	require.Error(t, err)
+	require.True(t, matchOrganizationUnauthorizedErrorRegex(err.Error()))
 }
 
 func TestIntegrationOrganizationUpdate(t *testing.T) {
@@ -106,19 +105,38 @@ func TestIntegrationOrganizationUpdate_AccessDeniedError(t *testing.T) {
 
 	client := newIntegrationTestClient(t)
 
-	organizationUpdateResponse, _ := client.OrganizationUpdate(
+	_, err = client.OrganizationUpdate(
 		OrganizationUpdateInput{
 			Name: organizationNameUpdated,
 		},
 		unitTestMockOrganizationOneId,
 	)
 
-	// expected behaviour
-	// require.Error(t, err)
+	// commenting this out since the following commented code was written on the basis of previous API behaviour
+	// an error would not directly be thrown, instead, the error was embedded in the response previously
+	//require.NotNil(t, organizationUpdateResponse.Errors)
+	//require.True(t, matchOrganizationUnauthorizedErrorRegex(organizationUpdateResponse.Errors[0].Message))
 
-	// actual behaviour
-	// the error thrown is embedded as a field inside the response of the mutation
+	require.Error(t, err)
+	require.True(t, matchOrganizationUnauthorizedErrorRegex(err.Error()))
+}
 
-	require.NotNil(t, organizationUpdateResponse.Errors)
-	require.True(t, matchOrganizationUnauthorizedErrorRegex(organizationUpdateResponse.Errors[0].Message))
+func TestIntegrationOrganizationRevokeSharedAccount_Error(t *testing.T) {
+	t.Parallel()
+	_, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	client := newIntegrationTestClient(t)
+
+	response, _ := client.OrganizationRevokeSharedAccount(
+		OrganizationRevokeSharedAccountInput{ID: fmt.Sprint(unitTestMockAccountOneId)},
+	)
+
+	// current API behaviour appears to be returning zero against the Shared Account ID if the operation is unsuccessful
+	require.Zero(t, response.SharedAccount.AccountID)
+
+	//require.Error(t, err)
+	//require.True(t, matchOrganizationUnauthorizedErrorRegex(err.Error()))
 }

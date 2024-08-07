@@ -27,6 +27,13 @@ func Example_basic() {
 		log.Fatal("error listing NRQL drop rules: ", err)
 	}
 
+	dropRuleID := 87654321
+	// Fetch a drop rule with the specified ID, from the list of drop rules retrieved for a given account
+	_, err = client.GetDropRuleByID(accountID, dropRuleID)
+	if err != nil {
+		log.Fatalf("error getting drop rule by ID %d: %s", dropRuleID, err)
+	}
+
 	// Create a new events to metrics rule.
 	createInput := []NRQLDropRulesCreateDropRuleInput{
 		{

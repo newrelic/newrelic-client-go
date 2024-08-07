@@ -1,3 +1,56 @@
+<a name="v2.42.1"></a>
+## [v2.42.1] - 2024-08-07
+### Bug Fixes
+- **synthetics:** alter []SyntheticsCustomHeaderInput to allow empty custom headers in the request ([#1203](https://github.com/newrelic/newrelic-client-go/issues/1203))
+
+<a name="v2.42.0"></a>
+## [v2.42.0] - 2024-08-07
+### Features
+- **workflows:** added new notification channel type called servicenow_app ([#1200](https://github.com/newrelic/newrelic-client-go/issues/1200))
+
+<a name="v2.41.3"></a>
+## [v2.41.3] - 2024-08-05
+### Bug Fixes
+- change datatypes of to and from in line and table thresholds from float64 to string ([#1199](https://github.com/newrelic/newrelic-client-go/issues/1199))
+- **entity:** regenerated 'entity' query max depth of 4 ([#1196](https://github.com/newrelic/newrelic-client-go/issues/1196))
+
+<a name="v2.41.2"></a>
+## [v2.41.2] - 2024-07-15
+### Bug Fixes
+- **dashboard:** update line and table widget threshold to and from fields datatypes to float64 ([#1192](https://github.com/newrelic/newrelic-client-go/issues/1192))
+
+<a name="v2.41.1"></a>
+## [v2.41.1] - 2024-07-11
+### Bug Fixes
+- **release:** testing org-wide branch protection rules in release process
+- **release:** this is just a test
+
+<a name="v2.41.0"></a>
+## [v2.41.0] - 2024-07-10
+### Features
+- add `organizationRevokeSharedAccount` and `accountManagementCancelAccount` mutations ([#1187](https://github.com/newrelic/newrelic-client-go/issues/1187))
+
+<a name="v2.40.0"></a>
+## [v2.40.0] - 2024-07-03
+### Features
+- **nrqldroprules:** Added `GetDropRuleByID` function to fetch a droprule by specified ID ([#1183](https://github.com/newrelic/newrelic-client-go/issues/1183))
+
+<a name="v2.39.1"></a>
+## [v2.39.1] - 2024-07-01
+### Bug Fixes
+- **entities:** manual adjustments were needed for some dashboard types (pointers)
+
+<a name="v2.39.0"></a>
+## [v2.39.0] - 2024-07-01
+### Features
+- **nrql_alert_conditions:** Add data_account_id for NRQL alert condition ([#1184](https://github.com/newrelic/newrelic-client-go/issues/1184))
+
+<a name="v2.38.0"></a>
+## [v2.38.0] - 2024-06-27
+### Features
+- **automation:** alert [@hero](https://github.com/hero) when new API endpoints are detected
+- **workflows:** add `updateOriginalMessage` to destination configurations ([#1177](https://github.com/newrelic/newrelic-client-go/issues/1177))
+
 <a name="v2.37.1"></a>
 ## [v2.37.1] - 2024-06-12
 ### Bug Fixes
@@ -1810,7 +1863,17 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.37.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.42.1...HEAD
+[v2.42.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.42.0...v2.42.1
+[v2.42.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.41.3...v2.42.0
+[v2.41.3]: https://github.com/newrelic/newrelic-client-go/compare/v2.41.2...v2.41.3
+[v2.41.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.41.1...v2.41.2
+[v2.41.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.41.0...v2.41.1
+[v2.41.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.40.0...v2.41.0
+[v2.40.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.39.1...v2.40.0
+[v2.39.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.39.0...v2.39.1
+[v2.39.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.38.0...v2.39.0
+[v2.38.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.37.1...v2.38.0
 [v2.37.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.37.0...v2.37.1
 [v2.37.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.36.2...v2.37.0
 [v2.36.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.36.1...v2.36.2
