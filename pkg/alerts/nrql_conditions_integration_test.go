@@ -722,10 +722,10 @@ func TestIntegrationNrqlConditions_DataAccountId(t *testing.T) {
 	}
 
 	var nrqlConditionCreateWithDataAccountId = NrqlConditionCreateBase{
-		Enabled:     true,
-		Name:        fmt.Sprintf("test-nrql-condition-%s", testNrqlConditionRandomString),
+		Enabled: true,
+		Name:    fmt.Sprintf("test-nrql-condition-%s", testNrqlConditionRandomString),
 		Nrql: NrqlConditionCreateQuery{
-			Query: "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
+			Query:         "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
 			DataAccountId: &testAccountID,
 		},
 		Terms: []NrqlConditionTerm{
@@ -749,8 +749,8 @@ func TestIntegrationNrqlConditions_DataAccountId(t *testing.T) {
 	}
 
 	var (
-		randStr                    = mock.RandSeq(5)
-		createDataAccountIdInput   = NrqlConditionCreateInput{
+		randStr                  = mock.RandSeq(5)
+		createDataAccountIdInput = NrqlConditionCreateInput{
 			NrqlConditionCreateBase: nrqlConditionCreateWithDataAccountId,
 		}
 	)
@@ -797,16 +797,15 @@ func TestIntegrationNrqlConditions_IgnoreOnExpectedTermination(t *testing.T) {
 	}
 
 	var (
-		randStr                     = mock.RandSeq(5)
-		conditionName      = fmt.Sprintf("test-nrql-condition-%s", randStr)
+		randStr        = mock.RandSeq(5)
+		conditionName  = fmt.Sprintf("test-nrql-condition-%s", randStr)
 		conditionInput = NrqlConditionCreateInput{
 			NrqlConditionCreateBase: NrqlConditionCreateBase{
 				Description: "test description",
 				Enabled:     true,
 				Name:        conditionName,
 				Nrql: NrqlConditionCreateQuery{
-					Query:            "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
-					EvaluationOffset: &nrqlConditionBaseEvalOffset,
+					Query: "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
 				},
 				RunbookURL: "test.com",
 				Terms: []NrqlConditionTerm{
@@ -829,6 +828,24 @@ func TestIntegrationNrqlConditions_IgnoreOnExpectedTermination(t *testing.T) {
 		}
 		updateInput = NrqlConditionUpdateInput{
 			NrqlConditionUpdateBase: NrqlConditionUpdateBase{
+				Description: "test description",
+				Enabled:     true,
+				Name:        conditionName,
+				Nrql: NrqlConditionUpdateQuery{
+					Query: "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
+				},
+				RunbookURL: "test.com",
+				Terms: []NrqlConditionTerm{
+					{
+						Threshold:            &nrqlConditionBaseThresholdZeroValue,
+						ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
+						ThresholdDuration:    600,
+						Operator:             AlertsNRQLConditionTermsOperatorTypes.ABOVE,
+						Priority:             NrqlConditionPriorities.Critical,
+					},
+				},
+				ViolationTimeLimitSeconds: 3600,
+				// this part is updated
 				Expiration: &AlertsNrqlConditionExpiration{
 					CloseViolationsOnExpiration: true,
 					ExpirationDuration:          &nrqlConditionBaseExpirationDuration,
@@ -836,7 +853,6 @@ func TestIntegrationNrqlConditions_IgnoreOnExpectedTermination(t *testing.T) {
 					IgnoreOnExpectedTermination: false,
 				},
 			},
-
 		}
 	)
 
@@ -858,7 +874,6 @@ func TestIntegrationNrqlConditions_IgnoreOnExpectedTermination(t *testing.T) {
 	require.NotNil(t, createdCondition.Expiration)
 	require.Equal(t, true, createdCondition.Expiration.IgnoreOnExpectedTermination)
 
-	// Test: Update (static condition with updated expected termination)
 	updatedCondition, err := client.UpdateNrqlConditionStaticMutation(testAccountID, createdCondition.ID, updateInput)
 	require.NoError(t, err)
 	require.Equal(t, false, updatedCondition.Expiration.IgnoreOnExpectedTermination)
