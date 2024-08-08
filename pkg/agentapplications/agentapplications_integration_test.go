@@ -56,8 +56,9 @@ func TestIntegrationAgentApplicationBrowser_WithSettings(t *testing.T) {
 
 	client := newAgentApplicationIntegrationTestClient(t)
 	appName := testhelpers.GenerateRandomName(10)
+	cookiesEnabled := true
 	settings := AgentApplicationBrowserSettingsInput{
-		CookiesEnabled:            true,
+		CookiesEnabled:            &cookiesEnabled,
 		DistributedTracingEnabled: true,
 		LoaderType:                AgentApplicationBrowserLoaderTypes.LITE,
 	}
@@ -68,6 +69,7 @@ func TestIntegrationAgentApplicationBrowser_WithSettings(t *testing.T) {
 	require.NotNil(t, createResult)
 	require.Equal(t, appName, createResult.Name)
 
+	cookiesEnabled = false
 	// Update
 	updateSettings := AgentApplicationSettingsUpdateInput{
 		BrowserMonitoring: &AgentApplicationSettingsBrowserMonitoringInput{
@@ -76,7 +78,7 @@ func TestIntegrationAgentApplicationBrowser_WithSettings(t *testing.T) {
 				Enabled: false,
 			},
 			Privacy: &AgentApplicationSettingsBrowserPrivacyInput{
-				CookiesEnabled: false,
+				CookiesEnabled: &cookiesEnabled,
 			},
 		},
 	}
@@ -101,8 +103,9 @@ func TestIntegrationAgentApplicationBrowser_InvalidLoaderTypeInput(t *testing.T)
 
 	client := newAgentApplicationIntegrationTestClient(t)
 	appName := testhelpers.GenerateRandomName(10)
+	cookiesEnabled := true
 	settings := AgentApplicationBrowserSettingsInput{
-		CookiesEnabled:            true,
+		CookiesEnabled:            &cookiesEnabled,
 		DistributedTracingEnabled: true,
 		LoaderType:                AgentApplicationBrowserLoader("INVALID"),
 	}
@@ -128,9 +131,10 @@ func TestIntegrationAgentApplicationEnableAPMBrowser_Basic(t *testing.T) {
 func TestIntegrationAgentApplicationEnableAPMBrowser_WithSettings(t *testing.T) {
 	t.Parallel()
 
+	cookiesEnabled := true
 	client := newAgentApplicationIntegrationTestClient(t)
 	settings := AgentApplicationBrowserSettingsInput{
-		CookiesEnabled:            true,
+		CookiesEnabled:            &cookiesEnabled,
 		DistributedTracingEnabled: true,
 		LoaderType:                AgentApplicationBrowserLoaderTypes.PRO,
 	}
