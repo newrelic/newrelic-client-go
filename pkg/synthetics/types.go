@@ -119,6 +119,60 @@ var SyntheticsAutomatedTestStatusTypes = struct {
 	TIMEOUT: "TIMEOUT",
 }
 
+// SyntheticsBrowser - Enum of browser types
+type SyntheticsBrowser string
+
+var SyntheticsBrowserTypes = struct {
+	// Chrome browser
+	CHROME SyntheticsBrowser
+	// Edge browser
+	EDGE SyntheticsBrowser
+	// Firefox browser
+	FIREFOX SyntheticsBrowser
+	// No Browser/Legacy
+	NONE SyntheticsBrowser
+}{
+	// Chrome browser
+	CHROME: "CHROME",
+	// Edge browser
+	EDGE: "EDGE",
+	// Firefox browser
+	FIREFOX: "FIREFOX",
+	// No Browser/Legacy
+	NONE: "NONE",
+}
+
+// SyntheticsDevice - enum for DeviceEmulation
+type SyntheticsDevice string
+
+var SyntheticsDeviceTypes = struct {
+	// deviceType: DESKTOP, deviceOrientation: NONE
+	DESKTOP SyntheticsDevice
+	// deviceType: MOBILE, deviceOrientation: LANDSCAPE
+	MOBILE_LANDSCAPE SyntheticsDevice
+	// deviceType: MOBILE, deviceOrientation: PORTRAIT
+	MOBILE_PORTRAIT SyntheticsDevice
+	// No Device Settings
+	NONE SyntheticsDevice
+	// deviceType: TABLET, deviceOrientation: LANDSCAPE
+	TABLET_LANDSCAPE SyntheticsDevice
+	// deviceType: TABLET, deviceOrientation: PORTRAIT
+	TABLET_PORTRAIT SyntheticsDevice
+}{
+	// deviceType: DESKTOP, deviceOrientation: NONE
+	DESKTOP: "DESKTOP",
+	// deviceType: MOBILE, deviceOrientation: LANDSCAPE
+	MOBILE_LANDSCAPE: "MOBILE_LANDSCAPE",
+	// deviceType: MOBILE, deviceOrientation: PORTRAIT
+	MOBILE_PORTRAIT: "MOBILE_PORTRAIT",
+	// No Device Settings
+	NONE: "NONE",
+	// deviceType: TABLET, deviceOrientation: LANDSCAPE
+	TABLET_LANDSCAPE: "TABLET_LANDSCAPE",
+	// deviceType: TABLET, deviceOrientation: PORTRAIT
+	TABLET_PORTRAIT: "TABLET_PORTRAIT",
+}
+
 // SyntheticsDeviceOrientation - enum of Orientations that the user can select for their emulated device
 type SyntheticsDeviceOrientation string
 
@@ -935,6 +989,10 @@ type SyntheticsCreateScriptBrowserMonitorInput struct {
 	AdvancedOptions SyntheticsScriptBrowserMonitorAdvancedOptionsInput `json:"advancedOptions,omitempty"`
 	// The monitor's Apdex target used to populate SLA reports
 	ApdexTarget float64 `json:"apdexTarget,omitempty"`
+	// The browser(s) that the monitor will use to run jobs
+	Browsers []SyntheticsBrowser `json:"browsers,omitempty"`
+	// The devices that the monitor will use to run jobs
+	Devices []SyntheticsDevice `json:"devices,omitempty"`
 	// The locations the monitor will run from
 	Locations SyntheticsScriptedMonitorLocationsInput `json:"locations,omitempty"`
 	// The human readable identifier for the monitor
@@ -957,6 +1015,10 @@ type SyntheticsCreateSimpleBrowserMonitorInput struct {
 	AdvancedOptions SyntheticsSimpleBrowserMonitorAdvancedOptionsInput `json:"advancedOptions,omitempty"`
 	// The monitor's Apdex target used to populate SLA reports
 	ApdexTarget float64 `json:"apdexTarget,omitempty"`
+	// The browser(s) that the monitor will use to run jobs
+	Browsers []SyntheticsBrowser `json:"browsers,omitempty"`
+	// The devices that the monitor will use to run jobs
+	Devices []SyntheticsDevice `json:"devices,omitempty"`
 	// The locations the monitor will run from
 	Locations SyntheticsLocationsInput `json:"locations,omitempty"`
 	// The human readable identifier for the monitor
@@ -999,6 +1061,10 @@ type SyntheticsCreateStepMonitorInput struct {
 	AdvancedOptions SyntheticsStepMonitorAdvancedOptionsInput `json:"advancedOptions,omitempty"`
 	// The monitor's Apdex target used to populate SLA reports
 	ApdexTarget float64 `json:"apdexTarget,omitempty"`
+	// The browser(s) that the monitor will use to run jobs
+	Browsers []SyntheticsBrowser `json:"browsers,omitempty"`
+	// The devices that the monitor will use to run jobs
+	Devices []SyntheticsDevice `json:"devices,omitempty"`
 	// The locations the monitor will run from
 	Locations SyntheticsScriptedMonitorLocationsInput `json:"locations,omitempty"`
 	// The human readable identifier for the monitor
@@ -1083,7 +1149,7 @@ type SyntheticsDaysOfWeekOutput struct {
 	WeekDay SyntheticsMonitorDowntimeWeekDays `json:"weekDay,omitempty"`
 }
 
-// SyntheticsDeviceEmulation - Information related to device emulation
+// SyntheticsDeviceEmulation - Information related to device emulation - will be deprecated soon
 type SyntheticsDeviceEmulation struct {
 	// The device orientation the user would like to represent
 	DeviceOrientation SyntheticsDeviceOrientation `json:"deviceOrientation"`
@@ -1415,8 +1481,12 @@ type SyntheticsScriptAPIMonitorUpdateMutationResult struct {
 type SyntheticsScriptBrowserMonitor struct {
 	// The monitor advanced options
 	AdvancedOptions SyntheticsScriptBrowserMonitorAdvancedOptions `json:"advancedOptions,omitempty"`
+	// The browser(s) that the monitor will use to run jobs
+	Browsers []SyntheticsBrowser `json:"browsers,omitempty"`
 	// The creation time of the monitor in millis
 	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
+	// The devices that the monitor will use to run jobs
+	Devices []SyntheticsDevice `json:"devices,omitempty"`
 	// The unique client identifier for the Synthetics Monitor in New Relic
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The unique identifier of the monitor within the Synthetics domain
@@ -1525,8 +1595,12 @@ type SyntheticsSecureCredentialOverrideInput struct {
 type SyntheticsSimpleBrowserMonitor struct {
 	// The monitor advanced options
 	AdvancedOptions SyntheticsSimpleBrowserMonitorAdvancedOptions `json:"advancedOptions,omitempty"`
+	// The browser(s) that the monitor will use to run jobs
+	Browsers []SyntheticsBrowser `json:"browsers,omitempty"`
 	// The creation time of the monitor in millis
 	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
+	// The devices that the monitor will use to run jobs
+	Devices []SyntheticsDevice `json:"devices,omitempty"`
 	// The unique client identifier for the Synthetics Monitor in New Relic
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The unique identifier of the monitor within the Synthetics domain
@@ -1675,8 +1749,12 @@ type SyntheticsStepInput struct {
 type SyntheticsStepMonitor struct {
 	// The monitor advanced options
 	AdvancedOptions SyntheticsStepMonitorAdvancedOptions `json:"advancedOptions,omitempty"`
+	// The browser(s) that the monitor will use to run jobs
+	Browsers []SyntheticsBrowser `json:"browsers,omitempty"`
 	// The creation time of the monitor in millis
 	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
+	// The devices that the monitor will use to run jobs
+	Devices []SyntheticsDevice `json:"devices,omitempty"`
 	// The unique client identifier for the Synthetics Monitor in New Relic
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The unique identifier of the monitor within the Synthetics domain
@@ -1801,6 +1879,10 @@ type SyntheticsUpdateScriptBrowserMonitorInput struct {
 	AdvancedOptions SyntheticsScriptBrowserMonitorAdvancedOptionsInput `json:"advancedOptions,omitempty"`
 	// The monitor's Apdex target used to populate SLA reports
 	ApdexTarget float64 `json:"apdexTarget,omitempty"`
+	// The browser(s) that the monitor will use to run jobs
+	Browsers []SyntheticsBrowser `json:"browsers,omitempty"`
+	// The device(s) that the monitor will use to run jobs
+	Devices []SyntheticsDevice `json:"devices,omitempty"`
 	// The locations the monitor will run from
 	Locations SyntheticsScriptedMonitorLocationsInput `json:"locations,omitempty"`
 	// The human readable identifier for the monitor
@@ -1823,6 +1905,10 @@ type SyntheticsUpdateSimpleBrowserMonitorInput struct {
 	AdvancedOptions SyntheticsSimpleBrowserMonitorAdvancedOptionsInput `json:"advancedOptions,omitempty"`
 	// The monitor's Apdex target used to populate SLA reports
 	ApdexTarget float64 `json:"apdexTarget,omitempty"`
+	// The browser(s) that the monitor will use to run jobs
+	Browsers []SyntheticsBrowser `json:"browsers,omitempty"`
+	// The devices that the monitor will use to run jobs
+	Devices []SyntheticsDevice `json:"devices,omitempty"`
 	// The locations the monitor will run from
 	Locations SyntheticsLocationsInput `json:"locations,omitempty"`
 	// The human readable identifier for the monitor
@@ -1865,6 +1951,10 @@ type SyntheticsUpdateStepMonitorInput struct {
 	AdvancedOptions SyntheticsStepMonitorAdvancedOptionsInput `json:"advancedOptions,omitempty"`
 	// The monitor's Apdex target used to populate SLA reports
 	ApdexTarget float64 `json:"apdexTarget,omitempty"`
+	// The browser(s) that the monitor will use to run jobs
+	Browsers []SyntheticsBrowser `json:"browsers,omitempty"`
+	// The devices that the monitor will use to run jobs
+	Devices []SyntheticsDevice `json:"devices,omitempty"`
 	// The locations the monitor will run from
 	Locations SyntheticsScriptedMonitorLocationsInput `json:"locations,omitempty"`
 	// The human readable identifier for the monitor
