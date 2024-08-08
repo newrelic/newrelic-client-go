@@ -27,6 +27,7 @@ var (
 	nrqlConditionBaseAggTimer           = 5                                           // needed for setting pointer
 	nrqlConditionBaseSlideBy            = 30                                          // needed for setting pointer
 	nrqlConditionEvaluationDelay        = 60                                          // needed for setting pointer
+	nrqlConditionTitleTemplate          = "Title {{ createdAt }}"                     // needed for setting pointer
 	nrqlConditionCreateBase             = NrqlConditionCreateBase{
 		Description: "test description",
 		Enabled:     true,
@@ -35,7 +36,8 @@ var (
 			Query:            "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
 			EvaluationOffset: &nrqlConditionBaseEvalOffset,
 		},
-		RunbookURL: "test.com",
+		RunbookURL:    "test.com",
+		TitleTemplate: &nrqlConditionTitleTemplate,
 		Terms: []NrqlConditionTerm{
 			{
 				Threshold:            &nrqlConditionBaseThreshold,
@@ -68,7 +70,8 @@ var (
 			Query:            "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
 			EvaluationOffset: &nrqlConditionBaseEvalOffset,
 		},
-		RunbookURL: "test.com",
+		RunbookURL:    "test.com",
+		TitleTemplate: &nrqlConditionTitleTemplate,
 		Terms: []NrqlConditionTerm{
 			{
 				Threshold:            &nrqlConditionBaseThreshold,
@@ -100,7 +103,8 @@ var (
 		Nrql: NrqlConditionCreateQuery{
 			Query: "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
 		},
-		RunbookURL: "test.com",
+		RunbookURL:    "test.com",
+		TitleTemplate: &nrqlConditionTitleTemplate,
 		Terms: []NrqlConditionTerm{
 			{
 				Threshold:            &nrqlConditionBaseThreshold,
@@ -133,7 +137,8 @@ var (
 		Nrql: NrqlConditionUpdateQuery{
 			Query: "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
 		},
-		RunbookURL: "test.com",
+		RunbookURL:    "test.com",
+		TitleTemplate: &nrqlConditionTitleTemplate,
 		Terms: []NrqlConditionTerm{
 			{
 				Threshold:            &nrqlConditionBaseThreshold,
@@ -166,7 +171,8 @@ var (
 		Nrql: NrqlConditionCreateQuery{
 			Query: "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App' FACET OtherStuff",
 		},
-		RunbookURL: "test.com",
+		RunbookURL:    "test.com",
+		TitleTemplate: &nrqlConditionTitleTemplate,
 		Terms: []NrqlConditionTerm{
 			{
 				Threshold:            &nrqlConditionBaseThreshold,
@@ -200,7 +206,8 @@ var (
 		Nrql: NrqlConditionUpdateQuery{
 			Query: "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
 		},
-		RunbookURL: "test.com",
+		RunbookURL:    "test.com",
+		TitleTemplate: &nrqlConditionTitleTemplate,
 		Terms: []NrqlConditionTerm{
 			{
 				Threshold:            &nrqlConditionBaseThreshold,
@@ -455,7 +462,8 @@ func TestIntegrationNrqlConditions_Search(t *testing.T) {
 					Query:            "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
 					EvaluationOffset: &nrqlConditionBaseEvalOffset,
 				},
-				RunbookURL: "test.com",
+				RunbookURL:    "test.com",
+				TitleTemplate: &nrqlConditionTitleTemplate,
 				Terms: []NrqlConditionTerm{
 					{
 						Threshold:            &thresholdCritical,
@@ -522,7 +530,8 @@ func TestIntegrationNrqlConditions_CreateStatic(t *testing.T) {
 					Query:            "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
 					EvaluationOffset: &nrqlConditionBaseEvalOffset,
 				},
-				RunbookURL: "test.com",
+				RunbookURL:    "test.com",
+				TitleTemplate: &nrqlConditionTitleTemplate,
 				Terms: []NrqlConditionTerm{
 					{
 						Threshold:            &nrqlConditionBaseThreshold,
@@ -587,7 +596,8 @@ func TestIntegrationNrqlConditions_ZeroValueThreshold(t *testing.T) {
 					Query:            "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
 					EvaluationOffset: &nrqlConditionBaseEvalOffset,
 				},
-				RunbookURL: "test.com",
+				RunbookURL:    "test.com",
+				TitleTemplate: &nrqlConditionTitleTemplate,
 				Terms: []NrqlConditionTerm{
 					{
 						Threshold:            &nrqlConditionBaseThresholdZeroValue,
