@@ -16,6 +16,7 @@ type AlertsNrqlConditionExpiration struct {
 	ExpirationDuration          *int `json:"expirationDuration"`
 	CloseViolationsOnExpiration bool `json:"closeViolationsOnExpiration"`
 	OpenViolationOnExpiration   bool `json:"openViolationOnExpiration"`
+	IgnoreOnExpectedTermination bool `json:"ignoreOnExpectedTermination"`
 }
 
 // AlertsNrqlConditionSignal - Configuration that defines the signal that the NRQL condition will use to evaluate.
@@ -740,6 +741,7 @@ const (
       closeViolationsOnExpiration
       expirationDuration
       openViolationOnExpiration
+	  ignoreOnExpectedTermination
     }
     signal {
       aggregationWindow
