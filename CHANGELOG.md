@@ -1,3 +1,10 @@
+<a name="v2.43.0"></a>
+## [v2.43.0] - 2024-08-12
+### Features
+- **alerts:** add support for `ignoreOnExpectedTermination` in `expiration` to NRQL alert conditions ([#1180](https://github.com/newrelic/newrelic-client-go/issues/1180))
+- **alerts:** add support for `titleTemplate` to NRQL alert conditions ([#1141](https://github.com/newrelic/newrelic-client-go/issues/1141))
+- **automation:** report when NerdGraph API endpoints change signatures (i.e. breaking changes)
+
 <a name="v2.42.1"></a>
 ## [v2.42.1] - 2024-08-07
 ### Bug Fixes
@@ -1863,7 +1870,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.42.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.43.0...HEAD
+[v2.43.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.42.1...v2.43.0
 [v2.42.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.42.0...v2.42.1
 [v2.42.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.41.3...v2.42.0
 [v2.41.3]: https://github.com/newrelic/newrelic-client-go/compare/v2.41.2...v2.41.3
