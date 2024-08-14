@@ -229,7 +229,7 @@ type AgentApplicationBrowserSettings struct {
 // AgentApplicationBrowserSettingsInput - Configure additional browser settings here.
 type AgentApplicationBrowserSettingsInput struct {
 	// Configure cookies. The default is enabled: true.
-	CookiesEnabled bool `json:"cookiesEnabled,omitempty"`
+	CookiesEnabled *bool `json:"cookiesEnabled,omitempty"`
 	// Configure distributed tracing in browser apps. The default is enabled: true.
 	DistributedTracingEnabled bool `json:"distributedTracingEnabled,omitempty"`
 	// Determines which browser loader is configured. The default is "SPA".
@@ -395,7 +395,7 @@ type AgentApplicationSettingsBrowserPrivacy struct {
 // AgentApplicationSettingsBrowserPrivacyInput - Browser monitoring's page load timing feature can track sessions by using cookies that contain a simple session identifier.
 type AgentApplicationSettingsBrowserPrivacyInput struct {
 	// If enabled, enables cookies.
-	CookiesEnabled bool `json:"cookiesEnabled,omitempty"`
+	CookiesEnabled *bool `json:"cookiesEnabled,omitempty"`
 }
 
 // AgentApplicationSettingsBrowserProperties - General Properties related to browser applications.
