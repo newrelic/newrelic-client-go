@@ -1,3 +1,8 @@
+<a name="v2.43.1"></a>
+## [v2.43.1] - 2024-08-14
+### Bug Fixes
+- **browseragent:** changing cookiesEnabled field to pointer type ([#1205](https://github.com/newrelic/newrelic-client-go/issues/1205))
+
 <a name="v2.43.0"></a>
 ## [v2.43.0] - 2024-08-12
 ### Features
@@ -1870,7 +1875,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.43.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.43.1...HEAD
+[v2.43.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.43.0...v2.43.1
 [v2.43.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.42.1...v2.43.0
 [v2.42.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.42.0...v2.42.1
 [v2.42.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.41.3...v2.42.0
