@@ -323,7 +323,7 @@ type RawConfigurationPlatformOptions struct {
 }
 
 type DashboardWidgetLegend struct {
-	Enabled bool `json:"enabled,omitempty"`
+	Enabled *bool `json:"enabled,omitempty"`
 }
 
 type DashboardWidgetYAxisLeft struct {
