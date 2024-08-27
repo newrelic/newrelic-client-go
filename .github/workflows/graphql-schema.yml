@@ -149,3 +149,7 @@ jobs:
           path: schema.json
           if-no-files-found: error
           overwrite: true
+
+      create-codegen-pr:
+        if: steps.schema-diff.outputs.hero_mention != ''
+        uses: newrelic/newrelic-client-go/.github/workflows/generate.yml@main
