@@ -1,47 +1,72 @@
 name: Tutone Generate
 on:
+  # push:
+  #   branches:
+  #     - 'feat/automated-codegen'
   workflow_dispatch:
+    inputs:
+      apiEndpoints:
+        required: true
+        type: string
+        description: 'The API endpoints for which to generate code'
   workflow_call:
+    inputs:
+      apiEndpoints:
+        required: true
+        type: string
+        description: 'The API endpoints for which to generate code'
 
 jobs:
-  createPullRequest:
+  generate:
     runs-on: ubuntu-latest
     steps:
-      - name: Install Go
-        uses: actions/setup-go@v5
+      - name: Write temporary Tutone config file
+        uses: DamianReeves/write-file-action@master
         with:
-          go-version: 1.21.x
+          path: .tutone.yml
+          contents: |
+            ${{ inputs.apiEndpoints }}
+          write-mode: overwrite
 
-      - name: Add GOBIN to PATH
-        run: echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
+      - name: Check config file contents
+        run: cat .tutone.yml
         shell: bash
 
-      - name: Checkout code
-        uses: actions/checkout@v4
+      # - name: Install Go
+      #   uses: actions/setup-go@v5
+      #   with:
+      #     go-version: 1.21.x
 
-      - name: Set up git user
-        run: |
-          git config --global user.name nr-developer-toolkit
-          git config --global user.email nr-developer-toolkit@users.noreply.github.com
+      # - name: Add GOBIN to PATH
+      #   run: echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
+      #   shell: bash
 
-      - name: Install Tutone
-        run: go install github.com/newrelic/tutone/cmd/tutone@latest
+      # - name: Checkout code
+      #   uses: actions/checkout@v4
 
-      - name: Generate new code
-        run: make generate
-        env:
-          NEW_RELIC_API_KEY: ${{ secrets.NEW_RELIC_API_KEY }}
+      # - name: Set up git user
+      #   run: |
+      #     git config --global user.name nr-developer-toolkit
+      #     git config --global user.email nr-developer-toolkit@users.noreply.github.com
 
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
-        with:
-          token: ${{ secrets.DEV_TOOLKIT_TOKEN }}
-          commit-message: 'chore(tutone): update generated code'
-          signoff: false
-          branch: feat/generated-code
-          title: 'feat(codegen): generate code based on latest API changes'
-          body: |
-            Update generated code using Tutone
-          labels: |
-            enhancement
-          draft: true
+      # - name: Install Tutone
+      #   run: go install github.com/newrelic/tutone/cmd/tutone@latest
+
+      # - name: Generate new code
+      #   run: tutone generate
+      #   env:
+      #     NEW_RELIC_API_KEY: ${{ secrets.NEW_RELIC_API_KEY }}
+
+      # - name: Create Pull Request
+      #   uses: peter-evans/create-pull-request@v3
+      #   with:
+      #     token: ${{ secrets.DEV_TOOLKIT_TOKEN }}
+      #     commit-message: 'chore(tutone): update generated code'
+      #     signoff: false
+      #     branch: feat/generated-code
+      #     title: 'feat(codegen): generate code based on latest API changes'
+      #     body: |
+      #       Update generated code using Tutone
+      #     labels: |
+      #       enhancement
+      #     draft: true
