@@ -1,15 +1,20 @@
 name: NerdGraph Schema Diff
 on:
-  workflow_dispatch:
-  schedule:
-    # Cron executes at 0800, 1200, 1600 UTC (8am, 12pm, 4pm)
-    # Monday through Friday
-    - cron: "0 8,12,16 * * 1-5"
+  push:
+    branches:
+      - 'feat/automated-codegen'
+  # workflow_dispatch:
+  # schedule:
+  #   # Cron executes at 0800, 1200, 1600 UTC (8am, 12pm, 4pm)
+  #   # Monday through Friday
+  #   - cron: "0 8,12,16 * * 1-5"
 
 jobs:
   checkForApiUpdates:
     name: Check for API updates
     runs-on: ubuntu-latest
+    outputs:
+      apiEndpoints: ${{ steps.schema-diff.outputs.new_api_mutations }}
     steps:
       - name: Install Node
         uses: actions/setup-node@v4
@@ -150,6 +155,13 @@ jobs:
           if-no-files-found: error
           overwrite: true
 
-      create-codegen-pr:
-        if: steps.schema-diff.outputs.hero_mention != ''
-        uses: newrelic/newrelic-client-go/.github/workflows/generate.yml@main
+  generate-code:
+    # if: steps.schema-diff.outputs.hero_mention != ''
+    needs: checkForApiUpdates
+    uses: newrelic/newrelic-client-go/.github/workflows/generate.yml@feat/automated-codegen
+    with:
+      apiEndpoints: '[autoflowsDeleteWorkflowDefinition, autoflowsStopWorkflowRun, autoflowsUpdateWorkflowDefinition]' # ${{needs.checkForApiUpdates.outputs.apiEndpoints}}
+    # secrets:
+    #   NEW_RELIC_API_KEY: ${{ secrets.NEW_RELIC_API_KEY }}
+    #   DEV_TOOLKIT_TOKEN: ${{ secrets.DEV_TOOLKIT_TOKEN }}
+
