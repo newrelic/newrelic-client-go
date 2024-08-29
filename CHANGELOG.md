@@ -1,3 +1,8 @@
+<a name="v2.43.2"></a>
+## [v2.43.2] - 2024-08-29
+### Bug Fixes
+- **dashboard:**  changing `DashboardWidgetLegend` -> `Enabled` field to pointer type ([#1210](https://github.com/newrelic/newrelic-client-go/issues/1210))
+
 <a name="v2.43.1"></a>
 ## [v2.43.1] - 2024-08-14
 ### Bug Fixes
@@ -1875,7 +1880,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.43.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.43.2...HEAD
+[v2.43.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.43.1...v2.43.2
 [v2.43.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.43.0...v2.43.1
 [v2.43.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.42.1...v2.43.0
 [v2.42.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.42.0...v2.42.1
