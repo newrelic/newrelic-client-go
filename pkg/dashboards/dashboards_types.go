@@ -307,14 +307,16 @@ type RawConfiguration struct {
 	// Used by viz.markdown
 	Text string `json:"text,omitempty"`
 
-	Thresholds interface{}                `json:"thresholds,omitempty"`
-	Legend     *DashboardWidgetLegend     `json:"legend,omitempty"`
-	YAxisLeft  *DashboardWidgetYAxisLeft  `json:"yAxisLeft,omitempty"`
-	YAxisRight *DashboardWidgetYAxisRight `json:"yAxisRight,omitempty"`
-	NullValues *DashboardWidgetNullValues `json:"nullValues,omitempty"`
-	Units      *DashboardWidgetUnits      `json:"units,omitempty"`
-	Colors     *DashboardWidgetColors     `json:"colors,omitempty"`
-	Facet      *DashboardWidgetFacet      `json:"facet,omitempty"`
+	Thresholds     interface{}                    `json:"thresholds,omitempty"`
+	Legend         *DashboardWidgetLegend         `json:"legend,omitempty"`
+	YAxisLeft      *DashboardWidgetYAxisLeft      `json:"yAxisLeft,omitempty"`
+	YAxisRight     *DashboardWidgetYAxisRight     `json:"yAxisRight,omitempty"`
+	NullValues     *DashboardWidgetNullValues     `json:"nullValues,omitempty"`
+	Units          *DashboardWidgetUnits          `json:"units,omitempty"`
+	Colors         *DashboardWidgetColors         `json:"colors,omitempty"`
+	Facet          *DashboardWidgetFacet          `json:"facet,omitempty"`
+	RefreshRate    *DashboardWidgetRefreshRate    `json:"refreshRate,omitempty"`
+	InitialSorting *DashboardWidgetInitialSorting `json:"initialSorting,omitempty"`
 }
 
 // RawConfigurationPlatformOptions represents the platform widget options
@@ -324,6 +326,15 @@ type RawConfigurationPlatformOptions struct {
 
 type DashboardWidgetLegend struct {
 	Enabled *bool `json:"enabled,omitempty"`
+}
+
+type DashboardWidgetRefreshRate struct {
+	Frequency interface{} `json:"frequency,omitempty"`
+}
+
+type DashboardWidgetInitialSorting struct {
+	Direction string `json:"direction,omitempty"`
+	Name      string `json:"name,omitempty"`
 }
 
 type DashboardWidgetYAxisLeft struct {
