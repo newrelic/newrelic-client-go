@@ -1,3 +1,8 @@
+<a name="v2.44.0"></a>
+## [v2.44.0] - 2024-09-02
+### Features
+- **dashboard:** add support for initial sorting and refresh rate ([#1206](https://github.com/newrelic/newrelic-client-go/issues/1206))
+
 <a name="v2.43.2"></a>
 ## [v2.43.2] - 2024-08-29
 ### Bug Fixes
@@ -1880,7 +1885,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.43.2...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.44.0...HEAD
+[v2.44.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.43.2...v2.44.0
 [v2.43.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.43.1...v2.43.2
 [v2.43.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.43.0...v2.43.1
 [v2.43.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.42.1...v2.43.0
