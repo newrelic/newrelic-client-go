@@ -10,13 +10,15 @@ let schemaLatest = null;
 let heroMention = "";
 
 try {
-  const tutoneConfigFile = fs.readFileSync('.tutone.yml', 'utf8')
+  const tutoneConfigFile = fs.readFileSync('../.tutone.yml', 'utf8')
   tutoneConfig = yaml.parse(tutoneConfigFile)
 
-  const schemaFileOld = fs.readFileSync('schema-old.json', 'utf8');
+  const schemaFileOld = fs.readFileSync('../schema-test-old.json', 'utf8');
+  // const schemaFileOld = fs.readFileSync('../schema.json', 'utf8');
   schemaOld = JSON.parse(schemaFileOld);
 
-  const schemaFileLatest = fs.readFileSync('schema.json', 'utf8');
+  const schemaFileLatest = fs.readFileSync('../schema-test-new.json', 'utf8');
+  // const schemaFileLatest = fs.readFileSync('../schema-copy-new.json', 'utf8');
   schemaLatest = JSON.parse(schemaFileLatest);
 } catch (err) {
   console.error(err);
@@ -26,6 +28,7 @@ try {
 const endpointsOld = schemaOld.mutationType.fields.map(field => field.name);
 const endpointsLatest = schemaLatest.mutationType.fields.map(field => field.name);
 const endpointsDiff = endpointsLatest.filter(x => !endpointsOld.includes(x));
+const hasNewEndpoints = endpointsDiff.length > 0;
 
 // Get the mutations the client has implemented
 const clientMutations = tutoneConfig.packages.map(pkg => {
@@ -65,23 +68,53 @@ const changedEndpoints = clientEndpointsSchemaNew.reduce((arr, field) => {
   return [...arr];
 }, []);
 
-console.log('');
-console.log('New changedEndpoints', JSON.stringify(changedEndpoints, null, 2));
-console.log('');
+const newMutationsConfig = endpointsDiff.map((endpointName) => {
+  const newEndpointSchema = schemaLatest.mutationType.fields.find(f => f.name === endpointName);
+  const args = newEndpointSchema.args
+
+  let maxQueryDepth = 1;
+  for (let i = 0; i < args.length; i++) {
+    maxQueryDepth = getMaxQueryDepth(args[i].type);
+  }
+
+  return {
+    packageName: 'organization',
+    name: endpointName,
+    maxQueryDepth,
+  };
+});
+
+// TODO make this dynamic! This is just a placeholder for now
+// const tutoneConf = [
+//   {
+//     name: "organization",
+//     path: "pkg/organization",
+//     import_path: "github.com/newrelic/newrelic-client-go/v2/pkg/organization",
+//     generators: ["typegen", "nerdgraphclient"],
+//     imports: [
+//       "github.com/newrelic/newrelic-client-go/v2/pkg/accounts",
+//       "github.com/newrelic/newrelic-client-go/v2/pkg/common",
+//       "github.com/newrelic/newrelic-client-go/v2/pkg/nrtime",
+//       "github.com/newrelic/newrelic-client-go/v2/pkg/users"
+//     ],
+//     mutations: newMutationsConfig,
+//   }
+// ];
 
 // Check to see which mutations the client is missing
 const schemaMutations = schemaLatest.mutationType.fields.map(field => field.name);
 const clientMutationsDiff = schemaMutations.filter(x => !clientMutations.includes(x));
 
-console.log('');
-console.log('Client is still missing the following API mutations:\n', clientMutationsDiff);
-console.log('');
+// console.log('');
+// console.log('Client is still missing the following API mutations:\n', clientMutationsDiff);
+// console.log('');
 
 let newApiMutationsMsg = 'No new mutations since last check';
-if (endpointsDiff.length > 0) {
+if (hasNewEndpoints) {
   heroMention = heroAliasName;
   newApiMutationsMsg = `'${endpointsDiff.join('\n')}'`;
 }
+
 
 let clientMutationsDiffMsg = ''
 if (clientMutationsDiff.length > 0) {
@@ -156,6 +189,52 @@ function compareArrays(arr1, arr2) {
   }
 
   return differences;
+}
+
+function getTypeFromSchema(typeName) {
+  return schemaLatest.types.find(t => t.name === typeName);
+}
+
+function getTypeName(type) {
+  if (type.ofType) {
+    // Recursion FTW
+    return getTypeName(type.ofType);
+  }
+
+  if (type.name !== "") {
+    return type.name;
+  }
+}
+
+function getMaxQueryDepth(type, depth = 1) {
+  let maxQueryDepth = depth;
+
+  type = getTypeFromSchema(getTypeName(type));
+
+  if (type.kind === 'INPUT_OBJECT') { // type?.ofType?.kind === 'INPUT_OBJECT'
+    maxQueryDepth++
+
+    for (const field of type.inputFields) {
+      if (field.type?.kind === 'INPUT_OBJECT' || field.type.ofType?.kind === 'INPUT_OBJECT') {
+        const inputType = getTypeFromSchema(getTypeName(field.type));
+        if (inputType && inputType.kind === 'INPUT_OBJECT') {
+          // Recursion FTW
+          maxQueryDepth = Math.max(maxQueryDepth, getMaxQueryDepth(inputType, depth + 1));
+        }
+      }
+
+      if (field.type.kind === 'LIST' && field.type?.ofType?.ofType.kind === 'INPUT_OBJECT') {
+        const inputType = getTypeFromSchema(getTypeName(field.type.ofType.ofType));
+
+        // Recursion FTW
+        maxQueryDepth = Math.max(maxQueryDepth, getMaxQueryDepth(inputType, depth + 1));
+      }
+    }
+  }
+
+  console.log('maxQueryDepth', maxQueryDepth);
+
+  return maxQueryDepth;
 }
 
 module.exports = {
