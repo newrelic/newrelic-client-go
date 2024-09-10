@@ -1,3 +1,8 @@
+<a name="v2.45.0"></a>
+## [v2.45.0] - 2024-09-10
+### Features
+- **synthetics:** adds `browsers` `devices` fields to some synthetics mutations, queries ([#1198](https://github.com/newrelic/newrelic-client-go/issues/1198))
+
 <a name="v2.44.0"></a>
 ## [v2.44.0] - 2024-09-02
 ### Features
@@ -1885,7 +1890,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.44.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.45.0...HEAD
+[v2.45.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.44.0...v2.45.0
 [v2.44.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.43.2...v2.44.0
 [v2.43.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.43.1...v2.43.2
 [v2.43.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.43.0...v2.43.1
