@@ -6,13 +6,13 @@ package synthetics
 import (
 	"errors"
 	"fmt"
+	"github.com/stretchr/testify/require"
 	"log"
 	"math/rand"
 	"os"
+	"regexp"
 	"testing"
 	"time"
-
-	"github.com/stretchr/testify/require"
 
 	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
@@ -149,6 +149,137 @@ func TestSyntheticsSimpleBrowserMonitor_Basic(t *testing.T) {
 		},
 	}
 
+	updateSimpleBrowserMonitor, err := a.SyntheticsUpdateSimpleBrowserMonitor(createSimpleBrowserMonitor.Monitor.GUID, simpleBrowserMonitorInputUpdated)
+	require.NoError(t, err)
+	require.NotNil(t, updateSimpleBrowserMonitor)
+	require.Equal(t, 0, len(updateSimpleBrowserMonitor.Errors))
+
+	deleteSimpleBrowserMonitor, err := a.SyntheticsDeleteMonitor(createSimpleBrowserMonitor.Monitor.GUID)
+	require.NotNil(t, deleteSimpleBrowserMonitor)
+	require.NoError(t, err)
+}
+
+func TestSyntheticsSimpleBrowserMonitor_WithMultiBrowserSupport(t *testing.T) {
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	a := newIntegrationTestClient(t)
+
+	monitorName := generateSyntheticsEntityNameForIntegrationTest("MONITOR", false)
+
+	simpleBrowserMonitorInput := SyntheticsCreateSimpleBrowserMonitorInput{
+		Locations: SyntheticsLocationsInput{
+			Public: []string{
+				"AP_SOUTH_1",
+			},
+		},
+		Name:     monitorName,
+		Period:   SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
+		Status:   SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
+		Browsers: []SyntheticsBrowser{SyntheticsBrowserTypes.CHROME},
+		Devices:  []SyntheticsDevice{SyntheticsDeviceTypes.DESKTOP, SyntheticsDeviceTypes.TABLET_LANDSCAPE},
+		Tags: []SyntheticsTag{
+			{
+				Key: "pineapple",
+				Values: []string{
+					"pizza",
+				},
+			},
+		},
+		Uri: "https://www.one.newrelic.com",
+
+		AdvancedOptions: SyntheticsSimpleBrowserMonitorAdvancedOptionsInput{
+			EnableScreenshotOnFailureAndScript: &tv,
+			ResponseValidationText:             "SUCCESS",
+			CustomHeaders: &[]SyntheticsCustomHeaderInput{
+				{
+					Name:  "Monitor",
+					Value: "synthetics",
+				},
+			},
+			UseTlsValidation: &tv,
+		},
+	}
+	createSimpleBrowserMonitor, err := a.SyntheticsCreateSimpleBrowserMonitor(testAccountID, simpleBrowserMonitorInput)
+	require.NoError(t, err)
+	require.NotNil(t, createSimpleBrowserMonitor)
+	require.Greater(t, len(createSimpleBrowserMonitor.Errors), 0)
+	message := createSimpleBrowserMonitor.Errors[0].Description
+	match, er := regexp.MatchString("does not have the runtime field specified", message)
+	require.NoError(t, er)
+	require.True(t, match)
+
+	simpleBrowserMonitorInput.AdvancedOptions.DeviceEmulation = &SyntheticsDeviceEmulationInput{
+		DeviceOrientation: SyntheticsDeviceOrientationTypes.PORTRAIT,
+		DeviceType:        SyntheticsDeviceTypeTypes.MOBILE,
+	}
+
+	result, err := a.SyntheticsCreateSimpleBrowserMonitor(testAccountID, simpleBrowserMonitorInput)
+	require.NoError(t, err)
+	require.NotNil(t, result)
+	require.Greater(t, len(result.Errors), 0)
+	message = result.Errors[0].Description
+	match, er = regexp.MatchString("Device emulation is unavailable for legacy runtimes", message)
+	require.NoError(t, er)
+	require.True(t, match)
+
+	simpleBrowserMonitorInput.Runtime = &SyntheticsRuntimeInput{
+		RuntimeType:        "CHROME_BROWSER",
+		RuntimeTypeVersion: SemVer("100"),
+		ScriptLanguage:     "JAVASCRIPT",
+	}
+	createSimpleBrowserMonitor, err = a.SyntheticsCreateSimpleBrowserMonitor(testAccountID, simpleBrowserMonitorInput)
+	require.NoError(t, err)
+	require.NotNil(t, createSimpleBrowserMonitor)
+	require.Equal(t, 0, len(createSimpleBrowserMonitor.Errors))
+
+	simpleBrowserMonitorInputUpdated := SyntheticsUpdateSimpleBrowserMonitorInput{
+		AdvancedOptions: SyntheticsSimpleBrowserMonitorAdvancedOptionsInput{
+			CustomHeaders: &[]SyntheticsCustomHeaderInput{
+				{
+					Name:  "Monitor",
+					Value: "Synthetics",
+				},
+			},
+			EnableScreenshotOnFailureAndScript: &tv,
+			ResponseValidationText:             "Success",
+			UseTlsValidation:                   &tv,
+		},
+		Locations: SyntheticsLocationsInput{
+			Public: []string{
+				"AP_SOUTH_1",
+			},
+		},
+		Name:     generateSyntheticsEntityNameForIntegrationTest("MONITOR", true),
+		Period:   SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
+		Status:   SyntheticsMonitorStatus(SyntheticsMonitorStatusTypes.ENABLED),
+		Browsers: []SyntheticsBrowser{SyntheticsBrowserTypes.CHROME, SyntheticsBrowserTypes.FIREFOX},
+		Devices: []SyntheticsDevice{SyntheticsDeviceTypes.DESKTOP, SyntheticsDeviceTypes.MOBILE_PORTRAIT,
+			SyntheticsDeviceTypes.TABLET_LANDSCAPE, SyntheticsDeviceTypes.TABLET_PORTRAIT, SyntheticsDeviceTypes.MOBILE_LANDSCAPE},
+		Tags: []SyntheticsTag{
+			{
+				Key: "pineapple",
+				Values: []string{
+					"pizza",
+				},
+			},
+		},
+		Uri: "https://www.one.newrelic.com",
+	}
+
+	simpleBrowserMonitorInputUpdated.AdvancedOptions.DeviceEmulation = &SyntheticsDeviceEmulationInput{
+		DeviceOrientation: SyntheticsDeviceOrientationTypes.LANDSCAPE,
+		DeviceType:        SyntheticsDeviceTypeTypes.TABLET,
+	}
+
+	simpleBrowserMonitorInputUpdated.Runtime = &SyntheticsRuntimeInput{
+		RuntimeType:        "CHROME_BROWSER",
+		RuntimeTypeVersion: SemVer("100"),
+		ScriptLanguage:     "JAVASCRIPT",
+	}
 	updateSimpleBrowserMonitor, err := a.SyntheticsUpdateSimpleBrowserMonitor(createSimpleBrowserMonitor.Monitor.GUID, simpleBrowserMonitorInputUpdated)
 	require.NoError(t, err)
 	require.NotNil(t, updateSimpleBrowserMonitor)
@@ -518,6 +649,100 @@ func TestSyntheticsScriptBrowserMonitor_Basic(t *testing.T) {
 		Script: "var assert = require('assert');\n\n$browser.get('https://one.newrelic.com')",
 	}
 
+	updateScriptBrowserMonitor, err := a.SyntheticsUpdateScriptBrowserMonitor(createScriptBrowserMonitor.Monitor.GUID, updatedScriptBrowserMonitorInput)
+	require.NoError(t, err)
+	require.NotNil(t, updateScriptBrowserMonitor)
+	require.Equal(t, 0, len(updateScriptBrowserMonitor.Errors))
+
+	deleteScriptBrowserMonitor, err := a.SyntheticsDeleteMonitor(createScriptBrowserMonitor.Monitor.GUID)
+	require.NoError(t, err)
+	require.NotNil(t, deleteScriptBrowserMonitor)
+}
+
+func TestSyntheticsScriptBrowserMonitor_WithMultiBrowserSupport(t *testing.T) {
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	a := newIntegrationTestClient(t)
+
+	scriptBrowserMonitorInput := SyntheticsCreateScriptBrowserMonitorInput{
+		AdvancedOptions: SyntheticsScriptBrowserMonitorAdvancedOptionsInput{
+			EnableScreenshotOnFailureAndScript: &tv,
+		},
+		Locations: SyntheticsScriptedMonitorLocationsInput{
+			Public: []string{
+				"AP_SOUTH_1",
+			},
+		},
+		Name:     generateSyntheticsEntityNameForIntegrationTest("MONITOR", false),
+		Period:   SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
+		Status:   SyntheticsMonitorStatusTypes.ENABLED,
+		Browsers: []SyntheticsBrowser{SyntheticsBrowserTypes.CHROME},
+		Devices:  []SyntheticsDevice{SyntheticsDeviceTypes.DESKTOP, SyntheticsDeviceTypes.TABLET_LANDSCAPE},
+		Tags: []SyntheticsTag{
+			{
+				Key: "pineapple",
+				Values: []string{
+					"pizza",
+				},
+			},
+		},
+		Script: "var assert = require('assert');\n\n$browser.get('https://one.newrelic.com')",
+	}
+
+	createScriptBrowserMonitor, err := a.SyntheticsCreateScriptBrowserMonitor(testAccountID, scriptBrowserMonitorInput)
+	require.NoError(t, err)
+	require.NotNil(t, createScriptBrowserMonitor)
+	require.Greater(t, len(createScriptBrowserMonitor.Errors), 0)
+	message := createScriptBrowserMonitor.Errors[0].Description
+	match, er := regexp.MatchString("does not have the runtime field specified", message)
+	require.NoError(t, er)
+	require.True(t, match)
+
+	scriptBrowserMonitorInput.Runtime = &SyntheticsRuntimeInput{
+		RuntimeTypeVersion: "100",
+		RuntimeType:        "CHROME_BROWSER",
+		ScriptLanguage:     "JAVASCRIPT",
+	}
+
+	createScriptBrowserMonitor, err = a.SyntheticsCreateScriptBrowserMonitor(testAccountID, scriptBrowserMonitorInput)
+	require.NoError(t, err)
+	require.NotNil(t, createScriptBrowserMonitor)
+	require.Equal(t, 0, len(createScriptBrowserMonitor.Errors))
+
+	updatedScriptBrowserMonitorInput := SyntheticsUpdateScriptBrowserMonitorInput{
+		AdvancedOptions: SyntheticsScriptBrowserMonitorAdvancedOptionsInput{
+			EnableScreenshotOnFailureAndScript: &tv,
+		},
+		Locations: SyntheticsScriptedMonitorLocationsInput{
+			Public: []string{
+				"AP_SOUTH_1",
+			},
+		},
+		Name:     generateSyntheticsEntityNameForIntegrationTest("MONITOR", true),
+		Period:   SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
+		Status:   SyntheticsMonitorStatusTypes.ENABLED,
+		Browsers: []SyntheticsBrowser{SyntheticsBrowserTypes.CHROME, SyntheticsBrowserTypes.FIREFOX},
+		Devices: []SyntheticsDevice{SyntheticsDeviceTypes.DESKTOP, SyntheticsDeviceTypes.MOBILE_PORTRAIT,
+			SyntheticsDeviceTypes.TABLET_LANDSCAPE, SyntheticsDeviceTypes.TABLET_PORTRAIT, SyntheticsDeviceTypes.MOBILE_LANDSCAPE},
+		Tags: []SyntheticsTag{
+			{
+				Key: "pineapple",
+				Values: []string{
+					"script_browser_pizza",
+				},
+			},
+		},
+		Script: "var assert = require('assert');\n\n$browser.get('https://one.newrelic.com')",
+	}
+
+	updatedScriptBrowserMonitorInput.Runtime = &SyntheticsRuntimeInput{
+		RuntimeTypeVersion: "100",
+		RuntimeType:        "CHROME_BROWSER",
+		ScriptLanguage:     "JAVASCRIPT",
+	}
 	updateScriptBrowserMonitor, err := a.SyntheticsUpdateScriptBrowserMonitor(createScriptBrowserMonitor.Monitor.GUID, updatedScriptBrowserMonitorInput)
 	require.NoError(t, err)
 	require.NotNil(t, updateScriptBrowserMonitor)
@@ -913,6 +1138,109 @@ func TestSyntheticsStepMonitor_Basic(t *testing.T) {
 			},
 		},
 		Runtime: &SyntheticsExtendedTypeMonitorRuntimeInput{},
+	}
+
+	updatedMonitor, err := a.SyntheticsUpdateStepMonitor(createdMonitor.Monitor.GUID, monitorUpdateInput)
+	require.NoError(t, err)
+	require.NotNil(t, updatedMonitor.Monitor)
+	require.Equal(t, 0, len(updatedMonitor.Errors))
+	require.Equal(t, monitorNameUpdate, updatedMonitor.Monitor.Name)
+	require.Equal(t, 3, len(updatedMonitor.Monitor.Steps))
+
+	deletedMonitor, err := a.SyntheticsDeleteMonitor(createdMonitor.Monitor.GUID)
+	require.NoError(t, err)
+	require.NotNil(t, deletedMonitor)
+	require.Equal(t, createdMonitor.Monitor.GUID, deletedMonitor.DeletedGUID)
+}
+
+func TestSyntheticsStepMonitor_WithMultiBrowserSupport(t *testing.T) {
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	a := newIntegrationTestClient(t)
+
+	monitorName := generateSyntheticsEntityNameForIntegrationTest("MONITOR", false)
+	enableScreenshotOnFailureAndScript := true
+	monitorInput := SyntheticsCreateStepMonitorInput{
+		Name:     monitorName,
+		Period:   SyntheticsMonitorPeriodTypes.EVERY_DAY,
+		Status:   SyntheticsMonitorStatusTypes.DISABLED,
+		Browsers: []SyntheticsBrowser{SyntheticsBrowserTypes.CHROME},
+		Devices:  []SyntheticsDevice{SyntheticsDeviceTypes.DESKTOP, SyntheticsDeviceTypes.TABLET_LANDSCAPE},
+		AdvancedOptions: SyntheticsStepMonitorAdvancedOptionsInput{
+			EnableScreenshotOnFailureAndScript: &enableScreenshotOnFailureAndScript,
+		},
+		Locations: SyntheticsScriptedMonitorLocationsInput{
+			Public: []string{"AP_SOUTH_1"},
+		},
+		Tags: []SyntheticsTag{
+			{
+				Key:    "step",
+				Values: []string{"monitor"},
+			},
+		},
+		Steps: []SyntheticsStepInput{
+			{
+				Ordinal: 0,
+				Type:    SyntheticsStepTypeTypes.NAVIGATE,
+				Values:  []string{"https://one.newrelic.com"},
+			},
+			{
+				Ordinal: 1,
+				Type:    SyntheticsStepTypeTypes.ASSERT_TITLE,
+				Values:  []string{"%=", "New Relic"}, // %= is used for "contains" logic
+			},
+		},
+	}
+	createdMonitor, err := a.SyntheticsCreateStepMonitor(testAccountID, monitorInput)
+	require.NoError(t, err)
+	require.NotNil(t, createdMonitor)
+	require.Greater(t, len(createdMonitor.Errors), 0)
+	message := createdMonitor.Errors[0].Description
+	match, er := regexp.MatchString("does not have the runtime field specified", message)
+	require.NoError(t, er)
+	require.True(t, match)
+
+	monitorInput.Runtime = &SyntheticsExtendedTypeMonitorRuntimeInput{
+		RuntimeType:        "CHROME_BROWSER",
+		RuntimeTypeVersion: "100",
+	}
+	createdMonitor, err = a.SyntheticsCreateStepMonitor(testAccountID, monitorInput)
+	require.NoError(t, err)
+	require.NotNil(t, createdMonitor)
+	require.Equal(t, 0, len(createdMonitor.Errors))
+	require.Equal(t, 2, len(createdMonitor.Monitor.Steps))
+
+	monitorNameUpdate := generateSyntheticsEntityNameForIntegrationTest("MONITOR", true)
+	monitorUpdateInput := SyntheticsUpdateStepMonitorInput{
+		Name: monitorNameUpdate,
+		Steps: []SyntheticsStepInput{
+			{
+				Ordinal: 0,
+				Type:    SyntheticsStepTypeTypes.NAVIGATE,
+				Values:  []string{"https://one.newrelic.com"},
+			},
+			{
+				Ordinal: 1,
+				Type:    SyntheticsStepTypeTypes.ASSERT_TITLE,
+				Values:  []string{"%=", "New Relic"}, // %= is used for "contains" logic
+			},
+			{
+				Ordinal: 2,
+				Type:    SyntheticsStepTypeTypes.ASSERT_ELEMENT,
+				Values:  []string{"h2.NewDesign", "present", "true"},
+			},
+		},
+		Browsers: []SyntheticsBrowser{SyntheticsBrowserTypes.CHROME, SyntheticsBrowserTypes.FIREFOX},
+		Devices: []SyntheticsDevice{SyntheticsDeviceTypes.DESKTOP, SyntheticsDeviceTypes.MOBILE_PORTRAIT,
+			SyntheticsDeviceTypes.TABLET_LANDSCAPE, SyntheticsDeviceTypes.TABLET_PORTRAIT, SyntheticsDeviceTypes.MOBILE_LANDSCAPE},
+	}
+
+	monitorUpdateInput.Runtime = &SyntheticsExtendedTypeMonitorRuntimeInput{
+		RuntimeType:        "CHROME_BROWSER",
+		RuntimeTypeVersion: "100",
 	}
 
 	updatedMonitor, err := a.SyntheticsUpdateStepMonitor(createdMonitor.Monitor.GUID, monitorUpdateInput)
