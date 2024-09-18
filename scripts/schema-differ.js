@@ -109,7 +109,7 @@ const clientMutationsDiff = schemaMutations.filter(x => !clientMutations.include
 // console.log('Client is still missing the following API mutations:\n', clientMutationsDiff);
 // console.log('');
 
-let newApiMutationsMsg = 'No new mutations since last check';
+let newApiMutationsMsg = '';
 if (hasNewEndpoints) {
   heroMention = heroAliasName;
   newApiMutationsMsg = `'${endpointsDiff.join('\n')}'`;
