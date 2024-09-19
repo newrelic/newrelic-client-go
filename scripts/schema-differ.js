@@ -9,16 +9,17 @@ let schemaOld = null;
 let schemaLatest = null;
 let heroMention = "";
 
+const pathPrefix = '';
 try {
-  const tutoneConfigFile = fs.readFileSync('../.tutone.yml', 'utf8')
+  const tutoneConfigFile = fs.readFileSync(`${pathPrefix}.tutone.yml`, 'utf8')
   tutoneConfig = yaml.parse(tutoneConfigFile)
 
-  const schemaFileOld = fs.readFileSync('../schema-test-old.json', 'utf8');
-  // const schemaFileOld = fs.readFileSync('../schema.json', 'utf8');
+  const schemaFileOld = fs.readFileSync(`${pathPrefix}schema-test-old.json`, 'utf8');
+  // const schemaFileOld = fs.readFileSync('schema-old.json', 'utf8');
   schemaOld = JSON.parse(schemaFileOld);
 
-  const schemaFileLatest = fs.readFileSync('../schema-test-new.json', 'utf8');
-  // const schemaFileLatest = fs.readFileSync('../schema-copy-new.json', 'utf8');
+  const schemaFileLatest = fs.readFileSync(`${pathPrefix}schema-test-new.json`, 'utf8');
+  // const schemaFileLatest = fs.readFileSync('schema.json', 'utf8');
   schemaLatest = JSON.parse(schemaFileLatest);
 } catch (err) {
   console.error(err);
@@ -30,7 +31,7 @@ const endpointsLatest = schemaLatest.mutationType.fields.map(field => field.name
 const newEndpoints = endpointsLatest.filter(x => !endpointsOld.includes(x));
 const hasNewEndpoints = newEndpoints.length > 0;
 
-console.log('newEndpoints:', newEndpoints);
+// console.log('newEndpoints:', newEndpoints);
 
 // Get the mutations the client has implemented
 const clientMutations = tutoneConfig.packages.map(pkg => {
@@ -81,7 +82,7 @@ function generatePackageNameForEndpoint(endpointName) {
   return endpointName.split(keywords)[0].toLowerCase();
 }
 
-console.log('');
+// console.log('');
 
 const packages = [];
 
@@ -113,7 +114,7 @@ const newMutationsConfigs = newEndpoints.map((endpointName) => {
   };
 });
 
-console.log('newMutationsConfigs:', newMutationsConfigs);
+// console.log('newMutationsConfigs:', newMutationsConfigs);
 
 function mergeObjectsArray(objects) {
   return objects.reduce((acc, current) => {
@@ -149,12 +150,32 @@ const config = mergeObjectsArray(newMutationsConfigs.reduce((arr, mutationConfig
   return [...arr, pkg];
 }, []));
 
-// console.log('packages:', packages);
+let cfg = {
+  log_level: 'trace',
+  cache: {
+    schema_file: 'schema.json',
+  },
+  endpoint: 'https://api.newrelic.com/graphql',
+  auth: {
+    header: "Api-Key",
+    api_key_env_var: 'NEW_RELIC_API_KEY',
+  },
+};
+
+cfg.packages = config;
+
+const tutoneConfigYAML = yaml.stringify(cfg);
+
+// console.log('packages:', config);
 // console.log('newMutationsConfig:', newMutationsConfigs);
 
 
-console.log('config:', JSON.stringify(config, null, 2));
+// console.log('config JSON:\n\n', JSON.stringify(config, null, 2));
 console.log('');
+console.log('Tutone config:');
+console.log('');
+console.log(tutoneConfigYAML);
+// console.log('');
 
 // Check to see which mutations the client is missing
 const schemaMutations = schemaLatest.mutationType.fields.map(field => field.name);
@@ -264,10 +285,7 @@ function getTypeName(type) {
 function getMaxQueryDepth(type, depth = 1) {
   let maxQueryDepth = depth;
 
-  // console.log('type:', type);
-
   type = getTypeFromSchema(getTypeName(type));
-
 
   if (type?.kind === 'INPUT_OBJECT' || type?.ofType?.kind === 'INPUT_OBJECT') {
     maxQueryDepth++
@@ -303,4 +321,5 @@ module.exports = {
   newApiMutationsMsg,
   clientMutationsDiffMsg,
   changedEndpoints,
+  tutoneConfig: tutoneConfigYAML,
 };

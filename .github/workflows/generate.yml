@@ -26,6 +26,10 @@ jobs:
           go-version: 1.21.x
 
       - name: Add GOBIN to PATH
+        run: echo "${{ inputs.apiEndpoints }}"
+        shell: bash
+
+      - name: Add GOBIN to PATH
         run: echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
         shell: bash
 
@@ -40,48 +44,26 @@ jobs:
       - name: Install Tutone
         run: go install github.com/newrelic/tutone/cmd/tutone@latest
 
+      # - name: Check config file contents
+      #   run: cat .tutone.yml
+      #   shell: bash
+
       # Append configuration to the config file OR write temporary Tutone config file
 
-      # - name: Write config file
-      #   uses: DamianReeves/write-file-action@master
-      #   with:
-      #     path: .tutone.tmp.yml
-      #     contents: |
-      #       log_level: debug
-      #       cache:
-      #         schema_file: schema.json
-      #       endpoint: https://api.newrelic.com/graphql
-      #       auth:
-      #         header: Api-Key
-      #         api_key_env_var: NEW_RELIC_API_KEY
-
-      #       packages:
-      #         - name: ${{ 'createPackageNameDynamically' }}
-      #           path: pkg/${{ 'createPackageNameDynamically' }}
-      #           import_path: github.com/newrelic/newrelic-client-go/v2/pkg/${{ 'createPackageNameDynamically' }}
-      #           generators:
-      #             - typegen
-      #             - nerdgraphclient
-      #           imports:
-      #             - github.com/newrelic/newrelic-client-go/v2/pkg/common
-      #             - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
-      #           mutations:
-      #             - name: accountManagementCreateAccount
-      #               max_query_field_depth: ${{ 'calculatedInDiffReporter' }}
-      #             - name: accountManagementUpdateAccount
-      #               max_query_field_depth: ${{ 'calculatedInDiffReporter' }}
-      #             - name: accountManagementCancelAccount
-      #               max_query_field_depth: ${{ 'calculatedInDiffReporter' }}
-      #                 write-mode: overwrite
+      - name: Write config file
+        uses: DamianReeves/write-file-action@master
+        with:
+          path: .tutone.tmp.yml
+          contents: ${{inputs.apiEndpoints}}
 
       - name: Check config file contents
-        run: cat .tutone.yml
+        run: cat .tutone.tmp.yml
         shell: bash
 
-      # - name: Generate new code
-      #   run: tutone generate -c .tutone.tmp.yml
-      #   env:
-      #     NEW_RELIC_API_KEY: ${{ secrets.NEW_RELIC_API_KEY }}
+      - name: Generate new code
+        run: tutone generate -c .tutone.tmp.yml
+        env:
+          NEW_RELIC_API_KEY: ${{ secrets.NEW_RELIC_API_KEY }}
 
       # - name: Create Pull Request
       #   uses: peter-evans/create-pull-request@v3
