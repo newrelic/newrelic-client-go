@@ -4,27 +4,7 @@
     "description": "This is the root of all GraphQL mutations. Unlike queries, mutations\nrepresent actions that have a side effects, like `create` or `update`.",
     "kind": "OBJECT",
     "fields": [
-      {
-        "name": "userManagementCreateUser",
-        "description": "A mutation for creating a user in an authentication domain.",
-        "type": {
-          "name": "UserManagementCreateUserPayload",
-          "kind": "OBJECT"
-        },
-        "args": [
-          {
-            "name": "createUserOptions",
-            "description": "The input object representing the user to be created.",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "name": "UserManagementCreateUser",
-                "kind": "INPUT_OBJECT"
-              }
-            }
-          }
-        ]
-      }
+
     ]
   }
 }

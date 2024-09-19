@@ -27,8 +27,10 @@ try {
 // Check for any newly added mutations
 const endpointsOld = schemaOld.mutationType.fields.map(field => field.name);
 const endpointsLatest = schemaLatest.mutationType.fields.map(field => field.name);
-const endpointsDiff = endpointsLatest.filter(x => !endpointsOld.includes(x));
-const hasNewEndpoints = endpointsDiff.length > 0;
+const newEndpoints = endpointsLatest.filter(x => !endpointsOld.includes(x));
+const hasNewEndpoints = newEndpoints.length > 0;
+
+console.log('newEndpoints:', newEndpoints);
 
 // Get the mutations the client has implemented
 const clientMutations = tutoneConfig.packages.map(pkg => {
@@ -68,38 +70,91 @@ const changedEndpoints = clientEndpointsSchemaNew.reduce((arr, field) => {
   return [...arr];
 }, []);
 
-const newMutationsConfig = endpointsDiff.map((endpointName) => {
+// Generates a package name based on the endpoint name.
+// If an endpoint contains a substring of the keywords listed below,
+// it takes the substring leading up to that to generate the package name
+// (honestly this isn't fully reliable bc endpoint names are not fully
+// compliant with standards).
+function generatePackageNameForEndpoint(endpointName) {
+  const keywords = /Create|Read|Update|Delete|Add|Remove|Revoke|Write/;
+
+  return endpointName.split(keywords)[0].toLowerCase();
+}
+
+console.log('');
+
+const packages = [];
+
+const newMutationsConfigs = newEndpoints.map((endpointName) => {
   const newEndpointSchema = schemaLatest.mutationType.fields.find(f => f.name === endpointName);
   const args = newEndpointSchema.args
+  const pkgName = generatePackageNameForEndpoint(endpointName);
+
+  if (!packages.includes(pkgName)) {
+    packages.push({
+      name: pkgName,
+      import_path: `github.com/newrelic/newrelic-client-go/v2/pkg/${pkgName}`,
+      generators: ["typegen", "nerdgraphclient"],
+      mutations: [],
+    });
+  }
 
   let maxQueryDepth = 1;
   for (let i = 0; i < args.length; i++) {
     maxQueryDepth = getMaxQueryDepth(args[i].type);
   }
 
+  // console.log('pkgName:', pkgName);
+
   return {
-    packageName: 'organization',
+    packageName: pkgName,
     name: endpointName,
     maxQueryDepth,
   };
 });
 
-// TODO make this dynamic! This is just a placeholder for now
-// const tutoneConf = [
-//   {
-//     name: "organization",
-//     path: "pkg/organization",
-//     import_path: "github.com/newrelic/newrelic-client-go/v2/pkg/organization",
-//     generators: ["typegen", "nerdgraphclient"],
-//     imports: [
-//       "github.com/newrelic/newrelic-client-go/v2/pkg/accounts",
-//       "github.com/newrelic/newrelic-client-go/v2/pkg/common",
-//       "github.com/newrelic/newrelic-client-go/v2/pkg/nrtime",
-//       "github.com/newrelic/newrelic-client-go/v2/pkg/users"
-//     ],
-//     mutations: newMutationsConfig,
-//   }
-// ];
+console.log('newMutationsConfigs:', newMutationsConfigs);
+
+function mergeObjectsArray(objects) {
+  return objects.reduce((acc, current) => {
+    // Check if the object already exists in the accumulator
+    if (!acc.some(obj => obj.name === current.name)) {
+      acc.push(current);
+    }
+
+    return acc;
+  }, []);
+}
+
+function findPackageByName(packages, packageName) {
+  return packages.find(pkg => pkg.name === packageName);
+}
+
+// Create the config to generate the feature code.
+const config = mergeObjectsArray(newMutationsConfigs.reduce((arr, mutationConfig) => {
+  const pkg = findPackageByName(packages, mutationConfig.packageName);
+
+  // If no package, it's new, so make a new package config
+  // TODO: Need to make sure we don't overwrite existing packages
+  //       in the tutone config. This is currently a naive implementation.
+  if (!pkg) {
+    return arr;
+  }
+
+  pkg.mutations = [...pkg.mutations, {
+    name: mutationConfig.name,
+    maxQueryDepth: mutationConfig.maxQueryDepth,
+  }];
+
+  return [...arr, pkg];
+}, []));
+
+// console.log('packages:', packages);
+// console.log('newMutationsConfig:', newMutationsConfigs);
+
+
+console.log('config:', JSON.stringify(config, null, 2));
+console.log('');
 
 // Check to see which mutations the client is missing
 const schemaMutations = schemaLatest.mutationType.fields.map(field => field.name);
@@ -112,7 +167,7 @@ const clientMutationsDiff = schemaMutations.filter(x => !clientMutations.include
 let newApiMutationsMsg = '';
 if (hasNewEndpoints) {
   heroMention = heroAliasName;
-  newApiMutationsMsg = `'${endpointsDiff.join('\n')}'`;
+  newApiMutationsMsg = `'${newEndpoints.join('\n')}'`;
 }
 
 
@@ -209,9 +264,12 @@ function getTypeName(type) {
 function getMaxQueryDepth(type, depth = 1) {
   let maxQueryDepth = depth;
 
+  // console.log('type:', type);
+
   type = getTypeFromSchema(getTypeName(type));
 
-  if (type.kind === 'INPUT_OBJECT') { // type?.ofType?.kind === 'INPUT_OBJECT'
+
+  if (type?.kind === 'INPUT_OBJECT' || type?.ofType?.kind === 'INPUT_OBJECT') {
     maxQueryDepth++
 
     for (const field of type.inputFields) {
@@ -232,7 +290,7 @@ function getMaxQueryDepth(type, depth = 1) {
     }
   }
 
-  console.log('maxQueryDepth', maxQueryDepth);
+  // console.log('maxQueryDepth', maxQueryDepth);
 
   return maxQueryDepth;
 }
