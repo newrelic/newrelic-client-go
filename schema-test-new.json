@@ -5,6 +5,27 @@
     "kind": "OBJECT",
     "fields": [
       {
+        "name": "accountManagementCreateAccount",
+        "description": "Creates an organization-scoped account.",
+        "type": {
+          "name": "AccountManagementCreateResponse",
+          "kind": "OBJECT"
+        },
+        "args": [
+          {
+            "name": "managedAccount",
+            "description": "The attributes for the account being created.",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "name": "AccountManagementCreateInput",
+                "kind": "INPUT_OBJECT"
+              }
+            }
+          }
+        ]
+      },
+      {
         "name": "userManagementCreateGroup",
         "description": "A mutation for creating a group in an authentication domain.",
         "type": {
@@ -47,6 +68,55 @@
   },
   "types": [
     {
+      "name": "AccountManagementCreateResponse",
+      "description": "The return object for a create-account mutation.",
+      "kind": "OBJECT",
+      "fields": [
+        {
+          "name": "managedAccount",
+          "description": "Information about the newly created account.",
+          "type": {
+            "name": "AccountManagementManagedAccount",
+            "kind": "OBJECT"
+          }
+        }
+      ]
+    },
+    {
+      "name": "AccountManagementCreateInput",
+      "description": "Attributes for creating an account.",
+      "kind": "INPUT_OBJECT",
+      "inputFields": [
+        {
+          "name": "name",
+          "description": "The name of the account.",
+          "type": {
+            "kind": "NON_NULL",
+            "ofType": {
+              "name": "String",
+              "kind": "SCALAR"
+            }
+          }
+        },
+        {
+          "name": "organizationId",
+          "description": "The id of the managed organization where the account will be created.",
+          "type": {
+            "name": "ID",
+            "kind": "SCALAR"
+          }
+        },
+        {
+          "name": "regionCode",
+          "description": "The data center region for the account",
+          "type": {
+            "name": "String",
+            "kind": "SCALAR"
+          }
+        }
+      ]
+    },
+    {
       "name": "AgentApplicationSettingsApplicationExitInfoInput",
       "description": "Config data collection for application exits.",
       "kind": "INPUT_OBJECT",
@@ -66,7 +136,6 @@
       "description": "The input object representing the group being created",
       "kind": "INPUT_OBJECT",
       "inputFields": [
-
         {
           "name": "authenticationDomainId",
           "description": "The id of the authentication domain the group will belong to",
