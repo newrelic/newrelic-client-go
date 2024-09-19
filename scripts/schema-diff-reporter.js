@@ -10,6 +10,7 @@ module.exports = async ({
 
   core.setOutput('new_api_mutations', diff.newApiMutationsMsg);
   core.setOutput('client_mutations_missing', diff.clientMutationsDiffMsg);
+  core.setOutput('tutone_config', diff.tutoneConfig);
 
   await core.summary
     .addHeading('New Relic Client Go | NerdGraph API Report')
