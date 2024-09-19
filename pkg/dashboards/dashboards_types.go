@@ -343,7 +343,6 @@ type DashboardWidgetDataFormat struct {
 	Type      string `json:"type,omitempty"`
 	Format    string `json:"format,omitempty"`
 	Precision int    `json:"precision,omitempty"`
-	bool      `json:",omitempty"`
 }
 
 type DashboardWidgetYAxisLeft struct {
