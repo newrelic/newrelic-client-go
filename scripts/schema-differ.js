@@ -151,7 +151,7 @@ const config = mergeObjectsArray(newMutationsConfigs.reduce((arr, mutationConfig
 }, []));
 
 let cfg = {
-  log_level: 'trace',
+  log_level: 'debug',
   cache: {
     schema_file: 'schema.json',
   },
@@ -160,6 +160,16 @@ let cfg = {
     header: "Api-Key",
     api_key_env_var: 'NEW_RELIC_API_KEY',
   },
+  generators: [
+    {
+      name: "typegen",
+      fileName: "types.go"
+    },
+    {
+      name: "nerdgraphclient",
+      fileName: "{{.PackageName}}_api.go"
+    },
+  ]
 };
 
 cfg.packages = config;
