@@ -164,7 +164,8 @@ jobs:
     uses: newrelic/newrelic-client-go/.github/workflows/generate.yml@feat/automated-codegen
     with:
       apiEndpoints: ${{ needs.checkForApiUpdates.outputs.apiEndpoints }} # '[autoflowsDeleteWorkflowDefinition, autoflowsStopWorkflowRun, autoflowsUpdateWorkflowDefinition]' # ${{needs.checkForApiUpdates.outputs.apiEndpoints}}
-    # secrets:
+    secrets: inherit
+      # secrets:
     #   NEW_RELIC_API_KEY: ${{ secrets.NEW_RELIC_API_KEY }}
     #   DEV_TOOLKIT_TOKEN: ${{ secrets.DEV_TOOLKIT_TOKEN }}
 
