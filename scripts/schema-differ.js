@@ -131,7 +131,7 @@ function findPackageByName(packages, packageName) {
   return packages.find(pkg => pkg.name === packageName);
 }
 
-// Create the config to generate the feature code.
+// Generate the config that generates the feature code.
 const config = mergeObjectsArray(newMutationsConfigs.reduce((arr, mutationConfig) => {
   const pkg = findPackageByName(packages, mutationConfig.packageName);
 
