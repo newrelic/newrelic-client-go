@@ -1,5 +1,6 @@
 const fs = require('fs');
 const yaml = require('yaml');
+const merge = require('lodash.merge');
 
 // This name must match the alias we created in the #oac-automation-reports Slack channel.
 const heroAliasName = '@oac-automation-watchers';
@@ -7,9 +8,9 @@ const heroAliasName = '@oac-automation-watchers';
 let tutoneConfig = null;
 let schemaOld = null;
 let schemaLatest = null;
-let heroMention = "";
+let heroMention = '';
 
-const pathPrefix = './';
+const pathPrefix = '../';
 try {
   const tutoneConfigFile = fs.readFileSync(`${pathPrefix}.tutone.yml`, 'utf8')
   tutoneConfig = yaml.parse(tutoneConfigFile)
@@ -88,7 +89,8 @@ const packagesToGenerate = [];
 
 const clientPackages = tutoneConfig.packages;
 
-const newMutationsConfigs = newEndpoints.map((endpointName) => {
+// TODO: This doesn't need to be a map. We can just use a forEach or something.
+newEndpoints.map((endpointName) => {
   const newEndpointSchema = schemaLatest.mutationType.fields.find(f => f.name === endpointName);
   const args = newEndpointSchema.args
   const pkgName = generatePackageNameForEndpoint(endpointName);
@@ -100,17 +102,21 @@ const newMutationsConfigs = newEndpoints.map((endpointName) => {
     maxQueryDepth = getMaxQueryDepth(args[i].type);
   }
 
-  console.log('existingPackage:', existingPackage?.name);
+  // console.log('existingPackage:', existingPackage?.name);
 
+  // console.log('');
+  // console.log('existingPackage:', existingPackage?.name);
+  // console.log('cachedPackage:  ', cachedPackage?.name);
 
   if (cachedPackage) {
-    console.log('cachedPackage:  ', cachedPackage.name);
+    // console.log('cachedPackage:  ', cachedPackage.name);
 
     const cachedMutation = cachedPackage.mutations?.length > 0
       ? findMutationByName(cachedPackage.mutations, endpointName)
       : null;
 
-    console.log('cachedMutation:', cachedMutation?.name);
+    // console.log('cachedMutation:', endpointName);
+    // console.log('');
 
     if (!cachedMutation) {
       cachedPackage.mutations = [...cachedPackage.mutations, {
@@ -139,9 +145,11 @@ const newMutationsConfigs = newEndpoints.map((endpointName) => {
     // Add the package to the list of packages to generate
     packagesToGenerate.push(pkg);
 
-    const cachedMutation = existingPackage.mutations?.length > 0
-      ? findMutationByName(existingPackage.mutations, endpointName)
+    const cachedMutation = pkg.mutations?.length > 0
+      ? findMutationByName(pkg.mutations, endpointName)
       : null;
+
+    console.log('cachedMutation:', endpointName);
 
     // Ensure we don't add the same mutation twice
     // TODO: This is a naive implementation. We should check if
@@ -163,18 +171,7 @@ const newMutationsConfigs = newEndpoints.map((endpointName) => {
   };
 });
 
-console.log('packagesToGenerate:', JSON.stringify(packagesToGenerate, null, 2));
-
-function mergeObjectsArray(objects) {
-  return objects.reduce((acc, current) => {
-    // Check if the object already exists in the accumulator
-    if (!acc.some(obj => obj.name === current.name)) {
-      acc.push(current);
-    }
-
-    return acc;
-  }, []);
-}
+// console.log('packagesToGenerate:', JSON.stringify(packagesToGenerate, null, 2));
 
 function findPackageByName(packages, packageName) {
   return packages.find(pkg => pkg.name === packageName);
@@ -183,25 +180,6 @@ function findPackageByName(packages, packageName) {
 function findMutationByName(mutations, mutationName) {
   return mutations.find(m => m.name === mutationName);
 }
-
-// Generate the config that generates the feature code.
-const config = mergeObjectsArray(newMutationsConfigs.reduce((arr, mutationConfig) => {
-  const pkg = findPackageByName(packagesToGenerate, mutationConfig.packageName);
-
-  // If no package, it's new, so make a new package config
-  // TODO: Need to make sure we don't overwrite existing packages
-  //       in the tutone config. This is currently a naive implementation.
-  if (!pkg) {
-    return arr;
-  }
-
-  pkg.mutations = [...pkg.mutations, {
-    name: mutationConfig.name,
-    maxQueryDepth: mutationConfig.maxQueryDepth,
-  }];
-
-  return [...arr, pkg];
-}, []));
 
 let cfg = {
   log_level: 'debug',
@@ -225,19 +203,19 @@ let cfg = {
   ]
 };
 
-cfg.packages = config;
+cfg.packages = packagesToGenerate;
 
 const tutoneConfigYAML = yaml.stringify(cfg);
 
-// console.log('packages:', config);
-// console.log('newMutationsConfig:', newMutationsConfigs);
+// console.log('packagesToGenerate:', yaml.stringify(packagesToGenerate));
+// console.log('newMutationsConfig:', tutoneConfigYAML);
 
 
 // console.log('config JSON:\n\n', JSON.stringify(config, null, 2));
 console.log('');
 console.log('Tutone config:');
 console.log('');
-// console.log(tutoneConfigYAML);
+console.log(tutoneConfigYAML);
 // console.log('');
 
 // Check to see which mutations the client is missing
