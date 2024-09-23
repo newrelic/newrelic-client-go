@@ -89,8 +89,8 @@ const packagesToGenerate = [];
 
 const clientPackages = tutoneConfig.packages;
 
-// TODO: This doesn't need to be a map. We can just use a forEach or something.
-newEndpoints.map((endpointName) => {
+
+newEndpoints.forEach((endpointName) => {
   const newEndpointSchema = schemaLatest.mutationType.fields.find(f => f.name === endpointName);
   const args = newEndpointSchema.args
   const pkgName = generatePackageNameForEndpoint(endpointName);
@@ -102,21 +102,12 @@ newEndpoints.map((endpointName) => {
     maxQueryDepth = getMaxQueryDepth(args[i].type);
   }
 
-  // console.log('existingPackage:', existingPackage?.name);
-
-  // console.log('');
-  // console.log('existingPackage:', existingPackage?.name);
-  // console.log('cachedPackage:  ', cachedPackage?.name);
-
+  // If we've already added package to the array, we need to add the
+  // mutation to the package if the mutation hasn't been added yet.
   if (cachedPackage) {
-    // console.log('cachedPackage:  ', cachedPackage.name);
-
     const cachedMutation = cachedPackage.mutations?.length > 0
       ? findMutationByName(cachedPackage.mutations, endpointName)
       : null;
-
-    // console.log('cachedMutation:', endpointName);
-    // console.log('');
 
     if (!cachedMutation) {
       cachedPackage.mutations = [...cachedPackage.mutations, {
@@ -126,6 +117,8 @@ newEndpoints.map((endpointName) => {
     }
   }
 
+  // If the tutone config doesn't have the package defined and we haven't added
+  // to the cached packages array, we need to add the package to the packagesToGenerate array.
   if (!existingPackage && !cachedPackage) {
     packagesToGenerate.push({
       name: pkgName,
@@ -138,6 +131,9 @@ newEndpoints.map((endpointName) => {
     });
   }
 
+  // If the tutone config already has the package defined, but we haven't added it
+  // to the packagesToGenerate array, we need to add the package to the packagesToGenerate array,
+  // and add the mutation to the package if the mutation hasn't been added yet.
   if (existingPackage && !cachedPackage) {
     // Clone the existing package so we don't mutate the original
     const pkg = JSON.parse(JSON.stringify(existingPackage));
@@ -161,14 +157,6 @@ newEndpoints.map((endpointName) => {
       }];
     }
   }
-
-  // console.log('pkgName:', pkgName);
-
-  return {
-    packageName: pkgName,
-    name: endpointName,
-    maxQueryDepth,
-  };
 });
 
 // console.log('packagesToGenerate:', JSON.stringify(packagesToGenerate, null, 2));
