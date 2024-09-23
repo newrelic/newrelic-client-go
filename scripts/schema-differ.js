@@ -9,7 +9,7 @@ let schemaOld = null;
 let schemaLatest = null;
 let heroMention = "";
 
-const pathPrefix = '';
+const pathPrefix = './';
 try {
   const tutoneConfigFile = fs.readFileSync(`${pathPrefix}.tutone.yml`, 'utf8')
   tutoneConfig = yaml.parse(tutoneConfigFile)
@@ -84,25 +84,74 @@ function generatePackageNameForEndpoint(endpointName) {
 
 // console.log('');
 
-const packages = [];
+const packagesToGenerate = [];
+
+const clientPackages = tutoneConfig.packages;
 
 const newMutationsConfigs = newEndpoints.map((endpointName) => {
   const newEndpointSchema = schemaLatest.mutationType.fields.find(f => f.name === endpointName);
   const args = newEndpointSchema.args
   const pkgName = generatePackageNameForEndpoint(endpointName);
-
-  if (!packages.includes(pkgName)) {
-    packages.push({
-      name: pkgName,
-      import_path: `github.com/newrelic/newrelic-client-go/v2/pkg/${pkgName}`,
-      generators: ["typegen", "nerdgraphclient"],
-      mutations: [],
-    });
-  }
+  const existingPackage = findPackageByName(clientPackages, pkgName);
+  const cachedPackage = findPackageByName(packagesToGenerate, pkgName);
 
   let maxQueryDepth = 1;
   for (let i = 0; i < args.length; i++) {
     maxQueryDepth = getMaxQueryDepth(args[i].type);
+  }
+
+  console.log('existingPackage:', existingPackage?.name);
+
+
+  if (cachedPackage) {
+    console.log('cachedPackage:  ', cachedPackage.name);
+
+    const cachedMutation = cachedPackage.mutations?.length > 0
+      ? findMutationByName(cachedPackage.mutations, endpointName)
+      : null;
+
+    console.log('cachedMutation:', cachedMutation?.name);
+
+    if (!cachedMutation) {
+      cachedPackage.mutations = [...cachedPackage.mutations, {
+        name: endpointName,
+        max_query_field_depth: maxQueryDepth,
+      }];
+    }
+  }
+
+  if (!existingPackage && !cachedPackage) {
+    packagesToGenerate.push({
+      name: pkgName,
+      import_path: `github.com/newrelic/newrelic-client-go/v2/pkg/${pkgName}`,
+      generators: ["typegen", "nerdgraphclient"],
+      mutations: [{
+        name: endpointName,
+        max_query_field_depth: maxQueryDepth,
+      }],
+    });
+  }
+
+  if (existingPackage && !cachedPackage) {
+    // Clone the existing package so we don't mutate the original
+    const pkg = JSON.parse(JSON.stringify(existingPackage));
+
+    // Add the package to the list of packages to generate
+    packagesToGenerate.push(pkg);
+
+    const cachedMutation = existingPackage.mutations?.length > 0
+      ? findMutationByName(existingPackage.mutations, endpointName)
+      : null;
+
+    // Ensure we don't add the same mutation twice
+    // TODO: This is a naive implementation. We should check if
+    // the mutation's query depth has changed.
+    if (!cachedMutation) {
+      pkg.mutations = [...pkg.mutations, {
+        name: endpointName,
+        max_query_field_depth: maxQueryDepth,
+      }];
+    }
   }
 
   // console.log('pkgName:', pkgName);
@@ -114,7 +163,7 @@ const newMutationsConfigs = newEndpoints.map((endpointName) => {
   };
 });
 
-// console.log('newMutationsConfigs:', newMutationsConfigs);
+console.log('packagesToGenerate:', JSON.stringify(packagesToGenerate, null, 2));
 
 function mergeObjectsArray(objects) {
   return objects.reduce((acc, current) => {
@@ -131,9 +180,13 @@ function findPackageByName(packages, packageName) {
   return packages.find(pkg => pkg.name === packageName);
 }
 
+function findMutationByName(mutations, mutationName) {
+  return mutations.find(m => m.name === mutationName);
+}
+
 // Generate the config that generates the feature code.
 const config = mergeObjectsArray(newMutationsConfigs.reduce((arr, mutationConfig) => {
-  const pkg = findPackageByName(packages, mutationConfig.packageName);
+  const pkg = findPackageByName(packagesToGenerate, mutationConfig.packageName);
 
   // If no package, it's new, so make a new package config
   // TODO: Need to make sure we don't overwrite existing packages
@@ -184,7 +237,7 @@ const tutoneConfigYAML = yaml.stringify(cfg);
 console.log('');
 console.log('Tutone config:');
 console.log('');
-console.log(tutoneConfigYAML);
+// console.log(tutoneConfigYAML);
 // console.log('');
 
 // Check to see which mutations the client is missing
