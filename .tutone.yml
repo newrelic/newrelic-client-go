@@ -22,6 +22,12 @@ auth:
   # Default: TUTONE_API_KEY
   api_key_env_var: NEW_RELIC_API_KEY
 
+generators:
+  - name: typegen
+    fileName: "types.go"
+  - name: nerdgraphclient
+    fileName: "{{.PackageName}}_api.go"
+
 packages:
   - name: accountmanagement
     path: pkg/accountmanagement
@@ -39,13 +45,13 @@ packages:
         endpoints:
           - name: managedAccounts
             max_query_field_depth: 2
-    mutations:
-      - name: accountManagementCreateAccount
-        max_query_field_depth: 3
-      - name: accountManagementUpdateAccount
-        max_query_field_depth: 3
-      - name: accountManagementCancelAccount
-        max_query_field_depth: 3
+    mutations: []
+      # - name: accountManagementCreateAccount
+      #   max_query_field_depth: 3
+      # - name: accountManagementUpdateAccount
+      #   max_query_field_depth: 3
+      # - name: accountManagementCancelAccount
+      #   max_query_field_depth: 3
 
   - name: accounts
     path: pkg/accounts
@@ -1595,23 +1601,23 @@ packages:
         endpoints:
           - name: authenticationDomains
             max_query_field_depth: 4
-    mutations:
-      - name: userManagementCreateUser
-        max_query_field_depth: 2
-      - name: userManagementDeleteUser
-        max_query_field_depth: 2
-      - name: userManagementUpdateUser
-        max_query_field_depth: 2
-      - name: userManagementCreateGroup
-        max_query_field_depth: 2
-      - name: userManagementDeleteGroup
-        max_query_field_depth: 2
-      - name: userManagementUpdateGroup
-        max_query_field_depth: 2
-      - name: userManagementAddUsersToGroups
-        max_query_field_depth: 2
-      - name: userManagementRemoveUsersFromGroups
-        max_query_field_depth: 2
+    mutations: []
+      # - name: userManagementCreateUser
+      #   max_query_field_depth: 2
+      # - name: userManagementDeleteUser
+      #   max_query_field_depth: 2
+      # - name: userManagementUpdateUser
+      #   max_query_field_depth: 2
+      # - name: userManagementCreateGroup
+      #   max_query_field_depth: 2
+      # - name: userManagementDeleteGroup
+      #   max_query_field_depth: 2
+      # - name: userManagementUpdateGroup
+      #   max_query_field_depth: 2
+      # - name: userManagementAddUsersToGroups
+      #   max_query_field_depth: 2
+      # - name: userManagementRemoveUsersFromGroups
+      #   max_query_field_depth: 2
     types:
       - name: ID
         field_type_override: string
@@ -1619,9 +1625,3 @@ packages:
       - name: DateTime
         field_type_override: nrtime.DateTime
         skip_type_create: true
-
-generators:
-  - name: typegen
-    fileName: "types.go"
-  - name: nerdgraphclient
-    fileName: "{{.PackageName}}_api.go"
