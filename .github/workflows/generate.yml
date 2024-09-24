@@ -74,9 +74,6 @@ jobs:
           git commit --no-verify -m 'feat(codegen): generate code based on latest API changes'
           git push origin HEAD:${{ github.ref_name }}
 
-        # git commit --no-verify -m "chore(release): release v${VER_NEXT}"
-        # git push --no-verify origin HEAD:${DEFAULT_BRANCH}
-
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
