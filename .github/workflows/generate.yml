@@ -5,6 +5,10 @@ on:
   #     - 'feat/automated-codegen'
   workflow_dispatch:
     inputs:
+      packages:
+        required: true
+        type: string
+        description: 'A comma-separated list of packages to generate for which to generate code'
       apiEndpoints:
         required: true
         type: string
@@ -44,12 +48,11 @@ jobs:
       - name: Install Tutone
         run: go install github.com/newrelic/tutone/cmd/tutone@latest
 
-      # - name: Check config file contents
-      #   run: cat .tutone.yml
-      #   shell: bash
+      - name: Echo stuff for a testing purposes
+        run: echo "${{ inputs.packages }}"
+        shell: bash
 
-      # Append configuration to the config file OR write temporary Tutone config file
-
+      # TODO: Append configuration to the config file OR write temporary Tutone config file?
       - name: Write config file
         uses: DamianReeves/write-file-action@master
         with:
@@ -61,9 +64,12 @@ jobs:
         shell: bash
 
       - name: Generate new code
-        run: tutone generate -c .tutone.tmp.yml
+        run: tutone generate -c .tutone.tmp.yml --include-integration-test
         env:
           NEW_RELIC_API_KEY: ${{ secrets.NEW_RELIC_API_KEY }}
+
+      - name: Display diff
+        run: git diff
 
       # - name: Create Pull Request
       #   uses: peter-evans/create-pull-request@v3

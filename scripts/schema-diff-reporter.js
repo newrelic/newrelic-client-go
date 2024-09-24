@@ -11,12 +11,24 @@ module.exports = async ({
   core.setOutput('new_api_mutations', diff.newApiMutationsMsg);
   core.setOutput('client_mutations_missing', diff.clientMutationsDiffMsg);
   core.setOutput('tutone_config', diff.tutoneConfig);
+  core.setOutput('packages', diff.packagesToGenerate.toString());
 
-  await core.summary
-    .addHeading('New Relic Client Go | NerdGraph API Report')
+  const gitHubActionSummary = core.summary
+
+  gitHubActionSummary.addHeading('New Relic Client Go | NerdGraph API Report');
+
+
+  if (diff.packagesToGenerate.length) {
+    gitHubActionSummary
+      .addRaw('Tutone will generate code for the following packages:')
+      .addList(diff.packagesToGenerate);
+  }
+
+  await gitHubActionSummary
     .addRaw('Client mutations:')
     .addList(diff.clientMutations)
     .addRaw('Client is missing the following mutations:')
     .addList(diff.clientMutationsDiff)
     .write()
 }
+
