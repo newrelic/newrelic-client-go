@@ -39,6 +39,9 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.RELEASE_TOKEN }}
 
       - name: Set up git user
         run: |
@@ -48,9 +51,9 @@ jobs:
       - name: Install Tutone
         run: go install github.com/newrelic/tutone/cmd/tutone@latest
 
-      - name: Echo stuff for a testing purposes
-        run: echo "${{ inputs.packages }}"
-        shell: bash
+      # - name: Echo stuff for a testing purposes
+      #   run: echo "${{ inputs.packages }}" && echo "Branch Name - ${{ github.ref_name }}"
+      #   shell: bash
 
       # TODO: Append configuration to the config file OR write temporary Tutone config file?
       - name: Write config file
@@ -68,23 +71,29 @@ jobs:
         env:
           NEW_RELIC_API_KEY: ${{ secrets.NEW_RELIC_API_KEY }}
 
-      - name: Commit and push changes
+      - name: Create new branch, commit, and push changes
+        shell: bash
         run: |
+          branch_name="tmp/generated-code"
+
+          if git ls-remote --exit-code --heads origin $branch_name > /dev/null; then
+            git push origin --delete $branch_name
+          fi
+
+          git status
+          git checkout -b $branch_name
           git add pkg
           git commit --no-verify -m 'feat(codegen): generate code based on latest API changes'
-          git push origin HEAD:${{ github.ref_name }}
+          git push origin $branch_name
 
-        # git commit --no-verify -m "chore(release): release v${VER_NEXT}"
-        # git push --no-verify origin HEAD:${DEFAULT_BRANCH}
-
-      - name: Create Pull Request
+      - name: Create pull request
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.DEV_TOOLKIT_TOKEN }}
-          commit-message: 'chore(tutone): update generated code'
+          commit-message: 'feat(automation): update generated code'
           signoff: false
-          branch: feat/generated-code
-          title: 'feat(codegen): generate code based on latest API changes'
+          branch: automation/generated-code
+          title: 'feat(automation): generate code based on latest API changes'
           body: |
             Update generated code using Tutone
           labels: |
