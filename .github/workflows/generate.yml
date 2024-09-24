@@ -68,19 +68,25 @@ jobs:
         env:
           NEW_RELIC_API_KEY: ${{ secrets.NEW_RELIC_API_KEY }}
 
-      - name: Display diff
-        run: git diff
+      - name: Commit and push changes
+        run: |
+          git add pkg
+          git commit --no-verify -m 'feat(codegen): generate code based on latest API changes'
+          git push origin HEAD:${{ github.ref_name }}
 
-      # - name: Create Pull Request
-      #   uses: peter-evans/create-pull-request@v3
-      #   with:
-      #     token: ${{ secrets.DEV_TOOLKIT_TOKEN }}
-      #     commit-message: 'chore(tutone): update generated code'
-      #     signoff: false
-      #     branch: feat/generated-code
-      #     title: 'feat(codegen): generate code based on latest API changes'
-      #     body: |
-      #       Update generated code using Tutone
-      #     labels: |
-      #       enhancement
-      #     draft: true
+        # git commit --no-verify -m "chore(release): release v${VER_NEXT}"
+        # git push --no-verify origin HEAD:${DEFAULT_BRANCH}
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.DEV_TOOLKIT_TOKEN }}
+          commit-message: 'chore(tutone): update generated code'
+          signoff: false
+          branch: feat/generated-code
+          title: 'feat(codegen): generate code based on latest API changes'
+          body: |
+            Update generated code using Tutone
+          labels: |
+            enhancement
+          draft: true
