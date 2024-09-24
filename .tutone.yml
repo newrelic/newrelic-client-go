@@ -45,13 +45,13 @@ packages:
         endpoints:
           - name: managedAccounts
             max_query_field_depth: 2
-    mutations: []
+    mutations:
       # - name: accountManagementCreateAccount
       #   max_query_field_depth: 3
-      # - name: accountManagementUpdateAccount
-      #   max_query_field_depth: 3
-      # - name: accountManagementCancelAccount
-      #   max_query_field_depth: 3
+      - name: accountManagementUpdateAccount
+        max_query_field_depth: 3
+      - name: accountManagementCancelAccount
+        max_query_field_depth: 3
 
   - name: accounts
     path: pkg/accounts

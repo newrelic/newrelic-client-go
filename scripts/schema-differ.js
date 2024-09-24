@@ -10,7 +10,7 @@ let schemaOld = null;
 let schemaLatest = null;
 let heroMention = '';
 
-const pathPrefix = '../';
+const pathPrefix = './';
 try {
   const tutoneConfigFile = fs.readFileSync(`${pathPrefix}.tutone.yml`, 'utf8')
   tutoneConfig = yaml.parse(tutoneConfigFile)
@@ -145,7 +145,7 @@ newEndpoints.forEach((endpointName) => {
       ? findMutationByName(pkg.mutations, endpointName)
       : null;
 
-    console.log('cachedMutation:', endpointName);
+    // console.log('cachedMutation:', endpointName);
 
     // Ensure we don't add the same mutation twice
     // TODO: This is a naive implementation. We should check if
@@ -170,7 +170,7 @@ function findMutationByName(mutations, mutationName) {
 }
 
 let cfg = {
-  log_level: 'debug',
+  log_level: 'info',
   cache: {
     schema_file: 'schema.json',
   },
@@ -193,26 +193,19 @@ let cfg = {
 
 cfg.packages = packagesToGenerate;
 
+// TODO: Send the fully merged config to the instead of the temporary scoped config
+const mergedConfig = merge(tutoneConfig, cfg)
 const tutoneConfigYAML = yaml.stringify(cfg);
 
-// console.log('packagesToGenerate:', yaml.stringify(packagesToGenerate));
-// console.log('newMutationsConfig:', tutoneConfigYAML);
-
-
-// console.log('config JSON:\n\n', JSON.stringify(config, null, 2));
 console.log('');
 console.log('Tutone config:');
 console.log('');
 console.log(tutoneConfigYAML);
-// console.log('');
+console.log('');
 
 // Check to see which mutations the client is missing
 const schemaMutations = schemaLatest.mutationType.fields.map(field => field.name);
 const clientMutationsDiff = schemaMutations.filter(x => !clientMutations.includes(x));
-
-// console.log('');
-// console.log('Client is still missing the following API mutations:\n', clientMutationsDiff);
-// console.log('');
 
 let newApiMutationsMsg = '';
 if (hasNewEndpoints) {
@@ -342,6 +335,10 @@ function getMaxQueryDepth(type, depth = 1) {
   return maxQueryDepth;
 }
 
+const listOfPackagesToGenerate = packagesToGenerate.map(pkg => pkg.name);
+
+console.log('List of packages to generate:', listOfPackagesToGenerate);
+
 module.exports = {
   heroMention,
   schemaMutations,
@@ -351,4 +348,5 @@ module.exports = {
   clientMutationsDiffMsg,
   changedEndpoints,
   tutoneConfig: tutoneConfigYAML,
+  packagesToGenerate: listOfPackagesToGenerate, // pop() is temporary for testing
 };
