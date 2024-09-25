@@ -1,3 +1,8 @@
+<a name="v2.47.0"></a>
+## [v2.47.0] - 2024-09-25
+### Features
+- **keytransaction:** add `keytransaction` package to support managing key transactions ([#1213](https://github.com/newrelic/newrelic-client-go/issues/1213))
+
 <a name="v2.46.0"></a>
 ## [v2.46.0] - 2024-09-25
 ### Features
@@ -1895,7 +1900,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.46.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.47.0...HEAD
+[v2.47.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.46.0...v2.47.0
 [v2.46.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.45.0...v2.46.0
 [v2.45.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.44.0...v2.45.0
 [v2.44.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.43.2...v2.44.0
