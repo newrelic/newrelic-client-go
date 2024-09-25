@@ -21,6 +21,7 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/events"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/eventstometrics"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/installevents"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/keytransaction"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/logconfigurations"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/logging"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/logs"
@@ -70,6 +71,7 @@ type NewRelic struct {
 	UserManagement          usermanagement.Usermanagement
 	Workflows               workflows.Workflows
 	Workloads               workloads.Workloads
+	KeyTransaction          keytransaction.Keytransaction
 
 	config config.Config
 }
@@ -116,6 +118,7 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 		UserManagement:          usermanagement.New(cfg),
 		Workflows:               workflows.New(cfg),
 		Workloads:               workloads.New(cfg),
+		KeyTransaction:          keytransaction.New(cfg),
 	}
 
 	return nr, nil

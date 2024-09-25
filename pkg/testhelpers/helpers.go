@@ -15,6 +15,9 @@ var (
 const IntegrationTestApplicationEntityGUID = "MzgwNjUyNnxBUE18QVBQTElDQVRJT058NTczNDgyNjM4"
 const IntegrationTestApplicationEntityGUIDNew = "MzgwNjUyNnxBUE18QVBQTElDQVRJT058NTUzNDQ4MjAy"
 
+// name of the APM Application with the GUID IntegrationTestApplicationEntityGUIDNew
+const IntegrationTestApplicationEntityNameNew = "Dummy App Pro Max"
+
 // Our integration test account ID (v2 account)
 const IntegrationTestAccountID = 3806526
 

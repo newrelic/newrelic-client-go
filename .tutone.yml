@@ -1619,6 +1619,33 @@ packages:
       - name: DateTime
         field_type_override: nrtime.DateTime
         skip_type_create: true
+  - name: keytransaction
+    path: pkg/keytransaction
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/keytransaction
+    generators:
+      - typegen
+      - nerdgraphclient                                                   
+    mutations:
+      - name: keyTransactionCreate
+        max_query_field_depth: 4
+      - name: keyTransactionDelete
+        max_query_field_depth: 1
+      - name: keyTransactionUpdate
+        max_query_field_depth: 4
+    types:
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
+      - name: Seconds
+        field_type_override: nrtime.Seconds
+        skip_type_create: true
+      - name: EpochMilliseconds
+        field_type_override: "*nrtime.EpochMilliseconds"
+        skip_type_create: true
+            
 
 generators:
   - name: typegen
