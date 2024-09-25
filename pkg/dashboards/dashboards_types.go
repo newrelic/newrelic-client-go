@@ -317,6 +317,7 @@ type RawConfiguration struct {
 	Facet          *DashboardWidgetFacet          `json:"facet,omitempty"`
 	RefreshRate    *DashboardWidgetRefreshRate    `json:"refreshRate,omitempty"`
 	InitialSorting *DashboardWidgetInitialSorting `json:"initialSorting,omitempty"`
+	DataFormat     []*DashboardWidgetDataFormat   `json:"dataFormatters,omitempty"`
 }
 
 // RawConfigurationPlatformOptions represents the platform widget options
@@ -335,6 +336,13 @@ type DashboardWidgetRefreshRate struct {
 type DashboardWidgetInitialSorting struct {
 	Direction string `json:"direction,omitempty"`
 	Name      string `json:"name,omitempty"`
+}
+
+type DashboardWidgetDataFormat struct {
+	Name      string `json:"name,omitempty"`
+	Type      string `json:"type,omitempty"`
+	Format    string `json:"format,omitempty"`
+	Precision int    `json:"precision,omitempty"`
 }
 
 type DashboardWidgetYAxisLeft struct {
