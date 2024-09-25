@@ -87,7 +87,7 @@ func TestIntegrationKeyTransaction_CreateDuplicateError(t *testing.T) {
 	}()
 
 	// attempt to create the same key transaction again
-	// this is expected to throw an error, as the name of a key transaction is expected to be unique (and non-existent in the account)
+	// this is expected to throw an error, as multiple key transactions cannot be created with the same metricName
 	_, err = client.KeyTransactionCreate(
 		10,
 		testhelpers.IntegrationTestApplicationEntityGUIDNew,
