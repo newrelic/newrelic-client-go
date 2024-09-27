@@ -5,20 +5,32 @@ on:
   #     - 'feat/automated-codegen'
   workflow_dispatch:
     inputs:
+      tutoneConfig:
+        required: true
+        type: string
+        description: 'The API endpoints for which to generate code'
       packages:
         required: true
         type: string
         description: 'A comma-separated list of packages to generate for which to generate code'
-      apiEndpoints:
-        required: true
+      newMutations:
+        required: false
         type: string
-        description: 'The API endpoints for which to generate code'
+        description: 'A comma-separated list of new mutations'
   workflow_call:
     inputs:
-      apiEndpoints:
+      tutoneConfig:
         required: true
         type: string
         description: 'The API endpoints for which to generate code'
+      packages:
+        required: true
+        type: string
+        description: 'A comma-separated list of packages to generate for which to generate code'
+      newMutations:
+        required: false
+        type: string
+        description: 'A comma-separated list of new mutations'
 
 jobs:
   generate:
@@ -29,8 +41,7 @@ jobs:
         with:
           go-version: 1.21.x
 
-      - name: Add GOBIN to PATH
-        run: echo "${{ inputs.apiEndpoints }}"
+      - run: echo "${{ inputs.tutoneConfig }}"
         shell: bash
 
       - name: Add GOBIN to PATH
@@ -60,7 +71,7 @@ jobs:
         uses: DamianReeves/write-file-action@master
         with:
           path: .tutone.tmp.yml
-          contents: ${{inputs.apiEndpoints}}
+          contents: ${{inputs.tutoneConfig}}
 
       - name: Check config file contents
         run: cat .tutone.tmp.yml
@@ -71,29 +82,23 @@ jobs:
         env:
           NEW_RELIC_API_KEY: ${{ secrets.NEW_RELIC_API_KEY }}
 
-      # - name: Create new branch, commit, and push changes
-      #   shell: bash
-      #   run: |
-      #     branch_name="tmp/generated-code"
-
-      #     if git ls-remote --exit-code --heads origin $branch_name > /dev/null; then
-      #       git push origin --delete $branch_name
-      #     fi
-
-      #     git checkout -b $branch_name
-
-      #     git status
-      #     git add pkg .tutone.tmp.yml
-      #     git status
-
-      #     git commit --no-verify -m 'feat(codegen): generate code based on latest API changes'
-      #     git push origin $branch_name
+      - name: Remove old automation branch if present
+        shell: bash
+        run: |
+          branch_name="automation/generated-code"
+          if git ls-remote --exit-code --heads origin $branch_name > /dev/null; then
+            git push origin --delete $branch_name
+          fi
 
       - name: Create pull request
+        id: create-pull-request
         uses: peter-evans/create-pull-request@v3
         with:
           base: main
-          add-paths: 'pkg'
+          add-paths: |
+            pkg
+            .tutone.tmp.yml
+            types.go
           author: 'nr-developer-toolkit <nr-developer-toolkit@users.noreply.github.com>'
           token: ${{ secrets.DEV_TOOLKIT_TOKEN }}
           commit-message: 'feat(automation): update generated code'
@@ -101,7 +106,25 @@ jobs:
           branch: automation/generated-code
           title: 'feat(automation): generate code based on latest API changes'
           body: |
-            Update generated code using Tutone
+            ### Automated Pull Request
+
+            The following packages have been added or updated: `${{ inputs.packages }}`.
+
+            The following new mutations will be added to the codebase:
+            `${{ inputs.newMutations }}`
+
+            Please perform the following actions before merging:
+            - [ ] Review the changes to the generated code
+            - [ ] Add new integration tests as necessary
+            - [ ] Update applicable tests as necessary
+            - [ ] Double check the .tutone.yml config file for accuracy
+
+            **Note:** If something looks off or you have questions, please reach out to an Observability as Code team member for assistance.
           labels: |
             enhancement
+            automated pr
           draft: true
+
+      - name: Pull request URL
+        run: |
+          echo "Pull Request: ${{ steps.create-pull-request.outputs.pull-request-url }}"
