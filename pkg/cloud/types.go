@@ -43,6 +43,10 @@ type Account struct {
 type Actor struct {
 	// The `cloud` field provides access to cloud integrations configuration data scoped to the Actor.
 	Cloud CloudActorFields `json:"cloud,omitempty"`
+}
+
+// Actor - The `Actor` object contains fields that are scoped to the API user's access level.
+type Actor struct {
 	// The `account` field is the entry point into data that is scoped to a single account.
 	Account Account `json:"account,omitempty"`
 }

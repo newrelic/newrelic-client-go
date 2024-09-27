@@ -33,7 +33,7 @@ var AgentApplicationBrowserLoaderTypes = struct {
 	SPA: "SPA",
 }
 
-// AgentApplicationSettingsBrowserLoader - Determines which browser loader will be configured. Some allowed return values are specified for backwards-compatibility and do not represent currently allowed values for new applications.
+// AgentApplicationSettingsBrowserLoader - Determines which browser loader will be configured. Some allowed return values are specified for backwards-compatability and do not represent currently allowed values for new applications.
 // See [documentation](https://docs.newrelic.com/docs/browser/browser-monitoring/installation/install-browser-monitoring-agent/#agent-types) for further information.
 type AgentApplicationSettingsBrowserLoader string
 
@@ -50,7 +50,7 @@ var AgentApplicationSettingsBrowserLoaderTypes = struct {
 	RUM AgentApplicationSettingsBrowserLoader
 	// Pro+SPA: This is the default installed agent when you enable browser monitoring. Gives you access to all of the Browser Pro features and to Single Page App (SPA) monitoring. Provides detailed page timing data and the most up-to-date New Relic features, including distributed tracing, for all types of applications.
 	SPA AgentApplicationSettingsBrowserLoader
-	// This value is specified for backwards-compatibility.
+	// This value is specified for backwards-compatability.
 	XHR AgentApplicationSettingsBrowserLoader
 }{
 	// Use PRO instead
@@ -151,6 +151,44 @@ var AgentApplicationSettingsRecordSqlEnumTypes = struct {
 	RAW: "RAW",
 }
 
+// AgentApplicationSettingsSessionTraceMode - Default (fixed_rate) or custom (probabilistic) option used to collect session traces.
+type AgentApplicationSettingsSessionTraceMode string
+
+var AgentApplicationSettingsSessionTraceModeTypes = struct {
+	// Fixed Rate mode for Session Trace
+	// (Default) Session traces are randomly sampled and stored at a rate of 90/hour.
+	FIXED_RATE AgentApplicationSettingsSessionTraceMode
+	// Probabilistic mode for Session Trace
+	// (Custom) Opt to collect more session traces using percentage from 0-100.
+	PROBABILISTIC AgentApplicationSettingsSessionTraceMode
+}{
+	// Fixed Rate mode for Session Trace
+	// (Default) Session traces are randomly sampled and stored at a rate of 90/hour.
+	FIXED_RATE: "FIXED_RATE",
+	// Probabilistic mode for Session Trace
+	// (Custom) Opt to collect more session traces using percentage from 0-100.
+	PROBABILISTIC: "PROBABILISTIC",
+}
+
+// AgentApplicationSettingsSessionTraceModeInput - Default (fixed_rate) or custom (probabilistic) option used to collect session traces.
+type AgentApplicationSettingsSessionTraceModeInput string
+
+var AgentApplicationSettingsSessionTraceModeInputTypes = struct {
+	// Fixed Rate mode for Session Trace
+	// (Default) Session traces are randomly sampled and stored at a rate of 90/hour.
+	FIXED_RATE AgentApplicationSettingsSessionTraceModeInput
+	// Probabilistic mode for Session Trace
+	// (Custom) Opt to collect more session traces using percentage from 0-100.
+	PROBABILISTIC AgentApplicationSettingsSessionTraceModeInput
+}{
+	// Fixed Rate mode for Session Trace
+	// (Default) Session traces are randomly sampled and stored at a rate of 90/hour.
+	FIXED_RATE: "FIXED_RATE",
+	// Probabilistic mode for Session Trace
+	// (Custom) Opt to collect more session traces using percentage from 0-100.
+	PROBABILISTIC: "PROBABILISTIC",
+}
+
 // AgentApplicationSettingsThresholdTypeEnum - Determines whether a threshold is statically configured or dynamically configured.
 type AgentApplicationSettingsThresholdTypeEnum string
 
@@ -229,7 +267,7 @@ type AgentApplicationBrowserSettings struct {
 // AgentApplicationBrowserSettingsInput - Configure additional browser settings here.
 type AgentApplicationBrowserSettingsInput struct {
 	// Configure cookies. The default is enabled: true.
-	CookiesEnabled *bool `json:"cookiesEnabled,omitempty"`
+	CookiesEnabled bool `json:"cookiesEnabled,omitempty"`
 	// Configure distributed tracing in browser apps. The default is enabled: true.
 	DistributedTracingEnabled bool `json:"distributedTracingEnabled,omitempty"`
 	// Determines which browser loader is configured. The default is "SPA".
@@ -266,6 +304,8 @@ type AgentApplicationSettingsApmBase struct {
 	Alias string `json:"alias,omitempty"`
 	// Access general settings for the application.
 	ApmConfig AgentApplicationSettingsApmConfig `json:"apmConfig"`
+	// Enable or disable the capture of memcache keys.
+	CaptureMemcacheKeys bool `json:"captureMemcacheKeys,omitempty"`
 	// Access error collector settings for the application. The error collector captures information about uncaught exceptions and sends them to New Relic for viewing.
 	ErrorCollector AgentApplicationSettingsErrorCollector `json:"errorCollector,omitempty"`
 	// Access enabled state for the Java Flight Recorder. This is available only for the Java language agent version 8.0.0 or later.
@@ -298,7 +338,19 @@ type AgentApplicationSettingsApmConfigInput struct {
 	UseServerSideConfig bool `json:"useServerSideConfig,omitempty"`
 }
 
-// AgentApplicationSettingsBrowserAjax - Browser Ajax.
+// AgentApplicationSettingsApplicationExitInfo - Reports on application exits, which can be used to determine if an application is not responding.
+type AgentApplicationSettingsApplicationExitInfo struct {
+	// Whether or not application exit info is collected.
+	Enabled bool `json:"enabled"`
+}
+
+// AgentApplicationSettingsApplicationExitInfoInput - Config data collection for application exits.
+type AgentApplicationSettingsApplicationExitInfoInput struct {
+	// Enables collection of application exit info.
+	Enabled bool `json:"enabled,omitempty"`
+}
+
+// AgentApplicationSettingsBrowserAjax - Enables ajax traces in the browser app.
 type AgentApplicationSettingsBrowserAjax struct {
 	// List of domains excluded from Ajax traces by the browser agent.
 	DenyList []string `json:"denyList"`
@@ -316,6 +368,10 @@ type AgentApplicationSettingsBrowserBase struct {
 	BrowserConfig AgentApplicationSettingsBrowserConfig `json:"browserConfig"`
 	// browser monitoring provides real user monitoring (RUM) that measures the speed and performance of end users as they navigate the application using different web browsers, devices, operating systems, and networks.
 	BrowserMonitoring AgentApplicationSettingsBrowserMonitoring `json:"browserMonitoring"`
+	// Session Replay configuration.
+	SessionReplay AgentApplicationSettingsSessionReplay `json:"sessionReplay"`
+	// Session Trace configuration.
+	SessionTrace AgentApplicationSettingsSessionTrace `json:"sessionTrace"`
 }
 
 // AgentApplicationSettingsBrowserConfig - General settings related to APM applications.
@@ -349,7 +405,7 @@ type AgentApplicationSettingsBrowserDistributedTracing struct {
 // AgentApplicationSettingsBrowserDistributedTracingInput - Configure distributed traces from within browser apps.
 type AgentApplicationSettingsBrowserDistributedTracingInput struct {
 	// Supplies allowed origins for distributed tracing in browser.
-	AllowedOrigins *[]string `json:"allowedOrigins,omitempty"`
+	AllowedOrigins []string `json:"allowedOrigins"`
 	// Enables CORS for distributed tracing in browser.
 	CorsEnabled bool `json:"corsEnabled,omitempty"`
 	// Enables the use of the `newrelic` header for CORS requests with distributed tracing. [See Docs](https://docs.newrelic.com/docs/browser/new-relic-browser/browser-pro-features/browser-data-distributed-tracing/#cors) for more information.
@@ -357,31 +413,35 @@ type AgentApplicationSettingsBrowserDistributedTracingInput struct {
 	// Enables CORS to use tracecontext headers for distributed tracing in browser.
 	CorsUseTracecontextHeaders bool `json:"corsUseTracecontextHeaders,omitempty"`
 	// Enables distributed tracing in browser.
-	Enabled bool `json:"enabled"`
+	Enabled bool `json:"enabled,omitempty"`
 	// Enables the `newrelic` header to be excluded in distributed tracing in browser.
 	ExcludeNewrelicHeader bool `json:"excludeNewrelicHeader,omitempty"`
 }
 
-// AgentApplicationSettingsBrowserMonitoring - Browser monitoring.
+// AgentApplicationSettingsBrowserMonitoring - Provides fields to set browser monitoring application settings.
 type AgentApplicationSettingsBrowserMonitoring struct {
 	// Enables ajax traces in the browser app.
 	Ajax AgentApplicationSettingsBrowserAjax `json:"ajax,omitempty"`
-	// Configure distributed tracing in browser apps.
+	// Distributed tracing type. See [documentation](https://docs.newrelic.com/docs/browser/new-relic-browser/browser-pro-features/browser-data-distributed-tracing/) for further information.
 	DistributedTracing AgentApplicationSettingsBrowserDistributedTracing `json:"distributedTracing"`
 	// The type of browser agent that will be loaded.
 	Loader AgentApplicationSettingsBrowserLoader `json:"loader"`
-	// Browser monitoring's page load timing feature can track sessions by using cookies that contain a simple session identifier.
+	// Specify the semantic version of the browser agent that you would like your app to use. Leave this blank to use the most recent version. Use 'x' in place of a numeric digit to represent the latest release within the version range. For example, '1.x.x'
+	PinnedVersion string `json:"pinnedVersion,omitempty"`
+	// Browser privacy. See [documentation](https://docs.newrelic.com/docs/browser/browser-monitoring/page-load-timing-resources/cookie-collection-session-tracking/) for further information.
 	Privacy AgentApplicationSettingsBrowserPrivacy `json:"privacy"`
 }
 
 // AgentApplicationSettingsBrowserMonitoringInput - Set browser monitoring application settings.
 type AgentApplicationSettingsBrowserMonitoringInput struct {
-	// Browser monitoring's page load Ajax requests.
+	// Configuration settings related to how a browser agent handles Ajax requests.
 	Ajax *AgentApplicationSettingsBrowserAjaxInput `json:"ajax,omitempty"`
-	// If you use browser to monitor end-user browser activity, you can now see end-user-originating browser-side traces in distributed tracing.
+	// Configure distributed traces from within browser apps.
 	DistributedTracing *AgentApplicationSettingsBrowserDistributedTracingInput `json:"distributedTracing,omitempty"`
 	// Determines which browser loader will be configured.
 	Loader *AgentApplicationSettingsBrowserLoaderInput `json:"loader,omitempty"`
+	// Specify the semantic version of the browser agent that you would like your app to use. Leave this blank to use the most recent version. Use 'x' in place of a numeric digit to represent the latest release within the version range. For example, '1.x.x'
+	PinnedVersion string `json:"pinnedVersion,omitempty"`
 	// Browser monitoring's page load timing feature can track sessions by using cookies that contain a simple session identifier.
 	Privacy *AgentApplicationSettingsBrowserPrivacyInput `json:"privacy,omitempty"`
 }
@@ -395,11 +455,15 @@ type AgentApplicationSettingsBrowserPrivacy struct {
 // AgentApplicationSettingsBrowserPrivacyInput - Browser monitoring's page load timing feature can track sessions by using cookies that contain a simple session identifier.
 type AgentApplicationSettingsBrowserPrivacyInput struct {
 	// If enabled, enables cookies.
-	CookiesEnabled *bool `json:"cookiesEnabled,omitempty"`
+	CookiesEnabled bool `json:"cookiesEnabled,omitempty"`
 }
 
 // AgentApplicationSettingsBrowserProperties - General Properties related to browser applications.
 type AgentApplicationSettingsBrowserProperties struct {
+	// The configuration required to run the npm version of the JS agent. This is the "pure" JSON configuration block without surrounding HTML <script> tags.
+	JsConfig AgentApplicationSettingsRawJsConfiguration `json:"jsConfig,omitempty"`
+	// The configuration block required to run the npm version of the JS agent. This includes the HTML <script> tags.
+	JsConfigScript string `json:"jsConfigScript,omitempty"`
 	// The snippet of JavaScript used to copy/paste into your JavaScript app if you aren’t using an auto-instrumentating agent on the backend.
 	JsLoaderScript string `json:"jsLoaderScript,omitempty"`
 }
@@ -460,15 +524,85 @@ type AgentApplicationSettingsJfrInput struct {
 	Enabled bool `json:"enabled,omitempty"`
 }
 
-// AgentApplicationSettingsMobileBase - Settings that are applicable to mobile applications.
+// AgentApplicationSettingsMaskInputOptions - Mask specific kinds of input options as *.
+type AgentApplicationSettingsMaskInputOptions struct {
+	// Mask 'color' input type.
+	Color bool `json:"color"`
+	// Mask 'date' input type.
+	Date bool `json:"date"`
+	// Mask 'datetime_local' input type.
+	DatetimeLocal bool `json:"datetimeLocal"`
+	// Mask 'email' input type.
+	Email bool `json:"email"`
+	// Mask 'month' input type.
+	Month bool `json:"month"`
+	// Mask 'number' input type.
+	Number bool `json:"number"`
+	// Mask 'range' input type.
+	Range bool `json:"range"`
+	// Mask 'search' input type.
+	Search bool `json:"search"`
+	// Mask 'select' input type.
+	Select bool `json:"select"`
+	// Mask 'tel' input type.
+	Tel bool `json:"tel"`
+	// Mask 'text' input type.
+	Text bool `json:"text"`
+	// Mask 'textarea' input type.
+	TextArea bool `json:"textArea"`
+	// Mask 'time' input type.
+	Time bool `json:"time"`
+	// Mask 'url' input type.
+	URL bool `json:"url"`
+	// Mask 'week' input type.
+	Week bool `json:"week"`
+}
+
+// AgentApplicationSettingsMaskInputOptionsInput - Mask specific kinds of input options as *.
+type AgentApplicationSettingsMaskInputOptionsInput struct {
+	// Mask 'color' input type.
+	Color bool `json:"color,omitempty"`
+	// Mask 'date' input type.
+	Date bool `json:"date,omitempty"`
+	// Mask 'datetime_local' input type.
+	DatetimeLocal bool `json:"datetimeLocal,omitempty"`
+	// Mask 'email' input type.
+	Email bool `json:"email,omitempty"`
+	// Mask 'month' input type.
+	Month bool `json:"month,omitempty"`
+	// Mask 'number' input type.
+	Number bool `json:"number,omitempty"`
+	// Mask 'range' input type.
+	Range bool `json:"range,omitempty"`
+	// Mask 'search' input type.
+	Search bool `json:"search,omitempty"`
+	// Mask 'select' input type.
+	Select bool `json:"select,omitempty"`
+	// Mask 'tel' input type.
+	Tel bool `json:"tel,omitempty"`
+	// Mask 'text' input type.
+	Text bool `json:"text,omitempty"`
+	// Mask 'textarea' input type.
+	TextArea bool `json:"textArea,omitempty"`
+	// Mask 'time' input type.
+	Time bool `json:"time,omitempty"`
+	// Mask 'url' input type.
+	URL bool `json:"url,omitempty"`
+	// Mask 'week' input type.
+	Week bool `json:"week,omitempty"`
+}
+
+// AgentApplicationSettingsMobileBase - Settings that are applicable to mobile applications
 type AgentApplicationSettingsMobileBase struct {
+	// Reports on application exits, which can be used to determine if an application is not responding.
+	ApplicationExitInfo AgentApplicationSettingsApplicationExitInfo `json:"applicationExitInfo"`
 	// Network settings associated with the mobile application.
 	NetworkSettings AgentApplicationSettingsMobileNetworkSettings `json:"networkSettings,omitempty"`
 	// Enables viewing in-depth reports for mobile application crashes.
 	UseCrashReports bool `json:"useCrashReports,omitempty"`
 }
 
-// AgentApplicationSettingsMobileNetworkSettings - An object containing your network settings.
+// AgentApplicationSettingsMobileNetworkSettings - Network settings associated with the mobile application.
 type AgentApplicationSettingsMobileNetworkSettings struct {
 	// A list of configuration settings that map host to alias names for grouping and identification purposes.
 	Aliases []AgentApplicationSettingsNetworkAlias `json:"aliases"`
@@ -482,8 +616,10 @@ type AgentApplicationSettingsMobileNetworkSettings struct {
 	ShowList []string `json:"showList"`
 }
 
-// AgentApplicationSettingsMobileSettingsInput - Configure mobile settings here.
+// AgentApplicationSettingsMobileSettingsInput - A configuration object to enable mobile log reporting
 type AgentApplicationSettingsMobileSettingsInput struct {
+	// Config data collection for application exits.
+	ApplicationExitInfo AgentApplicationSettingsApplicationExitInfoInput `json:"applicationExitInfo,omitempty"`
 	// Input arguments for network settings.
 	NetworkSettings AgentApplicationSettingsNetworkSettingsInput `json:"networkSettings,omitempty"`
 	// Sets if application should use crash report or not for mobile settings.
@@ -520,6 +656,82 @@ type AgentApplicationSettingsNetworkSettingsInput struct {
 	ShowList []string `json:"showList"`
 }
 
+// AgentApplicationSettingsSessionReplay - Session Replay configuration.
+type AgentApplicationSettingsSessionReplay struct {
+	// When true, Session Replay will activate normally (this is the default). If set to false, Session Replay will not record automatically, but the agent will allow recording to be turned on via it's API. Please see [here](https://docs.newrelic.com/docs/browser/new-relic-browser/browser-apis/start/) for more details.
+	AutoStart bool `json:"autoStart"`
+	// String to configure which selector should be blocked
+	BlockSelector string `json:"blockSelector"`
+	// Indicates whether the agent will serialize fonts for collection without public asset url.
+	CollectFonts bool `json:"collectFonts"`
+	// Session Replay enabled.
+	Enabled bool `json:"enabled"`
+	// Percentage from 0-10 specifying how many of all user sessions that contain errors should be recorded.
+	ErrorSamplingRate float64 `json:"errorSamplingRate"`
+	// Indicates whether the agent will serialize images for collection without public asset url
+	InlineImages bool `json:"inlineImages"`
+	// Indicates whether the agent will serialize css for collection without public asset url.
+	InlineStylesheet bool `json:"inlineStylesheet"`
+	// Mask all input content as *
+	MaskAllInputs bool `json:"maskAllInputs"`
+	// Mask specific kinds of input options as *.
+	MaskInputOptions AgentApplicationSettingsMaskInputOptions `json:"maskInputOptions"`
+	// String to configure which selector should be masked.
+	MaskTextSelector string `json:"maskTextSelector,omitempty"`
+	// Percentage from 0-10 specifying how many of all user sessions should be recorded.
+	SamplingRate float64 `json:"samplingRate"`
+}
+
+// AgentApplicationSettingsSessionReplayInput - Session Replay configuration.
+type AgentApplicationSettingsSessionReplayInput struct {
+	// When true, Session Replay will activate normally (this is the default). If set to false, Session Replay will not record automatically, but the agent will allow recording to be turned on via it's API. Please see [here](https://docs.newrelic.com/docs/browser/new-relic-browser/browser-apis/start/) for more details.
+	AutoStart bool `json:"autoStart,omitempty"`
+	// String to configure which selector should be blocked
+	BlockSelector string `json:"blockSelector,omitempty"`
+	// Indicates whether the agent will serialize fonts for collection without public asset url.
+	CollectFonts bool `json:"collectFonts,omitempty"`
+	// Session Replay enabled.
+	Enabled bool `json:"enabled,omitempty"`
+	// Percentage from 0-10 specifying how many of all user sessions that contain errors should be recorded.
+	ErrorSamplingRate float64 `json:"errorSamplingRate,omitempty"`
+	// Indicates whether the agent will serialize images for collection without public asset url
+	InlineImages bool `json:"inlineImages,omitempty"`
+	// Indicates whether the agent will serialize css for collection without public asset url.
+	InlineStylesheet bool `json:"inlineStylesheet,omitempty"`
+	// Mask all input content as *
+	MaskAllInputs bool `json:"maskAllInputs,omitempty"`
+	// Mask specific kinds of input options as *.
+	MaskInputOptions AgentApplicationSettingsMaskInputOptionsInput `json:"maskInputOptions,omitempty"`
+	// String to configure which selector should be masked.
+	MaskTextSelector string `json:"maskTextSelector,omitempty"`
+	// Percentage from 0-10 specifying how many of all user sessions should be recorded.
+	SamplingRate float64 `json:"samplingRate,omitempty"`
+}
+
+// AgentApplicationSettingsSessionTrace - Session Trace configuration.
+type AgentApplicationSettingsSessionTrace struct {
+	// Session Trace enabled.
+	Enabled bool `json:"enabled"`
+	// Percentage from 0-100 specifying how many of all user sessions that contain errors should be recorded.
+	ErrorSamplingRate float64 `json:"errorSamplingRate"`
+	// Default (fixed_rate) or custom (probabilistic) option used to collect session traces.
+	Mode AgentApplicationSettingsSessionTraceMode `json:"mode,omitempty"`
+	// Percentage from 0-100 specifying how many of all user sessions should be recorded.
+	SamplingRate float64 `json:"samplingRate"`
+}
+
+// AgentApplicationSettingsSessionTraceInput - Session Trace configuration
+type AgentApplicationSettingsSessionTraceInput struct {
+	// Session Trace enabled.
+	Enabled bool `json:"enabled,omitempty"`
+	// Percentage from 0-100 specifying how many of all user sessions that contain errors should be recorded.
+	ErrorSamplingRate float64 `json:"errorSamplingRate,omitempty"`
+	// Default (fixed_rate) or custom (probabilistic) option used to collect session traces.
+	Mode AgentApplicationSettingsSessionTraceModeInput `json:"mode,omitempty"`
+	// Percentage from 0-100 specifying how many of all user sessions should be recorded.
+	SamplingRate float64 `json:"samplingRate,omitempty"`
+}
+
 // AgentApplicationSettingsSlowSql - In APM, when transaction traces are collected, there may be additional Slow query data available.
 type AgentApplicationSettingsSlowSql struct {
 	// If true, the agent collects slow SQL queries.
@@ -552,7 +764,7 @@ type AgentApplicationSettingsTracerTypeInput struct {
 
 // AgentApplicationSettingsTransactionTracer - Transaction tracer settings related to APM applications. For more information about what these settings do and which ones are applicable for your application, please see https://docs.newrelic.com for more information about agent configuration for your language agent.
 type AgentApplicationSettingsTransactionTracer struct {
-	// Enable or disable the capture of memcache keys from transaction traces.
+	// DEPRECATED: Please use capture_memcache_keys on parent type.
 	CaptureMemcacheKeys bool `json:"captureMemcacheKeys,omitempty"`
 	// If true, this enables the transaction tracer feature, enabling collection of transaction traces.
 	Enabled bool `json:"enabled,omitempty"`
@@ -576,7 +788,7 @@ type AgentApplicationSettingsTransactionTracer struct {
 
 // AgentApplicationSettingsTransactionTracerInput - Fields related to transaction traces and data collection for traces.
 type AgentApplicationSettingsTransactionTracerInput struct {
-	// Enable or disable the capture of memcache keys from transaction traces.
+	// DEPRECATED: Please use capture_memcache_keys on parent type
 	CaptureMemcacheKeys bool `json:"captureMemcacheKeys,omitempty"`
 	// If true, this enables the transaction tracer feature, enabling collection of transaction traces.
 	Enabled bool `json:"enabled,omitempty"`
@@ -636,6 +848,8 @@ type AgentApplicationSettingsUpdateInput struct {
 	BrowserConfig *AgentApplicationSettingsBrowserConfigInput `json:"browserConfig,omitempty"`
 	// Provides fields to set browser monitoring application settings.
 	BrowserMonitoring *AgentApplicationSettingsBrowserMonitoringInput `json:"browserMonitoring,omitempty"`
+	// Enable or disable the capture of memcache keys
+	CaptureMemcacheKeys bool `json:"captureMemcacheKeys,omitempty"`
 	// Captures information about uncaught exceptions and sends them to New Relic for viewing.
 	ErrorCollector *AgentApplicationSettingsErrorCollectorInput `json:"errorCollector,omitempty"`
 	// In the Java Agent (v8.0.0 or later), it can collect additional data with the Java Flight Recorder enabled.
@@ -644,6 +858,10 @@ type AgentApplicationSettingsUpdateInput struct {
 	MobileSettings *AgentApplicationSettingsMobileSettingsInput `json:"mobileSettings,omitempty"`
 	// DEPRECATED: Use `alias` to set a new name for the application.
 	Name string `json:"name,omitempty"`
+	// Fields for session replay config
+	SessionReplay AgentApplicationSettingsSessionReplayInput `json:"sessionReplay,omitempty"`
+	// Session Trace configuration.
+	SessionTrace AgentApplicationSettingsSessionTraceInput `json:"sessionTrace,omitempty"`
 	// In APM, when transaction traces are collected, there may be additional Slow query data available.
 	SlowSql *AgentApplicationSettingsSlowSqlInput `json:"slowSql,omitempty"`
 	// Settings for the thread profiler.
@@ -676,6 +894,9 @@ type AgentApplicationSettingsUpdateResult struct {
 
 // AgentApplicationSettingsErrorCollectorHttpStatus - A list of HTTP status codes, such as "404" or "500."
 type AgentApplicationSettingsErrorCollectorHttpStatus string
+
+// AgentApplicationSettingsRawJsConfiguration - The "raw" configuration values for configuring the javascript client.
+type AgentApplicationSettingsRawJsConfiguration string
 
 // Float - The `Float` scalar type represents signed double-precision fractional
 // values as specified by

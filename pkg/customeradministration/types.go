@@ -714,6 +714,36 @@ type CustomerAdministration struct {
 	Users MultiTenantIdentityUserCollection `json:"users,omitempty"`
 }
 
+// CustomerAdministration - The `CustomerAdministration` object contains fields for managing the configuration that defines the business relationships between New Relic, partners, and customers.
+type CustomerAdministration struct {
+	// Accessible account shares
+	AccountShares OrganizationAccountShareCollection `json:"accountShares,omitempty"`
+	// accounts
+	Accounts OrganizationAccountCollection `json:"accounts,omitempty"`
+	// Authentication domains
+	AuthenticationDomains OrganizationAuthenticationDomainCollection `json:"authenticationDomains,omitempty"`
+	// The `consumption` field is the entry point into a customer's consumption data that is scoped to the ID of the customer.
+	Consumption Consumption `json:"consumption,omitempty"`
+	// Accessible contracts
+	Contracts OrganizationCustomerContractWrapper `json:"contracts,omitempty"`
+	// list of grants
+	Grants MultiTenantAuthorizationGrantCollection `json:"grants,omitempty"`
+	// Named sets of New Relic users within an authentication domain
+	Groups MultiTenantIdentityGroupCollection `json:"groups,omitempty"`
+	// This provides access to fields you can use to check the status of asynchronous jobs related to customer administration.
+	Jobs CustomerAdministrationJobs `json:"jobs,omitempty"`
+	// Accessible organizations
+	Organizations OrganizationCustomerOrganizationWrapper `json:"organizations,omitempty"`
+	// list of permissions
+	Permissions MultiTenantAuthorizationPermissionCollection `json:"permissions,omitempty"`
+	// list of roles
+	Roles MultiTenantAuthorizationRoleCollection `json:"roles,omitempty"`
+	// The authenticated `User` who made this request.
+	User User `json:"user,omitempty"`
+	// A collection of New Relic users
+	Users MultiTenantIdentityUserCollection `json:"users,omitempty"`
+}
+
 type CustomerAdministrationJobs struct {
 	// Organization Create job results
 	OrganizationCreateAsyncResults OrganizationOrganizationCreateAsyncResultCollection `json:"organizationCreateAsyncResults,omitempty"`
@@ -782,7 +812,7 @@ type MultiTenantAuthorizationGrantGroupIdInputFilter struct {
 // MultiTenantAuthorizationGrantIdInputFilter - Fitlers on grants id
 type MultiTenantAuthorizationGrantIdInputFilter struct {
 	// Performs an equals operation
-	Eq int `json:"eq"`
+	Eq int `json:"eq,omitempty"`
 }
 
 // MultiTenantAuthorizationGrantOrganizationIdInputFilter - Filters on the grants organization id
@@ -826,7 +856,7 @@ type MultiTenantAuthorizationGrantScopeIdInputFilter struct {
 // MultiTenantAuthorizationGrantScopeTypeInputFilter - Filters on the grants scope type
 type MultiTenantAuthorizationGrantScopeTypeInputFilter struct {
 	// Performs an equals operation
-	Eq MultiTenantAuthorizationGrantScopeEnum `json:"eq"`
+	Eq MultiTenantAuthorizationGrantScopeEnum `json:"eq,omitempty"`
 }
 
 // MultiTenantAuthorizationGrantSortInput - Provides the sorting options for grants
@@ -868,7 +898,7 @@ type MultiTenantAuthorizationPermissionFilter struct {
 // MultiTenantAuthorizationPermissionFilterRoleIdInput - Filter permissions by role id
 type MultiTenantAuthorizationPermissionFilterRoleIdInput struct {
 	// performs an equals operation
-	Eq string `json:"eq"`
+	Eq string `json:"eq,omitempty"`
 }
 
 // MultiTenantAuthorizationRole - Describes a role within the system
@@ -920,7 +950,7 @@ type MultiTenantAuthorizationRoleGroupIdInputFilter struct {
 // MultiTenantAuthorizationRoleIdInputFilter - Provides all the available filters on the role id
 type MultiTenantAuthorizationRoleIdInputFilter struct {
 	// performs an equals operation
-	Eq int `json:"eq"`
+	Eq int `json:"eq,omitempty"`
 }
 
 // MultiTenantAuthorizationRoleNameInputFilter - Provides all the available filters on the role name
@@ -940,7 +970,7 @@ type MultiTenantAuthorizationRoleOrganizationIdInputFilter struct {
 // MultiTenantAuthorizationRoleScopeInputFilter - Provides all the available filters on the role scope
 type MultiTenantAuthorizationRoleScopeInputFilter struct {
 	// performs an equals operation
-	Eq MultiTenantAuthorizationRoleScopeEnum `json:"eq"`
+	Eq MultiTenantAuthorizationRoleScopeEnum `json:"eq,omitempty"`
 }
 
 // MultiTenantAuthorizationRoleSortInput - Provides the field and direction the result should be sorted
@@ -954,7 +984,7 @@ type MultiTenantAuthorizationRoleSortInput struct {
 // MultiTenantAuthorizationRoleTypeInputFilter - Provides all the available filters on the role type
 type MultiTenantAuthorizationRoleTypeInputFilter struct {
 	// performs an equals operation
-	Eq MultiTenantAuthorizationRoleTypeEnum `json:"eq"`
+	Eq MultiTenantAuthorizationRoleTypeEnum `json:"eq,omitempty"`
 }
 
 // MultiTenantIdentityAllowsCapabilityInput - The input object representing parameters for the allowed capability filter
@@ -966,13 +996,13 @@ type MultiTenantIdentityAllowsCapabilityInput struct {
 // MultiTenantIdentityAuthenticationDomainIdInput - The input object representing parameters for the authentication domain ID filter
 type MultiTenantIdentityAuthenticationDomainIdInput struct {
 	// An authentication domain ID
-	Eq string `json:"eq"`
+	Eq string `json:"eq,omitempty"`
 }
 
 // MultiTenantIdentityEmailVerificationStateInput - Available filtering types for email verification states
 type MultiTenantIdentityEmailVerificationStateInput struct {
 	// An email verification state
-	Pending bool `json:"pending"`
+	Pending bool `json:"pending,omitempty"`
 }
 
 // MultiTenantIdentityGroup - For users on our New Relic One user model, a "group" represents a group of users. Putting users in a group allows the managing of permissions for multiple users at the same time.
@@ -1016,7 +1046,7 @@ type MultiTenantIdentityGroupFilterInput struct {
 // MultiTenantIdentityGroupIdInput - The input object representing parameters for the ID input filter
 type MultiTenantIdentityGroupIdInput struct {
 	// A group ID
-	Eq string `json:"eq"`
+	Eq string `json:"eq,omitempty"`
 }
 
 // MultiTenantIdentityGroupMemberIdInput - The input object representing parameters for the Members filter
@@ -1090,7 +1120,7 @@ type MultiTenantIdentityPendingUpgradeRequest struct {
 // MultiTenantIdentityPendingUpgradeRequestInput - Available filtering types for pending upgrade requests
 type MultiTenantIdentityPendingUpgradeRequestInput struct {
 	// Whether a request exists or not
-	Exists bool `json:"exists"`
+	Exists bool `json:"exists,omitempty"`
 }
 
 // MultiTenantIdentityUser - A New Relic user
@@ -1419,13 +1449,13 @@ type OrganizationAuthenticationDomainSortInput struct {
 // OrganizationContractCustomerIdInputFilter - Provides all the available filters on the customer id
 type OrganizationContractCustomerIdInputFilter struct {
 	// performs an equals operation
-	Eq string `json:"eq"`
+	Eq string `json:"eq,omitempty"`
 }
 
 // OrganizationContractOrganizationIdInputFilter - Provides all the available filters on the organization id
 type OrganizationContractOrganizationIdInputFilter struct {
 	// performs an equals operation
-	Eq string `json:"eq"`
+	Eq string `json:"eq,omitempty"`
 }
 
 // OrganizationCustomerContract - A customer
@@ -1495,7 +1525,7 @@ type OrganizationCustomerOrganizationWrapper struct {
 // OrganizationIdInput - Provides the operations available on the id
 type OrganizationIdInput struct {
 	// An authentication domain id
-	Eq string `json:"eq"`
+	Eq string `json:"eq,omitempty"`
 }
 
 // OrganizationNameInput - Provides the operations available on the name
@@ -1509,13 +1539,13 @@ type OrganizationNameInput struct {
 // OrganizationOrganizationAccountIdInputFilter - Provides all the available filters on the account id
 type OrganizationOrganizationAccountIdInputFilter struct {
 	// performs an equals operation
-	Eq int `json:"eq"`
+	Eq int `json:"eq,omitempty"`
 }
 
 // OrganizationOrganizationAuthenticationDomainIdInputFilter - Provides all the available filters on the authentication domain id
 type OrganizationOrganizationAuthenticationDomainIdInputFilter struct {
 	// performs an equals operation
-	Eq string `json:"eq"`
+	Eq string `json:"eq,omitempty"`
 }
 
 // OrganizationOrganizationCreateAsyncCustomerResult - An async organization creation result customer
@@ -1577,7 +1607,7 @@ type OrganizationOrganizationCreateAsyncResultFilterInput struct {
 // OrganizationOrganizationCreateJobCustomerIdInput - The customer id search for jobs
 type OrganizationOrganizationCreateJobCustomerIdInput struct {
 	// A customer id to search for jobs in
-	Eq string `json:"eq"`
+	Eq string `json:"eq,omitempty"`
 }
 
 // OrganizationOrganizationCreateJobIdInput - The id of the job to retrieve
@@ -1599,7 +1629,7 @@ type OrganizationOrganizationCreateJobStatusInput struct {
 // OrganizationOrganizationCustomerIdInputFilter - Provides all the available filters on the customer id
 type OrganizationOrganizationCustomerIdInputFilter struct {
 	// performs an equals operation
-	Eq string `json:"eq"`
+	Eq string `json:"eq,omitempty"`
 }
 
 // OrganizationOrganizationGroup - A customers organization group
@@ -1657,7 +1687,7 @@ type OrganizationOrganizationIdInput struct {
 // OrganizationOrganizationIdInputFilter - Provides all the available filters on the organization id
 type OrganizationOrganizationIdInputFilter struct {
 	// performs an equals operation
-	Eq string `json:"eq"`
+	Eq string `json:"eq,omitempty"`
 }
 
 // OrganizationOrganizationNameInputFilter - Provides all the available filters on the organization name
@@ -1691,7 +1721,7 @@ type OrganizationSharedAccount struct {
 // OrganizationTargetIdInput - Provides the operations available on the target id
 type OrganizationTargetIdInput struct {
 	// An organization id
-	Eq string `json:"eq"`
+	Eq string `json:"eq,omitempty"`
 }
 
 // TimeWindowInput - Represents a time window input.

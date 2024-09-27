@@ -118,14 +118,11 @@ var LogConfigurationsParsingRuleMutationErrorTypeTypes = struct {
 // Account configuration data is queried through this object, as well as
 // telemetry data that is specific to a single account.
 type Account struct {
-	//
-	ID int `json:"id,omitempty"`
-	//
+	ID         int    `json:"id,omitempty"`
 	LicenseKey string `json:"licenseKey,omitempty"`
 	// This field provides access to LogConfigurations data.
 	LogConfigurations LogConfigurationsAccountStitchedFields `json:"logConfigurations,omitempty"`
-	//
-	Name string `json:"name,omitempty"`
+	Name              string                                 `json:"name,omitempty"`
 }
 
 // Actor - The `Actor` object contains fields that are scoped to the API user's access level.
@@ -134,7 +131,6 @@ type Actor struct {
 	Account Account `json:"account,omitempty"`
 }
 
-// LogConfigurationsAccountStitchedFields -
 type LogConfigurationsAccountStitchedFields struct {
 	// Look up for all data partition rules for a given account.
 	DataPartitionRules []LogConfigurationsDataPartitionRule `json:"dataPartitionRules"`
@@ -421,9 +417,7 @@ type LogConfigurationsUpdateDataPartitionRuleInput struct {
 	// The description of the data partition rule.
 	Description string `json:"description,omitempty"`
 	// Whether or not this data partition rule is enabled.
-	// NOTE: DO NOT add 'omitempty' to the JSON description of Enabled as fetched from Tutone.
-	// It omits 'enabled' even if the calling service sends it as 'false', which is why 'omitempty' has been manually discarded.
-	Enabled bool `json:"enabled"`
+	Enabled bool `json:"enabled,omitempty"`
 	// Unique data partition rule identifier.
 	ID string `json:"id"`
 	// The criteria of the data partition rule.
@@ -492,14 +486,10 @@ type LogConfigurationsUpdateParsingRuleResponse struct {
 
 // UserReference - The `UserReference` object provides basic identifying information about the user.
 type UserReference struct {
-	//
-	Email string `json:"email,omitempty"`
-	//
+	Email    string `json:"email,omitempty"`
 	Gravatar string `json:"gravatar,omitempty"`
-	//
-	ID int `json:"id,omitempty"`
-	//
-	Name string `json:"name,omitempty"`
+	ID       int    `json:"id,omitempty"`
+	Name     string `json:"name,omitempty"`
 }
 
 type dataPartitionRulesResponse struct {
