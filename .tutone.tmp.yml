@@ -1,0 +1,21 @@
+log_level: info
+cache:
+  schema_file: schema.json
+endpoint: https://api.newrelic.com/graphql
+auth:
+  header: Api-Key
+  api_key_env_var: NEW_RELIC_API_KEY
+generators:
+  - name: typegen
+    fileName: types.go
+  - name: nerdgraphclient
+    fileName: "{{.PackageName}}_api.go"
+packages:
+  - name: accounttest
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/accounttest
+    generators:
+      - typegen
+      - nerdgraphclient
+    mutations:
+      - name: accountTestCreateAccount
+        max_query_field_depth: 2
