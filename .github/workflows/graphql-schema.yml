@@ -14,7 +14,9 @@ jobs:
     name: Check for API updates
     runs-on: ubuntu-latest
     outputs:
-      apiEndpoints: ${{ steps.schema-diff.outputs.tutone_config }}
+      tutoneConfig: ${{ steps.schema-diff.outputs.tutone_config }}
+      newMutations: ${{ steps.schema-diff.outputs.new_api_mutations }}
+      packages: ${{ steps.schema-diff.outputs.packages }}
     steps:
       - name: Install Node
         uses: actions/setup-node@v4
@@ -160,9 +162,8 @@ jobs:
     needs: checkForApiUpdates
     uses: newrelic/newrelic-client-go/.github/workflows/generate.yml@feat/automated-codegen
     with:
-      apiEndpoints: ${{ needs.checkForApiUpdates.outputs.apiEndpoints }}
+      tutoneConfig: ${{ needs.checkForApiUpdates.outputs.tutoneConfig }}
+      packages: ${{ needs.checkForApiUpdates.outputs.packages }}
+      newMutations: ${{ needs.checkForApiUpdates.outputs.newMutations }}
     secrets: inherit
-      # secrets:
-    #   NEW_RELIC_API_KEY: ${{ secrets.NEW_RELIC_API_KEY }}
-    #   DEV_TOOLKIT_TOKEN: ${{ secrets.DEV_TOOLKIT_TOKEN }}
 

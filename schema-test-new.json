@@ -24,45 +24,6 @@
             }
           }
         ]
-      },
-      {
-        "name": "userManagementCreateGroup",
-        "description": "A mutation for creating a group in an authentication domain.",
-        "type": {
-          "name": "UserManagementCreateGroupPayload",
-          "kind": "OBJECT"
-        },
-        "args": [
-          {
-            "name": "createGroupOptions",
-            "description": "The input object representing the group to create",
-            "type": {
-              "name": "UserManagementCreateGroup",
-              "kind": "INPUT_OBJECT"
-            }
-          }
-        ]
-      },
-      {
-        "name": "userManagementCreateUser",
-        "description": "A mutation for creating a user in an authentication domain.",
-        "type": {
-          "name": "UserManagementCreateUserPayload",
-          "kind": "OBJECT"
-        },
-        "args": [
-          {
-            "name": "createUserOptions",
-            "description": "The input object representing the user to be created.",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "name": "UserManagementCreateUser",
-                "kind": "INPUT_OBJECT"
-              }
-            }
-          }
-        ]
       }
     ]
   },
