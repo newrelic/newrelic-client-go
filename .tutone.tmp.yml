@@ -1,0 +1,39 @@
+log_level: info
+cache:
+  schema_file: schema.json
+endpoint: https://api.newrelic.com/graphql
+auth:
+  header: Api-Key
+  api_key_env_var: NEW_RELIC_API_KEY
+generators:
+  - name: typegen
+    fileName: types.go
+  - name: nerdgraphclient
+    fileName: "{{.PackageName}}_api.go"
+packages:
+  - name: accountmanagement
+    path: pkg/accountmanagement
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/accountmanagement
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v2/pkg/users
+    queries:
+      - path:
+          - actor
+          - organization
+          - accountManagement
+        endpoints:
+          - name: managedAccounts
+            max_query_field_depth: 2
+    mutations:
+      - name: accountManagementUpdateAccount
+        max_query_field_depth: 3
+      - name: accountManagementCancelAccount
+        max_query_field_depth: 3
+      - name: accountManagementCreateAccount
+        max_query_field_depth: 2
