@@ -62,16 +62,12 @@ jobs:
       - name: Install Tutone
         run: go install github.com/newrelic/tutone/cmd/tutone@latest
 
-      # - name: Echo stuff for a testing purposes
-      #   run: echo "${{ inputs.packages }}" && echo "Branch Name - ${{ github.ref_name }}"
-      #   shell: bash
-
       # TODO: Append configuration to the config file OR write temporary Tutone config file?
       - name: Write config file
         uses: DamianReeves/write-file-action@master
         with:
           path: .tutone.tmp.yml
-          contents: ${{inputs.tutoneConfig}}
+          contents: ${{ inputs.tutoneConfig }}
 
       - name: Check config file contents
         run: cat .tutone.tmp.yml
@@ -82,6 +78,8 @@ jobs:
         env:
           NEW_RELIC_API_KEY: ${{ secrets.NEW_RELIC_API_KEY }}
 
+      # TODO: We shouldn't delete the previous branch because it could have useful updates.
+      #       We might want to consider versioning the PRs with a timestamp suffix.
       - name: Remove old automation branch if present
         shell: bash
         run: |
