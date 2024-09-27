@@ -193,9 +193,8 @@ let cfg = {
 
 cfg.packages = packagesToGenerate;
 
-// TODO: Send the fully merged config to the instead of the temporary scoped config
 const mergedConfig = merge(tutoneConfig, cfg)
-const tutoneConfigYAML = yaml.stringify(cfg);
+const tutoneConfigYAML = yaml.stringify(mergedConfig);
 
 console.log('');
 console.log('Tutone config:');
