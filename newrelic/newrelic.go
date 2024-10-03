@@ -6,6 +6,7 @@ import (
 
 	"github.com/newrelic/newrelic-client-go/v2/pkg/accountmanagement"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/accounts"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/agent"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/agentapplications"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/alerts"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/apiaccess"
@@ -43,6 +44,7 @@ import (
 type NewRelic struct {
 	AccountManagement       accountmanagement.Accountmanagement
 	AgentApplications       agentapplications.AgentApplications
+	Agent                   agent.Agent
 	Accounts                accounts.Accounts
 	Alerts                  alerts.Alerts
 	APIAccess               apiaccess.APIAccess
