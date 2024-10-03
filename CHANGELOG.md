@@ -1,3 +1,8 @@
+<a name="v2.48.0"></a>
+## [v2.48.0] - 2024-10-03
+### Features
+- Current agent release ([#1228](https://github.com/newrelic/newrelic-client-go/issues/1228))
+
 <a name="v2.47.0"></a>
 ## [v2.47.0] - 2024-09-25
 ### Features
@@ -1900,7 +1905,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.47.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.48.0...HEAD
+[v2.48.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.47.0...v2.48.0
 [v2.47.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.46.0...v2.47.0
 [v2.46.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.45.0...v2.46.0
 [v2.45.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.44.0...v2.45.0
