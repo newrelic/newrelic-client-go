@@ -69,6 +69,20 @@ packages:
         field_type_override: nrtime.TimeWindowInput
         skip_type_create: true
 
+  - name: agent
+    path: pkg/agent
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/agent
+    generators:
+      - typegen
+      - nerdgraphclient
+    queries:
+      - path: [ "docs" ]
+        endpoints:
+          - name: currentAgentRelease
+            max_query_field_depth: 1
+    types:
+    - name: AgentReleasesFilter
+
   - name: agentApplications
     path: pkg/agentapplications
     import_path: github.com/newrelic/newrelic-client-go/v2/pkg/agentapplications
