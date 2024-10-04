@@ -1,3 +1,8 @@
+<a name="v2.48.2"></a>
+## [v2.48.2] - 2024-10-04
+### Bug Fixes
+- Init agent library ([#1230](https://github.com/newrelic/newrelic-client-go/issues/1230))
+
 <a name="v2.48.1"></a>
 ## [v2.48.1] - 2024-10-03
 ### Bug Fixes
@@ -1910,7 +1915,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.48.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.48.2...HEAD
+[v2.48.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.48.1...v2.48.2
 [v2.48.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.48.0...v2.48.1
 [v2.48.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.47.0...v2.48.0
 [v2.47.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.46.0...v2.47.0
