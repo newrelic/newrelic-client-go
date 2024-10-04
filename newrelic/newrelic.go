@@ -43,9 +43,9 @@ import (
 // NewRelic is a collection of New Relic APIs.
 type NewRelic struct {
 	AccountManagement       accountmanagement.Accountmanagement
-	AgentApplications       agentapplications.AgentApplications
-	Agent                   agent.Agent
 	Accounts                accounts.Accounts
+	Agent                   agent.Agent
+	AgentApplications       agentapplications.AgentApplications
 	Alerts                  alerts.Alerts
 	APIAccess               apiaccess.APIAccess
 	APM                     apm.APM
@@ -91,8 +91,9 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 		config: cfg,
 
 		AccountManagement:       accountmanagement.New(cfg),
-		AgentApplications:       agentapplications.New(cfg),
 		Accounts:                accounts.New(cfg),
+		Agent:                   agent.New(cfg),
+		AgentApplications:       agentapplications.New(cfg),
 		Alerts:                  alerts.New(cfg),
 		APIAccess:               apiaccess.New(cfg),
 		APM:                     apm.New(cfg),
