@@ -315,6 +315,7 @@ func TestIntegrationDashboard_Variables(t *testing.T) {
 				Name: "variable",
 				Options: &DashboardVariableOptionsInput{
 					IgnoreTimeRange: true,
+					Excluded:        true,
 				},
 				NRQLQuery: &DashboardVariableNRQLQueryInput{
 					AccountIDs: []int{testAccountID},
@@ -350,7 +351,9 @@ func TestIntegrationDashboard_Variables(t *testing.T) {
 	if dash.Variables[0].Options.IgnoreTimeRange != dashboardInput.Variables[0].Options.IgnoreTimeRange {
 		t.Errorf("Expected value to be %v but got %v\n", dashboardInput.Variables[0].Options.IgnoreTimeRange, dash.Variables[0].Options.IgnoreTimeRange)
 	}
-
+	if dash.Variables[0].Options.Excluded != dashboardInput.Variables[0].Options.Excluded {
+		t.Errorf("Expected value to be %v but got %v\n", dashboardInput.Variables[0].Options.Excluded, dash.Variables[0].Options.Excluded)
+	}
 	// Input and Pages are different types so we can not easily compare them...
 	assert.Equal(t, len(dashboardInput.Pages), len(dash.Pages))
 	require.Equal(t, 1, len(dash.Pages))
@@ -397,6 +400,7 @@ func TestIntegrationDashboard_Variables(t *testing.T) {
 				Name: "variableUpdated",
 				Options: &DashboardVariableOptionsInput{
 					IgnoreTimeRange: true,
+					Excluded:        true,
 				},
 				NRQLQuery: &DashboardVariableNRQLQueryInput{
 					AccountIDs: []int{testAccountID},
