@@ -243,11 +243,11 @@ type NRQLFacetSuggestion struct {
 // NRQLHistoricalQuery - An NRQL query executed in the past.
 type NRQLHistoricalQuery struct {
 	// The Account ID queried.
-	AccountIDs []int `json:"accountIds,omitempty"`
+	AccountID int `json:"accountId,omitempty"`
 	// The NRQL query executed.
-	Query NRQL `json:"query,omitempty"`
+	NRQL NRQL `json:"nrql,omitempty"`
 	// The time the query was executed.
-	CreatedAt nrtime.DateTime `json:"createdAt,omitempty"`
+	Timestamp nrtime.EpochSeconds `json:"timestamp,omitempty"`
 }
 
 // SuggestedAnomalyBasedNRQLQuery - A query suggestion based on analysis of events within a specific anomalous time

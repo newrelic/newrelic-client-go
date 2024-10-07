@@ -3,12 +3,12 @@ package users
 
 import "context"
 
-// The `User` that is associated with the API key used in this request.
+// The authenticated `User` who made this request.
 func (a *Users) GetUser() (*User, error) {
 	return a.GetUserWithContext(context.Background())
 }
 
-// The `User` that is associated with the API key used in this request.
+// The authenticated `User` who made this request.
 func (a *Users) GetUserWithContext(
 	ctx context.Context,
 ) (*User, error) {

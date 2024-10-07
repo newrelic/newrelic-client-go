@@ -80,7 +80,6 @@ type AgentReleasesAgentRelease struct {
 	Version string `json:"version,omitempty"`
 }
 
-// DocumentationFields -
 type DocumentationFields struct {
 	// View a list of all releases for the provided Agent
 	AgentReleases []AgentReleasesAgentRelease `json:"agentReleases,omitempty"`

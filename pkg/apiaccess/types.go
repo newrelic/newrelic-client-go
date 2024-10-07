@@ -77,7 +77,6 @@ var APIAccessUserKeyErrorTypeTypes = struct {
 	NOT_FOUND: "NOT_FOUND",
 }
 
-// APIAccessActorStitchedFields -
 type APIAccessActorStitchedFields struct {
 	// Fetch a single key by ID and type.
 	Key APIAccessKeyInterface `json:"key,omitempty"`
@@ -307,6 +306,8 @@ type APIAccessIngestKey struct {
 	Name string `json:"name,omitempty"`
 	// Any notes can be attached to an key. Limited to 120 characters.
 	Notes string `json:"notes,omitempty"`
+	// The obfuscated key.
+	ObfuscatedKey string `json:"obfuscatedKey,omitempty"`
 	// The type of key, indicating what New Relic APIs it can be used to access.
 	Type APIAccessKeyType `json:"type,omitempty"`
 }
@@ -343,6 +344,8 @@ type APIAccessKey struct {
 	Name string `json:"name,omitempty"`
 	// Any notes can be attached to a key. This is intended for more a more detailed description of the key use if desired.
 	Notes string `json:"notes,omitempty"`
+	// The obfuscated key.
+	ObfuscatedKey string `json:"obfuscatedKey,omitempty"`
 	// The type of key, indicating what New Relic APIs it can be used to access.
 	Type APIAccessKeyType `json:"type,omitempty"`
 }
@@ -549,6 +552,8 @@ type APIAccessUserKey struct {
 	Name string `json:"name,omitempty"`
 	// Any notes can be attached to a key. Limited to 120 characters.
 	Notes string `json:"notes,omitempty"`
+	// The obfuscated key.
+	ObfuscatedKey string `json:"obfuscatedKey,omitempty"`
 	// The type of key, indicating what New Relic APIs it can be used to access.
 	Type APIAccessKeyType `json:"type,omitempty"`
 	// The user this key belongs to.

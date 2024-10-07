@@ -3,6 +3,21 @@ package alerts
 
 import "github.com/newrelic/newrelic-client-go/v2/pkg/nrtime"
 
+// AlertsActionOnMutingRuleWindowEnded - Configuration on the action when the muting rule window is ended or disabled
+type AlertsActionOnMutingRuleWindowEnded string
+
+var AlertsActionOnMutingRuleWindowEndedTypes = struct {
+	// Muting Rule closes issues when the muting rule window is ended or disabled to notify users.
+	CLOSE_ISSUES_ON_INACTIVE AlertsActionOnMutingRuleWindowEnded
+	// The currently opened issues will not be notified even if the muting rule window is ended or disabled.
+	DO_NOTHING AlertsActionOnMutingRuleWindowEnded
+}{
+	// Muting Rule closes issues when the muting rule window is ended or disabled to notify users.
+	CLOSE_ISSUES_ON_INACTIVE: "CLOSE_ISSUES_ON_INACTIVE",
+	// The currently opened issues will not be notified even if the muting rule window is ended or disabled.
+	DO_NOTHING: "DO_NOTHING",
+}
+
 // AlertsDayOfWeek - The day of the week used to configure a WEEKLY scheduled MutingRule
 type AlertsDayOfWeek string
 
@@ -201,17 +216,18 @@ type AlertsMutingRuleConditionInput struct {
 	//
 	// * **accountId** - The account id
 	// * **conditionId** - The alert condition id
+	// * **conditionName** - The alert condition name
+	// * **conditionRunbookUrl** - The alert condition's runbook url
+	// * **conditionType** - The alert condition type, such as `metric`
+	// * **entity.guid** - The entity GUID
+	// * **nrqlEventType** - The NRQL event type
+	// * **nrqlQuery** - The NRQL query string
 	// * **policyId** - The alert policy id
 	// * **policyName** - The alert policy name
-	// * **conditionName** - The alert condition name
-	// * **conditionType** - The alert condition type, such as `metric`
-	// * **conditionRunbookUrl** - The alert condition's runbook url
 	// * **product** - The target product (e.g., `SYNTHETICS`)
+	// * **tags.<NAME>** - Arbitrary tags associated with some entity (e.g., FACET from a NRQL query, for example `tags.appName` or `tags.host`)
 	// * **targetId** - The ID of the alerts target
 	// * **targetName** - The name of the alerts target
-	// * **nrqlEventType** - The NRQL event type
-	// * **tag** - Arbitrary tags associated with some entity (e.g., FACET from a NRQL query)
-	// * **nrqlQuery** - The NRQL query string
 	Attribute string `json:"attribute"`
 	// The operator used to compare the attribute's value with the supplied value(s).
 	Operator AlertsMutingRuleConditionOperator `json:"operator"`
@@ -221,6 +237,8 @@ type AlertsMutingRuleConditionInput struct {
 
 // AlertsMutingRuleInput - Input for creating MutingRules for New Relic Alerts Violations.
 type AlertsMutingRuleInput struct {
+	// The action when the muting rule window is ended or disabled.
+	ActionOnMutingRuleWindowEnded AlertsActionOnMutingRuleWindowEnded `json:"actionOnMutingRuleWindowEnded,omitempty"`
 	// The condition that defines which violations to target.
 	Condition AlertsMutingRuleConditionGroupInput `json:"condition,omitempty"`
 	// The description of the MutingRule.
@@ -280,6 +298,10 @@ type AlertsMutingRuleScheduleInput struct {
 type AlertsPoliciesSearchCriteriaInput struct {
 	// The list of policy ids to return.
 	IDs []string `json:"ids"`
+	// Exact name of the policy.
+	Name string `json:"name,omitempty"`
+	// String to partially match a policy name.
+	NameLike string `json:"nameLike,omitempty"`
 }
 
 // AlertsPoliciesSearchResultSet - Collection of policies with pagination information.

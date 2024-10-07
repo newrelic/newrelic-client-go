@@ -588,12 +588,9 @@ var AlertsWebhookCustomPayloadTypeTypes = struct {
 type Account struct {
 	// This field provides access to AiNotifications data.
 	AiNotifications AiNotificationsAccountStitchedFields `json:"aiNotifications,omitempty"`
-	//
-	ID int `json:"id,omitempty"`
-	//
-	LicenseKey string `json:"licenseKey,omitempty"`
-	//
-	Name string `json:"name,omitempty"`
+	ID              int                                  `json:"id,omitempty"`
+	LicenseKey      string                               `json:"licenseKey,omitempty"`
+	Name            string                               `json:"name,omitempty"`
 }
 
 // Actor - The `Actor` object contains fields that are scoped to the API user's access level.
@@ -602,7 +599,6 @@ type Actor struct {
 	Account Account `json:"account,omitempty"`
 }
 
-// AiNotificationsAccountStitchedFields -
 type AiNotificationsAccountStitchedFields struct {
 	// Fetch a Channel by product
 	Channels AiNotificationsChannelsResponse `json:"channels,omitempty"`
@@ -802,6 +798,8 @@ type AiNotificationsDestinationFilter struct {
 	Active bool `json:"active,omitempty"`
 	// authType
 	AuthType AiNotificationsAuthType `json:"authType,omitempty"`
+	// exactName
+	ExactName string `json:"exactName,omitempty"`
 	// id
 	ID string `json:"id,omitempty"`
 	// ids
@@ -823,9 +821,9 @@ type AiNotificationsDestinationInput struct {
 	// name
 	Name string `json:"name"`
 	// properties
-	Properties []AiNotificationsPropertyInput `json:"properties"`
+	Properties []AiNotificationsPropertyInput `json:"properties,omitempty"`
 	// secureUrl
-	SecureURL *AiNotificationsSecureURLInput `json:"secureUrl,omitempty"`
+	SecureURL AiNotificationsSecureURLInput `json:"secureUrl,omitempty"`
 	// type
 	Type AiNotificationsDestinationType `json:"type"`
 }
@@ -861,7 +859,7 @@ type AiNotificationsDestinationUpdate struct {
 	// properties
 	Properties []AiNotificationsPropertyInput `json:"properties,omitempty"`
 	// secureUrl
-	SecureURL *AiNotificationsSecureURLUpdate `json:"secureUrl,omitempty"`
+	SecureURL AiNotificationsSecureURLUpdate `json:"secureUrl,omitempty"`
 }
 
 // AiNotificationsDestinationsResponse - Destinations result object

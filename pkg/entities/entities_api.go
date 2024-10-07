@@ -4002,6 +4002,7 @@ const getEntityQuery = `query(
 				query
 			}
 			options {
+				excluded
 				ignoreTimeRange
 			}
 			replacementStrategy

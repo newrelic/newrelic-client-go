@@ -64,8 +64,6 @@ type ChangeTrackingDeployment struct {
 	Changelog string `json:"changelog,omitempty"`
 	// The commit identifier, for example, a Git commit SHA.
 	Commit string `json:"commit,omitempty"`
-	// Represents key-value pairs of custom attributes in JSON format.
-	CustomAttributes ChangeTrackingRawCustomAttributesMap `json:"customAttributes,omitempty"`
 	// A link to the system that generated the deployment.
 	DeepLink string `json:"deepLink,omitempty"`
 	// A unique deployment identifier.
@@ -76,7 +74,7 @@ type ChangeTrackingDeployment struct {
 	Description string `json:"description,omitempty"`
 	// The NR entity that was deployed.
 	EntityGUID common.EntityGUID `json:"entityGuid"`
-	// An identifier used to correlate two or more events.
+	// An identifier used to correlate account-wide changes across entities. These changes are shown together in the `Changes in group` section of the change event details UI.
 	GroupId string `json:"groupId,omitempty"`
 	// The start time of the deployment as the number of milliseconds since the Unix epoch.
 	Timestamp nrtime.EpochMilliseconds `json:"timestamp"`
@@ -92,19 +90,6 @@ type ChangeTrackingDeploymentInput struct {
 	Changelog string `json:"changelog,omitempty"`
 	// The commit identifier, for example, a Git commit SHA.
 	Commit string `json:"commit,omitempty"`
-	// Represents key-value pairs of custom attributes in JSON format. Attribute values can be of type string, boolean, or numeric.
-	//
-	// **Restricted attributes names:**  accountId, appID, changelog, commit, customAttributes, deepLink, deploymentType, description, entity.guid, entity.name, entity.type, entityGuid, entityName, eventType, groupId, timestamp, user, version
-	//
-	// **Restricted attribute name prefixes:**  'nr.', 'newrelic.'
-	//
-	// For more information on limitations, see [our docs](https://docs.newrelic.com/docs/change-tracking/change-tracking-graphql/)
-	//
-	// **Examples:**
-	//
-	//     • {cloudVendor : "vendorName", region : "us-east-1", environment : "staging"}
-	//     • {isProd : true, region : "us-east-1", instances: 2, deployTime : 10.5}
-	CustomAttributes ChangeTrackingRawCustomAttributesMap `json:"customAttributes,omitempty"`
 	// A URL to the system that generated the deployment.
 	DeepLink string `json:"deepLink,omitempty"`
 	// The type of deployment, for example, ‘Blue green’ or ‘Rolling’.
@@ -113,7 +98,7 @@ type ChangeTrackingDeploymentInput struct {
 	Description string `json:"description,omitempty"`
 	// The NR entity that was deployed.
 	EntityGUID common.EntityGUID `json:"entityGuid"`
-	// An identifier used to correlate two or more events.
+	// An identifier used to correlate account-wide changes across entities. These changes are shown together in the `Changes in group` section of the change event details UI.
 	GroupId string `json:"groupId,omitempty"`
 	// The start time of the deployment as the number of milliseconds since the Unix epoch. Should be within the boundary of the past or future 24 hours. Defaults to now.
 	Timestamp nrtime.EpochMilliseconds `json:"timestamp,omitempty"`
@@ -122,6 +107,3 @@ type ChangeTrackingDeploymentInput struct {
 	// The version of the deployed software, for example, something like v1.1
 	Version string `json:"version"`
 }
-
-// ChangeTrackingRawCustomAttributesMap - A JSON scalar
-type ChangeTrackingRawCustomAttributesMap map[string]interface{}
