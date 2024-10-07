@@ -455,6 +455,11 @@ const CloudConfigureIntegrationMutation = `mutation(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudConfluentKafkaResourceIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudDynamodbIntegration {
 			__typename
 			awsRegions
@@ -546,6 +551,11 @@ const CloudConfigureIntegrationMutation = `mutation(
 			metricsPollingInterval
 			tagKey
 			tagValue
+		}
+		... on CloudFossaIssuesIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
 		}
 		... on CloudGcpAiplatformIntegration {
 			__typename
@@ -845,10 +855,9 @@ type CloudDisableIntegrationQueryResponse struct {
 	CloudDisableIntegrationPayload CloudDisableIntegrationPayload `json:"CloudDisableIntegration"`
 }
 
-// Note: Do not make "$integrations" an optional field (as fetched from Tutone) to avoid a breaking change
 const CloudDisableIntegrationMutation = `mutation(
 	$accountId: Int!,
-	$integrations: CloudDisableIntegrationsInput!,
+	$integrations: CloudDisableIntegrationsInput,
 ) { cloudDisableIntegration(
 	accountId: $accountId,
 	integrations: $integrations,
@@ -1246,6 +1255,11 @@ const CloudDisableIntegrationMutation = `mutation(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudConfluentKafkaResourceIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudDynamodbIntegration {
 			__typename
 			awsRegions
@@ -1337,6 +1351,11 @@ const CloudDisableIntegrationMutation = `mutation(
 			metricsPollingInterval
 			tagKey
 			tagValue
+		}
+		... on CloudFossaIssuesIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
 		}
 		... on CloudGcpAiplatformIntegration {
 			__typename
@@ -1839,10 +1858,9 @@ func (a *Cloud) GetLinkedAccountWithContext(
 	return &resp.Actor.Account.Cloud.LinkedAccount, nil
 }
 
-// Note: Do not make "$id" an optional field (as fetched from Tutone) to avoid a breaking change
 const getLinkedAccountQuery = `query(
 	$accountID: Int!,
-	$id: Int!,
+	$id: Int,
 ) { actor { account(id: $accountID) { cloud { linkedAccount(
 	id: $id,
 ) {
@@ -2264,6 +2282,11 @@ const getLinkedAccountQuery = `query(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudConfluentKafkaResourceIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudDynamodbIntegration {
 			__typename
 			awsRegions
@@ -2355,6 +2378,11 @@ const getLinkedAccountQuery = `query(
 			metricsPollingInterval
 			tagKey
 			tagValue
+		}
+		... on CloudFossaIssuesIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
 		}
 		... on CloudGcpAiplatformIntegration {
 			__typename
@@ -3113,6 +3141,11 @@ const getLinkedAccountsQuery = `query(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudConfluentKafkaResourceIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudDynamodbIntegration {
 			__typename
 			awsRegions
@@ -3204,6 +3237,11 @@ const getLinkedAccountsQuery = `query(
 			metricsPollingInterval
 			tagKey
 			tagValue
+		}
+		... on CloudFossaIssuesIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
 		}
 		... on CloudGcpAiplatformIntegration {
 			__typename

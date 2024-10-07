@@ -6,13 +6,14 @@ package synthetics
 import (
 	"errors"
 	"fmt"
-	"github.com/stretchr/testify/require"
 	"log"
 	"math/rand"
 	"os"
 	"regexp"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/require"
 
 	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )

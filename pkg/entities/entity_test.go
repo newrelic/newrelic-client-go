@@ -42,7 +42,7 @@ func TestBuildTagsNrqlQueryFragment_SingleTag(t *testing.T) {
 	expected := "tags.`tagKey` = 'tagValue'"
 
 	tags := []map[string]string{
-		map[string]string{
+		{
 			"key":   "tagKey",
 			"value": "tagValue",
 		},
@@ -59,15 +59,15 @@ func TestBuildTagsNrqlQueryFragment_MultipleTags(t *testing.T) {
 	expected := "tags.`tagKey` = 'tagValue' AND tags.`tagKey2` = 'tagValue2' AND tags.`tagKey3` = 'tagValue3'"
 
 	tags := []map[string]string{
-		map[string]string{
+		{
 			"key":   "tagKey",
 			"value": "tagValue",
 		},
-		map[string]string{
+		{
 			"key":   "tagKey2",
 			"value": "tagValue2",
 		},
-		map[string]string{
+		{
 			"key":   "tagKey3",
 			"value": "tagValue3",
 		},
@@ -173,11 +173,11 @@ func TestBuildEntitySearchNrqlQuery(t *testing.T) {
 		Domain: "APM",
 		Type:   "APPLICATION",
 		Tags: []map[string]string{
-			map[string]string{
+			{
 				"key":   "tagKey",
 				"value": "tagValue",
 			},
-			map[string]string{
+			{
 				"key":   "tagKey2",
 				"value": "tagValue2",
 			},
