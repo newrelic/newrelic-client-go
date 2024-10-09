@@ -112,6 +112,7 @@ jobs:
             `${{ inputs.newMutations }}`
 
             Please perform the following actions before merging:
+            - [ ] If package is new, export and initialize it in [newrelic/newrelic.go](https://github.com/newrelic/newrelic-client-go/blob/main/newrelic/newrelic.go#L44)
             - [ ] Review the changes to the generated code
             - [ ] Add new integration tests as necessary
             - [ ] Update applicable tests as necessary
