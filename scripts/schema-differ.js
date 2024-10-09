@@ -15,12 +15,12 @@ try {
   const tutoneConfigFile = fs.readFileSync(`${pathPrefix}.tutone.yml`, 'utf8')
   tutoneConfig = yaml.parse(tutoneConfigFile)
 
-  const schemaFileOld = fs.readFileSync(`${pathPrefix}schema-test-old.json`, 'utf8');
-  // const schemaFileOld = fs.readFileSync('schema-old.json', 'utf8');
+  // const schemaFileOld = fs.readFileSync(`${pathPrefix}schema-test-old.json`, 'utf8');
+  const schemaFileOld = fs.readFileSync(`${pathPrefix}schema-old.json`, 'utf8');
   schemaOld = JSON.parse(schemaFileOld);
 
-  const schemaFileLatest = fs.readFileSync(`${pathPrefix}schema-test-new.json`, 'utf8');
-  // const schemaFileLatest = fs.readFileSync('schema.json', 'utf8');
+  // const schemaFileLatest = fs.readFileSync(`${pathPrefix}schema-test-new.json`, 'utf8');
+  const schemaFileLatest = fs.readFileSync(`${pathPrefix}schema.json`, 'utf8');
   schemaLatest = JSON.parse(schemaFileLatest);
 } catch (err) {
   console.error(err);
@@ -31,8 +31,6 @@ const endpointsOld = schemaOld.mutationType.fields.map(field => field.name);
 const endpointsLatest = schemaLatest.mutationType.fields.map(field => field.name);
 const newEndpoints = endpointsLatest.filter(x => !endpointsOld.includes(x));
 const hasNewEndpoints = newEndpoints.length > 0;
-
-// console.log('newEndpoints:', newEndpoints);
 
 // Get the mutations the client has implemented
 const clientMutations = tutoneConfig.packages.map(pkg => {
@@ -83,12 +81,8 @@ function generatePackageNameForEndpoint(endpointName) {
   return endpointName.split(keywords)[0].toLowerCase();
 }
 
-// console.log('');
-
 const packagesToGenerate = [];
-
 const clientPackages = tutoneConfig.packages;
-
 
 newEndpoints.forEach((endpointName) => {
   const newEndpointSchema = schemaLatest.mutationType.fields.find(f => f.name === endpointName);
@@ -145,8 +139,6 @@ newEndpoints.forEach((endpointName) => {
       ? findMutationByName(pkg.mutations, endpointName)
       : null;
 
-    // console.log('cachedMutation:', endpointName);
-
     // Ensure we don't add the same mutation twice
     // TODO: This is a naive implementation. We should check if
     // the mutation's query depth has changed.
@@ -158,8 +150,6 @@ newEndpoints.forEach((endpointName) => {
     }
   }
 });
-
-// console.log('packagesToGenerate:', JSON.stringify(packagesToGenerate, null, 2));
 
 function findPackageByName(packages, packageName) {
   return packages.find(pkg => pkg.name === packageName);
@@ -329,8 +319,6 @@ function getMaxQueryDepth(type, depth = 1) {
     }
   }
 
-  // console.log('maxQueryDepth', maxQueryDepth);
-
   return maxQueryDepth;
 }
 
@@ -347,5 +335,5 @@ module.exports = {
   clientMutationsDiffMsg,
   changedEndpoints,
   tutoneConfig: tutoneConfigYAML,
-  packagesToGenerate: listOfPackagesToGenerate, // pop() is temporary for testing
+  packagesToGenerate: listOfPackagesToGenerate,
 };
