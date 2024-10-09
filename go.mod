@@ -2,6 +2,8 @@ module github.com/newrelic/newrelic-client-go/v2
 
 go 1.22
 
+toolchain go1.22.6
+
 require (
 	github.com/elazarl/goproxy v0.0.0-20231117061959-7cc037d33fb5
 	github.com/google/go-querystring v1.1.0
