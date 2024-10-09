@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "lodash.merge": "^4.6.2",
-    "yaml": "^2.5.1"
-  }
-}

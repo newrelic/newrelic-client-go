@@ -1,22 +1,5 @@
 name: Tutone Generate
 on:
-  # push:
-  #   branches:
-  #     - 'feat/automated-codegen'
-  workflow_dispatch:
-    inputs:
-      tutoneConfig:
-        required: true
-        type: string
-        description: 'The API endpoints for which to generate code'
-      packages:
-        required: true
-        type: string
-        description: 'A comma-separated list of packages to generate for which to generate code'
-      newMutations:
-        required: false
-        type: string
-        description: 'A comma-separated list of new mutations'
   workflow_call:
     inputs:
       tutoneConfig:
