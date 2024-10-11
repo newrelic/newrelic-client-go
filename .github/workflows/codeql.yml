@@ -26,10 +26,6 @@ jobs:
       with:
         languages: go
         config-file: ./.github/codeql/codeql-config.yml
-        build-mode: manual
-
-    - run: |
-       make compile-only
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
