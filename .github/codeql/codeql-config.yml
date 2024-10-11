@@ -1,3 +1,4 @@
 name: "CodeQL config"
 paths-ignore:
-  - pkg/**/*_test.go
+  - **/*_test.go
+  - tools/tools.go
