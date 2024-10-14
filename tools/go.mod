@@ -2,8 +2,6 @@ module github.com/newrelic/newrelic-client-go/v2/tools
 
 go 1.22.5
 
-toolchain go1.22.6
-
 require (
 	github.com/caarlos0/svu/v2 v2.0.1
 	github.com/client9/misspell v0.3.4
