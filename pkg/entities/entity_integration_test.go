@@ -20,25 +20,10 @@ func TestIntegrationSearchEntities(t *testing.T) {
 	client := newIntegrationTestClient(t)
 
 	params := EntitySearchQueryBuilder{
-		Name: "Dummy App",
+		Name: testhelpers.IntegrationTestApplicationEntityNameNew,
 	}
 
 	actual, err := client.GetEntitySearch(
-		EntitySearchOptions{},
-		"",
-		params,
-		[]EntitySearchSortCriteria{},
-		[]SortCriterionWithDirection{},
-	)
-
-	require.NoError(t, err)
-	require.Greater(t, len(actual.Results.Entities), 0)
-
-	params = EntitySearchQueryBuilder{
-		Name: "WebPortal",
-	}
-
-	actual, err = client.GetEntitySearch(
 		EntitySearchOptions{},
 		"",
 		params,
@@ -161,7 +146,7 @@ func TestIntegrationGetEntity(t *testing.T) {
 	assert.Equal(t, 3806526, actual.AccountID)
 	assert.Equal(t, "APM", actual.Domain)
 	assert.Equal(t, EntityType("APM_APPLICATION_ENTITY"), actual.EntityType)
-	assert.Equal(t, testhelpers.IntegrationTestApplicationEntityGUIDNew, actual.GUID)
+	assert.Equal(t, testhelpers.IntegrationTestApplicationEntityGUIDNew, string(actual.GUID))
 	assert.Equal(t, "Dummy App Pro Max", actual.Name)
 	assert.Equal(t, "https://one.newrelic.com/redirect/entity/"+string(testhelpers.IntegrationTestApplicationEntityGUIDNew), actual.Permalink)
 	assert.Equal(t, true, actual.Reporting)
@@ -264,7 +249,7 @@ func TestIntegrationGetEntity_MobileEntity(t *testing.T) {
 
 func TestIntegrationGetEntity_SyntheticsEntity(t *testing.T) {
 	t.Parallel()
-	syntheticsEntityMonitorGUID := "MzgwNjUyNnxTWU5USHxNT05JVE9SfGFmZmM0MTRiLTVhNmMtNGI5NS1iMzYwLThhNmQ2ZTkzOTM3Yw"
+	syntheticsEntityMonitorGUID := "MzgwNjUyNnxTWU5USHxNT05JVE9SfDVjNDg1NDFiLTg5MzQtNDkzYy1hNTVkLTNjMTgzZWNkN2ZlMg"
 	client := newIntegrationTestClient(t)
 
 	result, err := client.GetEntity(common.EntityGUID(syntheticsEntityMonitorGUID))
@@ -282,10 +267,10 @@ func TestIntegrationGetEntity_SyntheticsEntity(t *testing.T) {
 	entity := (*result).(*SyntheticMonitorEntity)
 	require.NotNil(t, entity)
 
-	deviceOrientation := FindTagByKey(entity.Tags, "deviceOrientation")
+	devices := FindTagByKey(entity.Tags, "devices")
 	runtimeType := FindTagByKey(entity.Tags, "runtimeType")
 	runtimeTypeVersion := FindTagByKey(entity.Tags, "runtimeTypeVersion")
-	require.Greater(t, len(deviceOrientation), 0)
+	require.Greater(t, len(devices), 0)
 	require.Greater(t, len(runtimeType), 0)
 	require.Greater(t, len(runtimeTypeVersion), 0)
 }
