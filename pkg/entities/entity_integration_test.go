@@ -264,7 +264,7 @@ func TestIntegrationGetEntity_MobileEntity(t *testing.T) {
 
 func TestIntegrationGetEntity_SyntheticsEntity(t *testing.T) {
 	t.Parallel()
-	syntheticsEntityMonitorGUID := "MzgwNjUyNnxTWU5USHxNT05JVE9SfGFmZmM0MTRiLTVhNmMtNGI5NS1iMzYwLThhNmQ2ZTkzOTM3Yw"
+	syntheticsEntityMonitorGUID := "MzgwNjUyNnxTWU5USHxNT05JVE9SfDVjNDg1NDFiLTg5MzQtNDkzYy1hNTVkLTNjMTgzZWNkN2ZlMg"
 	client := newIntegrationTestClient(t)
 
 	result, err := client.GetEntity(common.EntityGUID(syntheticsEntityMonitorGUID))
@@ -282,10 +282,10 @@ func TestIntegrationGetEntity_SyntheticsEntity(t *testing.T) {
 	entity := (*result).(*SyntheticMonitorEntity)
 	require.NotNil(t, entity)
 
-	deviceOrientation := FindTagByKey(entity.Tags, "deviceOrientation")
+	devices := FindTagByKey(entity.Tags, "devices")
 	runtimeType := FindTagByKey(entity.Tags, "runtimeType")
 	runtimeTypeVersion := FindTagByKey(entity.Tags, "runtimeTypeVersion")
-	require.Greater(t, len(deviceOrientation), 0)
+	require.Greater(t, len(devices), 0)
 	require.Greater(t, len(runtimeType), 0)
 	require.Greater(t, len(runtimeTypeVersion), 0)
 }
