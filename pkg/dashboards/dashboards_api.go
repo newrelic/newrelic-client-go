@@ -2118,6 +2118,7 @@ const DashboardCreateMutation = `mutation(
 				query
 			}
 			options {
+				excluded
 				ignoreTimeRange
 			}
 			replacementStrategy
@@ -4294,6 +4295,7 @@ const DashboardUpdateMutation = `mutation(
 				query
 			}
 			options {
+				excluded
 				ignoreTimeRange
 			}
 			replacementStrategy

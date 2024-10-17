@@ -5312,6 +5312,8 @@ type DashboardVariableNRQLQuery struct {
 
 // DashboardVariableOptions - Options applied to the variable.
 type DashboardVariableOptions struct {
+	// With this turned on, query condition defined with the variable will not be included in the query.
+	Excluded bool `json:"excluded,omitempty"`
 	// Only applies to variables of type NRQL. With this turned on, the time range for the NRQL query will override the time picker on dashboards and other pages. Turn this off to use the time picker as normal.
 	IgnoreTimeRange bool `json:"ignoreTimeRange,omitempty"`
 }

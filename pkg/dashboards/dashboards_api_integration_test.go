@@ -276,6 +276,8 @@ func TestIntegrationDashboard_Variables(t *testing.T) {
 
 	// Test vars
 	dashboardName := "newrelic-client-go test-dashboard-" + mock.RandSeq(5)
+	ignoreTimeRangeValue := true
+	excludedValue := true
 	dashboardInput := DashboardInput{
 		Description: "Test description",
 		Name:        dashboardName,
@@ -314,7 +316,8 @@ func TestIntegrationDashboard_Variables(t *testing.T) {
 				},
 				Name: "variable",
 				Options: &DashboardVariableOptionsInput{
-					IgnoreTimeRange: true,
+					IgnoreTimeRange: &ignoreTimeRangeValue,
+					Excluded:        &excludedValue,
 				},
 				NRQLQuery: &DashboardVariableNRQLQueryInput{
 					AccountIDs: []int{testAccountID},
@@ -347,10 +350,12 @@ func TestIntegrationDashboard_Variables(t *testing.T) {
 	assert.Equal(t, dashboardInput.Name, dash.Name)
 	assert.Equal(t, entities.DashboardEntityPermissions(string(dashboardInput.Permissions)), dash.Permissions)
 
-	if dash.Variables[0].Options.IgnoreTimeRange != dashboardInput.Variables[0].Options.IgnoreTimeRange {
-		t.Errorf("Expected value to be %v but got %v\n", dashboardInput.Variables[0].Options.IgnoreTimeRange, dash.Variables[0].Options.IgnoreTimeRange)
+	if dash.Variables[0].Options.IgnoreTimeRange != *dashboardInput.Variables[0].Options.IgnoreTimeRange {
+		t.Errorf("Expected value to be %v but got %v\n", *dashboardInput.Variables[0].Options.IgnoreTimeRange, dash.Variables[0].Options.IgnoreTimeRange)
 	}
-
+	if dash.Variables[0].Options.Excluded != *dashboardInput.Variables[0].Options.Excluded {
+		t.Errorf("Expected value to be %v but got %v\n", *dashboardInput.Variables[0].Options.Excluded, dash.Variables[0].Options.Excluded)
+	}
 	// Input and Pages are different types so we can not easily compare them...
 	assert.Equal(t, len(dashboardInput.Pages), len(dash.Pages))
 	require.Equal(t, 1, len(dash.Pages))
@@ -362,6 +367,8 @@ func TestIntegrationDashboard_Variables(t *testing.T) {
 	assert.Greater(t, len(dash.Pages[0].Widgets[0].RawConfiguration), 1)
 
 	// Test: DashboardUpdate
+	ignoreTimeRangeValue = false
+	excludedValue = false
 	updatedDashboard := DashboardInput{
 		Name:        dash.Name,
 		Permissions: result.EntityResult.Permissions,
@@ -396,7 +403,8 @@ func TestIntegrationDashboard_Variables(t *testing.T) {
 				},
 				Name: "variableUpdated",
 				Options: &DashboardVariableOptionsInput{
-					IgnoreTimeRange: true,
+					IgnoreTimeRange: &ignoreTimeRangeValue,
+					Excluded:        &excludedValue,
 				},
 				NRQLQuery: &DashboardVariableNRQLQueryInput{
 					AccountIDs: []int{testAccountID},

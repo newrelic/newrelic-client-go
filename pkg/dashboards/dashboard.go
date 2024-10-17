@@ -100,6 +100,7 @@ const getDashboardEntityQuery = `query ($guid: EntityGuid!) {
           }
           name
 		  options {
+			excluded
 			ignoreTimeRange
 		  }
           nrqlQuery {

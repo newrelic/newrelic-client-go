@@ -323,6 +323,7 @@ type RawConfiguration struct {
 // RawConfigurationPlatformOptions represents the platform widget options
 type RawConfigurationPlatformOptions struct {
 	IgnoreTimeRange bool `json:"ignoreTimeRange,omitempty"`
+	Excluded        bool `json:"excluded,omitempty"`
 }
 
 type DashboardWidgetLegend struct {
