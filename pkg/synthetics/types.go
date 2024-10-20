@@ -382,11 +382,15 @@ var SyntheticsMonitorStatusTypes = struct {
 	DISABLED SyntheticsMonitorStatus
 	// Enabled status of a monitor
 	ENABLED SyntheticsMonitorStatus
+	// Alerts muted status of a monitor
+	MUTED SyntheticsMonitorStatus
 }{
 	// Monitor disabled runs status of a monitor
 	DISABLED: "DISABLED",
 	// Enabled status of a monitor
 	ENABLED: "ENABLED",
+	// Alerts muted status of a monitor
+	MUTED: "MUTED",
 }
 
 // SyntheticsMonitorType - Enum of monitor types
@@ -774,17 +778,17 @@ type SyntheticsAutomatedTestJobResult struct {
 // SyntheticsAutomatedTestMonitorConfig - Monitor specific test config
 type SyntheticsAutomatedTestMonitorConfig struct {
 	// Specifies whether a failure of this monitor should fail the entire automated test
-	IsBlocking bool `json:"isBlocking"`
+	IsBlocking bool `json:"isBlocking,omitempty"`
 	// Specific overrides for the given monitor
-	Overrides *SyntheticsAutomatedTestOverrides `json:"overrides"`
+	Overrides *SyntheticsAutomatedTestOverrides `json:"overrides,omitempty"`
 }
 
 // SyntheticsAutomatedTestMonitorConfigInput - Monitor specific test configuration
 type SyntheticsAutomatedTestMonitorConfigInput struct {
 	// Specifies whether a failure of this monitor should fail the entire automated test
-	IsBlocking bool `json:"isBlocking" yaml:"isBlocking"`
+	IsBlocking bool `json:"isBlocking,omitempty" yaml:"isBlocking,omitempty"`
 	// Specific overrides for the given monitor
-	Overrides *SyntheticsAutomatedTestOverridesInput `json:"overrides" yaml:"overrides"`
+	Overrides *SyntheticsAutomatedTestOverridesInput `json:"overrides,omitempty" yaml:"overrides,omitempty"`
 }
 
 // SyntheticsAutomatedTestMonitorInput - Monitor test definition to be included in the automated test
@@ -1510,7 +1514,7 @@ type SyntheticsScriptBrowserMonitorAdvancedOptions struct {
 	// Emulate a device
 	DeviceEmulation SyntheticsDeviceEmulation `json:"deviceEmulation,omitempty"`
 	// Capture a screenshot during job execution
-	EnableScreenshotOnFailureAndScript *bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
+	EnableScreenshotOnFailureAndScript bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
 }
 
 // SyntheticsScriptBrowserMonitorAdvancedOptionsInput - The advanced options inputs available for a Script Browser monitor
@@ -1518,7 +1522,7 @@ type SyntheticsScriptBrowserMonitorAdvancedOptionsInput struct {
 	// Emulate a device
 	DeviceEmulation *SyntheticsDeviceEmulationInput `json:"deviceEmulation,omitempty"`
 	// Capture a screenshot during job execution
-	EnableScreenshotOnFailureAndScript *bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
+	EnableScreenshotOnFailureAndScript bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
 }
 
 // SyntheticsScriptBrowserMonitorCreateMutationResult - The result of a Script Browser monitor create mutation
@@ -1628,25 +1632,25 @@ type SyntheticsSimpleBrowserMonitorAdvancedOptions struct {
 	// Emulate a device
 	DeviceEmulation SyntheticsDeviceEmulation `json:"deviceEmulation,omitempty"`
 	// Capture a screenshot during job execution
-	EnableScreenshotOnFailureAndScript *bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
+	EnableScreenshotOnFailureAndScript bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
 	// Validation text for monitor to search for at given URI
 	ResponseValidationText string `json:"responseValidationText,omitempty"`
 	// Monitor should validate SSL certificate chain
-	UseTlsValidation *bool `json:"useTlsValidation,omitempty"`
+	UseTlsValidation bool `json:"useTlsValidation,omitempty"`
 }
 
 // SyntheticsSimpleBrowserMonitorAdvancedOptionsInput - The advanced options inputs available for a Simple Browser monitor
 type SyntheticsSimpleBrowserMonitorAdvancedOptionsInput struct {
 	// Custom headers to use in monitor job
-	CustomHeaders *[]SyntheticsCustomHeaderInput `json:"customHeaders,omitempty"`
+	CustomHeaders []SyntheticsCustomHeaderInput `json:"customHeaders,omitempty"`
 	// Emulate a device
 	DeviceEmulation *SyntheticsDeviceEmulationInput `json:"deviceEmulation,omitempty"`
 	// Capture a screenshot during job execution
-	EnableScreenshotOnFailureAndScript *bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
+	EnableScreenshotOnFailureAndScript bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
 	// Validation text for monitor to search for at given URI
 	ResponseValidationText string `json:"responseValidationText,omitempty"`
 	// Monitor should validate SSL certificate chain
-	UseTlsValidation *bool `json:"useTlsValidation,omitempty"`
+	UseTlsValidation bool `json:"useTlsValidation,omitempty"`
 }
 
 // SyntheticsSimpleBrowserMonitorCreateMutationResult - The result of a Simple Browser monitor create mutation
@@ -1694,27 +1698,27 @@ type SyntheticsSimpleMonitorAdvancedOptions struct {
 	// Custom headers to use in monitor job
 	CustomHeaders []SyntheticsCustomHeader `json:"customHeaders,omitempty"`
 	// Categorize redirects during a monitor job as a failure
-	RedirectIsFailure *bool `json:"redirectIsFailure,omitempty"`
+	RedirectIsFailure bool `json:"redirectIsFailure,omitempty"`
 	// Validation text for monitor to search for at given URI
 	ResponseValidationText string `json:"responseValidationText,omitempty"`
 	// Monitor should skip default HEAD request and instead use GET verb in check
-	ShouldBypassHeadRequest *bool `json:"shouldBypassHeadRequest,omitempty"`
+	ShouldBypassHeadRequest bool `json:"shouldBypassHeadRequest,omitempty"`
 	// Monitor should validate SSL certificate chain
-	UseTlsValidation *bool `json:"useTlsValidation,omitempty"`
+	UseTlsValidation bool `json:"useTlsValidation,omitempty"`
 }
 
 // SyntheticsSimpleMonitorAdvancedOptionsInput - The advanced options inputs available for a Simple (ping) monitor
 type SyntheticsSimpleMonitorAdvancedOptionsInput struct {
 	// Custom headers to use in monitor job
-	CustomHeaders *[]SyntheticsCustomHeaderInput `json:"customHeaders,omitempty"`
+	CustomHeaders []SyntheticsCustomHeaderInput `json:"customHeaders,omitempty"`
 	// Categorize redirects during a monitor job as a failure
-	RedirectIsFailure *bool `json:"redirectIsFailure,omitempty"`
+	RedirectIsFailure bool `json:"redirectIsFailure,omitempty"`
 	// Validation text for monitor to search for at given URI
 	ResponseValidationText string `json:"responseValidationText,omitempty"`
 	// Monitor should skip default HEAD request and instead use GET verb in check
-	ShouldBypassHeadRequest *bool `json:"shouldBypassHeadRequest,omitempty"`
+	ShouldBypassHeadRequest bool `json:"shouldBypassHeadRequest,omitempty"`
 	// Monitor should validate SSL certificate chain
-	UseTlsValidation *bool `json:"useTlsValidation,omitempty"`
+	UseTlsValidation bool `json:"useTlsValidation,omitempty"`
 }
 
 // SyntheticsSimpleMonitorUpdateMutationResult - The result of a Simple (ping) monitor update mutation
@@ -1778,13 +1782,13 @@ type SyntheticsStepMonitor struct {
 // SyntheticsStepMonitorAdvancedOptions - The advanced options available for a Step monitor
 type SyntheticsStepMonitorAdvancedOptions struct {
 	// Capture a screenshot during job execution
-	EnableScreenshotOnFailureAndScript *bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
+	EnableScreenshotOnFailureAndScript bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
 }
 
 // SyntheticsStepMonitorAdvancedOptionsInput - The advanced options inputs available for a Step monitor
 type SyntheticsStepMonitorAdvancedOptionsInput struct {
 	// Capture a screenshot during job execution
-	EnableScreenshotOnFailureAndScript *bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
+	EnableScreenshotOnFailureAndScript bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
 }
 
 // SyntheticsStepMonitorCreateMutationResult - The result of a Step monitor create mutation

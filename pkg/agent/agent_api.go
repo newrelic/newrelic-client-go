@@ -27,7 +27,7 @@ func (a *Agent) GetCurrentAgentReleaseWithContext(
 		return nil, err
 	}
 
-	return &resp.DocumentationFields.CurrentAgentRelease, nil
+	return &resp.Docs.CurrentAgentRelease, nil
 }
 
 const getCurrentAgentReleaseQuery = `query(

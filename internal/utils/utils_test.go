@@ -6,9 +6,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/newrelic/newrelic-client-go/v2/pkg/nrtime"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
+	"github.com/newrelic/newrelic-client-go/v2/pkg/nrtime"
 )
 
 func TestIntArrayToString(t *testing.T) {
