@@ -329,6 +329,22 @@ func TestCloudAccount_AzureMonitorIntegration(t *testing.T) {
 
 	require.NoError(t, err)
 	require.NotNil(t, linkResponse)
+	//integration-test to test Azure link account update mutation
+	updateResponse, err := client.CloudUpdateAccount(testAccountID, CloudUpdateCloudAccountsInput{
+		Azure: []CloudAzureUpdateAccountInput{
+			{
+				Name:            "TEST_AZURE_ACCOUNT_UPDATED",
+				ApplicationID:   azureCredentials["INTEGRATION_TESTING_AZURE_APPLICATION_ID"],
+				ClientSecret:    SecureValue(azureCredentials["INTEGRATION_TESTING_AZURE_CLIENT_SECRET_ID"]),
+				SubscriptionId:  azureCredentials["INTEGRATION_TESTING_AZURE_SUBSCRIPTION_ID"],
+				TenantId:        azureCredentials["INTEGRATION_TESTING_AZURE_TENANT_ID"],
+				LinkedAccountId: linkResponse.LinkedAccounts[0].ID,
+			},
+		},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, updateResponse)
+	require.Equal(t, "TEST_AZURE_ACCOUNT_UPDATED", updateResponse.LinkedAccounts[0].Name)
 
 	// Get the linked account
 	getResponse, err = client.GetLinkedAccounts("azure")

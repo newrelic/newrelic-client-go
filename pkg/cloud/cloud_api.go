@@ -1808,6 +1808,61 @@ const CloudUnlinkAccountMutation = `mutation(
 	}
 } }`
 
+// Update one or more Cloud Provider accounts to a NewRelic account. Updates each Linked account with the passed parameters.
+func (a *Cloud) CloudUpdateAccount(
+	accountID int,
+	accounts CloudUpdateCloudAccountsInput,
+) (*CloudUpdateAccountPayload, error) {
+	return a.CloudUpdateAccountWithContext(context.Background(),
+		accountID,
+		accounts,
+	)
+}
+
+// Update one or more Cloud Provider accounts to a NewRelic account. Updates each Linked account with the passed parameters.
+func (a *Cloud) CloudUpdateAccountWithContext(
+	ctx context.Context,
+	accountID int,
+	accounts CloudUpdateCloudAccountsInput,
+) (*CloudUpdateAccountPayload, error) {
+
+	resp := CloudUpdateAccountQueryResponse{}
+	vars := map[string]interface{}{
+		"accountId": accountID,
+		"accounts":  accounts,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, CloudUpdateAccountMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.CloudUpdateAccountPayload, nil
+}
+
+type CloudUpdateAccountQueryResponse struct {
+	CloudUpdateAccountPayload CloudUpdateAccountPayload `json:"CloudUpdateAccount"`
+}
+
+const CloudUpdateAccountMutation = `mutation(
+	$accountId: Int!,
+	$accounts: CloudUpdateCloudAccountsInput!,
+) { cloudUpdateAccount(
+	accountId: $accountId,
+	accounts: $accounts,
+) {
+	linkedAccounts {
+		authLabel
+		createdAt
+		disabled
+		externalId
+		id
+		metricCollectionMode
+		name
+		nrAccountId
+		updatedAt
+	}
+} }`
+
 // Get one linked provider account.
 func (a *Cloud) GetLinkedAccount(
 	accountID int,

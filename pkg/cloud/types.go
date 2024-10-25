@@ -683,6 +683,22 @@ type CloudAwsGovCloudProvider struct {
 
 func (x *CloudAwsGovCloudProvider) ImplementsCloudProvider() {}
 
+// CloudAwsGovCloudUpdateAccountInput - Information required to update an AWS GovCloud account to a NewRelic account.
+type CloudAwsGovCloudUpdateAccountInput struct {
+	// The key used to make requests to AWS service APIs
+	AccessKeyId string `json:"accessKeyId,omitempty"`
+	// The AWS account id
+	AwsAccountId string `json:"awsAccountId,omitempty"`
+	// Disable the linked account.
+	Disabled bool `json:"disabled,omitempty"`
+	// The linked account identifier.
+	LinkedAccountId int `json:"linkedAccountId"`
+	// The linked account new name.
+	Name string `json:"name,omitempty"`
+	// The secret key used to make requests to AWS service APIs
+	SecretAccessKey SecureValue `json:"secretAccessKey,omitempty"`
+}
+
 // CloudAwsGovcloudDisableIntegrationsInput - List of integrations
 type CloudAwsGovcloudDisableIntegrationsInput struct {
 	// API Gateway integration
@@ -1403,6 +1419,18 @@ type CloudAwsTransitgatewayIntegrationInput struct {
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
 	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
+}
+
+// CloudAwsUpdateAccountInput - Information required to update a AWS account to a NewRelic account.
+type CloudAwsUpdateAccountInput struct {
+	// The AWS role ARN (used to fetch data).
+	Arn string `json:"arn,omitempty"`
+	// Disable the linked account.
+	Disabled bool `json:"disabled,omitempty"`
+	// The linked account identifier.
+	LinkedAccountId int `json:"linkedAccountId"`
+	// The linked account new name.
+	Name string `json:"name,omitempty"`
 }
 
 // CloudAwsWafIntegration - WAF Integration
@@ -2749,6 +2777,24 @@ type CloudAzureStorageIntegrationInput struct {
 	ResourceGroups []string `json:"resourceGroups,omitempty"`
 }
 
+// CloudAzureUpdateAccountInput - Information required to update a Azure account to a NewRelic account.
+type CloudAzureUpdateAccountInput struct {
+	// The Azure account application identifier (used to fetch data).
+	ApplicationID string `json:"applicationId,omitempty"`
+	// The Azure account application secret key.
+	ClientSecret SecureValue `json:"clientSecret,omitempty"`
+	// Disable the linked account.
+	Disabled *bool `json:"disabled,omitempty"`
+	// The linked account identifier.
+	LinkedAccountId int `json:"linkedAccountId"`
+	// The linked account new name.
+	Name string `json:"name,omitempty"`
+	// The Azure account subscription identifier.
+	SubscriptionId string `json:"subscriptionId,omitempty"`
+	// The Azure account tenant identifier.
+	TenantId string `json:"tenantId,omitempty"`
+}
+
 // CloudAzureVirtualmachineIntegration - Virtual machine scale sets Integration
 type CloudAzureVirtualmachineIntegration struct {
 	// The object creation date, in epoch (Unix) time
@@ -3118,6 +3164,22 @@ func (x *CloudConfigureIntegrationPayload) UnmarshalJSON(b []byte) error {
 	}
 
 	return nil
+}
+
+// CloudConfluentUpdateAccountInput - Information required to update a Confluent Cloud account to a NewRelic account.
+type CloudConfluentUpdateAccountInput struct {
+	// The Confluent account API key.
+	APIKey SecureValue `json:"apiKey"`
+	// The Confluent Cloud account API Secret key.
+	APISecret SecureValue `json:"apiSecret"`
+	// Disable the linked account.
+	Disabled bool `json:"disabled,omitempty"`
+	// The Confluent Cloud account identifier.
+	ExternalId string `json:"externalId,omitempty"`
+	// The linked account identifier.
+	LinkedAccountId int `json:"linkedAccountId"`
+	// The linked account new name.
+	Name string `json:"name,omitempty"`
 }
 
 // CloudDashboardTemplate - A cloud service dashboard template.
@@ -3711,6 +3773,20 @@ type CloudEmrIntegrationInput struct {
 	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
 	TagValue string `json:"tagValue,omitempty"`
+}
+
+// CloudFossaUpdateAccountInput - Information required to update a Fossa account to a NewRelic account.
+type CloudFossaUpdateAccountInput struct {
+	// The Fossa account application api key(bearer token).
+	APIKey SecureValue `json:"apiKey"`
+	// Disable the linked account.
+	Disabled bool `json:"disabled,omitempty"`
+	// The Fossa account identifier.
+	ExternalId string `json:"externalId,omitempty"`
+	// The linked account identifier.
+	LinkedAccountId int `json:"linkedAccountId"`
+	// The linked account new name.
+	Name string `json:"name,omitempty"`
 }
 
 // CloudGcpAiplatformIntegration - Vertex AI Integration
@@ -4731,6 +4807,18 @@ type CloudGcpStorageIntegrationInput struct {
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The data polling interval in seconds.
 	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
+}
+
+// CloudGcpUpdateAccountInput - Information required to update a GCP account to a NewRelic account.
+type CloudGcpUpdateAccountInput struct {
+	// Disable the linked account.
+	Disabled bool `json:"disabled,omitempty"`
+	// The linked account identifier.
+	LinkedAccountId int `json:"linkedAccountId"`
+	// The linked account new name.
+	Name string `json:"name,omitempty"`
+	// The GCP project identifier.
+	ProjectId string `json:"projectId,omitempty"`
 }
 
 // CloudGcpVmsIntegration - Compute Engine Integration
@@ -5778,6 +5866,28 @@ type CloudUnlinkAccountPayload struct {
 type CloudUnlinkAccountsInput struct {
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
+}
+
+// CloudUpdateAccountPayload - Autogenerated return type of UpdateAccount
+type CloudUpdateAccountPayload struct {
+	// The updated Linked accounts.
+	LinkedAccounts []CloudLinkedAccount `json:"linkedAccounts"`
+}
+
+// CloudUpdateCloudAccountsInput - Specific Cloud provider information required to update the Cloud provider account to a NewRelic account.
+type CloudUpdateCloudAccountsInput struct {
+	// Aws provider
+	Aws []CloudAwsUpdateAccountInput `json:"aws,omitempty"`
+	// AwsGovCloud provider
+	AwsGovcloud []CloudAwsGovCloudUpdateAccountInput `json:"awsGovcloud,omitempty"`
+	// Azure provider
+	Azure []CloudAzureUpdateAccountInput `json:"azure,omitempty"`
+	// Confluent Cloud provider
+	Confluent []CloudConfluentUpdateAccountInput `json:"confluent,omitempty"`
+	// Fossa provider
+	Fossa []CloudFossaUpdateAccountInput `json:"fossa,omitempty"`
+	// Gcp provider
+	Gcp []CloudGcpUpdateAccountInput `json:"gcp,omitempty"`
 }
 
 // CloudVpcIntegration - VPC Integration

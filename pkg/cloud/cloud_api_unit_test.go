@@ -63,6 +63,26 @@ var (
   }`
 	linkedAccountID = fmt.Sprintf("%06d", rand.Int63n(1e6))
 	nrAccountID     = fmt.Sprintf("%06d", rand.Int63n(1e6))
+
+	testUpdateAzureLinkAccount = `
+{
+  "data": {
+    "cloudUpdateAccount": {
+      "linkedAccounts": [
+        {
+          "authLabel": "36840357-ac3e-4273-94f0-eccg108ff0e9",
+          "disabled": false,
+          "externalId": "agjs-dha57-687hag-shgafshd-f79hh",
+          "id": ` + linkedAccountID + `,
+          "name": "TEST_AZURE_ACCOUNT_UPDATED",
+          "nrAccountId": ` + nrAccountID + `,
+          "updatedAt": 1729674748
+        }
+      ]
+    }
+  }
+}
+	`
 )
 
 // Unit Test to test the creation of an Azure Monitor.
@@ -149,4 +169,35 @@ func newMockResponse(t *testing.T, mockJSONResponse string, statusCode int) Clou
 	tc := mock.NewTestConfig(t, ts)
 
 	return New(tc)
+}
+
+// unit test to test azure link account update mutation
+func TestUnitAzureLinkAccountUpdate(t *testing.T) {
+	t.Parallel()
+	azureUpdateAccountResponse := newMockResponse(t, testUpdateAzureLinkAccount, http.StatusOK)
+	NRAccountIDInt, _ := strconv.Atoi(nrAccountID)
+	linkedAccountIDInt, _ := strconv.Atoi(linkedAccountID)
+	disabled := false
+
+	updateAccountInput := CloudUpdateCloudAccountsInput{
+		Azure: []CloudAzureUpdateAccountInput{{
+			ApplicationID:   "36840357-ac3e-4273-94f0-eccg108ff0e9",
+			ClientSecret:    "gdsajysgda676t5ahgsdhafsdga67as",
+			Disabled:        &disabled,
+			LinkedAccountId: linkedAccountIDInt,
+			Name:            "TEST_AZURE_ACCOUNT-UPDATED",
+			SubscriptionId:  "agjs-dha57-687hag-shgafshd-f79hh",
+			TenantId:        "ajkhsdjkas676hjgasdhjga687yhhj",
+		}},
+	}
+
+	actual, err := azureUpdateAccountResponse.CloudUpdateAccount(NRAccountIDInt, updateAccountInput)
+
+	assert.NoError(t, err)
+	assert.NotNil(t, actual)
+	assert.Equal(t, linkedAccountID, strconv.Itoa(actual.LinkedAccounts[0].ID))
+	assert.Equal(t, "TEST_AZURE_ACCOUNT_UPDATED", actual.LinkedAccounts[0].Name)
+	assert.Equal(t, false, actual.LinkedAccounts[0].Disabled)
+	assert.Equal(t, nrAccountID, strconv.Itoa(actual.LinkedAccounts[0].NrAccountId))
+
 }
