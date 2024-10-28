@@ -475,6 +475,12 @@ packages:
         argument_type_overrides:
           accountId: "Int!"
           accounts: "[CloudUnlinkAccountsInput!]!"
+      - name: cloudUpdateAccount
+        max_query_field_depth: 3
+        exclude_fields:
+          - "integration"
+          - "integrations"
+          - "provider"
     types:
       #
       # Types that we should auto-detect are in another package someday
