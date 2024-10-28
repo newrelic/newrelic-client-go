@@ -1,3 +1,20 @@
+<a name="v2.50.0"></a>
+## [v2.50.0] - 2024-10-28
+### Features
+- minor change in README.md test commit ([#1244](https://github.com/newrelic/newrelic-client-go/issues/1244))
+
+<a name="v2.49.0"></a>
+## [v2.49.0] - 2024-10-28
+### Bug Fixes
+- **azure_link_account:** add update capability for all fields in azure cloud link account  ([#1242](https://github.com/newrelic/newrelic-client-go/issues/1242))
+
+### Features
+- **automation:** execute code generation when new API endpoints are detected
+- **dashboards:** Added a new field in dashboards -> variable -> options called <excluded>
+
+### Refactor
+- **automation:** don't send slack message if no new endpoints
+
 <a name="v2.48.2"></a>
 ## [v2.48.2] - 2024-10-04
 ### Bug Fixes
@@ -1915,7 +1932,9 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.48.2...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.50.0...HEAD
+[v2.50.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.49.0...v2.50.0
+[v2.49.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.48.2...v2.49.0
 [v2.48.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.48.1...v2.48.2
 [v2.48.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.48.0...v2.48.1
 [v2.48.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.47.0...v2.48.0
