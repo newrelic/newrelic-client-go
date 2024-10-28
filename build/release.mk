@@ -1,6 +1,6 @@
 RELEASE_SCRIPT ?= ./scripts/release.sh
 
-REL_CMD ?= $(GOBIN)/goreleaser
+REL_CMD ?= goreleaser
 DIST_DIR ?= ./dist
 
 # Versioning info

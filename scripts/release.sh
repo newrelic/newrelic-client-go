@@ -10,7 +10,7 @@ VER_CMD=${GOBIN}/svu
 VER_BUMP=${GOBIN}/gobump
 CHANGELOG_CMD=${GOBIN}/git-chglog
 CHANGELOG_FILE=CHANGELOG.md
-REL_CMD=${GOBIN}/goreleaser
+REL_CMD=goreleaser
 RELEASE_NOTES_FILE=${SRCDIR}/tmp/relnotes.md
 SPELL_CMD=${GOBIN}/misspell
 
