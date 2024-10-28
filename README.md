@@ -109,7 +109,7 @@ Follow the steps below to add `github.com/newrelic/newrelic-client-go` as a depe
 
 ## Upgrade to the latest version
 
-1. Run the following command to tell Go to download the latest version.
+1. Run the following command to tell Go to download the latest version. You can also check the latest version out in [this page](https://pkg.go.dev/github.com/newrelic/newrelic-client-go/v2/newrelic).
    ```
    go get github.com/newrelic/newrelic-client-go/v2@latest
    ```
