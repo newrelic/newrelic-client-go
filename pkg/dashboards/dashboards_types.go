@@ -320,7 +320,7 @@ type RawConfiguration struct {
 	DataFormat     []*DashboardWidgetDataFormat   `json:"dataFormatters,omitempty"`
 }
 
-// RawConfigurationPlatformOptions represents the platform widget options
+// RawConfigurationPlatformOptions represents platform widget options
 type RawConfigurationPlatformOptions struct {
 	IgnoreTimeRange bool `json:"ignoreTimeRange,omitempty"`
 }
