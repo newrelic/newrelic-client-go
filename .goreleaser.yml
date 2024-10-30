@@ -1,6 +1,4 @@
-version: 2
 project_name: newrelic-client-go
-
 env:
   - GO111MODULE=on
 
