@@ -1,0 +1,4 @@
+name: "CodeQL config"
+paths-ignore:
+  - '**/*_test.go'
+  - 'tools/tools.go'
