@@ -1,3 +1,8 @@
+<a name="v2.51.0"></a>
+## [v2.51.0] - 2024-11-04
+### Features
+- **codeql:** fixes to the action with path changes ([#1238](https://github.com/newrelic/newrelic-client-go/issues/1238))
+
 <a name="v2.50.1"></a>
 ## [v2.50.1] - 2024-10-28
 ### Bug Fixes
@@ -1937,7 +1942,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.50.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.51.0...HEAD
+[v2.51.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.50.1...v2.51.0
 [v2.50.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.50.0...v2.50.1
 [v2.50.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.49.0...v2.50.0
 [v2.49.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.48.2...v2.49.0
