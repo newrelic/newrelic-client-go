@@ -1,4 +1,3 @@
-version: 2
 project_name: newrelic-client-go
 env:
   - GO111MODULE=on
@@ -8,8 +7,6 @@ before:
     - go mod download
 
 #build:
-# build:
-#   skip: true
 
 # Uses git-chglog output from release flow
 changelog:
