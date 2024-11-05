@@ -1,3 +1,8 @@
+<a name="v2.51.1"></a>
+## [v2.51.1] - 2024-11-05
+### Bug Fixes
+- **goreleaser:** print goreleaser version ([#1252](https://github.com/newrelic/newrelic-client-go/issues/1252))
+
 <a name="v2.51.0"></a>
 ## [v2.51.0] - 2024-11-04
 ### Features
@@ -1942,7 +1947,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.51.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.51.1...HEAD
+[v2.51.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.51.0...v2.51.1
 [v2.51.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.50.1...v2.51.0
 [v2.50.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.50.0...v2.50.1
 [v2.50.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.49.0...v2.50.0
