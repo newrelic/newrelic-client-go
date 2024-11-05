@@ -7,7 +7,8 @@ before:
   hooks:
     - go mod download
 
-#build:
+builds:
+  - skip: true
 
 # Uses git-chglog output from release flow
 changelog:
