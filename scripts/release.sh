@@ -23,6 +23,10 @@ fi
 VER_CURR=$(${VER_CMD} current --strip-prefix)
 VER_NEXT=$(${VER_CMD} next --strip-prefix)
 
+GO_VERR=$(${GO_VER} --version)
+
+echo "goreleaser version: ${GO_VERR}"
+
 echo " "
 echo "Comparing tag versions..."
 echo "Current version: ${VER_CURR}"
