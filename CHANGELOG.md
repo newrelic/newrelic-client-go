@@ -1,3 +1,8 @@
+<a name="v2.51.3"></a>
+## [v2.51.3] - 2024-11-11
+### Bug Fixes
+- **entities:** remove relationships field from entity, entities, entitySearch queries ([#1255](https://github.com/newrelic/newrelic-client-go/issues/1255))
+
 <a name="v2.51.2"></a>
 ## [v2.51.2] - 2024-11-05
 ### Bug Fixes
@@ -1952,7 +1957,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.51.2...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.51.3...HEAD
+[v2.51.3]: https://github.com/newrelic/newrelic-client-go/compare/v2.51.2...v2.51.3
 [v2.51.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.51.1...v2.51.2
 [v2.51.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.51.0...v2.51.1
 [v2.51.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.50.1...v2.51.0
