@@ -662,14 +662,17 @@ packages:
             max_query_field_depth: 2
             exclude_fields:
               - slug
+              - relationships
           - name: entity
             max_query_field_depth: 4
             exclude_fields:
               - slug
+              - relationships
           - name: entitySearch
             max_query_field_depth: 4
             exclude_fields:
               - slug
+              - relationships
             include_arguments:
               - queryBuilder
     mutations:
