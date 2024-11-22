@@ -401,3 +401,75 @@ func TestCloudAccount_AzureMonitorIntegration(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, unlinkResponse)
 }
+
+func TestCloudAccount_FOSSALinkAccount(t *testing.T) {
+	t.Parallel()
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	a := newIntegrationTestClient(t)
+	// Reset everything
+	getResponse, err := a.GetLinkedAccounts("fossa")
+	//require.NoError(t, err)
+	if getResponse != nil {
+		for _, linkedAccount := range *getResponse {
+			if linkedAccount.NrAccountId == testAccountID {
+				a.CloudUnlinkAccount(testAccountID, []CloudUnlinkAccountsInput{
+					{
+						LinkedAccountId: linkedAccount.ID,
+					},
+				})
+			}
+		}
+	}
+
+	// Link the account
+	linkResponse, err := a.CloudLinkAccount(testAccountID, CloudLinkCloudAccountsInput{
+		Fossa: []CloudFossaLinkAccountInput{
+			{
+				APIKey:     "f3ab70a3d29029c94ab8057f1b30838b",
+				Name:       "DTK Integration Testing",
+				ExternalId: "test",
+			},
+		},
+	})
+	require.NoError(t, err)
+	//require.Nil(t, linkResponse.Errors)
+	require.NotNil(t, linkResponse.LinkedAccounts)
+
+	// Get the linked account
+	getResponse, err = a.GetLinkedAccounts("fossa")
+	require.NoError(t, err)
+
+	var linkedAccountID int
+	for _, linkedAccount := range *getResponse {
+		if linkedAccount.NrAccountId == testAccountID {
+			linkedAccountID = linkedAccount.ID
+			break
+		}
+	}
+	require.NotZero(t, linkedAccountID)
+
+	// Rename the account
+	newName := "NEW-DTK-NAME"
+	renameResponse, err := a.CloudRenameAccount(testAccountID, []CloudRenameAccountsInput{
+		{
+			LinkedAccountId: linkedAccountID,
+			Name:            newName,
+		},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, renameResponse)
+
+	// Unlink the account
+	unlinkResponse, err := a.CloudUnlinkAccount(testAccountID, []CloudUnlinkAccountsInput{
+		{
+			LinkedAccountId: linkedAccountID,
+		},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, unlinkResponse)
+}

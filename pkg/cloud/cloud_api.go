@@ -547,6 +547,11 @@ const CloudConfigureIntegrationMutation = `mutation(
 			tagKey
 			tagValue
 		}
+		... on CloudFossaIssuesIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudGcpAiplatformIntegration {
 			__typename
 			inventoryPollingInterval
@@ -1337,6 +1342,11 @@ const CloudDisableIntegrationMutation = `mutation(
 			metricsPollingInterval
 			tagKey
 			tagValue
+		}
+		... on CloudFossaIssuesIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
 		}
 		... on CloudGcpAiplatformIntegration {
 			__typename
@@ -2411,6 +2421,11 @@ const getLinkedAccountQuery = `query(
 			tagKey
 			tagValue
 		}
+		... on CloudFossaIssuesIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudGcpAiplatformIntegration {
 			__typename
 			inventoryPollingInterval
@@ -3259,6 +3274,11 @@ const getLinkedAccountsQuery = `query(
 			metricsPollingInterval
 			tagKey
 			tagValue
+		}
+		... on CloudFossaIssuesIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
 		}
 		... on CloudGcpAiplatformIntegration {
 			__typename

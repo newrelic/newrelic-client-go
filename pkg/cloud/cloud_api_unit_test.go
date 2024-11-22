@@ -83,6 +83,22 @@ var (
   }
 }
 	`
+
+	testCreateFOSSALinkAccount = `
+{
+  "data": {
+    "cloudLinkAccount": {
+      "linkedAccounts": [
+        {
+          "id": ` + linkedAccountID + `,
+          "name": "TEST_FOSSA_ACCOUNT",
+          "nrAccountId": ` + nrAccountID + `,
+        }
+      ]
+    }
+  }
+}
+	`
 )
 
 // Unit Test to test the creation of an Azure Monitor.
@@ -200,4 +216,26 @@ func TestUnitAzureLinkAccountUpdate(t *testing.T) {
 	assert.Equal(t, false, actual.LinkedAccounts[0].Disabled)
 	assert.Equal(t, nrAccountID, strconv.Itoa(actual.LinkedAccounts[0].NrAccountId))
 
+}
+
+func TestUnitFOSSALinkAccountCreate(t *testing.T) {
+	t.Parallel()
+	createFOSSALinkAccountResponse := newMockResponse(t, testCreateFOSSALinkAccount, http.StatusOK)
+	NRAccountIDInt, _ := strconv.Atoi(nrAccountID)
+
+	createAccountInput := CloudLinkCloudAccountsInput{
+		Fossa: []CloudFossaLinkAccountInput{{
+			APIKey: "f3ab70a3d29028c94ab8057f1b30838b",
+			//ExternalId: "agjs-dha57-687hag-shgafshd-f79hh",
+			Name: "TEST_FOSSA_ACCOUNT",
+		}},
+	}
+
+	actual, err := createFOSSALinkAccountResponse.CloudLinkAccount(NRAccountIDInt, createAccountInput)
+
+	assert.NoError(t, err)
+	assert.NotNil(t, actual)
+	assert.Equal(t, linkedAccountID, strconv.Itoa(actual.LinkedAccounts[0].ID))
+	assert.Equal(t, "TEST_FOSSA_ACCOUNT", actual.LinkedAccounts[0].Name)
+	assert.Equal(t, "agjs-dha57-687hag-shgafshd-f79hh", actual.LinkedAccounts[0].ExternalId)
 }

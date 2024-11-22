@@ -3263,6 +3263,8 @@ type CloudDisableIntegrationsInput struct {
 	AwsGovcloud CloudAwsGovcloudDisableIntegrationsInput `json:"awsGovcloud,omitempty"`
 	// Azure provider
 	Azure CloudAzureDisableIntegrationsInput `json:"azure,omitempty"`
+	// Fossa provider
+	Fossa CloudFossaDisableIntegrationsInput `json:"fossa,omitempty"`
 	// Gcp provider
 	Gcp CloudGcpDisableIntegrationsInput `json:"gcp,omitempty"`
 }
@@ -3773,6 +3775,62 @@ type CloudEmrIntegrationInput struct {
 	TagKey string `json:"tagKey,omitempty"`
 	// Specify a Tag value associated with the resources that you want to monitor. Filter values are case-sensitive.
 	TagValue string `json:"tagValue,omitempty"`
+}
+
+// CloudFossaDisableIntegrationsInput - List of integrations
+type CloudFossaDisableIntegrationsInput struct {
+	// FOSSA Issues integration
+	FossaIssues []CloudDisableAccountIntegrationInput `json:"fossaIssues,omitempty"`
+}
+
+// CloudFossaIntegrationsInput - List of integrations
+type CloudFossaIntegrationsInput struct {
+	// FOSSA Issues integration
+	FossaIssues []CloudFossaIssuesIntegrationInput `json:"fossaIssues,omitempty"`
+}
+
+// CloudFossaIssuesIntegration - FOSSA Issues Integration
+type CloudFossaIssuesIntegration struct {
+	// The object creation date, in epoch (Unix) time
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
+	// The cloud service integration identifier.
+	ID int `json:"id,omitempty"`
+	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
+	// The parent linked account identifier.
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
+	// The data polling interval in seconds.
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
+	// The cloud service integration name.
+	Name string `json:"name,omitempty"`
+	// The parent NewRelic account identifier.
+	NrAccountId int `json:"nrAccountId"`
+	// The cloud service used in the integration.
+	Service CloudService `json:"service,omitempty"`
+	// The object last update date, in epoch (Unix) time
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
+}
+
+func (x *CloudFossaIssuesIntegration) ImplementsCloudIntegration() {}
+
+// CloudFossaIssuesIntegrationInput - FOSSA Issues
+type CloudFossaIssuesIntegrationInput struct {
+	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
+	// The linked account identifier.
+	LinkedAccountId int `json:"linkedAccountId"`
+	// The data polling interval in seconds.
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
+}
+
+// CloudFossaLinkAccountInput - Information required to link a Fossa account to a NewRelic account.
+type CloudFossaLinkAccountInput struct {
+	// The Fossa account application api key(bearer token).
+	APIKey SecureValue `json:"apiKey"`
+	// The Fossa account identifier.
+	ExternalId string `json:"externalId,omitempty"`
+	// The linked account name.
+	Name string `json:"name"`
 }
 
 // CloudFossaUpdateAccountInput - Information required to update a Fossa account to a NewRelic account.
@@ -5007,6 +5065,8 @@ type CloudIntegrationsInput struct {
 	AwsGovcloud CloudAwsGovcloudIntegrationsInput `json:"awsGovcloud,omitempty"`
 	// Azure provider
 	Azure CloudAzureIntegrationsInput `json:"azure,omitempty"`
+	// Fossa provider
+	Fossa CloudFossaIntegrationsInput `json:"fossa,omitempty"`
 	// Gcp provider
 	Gcp CloudGcpIntegrationsInput `json:"gcp,omitempty"`
 }
@@ -5207,12 +5267,14 @@ type CloudLinkCloudAccountsInput struct {
 	AwsGovcloud []CloudAwsGovCloudLinkAccountInput `json:"awsGovcloud,omitempty"`
 	// Azure provider
 	Azure []CloudAzureLinkAccountInput `json:"azure,omitempty"`
+	// Fossa provider
+	Fossa []CloudFossaLinkAccountInput `json:"fossa,omitempty"`
 	// Gcp provider
 	Gcp []CloudGcpLinkAccountInput `json:"gcp,omitempty"`
 }
 
 // CloudLinkedAccount - A cloud account linked to a NewRelic account.
-type CloudLinkedAccount struct {
+type 	CloudLinkedAccount struct {
 	// The credential. This is a Role ARN for AWS, an application ID for Azure and a service account ID or user account email for GCP.
 	AuthLabel string `json:"authLabel"`
 	// The object creation date, in epoch (Unix) time
@@ -6707,6 +6769,16 @@ func UnmarshalCloudIntegrationInterface(b []byte) (*CloudIntegrationInterface, e
 			return &xxx, nil
 		case "CloudEmrIntegration":
 			var interfaceType CloudEmrIntegration
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx CloudIntegrationInterface = &interfaceType
+
+			return &xxx, nil
+		case "CloudFossaIssuesIntegration":
+			var interfaceType CloudFossaIssuesIntegration
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
