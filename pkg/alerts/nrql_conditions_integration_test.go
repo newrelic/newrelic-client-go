@@ -28,6 +28,7 @@ var (
 	nrqlConditionBaseSlideBy            = 30                                          // needed for setting pointer
 	nrqlConditionEvaluationDelay        = 60                                          // needed for setting pointer
 	nrqlConditionTitleTemplate          = "Title {{ createdAt }}"                     // needed for setting pointer
+	nrqlConditionPredictBy              = 7200																				// needed for setting pointer
 	nrqlConditionCreateBase             = NrqlConditionCreateBase{
 		Description: "test description",
 		Enabled:     true,
@@ -887,6 +888,84 @@ func TestIntegrationNrqlConditions_IgnoreOnExpectedTermination(t *testing.T) {
 	updatedCondition, err := client.UpdateNrqlConditionStaticMutation(testAccountID, createdCondition.ID, updateInput)
 	require.NoError(t, err)
 	require.Equal(t, false, updatedCondition.Expiration.IgnoreOnExpectedTermination)
+
+	// Deferred teardown
+	defer func() {
+		_, err := client.DeletePolicyMutation(testAccountID, policy.ID)
+		if err != nil {
+			t.Logf("error cleaning up alert policy %s (%s): %s", policy.ID, policy.Name, err)
+		}
+	}()
+}
+
+func TestIntegrationNrqlConditions_Prediction(t *testing.T) {
+	t.Parallel()
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	var nrqlConditionCreateWithPrediction = NrqlConditionCreateBase{
+		Enabled: true,
+		Name:    fmt.Sprintf("test-nrql-condition-%s", testNrqlConditionRandomString),
+		Nrql: NrqlConditionCreateQuery{
+			Query:         "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
+			DataAccountId: &testAccountID,
+		},
+		Terms: []NrqlConditionTerm{
+			{
+				Threshold:            &nrqlConditionBaseThreshold,
+				ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
+				ThresholdDuration:    600,
+				Operator:             AlertsNRQLConditionTermsOperatorTypes.ABOVE,
+				Priority:             NrqlConditionPriorities.Critical,
+				Prediction: &NrqlConditionThresholdPrediction{
+					PredictBy: nrqlConditionPredictBy,
+				},
+			},
+		},
+		ViolationTimeLimitSeconds: 3600,
+		Signal: &AlertsNrqlConditionCreateSignal{
+			AggregationWindow: &nrqlConditionBaseAggWindow,
+			FillOption:        &AlertsFillOptionTypes.STATIC,
+			FillValue:         &nrqlConditionBaseSignalFillValue,
+			EvaluationDelay:   &nrqlConditionEvaluationDelay,
+			AggregationMethod: &nrqlConditionBaseAggMethod,
+			AggregationDelay:  &nrqlConditionBaseAggDelay,
+		},
+	}
+
+	var (
+		randStr                  = mock.RandSeq(5)
+		createPredictionInput    = NrqlConditionCreateInput{
+			NrqlConditionCreateBase: nrqlConditionCreateWithPrediction,
+		}
+	)
+
+	// Setup
+	client := newIntegrationTestClient(t)
+	testPolicy := AlertsPolicyInput{
+		IncidentPreference: AlertsIncidentPreferenceTypes.PER_POLICY,
+		Name:               fmt.Sprintf("test-alert-policy-%s", randStr),
+	}
+	policy, err := client.CreatePolicyMutation(testAccountID, testPolicy)
+	require.NoError(t, err)
+
+	// Test: Create (static condition with forecast field)
+	createdStaticWithPrediction, err := client.CreateNrqlConditionStaticMutation(testAccountID, policy.ID, createPredictionInput)
+	require.NoError(t, err)
+	require.NotNil(t, createdStaticWithPrediction)
+	require.NotNil(t, createdStaticWithPrediction.ID)
+	require.NotNil(t, createdStaticWithPrediction.PolicyID)
+	require.NotNil(t, createdStaticWithPrediction.Terms[0].Prediction)
+	require.Equal(t, nrqlConditionPredictBy, createdStaticWithPrediction.Terms[0].Prediction.PredictBy)
+
+	// Test: Get (static condition with dataAccountId field)
+	readResult, err := client.GetNrqlConditionQuery(testAccountID, createdStaticWithPrediction.ID)
+	require.NoError(t, err)
+	require.NotNil(t, readResult)
+	require.Equal(t, nrqlConditionPredictBy, readResult.Terms[0].Prediction.PredictBy)
 
 	// Deferred teardown
 	defer func() {
