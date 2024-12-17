@@ -572,7 +572,7 @@ type DashboardWidgetLayoutInput struct {
 // DashboardWidgetNRQLQueryInput - NRQL query used by a widget.
 type DashboardWidgetNRQLQueryInput struct {
 	// New Relic account ID to issue the query against.
-	AccountID int `json:"accountId"`
+	AccountIDS []int `json:"accountIds"`
 	// NRQL formatted query.
 	Query nrdb.NRQL `json:"query"`
 }
