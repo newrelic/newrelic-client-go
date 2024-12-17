@@ -40,7 +40,7 @@ func TestIntegrationDashboard_Billboard(t *testing.T) {
 							Billboard: &DashboardBillboardWidgetConfigurationInput{
 								NRQLQueries: []DashboardWidgetNRQLQueryInput{
 									{
-										AccountID: testAccountID,
+										AccountIDS: [testAccountID],
 										Query:     "FROM Metric SELECT 1",
 									},
 								},
@@ -99,7 +99,7 @@ func TestIntegrationDashboard_Billboard(t *testing.T) {
 							Billboard: &DashboardBillboardWidgetConfigurationInput{
 								NRQLQueries: []DashboardWidgetNRQLQueryInput{
 									{
-										AccountID: testAccountID,
+										AccountIDS: [testAccountID],
 										Query:     "FROM Metric SELECT 1",
 									},
 								},
@@ -206,7 +206,7 @@ func TestIntegrationDashboard_EmptyPage(t *testing.T) {
 							Billboard: &DashboardBillboardWidgetConfigurationInput{
 								NRQLQueries: []DashboardWidgetNRQLQueryInput{
 									{
-										AccountID: testAccountID,
+										AccountIDS: [testAccountID],
 										Query:     "FROM Metric SELECT 1",
 									},
 								},
