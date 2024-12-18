@@ -11,6 +11,7 @@ import (
 type MutingRule struct {
 	ID                            int                                 `json:"id,string,omitempty"`
 	AccountID                     int                                 `json:"accountId,omitempty"`
+	ActionOnMutingRuleWindowEnded AlertsActionOnMutingRuleWindowEnded `json:"actionOnMutingRuleWindowEnded,omitempty"`
 	Condition                     MutingRuleConditionGroup            `json:"condition,omitempty"`
 	CreatedAt                     string                              `json:"createdAt,omitempty"`
 	CreatedByUser                 ByUser                              `json:"createdByUser,omitempty"`
@@ -20,7 +21,6 @@ type MutingRule struct {
 	UpdatedAt                     string                              `json:"updatedAt,omitempty"`
 	UpdatedByUser                 ByUser                              `json:"updatedByUser,omitempty"`
 	Schedule                      *MutingRuleSchedule                 `json:"schedule,omitempty"`
-	ActionOnMutingRuleWindowEnded AlertsActionOnMutingRuleWindowEnded `json:"actionOnMutingRuleWindowEnded,omitempty"`
 }
 
 // ByUser is a collection of the user information that created or updated the muting rule.
@@ -134,25 +134,24 @@ type MutingRuleScheduleUpdateInput struct {
 
 // MutingRuleCreateInput is the input for creating muting rules.
 type MutingRuleCreateInput struct {
+	ActionOnMutingRuleWindowEnded AlertsActionOnMutingRuleWindowEnded `json:"actionOnMutingRuleWindowEnded,omitempty"`
 	Condition                     MutingRuleConditionGroup            `json:"condition"`
 	Description                   string                              `json:"description"`
 	Enabled                       bool                                `json:"enabled"`
 	Name                          string                              `json:"name"`
 	Schedule                      *MutingRuleScheduleCreateInput      `json:"schedule,omitempty"`
-	ActionOnMutingRuleWindowEnded AlertsActionOnMutingRuleWindowEnded `json:"actionOnMutingRuleWindowEnded,omitempty"`
 }
 
 // MutingRuleUpdateInput is the input for updating a rule.
 type MutingRuleUpdateInput struct {
 	// Condition is is available from the API, but the json needs to be handled
 	// properly.
-
+	ActionOnMutingRuleWindowEnded AlertsActionOnMutingRuleWindowEnded `json:"actionOnMutingRuleWindowEnded,omitempty"`
 	Condition                     *MutingRuleConditionGroup           `json:"condition,omitempty"`
 	Description                   string                              `json:"description,omitempty"`
 	Enabled                       bool                                `json:"enabled"`
 	Name                          string                              `json:"name,omitempty"`
 	Schedule                      *MutingRuleScheduleUpdateInput      `json:"schedule"`
-	ActionOnMutingRuleWindowEnded AlertsActionOnMutingRuleWindowEnded `json:"actionOnMutingRuleWindowEnded,omitempty"`
 }
 
 // ListMutingRules queries for all muting rules in a given account.
@@ -324,6 +323,7 @@ const (
 
 	alertsMutingRuleFields = `
 		accountId
+		actionOnMutingRuleWindowEnded
 		condition {
 			conditions {
 				attribute
@@ -359,7 +359,6 @@ const (
 			repeatCount
 			weeklyRepeatDays
 		}
-		actionOnMutingRuleWindowEnded
 	`
 
 	alertsMutingRulesCreate = `mutation CreateRule($accountID: Int!, $rule: AlertsMutingRuleInput!) {
