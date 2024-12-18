@@ -55,6 +55,7 @@ var (
 								"timeZone": "America/Los_Angeles",
 								"weeklyRepeatDays": null
 							},
+							"actionOnMutingRuleWindowEnded": "CLOSE_ISSUES_ON_INACTIVE",
 							"status": "INACTIVE",
 							"updatedAt": "2021-01-12T00:50:39.533Z",
 							"updatedByUser": {
@@ -117,7 +118,8 @@ var (
 							"gravatar": "https://secure.gravatar.com/avatar/692dc9742bd717014494f5093faff304",
 							"id": 1,
 							"name": "Test User"
-						}
+						},
+						"actionOnMutingRuleWindowEnded": "CLOSE_ISSUES_ON_INACTIVE"
 					}
 				}
 			}
@@ -168,7 +170,8 @@ var (
 				"gravatar": "https://secure.gravatar.com/avatar/692dc9742bd717014494f5093faff304",
 				"id": 1,
 				"name": "Test User"
-			}
+			},
+			"actionOnMutingRuleWindowEnded": "CLOSE_ISSUES_ON_INACTIVE"
 		}
 	}`
 
@@ -182,7 +185,8 @@ var (
 				"repeat": null,
 				"repeatCount": null,
 				"weeklyRepeatDays": null
-			}
+			},
+			"actionOnMutingRuleWindowEnded": "DO_NOTHING"
 		}
 	}`
 
@@ -248,6 +252,7 @@ func TestListMutingRules(t *testing.T) {
 				ID:       1,
 				Name:     "Test User",
 			},
+			ActionOnMutingRuleWindowEnded: "CLOSE_ISSUES_ON_INACTIVE",
 		},
 	}
 
@@ -313,6 +318,7 @@ func TestGetMutingRule(t *testing.T) {
 			ID:       1,
 			Name:     "Test User",
 		},
+		ActionOnMutingRuleWindowEnded: "CLOSE_ISSUES_ON_INACTIVE",
 	}
 
 	actual, err := alerts.GetMutingRule(accountID, ruleID)
@@ -376,6 +382,7 @@ func TestCreateMutingRule(t *testing.T) {
 			ID:       1,
 			Name:     "Test User",
 		},
+		ActionOnMutingRuleWindowEnded: "CLOSE_ISSUES_ON_INACTIVE",
 	}
 
 	actual, err := alerts.CreateMutingRule(accountID, MutingRuleCreateInput{})
@@ -407,6 +414,7 @@ func TestUpdateMutingRule(t *testing.T) {
 			EndRepeat: &endRepeat,
 			StartTime: &startTime,
 		},
+		ActionOnMutingRuleWindowEnded: "DO_NOTHING",
 	}
 
 	actual, err := alerts.UpdateMutingRule(accountID, ruleID, MutingRuleUpdateInput{})
