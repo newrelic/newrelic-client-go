@@ -1,3 +1,9 @@
+<a name="v2.52.0"></a>
+## [v2.52.0] - 2025-01-08
+### Features
+- Add optimized error message to the recipe event ([#1256](https://github.com/newrelic/newrelic-client-go/issues/1256))
+- **alert_muting_rule:** Add `action_on_muting_rule_window_ended` attribute in `newrelic_alert_muting_rule` Terraform Resource ([#1259](https://github.com/newrelic/newrelic-client-go/issues/1259))
+
 <a name="v2.51.3"></a>
 ## [v2.51.3] - 2024-11-11
 ### Bug Fixes
@@ -1957,7 +1963,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.51.3...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.52.0...HEAD
+[v2.52.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.51.3...v2.52.0
 [v2.51.3]: https://github.com/newrelic/newrelic-client-go/compare/v2.51.2...v2.51.3
 [v2.51.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.51.1...v2.51.2
 [v2.51.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.51.0...v2.51.1
