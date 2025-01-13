@@ -152,6 +152,8 @@ func UserManagementGroupCleanupForIntegrationTests(client Usermanagement, authen
 		"",
 	)
 
+	fmt.Println("getGroupsResponse", getGroupsResponse, err)
+
 	if err != nil {
 		return err
 	}
