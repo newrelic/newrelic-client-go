@@ -4,6 +4,7 @@
 package keytransaction
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -24,6 +25,9 @@ func TestIntegrationKeyTransaction_All(t *testing.T) {
 		testhelpers.IntegrationTestApplicationEntityNameNew,
 		testKeyTransactionName,
 	)
+	fmt.Println("createKeyTransactionTestResult", createKeyTransactionTestResult)
+	fmt.Println("err", err)
+	time.Sleep(3 * time.Second)
 
 	require.NoError(t, err)
 	require.NotNil(t, createKeyTransactionTestResult)
@@ -45,6 +49,9 @@ func TestIntegrationKeyTransaction_All(t *testing.T) {
 		createKeyTransactionTestResult.GUID,
 		testKeyTransactionName+"-updated",
 	)
+	time.Sleep(3 * time.Second)
+	fmt.Println("updateKeyTransactionTestResult", updateKeyTransactionTestResult)
+	fmt.Println("err", err)
 
 	require.NoError(t, err)
 	require.NotNil(t, updateKeyTransactionTestResult)
@@ -55,6 +62,9 @@ func TestIntegrationKeyTransaction_All(t *testing.T) {
 	// deleting the key transaction created
 	// this is expected to throw no error and delete the created key transaction
 	deletedResult, err := client.KeyTransactionDelete(createKeyTransactionTestResult.GUID)
+	time.Sleep(3 * time.Second)
+	fmt.Println("deletedResult", deletedResult)
+	fmt.Println("err", err)
 	require.NoError(t, err)
 	require.NotNil(t, deletedResult)
 	require.Equal(t, deletedResult.Success, true)
