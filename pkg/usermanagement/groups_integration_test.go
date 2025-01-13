@@ -106,7 +106,9 @@ func TestIntegrationGroupManagementWithoutUsers(t *testing.T) {
 	}
 
 	client := newIntegrationTestClient(t)
+	fmt.Println("client", client)
 	err = UserManagementGroupCleanupForIntegrationTests(client, authenticationDomainId)
+	fmt.Println("err", err)
 	require.NoError(t, err)
 
 	displayName := fmt.Sprintf("%s-new", groupName)
@@ -116,6 +118,7 @@ func TestIntegrationGroupManagementWithoutUsers(t *testing.T) {
 	}
 
 	createGroupResponse, err := client.UserManagementCreateGroup(createGroupInput)
+	fmt.Println("createGroupResponse", createGroupResponse, err)
 
 	require.NoError(t, err)
 	require.NotNil(t, createGroupResponse.Group.ID)
@@ -128,6 +131,7 @@ func TestIntegrationGroupManagementWithoutUsers(t *testing.T) {
 	}
 
 	updateGroupResponse, err := client.UserManagementUpdateGroup(updateGroupInput)
+	fmt.Println("updateGroupResponse", updateGroupResponse, err)
 
 	require.NoError(t, err)
 	require.NotNil(t, updateGroupResponse.Group.ID)
