@@ -84,7 +84,7 @@ func TestIntegrationAccountManagement_CreateUpdateCancelAccount(t *testing.T) {
 	require.NotNil(t, createAccountResponse.ManagedAccount.ID)
 	require.Equal(t, createAccountInput.RegionCode, createAccountResponse.ManagedAccount.RegionCode)
 	require.Equal(t, createAccountInput.Name, createAccountResponse.ManagedAccount.Name)
-	time.Sleep(time.Second * 2)
+	time.Sleep(time.Second * 3)
 
 	// Update Account
 	updateAccountInput := AccountManagementUpdateInput{
