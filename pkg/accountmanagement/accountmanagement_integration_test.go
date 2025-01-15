@@ -93,6 +93,7 @@ func TestIntegrationAccountManagement_CreateUpdateCancelAccount(t *testing.T) {
 	}
 	updateAccountResponse, err := accountManagementClient.AccountManagementUpdateAccount(updateAccountInput)
 	fmt.Println("updateAccountResponse", updateAccountResponse)
+	fmt.Println("err", err)
 
 	require.Nil(t, err)
 	require.NotNil(t, updateAccountResponse.ManagedAccount.ID)
@@ -103,6 +104,7 @@ func TestIntegrationAccountManagement_CreateUpdateCancelAccount(t *testing.T) {
 	// Get Account
 	getAccountResponse, err := accountManagementClient.GetManagedAccounts()
 	fmt.Println("getAccountResponse", getAccountResponse)
+	fmt.Println("err", err)
 	require.Nil(t, err)
 	require.NotNil(t, getAccountResponse)
 	foundAccountInGetResponse := false
@@ -127,6 +129,9 @@ func TestIntegrationAccountManagement_CreateUpdateCancelAccount(t *testing.T) {
 	// Get Account to Confirm Account Cancellation based on the value of `isCanceled`
 	isCancelled := true
 	getAccountResponse, err = accountManagementClient.GetManagedAccountsWithAdditionalArguments(&isCancelled)
+
+	fmt.Println("getAccountResponse for Cancel", getAccountResponse)
+	fmt.Println("err for Cancel", err)
 
 	require.Nil(t, err)
 	require.NotNil(t, getAccountResponse)
