@@ -21,6 +21,7 @@ func TestNewRelic_TestEndpoints_withProxy(t *testing.T) {
 	defer os.Unsetenv("HTTPS_PROXY")
 
 	proxy := goproxy.NewProxyHttpServer()
+	time.Sleep(3 * time.Second)
 	fmt.Println("proxy", proxy)
 	srv := &http.Server{
 		Addr:    "localhost:1337",
