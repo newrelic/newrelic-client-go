@@ -546,6 +546,8 @@ func TestSyntheticsScriptApiMonitorLegacy_Basic(t *testing.T) {
 	}
 
 	createScriptApiMonitor, err := a.SyntheticsCreateScriptAPIMonitor(testAccountID, scriptApiMonitorInput)
+	time.Sleep(3 * time.Second)
+
 	require.NoError(t, err)
 	require.NotNil(t, createScriptApiMonitor)
 	require.Equal(t, 0, len(createScriptApiMonitor.Errors), createScriptApiMonitor.Errors)
