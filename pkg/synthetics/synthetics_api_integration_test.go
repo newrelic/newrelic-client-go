@@ -969,11 +969,16 @@ func TestSyntheticsBrokenLinksMonitor_Basic(t *testing.T) {
 				Values: []string{"avocado"},
 			},
 		},
-		Uri:     "https://www.google.com",
-		Runtime: &SyntheticsExtendedTypeMonitorRuntimeInput{},
+		Uri: "https://www.google.com",
+		Runtime: &SyntheticsExtendedTypeMonitorRuntimeInput{
+			RuntimeType:        "NODE_API",
+			RuntimeTypeVersion: "16.10",
+		},
 	}
 
 	createdMonitor, err := a.SyntheticsCreateBrokenLinksMonitor(testAccountID, monitorInput)
+
+	fmt.Println("createdMonitor", createdMonitor)
 	require.NoError(t, err)
 	require.NotNil(t, createdMonitor)
 	require.Equal(t, 0, len(createdMonitor.Errors))
@@ -1277,6 +1282,10 @@ func TestSyntheticsStepMonitor_GetSteps(t *testing.T) {
 		},
 		Locations: SyntheticsScriptedMonitorLocationsInput{
 			Public: []string{"AP_SOUTH_1"},
+		},
+		Runtime: &SyntheticsExtendedTypeMonitorRuntimeInput{
+			RuntimeTypeVersion: "100",
+			RuntimeType:        "CHROME_BROWSER",
 		},
 		Tags: []SyntheticsTag{
 			{
