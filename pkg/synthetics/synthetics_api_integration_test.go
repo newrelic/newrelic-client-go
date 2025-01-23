@@ -535,6 +535,11 @@ func TestSyntheticsScriptApiMonitorLegacy_Basic(t *testing.T) {
 		Period: SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
 		Status: SyntheticsMonitorStatusTypes.ENABLED,
 		Script: apiScript,
+		Runtime: &SyntheticsRuntimeInput{
+			RuntimeTypeVersion: "16.10",
+			RuntimeType:        "NODE_API",
+			ScriptLanguage:     "JAVASCRIPT",
+		},
 		Tags: []SyntheticsTag{
 			{
 				Key: "pineapple",
@@ -967,8 +972,11 @@ func TestSyntheticsBrokenLinksMonitor_Basic(t *testing.T) {
 				Values: []string{"avocado"},
 			},
 		},
-		Uri:     "https://www.google.com",
-		Runtime: &SyntheticsExtendedTypeMonitorRuntimeInput{},
+		Uri: "https://www.google.com",
+		Runtime: &SyntheticsExtendedTypeMonitorRuntimeInput{
+			RuntimeType:        "NODE_API",
+			RuntimeTypeVersion: "16.10",
+		},
 	}
 
 	createdMonitor, err := a.SyntheticsCreateBrokenLinksMonitor(testAccountID, monitorInput)
@@ -1275,6 +1283,10 @@ func TestSyntheticsStepMonitor_GetSteps(t *testing.T) {
 		},
 		Locations: SyntheticsScriptedMonitorLocationsInput{
 			Public: []string{"AP_SOUTH_1"},
+		},
+		Runtime: &SyntheticsExtendedTypeMonitorRuntimeInput{
+			RuntimeTypeVersion: "100",
+			RuntimeType:        "CHROME_BROWSER",
 		},
 		Tags: []SyntheticsTag{
 			{
