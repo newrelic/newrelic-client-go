@@ -623,6 +623,8 @@ type AiWorkflowsNotificationTrigger string
 var AiWorkflowsNotificationTriggerTypes = struct {
 	// Send a notification when the issue is acknowledged
 	ACKNOWLEDGED AiWorkflowsNotificationTrigger
+	// Send a notification when the issue is being investigated
+	INVESTIGATING AiWorkflowsNotificationTrigger
 	// Send a notification when the issue is activated
 	ACTIVATED AiWorkflowsNotificationTrigger
 	// Send a notification when the issue is closed
@@ -634,6 +636,8 @@ var AiWorkflowsNotificationTriggerTypes = struct {
 }{
 	// Send a notification when the issue is acknowledged
 	ACKNOWLEDGED: "ACKNOWLEDGED",
+	// Send a notification when the issue is being investigated
+	INVESTIGATING: "INVESTIGATING",
 	// Send a notification when the issue is activated
 	ACTIVATED: "ACTIVATED",
 	// Send a notification when the issue is closed
