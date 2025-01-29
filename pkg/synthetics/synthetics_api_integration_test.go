@@ -535,6 +535,11 @@ func TestSyntheticsScriptApiMonitorLegacy_Basic(t *testing.T) {
 		Period: SyntheticsMonitorPeriodTypes.EVERY_5_MINUTES,
 		Status: SyntheticsMonitorStatusTypes.ENABLED,
 		Script: apiScript,
+		Runtime: &SyntheticsRuntimeInput{
+			RuntimeTypeVersion: "16.10",
+			RuntimeType:        "NODE_API",
+			ScriptLanguage:     "JAVASCRIPT",
+		},
 		Tags: []SyntheticsTag{
 			{
 				Key: "pineapple",
@@ -967,8 +972,11 @@ func TestSyntheticsBrokenLinksMonitor_Basic(t *testing.T) {
 				Values: []string{"avocado"},
 			},
 		},
-		Uri:     "https://www.google.com",
-		Runtime: &SyntheticsExtendedTypeMonitorRuntimeInput{},
+		Uri: "https://www.google.com",
+		Runtime: &SyntheticsExtendedTypeMonitorRuntimeInput{
+			RuntimeType:        "NODE_API",
+			RuntimeTypeVersion: "16.10",
+		},
 	}
 
 	createdMonitor, err := a.SyntheticsCreateBrokenLinksMonitor(testAccountID, monitorInput)
@@ -1256,6 +1264,55 @@ func TestSyntheticsStepMonitor_WithMultiBrowserSupport(t *testing.T) {
 	require.Equal(t, createdMonitor.Monitor.GUID, deletedMonitor.DeletedGUID)
 }
 
+func TestSyntheticsStepMonitor_Fail(t *testing.T) {
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	a := newIntegrationTestClient(t)
+
+	monitorName := generateSyntheticsEntityNameForIntegrationTest("MONITOR", false)
+	enableScreenshotOnFailureAndScript := true
+	monitorInput := SyntheticsCreateStepMonitorInput{
+		Name:   monitorName,
+		Period: SyntheticsMonitorPeriodTypes.EVERY_DAY,
+		Status: SyntheticsMonitorStatusTypes.DISABLED,
+		AdvancedOptions: SyntheticsStepMonitorAdvancedOptionsInput{
+			EnableScreenshotOnFailureAndScript: &enableScreenshotOnFailureAndScript,
+		},
+		Locations: SyntheticsScriptedMonitorLocationsInput{
+			Public: []string{"AP_SOUTH_1"},
+		},
+		Tags: []SyntheticsTag{
+			{
+				Key:    "step",
+				Values: []string{"monitor"},
+			},
+		},
+		Steps: []SyntheticsStepInput{
+			{
+				Ordinal: 0,
+				Type:    SyntheticsStepTypeTypes.NAVIGATE,
+				Values:  []string{"https://one.newrelic.com"},
+			},
+			{
+				Ordinal: 1,
+				Type:    SyntheticsStepTypeTypes.ASSERT_TITLE,
+				Values:  []string{"%=", "New Relic"}, // %= is used for "contains" logic
+			},
+		},
+	}
+
+	createdMonitor, err := a.SyntheticsCreateStepMonitor(testAccountID, monitorInput)
+
+	require.NoError(t, err)
+	require.NotNil(t, createdMonitor.Errors)
+	require.NotNil(t, createdMonitor)
+
+}
+
 func TestSyntheticsStepMonitor_GetSteps(t *testing.T) {
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
@@ -1275,6 +1332,10 @@ func TestSyntheticsStepMonitor_GetSteps(t *testing.T) {
 		},
 		Locations: SyntheticsScriptedMonitorLocationsInput{
 			Public: []string{"AP_SOUTH_1"},
+		},
+		Runtime: &SyntheticsExtendedTypeMonitorRuntimeInput{
+			RuntimeTypeVersion: "100",
+			RuntimeType:        "CHROME_BROWSER",
 		},
 		Tags: []SyntheticsTag{
 			{

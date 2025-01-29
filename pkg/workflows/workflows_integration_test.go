@@ -28,7 +28,8 @@ func TestIntegrationCreateWorkflow(t *testing.T) {
 	defer cleanupDestination(t, destination)
 
 	notificationTriggers := []AiWorkflowsNotificationTrigger{"ACTIVATED"}
-	var expectedUpdateOriginalMessage *bool = nil
+	isUpdated := true
+	var expectedUpdateOriginalMessage *bool = &isUpdated
 	// Create a workflow to work with in this test
 	workflowInput := generateCreateWorkflowInput(channel, notificationTriggers)
 
