@@ -39,7 +39,9 @@ func Example_application() {
 	updateParams := UpdateApplicationParams{
 		Name: app.Name,
 		Settings: ApplicationSettings{
-			AppApdexThreshold: 0.6,
+			ApmConfig: Config{
+				ApdexTarget: 0.6,
+			},
 		},
 	}
 
