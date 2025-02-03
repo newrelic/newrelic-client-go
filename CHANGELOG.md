@@ -1,3 +1,12 @@
+<a name="v2.53.0"></a>
+## [v2.53.0] - 2025-02-03
+### Bug Fixes
+- **dependabot_alerts:** Updated dependencies to fix dependabot alerts ([#1265](https://github.com/newrelic/newrelic-client-go/issues/1265))
+- **integration-tests:** Resolve `newrelic-client-go` failed integration tests ([#1264](https://github.com/newrelic/newrelic-client-go/issues/1264))
+
+### Features
+- **workflows:** adds new `notification_trigger` type `INVESTIGATING` ([#1270](https://github.com/newrelic/newrelic-client-go/issues/1270))
+
 <a name="v2.52.0"></a>
 ## [v2.52.0] - 2025-01-08
 ### Features
@@ -1963,7 +1972,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.52.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.53.0...HEAD
+[v2.53.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.52.0...v2.53.0
 [v2.52.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.51.3...v2.52.0
 [v2.51.3]: https://github.com/newrelic/newrelic-client-go/compare/v2.51.2...v2.51.3
 [v2.51.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.51.1...v2.51.2
