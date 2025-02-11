@@ -4,6 +4,7 @@
 package cloud
 
 import (
+	"fmt"
 	"os"
 	"strings"
 	"testing"
@@ -17,6 +18,7 @@ func TestCloudAccount_Basic(t *testing.T) {
 	t.Parallel()
 
 	testAccountID, err := mock.GetTestAccountID()
+	fmt.Println("testAccountID", testAccountID)
 	if err != nil {
 		t.Skipf("%s", err)
 	}
@@ -30,6 +32,7 @@ func TestCloudAccount_Basic(t *testing.T) {
 	a := newIntegrationTestClient(t)
 	// Reset everything
 	getResponse, err := a.GetLinkedAccounts("aws")
+	fmt.Println("getResponse", getResponse)
 	require.NoError(t, err)
 
 	for _, linkedAccount := range *getResponse {
