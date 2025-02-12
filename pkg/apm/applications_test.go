@@ -38,7 +38,6 @@ var (
 		EnableRealUserMonitoring: true,
 		UseServerSideConfig:      false,
 	}
-
 	testApplicationLinks = ApplicationLinks{
 		ServerIDs:     []int{},
 		HostIDs:       []int{204260579},

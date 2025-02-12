@@ -520,7 +520,7 @@ type UserManagementUser struct {
 	Name string `json:"name,omitempty"`
 	// The pending upgrade request for the user (if any).
 	PendingUpgradeRequest UserManagementPendingUpgradeRequest `json:"pendingUpgradeRequest,omitempty"`
-	// Time zone of the user in IANA Time Zone database format, also known as the "Olson" time zone database format (for exmaple, "America/Los_Angeles").
+	// Time zone of the user in IANA Time Zone database format, also known as the "Olson" time zone database format (for example, "America/Los_Angeles").
 	TimeZone string `json:"timeZone,omitempty"`
 	// A "user type" is what determines the set of New Relic capabilities a user can theoretically access.
 	Type UserManagementUserType `json:"type"`
