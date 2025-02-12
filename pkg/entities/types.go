@@ -776,7 +776,7 @@ var DashboardAlertSeverityTypes = struct {
 	WARNING: "WARNING",
 }
 
-// DashboardEntityPermissions - Permisions that represent visibility & editability
+// DashboardEntityPermissions - Permission that represent visibility & editability
 type DashboardEntityPermissions string
 
 var DashboardEntityPermissionsTypes = struct {

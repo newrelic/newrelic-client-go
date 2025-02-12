@@ -33,31 +33,10 @@ var (
 	}
 
 	testApplicationSettings = ApplicationSettings{
-		Alias: "tf_test_updated",
-		ApmConfig: Config{
-			ApdexTarget:         0,
-			UseServerSideConfig: false,
-		},
-		ThreadProfilerEnabled: false,
-		ErrorCollector: ErrorCollector{
-			Enabled:              false,
-			ExpectedErrorCodes:   nil,
-			ExpectedErrorClasses: nil,
-			IgnoredErrorCodes:    nil,
-			IgnoredErrorClasses:  nil,
-		},
-		TransactionTracing: TransactionTracing{
-			Enabled:                        false,
-			TransactionThresholdValue:      0,
-			TransactionThresholdType:       "",
-			RecordSql:                      "",
-			LogSql:                         false,
-			StackTraceThresholdValue:       0,
-			ExplainQueryPlanEnabled:        false,
-			ExplainQueryPlanThresholdValue: 0,
-			ExplainQueryPlanThresholdType:  "",
-		},
-		TracerType: "NONE",
+		AppApdexThreshold:        0.5,
+		EndUserApdexThreshold:    7,
+		EnableRealUserMonitoring: true,
+		UseServerSideConfig:      false,
 	}
 	testApplicationLinks = ApplicationLinks{
 		ServerIDs:     []int{},
@@ -119,31 +98,10 @@ var (
 			"apdex_score": 0.78
 		},
 		"settings": {
-			"Alias": "tf_test_updated",
-			"ApmConfig": {
-				"ApdexTarget": 0,
-				"UseServerSideConfig": false
-			},
-			"ThreadProfilerEnabled": false,
-			"ErrorCollector": {
-				"Enabled": false,
-				"ExpectedErrorCodes": null,
-				"ExpectedErrorClasses": null,
-				"IgnoredErrorCodes": null,
-				"IgnoredErrorClasses": null
-			},
-			"TransactionTracing": {
-				"Enabled": false,
-				"TransactionThresholdValue": 0,
-				"TransactionThresholdType": "",
-				"RecordSql": "",
-				"LogSql": false,
-				"StackTraceThresholdValue": 0,
-				"ExplainQueryPlanEnabled": false,
-				"ExplainQueryPlanThresholdValue": 0,
-				"ExplainQueryPlanThresholdType": ""
-			},
-			"TracerType": "NONE"
+			"app_apdex_threshold": 0.5,
+			"end_user_apdex_threshold": 7,
+			"enable_real_user_monitoring": true,
+			"use_server_side_config": false
 		},
 		"links": {
 			"application_instances": [

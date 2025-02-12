@@ -50,37 +50,10 @@ type ApplicationEndUserSummary struct {
 
 // ApplicationSettings represents some of the settings of a New Relic application.
 type ApplicationSettings struct {
-	Alias                 string             `json:"alias,omitempty"`
-	ApmConfig             Config             `json:"apmConfig,omitempty"`
-	ThreadProfilerEnabled bool               `json:"threadProfiler,omitempty"`
-	ErrorCollector        ErrorCollector     `json:"errorCollector,omitempty"`
-	TransactionTracing    TransactionTracing `json:"transactionTracer,omitempty"`
-	TracerType            string             `json:"tracerType,omitempty"`
-}
-
-type Config struct {
-	ApdexTarget         float64 `json:"apdexTarget,omitempty"`
-	UseServerSideConfig bool    `json:"useServerSideConfig,omitempty"`
-}
-
-type ErrorCollector struct {
-	Enabled              bool     `json:"enabled,omitempty"`
-	ExpectedErrorCodes   []string `json:"expectedErrorCodes,omitempty"`
-	ExpectedErrorClasses []string `json:"expectedErrorClasses,omitempty"`
-	IgnoredErrorCodes    []string `json:"ignoredErrorCodes,omitempty"`
-	IgnoredErrorClasses  []string `json:"ignoredErrorClasses,omitempty"`
-}
-
-type TransactionTracing struct {
-	Enabled                        bool    `json:"enabled,omitempty"`
-	TransactionThresholdValue      float64 `json:"transactionThresholdValue,omitempty"`
-	TransactionThresholdType       string  `json:"transactionThresholdType,omitempty"`
-	RecordSql                      string  `json:"recordSql,omitempty"`
-	LogSql                         bool    `json:"logSql,omitempty"`
-	StackTraceThresholdValue       float64 `json:"stackTraceThreshold,omitempty"`
-	ExplainQueryPlanEnabled        bool    `json:"explainEnabled,omitempty"`
-	ExplainQueryPlanThresholdValue float64 `json:"explainThresholdValue,omitempty"`
-	ExplainQueryPlanThresholdType  string  `json:"explainThresholdType,omitempty"`
+	AppApdexThreshold        float64 `json:"app_apdex_threshold,omitempty"`
+	EndUserApdexThreshold    float64 `json:"end_user_apdex_threshold,omitempty"`
+	EnableRealUserMonitoring bool    `json:"enable_real_user_monitoring"`
+	UseServerSideConfig      bool    `json:"use_server_side_config"`
 }
 
 // ApplicationLinks represents all the links for a New Relic application.
@@ -94,11 +67,10 @@ type ApplicationLinks struct {
 // ListApplicationsParams represents a set of filters to be
 // used when querying New Relic applications.
 type ListApplicationsParams struct {
-	Name     string     `url:"filter[name],omitempty"`
-	GUID     EntityGUID `json:"filter[guid],omitempty"`
-	Host     string     `url:"filter[host],omitempty"`
-	IDs      []int      `url:"filter[ids],omitempty,comma"`
-	Language string     `url:"filter[language],omitempty"`
+	Name     string `url:"filter[name],omitempty"`
+	Host     string `url:"filter[host],omitempty"`
+	IDs      []int  `url:"filter[ids],omitempty,comma"`
+	Language string `url:"filter[language],omitempty"`
 }
 
 // UpdateApplicationParams represents a set of parameters to be
