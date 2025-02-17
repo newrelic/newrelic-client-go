@@ -1,4 +1,4 @@
-package applicationsettings
+package agentapplications
 
 import (
 	"fmt"
@@ -27,13 +27,13 @@ var (
 		},
 		TransactionTracer: &AgentApplicationSettingsTransactionTracerInput{
 			Enabled:                   func(b bool) *bool { return &b }(false),
-			TransactionThresholdValue: func(f float64) *float64 { return &f }(0),
+			TransactionThresholdValue: func(b float64) *float64 { return &b }(0),
 			TransactionThresholdType:  "",
 			RecordSql:                 "",
 			LogSql:                    func(b bool) *bool { return &b }(false),
-			StackTraceThreshold:       func(f float64) *float64 { return &f }(0),
+			StackTraceThreshold:       func(b float64) *float64 { return &b }(0),
 			ExplainEnabled:            func(b bool) *bool { return &b }(false),
-			ExplainThresholdValue:     func(f float64) *float64 { return &f }(0),
+			ExplainThresholdValue:     func(b float64) *float64 { return &b }(0),
 			ExplainThresholdType:      "",
 		},
 		TracerType: &AgentApplicationSettingsTracerTypeInput{"NONE"},
