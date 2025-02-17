@@ -1676,9 +1676,9 @@ packages:
         field_type_override: "*nrtime.EpochMilliseconds"
         skip_type_create: true
 
-  - name: apm
-    path: pkg/apm
-    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/apm
+  - name: applicationSettings
+    path: pkg/applicationSettings
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/applicationSettings
     generators:
       - typegen
       - nerdgraphclient

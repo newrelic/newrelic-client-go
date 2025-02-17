@@ -15,7 +15,6 @@ type ApplicationsInterface interface {
 
 // Application represents information about a New Relic application.
 type Application struct {
-	GUID           EntityGUID                `json:"guid,omitempty"`
 	ID             int                       `json:"id,omitempty"`
 	Name           string                    `json:"name,omitempty"`
 	Language       string                    `json:"language,omitempty"`
@@ -76,8 +75,8 @@ type ListApplicationsParams struct {
 // UpdateApplicationParams represents a set of parameters to be
 // used when updating New Relic applications.
 type UpdateApplicationParams struct {
-	Name     string              `json:"name,omitempty"`
-	Settings ApplicationSettings `json:"settings,omitempty"`
+	Name     string
+	Settings ApplicationSettings
 }
 
 // ListApplications is used to retrieve New Relic applications.
