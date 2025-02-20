@@ -205,7 +205,7 @@ var (
 
 type NrqlConditionThresholdPrediction struct {
 	PredictBy                 int  `json:"predictBy,omitempty"`
-	PreferPredictionViolation bool `json:"preferPredictionViolation,omitempty"`
+	PreferPredictionViolation bool `json:"preferPredictionViolation"`
 }
 
 // NrqlConditionTerm represents the a single term of a New Relic alert condition.
