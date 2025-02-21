@@ -1,3 +1,8 @@
+<a name="v2.54.0"></a>
+## [v2.54.0] - 2025-02-21
+### Features
+- **alerts:** Add support for prediction to NRQL alert conditions ([#1271](https://github.com/newrelic/newrelic-client-go/issues/1271))
+
 <a name="v2.53.0"></a>
 ## [v2.53.0] - 2025-02-03
 ### Bug Fixes
@@ -1972,7 +1977,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.53.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.54.0...HEAD
+[v2.54.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.53.0...v2.54.0
 [v2.53.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.52.0...v2.53.0
 [v2.52.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.51.3...v2.52.0
 [v2.51.3]: https://github.com/newrelic/newrelic-client-go/compare/v2.51.2...v2.51.3
