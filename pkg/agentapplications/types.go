@@ -67,7 +67,7 @@ var AgentApplicationSettingsBrowserLoaderTypes = struct {
 	RUM: "RUM",
 	// Pro+SPA: This is the default installed agent when you enable browser monitoring. Gives you access to all of the Browser Pro features and to Single Page App (SPA) monitoring. Provides detailed page timing data and the most up-to-date New Relic features, including distributed tracing, for all types of applications.
 	SPA: "SPA",
-	// This value is specified for backwards-compatibility.
+	// This value is specified for backwards-compatability.
 	XHR: "XHR",
 }
 
@@ -297,6 +297,7 @@ type AgentApplicationSettingsApmConfigInput struct {
 	// The desired target for the APDEX measurement of this application.
 	ApdexTarget float64 `json:"apdexTarget,omitempty"`
 	// Sets if installed agents should override local settings with ones set here.
+	// Please DO NOT regenerate/modify this attribute and its datatype via Tutone (which would add "omitempty" back).
 	UseServerSideConfig *bool `json:"useServerSideConfig,omitempty"`
 }
 
@@ -423,6 +424,7 @@ type AgentApplicationSettingsErrorCollector struct {
 // AgentApplicationSettingsErrorCollectorInput - The error collector captures information about uncaught exceptions and sends them to New Relic for viewing. For more information about what these settings do and which ones are applicable for your application, please see https://docs.newrelic.com for more information about agent configuration for your language agent.
 type AgentApplicationSettingsErrorCollectorInput struct {
 	// Enables error collector.
+	// Please DO NOT regenerate/modify this attribute and its datatype via Tutone (which would add "omitempty" back).
 	Enabled *bool `json:"enabled,omitempty"`
 	// Prevents specified exception classes from affecting error rate or Apdex score while still reporting the errors to APM.
 	ExpectedErrorClasses []string `json:"expectedErrorClasses"`
@@ -531,6 +533,7 @@ type AgentApplicationSettingsSlowSql struct {
 // AgentApplicationSettingsSlowSqlInput - In APM, when transaction traces are collected, there may be additional Slow query data available.
 type AgentApplicationSettingsSlowSqlInput struct {
 	// Whether or not slow_sql is enabled.
+	// Please DO NOT regenerate/modify this attribute and its datatype via Tutone (which would add "omitempty" back).
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
@@ -543,6 +546,7 @@ type AgentApplicationSettingsThreadProfiler struct {
 // AgentApplicationSettingsThreadProfilerInput - Settings for the thread profiler.
 type AgentApplicationSettingsThreadProfilerInput struct {
 	// Is thread profiling enabled for this application?
+	// Please DO NOT regenerate/modify this attribute and its datatype via Tutone (which would add "omitempty" back).
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
@@ -581,6 +585,7 @@ type AgentApplicationSettingsTransactionTracerInput struct {
 	// Enable or disable the capture of memcache keys from transaction traces.
 	CaptureMemcacheKeys bool `json:"captureMemcacheKeys,omitempty"`
 	// If true, this enables the transaction tracer feature, enabling collection of transaction traces.
+	// Please DO NOT regenerate/modify this attribute and its datatype via Tutone (which would add "omitempty" back).
 	Enabled *bool `json:"enabled,omitempty"`
 	// If true, enables the collection of explain plans in transaction traces. This setting will also apply to explain plans in slow SQL traces if slow_sql.explain_enabled is not set separately.
 	ExplainEnabled *bool `json:"explainEnabled,omitempty"`
@@ -589,6 +594,7 @@ type AgentApplicationSettingsTransactionTracerInput struct {
 	// Threshold (in seconds) above which the agent will collect explain plans. Relevant only when explain_enabled is true and explainThresholdType is set to VALUE.
 	ExplainThresholdValue Seconds `json:"explainThresholdValue,omitempty"`
 	// Set to true to enable logging of queries to the agent log file instead of uploading to New Relic. Queries are logged using the record_sql mode.
+	// Please DO NOT regenerate/modify this attribute and its datatype via Tutone (which would add "omitempty" back).
 	LogSql *bool `json:"logSql,omitempty"`
 	// Obfuscation level for SQL queries reported in transaction trace nodes.
 	RecordSql AgentApplicationSettingsRecordSqlEnum `json:"recordSql,omitempty"`
@@ -631,7 +637,7 @@ type AgentApplicationSettingsUpdateError struct {
 // [Ruby agent configuration](https://docs.newrelic.com/docs/agents/ruby-agent/configuration/ruby-agent-configuration/)
 type AgentApplicationSettingsUpdateInput struct {
 	// The new name for the application.
-	Alias *string `json:"alias,omitempty"`
+	Alias string `json:"alias,omitempty"`
 	// Provides fields to set general APM application settings.
 	ApmConfig *AgentApplicationSettingsApmConfigInput `json:"apmConfig,omitempty"`
 	// Provides fields to set general browser application settings.

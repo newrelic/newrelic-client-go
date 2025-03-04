@@ -28,7 +28,7 @@ var AgentApplicationSegmentsListTypeTypes = struct {
 	USER: "USER",
 }
 
-// AgentApplicationSettingsBrowserLoader - Determines which browser loader will be configured. Some allowed return values are specified for backwards-compatibility and do not represent currently allowed values for new applications.
+// AgentApplicationSettingsBrowserLoader - Determines which browser loader will be configured. Some allowed return values are specified for backwards-compatability and do not represent currently allowed values for new applications.
 // See [documentation](https://docs.newrelic.com/docs/browser/browser-monitoring/installation/install-browser-monitoring-agent/#agent-types) for further information.
 type AgentApplicationSettingsBrowserLoader string
 
@@ -60,7 +60,7 @@ var AgentApplicationSettingsBrowserLoaderTypes = struct {
 	RUM: "RUM",
 	// Pro+SPA: This is the default installed agent when you enable browser monitoring. Gives you access to all of the Browser Pro features and to Single Page App (SPA) monitoring. Provides detailed page timing data and the most up-to-date New Relic features, including distributed tracing, for all types of applications.
 	SPA: "SPA",
-	// This value is specified for backwards-compatibility.
+	// This value is specified for backwards-compatability.
 	XHR: "XHR",
 }
 
@@ -780,7 +780,7 @@ var DashboardAlertSeverityTypes = struct {
 	WARNING: "WARNING",
 }
 
-// DashboardEntityPermissions - Permission that represent visibility & editability
+// DashboardEntityPermissions - Permisions that represent visibility & editability
 type DashboardEntityPermissions string
 
 var DashboardEntityPermissionsTypes = struct {
