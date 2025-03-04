@@ -28,7 +28,7 @@ var AgentApplicationSegmentsListTypeTypes = struct {
 	USER: "USER",
 }
 
-// AgentApplicationSettingsBrowserLoader - Determines which browser loader will be configured. Some allowed return values are specified for backwards-compatability and do not represent currently allowed values for new applications.
+// AgentApplicationSettingsBrowserLoader - Determines which browser loader will be configured. Some allowed return values are specified for backwards-compatibility and do not represent currently allowed values for new applications.
 // See [documentation](https://docs.newrelic.com/docs/browser/browser-monitoring/installation/install-browser-monitoring-agent/#agent-types) for further information.
 type AgentApplicationSettingsBrowserLoader string
 
@@ -45,7 +45,7 @@ var AgentApplicationSettingsBrowserLoaderTypes = struct {
 	RUM AgentApplicationSettingsBrowserLoader
 	// Pro+SPA: This is the default installed agent when you enable browser monitoring. Gives you access to all of the Browser Pro features and to Single Page App (SPA) monitoring. Provides detailed page timing data and the most up-to-date New Relic features, including distributed tracing, for all types of applications.
 	SPA AgentApplicationSettingsBrowserLoader
-	// This value is specified for backwards-compatability.
+	// This value is specified for backwards-compatibility.
 	XHR AgentApplicationSettingsBrowserLoader
 }{
 	// Use PRO instead
@@ -60,7 +60,7 @@ var AgentApplicationSettingsBrowserLoaderTypes = struct {
 	RUM: "RUM",
 	// Pro+SPA: This is the default installed agent when you enable browser monitoring. Gives you access to all of the Browser Pro features and to Single Page App (SPA) monitoring. Provides detailed page timing data and the most up-to-date New Relic features, including distributed tracing, for all types of applications.
 	SPA: "SPA",
-	// This value is specified for backwards-compatability.
+	// This value is specified for backwards-compatibility.
 	XHR: "XHR",
 }
 
@@ -780,7 +780,7 @@ var DashboardAlertSeverityTypes = struct {
 	WARNING: "WARNING",
 }
 
-// DashboardEntityPermissions - Permisions that represent visibility & editability
+// DashboardEntityPermissions - Permission that represent visibility & editability
 type DashboardEntityPermissions string
 
 var DashboardEntityPermissionsTypes = struct {
@@ -2564,17 +2564,17 @@ type AgentApplicationSettingsTransactionTracer struct {
 	// Relevant only when explain_enabled is true. Can be set to automatic configuration (APDEX_F) or manual (see explainThresholdValue).
 	ExplainThresholdType AgentApplicationSettingsThresholdTypeEnum `json:"explainThresholdType,omitempty"`
 	// Threshold (in seconds) above which the agent will collect explain plans. Relevant only when explainEnabled is true and explainThresholdType is set to VALUE.
-	ExplainThresholdValue nrtime.Seconds `json:"explainThresholdValue,omitempty"`
+	ExplainThresholdValue float64 `json:"explainThresholdValue,omitempty"`
 	// Set to true to enable logging of queries to the agent log file instead of uploading to New Relic. Queries are logged using the record_sql mode.
 	LogSql bool `json:"logSql,omitempty"`
 	// Obfuscation level for SQL queries reported in transaction trace nodes.
 	RecordSql AgentApplicationSettingsRecordSqlEnum `json:"recordSql,omitempty"`
 	// Specify a threshold in seconds. The agent includes stack traces in transaction trace nodes when the stack trace duration exceeds this threshold.
-	StackTraceThreshold nrtime.Seconds `json:"stackTraceThreshold,omitempty"`
+	StackTraceThreshold float64 `json:"stackTraceThreshold,omitempty"`
 	// Relevant only when TransactionTracer is enabled. Can be set to automatic configuration (APDEX_F) or manual (see TransactionThresholdValue).
 	TransactionThresholdType AgentApplicationSettingsThresholdTypeEnum `json:"transactionThresholdType,omitempty"`
 	// Threshold (in seconds) that transactions with a duration longer than this threshold are eligible for transaction traces.  Relevant only when transaction tracer is enabled and transaction_threshold_type is set to VALUE.
-	TransactionThresholdValue nrtime.Seconds `json:"transactionThresholdValue,omitempty"`
+	TransactionThresholdValue float64 `json:"transactionThresholdValue,omitempty"`
 }
 
 // AgentEnvironmentApplicationInstance - Representation of the New Relic agent collecting data.
