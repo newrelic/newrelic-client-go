@@ -10,7 +10,7 @@ import (
 
 var (
 	testApplicationSettings = AgentApplicationSettingsUpdateInput{
-		Alias: func(s string) *string { return &s }("tf_test_updated"),
+		Alias: "tf_test_updated",
 		ApmConfig: &AgentApplicationSettingsApmConfigInput{
 			ApdexTarget:         0,
 			UseServerSideConfig: func(b bool) *bool { return &b }(false),
