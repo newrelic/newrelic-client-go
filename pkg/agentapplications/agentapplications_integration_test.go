@@ -155,7 +155,7 @@ func TestIntegrationAgentApplicationAPM_Basic(t *testing.T) {
 	applicationSettingTestResult, err := client.AgentApplicationSettingsUpdate(
 		testhelpers.IntegrationTestApplicationEntityGUIDNew,
 		AgentApplicationSettingsUpdateInput{
-			Alias: &aliasName,
+			Alias: aliasName,
 		},
 	)
 
