@@ -145,6 +145,65 @@ func TestIntegrationAgentApplicationEnableAPMBrowser_WithSettings(t *testing.T) 
 	require.NotNil(t, result)
 }
 
+func TestIntegrationAgentApplicationAPM_Basic(t *testing.T) {
+	t.Parallel()
+	client := newAgentApplicationIntegrationTestClient(t)
+
+	aliasName := testhelpers.IntegrationTestApplicationEntityNameNew
+	// updating an existing application setting
+	// this is expected to throw no error, and successfully updating application setting
+	applicationSettingTestResult, err := client.AgentApplicationSettingsUpdate(
+		testhelpers.IntegrationTestApplicationEntityGUIDNew,
+		AgentApplicationSettingsUpdateInput{
+			Alias: aliasName,
+		},
+	)
+
+	require.NoError(t, err)
+	require.NotNil(t, applicationSettingTestResult)
+	require.Equal(t, aliasName, applicationSettingTestResult.Alias)
+}
+
+func TestIntegrationAgentApplicationAPM_WithSettings(t *testing.T) {
+	t.Parallel()
+	client := newAgentApplicationIntegrationTestClient(t)
+	aliasName := testhelpers.IntegrationTestApplicationEntityNameNew
+	// updating an existing application setting
+	// this is expected to throw no error, and successfully updating application setting
+	AgentApplicationsResult, err := client.AgentApplicationSettingsUpdate(
+		testhelpers.IntegrationTestApplicationEntityGUIDNew,
+		AgentApplicationSettingsUpdateInput{
+			ApmConfig: &AgentApplicationSettingsApmConfigInput{
+				ApdexTarget: 0.5,
+			},
+		},
+	)
+
+	require.NoError(t, err)
+	require.NotNil(t, AgentApplicationsResult)
+	require.Equal(t, aliasName, AgentApplicationsResult.Alias)
+	require.Equal(t, AgentApplicationsResult.ApmSettings.ApmConfig.ApdexTarget, 0.5)
+}
+
+func TestIntegrationAgentApplicationAPM_WithSettingsError(t *testing.T) {
+	t.Parallel()
+	client := newAgentApplicationIntegrationTestClient(t)
+
+	txnValue := 0.5
+	// updating an existing application setting
+	// this is expected to throw error
+	_, err := client.AgentApplicationSettingsUpdate(
+		testhelpers.IntegrationTestApplicationEntityGUIDNew,
+		AgentApplicationSettingsUpdateInput{
+			TransactionTracer: &AgentApplicationSettingsTransactionTracerInput{
+				TransactionThresholdValue: &txnValue,
+			},
+		},
+	)
+
+	require.Error(t, err)
+}
+
 func newAgentApplicationIntegrationTestClient(t *testing.T) AgentApplications {
 	tc := testhelpers.NewIntegrationTestConfig(t)
 
