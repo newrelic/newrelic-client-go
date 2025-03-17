@@ -15,6 +15,7 @@ go install github.com/client9/misspell/cmd/misspell@latest
 
 SRCDIR=${SRCDIR:-"."}
 GOBIN=$(go env GOPATH)/bin
+
 VER_PACKAGE="internal/version"
 VER_CMD=${GOBIN}/svu
 VER_BUMP=${GOBIN}/gobump
