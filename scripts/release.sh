@@ -3,6 +3,16 @@
 DEFAULT_BRANCH='main'
 CURRENT_GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
+# Set GOBIN env variable for Go dependencies
+GOBIN=$(go env GOPATH)/bin
+
+# Install release dependencies
+go install github.com/caarlos0/svu@latest
+go install github.com/x-motemen/gobump/cmd/gobump@latest
+go install github.com/x-motemen/gobump/cmd/gobump@latest
+go install github.com/git-chglog/git-chglog/cmd/git-chglog@latest
+go install github.com/client9/misspell/cmd/misspell@latest
+
 SRCDIR=${SRCDIR:-"."}
 GOBIN=$(go env GOPATH)/bin
 VER_PACKAGE="internal/version"
