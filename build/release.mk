@@ -35,6 +35,10 @@ release-package: clean tools
 	@echo "=== $(PROJECT_NAME) === [ release-publish  ]: Packaging release..."
 	$(REL_CMD) release --skip-publish
 
+release-publish: clean tools release-notes
+	@echo "=== $(PROJECT_NAME) === [ release-publish  ]: Publishing release via $(REL_CMD)"
+	$(REL_CMD) release --release-notes=$(SRCDIR)/tmp/$(RELEASE_NOTES)
+
 # Local Snapshot
 snapshot: clean tools
 	@echo "=== $(PROJECT_NAME) === [ snapshot         ]: Creating release snapshot..."

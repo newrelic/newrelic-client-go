@@ -80,14 +80,16 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-mkdir -p ${SRCDIR}/tmp
-# Generate release notes for GoReleaser to add to the GitHub release description
-${CHANGELOG_CMD} -o ${RELEASE_NOTES_FILE} ${VER_NEXT} --sort semver
+# moving this to make files as we are encountering race conditions for new tag released
 
-cat ${RELEASE_NOTES_FILE}
+# mkdir -p ${SRCDIR}/tmp
+# # Generate release notes for GoReleaser to add to the GitHub release description
+# ${CHANGELOG_CMD} -o ${RELEASE_NOTES_FILE} ${VER_NEXT} --sort semver
 
-# Correct spelling mistakes in release notes
-${SPELL_CMD} -source text -w ${RELEASE_NOTES_FILE}
+# cat ${RELEASE_NOTES_FILE}
 
-# Publish the release
-${REL_CMD} release --release-notes=${RELEASE_NOTES_FILE}
+# # Correct spelling mistakes in release notes
+# ${SPELL_CMD} -source text -w ${RELEASE_NOTES_FILE}
+
+# # Publish the release
+# ${REL_CMD} release --release-notes=${RELEASE_NOTES_FILE}
