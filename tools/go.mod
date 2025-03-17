@@ -6,7 +6,7 @@ require (
 	github.com/caarlos0/svu/v2 v2.0.1
 	github.com/client9/misspell v0.3.4
 	github.com/git-chglog/git-chglog v0.15.4
-	github.com/golangci/golangci-lint v1.53.3
+	github.com/golangci/golangci-lint v1.64.8
 	github.com/goreleaser/goreleaser/v2 v2.2.0
 	github.com/newrelic/tutone v0.11.0
 	github.com/psampaz/go-mod-outdated v0.9.0
