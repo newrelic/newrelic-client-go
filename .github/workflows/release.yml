@@ -36,4 +36,6 @@ jobs:
         run: |
           git config --global user.name nr-developer-toolkit
           git config --global user.email 62031461+nr-developer-toolkit@users.noreply.github.com
-          make release
+
+          ./scripts/release.sh
+          make release-publish
