@@ -1165,7 +1165,7 @@ func TestIntegrationNrqlConditions_DisableHealthStatusReporting(t *testing.T) {
 	policy, err := client.CreatePolicyMutation(testAccountID, testPolicy)
 	require.NoError(t, err)
 
-	// Test: Create (static condition with forecast field)
+	// Test: Create (condition with DisableHealthStatusReporting field)
 	createdCondition, err := client.CreateNrqlConditionStaticMutation(testAccountID, policy.ID, conditionCreateInput)
 	require.NoError(t, err)
 	require.NotNil(t, createdCondition)
@@ -1173,12 +1173,13 @@ func TestIntegrationNrqlConditions_DisableHealthStatusReporting(t *testing.T) {
 	require.NotNil(t, createdCondition.PolicyID)
 	require.NotNil(t, createdCondition.Terms[0].DisableHealthStatusReporting)
 
-	// Test: Get (static condition with dataAccountId field)
+// Test: Get (condition with DisableHealthStatusReporting field)
 	readResult, err := client.GetNrqlConditionQuery(testAccountID, createdCondition.ID)
 	require.NoError(t, err)
 	require.NotNil(t, readResult)
 	require.Equal(t, true, readResult.Terms[0].DisableHealthStatusReporting)
 
+	// Test: Update (condition with DisableHealthStatusReporting field)
 	updatedCondition, err := client.UpdateNrqlConditionStaticMutation(testAccountID, createdCondition.ID, conditionUpdateInput)
 	require.NoError(t, err)
 	require.Equal(t, false, updatedCondition.Terms[0].DisableHealthStatusReporting)
