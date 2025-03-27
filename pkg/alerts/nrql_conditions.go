@@ -229,12 +229,13 @@ type NrqlConditionThresholdPrediction struct {
 
 // NrqlConditionTerm represents the a single term of a New Relic alert condition.
 type NrqlConditionTerm struct {
-	Operator             AlertsNRQLConditionTermsOperator  `json:"operator,omitempty"`
-	Priority             NrqlConditionPriority             `json:"priority,omitempty"`
-	Threshold            *float64                          `json:"threshold"`
-	ThresholdDuration    int                               `json:"thresholdDuration,omitempty"`
-	ThresholdOccurrences ThresholdOccurrence               `json:"thresholdOccurrences,omitempty"`
-	Prediction           *NrqlConditionThresholdPrediction `json:"prediction,omitempty"`
+	Operator                     AlertsNRQLConditionTermsOperator  `json:"operator,omitempty"`
+	Priority                     NrqlConditionPriority             `json:"priority,omitempty"`
+	Threshold                    *float64                          `json:"threshold"`
+	ThresholdDuration            int                               `json:"thresholdDuration,omitempty"`
+	ThresholdOccurrences         ThresholdOccurrence               `json:"thresholdOccurrences,omitempty"`
+	Prediction                   *NrqlConditionThresholdPrediction `json:"prediction,omitempty"`
+	DisableHealthStatusReporting bool                              `json:"disableHealthStatusReporting"`
 }
 
 // NrqlConditionQuery represents the NRQL query object returned in a NerdGraph response object.
@@ -763,6 +764,7 @@ const (
       threshold
       thresholdDuration
       thresholdOccurrences
+			disableHealthStatusReporting
     }
     type
     violationTimeLimit
