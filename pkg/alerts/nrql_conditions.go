@@ -740,7 +740,7 @@ const (
       threshold
       thresholdDuration
       thresholdOccurrences
-			disableHealthStatusReporting
+      disableHealthStatusReporting
     }
     type
     violationTimeLimit
