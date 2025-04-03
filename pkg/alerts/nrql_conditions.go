@@ -235,7 +235,7 @@ type NrqlConditionTerm struct {
 	ThresholdDuration            int                               `json:"thresholdDuration,omitempty"`
 	ThresholdOccurrences         ThresholdOccurrence               `json:"thresholdOccurrences,omitempty"`
 	Prediction                   *NrqlConditionThresholdPrediction `json:"prediction,omitempty"`
-	DisableHealthStatusReporting bool                              `json:"disableHealthStatusReporting"`
+	DisableHealthStatusReporting *bool                             `json:"disableHealthStatusReporting,omitempty"`
 }
 
 // NrqlConditionQuery represents the NRQL query object returned in a NerdGraph response object.

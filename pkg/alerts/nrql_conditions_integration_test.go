@@ -29,10 +29,7 @@ var (
 	nrqlConditionEvaluationDelay        = 60                                          // needed for setting pointer
 	nrqlConditionTitleTemplate          = "Title {{ createdAt }}"                     // needed for setting pointer
 	nrqlConditionPredictBy              = 7200                                        // needed for setting pointer
-<<<<<<< HEAD
 	nrqlConditionSignalSeasonality      = NrqlSignalSeasonalities.Weekly              // needed for setting pointer
-=======
->>>>>>> 307a049 (feat(alerts): Add DisableHealthStatusReporting to go client)
 	nrqlConditionCreateBase             = NrqlConditionCreateBase{
 		Description: "test description",
 		Enabled:     true,
@@ -1095,6 +1092,12 @@ func TestIntegrationNrqlConditions_DisableHealthStatusReporting(t *testing.T) {
 		t.Skipf("%s", err)
 	}
 
+	var (
+		truePt = true
+		falsePt = false
+		nilPt *bool = nil
+	)
+
 	var conditionCreateInput = NrqlConditionCreateInput{
 		NrqlConditionCreateBase: NrqlConditionCreateBase{
 			Enabled: true,
@@ -1110,7 +1113,7 @@ func TestIntegrationNrqlConditions_DisableHealthStatusReporting(t *testing.T) {
 					ThresholdDuration:            600,
 					Operator:                     AlertsNRQLConditionTermsOperatorTypes.ABOVE,
 					Priority:                     NrqlConditionPriorities.Critical,
-					DisableHealthStatusReporting: true,
+					DisableHealthStatusReporting: &truePt,
 				},
 			},
 			ViolationTimeLimitSeconds: 3600,
@@ -1139,7 +1142,36 @@ func TestIntegrationNrqlConditions_DisableHealthStatusReporting(t *testing.T) {
 					ThresholdDuration:            600,
 					Operator:                     AlertsNRQLConditionTermsOperatorTypes.ABOVE,
 					Priority:                     NrqlConditionPriorities.Critical,
-					DisableHealthStatusReporting: false,
+					DisableHealthStatusReporting: &falsePt,
+				},
+			},
+			ViolationTimeLimitSeconds: 3600,
+			Signal: &AlertsNrqlConditionUpdateSignal{
+				AggregationWindow: &nrqlConditionBaseAggWindow,
+				FillOption:        &AlertsFillOptionTypes.STATIC,
+				FillValue:         &nrqlConditionBaseSignalFillValue,
+				EvaluationDelay:   &nrqlConditionEvaluationDelay,
+				AggregationMethod: &nrqlConditionBaseAggMethod,
+				AggregationDelay:  &nrqlConditionBaseAggDelay,
+			},
+		},
+	}
+	var conditionUpdateInputNilHealthStatus = NrqlConditionUpdateInput{
+		NrqlConditionUpdateBase: NrqlConditionUpdateBase{
+			Enabled: true,
+			Name:    fmt.Sprintf("test-nrql-condition-%s", testNrqlConditionRandomString),
+			Nrql: NrqlConditionUpdateQuery{
+				Query:         "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
+				DataAccountId: &testAccountID,
+			},
+			Terms: []NrqlConditionTerm{
+				{
+					Threshold:                    &nrqlConditionBaseThreshold,
+					ThresholdOccurrences:         ThresholdOccurrences.AtLeastOnce,
+					ThresholdDuration:            600,
+					Operator:                     AlertsNRQLConditionTermsOperatorTypes.ABOVE,
+					Priority:                     NrqlConditionPriorities.Critical,
+					DisableHealthStatusReporting: nilPt,
 				},
 			},
 			ViolationTimeLimitSeconds: 3600,
@@ -1171,18 +1203,23 @@ func TestIntegrationNrqlConditions_DisableHealthStatusReporting(t *testing.T) {
 	require.NotNil(t, createdCondition)
 	require.NotNil(t, createdCondition.ID)
 	require.NotNil(t, createdCondition.PolicyID)
-	require.NotNil(t, createdCondition.Terms[0].DisableHealthStatusReporting)
+	require.Equal(t, truePt, *createdCondition.Terms[0].DisableHealthStatusReporting)
 
-// Test: Get (condition with DisableHealthStatusReporting field)
+	// Test: Get (condition with DisableHealthStatusReporting field)
 	readResult, err := client.GetNrqlConditionQuery(testAccountID, createdCondition.ID)
 	require.NoError(t, err)
 	require.NotNil(t, readResult)
-	require.Equal(t, true, readResult.Terms[0].DisableHealthStatusReporting)
+	require.Equal(t, truePt, *readResult.Terms[0].DisableHealthStatusReporting)
+
+	// Test: Update (condition nil DisableHealthStatusReporting field)
+	updatedConditionNilHS, err := client.UpdateNrqlConditionStaticMutation(testAccountID, createdCondition.ID, conditionUpdateInputNilHealthStatus)
+	require.NoError(t, err)
+	require.Equal(t, nilPt, updatedConditionNilHS.Terms[0].DisableHealthStatusReporting)
 
 	// Test: Update (condition with DisableHealthStatusReporting field)
 	updatedCondition, err := client.UpdateNrqlConditionStaticMutation(testAccountID, createdCondition.ID, conditionUpdateInput)
 	require.NoError(t, err)
-	require.Equal(t, false, updatedCondition.Terms[0].DisableHealthStatusReporting)
+	require.Equal(t, falsePt, *updatedCondition.Terms[0].DisableHealthStatusReporting)
 
 	// Deferred teardown
 	defer func() {
