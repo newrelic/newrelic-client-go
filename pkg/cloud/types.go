@@ -4812,7 +4812,7 @@ type CloudGcpStorageIntegrationInput struct {
 // CloudGcpUpdateAccountInput - Information required to update a GCP account to a NewRelic account.
 type CloudGcpUpdateAccountInput struct {
 	// Disable the linked account.
-	Disabled bool `json:"disabled,omitempty"`
+	Disabled *bool `json:"disabled,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
 	// The linked account new name.
