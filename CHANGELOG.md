@@ -1,3 +1,8 @@
+<a name="v2.55.4"></a>
+## [v2.55.4] - 2025-04-03
+### Bug Fixes
+- **docs:** mock release for a test inclusive of a README update ([#1281](https://github.com/newrelic/newrelic-client-go/issues/1281))
+
 <a name="v2.55.3"></a>
 ## [v2.55.3] - 2025-03-28
 ### Bug Fixes
@@ -1998,7 +2003,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.55.3...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.55.4...HEAD
+[v2.55.4]: https://github.com/newrelic/newrelic-client-go/compare/v2.55.3...v2.55.4
 [v2.55.3]: https://github.com/newrelic/newrelic-client-go/compare/v2.55.2...v2.55.3
 [v2.55.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.55.1...v2.55.2
 [v2.55.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.55.0...v2.55.1
