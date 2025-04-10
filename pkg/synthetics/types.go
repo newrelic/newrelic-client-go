@@ -1710,7 +1710,7 @@ type SyntheticsSimpleMonitorAdvancedOptionsInput struct {
 	// Categorize redirects during a monitor job as a failure
 	RedirectIsFailure *bool `json:"redirectIsFailure,omitempty"`
 	// Validation text for monitor to search for at given URI
-	ResponseValidationText string `json:"responseValidationText,omitempty"`
+	ResponseValidationText *string `json:"responseValidationText"`
 	// Monitor should skip default HEAD request and instead use GET verb in check
 	ShouldBypassHeadRequest *bool `json:"shouldBypassHeadRequest,omitempty"`
 	// Monitor should validate SSL certificate chain
