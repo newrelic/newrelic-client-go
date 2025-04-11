@@ -312,7 +312,7 @@ type NrqlConditionCreateInput struct {
 	// BaselineDirection ONLY applies to NRQL conditions of type BASELINE.
 	BaselineDirection *NrqlBaselineDirection `json:"baselineDirection,omitempty"`
 	// SignalSeasonality ONLY applies to NRQL conditions of type BASELINE.
-	SignalSeasonality *NrqlSignalSeasonality `json:"signalSeasonality"`
+	SignalSeasonality *NrqlSignalSeasonality `json:"signalSeasonality,omitempty"`
 }
 
 // NrqlConditionUpdateInput represents the input options for updating a Nrql Condition.
@@ -322,7 +322,7 @@ type NrqlConditionUpdateInput struct {
 	// BaselineDirection ONLY applies to NRQL conditions of type BASELINE.
 	BaselineDirection *NrqlBaselineDirection `json:"baselineDirection,omitempty"`
 	// SignalSeasonality ONLY applies to NRQL conditions of type BASELINE.
-	SignalSeasonality *NrqlSignalSeasonality `json:"signalSeasonality"`
+	SignalSeasonality *NrqlSignalSeasonality `json:"signalSeasonality,omitempty"`
 }
 
 type NrqlConditionsSearchCriteria struct {
