@@ -1644,7 +1644,7 @@ type SyntheticsSimpleBrowserMonitorAdvancedOptionsInput struct {
 	// Capture a screenshot during job execution
 	EnableScreenshotOnFailureAndScript *bool `json:"enableScreenshotOnFailureAndScript,omitempty"`
 	// Validation text for monitor to search for at given URI
-	ResponseValidationText string `json:"responseValidationText,omitempty"`
+	ResponseValidationText string `json:"responseValidationText"`
 	// Monitor should validate SSL certificate chain
 	UseTlsValidation *bool `json:"useTlsValidation,omitempty"`
 }
