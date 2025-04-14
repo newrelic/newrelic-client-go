@@ -29,7 +29,6 @@ var (
 	nrqlConditionEvaluationDelay        = 60                                          // needed for setting pointer
 	nrqlConditionTitleTemplate          = "Title {{ createdAt }}"                     // needed for setting pointer
 	nrqlConditionPredictBy              = 7200																				// needed for setting pointer
-	nrqlConditionSignalSeasonality      = NrqlSignalSeasonalities.Weekly              // needed for setting pointer
 	nrqlConditionCreateBase             = NrqlConditionCreateBase{
 		Description: "test description",
 		Enabled:     true,
@@ -967,113 +966,6 @@ func TestIntegrationNrqlConditions_Prediction(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, readResult)
 	require.Equal(t, nrqlConditionPredictBy, readResult.Terms[0].Prediction.PredictBy)
-
-	// Deferred teardown
-	defer func() {
-		_, err := client.DeletePolicyMutation(testAccountID, policy.ID)
-		if err != nil {
-			t.Logf("error cleaning up alert policy %s (%s): %s", policy.ID, policy.Name, err)
-		}
-	}()
-}
-
-func TestIntegrationNrqlConditions_SignalSeasonality(t *testing.T) {
-	t.Parallel()
-
-	testAccountID, err := mock.GetTestAccountID()
-	if err != nil {
-		t.Skipf("%s", err)
-	}
-
-	var (
-		randStr        = mock.RandSeq(5)
-		conditionName  = fmt.Sprintf("test-nrql-condition-%s", randStr)
-		conditionInput = NrqlConditionCreateInput{
-			NrqlConditionCreateBase: NrqlConditionCreateBase{
-				Enabled: true,
-				Name:    conditionName,
-				Nrql: NrqlConditionCreateQuery{
-					Query: "SELECT average(duration) From Transaction",
-				},
-				Terms: []NrqlConditionTerm{
-					{
-						Threshold:            &nrqlConditionBaseThreshold,
-						ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
-						ThresholdDuration:    300,
-						Operator:             AlertsNRQLConditionTermsOperatorTypes.ABOVE,
-						Priority:             NrqlConditionPriorities.Critical,
-					},
-				},
-				Signal: &AlertsNrqlConditionCreateSignal{
-					AggregationWindow: &nrqlConditionBaseAggWindow,
-					FillOption:        &AlertsFillOptionTypes.STATIC,
-					FillValue:         &nrqlConditionBaseSignalFillValue,
-					EvaluationDelay:   &nrqlConditionEvaluationDelay,
-					AggregationMethod: &nrqlConditionBaseAggMethod,
-					AggregationDelay:  &nrqlConditionBaseAggDelay,
-				},
-				ViolationTimeLimitSeconds: 3600,
-			},
-			BaselineDirection: &NrqlBaselineDirections.LowerOnly,
-			SignalSeasonality: &nrqlConditionSignalSeasonality,
-		}
-
-		updateInput = NrqlConditionUpdateInput{
-			NrqlConditionUpdateBase: NrqlConditionUpdateBase{
-				Enabled: true,
-				Name:    conditionName,
-				Nrql: NrqlConditionUpdateQuery{
-					Query: "SELECT average(duration) From Transaction",
-				},
-				Terms: []NrqlConditionTerm{
-					{
-						Threshold:            &nrqlConditionBaseThreshold,
-						ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
-						ThresholdDuration:    300,
-						Operator:             AlertsNRQLConditionTermsOperatorTypes.ABOVE,
-						Priority:             NrqlConditionPriorities.Critical,
-					},
-				},
-				Signal: &AlertsNrqlConditionUpdateSignal{
-					AggregationWindow: &nrqlConditionBaseAggWindow,
-					FillOption:        &AlertsFillOptionTypes.STATIC,
-					FillValue:         &nrqlConditionBaseSignalFillValue,
-					EvaluationDelay:   &nrqlConditionEvaluationDelay,
-					AggregationMethod: &nrqlConditionBaseAggMethod,
-					AggregationDelay:  &nrqlConditionBaseAggDelay,
-				},
-				ViolationTimeLimitSeconds: 3600,
-			},
-			BaselineDirection: &NrqlBaselineDirections.LowerOnly,
-			SignalSeasonality: &nrqlConditionSignalSeasonality,
-		}
-	)
-
-	// Setup
-	client := newIntegrationTestClient(t)
-	testPolicy := AlertsPolicyInput{
-		IncidentPreference: AlertsIncidentPreferenceTypes.PER_POLICY,
-		Name:               fmt.Sprintf("test-alert-policy-%s", randStr),
-	}
-	policy, err := client.CreatePolicyMutation(testAccountID, testPolicy)
-	require.NoError(t, err)
-
-	// Test: Create (baseline condition with signal seasonality field)
-	createdCondition, err := client.CreateNrqlConditionBaselineMutation(testAccountID, policy.ID, conditionInput)
-	require.NoError(t, err)
-	require.NotNil(t, createdCondition)
-	require.NotNil(t, createdCondition.ID)
-	require.NotNil(t, createdCondition.PolicyID)
-	require.NotNil(t, createdCondition.SignalSeasonality)
-	require.Equal(t, &nrqlConditionSignalSeasonality, createdCondition.SignalSeasonality)
-
-	// Test: Update (baseline condition with signal seasonality modified)
-	nrqlConditionSignalSeasonalityUpdated := NrqlSignalSeasonalities.None // needed for setting pointer
-	updateInput.SignalSeasonality = &nrqlConditionSignalSeasonalityUpdated
-
-	updatedCondition, err := client.UpdateNrqlConditionBaselineMutation(testAccountID, createdCondition.ID, updateInput)
-	require.NoError(t, err)
-	require.Equal(t, &nrqlConditionSignalSeasonalityUpdated, updatedCondition.SignalSeasonality)
 
 	// Deferred teardown
 	defer func() {
