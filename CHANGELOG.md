@@ -1,5 +1,10 @@
+<a name="v2.57.0"></a>
+## [v2.57.0] - 2025-04-14
+### Features
+- **alerts:** revert addition of support for nrql condition signal seasonality ([#1290](https://github.com/newrelic/newrelic-client-go/issues/1290))
+
 <a name="v2.56.1"></a>
-## [v2.56.1] - 2025-04-11
+## [v2.56.1] - 2025-04-14
 ### Bug Fixes
 - **synthetics:** Remove `omitempty` from `ResponseValidationText` to allow unsetting ([#1287](https://github.com/newrelic/newrelic-client-go/issues/1287))
 
@@ -2013,7 +2018,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.56.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.57.0...HEAD
+[v2.57.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.56.1...v2.57.0
 [v2.56.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.56.0...v2.56.1
 [v2.56.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.55.4...v2.56.0
 [v2.55.4]: https://github.com/newrelic/newrelic-client-go/compare/v2.55.3...v2.55.4
