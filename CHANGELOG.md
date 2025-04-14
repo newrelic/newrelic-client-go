@@ -1,3 +1,8 @@
+<a name="v2.56.1"></a>
+## [v2.56.1] - 2025-04-11
+### Bug Fixes
+- **synthetics:** Remove `omitempty` from `ResponseValidationText` to allow unsetting ([#1287](https://github.com/newrelic/newrelic-client-go/issues/1287))
+
 <a name="v2.56.0"></a>
 ## [v2.56.0] - 2025-04-10
 ### Features
@@ -2008,7 +2013,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.56.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.56.1...HEAD
+[v2.56.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.56.0...v2.56.1
 [v2.56.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.55.4...v2.56.0
 [v2.55.4]: https://github.com/newrelic/newrelic-client-go/compare/v2.55.3...v2.55.4
 [v2.55.3]: https://github.com/newrelic/newrelic-client-go/compare/v2.55.2...v2.55.3
