@@ -208,11 +208,13 @@ type NrqlSignalSeasonality string
 var (
 	// NrqlSignalSeasonalities enumerates the possible signal seasonality values for a baseline NRQL alert condition.
 	NrqlSignalSeasonalities = struct {
+		NewRelicCalculation NrqlSignalSeasonality
 		Hourly NrqlSignalSeasonality
 		Daily  NrqlSignalSeasonality
 		Weekly NrqlSignalSeasonality
 		None   NrqlSignalSeasonality
 	}{
+		NewRelicCalculation: "NEW_RELIC_CALCULATION",
 		Hourly: "HOURLY",
 		Daily:  "DAILY",
 		Weekly: "WEEKLY",
@@ -312,7 +314,7 @@ type NrqlConditionCreateInput struct {
 	// BaselineDirection ONLY applies to NRQL conditions of type BASELINE.
 	BaselineDirection *NrqlBaselineDirection `json:"baselineDirection,omitempty"`
 	// SignalSeasonality ONLY applies to NRQL conditions of type BASELINE.
-	SignalSeasonality *NrqlSignalSeasonality `json:"signalSeasonality"`
+	SignalSeasonality *NrqlSignalSeasonality `json:"signalSeasonality,omitempty"`
 }
 
 // NrqlConditionUpdateInput represents the input options for updating a Nrql Condition.
@@ -322,7 +324,7 @@ type NrqlConditionUpdateInput struct {
 	// BaselineDirection ONLY applies to NRQL conditions of type BASELINE.
 	BaselineDirection *NrqlBaselineDirection `json:"baselineDirection,omitempty"`
 	// SignalSeasonality ONLY applies to NRQL conditions of type BASELINE.
-	SignalSeasonality *NrqlSignalSeasonality `json:"signalSeasonality"`
+	SignalSeasonality *NrqlSignalSeasonality `json:"signalSeasonality,omitempty"`
 }
 
 type NrqlConditionsSearchCriteria struct {
