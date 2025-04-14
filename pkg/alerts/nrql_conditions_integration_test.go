@@ -28,7 +28,7 @@ var (
 	nrqlConditionBaseSlideBy            = 30                                          // needed for setting pointer
 	nrqlConditionEvaluationDelay        = 60                                          // needed for setting pointer
 	nrqlConditionTitleTemplate          = "Title {{ createdAt }}"                     // needed for setting pointer
-	nrqlConditionPredictBy              = 7200																				// needed for setting pointer
+	nrqlConditionPredictBy              = 7200                                        // needed for setting pointer
 	nrqlConditionSignalSeasonality      = NrqlSignalSeasonalities.Weekly              // needed for setting pointer
 	nrqlConditionCreateBase             = NrqlConditionCreateBase{
 		Description: "test description",
@@ -938,8 +938,8 @@ func TestIntegrationNrqlConditions_Prediction(t *testing.T) {
 	}
 
 	var (
-		randStr                  = mock.RandSeq(5)
-		createPredictionInput    = NrqlConditionCreateInput{
+		randStr               = mock.RandSeq(5)
+		createPredictionInput = NrqlConditionCreateInput{
 			NrqlConditionCreateBase: nrqlConditionCreateWithPrediction,
 		}
 	)
