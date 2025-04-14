@@ -345,7 +345,7 @@ type NrqlAlertCondition struct {
 	// BaselineDirection exists ONLY for NRQL conditions of type BASELINE.
 	BaselineDirection *NrqlBaselineDirection `json:"baselineDirection,omitempty"`
 	// SignalSeasonality exists ONLY for NRQL conditions of type BASELINE.
-	SignalSeasonality *NrqlSignalSeasonality `json:"signalSeasonality"`
+	SignalSeasonality *NrqlSignalSeasonality `json:"signalSeasonality,omitempty"`
 }
 
 // NrqlCondition represents a New Relic NRQL Alert condition.

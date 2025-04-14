@@ -1067,8 +1067,8 @@ func TestIntegrationNrqlConditions_SignalSeasonality(t *testing.T) {
 	require.NotNil(t, createdCondition.SignalSeasonality)
 	require.Equal(t, &nrqlConditionSignalSeasonality, createdCondition.SignalSeasonality)
 
-	// Test: Update (baseline condition with signal seasonality modified)
-	nrqlConditionSignalSeasonalityUpdated := NrqlSignalSeasonalities.None // needed for setting pointer
+	// Test: Update (baseline condition with signal seasonality modified to NewRelicCalculation)
+	nrqlConditionSignalSeasonalityUpdated := NrqlSignalSeasonalities.NewRelicCalculation // needed for setting pointer
 	updateInput.SignalSeasonality = &nrqlConditionSignalSeasonalityUpdated
 
 	updatedCondition, err := client.UpdateNrqlConditionBaselineMutation(testAccountID, createdCondition.ID, updateInput)
