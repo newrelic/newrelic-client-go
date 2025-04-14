@@ -209,16 +209,16 @@ var (
 	// NrqlSignalSeasonalities enumerates the possible signal seasonality values for a baseline NRQL alert condition.
 	NrqlSignalSeasonalities = struct {
 		NewRelicCalculation NrqlSignalSeasonality
-		Hourly NrqlSignalSeasonality
-		Daily  NrqlSignalSeasonality
-		Weekly NrqlSignalSeasonality
-		None   NrqlSignalSeasonality
+		Hourly              NrqlSignalSeasonality
+		Daily               NrqlSignalSeasonality
+		Weekly              NrqlSignalSeasonality
+		None                NrqlSignalSeasonality
 	}{
 		NewRelicCalculation: "NEW_RELIC_CALCULATION",
-		Hourly: "HOURLY",
-		Daily:  "DAILY",
-		Weekly: "WEEKLY",
-		None:   "NONE",
+		Hourly:              "HOURLY",
+		Daily:               "DAILY",
+		Weekly:              "WEEKLY",
+		None:                "NONE",
 	}
 )
 
