@@ -32,29 +32,17 @@ jobs:
       - name: Install deps
         run: ls scripts && npm install yaml lodash.merge
 
-      - name: Rerun workflow
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const workflowRunId = 11277758910;
-            await github.rest.actions.reRunWorkflow({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              run_id: workflowRunId,
-            });
-      
-
-      - name: Download artifact
-        uses: actions/github-script@v7
-        env:
-          WORKFLOW_FILENAME: graphql-schema.yml
-          ARTIFACT_NAME: schema
-          ARTIFACT_FILENAME: schema.zip
-          UNZIP_DIR: ./
-        with:
-          script: |
-            const script = require('./scripts/download-previous-artifact.js')
-            await script({github, context, core})
+      - name: Create dummy schema.json in ./
+        run: |
+          cat <<EOF > ./schema.json
+          {
+            "data": {
+              "__schema": {
+                "types": []
+              }
+            }
+          }
+          EOF
 
       - name: Rename schema.json to schema-old.json
         run: |
