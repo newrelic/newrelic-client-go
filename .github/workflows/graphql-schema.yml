@@ -44,10 +44,10 @@ jobs:
 #            const script = require('./scripts/download-previous-artifact.js')
 #            await script({github, context, core})
 
-      - name: Rename schema.json to schema-old.json
-        run: |
-          find ./ -type f -name "schema.json"
-          mv schema.json schema-old.json
+#      - name: Rename schema.json to schema-old.json
+#        run: |
+#          find ./ -type f -name "schema.json"
+#          mv schema.json schema-old.json
 
       - name: Fetch GraphQL Schema
         env:
