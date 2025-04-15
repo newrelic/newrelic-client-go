@@ -32,17 +32,10 @@ jobs:
       - name: Install deps
         run: ls scripts && npm install yaml lodash.merge
 
-      - name: Create dummy schema.json in ./
+      - name: Use schema.json from parent directory
         run: |
-          cat <<EOF > ./schema.json
-          {
-            "data": {
-              "__schema": {
-                "types": []
-              }
-            }
-          }
-          EOF
+            cp ../../schema.json ./schema.json
+            echo "Using schema.json from parent directory"
 
       - name: Rename schema.json to schema-old.json
         run: |
