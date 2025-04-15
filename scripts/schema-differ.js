@@ -27,7 +27,8 @@ try {
 }
 
 // Check for any newly added mutations
-const endpointsOld = schemaOld.mutationType.fields.map(field => field.name);
+const endpointsOld = schemaOld?.mutationType?.fields?.map(field => field.name) || [];
+// const endpointsOld = schemaOld.mutationType.fields.map(field => field.name);
 const endpointsLatest = schemaLatest.mutationType.fields.map(field => field.name);
 const newEndpoints = endpointsLatest.filter(x => !endpointsOld.includes(x));
 const hasNewEndpoints = newEndpoints.length > 0;
@@ -45,7 +46,7 @@ const clientMutations = tutoneConfig.packages.map(pkg => {
   return pkg.mutations.map(m => m.name)
 }).flat().reduce((acc, i) => i ? [...acc, i] : acc, []);
 
-const clientEndpointsSchemaOld = schemaOld.mutationType.fields.filter(field => clientMutations.includes(field.name));
+const clientEndpointsSchemaOld = schemaOld?.mutationType?.fields?.filter(field => clientMutations.includes(field.name)) || [];
 const clientEndpointsSchemaNew = schemaLatest.mutationType.fields.filter(field => clientMutations.includes(field.name));
 
 // Check for changes in the mutations' signatures
