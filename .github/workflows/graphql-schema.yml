@@ -32,11 +32,6 @@ jobs:
       - name: Install deps
         run: ls scripts && npm install yaml lodash.merge
 
-      - name: Use schema.json from parent directory
-        run: |
-            cp ../../schema.json ./schema.json
-            echo "Using schema.json from parent directory"
-
       - name: Rename schema.json to schema-old.json
         run: |
           find ./ -type f -name "schema.json"
