@@ -29,12 +29,12 @@ try {
 // Check for any newly added mutations
 const endpointsOld = schemaOld?.mutationType?.fields?.map(field => field.name) || [];
 // const endpointsOld = schemaOld.mutationType.fields.map(field => field.name);
-const endpointsLatest = schemaLatest.mutationType.fields.map(field => field.name);
+const endpointsLatest = schemaLatest?.mutationType?.fields?.map(field => field.name);
 const newEndpoints = endpointsLatest.filter(x => !endpointsOld.includes(x));
 const hasNewEndpoints = newEndpoints.length > 0;
 
 // Get the mutations the client has implemented
-const clientMutations = tutoneConfig.packages.map(pkg => {
+const clientMutations = tutoneConfig?.packages.map(pkg => {
   if (!pkg.mutations) {
     return null;
   }
@@ -83,7 +83,7 @@ function generatePackageNameForEndpoint(endpointName) {
 }
 
 const packagesToGenerate = [];
-const clientPackages = tutoneConfig.packages;
+const clientPackages = tutoneConfig?.packages;
 
 newEndpoints.forEach((endpointName) => {
   const newEndpointSchema = schemaLatest.mutationType.fields.find(f => f.name === endpointName);
