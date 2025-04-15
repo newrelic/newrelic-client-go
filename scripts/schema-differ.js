@@ -295,6 +295,7 @@ function getTypeName(type) {
 }
 
 function getMaxQueryDepth(type, depth = 1) {
+  if(depth > 5) return 5;
   let maxQueryDepth = depth;
 
   type = getTypeFromSchema(getTypeName(type));
