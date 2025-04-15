@@ -158,7 +158,7 @@ jobs:
   generate-code:
     if: needs.checkForApiUpdates.outputs.heroHention != ''
     needs: checkForApiUpdates
-    uses: newrelic/newrelic-client-go/.github/workflows/generate.yml@feat/automated-codegen
+    uses: newrelic/newrelic-client-go/.github/workflows/generate.yml@main
     with:
       tutoneConfig: ${{ needs.checkForApiUpdates.outputs.tutoneConfig }}
       packages: ${{ needs.checkForApiUpdates.outputs.packages }}
