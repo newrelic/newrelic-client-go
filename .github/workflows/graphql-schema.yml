@@ -32,6 +32,15 @@ jobs:
       - name: Install deps
         run: ls scripts && npm install yaml lodash.merge
 
+      - name: Download expired artifact
+        uses: dawidd6/action-download-artifact@v3
+        with:
+          workflow: graphql-schema.yml
+          name: schema
+          path: ./
+          error-if-expired: false
+          if-no-artifact-found: continue
+
 #      - name: Download artifact
 #        uses: actions/github-script@v7
 #        env:
@@ -44,10 +53,10 @@ jobs:
 #            const script = require('./scripts/download-previous-artifact.js')
 #            await script({github, context, core})
 
-#      - name: Rename schema.json to schema-old.json
-#        run: |
-#          find ./ -type f -name "schema.json"
-#          mv schema.json schema-old.json
+      - name: Rename schema.json to schema-old.json
+        run: |
+          find ./ -type f -name "schema.json"
+          mv schema.json schema-old.json
 
       - name: Fetch GraphQL Schema
         env:
