@@ -196,7 +196,7 @@ console.log('');
 const schemaMutations = schemaLatest.mutationType.fields.map(field => field.name);
 const clientMutationsDiff = schemaMutations.filter(x => !clientMutations.includes(x));
 
-let newApiMutationsMsg = '';
+let newApiMutationsMsg = 'No new mutations since last check';
 if (hasNewEndpoints) {
   heroMention = heroAliasName;
   newApiMutationsMsg = `'${newEndpoints.join('\n')}'`;
