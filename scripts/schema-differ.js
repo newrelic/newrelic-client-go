@@ -28,26 +28,20 @@ try {
 
 // Check for any newly added mutations
 const endpointsOld = schemaOld?.mutationType?.fields?.map(field => field.name) || [];
-// const endpointsOld = schemaOld.mutationType.fields.map(field => field.name);
-const endpointsLatest = schemaLatest?.mutationType?.fields?.map(field => field.name);
-const newEndpoints = endpointsLatest.filter(x => !endpointsOld.includes(x));
+const endpointsLatest = schemaLatest?.mutationType?.fields?.map(field => field.name) || [];
+const newEndpoints = endpointsLatest.filter(x => !endpointsOld.includes(x)) || [];
 const hasNewEndpoints = newEndpoints.length > 0;
 
 // Get the mutations the client has implemented
-const clientMutations = tutoneConfig?.packages.map(pkg => {
-  if (!pkg.mutations) {
+const clientMutations = tutoneConfig?.packages?.map(pkg => {
+  if (!pkg?.mutations?.length) {
     return null;
   }
-
-  if (!pkg.mutations.length) {
-    return null;
-  }
-
-  return pkg.mutations.map(m => m.name)
-}).flat().reduce((acc, i) => i ? [...acc, i] : acc, []);
+  return pkg.mutations.map(m => m.name);
+})?.flat()?.reduce((acc, i) => (i ? [...acc, i] : acc), []) || [];
 
 const clientEndpointsSchemaOld = schemaOld?.mutationType?.fields?.filter(field => clientMutations.includes(field.name)) || [];
-const clientEndpointsSchemaNew = schemaLatest.mutationType.fields.filter(field => clientMutations.includes(field.name));
+const clientEndpointsSchemaNew = schemaLatest?.mutationType?.fields?.filter(field => clientMutations.includes(field.name)) || [];
 
 // Check for changes in the mutations' signatures
 const changedEndpoints = clientEndpointsSchemaNew.reduce((arr, field) => {
@@ -87,14 +81,15 @@ const clientPackages = tutoneConfig?.packages;
 
 newEndpoints.forEach((endpointName) => {
   const newEndpointSchema = schemaLatest.mutationType.fields.find(f => f.name === endpointName);
-  const args = newEndpointSchema.args
+
+  const args = newEndpointSchema.args || [];
   const pkgName = generatePackageNameForEndpoint(endpointName);
   const existingPackage = findPackageByName(clientPackages, pkgName);
   const cachedPackage = findPackageByName(packagesToGenerate, pkgName);
 
   let maxQueryDepth = 1;
   for (let i = 0; i < args.length; i++) {
-    maxQueryDepth = getMaxQueryDepth(args[i].type);
+    maxQueryDepth = getMaxQueryDepth(args[i]?.type || {});
   }
 
   // If we've already added package to the array, we need to add the
@@ -153,11 +148,11 @@ newEndpoints.forEach((endpointName) => {
 });
 
 function findPackageByName(packages, packageName) {
-  return packages.find(pkg => pkg.name === packageName);
+  return packages?.find(pkg => pkg.name === packageName) || null;
 }
 
 function findMutationByName(mutations, mutationName) {
-  return mutations.find(m => m.name === mutationName);
+  return mutations?.find(m => m.name === mutationName) || null;
 }
 
 let cfg = {
@@ -284,43 +279,36 @@ function getTypeFromSchema(typeName) {
 }
 
 function getTypeName(type) {
+  if (!type) {
+    return '';
+  }
   if (type.ofType) {
     // Recursion FTW
     return getTypeName(type.ofType);
   }
-
-  if (type.name !== "") {
-    return type.name;
-  }
+  return type.name || '';
 }
 
 function getMaxQueryDepth(type, depth = 1) {
-  if(depth > 5) return 5;
+  if (depth > 5 || !type) return 5;
   let maxQueryDepth = depth;
 
   type = getTypeFromSchema(getTypeName(type));
-
   if (type?.kind === 'INPUT_OBJECT' || type?.ofType?.kind === 'INPUT_OBJECT') {
-    maxQueryDepth++
-
-    for (const field of type.inputFields) {
-      if (field.type?.kind === 'INPUT_OBJECT' || field.type.ofType?.kind === 'INPUT_OBJECT') {
+    maxQueryDepth++;
+    for (const field of type?.inputFields || []) {
+      if (field?.type?.kind === 'INPUT_OBJECT' || field?.type?.ofType?.kind === 'INPUT_OBJECT') {
         const inputType = getTypeFromSchema(getTypeName(field.type));
-        if (inputType && inputType.kind === 'INPUT_OBJECT') {
-          // Recursion FTW
+        if (inputType?.kind === 'INPUT_OBJECT') {
           maxQueryDepth = Math.max(maxQueryDepth, getMaxQueryDepth(inputType, depth + 1));
         }
       }
-
-      if (field.type.kind === 'LIST' && field.type?.ofType?.ofType.kind === 'INPUT_OBJECT') {
-        const inputType = getTypeFromSchema(getTypeName(field.type.ofType.ofType));
-
-        // Recursion FTW
+      if (field?.type?.kind === 'LIST' && field?.type?.ofType?.ofType?.kind === 'INPUT_OBJECT') {
+        const inputType = getTypeFromSchema(getTypeName(field.type?.ofType?.ofType));
         maxQueryDepth = Math.max(maxQueryDepth, getMaxQueryDepth(inputType, depth + 1));
       }
     }
   }
-
   return maxQueryDepth;
 }
 
