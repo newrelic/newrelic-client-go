@@ -83,7 +83,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "*API Mutations Count:* ${{ steps.schema-diff.outputs.total_api_mutations_count }}\n*Client Mutations Count:* ${{ steps.schema-diff.outputs.client_mutations_count }}\n*Client Mutations Missing Count:* ${{ steps.schema-diff.outputs.client_mutations_missing_count }}\n*Changed Mutations (Package-wise):*\n${{ steps.schema-diff.outputs.changed_mutations }}"
+                    "text": "*API Mutations Count:* ${{ steps.schema-diff.outputs.total_api_mutations_count }}\n*Client Mutations Count:* ${{ steps.schema-diff.outputs.client_mutations_count }}\n*Client Mutations Missing Count:* ${{ steps.schema-diff.outputs.client_mutations_missing_count }}\n*Changed Mutations (Package-wise):*\n${{ steps.schema-diff.outputs.changed_mutations_package_wise }}"
                   }
                 },
                 {
