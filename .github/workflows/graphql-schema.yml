@@ -1,10 +1,7 @@
 name: NerdGraph Schema Diff
 on:
-  workflow_dispatch:
-  schedule:
-    # Cron executes at 0800, 1200, 1600 UTC (8am, 12pm, 4pm)
-    # Monday through Friday
-    - cron: "0 8,12,16 * * 1-5"
+  pull_request:
+    branches: [main]
 
 jobs:
   checkForApiUpdates:
