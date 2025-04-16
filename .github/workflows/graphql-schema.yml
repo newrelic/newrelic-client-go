@@ -1,7 +1,8 @@
 name: NerdGraph Schema Diff
+
 on:
   pull_request:
-    branches: [main]
+    types: [opened, edited, synchronize, reopened]
 
 jobs:
   checkForApiUpdates:
