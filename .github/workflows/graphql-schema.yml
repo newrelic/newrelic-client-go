@@ -155,13 +155,13 @@ jobs:
           if-no-files-found: error
           overwrite: true
 
-  generate-code:
-    if: needs.checkForApiUpdates.outputs.heroHention != ''
-    needs: checkForApiUpdates
-    uses: newrelic/newrelic-client-go/.github/workflows/generate.yml@feat/automated-codegen
-    with:
-      tutoneConfig: ${{ needs.checkForApiUpdates.outputs.tutoneConfig }}
-      packages: ${{ needs.checkForApiUpdates.outputs.packages }}
-      newMutations: ${{ needs.checkForApiUpdates.outputs.newMutations }}
-    secrets: inherit
+#  generate-code:
+#    if: needs.checkForApiUpdates.outputs.heroHention != ''
+#    needs: checkForApiUpdates
+#    uses: newrelic/newrelic-client-go/.github/workflows/generate.yml@feat/automated-codegen
+#    with:
+#      tutoneConfig: ${{ needs.checkForApiUpdates.outputs.tutoneConfig }}
+#      packages: ${{ needs.checkForApiUpdates.outputs.packages }}
+#      newMutations: ${{ needs.checkForApiUpdates.outputs.newMutations }}
+#    secrets: inherit
 
