@@ -70,6 +70,20 @@ const changedEndpoints = clientEndpointsSchemaNew.reduce((arr, field) => {
   return [...arr];
 }, []);
 
+
+const changedEndpointsByPackage = changedEndpoints.reduce((acc, { name, diff }) => {
+  const pkgName = generatePackageNameForEndpoint(name);
+  if (!acc[pkgName]) {
+    acc[pkgName] = [];
+  }
+  acc[pkgName].push({ name, diff });
+  return acc;
+}, {});
+
+const changedEndpointsSlackMessage = Object.entries(changedEndpointsByPackage)
+    .map(([pkg, mutations]) => `*${pkg}*\n${mutations.map(m => `- ${m.name}: ${JSON.stringify(m.diff)}`).join('\n')}`)
+    .join('\n\n');
+
 // Generates a package name based on the endpoint name.
 // If an endpoint contains a substring of the keywords listed below,
 // it takes the substring leading up to that to generate the package name
@@ -334,6 +348,7 @@ module.exports = {
   newApiMutationsMsg,
   clientMutationsDiffMsg,
   changedEndpoints,
+  changedEndpointsSlackMessage,
   tutoneConfig: tutoneConfigYAML,
   packagesToGenerate: listOfPackagesToGenerate,
 };
