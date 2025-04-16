@@ -103,7 +103,7 @@ jobs:
                   "elements": [
                     {
                       "type": "plain_text",
-                      "text": ${{ toJSON(steps.schema-diff.outputs.new_api_mutations) }}
+                      "text": ${{ steps.schema-diff.outputs.new_api_mutations && steps.schema-diff.outputs.new_api_mutations != ''  && toJSON(steps.schema-diff.outputs.new_api_mutations) || 'No new API mutations found.' }}
                     }
                   ]
                 },
