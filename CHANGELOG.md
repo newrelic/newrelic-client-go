@@ -1,3 +1,8 @@
+<a name="v2.58.0"></a>
+## [v2.58.0] - 2025-04-16
+### Features
+- **alerts:** adds support for `signalSeasonality` for NRQL baseline conditions ([#1291](https://github.com/newrelic/newrelic-client-go/issues/1291))
+
 <a name="v2.57.0"></a>
 ## [v2.57.0] - 2025-04-14
 ### Features
@@ -2018,7 +2023,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.57.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.58.0...HEAD
+[v2.58.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.57.0...v2.58.0
 [v2.57.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.56.1...v2.57.0
 [v2.56.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.56.0...v2.56.1
 [v2.56.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.55.4...v2.56.0
