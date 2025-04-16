@@ -72,7 +72,7 @@ const changedEndpoints = clientEndpointsSchemaNew.reduce((arr, field) => {
 
 
 const changedEndpointsByPackage = changedEndpoints.reduce((acc, { name, diff }) => {
-  const pkgName = generatePackageNameForEndpoint(name);
+  const pkgName = generatePackageNameForEndpoint(name) || 'unknown-package';
   if (!acc[pkgName]) {
     acc[pkgName] = [];
   }
@@ -81,8 +81,8 @@ const changedEndpointsByPackage = changedEndpoints.reduce((acc, { name, diff }) 
 }, {});
 
 const changedEndpointsSlackMessage = Object.entries(changedEndpointsByPackage)
-    .map(([pkg, mutations]) => `*${pkg}*\n${mutations.map(m => `- ${m.name}: ${JSON.stringify(m.diff)}`).join('\n')}`)
-    .join('\n\n');
+    .map(([pkg, mutations]) => `*${pkg}*\n${mutations.map(m => `- ${m.name}: ${JSON.stringify(m.diff, null, 2)}`).join('\n')}`)
+    .join('\n\n') || 'No changed mutations found.';
 
 // Generates a package name based on the endpoint name.
 // If an endpoint contains a substring of the keywords listed below,
