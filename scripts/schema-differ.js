@@ -89,14 +89,15 @@ console.log('Changed endpoints by package:', changedEndpointsByPackage);
 // This is the message that will be sent to Slack
 
 const changedEndpointsSlackMessage = Object.entries(changedEndpointsByPackage)
-    .map(([pkg, mutations]) => {
-      const escapedPkg = pkg.replace(/([*\\])/g, '\\$1'); // Escape * and \
-      const mutationsList = mutations.map(m => `  - ${m.name}`).join('\n'); // Proper indentation for list items
-      return `*${escapedPkg}*\n${mutationsList}`;
-    })
-    .join('\n\n') || 'No changed mutations found.';
+    .reduce((acc, [pkg, mutations]) => {
+      acc.push({
+        package: pkg,
+        mutations: mutations.map(m => m.name),
+      });
+      return acc;
+    }, []);
 
-console.log('Changed endpoints Slack message:', changedEndpointsSlackMessage)
+console.log('Changed endpoints Slack message:', JSON.stringify(changedEndpointsSlackMessage, null, 2));
 // Generates a package name based on the endpoint name.
 // If an endpoint contains a substring of the keywords listed below,
 // it takes the substring leading up to that to generate the package name

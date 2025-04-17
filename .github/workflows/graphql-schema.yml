@@ -90,12 +90,24 @@ jobs:
                   "type": "divider"
                 },
                 {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "*Changed Mutations (Package-wise):*\n${{ steps.schema-diff.outputs.changed_mutations_package_wise }}"
-                  }
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*Changed Mutations (Package-wise):*"
+                   }
                 },
+                {{#each steps.schema-diff.outputs.changed_mutations_package_wise}}
+                  {
+                    "type": "section",
+                    "text": {
+                      "type": "mrkdwn",
+                      "text": "*{{this.package}}*\n{{#each this.mutations}}  - {{this}}\n{{/each}}"
+                    }
+                  },
+                  {{/each}}
+                {
+                  "type": "divider"
+                }
                 {
                   "type": "divider"
                 },
