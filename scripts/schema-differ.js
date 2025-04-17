@@ -71,7 +71,6 @@ const changedEndpoints = clientEndpointsSchemaNew.reduce((arr, field) => {
 }, []);
 
 console.log('Changed endpoints:', changedEndpoints);
-console.log('clientEndpointsSchemaNew:', clientEndpointsSchemaNew);
 
 const changedEndpointsByPackage = changedEndpoints.reduce((acc, { name, diff }) => {
   const pkgName = generatePackageNameForEndpoint(name) || 'unknown-package';
