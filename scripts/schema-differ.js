@@ -109,7 +109,7 @@ newEndpoints.forEach((endpointName) => {
   const cachedPackage = findPackageByName(packagesToGenerate, pkgName);
 
   let maxQueryDepth = 1;
-  for (let i = 0; i < args.length; i++) {
+  for (let i = 0; i < args?.length; i++) {
     maxQueryDepth = getMaxQueryDepth(args[i].type);
   }
 
