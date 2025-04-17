@@ -83,8 +83,12 @@ const changedEndpointsByPackage = changedEndpoints.reduce((acc, { name, diff }) 
 
 console.log('Changed endpoints by package:', changedEndpointsByPackage);
 
+// const changedEndpointsSlackMessage = Object.entries(changedEndpointsByPackage)
+//     .map(([pkg, mutations]) => `*${pkg}*\n${mutations.map(m => `- ${m.name}: ${JSON.stringify(m.diff, null, 2)}`).join('\n')}`)
+//     .join('\n\n') || 'No changed mutations found.';
+
 const changedEndpointsSlackMessage = Object.entries(changedEndpointsByPackage)
-    .map(([pkg, mutations]) => `*${pkg}*\n${mutations.map(m => `- ${m.name}: ${JSON.stringify(m.diff, null, 2)}`).join('\n')}`)
+    .map(([pkg, mutations]) => `*${pkg}*\n${mutations.map(m => `- ${m.name}`).join('\n')}`)
     .join('\n\n') || 'No changed mutations found.';
 
 // Generates a package name based on the endpoint name.
