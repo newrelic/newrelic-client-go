@@ -70,6 +70,8 @@ const changedEndpoints = clientEndpointsSchemaNew.reduce((arr, field) => {
   return [...arr];
 }, []);
 
+console.log('Changed endpoints:', changedEndpoints);
+console.log('clientEndpointsSchemaNew:', clientEndpointsSchemaNew);
 
 const changedEndpointsByPackage = changedEndpoints.reduce((acc, { name, diff }) => {
   const pkgName = generatePackageNameForEndpoint(name) || 'unknown-package';
@@ -79,6 +81,8 @@ const changedEndpointsByPackage = changedEndpoints.reduce((acc, { name, diff }) 
   acc[pkgName].push({ name, diff });
   return acc;
 }, {});
+
+console.log('Changed endpoints by package:', changedEndpointsByPackage);
 
 const changedEndpointsSlackMessage = Object.entries(changedEndpointsByPackage)
     .map(([pkg, mutations]) => `*${pkg}*\n${mutations.map(m => `- ${m.name}: ${JSON.stringify(m.diff, null, 2)}`).join('\n')}`)
