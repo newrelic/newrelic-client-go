@@ -88,7 +88,7 @@ console.log('Changed endpoints by package:', changedEndpointsByPackage);
 //     .join('\n\n') || 'No changed mutations found.';
 // This is the message that will be sent to Slack
 const changedEndpointsSlackMessage = Object.entries(changedEndpointsByPackage)
-    .map(([pkg, mutations]) => `\\*${pkg}\\*\n${mutations.map(m => `  - ${m.name}`).join('\n')}`)
+    .map(([pkg, mutations]) => `\\*${pkg.replace(/([*\\])/g, '\\$1')}\\*\n${mutations.map(m => `  - ${m.name}`).join('\n')}`)
     .join('\n\n') || 'No changed mutations found.';
 // Generates a package name based on the endpoint name.
 // If an endpoint contains a substring of the keywords listed below,
