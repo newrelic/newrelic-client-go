@@ -69,7 +69,7 @@ const changedAttributesMutations = clientEndpointsSchemaNew.filter(newField => {
 console.log('Mutations with changed attributes:', changedAttributesMutations);
 
 
-const changedEndpointsByPackage = changedEndpoints.reduce((acc, { name, diff }) => {
+const changedEndpointsByPackage = changedAttributesMutations.reduce((acc, { name, diff }) => {
   const pkgName = generatePackageNameForEndpoint(name) || 'unknown-package';
   if (!acc[pkgName]) {
     acc[pkgName] = [];
@@ -347,7 +347,7 @@ module.exports = {
   clientMutationsDiff,
   newApiMutationsMsg,
   clientMutationsDiffMsg,
-  changedEndpoints,
+  changedAttributesMutations,
   changedEndpointsSlackMessage,
   tutoneConfig: tutoneConfigYAML,
   packagesToGenerate: listOfPackagesToGenerate,
