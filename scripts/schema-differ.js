@@ -95,6 +95,8 @@ const changedEndpointsSlackMessage = Object.entries(changedEndpointsByPackage)
       return `*${escapedPkg}*\n${mutationsList}`;
     })
     .join('\n\n') || 'No changed mutations found.';
+
+console.log('Changed endpoints Slack message:', changedEndpointsSlackMessage)
 // Generates a package name based on the endpoint name.
 // If an endpoint contains a substring of the keywords listed below,
 // it takes the substring leading up to that to generate the package name
