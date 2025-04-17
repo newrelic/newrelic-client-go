@@ -110,7 +110,7 @@ newEndpoints.forEach((endpointName) => {
 
   let maxQueryDepth = 1;
   for (let i = 0; i < args?.length; i++) {
-    maxQueryDepth = getMaxQueryDepth(args[i].type);
+    maxQueryDepth = getMaxQueryDepth(args[i]?.type);
   }
 
   // If we've already added package to the array, we need to add the
