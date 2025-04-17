@@ -327,7 +327,7 @@ function getMaxQueryDepth(type, depth = 1) {
         }
       }
 
-      if (field.type.kind === 'LIST' && field.type?.ofType?.ofType.kind === 'INPUT_OBJECT') {
+      if (field.type.kind === 'LIST' && field.type?.ofType?.ofType?.kind === 'INPUT_OBJECT') {
         const inputType = getTypeFromSchema(getTypeName(field.type.ofType.ofType));
 
         // Recursion FTW
