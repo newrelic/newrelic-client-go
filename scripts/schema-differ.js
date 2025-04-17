@@ -42,34 +42,37 @@ const clientMutations = tutoneConfig?.packages.map(pkg => {
     return null;
   }
 
-  return pkg.mutations.map(m => m.name);
+  return pkg.mutations.map(m => m.name)
 }).flat().reduce((acc, i) => i ? [...acc, i] : acc, []);
 
 const clientEndpointsSchemaOld = schemaOld.mutationType.fields.filter(field => clientMutations.includes(field.name));
 const clientEndpointsSchemaNew = schemaLatest.mutationType.fields.filter(field => clientMutations.includes(field.name));
 
-// Identify mutations that exist in both the client and schema but have changed attributes
-const changedAttributesMutations = clientEndpointsSchemaNew.filter(newField => {
-  const oldField = clientEndpointsSchemaOld.find(old => old.name === newField.name);
-  if (!oldField) {
-    return false;
+// Check for changes in the mutations' signatures
+const changedEndpoints = clientEndpointsSchemaNew.reduce((arr, field) => {
+  const oldMatch = clientEndpointsSchemaOld.find(f => f.name === field.name);
+  if (!oldMatch) {
+    return [...arr];
   }
 
-  // Compare arguments (attributes) of the mutation
-  const differences = compareArrays(oldField.args, newField.args);
-  return differences.length > 0;
-}).map(field => ({
-  name: field.name,
-  differences: compareArrays(
-      clientEndpointsSchemaOld.find(old => old.name === field.name).args,
-      field.args
-  ),
-}));
+  if (!oldMatch.args?.length && !field.args?.length) {
+    return [...arr];
+  }
 
-console.log('Mutations with changed attributes:', changedAttributesMutations);
+  const differences = compareArrays(oldMatch.args, field.args);
+  if (differences.length) {
+    return [...arr, {
+      name: field.name,
+      diff: differences,
+    }];
+  }
 
+  return [...arr];
+}, []);
 
-const changedEndpointsByPackage = changedAttributesMutations.reduce((acc, { name, diff }) => {
+console.log('Changed endpoints:', changedEndpoints);
+
+const changedEndpointsByPackage = changedEndpoints.reduce((acc, { name, diff }) => {
   const pkgName = generatePackageNameForEndpoint(name) || 'unknown-package';
   if (!acc[pkgName]) {
     acc[pkgName] = [];
@@ -347,7 +350,7 @@ module.exports = {
   clientMutationsDiff,
   newApiMutationsMsg,
   clientMutationsDiffMsg,
-  changedAttributesMutations,
+  changedEndpoints,
   changedEndpointsSlackMessage,
   tutoneConfig: tutoneConfigYAML,
   packagesToGenerate: listOfPackagesToGenerate,
