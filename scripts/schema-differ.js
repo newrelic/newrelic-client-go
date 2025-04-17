@@ -91,7 +91,7 @@ console.log('Changed endpoints by package:', changedEndpointsByPackage);
 const changedEndpointsSlackMessage = Object.entries(changedEndpointsByPackage)
     .map(([pkg, mutations]) => {
       const escapedPkg = pkg.replace(/([*\\])/g, '\\$1'); // Escape * and \
-      const mutationsList = mutations.map(m => ` - ${m.name}`).join('\n');
+      const mutationsList = mutations.map(m => `  - ${m.name}`).join('\n'); // Proper indentation for list items
       return `*${escapedPkg}*\n${mutationsList}`;
     })
     .join('\n\n') || 'No changed mutations found.';
