@@ -33,7 +33,7 @@ const newEndpoints = endpointsLatest.filter(x => !endpointsOld.includes(x));
 const hasNewEndpoints = newEndpoints.length > 0;
 
 // Get the mutations the client has implemented
-const clientMutations = tutoneConfig.packages.map(pkg => {
+const clientMutations = tutoneConfig?.packages.map(pkg => {
   if (!pkg.mutations) {
     return null;
   }
@@ -70,6 +70,34 @@ const changedEndpoints = clientEndpointsSchemaNew.reduce((arr, field) => {
   return [...arr];
 }, []);
 
+console.log('Changed endpoints:', changedEndpoints);
+
+const changedEndpointsByPackage = changedEndpoints.reduce((acc, { name, diff }) => {
+  const pkgName = generatePackageNameForEndpoint(name) || 'unknown-package';
+  if (!acc[pkgName]) {
+    acc[pkgName] = [];
+  }
+  acc[pkgName].push({ name, diff });
+  return acc;
+}, {});
+
+console.log('Changed endpoints by package:', changedEndpointsByPackage);
+
+// const changedEndpointsSlackMessage = Object.entries(changedEndpointsByPackage)
+//     .map(([pkg, mutations]) => `*${pkg}*\n${mutations.map(m => `- ${m.name}: ${JSON.stringify(m.diff, null, 2)}`).join('\n')}`)
+//     .join('\n\n') || 'No changed mutations found.';
+// This is the message that will be sent to Slack
+
+const changedEndpointsSlackMessage = Object.entries(changedEndpointsByPackage)
+    .reduce((acc, [pkg, mutations]) => {
+      acc.push({
+        package: pkg,
+        mutations: mutations.map(m => m.name),
+      });
+      return acc;
+    }, []);
+
+console.log('Changed endpoints Slack message:', JSON.stringify(changedEndpointsSlackMessage, null, 2));
 // Generates a package name based on the endpoint name.
 // If an endpoint contains a substring of the keywords listed below,
 // it takes the substring leading up to that to generate the package name
@@ -92,8 +120,8 @@ newEndpoints.forEach((endpointName) => {
   const cachedPackage = findPackageByName(packagesToGenerate, pkgName);
 
   let maxQueryDepth = 1;
-  for (let i = 0; i < args.length; i++) {
-    maxQueryDepth = getMaxQueryDepth(args[i].type);
+  for (let i = 0; i < args?.length; i++) {
+    maxQueryDepth = getMaxQueryDepth(args[i]?.type);
   }
 
   // If we've already added package to the array, we need to add the
@@ -196,7 +224,7 @@ console.log('');
 const schemaMutations = schemaLatest.mutationType.fields.map(field => field.name);
 const clientMutationsDiff = schemaMutations.filter(x => !clientMutations.includes(x));
 
-let newApiMutationsMsg = '';
+let newApiMutationsMsg = 'No new mutations since last check';
 if (hasNewEndpoints) {
   heroMention = heroAliasName;
   newApiMutationsMsg = `'${newEndpoints.join('\n')}'`;
@@ -310,7 +338,7 @@ function getMaxQueryDepth(type, depth = 1) {
         }
       }
 
-      if (field.type.kind === 'LIST' && field.type?.ofType?.ofType.kind === 'INPUT_OBJECT') {
+      if (field.type.kind === 'LIST' && field.type?.ofType?.ofType?.kind === 'INPUT_OBJECT') {
         const inputType = getTypeFromSchema(getTypeName(field.type.ofType.ofType));
 
         // Recursion FTW
@@ -334,6 +362,7 @@ module.exports = {
   newApiMutationsMsg,
   clientMutationsDiffMsg,
   changedEndpoints,
+  changedEndpointsSlackMessage,
   tutoneConfig: tutoneConfigYAML,
   packagesToGenerate: listOfPackagesToGenerate,
 };
