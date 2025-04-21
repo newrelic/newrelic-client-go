@@ -63,6 +63,9 @@ jobs:
             const script = require('./scripts/schema-diff-reporter.js')
             await script({core})
 
+      - name: Debug changed mutations
+        run: echo '${{ steps.schema-diff.outputs.changed_mutations_package_wise }}'
+
       - name: Send report to Slack
         id: slack
         uses: slackapi/slack-github-action@v2.0.0
@@ -108,19 +111,19 @@ jobs:
                   ]
                 },
                 {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "*Changed Mutations (Package-wise):*"
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*Changed Mutations (Package-wise):*"
                   }
                 }
                 {{#each steps.schema-diff.outputs.changed_mutations_package_wise}}
                   ,{
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "*{{this.package}}*\n{{#each this.mutations}}  - {{this}}\n{{/each}}"
-                  }
+                    "type": "section",
+                    "text": {
+                      "type": "mrkdwn",
+                      "text": "*{{this.package}}*\n{{#each this.mutations}}  - {{this}}\n{{/each}}"
+                    }
                 }
                 {{/each}}
                 {
