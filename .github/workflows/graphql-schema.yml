@@ -69,12 +69,16 @@ jobs:
       - name: Generate Slack Message
         id: generate_message
         run: |
+          node -e "
           const formatSlackMessage = (data) => {
             return data.map(pkg => `*${pkg.package}*\n${pkg.mutations.map(m => `- ${m}`).join('\n')}`).join('\n\n');
           };
-          
+
           const slackMessage = formatSlackMessage(${{ steps.schema-diff.outputs.changed_mutations_package_wise }});
           console.log(`::set-output name=slack_message::${slackMessage}`);
+          "
+        shell: node
+
 
       - name: Send report to Slack
         id: slack
