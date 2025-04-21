@@ -72,9 +72,12 @@ jobs:
             const formatSlackMessage = (data) => {
               return data.map(pkg => `*${pkg.package}*\n${pkg.mutations.map(m => `- ${m}`).join('\n')}`).join('\n\n');
             };
+              
+            const data = JSON.parse(process.env.CHANGED_MUTATIONS); // assuming JSON string input
             const slackMessageRaw = formatSlackMessage(data);
-            const slackMessage = JSON.stringify(slackMessageRaw);
-            core.setOutput('slack_message', slackMessage);
+            const slackMessage = JSON.stringify(slackMessageRaw); // <-- THIS is crucial
+            
+            console.log(`::set-output name=slack_message::${slackMessage}`);
         env:
           CHANGED_MUTATIONS: ${{ steps.schema-diff.outputs.changed_mutations_package_wise }}
 
