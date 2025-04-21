@@ -73,7 +73,6 @@ jobs:
               return data.map(pkg => `*${pkg.package}*\n${pkg.mutations.map(m => `- ${m}`).join('\n')}`).join('\n\n');
             };
               
-            const data = JSON.parse(process.env.CHANGED_MUTATIONS); // assuming JSON string input
             const slackMessageRaw = formatSlackMessage(data);
             const slackMessage = JSON.stringify(slackMessageRaw); // <-- THIS is crucial
             
