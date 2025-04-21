@@ -138,7 +138,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": ${{ steps.format_slack_message.outputs.slack_message }}
+                    "text": "*accountmanagementcancelaccount*\\n- accountManagementCancelAccount\\n\\n*synthetics*\\n- syntheticsCreatePrivateLocation\\n- syntheticsUpdatePrivateLocation"
                   }
                 }
                 {{/each}}
