@@ -65,7 +65,7 @@ jobs:
 
       - name: Send report to Slack
         id: slack
-        uses: slackapi/slack-github-action@v1.26
+        uses: slackapi/slack-github-action@v2.0.0
         with:
           # Uses Slack's Block Kit to build the message
           # https://app.slack.com/block-kit-builder
