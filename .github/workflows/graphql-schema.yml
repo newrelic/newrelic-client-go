@@ -66,19 +66,19 @@ jobs:
       - name: Debug changed mutations
         run: echo '${{ steps.schema-diff.outputs.changed_mutations_package_wise }}'
 
-      - name: Generate Slack Message
-        id: generate_message
-        run: |
-          node -e "
-          const formatSlackMessage = (data) => {
-            return data.map(pkg => `*${pkg.package}*\n${pkg.mutations.map(m => `- ${m}`).join('\n')}`).join('\n\n');
-          };
-
-          const slackMessage = formatSlackMessage(${{ steps.schema-diff.outputs.changed_mutations_package_wise }});
-          console.log(`::set-output name=slack_message::${slackMessage}`);
-          "
-        shell: node
-
+      - name: Format Slack message
+        id: format_slack_message
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const data = JSON.parse(process.env.CHANGED_MUTATIONS);
+            const formatSlackMessage = (data) => {
+              return data.map(pkg => `*${pkg.package}*\n${pkg.mutations.map(m => `- ${m}`).join('\n')}`).join('\n\n');
+            };
+            const slackMessage = formatSlackMessage(data);
+            core.setOutput('slack_message', slackMessage);
+        env:
+          CHANGED_MUTATIONS: ${{ steps.schema-diff.outputs.changed_mutations_package_wise }}
 
       - name: Send report to Slack
         id: slack
