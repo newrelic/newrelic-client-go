@@ -66,6 +66,16 @@ jobs:
       - name: Debug changed mutations
         run: echo '${{ steps.schema-diff.outputs.changed_mutations_package_wise }}'
 
+      - name: Generate Slack Message
+        id: generate_message
+        run: |
+          const formatSlackMessage = (data) => {
+            return data.map(pkg => `*${pkg.package}*\n${pkg.mutations.map(m => `- ${m}`).join('\n')}`).join('\n\n');
+          };
+          
+          const slackMessage = formatSlackMessage(${{ steps.schema-diff.outputs.changed_mutations_package_wise }});
+          console.log(`::set-output name=slack_message::${slackMessage}`);
+
       - name: Send report to Slack
         id: slack
         uses: slackapi/slack-github-action@v2.0.0
@@ -117,13 +127,12 @@ jobs:
                   "text": "*Changed Mutations (Package-wise):*"
                   }
                 }
-                {{#each steps.schema-diff.outputs.changed_mutations_package_wise}}
-                  ,{
-                    "type": "section",
-                    "text": {
-                      "type": "mrkdwn",
-                      "text": "*{{this.package}}*\n{{#each this.mutations}}  - {{this}}\n{{/each}}"
-                    }
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "${{ steps.generate_message.outputs.slack_message }}"
+                  }
                 }
                 {{/each}}
                 {
