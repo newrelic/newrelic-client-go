@@ -112,22 +112,6 @@ jobs:
                   "type": "divider"
                 },
                 {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "*New API Queries*"
-                  }
-                },
-                {
-                  "type": "context",
-                  "elements": [
-                    {
-                      "type": "plain_text",
-                      "text": "hjkgfds"
-                    }
-                  ]
-                },
-                {
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
@@ -156,7 +140,7 @@ jobs:
                   "elements": [
                     {
                       "type": "plain_text",
-                      "text": "aSdfgh"
+                      "text": ${{ toJSON(steps.schema-diff.outputs.new_api_mutations) }}
                     }
                   ]
                 },
