@@ -138,7 +138,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "*accountmanagementcancelaccount*\\n- accountManagementCancelAccount\\n\\n*synthetics*\\n- syntheticsCreatePrivateLocation\\n- syntheticsUpdatePrivateLocation"
+                    "text": "*accountmanagementcancelaccount*\n- accountManagementCancelAccount\n\n*synthetics*\n- syntheticsCreatePrivateLocation\n- syntheticsUpdatePrivateLocation"
                   }
                 }
                 {{/each}}
