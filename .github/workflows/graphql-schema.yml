@@ -123,7 +123,7 @@ jobs:
                   "elements": [
                     {
                       "type": "plain_text",
-                      "text": "${{ toJSON(steps.schema-diff.outputs.new_api_queries) }}"
+                      "text": "hjkgfds"
                     }
                   ]
                 },
@@ -156,7 +156,7 @@ jobs:
                   "elements": [
                     {
                       "type": "plain_text",
-                      "text": "${{ toJSON(steps.schema-diff.outputs.new_api_mutations) }}"
+                      "text": "aSdfgh"
                     }
                   ]
                 },
