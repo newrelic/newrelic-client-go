@@ -122,7 +122,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "${{ steps.format_slack_message.outputs.slack_message }}"
+                    "text": ${{ steps.format_slack_message.outputs.slack_message }}
                   }
                 },
                 {
