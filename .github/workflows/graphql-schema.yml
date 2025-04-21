@@ -90,24 +90,37 @@ jobs:
                   "type": "divider"
                 },
                 {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "*Changed Mutations (Package-wise):*"
-                   }
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*New API Queries*"
+                  }
                 },
-                {{#each steps.schema-diff.outputs.changed_mutations_package_wise}}
-                  {
-                    "type": "section",
-                    "text": {
-                      "type": "mrkdwn",
-                      "text": "*{{this.package}}*\n{{#each this.mutations}}  - {{this}}\n{{/each}}"
-                    }
-                  },
-                  {{/each}}
                 {
-                  "type": "divider"
+                  "type": "context",
+                  "elements": [
+                    {
+                      "type": "plain_text",
+                      "text": ${{ toJSON(steps.schema-diff.outputs.new_api_queries) }}
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Changed Mutations (Package-wise):*"
+                  }
                 }
+                {{#each steps.schema-diff.outputs.changed_mutations_package_wise}}
+                  ,{
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*{{this.package}}*\n{{#each this.mutations}}  - {{this}}\n{{/each}}"
+                  }
+                }
+                {{/each}}
                 {
                   "type": "divider"
                 },
