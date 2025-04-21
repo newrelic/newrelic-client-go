@@ -72,7 +72,8 @@ jobs:
             const formatSlackMessage = (data) => {
               return data.map(pkg => `*${pkg.package}*\n${pkg.mutations.map(m => `- ${m}`).join('\n')}`).join('\n\n');
             };
-            const slackMessage = formatSlackMessage(data);
+            const slackMessageRaw = formatSlackMessage(data);
+            const slackMessage = JSON.stringify(slackMessageRaw);
             core.setOutput('slack_message', slackMessage);
         env:
           CHANGED_MUTATIONS: ${{ steps.schema-diff.outputs.changed_mutations_package_wise }}
@@ -135,7 +136,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "${{ steps.format_slack_message.outputs.slack_message }}"
+                    "text": ${{ steps.format_slack_message.outputs.slack_message }}
                   }
                 }
                 {{/each}}
