@@ -133,14 +133,14 @@ jobs:
                   "type": "mrkdwn",
                   "text": "*Changed Mutations (Package-wise):*"
                   }
-                }
+                },
                 {
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "*accountmanagementcancelaccount*\naccountManagementCancelAccount\n\n*synthetics*\nsyntheticsCreatePrivateLocation\nsyntheticsUpdatePrivateLocation"
+                    "text": "*accountmanagementcancelaccount*\n- accountManagementCancelAccount\n\n*synthetics*\n- syntheticsCreatePrivateLocation\n- syntheticsUpdatePrivateLocation"
                   }
-                }
+                },
                 {
                   "type": "divider"
                 },
