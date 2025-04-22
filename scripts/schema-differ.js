@@ -49,28 +49,110 @@ const clientEndpointsSchemaOld = schemaOld.mutationType.fields.filter(field => c
 const clientEndpointsSchemaNew = schemaLatest.mutationType.fields.filter(field => clientMutations.includes(field.name));
 
 // Check for changes in the mutations' signatures
+// const changedEndpoints = clientEndpointsSchemaNew.reduce((arr, field) => {
+//   const oldMatch = clientEndpointsSchemaOld.find(f => f.name === field.name);
+//   if (!oldMatch) {
+//     return [...arr];
+//   }
+//
+//   if (!oldMatch.args?.length && !field.args?.length) {
+//     return [...arr];
+//   }
+//
+//   const differences = compareArrays(oldMatch.args, field.args);
+//   if (differences.length) {
+//     return [...arr, {
+//       name: field.name,
+//       diff: differences,
+//     }];
+//   }
+//
+//   return [...arr];
+// }, []);
+
 const changedEndpoints = clientEndpointsSchemaNew.reduce((arr, field) => {
   const oldMatch = clientEndpointsSchemaOld.find(f => f.name === field.name);
-  if (!oldMatch) {
-    return [...arr];
-  }
+  if (!oldMatch) return arr;
 
-  if (!oldMatch.args?.length && !field.args?.length) {
-    return [...arr];
-  }
+  const differences = [];
 
-  const differences = compareArrays(oldMatch.args, field.args);
-  if (differences.length) {
-    return [...arr, {
-      name: field.name,
-      diff: differences,
-    }];
-  }
+  // Compare arguments
+  differences.push(...compareArrays(oldMatch.args, field.args));
 
-  return [...arr];
+  // Compare input types for each argument
+  field.args.forEach(newArg => {
+    const oldArg = oldMatch.args.find(a => a.name === newArg.name);
+    if (!oldArg) return;
+
+    if (isInputType(newArg.type)) {
+      differences.push(
+          ...compareInputTypes(
+              getInputType(oldArg.type),
+              getInputType(newArg.type),
+              newArg.name
+          )
+      );
+    }
+  });
+
+  return differences.length ? [...arr, { name: field.name, diff: differences }] : arr;
 }, []);
 
+
 console.log('Changed endpoints:', changedEndpoints);
+
+function compareInputTypes(oldType, newType, path = '') {
+  const differences = [];
+
+  // Compare field-by-field
+  const oldFields = oldType?.fields || {};
+  const newFields = newType?.fields || {};
+
+  // Check added/modified fields
+  Object.entries(newFields).forEach(([fieldName, newField]) => {
+    const fullPath = `${path}.${fieldName}`;
+    const oldField = oldFields[fieldName];
+
+    if (!oldField) {
+      differences.push({
+        type: newType.name,
+        field: fieldName,
+        action: 'added',
+        path: fullPath,
+        required: isRequired(newField.type)
+      });
+    } else {
+      // Recursively check nested input types
+      if (isInputType(newField.type)) {
+        differences.push(
+            ...compareInputTypes(
+                getInputType(oldField.type),
+                getInputType(newField.type),
+                fullPath
+            )
+        );
+      }
+    }
+  });
+
+  return differences;
+}
+
+function isRequired(type) {
+  return type.kind === 'NON_NULL' || type.ofType?.kind === 'NON_NULL';
+}
+
+function getInputType(type) {
+  const typeName = getTypeName(type);
+  return schemaLatest.types.find(t => t.name === typeName);
+}
+
+function isInputType(type) {
+  const typeName = getTypeName(type);
+  const schemaType = schemaLatest.types.find(t => t.name === typeName);
+  return schemaType?.kind === 'INPUT_OBJECT';
+}
+
 
 const changedEndpointsByPackage = changedEndpoints.reduce((acc, { name, diff }) => {
   const pkgName = generatePackageNameForEndpoint(name) || 'unknown-package';
