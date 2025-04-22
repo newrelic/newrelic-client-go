@@ -74,7 +74,7 @@ jobs:
             };
               
             const slackMessageRaw = formatSlackMessage(data);
-            const slackMessage = JSON.stringify(slackMessageRaw); // <-- THIS is crucial
+            const slackMessage = JSON.stringify(slackMessageRaw);
             
             console.log(`::set-output name=slack_message::${slackMessage}`);
         env:
