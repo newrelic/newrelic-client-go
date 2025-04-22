@@ -76,7 +76,7 @@ jobs:
             const slackMessageRaw = formatSlackMessage(data);
             const slackMessage = JSON.stringify(slackMessageRaw);
             
-            console.log(`::set-output name=slack_message::${slackMessage}`);
+            console.log(`slack_message=${slackMessage}` >> $GITHUB_OUTPUT);
         env:
           CHANGED_MUTATIONS: ${{ steps.schema-diff.outputs.changed_mutations_package_wise }}
 
