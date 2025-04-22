@@ -30,17 +30,17 @@ jobs:
       - name: Install deps
         run: ls scripts && npm install yaml lodash.merge
 
-#      - name: Download artifact
-#        uses: actions/github-script@v7
-#        env:
-#          WORKFLOW_FILENAME: graphql-schema.yml
-#          ARTIFACT_NAME: schema
-#          ARTIFACT_FILENAME: schema.zip
-#          UNZIP_DIR: ./
-#        with:
-#          script: |
-#            const script = require('./scripts/download-previous-artifact.js')
-#            await script({github, context, core})
+      - name: Download artifact
+        uses: actions/github-script@v7
+        env:
+          WORKFLOW_FILENAME: graphql-schema.yml
+          ARTIFACT_NAME: schema
+          ARTIFACT_FILENAME: schema.zip
+          UNZIP_DIR: ./
+        with:
+          script: |
+            const script = require('./scripts/download-previous-artifact.js')
+            await script({github, context, core})
 
       - name: Rename schema.json to schema-old.json
         run: |
