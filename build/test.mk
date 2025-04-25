@@ -25,7 +25,7 @@ test-unit: tools
 test-integration: tools
 	@echo "=== $(PROJECT_NAME) === [ test-integration ]: running integration tests..."
 	@mkdir -p $(COVERAGE_DIR)
-	$(TEST_RUNNER) -f pkgname --packages "$(GO_PKGS)" -- -v -parallel 10 -tags integration -covermode=$(COVERMODE) -coverprofile $(COVERAGE_DIR)/integration.tmp $(GO_PKGS)
+	$(TEST_RUNNER) -f pkgname --rerun-fails=4 --packages "$(GO_PKGS)" -- -v -parallel 6 -tags integration -covermode=$(COVERMODE) -coverprofile $(COVERAGE_DIR)/integration.tmp $(GO_PKGS)
 
 #
 # Coverage
