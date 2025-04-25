@@ -6,13 +6,14 @@ package synthetics
 import (
 	"errors"
 	"fmt"
-	"github.com/stretchr/testify/require"
 	"log"
 	"math/rand"
 	"os"
 	"regexp"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/require"
 
 	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
@@ -26,17 +27,36 @@ func TestSyntheticsSecureCredential_Basic(t *testing.T) {
 	}
 
 	a := newIntegrationTestClient(t)
+	testSecureCredentialKey := "TEST-SECURE-CRED-GO-CLIENT"
+	testSecureCredentialDescription := "Test Secure Credential, From New Relic Go Client Integration Tests"
+	testSecureCredentialValue := SecureValue("Test Value")
 
-	createResp, err := a.SyntheticsCreateSecureCredential(testAccountID, "test secure credential", "TEST", "secure value")
+	createResp, err := a.SyntheticsCreateSecureCredential(
+		testAccountID,
+		testSecureCredentialDescription,
+		testSecureCredentialKey,
+		testSecureCredentialValue,
+	)
+
 	require.NoError(t, err)
 	require.NotNil(t, createResp)
 
-	updateResp, err := a.SyntheticsUpdateSecureCredential(testAccountID, "test secure credential", "TEST", "new secure value")
+	updateResp, err := a.SyntheticsUpdateSecureCredential(
+		testAccountID,
+		testSecureCredentialDescription,
+		testSecureCredentialKey,
+		testSecureCredentialValue,
+	)
+
 	require.NoError(t, err)
 	require.NotNil(t, updateResp)
 
-	deleteResp, err := a.SyntheticsDeleteSecureCredential(testAccountID, "TEST")
-	require.Equal(t, "", deleteResp.Key)
+	_, err = a.SyntheticsDeleteSecureCredential(
+		testAccountID,
+		testSecureCredentialKey,
+	)
+
+	require.Nil(t, err)
 }
 
 func TestSyntheticsSecureCredential_Error(t *testing.T) {
