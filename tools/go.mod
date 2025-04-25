@@ -8,6 +8,7 @@ require (
 	github.com/git-chglog/git-chglog v0.15.4
 	github.com/golangci/golangci-lint v1.53.3
 	github.com/goreleaser/goreleaser/v2 v2.2.0
+	github.com/masahiro331/go-commitlinter v0.0.0-20230912111648-dd369c40beae
 	github.com/newrelic/tutone v0.11.0
 	github.com/psampaz/go-mod-outdated v0.9.0
 	github.com/stretchr/testify v1.10.0
