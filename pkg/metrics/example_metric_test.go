@@ -1,5 +1,5 @@
-//go:build integration
-// +build integration
+//go:build unit
+// +build unit
 
 package metrics
 
@@ -12,7 +12,7 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/config"
 )
 
-func Example_metric(t *testing.T) {
+func TestMetricForwarding(t *testing.T) {
 	// Initialize the client configuration. A New Relic License Key is required
 	// to communicate with the backend API.
 	cfg := config.New()

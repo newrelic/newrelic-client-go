@@ -43,7 +43,7 @@ func TestIntegrationMetrics(t *testing.T) {
 	client := newIntegrationTestClient(t)
 
 	for _, test := range testData {
-		err := client.CreateMetricsEntry(test.Datum)
+		err := client.CreateMetricEntry(test.Datum)
 		if test.err == nil {
 			assert.NoError(t, err)
 		} else {
