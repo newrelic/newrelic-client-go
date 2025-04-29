@@ -70,6 +70,9 @@ jobs:
           script: |
             const data = JSON.parse(process.env.CHANGED_MUTATIONS);
             const formatSlackMessage = (data) => {
+              if (data.length === 0) {
+                return "No Updated mutations since last check";
+              }
               return data.map(pkg => `*${pkg.package}*\n${pkg.mutations.map(m => `- ${m}`).join('\n')}`).join('\n\n');
             };
               
