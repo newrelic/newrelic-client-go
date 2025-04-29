@@ -31,7 +31,7 @@ func New(cfg config.Config) Metrics {
 
 // CreateMetricEntry reports a metric entry to New Relic.
 // It's up to the caller to send a valid Metric API payload, no checking done here
-func (m *Metrics) CreateMetricEntry(metricEntry interface{}) error {
+func (m *Metrics) CreateMetricEntry(metricEntry any) error {
 	if metricEntry == nil {
 		return errors.New("metrics: CreateMetricEntry: metricEntry is nil, nothing to do")
 	}
@@ -39,6 +39,7 @@ func (m *Metrics) CreateMetricEntry(metricEntry interface{}) error {
 
 	// If no error is returned then the call succeeded
 	if err != nil {
+		m.logger.Error("metrics: Error: CreateMetricEntry: %s", err.Error())
 		return err
 	}
 
