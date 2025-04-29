@@ -26,6 +26,8 @@ try {
   console.error(err);
 }
 
+console.log('Schema Old:', schemaOld);
+console.log('Schema Latest:', schemaLatest);
 // Check for any newly added mutations
 const endpointsOld = schemaOld.mutationType.fields.map(field => field.name);
 const endpointsLatest = schemaLatest.mutationType.fields.map(field => field.name);
