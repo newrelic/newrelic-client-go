@@ -46,13 +46,13 @@ const clientMutations = tutoneConfig?.packages.map(pkg => {
   return pkg.mutations.map(m => m.name)
 }).flat().reduce((acc, i) => i ? [...acc, i] : acc, []);
 
-console.log('clientMutations list', clientMutations);
+console.log('clientMutations list: ', clientMutations);
 
 const clientEndpointsSchemaOld = schemaOld.mutationType.fields.filter(field => clientMutations.includes(field.name));
 const clientEndpointsSchemaNew = schemaLatest.mutationType.fields.filter(field => clientMutations.includes(field.name));
 
-console.log('clientMutations old', clientEndpointsSchemaOld);
-console.log('clientMutations new', clientEndpointsSchemaNew);
+console.log('clientMutations old: ', clientEndpointsSchemaOld);
+console.log('clientMutations new: ', clientEndpointsSchemaNew);
 // Check for changes in the mutations' signatures
 // const changedEndpoints = clientEndpointsSchemaNew.reduce((arr, field) => {
 //   const oldMatch = clientEndpointsSchemaOld.find(f => f.name === field.name);
