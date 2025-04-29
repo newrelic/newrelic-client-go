@@ -170,7 +170,7 @@ console.log('Changed endpoints by package:', changedEndpointsByPackage);
 //     .join('\n\n') || 'No changed mutations found.';
 // This is the message that will be sent to Slack
 
-const changedEndpointsSlackMessage = Object.entries(changedEndpointsByPackage)
+let changedEndpointsSlackMessage = Object.entries(changedEndpointsByPackage)
     .reduce((acc, [pkg, mutations]) => {
       acc.push({
         package: pkg,
@@ -178,6 +178,10 @@ const changedEndpointsSlackMessage = Object.entries(changedEndpointsByPackage)
       });
       return acc;
     }, []);
+
+if (changedEndpointsSlackMessage.length === 0) {
+  changedEndpointsSlackMessage = 'No updated mutations since last check';
+}
 
 console.log('Changed endpoints Slack message:', JSON.stringify(changedEndpointsSlackMessage, null, 2));
 // Generates a package name based on the endpoint name.
