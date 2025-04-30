@@ -32,14 +32,27 @@ func newMockResponse(t *testing.T, mockJSONResponse string, statusCode int) Metr
 func TestCreateMetricEntry(t *testing.T) {
 	t.Parallel()
 
-	// Test metric creation with valid metric entry
+	// Arrange
 	metricsClient := newMockResponse(t, ``, http.StatusAccepted)
+
+	// Act
 	err := metricsClient.CreateMetricEntry(testMetrics)
+
+	// Assert successful metrics call
 	assert.NoError(t, err)
 
-	// Test metric creation with a nil metric entry
-	err = metricsClient.CreateMetricEntry(nil)
+}
+
+func TestNilMetricEntry_FailsWithError(t *testing.T) {
+	t.Parallel()
+
+	// Arrange
+	metricsClient := newMockResponse(t, ``, http.StatusAccepted)
+
+	// Act
+	err := metricsClient.CreateMetricEntry(nil)
+
+	// Assert that an error is returned
 	assert.Error(t, err)
 	assert.Equal(t, "metrics: CreateMetricEntry: metricEntry is nil, nothing to do", err.Error())
-
 }
