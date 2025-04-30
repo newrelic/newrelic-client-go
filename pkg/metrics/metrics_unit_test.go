@@ -22,18 +22,18 @@ var (
 	}`
 )
 
-func newMockResponse(t *testing.T, mockJSONResponse string, statusCode int) Metrics {
-	ts := mock.NewMockServer(t, mockJSONResponse, statusCode)
-	tc := mock.NewTestConfig(t, ts)
+func getMockMetricsResponse(t *testing.T, mockJSONResponse string, statusCode int) Metrics {
+	mockServer := mock.NewMockServer(t, mockJSONResponse, statusCode)
+	testConfig := mock.NewTestConfig(t, mockServer)
 
-	return New(tc)
+	return New(testConfig)
 }
 
 func TestCreateMetricEntry(t *testing.T) {
 	t.Parallel()
 
 	// Arrange
-	metricsClient := newMockResponse(t, ``, http.StatusAccepted)
+	metricsClient := getMockMetricsResponse(t, ``, http.StatusAccepted)
 
 	// Act
 	err := metricsClient.CreateMetricEntry(testMetrics)
@@ -47,7 +47,7 @@ func TestNilMetricEntry_FailsWithError(t *testing.T) {
 	t.Parallel()
 
 	// Arrange
-	metricsClient := newMockResponse(t, ``, http.StatusAccepted)
+	metricsClient := getMockMetricsResponse(t, ``, http.StatusAccepted)
 
 	// Act
 	err := metricsClient.CreateMetricEntry(nil)
