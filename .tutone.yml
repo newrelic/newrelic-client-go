@@ -1676,3 +1676,20 @@ packages:
         field_type_override: "*nrtime.EpochMilliseconds"
         skip_type_create: true
 
+  - name: entityrelationship
+    path: pkg/entityrelationship
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/entityrelationship
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/entities
+    generators:
+      - typegen
+      - nerdgraphclient
+    mutations:
+      - name: entityRelationshipUserDefinedCreateOrReplace
+        max_query_field_depth: 3
+      - name: entityRelationshipUserDefinedDelete
+        max_query_field_depth: 3
+    types:
+      - name: EntityGuid
+        field_type_override: common.EntityGUID
+        skip_type_create: true
