@@ -1,3 +1,8 @@
+<a name="v2.59.0"></a>
+## [v2.59.0] - 2025-05-06
+### Features
+- add Metrics Client ([#1293](https://github.com/newrelic/newrelic-client-go/issues/1293))
+
 <a name="v2.58.0"></a>
 ## [v2.58.0] - 2025-04-16
 ### Features
@@ -2023,7 +2028,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.58.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.59.0...HEAD
+[v2.59.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.58.0...v2.59.0
 [v2.58.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.57.0...v2.58.0
 [v2.57.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.56.1...v2.57.0
 [v2.56.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.56.0...v2.56.1
