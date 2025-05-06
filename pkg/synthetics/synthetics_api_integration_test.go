@@ -551,6 +551,8 @@ func TestSyntheticsScriptApiMonitorLegacy_Basic(t *testing.T) {
 	}
 
 	createScriptApiMonitor, err := a.SyntheticsCreateScriptAPIMonitor(testAccountID, scriptApiMonitorInput)
+	time.Sleep(3 * time.Second)
+
 	require.NoError(t, err)
 	require.NotNil(t, createScriptApiMonitor)
 	require.Equal(t, 0, len(createScriptApiMonitor.Errors), createScriptApiMonitor.Errors)
@@ -980,6 +982,8 @@ func TestSyntheticsBrokenLinksMonitor_Basic(t *testing.T) {
 	}
 
 	createdMonitor, err := a.SyntheticsCreateBrokenLinksMonitor(testAccountID, monitorInput)
+
+	fmt.Println("createdMonitor", createdMonitor)
 	require.NoError(t, err)
 	require.NotNil(t, createdMonitor)
 	require.Equal(t, 0, len(createdMonitor.Errors))

@@ -71,11 +71,13 @@ func TestServiceLevel_Basic(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, createResp)
 
-	fmt.Println("waiting 5 seconds for entity to be indexed before validating its creation...")
-	time.Sleep(5 * time.Second)
+	fmt.Println("waiting 10 seconds for entity to be indexed before validating its creation...")
+	time.Sleep(10 * time.Second)
 
 	// Get
 	getResp, err := client.GetIndicators(createResp.GUID)
+	fmt.Println("getResp", getResp)
+	fmt.Println("err", err)
 	require.NoError(t, err)
 	require.NotNil(t, getResp)
 
@@ -84,11 +86,15 @@ func TestServiceLevel_Basic(t *testing.T) {
 		Description: "integration test service level updated",
 	}
 	updateResp, err := client.ServiceLevelUpdate(createResp.GUID, updateInput)
+	fmt.Println("updateResp", updateResp)
+	fmt.Println("err", err)
 	require.NoError(t, err)
 	require.NotNil(t, updateResp)
 
 	// Delete secure credential
 	deleteResp, err := client.ServiceLevelDelete(createResp.GUID)
+	fmt.Println("deleteResp", deleteResp)
+	fmt.Println("err", err)
 	require.NoError(t, err)
 	require.NotNil(t, deleteResp)
 }

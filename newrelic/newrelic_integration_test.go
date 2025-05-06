@@ -5,9 +5,11 @@ package newrelic
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"os"
 	"testing"
+	"time"
 
 	"github.com/elazarl/goproxy"
 
@@ -20,10 +22,13 @@ func TestNewRelic_TestEndpoints_withProxy(t *testing.T) {
 	defer os.Unsetenv("HTTPS_PROXY")
 
 	proxy := goproxy.NewProxyHttpServer()
+	time.Sleep(3 * time.Second)
+	fmt.Println("proxy", proxy)
 	srv := &http.Server{
 		Addr:    "localhost:1337",
 		Handler: proxy,
 	}
+	fmt.Println("srv", srv)
 	defer srv.Shutdown(context.Background())
 
 	client, err := New(
@@ -31,6 +36,8 @@ func TestNewRelic_TestEndpoints_withProxy(t *testing.T) {
 		ConfigRegion("US"),
 		ConfigLogLevel("DEBUG"),
 	)
+
+	fmt.Println("client", client)
 	require.NoError(t, err)
 	require.NotNil(t, client)
 

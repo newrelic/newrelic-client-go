@@ -1,6 +1,7 @@
 package accountmanagement
 
 import (
+	"fmt"
 	"log"
 	"testing"
 	"time"
@@ -83,7 +84,7 @@ func TestIntegrationAccountManagement_CreateUpdateCancelAccount(t *testing.T) {
 	require.NotNil(t, createAccountResponse.ManagedAccount.ID)
 	require.Equal(t, createAccountInput.RegionCode, createAccountResponse.ManagedAccount.RegionCode)
 	require.Equal(t, createAccountInput.Name, createAccountResponse.ManagedAccount.Name)
-	time.Sleep(time.Second * 2)
+	time.Sleep(time.Second * 3)
 
 	// Update Account
 	updateAccountInput := AccountManagementUpdateInput{
@@ -91,6 +92,8 @@ func TestIntegrationAccountManagement_CreateUpdateCancelAccount(t *testing.T) {
 		Name: name + "-updated",
 	}
 	updateAccountResponse, err := accountManagementClient.AccountManagementUpdateAccount(updateAccountInput)
+	fmt.Println("updateAccountResponse", updateAccountResponse)
+	fmt.Println("err", err)
 
 	require.Nil(t, err)
 	require.NotNil(t, updateAccountResponse.ManagedAccount.ID)
@@ -100,7 +103,8 @@ func TestIntegrationAccountManagement_CreateUpdateCancelAccount(t *testing.T) {
 
 	// Get Account
 	getAccountResponse, err := accountManagementClient.GetManagedAccounts()
-
+	fmt.Println("getAccountResponse", getAccountResponse)
+	fmt.Println("err", err)
 	require.Nil(t, err)
 	require.NotNil(t, getAccountResponse)
 	foundAccountInGetResponse := false
@@ -113,6 +117,7 @@ func TestIntegrationAccountManagement_CreateUpdateCancelAccount(t *testing.T) {
 	}
 
 	require.True(t, foundAccountInGetResponse)
+	time.Sleep(time.Second * 3)
 
 	// Cancel Account
 	cancelAccountResponse, err := accountManagementClient.AccountManagementCancelAccount(createAccountResponse.ManagedAccount.ID)
@@ -124,6 +129,9 @@ func TestIntegrationAccountManagement_CreateUpdateCancelAccount(t *testing.T) {
 	// Get Account to Confirm Account Cancellation based on the value of `isCanceled`
 	isCancelled := true
 	getAccountResponse, err = accountManagementClient.GetManagedAccountsWithAdditionalArguments(&isCancelled)
+
+	fmt.Println("getAccountResponse for Cancel", getAccountResponse)
+	fmt.Println("err for Cancel", err)
 
 	require.Nil(t, err)
 	require.NotNil(t, getAccountResponse)
