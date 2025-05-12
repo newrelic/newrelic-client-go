@@ -1,3 +1,8 @@
+<a name="v2.60.0"></a>
+## [v2.60.0] - 2025-05-12
+### Features
+- **entityrelationship:** add new package to manage entity relationships
+
 <a name="v2.59.0"></a>
 ## [v2.59.0] - 2025-05-06
 ### Features
@@ -2028,7 +2033,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.59.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.60.0...HEAD
+[v2.60.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.59.0...v2.60.0
 [v2.59.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.58.0...v2.59.0
 [v2.58.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.57.0...v2.58.0
 [v2.57.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.56.1...v2.57.0
