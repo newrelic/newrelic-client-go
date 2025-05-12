@@ -4,7 +4,6 @@ package entityrelationship
 import (
 	"context"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/common"
-	log "github.com/sirupsen/logrus"
 )
 
 // Create a relationship between entities.
@@ -35,7 +34,6 @@ func (a *Entityrelationship) EntityRelationshipUserDefinedCreateOrReplaceWithCon
 		"type":             relationtype,
 	}
 
-	log.Println("vars are", vars)
 	if err := a.client.NerdGraphQueryWithContext(ctx, EntityRelationshipUserDefinedCreateOrReplaceMutation, vars, &resp); err != nil {
 		return nil, err
 	}
