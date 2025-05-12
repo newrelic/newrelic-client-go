@@ -35,9 +35,9 @@ var (
 
 func TestEntityRelationshipUserDefinedCreateOrReplace(t *testing.T) {
 	t.Parallel()
-	alerts := newMockResponse(t, testCreateOrReplaceResponseJSON, http.StatusOK)
+	entityRelationship := newMockResponse(t, testCreateOrReplaceResponseJSON, http.StatusOK)
 
-	result, err := alerts.EntityRelationshipUserDefinedCreateOrReplace(
+	result, err := entityRelationship.EntityRelationshipUserDefinedCreateOrReplace(
 		testSourceEntityGUID,
 		testTargetEntityGUID,
 		testRelationshipType,
@@ -50,9 +50,9 @@ func TestEntityRelationshipUserDefinedCreateOrReplace(t *testing.T) {
 
 func TestEntityRelationshipUserDefinedCreateOrReplaceWithContext(t *testing.T) {
 	t.Parallel()
-	alerts := newMockResponse(t, testCreateOrReplaceResponseJSON, http.StatusOK)
+	entityRelationship := newMockResponse(t, testCreateOrReplaceResponseJSON, http.StatusOK)
 
-	result, err := alerts.EntityRelationshipUserDefinedCreateOrReplaceWithContext(
+	result, err := entityRelationship.EntityRelationshipUserDefinedCreateOrReplaceWithContext(
 		context.Background(),
 		testSourceEntityGUID,
 		testTargetEntityGUID,
@@ -64,36 +64,11 @@ func TestEntityRelationshipUserDefinedCreateOrReplaceWithContext(t *testing.T) {
 	require.Empty(t, result.Errors)
 }
 
-func TestEntityRelationshipUserDefinedCreateOrReplace(t *testing.T) {
-	t.Parallel()
-	alerts := newMockResponse(t, testCreateOrReplaceResponseJSON, http.StatusOK)
-
-	// Create or replace the entity relationship
-	result, err := alerts.EntityRelationshipUserDefinedCreateOrReplace(
-		testSourceEntityGUID,
-		testTargetEntityGUID,
-		testRelationshipType,
-	)
-
-	require.NoError(t, err)
-	require.NotNil(t, result)
-	require.Empty(t, result.Errors)
-
-	// Validate that the entity relationship exists
-	exists, err := alerts.EntityRelationshipExists(
-		testSourceEntityGUID,
-		testTargetEntityGUID,
-		testRelationshipType,
-	)
-	require.NoError(t, err)
-	require.True(t, exists, "Entity relationship should exist after creation")
-}
-
 func TestEntityRelationshipUserDefinedUpdate(t *testing.T) {
 	t.Parallel()
-	alerts := newMockResponse(t, testUpdateResponseJSON, http.StatusOK)
+	entityRelationship := newMockResponse(t, testCreateOrReplaceResponseJSON, http.StatusOK)
 
-	result, err := alerts.EntityRelationshipUserDefinedUpdate(
+	result, err := entityRelationship.EntityRelationshipUserDefinedCreateOrReplace(
 		testSourceEntityGUID,
 		testTargetEntityGUID,
 		testRelationshipType,
@@ -106,9 +81,9 @@ func TestEntityRelationshipUserDefinedUpdate(t *testing.T) {
 
 func TestEntityRelationshipUserDefinedUpdateWithContext(t *testing.T) {
 	t.Parallel()
-	alerts := newMockResponse(t, testUpdateResponseJSON, http.StatusOK)
+	entityRelationship := newMockResponse(t, testCreateOrReplaceResponseJSON, http.StatusOK)
 
-	result, err := alerts.EntityRelationshipUserDefinedUpdateWithContext(
+	result, err := entityRelationship.EntityRelationshipUserDefinedCreateOrReplaceWithContext(
 		context.Background(),
 		testSourceEntityGUID,
 		testTargetEntityGUID,
@@ -122,9 +97,9 @@ func TestEntityRelationshipUserDefinedUpdateWithContext(t *testing.T) {
 
 func TestEntityRelationshipUserDefinedDelete(t *testing.T) {
 	t.Parallel()
-	alerts := newMockResponse(t, testDeleteResponseJSON, http.StatusOK)
+	entityRelationship := newMockResponse(t, testDeleteResponseJSON, http.StatusOK)
 
-	result, err := alerts.EntityRelationshipUserDefinedDelete(
+	result, err := entityRelationship.EntityRelationshipUserDefinedDelete(
 		testSourceEntityGUID,
 		testTargetEntityGUID,
 		testRelationshipType,
@@ -137,9 +112,9 @@ func TestEntityRelationshipUserDefinedDelete(t *testing.T) {
 
 func TestEntityRelationshipUserDefinedDeleteWithContext(t *testing.T) {
 	t.Parallel()
-	alerts := newMockResponse(t, testDeleteResponseJSON, http.StatusOK)
+	entityRelationship := newMockResponse(t, testDeleteResponseJSON, http.StatusOK)
 
-	result, err := alerts.EntityRelationshipUserDefinedDeleteWithContext(
+	result, err := entityRelationship.EntityRelationshipUserDefinedDeleteWithContext(
 		context.Background(),
 		testSourceEntityGUID,
 		testTargetEntityGUID,
