@@ -1,3 +1,8 @@
+<a name="v2.61.0"></a>
+## [v2.61.0] - 2025-05-22
+### Features
+- **alerts:** Add support for silent alerts via `disableHealthStatusReporting` ([#1296](https://github.com/newrelic/newrelic-client-go/issues/1296))
+
 <a name="v2.60.0"></a>
 ## [v2.60.0] - 2025-05-12
 ### Features
@@ -2033,7 +2038,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.60.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.61.0...HEAD
+[v2.61.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.60.0...v2.61.0
 [v2.60.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.59.0...v2.60.0
 [v2.59.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.58.0...v2.59.0
 [v2.58.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.57.0...v2.58.0
