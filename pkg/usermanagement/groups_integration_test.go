@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/require"
 
@@ -311,6 +312,9 @@ func TestIntegrationGroupManagementWithUsers(t *testing.T) {
 
 	require.NotEmpty(t, userID)
 
+	// adding a delay, since this test is displaying intermittent failures
+	time.Sleep(time.Second * 5)
+
 	addUsersToGroupInput := UserManagementUsersGroupsInput{
 		GroupIds: []string{createGroupResponse.Group.ID},
 		UserIDs:  []string{userID},
@@ -321,6 +325,9 @@ func TestIntegrationGroupManagementWithUsers(t *testing.T) {
 	require.NotNil(t, addUsersToGroupResponse)
 
 	displayNameUpdated := fmt.Sprintf("%s-updated", displayName)
+
+	// adding a delay, since this test is displaying intermittent failures
+	time.Sleep(time.Second * 5)
 
 	updateGroupInput := UserManagementUpdateGroup{
 		DisplayName: displayNameUpdated,
