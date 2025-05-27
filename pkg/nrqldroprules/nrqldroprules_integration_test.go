@@ -6,9 +6,11 @@ package nrqldroprules
 import (
 	"testing"
 
-	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
-	"github.com/stretchr/testify/require"
 	"strconv"
+
+	"github.com/stretchr/testify/require"
+
+	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
 func TestIntegrationDropRules(t *testing.T) {

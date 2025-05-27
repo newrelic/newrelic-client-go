@@ -2,10 +2,12 @@ package agentapplications
 
 import (
 	"fmt"
-	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
-	"github.com/stretchr/testify/assert"
 	"net/http"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
+
+	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
 var (

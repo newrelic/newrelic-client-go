@@ -88,12 +88,12 @@ var NrqlConditionAggregationMethodTypes = struct {
 
 // AlertsFillOption - The available fill options.
 // nolint:revive
-type AlertsFillOption string // nolint:golint
+type AlertsFillOption string
 
 // nolint:revive
 var AlertsFillOptionTypes = struct {
 	// Fill using the last known value.
-	LAST_VALUE AlertsFillOption // nolint:golint
+	LAST_VALUE AlertsFillOption
 	// Do not fill data.
 	NONE AlertsFillOption
 	// Fill using a static value.

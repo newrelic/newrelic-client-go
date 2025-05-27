@@ -5,8 +5,9 @@ package agent
 import (
 	"testing"
 
-	"github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 	"github.com/stretchr/testify/require"
+
+	"github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
 func newAgentIntegrationTestClient(t *testing.T) Agent {

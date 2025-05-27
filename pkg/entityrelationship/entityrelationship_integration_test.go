@@ -4,11 +4,13 @@
 package entityrelationship
 
 import (
+	"testing"
+
+	"github.com/stretchr/testify/require"
+
 	"github.com/newrelic/newrelic-client-go/v2/pkg/common"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/entities"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
-	"github.com/stretchr/testify/require"
-	"testing"
 )
 
 func newIntegrationTestClient(t *testing.T) Entityrelationship {
