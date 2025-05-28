@@ -4,9 +4,10 @@
 package metrics
 
 import (
-	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 	"net/http"
 	"testing"
+
+	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 
 	"github.com/stretchr/testify/assert"
 )

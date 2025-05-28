@@ -8,9 +8,10 @@ import (
 	"net/http"
 	"testing"
 
+	"github.com/stretchr/testify/require"
+
 	"github.com/newrelic/newrelic-client-go/v2/pkg/common"
 	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
-	"github.com/stretchr/testify/require"
 )
 
 var (

@@ -1,10 +1,11 @@
 package newrelic
 
 import (
-	"github.com/newrelic/newrelic-client-go/v2/pkg/entityrelationship"
-	"github.com/newrelic/newrelic-client-go/v2/pkg/users"
 	"net/http"
 	"time"
+
+	"github.com/newrelic/newrelic-client-go/v2/pkg/entityrelationship"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/users"
 
 	"github.com/newrelic/newrelic-client-go/v2/pkg/accountmanagement"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/accounts"

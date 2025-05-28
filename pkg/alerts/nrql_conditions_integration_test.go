@@ -1093,9 +1093,9 @@ func TestIntegrationNrqlConditions_DisableHealthStatusReporting(t *testing.T) {
 	}
 
 	var (
-		truePt = true
-		falsePt = false
-		nilPt *bool = nil
+		truePt        = true
+		falsePt       = false
+		nilPt   *bool = nil
 	)
 
 	var conditionCreateInput = NrqlConditionCreateInput{

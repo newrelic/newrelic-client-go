@@ -18,6 +18,8 @@ PROJECT_MODULE  ?= $(shell $(GO) list -m)
 
 GO_MOD_OUTDATED ?= go-mod-outdated
 
+COMMIT_LINT_CMD ?= go-commitlinter "$1"
+
 lint: deps spell-check gofmt golangci goimports outdated
 lint-fix: deps spell-check-fix gofmt-fix goimports
 
@@ -52,4 +54,8 @@ outdated: deps tools-outdated
 	@echo "=== $(PROJECT_NAME) === [ outdated         ]: Finding outdated deps with $(GO_MOD_OUTDATED)..."
 	@$(GO) list -u -m -json all | $(GO_MOD_OUTDATED) -direct -update
 
-.PHONY: lint spell-check spell-check-fix gofmt gofmt-fix lint-fix outdated goimports
+lint-commit: deps
+	@echo "=== $(PROJECT_NAME) === [ lint-commit      ]: Checking that commit messages are properly formatted ($(COMMIT_LINT_CMD))..."
+	@$(COMMIT_LINT_CMD)
+
+.PHONY: lint spell-check spell-check-fix gofmt gofmt-fix lint-fix lint-commit outdated goimports
