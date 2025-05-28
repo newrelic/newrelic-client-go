@@ -16,7 +16,7 @@ require (
 	github.com/stretchr/testify v1.10.0
 	github.com/x-motemen/gobump v0.2.0
 	golang.org/x/tools v0.32.0
-	gotest.tools/gotestsum v1.12.0
+	gotest.tools/gotestsum v1.12.2
 )
 
 require (
@@ -183,7 +183,7 @@ require (
 	github.com/fatih/structtag v1.2.0 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
 	github.com/firefart/nonamedreturns v1.0.6 // indirect
-	github.com/fsnotify/fsnotify v1.7.0 // indirect
+	github.com/fsnotify/fsnotify v1.8.0 // indirect
 	github.com/fzipp/gocyclo v0.6.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.4 // indirect
 	github.com/ghostiam/protogetter v0.3.15 // indirect
