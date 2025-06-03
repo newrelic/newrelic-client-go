@@ -31,6 +31,7 @@ type AlertsNrqlConditionSignal struct {
 	AggregationDelay  *int                            `json:"aggregationDelay,omitempty"`
 	AggregationTimer  *int                            `json:"aggregationTimer,omitempty"`
 	SlideBy           *int                            `json:"slideBy,omitempty"`
+	PollingFrequency  *int                            `json:"pollingFrequency,omitempty"`
 }
 
 // AlertsNrqlConditionCreateSignal - Configuration that defines the signal that the NRQL condition will use to evaluate for Create.
@@ -45,6 +46,7 @@ type AlertsNrqlConditionCreateSignal struct {
 	AggregationDelay  *int                            `json:"aggregationDelay,omitempty"`
 	AggregationTimer  *int                            `json:"aggregationTimer,omitempty"`
 	SlideBy           *int                            `json:"slideBy,omitempty"`
+	PollingFrequency  *int                            `json:"pollingFrequency"`
 }
 
 // AlertsNrqlConditionUpdateSignal - Configuration that defines the signal that the NRQL condition will use to evaluate for Update.
@@ -59,6 +61,7 @@ type AlertsNrqlConditionUpdateSignal struct {
 	AggregationDelay  *int                            `json:"aggregationDelay"`
 	AggregationTimer  *int                            `json:"aggregationTimer"`
 	SlideBy           *int                            `json:"slideBy"`
+	PollingFrequency  *int                            `json:"pollingFrequency,omitempty"`
 }
 
 // NrqlConditionAggregationMethod - The available aggregation methods.
@@ -785,6 +788,7 @@ const (
       aggregationDelay
       aggregationTimer
       slideBy
+			pollingFrequency
     }
   `
 
