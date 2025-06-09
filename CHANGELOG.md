@@ -1,3 +1,9 @@
+<a name="v2.61.2"></a>
+## [v2.61.2] - 2025-06-09
+### Bug Fixes
+- fixed a distributed tracing bug in the browser package ([#1304](https://github.com/newrelic/newrelic-client-go/issues/1304))
+- **build:** add PR checks similar to Terraform, fix failing tests, broken code and obsolete deps ([#1295](https://github.com/newrelic/newrelic-client-go/issues/1295))
+
 <a name="v2.61.1"></a>
 ## [v2.61.1] - 2025-05-26
 ### Bug Fixes
@@ -2043,7 +2049,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.61.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.61.2...HEAD
+[v2.61.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.61.1...v2.61.2
 [v2.61.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.61.0...v2.61.1
 [v2.61.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.60.0...v2.61.0
 [v2.60.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.59.0...v2.60.0
