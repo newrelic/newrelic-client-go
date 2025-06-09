@@ -46,7 +46,7 @@ func TestIntegrationAgentApplicationBrowser_Basic(t *testing.T) {
 	require.True(t, deleteResult.Success)
 }
 
-func TestIntegrationAgentApplicationBrowser_WithSettings(t *testing.T) {
+func TestIntegrationAgentApplicationBrowser_EnableThenDisableSettings(t *testing.T) {
 	t.Parallel()
 
 	testAccountID, err := testhelpers.GetTestAccountID()
@@ -57,9 +57,10 @@ func TestIntegrationAgentApplicationBrowser_WithSettings(t *testing.T) {
 	client := newAgentApplicationIntegrationTestClient(t)
 	appName := testhelpers.GenerateRandomName(10)
 	cookiesEnabled := true
+	distributedTracingEnabled := true
 	settings := AgentApplicationBrowserSettingsInput{
 		CookiesEnabled:            &cookiesEnabled,
-		DistributedTracingEnabled: true,
+		DistributedTracingEnabled: &distributedTracingEnabled,
 		LoaderType:                AgentApplicationBrowserLoaderTypes.LITE,
 	}
 
@@ -93,6 +94,54 @@ func TestIntegrationAgentApplicationBrowser_WithSettings(t *testing.T) {
 	require.True(t, deleteResult.Success)
 }
 
+func TestIntegrationAgentApplicationBrowser_DisableThenEnableSettings(t *testing.T) {
+	t.Parallel()
+
+	testAccountID, err := testhelpers.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	client := newAgentApplicationIntegrationTestClient(t)
+	appName := testhelpers.GenerateRandomName(10)
+	cookiesEnabled := false
+	distributedTracingEnabled := false
+	settings := AgentApplicationBrowserSettingsInput{
+		CookiesEnabled:            &cookiesEnabled,
+		DistributedTracingEnabled: &distributedTracingEnabled,
+		LoaderType:                AgentApplicationBrowserLoaderTypes.LITE,
+	}
+
+	// Create
+	createResult, err := client.AgentApplicationCreateBrowser(testAccountID, appName, settings)
+	require.NoError(t, err)
+	require.NotNil(t, createResult)
+	require.Equal(t, appName, createResult.Name)
+
+	cookiesEnabled = true
+	// Update
+	updateSettings := AgentApplicationSettingsUpdateInput{
+		BrowserMonitoring: &AgentApplicationSettingsBrowserMonitoringInput{
+			Loader: &AgentApplicationSettingsBrowserLoaderInputTypes.PRO,
+			DistributedTracing: &AgentApplicationSettingsBrowserDistributedTracingInput{
+				Enabled: true,
+			},
+			Privacy: &AgentApplicationSettingsBrowserPrivacyInput{
+				CookiesEnabled: &cookiesEnabled,
+			},
+		},
+	}
+	updateResult, err := client.AgentApplicationSettingsUpdate(createResult.GUID, updateSettings)
+	require.NoError(t, err)
+	require.NotNil(t, updateResult)
+
+	// Delete
+	deleteResult, err := client.AgentApplicationDelete(createResult.GUID)
+	require.NoError(t, err)
+	require.NotNil(t, deleteResult)
+	require.True(t, deleteResult.Success)
+}
+
 func TestIntegrationAgentApplicationBrowser_InvalidLoaderTypeInput(t *testing.T) {
 	t.Parallel()
 
@@ -104,9 +153,10 @@ func TestIntegrationAgentApplicationBrowser_InvalidLoaderTypeInput(t *testing.T)
 	client := newAgentApplicationIntegrationTestClient(t)
 	appName := testhelpers.GenerateRandomName(10)
 	cookiesEnabled := true
+	distributedTracingEnabled := true
 	settings := AgentApplicationBrowserSettingsInput{
 		CookiesEnabled:            &cookiesEnabled,
-		DistributedTracingEnabled: true,
+		DistributedTracingEnabled: &distributedTracingEnabled,
 		LoaderType:                AgentApplicationBrowserLoader("INVALID"),
 	}
 
@@ -132,10 +182,11 @@ func TestIntegrationAgentApplicationEnableAPMBrowser_WithSettings(t *testing.T) 
 	t.Parallel()
 
 	cookiesEnabled := true
+	distributedTracingEnabled := true
 	client := newAgentApplicationIntegrationTestClient(t)
 	settings := AgentApplicationBrowserSettingsInput{
 		CookiesEnabled:            &cookiesEnabled,
-		DistributedTracingEnabled: true,
+		DistributedTracingEnabled: &distributedTracingEnabled,
 		LoaderType:                AgentApplicationBrowserLoaderTypes.PRO,
 	}
 
