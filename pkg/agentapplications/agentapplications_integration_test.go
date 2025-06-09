@@ -57,7 +57,7 @@ func TestIntegrationAgentApplicationBrowser_EnableThenDisableSettings(t *testing
 	client := newAgentApplicationIntegrationTestClient(t)
 	appName := testhelpers.GenerateRandomName(10)
 	cookiesEnabled := true
-	distributedTracingEnabled := false
+	distributedTracingEnabled := true
 	settings := AgentApplicationBrowserSettingsInput{
 		CookiesEnabled:            &cookiesEnabled,
 		DistributedTracingEnabled: &distributedTracingEnabled,
