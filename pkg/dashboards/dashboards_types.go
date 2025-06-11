@@ -307,17 +307,19 @@ type RawConfiguration struct {
 	// Used by viz.markdown
 	Text string `json:"text,omitempty"`
 
-	Thresholds     interface{}                    `json:"thresholds,omitempty"`
-	Legend         *DashboardWidgetLegend         `json:"legend,omitempty"`
-	YAxisLeft      *DashboardWidgetYAxisLeft      `json:"yAxisLeft,omitempty"`
-	YAxisRight     *DashboardWidgetYAxisRight     `json:"yAxisRight,omitempty"`
-	NullValues     *DashboardWidgetNullValues     `json:"nullValues,omitempty"`
-	Units          *DashboardWidgetUnits          `json:"units,omitempty"`
-	Colors         *DashboardWidgetColors         `json:"colors,omitempty"`
-	Facet          *DashboardWidgetFacet          `json:"facet,omitempty"`
-	RefreshRate    *DashboardWidgetRefreshRate    `json:"refreshRate,omitempty"`
-	InitialSorting *DashboardWidgetInitialSorting `json:"initialSorting,omitempty"`
-	DataFormat     []*DashboardWidgetDataFormat   `json:"dataFormatters,omitempty"`
+	Thresholds                    interface{}                                   `json:"thresholds,omitempty"`
+	Legend                        *DashboardWidgetLegend                        `json:"legend,omitempty"`
+	YAxisLeft                     *DashboardWidgetYAxisLeft                     `json:"yAxisLeft,omitempty"`
+	YAxisRight                    *DashboardWidgetYAxisRight                    `json:"yAxisRight,omitempty"`
+	NullValues                    *DashboardWidgetNullValues                    `json:"nullValues,omitempty"`
+	Units                         *DashboardWidgetUnits                         `json:"units,omitempty"`
+	Colors                        *DashboardWidgetColors                        `json:"colors,omitempty"`
+	Facet                         *DashboardWidgetFacet                         `json:"facet,omitempty"`
+	RefreshRate                   *DashboardWidgetRefreshRate                   `json:"refreshRate,omitempty"`
+	InitialSorting                *DashboardWidgetInitialSorting                `json:"initialSorting,omitempty"`
+	DataFormat                    []*DashboardWidgetDataFormat                  `json:"dataFormatters,omitempty"`
+	BillboardSettings             *DashboardWidgetBillboardSettings             `json:"billboardSettings,omitempty"`
+	ThresholdsWithSeriesOverrides *DashboardWidgetThresholdsWithSeriesOverrides `json:"thresholdsWithSeriesOverrides,omitempty"`
 }
 
 // RawConfigurationPlatformOptions represents platform widget options
@@ -394,4 +396,71 @@ type DashboardWidgetColorOverrides struct {
 }
 type DashboardWidgetFacet struct {
 	ShowOtherSeries bool `json:"showOtherSeries,omitempty"`
+}
+
+type DashboardWidgetBillboardSettings struct {
+	Visual      *DashboardWidgetBillboardVisual      `json:"visual,omitempty"`
+	GridOptions *DashboardWidgetBillboardGridOptions `json:"gridOptions,omitempty"`
+	Link        *DashboardWidgetBillboardLink        `json:"link,omitempty"`
+}
+
+type BillboardVisualDisplay string
+
+const (
+	BillboardVisualDisplayAuto  BillboardVisualDisplay = "auto"
+	BillboardVisualDisplayAll   BillboardVisualDisplay = "all"
+	BillboardVisualDisplayValue BillboardVisualDisplay = "value"
+	BillboardVisualDisplayLabel BillboardVisualDisplay = "label"
+	BillboardVisualDisplayNone  BillboardVisualDisplay = "none"
+)
+
+type BillboardVisualAlignment string
+
+const (
+	BillboardVisualAlignmentAuto    BillboardVisualAlignment = "auto"
+	BillboardVisualAlignmentStacked BillboardVisualAlignment = "stacked"
+	BillboardVisualAlignmentInline  BillboardVisualAlignment = "inline"
+)
+
+type DashboardWidgetBillboardVisual struct {
+	Display   BillboardVisualDisplay   `json:"display,omitempty"`
+	Alignment BillboardVisualAlignment `json:"alignment,omitempty"`
+}
+
+type DashboardWidgetBillboardGridOptions struct {
+	Columns int `json:"columns,omitempty"`
+	Label   int `json:"label,omitempty"`
+	Value   int `json:"value,omitempty"`
+}
+
+type DashboardWidgetBillboardLink struct {
+	Title  string `json:"title,omitempty"`
+	URL    string `json:"url,omitempty"`
+	NewTab bool   `json:"newTab"`
+}
+
+type DashboardWidgetThresholdsWithSeriesOverrides struct {
+	Thresholds      []*DashboardWidgetThresholdConfig         `json:"thresholds,omitempty"`
+	SeriesOverrides []*DashboardWidgetThresholdSeriesOverride `json:"seriesOverrides,omitempty"`
+}
+
+type ThresholdSeverity string
+
+const (
+	ThresholdSeveritySuccess     ThresholdSeverity = "success"
+	ThresholdSeverityWarning     ThresholdSeverity = "warning"
+	ThresholdSeveritySevere      ThresholdSeverity = "severe"
+	ThresholdSeverityCritical    ThresholdSeverity = "critical"
+	ThresholdSeverityUnavailable ThresholdSeverity = "unavailable"
+)
+
+type DashboardWidgetThresholdConfig struct {
+	From     *float64          `json:"from,omitempty"`
+	To       *float64          `json:"to,omitempty"`
+	Severity ThresholdSeverity `json:"severity,omitempty"`
+}
+
+type DashboardWidgetThresholdSeriesOverride struct {
+	DashboardWidgetThresholdConfig
+	SeriesName string `json:"seriesName"`
 }
