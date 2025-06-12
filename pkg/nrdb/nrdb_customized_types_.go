@@ -6,13 +6,15 @@ import (
 	"fmt"
 )
 
-// NRDBResultContainerMultiResultCustomized - A data structure that contains the results of the NRDB query along
-// with other capabilities that enhance those results.
+// NRDBResultContainerMultiResultCustomized is a specialized container for NRQL query results
+// that handles the variable format of otherResult and totalResult fields.
 //
-// Direct query results are available through `results`, `totalResult` and
-// `otherResult`. The query you made is accessible through `nrql`, along with
-// `metadata` about the query itself. Enhanced capabilities include
-// `eventDefinitions`, `suggestedFacets` and more.
+// This container differs from NRDBResultContainer by using interface{} types for
+// otherResult and totalResult, allowing them to be either a single object (NRDBResult)
+// or an array of objects ([]NRDBResult), depending on the query structure.
+//
+// This is particularly useful for queries that combine FACET and TIMESERIES clauses,
+// which can return these fields as arrays rather than single objects.
 type NRDBResultContainerMultiResultCustomized struct {
 	// In a `COMPARE WITH` query, the `currentResults` contain the results for the current comparison time window.
 	CurrentResults []NRDBResult `json:"currentResults,omitempty"`
@@ -20,17 +22,24 @@ type NRDBResultContainerMultiResultCustomized struct {
 	//
 	// For more details, see [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/query-nrql-through-new-relic-graphql-api#embeddable-charts).
 	EmbeddedChartURL string `json:"embeddedChartUrl,omitempty"`
-	// Retrieve a list of event type definitions, providing descriptions
-	// of the event types returned by this query, as well as details
-	// of their attributes.
+	// Retrieve a list of event type definitions
 	EventDefinitions []EventDefinition `json:"eventDefinitions,omitempty"`
 	// Metadata about the query and result.
 	Metadata NRDBMetadata `json:"metadata,omitempty"`
-	// The [NRQL](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) query that was executed to yield these results.
+	// The NRQL query that was executed to yield these results.
 	NRQL NRQL `json:"nrql,omitempty"`
-	// In a `FACET` query, the `otherResult` contains the aggregates representing the events _not_
-	// contained in an individual `results` facet.
-	// OtherResult can be either NRDBResult or []NRDBResult
+	// OtherResult contains the aggregates representing the events _not_ contained in an individual `results` facet.
+	//
+	// IMPORTANT: Unlike the standard NRDBResultContainer, this field can be either:
+	// - NRDBResult (a single map[string]interface{}): For standard queries or FACET-only/TIMESERIES-only queries
+	// - []NRDBResult (an array of maps): For queries combining both FACET and TIMESERIES clauses
+	//
+	// Use type assertion to determine the actual type before using:
+	//   if singleResult, ok := result.OtherResult.(NRDBResult); ok {
+	//     // Handle single result
+	//   } else if multipleResults, ok := result.OtherResult.([]NRDBResult); ok {
+	//     // Handle multiple results
+	//   }
 	OtherResult interface{} `json:"otherResult,omitempty"`
 	// In a `COMPARE WITH` query, the `previousResults` contain the results for the previous comparison time window.
 	PreviousResults []NRDBResult `json:"previousResults,omitempty"`
@@ -38,32 +47,38 @@ type NRDBResultContainerMultiResultCustomized struct {
 	QueryProgress NRDBQueryProgress `json:"queryProgress,omitempty"`
 	// The raw query results exactly as they are returned from NRDB. NerdGraph provides no additional transformation.
 	RawResponse NRDBRawResults `json:"rawResponse,omitempty"`
-	// The query results. This is a flat list of objects who's structure matches the query submitted.
+	// The query results. This is a flat list of objects that match the query submitted.
 	Results []NRDBResult `json:"results,omitempty"`
 	// Generate a publicly sharable static chart URL for the NRQL query.
 	StaticChartURL string `json:"staticChartUrl,omitempty"`
-	// Retrieve a list of suggested NRQL facets for this NRDB query, to be used with
-	// the `FACET` keyword in NRQL.
-	//
-	// Results are based on historical query behaviors.
-	//
-	// If the query already has a `FACET` clause, it will be ignored for the purposes
-	// of suggesting facets.
-	//
-	// For more details, see [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/nerdgraph-graphiql-nrql-tutorial#suggest-facets).
+	// Retrieve a list of suggested NRQL facets for this NRDB query
 	SuggestedFacets []NRQLFacetSuggestion `json:"suggestedFacets,omitempty"`
-	// Suggested queries that could help explain an anomaly in your timeseries based on either statistical differences in the data or historical usage.
-	//
-	// If no `anomalyTimeWindow` is supplied, we will attempt to detect a spike in the NRQL results. If no spike is found, the suggested query results will be empty.
-	//
-	// Input NRQL must be a TIMESERIES query and must have exactly one result.
+	// Suggested queries that could help explain an anomaly
 	SuggestedQueries SuggestedNRQLQueryResponse `json:"suggestedQueries,omitempty"`
-	// In a `FACET` query, the `totalResult` contains the aggregates representing _all_ the events,
-	// whether or not they are contained in an individual `results` facet.
-	// TotalResult can be either NRDBResult or []NRDBResult
+	// TotalResult contains the aggregates representing _all_ the events in the query results.
+	//
+	// IMPORTANT: Unlike the standard NRDBResultContainer, this field can be either:
+	// - NRDBResult (a single map[string]interface{}): For standard queries or FACET-only/TIMESERIES-only queries
+	// - []NRDBResult (an array of maps): For queries combining both FACET and TIMESERIES clauses
+	//
+	// Use type assertion to determine the actual type before using:
+	//   if singleResult, ok := result.TotalResult.(NRDBResult); ok {
+	//     // Handle single result
+	//   } else if multipleResults, ok := result.TotalResult.([]NRDBResult); ok {
+	//     // Handle multiple results
+	//   }
 	TotalResult interface{} `json:"totalResult,omitempty"`
 }
 
+// UnmarshalJSON implements custom JSON unmarshaling for NRDBResultContainerMultiResultCustomized.
+// This method handles the complex case where otherResult and totalResult can be either
+// a single object or an array of objects, depending on the query.
+//
+// For standard queries or those with only FACET or only TIMESERIES:
+//   - otherResult and totalResult will be single NRDBResult objects
+//
+// For queries combining both FACET and TIMESERIES:
+//   - otherResult and totalResult will be arrays of NRDBResult objects ([]NRDBResult)
 func (n *NRDBResultContainerMultiResultCustomized) UnmarshalJSON(data []byte) error {
 	type Alias NRDBResultContainerMultiResultCustomized
 	aux := &struct {
