@@ -3,6 +3,7 @@ package entityrelationship
 
 import (
 	"context"
+
 	"github.com/newrelic/newrelic-client-go/v2/pkg/common"
 )
 
