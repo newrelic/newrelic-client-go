@@ -9,7 +9,7 @@ require (
 	github.com/client9/misspell v0.3.4
 	github.com/git-chglog/git-chglog v0.15.4
 	github.com/golangci/golangci-lint/v2 v2.1.2
-	github.com/goreleaser/goreleaser/v2 v2.2.0
+	github.com/goreleaser/goreleaser/v2 v2.10.2
 	github.com/masahiro331/go-commitlinter v0.0.0-20230912111648-dd369c40beae
 	github.com/newrelic/tutone v0.11.0
 	github.com/psampaz/go-mod-outdated v0.9.0
