@@ -87,24 +87,33 @@ func TestIntegrationPerformNRQLQueryTimeseries(t *testing.T) {
 func TestIntegrationPerformNRQLQueryFacetTimeseries(t *testing.T) {
 	t.Parallel()
 
-	query := "SELECT count(*) FROM Transaction FACET appName TIMESERIES 1 hour SINCE 1 day ago LIMIT 3"
+	facetTimeseriesQueries := []string{
+		"SELECT count(*) FROM Transaction FACET appName TIMESERIES 1 hour SINCE 1 day ago LIMIT 3",
+		"SELECT average(duration) FROM Transaction FACET appName TIMESERIES 30 minutes SINCE 1 day ago LIMIT 3",
+		"SELECT count(*) as 'count', average(duration) as 'avgDuration', max(duration) as 'maxDuration' FROM Transaction FACET appName TIMESERIES 1 hour SINCE 1 day ago LIMIT 3",
+	}
+
 	client := newNRDBIntegrationTestClient(t)
 
-	res, err := client.PerformNRQLQuery(accountID, NRQL(query))
+	for _, query := range facetTimeseriesQueries {
+		t.Run(query, func(t *testing.T) {
+			res, err := client.PerformNRQLQuery(accountID, NRQL(query))
 
-	require.NoError(t, err)
-	require.NotNil(t, res)
+			require.NoError(t, err)
+			require.NotNil(t, res)
 
-	// For FACET + TIMESERIES queries, we expect otherResult and totalResult to be arrays with multiple elements
-	assert.IsType(t, NRDBMultiResultCustomized{}, res.OtherResult)
-	assert.IsType(t, NRDBMultiResultCustomized{}, res.TotalResult)
+			// For FACET + TIMESERIES queries, we expect otherResult and totalResult to be arrays with multiple elements
+			assert.IsType(t, NRDBMultiResultCustomized{}, res.OtherResult)
+			assert.IsType(t, NRDBMultiResultCustomized{}, res.TotalResult)
 
-	// Arrays should have elements
-	require.GreaterOrEqual(t, len(res.OtherResult), 1, "Expected otherResults to have at least one element")
-	require.GreaterOrEqual(t, len(res.TotalResult), 1, "Expected totalResults to have at least one element")
+			// Arrays should have elements
+			require.GreaterOrEqual(t, len(res.OtherResult), 1, "Expected otherResults to have at least one element")
+			require.GreaterOrEqual(t, len(res.TotalResult), 1, "Expected totalResults to have at least one element")
 
-	// Results should contain multiple items
-	require.GreaterOrEqual(t, len(res.Results), 1)
+			// Results should contain multiple items
+			require.GreaterOrEqual(t, len(res.Results), 1)
+		})
+	}
 }
 
 // TestIntegrationPerformNRQLQueryMultipleFacets tests a query with multiple FACETs
@@ -153,28 +162,4 @@ func TestIntegrationPerformNRQLQueryTimeseriesCompare(t *testing.T) {
 	// Both currentResults and previousResults should be populated
 	require.GreaterOrEqual(t, len(res.CurrentResults), 1)
 	require.GreaterOrEqual(t, len(res.PreviousResults), 1)
-}
-
-// TestIntegrationPerformNRQLQueryFacetTimeseriesDifferentQuery tests a query with both FACET and TIMESERIES using a different NRQL query
-func TestIntegrationPerformNRQLQueryFacetTimeseriesDifferentQuery(t *testing.T) {
-	t.Parallel()
-
-	query := "SELECT average(duration) FROM Transaction FACET appName TIMESERIES 30 minutes SINCE 1 day ago LIMIT 3"
-	client := newNRDBIntegrationTestClient(t)
-
-	res, err := client.PerformNRQLQuery(accountID, NRQL(query))
-
-	require.NoError(t, err)
-	require.NotNil(t, res)
-
-	// For FACET + TIMESERIES queries, we expect otherResult and totalResult to be arrays
-	assert.IsType(t, NRDBMultiResultCustomized{}, res.OtherResult, "OtherResult should always be a NRDBMultiResultCustomized")
-	assert.IsType(t, NRDBMultiResultCustomized{}, res.TotalResult, "TotalResult should always be a NRDBMultiResultCustomized")
-
-	// Arrays should have elements
-	require.GreaterOrEqual(t, len(res.OtherResult), 1, "Expected otherResults to have at least one element")
-	require.GreaterOrEqual(t, len(res.TotalResult), 1, "Expected totalResults to have at least one element")
-
-	// Results should contain multiple items
-	require.GreaterOrEqual(t, len(res.Results), 1)
 }
