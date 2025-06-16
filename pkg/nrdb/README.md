@@ -10,7 +10,7 @@ This package contains several methods for querying New Relic's NRDB database usi
 
 ### Original Query Function
 
-The original `Query()` function is the standard way to execute NRQL queries:
+The original `Query()` function is the standard (preferred) way to execute NRQL queries:
 
 ```go
 func (n *Nrdb) Query(accountID int, query NRQL) (*NRDBResultContainer, error)
@@ -106,62 +106,21 @@ if len(results.OtherResult) > 0 {
 ## When to Use Each Function
 
 1. **Use `Query()` when**:
-   - You're executing simple NRQL queries without combined `FACET` and `TIMESERIES` clauses
-   - You need the most stable and long-supported API
-   - You're sure your queries will return single objects for `otherResult` and `totalResult`
+   - You're executing simple NRQL queries without combined `FACET` and `TIMESERIES` clauses, and would like to use the standardized method; and/or
+   - The queries you've specified with `Query()` are expected to return single objects for `otherResult` and `totalResult`.
 
 2. **Use `PerformNRQLQuery()` when**:
-   - You're executing queries that combine `FACET` and `TIMESERIES` clauses
-   - You're unsure about the structure of the API response
-   - You need consistent array handling for `otherResult` and `totalResult` fields
+   - You're executing queries that combine `FACET` and `TIMESERIES` clauses, or similar clauses leading to complex NRQL queries, expected to return arrays for `otherResult` and `totalResult`, and/or
+   - Your code deals in performing _many_ kinds of NRQL queries, with some expected to return results in simpler structures while some others (e.g. NRQL queries with multiple clauses as stated above) expected to return results in lists, for which you need the function called to handle consistent array packing for `otherResult` and `totalResult` fields in either of these scenarios.
 
 ## Query Types and Expected Response Formats
 
-| Query Type | Original API (`Query()`) | Enhanced API (`PerformNRQLQuery()`) |
-|------------|--------------------------|-------------------------------------|
-| Simple | Single Object | `NRDBMultiResultCustomized` with 1 element |
-| FACET only | Single Object | `NRDBMultiResultCustomized` with 1 element |
-| TIMESERIES only | Single Object | `NRDBMultiResultCustomized` with 1 element |
-| FACET + TIMESERIES | **Error** (incompatible) | `NRDBMultiResultCustomized` with multiple elements |
-
-## Type Definitions
-
-The package includes specialized types for handling different response formats:
-
-- `NRDBResult`: A single result object (map[string]interface{})
-- `NRDBMultiResultCustomized`: A collection of result objects ([]NRDBResult)
-- `NRDBResultContainerMultiResultCustomized`: A container that uses `NRDBMultiResultCustomized` for otherResult and totalResult fields
-
-## Extended Functionality
-
-Both sets of functions have variants that provide additional capabilities:
-
-- **WithContext**: Allows passing a context for request cancellation or timeouts
-- **WithExtendedResponse**: Returns additional metadata about the query
-- **WithAdditionalOptions**: Allows specifying timeout and async parameters
-
-### Example with Extended Response
-
-```go
-query := `SELECT count(*) FROM Transaction`
-results, err := client.Nrdb.PerformNRQLQueryWithExtendedResponse(accountID, nrdb.NRQL(query))
-```
-
-### Example with Additional Options
-
-```go
-query := `SELECT count(*) FROM Transaction`
-timeout := nrdb.Seconds(30)  // 30 second timeout
-async := false               // Synchronous query
-results, err := client.Nrdb.QueryWithAdditionalOptions(accountID, nrdb.NRQL(query), timeout, async)
-```
-
-## Best Practices
-
-1. **Use the appropriate function** for your query type to avoid unmarshaling errors
-2. **Use `PerformNRQLQuery()`** for most modern applications, as it provides consistent array-based access to results
-3. **Set reasonable timeouts** for queries that may take longer to execute
-4. **Consider using async mode** for queries that process large amounts of data
+| Query Type | Original Function (`Query()`) | Enhanced Function (`PerformNRQLQuery()`)           |
+|------------|-------------------------------|----------------------------------------------------|
+| Simple | Single Object                 | `NRDBMultiResultCustomized` with 1 element         |
+| FACET only | Single Object                 | `NRDBMultiResultCustomized` with 1 element         |
+| TIMESERIES only | Single Object                 | `NRDBMultiResultCustomized` with 1 element         |
+| FACET + TIMESERIES | **Error** (incompatible)      | `NRDBMultiResultCustomized` with multiple elements |
 
 ## Troubleshooting
 
@@ -181,6 +140,13 @@ if len(customResults.OtherResult) > 0 {
     // Use with code expecting NRDBResult
 }
 ```
+## Type Definitions
+
+The package includes specialized types for handling different response formats:
+
+- `NRDBResult`: A single result object (map[string]interface{})
+- `NRDBMultiResultCustomized`: A collection of result objects ([]NRDBResult)
+- `NRDBResultContainerMultiResultCustomized`: A container that uses `NRDBMultiResultCustomized` for `otherResult` and `totalResult` fields
 
 ## Further Reading
 
