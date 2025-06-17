@@ -1,3 +1,13 @@
+<a name="v2.63.0"></a>
+## [v2.63.0] - 2025-06-17
+### Features
+- add Workflow Automation Destination and Channel types ([#1309](https://github.com/newrelic/newrelic-client-go/issues/1309))
+
+<a name="v2.62.0"></a>
+## [v2.62.0] - 2025-06-13
+### Features
+- **cloud:** added auto-discovery slug to cloud configure integration api ([#1307](https://github.com/newrelic/newrelic-client-go/issues/1307))
+
 <a name="v2.61.2"></a>
 ## [v2.61.2] - 2025-06-09
 ### Bug Fixes
@@ -2049,7 +2059,9 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.61.2...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.63.0...HEAD
+[v2.63.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.62.0...v2.63.0
+[v2.62.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.61.2...v2.62.0
 [v2.61.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.61.1...v2.61.2
 [v2.61.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.61.0...v2.61.1
 [v2.61.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.60.0...v2.61.0
