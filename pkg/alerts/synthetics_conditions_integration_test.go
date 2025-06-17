@@ -6,6 +6,7 @@ package alerts
 import (
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/require"
 
@@ -68,6 +69,11 @@ func TestIntegrationSyntheticsConditions(t *testing.T) {
 
 	// Test: Create
 	testIntegrationSyntheticsCondition.MonitorID = monitor.ID
+
+	// addition of a 10 second sleep before a Synthetics Condition is created,
+	// since the API is currently flakey and is undergoing rerouting of traffic, causing the monitor to
+	// not be found during creation, intermittently
+	time.Sleep(10 * time.Second)
 	created, err := alerts.CreateSyntheticsCondition(policy.ID, testIntegrationSyntheticsCondition)
 
 	require.NoError(t, err)
