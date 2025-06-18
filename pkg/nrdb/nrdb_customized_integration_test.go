@@ -40,27 +40,44 @@ func TestIntegrationPerformNRQLQuerySimple(t *testing.T) {
 func TestIntegrationPerformNRQLQueryFacet(t *testing.T) {
 	t.Parallel()
 
-	query := "SELECT count(*) FROM Transaction FACET appName SINCE 1 day ago LIMIT 5"
-	client := newNRDBIntegrationTestClient(t)
-
-	res, err := client.PerformNRQLQuery(accountID, NRQL(query))
-
-	require.NoError(t, err)
-	require.NotNil(t, res)
-
-	// For FACET query, we expect otherResult and totalResult to be arrays with single elements
-	require.NotNil(t, res.OtherResult)
-	require.IsType(t, NRDBMultiResultCustomized{}, res.OtherResult)
-
-	if len(res.OtherResult) > 0 {
-		// Check that we can directly access first element since we know it's an array
-		if count, ok := res.OtherResult[0]["count"]; ok {
-			require.IsType(t, float64(0), count, "Expected 'count' to be a numerical value")
-		}
+	queries := map[string]string{
+		"SELECT count(*) FROM Transaction FACET appName SINCE 1 day ago LIMIT 5":    "count",
+		"SELECT sum(duration) FROM Transaction FACET host SINCE 1 day ago LIMIT 10": "sum.duration",
 	}
 
-	// Results should contain multiple items due to FACET
-	require.GreaterOrEqual(t, len(res.Results), 1)
+	client := newNRDBIntegrationTestClient(t)
+
+	for query, expectedField := range queries {
+		t.Run(query, func(t *testing.T) {
+			res, err := client.PerformNRQLQuery(accountID, NRQL(query))
+
+			require.NoError(t, err)
+			require.NotNil(t, res)
+
+			// For FACET query, we expect otherResult and totalResult to be arrays with single elements
+			require.NotNil(t, res.OtherResult)
+			require.NotNil(t, res.TotalResult)
+			require.IsType(t, NRDBMultiResultCustomized{}, res.OtherResult)
+			require.IsType(t, NRDBMultiResultCustomized{}, res.TotalResult)
+
+			if len(res.OtherResult) > 0 {
+				// Validate the expected field in the first element of otherResult
+				if value, ok := res.OtherResult[0][expectedField]; ok {
+					require.IsType(t, float64(0), value, "Expected field to be a numerical value")
+				}
+			}
+
+			if len(res.TotalResult) > 0 {
+				// Validate the expected field in the first element of totalResult
+				if value, ok := res.TotalResult[0][expectedField]; ok {
+					require.IsType(t, float64(0), value, "Expected field to be a numerical value")
+				}
+			}
+
+			// Results should contain multiple items due to FACET
+			require.GreaterOrEqual(t, len(res.Results), 1)
+		})
+	}
 }
 
 // TestIntegrationPerformNRQLQueryTimeseries tests a query with TIMESERIES
@@ -162,4 +179,22 @@ func TestIntegrationPerformNRQLQueryTimeseriesCompare(t *testing.T) {
 	// Both currentResults and previousResults should be populated
 	require.GreaterOrEqual(t, len(res.CurrentResults), 1)
 	require.GreaterOrEqual(t, len(res.PreviousResults), 1)
+}
+
+// TestIntegrationPerformNRQLQueryError tests a case where PerformNRQLQuery() returns an error due to an invalid NRQL query
+func TestIntegrationPerformNRQLQueryError(t *testing.T) {
+	t.Parallel()
+
+	// Invalid NRQL query
+	query := "INVALID QUERY"
+	client := newNRDBIntegrationTestClient(t)
+
+	res, err := client.PerformNRQLQuery(accountID, NRQL(query))
+
+	// Expect an error and a nil response
+	require.Error(t, err, "Expected an error due to invalid NRQL query")
+	require.Nil(t, res, "Response should be nil for invalid NRQL query")
+
+	// Validate if the error matches the regex or contains the string "NRQL Syntax Error"
+	assert.Regexp(t, "NRQL Syntax Error", err.Error(), "Error message should contain 'NRQL Syntax Error'")
 }
