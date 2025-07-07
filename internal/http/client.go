@@ -528,9 +528,6 @@ func (c *Client) NewNerdGraphRequest(query string, vars map[string]interface{}, 
 		Data: respBody,
 	}
 
-	varsJSON, _ := json.Marshal(graphqlReqBody.Variables)
-	fmt.Printf("NerdGraph query: %s\n", logNice(string(varsJSON)))
-
 	req, err := c.NewRequest(http.MethodPost, c.config.Region().NerdGraphURL(), nil, graphqlReqBody, graphqlRespBody)
 	if err != nil {
 		return nil, err
