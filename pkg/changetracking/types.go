@@ -886,25 +886,25 @@ type ChangeTrackingCategoryAndTypeInput struct {
 // This is a container for the various category related input fields.
 type ChangeTrackingCategoryFieldsInput struct {
 	// This container is mandatory for a category of `DEPLOYMENT`.
-	Deployment ChangeTrackingDeploymentFieldsInput `json:"deployment,omitempty"`
+	Deployment *ChangeTrackingDeploymentFieldsInput `json:"deployment,omitempty"`
 	// This container is mandatory for a category of `FEATURE_FLAG`.
-	FeatureFlag ChangeTrackingFeatureFlagFieldsInput `json:"featureFlag,omitempty"`
+	FeatureFlag *ChangeTrackingFeatureFlagFieldsInput `json:"featureFlag,omitempty"`
 }
 
 // ChangeTrackingCategoryRelatedInput - The data that defines the category and type of change event as well as the category-specific fields.
 type ChangeTrackingCategoryRelatedInput struct {
 	// This is a container for the various category related input fields.
-	CategoryFields ChangeTrackingCategoryFieldsInput `json:"categoryFields,omitempty"`
+	CategoryFields *ChangeTrackingCategoryFieldsInput `json:"categoryFields,omitempty"`
 	// The category and type of the change event. If you'd like to use your own, please add `ALLOW_CUSTOM_CATEGORY_OR_TYPE` to your validation flags.
 	//
 	// For a list of supported categories and types, [view our docs](https://docs.newrelic.com/docs/change-tracking/change-tracking-events/#supported-types).
-	Kind ChangeTrackingCategoryAndTypeInput `json:"kind,omitempty"`
+	Kind *ChangeTrackingCategoryAndTypeInput `json:"kind,omitempty"`
 }
 
 // ChangeTrackingCreateEventInput - The data necessary to create a change tracking event.
 type ChangeTrackingCreateEventInput struct {
 	// The data that defines the category and type of change event as well as the category-specific fields.
-	CategoryAndTypeData ChangeTrackingCategoryRelatedInput `json:"categoryAndTypeData,omitempty"`
+	CategoryAndTypeData *ChangeTrackingCategoryRelatedInput `json:"categoryAndTypeData,omitempty"`
 	// Represents key-value pairs of custom attributes in JavaScript object format. Attribute values can be of type `string`, `boolean`, or `number`. We store JavaScript `number` values to either Java `long` or `double` values. The main difference between JavaScript object format vs. JSON is that keys are not enclosed in quotes.
 	//
 	// For more information on limitations, see [our docs](https://docs.newrelic.com/docs/change-tracking/change-tracking-graphql/)

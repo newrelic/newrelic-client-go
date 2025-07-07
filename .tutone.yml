@@ -424,6 +424,16 @@ packages:
         skip_type_create: true
       - name: ChangeTrackingRawCustomAttributesMap
         create_as: "map[string]interface{}"
+      - name: ChangeTrackingCategoryFieldsInput
+        field_type_override: "*ChangeTrackingCategoryFieldsInput"
+      - name: ChangeTrackingDeploymentFieldsInput
+        field_type_override: "*ChangeTrackingDeploymentFieldsInput"
+      - name: ChangeTrackingFeatureFlagFieldsInput
+        field_type_override: "*ChangeTrackingFeatureFlagFieldsInput"
+      - name: ChangeTrackingCategoryRelatedInput
+        field_type_override: "*ChangeTrackingCategoryRelatedInput"
+      - name: ChangeTrackingCategoryAndTypeInput
+        field_type_override: "*ChangeTrackingCategoryAndTypeInput"
     mutations:
       - name: changeTrackingCreateDeployment
         max_query_field_depth: 2
