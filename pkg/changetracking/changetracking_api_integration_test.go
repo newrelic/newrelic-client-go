@@ -456,7 +456,7 @@ func TestChangeTrackingCreateEvent_CustomAttributes(t *testing.T) {
 	input := ChangeTrackingCreateEventInput{
 		Description: "This is a test change tracking event with custom attributes",
 		EntitySearch: ChangeTrackingEntitySearchInput{
-			Query: "name = 'My PHP Application'",
+			Query: fmt.Sprintf("name = '%s'", testhelpers.IntegrationTestApplicationEntityNameNew),
 		},
 		CustomAttributes: ChangeTrackingRawCustomAttributesMap(customAttributes),
 		GroupId:          "custom-attributes-group",
@@ -503,7 +503,7 @@ func TestChangeTrackingCreateEvent_AllowCustomCategoryType(t *testing.T) {
 	input := ChangeTrackingCreateEventInput{
 		Description: "This is a test change tracking event with ALLOW_CUSTOM_CATEGORY_OR_TYPE flag",
 		EntitySearch: ChangeTrackingEntitySearchInput{
-			Query: "name = 'My PHP Application'",
+			Query: fmt.Sprintf("name = '%s'", testhelpers.IntegrationTestApplicationEntityNameNew),
 		},
 		GroupId:          "allow-custom-group",
 		ShortDescription: "Test event with allow custom flag",
