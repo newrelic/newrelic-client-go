@@ -443,24 +443,25 @@ func TestChangeTrackingCreateEvent_CustomAttributes(t *testing.T) {
 
 	a := newIntegrationTestClient(t)
 
-	// Create custom attributes map
-	customAttributes := map[string]interface{}{
-		"environment":    "staging",
-		"region":         "us-east-1",
-		"cloud_vendor":   "aws",
-		"isProd":         false,
-		"instance_count": 3,
-		"deploy_time":    10.5,
-	}
+	// Read JS object from string (could also use a file with isFile=true)
+	attrs, err := ReadCustomAttributesJS(`{
+		environment: "staging",
+		region: "us-east-1",
+		cloud_vendor: "aws",
+		isProd: false,
+		instance_count: 3,
+		deploy_time: 10.5
+	}`, false)
+	require.NoError(t, err)
 
 	input := ChangeTrackingCreateEventInput{
-		Description: "This is a test change tracking event with custom attributes",
+		Description: "This is a test change tracking event with JS custom attributes",
 		EntitySearch: ChangeTrackingEntitySearchInput{
 			Query: fmt.Sprintf("name = '%s'", testhelpers.IntegrationTestApplicationEntityNameNew),
 		},
-		CustomAttributes: ChangeTrackingRawCustomAttributesMap(customAttributes),
-		GroupId:          "custom-attributes-group",
-		ShortDescription: "Test event with custom attributes",
+		CustomAttributes: ChangeTrackingRawCustomAttributesMap(attrs),
+		GroupId:          "js-custom-attributes-group",
+		ShortDescription: "Test event with JS custom attributes",
 		Timestamp:        nrtime.EpochMilliseconds(time.Now()),
 		User:             "newrelic-go-client",
 		CategoryAndTypeData: &ChangeTrackingCategoryRelatedInput{
@@ -484,11 +485,9 @@ func TestChangeTrackingCreateEvent_CustomAttributes(t *testing.T) {
 		ChangeTrackingDataHandlingRules{ValidationFlags: []ChangeTrackingValidationFlag{ChangeTrackingValidationFlagTypes.FAIL_ON_FIELD_LENGTH}},
 	)
 	require.NoError(t, err)
-
 	require.NotNil(t, res)
 	require.NotNil(t, res.ChangeTrackingEvent)
 
-	// Type assert to access the fields
 	if event, ok := res.ChangeTrackingEvent.(*ChangeTrackingEvent); ok {
 		require.NotEmpty(t, event.ChangeTrackingId)
 		require.NotNil(t, event.CustomAttributes)
