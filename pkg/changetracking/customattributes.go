@@ -46,7 +46,7 @@ func ReadCustomAttributesJS(input string, isFile bool) (map[string]interface{}, 
 	fmt.Print("Custom Attributes JS Object: ", obj, "\n")
 	attrs, ok := obj.(map[string]interface{})
 	if !ok {
-		return nil, err
+		return nil, fmt.Errorf("custom attributes JS is not an object")
 	}
 	return attrs, nil
 }
