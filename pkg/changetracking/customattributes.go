@@ -18,7 +18,12 @@ func ReadCustomAttributesJS(input string, isFile bool) (map[string]interface{}, 
 		if err != nil {
 			return nil, err
 		}
-		defer f.Close()
+		defer func() {
+			cerr := f.Close()
+			if cerr != nil {
+				fmt.Printf("error closing file: %v\n", cerr)
+			}
+		}()
 		scanner := bufio.NewScanner(f)
 		var b strings.Builder
 		for scanner.Scan() {
