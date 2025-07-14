@@ -22,7 +22,11 @@ func TestReadCustomAttributesJS_FromFile(t *testing.T) {
 	fileName := "test_custom_attrs.jsobj"
 	err := os.WriteFile(fileName, []byte(fileContent), 0644)
 	require.NoError(t, err)
-	defer os.Remove(fileName)
+	defer func() {
+		if removeErr := os.Remove(fileName); removeErr != nil {
+			t.Errorf("failed to remove file: %v", removeErr)
+		}
+	}()
 
 	attrs, err := ReadCustomAttributesJS(fileName, true)
 	require.NoError(t, err)
