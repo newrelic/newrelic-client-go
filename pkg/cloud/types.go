@@ -5251,6 +5251,8 @@ type CloudLinkCloudAccountsInput struct {
 	Azure []CloudAzureLinkAccountInput `json:"azure,omitempty"`
 	// Gcp provider
 	Gcp []CloudGcpLinkAccountInput `json:"gcp,omitempty"`
+	// OCI Provider
+	Oci []CloudOciLinkAccountInput `json:"oci,omitempty"`
 }
 
 // CloudLinkedAccount - A cloud account linked to a NewRelic account.
@@ -5388,6 +5390,14 @@ func (x *CloudLinkedAccount) UnmarshalJSON(b []byte) error {
 	}
 
 	return nil
+}
+
+// CloudOciLinkAccountInput - Information required to link a OCI tenancy to a NewRelic account.
+type CloudOciLinkAccountInput struct {
+	// The linked account name.
+	Name string `json:"name"`
+	// The OCI tenant identifier.
+	TenantId string `json:"tenantId"`
 }
 
 // CloudProvider - A cloud services provider.
