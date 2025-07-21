@@ -1,3 +1,8 @@
+<a name="v2.66.0"></a>
+## [v2.66.0] - 2025-07-21
+### Features
+- **tooltip-support:** add tooltip support in dashboard rawConfiguration ([#1320](https://github.com/newrelic/newrelic-client-go/issues/1320))
+
 <a name="v2.65.0"></a>
 ## [v2.65.0] - 2025-07-14
 ### Features
@@ -2069,7 +2074,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.65.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.66.0...HEAD
+[v2.66.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.65.0...v2.66.0
 [v2.65.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.64.0...v2.65.0
 [v2.64.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.63.0...v2.64.0
 [v2.63.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.62.0...v2.63.0
