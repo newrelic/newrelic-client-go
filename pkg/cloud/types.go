@@ -3307,6 +3307,8 @@ type CloudDisableIntegrationsInput struct {
 	Azure CloudAzureDisableIntegrationsInput `json:"azure,omitempty"`
 	// Gcp provider
 	Gcp CloudGcpDisableIntegrationsInput `json:"gcp,omitempty"`
+	// OCI Provider
+	Oci CloudOciDisableIntegrationsInput `json:"oci,omitempty"`
 }
 
 // CloudDynamodbIntegration - DynamoDB Integration
@@ -5051,6 +5053,8 @@ type CloudIntegrationsInput struct {
 	Azure CloudAzureIntegrationsInput `json:"azure,omitempty"`
 	// Gcp provider
 	Gcp CloudGcpIntegrationsInput `json:"gcp,omitempty"`
+	// OCI Provider
+	Oci CloudOciIntegrationsInput `json:"oci,omitempty"`
 }
 
 // CloudIotIntegration - IoT Integration
@@ -5392,12 +5396,64 @@ func (x *CloudLinkedAccount) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+// CloudOciDisableIntegrationsInput - List of integrations
+type CloudOciDisableIntegrationsInput struct {
+	// Fetch Metadata for OCI integrations integration
+	OciMetadataAndTags []CloudDisableAccountIntegrationInput `json:"ociMetadataAndTags,omitempty"`
+}
+
+// CloudOciIntegrationsInput - List of integrations
+type CloudOciIntegrationsInput struct {
+	// Metadata and Tags for OCI integrations
+	OciMetadataAndTags []CloudOciMetadataAndTagsIntegrationInput `json:"ociMetadataAndTags,omitempty"`
+}
+
 // CloudOciLinkAccountInput - Information required to link a OCI tenancy to a NewRelic account.
 type CloudOciLinkAccountInput struct {
 	// The linked account name.
 	Name string `json:"name"`
 	// The OCI tenant identifier.
 	TenantId string `json:"tenantId"`
+}
+
+// CloudOciMetadataAndTagsIntegration - Fetch Metadata and Tags for OCI integrations Integration
+type CloudOciMetadataAndTagsIntegration struct {
+	// The object creation date, in epoch (Unix) time
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
+	// The cloud service integration identifier.
+	ID int `json:"id,omitempty"`
+	// The parent linked account identifier.
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
+	// The data polling interval in seconds.
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
+	// The cloud service integration name.
+	Name string `json:"name,omitempty"`
+	// The parent NewRelic account identifier.
+	NrAccountId int `json:"nrAccountId"`
+	// The cloud service used in the integration.
+	Service CloudService `json:"service,omitempty"`
+	// The object last update date, in epoch (Unix) time
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
+}
+
+func (x *CloudOciMetadataAndTagsIntegration) ImplementsCloudIntegration() {}
+
+// CloudOciMetadataAndTagsIntegrationInput - Fetch Metadata and Tags for OCI integrations
+type CloudOciMetadataAndTagsIntegrationInput struct {
+	// The linked account identifier.
+	LinkedAccountId int `json:"linkedAccountId"`
+}
+
+// CloudOciUpdateAccountInput - Information required to update a AWS account to a NewRelic account.
+type CloudOciUpdateAccountInput struct {
+	// Disable the linked account.
+	Disabled bool `json:"disabled,omitempty"`
+	// The linked account identifier.
+	LinkedAccountId int `json:"linkedAccountId"`
+	// The linked account new name.
+	Name string `json:"name,omitempty"`
+	// The OCI tenant (used to fetch data).
+	TenantId string `json:"tenantId,omitempty"`
 }
 
 // CloudProvider - A cloud services provider.
@@ -5940,6 +5996,8 @@ type CloudUpdateCloudAccountsInput struct {
 	Fossa []CloudFossaUpdateAccountInput `json:"fossa,omitempty"`
 	// Gcp provider
 	Gcp []CloudGcpUpdateAccountInput `json:"gcp,omitempty"`
+	// OCI Provider
+	Oci []CloudOciUpdateAccountInput `json:"oci,omitempty"`
 }
 
 // CloudVpcIntegration - VPC Integration
@@ -7097,6 +7155,16 @@ func UnmarshalCloudIntegrationInterface(b []byte) (*CloudIntegrationInterface, e
 			return &xxx, nil
 		case "CloudLambdaIntegration":
 			var interfaceType CloudLambdaIntegration
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx CloudIntegrationInterface = &interfaceType
+
+			return &xxx, nil
+		case "CloudOciMetadataAndTagsIntegration":
+			var interfaceType CloudOciMetadataAndTagsIntegration
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
