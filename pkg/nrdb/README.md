@@ -38,7 +38,7 @@ fmt.Printf("Query results: %v\n", results.Results)
 
 The original `Query()` function has a limitation when handling queries that combine both `FACET` and `TIMESERIES` clauses. In these cases, the NerdGraph API may return `otherResult` and `totalResult` as arrays rather than single objects, which conflicts with the `NRDBResultContainer` structure that expects single objects for these fields.
 
-This can lead to JSON unmarshaling errors like:
+This can lead to JSON unmarshalling errors like:
 
 ```
 json: cannot unmarshal array into Go struct field .data.Actor.Account.NRQL.otherResult of type nrdb.NRDBResult
@@ -47,7 +47,7 @@ json: cannot unmarshal array into Go struct field .data.Actor.Account.NRQL.other
 #### Example of a Problematic Query
 
 ```go
-// This query will cause unmarshaling errors with the original Query() function
+// This query will cause unmarshalling errors with the original Query() function
 query := `SELECT count(*) FROM Transaction FACET appName TIMESERIES 1 hour SINCE 1 day ago`
 ```
 
@@ -124,7 +124,7 @@ if len(results.OtherResult) > 0 {
 
 ## Troubleshooting
 
-If you encounter JSON unmarshaling errors when using `Query()` with complex queries, switch to `PerformNRQLQuery()` to handle the variable response structure.
+If you encounter JSON unmarshalling errors when using `Query()` with complex queries, switch to `PerformNRQLQuery()` to handle the variable response structure.
 
 If you need to maintain compatibility with code that expects the standard `NRDBResultContainer`, but want to use `PerformNRQLQuery()` for its flexibility, you can handle the `NRDBMultiResultCustomized` appropriately:
 
