@@ -241,3 +241,8 @@ func ConfigLogJSON(logJSON bool) ConfigOption {
 func ConfigLogger(logger logging.Logger) ConfigOption {
 	return config.ConfigLogger(logger)
 }
+
+// ConfigCustomHeaders sets custom headers that will be sent with every request.
+func ConfigCustomHeaders(headers map[string]string) ConfigOption {
+	return config.ConfigCustomHeaders(headers)
+}
