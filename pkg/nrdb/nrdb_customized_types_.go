@@ -61,7 +61,7 @@ type NRDBResultContainerMultiResultCustomized struct {
 	TotalResult NRDBMultiResultCustomized `json:"totalResult,omitempty"`
 }
 
-// UnmarshalJSON implements custom JSON unmarshaling for NRDBResultContainerMultiResultCustomized.
+// UnmarshalJSON implements custom JSON unmarshalling for NRDBResultContainerMultiResultCustomized.
 // This method handles cases where otherResult and totalResult can be either
 // a single object or an array of objects in the API response.
 //

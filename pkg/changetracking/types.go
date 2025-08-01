@@ -4,6 +4,7 @@ package changetracking
 import (
 	"encoding/json"
 	"fmt"
+	"strconv"
 
 	"github.com/newrelic/newrelic-client-go/v2/pkg/common"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/nrtime"
@@ -2291,6 +2292,45 @@ type ServiceLevelIndicator struct {
 	UpdatedBy UserReference `json:"updatedBy,omitempty"`
 }
 
+// UnmarshalJSON implements custom JSON unmarshalling for ServiceLevelIndicator
+func (s *ServiceLevelIndicator) UnmarshalJSON(data []byte) error {
+	type Alias ServiceLevelIndicator
+	aux := &struct {
+		ID interface{} `json:"id"`
+		*Alias
+	}{
+		Alias: (*Alias)(s),
+	}
+
+	if err := json.Unmarshal(data, &aux); err != nil {
+		return err
+	}
+
+	// Handle ID field which can be string or int
+	switch v := aux.ID.(type) {
+	case string:
+		if v == "" {
+			s.ID = 0
+		} else {
+			id, err := strconv.Atoi(v)
+			if err != nil {
+				return err
+			}
+			s.ID = id
+		}
+	case float64:
+		s.ID = int(v)
+	case int:
+		s.ID = v
+	case nil:
+		s.ID = 0
+	default:
+		return fmt.Errorf("unexpected type for ID field: %T", v)
+	}
+
+	return nil
+}
+
 // ServiceLevelIndicatorResultQueries - The resulting NRQL queries that help consume the metrics of the SLI.
 type ServiceLevelIndicatorResultQueries struct {
 	// The NRQL query that measures the good events.
@@ -3272,4 +3312,28 @@ func UnmarshalInfrastructureIntegrationEntityOutlineInterface(b []byte) (*Infras
 	}
 
 	return nil, fmt.Errorf("interface InfrastructureIntegrationEntityOutline was not matched against all PossibleTypes: %s", typeName)
+}
+
+// UnmarshalJSON handles unmarshalling Seconds type from either strings or numbers
+func (s *Seconds) UnmarshalJSON(b []byte) error {
+	if string(b) == "null" {
+		*s = ""
+		return nil
+	}
+
+	var str string
+	// Attempt to unmarshal directly into a string. This handles quoted strings.
+	if err := json.Unmarshal(b, &str); err == nil {
+		*s = Seconds(str)
+		return nil
+	}
+
+	var num float64
+	// Attempt to unmarshal directly into a float64. This handles unquoted numbers.
+	if err := json.Unmarshal(b, &num); err == nil {
+		*s = Seconds(strconv.FormatFloat(num, 'f', -1, 64)) // Convert number to string
+		return nil
+	}
+
+	return fmt.Errorf("seconds: cannot unmarshal %s into a string or number", b)
 }

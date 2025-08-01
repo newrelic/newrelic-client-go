@@ -1,3 +1,8 @@
+<a name="v2.67.0"></a>
+## [v2.67.0] - 2025-07-29
+### Features
+- **dashboard:** support multiple account id's when creating dashboards ([#1319](https://github.com/newrelic/newrelic-client-go/issues/1319))
+
 <a name="v2.66.0"></a>
 ## [v2.66.0] - 2025-07-21
 ### Features
@@ -2074,7 +2079,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.66.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.67.0...HEAD
+[v2.67.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.66.0...v2.67.0
 [v2.66.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.65.0...v2.66.0
 [v2.65.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.64.0...v2.65.0
 [v2.64.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.63.0...v2.64.0
