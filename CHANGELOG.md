@@ -1,3 +1,8 @@
+<a name="v2.67.1"></a>
+## [v2.67.1] - 2025-07-30
+### Bug Fixes
+- **change-tracking:** remove test print ([#1323](https://github.com/newrelic/newrelic-client-go/issues/1323))
+
 <a name="v2.67.0"></a>
 ## [v2.67.0] - 2025-07-29
 ### Features
@@ -2079,7 +2084,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.67.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.67.1...HEAD
+[v2.67.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.67.0...v2.67.1
 [v2.67.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.66.0...v2.67.0
 [v2.66.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.65.0...v2.66.0
 [v2.65.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.64.0...v2.65.0
