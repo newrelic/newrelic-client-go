@@ -2,7 +2,7 @@ module github.com/newrelic/newrelic-client-go/v2/tools
 
 go 1.23.0
 
-toolchain go1.23.2
+toolchain go1.24.6
 
 require (
 	github.com/caarlos0/svu/v2 v2.0.1
