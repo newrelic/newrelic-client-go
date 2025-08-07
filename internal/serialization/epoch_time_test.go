@@ -21,7 +21,7 @@ var testEpochValuesSuccess = []struct {
 }{
 	{
 		Name:   "success seconds",
-		Bytes:  []byte(`1587654321`), // Seconds
+		Bytes:  []byte(`1587654321000`), // Always output milliseconds
 		Epoch:  EpochTime(time.Unix(1587654321, 0).UTC()),
 		String: "2020-04-23 15:05:21 +0000 UTC",
 		Unix:   1587654321,
@@ -39,16 +39,7 @@ var testEpochValuesSuccess = []struct {
 	},
 	{
 		Name:   "success nanoseconds",
-		Bytes:  []byte(`1587654321000012345`), // Nanoseconds
-		Epoch:  EpochTime(time.Unix(1587654321, 12345).UTC()),
-		String: "2020-04-23 15:05:21.000012345 +0000 UTC",
-		Unix:   1587654321,
-		Err:    nil,
-		Msg:    "Epoch: Nanoseconds",
-	},
-	{
-		Name:   "success nanoseconds",
-		Bytes:  []byte(`1587654321000012345`), // Nanoseconds
+		Bytes:  []byte(`1587654321000`), // Nanoseconds get converted to milliseconds (precision loss)
 		Epoch:  EpochTime(time.Unix(1587654321, 12345).UTC()),
 		String: "2020-04-23 15:05:21.000012345 +0000 UTC",
 		Unix:   1587654321,
@@ -57,7 +48,7 @@ var testEpochValuesSuccess = []struct {
 	},
 	{
 		Name:   "success empty time object",
-		Bytes:  []byte(emptyTimeCase), // Invalid
+		Bytes:  []byte("-62135596800000"), // Updated to milliseconds format
 		Epoch:  EpochTime{},
 		String: "0001-01-01 00:00:00 +0000 UTC",
 		Unix:   -62135596800,

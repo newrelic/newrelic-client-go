@@ -438,7 +438,7 @@ packages:
       - name: changeTrackingCreateDeployment
         max_query_field_depth: 2
       - name: changeTrackingCreateEvent
-        max_query_field_depth: 6
+        max_query_field_depth: 2
 
   - name: cloud
     path: pkg/cloud
