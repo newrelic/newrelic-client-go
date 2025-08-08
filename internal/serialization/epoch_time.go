@@ -12,14 +12,16 @@ type EpochTime time.Time
 
 // MarshalJSON is responsible for marshaling the EpochTime type.
 func (e EpochTime) MarshalJSON() ([]byte, error) {
-	t := time.Time(e).UTC()
-	seconds := t.Unix()
-	milliseconds := int64(t.Nanosecond()) / int64(time.Millisecond)
+	ret := strconv.FormatInt(time.Time(e).UTC().Unix(), 10)
+	milli := int64(time.Time(e).Nanosecond()) / int64(time.Millisecond)
+	nano := int64(time.Time(e).Nanosecond())
 
-	// Convert to epoch milliseconds by multiplying seconds by 1000 and adding milliseconds
-	epochMillis := seconds*1000 + milliseconds
-
-	ret := strconv.FormatInt(epochMillis, 10)
+	// Include milliseconds if there are some
+	if milli > 0 {
+		ret += fmt.Sprintf("%03d", milli)
+	} else if nano > 0 {
+		ret += fmt.Sprintf("%09d", nano)
+	}
 
 	return []byte(ret), nil
 }
