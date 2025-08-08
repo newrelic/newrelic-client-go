@@ -48,7 +48,7 @@ var testEpochValuesSuccess = []struct {
 	},
 	{
 		Name:   "success nanoseconds",
-		Bytes:  []byte(`1587654321000012345`),
+		Bytes:  []byte(`1587654321000012345`), // Nanoseconds
 		Epoch:  EpochTime(time.Unix(1587654321, 12345).UTC()),
 		String: "2020-04-23 15:05:21.000012345 +0000 UTC",
 		Unix:   1587654321,
