@@ -753,58 +753,6 @@ const getEntityQuery = `query(
 }
 ... on EntityManagementCustomerImpactEntity {
     __typename
-    impact {
-       impactedAttribute1 {
-          blob {
-             checksum
-             checksumAlgorithm
-             contentType
-             id
-          }
-          label
-       }
-       impactedAttribute2 {
-          blob {
-             checksum
-             checksumAlgorithm
-             contentType
-             id
-          }
-          label
-       }
-       impactedAttribute3 {
-          blob {
-             checksum
-             checksumAlgorithm
-             contentType
-             id
-          }
-          label
-       }
-       impactedComponent {
-          dataSources
-          description
-          id
-          ingestDataTypes
-          internalServiceNames
-          isPubliclyAccessible
-          metadata {
-             createdAt
-             updatedAt
-             version
-          }
-          name
-          scope {
-             id
-             type
-          }
-          tags {
-             key
-             values
-          }
-          type
-       }
-    }
     metadata {
        createdAt
        createdBy {
@@ -1458,11 +1406,7 @@ const getEntityQuery = `query(
 }
 ... on EntityManagementMaintenanceWindowEntity {
     __typename
-    maintenanceCronExpression: cronExpression
     maintenanceWindowDescription: description
-    maintenanceDuration
-    maintenancePeriodEndDate
-    maintenancePeriodStartDate
     metadata {
        createdAt
        createdBy {
@@ -1488,8 +1432,6 @@ const getEntityQuery = `query(
        }
        version
     }
-    nextOccurrenceEnd
-    nextOccurrenceStart
     scope {
        id
        type
