@@ -14,7 +14,7 @@ import (
 var (
 	testAccountID = "12345"
 	testRuleID    = "MXxXX0XXxXXXXXXXXX5XX0XXX1XXX1XXXXX8XXX5XXXxX2XxXxxxXX03XXX2XXx0XXXxXXXxXxXxXXXxXXXx"
-	testVersion   = 1
+	// testVersion   = 1
 
 	testCreateResponseJSON = `
 	{
@@ -26,8 +26,25 @@ var (
 						"version": 1
 					},
 					"name": "Test Rule",
-					"description": "A test rule",
-					"nrql": "SELECT * FROM Log"
+					"description": "Test Pipeline Cloud Rule - New Relic Go Client",
+					"nrql": "DELETE FROM Log WHERE (container_name = 'mario')"
+				}
+			}
+		}
+	}`
+
+	testUpdateResponseJSON = `
+	{
+		"data": {
+			"entityManagementUpdatePipelineCloudRule": {
+				"entity": {
+					"id": "MXxXX0XXxXXXXXXXXX5XX0XXX1XXX1XXXXX8XXX5XXXxX2XxXxxxXX03XXX2XXx0XXXxXXXxXxXxXXXxXXXx",
+					"metadata": {
+						"version": 2
+					},
+					"name": "Test Rule Updated",
+					"description": "Test Pipeline Cloud Rule - New Relic Go Client",
+					"nrql": "DELETE FROM Log WHERE (container_name = 'mario')"
 				}
 			}
 		}
@@ -45,8 +62,8 @@ var (
 							"version": 1
 						},
 						"name": "Test Rule",
-						"description": "A test rule",
-						"nrql": "SELECT * FROM Log",
+						"description": "Test Pipeline Cloud Rule - New Relic Go Client",
+						"nrql": "DELETE FROM Log WHERE (container_name = 'mario')",
 						"scope": {
 							"id": "12345",
 							"type": "ACCOUNT"
@@ -73,8 +90,8 @@ func TestUnitEntityManagement_CreatePipelineCloudRule(t *testing.T) {
 
 	createInput := EntityManagementPipelineCloudRuleEntityCreateInput{
 		Name:        "Test Rule",
-		Description: "A test rule",
-		NRQL:        "SELECT * FROM Log",
+		Description: "Test Pipeline Cloud Rule - New Relic Go Client",
+		NRQL:        "DELETE FROM Log WHERE (container_name = 'mario')",
 		Scope: EntityManagementScopedReferenceInput{
 			Type: EntityManagementEntityScopeTypes.ACCOUNT,
 			ID:   testAccountID,
@@ -87,6 +104,28 @@ func TestUnitEntityManagement_CreatePipelineCloudRule(t *testing.T) {
 	require.NotNil(t, result)
 	require.Equal(t, testRuleID, result.Entity.ID)
 	require.Equal(t, "Test Rule", result.Entity.Name)
+}
+
+func TestUnitEntityManagement_UpdatePipelineCloudRule(t *testing.T) {
+	t.Parallel()
+	client := newMockClient(t, testUpdateResponseJSON, http.StatusOK)
+
+	updateInput := EntityManagementPipelineCloudRuleEntityUpdateInput{
+		Name:        "Test Rule Updated",
+		Description: "Test Pipeline Cloud Rule - New Relic Go Client Updated",
+		NRQL:        "DELETE FROM Log WHERE (container_name = 'shrimp')",
+	}
+
+	result, err := client.EntityManagementUpdatePipelineCloudRule(
+		testRuleID,
+		updateInput,
+		//testVersion+1,
+	)
+
+	require.NoError(t, err)
+	require.NotNil(t, result)
+	require.Equal(t, testRuleID, result.Entity.ID)
+	require.Equal(t, "Test Rule Updated", result.Entity.Name)
 }
 
 func TestUnitEntityManagement_GetEntity(t *testing.T) {
@@ -108,7 +147,10 @@ func TestUnitEntityManagement_DeleteEntity(t *testing.T) {
 	t.Parallel()
 	client := newMockClient(t, testDeleteResponseJSON, http.StatusOK)
 
-	result, err := client.EntityManagementDelete(testRuleID, testVersion)
+	result, err := client.EntityManagementDelete(
+		testRuleID,
+		//testVersion,
+	)
 
 	require.NoError(t, err)
 	require.NotNil(t, result)
@@ -119,7 +161,11 @@ func TestUnitEntityManagement_DeleteEntityWithContext(t *testing.T) {
 	t.Parallel()
 	client := newMockClient(t, testDeleteResponseJSON, http.StatusOK)
 
-	result, err := client.EntityManagementDeleteWithContext(context.Background(), testRuleID, testVersion)
+	result, err := client.EntityManagementDeleteWithContext(
+		context.Background(),
+		testRuleID,
+		//testVersion,
+	)
 
 	require.NoError(t, err)
 	require.NotNil(t, result)

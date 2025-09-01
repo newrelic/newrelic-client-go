@@ -84,25 +84,22 @@ const EntityManagementCreatePipelineCloudRuleMutation = `mutation(
 // Deletes an entity.
 func (a *Pipelinecontrol) EntityManagementDelete(
 	iD string,
-	version int,
+	// version int,
 ) (*EntityManagementEntityDeleteResult, error) {
-	return a.EntityManagementDeleteWithContext(context.Background(),
-		iD,
-		version,
-	)
+	return a.EntityManagementDeleteWithContext(context.Background(), iD)
 }
 
 // Deletes an entity.
 func (a *Pipelinecontrol) EntityManagementDeleteWithContext(
 	ctx context.Context,
 	iD string,
-	version int,
+	// version int,
 ) (*EntityManagementEntityDeleteResult, error) {
 
 	resp := EntityManagementDeleteQueryResponse{}
 	vars := map[string]interface{}{
-		"id":      iD,
-		"version": version,
+		"id": iD,
+		// "version": version,
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, EntityManagementDeleteMutation, vars, &resp); err != nil {
@@ -124,6 +121,96 @@ const EntityManagementDeleteMutation = `mutation(
 	version: $version,
 ) {
 	id
+} }`
+
+// Updates an entity of type PipelineCloudRuleEntity.
+func (a *Pipelinecontrol) EntityManagementUpdatePipelineCloudRule(
+	iD string,
+	pipelineCloudRuleEntity EntityManagementPipelineCloudRuleEntityUpdateInput,
+	// version int,
+) (*EntityManagementPipelineCloudRuleEntityUpdateResult, error) {
+	return a.EntityManagementUpdatePipelineCloudRuleWithContext(context.Background(),
+		iD,
+		pipelineCloudRuleEntity,
+		// version,
+	)
+}
+
+// Updates an entity of type PipelineCloudRuleEntity.
+func (a *Pipelinecontrol) EntityManagementUpdatePipelineCloudRuleWithContext(
+	ctx context.Context,
+	iD string,
+	pipelineCloudRuleEntity EntityManagementPipelineCloudRuleEntityUpdateInput,
+	// version int,
+) (*EntityManagementPipelineCloudRuleEntityUpdateResult, error) {
+
+	resp := EntityManagementUpdatePipelineCloudRuleQueryResponse{}
+	vars := map[string]interface{}{
+		"id":                      iD,
+		"pipelineCloudRuleEntity": pipelineCloudRuleEntity,
+		// "version":                 version,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, EntityManagementUpdatePipelineCloudRuleMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.EntityManagementPipelineCloudRuleEntityUpdateResult, nil
+}
+
+type EntityManagementUpdatePipelineCloudRuleQueryResponse struct {
+	EntityManagementPipelineCloudRuleEntityUpdateResult EntityManagementPipelineCloudRuleEntityUpdateResult `json:"EntityManagementUpdatePipelineCloudRule"`
+}
+
+const EntityManagementUpdatePipelineCloudRuleMutation = `mutation(
+	$id: ID!,
+	$pipelineCloudRuleEntity: EntityManagementPipelineCloudRuleEntityUpdateInput!,
+	$version: Int,
+) { entityManagementUpdatePipelineCloudRule(
+	id: $id,
+	pipelineCloudRuleEntity: $pipelineCloudRuleEntity,
+	version: $version,
+) {
+	entity {
+		description
+		id
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		name
+		nrql
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+		type
+	}
 } }`
 
 // Retrieves an entity.

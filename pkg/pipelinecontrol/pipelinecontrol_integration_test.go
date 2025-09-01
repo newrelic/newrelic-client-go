@@ -38,7 +38,7 @@ func TestIntegrationEntityManagement_PipelineCloudRule_CRUD(t *testing.T) {
 
 	// Defer the deletion to ensure cleanup even if assertions fail
 	defer func() {
-		_, deleteErr := client.EntityManagementDelete(createResult.Entity.ID, createResult.Entity.Metadata.Version)
+		_, deleteErr := client.EntityManagementDelete(createResult.Entity.ID)
 		require.NoError(t, deleteErr, "Failed to clean up entity %s", createResult.Entity.ID)
 	}()
 
@@ -55,6 +55,35 @@ func TestIntegrationEntityManagement_PipelineCloudRule_CRUD(t *testing.T) {
 	require.Equal(t, createInput.Description, ruleEntity.Description)
 	require.Equal(t, createInput.NRQL, ruleEntity.NRQL)
 
-	// 3. Delete the entity (this is handled by the deferred function)
+	// 3. Update the entity
+	updateInput := EntityManagementPipelineCloudRuleEntityUpdateInput{
+		Name:        ruleName + "-updated",
+		Description: "An updated test pipeline cloud rule from integration testing.",
+		NRQL:        nrdb.NRQL("DELETE FROM Log where name = 'mario'"),
+	}
+
+	updateResult, err := client.EntityManagementUpdatePipelineCloudRule(createResult.Entity.ID, updateInput)
+	require.NoError(t, err)
+	require.NotNil(t, updateResult)
+	require.Equal(t, updateInput.Name, updateResult.Entity.Name)
+	require.Equal(t, updateInput.Description, updateResult.Entity.Description)
+	require.Equal(t, updateInput.NRQL, updateResult.Entity.NRQL)
+	require.Equal(t, updateResult.Entity.Metadata.Version, createResult.Entity.Metadata.Version+1)
+
+	// 4. Read the entity again, to ensure a successful update
+	getResultAfterUpdate, err := client.GetEntity(createResult.Entity.ID)
+	require.NoError(t, err)
+	require.NotNil(t, getResultAfterUpdate)
+
+	// Type assert the result to access specific fields
+	ruleEntityUpdated, ok := (*getResultAfterUpdate).(*EntityManagementPipelineCloudRuleEntity)
+	require.True(t, ok, "Fetched entity was not of the expected type")
+	require.Equal(t, updateResult.Entity.ID, ruleEntityUpdated.ID)
+	require.Equal(t, updateResult.Entity.Name, ruleEntityUpdated.Name)
+	require.Equal(t, updateInput.Description, ruleEntityUpdated.Description)
+	require.Equal(t, updateInput.NRQL, ruleEntityUpdated.NRQL)
+	require.Equal(t, updateResult.Entity.Metadata.Version, ruleEntityUpdated.Metadata.Version)
+
+	// 5. Delete the entity (this is handled by the deferred function)
 	// The test will complete, and the deferred function will execute for cleanup.
 }

@@ -1794,6 +1794,8 @@ packages:
     mutations:
       - name: entityManagementCreatePipelineCloudRule
         max_query_field_depth: 3
+      - name: entityManagementUpdatePipelineCloudRule
+        max_query_field_depth: 3
       - name: entityManagementDelete
         max_query_field_depth: 3
     types:

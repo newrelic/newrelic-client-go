@@ -4796,6 +4796,24 @@ type EntityManagementPipelineCloudRuleEntityCreateResult struct {
 	Entity EntityManagementPipelineCloudRuleEntity `json:"entity"`
 }
 
+// EntityManagementPipelineCloudRuleEntityUpdateInput - Update input for PipelineCloudRuleEntity entity type.
+type EntityManagementPipelineCloudRuleEntityUpdateInput struct {
+	// See description in PipelineCloudRuleEntity.
+	Description string `json:"description,omitempty"`
+	// See nrql in PipelineCloudRuleEntity.
+	NRQL nrdb.NRQL `json:"nrql,omitempty"`
+	// See name in PipelineCloudRuleEntity.
+	Name string `json:"name,omitempty"`
+	// See tags in PipelineCloudRuleEntity.
+	Tags []EntityManagementTagInput `json:"tags,omitempty"`
+}
+
+// EntityManagementPipelineCloudRuleEntityUpdateResult - The result of updating an entity.
+type EntityManagementPipelineCloudRuleEntityUpdateResult struct {
+	// The updated entity.
+	Entity EntityManagementPipelineCloudRuleEntity `json:"entity"`
+}
+
 // EntityManagementRagToolEntity - A tool for use with NRAI
 type EntityManagementRagToolEntity struct {
 	// The description of the tool.
