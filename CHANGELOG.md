@@ -1,5 +1,10 @@
+<a name="v2.68.0"></a>
+## [v2.68.0] - 2025-09-01
+### Features
+- **pipelinecontrol:** add a new Pipeline Control package to the client ([#1330](https://github.com/newrelic/newrelic-client-go/issues/1330))
+
 <a name="v2.67.1"></a>
-## [v2.67.1] - 2025-07-30
+## [v2.67.1] - 2025-08-05
 ### Bug Fixes
 - **change-tracking:** remove test print ([#1323](https://github.com/newrelic/newrelic-client-go/issues/1323))
 
@@ -2084,7 +2089,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.67.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.68.0...HEAD
+[v2.68.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.67.1...v2.68.0
 [v2.67.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.67.0...v2.67.1
 [v2.67.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.66.0...v2.67.0
 [v2.66.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.65.0...v2.66.0
