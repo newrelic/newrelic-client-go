@@ -4,8 +4,6 @@ go 1.23.0
 
 toolchain go1.23.2
 
-replace github.com/newrelic/tutone v0.11.0 => /Users/pnandula/myWork/src/github.com/tutone
-
 require (
 	github.com/caarlos0/svu/v2 v2.0.1
 	github.com/client9/misspell v0.3.4
