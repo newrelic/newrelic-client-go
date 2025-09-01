@@ -44,7 +44,6 @@ func main() {
 - `EntityManagementScopedReferenceInput`
 - `EntityManagementPipelineCloudRuleEntity`
 - `EntityManagementEntityInterface`
-- `EntityManagementEntitySearchResult`
 
 Note: For NRQL values, use the `nrdb.NRQL` type when setting NRQL on inputs.
 
@@ -147,6 +146,6 @@ func deleteRule(id string) {
 
 ## Links
 
-- NerdGraph (GraphQL) API: https://docs.newrelic.com/docs/apis/nerdgraph/
-- NRQL reference: https://docs.newrelic.com/docs/query-your-data/nrql-new-relic-query-language/
-- Drop/filter rules concepts: https://docs.newrelic.com/docs/logs/ui-data/drop-data-drop-filter-rules/
+Pipeline Cloud Rules references: 
+- https://docs.newrelic.com/docs/new-relic-control/pipeline-control/cloud-rules-api/
+- https://docs.newrelic.com/docs/new-relic-control/pipeline-control/create-pipeline-rules/
