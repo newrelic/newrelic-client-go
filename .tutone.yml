@@ -1705,3 +1705,121 @@ packages:
       - name: EntityGuid
         field_type_override: common.EntityGUID
         skip_type_create: true
+
+#  - name: entitymanagement
+#    path: pkg/entitymanagement
+#    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/entitymanagement
+#    generators:
+#      - typegen
+#      - nerdgraphclient
+#    imports:
+#      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
+#      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+#      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+#      - github.com/newrelic/newrelic-client-go/v2/pkg/users
+#    queries:
+#      - path: [ "actor", "entityManagement" ]
+#        endpoints:
+#          - name: entity
+#            max_query_field_depth: 4
+#            exclude_fields:
+#              - agents
+#              - tools
+#          - name: entitySearch
+#            max_query_field_depth: 4
+#            exclude_fields:
+#              - agents
+#              - tools
+#    mutations:
+#      - name: entityManagementCreatePipelineCloudRule
+#        max_query_field_depth: 3
+#      - name: entityManagementDelete
+#        max_query_field_depth: 3
+#    types:
+#      - name: ID
+#        field_type_override: string
+#        skip_type_create: true
+#      - name: Nrql
+#        field_type_override: nrdb.NRQL
+#        skip_type_create: true
+#
+#      # nrtime imports
+#      - name: DateTime
+#        field_type_override: nrtime.DateTime
+#        skip_type_create: true
+#      - name: EpochSeconds
+#        field_type_override: nrtime.EpochSeconds
+#        skip_type_create: true
+#      - name: EpochMilliseconds
+#        field_type_override: "*nrtime.EpochMilliseconds"
+#        skip_type_create: true
+#      - name: Minutes
+#        field_type_override: nrtime.Minutes
+#        skip_type_create: true
+#      - name: Seconds
+#        field_type_override: nrtime.Seconds
+#        skip_type_create: true
+
+############### WARNING ###################
+  # The pipelinecontrol package has been generated using Tutone, but with a modified implementation in https://github.com/newrelic/tutone/pull/261
+  # This was done to handle the EntityManagementEntity interface and its implementations correctly, as Tutone's native implementation does not allow
+  # selecting a specific implementation of the interface, which is causing inclusion of all other implementations which are pretty fragile at this point.
+  # The implementation of Tutone in this PR allows selecting a specific implementation of an interface, using the `include_implementations` key.
+  # To regenerate (update via Tutone) this package, make sure the version of Tutone in the PR above is checked out to.
+###########################################
+  - name: pipelinecontrol
+    path: pkg/pipelinecontrol
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/pipelinecontrol
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v2/pkg/users
+    queries:
+      - path: [ "actor", "entityManagement" ]
+        endpoints:
+          - name: entity
+            max_query_field_depth: 4
+            exclude_fields:
+              - agents
+              - tools
+          - name: entitySearch
+            max_query_field_depth: 4
+            exclude_fields:
+              - agents
+              - tools
+    mutations:
+      - name: entityManagementCreatePipelineCloudRule
+        max_query_field_depth: 3
+      - name: entityManagementDelete
+        max_query_field_depth: 3
+    types:
+      - name: EntityManagementEntity
+        include_implementations:
+          - EntityManagementPipelineCloudRuleEntity
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: Nrql
+        field_type_override: nrdb.NRQL
+        skip_type_create: true
+
+      # nrtime imports
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
+      - name: EpochSeconds
+        field_type_override: nrtime.EpochSeconds
+        skip_type_create: true
+      - name: EpochMilliseconds
+        field_type_override: "*nrtime.EpochMilliseconds"
+        skip_type_create: true
+      - name: Minutes
+        field_type_override: nrtime.Minutes
+        skip_type_create: true
+      - name: Seconds
+        field_type_override: nrtime.Seconds
+        skip_type_create: true
