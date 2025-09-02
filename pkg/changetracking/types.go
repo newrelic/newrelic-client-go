@@ -927,6 +927,8 @@ type ChangeTrackingCreateEventInput struct {
 	// 2. In the "Activity stream" panels.
 	//
 	// If this field is left blank sensible defaults will be shown instead.
+	//
+	// To see an example of how the `shortDescription` appears in change markers, see the optional attributes section of [our docs](https://docs.newrelic.com/docs/change-tracking/change-tracking-events/#optional-fields).
 	ShortDescription string `json:"shortDescription,omitempty"`
 	// The start time of the change tracking event as the number of milliseconds since the Unix epoch.  Defaults to now.
 	Timestamp nrtime.EpochMilliseconds `json:"timestamp,omitempty"`
@@ -1040,6 +1042,8 @@ type ChangeTrackingDeploymentEvent struct {
 	// 2. In the "Activity stream" panels.
 	//
 	// If this field is left blank sensible defaults will be shown instead.
+	//
+	// To see an example of how the `shortDescription` appears in change markers, see the optional attributes section of [our docs](https://docs.newrelic.com/docs/change-tracking/change-tracking-events/#optional-fields).
 	ShortDescription string `json:"shortDescription,omitempty"`
 	// The start time of the change tracking event as the number of milliseconds since the Unix epoch.  Defaults to now.
 	Timestamp nrtime.EpochMilliseconds `json:"timestamp"`
@@ -1257,6 +1261,8 @@ type ChangeTrackingEvent struct {
 	// 2. In the "Activity stream" panels.
 	//
 	// If this field is left blank sensible defaults will be shown instead.
+	//
+	// To see an example of how the `shortDescription` appears in change markers, see the optional attributes section of [our docs](https://docs.newrelic.com/docs/change-tracking/change-tracking-events/#optional-fields).
 	ShortDescription string `json:"shortDescription,omitempty"`
 	// The start time of the change tracking event as the number of milliseconds since the Unix epoch.  Defaults to now.
 	Timestamp nrtime.EpochMilliseconds `json:"timestamp"`
@@ -1374,6 +1380,8 @@ type ChangeTrackingFeatureFlagEvent struct {
 	// 2. In the "Activity stream" panels.
 	//
 	// If this field is left blank sensible defaults will be shown instead.
+	//
+	// To see an example of how the `shortDescription` appears in change markers, see the optional attributes section of [our docs](https://docs.newrelic.com/docs/change-tracking/change-tracking-events/#optional-fields).
 	ShortDescription string `json:"shortDescription,omitempty"`
 	// The start time of the change tracking event as the number of milliseconds since the Unix epoch.  Defaults to now.
 	Timestamp nrtime.EpochMilliseconds `json:"timestamp"`
@@ -1500,6 +1508,8 @@ type ChangeTrackingGenericEvent struct {
 	// 2. In the "Activity stream" panels.
 	//
 	// If this field is left blank sensible defaults will be shown instead.
+	//
+	// To see an example of how the `shortDescription` appears in change markers, see the optional attributes section of [our docs](https://docs.newrelic.com/docs/change-tracking/change-tracking-events/#optional-fields).
 	ShortDescription string `json:"shortDescription,omitempty"`
 	// The start time of the change tracking event as the number of milliseconds since the Unix epoch.  Defaults to now.
 	Timestamp nrtime.EpochMilliseconds `json:"timestamp"`
