@@ -1,3 +1,8 @@
+<a name="v2.69.0"></a>
+## [v2.69.0] - 2025-09-04
+### Features
+- **nrqldroprules:** deprecate package, add support for Pipeline Cloud Rule ID ([#1331](https://github.com/newrelic/newrelic-client-go/issues/1331))
+
 <a name="v2.68.1"></a>
 ## [v2.68.1] - 2025-09-02
 ### Bug Fixes
@@ -2094,7 +2099,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.68.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.69.0...HEAD
+[v2.69.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.68.1...v2.69.0
 [v2.68.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.68.0...v2.68.1
 [v2.68.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.67.1...v2.68.0
 [v2.67.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.67.0...v2.67.1
