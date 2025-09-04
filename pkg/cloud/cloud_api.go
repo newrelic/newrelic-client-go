@@ -736,6 +736,10 @@ const CloudConfigureIntegrationMutation = `mutation(
 			tagKey
 			tagValue
 		}
+		... on CloudOciMetadataAndTagsIntegration {
+			__typename
+			metricsPollingInterval
+		}
 		... on CloudRdsIntegration {
 			__typename
 			awsRegions
@@ -1034,11 +1038,11 @@ const CloudDisableIntegrationMutation = `mutation(
 			metricsPollingInterval
 		}
 			... on CloudAwsAutoDiscoveryIntegration {
-				__typename
-				awsRegions
-				inventoryPollingInterval
-				metricsPollingInterval
-			}
+			__typename
+			awsRegions
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudAzureApimanagementIntegration {
 			__typename
 			inventoryPollingInterval
@@ -1532,6 +1536,10 @@ const CloudDisableIntegrationMutation = `mutation(
 			metricsPollingInterval
 			tagKey
 			tagValue
+		}
+		... on CloudOciMetadataAndTagsIntegration {
+			__typename
+			metricsPollingInterval
 		}
 		... on CloudRdsIntegration {
 			__typename
@@ -2113,11 +2121,11 @@ const getLinkedAccountQuery = `query(
 			metricsPollingInterval
 		}
 			... on CloudAwsAutoDiscoveryIntegration {
-				__typename
-				awsRegions
-				inventoryPollingInterval
-				metricsPollingInterval
-			}
+			__typename
+			awsRegions
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudAzureApimanagementIntegration {
 			__typename
 			inventoryPollingInterval
@@ -2611,6 +2619,10 @@ const getLinkedAccountQuery = `query(
 			metricsPollingInterval
 			tagKey
 			tagValue
+		}
+		... on CloudOciMetadataAndTagsIntegration {
+			__typename
+			metricsPollingInterval
 		}
 		... on CloudRdsIntegration {
 			__typename
@@ -2968,11 +2980,11 @@ const getLinkedAccountsQuery = `query(
 			metricsPollingInterval
 		}
 			... on CloudAwsAutoDiscoveryIntegration {
-				__typename
-				awsRegions
-				inventoryPollingInterval
-				metricsPollingInterval
-			}
+			__typename
+			awsRegions
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudAzureApimanagementIntegration {
 			__typename
 			inventoryPollingInterval
@@ -3466,6 +3478,10 @@ const getLinkedAccountsQuery = `query(
 			metricsPollingInterval
 			tagKey
 			tagValue
+		}
+		... on CloudOciMetadataAndTagsIntegration {
+			__typename
+			metricsPollingInterval
 		}
 		... on CloudRdsIntegration {
 			__typename
