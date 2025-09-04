@@ -3,7 +3,9 @@ package nrqldroprules
 
 import "context"
 
-// Create new drop rule(s).
+// Deprecated: The method NRQLDropRulesCreate() is deprecated, as NRQL Drop Rules shall reach their end-of-life on January 7, 2026.
+// It will be removed in a future major version. Switch to the new `pipelinecontrol` package to use Pipeline Cloud Rules, the new alternative to Drop Rules.
+// See the README.md of this package for more details.
 func (a *Nrqldroprules) NRQLDropRulesCreate(
 	accountID int,
 	rules []NRQLDropRulesCreateDropRuleInput,
@@ -14,7 +16,9 @@ func (a *Nrqldroprules) NRQLDropRulesCreate(
 	)
 }
 
-// Create new drop rule(s).
+// Deprecated: The method NRQLDropRulesCreateWithContext() is deprecated, as NRQL Drop Rules shall reach their end-of-life on January 7, 2026.
+// It will be removed in a future major version. Switch to the new `pipelinecontrol` package to use Pipeline Cloud Rules, the new alternative to Drop Rules.
+// See the README.md of this package for more details.
 func (a *Nrqldroprules) NRQLDropRulesCreateWithContext(
 	ctx context.Context,
 	accountID int,
@@ -81,7 +85,9 @@ const NRQLDropRulesCreateMutation = `mutation(
 	}
 } }`
 
-// Delete drop rule(s) by id.
+// Deprecated: The method NRQLDropRulesDelete() is deprecated, as NRQL Drop Rules shall reach their end-of-life on January 7, 2026.
+// It will be removed in a future major version. Switch to the new `pipelinecontrol` package to use Pipeline Cloud Rules, the new alternative to Drop Rules.
+// See the README.md of this package for more details.
 func (a *Nrqldroprules) NRQLDropRulesDelete(
 	accountID int,
 	ruleIds []string,
@@ -92,7 +98,9 @@ func (a *Nrqldroprules) NRQLDropRulesDelete(
 	)
 }
 
-// Delete drop rule(s) by id.
+// Deprecated: The method NRQLDropRulesDeleteWithContext() is deprecated, as NRQL Drop Rules shall reach their end-of-life on January 7, 2026.
+// It will be removed in a future major version. Switch to the new `pipelinecontrol` package to use Pipeline Cloud Rules, the new alternative to Drop Rules.
+// See the README.md of this package for more details.
 func (a *Nrqldroprules) NRQLDropRulesDeleteWithContext(
 	ctx context.Context,
 	accountID int,
