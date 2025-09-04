@@ -74,7 +74,9 @@ const NRQLDropRulesCreateMutation = `mutation(
 		}
 		description
 		id
+		name
 		nrql
+		pipelineCloudRuleEntityId
 		source
 	}
 } }`
@@ -148,7 +150,9 @@ const NRQLDropRulesDeleteMutation = `mutation(
 		}
 		description
 		id
+		name
 		nrql
+		pipelineCloudRuleEntityId
 		source
 	}
 } }`
@@ -204,7 +208,9 @@ const getListQuery = `query(
 		}
 		description
 		id
+		name
 		nrql
+		pipelineCloudRuleEntityId
 		source
 	}
 } } } } }`
