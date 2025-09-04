@@ -5,6 +5,7 @@ package nrqldroprules
 
 import (
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/require"
 
@@ -76,6 +77,7 @@ func TestIntegrationDropRules(t *testing.T) {
 	}
 
 	// LIST
+	time.Sleep(10 * time.Second)
 	listRes, err := client.GetList(accountID)
 	require.NoError(t, err, "list should succeed")
 	require.NotNil(t, listRes)
