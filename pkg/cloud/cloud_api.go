@@ -768,6 +768,12 @@ const CloudConfigureIntegrationMutation = `mutation(
 			tagKey
 			tagValue
 		}
+		... on CloudSecurityHubIntegration {
+			__typename
+			awsRegions
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudSesIntegration {
 			__typename
 			awsRegions
@@ -1564,6 +1570,12 @@ const CloudDisableIntegrationMutation = `mutation(
 			metricsPollingInterval
 			tagKey
 			tagValue
+		}
+		... on CloudSecurityHubIntegration {
+			__typename
+			awsRegions
+			inventoryPollingInterval
+			metricsPollingInterval
 		}
 		... on CloudSesIntegration {
 			__typename
@@ -2644,6 +2656,12 @@ const getLinkedAccountQuery = `query(
 			tagKey
 			tagValue
 		}
+		... on CloudSecurityHubIntegration {
+			__typename
+			awsRegions
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudSesIntegration {
 			__typename
 			awsRegions
@@ -3498,6 +3516,12 @@ const getLinkedAccountsQuery = `query(
 			metricsPollingInterval
 			tagKey
 			tagValue
+		}
+		... on CloudSecurityHubIntegration {
+			__typename
+			awsRegions
+			inventoryPollingInterval
+			metricsPollingInterval
 		}
 		... on CloudSesIntegration {
 			__typename
