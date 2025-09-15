@@ -736,6 +736,10 @@ const CloudConfigureIntegrationMutation = `mutation(
 			tagKey
 			tagValue
 		}
+		... on CloudOciMetadataAndTagsIntegration {
+			__typename
+			metricsPollingInterval
+		}
 		... on CloudRdsIntegration {
 			__typename
 			awsRegions
@@ -1532,6 +1536,11 @@ const CloudDisableIntegrationMutation = `mutation(
 			metricsPollingInterval
 			tagKey
 			tagValue
+		}
+		... on CloudOciMetadataAndTagsIntegration {
+			__typename
+			metricStacks
+			metricsPollingInterval
 		}
 		... on CloudRdsIntegration {
 			__typename
@@ -2612,6 +2621,11 @@ const getLinkedAccountQuery = `query(
 			tagKey
 			tagValue
 		}
+		... on CloudOciMetadataAndTagsIntegration {
+			__typename
+			metricStacks
+			metricsPollingInterval
+		}
 		... on CloudRdsIntegration {
 			__typename
 			awsRegions
@@ -3466,6 +3480,11 @@ const getLinkedAccountsQuery = `query(
 			metricsPollingInterval
 			tagKey
 			tagValue
+		}
+		... on CloudOciMetadataAndTagsIntegration {
+			__typename
+			metricStacks
+			metricsPollingInterval
 		}
 		... on CloudRdsIntegration {
 			__typename
