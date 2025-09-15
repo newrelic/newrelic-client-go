@@ -1539,6 +1539,7 @@ const CloudDisableIntegrationMutation = `mutation(
 		}
 		... on CloudOciMetadataAndTagsIntegration {
 			__typename
+			metricStacks
 			metricsPollingInterval
 		}
 		... on CloudRdsIntegration {
@@ -2622,6 +2623,7 @@ const getLinkedAccountQuery = `query(
 		}
 		... on CloudOciMetadataAndTagsIntegration {
 			__typename
+			metricStacks
 			metricsPollingInterval
 		}
 		... on CloudRdsIntegration {
@@ -3481,6 +3483,7 @@ const getLinkedAccountsQuery = `query(
 		}
 		... on CloudOciMetadataAndTagsIntegration {
 			__typename
+			metricStacks
 			metricsPollingInterval
 		}
 		... on CloudRdsIntegration {

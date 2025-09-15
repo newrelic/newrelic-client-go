@@ -5410,10 +5410,26 @@ type CloudOciIntegrationsInput struct {
 
 // CloudOciLinkAccountInput - Information required to link a OCI tenancy to a NewRelic account.
 type CloudOciLinkAccountInput struct {
+	// The New Relic compartment OCID in OCI.
+	CompartmentOcid string `json:"compartmentOcid"`
+	// The OCI ingest secret OCID.
+	IngestVaultOcid string `json:"ingestVaultOcid,omitempty"`
 	// The linked account name.
 	Name string `json:"name"`
+	// The client ID for OCI WIF.
+	OciClientId string `json:"ociClientId"`
+	// The client secret for OCI WIF.
+	OciClientSecret SecureValue `json:"ociClientSecret"`
+	// The OCI domain URL for WIF.
+	OciDomainURL string `json:"ociDomainUrl"`
+	// The home region of the tenancy.
+	OciHomeRegion string `json:"ociHomeRegion"`
+	// The service user name for OCI WIF.
+	OciSvcUserName string `json:"ociSvcUserName"`
 	// The OCI tenant identifier.
 	TenantId string `json:"tenantId"`
+	// The user secret OCID.
+	UserVaultOcid string `json:"userVaultOcid,omitempty"`
 }
 
 // CloudOciMetadataAndTagsIntegration - Fetch Metadata and Tags for OCI integrations Integration
@@ -5424,6 +5440,8 @@ type CloudOciMetadataAndTagsIntegration struct {
 	ID int `json:"id,omitempty"`
 	// The parent linked account identifier.
 	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
+	// The metrics OCI stack IDs.
+	MetricStacks []string `json:"metricStacks,omitempty"`
 	// The data polling interval in seconds.
 	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// The cloud service integration name.
@@ -5446,14 +5464,34 @@ type CloudOciMetadataAndTagsIntegrationInput struct {
 
 // CloudOciUpdateAccountInput - Information required to update a AWS account to a NewRelic account.
 type CloudOciUpdateAccountInput struct {
+	// The New Relic compartment OCID in OCI.
+	CompartmentOcid string `json:"compartmentOcid,omitempty"`
 	// Disable the linked account.
 	Disabled bool `json:"disabled,omitempty"`
+	// The OCI ingest secret OCID.
+	IngestVaultOcid string `json:"ingestVaultOcid,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
+	// The metric stack identifier for the OCI account.
+	MetricStackOcid string `json:"metricStackOcid,omitempty"`
 	// The linked account new name.
 	Name string `json:"name,omitempty"`
+	// The client ID for OCI WIF.
+	OciClientId string `json:"ociClientId,omitempty"`
+	// The client secret for OCI WIF.
+	OciClientSecret SecureValue `json:"ociClientSecret,omitempty"`
+	// The domain URL for OCI WIF.
+	OciDomainURL string `json:"ociDomainUrl,omitempty"`
+	// The home region of the tenancy.
+	OciHomeRegion string `json:"ociHomeRegion,omitempty"`
+	// The OCI region for the account.
+	OciRegion string `json:"ociRegion,omitempty"`
+	// The service user name for OCI WIF.
+	OciSvcUserName string `json:"ociSvcUserName,omitempty"`
 	// The OCI tenant (used to fetch data).
 	TenantId string `json:"tenantId,omitempty"`
+	// The OCI user secret OCID.
+	UserVaultOcid string `json:"userVaultOcid,omitempty"`
 }
 
 // CloudProvider - A cloud services provider.
