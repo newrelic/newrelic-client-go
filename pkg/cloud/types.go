@@ -5413,7 +5413,9 @@ type CloudOciLinkAccountInput struct {
 	// The New Relic compartment OCID in OCI.
 	CompartmentOcid string `json:"compartmentOcid"`
 	// The OCI ingest secret OCID.
-	IngestVaultOcid string `json:"ingestVaultOcid,omitempty"`
+	IngestVaultOcid string `json:"ingestVaultOcid"`
+	// Specifies the type of integration, such as metrics, logs, or a combination of logs and metrics.
+	InstrumentationType string `json:"instrumentationType,omitempty"`
 	// The linked account name.
 	Name string `json:"name"`
 	// The client ID for OCI WIF.
@@ -5429,7 +5431,7 @@ type CloudOciLinkAccountInput struct {
 	// The OCI tenant identifier.
 	TenantId string `json:"tenantId"`
 	// The user secret OCID.
-	UserVaultOcid string `json:"userVaultOcid,omitempty"`
+	UserVaultOcid string `json:"userVaultOcid"`
 }
 
 // CloudOciMetadataAndTagsIntegration - Fetch Metadata and Tags for OCI integrations Integration
@@ -5438,8 +5440,12 @@ type CloudOciMetadataAndTagsIntegration struct {
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
 	// The cloud service integration identifier.
 	ID int `json:"id,omitempty"`
+	// Specifies the type of integration, such as metrics, logs, or a combination of logs and metrics.
+	InstrumentationType string `json:"instrumentationType,omitempty"`
 	// The parent linked account identifier.
 	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
+	// The logging OCI stack IDs.
+	LoggingStacks []string `json:"loggingStacks,omitempty"`
 	// The metrics OCI stack IDs.
 	MetricStacks []string `json:"metricStacks,omitempty"`
 	// The data polling interval in seconds.
@@ -5470,8 +5476,12 @@ type CloudOciUpdateAccountInput struct {
 	Disabled bool `json:"disabled,omitempty"`
 	// The OCI ingest secret OCID.
 	IngestVaultOcid string `json:"ingestVaultOcid,omitempty"`
+	// Specifies the type of integration, such as metrics, logs, or a combination of logs and metrics.
+	InstrumentationType string `json:"instrumentationType,omitempty"`
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
+	// The Logging stack identifier for the OCI account.
+	LoggingStackOcid string `json:"loggingStackOcid,omitempty"`
 	// The metric stack identifier for the OCI account.
 	MetricStackOcid string `json:"metricStackOcid,omitempty"`
 	// The linked account new name.
