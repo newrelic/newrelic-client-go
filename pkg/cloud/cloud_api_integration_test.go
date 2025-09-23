@@ -401,3 +401,158 @@ func TestCloudAccount_AzureMonitorIntegration(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, unlinkResponse)
 }
+
+func TestCloudAccount_OciLinkAccount(t *testing.T) {
+	t.Parallel()
+	client := newIntegrationTestClient(t)
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	// Check for required environment variables
+	ociCredentials := map[string]string{
+		"INTEGRATION_TESTING_OCI_TENANT_ID":         os.Getenv("INTEGRATION_TESTING_OCI_TENANT_ID"),
+		"INTEGRATION_TESTING_OCI_COMPARTMENT_OCID":  os.Getenv("INTEGRATION_TESTING_OCI_COMPARTMENT_OCID"),
+		"INTEGRATION_TESTING_OCI_CLIENT_ID":         os.Getenv("INTEGRATION_TESTING_OCI_CLIENT_ID"),
+		"INTEGRATION_TESTING_OCI_CLIENT_SECRET":     os.Getenv("INTEGRATION_TESTING_OCI_CLIENT_SECRET"),
+		"INTEGRATION_TESTING_OCI_DOMAIN_URL":        os.Getenv("INTEGRATION_TESTING_OCI_DOMAIN_URL"),
+		"INTEGRATION_TESTING_OCI_HOME_REGION":       os.Getenv("INTEGRATION_TESTING_OCI_HOME_REGION"),
+		"INTEGRATION_TESTING_OCI_SVC_USER_NAME":     os.Getenv("INTEGRATION_TESTING_OCI_SVC_USER_NAME"),
+		"INTEGRATION_TESTING_OCI_INGEST_VAULT_OCID": os.Getenv("INTEGRATION_TESTING_OCI_INGEST_VAULT_OCID"),
+		"INTEGRATION_TESTING_OCI_USER_VAULT_OCID":   os.Getenv("INTEGRATION_TESTING_OCI_USER_VAULT_OCID"),
+	}
+
+	var credentialsNotFound []string
+
+	for key, value := range ociCredentials {
+		if value == "" {
+			credentialsNotFound = append(credentialsNotFound, key)
+		}
+	}
+
+	if len(credentialsNotFound) != 0 {
+		t.Skipf("Skipping this test, as the following required OCI credentials do not exist in the environment: \n%s", strings.Join(credentialsNotFound[:], ", "))
+	}
+
+	// Clean up any existing OCI linked accounts
+	getResponse, err := client.GetLinkedAccounts("oci")
+	require.NoError(t, err)
+
+	for _, linkedAccount := range *getResponse {
+		if linkedAccount.NrAccountId == testAccountID {
+			_, unlinkErr := client.CloudUnlinkAccount(testAccountID, []CloudUnlinkAccountsInput{
+				{
+					LinkedAccountId: linkedAccount.ID,
+				},
+			})
+			require.NoError(t, unlinkErr)
+		}
+	}
+
+	// Prepare the link account input
+	linkInput := CloudOciLinkAccountInput{
+		Name:                "Go SDK Integration Test OCI Account",
+		TenantId:            ociCredentials["INTEGRATION_TESTING_OCI_TENANT_ID"],
+		CompartmentOcid:     ociCredentials["INTEGRATION_TESTING_OCI_COMPARTMENT_OCID"],
+		OciClientId:         ociCredentials["INTEGRATION_TESTING_OCI_CLIENT_ID"],
+		OciClientSecret:     SecureValue(ociCredentials["INTEGRATION_TESTING_OCI_CLIENT_SECRET"]),
+		OciDomainURL:        ociCredentials["INTEGRATION_TESTING_OCI_DOMAIN_URL"],
+		OciHomeRegion:       ociCredentials["INTEGRATION_TESTING_OCI_HOME_REGION"],
+		OciSvcUserName:      ociCredentials["INTEGRATION_TESTING_OCI_SVC_USER_NAME"],
+		IngestVaultOcid:     ociCredentials["INTEGRATION_TESTING_OCI_INGEST_VAULT_OCID"],
+		UserVaultOcid:       ociCredentials["INTEGRATION_TESTING_OCI_USER_VAULT_OCID"],
+		InstrumentationType: "METRICS", // Default for testing
+	}
+
+	// Link the OCI account
+	linkResponse, err := client.CloudLinkAccount(testAccountID, CloudLinkCloudAccountsInput{
+		Oci: []CloudOciLinkAccountInput{linkInput},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, linkResponse)
+	require.Len(t, linkResponse.Errors, 0)
+	require.Greater(t, len(linkResponse.LinkedAccounts), 0)
+
+	// Get the linked account ID
+	linkedAccountID := linkResponse.LinkedAccounts[0].ID
+
+	// Verify the linked account exists
+	linkedAccount, err := client.GetLinkedAccount(testAccountID, linkedAccountID)
+	require.NoError(t, err)
+	require.NotNil(t, linkedAccount)
+	require.Equal(t, testAccountID, linkedAccount.NrAccountId)
+
+	// Optional fields - retrieve if available
+	testOciRegion := os.Getenv("INTEGRATION_TESTING_OCI_REGION")
+	testOciMetricStackOcid := os.Getenv("INTEGRATION_TESTING_OCI_METRIC_STACK_OCID")
+	testOciLoggingStackOcid := os.Getenv("INTEGRATION_TESTING_OCI_LOGGING_STACK_OCID")
+
+	// Test updating the account with optional fields if available
+	updateInput := CloudOciUpdateAccountInput{
+		LinkedAccountId: linkedAccountID,
+		Name:            "Updated OCI Integration Test Account",
+	}
+
+	// Add optional fields if they were provided in environment variables
+	if testOciRegion != "" {
+		updateInput.OciRegion = testOciRegion
+	}
+	if testOciMetricStackOcid != "" {
+		updateInput.MetricStackOcid = testOciMetricStackOcid
+	}
+	if testOciLoggingStackOcid != "" {
+		updateInput.LoggingStackOcid = testOciLoggingStackOcid
+	}
+
+	updateResponse, err := client.CloudUpdateAccount(testAccountID, CloudUpdateCloudAccountsInput{
+		Oci: []CloudOciUpdateAccountInput{updateInput},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, updateResponse)
+
+	// Verify the name was updated
+	updatedAccount, err := client.GetLinkedAccount(testAccountID, linkedAccountID)
+	require.NoError(t, err)
+	require.Equal(t, "Updated OCI Integration Test Account", updatedAccount.Name)
+
+	// Test OCI metadata and tags integration
+	integrationResponse, err := client.CloudConfigureIntegration(testAccountID, CloudIntegrationsInput{
+		Oci: CloudOciIntegrationsInput{
+			OciMetadataAndTags: []CloudOciMetadataAndTagsIntegrationInput{
+				{
+					LinkedAccountId: linkedAccountID,
+				},
+			},
+		},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, integrationResponse)
+	require.Len(t, integrationResponse.Errors, 0)
+	require.Greater(t, len(integrationResponse.Integrations), 0)
+
+	// Disable the integration
+	disableResponse, err := client.CloudDisableIntegration(testAccountID, CloudDisableIntegrationsInput{
+		Oci: CloudOciDisableIntegrationsInput{
+			OciMetadataAndTags: []CloudDisableAccountIntegrationInput{
+				{
+					LinkedAccountId: linkedAccountID,
+				},
+			},
+		},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, disableResponse)
+	require.Len(t, disableResponse.Errors, 0)
+
+	// Unlink the account
+	unlinkResponse, err := client.CloudUnlinkAccount(testAccountID, []CloudUnlinkAccountsInput{
+		{
+			LinkedAccountId: linkedAccountID,
+		},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, unlinkResponse)
+	require.Len(t, unlinkResponse.Errors, 0)
+}
