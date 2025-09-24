@@ -1,3 +1,8 @@
+<a name="v2.70.0"></a>
+## [v2.70.0] - 2025-09-24
+### Features
+- **cloud:** add OCI provider functions for linkAccount and queries ([#1333](https://github.com/newrelic/newrelic-client-go/issues/1333))
+
 <a name="v2.69.0"></a>
 ## [v2.69.0] - 2025-09-04
 ### Features
@@ -2099,7 +2104,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.69.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.70.0...HEAD
+[v2.70.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.69.0...v2.70.0
 [v2.69.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.68.1...v2.69.0
 [v2.68.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.68.0...v2.68.1
 [v2.68.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.67.1...v2.68.0
