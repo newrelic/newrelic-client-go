@@ -4695,6 +4695,7 @@ func (a *Entities) GetEntitySearch(
 	queryBuilder EntitySearchQueryBuilder,
 	sortBy []EntitySearchSortCriteria,
 	sortByWithDirection []SortCriterionWithDirection,
+	cursor string,
 ) (*EntitySearch, error) {
 	return a.GetEntitySearchWithContext(context.Background(),
 		options,
@@ -4702,6 +4703,7 @@ func (a *Entities) GetEntitySearch(
 		queryBuilder,
 		sortBy,
 		sortByWithDirection,
+		cursor,
 	)
 }
 
@@ -4719,6 +4721,7 @@ func (a *Entities) GetEntitySearchWithContext(
 	queryBuilder EntitySearchQueryBuilder,
 	sortBy []EntitySearchSortCriteria,
 	sortByWithDirection []SortCriterionWithDirection,
+	cursor string,
 ) (*EntitySearch, error) {
 
 	resp := entitySearchResponse{}
@@ -4730,6 +4733,10 @@ func (a *Entities) GetEntitySearchWithContext(
 		"sortByWithDirection": sortByWithDirection,
 	}
 
+	if len(cursor) > 0 {
+		vars["cursor"] = cursor
+	}
+
 	if err := a.client.NerdGraphQueryWithContext(ctx, getEntitySearchQuery, vars, &resp); err != nil {
 		return nil, err
 	}
@@ -4739,12 +4746,13 @@ func (a *Entities) GetEntitySearchWithContext(
 
 const getEntitySearchQuery = `query(
 	$queryBuilder: EntitySearchQueryBuilder,
+	$cursor: String,
 ) { actor { entitySearch(
 	queryBuilder: $queryBuilder,
 ) {
 	count
 	query
-	results {
+	results(cursor: $cursor) {
 		entities {
 			__typename
 			account {
