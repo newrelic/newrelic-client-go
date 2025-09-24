@@ -736,6 +736,13 @@ const CloudConfigureIntegrationMutation = `mutation(
 			tagKey
 			tagValue
 		}
+		... on CloudOciLogsIntegration {
+			__typename
+			instrumentationType
+			loggingStacks
+			metricStacks
+			metricsPollingInterval
+		}
 		... on CloudOciMetadataAndTagsIntegration {
 			__typename
 			instrumentationType
@@ -1539,6 +1546,13 @@ const CloudDisableIntegrationMutation = `mutation(
 			metricsPollingInterval
 			tagKey
 			tagValue
+		}
+		... on CloudOciLogsIntegration {
+			__typename
+			instrumentationType
+			loggingStacks
+			metricStacks
+			metricsPollingInterval
 		}
 		... on CloudOciMetadataAndTagsIntegration {
 			__typename
@@ -2626,6 +2640,13 @@ const getLinkedAccountQuery = `query(
 			tagKey
 			tagValue
 		}
+		... on CloudOciLogsIntegration {
+			__typename
+			instrumentationType
+			loggingStacks
+			metricStacks
+			metricsPollingInterval
+		}
 		... on CloudOciMetadataAndTagsIntegration {
 			__typename
 			instrumentationType
@@ -3487,6 +3508,13 @@ const getLinkedAccountsQuery = `query(
 			metricsPollingInterval
 			tagKey
 			tagValue
+		}
+		... on CloudOciLogsIntegration {
+			__typename
+			instrumentationType
+			loggingStacks
+			metricStacks
+			metricsPollingInterval
 		}
 		... on CloudOciMetadataAndTagsIntegration {
 			__typename
