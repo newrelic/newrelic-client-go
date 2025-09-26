@@ -1,3 +1,8 @@
+<a name="v2.70.2"></a>
+## [v2.70.2] - 2025-09-26
+### Bug Fixes
+- **billboard-settings:** add support for billboard settings in dashboards ([#1324](https://github.com/newrelic/newrelic-client-go/issues/1324))
+
 <a name="v2.70.1"></a>
 ## [v2.70.1] - 2025-09-24
 ### Bug Fixes
@@ -2109,7 +2114,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.70.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.70.2...HEAD
+[v2.70.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.70.1...v2.70.2
 [v2.70.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.70.0...v2.70.1
 [v2.70.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.69.0...v2.70.0
 [v2.69.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.68.1...v2.69.0
