@@ -457,6 +457,19 @@ type DashboardWidgetBillboardGridOptions struct {
 	Columns int `json:"columns,omitempty"`
 }
 
+// DashboardBillboardWidgetThresholdsWithSeriesOverrides represents the thresholds with series overrides configuration for billboard widgets
+type DashboardBillboardWidgetThresholdsWithSeriesOverrides struct {
+	SeriesOverrides []DashboardBillboardWidgetThresholdSeriesOverride `json:"seriesOverrides,omitempty"`
+}
+
+// DashboardBillboardWidgetThresholdSeriesOverride represents a single threshold series override
+type DashboardBillboardWidgetThresholdSeriesOverride struct {
+	From       float64 `json:"from,omitempty"`
+	To         float64 `json:"to,omitempty"`
+	SeriesName string  `json:"seriesName,omitempty"`
+	Severity   string  `json:"severity,omitempty"`
+}
+
 // DashboardTooltipType represents an option for the dashboard tooltip's mode field.
 type DashboardTooltipType string
 
