@@ -307,19 +307,20 @@ type RawConfiguration struct {
 	// Used by viz.markdown
 	Text string `json:"text,omitempty"`
 
-	Thresholds        interface{}                       `json:"thresholds,omitempty"`
-	Legend            *DashboardWidgetLegend            `json:"legend,omitempty"`
-	YAxisLeft         *DashboardWidgetYAxisLeft         `json:"yAxisLeft,omitempty"`
-	YAxisRight        *DashboardWidgetYAxisRight        `json:"yAxisRight,omitempty"`
-	NullValues        *DashboardWidgetNullValues        `json:"nullValues,omitempty"`
-	Units             *DashboardWidgetUnits             `json:"units,omitempty"`
-	Colors            *DashboardWidgetColors            `json:"colors,omitempty"`
-	Facet             *DashboardWidgetFacet             `json:"facet,omitempty"`
-	RefreshRate       *DashboardWidgetRefreshRate       `json:"refreshRate,omitempty"`
-	InitialSorting    *DashboardWidgetInitialSorting    `json:"initialSorting,omitempty"`
-	DataFormat        []*DashboardWidgetDataFormat      `json:"dataFormatters,omitempty"`
-	Tooltip           *DashboardWidgetTooltip           `json:"tooltip,omitempty"`
-	BillboardSettings *DashboardWidgetBillboardSettings `json:"billboardSettings,omitempty"`
+	Thresholds                    interface{}                                            `json:"thresholds,omitempty"`
+	ThresholdsWithSeriesOverrides *DashboardBillboardWidgetThresholdsWithSeriesOverrides `json:"thresholdsWithSeriesOverrides,omitempty"`
+	Legend                        *DashboardWidgetLegend                                 `json:"legend,omitempty"`
+	YAxisLeft                     *DashboardWidgetYAxisLeft                              `json:"yAxisLeft,omitempty"`
+	YAxisRight                    *DashboardWidgetYAxisRight                             `json:"yAxisRight,omitempty"`
+	NullValues                    *DashboardWidgetNullValues                             `json:"nullValues,omitempty"`
+	Units                         *DashboardWidgetUnits                                  `json:"units,omitempty"`
+	Colors                        *DashboardWidgetColors                                 `json:"colors,omitempty"`
+	Facet                         *DashboardWidgetFacet                                  `json:"facet,omitempty"`
+	RefreshRate                   *DashboardWidgetRefreshRate                            `json:"refreshRate,omitempty"`
+	InitialSorting                *DashboardWidgetInitialSorting                         `json:"initialSorting,omitempty"`
+	DataFormat                    []*DashboardWidgetDataFormat                           `json:"dataFormatters,omitempty"`
+	Tooltip                       *DashboardWidgetTooltip                                `json:"tooltip,omitempty"`
+	BillboardSettings             *DashboardWidgetBillboardSettings                      `json:"billboardSettings,omitempty"`
 }
 
 // RawConfigurationPlatformOptions represents platform widget options
