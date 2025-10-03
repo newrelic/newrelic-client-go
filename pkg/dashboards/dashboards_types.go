@@ -460,7 +460,15 @@ type DashboardWidgetBillboardGridOptions struct {
 
 // DashboardBillboardWidgetThresholdsWithSeriesOverrides represents the thresholds with series overrides configuration for billboard widgets
 type DashboardBillboardWidgetThresholdsWithSeriesOverrides struct {
+	Thresholds      []DashboardBillboardWidgetThreshold               `json:"thresholds,omitempty"`
 	SeriesOverrides []DashboardBillboardWidgetThresholdSeriesOverride `json:"seriesOverrides,omitempty"`
+}
+
+// DashboardBillboardWidgetThreshold represents a single threshold configuration
+type DashboardBillboardWidgetThreshold struct {
+	From     float64 `json:"from,omitempty"`
+	To       float64 `json:"to,omitempty"`
+	Severity string  `json:"severity,omitempty"`
 }
 
 // DashboardBillboardWidgetThresholdSeriesOverride represents a single threshold series override
