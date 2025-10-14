@@ -1,3 +1,9 @@
+<a name="v2.71.0"></a>
+## [v2.71.0] - 2025-10-14
+### Features
+- **alerts:** add outlier detection support ([#1338](https://github.com/newrelic/newrelic-client-go/issues/1338))
+- **alerts:** add support for target entity in NRQL conditions ([#1337](https://github.com/newrelic/newrelic-client-go/issues/1337))
+
 <a name="v2.70.2"></a>
 ## [v2.70.2] - 2025-09-26
 ### Bug Fixes
@@ -2114,7 +2120,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.70.2...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.71.0...HEAD
+[v2.71.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.70.2...v2.71.0
 [v2.70.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.70.1...v2.70.2
 [v2.70.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.70.0...v2.70.1
 [v2.70.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.69.0...v2.70.0
