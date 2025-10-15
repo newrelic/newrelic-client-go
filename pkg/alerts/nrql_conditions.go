@@ -274,7 +274,6 @@ type NrqlConditionBase struct {
 	Signal                    *AlertsNrqlConditionSignal      `json:"signal,omitempty"`
 	EntityGUID                common.EntityGUID               `json:"entityGuid,omitempty"`
 	TitleTemplate             *string                         `json:"titleTemplate,omitempty"`
-	TargetEntity              *common.EntityGUID              `json:"targetEntity,omitempty"`
 }
 
 // NrqlConditionCreateBase represents the base fields for creating a New Relic NRQL Alert condition.
@@ -291,7 +290,6 @@ type NrqlConditionCreateBase struct {
 	Expiration                *AlertsNrqlConditionExpiration   `json:"expiration,omitempty"`
 	Signal                    *AlertsNrqlConditionCreateSignal `json:"signal,omitempty"`
 	TitleTemplate             *string                          `json:"titleTemplate,omitempty"`
-	TargetEntity              *common.EntityGUID               `json:"targetEntity,omitempty"`
 }
 
 // NrqlConditionUpdateBase represents the base fields for updating a New Relic NRQL Alert condition.
@@ -308,7 +306,6 @@ type NrqlConditionUpdateBase struct {
 	Expiration                *AlertsNrqlConditionExpiration   `json:"expiration,omitempty"`
 	Signal                    *AlertsNrqlConditionUpdateSignal `json:"signal"`
 	TitleTemplate             *string                          `json:"titleTemplate"`
-	TargetEntity              *common.EntityGUID               `json:"targetEntity"`
 }
 
 // NrqlConditionCreateInput represents the input options for creating a Nrql Condition.
@@ -364,7 +361,6 @@ type NrqlCondition struct {
 	Type                string             `json:"type,omitempty"`
 	EntityGUID          *common.EntityGUID `json:"entity_guid,omitempty"`
 	TitleTemplate       *string            `json:"titleTemplate,omitempty"`
-	TargetEntity        *common.EntityGUID `json:"target_entity,omitempty"`
 }
 
 // NrqlQuery represents a NRQL query to use with a NRQL alert condition
@@ -762,7 +758,6 @@ const (
     titleTemplate
     policyId
     runbookUrl
-    targetEntity
     terms {
       operator
       priority
