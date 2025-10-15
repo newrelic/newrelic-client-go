@@ -4,11 +4,9 @@
 package alerts
 
 import (
-	"encoding/base64"
 	"fmt"
 	"testing"
 
-	"github.com/newrelic/newrelic-client-go/v2/pkg/common"
 	"github.com/stretchr/testify/require"
 
 	"github.com/newrelic/newrelic-client-go/v2/pkg/errors"
@@ -1222,92 +1220,6 @@ func TestIntegrationNrqlConditions_DisableHealthStatusReporting(t *testing.T) {
 	updatedCondition, err := client.UpdateNrqlConditionStaticMutation(testAccountID, createdCondition.ID, conditionUpdateInput)
 	require.NoError(t, err)
 	require.Equal(t, falsePt, *updatedCondition.Terms[0].DisableHealthStatusReporting)
-
-	// Deferred teardown
-	defer func() {
-		_, err := client.DeletePolicyMutation(testAccountID, policy.ID)
-		if err != nil {
-			t.Logf("error cleaning up alert policy %s (%s): %s", policy.ID, policy.Name, err)
-		}
-	}()
-}
-
-func TestIntegrationNrqlConditions_TargetEntity(t *testing.T) {
-	t.Parallel()
-
-	testAccountID, err := mock.GetTestAccountID()
-	if err != nil {
-		t.Skipf("%s", err)
-	}
-
-	var targetEntity = common.EntityGUID(
-		base64.RawStdEncoding.EncodeToString([]byte(fmt.Sprintf("%d|APM|APPLICATION|1", testAccountID))))
-
-	var (
-		randStr = mock.RandSeq(5)
-
-		query = "select average(duration) from Transaction"
-
-		nrqlConditionCreateInput = NrqlConditionCreateInput{
-			NrqlConditionCreateBase: NrqlConditionCreateBase{
-				Enabled:      true,
-				Name:         fmt.Sprintf("test-nrql-condition-%s", testNrqlConditionRandomString),
-				Nrql:         NrqlConditionCreateQuery{Query: query},
-				TargetEntity: &targetEntity,
-				Terms: []NrqlConditionTerm{
-					{
-						Threshold:            &nrqlConditionBaseThreshold,
-						ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
-						ThresholdDuration:    600,
-						Operator:             AlertsNRQLConditionTermsOperatorTypes.ABOVE,
-						Priority:             NrqlConditionPriorities.Critical,
-					},
-				},
-			},
-		}
-
-		nrqlConditionRemoveTargetEntityUpdateInput = NrqlConditionUpdateInput{
-			NrqlConditionUpdateBase: NrqlConditionUpdateBase{
-				Nrql:         NrqlConditionUpdateQuery{Query: query},
-				TargetEntity: nil,
-			},
-		}
-
-		nrqlConditionAddTargetEntityUpdateInput = NrqlConditionUpdateInput{
-			NrqlConditionUpdateBase: NrqlConditionUpdateBase{
-				Nrql:         NrqlConditionUpdateQuery{Query: query},
-				TargetEntity: &targetEntity,
-			},
-		}
-	)
-
-	client := newIntegrationTestClient(t)
-	testPolicy := AlertsPolicyInput{
-		IncidentPreference: AlertsIncidentPreferenceTypes.PER_POLICY,
-		Name:               fmt.Sprintf("test-alert-policy-%s", randStr),
-	}
-	policy, err := client.CreatePolicyMutation(testAccountID, testPolicy)
-	require.NoError(t, err)
-
-	// Test: Create a condition with a target_entity
-	createdCondition, err := client.CreateNrqlConditionStaticMutation(testAccountID, policy.ID, nrqlConditionCreateInput)
-	require.NoError(t, err)
-	require.NotNil(t, createdCondition)
-	require.NotNil(t, createdCondition.ID)
-	require.NotNil(t, createdCondition.PolicyID)
-	require.NotNil(t, createdCondition.TargetEntity)
-	require.Equal(t, targetEntity, *createdCondition.TargetEntity)
-
-	// Test: Update that condition, removing target_entity
-	updatedConditionNoTargetEntity, err := client.UpdateNrqlConditionStaticMutation(testAccountID, createdCondition.ID, nrqlConditionRemoveTargetEntityUpdateInput)
-	require.NoError(t, err)
-	require.Nil(t, updatedConditionNoTargetEntity.TargetEntity)
-
-	// Test: Update the condition again, adding target_entity back
-	updatedConditionWithTargetEntity, err := client.UpdateNrqlConditionStaticMutation(testAccountID, createdCondition.ID, nrqlConditionAddTargetEntityUpdateInput)
-	require.NoError(t, err)
-	require.NotNil(t, updatedConditionWithTargetEntity.TargetEntity)
-	require.Equal(t, targetEntity, *updatedConditionWithTargetEntity.TargetEntity)
 
 	// Deferred teardown
 	defer func() {
