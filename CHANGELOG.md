@@ -1,3 +1,9 @@
+<a name="v2.72.0"></a>
+## [v2.72.0] - 2025-10-15
+### Features
+- **alerts:** revert alerts target entity support ([#1337](https://github.com/newrelic/newrelic-client-go/issues/1337)) ([#1340](https://github.com/newrelic/newrelic-client-go/issues/1340))
+- **alerts:** revert alerts outlier detection support ([#1338](https://github.com/newrelic/newrelic-client-go/issues/1338)) ([#1339](https://github.com/newrelic/newrelic-client-go/issues/1339))
+
 <a name="v2.71.0"></a>
 ## [v2.71.0] - 2025-10-14
 ### Features
@@ -2120,7 +2126,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.71.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.72.0...HEAD
+[v2.72.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.71.0...v2.72.0
 [v2.71.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.70.2...v2.71.0
 [v2.70.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.70.1...v2.70.2
 [v2.70.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.70.0...v2.70.1
