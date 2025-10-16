@@ -16,7 +16,7 @@ require (
 	github.com/stretchr/testify v1.10.0
 	github.com/x-motemen/gobump v0.2.0
 	golang.org/x/tools v0.32.0
-	gotest.tools/gotestsum v1.12.0
+	gotest.tools/gotestsum v1.13.0
 )
 
 require (
