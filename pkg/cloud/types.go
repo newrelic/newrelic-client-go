@@ -2994,6 +2994,7 @@ type CloudAzureVpngatewaysIntegrationInput struct {
 }
 
 
+// CloudAzureAutoDiscoveryIntegration - Azure Auto Discovery Integration
 type CloudAzureAutoDiscoveryIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
@@ -3017,7 +3018,7 @@ type CloudAzureAutoDiscoveryIntegration struct {
 
 func (x *CloudAzureAutoDiscoveryIntegration) ImplementsCloudIntegration() {}
 
-// CloudAzureVpngatewaysIntegrationInput - Auto Discovery 
+// CloudAzureAutoDiscoveryIntegrationInput - Auto Discovery 
 type CloudAzureAutoDiscoveryIntegrationInput struct {
 	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
 	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
