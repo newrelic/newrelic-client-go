@@ -6819,7 +6819,7 @@ func UnmarshalCloudIntegrationInterface(b []byte) (*CloudIntegrationInterface, e
 
 			return &xxx, nil
 		case "CloudAzureAutoDiscoveryIntegration":
-			var interfaceType CloudAzureAutodisocoveryIntegration
+			var interfaceType CloudAzureAutoDisocoveryIntegration
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
