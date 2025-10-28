@@ -438,6 +438,10 @@ const CloudConfigureIntegrationMutation = `mutation(
 			metricsPollingInterval
 			resourceGroups
 		}
+		... on CloudAzureAutoDiscoveryIntegration {
+			__typename
+			metricsPollingInterval
+		}
 		... on CloudBaseIntegration {
 			__typename
 		}
@@ -1248,6 +1252,10 @@ const CloudDisableIntegrationMutation = `mutation(
 			inventoryPollingInterval
 			metricsPollingInterval
 			resourceGroups
+		}
+		... on CloudAzureAutoDiscoveryIntegration {
+			__typename
+			metricsPollingInterval
 		}
 		... on CloudBaseIntegration {
 			__typename
@@ -2341,6 +2349,10 @@ const getLinkedAccountQuery = `query(
 			inventoryPollingInterval
 			metricsPollingInterval
 			resourceGroups
+		}
+		... on CloudAzureDiscoveryIntegration {
+			__typename
+			metricsPollingInterval
 		}
 		... on CloudBaseIntegration {
 			__typename

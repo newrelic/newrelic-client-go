@@ -2179,6 +2179,8 @@ type CloudAzureIntegrationsInput struct {
 	AzureVms []CloudAzureVmsIntegrationInput `json:"azureVms,omitempty"`
 	// VPN Gateways integration
 	AzureVpngateways []CloudAzureVpngatewaysIntegrationInput `json:"azureVpngateways,omitempty"`
+	// Auto Discovery integration
+	AzureAutoDiscovery []CloudAzureAutoDiscoveryIntegrationInput `json:"azureAutoDiscovery,omitempty"`
 }
 
 // CloudAzureKeyvaultIntegration - Key Vault Integration
@@ -2987,6 +2989,40 @@ type CloudAzureVpngatewaysIntegrationInput struct {
 	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 	// Specify each Resource group associated with the resources that you want to monitor. Filter values are case-sensitive.
 	ResourceGroups []string `json:"resourceGroups,omitempty"`
+}
+
+
+type CloudAzureAutoDiscoveryIntegration struct {
+	// The object creation date, in epoch (Unix) time
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
+	// The cloud service integration identifier.
+	ID int `json:"id,omitempty"`
+	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
+	// The parent linked account identifier.
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
+	// The data polling interval in seconds.
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
+	// The cloud service integration name.
+	Name string `json:"name,omitempty"`
+	// The parent NewRelic account identifier.
+	NrAccountId int `json:"nrAccountId"`
+	// The cloud service used in the integration.
+	Service CloudService `json:"service,omitempty"`
+	// The object last update date, in epoch (Unix) time
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
+}
+
+func (x *CloudAzureAutoDiscoveryIntegration) ImplementsCloudIntegration() {}
+
+// CloudAzureVpngatewaysIntegrationInput - Auto Discovery 
+type CloudAzureAutoDiscoveryIntegrationInput struct {
+	// [DEPRECATED] Multiple polling interval is no longer supported, use only metrics_polling_interval
+	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
+	// The linked account identifier.
+	LinkedAccountId int `json:"linkedAccountId"`
+	// The data polling interval in seconds.
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
 // CloudBaseIntegration - Base Integration Object
@@ -6771,6 +6807,16 @@ func UnmarshalCloudIntegrationInterface(b []byte) (*CloudIntegrationInterface, e
 			return &xxx, nil
 		case "CloudAzureVpngatewaysIntegration":
 			var interfaceType CloudAzureVpngatewaysIntegration
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx CloudIntegrationInterface = &interfaceType
+
+			return &xxx, nil
+		case "CloudAzureAutoDiscoveryIntegration":
+			var interfaceType CloudAzureAutodisocoveryIntegration
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
