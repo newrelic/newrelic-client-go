@@ -1921,6 +1921,8 @@ type CloudAzureDisableIntegrationsInput struct {
 	AzureVms []CloudDisableAccountIntegrationInput `json:"azureVms,omitempty"`
 	// VPN Gateways integration
 	AzureVpngateways []CloudDisableAccountIntegrationInput `json:"azureVpngateways,omitempty"`
+	// Azure Auto Discovery Integration
+	AzureAutoDiscovery []CloudAzureAutoDiscoveryIntegrationInput `json:"azureAutoDiscovery,omitempty"`
 }
 
 // CloudAzureEventhubIntegration - Event Hub Integration
