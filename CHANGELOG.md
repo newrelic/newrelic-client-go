@@ -1,3 +1,9 @@
+<a name="v2.73.0"></a>
+## [v2.73.0] - 2025-10-29
+### Features
+- **alerts:** add support for target entity in NRQL conditions ([#1341](https://github.com/newrelic/newrelic-client-go/issues/1341))
+- **azure:** add azure autodiscovery integration ([#1344](https://github.com/newrelic/newrelic-client-go/issues/1344))
+
 <a name="v2.72.0"></a>
 ## [v2.72.0] - 2025-10-15
 ### Features
@@ -2126,7 +2132,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.72.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.73.0...HEAD
+[v2.73.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.72.0...v2.73.0
 [v2.72.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.71.0...v2.72.0
 [v2.71.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.70.2...v2.71.0
 [v2.70.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.70.1...v2.70.2
