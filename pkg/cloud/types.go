@@ -5470,8 +5470,6 @@ type CloudOciLinkAccountInput struct {
 	OciDomainURL string `json:"ociDomainUrl"`
 	// The home region of the tenancy.
 	OciHomeRegion string `json:"ociHomeRegion"`
-	// The service user name for OCI WIF.
-	OciSvcUserName string `json:"ociSvcUserName"`
 	// The OCI tenant identifier.
 	TenantId string `json:"tenantId"`
 	// The user secret OCID.
@@ -5574,8 +5572,6 @@ type CloudOciUpdateAccountInput struct {
 	OciHomeRegion string `json:"ociHomeRegion,omitempty"`
 	// The OCI region for the account.
 	OciRegion string `json:"ociRegion,omitempty"`
-	// The service user name for OCI WIF.
-	OciSvcUserName string `json:"ociSvcUserName,omitempty"`
 	// The OCI tenant (used to fetch data).
 	TenantId string `json:"tenantId,omitempty"`
 	// The OCI user secret OCID.
