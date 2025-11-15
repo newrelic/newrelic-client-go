@@ -385,6 +385,88 @@ func TestIntegrationNrqlConditions_Baseline(t *testing.T) {
 	}()
 }
 
+func TestIntegrationNrqlConditions_Outlier(t *testing.T) {
+	t.Parallel()
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	var (
+		randStr = mock.RandSeq(5)
+		// Common DBSCAN config for create
+		evalGroupFacet  = "host"
+		createDbScanCfg = NrqlOutlierDbScanConfigurationInput{
+			Epsilon:              0.25,
+			MinimumPoints:        5,
+			EvaluationGroupFacet: &evalGroupFacet, // optional; omit or set nil if not grouping
+		}
+
+		// Modified DBSCAN config for update
+		evalGroupFacetUpdated = "cluster"
+		updateDbScanCfg       = NrqlOutlierDbScanConfigurationInput{
+			Epsilon:              0.30,                   // changed
+			MinimumPoints:        7,                      // changed
+			EvaluationGroupFacet: &evalGroupFacetUpdated, // changed facet
+		}
+		createOutlierInput = NrqlConditionCreateInput{
+			NrqlConditionCreateBase: nrqlConditionCreateWithSlideBy,
+			OutlierConfiguration: &NrqlOutlierConfigurationInput{
+				DBSCAN: createDbScanCfg,
+			},
+		}
+		updateOutlierInput = NrqlConditionUpdateInput{
+			NrqlConditionUpdateBase: nrqlConditionUpdateWithSlideBy,
+			OutlierConfiguration: &NrqlOutlierConfigurationInput{
+				DBSCAN: updateDbScanCfg,
+			},
+		}
+	)
+
+	// Setup
+	client := newIntegrationTestClient(t)
+	testPolicy := AlertsPolicyInput{
+		IncidentPreference: AlertsIncidentPreferenceTypes.PER_POLICY,
+		Name:               fmt.Sprintf("test-alert-policy-%s", randStr),
+	}
+	policy, err := client.CreatePolicyMutation(testAccountID, testPolicy)
+	require.NoError(t, err)
+
+	// Test: Create (outlier condition)
+	created, err := client.CreateNrqlConditionOutlierMutation(testAccountID, policy.ID, createOutlierInput)
+	require.NoError(t, err)
+	require.NotNil(t, created)
+	require.NotNil(t, created.ID)
+	require.NotNil(t, created.PolicyID)
+	require.NotNil(t, created.Signal)
+	require.NotNil(t, created.Expiration)
+	require.Equal(t, NrqlConditionType("OUTLIER"), created.Type)
+
+	// Test: Get (outlier condition)
+	require.NoError(t, err)
+	readResult, err := client.GetNrqlConditionQuery(testAccountID, created.ID)
+	require.NoError(t, err)
+	require.NotNil(t, readResult)
+	require.Equal(t, NrqlConditionType("OUTLIER"), readResult.Type)
+	require.Equal(t, "test description", readResult.Description)
+
+	// Test: Update (outlier condition)
+	// There is currently a timing issue with this test.
+	// TODO: Once the upstream is fixed, test the updated fields to ensure the this worked
+	updateOutlierInput.Description = "test description updated"
+	_, err = client.UpdateNrqlConditionOutlierMutation(testAccountID, created.ID, updateOutlierInput)
+	require.NoError(t, err)
+
+	// Deferred teardown
+	defer func() {
+		_, err := client.DeletePolicyMutation(testAccountID, policy.ID)
+		if err != nil {
+			t.Logf("error cleaning up alert policy %s (%s): %s", policy.ID, policy.Name, err)
+		}
+	}()
+}
+
 func TestIntegrationNrqlConditions_Static(t *testing.T) {
 	t.Parallel()
 
@@ -1076,6 +1158,137 @@ func TestIntegrationNrqlConditions_SignalSeasonality(t *testing.T) {
 	updatedCondition, err := client.UpdateNrqlConditionBaselineMutation(testAccountID, createdCondition.ID, updateInput)
 	require.NoError(t, err)
 	require.Equal(t, &nrqlConditionSignalSeasonalityUpdated, updatedCondition.SignalSeasonality)
+
+	// Deferred teardown
+	defer func() {
+		_, err := client.DeletePolicyMutation(testAccountID, policy.ID)
+		if err != nil {
+			t.Logf("error cleaning up alert policy %s (%s): %s", policy.ID, policy.Name, err)
+		}
+	}()
+}
+
+func TestIntegrationNrqlConditions_OutlierConfiguration(t *testing.T) {
+	t.Parallel()
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	var (
+		randStr             = mock.RandSeq(5)
+		conditionName       = fmt.Sprintf("test-nrql-condition-%s", randStr)
+		outlierDbScanConfig = NrqlOutlierDbScanConfigurationInput{
+			Epsilon:       0.25,
+			MinimumPoints: 5,
+		}
+		outlierConfig = NrqlOutlierConfigurationInput{
+			DBSCAN: outlierDbScanConfig,
+		}
+		conditionInput = NrqlConditionCreateInput{
+			NrqlConditionCreateBase: NrqlConditionCreateBase{
+				Enabled: true,
+				Name:    conditionName,
+				Nrql: NrqlConditionCreateQuery{
+					Query: "SELECT average(duration) From Transaction",
+				},
+				Terms: []NrqlConditionTerm{
+					{
+						Threshold:            &nrqlConditionBaseThreshold,
+						ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
+						ThresholdDuration:    300,
+						Operator:             AlertsNRQLConditionTermsOperatorTypes.ABOVE,
+						Priority:             NrqlConditionPriorities.Critical,
+					},
+				},
+				Signal: &AlertsNrqlConditionCreateSignal{
+					AggregationWindow: &nrqlConditionBaseAggWindow,
+					FillOption:        &AlertsFillOptionTypes.STATIC,
+					FillValue:         &nrqlConditionBaseSignalFillValue,
+					EvaluationDelay:   &nrqlConditionEvaluationDelay,
+					AggregationMethod: &nrqlConditionBaseAggMethod,
+					AggregationDelay:  &nrqlConditionBaseAggDelay,
+				},
+				ViolationTimeLimitSeconds: 3600,
+			},
+			OutlierConfiguration: &outlierConfig,
+		}
+
+		evalGroupFacetUpdated      = "host2"
+		outlierDbScanConfigUpdated = NrqlOutlierDbScanConfigurationInput{
+			Epsilon:              0.45,
+			MinimumPoints:        2,
+			EvaluationGroupFacet: &evalGroupFacetUpdated,
+		}
+		outlierConfigUpdated = NrqlOutlierConfigurationInput{
+			DBSCAN: outlierDbScanConfigUpdated,
+		}
+		updateInput = NrqlConditionUpdateInput{
+			NrqlConditionUpdateBase: NrqlConditionUpdateBase{
+				Enabled: true,
+				Name:    conditionName,
+				Nrql: NrqlConditionUpdateQuery{
+					Query: "SELECT average(duration) From Transaction",
+				},
+				Terms: []NrqlConditionTerm{
+					{
+						Threshold:            &nrqlConditionBaseThreshold,
+						ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
+						ThresholdDuration:    300,
+						Operator:             AlertsNRQLConditionTermsOperatorTypes.ABOVE,
+						Priority:             NrqlConditionPriorities.Critical,
+					},
+				},
+				Signal: &AlertsNrqlConditionUpdateSignal{
+					AggregationWindow: &nrqlConditionBaseAggWindow,
+					FillOption:        &AlertsFillOptionTypes.STATIC,
+					FillValue:         &nrqlConditionBaseSignalFillValue,
+					EvaluationDelay:   &nrqlConditionEvaluationDelay,
+					AggregationMethod: &nrqlConditionBaseAggMethod,
+					AggregationDelay:  &nrqlConditionBaseAggDelay,
+				},
+				ViolationTimeLimitSeconds: 3600,
+			},
+			OutlierConfiguration: &outlierConfigUpdated,
+		}
+	)
+
+	// Setup
+	client := newIntegrationTestClient(t)
+	testPolicy := AlertsPolicyInput{
+		IncidentPreference: AlertsIncidentPreferenceTypes.PER_POLICY,
+		Name:               fmt.Sprintf("test-alert-policy-%s", randStr),
+	}
+	policy, err := client.CreatePolicyMutation(testAccountID, testPolicy)
+	require.NoError(t, err)
+
+	// Test: Create (outlier condition with outlierConfig field)
+	createdCondition, err := client.CreateNrqlConditionOutlierMutation(testAccountID, policy.ID, conditionInput)
+	require.NoError(t, err)
+	require.NotNil(t, createdCondition)
+	require.NotNil(t, createdCondition.ID)
+	require.NotNil(t, createdCondition.PolicyID)
+	require.NotNil(t, createdCondition.OutlierConfiguration)
+	outlierConfigResponse := NrqlOutlierConfigurationOutput{
+		Algorithm:     "DBSCAN",
+		Epsilon:       0.25,
+		MinimumPoints: 5,
+	}
+	require.Equal(t, &outlierConfigResponse, createdCondition.OutlierConfiguration)
+
+	// Test: Update (outlier condition with outlier config modified)
+	updateInput.OutlierConfiguration = &outlierConfigUpdated
+
+	updatedCondition, err := client.UpdateNrqlConditionOutlierMutation(testAccountID, createdCondition.ID, updateInput)
+	require.NoError(t, err)
+	outlierConfigUpdatedResponse := NrqlOutlierConfigurationOutput{
+		Algorithm:            "DBSCAN",
+		Epsilon:              0.45,
+		MinimumPoints:        2,
+		EvaluationGroupFacet: &evalGroupFacetUpdated,
+	}
+	require.Equal(t, &outlierConfigUpdatedResponse, updatedCondition.OutlierConfiguration)
 
 	// Deferred teardown
 	defer func() {
