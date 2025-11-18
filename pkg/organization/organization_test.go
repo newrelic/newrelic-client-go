@@ -8,12 +8,12 @@ import (
 	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
-func newIntegrationTestClient(t *testing.T) Organization {
+func newIntegrationTestClient(t *testing.T) OrganizationManagement {
 	tc := mock.NewIntegrationTestConfig(t)
 	return New(tc)
 }
 
-func newMockResponse(t *testing.T, mockJSONResponse string, statusCode int) Organization {
+func newMockResponse(t *testing.T, mockJSONResponse string, statusCode int) OrganizationManagement {
 	ts := mock.NewMockServer(t, mockJSONResponse, statusCode)
 	tc := mock.NewTestConfig(t, ts)
 
