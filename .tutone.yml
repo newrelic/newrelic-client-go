@@ -1277,7 +1277,11 @@ packages:
       - github.com/newrelic/newrelic-client-go/v2/pkg/common
       - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
       - github.com/newrelic/newrelic-client-go/v2/pkg/users
-    queries: []
+    queries:
+      - path: [ "actor"]
+        endpoints:
+          - name: "organization"
+            max_query_field_depth: 1
     mutations:
       - name: organizationCreate
         max_query_field_depth: 2
