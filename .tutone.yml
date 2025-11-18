@@ -355,6 +355,8 @@ packages:
         field_type_override: "*MultiTenantAuthorizationRoleOrganizationIdInputFilter"
       - name:  MultiTenantAuthorizationRoleScopeInputFilter
         field_type_override: "*MultiTenantAuthorizationRoleScopeInputFilter"
+      - name: MultiTenantAuthorizationRoleScopeV2InputFilter
+        field_type_override: "*MultiTenantAuthorizationRoleScopeV2InputFilter"
       - name:  MultiTenantAuthorizationRoleTypeInputFilter
         field_type_override: "*MultiTenantAuthorizationRoleTypeInputFilter"
         #####
@@ -362,6 +364,10 @@ packages:
         # which is used in the 'grants' endpoint in customerAdministration
       - name: MultiTenantAuthorizationGrantAuthenticationDomainIdInputFilter
         field_type_override: "*MultiTenantAuthorizationGrantAuthenticationDomainIdInputFilter"
+      - name: MultiTenantAuthorizationGrantDataAccessPolicyIdInputFilter
+        field_type_override: "*MultiTenantAuthorizationGrantDataAccessPolicyIdInputFilter"
+      - name: MultiTenantAuthorizationGranteeInputFilter
+        field_type_override: "*MultiTenantAuthorizationGranteeInputFilter"
       - name: MultiTenantAuthorizationGrantGroupIdInputFilter
         field_type_override: "*MultiTenantAuthorizationGrantGroupIdInputFilter"
       - name: MultiTenantAuthorizationGrantIdInputFilter
@@ -374,6 +380,8 @@ packages:
         field_type_override: "*MultiTenantAuthorizationGrantScopeIdInputFilter"
       - name:  MultiTenantAuthorizationGrantScopeTypeInputFilter
         field_type_override: "*MultiTenantAuthorizationGrantScopeTypeInputFilter"
+      - name: MultiTenantAuthorizationGrantScopeTypeV2InputFilter
+        field_type_override: "*MultiTenantAuthorizationGrantScopeTypeV2InputFilter"
         ######
         # overrides associated with types starting with OrganizationOrganizationCreateAsyncResultFilterInput
         # which is used in the 'organizationCreateAsyncResults' endpoint in customerAdministration > jobs

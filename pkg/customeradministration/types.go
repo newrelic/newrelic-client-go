@@ -829,7 +829,7 @@ type MultiTenantAuthorizationGrantDataAccessPolicyIdInputFilter struct {
 	// Performs an equals operation
 	Eq string `json:"eq,omitempty"`
 	// Performs an in operation
-	In []string `json:"in,omitempty"`
+	In []string `json:"in"`
 }
 
 // MultiTenantAuthorizationGrantFilterInputExpression - Provides all the available filters on a grant
@@ -837,9 +837,9 @@ type MultiTenantAuthorizationGrantFilterInputExpression struct {
 	// The authentication domain id of the grant
 	AuthenticationDomainId *MultiTenantAuthorizationGrantAuthenticationDomainIdInputFilter `json:"authenticationDomainId,omitempty"`
 	// The data access policy id of the grant
-	DataAccessPolicyId MultiTenantAuthorizationGrantDataAccessPolicyIdInputFilter `json:"dataAccessPolicyId,omitempty"`
+	DataAccessPolicyId *MultiTenantAuthorizationGrantDataAccessPolicyIdInputFilter `json:"dataAccessPolicyId,omitempty"`
 	// The the Grantee for the grant. This is used to filter grants by the details of the Grantee.
-	Grantee MultiTenantAuthorizationGranteeInputFilter `json:"grantee,omitempty"`
+	Grantee *MultiTenantAuthorizationGranteeInputFilter `json:"grantee,omitempty"`
 	// The group id of the grant
 	GroupId *MultiTenantAuthorizationGrantGroupIdInputFilter `json:"groupId,omitempty"`
 	// The id of the grant
@@ -853,7 +853,7 @@ type MultiTenantAuthorizationGrantFilterInputExpression struct {
 	// The scope type of the grant
 	ScopeType *MultiTenantAuthorizationGrantScopeTypeInputFilter `json:"scopeType,omitempty"`
 	// The v2 scope type of the grant
-	ScopeV2Type MultiTenantAuthorizationGrantScopeTypeV2InputFilter `json:"scopeV2Type,omitempty"`
+	ScopeV2Type *MultiTenantAuthorizationGrantScopeTypeV2InputFilter `json:"scopeV2Type,omitempty"`
 }
 
 // MultiTenantAuthorizationGrantGroup - The group associated to the grant
@@ -925,7 +925,7 @@ type MultiTenantAuthorizationGrantScopeTypeInputFilter struct {
 // MultiTenantAuthorizationGrantScopeTypeV2InputFilter - Filters on the grants v2 scope type
 type MultiTenantAuthorizationGrantScopeTypeV2InputFilter struct {
 	// Performs an equals operation
-	Eq string `json:"eq,omitempty"`
+	Eq string `json:"eq"`
 }
 
 // MultiTenantAuthorizationGrantSortInput - Provides the sorting options for grants
@@ -1049,7 +1049,7 @@ type MultiTenantAuthorizationRoleFilterInputExpression struct {
 	// The scope of the role
 	Scope *MultiTenantAuthorizationRoleScopeInputFilter `json:"scope,omitempty"`
 	// The scope of the role
-	ScopeV2 MultiTenantAuthorizationRoleScopeV2InputFilter `json:"scopeV2,omitempty"`
+	ScopeV2 *MultiTenantAuthorizationRoleScopeV2InputFilter `json:"scopeV2,omitempty"`
 	// The type of the role
 	Type *MultiTenantAuthorizationRoleTypeInputFilter `json:"type,omitempty"`
 }
@@ -1091,7 +1091,7 @@ type MultiTenantAuthorizationRoleScopeInputFilter struct {
 // MultiTenantAuthorizationRoleScopeV2InputFilter - Provides all the available filters on the role scope
 type MultiTenantAuthorizationRoleScopeV2InputFilter struct {
 	// performs an equals operation
-	Eq string `json:"eq,omitempty"`
+	Eq string `json:"eq"`
 }
 
 // MultiTenantAuthorizationRoleSortInput - Provides the field and direction the result should be sorted
