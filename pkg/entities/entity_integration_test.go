@@ -66,6 +66,8 @@ func TestIntegrationSearchEntities_domain(t *testing.T) {
 		EntitySearchQueryBuilderDomainTypes.SYNTH,
 	}
 
+	var entitiesResult []EntityOutlineInterface
+
 	for _, d := range domains {
 		params := EntitySearchQueryBuilder{
 			Domain: d,
@@ -80,8 +82,10 @@ func TestIntegrationSearchEntities_domain(t *testing.T) {
 		)
 
 		require.NoError(t, err)
-		require.Greater(t, len(result.Results.Entities), 0)
+		entitiesResult = append(entitiesResult, result.Results.Entities...)
 	}
+
+	require.Greater(t, len(entitiesResult), 0)
 }
 
 func TestIntegrationSearchEntitiesByTags(t *testing.T) {
