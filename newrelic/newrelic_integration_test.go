@@ -42,5 +42,6 @@ func TestNewRelic_TestEndpoints_withProxy(t *testing.T) {
 	}()
 
 	err = client.TestEndpoints()
+
 	require.NoError(t, err)
 }
