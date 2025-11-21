@@ -72,6 +72,26 @@ func TestIntegrationOrganizationCreate_AccessDeniedError(t *testing.T) {
 	require.True(t, matchOrganizationUnauthorizedErrorRegex(err.Error()))
 }
 
+func TestIntegrationOrganizationGet(t *testing.T) {
+	t.Parallel()
+	_, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	if organizationId == "" {
+		t.Errorf("cannot run integration test as the environment variable INTEGRATION_TESTING_NEW_RELIC_ORGANIZATION_ID is missing, or has an empty value")
+	}
+
+	client := newIntegrationTestClient(t)
+
+	organizationGetResponse, _ := client.GetOrganization()
+	require.NotNil(t, organizationGetResponse.ID)
+	require.NotNil(t, organizationGetResponse.Name)
+	require.Equal(t, organizationGetResponse.ID, organizationId)
+	require.Equal(t, organizationGetResponse.Name, organizationNameUpdated)
+}
+
 func TestIntegrationOrganizationUpdate(t *testing.T) {
 	t.Parallel()
 	_, err := mock.GetTestAccountID()
@@ -94,6 +114,12 @@ func TestIntegrationOrganizationUpdate(t *testing.T) {
 
 	require.NotNil(t, organizationUpdateResponse.OrganizationInformation)
 	require.Equal(t, organizationUpdateResponse.OrganizationInformation.Name, organizationNameUpdated)
+
+	organizationGetResponse, _ := client.GetOrganization()
+	require.NotNil(t, organizationGetResponse.Name)
+	require.NotNil(t, organizationGetResponse.ID)
+	require.Equal(t, organizationUpdateResponse.OrganizationInformation.Name, organizationGetResponse.Name)
+	require.Equal(t, organizationUpdateResponse.OrganizationInformation.ID, organizationGetResponse.ID)
 }
 
 func TestIntegrationOrganizationUpdate_AccessDeniedError(t *testing.T) {
