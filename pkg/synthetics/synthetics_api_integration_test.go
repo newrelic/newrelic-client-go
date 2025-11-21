@@ -10,9 +10,11 @@ import (
 	"math/rand"
 	"os"
 	"regexp"
+	"strings"
 	"testing"
 	"time"
 
+	"github.com/newrelic/newrelic-client-go/v2/pkg/entities"
 	"github.com/stretchr/testify/require"
 
 	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
@@ -2459,4 +2461,108 @@ func generateRandomEndRepeatDate() string {
 	daysLater := now.AddDate(0, 0, randomDays)
 
 	return daysLater.Format("2006-01-02")
+}
+
+func newIntegrationEntitiesTestClient(t *testing.T) entities.Entities {
+	tc := mock.NewIntegrationTestConfig(t)
+	return entities.New(tc)
+}
+
+func TestCleanupSyntheticsEntities_RunOnlyLocally(t *testing.T) {
+	// comment the below line to run the test locally
+	t.Skipf("Skipping this test in the CI, as this needs to be run only locally to cleanup redundant Synthetics entities.")
+
+	syntheticsClient := newIntegrationTestClient(t)
+	entitiesClient := newIntegrationEntitiesTestClient(t)
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	getSyntheticMonitorEntitiesResult, getSyntheticMonitorEntitiesError := entitiesClient.GetEntitySearch(
+		entities.EntitySearchOptions{},
+		"",
+		entities.EntitySearchQueryBuilder{
+			Domain: "SYNTH",
+			Type:   "MONITOR",
+		},
+		[]entities.EntitySearchSortCriteria{},
+		[]entities.SortCriterionWithDirection{},
+	)
+	require.NoError(t, getSyntheticMonitorEntitiesError)
+
+	for _, e := range getSyntheticMonitorEntitiesResult.Results.Entities {
+		entity := e.(*entities.SyntheticMonitorEntityOutline)
+		log.Printf("Found Monitor - GUID: %s, Name: %s", entity.GUID, entity.Name)
+	}
+
+	for _, e := range getSyntheticMonitorEntitiesResult.Results.Entities {
+		entity := e.(*entities.SyntheticMonitorEntityOutline)
+
+		if strings.Contains(entity.Name, "DO NOT DELETE") {
+			log.Printf("Skipping deletion for Monitor - GUID: %s, Name: %s", entity.GUID, entity.Name)
+			continue
+		}
+
+		log.Printf("Attempting to delete Monitor - GUID: %s, Name: %s", entity.GUID, entity.Name)
+		_, err := syntheticsClient.SyntheticsDeleteMonitor(EntityGUID(entity.GUID))
+		if err != nil {
+			log.Printf("Failed to delete Monitor - GUID: %s, Name: %s, Error: %s", entity.GUID, entity.Name, err)
+		} else {
+			log.Printf("Successfully deleted Monitor - GUID: %s, Name: %s", entity.GUID, entity.Name)
+		}
+	}
+
+	getNonMonitorSyntheticEntitiesResult, getNonMonitorSyntheticEntitiesError := entitiesClient.GetEntitySearch(
+		entities.EntitySearchOptions{},
+		"",
+		entities.EntitySearchQueryBuilder{
+			Domain: "SYNTH",
+		},
+		[]entities.EntitySearchSortCriteria{},
+		[]entities.SortCriterionWithDirection{},
+	)
+	require.NoError(t, getNonMonitorSyntheticEntitiesError)
+
+	for _, e := range getNonMonitorSyntheticEntitiesResult.Results.Entities {
+		switch entity := e.(type) {
+		case *entities.GenericEntityOutline:
+			switch string(entity.Type) {
+			case "MONITOR_DOWNTIME":
+				log.Printf("Found Monitor Downtime - GUID: %s, Name: %s", entity.GUID, entity.Name)
+				log.Printf("Attempting to delete Monitor Downtime - GUID: %s, Name: %s", entity.GUID, entity.Name)
+				_, err := syntheticsClient.SyntheticsDeleteMonitorDowntime(EntityGUID(entity.GUID))
+				if err != nil {
+					log.Printf("Failed to delete Monitor Downtime - GUID: %s, Name: %s, Error: %s", entity.GUID, entity.Name, err)
+				} else {
+					log.Printf("Successfully deleted Monitor Downtime - GUID: %s, Name: %s", entity.GUID, entity.Name)
+				}
+			case "SECURE_CRED":
+				log.Printf("Found Secure Credential - GUID: %s, Name: %s", entity.GUID, entity.Name)
+				if !strings.Contains(entity.Name, "INTEGRATION_TEST_SECURE_CREDENTIAL") && !strings.Contains(entity.Name, "PASSWORD") {
+					log.Printf("Attempting to delete Secure Credential - GUID: %s, Name: %s", entity.GUID, entity.Name)
+					_, err := syntheticsClient.SyntheticsDeleteSecureCredential(testAccountID, entity.Name)
+					if err != nil {
+						log.Printf("Failed to delete Secure Credential - GUID: %s, Name: %s, Error: %s", entity.GUID, entity.Name, err)
+					} else {
+						log.Printf("Successfully deleted Secure Credential - GUID: %s, Name: %s", entity.GUID, entity.Name)
+					}
+				}
+			case "PRIVATE_LOCATION":
+				log.Printf("Found Private Location - GUID: %s, Name: %s", entity.GUID, entity.Name)
+				log.Printf("Attempting to delete Private Location - GUID: %s, Name: %s", entity.GUID, entity.Name)
+				_, err := syntheticsClient.SyntheticsDeletePrivateLocation(EntityGUID(entity.GUID))
+				if err != nil {
+					log.Printf("Failed to delete Private Location - GUID: %s, Name: %s, Error: %s", entity.GUID, entity.Name, err)
+				} else {
+					log.Printf("Successfully deleted Private Location - GUID: %s, Name: %s", entity.GUID, entity.Name)
+				}
+			}
+
+		default:
+			continue
+		}
+
+	}
 }
