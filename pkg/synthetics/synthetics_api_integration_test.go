@@ -21,6 +21,7 @@ import (
 )
 
 var tv bool = true
+var IntegrationTestPrivateLocationGUID = "MzgwNjUyNnxTWU5USHxQUklWQVRFX0xPQ0FUSU9OfDc0ZWZkOGU0LTk0YjAtNDQxMi04NmYxLTk2YTcyODFmOTJmZg"
 
 func TestSyntheticsSecureCredential_Basic(t *testing.T) {
 	testAccountID, err := mock.GetTestAccountID()
@@ -895,7 +896,7 @@ func TestSyntheticsScriptBrowserMonitor_LegacyRuntime(t *testing.T) {
 		Locations: SyntheticsScriptedMonitorLocationsInput{
 			Private: []SyntheticsPrivateLocationInput{
 				{
-					GUID: "MzgwNjUyNnxTWU5USHxQUklWQVRFX0xPQ0FUSU9OfGNhNmZmNTY3LTJlZWItNGNkNi04ODhhLTAxMTFjMGMzMTBjNA",
+					GUID: IntegrationTestPrivateLocationGUID,
 				},
 			},
 		},
@@ -918,7 +919,7 @@ func TestSyntheticsScriptBrowserMonitor_LegacyRuntime(t *testing.T) {
 		Locations: SyntheticsScriptedMonitorLocationsInput{
 			Private: []SyntheticsPrivateLocationInput{
 				{
-					GUID: "MzgwNjUyNnxTWU5USHxQUklWQVRFX0xPQ0FUSU9OfGNhNmZmNTY3LTJlZWItNGNkNi04ODhhLTAxMTFjMGMzMTBjNA",
+					GUID: IntegrationTestPrivateLocationGUID,
 				},
 			},
 		},
@@ -2551,12 +2552,16 @@ func TestCleanupSyntheticsEntities_RunOnlyLocally(t *testing.T) {
 				}
 			case "PRIVATE_LOCATION":
 				log.Printf("Found Private Location - GUID: %s, Name: %s", entity.GUID, entity.Name)
-				log.Printf("Attempting to delete Private Location - GUID: %s, Name: %s", entity.GUID, entity.Name)
-				_, err := syntheticsClient.SyntheticsDeletePrivateLocation(EntityGUID(entity.GUID))
-				if err != nil {
-					log.Printf("Failed to delete Private Location - GUID: %s, Name: %s, Error: %s", entity.GUID, entity.Name, err)
+				if strings.Contains(entity.Name, "DO NOT DELETE") {
+					log.Printf("Skipping deletion for Private Location - GUID: %s, Name: %s", entity.GUID, entity.Name)
 				} else {
-					log.Printf("Successfully deleted Private Location - GUID: %s, Name: %s", entity.GUID, entity.Name)
+					log.Printf("Attempting to delete Private Location - GUID: %s, Name: %s", entity.GUID, entity.Name)
+					_, err := syntheticsClient.SyntheticsDeletePrivateLocation(EntityGUID(entity.GUID))
+					if err != nil {
+						log.Printf("Failed to delete Private Location - GUID: %s, Name: %s, Error: %s", entity.GUID, entity.Name, err)
+					} else {
+						log.Printf("Successfully deleted Private Location - GUID: %s, Name: %s", entity.GUID, entity.Name)
+					}
 				}
 			}
 
