@@ -94,7 +94,7 @@ type AuthorizationManagementGrantAccess struct {
 	// The Role and the Group the Target Group should have access to
 	GroupAccessGrants []AuthorizationManagementGroupAccessGrant `json:"groupAccessGrants,omitempty"`
 	// The Group ID that will have access granted
-	GroupId string `json:"groupId,omitempty"`
+	GroupId string `json:"groupId"`
 	// The Role and the Organization the Target Group should have access to
 	OrganizationAccessGrants []AuthorizationManagementOrganizationAccessGrant `json:"organizationAccessGrants,omitempty"`
 }
@@ -185,7 +185,7 @@ type AuthorizationManagementRevokeAccess struct {
 	// The Role and the Group the Target Group should no longer have access to
 	GroupAccessGrants []AuthorizationManagementGroupAccessGrant `json:"groupAccessGrants,omitempty"`
 	// The Group ID that will have access revoked
-	GroupId string `json:"groupId,omitempty"`
+	GroupId string `json:"groupId"`
 	// The Role and the Organization the Target Group should no longer have access to
 	OrganizationAccessGrants []AuthorizationManagementOrganizationAccessGrant `json:"organizationAccessGrants,omitempty"`
 }
