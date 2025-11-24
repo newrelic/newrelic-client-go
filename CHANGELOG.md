@@ -1,3 +1,8 @@
+<a name="v2.74.1"></a>
+## [v2.74.1] - 2025-11-24
+### Bug Fixes
+- **authorizationmanagement:** updates to the authorizationmanagement package ([#1353](https://github.com/newrelic/newrelic-client-go/issues/1353))
+
 <a name="v2.74.0"></a>
 ## [v2.74.0] - 2025-11-21
 ### Bug Fixes
@@ -2150,7 +2155,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.74.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.74.1...HEAD
+[v2.74.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.74.0...v2.74.1
 [v2.74.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.73.2...v2.74.0
 [v2.73.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.73.1...v2.73.2
 [v2.73.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.73.0...v2.73.1
