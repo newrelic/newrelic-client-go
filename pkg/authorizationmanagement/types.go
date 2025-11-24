@@ -90,7 +90,7 @@ type AuthorizationManagementGrantAccess struct {
 	// The Entity and Role a Group should have access to
 	EntityAccessGrants []AuthorizationManagementEntityAccessGrants `json:"entityAccessGrants,omitempty"`
 	// The Grantee to which the access will be granted
-	Grantee AuthorizationManagementGrantee `json:"grantee,omitempty"`
+	Grantee *AuthorizationManagementGrantee `json:"grantee,omitempty"`
 	// The Role and the Group the Target Group should have access to
 	GroupAccessGrants []AuthorizationManagementGroupAccessGrant `json:"groupAccessGrants,omitempty"`
 	// The Group ID that will have access granted
@@ -181,7 +181,7 @@ type AuthorizationManagementRevokeAccess struct {
 	// The Entity and Role a Group should no longer have access to
 	EntityAccessGrants []AuthorizationManagementEntityAccessGrants `json:"entityAccessGrants,omitempty"`
 	// The Grantee to which the access will be granted
-	Grantee AuthorizationManagementGrantee `json:"grantee,omitempty"`
+	Grantee *AuthorizationManagementGrantee `json:"grantee,omitempty"`
 	// The Role and the Group the Target Group should no longer have access to
 	GroupAccessGrants []AuthorizationManagementGroupAccessGrant `json:"groupAccessGrants,omitempty"`
 	// The Group ID that will have access revoked

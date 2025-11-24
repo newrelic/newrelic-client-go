@@ -167,6 +167,8 @@ packages:
       - name: DateTime
         field_type_override: nrtime.DateTime
         skip_type_create: true
+      - name: AuthorizationManagementGrantee
+        field_type_override: "*AuthorizationManagementGrantee"
 
   - name: alerts
     path: pkg/alerts
