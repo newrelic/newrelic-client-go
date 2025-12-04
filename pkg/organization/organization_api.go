@@ -240,14 +240,21 @@ func (a *OrganizationManagement) GetOrganizationWithContext(
 	return &resp.Actor.Organization, nil
 }
 
+//const getOrganizationQuery = `query { actor { organization {
+//	administrator {
+//		organizationId
+//		organizationName
+//	}
+//	customerId
+//	id
+//	name
+//	storageAccountId
+//	telemetryId
+//} } }`
+
+// discarding all non-essential attributes, to prevent capability-linked conflicts and errors
+
 const getOrganizationQuery = `query { actor { organization {
-	administrator {
-		organizationId
-		organizationName
-	}
-	customerId
 	id
 	name
-	storageAccountId
-	telemetryId
 } } }`
