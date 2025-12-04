@@ -1,3 +1,8 @@
+<a name="v2.74.2"></a>
+## [v2.74.2] - 2025-12-04
+### Bug Fixes
+- **organization:** remove non essential attributes in get query to curb capability issues ([#1354](https://github.com/newrelic/newrelic-client-go/issues/1354))
+
 <a name="v2.74.1"></a>
 ## [v2.74.1] - 2025-11-24
 ### Bug Fixes
@@ -2155,7 +2160,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.74.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.74.2...HEAD
+[v2.74.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.74.1...v2.74.2
 [v2.74.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.74.0...v2.74.1
 [v2.74.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.73.2...v2.74.0
 [v2.73.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.73.1...v2.73.2
