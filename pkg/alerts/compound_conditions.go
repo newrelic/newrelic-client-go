@@ -8,15 +8,15 @@ import (
 // Compound conditions allow you to create alert conditions based on multiple conditions
 // combined with logical expressions.
 type CompoundCondition struct {
-	ID                   string                `json:"id,omitempty"`
-	Name                 string                `json:"name,omitempty"`
-	Enabled              bool                  `json:"enabled"`
-	PolicyID             string                `json:"policyId,omitempty"`
-	ComponentConditions  []ComponentCondition  `json:"componentConditions,omitempty"`
+	ID                    string               `json:"id,omitempty"`
+	Name                  string               `json:"name,omitempty"`
+	Enabled               bool                 `json:"enabled"`
+	PolicyID              string               `json:"policyId,omitempty"`
+	ComponentConditions   []ComponentCondition `json:"componentConditions,omitempty"`
 	FacetMatchingBehavior string               `json:"facetMatchingBehavior,omitempty"`
-	RunbookURL           string                `json:"runbookUrl,omitempty"`
-	ThresholdDuration    int                   `json:"thresholdDuration,omitempty"`
-	TriggerExpression    string                `json:"triggerExpression,omitempty"`
+	RunbookURL            string               `json:"runbookUrl,omitempty"`
+	ThresholdDuration     int                  `json:"thresholdDuration,omitempty"`
+	TriggerExpression     string               `json:"triggerExpression,omitempty"`
 }
 
 // ComponentCondition represents a component condition within a compound condition.
@@ -28,42 +28,42 @@ type ComponentCondition struct {
 
 // AsNrqlCondition represents an NRQL condition used as a component in a compound condition.
 type AsNrqlCondition struct {
-	ID                        string                        `json:"id,omitempty"`
-	Name                      string                        `json:"name,omitempty"`
-	Enabled                   bool                          `json:"enabled"`
-	PolicyID                  string                        `json:"policyId,omitempty"`
-	Description               string                        `json:"description,omitempty"`
-	RunbookURL                string                        `json:"runbookUrl,omitempty"`
-	EntityGUID                string                        `json:"entityGuid,omitempty"`
-	Type                      string                        `json:"type,omitempty"`
-	ViolationTimeLimitSeconds int                           `json:"violationTimeLimitSeconds,omitempty"`
-	Nrql                      *NrqlConditionQuery           `json:"nrql,omitempty"`
-	Terms                     []NrqlConditionTerm           `json:"terms,omitempty"`
-	Signal                    *AlertsNrqlConditionSignal    `json:"signal,omitempty"`
+	ID                        string                         `json:"id,omitempty"`
+	Name                      string                         `json:"name,omitempty"`
+	Enabled                   bool                           `json:"enabled"`
+	PolicyID                  string                         `json:"policyId,omitempty"`
+	Description               string                         `json:"description,omitempty"`
+	RunbookURL                string                         `json:"runbookUrl,omitempty"`
+	EntityGUID                string                         `json:"entityGuid,omitempty"`
+	Type                      string                         `json:"type,omitempty"`
+	ViolationTimeLimitSeconds int                            `json:"violationTimeLimitSeconds,omitempty"`
+	Nrql                      *NrqlConditionQuery            `json:"nrql,omitempty"`
+	Terms                     []NrqlConditionTerm            `json:"terms,omitempty"`
+	Signal                    *AlertsNrqlConditionSignal     `json:"signal,omitempty"`
 	Expiration                *AlertsNrqlConditionExpiration `json:"expiration,omitempty"`
 }
 
 // CompoundConditionCreateInput represents the input for creating a compound condition.
 type CompoundConditionCreateInput struct {
-	Name                 string                        `json:"name"`
-	Enabled              bool                          `json:"enabled"`
-	ComponentConditions  []ComponentConditionInput     `json:"componentConditions,omitempty"`
-	FacetMatchingBehavior string                       `json:"facetMatchingBehavior,omitempty"`
-	RunbookURL           string                        `json:"runbookUrl,omitempty"`
-	ThresholdDuration    int                           `json:"thresholdDuration,omitempty"`
-	TriggerExpression    string                        `json:"triggerExpression"`
+	Name                  string                    `json:"name"`
+	Enabled               bool                      `json:"enabled"`
+	ComponentConditions   []ComponentConditionInput `json:"componentConditions,omitempty"`
+	FacetMatchingBehavior string                    `json:"facetMatchingBehavior,omitempty"`
+	RunbookURL            string                    `json:"runbookUrl,omitempty"`
+	ThresholdDuration     int                       `json:"thresholdDuration,omitempty"`
+	TriggerExpression     string                    `json:"triggerExpression"`
 }
 
 // CompoundConditionUpdateInput represents the input for updating a compound condition.
 type CompoundConditionUpdateInput struct {
-	Name                 string                        `json:"name,omitempty"`
-	Enabled              bool                          `json:"enabled"`
-	PolicyID             string                        `json:"policyId,omitempty"`
-	ComponentConditions  []ComponentConditionInput     `json:"componentConditions,omitempty"`
-	FacetMatchingBehavior string                       `json:"facetMatchingBehavior,omitempty"`
-	RunbookURL           string                        `json:"runbookUrl,omitempty"`
-	ThresholdDuration    int                           `json:"thresholdDuration,omitempty"`
-	TriggerExpression    string                        `json:"triggerExpression,omitempty"`
+	Name                  string                    `json:"name,omitempty"`
+	Enabled               bool                      `json:"enabled"`
+	PolicyID              string                    `json:"policyId,omitempty"`
+	ComponentConditions   []ComponentConditionInput `json:"componentConditions,omitempty"`
+	FacetMatchingBehavior string                    `json:"facetMatchingBehavior,omitempty"`
+	RunbookURL            string                    `json:"runbookUrl,omitempty"`
+	ThresholdDuration     int                       `json:"thresholdDuration,omitempty"`
+	TriggerExpression     string                    `json:"triggerExpression,omitempty"`
 }
 
 // ComponentConditionInput represents the input for a component condition within a compound condition.
@@ -366,8 +366,8 @@ const (
 			id
 			alias
 			condition {` +
-			graphqlAsNrqlCompoundConditionStructFields +
-			`}
+		graphqlAsNrqlCompoundConditionStructFields +
+		`}
 		}
 		enabled
 		facetMatchingBehavior
@@ -391,8 +391,8 @@ const (
 							totalCount
 							nextCursor
 							items {` +
-							graphqlCompoundConditionStructFields +
-							`}
+		graphqlCompoundConditionStructFields +
+		`}
 						}
 					}
 				}
@@ -406,8 +406,8 @@ const (
 				policyId: $policyId,
 				compoundAlertCondition: $compoundAlertCondition
 			) {` +
-			 graphqlCompoundConditionStructFields +
-			 `}
+		graphqlCompoundConditionStructFields +
+		`}
 		}
 	`
 
@@ -418,8 +418,8 @@ const (
 				accountId: $accountId,
 				compoundAlertCondition: $compoundAlertCondition
 			) {` +
-			 graphqlCompoundConditionStructFields +
-			 `}
+		graphqlCompoundConditionStructFields +
+		`}
 		}
 	`
 
