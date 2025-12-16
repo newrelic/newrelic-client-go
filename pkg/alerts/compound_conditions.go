@@ -23,24 +23,6 @@ type CompoundCondition struct {
 type ComponentCondition struct {
 	ID        string          `json:"id,omitempty"`
 	Alias     string          `json:"alias,omitempty"`
-	Condition AsNrqlCondition `json:"condition,omitempty"`
-}
-
-// AsNrqlCondition represents an NRQL condition used as a component in a compound condition.
-type AsNrqlCondition struct {
-	ID                        string                         `json:"id,omitempty"`
-	Name                      string                         `json:"name,omitempty"`
-	Enabled                   bool                           `json:"enabled"`
-	PolicyID                  string                         `json:"policyId,omitempty"`
-	Description               string                         `json:"description,omitempty"`
-	RunbookURL                string                         `json:"runbookUrl,omitempty"`
-	EntityGUID                string                         `json:"entityGuid,omitempty"`
-	Type                      string                         `json:"type,omitempty"`
-	ViolationTimeLimitSeconds int                            `json:"violationTimeLimitSeconds,omitempty"`
-	Nrql                      *NrqlConditionQuery            `json:"nrql,omitempty"`
-	Terms                     []NrqlConditionTerm            `json:"terms,omitempty"`
-	Signal                    *AlertsNrqlConditionSignal     `json:"signal,omitempty"`
-	Expiration                *AlertsNrqlConditionExpiration `json:"expiration,omitempty"`
 }
 
 // CompoundConditionCreateInput represents the input for creating a compound condition.
@@ -48,9 +30,9 @@ type CompoundConditionCreateInput struct {
 	Name                  string                    `json:"name"`
 	Enabled               bool                      `json:"enabled"`
 	ComponentConditions   []ComponentConditionInput `json:"componentConditions,omitempty"`
-	FacetMatchingBehavior string                    `json:"facetMatchingBehavior,omitempty"`
-	RunbookURL            string                    `json:"runbookUrl,omitempty"`
-	ThresholdDuration     int                       `json:"thresholdDuration,omitempty"`
+	FacetMatchingBehavior *string                   `json:"facetMatchingBehavior"`
+	RunbookURL            *string                   `json:"runbookUrl"`
+	ThresholdDuration     *int                      `json:"thresholdDuration"`
 	TriggerExpression     string                    `json:"triggerExpression"`
 }
 
@@ -58,11 +40,11 @@ type CompoundConditionCreateInput struct {
 type CompoundConditionUpdateInput struct {
 	Name                  string                    `json:"name,omitempty"`
 	Enabled               bool                      `json:"enabled"`
-	PolicyID              string                    `json:"policyId,omitempty"`
+	PolicyID              *string                   `json:"policyId"`
 	ComponentConditions   []ComponentConditionInput `json:"componentConditions,omitempty"`
-	FacetMatchingBehavior string                    `json:"facetMatchingBehavior,omitempty"`
-	RunbookURL            string                    `json:"runbookUrl,omitempty"`
-	ThresholdDuration     int                       `json:"thresholdDuration,omitempty"`
+	FacetMatchingBehavior *string                   `json:"facetMatchingBehavior"`
+	RunbookURL            *string                   `json:"runbookUrl"`
+	ThresholdDuration     *int                      `json:"thresholdDuration"`
 	TriggerExpression     string                    `json:"triggerExpression,omitempty"`
 }
 
@@ -283,91 +265,11 @@ type compoundConditionDeleteResponse struct {
 
 // GraphQL query and mutation definitions
 const (
-	graphqlAsNrqlCompoundConditionStructFields = `
-		id
-		createdAt
-		createdBy {
-			email
-			gravatar
-			id
-			name
-		}
-		description
-		enabled
-		entity {
-			account {
-				id
-				name
-			}
-			accountId
-			alertSeverity
-			domain
-			entityType
-			firstIndexedAt
-			guid
-			indexedAt
-			lastReportingChangeAt
-			name
-			permalink
-			reporting
-			tags {
-				key
-				values
-			}
-			type
-		}
-		entityGuid
-		expiration {
-			closeViolationsOnExpiration
-			expirationDuration
-			ignoreOnExpectedTermination
-			openViolationOnExpiration
-		}
-		name
-		nrql {
-			dataAccountId
-			query
-		}
-		policyId
-		runbookUrl
-		signal {
-			aggregationDelay
-			aggregationMethod
-			aggregationTimer
-			aggregationWindow
-			evaluationDelay
-			fillOption
-			fillValue
-			pollingFrequency
-			slideBy
-		}
-		terms {
-			disableHealthStatusReporting
-			operator
-			priority
-			threshold
-			thresholdDuration
-			thresholdOccurrences
-		}
-		titleTemplate
-		type
-		updatedAt
-		updatedBy {
-			email
-			gravatar
-			id
-			name
-		}
-		violationTimeLimitSeconds
-	`
 	graphqlCompoundConditionStructFields = `
 		id
 		componentConditions {
 			id
 			alias
-			condition {` +
-		graphqlAsNrqlCompoundConditionStructFields +
-		`}
 		}
 		enabled
 		facetMatchingBehavior
