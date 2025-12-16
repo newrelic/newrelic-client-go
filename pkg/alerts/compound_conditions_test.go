@@ -149,9 +149,9 @@ func TestCreateCompoundCondition(t *testing.T) {
 	condition := CompoundConditionCreateInput{
 		Name:                  "Compound Condition Test",
 		Enabled:               true,
-		FacetMatchingBehavior: string(AlertsFacetMatchingBehaviorTypes.FACETS_MATCH),
-		RunbookURL:            "https://example.com/runbook",
-		ThresholdDuration:     60,
+		FacetMatchingBehavior: stringPtr(string(AlertsFacetMatchingBehaviorTypes.FACETS_MATCH)),
+		RunbookURL:            stringPtr("https://example.com/runbook"),
+		ThresholdDuration:     intPtr(60),
 		TriggerExpression:     "a and b",
 		ComponentConditions: []ComponentConditionInput{
 			{
@@ -192,10 +192,10 @@ func TestUpdateCompoundCondition(t *testing.T) {
 	condition := CompoundConditionUpdateInput{
 		Name:                  "Updated Compound Condition",
 		Enabled:               false,
-		PolicyID:              "444",
-		FacetMatchingBehavior: string(AlertsFacetMatchingBehaviorTypes.FACETS_IGNORED),
-		RunbookURL:            "https://example.com/updated-runbook",
-		ThresholdDuration:     60,
+		PolicyID:              stringPtr("444"),
+		FacetMatchingBehavior: stringPtr(string(AlertsFacetMatchingBehaviorTypes.FACETS_IGNORED)),
+		RunbookURL:            stringPtr("https://example.com/updated-runbook"),
+		ThresholdDuration:     intPtr(60),
 		TriggerExpression:     "a or b",
 		ComponentConditions: []ComponentConditionInput{
 			{
@@ -247,4 +247,13 @@ func TestDeleteCompoundCondition(t *testing.T) {
 
 	assert.NoError(t, err)
 	assert.Equal(t, expected, actual)
+}
+
+// Helper functions to create pointers
+func stringPtr(s string) *string {
+	return &s
+}
+
+func intPtr(i int) *int {
+	return &i
 }

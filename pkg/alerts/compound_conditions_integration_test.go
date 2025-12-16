@@ -91,9 +91,9 @@ func TestIntegrationCompoundConditions_Basic(t *testing.T) {
 	createInput := CompoundConditionCreateInput{
 		Name:                  conditionName,
 		Enabled:               true,
-		FacetMatchingBehavior: string(AlertsFacetMatchingBehaviorTypes.FACETS_IGNORED),
-		RunbookURL:            "https://example.com/runbook",
-		ThresholdDuration:     60,
+		FacetMatchingBehavior: stringPtr(string(AlertsFacetMatchingBehaviorTypes.FACETS_IGNORED)),
+		RunbookURL:            stringPtr("https://example.com/runbook"),
+		ThresholdDuration:     intPtr(60),
 		TriggerExpression:     "A AND B",
 		ComponentConditions: []ComponentConditionInput{
 			{
@@ -138,9 +138,9 @@ func TestIntegrationCompoundConditions_Basic(t *testing.T) {
 	updateInput := CompoundConditionUpdateInput{
 		Name:                  fmt.Sprintf("%s-updated", conditionName),
 		Enabled:               false,
-		FacetMatchingBehavior: string(AlertsFacetMatchingBehaviorTypes.FACETS_IGNORED),
-		RunbookURL:            "https://example.com/updated-runbook",
-		ThresholdDuration:     60,
+		FacetMatchingBehavior: stringPtr(string(AlertsFacetMatchingBehaviorTypes.FACETS_IGNORED)),
+		RunbookURL:            stringPtr("https://example.com/updated-runbook"),
+		ThresholdDuration:     intPtr(60),
 		TriggerExpression:     "A OR B",
 		ComponentConditions: []ComponentConditionInput{
 			{
@@ -253,7 +253,7 @@ func TestIntegrationCompoundConditions_Search(t *testing.T) {
 	createInput1 := CompoundConditionCreateInput{
 		Name:              conditionName1,
 		Enabled:           true,
-		ThresholdDuration: 60,
+		ThresholdDuration: intPtr(60),
 		TriggerExpression: "A AND B",
 		ComponentConditions: []ComponentConditionInput{
 			{
@@ -275,7 +275,7 @@ func TestIntegrationCompoundConditions_Search(t *testing.T) {
 	createInput2 := CompoundConditionCreateInput{
 		Name:              conditionName2,
 		Enabled:           true,
-		ThresholdDuration: 60,
+		ThresholdDuration: intPtr(60),
 		TriggerExpression: "A OR B",
 		ComponentConditions: []ComponentConditionInput{
 			{
@@ -425,7 +425,7 @@ func TestIntegrationCompoundConditions_UpdatePolicyID(t *testing.T) {
 	createInput := CompoundConditionCreateInput{
 		Name:              conditionName,
 		Enabled:           true,
-		ThresholdDuration: 60,
+		ThresholdDuration: intPtr(60),
 		TriggerExpression: "A AND B",
 		ComponentConditions: []ComponentConditionInput{
 			{
@@ -448,8 +448,8 @@ func TestIntegrationCompoundConditions_UpdatePolicyID(t *testing.T) {
 	updateInput := CompoundConditionUpdateInput{
 		Name:              conditionName,
 		Enabled:           true,
-		PolicyID:          policy2.ID,
-		ThresholdDuration: 60,
+		PolicyID:          stringPtr(policy2.ID),
+		ThresholdDuration: intPtr(60),
 		TriggerExpression: "A AND B",
 		ComponentConditions: []ComponentConditionInput{
 			{
@@ -481,7 +481,15 @@ func TestIntegrationCompoundConditions_UpdatePolicyID(t *testing.T) {
 	}()
 }
 
-// Helper function to create a float pointer
+// Helper functions to create pointers
 func floatPtr(f float64) *float64 {
 	return &f
+}
+
+func stringPtr(s string) *string {
+	return &s
+}
+
+func intPtr(i int) *int {
+	return &i
 }

@@ -21,8 +21,8 @@ type CompoundCondition struct {
 
 // ComponentCondition represents a component condition within a compound condition.
 type ComponentCondition struct {
-	ID        string          `json:"id,omitempty"`
-	Alias     string          `json:"alias,omitempty"`
+	ID    string `json:"id,omitempty"`
+	Alias string `json:"alias,omitempty"`
 }
 
 // CompoundConditionCreateInput represents the input for creating a compound condition.
