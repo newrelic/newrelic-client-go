@@ -1,3 +1,8 @@
+<a name="v2.75.0"></a>
+## [v2.75.0] - 2025-12-17
+### Features
+- crud operations for compound conditions ([#1355](https://github.com/newrelic/newrelic-client-go/issues/1355))
+
 <a name="v2.74.2"></a>
 ## [v2.74.2] - 2025-12-04
 ### Bug Fixes
@@ -2160,7 +2165,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.74.2...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.75.0...HEAD
+[v2.75.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.74.2...v2.75.0
 [v2.74.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.74.1...v2.74.2
 [v2.74.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.74.0...v2.74.1
 [v2.74.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.73.2...v2.74.0
