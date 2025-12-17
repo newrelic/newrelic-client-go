@@ -191,7 +191,7 @@ func TestUpdateCompoundCondition(t *testing.T) {
 
 	condition := CompoundConditionUpdateInput{
 		Name:                  "Updated Compound Condition",
-		Enabled:               false,
+		Enabled:               boolPtr(false),
 		PolicyID:              stringPtr("444"),
 		FacetMatchingBehavior: stringPtr(string(AlertsFacetMatchingBehaviorTypes.FACETS_IGNORED)),
 		RunbookURL:            stringPtr("https://example.com/updated-runbook"),
@@ -256,4 +256,8 @@ func stringPtr(s string) *string {
 
 func intPtr(i int) *int {
 	return &i
+}
+
+func boolPtr(b bool) *bool {
+	return &b
 }

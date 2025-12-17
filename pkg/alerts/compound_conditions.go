@@ -39,12 +39,12 @@ type CompoundConditionCreateInput struct {
 // CompoundConditionUpdateInput represents the input for updating a compound condition.
 type CompoundConditionUpdateInput struct {
 	Name                  string                    `json:"name,omitempty"`
-	Enabled               bool                      `json:"enabled"`
-	PolicyID              *string                   `json:"policyId"`
+	Enabled               *bool                     `json:"enabled,omitempty"`
+	PolicyID              *string                   `json:"policyId,omitempty"`
 	ComponentConditions   []ComponentConditionInput `json:"componentConditions,omitempty"`
-	FacetMatchingBehavior *string                   `json:"facetMatchingBehavior"`
-	RunbookURL            *string                   `json:"runbookUrl"`
-	ThresholdDuration     *int                      `json:"thresholdDuration"`
+	FacetMatchingBehavior *string                   `json:"facetMatchingBehavior,omitempty"`
+	RunbookURL            *string                   `json:"runbookUrl,omitempty"`
+	ThresholdDuration     *int                      `json:"thresholdDuration,omitempty"`
 	TriggerExpression     string                    `json:"triggerExpression,omitempty"`
 }
 

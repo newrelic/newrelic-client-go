@@ -137,7 +137,7 @@ func TestIntegrationCompoundConditions_Basic(t *testing.T) {
 	// Test: Update compound condition
 	updateInput := CompoundConditionUpdateInput{
 		Name:                  fmt.Sprintf("%s-updated", conditionName),
-		Enabled:               false,
+		Enabled:               boolPtr(false),
 		FacetMatchingBehavior: stringPtr(string(AlertsFacetMatchingBehaviorTypes.FACETS_IGNORED)),
 		RunbookURL:            stringPtr("https://example.com/updated-runbook"),
 		ThresholdDuration:     intPtr(60),
@@ -447,7 +447,7 @@ func TestIntegrationCompoundConditions_UpdatePolicyID(t *testing.T) {
 	// Test: Update compound condition to move to policy2
 	updateInput := CompoundConditionUpdateInput{
 		Name:              conditionName,
-		Enabled:           true,
+		Enabled:           boolPtr(true),
 		PolicyID:          stringPtr(policy2.ID),
 		ThresholdDuration: intPtr(60),
 		TriggerExpression: "A AND B",
@@ -492,4 +492,8 @@ func stringPtr(s string) *string {
 
 func intPtr(i int) *int {
 	return &i
+}
+
+func boolPtr(b bool) *bool {
+	return &b
 }
