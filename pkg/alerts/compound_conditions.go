@@ -10,7 +10,7 @@ import (
 type CompoundCondition struct {
 	ID                    string               `json:"id,omitempty"`
 	Name                  string               `json:"name,omitempty"`
-	Enabled               bool                 `json:"enabled"`
+	Enabled               bool                 `json:"enabled,omitempty"`
 	PolicyID              string               `json:"policyId,omitempty"`
 	ComponentConditions   []ComponentCondition `json:"componentConditions,omitempty"`
 	FacetMatchingBehavior string               `json:"facetMatchingBehavior,omitempty"`
@@ -38,14 +38,14 @@ type CompoundConditionCreateInput struct {
 
 // CompoundConditionUpdateInput represents the input for updating a compound condition.
 type CompoundConditionUpdateInput struct {
-	Name                  string                    `json:"name,omitempty"`
-	Enabled               *bool                     `json:"enabled,omitempty"`
-	PolicyID              *string                   `json:"policyId,omitempty"`
-	ComponentConditions   []ComponentConditionInput `json:"componentConditions,omitempty"`
-	FacetMatchingBehavior *string                   `json:"facetMatchingBehavior,omitempty"`
-	RunbookURL            *string                   `json:"runbookUrl,omitempty"`
-	ThresholdDuration     *int                      `json:"thresholdDuration,omitempty"`
-	TriggerExpression     string                    `json:"triggerExpression,omitempty"`
+	Name                  *string                   `json:"name"`
+	Enabled               *bool                     `json:"enabled"`
+	PolicyID              *string                   `json:"policyId"`
+	ComponentConditions   []ComponentConditionInput `json:"componentConditions"`
+	FacetMatchingBehavior *string                   `json:"facetMatchingBehavior"`
+	RunbookURL            *string                   `json:"runbookUrl"`
+	ThresholdDuration     *int                      `json:"thresholdDuration"`
+	TriggerExpression     *string                   `json:"triggerExpression"`
 }
 
 // ComponentConditionInput represents the input for a component condition within a compound condition.

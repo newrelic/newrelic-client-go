@@ -190,13 +190,13 @@ func TestUpdateCompoundCondition(t *testing.T) {
 	alerts := newMockResponse(t, testCompoundConditionUpdateResponseJSON, http.StatusOK)
 
 	condition := CompoundConditionUpdateInput{
-		Name:                  "Updated Compound Condition",
+		Name:                  stringPtr("Updated Compound Condition"),
 		Enabled:               boolPtr(false),
 		PolicyID:              stringPtr("444"),
 		FacetMatchingBehavior: stringPtr(string(AlertsFacetMatchingBehaviorTypes.FACETS_IGNORED)),
 		RunbookURL:            stringPtr("https://example.com/updated-runbook"),
 		ThresholdDuration:     intPtr(60),
-		TriggerExpression:     "a or b",
+		TriggerExpression:     stringPtr("a or b"),
 		ComponentConditions: []ComponentConditionInput{
 			{
 				ID:    "1",

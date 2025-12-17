@@ -136,12 +136,13 @@ func TestIntegrationCompoundConditions_Basic(t *testing.T) {
 
 	// Test: Update compound condition
 	updateInput := CompoundConditionUpdateInput{
-		Name:                  fmt.Sprintf("%s-updated", conditionName),
+		Name:                  stringPtr(fmt.Sprintf("%s-updated", conditionName)),
 		Enabled:               boolPtr(false),
+		PolicyID:              stringPtr(policy.ID),
 		FacetMatchingBehavior: stringPtr(string(AlertsFacetMatchingBehaviorTypes.FACETS_IGNORED)),
 		RunbookURL:            stringPtr("https://example.com/updated-runbook"),
 		ThresholdDuration:     intPtr(60),
-		TriggerExpression:     "A OR B",
+		TriggerExpression:     stringPtr("A OR B"),
 		ComponentConditions: []ComponentConditionInput{
 			{
 				ID:    condition1.ID,
@@ -446,11 +447,11 @@ func TestIntegrationCompoundConditions_UpdatePolicyID(t *testing.T) {
 
 	// Test: Update compound condition to move to policy2
 	updateInput := CompoundConditionUpdateInput{
-		Name:              conditionName,
+		Name:              stringPtr(conditionName),
 		Enabled:           boolPtr(true),
 		PolicyID:          stringPtr(policy2.ID),
 		ThresholdDuration: intPtr(60),
-		TriggerExpression: "A AND B",
+		TriggerExpression: stringPtr("A AND B"),
 		ComponentConditions: []ComponentConditionInput{
 			{
 				ID:    condition1.ID,
