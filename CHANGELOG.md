@@ -1,3 +1,8 @@
+<a name="v2.75.1"></a>
+## [v2.75.1] - 2025-12-22
+### Bug Fixes
+- **customeradministration:** branch out a minimal fields query of getAccounts ([#1356](https://github.com/newrelic/newrelic-client-go/issues/1356))
+
 <a name="v2.75.0"></a>
 ## [v2.75.0] - 2025-12-17
 ### Features
@@ -2165,7 +2170,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.75.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.75.1...HEAD
+[v2.75.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.75.0...v2.75.1
 [v2.75.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.74.2...v2.75.0
 [v2.74.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.74.1...v2.74.2
 [v2.74.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.74.0...v2.74.1
