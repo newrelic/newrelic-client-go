@@ -171,8 +171,6 @@ const getAccountsQueryMinimized = `query(
 		regionCode
 		status
 	}
-	nextCursor
-	totalCount
 } } }`
 
 // Authentication domains
