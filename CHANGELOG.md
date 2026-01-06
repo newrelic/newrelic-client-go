@@ -1,3 +1,8 @@
+<a name="v2.75.2"></a>
+## [v2.75.2] - 2026-01-06
+### Bug Fixes
+- **nrqldroprules:** update EOL date, in light of the new effective date, June 30, 2026 ([#1357](https://github.com/newrelic/newrelic-client-go/issues/1357))
+
 <a name="v2.75.1"></a>
 ## [v2.75.1] - 2025-12-22
 ### Bug Fixes
@@ -2170,7 +2175,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.75.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.75.2...HEAD
+[v2.75.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.75.1...v2.75.2
 [v2.75.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.75.0...v2.75.1
 [v2.75.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.74.2...v2.75.0
 [v2.74.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.74.1...v2.74.2
