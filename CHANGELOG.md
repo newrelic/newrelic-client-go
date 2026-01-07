@@ -1,3 +1,8 @@
+<a name="v2.75.3"></a>
+## [v2.75.3] - 2026-01-07
+### Bug Fixes
+- **accountmanagement:** minor functional fix, dependencies update ([#1358](https://github.com/newrelic/newrelic-client-go/issues/1358))
+
 <a name="v2.75.2"></a>
 ## [v2.75.2] - 2026-01-06
 ### Bug Fixes
@@ -2175,7 +2180,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.75.2...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.75.3...HEAD
+[v2.75.3]: https://github.com/newrelic/newrelic-client-go/compare/v2.75.2...v2.75.3
 [v2.75.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.75.1...v2.75.2
 [v2.75.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.75.0...v2.75.1
 [v2.75.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.74.2...v2.75.0
