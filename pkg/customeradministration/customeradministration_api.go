@@ -129,7 +129,7 @@ func (a *Customeradministration) GetAccountsMinimized(
 	filter OrganizationAccountFilterInput,
 	sort []OrganizationAccountSortInput,
 ) (*OrganizationAccountCollection, error) {
-	return a.GetAccountsWithContext(context.Background(),
+	return a.GetAccountsWithContextMinimized(context.Background(),
 		cursor,
 		filter,
 		sort,
