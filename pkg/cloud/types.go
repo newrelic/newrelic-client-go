@@ -791,6 +791,12 @@ type CloudAwsEuSovereignDisableIntegrationsInput struct {
 	Sns []CloudDisableAccountIntegrationInput `json:"sns,omitempty"`
 	// SQS integration
 	Sqs []CloudDisableAccountIntegrationInput `json:"sqs,omitempty"`
+	// Health integration
+	Health []CloudDisableAccountIntegrationInput `json:"health,omitempty"`
+	// Trusted Advisor integration
+	Trustedadvisor []CloudDisableAccountIntegrationInput `json:"trustedadvisor,omitempty"`
+	// X-Ray integration
+	Xray []CloudDisableAccountIntegrationInput `json:"xray,omitempty"`
 }
 
 // CloudAwsEuSovereignIntegrationsInput - List of integrations
@@ -835,6 +841,12 @@ type CloudAwsEuSovereignIntegrationsInput struct {
 	Sns []CloudSnsIntegrationInput `json:"sns,omitempty"`
 	// SQS integration
 	Sqs []CloudSqsIntegrationInput `json:"sqs,omitempty"`
+	// Health integration
+	Health []CloudHealthIntegrationInput `json:"health,omitempty"`
+	// Trusted Advisor integration
+	Trustedadvisor []CloudTrustedadvisorIntegrationInput `json:"trustedadvisor,omitempty"`
+	// X-Ray integration
+	Xray []CloudAwsXrayIntegrationInput `json:"xray,omitempty"`
 }
 
 // CloudAwsGovcloudDisableIntegrationsInput - List of integrations
