@@ -750,47 +750,10 @@ type CloudAwsEuSovereignProvider struct {
 func (x *CloudAwsEuSovereignProvider) ImplementsCloudProvider() {}
 
 // CloudAwsEuSovereignDisableIntegrationsInput - List of integrations
+// EU Sovereign only supports: cloudtrail, health, trustedadvisor, xray
 type CloudAwsEuSovereignDisableIntegrationsInput struct {
-	// API Gateway integration
-	APIgateway []CloudDisableAccountIntegrationInput `json:"apigateway,omitempty"`
-	// ALB/NLB integration
-	Alb []CloudDisableAccountIntegrationInput `json:"alb,omitempty"`
-	// AutoScaling integration
-	Autoscaling []CloudDisableAccountIntegrationInput `json:"autoscaling,omitempty"`
-	// Direct Connect integration
-	AwsDirectconnect []CloudDisableAccountIntegrationInput `json:"awsDirectconnect,omitempty"`
-	// Step Functions integration
-	AwsStates []CloudDisableAccountIntegrationInput `json:"awsStates,omitempty"`
 	// CloudTrail integration
 	Cloudtrail []CloudDisableAccountIntegrationInput `json:"cloudtrail,omitempty"`
-	// DynamoDB integration
-	Dynamodb []CloudDisableAccountIntegrationInput `json:"dynamodb,omitempty"`
-	// EBS integration
-	Ebs []CloudDisableAccountIntegrationInput `json:"ebs,omitempty"`
-	// EC2 integration
-	Ec2 []CloudDisableAccountIntegrationInput `json:"ec2,omitempty"`
-	// Elasticsearch Service integration
-	Elasticsearch []CloudDisableAccountIntegrationInput `json:"elasticsearch,omitempty"`
-	// ELB (Classic) integration
-	Elb []CloudDisableAccountIntegrationInput `json:"elb,omitempty"`
-	// EMR integration
-	Emr []CloudDisableAccountIntegrationInput `json:"emr,omitempty"`
-	// IAM integration
-	Iam []CloudDisableAccountIntegrationInput `json:"iam,omitempty"`
-	// Lambda integration
-	Lambda []CloudDisableAccountIntegrationInput `json:"lambda,omitempty"`
-	// RDS integration
-	Rds []CloudDisableAccountIntegrationInput `json:"rds,omitempty"`
-	// Redshift integration
-	Redshift []CloudDisableAccountIntegrationInput `json:"redshift,omitempty"`
-	// Route 53 integration
-	Route53 []CloudDisableAccountIntegrationInput `json:"route53,omitempty"`
-	// S3 integration
-	S3 []CloudDisableAccountIntegrationInput `json:"s3,omitempty"`
-	// SNS integration
-	Sns []CloudDisableAccountIntegrationInput `json:"sns,omitempty"`
-	// SQS integration
-	Sqs []CloudDisableAccountIntegrationInput `json:"sqs,omitempty"`
 	// Health integration
 	Health []CloudDisableAccountIntegrationInput `json:"health,omitempty"`
 	// Trusted Advisor integration
@@ -800,47 +763,10 @@ type CloudAwsEuSovereignDisableIntegrationsInput struct {
 }
 
 // CloudAwsEuSovereignIntegrationsInput - List of integrations
+// EU Sovereign only supports: cloudtrail, health, trustedadvisor, xray
 type CloudAwsEuSovereignIntegrationsInput struct {
-	// API Gateway integration
-	APIgateway []CloudAPIgatewayIntegrationInput `json:"apigateway,omitempty"`
-	// ALB/NLB integration
-	Alb []CloudAlbIntegrationInput `json:"alb,omitempty"`
-	// AutoScaling integration
-	Autoscaling []CloudAutoscalingIntegrationInput `json:"autoscaling,omitempty"`
-	// Direct Connect integration
-	AwsDirectconnect []CloudAwsDirectconnectIntegrationInput `json:"awsDirectconnect,omitempty"`
-	// Step Functions integration
-	AwsStates []CloudAwsStatesIntegrationInput `json:"awsStates,omitempty"`
 	// CloudTrail integration
 	Cloudtrail []CloudCloudtrailIntegrationInput `json:"cloudtrail,omitempty"`
-	// DynamoDB integration
-	Dynamodb []CloudDynamodbIntegrationInput `json:"dynamodb,omitempty"`
-	// EBS integration
-	Ebs []CloudEbsIntegrationInput `json:"ebs,omitempty"`
-	// EC2 integration
-	Ec2 []CloudEc2IntegrationInput `json:"ec2,omitempty"`
-	// Elasticsearch Service integration
-	Elasticsearch []CloudElasticsearchIntegrationInput `json:"elasticsearch,omitempty"`
-	// ELB (Classic) integration
-	Elb []CloudElbIntegrationInput `json:"elb,omitempty"`
-	// EMR integration
-	Emr []CloudEmrIntegrationInput `json:"emr,omitempty"`
-	// IAM integration
-	Iam []CloudIamIntegrationInput `json:"iam,omitempty"`
-	// Lambda integration
-	Lambda []CloudLambdaIntegrationInput `json:"lambda,omitempty"`
-	// RDS integration
-	Rds []CloudRdsIntegrationInput `json:"rds,omitempty"`
-	// Redshift integration
-	Redshift []CloudRedshiftIntegrationInput `json:"redshift,omitempty"`
-	// Route 53 integration
-	Route53 []CloudRoute53IntegrationInput `json:"route53,omitempty"`
-	// S3 integration
-	S3 []CloudS3IntegrationInput `json:"s3,omitempty"`
-	// SNS integration
-	Sns []CloudSnsIntegrationInput `json:"sns,omitempty"`
-	// SQS integration
-	Sqs []CloudSqsIntegrationInput `json:"sqs,omitempty"`
 	// Health integration
 	Health []CloudHealthIntegrationInput `json:"health,omitempty"`
 	// Trusted Advisor integration
