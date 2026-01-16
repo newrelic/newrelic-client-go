@@ -759,11 +759,11 @@ type CloudAwsEuSovereignDisableIntegrationsInput struct {
 	// Trusted Advisor integration
 	Trustedadvisor []CloudDisableAccountIntegrationInput `json:"trustedadvisor,omitempty"`
 	// X-Ray integration
-	Xray []CloudDisableAccountIntegrationInput `json:"xray,omitempty"`
+	AwsXray []CloudDisableAccountIntegrationInput `json:"awsXray,omitempty"`
 }
 
 // CloudAwsEuSovereignIntegrationsInput - List of integrations
-// EU Sovereign only supports: cloudtrail, health, trustedadvisor, xray
+// EU Sovereign only supports: cloudtrail, health, trustedadvisor, awsXray
 type CloudAwsEuSovereignIntegrationsInput struct {
 	// CloudTrail integration
 	Cloudtrail []CloudCloudtrailIntegrationInput `json:"cloudtrail,omitempty"`
@@ -772,7 +772,7 @@ type CloudAwsEuSovereignIntegrationsInput struct {
 	// Trusted Advisor integration
 	Trustedadvisor []CloudTrustedadvisorIntegrationInput `json:"trustedadvisor,omitempty"`
 	// X-Ray integration
-	Xray []CloudAwsXrayIntegrationInput `json:"xray,omitempty"`
+	AwsXray []CloudAwsXrayIntegrationInput `json:"awsXray,omitempty"`
 }
 
 // CloudAwsGovcloudDisableIntegrationsInput - List of integrations
