@@ -703,6 +703,140 @@ type CloudAwsGovCloudUpdateAccountInput struct {
 	SecretAccessKey SecureValue `json:"secretAccessKey,omitempty"`
 }
 
+// CloudAwsEuSovereignLinkAccountInput - Information required to link an AWS EU Sovereign account to a NewRelic account.
+type CloudAwsEuSovereignLinkAccountInput struct {
+	// The AWS role ARN (used to fetch data).
+	Arn string `json:"arn"`
+	// How metrics will be collected.
+	MetricCollectionMode CloudMetricCollectionMode `json:"metricCollectionMode,omitempty"`
+	// The linked account name.
+	Name string `json:"name"`
+}
+
+// CloudAwsEuSovereignUpdateAccountInput - Information required to update an AWS EU Sovereign account to a NewRelic account.
+type CloudAwsEuSovereignUpdateAccountInput struct {
+	// The AWS role ARN (used to fetch data).
+	Arn string `json:"arn,omitempty"`
+	// Disable the linked account.
+	Disabled bool `json:"disabled,omitempty"`
+	// The linked account identifier.
+	LinkedAccountId int `json:"linkedAccountId"`
+	// The linked account new name.
+	Name string `json:"name,omitempty"`
+}
+
+// CloudAwsEuSovereignProvider - The Amazon Web Services cloud provider (EU Sovereign)
+type CloudAwsEuSovereignProvider struct {
+	// The object creation date, in epoch (Unix) time
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
+	// The cloud provider identifier in NewRelic.
+	ID int `json:"id"`
+	// The cloud provider icon name.
+	Icon string `json:"icon"`
+	// The cloud provider name.
+	Name string `json:"name"`
+	// Get details of one cloud provider service.
+	Service CloudService `json:"service,omitempty"`
+	// Get details of all the cloud provider services available for integration.
+	Services []CloudService `json:"services"`
+	// The cloud provider short name.
+	Slug string `json:"slug"`
+	// Get template params of one cloud provider service.
+	TemplateParams []CloudTemplateParam `json:"templateParams"`
+	// The object last update date, in epoch (Unix) time
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
+}
+
+func (x *CloudAwsEuSovereignProvider) ImplementsCloudProvider() {}
+
+// CloudAwsEuSovereignDisableIntegrationsInput - List of integrations
+type CloudAwsEuSovereignDisableIntegrationsInput struct {
+	// API Gateway integration
+	APIgateway []CloudDisableAccountIntegrationInput `json:"apigateway,omitempty"`
+	// ALB/NLB integration
+	Alb []CloudDisableAccountIntegrationInput `json:"alb,omitempty"`
+	// AutoScaling integration
+	Autoscaling []CloudDisableAccountIntegrationInput `json:"autoscaling,omitempty"`
+	// Direct Connect integration
+	AwsDirectconnect []CloudDisableAccountIntegrationInput `json:"awsDirectconnect,omitempty"`
+	// Step Functions integration
+	AwsStates []CloudDisableAccountIntegrationInput `json:"awsStates,omitempty"`
+	// CloudTrail integration
+	Cloudtrail []CloudDisableAccountIntegrationInput `json:"cloudtrail,omitempty"`
+	// DynamoDB integration
+	Dynamodb []CloudDisableAccountIntegrationInput `json:"dynamodb,omitempty"`
+	// EBS integration
+	Ebs []CloudDisableAccountIntegrationInput `json:"ebs,omitempty"`
+	// EC2 integration
+	Ec2 []CloudDisableAccountIntegrationInput `json:"ec2,omitempty"`
+	// Elasticsearch Service integration
+	Elasticsearch []CloudDisableAccountIntegrationInput `json:"elasticsearch,omitempty"`
+	// ELB (Classic) integration
+	Elb []CloudDisableAccountIntegrationInput `json:"elb,omitempty"`
+	// EMR integration
+	Emr []CloudDisableAccountIntegrationInput `json:"emr,omitempty"`
+	// IAM integration
+	Iam []CloudDisableAccountIntegrationInput `json:"iam,omitempty"`
+	// Lambda integration
+	Lambda []CloudDisableAccountIntegrationInput `json:"lambda,omitempty"`
+	// RDS integration
+	Rds []CloudDisableAccountIntegrationInput `json:"rds,omitempty"`
+	// Redshift integration
+	Redshift []CloudDisableAccountIntegrationInput `json:"redshift,omitempty"`
+	// Route 53 integration
+	Route53 []CloudDisableAccountIntegrationInput `json:"route53,omitempty"`
+	// S3 integration
+	S3 []CloudDisableAccountIntegrationInput `json:"s3,omitempty"`
+	// SNS integration
+	Sns []CloudDisableAccountIntegrationInput `json:"sns,omitempty"`
+	// SQS integration
+	Sqs []CloudDisableAccountIntegrationInput `json:"sqs,omitempty"`
+}
+
+// CloudAwsEuSovereignIntegrationsInput - List of integrations
+type CloudAwsEuSovereignIntegrationsInput struct {
+	// API Gateway integration
+	APIgateway []CloudAPIgatewayIntegrationInput `json:"apigateway,omitempty"`
+	// ALB/NLB integration
+	Alb []CloudAlbIntegrationInput `json:"alb,omitempty"`
+	// AutoScaling integration
+	Autoscaling []CloudAutoscalingIntegrationInput `json:"autoscaling,omitempty"`
+	// Direct Connect integration
+	AwsDirectconnect []CloudAwsDirectconnectIntegrationInput `json:"awsDirectconnect,omitempty"`
+	// Step Functions integration
+	AwsStates []CloudAwsStatesIntegrationInput `json:"awsStates,omitempty"`
+	// CloudTrail integration
+	Cloudtrail []CloudCloudtrailIntegrationInput `json:"cloudtrail,omitempty"`
+	// DynamoDB integration
+	Dynamodb []CloudDynamodbIntegrationInput `json:"dynamodb,omitempty"`
+	// EBS integration
+	Ebs []CloudEbsIntegrationInput `json:"ebs,omitempty"`
+	// EC2 integration
+	Ec2 []CloudEc2IntegrationInput `json:"ec2,omitempty"`
+	// Elasticsearch Service integration
+	Elasticsearch []CloudElasticsearchIntegrationInput `json:"elasticsearch,omitempty"`
+	// ELB (Classic) integration
+	Elb []CloudElbIntegrationInput `json:"elb,omitempty"`
+	// EMR integration
+	Emr []CloudEmrIntegrationInput `json:"emr,omitempty"`
+	// IAM integration
+	Iam []CloudIamIntegrationInput `json:"iam,omitempty"`
+	// Lambda integration
+	Lambda []CloudLambdaIntegrationInput `json:"lambda,omitempty"`
+	// RDS integration
+	Rds []CloudRdsIntegrationInput `json:"rds,omitempty"`
+	// Redshift integration
+	Redshift []CloudRedshiftIntegrationInput `json:"redshift,omitempty"`
+	// Route 53 integration
+	Route53 []CloudRoute53IntegrationInput `json:"route53,omitempty"`
+	// S3 integration
+	S3 []CloudS3IntegrationInput `json:"s3,omitempty"`
+	// SNS integration
+	Sns []CloudSnsIntegrationInput `json:"sns,omitempty"`
+	// SQS integration
+	Sqs []CloudSqsIntegrationInput `json:"sqs,omitempty"`
+}
+
 // CloudAwsGovcloudDisableIntegrationsInput - List of integrations
 type CloudAwsGovcloudDisableIntegrationsInput struct {
 	// API Gateway integration
@@ -3345,6 +3479,8 @@ func (x *CloudDisableIntegrationPayload) UnmarshalJSON(b []byte) error {
 type CloudDisableIntegrationsInput struct {
 	// Aws provider
 	Aws CloudAwsDisableIntegrationsInput `json:"aws,omitempty"`
+	// AwsEuSovereign provider
+	AwsEuSovereign CloudAwsEuSovereignDisableIntegrationsInput `json:"awsEuSovereign,omitempty"`
 	// AwsGovcloud provider
 	AwsGovcloud CloudAwsGovcloudDisableIntegrationsInput `json:"awsGovcloud,omitempty"`
 	// Azure provider
@@ -5091,6 +5227,8 @@ type CloudIntegrationMutationError struct {
 type CloudIntegrationsInput struct {
 	// Aws provider
 	Aws CloudAwsIntegrationsInput `json:"aws,omitempty"`
+	// AwsEuSovereign provider
+	AwsEuSovereign CloudAwsEuSovereignIntegrationsInput `json:"awsEuSovereign,omitempty"`
 	// AwsGovcloud provider
 	AwsGovcloud CloudAwsGovcloudIntegrationsInput `json:"awsGovcloud,omitempty"`
 	// Azure provider
@@ -5293,6 +5431,8 @@ type CloudLinkAccountPayload struct {
 type CloudLinkCloudAccountsInput struct {
 	// Aws provider
 	Aws []CloudAwsLinkAccountInput `json:"aws,omitempty"`
+	// AwsEuSovereign provider
+	AwsEuSovereign []CloudAwsEuSovereignLinkAccountInput `json:"awsEuSovereign,omitempty"`
 	// AwsGovCloud provider
 	AwsGovcloud []CloudAwsGovCloudLinkAccountInput `json:"awsGovcloud,omitempty"`
 	// Azure provider
@@ -6150,6 +6290,8 @@ type CloudUpdateAccountPayload struct {
 type CloudUpdateCloudAccountsInput struct {
 	// Aws provider
 	Aws []CloudAwsUpdateAccountInput `json:"aws,omitempty"`
+	// AwsEuSovereign provider
+	AwsEuSovereign []CloudAwsEuSovereignUpdateAccountInput `json:"awsEuSovereign,omitempty"`
 	// AwsGovCloud provider
 	AwsGovcloud []CloudAwsGovCloudUpdateAccountInput `json:"awsGovcloud,omitempty"`
 	// Azure provider
@@ -7500,6 +7642,16 @@ func UnmarshalCloudProviderInterface(b []byte) (*CloudProviderInterface, error) 
 		}
 
 		switch typeName {
+		case "CloudAwsEuSovereignProvider":
+			var interfaceType CloudAwsEuSovereignProvider
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx CloudProviderInterface = &interfaceType
+
+			return &xxx, nil
 		case "CloudAwsGovCloudProvider":
 			var interfaceType CloudAwsGovCloudProvider
 			err = json.Unmarshal(b, &interfaceType)
