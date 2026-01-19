@@ -307,19 +307,20 @@ type RawConfiguration struct {
 	// Used by viz.markdown
 	Text string `json:"text,omitempty"`
 
-	Thresholds        interface{}                       `json:"thresholds,omitempty"`
-	Legend            *DashboardWidgetLegend            `json:"legend,omitempty"`
-	YAxisLeft         *DashboardWidgetYAxisLeft         `json:"yAxisLeft,omitempty"`
-	YAxisRight        *DashboardWidgetYAxisRight        `json:"yAxisRight,omitempty"`
-	NullValues        *DashboardWidgetNullValues        `json:"nullValues,omitempty"`
-	Units             *DashboardWidgetUnits             `json:"units,omitempty"`
-	Colors            *DashboardWidgetColors            `json:"colors,omitempty"`
-	Facet             *DashboardWidgetFacet             `json:"facet,omitempty"`
-	RefreshRate       *DashboardWidgetRefreshRate       `json:"refreshRate,omitempty"`
-	InitialSorting    *DashboardWidgetInitialSorting    `json:"initialSorting,omitempty"`
-	DataFormat        []*DashboardWidgetDataFormat      `json:"dataFormatters,omitempty"`
-	Tooltip           *DashboardWidgetTooltip           `json:"tooltip,omitempty"`
-	BillboardSettings *DashboardWidgetBillboardSettings `json:"billboardSettings,omitempty"`
+	Thresholds                    interface{}                                            `json:"thresholds,omitempty"`
+	ThresholdsWithSeriesOverrides *DashboardBillboardWidgetThresholdsWithSeriesOverrides `json:"thresholdsWithSeriesOverrides,omitempty"`
+	Legend                        *DashboardWidgetLegend                                 `json:"legend,omitempty"`
+	YAxisLeft                     *DashboardWidgetYAxisLeft                              `json:"yAxisLeft,omitempty"`
+	YAxisRight                    *DashboardWidgetYAxisRight                             `json:"yAxisRight,omitempty"`
+	NullValues                    *DashboardWidgetNullValues                             `json:"nullValues,omitempty"`
+	Units                         *DashboardWidgetUnits                                  `json:"units,omitempty"`
+	Colors                        *DashboardWidgetColors                                 `json:"colors,omitempty"`
+	Facet                         *DashboardWidgetFacet                                  `json:"facet,omitempty"`
+	RefreshRate                   *DashboardWidgetRefreshRate                            `json:"refreshRate,omitempty"`
+	InitialSorting                *DashboardWidgetInitialSorting                         `json:"initialSorting,omitempty"`
+	DataFormat                    []*DashboardWidgetDataFormat                           `json:"dataFormatters,omitempty"`
+	Tooltip                       *DashboardWidgetTooltip                                `json:"tooltip,omitempty"`
+	BillboardSettings             *DashboardWidgetBillboardSettings                      `json:"billboardSettings,omitempty"`
 }
 
 // RawConfigurationPlatformOptions represents platform widget options
@@ -455,6 +456,27 @@ type DashboardWidgetBillboardGridOptions struct {
 	Value   int `json:"value,omitempty"`
 	Label   int `json:"label,omitempty"`
 	Columns int `json:"columns,omitempty"`
+}
+
+// DashboardBillboardWidgetThresholdsWithSeriesOverrides represents the thresholds with series overrides configuration for billboard widgets
+type DashboardBillboardWidgetThresholdsWithSeriesOverrides struct {
+	Thresholds      []DashboardBillboardWidgetThreshold               `json:"thresholds,omitempty"`
+	SeriesOverrides []DashboardBillboardWidgetThresholdSeriesOverride `json:"seriesOverrides,omitempty"`
+}
+
+// DashboardBillboardWidgetThreshold represents a single threshold configuration
+type DashboardBillboardWidgetThreshold struct {
+	From     float64 `json:"from,omitempty"`
+	To       float64 `json:"to,omitempty"`
+	Severity string  `json:"severity,omitempty"`
+}
+
+// DashboardBillboardWidgetThresholdSeriesOverride represents a single threshold series override
+type DashboardBillboardWidgetThresholdSeriesOverride struct {
+	From       float64 `json:"from,omitempty"`
+	To         float64 `json:"to,omitempty"`
+	SeriesName string  `json:"seriesName,omitempty"`
+	Severity   string  `json:"severity,omitempty"`
 }
 
 // DashboardTooltipType represents an option for the dashboard tooltip's mode field.
