@@ -15,15 +15,16 @@ import (
 
 // Request represents a configurable HTTP request.
 type Request struct {
-	method       string
-	url          string
-	params       interface{}
-	reqBody      interface{}
-	value        interface{}
-	config       config.Config
-	authStrategy RequestAuthorizer
-	errorValue   ErrorResponse
-	request      *retryablehttp.Request
+	method        string
+	url           string
+	params        interface{}
+	reqBody       interface{}
+	value         interface{}
+	config        config.Config
+	authStrategy  RequestAuthorizer
+	errorValue    ErrorResponse
+	request       *retryablehttp.Request
+	customHeaders map[string]string
 }
 
 // NewRequest creates a new Request struct.
@@ -35,13 +36,14 @@ func (c *Client) NewRequest(method string, url string, params interface{}, reqBo
 	)
 
 	req := &Request{
-		method:       method,
-		url:          url,
-		params:       params,
-		reqBody:      reqBody,
-		value:        value,
-		authStrategy: c.authStrategy,
-		errorValue:   c.errorValue,
+		method:        method,
+		url:           url,
+		params:        params,
+		reqBody:       reqBody,
+		value:         value,
+		authStrategy:  c.authStrategy,
+		errorValue:    c.errorValue,
+		customHeaders: make(map[string]string),
 	}
 
 	// FIXME: We should remove this requirement on the request
@@ -119,6 +121,14 @@ func (r *Request) SetErrorValue(e ErrorResponse) {
 	r.errorValue = e
 }
 
+// SetCustomHeaders is used to the Request struct to set custom headers for a specific request
+func (r *Request) SetCustomHeaders(headers map[string]string) *Request {
+	for k, v := range headers {
+		r.SetHeader(k, v)
+	}
+	return r
+}
+
 // SetServiceName sets the service name for the request.
 func (r *Request) SetServiceName(serviceName string) {
 	serviceName = fmt.Sprintf("%s|%s", serviceName, defaultServiceName)
@@ -137,6 +147,13 @@ func (r *Request) makeRequest() (*retryablehttp.Request, error) {
 	err := r.setQueryParams()
 	if err != nil {
 		return nil, err
+	}
+
+	// Apply client-level custom headers if available
+	if r.config.CustomHeaders != nil {
+		for key, value := range r.config.CustomHeaders {
+			r.request.Header.Set(key, value)
+		}
 	}
 
 	return r.request, nil

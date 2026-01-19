@@ -58,6 +58,9 @@ type Config struct {
 
 	// Logger allows customization of the client's underlying logger.
 	Logger logging.Logger
+
+	// CustomHeaders stores headers to be applied to all requests
+	CustomHeaders map[string]string
 }
 
 // New creates a default configuration and returns it
@@ -65,9 +68,10 @@ func New() Config {
 	reg, _ := region.Get(region.Default)
 
 	return Config{
-		region:      reg,
-		LogLevel:    "info",
-		Compression: Compression.None,
+		region:        reg,
+		LogLevel:      "info",
+		Compression:   Compression.None,
+		CustomHeaders: make(map[string]string),
 	}
 }
 
@@ -141,4 +145,20 @@ func (c *Config) GetLogger() logging.Logger {
 	// c.Logger = l
 
 	return l
+}
+
+// ConfigCustomHeaders sets the custom headers to be sent with each request
+func ConfigCustomHeaders(headers map[string]string) ConfigOption {
+	return func(cfg *Config) error {
+		if cfg.CustomHeaders == nil {
+			cfg.CustomHeaders = make(map[string]string)
+		}
+
+		// Merge the provided headers with existing ones
+		for k, v := range headers {
+			cfg.CustomHeaders[k] = v
+		}
+
+		return nil
+	}
 }

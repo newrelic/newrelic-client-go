@@ -48,6 +48,9 @@ type Client struct {
 	errorValue ErrorResponse
 
 	logger logging.Logger
+
+	// customHeaders stores headers to be applied to all requests
+	customHeaders map[string]string
 }
 
 // NewClient is used to create a new instance of Client.
@@ -104,11 +107,16 @@ func NewClient(cfg config.Config) Client {
 	}
 
 	client := Client{
-		authStrategy: &ClassicV2Authorizer{},
-		client:       r,
-		config:       cfg,
-		errorValue:   &DefaultErrorResponse{},
-		logger:       logger,
+		authStrategy:  &ClassicV2Authorizer{},
+		client:        r,
+		config:        cfg,
+		errorValue:    &DefaultErrorResponse{},
+		logger:        logger,
+		customHeaders: make(map[string]string),
+	}
+
+	if cfg.CustomHeaders != nil {
+		client.SetCustomHeaders(cfg.CustomHeaders)
 	}
 
 	switch cfg.Compression {
@@ -137,6 +145,18 @@ func (c *Client) SetRequestCompressor(compressor RequestCompressor) {
 func (c *Client) SetErrorValue(v ErrorResponse) *Client {
 	c.errorValue = v
 	return c
+}
+
+// SetCustomHeaders is used to set custom headers at the client level
+func (c *Client) SetCustomHeaders(headers map[string]string) {
+	if c.customHeaders == nil {
+		c.customHeaders = make(map[string]string)
+	}
+
+	// Merge the new headers with existing ones
+	for k, v := range headers {
+		c.customHeaders[k] = v
+	}
 }
 
 // Get represents an HTTP GET request to a New Relic API.
@@ -197,14 +217,15 @@ func (c *Client) PostWithContext(
 	reqBody interface{},
 	respBody interface{},
 ) (*http.Response, error) {
-	req, err := c.NewRequest(http.MethodPost, url, queryParams, reqBody, respBody)
-	if err != nil {
-		return nil, err
-	}
-
-	req.WithContext(ctx)
-
-	return c.Do(req)
+	//req, err := c.NewRequest(http.MethodPost, url, queryParams, reqBody, respBody)
+	//if err != nil {
+	//	return nil, err
+	//}
+	//
+	//req.WithContext(ctx)
+	//
+	//return c.Do(req)
+	return c.PostWithContextAndHeaders(ctx, url, queryParams, reqBody, respBody, nil)
 }
 
 // Put represents an HTTP PUT request to a New Relic API.
@@ -543,4 +564,62 @@ func (c *Client) NewNerdGraphRequest(query string, vars map[string]interface{}, 
 	}
 
 	return req, nil
+}
+
+func (c *Client) PostWithHeaders(
+	url string,
+	queryParams interface{},
+	reqBody interface{},
+	respBody interface{},
+	customHeaders map[string]string,
+) (*http.Response, error) {
+	return c.PostWithContextAndHeaders(context.Background(), url, queryParams, reqBody, respBody, customHeaders)
+}
+
+// new methods for custom headers
+
+func (c *Client) NerdGraphQueryWithHeaders(query string, vars map[string]interface{}, respBody interface{}, customHeaders map[string]string) error {
+	return c.NerdGraphQueryWithContextAndHeaders(context.Background(), query, vars, respBody, customHeaders)
+}
+
+func (c *Client) NerdGraphQueryWithContextAndHeaders(ctx context.Context, query string, vars map[string]interface{}, respBody interface{}, customHeaders map[string]string) error {
+	req, err := c.NewNerdGraphRequest(query, vars, respBody)
+	if err != nil {
+		return err
+	}
+
+	if customHeaders != nil {
+		req.SetCustomHeaders(customHeaders)
+	}
+
+	req.WithContext(ctx)
+
+	_, err = c.Do(req)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (c *Client) PostWithContextAndHeaders(
+	ctx context.Context,
+	url string,
+	queryParams interface{},
+	reqBody interface{},
+	respBody interface{},
+	customHeaders map[string]string,
+) (*http.Response, error) {
+	req, err := c.NewRequest(http.MethodPost, url, queryParams, reqBody, respBody)
+	if err != nil {
+		return nil, err
+	}
+
+	if customHeaders != nil {
+		req.SetCustomHeaders(customHeaders)
+	}
+
+	req.WithContext(ctx)
+
+	return c.Do(req)
 }
