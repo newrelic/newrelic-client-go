@@ -665,7 +665,7 @@ type AiNotificationsChannel struct {
 // AiNotificationsChannelFilter - Filter channel object
 type AiNotificationsChannelFilter struct {
 	// active
-	Active bool `json:"active,omitempty"`
+	Active *bool `json:"active,omitempty"`
 	// destinationId
 	DestinationId string `json:"destinationId,omitempty"`
 	// id
@@ -719,7 +719,7 @@ type AiNotificationsChannelSorter struct {
 // AiNotificationsChannelUpdate - Channel update object
 type AiNotificationsChannelUpdate struct {
 	// active
-	Active bool `json:"active,omitempty"`
+	Active *bool `json:"active,omitempty"`
 	// name
 	Name string `json:"name,omitempty"`
 	// properties
@@ -815,7 +815,7 @@ type AiNotificationsDestination struct {
 // AiNotificationsDestinationFilter - Filter destination object
 type AiNotificationsDestinationFilter struct {
 	// active
-	Active bool `json:"active,omitempty"`
+	Active *bool `json:"active,omitempty"`
 	// authType
 	AuthType AiNotificationsAuthType `json:"authType,omitempty"`
 	// id
@@ -867,11 +867,11 @@ type AiNotificationsDestinationSorter struct {
 // AiNotificationsDestinationUpdate - Destination update object
 type AiNotificationsDestinationUpdate struct {
 	// active
-	Active bool `json:"active,omitempty"`
+	Active *bool `json:"active,omitempty"`
 	// auth
 	Auth *AiNotificationsCredentialsInput `json:"auth,omitempty"`
 	// disableAuth
-	DisableAuth bool `json:"disableAuth,omitempty"`
+	DisableAuth *bool `json:"disableAuth,omitempty"`
 	// name
 	Name string `json:"name,omitempty"`
 	// properties
