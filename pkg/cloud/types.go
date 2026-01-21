@@ -6591,6 +6591,16 @@ func UnmarshalCloudIntegrationInterface(b []byte) (*CloudIntegrationInterface, e
 			var xxx CloudIntegrationInterface = &interfaceType
 
 			return &xxx, nil
+		case "CloudAwsMetadataEuSovereignIntegration":
+			var interfaceType CloudAwsMetadataEuSovereignIntegration
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx CloudIntegrationInterface = &interfaceType
+
+			return &xxx, nil
 		case "CloudAwsMqIntegration":
 			var interfaceType CloudAwsMqIntegration
 			err = json.Unmarshal(b, &interfaceType)
@@ -6603,6 +6613,16 @@ func UnmarshalCloudIntegrationInterface(b []byte) (*CloudIntegrationInterface, e
 			return &xxx, nil
 		case "CloudAwsMsElasticacheIntegration":
 			var interfaceType CloudAwsMsElasticacheIntegration
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx CloudIntegrationInterface = &interfaceType
+
+			return &xxx, nil
+		case "CloudAwsMsElasticacheEuSovereignIntegration":
+			var interfaceType CloudAwsMsElasticacheEuSovereignIntegration
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
@@ -6663,6 +6683,16 @@ func UnmarshalCloudIntegrationInterface(b []byte) (*CloudIntegrationInterface, e
 			return &xxx, nil
 		case "CloudAwsTagsGlobalIntegration":
 			var interfaceType CloudAwsTagsGlobalIntegration
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx CloudIntegrationInterface = &interfaceType
+
+			return &xxx, nil
+		case "CloudAwsTagsGlobalEuSovereignIntegration":
+			var interfaceType CloudAwsTagsGlobalEuSovereignIntegration
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
