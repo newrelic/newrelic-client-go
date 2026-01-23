@@ -20,3 +20,7 @@ func newMockResponse(t *testing.T, mockJSONResponse string, statusCode int) Flee
 
 	return New(tc)
 }
+
+var (
+	testOrganizationID = "fb33fea3-4d7e-4736-9701-acb59a634fdf"
+)
