@@ -62,6 +62,49 @@ func (a *Fleetcontrol) FleetControlGetConfigurationWithContext(
 	return &resp, nil
 }
 
+// FleetControlGetConfigurationVersions retrieves all versions of a configuration.
+func (a *Fleetcontrol) FleetControlGetConfigurationVersions(
+	entityGUID string,
+	organizationID string,
+) (*GetConfigurationVersionsResponse, error) {
+	return a.FleetControlGetConfigurationVersionsWithContext(
+		context.Background(),
+		entityGUID,
+		organizationID,
+	)
+}
+
+// FleetControlGetConfigurationVersionsWithContext retrieves all versions of a configuration with context.
+func (a *Fleetcontrol) FleetControlGetConfigurationVersionsWithContext(
+	ctx context.Context,
+	entityGUID string,
+	organizationID string,
+) (*GetConfigurationVersionsResponse, error) {
+	var resp GetConfigurationVersionsResponse
+
+	if organizationID == "" {
+		return nil, fmt.Errorf("no organization ID specified")
+	}
+
+	_, err := a.client.GetWithContext(
+		ctx,
+		a.config.Region().BlobServiceURL(
+			fmt.Sprintf(
+				"/organizations/%s/AgentConfigurations/%s/versions",
+				organizationID,
+				entityGUID,
+			)),
+		nil,
+		&resp,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &resp, nil
+}
+
 // CreateBlob creates a new alert policy for a given account.
 func (a *Fleetcontrol) FleetControlCreateConfiguration(
 	requestBody interface{},
@@ -112,6 +155,18 @@ type CreateConfigurationResponse struct {
 }
 
 type GetConfigurationResponse string
+
+type GetConfigurationVersionsResponse struct {
+	Versions []ConfigurationVersion `json:"versions"`
+	Cursor   *string                `json:"cursor"`
+}
+
+type ConfigurationVersion struct {
+	EntityGUID string `json:"entity_guid"`
+	BlobID     string `json:"blob_id"`
+	Version    string `json:"version"`
+	Timestamp  string `json:"timestamp"`
+}
 
 type DeleteBlobResponse struct {
 	Response string `json:"response,omitempty"`

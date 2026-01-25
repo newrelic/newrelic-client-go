@@ -93,6 +93,30 @@ func TestIntegrationCreateConfigurationAndVersion(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, *getConfigurationVersionTwoResponse, GetConfigurationResponse(configurationVersionTwoBody))
 
+	// Test getting all configuration versions
+	getConfigurationVersionsResponse, err := client.FleetControlGetConfigurationVersions(
+		createConfigurationResponse.ConfigurationEntityGUID,
+		testOrganizationID,
+	)
+
+	require.NoError(t, err)
+	require.NotNil(t, getConfigurationVersionsResponse)
+	require.NotNil(t, getConfigurationVersionsResponse.Versions)
+	require.GreaterOrEqual(t, len(getConfigurationVersionsResponse.Versions), 2)
+
+	// Verify that we have at least 2 versions
+	var foundVersionOne, foundVersionTwo bool
+	for _, version := range getConfigurationVersionsResponse.Versions {
+		if version.Version == "1" {
+			foundVersionOne = true
+		}
+		if version.Version == "2" {
+			foundVersionTwo = true
+		}
+	}
+	require.True(t, foundVersionOne, "Expected to find version 1")
+	require.True(t, foundVersionTwo, "Expected to find version 2")
+
 }
 
 func TestIntegrationDeleteBlob(t *testing.T) {
