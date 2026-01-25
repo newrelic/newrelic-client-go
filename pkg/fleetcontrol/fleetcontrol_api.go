@@ -139,6 +139,79 @@ const FleetControlCreateFleetMutation = `mutation(
 	}
 } }`
 
+// Creates the fleet deployment
+func (a *Fleetcontrol) FleetControlCreateFleetDeployment(
+	fleetDeployment FleetControlFleetDeploymentCreateInput,
+) (*FleetControlFleetDeploymentCreateResult, error) {
+	return a.FleetControlCreateFleetDeploymentWithContext(context.Background(),
+		fleetDeployment,
+	)
+}
+
+// Creates the fleet deployment
+func (a *Fleetcontrol) FleetControlCreateFleetDeploymentWithContext(
+	ctx context.Context,
+	fleetDeployment FleetControlFleetDeploymentCreateInput,
+) (*FleetControlFleetDeploymentCreateResult, error) {
+
+	resp := FleetControlCreateFleetDeploymentQueryResponse{}
+	vars := map[string]interface{}{
+		"fleetDeployment": fleetDeployment,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, FleetControlCreateFleetDeploymentMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.FleetControlFleetDeploymentCreateResult, nil
+}
+
+type FleetControlCreateFleetDeploymentQueryResponse struct {
+	FleetControlFleetDeploymentCreateResult FleetControlFleetDeploymentCreateResult `json:"FleetControlCreateFleetDeployment"`
+}
+
+const FleetControlCreateFleetDeploymentMutation = `mutation(
+	$fleetDeployment: FleetControlFleetDeploymentCreateInput!,
+) { fleetControlCreateFleetDeployment(
+	fleetDeployment: $fleetDeployment,
+) {
+	entity {
+		configurationVersionList {
+			id
+		}
+		description
+		fleetId
+		id
+		metadata {
+			createdAt
+			createdBy {
+				id
+			}
+			updatedAt
+			updatedBy {
+				id
+			}
+		}
+		name
+		phase
+		ringsDeploymentTracker {
+			completedAt
+			name
+			startedAt
+			status
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+		type
+	}
+} }`
+
 // Deletes the fleet
 func (a *Fleetcontrol) FleetControlDeleteFleet(
 	iD string,
@@ -307,7 +380,89 @@ const FleetControlUpdateFleetMutation = `mutation(
 			}
 		}
 		name
+		operatingSystem {
+			type
+		}
 		product
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+		type
+	}
+} }`
+
+// Updates the fleet deployment
+func (a *Fleetcontrol) FleetControlUpdateFleetDeployment(
+	fleetDeploymentUpdate FleetControlFleetDeploymentUpdateInput,
+	iD string,
+) (*FleetControlFleetDeploymentUpdateResult, error) {
+	return a.FleetControlUpdateFleetDeploymentWithContext(context.Background(),
+		fleetDeploymentUpdate,
+		iD,
+	)
+}
+
+// Updates the fleet deployment
+func (a *Fleetcontrol) FleetControlUpdateFleetDeploymentWithContext(
+	ctx context.Context,
+	fleetDeploymentUpdate FleetControlFleetDeploymentUpdateInput,
+	iD string,
+) (*FleetControlFleetDeploymentUpdateResult, error) {
+
+	resp := FleetControlUpdateFleetDeploymentQueryResponse{}
+	vars := map[string]interface{}{
+		"fleetDeploymentUpdate": fleetDeploymentUpdate,
+		"id":                    iD,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, FleetControlUpdateFleetDeploymentMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.FleetControlFleetDeploymentUpdateResult, nil
+}
+
+type FleetControlUpdateFleetDeploymentQueryResponse struct {
+	FleetControlFleetDeploymentUpdateResult FleetControlFleetDeploymentUpdateResult `json:"FleetControlUpdateFleetDeployment"`
+}
+
+const FleetControlUpdateFleetDeploymentMutation = `mutation(
+	$fleetDeploymentUpdate: FleetControlFleetDeploymentUpdateInput!,
+	$id: ID!,
+) { fleetControlUpdateFleetDeployment(
+	fleetDeploymentUpdate: $fleetDeploymentUpdate,
+	id: $id,
+) {
+	entity {
+		configurationVersionList {
+			id
+		}
+		description
+		fleetId
+		id
+		metadata {
+			createdAt
+			createdBy {
+				id
+			}
+			updatedAt
+			updatedBy {
+				id
+			}
+		}
+		name
+		phase
+		ringsDeploymentTracker {
+			completedAt
+			name
+			startedAt
+			status
+		}
 		scope {
 			id
 			type

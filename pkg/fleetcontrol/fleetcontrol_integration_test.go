@@ -157,3 +157,137 @@ func TestIntegrationDeleteConfigurationVersion(t *testing.T) {
 
 	// require.NotNil(t, createUserResponse.CreatedUser.ID)
 }
+
+// doesn't work yet, because the fleet deploy part is not yet figured out
+func TestIntegrationFleetDeploymentCreateAndUpdate(t *testing.T) {
+	t.Skipf("TBD")
+
+	t.Parallel()
+	_, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	client := newIntegrationTestClient(t)
+
+	// Step 1: Create a test fleet first (required for deployment)
+	fleetName := fmt.Sprintf("Test Fleet for Deployment %d", time.Now().Unix())
+	createFleetInput := FleetControlFleetEntityCreateInput{
+		Name:              fleetName,
+		Description:       "Test fleet for deployment integration test",
+		ManagedEntityType: FleetControlManagedEntityTypeTypes.HOST,
+		Product:           "Infrastructure",
+		Scope: FleetControlScopedReferenceInput{
+			ID:   testOrganizationID,
+			Type: FleetControlEntityScopeTypes.ORGANIZATION,
+		},
+		Tags: []FleetControlTagInput{
+			{
+				Key:    "environment",
+				Values: []string{"test"},
+			},
+		},
+	}
+
+	createFleetResponse, err := client.FleetControlCreateFleet(createFleetInput)
+	require.NoError(t, err)
+	require.NotNil(t, createFleetResponse)
+	require.NotNil(t, createFleetResponse.Entity.ID)
+	require.Equal(t, fleetName, createFleetResponse.Entity.Name)
+
+	fleetID := createFleetResponse.Entity.ID
+	fmt.Printf("Created test fleet with ID: %s\n", fleetID)
+
+	// Step 2: Create a fleet deployment
+	deploymentName := fmt.Sprintf("Test Deployment %d", time.Now().Unix())
+	createDeploymentInput := FleetControlFleetDeploymentCreateInput{
+		FleetId:     fleetID,
+		Name:        deploymentName,
+		Description: "Test deployment for integration test",
+		Scope: FleetControlScopedReferenceInput{
+			ID:   testOrganizationID,
+			Type: FleetControlEntityScopeTypes.ORGANIZATION,
+		},
+		Tags: []FleetControlTagInput{
+			{
+				Key:    "test-type",
+				Values: []string{"integration"},
+			},
+		},
+	}
+
+	createDeploymentResponse, err := client.FleetControlCreateFleetDeployment(createDeploymentInput)
+	require.NoError(t, err)
+	require.NotNil(t, createDeploymentResponse)
+	require.NotNil(t, createDeploymentResponse.Entity.ID)
+	require.Equal(t, fleetID, createDeploymentResponse.Entity.FleetId)
+	require.Equal(t, deploymentName, createDeploymentResponse.Entity.Name)
+	require.NotEmpty(t, createDeploymentResponse.Entity.Phase)
+
+	deploymentID := createDeploymentResponse.Entity.ID
+	fmt.Printf("Created deployment with ID: %s\n", deploymentID)
+
+	// Verify deployment metadata
+	require.NotNil(t, createDeploymentResponse.Entity.Metadata)
+	require.NotZero(t, createDeploymentResponse.Entity.Metadata.CreatedAt)
+	require.NotEmpty(t, createDeploymentResponse.Entity.Metadata.CreatedBy.ID)
+
+	// Verify tags were set
+	require.NotEmpty(t, createDeploymentResponse.Entity.Tags)
+	foundTestTag := false
+	for _, tag := range createDeploymentResponse.Entity.Tags {
+		if tag.Key == "test-type" {
+			foundTestTag = true
+			require.Contains(t, tag.Values, "integration")
+		}
+	}
+	require.True(t, foundTestTag, "Expected to find test-type tag")
+
+	// Step 3: Update the fleet deployment
+	updatedDeploymentName := fmt.Sprintf("Updated Test Deployment %d", time.Now().Unix())
+	updateDeploymentInput := FleetControlFleetDeploymentUpdateInput{
+		Name:        updatedDeploymentName,
+		Description: "Updated description for integration test",
+		Tags: []FleetControlTagInput{
+			{
+				Key:    "test-type",
+				Values: []string{"integration", "updated"},
+			},
+			{
+				Key:    "status",
+				Values: []string{"modified"},
+			},
+		},
+	}
+
+	updateDeploymentResponse, err := client.FleetControlUpdateFleetDeployment(updateDeploymentInput, deploymentID)
+	require.NoError(t, err)
+	require.NotNil(t, updateDeploymentResponse)
+	require.Equal(t, deploymentID, updateDeploymentResponse.Entity.ID)
+	require.Equal(t, updatedDeploymentName, updateDeploymentResponse.Entity.Name)
+	require.Equal(t, "Updated description for integration test", updateDeploymentResponse.Entity.Description)
+
+	// Verify update metadata
+	require.NotNil(t, updateDeploymentResponse.Entity.Metadata)
+	require.NotZero(t, updateDeploymentResponse.Entity.Metadata.UpdatedAt)
+	require.NotEmpty(t, updateDeploymentResponse.Entity.Metadata.UpdatedBy.ID)
+
+	// Verify updated tags
+	require.NotEmpty(t, updateDeploymentResponse.Entity.Tags)
+	foundUpdatedTag := false
+	foundStatusTag := false
+	for _, tag := range updateDeploymentResponse.Entity.Tags {
+		if tag.Key == "test-type" {
+			foundUpdatedTag = true
+			require.Contains(t, tag.Values, "updated")
+		}
+		if tag.Key == "status" {
+			foundStatusTag = true
+			require.Contains(t, tag.Values, "modified")
+		}
+	}
+	require.True(t, foundUpdatedTag, "Expected to find updated test-type tag")
+	require.True(t, foundStatusTag, "Expected to find status tag")
+
+	fmt.Printf("Successfully created and updated deployment: %s\n", deploymentID)
+}

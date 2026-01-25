@@ -24,22 +24,22 @@ var FleetControlEntityScopeTypes = struct {
 type FleetControlFleetDeploymentPhase string
 
 var FleetControlFleetDeploymentPhaseTypes = struct {
-	// Deployment rollout completed
+	// Deployment completed
 	COMPLETED FleetControlFleetDeploymentPhase
 	// Deployment is in editable phase
 	CREATED FleetControlFleetDeploymentPhase
-	// Deployment rollout failed
+	// Deployment failed
 	FAILED FleetControlFleetDeploymentPhase
-	// Deployment is under rollout
+	// Deployment is in progress
 	IN_PROGRESS FleetControlFleetDeploymentPhase
 }{
-	// Deployment rollout completed
+	// Deployment completed
 	COMPLETED: "COMPLETED",
 	// Deployment is in editable phase
 	CREATED: "CREATED",
-	// Deployment rollout failed
+	// Deployment failed
 	FAILED: "FAILED",
-	// Deployment is under rollout
+	// Deployment is in progress
 	IN_PROGRESS: "IN_PROGRESS",
 }
 
@@ -47,11 +47,15 @@ var FleetControlFleetDeploymentPhaseTypes = struct {
 type FleetControlManagedEntityType string
 
 var FleetControlManagedEntityTypeTypes = struct {
+	// Instrumented APM Application
+	APPLICATION FleetControlManagedEntityType
 	// Infra Host
 	HOST FleetControlManagedEntityType
 	// Kubernetes Cluster
 	KUBERNETESCLUSTER FleetControlManagedEntityType
 }{
+	// Instrumented APM Application
+	APPLICATION: "APPLICATION",
 	// Infra Host
 	HOST: "HOST",
 	// Kubernetes Cluster

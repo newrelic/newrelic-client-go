@@ -1842,6 +1842,10 @@ packages:
         max_query_field_depth: 3
       - name: fleetControlRemoveFleetMembers
         max_query_field_depth: 3
+      - name: fleetControlCreateFleetDeployment
+        max_query_field_depth: 3
+      - name: fleetControlUpdateFleetDeployment
+        max_query_field_depth: 3
 
     types:
       - name: ID
