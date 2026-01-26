@@ -126,6 +126,9 @@ const FleetControlCreateFleetMutation = `mutation(
 			}
 		}
 		name
+		operatingSystem {
+			type
+		}
 		product
 		scope {
 			id
@@ -474,3 +477,563 @@ const FleetControlUpdateFleetDeploymentMutation = `mutation(
 		type
 	}
 } }`
+
+// Retrieves an entity.
+func (a *Fleetcontrol) GetEntity(
+	iD string,
+) (*EntityManagementEntityInterface, error) {
+	return a.GetEntityWithContext(context.Background(),
+		iD,
+	)
+}
+
+// Retrieves an entity.
+func (a *Fleetcontrol) GetEntityWithContext(
+	ctx context.Context,
+	iD string,
+) (*EntityManagementEntityInterface, error) {
+
+	resp := entityResponse{}
+	vars := map[string]interface{}{
+		"id": iD,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, getEntityQuery, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.Actor.EntityManagement.Entity, nil
+}
+
+const getEntityQuery = `query(
+	$id: ID!,
+) { actor { entityManagement { entity(
+	id: $id,
+) {
+	id
+	metadata {
+		createdAt
+		createdBy {
+			__typename
+			id
+			... on EntityManagementSystemActor {
+				__typename
+			}
+			... on EntityManagementUserActor {
+				__typename
+			}
+		}
+		updatedAt
+		updatedBy {
+			__typename
+			id
+			... on EntityManagementSystemActor {
+				__typename
+			}
+			... on EntityManagementUserActor {
+				__typename
+			}
+		}
+		version
+	}
+	name
+	scope {
+		id
+		type
+	}
+	tags {
+		key
+		values
+	}
+	type
+	... on EntityManagementAgentConfigurationEntity {
+		__typename
+		agentType
+		configurationType
+		managedEntityType
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		operatingSystem {
+			type
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+		versionCount
+	}
+	... on EntityManagementAgentConfigurationVersionEntity {
+		__typename
+		agentConfiguration
+		blob {
+			blobSignature {
+				securityFindings
+				signature {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				signatureError
+				signatureErrors
+				signatures {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				validationError
+			}
+			blobSignatures {
+				securityFindings
+				signature {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				signatureError
+				signatureErrors
+				signatures {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				validationError
+			}
+			checksum
+			checksumAlgorithm
+			contentType
+			id
+		}
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+		version
+	}
+	... on EntityManagementFleetEntity {
+		__typename
+		currentDeployment {
+			canaryManagedEntities
+			configsChanged
+			configurationVersions
+			deployedAt
+			description
+			entitiesChanged
+			managedEntitiesChanged
+			managedEntitiesRequiredToChange
+			metadata {
+				createdAt
+				updatedAt
+				userId
+			}
+			name
+			status
+			supervisedAgentEntitiesChanged
+			supervisedAgentEntitiesRequiredToChange
+		}
+		description
+		managedEntityRings {
+			id
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			name
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			type
+		}
+		managedEntityType
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		operatingSystem {
+			type
+		}
+		product
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+} } } }`
+
+// Retrieves a set of entities that match the given query predicate.
+func (a *Fleetcontrol) GetEntitySearch(
+	cursor string,
+	query string,
+) (*EntityManagementEntitySearchResult, error) {
+	return a.GetEntitySearchWithContext(context.Background(),
+		cursor,
+		query,
+	)
+}
+
+// Retrieves a set of entities that match the given query predicate.
+func (a *Fleetcontrol) GetEntitySearchWithContext(
+	ctx context.Context,
+	cursor string,
+	query string,
+) (*EntityManagementEntitySearchResult, error) {
+
+	resp := entitySearchResponse{}
+	vars := map[string]interface{}{
+		"cursor": cursor,
+		"query":  query,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, getEntitySearchQuery, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.Actor.EntityManagement.EntitySearch, nil
+}
+
+const getEntitySearchQuery = `query(
+	$query: String!,
+) { actor { entityManagement { entitySearch(
+	query: $query,
+) {
+	entities {
+		__typename
+		id
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		name
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+		type
+		... on EntityManagementAgentConfigurationEntity {
+			__typename
+			agentType
+			configurationType
+			managedEntityType
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			operatingSystem {
+				type
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			versionCount
+		}
+		... on EntityManagementAgentConfigurationVersionEntity {
+			__typename
+			agentConfiguration
+			blob {
+				blobSignature {
+					securityFindings
+					signatureError
+					signatureErrors
+					validationError
+				}
+				blobSignatures {
+					securityFindings
+					signatureError
+					signatureErrors
+					validationError
+				}
+				checksum
+				checksumAlgorithm
+				contentType
+				id
+			}
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			version
+		}
+		... on EntityManagementFleetEntity {
+			__typename
+			currentDeployment {
+				canaryManagedEntities
+				configsChanged
+				configurationVersions
+				deployedAt
+				description
+				entitiesChanged
+				managedEntitiesChanged
+				managedEntitiesRequiredToChange
+				metadata {
+					createdAt
+					updatedAt
+					userId
+				}
+				name
+				status
+				supervisedAgentEntitiesChanged
+				supervisedAgentEntitiesRequiredToChange
+			}
+			description
+			managedEntityRings {
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+			}
+			managedEntityType
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			operatingSystem {
+				type
+			}
+			product
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+	}
+	nextCursor
+} } } }`
