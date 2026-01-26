@@ -126,9 +126,6 @@ const FleetControlCreateFleetMutation = `mutation(
 			}
 		}
 		name
-		operatingSystem {
-			type
-		}
 		product
 		scope {
 			id
@@ -383,9 +380,6 @@ const FleetControlUpdateFleetMutation = `mutation(
 			}
 		}
 		name
-		operatingSystem {
-			type
-		}
 		product
 		scope {
 			id

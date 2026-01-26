@@ -158,6 +158,71 @@ func TestIntegrationDeleteConfigurationVersion(t *testing.T) {
 	// require.NotNil(t, createUserResponse.CreatedUser.ID)
 }
 
+func TestIntegrationGetEntity(t *testing.T) {
+	t.Parallel()
+	_, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	client := newIntegrationTestClient(t)
+
+	entityID := "NDgyOTY3M3xOR0VQfEZMRUVUfDAxOWJmOTRmLTAwY2MtNzBjNy1iNzA1LWYzNTdlNjJlZGNjNA"
+
+	entity, err := client.GetEntity(entityID)
+	require.NoError(t, err)
+	require.NotNil(t, entity)
+
+	// Type assert to EntityManagementFleetEntity since the ID indicates it's a FLEET entity
+	fleetEntity, ok := (*entity).(*EntityManagementFleetEntity)
+	require.True(t, ok, "Expected entity to be of type EntityManagementFleetEntity")
+	require.NotNil(t, fleetEntity)
+	require.Equal(t, entityID, fleetEntity.ID)
+	require.NotEmpty(t, fleetEntity.Name)
+	require.NotEmpty(t, fleetEntity.Type)
+
+	fmt.Printf("Successfully retrieved entity: %s (Type: %s, Name: %s)\n", fleetEntity.ID, fleetEntity.Type, fleetEntity.Name)
+}
+
+func TestIntegrationGetEntitySearch(t *testing.T) {
+	t.Parallel()
+	_, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	client := newIntegrationTestClient(t)
+
+	// Search for FLEET type entities
+	query := "type = 'FLEET'"
+
+	searchResult, err := client.GetEntitySearch("", query)
+	require.NoError(t, err)
+	require.NotNil(t, searchResult)
+	require.NotNil(t, searchResult.Entities)
+
+	fmt.Printf("Found %d entities matching query '%s'\n", len(searchResult.Entities), query)
+
+	// Verify we have at least one entity
+	require.GreaterOrEqual(t, len(searchResult.Entities), 1, "Expected at least one FLEET entity")
+
+	// Check the first entity to verify it's properly unmarshaled
+	if len(searchResult.Entities) > 0 {
+		firstEntity := searchResult.Entities[0]
+
+		// Try to type assert to EntityManagementFleetEntity
+		fleetEntity, ok := firstEntity.(*EntityManagementFleetEntity)
+		require.True(t, ok, "Expected entity to be of type EntityManagementFleetEntity")
+		require.NotNil(t, fleetEntity)
+		require.NotEmpty(t, fleetEntity.ID)
+		require.NotEmpty(t, fleetEntity.Name)
+		require.NotEmpty(t, fleetEntity.Type)
+		require.Equal(t, "FLEET", fleetEntity.Type)
+
+		fmt.Printf("First entity: ID=%s, Name=%s, Type=%s\n", fleetEntity.ID, fleetEntity.Name, fleetEntity.Type)
+	}
+}
+
 // doesn't work yet, because the fleet deploy part is not yet figured out
 func TestIntegrationFleetDeploymentCreateAndUpdate(t *testing.T) {
 	t.Skipf("TBD")

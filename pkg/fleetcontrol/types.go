@@ -4178,6 +4178,43 @@ type EntityManagementActorStitchedFields struct {
 	EntitySearch EntityManagementEntitySearchResult `json:"entitySearch,omitempty"`
 }
 
+// UnmarshalJSON custom unmarshaler for EntityManagementActorStitchedFields
+func (x *EntityManagementActorStitchedFields) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+
+	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
+		switch k {
+		case "entity":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalEntityManagementEntityInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.Entity = *xxx
+			}
+		case "entitySearch":
+			err = json.Unmarshal(*v, &x.EntitySearch)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
+}
+
 // EntityManagementAgentConfigurationEntity - A configuration that can contain multiple immutable versions and can be deployed to a fleet
 type EntityManagementAgentConfigurationEntity struct {
 	// The agentType
@@ -6000,8 +6037,6 @@ type FleetControlFleetEntityCreateInput struct {
 	ManagedEntityType FleetControlManagedEntityType `json:"managedEntityType"`
 	// The fleet entity name
 	Name string `json:"name"`
-	// The operating system type of the managed entities in this fleet
-	OperatingSystem FleetControlOperatingSystemCreateInput `json:"operatingSystem,omitempty"`
 	// The fleet specific product type
 	Product string `json:"product,omitempty"`
 	// The entity scope
@@ -6024,8 +6059,6 @@ type FleetControlFleetEntityResult struct {
 	Metadata FleetControlMetadata `json:"metadata"`
 	// Fleet entity name
 	Name string `json:"name"`
-	// Operating system information for HOST fleets
-	OperatingSystem FleetControlOperatingSystem `json:"operatingSystem,omitempty"`
 	// Fleet specific product type
 	Product []string `json:"product"`
 	// Fleet entity scope
