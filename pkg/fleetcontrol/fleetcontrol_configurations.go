@@ -205,26 +205,23 @@ func (a *Fleetcontrol) FleetControlDeleteConfigurationWithContext(
 	blobEntityGUID string,
 	organizationID string,
 ) (*DeleteBlobResponse, error) {
-	resp := DeleteBlobResponse{}
-
 	if organizationID == "" {
 		return nil, fmt.Errorf("no organization ID specified")
 
 	}
 
-	x, err := a.client.DeleteWithContext(
+	_, err := a.client.DeleteWithContext(
 		ctx,
 		a.config.Region().BlobServiceURL(fmt.Sprintf("/organizations/%s/AgentConfigurations/%s", organizationID, blobEntityGUID)),
 		nil,
-		&resp,
+		nil, // No response body expected from configuration deletion
 	)
 
 	if err != nil {
-		fmt.Println(x)
 		return nil, err
 	}
 
-	return &resp, nil
+	return &DeleteBlobResponse{}, nil
 }
 
 // CreateBlob creates a new alert policy for a given account.
@@ -245,22 +242,19 @@ func (a *Fleetcontrol) FleetControlDeleteConfigurationVersionWithContext(
 	configurationVersionGUID string,
 	organizationID string,
 ) error {
-	resp := DeleteBlobResponse{}
-
 	if organizationID == "" {
 		return fmt.Errorf("no organization ID specified")
 
 	}
 
-	x, err := a.client.DeleteWithContext(
+	_, err := a.client.DeleteWithContext(
 		ctx,
 		a.config.Region().BlobServiceURL(fmt.Sprintf("/organizations/%s/AgentConfigurationVersions/%s", organizationID, configurationVersionGUID)),
 		nil,
-		&resp,
+		nil, // No response body expected from version deletion
 	)
 
 	if err != nil {
-		fmt.Println(x)
 		return err
 	}
 
