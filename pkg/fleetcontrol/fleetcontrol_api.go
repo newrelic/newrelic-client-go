@@ -550,7 +550,6 @@ const getEntityQuery = `query(
 		__typename
 		agentType
 		configurationType
-		managedEntityType
 		metadata {
 			createdAt
 			createdBy {
@@ -860,7 +859,6 @@ const getEntitySearchQuery = `query(
 			__typename
 			agentType
 			configurationType
-			managedEntityType
 			metadata {
 				createdAt
 				createdBy {
