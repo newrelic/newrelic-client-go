@@ -852,8 +852,10 @@ type CloudAwsTagsGlobalEuSovereignIntegrationInput struct {
 }
 
 // CloudAwsEuSovereignDisableIntegrationsInput - List of integrations
-// EU Sovereign only supports: cloudtrail, health, trustedadvisor, xray
+// EU Sovereign only supports: billing, cloudtrail, health, trustedadvisor, xray
 type CloudAwsEuSovereignDisableIntegrationsInput struct {
+	// Billing integration
+	Billing []CloudDisableAccountIntegrationInput `json:"billing,omitempty"`
 	// CloudTrail integration
 	Cloudtrail []CloudDisableAccountIntegrationInput `json:"cloudtrail,omitempty"`
 	// Health integration
@@ -865,8 +867,10 @@ type CloudAwsEuSovereignDisableIntegrationsInput struct {
 }
 
 // CloudAwsEuSovereignIntegrationsInput - List of integrations
-// EU Sovereign only supports: cloudtrail, health, trustedadvisor, awsXray
+// EU Sovereign only supports: billing, cloudtrail, health, trustedadvisor, awsXray
 type CloudAwsEuSovereignIntegrationsInput struct {
+	// Billing integration
+	Billing []CloudBillingIntegrationInput `json:"billing,omitempty"`
 	// CloudTrail integration
 	Cloudtrail []CloudCloudtrailIntegrationInput `json:"cloudtrail,omitempty"`
 	// Health integration
