@@ -5,7 +5,7 @@ go 1.24.0
 toolchain go1.24.11
 
 require (
-	github.com/caarlos0/svu/v2 v2.0.1
+	github.com/caarlos0/svu/v2 v2.2.0
 	github.com/client9/misspell v0.3.4
 	github.com/git-chglog/git-chglog v0.15.4
 	github.com/golangci/golangci-lint/v2 v2.1.2
