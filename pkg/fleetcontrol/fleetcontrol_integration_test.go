@@ -223,6 +223,208 @@ func TestIntegrationGetEntitySearch(t *testing.T) {
 	}
 }
 
+func TestIntegrationFleetLifecycle(t *testing.T) {
+	t.Parallel()
+	_, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	client := newIntegrationTestClient(t)
+
+	// Step 1: Create a fleet
+	fleetName := fmt.Sprintf("Test Fleet Lifecycle Incident 10572 %d", time.Now().Unix())
+	createFleetInput := FleetControlFleetEntityCreateInput{
+		Name:              fleetName,
+		Description:       "Fleet for lifecycle integration test",
+		ManagedEntityType: FleetControlManagedEntityTypeTypes.HOST,
+		Product:           "Infrastructure",
+		Scope: FleetControlScopedReferenceInput{
+			ID:   testOrganizationID,
+			Type: FleetControlEntityScopeTypes.ORGANIZATION,
+		},
+		OperatingSystem: FleetControlOperatingSystemCreateInput{
+			Type: FleetControlOperatingSystemTypeTypes.LINUX,
+		},
+		Tags: []FleetControlTagInput{
+			{
+				Key:    "environment",
+				Values: []string{"test"},
+			},
+			{
+				Key:    "test-type",
+				Values: []string{"lifecycle"},
+			},
+		},
+	}
+
+	fmt.Println("Creating fleet...")
+	createFleetResponse, err := client.FleetControlCreateFleet(createFleetInput)
+	require.NoError(t, err)
+	require.NotNil(t, createFleetResponse)
+	require.NotNil(t, createFleetResponse.Entity.ID)
+	require.Equal(t, fleetName, createFleetResponse.Entity.Name)
+	require.Equal(t, "Fleet for lifecycle integration test", createFleetResponse.Entity.Description)
+
+	fleetID := createFleetResponse.Entity.ID
+	fmt.Printf("Created fleet with ID: %s\n", fleetID)
+
+	// Step 2: Update the fleet
+	updatedFleetName := fmt.Sprintf("Updated Test Fleet Lifecycle %d", time.Now().Unix())
+	updateFleetInput := FleetControlUpdateFleetEntityInput{
+		Name:        updatedFleetName,
+		Description: "Updated fleet description for lifecycle test",
+		Tags: []FleetControlTagInput{
+			{
+				Key:    "environment",
+				Values: []string{"test"},
+			},
+			{
+				Key:    "test-type",
+				Values: []string{"lifecycle", "updated"},
+			},
+			{
+				Key:    "status",
+				Values: []string{"modified"},
+			},
+		},
+	}
+
+	fmt.Println("Updating fleet...")
+	updateFleetResponse, err := client.FleetControlUpdateFleet(updateFleetInput, fleetID)
+	require.NoError(t, err)
+	require.NotNil(t, updateFleetResponse)
+	require.Equal(t, fleetID, updateFleetResponse.Entity.ID)
+	require.Equal(t, updatedFleetName, updateFleetResponse.Entity.Name)
+	require.Equal(t, "Updated fleet description for lifecycle test", updateFleetResponse.Entity.Description)
+	fmt.Printf("Updated fleet: %s\n", fleetID)
+
+	// Verify updated tags
+	require.NotEmpty(t, updateFleetResponse.Entity.Tags)
+	foundUpdatedTag := false
+	foundStatusTag := false
+	for _, tag := range updateFleetResponse.Entity.Tags {
+		if tag.Key == "test-type" {
+			foundUpdatedTag = true
+			require.Contains(t, tag.Values, "updated")
+		}
+		if tag.Key == "status" {
+			foundStatusTag = true
+			require.Contains(t, tag.Values, "modified")
+		}
+	}
+	require.True(t, foundUpdatedTag, "Expected to find updated test-type tag")
+	require.True(t, foundStatusTag, "Expected to find status tag")
+
+	// Step 3: Get the fleet using GetEntity
+	fmt.Println("Retrieving fleet entity...")
+	entity, err := client.GetEntity(fleetID)
+	require.NoError(t, err)
+	require.NotNil(t, entity)
+
+	// Type assert to EntityManagementFleetEntity
+	fleetEntity, ok := (*entity).(*EntityManagementFleetEntity)
+	require.True(t, ok, "Expected entity to be of type EntityManagementFleetEntity")
+	require.NotNil(t, fleetEntity)
+	require.Equal(t, fleetID, fleetEntity.ID)
+	require.Equal(t, updatedFleetName, fleetEntity.Name)
+	require.Equal(t, "FLEET", fleetEntity.Type)
+	fmt.Printf("Successfully retrieved fleet entity: %s (Type: %s, Name: %s)\n", fleetEntity.ID, fleetEntity.Type, fleetEntity.Name)
+
+	// Step 4: Add members to the fleet
+	memberEntityIDs := []string{
+		"NDQ4MTY4MXxJTkZSQXxOQXwtNzAxODk5NTUyMDU5NTExMjQ2NDQ",
+		"NDQ4MTY4MXxJTkZSQXxOQXwxNDk2ODkxNzc1MjA2MjI4NjEz",
+	}
+
+	addMembersInput := []FleetControlFleetMemberRingInput{
+		{
+			EntityIds: memberEntityIDs,
+			Ring:      "default",
+		},
+	}
+
+	fmt.Printf("Adding %d members to fleet...\n", len(memberEntityIDs))
+	addMembersResponse, err := client.FleetControlAddFleetMembers(fleetID, addMembersInput)
+	require.NoError(t, err)
+	require.NotNil(t, addMembersResponse)
+	require.Equal(t, fleetID, addMembersResponse.FleetId)
+	fmt.Printf("Successfully added members to fleet: %s\n", fleetID)
+
+	// Give the system a moment to process the member additions
+	time.Sleep(time.Second * 5)
+
+	// Step 5: Get fleet members to verify they exist
+	fmt.Println("Retrieving fleet members...")
+	getFleetMembersFilter := &FleetControlFleetMembersFilterInput{
+		FleetId: fleetID,
+		Ring:    "default",
+	}
+
+	fleetMembersResponse, err := client.GetFleetMembers("", getFleetMembersFilter)
+	require.NoError(t, err)
+	require.NotNil(t, fleetMembersResponse)
+	require.NotNil(t, fleetMembersResponse.Items)
+	fmt.Printf("Found %d fleet members\n", len(fleetMembersResponse.Items))
+
+	// Verify both members are present
+	require.GreaterOrEqual(t, len(fleetMembersResponse.Items), 2, "Expected at least 2 fleet members")
+
+	foundMembers := make(map[string]bool)
+	for _, member := range fleetMembersResponse.Items {
+		foundMembers[member.ID] = true
+		fmt.Printf("Found member: ID=%s, Name=%s, Type=%s\n", member.ID, member.Name, member.Type)
+	}
+
+	for _, memberID := range memberEntityIDs {
+		require.True(t, foundMembers[memberID], fmt.Sprintf("Expected to find member with ID: %s", memberID))
+	}
+	fmt.Println("Verified all members are present in the fleet")
+
+	// Step 6: Remove both members from the fleet
+	removeMembersInput := []FleetControlFleetMemberRingInput{
+		{
+			EntityIds: memberEntityIDs,
+			Ring:      "default",
+		},
+	}
+
+	fmt.Printf("Removing %d members from fleet...\n", len(memberEntityIDs))
+	removeMembersResponse, err := client.FleetControlRemoveFleetMembers(fleetID, removeMembersInput)
+	require.NoError(t, err)
+	require.NotNil(t, removeMembersResponse)
+	require.Equal(t, fleetID, removeMembersResponse.FleetId)
+	fmt.Printf("Successfully removed members from fleet: %s\n", fleetID)
+
+	// Give the system a moment to process the member removals
+	time.Sleep(time.Second * 5)
+
+	// Verify members were removed
+	fmt.Println("Verifying members were removed...")
+	fleetMembersAfterRemoval, err := client.GetFleetMembers("", getFleetMembersFilter)
+	require.NoError(t, err)
+	require.NotNil(t, fleetMembersAfterRemoval)
+
+	// Check that the members we removed are no longer present
+	remainingMembers := make(map[string]bool)
+	for _, member := range fleetMembersAfterRemoval.Items {
+		remainingMembers[member.ID] = true
+	}
+
+	for _, memberID := range memberEntityIDs {
+		require.False(t, remainingMembers[memberID], fmt.Sprintf("Member %s should have been removed but is still present", memberID))
+	}
+	fmt.Println("Verified all members were removed from the fleet")
+
+	// Step 7: Delete the fleet
+	fmt.Printf("Deleting fleet: %s...\n", fleetID)
+	deleteFleetResponse, err := client.FleetControlDeleteFleet(fleetID)
+	require.NoError(t, err)
+	require.NotNil(t, deleteFleetResponse)
+	require.Equal(t, fleetID, deleteFleetResponse.ID)
+	fmt.Printf("Successfully deleted fleet: %s\n", fleetID)
+}
+
 // doesn't work yet, because the fleet deploy part is not yet figured out
 func TestIntegrationFleetDeploymentCreateAndUpdate(t *testing.T) {
 	t.Skipf("TBD")

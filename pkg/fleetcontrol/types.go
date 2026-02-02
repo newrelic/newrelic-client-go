@@ -2253,6 +2253,8 @@ type Actor struct {
 	//
 	// Note: you must supply either a `query` OR a `queryBuilder` argument, not both.
 	EntitySearch EntitySearch `json:"entitySearch,omitempty"`
+	// This field provides access to FleetControl data.
+	FleetControl FleetControlActorStitchedFields `json:"fleetControl,omitempty"`
 }
 
 // AgentApplicationSegmentsBrowserSegmentAllowList - The allow list object for browser applications.
@@ -5917,6 +5919,13 @@ type FleetControlActor struct {
 	ID string `json:"id"`
 }
 
+type FleetControlActorStitchedFields struct {
+	// List managed entities for a fleet
+	FleetMembers FleetControlFleetMembersItemsResult `json:"fleetMembers,omitempty"`
+	// Service Healthcheck
+	HealthCheck string `json:"healthCheck,omitempty"`
+}
+
 // FleetControlCollectionEntity - Entity type to represent collections of entities
 type FleetControlCollectionEntity struct {
 	// The collection entity id
@@ -6037,6 +6046,8 @@ type FleetControlFleetEntityCreateInput struct {
 	ManagedEntityType FleetControlManagedEntityType `json:"managedEntityType"`
 	// The fleet entity name
 	Name string `json:"name"`
+	// The operating system type of the managed entities in this fleet
+	OperatingSystem FleetControlOperatingSystemCreateInput `json:"operatingSystem,omitempty"`
 	// The fleet specific product type
 	Product string `json:"product,omitempty"`
 	// The entity scope
@@ -6059,6 +6070,8 @@ type FleetControlFleetEntityResult struct {
 	Metadata FleetControlMetadata `json:"metadata"`
 	// Fleet entity name
 	Name string `json:"name"`
+	// Operating system information for HOST fleets
+	OperatingSystem FleetControlOperatingSystem `json:"operatingSystem,omitempty"`
 	// Fleet specific product type
 	Product []string `json:"product"`
 	// Fleet entity scope
@@ -6066,6 +6079,22 @@ type FleetControlFleetEntityResult struct {
 	// Fleet entity tags
 	Tags []FleetControlTag `json:"tags"`
 	// Fleet entity type
+	Type string `json:"type"`
+}
+
+// FleetControlFleetMemberEntityResult - Result representing a managed entity in a fleet
+type FleetControlFleetMemberEntityResult struct {
+	// The entity id
+	ID string `json:"id"`
+	// Metadata about the entity
+	Metadata FleetControlMetadata `json:"metadata"`
+	// The entity name
+	Name string `json:"name"`
+	// The entity's scope
+	Scope FleetControlScopedReference `json:"scope"`
+	// Collection of tags
+	Tags []FleetControlTag `json:"tags"`
+	// The entity type
 	Type string `json:"type"`
 }
 
@@ -6083,6 +6112,22 @@ type FleetControlFleetMemberRingInput struct {
 	EntityIds []string `json:"entityIds"`
 	// The ring name to modify entities
 	Ring string `json:"ring"`
+}
+
+// FleetControlFleetMembersFilterInput - Filter input for listing managed entities in a fleet
+type FleetControlFleetMembersFilterInput struct {
+	// Filter by fleet id
+	FleetId string `json:"fleetId"`
+	// Filter by ring name
+	Ring string `json:"ring,omitempty"`
+}
+
+// FleetControlFleetMembersItemsResult - Result of listing managed entities in a fleet
+type FleetControlFleetMembersItemsResult struct {
+	// The entities returned when querying the fleet members
+	Items []FleetControlFleetMemberEntityResult `json:"items"`
+	// Index to retrieve the next set of paginated results
+	NextCursor string `json:"nextCursor,omitempty"`
 }
 
 // FleetControlFleetMembersResult - The result returned when modifying managed entities on a fleet
@@ -8348,6 +8393,10 @@ type entityResponse struct {
 }
 
 type entitySearchResponse struct {
+	Actor Actor `json:"actor"`
+}
+
+type fleetMembersResponse struct {
 	Actor Actor `json:"actor"`
 }
 

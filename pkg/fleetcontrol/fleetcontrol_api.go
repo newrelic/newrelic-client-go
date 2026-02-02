@@ -126,6 +126,9 @@ const FleetControlCreateFleetMutation = `mutation(
 			}
 		}
 		name
+		operatingSystem {
+			type
+		}
 		product
 		scope {
 			id
@@ -380,6 +383,9 @@ const FleetControlUpdateFleetMutation = `mutation(
 			}
 		}
 		name
+		operatingSystem {
+			type
+		}
 		product
 		scope {
 			id
@@ -853,6 +859,7 @@ const getEntitySearchQuery = `query(
 			__typename
 			agentType
 			configurationType
+			managedEntityType
 			metadata {
 				createdAt
 				createdBy {
@@ -1026,6 +1033,62 @@ const getEntitySearchQuery = `query(
 				values
 			}
 		}
+	}
+	nextCursor
+} } } }`
+
+// List managed entities for a fleet
+func (a *Fleetcontrol) GetFleetMembers(
+	cursor string,
+	filter *FleetControlFleetMembersFilterInput,
+) (*FleetControlFleetMembersItemsResult, error) {
+	return a.GetFleetMembersWithContext(context.Background(),
+		cursor,
+		filter,
+	)
+}
+
+// List managed entities for a fleet
+func (a *Fleetcontrol) GetFleetMembersWithContext(
+	ctx context.Context,
+	cursor string,
+	filter *FleetControlFleetMembersFilterInput,
+) (*FleetControlFleetMembersItemsResult, error) {
+
+	resp := fleetMembersResponse{}
+	vars := map[string]interface{}{
+		"cursor": cursor,
+		"filter": filter,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, getFleetMembersQuery, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.Actor.FleetControl.FleetMembers, nil
+}
+
+const getFleetMembersQuery = `query(
+	$filter: FleetControlFleetMembersFilterInput!,
+) { actor { fleetControl { fleetMembers(
+	filter: $filter,
+) {
+	items {
+		id
+		metadata {
+			createdAt
+			updatedAt
+		}
+		name
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+		type
 	}
 	nextCursor
 } } } }`

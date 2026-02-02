@@ -1847,6 +1847,10 @@ packages:
       - name: fleetControlUpdateFleetDeployment
         max_query_field_depth: 3
     queries:
+      - path: [ "actor", "fleetControl" ]
+        endpoints:
+          - name: fleetMembers
+            max_query_field_depth: 2
       - path: [ "actor", "entityManagement" ]
         endpoints:
           - name: entity
@@ -1861,6 +1865,8 @@ packages:
               - tools
 
     types:
+      - name: FleetControlFleetMembersFilterInput
+        field_type_override: "*FleetControlFleetMembersFilterInput"
       - name: EntityManagementEntity
         include_implementations:
           - EntityManagementFleetEntity
