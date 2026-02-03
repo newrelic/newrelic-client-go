@@ -70,9 +70,23 @@ func NewClient(cfg config.Config) Client {
 		cfg.UserAgent = defaultUserAgent
 	}
 
-	// Either set or append the library name
+	// Auto-detect the calling service name if not explicitly provided
+	// This helps track which services/applications are using the client library
+	// for internal telemetry purposes, without requiring users to configure it
 	if cfg.ServiceName == "" {
-		cfg.ServiceName = defaultServiceName
+		// Attempt to auto-detect from Go module info or binary name
+		if detectedName := detectCallingService(); detectedName != "" {
+			cfg.ServiceName = detectedName
+		} else {
+			// Fall back to library name if detection fails
+			cfg.ServiceName = defaultServiceName
+		}
+	}
+
+	// Append the library name to track that this is the newrelic-client-go
+	if cfg.ServiceName == defaultServiceName {
+		// If we're already using the default, don't duplicate it
+		// This handles the case where auto-detection failed
 	} else {
 		cfg.ServiceName = fmt.Sprintf("%s|%s", cfg.ServiceName, defaultServiceName)
 	}
