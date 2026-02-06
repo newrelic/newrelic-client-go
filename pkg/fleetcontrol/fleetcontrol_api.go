@@ -254,6 +254,51 @@ const FleetControlDeleteFleetMutation = `mutation(
 	id
 } }`
 
+// Triggers the deployment
+func (a *Fleetcontrol) FleetControlDeploy(
+	iD string,
+	policy FleetControlFleetDeploymentPolicyInput,
+) (*FleetControlDeployResult, error) {
+	return a.FleetControlDeployWithContext(context.Background(),
+		iD,
+		policy,
+	)
+}
+
+// Triggers the deployment
+func (a *Fleetcontrol) FleetControlDeployWithContext(
+	ctx context.Context,
+	iD string,
+	policy FleetControlFleetDeploymentPolicyInput,
+) (*FleetControlDeployResult, error) {
+
+	resp := FleetControlDeployQueryResponse{}
+	vars := map[string]interface{}{
+		"id":     iD,
+		"policy": policy,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, FleetControlDeployMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.FleetControlDeployResult, nil
+}
+
+type FleetControlDeployQueryResponse struct {
+	FleetControlDeployResult FleetControlDeployResult `json:"FleetControlDeploy"`
+}
+
+const FleetControlDeployMutation = `mutation(
+	$id: ID!,
+	$policy: FleetControlFleetDeploymentPolicyInput!,
+) { fleetControlDeploy(
+	id: $id,
+	policy: $policy,
+) {
+	id
+} }`
+
 // Removes managed entities from a fleet
 func (a *Fleetcontrol) FleetControlRemoveFleetMembers(
 	fleetId string,

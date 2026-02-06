@@ -4838,6 +4838,24 @@ type EntityManagementGitRepositoryEntity struct {
 
 func (x *EntityManagementGitRepositoryEntity) ImplementsEntityManagementEntity() {}
 
+// EntityManagementImpactProfileEntity - An entity representing impact profile.
+type EntityManagementImpactProfileEntity struct {
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// A unique user provided name for the impact profile.
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementImpactProfileEntity) ImplementsEntityManagementEntity() {}
+
 // EntityManagementInboxIssueCategoryEntity - Entity to represent category type configuration
 type EntityManagementInboxIssueCategoryEntity struct {
 	// Scope for this configuration
@@ -5926,6 +5944,16 @@ type FleetControlActorStitchedFields struct {
 	HealthCheck string `json:"healthCheck,omitempty"`
 }
 
+// FleetControlAgentInput - Agent input
+type FleetControlAgentInput struct {
+	// Agent type
+	AgentType string `json:"agentType"`
+	// Configuration version list for this agent
+	ConfigurationVersionList []FleetControlConfigurationVersionListInput `json:"configurationVersionList,omitempty"`
+	// Agent version
+	Version string `json:"version"`
+}
+
 // FleetControlCollectionEntity - Entity type to represent collections of entities
 type FleetControlCollectionEntity struct {
 	// The collection entity id
@@ -5966,6 +5994,20 @@ type FleetControlDeleteFleetResult struct {
 	ID string `json:"id"`
 }
 
+// FleetControlDeployFleetResult - The result returned when deploying a configuration to a fleet - DEPRECATED
+type FleetControlDeployFleetResult struct {
+	// The fleet entity id - DEPRECATED
+	FleetGUID string `json:"fleetGuid"`
+	// The fleet entity id
+	FleetId string `json:"fleetId"`
+}
+
+// FleetControlDeployResult - The result returned when deploying a configuration to a fleet
+type FleetControlDeployResult struct {
+	// The deployment entity id
+	ID string `json:"id"`
+}
+
 // FleetControlFleetDeploymentCreateInput - Fleet deployment create input
 type FleetControlFleetDeploymentCreateInput struct {
 	// Fleet deployment configuration version list
@@ -5992,6 +6034,12 @@ type FleetControlFleetDeploymentCreateResult struct {
 type FleetControlFleetDeploymentDeleteResult struct {
 	// Fleet deployment entity id
 	ID string `json:"id"`
+}
+
+// FleetControlFleetDeploymentPolicyInput - Fleet deployment policy input
+type FleetControlFleetDeploymentPolicyInput struct {
+	// Rings to deploy
+	RingDeploymentPolicy FleetControlRingDeploymentPolicyInput `json:"ringDeploymentPolicy,omitempty"`
 }
 
 // FleetControlFleetDeploymentResult - The result returned for a fleet deployment
@@ -6160,6 +6208,12 @@ type FleetControlOperatingSystem struct {
 type FleetControlOperatingSystemCreateInput struct {
 	// The operating system type enum
 	Type FleetControlOperatingSystemType `json:"type"`
+}
+
+// FleetControlRingDeploymentPolicyInput - Ring deployment policy input
+type FleetControlRingDeploymentPolicyInput struct {
+	// Rings to deploy
+	RingsToDeploy []string `json:"ringsToDeploy"`
 }
 
 // FleetControlRingsDeploymentTracker - The deployment status for a ring

@@ -1846,6 +1846,8 @@ packages:
         max_query_field_depth: 3
       - name: fleetControlUpdateFleetDeployment
         max_query_field_depth: 3
+      - name: fleetControlDeploy
+        max_query_field_depth: 2
     queries:
       - path: [ "actor", "fleetControl" ]
         endpoints:
