@@ -3,6 +3,8 @@ package fleetcontrol
 import (
 	"context"
 	"fmt"
+	"io"
+	"net/http"
 )
 
 // CreateBlob creates a new alert policy for a given account.
@@ -29,8 +31,6 @@ func (a *Fleetcontrol) FleetControlGetConfigurationWithContext(
 	getConfigurationMode GetConfigurationMode,
 	version int,
 ) (*GetConfigurationResponse, error) {
-	var resp GetConfigurationResponse
-
 	if organizationID == "" {
 		return nil, fmt.Errorf("no organization ID specified")
 
@@ -41,24 +41,67 @@ func (a *Fleetcontrol) FleetControlGetConfigurationWithContext(
 		versionQueryParameterAppender = fmt.Sprintf("?version=%d", version)
 	}
 
-	_, err := a.client.GetWithContext(
-		ctx,
-		a.config.Region().BlobServiceURL(
-			fmt.Sprintf(
-				"/organizations/%s/%s/%s%s",
-				organizationID,
-				string(getConfigurationMode),
-				entityGUID,
-				versionQueryParameterAppender,
-			)),
-		nil,
-		&resp,
-	)
+	// Build the URL
+	url := a.config.Region().BlobServiceURL(
+		fmt.Sprintf(
+			"/organizations/%s/%s/%s%s",
+			organizationID,
+			string(getConfigurationMode),
+			entityGUID,
+			versionQueryParameterAppender,
+		))
 
+	// Make a direct HTTP GET request to bypass JSON unmarshaling
+	// The blob service returns plain text (YAML/JSON config), not JSON-encoded data
+	httpReq, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to create request: %w", err)
 	}
 
+	// Add authentication headers (API key)
+	if a.config.PersonalAPIKey != "" {
+		httpReq.Header.Set("Api-Key", a.config.PersonalAPIKey)
+	}
+
+	// Set Content-Type and User-Agent headers
+	httpReq.Header.Set("Content-Type", "application/json")
+	if a.config.UserAgent != "" {
+		httpReq.Header.Set("User-Agent", a.config.UserAgent)
+	}
+
+	// Use the configured HTTP client to make the request
+	// Note: We can't use a.client.Do() because it does JSON unmarshaling
+	// So we create a basic HTTP client for this raw request
+	httpClient := &http.Client{}
+	if a.config.Timeout != nil {
+		httpClient.Timeout = *a.config.Timeout
+	}
+	if a.config.HTTPTransport != nil {
+		httpClient.Transport = a.config.HTTPTransport
+	}
+
+	httpResp, err := httpClient.Do(httpReq)
+	if err != nil {
+		return nil, fmt.Errorf("failed to make request: %w", err)
+	}
+	defer httpResp.Body.Close()
+
+	// Check for error status codes
+	if httpResp.StatusCode != http.StatusOK {
+		if httpResp.StatusCode == http.StatusNotFound {
+			return nil, fmt.Errorf("resource not found")
+		}
+		return nil, fmt.Errorf("unexpected status code: %d", httpResp.StatusCode)
+	}
+
+	// Read the raw response body
+	body, err := io.ReadAll(httpResp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read response body: %w", err)
+	}
+
+	// Convert to GetConfigurationResponse (string)
+	resp := GetConfigurationResponse(string(body))
 	return &resp, nil
 }
 
@@ -156,7 +199,7 @@ type CreateConfigurationResponse struct {
 
 type GetConfigurationResponse string
 
-type GetConfigurationVersionsResponse struct {
+type GetConfigurationVersionsResponse struct{
 	Versions []ConfigurationVersion `json:"versions"`
 	Cursor   *string                `json:"cursor"`
 }
