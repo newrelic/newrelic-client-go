@@ -2,7 +2,7 @@ module github.com/newrelic/newrelic-client-go/v2
 
 go 1.24.0
 
-toolchain go1.24.11
+toolchain go1.26.0
 
 require (
 	github.com/elazarl/goproxy v0.0.0-20231117061959-7cc037d33fb5
