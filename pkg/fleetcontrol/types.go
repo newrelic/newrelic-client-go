@@ -4207,43 +4207,6 @@ type EntityManagementActorStitchedFields struct {
 	EntitySearch EntityManagementEntitySearchResult `json:"entitySearch,omitempty"`
 }
 
-// UnmarshalJSON custom unmarshaler for EntityManagementActorStitchedFields
-func (x *EntityManagementActorStitchedFields) UnmarshalJSON(b []byte) error {
-	var objMap map[string]*json.RawMessage
-	err := json.Unmarshal(b, &objMap)
-	if err != nil {
-		return err
-	}
-
-	for k, v := range objMap {
-		if v == nil {
-			continue
-		}
-
-		switch k {
-		case "entity":
-			if v == nil {
-				continue
-			}
-			xxx, err := UnmarshalEntityManagementEntityInterface(*v)
-			if err != nil {
-				return err
-			}
-
-			if xxx != nil {
-				x.Entity = *xxx
-			}
-		case "entitySearch":
-			err = json.Unmarshal(*v, &x.EntitySearch)
-			if err != nil {
-				return err
-			}
-		}
-	}
-
-	return nil
-}
-
 // EntityManagementAgentConfigurationEntity - A configuration that can contain multiple immutable versions and can be deployed to a fleet
 type EntityManagementAgentConfigurationEntity struct {
 	// The agentType
@@ -4295,6 +4258,16 @@ type EntityManagementAgentConfigurationVersionEntity struct {
 }
 
 func (x *EntityManagementAgentConfigurationVersionEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementAgentToDeploy - Agent to deploy in a fleet deployment
+type EntityManagementAgentToDeploy struct {
+	// Agent type
+	AgentType string `json:"agentType"`
+	// Configuration version list for this agent
+	ConfigurationVersionList []EntityManagementDeploymentAgentConfigurationVersion `json:"configurationVersionList"`
+	// Agent version
+	Version string `json:"version"`
+}
 
 // EntityManagementAiAgentEntity - Agent configuration for agentic-platform
 type EntityManagementAiAgentEntity struct {
@@ -4793,6 +4766,8 @@ type EntityManagementFleetDeployment struct {
 
 // EntityManagementFleetDeploymentEntity - A set of configurations that can be deployed to a fleet
 type EntityManagementFleetDeploymentEntity struct {
+	// Agents to deploy
+	Agents []EntityManagementAgentToDeploy `json:"agents"`
 	// A list of configurations included in this deployment
 	ConfigurationVersionList []EntityManagementDeploymentAgentConfigurationVersion `json:"configurationVersionList,omitempty"`
 	// Deprecated - Replaced by configurationVersionList
@@ -6085,7 +6060,9 @@ type FleetControlDeployResult struct {
 
 // FleetControlFleetDeploymentCreateInput - Fleet deployment create input
 type FleetControlFleetDeploymentCreateInput struct {
-	// Fleet deployment configuration version list
+	// Agents configurations
+	Agents []FleetControlAgentInput `json:"agents,omitempty"`
+	// Fleet deployment configuration version list - DEPRECATED
 	ConfigurationVersionList []FleetControlConfigurationVersionListInput `json:"configurationVersionList,omitempty"`
 	// Fleet deployment description
 	Description string `json:"description,omitempty"`
