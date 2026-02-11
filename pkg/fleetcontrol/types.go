@@ -1433,6 +1433,33 @@ var EntityManagementExternalOwnerTypeTypes = struct {
 	WORKSPACE: "WORKSPACE",
 }
 
+// EntityManagementFleetDeploymentPhase - Phases a fleet deployment can have
+type EntityManagementFleetDeploymentPhase string
+
+var EntityManagementFleetDeploymentPhaseTypes = struct {
+	// Deployment rollout completed
+	COMPLETED EntityManagementFleetDeploymentPhase
+	// Deployment is in editable phase
+	CREATED EntityManagementFleetDeploymentPhase
+	// Indicates a deployment failed to deploy to all agents
+	FAILED EntityManagementFleetDeploymentPhase
+	// Indicates an internal failure in the deployment process
+	INTERNAL_FAILURE EntityManagementFleetDeploymentPhase
+	// Deployment is under rollout
+	IN_PROGRESS EntityManagementFleetDeploymentPhase
+}{
+	// Deployment rollout completed
+	COMPLETED: "COMPLETED",
+	// Deployment is in editable phase
+	CREATED: "CREATED",
+	// Indicates a deployment failed to deploy to all agents
+	FAILED: "FAILED",
+	// Indicates an internal failure in the deployment process
+	INTERNAL_FAILURE: "INTERNAL_FAILURE",
+	// Deployment is under rollout
+	IN_PROGRESS: "IN_PROGRESS",
+}
+
 // EntityManagementHostingPlatform - List of possible hosting platforms of the repository.
 type EntityManagementHostingPlatform string
 
@@ -4633,6 +4660,12 @@ type EntityManagementConfluenceRagSettingsEntity struct {
 
 func (x *EntityManagementConfluenceRagSettingsEntity) ImplementsEntityManagementEntity() {}
 
+// EntityManagementDeploymentAgentConfigurationVersion - Properties of a deployed configuration version
+type EntityManagementDeploymentAgentConfigurationVersion struct {
+	// Configuration version ID
+	ID string `json:"id"`
+}
+
 // EntityManagementDiscoverySettings - Discovery related settings.
 type EntityManagementDiscoverySettings struct {
 	// If discovery is enabled for that organization or not.
@@ -4757,6 +4790,36 @@ type EntityManagementFleetDeployment struct {
 	// The number of supervised agent entities required to change during this deployment
 	SupervisedAgentEntitiesRequiredToChange int `json:"supervisedAgentEntitiesRequiredToChange,omitempty"`
 }
+
+// EntityManagementFleetDeploymentEntity - A set of configurations that can be deployed to a fleet
+type EntityManagementFleetDeploymentEntity struct {
+	// A list of configurations included in this deployment
+	ConfigurationVersionList []EntityManagementDeploymentAgentConfigurationVersion `json:"configurationVersionList,omitempty"`
+	// Deprecated - Replaced by configurationVersionList
+	ConfigurationVersions []string `json:"configurationVersions"`
+	// Deployment description
+	Description string `json:"description,omitempty"`
+	// Deployment's Fleet ID
+	FleetId string `json:"fleetId"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// Deployment name
+	Name string `json:"name"`
+	// Deployment phase
+	Phase EntityManagementFleetDeploymentPhase `json:"phase,omitempty"`
+	// Ring wise deployment status
+	RingsDeploymentTracker []EntityManagementRingDeploymentTracker `json:"ringsDeploymentTracker,omitempty"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementFleetDeploymentEntity) ImplementsEntityManagementEntity() {}
 
 // EntityManagementFleetEntity - A fleet of entities that are managed by NRAgentControl
 type EntityManagementFleetEntity struct {
@@ -5131,6 +5194,18 @@ type EntityManagementRepositoryLicense struct {
 	Name EntityManagementLicenseName `json:"name"`
 	// License Url associated with the repository
 	URL string `json:"url,omitempty"`
+}
+
+// EntityManagementRingDeploymentTracker - A type for holding deployment status for a Ring
+type EntityManagementRingDeploymentTracker struct {
+	// Rollout end time
+	CompletedAt nrtime.EpochMilliseconds `json:"completedAt,omitempty"`
+	// Ring name
+	Name string `json:"name"`
+	// Rollout start time
+	StartedAt nrtime.EpochMilliseconds `json:"startedAt,omitempty"`
+	// Ring deployment status
+	Status string `json:"status"`
 }
 
 // EntityManagementRuleExecutionStatus - Rule execution status
@@ -6207,7 +6282,8 @@ type FleetControlOperatingSystem struct {
 // FleetControlOperatingSystemCreateInput - Operating System input for the host operating systems in a fleet
 type FleetControlOperatingSystemCreateInput struct {
 	// The operating system type enum
-	Type FleetControlOperatingSystemType `json:"type"`
+	// DO NOT MODIFY
+	Type FleetControlOperatingSystemType `json:"type,omitempty"`
 }
 
 // FleetControlRingDeploymentPolicyInput - Ring deployment policy input
@@ -9456,6 +9532,16 @@ func UnmarshalEntityManagementEntityInterface(b []byte) (*EntityManagementEntity
 			return &xxx, nil
 		case "EntityManagementAgentConfigurationVersionEntity":
 			var interfaceType EntityManagementAgentConfigurationVersionEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementFleetDeploymentEntity":
+			var interfaceType EntityManagementFleetDeploymentEntity
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err

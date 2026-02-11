@@ -725,6 +725,55 @@ const getEntityQuery = `query(
 		}
 		version
 	}
+	... on EntityManagementFleetDeploymentEntity {
+		__typename
+		configurationVersionList {
+			id
+		}
+		configurationVersions
+		description
+		fleetId
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		phase
+		ringsDeploymentTracker {
+			completedAt
+			name
+			startedAt
+			status
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
 	... on EntityManagementFleetEntity {
 		__typename
 		currentDeployment {
@@ -997,6 +1046,55 @@ const getEntitySearchQuery = `query(
 				values
 			}
 			version
+		}
+		... on EntityManagementFleetDeploymentEntity {
+			__typename
+			configurationVersionList {
+				id
+			}
+			configurationVersions
+			description
+			fleetId
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			phase
+			ringsDeploymentTracker {
+				completedAt
+				name
+				startedAt
+				status
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
 		}
 		... on EntityManagementFleetEntity {
 			__typename

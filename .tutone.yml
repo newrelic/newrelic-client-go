@@ -1846,6 +1846,8 @@ packages:
         max_query_field_depth: 3
       - name: fleetControlUpdateFleetDeployment
         max_query_field_depth: 3
+      - name: fleetControlDeleteFleetDeployment
+        max_query_field_depth: 3
       - name: fleetControlDeploy
         max_query_field_depth: 2
     queries:
@@ -1874,6 +1876,7 @@ packages:
           - EntityManagementFleetEntity
           - EntityManagementAgentConfigurationEntity
           - EntityManagementAgentConfigurationVersionEntity
+          - EntityManagementFleetDeploymentEntity
       - name: ID
         field_type_override: string
         skip_type_create: true
