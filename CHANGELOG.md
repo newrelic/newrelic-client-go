@@ -1,3 +1,8 @@
+<a name="v2.78.0"></a>
+## [v2.78.0] - 2026-02-16
+### Features
+- **cloud:** rollback health and trusted advisor for EUSC ([#1371](https://github.com/newrelic/newrelic-client-go/issues/1371))
+
 <a name="v2.77.0"></a>
 ## [v2.77.0] - 2026-02-02
 ### Features
@@ -2195,7 +2200,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.77.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.78.0...HEAD
+[v2.78.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.77.0...v2.78.0
 [v2.77.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.76.0...v2.77.0
 [v2.76.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.75.4...v2.76.0
 [v2.75.4]: https://github.com/newrelic/newrelic-client-go/compare/v2.75.3...v2.75.4
