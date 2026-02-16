@@ -852,31 +852,23 @@ type CloudAwsTagsGlobalEuSovereignIntegrationInput struct {
 }
 
 // CloudAwsEuSovereignDisableIntegrationsInput - List of integrations
-// EU Sovereign only supports: billing, cloudtrail, health, trustedadvisor, xray
+// EU Sovereign only supports: billing, cloudtrail, xray
 type CloudAwsEuSovereignDisableIntegrationsInput struct {
 	// Billing integration
 	Billing []CloudDisableAccountIntegrationInput `json:"billing,omitempty"`
 	// CloudTrail integration
 	Cloudtrail []CloudDisableAccountIntegrationInput `json:"cloudtrail,omitempty"`
-	// Health integration
-	Health []CloudDisableAccountIntegrationInput `json:"health,omitempty"`
-	// Trusted Advisor integration
-	Trustedadvisor []CloudDisableAccountIntegrationInput `json:"trustedadvisor,omitempty"`
 	// X-Ray integration
 	AwsXray []CloudDisableAccountIntegrationInput `json:"awsXray,omitempty"`
 }
 
 // CloudAwsEuSovereignIntegrationsInput - List of integrations
-// EU Sovereign only supports: billing, cloudtrail, health, trustedadvisor, awsXray
+// EU Sovereign only supports: billing, cloudtrail, awsXray
 type CloudAwsEuSovereignIntegrationsInput struct {
 	// Billing integration
 	Billing []CloudBillingIntegrationInput `json:"billing,omitempty"`
 	// CloudTrail integration
 	Cloudtrail []CloudCloudtrailIntegrationInput `json:"cloudtrail,omitempty"`
-	// Health integration
-	Health []CloudHealthIntegrationInput `json:"health,omitempty"`
-	// Trusted Advisor integration
-	Trustedadvisor []CloudTrustedadvisorIntegrationInput `json:"trustedadvisor,omitempty"`
 	// X-Ray integration
 	AwsXray []CloudAwsXrayIntegrationInput `json:"awsXray,omitempty"`
 }
