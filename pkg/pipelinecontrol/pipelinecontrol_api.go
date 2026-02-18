@@ -3,6 +3,14384 @@ package pipelinecontrol
 
 import "context"
 
+// Creates an entity of type FederatedLogSetupEntity.
+func (a *Pipelinecontrol) EntityManagementCreateFederatedLogSetup(
+	federatedLogSetupEntity EntityManagementFederatedLogSetupEntityCreateInput,
+) (*EntityManagementFederatedLogSetupEntityCreateResult, error) {
+	return a.EntityManagementCreateFederatedLogSetupWithContext(context.Background(),
+		federatedLogSetupEntity,
+	)
+}
+
+// Creates an entity of type FederatedLogSetupEntity.
+func (a *Pipelinecontrol) EntityManagementCreateFederatedLogSetupWithContext(
+	ctx context.Context,
+	federatedLogSetupEntity EntityManagementFederatedLogSetupEntityCreateInput,
+) (*EntityManagementFederatedLogSetupEntityCreateResult, error) {
+
+	resp := EntityManagementCreateFederatedLogSetupQueryResponse{}
+	vars := map[string]interface{}{
+		"federatedLogSetupEntity": federatedLogSetupEntity,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, EntityManagementCreateFederatedLogSetupMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.EntityManagementFederatedLogSetupEntityCreateResult, nil
+}
+
+type EntityManagementCreateFederatedLogSetupQueryResponse struct {
+	EntityManagementFederatedLogSetupEntityCreateResult EntityManagementFederatedLogSetupEntityCreateResult `json:"EntityManagementCreateFederatedLogSetup"`
+}
+
+const EntityManagementCreateFederatedLogSetupMutation = `mutation(
+	$federatedLogSetupEntity: EntityManagementFederatedLogSetupEntityCreateInput!,
+) { entityManagementCreateFederatedLogSetup(
+	federatedLogSetupEntity: $federatedLogSetupEntity,
+) {
+	entity {
+		cloudProvider
+		cloudProviderRegion
+		dataLocationBucket
+		dataProcessingComponent {
+			__typename
+			id
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			name
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			type
+			... on EntityManagementAgentConfigurationEntity {
+				__typename
+				agentType
+				configurationType
+				managedEntityType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				operatingSystem {
+					type
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				versionCount
+			}
+			... on EntityManagementAgentConfigurationVersionEntity {
+				__typename
+				agentConfiguration
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				version
+			}
+			... on EntityManagementAgentEffectiveConfigurationEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementAgentEntity {
+				__typename
+				agentType
+				fleetControlProperties {
+					disconnectedReceived
+					environment
+					healthy
+					lastError
+					lastRemoteConfigError
+					lastRemoteConfigStatus
+					startTime
+					uid
+					version
+				}
+				infrastructureManagers {
+					type
+					version
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				version
+			}
+			... on EntityManagementAiAgentEntity {
+				__typename
+				agents {
+					__typename
+					id
+					name
+					type
+					... on EntityManagementAgentConfigurationEntity {
+						__typename
+						agentType
+						configurationType
+						managedEntityType
+						versionCount
+					}
+					... on EntityManagementAgentConfigurationVersionEntity {
+						__typename
+						agentConfiguration
+						version
+					}
+					... on EntityManagementAgentEffectiveConfigurationEntity {
+						__typename
+					}
+					... on EntityManagementAgentEntity {
+						__typename
+						agentType
+						version
+					}
+					... on EntityManagementAiAgentEntity {
+						__typename
+						category
+						description
+						displayName
+						initialized
+						prompt
+						provider
+						test
+					}
+					... on EntityManagementAiCapableEntity {
+						__typename
+						category
+						language
+						lastSeen
+						toolType
+						toolVersion
+					}
+					... on EntityManagementAiEvaluationConfigEntity {
+						__typename
+						description
+						samplingRate
+					}
+					... on EntityManagementAiToolEntity {
+						__typename
+						description
+						initialized
+						provider
+						test
+						toolType
+						url
+					}
+					... on EntityManagementApiSpecificationBlobEntity {
+						__typename
+						description
+					}
+					... on EntityManagementAwsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementBackgroundProcessingRuleEntity {
+						__typename
+						description
+						ruleType
+					}
+					... on EntityManagementBackgroundSqlProcessingRuleEntity {
+						__typename
+						description
+					}
+					... on EntityManagementBudgetEntity {
+						__typename
+						budgetType
+						organizationBudget
+					}
+					... on EntityManagementCiscoMerakiConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementCollectionEntity {
+						__typename
+					}
+					... on EntityManagementComponentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementComputeLocationEntity {
+						__typename
+						description
+					}
+					... on EntityManagementConfluenceConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+					}
+					... on EntityManagementConfluenceIntegration {
+						__typename
+						confluenceUserId
+						secretKey
+						url
+					}
+					... on EntityManagementConfluenceRagSettingsEntity {
+						__typename
+						chunkOverlap
+						chunkSize
+						confluenceIntegrationId
+						confluenceQuery
+						intervalSeconds
+						lastPullTime
+						nextPullTime
+						textSplitterType
+					}
+					... on EntityManagementCorrelationInternalSourceConfigEntity {
+						__typename
+						accountId
+						alias
+						filterId
+						namespaces
+						nrql
+						outputTopic
+						source
+					}
+					... on EntityManagementCorrelationLinkEntity {
+						__typename
+						directional
+						linkType
+					}
+					... on EntityManagementCorrelationLinkingRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementCustomEvaluationEntity {
+						__typename
+						criteria
+						description
+						model
+						parameters
+						steps
+						threshold
+					}
+					... on EntityManagementCustomerImpactEntity {
+						__typename
+						issueId
+					}
+					... on EntityManagementCustomerImpactQueryEntity {
+						__typename
+						query
+						queryAccountId
+						teamName
+						totalCustImpactQueryAccountIds
+						totalCustomerImpactQuery
+					}
+					... on EntityManagementEventBridgeRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementFederatedLogPartitionEntity {
+						__typename
+						dataLocationUri
+						description
+						isDefault
+						partitionDatabase
+						partitionTable
+						status
+					}
+					... on EntityManagementFederatedLogSetupEntity {
+						__typename
+						cloudProvider
+						cloudProviderRegion
+						dataLocationBucket
+						description
+						nrAccountId
+						nrRegion
+						status
+					}
+					... on EntityManagementFleetDeploymentEntity {
+						__typename
+						configurationVersions
+						description
+						fleetId
+						phase
+					}
+					... on EntityManagementFleetEntity {
+						__typename
+						description
+						managedEntityType
+						product
+					}
+					... on EntityManagementFleetRingEntity {
+						__typename
+						fleetId
+					}
+					... on EntityManagementFlowEntity {
+						__typename
+					}
+					... on EntityManagementGenericEntity {
+						__typename
+					}
+					... on EntityManagementGitHubIntegrationEntity {
+						__typename
+						installationId
+						installationSource
+						installationStatus
+						lastSyncCompletedAt
+						nextSyncAt
+					}
+					... on EntityManagementGitRepositoryEntity {
+						__typename
+						closedPullRequestCount
+						description
+						externalCreatedAt
+						externalId
+						externalLastDeployedAt
+						externalUpdatedAt
+						forkCount
+						hostingPlatform
+						latestReleaseVersion
+						lockedPullRequestCount
+						openPullRequestCount
+						primaryLanguage
+						url
+					}
+					... on EntityManagementGithubConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementImpactProfileEntity {
+						__typename
+					}
+					... on EntityManagementInboxIssueCategoryEntity {
+						__typename
+						categoryType
+						issueType
+						messageAttributes
+						nameAttributes
+					}
+					... on EntityManagementIncidentAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentEntity {
+						__typename
+						category
+						customerImpact
+						description
+						dueDate
+						entitiesImpacted
+						externalId
+						incidentCategory
+						incidentKey
+						incidentProfileId
+						incidentSubcategory
+						issueLinks
+						labels
+						lessonsLearned
+						maxSeverity
+						priority
+						reportedBy
+						resolutionCategory
+						resolutionSummary
+						retroActionItems
+						rootCauseSummary
+						rootCauseTags
+						severity
+						source
+						status
+						triggeringEvent
+					}
+					... on EntityManagementIncidentLinkEntity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementIncidentMessageEntity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementIncidentProfileAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentProfileEntity {
+						__typename
+					}
+					... on EntityManagementIncidentTimelineEntity {
+						__typename
+						content
+						entryType
+						source
+					}
+					... on EntityManagementJiraConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementJiraSyncConfiguration {
+						__typename
+						assigneeQuery
+						connection
+						correlationFieldName
+						description
+						direction
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJiraSyncConfigurationV2Entity {
+						__typename
+						bidirectional
+						connection
+						description
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJuniperMistConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementMaintenanceWindowEntity {
+						__typename
+						affectedEntityType
+						description
+						duration
+						rrule
+						startTime
+						timezone
+					}
+					... on EntityManagementManagedEvaluationsEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMcpServerEntity {
+						__typename
+						description
+						displayName
+						endpoint
+						protocolVersion
+						transport
+					}
+					... on EntityManagementMeterEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMeterTypeEntity {
+						__typename
+						allowMeterCreation
+						attributionDimensions
+						description
+					}
+					... on EntityManagementNewRelicConnection {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementNotebookEntity {
+						__typename
+					}
+					... on EntityManagementNotificationAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementNrAiAgentEntity {
+						__typename
+						displayName
+						version
+					}
+					... on EntityManagementNrqlMacroEntity {
+						__typename
+						expression
+						numParameters
+					}
+					... on EntityManagementOperationEntity {
+						__typename
+					}
+					... on EntityManagementOperationMetricEntity {
+						__typename
+					}
+					... on EntityManagementPerformanceInboxSettingEntity {
+						__typename
+						thresholdScope
+					}
+					... on EntityManagementPipelineCloudRuleEntity {
+						__typename
+						description
+						enabled
+						nrql
+					}
+					... on EntityManagementProductLineEntity {
+						__typename
+						description
+					}
+					... on EntityManagementRagDocumentEntity {
+						__typename
+						authorEmails
+						sourceIdentifier
+					}
+					... on EntityManagementRagToolEntity {
+						__typename
+						description
+					}
+					... on EntityManagementReactNativeSourcemapEntity {
+						__typename
+						appVersionId
+						applicationId
+						jsBundleId
+					}
+					... on EntityManagementRestApiContractEntity {
+						__typename
+					}
+					... on EntityManagementScorecardEntity {
+						__typename
+						description
+					}
+					... on EntityManagementScorecardRuleEntity {
+						__typename
+						description
+						enabled
+						impactWeight
+						progressLevel
+					}
+					... on EntityManagementSegmentTermsEntity {
+						__typename
+						accountId
+						agentId
+						domain
+						entityGuid
+						metricPrefix
+						oldId
+						segmentTerms
+					}
+					... on EntityManagementServerlessJobDefinitionEntity {
+						__typename
+						description
+					}
+					... on EntityManagementServiceNowConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementSlackConnection {
+						__typename
+						appId
+						description
+						enabled
+						externalId
+						workspace
+					}
+					... on EntityManagementSlackSyncConfiguration {
+						__typename
+						channelIdPayloadPath
+						connection
+						description
+						direction
+						enabled
+						mode
+					}
+					... on EntityManagementStatusPageAnnouncementEntity {
+						__typename
+						category
+						description
+						effectiveDate
+						eventUrl
+						publishedDate
+						state
+					}
+					... on EntityManagementStatusPageIncidentEntity {
+						__typename
+						description
+						endTime
+						incidentId
+						incidentTitle
+						lastUpdatedTime
+						region
+						startTime
+						status
+					}
+					... on EntityManagementTeamEntity {
+						__typename
+						aliases
+						description
+					}
+					... on EntityManagementTeamsHierarchyLevelEntity {
+						__typename
+					}
+					... on EntityManagementTeamsOrganizationSettingsEntity {
+						__typename
+					}
+					... on EntityManagementUserEntity {
+						__typename
+						userId
+					}
+					... on EntityManagementWorkItem {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkItemLink {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemLinkV2Entity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemMessage {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemMessageV2Entity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemV2Entity {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkflowDefinition {
+						__typename
+						description
+						versions
+					}
+					... on EntityManagementWorkflowSchedule {
+						__typename
+						cronExpression
+						description
+						overlapPolicy
+						timezone
+					}
+					... on EntityManagementZoomConnectionEntity {
+						__typename
+						description
+						enabled
+					}
+				}
+				category
+				description
+				displayName
+				initialized
+				llmConfig {
+					cacheSeed
+					model
+					temperature
+				}
+				mcpServers {
+					excludeTools
+					includeTools
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				prompt
+				provider
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				test
+				tools {
+					excludeTools
+					includeTools
+				}
+			}
+			... on EntityManagementAiCapableEntity {
+				__typename
+				category
+				language
+				lastSeen
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				toolType
+				toolVersion
+			}
+			... on EntityManagementAiEvaluationConfigEntity {
+				__typename
+				description
+				managedEvaluationsEntity {
+					description
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				samplingRate
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementAiToolEntity {
+				__typename
+				description
+				initialized
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				parameters {
+					description
+					name
+					type
+				}
+				provider
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				test
+				toolType
+				url
+			}
+			... on EntityManagementApiSpecificationBlobEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementAwsConnectionEntity {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				region
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementBackgroundProcessingRuleEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				query {
+					nrql
+				}
+				ruleType
+				schedule {
+					cronExpression
+					enabled
+					period
+					scheduleAt
+				}
+				scope {
+					id
+					type
+				}
+				state {
+					message
+					status
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementBackgroundSqlProcessingRuleEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				query {
+					outputTarget
+					sql
+				}
+				schedule {
+					cronExpression
+					enabled
+					period
+					scheduleAt
+				}
+				scope {
+					id
+					type
+				}
+				state {
+					message
+					status
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementBudgetEntity {
+				__typename
+				budgetAlertPolicies {
+					id
+				}
+				budgetLimits {
+					consumptionMetric
+					value
+				}
+				budgetType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				organizationBudget
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementCiscoMerakiConnectionEntity {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				region
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementCollectionEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementComponentEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementComputeLocationEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementConfluenceConnectionEntity {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementConfluenceIntegration {
+				__typename
+				confluenceUserId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				secretKey
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementConfluenceRagSettingsEntity {
+				__typename
+				characterTextSplitterOptions {
+					isSeparatorRegex
+					separator
+				}
+				chunkOverlap
+				chunkSize
+				confluenceIntegrationId
+				confluenceQuery
+				intervalSeconds
+				lastPullTime
+				markdownTextSplitterOptions {
+					headersToSplitOn
+					returnEachLine
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nextPullTime
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				textSplitterType
+				tokenTextSplitterOptions {
+					encodingName
+				}
+			}
+			... on EntityManagementCorrelationInternalSourceConfigEntity {
+				__typename
+				accountId
+				alias
+				filterId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				namespaces
+				nrql
+				outputTopic
+				scope {
+					id
+					type
+				}
+				source
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementCorrelationLinkEntity {
+				__typename
+				context {
+					confidence
+					messages
+					ruleId
+				}
+				directional
+				linkType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				overrideInfo {
+					action
+					timestamp
+					userId
+				}
+				scope {
+					id
+					type
+				}
+				source {
+					accountId
+					eventId
+					eventType
+				}
+				tags {
+					key
+					values
+				}
+				target {
+					accountId
+					eventId
+					eventType
+				}
+			}
+			... on EntityManagementCorrelationLinkingRuleEntity {
+				__typename
+				criteria {
+					topologyProximity
+				}
+				description
+				enabled
+				linkingConfig {
+					directional
+					linkType
+					sourceAlias
+					targetAlias
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				subjects {
+					accountIds
+					alias
+					nrql
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementCustomEvaluationEntity {
+				__typename
+				criteria
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				model
+				parameters
+				scope {
+					id
+					type
+				}
+				steps
+				tags {
+					key
+					values
+				}
+				threshold
+			}
+			... on EntityManagementCustomerImpactEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				components {
+					description
+					id
+					name
+					type
+				}
+				issueId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementCustomerImpactQueryEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				products {
+					description
+					id
+					name
+					type
+				}
+				query
+				queryAccountId
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				teamName
+				totalCustImpactQueryAccountIds
+				totalCustomerImpactQuery
+			}
+			... on EntityManagementEventBridgeRuleEntity {
+				__typename
+				conditions {
+					field
+				}
+				description
+				enabled
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				sourceType {
+					event
+					name
+				}
+				tags {
+					key
+					values
+				}
+				targets {
+					name
+					type
+				}
+			}
+			... on EntityManagementFederatedLogPartitionEntity {
+				__typename
+				dataLocationUri
+				description
+				isDefault
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				partitionDatabase
+				partitionTable
+				retentionPolicy {
+					duration
+					unit
+				}
+				scope {
+					id
+					type
+				}
+				setup {
+					cloudProvider
+					cloudProviderRegion
+					dataLocationBucket
+					description
+					id
+					name
+					nrAccountId
+					nrRegion
+					status
+					type
+				}
+				status
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementFederatedLogSetupEntity {
+				__typename
+				cloudProvider
+				cloudProviderRegion
+				dataLocationBucket
+				dataProcessingComponent {
+					__typename
+					id
+					name
+					type
+					... on EntityManagementAgentConfigurationEntity {
+						__typename
+						agentType
+						configurationType
+						managedEntityType
+						versionCount
+					}
+					... on EntityManagementAgentConfigurationVersionEntity {
+						__typename
+						agentConfiguration
+						version
+					}
+					... on EntityManagementAgentEffectiveConfigurationEntity {
+						__typename
+					}
+					... on EntityManagementAgentEntity {
+						__typename
+						agentType
+						version
+					}
+					... on EntityManagementAiAgentEntity {
+						__typename
+						category
+						description
+						displayName
+						initialized
+						prompt
+						provider
+						test
+					}
+					... on EntityManagementAiCapableEntity {
+						__typename
+						category
+						language
+						lastSeen
+						toolType
+						toolVersion
+					}
+					... on EntityManagementAiEvaluationConfigEntity {
+						__typename
+						description
+						samplingRate
+					}
+					... on EntityManagementAiToolEntity {
+						__typename
+						description
+						initialized
+						provider
+						test
+						toolType
+						url
+					}
+					... on EntityManagementApiSpecificationBlobEntity {
+						__typename
+						description
+					}
+					... on EntityManagementAwsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementBackgroundProcessingRuleEntity {
+						__typename
+						description
+						ruleType
+					}
+					... on EntityManagementBackgroundSqlProcessingRuleEntity {
+						__typename
+						description
+					}
+					... on EntityManagementBudgetEntity {
+						__typename
+						budgetType
+						organizationBudget
+					}
+					... on EntityManagementCiscoMerakiConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementCollectionEntity {
+						__typename
+					}
+					... on EntityManagementComponentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementComputeLocationEntity {
+						__typename
+						description
+					}
+					... on EntityManagementConfluenceConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+					}
+					... on EntityManagementConfluenceIntegration {
+						__typename
+						confluenceUserId
+						secretKey
+						url
+					}
+					... on EntityManagementConfluenceRagSettingsEntity {
+						__typename
+						chunkOverlap
+						chunkSize
+						confluenceIntegrationId
+						confluenceQuery
+						intervalSeconds
+						lastPullTime
+						nextPullTime
+						textSplitterType
+					}
+					... on EntityManagementCorrelationInternalSourceConfigEntity {
+						__typename
+						accountId
+						alias
+						filterId
+						namespaces
+						nrql
+						outputTopic
+						source
+					}
+					... on EntityManagementCorrelationLinkEntity {
+						__typename
+						directional
+						linkType
+					}
+					... on EntityManagementCorrelationLinkingRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementCustomEvaluationEntity {
+						__typename
+						criteria
+						description
+						model
+						parameters
+						steps
+						threshold
+					}
+					... on EntityManagementCustomerImpactEntity {
+						__typename
+						issueId
+					}
+					... on EntityManagementCustomerImpactQueryEntity {
+						__typename
+						query
+						queryAccountId
+						teamName
+						totalCustImpactQueryAccountIds
+						totalCustomerImpactQuery
+					}
+					... on EntityManagementEventBridgeRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementFederatedLogPartitionEntity {
+						__typename
+						dataLocationUri
+						description
+						isDefault
+						partitionDatabase
+						partitionTable
+						status
+					}
+					... on EntityManagementFederatedLogSetupEntity {
+						__typename
+						cloudProvider
+						cloudProviderRegion
+						dataLocationBucket
+						description
+						nrAccountId
+						nrRegion
+						status
+					}
+					... on EntityManagementFleetDeploymentEntity {
+						__typename
+						configurationVersions
+						description
+						fleetId
+						phase
+					}
+					... on EntityManagementFleetEntity {
+						__typename
+						description
+						managedEntityType
+						product
+					}
+					... on EntityManagementFleetRingEntity {
+						__typename
+						fleetId
+					}
+					... on EntityManagementFlowEntity {
+						__typename
+					}
+					... on EntityManagementGenericEntity {
+						__typename
+					}
+					... on EntityManagementGitHubIntegrationEntity {
+						__typename
+						installationId
+						installationSource
+						installationStatus
+						lastSyncCompletedAt
+						nextSyncAt
+					}
+					... on EntityManagementGitRepositoryEntity {
+						__typename
+						closedPullRequestCount
+						description
+						externalCreatedAt
+						externalId
+						externalLastDeployedAt
+						externalUpdatedAt
+						forkCount
+						hostingPlatform
+						latestReleaseVersion
+						lockedPullRequestCount
+						openPullRequestCount
+						primaryLanguage
+						url
+					}
+					... on EntityManagementGithubConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementImpactProfileEntity {
+						__typename
+					}
+					... on EntityManagementInboxIssueCategoryEntity {
+						__typename
+						categoryType
+						issueType
+						messageAttributes
+						nameAttributes
+					}
+					... on EntityManagementIncidentAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentEntity {
+						__typename
+						category
+						customerImpact
+						description
+						dueDate
+						entitiesImpacted
+						externalId
+						incidentCategory
+						incidentKey
+						incidentProfileId
+						incidentSubcategory
+						issueLinks
+						labels
+						lessonsLearned
+						maxSeverity
+						priority
+						reportedBy
+						resolutionCategory
+						resolutionSummary
+						retroActionItems
+						rootCauseSummary
+						rootCauseTags
+						severity
+						source
+						status
+						triggeringEvent
+					}
+					... on EntityManagementIncidentLinkEntity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementIncidentMessageEntity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementIncidentProfileAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentProfileEntity {
+						__typename
+					}
+					... on EntityManagementIncidentTimelineEntity {
+						__typename
+						content
+						entryType
+						source
+					}
+					... on EntityManagementJiraConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementJiraSyncConfiguration {
+						__typename
+						assigneeQuery
+						connection
+						correlationFieldName
+						description
+						direction
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJiraSyncConfigurationV2Entity {
+						__typename
+						bidirectional
+						connection
+						description
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJuniperMistConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementMaintenanceWindowEntity {
+						__typename
+						affectedEntityType
+						description
+						duration
+						rrule
+						startTime
+						timezone
+					}
+					... on EntityManagementManagedEvaluationsEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMcpServerEntity {
+						__typename
+						description
+						displayName
+						endpoint
+						protocolVersion
+						transport
+					}
+					... on EntityManagementMeterEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMeterTypeEntity {
+						__typename
+						allowMeterCreation
+						attributionDimensions
+						description
+					}
+					... on EntityManagementNewRelicConnection {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementNotebookEntity {
+						__typename
+					}
+					... on EntityManagementNotificationAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementNrAiAgentEntity {
+						__typename
+						displayName
+						version
+					}
+					... on EntityManagementNrqlMacroEntity {
+						__typename
+						expression
+						numParameters
+					}
+					... on EntityManagementOperationEntity {
+						__typename
+					}
+					... on EntityManagementOperationMetricEntity {
+						__typename
+					}
+					... on EntityManagementPerformanceInboxSettingEntity {
+						__typename
+						thresholdScope
+					}
+					... on EntityManagementPipelineCloudRuleEntity {
+						__typename
+						description
+						enabled
+						nrql
+					}
+					... on EntityManagementProductLineEntity {
+						__typename
+						description
+					}
+					... on EntityManagementRagDocumentEntity {
+						__typename
+						authorEmails
+						sourceIdentifier
+					}
+					... on EntityManagementRagToolEntity {
+						__typename
+						description
+					}
+					... on EntityManagementReactNativeSourcemapEntity {
+						__typename
+						appVersionId
+						applicationId
+						jsBundleId
+					}
+					... on EntityManagementRestApiContractEntity {
+						__typename
+					}
+					... on EntityManagementScorecardEntity {
+						__typename
+						description
+					}
+					... on EntityManagementScorecardRuleEntity {
+						__typename
+						description
+						enabled
+						impactWeight
+						progressLevel
+					}
+					... on EntityManagementSegmentTermsEntity {
+						__typename
+						accountId
+						agentId
+						domain
+						entityGuid
+						metricPrefix
+						oldId
+						segmentTerms
+					}
+					... on EntityManagementServerlessJobDefinitionEntity {
+						__typename
+						description
+					}
+					... on EntityManagementServiceNowConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementSlackConnection {
+						__typename
+						appId
+						description
+						enabled
+						externalId
+						workspace
+					}
+					... on EntityManagementSlackSyncConfiguration {
+						__typename
+						channelIdPayloadPath
+						connection
+						description
+						direction
+						enabled
+						mode
+					}
+					... on EntityManagementStatusPageAnnouncementEntity {
+						__typename
+						category
+						description
+						effectiveDate
+						eventUrl
+						publishedDate
+						state
+					}
+					... on EntityManagementStatusPageIncidentEntity {
+						__typename
+						description
+						endTime
+						incidentId
+						incidentTitle
+						lastUpdatedTime
+						region
+						startTime
+						status
+					}
+					... on EntityManagementTeamEntity {
+						__typename
+						aliases
+						description
+					}
+					... on EntityManagementTeamsHierarchyLevelEntity {
+						__typename
+					}
+					... on EntityManagementTeamsOrganizationSettingsEntity {
+						__typename
+					}
+					... on EntityManagementUserEntity {
+						__typename
+						userId
+					}
+					... on EntityManagementWorkItem {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkItemLink {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemLinkV2Entity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemMessage {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemMessageV2Entity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemV2Entity {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkflowDefinition {
+						__typename
+						description
+						versions
+					}
+					... on EntityManagementWorkflowSchedule {
+						__typename
+						cronExpression
+						description
+						overlapPolicy
+						timezone
+					}
+					... on EntityManagementZoomConnectionEntity {
+						__typename
+						description
+						enabled
+					}
+				}
+				dataProcessingConnection {
+					__typename
+					id
+					name
+					type
+					... on EntityManagementAgentConfigurationEntity {
+						__typename
+						agentType
+						configurationType
+						managedEntityType
+						versionCount
+					}
+					... on EntityManagementAgentConfigurationVersionEntity {
+						__typename
+						agentConfiguration
+						version
+					}
+					... on EntityManagementAgentEffectiveConfigurationEntity {
+						__typename
+					}
+					... on EntityManagementAgentEntity {
+						__typename
+						agentType
+						version
+					}
+					... on EntityManagementAiAgentEntity {
+						__typename
+						category
+						description
+						displayName
+						initialized
+						prompt
+						provider
+						test
+					}
+					... on EntityManagementAiCapableEntity {
+						__typename
+						category
+						language
+						lastSeen
+						toolType
+						toolVersion
+					}
+					... on EntityManagementAiEvaluationConfigEntity {
+						__typename
+						description
+						samplingRate
+					}
+					... on EntityManagementAiToolEntity {
+						__typename
+						description
+						initialized
+						provider
+						test
+						toolType
+						url
+					}
+					... on EntityManagementApiSpecificationBlobEntity {
+						__typename
+						description
+					}
+					... on EntityManagementAwsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementBackgroundProcessingRuleEntity {
+						__typename
+						description
+						ruleType
+					}
+					... on EntityManagementBackgroundSqlProcessingRuleEntity {
+						__typename
+						description
+					}
+					... on EntityManagementBudgetEntity {
+						__typename
+						budgetType
+						organizationBudget
+					}
+					... on EntityManagementCiscoMerakiConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementCollectionEntity {
+						__typename
+					}
+					... on EntityManagementComponentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementComputeLocationEntity {
+						__typename
+						description
+					}
+					... on EntityManagementConfluenceConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+					}
+					... on EntityManagementConfluenceIntegration {
+						__typename
+						confluenceUserId
+						secretKey
+						url
+					}
+					... on EntityManagementConfluenceRagSettingsEntity {
+						__typename
+						chunkOverlap
+						chunkSize
+						confluenceIntegrationId
+						confluenceQuery
+						intervalSeconds
+						lastPullTime
+						nextPullTime
+						textSplitterType
+					}
+					... on EntityManagementCorrelationInternalSourceConfigEntity {
+						__typename
+						accountId
+						alias
+						filterId
+						namespaces
+						nrql
+						outputTopic
+						source
+					}
+					... on EntityManagementCorrelationLinkEntity {
+						__typename
+						directional
+						linkType
+					}
+					... on EntityManagementCorrelationLinkingRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementCustomEvaluationEntity {
+						__typename
+						criteria
+						description
+						model
+						parameters
+						steps
+						threshold
+					}
+					... on EntityManagementCustomerImpactEntity {
+						__typename
+						issueId
+					}
+					... on EntityManagementCustomerImpactQueryEntity {
+						__typename
+						query
+						queryAccountId
+						teamName
+						totalCustImpactQueryAccountIds
+						totalCustomerImpactQuery
+					}
+					... on EntityManagementEventBridgeRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementFederatedLogPartitionEntity {
+						__typename
+						dataLocationUri
+						description
+						isDefault
+						partitionDatabase
+						partitionTable
+						status
+					}
+					... on EntityManagementFederatedLogSetupEntity {
+						__typename
+						cloudProvider
+						cloudProviderRegion
+						dataLocationBucket
+						description
+						nrAccountId
+						nrRegion
+						status
+					}
+					... on EntityManagementFleetDeploymentEntity {
+						__typename
+						configurationVersions
+						description
+						fleetId
+						phase
+					}
+					... on EntityManagementFleetEntity {
+						__typename
+						description
+						managedEntityType
+						product
+					}
+					... on EntityManagementFleetRingEntity {
+						__typename
+						fleetId
+					}
+					... on EntityManagementFlowEntity {
+						__typename
+					}
+					... on EntityManagementGenericEntity {
+						__typename
+					}
+					... on EntityManagementGitHubIntegrationEntity {
+						__typename
+						installationId
+						installationSource
+						installationStatus
+						lastSyncCompletedAt
+						nextSyncAt
+					}
+					... on EntityManagementGitRepositoryEntity {
+						__typename
+						closedPullRequestCount
+						description
+						externalCreatedAt
+						externalId
+						externalLastDeployedAt
+						externalUpdatedAt
+						forkCount
+						hostingPlatform
+						latestReleaseVersion
+						lockedPullRequestCount
+						openPullRequestCount
+						primaryLanguage
+						url
+					}
+					... on EntityManagementGithubConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementImpactProfileEntity {
+						__typename
+					}
+					... on EntityManagementInboxIssueCategoryEntity {
+						__typename
+						categoryType
+						issueType
+						messageAttributes
+						nameAttributes
+					}
+					... on EntityManagementIncidentAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentEntity {
+						__typename
+						category
+						customerImpact
+						description
+						dueDate
+						entitiesImpacted
+						externalId
+						incidentCategory
+						incidentKey
+						incidentProfileId
+						incidentSubcategory
+						issueLinks
+						labels
+						lessonsLearned
+						maxSeverity
+						priority
+						reportedBy
+						resolutionCategory
+						resolutionSummary
+						retroActionItems
+						rootCauseSummary
+						rootCauseTags
+						severity
+						source
+						status
+						triggeringEvent
+					}
+					... on EntityManagementIncidentLinkEntity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementIncidentMessageEntity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementIncidentProfileAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentProfileEntity {
+						__typename
+					}
+					... on EntityManagementIncidentTimelineEntity {
+						__typename
+						content
+						entryType
+						source
+					}
+					... on EntityManagementJiraConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementJiraSyncConfiguration {
+						__typename
+						assigneeQuery
+						connection
+						correlationFieldName
+						description
+						direction
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJiraSyncConfigurationV2Entity {
+						__typename
+						bidirectional
+						connection
+						description
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJuniperMistConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementMaintenanceWindowEntity {
+						__typename
+						affectedEntityType
+						description
+						duration
+						rrule
+						startTime
+						timezone
+					}
+					... on EntityManagementManagedEvaluationsEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMcpServerEntity {
+						__typename
+						description
+						displayName
+						endpoint
+						protocolVersion
+						transport
+					}
+					... on EntityManagementMeterEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMeterTypeEntity {
+						__typename
+						allowMeterCreation
+						attributionDimensions
+						description
+					}
+					... on EntityManagementNewRelicConnection {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementNotebookEntity {
+						__typename
+					}
+					... on EntityManagementNotificationAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementNrAiAgentEntity {
+						__typename
+						displayName
+						version
+					}
+					... on EntityManagementNrqlMacroEntity {
+						__typename
+						expression
+						numParameters
+					}
+					... on EntityManagementOperationEntity {
+						__typename
+					}
+					... on EntityManagementOperationMetricEntity {
+						__typename
+					}
+					... on EntityManagementPerformanceInboxSettingEntity {
+						__typename
+						thresholdScope
+					}
+					... on EntityManagementPipelineCloudRuleEntity {
+						__typename
+						description
+						enabled
+						nrql
+					}
+					... on EntityManagementProductLineEntity {
+						__typename
+						description
+					}
+					... on EntityManagementRagDocumentEntity {
+						__typename
+						authorEmails
+						sourceIdentifier
+					}
+					... on EntityManagementRagToolEntity {
+						__typename
+						description
+					}
+					... on EntityManagementReactNativeSourcemapEntity {
+						__typename
+						appVersionId
+						applicationId
+						jsBundleId
+					}
+					... on EntityManagementRestApiContractEntity {
+						__typename
+					}
+					... on EntityManagementScorecardEntity {
+						__typename
+						description
+					}
+					... on EntityManagementScorecardRuleEntity {
+						__typename
+						description
+						enabled
+						impactWeight
+						progressLevel
+					}
+					... on EntityManagementSegmentTermsEntity {
+						__typename
+						accountId
+						agentId
+						domain
+						entityGuid
+						metricPrefix
+						oldId
+						segmentTerms
+					}
+					... on EntityManagementServerlessJobDefinitionEntity {
+						__typename
+						description
+					}
+					... on EntityManagementServiceNowConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementSlackConnection {
+						__typename
+						appId
+						description
+						enabled
+						externalId
+						workspace
+					}
+					... on EntityManagementSlackSyncConfiguration {
+						__typename
+						channelIdPayloadPath
+						connection
+						description
+						direction
+						enabled
+						mode
+					}
+					... on EntityManagementStatusPageAnnouncementEntity {
+						__typename
+						category
+						description
+						effectiveDate
+						eventUrl
+						publishedDate
+						state
+					}
+					... on EntityManagementStatusPageIncidentEntity {
+						__typename
+						description
+						endTime
+						incidentId
+						incidentTitle
+						lastUpdatedTime
+						region
+						startTime
+						status
+					}
+					... on EntityManagementTeamEntity {
+						__typename
+						aliases
+						description
+					}
+					... on EntityManagementTeamsHierarchyLevelEntity {
+						__typename
+					}
+					... on EntityManagementTeamsOrganizationSettingsEntity {
+						__typename
+					}
+					... on EntityManagementUserEntity {
+						__typename
+						userId
+					}
+					... on EntityManagementWorkItem {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkItemLink {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemLinkV2Entity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemMessage {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemMessageV2Entity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemV2Entity {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkflowDefinition {
+						__typename
+						description
+						versions
+					}
+					... on EntityManagementWorkflowSchedule {
+						__typename
+						cronExpression
+						description
+						overlapPolicy
+						timezone
+					}
+					... on EntityManagementZoomConnectionEntity {
+						__typename
+						description
+						enabled
+					}
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nrAccountId
+				nrRegion
+				queryConnection {
+					__typename
+					id
+					name
+					type
+					... on EntityManagementAgentConfigurationEntity {
+						__typename
+						agentType
+						configurationType
+						managedEntityType
+						versionCount
+					}
+					... on EntityManagementAgentConfigurationVersionEntity {
+						__typename
+						agentConfiguration
+						version
+					}
+					... on EntityManagementAgentEffectiveConfigurationEntity {
+						__typename
+					}
+					... on EntityManagementAgentEntity {
+						__typename
+						agentType
+						version
+					}
+					... on EntityManagementAiAgentEntity {
+						__typename
+						category
+						description
+						displayName
+						initialized
+						prompt
+						provider
+						test
+					}
+					... on EntityManagementAiCapableEntity {
+						__typename
+						category
+						language
+						lastSeen
+						toolType
+						toolVersion
+					}
+					... on EntityManagementAiEvaluationConfigEntity {
+						__typename
+						description
+						samplingRate
+					}
+					... on EntityManagementAiToolEntity {
+						__typename
+						description
+						initialized
+						provider
+						test
+						toolType
+						url
+					}
+					... on EntityManagementApiSpecificationBlobEntity {
+						__typename
+						description
+					}
+					... on EntityManagementAwsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementBackgroundProcessingRuleEntity {
+						__typename
+						description
+						ruleType
+					}
+					... on EntityManagementBackgroundSqlProcessingRuleEntity {
+						__typename
+						description
+					}
+					... on EntityManagementBudgetEntity {
+						__typename
+						budgetType
+						organizationBudget
+					}
+					... on EntityManagementCiscoMerakiConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementCollectionEntity {
+						__typename
+					}
+					... on EntityManagementComponentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementComputeLocationEntity {
+						__typename
+						description
+					}
+					... on EntityManagementConfluenceConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+					}
+					... on EntityManagementConfluenceIntegration {
+						__typename
+						confluenceUserId
+						secretKey
+						url
+					}
+					... on EntityManagementConfluenceRagSettingsEntity {
+						__typename
+						chunkOverlap
+						chunkSize
+						confluenceIntegrationId
+						confluenceQuery
+						intervalSeconds
+						lastPullTime
+						nextPullTime
+						textSplitterType
+					}
+					... on EntityManagementCorrelationInternalSourceConfigEntity {
+						__typename
+						accountId
+						alias
+						filterId
+						namespaces
+						nrql
+						outputTopic
+						source
+					}
+					... on EntityManagementCorrelationLinkEntity {
+						__typename
+						directional
+						linkType
+					}
+					... on EntityManagementCorrelationLinkingRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementCustomEvaluationEntity {
+						__typename
+						criteria
+						description
+						model
+						parameters
+						steps
+						threshold
+					}
+					... on EntityManagementCustomerImpactEntity {
+						__typename
+						issueId
+					}
+					... on EntityManagementCustomerImpactQueryEntity {
+						__typename
+						query
+						queryAccountId
+						teamName
+						totalCustImpactQueryAccountIds
+						totalCustomerImpactQuery
+					}
+					... on EntityManagementEventBridgeRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementFederatedLogPartitionEntity {
+						__typename
+						dataLocationUri
+						description
+						isDefault
+						partitionDatabase
+						partitionTable
+						status
+					}
+					... on EntityManagementFederatedLogSetupEntity {
+						__typename
+						cloudProvider
+						cloudProviderRegion
+						dataLocationBucket
+						description
+						nrAccountId
+						nrRegion
+						status
+					}
+					... on EntityManagementFleetDeploymentEntity {
+						__typename
+						configurationVersions
+						description
+						fleetId
+						phase
+					}
+					... on EntityManagementFleetEntity {
+						__typename
+						description
+						managedEntityType
+						product
+					}
+					... on EntityManagementFleetRingEntity {
+						__typename
+						fleetId
+					}
+					... on EntityManagementFlowEntity {
+						__typename
+					}
+					... on EntityManagementGenericEntity {
+						__typename
+					}
+					... on EntityManagementGitHubIntegrationEntity {
+						__typename
+						installationId
+						installationSource
+						installationStatus
+						lastSyncCompletedAt
+						nextSyncAt
+					}
+					... on EntityManagementGitRepositoryEntity {
+						__typename
+						closedPullRequestCount
+						description
+						externalCreatedAt
+						externalId
+						externalLastDeployedAt
+						externalUpdatedAt
+						forkCount
+						hostingPlatform
+						latestReleaseVersion
+						lockedPullRequestCount
+						openPullRequestCount
+						primaryLanguage
+						url
+					}
+					... on EntityManagementGithubConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementImpactProfileEntity {
+						__typename
+					}
+					... on EntityManagementInboxIssueCategoryEntity {
+						__typename
+						categoryType
+						issueType
+						messageAttributes
+						nameAttributes
+					}
+					... on EntityManagementIncidentAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentEntity {
+						__typename
+						category
+						customerImpact
+						description
+						dueDate
+						entitiesImpacted
+						externalId
+						incidentCategory
+						incidentKey
+						incidentProfileId
+						incidentSubcategory
+						issueLinks
+						labels
+						lessonsLearned
+						maxSeverity
+						priority
+						reportedBy
+						resolutionCategory
+						resolutionSummary
+						retroActionItems
+						rootCauseSummary
+						rootCauseTags
+						severity
+						source
+						status
+						triggeringEvent
+					}
+					... on EntityManagementIncidentLinkEntity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementIncidentMessageEntity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementIncidentProfileAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentProfileEntity {
+						__typename
+					}
+					... on EntityManagementIncidentTimelineEntity {
+						__typename
+						content
+						entryType
+						source
+					}
+					... on EntityManagementJiraConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementJiraSyncConfiguration {
+						__typename
+						assigneeQuery
+						connection
+						correlationFieldName
+						description
+						direction
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJiraSyncConfigurationV2Entity {
+						__typename
+						bidirectional
+						connection
+						description
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJuniperMistConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementMaintenanceWindowEntity {
+						__typename
+						affectedEntityType
+						description
+						duration
+						rrule
+						startTime
+						timezone
+					}
+					... on EntityManagementManagedEvaluationsEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMcpServerEntity {
+						__typename
+						description
+						displayName
+						endpoint
+						protocolVersion
+						transport
+					}
+					... on EntityManagementMeterEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMeterTypeEntity {
+						__typename
+						allowMeterCreation
+						attributionDimensions
+						description
+					}
+					... on EntityManagementNewRelicConnection {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementNotebookEntity {
+						__typename
+					}
+					... on EntityManagementNotificationAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementNrAiAgentEntity {
+						__typename
+						displayName
+						version
+					}
+					... on EntityManagementNrqlMacroEntity {
+						__typename
+						expression
+						numParameters
+					}
+					... on EntityManagementOperationEntity {
+						__typename
+					}
+					... on EntityManagementOperationMetricEntity {
+						__typename
+					}
+					... on EntityManagementPerformanceInboxSettingEntity {
+						__typename
+						thresholdScope
+					}
+					... on EntityManagementPipelineCloudRuleEntity {
+						__typename
+						description
+						enabled
+						nrql
+					}
+					... on EntityManagementProductLineEntity {
+						__typename
+						description
+					}
+					... on EntityManagementRagDocumentEntity {
+						__typename
+						authorEmails
+						sourceIdentifier
+					}
+					... on EntityManagementRagToolEntity {
+						__typename
+						description
+					}
+					... on EntityManagementReactNativeSourcemapEntity {
+						__typename
+						appVersionId
+						applicationId
+						jsBundleId
+					}
+					... on EntityManagementRestApiContractEntity {
+						__typename
+					}
+					... on EntityManagementScorecardEntity {
+						__typename
+						description
+					}
+					... on EntityManagementScorecardRuleEntity {
+						__typename
+						description
+						enabled
+						impactWeight
+						progressLevel
+					}
+					... on EntityManagementSegmentTermsEntity {
+						__typename
+						accountId
+						agentId
+						domain
+						entityGuid
+						metricPrefix
+						oldId
+						segmentTerms
+					}
+					... on EntityManagementServerlessJobDefinitionEntity {
+						__typename
+						description
+					}
+					... on EntityManagementServiceNowConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementSlackConnection {
+						__typename
+						appId
+						description
+						enabled
+						externalId
+						workspace
+					}
+					... on EntityManagementSlackSyncConfiguration {
+						__typename
+						channelIdPayloadPath
+						connection
+						description
+						direction
+						enabled
+						mode
+					}
+					... on EntityManagementStatusPageAnnouncementEntity {
+						__typename
+						category
+						description
+						effectiveDate
+						eventUrl
+						publishedDate
+						state
+					}
+					... on EntityManagementStatusPageIncidentEntity {
+						__typename
+						description
+						endTime
+						incidentId
+						incidentTitle
+						lastUpdatedTime
+						region
+						startTime
+						status
+					}
+					... on EntityManagementTeamEntity {
+						__typename
+						aliases
+						description
+					}
+					... on EntityManagementTeamsHierarchyLevelEntity {
+						__typename
+					}
+					... on EntityManagementTeamsOrganizationSettingsEntity {
+						__typename
+					}
+					... on EntityManagementUserEntity {
+						__typename
+						userId
+					}
+					... on EntityManagementWorkItem {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkItemLink {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemLinkV2Entity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemMessage {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemMessageV2Entity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemV2Entity {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkflowDefinition {
+						__typename
+						description
+						versions
+					}
+					... on EntityManagementWorkflowSchedule {
+						__typename
+						cronExpression
+						description
+						overlapPolicy
+						timezone
+					}
+					... on EntityManagementZoomConnectionEntity {
+						__typename
+						description
+						enabled
+					}
+				}
+				scope {
+					id
+					type
+				}
+				status
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementFleetDeploymentEntity {
+				__typename
+				agents {
+					agentType
+					version
+				}
+				configurationVersionList {
+					id
+				}
+				configurationVersions
+				description
+				fleetId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				phase
+				ringsDeploymentTracker {
+					completedAt
+					name
+					startedAt
+					status
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementFleetEntity {
+				__typename
+				currentDeployment {
+					canaryManagedEntities
+					configsChanged
+					configurationVersions
+					deployedAt
+					description
+					entitiesChanged
+					managedEntitiesChanged
+					managedEntitiesRequiredToChange
+					name
+					status
+					supervisedAgentEntitiesChanged
+					supervisedAgentEntitiesRequiredToChange
+				}
+				description
+				managedEntityRings {
+					id
+					name
+					type
+				}
+				managedEntityType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				operatingSystem {
+					type
+				}
+				product
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementFleetRingEntity {
+				__typename
+				fleetId
+				managedEntities {
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementFlowEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementGenericEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementGitHubIntegrationEntity {
+				__typename
+				count {
+					repoCount
+					teamCount
+				}
+				gitHubRetentionOptions {
+					retainRepositories
+					retainTeams
+				}
+				gitHubSyncOptions {
+					syncRepositories
+					syncTeams
+				}
+				installationId
+				installationSource
+				installationStatus
+				lastSyncCompletedAt
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nextSyncAt
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementGitRepositoryEntity {
+				__typename
+				closedPullRequestCount
+				configuration {
+					source
+					updatedAt
+					updatedBy
+				}
+				description
+				externalCreatedAt
+				externalId
+				externalLastDeployedAt
+				externalOwner {
+					id
+					type
+				}
+				externalUpdatedAt
+				forkCount
+				hostingPlatform
+				latestReleaseVersion
+				license {
+					name
+					url
+				}
+				lockedPullRequestCount
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				openPullRequestCount
+				primaryLanguage
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementGithubConnection {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementImpactProfileEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementInboxIssueCategoryEntity {
+				__typename
+				categoryScope {
+					id
+					type
+				}
+				categoryType
+				issueType
+				messageAttributes
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nameAttributes
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementIncidentAttachmentEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementIncidentEntity {
+				__typename
+				assignedTo {
+					identifier
+					type
+				}
+				attributes {
+					name
+					value
+				}
+				category
+				customerImpact
+				description
+				dueDate
+				entitiesImpacted
+				externalId
+				incidentCategory
+				incidentKey
+				incidentProfileId
+				incidentSubcategory
+				issueLinks
+				labels
+				lessonsLearned
+				links {
+					id
+					name
+					type
+				}
+				maxSeverity
+				messages {
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				priority
+				reportedBy
+				resolutionCategory
+				resolutionSummary
+				retroActionItems
+				rootCauseSummary
+				rootCauseTags
+				scope {
+					id
+					type
+				}
+				severity
+				source
+				status
+				tags {
+					key
+					values
+				}
+				timelines {
+					id
+					name
+					type
+				}
+				triggeringEvent
+			}
+			... on EntityManagementIncidentLinkEntity {
+				__typename
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementIncidentMessageEntity {
+				__typename
+				content
+				contentEncoding
+				contentType
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				parentId
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementIncidentProfileAttachmentEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementIncidentProfileEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementIncidentTimelineEntity {
+				__typename
+				content
+				entryType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				source
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementJiraConnection {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementJiraSyncConfiguration {
+				__typename
+				assigneeQuery
+				connection
+				correlationFieldName
+				description
+				direction
+				enabled
+				issueType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				mode
+				projectKey
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				targets {
+					key
+					values
+				}
+				templateFields {
+					direction
+					name
+					required
+					template
+				}
+			}
+			... on EntityManagementJiraSyncConfigurationV2Entity {
+				__typename
+				bidirectional
+				connection
+				description
+				enabled
+				issueType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				mode
+				projectKey
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				targets {
+					key
+					values
+				}
+				templateFields {
+					direction
+					name
+					required
+					template
+				}
+			}
+			... on EntityManagementJuniperMistConnectionEntity {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				region
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementMaintenanceWindowEntity {
+				__typename
+				affectedEntityType
+				description
+				duration
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				rrule
+				scope {
+					id
+					type
+				}
+				startTime
+				tags {
+					key
+					values
+				}
+				timezone
+			}
+			... on EntityManagementManagedEvaluationsEntity {
+				__typename
+				description
+				evaluations {
+					enabled
+					evaluationType
+					threshold
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementMcpServerEntity {
+				__typename
+				auth {
+					headerKey
+					type
+				}
+				description
+				displayName
+				endpoint
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				protocolVersion
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				transport
+			}
+			... on EntityManagementMeterEntity {
+				__typename
+				attributes {
+					name
+					values
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				meterType {
+					allowMeterCreation
+					attributionDimensions
+					description
+					id
+					name
+					type
+				}
+				owningTeam {
+					aliases
+					description
+					id
+					name
+					type
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementMeterTypeEntity {
+				__typename
+				allowMeterCreation
+				attributionDimensions
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				owningTeam {
+					aliases
+					description
+					id
+					name
+					type
+				}
+				productLine {
+					description
+					id
+					name
+					type
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementNewRelicConnection {
+				__typename
+				credential {
+					type
+				}
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				region
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementNotebookEntity {
+				__typename
+				content {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementNotificationAttachmentEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementNrAiAgentEntity {
+				__typename
+				displayName
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				version
+			}
+			... on EntityManagementNrqlMacroEntity {
+				__typename
+				expression
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				numParameters
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementOperationEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementOperationMetricEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementPerformanceInboxSettingEntity {
+				__typename
+				config {
+					name
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				thresholdScope
+			}
+			... on EntityManagementPipelineCloudRuleEntity {
+				__typename
+				description
+				enabled
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nrql
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementProductLineEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementRagDocumentEntity {
+				__typename
+				authorEmails
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				sourceIdentifier
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementRagToolEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementReactNativeSourcemapEntity {
+				__typename
+				appVersionId
+				applicationId
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				jsBundleId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementRestApiContractEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementScorecardEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				progressLevels {
+					description
+					hexColorCode
+					id
+					name
+				}
+				rules {
+					id
+					name
+					type
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementScorecardRuleEntity {
+				__typename
+				description
+				enabled
+				impactWeight
+				lastExecutionStatus {
+					checkedEntities
+					executedAt
+					executionStatus
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nrqlEngine {
+					accounts
+					joinAccounts
+					query
+				}
+				progressLevel
+				schedule {
+					cronExpression
+					enabled
+					period
+					scheduleAt
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementSegmentTermsEntity {
+				__typename
+				accountId
+				agentId
+				domain
+				entityGuid
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				metricPrefix
+				oldId
+				scope {
+					id
+					type
+				}
+				segmentTerms
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementServerlessJobDefinitionEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementServiceNowConnection {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementSlackConnection {
+				__typename
+				appId
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+				token {
+					keyName
+					namespace
+				}
+				workspace
+			}
+			... on EntityManagementSlackSyncConfiguration {
+				__typename
+				channelIdPayloadPath
+				connection
+				description
+				direction
+				enabled
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				mode
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				targets {
+					key
+					values
+				}
+				templateFields {
+					direction
+					name
+					required
+					template
+				}
+			}
+			... on EntityManagementStatusPageAnnouncementEntity {
+				__typename
+				category
+				communicationLogs {
+					communicatedBy
+					communicationMode
+					communicationStatus
+					message
+					timestamp
+				}
+				description
+				effectiveDate
+				eventUrl
+				impactQuery {
+					nrqlQuery
+					queryAccountIds
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				pointOfContacts {
+					id
+					name
+					type
+					userId
+				}
+				publishedDate
+				scope {
+					id
+					type
+				}
+				state
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementStatusPageIncidentEntity {
+				__typename
+				communicationLogs {
+					communicatedBy
+					communicationMode
+					communicationStatus
+					message
+					timestamp
+				}
+				description
+				endTime
+				incidentId
+				incidentTitle
+				lastUpdatedTime
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				region
+				scope {
+					id
+					type
+				}
+				startTime
+				status
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementTeamEntity {
+				__typename
+				aliases
+				description
+				externalIntegration {
+					externalId
+					type
+				}
+				membership {
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				ownership {
+					id
+					name
+					type
+				}
+				resources {
+					content
+					title
+					type
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementTeamsHierarchyLevelEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementTeamsOrganizationSettingsEntity {
+				__typename
+				discovery {
+					enabled
+					tagKeys
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				syncGroups {
+					enabled
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementUserEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				userId
+			}
+			... on EntityManagementWorkItem {
+				__typename
+				assignedTo {
+					identifier
+					type
+				}
+				attributes {
+					name
+					value
+				}
+				category
+				description
+				dueDate
+				externalId
+				labels
+				links {
+					id
+					name
+					type
+				}
+				messages {
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				priority
+				scope {
+					id
+					type
+				}
+				status
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementWorkItemLink {
+				__typename
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementWorkItemLinkV2Entity {
+				__typename
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementWorkItemMessage {
+				__typename
+				content
+				contentEncoding
+				contentType
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				parentId
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementWorkItemMessageV2Entity {
+				__typename
+				content
+				contentEncoding
+				contentType
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				parentId
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementWorkItemV2Entity {
+				__typename
+				assignedTo {
+					identifier
+					type
+				}
+				attributes {
+					name
+					value
+				}
+				category
+				description
+				dueDate
+				externalId
+				labels
+				links {
+					id
+					name
+					type
+				}
+				messages {
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				priority
+				scope {
+					id
+					type
+				}
+				status
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementWorkflowDefinition {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				versions
+			}
+			... on EntityManagementWorkflowSchedule {
+				__typename
+				cronExpression
+				definition {
+					id
+					version
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				overlapPolicy
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				timezone
+			}
+			... on EntityManagementZoomConnectionEntity {
+				__typename
+				description
+				enabled
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+			}
+		}
+		dataProcessingConnection {
+			__typename
+			id
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			name
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			type
+			... on EntityManagementAgentConfigurationEntity {
+				__typename
+				agentType
+				configurationType
+				managedEntityType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				operatingSystem {
+					type
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				versionCount
+			}
+			... on EntityManagementAgentConfigurationVersionEntity {
+				__typename
+				agentConfiguration
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				version
+			}
+			... on EntityManagementAgentEffectiveConfigurationEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementAgentEntity {
+				__typename
+				agentType
+				fleetControlProperties {
+					disconnectedReceived
+					environment
+					healthy
+					lastError
+					lastRemoteConfigError
+					lastRemoteConfigStatus
+					startTime
+					uid
+					version
+				}
+				infrastructureManagers {
+					type
+					version
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				version
+			}
+			... on EntityManagementAiAgentEntity {
+				__typename
+				agents {
+					__typename
+					id
+					name
+					type
+					... on EntityManagementAgentConfigurationEntity {
+						__typename
+						agentType
+						configurationType
+						managedEntityType
+						versionCount
+					}
+					... on EntityManagementAgentConfigurationVersionEntity {
+						__typename
+						agentConfiguration
+						version
+					}
+					... on EntityManagementAgentEffectiveConfigurationEntity {
+						__typename
+					}
+					... on EntityManagementAgentEntity {
+						__typename
+						agentType
+						version
+					}
+					... on EntityManagementAiAgentEntity {
+						__typename
+						category
+						description
+						displayName
+						initialized
+						prompt
+						provider
+						test
+					}
+					... on EntityManagementAiCapableEntity {
+						__typename
+						category
+						language
+						lastSeen
+						toolType
+						toolVersion
+					}
+					... on EntityManagementAiEvaluationConfigEntity {
+						__typename
+						description
+						samplingRate
+					}
+					... on EntityManagementAiToolEntity {
+						__typename
+						description
+						initialized
+						provider
+						test
+						toolType
+						url
+					}
+					... on EntityManagementApiSpecificationBlobEntity {
+						__typename
+						description
+					}
+					... on EntityManagementAwsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementBackgroundProcessingRuleEntity {
+						__typename
+						description
+						ruleType
+					}
+					... on EntityManagementBackgroundSqlProcessingRuleEntity {
+						__typename
+						description
+					}
+					... on EntityManagementBudgetEntity {
+						__typename
+						budgetType
+						organizationBudget
+					}
+					... on EntityManagementCiscoMerakiConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementCollectionEntity {
+						__typename
+					}
+					... on EntityManagementComponentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementComputeLocationEntity {
+						__typename
+						description
+					}
+					... on EntityManagementConfluenceConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+					}
+					... on EntityManagementConfluenceIntegration {
+						__typename
+						confluenceUserId
+						secretKey
+						url
+					}
+					... on EntityManagementConfluenceRagSettingsEntity {
+						__typename
+						chunkOverlap
+						chunkSize
+						confluenceIntegrationId
+						confluenceQuery
+						intervalSeconds
+						lastPullTime
+						nextPullTime
+						textSplitterType
+					}
+					... on EntityManagementCorrelationInternalSourceConfigEntity {
+						__typename
+						accountId
+						alias
+						filterId
+						namespaces
+						nrql
+						outputTopic
+						source
+					}
+					... on EntityManagementCorrelationLinkEntity {
+						__typename
+						directional
+						linkType
+					}
+					... on EntityManagementCorrelationLinkingRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementCustomEvaluationEntity {
+						__typename
+						criteria
+						description
+						model
+						parameters
+						steps
+						threshold
+					}
+					... on EntityManagementCustomerImpactEntity {
+						__typename
+						issueId
+					}
+					... on EntityManagementCustomerImpactQueryEntity {
+						__typename
+						query
+						queryAccountId
+						teamName
+						totalCustImpactQueryAccountIds
+						totalCustomerImpactQuery
+					}
+					... on EntityManagementEventBridgeRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementFederatedLogPartitionEntity {
+						__typename
+						dataLocationUri
+						description
+						isDefault
+						partitionDatabase
+						partitionTable
+						status
+					}
+					... on EntityManagementFederatedLogSetupEntity {
+						__typename
+						cloudProvider
+						cloudProviderRegion
+						dataLocationBucket
+						description
+						nrAccountId
+						nrRegion
+						status
+					}
+					... on EntityManagementFleetDeploymentEntity {
+						__typename
+						configurationVersions
+						description
+						fleetId
+						phase
+					}
+					... on EntityManagementFleetEntity {
+						__typename
+						description
+						managedEntityType
+						product
+					}
+					... on EntityManagementFleetRingEntity {
+						__typename
+						fleetId
+					}
+					... on EntityManagementFlowEntity {
+						__typename
+					}
+					... on EntityManagementGenericEntity {
+						__typename
+					}
+					... on EntityManagementGitHubIntegrationEntity {
+						__typename
+						installationId
+						installationSource
+						installationStatus
+						lastSyncCompletedAt
+						nextSyncAt
+					}
+					... on EntityManagementGitRepositoryEntity {
+						__typename
+						closedPullRequestCount
+						description
+						externalCreatedAt
+						externalId
+						externalLastDeployedAt
+						externalUpdatedAt
+						forkCount
+						hostingPlatform
+						latestReleaseVersion
+						lockedPullRequestCount
+						openPullRequestCount
+						primaryLanguage
+						url
+					}
+					... on EntityManagementGithubConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementImpactProfileEntity {
+						__typename
+					}
+					... on EntityManagementInboxIssueCategoryEntity {
+						__typename
+						categoryType
+						issueType
+						messageAttributes
+						nameAttributes
+					}
+					... on EntityManagementIncidentAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentEntity {
+						__typename
+						category
+						customerImpact
+						description
+						dueDate
+						entitiesImpacted
+						externalId
+						incidentCategory
+						incidentKey
+						incidentProfileId
+						incidentSubcategory
+						issueLinks
+						labels
+						lessonsLearned
+						maxSeverity
+						priority
+						reportedBy
+						resolutionCategory
+						resolutionSummary
+						retroActionItems
+						rootCauseSummary
+						rootCauseTags
+						severity
+						source
+						status
+						triggeringEvent
+					}
+					... on EntityManagementIncidentLinkEntity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementIncidentMessageEntity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementIncidentProfileAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentProfileEntity {
+						__typename
+					}
+					... on EntityManagementIncidentTimelineEntity {
+						__typename
+						content
+						entryType
+						source
+					}
+					... on EntityManagementJiraConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementJiraSyncConfiguration {
+						__typename
+						assigneeQuery
+						connection
+						correlationFieldName
+						description
+						direction
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJiraSyncConfigurationV2Entity {
+						__typename
+						bidirectional
+						connection
+						description
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJuniperMistConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementMaintenanceWindowEntity {
+						__typename
+						affectedEntityType
+						description
+						duration
+						rrule
+						startTime
+						timezone
+					}
+					... on EntityManagementManagedEvaluationsEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMcpServerEntity {
+						__typename
+						description
+						displayName
+						endpoint
+						protocolVersion
+						transport
+					}
+					... on EntityManagementMeterEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMeterTypeEntity {
+						__typename
+						allowMeterCreation
+						attributionDimensions
+						description
+					}
+					... on EntityManagementNewRelicConnection {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementNotebookEntity {
+						__typename
+					}
+					... on EntityManagementNotificationAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementNrAiAgentEntity {
+						__typename
+						displayName
+						version
+					}
+					... on EntityManagementNrqlMacroEntity {
+						__typename
+						expression
+						numParameters
+					}
+					... on EntityManagementOperationEntity {
+						__typename
+					}
+					... on EntityManagementOperationMetricEntity {
+						__typename
+					}
+					... on EntityManagementPerformanceInboxSettingEntity {
+						__typename
+						thresholdScope
+					}
+					... on EntityManagementPipelineCloudRuleEntity {
+						__typename
+						description
+						enabled
+						nrql
+					}
+					... on EntityManagementProductLineEntity {
+						__typename
+						description
+					}
+					... on EntityManagementRagDocumentEntity {
+						__typename
+						authorEmails
+						sourceIdentifier
+					}
+					... on EntityManagementRagToolEntity {
+						__typename
+						description
+					}
+					... on EntityManagementReactNativeSourcemapEntity {
+						__typename
+						appVersionId
+						applicationId
+						jsBundleId
+					}
+					... on EntityManagementRestApiContractEntity {
+						__typename
+					}
+					... on EntityManagementScorecardEntity {
+						__typename
+						description
+					}
+					... on EntityManagementScorecardRuleEntity {
+						__typename
+						description
+						enabled
+						impactWeight
+						progressLevel
+					}
+					... on EntityManagementSegmentTermsEntity {
+						__typename
+						accountId
+						agentId
+						domain
+						entityGuid
+						metricPrefix
+						oldId
+						segmentTerms
+					}
+					... on EntityManagementServerlessJobDefinitionEntity {
+						__typename
+						description
+					}
+					... on EntityManagementServiceNowConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementSlackConnection {
+						__typename
+						appId
+						description
+						enabled
+						externalId
+						workspace
+					}
+					... on EntityManagementSlackSyncConfiguration {
+						__typename
+						channelIdPayloadPath
+						connection
+						description
+						direction
+						enabled
+						mode
+					}
+					... on EntityManagementStatusPageAnnouncementEntity {
+						__typename
+						category
+						description
+						effectiveDate
+						eventUrl
+						publishedDate
+						state
+					}
+					... on EntityManagementStatusPageIncidentEntity {
+						__typename
+						description
+						endTime
+						incidentId
+						incidentTitle
+						lastUpdatedTime
+						region
+						startTime
+						status
+					}
+					... on EntityManagementTeamEntity {
+						__typename
+						aliases
+						description
+					}
+					... on EntityManagementTeamsHierarchyLevelEntity {
+						__typename
+					}
+					... on EntityManagementTeamsOrganizationSettingsEntity {
+						__typename
+					}
+					... on EntityManagementUserEntity {
+						__typename
+						userId
+					}
+					... on EntityManagementWorkItem {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkItemLink {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemLinkV2Entity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemMessage {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemMessageV2Entity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemV2Entity {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkflowDefinition {
+						__typename
+						description
+						versions
+					}
+					... on EntityManagementWorkflowSchedule {
+						__typename
+						cronExpression
+						description
+						overlapPolicy
+						timezone
+					}
+					... on EntityManagementZoomConnectionEntity {
+						__typename
+						description
+						enabled
+					}
+				}
+				category
+				description
+				displayName
+				initialized
+				llmConfig {
+					cacheSeed
+					model
+					temperature
+				}
+				mcpServers {
+					excludeTools
+					includeTools
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				prompt
+				provider
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				test
+				tools {
+					excludeTools
+					includeTools
+				}
+			}
+			... on EntityManagementAiCapableEntity {
+				__typename
+				category
+				language
+				lastSeen
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				toolType
+				toolVersion
+			}
+			... on EntityManagementAiEvaluationConfigEntity {
+				__typename
+				description
+				managedEvaluationsEntity {
+					description
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				samplingRate
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementAiToolEntity {
+				__typename
+				description
+				initialized
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				parameters {
+					description
+					name
+					type
+				}
+				provider
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				test
+				toolType
+				url
+			}
+			... on EntityManagementApiSpecificationBlobEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementAwsConnectionEntity {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				region
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementBackgroundProcessingRuleEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				query {
+					nrql
+				}
+				ruleType
+				schedule {
+					cronExpression
+					enabled
+					period
+					scheduleAt
+				}
+				scope {
+					id
+					type
+				}
+				state {
+					message
+					status
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementBackgroundSqlProcessingRuleEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				query {
+					outputTarget
+					sql
+				}
+				schedule {
+					cronExpression
+					enabled
+					period
+					scheduleAt
+				}
+				scope {
+					id
+					type
+				}
+				state {
+					message
+					status
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementBudgetEntity {
+				__typename
+				budgetAlertPolicies {
+					id
+				}
+				budgetLimits {
+					consumptionMetric
+					value
+				}
+				budgetType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				organizationBudget
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementCiscoMerakiConnectionEntity {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				region
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementCollectionEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementComponentEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementComputeLocationEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementConfluenceConnectionEntity {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementConfluenceIntegration {
+				__typename
+				confluenceUserId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				secretKey
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementConfluenceRagSettingsEntity {
+				__typename
+				characterTextSplitterOptions {
+					isSeparatorRegex
+					separator
+				}
+				chunkOverlap
+				chunkSize
+				confluenceIntegrationId
+				confluenceQuery
+				intervalSeconds
+				lastPullTime
+				markdownTextSplitterOptions {
+					headersToSplitOn
+					returnEachLine
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nextPullTime
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				textSplitterType
+				tokenTextSplitterOptions {
+					encodingName
+				}
+			}
+			... on EntityManagementCorrelationInternalSourceConfigEntity {
+				__typename
+				accountId
+				alias
+				filterId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				namespaces
+				nrql
+				outputTopic
+				scope {
+					id
+					type
+				}
+				source
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementCorrelationLinkEntity {
+				__typename
+				context {
+					confidence
+					messages
+					ruleId
+				}
+				directional
+				linkType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				overrideInfo {
+					action
+					timestamp
+					userId
+				}
+				scope {
+					id
+					type
+				}
+				source {
+					accountId
+					eventId
+					eventType
+				}
+				tags {
+					key
+					values
+				}
+				target {
+					accountId
+					eventId
+					eventType
+				}
+			}
+			... on EntityManagementCorrelationLinkingRuleEntity {
+				__typename
+				criteria {
+					topologyProximity
+				}
+				description
+				enabled
+				linkingConfig {
+					directional
+					linkType
+					sourceAlias
+					targetAlias
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				subjects {
+					accountIds
+					alias
+					nrql
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementCustomEvaluationEntity {
+				__typename
+				criteria
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				model
+				parameters
+				scope {
+					id
+					type
+				}
+				steps
+				tags {
+					key
+					values
+				}
+				threshold
+			}
+			... on EntityManagementCustomerImpactEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				components {
+					description
+					id
+					name
+					type
+				}
+				issueId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementCustomerImpactQueryEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				products {
+					description
+					id
+					name
+					type
+				}
+				query
+				queryAccountId
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				teamName
+				totalCustImpactQueryAccountIds
+				totalCustomerImpactQuery
+			}
+			... on EntityManagementEventBridgeRuleEntity {
+				__typename
+				conditions {
+					field
+				}
+				description
+				enabled
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				sourceType {
+					event
+					name
+				}
+				tags {
+					key
+					values
+				}
+				targets {
+					name
+					type
+				}
+			}
+			... on EntityManagementFederatedLogPartitionEntity {
+				__typename
+				dataLocationUri
+				description
+				isDefault
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				partitionDatabase
+				partitionTable
+				retentionPolicy {
+					duration
+					unit
+				}
+				scope {
+					id
+					type
+				}
+				setup {
+					cloudProvider
+					cloudProviderRegion
+					dataLocationBucket
+					description
+					id
+					name
+					nrAccountId
+					nrRegion
+					status
+					type
+				}
+				status
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementFederatedLogSetupEntity {
+				__typename
+				cloudProvider
+				cloudProviderRegion
+				dataLocationBucket
+				dataProcessingComponent {
+					__typename
+					id
+					name
+					type
+					... on EntityManagementAgentConfigurationEntity {
+						__typename
+						agentType
+						configurationType
+						managedEntityType
+						versionCount
+					}
+					... on EntityManagementAgentConfigurationVersionEntity {
+						__typename
+						agentConfiguration
+						version
+					}
+					... on EntityManagementAgentEffectiveConfigurationEntity {
+						__typename
+					}
+					... on EntityManagementAgentEntity {
+						__typename
+						agentType
+						version
+					}
+					... on EntityManagementAiAgentEntity {
+						__typename
+						category
+						description
+						displayName
+						initialized
+						prompt
+						provider
+						test
+					}
+					... on EntityManagementAiCapableEntity {
+						__typename
+						category
+						language
+						lastSeen
+						toolType
+						toolVersion
+					}
+					... on EntityManagementAiEvaluationConfigEntity {
+						__typename
+						description
+						samplingRate
+					}
+					... on EntityManagementAiToolEntity {
+						__typename
+						description
+						initialized
+						provider
+						test
+						toolType
+						url
+					}
+					... on EntityManagementApiSpecificationBlobEntity {
+						__typename
+						description
+					}
+					... on EntityManagementAwsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementBackgroundProcessingRuleEntity {
+						__typename
+						description
+						ruleType
+					}
+					... on EntityManagementBackgroundSqlProcessingRuleEntity {
+						__typename
+						description
+					}
+					... on EntityManagementBudgetEntity {
+						__typename
+						budgetType
+						organizationBudget
+					}
+					... on EntityManagementCiscoMerakiConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementCollectionEntity {
+						__typename
+					}
+					... on EntityManagementComponentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementComputeLocationEntity {
+						__typename
+						description
+					}
+					... on EntityManagementConfluenceConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+					}
+					... on EntityManagementConfluenceIntegration {
+						__typename
+						confluenceUserId
+						secretKey
+						url
+					}
+					... on EntityManagementConfluenceRagSettingsEntity {
+						__typename
+						chunkOverlap
+						chunkSize
+						confluenceIntegrationId
+						confluenceQuery
+						intervalSeconds
+						lastPullTime
+						nextPullTime
+						textSplitterType
+					}
+					... on EntityManagementCorrelationInternalSourceConfigEntity {
+						__typename
+						accountId
+						alias
+						filterId
+						namespaces
+						nrql
+						outputTopic
+						source
+					}
+					... on EntityManagementCorrelationLinkEntity {
+						__typename
+						directional
+						linkType
+					}
+					... on EntityManagementCorrelationLinkingRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementCustomEvaluationEntity {
+						__typename
+						criteria
+						description
+						model
+						parameters
+						steps
+						threshold
+					}
+					... on EntityManagementCustomerImpactEntity {
+						__typename
+						issueId
+					}
+					... on EntityManagementCustomerImpactQueryEntity {
+						__typename
+						query
+						queryAccountId
+						teamName
+						totalCustImpactQueryAccountIds
+						totalCustomerImpactQuery
+					}
+					... on EntityManagementEventBridgeRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementFederatedLogPartitionEntity {
+						__typename
+						dataLocationUri
+						description
+						isDefault
+						partitionDatabase
+						partitionTable
+						status
+					}
+					... on EntityManagementFederatedLogSetupEntity {
+						__typename
+						cloudProvider
+						cloudProviderRegion
+						dataLocationBucket
+						description
+						nrAccountId
+						nrRegion
+						status
+					}
+					... on EntityManagementFleetDeploymentEntity {
+						__typename
+						configurationVersions
+						description
+						fleetId
+						phase
+					}
+					... on EntityManagementFleetEntity {
+						__typename
+						description
+						managedEntityType
+						product
+					}
+					... on EntityManagementFleetRingEntity {
+						__typename
+						fleetId
+					}
+					... on EntityManagementFlowEntity {
+						__typename
+					}
+					... on EntityManagementGenericEntity {
+						__typename
+					}
+					... on EntityManagementGitHubIntegrationEntity {
+						__typename
+						installationId
+						installationSource
+						installationStatus
+						lastSyncCompletedAt
+						nextSyncAt
+					}
+					... on EntityManagementGitRepositoryEntity {
+						__typename
+						closedPullRequestCount
+						description
+						externalCreatedAt
+						externalId
+						externalLastDeployedAt
+						externalUpdatedAt
+						forkCount
+						hostingPlatform
+						latestReleaseVersion
+						lockedPullRequestCount
+						openPullRequestCount
+						primaryLanguage
+						url
+					}
+					... on EntityManagementGithubConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementImpactProfileEntity {
+						__typename
+					}
+					... on EntityManagementInboxIssueCategoryEntity {
+						__typename
+						categoryType
+						issueType
+						messageAttributes
+						nameAttributes
+					}
+					... on EntityManagementIncidentAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentEntity {
+						__typename
+						category
+						customerImpact
+						description
+						dueDate
+						entitiesImpacted
+						externalId
+						incidentCategory
+						incidentKey
+						incidentProfileId
+						incidentSubcategory
+						issueLinks
+						labels
+						lessonsLearned
+						maxSeverity
+						priority
+						reportedBy
+						resolutionCategory
+						resolutionSummary
+						retroActionItems
+						rootCauseSummary
+						rootCauseTags
+						severity
+						source
+						status
+						triggeringEvent
+					}
+					... on EntityManagementIncidentLinkEntity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementIncidentMessageEntity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementIncidentProfileAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentProfileEntity {
+						__typename
+					}
+					... on EntityManagementIncidentTimelineEntity {
+						__typename
+						content
+						entryType
+						source
+					}
+					... on EntityManagementJiraConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementJiraSyncConfiguration {
+						__typename
+						assigneeQuery
+						connection
+						correlationFieldName
+						description
+						direction
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJiraSyncConfigurationV2Entity {
+						__typename
+						bidirectional
+						connection
+						description
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJuniperMistConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementMaintenanceWindowEntity {
+						__typename
+						affectedEntityType
+						description
+						duration
+						rrule
+						startTime
+						timezone
+					}
+					... on EntityManagementManagedEvaluationsEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMcpServerEntity {
+						__typename
+						description
+						displayName
+						endpoint
+						protocolVersion
+						transport
+					}
+					... on EntityManagementMeterEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMeterTypeEntity {
+						__typename
+						allowMeterCreation
+						attributionDimensions
+						description
+					}
+					... on EntityManagementNewRelicConnection {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementNotebookEntity {
+						__typename
+					}
+					... on EntityManagementNotificationAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementNrAiAgentEntity {
+						__typename
+						displayName
+						version
+					}
+					... on EntityManagementNrqlMacroEntity {
+						__typename
+						expression
+						numParameters
+					}
+					... on EntityManagementOperationEntity {
+						__typename
+					}
+					... on EntityManagementOperationMetricEntity {
+						__typename
+					}
+					... on EntityManagementPerformanceInboxSettingEntity {
+						__typename
+						thresholdScope
+					}
+					... on EntityManagementPipelineCloudRuleEntity {
+						__typename
+						description
+						enabled
+						nrql
+					}
+					... on EntityManagementProductLineEntity {
+						__typename
+						description
+					}
+					... on EntityManagementRagDocumentEntity {
+						__typename
+						authorEmails
+						sourceIdentifier
+					}
+					... on EntityManagementRagToolEntity {
+						__typename
+						description
+					}
+					... on EntityManagementReactNativeSourcemapEntity {
+						__typename
+						appVersionId
+						applicationId
+						jsBundleId
+					}
+					... on EntityManagementRestApiContractEntity {
+						__typename
+					}
+					... on EntityManagementScorecardEntity {
+						__typename
+						description
+					}
+					... on EntityManagementScorecardRuleEntity {
+						__typename
+						description
+						enabled
+						impactWeight
+						progressLevel
+					}
+					... on EntityManagementSegmentTermsEntity {
+						__typename
+						accountId
+						agentId
+						domain
+						entityGuid
+						metricPrefix
+						oldId
+						segmentTerms
+					}
+					... on EntityManagementServerlessJobDefinitionEntity {
+						__typename
+						description
+					}
+					... on EntityManagementServiceNowConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementSlackConnection {
+						__typename
+						appId
+						description
+						enabled
+						externalId
+						workspace
+					}
+					... on EntityManagementSlackSyncConfiguration {
+						__typename
+						channelIdPayloadPath
+						connection
+						description
+						direction
+						enabled
+						mode
+					}
+					... on EntityManagementStatusPageAnnouncementEntity {
+						__typename
+						category
+						description
+						effectiveDate
+						eventUrl
+						publishedDate
+						state
+					}
+					... on EntityManagementStatusPageIncidentEntity {
+						__typename
+						description
+						endTime
+						incidentId
+						incidentTitle
+						lastUpdatedTime
+						region
+						startTime
+						status
+					}
+					... on EntityManagementTeamEntity {
+						__typename
+						aliases
+						description
+					}
+					... on EntityManagementTeamsHierarchyLevelEntity {
+						__typename
+					}
+					... on EntityManagementTeamsOrganizationSettingsEntity {
+						__typename
+					}
+					... on EntityManagementUserEntity {
+						__typename
+						userId
+					}
+					... on EntityManagementWorkItem {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkItemLink {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemLinkV2Entity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemMessage {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemMessageV2Entity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemV2Entity {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkflowDefinition {
+						__typename
+						description
+						versions
+					}
+					... on EntityManagementWorkflowSchedule {
+						__typename
+						cronExpression
+						description
+						overlapPolicy
+						timezone
+					}
+					... on EntityManagementZoomConnectionEntity {
+						__typename
+						description
+						enabled
+					}
+				}
+				dataProcessingConnection {
+					__typename
+					id
+					name
+					type
+					... on EntityManagementAgentConfigurationEntity {
+						__typename
+						agentType
+						configurationType
+						managedEntityType
+						versionCount
+					}
+					... on EntityManagementAgentConfigurationVersionEntity {
+						__typename
+						agentConfiguration
+						version
+					}
+					... on EntityManagementAgentEffectiveConfigurationEntity {
+						__typename
+					}
+					... on EntityManagementAgentEntity {
+						__typename
+						agentType
+						version
+					}
+					... on EntityManagementAiAgentEntity {
+						__typename
+						category
+						description
+						displayName
+						initialized
+						prompt
+						provider
+						test
+					}
+					... on EntityManagementAiCapableEntity {
+						__typename
+						category
+						language
+						lastSeen
+						toolType
+						toolVersion
+					}
+					... on EntityManagementAiEvaluationConfigEntity {
+						__typename
+						description
+						samplingRate
+					}
+					... on EntityManagementAiToolEntity {
+						__typename
+						description
+						initialized
+						provider
+						test
+						toolType
+						url
+					}
+					... on EntityManagementApiSpecificationBlobEntity {
+						__typename
+						description
+					}
+					... on EntityManagementAwsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementBackgroundProcessingRuleEntity {
+						__typename
+						description
+						ruleType
+					}
+					... on EntityManagementBackgroundSqlProcessingRuleEntity {
+						__typename
+						description
+					}
+					... on EntityManagementBudgetEntity {
+						__typename
+						budgetType
+						organizationBudget
+					}
+					... on EntityManagementCiscoMerakiConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementCollectionEntity {
+						__typename
+					}
+					... on EntityManagementComponentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementComputeLocationEntity {
+						__typename
+						description
+					}
+					... on EntityManagementConfluenceConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+					}
+					... on EntityManagementConfluenceIntegration {
+						__typename
+						confluenceUserId
+						secretKey
+						url
+					}
+					... on EntityManagementConfluenceRagSettingsEntity {
+						__typename
+						chunkOverlap
+						chunkSize
+						confluenceIntegrationId
+						confluenceQuery
+						intervalSeconds
+						lastPullTime
+						nextPullTime
+						textSplitterType
+					}
+					... on EntityManagementCorrelationInternalSourceConfigEntity {
+						__typename
+						accountId
+						alias
+						filterId
+						namespaces
+						nrql
+						outputTopic
+						source
+					}
+					... on EntityManagementCorrelationLinkEntity {
+						__typename
+						directional
+						linkType
+					}
+					... on EntityManagementCorrelationLinkingRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementCustomEvaluationEntity {
+						__typename
+						criteria
+						description
+						model
+						parameters
+						steps
+						threshold
+					}
+					... on EntityManagementCustomerImpactEntity {
+						__typename
+						issueId
+					}
+					... on EntityManagementCustomerImpactQueryEntity {
+						__typename
+						query
+						queryAccountId
+						teamName
+						totalCustImpactQueryAccountIds
+						totalCustomerImpactQuery
+					}
+					... on EntityManagementEventBridgeRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementFederatedLogPartitionEntity {
+						__typename
+						dataLocationUri
+						description
+						isDefault
+						partitionDatabase
+						partitionTable
+						status
+					}
+					... on EntityManagementFederatedLogSetupEntity {
+						__typename
+						cloudProvider
+						cloudProviderRegion
+						dataLocationBucket
+						description
+						nrAccountId
+						nrRegion
+						status
+					}
+					... on EntityManagementFleetDeploymentEntity {
+						__typename
+						configurationVersions
+						description
+						fleetId
+						phase
+					}
+					... on EntityManagementFleetEntity {
+						__typename
+						description
+						managedEntityType
+						product
+					}
+					... on EntityManagementFleetRingEntity {
+						__typename
+						fleetId
+					}
+					... on EntityManagementFlowEntity {
+						__typename
+					}
+					... on EntityManagementGenericEntity {
+						__typename
+					}
+					... on EntityManagementGitHubIntegrationEntity {
+						__typename
+						installationId
+						installationSource
+						installationStatus
+						lastSyncCompletedAt
+						nextSyncAt
+					}
+					... on EntityManagementGitRepositoryEntity {
+						__typename
+						closedPullRequestCount
+						description
+						externalCreatedAt
+						externalId
+						externalLastDeployedAt
+						externalUpdatedAt
+						forkCount
+						hostingPlatform
+						latestReleaseVersion
+						lockedPullRequestCount
+						openPullRequestCount
+						primaryLanguage
+						url
+					}
+					... on EntityManagementGithubConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementImpactProfileEntity {
+						__typename
+					}
+					... on EntityManagementInboxIssueCategoryEntity {
+						__typename
+						categoryType
+						issueType
+						messageAttributes
+						nameAttributes
+					}
+					... on EntityManagementIncidentAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentEntity {
+						__typename
+						category
+						customerImpact
+						description
+						dueDate
+						entitiesImpacted
+						externalId
+						incidentCategory
+						incidentKey
+						incidentProfileId
+						incidentSubcategory
+						issueLinks
+						labels
+						lessonsLearned
+						maxSeverity
+						priority
+						reportedBy
+						resolutionCategory
+						resolutionSummary
+						retroActionItems
+						rootCauseSummary
+						rootCauseTags
+						severity
+						source
+						status
+						triggeringEvent
+					}
+					... on EntityManagementIncidentLinkEntity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementIncidentMessageEntity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementIncidentProfileAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentProfileEntity {
+						__typename
+					}
+					... on EntityManagementIncidentTimelineEntity {
+						__typename
+						content
+						entryType
+						source
+					}
+					... on EntityManagementJiraConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementJiraSyncConfiguration {
+						__typename
+						assigneeQuery
+						connection
+						correlationFieldName
+						description
+						direction
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJiraSyncConfigurationV2Entity {
+						__typename
+						bidirectional
+						connection
+						description
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJuniperMistConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementMaintenanceWindowEntity {
+						__typename
+						affectedEntityType
+						description
+						duration
+						rrule
+						startTime
+						timezone
+					}
+					... on EntityManagementManagedEvaluationsEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMcpServerEntity {
+						__typename
+						description
+						displayName
+						endpoint
+						protocolVersion
+						transport
+					}
+					... on EntityManagementMeterEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMeterTypeEntity {
+						__typename
+						allowMeterCreation
+						attributionDimensions
+						description
+					}
+					... on EntityManagementNewRelicConnection {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementNotebookEntity {
+						__typename
+					}
+					... on EntityManagementNotificationAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementNrAiAgentEntity {
+						__typename
+						displayName
+						version
+					}
+					... on EntityManagementNrqlMacroEntity {
+						__typename
+						expression
+						numParameters
+					}
+					... on EntityManagementOperationEntity {
+						__typename
+					}
+					... on EntityManagementOperationMetricEntity {
+						__typename
+					}
+					... on EntityManagementPerformanceInboxSettingEntity {
+						__typename
+						thresholdScope
+					}
+					... on EntityManagementPipelineCloudRuleEntity {
+						__typename
+						description
+						enabled
+						nrql
+					}
+					... on EntityManagementProductLineEntity {
+						__typename
+						description
+					}
+					... on EntityManagementRagDocumentEntity {
+						__typename
+						authorEmails
+						sourceIdentifier
+					}
+					... on EntityManagementRagToolEntity {
+						__typename
+						description
+					}
+					... on EntityManagementReactNativeSourcemapEntity {
+						__typename
+						appVersionId
+						applicationId
+						jsBundleId
+					}
+					... on EntityManagementRestApiContractEntity {
+						__typename
+					}
+					... on EntityManagementScorecardEntity {
+						__typename
+						description
+					}
+					... on EntityManagementScorecardRuleEntity {
+						__typename
+						description
+						enabled
+						impactWeight
+						progressLevel
+					}
+					... on EntityManagementSegmentTermsEntity {
+						__typename
+						accountId
+						agentId
+						domain
+						entityGuid
+						metricPrefix
+						oldId
+						segmentTerms
+					}
+					... on EntityManagementServerlessJobDefinitionEntity {
+						__typename
+						description
+					}
+					... on EntityManagementServiceNowConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementSlackConnection {
+						__typename
+						appId
+						description
+						enabled
+						externalId
+						workspace
+					}
+					... on EntityManagementSlackSyncConfiguration {
+						__typename
+						channelIdPayloadPath
+						connection
+						description
+						direction
+						enabled
+						mode
+					}
+					... on EntityManagementStatusPageAnnouncementEntity {
+						__typename
+						category
+						description
+						effectiveDate
+						eventUrl
+						publishedDate
+						state
+					}
+					... on EntityManagementStatusPageIncidentEntity {
+						__typename
+						description
+						endTime
+						incidentId
+						incidentTitle
+						lastUpdatedTime
+						region
+						startTime
+						status
+					}
+					... on EntityManagementTeamEntity {
+						__typename
+						aliases
+						description
+					}
+					... on EntityManagementTeamsHierarchyLevelEntity {
+						__typename
+					}
+					... on EntityManagementTeamsOrganizationSettingsEntity {
+						__typename
+					}
+					... on EntityManagementUserEntity {
+						__typename
+						userId
+					}
+					... on EntityManagementWorkItem {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkItemLink {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemLinkV2Entity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemMessage {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemMessageV2Entity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemV2Entity {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkflowDefinition {
+						__typename
+						description
+						versions
+					}
+					... on EntityManagementWorkflowSchedule {
+						__typename
+						cronExpression
+						description
+						overlapPolicy
+						timezone
+					}
+					... on EntityManagementZoomConnectionEntity {
+						__typename
+						description
+						enabled
+					}
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nrAccountId
+				nrRegion
+				queryConnection {
+					__typename
+					id
+					name
+					type
+					... on EntityManagementAgentConfigurationEntity {
+						__typename
+						agentType
+						configurationType
+						managedEntityType
+						versionCount
+					}
+					... on EntityManagementAgentConfigurationVersionEntity {
+						__typename
+						agentConfiguration
+						version
+					}
+					... on EntityManagementAgentEffectiveConfigurationEntity {
+						__typename
+					}
+					... on EntityManagementAgentEntity {
+						__typename
+						agentType
+						version
+					}
+					... on EntityManagementAiAgentEntity {
+						__typename
+						category
+						description
+						displayName
+						initialized
+						prompt
+						provider
+						test
+					}
+					... on EntityManagementAiCapableEntity {
+						__typename
+						category
+						language
+						lastSeen
+						toolType
+						toolVersion
+					}
+					... on EntityManagementAiEvaluationConfigEntity {
+						__typename
+						description
+						samplingRate
+					}
+					... on EntityManagementAiToolEntity {
+						__typename
+						description
+						initialized
+						provider
+						test
+						toolType
+						url
+					}
+					... on EntityManagementApiSpecificationBlobEntity {
+						__typename
+						description
+					}
+					... on EntityManagementAwsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementBackgroundProcessingRuleEntity {
+						__typename
+						description
+						ruleType
+					}
+					... on EntityManagementBackgroundSqlProcessingRuleEntity {
+						__typename
+						description
+					}
+					... on EntityManagementBudgetEntity {
+						__typename
+						budgetType
+						organizationBudget
+					}
+					... on EntityManagementCiscoMerakiConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementCollectionEntity {
+						__typename
+					}
+					... on EntityManagementComponentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementComputeLocationEntity {
+						__typename
+						description
+					}
+					... on EntityManagementConfluenceConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+					}
+					... on EntityManagementConfluenceIntegration {
+						__typename
+						confluenceUserId
+						secretKey
+						url
+					}
+					... on EntityManagementConfluenceRagSettingsEntity {
+						__typename
+						chunkOverlap
+						chunkSize
+						confluenceIntegrationId
+						confluenceQuery
+						intervalSeconds
+						lastPullTime
+						nextPullTime
+						textSplitterType
+					}
+					... on EntityManagementCorrelationInternalSourceConfigEntity {
+						__typename
+						accountId
+						alias
+						filterId
+						namespaces
+						nrql
+						outputTopic
+						source
+					}
+					... on EntityManagementCorrelationLinkEntity {
+						__typename
+						directional
+						linkType
+					}
+					... on EntityManagementCorrelationLinkingRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementCustomEvaluationEntity {
+						__typename
+						criteria
+						description
+						model
+						parameters
+						steps
+						threshold
+					}
+					... on EntityManagementCustomerImpactEntity {
+						__typename
+						issueId
+					}
+					... on EntityManagementCustomerImpactQueryEntity {
+						__typename
+						query
+						queryAccountId
+						teamName
+						totalCustImpactQueryAccountIds
+						totalCustomerImpactQuery
+					}
+					... on EntityManagementEventBridgeRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementFederatedLogPartitionEntity {
+						__typename
+						dataLocationUri
+						description
+						isDefault
+						partitionDatabase
+						partitionTable
+						status
+					}
+					... on EntityManagementFederatedLogSetupEntity {
+						__typename
+						cloudProvider
+						cloudProviderRegion
+						dataLocationBucket
+						description
+						nrAccountId
+						nrRegion
+						status
+					}
+					... on EntityManagementFleetDeploymentEntity {
+						__typename
+						configurationVersions
+						description
+						fleetId
+						phase
+					}
+					... on EntityManagementFleetEntity {
+						__typename
+						description
+						managedEntityType
+						product
+					}
+					... on EntityManagementFleetRingEntity {
+						__typename
+						fleetId
+					}
+					... on EntityManagementFlowEntity {
+						__typename
+					}
+					... on EntityManagementGenericEntity {
+						__typename
+					}
+					... on EntityManagementGitHubIntegrationEntity {
+						__typename
+						installationId
+						installationSource
+						installationStatus
+						lastSyncCompletedAt
+						nextSyncAt
+					}
+					... on EntityManagementGitRepositoryEntity {
+						__typename
+						closedPullRequestCount
+						description
+						externalCreatedAt
+						externalId
+						externalLastDeployedAt
+						externalUpdatedAt
+						forkCount
+						hostingPlatform
+						latestReleaseVersion
+						lockedPullRequestCount
+						openPullRequestCount
+						primaryLanguage
+						url
+					}
+					... on EntityManagementGithubConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementImpactProfileEntity {
+						__typename
+					}
+					... on EntityManagementInboxIssueCategoryEntity {
+						__typename
+						categoryType
+						issueType
+						messageAttributes
+						nameAttributes
+					}
+					... on EntityManagementIncidentAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentEntity {
+						__typename
+						category
+						customerImpact
+						description
+						dueDate
+						entitiesImpacted
+						externalId
+						incidentCategory
+						incidentKey
+						incidentProfileId
+						incidentSubcategory
+						issueLinks
+						labels
+						lessonsLearned
+						maxSeverity
+						priority
+						reportedBy
+						resolutionCategory
+						resolutionSummary
+						retroActionItems
+						rootCauseSummary
+						rootCauseTags
+						severity
+						source
+						status
+						triggeringEvent
+					}
+					... on EntityManagementIncidentLinkEntity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementIncidentMessageEntity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementIncidentProfileAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentProfileEntity {
+						__typename
+					}
+					... on EntityManagementIncidentTimelineEntity {
+						__typename
+						content
+						entryType
+						source
+					}
+					... on EntityManagementJiraConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementJiraSyncConfiguration {
+						__typename
+						assigneeQuery
+						connection
+						correlationFieldName
+						description
+						direction
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJiraSyncConfigurationV2Entity {
+						__typename
+						bidirectional
+						connection
+						description
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJuniperMistConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementMaintenanceWindowEntity {
+						__typename
+						affectedEntityType
+						description
+						duration
+						rrule
+						startTime
+						timezone
+					}
+					... on EntityManagementManagedEvaluationsEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMcpServerEntity {
+						__typename
+						description
+						displayName
+						endpoint
+						protocolVersion
+						transport
+					}
+					... on EntityManagementMeterEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMeterTypeEntity {
+						__typename
+						allowMeterCreation
+						attributionDimensions
+						description
+					}
+					... on EntityManagementNewRelicConnection {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementNotebookEntity {
+						__typename
+					}
+					... on EntityManagementNotificationAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementNrAiAgentEntity {
+						__typename
+						displayName
+						version
+					}
+					... on EntityManagementNrqlMacroEntity {
+						__typename
+						expression
+						numParameters
+					}
+					... on EntityManagementOperationEntity {
+						__typename
+					}
+					... on EntityManagementOperationMetricEntity {
+						__typename
+					}
+					... on EntityManagementPerformanceInboxSettingEntity {
+						__typename
+						thresholdScope
+					}
+					... on EntityManagementPipelineCloudRuleEntity {
+						__typename
+						description
+						enabled
+						nrql
+					}
+					... on EntityManagementProductLineEntity {
+						__typename
+						description
+					}
+					... on EntityManagementRagDocumentEntity {
+						__typename
+						authorEmails
+						sourceIdentifier
+					}
+					... on EntityManagementRagToolEntity {
+						__typename
+						description
+					}
+					... on EntityManagementReactNativeSourcemapEntity {
+						__typename
+						appVersionId
+						applicationId
+						jsBundleId
+					}
+					... on EntityManagementRestApiContractEntity {
+						__typename
+					}
+					... on EntityManagementScorecardEntity {
+						__typename
+						description
+					}
+					... on EntityManagementScorecardRuleEntity {
+						__typename
+						description
+						enabled
+						impactWeight
+						progressLevel
+					}
+					... on EntityManagementSegmentTermsEntity {
+						__typename
+						accountId
+						agentId
+						domain
+						entityGuid
+						metricPrefix
+						oldId
+						segmentTerms
+					}
+					... on EntityManagementServerlessJobDefinitionEntity {
+						__typename
+						description
+					}
+					... on EntityManagementServiceNowConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementSlackConnection {
+						__typename
+						appId
+						description
+						enabled
+						externalId
+						workspace
+					}
+					... on EntityManagementSlackSyncConfiguration {
+						__typename
+						channelIdPayloadPath
+						connection
+						description
+						direction
+						enabled
+						mode
+					}
+					... on EntityManagementStatusPageAnnouncementEntity {
+						__typename
+						category
+						description
+						effectiveDate
+						eventUrl
+						publishedDate
+						state
+					}
+					... on EntityManagementStatusPageIncidentEntity {
+						__typename
+						description
+						endTime
+						incidentId
+						incidentTitle
+						lastUpdatedTime
+						region
+						startTime
+						status
+					}
+					... on EntityManagementTeamEntity {
+						__typename
+						aliases
+						description
+					}
+					... on EntityManagementTeamsHierarchyLevelEntity {
+						__typename
+					}
+					... on EntityManagementTeamsOrganizationSettingsEntity {
+						__typename
+					}
+					... on EntityManagementUserEntity {
+						__typename
+						userId
+					}
+					... on EntityManagementWorkItem {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkItemLink {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemLinkV2Entity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemMessage {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemMessageV2Entity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemV2Entity {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkflowDefinition {
+						__typename
+						description
+						versions
+					}
+					... on EntityManagementWorkflowSchedule {
+						__typename
+						cronExpression
+						description
+						overlapPolicy
+						timezone
+					}
+					... on EntityManagementZoomConnectionEntity {
+						__typename
+						description
+						enabled
+					}
+				}
+				scope {
+					id
+					type
+				}
+				status
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementFleetDeploymentEntity {
+				__typename
+				agents {
+					agentType
+					version
+				}
+				configurationVersionList {
+					id
+				}
+				configurationVersions
+				description
+				fleetId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				phase
+				ringsDeploymentTracker {
+					completedAt
+					name
+					startedAt
+					status
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementFleetEntity {
+				__typename
+				currentDeployment {
+					canaryManagedEntities
+					configsChanged
+					configurationVersions
+					deployedAt
+					description
+					entitiesChanged
+					managedEntitiesChanged
+					managedEntitiesRequiredToChange
+					name
+					status
+					supervisedAgentEntitiesChanged
+					supervisedAgentEntitiesRequiredToChange
+				}
+				description
+				managedEntityRings {
+					id
+					name
+					type
+				}
+				managedEntityType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				operatingSystem {
+					type
+				}
+				product
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementFleetRingEntity {
+				__typename
+				fleetId
+				managedEntities {
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementFlowEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementGenericEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementGitHubIntegrationEntity {
+				__typename
+				count {
+					repoCount
+					teamCount
+				}
+				gitHubRetentionOptions {
+					retainRepositories
+					retainTeams
+				}
+				gitHubSyncOptions {
+					syncRepositories
+					syncTeams
+				}
+				installationId
+				installationSource
+				installationStatus
+				lastSyncCompletedAt
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nextSyncAt
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementGitRepositoryEntity {
+				__typename
+				closedPullRequestCount
+				configuration {
+					source
+					updatedAt
+					updatedBy
+				}
+				description
+				externalCreatedAt
+				externalId
+				externalLastDeployedAt
+				externalOwner {
+					id
+					type
+				}
+				externalUpdatedAt
+				forkCount
+				hostingPlatform
+				latestReleaseVersion
+				license {
+					name
+					url
+				}
+				lockedPullRequestCount
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				openPullRequestCount
+				primaryLanguage
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementGithubConnection {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementImpactProfileEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementInboxIssueCategoryEntity {
+				__typename
+				categoryScope {
+					id
+					type
+				}
+				categoryType
+				issueType
+				messageAttributes
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nameAttributes
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementIncidentAttachmentEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementIncidentEntity {
+				__typename
+				assignedTo {
+					identifier
+					type
+				}
+				attributes {
+					name
+					value
+				}
+				category
+				customerImpact
+				description
+				dueDate
+				entitiesImpacted
+				externalId
+				incidentCategory
+				incidentKey
+				incidentProfileId
+				incidentSubcategory
+				issueLinks
+				labels
+				lessonsLearned
+				links {
+					id
+					name
+					type
+				}
+				maxSeverity
+				messages {
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				priority
+				reportedBy
+				resolutionCategory
+				resolutionSummary
+				retroActionItems
+				rootCauseSummary
+				rootCauseTags
+				scope {
+					id
+					type
+				}
+				severity
+				source
+				status
+				tags {
+					key
+					values
+				}
+				timelines {
+					id
+					name
+					type
+				}
+				triggeringEvent
+			}
+			... on EntityManagementIncidentLinkEntity {
+				__typename
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementIncidentMessageEntity {
+				__typename
+				content
+				contentEncoding
+				contentType
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				parentId
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementIncidentProfileAttachmentEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementIncidentProfileEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementIncidentTimelineEntity {
+				__typename
+				content
+				entryType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				source
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementJiraConnection {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementJiraSyncConfiguration {
+				__typename
+				assigneeQuery
+				connection
+				correlationFieldName
+				description
+				direction
+				enabled
+				issueType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				mode
+				projectKey
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				targets {
+					key
+					values
+				}
+				templateFields {
+					direction
+					name
+					required
+					template
+				}
+			}
+			... on EntityManagementJiraSyncConfigurationV2Entity {
+				__typename
+				bidirectional
+				connection
+				description
+				enabled
+				issueType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				mode
+				projectKey
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				targets {
+					key
+					values
+				}
+				templateFields {
+					direction
+					name
+					required
+					template
+				}
+			}
+			... on EntityManagementJuniperMistConnectionEntity {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				region
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementMaintenanceWindowEntity {
+				__typename
+				affectedEntityType
+				description
+				duration
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				rrule
+				scope {
+					id
+					type
+				}
+				startTime
+				tags {
+					key
+					values
+				}
+				timezone
+			}
+			... on EntityManagementManagedEvaluationsEntity {
+				__typename
+				description
+				evaluations {
+					enabled
+					evaluationType
+					threshold
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementMcpServerEntity {
+				__typename
+				auth {
+					headerKey
+					type
+				}
+				description
+				displayName
+				endpoint
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				protocolVersion
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				transport
+			}
+			... on EntityManagementMeterEntity {
+				__typename
+				attributes {
+					name
+					values
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				meterType {
+					allowMeterCreation
+					attributionDimensions
+					description
+					id
+					name
+					type
+				}
+				owningTeam {
+					aliases
+					description
+					id
+					name
+					type
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementMeterTypeEntity {
+				__typename
+				allowMeterCreation
+				attributionDimensions
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				owningTeam {
+					aliases
+					description
+					id
+					name
+					type
+				}
+				productLine {
+					description
+					id
+					name
+					type
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementNewRelicConnection {
+				__typename
+				credential {
+					type
+				}
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				region
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementNotebookEntity {
+				__typename
+				content {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementNotificationAttachmentEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementNrAiAgentEntity {
+				__typename
+				displayName
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				version
+			}
+			... on EntityManagementNrqlMacroEntity {
+				__typename
+				expression
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				numParameters
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementOperationEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementOperationMetricEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementPerformanceInboxSettingEntity {
+				__typename
+				config {
+					name
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				thresholdScope
+			}
+			... on EntityManagementPipelineCloudRuleEntity {
+				__typename
+				description
+				enabled
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nrql
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementProductLineEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementRagDocumentEntity {
+				__typename
+				authorEmails
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				sourceIdentifier
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementRagToolEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementReactNativeSourcemapEntity {
+				__typename
+				appVersionId
+				applicationId
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				jsBundleId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementRestApiContractEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementScorecardEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				progressLevels {
+					description
+					hexColorCode
+					id
+					name
+				}
+				rules {
+					id
+					name
+					type
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementScorecardRuleEntity {
+				__typename
+				description
+				enabled
+				impactWeight
+				lastExecutionStatus {
+					checkedEntities
+					executedAt
+					executionStatus
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nrqlEngine {
+					accounts
+					joinAccounts
+					query
+				}
+				progressLevel
+				schedule {
+					cronExpression
+					enabled
+					period
+					scheduleAt
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementSegmentTermsEntity {
+				__typename
+				accountId
+				agentId
+				domain
+				entityGuid
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				metricPrefix
+				oldId
+				scope {
+					id
+					type
+				}
+				segmentTerms
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementServerlessJobDefinitionEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementServiceNowConnection {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementSlackConnection {
+				__typename
+				appId
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+				token {
+					keyName
+					namespace
+				}
+				workspace
+			}
+			... on EntityManagementSlackSyncConfiguration {
+				__typename
+				channelIdPayloadPath
+				connection
+				description
+				direction
+				enabled
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				mode
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				targets {
+					key
+					values
+				}
+				templateFields {
+					direction
+					name
+					required
+					template
+				}
+			}
+			... on EntityManagementStatusPageAnnouncementEntity {
+				__typename
+				category
+				communicationLogs {
+					communicatedBy
+					communicationMode
+					communicationStatus
+					message
+					timestamp
+				}
+				description
+				effectiveDate
+				eventUrl
+				impactQuery {
+					nrqlQuery
+					queryAccountIds
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				pointOfContacts {
+					id
+					name
+					type
+					userId
+				}
+				publishedDate
+				scope {
+					id
+					type
+				}
+				state
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementStatusPageIncidentEntity {
+				__typename
+				communicationLogs {
+					communicatedBy
+					communicationMode
+					communicationStatus
+					message
+					timestamp
+				}
+				description
+				endTime
+				incidentId
+				incidentTitle
+				lastUpdatedTime
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				region
+				scope {
+					id
+					type
+				}
+				startTime
+				status
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementTeamEntity {
+				__typename
+				aliases
+				description
+				externalIntegration {
+					externalId
+					type
+				}
+				membership {
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				ownership {
+					id
+					name
+					type
+				}
+				resources {
+					content
+					title
+					type
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementTeamsHierarchyLevelEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementTeamsOrganizationSettingsEntity {
+				__typename
+				discovery {
+					enabled
+					tagKeys
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				syncGroups {
+					enabled
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementUserEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				userId
+			}
+			... on EntityManagementWorkItem {
+				__typename
+				assignedTo {
+					identifier
+					type
+				}
+				attributes {
+					name
+					value
+				}
+				category
+				description
+				dueDate
+				externalId
+				labels
+				links {
+					id
+					name
+					type
+				}
+				messages {
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				priority
+				scope {
+					id
+					type
+				}
+				status
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementWorkItemLink {
+				__typename
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementWorkItemLinkV2Entity {
+				__typename
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementWorkItemMessage {
+				__typename
+				content
+				contentEncoding
+				contentType
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				parentId
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementWorkItemMessageV2Entity {
+				__typename
+				content
+				contentEncoding
+				contentType
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				parentId
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementWorkItemV2Entity {
+				__typename
+				assignedTo {
+					identifier
+					type
+				}
+				attributes {
+					name
+					value
+				}
+				category
+				description
+				dueDate
+				externalId
+				labels
+				links {
+					id
+					name
+					type
+				}
+				messages {
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				priority
+				scope {
+					id
+					type
+				}
+				status
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementWorkflowDefinition {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				versions
+			}
+			... on EntityManagementWorkflowSchedule {
+				__typename
+				cronExpression
+				definition {
+					id
+					version
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				overlapPolicy
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				timezone
+			}
+			... on EntityManagementZoomConnectionEntity {
+				__typename
+				description
+				enabled
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+			}
+		}
+		description
+		id
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		name
+		nrAccountId
+		nrRegion
+		queryConnection {
+			__typename
+			id
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			name
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			type
+			... on EntityManagementAgentConfigurationEntity {
+				__typename
+				agentType
+				configurationType
+				managedEntityType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				operatingSystem {
+					type
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				versionCount
+			}
+			... on EntityManagementAgentConfigurationVersionEntity {
+				__typename
+				agentConfiguration
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				version
+			}
+			... on EntityManagementAgentEffectiveConfigurationEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementAgentEntity {
+				__typename
+				agentType
+				fleetControlProperties {
+					disconnectedReceived
+					environment
+					healthy
+					lastError
+					lastRemoteConfigError
+					lastRemoteConfigStatus
+					startTime
+					uid
+					version
+				}
+				infrastructureManagers {
+					type
+					version
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				version
+			}
+			... on EntityManagementAiAgentEntity {
+				__typename
+				agents {
+					__typename
+					id
+					name
+					type
+					... on EntityManagementAgentConfigurationEntity {
+						__typename
+						agentType
+						configurationType
+						managedEntityType
+						versionCount
+					}
+					... on EntityManagementAgentConfigurationVersionEntity {
+						__typename
+						agentConfiguration
+						version
+					}
+					... on EntityManagementAgentEffectiveConfigurationEntity {
+						__typename
+					}
+					... on EntityManagementAgentEntity {
+						__typename
+						agentType
+						version
+					}
+					... on EntityManagementAiAgentEntity {
+						__typename
+						category
+						description
+						displayName
+						initialized
+						prompt
+						provider
+						test
+					}
+					... on EntityManagementAiCapableEntity {
+						__typename
+						category
+						language
+						lastSeen
+						toolType
+						toolVersion
+					}
+					... on EntityManagementAiEvaluationConfigEntity {
+						__typename
+						description
+						samplingRate
+					}
+					... on EntityManagementAiToolEntity {
+						__typename
+						description
+						initialized
+						provider
+						test
+						toolType
+						url
+					}
+					... on EntityManagementApiSpecificationBlobEntity {
+						__typename
+						description
+					}
+					... on EntityManagementAwsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementBackgroundProcessingRuleEntity {
+						__typename
+						description
+						ruleType
+					}
+					... on EntityManagementBackgroundSqlProcessingRuleEntity {
+						__typename
+						description
+					}
+					... on EntityManagementBudgetEntity {
+						__typename
+						budgetType
+						organizationBudget
+					}
+					... on EntityManagementCiscoMerakiConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementCollectionEntity {
+						__typename
+					}
+					... on EntityManagementComponentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementComputeLocationEntity {
+						__typename
+						description
+					}
+					... on EntityManagementConfluenceConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+					}
+					... on EntityManagementConfluenceIntegration {
+						__typename
+						confluenceUserId
+						secretKey
+						url
+					}
+					... on EntityManagementConfluenceRagSettingsEntity {
+						__typename
+						chunkOverlap
+						chunkSize
+						confluenceIntegrationId
+						confluenceQuery
+						intervalSeconds
+						lastPullTime
+						nextPullTime
+						textSplitterType
+					}
+					... on EntityManagementCorrelationInternalSourceConfigEntity {
+						__typename
+						accountId
+						alias
+						filterId
+						namespaces
+						nrql
+						outputTopic
+						source
+					}
+					... on EntityManagementCorrelationLinkEntity {
+						__typename
+						directional
+						linkType
+					}
+					... on EntityManagementCorrelationLinkingRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementCustomEvaluationEntity {
+						__typename
+						criteria
+						description
+						model
+						parameters
+						steps
+						threshold
+					}
+					... on EntityManagementCustomerImpactEntity {
+						__typename
+						issueId
+					}
+					... on EntityManagementCustomerImpactQueryEntity {
+						__typename
+						query
+						queryAccountId
+						teamName
+						totalCustImpactQueryAccountIds
+						totalCustomerImpactQuery
+					}
+					... on EntityManagementEventBridgeRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementFederatedLogPartitionEntity {
+						__typename
+						dataLocationUri
+						description
+						isDefault
+						partitionDatabase
+						partitionTable
+						status
+					}
+					... on EntityManagementFederatedLogSetupEntity {
+						__typename
+						cloudProvider
+						cloudProviderRegion
+						dataLocationBucket
+						description
+						nrAccountId
+						nrRegion
+						status
+					}
+					... on EntityManagementFleetDeploymentEntity {
+						__typename
+						configurationVersions
+						description
+						fleetId
+						phase
+					}
+					... on EntityManagementFleetEntity {
+						__typename
+						description
+						managedEntityType
+						product
+					}
+					... on EntityManagementFleetRingEntity {
+						__typename
+						fleetId
+					}
+					... on EntityManagementFlowEntity {
+						__typename
+					}
+					... on EntityManagementGenericEntity {
+						__typename
+					}
+					... on EntityManagementGitHubIntegrationEntity {
+						__typename
+						installationId
+						installationSource
+						installationStatus
+						lastSyncCompletedAt
+						nextSyncAt
+					}
+					... on EntityManagementGitRepositoryEntity {
+						__typename
+						closedPullRequestCount
+						description
+						externalCreatedAt
+						externalId
+						externalLastDeployedAt
+						externalUpdatedAt
+						forkCount
+						hostingPlatform
+						latestReleaseVersion
+						lockedPullRequestCount
+						openPullRequestCount
+						primaryLanguage
+						url
+					}
+					... on EntityManagementGithubConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementImpactProfileEntity {
+						__typename
+					}
+					... on EntityManagementInboxIssueCategoryEntity {
+						__typename
+						categoryType
+						issueType
+						messageAttributes
+						nameAttributes
+					}
+					... on EntityManagementIncidentAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentEntity {
+						__typename
+						category
+						customerImpact
+						description
+						dueDate
+						entitiesImpacted
+						externalId
+						incidentCategory
+						incidentKey
+						incidentProfileId
+						incidentSubcategory
+						issueLinks
+						labels
+						lessonsLearned
+						maxSeverity
+						priority
+						reportedBy
+						resolutionCategory
+						resolutionSummary
+						retroActionItems
+						rootCauseSummary
+						rootCauseTags
+						severity
+						source
+						status
+						triggeringEvent
+					}
+					... on EntityManagementIncidentLinkEntity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementIncidentMessageEntity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementIncidentProfileAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentProfileEntity {
+						__typename
+					}
+					... on EntityManagementIncidentTimelineEntity {
+						__typename
+						content
+						entryType
+						source
+					}
+					... on EntityManagementJiraConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementJiraSyncConfiguration {
+						__typename
+						assigneeQuery
+						connection
+						correlationFieldName
+						description
+						direction
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJiraSyncConfigurationV2Entity {
+						__typename
+						bidirectional
+						connection
+						description
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJuniperMistConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementMaintenanceWindowEntity {
+						__typename
+						affectedEntityType
+						description
+						duration
+						rrule
+						startTime
+						timezone
+					}
+					... on EntityManagementManagedEvaluationsEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMcpServerEntity {
+						__typename
+						description
+						displayName
+						endpoint
+						protocolVersion
+						transport
+					}
+					... on EntityManagementMeterEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMeterTypeEntity {
+						__typename
+						allowMeterCreation
+						attributionDimensions
+						description
+					}
+					... on EntityManagementNewRelicConnection {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementNotebookEntity {
+						__typename
+					}
+					... on EntityManagementNotificationAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementNrAiAgentEntity {
+						__typename
+						displayName
+						version
+					}
+					... on EntityManagementNrqlMacroEntity {
+						__typename
+						expression
+						numParameters
+					}
+					... on EntityManagementOperationEntity {
+						__typename
+					}
+					... on EntityManagementOperationMetricEntity {
+						__typename
+					}
+					... on EntityManagementPerformanceInboxSettingEntity {
+						__typename
+						thresholdScope
+					}
+					... on EntityManagementPipelineCloudRuleEntity {
+						__typename
+						description
+						enabled
+						nrql
+					}
+					... on EntityManagementProductLineEntity {
+						__typename
+						description
+					}
+					... on EntityManagementRagDocumentEntity {
+						__typename
+						authorEmails
+						sourceIdentifier
+					}
+					... on EntityManagementRagToolEntity {
+						__typename
+						description
+					}
+					... on EntityManagementReactNativeSourcemapEntity {
+						__typename
+						appVersionId
+						applicationId
+						jsBundleId
+					}
+					... on EntityManagementRestApiContractEntity {
+						__typename
+					}
+					... on EntityManagementScorecardEntity {
+						__typename
+						description
+					}
+					... on EntityManagementScorecardRuleEntity {
+						__typename
+						description
+						enabled
+						impactWeight
+						progressLevel
+					}
+					... on EntityManagementSegmentTermsEntity {
+						__typename
+						accountId
+						agentId
+						domain
+						entityGuid
+						metricPrefix
+						oldId
+						segmentTerms
+					}
+					... on EntityManagementServerlessJobDefinitionEntity {
+						__typename
+						description
+					}
+					... on EntityManagementServiceNowConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementSlackConnection {
+						__typename
+						appId
+						description
+						enabled
+						externalId
+						workspace
+					}
+					... on EntityManagementSlackSyncConfiguration {
+						__typename
+						channelIdPayloadPath
+						connection
+						description
+						direction
+						enabled
+						mode
+					}
+					... on EntityManagementStatusPageAnnouncementEntity {
+						__typename
+						category
+						description
+						effectiveDate
+						eventUrl
+						publishedDate
+						state
+					}
+					... on EntityManagementStatusPageIncidentEntity {
+						__typename
+						description
+						endTime
+						incidentId
+						incidentTitle
+						lastUpdatedTime
+						region
+						startTime
+						status
+					}
+					... on EntityManagementTeamEntity {
+						__typename
+						aliases
+						description
+					}
+					... on EntityManagementTeamsHierarchyLevelEntity {
+						__typename
+					}
+					... on EntityManagementTeamsOrganizationSettingsEntity {
+						__typename
+					}
+					... on EntityManagementUserEntity {
+						__typename
+						userId
+					}
+					... on EntityManagementWorkItem {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkItemLink {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemLinkV2Entity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemMessage {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemMessageV2Entity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemV2Entity {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkflowDefinition {
+						__typename
+						description
+						versions
+					}
+					... on EntityManagementWorkflowSchedule {
+						__typename
+						cronExpression
+						description
+						overlapPolicy
+						timezone
+					}
+					... on EntityManagementZoomConnectionEntity {
+						__typename
+						description
+						enabled
+					}
+				}
+				category
+				description
+				displayName
+				initialized
+				llmConfig {
+					cacheSeed
+					model
+					temperature
+				}
+				mcpServers {
+					excludeTools
+					includeTools
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				prompt
+				provider
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				test
+				tools {
+					excludeTools
+					includeTools
+				}
+			}
+			... on EntityManagementAiCapableEntity {
+				__typename
+				category
+				language
+				lastSeen
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				toolType
+				toolVersion
+			}
+			... on EntityManagementAiEvaluationConfigEntity {
+				__typename
+				description
+				managedEvaluationsEntity {
+					description
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				samplingRate
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementAiToolEntity {
+				__typename
+				description
+				initialized
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				parameters {
+					description
+					name
+					type
+				}
+				provider
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				test
+				toolType
+				url
+			}
+			... on EntityManagementApiSpecificationBlobEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementAwsConnectionEntity {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				region
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementBackgroundProcessingRuleEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				query {
+					nrql
+				}
+				ruleType
+				schedule {
+					cronExpression
+					enabled
+					period
+					scheduleAt
+				}
+				scope {
+					id
+					type
+				}
+				state {
+					message
+					status
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementBackgroundSqlProcessingRuleEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				query {
+					outputTarget
+					sql
+				}
+				schedule {
+					cronExpression
+					enabled
+					period
+					scheduleAt
+				}
+				scope {
+					id
+					type
+				}
+				state {
+					message
+					status
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementBudgetEntity {
+				__typename
+				budgetAlertPolicies {
+					id
+				}
+				budgetLimits {
+					consumptionMetric
+					value
+				}
+				budgetType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				organizationBudget
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementCiscoMerakiConnectionEntity {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				region
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementCollectionEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementComponentEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementComputeLocationEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementConfluenceConnectionEntity {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementConfluenceIntegration {
+				__typename
+				confluenceUserId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				secretKey
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementConfluenceRagSettingsEntity {
+				__typename
+				characterTextSplitterOptions {
+					isSeparatorRegex
+					separator
+				}
+				chunkOverlap
+				chunkSize
+				confluenceIntegrationId
+				confluenceQuery
+				intervalSeconds
+				lastPullTime
+				markdownTextSplitterOptions {
+					headersToSplitOn
+					returnEachLine
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nextPullTime
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				textSplitterType
+				tokenTextSplitterOptions {
+					encodingName
+				}
+			}
+			... on EntityManagementCorrelationInternalSourceConfigEntity {
+				__typename
+				accountId
+				alias
+				filterId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				namespaces
+				nrql
+				outputTopic
+				scope {
+					id
+					type
+				}
+				source
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementCorrelationLinkEntity {
+				__typename
+				context {
+					confidence
+					messages
+					ruleId
+				}
+				directional
+				linkType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				overrideInfo {
+					action
+					timestamp
+					userId
+				}
+				scope {
+					id
+					type
+				}
+				source {
+					accountId
+					eventId
+					eventType
+				}
+				tags {
+					key
+					values
+				}
+				target {
+					accountId
+					eventId
+					eventType
+				}
+			}
+			... on EntityManagementCorrelationLinkingRuleEntity {
+				__typename
+				criteria {
+					topologyProximity
+				}
+				description
+				enabled
+				linkingConfig {
+					directional
+					linkType
+					sourceAlias
+					targetAlias
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				subjects {
+					accountIds
+					alias
+					nrql
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementCustomEvaluationEntity {
+				__typename
+				criteria
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				model
+				parameters
+				scope {
+					id
+					type
+				}
+				steps
+				tags {
+					key
+					values
+				}
+				threshold
+			}
+			... on EntityManagementCustomerImpactEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				components {
+					description
+					id
+					name
+					type
+				}
+				issueId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementCustomerImpactQueryEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				products {
+					description
+					id
+					name
+					type
+				}
+				query
+				queryAccountId
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				teamName
+				totalCustImpactQueryAccountIds
+				totalCustomerImpactQuery
+			}
+			... on EntityManagementEventBridgeRuleEntity {
+				__typename
+				conditions {
+					field
+				}
+				description
+				enabled
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				sourceType {
+					event
+					name
+				}
+				tags {
+					key
+					values
+				}
+				targets {
+					name
+					type
+				}
+			}
+			... on EntityManagementFederatedLogPartitionEntity {
+				__typename
+				dataLocationUri
+				description
+				isDefault
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				partitionDatabase
+				partitionTable
+				retentionPolicy {
+					duration
+					unit
+				}
+				scope {
+					id
+					type
+				}
+				setup {
+					cloudProvider
+					cloudProviderRegion
+					dataLocationBucket
+					description
+					id
+					name
+					nrAccountId
+					nrRegion
+					status
+					type
+				}
+				status
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementFederatedLogSetupEntity {
+				__typename
+				cloudProvider
+				cloudProviderRegion
+				dataLocationBucket
+				dataProcessingComponent {
+					__typename
+					id
+					name
+					type
+					... on EntityManagementAgentConfigurationEntity {
+						__typename
+						agentType
+						configurationType
+						managedEntityType
+						versionCount
+					}
+					... on EntityManagementAgentConfigurationVersionEntity {
+						__typename
+						agentConfiguration
+						version
+					}
+					... on EntityManagementAgentEffectiveConfigurationEntity {
+						__typename
+					}
+					... on EntityManagementAgentEntity {
+						__typename
+						agentType
+						version
+					}
+					... on EntityManagementAiAgentEntity {
+						__typename
+						category
+						description
+						displayName
+						initialized
+						prompt
+						provider
+						test
+					}
+					... on EntityManagementAiCapableEntity {
+						__typename
+						category
+						language
+						lastSeen
+						toolType
+						toolVersion
+					}
+					... on EntityManagementAiEvaluationConfigEntity {
+						__typename
+						description
+						samplingRate
+					}
+					... on EntityManagementAiToolEntity {
+						__typename
+						description
+						initialized
+						provider
+						test
+						toolType
+						url
+					}
+					... on EntityManagementApiSpecificationBlobEntity {
+						__typename
+						description
+					}
+					... on EntityManagementAwsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementBackgroundProcessingRuleEntity {
+						__typename
+						description
+						ruleType
+					}
+					... on EntityManagementBackgroundSqlProcessingRuleEntity {
+						__typename
+						description
+					}
+					... on EntityManagementBudgetEntity {
+						__typename
+						budgetType
+						organizationBudget
+					}
+					... on EntityManagementCiscoMerakiConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementCollectionEntity {
+						__typename
+					}
+					... on EntityManagementComponentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementComputeLocationEntity {
+						__typename
+						description
+					}
+					... on EntityManagementConfluenceConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+					}
+					... on EntityManagementConfluenceIntegration {
+						__typename
+						confluenceUserId
+						secretKey
+						url
+					}
+					... on EntityManagementConfluenceRagSettingsEntity {
+						__typename
+						chunkOverlap
+						chunkSize
+						confluenceIntegrationId
+						confluenceQuery
+						intervalSeconds
+						lastPullTime
+						nextPullTime
+						textSplitterType
+					}
+					... on EntityManagementCorrelationInternalSourceConfigEntity {
+						__typename
+						accountId
+						alias
+						filterId
+						namespaces
+						nrql
+						outputTopic
+						source
+					}
+					... on EntityManagementCorrelationLinkEntity {
+						__typename
+						directional
+						linkType
+					}
+					... on EntityManagementCorrelationLinkingRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementCustomEvaluationEntity {
+						__typename
+						criteria
+						description
+						model
+						parameters
+						steps
+						threshold
+					}
+					... on EntityManagementCustomerImpactEntity {
+						__typename
+						issueId
+					}
+					... on EntityManagementCustomerImpactQueryEntity {
+						__typename
+						query
+						queryAccountId
+						teamName
+						totalCustImpactQueryAccountIds
+						totalCustomerImpactQuery
+					}
+					... on EntityManagementEventBridgeRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementFederatedLogPartitionEntity {
+						__typename
+						dataLocationUri
+						description
+						isDefault
+						partitionDatabase
+						partitionTable
+						status
+					}
+					... on EntityManagementFederatedLogSetupEntity {
+						__typename
+						cloudProvider
+						cloudProviderRegion
+						dataLocationBucket
+						description
+						nrAccountId
+						nrRegion
+						status
+					}
+					... on EntityManagementFleetDeploymentEntity {
+						__typename
+						configurationVersions
+						description
+						fleetId
+						phase
+					}
+					... on EntityManagementFleetEntity {
+						__typename
+						description
+						managedEntityType
+						product
+					}
+					... on EntityManagementFleetRingEntity {
+						__typename
+						fleetId
+					}
+					... on EntityManagementFlowEntity {
+						__typename
+					}
+					... on EntityManagementGenericEntity {
+						__typename
+					}
+					... on EntityManagementGitHubIntegrationEntity {
+						__typename
+						installationId
+						installationSource
+						installationStatus
+						lastSyncCompletedAt
+						nextSyncAt
+					}
+					... on EntityManagementGitRepositoryEntity {
+						__typename
+						closedPullRequestCount
+						description
+						externalCreatedAt
+						externalId
+						externalLastDeployedAt
+						externalUpdatedAt
+						forkCount
+						hostingPlatform
+						latestReleaseVersion
+						lockedPullRequestCount
+						openPullRequestCount
+						primaryLanguage
+						url
+					}
+					... on EntityManagementGithubConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementImpactProfileEntity {
+						__typename
+					}
+					... on EntityManagementInboxIssueCategoryEntity {
+						__typename
+						categoryType
+						issueType
+						messageAttributes
+						nameAttributes
+					}
+					... on EntityManagementIncidentAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentEntity {
+						__typename
+						category
+						customerImpact
+						description
+						dueDate
+						entitiesImpacted
+						externalId
+						incidentCategory
+						incidentKey
+						incidentProfileId
+						incidentSubcategory
+						issueLinks
+						labels
+						lessonsLearned
+						maxSeverity
+						priority
+						reportedBy
+						resolutionCategory
+						resolutionSummary
+						retroActionItems
+						rootCauseSummary
+						rootCauseTags
+						severity
+						source
+						status
+						triggeringEvent
+					}
+					... on EntityManagementIncidentLinkEntity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementIncidentMessageEntity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementIncidentProfileAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentProfileEntity {
+						__typename
+					}
+					... on EntityManagementIncidentTimelineEntity {
+						__typename
+						content
+						entryType
+						source
+					}
+					... on EntityManagementJiraConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementJiraSyncConfiguration {
+						__typename
+						assigneeQuery
+						connection
+						correlationFieldName
+						description
+						direction
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJiraSyncConfigurationV2Entity {
+						__typename
+						bidirectional
+						connection
+						description
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJuniperMistConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementMaintenanceWindowEntity {
+						__typename
+						affectedEntityType
+						description
+						duration
+						rrule
+						startTime
+						timezone
+					}
+					... on EntityManagementManagedEvaluationsEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMcpServerEntity {
+						__typename
+						description
+						displayName
+						endpoint
+						protocolVersion
+						transport
+					}
+					... on EntityManagementMeterEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMeterTypeEntity {
+						__typename
+						allowMeterCreation
+						attributionDimensions
+						description
+					}
+					... on EntityManagementNewRelicConnection {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementNotebookEntity {
+						__typename
+					}
+					... on EntityManagementNotificationAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementNrAiAgentEntity {
+						__typename
+						displayName
+						version
+					}
+					... on EntityManagementNrqlMacroEntity {
+						__typename
+						expression
+						numParameters
+					}
+					... on EntityManagementOperationEntity {
+						__typename
+					}
+					... on EntityManagementOperationMetricEntity {
+						__typename
+					}
+					... on EntityManagementPerformanceInboxSettingEntity {
+						__typename
+						thresholdScope
+					}
+					... on EntityManagementPipelineCloudRuleEntity {
+						__typename
+						description
+						enabled
+						nrql
+					}
+					... on EntityManagementProductLineEntity {
+						__typename
+						description
+					}
+					... on EntityManagementRagDocumentEntity {
+						__typename
+						authorEmails
+						sourceIdentifier
+					}
+					... on EntityManagementRagToolEntity {
+						__typename
+						description
+					}
+					... on EntityManagementReactNativeSourcemapEntity {
+						__typename
+						appVersionId
+						applicationId
+						jsBundleId
+					}
+					... on EntityManagementRestApiContractEntity {
+						__typename
+					}
+					... on EntityManagementScorecardEntity {
+						__typename
+						description
+					}
+					... on EntityManagementScorecardRuleEntity {
+						__typename
+						description
+						enabled
+						impactWeight
+						progressLevel
+					}
+					... on EntityManagementSegmentTermsEntity {
+						__typename
+						accountId
+						agentId
+						domain
+						entityGuid
+						metricPrefix
+						oldId
+						segmentTerms
+					}
+					... on EntityManagementServerlessJobDefinitionEntity {
+						__typename
+						description
+					}
+					... on EntityManagementServiceNowConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementSlackConnection {
+						__typename
+						appId
+						description
+						enabled
+						externalId
+						workspace
+					}
+					... on EntityManagementSlackSyncConfiguration {
+						__typename
+						channelIdPayloadPath
+						connection
+						description
+						direction
+						enabled
+						mode
+					}
+					... on EntityManagementStatusPageAnnouncementEntity {
+						__typename
+						category
+						description
+						effectiveDate
+						eventUrl
+						publishedDate
+						state
+					}
+					... on EntityManagementStatusPageIncidentEntity {
+						__typename
+						description
+						endTime
+						incidentId
+						incidentTitle
+						lastUpdatedTime
+						region
+						startTime
+						status
+					}
+					... on EntityManagementTeamEntity {
+						__typename
+						aliases
+						description
+					}
+					... on EntityManagementTeamsHierarchyLevelEntity {
+						__typename
+					}
+					... on EntityManagementTeamsOrganizationSettingsEntity {
+						__typename
+					}
+					... on EntityManagementUserEntity {
+						__typename
+						userId
+					}
+					... on EntityManagementWorkItem {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkItemLink {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemLinkV2Entity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemMessage {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemMessageV2Entity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemV2Entity {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkflowDefinition {
+						__typename
+						description
+						versions
+					}
+					... on EntityManagementWorkflowSchedule {
+						__typename
+						cronExpression
+						description
+						overlapPolicy
+						timezone
+					}
+					... on EntityManagementZoomConnectionEntity {
+						__typename
+						description
+						enabled
+					}
+				}
+				dataProcessingConnection {
+					__typename
+					id
+					name
+					type
+					... on EntityManagementAgentConfigurationEntity {
+						__typename
+						agentType
+						configurationType
+						managedEntityType
+						versionCount
+					}
+					... on EntityManagementAgentConfigurationVersionEntity {
+						__typename
+						agentConfiguration
+						version
+					}
+					... on EntityManagementAgentEffectiveConfigurationEntity {
+						__typename
+					}
+					... on EntityManagementAgentEntity {
+						__typename
+						agentType
+						version
+					}
+					... on EntityManagementAiAgentEntity {
+						__typename
+						category
+						description
+						displayName
+						initialized
+						prompt
+						provider
+						test
+					}
+					... on EntityManagementAiCapableEntity {
+						__typename
+						category
+						language
+						lastSeen
+						toolType
+						toolVersion
+					}
+					... on EntityManagementAiEvaluationConfigEntity {
+						__typename
+						description
+						samplingRate
+					}
+					... on EntityManagementAiToolEntity {
+						__typename
+						description
+						initialized
+						provider
+						test
+						toolType
+						url
+					}
+					... on EntityManagementApiSpecificationBlobEntity {
+						__typename
+						description
+					}
+					... on EntityManagementAwsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementBackgroundProcessingRuleEntity {
+						__typename
+						description
+						ruleType
+					}
+					... on EntityManagementBackgroundSqlProcessingRuleEntity {
+						__typename
+						description
+					}
+					... on EntityManagementBudgetEntity {
+						__typename
+						budgetType
+						organizationBudget
+					}
+					... on EntityManagementCiscoMerakiConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementCollectionEntity {
+						__typename
+					}
+					... on EntityManagementComponentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementComputeLocationEntity {
+						__typename
+						description
+					}
+					... on EntityManagementConfluenceConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+					}
+					... on EntityManagementConfluenceIntegration {
+						__typename
+						confluenceUserId
+						secretKey
+						url
+					}
+					... on EntityManagementConfluenceRagSettingsEntity {
+						__typename
+						chunkOverlap
+						chunkSize
+						confluenceIntegrationId
+						confluenceQuery
+						intervalSeconds
+						lastPullTime
+						nextPullTime
+						textSplitterType
+					}
+					... on EntityManagementCorrelationInternalSourceConfigEntity {
+						__typename
+						accountId
+						alias
+						filterId
+						namespaces
+						nrql
+						outputTopic
+						source
+					}
+					... on EntityManagementCorrelationLinkEntity {
+						__typename
+						directional
+						linkType
+					}
+					... on EntityManagementCorrelationLinkingRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementCustomEvaluationEntity {
+						__typename
+						criteria
+						description
+						model
+						parameters
+						steps
+						threshold
+					}
+					... on EntityManagementCustomerImpactEntity {
+						__typename
+						issueId
+					}
+					... on EntityManagementCustomerImpactQueryEntity {
+						__typename
+						query
+						queryAccountId
+						teamName
+						totalCustImpactQueryAccountIds
+						totalCustomerImpactQuery
+					}
+					... on EntityManagementEventBridgeRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementFederatedLogPartitionEntity {
+						__typename
+						dataLocationUri
+						description
+						isDefault
+						partitionDatabase
+						partitionTable
+						status
+					}
+					... on EntityManagementFederatedLogSetupEntity {
+						__typename
+						cloudProvider
+						cloudProviderRegion
+						dataLocationBucket
+						description
+						nrAccountId
+						nrRegion
+						status
+					}
+					... on EntityManagementFleetDeploymentEntity {
+						__typename
+						configurationVersions
+						description
+						fleetId
+						phase
+					}
+					... on EntityManagementFleetEntity {
+						__typename
+						description
+						managedEntityType
+						product
+					}
+					... on EntityManagementFleetRingEntity {
+						__typename
+						fleetId
+					}
+					... on EntityManagementFlowEntity {
+						__typename
+					}
+					... on EntityManagementGenericEntity {
+						__typename
+					}
+					... on EntityManagementGitHubIntegrationEntity {
+						__typename
+						installationId
+						installationSource
+						installationStatus
+						lastSyncCompletedAt
+						nextSyncAt
+					}
+					... on EntityManagementGitRepositoryEntity {
+						__typename
+						closedPullRequestCount
+						description
+						externalCreatedAt
+						externalId
+						externalLastDeployedAt
+						externalUpdatedAt
+						forkCount
+						hostingPlatform
+						latestReleaseVersion
+						lockedPullRequestCount
+						openPullRequestCount
+						primaryLanguage
+						url
+					}
+					... on EntityManagementGithubConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementImpactProfileEntity {
+						__typename
+					}
+					... on EntityManagementInboxIssueCategoryEntity {
+						__typename
+						categoryType
+						issueType
+						messageAttributes
+						nameAttributes
+					}
+					... on EntityManagementIncidentAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentEntity {
+						__typename
+						category
+						customerImpact
+						description
+						dueDate
+						entitiesImpacted
+						externalId
+						incidentCategory
+						incidentKey
+						incidentProfileId
+						incidentSubcategory
+						issueLinks
+						labels
+						lessonsLearned
+						maxSeverity
+						priority
+						reportedBy
+						resolutionCategory
+						resolutionSummary
+						retroActionItems
+						rootCauseSummary
+						rootCauseTags
+						severity
+						source
+						status
+						triggeringEvent
+					}
+					... on EntityManagementIncidentLinkEntity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementIncidentMessageEntity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementIncidentProfileAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentProfileEntity {
+						__typename
+					}
+					... on EntityManagementIncidentTimelineEntity {
+						__typename
+						content
+						entryType
+						source
+					}
+					... on EntityManagementJiraConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementJiraSyncConfiguration {
+						__typename
+						assigneeQuery
+						connection
+						correlationFieldName
+						description
+						direction
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJiraSyncConfigurationV2Entity {
+						__typename
+						bidirectional
+						connection
+						description
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJuniperMistConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementMaintenanceWindowEntity {
+						__typename
+						affectedEntityType
+						description
+						duration
+						rrule
+						startTime
+						timezone
+					}
+					... on EntityManagementManagedEvaluationsEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMcpServerEntity {
+						__typename
+						description
+						displayName
+						endpoint
+						protocolVersion
+						transport
+					}
+					... on EntityManagementMeterEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMeterTypeEntity {
+						__typename
+						allowMeterCreation
+						attributionDimensions
+						description
+					}
+					... on EntityManagementNewRelicConnection {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementNotebookEntity {
+						__typename
+					}
+					... on EntityManagementNotificationAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementNrAiAgentEntity {
+						__typename
+						displayName
+						version
+					}
+					... on EntityManagementNrqlMacroEntity {
+						__typename
+						expression
+						numParameters
+					}
+					... on EntityManagementOperationEntity {
+						__typename
+					}
+					... on EntityManagementOperationMetricEntity {
+						__typename
+					}
+					... on EntityManagementPerformanceInboxSettingEntity {
+						__typename
+						thresholdScope
+					}
+					... on EntityManagementPipelineCloudRuleEntity {
+						__typename
+						description
+						enabled
+						nrql
+					}
+					... on EntityManagementProductLineEntity {
+						__typename
+						description
+					}
+					... on EntityManagementRagDocumentEntity {
+						__typename
+						authorEmails
+						sourceIdentifier
+					}
+					... on EntityManagementRagToolEntity {
+						__typename
+						description
+					}
+					... on EntityManagementReactNativeSourcemapEntity {
+						__typename
+						appVersionId
+						applicationId
+						jsBundleId
+					}
+					... on EntityManagementRestApiContractEntity {
+						__typename
+					}
+					... on EntityManagementScorecardEntity {
+						__typename
+						description
+					}
+					... on EntityManagementScorecardRuleEntity {
+						__typename
+						description
+						enabled
+						impactWeight
+						progressLevel
+					}
+					... on EntityManagementSegmentTermsEntity {
+						__typename
+						accountId
+						agentId
+						domain
+						entityGuid
+						metricPrefix
+						oldId
+						segmentTerms
+					}
+					... on EntityManagementServerlessJobDefinitionEntity {
+						__typename
+						description
+					}
+					... on EntityManagementServiceNowConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementSlackConnection {
+						__typename
+						appId
+						description
+						enabled
+						externalId
+						workspace
+					}
+					... on EntityManagementSlackSyncConfiguration {
+						__typename
+						channelIdPayloadPath
+						connection
+						description
+						direction
+						enabled
+						mode
+					}
+					... on EntityManagementStatusPageAnnouncementEntity {
+						__typename
+						category
+						description
+						effectiveDate
+						eventUrl
+						publishedDate
+						state
+					}
+					... on EntityManagementStatusPageIncidentEntity {
+						__typename
+						description
+						endTime
+						incidentId
+						incidentTitle
+						lastUpdatedTime
+						region
+						startTime
+						status
+					}
+					... on EntityManagementTeamEntity {
+						__typename
+						aliases
+						description
+					}
+					... on EntityManagementTeamsHierarchyLevelEntity {
+						__typename
+					}
+					... on EntityManagementTeamsOrganizationSettingsEntity {
+						__typename
+					}
+					... on EntityManagementUserEntity {
+						__typename
+						userId
+					}
+					... on EntityManagementWorkItem {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkItemLink {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemLinkV2Entity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemMessage {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemMessageV2Entity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemV2Entity {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkflowDefinition {
+						__typename
+						description
+						versions
+					}
+					... on EntityManagementWorkflowSchedule {
+						__typename
+						cronExpression
+						description
+						overlapPolicy
+						timezone
+					}
+					... on EntityManagementZoomConnectionEntity {
+						__typename
+						description
+						enabled
+					}
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nrAccountId
+				nrRegion
+				queryConnection {
+					__typename
+					id
+					name
+					type
+					... on EntityManagementAgentConfigurationEntity {
+						__typename
+						agentType
+						configurationType
+						managedEntityType
+						versionCount
+					}
+					... on EntityManagementAgentConfigurationVersionEntity {
+						__typename
+						agentConfiguration
+						version
+					}
+					... on EntityManagementAgentEffectiveConfigurationEntity {
+						__typename
+					}
+					... on EntityManagementAgentEntity {
+						__typename
+						agentType
+						version
+					}
+					... on EntityManagementAiAgentEntity {
+						__typename
+						category
+						description
+						displayName
+						initialized
+						prompt
+						provider
+						test
+					}
+					... on EntityManagementAiCapableEntity {
+						__typename
+						category
+						language
+						lastSeen
+						toolType
+						toolVersion
+					}
+					... on EntityManagementAiEvaluationConfigEntity {
+						__typename
+						description
+						samplingRate
+					}
+					... on EntityManagementAiToolEntity {
+						__typename
+						description
+						initialized
+						provider
+						test
+						toolType
+						url
+					}
+					... on EntityManagementApiSpecificationBlobEntity {
+						__typename
+						description
+					}
+					... on EntityManagementAwsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementBackgroundProcessingRuleEntity {
+						__typename
+						description
+						ruleType
+					}
+					... on EntityManagementBackgroundSqlProcessingRuleEntity {
+						__typename
+						description
+					}
+					... on EntityManagementBudgetEntity {
+						__typename
+						budgetType
+						organizationBudget
+					}
+					... on EntityManagementCiscoMerakiConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementCollectionEntity {
+						__typename
+					}
+					... on EntityManagementComponentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementComputeLocationEntity {
+						__typename
+						description
+					}
+					... on EntityManagementConfluenceConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+					}
+					... on EntityManagementConfluenceIntegration {
+						__typename
+						confluenceUserId
+						secretKey
+						url
+					}
+					... on EntityManagementConfluenceRagSettingsEntity {
+						__typename
+						chunkOverlap
+						chunkSize
+						confluenceIntegrationId
+						confluenceQuery
+						intervalSeconds
+						lastPullTime
+						nextPullTime
+						textSplitterType
+					}
+					... on EntityManagementCorrelationInternalSourceConfigEntity {
+						__typename
+						accountId
+						alias
+						filterId
+						namespaces
+						nrql
+						outputTopic
+						source
+					}
+					... on EntityManagementCorrelationLinkEntity {
+						__typename
+						directional
+						linkType
+					}
+					... on EntityManagementCorrelationLinkingRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementCustomEvaluationEntity {
+						__typename
+						criteria
+						description
+						model
+						parameters
+						steps
+						threshold
+					}
+					... on EntityManagementCustomerImpactEntity {
+						__typename
+						issueId
+					}
+					... on EntityManagementCustomerImpactQueryEntity {
+						__typename
+						query
+						queryAccountId
+						teamName
+						totalCustImpactQueryAccountIds
+						totalCustomerImpactQuery
+					}
+					... on EntityManagementEventBridgeRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementFederatedLogPartitionEntity {
+						__typename
+						dataLocationUri
+						description
+						isDefault
+						partitionDatabase
+						partitionTable
+						status
+					}
+					... on EntityManagementFederatedLogSetupEntity {
+						__typename
+						cloudProvider
+						cloudProviderRegion
+						dataLocationBucket
+						description
+						nrAccountId
+						nrRegion
+						status
+					}
+					... on EntityManagementFleetDeploymentEntity {
+						__typename
+						configurationVersions
+						description
+						fleetId
+						phase
+					}
+					... on EntityManagementFleetEntity {
+						__typename
+						description
+						managedEntityType
+						product
+					}
+					... on EntityManagementFleetRingEntity {
+						__typename
+						fleetId
+					}
+					... on EntityManagementFlowEntity {
+						__typename
+					}
+					... on EntityManagementGenericEntity {
+						__typename
+					}
+					... on EntityManagementGitHubIntegrationEntity {
+						__typename
+						installationId
+						installationSource
+						installationStatus
+						lastSyncCompletedAt
+						nextSyncAt
+					}
+					... on EntityManagementGitRepositoryEntity {
+						__typename
+						closedPullRequestCount
+						description
+						externalCreatedAt
+						externalId
+						externalLastDeployedAt
+						externalUpdatedAt
+						forkCount
+						hostingPlatform
+						latestReleaseVersion
+						lockedPullRequestCount
+						openPullRequestCount
+						primaryLanguage
+						url
+					}
+					... on EntityManagementGithubConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementImpactProfileEntity {
+						__typename
+					}
+					... on EntityManagementInboxIssueCategoryEntity {
+						__typename
+						categoryType
+						issueType
+						messageAttributes
+						nameAttributes
+					}
+					... on EntityManagementIncidentAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentEntity {
+						__typename
+						category
+						customerImpact
+						description
+						dueDate
+						entitiesImpacted
+						externalId
+						incidentCategory
+						incidentKey
+						incidentProfileId
+						incidentSubcategory
+						issueLinks
+						labels
+						lessonsLearned
+						maxSeverity
+						priority
+						reportedBy
+						resolutionCategory
+						resolutionSummary
+						retroActionItems
+						rootCauseSummary
+						rootCauseTags
+						severity
+						source
+						status
+						triggeringEvent
+					}
+					... on EntityManagementIncidentLinkEntity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementIncidentMessageEntity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementIncidentProfileAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentProfileEntity {
+						__typename
+					}
+					... on EntityManagementIncidentTimelineEntity {
+						__typename
+						content
+						entryType
+						source
+					}
+					... on EntityManagementJiraConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementJiraSyncConfiguration {
+						__typename
+						assigneeQuery
+						connection
+						correlationFieldName
+						description
+						direction
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJiraSyncConfigurationV2Entity {
+						__typename
+						bidirectional
+						connection
+						description
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJuniperMistConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementMaintenanceWindowEntity {
+						__typename
+						affectedEntityType
+						description
+						duration
+						rrule
+						startTime
+						timezone
+					}
+					... on EntityManagementManagedEvaluationsEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMcpServerEntity {
+						__typename
+						description
+						displayName
+						endpoint
+						protocolVersion
+						transport
+					}
+					... on EntityManagementMeterEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMeterTypeEntity {
+						__typename
+						allowMeterCreation
+						attributionDimensions
+						description
+					}
+					... on EntityManagementNewRelicConnection {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementNotebookEntity {
+						__typename
+					}
+					... on EntityManagementNotificationAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementNrAiAgentEntity {
+						__typename
+						displayName
+						version
+					}
+					... on EntityManagementNrqlMacroEntity {
+						__typename
+						expression
+						numParameters
+					}
+					... on EntityManagementOperationEntity {
+						__typename
+					}
+					... on EntityManagementOperationMetricEntity {
+						__typename
+					}
+					... on EntityManagementPerformanceInboxSettingEntity {
+						__typename
+						thresholdScope
+					}
+					... on EntityManagementPipelineCloudRuleEntity {
+						__typename
+						description
+						enabled
+						nrql
+					}
+					... on EntityManagementProductLineEntity {
+						__typename
+						description
+					}
+					... on EntityManagementRagDocumentEntity {
+						__typename
+						authorEmails
+						sourceIdentifier
+					}
+					... on EntityManagementRagToolEntity {
+						__typename
+						description
+					}
+					... on EntityManagementReactNativeSourcemapEntity {
+						__typename
+						appVersionId
+						applicationId
+						jsBundleId
+					}
+					... on EntityManagementRestApiContractEntity {
+						__typename
+					}
+					... on EntityManagementScorecardEntity {
+						__typename
+						description
+					}
+					... on EntityManagementScorecardRuleEntity {
+						__typename
+						description
+						enabled
+						impactWeight
+						progressLevel
+					}
+					... on EntityManagementSegmentTermsEntity {
+						__typename
+						accountId
+						agentId
+						domain
+						entityGuid
+						metricPrefix
+						oldId
+						segmentTerms
+					}
+					... on EntityManagementServerlessJobDefinitionEntity {
+						__typename
+						description
+					}
+					... on EntityManagementServiceNowConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementSlackConnection {
+						__typename
+						appId
+						description
+						enabled
+						externalId
+						workspace
+					}
+					... on EntityManagementSlackSyncConfiguration {
+						__typename
+						channelIdPayloadPath
+						connection
+						description
+						direction
+						enabled
+						mode
+					}
+					... on EntityManagementStatusPageAnnouncementEntity {
+						__typename
+						category
+						description
+						effectiveDate
+						eventUrl
+						publishedDate
+						state
+					}
+					... on EntityManagementStatusPageIncidentEntity {
+						__typename
+						description
+						endTime
+						incidentId
+						incidentTitle
+						lastUpdatedTime
+						region
+						startTime
+						status
+					}
+					... on EntityManagementTeamEntity {
+						__typename
+						aliases
+						description
+					}
+					... on EntityManagementTeamsHierarchyLevelEntity {
+						__typename
+					}
+					... on EntityManagementTeamsOrganizationSettingsEntity {
+						__typename
+					}
+					... on EntityManagementUserEntity {
+						__typename
+						userId
+					}
+					... on EntityManagementWorkItem {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkItemLink {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemLinkV2Entity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemMessage {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemMessageV2Entity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemV2Entity {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkflowDefinition {
+						__typename
+						description
+						versions
+					}
+					... on EntityManagementWorkflowSchedule {
+						__typename
+						cronExpression
+						description
+						overlapPolicy
+						timezone
+					}
+					... on EntityManagementZoomConnectionEntity {
+						__typename
+						description
+						enabled
+					}
+				}
+				scope {
+					id
+					type
+				}
+				status
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementFleetDeploymentEntity {
+				__typename
+				agents {
+					agentType
+					version
+				}
+				configurationVersionList {
+					id
+				}
+				configurationVersions
+				description
+				fleetId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				phase
+				ringsDeploymentTracker {
+					completedAt
+					name
+					startedAt
+					status
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementFleetEntity {
+				__typename
+				currentDeployment {
+					canaryManagedEntities
+					configsChanged
+					configurationVersions
+					deployedAt
+					description
+					entitiesChanged
+					managedEntitiesChanged
+					managedEntitiesRequiredToChange
+					name
+					status
+					supervisedAgentEntitiesChanged
+					supervisedAgentEntitiesRequiredToChange
+				}
+				description
+				managedEntityRings {
+					id
+					name
+					type
+				}
+				managedEntityType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				operatingSystem {
+					type
+				}
+				product
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementFleetRingEntity {
+				__typename
+				fleetId
+				managedEntities {
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementFlowEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementGenericEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementGitHubIntegrationEntity {
+				__typename
+				count {
+					repoCount
+					teamCount
+				}
+				gitHubRetentionOptions {
+					retainRepositories
+					retainTeams
+				}
+				gitHubSyncOptions {
+					syncRepositories
+					syncTeams
+				}
+				installationId
+				installationSource
+				installationStatus
+				lastSyncCompletedAt
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nextSyncAt
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementGitRepositoryEntity {
+				__typename
+				closedPullRequestCount
+				configuration {
+					source
+					updatedAt
+					updatedBy
+				}
+				description
+				externalCreatedAt
+				externalId
+				externalLastDeployedAt
+				externalOwner {
+					id
+					type
+				}
+				externalUpdatedAt
+				forkCount
+				hostingPlatform
+				latestReleaseVersion
+				license {
+					name
+					url
+				}
+				lockedPullRequestCount
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				openPullRequestCount
+				primaryLanguage
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementGithubConnection {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementImpactProfileEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementInboxIssueCategoryEntity {
+				__typename
+				categoryScope {
+					id
+					type
+				}
+				categoryType
+				issueType
+				messageAttributes
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nameAttributes
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementIncidentAttachmentEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementIncidentEntity {
+				__typename
+				assignedTo {
+					identifier
+					type
+				}
+				attributes {
+					name
+					value
+				}
+				category
+				customerImpact
+				description
+				dueDate
+				entitiesImpacted
+				externalId
+				incidentCategory
+				incidentKey
+				incidentProfileId
+				incidentSubcategory
+				issueLinks
+				labels
+				lessonsLearned
+				links {
+					id
+					name
+					type
+				}
+				maxSeverity
+				messages {
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				priority
+				reportedBy
+				resolutionCategory
+				resolutionSummary
+				retroActionItems
+				rootCauseSummary
+				rootCauseTags
+				scope {
+					id
+					type
+				}
+				severity
+				source
+				status
+				tags {
+					key
+					values
+				}
+				timelines {
+					id
+					name
+					type
+				}
+				triggeringEvent
+			}
+			... on EntityManagementIncidentLinkEntity {
+				__typename
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementIncidentMessageEntity {
+				__typename
+				content
+				contentEncoding
+				contentType
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				parentId
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementIncidentProfileAttachmentEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementIncidentProfileEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementIncidentTimelineEntity {
+				__typename
+				content
+				entryType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				source
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementJiraConnection {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementJiraSyncConfiguration {
+				__typename
+				assigneeQuery
+				connection
+				correlationFieldName
+				description
+				direction
+				enabled
+				issueType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				mode
+				projectKey
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				targets {
+					key
+					values
+				}
+				templateFields {
+					direction
+					name
+					required
+					template
+				}
+			}
+			... on EntityManagementJiraSyncConfigurationV2Entity {
+				__typename
+				bidirectional
+				connection
+				description
+				enabled
+				issueType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				mode
+				projectKey
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				targets {
+					key
+					values
+				}
+				templateFields {
+					direction
+					name
+					required
+					template
+				}
+			}
+			... on EntityManagementJuniperMistConnectionEntity {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				region
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementMaintenanceWindowEntity {
+				__typename
+				affectedEntityType
+				description
+				duration
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				rrule
+				scope {
+					id
+					type
+				}
+				startTime
+				tags {
+					key
+					values
+				}
+				timezone
+			}
+			... on EntityManagementManagedEvaluationsEntity {
+				__typename
+				description
+				evaluations {
+					enabled
+					evaluationType
+					threshold
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementMcpServerEntity {
+				__typename
+				auth {
+					headerKey
+					type
+				}
+				description
+				displayName
+				endpoint
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				protocolVersion
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				transport
+			}
+			... on EntityManagementMeterEntity {
+				__typename
+				attributes {
+					name
+					values
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				meterType {
+					allowMeterCreation
+					attributionDimensions
+					description
+					id
+					name
+					type
+				}
+				owningTeam {
+					aliases
+					description
+					id
+					name
+					type
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementMeterTypeEntity {
+				__typename
+				allowMeterCreation
+				attributionDimensions
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				owningTeam {
+					aliases
+					description
+					id
+					name
+					type
+				}
+				productLine {
+					description
+					id
+					name
+					type
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementNewRelicConnection {
+				__typename
+				credential {
+					type
+				}
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				region
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementNotebookEntity {
+				__typename
+				content {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementNotificationAttachmentEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementNrAiAgentEntity {
+				__typename
+				displayName
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				version
+			}
+			... on EntityManagementNrqlMacroEntity {
+				__typename
+				expression
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				numParameters
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementOperationEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementOperationMetricEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementPerformanceInboxSettingEntity {
+				__typename
+				config {
+					name
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				thresholdScope
+			}
+			... on EntityManagementPipelineCloudRuleEntity {
+				__typename
+				description
+				enabled
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nrql
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementProductLineEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementRagDocumentEntity {
+				__typename
+				authorEmails
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				sourceIdentifier
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementRagToolEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementReactNativeSourcemapEntity {
+				__typename
+				appVersionId
+				applicationId
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				jsBundleId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementRestApiContractEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementScorecardEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				progressLevels {
+					description
+					hexColorCode
+					id
+					name
+				}
+				rules {
+					id
+					name
+					type
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementScorecardRuleEntity {
+				__typename
+				description
+				enabled
+				impactWeight
+				lastExecutionStatus {
+					checkedEntities
+					executedAt
+					executionStatus
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nrqlEngine {
+					accounts
+					joinAccounts
+					query
+				}
+				progressLevel
+				schedule {
+					cronExpression
+					enabled
+					period
+					scheduleAt
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementSegmentTermsEntity {
+				__typename
+				accountId
+				agentId
+				domain
+				entityGuid
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				metricPrefix
+				oldId
+				scope {
+					id
+					type
+				}
+				segmentTerms
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementServerlessJobDefinitionEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementServiceNowConnection {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementSlackConnection {
+				__typename
+				appId
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+				token {
+					keyName
+					namespace
+				}
+				workspace
+			}
+			... on EntityManagementSlackSyncConfiguration {
+				__typename
+				channelIdPayloadPath
+				connection
+				description
+				direction
+				enabled
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				mode
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				targets {
+					key
+					values
+				}
+				templateFields {
+					direction
+					name
+					required
+					template
+				}
+			}
+			... on EntityManagementStatusPageAnnouncementEntity {
+				__typename
+				category
+				communicationLogs {
+					communicatedBy
+					communicationMode
+					communicationStatus
+					message
+					timestamp
+				}
+				description
+				effectiveDate
+				eventUrl
+				impactQuery {
+					nrqlQuery
+					queryAccountIds
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				pointOfContacts {
+					id
+					name
+					type
+					userId
+				}
+				publishedDate
+				scope {
+					id
+					type
+				}
+				state
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementStatusPageIncidentEntity {
+				__typename
+				communicationLogs {
+					communicatedBy
+					communicationMode
+					communicationStatus
+					message
+					timestamp
+				}
+				description
+				endTime
+				incidentId
+				incidentTitle
+				lastUpdatedTime
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				region
+				scope {
+					id
+					type
+				}
+				startTime
+				status
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementTeamEntity {
+				__typename
+				aliases
+				description
+				externalIntegration {
+					externalId
+					type
+				}
+				membership {
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				ownership {
+					id
+					name
+					type
+				}
+				resources {
+					content
+					title
+					type
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementTeamsHierarchyLevelEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementTeamsOrganizationSettingsEntity {
+				__typename
+				discovery {
+					enabled
+					tagKeys
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				syncGroups {
+					enabled
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementUserEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				userId
+			}
+			... on EntityManagementWorkItem {
+				__typename
+				assignedTo {
+					identifier
+					type
+				}
+				attributes {
+					name
+					value
+				}
+				category
+				description
+				dueDate
+				externalId
+				labels
+				links {
+					id
+					name
+					type
+				}
+				messages {
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				priority
+				scope {
+					id
+					type
+				}
+				status
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementWorkItemLink {
+				__typename
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementWorkItemLinkV2Entity {
+				__typename
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementWorkItemMessage {
+				__typename
+				content
+				contentEncoding
+				contentType
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				parentId
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementWorkItemMessageV2Entity {
+				__typename
+				content
+				contentEncoding
+				contentType
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				parentId
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementWorkItemV2Entity {
+				__typename
+				assignedTo {
+					identifier
+					type
+				}
+				attributes {
+					name
+					value
+				}
+				category
+				description
+				dueDate
+				externalId
+				labels
+				links {
+					id
+					name
+					type
+				}
+				messages {
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				priority
+				scope {
+					id
+					type
+				}
+				status
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementWorkflowDefinition {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				versions
+			}
+			... on EntityManagementWorkflowSchedule {
+				__typename
+				cronExpression
+				definition {
+					id
+					version
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				overlapPolicy
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				timezone
+			}
+			... on EntityManagementZoomConnectionEntity {
+				__typename
+				description
+				enabled
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+			}
+		}
+		scope {
+			id
+			type
+		}
+		status
+		tags {
+			key
+			values
+		}
+		type
+	}
+} }`
+
 // Creates an entity of type PipelineCloudRuleEntity.
 func (a *Pipelinecontrol) EntityManagementCreatePipelineCloudRule(
 	pipelineCloudRuleEntity EntityManagementPipelineCloudRuleEntityCreateInput,
@@ -41,6 +14419,7 @@ const EntityManagementCreatePipelineCloudRuleMutation = `mutation(
 ) {
 	entity {
 		description
+		enabled
 		id
 		metadata {
 			createdAt
@@ -84,22 +14463,25 @@ const EntityManagementCreatePipelineCloudRuleMutation = `mutation(
 // Deletes an entity.
 func (a *Pipelinecontrol) EntityManagementDelete(
 	iD string,
-	// version int,
+	version int,
 ) (*EntityManagementEntityDeleteResult, error) {
-	return a.EntityManagementDeleteWithContext(context.Background(), iD)
+	return a.EntityManagementDeleteWithContext(context.Background(),
+		iD,
+		version,
+	)
 }
 
 // Deletes an entity.
 func (a *Pipelinecontrol) EntityManagementDeleteWithContext(
 	ctx context.Context,
 	iD string,
-	// version int,
+	version int,
 ) (*EntityManagementEntityDeleteResult, error) {
 
 	resp := EntityManagementDeleteQueryResponse{}
 	vars := map[string]interface{}{
-		"id": iD,
-		// "version": version,
+		"id":      iD,
+		"version": version,
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, EntityManagementDeleteMutation, vars, &resp); err != nil {
@@ -127,12 +14509,12 @@ const EntityManagementDeleteMutation = `mutation(
 func (a *Pipelinecontrol) EntityManagementUpdatePipelineCloudRule(
 	iD string,
 	pipelineCloudRuleEntity EntityManagementPipelineCloudRuleEntityUpdateInput,
-	// version int,
+	version int,
 ) (*EntityManagementPipelineCloudRuleEntityUpdateResult, error) {
 	return a.EntityManagementUpdatePipelineCloudRuleWithContext(context.Background(),
 		iD,
 		pipelineCloudRuleEntity,
-		// version,
+		version,
 	)
 }
 
@@ -141,14 +14523,14 @@ func (a *Pipelinecontrol) EntityManagementUpdatePipelineCloudRuleWithContext(
 	ctx context.Context,
 	iD string,
 	pipelineCloudRuleEntity EntityManagementPipelineCloudRuleEntityUpdateInput,
-	// version int,
+	version int,
 ) (*EntityManagementPipelineCloudRuleEntityUpdateResult, error) {
 
 	resp := EntityManagementUpdatePipelineCloudRuleQueryResponse{}
 	vars := map[string]interface{}{
 		"id":                      iD,
 		"pipelineCloudRuleEntity": pipelineCloudRuleEntity,
-		// "version":                 version,
+		"version":                 version,
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, EntityManagementUpdatePipelineCloudRuleMutation, vars, &resp); err != nil {
@@ -173,6 +14555,7 @@ const EntityManagementUpdatePipelineCloudRuleMutation = `mutation(
 ) {
 	entity {
 		description
+		enabled
 		id
 		metadata {
 			createdAt
@@ -281,9 +14664,18507 @@ const getEntityQuery = `query(
 		values
 	}
 	type
+	... on EntityManagementAgentConfigurationEntity {
+		__typename
+		agentType
+		configurationType
+		managedEntityType
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		operatingSystem {
+			type
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+		versionCount
+	}
+	... on EntityManagementAgentConfigurationVersionEntity {
+		__typename
+		agentConfiguration
+		blob {
+			blobSignature {
+				securityFindings
+				signature {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				signatureError
+				signatureErrors
+				signatures {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				validationError
+			}
+			blobSignatures {
+				securityFindings
+				signature {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				signatureError
+				signatureErrors
+				signatures {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				validationError
+			}
+			checksum
+			checksumAlgorithm
+			contentType
+			id
+		}
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+		version
+	}
+	... on EntityManagementAgentEffectiveConfigurationEntity {
+		__typename
+		blob {
+			blobSignature {
+				securityFindings
+				signature {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				signatureError
+				signatureErrors
+				signatures {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				validationError
+			}
+			blobSignatures {
+				securityFindings
+				signature {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				signatureError
+				signatureErrors
+				signatures {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				validationError
+			}
+			checksum
+			checksumAlgorithm
+			contentType
+			id
+		}
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementAgentEntity {
+		__typename
+		agentType
+		fleetControlProperties {
+			appliedDeployment {
+				completedAt
+				fleet
+				id
+				managedEntity
+				startedAt
+				status
+			}
+			disconnectedReceived
+			environment
+			healthy
+			lastError
+			lastRemoteConfigError
+			lastRemoteConfigStatus
+			startTime
+			uid
+			version
+		}
+		infrastructureManagers {
+			type
+			version
+		}
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+		version
+	}
+	... on EntityManagementAiAgentEntity {
+		__typename
+		category
+		description
+		displayName
+		initialized
+		llmConfig {
+			cacheSeed
+			model
+			temperature
+		}
+		mcpServers {
+			excludeTools
+			includeTools
+			server {
+				auth {
+					headerKey
+					type
+				}
+				description
+				displayName
+				endpoint
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				protocolVersion
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				transport
+				type
+			}
+		}
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		prompt
+		provider
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+		test
+	}
+	... on EntityManagementAiCapableEntity {
+		__typename
+		category
+		language
+		lastSeen
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+		toolType
+		toolVersion
+	}
+	... on EntityManagementAiEvaluationConfigEntity {
+		__typename
+		description
+		managedEvaluationsEntity {
+			description
+			evaluations {
+				additionalParameters {
+					key
+					value
+				}
+				enabled
+				evaluationType
+				threshold
+			}
+			id
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			name
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			type
+		}
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		samplingRate
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementAiToolEntity {
+		__typename
+		description
+		initialized
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		parameters {
+			description
+			name
+			type
+		}
+		provider
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+		test
+		toolType
+		url
+	}
+	... on EntityManagementApiSpecificationBlobEntity {
+		__typename
+		blob {
+			blobSignature {
+				securityFindings
+				signature {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				signatureError
+				signatureErrors
+				signatures {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				validationError
+			}
+			blobSignatures {
+				securityFindings
+				signature {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				signatureError
+				signatureErrors
+				signatures {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				validationError
+			}
+			checksum
+			checksumAlgorithm
+			contentType
+			id
+		}
+		description
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementAwsConnectionEntity {
+		__typename
+		credential {
+			assumeRole {
+				externalId
+				roleArn
+			}
+		}
+		description
+		enabled
+		externalId
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		region
+		scope {
+			id
+			type
+		}
+		settings {
+			key
+			value
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementBackgroundProcessingRuleEntity {
+		__typename
+		description
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		query {
+			joinScopes {
+				id
+				type
+			}
+			nrql
+			outputScope {
+				id
+				type
+			}
+			scopes {
+				id
+				type
+			}
+		}
+		ruleType
+		schedule {
+			cronExpression
+			enabled
+			period
+			scheduleAt
+		}
+		scope {
+			id
+			type
+		}
+		state {
+			message
+			status
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementBackgroundSqlProcessingRuleEntity {
+		__typename
+		description
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		query {
+			outputScope {
+				id
+				type
+			}
+			outputTarget
+			scopes {
+				id
+				type
+			}
+			sql
+		}
+		schedule {
+			cronExpression
+			enabled
+			period
+			scheduleAt
+		}
+		scope {
+			id
+			type
+		}
+		state {
+			message
+			status
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementBudgetEntity {
+		__typename
+		budgetAlertPolicies {
+			id
+		}
+		budgetLimits {
+			consumptionMetric
+			reference {
+				id
+				location
+			}
+			value
+		}
+		budgetSegment {
+			accounts {
+				id
+			}
+			customer {
+				id
+			}
+			organizations {
+				id
+			}
+			users {
+				appliesToAll
+				items {
+					id
+				}
+			}
+		}
+		budgetType
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		organizationBudget
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementCiscoMerakiConnectionEntity {
+		__typename
+		credential {
+			basicAuth {
+				apiKey {
+					keyName
+					namespace
+				}
+			}
+		}
+		description
+		enabled
+		externalId
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		region
+		scope {
+			id
+			type
+		}
+		settings {
+			key
+			value
+		}
+		signingCredentials {
+			signingAlgorithm
+			signingKeyReference {
+				keyName
+				namespace
+			}
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementCollectionEntity {
+		__typename
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementComponentEntity {
+		__typename
+		description
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementComputeLocationEntity {
+		__typename
+		description
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementConfluenceConnectionEntity {
+		__typename
+		credential {
+			basicAuth {
+				domain
+				token {
+					keyName
+					namespace
+				}
+				tokenExpirationTime
+				userId {
+					keyName
+					namespace
+				}
+			}
+		}
+		description
+		enabled
+		externalId
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		settings {
+			key
+			value
+		}
+		signingCredentials {
+			signingAlgorithm
+			signingKeyReference {
+				keyName
+				namespace
+			}
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementConfluenceIntegration {
+		__typename
+		confluenceUserId
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		secretKey
+		tags {
+			key
+			values
+		}
+		url
+	}
+	... on EntityManagementConfluenceRagSettingsEntity {
+		__typename
+		characterTextSplitterOptions {
+			isSeparatorRegex
+			separator
+		}
+		chunkOverlap
+		chunkSize
+		confluenceIntegrationId
+		confluenceQuery
+		intervalSeconds
+		lastPullTime
+		markdownTextSplitterOptions {
+			headersToSplitOn
+			returnEachLine
+		}
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		nextPullTime
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+		textSplitterType
+		tokenTextSplitterOptions {
+			encodingName
+		}
+	}
+	... on EntityManagementCorrelationInternalSourceConfigEntity {
+		__typename
+		accountId
+		alias
+		filterId
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		namespaces
+		nrql
+		outputTopic
+		scope {
+			id
+			type
+		}
+		source
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementCorrelationLinkEntity {
+		__typename
+		context {
+			confidence
+			messages
+			ruleId
+		}
+		directional
+		linkType
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		overrideInfo {
+			action
+			timestamp
+			userId
+		}
+		scope {
+			id
+			type
+		}
+		source {
+			accountId
+			eventId
+			eventType
+		}
+		tags {
+			key
+			values
+		}
+		target {
+			accountId
+			eventId
+			eventType
+		}
+	}
+	... on EntityManagementCorrelationLinkingRuleEntity {
+		__typename
+		criteria {
+			attributeConditions {
+				attribute
+				operator
+				value
+			}
+			probabilistic {
+				algorithm
+				confidenceThreshold
+				configs {
+					name
+					value
+				}
+			}
+			temporalWindow {
+				driverEndTimestampAttribute
+				driverStartTimestampAttribute
+				lookbackSeconds
+				lookforwardSeconds
+			}
+			topologyProximity
+		}
+		description
+		enabled
+		linkingConfig {
+			directional
+			linkType
+			sourceAlias
+			targetAlias
+		}
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		subjects {
+			accountIds
+			alias
+			lifecycle {
+				closedValues
+				identityKey
+				openValues
+				stateKey
+			}
+			nrql
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementCustomEvaluationEntity {
+		__typename
+		criteria
+		description
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		model
+		parameters
+		scope {
+			id
+			type
+		}
+		steps
+		tags {
+			key
+			values
+		}
+		threshold
+	}
+	... on EntityManagementCustomerImpactEntity {
+		__typename
+		blob {
+			blobSignature {
+				securityFindings
+				signature {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				signatureError
+				signatureErrors
+				signatures {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				validationError
+			}
+			blobSignatures {
+				securityFindings
+				signature {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				signatureError
+				signatureErrors
+				signatures {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				validationError
+			}
+			checksum
+			checksumAlgorithm
+			contentType
+			id
+		}
+		components {
+			description
+			id
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			name
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			type
+		}
+		issueId
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementCustomerImpactQueryEntity {
+		__typename
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		products {
+			description
+			id
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			name
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			type
+		}
+		query
+		queryAccountId
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+		teamName
+		totalCustImpactQueryAccountIds
+		totalCustomerImpactQuery
+	}
+	... on EntityManagementEventBridgeRuleEntity {
+		__typename
+		conditions {
+			field
+			value {
+				array {
+					operator
+				}
+				date {
+					endValue
+					operator
+					startValue
+					value
+				}
+				exists
+				numeric {
+					operator
+					value
+				}
+				string {
+					operator
+					value
+				}
+			}
+		}
+		description
+		enabled
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		sourceType {
+			event
+			name
+		}
+		tags {
+			key
+			values
+		}
+		targets {
+			name
+			type
+		}
+	}
+	... on EntityManagementFederatedLogPartitionEntity {
+		__typename
+		dataLocationUri
+		description
+		isDefault
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		partitionDatabase
+		partitionTable
+		retentionPolicy {
+			duration
+			unit
+		}
+		scope {
+			id
+			type
+		}
+		setup {
+			cloudProvider
+			cloudProviderRegion
+			dataLocationBucket
+			dataProcessingComponent {
+				__typename
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+				... on EntityManagementAgentConfigurationEntity {
+					__typename
+					agentType
+					configurationType
+					managedEntityType
+					versionCount
+				}
+				... on EntityManagementAgentConfigurationVersionEntity {
+					__typename
+					agentConfiguration
+					version
+				}
+				... on EntityManagementAgentEffectiveConfigurationEntity {
+					__typename
+				}
+				... on EntityManagementAgentEntity {
+					__typename
+					agentType
+					version
+				}
+				... on EntityManagementAiAgentEntity {
+					__typename
+					category
+					description
+					displayName
+					initialized
+					prompt
+					provider
+					test
+				}
+				... on EntityManagementAiCapableEntity {
+					__typename
+					category
+					language
+					lastSeen
+					toolType
+					toolVersion
+				}
+				... on EntityManagementAiEvaluationConfigEntity {
+					__typename
+					description
+					samplingRate
+				}
+				... on EntityManagementAiToolEntity {
+					__typename
+					description
+					initialized
+					provider
+					test
+					toolType
+					url
+				}
+				... on EntityManagementApiSpecificationBlobEntity {
+					__typename
+					description
+				}
+				... on EntityManagementAwsConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementBackgroundProcessingRuleEntity {
+					__typename
+					description
+					ruleType
+				}
+				... on EntityManagementBackgroundSqlProcessingRuleEntity {
+					__typename
+					description
+				}
+				... on EntityManagementBudgetEntity {
+					__typename
+					budgetType
+					organizationBudget
+				}
+				... on EntityManagementCiscoMerakiConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementCollectionEntity {
+					__typename
+				}
+				... on EntityManagementComponentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementComputeLocationEntity {
+					__typename
+					description
+				}
+				... on EntityManagementConfluenceConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+				}
+				... on EntityManagementConfluenceIntegration {
+					__typename
+					confluenceUserId
+					secretKey
+					url
+				}
+				... on EntityManagementConfluenceRagSettingsEntity {
+					__typename
+					chunkOverlap
+					chunkSize
+					confluenceIntegrationId
+					confluenceQuery
+					intervalSeconds
+					lastPullTime
+					nextPullTime
+					textSplitterType
+				}
+				... on EntityManagementCorrelationInternalSourceConfigEntity {
+					__typename
+					accountId
+					alias
+					filterId
+					namespaces
+					nrql
+					outputTopic
+					source
+				}
+				... on EntityManagementCorrelationLinkEntity {
+					__typename
+					directional
+					linkType
+				}
+				... on EntityManagementCorrelationLinkingRuleEntity {
+					__typename
+					description
+					enabled
+				}
+				... on EntityManagementCustomEvaluationEntity {
+					__typename
+					criteria
+					description
+					model
+					parameters
+					steps
+					threshold
+				}
+				... on EntityManagementCustomerImpactEntity {
+					__typename
+					issueId
+				}
+				... on EntityManagementCustomerImpactQueryEntity {
+					__typename
+					query
+					queryAccountId
+					teamName
+					totalCustImpactQueryAccountIds
+					totalCustomerImpactQuery
+				}
+				... on EntityManagementEventBridgeRuleEntity {
+					__typename
+					description
+					enabled
+				}
+				... on EntityManagementFederatedLogPartitionEntity {
+					__typename
+					dataLocationUri
+					description
+					isDefault
+					partitionDatabase
+					partitionTable
+					status
+				}
+				... on EntityManagementFederatedLogSetupEntity {
+					__typename
+					cloudProvider
+					cloudProviderRegion
+					dataLocationBucket
+					description
+					nrAccountId
+					nrRegion
+					status
+				}
+				... on EntityManagementFleetDeploymentEntity {
+					__typename
+					configurationVersions
+					description
+					fleetId
+					phase
+				}
+				... on EntityManagementFleetEntity {
+					__typename
+					description
+					managedEntityType
+					product
+				}
+				... on EntityManagementFleetRingEntity {
+					__typename
+					fleetId
+				}
+				... on EntityManagementFlowEntity {
+					__typename
+				}
+				... on EntityManagementGenericEntity {
+					__typename
+				}
+				... on EntityManagementGitHubIntegrationEntity {
+					__typename
+					installationId
+					installationSource
+					installationStatus
+					lastSyncCompletedAt
+					nextSyncAt
+				}
+				... on EntityManagementGitRepositoryEntity {
+					__typename
+					closedPullRequestCount
+					description
+					externalCreatedAt
+					externalId
+					externalLastDeployedAt
+					externalUpdatedAt
+					forkCount
+					hostingPlatform
+					latestReleaseVersion
+					lockedPullRequestCount
+					openPullRequestCount
+					primaryLanguage
+					url
+				}
+				... on EntityManagementGithubConnection {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementImpactProfileEntity {
+					__typename
+				}
+				... on EntityManagementInboxIssueCategoryEntity {
+					__typename
+					categoryType
+					issueType
+					messageAttributes
+					nameAttributes
+				}
+				... on EntityManagementIncidentAttachmentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementIncidentEntity {
+					__typename
+					category
+					customerImpact
+					description
+					dueDate
+					entitiesImpacted
+					externalId
+					incidentCategory
+					incidentKey
+					incidentProfileId
+					incidentSubcategory
+					issueLinks
+					labels
+					lessonsLearned
+					maxSeverity
+					priority
+					reportedBy
+					resolutionCategory
+					resolutionSummary
+					retroActionItems
+					rootCauseSummary
+					rootCauseTags
+					severity
+					source
+					status
+					triggeringEvent
+				}
+				... on EntityManagementIncidentLinkEntity {
+					__typename
+					externalId
+					sourceSyncConfigurationId
+					url
+				}
+				... on EntityManagementIncidentMessageEntity {
+					__typename
+					content
+					contentEncoding
+					contentType
+					externalId
+					parentId
+					sourceSyncConfigurationId
+				}
+				... on EntityManagementIncidentProfileAttachmentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementIncidentProfileEntity {
+					__typename
+				}
+				... on EntityManagementIncidentTimelineEntity {
+					__typename
+					content
+					entryType
+					source
+				}
+				... on EntityManagementJiraConnection {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementJiraSyncConfiguration {
+					__typename
+					assigneeQuery
+					connection
+					correlationFieldName
+					description
+					direction
+					enabled
+					issueType
+					mode
+					projectKey
+				}
+				... on EntityManagementJiraSyncConfigurationV2Entity {
+					__typename
+					bidirectional
+					connection
+					description
+					enabled
+					issueType
+					mode
+					projectKey
+				}
+				... on EntityManagementJuniperMistConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementMaintenanceWindowEntity {
+					__typename
+					affectedEntityType
+					description
+					duration
+					rrule
+					startTime
+					timezone
+				}
+				... on EntityManagementManagedEvaluationsEntity {
+					__typename
+					description
+				}
+				... on EntityManagementMcpServerEntity {
+					__typename
+					description
+					displayName
+					endpoint
+					protocolVersion
+					transport
+				}
+				... on EntityManagementMeterEntity {
+					__typename
+					description
+				}
+				... on EntityManagementMeterTypeEntity {
+					__typename
+					allowMeterCreation
+					attributionDimensions
+					description
+				}
+				... on EntityManagementNewRelicConnection {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementNotebookEntity {
+					__typename
+				}
+				... on EntityManagementNotificationAttachmentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementNrAiAgentEntity {
+					__typename
+					displayName
+					version
+				}
+				... on EntityManagementNrqlMacroEntity {
+					__typename
+					expression
+					numParameters
+				}
+				... on EntityManagementOperationEntity {
+					__typename
+				}
+				... on EntityManagementOperationMetricEntity {
+					__typename
+				}
+				... on EntityManagementPerformanceInboxSettingEntity {
+					__typename
+					thresholdScope
+				}
+				... on EntityManagementPipelineCloudRuleEntity {
+					__typename
+					description
+					enabled
+					nrql
+				}
+				... on EntityManagementProductLineEntity {
+					__typename
+					description
+				}
+				... on EntityManagementRagDocumentEntity {
+					__typename
+					authorEmails
+					sourceIdentifier
+				}
+				... on EntityManagementRagToolEntity {
+					__typename
+					description
+				}
+				... on EntityManagementReactNativeSourcemapEntity {
+					__typename
+					appVersionId
+					applicationId
+					jsBundleId
+				}
+				... on EntityManagementRestApiContractEntity {
+					__typename
+				}
+				... on EntityManagementScorecardEntity {
+					__typename
+					description
+				}
+				... on EntityManagementScorecardRuleEntity {
+					__typename
+					description
+					enabled
+					impactWeight
+					progressLevel
+				}
+				... on EntityManagementSegmentTermsEntity {
+					__typename
+					accountId
+					agentId
+					domain
+					entityGuid
+					metricPrefix
+					oldId
+					segmentTerms
+				}
+				... on EntityManagementServerlessJobDefinitionEntity {
+					__typename
+					description
+				}
+				... on EntityManagementServiceNowConnection {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementSlackConnection {
+					__typename
+					appId
+					description
+					enabled
+					externalId
+					workspace
+				}
+				... on EntityManagementSlackSyncConfiguration {
+					__typename
+					channelIdPayloadPath
+					connection
+					description
+					direction
+					enabled
+					mode
+				}
+				... on EntityManagementStatusPageAnnouncementEntity {
+					__typename
+					category
+					description
+					effectiveDate
+					eventUrl
+					publishedDate
+					state
+				}
+				... on EntityManagementStatusPageIncidentEntity {
+					__typename
+					description
+					endTime
+					incidentId
+					incidentTitle
+					lastUpdatedTime
+					region
+					startTime
+					status
+				}
+				... on EntityManagementTeamEntity {
+					__typename
+					aliases
+					description
+				}
+				... on EntityManagementTeamsHierarchyLevelEntity {
+					__typename
+				}
+				... on EntityManagementTeamsOrganizationSettingsEntity {
+					__typename
+				}
+				... on EntityManagementUserEntity {
+					__typename
+					userId
+				}
+				... on EntityManagementWorkItem {
+					__typename
+					category
+					description
+					dueDate
+					externalId
+					labels
+					priority
+					status
+				}
+				... on EntityManagementWorkItemLink {
+					__typename
+					externalId
+					sourceSyncConfigurationId
+					url
+				}
+				... on EntityManagementWorkItemLinkV2Entity {
+					__typename
+					externalId
+					sourceSyncConfigurationId
+					url
+				}
+				... on EntityManagementWorkItemMessage {
+					__typename
+					content
+					contentEncoding
+					contentType
+					externalId
+					parentId
+					sourceSyncConfigurationId
+				}
+				... on EntityManagementWorkItemMessageV2Entity {
+					__typename
+					content
+					contentEncoding
+					contentType
+					externalId
+					parentId
+					sourceSyncConfigurationId
+				}
+				... on EntityManagementWorkItemV2Entity {
+					__typename
+					category
+					description
+					dueDate
+					externalId
+					labels
+					priority
+					status
+				}
+				... on EntityManagementWorkflowDefinition {
+					__typename
+					description
+					versions
+				}
+				... on EntityManagementWorkflowSchedule {
+					__typename
+					cronExpression
+					description
+					overlapPolicy
+					timezone
+				}
+				... on EntityManagementZoomConnectionEntity {
+					__typename
+					description
+					enabled
+				}
+			}
+			dataProcessingConnection {
+				__typename
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+				... on EntityManagementAgentConfigurationEntity {
+					__typename
+					agentType
+					configurationType
+					managedEntityType
+					versionCount
+				}
+				... on EntityManagementAgentConfigurationVersionEntity {
+					__typename
+					agentConfiguration
+					version
+				}
+				... on EntityManagementAgentEffectiveConfigurationEntity {
+					__typename
+				}
+				... on EntityManagementAgentEntity {
+					__typename
+					agentType
+					version
+				}
+				... on EntityManagementAiAgentEntity {
+					__typename
+					category
+					description
+					displayName
+					initialized
+					prompt
+					provider
+					test
+				}
+				... on EntityManagementAiCapableEntity {
+					__typename
+					category
+					language
+					lastSeen
+					toolType
+					toolVersion
+				}
+				... on EntityManagementAiEvaluationConfigEntity {
+					__typename
+					description
+					samplingRate
+				}
+				... on EntityManagementAiToolEntity {
+					__typename
+					description
+					initialized
+					provider
+					test
+					toolType
+					url
+				}
+				... on EntityManagementApiSpecificationBlobEntity {
+					__typename
+					description
+				}
+				... on EntityManagementAwsConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementBackgroundProcessingRuleEntity {
+					__typename
+					description
+					ruleType
+				}
+				... on EntityManagementBackgroundSqlProcessingRuleEntity {
+					__typename
+					description
+				}
+				... on EntityManagementBudgetEntity {
+					__typename
+					budgetType
+					organizationBudget
+				}
+				... on EntityManagementCiscoMerakiConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementCollectionEntity {
+					__typename
+				}
+				... on EntityManagementComponentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementComputeLocationEntity {
+					__typename
+					description
+				}
+				... on EntityManagementConfluenceConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+				}
+				... on EntityManagementConfluenceIntegration {
+					__typename
+					confluenceUserId
+					secretKey
+					url
+				}
+				... on EntityManagementConfluenceRagSettingsEntity {
+					__typename
+					chunkOverlap
+					chunkSize
+					confluenceIntegrationId
+					confluenceQuery
+					intervalSeconds
+					lastPullTime
+					nextPullTime
+					textSplitterType
+				}
+				... on EntityManagementCorrelationInternalSourceConfigEntity {
+					__typename
+					accountId
+					alias
+					filterId
+					namespaces
+					nrql
+					outputTopic
+					source
+				}
+				... on EntityManagementCorrelationLinkEntity {
+					__typename
+					directional
+					linkType
+				}
+				... on EntityManagementCorrelationLinkingRuleEntity {
+					__typename
+					description
+					enabled
+				}
+				... on EntityManagementCustomEvaluationEntity {
+					__typename
+					criteria
+					description
+					model
+					parameters
+					steps
+					threshold
+				}
+				... on EntityManagementCustomerImpactEntity {
+					__typename
+					issueId
+				}
+				... on EntityManagementCustomerImpactQueryEntity {
+					__typename
+					query
+					queryAccountId
+					teamName
+					totalCustImpactQueryAccountIds
+					totalCustomerImpactQuery
+				}
+				... on EntityManagementEventBridgeRuleEntity {
+					__typename
+					description
+					enabled
+				}
+				... on EntityManagementFederatedLogPartitionEntity {
+					__typename
+					dataLocationUri
+					description
+					isDefault
+					partitionDatabase
+					partitionTable
+					status
+				}
+				... on EntityManagementFederatedLogSetupEntity {
+					__typename
+					cloudProvider
+					cloudProviderRegion
+					dataLocationBucket
+					description
+					nrAccountId
+					nrRegion
+					status
+				}
+				... on EntityManagementFleetDeploymentEntity {
+					__typename
+					configurationVersions
+					description
+					fleetId
+					phase
+				}
+				... on EntityManagementFleetEntity {
+					__typename
+					description
+					managedEntityType
+					product
+				}
+				... on EntityManagementFleetRingEntity {
+					__typename
+					fleetId
+				}
+				... on EntityManagementFlowEntity {
+					__typename
+				}
+				... on EntityManagementGenericEntity {
+					__typename
+				}
+				... on EntityManagementGitHubIntegrationEntity {
+					__typename
+					installationId
+					installationSource
+					installationStatus
+					lastSyncCompletedAt
+					nextSyncAt
+				}
+				... on EntityManagementGitRepositoryEntity {
+					__typename
+					closedPullRequestCount
+					description
+					externalCreatedAt
+					externalId
+					externalLastDeployedAt
+					externalUpdatedAt
+					forkCount
+					hostingPlatform
+					latestReleaseVersion
+					lockedPullRequestCount
+					openPullRequestCount
+					primaryLanguage
+					url
+				}
+				... on EntityManagementGithubConnection {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementImpactProfileEntity {
+					__typename
+				}
+				... on EntityManagementInboxIssueCategoryEntity {
+					__typename
+					categoryType
+					issueType
+					messageAttributes
+					nameAttributes
+				}
+				... on EntityManagementIncidentAttachmentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementIncidentEntity {
+					__typename
+					category
+					customerImpact
+					description
+					dueDate
+					entitiesImpacted
+					externalId
+					incidentCategory
+					incidentKey
+					incidentProfileId
+					incidentSubcategory
+					issueLinks
+					labels
+					lessonsLearned
+					maxSeverity
+					priority
+					reportedBy
+					resolutionCategory
+					resolutionSummary
+					retroActionItems
+					rootCauseSummary
+					rootCauseTags
+					severity
+					source
+					status
+					triggeringEvent
+				}
+				... on EntityManagementIncidentLinkEntity {
+					__typename
+					externalId
+					sourceSyncConfigurationId
+					url
+				}
+				... on EntityManagementIncidentMessageEntity {
+					__typename
+					content
+					contentEncoding
+					contentType
+					externalId
+					parentId
+					sourceSyncConfigurationId
+				}
+				... on EntityManagementIncidentProfileAttachmentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementIncidentProfileEntity {
+					__typename
+				}
+				... on EntityManagementIncidentTimelineEntity {
+					__typename
+					content
+					entryType
+					source
+				}
+				... on EntityManagementJiraConnection {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementJiraSyncConfiguration {
+					__typename
+					assigneeQuery
+					connection
+					correlationFieldName
+					description
+					direction
+					enabled
+					issueType
+					mode
+					projectKey
+				}
+				... on EntityManagementJiraSyncConfigurationV2Entity {
+					__typename
+					bidirectional
+					connection
+					description
+					enabled
+					issueType
+					mode
+					projectKey
+				}
+				... on EntityManagementJuniperMistConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementMaintenanceWindowEntity {
+					__typename
+					affectedEntityType
+					description
+					duration
+					rrule
+					startTime
+					timezone
+				}
+				... on EntityManagementManagedEvaluationsEntity {
+					__typename
+					description
+				}
+				... on EntityManagementMcpServerEntity {
+					__typename
+					description
+					displayName
+					endpoint
+					protocolVersion
+					transport
+				}
+				... on EntityManagementMeterEntity {
+					__typename
+					description
+				}
+				... on EntityManagementMeterTypeEntity {
+					__typename
+					allowMeterCreation
+					attributionDimensions
+					description
+				}
+				... on EntityManagementNewRelicConnection {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementNotebookEntity {
+					__typename
+				}
+				... on EntityManagementNotificationAttachmentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementNrAiAgentEntity {
+					__typename
+					displayName
+					version
+				}
+				... on EntityManagementNrqlMacroEntity {
+					__typename
+					expression
+					numParameters
+				}
+				... on EntityManagementOperationEntity {
+					__typename
+				}
+				... on EntityManagementOperationMetricEntity {
+					__typename
+				}
+				... on EntityManagementPerformanceInboxSettingEntity {
+					__typename
+					thresholdScope
+				}
+				... on EntityManagementPipelineCloudRuleEntity {
+					__typename
+					description
+					enabled
+					nrql
+				}
+				... on EntityManagementProductLineEntity {
+					__typename
+					description
+				}
+				... on EntityManagementRagDocumentEntity {
+					__typename
+					authorEmails
+					sourceIdentifier
+				}
+				... on EntityManagementRagToolEntity {
+					__typename
+					description
+				}
+				... on EntityManagementReactNativeSourcemapEntity {
+					__typename
+					appVersionId
+					applicationId
+					jsBundleId
+				}
+				... on EntityManagementRestApiContractEntity {
+					__typename
+				}
+				... on EntityManagementScorecardEntity {
+					__typename
+					description
+				}
+				... on EntityManagementScorecardRuleEntity {
+					__typename
+					description
+					enabled
+					impactWeight
+					progressLevel
+				}
+				... on EntityManagementSegmentTermsEntity {
+					__typename
+					accountId
+					agentId
+					domain
+					entityGuid
+					metricPrefix
+					oldId
+					segmentTerms
+				}
+				... on EntityManagementServerlessJobDefinitionEntity {
+					__typename
+					description
+				}
+				... on EntityManagementServiceNowConnection {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementSlackConnection {
+					__typename
+					appId
+					description
+					enabled
+					externalId
+					workspace
+				}
+				... on EntityManagementSlackSyncConfiguration {
+					__typename
+					channelIdPayloadPath
+					connection
+					description
+					direction
+					enabled
+					mode
+				}
+				... on EntityManagementStatusPageAnnouncementEntity {
+					__typename
+					category
+					description
+					effectiveDate
+					eventUrl
+					publishedDate
+					state
+				}
+				... on EntityManagementStatusPageIncidentEntity {
+					__typename
+					description
+					endTime
+					incidentId
+					incidentTitle
+					lastUpdatedTime
+					region
+					startTime
+					status
+				}
+				... on EntityManagementTeamEntity {
+					__typename
+					aliases
+					description
+				}
+				... on EntityManagementTeamsHierarchyLevelEntity {
+					__typename
+				}
+				... on EntityManagementTeamsOrganizationSettingsEntity {
+					__typename
+				}
+				... on EntityManagementUserEntity {
+					__typename
+					userId
+				}
+				... on EntityManagementWorkItem {
+					__typename
+					category
+					description
+					dueDate
+					externalId
+					labels
+					priority
+					status
+				}
+				... on EntityManagementWorkItemLink {
+					__typename
+					externalId
+					sourceSyncConfigurationId
+					url
+				}
+				... on EntityManagementWorkItemLinkV2Entity {
+					__typename
+					externalId
+					sourceSyncConfigurationId
+					url
+				}
+				... on EntityManagementWorkItemMessage {
+					__typename
+					content
+					contentEncoding
+					contentType
+					externalId
+					parentId
+					sourceSyncConfigurationId
+				}
+				... on EntityManagementWorkItemMessageV2Entity {
+					__typename
+					content
+					contentEncoding
+					contentType
+					externalId
+					parentId
+					sourceSyncConfigurationId
+				}
+				... on EntityManagementWorkItemV2Entity {
+					__typename
+					category
+					description
+					dueDate
+					externalId
+					labels
+					priority
+					status
+				}
+				... on EntityManagementWorkflowDefinition {
+					__typename
+					description
+					versions
+				}
+				... on EntityManagementWorkflowSchedule {
+					__typename
+					cronExpression
+					description
+					overlapPolicy
+					timezone
+				}
+				... on EntityManagementZoomConnectionEntity {
+					__typename
+					description
+					enabled
+				}
+			}
+			description
+			id
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			name
+			nrAccountId
+			nrRegion
+			queryConnection {
+				__typename
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+				... on EntityManagementAgentConfigurationEntity {
+					__typename
+					agentType
+					configurationType
+					managedEntityType
+					versionCount
+				}
+				... on EntityManagementAgentConfigurationVersionEntity {
+					__typename
+					agentConfiguration
+					version
+				}
+				... on EntityManagementAgentEffectiveConfigurationEntity {
+					__typename
+				}
+				... on EntityManagementAgentEntity {
+					__typename
+					agentType
+					version
+				}
+				... on EntityManagementAiAgentEntity {
+					__typename
+					category
+					description
+					displayName
+					initialized
+					prompt
+					provider
+					test
+				}
+				... on EntityManagementAiCapableEntity {
+					__typename
+					category
+					language
+					lastSeen
+					toolType
+					toolVersion
+				}
+				... on EntityManagementAiEvaluationConfigEntity {
+					__typename
+					description
+					samplingRate
+				}
+				... on EntityManagementAiToolEntity {
+					__typename
+					description
+					initialized
+					provider
+					test
+					toolType
+					url
+				}
+				... on EntityManagementApiSpecificationBlobEntity {
+					__typename
+					description
+				}
+				... on EntityManagementAwsConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementBackgroundProcessingRuleEntity {
+					__typename
+					description
+					ruleType
+				}
+				... on EntityManagementBackgroundSqlProcessingRuleEntity {
+					__typename
+					description
+				}
+				... on EntityManagementBudgetEntity {
+					__typename
+					budgetType
+					organizationBudget
+				}
+				... on EntityManagementCiscoMerakiConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementCollectionEntity {
+					__typename
+				}
+				... on EntityManagementComponentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementComputeLocationEntity {
+					__typename
+					description
+				}
+				... on EntityManagementConfluenceConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+				}
+				... on EntityManagementConfluenceIntegration {
+					__typename
+					confluenceUserId
+					secretKey
+					url
+				}
+				... on EntityManagementConfluenceRagSettingsEntity {
+					__typename
+					chunkOverlap
+					chunkSize
+					confluenceIntegrationId
+					confluenceQuery
+					intervalSeconds
+					lastPullTime
+					nextPullTime
+					textSplitterType
+				}
+				... on EntityManagementCorrelationInternalSourceConfigEntity {
+					__typename
+					accountId
+					alias
+					filterId
+					namespaces
+					nrql
+					outputTopic
+					source
+				}
+				... on EntityManagementCorrelationLinkEntity {
+					__typename
+					directional
+					linkType
+				}
+				... on EntityManagementCorrelationLinkingRuleEntity {
+					__typename
+					description
+					enabled
+				}
+				... on EntityManagementCustomEvaluationEntity {
+					__typename
+					criteria
+					description
+					model
+					parameters
+					steps
+					threshold
+				}
+				... on EntityManagementCustomerImpactEntity {
+					__typename
+					issueId
+				}
+				... on EntityManagementCustomerImpactQueryEntity {
+					__typename
+					query
+					queryAccountId
+					teamName
+					totalCustImpactQueryAccountIds
+					totalCustomerImpactQuery
+				}
+				... on EntityManagementEventBridgeRuleEntity {
+					__typename
+					description
+					enabled
+				}
+				... on EntityManagementFederatedLogPartitionEntity {
+					__typename
+					dataLocationUri
+					description
+					isDefault
+					partitionDatabase
+					partitionTable
+					status
+				}
+				... on EntityManagementFederatedLogSetupEntity {
+					__typename
+					cloudProvider
+					cloudProviderRegion
+					dataLocationBucket
+					description
+					nrAccountId
+					nrRegion
+					status
+				}
+				... on EntityManagementFleetDeploymentEntity {
+					__typename
+					configurationVersions
+					description
+					fleetId
+					phase
+				}
+				... on EntityManagementFleetEntity {
+					__typename
+					description
+					managedEntityType
+					product
+				}
+				... on EntityManagementFleetRingEntity {
+					__typename
+					fleetId
+				}
+				... on EntityManagementFlowEntity {
+					__typename
+				}
+				... on EntityManagementGenericEntity {
+					__typename
+				}
+				... on EntityManagementGitHubIntegrationEntity {
+					__typename
+					installationId
+					installationSource
+					installationStatus
+					lastSyncCompletedAt
+					nextSyncAt
+				}
+				... on EntityManagementGitRepositoryEntity {
+					__typename
+					closedPullRequestCount
+					description
+					externalCreatedAt
+					externalId
+					externalLastDeployedAt
+					externalUpdatedAt
+					forkCount
+					hostingPlatform
+					latestReleaseVersion
+					lockedPullRequestCount
+					openPullRequestCount
+					primaryLanguage
+					url
+				}
+				... on EntityManagementGithubConnection {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementImpactProfileEntity {
+					__typename
+				}
+				... on EntityManagementInboxIssueCategoryEntity {
+					__typename
+					categoryType
+					issueType
+					messageAttributes
+					nameAttributes
+				}
+				... on EntityManagementIncidentAttachmentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementIncidentEntity {
+					__typename
+					category
+					customerImpact
+					description
+					dueDate
+					entitiesImpacted
+					externalId
+					incidentCategory
+					incidentKey
+					incidentProfileId
+					incidentSubcategory
+					issueLinks
+					labels
+					lessonsLearned
+					maxSeverity
+					priority
+					reportedBy
+					resolutionCategory
+					resolutionSummary
+					retroActionItems
+					rootCauseSummary
+					rootCauseTags
+					severity
+					source
+					status
+					triggeringEvent
+				}
+				... on EntityManagementIncidentLinkEntity {
+					__typename
+					externalId
+					sourceSyncConfigurationId
+					url
+				}
+				... on EntityManagementIncidentMessageEntity {
+					__typename
+					content
+					contentEncoding
+					contentType
+					externalId
+					parentId
+					sourceSyncConfigurationId
+				}
+				... on EntityManagementIncidentProfileAttachmentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementIncidentProfileEntity {
+					__typename
+				}
+				... on EntityManagementIncidentTimelineEntity {
+					__typename
+					content
+					entryType
+					source
+				}
+				... on EntityManagementJiraConnection {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementJiraSyncConfiguration {
+					__typename
+					assigneeQuery
+					connection
+					correlationFieldName
+					description
+					direction
+					enabled
+					issueType
+					mode
+					projectKey
+				}
+				... on EntityManagementJiraSyncConfigurationV2Entity {
+					__typename
+					bidirectional
+					connection
+					description
+					enabled
+					issueType
+					mode
+					projectKey
+				}
+				... on EntityManagementJuniperMistConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementMaintenanceWindowEntity {
+					__typename
+					affectedEntityType
+					description
+					duration
+					rrule
+					startTime
+					timezone
+				}
+				... on EntityManagementManagedEvaluationsEntity {
+					__typename
+					description
+				}
+				... on EntityManagementMcpServerEntity {
+					__typename
+					description
+					displayName
+					endpoint
+					protocolVersion
+					transport
+				}
+				... on EntityManagementMeterEntity {
+					__typename
+					description
+				}
+				... on EntityManagementMeterTypeEntity {
+					__typename
+					allowMeterCreation
+					attributionDimensions
+					description
+				}
+				... on EntityManagementNewRelicConnection {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementNotebookEntity {
+					__typename
+				}
+				... on EntityManagementNotificationAttachmentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementNrAiAgentEntity {
+					__typename
+					displayName
+					version
+				}
+				... on EntityManagementNrqlMacroEntity {
+					__typename
+					expression
+					numParameters
+				}
+				... on EntityManagementOperationEntity {
+					__typename
+				}
+				... on EntityManagementOperationMetricEntity {
+					__typename
+				}
+				... on EntityManagementPerformanceInboxSettingEntity {
+					__typename
+					thresholdScope
+				}
+				... on EntityManagementPipelineCloudRuleEntity {
+					__typename
+					description
+					enabled
+					nrql
+				}
+				... on EntityManagementProductLineEntity {
+					__typename
+					description
+				}
+				... on EntityManagementRagDocumentEntity {
+					__typename
+					authorEmails
+					sourceIdentifier
+				}
+				... on EntityManagementRagToolEntity {
+					__typename
+					description
+				}
+				... on EntityManagementReactNativeSourcemapEntity {
+					__typename
+					appVersionId
+					applicationId
+					jsBundleId
+				}
+				... on EntityManagementRestApiContractEntity {
+					__typename
+				}
+				... on EntityManagementScorecardEntity {
+					__typename
+					description
+				}
+				... on EntityManagementScorecardRuleEntity {
+					__typename
+					description
+					enabled
+					impactWeight
+					progressLevel
+				}
+				... on EntityManagementSegmentTermsEntity {
+					__typename
+					accountId
+					agentId
+					domain
+					entityGuid
+					metricPrefix
+					oldId
+					segmentTerms
+				}
+				... on EntityManagementServerlessJobDefinitionEntity {
+					__typename
+					description
+				}
+				... on EntityManagementServiceNowConnection {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementSlackConnection {
+					__typename
+					appId
+					description
+					enabled
+					externalId
+					workspace
+				}
+				... on EntityManagementSlackSyncConfiguration {
+					__typename
+					channelIdPayloadPath
+					connection
+					description
+					direction
+					enabled
+					mode
+				}
+				... on EntityManagementStatusPageAnnouncementEntity {
+					__typename
+					category
+					description
+					effectiveDate
+					eventUrl
+					publishedDate
+					state
+				}
+				... on EntityManagementStatusPageIncidentEntity {
+					__typename
+					description
+					endTime
+					incidentId
+					incidentTitle
+					lastUpdatedTime
+					region
+					startTime
+					status
+				}
+				... on EntityManagementTeamEntity {
+					__typename
+					aliases
+					description
+				}
+				... on EntityManagementTeamsHierarchyLevelEntity {
+					__typename
+				}
+				... on EntityManagementTeamsOrganizationSettingsEntity {
+					__typename
+				}
+				... on EntityManagementUserEntity {
+					__typename
+					userId
+				}
+				... on EntityManagementWorkItem {
+					__typename
+					category
+					description
+					dueDate
+					externalId
+					labels
+					priority
+					status
+				}
+				... on EntityManagementWorkItemLink {
+					__typename
+					externalId
+					sourceSyncConfigurationId
+					url
+				}
+				... on EntityManagementWorkItemLinkV2Entity {
+					__typename
+					externalId
+					sourceSyncConfigurationId
+					url
+				}
+				... on EntityManagementWorkItemMessage {
+					__typename
+					content
+					contentEncoding
+					contentType
+					externalId
+					parentId
+					sourceSyncConfigurationId
+				}
+				... on EntityManagementWorkItemMessageV2Entity {
+					__typename
+					content
+					contentEncoding
+					contentType
+					externalId
+					parentId
+					sourceSyncConfigurationId
+				}
+				... on EntityManagementWorkItemV2Entity {
+					__typename
+					category
+					description
+					dueDate
+					externalId
+					labels
+					priority
+					status
+				}
+				... on EntityManagementWorkflowDefinition {
+					__typename
+					description
+					versions
+				}
+				... on EntityManagementWorkflowSchedule {
+					__typename
+					cronExpression
+					description
+					overlapPolicy
+					timezone
+				}
+				... on EntityManagementZoomConnectionEntity {
+					__typename
+					description
+					enabled
+				}
+			}
+			scope {
+				id
+				type
+			}
+			status
+			tags {
+				key
+				values
+			}
+			type
+		}
+		status
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementFederatedLogSetupEntity {
+		__typename
+		cloudProvider
+		cloudProviderRegion
+		dataLocationBucket
+		dataProcessingComponent {
+			__typename
+			id
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			name
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			type
+			... on EntityManagementAgentConfigurationEntity {
+				__typename
+				agentType
+				configurationType
+				managedEntityType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				operatingSystem {
+					type
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				versionCount
+			}
+			... on EntityManagementAgentConfigurationVersionEntity {
+				__typename
+				agentConfiguration
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				version
+			}
+			... on EntityManagementAgentEffectiveConfigurationEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementAgentEntity {
+				__typename
+				agentType
+				fleetControlProperties {
+					disconnectedReceived
+					environment
+					healthy
+					lastError
+					lastRemoteConfigError
+					lastRemoteConfigStatus
+					startTime
+					uid
+					version
+				}
+				infrastructureManagers {
+					type
+					version
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				version
+			}
+			... on EntityManagementAiAgentEntity {
+				__typename
+				category
+				description
+				displayName
+				initialized
+				llmConfig {
+					cacheSeed
+					model
+					temperature
+				}
+				mcpServers {
+					excludeTools
+					includeTools
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				prompt
+				provider
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				test
+			}
+			... on EntityManagementAiCapableEntity {
+				__typename
+				category
+				language
+				lastSeen
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				toolType
+				toolVersion
+			}
+			... on EntityManagementAiEvaluationConfigEntity {
+				__typename
+				description
+				managedEvaluationsEntity {
+					description
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				samplingRate
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementAiToolEntity {
+				__typename
+				description
+				initialized
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				parameters {
+					description
+					name
+					type
+				}
+				provider
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				test
+				toolType
+				url
+			}
+			... on EntityManagementApiSpecificationBlobEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementAwsConnectionEntity {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				region
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementBackgroundProcessingRuleEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				query {
+					nrql
+				}
+				ruleType
+				schedule {
+					cronExpression
+					enabled
+					period
+					scheduleAt
+				}
+				scope {
+					id
+					type
+				}
+				state {
+					message
+					status
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementBackgroundSqlProcessingRuleEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				query {
+					outputTarget
+					sql
+				}
+				schedule {
+					cronExpression
+					enabled
+					period
+					scheduleAt
+				}
+				scope {
+					id
+					type
+				}
+				state {
+					message
+					status
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementBudgetEntity {
+				__typename
+				budgetAlertPolicies {
+					id
+				}
+				budgetLimits {
+					consumptionMetric
+					value
+				}
+				budgetType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				organizationBudget
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementCiscoMerakiConnectionEntity {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				region
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementCollectionEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementComponentEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementComputeLocationEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementConfluenceConnectionEntity {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementConfluenceIntegration {
+				__typename
+				confluenceUserId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				secretKey
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementConfluenceRagSettingsEntity {
+				__typename
+				characterTextSplitterOptions {
+					isSeparatorRegex
+					separator
+				}
+				chunkOverlap
+				chunkSize
+				confluenceIntegrationId
+				confluenceQuery
+				intervalSeconds
+				lastPullTime
+				markdownTextSplitterOptions {
+					headersToSplitOn
+					returnEachLine
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nextPullTime
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				textSplitterType
+				tokenTextSplitterOptions {
+					encodingName
+				}
+			}
+			... on EntityManagementCorrelationInternalSourceConfigEntity {
+				__typename
+				accountId
+				alias
+				filterId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				namespaces
+				nrql
+				outputTopic
+				scope {
+					id
+					type
+				}
+				source
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementCorrelationLinkEntity {
+				__typename
+				context {
+					confidence
+					messages
+					ruleId
+				}
+				directional
+				linkType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				overrideInfo {
+					action
+					timestamp
+					userId
+				}
+				scope {
+					id
+					type
+				}
+				source {
+					accountId
+					eventId
+					eventType
+				}
+				tags {
+					key
+					values
+				}
+				target {
+					accountId
+					eventId
+					eventType
+				}
+			}
+			... on EntityManagementCorrelationLinkingRuleEntity {
+				__typename
+				criteria {
+					topologyProximity
+				}
+				description
+				enabled
+				linkingConfig {
+					directional
+					linkType
+					sourceAlias
+					targetAlias
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				subjects {
+					accountIds
+					alias
+					nrql
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementCustomEvaluationEntity {
+				__typename
+				criteria
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				model
+				parameters
+				scope {
+					id
+					type
+				}
+				steps
+				tags {
+					key
+					values
+				}
+				threshold
+			}
+			... on EntityManagementCustomerImpactEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				components {
+					description
+					id
+					name
+					type
+				}
+				issueId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementCustomerImpactQueryEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				products {
+					description
+					id
+					name
+					type
+				}
+				query
+				queryAccountId
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				teamName
+				totalCustImpactQueryAccountIds
+				totalCustomerImpactQuery
+			}
+			... on EntityManagementEventBridgeRuleEntity {
+				__typename
+				conditions {
+					field
+				}
+				description
+				enabled
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				sourceType {
+					event
+					name
+				}
+				tags {
+					key
+					values
+				}
+				targets {
+					name
+					type
+				}
+			}
+			... on EntityManagementFederatedLogPartitionEntity {
+				__typename
+				dataLocationUri
+				description
+				isDefault
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				partitionDatabase
+				partitionTable
+				retentionPolicy {
+					duration
+					unit
+				}
+				scope {
+					id
+					type
+				}
+				setup {
+					cloudProvider
+					cloudProviderRegion
+					dataLocationBucket
+					description
+					id
+					name
+					nrAccountId
+					nrRegion
+					status
+					type
+				}
+				status
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementFederatedLogSetupEntity {
+				__typename
+				cloudProvider
+				cloudProviderRegion
+				dataLocationBucket
+				dataProcessingComponent {
+					__typename
+					id
+					name
+					type
+					... on EntityManagementAgentConfigurationEntity {
+						__typename
+						agentType
+						configurationType
+						managedEntityType
+						versionCount
+					}
+					... on EntityManagementAgentConfigurationVersionEntity {
+						__typename
+						agentConfiguration
+						version
+					}
+					... on EntityManagementAgentEffectiveConfigurationEntity {
+						__typename
+					}
+					... on EntityManagementAgentEntity {
+						__typename
+						agentType
+						version
+					}
+					... on EntityManagementAiAgentEntity {
+						__typename
+						category
+						description
+						displayName
+						initialized
+						prompt
+						provider
+						test
+					}
+					... on EntityManagementAiCapableEntity {
+						__typename
+						category
+						language
+						lastSeen
+						toolType
+						toolVersion
+					}
+					... on EntityManagementAiEvaluationConfigEntity {
+						__typename
+						description
+						samplingRate
+					}
+					... on EntityManagementAiToolEntity {
+						__typename
+						description
+						initialized
+						provider
+						test
+						toolType
+						url
+					}
+					... on EntityManagementApiSpecificationBlobEntity {
+						__typename
+						description
+					}
+					... on EntityManagementAwsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementBackgroundProcessingRuleEntity {
+						__typename
+						description
+						ruleType
+					}
+					... on EntityManagementBackgroundSqlProcessingRuleEntity {
+						__typename
+						description
+					}
+					... on EntityManagementBudgetEntity {
+						__typename
+						budgetType
+						organizationBudget
+					}
+					... on EntityManagementCiscoMerakiConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementCollectionEntity {
+						__typename
+					}
+					... on EntityManagementComponentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementComputeLocationEntity {
+						__typename
+						description
+					}
+					... on EntityManagementConfluenceConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+					}
+					... on EntityManagementConfluenceIntegration {
+						__typename
+						confluenceUserId
+						secretKey
+						url
+					}
+					... on EntityManagementConfluenceRagSettingsEntity {
+						__typename
+						chunkOverlap
+						chunkSize
+						confluenceIntegrationId
+						confluenceQuery
+						intervalSeconds
+						lastPullTime
+						nextPullTime
+						textSplitterType
+					}
+					... on EntityManagementCorrelationInternalSourceConfigEntity {
+						__typename
+						accountId
+						alias
+						filterId
+						namespaces
+						nrql
+						outputTopic
+						source
+					}
+					... on EntityManagementCorrelationLinkEntity {
+						__typename
+						directional
+						linkType
+					}
+					... on EntityManagementCorrelationLinkingRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementCustomEvaluationEntity {
+						__typename
+						criteria
+						description
+						model
+						parameters
+						steps
+						threshold
+					}
+					... on EntityManagementCustomerImpactEntity {
+						__typename
+						issueId
+					}
+					... on EntityManagementCustomerImpactQueryEntity {
+						__typename
+						query
+						queryAccountId
+						teamName
+						totalCustImpactQueryAccountIds
+						totalCustomerImpactQuery
+					}
+					... on EntityManagementEventBridgeRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementFederatedLogPartitionEntity {
+						__typename
+						dataLocationUri
+						description
+						isDefault
+						partitionDatabase
+						partitionTable
+						status
+					}
+					... on EntityManagementFederatedLogSetupEntity {
+						__typename
+						cloudProvider
+						cloudProviderRegion
+						dataLocationBucket
+						description
+						nrAccountId
+						nrRegion
+						status
+					}
+					... on EntityManagementFleetDeploymentEntity {
+						__typename
+						configurationVersions
+						description
+						fleetId
+						phase
+					}
+					... on EntityManagementFleetEntity {
+						__typename
+						description
+						managedEntityType
+						product
+					}
+					... on EntityManagementFleetRingEntity {
+						__typename
+						fleetId
+					}
+					... on EntityManagementFlowEntity {
+						__typename
+					}
+					... on EntityManagementGenericEntity {
+						__typename
+					}
+					... on EntityManagementGitHubIntegrationEntity {
+						__typename
+						installationId
+						installationSource
+						installationStatus
+						lastSyncCompletedAt
+						nextSyncAt
+					}
+					... on EntityManagementGitRepositoryEntity {
+						__typename
+						closedPullRequestCount
+						description
+						externalCreatedAt
+						externalId
+						externalLastDeployedAt
+						externalUpdatedAt
+						forkCount
+						hostingPlatform
+						latestReleaseVersion
+						lockedPullRequestCount
+						openPullRequestCount
+						primaryLanguage
+						url
+					}
+					... on EntityManagementGithubConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementImpactProfileEntity {
+						__typename
+					}
+					... on EntityManagementInboxIssueCategoryEntity {
+						__typename
+						categoryType
+						issueType
+						messageAttributes
+						nameAttributes
+					}
+					... on EntityManagementIncidentAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentEntity {
+						__typename
+						category
+						customerImpact
+						description
+						dueDate
+						entitiesImpacted
+						externalId
+						incidentCategory
+						incidentKey
+						incidentProfileId
+						incidentSubcategory
+						issueLinks
+						labels
+						lessonsLearned
+						maxSeverity
+						priority
+						reportedBy
+						resolutionCategory
+						resolutionSummary
+						retroActionItems
+						rootCauseSummary
+						rootCauseTags
+						severity
+						source
+						status
+						triggeringEvent
+					}
+					... on EntityManagementIncidentLinkEntity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementIncidentMessageEntity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementIncidentProfileAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentProfileEntity {
+						__typename
+					}
+					... on EntityManagementIncidentTimelineEntity {
+						__typename
+						content
+						entryType
+						source
+					}
+					... on EntityManagementJiraConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementJiraSyncConfiguration {
+						__typename
+						assigneeQuery
+						connection
+						correlationFieldName
+						description
+						direction
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJiraSyncConfigurationV2Entity {
+						__typename
+						bidirectional
+						connection
+						description
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJuniperMistConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementMaintenanceWindowEntity {
+						__typename
+						affectedEntityType
+						description
+						duration
+						rrule
+						startTime
+						timezone
+					}
+					... on EntityManagementManagedEvaluationsEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMcpServerEntity {
+						__typename
+						description
+						displayName
+						endpoint
+						protocolVersion
+						transport
+					}
+					... on EntityManagementMeterEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMeterTypeEntity {
+						__typename
+						allowMeterCreation
+						attributionDimensions
+						description
+					}
+					... on EntityManagementNewRelicConnection {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementNotebookEntity {
+						__typename
+					}
+					... on EntityManagementNotificationAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementNrAiAgentEntity {
+						__typename
+						displayName
+						version
+					}
+					... on EntityManagementNrqlMacroEntity {
+						__typename
+						expression
+						numParameters
+					}
+					... on EntityManagementOperationEntity {
+						__typename
+					}
+					... on EntityManagementOperationMetricEntity {
+						__typename
+					}
+					... on EntityManagementPerformanceInboxSettingEntity {
+						__typename
+						thresholdScope
+					}
+					... on EntityManagementPipelineCloudRuleEntity {
+						__typename
+						description
+						enabled
+						nrql
+					}
+					... on EntityManagementProductLineEntity {
+						__typename
+						description
+					}
+					... on EntityManagementRagDocumentEntity {
+						__typename
+						authorEmails
+						sourceIdentifier
+					}
+					... on EntityManagementRagToolEntity {
+						__typename
+						description
+					}
+					... on EntityManagementReactNativeSourcemapEntity {
+						__typename
+						appVersionId
+						applicationId
+						jsBundleId
+					}
+					... on EntityManagementRestApiContractEntity {
+						__typename
+					}
+					... on EntityManagementScorecardEntity {
+						__typename
+						description
+					}
+					... on EntityManagementScorecardRuleEntity {
+						__typename
+						description
+						enabled
+						impactWeight
+						progressLevel
+					}
+					... on EntityManagementSegmentTermsEntity {
+						__typename
+						accountId
+						agentId
+						domain
+						entityGuid
+						metricPrefix
+						oldId
+						segmentTerms
+					}
+					... on EntityManagementServerlessJobDefinitionEntity {
+						__typename
+						description
+					}
+					... on EntityManagementServiceNowConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementSlackConnection {
+						__typename
+						appId
+						description
+						enabled
+						externalId
+						workspace
+					}
+					... on EntityManagementSlackSyncConfiguration {
+						__typename
+						channelIdPayloadPath
+						connection
+						description
+						direction
+						enabled
+						mode
+					}
+					... on EntityManagementStatusPageAnnouncementEntity {
+						__typename
+						category
+						description
+						effectiveDate
+						eventUrl
+						publishedDate
+						state
+					}
+					... on EntityManagementStatusPageIncidentEntity {
+						__typename
+						description
+						endTime
+						incidentId
+						incidentTitle
+						lastUpdatedTime
+						region
+						startTime
+						status
+					}
+					... on EntityManagementTeamEntity {
+						__typename
+						aliases
+						description
+					}
+					... on EntityManagementTeamsHierarchyLevelEntity {
+						__typename
+					}
+					... on EntityManagementTeamsOrganizationSettingsEntity {
+						__typename
+					}
+					... on EntityManagementUserEntity {
+						__typename
+						userId
+					}
+					... on EntityManagementWorkItem {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkItemLink {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemLinkV2Entity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemMessage {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemMessageV2Entity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemV2Entity {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkflowDefinition {
+						__typename
+						description
+						versions
+					}
+					... on EntityManagementWorkflowSchedule {
+						__typename
+						cronExpression
+						description
+						overlapPolicy
+						timezone
+					}
+					... on EntityManagementZoomConnectionEntity {
+						__typename
+						description
+						enabled
+					}
+				}
+				dataProcessingConnection {
+					__typename
+					id
+					name
+					type
+					... on EntityManagementAgentConfigurationEntity {
+						__typename
+						agentType
+						configurationType
+						managedEntityType
+						versionCount
+					}
+					... on EntityManagementAgentConfigurationVersionEntity {
+						__typename
+						agentConfiguration
+						version
+					}
+					... on EntityManagementAgentEffectiveConfigurationEntity {
+						__typename
+					}
+					... on EntityManagementAgentEntity {
+						__typename
+						agentType
+						version
+					}
+					... on EntityManagementAiAgentEntity {
+						__typename
+						category
+						description
+						displayName
+						initialized
+						prompt
+						provider
+						test
+					}
+					... on EntityManagementAiCapableEntity {
+						__typename
+						category
+						language
+						lastSeen
+						toolType
+						toolVersion
+					}
+					... on EntityManagementAiEvaluationConfigEntity {
+						__typename
+						description
+						samplingRate
+					}
+					... on EntityManagementAiToolEntity {
+						__typename
+						description
+						initialized
+						provider
+						test
+						toolType
+						url
+					}
+					... on EntityManagementApiSpecificationBlobEntity {
+						__typename
+						description
+					}
+					... on EntityManagementAwsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementBackgroundProcessingRuleEntity {
+						__typename
+						description
+						ruleType
+					}
+					... on EntityManagementBackgroundSqlProcessingRuleEntity {
+						__typename
+						description
+					}
+					... on EntityManagementBudgetEntity {
+						__typename
+						budgetType
+						organizationBudget
+					}
+					... on EntityManagementCiscoMerakiConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementCollectionEntity {
+						__typename
+					}
+					... on EntityManagementComponentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementComputeLocationEntity {
+						__typename
+						description
+					}
+					... on EntityManagementConfluenceConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+					}
+					... on EntityManagementConfluenceIntegration {
+						__typename
+						confluenceUserId
+						secretKey
+						url
+					}
+					... on EntityManagementConfluenceRagSettingsEntity {
+						__typename
+						chunkOverlap
+						chunkSize
+						confluenceIntegrationId
+						confluenceQuery
+						intervalSeconds
+						lastPullTime
+						nextPullTime
+						textSplitterType
+					}
+					... on EntityManagementCorrelationInternalSourceConfigEntity {
+						__typename
+						accountId
+						alias
+						filterId
+						namespaces
+						nrql
+						outputTopic
+						source
+					}
+					... on EntityManagementCorrelationLinkEntity {
+						__typename
+						directional
+						linkType
+					}
+					... on EntityManagementCorrelationLinkingRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementCustomEvaluationEntity {
+						__typename
+						criteria
+						description
+						model
+						parameters
+						steps
+						threshold
+					}
+					... on EntityManagementCustomerImpactEntity {
+						__typename
+						issueId
+					}
+					... on EntityManagementCustomerImpactQueryEntity {
+						__typename
+						query
+						queryAccountId
+						teamName
+						totalCustImpactQueryAccountIds
+						totalCustomerImpactQuery
+					}
+					... on EntityManagementEventBridgeRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementFederatedLogPartitionEntity {
+						__typename
+						dataLocationUri
+						description
+						isDefault
+						partitionDatabase
+						partitionTable
+						status
+					}
+					... on EntityManagementFederatedLogSetupEntity {
+						__typename
+						cloudProvider
+						cloudProviderRegion
+						dataLocationBucket
+						description
+						nrAccountId
+						nrRegion
+						status
+					}
+					... on EntityManagementFleetDeploymentEntity {
+						__typename
+						configurationVersions
+						description
+						fleetId
+						phase
+					}
+					... on EntityManagementFleetEntity {
+						__typename
+						description
+						managedEntityType
+						product
+					}
+					... on EntityManagementFleetRingEntity {
+						__typename
+						fleetId
+					}
+					... on EntityManagementFlowEntity {
+						__typename
+					}
+					... on EntityManagementGenericEntity {
+						__typename
+					}
+					... on EntityManagementGitHubIntegrationEntity {
+						__typename
+						installationId
+						installationSource
+						installationStatus
+						lastSyncCompletedAt
+						nextSyncAt
+					}
+					... on EntityManagementGitRepositoryEntity {
+						__typename
+						closedPullRequestCount
+						description
+						externalCreatedAt
+						externalId
+						externalLastDeployedAt
+						externalUpdatedAt
+						forkCount
+						hostingPlatform
+						latestReleaseVersion
+						lockedPullRequestCount
+						openPullRequestCount
+						primaryLanguage
+						url
+					}
+					... on EntityManagementGithubConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementImpactProfileEntity {
+						__typename
+					}
+					... on EntityManagementInboxIssueCategoryEntity {
+						__typename
+						categoryType
+						issueType
+						messageAttributes
+						nameAttributes
+					}
+					... on EntityManagementIncidentAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentEntity {
+						__typename
+						category
+						customerImpact
+						description
+						dueDate
+						entitiesImpacted
+						externalId
+						incidentCategory
+						incidentKey
+						incidentProfileId
+						incidentSubcategory
+						issueLinks
+						labels
+						lessonsLearned
+						maxSeverity
+						priority
+						reportedBy
+						resolutionCategory
+						resolutionSummary
+						retroActionItems
+						rootCauseSummary
+						rootCauseTags
+						severity
+						source
+						status
+						triggeringEvent
+					}
+					... on EntityManagementIncidentLinkEntity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementIncidentMessageEntity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementIncidentProfileAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentProfileEntity {
+						__typename
+					}
+					... on EntityManagementIncidentTimelineEntity {
+						__typename
+						content
+						entryType
+						source
+					}
+					... on EntityManagementJiraConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementJiraSyncConfiguration {
+						__typename
+						assigneeQuery
+						connection
+						correlationFieldName
+						description
+						direction
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJiraSyncConfigurationV2Entity {
+						__typename
+						bidirectional
+						connection
+						description
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJuniperMistConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementMaintenanceWindowEntity {
+						__typename
+						affectedEntityType
+						description
+						duration
+						rrule
+						startTime
+						timezone
+					}
+					... on EntityManagementManagedEvaluationsEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMcpServerEntity {
+						__typename
+						description
+						displayName
+						endpoint
+						protocolVersion
+						transport
+					}
+					... on EntityManagementMeterEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMeterTypeEntity {
+						__typename
+						allowMeterCreation
+						attributionDimensions
+						description
+					}
+					... on EntityManagementNewRelicConnection {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementNotebookEntity {
+						__typename
+					}
+					... on EntityManagementNotificationAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementNrAiAgentEntity {
+						__typename
+						displayName
+						version
+					}
+					... on EntityManagementNrqlMacroEntity {
+						__typename
+						expression
+						numParameters
+					}
+					... on EntityManagementOperationEntity {
+						__typename
+					}
+					... on EntityManagementOperationMetricEntity {
+						__typename
+					}
+					... on EntityManagementPerformanceInboxSettingEntity {
+						__typename
+						thresholdScope
+					}
+					... on EntityManagementPipelineCloudRuleEntity {
+						__typename
+						description
+						enabled
+						nrql
+					}
+					... on EntityManagementProductLineEntity {
+						__typename
+						description
+					}
+					... on EntityManagementRagDocumentEntity {
+						__typename
+						authorEmails
+						sourceIdentifier
+					}
+					... on EntityManagementRagToolEntity {
+						__typename
+						description
+					}
+					... on EntityManagementReactNativeSourcemapEntity {
+						__typename
+						appVersionId
+						applicationId
+						jsBundleId
+					}
+					... on EntityManagementRestApiContractEntity {
+						__typename
+					}
+					... on EntityManagementScorecardEntity {
+						__typename
+						description
+					}
+					... on EntityManagementScorecardRuleEntity {
+						__typename
+						description
+						enabled
+						impactWeight
+						progressLevel
+					}
+					... on EntityManagementSegmentTermsEntity {
+						__typename
+						accountId
+						agentId
+						domain
+						entityGuid
+						metricPrefix
+						oldId
+						segmentTerms
+					}
+					... on EntityManagementServerlessJobDefinitionEntity {
+						__typename
+						description
+					}
+					... on EntityManagementServiceNowConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementSlackConnection {
+						__typename
+						appId
+						description
+						enabled
+						externalId
+						workspace
+					}
+					... on EntityManagementSlackSyncConfiguration {
+						__typename
+						channelIdPayloadPath
+						connection
+						description
+						direction
+						enabled
+						mode
+					}
+					... on EntityManagementStatusPageAnnouncementEntity {
+						__typename
+						category
+						description
+						effectiveDate
+						eventUrl
+						publishedDate
+						state
+					}
+					... on EntityManagementStatusPageIncidentEntity {
+						__typename
+						description
+						endTime
+						incidentId
+						incidentTitle
+						lastUpdatedTime
+						region
+						startTime
+						status
+					}
+					... on EntityManagementTeamEntity {
+						__typename
+						aliases
+						description
+					}
+					... on EntityManagementTeamsHierarchyLevelEntity {
+						__typename
+					}
+					... on EntityManagementTeamsOrganizationSettingsEntity {
+						__typename
+					}
+					... on EntityManagementUserEntity {
+						__typename
+						userId
+					}
+					... on EntityManagementWorkItem {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkItemLink {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemLinkV2Entity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemMessage {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemMessageV2Entity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemV2Entity {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkflowDefinition {
+						__typename
+						description
+						versions
+					}
+					... on EntityManagementWorkflowSchedule {
+						__typename
+						cronExpression
+						description
+						overlapPolicy
+						timezone
+					}
+					... on EntityManagementZoomConnectionEntity {
+						__typename
+						description
+						enabled
+					}
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nrAccountId
+				nrRegion
+				queryConnection {
+					__typename
+					id
+					name
+					type
+					... on EntityManagementAgentConfigurationEntity {
+						__typename
+						agentType
+						configurationType
+						managedEntityType
+						versionCount
+					}
+					... on EntityManagementAgentConfigurationVersionEntity {
+						__typename
+						agentConfiguration
+						version
+					}
+					... on EntityManagementAgentEffectiveConfigurationEntity {
+						__typename
+					}
+					... on EntityManagementAgentEntity {
+						__typename
+						agentType
+						version
+					}
+					... on EntityManagementAiAgentEntity {
+						__typename
+						category
+						description
+						displayName
+						initialized
+						prompt
+						provider
+						test
+					}
+					... on EntityManagementAiCapableEntity {
+						__typename
+						category
+						language
+						lastSeen
+						toolType
+						toolVersion
+					}
+					... on EntityManagementAiEvaluationConfigEntity {
+						__typename
+						description
+						samplingRate
+					}
+					... on EntityManagementAiToolEntity {
+						__typename
+						description
+						initialized
+						provider
+						test
+						toolType
+						url
+					}
+					... on EntityManagementApiSpecificationBlobEntity {
+						__typename
+						description
+					}
+					... on EntityManagementAwsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementBackgroundProcessingRuleEntity {
+						__typename
+						description
+						ruleType
+					}
+					... on EntityManagementBackgroundSqlProcessingRuleEntity {
+						__typename
+						description
+					}
+					... on EntityManagementBudgetEntity {
+						__typename
+						budgetType
+						organizationBudget
+					}
+					... on EntityManagementCiscoMerakiConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementCollectionEntity {
+						__typename
+					}
+					... on EntityManagementComponentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementComputeLocationEntity {
+						__typename
+						description
+					}
+					... on EntityManagementConfluenceConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+					}
+					... on EntityManagementConfluenceIntegration {
+						__typename
+						confluenceUserId
+						secretKey
+						url
+					}
+					... on EntityManagementConfluenceRagSettingsEntity {
+						__typename
+						chunkOverlap
+						chunkSize
+						confluenceIntegrationId
+						confluenceQuery
+						intervalSeconds
+						lastPullTime
+						nextPullTime
+						textSplitterType
+					}
+					... on EntityManagementCorrelationInternalSourceConfigEntity {
+						__typename
+						accountId
+						alias
+						filterId
+						namespaces
+						nrql
+						outputTopic
+						source
+					}
+					... on EntityManagementCorrelationLinkEntity {
+						__typename
+						directional
+						linkType
+					}
+					... on EntityManagementCorrelationLinkingRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementCustomEvaluationEntity {
+						__typename
+						criteria
+						description
+						model
+						parameters
+						steps
+						threshold
+					}
+					... on EntityManagementCustomerImpactEntity {
+						__typename
+						issueId
+					}
+					... on EntityManagementCustomerImpactQueryEntity {
+						__typename
+						query
+						queryAccountId
+						teamName
+						totalCustImpactQueryAccountIds
+						totalCustomerImpactQuery
+					}
+					... on EntityManagementEventBridgeRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementFederatedLogPartitionEntity {
+						__typename
+						dataLocationUri
+						description
+						isDefault
+						partitionDatabase
+						partitionTable
+						status
+					}
+					... on EntityManagementFederatedLogSetupEntity {
+						__typename
+						cloudProvider
+						cloudProviderRegion
+						dataLocationBucket
+						description
+						nrAccountId
+						nrRegion
+						status
+					}
+					... on EntityManagementFleetDeploymentEntity {
+						__typename
+						configurationVersions
+						description
+						fleetId
+						phase
+					}
+					... on EntityManagementFleetEntity {
+						__typename
+						description
+						managedEntityType
+						product
+					}
+					... on EntityManagementFleetRingEntity {
+						__typename
+						fleetId
+					}
+					... on EntityManagementFlowEntity {
+						__typename
+					}
+					... on EntityManagementGenericEntity {
+						__typename
+					}
+					... on EntityManagementGitHubIntegrationEntity {
+						__typename
+						installationId
+						installationSource
+						installationStatus
+						lastSyncCompletedAt
+						nextSyncAt
+					}
+					... on EntityManagementGitRepositoryEntity {
+						__typename
+						closedPullRequestCount
+						description
+						externalCreatedAt
+						externalId
+						externalLastDeployedAt
+						externalUpdatedAt
+						forkCount
+						hostingPlatform
+						latestReleaseVersion
+						lockedPullRequestCount
+						openPullRequestCount
+						primaryLanguage
+						url
+					}
+					... on EntityManagementGithubConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementImpactProfileEntity {
+						__typename
+					}
+					... on EntityManagementInboxIssueCategoryEntity {
+						__typename
+						categoryType
+						issueType
+						messageAttributes
+						nameAttributes
+					}
+					... on EntityManagementIncidentAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentEntity {
+						__typename
+						category
+						customerImpact
+						description
+						dueDate
+						entitiesImpacted
+						externalId
+						incidentCategory
+						incidentKey
+						incidentProfileId
+						incidentSubcategory
+						issueLinks
+						labels
+						lessonsLearned
+						maxSeverity
+						priority
+						reportedBy
+						resolutionCategory
+						resolutionSummary
+						retroActionItems
+						rootCauseSummary
+						rootCauseTags
+						severity
+						source
+						status
+						triggeringEvent
+					}
+					... on EntityManagementIncidentLinkEntity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementIncidentMessageEntity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementIncidentProfileAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentProfileEntity {
+						__typename
+					}
+					... on EntityManagementIncidentTimelineEntity {
+						__typename
+						content
+						entryType
+						source
+					}
+					... on EntityManagementJiraConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementJiraSyncConfiguration {
+						__typename
+						assigneeQuery
+						connection
+						correlationFieldName
+						description
+						direction
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJiraSyncConfigurationV2Entity {
+						__typename
+						bidirectional
+						connection
+						description
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJuniperMistConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementMaintenanceWindowEntity {
+						__typename
+						affectedEntityType
+						description
+						duration
+						rrule
+						startTime
+						timezone
+					}
+					... on EntityManagementManagedEvaluationsEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMcpServerEntity {
+						__typename
+						description
+						displayName
+						endpoint
+						protocolVersion
+						transport
+					}
+					... on EntityManagementMeterEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMeterTypeEntity {
+						__typename
+						allowMeterCreation
+						attributionDimensions
+						description
+					}
+					... on EntityManagementNewRelicConnection {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementNotebookEntity {
+						__typename
+					}
+					... on EntityManagementNotificationAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementNrAiAgentEntity {
+						__typename
+						displayName
+						version
+					}
+					... on EntityManagementNrqlMacroEntity {
+						__typename
+						expression
+						numParameters
+					}
+					... on EntityManagementOperationEntity {
+						__typename
+					}
+					... on EntityManagementOperationMetricEntity {
+						__typename
+					}
+					... on EntityManagementPerformanceInboxSettingEntity {
+						__typename
+						thresholdScope
+					}
+					... on EntityManagementPipelineCloudRuleEntity {
+						__typename
+						description
+						enabled
+						nrql
+					}
+					... on EntityManagementProductLineEntity {
+						__typename
+						description
+					}
+					... on EntityManagementRagDocumentEntity {
+						__typename
+						authorEmails
+						sourceIdentifier
+					}
+					... on EntityManagementRagToolEntity {
+						__typename
+						description
+					}
+					... on EntityManagementReactNativeSourcemapEntity {
+						__typename
+						appVersionId
+						applicationId
+						jsBundleId
+					}
+					... on EntityManagementRestApiContractEntity {
+						__typename
+					}
+					... on EntityManagementScorecardEntity {
+						__typename
+						description
+					}
+					... on EntityManagementScorecardRuleEntity {
+						__typename
+						description
+						enabled
+						impactWeight
+						progressLevel
+					}
+					... on EntityManagementSegmentTermsEntity {
+						__typename
+						accountId
+						agentId
+						domain
+						entityGuid
+						metricPrefix
+						oldId
+						segmentTerms
+					}
+					... on EntityManagementServerlessJobDefinitionEntity {
+						__typename
+						description
+					}
+					... on EntityManagementServiceNowConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementSlackConnection {
+						__typename
+						appId
+						description
+						enabled
+						externalId
+						workspace
+					}
+					... on EntityManagementSlackSyncConfiguration {
+						__typename
+						channelIdPayloadPath
+						connection
+						description
+						direction
+						enabled
+						mode
+					}
+					... on EntityManagementStatusPageAnnouncementEntity {
+						__typename
+						category
+						description
+						effectiveDate
+						eventUrl
+						publishedDate
+						state
+					}
+					... on EntityManagementStatusPageIncidentEntity {
+						__typename
+						description
+						endTime
+						incidentId
+						incidentTitle
+						lastUpdatedTime
+						region
+						startTime
+						status
+					}
+					... on EntityManagementTeamEntity {
+						__typename
+						aliases
+						description
+					}
+					... on EntityManagementTeamsHierarchyLevelEntity {
+						__typename
+					}
+					... on EntityManagementTeamsOrganizationSettingsEntity {
+						__typename
+					}
+					... on EntityManagementUserEntity {
+						__typename
+						userId
+					}
+					... on EntityManagementWorkItem {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkItemLink {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemLinkV2Entity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemMessage {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemMessageV2Entity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemV2Entity {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkflowDefinition {
+						__typename
+						description
+						versions
+					}
+					... on EntityManagementWorkflowSchedule {
+						__typename
+						cronExpression
+						description
+						overlapPolicy
+						timezone
+					}
+					... on EntityManagementZoomConnectionEntity {
+						__typename
+						description
+						enabled
+					}
+				}
+				scope {
+					id
+					type
+				}
+				status
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementFleetDeploymentEntity {
+				__typename
+				configurationVersionList {
+					id
+				}
+				configurationVersions
+				description
+				fleetId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				phase
+				ringsDeploymentTracker {
+					completedAt
+					name
+					startedAt
+					status
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementFleetEntity {
+				__typename
+				currentDeployment {
+					canaryManagedEntities
+					configsChanged
+					configurationVersions
+					deployedAt
+					description
+					entitiesChanged
+					managedEntitiesChanged
+					managedEntitiesRequiredToChange
+					name
+					status
+					supervisedAgentEntitiesChanged
+					supervisedAgentEntitiesRequiredToChange
+				}
+				description
+				managedEntityRings {
+					id
+					name
+					type
+				}
+				managedEntityType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				operatingSystem {
+					type
+				}
+				product
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementFleetRingEntity {
+				__typename
+				fleetId
+				managedEntities {
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementFlowEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementGenericEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementGitHubIntegrationEntity {
+				__typename
+				count {
+					repoCount
+					teamCount
+				}
+				gitHubRetentionOptions {
+					retainRepositories
+					retainTeams
+				}
+				gitHubSyncOptions {
+					syncRepositories
+					syncTeams
+				}
+				installationId
+				installationSource
+				installationStatus
+				lastSyncCompletedAt
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nextSyncAt
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementGitRepositoryEntity {
+				__typename
+				closedPullRequestCount
+				configuration {
+					source
+					updatedAt
+					updatedBy
+				}
+				description
+				externalCreatedAt
+				externalId
+				externalLastDeployedAt
+				externalOwner {
+					id
+					type
+				}
+				externalUpdatedAt
+				forkCount
+				hostingPlatform
+				latestReleaseVersion
+				license {
+					name
+					url
+				}
+				lockedPullRequestCount
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				openPullRequestCount
+				primaryLanguage
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementGithubConnection {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementImpactProfileEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementInboxIssueCategoryEntity {
+				__typename
+				categoryScope {
+					id
+					type
+				}
+				categoryType
+				issueType
+				messageAttributes
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nameAttributes
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementIncidentAttachmentEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementIncidentEntity {
+				__typename
+				assignedTo {
+					identifier
+					type
+				}
+				attributes {
+					name
+					value
+				}
+				category
+				customerImpact
+				description
+				dueDate
+				entitiesImpacted
+				externalId
+				incidentCategory
+				incidentKey
+				incidentProfileId
+				incidentSubcategory
+				issueLinks
+				labels
+				lessonsLearned
+				links {
+					id
+					name
+					type
+				}
+				maxSeverity
+				messages {
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				priority
+				reportedBy
+				resolutionCategory
+				resolutionSummary
+				retroActionItems
+				rootCauseSummary
+				rootCauseTags
+				scope {
+					id
+					type
+				}
+				severity
+				source
+				status
+				tags {
+					key
+					values
+				}
+				timelines {
+					id
+					name
+					type
+				}
+				triggeringEvent
+			}
+			... on EntityManagementIncidentLinkEntity {
+				__typename
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementIncidentMessageEntity {
+				__typename
+				content
+				contentEncoding
+				contentType
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				parentId
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementIncidentProfileAttachmentEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementIncidentProfileEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementIncidentTimelineEntity {
+				__typename
+				content
+				entryType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				source
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementJiraConnection {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementJiraSyncConfiguration {
+				__typename
+				assigneeQuery
+				connection
+				correlationFieldName
+				description
+				direction
+				enabled
+				issueType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				mode
+				projectKey
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				targets {
+					key
+					values
+				}
+				templateFields {
+					direction
+					name
+					required
+					template
+				}
+			}
+			... on EntityManagementJiraSyncConfigurationV2Entity {
+				__typename
+				bidirectional
+				connection
+				description
+				enabled
+				issueType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				mode
+				projectKey
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				targets {
+					key
+					values
+				}
+				templateFields {
+					direction
+					name
+					required
+					template
+				}
+			}
+			... on EntityManagementJuniperMistConnectionEntity {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				region
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementMaintenanceWindowEntity {
+				__typename
+				affectedEntityType
+				description
+				duration
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				rrule
+				scope {
+					id
+					type
+				}
+				startTime
+				tags {
+					key
+					values
+				}
+				timezone
+			}
+			... on EntityManagementManagedEvaluationsEntity {
+				__typename
+				description
+				evaluations {
+					enabled
+					evaluationType
+					threshold
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementMcpServerEntity {
+				__typename
+				auth {
+					headerKey
+					type
+				}
+				description
+				displayName
+				endpoint
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				protocolVersion
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				transport
+			}
+			... on EntityManagementMeterEntity {
+				__typename
+				attributes {
+					name
+					values
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				meterType {
+					allowMeterCreation
+					attributionDimensions
+					description
+					id
+					name
+					type
+				}
+				owningTeam {
+					aliases
+					description
+					id
+					name
+					type
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementMeterTypeEntity {
+				__typename
+				allowMeterCreation
+				attributionDimensions
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				owningTeam {
+					aliases
+					description
+					id
+					name
+					type
+				}
+				productLine {
+					description
+					id
+					name
+					type
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementNewRelicConnection {
+				__typename
+				credential {
+					type
+				}
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				region
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementNotebookEntity {
+				__typename
+				content {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementNotificationAttachmentEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementNrAiAgentEntity {
+				__typename
+				displayName
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				version
+			}
+			... on EntityManagementNrqlMacroEntity {
+				__typename
+				expression
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				numParameters
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementOperationEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementOperationMetricEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementPerformanceInboxSettingEntity {
+				__typename
+				config {
+					name
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				thresholdScope
+			}
+			... on EntityManagementPipelineCloudRuleEntity {
+				__typename
+				description
+				enabled
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nrql
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementProductLineEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementRagDocumentEntity {
+				__typename
+				authorEmails
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				sourceIdentifier
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementRagToolEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementReactNativeSourcemapEntity {
+				__typename
+				appVersionId
+				applicationId
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				jsBundleId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementRestApiContractEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementScorecardEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				progressLevels {
+					description
+					hexColorCode
+					id
+					name
+				}
+				rules {
+					id
+					name
+					type
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementScorecardRuleEntity {
+				__typename
+				description
+				enabled
+				impactWeight
+				lastExecutionStatus {
+					checkedEntities
+					executedAt
+					executionStatus
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nrqlEngine {
+					accounts
+					joinAccounts
+					query
+				}
+				progressLevel
+				schedule {
+					cronExpression
+					enabled
+					period
+					scheduleAt
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementSegmentTermsEntity {
+				__typename
+				accountId
+				agentId
+				domain
+				entityGuid
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				metricPrefix
+				oldId
+				scope {
+					id
+					type
+				}
+				segmentTerms
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementServerlessJobDefinitionEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementServiceNowConnection {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementSlackConnection {
+				__typename
+				appId
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+				token {
+					keyName
+					namespace
+				}
+				workspace
+			}
+			... on EntityManagementSlackSyncConfiguration {
+				__typename
+				channelIdPayloadPath
+				connection
+				description
+				direction
+				enabled
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				mode
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				targets {
+					key
+					values
+				}
+				templateFields {
+					direction
+					name
+					required
+					template
+				}
+			}
+			... on EntityManagementStatusPageAnnouncementEntity {
+				__typename
+				category
+				communicationLogs {
+					communicatedBy
+					communicationMode
+					communicationStatus
+					message
+					timestamp
+				}
+				description
+				effectiveDate
+				eventUrl
+				impactQuery {
+					nrqlQuery
+					queryAccountIds
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				pointOfContacts {
+					id
+					name
+					type
+					userId
+				}
+				publishedDate
+				scope {
+					id
+					type
+				}
+				state
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementStatusPageIncidentEntity {
+				__typename
+				communicationLogs {
+					communicatedBy
+					communicationMode
+					communicationStatus
+					message
+					timestamp
+				}
+				description
+				endTime
+				incidentId
+				incidentTitle
+				lastUpdatedTime
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				region
+				scope {
+					id
+					type
+				}
+				startTime
+				status
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementTeamEntity {
+				__typename
+				aliases
+				description
+				externalIntegration {
+					externalId
+					type
+				}
+				membership {
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				ownership {
+					id
+					name
+					type
+				}
+				resources {
+					content
+					title
+					type
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementTeamsHierarchyLevelEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementTeamsOrganizationSettingsEntity {
+				__typename
+				discovery {
+					enabled
+					tagKeys
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				syncGroups {
+					enabled
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementUserEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				userId
+			}
+			... on EntityManagementWorkItem {
+				__typename
+				assignedTo {
+					identifier
+					type
+				}
+				attributes {
+					name
+					value
+				}
+				category
+				description
+				dueDate
+				externalId
+				labels
+				links {
+					id
+					name
+					type
+				}
+				messages {
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				priority
+				scope {
+					id
+					type
+				}
+				status
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementWorkItemLink {
+				__typename
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementWorkItemLinkV2Entity {
+				__typename
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementWorkItemMessage {
+				__typename
+				content
+				contentEncoding
+				contentType
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				parentId
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementWorkItemMessageV2Entity {
+				__typename
+				content
+				contentEncoding
+				contentType
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				parentId
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementWorkItemV2Entity {
+				__typename
+				assignedTo {
+					identifier
+					type
+				}
+				attributes {
+					name
+					value
+				}
+				category
+				description
+				dueDate
+				externalId
+				labels
+				links {
+					id
+					name
+					type
+				}
+				messages {
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				priority
+				scope {
+					id
+					type
+				}
+				status
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementWorkflowDefinition {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				versions
+			}
+			... on EntityManagementWorkflowSchedule {
+				__typename
+				cronExpression
+				definition {
+					id
+					version
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				overlapPolicy
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				timezone
+			}
+			... on EntityManagementZoomConnectionEntity {
+				__typename
+				description
+				enabled
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+			}
+		}
+		dataProcessingConnection {
+			__typename
+			id
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			name
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			type
+			... on EntityManagementAgentConfigurationEntity {
+				__typename
+				agentType
+				configurationType
+				managedEntityType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				operatingSystem {
+					type
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				versionCount
+			}
+			... on EntityManagementAgentConfigurationVersionEntity {
+				__typename
+				agentConfiguration
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				version
+			}
+			... on EntityManagementAgentEffectiveConfigurationEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementAgentEntity {
+				__typename
+				agentType
+				fleetControlProperties {
+					disconnectedReceived
+					environment
+					healthy
+					lastError
+					lastRemoteConfigError
+					lastRemoteConfigStatus
+					startTime
+					uid
+					version
+				}
+				infrastructureManagers {
+					type
+					version
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				version
+			}
+			... on EntityManagementAiAgentEntity {
+				__typename
+				category
+				description
+				displayName
+				initialized
+				llmConfig {
+					cacheSeed
+					model
+					temperature
+				}
+				mcpServers {
+					excludeTools
+					includeTools
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				prompt
+				provider
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				test
+			}
+			... on EntityManagementAiCapableEntity {
+				__typename
+				category
+				language
+				lastSeen
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				toolType
+				toolVersion
+			}
+			... on EntityManagementAiEvaluationConfigEntity {
+				__typename
+				description
+				managedEvaluationsEntity {
+					description
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				samplingRate
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementAiToolEntity {
+				__typename
+				description
+				initialized
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				parameters {
+					description
+					name
+					type
+				}
+				provider
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				test
+				toolType
+				url
+			}
+			... on EntityManagementApiSpecificationBlobEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementAwsConnectionEntity {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				region
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementBackgroundProcessingRuleEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				query {
+					nrql
+				}
+				ruleType
+				schedule {
+					cronExpression
+					enabled
+					period
+					scheduleAt
+				}
+				scope {
+					id
+					type
+				}
+				state {
+					message
+					status
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementBackgroundSqlProcessingRuleEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				query {
+					outputTarget
+					sql
+				}
+				schedule {
+					cronExpression
+					enabled
+					period
+					scheduleAt
+				}
+				scope {
+					id
+					type
+				}
+				state {
+					message
+					status
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementBudgetEntity {
+				__typename
+				budgetAlertPolicies {
+					id
+				}
+				budgetLimits {
+					consumptionMetric
+					value
+				}
+				budgetType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				organizationBudget
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementCiscoMerakiConnectionEntity {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				region
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementCollectionEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementComponentEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementComputeLocationEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementConfluenceConnectionEntity {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementConfluenceIntegration {
+				__typename
+				confluenceUserId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				secretKey
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementConfluenceRagSettingsEntity {
+				__typename
+				characterTextSplitterOptions {
+					isSeparatorRegex
+					separator
+				}
+				chunkOverlap
+				chunkSize
+				confluenceIntegrationId
+				confluenceQuery
+				intervalSeconds
+				lastPullTime
+				markdownTextSplitterOptions {
+					headersToSplitOn
+					returnEachLine
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nextPullTime
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				textSplitterType
+				tokenTextSplitterOptions {
+					encodingName
+				}
+			}
+			... on EntityManagementCorrelationInternalSourceConfigEntity {
+				__typename
+				accountId
+				alias
+				filterId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				namespaces
+				nrql
+				outputTopic
+				scope {
+					id
+					type
+				}
+				source
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementCorrelationLinkEntity {
+				__typename
+				context {
+					confidence
+					messages
+					ruleId
+				}
+				directional
+				linkType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				overrideInfo {
+					action
+					timestamp
+					userId
+				}
+				scope {
+					id
+					type
+				}
+				source {
+					accountId
+					eventId
+					eventType
+				}
+				tags {
+					key
+					values
+				}
+				target {
+					accountId
+					eventId
+					eventType
+				}
+			}
+			... on EntityManagementCorrelationLinkingRuleEntity {
+				__typename
+				criteria {
+					topologyProximity
+				}
+				description
+				enabled
+				linkingConfig {
+					directional
+					linkType
+					sourceAlias
+					targetAlias
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				subjects {
+					accountIds
+					alias
+					nrql
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementCustomEvaluationEntity {
+				__typename
+				criteria
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				model
+				parameters
+				scope {
+					id
+					type
+				}
+				steps
+				tags {
+					key
+					values
+				}
+				threshold
+			}
+			... on EntityManagementCustomerImpactEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				components {
+					description
+					id
+					name
+					type
+				}
+				issueId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementCustomerImpactQueryEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				products {
+					description
+					id
+					name
+					type
+				}
+				query
+				queryAccountId
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				teamName
+				totalCustImpactQueryAccountIds
+				totalCustomerImpactQuery
+			}
+			... on EntityManagementEventBridgeRuleEntity {
+				__typename
+				conditions {
+					field
+				}
+				description
+				enabled
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				sourceType {
+					event
+					name
+				}
+				tags {
+					key
+					values
+				}
+				targets {
+					name
+					type
+				}
+			}
+			... on EntityManagementFederatedLogPartitionEntity {
+				__typename
+				dataLocationUri
+				description
+				isDefault
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				partitionDatabase
+				partitionTable
+				retentionPolicy {
+					duration
+					unit
+				}
+				scope {
+					id
+					type
+				}
+				setup {
+					cloudProvider
+					cloudProviderRegion
+					dataLocationBucket
+					description
+					id
+					name
+					nrAccountId
+					nrRegion
+					status
+					type
+				}
+				status
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementFederatedLogSetupEntity {
+				__typename
+				cloudProvider
+				cloudProviderRegion
+				dataLocationBucket
+				dataProcessingComponent {
+					__typename
+					id
+					name
+					type
+					... on EntityManagementAgentConfigurationEntity {
+						__typename
+						agentType
+						configurationType
+						managedEntityType
+						versionCount
+					}
+					... on EntityManagementAgentConfigurationVersionEntity {
+						__typename
+						agentConfiguration
+						version
+					}
+					... on EntityManagementAgentEffectiveConfigurationEntity {
+						__typename
+					}
+					... on EntityManagementAgentEntity {
+						__typename
+						agentType
+						version
+					}
+					... on EntityManagementAiAgentEntity {
+						__typename
+						category
+						description
+						displayName
+						initialized
+						prompt
+						provider
+						test
+					}
+					... on EntityManagementAiCapableEntity {
+						__typename
+						category
+						language
+						lastSeen
+						toolType
+						toolVersion
+					}
+					... on EntityManagementAiEvaluationConfigEntity {
+						__typename
+						description
+						samplingRate
+					}
+					... on EntityManagementAiToolEntity {
+						__typename
+						description
+						initialized
+						provider
+						test
+						toolType
+						url
+					}
+					... on EntityManagementApiSpecificationBlobEntity {
+						__typename
+						description
+					}
+					... on EntityManagementAwsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementBackgroundProcessingRuleEntity {
+						__typename
+						description
+						ruleType
+					}
+					... on EntityManagementBackgroundSqlProcessingRuleEntity {
+						__typename
+						description
+					}
+					... on EntityManagementBudgetEntity {
+						__typename
+						budgetType
+						organizationBudget
+					}
+					... on EntityManagementCiscoMerakiConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementCollectionEntity {
+						__typename
+					}
+					... on EntityManagementComponentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementComputeLocationEntity {
+						__typename
+						description
+					}
+					... on EntityManagementConfluenceConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+					}
+					... on EntityManagementConfluenceIntegration {
+						__typename
+						confluenceUserId
+						secretKey
+						url
+					}
+					... on EntityManagementConfluenceRagSettingsEntity {
+						__typename
+						chunkOverlap
+						chunkSize
+						confluenceIntegrationId
+						confluenceQuery
+						intervalSeconds
+						lastPullTime
+						nextPullTime
+						textSplitterType
+					}
+					... on EntityManagementCorrelationInternalSourceConfigEntity {
+						__typename
+						accountId
+						alias
+						filterId
+						namespaces
+						nrql
+						outputTopic
+						source
+					}
+					... on EntityManagementCorrelationLinkEntity {
+						__typename
+						directional
+						linkType
+					}
+					... on EntityManagementCorrelationLinkingRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementCustomEvaluationEntity {
+						__typename
+						criteria
+						description
+						model
+						parameters
+						steps
+						threshold
+					}
+					... on EntityManagementCustomerImpactEntity {
+						__typename
+						issueId
+					}
+					... on EntityManagementCustomerImpactQueryEntity {
+						__typename
+						query
+						queryAccountId
+						teamName
+						totalCustImpactQueryAccountIds
+						totalCustomerImpactQuery
+					}
+					... on EntityManagementEventBridgeRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementFederatedLogPartitionEntity {
+						__typename
+						dataLocationUri
+						description
+						isDefault
+						partitionDatabase
+						partitionTable
+						status
+					}
+					... on EntityManagementFederatedLogSetupEntity {
+						__typename
+						cloudProvider
+						cloudProviderRegion
+						dataLocationBucket
+						description
+						nrAccountId
+						nrRegion
+						status
+					}
+					... on EntityManagementFleetDeploymentEntity {
+						__typename
+						configurationVersions
+						description
+						fleetId
+						phase
+					}
+					... on EntityManagementFleetEntity {
+						__typename
+						description
+						managedEntityType
+						product
+					}
+					... on EntityManagementFleetRingEntity {
+						__typename
+						fleetId
+					}
+					... on EntityManagementFlowEntity {
+						__typename
+					}
+					... on EntityManagementGenericEntity {
+						__typename
+					}
+					... on EntityManagementGitHubIntegrationEntity {
+						__typename
+						installationId
+						installationSource
+						installationStatus
+						lastSyncCompletedAt
+						nextSyncAt
+					}
+					... on EntityManagementGitRepositoryEntity {
+						__typename
+						closedPullRequestCount
+						description
+						externalCreatedAt
+						externalId
+						externalLastDeployedAt
+						externalUpdatedAt
+						forkCount
+						hostingPlatform
+						latestReleaseVersion
+						lockedPullRequestCount
+						openPullRequestCount
+						primaryLanguage
+						url
+					}
+					... on EntityManagementGithubConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementImpactProfileEntity {
+						__typename
+					}
+					... on EntityManagementInboxIssueCategoryEntity {
+						__typename
+						categoryType
+						issueType
+						messageAttributes
+						nameAttributes
+					}
+					... on EntityManagementIncidentAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentEntity {
+						__typename
+						category
+						customerImpact
+						description
+						dueDate
+						entitiesImpacted
+						externalId
+						incidentCategory
+						incidentKey
+						incidentProfileId
+						incidentSubcategory
+						issueLinks
+						labels
+						lessonsLearned
+						maxSeverity
+						priority
+						reportedBy
+						resolutionCategory
+						resolutionSummary
+						retroActionItems
+						rootCauseSummary
+						rootCauseTags
+						severity
+						source
+						status
+						triggeringEvent
+					}
+					... on EntityManagementIncidentLinkEntity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementIncidentMessageEntity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementIncidentProfileAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentProfileEntity {
+						__typename
+					}
+					... on EntityManagementIncidentTimelineEntity {
+						__typename
+						content
+						entryType
+						source
+					}
+					... on EntityManagementJiraConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementJiraSyncConfiguration {
+						__typename
+						assigneeQuery
+						connection
+						correlationFieldName
+						description
+						direction
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJiraSyncConfigurationV2Entity {
+						__typename
+						bidirectional
+						connection
+						description
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJuniperMistConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementMaintenanceWindowEntity {
+						__typename
+						affectedEntityType
+						description
+						duration
+						rrule
+						startTime
+						timezone
+					}
+					... on EntityManagementManagedEvaluationsEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMcpServerEntity {
+						__typename
+						description
+						displayName
+						endpoint
+						protocolVersion
+						transport
+					}
+					... on EntityManagementMeterEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMeterTypeEntity {
+						__typename
+						allowMeterCreation
+						attributionDimensions
+						description
+					}
+					... on EntityManagementNewRelicConnection {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementNotebookEntity {
+						__typename
+					}
+					... on EntityManagementNotificationAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementNrAiAgentEntity {
+						__typename
+						displayName
+						version
+					}
+					... on EntityManagementNrqlMacroEntity {
+						__typename
+						expression
+						numParameters
+					}
+					... on EntityManagementOperationEntity {
+						__typename
+					}
+					... on EntityManagementOperationMetricEntity {
+						__typename
+					}
+					... on EntityManagementPerformanceInboxSettingEntity {
+						__typename
+						thresholdScope
+					}
+					... on EntityManagementPipelineCloudRuleEntity {
+						__typename
+						description
+						enabled
+						nrql
+					}
+					... on EntityManagementProductLineEntity {
+						__typename
+						description
+					}
+					... on EntityManagementRagDocumentEntity {
+						__typename
+						authorEmails
+						sourceIdentifier
+					}
+					... on EntityManagementRagToolEntity {
+						__typename
+						description
+					}
+					... on EntityManagementReactNativeSourcemapEntity {
+						__typename
+						appVersionId
+						applicationId
+						jsBundleId
+					}
+					... on EntityManagementRestApiContractEntity {
+						__typename
+					}
+					... on EntityManagementScorecardEntity {
+						__typename
+						description
+					}
+					... on EntityManagementScorecardRuleEntity {
+						__typename
+						description
+						enabled
+						impactWeight
+						progressLevel
+					}
+					... on EntityManagementSegmentTermsEntity {
+						__typename
+						accountId
+						agentId
+						domain
+						entityGuid
+						metricPrefix
+						oldId
+						segmentTerms
+					}
+					... on EntityManagementServerlessJobDefinitionEntity {
+						__typename
+						description
+					}
+					... on EntityManagementServiceNowConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementSlackConnection {
+						__typename
+						appId
+						description
+						enabled
+						externalId
+						workspace
+					}
+					... on EntityManagementSlackSyncConfiguration {
+						__typename
+						channelIdPayloadPath
+						connection
+						description
+						direction
+						enabled
+						mode
+					}
+					... on EntityManagementStatusPageAnnouncementEntity {
+						__typename
+						category
+						description
+						effectiveDate
+						eventUrl
+						publishedDate
+						state
+					}
+					... on EntityManagementStatusPageIncidentEntity {
+						__typename
+						description
+						endTime
+						incidentId
+						incidentTitle
+						lastUpdatedTime
+						region
+						startTime
+						status
+					}
+					... on EntityManagementTeamEntity {
+						__typename
+						aliases
+						description
+					}
+					... on EntityManagementTeamsHierarchyLevelEntity {
+						__typename
+					}
+					... on EntityManagementTeamsOrganizationSettingsEntity {
+						__typename
+					}
+					... on EntityManagementUserEntity {
+						__typename
+						userId
+					}
+					... on EntityManagementWorkItem {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkItemLink {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemLinkV2Entity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemMessage {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemMessageV2Entity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemV2Entity {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkflowDefinition {
+						__typename
+						description
+						versions
+					}
+					... on EntityManagementWorkflowSchedule {
+						__typename
+						cronExpression
+						description
+						overlapPolicy
+						timezone
+					}
+					... on EntityManagementZoomConnectionEntity {
+						__typename
+						description
+						enabled
+					}
+				}
+				dataProcessingConnection {
+					__typename
+					id
+					name
+					type
+					... on EntityManagementAgentConfigurationEntity {
+						__typename
+						agentType
+						configurationType
+						managedEntityType
+						versionCount
+					}
+					... on EntityManagementAgentConfigurationVersionEntity {
+						__typename
+						agentConfiguration
+						version
+					}
+					... on EntityManagementAgentEffectiveConfigurationEntity {
+						__typename
+					}
+					... on EntityManagementAgentEntity {
+						__typename
+						agentType
+						version
+					}
+					... on EntityManagementAiAgentEntity {
+						__typename
+						category
+						description
+						displayName
+						initialized
+						prompt
+						provider
+						test
+					}
+					... on EntityManagementAiCapableEntity {
+						__typename
+						category
+						language
+						lastSeen
+						toolType
+						toolVersion
+					}
+					... on EntityManagementAiEvaluationConfigEntity {
+						__typename
+						description
+						samplingRate
+					}
+					... on EntityManagementAiToolEntity {
+						__typename
+						description
+						initialized
+						provider
+						test
+						toolType
+						url
+					}
+					... on EntityManagementApiSpecificationBlobEntity {
+						__typename
+						description
+					}
+					... on EntityManagementAwsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementBackgroundProcessingRuleEntity {
+						__typename
+						description
+						ruleType
+					}
+					... on EntityManagementBackgroundSqlProcessingRuleEntity {
+						__typename
+						description
+					}
+					... on EntityManagementBudgetEntity {
+						__typename
+						budgetType
+						organizationBudget
+					}
+					... on EntityManagementCiscoMerakiConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementCollectionEntity {
+						__typename
+					}
+					... on EntityManagementComponentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementComputeLocationEntity {
+						__typename
+						description
+					}
+					... on EntityManagementConfluenceConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+					}
+					... on EntityManagementConfluenceIntegration {
+						__typename
+						confluenceUserId
+						secretKey
+						url
+					}
+					... on EntityManagementConfluenceRagSettingsEntity {
+						__typename
+						chunkOverlap
+						chunkSize
+						confluenceIntegrationId
+						confluenceQuery
+						intervalSeconds
+						lastPullTime
+						nextPullTime
+						textSplitterType
+					}
+					... on EntityManagementCorrelationInternalSourceConfigEntity {
+						__typename
+						accountId
+						alias
+						filterId
+						namespaces
+						nrql
+						outputTopic
+						source
+					}
+					... on EntityManagementCorrelationLinkEntity {
+						__typename
+						directional
+						linkType
+					}
+					... on EntityManagementCorrelationLinkingRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementCustomEvaluationEntity {
+						__typename
+						criteria
+						description
+						model
+						parameters
+						steps
+						threshold
+					}
+					... on EntityManagementCustomerImpactEntity {
+						__typename
+						issueId
+					}
+					... on EntityManagementCustomerImpactQueryEntity {
+						__typename
+						query
+						queryAccountId
+						teamName
+						totalCustImpactQueryAccountIds
+						totalCustomerImpactQuery
+					}
+					... on EntityManagementEventBridgeRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementFederatedLogPartitionEntity {
+						__typename
+						dataLocationUri
+						description
+						isDefault
+						partitionDatabase
+						partitionTable
+						status
+					}
+					... on EntityManagementFederatedLogSetupEntity {
+						__typename
+						cloudProvider
+						cloudProviderRegion
+						dataLocationBucket
+						description
+						nrAccountId
+						nrRegion
+						status
+					}
+					... on EntityManagementFleetDeploymentEntity {
+						__typename
+						configurationVersions
+						description
+						fleetId
+						phase
+					}
+					... on EntityManagementFleetEntity {
+						__typename
+						description
+						managedEntityType
+						product
+					}
+					... on EntityManagementFleetRingEntity {
+						__typename
+						fleetId
+					}
+					... on EntityManagementFlowEntity {
+						__typename
+					}
+					... on EntityManagementGenericEntity {
+						__typename
+					}
+					... on EntityManagementGitHubIntegrationEntity {
+						__typename
+						installationId
+						installationSource
+						installationStatus
+						lastSyncCompletedAt
+						nextSyncAt
+					}
+					... on EntityManagementGitRepositoryEntity {
+						__typename
+						closedPullRequestCount
+						description
+						externalCreatedAt
+						externalId
+						externalLastDeployedAt
+						externalUpdatedAt
+						forkCount
+						hostingPlatform
+						latestReleaseVersion
+						lockedPullRequestCount
+						openPullRequestCount
+						primaryLanguage
+						url
+					}
+					... on EntityManagementGithubConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementImpactProfileEntity {
+						__typename
+					}
+					... on EntityManagementInboxIssueCategoryEntity {
+						__typename
+						categoryType
+						issueType
+						messageAttributes
+						nameAttributes
+					}
+					... on EntityManagementIncidentAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentEntity {
+						__typename
+						category
+						customerImpact
+						description
+						dueDate
+						entitiesImpacted
+						externalId
+						incidentCategory
+						incidentKey
+						incidentProfileId
+						incidentSubcategory
+						issueLinks
+						labels
+						lessonsLearned
+						maxSeverity
+						priority
+						reportedBy
+						resolutionCategory
+						resolutionSummary
+						retroActionItems
+						rootCauseSummary
+						rootCauseTags
+						severity
+						source
+						status
+						triggeringEvent
+					}
+					... on EntityManagementIncidentLinkEntity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementIncidentMessageEntity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementIncidentProfileAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentProfileEntity {
+						__typename
+					}
+					... on EntityManagementIncidentTimelineEntity {
+						__typename
+						content
+						entryType
+						source
+					}
+					... on EntityManagementJiraConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementJiraSyncConfiguration {
+						__typename
+						assigneeQuery
+						connection
+						correlationFieldName
+						description
+						direction
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJiraSyncConfigurationV2Entity {
+						__typename
+						bidirectional
+						connection
+						description
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJuniperMistConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementMaintenanceWindowEntity {
+						__typename
+						affectedEntityType
+						description
+						duration
+						rrule
+						startTime
+						timezone
+					}
+					... on EntityManagementManagedEvaluationsEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMcpServerEntity {
+						__typename
+						description
+						displayName
+						endpoint
+						protocolVersion
+						transport
+					}
+					... on EntityManagementMeterEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMeterTypeEntity {
+						__typename
+						allowMeterCreation
+						attributionDimensions
+						description
+					}
+					... on EntityManagementNewRelicConnection {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementNotebookEntity {
+						__typename
+					}
+					... on EntityManagementNotificationAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementNrAiAgentEntity {
+						__typename
+						displayName
+						version
+					}
+					... on EntityManagementNrqlMacroEntity {
+						__typename
+						expression
+						numParameters
+					}
+					... on EntityManagementOperationEntity {
+						__typename
+					}
+					... on EntityManagementOperationMetricEntity {
+						__typename
+					}
+					... on EntityManagementPerformanceInboxSettingEntity {
+						__typename
+						thresholdScope
+					}
+					... on EntityManagementPipelineCloudRuleEntity {
+						__typename
+						description
+						enabled
+						nrql
+					}
+					... on EntityManagementProductLineEntity {
+						__typename
+						description
+					}
+					... on EntityManagementRagDocumentEntity {
+						__typename
+						authorEmails
+						sourceIdentifier
+					}
+					... on EntityManagementRagToolEntity {
+						__typename
+						description
+					}
+					... on EntityManagementReactNativeSourcemapEntity {
+						__typename
+						appVersionId
+						applicationId
+						jsBundleId
+					}
+					... on EntityManagementRestApiContractEntity {
+						__typename
+					}
+					... on EntityManagementScorecardEntity {
+						__typename
+						description
+					}
+					... on EntityManagementScorecardRuleEntity {
+						__typename
+						description
+						enabled
+						impactWeight
+						progressLevel
+					}
+					... on EntityManagementSegmentTermsEntity {
+						__typename
+						accountId
+						agentId
+						domain
+						entityGuid
+						metricPrefix
+						oldId
+						segmentTerms
+					}
+					... on EntityManagementServerlessJobDefinitionEntity {
+						__typename
+						description
+					}
+					... on EntityManagementServiceNowConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementSlackConnection {
+						__typename
+						appId
+						description
+						enabled
+						externalId
+						workspace
+					}
+					... on EntityManagementSlackSyncConfiguration {
+						__typename
+						channelIdPayloadPath
+						connection
+						description
+						direction
+						enabled
+						mode
+					}
+					... on EntityManagementStatusPageAnnouncementEntity {
+						__typename
+						category
+						description
+						effectiveDate
+						eventUrl
+						publishedDate
+						state
+					}
+					... on EntityManagementStatusPageIncidentEntity {
+						__typename
+						description
+						endTime
+						incidentId
+						incidentTitle
+						lastUpdatedTime
+						region
+						startTime
+						status
+					}
+					... on EntityManagementTeamEntity {
+						__typename
+						aliases
+						description
+					}
+					... on EntityManagementTeamsHierarchyLevelEntity {
+						__typename
+					}
+					... on EntityManagementTeamsOrganizationSettingsEntity {
+						__typename
+					}
+					... on EntityManagementUserEntity {
+						__typename
+						userId
+					}
+					... on EntityManagementWorkItem {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkItemLink {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemLinkV2Entity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemMessage {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemMessageV2Entity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemV2Entity {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkflowDefinition {
+						__typename
+						description
+						versions
+					}
+					... on EntityManagementWorkflowSchedule {
+						__typename
+						cronExpression
+						description
+						overlapPolicy
+						timezone
+					}
+					... on EntityManagementZoomConnectionEntity {
+						__typename
+						description
+						enabled
+					}
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nrAccountId
+				nrRegion
+				queryConnection {
+					__typename
+					id
+					name
+					type
+					... on EntityManagementAgentConfigurationEntity {
+						__typename
+						agentType
+						configurationType
+						managedEntityType
+						versionCount
+					}
+					... on EntityManagementAgentConfigurationVersionEntity {
+						__typename
+						agentConfiguration
+						version
+					}
+					... on EntityManagementAgentEffectiveConfigurationEntity {
+						__typename
+					}
+					... on EntityManagementAgentEntity {
+						__typename
+						agentType
+						version
+					}
+					... on EntityManagementAiAgentEntity {
+						__typename
+						category
+						description
+						displayName
+						initialized
+						prompt
+						provider
+						test
+					}
+					... on EntityManagementAiCapableEntity {
+						__typename
+						category
+						language
+						lastSeen
+						toolType
+						toolVersion
+					}
+					... on EntityManagementAiEvaluationConfigEntity {
+						__typename
+						description
+						samplingRate
+					}
+					... on EntityManagementAiToolEntity {
+						__typename
+						description
+						initialized
+						provider
+						test
+						toolType
+						url
+					}
+					... on EntityManagementApiSpecificationBlobEntity {
+						__typename
+						description
+					}
+					... on EntityManagementAwsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementBackgroundProcessingRuleEntity {
+						__typename
+						description
+						ruleType
+					}
+					... on EntityManagementBackgroundSqlProcessingRuleEntity {
+						__typename
+						description
+					}
+					... on EntityManagementBudgetEntity {
+						__typename
+						budgetType
+						organizationBudget
+					}
+					... on EntityManagementCiscoMerakiConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementCollectionEntity {
+						__typename
+					}
+					... on EntityManagementComponentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementComputeLocationEntity {
+						__typename
+						description
+					}
+					... on EntityManagementConfluenceConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+					}
+					... on EntityManagementConfluenceIntegration {
+						__typename
+						confluenceUserId
+						secretKey
+						url
+					}
+					... on EntityManagementConfluenceRagSettingsEntity {
+						__typename
+						chunkOverlap
+						chunkSize
+						confluenceIntegrationId
+						confluenceQuery
+						intervalSeconds
+						lastPullTime
+						nextPullTime
+						textSplitterType
+					}
+					... on EntityManagementCorrelationInternalSourceConfigEntity {
+						__typename
+						accountId
+						alias
+						filterId
+						namespaces
+						nrql
+						outputTopic
+						source
+					}
+					... on EntityManagementCorrelationLinkEntity {
+						__typename
+						directional
+						linkType
+					}
+					... on EntityManagementCorrelationLinkingRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementCustomEvaluationEntity {
+						__typename
+						criteria
+						description
+						model
+						parameters
+						steps
+						threshold
+					}
+					... on EntityManagementCustomerImpactEntity {
+						__typename
+						issueId
+					}
+					... on EntityManagementCustomerImpactQueryEntity {
+						__typename
+						query
+						queryAccountId
+						teamName
+						totalCustImpactQueryAccountIds
+						totalCustomerImpactQuery
+					}
+					... on EntityManagementEventBridgeRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementFederatedLogPartitionEntity {
+						__typename
+						dataLocationUri
+						description
+						isDefault
+						partitionDatabase
+						partitionTable
+						status
+					}
+					... on EntityManagementFederatedLogSetupEntity {
+						__typename
+						cloudProvider
+						cloudProviderRegion
+						dataLocationBucket
+						description
+						nrAccountId
+						nrRegion
+						status
+					}
+					... on EntityManagementFleetDeploymentEntity {
+						__typename
+						configurationVersions
+						description
+						fleetId
+						phase
+					}
+					... on EntityManagementFleetEntity {
+						__typename
+						description
+						managedEntityType
+						product
+					}
+					... on EntityManagementFleetRingEntity {
+						__typename
+						fleetId
+					}
+					... on EntityManagementFlowEntity {
+						__typename
+					}
+					... on EntityManagementGenericEntity {
+						__typename
+					}
+					... on EntityManagementGitHubIntegrationEntity {
+						__typename
+						installationId
+						installationSource
+						installationStatus
+						lastSyncCompletedAt
+						nextSyncAt
+					}
+					... on EntityManagementGitRepositoryEntity {
+						__typename
+						closedPullRequestCount
+						description
+						externalCreatedAt
+						externalId
+						externalLastDeployedAt
+						externalUpdatedAt
+						forkCount
+						hostingPlatform
+						latestReleaseVersion
+						lockedPullRequestCount
+						openPullRequestCount
+						primaryLanguage
+						url
+					}
+					... on EntityManagementGithubConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementImpactProfileEntity {
+						__typename
+					}
+					... on EntityManagementInboxIssueCategoryEntity {
+						__typename
+						categoryType
+						issueType
+						messageAttributes
+						nameAttributes
+					}
+					... on EntityManagementIncidentAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentEntity {
+						__typename
+						category
+						customerImpact
+						description
+						dueDate
+						entitiesImpacted
+						externalId
+						incidentCategory
+						incidentKey
+						incidentProfileId
+						incidentSubcategory
+						issueLinks
+						labels
+						lessonsLearned
+						maxSeverity
+						priority
+						reportedBy
+						resolutionCategory
+						resolutionSummary
+						retroActionItems
+						rootCauseSummary
+						rootCauseTags
+						severity
+						source
+						status
+						triggeringEvent
+					}
+					... on EntityManagementIncidentLinkEntity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementIncidentMessageEntity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementIncidentProfileAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentProfileEntity {
+						__typename
+					}
+					... on EntityManagementIncidentTimelineEntity {
+						__typename
+						content
+						entryType
+						source
+					}
+					... on EntityManagementJiraConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementJiraSyncConfiguration {
+						__typename
+						assigneeQuery
+						connection
+						correlationFieldName
+						description
+						direction
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJiraSyncConfigurationV2Entity {
+						__typename
+						bidirectional
+						connection
+						description
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJuniperMistConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementMaintenanceWindowEntity {
+						__typename
+						affectedEntityType
+						description
+						duration
+						rrule
+						startTime
+						timezone
+					}
+					... on EntityManagementManagedEvaluationsEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMcpServerEntity {
+						__typename
+						description
+						displayName
+						endpoint
+						protocolVersion
+						transport
+					}
+					... on EntityManagementMeterEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMeterTypeEntity {
+						__typename
+						allowMeterCreation
+						attributionDimensions
+						description
+					}
+					... on EntityManagementNewRelicConnection {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementNotebookEntity {
+						__typename
+					}
+					... on EntityManagementNotificationAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementNrAiAgentEntity {
+						__typename
+						displayName
+						version
+					}
+					... on EntityManagementNrqlMacroEntity {
+						__typename
+						expression
+						numParameters
+					}
+					... on EntityManagementOperationEntity {
+						__typename
+					}
+					... on EntityManagementOperationMetricEntity {
+						__typename
+					}
+					... on EntityManagementPerformanceInboxSettingEntity {
+						__typename
+						thresholdScope
+					}
+					... on EntityManagementPipelineCloudRuleEntity {
+						__typename
+						description
+						enabled
+						nrql
+					}
+					... on EntityManagementProductLineEntity {
+						__typename
+						description
+					}
+					... on EntityManagementRagDocumentEntity {
+						__typename
+						authorEmails
+						sourceIdentifier
+					}
+					... on EntityManagementRagToolEntity {
+						__typename
+						description
+					}
+					... on EntityManagementReactNativeSourcemapEntity {
+						__typename
+						appVersionId
+						applicationId
+						jsBundleId
+					}
+					... on EntityManagementRestApiContractEntity {
+						__typename
+					}
+					... on EntityManagementScorecardEntity {
+						__typename
+						description
+					}
+					... on EntityManagementScorecardRuleEntity {
+						__typename
+						description
+						enabled
+						impactWeight
+						progressLevel
+					}
+					... on EntityManagementSegmentTermsEntity {
+						__typename
+						accountId
+						agentId
+						domain
+						entityGuid
+						metricPrefix
+						oldId
+						segmentTerms
+					}
+					... on EntityManagementServerlessJobDefinitionEntity {
+						__typename
+						description
+					}
+					... on EntityManagementServiceNowConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementSlackConnection {
+						__typename
+						appId
+						description
+						enabled
+						externalId
+						workspace
+					}
+					... on EntityManagementSlackSyncConfiguration {
+						__typename
+						channelIdPayloadPath
+						connection
+						description
+						direction
+						enabled
+						mode
+					}
+					... on EntityManagementStatusPageAnnouncementEntity {
+						__typename
+						category
+						description
+						effectiveDate
+						eventUrl
+						publishedDate
+						state
+					}
+					... on EntityManagementStatusPageIncidentEntity {
+						__typename
+						description
+						endTime
+						incidentId
+						incidentTitle
+						lastUpdatedTime
+						region
+						startTime
+						status
+					}
+					... on EntityManagementTeamEntity {
+						__typename
+						aliases
+						description
+					}
+					... on EntityManagementTeamsHierarchyLevelEntity {
+						__typename
+					}
+					... on EntityManagementTeamsOrganizationSettingsEntity {
+						__typename
+					}
+					... on EntityManagementUserEntity {
+						__typename
+						userId
+					}
+					... on EntityManagementWorkItem {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkItemLink {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemLinkV2Entity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemMessage {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemMessageV2Entity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemV2Entity {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkflowDefinition {
+						__typename
+						description
+						versions
+					}
+					... on EntityManagementWorkflowSchedule {
+						__typename
+						cronExpression
+						description
+						overlapPolicy
+						timezone
+					}
+					... on EntityManagementZoomConnectionEntity {
+						__typename
+						description
+						enabled
+					}
+				}
+				scope {
+					id
+					type
+				}
+				status
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementFleetDeploymentEntity {
+				__typename
+				configurationVersionList {
+					id
+				}
+				configurationVersions
+				description
+				fleetId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				phase
+				ringsDeploymentTracker {
+					completedAt
+					name
+					startedAt
+					status
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementFleetEntity {
+				__typename
+				currentDeployment {
+					canaryManagedEntities
+					configsChanged
+					configurationVersions
+					deployedAt
+					description
+					entitiesChanged
+					managedEntitiesChanged
+					managedEntitiesRequiredToChange
+					name
+					status
+					supervisedAgentEntitiesChanged
+					supervisedAgentEntitiesRequiredToChange
+				}
+				description
+				managedEntityRings {
+					id
+					name
+					type
+				}
+				managedEntityType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				operatingSystem {
+					type
+				}
+				product
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementFleetRingEntity {
+				__typename
+				fleetId
+				managedEntities {
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementFlowEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementGenericEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementGitHubIntegrationEntity {
+				__typename
+				count {
+					repoCount
+					teamCount
+				}
+				gitHubRetentionOptions {
+					retainRepositories
+					retainTeams
+				}
+				gitHubSyncOptions {
+					syncRepositories
+					syncTeams
+				}
+				installationId
+				installationSource
+				installationStatus
+				lastSyncCompletedAt
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nextSyncAt
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementGitRepositoryEntity {
+				__typename
+				closedPullRequestCount
+				configuration {
+					source
+					updatedAt
+					updatedBy
+				}
+				description
+				externalCreatedAt
+				externalId
+				externalLastDeployedAt
+				externalOwner {
+					id
+					type
+				}
+				externalUpdatedAt
+				forkCount
+				hostingPlatform
+				latestReleaseVersion
+				license {
+					name
+					url
+				}
+				lockedPullRequestCount
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				openPullRequestCount
+				primaryLanguage
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementGithubConnection {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementImpactProfileEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementInboxIssueCategoryEntity {
+				__typename
+				categoryScope {
+					id
+					type
+				}
+				categoryType
+				issueType
+				messageAttributes
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nameAttributes
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementIncidentAttachmentEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementIncidentEntity {
+				__typename
+				assignedTo {
+					identifier
+					type
+				}
+				attributes {
+					name
+					value
+				}
+				category
+				customerImpact
+				description
+				dueDate
+				entitiesImpacted
+				externalId
+				incidentCategory
+				incidentKey
+				incidentProfileId
+				incidentSubcategory
+				issueLinks
+				labels
+				lessonsLearned
+				links {
+					id
+					name
+					type
+				}
+				maxSeverity
+				messages {
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				priority
+				reportedBy
+				resolutionCategory
+				resolutionSummary
+				retroActionItems
+				rootCauseSummary
+				rootCauseTags
+				scope {
+					id
+					type
+				}
+				severity
+				source
+				status
+				tags {
+					key
+					values
+				}
+				timelines {
+					id
+					name
+					type
+				}
+				triggeringEvent
+			}
+			... on EntityManagementIncidentLinkEntity {
+				__typename
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementIncidentMessageEntity {
+				__typename
+				content
+				contentEncoding
+				contentType
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				parentId
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementIncidentProfileAttachmentEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementIncidentProfileEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementIncidentTimelineEntity {
+				__typename
+				content
+				entryType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				source
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementJiraConnection {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementJiraSyncConfiguration {
+				__typename
+				assigneeQuery
+				connection
+				correlationFieldName
+				description
+				direction
+				enabled
+				issueType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				mode
+				projectKey
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				targets {
+					key
+					values
+				}
+				templateFields {
+					direction
+					name
+					required
+					template
+				}
+			}
+			... on EntityManagementJiraSyncConfigurationV2Entity {
+				__typename
+				bidirectional
+				connection
+				description
+				enabled
+				issueType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				mode
+				projectKey
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				targets {
+					key
+					values
+				}
+				templateFields {
+					direction
+					name
+					required
+					template
+				}
+			}
+			... on EntityManagementJuniperMistConnectionEntity {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				region
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementMaintenanceWindowEntity {
+				__typename
+				affectedEntityType
+				description
+				duration
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				rrule
+				scope {
+					id
+					type
+				}
+				startTime
+				tags {
+					key
+					values
+				}
+				timezone
+			}
+			... on EntityManagementManagedEvaluationsEntity {
+				__typename
+				description
+				evaluations {
+					enabled
+					evaluationType
+					threshold
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementMcpServerEntity {
+				__typename
+				auth {
+					headerKey
+					type
+				}
+				description
+				displayName
+				endpoint
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				protocolVersion
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				transport
+			}
+			... on EntityManagementMeterEntity {
+				__typename
+				attributes {
+					name
+					values
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				meterType {
+					allowMeterCreation
+					attributionDimensions
+					description
+					id
+					name
+					type
+				}
+				owningTeam {
+					aliases
+					description
+					id
+					name
+					type
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementMeterTypeEntity {
+				__typename
+				allowMeterCreation
+				attributionDimensions
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				owningTeam {
+					aliases
+					description
+					id
+					name
+					type
+				}
+				productLine {
+					description
+					id
+					name
+					type
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementNewRelicConnection {
+				__typename
+				credential {
+					type
+				}
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				region
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementNotebookEntity {
+				__typename
+				content {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementNotificationAttachmentEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementNrAiAgentEntity {
+				__typename
+				displayName
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				version
+			}
+			... on EntityManagementNrqlMacroEntity {
+				__typename
+				expression
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				numParameters
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementOperationEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementOperationMetricEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementPerformanceInboxSettingEntity {
+				__typename
+				config {
+					name
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				thresholdScope
+			}
+			... on EntityManagementPipelineCloudRuleEntity {
+				__typename
+				description
+				enabled
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nrql
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementProductLineEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementRagDocumentEntity {
+				__typename
+				authorEmails
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				sourceIdentifier
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementRagToolEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementReactNativeSourcemapEntity {
+				__typename
+				appVersionId
+				applicationId
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				jsBundleId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementRestApiContractEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementScorecardEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				progressLevels {
+					description
+					hexColorCode
+					id
+					name
+				}
+				rules {
+					id
+					name
+					type
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementScorecardRuleEntity {
+				__typename
+				description
+				enabled
+				impactWeight
+				lastExecutionStatus {
+					checkedEntities
+					executedAt
+					executionStatus
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nrqlEngine {
+					accounts
+					joinAccounts
+					query
+				}
+				progressLevel
+				schedule {
+					cronExpression
+					enabled
+					period
+					scheduleAt
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementSegmentTermsEntity {
+				__typename
+				accountId
+				agentId
+				domain
+				entityGuid
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				metricPrefix
+				oldId
+				scope {
+					id
+					type
+				}
+				segmentTerms
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementServerlessJobDefinitionEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementServiceNowConnection {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementSlackConnection {
+				__typename
+				appId
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+				token {
+					keyName
+					namespace
+				}
+				workspace
+			}
+			... on EntityManagementSlackSyncConfiguration {
+				__typename
+				channelIdPayloadPath
+				connection
+				description
+				direction
+				enabled
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				mode
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				targets {
+					key
+					values
+				}
+				templateFields {
+					direction
+					name
+					required
+					template
+				}
+			}
+			... on EntityManagementStatusPageAnnouncementEntity {
+				__typename
+				category
+				communicationLogs {
+					communicatedBy
+					communicationMode
+					communicationStatus
+					message
+					timestamp
+				}
+				description
+				effectiveDate
+				eventUrl
+				impactQuery {
+					nrqlQuery
+					queryAccountIds
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				pointOfContacts {
+					id
+					name
+					type
+					userId
+				}
+				publishedDate
+				scope {
+					id
+					type
+				}
+				state
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementStatusPageIncidentEntity {
+				__typename
+				communicationLogs {
+					communicatedBy
+					communicationMode
+					communicationStatus
+					message
+					timestamp
+				}
+				description
+				endTime
+				incidentId
+				incidentTitle
+				lastUpdatedTime
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				region
+				scope {
+					id
+					type
+				}
+				startTime
+				status
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementTeamEntity {
+				__typename
+				aliases
+				description
+				externalIntegration {
+					externalId
+					type
+				}
+				membership {
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				ownership {
+					id
+					name
+					type
+				}
+				resources {
+					content
+					title
+					type
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementTeamsHierarchyLevelEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementTeamsOrganizationSettingsEntity {
+				__typename
+				discovery {
+					enabled
+					tagKeys
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				syncGroups {
+					enabled
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementUserEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				userId
+			}
+			... on EntityManagementWorkItem {
+				__typename
+				assignedTo {
+					identifier
+					type
+				}
+				attributes {
+					name
+					value
+				}
+				category
+				description
+				dueDate
+				externalId
+				labels
+				links {
+					id
+					name
+					type
+				}
+				messages {
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				priority
+				scope {
+					id
+					type
+				}
+				status
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementWorkItemLink {
+				__typename
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementWorkItemLinkV2Entity {
+				__typename
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementWorkItemMessage {
+				__typename
+				content
+				contentEncoding
+				contentType
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				parentId
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementWorkItemMessageV2Entity {
+				__typename
+				content
+				contentEncoding
+				contentType
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				parentId
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementWorkItemV2Entity {
+				__typename
+				assignedTo {
+					identifier
+					type
+				}
+				attributes {
+					name
+					value
+				}
+				category
+				description
+				dueDate
+				externalId
+				labels
+				links {
+					id
+					name
+					type
+				}
+				messages {
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				priority
+				scope {
+					id
+					type
+				}
+				status
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementWorkflowDefinition {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				versions
+			}
+			... on EntityManagementWorkflowSchedule {
+				__typename
+				cronExpression
+				definition {
+					id
+					version
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				overlapPolicy
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				timezone
+			}
+			... on EntityManagementZoomConnectionEntity {
+				__typename
+				description
+				enabled
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+			}
+		}
+		description
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		nrAccountId
+		nrRegion
+		queryConnection {
+			__typename
+			id
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			name
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			type
+			... on EntityManagementAgentConfigurationEntity {
+				__typename
+				agentType
+				configurationType
+				managedEntityType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				operatingSystem {
+					type
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				versionCount
+			}
+			... on EntityManagementAgentConfigurationVersionEntity {
+				__typename
+				agentConfiguration
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				version
+			}
+			... on EntityManagementAgentEffectiveConfigurationEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementAgentEntity {
+				__typename
+				agentType
+				fleetControlProperties {
+					disconnectedReceived
+					environment
+					healthy
+					lastError
+					lastRemoteConfigError
+					lastRemoteConfigStatus
+					startTime
+					uid
+					version
+				}
+				infrastructureManagers {
+					type
+					version
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				version
+			}
+			... on EntityManagementAiAgentEntity {
+				__typename
+				category
+				description
+				displayName
+				initialized
+				llmConfig {
+					cacheSeed
+					model
+					temperature
+				}
+				mcpServers {
+					excludeTools
+					includeTools
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				prompt
+				provider
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				test
+			}
+			... on EntityManagementAiCapableEntity {
+				__typename
+				category
+				language
+				lastSeen
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				toolType
+				toolVersion
+			}
+			... on EntityManagementAiEvaluationConfigEntity {
+				__typename
+				description
+				managedEvaluationsEntity {
+					description
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				samplingRate
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementAiToolEntity {
+				__typename
+				description
+				initialized
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				parameters {
+					description
+					name
+					type
+				}
+				provider
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				test
+				toolType
+				url
+			}
+			... on EntityManagementApiSpecificationBlobEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementAwsConnectionEntity {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				region
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementBackgroundProcessingRuleEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				query {
+					nrql
+				}
+				ruleType
+				schedule {
+					cronExpression
+					enabled
+					period
+					scheduleAt
+				}
+				scope {
+					id
+					type
+				}
+				state {
+					message
+					status
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementBackgroundSqlProcessingRuleEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				query {
+					outputTarget
+					sql
+				}
+				schedule {
+					cronExpression
+					enabled
+					period
+					scheduleAt
+				}
+				scope {
+					id
+					type
+				}
+				state {
+					message
+					status
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementBudgetEntity {
+				__typename
+				budgetAlertPolicies {
+					id
+				}
+				budgetLimits {
+					consumptionMetric
+					value
+				}
+				budgetType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				organizationBudget
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementCiscoMerakiConnectionEntity {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				region
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementCollectionEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementComponentEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementComputeLocationEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementConfluenceConnectionEntity {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementConfluenceIntegration {
+				__typename
+				confluenceUserId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				secretKey
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementConfluenceRagSettingsEntity {
+				__typename
+				characterTextSplitterOptions {
+					isSeparatorRegex
+					separator
+				}
+				chunkOverlap
+				chunkSize
+				confluenceIntegrationId
+				confluenceQuery
+				intervalSeconds
+				lastPullTime
+				markdownTextSplitterOptions {
+					headersToSplitOn
+					returnEachLine
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nextPullTime
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				textSplitterType
+				tokenTextSplitterOptions {
+					encodingName
+				}
+			}
+			... on EntityManagementCorrelationInternalSourceConfigEntity {
+				__typename
+				accountId
+				alias
+				filterId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				namespaces
+				nrql
+				outputTopic
+				scope {
+					id
+					type
+				}
+				source
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementCorrelationLinkEntity {
+				__typename
+				context {
+					confidence
+					messages
+					ruleId
+				}
+				directional
+				linkType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				overrideInfo {
+					action
+					timestamp
+					userId
+				}
+				scope {
+					id
+					type
+				}
+				source {
+					accountId
+					eventId
+					eventType
+				}
+				tags {
+					key
+					values
+				}
+				target {
+					accountId
+					eventId
+					eventType
+				}
+			}
+			... on EntityManagementCorrelationLinkingRuleEntity {
+				__typename
+				criteria {
+					topologyProximity
+				}
+				description
+				enabled
+				linkingConfig {
+					directional
+					linkType
+					sourceAlias
+					targetAlias
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				subjects {
+					accountIds
+					alias
+					nrql
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementCustomEvaluationEntity {
+				__typename
+				criteria
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				model
+				parameters
+				scope {
+					id
+					type
+				}
+				steps
+				tags {
+					key
+					values
+				}
+				threshold
+			}
+			... on EntityManagementCustomerImpactEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				components {
+					description
+					id
+					name
+					type
+				}
+				issueId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementCustomerImpactQueryEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				products {
+					description
+					id
+					name
+					type
+				}
+				query
+				queryAccountId
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				teamName
+				totalCustImpactQueryAccountIds
+				totalCustomerImpactQuery
+			}
+			... on EntityManagementEventBridgeRuleEntity {
+				__typename
+				conditions {
+					field
+				}
+				description
+				enabled
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				sourceType {
+					event
+					name
+				}
+				tags {
+					key
+					values
+				}
+				targets {
+					name
+					type
+				}
+			}
+			... on EntityManagementFederatedLogPartitionEntity {
+				__typename
+				dataLocationUri
+				description
+				isDefault
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				partitionDatabase
+				partitionTable
+				retentionPolicy {
+					duration
+					unit
+				}
+				scope {
+					id
+					type
+				}
+				setup {
+					cloudProvider
+					cloudProviderRegion
+					dataLocationBucket
+					description
+					id
+					name
+					nrAccountId
+					nrRegion
+					status
+					type
+				}
+				status
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementFederatedLogSetupEntity {
+				__typename
+				cloudProvider
+				cloudProviderRegion
+				dataLocationBucket
+				dataProcessingComponent {
+					__typename
+					id
+					name
+					type
+					... on EntityManagementAgentConfigurationEntity {
+						__typename
+						agentType
+						configurationType
+						managedEntityType
+						versionCount
+					}
+					... on EntityManagementAgentConfigurationVersionEntity {
+						__typename
+						agentConfiguration
+						version
+					}
+					... on EntityManagementAgentEffectiveConfigurationEntity {
+						__typename
+					}
+					... on EntityManagementAgentEntity {
+						__typename
+						agentType
+						version
+					}
+					... on EntityManagementAiAgentEntity {
+						__typename
+						category
+						description
+						displayName
+						initialized
+						prompt
+						provider
+						test
+					}
+					... on EntityManagementAiCapableEntity {
+						__typename
+						category
+						language
+						lastSeen
+						toolType
+						toolVersion
+					}
+					... on EntityManagementAiEvaluationConfigEntity {
+						__typename
+						description
+						samplingRate
+					}
+					... on EntityManagementAiToolEntity {
+						__typename
+						description
+						initialized
+						provider
+						test
+						toolType
+						url
+					}
+					... on EntityManagementApiSpecificationBlobEntity {
+						__typename
+						description
+					}
+					... on EntityManagementAwsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementBackgroundProcessingRuleEntity {
+						__typename
+						description
+						ruleType
+					}
+					... on EntityManagementBackgroundSqlProcessingRuleEntity {
+						__typename
+						description
+					}
+					... on EntityManagementBudgetEntity {
+						__typename
+						budgetType
+						organizationBudget
+					}
+					... on EntityManagementCiscoMerakiConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementCollectionEntity {
+						__typename
+					}
+					... on EntityManagementComponentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementComputeLocationEntity {
+						__typename
+						description
+					}
+					... on EntityManagementConfluenceConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+					}
+					... on EntityManagementConfluenceIntegration {
+						__typename
+						confluenceUserId
+						secretKey
+						url
+					}
+					... on EntityManagementConfluenceRagSettingsEntity {
+						__typename
+						chunkOverlap
+						chunkSize
+						confluenceIntegrationId
+						confluenceQuery
+						intervalSeconds
+						lastPullTime
+						nextPullTime
+						textSplitterType
+					}
+					... on EntityManagementCorrelationInternalSourceConfigEntity {
+						__typename
+						accountId
+						alias
+						filterId
+						namespaces
+						nrql
+						outputTopic
+						source
+					}
+					... on EntityManagementCorrelationLinkEntity {
+						__typename
+						directional
+						linkType
+					}
+					... on EntityManagementCorrelationLinkingRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementCustomEvaluationEntity {
+						__typename
+						criteria
+						description
+						model
+						parameters
+						steps
+						threshold
+					}
+					... on EntityManagementCustomerImpactEntity {
+						__typename
+						issueId
+					}
+					... on EntityManagementCustomerImpactQueryEntity {
+						__typename
+						query
+						queryAccountId
+						teamName
+						totalCustImpactQueryAccountIds
+						totalCustomerImpactQuery
+					}
+					... on EntityManagementEventBridgeRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementFederatedLogPartitionEntity {
+						__typename
+						dataLocationUri
+						description
+						isDefault
+						partitionDatabase
+						partitionTable
+						status
+					}
+					... on EntityManagementFederatedLogSetupEntity {
+						__typename
+						cloudProvider
+						cloudProviderRegion
+						dataLocationBucket
+						description
+						nrAccountId
+						nrRegion
+						status
+					}
+					... on EntityManagementFleetDeploymentEntity {
+						__typename
+						configurationVersions
+						description
+						fleetId
+						phase
+					}
+					... on EntityManagementFleetEntity {
+						__typename
+						description
+						managedEntityType
+						product
+					}
+					... on EntityManagementFleetRingEntity {
+						__typename
+						fleetId
+					}
+					... on EntityManagementFlowEntity {
+						__typename
+					}
+					... on EntityManagementGenericEntity {
+						__typename
+					}
+					... on EntityManagementGitHubIntegrationEntity {
+						__typename
+						installationId
+						installationSource
+						installationStatus
+						lastSyncCompletedAt
+						nextSyncAt
+					}
+					... on EntityManagementGitRepositoryEntity {
+						__typename
+						closedPullRequestCount
+						description
+						externalCreatedAt
+						externalId
+						externalLastDeployedAt
+						externalUpdatedAt
+						forkCount
+						hostingPlatform
+						latestReleaseVersion
+						lockedPullRequestCount
+						openPullRequestCount
+						primaryLanguage
+						url
+					}
+					... on EntityManagementGithubConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementImpactProfileEntity {
+						__typename
+					}
+					... on EntityManagementInboxIssueCategoryEntity {
+						__typename
+						categoryType
+						issueType
+						messageAttributes
+						nameAttributes
+					}
+					... on EntityManagementIncidentAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentEntity {
+						__typename
+						category
+						customerImpact
+						description
+						dueDate
+						entitiesImpacted
+						externalId
+						incidentCategory
+						incidentKey
+						incidentProfileId
+						incidentSubcategory
+						issueLinks
+						labels
+						lessonsLearned
+						maxSeverity
+						priority
+						reportedBy
+						resolutionCategory
+						resolutionSummary
+						retroActionItems
+						rootCauseSummary
+						rootCauseTags
+						severity
+						source
+						status
+						triggeringEvent
+					}
+					... on EntityManagementIncidentLinkEntity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementIncidentMessageEntity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementIncidentProfileAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentProfileEntity {
+						__typename
+					}
+					... on EntityManagementIncidentTimelineEntity {
+						__typename
+						content
+						entryType
+						source
+					}
+					... on EntityManagementJiraConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementJiraSyncConfiguration {
+						__typename
+						assigneeQuery
+						connection
+						correlationFieldName
+						description
+						direction
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJiraSyncConfigurationV2Entity {
+						__typename
+						bidirectional
+						connection
+						description
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJuniperMistConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementMaintenanceWindowEntity {
+						__typename
+						affectedEntityType
+						description
+						duration
+						rrule
+						startTime
+						timezone
+					}
+					... on EntityManagementManagedEvaluationsEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMcpServerEntity {
+						__typename
+						description
+						displayName
+						endpoint
+						protocolVersion
+						transport
+					}
+					... on EntityManagementMeterEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMeterTypeEntity {
+						__typename
+						allowMeterCreation
+						attributionDimensions
+						description
+					}
+					... on EntityManagementNewRelicConnection {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementNotebookEntity {
+						__typename
+					}
+					... on EntityManagementNotificationAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementNrAiAgentEntity {
+						__typename
+						displayName
+						version
+					}
+					... on EntityManagementNrqlMacroEntity {
+						__typename
+						expression
+						numParameters
+					}
+					... on EntityManagementOperationEntity {
+						__typename
+					}
+					... on EntityManagementOperationMetricEntity {
+						__typename
+					}
+					... on EntityManagementPerformanceInboxSettingEntity {
+						__typename
+						thresholdScope
+					}
+					... on EntityManagementPipelineCloudRuleEntity {
+						__typename
+						description
+						enabled
+						nrql
+					}
+					... on EntityManagementProductLineEntity {
+						__typename
+						description
+					}
+					... on EntityManagementRagDocumentEntity {
+						__typename
+						authorEmails
+						sourceIdentifier
+					}
+					... on EntityManagementRagToolEntity {
+						__typename
+						description
+					}
+					... on EntityManagementReactNativeSourcemapEntity {
+						__typename
+						appVersionId
+						applicationId
+						jsBundleId
+					}
+					... on EntityManagementRestApiContractEntity {
+						__typename
+					}
+					... on EntityManagementScorecardEntity {
+						__typename
+						description
+					}
+					... on EntityManagementScorecardRuleEntity {
+						__typename
+						description
+						enabled
+						impactWeight
+						progressLevel
+					}
+					... on EntityManagementSegmentTermsEntity {
+						__typename
+						accountId
+						agentId
+						domain
+						entityGuid
+						metricPrefix
+						oldId
+						segmentTerms
+					}
+					... on EntityManagementServerlessJobDefinitionEntity {
+						__typename
+						description
+					}
+					... on EntityManagementServiceNowConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementSlackConnection {
+						__typename
+						appId
+						description
+						enabled
+						externalId
+						workspace
+					}
+					... on EntityManagementSlackSyncConfiguration {
+						__typename
+						channelIdPayloadPath
+						connection
+						description
+						direction
+						enabled
+						mode
+					}
+					... on EntityManagementStatusPageAnnouncementEntity {
+						__typename
+						category
+						description
+						effectiveDate
+						eventUrl
+						publishedDate
+						state
+					}
+					... on EntityManagementStatusPageIncidentEntity {
+						__typename
+						description
+						endTime
+						incidentId
+						incidentTitle
+						lastUpdatedTime
+						region
+						startTime
+						status
+					}
+					... on EntityManagementTeamEntity {
+						__typename
+						aliases
+						description
+					}
+					... on EntityManagementTeamsHierarchyLevelEntity {
+						__typename
+					}
+					... on EntityManagementTeamsOrganizationSettingsEntity {
+						__typename
+					}
+					... on EntityManagementUserEntity {
+						__typename
+						userId
+					}
+					... on EntityManagementWorkItem {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkItemLink {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemLinkV2Entity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemMessage {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemMessageV2Entity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemV2Entity {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkflowDefinition {
+						__typename
+						description
+						versions
+					}
+					... on EntityManagementWorkflowSchedule {
+						__typename
+						cronExpression
+						description
+						overlapPolicy
+						timezone
+					}
+					... on EntityManagementZoomConnectionEntity {
+						__typename
+						description
+						enabled
+					}
+				}
+				dataProcessingConnection {
+					__typename
+					id
+					name
+					type
+					... on EntityManagementAgentConfigurationEntity {
+						__typename
+						agentType
+						configurationType
+						managedEntityType
+						versionCount
+					}
+					... on EntityManagementAgentConfigurationVersionEntity {
+						__typename
+						agentConfiguration
+						version
+					}
+					... on EntityManagementAgentEffectiveConfigurationEntity {
+						__typename
+					}
+					... on EntityManagementAgentEntity {
+						__typename
+						agentType
+						version
+					}
+					... on EntityManagementAiAgentEntity {
+						__typename
+						category
+						description
+						displayName
+						initialized
+						prompt
+						provider
+						test
+					}
+					... on EntityManagementAiCapableEntity {
+						__typename
+						category
+						language
+						lastSeen
+						toolType
+						toolVersion
+					}
+					... on EntityManagementAiEvaluationConfigEntity {
+						__typename
+						description
+						samplingRate
+					}
+					... on EntityManagementAiToolEntity {
+						__typename
+						description
+						initialized
+						provider
+						test
+						toolType
+						url
+					}
+					... on EntityManagementApiSpecificationBlobEntity {
+						__typename
+						description
+					}
+					... on EntityManagementAwsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementBackgroundProcessingRuleEntity {
+						__typename
+						description
+						ruleType
+					}
+					... on EntityManagementBackgroundSqlProcessingRuleEntity {
+						__typename
+						description
+					}
+					... on EntityManagementBudgetEntity {
+						__typename
+						budgetType
+						organizationBudget
+					}
+					... on EntityManagementCiscoMerakiConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementCollectionEntity {
+						__typename
+					}
+					... on EntityManagementComponentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementComputeLocationEntity {
+						__typename
+						description
+					}
+					... on EntityManagementConfluenceConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+					}
+					... on EntityManagementConfluenceIntegration {
+						__typename
+						confluenceUserId
+						secretKey
+						url
+					}
+					... on EntityManagementConfluenceRagSettingsEntity {
+						__typename
+						chunkOverlap
+						chunkSize
+						confluenceIntegrationId
+						confluenceQuery
+						intervalSeconds
+						lastPullTime
+						nextPullTime
+						textSplitterType
+					}
+					... on EntityManagementCorrelationInternalSourceConfigEntity {
+						__typename
+						accountId
+						alias
+						filterId
+						namespaces
+						nrql
+						outputTopic
+						source
+					}
+					... on EntityManagementCorrelationLinkEntity {
+						__typename
+						directional
+						linkType
+					}
+					... on EntityManagementCorrelationLinkingRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementCustomEvaluationEntity {
+						__typename
+						criteria
+						description
+						model
+						parameters
+						steps
+						threshold
+					}
+					... on EntityManagementCustomerImpactEntity {
+						__typename
+						issueId
+					}
+					... on EntityManagementCustomerImpactQueryEntity {
+						__typename
+						query
+						queryAccountId
+						teamName
+						totalCustImpactQueryAccountIds
+						totalCustomerImpactQuery
+					}
+					... on EntityManagementEventBridgeRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementFederatedLogPartitionEntity {
+						__typename
+						dataLocationUri
+						description
+						isDefault
+						partitionDatabase
+						partitionTable
+						status
+					}
+					... on EntityManagementFederatedLogSetupEntity {
+						__typename
+						cloudProvider
+						cloudProviderRegion
+						dataLocationBucket
+						description
+						nrAccountId
+						nrRegion
+						status
+					}
+					... on EntityManagementFleetDeploymentEntity {
+						__typename
+						configurationVersions
+						description
+						fleetId
+						phase
+					}
+					... on EntityManagementFleetEntity {
+						__typename
+						description
+						managedEntityType
+						product
+					}
+					... on EntityManagementFleetRingEntity {
+						__typename
+						fleetId
+					}
+					... on EntityManagementFlowEntity {
+						__typename
+					}
+					... on EntityManagementGenericEntity {
+						__typename
+					}
+					... on EntityManagementGitHubIntegrationEntity {
+						__typename
+						installationId
+						installationSource
+						installationStatus
+						lastSyncCompletedAt
+						nextSyncAt
+					}
+					... on EntityManagementGitRepositoryEntity {
+						__typename
+						closedPullRequestCount
+						description
+						externalCreatedAt
+						externalId
+						externalLastDeployedAt
+						externalUpdatedAt
+						forkCount
+						hostingPlatform
+						latestReleaseVersion
+						lockedPullRequestCount
+						openPullRequestCount
+						primaryLanguage
+						url
+					}
+					... on EntityManagementGithubConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementImpactProfileEntity {
+						__typename
+					}
+					... on EntityManagementInboxIssueCategoryEntity {
+						__typename
+						categoryType
+						issueType
+						messageAttributes
+						nameAttributes
+					}
+					... on EntityManagementIncidentAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentEntity {
+						__typename
+						category
+						customerImpact
+						description
+						dueDate
+						entitiesImpacted
+						externalId
+						incidentCategory
+						incidentKey
+						incidentProfileId
+						incidentSubcategory
+						issueLinks
+						labels
+						lessonsLearned
+						maxSeverity
+						priority
+						reportedBy
+						resolutionCategory
+						resolutionSummary
+						retroActionItems
+						rootCauseSummary
+						rootCauseTags
+						severity
+						source
+						status
+						triggeringEvent
+					}
+					... on EntityManagementIncidentLinkEntity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementIncidentMessageEntity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementIncidentProfileAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentProfileEntity {
+						__typename
+					}
+					... on EntityManagementIncidentTimelineEntity {
+						__typename
+						content
+						entryType
+						source
+					}
+					... on EntityManagementJiraConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementJiraSyncConfiguration {
+						__typename
+						assigneeQuery
+						connection
+						correlationFieldName
+						description
+						direction
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJiraSyncConfigurationV2Entity {
+						__typename
+						bidirectional
+						connection
+						description
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJuniperMistConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementMaintenanceWindowEntity {
+						__typename
+						affectedEntityType
+						description
+						duration
+						rrule
+						startTime
+						timezone
+					}
+					... on EntityManagementManagedEvaluationsEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMcpServerEntity {
+						__typename
+						description
+						displayName
+						endpoint
+						protocolVersion
+						transport
+					}
+					... on EntityManagementMeterEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMeterTypeEntity {
+						__typename
+						allowMeterCreation
+						attributionDimensions
+						description
+					}
+					... on EntityManagementNewRelicConnection {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementNotebookEntity {
+						__typename
+					}
+					... on EntityManagementNotificationAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementNrAiAgentEntity {
+						__typename
+						displayName
+						version
+					}
+					... on EntityManagementNrqlMacroEntity {
+						__typename
+						expression
+						numParameters
+					}
+					... on EntityManagementOperationEntity {
+						__typename
+					}
+					... on EntityManagementOperationMetricEntity {
+						__typename
+					}
+					... on EntityManagementPerformanceInboxSettingEntity {
+						__typename
+						thresholdScope
+					}
+					... on EntityManagementPipelineCloudRuleEntity {
+						__typename
+						description
+						enabled
+						nrql
+					}
+					... on EntityManagementProductLineEntity {
+						__typename
+						description
+					}
+					... on EntityManagementRagDocumentEntity {
+						__typename
+						authorEmails
+						sourceIdentifier
+					}
+					... on EntityManagementRagToolEntity {
+						__typename
+						description
+					}
+					... on EntityManagementReactNativeSourcemapEntity {
+						__typename
+						appVersionId
+						applicationId
+						jsBundleId
+					}
+					... on EntityManagementRestApiContractEntity {
+						__typename
+					}
+					... on EntityManagementScorecardEntity {
+						__typename
+						description
+					}
+					... on EntityManagementScorecardRuleEntity {
+						__typename
+						description
+						enabled
+						impactWeight
+						progressLevel
+					}
+					... on EntityManagementSegmentTermsEntity {
+						__typename
+						accountId
+						agentId
+						domain
+						entityGuid
+						metricPrefix
+						oldId
+						segmentTerms
+					}
+					... on EntityManagementServerlessJobDefinitionEntity {
+						__typename
+						description
+					}
+					... on EntityManagementServiceNowConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementSlackConnection {
+						__typename
+						appId
+						description
+						enabled
+						externalId
+						workspace
+					}
+					... on EntityManagementSlackSyncConfiguration {
+						__typename
+						channelIdPayloadPath
+						connection
+						description
+						direction
+						enabled
+						mode
+					}
+					... on EntityManagementStatusPageAnnouncementEntity {
+						__typename
+						category
+						description
+						effectiveDate
+						eventUrl
+						publishedDate
+						state
+					}
+					... on EntityManagementStatusPageIncidentEntity {
+						__typename
+						description
+						endTime
+						incidentId
+						incidentTitle
+						lastUpdatedTime
+						region
+						startTime
+						status
+					}
+					... on EntityManagementTeamEntity {
+						__typename
+						aliases
+						description
+					}
+					... on EntityManagementTeamsHierarchyLevelEntity {
+						__typename
+					}
+					... on EntityManagementTeamsOrganizationSettingsEntity {
+						__typename
+					}
+					... on EntityManagementUserEntity {
+						__typename
+						userId
+					}
+					... on EntityManagementWorkItem {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkItemLink {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemLinkV2Entity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemMessage {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemMessageV2Entity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemV2Entity {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkflowDefinition {
+						__typename
+						description
+						versions
+					}
+					... on EntityManagementWorkflowSchedule {
+						__typename
+						cronExpression
+						description
+						overlapPolicy
+						timezone
+					}
+					... on EntityManagementZoomConnectionEntity {
+						__typename
+						description
+						enabled
+					}
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nrAccountId
+				nrRegion
+				queryConnection {
+					__typename
+					id
+					name
+					type
+					... on EntityManagementAgentConfigurationEntity {
+						__typename
+						agentType
+						configurationType
+						managedEntityType
+						versionCount
+					}
+					... on EntityManagementAgentConfigurationVersionEntity {
+						__typename
+						agentConfiguration
+						version
+					}
+					... on EntityManagementAgentEffectiveConfigurationEntity {
+						__typename
+					}
+					... on EntityManagementAgentEntity {
+						__typename
+						agentType
+						version
+					}
+					... on EntityManagementAiAgentEntity {
+						__typename
+						category
+						description
+						displayName
+						initialized
+						prompt
+						provider
+						test
+					}
+					... on EntityManagementAiCapableEntity {
+						__typename
+						category
+						language
+						lastSeen
+						toolType
+						toolVersion
+					}
+					... on EntityManagementAiEvaluationConfigEntity {
+						__typename
+						description
+						samplingRate
+					}
+					... on EntityManagementAiToolEntity {
+						__typename
+						description
+						initialized
+						provider
+						test
+						toolType
+						url
+					}
+					... on EntityManagementApiSpecificationBlobEntity {
+						__typename
+						description
+					}
+					... on EntityManagementAwsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementBackgroundProcessingRuleEntity {
+						__typename
+						description
+						ruleType
+					}
+					... on EntityManagementBackgroundSqlProcessingRuleEntity {
+						__typename
+						description
+					}
+					... on EntityManagementBudgetEntity {
+						__typename
+						budgetType
+						organizationBudget
+					}
+					... on EntityManagementCiscoMerakiConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementCollectionEntity {
+						__typename
+					}
+					... on EntityManagementComponentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementComputeLocationEntity {
+						__typename
+						description
+					}
+					... on EntityManagementConfluenceConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+					}
+					... on EntityManagementConfluenceIntegration {
+						__typename
+						confluenceUserId
+						secretKey
+						url
+					}
+					... on EntityManagementConfluenceRagSettingsEntity {
+						__typename
+						chunkOverlap
+						chunkSize
+						confluenceIntegrationId
+						confluenceQuery
+						intervalSeconds
+						lastPullTime
+						nextPullTime
+						textSplitterType
+					}
+					... on EntityManagementCorrelationInternalSourceConfigEntity {
+						__typename
+						accountId
+						alias
+						filterId
+						namespaces
+						nrql
+						outputTopic
+						source
+					}
+					... on EntityManagementCorrelationLinkEntity {
+						__typename
+						directional
+						linkType
+					}
+					... on EntityManagementCorrelationLinkingRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementCustomEvaluationEntity {
+						__typename
+						criteria
+						description
+						model
+						parameters
+						steps
+						threshold
+					}
+					... on EntityManagementCustomerImpactEntity {
+						__typename
+						issueId
+					}
+					... on EntityManagementCustomerImpactQueryEntity {
+						__typename
+						query
+						queryAccountId
+						teamName
+						totalCustImpactQueryAccountIds
+						totalCustomerImpactQuery
+					}
+					... on EntityManagementEventBridgeRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementFederatedLogPartitionEntity {
+						__typename
+						dataLocationUri
+						description
+						isDefault
+						partitionDatabase
+						partitionTable
+						status
+					}
+					... on EntityManagementFederatedLogSetupEntity {
+						__typename
+						cloudProvider
+						cloudProviderRegion
+						dataLocationBucket
+						description
+						nrAccountId
+						nrRegion
+						status
+					}
+					... on EntityManagementFleetDeploymentEntity {
+						__typename
+						configurationVersions
+						description
+						fleetId
+						phase
+					}
+					... on EntityManagementFleetEntity {
+						__typename
+						description
+						managedEntityType
+						product
+					}
+					... on EntityManagementFleetRingEntity {
+						__typename
+						fleetId
+					}
+					... on EntityManagementFlowEntity {
+						__typename
+					}
+					... on EntityManagementGenericEntity {
+						__typename
+					}
+					... on EntityManagementGitHubIntegrationEntity {
+						__typename
+						installationId
+						installationSource
+						installationStatus
+						lastSyncCompletedAt
+						nextSyncAt
+					}
+					... on EntityManagementGitRepositoryEntity {
+						__typename
+						closedPullRequestCount
+						description
+						externalCreatedAt
+						externalId
+						externalLastDeployedAt
+						externalUpdatedAt
+						forkCount
+						hostingPlatform
+						latestReleaseVersion
+						lockedPullRequestCount
+						openPullRequestCount
+						primaryLanguage
+						url
+					}
+					... on EntityManagementGithubConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementImpactProfileEntity {
+						__typename
+					}
+					... on EntityManagementInboxIssueCategoryEntity {
+						__typename
+						categoryType
+						issueType
+						messageAttributes
+						nameAttributes
+					}
+					... on EntityManagementIncidentAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentEntity {
+						__typename
+						category
+						customerImpact
+						description
+						dueDate
+						entitiesImpacted
+						externalId
+						incidentCategory
+						incidentKey
+						incidentProfileId
+						incidentSubcategory
+						issueLinks
+						labels
+						lessonsLearned
+						maxSeverity
+						priority
+						reportedBy
+						resolutionCategory
+						resolutionSummary
+						retroActionItems
+						rootCauseSummary
+						rootCauseTags
+						severity
+						source
+						status
+						triggeringEvent
+					}
+					... on EntityManagementIncidentLinkEntity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementIncidentMessageEntity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementIncidentProfileAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentProfileEntity {
+						__typename
+					}
+					... on EntityManagementIncidentTimelineEntity {
+						__typename
+						content
+						entryType
+						source
+					}
+					... on EntityManagementJiraConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementJiraSyncConfiguration {
+						__typename
+						assigneeQuery
+						connection
+						correlationFieldName
+						description
+						direction
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJiraSyncConfigurationV2Entity {
+						__typename
+						bidirectional
+						connection
+						description
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJuniperMistConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementMaintenanceWindowEntity {
+						__typename
+						affectedEntityType
+						description
+						duration
+						rrule
+						startTime
+						timezone
+					}
+					... on EntityManagementManagedEvaluationsEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMcpServerEntity {
+						__typename
+						description
+						displayName
+						endpoint
+						protocolVersion
+						transport
+					}
+					... on EntityManagementMeterEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMeterTypeEntity {
+						__typename
+						allowMeterCreation
+						attributionDimensions
+						description
+					}
+					... on EntityManagementNewRelicConnection {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementNotebookEntity {
+						__typename
+					}
+					... on EntityManagementNotificationAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementNrAiAgentEntity {
+						__typename
+						displayName
+						version
+					}
+					... on EntityManagementNrqlMacroEntity {
+						__typename
+						expression
+						numParameters
+					}
+					... on EntityManagementOperationEntity {
+						__typename
+					}
+					... on EntityManagementOperationMetricEntity {
+						__typename
+					}
+					... on EntityManagementPerformanceInboxSettingEntity {
+						__typename
+						thresholdScope
+					}
+					... on EntityManagementPipelineCloudRuleEntity {
+						__typename
+						description
+						enabled
+						nrql
+					}
+					... on EntityManagementProductLineEntity {
+						__typename
+						description
+					}
+					... on EntityManagementRagDocumentEntity {
+						__typename
+						authorEmails
+						sourceIdentifier
+					}
+					... on EntityManagementRagToolEntity {
+						__typename
+						description
+					}
+					... on EntityManagementReactNativeSourcemapEntity {
+						__typename
+						appVersionId
+						applicationId
+						jsBundleId
+					}
+					... on EntityManagementRestApiContractEntity {
+						__typename
+					}
+					... on EntityManagementScorecardEntity {
+						__typename
+						description
+					}
+					... on EntityManagementScorecardRuleEntity {
+						__typename
+						description
+						enabled
+						impactWeight
+						progressLevel
+					}
+					... on EntityManagementSegmentTermsEntity {
+						__typename
+						accountId
+						agentId
+						domain
+						entityGuid
+						metricPrefix
+						oldId
+						segmentTerms
+					}
+					... on EntityManagementServerlessJobDefinitionEntity {
+						__typename
+						description
+					}
+					... on EntityManagementServiceNowConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementSlackConnection {
+						__typename
+						appId
+						description
+						enabled
+						externalId
+						workspace
+					}
+					... on EntityManagementSlackSyncConfiguration {
+						__typename
+						channelIdPayloadPath
+						connection
+						description
+						direction
+						enabled
+						mode
+					}
+					... on EntityManagementStatusPageAnnouncementEntity {
+						__typename
+						category
+						description
+						effectiveDate
+						eventUrl
+						publishedDate
+						state
+					}
+					... on EntityManagementStatusPageIncidentEntity {
+						__typename
+						description
+						endTime
+						incidentId
+						incidentTitle
+						lastUpdatedTime
+						region
+						startTime
+						status
+					}
+					... on EntityManagementTeamEntity {
+						__typename
+						aliases
+						description
+					}
+					... on EntityManagementTeamsHierarchyLevelEntity {
+						__typename
+					}
+					... on EntityManagementTeamsOrganizationSettingsEntity {
+						__typename
+					}
+					... on EntityManagementUserEntity {
+						__typename
+						userId
+					}
+					... on EntityManagementWorkItem {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkItemLink {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemLinkV2Entity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemMessage {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemMessageV2Entity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemV2Entity {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkflowDefinition {
+						__typename
+						description
+						versions
+					}
+					... on EntityManagementWorkflowSchedule {
+						__typename
+						cronExpression
+						description
+						overlapPolicy
+						timezone
+					}
+					... on EntityManagementZoomConnectionEntity {
+						__typename
+						description
+						enabled
+					}
+				}
+				scope {
+					id
+					type
+				}
+				status
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementFleetDeploymentEntity {
+				__typename
+				configurationVersionList {
+					id
+				}
+				configurationVersions
+				description
+				fleetId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				phase
+				ringsDeploymentTracker {
+					completedAt
+					name
+					startedAt
+					status
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementFleetEntity {
+				__typename
+				currentDeployment {
+					canaryManagedEntities
+					configsChanged
+					configurationVersions
+					deployedAt
+					description
+					entitiesChanged
+					managedEntitiesChanged
+					managedEntitiesRequiredToChange
+					name
+					status
+					supervisedAgentEntitiesChanged
+					supervisedAgentEntitiesRequiredToChange
+				}
+				description
+				managedEntityRings {
+					id
+					name
+					type
+				}
+				managedEntityType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				operatingSystem {
+					type
+				}
+				product
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementFleetRingEntity {
+				__typename
+				fleetId
+				managedEntities {
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementFlowEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementGenericEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementGitHubIntegrationEntity {
+				__typename
+				count {
+					repoCount
+					teamCount
+				}
+				gitHubRetentionOptions {
+					retainRepositories
+					retainTeams
+				}
+				gitHubSyncOptions {
+					syncRepositories
+					syncTeams
+				}
+				installationId
+				installationSource
+				installationStatus
+				lastSyncCompletedAt
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nextSyncAt
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementGitRepositoryEntity {
+				__typename
+				closedPullRequestCount
+				configuration {
+					source
+					updatedAt
+					updatedBy
+				}
+				description
+				externalCreatedAt
+				externalId
+				externalLastDeployedAt
+				externalOwner {
+					id
+					type
+				}
+				externalUpdatedAt
+				forkCount
+				hostingPlatform
+				latestReleaseVersion
+				license {
+					name
+					url
+				}
+				lockedPullRequestCount
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				openPullRequestCount
+				primaryLanguage
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementGithubConnection {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementImpactProfileEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementInboxIssueCategoryEntity {
+				__typename
+				categoryScope {
+					id
+					type
+				}
+				categoryType
+				issueType
+				messageAttributes
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nameAttributes
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementIncidentAttachmentEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementIncidentEntity {
+				__typename
+				assignedTo {
+					identifier
+					type
+				}
+				attributes {
+					name
+					value
+				}
+				category
+				customerImpact
+				description
+				dueDate
+				entitiesImpacted
+				externalId
+				incidentCategory
+				incidentKey
+				incidentProfileId
+				incidentSubcategory
+				issueLinks
+				labels
+				lessonsLearned
+				links {
+					id
+					name
+					type
+				}
+				maxSeverity
+				messages {
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				priority
+				reportedBy
+				resolutionCategory
+				resolutionSummary
+				retroActionItems
+				rootCauseSummary
+				rootCauseTags
+				scope {
+					id
+					type
+				}
+				severity
+				source
+				status
+				tags {
+					key
+					values
+				}
+				timelines {
+					id
+					name
+					type
+				}
+				triggeringEvent
+			}
+			... on EntityManagementIncidentLinkEntity {
+				__typename
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementIncidentMessageEntity {
+				__typename
+				content
+				contentEncoding
+				contentType
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				parentId
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementIncidentProfileAttachmentEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementIncidentProfileEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementIncidentTimelineEntity {
+				__typename
+				content
+				entryType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				source
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementJiraConnection {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementJiraSyncConfiguration {
+				__typename
+				assigneeQuery
+				connection
+				correlationFieldName
+				description
+				direction
+				enabled
+				issueType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				mode
+				projectKey
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				targets {
+					key
+					values
+				}
+				templateFields {
+					direction
+					name
+					required
+					template
+				}
+			}
+			... on EntityManagementJiraSyncConfigurationV2Entity {
+				__typename
+				bidirectional
+				connection
+				description
+				enabled
+				issueType
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				mode
+				projectKey
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				targets {
+					key
+					values
+				}
+				templateFields {
+					direction
+					name
+					required
+					template
+				}
+			}
+			... on EntityManagementJuniperMistConnectionEntity {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				region
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementMaintenanceWindowEntity {
+				__typename
+				affectedEntityType
+				description
+				duration
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				rrule
+				scope {
+					id
+					type
+				}
+				startTime
+				tags {
+					key
+					values
+				}
+				timezone
+			}
+			... on EntityManagementManagedEvaluationsEntity {
+				__typename
+				description
+				evaluations {
+					enabled
+					evaluationType
+					threshold
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementMcpServerEntity {
+				__typename
+				auth {
+					headerKey
+					type
+				}
+				description
+				displayName
+				endpoint
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				protocolVersion
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				transport
+			}
+			... on EntityManagementMeterEntity {
+				__typename
+				attributes {
+					name
+					values
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				meterType {
+					allowMeterCreation
+					attributionDimensions
+					description
+					id
+					name
+					type
+				}
+				owningTeam {
+					aliases
+					description
+					id
+					name
+					type
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementMeterTypeEntity {
+				__typename
+				allowMeterCreation
+				attributionDimensions
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				owningTeam {
+					aliases
+					description
+					id
+					name
+					type
+				}
+				productLine {
+					description
+					id
+					name
+					type
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementNewRelicConnection {
+				__typename
+				credential {
+					type
+				}
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				region
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementNotebookEntity {
+				__typename
+				content {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementNotificationAttachmentEntity {
+				__typename
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementNrAiAgentEntity {
+				__typename
+				displayName
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				version
+			}
+			... on EntityManagementNrqlMacroEntity {
+				__typename
+				expression
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				numParameters
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementOperationEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementOperationMetricEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementPerformanceInboxSettingEntity {
+				__typename
+				config {
+					name
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				thresholdScope
+			}
+			... on EntityManagementPipelineCloudRuleEntity {
+				__typename
+				description
+				enabled
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nrql
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementProductLineEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementRagDocumentEntity {
+				__typename
+				authorEmails
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				sourceIdentifier
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementRagToolEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementReactNativeSourcemapEntity {
+				__typename
+				appVersionId
+				applicationId
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				jsBundleId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementRestApiContractEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementScorecardEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				progressLevels {
+					description
+					hexColorCode
+					id
+					name
+				}
+				rules {
+					id
+					name
+					type
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementScorecardRuleEntity {
+				__typename
+				description
+				enabled
+				impactWeight
+				lastExecutionStatus {
+					checkedEntities
+					executedAt
+					executionStatus
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				nrqlEngine {
+					accounts
+					joinAccounts
+					query
+				}
+				progressLevel
+				schedule {
+					cronExpression
+					enabled
+					period
+					scheduleAt
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementSegmentTermsEntity {
+				__typename
+				accountId
+				agentId
+				domain
+				entityGuid
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				metricPrefix
+				oldId
+				scope {
+					id
+					type
+				}
+				segmentTerms
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementServerlessJobDefinitionEntity {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementServiceNowConnection {
+				__typename
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementSlackConnection {
+				__typename
+				appId
+				description
+				enabled
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+				token {
+					keyName
+					namespace
+				}
+				workspace
+			}
+			... on EntityManagementSlackSyncConfiguration {
+				__typename
+				channelIdPayloadPath
+				connection
+				description
+				direction
+				enabled
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				mode
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				targets {
+					key
+					values
+				}
+				templateFields {
+					direction
+					name
+					required
+					template
+				}
+			}
+			... on EntityManagementStatusPageAnnouncementEntity {
+				__typename
+				category
+				communicationLogs {
+					communicatedBy
+					communicationMode
+					communicationStatus
+					message
+					timestamp
+				}
+				description
+				effectiveDate
+				eventUrl
+				impactQuery {
+					nrqlQuery
+					queryAccountIds
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				pointOfContacts {
+					id
+					name
+					type
+					userId
+				}
+				publishedDate
+				scope {
+					id
+					type
+				}
+				state
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementStatusPageIncidentEntity {
+				__typename
+				communicationLogs {
+					communicatedBy
+					communicationMode
+					communicationStatus
+					message
+					timestamp
+				}
+				description
+				endTime
+				incidentId
+				incidentTitle
+				lastUpdatedTime
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				region
+				scope {
+					id
+					type
+				}
+				startTime
+				status
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementTeamEntity {
+				__typename
+				aliases
+				description
+				externalIntegration {
+					externalId
+					type
+				}
+				membership {
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				ownership {
+					id
+					name
+					type
+				}
+				resources {
+					content
+					title
+					type
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementTeamsHierarchyLevelEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementTeamsOrganizationSettingsEntity {
+				__typename
+				discovery {
+					enabled
+					tagKeys
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				syncGroups {
+					enabled
+				}
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementUserEntity {
+				__typename
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				userId
+			}
+			... on EntityManagementWorkItem {
+				__typename
+				assignedTo {
+					identifier
+					type
+				}
+				attributes {
+					name
+					value
+				}
+				category
+				description
+				dueDate
+				externalId
+				labels
+				links {
+					id
+					name
+					type
+				}
+				messages {
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				priority
+				scope {
+					id
+					type
+				}
+				status
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementWorkItemLink {
+				__typename
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementWorkItemLinkV2Entity {
+				__typename
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+				url
+			}
+			... on EntityManagementWorkItemMessage {
+				__typename
+				content
+				contentEncoding
+				contentType
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				parentId
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementWorkItemMessageV2Entity {
+				__typename
+				content
+				contentEncoding
+				contentType
+				externalId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				parentId
+				scope {
+					id
+					type
+				}
+				sourceSyncConfigurationId
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementWorkItemV2Entity {
+				__typename
+				assignedTo {
+					identifier
+					type
+				}
+				attributes {
+					name
+					value
+				}
+				category
+				description
+				dueDate
+				externalId
+				labels
+				links {
+					id
+					name
+					type
+				}
+				messages {
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				priority
+				scope {
+					id
+					type
+				}
+				status
+				tags {
+					key
+					values
+				}
+			}
+			... on EntityManagementWorkflowDefinition {
+				__typename
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				versions
+			}
+			... on EntityManagementWorkflowSchedule {
+				__typename
+				cronExpression
+				definition {
+					id
+					version
+				}
+				description
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				overlapPolicy
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				timezone
+			}
+			... on EntityManagementZoomConnectionEntity {
+				__typename
+				description
+				enabled
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				scope {
+					id
+					type
+				}
+				settings {
+					key
+					value
+				}
+				signingCredentials {
+					signingAlgorithm
+				}
+				tags {
+					key
+					values
+				}
+			}
+		}
+		scope {
+			id
+			type
+		}
+		status
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementFleetDeploymentEntity {
+		__typename
+		configurationVersionList {
+			id
+		}
+		configurationVersions
+		description
+		fleetId
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		phase
+		ringsDeploymentTracker {
+			completedAt
+			name
+			startedAt
+			status
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementFleetEntity {
+		__typename
+		currentDeployment {
+			canaryManagedEntities
+			configsChanged
+			configurationVersions
+			deployedAt
+			description
+			entitiesChanged
+			managedEntitiesChanged
+			managedEntitiesRequiredToChange
+			metadata {
+				createdAt
+				updatedAt
+				userId
+			}
+			name
+			status
+			supervisedAgentEntitiesChanged
+			supervisedAgentEntitiesRequiredToChange
+		}
+		description
+		managedEntityRings {
+			id
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			name
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			type
+		}
+		managedEntityType
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		operatingSystem {
+			type
+		}
+		product
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementFleetRingEntity {
+		__typename
+		fleetId
+		managedEntities {
+			id
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			name
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			type
+		}
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementFlowEntity {
+		__typename
+		blob {
+			blobSignature {
+				securityFindings
+				signature {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				signatureError
+				signatureErrors
+				signatures {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				validationError
+			}
+			blobSignatures {
+				securityFindings
+				signature {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				signatureError
+				signatureErrors
+				signatures {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				validationError
+			}
+			checksum
+			checksumAlgorithm
+			contentType
+			id
+		}
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementGenericEntity {
+		__typename
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementGitHubIntegrationEntity {
+		__typename
+		count {
+			repoCount
+			teamCount
+		}
+		gitHubRetentionOptions {
+			retainRepositories
+			retainTeams
+		}
+		gitHubSyncOptions {
+			syncRepositories
+			syncTeams
+		}
+		installationId
+		installationSource
+		installationStatus
+		lastSyncCompletedAt
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		nextSyncAt
+		scope {
+			id
+			type
+		}
+		synchronizedGitHubTeams {
+			teams {
+				id
+			}
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementGitRepositoryEntity {
+		__typename
+		closedPullRequestCount
+		configuration {
+			blob {
+				blobSignature {
+					securityFindings
+					signatureError
+					signatureErrors
+					validationError
+				}
+				blobSignatures {
+					securityFindings
+					signatureError
+					signatureErrors
+					validationError
+				}
+				checksum
+				checksumAlgorithm
+				contentType
+				id
+			}
+			source
+			updatedAt
+			updatedBy
+		}
+		description
+		externalCreatedAt
+		externalId
+		externalLastDeployedAt
+		externalOwner {
+			id
+			type
+		}
+		externalUpdatedAt
+		forkCount
+		hostingPlatform
+		latestReleaseVersion
+		license {
+			name
+			url
+		}
+		lockedPullRequestCount
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		openPullRequestCount
+		primaryLanguage
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+		url
+	}
+	... on EntityManagementGithubConnection {
+		__typename
+		credential {
+			appToken {
+				appId
+				installationId
+				privateKeyReference {
+					keyName
+					namespace
+				}
+				tokenFieldName
+				tokenRelativeUrl
+			}
+			personalAccessToken {
+				keyName
+				namespace
+			}
+		}
+		description
+		enabled
+		externalId
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		settings {
+			key
+			value
+		}
+		signingCredentials {
+			signingAlgorithm
+			signingKeyReference {
+				keyName
+				namespace
+			}
+		}
+		tags {
+			key
+			values
+		}
+		url
+	}
+	... on EntityManagementImpactProfileEntity {
+		__typename
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementInboxIssueCategoryEntity {
+		__typename
+		categoryScope {
+			id
+			type
+		}
+		categoryType
+		issueType
+		messageAttributes
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		nameAttributes
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementIncidentAttachmentEntity {
+		__typename
+		blob {
+			blobSignature {
+				securityFindings
+				signature {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				signatureError
+				signatureErrors
+				signatures {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				validationError
+			}
+			blobSignatures {
+				securityFindings
+				signature {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				signatureError
+				signatureErrors
+				signatures {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				validationError
+			}
+			checksum
+			checksumAlgorithm
+			contentType
+			id
+		}
+		description
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementIncidentEntity {
+		__typename
+		assignedTo {
+			identifier
+			type
+		}
+		attributes {
+			name
+			value
+		}
+		category
+		customerImpact
+		description
+		dueDate
+		entitiesImpacted
+		externalId
+		incidentCategory
+		incidentKey
+		incidentProfileId
+		incidentSubcategory
+		issueLinks
+		labels
+		lessonsLearned
+		links {
+			id
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			name
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			type
+		}
+		maxSeverity
+		messages {
+			id
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			name
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			type
+		}
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		priority
+		reportedBy
+		resolutionCategory
+		resolutionSummary
+		retroActionItems
+		rootCauseSummary
+		rootCauseTags
+		scope {
+			id
+			type
+		}
+		severity
+		source
+		status
+		tags {
+			key
+			values
+		}
+		timelines {
+			id
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			name
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			type
+		}
+		triggeringEvent
+	}
+	... on EntityManagementIncidentLinkEntity {
+		__typename
+		externalId
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		sourceSyncConfigurationId
+		tags {
+			key
+			values
+		}
+		url
+	}
+	... on EntityManagementIncidentMessageEntity {
+		__typename
+		content
+		contentEncoding
+		contentType
+		externalId
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		parentId
+		scope {
+			id
+			type
+		}
+		sourceSyncConfigurationId
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementIncidentProfileAttachmentEntity {
+		__typename
+		blob {
+			blobSignature {
+				securityFindings
+				signature {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				signatureError
+				signatureErrors
+				signatures {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				validationError
+			}
+			blobSignatures {
+				securityFindings
+				signature {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				signatureError
+				signatureErrors
+				signatures {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				validationError
+			}
+			checksum
+			checksumAlgorithm
+			contentType
+			id
+		}
+		description
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementIncidentProfileEntity {
+		__typename
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementIncidentTimelineEntity {
+		__typename
+		content
+		entryType
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		source
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementJiraConnection {
+		__typename
+		credential {
+			basicAuth {
+				apiKey {
+					keyName
+					namespace
+				}
+				username {
+					keyName
+					namespace
+				}
+			}
+			oauth {
+				clientId
+				clientSecret {
+					keyName
+					namespace
+				}
+				tokenFieldName
+				tokenUrl
+			}
+			personalAccessToken {
+				keyName
+				namespace
+			}
+		}
+		description
+		enabled
+		externalId
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		settings {
+			key
+			value
+		}
+		signingCredentials {
+			signingAlgorithm
+			signingKeyReference {
+				keyName
+				namespace
+			}
+		}
+		tags {
+			key
+			values
+		}
+		url
+	}
+	... on EntityManagementJiraSyncConfiguration {
+		__typename
+		assigneeQuery
+		connection
+		correlationFieldName
+		description
+		direction
+		enabled
+		issueType
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		mode
+		projectKey
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+		targets {
+			key
+			values
+		}
+		templateFields {
+			direction
+			name
+			required
+			template
+		}
+	}
+	... on EntityManagementJiraSyncConfigurationV2Entity {
+		__typename
+		bidirectional
+		connection
+		description
+		enabled
+		issueType
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		mode
+		projectKey
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+		targets {
+			key
+			values
+		}
+		templateFields {
+			direction
+			name
+			required
+			template
+		}
+	}
+	... on EntityManagementJuniperMistConnectionEntity {
+		__typename
+		credential {
+			basicAuth {
+				token {
+					keyName
+					namespace
+				}
+			}
+		}
+		description
+		enabled
+		externalId
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		region
+		scope {
+			id
+			type
+		}
+		settings {
+			key
+			value
+		}
+		signingCredentials {
+			signingAlgorithm
+			signingKeyReference {
+				keyName
+				namespace
+			}
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementMaintenanceWindowEntity {
+		__typename
+		affectedEntityType
+		description
+		duration
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		rrule
+		scope {
+			id
+			type
+		}
+		startTime
+		tags {
+			key
+			values
+		}
+		timezone
+	}
+	... on EntityManagementManagedEvaluationsEntity {
+		__typename
+		description
+		evaluations {
+			additionalParameters {
+				key
+				value
+			}
+			enabled
+			evaluationType
+			threshold
+		}
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementMcpServerEntity {
+		__typename
+		auth {
+			bearerToken {
+				keyName
+				namespace
+			}
+			headerKey
+			headerValue {
+				keyName
+				namespace
+			}
+			type
+		}
+		description
+		displayName
+		endpoint
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		protocolVersion
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+		transport
+	}
+	... on EntityManagementMeterEntity {
+		__typename
+		attributes {
+			name
+			values
+		}
+		description
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		meterType {
+			allowMeterCreation
+			attributionDimensions
+			description
+			id
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			name
+			owningTeam {
+				aliases
+				description
+				externalIntegration {
+					externalId
+					type
+				}
+				id
+				membership {
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				ownership {
+					id
+					name
+					type
+				}
+				resources {
+					content
+					title
+					type
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+			}
+			productLine {
+				description
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			type
+		}
+		owningTeam {
+			aliases
+			description
+			externalIntegration {
+				externalId
+				type
+			}
+			id
+			membership {
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+			}
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			name
+			ownership {
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+			}
+			resources {
+				content
+				title
+				type
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			type
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementMeterTypeEntity {
+		__typename
+		allowMeterCreation
+		attributionDimensions
+		description
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		owningTeam {
+			aliases
+			description
+			externalIntegration {
+				externalId
+				type
+			}
+			id
+			membership {
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+			}
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			name
+			ownership {
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+			}
+			resources {
+				content
+				title
+				type
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			type
+		}
+		productLine {
+			description
+			id
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			name
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			type
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementNewRelicConnection {
+		__typename
+		credential {
+			apiKey {
+				keyName
+				namespace
+			}
+			type
+		}
+		description
+		enabled
+		externalId
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		region
+		scope {
+			id
+			type
+		}
+		settings {
+			key
+			value
+		}
+		signingCredentials {
+			signingAlgorithm
+			signingKeyReference {
+				keyName
+				namespace
+			}
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementNotebookEntity {
+		__typename
+		content {
+			blobSignature {
+				securityFindings
+				signature {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				signatureError
+				signatureErrors
+				signatures {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				validationError
+			}
+			blobSignatures {
+				securityFindings
+				signature {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				signatureError
+				signatureErrors
+				signatures {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				validationError
+			}
+			checksum
+			checksumAlgorithm
+			contentType
+			id
+		}
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementNotificationAttachmentEntity {
+		__typename
+		blob {
+			blobSignature {
+				securityFindings
+				signature {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				signatureError
+				signatureErrors
+				signatures {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				validationError
+			}
+			blobSignatures {
+				securityFindings
+				signature {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				signatureError
+				signatureErrors
+				signatures {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				validationError
+			}
+			checksum
+			checksumAlgorithm
+			contentType
+			id
+		}
+		description
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementNrAiAgentEntity {
+		__typename
+		displayName
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+		version
+	}
+	... on EntityManagementNrqlMacroEntity {
+		__typename
+		expression
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		numParameters
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementOperationEntity {
+		__typename
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementOperationMetricEntity {
+		__typename
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementPerformanceInboxSettingEntity {
+		__typename
+		config {
+			attributes {
+				key
+				value
+			}
+			name
+		}
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+		thresholdScope
+	}
 	... on EntityManagementPipelineCloudRuleEntity {
 		__typename
 		description
+		enabled
 		metadata {
 			createdAt
 			createdBy {
@@ -313,6 +33194,1727 @@ const getEntityQuery = `query(
 		scope {
 			id
 			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementProductLineEntity {
+		__typename
+		description
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementRagDocumentEntity {
+		__typename
+		authorEmails
+		blob {
+			blobSignature {
+				securityFindings
+				signature {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				signatureError
+				signatureErrors
+				signatures {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				validationError
+			}
+			blobSignatures {
+				securityFindings
+				signature {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				signatureError
+				signatureErrors
+				signatures {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				validationError
+			}
+			checksum
+			checksumAlgorithm
+			contentType
+			id
+		}
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		sourceIdentifier
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementRagToolEntity {
+		__typename
+		description
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementReactNativeSourcemapEntity {
+		__typename
+		appVersionId
+		applicationId
+		blob {
+			blobSignature {
+				securityFindings
+				signature {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				signatureError
+				signatureErrors
+				signatures {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				validationError
+			}
+			blobSignatures {
+				securityFindings
+				signature {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				signatureError
+				signatureErrors
+				signatures {
+					checksum
+					checksumAlgorithm
+					keyId
+					signature
+					signatureSpecification
+					signingAlgorithm
+					signingDomain
+				}
+				validationError
+			}
+			checksum
+			checksumAlgorithm
+			contentType
+			id
+		}
+		jsBundleId
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementRestApiContractEntity {
+		__typename
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementScorecardEntity {
+		__typename
+		description
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		progressLevels {
+			description
+			hexColorCode
+			id
+			name
+		}
+		rules {
+			id
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			name
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			type
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementScorecardRuleEntity {
+		__typename
+		description
+		enabled
+		impactWeight
+		lastExecutionStatus {
+			checkedEntities
+			executedAt
+			executionIssues {
+				statusCode
+				statusMessage
+			}
+			executionStatus
+		}
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		nrqlEngine {
+			accounts
+			joinAccounts
+			query
+		}
+		progressLevel
+		schedule {
+			cronExpression
+			enabled
+			period
+			scheduleAt
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementSegmentTermsEntity {
+		__typename
+		accountId
+		agentId
+		domain
+		entityGuid
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		metricPrefix
+		oldId
+		scope {
+			id
+			type
+		}
+		segmentTerms
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementServerlessJobDefinitionEntity {
+		__typename
+		description
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementServiceNowConnection {
+		__typename
+		credential {
+			basicAuth {
+				apiKey {
+					keyName
+					namespace
+				}
+			}
+			oauth {
+				clientId
+				clientSecret {
+					keyName
+					namespace
+				}
+				tokenFieldName
+				tokenRelativeUrl
+			}
+		}
+		description
+		enabled
+		externalId
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		settings {
+			key
+			value
+		}
+		signingCredentials {
+			signingAlgorithm
+			signingKeyReference {
+				keyName
+				namespace
+			}
+		}
+		tags {
+			key
+			values
+		}
+		url
+	}
+	... on EntityManagementSlackConnection {
+		__typename
+		appId
+		description
+		enabled
+		externalId
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		settings {
+			key
+			value
+		}
+		signingCredentials {
+			signingAlgorithm
+			signingKeyReference {
+				keyName
+				namespace
+			}
+		}
+		tags {
+			key
+			values
+		}
+		token {
+			keyName
+			namespace
+		}
+		workspace
+	}
+	... on EntityManagementSlackSyncConfiguration {
+		__typename
+		channelIdPayloadPath
+		connection
+		description
+		direction
+		enabled
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		mode
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+		targets {
+			key
+			values
+		}
+		templateFields {
+			direction
+			name
+			required
+			template
+		}
+	}
+	... on EntityManagementStatusPageAnnouncementEntity {
+		__typename
+		category
+		communicationLogs {
+			communicatedBy
+			communicationMode
+			communicationStatus
+			impact {
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				components {
+					description
+					id
+					name
+					type
+				}
+				id
+				issueId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+			}
+			message
+			timestamp
+		}
+		description
+		effectiveDate
+		eventUrl
+		impactQuery {
+			nrqlQuery
+			queryAccountIds
+		}
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		pointOfContacts {
+			id
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			name
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			type
+			userId
+		}
+		publishedDate
+		scope {
+			id
+			type
+		}
+		state
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementStatusPageIncidentEntity {
+		__typename
+		communicationLogs {
+			communicatedBy
+			communicationMode
+			communicationStatus
+			impact {
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				components {
+					description
+					id
+					name
+					type
+				}
+				id
+				issueId
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+			}
+			message
+			timestamp
+		}
+		description
+		endTime
+		incidentId
+		incidentTitle
+		lastUpdatedTime
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		region
+		scope {
+			id
+			type
+		}
+		startTime
+		status
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementTeamEntity {
+		__typename
+		aliases
+		description
+		externalIntegration {
+			externalId
+			type
+		}
+		membership {
+			id
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			name
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			type
+		}
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		ownership {
+			id
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			name
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			type
+		}
+		resources {
+			content
+			title
+			type
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementTeamsHierarchyLevelEntity {
+		__typename
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementTeamsOrganizationSettingsEntity {
+		__typename
+		discovery {
+			enabled
+			tagKeys
+		}
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		syncGroups {
+			enabled
+			rules {
+				conditions {
+					type
+					value
+				}
+			}
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementUserEntity {
+		__typename
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+		userId
+	}
+	... on EntityManagementWorkItem {
+		__typename
+		assignedTo {
+			identifier
+			type
+		}
+		attributes {
+			name
+			value
+		}
+		category
+		description
+		dueDate
+		externalId
+		labels
+		links {
+			id
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			name
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			type
+		}
+		messages {
+			id
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			name
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			type
+		}
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		priority
+		scope {
+			id
+			type
+		}
+		status
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementWorkItemLink {
+		__typename
+		externalId
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		sourceSyncConfigurationId
+		tags {
+			key
+			values
+		}
+		url
+	}
+	... on EntityManagementWorkItemLinkV2Entity {
+		__typename
+		externalId
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		sourceSyncConfigurationId
+		tags {
+			key
+			values
+		}
+		url
+	}
+	... on EntityManagementWorkItemMessage {
+		__typename
+		content
+		contentEncoding
+		contentType
+		externalId
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		parentId
+		scope {
+			id
+			type
+		}
+		sourceSyncConfigurationId
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementWorkItemMessageV2Entity {
+		__typename
+		content
+		contentEncoding
+		contentType
+		externalId
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		parentId
+		scope {
+			id
+			type
+		}
+		sourceSyncConfigurationId
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementWorkItemV2Entity {
+		__typename
+		assignedTo {
+			identifier
+			type
+		}
+		attributes {
+			name
+			value
+		}
+		category
+		description
+		dueDate
+		externalId
+		labels
+		links {
+			id
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			name
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			type
+		}
+		messages {
+			id
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			name
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			type
+		}
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		priority
+		scope {
+			id
+			type
+		}
+		status
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementWorkflowDefinition {
+		__typename
+		description
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+		versions
+	}
+	... on EntityManagementWorkflowSchedule {
+		__typename
+		cronExpression
+		definition {
+			id
+			version
+		}
+		description
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		overlapPolicy
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+		timezone
+	}
+	... on EntityManagementZoomConnectionEntity {
+		__typename
+		credential {
+			accountOAuth {
+				accessToken {
+					keyName
+					namespace
+				}
+				accountId
+				clientId
+				clientSecret {
+					keyName
+					namespace
+				}
+				tokenExpirationTime
+			}
+			userOAuth {
+				accessToken {
+					keyName
+					namespace
+				}
+				accessTokenExpirationTime
+				clientId
+				clientSecret {
+					keyName
+					namespace
+				}
+				refreshToken {
+					keyName
+					namespace
+				}
+				userId
+			}
+		}
+		description
+		enabled
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		settings {
+			key
+			value
+		}
+		signingCredentials {
+			signingAlgorithm
+			signingKeyReference {
+				keyName
+				namespace
+			}
 		}
 		tags {
 			key
@@ -395,9 +34997,7014 @@ const getEntitySearchQuery = `query(
 			values
 		}
 		type
+		... on EntityManagementAgentConfigurationEntity {
+			__typename
+			agentType
+			configurationType
+			managedEntityType
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			operatingSystem {
+				type
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			versionCount
+		}
+		... on EntityManagementAgentConfigurationVersionEntity {
+			__typename
+			agentConfiguration
+			blob {
+				blobSignature {
+					securityFindings
+					signatureError
+					signatureErrors
+					validationError
+				}
+				blobSignatures {
+					securityFindings
+					signatureError
+					signatureErrors
+					validationError
+				}
+				checksum
+				checksumAlgorithm
+				contentType
+				id
+			}
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			version
+		}
+		... on EntityManagementAgentEffectiveConfigurationEntity {
+			__typename
+			blob {
+				blobSignature {
+					securityFindings
+					signatureError
+					signatureErrors
+					validationError
+				}
+				blobSignatures {
+					securityFindings
+					signatureError
+					signatureErrors
+					validationError
+				}
+				checksum
+				checksumAlgorithm
+				contentType
+				id
+			}
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementAgentEntity {
+			__typename
+			agentType
+			fleetControlProperties {
+				appliedDeployment {
+					completedAt
+					fleet
+					id
+					managedEntity
+					startedAt
+					status
+				}
+				disconnectedReceived
+				environment
+				healthy
+				lastError
+				lastRemoteConfigError
+				lastRemoteConfigStatus
+				startTime
+				uid
+				version
+			}
+			infrastructureManagers {
+				type
+				version
+			}
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			version
+		}
+		... on EntityManagementAiAgentEntity {
+			__typename
+			category
+			description
+			displayName
+			initialized
+			llmConfig {
+				cacheSeed
+				model
+				temperature
+			}
+			mcpServers {
+				excludeTools
+				includeTools
+				server {
+					description
+					displayName
+					endpoint
+					id
+					name
+					protocolVersion
+					transport
+					type
+				}
+			}
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			prompt
+			provider
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			test
+		}
+		... on EntityManagementAiCapableEntity {
+			__typename
+			category
+			language
+			lastSeen
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			toolType
+			toolVersion
+		}
+		... on EntityManagementAiEvaluationConfigEntity {
+			__typename
+			description
+			managedEvaluationsEntity {
+				description
+				evaluations {
+					enabled
+					evaluationType
+					threshold
+				}
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+			}
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			samplingRate
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementAiToolEntity {
+			__typename
+			description
+			initialized
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			parameters {
+				description
+				name
+				type
+			}
+			provider
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			test
+			toolType
+			url
+		}
+		... on EntityManagementApiSpecificationBlobEntity {
+			__typename
+			blob {
+				blobSignature {
+					securityFindings
+					signatureError
+					signatureErrors
+					validationError
+				}
+				blobSignatures {
+					securityFindings
+					signatureError
+					signatureErrors
+					validationError
+				}
+				checksum
+				checksumAlgorithm
+				contentType
+				id
+			}
+			description
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementAwsConnectionEntity {
+			__typename
+			credential {
+				assumeRole {
+					externalId
+					roleArn
+				}
+			}
+			description
+			enabled
+			externalId
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			region
+			scope {
+				id
+				type
+			}
+			settings {
+				key
+				value
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementBackgroundProcessingRuleEntity {
+			__typename
+			description
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			query {
+				joinScopes {
+					id
+					type
+				}
+				nrql
+				outputScope {
+					id
+					type
+				}
+				scopes {
+					id
+					type
+				}
+			}
+			ruleType
+			schedule {
+				cronExpression
+				enabled
+				period
+				scheduleAt
+			}
+			scope {
+				id
+				type
+			}
+			state {
+				message
+				status
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementBackgroundSqlProcessingRuleEntity {
+			__typename
+			description
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			query {
+				outputScope {
+					id
+					type
+				}
+				outputTarget
+				scopes {
+					id
+					type
+				}
+				sql
+			}
+			schedule {
+				cronExpression
+				enabled
+				period
+				scheduleAt
+			}
+			scope {
+				id
+				type
+			}
+			state {
+				message
+				status
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementBudgetEntity {
+			__typename
+			budgetAlertPolicies {
+				id
+			}
+			budgetLimits {
+				consumptionMetric
+				reference {
+					id
+					location
+				}
+				value
+			}
+			budgetSegment {
+				accounts {
+					id
+				}
+				customer {
+					id
+				}
+				organizations {
+					id
+				}
+				users {
+					appliesToAll
+				}
+			}
+			budgetType
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			organizationBudget
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementCiscoMerakiConnectionEntity {
+			__typename
+			description
+			enabled
+			externalId
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			region
+			scope {
+				id
+				type
+			}
+			settings {
+				key
+				value
+			}
+			signingCredentials {
+				signingAlgorithm
+				signingKeyReference {
+					keyName
+					namespace
+				}
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementCollectionEntity {
+			__typename
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementComponentEntity {
+			__typename
+			description
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementComputeLocationEntity {
+			__typename
+			description
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementConfluenceConnectionEntity {
+			__typename
+			credential {
+				basicAuth {
+					domain
+					tokenExpirationTime
+				}
+			}
+			description
+			enabled
+			externalId
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			settings {
+				key
+				value
+			}
+			signingCredentials {
+				signingAlgorithm
+				signingKeyReference {
+					keyName
+					namespace
+				}
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementConfluenceIntegration {
+			__typename
+			confluenceUserId
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			secretKey
+			tags {
+				key
+				values
+			}
+			url
+		}
+		... on EntityManagementConfluenceRagSettingsEntity {
+			__typename
+			characterTextSplitterOptions {
+				isSeparatorRegex
+				separator
+			}
+			chunkOverlap
+			chunkSize
+			confluenceIntegrationId
+			confluenceQuery
+			intervalSeconds
+			lastPullTime
+			markdownTextSplitterOptions {
+				headersToSplitOn
+				returnEachLine
+			}
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			nextPullTime
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			textSplitterType
+			tokenTextSplitterOptions {
+				encodingName
+			}
+		}
+		... on EntityManagementCorrelationInternalSourceConfigEntity {
+			__typename
+			accountId
+			alias
+			filterId
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			namespaces
+			nrql
+			outputTopic
+			scope {
+				id
+				type
+			}
+			source
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementCorrelationLinkEntity {
+			__typename
+			context {
+				confidence
+				messages
+				ruleId
+			}
+			directional
+			linkType
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			overrideInfo {
+				action
+				timestamp
+				userId
+			}
+			scope {
+				id
+				type
+			}
+			source {
+				accountId
+				eventId
+				eventType
+			}
+			tags {
+				key
+				values
+			}
+			target {
+				accountId
+				eventId
+				eventType
+			}
+		}
+		... on EntityManagementCorrelationLinkingRuleEntity {
+			__typename
+			criteria {
+				attributeConditions {
+					attribute
+					operator
+					value
+				}
+				probabilistic {
+					algorithm
+					confidenceThreshold
+				}
+				temporalWindow {
+					driverEndTimestampAttribute
+					driverStartTimestampAttribute
+					lookbackSeconds
+					lookforwardSeconds
+				}
+				topologyProximity
+			}
+			description
+			enabled
+			linkingConfig {
+				directional
+				linkType
+				sourceAlias
+				targetAlias
+			}
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			subjects {
+				accountIds
+				alias
+				lifecycle {
+					closedValues
+					identityKey
+					openValues
+					stateKey
+				}
+				nrql
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementCustomEvaluationEntity {
+			__typename
+			criteria
+			description
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			model
+			parameters
+			scope {
+				id
+				type
+			}
+			steps
+			tags {
+				key
+				values
+			}
+			threshold
+		}
+		... on EntityManagementCustomerImpactEntity {
+			__typename
+			blob {
+				blobSignature {
+					securityFindings
+					signatureError
+					signatureErrors
+					validationError
+				}
+				blobSignatures {
+					securityFindings
+					signatureError
+					signatureErrors
+					validationError
+				}
+				checksum
+				checksumAlgorithm
+				contentType
+				id
+			}
+			components {
+				description
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+			}
+			issueId
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementCustomerImpactQueryEntity {
+			__typename
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			products {
+				description
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+			}
+			query
+			queryAccountId
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			teamName
+			totalCustImpactQueryAccountIds
+			totalCustomerImpactQuery
+		}
+		... on EntityManagementEventBridgeRuleEntity {
+			__typename
+			conditions {
+				field
+				value {
+					exists
+				}
+			}
+			description
+			enabled
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			sourceType {
+				event
+				name
+			}
+			tags {
+				key
+				values
+			}
+			targets {
+				name
+				type
+			}
+		}
+		... on EntityManagementFederatedLogPartitionEntity {
+			__typename
+			dataLocationUri
+			description
+			isDefault
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			partitionDatabase
+			partitionTable
+			retentionPolicy {
+				duration
+				unit
+			}
+			scope {
+				id
+				type
+			}
+			setup {
+				cloudProvider
+				cloudProviderRegion
+				dataLocationBucket
+				dataProcessingComponent {
+					__typename
+					id
+					name
+					type
+					... on EntityManagementAgentConfigurationEntity {
+						__typename
+						agentType
+						configurationType
+						managedEntityType
+						versionCount
+					}
+					... on EntityManagementAgentConfigurationVersionEntity {
+						__typename
+						agentConfiguration
+						version
+					}
+					... on EntityManagementAgentEffectiveConfigurationEntity {
+						__typename
+					}
+					... on EntityManagementAgentEntity {
+						__typename
+						agentType
+						version
+					}
+					... on EntityManagementAiAgentEntity {
+						__typename
+						category
+						description
+						displayName
+						initialized
+						prompt
+						provider
+						test
+					}
+					... on EntityManagementAiCapableEntity {
+						__typename
+						category
+						language
+						lastSeen
+						toolType
+						toolVersion
+					}
+					... on EntityManagementAiEvaluationConfigEntity {
+						__typename
+						description
+						samplingRate
+					}
+					... on EntityManagementAiToolEntity {
+						__typename
+						description
+						initialized
+						provider
+						test
+						toolType
+						url
+					}
+					... on EntityManagementApiSpecificationBlobEntity {
+						__typename
+						description
+					}
+					... on EntityManagementAwsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementBackgroundProcessingRuleEntity {
+						__typename
+						description
+						ruleType
+					}
+					... on EntityManagementBackgroundSqlProcessingRuleEntity {
+						__typename
+						description
+					}
+					... on EntityManagementBudgetEntity {
+						__typename
+						budgetType
+						organizationBudget
+					}
+					... on EntityManagementCiscoMerakiConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementCollectionEntity {
+						__typename
+					}
+					... on EntityManagementComponentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementComputeLocationEntity {
+						__typename
+						description
+					}
+					... on EntityManagementConfluenceConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+					}
+					... on EntityManagementConfluenceIntegration {
+						__typename
+						confluenceUserId
+						secretKey
+						url
+					}
+					... on EntityManagementConfluenceRagSettingsEntity {
+						__typename
+						chunkOverlap
+						chunkSize
+						confluenceIntegrationId
+						confluenceQuery
+						intervalSeconds
+						lastPullTime
+						nextPullTime
+						textSplitterType
+					}
+					... on EntityManagementCorrelationInternalSourceConfigEntity {
+						__typename
+						accountId
+						alias
+						filterId
+						namespaces
+						nrql
+						outputTopic
+						source
+					}
+					... on EntityManagementCorrelationLinkEntity {
+						__typename
+						directional
+						linkType
+					}
+					... on EntityManagementCorrelationLinkingRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementCustomEvaluationEntity {
+						__typename
+						criteria
+						description
+						model
+						parameters
+						steps
+						threshold
+					}
+					... on EntityManagementCustomerImpactEntity {
+						__typename
+						issueId
+					}
+					... on EntityManagementCustomerImpactQueryEntity {
+						__typename
+						query
+						queryAccountId
+						teamName
+						totalCustImpactQueryAccountIds
+						totalCustomerImpactQuery
+					}
+					... on EntityManagementEventBridgeRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementFederatedLogPartitionEntity {
+						__typename
+						dataLocationUri
+						description
+						isDefault
+						partitionDatabase
+						partitionTable
+						status
+					}
+					... on EntityManagementFederatedLogSetupEntity {
+						__typename
+						cloudProvider
+						cloudProviderRegion
+						dataLocationBucket
+						description
+						nrAccountId
+						nrRegion
+						status
+					}
+					... on EntityManagementFleetDeploymentEntity {
+						__typename
+						configurationVersions
+						description
+						fleetId
+						phase
+					}
+					... on EntityManagementFleetEntity {
+						__typename
+						description
+						managedEntityType
+						product
+					}
+					... on EntityManagementFleetRingEntity {
+						__typename
+						fleetId
+					}
+					... on EntityManagementFlowEntity {
+						__typename
+					}
+					... on EntityManagementGenericEntity {
+						__typename
+					}
+					... on EntityManagementGitHubIntegrationEntity {
+						__typename
+						installationId
+						installationSource
+						installationStatus
+						lastSyncCompletedAt
+						nextSyncAt
+					}
+					... on EntityManagementGitRepositoryEntity {
+						__typename
+						closedPullRequestCount
+						description
+						externalCreatedAt
+						externalId
+						externalLastDeployedAt
+						externalUpdatedAt
+						forkCount
+						hostingPlatform
+						latestReleaseVersion
+						lockedPullRequestCount
+						openPullRequestCount
+						primaryLanguage
+						url
+					}
+					... on EntityManagementGithubConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementImpactProfileEntity {
+						__typename
+					}
+					... on EntityManagementInboxIssueCategoryEntity {
+						__typename
+						categoryType
+						issueType
+						messageAttributes
+						nameAttributes
+					}
+					... on EntityManagementIncidentAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentEntity {
+						__typename
+						category
+						customerImpact
+						description
+						dueDate
+						entitiesImpacted
+						externalId
+						incidentCategory
+						incidentKey
+						incidentProfileId
+						incidentSubcategory
+						issueLinks
+						labels
+						lessonsLearned
+						maxSeverity
+						priority
+						reportedBy
+						resolutionCategory
+						resolutionSummary
+						retroActionItems
+						rootCauseSummary
+						rootCauseTags
+						severity
+						source
+						status
+						triggeringEvent
+					}
+					... on EntityManagementIncidentLinkEntity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementIncidentMessageEntity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementIncidentProfileAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentProfileEntity {
+						__typename
+					}
+					... on EntityManagementIncidentTimelineEntity {
+						__typename
+						content
+						entryType
+						source
+					}
+					... on EntityManagementJiraConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementJiraSyncConfiguration {
+						__typename
+						assigneeQuery
+						connection
+						correlationFieldName
+						description
+						direction
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJiraSyncConfigurationV2Entity {
+						__typename
+						bidirectional
+						connection
+						description
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJuniperMistConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementMaintenanceWindowEntity {
+						__typename
+						affectedEntityType
+						description
+						duration
+						rrule
+						startTime
+						timezone
+					}
+					... on EntityManagementManagedEvaluationsEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMcpServerEntity {
+						__typename
+						description
+						displayName
+						endpoint
+						protocolVersion
+						transport
+					}
+					... on EntityManagementMeterEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMeterTypeEntity {
+						__typename
+						allowMeterCreation
+						attributionDimensions
+						description
+					}
+					... on EntityManagementNewRelicConnection {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementNotebookEntity {
+						__typename
+					}
+					... on EntityManagementNotificationAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementNrAiAgentEntity {
+						__typename
+						displayName
+						version
+					}
+					... on EntityManagementNrqlMacroEntity {
+						__typename
+						expression
+						numParameters
+					}
+					... on EntityManagementOperationEntity {
+						__typename
+					}
+					... on EntityManagementOperationMetricEntity {
+						__typename
+					}
+					... on EntityManagementPerformanceInboxSettingEntity {
+						__typename
+						thresholdScope
+					}
+					... on EntityManagementPipelineCloudRuleEntity {
+						__typename
+						description
+						enabled
+						nrql
+					}
+					... on EntityManagementProductLineEntity {
+						__typename
+						description
+					}
+					... on EntityManagementRagDocumentEntity {
+						__typename
+						authorEmails
+						sourceIdentifier
+					}
+					... on EntityManagementRagToolEntity {
+						__typename
+						description
+					}
+					... on EntityManagementReactNativeSourcemapEntity {
+						__typename
+						appVersionId
+						applicationId
+						jsBundleId
+					}
+					... on EntityManagementRestApiContractEntity {
+						__typename
+					}
+					... on EntityManagementScorecardEntity {
+						__typename
+						description
+					}
+					... on EntityManagementScorecardRuleEntity {
+						__typename
+						description
+						enabled
+						impactWeight
+						progressLevel
+					}
+					... on EntityManagementSegmentTermsEntity {
+						__typename
+						accountId
+						agentId
+						domain
+						entityGuid
+						metricPrefix
+						oldId
+						segmentTerms
+					}
+					... on EntityManagementServerlessJobDefinitionEntity {
+						__typename
+						description
+					}
+					... on EntityManagementServiceNowConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementSlackConnection {
+						__typename
+						appId
+						description
+						enabled
+						externalId
+						workspace
+					}
+					... on EntityManagementSlackSyncConfiguration {
+						__typename
+						channelIdPayloadPath
+						connection
+						description
+						direction
+						enabled
+						mode
+					}
+					... on EntityManagementStatusPageAnnouncementEntity {
+						__typename
+						category
+						description
+						effectiveDate
+						eventUrl
+						publishedDate
+						state
+					}
+					... on EntityManagementStatusPageIncidentEntity {
+						__typename
+						description
+						endTime
+						incidentId
+						incidentTitle
+						lastUpdatedTime
+						region
+						startTime
+						status
+					}
+					... on EntityManagementTeamEntity {
+						__typename
+						aliases
+						description
+					}
+					... on EntityManagementTeamsHierarchyLevelEntity {
+						__typename
+					}
+					... on EntityManagementTeamsOrganizationSettingsEntity {
+						__typename
+					}
+					... on EntityManagementUserEntity {
+						__typename
+						userId
+					}
+					... on EntityManagementWorkItem {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkItemLink {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemLinkV2Entity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemMessage {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemMessageV2Entity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemV2Entity {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkflowDefinition {
+						__typename
+						description
+						versions
+					}
+					... on EntityManagementWorkflowSchedule {
+						__typename
+						cronExpression
+						description
+						overlapPolicy
+						timezone
+					}
+					... on EntityManagementZoomConnectionEntity {
+						__typename
+						description
+						enabled
+					}
+				}
+				dataProcessingConnection {
+					__typename
+					id
+					name
+					type
+					... on EntityManagementAgentConfigurationEntity {
+						__typename
+						agentType
+						configurationType
+						managedEntityType
+						versionCount
+					}
+					... on EntityManagementAgentConfigurationVersionEntity {
+						__typename
+						agentConfiguration
+						version
+					}
+					... on EntityManagementAgentEffectiveConfigurationEntity {
+						__typename
+					}
+					... on EntityManagementAgentEntity {
+						__typename
+						agentType
+						version
+					}
+					... on EntityManagementAiAgentEntity {
+						__typename
+						category
+						description
+						displayName
+						initialized
+						prompt
+						provider
+						test
+					}
+					... on EntityManagementAiCapableEntity {
+						__typename
+						category
+						language
+						lastSeen
+						toolType
+						toolVersion
+					}
+					... on EntityManagementAiEvaluationConfigEntity {
+						__typename
+						description
+						samplingRate
+					}
+					... on EntityManagementAiToolEntity {
+						__typename
+						description
+						initialized
+						provider
+						test
+						toolType
+						url
+					}
+					... on EntityManagementApiSpecificationBlobEntity {
+						__typename
+						description
+					}
+					... on EntityManagementAwsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementBackgroundProcessingRuleEntity {
+						__typename
+						description
+						ruleType
+					}
+					... on EntityManagementBackgroundSqlProcessingRuleEntity {
+						__typename
+						description
+					}
+					... on EntityManagementBudgetEntity {
+						__typename
+						budgetType
+						organizationBudget
+					}
+					... on EntityManagementCiscoMerakiConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementCollectionEntity {
+						__typename
+					}
+					... on EntityManagementComponentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementComputeLocationEntity {
+						__typename
+						description
+					}
+					... on EntityManagementConfluenceConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+					}
+					... on EntityManagementConfluenceIntegration {
+						__typename
+						confluenceUserId
+						secretKey
+						url
+					}
+					... on EntityManagementConfluenceRagSettingsEntity {
+						__typename
+						chunkOverlap
+						chunkSize
+						confluenceIntegrationId
+						confluenceQuery
+						intervalSeconds
+						lastPullTime
+						nextPullTime
+						textSplitterType
+					}
+					... on EntityManagementCorrelationInternalSourceConfigEntity {
+						__typename
+						accountId
+						alias
+						filterId
+						namespaces
+						nrql
+						outputTopic
+						source
+					}
+					... on EntityManagementCorrelationLinkEntity {
+						__typename
+						directional
+						linkType
+					}
+					... on EntityManagementCorrelationLinkingRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementCustomEvaluationEntity {
+						__typename
+						criteria
+						description
+						model
+						parameters
+						steps
+						threshold
+					}
+					... on EntityManagementCustomerImpactEntity {
+						__typename
+						issueId
+					}
+					... on EntityManagementCustomerImpactQueryEntity {
+						__typename
+						query
+						queryAccountId
+						teamName
+						totalCustImpactQueryAccountIds
+						totalCustomerImpactQuery
+					}
+					... on EntityManagementEventBridgeRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementFederatedLogPartitionEntity {
+						__typename
+						dataLocationUri
+						description
+						isDefault
+						partitionDatabase
+						partitionTable
+						status
+					}
+					... on EntityManagementFederatedLogSetupEntity {
+						__typename
+						cloudProvider
+						cloudProviderRegion
+						dataLocationBucket
+						description
+						nrAccountId
+						nrRegion
+						status
+					}
+					... on EntityManagementFleetDeploymentEntity {
+						__typename
+						configurationVersions
+						description
+						fleetId
+						phase
+					}
+					... on EntityManagementFleetEntity {
+						__typename
+						description
+						managedEntityType
+						product
+					}
+					... on EntityManagementFleetRingEntity {
+						__typename
+						fleetId
+					}
+					... on EntityManagementFlowEntity {
+						__typename
+					}
+					... on EntityManagementGenericEntity {
+						__typename
+					}
+					... on EntityManagementGitHubIntegrationEntity {
+						__typename
+						installationId
+						installationSource
+						installationStatus
+						lastSyncCompletedAt
+						nextSyncAt
+					}
+					... on EntityManagementGitRepositoryEntity {
+						__typename
+						closedPullRequestCount
+						description
+						externalCreatedAt
+						externalId
+						externalLastDeployedAt
+						externalUpdatedAt
+						forkCount
+						hostingPlatform
+						latestReleaseVersion
+						lockedPullRequestCount
+						openPullRequestCount
+						primaryLanguage
+						url
+					}
+					... on EntityManagementGithubConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementImpactProfileEntity {
+						__typename
+					}
+					... on EntityManagementInboxIssueCategoryEntity {
+						__typename
+						categoryType
+						issueType
+						messageAttributes
+						nameAttributes
+					}
+					... on EntityManagementIncidentAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentEntity {
+						__typename
+						category
+						customerImpact
+						description
+						dueDate
+						entitiesImpacted
+						externalId
+						incidentCategory
+						incidentKey
+						incidentProfileId
+						incidentSubcategory
+						issueLinks
+						labels
+						lessonsLearned
+						maxSeverity
+						priority
+						reportedBy
+						resolutionCategory
+						resolutionSummary
+						retroActionItems
+						rootCauseSummary
+						rootCauseTags
+						severity
+						source
+						status
+						triggeringEvent
+					}
+					... on EntityManagementIncidentLinkEntity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementIncidentMessageEntity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementIncidentProfileAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentProfileEntity {
+						__typename
+					}
+					... on EntityManagementIncidentTimelineEntity {
+						__typename
+						content
+						entryType
+						source
+					}
+					... on EntityManagementJiraConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementJiraSyncConfiguration {
+						__typename
+						assigneeQuery
+						connection
+						correlationFieldName
+						description
+						direction
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJiraSyncConfigurationV2Entity {
+						__typename
+						bidirectional
+						connection
+						description
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJuniperMistConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementMaintenanceWindowEntity {
+						__typename
+						affectedEntityType
+						description
+						duration
+						rrule
+						startTime
+						timezone
+					}
+					... on EntityManagementManagedEvaluationsEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMcpServerEntity {
+						__typename
+						description
+						displayName
+						endpoint
+						protocolVersion
+						transport
+					}
+					... on EntityManagementMeterEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMeterTypeEntity {
+						__typename
+						allowMeterCreation
+						attributionDimensions
+						description
+					}
+					... on EntityManagementNewRelicConnection {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementNotebookEntity {
+						__typename
+					}
+					... on EntityManagementNotificationAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementNrAiAgentEntity {
+						__typename
+						displayName
+						version
+					}
+					... on EntityManagementNrqlMacroEntity {
+						__typename
+						expression
+						numParameters
+					}
+					... on EntityManagementOperationEntity {
+						__typename
+					}
+					... on EntityManagementOperationMetricEntity {
+						__typename
+					}
+					... on EntityManagementPerformanceInboxSettingEntity {
+						__typename
+						thresholdScope
+					}
+					... on EntityManagementPipelineCloudRuleEntity {
+						__typename
+						description
+						enabled
+						nrql
+					}
+					... on EntityManagementProductLineEntity {
+						__typename
+						description
+					}
+					... on EntityManagementRagDocumentEntity {
+						__typename
+						authorEmails
+						sourceIdentifier
+					}
+					... on EntityManagementRagToolEntity {
+						__typename
+						description
+					}
+					... on EntityManagementReactNativeSourcemapEntity {
+						__typename
+						appVersionId
+						applicationId
+						jsBundleId
+					}
+					... on EntityManagementRestApiContractEntity {
+						__typename
+					}
+					... on EntityManagementScorecardEntity {
+						__typename
+						description
+					}
+					... on EntityManagementScorecardRuleEntity {
+						__typename
+						description
+						enabled
+						impactWeight
+						progressLevel
+					}
+					... on EntityManagementSegmentTermsEntity {
+						__typename
+						accountId
+						agentId
+						domain
+						entityGuid
+						metricPrefix
+						oldId
+						segmentTerms
+					}
+					... on EntityManagementServerlessJobDefinitionEntity {
+						__typename
+						description
+					}
+					... on EntityManagementServiceNowConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementSlackConnection {
+						__typename
+						appId
+						description
+						enabled
+						externalId
+						workspace
+					}
+					... on EntityManagementSlackSyncConfiguration {
+						__typename
+						channelIdPayloadPath
+						connection
+						description
+						direction
+						enabled
+						mode
+					}
+					... on EntityManagementStatusPageAnnouncementEntity {
+						__typename
+						category
+						description
+						effectiveDate
+						eventUrl
+						publishedDate
+						state
+					}
+					... on EntityManagementStatusPageIncidentEntity {
+						__typename
+						description
+						endTime
+						incidentId
+						incidentTitle
+						lastUpdatedTime
+						region
+						startTime
+						status
+					}
+					... on EntityManagementTeamEntity {
+						__typename
+						aliases
+						description
+					}
+					... on EntityManagementTeamsHierarchyLevelEntity {
+						__typename
+					}
+					... on EntityManagementTeamsOrganizationSettingsEntity {
+						__typename
+					}
+					... on EntityManagementUserEntity {
+						__typename
+						userId
+					}
+					... on EntityManagementWorkItem {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkItemLink {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemLinkV2Entity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemMessage {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemMessageV2Entity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemV2Entity {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkflowDefinition {
+						__typename
+						description
+						versions
+					}
+					... on EntityManagementWorkflowSchedule {
+						__typename
+						cronExpression
+						description
+						overlapPolicy
+						timezone
+					}
+					... on EntityManagementZoomConnectionEntity {
+						__typename
+						description
+						enabled
+					}
+				}
+				description
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				nrAccountId
+				nrRegion
+				queryConnection {
+					__typename
+					id
+					name
+					type
+					... on EntityManagementAgentConfigurationEntity {
+						__typename
+						agentType
+						configurationType
+						managedEntityType
+						versionCount
+					}
+					... on EntityManagementAgentConfigurationVersionEntity {
+						__typename
+						agentConfiguration
+						version
+					}
+					... on EntityManagementAgentEffectiveConfigurationEntity {
+						__typename
+					}
+					... on EntityManagementAgentEntity {
+						__typename
+						agentType
+						version
+					}
+					... on EntityManagementAiAgentEntity {
+						__typename
+						category
+						description
+						displayName
+						initialized
+						prompt
+						provider
+						test
+					}
+					... on EntityManagementAiCapableEntity {
+						__typename
+						category
+						language
+						lastSeen
+						toolType
+						toolVersion
+					}
+					... on EntityManagementAiEvaluationConfigEntity {
+						__typename
+						description
+						samplingRate
+					}
+					... on EntityManagementAiToolEntity {
+						__typename
+						description
+						initialized
+						provider
+						test
+						toolType
+						url
+					}
+					... on EntityManagementApiSpecificationBlobEntity {
+						__typename
+						description
+					}
+					... on EntityManagementAwsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementBackgroundProcessingRuleEntity {
+						__typename
+						description
+						ruleType
+					}
+					... on EntityManagementBackgroundSqlProcessingRuleEntity {
+						__typename
+						description
+					}
+					... on EntityManagementBudgetEntity {
+						__typename
+						budgetType
+						organizationBudget
+					}
+					... on EntityManagementCiscoMerakiConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementCollectionEntity {
+						__typename
+					}
+					... on EntityManagementComponentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementComputeLocationEntity {
+						__typename
+						description
+					}
+					... on EntityManagementConfluenceConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+					}
+					... on EntityManagementConfluenceIntegration {
+						__typename
+						confluenceUserId
+						secretKey
+						url
+					}
+					... on EntityManagementConfluenceRagSettingsEntity {
+						__typename
+						chunkOverlap
+						chunkSize
+						confluenceIntegrationId
+						confluenceQuery
+						intervalSeconds
+						lastPullTime
+						nextPullTime
+						textSplitterType
+					}
+					... on EntityManagementCorrelationInternalSourceConfigEntity {
+						__typename
+						accountId
+						alias
+						filterId
+						namespaces
+						nrql
+						outputTopic
+						source
+					}
+					... on EntityManagementCorrelationLinkEntity {
+						__typename
+						directional
+						linkType
+					}
+					... on EntityManagementCorrelationLinkingRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementCustomEvaluationEntity {
+						__typename
+						criteria
+						description
+						model
+						parameters
+						steps
+						threshold
+					}
+					... on EntityManagementCustomerImpactEntity {
+						__typename
+						issueId
+					}
+					... on EntityManagementCustomerImpactQueryEntity {
+						__typename
+						query
+						queryAccountId
+						teamName
+						totalCustImpactQueryAccountIds
+						totalCustomerImpactQuery
+					}
+					... on EntityManagementEventBridgeRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementFederatedLogPartitionEntity {
+						__typename
+						dataLocationUri
+						description
+						isDefault
+						partitionDatabase
+						partitionTable
+						status
+					}
+					... on EntityManagementFederatedLogSetupEntity {
+						__typename
+						cloudProvider
+						cloudProviderRegion
+						dataLocationBucket
+						description
+						nrAccountId
+						nrRegion
+						status
+					}
+					... on EntityManagementFleetDeploymentEntity {
+						__typename
+						configurationVersions
+						description
+						fleetId
+						phase
+					}
+					... on EntityManagementFleetEntity {
+						__typename
+						description
+						managedEntityType
+						product
+					}
+					... on EntityManagementFleetRingEntity {
+						__typename
+						fleetId
+					}
+					... on EntityManagementFlowEntity {
+						__typename
+					}
+					... on EntityManagementGenericEntity {
+						__typename
+					}
+					... on EntityManagementGitHubIntegrationEntity {
+						__typename
+						installationId
+						installationSource
+						installationStatus
+						lastSyncCompletedAt
+						nextSyncAt
+					}
+					... on EntityManagementGitRepositoryEntity {
+						__typename
+						closedPullRequestCount
+						description
+						externalCreatedAt
+						externalId
+						externalLastDeployedAt
+						externalUpdatedAt
+						forkCount
+						hostingPlatform
+						latestReleaseVersion
+						lockedPullRequestCount
+						openPullRequestCount
+						primaryLanguage
+						url
+					}
+					... on EntityManagementGithubConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementImpactProfileEntity {
+						__typename
+					}
+					... on EntityManagementInboxIssueCategoryEntity {
+						__typename
+						categoryType
+						issueType
+						messageAttributes
+						nameAttributes
+					}
+					... on EntityManagementIncidentAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentEntity {
+						__typename
+						category
+						customerImpact
+						description
+						dueDate
+						entitiesImpacted
+						externalId
+						incidentCategory
+						incidentKey
+						incidentProfileId
+						incidentSubcategory
+						issueLinks
+						labels
+						lessonsLearned
+						maxSeverity
+						priority
+						reportedBy
+						resolutionCategory
+						resolutionSummary
+						retroActionItems
+						rootCauseSummary
+						rootCauseTags
+						severity
+						source
+						status
+						triggeringEvent
+					}
+					... on EntityManagementIncidentLinkEntity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementIncidentMessageEntity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementIncidentProfileAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentProfileEntity {
+						__typename
+					}
+					... on EntityManagementIncidentTimelineEntity {
+						__typename
+						content
+						entryType
+						source
+					}
+					... on EntityManagementJiraConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementJiraSyncConfiguration {
+						__typename
+						assigneeQuery
+						connection
+						correlationFieldName
+						description
+						direction
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJiraSyncConfigurationV2Entity {
+						__typename
+						bidirectional
+						connection
+						description
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJuniperMistConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementMaintenanceWindowEntity {
+						__typename
+						affectedEntityType
+						description
+						duration
+						rrule
+						startTime
+						timezone
+					}
+					... on EntityManagementManagedEvaluationsEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMcpServerEntity {
+						__typename
+						description
+						displayName
+						endpoint
+						protocolVersion
+						transport
+					}
+					... on EntityManagementMeterEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMeterTypeEntity {
+						__typename
+						allowMeterCreation
+						attributionDimensions
+						description
+					}
+					... on EntityManagementNewRelicConnection {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementNotebookEntity {
+						__typename
+					}
+					... on EntityManagementNotificationAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementNrAiAgentEntity {
+						__typename
+						displayName
+						version
+					}
+					... on EntityManagementNrqlMacroEntity {
+						__typename
+						expression
+						numParameters
+					}
+					... on EntityManagementOperationEntity {
+						__typename
+					}
+					... on EntityManagementOperationMetricEntity {
+						__typename
+					}
+					... on EntityManagementPerformanceInboxSettingEntity {
+						__typename
+						thresholdScope
+					}
+					... on EntityManagementPipelineCloudRuleEntity {
+						__typename
+						description
+						enabled
+						nrql
+					}
+					... on EntityManagementProductLineEntity {
+						__typename
+						description
+					}
+					... on EntityManagementRagDocumentEntity {
+						__typename
+						authorEmails
+						sourceIdentifier
+					}
+					... on EntityManagementRagToolEntity {
+						__typename
+						description
+					}
+					... on EntityManagementReactNativeSourcemapEntity {
+						__typename
+						appVersionId
+						applicationId
+						jsBundleId
+					}
+					... on EntityManagementRestApiContractEntity {
+						__typename
+					}
+					... on EntityManagementScorecardEntity {
+						__typename
+						description
+					}
+					... on EntityManagementScorecardRuleEntity {
+						__typename
+						description
+						enabled
+						impactWeight
+						progressLevel
+					}
+					... on EntityManagementSegmentTermsEntity {
+						__typename
+						accountId
+						agentId
+						domain
+						entityGuid
+						metricPrefix
+						oldId
+						segmentTerms
+					}
+					... on EntityManagementServerlessJobDefinitionEntity {
+						__typename
+						description
+					}
+					... on EntityManagementServiceNowConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementSlackConnection {
+						__typename
+						appId
+						description
+						enabled
+						externalId
+						workspace
+					}
+					... on EntityManagementSlackSyncConfiguration {
+						__typename
+						channelIdPayloadPath
+						connection
+						description
+						direction
+						enabled
+						mode
+					}
+					... on EntityManagementStatusPageAnnouncementEntity {
+						__typename
+						category
+						description
+						effectiveDate
+						eventUrl
+						publishedDate
+						state
+					}
+					... on EntityManagementStatusPageIncidentEntity {
+						__typename
+						description
+						endTime
+						incidentId
+						incidentTitle
+						lastUpdatedTime
+						region
+						startTime
+						status
+					}
+					... on EntityManagementTeamEntity {
+						__typename
+						aliases
+						description
+					}
+					... on EntityManagementTeamsHierarchyLevelEntity {
+						__typename
+					}
+					... on EntityManagementTeamsOrganizationSettingsEntity {
+						__typename
+					}
+					... on EntityManagementUserEntity {
+						__typename
+						userId
+					}
+					... on EntityManagementWorkItem {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkItemLink {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemLinkV2Entity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemMessage {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemMessageV2Entity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemV2Entity {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkflowDefinition {
+						__typename
+						description
+						versions
+					}
+					... on EntityManagementWorkflowSchedule {
+						__typename
+						cronExpression
+						description
+						overlapPolicy
+						timezone
+					}
+					... on EntityManagementZoomConnectionEntity {
+						__typename
+						description
+						enabled
+					}
+				}
+				scope {
+					id
+					type
+				}
+				status
+				tags {
+					key
+					values
+				}
+				type
+			}
+			status
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementFederatedLogSetupEntity {
+			__typename
+			cloudProvider
+			cloudProviderRegion
+			dataLocationBucket
+			dataProcessingComponent {
+				__typename
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+				... on EntityManagementAgentConfigurationEntity {
+					__typename
+					agentType
+					configurationType
+					managedEntityType
+					versionCount
+				}
+				... on EntityManagementAgentConfigurationVersionEntity {
+					__typename
+					agentConfiguration
+					version
+				}
+				... on EntityManagementAgentEffectiveConfigurationEntity {
+					__typename
+				}
+				... on EntityManagementAgentEntity {
+					__typename
+					agentType
+					version
+				}
+				... on EntityManagementAiAgentEntity {
+					__typename
+					category
+					description
+					displayName
+					initialized
+					prompt
+					provider
+					test
+				}
+				... on EntityManagementAiCapableEntity {
+					__typename
+					category
+					language
+					lastSeen
+					toolType
+					toolVersion
+				}
+				... on EntityManagementAiEvaluationConfigEntity {
+					__typename
+					description
+					samplingRate
+				}
+				... on EntityManagementAiToolEntity {
+					__typename
+					description
+					initialized
+					provider
+					test
+					toolType
+					url
+				}
+				... on EntityManagementApiSpecificationBlobEntity {
+					__typename
+					description
+				}
+				... on EntityManagementAwsConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementBackgroundProcessingRuleEntity {
+					__typename
+					description
+					ruleType
+				}
+				... on EntityManagementBackgroundSqlProcessingRuleEntity {
+					__typename
+					description
+				}
+				... on EntityManagementBudgetEntity {
+					__typename
+					budgetType
+					organizationBudget
+				}
+				... on EntityManagementCiscoMerakiConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementCollectionEntity {
+					__typename
+				}
+				... on EntityManagementComponentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementComputeLocationEntity {
+					__typename
+					description
+				}
+				... on EntityManagementConfluenceConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+				}
+				... on EntityManagementConfluenceIntegration {
+					__typename
+					confluenceUserId
+					secretKey
+					url
+				}
+				... on EntityManagementConfluenceRagSettingsEntity {
+					__typename
+					chunkOverlap
+					chunkSize
+					confluenceIntegrationId
+					confluenceQuery
+					intervalSeconds
+					lastPullTime
+					nextPullTime
+					textSplitterType
+				}
+				... on EntityManagementCorrelationInternalSourceConfigEntity {
+					__typename
+					accountId
+					alias
+					filterId
+					namespaces
+					nrql
+					outputTopic
+					source
+				}
+				... on EntityManagementCorrelationLinkEntity {
+					__typename
+					directional
+					linkType
+				}
+				... on EntityManagementCorrelationLinkingRuleEntity {
+					__typename
+					description
+					enabled
+				}
+				... on EntityManagementCustomEvaluationEntity {
+					__typename
+					criteria
+					description
+					model
+					parameters
+					steps
+					threshold
+				}
+				... on EntityManagementCustomerImpactEntity {
+					__typename
+					issueId
+				}
+				... on EntityManagementCustomerImpactQueryEntity {
+					__typename
+					query
+					queryAccountId
+					teamName
+					totalCustImpactQueryAccountIds
+					totalCustomerImpactQuery
+				}
+				... on EntityManagementEventBridgeRuleEntity {
+					__typename
+					description
+					enabled
+				}
+				... on EntityManagementFederatedLogPartitionEntity {
+					__typename
+					dataLocationUri
+					description
+					isDefault
+					partitionDatabase
+					partitionTable
+					status
+				}
+				... on EntityManagementFederatedLogSetupEntity {
+					__typename
+					cloudProvider
+					cloudProviderRegion
+					dataLocationBucket
+					description
+					nrAccountId
+					nrRegion
+					status
+				}
+				... on EntityManagementFleetDeploymentEntity {
+					__typename
+					configurationVersions
+					description
+					fleetId
+					phase
+				}
+				... on EntityManagementFleetEntity {
+					__typename
+					description
+					managedEntityType
+					product
+				}
+				... on EntityManagementFleetRingEntity {
+					__typename
+					fleetId
+				}
+				... on EntityManagementFlowEntity {
+					__typename
+				}
+				... on EntityManagementGenericEntity {
+					__typename
+				}
+				... on EntityManagementGitHubIntegrationEntity {
+					__typename
+					installationId
+					installationSource
+					installationStatus
+					lastSyncCompletedAt
+					nextSyncAt
+				}
+				... on EntityManagementGitRepositoryEntity {
+					__typename
+					closedPullRequestCount
+					description
+					externalCreatedAt
+					externalId
+					externalLastDeployedAt
+					externalUpdatedAt
+					forkCount
+					hostingPlatform
+					latestReleaseVersion
+					lockedPullRequestCount
+					openPullRequestCount
+					primaryLanguage
+					url
+				}
+				... on EntityManagementGithubConnection {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementImpactProfileEntity {
+					__typename
+				}
+				... on EntityManagementInboxIssueCategoryEntity {
+					__typename
+					categoryType
+					issueType
+					messageAttributes
+					nameAttributes
+				}
+				... on EntityManagementIncidentAttachmentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementIncidentEntity {
+					__typename
+					category
+					customerImpact
+					description
+					dueDate
+					entitiesImpacted
+					externalId
+					incidentCategory
+					incidentKey
+					incidentProfileId
+					incidentSubcategory
+					issueLinks
+					labels
+					lessonsLearned
+					maxSeverity
+					priority
+					reportedBy
+					resolutionCategory
+					resolutionSummary
+					retroActionItems
+					rootCauseSummary
+					rootCauseTags
+					severity
+					source
+					status
+					triggeringEvent
+				}
+				... on EntityManagementIncidentLinkEntity {
+					__typename
+					externalId
+					sourceSyncConfigurationId
+					url
+				}
+				... on EntityManagementIncidentMessageEntity {
+					__typename
+					content
+					contentEncoding
+					contentType
+					externalId
+					parentId
+					sourceSyncConfigurationId
+				}
+				... on EntityManagementIncidentProfileAttachmentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementIncidentProfileEntity {
+					__typename
+				}
+				... on EntityManagementIncidentTimelineEntity {
+					__typename
+					content
+					entryType
+					source
+				}
+				... on EntityManagementJiraConnection {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementJiraSyncConfiguration {
+					__typename
+					assigneeQuery
+					connection
+					correlationFieldName
+					description
+					direction
+					enabled
+					issueType
+					mode
+					projectKey
+				}
+				... on EntityManagementJiraSyncConfigurationV2Entity {
+					__typename
+					bidirectional
+					connection
+					description
+					enabled
+					issueType
+					mode
+					projectKey
+				}
+				... on EntityManagementJuniperMistConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementMaintenanceWindowEntity {
+					__typename
+					affectedEntityType
+					description
+					duration
+					rrule
+					startTime
+					timezone
+				}
+				... on EntityManagementManagedEvaluationsEntity {
+					__typename
+					description
+				}
+				... on EntityManagementMcpServerEntity {
+					__typename
+					description
+					displayName
+					endpoint
+					protocolVersion
+					transport
+				}
+				... on EntityManagementMeterEntity {
+					__typename
+					description
+				}
+				... on EntityManagementMeterTypeEntity {
+					__typename
+					allowMeterCreation
+					attributionDimensions
+					description
+				}
+				... on EntityManagementNewRelicConnection {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementNotebookEntity {
+					__typename
+				}
+				... on EntityManagementNotificationAttachmentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementNrAiAgentEntity {
+					__typename
+					displayName
+					version
+				}
+				... on EntityManagementNrqlMacroEntity {
+					__typename
+					expression
+					numParameters
+				}
+				... on EntityManagementOperationEntity {
+					__typename
+				}
+				... on EntityManagementOperationMetricEntity {
+					__typename
+				}
+				... on EntityManagementPerformanceInboxSettingEntity {
+					__typename
+					thresholdScope
+				}
+				... on EntityManagementPipelineCloudRuleEntity {
+					__typename
+					description
+					enabled
+					nrql
+				}
+				... on EntityManagementProductLineEntity {
+					__typename
+					description
+				}
+				... on EntityManagementRagDocumentEntity {
+					__typename
+					authorEmails
+					sourceIdentifier
+				}
+				... on EntityManagementRagToolEntity {
+					__typename
+					description
+				}
+				... on EntityManagementReactNativeSourcemapEntity {
+					__typename
+					appVersionId
+					applicationId
+					jsBundleId
+				}
+				... on EntityManagementRestApiContractEntity {
+					__typename
+				}
+				... on EntityManagementScorecardEntity {
+					__typename
+					description
+				}
+				... on EntityManagementScorecardRuleEntity {
+					__typename
+					description
+					enabled
+					impactWeight
+					progressLevel
+				}
+				... on EntityManagementSegmentTermsEntity {
+					__typename
+					accountId
+					agentId
+					domain
+					entityGuid
+					metricPrefix
+					oldId
+					segmentTerms
+				}
+				... on EntityManagementServerlessJobDefinitionEntity {
+					__typename
+					description
+				}
+				... on EntityManagementServiceNowConnection {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementSlackConnection {
+					__typename
+					appId
+					description
+					enabled
+					externalId
+					workspace
+				}
+				... on EntityManagementSlackSyncConfiguration {
+					__typename
+					channelIdPayloadPath
+					connection
+					description
+					direction
+					enabled
+					mode
+				}
+				... on EntityManagementStatusPageAnnouncementEntity {
+					__typename
+					category
+					description
+					effectiveDate
+					eventUrl
+					publishedDate
+					state
+				}
+				... on EntityManagementStatusPageIncidentEntity {
+					__typename
+					description
+					endTime
+					incidentId
+					incidentTitle
+					lastUpdatedTime
+					region
+					startTime
+					status
+				}
+				... on EntityManagementTeamEntity {
+					__typename
+					aliases
+					description
+				}
+				... on EntityManagementTeamsHierarchyLevelEntity {
+					__typename
+				}
+				... on EntityManagementTeamsOrganizationSettingsEntity {
+					__typename
+				}
+				... on EntityManagementUserEntity {
+					__typename
+					userId
+				}
+				... on EntityManagementWorkItem {
+					__typename
+					category
+					description
+					dueDate
+					externalId
+					labels
+					priority
+					status
+				}
+				... on EntityManagementWorkItemLink {
+					__typename
+					externalId
+					sourceSyncConfigurationId
+					url
+				}
+				... on EntityManagementWorkItemLinkV2Entity {
+					__typename
+					externalId
+					sourceSyncConfigurationId
+					url
+				}
+				... on EntityManagementWorkItemMessage {
+					__typename
+					content
+					contentEncoding
+					contentType
+					externalId
+					parentId
+					sourceSyncConfigurationId
+				}
+				... on EntityManagementWorkItemMessageV2Entity {
+					__typename
+					content
+					contentEncoding
+					contentType
+					externalId
+					parentId
+					sourceSyncConfigurationId
+				}
+				... on EntityManagementWorkItemV2Entity {
+					__typename
+					category
+					description
+					dueDate
+					externalId
+					labels
+					priority
+					status
+				}
+				... on EntityManagementWorkflowDefinition {
+					__typename
+					description
+					versions
+				}
+				... on EntityManagementWorkflowSchedule {
+					__typename
+					cronExpression
+					description
+					overlapPolicy
+					timezone
+				}
+				... on EntityManagementZoomConnectionEntity {
+					__typename
+					description
+					enabled
+				}
+			}
+			dataProcessingConnection {
+				__typename
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+				... on EntityManagementAgentConfigurationEntity {
+					__typename
+					agentType
+					configurationType
+					managedEntityType
+					versionCount
+				}
+				... on EntityManagementAgentConfigurationVersionEntity {
+					__typename
+					agentConfiguration
+					version
+				}
+				... on EntityManagementAgentEffectiveConfigurationEntity {
+					__typename
+				}
+				... on EntityManagementAgentEntity {
+					__typename
+					agentType
+					version
+				}
+				... on EntityManagementAiAgentEntity {
+					__typename
+					category
+					description
+					displayName
+					initialized
+					prompt
+					provider
+					test
+				}
+				... on EntityManagementAiCapableEntity {
+					__typename
+					category
+					language
+					lastSeen
+					toolType
+					toolVersion
+				}
+				... on EntityManagementAiEvaluationConfigEntity {
+					__typename
+					description
+					samplingRate
+				}
+				... on EntityManagementAiToolEntity {
+					__typename
+					description
+					initialized
+					provider
+					test
+					toolType
+					url
+				}
+				... on EntityManagementApiSpecificationBlobEntity {
+					__typename
+					description
+				}
+				... on EntityManagementAwsConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementBackgroundProcessingRuleEntity {
+					__typename
+					description
+					ruleType
+				}
+				... on EntityManagementBackgroundSqlProcessingRuleEntity {
+					__typename
+					description
+				}
+				... on EntityManagementBudgetEntity {
+					__typename
+					budgetType
+					organizationBudget
+				}
+				... on EntityManagementCiscoMerakiConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementCollectionEntity {
+					__typename
+				}
+				... on EntityManagementComponentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementComputeLocationEntity {
+					__typename
+					description
+				}
+				... on EntityManagementConfluenceConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+				}
+				... on EntityManagementConfluenceIntegration {
+					__typename
+					confluenceUserId
+					secretKey
+					url
+				}
+				... on EntityManagementConfluenceRagSettingsEntity {
+					__typename
+					chunkOverlap
+					chunkSize
+					confluenceIntegrationId
+					confluenceQuery
+					intervalSeconds
+					lastPullTime
+					nextPullTime
+					textSplitterType
+				}
+				... on EntityManagementCorrelationInternalSourceConfigEntity {
+					__typename
+					accountId
+					alias
+					filterId
+					namespaces
+					nrql
+					outputTopic
+					source
+				}
+				... on EntityManagementCorrelationLinkEntity {
+					__typename
+					directional
+					linkType
+				}
+				... on EntityManagementCorrelationLinkingRuleEntity {
+					__typename
+					description
+					enabled
+				}
+				... on EntityManagementCustomEvaluationEntity {
+					__typename
+					criteria
+					description
+					model
+					parameters
+					steps
+					threshold
+				}
+				... on EntityManagementCustomerImpactEntity {
+					__typename
+					issueId
+				}
+				... on EntityManagementCustomerImpactQueryEntity {
+					__typename
+					query
+					queryAccountId
+					teamName
+					totalCustImpactQueryAccountIds
+					totalCustomerImpactQuery
+				}
+				... on EntityManagementEventBridgeRuleEntity {
+					__typename
+					description
+					enabled
+				}
+				... on EntityManagementFederatedLogPartitionEntity {
+					__typename
+					dataLocationUri
+					description
+					isDefault
+					partitionDatabase
+					partitionTable
+					status
+				}
+				... on EntityManagementFederatedLogSetupEntity {
+					__typename
+					cloudProvider
+					cloudProviderRegion
+					dataLocationBucket
+					description
+					nrAccountId
+					nrRegion
+					status
+				}
+				... on EntityManagementFleetDeploymentEntity {
+					__typename
+					configurationVersions
+					description
+					fleetId
+					phase
+				}
+				... on EntityManagementFleetEntity {
+					__typename
+					description
+					managedEntityType
+					product
+				}
+				... on EntityManagementFleetRingEntity {
+					__typename
+					fleetId
+				}
+				... on EntityManagementFlowEntity {
+					__typename
+				}
+				... on EntityManagementGenericEntity {
+					__typename
+				}
+				... on EntityManagementGitHubIntegrationEntity {
+					__typename
+					installationId
+					installationSource
+					installationStatus
+					lastSyncCompletedAt
+					nextSyncAt
+				}
+				... on EntityManagementGitRepositoryEntity {
+					__typename
+					closedPullRequestCount
+					description
+					externalCreatedAt
+					externalId
+					externalLastDeployedAt
+					externalUpdatedAt
+					forkCount
+					hostingPlatform
+					latestReleaseVersion
+					lockedPullRequestCount
+					openPullRequestCount
+					primaryLanguage
+					url
+				}
+				... on EntityManagementGithubConnection {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementImpactProfileEntity {
+					__typename
+				}
+				... on EntityManagementInboxIssueCategoryEntity {
+					__typename
+					categoryType
+					issueType
+					messageAttributes
+					nameAttributes
+				}
+				... on EntityManagementIncidentAttachmentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementIncidentEntity {
+					__typename
+					category
+					customerImpact
+					description
+					dueDate
+					entitiesImpacted
+					externalId
+					incidentCategory
+					incidentKey
+					incidentProfileId
+					incidentSubcategory
+					issueLinks
+					labels
+					lessonsLearned
+					maxSeverity
+					priority
+					reportedBy
+					resolutionCategory
+					resolutionSummary
+					retroActionItems
+					rootCauseSummary
+					rootCauseTags
+					severity
+					source
+					status
+					triggeringEvent
+				}
+				... on EntityManagementIncidentLinkEntity {
+					__typename
+					externalId
+					sourceSyncConfigurationId
+					url
+				}
+				... on EntityManagementIncidentMessageEntity {
+					__typename
+					content
+					contentEncoding
+					contentType
+					externalId
+					parentId
+					sourceSyncConfigurationId
+				}
+				... on EntityManagementIncidentProfileAttachmentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementIncidentProfileEntity {
+					__typename
+				}
+				... on EntityManagementIncidentTimelineEntity {
+					__typename
+					content
+					entryType
+					source
+				}
+				... on EntityManagementJiraConnection {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementJiraSyncConfiguration {
+					__typename
+					assigneeQuery
+					connection
+					correlationFieldName
+					description
+					direction
+					enabled
+					issueType
+					mode
+					projectKey
+				}
+				... on EntityManagementJiraSyncConfigurationV2Entity {
+					__typename
+					bidirectional
+					connection
+					description
+					enabled
+					issueType
+					mode
+					projectKey
+				}
+				... on EntityManagementJuniperMistConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementMaintenanceWindowEntity {
+					__typename
+					affectedEntityType
+					description
+					duration
+					rrule
+					startTime
+					timezone
+				}
+				... on EntityManagementManagedEvaluationsEntity {
+					__typename
+					description
+				}
+				... on EntityManagementMcpServerEntity {
+					__typename
+					description
+					displayName
+					endpoint
+					protocolVersion
+					transport
+				}
+				... on EntityManagementMeterEntity {
+					__typename
+					description
+				}
+				... on EntityManagementMeterTypeEntity {
+					__typename
+					allowMeterCreation
+					attributionDimensions
+					description
+				}
+				... on EntityManagementNewRelicConnection {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementNotebookEntity {
+					__typename
+				}
+				... on EntityManagementNotificationAttachmentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementNrAiAgentEntity {
+					__typename
+					displayName
+					version
+				}
+				... on EntityManagementNrqlMacroEntity {
+					__typename
+					expression
+					numParameters
+				}
+				... on EntityManagementOperationEntity {
+					__typename
+				}
+				... on EntityManagementOperationMetricEntity {
+					__typename
+				}
+				... on EntityManagementPerformanceInboxSettingEntity {
+					__typename
+					thresholdScope
+				}
+				... on EntityManagementPipelineCloudRuleEntity {
+					__typename
+					description
+					enabled
+					nrql
+				}
+				... on EntityManagementProductLineEntity {
+					__typename
+					description
+				}
+				... on EntityManagementRagDocumentEntity {
+					__typename
+					authorEmails
+					sourceIdentifier
+				}
+				... on EntityManagementRagToolEntity {
+					__typename
+					description
+				}
+				... on EntityManagementReactNativeSourcemapEntity {
+					__typename
+					appVersionId
+					applicationId
+					jsBundleId
+				}
+				... on EntityManagementRestApiContractEntity {
+					__typename
+				}
+				... on EntityManagementScorecardEntity {
+					__typename
+					description
+				}
+				... on EntityManagementScorecardRuleEntity {
+					__typename
+					description
+					enabled
+					impactWeight
+					progressLevel
+				}
+				... on EntityManagementSegmentTermsEntity {
+					__typename
+					accountId
+					agentId
+					domain
+					entityGuid
+					metricPrefix
+					oldId
+					segmentTerms
+				}
+				... on EntityManagementServerlessJobDefinitionEntity {
+					__typename
+					description
+				}
+				... on EntityManagementServiceNowConnection {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementSlackConnection {
+					__typename
+					appId
+					description
+					enabled
+					externalId
+					workspace
+				}
+				... on EntityManagementSlackSyncConfiguration {
+					__typename
+					channelIdPayloadPath
+					connection
+					description
+					direction
+					enabled
+					mode
+				}
+				... on EntityManagementStatusPageAnnouncementEntity {
+					__typename
+					category
+					description
+					effectiveDate
+					eventUrl
+					publishedDate
+					state
+				}
+				... on EntityManagementStatusPageIncidentEntity {
+					__typename
+					description
+					endTime
+					incidentId
+					incidentTitle
+					lastUpdatedTime
+					region
+					startTime
+					status
+				}
+				... on EntityManagementTeamEntity {
+					__typename
+					aliases
+					description
+				}
+				... on EntityManagementTeamsHierarchyLevelEntity {
+					__typename
+				}
+				... on EntityManagementTeamsOrganizationSettingsEntity {
+					__typename
+				}
+				... on EntityManagementUserEntity {
+					__typename
+					userId
+				}
+				... on EntityManagementWorkItem {
+					__typename
+					category
+					description
+					dueDate
+					externalId
+					labels
+					priority
+					status
+				}
+				... on EntityManagementWorkItemLink {
+					__typename
+					externalId
+					sourceSyncConfigurationId
+					url
+				}
+				... on EntityManagementWorkItemLinkV2Entity {
+					__typename
+					externalId
+					sourceSyncConfigurationId
+					url
+				}
+				... on EntityManagementWorkItemMessage {
+					__typename
+					content
+					contentEncoding
+					contentType
+					externalId
+					parentId
+					sourceSyncConfigurationId
+				}
+				... on EntityManagementWorkItemMessageV2Entity {
+					__typename
+					content
+					contentEncoding
+					contentType
+					externalId
+					parentId
+					sourceSyncConfigurationId
+				}
+				... on EntityManagementWorkItemV2Entity {
+					__typename
+					category
+					description
+					dueDate
+					externalId
+					labels
+					priority
+					status
+				}
+				... on EntityManagementWorkflowDefinition {
+					__typename
+					description
+					versions
+				}
+				... on EntityManagementWorkflowSchedule {
+					__typename
+					cronExpression
+					description
+					overlapPolicy
+					timezone
+				}
+				... on EntityManagementZoomConnectionEntity {
+					__typename
+					description
+					enabled
+				}
+			}
+			description
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			nrAccountId
+			nrRegion
+			queryConnection {
+				__typename
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+				... on EntityManagementAgentConfigurationEntity {
+					__typename
+					agentType
+					configurationType
+					managedEntityType
+					versionCount
+				}
+				... on EntityManagementAgentConfigurationVersionEntity {
+					__typename
+					agentConfiguration
+					version
+				}
+				... on EntityManagementAgentEffectiveConfigurationEntity {
+					__typename
+				}
+				... on EntityManagementAgentEntity {
+					__typename
+					agentType
+					version
+				}
+				... on EntityManagementAiAgentEntity {
+					__typename
+					category
+					description
+					displayName
+					initialized
+					prompt
+					provider
+					test
+				}
+				... on EntityManagementAiCapableEntity {
+					__typename
+					category
+					language
+					lastSeen
+					toolType
+					toolVersion
+				}
+				... on EntityManagementAiEvaluationConfigEntity {
+					__typename
+					description
+					samplingRate
+				}
+				... on EntityManagementAiToolEntity {
+					__typename
+					description
+					initialized
+					provider
+					test
+					toolType
+					url
+				}
+				... on EntityManagementApiSpecificationBlobEntity {
+					__typename
+					description
+				}
+				... on EntityManagementAwsConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementBackgroundProcessingRuleEntity {
+					__typename
+					description
+					ruleType
+				}
+				... on EntityManagementBackgroundSqlProcessingRuleEntity {
+					__typename
+					description
+				}
+				... on EntityManagementBudgetEntity {
+					__typename
+					budgetType
+					organizationBudget
+				}
+				... on EntityManagementCiscoMerakiConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementCollectionEntity {
+					__typename
+				}
+				... on EntityManagementComponentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementComputeLocationEntity {
+					__typename
+					description
+				}
+				... on EntityManagementConfluenceConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+				}
+				... on EntityManagementConfluenceIntegration {
+					__typename
+					confluenceUserId
+					secretKey
+					url
+				}
+				... on EntityManagementConfluenceRagSettingsEntity {
+					__typename
+					chunkOverlap
+					chunkSize
+					confluenceIntegrationId
+					confluenceQuery
+					intervalSeconds
+					lastPullTime
+					nextPullTime
+					textSplitterType
+				}
+				... on EntityManagementCorrelationInternalSourceConfigEntity {
+					__typename
+					accountId
+					alias
+					filterId
+					namespaces
+					nrql
+					outputTopic
+					source
+				}
+				... on EntityManagementCorrelationLinkEntity {
+					__typename
+					directional
+					linkType
+				}
+				... on EntityManagementCorrelationLinkingRuleEntity {
+					__typename
+					description
+					enabled
+				}
+				... on EntityManagementCustomEvaluationEntity {
+					__typename
+					criteria
+					description
+					model
+					parameters
+					steps
+					threshold
+				}
+				... on EntityManagementCustomerImpactEntity {
+					__typename
+					issueId
+				}
+				... on EntityManagementCustomerImpactQueryEntity {
+					__typename
+					query
+					queryAccountId
+					teamName
+					totalCustImpactQueryAccountIds
+					totalCustomerImpactQuery
+				}
+				... on EntityManagementEventBridgeRuleEntity {
+					__typename
+					description
+					enabled
+				}
+				... on EntityManagementFederatedLogPartitionEntity {
+					__typename
+					dataLocationUri
+					description
+					isDefault
+					partitionDatabase
+					partitionTable
+					status
+				}
+				... on EntityManagementFederatedLogSetupEntity {
+					__typename
+					cloudProvider
+					cloudProviderRegion
+					dataLocationBucket
+					description
+					nrAccountId
+					nrRegion
+					status
+				}
+				... on EntityManagementFleetDeploymentEntity {
+					__typename
+					configurationVersions
+					description
+					fleetId
+					phase
+				}
+				... on EntityManagementFleetEntity {
+					__typename
+					description
+					managedEntityType
+					product
+				}
+				... on EntityManagementFleetRingEntity {
+					__typename
+					fleetId
+				}
+				... on EntityManagementFlowEntity {
+					__typename
+				}
+				... on EntityManagementGenericEntity {
+					__typename
+				}
+				... on EntityManagementGitHubIntegrationEntity {
+					__typename
+					installationId
+					installationSource
+					installationStatus
+					lastSyncCompletedAt
+					nextSyncAt
+				}
+				... on EntityManagementGitRepositoryEntity {
+					__typename
+					closedPullRequestCount
+					description
+					externalCreatedAt
+					externalId
+					externalLastDeployedAt
+					externalUpdatedAt
+					forkCount
+					hostingPlatform
+					latestReleaseVersion
+					lockedPullRequestCount
+					openPullRequestCount
+					primaryLanguage
+					url
+				}
+				... on EntityManagementGithubConnection {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementImpactProfileEntity {
+					__typename
+				}
+				... on EntityManagementInboxIssueCategoryEntity {
+					__typename
+					categoryType
+					issueType
+					messageAttributes
+					nameAttributes
+				}
+				... on EntityManagementIncidentAttachmentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementIncidentEntity {
+					__typename
+					category
+					customerImpact
+					description
+					dueDate
+					entitiesImpacted
+					externalId
+					incidentCategory
+					incidentKey
+					incidentProfileId
+					incidentSubcategory
+					issueLinks
+					labels
+					lessonsLearned
+					maxSeverity
+					priority
+					reportedBy
+					resolutionCategory
+					resolutionSummary
+					retroActionItems
+					rootCauseSummary
+					rootCauseTags
+					severity
+					source
+					status
+					triggeringEvent
+				}
+				... on EntityManagementIncidentLinkEntity {
+					__typename
+					externalId
+					sourceSyncConfigurationId
+					url
+				}
+				... on EntityManagementIncidentMessageEntity {
+					__typename
+					content
+					contentEncoding
+					contentType
+					externalId
+					parentId
+					sourceSyncConfigurationId
+				}
+				... on EntityManagementIncidentProfileAttachmentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementIncidentProfileEntity {
+					__typename
+				}
+				... on EntityManagementIncidentTimelineEntity {
+					__typename
+					content
+					entryType
+					source
+				}
+				... on EntityManagementJiraConnection {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementJiraSyncConfiguration {
+					__typename
+					assigneeQuery
+					connection
+					correlationFieldName
+					description
+					direction
+					enabled
+					issueType
+					mode
+					projectKey
+				}
+				... on EntityManagementJiraSyncConfigurationV2Entity {
+					__typename
+					bidirectional
+					connection
+					description
+					enabled
+					issueType
+					mode
+					projectKey
+				}
+				... on EntityManagementJuniperMistConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementMaintenanceWindowEntity {
+					__typename
+					affectedEntityType
+					description
+					duration
+					rrule
+					startTime
+					timezone
+				}
+				... on EntityManagementManagedEvaluationsEntity {
+					__typename
+					description
+				}
+				... on EntityManagementMcpServerEntity {
+					__typename
+					description
+					displayName
+					endpoint
+					protocolVersion
+					transport
+				}
+				... on EntityManagementMeterEntity {
+					__typename
+					description
+				}
+				... on EntityManagementMeterTypeEntity {
+					__typename
+					allowMeterCreation
+					attributionDimensions
+					description
+				}
+				... on EntityManagementNewRelicConnection {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementNotebookEntity {
+					__typename
+				}
+				... on EntityManagementNotificationAttachmentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementNrAiAgentEntity {
+					__typename
+					displayName
+					version
+				}
+				... on EntityManagementNrqlMacroEntity {
+					__typename
+					expression
+					numParameters
+				}
+				... on EntityManagementOperationEntity {
+					__typename
+				}
+				... on EntityManagementOperationMetricEntity {
+					__typename
+				}
+				... on EntityManagementPerformanceInboxSettingEntity {
+					__typename
+					thresholdScope
+				}
+				... on EntityManagementPipelineCloudRuleEntity {
+					__typename
+					description
+					enabled
+					nrql
+				}
+				... on EntityManagementProductLineEntity {
+					__typename
+					description
+				}
+				... on EntityManagementRagDocumentEntity {
+					__typename
+					authorEmails
+					sourceIdentifier
+				}
+				... on EntityManagementRagToolEntity {
+					__typename
+					description
+				}
+				... on EntityManagementReactNativeSourcemapEntity {
+					__typename
+					appVersionId
+					applicationId
+					jsBundleId
+				}
+				... on EntityManagementRestApiContractEntity {
+					__typename
+				}
+				... on EntityManagementScorecardEntity {
+					__typename
+					description
+				}
+				... on EntityManagementScorecardRuleEntity {
+					__typename
+					description
+					enabled
+					impactWeight
+					progressLevel
+				}
+				... on EntityManagementSegmentTermsEntity {
+					__typename
+					accountId
+					agentId
+					domain
+					entityGuid
+					metricPrefix
+					oldId
+					segmentTerms
+				}
+				... on EntityManagementServerlessJobDefinitionEntity {
+					__typename
+					description
+				}
+				... on EntityManagementServiceNowConnection {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementSlackConnection {
+					__typename
+					appId
+					description
+					enabled
+					externalId
+					workspace
+				}
+				... on EntityManagementSlackSyncConfiguration {
+					__typename
+					channelIdPayloadPath
+					connection
+					description
+					direction
+					enabled
+					mode
+				}
+				... on EntityManagementStatusPageAnnouncementEntity {
+					__typename
+					category
+					description
+					effectiveDate
+					eventUrl
+					publishedDate
+					state
+				}
+				... on EntityManagementStatusPageIncidentEntity {
+					__typename
+					description
+					endTime
+					incidentId
+					incidentTitle
+					lastUpdatedTime
+					region
+					startTime
+					status
+				}
+				... on EntityManagementTeamEntity {
+					__typename
+					aliases
+					description
+				}
+				... on EntityManagementTeamsHierarchyLevelEntity {
+					__typename
+				}
+				... on EntityManagementTeamsOrganizationSettingsEntity {
+					__typename
+				}
+				... on EntityManagementUserEntity {
+					__typename
+					userId
+				}
+				... on EntityManagementWorkItem {
+					__typename
+					category
+					description
+					dueDate
+					externalId
+					labels
+					priority
+					status
+				}
+				... on EntityManagementWorkItemLink {
+					__typename
+					externalId
+					sourceSyncConfigurationId
+					url
+				}
+				... on EntityManagementWorkItemLinkV2Entity {
+					__typename
+					externalId
+					sourceSyncConfigurationId
+					url
+				}
+				... on EntityManagementWorkItemMessage {
+					__typename
+					content
+					contentEncoding
+					contentType
+					externalId
+					parentId
+					sourceSyncConfigurationId
+				}
+				... on EntityManagementWorkItemMessageV2Entity {
+					__typename
+					content
+					contentEncoding
+					contentType
+					externalId
+					parentId
+					sourceSyncConfigurationId
+				}
+				... on EntityManagementWorkItemV2Entity {
+					__typename
+					category
+					description
+					dueDate
+					externalId
+					labels
+					priority
+					status
+				}
+				... on EntityManagementWorkflowDefinition {
+					__typename
+					description
+					versions
+				}
+				... on EntityManagementWorkflowSchedule {
+					__typename
+					cronExpression
+					description
+					overlapPolicy
+					timezone
+				}
+				... on EntityManagementZoomConnectionEntity {
+					__typename
+					description
+					enabled
+				}
+			}
+			scope {
+				id
+				type
+			}
+			status
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementFleetDeploymentEntity {
+			__typename
+			configurationVersionList {
+				id
+			}
+			configurationVersions
+			description
+			fleetId
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			phase
+			ringsDeploymentTracker {
+				completedAt
+				name
+				startedAt
+				status
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementFleetEntity {
+			__typename
+			currentDeployment {
+				canaryManagedEntities
+				configsChanged
+				configurationVersions
+				deployedAt
+				description
+				entitiesChanged
+				managedEntitiesChanged
+				managedEntitiesRequiredToChange
+				metadata {
+					createdAt
+					updatedAt
+					userId
+				}
+				name
+				status
+				supervisedAgentEntitiesChanged
+				supervisedAgentEntitiesRequiredToChange
+			}
+			description
+			managedEntityRings {
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+			}
+			managedEntityType
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			operatingSystem {
+				type
+			}
+			product
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementFleetRingEntity {
+			__typename
+			fleetId
+			managedEntities {
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+			}
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementFlowEntity {
+			__typename
+			blob {
+				blobSignature {
+					securityFindings
+					signatureError
+					signatureErrors
+					validationError
+				}
+				blobSignatures {
+					securityFindings
+					signatureError
+					signatureErrors
+					validationError
+				}
+				checksum
+				checksumAlgorithm
+				contentType
+				id
+			}
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementGenericEntity {
+			__typename
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementGitHubIntegrationEntity {
+			__typename
+			count {
+				repoCount
+				teamCount
+			}
+			gitHubRetentionOptions {
+				retainRepositories
+				retainTeams
+			}
+			gitHubSyncOptions {
+				syncRepositories
+				syncTeams
+			}
+			installationId
+			installationSource
+			installationStatus
+			lastSyncCompletedAt
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			nextSyncAt
+			scope {
+				id
+				type
+			}
+			synchronizedGitHubTeams {
+				teams {
+					id
+				}
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementGitRepositoryEntity {
+			__typename
+			closedPullRequestCount
+			configuration {
+				blob {
+					checksum
+					checksumAlgorithm
+					contentType
+					id
+				}
+				source
+				updatedAt
+				updatedBy
+			}
+			description
+			externalCreatedAt
+			externalId
+			externalLastDeployedAt
+			externalOwner {
+				id
+				type
+			}
+			externalUpdatedAt
+			forkCount
+			hostingPlatform
+			latestReleaseVersion
+			license {
+				name
+				url
+			}
+			lockedPullRequestCount
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			openPullRequestCount
+			primaryLanguage
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			url
+		}
+		... on EntityManagementGithubConnection {
+			__typename
+			credential {
+				appToken {
+					appId
+					installationId
+					tokenFieldName
+					tokenRelativeUrl
+				}
+				personalAccessToken {
+					keyName
+					namespace
+				}
+			}
+			description
+			enabled
+			externalId
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			settings {
+				key
+				value
+			}
+			signingCredentials {
+				signingAlgorithm
+				signingKeyReference {
+					keyName
+					namespace
+				}
+			}
+			tags {
+				key
+				values
+			}
+			url
+		}
+		... on EntityManagementImpactProfileEntity {
+			__typename
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementInboxIssueCategoryEntity {
+			__typename
+			categoryScope {
+				id
+				type
+			}
+			categoryType
+			issueType
+			messageAttributes
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			nameAttributes
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementIncidentAttachmentEntity {
+			__typename
+			blob {
+				blobSignature {
+					securityFindings
+					signatureError
+					signatureErrors
+					validationError
+				}
+				blobSignatures {
+					securityFindings
+					signatureError
+					signatureErrors
+					validationError
+				}
+				checksum
+				checksumAlgorithm
+				contentType
+				id
+			}
+			description
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementIncidentEntity {
+			__typename
+			assignedTo {
+				identifier
+				type
+			}
+			attributes {
+				name
+				value
+			}
+			category
+			customerImpact
+			description
+			dueDate
+			entitiesImpacted
+			externalId
+			incidentCategory
+			incidentKey
+			incidentProfileId
+			incidentSubcategory
+			issueLinks
+			labels
+			lessonsLearned
+			links {
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+			}
+			maxSeverity
+			messages {
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+			}
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			priority
+			reportedBy
+			resolutionCategory
+			resolutionSummary
+			retroActionItems
+			rootCauseSummary
+			rootCauseTags
+			scope {
+				id
+				type
+			}
+			severity
+			source
+			status
+			tags {
+				key
+				values
+			}
+			timelines {
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+			}
+			triggeringEvent
+		}
+		... on EntityManagementIncidentLinkEntity {
+			__typename
+			externalId
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			sourceSyncConfigurationId
+			tags {
+				key
+				values
+			}
+			url
+		}
+		... on EntityManagementIncidentMessageEntity {
+			__typename
+			content
+			contentEncoding
+			contentType
+			externalId
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			parentId
+			scope {
+				id
+				type
+			}
+			sourceSyncConfigurationId
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementIncidentProfileAttachmentEntity {
+			__typename
+			blob {
+				blobSignature {
+					securityFindings
+					signatureError
+					signatureErrors
+					validationError
+				}
+				blobSignatures {
+					securityFindings
+					signatureError
+					signatureErrors
+					validationError
+				}
+				checksum
+				checksumAlgorithm
+				contentType
+				id
+			}
+			description
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementIncidentProfileEntity {
+			__typename
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementIncidentTimelineEntity {
+			__typename
+			content
+			entryType
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			source
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementJiraConnection {
+			__typename
+			credential {
+				oauth {
+					clientId
+					tokenFieldName
+					tokenUrl
+				}
+				personalAccessToken {
+					keyName
+					namespace
+				}
+			}
+			description
+			enabled
+			externalId
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			settings {
+				key
+				value
+			}
+			signingCredentials {
+				signingAlgorithm
+				signingKeyReference {
+					keyName
+					namespace
+				}
+			}
+			tags {
+				key
+				values
+			}
+			url
+		}
+		... on EntityManagementJiraSyncConfiguration {
+			__typename
+			assigneeQuery
+			connection
+			correlationFieldName
+			description
+			direction
+			enabled
+			issueType
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			mode
+			projectKey
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			targets {
+				key
+				values
+			}
+			templateFields {
+				direction
+				name
+				required
+				template
+			}
+		}
+		... on EntityManagementJiraSyncConfigurationV2Entity {
+			__typename
+			bidirectional
+			connection
+			description
+			enabled
+			issueType
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			mode
+			projectKey
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			targets {
+				key
+				values
+			}
+			templateFields {
+				direction
+				name
+				required
+				template
+			}
+		}
+		... on EntityManagementJuniperMistConnectionEntity {
+			__typename
+			description
+			enabled
+			externalId
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			region
+			scope {
+				id
+				type
+			}
+			settings {
+				key
+				value
+			}
+			signingCredentials {
+				signingAlgorithm
+				signingKeyReference {
+					keyName
+					namespace
+				}
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementMaintenanceWindowEntity {
+			__typename
+			affectedEntityType
+			description
+			duration
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			rrule
+			scope {
+				id
+				type
+			}
+			startTime
+			tags {
+				key
+				values
+			}
+			timezone
+		}
+		... on EntityManagementManagedEvaluationsEntity {
+			__typename
+			description
+			evaluations {
+				additionalParameters {
+					key
+					value
+				}
+				enabled
+				evaluationType
+				threshold
+			}
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementMcpServerEntity {
+			__typename
+			auth {
+				bearerToken {
+					keyName
+					namespace
+				}
+				headerKey
+				headerValue {
+					keyName
+					namespace
+				}
+				type
+			}
+			description
+			displayName
+			endpoint
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			protocolVersion
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			transport
+		}
+		... on EntityManagementMeterEntity {
+			__typename
+			attributes {
+				name
+				values
+			}
+			description
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			meterType {
+				allowMeterCreation
+				attributionDimensions
+				description
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				owningTeam {
+					aliases
+					description
+					id
+					name
+					type
+				}
+				productLine {
+					description
+					id
+					name
+					type
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+			}
+			owningTeam {
+				aliases
+				description
+				externalIntegration {
+					externalId
+					type
+				}
+				id
+				membership {
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				ownership {
+					id
+					name
+					type
+				}
+				resources {
+					content
+					title
+					type
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementMeterTypeEntity {
+			__typename
+			allowMeterCreation
+			attributionDimensions
+			description
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			owningTeam {
+				aliases
+				description
+				externalIntegration {
+					externalId
+					type
+				}
+				id
+				membership {
+					id
+					name
+					type
+				}
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				ownership {
+					id
+					name
+					type
+				}
+				resources {
+					content
+					title
+					type
+				}
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+			}
+			productLine {
+				description
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementNewRelicConnection {
+			__typename
+			credential {
+				apiKey {
+					keyName
+					namespace
+				}
+				type
+			}
+			description
+			enabled
+			externalId
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			region
+			scope {
+				id
+				type
+			}
+			settings {
+				key
+				value
+			}
+			signingCredentials {
+				signingAlgorithm
+				signingKeyReference {
+					keyName
+					namespace
+				}
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementNotebookEntity {
+			__typename
+			content {
+				blobSignature {
+					securityFindings
+					signatureError
+					signatureErrors
+					validationError
+				}
+				blobSignatures {
+					securityFindings
+					signatureError
+					signatureErrors
+					validationError
+				}
+				checksum
+				checksumAlgorithm
+				contentType
+				id
+			}
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementNotificationAttachmentEntity {
+			__typename
+			blob {
+				blobSignature {
+					securityFindings
+					signatureError
+					signatureErrors
+					validationError
+				}
+				blobSignatures {
+					securityFindings
+					signatureError
+					signatureErrors
+					validationError
+				}
+				checksum
+				checksumAlgorithm
+				contentType
+				id
+			}
+			description
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementNrAiAgentEntity {
+			__typename
+			displayName
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			version
+		}
+		... on EntityManagementNrqlMacroEntity {
+			__typename
+			expression
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			numParameters
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementOperationEntity {
+			__typename
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementOperationMetricEntity {
+			__typename
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementPerformanceInboxSettingEntity {
+			__typename
+			config {
+				attributes {
+					key
+					value
+				}
+				name
+			}
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			thresholdScope
+		}
 		... on EntityManagementPipelineCloudRuleEntity {
 			__typename
 			description
+			enabled
 			metadata {
 				createdAt
 				createdBy {
@@ -427,6 +42034,1409 @@ const getEntitySearchQuery = `query(
 			scope {
 				id
 				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementProductLineEntity {
+			__typename
+			description
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementRagDocumentEntity {
+			__typename
+			authorEmails
+			blob {
+				blobSignature {
+					securityFindings
+					signatureError
+					signatureErrors
+					validationError
+				}
+				blobSignatures {
+					securityFindings
+					signatureError
+					signatureErrors
+					validationError
+				}
+				checksum
+				checksumAlgorithm
+				contentType
+				id
+			}
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			sourceIdentifier
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementRagToolEntity {
+			__typename
+			description
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementReactNativeSourcemapEntity {
+			__typename
+			appVersionId
+			applicationId
+			blob {
+				blobSignature {
+					securityFindings
+					signatureError
+					signatureErrors
+					validationError
+				}
+				blobSignatures {
+					securityFindings
+					signatureError
+					signatureErrors
+					validationError
+				}
+				checksum
+				checksumAlgorithm
+				contentType
+				id
+			}
+			jsBundleId
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementRestApiContractEntity {
+			__typename
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementScorecardEntity {
+			__typename
+			description
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			progressLevels {
+				description
+				hexColorCode
+				id
+				name
+			}
+			rules {
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementScorecardRuleEntity {
+			__typename
+			description
+			enabled
+			impactWeight
+			lastExecutionStatus {
+				checkedEntities
+				executedAt
+				executionIssues {
+					statusCode
+					statusMessage
+				}
+				executionStatus
+			}
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			nrqlEngine {
+				accounts
+				joinAccounts
+				query
+			}
+			progressLevel
+			schedule {
+				cronExpression
+				enabled
+				period
+				scheduleAt
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementSegmentTermsEntity {
+			__typename
+			accountId
+			agentId
+			domain
+			entityGuid
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			metricPrefix
+			oldId
+			scope {
+				id
+				type
+			}
+			segmentTerms
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementServerlessJobDefinitionEntity {
+			__typename
+			description
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementServiceNowConnection {
+			__typename
+			credential {
+				oauth {
+					clientId
+					tokenFieldName
+					tokenRelativeUrl
+				}
+			}
+			description
+			enabled
+			externalId
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			settings {
+				key
+				value
+			}
+			signingCredentials {
+				signingAlgorithm
+				signingKeyReference {
+					keyName
+					namespace
+				}
+			}
+			tags {
+				key
+				values
+			}
+			url
+		}
+		... on EntityManagementSlackConnection {
+			__typename
+			appId
+			description
+			enabled
+			externalId
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			settings {
+				key
+				value
+			}
+			signingCredentials {
+				signingAlgorithm
+				signingKeyReference {
+					keyName
+					namespace
+				}
+			}
+			tags {
+				key
+				values
+			}
+			token {
+				keyName
+				namespace
+			}
+			workspace
+		}
+		... on EntityManagementSlackSyncConfiguration {
+			__typename
+			channelIdPayloadPath
+			connection
+			description
+			direction
+			enabled
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			mode
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			targets {
+				key
+				values
+			}
+			templateFields {
+				direction
+				name
+				required
+				template
+			}
+		}
+		... on EntityManagementStatusPageAnnouncementEntity {
+			__typename
+			category
+			communicationLogs {
+				communicatedBy
+				communicationMode
+				communicationStatus
+				impact {
+					id
+					issueId
+					name
+					type
+				}
+				message
+				timestamp
+			}
+			description
+			effectiveDate
+			eventUrl
+			impactQuery {
+				nrqlQuery
+				queryAccountIds
+			}
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			pointOfContacts {
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+				userId
+			}
+			publishedDate
+			scope {
+				id
+				type
+			}
+			state
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementStatusPageIncidentEntity {
+			__typename
+			communicationLogs {
+				communicatedBy
+				communicationMode
+				communicationStatus
+				impact {
+					id
+					issueId
+					name
+					type
+				}
+				message
+				timestamp
+			}
+			description
+			endTime
+			incidentId
+			incidentTitle
+			lastUpdatedTime
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			region
+			scope {
+				id
+				type
+			}
+			startTime
+			status
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementTeamEntity {
+			__typename
+			aliases
+			description
+			externalIntegration {
+				externalId
+				type
+			}
+			membership {
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+			}
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			ownership {
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+			}
+			resources {
+				content
+				title
+				type
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementTeamsHierarchyLevelEntity {
+			__typename
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementTeamsOrganizationSettingsEntity {
+			__typename
+			discovery {
+				enabled
+				tagKeys
+			}
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			syncGroups {
+				enabled
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementUserEntity {
+			__typename
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			userId
+		}
+		... on EntityManagementWorkItem {
+			__typename
+			assignedTo {
+				identifier
+				type
+			}
+			attributes {
+				name
+				value
+			}
+			category
+			description
+			dueDate
+			externalId
+			labels
+			links {
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+			}
+			messages {
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+			}
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			priority
+			scope {
+				id
+				type
+			}
+			status
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementWorkItemLink {
+			__typename
+			externalId
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			sourceSyncConfigurationId
+			tags {
+				key
+				values
+			}
+			url
+		}
+		... on EntityManagementWorkItemLinkV2Entity {
+			__typename
+			externalId
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			sourceSyncConfigurationId
+			tags {
+				key
+				values
+			}
+			url
+		}
+		... on EntityManagementWorkItemMessage {
+			__typename
+			content
+			contentEncoding
+			contentType
+			externalId
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			parentId
+			scope {
+				id
+				type
+			}
+			sourceSyncConfigurationId
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementWorkItemMessageV2Entity {
+			__typename
+			content
+			contentEncoding
+			contentType
+			externalId
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			parentId
+			scope {
+				id
+				type
+			}
+			sourceSyncConfigurationId
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementWorkItemV2Entity {
+			__typename
+			assignedTo {
+				identifier
+				type
+			}
+			attributes {
+				name
+				value
+			}
+			category
+			description
+			dueDate
+			externalId
+			labels
+			links {
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+			}
+			messages {
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+			}
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			priority
+			scope {
+				id
+				type
+			}
+			status
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementWorkflowDefinition {
+			__typename
+			description
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			versions
+		}
+		... on EntityManagementWorkflowSchedule {
+			__typename
+			cronExpression
+			definition {
+				id
+				version
+			}
+			description
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			overlapPolicy
+			scope {
+				id
+				type
+			}
+			tags {
+				key
+				values
+			}
+			timezone
+		}
+		... on EntityManagementZoomConnectionEntity {
+			__typename
+			credential {
+				accountOAuth {
+					accountId
+					clientId
+					tokenExpirationTime
+				}
+				userOAuth {
+					accessTokenExpirationTime
+					clientId
+					userId
+				}
+			}
+			description
+			enabled
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			settings {
+				key
+				value
+			}
+			signingCredentials {
+				signingAlgorithm
+				signingKeyReference {
+					keyName
+					namespace
+				}
 			}
 			tags {
 				key

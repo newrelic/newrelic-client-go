@@ -1320,6 +1320,128 @@ var EntityManagementAiToolParameterTypeTypes = struct {
 	STRING: "STRING",
 }
 
+// EntityManagementAiToolType - Enum for first class citizen tools on the agentic-platform
+type EntityManagementAiToolType string
+
+var EntityManagementAiToolTypeTypes = struct {
+	// when tool type is knowledge base
+	KNOWLEDGE_BASE EntityManagementAiToolType
+	// when tool type is nerdgraph query
+	NERDGRAPH EntityManagementAiToolType
+	// when tool type is workflow tools
+	WORKFLOW EntityManagementAiToolType
+}{
+	// when tool type is knowledge base
+	KNOWLEDGE_BASE: "KNOWLEDGE_BASE",
+	// when tool type is nerdgraph query
+	NERDGRAPH: "NERDGRAPH",
+	// when tool type is workflow tools
+	WORKFLOW: "WORKFLOW",
+}
+
+// EntityManagementArrayOperator - Enum defining the supported array operators.
+type EntityManagementArrayOperator string
+
+var EntityManagementArrayOperatorTypes = struct {
+	// Checks for empty array.
+	IS_EMPTY EntityManagementArrayOperator
+	// Checks for non-empty array.
+	IS_NOT_EMPTY EntityManagementArrayOperator
+}{
+	// Checks for empty array.
+	IS_EMPTY: "IS_EMPTY",
+	// Checks for non-empty array.
+	IS_NOT_EMPTY: "IS_NOT_EMPTY",
+}
+
+// EntityManagementAssignmentType - Work Item assignment type
+type EntityManagementAssignmentType string
+
+var EntityManagementAssignmentTypeTypes = struct {
+	// New Relic team ID
+	NEW_RELIC_TEAM_ID EntityManagementAssignmentType
+	// New Relic user ID
+	NEW_RELIC_USER_ID EntityManagementAssignmentType
+}{
+	// New Relic team ID
+	NEW_RELIC_TEAM_ID: "NEW_RELIC_TEAM_ID",
+	// New Relic user ID
+	NEW_RELIC_USER_ID: "NEW_RELIC_USER_ID",
+}
+
+// EntityManagementBackgroundProcessingType - At rest background processing types
+type EntityManagementBackgroundProcessingType string
+
+var EntityManagementBackgroundProcessingTypeTypes = struct {
+	// Data mutation
+	DATA_MUTATION EntityManagementBackgroundProcessingType
+	// Exporting processing type
+	EXPORT EntityManagementBackgroundProcessingType
+	// Importing processing type
+	IMPORT EntityManagementBackgroundProcessingType
+	// Index rule
+	INDEX EntityManagementBackgroundProcessingType
+	// Materialized view rule
+	MATERIALIZED_VIEW EntityManagementBackgroundProcessingType
+	// Schedule a query to be executed
+	SCHEDULED_QUERY_RESULT EntityManagementBackgroundProcessingType
+}{
+	// Data mutation
+	DATA_MUTATION: "DATA_MUTATION",
+	// Exporting processing type
+	EXPORT: "EXPORT",
+	// Importing processing type
+	IMPORT: "IMPORT",
+	// Index rule
+	INDEX: "INDEX",
+	// Materialized view rule
+	MATERIALIZED_VIEW: "MATERIALIZED_VIEW",
+	// Schedule a query to be executed
+	SCHEDULED_QUERY_RESULT: "SCHEDULED_QUERY_RESULT",
+}
+
+// EntityManagementBudgetType - Defines possible budget types.
+type EntityManagementBudgetType string
+
+var EntityManagementBudgetTypeTypes = struct {
+	// Compute Budget.
+	COMPUTE EntityManagementBudgetType
+	// Ingest Budget.
+	INGEST EntityManagementBudgetType
+}{
+	// Compute Budget.
+	COMPUTE: "COMPUTE",
+	// Ingest Budget.
+	INGEST: "INGEST",
+}
+
+// EntityManagementCategory - Category enum of the work item
+type EntityManagementCategory string
+
+var EntityManagementCategoryTypes = struct {
+	// Chat category of the work item
+	CHAT EntityManagementCategory
+	// Incident category of the work item
+	INCIDENT EntityManagementCategory
+	// Issue category of the work item
+	ISSUE EntityManagementCategory
+	// Performance category of the work item
+	PERFORMANCE EntityManagementCategory
+	// Vulnerability category of the work item
+	VULNERABILITY EntityManagementCategory
+}{
+	// Chat category of the work item
+	CHAT: "CHAT",
+	// Incident category of the work item
+	INCIDENT: "INCIDENT",
+	// Issue category of the work item
+	ISSUE: "ISSUE",
+	// Performance category of the work item
+	PERFORMANCE: "PERFORMANCE",
+	// Vulnerability category of the work item
+	VULNERABILITY: "VULNERABILITY",
+}
+
 // EntityManagementCategoryScopeType - Category scope can of two types: Account scope and Global scope
 type EntityManagementCategoryScopeType string
 
@@ -1333,6 +1455,200 @@ var EntityManagementCategoryScopeTypeTypes = struct {
 	ACCOUNT: "ACCOUNT",
 	// Global scope
 	GLOBAL: "GLOBAL",
+}
+
+// EntityManagementCloudProvider - Supported cloud providers for federated log deployments.
+type EntityManagementCloudProvider string
+
+var EntityManagementCloudProviderTypes = struct {
+	// Amazon Web Services
+	AWS EntityManagementCloudProvider
+	// Microsoft Azure
+	AZURE EntityManagementCloudProvider
+	// Google Cloud Platform
+	GCP EntityManagementCloudProvider
+	// Oracle Cloud Infrastructure
+	OCI EntityManagementCloudProvider
+}{
+	// Amazon Web Services
+	AWS: "AWS",
+	// Microsoft Azure
+	AZURE: "AZURE",
+	// Google Cloud Platform
+	GCP: "GCP",
+	// Oracle Cloud Infrastructure
+	OCI: "OCI",
+}
+
+// EntityManagementCommunicationMode - CommunicationMode represents the mode of communication for an incident.
+type EntityManagementCommunicationMode string
+
+var EntityManagementCommunicationModeTypes = struct {
+	// For Private status page communication.
+	ACCOUNT_STATUS EntityManagementCommunicationMode
+	// For Publicstatus page communication.
+	GLOBAL_STATUS EntityManagementCommunicationMode
+}{
+	// For Private status page communication.
+	ACCOUNT_STATUS: "ACCOUNT_STATUS",
+	// For Publicstatus page communication.
+	GLOBAL_STATUS: "GLOBAL_STATUS",
+}
+
+// EntityManagementCommunicationStatus - CommunicationStatus represents the status of the communication for an incident.
+type EntityManagementCommunicationStatus string
+
+var EntityManagementCommunicationStatusTypes = struct {
+	// Incident root cause has been identified.
+	IDENTIFIED EntityManagementCommunicationStatus
+	// Incident is being investigated.
+	INVESTIGATING EntityManagementCommunicationStatus
+	// Incident in Monitoring phase.
+	MONITORING EntityManagementCommunicationStatus
+	// Incident has been resolved.
+	RESOLVED EntityManagementCommunicationStatus
+}{
+	// Incident root cause has been identified.
+	IDENTIFIED: "IDENTIFIED",
+	// Incident is being investigated.
+	INVESTIGATING: "INVESTIGATING",
+	// Incident in Monitoring phase.
+	MONITORING: "MONITORING",
+	// Incident has been resolved.
+	RESOLVED: "RESOLVED",
+}
+
+// EntityManagementConsumptionMetric - Defines possible consumption metrics for a budget.
+type EntityManagementConsumptionMetric string
+
+var EntityManagementConsumptionMetricTypes = struct {
+	// Advanced CCU metric.
+	ADVANCED_CCU EntityManagementConsumptionMetric
+	// Legacy CCU metric.
+	CCU EntityManagementConsumptionMetric
+	// Core CCU metric.
+	CORE_CCU EntityManagementConsumptionMetric
+	// Gigabytes Ingested metric.
+	GIGABYTES_INGESTED EntityManagementConsumptionMetric
+}{
+	// Advanced CCU metric.
+	ADVANCED_CCU: "ADVANCED_CCU",
+	// Legacy CCU metric.
+	CCU: "CCU",
+	// Core CCU metric.
+	CORE_CCU: "CORE_CCU",
+	// Gigabytes Ingested metric.
+	GIGABYTES_INGESTED: "GIGABYTES_INGESTED",
+}
+
+// EntityManagementCorrelationAttributeConditionOperator - Enum defining attribute matching operators.
+type EntityManagementCorrelationAttributeConditionOperator string
+
+var EntityManagementCorrelationAttributeConditionOperatorTypes = struct {
+	// Contains substring.
+	CONTAINS EntityManagementCorrelationAttributeConditionOperator
+	// Exact equality match.
+	EQUALS EntityManagementCorrelationAttributeConditionOperator
+	// Regular expression match.
+	REGEX EntityManagementCorrelationAttributeConditionOperator
+	// Starts with prefix.
+	STARTS_WITH EntityManagementCorrelationAttributeConditionOperator
+}{
+	// Contains substring.
+	CONTAINS: "CONTAINS",
+	// Exact equality match.
+	EQUALS: "EQUALS",
+	// Regular expression match.
+	REGEX: "REGEX",
+	// Starts with prefix.
+	STARTS_WITH: "STARTS_WITH",
+}
+
+// EntityManagementCorrelationMatchingAlgorithm - Enum defining ML algorithms for probabilistic matching.
+type EntityManagementCorrelationMatchingAlgorithm string
+
+var EntityManagementCorrelationMatchingAlgorithmTypes = struct {
+	// Attribute similarity scoring.
+	ATTRIBUTE_SIMILARITY EntityManagementCorrelationMatchingAlgorithm
+	// BERT-based embedding similarity.
+	BERT_EMBEDDING EntityManagementCorrelationMatchingAlgorithm
+	// Historical pattern analysis.
+	HISTORICAL_PATTERNS EntityManagementCorrelationMatchingAlgorithm
+	// Incident Root Cause Analysis.
+	IRCA EntityManagementCorrelationMatchingAlgorithm
+}{
+	// Attribute similarity scoring.
+	ATTRIBUTE_SIMILARITY: "ATTRIBUTE_SIMILARITY",
+	// BERT-based embedding similarity.
+	BERT_EMBEDDING: "BERT_EMBEDDING",
+	// Historical pattern analysis.
+	HISTORICAL_PATTERNS: "HISTORICAL_PATTERNS",
+	// Incident Root Cause Analysis.
+	IRCA: "IRCA",
+}
+
+// EntityManagementCorrelationOverrideAction - Enum defining user override actions for correlation links.
+type EntityManagementCorrelationOverrideAction string
+
+var EntityManagementCorrelationOverrideActionTypes = struct {
+	// User confirmed the correlation.
+	CONFIRMED EntityManagementCorrelationOverrideAction
+	// User unlinked the correlation.
+	UNLINKED EntityManagementCorrelationOverrideAction
+}{
+	// User confirmed the correlation.
+	CONFIRMED: "CONFIRMED",
+	// User unlinked the correlation.
+	UNLINKED: "UNLINKED",
+}
+
+// EntityManagementCorrelationSubjectType - Enum defining the type of correlation subject.
+type EntityManagementCorrelationSubjectType string
+
+var EntityManagementCorrelationSubjectTypeTypes = struct {
+	// Entity-based subject.
+	ENTITY EntityManagementCorrelationSubjectType
+	// Event-based subject.
+	EVENT EntityManagementCorrelationSubjectType
+}{
+	// Entity-based subject.
+	ENTITY: "ENTITY",
+	// Event-based subject.
+	EVENT: "EVENT",
+}
+
+// EntityManagementDateOperator - Enum defining the supported date operators.
+type EntityManagementDateOperator string
+
+var EntityManagementDateOperatorTypes = struct {
+	// Date after the specified value.
+	AFTER EntityManagementDateOperator
+	// Date before the specified value.
+	BEFORE EntityManagementDateOperator
+	// Date within the specified range.
+	IN_RANGE EntityManagementDateOperator
+}{
+	// Date after the specified value.
+	AFTER: "AFTER",
+	// Date before the specified value.
+	BEFORE: "BEFORE",
+	// Date within the specified range.
+	IN_RANGE: "IN_RANGE",
+}
+
+// EntityManagementDirection - Represents a connection direction for the Sync Configuration
+type EntityManagementDirection string
+
+var EntityManagementDirectionTypes = struct {
+	// One way sync from New Relic to the 3rd party system
+	ONEWAY EntityManagementDirection
+	// Two way sync between New Relic and the 3rd party system
+	TWOWAY EntityManagementDirection
+}{
+	// One way sync from New Relic to the 3rd party system
+	ONEWAY: "ONEWAY",
+	// Two way sync between New Relic and the 3rd party system
+	TWOWAY: "TWOWAY",
 }
 
 // EntityManagementEncodingName - The Encoding names options
@@ -1354,6 +1670,21 @@ var EntityManagementEncodingNameTypes = struct {
 	O200_K_BASE: "O200_K_BASE",
 }
 
+// EntityManagementEncodingType - Encoding type enum
+type EntityManagementEncodingType string
+
+var EntityManagementEncodingTypeTypes = struct {
+	// BASE64 encoding type
+	BASE64 EntityManagementEncodingType
+	// UTF8 encoding type
+	UTF8 EntityManagementEncodingType
+}{
+	// BASE64 encoding type
+	BASE64: "BASE64",
+	// UTF8 encoding type
+	UTF8: "UTF8",
+}
+
 // EntityManagementEntityScope - The list of possible scopes of an entity.
 type EntityManagementEntityScope string
 
@@ -1367,6 +1698,78 @@ var EntityManagementEntityScopeTypes = struct {
 	ACCOUNT: "ACCOUNT",
 	// Organization scope.
 	ORGANIZATION: "ORGANIZATION",
+}
+
+// EntityManagementEvaluationParameter - Parameters that can be used in custom evaluations
+type EntityManagementEvaluationParameter string
+
+var EntityManagementEvaluationParameterTypes = struct {
+	// Actual generated output
+	ACTUAL_OUTPUT EntityManagementEvaluationParameter
+	// Contextual information
+	CONTEXT EntityManagementEvaluationParameter
+	// Expected output for comparison
+	EXPECTED_OUTPUT EntityManagementEvaluationParameter
+	// Expected tools that should have been called
+	EXPECTED_TOOLS EntityManagementEvaluationParameter
+	// Input prompt or query
+	INPUT EntityManagementEvaluationParameter
+	// Retrieved context from RAG systems
+	RETRIEVAL_CONTEXT EntityManagementEvaluationParameter
+	// Tools that were called during execution
+	TOOLS_CALLED EntityManagementEvaluationParameter
+}{
+	// Actual generated output
+	ACTUAL_OUTPUT: "ACTUAL_OUTPUT",
+	// Contextual information
+	CONTEXT: "CONTEXT",
+	// Expected output for comparison
+	EXPECTED_OUTPUT: "EXPECTED_OUTPUT",
+	// Expected tools that should have been called
+	EXPECTED_TOOLS: "EXPECTED_TOOLS",
+	// Input prompt or query
+	INPUT: "INPUT",
+	// Retrieved context from RAG systems
+	RETRIEVAL_CONTEXT: "RETRIEVAL_CONTEXT",
+	// Tools that were called during execution
+	TOOLS_CALLED: "TOOLS_CALLED",
+}
+
+// EntityManagementEventBridgeEventSourceType - An enum representing the different event source systems.
+type EntityManagementEventBridgeEventSourceType string
+
+var EntityManagementEventBridgeEventSourceTypeTypes = struct {
+	// Events originating from the entity pipeline.
+	ENTITY EntityManagementEventBridgeEventSourceType
+}{
+	// Events originating from the entity pipeline.
+	ENTITY: "ENTITY",
+}
+
+// EntityManagementEventBridgeTargetType - Enum defining the supported types of target actions.
+type EntityManagementEventBridgeTargetType string
+
+var EntityManagementEventBridgeTargetTypeTypes = struct {
+	// Target type WORKFLOW
+	WORKFLOW EntityManagementEventBridgeTargetType
+}{
+	// Target type WORKFLOW
+	WORKFLOW: "WORKFLOW",
+}
+
+// EntityManagementEventBridgeWorkflowDefinitionScopeType - Specifies the scope at which the workflow is defined.
+type EntityManagementEventBridgeWorkflowDefinitionScopeType string
+
+var EntityManagementEventBridgeWorkflowDefinitionScopeTypeTypes = struct {
+	// Workflow is defined at the ACCOUNT scope.
+	ACCOUNT EntityManagementEventBridgeWorkflowDefinitionScopeType
+	// Workflow is defined at the ENTITY scope.
+	ENTITY EntityManagementEventBridgeWorkflowDefinitionScopeType
+}{
+	// Workflow is defined at the ACCOUNT scope.
+	ACCOUNT: "ACCOUNT",
+	// Workflow is defined at the ENTITY scope.
+	ENTITY: "ENTITY",
 }
 
 // EntityManagementExecutionStatus - Rule execution status
@@ -1413,6 +1816,29 @@ var EntityManagementExternalOwnerTypeTypes = struct {
 	USER: "USER",
 	// workspace if the source is bitbucket
 	WORKSPACE: "WORKSPACE",
+}
+
+// EntityManagementFederatedLogSetupStatus - Status of a federated log setup.
+type EntityManagementFederatedLogSetupStatus string
+
+var EntityManagementFederatedLogSetupStatusTypes = struct {
+	// Indicates the federated log setup is active.
+	ACTIVE EntityManagementFederatedLogSetupStatus
+	// Indicates the federated log setup is being created.
+	CREATING EntityManagementFederatedLogSetupStatus
+	// Indicates the federated log setup is in an error state.
+	ERROR EntityManagementFederatedLogSetupStatus
+	// Indicates the federated log setup is inactive.
+	INACTIVE EntityManagementFederatedLogSetupStatus
+}{
+	// Indicates the federated log setup is active.
+	ACTIVE: "ACTIVE",
+	// Indicates the federated log setup is being created.
+	CREATING: "CREATING",
+	// Indicates the federated log setup is in an error state.
+	ERROR: "ERROR",
+	// Indicates the federated log setup is inactive.
+	INACTIVE: "INACTIVE",
 }
 
 // EntityManagementFleetDeploymentPhase - Phases a fleet deployment can have
@@ -1469,6 +1895,101 @@ var EntityManagementHostingPlatformTypes = struct {
 	OTHER: "OTHER",
 }
 
+// EntityManagementIncidentSource - Defines the possible sources for an incident record.
+type EntityManagementIncidentSource string
+
+var EntityManagementIncidentSourceTypes = struct {
+	// The source representing manual entry.
+	MANUAL EntityManagementIncidentSource
+	// The source representing New Relic Agent.
+	NEW_RELIC_AGENT EntityManagementIncidentSource
+	// The source representing Slack.
+	NEW_RELIC_SLACK EntityManagementIncidentSource
+	// The source representing New Relic.
+	NEW_RELIC_UI EntityManagementIncidentSource
+}{
+	// The source representing manual entry.
+	MANUAL: "MANUAL",
+	// The source representing New Relic Agent.
+	NEW_RELIC_AGENT: "NEW_RELIC_AGENT",
+	// The source representing Slack.
+	NEW_RELIC_SLACK: "NEW_RELIC_SLACK",
+	// The source representing New Relic.
+	NEW_RELIC_UI: "NEW_RELIC_UI",
+}
+
+// EntityManagementIncidentStatus - IncidentStatus represents the status of an incident.
+type EntityManagementIncidentStatus string
+
+var EntityManagementIncidentStatusTypes = struct {
+	// The incident is closed.
+	CLOSED EntityManagementIncidentStatus
+	// The incident is ongoing.
+	ONGOING EntityManagementIncidentStatus
+}{
+	// The incident is closed.
+	CLOSED: "CLOSED",
+	// The incident is ongoing.
+	ONGOING: "ONGOING",
+}
+
+// EntityManagementIncidentTimelineSource - Defines the possible timeline sources for an incident record.
+type EntityManagementIncidentTimelineSource string
+
+var EntityManagementIncidentTimelineSourceTypes = struct {
+	// The source representing manual entry.
+	MANUAL EntityManagementIncidentTimelineSource
+	// The source representing New Relic Agent.
+	NEW_RELIC_AGENT EntityManagementIncidentTimelineSource
+	// The source representing Slack.
+	NEW_RELIC_SLACK EntityManagementIncidentTimelineSource
+	// The source representing New Relic.
+	NEW_RELIC_UI EntityManagementIncidentTimelineSource
+}{
+	// The source representing manual entry.
+	MANUAL: "MANUAL",
+	// The source representing New Relic Agent.
+	NEW_RELIC_AGENT: "NEW_RELIC_AGENT",
+	// The source representing Slack.
+	NEW_RELIC_SLACK: "NEW_RELIC_SLACK",
+	// The source representing New Relic.
+	NEW_RELIC_UI: "NEW_RELIC_UI",
+}
+
+// EntityManagementInstallationSource - Source of github integration installation
+type EntityManagementInstallationSource string
+
+var EntityManagementInstallationSourceTypes = struct {
+	// GitHub Cloud installation
+	GITHUB_CLOUD EntityManagementInstallationSource
+	// GitHub Enterprise installation
+	GITHUB_ENTERPRISE EntityManagementInstallationSource
+}{
+	// GitHub Cloud installation
+	GITHUB_CLOUD: "GITHUB_CLOUD",
+	// GitHub Enterprise installation
+	GITHUB_ENTERPRISE: "GITHUB_ENTERPRISE",
+}
+
+// EntityManagementInstallationStatus - List of possible installation statuses.
+type EntityManagementInstallationStatus string
+
+var EntityManagementInstallationStatusTypes = struct {
+	// App currently active and running
+	INSTALLED EntityManagementInstallationStatus
+	// Uninstallation process has begun.
+	UNINSTALLATION_IN_PROGRESS EntityManagementInstallationStatus
+	// App has been uninstalled.
+	UNINSTALLED EntityManagementInstallationStatus
+}{
+	// App currently active and running
+	INSTALLED: "INSTALLED",
+	// Uninstallation process has begun.
+	UNINSTALLATION_IN_PROGRESS: "UNINSTALLATION_IN_PROGRESS",
+	// App has been uninstalled.
+	UNINSTALLED: "UNINSTALLED",
+}
+
 // EntityManagementIssueType - Top level type for Inbox
 type EntityManagementIssueType string
 
@@ -1482,6 +2003,40 @@ var EntityManagementIssueTypeTypes = struct {
 	ERROR: "ERROR",
 	// Performance issue
 	PERFORMANCE: "PERFORMANCE",
+}
+
+// EntityManagementJiraIssueType - Jira issue type to be used in Jira Sync Configuration
+type EntityManagementJiraIssueType string
+
+var EntityManagementJiraIssueTypeTypes = struct {
+	// Bug issue type in Jira
+	BUG EntityManagementJiraIssueType
+	// Story issue type in Jira
+	STORY EntityManagementJiraIssueType
+	// Task issue type in Jira
+	TASK EntityManagementJiraIssueType
+}{
+	// Bug issue type in Jira
+	BUG: "BUG",
+	// Story issue type in Jira
+	STORY: "STORY",
+	// Task issue type in Jira
+	TASK: "TASK",
+}
+
+// EntityManagementKeyType - Base credentials type for New Relic
+type EntityManagementKeyType string
+
+var EntityManagementKeyTypeTypes = struct {
+	// Ingest API key
+	INGEST EntityManagementKeyType
+	// User API key
+	USER EntityManagementKeyType
+}{
+	// Ingest API key
+	INGEST: "INGEST",
+	// User API key
+	USER: "USER",
 }
 
 // EntityManagementLicenseName - List of possible repository license name.
@@ -1579,19 +2134,335 @@ var EntityManagementLicenseNameTypes = struct {
 	UNLICENSE: "UNLICENSE",
 }
 
+// EntityManagementLogPartitionStatus - Status of a log partition.
+type EntityManagementLogPartitionStatus string
+
+var EntityManagementLogPartitionStatusTypes = struct {
+	// Indicates the log partition is active.
+	ACTIVE EntityManagementLogPartitionStatus
+	// Indicates the log partition is being created.
+	CREATING EntityManagementLogPartitionStatus
+	// Indicates the log partition is in an error state.
+	ERROR EntityManagementLogPartitionStatus
+	// Indicates the log partition is inactive.
+	INACTIVE EntityManagementLogPartitionStatus
+}{
+	// Indicates the log partition is active.
+	ACTIVE: "ACTIVE",
+	// Indicates the log partition is being created.
+	CREATING: "CREATING",
+	// Indicates the log partition is in an error state.
+	ERROR: "ERROR",
+	// Indicates the log partition is inactive.
+	INACTIVE: "INACTIVE",
+}
+
 // EntityManagementManagedEntityType - Entity types that a Fleet can manage
 type EntityManagementManagedEntityType string
 
 var EntityManagementManagedEntityTypeTypes = struct {
+	// Instrumented APM Application
+	APPLICATION EntityManagementManagedEntityType
 	// Infra Host
 	HOST EntityManagementManagedEntityType
 	// Kubernetes Cluster
 	KUBERNETESCLUSTER EntityManagementManagedEntityType
 }{
+	// Instrumented APM Application
+	APPLICATION: "APPLICATION",
 	// Infra Host
 	HOST: "HOST",
 	// Kubernetes Cluster
 	KUBERNETESCLUSTER: "KUBERNETESCLUSTER",
+}
+
+// EntityManagementManagedEvaluationType - Available types of managed evaluations
+type EntityManagementManagedEvaluationType string
+
+var EntityManagementManagedEvaluationTypeTypes = struct {
+	// Detects biased content
+	BIAS EntityManagementManagedEvaluationType
+	// Detects jailbreak attempts
+	JAILBREAK EntityManagementManagedEvaluationType
+	// Detects personally identifiable information leakage
+	PII_LEAKAGE EntityManagementManagedEvaluationType
+	// Detects prompt injection attacks
+	PROMPT_INJECTION EntityManagementManagedEvaluationType
+	// Validates topic control and consistency
+	TOPIC_CONTROL EntityManagementManagedEvaluationType
+	// Detects toxic content
+	TOXICITY EntityManagementManagedEvaluationType
+}{
+	// Detects biased content
+	BIAS: "BIAS",
+	// Detects jailbreak attempts
+	JAILBREAK: "JAILBREAK",
+	// Detects personally identifiable information leakage
+	PII_LEAKAGE: "PII_LEAKAGE",
+	// Detects prompt injection attacks
+	PROMPT_INJECTION: "PROMPT_INJECTION",
+	// Validates topic control and consistency
+	TOPIC_CONTROL: "TOPIC_CONTROL",
+	// Detects toxic content
+	TOXICITY: "TOXICITY",
+}
+
+// EntityManagementMcpAuthType - Authentication types supported for MCP server connections
+type EntityManagementMcpAuthType string
+
+var EntityManagementMcpAuthTypeTypes = struct {
+	// Bearer token authentication using Authorization header
+	BEARER_TOKEN EntityManagementMcpAuthType
+	// Custom header-based authentication with arbitrary key-value pair
+	GENERIC_HEADER EntityManagementMcpAuthType
+	// No authentication required
+	NONE EntityManagementMcpAuthType
+	// OAuth 2.0 authentication
+	OAUTH EntityManagementMcpAuthType
+}{
+	// Bearer token authentication using Authorization header
+	BEARER_TOKEN: "BEARER_TOKEN",
+	// Custom header-based authentication with arbitrary key-value pair
+	GENERIC_HEADER: "GENERIC_HEADER",
+	// No authentication required
+	NONE: "NONE",
+	// OAuth 2.0 authentication
+	OAUTH: "OAUTH",
+}
+
+// EntityManagementMcpTransport - Supported transport mechanisms for MCP servers
+type EntityManagementMcpTransport string
+
+var EntityManagementMcpTransportTypes = struct {
+	// HTTP transport for request-response communication
+	HTTP EntityManagementMcpTransport
+	// Server-Sent Events transport for streaming communication
+	SSE EntityManagementMcpTransport
+}{
+	// HTTP transport for request-response communication
+	HTTP: "HTTP",
+	// Server-Sent Events transport for streaming communication
+	SSE: "SSE",
+}
+
+// EntityManagementMessageType - Message type enum
+type EntityManagementMessageType string
+
+var EntityManagementMessageTypeTypes = struct {
+	// JSON message type
+	JSON EntityManagementMessageType
+	// Text message type
+	TEXT EntityManagementMessageType
+	// YAML message type
+	YAML EntityManagementMessageType
+}{
+	// JSON message type
+	JSON: "JSON",
+	// Text message type
+	TEXT: "TEXT",
+	// YAML message type
+	YAML: "YAML",
+}
+
+// EntityManagementMetricPrefixType - Enum for MetricPrefix
+type EntityManagementMetricPrefixType string
+
+var EntityManagementMetricPrefixTypeTypes = struct {
+	// External Transaction
+	EXTERNAL_TRANSACTION EntityManagementMetricPrefixType
+}{
+	// External Transaction
+	EXTERNAL_TRANSACTION: "EXTERNAL_TRANSACTION",
+}
+
+// EntityManagementNrRegion - New Relic regions for federated log.
+type EntityManagementNrRegion string
+
+var EntityManagementNrRegionTypes = struct {
+	// European Union
+	EU_PRODUCTION EntityManagementNrRegion
+	// United States
+	US_PRODUCTION EntityManagementNrRegion
+	// Staging environment
+	US_STAGING EntityManagementNrRegion
+}{
+	// European Union
+	EU_PRODUCTION: "EU_PRODUCTION",
+	// United States
+	US_PRODUCTION: "US_PRODUCTION",
+	// Staging environment
+	US_STAGING: "US_STAGING",
+}
+
+// EntityManagementNumericOperator - Enum defining the supported numeric operators.
+type EntityManagementNumericOperator string
+
+var EntityManagementNumericOperatorTypes = struct {
+	// Numeric values are exactly equal.
+	EQ EntityManagementNumericOperator
+	// Numeric values are greater than or equal.
+	GE EntityManagementNumericOperator
+	// Numeric values are greater than.
+	GT EntityManagementNumericOperator
+	// Numeric values are less than or equal.
+	LE EntityManagementNumericOperator
+	// Numeric values are less than.
+	LT EntityManagementNumericOperator
+}{
+	// Numeric values are exactly equal.
+	EQ: "EQ",
+	// Numeric values are greater than or equal.
+	GE: "GE",
+	// Numeric values are greater than.
+	GT: "GT",
+	// Numeric values are less than or equal.
+	LE: "LE",
+	// Numeric values are less than.
+	LT: "LT",
+}
+
+// EntityManagementOperatingSystemType - The operating system to which a host type can belong
+type EntityManagementOperatingSystemType string
+
+var EntityManagementOperatingSystemTypeTypes = struct {
+	// Linux based host
+	LINUX EntityManagementOperatingSystemType
+	// Windows based host
+	WINDOWS EntityManagementOperatingSystemType
+}{
+	// Linux based host
+	LINUX: "LINUX",
+	// Windows based host
+	WINDOWS: "WINDOWS",
+}
+
+// EntityManagementOverlapPolicy - Possible types for the Overlap Policy of a Workflow Schedule
+type EntityManagementOverlapPolicy string
+
+var EntityManagementOverlapPolicyTypes = struct {
+	// Cancel the currently running workflow and start a new one
+	CANCEL EntityManagementOverlapPolicy
+	// Skip the current scheduled run if the previous one is still running
+	SKIP EntityManagementOverlapPolicy
+}{
+	// Cancel the currently running workflow and start a new one
+	CANCEL: "CANCEL",
+	// Skip the current scheduled run if the previous one is still running
+	SKIP: "SKIP",
+}
+
+// EntityManagementPriority - Enum for Work Item priority
+type EntityManagementPriority string
+
+var EntityManagementPriorityTypes = struct {
+	// High priority of the work item
+	HIGH EntityManagementPriority
+	// Highest priority of the work item
+	HIGHEST EntityManagementPriority
+	// Low priority of the work item
+	LOW EntityManagementPriority
+	// Lowest priority of the work item
+	LOWEST EntityManagementPriority
+	// Medium priority of the work item
+	MEDIUM EntityManagementPriority
+}{
+	// High priority of the work item
+	HIGH: "HIGH",
+	// Highest priority of the work item
+	HIGHEST: "HIGHEST",
+	// Low priority of the work item
+	LOW: "LOW",
+	// Lowest priority of the work item
+	LOWEST: "LOWEST",
+	// Medium priority of the work item
+	MEDIUM: "MEDIUM",
+}
+
+// EntityManagementProcessStatus - At rest background processing types
+type EntityManagementProcessStatus string
+
+var EntityManagementProcessStatusTypes = struct {
+	// Process completed
+	COMPLETED EntityManagementProcessStatus
+	// Failed to process a rule
+	FAILED EntityManagementProcessStatus
+	// The rule is being processed
+	RUNNING EntityManagementProcessStatus
+	// A rule that was scheduled
+	SCHEDULED EntityManagementProcessStatus
+}{
+	// Process completed
+	COMPLETED: "COMPLETED",
+	// Failed to process a rule
+	FAILED: "FAILED",
+	// The rule is being processed
+	RUNNING: "RUNNING",
+	// A rule that was scheduled
+	SCHEDULED: "SCHEDULED",
+}
+
+// EntityManagementProvider - Enum for creator of the entity
+type EntityManagementProvider string
+
+var EntityManagementProviderTypes = struct {
+	// created by external user
+	EXTERNAL EntityManagementProvider
+	// created by NR
+	INTERNAL EntityManagementProvider
+}{
+	// created by external user
+	EXTERNAL: "EXTERNAL",
+	// created by NR
+	INTERNAL: "INTERNAL",
+}
+
+// EntityManagementRegion - Region represents the geographical region where the incident is impacting.
+type EntityManagementRegion string
+
+var EntityManagementRegionTypes = struct {
+	// EU Region
+	EU EntityManagementRegion
+	// Staging Region
+	STAGING EntityManagementRegion
+	// US Region
+	US EntityManagementRegion
+}{
+	// EU Region
+	EU: "EU",
+	// Staging Region
+	STAGING: "STAGING",
+	// US Region
+	US: "US",
+}
+
+// EntityManagementRetentionUnit - Time units for retention policies.
+type EntityManagementRetentionUnit string
+
+var EntityManagementRetentionUnitTypes = struct {
+	// Days
+	DAYS EntityManagementRetentionUnit
+	// Months
+	MONTHS EntityManagementRetentionUnit
+	// Weeks
+	WEEKS EntityManagementRetentionUnit
+}{
+	// Days
+	DAYS: "DAYS",
+	// Months
+	MONTHS: "MONTHS",
+	// Weeks
+	WEEKS: "WEEKS",
+}
+
+// EntityManagementSigningAlgorithm - Enum for JWT signing algorithm
+type EntityManagementSigningAlgorithm string
+
+var EntityManagementSigningAlgorithmTypes = struct {
+	// RSA256 signing algorithm
+	RSA256 EntityManagementSigningAlgorithm
+}{
+	// RSA256 signing algorithm
+	RSA256: "RSA256",
 }
 
 // EntityManagementStatusCode - Rule execution status codes
@@ -1607,6 +2478,93 @@ var EntityManagementStatusCodeTypes = struct {
 	MISSING_DATA_SOURCE: "MISSING_DATA_SOURCE",
 	// System error
 	SYSTEM_ERROR: "SYSTEM_ERROR",
+}
+
+// EntityManagementStatusPageAnnouncementCategory - Type of announcement based on the category.
+type EntityManagementStatusPageAnnouncementCategory string
+
+var EntityManagementStatusPageAnnouncementCategoryTypes = struct {
+	// EOL Announcement category
+	END_OF_LIFE EntityManagementStatusPageAnnouncementCategory
+}{
+	// EOL Announcement category
+	END_OF_LIFE: "END_OF_LIFE",
+}
+
+// EntityManagementStatusPageAnnouncementState - The state of an announcement
+type EntityManagementStatusPageAnnouncementState string
+
+var EntityManagementStatusPageAnnouncementStateTypes = struct {
+	// Canceled state of the announcement.
+	CANCELED EntityManagementStatusPageAnnouncementState
+	// Draft state of the announcement.
+	DRAFT EntityManagementStatusPageAnnouncementState
+	// Published state of the announcement.
+	PUBLISHED EntityManagementStatusPageAnnouncementState
+	// Scheduled state of the announcement.
+	SCHEDULED EntityManagementStatusPageAnnouncementState
+}{
+	// Canceled state of the announcement.
+	CANCELED: "CANCELED",
+	// Draft state of the announcement.
+	DRAFT: "DRAFT",
+	// Published state of the announcement.
+	PUBLISHED: "PUBLISHED",
+	// Scheduled state of the announcement.
+	SCHEDULED: "SCHEDULED",
+}
+
+// EntityManagementStringOperator - Enum defining the supported string operators.
+type EntityManagementStringOperator string
+
+var EntityManagementStringOperatorTypes = struct {
+	// String contains the specified value.
+	CONTAINS EntityManagementStringOperator
+	// String are exactly equal.
+	EXACTLY EntityManagementStringOperator
+	// String start with the specified value.
+	PREFIX EntityManagementStringOperator
+}{
+	// String contains the specified value.
+	CONTAINS: "CONTAINS",
+	// String are exactly equal.
+	EXACTLY: "EXACTLY",
+	// String start with the specified value.
+	PREFIX: "PREFIX",
+}
+
+// EntityManagementSyncConfigurationMode - Enum for the sync configuration mode
+type EntityManagementSyncConfigurationMode string
+
+var EntityManagementSyncConfigurationModeTypes = struct {
+	// Sync all fields
+	ALL EntityManagementSyncConfigurationMode
+	// Sync only the messages
+	MESSAGES EntityManagementSyncConfigurationMode
+	// Sync only the WorkItem entity
+	WORKITEM EntityManagementSyncConfigurationMode
+}{
+	// Sync all fields
+	ALL: "ALL",
+	// Sync only the messages
+	MESSAGES: "MESSAGES",
+	// Sync only the WorkItem entity
+	WORKITEM: "WORKITEM",
+}
+
+// EntityManagementSyncDirection - Represents a connection direction for the Sync Configuration
+type EntityManagementSyncDirection string
+
+var EntityManagementSyncDirectionTypes = struct {
+	// Sync from the 3rd party system to New Relic only
+	INBOUND EntityManagementSyncDirection
+	// Sync from New Relic to the 3rd party system only
+	OUTBOUND EntityManagementSyncDirection
+}{
+	// Sync from the 3rd party system to New Relic only
+	INBOUND: "INBOUND",
+	// Sync from New Relic to the 3rd party system only
+	OUTBOUND: "OUTBOUND",
 }
 
 // EntityManagementSyncGroupRuleConditionType - The types of conditions for group sync rules.
@@ -1666,6 +2624,75 @@ var EntityManagementTextSplitterTypeTypes = struct {
 	TOKEN_TEXT_SPLITTER: "TOKEN_TEXT_SPLITTER",
 }
 
+// EntityManagementThresholdScope - Scope for threshold configuration
+type EntityManagementThresholdScope string
+
+var EntityManagementThresholdScopeTypes = struct {
+	// Account scope
+	ACCOUNT EntityManagementThresholdScope
+	// Default/Global scope
+	DEFAULT EntityManagementThresholdScope
+	// Entity scope
+	ENTITY EntityManagementThresholdScope
+}{
+	// Account scope
+	ACCOUNT: "ACCOUNT",
+	// Default/Global scope
+	DEFAULT: "DEFAULT",
+	// Entity scope
+	ENTITY: "ENTITY",
+}
+
+// EntityManagementWorkItemCategory - Enum for Category in Work Item V2
+type EntityManagementWorkItemCategory string
+
+var EntityManagementWorkItemCategoryTypes = struct {
+	// Incident category of the work item
+	INCIDENT EntityManagementWorkItemCategory
+	// Issue category of the work item
+	ISSUE EntityManagementWorkItemCategory
+	// Performance category of the work item
+	PERFORMANCE EntityManagementWorkItemCategory
+	// Vulnerability category of the work item
+	VULNERABILITY EntityManagementWorkItemCategory
+}{
+	// Incident category of the work item
+	INCIDENT: "INCIDENT",
+	// Issue category of the work item
+	ISSUE: "ISSUE",
+	// Performance category of the work item
+	PERFORMANCE: "PERFORMANCE",
+	// Vulnerability category of the work item
+	VULNERABILITY: "VULNERABILITY",
+}
+
+// EntityManagementWorkItemPriority - Enum for priority in Work Item V2
+type EntityManagementWorkItemPriority string
+
+var EntityManagementWorkItemPriorityTypes = struct {
+	// High priority of the work item
+	HIGH EntityManagementWorkItemPriority
+	// Highest priority of the work item
+	HIGHEST EntityManagementWorkItemPriority
+	// Low priority of the work item
+	LOW EntityManagementWorkItemPriority
+	// Lowest priority of the work item
+	LOWEST EntityManagementWorkItemPriority
+	// Medium priority of the work item
+	MEDIUM EntityManagementWorkItemPriority
+}{
+	// High priority of the work item
+	HIGH: "HIGH",
+	// Highest priority of the work item
+	HIGHEST: "HIGHEST",
+	// Low priority of the work item
+	LOW: "LOW",
+	// Lowest priority of the work item
+	LOWEST: "LOWEST",
+	// Medium priority of the work item
+	MEDIUM: "MEDIUM",
+}
+
 // EntityRelationshipEdgeDirection - Values for relationship direction filter.
 type EntityRelationshipEdgeDirection string
 
@@ -1689,6 +2716,8 @@ var EntityRelationshipEdgeDirectionTypes = struct {
 type EntityRelationshipEdgeType string
 
 var EntityRelationshipEdgeTypeTypes = struct {
+	// The source entity affects the target entity.
+	AFFECTS EntityRelationshipEdgeType
 	// The target entity contains the code for the source entity.
 	BUILT_FROM EntityRelationshipEdgeType
 	// The source entity bypasses the target entity.
@@ -1724,6 +2753,8 @@ var EntityRelationshipEdgeTypeTypes = struct {
 	// The source entity initiates an action in the target entity.
 	TRIGGERS EntityRelationshipEdgeType
 }{
+	// The source entity affects the target entity.
+	AFFECTS: "AFFECTS",
 	// The target entity contains the code for the source entity.
 	BUILT_FROM: "BUILT_FROM",
 	// The source entity bypasses the target entity.
@@ -1915,6 +2946,78 @@ var EntityTypeTypes = struct {
 	WORKLOAD_ENTITY: "WORKLOAD_ENTITY",
 }
 
+// FleetControlEntityScope - The list of possible scopes of an entity
+type FleetControlEntityScope string
+
+var FleetControlEntityScopeTypes = struct {
+	// Account scope
+	ACCOUNT FleetControlEntityScope
+	// Organization scope
+	ORGANIZATION FleetControlEntityScope
+}{
+	// Account scope
+	ACCOUNT: "ACCOUNT",
+	// Organization scope
+	ORGANIZATION: "ORGANIZATION",
+}
+
+// FleetControlFleetDeploymentPhase - Phases of a fleet deployment
+type FleetControlFleetDeploymentPhase string
+
+var FleetControlFleetDeploymentPhaseTypes = struct {
+	// Deployment completed
+	COMPLETED FleetControlFleetDeploymentPhase
+	// Deployment is in editable phase
+	CREATED FleetControlFleetDeploymentPhase
+	// Deployment failed
+	FAILED FleetControlFleetDeploymentPhase
+	// Deployment is in progress
+	IN_PROGRESS FleetControlFleetDeploymentPhase
+}{
+	// Deployment completed
+	COMPLETED: "COMPLETED",
+	// Deployment is in editable phase
+	CREATED: "CREATED",
+	// Deployment failed
+	FAILED: "FAILED",
+	// Deployment is in progress
+	IN_PROGRESS: "IN_PROGRESS",
+}
+
+// FleetControlManagedEntityType - Entity types that a Fleet can manage
+type FleetControlManagedEntityType string
+
+var FleetControlManagedEntityTypeTypes = struct {
+	// Instrumented APM Application
+	APPLICATION FleetControlManagedEntityType
+	// Infra Host
+	HOST FleetControlManagedEntityType
+	// Kubernetes Cluster
+	KUBERNETESCLUSTER FleetControlManagedEntityType
+}{
+	// Instrumented APM Application
+	APPLICATION: "APPLICATION",
+	// Infra Host
+	HOST: "HOST",
+	// Kubernetes Cluster
+	KUBERNETESCLUSTER: "KUBERNETESCLUSTER",
+}
+
+// FleetControlOperatingSystemType - The operating system to which a host type can belong
+type FleetControlOperatingSystemType string
+
+var FleetControlOperatingSystemTypeTypes = struct {
+	// Linux based host
+	LINUX FleetControlOperatingSystemType
+	// Windows based host
+	WINDOWS FleetControlOperatingSystemType
+}{
+	// Linux based host
+	LINUX: "LINUX",
+	// Windows based host
+	WINDOWS: "WINDOWS",
+}
+
 // MetricNormalizationRuleAction - The different rule actions.
 type MetricNormalizationRuleAction string
 
@@ -1968,6 +3071,7 @@ var ServiceLevelObjectiveRollingTimeWindowUnitTypes = struct {
 	DAY: "DAY",
 }
 
+// SyntheticMonitorStatus -
 type SyntheticMonitorStatus string
 
 var SyntheticMonitorStatusTypes = struct {
@@ -2055,7 +3159,9 @@ var WorkloadStatusValueTypes = struct {
 
 // AccountOutline - The `AccountOutline` object provides basic data about an account.
 type AccountOutline struct {
-	ID   int    `json:"id,omitempty"`
+	//
+	ID int `json:"id,omitempty"`
+	//
 	Name string `json:"name,omitempty"`
 	// Returns event types that are currently reporting in the account.
 	ReportingEventTypes []string `json:"reportingEventTypes,omitempty"`
@@ -2063,7 +3169,9 @@ type AccountOutline struct {
 
 // AccountReference - The `AccountReference` object provides basic identifying information about the account.
 type AccountReference struct {
-	ID   int    `json:"id,omitempty"`
+	//
+	ID int `json:"id,omitempty"`
+	//
 	Name string `json:"name,omitempty"`
 }
 
@@ -2167,8 +3275,12 @@ type AgentApplicationSettingsBrowserAjax struct {
 type AgentApplicationSettingsBrowserBase struct {
 	// Access general settings for the application.
 	BrowserConfig AgentApplicationSettingsBrowserConfig `json:"browserConfig"`
+	// Browser consent mode configuration for privacy compliance and consent management platform integration.
+	BrowserConsentMode AgentApplicationSettingsBrowserConsentMode `json:"browserConsentMode"`
 	// browser monitoring provides real user monitoring (RUM) that measures the speed and performance of end users as they navigate the application using different web browsers, devices, operating systems, and networks.
 	BrowserMonitoring AgentApplicationSettingsBrowserMonitoring `json:"browserMonitoring"`
+	// Browser Performance configuration.
+	BrowserPerformance AgentApplicationSettingsBrowserPerformance `json:"browserPerformance"`
 	// Session Replay configuration.
 	SessionReplay AgentApplicationSettingsSessionReplay `json:"sessionReplay"`
 	// Session Trace configuration.
@@ -2179,6 +3291,12 @@ type AgentApplicationSettingsBrowserBase struct {
 type AgentApplicationSettingsBrowserConfig struct {
 	// The desired target for the APDEX measurement of this browser application.
 	ApdexTarget float64 `json:"apdexTarget,omitempty"`
+}
+
+// AgentApplicationSettingsBrowserConsentMode - Browser consent mode configuration for privacy compliance.
+type AgentApplicationSettingsBrowserConsentMode struct {
+	// When enabled, the browser agent will operate in consent mode, respecting user privacy preferences and consent management platforms. When disabled (default), the agent operates normally without consent mode restrictions.
+	Enabled bool `json:"enabled"`
 }
 
 // AgentApplicationSettingsBrowserDistributedTracing - Distributed tracing type. See [documentation](https://docs.newrelic.com/docs/browser/new-relic-browser/browser-pro-features/browser-data-distributed-tracing/) for further information.
@@ -2209,6 +3327,16 @@ type AgentApplicationSettingsBrowserMonitoring struct {
 	PinnedVersion string `json:"pinnedVersion,omitempty"`
 	// Browser privacy. See [documentation](https://docs.newrelic.com/docs/browser/browser-monitoring/page-load-timing-resources/cookie-collection-session-tracking/) for further information.
 	Privacy AgentApplicationSettingsBrowserPrivacy `json:"privacy"`
+}
+
+// AgentApplicationSettingsBrowserPerformance - Browser Performance configuration.
+type AgentApplicationSettingsBrowserPerformance struct {
+	// Capture detail enabled.
+	CaptureDetail bool `json:"captureDetail"`
+	// Capture mark enabled.
+	CaptureMarks bool `json:"captureMarks"`
+	// Capture measures enabled.
+	CaptureMeasures bool `json:"captureMeasures"`
 }
 
 // AgentApplicationSettingsBrowserPrivacy - Browser privacy. See [documentation](https://docs.newrelic.com/docs/browser/browser-monitoring/page-load-timing-resources/cookie-collection-session-tracking/) for further information.
@@ -2523,6 +3651,7 @@ type AgentEnvironmentLoadedModuleAttribute struct {
 	Value string `json:"value"`
 }
 
+// AlertableEntity -
 type AlertableEntity struct {
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
@@ -2534,6 +3663,7 @@ type AlertableEntity struct {
 
 func (x *AlertableEntity) ImplementsAlertableEntity() {}
 
+// AlertableEntityOutline -
 type AlertableEntityOutline struct {
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
@@ -2559,6 +3689,7 @@ type ApmApplicationDeployment struct {
 
 // ApmApplicationEntity - An APM Application entity.
 type ApmApplicationEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -2623,7 +3754,8 @@ type ApmApplicationEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -2663,6 +3795,7 @@ func (x *ApmApplicationEntity) ImplementsEntity() {}
 
 // ApmApplicationEntityOutline - An APM Application entity outline.
 type ApmApplicationEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -2761,6 +3894,7 @@ type ApmApplicationSummaryData struct {
 
 // ApmBrowserApplicationEntity - The `ApmBrowserApplicationEntity` interface provides detailed information for the Browser App injected by an APM Application.
 type ApmBrowserApplicationEntity struct {
+	//
 	ApmBrowserSummary ApmBrowserApplicationSummaryData `json:"apmBrowserSummary,omitempty"`
 }
 
@@ -2768,6 +3902,7 @@ func (x *ApmBrowserApplicationEntity) ImplementsApmBrowserApplicationEntity() {}
 
 // ApmBrowserApplicationEntityOutline - The `ApmBrowserApplicationEntityOutline` interface provides detailed information for the Browser App injected by an APM Application.
 type ApmBrowserApplicationEntityOutline struct {
+	//
 	ApmBrowserSummary ApmBrowserApplicationSummaryData `json:"apmBrowserSummary,omitempty"`
 }
 
@@ -2789,6 +3924,7 @@ type ApmBrowserApplicationSummaryData struct {
 
 // ApmDatabaseInstanceEntity - A database instance seen by an APM Application
 type ApmDatabaseInstanceEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -2829,7 +3965,8 @@ type ApmDatabaseInstanceEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -2867,6 +4004,7 @@ func (x *ApmDatabaseInstanceEntity) ImplementsEntity() {}
 
 // ApmDatabaseInstanceEntityOutline - A database instance seen by an APM Application
 type ApmDatabaseInstanceEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -2916,6 +4054,7 @@ func (x *ApmDatabaseInstanceEntityOutline) ImplementsEntityOutline() {}
 
 // ApmExternalServiceEntity - An external service seen by an APM Application.
 type ApmExternalServiceEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -2928,7 +4067,8 @@ type ApmExternalServiceEntity struct {
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
-	EntityType      EntityType                    `json:"entityType,omitempty"`
+	EntityType EntityType `json:"entityType,omitempty"`
+	//
 	ExternalSummary ApmExternalServiceSummaryData `json:"externalSummary,omitempty"`
 	// The date of last time the entity has updated any of its fields.
 	FirstIndexedAt *nrtime.EpochMilliseconds `json:"firstIndexedAt,omitempty"`
@@ -2957,7 +4097,8 @@ type ApmExternalServiceEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -2991,6 +4132,7 @@ func (x *ApmExternalServiceEntity) ImplementsEntity() {}
 
 // ApmExternalServiceEntityOutline - An external service seen by an APM Application.
 type ApmExternalServiceEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -2999,7 +4141,8 @@ type ApmExternalServiceEntityOutline struct {
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
-	EntityType      EntityType                    `json:"entityType,omitempty"`
+	EntityType EntityType `json:"entityType,omitempty"`
+	//
 	ExternalSummary ApmExternalServiceSummaryData `json:"externalSummary,omitempty"`
 	// The date of last time the entity has updated any of its fields.
 	FirstIndexedAt *nrtime.EpochMilliseconds `json:"firstIndexedAt,omitempty"`
@@ -3045,6 +4188,7 @@ type ApmExternalServiceSummaryData struct {
 
 // BrowserApplicationEntity - A Browser Application entity.
 type BrowserApplicationEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -3101,7 +4245,8 @@ type BrowserApplicationEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -3143,6 +4288,7 @@ func (x *BrowserApplicationEntity) ImplementsEntity() {}
 
 // BrowserApplicationEntityOutline - A Browser Application entity outline.
 type BrowserApplicationEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -3303,8 +4449,10 @@ type ChangeTrackingTimeWindowInputWithDefaults struct {
 
 // CollectionEntity - A group of entities defined by entity search queries and specific GUIDs
 type CollectionEntity struct {
+	//
 	Collection EntityCollection `json:"collection,omitempty"`
-	GUID       EntityGUID       `json:"guid,omitempty"`
+	//
+	GUID EntityGUID `json:"guid,omitempty"`
 }
 
 func (x *CollectionEntity) ImplementsCollectionEntity() {}
@@ -3339,6 +4487,7 @@ type DashboardBillboardWidgetThreshold struct {
 
 // DashboardEntity - A Dashboard entity.
 type DashboardEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -3383,7 +4532,8 @@ type DashboardEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The owner information of the dashboard.
 	Owner DashboardEntityOwnerInfo `json:"owner,omitempty"`
@@ -3427,6 +4577,7 @@ func (x *DashboardEntity) ImplementsEntity() {}
 
 // DashboardEntityOutline - A Dashboard entity outline.
 type DashboardEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -3592,6 +4743,8 @@ type DashboardVariableNRQLQuery struct {
 type DashboardVariableOptions struct {
 	// With this turned on, query condition defined with the variable will not be included in the query.
 	Excluded bool `json:"excluded,omitempty"`
+	// Controls whether this variable is visible in the UI when not in edit mode.
+	HiddenOnVariablesBar bool `json:"hiddenOnVariablesBar,omitempty"`
 	// Only applies to variables of type NRQL. With this turned on, the time range for the NRQL query will override the time picker on dashboards and other pages. Turn this off to use the time picker as normal.
 	IgnoreTimeRange bool `json:"ignoreTimeRange,omitempty"`
 	// Determines whether or not an Apply action will be shown when selecting multiple values in ENUM and NRQL variables.
@@ -3756,6 +4909,7 @@ type DomainTypeInput struct {
 //
 // To understand more about entities and entity types, look at [our docs](https://docs.newrelic.com/docs/what-are-new-relic-entities).
 type Entity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -3794,7 +4948,8 @@ type Entity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -3980,6 +5135,36 @@ type EntityGoldenTag struct {
 	Key string `json:"key"`
 }
 
+// EntityManagementAPICatalogAPIContract - Interface for Api Contract entities
+type EntityManagementAPICatalogAPIContract struct {
+	// The name of the Api Contract
+	Name string `json:"name"`
+}
+
+func (x *EntityManagementAPICatalogAPIContract) ImplementsEntityManagementAPICatalogAPIContract() {}
+
+// EntityManagementAPISpecificationBlobEntity - Entity of type Spec Blob.
+type EntityManagementAPISpecificationBlobEntity struct {
+	// The blob containing the Api specification content.
+	Blob EntityManagementBlob `json:"blob"`
+	// Description of the specification content.
+	Description string `json:"description,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of the specification file.
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementAPISpecificationBlobEntity) ImplementsEntityManagementEntity() {}
+
 // EntityManagementActor - Represents an actor.
 type EntityManagementActor struct {
 	// Id of the actor.
@@ -3988,6 +5173,7 @@ type EntityManagementActor struct {
 
 func (x *EntityManagementActor) ImplementsEntityManagementActor() {}
 
+// EntityManagementActorStitchedFields - The ActorStitchedFields type.
 type EntityManagementActorStitchedFields struct {
 	// Retrieves an entity.
 	Entity EntityManagementEntityInterface `json:"entity,omitempty"`
@@ -3995,10 +5181,20 @@ type EntityManagementActorStitchedFields struct {
 	EntitySearch EntityManagementEntitySearchResult `json:"entitySearch,omitempty"`
 }
 
+// EntityManagementAdditionalParameter - Key-value pair for additional configuration
+type EntityManagementAdditionalParameter struct {
+	// Parameter name
+	Key string `json:"key,omitempty"`
+	// Parameter value
+	Value string `json:"value,omitempty"`
+}
+
 // EntityManagementAgentConfigurationEntity - A configuration that can contain multiple immutable versions and can be deployed to a fleet
 type EntityManagementAgentConfigurationEntity struct {
 	// The agentType
 	AgentType string `json:"agentType"`
+	// Configuration type
+	ConfigurationType string `json:"configurationType,omitempty"`
 	// The entity's global unique identifier.
 	ID string `json:"id"`
 	// The managedEntityType this configuration is intended to be deployed to
@@ -4007,6 +5203,8 @@ type EntityManagementAgentConfigurationEntity struct {
 	Metadata EntityManagementMetadata `json:"metadata"`
 	// A unique user provided name for the configuration
 	Name string `json:"name"`
+	// The operating system of the managed entity this configuration is intended to be deployed to
+	OperatingSystem EntityManagementOperatingSystem `json:"operatingSystem,omitempty"`
 	// The entity's scope.
 	Scope EntityManagementScopedReference `json:"scope"`
 	// Collection of tags.
@@ -4019,29 +5217,135 @@ type EntityManagementAgentConfigurationEntity struct {
 
 func (x *EntityManagementAgentConfigurationEntity) ImplementsEntityManagementEntity() {}
 
-// EntityManagementAiAgentEntity - Agent config for agentic-platform
+// EntityManagementAgentConfigurationVersionEntity - A version of an agent configuration
+type EntityManagementAgentConfigurationVersionEntity struct {
+	// EntityGuid of the parent AgentConfiguration object
+	AgentConfiguration string `json:"agentConfiguration"`
+	// Metadata about the configuration blob
+	Blob EntityManagementBlob `json:"blob,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+	// Monotonically increasing version number
+	Version int `json:"version"`
+}
+
+func (x *EntityManagementAgentConfigurationVersionEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementAgentDeployment - A set of configurations that are currently deployed
+type EntityManagementAgentDeployment struct {
+	// Deployment finish
+	CompletedAt *nrtime.EpochMilliseconds `json:"completedAt,omitempty"`
+	// Fleet Id
+	Fleet string `json:"fleet,omitempty"`
+	// Deployment Id
+	ID string `json:"id,omitempty"`
+	// Managed Entity Id
+	ManagedEntity string `json:"managedEntity,omitempty"`
+	// Deployment started
+	StartedAt *nrtime.EpochMilliseconds `json:"startedAt,omitempty"`
+	// Deployment status
+	Status string `json:"status,omitempty"`
+}
+
+// EntityManagementAgentEffectiveConfigurationEntity - The configuration that is actively being used to configure an agent
+type EntityManagementAgentEffectiveConfigurationEntity struct {
+	// Metadata about the effective configuration blob
+	Blob EntityManagementBlob `json:"blob"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementAgentEffectiveConfigurationEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementAgentEntity - A software component that collects or processes telemetry
+type EntityManagementAgentEntity struct {
+	// The agentType
+	AgentType string `json:"agentType"`
+	// Properties specific to fleet control
+	FleetControlProperties EntityManagementFleetControlProperties `json:"fleetControlProperties"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// The infrastructure managers related to the agent
+	InfrastructureManagers []EntityManagementInfrastructureManager `json:"infrastructureManagers,omitempty"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+	// Version of the agent
+	Version string `json:"version,omitempty"`
+}
+
+func (x *EntityManagementAgentEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementAgentToDeploy - Agent to deploy in a fleet deployment
+type EntityManagementAgentToDeploy struct {
+	// Agent type
+	AgentType string `json:"agentType"`
+	// Configuration version list for this agent
+	ConfigurationVersionList []EntityManagementDeploymentAgentConfigurationVersion `json:"configurationVersionList"`
+	// Agent version
+	Version string `json:"version"`
+}
+
+// EntityManagementAiAgentEntity - Agent configuration for agentic-platform
 type EntityManagementAiAgentEntity struct {
-	// list of worker agents available to the planner agent
+	// list of worker agents available to the planner agent in a multi-agent setup, ignore this for a single agent setup
 	Agents []EntityManagementEntityInterface `json:"agents"`
-	// agent category
+	// agent category, to identify different agents supported by the platform in both single and multi-agent setups
 	Category string `json:"category"`
-	// short description of the agent
+	// short description of the agent, important for the discoverability of the agent in a group chat, so make it clear and concise.
 	Description string `json:"description"`
+	// display name for the agent
+	DisplayName string `json:"displayName,omitempty"`
 	// entity's global identifier
 	ID string `json:"id"`
-	// llm config for the agent
+	// flag to be set to true once agent validation is complete and is ready for use.
+	Initialized bool `json:"initialized,omitempty"`
+	// llm configuration for the agent which includes exact LLM name and temperature settings
 	LlmConfig EntityManagementLlmConfig `json:"llmConfig,omitempty"`
+	// list of MCP server entities to be attached to the agent, each MCP server entity allows you to include/exclude a subset of tools
+	McpServers []EntityManagementAiAgentMcpServerConfig `json:"mcpServers"`
 	// agent metadata
 	Metadata EntityManagementMetadata `json:"metadata"`
 	// unique name of the agent entity
 	Name string `json:"name"`
-	// system instructions for the agent
-	Prompt []string `json:"prompt"`
+	// system instructions for the agent, this guides the behaviour of the llm, so make it elaborate but avoid noise.
+	Prompt string `json:"prompt"`
+	// creator of the agent entity, will help to distinguish extrernal agents from NR owned agents
+	Provider EntityManagementProvider `json:"provider,omitempty"`
 	// entity scope
 	Scope EntityManagementScopedReference `json:"scope"`
 	// collection of tags
 	Tags []EntityManagementTag `json:"tags"`
-	// list of tools available for the agent with filtering configuration
+	// test flag (true in case entity is experimental, default is true)
+	Test bool `json:"test,omitempty"`
+	// list of tool entities to attach to the agent
 	Tools []EntityManagementAiAgentToolConfig `json:"tools"`
 	// entity type
 	Type string `json:"type"`
@@ -4093,13 +5397,28 @@ func (x *EntityManagementAiAgentEntity) UnmarshalJSON(b []byte) error {
 			if err != nil {
 				return err
 			}
+		case "displayName":
+			err = json.Unmarshal(*v, &x.DisplayName)
+			if err != nil {
+				return err
+			}
 		case "id":
 			err = json.Unmarshal(*v, &x.ID)
 			if err != nil {
 				return err
 			}
+		case "initialized":
+			err = json.Unmarshal(*v, &x.Initialized)
+			if err != nil {
+				return err
+			}
 		case "llmConfig":
 			err = json.Unmarshal(*v, &x.LlmConfig)
+			if err != nil {
+				return err
+			}
+		case "mcpServers":
+			err = json.Unmarshal(*v, &x.McpServers)
 			if err != nil {
 				return err
 			}
@@ -4118,6 +5437,11 @@ func (x *EntityManagementAiAgentEntity) UnmarshalJSON(b []byte) error {
 			if err != nil {
 				return err
 			}
+		case "provider":
+			err = json.Unmarshal(*v, &x.Provider)
+			if err != nil {
+				return err
+			}
 		case "scope":
 			err = json.Unmarshal(*v, &x.Scope)
 			if err != nil {
@@ -4125,6 +5449,11 @@ func (x *EntityManagementAiAgentEntity) UnmarshalJSON(b []byte) error {
 			}
 		case "tags":
 			err = json.Unmarshal(*v, &x.Tags)
+			if err != nil {
+				return err
+			}
+		case "test":
+			err = json.Unmarshal(*v, &x.Test)
 			if err != nil {
 				return err
 			}
@@ -4144,7 +5473,17 @@ func (x *EntityManagementAiAgentEntity) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-// EntityManagementAiAgentToolConfig - Configuration for an agent's use of a specific MCP server/tool
+// EntityManagementAiAgentMcpServerConfig - Configuring specific tools from an MCP server for an agent's use
+type EntityManagementAiAgentMcpServerConfig struct {
+	// list of specific tools to exclude from this MCP server
+	ExcludeTools []string `json:"excludeTools"`
+	// list of specific tools to include from this MCP server (default is empty list, which means all tools from the MCP server will be included)
+	IncludeTools []string `json:"includeTools"`
+	// reference to the MCP server entity
+	Server EntityManagementMcpServerEntity `json:"server"`
+}
+
+// EntityManagementAiAgentToolConfig - Deprecated: Configuration for an agent's use of a specific MCP server/tool
 type EntityManagementAiAgentToolConfig struct {
 	// list of specific tools to exclude from this MCP server
 	ExcludeTools []string `json:"excludeTools"`
@@ -4154,25 +5493,85 @@ type EntityManagementAiAgentToolConfig struct {
 	Tool EntityManagementAiToolEntity `json:"tool"`
 }
 
-// EntityManagementAiToolEntity - Tool config for agentic-platform
+// EntityManagementAiCapableEntity - AI Capable Library for AI Inventory Catalog
+type EntityManagementAiCapableEntity struct {
+	// Category of the tool/library
+	Category string `json:"category"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Language of the ai tool/library
+	Language string `json:"language"`
+	// Last seen timestamp: A date and time as an ISO8601 formatted string.
+	LastSeen nrtime.DateTime `json:"lastSeen"`
+	// Entity metadata
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// Unique name of the agent entity
+	Name string `json:"name"`
+	// Entity scope
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags
+	Tags []EntityManagementTag `json:"tags"`
+	// Type of the tool. Eg: library or usage
+	ToolType string `json:"toolType"`
+	// Version of the ai tool/library
+	ToolVersion string `json:"toolVersion"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementAiCapableEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementAiEvaluationConfigEntity - Experimental feature for ai evaluation configuration
+type EntityManagementAiEvaluationConfigEntity struct {
+	// The entity description.
+	Description string `json:"description,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Reference to the ManagedEvaluationsEntity containing the evaluation configurations to be applied
+	ManagedEvaluationsEntity EntityManagementManagedEvaluationsEntity `json:"managedEvaluationsEntity,omitempty"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// A unique user provided name for the evaluation.
+	Name string `json:"name"`
+	// Defines the fraction of incoming messages to be evaluated. Value ranges from 0.0 (none) to 1.0 (all).
+	SamplingRate float64 `json:"samplingRate,omitempty"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementAiEvaluationConfigEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementAiToolEntity - Tool configuration for agentic-platform
 type EntityManagementAiToolEntity struct {
-	// short description of the tool
+	// short description of the tool, useful for tool discovery by an agent
 	Description string `json:"description"`
 	// entity's unique global indentifier
 	ID string `json:"id"`
+	// flag to be set to true once agent validation is complete and is ready for use.
+	Initialized bool `json:"initialized,omitempty"`
 	// tool metadata
 	Metadata EntityManagementMetadata `json:"metadata"`
 	// unique name of the tool
 	Name string `json:"name"`
-	// tool parameters to be passed for the nerdgraph type tool
+	// tool parameters to be passed for each tool
 	Parameters []EntityManagementAiToolParameter `json:"parameters"`
+	// creator of the agent entity, will help to distinguish extrernal agents from NR owned agents
+	Provider EntityManagementProvider `json:"provider,omitempty"`
 	// entity scope
 	Scope EntityManagementScopedReference `json:"scope"`
 	// collection of tags
 	Tags []EntityManagementTag `json:"tags"`
+	// test flag (true in case entity is experimental, default is true)
+	Test bool `json:"test,omitempty"`
+	// type of tool from a list of first class citizen tools
+	ToolType EntityManagementAiToolType `json:"toolType,omitempty"`
 	// entity type
 	Type string `json:"type"`
-	// path/url for the tool
+	// It is primarily a nerdgraph query in single line format
 	URL string `json:"url"`
 }
 
@@ -4180,12 +5579,18 @@ func (x *EntityManagementAiToolEntity) ImplementsEntityManagementEntity() {}
 
 // EntityManagementAiToolParameter - Tool parameters to be passed to ToolEntity
 type EntityManagementAiToolParameter struct {
-	// description of the parameter
+	// description of the parameter - important for the discovery of parameter by llm
 	Description string `json:"description"`
 	// name of the tool parameter
 	Name string `json:"name"`
-	// type of the parameter
+	// type of the parameter indicating its data-type
 	Type EntityManagementAiToolParameterType `json:"type"`
+}
+
+// EntityManagementArrayCondition - Array condition type.
+type EntityManagementArrayCondition struct {
+	// Array condition  type operator.
+	Operator EntityManagementArrayOperator `json:"operator"`
 }
 
 // EntityManagementAttribute - Attributes to represent thresholds
@@ -4196,10 +5601,134 @@ type EntityManagementAttribute struct {
 	Value string `json:"value"`
 }
 
+// EntityManagementAwsAssumeRoleConfig - Configuration for accessing an Aws account via AssumeRole
+type EntityManagementAwsAssumeRoleConfig struct {
+	// External ID to use when assuming the role
+	ExternalId EntityManagementDynamicString `json:"externalId,omitempty"`
+	// The ARN of the role to assume
+	RoleArn string `json:"roleArn"`
+}
+
+// EntityManagementAwsConnectionEntity - Connection entity type for Aws
+type EntityManagementAwsConnectionEntity struct {
+	// A single credential from the choice of AwsCredential
+	Credential EntityManagementAwsCredentials `json:"credential"`
+	// The description of that connection.
+	Description string `json:"description,omitempty"`
+	// Flag to indicate if the connection is enabled. True by default
+	Enabled bool `json:"enabled,omitempty"`
+	// Optional field representing an identifier managed by the consumer
+	ExternalId string `json:"externalId,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of that connection.
+	Name string `json:"name"`
+	// Default region for this connection
+	Region string `json:"region,omitempty"`
+	// The entity’s scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Optional list of connection settings
+	Settings []EntityManagementConnectionSettings `json:"settings"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity’s type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementAwsConnectionEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementAwsCredentials - Base Credential type for Aws
+type EntityManagementAwsCredentials struct {
+	// AssumeRole type
+	AssumeRole EntityManagementAwsAssumeRoleConfig `json:"assumeRole,omitempty"`
+}
+
+// EntityManagementBackgroundProcessingQuery - At rest background processing types
+type EntityManagementBackgroundProcessingQuery struct {
+	// The list of scopes to be included in every query in a scheduled batch of cross account queries.
+	JoinScopes []EntityManagementScopedReference `json:"joinScopes"`
+	// The NRQL string used to specify the action you want to take and data you want to take the specified action on.
+	NRQL nrdb.NRQL `json:"nrql"`
+	// The scope for the output, if applicable. If the value is null, the entity scope is used as output.
+	OutputScope EntityManagementScopedReference `json:"outputScope,omitempty"`
+	// The list of scopes to be queried, allowing a scheduled batch of cross account queries. If this value is null, the original entity scope will be used.
+	Scopes []EntityManagementScopedReference `json:"scopes"`
+}
+
+// EntityManagementBackgroundProcessingRuleEntity - At rest background processing types
+type EntityManagementBackgroundProcessingRuleEntity struct {
+	// Entity description.
+	Description string `json:"description,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// The account and NRQL query definition for the rule
+	Query EntityManagementBackgroundProcessingQuery `json:"query"`
+	// Classification of the query type. This field is primarily for filtering
+	RuleType EntityManagementBackgroundProcessingType `json:"ruleType,omitempty"`
+	// The cronExpression to run the scheduled query. Minute step values, ranges and lists are not permitted.
+	Schedule EntityManagementSchedule `json:"schedule,omitempty"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Describes the asynchronous at-rest process state to communicate through the API what is happening
+	State EntityManagementProcessState `json:"state,omitempty"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementBackgroundProcessingRuleEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementBackgroundProcessingSqlQuery - At rest background processing types
+type EntityManagementBackgroundProcessingSqlQuery struct {
+	// The scope for the output, if applicable. If the value is null, the entity scope is used as output.
+	OutputScope EntityManagementScopedReference `json:"outputScope,omitempty"`
+	// The target of the SQL query results, indicating the destination where the SQL results will be sent.
+	OutputTarget string `json:"outputTarget"`
+	// The list of scopes to be queried, allowing cross account queries. If this value is null, the original entity scope will be used.
+	Scopes []EntityManagementScopedReference `json:"scopes"`
+	// The SQL string used to specify the action you want to take and data you want to take the specified action on.
+	Sql string `json:"sql"`
+}
+
+// EntityManagementBackgroundSqlProcessingRuleEntity - At rest background sql processing types
+type EntityManagementBackgroundSqlProcessingRuleEntity struct {
+	// Entity description.
+	Description string `json:"description,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// The account and SQL query definition for the rule
+	Query EntityManagementBackgroundProcessingSqlQuery `json:"query"`
+	// The cronExpression to run the scheduled query. Minute step values, ranges and lists are not permitted.
+	Schedule EntityManagementSchedule `json:"schedule,omitempty"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Describes the asynchronous at-rest process state to communicate through the API what is happening
+	State EntityManagementProcessState `json:"state,omitempty"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementBackgroundSqlProcessingRuleEntity) ImplementsEntityManagementEntity() {}
+
 // EntityManagementBlob - Metadata about a blob stored in the Blob Datastore.
 type EntityManagementBlob struct {
 	// Object that holds the details of the blob signature
 	BlobSignature EntityManagementBlobSignature `json:"blobSignature,omitempty"`
+	// Object that holds the details of the blob signature
+	BlobSignatures []EntityManagementBlobSignature `json:"blobSignatures,omitempty"`
 	// The checksum of the blob content
 	Checksum string `json:"checksum,omitempty"`
 	// The checksum algorithm used to calculate the checksum of the blob content
@@ -4214,12 +5743,96 @@ type EntityManagementBlob struct {
 type EntityManagementBlobSignature struct {
 	// Boolean flag to show if a blob has security findings
 	SecurityFindings bool `json:"securityFindings,omitempty"`
+	// Signature details
+	Signature EntityManagementSignatureDetails `json:"signature"`
 	// Error encountered during signature creation
 	SignatureError []string `json:"signatureError"`
+	// Errors encountered during signature creation
+	SignatureErrors []string `json:"signatureErrors"`
 	// Signature of the blob
 	Signatures []EntityManagementSignatureDetails `json:"signatures"`
 	// Error encountered during validation
 	ValidationError []string `json:"validationError"`
+}
+
+// EntityManagementBudgetAccount - Represents an account.
+type EntityManagementBudgetAccount struct {
+	// The unique identifier of the account.
+	ID int `json:"id"`
+}
+
+// EntityManagementBudgetAlertPolicy - Represents an alert policy for the budget
+type EntityManagementBudgetAlertPolicy struct {
+	// The unique identifier of the alert policy.
+	ID string `json:"id"`
+}
+
+// EntityManagementBudgetCustomer - Represents a customer.
+type EntityManagementBudgetCustomer struct {
+	// The unique identifier of the customer.
+	ID string `json:"id"`
+}
+
+// EntityManagementBudgetEntity - Represents a New Relic Budget entity.
+type EntityManagementBudgetEntity struct {
+	// A list of alert policies associated with this budget.
+	BudgetAlertPolicies []EntityManagementBudgetAlertPolicy `json:"budgetAlertPolicies,omitempty"`
+	// A list of limits defined for this budget.
+	BudgetLimits []EntityManagementBudgetLimit `json:"budgetLimits,omitempty"`
+	// The segment being tracked by the budget.
+	BudgetSegment EntityManagementBudgetSegment `json:"budgetSegment,omitempty"`
+	// Budget Type as Ingest or compute
+	BudgetType EntityManagementBudgetType `json:"budgetType,omitempty"`
+	// The globally unique identifier of the entity.
+	ID string `json:"id"`
+	// Metadata associated with the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of the entity.
+	Name string `json:"name"`
+	// True if it’s an org level budget, False otherwise.
+	OrganizationBudget bool `json:"organizationBudget,omitempty"`
+	// The scope of the entity.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// A collection of tags associated with the entity.
+	Tags []EntityManagementTag `json:"tags"`
+	// The type of the entity.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementBudgetEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementBudgetLimit - Represents a budget limit.
+type EntityManagementBudgetLimit struct {
+	// The consumption metric associated with the budget limit.
+	ConsumptionMetric EntityManagementConsumptionMetric `json:"consumptionMetric,omitempty"`
+	// Reference to where the complete budget limit definition is stored. The Budget Entity acts as an index/tracking system while the actual limit configuration data lives in the Limits Platform.
+	Reference EntityManagementReference `json:"reference,omitempty"`
+	// The value of the limit for the specified consumption metric.
+	Value int `json:"value,omitempty"`
+}
+
+// EntityManagementBudgetOrganization - Represents an organization.
+type EntityManagementBudgetOrganization struct {
+	// The unique identifier of the organization.
+	ID string `json:"id"`
+}
+
+// EntityManagementBudgetSegment - The segment being tracked by the budget.
+type EntityManagementBudgetSegment struct {
+	// Array of account IDs associated with the budget segment.
+	Accounts []EntityManagementBudgetAccount `json:"accounts,omitempty"`
+	// Customer Contract ID.
+	Customer EntityManagementBudgetCustomer `json:"customer,omitempty"`
+	// Array of organization IDs in a multi-tenant structure.
+	Organizations []EntityManagementBudgetOrganization `json:"organizations,omitempty"`
+	// Object containing user limit configuration.
+	Users EntityManagementUsers `json:"users,omitempty"`
+}
+
+// EntityManagementBudgetUser - Represents a user whose resource consumption limits are managed by the budget.
+type EntityManagementBudgetUser struct {
+	// The unique identifier of the user (userID).
+	ID int `json:"id"`
 }
 
 // EntityManagementCategoryScope - Scope for category subtype
@@ -4236,6 +5849,50 @@ type EntityManagementCharacterTextSplitterOptions struct {
 	IsSeparatorRegex bool `json:"isSeparatorRegex"`
 	// Character to split text on
 	Separator string `json:"separator"`
+}
+
+// EntityManagementCiscoMerakiBasicAuthCredential - Basic auth credential type for Cisco Meraki
+type EntityManagementCiscoMerakiBasicAuthCredential struct {
+	// The API key to authorize API access
+	APIKey EntityManagementSecretReference `json:"apiKey"`
+}
+
+// EntityManagementCiscoMerakiConnectionEntity - Connection entity type for Cisco Meraki
+type EntityManagementCiscoMerakiConnectionEntity struct {
+	// A single credential for Cisco Meraki
+	Credential EntityManagementCiscoMerakiCredential `json:"credential"`
+	// The description of that connection.
+	Description string `json:"description,omitempty"`
+	// Flag to indicate if the connection is enabled. True by default
+	Enabled bool `json:"enabled,omitempty"`
+	// Optional field representing an identifier managed by the consumer
+	ExternalId string `json:"externalId,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of that connection.
+	Name string `json:"name"`
+	// The Cisco Meraki region (e.g., India, China, Canada)
+	Region string `json:"region"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Optional list of connection settings
+	Settings []EntityManagementConnectionSettings `json:"settings"`
+	// Array of up to 2 SigningCredential to verify incoming requests, and rotate new signing credentials when needed
+	SigningCredentials []EntityManagementSigningCredential `json:"signingCredentials"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity's type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementCiscoMerakiConnectionEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementCiscoMerakiCredential - Credential type for Cisco Meraki
+type EntityManagementCiscoMerakiCredential struct {
+	// A simple API key-based authentication
+	BasicAuth EntityManagementCiscoMerakiBasicAuthCredential `json:"basicAuth,omitempty"`
 }
 
 // EntityManagementCollectionEntity - An entity type to represent collections of entities
@@ -4256,6 +5913,62 @@ type EntityManagementCollectionEntity struct {
 
 func (x *EntityManagementCollectionEntity) ImplementsEntityManagementEntity() {}
 
+// EntityManagementCommunicationLog - CommunicationLog represents the communication information for an incident. This includes communication details as well as the impact information for that incident.
+type EntityManagementCommunicationLog struct {
+	// The message communicated by.
+	CommunicatedBy string `json:"communicatedBy"`
+	// Mode of the communication happened.
+	CommunicationMode []EntityManagementCommunicationMode `json:"communicationMode"`
+	// The communication status.
+	CommunicationStatus EntityManagementCommunicationStatus `json:"communicationStatus"`
+	// Represents the customer impact of the incident.
+	Impact []EntityManagementCustomerImpactEntity `json:"impact"`
+	// The content of the communication log.
+	Message string `json:"message,omitempty"`
+	// The timestamp of the communication log.
+	Timestamp *nrtime.EpochMilliseconds `json:"timestamp,omitempty"`
+}
+
+// EntityManagementComponentEntity - An entity representing the component or the product available to create impact for an incident.
+type EntityManagementComponentEntity struct {
+	// The component description.
+	Description string `json:"description,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// Name for the component.
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementComponentEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementComputeLocationEntity - An entity representing a compute location for serverless job execution
+type EntityManagementComputeLocationEntity struct {
+	// Description for the ComputeLocation
+	Description string `json:"description"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// A unique user provided name for the ComputeLocation, can be utilized for workload querying.
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementComputeLocationEntity) ImplementsEntityManagementEntity() {}
+
 // EntityManagementConfig - Collection of attributes to represent thresholds of a type
 type EntityManagementConfig struct {
 	// The list of attributes that define the thresholds for this config.
@@ -4274,6 +5987,54 @@ type EntityManagementConfiguration struct {
 	UpdatedAt *nrtime.EpochMilliseconds `json:"updatedAt,omitempty"`
 	// Who or what last updated the configuration
 	UpdatedBy string `json:"updatedBy,omitempty"`
+}
+
+// EntityManagementConfluenceBasicAuthCredential - Basic auth credential type for Confluence
+type EntityManagementConfluenceBasicAuthCredential struct {
+	// The confluence domain (e.g., your-domain.atlassian.net)
+	Domain string `json:"domain"`
+	// The Confluence API token to authorize the API operations
+	Token EntityManagementSecretReference `json:"token"`
+	// API token expiration time
+	TokenExpirationTime *nrtime.EpochMilliseconds `json:"tokenExpirationTime,omitempty"`
+	// The Confluence user ID (the Atlassian account email) associated with the API token.
+	UserID EntityManagementSecretReference `json:"userId"`
+}
+
+// EntityManagementConfluenceConnectionEntity - Connection entity type for Confluence
+type EntityManagementConfluenceConnectionEntity struct {
+	// A single credential from the choice of ConfluenceCredential
+	Credential EntityManagementConfluenceCredentials `json:"credential"`
+	// The description of that connection.
+	Description string `json:"description,omitempty"`
+	// Flag to indicate if the connection is enabled. False by default.
+	Enabled bool `json:"enabled,omitempty"`
+	// Optional field representing an identifier managed by the consumer
+	ExternalId string `json:"externalId,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of that connection.
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Optional list of connection settings
+	Settings []EntityManagementConnectionSettings `json:"settings"`
+	// Array of up to 2 SigningCredential to verify incoming requests, and rotate new signing credentials when needed
+	SigningCredentials []EntityManagementSigningCredential `json:"signingCredentials"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity's type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementConfluenceConnectionEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementConfluenceCredentials - Base credentials type for Confluence
+type EntityManagementConfluenceCredentials struct {
+	// A simple basic auth credential
+	BasicAuth EntityManagementConfluenceBasicAuthCredential `json:"basicAuth,omitempty"`
 }
 
 // EntityManagementConfluenceIntegration - Bare essentials for any integration with confluence
@@ -4339,6 +6100,335 @@ type EntityManagementConfluenceRagSettingsEntity struct {
 }
 
 func (x *EntityManagementConfluenceRagSettingsEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementConnectionSettings - Connection settings type for all connections
+type EntityManagementConnectionSettings struct {
+	// The key or name of the setting
+	Key string `json:"key"`
+	// The value of the setting.
+	Value string `json:"value"`
+}
+
+// EntityManagementCorrelationAttribute - A configuration attribute for probabilistic matching.
+type EntityManagementCorrelationAttribute struct {
+	// Attribute name.
+	Name string `json:"name"`
+	// Attribute value.
+	Value string `json:"value"`
+}
+
+// EntityManagementCorrelationAttributeCondition - Defines an attribute matching condition between subjects.
+type EntityManagementCorrelationAttributeCondition struct {
+	// The attribute path to match (e.g., 'tags.hostname').
+	Attribute string `json:"attribute"`
+	// The matching operator.
+	Operator EntityManagementCorrelationAttributeConditionOperator `json:"operator"`
+	// The value to match against.
+	Value string `json:"value"`
+}
+
+// EntityManagementCorrelationContext - Context metadata about a correlation link.
+type EntityManagementCorrelationContext struct {
+	// Confidence score (0.0 to 1.0) if probabilistic matching was used.
+	Confidence float64 `json:"confidence"`
+	// Additional informational messages about the correlation.
+	Messages []string `json:"messages"`
+	// The GUID of the CorrelationLinkingRule that created this link.
+	RuleId string `json:"ruleId"`
+}
+
+// EntityManagementCorrelationInternalSourceConfigEntity - CorrelationInternalSourceConfig persists the configuration required to provision
+// DAQS filters, separating the ingestion mechanism from the correlation logic.
+// This entity is internal only.
+type EntityManagementCorrelationInternalSourceConfigEntity struct {
+	// Account ID of the Rule Filter.
+	AccountID int `json:"accountId"`
+	// Alias for this subject used in criteria and linking configuration.
+	Alias string `json:"alias"`
+	// The internal ID used by the DAQS filtering system.
+	FilterId int `json:"filterId"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The NRQL query used to filter the stream.
+	NRQL nrdb.NRQL `json:"nrql"`
+	// The name of this internal source configuration.
+	Name string `json:"name"`
+	// List of namespaces applicable to this filter.
+	Namespaces []string `json:"namespaces"`
+	// The Kafka topic where filtered data should be published.
+	OutputTopic string `json:"outputTopic"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// The data source identifier (e.g., ai-external-incident).
+	Source string `json:"source"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementCorrelationInternalSourceConfigEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementCorrelationLinkEntity - CorrelationLink represents a directional edge between two correlation subjects.
+// When a CorrelationLinkingRule matches, it creates this relationship entity in NGEP.
+// Note: The output is stored in NGEP as an entity and not a relationship, because
+// the targets for the relationship need not be NGEP entities (can just be NRDB Events).
+type EntityManagementCorrelationLinkEntity struct {
+	// Metadata about why this link exists.
+	Context EntityManagementCorrelationContext `json:"context,omitempty"`
+	// Indicates if the link is directional.
+	Directional bool `json:"directional,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// The relationship type (e.g., CAUSED_BY, RELATED_TO).
+	LinkType string `json:"linkType,omitempty"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of this correlation link.
+	Name string `json:"name"`
+	// Audit trail if a user manually modified/rejected this link.
+	OverrideInfo []EntityManagementCorrelationOverrideInfo `json:"overrideInfo"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// The 'From' correlation subject.
+	Source EntityManagementCorrelationSubjectReference `json:"source"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The 'To' correlation subject.
+	Target EntityManagementCorrelationSubjectReference `json:"target"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementCorrelationLinkEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementCorrelationLinkingConfig - Defines the output configuration for correlation results.
+type EntityManagementCorrelationLinkingConfig struct {
+	// Whether the link is directional (default: false).
+	Directional bool `json:"directional,omitempty"`
+	// The type of link/relationship to create (e.g., 'RELATED_TO', 'CAUSED_BY').
+	LinkType string `json:"linkType"`
+	// Alias of the source subject (for directional links).
+	SourceAlias string `json:"sourceAlias,omitempty"`
+	// Alias of the target subject (for directional links).
+	TargetAlias string `json:"targetAlias,omitempty"`
+}
+
+// EntityManagementCorrelationLinkingCriteria - Defines the matching criteria for correlation.
+type EntityManagementCorrelationLinkingCriteria struct {
+	// Deterministic attribute matching rules.
+	AttributeConditions []EntityManagementCorrelationAttributeCondition `json:"attributeConditions"`
+	// Probabilistic/ML-based matching configuration.
+	Probabilistic EntityManagementCorrelationProbabilisticMatchingConfig `json:"probabilistic,omitempty"`
+	// Temporal window configuration for correlation.
+	TemporalWindow EntityManagementCorrelationWindowConfig `json:"temporalWindow,omitempty"`
+	// Topology proximity threshold for correlation.
+	TopologyProximity int `json:"topologyProximity,omitempty"`
+}
+
+// EntityManagementCorrelationLinkingRuleEntity - CorrelationLinkingRule persists the logic required to drive the event correlation engine,
+// defining which events (Drivers) trigger searches for other subjects (Candidates).
+// Supports all standard CRUD operations including delete via the generic delete mutation.
+type EntityManagementCorrelationLinkingRuleEntity struct {
+	// The criteria defining how to match driver and candidates.
+	Criteria EntityManagementCorrelationLinkingCriteria `json:"criteria"`
+	// Description of what this correlation rule does.
+	Description string `json:"description,omitempty"`
+	// Whether this correlation rule is currently enabled. Considered true by default
+	Enabled bool `json:"enabled,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// The output configuration defining the correlation result.
+	LinkingConfig EntityManagementCorrelationLinkingConfig `json:"linkingConfig"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of this correlation rule.
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Defines the Driver (trigger) and Candidates.
+	Subjects []EntityManagementCorrelationSubject `json:"subjects"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementCorrelationLinkingRuleEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementCorrelationOverrideInfo - User override information for a correlation link.
+type EntityManagementCorrelationOverrideInfo struct {
+	// The action taken by the user.
+	Action EntityManagementCorrelationOverrideAction `json:"action"`
+	// Timestamp when the override was performed.
+	Timestamp *nrtime.EpochMilliseconds `json:"timestamp"`
+	// ID of the user who performed the override.
+	UserID string `json:"userId"`
+}
+
+// EntityManagementCorrelationProbabilisticMatchingConfig - Configuration for probabilistic/ML-based matching.
+type EntityManagementCorrelationProbabilisticMatchingConfig struct {
+	// The ML algorithm to use.
+	Algorithm EntityManagementCorrelationMatchingAlgorithm `json:"algorithm"`
+	// Confidence threshold (0.0 to 1.0) for accepting correlations.
+	ConfidenceThreshold float64 `json:"confidenceThreshold"`
+	// Additional configuration attributes for the algorithm.
+	Configs []EntityManagementCorrelationAttribute `json:"configs"`
+}
+
+// EntityManagementCorrelationSubject - Defines a subject (event or entity) that participates in correlation.
+type EntityManagementCorrelationSubject struct {
+	// List of account IDs to query for this subject. Account access is validated by the correlation service at runtime.
+	AccountIDs []int `json:"accountIds"`
+	// Alias for this subject used in criteria and linking configuration.
+	Alias string `json:"alias"`
+	// Lifecycle configuration for stateful subjects (optional).
+	Lifecycle EntityManagementCorrelationSubjectLifecycleConfig `json:"lifecycle,omitempty"`
+	// The NRQL query to select this subject.
+	NRQL nrdb.NRQL `json:"nrql"`
+	// The type of the subject (EVENT or ENTITY).
+	Type EntityManagementCorrelationSubjectType `json:"type"`
+}
+
+// EntityManagementCorrelationSubjectLifecycleConfig - Defines the lifecycle management for stateful correlation subjects.
+type EntityManagementCorrelationSubjectLifecycleConfig struct {
+	// Values indicating the subject is in a closed state.
+	ClosedValues []string `json:"closedValues"`
+	// Field name representing the unique identifier for the subject.
+	IdentityKey string `json:"identityKey"`
+	// Values indicating the subject is in an open state.
+	OpenValues []string `json:"openValues"`
+	// Field name representing the state of the subject.
+	StateKey string `json:"stateKey"`
+}
+
+// EntityManagementCorrelationSubjectReference - Reference to a correlation subject (event or entity).
+type EntityManagementCorrelationSubjectReference struct {
+	// The account where the event resides.
+	AccountID int `json:"accountId"`
+	// The unique identifier of the event.
+	EventId string `json:"eventId"`
+	// The event's type (e.g., NR_ISSUE).
+	EventType string `json:"eventType"`
+}
+
+// EntityManagementCorrelationWindowConfig - Defines the temporal window for candidate discovery.
+type EntityManagementCorrelationWindowConfig struct {
+	// Attribute name for driver end timestamp (optional).
+	DriverEndTimestampAttribute string `json:"driverEndTimestampAttribute,omitempty"`
+	// Attribute name for driver start timestamp (optional).
+	DriverStartTimestampAttribute string `json:"driverStartTimestampAttribute,omitempty"`
+	// Lookback duration in seconds from the driver event.
+	LookbackSeconds nrtime.Seconds `json:"lookbackSeconds"`
+	// Lookforward duration in seconds from the driver event.
+	LookforwardSeconds nrtime.Seconds `json:"lookforwardSeconds"`
+}
+
+// EntityManagementCount - Represents the count.
+type EntityManagementCount struct {
+	// Number of repositories associated with the integration.
+	RepoCount int `json:"repoCount,omitempty"`
+	// Number of teams associated with the integration.
+	TeamCount int `json:"teamCount,omitempty"`
+}
+
+// EntityManagementCustomEvaluationEntity - Experimental feature for custom evaluations
+type EntityManagementCustomEvaluationEntity struct {
+	// Evaluation criteria definition
+	Criteria string `json:"criteria,omitempty"`
+	// The entity description.
+	Description string `json:"description,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// Model identifier to use for evaluation
+	Model string `json:"model,omitempty"`
+	// A unique user provided name for the evaluation.
+	Name string `json:"name"`
+	// Parameters required for the evaluation
+	Parameters []EntityManagementEvaluationParameter `json:"parameters"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Step-by-step evaluation instructions
+	Steps []string `json:"steps"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// Threshold value for passing the evaluation (0.0 to 1.0)
+	Threshold float64 `json:"threshold,omitempty"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementCustomEvaluationEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementCustomerImpactEntity - An entity representing customer impact information for an incident. It contains impact representing an incident.
+type EntityManagementCustomerImpactEntity struct {
+	// Impact along with attributes
+	Blob EntityManagementBlob `json:"blob,omitempty"`
+	// Impacted Components per issue
+	Components []EntityManagementComponentEntity `json:"components"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Related issue id
+	IssueId string `json:"issueId,omitempty"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// A unique user provided name for the customer impact.
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementCustomerImpactEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementCustomerImpactQueryEntity - An entity representing customer impact queries information for an incident.
+type EntityManagementCustomerImpactQueryEntity struct {
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// Impacted products.
+	Products []EntityManagementComponentEntity `json:"products"`
+	// Customer impact query to determine the impacted account ids.
+	Query string `json:"query"`
+	// Query account id required to execute the customer impact query.
+	QueryAccountId int `json:"queryAccountId"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// Team name responsible for the customer impact query.
+	TeamName string `json:"teamName,omitempty"`
+	// Account IDs to be used with the total customer impact query.
+	TotalCustImpactQueryAccountIds []int `json:"totalCustImpactQueryAccountIds,omitempty"`
+	// Customer impact query to determine the total customer impact.
+	TotalCustomerImpactQuery string `json:"totalCustomerImpactQuery,omitempty"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementCustomerImpactQueryEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementDateCondition - Date condition type.
+type EntityManagementDateCondition struct {
+	// End values for the IN_RANGE operator.
+	EndValue string `json:"endValue,omitempty"`
+	// Date condition type  operator.
+	Operator EntityManagementDateOperator `json:"operator"`
+	// Start values for the IN_RANGE operator.
+	StartValue string `json:"startValue,omitempty"`
+	// Value for BEFORE and AFTER operators.
+	Value string `json:"value,omitempty"`
+}
 
 // EntityManagementDeploymentAgentConfigurationVersion - Properties of a deployed configuration version
 type EntityManagementDeploymentAgentConfigurationVersion struct {
@@ -4431,6 +6521,106 @@ func (x *EntityManagementEntitySearchResult) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+// EntityManagementEventBridgeCondition - Represents a single base condition comparing a field to a value.
+type EntityManagementEventBridgeCondition struct {
+	// The JSON path to the field within the event payload to evaluate.
+	Field string `json:"field"`
+	// The matching logic for the field.
+	Value EntityManagementEventBridgeConditionValue `json:"value"`
+}
+
+// EntityManagementEventBridgeConditionValue - A wrapper object that will contain exactly one of the possible condition types.
+type EntityManagementEventBridgeConditionValue struct {
+	// Array condition type.
+	Array EntityManagementArrayCondition `json:"array,omitempty"`
+	// Date condition type.
+	Date EntityManagementDateCondition `json:"date,omitempty"`
+	// A simple check for the existence of a field.
+	Exists bool `json:"exists,omitempty"`
+	// Numeric condition type.
+	Numeric EntityManagementNumericCondition `json:"numeric,omitempty"`
+	// String condition type.
+	String EntityManagementStringCondition `json:"string,omitempty"`
+}
+
+// EntityManagementEventBridgeRuleEntity - Event Bridge Rule entity type
+type EntityManagementEventBridgeRuleEntity struct {
+	// A list of conditions. All conditions in this list must be true for the rule to match (logical AND).
+	Conditions []EntityManagementEventBridgeCondition `json:"conditions"`
+	// An optional, user-defined description for the bridge rule.
+	Description string `json:"description,omitempty"`
+	// Whether this rule is enabled or not.
+	Enabled bool `json:"enabled"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// A user-defined name for the bridge rule.
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Defines the origin of the event this rule applies to. It specifies both the high-level event source and the specific entity name within that source.
+	SourceType EntityManagementEventBridgeSourceType `json:"sourceType"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The list of target actions to execute when an event matches the filter.
+	Targets []EntityManagementEventBridgeTarget `json:"targets"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementEventBridgeRuleEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementEventBridgeSourceType - Defines the origin of an event.
+type EntityManagementEventBridgeSourceType struct {
+	// The system from which the event originates.
+	Event EntityManagementEventBridgeEventSourceType `json:"event"`
+	// The specific name of the entity within the source system (e.g., 'WorkItem').
+	Name string `json:"name"`
+}
+
+// EntityManagementEventBridgeTarget - A target action to be executed when an event matches the rule.
+type EntityManagementEventBridgeTarget struct {
+	// A user-defined name for this target action within the rule.
+	Name string `json:"name"`
+	// The specific parameters for this target.
+	Parameters EntityManagementEventBridgeTargetParameters `json:"parameters"`
+	// The type of action this target performs. For V1, only WORKFLOW is supported.
+	Type EntityManagementEventBridgeTargetType `json:"type"`
+}
+
+// EntityManagementEventBridgeTargetParameters - A wrapper object containing parameters for one specific target type.
+type EntityManagementEventBridgeTargetParameters struct {
+	// Parameters for a WORKFLOW target. Populated only if type is WORKFLOW.
+	Workflow EntityManagementEventBridgeWorkflowTargetParameters `json:"workflow,omitempty"`
+}
+
+// EntityManagementEventBridgeWorkflowDefinition - Defines the workflow to execute.
+type EntityManagementEventBridgeWorkflowDefinition struct {
+	// Specifies the workflow to execute.
+	Name string `json:"name"`
+	// Specifies the scope at which the workflow is defined.
+	ScopeType EntityManagementEventBridgeWorkflowDefinitionScopeType `json:"scopeType"`
+	// Specifies the version of the workflow to execute.
+	Version int `json:"version"`
+}
+
+// EntityManagementEventBridgeWorkflowInputs - A simple key-value pair for workflow parameters (output).
+type EntityManagementEventBridgeWorkflowInputs struct {
+	// The name of the input parameter.
+	Name string `json:"name"`
+	// The value of the input parameter.
+	Value string `json:"value"`
+}
+
+// EntityManagementEventBridgeWorkflowTargetParameters - Parameters specific to a WORKFLOW target.
+type EntityManagementEventBridgeWorkflowTargetParameters struct {
+	// Defines the workflow to execute.
+	Definition EntityManagementEventBridgeWorkflowDefinition `json:"definition"`
+	// A list of key-value pairs to pass as input parameters to the workflow.
+	WorkflowInputs []EntityManagementEventBridgeWorkflowInputs `json:"workflowInputs"`
+}
+
 // EntityManagementExecutionIssue - Rule execution issues
 type EntityManagementExecutionIssue struct {
 	// Machine-readable code specifying the type of error or status.
@@ -4445,6 +6635,259 @@ type EntityManagementExternalOwner struct {
 	ID string `json:"id"`
 	// Type of owner of the repository eg:- user,organisation etc.
 	Type EntityManagementExternalOwnerType `json:"type"`
+}
+
+// EntityManagementFederatedLogPartitionEntity - Federated Log partition entity.
+type EntityManagementFederatedLogPartitionEntity struct {
+	// The URI location of the log partition in object storage.
+	DataLocationUri string `json:"dataLocationUri"`
+	// The description of the log partition.
+	Description string `json:"description,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Indicates if this log partition is the default partition.
+	IsDefault bool `json:"isDefault"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of the log partition. This corresponds to the partition/event type used in log queries.
+	Name string `json:"name"`
+	// The database name associated with the log partition. This could refer to a data catalog database or similar structure.
+	PartitionDatabase string `json:"partitionDatabase"`
+	// The table name associated with the log partition. This could refer to a data catalog table or similar structure.
+	PartitionTable string `json:"partitionTable"`
+	// The optional retention policy for logs in this partition.
+	RetentionPolicy EntityManagementRetentionPolicy `json:"retentionPolicy,omitempty"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// The federated log setup this partition belongs to.
+	Setup EntityManagementFederatedLogSetupEntity `json:"setup"`
+	// The status of the log partition.
+	Status EntityManagementLogPartitionStatus `json:"status"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementFederatedLogPartitionEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementFederatedLogSetupEntity - Federated Log Setup Entity.
+type EntityManagementFederatedLogSetupEntity struct {
+	// The cloud provider where this Federated Log setup is deployed.
+	CloudProvider EntityManagementCloudProvider `json:"cloudProvider"`
+	// The cloud provider region where the Federated Log setup is deployed.
+	CloudProviderRegion string `json:"cloudProviderRegion"`
+	// The object storage bucket where log data is stored.
+	DataLocationBucket string `json:"dataLocationBucket"`
+	// The data processing component that defines transformation rules and partition routing logic for this federated log setup.
+	DataProcessingComponent EntityManagementEntityInterface `json:"dataProcessingComponent,omitempty"`
+	// The connection manager entity used for data processing, transformation, and partition routing. Must match the cloudProvider type (e.g., AwsConnectionEntity for AWS, AzureConnectionEntity for Azure) and typically has write/update permissions.
+	DataProcessingConnection EntityManagementEntityInterface `json:"dataProcessingConnection"`
+	// The description of the Federated Log setup.
+	Description string `json:"description,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of the federated log setup.
+	Name string `json:"name"`
+	// The NR account ID associated with the federated log setup.
+	NrAccountId string `json:"nrAccountId"`
+	// The NR region associated with the federated log setup.
+	NrRegion EntityManagementNrRegion `json:"nrRegion"`
+	// The connection manager entity used by query workers for reading and accessing federated log resources. Must match the cloudProvider type (e.g., AwsConnectionEntity for AWS, AzureConnectionEntity for Azure) and typically has read-only permissions.
+	QueryConnection EntityManagementEntityInterface `json:"queryConnection"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// The status of the federated log setup.
+	Status EntityManagementFederatedLogSetupStatus `json:"status"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementFederatedLogSetupEntity) ImplementsEntityManagementEntity() {}
+
+// special
+func (x *EntityManagementFederatedLogSetupEntity) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+
+	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
+		switch k {
+		case "cloudProvider":
+			err = json.Unmarshal(*v, &x.CloudProvider)
+			if err != nil {
+				return err
+			}
+		case "cloudProviderRegion":
+			err = json.Unmarshal(*v, &x.CloudProviderRegion)
+			if err != nil {
+				return err
+			}
+		case "dataLocationBucket":
+			err = json.Unmarshal(*v, &x.DataLocationBucket)
+			if err != nil {
+				return err
+			}
+		case "dataProcessingComponent":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalEntityManagementEntityInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.DataProcessingComponent = *xxx
+			}
+		case "dataProcessingConnection":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalEntityManagementEntityInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.DataProcessingConnection = *xxx
+			}
+		case "description":
+			err = json.Unmarshal(*v, &x.Description)
+			if err != nil {
+				return err
+			}
+		case "id":
+			err = json.Unmarshal(*v, &x.ID)
+			if err != nil {
+				return err
+			}
+		case "metadata":
+			err = json.Unmarshal(*v, &x.Metadata)
+			if err != nil {
+				return err
+			}
+		case "name":
+			err = json.Unmarshal(*v, &x.Name)
+			if err != nil {
+				return err
+			}
+		case "nrAccountId":
+			err = json.Unmarshal(*v, &x.NrAccountId)
+			if err != nil {
+				return err
+			}
+		case "nrRegion":
+			err = json.Unmarshal(*v, &x.NrRegion)
+			if err != nil {
+				return err
+			}
+		case "queryConnection":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalEntityManagementEntityInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.QueryConnection = *xxx
+			}
+		case "scope":
+			err = json.Unmarshal(*v, &x.Scope)
+			if err != nil {
+				return err
+			}
+		case "status":
+			err = json.Unmarshal(*v, &x.Status)
+			if err != nil {
+				return err
+			}
+		case "tags":
+			err = json.Unmarshal(*v, &x.Tags)
+			if err != nil {
+				return err
+			}
+		case "type":
+			err = json.Unmarshal(*v, &x.Type)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
+}
+
+// EntityManagementFederatedLogSetupEntityCreateInput - Create input for FederatedLogSetupEntity entity type.
+type EntityManagementFederatedLogSetupEntityCreateInput struct {
+	// See cloudProvider in FederatedLogSetupEntity.
+	CloudProvider EntityManagementCloudProvider `json:"cloudProvider"`
+	// See cloudProviderRegion in FederatedLogSetupEntity.
+	CloudProviderRegion string `json:"cloudProviderRegion"`
+	// See dataLocationBucket in FederatedLogSetupEntity.
+	DataLocationBucket string `json:"dataLocationBucket"`
+	// See dataProcessingComponentId in FederatedLogSetupEntity.
+	DataProcessingComponentId string `json:"dataProcessingComponentId,omitempty"`
+	// See dataProcessingConnectionId in FederatedLogSetupEntity.
+	DataProcessingConnectionId string `json:"dataProcessingConnectionId"`
+	// See description in FederatedLogSetupEntity.
+	Description string `json:"description,omitempty"`
+	// See name in FederatedLogSetupEntity.
+	Name string `json:"name"`
+	// See nrAccountId in FederatedLogSetupEntity.
+	NrAccountId string `json:"nrAccountId"`
+	// See nrRegion in FederatedLogSetupEntity.
+	NrRegion EntityManagementNrRegion `json:"nrRegion"`
+	// See queryConnectionId in FederatedLogSetupEntity.
+	QueryConnectionId string `json:"queryConnectionId"`
+	// See scope in FederatedLogSetupEntity.
+	Scope EntityManagementScopedReferenceInput `json:"scope,omitempty"`
+	// See status in FederatedLogSetupEntity.
+	Status EntityManagementFederatedLogSetupStatus `json:"status"`
+	// See tags in FederatedLogSetupEntity.
+	Tags []EntityManagementTagInput `json:"tags,omitempty"`
+}
+
+// EntityManagementFederatedLogSetupEntityCreateResult - The result of creating an entity.
+type EntityManagementFederatedLogSetupEntityCreateResult struct {
+	// The created entity.
+	Entity EntityManagementFederatedLogSetupEntity `json:"entity"`
+}
+
+// EntityManagementFleetControlProperties - Properties specific to fleet control
+type EntityManagementFleetControlProperties struct {
+	// Agent deployment properties
+	AppliedDeployment EntityManagementAgentDeployment `json:"appliedDeployment,omitempty"`
+	// True is the Agent sent a disconnect message
+	DisconnectedReceived bool `json:"disconnectedReceived,omitempty"`
+	// Environment the agent is running in
+	Environment string `json:"environment,omitempty"`
+	// True if the Agent is up and healthy
+	Healthy bool `json:"healthy,omitempty"`
+	// Error message returned by the agent when it is unhealthy
+	LastError string `json:"lastError,omitempty"`
+	// Error message returned when the last remote configuration deploy is not successful
+	LastRemoteConfigError string `json:"lastRemoteConfigError,omitempty"`
+	// Status of the last remote configuration deploy
+	LastRemoteConfigStatus string `json:"lastRemoteConfigStatus,omitempty"`
+	// Timestamp indicating when the agent was started
+	StartTime *nrtime.EpochMilliseconds `json:"startTime,omitempty"`
+	// The UID of this agent
+	Uid string `json:"uid,omitempty"`
+	// Version of the agent
+	Version string `json:"version,omitempty"`
 }
 
 // EntityManagementFleetDeployment - Deprecated: A set of configurations that are currently deployed
@@ -4479,6 +6922,8 @@ type EntityManagementFleetDeployment struct {
 
 // EntityManagementFleetDeploymentEntity - A set of configurations that can be deployed to a fleet
 type EntityManagementFleetDeploymentEntity struct {
+	// Agents to deploy
+	Agents []EntityManagementAgentToDeploy `json:"agents"`
 	// A list of configurations included in this deployment
 	ConfigurationVersionList []EntityManagementDeploymentAgentConfigurationVersion `json:"configurationVersionList,omitempty"`
 	// Deprecated - Replaced by configurationVersionList
@@ -4523,6 +6968,8 @@ type EntityManagementFleetEntity struct {
 	Metadata EntityManagementMetadata `json:"metadata"`
 	// A unique user provided name for the fleet
 	Name string `json:"name"`
+	// The operating system type of the managed entities in this fleet
+	OperatingSystem EntityManagementOperatingSystem `json:"operatingSystem,omitempty"`
 	// Indicates this fleet has a specific product type
 	Product []string `json:"product"`
 	// The entity's scope.
@@ -4557,16 +7004,112 @@ type EntityManagementFleetRingEntity struct {
 
 func (x *EntityManagementFleetRingEntity) ImplementsEntityManagementEntity() {}
 
+// EntityManagementFlowEntity - An entity representing a Pathpoint flow entity containing stages, steps, and configuration stored in a blob.
+type EntityManagementFlowEntity struct {
+	// The Blob containing the pathpoint flow data.
+	Blob EntityManagementBlob `json:"blob,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementFlowEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementGenericEntity - A generic entity.
+type EntityManagementGenericEntity struct {
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementGenericEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementGitHubIntegrationEntity - An entity representing github integration information
+type EntityManagementGitHubIntegrationEntity struct {
+	// Composite count attribute encapsulating team and repo counts.
+	Count EntityManagementCount `json:"count,omitempty"`
+	// Options for retain entities with GitHub integration.
+	GitHubRetentionOptions EntityManagementGitHubRetentionOptions `json:"gitHubRetentionOptions,omitempty"`
+	// Github sync options for customer
+	GitHubSyncOptions EntityManagementGitHubSyncOptions `json:"gitHubSyncOptions,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// The GitHub app installation ID.
+	InstallationId string `json:"installationId"`
+	// source of github integration installation
+	InstallationSource EntityManagementInstallationSource `json:"installationSource,omitempty"`
+	// installation status of the GitHub app
+	InstallationStatus EntityManagementInstallationStatus `json:"installationStatus,omitempty"`
+	// last sync completed timestamp
+	LastSyncCompletedAt *nrtime.EpochMilliseconds `json:"lastSyncCompletedAt,omitempty"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// upcoming sync requested timestamp
+	NextSyncAt *nrtime.EpochMilliseconds `json:"nextSyncAt,omitempty"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Synchronized GitHub teams for customer team selection.
+	SynchronizedGitHubTeams EntityManagementSynchronizedGitHubTeams `json:"synchronizedGitHubTeams,omitempty"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementGitHubIntegrationEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementGitHubRetentionOptions - Options for retaining entities with GitHub integration.
+type EntityManagementGitHubRetentionOptions struct {
+	// Whether to retain associated repositories
+	RetainRepositories bool `json:"retainRepositories,omitempty"`
+	// Whether to retain associated teams
+	RetainTeams bool `json:"retainTeams,omitempty"`
+}
+
+// EntityManagementGitHubSyncOptions - List of possible github sync options.
+type EntityManagementGitHubSyncOptions struct {
+	// Sync github repositories
+	SyncRepositories bool `json:"syncRepositories,omitempty"`
+	// Sync github teams
+	SyncTeams bool `json:"syncTeams,omitempty"`
+}
+
+// EntityManagementGitHubTeam - Type for GitHubTeam
+type EntityManagementGitHubTeam struct {
+	// The unique identifier of the GitHub team.
+	ID string `json:"id"`
+}
+
 // EntityManagementGitRepositoryEntity - An entity representing a Repository of a organization
 type EntityManagementGitRepositoryEntity struct {
 	// Count of closed pull requests(PR) in the repository.
-	ClosedPullRequestCount int `json:"closedPullRequestCount"`
+	ClosedPullRequestCount int `json:"closedPullRequestCount,omitempty"`
 	// The latest Configuration Item associated to the repository.  Contains a JSON representation of the repository configuration.
 	Configuration EntityManagementConfiguration `json:"configuration,omitempty"`
 	// The description of the repository.
 	Description string `json:"description,omitempty"`
 	// Repository Creation date at code hosting tool like github, gitlab etc
-	ExternalCreatedAt *nrtime.EpochMilliseconds `json:"externalCreatedAt"`
+	ExternalCreatedAt *nrtime.EpochMilliseconds `json:"externalCreatedAt,omitempty"`
 	// External Unique Identifier in Code hosting systems like github,gitlab etc.
 	ExternalId string `json:"externalId"`
 	// Last time the repository was deployed.
@@ -4574,11 +7117,11 @@ type EntityManagementGitRepositoryEntity struct {
 	// External owner of the repository.
 	ExternalOwner EntityManagementExternalOwner `json:"externalOwner,omitempty"`
 	// Repository Updation date at code hosting tool like github, gitlab etc
-	ExternalUpdatedAt *nrtime.EpochMilliseconds `json:"externalUpdatedAt"`
+	ExternalUpdatedAt *nrtime.EpochMilliseconds `json:"externalUpdatedAt,omitempty"`
 	// Number of times Repository has been forked.
-	ForkCount int `json:"forkCount"`
+	ForkCount int `json:"forkCount,omitempty"`
 	// Source of the repository.
-	HostingPlatform EntityManagementHostingPlatform `json:"hostingPlatform"`
+	HostingPlatform EntityManagementHostingPlatform `json:"hostingPlatform,omitempty"`
 	// The entity's global unique identifier.
 	ID string `json:"id"`
 	// Last release version of the repository.
@@ -4586,13 +7129,13 @@ type EntityManagementGitRepositoryEntity struct {
 	// License associated with the repository
 	License EntityManagementRepositoryLicense `json:"license,omitempty"`
 	// Count of locked pull requests(PR) in the repository.
-	LockedPullRequestCount int `json:"lockedPullRequestCount"`
+	LockedPullRequestCount int `json:"lockedPullRequestCount,omitempty"`
 	// Metadata about the entity.
 	Metadata EntityManagementMetadata `json:"metadata"`
 	// The name of this entity.
 	Name string `json:"name"`
 	// Count of open pull requests(PR) in the repository.
-	OpenPullRequestCount int `json:"openPullRequestCount"`
+	OpenPullRequestCount int `json:"openPullRequestCount,omitempty"`
 	// Most used language of the repository.
 	PrimaryLanguage string `json:"primaryLanguage,omitempty"`
 	// The entity's scope.
@@ -4606,6 +7149,86 @@ type EntityManagementGitRepositoryEntity struct {
 }
 
 func (x *EntityManagementGitRepositoryEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementGithubAppTokenCredential - App token credential type for Github
+type EntityManagementGithubAppTokenCredential struct {
+	// The registered Github application ID, default to NewRelic Integration application
+	AppId string `json:"appId,omitempty"`
+	// The Github app installation ID.
+	InstallationId string `json:"installationId"`
+	// Default to NewRelic Integration privateKey, currently stored in Vault.
+	PrivateKeyReference EntityManagementSecretReference `json:"privateKeyReference"`
+	// The field name for the access token from the JSON response,  default to token
+	TokenFieldName string `json:"tokenFieldName,omitempty"`
+	// path to get an access token, default to app/installations/{installation-id}/access_tokens
+	TokenRelativeURL string `json:"tokenRelativeUrl,omitempty"`
+}
+
+// EntityManagementGithubConnection - Connection entity type for Github
+type EntityManagementGithubConnection struct {
+	// A single credential from the choice of GithubCredential
+	Credential EntityManagementGithubCredentials `json:"credential"`
+	// The description of that connection.
+	Description string `json:"description,omitempty"`
+	// Flag to indicate if the connection is enabled. True by default
+	Enabled bool `json:"enabled,omitempty"`
+	// Optional field representing an identifier managed by the consumer
+	ExternalId string `json:"externalId,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of that connection.
+	Name string `json:"name"`
+	// The entity’s scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Optional list of connection settings
+	Settings []EntityManagementConnectionSettings `json:"settings"`
+	// Array of up to 2 SigningCredential to verify incoming requests, and rotate new signing credentials when needed
+	SigningCredentials []EntityManagementSigningCredential `json:"signingCredentials"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity’s type.
+	Type string `json:"type"`
+	// The Github API URL, default to https://api.github.com
+	URL string `json:"url,omitempty"`
+}
+
+func (x *EntityManagementGithubConnection) ImplementsEntityManagementEntity() {}
+
+// EntityManagementGithubCredentials - Base credentials type for Github
+type EntityManagementGithubCredentials struct {
+	// Github App token support with JWT
+	AppToken EntityManagementGithubAppTokenCredential `json:"appToken,omitempty"`
+	// A Github personal access token.
+	PersonalAccessToken EntityManagementSecretReference `json:"personalAccessToken,omitempty"`
+}
+
+// EntityManagementImpactProfileEntity - An entity representing impact profile.
+type EntityManagementImpactProfileEntity struct {
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// A unique user provided name for the impact profile.
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementImpactProfileEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementImpactQuery - Impact query containing NRQL query and account IDs for status page announcements.
+type EntityManagementImpactQuery struct {
+	// NRQL query string
+	NRQLQuery string `json:"nrqlQuery"`
+	// List of account IDs to query against
+	QueryAccountIds []int `json:"queryAccountIds"`
+}
 
 // EntityManagementInboxIssueCategoryEntity - Entity to represent category type configuration
 type EntityManagementInboxIssueCategoryEntity struct {
@@ -4635,13 +7258,489 @@ type EntityManagementInboxIssueCategoryEntity struct {
 
 func (x *EntityManagementInboxIssueCategoryEntity) ImplementsEntityManagementEntity() {}
 
+// EntityManagementIncidentAttachmentEntity - Represents a attachment entity used in incident
+type EntityManagementIncidentAttachmentEntity struct {
+	// Incident attachment Blob
+	Blob EntityManagementBlob `json:"blob"`
+	// An optional description of the attachment, generally additional context about the attachment
+	Description string `json:"description,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementIncidentAttachmentEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementIncidentEntity - Entity of type IncidentEntity.
+type EntityManagementIncidentEntity struct {
+	// The primary entity (user or team) responsible for the WorkItem.
+	AssignedTo EntityManagementWorkItemAssignment `json:"assignedTo"`
+	// A flexible collection of key/value pair strings for storing domain-specific data.
+	Attributes []EntityManagementWorkItemAttribute `json:"attributes"`
+	// The high-level classification of the WorkItem (INCIDENT, ISSUE, VULNERABILITY, PERFORMANCE).
+	Category EntityManagementWorkItemCategory `json:"category,omitempty"`
+	// Customer Impact Description
+	CustomerImpact string `json:"customerImpact,omitempty"`
+	// Detailed explanation of the WorkItem.
+	Description string `json:"description,omitempty"`
+	// An optional Epoch timestamp indicating a potential due date (e.g., retrospective deadline).
+	DueDate *nrtime.EpochMilliseconds `json:"dueDate,omitempty"`
+	// Entities Impacted
+	EntitiesImpacted []string `json:"entitiesImpacted"`
+	// An optional, consumer-managed identifier (replaces incidentKey).
+	ExternalId string `json:"externalId,omitempty"`
+	// The entitys global unique identifier.
+	ID string `json:"id"`
+	// Primary classification of the incident (e.g., Network, Software). Max length: 64 characters.
+	IncidentCategory string `json:"incidentCategory,omitempty"`
+	// A public-facing, human-readable identifier for the incident.
+	IncidentKey string `json:"incidentKey"`
+	// The incident profile entity global unique identifier.
+	IncidentProfileId string `json:"incidentProfileId"`
+	// Secondary classification, dependent on the category. Max length: 64 characters.
+	IncidentSubcategory string `json:"incidentSubcategory,omitempty"`
+	// A list of issue links related to the incident
+	IssueLinks []string `json:"issueLinks"`
+	// An optional list of alphanumeric tags or keywords (replaces incidentTags).
+	Labels []string `json:"labels"`
+	// Key takeaways and lessons learned from the incident and its resolution.
+	LessonsLearned string `json:"lessonsLearned,omitempty"`
+	// A collection entity linking to external tickets or related documents.
+	Links EntityManagementCollectionEntity `json:"links,omitempty"`
+	// The maximum severity level reached during the incident lifecycle.
+	MaxSeverity string `json:"maxSeverity,omitempty"`
+	// A collection entity holding the stream of messages/notes (e.g., incident timeline).
+	Messages EntityManagementCollectionEntity `json:"messages,omitempty"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name or title of the message.
+	Name string `json:"name"`
+	// The relative importance or urgency of the WorkItem.
+	Priority EntityManagementWorkItemPriority `json:"priority"`
+	// The end-user who reported the incident, if different from the creator.
+	ReportedBy string `json:"reportedBy,omitempty"`
+	// The category of the resolution (e.g., Code Fix, Configuration Change).
+	ResolutionCategory string `json:"resolutionCategory,omitempty"`
+	// A summary of the steps taken to resolve the incident.
+	ResolutionSummary string `json:"resolutionSummary,omitempty"`
+	// A list of references to work items that represent action items from the retrospective.
+	RetroActionItems []string `json:"retroActionItems"`
+	// A detailed summary of the root cause analysis findings.
+	RootCauseSummary string `json:"rootCauseSummary,omitempty"`
+	// Tags associated with the root cause for categorization and analysis.
+	RootCauseTags []string `json:"rootCauseTags"`
+	// The entitys scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Represents the severity level of the incident, Can be customer-configured.
+	Severity string `json:"severity"`
+	// The originating system that created the incident record. Slack, UI
+	Source EntityManagementIncidentSource `json:"source"`
+	// The workitem status. statuscan be customised for each <Domain>WorkItem independently, and can be a completely different set than the core status list
+	Status string `json:"status"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// Incident timelines
+	Timelines EntityManagementCollectionEntity `json:"timelines,omitempty"`
+	// The specific event or action that initiated the incident.
+	TriggeringEvent string `json:"triggeringEvent,omitempty"`
+	// The entitys type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementIncidentEntity) ImplementsEntityManagementEntity() {}
+
+func (x *EntityManagementIncidentEntity) ImplementsEntityManagementWorkItemV2() {}
+
+// EntityManagementIncidentLinkEntity - Entity representing an incident link.
+type EntityManagementIncidentLinkEntity struct {
+	// An optional external identifier for this link from a synced system.
+	ExternalId string `json:"externalId,omitempty"`
+	// The entitys global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name or title of the link.
+	Name string `json:"name"`
+	// The entitys scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// The ID of the sync configuration that created this link.
+	SourceSyncConfigurationId string `json:"sourceSyncConfigurationId,omitempty"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entitys type.
+	Type string `json:"type"`
+	// The URL of the external resource.
+	URL string `json:"url"`
+}
+
+func (x *EntityManagementIncidentLinkEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementIncidentMessageEntity - Entity representing an incident message.
+type EntityManagementIncidentMessageEntity struct {
+	// The message content.
+	Content string `json:"content"`
+	// The encoding used for the message content.
+	ContentEncoding EntityManagementEncodingType `json:"contentEncoding"`
+	// The type of message content (e.g., TEXT, HTML, MARKDOWN).
+	ContentType EntityManagementMessageType `json:"contentType"`
+	// An optional external identifier for this message from a synced system.
+	ExternalId string `json:"externalId,omitempty"`
+	// The entitys global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name or title of the message.
+	Name string `json:"name"`
+	// The ID of the parent message if this is a reply or threaded message.
+	ParentId string `json:"parentId,omitempty"`
+	// The entitys scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// The ID of the sync configuration that created this message.
+	SourceSyncConfigurationId string `json:"sourceSyncConfigurationId,omitempty"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entitys type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementIncidentMessageEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementIncidentProfileAttachmentEntity - Represents a attachment entity used in profile
+type EntityManagementIncidentProfileAttachmentEntity struct {
+	// Incident profile attachment Blob
+	Blob EntityManagementBlob `json:"blob"`
+	// An optional description of the attachment, generally additional context about the attachment
+	Description string `json:"description,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementIncidentProfileAttachmentEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementIncidentProfileEntity - Incident profile entity
+type EntityManagementIncidentProfileEntity struct {
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of the Incident Profile
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity's type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementIncidentProfileEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementIncidentTimelineEntity - Entity of type IncidentTimeline.
+type EntityManagementIncidentTimelineEntity struct {
+	// The content of the entry, which can include rich text formatting.
+	Content string `json:"content"`
+	// The type of entry (e.g., NOTE, PROPOSED_CHANGE, KEY_MOMENTS, STATE).
+	EntryType string `json:"entryType"`
+	// The entitys global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name or title of the message.
+	Name string `json:"name"`
+	// The entitys scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// The source of the timeline entry
+	Source EntityManagementIncidentTimelineSource `json:"source"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entitys type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementIncidentTimelineEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementInfrastructureManager - Details related to an infrastructure manager
+type EntityManagementInfrastructureManager struct {
+	// The type of the manager
+	Type string `json:"type,omitempty"`
+	// The version of the manager
+	Version string `json:"version,omitempty"`
+}
+
+// EntityManagementJiraBasicAuthCredential - Basic auth credential type for Jira
+type EntityManagementJiraBasicAuthCredential struct {
+	// The Jira api token to authorize the API usage for read/create/update operations
+	APIKey EntityManagementSecretReference `json:"apiKey"`
+	// username to create the api token
+	Username EntityManagementSecretReference `json:"username"`
+}
+
+// EntityManagementJiraConnection - Connection entity type for Jira
+type EntityManagementJiraConnection struct {
+	// A single credential from the choice of JiraCredential
+	Credential EntityManagementJiraCredentials `json:"credential"`
+	// The description of that connection.
+	Description string `json:"description,omitempty"`
+	// Flag to indicate if the connection is enabled. True by default
+	Enabled bool `json:"enabled,omitempty"`
+	// Optional field representing an identifier managed by the consumer
+	ExternalId string `json:"externalId,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of that connection.
+	Name string `json:"name"`
+	// The entity’s scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Optional list of connection settings
+	Settings []EntityManagementConnectionSettings `json:"settings"`
+	// Array of up to 2 SigningCredential to verify incoming requests, and rotate new signing credentials when needed
+	SigningCredentials []EntityManagementSigningCredential `json:"signingCredentials"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity’s type.
+	Type string `json:"type"`
+	// The Jira instance URL
+	URL string `json:"url"`
+}
+
+func (x *EntityManagementJiraConnection) ImplementsEntityManagementEntity() {}
+
+// EntityManagementJiraCredentials - Base credentials type for Jira
+type EntityManagementJiraCredentials struct {
+	// A simple api key credential
+	BasicAuth EntityManagementJiraBasicAuthCredential `json:"basicAuth,omitempty"`
+	// OAuth support
+	Oauth EntityManagementJiraOAuthCredential `json:"oauth,omitempty"`
+	// A personal access token credential
+	PersonalAccessToken EntityManagementSecretReference `json:"personalAccessToken,omitempty"`
+}
+
+// EntityManagementJiraOAuthCredential - OAuth credential type for Jira
+type EntityManagementJiraOAuthCredential struct {
+	// The client ID for the OAuth request
+	ClientId string `json:"clientId"`
+	// The client secret for the OAuth request
+	ClientSecret EntityManagementSecretReference `json:"clientSecret"`
+	// The field name for the oauth token from the JSON response, default to access_token
+	TokenFieldName string `json:"tokenFieldName,omitempty"`
+	// The Jira Atlassian URL to get an oauth token, default to https://auth.atlassian.com/oauth/token
+	TokenURL string `json:"tokenUrl,omitempty"`
+}
+
+// EntityManagementJiraSyncConfiguration - Jira Sync Configuration entity type
+type EntityManagementJiraSyncConfiguration struct {
+	// The query to be used to find assignee in Jira
+	AssigneeQuery string `json:"assigneeQuery"`
+	// A reference to a connection entity for the 3rd party ticketing system
+	Connection string `json:"connection"`
+	// This is custom field name in Jira that stores the NewRelic WorkItem ID
+	CorrelationFieldName string `json:"correlationFieldName"`
+	// Description of the sync configuration
+	Description string `json:"description"`
+	// Direction of the sync: ONEWAY, TWOWAY
+	Direction EntityManagementDirection `json:"direction"`
+	// Flag to indicate if the sync is enabled or not
+	Enabled bool `json:"enabled"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// The issue type of the Jira issue to be created: STORY, TASK, BUG
+	IssueType EntityManagementJiraIssueType `json:"issueType"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// Configuration mode for the sync: ALL, WORKITEM, MESSAGES
+	Mode EntityManagementSyncConfigurationMode `json:"mode"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// The key of the Jira project where the issue will be created
+	ProjectKey string `json:"projectKey"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// A list of tags to match against a specific WorkItem set of tags to determine if the WorkItem should be synced.
+	Targets []EntityManagementTag `json:"targets"`
+	// The list of fields and their mapping from the WorkItem entity
+	TemplateFields []EntityManagementTemplateField `json:"templateFields"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementJiraSyncConfiguration) ImplementsEntityManagementEntity() {}
+
+// EntityManagementJiraSyncConfigurationV2Entity - Jira Sync Configuration entity type
+type EntityManagementJiraSyncConfigurationV2Entity struct {
+	// Direction of the sync, true for 2-way, false for 1-way from New Relic to Jira.
+	Bidirectional bool `json:"bidirectional"`
+	// A reference to a connection entity for the 3rd party ticketing system, using NGEP identifier.
+	Connection string `json:"connection"`
+	// Description of the sync configuration
+	Description string `json:"description,omitempty"`
+	// Flag to indicate if the sync is enabled or not
+	Enabled bool `json:"enabled"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// The issue type of the Jira issue to be created: STORY, TASK, BUG
+	IssueType EntityManagementJiraIssueType `json:"issueType"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// Sync configuration mode.
+	Mode EntityManagementSyncConfigurationMode `json:"mode"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// The key of the Jira project where the issue will be created
+	ProjectKey string `json:"projectKey"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// A list of tags to match against a specific WorkItem set of tags to determine if the WorkItem should be synced.
+	Targets []EntityManagementTag `json:"targets"`
+	// The list of fields and their mapping from the WorkItem entity
+	TemplateFields []EntityManagementTemplateFieldType `json:"templateFields"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementJiraSyncConfigurationV2Entity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementJuniperMistBasicAuthCredential - Basic auth credential type for Juniper Mist
+type EntityManagementJuniperMistBasicAuthCredential struct {
+	// The API token to authorize API access
+	Token EntityManagementSecretReference `json:"token"`
+}
+
+// EntityManagementJuniperMistConnectionEntity - Connection entity type for Juniper Mist
+type EntityManagementJuniperMistConnectionEntity struct {
+	// A single credential for Juniper Mist
+	Credential EntityManagementJuniperMistCredential `json:"credential"`
+	// The description of that connection.
+	Description string `json:"description,omitempty"`
+	// Flag to indicate if the connection is enabled. True by default
+	Enabled bool `json:"enabled,omitempty"`
+	// Optional field representing an identifier managed by the consumer
+	ExternalId string `json:"externalId,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of that connection.
+	Name string `json:"name"`
+	// The Juniper Mist region (e.g., Global 01, Global 02, Global 03, Global 04)
+	Region string `json:"region"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Optional list of connection settings
+	Settings []EntityManagementConnectionSettings `json:"settings"`
+	// Array of up to 2 SigningCredential to verify incoming requests, and rotate new signing credentials when needed
+	SigningCredentials []EntityManagementSigningCredential `json:"signingCredentials"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity's type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementJuniperMistConnectionEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementJuniperMistCredential - Credential type for Juniper Mist
+type EntityManagementJuniperMistCredential struct {
+	// A simple token-based authentication
+	BasicAuth EntityManagementJuniperMistBasicAuthCredential `json:"basicAuth,omitempty"`
+}
+
 // EntityManagementLlmConfig - configurable details for the LLM
 type EntityManagementLlmConfig struct {
 	// Seed for reproducible output from LLM
 	CacheSeed string `json:"cacheSeed,omitempty"`
-	// LLM parameter for creative control
+	// LLM model name, for ex: gpt-4o
+	Model string `json:"model,omitempty"`
+	// LLM parameter for creative control, 0 for consistent output, 1 for more creative output
 	Temperature float64 `json:"temperature,omitempty"`
 }
+
+// EntityManagementMaintenanceWindowEntity - Represents Maintenance window entity.
+type EntityManagementMaintenanceWindowEntity struct {
+	// The type of the entities affected by maintenance window.
+	AffectedEntityType string `json:"affectedEntityType"`
+	// The description of the maintenance window.
+	Description string `json:"description,omitempty"`
+	// The duration of the maintenance window in ISO8601 duration formatted string.
+	Duration Duration `json:"duration"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// The recurrence rule for the maintenance window.
+	Rrule string `json:"rrule,omitempty"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// The start of maintenance window in ISO8601 UTC formatted string.
+	StartTime nrtime.DateTime `json:"startTime"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The timezone in which the maintenance window is scheduled.
+	Timezone string `json:"timezone"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementMaintenanceWindowEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementManagedEvaluationConfig - Configuration for a managed evaluation
+type EntityManagementManagedEvaluationConfig struct {
+	// Additional configuration parameters
+	AdditionalParameters []EntityManagementAdditionalParameter `json:"additionalParameters"`
+	// Whether the evaluation is enabled or disabled
+	Enabled bool `json:"enabled,omitempty"`
+	// The type of evaluation to perform
+	EvaluationType EntityManagementManagedEvaluationType `json:"evaluationType,omitempty"`
+	// Threshold value for the evaluation (0.0 to 1.0)
+	Threshold float64 `json:"threshold,omitempty"`
+}
+
+// EntityManagementManagedEvaluationsEntity - Experimental feature for managed evaluations
+type EntityManagementManagedEvaluationsEntity struct {
+	// The entity description.
+	Description string `json:"description,omitempty"`
+	// List of evaluation configurations for this entity
+	Evaluations []EntityManagementManagedEvaluationConfig `json:"evaluations"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// A unique user provided name for the evaluation.
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementManagedEvaluationsEntity) ImplementsEntityManagementEntity() {}
 
 // EntityManagementMarkdownTextSplitterOptions - The MarkdownTextSplitter options
 type EntityManagementMarkdownTextSplitterOptions struct {
@@ -4650,6 +7749,48 @@ type EntityManagementMarkdownTextSplitterOptions struct {
 	// Wether splitter should return each line
 	ReturnEachLine bool `json:"returnEachLine"`
 }
+
+// EntityManagementMcpServerAuth - Authentication configuration for an MCP server
+type EntityManagementMcpServerAuth struct {
+	// Bearer token value (required when type=BEARER_TOKEN)
+	BearerToken EntityManagementSecretReference `json:"bearerToken,omitempty"`
+	// Arbitrary header key (required when type=GENERIC_HEADER)
+	HeaderKey string `json:"headerKey,omitempty"`
+	// Arbitrary header value (required when type=GENERIC_HEADER)
+	HeaderValue EntityManagementSecretReference `json:"headerValue,omitempty"`
+	// Type of authentication to apply
+	Type EntityManagementMcpAuthType `json:"type"`
+}
+
+// EntityManagementMcpServerEntity - MCP Server entity for agentic-platform
+type EntityManagementMcpServerEntity struct {
+	// Authentication configuration for connecting to the MCP server
+	Auth EntityManagementMcpServerAuth `json:"auth,omitempty"`
+	// short description of the MCP server used for validation by agentic-platform
+	Description string `json:"description"`
+	// display name for the mcp server
+	DisplayName string `json:"displayName,omitempty"`
+	// Endpoint for the MCP server
+	Endpoint string `json:"endpoint"`
+	// entity's unique global indentifier
+	ID string `json:"id"`
+	// tool metadata
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// unique name of the MCP server used for validation by agentic-platform
+	Name string `json:"name"`
+	// Protocol version expected (if empty assume latest supported)
+	ProtocolVersion string `json:"protocolVersion,omitempty"`
+	// entity scope
+	Scope EntityManagementScopedReference `json:"scope"`
+	// collection of tags
+	Tags []EntityManagementTag `json:"tags"`
+	// Transport mechanism used to communicate with the server
+	Transport EntityManagementMcpTransport `json:"transport"`
+	// entity type
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementMcpServerEntity) ImplementsEntityManagementEntity() {}
 
 // EntityManagementMetadata - Metadata about an entity.
 type EntityManagementMetadata struct {
@@ -4724,6 +7865,114 @@ func (x *EntityManagementMetadata) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+// EntityManagementMeterAttribute - Meter attribute type
+type EntityManagementMeterAttribute struct {
+	// The name of the attribute
+	Name string `json:"name"`
+	// The value of the attribute
+	Values []string `json:"values"`
+}
+
+// EntityManagementMeterEntity - An entity representing a Meter used to report customer-driven usage and associated contextual data, primarily for billing.
+type EntityManagementMeterEntity struct {
+	// Collection of attributes associated with the meter.
+	Attributes []EntityManagementMeterAttribute `json:"attributes"`
+	// Human understandable 1 liner explaining the meter's purpose.
+	Description string `json:"description,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// Reference to the meter type entity that defines how usage is calculated.
+	MeterType EntityManagementMeterTypeEntity `json:"meterType"`
+	// Human understandable identifier for the meter.
+	Name string `json:"name"`
+	// Reference to the owning team entity that is responsible for reporting usage with this meter.
+	OwningTeam EntityManagementTeamEntity `json:"owningTeam"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementMeterEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementMeterTypeEntity - A meter type defines a way of calculating usage and what dimensions are guaranteed to be reported with that usage.
+type EntityManagementMeterTypeEntity struct {
+	// Determines whether this meter type can be used to create meters.
+	AllowMeterCreation bool `json:"allowMeterCreation"`
+	// The names of dimensions that this meter type expects to report.
+	AttributionDimensions []string `json:"attributionDimensions"`
+	// Human understandable 1 liner explaining the meter type's purpose.
+	Description string `json:"description,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// Human understandable identifier for the meter type.
+	Name string `json:"name"`
+	// Reference to the owning team entity that is responsible for this meter type.
+	OwningTeam EntityManagementTeamEntity `json:"owningTeam"`
+	// Reference to the product line entity that this meter type belongs to.
+	ProductLine EntityManagementProductLineEntity `json:"productLine"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementMeterTypeEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementNRQLMacroEntity - A reusable NRQL macro that can be substituted into NRQL queries to simplify complex or frequently-used query patterns.
+//
+// NRQL macros allow you to define query fragments that can be referenced and expanded in your queries, reducing
+// duplication and improving maintainability. For example, you might create a macro for filtering out test data,
+// calculating a specific metric, or defining commonly-used WHERE conditions.
+//
+// ## Example Macro Expression
+//
+// A macro for filtering production traffic:
+// ```
+// environment = 'production' AND appName NOT LIKE '%test%'
+// ```
+//
+// This macro could be used in WHERE clauses across multiple queries.
+//
+// For more information about NRQL, see [NRQL documentation](https://docs.newrelic.com/docs/query-your-data/nrql-new-relic-query-language/get-started/introduction-nrql-new-relics-query-language/).
+type EntityManagementNRQLMacroEntity struct {
+	// The NRQL expression that will be substituted when this macro is used in a query.
+	//
+	// This can be any valid NRQL fragment appropriate for the supported clause(s). Examples:
+	// - WHERE clause: `environment = 'production' AND appName NOT LIKE '%test%'`
+	// - SELECT clause: `average(duration) / 1000 as 'avgDurationSeconds'`
+	// - FACET clause: `appName, host`
+	Expression string `json:"expression"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// System-generated metadata about this macro entity, including creation time, last update time, and version information.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// A unique, human-readable name for this macro. This name is used to identify and reference the macro.
+	//
+	// The name cannot be changed after creation. Choose a descriptive name that indicates the macro's purpose, such as 'filterProductionTraffic' or 'calculateApdex'.
+	Name string `json:"name"`
+	// The number of parameters used in the macro expression. Not required if the value is 0.
+	//
+	// Within the macro expression, parameters are referenced by index as $1, $2,...
+	NumParameters int `json:"numParameters,omitempty"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Key-value pairs of tags. Tags are inherited from the Entity interface.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type identifier. Always returns 'NRQL_MACRO' for this entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementNRQLMacroEntity) ImplementsEntityManagementEntity() {}
+
 // EntityManagementNRQLRuleEngine - NRQL engine configuration.
 type EntityManagementNRQLRuleEngine struct {
 	// The accounts to be queried.
@@ -4733,6 +7982,160 @@ type EntityManagementNRQLRuleEngine struct {
 	// The query to be executed.
 	Query string `json:"query"`
 }
+
+// EntityManagementNewRelicBasicAuthCredential - Base credentials type for New Relic
+type EntityManagementNewRelicBasicAuthCredential struct {
+	// The New Relic api key to authorize the API usage for read/create/update operations
+	APIKey EntityManagementSecretReference `json:"apiKey"`
+	// Type of basic auth credential: Ingest or User
+	Type EntityManagementKeyType `json:"type"`
+}
+
+// EntityManagementNewRelicConnection - Connection entity type for New Relic
+type EntityManagementNewRelicConnection struct {
+	// A single credential from the choice of NewRelicCredential
+	Credential EntityManagementNewRelicBasicAuthCredential `json:"credential"`
+	// The description of that connection.
+	Description string `json:"description,omitempty"`
+	// Flag to indicate if the connection is enabled. True by default
+	Enabled bool `json:"enabled,omitempty"`
+	// Optional field representing an identifier managed by the consumer
+	ExternalId string `json:"externalId,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of that connection.
+	Name string `json:"name"`
+	// The NewRelic region
+	Region string `json:"region,omitempty"`
+	// The entity’s scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Optional list of connection settings
+	Settings []EntityManagementConnectionSettings `json:"settings"`
+	// Array of up to 2 SigningCredential to verify incoming requests, and rotate new signing credentials when needed
+	SigningCredentials []EntityManagementSigningCredential `json:"signingCredentials"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity’s type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementNewRelicConnection) ImplementsEntityManagementEntity() {}
+
+// EntityManagementNotebookEntity - An entity representing a New Relic Notebook.
+type EntityManagementNotebookEntity struct {
+	// Configuration of the notebook, including the content of each of its blocks.
+	Content EntityManagementBlob `json:"content,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementNotebookEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementNotificationAttachmentEntity - Represents a attachment entity used in notifications
+type EntityManagementNotificationAttachmentEntity struct {
+	// Notification attachment Blob
+	Blob EntityManagementBlob `json:"blob"`
+	// An optional description of the attachment, generally additional context about the attachment
+	Description string `json:"description,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementNotificationAttachmentEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementNrAiAgentEntity - This is Nr Ai Agent Entity, currently under development.
+type EntityManagementNrAiAgentEntity struct {
+	// display name of the agent
+	DisplayName string `json:"displayName"`
+	// entity's global identifier
+	ID string `json:"id"`
+	// agent metadata
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// unique name of the agent entity
+	Name string `json:"name"`
+	// entity scope
+	Scope EntityManagementScopedReference `json:"scope"`
+	// collection of tags
+	Tags []EntityManagementTag `json:"tags"`
+	// entity type
+	Type string `json:"type"`
+	// version of the AiAgent
+	Version string `json:"version"`
+}
+
+func (x *EntityManagementNrAiAgentEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementNumericCondition - Numeric condition type.
+type EntityManagementNumericCondition struct {
+	// Numeric condition type  operator.
+	Operator EntityManagementNumericOperator `json:"operator"`
+	// Value to compare against.
+	Value float64 `json:"value"`
+}
+
+// EntityManagementOperatingSystem - Operating System string enum for the host operating systems in a fleet
+type EntityManagementOperatingSystem struct {
+	// The operating system type enum
+	Type EntityManagementOperatingSystemType `json:"type"`
+}
+
+// EntityManagementOperationEntity - Entity of type OperationEntity.
+type EntityManagementOperationEntity struct {
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// name of this entity.
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementOperationEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementOperationMetricEntity - Entity of type OperationMetricEntity.
+type EntityManagementOperationMetricEntity struct {
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementOperationMetricEntity) ImplementsEntityManagementEntity() {}
 
 // EntityManagementPerformanceInboxSettingEntity - Performance inbox setting entity. This entity encompasses all the performance inbox settings.
 type EntityManagementPerformanceInboxSettingEntity struct {
@@ -4748,6 +8151,8 @@ type EntityManagementPerformanceInboxSettingEntity struct {
 	Scope EntityManagementScopedReference `json:"scope"`
 	// Collection of tags.
 	Tags []EntityManagementTag `json:"tags"`
+	// The scope at which the thresholds are applied.
+	ThresholdScope EntityManagementThresholdScope `json:"thresholdScope"`
 	// The entity type.
 	Type string `json:"type"`
 }
@@ -4758,6 +8163,8 @@ func (x *EntityManagementPerformanceInboxSettingEntity) ImplementsEntityManageme
 type EntityManagementPipelineCloudRuleEntity struct {
 	// Description of this pipeline cloud rule.
 	Description string `json:"description,omitempty"`
+	// The enabled boolean field used to enable or disable a Pipeline Cloud Rule (default value will be true)
+	Enabled bool `json:"enabled,omitempty"`
 	// The entity's global unique identifier.
 	ID string `json:"id"`
 	// Metadata about the entity.
@@ -4780,6 +8187,8 @@ func (x *EntityManagementPipelineCloudRuleEntity) ImplementsEntityManagementEnti
 type EntityManagementPipelineCloudRuleEntityCreateInput struct {
 	// See description in PipelineCloudRuleEntity.
 	Description string `json:"description,omitempty"`
+	// See enabled in PipelineCloudRuleEntity.
+	Enabled bool `json:"enabled,omitempty"`
 	// See nrql in PipelineCloudRuleEntity.
 	NRQL nrdb.NRQL `json:"nrql"`
 	// See name in PipelineCloudRuleEntity.
@@ -4799,7 +8208,9 @@ type EntityManagementPipelineCloudRuleEntityCreateResult struct {
 // EntityManagementPipelineCloudRuleEntityUpdateInput - Update input for PipelineCloudRuleEntity entity type.
 type EntityManagementPipelineCloudRuleEntityUpdateInput struct {
 	// See description in PipelineCloudRuleEntity.
-	Description string `json:"description"`
+	Description string `json:"description,omitempty"`
+	// See enabled in PipelineCloudRuleEntity.
+	Enabled bool `json:"enabled,omitempty"`
 	// See nrql in PipelineCloudRuleEntity.
 	NRQL nrdb.NRQL `json:"nrql,omitempty"`
 	// See name in PipelineCloudRuleEntity.
@@ -4813,6 +8224,70 @@ type EntityManagementPipelineCloudRuleEntityUpdateResult struct {
 	// The updated entity.
 	Entity EntityManagementPipelineCloudRuleEntity `json:"entity"`
 }
+
+// EntityManagementProcessState - At rest background processing types
+type EntityManagementProcessState struct {
+	// Message that indicates the process status
+	Message string `json:"message,omitempty"`
+	// Indicate the status of a process
+	Status EntityManagementProcessStatus `json:"status,omitempty"`
+}
+
+// EntityManagementProductLineEntity - A product line represents a grouping of related products or services within the organization.
+type EntityManagementProductLineEntity struct {
+	// Human understandable 1 liner explaining the product line's purpose.
+	Description string `json:"description,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// Human understandable identifier for the product line.
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementProductLineEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementProgressLevelDefinition - Defines a progress level within a scorecard.
+type EntityManagementProgressLevelDefinition struct {
+	// The level description.
+	Description string `json:"description,omitempty"`
+	// The hex code value for the color representing this level.
+	HexColorCode string `json:"hexColorCode,omitempty"`
+	// The id of the progress level this entity refers to.
+	ID string `json:"id"`
+	// The name of this level.
+	Name string `json:"name"`
+}
+
+// EntityManagementRagDocumentEntity - A RAG Document
+type EntityManagementRagDocumentEntity struct {
+	// The email addresses of authors not found in the organization
+	AuthorEmails []string `json:"authorEmails"`
+	// The blob representation of the document.
+	Blob EntityManagementBlob `json:"blob"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of the document.
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Optional source identifier that identifies where the document came from
+	SourceIdentifier string `json:"sourceIdentifier,omitempty"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementRagDocumentEntity) ImplementsEntityManagementEntity() {}
 
 // EntityManagementRagToolEntity - A tool for use with NRAI
 type EntityManagementRagToolEntity struct {
@@ -4834,6 +8309,40 @@ type EntityManagementRagToolEntity struct {
 
 func (x *EntityManagementRagToolEntity) ImplementsEntityManagementEntity() {}
 
+// EntityManagementReactNativeSourcemapEntity - entityType for React native sourcemaps
+type EntityManagementReactNativeSourcemapEntity struct {
+	// The version of the mobile application this source-map belongs to
+	AppVersionId string `json:"appVersionId"`
+	// The applicationId of the underlying mobile application this source-map belongs to
+	ApplicationID string `json:"applicationId"`
+	// The Blob associated to the entity.
+	Blob EntityManagementBlob `json:"blob,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// The unique identifier for the JS bundle built for the mobile application this source-map belongs to
+	JsBundleId string `json:"jsBundleId"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of this entity(sourcemap).
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementReactNativeSourcemapEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementReference - Points to where the complete budget limit definition is stored in an external system.
+type EntityManagementReference struct {
+	// The unique identifier of the budget limit within the specified location (e.g., 'coreCCU').
+	ID string `json:"id"`
+	// The system or platform where the complete budget limit is stored (e.g., 'Limits Platform').
+	Location string `json:"location"`
+}
+
 // EntityManagementRelationshipDeleteResult - The result of deleting an entity relationship.
 type EntityManagementRelationshipDeleteResult struct {
 	// The source id of the relationship effectively deleted.
@@ -4850,6 +8359,34 @@ type EntityManagementRepositoryLicense struct {
 	Name EntityManagementLicenseName `json:"name"`
 	// License Url associated with the repository
 	URL string `json:"url,omitempty"`
+}
+
+// EntityManagementRestAPIContractEntity - Entity of type RestApiContractEntity.
+type EntityManagementRestAPIContractEntity struct {
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of the Api Contract
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementRestAPIContractEntity) ImplementsEntityManagementAPICatalogAPIContract() {}
+
+func (x *EntityManagementRestAPIContractEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementRetentionPolicy - Retention policy for log data.
+type EntityManagementRetentionPolicy struct {
+	// The duration value for retention.
+	Duration int `json:"duration"`
+	// The time unit for the retention duration.
+	Unit EntityManagementRetentionUnit `json:"unit"`
 }
 
 // EntityManagementRingDeploymentTracker - A type for holding deployment status for a Ring
@@ -4885,7 +8422,7 @@ type EntityManagementSchedule struct {
 	// An optional attribute unit is in minutes, with a minimum of 1 minute and a maximum of 1 year expressed in minutes
 	Period int `json:"period,omitempty"`
 	// An optional attribute executes at once, with the date-time value in ISO 8601 format
-	ScheduleAt string `json:"scheduleAt,omitempty"`
+	ScheduleAt nrtime.DateTime `json:"scheduleAt,omitempty"`
 }
 
 // EntityManagementScopedReference - An entity with scope.
@@ -4914,6 +8451,8 @@ type EntityManagementScorecardEntity struct {
 	Metadata EntityManagementMetadata `json:"metadata"`
 	// A unique user provided name for the scorecard.
 	Name string `json:"name"`
+	// Represents the different progress levels within a scorecard. A maximum of 5 progress levels are allowed.
+	ProgressLevels []EntityManagementProgressLevelDefinition `json:"progressLevels"`
 	// List of rules in the scorecard.
 	Rules EntityManagementCollectionEntity `json:"rules,omitempty"`
 	// The entity's scope.
@@ -4934,6 +8473,8 @@ type EntityManagementScorecardRuleEntity struct {
 	Enabled bool `json:"enabled"`
 	// The entity's global unique identifier.
 	ID string `json:"id"`
+	// The weight this rule has on the overall Scorecard Score. This number is a whole integer with valid values from 1 to 100.
+	ImpactWeight int `json:"impactWeight,omitempty"`
 	// Last execution status of the rule
 	LastExecutionStatus EntityManagementRuleExecutionStatus `json:"lastExecutionStatus,omitempty"`
 	// Metadata about the entity.
@@ -4942,6 +8483,8 @@ type EntityManagementScorecardRuleEntity struct {
 	NRQLEngine EntityManagementNRQLRuleEngine `json:"nrqlEngine"`
 	// A unique user provided name for the rule
 	Name string `json:"name"`
+	// The id of the progress level this rule falls in. This id must match one of the existing ids in the parent Scorecard levels field.
+	ProgressLevel string `json:"progressLevel,omitempty"`
 	// Schedule configuration of the rule: only period configuration is currently supported.
 	Schedule EntityManagementSchedule `json:"schedule,omitempty"`
 	// The entity's scope.
@@ -4953,6 +8496,124 @@ type EntityManagementScorecardRuleEntity struct {
 }
 
 func (x *EntityManagementScorecardRuleEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementSecretReference - Secret reference type
+type EntityManagementSecretReference struct {
+	// secret key name
+	KeyName string `json:"keyName"`
+	// namespace to store a secret
+	Namespace string `json:"namespace,omitempty"`
+}
+
+// EntityManagementSegmentTermsEntity - Segment Terms for Mobile
+type EntityManagementSegmentTermsEntity struct {
+	// Account Id associated with the Segment Terms
+	AccountID int `json:"accountId"`
+	// Agent Id associated with the Segment Terms
+	AgentId int `json:"agentId"`
+	// Domain associated with the Segment Terms
+	Domain string `json:"domain"`
+	// Entity Guid associated with the Segment Terms
+	EntityGUID string `json:"entityGuid"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// Metric Prefix associated with the Segment Terms
+	MetricPrefix EntityManagementMetricPrefixType `json:"metricPrefix"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// Old Integer id for backward compatibility
+	OldId int `json:"oldId"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Array of segment terms as strings
+	SegmentTerms []string `json:"segmentTerms"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementSegmentTermsEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementServerlessJobDefinitionEntity - Represents a ServerlessJobDefinition entity for the Job Primitive platform. Defines runtime properties, compute requirements, health checks and other parameters required for running serverless jobs.
+type EntityManagementServerlessJobDefinitionEntity struct {
+	// User provided description for the ServerlessJobDefinition.
+	Description string `json:"description,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// A unique user provided name for the ServerlessJobDefinition, can be utilized for ServerlessJobDefinition querying.
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementServerlessJobDefinitionEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementServiceNowAPIKeyCredential - Basic auth credential type for ServiceNow
+type EntityManagementServiceNowAPIKeyCredential struct {
+	// The ServiceNow apiKey to authorize the API operations
+	APIKey EntityManagementSecretReference `json:"apiKey"`
+}
+
+// EntityManagementServiceNowConnection - Connection entity type for ServiceNow
+type EntityManagementServiceNowConnection struct {
+	// A single credential from the choice of ServiceNowCredential
+	Credential EntityManagementServiceNowCredentials `json:"credential"`
+	// The description of that connection.
+	Description string `json:"description,omitempty"`
+	// Flag to indicate if the connection is enabled. False by default.
+	Enabled bool `json:"enabled,omitempty"`
+	// Optional field representing an identifier managed by the consumer
+	ExternalId string `json:"externalId,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of that connection.
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Optional list of connection settings
+	Settings []EntityManagementConnectionSettings `json:"settings"`
+	// Array of up to 2 SigningCredential to verify incoming requests, and rotate new signing credentials when needed
+	SigningCredentials []EntityManagementSigningCredential `json:"signingCredentials"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity's type.
+	Type string `json:"type"`
+	// The ServiceNow instance URL, for example https://your-instance.service-now.com
+	URL string `json:"url"`
+}
+
+func (x *EntityManagementServiceNowConnection) ImplementsEntityManagementEntity() {}
+
+// EntityManagementServiceNowCredentials - Base credentials type for ServiceNow
+type EntityManagementServiceNowCredentials struct {
+	// A simple basic auth credential
+	BasicAuth EntityManagementServiceNowAPIKeyCredential `json:"basicAuth,omitempty"`
+	// OAuth support
+	Oauth EntityManagementServiceNowOAuthCredential `json:"oauth,omitempty"`
+}
+
+// EntityManagementServiceNowOAuthCredential - OAuth credential type for ServiceNow
+type EntityManagementServiceNowOAuthCredential struct {
+	// The client ID for the OAuth request
+	ClientId string `json:"clientId"`
+	// The client secret for the OAuth request
+	ClientSecret EntityManagementSecretReference `json:"clientSecret"`
+	// The field name for the oauth token from the JSON response, default to access_token
+	TokenFieldName string `json:"tokenFieldName,omitempty"`
+	// The ServiceNow relative URL to get an oauth token, default to oauth_token.do
+	TokenRelativeURL string `json:"tokenRelativeUrl,omitempty"`
+}
 
 // EntityManagementSignatureDetails - A set of signature details for a blob signature
 type EntityManagementSignatureDetails struct {
@@ -4970,6 +8631,162 @@ type EntityManagementSignatureDetails struct {
 	SigningAlgorithm string `json:"signingAlgorithm,omitempty"`
 	// Domain associated to the private key used for signing
 	SigningDomain string `json:"signingDomain,omitempty"`
+}
+
+// EntityManagementSigningCredential - SigningCredential to verify incoming webhook request
+type EntityManagementSigningCredential struct {
+	// Signing algorithm for verifying signature
+	SigningAlgorithm EntityManagementSigningAlgorithm `json:"signingAlgorithm"`
+	// The signing key to use for verifying signature
+	SigningKeyReference EntityManagementSecretReference `json:"signingKeyReference"`
+}
+
+// EntityManagementSlackConnection - Connection entity type for Slack
+type EntityManagementSlackConnection struct {
+	// The Slack Application ID
+	AppId string `json:"appId"`
+	// The description of that connection.
+	Description string `json:"description,omitempty"`
+	// Flag to indicate if the connection is enabled. True by default
+	Enabled bool `json:"enabled,omitempty"`
+	// Optional field representing an identifier managed by the consumer
+	ExternalId string `json:"externalId,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of that connection.
+	Name string `json:"name"`
+	// The entity’s scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Optional list of connection settings
+	Settings []EntityManagementConnectionSettings `json:"settings"`
+	// Array of up to 2 SigningCredential to verify incoming requests, and rotate new signing credentials when needed
+	SigningCredentials []EntityManagementSigningCredential `json:"signingCredentials"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// Slack bot token
+	Token EntityManagementSecretReference `json:"token"`
+	// The entity’s type.
+	Type string `json:"type"`
+	// Workspace name
+	Workspace string `json:"workspace"`
+}
+
+func (x *EntityManagementSlackConnection) ImplementsEntityManagementEntity() {}
+
+// EntityManagementSlackSyncConfiguration - Slack Sync Configuration entity type
+type EntityManagementSlackSyncConfiguration struct {
+	// Path to retrieve the channelID property on an incoming request payload
+	ChannelIdPayloadPath string `json:"channelIdPayloadPath,omitempty"`
+	// A reference to Slack connection entity
+	Connection string `json:"connection"`
+	// Description of the sync configuration
+	Description string `json:"description"`
+	// Direction of the sync: ONEWAY, TWOWAY
+	Direction EntityManagementDirection `json:"direction"`
+	// Flag to indicate if the sync is enabled or not
+	Enabled bool `json:"enabled"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// Configuration mode for the sync: ALL, WORKITEM, MESSAGES
+	Mode EntityManagementSyncConfigurationMode `json:"mode"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// A list of tags to match against a specific WorkItem set of tags to determine if the WorkItem should be synced.
+	Targets []EntityManagementTag `json:"targets"`
+	// The list of fields and their mapping from the WorkItem entity
+	TemplateFields []EntityManagementTemplateField `json:"templateFields"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementSlackSyncConfiguration) ImplementsEntityManagementEntity() {}
+
+// EntityManagementStatusPageAnnouncementEntity - An entity representing an end of life announcement published on a status page.
+type EntityManagementStatusPageAnnouncementEntity struct {
+	// The entity category.
+	Category EntityManagementStatusPageAnnouncementCategory `json:"category"`
+	// Communications happened during the incident
+	CommunicationLogs []EntityManagementCommunicationLog `json:"communicationLogs,omitempty"`
+	// The incident description.
+	Description string `json:"description,omitempty"`
+	// Effective date time for the Announcement event
+	EffectiveDate *nrtime.EpochMilliseconds `json:"effectiveDate,omitempty"`
+	// Event URL for the announcement
+	EventURL string `json:"eventUrl,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Impact query for the announcement
+	ImpactQuery EntityManagementImpactQuery `json:"impactQuery,omitempty"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// Name for the event.
+	Name string `json:"name"`
+	// Valid User entities of PMs / Engineering point of contacts
+	PointOfContacts []EntityManagementUserEntity `json:"pointOfContacts"`
+	// Announcement event published date time
+	PublishedDate *nrtime.EpochMilliseconds `json:"publishedDate,omitempty"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// The state of an announcement
+	State EntityManagementStatusPageAnnouncementState `json:"state"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementStatusPageAnnouncementEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementStatusPageIncidentEntity - An entity representing an incident published on a status page.
+type EntityManagementStatusPageIncidentEntity struct {
+	// Communications happened during the incident
+	CommunicationLogs []EntityManagementCommunicationLog `json:"communicationLogs"`
+	// The incident description.
+	Description string `json:"description,omitempty"`
+	// Incident end time
+	EndTime *nrtime.EpochMilliseconds `json:"endTime,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Incident Id
+	IncidentId string `json:"incidentId"`
+	// Incident title
+	IncidentTitle string `json:"incidentTitle"`
+	// Incident last updated time
+	LastUpdatedTime *nrtime.EpochMilliseconds `json:"lastUpdatedTime,omitempty"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// A unique user provided name for the incident.
+	Name string `json:"name"`
+	// Incident impact region
+	Region []EntityManagementRegion `json:"region"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Incident start time
+	StartTime *nrtime.EpochMilliseconds `json:"startTime,omitempty"`
+	// The incident status.
+	Status EntityManagementIncidentStatus `json:"status"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementStatusPageIncidentEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementStringCondition - String condition type.
+type EntityManagementStringCondition struct {
+	// String condition type  operator.
+	Operator EntityManagementStringOperator `json:"operator"`
+	// Value to compare against.
+	Value string `json:"value"`
 }
 
 // EntityManagementSyncGroupRule - Rule to create teams from groups.
@@ -4992,6 +8809,12 @@ type EntityManagementSyncGroupsSettings struct {
 	Enabled bool `json:"enabled"`
 	// The rules to create teams from groups.
 	Rules []EntityManagementSyncGroupRule `json:"rules"`
+}
+
+// EntityManagementSynchronizedGitHubTeams - Type for SynchronizedGitHubTeams
+type EntityManagementSynchronizedGitHubTeams struct {
+	// A list of GitHub teams selected by the customer
+	Teams []EntityManagementGitHubTeam `json:"teams"`
 }
 
 // EntityManagementSystemActor - A system actor.
@@ -5066,6 +8889,24 @@ type EntityManagementTeamResource struct {
 	Type string `json:"type"`
 }
 
+// EntityManagementTeamsHierarchyLevelEntity - A teams hierarchy level for the organization.
+type EntityManagementTeamsHierarchyLevelEntity struct {
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// List of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementTeamsHierarchyLevelEntity) ImplementsEntityManagementEntity() {}
+
 // EntityManagementTeamsOrganizationSettingsEntity - Teams global settings per organization.
 type EntityManagementTeamsOrganizationSettingsEntity struct {
 	// Discovery settings.
@@ -5088,6 +8929,30 @@ type EntityManagementTeamsOrganizationSettingsEntity struct {
 
 func (x *EntityManagementTeamsOrganizationSettingsEntity) ImplementsEntityManagementEntity() {}
 
+// EntityManagementTemplateField - Mapping from the Work Item entity to the third party app fields
+type EntityManagementTemplateField struct {
+	// Sync direction of the field: ONEWAY or TWOWAY
+	Direction EntityManagementDirection `json:"direction"`
+	// The name of the external system field
+	Name string `json:"name"`
+	// Indicate if the field is required
+	Required bool `json:"required,omitempty"`
+	// Specify how to map from a Work Item using handlebar
+	Template string `json:"template,omitempty"`
+}
+
+// EntityManagementTemplateFieldType - Mapping from the Work Item entity to the third party app fields
+type EntityManagementTemplateFieldType struct {
+	// Sync direction of the field: OUTBOUND, INBOUND
+	Direction EntityManagementSyncDirection `json:"direction"`
+	// The name of the external system field
+	Name string `json:"name"`
+	// Indicate if the field is required
+	Required bool `json:"required,omitempty"`
+	// Specify how to map from a Work Item using handlebar
+	Template string `json:"template,omitempty"`
+}
+
 // EntityManagementTokenTextSplitterOptions - The TokenTextSplitter options
 type EntityManagementTokenTextSplitterOptions struct {
 	// Encoding to token splitter
@@ -5102,6 +8967,26 @@ type EntityManagementUserActor struct {
 
 func (x *EntityManagementUserActor) ImplementsEntityManagementActor() {}
 
+// EntityManagementUserEntity - An entity representing a New Relic User.
+type EntityManagementUserEntity struct {
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+	// User domain identifier.
+	UserID int `json:"userId"`
+}
+
+func (x *EntityManagementUserEntity) ImplementsEntityManagementEntity() {}
+
 // EntityManagementUserMetadata - Deprecated: User Metadata
 type EntityManagementUserMetadata struct {
 	// The object creation time.
@@ -5112,10 +8997,411 @@ type EntityManagementUserMetadata struct {
 	UserID string `json:"userId,omitempty"`
 }
 
+// EntityManagementUsers - Object containing user limit configuration.
+type EntityManagementUsers struct {
+	// True if this is a global/default user budget, false otherwise.
+	AppliesToAll bool `json:"appliesToAll"`
+	// Array of all users whose resource consumption limits are managed by this specific Budget Entity instance.
+	Items []EntityManagementBudgetUser `json:"items"`
+}
+
+// EntityManagementWorkItem - Work Item entity type
+type EntityManagementWorkItem struct {
+	// Assigned entity of a work item
+	AssignedTo EntityManagementWorkItemAssignment `json:"assignedTo"`
+	// Collection of Work Item attributes
+	Attributes []EntityManagementWorkItemAttribute `json:"attributes"`
+	// Category of the Work Item: INCIDENT, ISSUE, VULNERABILITY, CHAT
+	Category EntityManagementCategory `json:"category"`
+	// Description of the Work Item
+	Description string `json:"description,omitempty"`
+	// Optional Epoch timestamp in milliseconds to indicate a potential due date.
+	DueDate *nrtime.EpochMilliseconds `json:"dueDate,omitempty"`
+	// Represents an identifier managed by the consumer
+	ExternalId string `json:"externalId,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Optional list of label as alphanumeric string.
+	Labels []string `json:"labels"`
+	// Collection of Work Item Links
+	Links EntityManagementCollectionEntity `json:"links,omitempty"`
+	// Collection of Work Item messages
+	Messages EntityManagementCollectionEntity `json:"messages,omitempty"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// A Work Item Name
+	Name string `json:"name"`
+	// Priority of the work item: HIGHEST, HIGH, MEDIUM, LOW, LOWEST
+	Priority EntityManagementPriority `json:"priority"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Status of the work item: OPEN, CLOSED
+	Status string `json:"status"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementWorkItem) ImplementsEntityManagementEntity() {}
+
+// EntityManagementWorkItemAssignment - Represents the assigned entity of a work item, typically a user
+type EntityManagementWorkItemAssignment struct {
+	// Depends on the type, for New Relic user this is a userID
+	Identifier string `json:"identifier"`
+	// Work item assignment type: NEW_RELIC_USER_ID, NEW_RELIC_TEAM_ID
+	Type EntityManagementAssignmentType `json:"type"`
+}
+
+// EntityManagementWorkItemAttribute - Work Item attribute type
+type EntityManagementWorkItemAttribute struct {
+	// The name of the attribute
+	Name string `json:"name"`
+	// The value of the attribute
+	Value string `json:"value"`
+}
+
+// EntityManagementWorkItemLink - Work Item Link entity type
+type EntityManagementWorkItemLink struct {
+	// The associated externalId in the third party application
+	ExternalId string `json:"externalId,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// A Work Item Link Name
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// sourceSyncConfigurationId indicates which syncConfigurationId if any used to create this link
+	SourceSyncConfigurationId string `json:"sourceSyncConfigurationId,omitempty"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+	// The URL of the link
+	URL string `json:"url"`
+}
+
+func (x *EntityManagementWorkItemLink) ImplementsEntityManagementEntity() {}
+
+// EntityManagementWorkItemLinkV2 - Work Item Link interface
+type EntityManagementWorkItemLinkV2 struct {
+	// External identifier for the work item link
+	ExternalId string `json:"externalId,omitempty"`
+	// Indicates which syncConfigurationId if any created this link
+	SourceSyncConfigurationId string `json:"sourceSyncConfigurationId,omitempty"`
+	// URL of the work item link
+	URL string `json:"url"`
+}
+
+func (x *EntityManagementWorkItemLinkV2) ImplementsEntityManagementWorkItemLinkV2() {}
+
+// EntityManagementWorkItemLinkV2Entity - Work Item Link entity type
+type EntityManagementWorkItemLinkV2Entity struct {
+	// External identifier for the work item link
+	ExternalId string `json:"externalId,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Indicates which syncConfigurationId if any created this link. Creation managed internally from INBOUND sync
+	SourceSyncConfigurationId string `json:"sourceSyncConfigurationId,omitempty"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+	// URL of the work item link
+	URL string `json:"url"`
+}
+
+func (x *EntityManagementWorkItemLinkV2Entity) ImplementsEntityManagementEntity() {}
+
+func (x *EntityManagementWorkItemLinkV2Entity) ImplementsEntityManagementWorkItemLinkV2() {}
+
+// EntityManagementWorkItemMessage - Work Item Message entity type
+type EntityManagementWorkItemMessage struct {
+	// The message content
+	Content string `json:"content"`
+	// The content encoding: UTF8(default), BASE64
+	ContentEncoding EntityManagementEncodingType `json:"contentEncoding"`
+	// The message type: TEXT(default), JSON, YAML
+	ContentType EntityManagementMessageType `json:"contentType"`
+	// Optional field representing an identifier managed by the consumer.
+	ExternalId string `json:"externalId,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// A Work Item Message Name
+	Name string `json:"name"`
+	// Optional id of the WorkItemMessage parent. This can be used to implement a replyTo functionality.
+	ParentId string `json:"parentId,omitempty"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Indicates which syncConfigurationId if any created this message
+	SourceSyncConfigurationId string `json:"sourceSyncConfigurationId,omitempty"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementWorkItemMessage) ImplementsEntityManagementEntity() {}
+
+// EntityManagementWorkItemMessageV2 - Work Item Message interface
+type EntityManagementWorkItemMessageV2 struct {
+	// The message content
+	Content string `json:"content"`
+	// The message encoding: UTF8(default), BASE64
+	ContentEncoding EntityManagementEncodingType `json:"contentEncoding"`
+	// The message type: TEXT(default), JSON, YAML
+	ContentType EntityManagementMessageType `json:"contentType"`
+	// Optional field representing an identifier managed by the consumer.
+	ExternalId string `json:"externalId,omitempty"`
+	// Optional id of the WorkItemMessage parent. This can be used to implement a replyTo functionality.
+	ParentId string `json:"parentId,omitempty"`
+	// Optional (internal readonly), indicate which syncConfigurationId if any created this message
+	SourceSyncConfigurationId string `json:"sourceSyncConfigurationId,omitempty"`
+}
+
+func (x *EntityManagementWorkItemMessageV2) ImplementsEntityManagementWorkItemMessageV2() {}
+
+// EntityManagementWorkItemMessageV2Entity - Work Item Message entity type
+type EntityManagementWorkItemMessageV2Entity struct {
+	// The message content
+	Content string `json:"content"`
+	// The message encoding: UTF8(default), BASE64
+	ContentEncoding EntityManagementEncodingType `json:"contentEncoding"`
+	// The message type: TEXT(default), JSON, YAML
+	ContentType EntityManagementMessageType `json:"contentType"`
+	// Optional field representing an identifier managed by the consumer. There is no unique constraint enforced since the field is optional with non unique default value (null).
+	ExternalId string `json:"externalId,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// Optional id of the WorkItemMessage parent. This can be used to implement a replyTo functionality.
+	ParentId string `json:"parentId,omitempty"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Optional (internal readonly), indicate which syncConfigurationId if any created this message. Creation managed internally from INBOUND sync
+	SourceSyncConfigurationId string `json:"sourceSyncConfigurationId,omitempty"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementWorkItemMessageV2Entity) ImplementsEntityManagementEntity() {}
+
+func (x *EntityManagementWorkItemMessageV2Entity) ImplementsEntityManagementWorkItemMessageV2() {}
+
+// EntityManagementWorkItemV2 - Work Item V2 interface
+type EntityManagementWorkItemV2 struct {
+	// Assigned entity of a work item
+	AssignedTo EntityManagementWorkItemAssignment `json:"assignedTo"`
+	// Collection of Work Item attributes
+	Attributes []EntityManagementWorkItemAttribute `json:"attributes"`
+	// Category of the Work Item
+	Category EntityManagementWorkItemCategory `json:"category,omitempty"`
+	// Description of the Work Item
+	Description string `json:"description,omitempty"`
+	// Optional Epoch timestamp in milliseconds to indicate a potential due date.
+	DueDate *nrtime.EpochMilliseconds `json:"dueDate,omitempty"`
+	// Represents an identifier managed by the consumer
+	ExternalId string `json:"externalId,omitempty"`
+	// Optional list of label as alphanumeric string.
+	Labels []string `json:"labels"`
+	// Collection of Work Item Links
+	Links EntityManagementCollectionEntity `json:"links,omitempty"`
+	// Collection of Work Item messages
+	Messages EntityManagementCollectionEntity `json:"messages,omitempty"`
+	// Priority of the work item
+	Priority EntityManagementWorkItemPriority `json:"priority"`
+	// Status of the work item: OPEN, CLOSED
+	Status string `json:"status"`
+}
+
+func (x *EntityManagementWorkItemV2) ImplementsEntityManagementWorkItemV2() {}
+
+// EntityManagementWorkItemV2Entity - Work Item entity type
+type EntityManagementWorkItemV2Entity struct {
+	// Assigned entity of a work item
+	AssignedTo EntityManagementWorkItemAssignment `json:"assignedTo"`
+	// Collection of Work Item attributes
+	Attributes []EntityManagementWorkItemAttribute `json:"attributes"`
+	// Category of the Work Item. Can set a different value on Create, cannot change on Update
+	Category EntityManagementWorkItemCategory `json:"category,omitempty"`
+	// Description of the Work Item
+	Description string `json:"description,omitempty"`
+	// Optional Epoch timestamp in milliseconds to indicate a potential due date.
+	DueDate *nrtime.EpochMilliseconds `json:"dueDate,omitempty"`
+	// Represents an identifier managed by the consumer
+	ExternalId string `json:"externalId,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Optional list of label as alphanumeric string.
+	Labels []string `json:"labels"`
+	// Collection of Work Item Links
+	Links EntityManagementCollectionEntity `json:"links,omitempty"`
+	// Collection of Work Item messages
+	Messages EntityManagementCollectionEntity `json:"messages,omitempty"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of this entity.
+	Name string `json:"name"`
+	// Priority of the work item
+	Priority EntityManagementWorkItemPriority `json:"priority"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Status of the work item
+	Status string `json:"status"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementWorkItemV2Entity) ImplementsEntityManagementEntity() {}
+
+func (x *EntityManagementWorkItemV2Entity) ImplementsEntityManagementWorkItemV2() {}
+
+// EntityManagementWorkflowDefinition - Represents a workflow definition entity
+type EntityManagementWorkflowDefinition struct {
+	// An optional description of the workflow definition
+	Description string `json:"description,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// Unique name of the workflow definition
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+	// An array of all the Versions of that definition
+	Versions []int `json:"versions"`
+}
+
+func (x *EntityManagementWorkflowDefinition) ImplementsEntityManagementEntity() {}
+
+// EntityManagementWorkflowDefinitionVersion - Represents a Workflow Definition version, uniquely identified by a combination of Workflow Definition ID and version number
+type EntityManagementWorkflowDefinitionVersion struct {
+	// The Workflow Definition ID
+	ID string `json:"id"`
+	// The Workflow Definition Version Number
+	Version int `json:"version"`
+}
+
+// EntityManagementWorkflowSchedule - Represents a workflow schedule entity
+type EntityManagementWorkflowSchedule struct {
+	// The cron expression that defines the schedule
+	CronExpression string `json:"cronExpression"`
+	// The Workflow Definition Version that this schedule is for
+	Definition EntityManagementWorkflowDefinitionVersion `json:"definition"`
+	// An optional description of the workflow schedule
+	Description string `json:"description,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// Workflow Schedule name
+	Name string `json:"name"`
+	// Overlap policy for the workflow schedule
+	OverlapPolicy EntityManagementOverlapPolicy `json:"overlapPolicy"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// An optional timezone of the workflow schedule.
+	Timezone string `json:"timezone,omitempty"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementWorkflowSchedule) ImplementsEntityManagementEntity() {}
+
+// EntityManagementZoomAccountOAuthCredential - Account OAuth credential type for Zoom
+type EntityManagementZoomAccountOAuthCredential struct {
+	// The access token for the OAuth request
+	AccessToken EntityManagementSecretReference `json:"accessToken"`
+	// Zoom account ID associated with this credential
+	AccountID string `json:"accountId"`
+	// The client ID for the OAuth request
+	ClientId string `json:"clientId"`
+	// The client secret for the OAuth request
+	ClientSecret EntityManagementSecretReference `json:"clientSecret"`
+	// Expiration time for the access token
+	TokenExpirationTime *nrtime.EpochMilliseconds `json:"tokenExpirationTime"`
+}
+
+// EntityManagementZoomConnectionEntity - Connection entity type for Zoom
+type EntityManagementZoomConnectionEntity struct {
+	// A single credential from the choice of ZoomCredential
+	Credential EntityManagementZoomCredentials `json:"credential"`
+	// The description of that connection.
+	Description string `json:"description,omitempty"`
+	// Flag to indicate if the connection is enabled. False by default.
+	Enabled bool `json:"enabled,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of that connection.
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Optional list of connection settings
+	Settings []EntityManagementConnectionSettings `json:"settings"`
+	// Array of up to 2 SigningCredential to verify incoming requests, and rotate new signing credentials when needed
+	SigningCredentials []EntityManagementSigningCredential `json:"signingCredentials"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity's type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementZoomConnectionEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementZoomCredentials - Base credentials type for Zoom
+type EntityManagementZoomCredentials struct {
+	// Account OAuth support
+	AccountOAuth EntityManagementZoomAccountOAuthCredential `json:"accountOAuth,omitempty"`
+	// User OAuth support
+	UserOAuth EntityManagementZoomUserOAuthCredential `json:"userOAuth,omitempty"`
+}
+
+// EntityManagementZoomUserOAuthCredential - User OAuth credential type for Zoom
+type EntityManagementZoomUserOAuthCredential struct {
+	// The access token for the OAuth request
+	AccessToken EntityManagementSecretReference `json:"accessToken"`
+	// Expiration time for the access token
+	AccessTokenExpirationTime *nrtime.EpochMilliseconds `json:"accessTokenExpirationTime"`
+	// The client ID for the OAuth request
+	ClientId string `json:"clientId"`
+	// The client secret for the OAuth request
+	ClientSecret EntityManagementSecretReference `json:"clientSecret"`
+	// The refresh token for the OAuth request
+	RefreshToken EntityManagementSecretReference `json:"refreshToken"`
+	// Zoom user ID associated with this credential
+	UserID string `json:"userId"`
+}
+
 // EntityOutline - The `EntityOutline` interface object allows fetching basic entity data for many entities at a time.
 //
 // To understand more about entities and entity types, look at [our docs](https://docs.newrelic.com/docs/what-are-new-relic-entities).
 type EntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -5232,8 +9518,9 @@ type EntityRelationshipFilter struct {
 // EntityRelationshipNode - A node in an Entity relationship.
 type EntityRelationshipNode struct {
 	// The Account ID for the relationship node.
-	AccountID int                    `json:"accountId,omitempty"`
-	Entity    EntityOutlineInterface `json:"entity,omitempty"`
+	AccountID int `json:"accountId,omitempty"`
+	//
+	Entity EntityOutlineInterface `json:"entity,omitempty"`
 	// The `EntityType` of the relationship node.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// The Entity `guid` for the relationship node.
@@ -5557,6 +9844,7 @@ type EventDefinition struct {
 
 // ExternalEntity - An External entity.
 type ExternalEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -5595,7 +9883,8 @@ type ExternalEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -5629,6 +9918,7 @@ func (x *ExternalEntity) ImplementsEntity() {}
 
 // ExternalEntityOutline - An External entity outline.
 type ExternalEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -5670,8 +9960,135 @@ func (x *ExternalEntityOutline) ImplementsAlertableEntityOutline() {}
 
 func (x *ExternalEntityOutline) ImplementsEntityOutline() {}
 
+// FleetControlActor - Represents an actor
+type FleetControlActor struct {
+	// Id of the actor
+	ID string `json:"id"`
+}
+
+// FleetControlCollectionEntity - Entity type to represent collections of entities
+type FleetControlCollectionEntity struct {
+	// The collection entity id
+	ID string `json:"id"`
+	// Metadata about the entity
+	Metadata FleetControlMetadata `json:"metadata"`
+	// The name of this entity
+	Name string `json:"name"`
+	// The entity's scope
+	Scope FleetControlScopedReference `json:"scope"`
+	// Collection of tags
+	Tags []FleetControlTag `json:"tags"`
+	// The entity type
+	Type string `json:"type"`
+}
+
+// FleetControlConfigurationVersionList - Properties of a configuration version
+type FleetControlConfigurationVersionList struct {
+	// Configuration version id
+	ID string `json:"id"`
+}
+
+// FleetControlFleetDeploymentResult - The result returned for a fleet deployment
+type FleetControlFleetDeploymentResult struct {
+	// Fleet deployment configuration version list
+	ConfigurationVersionList []FleetControlConfigurationVersionList `json:"configurationVersionList,omitempty"`
+	// Fleet deployment description
+	Description string `json:"description,omitempty"`
+	// Fleet entity id
+	FleetId string `json:"fleetId"`
+	// Fleet deployment entity id
+	ID string `json:"id"`
+	// Metadata about the entity
+	Metadata FleetControlMetadata `json:"metadata"`
+	// Fleet deployment name
+	Name string `json:"name,omitempty"`
+	// Fleet deployment phase
+	Phase FleetControlFleetDeploymentPhase `json:"phase,omitempty"`
+	// Fleet deployment ring tracker
+	RingsDeploymentTracker []FleetControlRingsDeploymentTracker `json:"ringsDeploymentTracker,omitempty"`
+	// The entity's scope
+	Scope FleetControlScopedReference `json:"scope"`
+	// The fleet deployment tags
+	Tags []FleetControlTag `json:"tags"`
+	// The entity type
+	Type string `json:"type"`
+}
+
+// FleetControlFleetEntityResult - The result returned for an updated fleet entity
+type FleetControlFleetEntityResult struct {
+	// Fleet entity description
+	Description string `json:"description,omitempty"`
+	// Fleet entity id
+	ID string `json:"id"`
+	// Associates rings of managed entities for the fleet
+	ManagedEntityRings FleetControlCollectionEntity `json:"managedEntityRings,omitempty"`
+	// Type of entity the fleet will manage
+	ManagedEntityType FleetControlManagedEntityType `json:"managedEntityType"`
+	// Metadata about the entity
+	Metadata FleetControlMetadata `json:"metadata"`
+	// Fleet entity name
+	Name string `json:"name"`
+	// Operating system information for HOST fleets
+	OperatingSystem FleetControlOperatingSystem `json:"operatingSystem,omitempty"`
+	// Fleet specific product type
+	Product []string `json:"product"`
+	// Fleet entity scope
+	Scope FleetControlScopedReference `json:"scope"`
+	// Fleet entity tags
+	Tags []FleetControlTag `json:"tags"`
+	// Fleet entity type
+	Type string `json:"type"`
+}
+
+// FleetControlMetadata - Metadata of an entity
+type FleetControlMetadata struct {
+	// The entity's creation time
+	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
+	// Actor that created this entity
+	CreatedBy FleetControlActor `json:"createdBy,omitempty"`
+	// The entity's last update time
+	UpdatedAt *nrtime.EpochMilliseconds `json:"updatedAt,omitempty"`
+	// Actor that updated this entity
+	UpdatedBy FleetControlActor `json:"updatedBy,omitempty"`
+}
+
+// FleetControlOperatingSystem - Operating System string enum for the host operating systems in a fleet
+type FleetControlOperatingSystem struct {
+	// The operating system type enum
+	Type FleetControlOperatingSystemType `json:"type"`
+}
+
+// FleetControlRingsDeploymentTracker - The deployment status for a ring
+type FleetControlRingsDeploymentTracker struct {
+	// Rollout end time
+	CompletedAt *nrtime.EpochMilliseconds `json:"completedAt,omitempty"`
+	// Ring name
+	Name string `json:"name"`
+	// Rollout start time
+	StartedAt *nrtime.EpochMilliseconds `json:"startedAt,omitempty"`
+	// Ring deployment status
+	Status string `json:"status"`
+}
+
+// FleetControlScopedReference - Scoped properties of an entity
+type FleetControlScopedReference struct {
+	// Scope id of the entity
+	ID string `json:"id"`
+	// Scope type of the entity
+	Type FleetControlEntityScope `json:"type"`
+}
+
+// FleetControlTag - Collection of tags
+type FleetControlTag struct {
+	// The tag key
+	Key string `json:"key"`
+	// List of tag values
+	Values []string `json:"values"`
+}
+
 // GenericEntity - A generic entity.
 type GenericEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -5710,7 +10127,8 @@ type GenericEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -5744,6 +10162,7 @@ func (x *GenericEntity) ImplementsEntity() {}
 
 // GenericEntityOutline - A generic entity outline.
 type GenericEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -5787,6 +10206,7 @@ func (x *GenericEntityOutline) ImplementsEntityOutline() {}
 
 // GenericInfrastructureEntity - An Infrastructure entity.
 type GenericInfrastructureEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -5809,8 +10229,9 @@ type GenericInfrastructureEntity struct {
 	// The list of golden tags for a specific entityType.
 	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt           *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
-	IntegrationTypeCode string                    `json:"integrationTypeCode,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	//
+	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
 	// The last time the entity's reporting status changed.
 	LastReportingChangeAt *nrtime.EpochMilliseconds `json:"lastReportingChangeAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
@@ -5826,7 +10247,8 @@ type GenericInfrastructureEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -5862,6 +10284,7 @@ func (x *GenericInfrastructureEntity) ImplementsInfrastructureIntegrationEntity(
 
 // GenericInfrastructureEntityOutline - An Infrastructure entity outline.
 type GenericInfrastructureEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -5880,8 +10303,9 @@ type GenericInfrastructureEntityOutline struct {
 	// The list of golden tags for a specific entityType.
 	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt           *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
-	IntegrationTypeCode string                    `json:"integrationTypeCode,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	//
+	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
 	// The last time the entity's reporting status changed.
 	LastReportingChangeAt *nrtime.EpochMilliseconds `json:"lastReportingChangeAt,omitempty"`
 	// The name of this entity.
@@ -5908,6 +10332,7 @@ func (x *GenericInfrastructureEntityOutline) ImplementsInfrastructureIntegration
 
 // InfrastructureAwsLambdaFunctionEntity - An AWS Lambda Function entity.
 type InfrastructureAwsLambdaFunctionEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -5930,8 +10355,9 @@ type InfrastructureAwsLambdaFunctionEntity struct {
 	// The list of golden tags for a specific entityType.
 	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt           *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
-	IntegrationTypeCode string                    `json:"integrationTypeCode,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	//
+	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
 	// The last time the entity's reporting status changed.
 	LastReportingChangeAt *nrtime.EpochMilliseconds `json:"lastReportingChangeAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
@@ -5947,7 +10373,8 @@ type InfrastructureAwsLambdaFunctionEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -5960,8 +10387,9 @@ type InfrastructureAwsLambdaFunctionEntity struct {
 	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
 	Relationships []EntityRelationship `json:"relationships,omitempty"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
-	Reporting bool   `json:"reporting,omitempty"`
-	Runtime   string `json:"runtime,omitempty"`
+	Reporting bool `json:"reporting,omitempty"`
+	//
+	Runtime string `json:"runtime,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
 	// The tags applied to the entity.
@@ -5984,6 +10412,7 @@ func (x *InfrastructureAwsLambdaFunctionEntity) ImplementsInfrastructureIntegrat
 
 // InfrastructureAwsLambdaFunctionEntityOutline - An AWS Lambda Function entity outline.
 type InfrastructureAwsLambdaFunctionEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -6002,8 +10431,9 @@ type InfrastructureAwsLambdaFunctionEntityOutline struct {
 	// The list of golden tags for a specific entityType.
 	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt           *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
-	IntegrationTypeCode string                    `json:"integrationTypeCode,omitempty"`
+	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	//
+	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
 	// The last time the entity's reporting status changed.
 	LastReportingChangeAt *nrtime.EpochMilliseconds `json:"lastReportingChangeAt,omitempty"`
 	// The name of this entity.
@@ -6011,8 +10441,9 @@ type InfrastructureAwsLambdaFunctionEntityOutline struct {
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
-	Reporting bool   `json:"reporting,omitempty"`
-	Runtime   string `json:"runtime,omitempty"`
+	Reporting bool `json:"reporting,omitempty"`
+	//
+	Runtime string `json:"runtime,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
 	// The tags applied to the entity.
@@ -6032,6 +10463,7 @@ func (x *InfrastructureAwsLambdaFunctionEntityOutline) ImplementsInfrastructureI
 
 // InfrastructureHostEntity - An Infrastructure Host entity.
 type InfrastructureHostEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -6052,8 +10484,9 @@ type InfrastructureHostEntity struct {
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags  EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
-	HostSummary InfrastructureHostSummaryData       `json:"hostSummary,omitempty"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
+	//
+	HostSummary InfrastructureHostSummaryData `json:"hostSummary,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The last time the entity's reporting status changed.
@@ -6071,7 +10504,8 @@ type InfrastructureHostEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -6105,6 +10539,7 @@ func (x *InfrastructureHostEntity) ImplementsEntity() {}
 
 // InfrastructureHostEntityOutline - An Infrastructure Host entity outline.
 type InfrastructureHostEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -6121,8 +10556,9 @@ type InfrastructureHostEntityOutline struct {
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags  EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
-	HostSummary InfrastructureHostSummaryData       `json:"hostSummary,omitempty"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
+	//
+	HostSummary InfrastructureHostSummaryData `json:"hostSummary,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The last time the entity's reporting status changed.
@@ -6163,13 +10599,17 @@ type InfrastructureHostSummaryData struct {
 	ServicesCount int `json:"servicesCount,omitempty"`
 }
 
+// InfrastructureIntegrationEntity -
 type InfrastructureIntegrationEntity struct {
+	//
 	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
 }
 
 func (x *InfrastructureIntegrationEntity) ImplementsInfrastructureIntegrationEntity() {}
 
+// InfrastructureIntegrationEntityOutline -
 type InfrastructureIntegrationEntityOutline struct {
+	//
 	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
 }
 
@@ -6240,6 +10680,7 @@ func (x *KeyTransactionApplication) UnmarshalJSON(b []byte) error {
 
 // KeyTransactionEntity - A Key Transaction entity.
 type KeyTransactionEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -6286,7 +10727,8 @@ type KeyTransactionEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -6320,6 +10762,7 @@ func (x *KeyTransactionEntity) ImplementsEntity() {}
 
 // KeyTransactionEntityOutline - A Key Transaction entity outline.
 type KeyTransactionEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -6429,6 +10872,7 @@ type MobileAppSummaryData struct {
 
 // MobileApplicationEntity - A Mobile Application entity.
 type MobileApplicationEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -6485,7 +10929,8 @@ type MobileApplicationEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -6519,6 +10964,7 @@ func (x *MobileApplicationEntity) ImplementsEntity() {}
 
 // MobileApplicationEntityOutline - A Mobile Application entity outline.
 type MobileApplicationEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -6686,6 +11132,7 @@ type NRQLQueryOptions struct {
 	EventNamespaces []string `json:"eventNamespaces"`
 }
 
+// NerdStorageCollectionMember -
 type NerdStorageCollectionMember struct {
 	// The NerdStorage document.
 	Document NerdStorageDocument `json:"document,omitempty"`
@@ -6693,13 +11140,17 @@ type NerdStorageCollectionMember struct {
 	ID string `json:"id,omitempty"`
 }
 
+// NerdStorageEntityScope -
 type NerdStorageEntityScope struct {
+	//
 	Collection []NerdStorageCollectionMember `json:"collection,omitempty"`
-	Document   NerdStorageDocument           `json:"document,omitempty"`
+	//
+	Document NerdStorageDocument `json:"document,omitempty"`
 }
 
 // SecureCredentialEntity - A secure credential entity.
 type SecureCredentialEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -6740,7 +11191,8 @@ type SecureCredentialEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -6780,6 +11232,7 @@ func (x *SecureCredentialEntity) ImplementsEntity() {}
 
 // SecureCredentialEntityOutline - A secure credential entity outline.
 type SecureCredentialEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -6981,6 +11434,8 @@ type StackTraceApmStackTraceFrame struct {
 	Name string `json:"name,omitempty"`
 }
 
+func (x *StackTraceApmStackTraceFrame) ImplementsStackTraceFileBasedStackTraceFrame() {}
+
 // StackTraceBrowserException - A structured representation of an exception for a Browser application.
 type StackTraceBrowserException struct {
 	// The top level message associated to the stack trace.
@@ -7007,6 +11462,20 @@ type StackTraceBrowserStackTraceFrame struct {
 	Name string `json:"name,omitempty"`
 }
 
+// StackTraceFileBasedStackTraceFrame - An object representing a stack trace segment
+type StackTraceFileBasedStackTraceFrame struct {
+	// Frame filepath
+	Filepath string `json:"filepath,omitempty"`
+	// Formatted frame
+	Formatted string `json:"formatted"`
+	// Frame line number
+	Line int `json:"line,omitempty"`
+	// Frame name
+	Name string `json:"name,omitempty"`
+}
+
+func (x *StackTraceFileBasedStackTraceFrame) ImplementsStackTraceFileBasedStackTraceFrame() {}
+
 // StackTraceMobileCrash - A structured representation of a crash occurring in a mobile application.
 type StackTraceMobileCrash struct {
 	// A structured representation of a stack trace for a crash that occurs on a mobile application.
@@ -7031,6 +11500,8 @@ type StackTraceMobileCrashStackTraceFrame struct {
 	Name string `json:"name,omitempty"`
 }
 
+func (x *StackTraceMobileCrashStackTraceFrame) ImplementsStackTraceFileBasedStackTraceFrame() {}
+
 // StackTraceMobileException - A structured representation of a handled exception occurring in a mobile application.
 type StackTraceMobileException struct {
 	// A structured representation of a handled exception in a mobile application.
@@ -7054,6 +11525,8 @@ type StackTraceMobileExceptionStackTraceFrame struct {
 	// Frame name
 	Name string `json:"name,omitempty"`
 }
+
+func (x *StackTraceMobileExceptionStackTraceFrame) ImplementsStackTraceFileBasedStackTraceFrame() {}
 
 // SuggestedAnomalyBasedNRQLQuery - A query suggestion based on analysis of events within a specific anomalous time
 // range vs. nearby events outside of that time range.
@@ -7142,6 +11615,7 @@ func (x *SuggestedNRQLQueryResponse) UnmarshalJSON(b []byte) error {
 
 // SyntheticMonitorEntity - A Synthetic Monitor entity.
 type SyntheticMonitorEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -7190,7 +11664,8 @@ type SyntheticMonitorEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The duration in minutes between Synthetic Monitor runs.
 	Period nrtime.Minutes `json:"period,omitempty"`
@@ -7226,6 +11701,7 @@ func (x *SyntheticMonitorEntity) ImplementsEntity() {}
 
 // SyntheticMonitorEntityOutline - A Synthetic Monitor entity outline.
 type SyntheticMonitorEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -7282,8 +11758,9 @@ type SyntheticMonitorSummaryData struct {
 	// The number of locations that are currently failing.
 	LocationsFailing int `json:"locationsFailing,omitempty"`
 	// The number of locations that are currently running.
-	LocationsRunning int                    `json:"locationsRunning,omitempty"`
-	Status           SyntheticMonitorStatus `json:"status,omitempty"`
+	LocationsRunning int `json:"locationsRunning,omitempty"`
+	//
+	Status SyntheticMonitorStatus `json:"status,omitempty"`
 	// The percentage of successful synthetic monitor checks in the last 24 hours.
 	SuccessRate float64 `json:"successRate,omitempty"`
 }
@@ -7298,6 +11775,7 @@ type SyntheticsSyntheticMonitorAsset struct {
 
 // TeamEntity - A Team entity.
 type TeamEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -7305,7 +11783,8 @@ type TeamEntity struct {
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
 	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the time window or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
-	Collection      EntityCollection       `json:"collection,omitempty"`
+	//
+	Collection EntityCollection `json:"collection,omitempty"`
 	// Retrieve the deployment event(s). Ordered by timestamp DESC.
 	DeploymentSearch ChangeTrackingDeploymentSearchResult `json:"deploymentSearch,omitempty"`
 	// The entity's domain
@@ -7337,7 +11816,8 @@ type TeamEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -7373,6 +11853,7 @@ func (x *TeamEntity) ImplementsEntity() {}
 
 // TeamEntityOutline - A Team entity outline.
 type TeamEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -7416,6 +11897,7 @@ func (x *TeamEntityOutline) ImplementsEntityOutline() {}
 
 // ThirdPartyServiceEntity - A third party service entity.
 type ThirdPartyServiceEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -7431,6 +11913,8 @@ type ThirdPartyServiceEntity struct {
 	EntityType EntityType `json:"entityType,omitempty"`
 	// The date of last time the entity has updated any of its fields.
 	FirstIndexedAt *nrtime.EpochMilliseconds `json:"firstIndexedAt,omitempty"`
+	// Retrieves a flamegraph for the specific third-party service over the time period specified.
+	Flamegraph JavaFlightRecorderFlamegraph `json:"flamegraph,omitempty"`
 	// A unique entity identifier.
 	GUID EntityGUID `json:"guid,omitempty"`
 	// The list of golden metrics for a specific entity
@@ -7454,7 +11938,8 @@ type ThirdPartyServiceEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -7488,6 +11973,7 @@ func (x *ThirdPartyServiceEntity) ImplementsEntity() {}
 
 // ThirdPartyServiceEntityOutline - A third party service entity outline.
 type ThirdPartyServiceEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -7547,6 +12033,7 @@ type TimeWindowInput struct {
 
 // UnavailableEntity - An entity that is unavailable.
 type UnavailableEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -7585,7 +12072,8 @@ type UnavailableEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -7619,6 +12107,7 @@ func (x *UnavailableEntity) ImplementsEntity() {}
 
 // UnavailableEntityOutline - An entity outline that is unavailable.
 type UnavailableEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -7662,14 +12151,19 @@ func (x *UnavailableEntityOutline) ImplementsEntityOutline() {}
 
 // UserReference - The `UserReference` object provides basic identifying information about the user.
 type UserReference struct {
-	Email    string `json:"email,omitempty"`
+	//
+	Email string `json:"email,omitempty"`
+	//
 	Gravatar string `json:"gravatar,omitempty"`
-	ID       int    `json:"id,omitempty"`
-	Name     string `json:"name,omitempty"`
+	//
+	ID int `json:"id,omitempty"`
+	//
+	Name string `json:"name,omitempty"`
 }
 
 // WorkloadEntity - A workload entity.
 type WorkloadEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -7677,7 +12171,8 @@ type WorkloadEntity struct {
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
 	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the time window or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
-	Collection      EntityCollection       `json:"collection,omitempty"`
+	//
+	Collection EntityCollection `json:"collection,omitempty"`
 	// When the workload was created.
 	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
 	// The user that created the workload.
@@ -7713,7 +12208,8 @@ type WorkloadEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -7753,6 +12249,7 @@ func (x *WorkloadEntity) ImplementsEntity() {}
 
 // WorkloadEntityOutline - A workload entity outline.
 type WorkloadEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -7846,11 +12343,17 @@ type AttributeMap string
 // DashboardWidgetRawConfiguration - Raw JSON payload with full configuration of a widget.
 type DashboardWidgetRawConfiguration string
 
+// Duration - The `Duration` scalar represents a period of time. A `Duration` appears as an ISO8601 formatted duration string.
+type Duration string
+
 // EntityAlertViolationInt - The `ViolationInt` scalar type represents 52-bit signed integers
 type EntityAlertViolationInt string
 
 // EntityGUID - An encoded Entity GUID
 type EntityGUID string
+
+// EntityManagementDynamicString - A string meant to be generated at runtime by a function in the form of a directive.
+type EntityManagementDynamicString string
 
 // Float - The `Float` scalar type represents signed double-precision fractional
 // values as specified by
@@ -7877,6 +12380,8 @@ type SecureValue string
 
 // SemVer - The `SemVer` scalar represents a version designation conforming to the SemVer specification.
 type SemVer string
+
+// AlertableEntity -
 type AlertableEntityInterface interface {
 	ImplementsAlertableEntity()
 }
@@ -8098,6 +12603,7 @@ func UnmarshalAlertableEntityInterface(b []byte) (*AlertableEntityInterface, err
 	return nil, fmt.Errorf("interface AlertableEntity was not matched against all PossibleTypes: %s", typeName)
 }
 
+// AlertableEntityOutline -
 type AlertableEntityOutlineInterface interface {
 	ImplementsAlertableEntityOutline()
 }
@@ -8709,6 +13215,58 @@ func UnmarshalEntityInterface(b []byte) (*EntityInterface, error) {
 	return nil, fmt.Errorf("interface Entity was not matched against all PossibleTypes: %s", typeName)
 }
 
+// EntityManagementAPICatalogAPIContract - Interface for Api Contract entities
+type EntityManagementAPICatalogAPIContractInterface interface {
+	ImplementsEntityManagementAPICatalogAPIContract()
+}
+
+// UnmarshalEntityManagementAPICatalogAPIContractInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
+func UnmarshalEntityManagementAPICatalogAPIContractInterface(b []byte) (*EntityManagementAPICatalogAPIContractInterface, error) {
+	var err error
+
+	var rawMessageEntityManagementAPICatalogAPIContract map[string]*json.RawMessage
+	err = json.Unmarshal(b, &rawMessageEntityManagementAPICatalogAPIContract)
+	if err != nil {
+		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageEntityManagementAPICatalogAPIContract) < 1 {
+		return nil, nil
+	}
+
+	var typeName string
+
+	if rawTypeName, ok := rawMessageEntityManagementAPICatalogAPIContract["__typename"]; ok {
+		err = json.Unmarshal(*rawTypeName, &typeName)
+		if err != nil {
+			return nil, err
+		}
+
+		switch typeName {
+		case "EntityManagementRestApiContractEntity":
+			var interfaceType EntityManagementRestAPIContractEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementAPICatalogAPIContractInterface = &interfaceType
+
+			return &xxx, nil
+		}
+	} else {
+		keys := []string{}
+		for k := range rawMessageEntityManagementAPICatalogAPIContract {
+			keys = append(keys, k)
+		}
+		return nil, fmt.Errorf("interface EntityManagementAPICatalogAPIContract did not include a __typename field for inspection: %s", keys)
+	}
+
+	return nil, fmt.Errorf("interface EntityManagementAPICatalogAPIContract was not matched against all PossibleTypes: %s", typeName)
+}
+
 // EntityManagementActor - Represents an actor.
 type EntityManagementActorInterface interface {
 	ImplementsEntityManagementActor()
@@ -8801,8 +13359,908 @@ func UnmarshalEntityManagementEntityInterface(b []byte) (*EntityManagementEntity
 		}
 
 		switch typeName {
+		case "EntityManagementAgentConfigurationEntity":
+			var interfaceType EntityManagementAgentConfigurationEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementAgentConfigurationVersionEntity":
+			var interfaceType EntityManagementAgentConfigurationVersionEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementAgentEffectiveConfigurationEntity":
+			var interfaceType EntityManagementAgentEffectiveConfigurationEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementAgentEntity":
+			var interfaceType EntityManagementAgentEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementAiAgentEntity":
+			var interfaceType EntityManagementAiAgentEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementAiCapableEntity":
+			var interfaceType EntityManagementAiCapableEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementAiEvaluationConfigEntity":
+			var interfaceType EntityManagementAiEvaluationConfigEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementAiToolEntity":
+			var interfaceType EntityManagementAiToolEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementApiSpecificationBlobEntity":
+			var interfaceType EntityManagementAPISpecificationBlobEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementAwsConnectionEntity":
+			var interfaceType EntityManagementAwsConnectionEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementBackgroundProcessingRuleEntity":
+			var interfaceType EntityManagementBackgroundProcessingRuleEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementBackgroundSqlProcessingRuleEntity":
+			var interfaceType EntityManagementBackgroundSqlProcessingRuleEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementBudgetEntity":
+			var interfaceType EntityManagementBudgetEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementCiscoMerakiConnectionEntity":
+			var interfaceType EntityManagementCiscoMerakiConnectionEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementCollectionEntity":
+			var interfaceType EntityManagementCollectionEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementComponentEntity":
+			var interfaceType EntityManagementComponentEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementComputeLocationEntity":
+			var interfaceType EntityManagementComputeLocationEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementConfluenceConnectionEntity":
+			var interfaceType EntityManagementConfluenceConnectionEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementConfluenceIntegration":
+			var interfaceType EntityManagementConfluenceIntegration
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementConfluenceRagSettingsEntity":
+			var interfaceType EntityManagementConfluenceRagSettingsEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementCorrelationInternalSourceConfigEntity":
+			var interfaceType EntityManagementCorrelationInternalSourceConfigEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementCorrelationLinkEntity":
+			var interfaceType EntityManagementCorrelationLinkEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementCorrelationLinkingRuleEntity":
+			var interfaceType EntityManagementCorrelationLinkingRuleEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementCustomEvaluationEntity":
+			var interfaceType EntityManagementCustomEvaluationEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementCustomerImpactEntity":
+			var interfaceType EntityManagementCustomerImpactEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementCustomerImpactQueryEntity":
+			var interfaceType EntityManagementCustomerImpactQueryEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementEventBridgeRuleEntity":
+			var interfaceType EntityManagementEventBridgeRuleEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementFederatedLogPartitionEntity":
+			var interfaceType EntityManagementFederatedLogPartitionEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementFederatedLogSetupEntity":
+			var interfaceType EntityManagementFederatedLogSetupEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementFleetDeploymentEntity":
+			var interfaceType EntityManagementFleetDeploymentEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementFleetEntity":
+			var interfaceType EntityManagementFleetEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementFleetRingEntity":
+			var interfaceType EntityManagementFleetRingEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementFlowEntity":
+			var interfaceType EntityManagementFlowEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementGenericEntity":
+			var interfaceType EntityManagementGenericEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementGitHubIntegrationEntity":
+			var interfaceType EntityManagementGitHubIntegrationEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementGitRepositoryEntity":
+			var interfaceType EntityManagementGitRepositoryEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementGithubConnection":
+			var interfaceType EntityManagementGithubConnection
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementImpactProfileEntity":
+			var interfaceType EntityManagementImpactProfileEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementInboxIssueCategoryEntity":
+			var interfaceType EntityManagementInboxIssueCategoryEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementIncidentAttachmentEntity":
+			var interfaceType EntityManagementIncidentAttachmentEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementIncidentEntity":
+			var interfaceType EntityManagementIncidentEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementIncidentLinkEntity":
+			var interfaceType EntityManagementIncidentLinkEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementIncidentMessageEntity":
+			var interfaceType EntityManagementIncidentMessageEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementIncidentProfileAttachmentEntity":
+			var interfaceType EntityManagementIncidentProfileAttachmentEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementIncidentProfileEntity":
+			var interfaceType EntityManagementIncidentProfileEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementIncidentTimelineEntity":
+			var interfaceType EntityManagementIncidentTimelineEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementJiraConnection":
+			var interfaceType EntityManagementJiraConnection
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementJiraSyncConfiguration":
+			var interfaceType EntityManagementJiraSyncConfiguration
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementJiraSyncConfigurationV2Entity":
+			var interfaceType EntityManagementJiraSyncConfigurationV2Entity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementJuniperMistConnectionEntity":
+			var interfaceType EntityManagementJuniperMistConnectionEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementMaintenanceWindowEntity":
+			var interfaceType EntityManagementMaintenanceWindowEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementManagedEvaluationsEntity":
+			var interfaceType EntityManagementManagedEvaluationsEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementMcpServerEntity":
+			var interfaceType EntityManagementMcpServerEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementMeterEntity":
+			var interfaceType EntityManagementMeterEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementMeterTypeEntity":
+			var interfaceType EntityManagementMeterTypeEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementNewRelicConnection":
+			var interfaceType EntityManagementNewRelicConnection
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementNotebookEntity":
+			var interfaceType EntityManagementNotebookEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementNotificationAttachmentEntity":
+			var interfaceType EntityManagementNotificationAttachmentEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementNrAiAgentEntity":
+			var interfaceType EntityManagementNrAiAgentEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementNrqlMacroEntity":
+			var interfaceType EntityManagementNRQLMacroEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementOperationEntity":
+			var interfaceType EntityManagementOperationEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementOperationMetricEntity":
+			var interfaceType EntityManagementOperationMetricEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementPerformanceInboxSettingEntity":
+			var interfaceType EntityManagementPerformanceInboxSettingEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
 		case "EntityManagementPipelineCloudRuleEntity":
 			var interfaceType EntityManagementPipelineCloudRuleEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementProductLineEntity":
+			var interfaceType EntityManagementProductLineEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementRagDocumentEntity":
+			var interfaceType EntityManagementRagDocumentEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementRagToolEntity":
+			var interfaceType EntityManagementRagToolEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementReactNativeSourcemapEntity":
+			var interfaceType EntityManagementReactNativeSourcemapEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementRestApiContractEntity":
+			var interfaceType EntityManagementRestAPIContractEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementScorecardEntity":
+			var interfaceType EntityManagementScorecardEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementScorecardRuleEntity":
+			var interfaceType EntityManagementScorecardRuleEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementSegmentTermsEntity":
+			var interfaceType EntityManagementSegmentTermsEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementServerlessJobDefinitionEntity":
+			var interfaceType EntityManagementServerlessJobDefinitionEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementServiceNowConnection":
+			var interfaceType EntityManagementServiceNowConnection
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementSlackConnection":
+			var interfaceType EntityManagementSlackConnection
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementSlackSyncConfiguration":
+			var interfaceType EntityManagementSlackSyncConfiguration
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementStatusPageAnnouncementEntity":
+			var interfaceType EntityManagementStatusPageAnnouncementEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementStatusPageIncidentEntity":
+			var interfaceType EntityManagementStatusPageIncidentEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementTeamEntity":
+			var interfaceType EntityManagementTeamEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementTeamsHierarchyLevelEntity":
+			var interfaceType EntityManagementTeamsHierarchyLevelEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementTeamsOrganizationSettingsEntity":
+			var interfaceType EntityManagementTeamsOrganizationSettingsEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementUserEntity":
+			var interfaceType EntityManagementUserEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementWorkItem":
+			var interfaceType EntityManagementWorkItem
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementWorkItemLink":
+			var interfaceType EntityManagementWorkItemLink
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementWorkItemLinkV2Entity":
+			var interfaceType EntityManagementWorkItemLinkV2Entity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementWorkItemMessage":
+			var interfaceType EntityManagementWorkItemMessage
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementWorkItemMessageV2Entity":
+			var interfaceType EntityManagementWorkItemMessageV2Entity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementWorkItemV2Entity":
+			var interfaceType EntityManagementWorkItemV2Entity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementWorkflowDefinition":
+			var interfaceType EntityManagementWorkflowDefinition
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementWorkflowSchedule":
+			var interfaceType EntityManagementWorkflowSchedule
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementZoomConnectionEntity":
+			var interfaceType EntityManagementZoomConnectionEntity
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
@@ -8821,6 +14279,172 @@ func UnmarshalEntityManagementEntityInterface(b []byte) (*EntityManagementEntity
 	}
 
 	return nil, fmt.Errorf("interface EntityManagementEntity was not matched against all PossibleTypes: %s", typeName)
+}
+
+// EntityManagementWorkItemLinkV2 - Work Item Link interface
+type EntityManagementWorkItemLinkV2Interface interface {
+	ImplementsEntityManagementWorkItemLinkV2()
+}
+
+// UnmarshalEntityManagementWorkItemLinkV2Interface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
+func UnmarshalEntityManagementWorkItemLinkV2Interface(b []byte) (*EntityManagementWorkItemLinkV2Interface, error) {
+	var err error
+
+	var rawMessageEntityManagementWorkItemLinkV2 map[string]*json.RawMessage
+	err = json.Unmarshal(b, &rawMessageEntityManagementWorkItemLinkV2)
+	if err != nil {
+		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageEntityManagementWorkItemLinkV2) < 1 {
+		return nil, nil
+	}
+
+	var typeName string
+
+	if rawTypeName, ok := rawMessageEntityManagementWorkItemLinkV2["__typename"]; ok {
+		err = json.Unmarshal(*rawTypeName, &typeName)
+		if err != nil {
+			return nil, err
+		}
+
+		switch typeName {
+		case "EntityManagementWorkItemLinkV2Entity":
+			var interfaceType EntityManagementWorkItemLinkV2Entity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementWorkItemLinkV2Interface = &interfaceType
+
+			return &xxx, nil
+		}
+	} else {
+		keys := []string{}
+		for k := range rawMessageEntityManagementWorkItemLinkV2 {
+			keys = append(keys, k)
+		}
+		return nil, fmt.Errorf("interface EntityManagementWorkItemLinkV2 did not include a __typename field for inspection: %s", keys)
+	}
+
+	return nil, fmt.Errorf("interface EntityManagementWorkItemLinkV2 was not matched against all PossibleTypes: %s", typeName)
+}
+
+// EntityManagementWorkItemMessageV2 - Work Item Message interface
+type EntityManagementWorkItemMessageV2Interface interface {
+	ImplementsEntityManagementWorkItemMessageV2()
+}
+
+// UnmarshalEntityManagementWorkItemMessageV2Interface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
+func UnmarshalEntityManagementWorkItemMessageV2Interface(b []byte) (*EntityManagementWorkItemMessageV2Interface, error) {
+	var err error
+
+	var rawMessageEntityManagementWorkItemMessageV2 map[string]*json.RawMessage
+	err = json.Unmarshal(b, &rawMessageEntityManagementWorkItemMessageV2)
+	if err != nil {
+		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageEntityManagementWorkItemMessageV2) < 1 {
+		return nil, nil
+	}
+
+	var typeName string
+
+	if rawTypeName, ok := rawMessageEntityManagementWorkItemMessageV2["__typename"]; ok {
+		err = json.Unmarshal(*rawTypeName, &typeName)
+		if err != nil {
+			return nil, err
+		}
+
+		switch typeName {
+		case "EntityManagementWorkItemMessageV2Entity":
+			var interfaceType EntityManagementWorkItemMessageV2Entity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementWorkItemMessageV2Interface = &interfaceType
+
+			return &xxx, nil
+		}
+	} else {
+		keys := []string{}
+		for k := range rawMessageEntityManagementWorkItemMessageV2 {
+			keys = append(keys, k)
+		}
+		return nil, fmt.Errorf("interface EntityManagementWorkItemMessageV2 did not include a __typename field for inspection: %s", keys)
+	}
+
+	return nil, fmt.Errorf("interface EntityManagementWorkItemMessageV2 was not matched against all PossibleTypes: %s", typeName)
+}
+
+// EntityManagementWorkItemV2 - Work Item V2 interface
+type EntityManagementWorkItemV2Interface interface {
+	ImplementsEntityManagementWorkItemV2()
+}
+
+// UnmarshalEntityManagementWorkItemV2Interface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
+func UnmarshalEntityManagementWorkItemV2Interface(b []byte) (*EntityManagementWorkItemV2Interface, error) {
+	var err error
+
+	var rawMessageEntityManagementWorkItemV2 map[string]*json.RawMessage
+	err = json.Unmarshal(b, &rawMessageEntityManagementWorkItemV2)
+	if err != nil {
+		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageEntityManagementWorkItemV2) < 1 {
+		return nil, nil
+	}
+
+	var typeName string
+
+	if rawTypeName, ok := rawMessageEntityManagementWorkItemV2["__typename"]; ok {
+		err = json.Unmarshal(*rawTypeName, &typeName)
+		if err != nil {
+			return nil, err
+		}
+
+		switch typeName {
+		case "EntityManagementIncidentEntity":
+			var interfaceType EntityManagementIncidentEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementWorkItemV2Interface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementWorkItemV2Entity":
+			var interfaceType EntityManagementWorkItemV2Entity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementWorkItemV2Interface = &interfaceType
+
+			return &xxx, nil
+		}
+	} else {
+		keys := []string{}
+		for k := range rawMessageEntityManagementWorkItemV2 {
+			keys = append(keys, k)
+		}
+		return nil, fmt.Errorf("interface EntityManagementWorkItemV2 did not include a __typename field for inspection: %s", keys)
+	}
+
+	return nil, fmt.Errorf("interface EntityManagementWorkItemV2 was not matched against all PossibleTypes: %s", typeName)
 }
 
 // EntityOutline - The `EntityOutline` interface object allows fetching basic entity data for many entities at a time.
@@ -9109,6 +14733,7 @@ func UnmarshalEntityRelationshipEdgeInterface(b []byte) (*EntityRelationshipEdge
 	return nil, fmt.Errorf("interface EntityRelationshipEdge was not matched against all PossibleTypes: %s", typeName)
 }
 
+// InfrastructureIntegrationEntity -
 type InfrastructureIntegrationEntityInterface interface {
 	ImplementsInfrastructureIntegrationEntity()
 }
@@ -9170,6 +14795,7 @@ func UnmarshalInfrastructureIntegrationEntityInterface(b []byte) (*Infrastructur
 	return nil, fmt.Errorf("interface InfrastructureIntegrationEntity was not matched against all PossibleTypes: %s", typeName)
 }
 
+// InfrastructureIntegrationEntityOutline -
 type InfrastructureIntegrationEntityOutlineInterface interface {
 	ImplementsInfrastructureIntegrationEntityOutline()
 }
@@ -9229,6 +14855,78 @@ func UnmarshalInfrastructureIntegrationEntityOutlineInterface(b []byte) (*Infras
 	}
 
 	return nil, fmt.Errorf("interface InfrastructureIntegrationEntityOutline was not matched against all PossibleTypes: %s", typeName)
+}
+
+// StackTraceFileBasedStackTraceFrame - An object representing a stack trace segment
+type StackTraceFileBasedStackTraceFrameInterface interface {
+	ImplementsStackTraceFileBasedStackTraceFrame()
+}
+
+// UnmarshalStackTraceFileBasedStackTraceFrameInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
+func UnmarshalStackTraceFileBasedStackTraceFrameInterface(b []byte) (*StackTraceFileBasedStackTraceFrameInterface, error) {
+	var err error
+
+	var rawMessageStackTraceFileBasedStackTraceFrame map[string]*json.RawMessage
+	err = json.Unmarshal(b, &rawMessageStackTraceFileBasedStackTraceFrame)
+	if err != nil {
+		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageStackTraceFileBasedStackTraceFrame) < 1 {
+		return nil, nil
+	}
+
+	var typeName string
+
+	if rawTypeName, ok := rawMessageStackTraceFileBasedStackTraceFrame["__typename"]; ok {
+		err = json.Unmarshal(*rawTypeName, &typeName)
+		if err != nil {
+			return nil, err
+		}
+
+		switch typeName {
+		case "StackTraceApmStackTraceFrame":
+			var interfaceType StackTraceApmStackTraceFrame
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx StackTraceFileBasedStackTraceFrameInterface = &interfaceType
+
+			return &xxx, nil
+		case "StackTraceMobileCrashStackTraceFrame":
+			var interfaceType StackTraceMobileCrashStackTraceFrame
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx StackTraceFileBasedStackTraceFrameInterface = &interfaceType
+
+			return &xxx, nil
+		case "StackTraceMobileExceptionStackTraceFrame":
+			var interfaceType StackTraceMobileExceptionStackTraceFrame
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx StackTraceFileBasedStackTraceFrameInterface = &interfaceType
+
+			return &xxx, nil
+		}
+	} else {
+		keys := []string{}
+		for k := range rawMessageStackTraceFileBasedStackTraceFrame {
+			keys = append(keys, k)
+		}
+		return nil, fmt.Errorf("interface StackTraceFileBasedStackTraceFrame did not include a __typename field for inspection: %s", keys)
+	}
+
+	return nil, fmt.Errorf("interface StackTraceFileBasedStackTraceFrame was not matched against all PossibleTypes: %s", typeName)
 }
 
 // SuggestedNRQLQuery - Interface type representing a query suggestion.
@@ -9291,40 +14989,4 @@ func UnmarshalSuggestedNRQLQueryInterface(b []byte) (*SuggestedNRQLQueryInterfac
 	}
 
 	return nil, fmt.Errorf("interface SuggestedNRQLQuery was not matched against all PossibleTypes: %s", typeName)
-}
-
-// DO NOT DELETE
-func (x *EntityManagementActorStitchedFields) UnmarshalJSON(b []byte) error {
-	var objMap map[string]*json.RawMessage
-	err := json.Unmarshal(b, &objMap)
-	if err != nil {
-		return err
-	}
-
-	for k, v := range objMap {
-		if v == nil {
-			continue
-		}
-
-		switch k {
-		case "entity":
-			if v == nil {
-				continue
-			}
-			xxx, err := UnmarshalEntityManagementEntityInterface(*v)
-			if err != nil {
-				return err
-			}
-			if xxx != nil {
-				x.Entity = *xxx
-			}
-		case "entitySearch":
-			err = json.Unmarshal(*v, &x.EntitySearch)
-			if err != nil {
-				return err
-			}
-		}
-	}
-
-	return nil
 }
