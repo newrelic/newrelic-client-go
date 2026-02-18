@@ -1812,6 +1812,8 @@ packages:
         max_query_field_depth: 3
       - name: entityManagementDelete
         max_query_field_depth: 3
+      - name: entityManagementCreateFederatedLogSetup
+        max_query_field_depth: 4
     types:
       - name: EntityManagementEntity
         include_implementations:
