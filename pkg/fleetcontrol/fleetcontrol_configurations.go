@@ -84,7 +84,9 @@ func (a *Fleetcontrol) FleetControlGetConfigurationWithContext(
 	if err != nil {
 		return nil, fmt.Errorf("failed to make request: %w", err)
 	}
-	defer httpResp.Body.Close()
+	defer func() {
+		_ = httpResp.Body.Close()
+	}()
 
 	// Check for error status codes
 	if httpResp.StatusCode != http.StatusOK {
@@ -199,7 +201,7 @@ type CreateConfigurationResponse struct {
 
 type GetConfigurationResponse string
 
-type GetConfigurationVersionsResponse struct{
+type GetConfigurationVersionsResponse struct {
 	Versions []ConfigurationVersion `json:"versions"`
 	Cursor   *string                `json:"cursor"`
 }
