@@ -1839,3 +1839,72 @@ packages:
       - name: Seconds
         field_type_override: nrtime.Seconds
         skip_type_create: true
+
+  - name: fleetcontrol
+    path: pkg/fleetcontrol
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/fleetcontrol
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v2/pkg/users
+    mutations:
+      - name: fleetControlCreateFleet
+        max_query_field_depth: 4
+      - name: fleetControlUpdateFleet
+        max_query_field_depth: 4
+      - name: fleetControlDeleteFleet
+        max_query_field_depth: 4
+      - name: fleetControlAddFleetMembers
+        max_query_field_depth: 3
+      - name: fleetControlRemoveFleetMembers
+        max_query_field_depth: 3
+      - name: fleetControlCreateFleetDeployment
+        max_query_field_depth: 3
+      - name: fleetControlUpdateFleetDeployment
+        max_query_field_depth: 3
+      - name: fleetControlDeleteFleetDeployment
+        max_query_field_depth: 3
+      - name: fleetControlDeploy
+        max_query_field_depth: 2
+    queries:
+      - path: [ "actor", "fleetControl" ]
+        endpoints:
+          - name: fleetMembers
+            max_query_field_depth: 2
+      - path: [ "actor", "entityManagement" ]
+        endpoints:
+          - name: entity
+            max_query_field_depth: 4
+            exclude_fields:
+              - agents
+              - tools
+          - name: entitySearch
+            max_query_field_depth: 4
+            exclude_fields:
+              - agents
+              - tools
+
+    types:
+      - name: FleetControlFleetMembersFilterInput
+        field_type_override: "*FleetControlFleetMembersFilterInput"
+      - name: FleetControlOperatingSystemCreateInput
+        field_type_override: "*FleetControlOperatingSystemCreateInput"
+      - name: EntityManagementEntity
+        include_implementations:
+          - EntityManagementFleetEntity
+          - EntityManagementAgentConfigurationEntity
+          - EntityManagementAgentConfigurationVersionEntity
+          - EntityManagementFleetDeploymentEntity
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
+      - name: EpochMilliseconds
+        field_type_override: nrtime.EpochMilliseconds
+        skip_type_create: true
