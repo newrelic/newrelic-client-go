@@ -1,3 +1,8 @@
+<a name="v2.79.0"></a>
+## [v2.79.0] - 2026-02-19
+### Features
+- **fleetcontrol:** add new package with fleet, fleet members CRUD ops ([#1360](https://github.com/newrelic/newrelic-client-go/issues/1360))
+
 <a name="v2.78.0"></a>
 ## [v2.78.0] - 2026-02-16
 ### Features
@@ -2200,7 +2205,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.78.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.79.0...HEAD
+[v2.79.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.78.0...v2.79.0
 [v2.78.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.77.0...v2.78.0
 [v2.77.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.76.0...v2.77.0
 [v2.76.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.75.4...v2.76.0
