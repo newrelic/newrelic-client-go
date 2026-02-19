@@ -4207,6 +4207,43 @@ type EntityManagementActorStitchedFields struct {
 	EntitySearch EntityManagementEntitySearchResult `json:"entitySearch,omitempty"`
 }
 
+// special
+func (x *EntityManagementActorStitchedFields) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+
+	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
+		switch k {
+		case "entity":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalEntityManagementEntityInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.Entity = *xxx
+			}
+		case "entitySearch":
+			err = json.Unmarshal(*v, &x.EntitySearch)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
+}
+
 // EntityManagementAgentConfigurationEntity - A configuration that can contain multiple immutable versions and can be deployed to a fleet
 type EntityManagementAgentConfigurationEntity struct {
 	// The agentType
@@ -6122,7 +6159,9 @@ type FleetControlFleetDeploymentResult struct {
 
 // FleetControlFleetDeploymentUpdateInput - Fleet deployment update input
 type FleetControlFleetDeploymentUpdateInput struct {
-	// Fleet deployment configuration version list
+	// Agents configurations
+	Agents []FleetControlAgentInput `json:"agents,omitempty"`
+	// Fleet deployment configuration version list - DEPRECATED
 	ConfigurationVersionList []FleetControlConfigurationVersionListInput `json:"configurationVersionList,omitempty"`
 	// Fleet deployment description
 	Description string `json:"description,omitempty"`
@@ -6147,7 +6186,7 @@ type FleetControlFleetEntityCreateInput struct {
 	// The fleet entity name
 	Name string `json:"name"`
 	// The operating system type of the managed entities in this fleet
-	OperatingSystem FleetControlOperatingSystemCreateInput `json:"operatingSystem,omitempty"`
+	OperatingSystem *FleetControlOperatingSystemCreateInput `json:"operatingSystem,omitempty"`
 	// The fleet specific product type
 	Product string `json:"product,omitempty"`
 	// The entity scope
@@ -6259,8 +6298,7 @@ type FleetControlOperatingSystem struct {
 // FleetControlOperatingSystemCreateInput - Operating System input for the host operating systems in a fleet
 type FleetControlOperatingSystemCreateInput struct {
 	// The operating system type enum
-	// DO NOT MODIFY
-	Type FleetControlOperatingSystemType `json:"type,omitempty"`
+	Type FleetControlOperatingSystemType `json:"type"`
 }
 
 // FleetControlRingDeploymentPolicyInput - Ring deployment policy input

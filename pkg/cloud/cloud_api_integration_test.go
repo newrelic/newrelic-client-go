@@ -554,3 +554,74 @@ func TestCloudAccount_OciLinkAccount(t *testing.T) {
 	require.NotNil(t, unlinkResponse)
 	require.Len(t, unlinkResponse.Errors, 0)
 }
+
+func TestCloudAccount_AwsEuSovereignBasic(t *testing.T) {
+	t.Parallel()
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	testARN := os.Getenv("INTEGRATION_TESTING_AWS_EU_SOVEREIGN_ARN")
+	if testARN == "" {
+		t.Skip("an AWS EU Sovereign ARN is required to run cloud account tests")
+		return
+	}
+
+	a := newIntegrationTestClient(t)
+	// Reset everything
+	getResponse, err := a.GetLinkedAccounts("aws_eu_sovereign")
+	if err == nil {
+		for _, linkedAccount := range *getResponse {
+			if linkedAccount.NrAccountId == testAccountID {
+				a.CloudUnlinkAccount(testAccountID, []CloudUnlinkAccountsInput{
+					{
+						LinkedAccountId: linkedAccount.ID,
+					},
+				})
+			}
+		}
+	}
+
+	// Link the account
+	linkResponse, err := a.CloudLinkAccount(testAccountID, CloudLinkCloudAccountsInput{
+		AwsEuSovereign: []CloudAwsEuSovereignLinkAccountInput{
+			{
+				Arn:  testARN,
+				Name: "DTK Integration Testing EU Sovereign",
+			},
+		},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, linkResponse)
+	require.Len(t, linkResponse.Errors, 0)
+
+	if len(linkResponse.LinkedAccounts) == 0 {
+		t.Skip("skipping TestCloudAccount_AwsEuSovereignBasic due to no linked accounts")
+		return
+	}
+
+	// Get the linked account
+	linkedAccountId := linkResponse.LinkedAccounts[0].ID
+
+	// Rename the account
+	newName := "NEW-DTK-EU-SOVEREIGN-NAME"
+	renameResponse, err := a.CloudRenameAccount(testAccountID, []CloudRenameAccountsInput{
+		{
+			LinkedAccountId: linkedAccountId,
+			Name:            newName,
+		},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, renameResponse)
+
+	// Unlink the account
+	unlinkResponse, err := a.CloudUnlinkAccount(testAccountID, []CloudUnlinkAccountsInput{
+		{
+			LinkedAccountId: linkedAccountId,
+		},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, unlinkResponse)
+}

@@ -1,3 +1,23 @@
+<a name="v2.78.0"></a>
+## [v2.78.0] - 2026-02-16
+### Features
+- **cloud:** rollback health and trusted advisor for EUSC ([#1371](https://github.com/newrelic/newrelic-client-go/issues/1371))
+
+<a name="v2.77.0"></a>
+## [v2.77.0] - 2026-02-02
+### Features
+- **cloud:** add AWS EU Sovereign cloud provider support ([#1368](https://github.com/newrelic/newrelic-client-go/issues/1368))
+
+<a name="v2.76.0"></a>
+## [v2.76.0] - 2026-01-15
+### Features
+- **security-rx:** add support for Aws SecurityHub integration ([#1300](https://github.com/newrelic/newrelic-client-go/issues/1300))
+
+<a name="v2.75.4"></a>
+## [v2.75.4] - 2026-01-15
+### Bug Fixes
+- **pipelinecontrol:** remove omitempty on EntityManagementPipelineCloudRuleEntityUpdateInput ([#1362](https://github.com/newrelic/newrelic-client-go/issues/1362))
+
 <a name="v2.75.3"></a>
 ## [v2.75.3] - 2026-01-07
 ### Bug Fixes
@@ -2024,18 +2044,18 @@
 
 ### Refactor
 - update monitors to use return design pattern where applicable, update tests
+- remove unnecessary else
 - consistent use of pointers for &reqBody structs
-- move logging config code into logging package
-- use centralized test helpers and remove old ones
 - update ListDashboards to return array of pointers, update Dashboard test to use assert
 - update ListApplications to return array of pointers, update tests to use assert
-- refactor to package-based types files
-- remove config pointer references
-- remove unnecessary else
-- rescope vars for integration tests to avoid variable name conflicts
 - update alert channels to return array of pointers, update tests to use assert
-- update synthetics conditions to return array of pointers
+- refactor to package-based types files
+- rescope vars for integration tests to avoid variable name conflicts
+- use centralized test helpers and remove old ones
 - create a logger instance per package
+- update synthetics conditions to return array of pointers
+- move logging config code into logging package
+- remove config pointer references
 - remove redundant 'alert' from file names
 - remove redundant 'Alert' from naming convention
 - incorporate code review feedback
@@ -2180,7 +2200,11 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.75.3...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.78.0...HEAD
+[v2.78.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.77.0...v2.78.0
+[v2.77.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.76.0...v2.77.0
+[v2.76.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.75.4...v2.76.0
+[v2.75.4]: https://github.com/newrelic/newrelic-client-go/compare/v2.75.3...v2.75.4
 [v2.75.3]: https://github.com/newrelic/newrelic-client-go/compare/v2.75.2...v2.75.3
 [v2.75.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.75.1...v2.75.2
 [v2.75.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.75.0...v2.75.1
