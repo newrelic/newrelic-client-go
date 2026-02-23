@@ -283,6 +283,61 @@ func TestGetDestinationsByName(t *testing.T) {
 	assert.Equal(t, expected, actual)
 }
 
+func TestGetDestinationsByExactName(t *testing.T) {
+	t.Parallel()
+	respJSON := fmt.Sprintf(`{ "data":%s }`, testGetDestinationResponseJSON)
+	notifications := newMockResponse(t, respJSON, http.StatusOK)
+
+	auth := ai.AiNotificationsAuth{
+		AuthType: "BASIC",
+		User:     user,
+	}
+	auth.ImplementsAiNotificationsAuth()
+
+	expected := &AiNotificationsDestinationsResponse{
+		Entities: []AiNotificationsDestination{
+			{
+				AccountID:           accountId,
+				Active:              true,
+				Auth:                auth,
+				CreatedAt:           timestamp,
+				ID:                  id,
+				GUID:                EntityGUID(guid),
+				IsUserAuthenticated: false,
+				LastSent:            timestamp,
+				Name:                "test-notification-destination-1",
+				Properties: []AiNotificationsProperty{
+					{
+						DisplayValue: "",
+						Key:          "email",
+						Label:        "",
+						Value:        "test@newrelic.com",
+					},
+				},
+				Status:    AiNotificationsDestinationStatusTypes.DEFAULT,
+				Type:      AiNotificationsDestinationTypeTypes.EMAIL,
+				UpdatedAt: timestamp,
+				UpdatedBy: 1547846,
+			},
+		},
+		Errors:     []AiNotificationsResponseError{},
+		Error:      AiNotificationsResponseError{},
+		NextCursor: "",
+		TotalCount: 1,
+	}
+
+	filters := ai.AiNotificationsDestinationFilter{
+		ExactName: name,
+	}
+	sorter := AiNotificationsDestinationSorter{}
+
+	actual, err := notifications.GetDestinations(accountId, "", filters, sorter)
+
+	assert.NoError(t, err)
+	assert.NotNil(t, actual)
+	assert.Equal(t, expected, actual)
+}
+
 func TestDeleteDestination(t *testing.T) {
 	t.Parallel()
 	respJSON := fmt.Sprintf(`{ "data":%s }`, testDeleteDestinationResponseJSON)
