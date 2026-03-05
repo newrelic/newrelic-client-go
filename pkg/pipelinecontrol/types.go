@@ -1335,6 +1335,29 @@ var EntityManagementCategoryScopeTypeTypes = struct {
 	GLOBAL: "GLOBAL",
 }
 
+// EntityManagementCloudProvider - Supported cloud providers for federated log deployments.
+type EntityManagementCloudProvider string
+
+var EntityManagementCloudProviderTypes = struct {
+	// Amazon Web Services
+	AWS EntityManagementCloudProvider
+	// Microsoft Azure
+	AZURE EntityManagementCloudProvider
+	// Google Cloud Platform
+	GCP EntityManagementCloudProvider
+	// Oracle Cloud Infrastructure
+	OCI EntityManagementCloudProvider
+}{
+	// Amazon Web Services
+	AWS: "AWS",
+	// Microsoft Azure
+	AZURE: "AZURE",
+	// Google Cloud Platform
+	GCP: "GCP",
+	// Oracle Cloud Infrastructure
+	OCI: "OCI",
+}
+
 // EntityManagementEncodingName - The Encoding names options
 type EntityManagementEncodingName string
 
@@ -1413,6 +1436,29 @@ var EntityManagementExternalOwnerTypeTypes = struct {
 	USER: "USER",
 	// workspace if the source is bitbucket
 	WORKSPACE: "WORKSPACE",
+}
+
+// EntityManagementFederatedLogSetupStatus - Status of a federated log setup.
+type EntityManagementFederatedLogSetupStatus string
+
+var EntityManagementFederatedLogSetupStatusTypes = struct {
+	// Indicates the federated log setup is active.
+	ACTIVE EntityManagementFederatedLogSetupStatus
+	// Indicates the federated log setup is being created.
+	CREATING EntityManagementFederatedLogSetupStatus
+	// Indicates the federated log setup is in an error state.
+	ERROR EntityManagementFederatedLogSetupStatus
+	// Indicates the federated log setup is inactive.
+	INACTIVE EntityManagementFederatedLogSetupStatus
+}{
+	// Indicates the federated log setup is active.
+	ACTIVE: "ACTIVE",
+	// Indicates the federated log setup is being created.
+	CREATING: "CREATING",
+	// Indicates the federated log setup is in an error state.
+	ERROR: "ERROR",
+	// Indicates the federated log setup is inactive.
+	INACTIVE: "INACTIVE",
 }
 
 // EntityManagementFleetDeploymentPhase - Phases a fleet deployment can have
@@ -1592,6 +1638,21 @@ var EntityManagementManagedEntityTypeTypes = struct {
 	HOST: "HOST",
 	// Kubernetes Cluster
 	KUBERNETESCLUSTER: "KUBERNETESCLUSTER",
+}
+
+// EntityManagementNrRegion - New Relic regions for federated log.
+type EntityManagementNrRegion string
+
+var EntityManagementNrRegionTypes = struct {
+	// EU region
+	EU EntityManagementNrRegion
+	// US region
+	US EntityManagementNrRegion
+}{
+	// EU region
+	EU: "EU",
+	// US region
+	US: "US",
 }
 
 // EntityManagementStatusCode - Rule execution status codes
@@ -4445,6 +4506,201 @@ type EntityManagementExternalOwner struct {
 	ID string `json:"id"`
 	// Type of owner of the repository eg:- user,organisation etc.
 	Type EntityManagementExternalOwnerType `json:"type"`
+}
+
+// EntityManagementFederatedLogSetupEntity - Federated Log Setup Entity.
+type EntityManagementFederatedLogSetupEntity struct {
+	// The cloud provider where this Federated Log setup is deployed.
+	CloudProvider EntityManagementCloudProvider `json:"cloudProvider"`
+	// The cloud provider region where the Federated Log setup is deployed.
+	CloudProviderRegion string `json:"cloudProviderRegion"`
+	// The object storage bucket where log data is stored.
+	DataLocationBucket string `json:"dataLocationBucket"`
+	// The data processing component that defines transformation rules and partition routing logic for this federated log setup.
+	DataProcessingComponent EntityManagementEntityInterface `json:"dataProcessingComponent,omitempty"`
+	// The connection manager entity used for data processing, transformation, and partition routing.
+	DataProcessingConnection EntityManagementEntityInterface `json:"dataProcessingConnection"`
+	// The description of the Federated Log setup.
+	Description string `json:"description,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of the federated log setup.
+	Name string `json:"name"`
+	// The NR account ID associated with the federated log setup.
+	NrAccountId string `json:"nrAccountId"`
+	// The NR region associated with the federated log setup.
+	NrRegion EntityManagementNrRegion `json:"nrRegion"`
+	// The connection manager entity used by query workers for reading and accessing federated log resources.
+	QueryConnection EntityManagementEntityInterface `json:"queryConnection"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// The status of the federated log setup.
+	Status EntityManagementFederatedLogSetupStatus `json:"status"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementFederatedLogSetupEntity) ImplementsEntityManagementEntity() {}
+
+// special
+func (x *EntityManagementFederatedLogSetupEntity) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+
+	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
+		switch k {
+		case "cloudProvider":
+			err = json.Unmarshal(*v, &x.CloudProvider)
+			if err != nil {
+				return err
+			}
+		case "cloudProviderRegion":
+			err = json.Unmarshal(*v, &x.CloudProviderRegion)
+			if err != nil {
+				return err
+			}
+		case "dataLocationBucket":
+			err = json.Unmarshal(*v, &x.DataLocationBucket)
+			if err != nil {
+				return err
+			}
+		case "dataProcessingComponent":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalEntityManagementEntityInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.DataProcessingComponent = *xxx
+			}
+		case "dataProcessingConnection":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalEntityManagementEntityInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.DataProcessingConnection = *xxx
+			}
+		case "description":
+			err = json.Unmarshal(*v, &x.Description)
+			if err != nil {
+				return err
+			}
+		case "id":
+			err = json.Unmarshal(*v, &x.ID)
+			if err != nil {
+				return err
+			}
+		case "metadata":
+			err = json.Unmarshal(*v, &x.Metadata)
+			if err != nil {
+				return err
+			}
+		case "name":
+			err = json.Unmarshal(*v, &x.Name)
+			if err != nil {
+				return err
+			}
+		case "nrAccountId":
+			err = json.Unmarshal(*v, &x.NrAccountId)
+			if err != nil {
+				return err
+			}
+		case "nrRegion":
+			err = json.Unmarshal(*v, &x.NrRegion)
+			if err != nil {
+				return err
+			}
+		case "queryConnection":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalEntityManagementEntityInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.QueryConnection = *xxx
+			}
+		case "scope":
+			err = json.Unmarshal(*v, &x.Scope)
+			if err != nil {
+				return err
+			}
+		case "status":
+			err = json.Unmarshal(*v, &x.Status)
+			if err != nil {
+				return err
+			}
+		case "tags":
+			err = json.Unmarshal(*v, &x.Tags)
+			if err != nil {
+				return err
+			}
+		case "type":
+			err = json.Unmarshal(*v, &x.Type)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
+}
+
+// EntityManagementFederatedLogSetupEntityCreateInput - Create input for FederatedLogSetupEntity entity type.
+type EntityManagementFederatedLogSetupEntityCreateInput struct {
+	// See cloudProvider in FederatedLogSetupEntity.
+	CloudProvider EntityManagementCloudProvider `json:"cloudProvider"`
+	// See cloudProviderRegion in FederatedLogSetupEntity.
+	CloudProviderRegion string `json:"cloudProviderRegion"`
+	// See dataLocationBucket in FederatedLogSetupEntity.
+	DataLocationBucket string `json:"dataLocationBucket"`
+	// See dataProcessingComponentId in FederatedLogSetupEntity.
+	DataProcessingComponentId string `json:"dataProcessingComponentId,omitempty"`
+	// See dataProcessingConnectionId in FederatedLogSetupEntity.
+	DataProcessingConnectionId string `json:"dataProcessingConnectionId"`
+	// See description in FederatedLogSetupEntity.
+	Description string `json:"description,omitempty"`
+	// See name in FederatedLogSetupEntity.
+	Name string `json:"name"`
+	// See nrAccountId in FederatedLogSetupEntity.
+	NrAccountId string `json:"nrAccountId"`
+	// See nrRegion in FederatedLogSetupEntity.
+	NrRegion EntityManagementNrRegion `json:"nrRegion"`
+	// See queryConnectionId in FederatedLogSetupEntity.
+	QueryConnectionId string `json:"queryConnectionId"`
+	// See scope in FederatedLogSetupEntity.
+	Scope EntityManagementScopedReferenceInput `json:"scope,omitempty"`
+	// See status in FederatedLogSetupEntity.
+	Status EntityManagementFederatedLogSetupStatus `json:"status"`
+	// See tags in FederatedLogSetupEntity.
+	Tags []EntityManagementTagInput `json:"tags,omitempty"`
+}
+
+// EntityManagementFederatedLogSetupEntityCreateResult - The result of creating an entity.
+type EntityManagementFederatedLogSetupEntityCreateResult struct {
+	// The created entity.
+	Entity EntityManagementFederatedLogSetupEntity `json:"entity"`
 }
 
 // EntityManagementFleetDeployment - Deprecated: A set of configurations that are currently deployed
@@ -8803,6 +9059,16 @@ func UnmarshalEntityManagementEntityInterface(b []byte) (*EntityManagementEntity
 		switch typeName {
 		case "EntityManagementPipelineCloudRuleEntity":
 			var interfaceType EntityManagementPipelineCloudRuleEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementFederatedLogSetupEntity":
+			var interfaceType EntityManagementFederatedLogSetupEntity
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err

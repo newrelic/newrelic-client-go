@@ -181,3 +181,115 @@ func TestUnitEntityManagement_GetEntity_Error(t *testing.T) {
 	require.Error(t, err)
 	require.Nil(t, result)
 }
+
+var (
+	testFederatedLogSetupID = "MXxYY0YYxYYYYYYYYY6YY0YYY1YYY1YYYYY9YYY6YYYxY3YxYyyyYY04YYY3YYy0YYYyYYYyYyYyYYYyYYYy"
+
+	testCreateFederatedLogSetupResponseJSON = `
+	{
+		"data": {
+			"EntityManagementCreateFederatedLogSetup": {
+				"entity": {
+					"id": "MXxYY0YYxYYYYYYYYY6YY0YYY1YYY1YYYYY9YYY6YYYxY3YxYyyyYY04YYY3YYy0YYYyYYYyYyYyYYYyYYYy",
+					"metadata": {
+						"version": 1
+					},
+					"name": "Test Federated Log Setup",
+					"description": "Test Federated Log Setup - New Relic Go Client",
+					"cloudProvider": "AWS",
+					"cloudProviderRegion": "us-east-1",
+					"dataLocationBucket": "my-test-bucket",
+					"nrAccountId": "12345",
+					"nrRegion": "US",
+					"status": "ACTIVE"
+				}
+			}
+		}
+	}`
+
+	testCreateFederatedLogSetupErrorResponseJSON = `
+	{
+		"errors": [
+			{
+				"message": "Invalid input: missing required field"
+			}
+		]
+	}`
+)
+
+func TestUnitEntityManagement_CreateFederatedLogSetup(t *testing.T) {
+	t.Parallel()
+	client := newMockClient(t, testCreateFederatedLogSetupResponseJSON, http.StatusOK)
+
+	createInput := EntityManagementFederatedLogSetupEntityCreateInput{
+		Name:                       "Test Federated Log Setup",
+		Description:                "Test Federated Log Setup - New Relic Go Client",
+		CloudProvider:              EntityManagementCloudProviderTypes.AWS,
+		CloudProviderRegion:        "us-east-1",
+		DataLocationBucket:         "my-test-bucket",
+		DataProcessingConnectionId: "connection-123",
+		NrAccountId:                "12345",
+		NrRegion:                   EntityManagementNrRegionTypes.US,
+		QueryConnectionId:          "query-connection-456",
+		Status:                     EntityManagementFederatedLogSetupStatusTypes.ACTIVE,
+		Scope: EntityManagementScopedReferenceInput{
+			Type: EntityManagementEntityScopeTypes.ACCOUNT,
+			ID:   testAccountID,
+		},
+	}
+
+	result, err := client.EntityManagementCreateFederatedLogSetup(createInput)
+
+	require.NoError(t, err)
+	require.NotNil(t, result)
+	require.Equal(t, testFederatedLogSetupID, result.Entity.ID)
+	require.Equal(t, "Test Federated Log Setup", result.Entity.Name)
+	require.Equal(t, EntityManagementCloudProviderTypes.AWS, result.Entity.CloudProvider)
+	require.Equal(t, "us-east-1", result.Entity.CloudProviderRegion)
+	require.Equal(t, EntityManagementNrRegionTypes.US, result.Entity.NrRegion)
+	require.Equal(t, EntityManagementFederatedLogSetupStatusTypes.ACTIVE, result.Entity.Status)
+}
+
+func TestUnitEntityManagement_CreateFederatedLogSetupWithContext(t *testing.T) {
+	t.Parallel()
+	client := newMockClient(t, testCreateFederatedLogSetupResponseJSON, http.StatusOK)
+
+	createInput := EntityManagementFederatedLogSetupEntityCreateInput{
+		Name:                       "Test Federated Log Setup",
+		Description:                "Test Federated Log Setup - New Relic Go Client",
+		CloudProvider:              EntityManagementCloudProviderTypes.AWS,
+		CloudProviderRegion:        "us-east-1",
+		DataLocationBucket:         "my-test-bucket",
+		DataProcessingConnectionId: "connection-123",
+		NrAccountId:                "12345",
+		NrRegion:                   EntityManagementNrRegionTypes.US,
+		QueryConnectionId:          "query-connection-456",
+		Status:                     EntityManagementFederatedLogSetupStatusTypes.ACTIVE,
+		Scope: EntityManagementScopedReferenceInput{
+			Type: EntityManagementEntityScopeTypes.ACCOUNT,
+			ID:   testAccountID,
+		},
+	}
+
+	result, err := client.EntityManagementCreateFederatedLogSetupWithContext(context.Background(), createInput)
+
+	require.NoError(t, err)
+	require.NotNil(t, result)
+	require.Equal(t, testFederatedLogSetupID, result.Entity.ID)
+	require.Equal(t, "Test Federated Log Setup", result.Entity.Name)
+}
+
+func TestUnitEntityManagement_CreateFederatedLogSetup_Error(t *testing.T) {
+	t.Parallel()
+	client := newMockClient(t, testCreateFederatedLogSetupErrorResponseJSON, http.StatusBadRequest)
+
+	createInput := EntityManagementFederatedLogSetupEntityCreateInput{
+		Name:          "Test Federated Log Setup",
+		CloudProvider: EntityManagementCloudProviderTypes.AWS,
+	}
+
+	result, err := client.EntityManagementCreateFederatedLogSetup(createInput)
+
+	require.Error(t, err)
+	require.Nil(t, result)
+}
