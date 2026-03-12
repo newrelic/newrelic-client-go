@@ -1,3 +1,8 @@
+<a name="v2.79.1"></a>
+## [v2.79.1] - 2026-03-12
+### Bug Fixes
+- **notifications:** add ExactName field to AiNotificationsDestinationFilter ([#1374](https://github.com/newrelic/newrelic-client-go/issues/1374))
+
 <a name="v2.79.0"></a>
 ## [v2.79.0] - 2026-02-19
 ### Features
@@ -2205,7 +2210,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.79.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.79.1...HEAD
+[v2.79.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.79.0...v2.79.1
 [v2.79.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.78.0...v2.79.0
 [v2.78.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.77.0...v2.78.0
 [v2.77.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.76.0...v2.77.0
