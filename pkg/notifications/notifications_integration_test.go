@@ -148,6 +148,60 @@ func TestNotificationMutationDestination_FilterByName(t *testing.T) {
 	require.NotNil(t, deleteResult)
 }
 
+func TestNotificationMutationDestination_FilterByExactName(t *testing.T) {
+	t.Parallel()
+
+	n := newIntegrationTestClient(t)
+
+	accountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	// Create a destination to work with in this test
+	testIntegrationDestinationNameRandStr := mock.RandSeq(5)
+	destination := AiNotificationsDestinationInput{}
+	destination.Type = AiNotificationsDestinationTypeTypes.WEBHOOK
+	destination.Properties = []AiNotificationsPropertyInput{
+		{
+			Key:          "url",
+			Value:        "https://webhook.site/94193c01-4a81-4782-8f1b-554d5230395b",
+			Label:        "",
+			DisplayValue: "",
+		},
+	}
+	destination.Auth = &AiNotificationsCredentialsInput{
+		Type: AiNotificationsAuthTypeTypes.TOKEN,
+		Token: AiNotificationsTokenAuthInput{
+			Token:  "Token",
+			Prefix: "Bearer",
+		},
+	}
+	destination.Name = fmt.Sprintf("test-notifications-destination-%s", testIntegrationDestinationNameRandStr)
+
+	// Test: Create
+	createResult, err := n.AiNotificationsCreateDestination(accountID, destination)
+	require.NoError(t, err)
+	require.NotNil(t, createResult)
+	require.NotEmpty(t, createResult.Destination.Auth)
+	require.Equal(t, ai.AiNotificationsAuthType("TOKEN"), createResult.Destination.Auth.AuthType)
+
+	// Test: Get Destination by exact name
+	filtersByExactName := ai.AiNotificationsDestinationFilter{
+		ExactName: createResult.Destination.Name,
+	}
+	sorter := AiNotificationsDestinationSorter{}
+	getDestinationByExactNameResult, err := n.GetDestinations(accountID, "", filtersByExactName, sorter)
+	require.NoError(t, err)
+	require.NotNil(t, getDestinationByExactNameResult)
+	assert.Equal(t, 1, getDestinationByExactNameResult.TotalCount)
+
+	// Test: Delete
+	deleteResult, err := n.AiNotificationsDeleteDestination(accountID, createResult.Destination.ID)
+	require.NoError(t, err)
+	require.NotNil(t, deleteResult)
+}
+
 func TestNotificationMutationDestination_CustomHeaderAuth(t *testing.T) {
 	t.Parallel()
 
