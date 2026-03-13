@@ -24,7 +24,7 @@ var AgentApplicationSegmentsListTypeTypes = struct {
 	USER: "USER",
 }
 
-// AgentApplicationSettingsBrowserLoader - Determines which browser loader will be configured. Some allowed return values are specified for backwards-compatability and do not represent currently allowed values for new applications.
+// AgentApplicationSettingsBrowserLoader - Determines which browser loader will be configured. Some allowed return values are specified for backwards-compatibility and do not represent currently allowed values for new applications.
 // See [documentation](https://docs.newrelic.com/docs/browser/browser-monitoring/installation/install-browser-monitoring-agent/#agent-types) for further information.
 type AgentApplicationSettingsBrowserLoader string
 
@@ -41,7 +41,7 @@ var AgentApplicationSettingsBrowserLoaderTypes = struct {
 	RUM AgentApplicationSettingsBrowserLoader
 	// Pro+SPA: This is the default installed agent when you enable browser monitoring. Gives you access to all of the Browser Pro features and to Single Page App (SPA) monitoring. Provides detailed page timing data and the most up-to-date New Relic features, including distributed tracing, for all types of applications.
 	SPA AgentApplicationSettingsBrowserLoader
-	// This value is specified for backwards-compatability.
+	// This value is specified for backwards-compatibility.
 	XHR AgentApplicationSettingsBrowserLoader
 }{
 	// Use PRO instead
@@ -56,7 +56,7 @@ var AgentApplicationSettingsBrowserLoaderTypes = struct {
 	RUM: "RUM",
 	// Pro+SPA: This is the default installed agent when you enable browser monitoring. Gives you access to all of the Browser Pro features and to Single Page App (SPA) monitoring. Provides detailed page timing data and the most up-to-date New Relic features, including distributed tracing, for all types of applications.
 	SPA: "SPA",
-	// This value is specified for backwards-compatability.
+	// This value is specified for backwards-compatibility.
 	XHR: "XHR",
 }
 
@@ -1335,6 +1335,29 @@ var EntityManagementCategoryScopeTypeTypes = struct {
 	GLOBAL: "GLOBAL",
 }
 
+// EntityManagementCloudProvider - Supported cloud providers for federated log deployments.
+type EntityManagementCloudProvider string
+
+var EntityManagementCloudProviderTypes = struct {
+	// Amazon Web Services
+	AWS EntityManagementCloudProvider
+	// Microsoft Azure
+	AZURE EntityManagementCloudProvider
+	// Google Cloud Platform
+	GCP EntityManagementCloudProvider
+	// Oracle Cloud Infrastructure
+	OCI EntityManagementCloudProvider
+}{
+	// Amazon Web Services
+	AWS: "AWS",
+	// Microsoft Azure
+	AZURE: "AZURE",
+	// Google Cloud Platform
+	GCP: "GCP",
+	// Oracle Cloud Infrastructure
+	OCI: "OCI",
+}
+
 // EntityManagementEncodingName - The Encoding names options
 type EntityManagementEncodingName string
 
@@ -1413,6 +1436,29 @@ var EntityManagementExternalOwnerTypeTypes = struct {
 	USER: "USER",
 	// workspace if the source is bitbucket
 	WORKSPACE: "WORKSPACE",
+}
+
+// EntityManagementFederatedLogSetupStatus - Status of a federated log setup.
+type EntityManagementFederatedLogSetupStatus string
+
+var EntityManagementFederatedLogSetupStatusTypes = struct {
+	// Indicates the federated log setup is active.
+	ACTIVE EntityManagementFederatedLogSetupStatus
+	// Indicates the federated log setup is being created.
+	CREATING EntityManagementFederatedLogSetupStatus
+	// Indicates the federated log setup is in an error state.
+	ERROR EntityManagementFederatedLogSetupStatus
+	// Indicates the federated log setup is inactive.
+	INACTIVE EntityManagementFederatedLogSetupStatus
+}{
+	// Indicates the federated log setup is active.
+	ACTIVE: "ACTIVE",
+	// Indicates the federated log setup is being created.
+	CREATING: "CREATING",
+	// Indicates the federated log setup is in an error state.
+	ERROR: "ERROR",
+	// Indicates the federated log setup is inactive.
+	INACTIVE: "INACTIVE",
 }
 
 // EntityManagementFleetDeploymentPhase - Phases a fleet deployment can have
@@ -1592,6 +1638,21 @@ var EntityManagementManagedEntityTypeTypes = struct {
 	HOST: "HOST",
 	// Kubernetes Cluster
 	KUBERNETESCLUSTER: "KUBERNETESCLUSTER",
+}
+
+// EntityManagementNrRegion - New Relic regions for federated log.
+type EntityManagementNrRegion string
+
+var EntityManagementNrRegionTypes = struct {
+	// EU region
+	EU EntityManagementNrRegion
+	// US region
+	US EntityManagementNrRegion
+}{
+	// EU region
+	EU: "EU",
+	// US region
+	US: "US",
 }
 
 // EntityManagementStatusCode - Rule execution status codes
@@ -2551,7 +2612,7 @@ type ApmApplicationDeployment struct {
 	Permalink string `json:"permalink,omitempty"`
 	// The revision of the app that was deployed
 	Revision string `json:"revision,omitempty"`
-	// The moment the deployment occured
+	// The moment the deployment occurred
 	Timestamp *nrtime.EpochMilliseconds `json:"timestamp,omitempty"`
 	// The user who triggered the deployment
 	User string `json:"user,omitempty"`
@@ -2616,7 +2677,7 @@ type ApmApplicationEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -2822,7 +2883,7 @@ type ApmDatabaseInstanceEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -2950,7 +3011,7 @@ type ApmExternalServiceEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -3094,7 +3155,7 @@ type BrowserApplicationEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -3376,7 +3437,7 @@ type DashboardEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -3787,7 +3848,7 @@ type Entity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -4445,6 +4506,201 @@ type EntityManagementExternalOwner struct {
 	ID string `json:"id"`
 	// Type of owner of the repository eg:- user,organisation etc.
 	Type EntityManagementExternalOwnerType `json:"type"`
+}
+
+// EntityManagementFederatedLogSetupEntity - Federated Log Setup Entity.
+type EntityManagementFederatedLogSetupEntity struct {
+	// The cloud provider where this Federated Log setup is deployed.
+	CloudProvider EntityManagementCloudProvider `json:"cloudProvider"`
+	// The cloud provider region where the Federated Log setup is deployed.
+	CloudProviderRegion string `json:"cloudProviderRegion"`
+	// The object storage bucket where log data is stored.
+	DataLocationBucket string `json:"dataLocationBucket"`
+	// The data processing component that defines transformation rules and partition routing logic for this federated log setup.
+	DataProcessingComponent EntityManagementEntityInterface `json:"dataProcessingComponent,omitempty"`
+	// The connection manager entity used for data processing, transformation, and partition routing.
+	DataProcessingConnection EntityManagementEntityInterface `json:"dataProcessingConnection"`
+	// The description of the Federated Log setup.
+	Description string `json:"description,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of the federated log setup.
+	Name string `json:"name"`
+	// The NR account ID associated with the federated log setup.
+	NrAccountId string `json:"nrAccountId"`
+	// The NR region associated with the federated log setup.
+	NrRegion EntityManagementNrRegion `json:"nrRegion"`
+	// The connection manager entity used by query workers for reading and accessing federated log resources.
+	QueryConnection EntityManagementEntityInterface `json:"queryConnection"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// The status of the federated log setup.
+	Status EntityManagementFederatedLogSetupStatus `json:"status"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementFederatedLogSetupEntity) ImplementsEntityManagementEntity() {}
+
+// special
+func (x *EntityManagementFederatedLogSetupEntity) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+
+	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
+		switch k {
+		case "cloudProvider":
+			err = json.Unmarshal(*v, &x.CloudProvider)
+			if err != nil {
+				return err
+			}
+		case "cloudProviderRegion":
+			err = json.Unmarshal(*v, &x.CloudProviderRegion)
+			if err != nil {
+				return err
+			}
+		case "dataLocationBucket":
+			err = json.Unmarshal(*v, &x.DataLocationBucket)
+			if err != nil {
+				return err
+			}
+		case "dataProcessingComponent":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalEntityManagementEntityInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.DataProcessingComponent = *xxx
+			}
+		case "dataProcessingConnection":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalEntityManagementEntityInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.DataProcessingConnection = *xxx
+			}
+		case "description":
+			err = json.Unmarshal(*v, &x.Description)
+			if err != nil {
+				return err
+			}
+		case "id":
+			err = json.Unmarshal(*v, &x.ID)
+			if err != nil {
+				return err
+			}
+		case "metadata":
+			err = json.Unmarshal(*v, &x.Metadata)
+			if err != nil {
+				return err
+			}
+		case "name":
+			err = json.Unmarshal(*v, &x.Name)
+			if err != nil {
+				return err
+			}
+		case "nrAccountId":
+			err = json.Unmarshal(*v, &x.NrAccountId)
+			if err != nil {
+				return err
+			}
+		case "nrRegion":
+			err = json.Unmarshal(*v, &x.NrRegion)
+			if err != nil {
+				return err
+			}
+		case "queryConnection":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalEntityManagementEntityInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.QueryConnection = *xxx
+			}
+		case "scope":
+			err = json.Unmarshal(*v, &x.Scope)
+			if err != nil {
+				return err
+			}
+		case "status", "setupStatus":
+			err = json.Unmarshal(*v, &x.Status)
+			if err != nil {
+				return err
+			}
+		case "tags":
+			err = json.Unmarshal(*v, &x.Tags)
+			if err != nil {
+				return err
+			}
+		case "type":
+			err = json.Unmarshal(*v, &x.Type)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
+}
+
+// EntityManagementFederatedLogSetupEntityCreateInput - Create input for FederatedLogSetupEntity entity type.
+type EntityManagementFederatedLogSetupEntityCreateInput struct {
+	// See cloudProvider in FederatedLogSetupEntity.
+	CloudProvider EntityManagementCloudProvider `json:"cloudProvider"`
+	// See cloudProviderRegion in FederatedLogSetupEntity.
+	CloudProviderRegion string `json:"cloudProviderRegion"`
+	// See dataLocationBucket in FederatedLogSetupEntity.
+	DataLocationBucket string `json:"dataLocationBucket"`
+	// See dataProcessingComponentId in FederatedLogSetupEntity.
+	DataProcessingComponentId string `json:"dataProcessingComponentId,omitempty"`
+	// See dataProcessingConnectionId in FederatedLogSetupEntity.
+	DataProcessingConnectionId string `json:"dataProcessingConnectionId"`
+	// See description in FederatedLogSetupEntity.
+	Description string `json:"description,omitempty"`
+	// See name in FederatedLogSetupEntity.
+	Name string `json:"name"`
+	// See nrAccountId in FederatedLogSetupEntity.
+	NrAccountId string `json:"nrAccountId"`
+	// See nrRegion in FederatedLogSetupEntity.
+	NrRegion EntityManagementNrRegion `json:"nrRegion"`
+	// See queryConnectionId in FederatedLogSetupEntity.
+	QueryConnectionId string `json:"queryConnectionId"`
+	// See scope in FederatedLogSetupEntity.
+	Scope EntityManagementScopedReferenceInput `json:"scope,omitempty"`
+	// See status in FederatedLogSetupEntity.
+	Status EntityManagementFederatedLogSetupStatus `json:"status"`
+	// See tags in FederatedLogSetupEntity.
+	Tags []EntityManagementTagInput `json:"tags,omitempty"`
+}
+
+// EntityManagementFederatedLogSetupEntityCreateResult - The result of creating an entity.
+type EntityManagementFederatedLogSetupEntityCreateResult struct {
+	// The created entity.
+	Entity EntityManagementFederatedLogSetupEntity `json:"entity"`
 }
 
 // EntityManagementFleetDeployment - Deprecated: A set of configurations that are currently deployed
@@ -5588,7 +5844,7 @@ type ExternalEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -5703,7 +5959,7 @@ type GenericEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -5819,7 +6075,7 @@ type GenericInfrastructureEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -5940,7 +6196,7 @@ type InfrastructureAwsLambdaFunctionEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -6064,7 +6320,7 @@ type InfrastructureHostEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -6279,7 +6535,7 @@ type KeyTransactionEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -6478,7 +6734,7 @@ type MobileApplicationEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -6733,7 +6989,7 @@ type SecureCredentialEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -7183,7 +7439,7 @@ type SyntheticMonitorEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -7330,7 +7586,7 @@ type TeamEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -7447,7 +7703,7 @@ type ThirdPartyServiceEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -7578,7 +7834,7 @@ type UnavailableEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -7706,7 +7962,7 @@ type WorkloadEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -7851,6 +8107,9 @@ type EntityAlertViolationInt string
 
 // EntityGUID - An encoded Entity GUID
 type EntityGUID string
+
+// EntityManagementDynamicString - A string meant to be generated at runtime by a function in the form of a directive.
+type EntityManagementDynamicString string
 
 // Float - The `Float` scalar type represents signed double-precision fractional
 // values as specified by
@@ -8811,6 +9070,37 @@ func UnmarshalEntityManagementEntityInterface(b []byte) (*EntityManagementEntity
 			var xxx EntityManagementEntityInterface = &interfaceType
 
 			return &xxx, nil
+		case "EntityManagementFederatedLogSetupEntity":
+			var interfaceType EntityManagementFederatedLogSetupEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementFederatedLogPartitionEntity":
+			var interfaceType EntityManagementFederatedLogPartitionEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+
+		case "EntityManagementAwsConnectionEntity":
+			var interfaceType EntityManagementAwsConnectionEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
 		}
 	} else {
 		keys := []string{}
@@ -9327,4 +9617,232 @@ func (x *EntityManagementActorStitchedFields) UnmarshalJSON(b []byte) error {
 	}
 
 	return nil
+}
+
+// EntityManagementAwsAssumeRoleConfig - Configuration for accessing an Aws account via AssumeRole
+type EntityManagementAwsAssumeRoleConfig struct {
+	// External ID to use when assuming the role
+	ExternalId EntityManagementDynamicString `json:"externalId,omitempty"`
+	// The ARN of the role to assume
+	RoleArn string `json:"roleArn"`
+}
+
+// EntityManagementAwsConnectionEntity - Connection entity type for Aws
+type EntityManagementAwsConnectionEntity struct {
+	// A single credential from the choice of AwsCredential
+	Credential EntityManagementAwsCredentials `json:"credential"`
+	// The description of that connection.
+	Description string `json:"description,omitempty"`
+	// Flag to indicate if the connection is enabled. True by default
+	Enabled bool `json:"enabled,omitempty"`
+	// Optional field representing an identifier managed by the consumer
+	ExternalId string `json:"externalId,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of that connection.
+	Name string `json:"name"`
+	// Default region for this connection
+	Region string `json:"region,omitempty"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Optional list of connection settings
+	Settings []EntityManagementConnectionSettings `json:"settings"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity's type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementAwsConnectionEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementAwsCredentials - Base Credential type for Aws
+type EntityManagementAwsCredentials struct {
+	// AssumeRole type
+	AssumeRole EntityManagementAwsAssumeRoleConfig `json:"assumeRole,omitempty"`
+}
+
+// EntityManagementConnectionSettings - Connection settings type for all connections
+type EntityManagementConnectionSettings struct {
+	// The key or name of the setting
+	Key string `json:"key"`
+	// The value of the setting.
+	Value string `json:"value"`
+}
+
+// EntityManagementAwsConnectionEntityCreateInput - Create input for AwsConnectionEntity entity type.
+type EntityManagementAwsConnectionEntityCreateInput struct {
+	// See credential in AwsConnectionEntity.
+	Credential EntityManagementAwsCredentialsCreateInput `json:"credential,omitempty"`
+	// See description in AwsConnectionEntity.
+	Description string `json:"description,omitempty"`
+	// See enabled in AwsConnectionEntity.
+	Enabled bool `json:"enabled,omitempty"`
+	// See externalId in AwsConnectionEntity.
+	ExternalId string `json:"externalId,omitempty"`
+	// See name in AwsConnectionEntity.
+	Name string `json:"name"`
+	// See region in AwsConnectionEntity.
+	Region string `json:"region,omitempty"`
+	// See scope in AwsConnectionEntity.
+	Scope EntityManagementScopedReferenceInput `json:"scope,omitempty"`
+	// See settings in AwsConnectionEntity.
+	Settings []EntityManagementConnectionSettingsCreateInput `json:"settings,omitempty"`
+	// See tags in AwsConnectionEntity.
+	Tags []EntityManagementTagInput `json:"tags,omitempty"`
+}
+
+// EntityManagementAwsConnectionEntityCreateResult - The result of creating an entity.
+type EntityManagementAwsConnectionEntityCreateResult struct {
+	// The created entity.
+	Entity EntityManagementAwsConnectionEntity `json:"entity"`
+}
+
+// EntityManagementConnectionSettingsCreateInput - Create input for ConnectionSettings.
+type EntityManagementConnectionSettingsCreateInput struct {
+	// See key in ConnectionSettings.
+	Key string `json:"key"`
+	// See value in ConnectionSettings.
+	Value string `json:"value"`
+}
+
+// EntityManagementAwsCredentialsCreateInput - Create input for AwsCredentials.
+type EntityManagementAwsCredentialsCreateInput struct {
+	// See assumeRole in AwsCredentials.
+	AssumeRole EntityManagementAwsAssumeRoleConfigCreateInput `json:"assumeRole,omitempty"`
+}
+
+// EntityManagementAwsAssumeRoleConfigCreateInput - Create input for AwsAssumeRoleConfig.
+type EntityManagementAwsAssumeRoleConfigCreateInput struct {
+	// See roleArn in AwsAssumeRoleConfig.
+	RoleArn string `json:"roleArn"`
+}
+
+// EntityManagementFederatedLogPartitionEntity - Federated Log partition entity.
+type EntityManagementFederatedLogPartitionEntity struct {
+	// The URI location of the log partition in object storage.
+	DataLocationUri string `json:"dataLocationURI"`
+	// The description of the log partition.
+	Description string `json:"description,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Indicates if this log partition is the default partition.
+	IsDefault bool `json:"isDefault"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of the log partition. This corresponds to the partition/event type used in log queries.
+	Name string `json:"name"`
+	// The NR account ID associated with the federated log partition.
+	NrAccountId string `json:"nrAccountId"`
+	// The database name associated with the log partition. This could refer to a data catalog database or similar structure.
+	PartitionDatabase string `json:"partitionDatabase"`
+	// The table name associated with the log partition. This could refer to a data catalog table or similar structure.
+	PartitionTable string `json:"partitionTable"`
+	// The optional retention policy for logs in this partition.
+	RetentionPolicy EntityManagementRetentionPolicy `json:"retentionPolicy,omitempty"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// The federated log setup this partition belongs to.
+	Setup EntityManagementFederatedLogSetupEntity `json:"setup"`
+	// The status of the log partition.
+	Status EntityManagementLogPartitionStatus `json:"status"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+// EntityManagementRetentionPolicy - Retention policy for log data.
+type EntityManagementRetentionPolicy struct {
+	// The duration value for retention.
+	Duration int `json:"duration"`
+	// The time unit for the retention duration.
+	Unit EntityManagementRetentionUnit `json:"unit"`
+}
+
+// EntityManagementRetentionPolicyCreateInput - Create input for RetentionPolicy.
+type EntityManagementRetentionPolicyCreateInput struct {
+	// See duration in RetentionPolicy.
+	Duration int `json:"duration"`
+	// See unit in RetentionPolicy.
+	Unit EntityManagementRetentionUnit `json:"unit"`
+}
+
+func (x *EntityManagementFederatedLogPartitionEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementFederatedLogPartitionEntityCreateInput - Create input for FederatedLogPartitionEntity entity type.
+type EntityManagementFederatedLogPartitionEntityCreateInput struct {
+	// See dataLocationURI in FederatedLogPartitionEntity.
+	DataLocationUri string `json:"dataLocationURI"`
+	// See description in FederatedLogPartitionEntity.
+	Description string `json:"description,omitempty"`
+	// See isDefault in FederatedLogPartitionEntity.
+	IsDefault bool `json:"isDefault"`
+	// See name in FederatedLogPartitionEntity.
+	Name string `json:"name"`
+	// See nrAccountId in FederatedLogPartitionEntity.
+	NrAccountId string `json:"nrAccountId"`
+	// See partitionDatabase in FederatedLogPartitionEntity.
+	PartitionDatabase string `json:"partitionDatabase"`
+	// See partitionTable in FederatedLogPartitionEntity.
+	PartitionTable string `json:"partitionTable"`
+	// See retentionPolicy in FederatedLogPartitionEntity.
+	RetentionPolicy *EntityManagementRetentionPolicyCreateInput `json:"retentionPolicy,omitempty"`
+	// See scope in FederatedLogPartitionEntity.
+	Scope EntityManagementScopedReferenceInput `json:"scope,omitempty"`
+	// See setupId in FederatedLogPartitionEntity.
+	SetupId string `json:"setupId"`
+	// See status in FederatedLogPartitionEntity.
+	Status EntityManagementLogPartitionStatus `json:"status"`
+	// See tags in FederatedLogPartitionEntity.
+	Tags []EntityManagementTagInput `json:"tags,omitempty"`
+}
+
+// EntityManagementFederatedLogPartitionEntityCreateResult - The result of creating an entity.
+type EntityManagementFederatedLogPartitionEntityCreateResult struct {
+	// The created entity.
+	Entity EntityManagementFederatedLogPartitionEntity `json:"entity"`
+}
+
+// EntityManagementLogPartitionStatus - Status of a log partition.
+type EntityManagementLogPartitionStatus string
+
+var EntityManagementLogPartitionStatusTypes = struct {
+	// Indicates the log partition is active.
+	ACTIVE EntityManagementLogPartitionStatus
+	// Indicates the log partition is being created.
+	CREATING EntityManagementLogPartitionStatus
+	// Indicates the log partition is in an error state.
+	ERROR EntityManagementLogPartitionStatus
+	// Indicates the log partition is inactive.
+	INACTIVE EntityManagementLogPartitionStatus
+}{
+	// Indicates the log partition is active.
+	ACTIVE: "ACTIVE",
+	// Indicates the log partition is being created.
+	CREATING: "CREATING",
+	// Indicates the log partition is in an error state.
+	ERROR: "ERROR",
+	// Indicates the log partition is inactive.
+	INACTIVE: "INACTIVE",
+}
+
+// EntityManagementRetentionUnit - Time units for retention policies.
+type EntityManagementRetentionUnit string
+
+var EntityManagementRetentionUnitTypes = struct {
+	// Days
+	DAYS EntityManagementRetentionUnit
+	// Months
+	MONTHS EntityManagementRetentionUnit
+	// Weeks
+	WEEKS EntityManagementRetentionUnit
+}{
+	// Days
+	DAYS: "DAYS",
+	// Months
+	MONTHS: "MONTHS",
+	// Weeks
+	WEEKS: "WEEKS",
 }

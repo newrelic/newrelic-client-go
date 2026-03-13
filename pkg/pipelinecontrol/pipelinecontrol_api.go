@@ -245,6 +245,7 @@ const getEntityQuery = `query(
 ) { actor { entityManagement { entity(
 	id: $id,
 ) {
+	__typename
 	id
 	metadata {
 		createdAt
@@ -314,6 +315,128 @@ const getEntityQuery = `query(
 			id
 			type
 		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementFederatedLogSetupEntity {
+		__typename
+		cloudProvider
+		cloudProviderRegion
+		dataLocationBucket
+		dataProcessingComponent {
+			__typename
+			id
+			name
+			type
+		}
+		dataProcessingConnection {
+			__typename
+			id
+			name
+			type
+		}
+		description
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+			}
+			version
+		}
+		nrAccountId
+		nrRegion
+		queryConnection {
+			__typename
+			id
+			name
+			type
+		}
+		scope {
+			id
+			type
+		}
+		setupStatus: status
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementAwsConnectionEntity {
+		__typename
+		credential {
+			assumeRole {
+				externalId
+				roleArn
+			}
+		}
+		description
+		enabled
+		externalId
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+			}
+			version
+		}
+		region
+		scope {
+			id
+			type
+		}
+		settings {
+			key
+			value
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementFederatedLogPartitionEntity {
+		__typename
+		dataLocationURI
+		description
+		isDefault
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+			}
+			version
+		}
+		nrAccountId
+		partitionDatabase
+		partitionTable
+		retentionPolicy {
+			duration
+			unit
+		}
+		scope {
+			id
+			type
+		}
+		partitionStatus: status
 		tags {
 			key
 			values
@@ -433,6 +556,392 @@ const getEntitySearchQuery = `query(
 				values
 			}
 		}
+		... on EntityManagementFederatedLogSetupEntity {
+			__typename
+			cloudProvider
+			cloudProviderRegion
+			dataLocationBucket
+			dataProcessingComponent {
+				__typename
+				id
+				name
+				type
+			}
+			dataProcessingConnection {
+				__typename
+				id
+				name
+				type
+			}
+			description
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+				}
+				version
+			}
+			nrAccountId
+			nrRegion
+			queryConnection {
+				__typename
+				id
+				name
+				type
+			}
+			scope {
+				id
+				type
+			}
+			setupStatus: status
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementAwsConnectionEntity {
+			__typename
+			credential {
+				assumeRole {
+					externalId
+					roleArn
+				}
+			}
+			description
+			enabled
+			externalId
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+				}
+				version
+			}
+			region
+			scope {
+				id
+				type
+			}
+			settings {
+				key
+				value
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementFederatedLogPartitionEntity {
+			__typename
+			dataLocationURI
+			description
+			isDefault
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+				}
+				version
+			}
+			nrAccountId
+			partitionDatabase
+			partitionTable
+			retentionPolicy {
+				duration
+				unit
+			}
+			scope {
+				id
+				type
+			}
+			partitionStatus: status
+			tags {
+				key
+				values
+			}
+		}
 	}
 	nextCursor
 } } } }`
+
+// Creates an entity of type FederatedLogSetupEntity.
+func (a *Pipelinecontrol) EntityManagementCreateFederatedLogSetup(
+	federatedLogSetupEntity EntityManagementFederatedLogSetupEntityCreateInput,
+) (*EntityManagementFederatedLogSetupEntityCreateResult, error) {
+	return a.EntityManagementCreateFederatedLogSetupWithContext(context.Background(),
+		federatedLogSetupEntity,
+	)
+}
+
+// Creates an entity of type FederatedLogSetupEntity.
+func (a *Pipelinecontrol) EntityManagementCreateFederatedLogSetupWithContext(
+	ctx context.Context,
+	federatedLogSetupEntity EntityManagementFederatedLogSetupEntityCreateInput,
+) (*EntityManagementFederatedLogSetupEntityCreateResult, error) {
+
+	resp := EntityManagementCreateFederatedLogSetupQueryResponse{}
+	vars := map[string]interface{}{
+		"federatedLogSetupEntity": federatedLogSetupEntity,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, EntityManagementCreateFederatedLogSetupMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.EntityManagementFederatedLogSetupEntityCreateResult, nil
+}
+
+type EntityManagementCreateFederatedLogSetupQueryResponse struct {
+	EntityManagementFederatedLogSetupEntityCreateResult EntityManagementFederatedLogSetupEntityCreateResult `json:"entityManagementCreateFederatedLogSetup"`
+}
+
+// NOTE: This mutation has been simplified to avoid exceeding the GraphQL API's 15,000 grammar token limit.
+// The original auto-generated mutation (~14,490 lines) included inline fragments for all entity types,
+// which was unnecessary for FederatedLogSetupEntity and caused the error:
+// "More than 15,000 'grammar' tokens have been presented. To prevent Denial Of Service attacks, parsing has been cancelled."
+//
+// This simplified version only queries fields specific to FederatedLogSetupEntity.
+const EntityManagementCreateFederatedLogSetupMutation = `mutation(
+	$federatedLogSetupEntity: EntityManagementFederatedLogSetupEntityCreateInput!,
+) { entityManagementCreateFederatedLogSetup(
+	federatedLogSetupEntity: $federatedLogSetupEntity,
+) {
+	entity {
+		__typename
+		id
+		name
+		type
+		cloudProvider
+		cloudProviderRegion
+		dataLocationBucket
+		description
+		nrAccountId
+		nrRegion
+		status
+		dataProcessingComponent {
+			__typename
+			id
+			name
+			type
+		}
+		dataProcessingConnection {
+			__typename
+			id
+			name
+			type
+		}
+		queryConnection {
+			__typename
+			id
+			name
+			type
+		}
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+} }`
+
+// Creates an entity of type AwsConnectionEntity.
+func (a *Pipelinecontrol) EntityManagementCreateAwsConnection(
+	awsConnectionEntity EntityManagementAwsConnectionEntityCreateInput,
+) (*EntityManagementAwsConnectionEntityCreateResult, error) {
+	return a.EntityManagementCreateAwsConnectionWithContext(context.Background(),
+		awsConnectionEntity,
+	)
+}
+
+// Creates an entity of type AwsConnectionEntity.
+func (a *Pipelinecontrol) EntityManagementCreateAwsConnectionWithContext(
+	ctx context.Context,
+	awsConnectionEntity EntityManagementAwsConnectionEntityCreateInput,
+) (*EntityManagementAwsConnectionEntityCreateResult, error) {
+
+	resp := EntityManagementCreateAwsConnectionQueryResponse{}
+	vars := map[string]interface{}{
+		"awsConnectionEntity": awsConnectionEntity,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, EntityManagementCreateAwsConnectionMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.EntityManagementAwsConnectionEntityCreateResult, nil
+}
+
+type EntityManagementCreateAwsConnectionQueryResponse struct {
+	EntityManagementAwsConnectionEntityCreateResult EntityManagementAwsConnectionEntityCreateResult `json:"EntityManagementCreateAwsConnection"`
+}
+
+const EntityManagementCreateAwsConnectionMutation = `mutation(
+    $awsConnectionEntity: EntityManagementAwsConnectionEntityCreateInput!,
+) { entityManagementCreateAwsConnection(
+    awsConnectionEntity: $awsConnectionEntity,
+) {
+    entity {
+        credential {
+            assumeRole {
+                externalId
+                roleArn
+            }
+        }
+        description
+        enabled
+        externalId
+        id
+        metadata {
+            createdAt
+            createdBy {
+                __typename
+                id
+                ... on EntityManagementSystemActor {
+                    __typename
+                }
+                ... on EntityManagementUserActor {
+                    __typename
+                }
+            }
+            updatedAt
+            updatedBy {
+                __typename
+                id
+                ... on EntityManagementSystemActor {
+                    __typename
+                }
+                ... on EntityManagementUserActor {
+                    __typename
+                }
+            }
+            version
+        }
+        name
+        region
+        scope {
+            id
+            type
+        }
+        settings {
+            key
+            value
+        }
+        tags {
+            key
+            values
+        }
+        type
+    }
+} }`
+
+// Creates an entity of type FederatedLogPartitionEntity.
+func (a *Pipelinecontrol) EntityManagementCreateFederatedLogPartition(
+	federatedLogPartitionEntity EntityManagementFederatedLogPartitionEntityCreateInput,
+) (*EntityManagementFederatedLogPartitionEntityCreateResult, error) {
+	return a.EntityManagementCreateFederatedLogPartitionWithContext(context.Background(),
+		federatedLogPartitionEntity,
+	)
+}
+
+// Creates an entity of type FederatedLogPartitionEntity.
+func (a *Pipelinecontrol) EntityManagementCreateFederatedLogPartitionWithContext(
+	ctx context.Context,
+	federatedLogPartitionEntity EntityManagementFederatedLogPartitionEntityCreateInput,
+) (*EntityManagementFederatedLogPartitionEntityCreateResult, error) {
+
+	resp := EntityManagementCreateFederatedLogPartitionQueryResponse{}
+	vars := map[string]interface{}{
+		"federatedLogPartitionEntity": federatedLogPartitionEntity,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, EntityManagementCreateFederatedLogPartitionMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.EntityManagementFederatedLogPartitionEntityCreateResult, nil
+}
+
+type EntityManagementCreateFederatedLogPartitionQueryResponse struct {
+	EntityManagementFederatedLogPartitionEntityCreateResult EntityManagementFederatedLogPartitionEntityCreateResult `json:"EntityManagementCreateFederatedLogPartition"`
+}
+
+// NOTE: This mutation has been simplified to avoid exceeding the GraphQL API's grammar token limit
+// and to avoid FieldsConflict errors from inline fragments with conflicting nullability shapes.
+// This simplified version only queries fields specific to FederatedLogPartitionEntity.
+const EntityManagementCreateFederatedLogPartitionMutation = `mutation(
+    $federatedLogPartitionEntity: EntityManagementFederatedLogPartitionEntityCreateInput!,
+) { entityManagementCreateFederatedLogPartition(
+    federatedLogPartitionEntity: $federatedLogPartitionEntity,
+) {
+    entity {
+        dataLocationURI
+        description
+        id
+        isDefault
+        metadata {
+            createdAt
+            createdBy {
+                __typename
+                id
+            }
+            updatedAt
+            updatedBy {
+                __typename
+                id
+            }
+            version
+        }
+        name
+        nrAccountId
+        partitionDatabase
+        partitionTable
+        retentionPolicy {
+            duration
+            unit
+        }
+        scope {
+            id
+            type
+        }
+        status
+        tags {
+            key
+            values
+        }
+        type
+    }
+} }`
