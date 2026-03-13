@@ -1,3 +1,8 @@
+<a name="v2.80.0"></a>
+## [v2.80.0] - 2026-03-13
+### Features
+- **dashboards:** add ChartStyles support for dashboard widgets ([#1370](https://github.com/newrelic/newrelic-client-go/issues/1370))
+
 <a name="v2.79.1"></a>
 ## [v2.79.1] - 2026-03-12
 ### Bug Fixes
@@ -2210,7 +2215,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.79.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.80.0...HEAD
+[v2.80.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.79.1...v2.80.0
 [v2.79.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.79.0...v2.79.1
 [v2.79.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.78.0...v2.79.0
 [v2.78.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.77.0...v2.78.0
