@@ -29,7 +29,7 @@ func TestIntegrationDashboard_Billboard(t *testing.T) {
 
 	// Create RawConfiguration with ChartStyles for line widget
 	lineRawConfig := RawConfiguration{
-		NRQLQueries: []DashboardWidgetNRQLQuery{
+		NRQLQueries: []DashboardWidgetNRQLQueryInput{
 			{
 				AccountID: testAccountID,
 				Query:     "FROM Metric SELECT average(duration) TIMESERIES",
@@ -134,7 +134,7 @@ func TestIntegrationDashboard_Billboard(t *testing.T) {
 
 	// Test: DashboardUpdate - Update ChartStyles
 	updatedLineRawConfig := RawConfiguration{
-		NRQLQueries: []DashboardWidgetNRQLQuery{
+		NRQLQueries: []DashboardWidgetNRQLQueryInput{
 			{
 				AccountID: testAccountID,
 				Query:     "FROM Metric SELECT average(duration) TIMESERIES",
