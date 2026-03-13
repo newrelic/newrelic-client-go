@@ -1155,6 +1155,10 @@ packages:
         field_type_override: "ai.AiNotificationsError"
       - name: AiNotificationsCustomHeadersAuthInput
         field_type_override: "*AiNotificationsCustomHeadersAuthInput"
+      - name: AiNotificationsScopeInput
+        field_type_override: "*AiNotificationsScopeInput"
+      - name: AiNotificationsScope
+      - name: AiNotificationsScopeType
       - name: ID
         field_type_override: string
         skip_type_create: true
