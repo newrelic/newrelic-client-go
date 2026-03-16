@@ -1,3 +1,8 @@
+<a name="v2.81.0"></a>
+## [v2.81.0] - 2026-03-16
+### Features
+- **notifications:** add documentation for scope support ([#1379](https://github.com/newrelic/newrelic-client-go/issues/1379))
+
 <a name="v2.80.0"></a>
 ## [v2.80.0] - 2026-03-13
 ### Features
@@ -2215,7 +2220,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.80.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.81.0...HEAD
+[v2.81.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.80.0...v2.81.0
 [v2.80.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.79.1...v2.80.0
 [v2.79.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.79.0...v2.79.1
 [v2.79.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.78.0...v2.79.0
