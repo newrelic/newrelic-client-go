@@ -6,7 +6,6 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/ai"
 )
 
-// AiNotificationsCreateDestinationWithScope - Create a Destination with optional scope
 func (a *Notifications) AiNotificationsCreateDestinationWithScope(
 	accountID int,
 	destination AiNotificationsDestinationInput,
@@ -19,7 +18,6 @@ func (a *Notifications) AiNotificationsCreateDestinationWithScope(
 	)
 }
 
-// AiNotificationsCreateDestinationWithScopeWithContext - Create a Destination with optional scope and context
 func (a *Notifications) AiNotificationsCreateDestinationWithScopeWithContext(
 	ctx context.Context,
 	accountID int,
@@ -32,12 +30,9 @@ func (a *Notifications) AiNotificationsCreateDestinationWithScopeWithContext(
 		"accountId":   accountID,
 		"destination": destination,
 	}
-
-	// Choose mutation based on whether scope is provided
 	var mutation string
 	if scope != nil {
 		vars["scopeId"] = scope.ID
-		// Use the appropriate mutation based on scope type
 		if scope.Type == EntityScopeTypeInputTypes.ORGANIZATION {
 			mutation = aiNotificationsCreateDestinationWithOrgScopeMutation
 		} else {
@@ -386,7 +381,6 @@ const aiNotificationsCreateDestinationWithAccountScopeMutation = `mutation(
     }
 } }`
 
-// Fetch destinations with scope information
 func (a *Notifications) GetDestinationsWithScope(
 	accountID int,
 	cursor string,
@@ -401,7 +395,6 @@ func (a *Notifications) GetDestinationsWithScope(
 	)
 }
 
-// Fetch destinations with scope information and context
 func (a *Notifications) GetDestinationsWithScopeWithContext(
 	ctx context.Context,
 	accountID int,
@@ -412,7 +405,6 @@ func (a *Notifications) GetDestinationsWithScopeWithContext(
 
 	resp := destinationsWithScopeResponse{}
 
-	// Build filters with scopeTypes to include both ACCOUNT and ORGANIZATION scoped destinations
 	filtersWithScope := map[string]interface{}{
 		"scopeTypes": []string{"ACCOUNT", "ORGANIZATION"},
 	}
@@ -431,12 +423,10 @@ func (a *Notifications) GetDestinationsWithScopeWithContext(
 		"filters":   filtersWithScope,
 	}
 
-	// Only add cursor if provided
 	if cursor != "" {
 		vars["cursor"] = cursor
 	}
 
-	// Only add sorter if it has valid values
 	if sorter.Field != "" && sorter.Direction != "" {
 		vars["sorter"] = sorter
 	}
@@ -448,14 +438,11 @@ func (a *Notifications) GetDestinationsWithScopeWithContext(
 	return &resp.Actor.Account.AiNotifications.Destinations, nil
 }
 
-// AiNotificationsDestinationWithScope - Destination with scope field
 type AiNotificationsDestinationWithScope struct {
 	AiNotificationsDestination
-	// Scope of the destination
 	Scope *EntityScope `json:"scope,omitempty"`
 }
 
-// AiNotificationsDestinationsWithScopeResponse - Destinations response with scope
 type AiNotificationsDestinationsWithScopeResponse struct {
 	Entities   []AiNotificationsDestinationWithScope `json:"entities"`
 	Error      AiNotificationsResponseError          `json:"error,omitempty"`

@@ -4,10 +4,8 @@ package notifications
 type EntityScopeTypeInput string
 
 var EntityScopeTypeInputTypes = struct {
-	// Organization scope type
 	ORGANIZATION EntityScopeTypeInput
-	// Account scope type
-	ACCOUNT EntityScopeTypeInput
+	ACCOUNT      EntityScopeTypeInput
 }{
 	ORGANIZATION: "ORGANIZATION",
 	ACCOUNT:      "ACCOUNT",
@@ -15,16 +13,12 @@ var EntityScopeTypeInputTypes = struct {
 
 // EntityScopeInput - Scope input for destinations
 type EntityScopeInput struct {
-	// id - Organization UUID for ORGANIZATION scope, Account ID for ACCOUNT scope
-	ID string `json:"id"`
-	// type - Scope type (ORGANIZATION or ACCOUNT)
+	ID   string               `json:"id"`
 	Type EntityScopeTypeInput `json:"type"`
 }
 
 // EntityScope - Scope response from API
 type EntityScope struct {
-	// id
-	ID string `json:"id,omitempty"`
-	// type
+	ID   string               `json:"id,omitempty"`
 	Type EntityScopeTypeInput `json:"type,omitempty"`
 }
