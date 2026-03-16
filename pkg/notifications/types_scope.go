@@ -22,3 +22,5 @@ type EntityScope struct {
 	ID   string               `json:"id,omitempty"`
 	Type EntityScopeTypeInput `json:"type,omitempty"`
 }
+
+// feat(notifications): Support for organization and account scoped destinations
