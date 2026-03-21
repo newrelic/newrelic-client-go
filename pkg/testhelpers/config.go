@@ -20,7 +20,7 @@ const (
 	UserAgent      = "newrelic/newrelic-client-go (automated testing)" // UserAgent used in mock configs
 )
 
-// NewTestConfig returns a fully saturated configration with modified BaseURLs
+// NewTestConfig returns a fully saturated configuration with modified BaseURLs
 // for all endpoints based on the test server passed in
 func NewTestConfig(t *testing.T, testServer *httptest.Server) config.Config {
 	cfg := config.New()

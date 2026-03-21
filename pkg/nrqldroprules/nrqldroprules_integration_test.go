@@ -164,7 +164,7 @@ func TestIntegrationDropRules_Fail(t *testing.T) {
 		}
 	}
 
-	for _, _ = range res.Failures {
+	for range res.Failures {
 		require.Zero(t, len(res.Successes))
 	}
 }

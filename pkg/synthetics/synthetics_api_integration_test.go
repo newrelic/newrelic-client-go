@@ -14,8 +14,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/newrelic/newrelic-client-go/v2/pkg/entities"
 	"github.com/stretchr/testify/require"
+
+	"github.com/newrelic/newrelic-client-go/v2/pkg/entities"
 
 	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
