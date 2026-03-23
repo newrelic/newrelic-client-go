@@ -14,10 +14,10 @@ var (
 		"workflowAutomationCreateWorkflowDefinition": {
 			"definition": {
 				"definitionId": "12345",
-				"description": "Test workflow description",
-				"name": "test-workflow",
+				"description": "This is a test workflow created by terraform",
+				"name": "test-workflow-tf",
 				"version": 1,
-				"yaml": "workflow:\n  name: test-workflow\n  steps:\n    - name: test-step"
+				"yaml": "name: test-workflow-tf\ndescription: This is a test workflow created by terraform\nsteps:\n  - name: stepchanged\n    type: wait\n    seconds: 10"
 			}
 		}
 	}`
@@ -26,10 +26,10 @@ var (
 		"workflowAutomationUpdateWorkflowDefinition": {
 			"definition": {
 				"definitionId": "12345",
-				"description": "Updated workflow description",
-				"name": "test-workflow",
+				"description": "This is a test workflow created by terraform (updated)",
+				"name": "test-workflow-tf",
 				"version": 2,
-				"yaml": "workflow:\n  name: test-workflow\n  steps:\n    - name: updated-step"
+				"yaml": "name: test-workflow-tf\ndescription: This is a test workflow created by terraform (updated)\nsteps:\n  - name: stepchanged\n    type: wait\n    seconds: 15"
 			}
 		}
 	}`
@@ -37,8 +37,8 @@ var (
 	testDeleteWorkflowDefinitionResponseJSON = `{
 		"workflowAutomationDeleteWorkflowDefinition": {
 			"definition": {
-				"description": "Test workflow description",
-				"name": "test-workflow",
+				"description": "This is a test workflow created by terraform",
+				"name": "test-workflow-tf",
 				"scope": {
 					"id": "12345",
 					"type": "ACCOUNT"
@@ -55,10 +55,10 @@ var (
 					"workflow": {
 						"definition": {
 							"definitionId": "12345",
-							"description": "Test workflow description",
-							"name": "test-workflow",
+							"description": "This is a test workflow created by terraform",
+							"name": "test-workflow-tf",
 							"version": 1,
-							"yaml": "workflow:\n  name: test-workflow\n  steps:\n    - name: test-step"
+							"yaml": "name: test-workflow-tf\ndescription: This is a test workflow created by terraform\nsteps:\n  - name: stepchanged\n    type: wait\n    seconds: 10"
 						}
 					}
 				}
@@ -73,7 +73,7 @@ func TestWorkflowAutomationCreateWorkflowDefinition(t *testing.T) {
 	workflowautomation := newMockResponse(t, respJSON, http.StatusCreated)
 
 	definition := WorkflowAutomationCreateWorkflowDefinitionInput{
-		Yaml: "workflow:\n  name: test-workflow\n  steps:\n    - name: test-step",
+		Yaml: "name: test-workflow-tf\ndescription: This is a test workflow created by terraform\nsteps:\n  - name: stepchanged\n    type: wait\n    seconds: 10",
 	}
 	scope := WorkflowAutomationScopeInput{
 		ID:   strconv.Itoa(12345),
@@ -89,10 +89,10 @@ func TestWorkflowAutomationCreateWorkflowDefinition(t *testing.T) {
 	expected := &WorkflowAutomationCreateWorkflowDefinitionResponse{
 		Definition: WorkflowAutomationWorkflowDefinition{
 			DefinitionId: "12345",
-			Description:  "Test workflow description",
-			Name:         "test-workflow",
+			Description:  "This is a test workflow created by terraform",
+			Name:         "test-workflow-tf",
 			Version:      1,
-			Yaml:         "workflow:\n  name: test-workflow\n  steps:\n    - name: test-step",
+			Yaml:         "name: test-workflow-tf\ndescription: This is a test workflow created by terraform\nsteps:\n  - name: stepchanged\n    type: wait\n    seconds: 10",
 		},
 	}
 
@@ -113,7 +113,7 @@ func TestWorkflowAutomationUpdateWorkflowDefinition(t *testing.T) {
 	workflowautomation := newMockResponse(t, respJSON, http.StatusOK)
 
 	definition := WorkflowAutomationUpdateWorkflowDefinitionInput{
-		Yaml: "workflow:\n  name: test-workflow\n  steps:\n    - name: updated-step",
+		Yaml: "name: test-workflow-tf\ndescription: This is a test workflow created by terraform (updated)\nsteps:\n  - name: stepchanged\n    type: wait\n    seconds: 15",
 	}
 	scope := WorkflowAutomationScopeInput{
 		ID:   strconv.Itoa(12345),
@@ -129,10 +129,10 @@ func TestWorkflowAutomationUpdateWorkflowDefinition(t *testing.T) {
 	expected := &WorkflowAutomationUpdateWorkflowDefinitionResponse{
 		Definition: WorkflowAutomationWorkflowDefinition{
 			DefinitionId: "12345",
-			Description:  "Updated workflow description",
-			Name:         "test-workflow",
+			Description:  "This is a test workflow created by terraform (updated)",
+			Name:         "test-workflow-tf",
 			Version:      2,
-			Yaml:         "workflow:\n  name: test-workflow\n  steps:\n    - name: updated-step",
+			Yaml:         "name: test-workflow-tf\ndescription: This is a test workflow created by terraform (updated)\nsteps:\n  - name: stepchanged\n    type: wait\n    seconds: 15",
 		},
 	}
 
@@ -153,7 +153,7 @@ func TestWorkflowAutomationDeleteWorkflowDefinition(t *testing.T) {
 	workflowautomation := newMockResponse(t, respJSON, http.StatusOK)
 
 	definition := WorkflowAutomationDeleteWorkflowDefinitionInput{
-		Name: "test-workflow",
+		Name: "test-workflow-tf",
 	}
 	scope := WorkflowAutomationScopeInput{
 		ID:   strconv.Itoa(12345),
@@ -162,8 +162,8 @@ func TestWorkflowAutomationDeleteWorkflowDefinition(t *testing.T) {
 
 	expected := &WorkflowAutomationDeleteWorkflowDefinitionResponse{
 		Definition: WorkflowAutomationWorkflowDefinitionOutline{
-			Name:        "test-workflow",
-			Description: "Test workflow description",
+			Name:        "test-workflow-tf",
+			Description: "This is a test workflow created by terraform",
 			Version:     1,
 			Scope: WorkflowAutomationScope{
 				ID:   "12345",
@@ -189,16 +189,16 @@ func TestGetWorkflow(t *testing.T) {
 	workflowautomation := newMockResponse(t, respJSON, http.StatusOK)
 
 	accountID := 12345
-	name := "test-workflow"
+	name := "test-workflow-tf"
 	version := 1
 
 	expected := &WorkflowAutomationWorkflowResponse{
 		Definition: WorkflowAutomationWorkflowDefinition{
 			DefinitionId: "12345",
-			Description:  "Test workflow description",
-			Name:         "test-workflow",
+			Description:  "This is a test workflow created by terraform",
+			Name:         "test-workflow-tf",
 			Version:      1,
-			Yaml:         "workflow:\n  name: test-workflow\n  steps:\n    - name: test-step",
+			Yaml:         "name: test-workflow-tf\ndescription: This is a test workflow created by terraform\nsteps:\n  - name: stepchanged\n    type: wait\n    seconds: 10",
 		},
 	}
 

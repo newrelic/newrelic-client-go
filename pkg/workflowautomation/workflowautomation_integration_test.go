@@ -17,14 +17,12 @@ func TestIntegrationWorkflowAutomationCreateWorkflowDefinition(t *testing.T) {
 	client := newWorkflowautomationTestClient(t)
 
 	definition := WorkflowAutomationCreateWorkflowDefinitionInput{
-		Yaml: SecureValue(`workflow:
-  name: test-workflow-` + mock.RandSeq(5) + `
-  description: Integration test workflow
-  steps:
-    - name: test-step
-      type: log
-      config:
-        message: "Test message"`),
+		Yaml: SecureValue(`name: test-workflow-tf-` + mock.RandSeq(5) + `
+description: This is a test workflow created by terraform
+steps:
+  - name: stepchanged
+    type: wait
+    seconds: 10`),
 	}
 	scope := WorkflowAutomationScopeInput{
 		ID:   fmt.Sprintf("%d", mock.IntegrationTestAccountID),
@@ -53,14 +51,12 @@ func TestIntegrationWorkflowAutomationUpdateWorkflowDefinition(t *testing.T) {
 	client := newWorkflowautomationTestClient(t)
 
 	definition := WorkflowAutomationUpdateWorkflowDefinitionInput{
-		Yaml: SecureValue(`workflow:
-  name: existing-test-workflow
-  description: Updated integration test workflow
-  steps:
-    - name: updated-step
-      type: log
-      config:
-        message: "Updated test message"`),
+		Yaml: SecureValue(`name: existing-test-workflow
+description: This is a test workflow created by terraform (updated)
+steps:
+  - name: stepchanged
+    type: wait
+    seconds: 15`),
 	}
 	scope := WorkflowAutomationScopeInput{
 		ID:   fmt.Sprintf("%d", mock.IntegrationTestAccountID),
@@ -132,14 +128,12 @@ func TestIntegrationWorkflowAutomation_CreateUpdateDeleteWorkflow(t *testing.T) 
 
 	// Create Workflow
 	createDefinition := WorkflowAutomationCreateWorkflowDefinitionInput{
-		Yaml: SecureValue(`workflow:
-  name: ` + workflowName + `
-  description: Full lifecycle integration test workflow
-  steps:
-    - name: initial-step
-      type: log
-      config:
-        message: "Initial test message"`),
+		Yaml: SecureValue(`name: ` + workflowName + `
+description: This is a test workflow created by terraform
+steps:
+  - name: stepchanged
+    type: wait
+    seconds: 10`),
 	}
 	createScope := WorkflowAutomationScopeInput{
 		ID:   fmt.Sprintf("%d", mock.IntegrationTestAccountID),
@@ -178,14 +172,12 @@ func TestIntegrationWorkflowAutomation_CreateUpdateDeleteWorkflow(t *testing.T) 
 
 	// Update Workflow
 	updateDefinition := WorkflowAutomationUpdateWorkflowDefinitionInput{
-		Yaml: SecureValue(`workflow:
-  name: ` + workflowName + `
-  description: Updated full lifecycle integration test workflow
-  steps:
-    - name: updated-step
-      type: log
-      config:
-        message: "Updated test message"`),
+		Yaml: SecureValue(`name: ` + workflowName + `
+description: This is a test workflow created by terraform (updated)
+steps:
+  - name: stepchanged
+    type: wait
+    seconds: 20`),
 	}
 	updateScope := WorkflowAutomationScopeInput{
 		ID:   fmt.Sprintf("%d", mock.IntegrationTestAccountID),
@@ -253,11 +245,12 @@ func TestIntegrationWorkflowAutomationUpdateWorkflowDefinitionError(t *testing.T
 
 	// Test with non-existent workflow
 	definition := WorkflowAutomationUpdateWorkflowDefinitionInput{
-		Yaml: SecureValue(`workflow:
-  name: non-existent-workflow-` + mock.RandSeq(10) + `
-  description: This workflow does not exist
-  steps:
-    - name: test-step`),
+		Yaml: SecureValue(`name: non-existent-workflow-` + mock.RandSeq(10) + `
+description: This workflow does not exist
+steps:
+  - name: stepchanged
+    type: wait
+    seconds: 10`),
 	}
 	scope := WorkflowAutomationScopeInput{
 		ID:   fmt.Sprintf("%d", mock.IntegrationTestAccountID),
