@@ -10,3 +10,4 @@ schema.json
 .DS_Store
 .idea
 tutone
+.env

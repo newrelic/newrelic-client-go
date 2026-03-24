@@ -6,6 +6,7 @@ import (
 
 	"github.com/newrelic/newrelic-client-go/v2/pkg/entityrelationship"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/users"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/workflowautomation"
 
 	"github.com/newrelic/newrelic-client-go/v2/pkg/accountmanagement"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/accounts"
@@ -83,6 +84,7 @@ type NewRelic struct {
 	KeyTransaction          keytransaction.Keytransaction
 	EntityRelationship      entityrelationship.Entityrelationship
 	Users                   users.Users
+	WorkflowAutomation      workflowautomation.Workflowautomation
 
 	config config.Config
 }
@@ -135,6 +137,7 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 		KeyTransaction:          keytransaction.New(cfg),
 		EntityRelationship:      entityrelationship.New(cfg),
 		Users:                   users.New(cfg),
+		WorkflowAutomation:      workflowautomation.New(cfg),
 	}
 
 	return nr, nil
