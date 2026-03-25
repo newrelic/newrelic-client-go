@@ -132,7 +132,7 @@ func TestIntegrationAccountScopedWorkflow(t *testing.T) {
 		_, _ = client.WorkflowAutomationDeleteWorkflowDefinition(deleteInput, scope)
 	}()
 
-	// Step 2: Read the workflow
+	// Step 2: Read the workflow definition
 	readResult, err := client.GetWorkflow(accountID, createResult.Definition.Name, 0)
 	require.NoError(t, err)
 	require.NotNil(t, readResult)
