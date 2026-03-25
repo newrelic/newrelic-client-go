@@ -1299,7 +1299,7 @@ packages:
       - path: [ "actor", "organization", "workflowAutomation" ]
         endpoints:
           - name: "workflow"
-            max_query_field_depth: 1
+            max_query_field_depth: 2
     mutations:
       - name: organizationCreate
         max_query_field_depth: 2
