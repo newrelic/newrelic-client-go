@@ -1912,3 +1912,29 @@ packages:
       - name: EpochMilliseconds
         field_type_override: nrtime.EpochMilliseconds
         skip_type_create: true
+
+  - name: workflowautomation
+    path: pkg/workflowautomation
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/workflowautomation
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+    queries:
+      - path: [ "actor", "account", "workflowAutomation" ]
+        endpoints:
+          - name: workflow
+            max_query_field_depth: 2
+    mutations:
+      - name: workflowAutomationCreateWorkflowDefinition
+        max_query_field_depth: 2
+      - name: workflowAutomationUpdateWorkflowDefinition
+        max_query_field_depth: 2
+      - name: workflowAutomationDeleteWorkflowDefinition
+        max_query_field_depth: 2
+    types:
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
