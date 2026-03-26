@@ -1,3 +1,11 @@
+<a name="v2.82.0"></a>
+## [v2.82.0] - 2026-03-26
+### Bug Fixes
+- **deps:** update dependencies to address security vulnerabilities 71, 75, 76 ([#1383](https://github.com/newrelic/newrelic-client-go/issues/1383))
+
+### Features
+- **workflowautomation:** add integration tests for workflow automation ([#1382](https://github.com/newrelic/newrelic-client-go/issues/1382))
+
 <a name="v2.81.0"></a>
 ## [v2.81.0] - 2026-03-16
 ### Features
@@ -2220,7 +2228,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.81.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.82.0...HEAD
+[v2.82.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.81.0...v2.82.0
 [v2.81.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.80.0...v2.81.0
 [v2.80.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.79.1...v2.80.0
 [v2.79.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.79.0...v2.79.1
