@@ -431,7 +431,53 @@ func (a *Notifications) GetDestinationsWithScopeWithContext(
 		vars["sorter"] = sorter
 	}
 
-	if err := a.client.NerdGraphQueryWithContext(ctx, getDestinationsWithScopeQuery, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, getDestinationsWithAccountScopeQuery, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.Actor.Account.AiNotifications.Destinations, nil
+}
+
+func (a *Notifications) GetDestinationsWithAccountScopeWithContext(
+	ctx context.Context,
+	accountID int,
+	cursor string,
+	filters ai.AiNotificationsDestinationFilter,
+	sorter AiNotificationsDestinationSorter,
+) (*AiNotificationsDestinationsWithScopeResponse, error) {
+
+	resp := destinationsWithScopeResponse{}
+
+	vars := map[string]interface{}{
+		"accountID": accountID,
+		"cursor":    cursor,
+		"filters":   filters,
+		"sorter":    sorter,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, getDestinationsWithAccountScopeQuery, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.Actor.Account.AiNotifications.Destinations, nil
+}
+
+func (a *Notifications) GetDestinationsWithOrganizationScopeWithContext(
+	ctx context.Context,
+	cursor string,
+	filters ai.AiNotificationsDestinationFilter,
+	sorter AiNotificationsDestinationSorter,
+) (*AiNotificationsDestinationsWithScopeResponse, error) {
+
+	resp := destinationsWithScopeResponse{}
+
+	vars := map[string]interface{}{
+		"cursor":  cursor,
+		"filters": filters,
+		"sorter":  sorter,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, getDestinationsWithOrganizationScopeQuery, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -461,9 +507,78 @@ type destinationsWithScopeResponse struct {
 	} `json:"actor,omitempty"`
 }
 
-const getDestinationsWithScopeQuery = `query($accountId: Int!, $filters: AiNotificationsDestinationFilter, $sorter: AiNotificationsDestinationSorter, $cursor: String) {
+const getDestinationsWithAccountScopeQuery = `query($accountId: Int!, $filters: AiNotificationsDestinationFilter, $sorter: AiNotificationsDestinationSorter, $cursor: String) {
 	actor {
 		account(id: $accountId) {
+			aiNotifications {
+				destinations(filters: $filters, sorter: $sorter, cursor: $cursor) {
+					error {
+						description
+						type
+						details
+					}
+					totalCount
+					entities {
+						accountId
+						active
+						createdAt
+						id
+						guid
+						lastSent
+						name
+						properties {
+							value
+							key
+						}
+						type
+						updatedAt
+						updatedBy
+						auth {
+							... on AiNotificationsBasicAuth {
+								authType
+								user
+							}
+							... on AiNotificationsOAuth2Auth {
+								accessTokenUrl
+								authType
+								authorizationUrl
+								clientId
+								prefix
+								refreshable
+								refreshInterval
+								scope
+							}
+							... on AiNotificationsTokenAuth {
+								authType
+								prefix
+							}
+							... on AiNotificationsCustomHeadersAuth {
+								authType
+								customHeaders {
+									key
+								}
+							}
+						}
+						secureUrl {
+							prefix
+						}
+						status
+						scope {
+							id
+							type
+						}
+						isUserAuthenticated
+					}
+					nextCursor
+				}
+			}
+		}
+	}
+}`
+
+const getDestinationsWithOrganizationScopeQuery = `query($filters: AiNotificationsDestinationFilter, $sorter: AiNotificationsDestinationSorter, $cursor: String) {
+	actor {
+		organization{
 			aiNotifications {
 				destinations(filters: $filters, sorter: $sorter, cursor: $cursor) {
 					error {
