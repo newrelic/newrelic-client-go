@@ -3,6 +3,8 @@ package notifications
 import (
 	"context"
 
+	"strconv"
+
 	"github.com/newrelic/newrelic-client-go/v2/pkg/ai"
 )
 
@@ -382,60 +384,21 @@ const aiNotificationsCreateDestinationWithAccountScopeMutation = `mutation(
 } }`
 
 func (a *Notifications) GetDestinationsWithScope(
-	accountID int,
-	cursor string,
-	filters ai.AiNotificationsDestinationFilter,
-	sorter AiNotificationsDestinationSorter,
-) (*AiNotificationsDestinationsWithScopeResponse, error) {
-	return a.GetDestinationsWithScopeWithContext(context.Background(),
-		accountID,
-		cursor,
-		filters,
-		sorter,
-	)
-}
-
-func (a *Notifications) GetDestinationsWithScopeWithContext(
 	ctx context.Context,
-	accountID int,
 	cursor string,
 	filters ai.AiNotificationsDestinationFilter,
 	sorter AiNotificationsDestinationSorter,
+	scope *EntityScopeInput,
 ) (*AiNotificationsDestinationsWithScopeResponse, error) {
 
-	resp := destinationsWithScopeResponse{}
-
-	filtersWithScope := map[string]interface{}{
-		"scopeTypes": []string{"ACCOUNT", "ORGANIZATION"},
+	if scope != nil && scope.Type == EntityScopeTypeInputTypes.ORGANIZATION {
+		return a.GetDestinationsWithOrganizationScopeWithContext(ctx, cursor, filters, sorter)
 	}
-	if filters.ID != "" {
-		filtersWithScope["id"] = filters.ID
-	}
-	if filters.Name != "" {
-		filtersWithScope["name"] = filters.Name
-	}
-	if filters.ExactName != "" {
-		filtersWithScope["exactName"] = filters.ExactName
-	}
-
-	vars := map[string]interface{}{
-		"accountId": accountID,
-		"filters":   filtersWithScope,
-	}
-
-	if cursor != "" {
-		vars["cursor"] = cursor
-	}
-
-	if sorter.Field != "" && sorter.Direction != "" {
-		vars["sorter"] = sorter
-	}
-
-	if err := a.client.NerdGraphQueryWithContext(ctx, getDestinationsWithAccountScopeQuery, vars, &resp); err != nil {
+	accountID, err := strconv.Atoi(scope.ID)
+	if err != nil {
 		return nil, err
 	}
-
-	return &resp.Actor.Account.AiNotifications.Destinations, nil
+	return a.GetDestinationsWithAccountScopeWithContext(ctx, accountID, cursor, filters, sorter)
 }
 
 func (a *Notifications) GetDestinationsWithAccountScopeWithContext(
