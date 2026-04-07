@@ -33,15 +33,10 @@ func (a *Notifications) AiNotificationsCreateDestinationWithScopeWithContext(
 		"destination": destination,
 	}
 	var mutation string
-	if scope != nil {
-		vars["scopeId"] = scope.ID
-		if scope.Type == EntityScopeTypeInputTypes.ORGANIZATION {
-			mutation = aiNotificationsCreateDestinationWithOrgScopeMutation
-		} else {
-			mutation = aiNotificationsCreateDestinationWithAccountScopeMutation
-		}
+	if scope != nil && scope.Type == EntityScopeTypeInputTypes.ORGANIZATION {
+		mutation = aiNotificationsCreateDestinationWithOrgScopeMutation
 	} else {
-		mutation = aiNotificationsCreateDestinationNoScopeMutation
+		mutation = aiNotificationsCreateDestinationWithAccountScopeMutation
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, mutation, vars, &resp); err != nil {
@@ -639,15 +634,10 @@ func (a *Notifications) AiNotificationsUpdateDestinationWithScopeWithContext(
 
 	// Choose mutation based on whether scope is provided
 	var mutation string
-	if scope != nil {
-		vars["scopeId"] = scope.ID
-		if scope.Type == EntityScopeTypeInputTypes.ORGANIZATION {
-			mutation = aiNotificationsUpdateDestinationWithOrgScopeMutation
-		} else {
-			mutation = aiNotificationsUpdateDestinationWithAccountScopeMutation
-		}
+	if scope != nil && scope.Type == EntityScopeTypeInputTypes.ORGANIZATION {
+		mutation = aiNotificationsCreateDestinationWithOrgScopeMutation
 	} else {
-		mutation = aiNotificationsUpdateDestinationNoScopeMutation
+		mutation = aiNotificationsCreateDestinationWithAccountScopeMutation
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, mutation, vars, &resp); err != nil {
@@ -949,15 +939,10 @@ func (a *Notifications) AiNotificationsDeleteDestinationWithScopeWithContext(
 
 	// Choose mutation based on whether scope is provided
 	var mutation string
-	if scope != nil {
-		vars["scopeId"] = scope.ID
-		if scope.Type == EntityScopeTypeInputTypes.ORGANIZATION {
-			mutation = aiNotificationsDeleteDestinationWithOrgScopeMutation
-		} else {
-			mutation = aiNotificationsDeleteDestinationWithAccountScopeMutation
-		}
+	if scope != nil && scope.Type == EntityScopeTypeInputTypes.ORGANIZATION {
+		mutation = aiNotificationsDeleteDestinationWithOrgScopeMutation
 	} else {
-		mutation = aiNotificationsDeleteDestinationNoScopeMutation
+		mutation = aiNotificationsDeleteDestinationWithAccountScopeMutation
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, mutation, vars, &resp); err != nil {
