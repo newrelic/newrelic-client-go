@@ -392,7 +392,7 @@ func (a *Notifications) GetDestinationsWithScope(
 ) (*AiNotificationsDestinationsWithScopeResponse, error) {
 
 	if scope != nil && scope.Type == EntityScopeTypeInputTypes.ORGANIZATION {
-		return a.GetDestinationsWithOrganizationScopeWithContext(ctx, cursor, filters, sorter)
+		return a.GetDestinationsWithOrganizationScopeWithContext(ctx, cursor, filters)
 	}
 	accountID, err := strconv.Atoi(scope.ID)
 	if err != nil {
@@ -429,7 +429,6 @@ func (a *Notifications) GetDestinationsWithOrganizationScopeWithContext(
 	ctx context.Context,
 	cursor string,
 	filters ai.AiNotificationsDestinationFilter,
-	sorter AiNotificationsDestinationSorter,
 ) (*AiNotificationsDestinationsWithScopeResponse, error) {
 
 	resp := destinationsWithScopeResponse{}
@@ -437,7 +436,6 @@ func (a *Notifications) GetDestinationsWithOrganizationScopeWithContext(
 	vars := map[string]interface{}{
 		"cursor":  cursor,
 		"filters": filters,
-		"sorter":  sorter,
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, getDestinationsWithOrganizationScopeQuery, vars, &resp); err != nil {
@@ -539,11 +537,11 @@ const getDestinationsWithAccountScopeQuery = `query($accountId: Int!, $filters: 
 	}
 }`
 
-const getDestinationsWithOrganizationScopeQuery = `query($filters: AiNotificationsDestinationFilter, $sorter: AiNotificationsDestinationSorter, $cursor: String) {
+const getDestinationsWithOrganizationScopeQuery = `query($filters: AiNotificationsDestinationFilter) {
 	actor {
 		organization{
 			aiNotifications {
-				destinations(filters: $filters, sorter: $sorter, cursor: $cursor) {
+				destinations(filters: $filters) {
 					error {
 						description
 						type
