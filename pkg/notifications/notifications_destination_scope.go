@@ -397,7 +397,7 @@ func (a *Notifications) GetDestinationsWithScope(
 
 func (a *Notifications) GetDestinationsWithScopeWithContext(
 	ctx context.Context,
-	accountID int,
+	scope EntityScopeInput,
 	cursor string,
 	filters ai.AiNotificationsDestinationFilter,
 	sorter AiNotificationsDestinationSorter,
