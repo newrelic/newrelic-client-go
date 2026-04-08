@@ -5,6 +5,7 @@ package notifications
 
 import (
 	"fmt"
+	"strconv"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -486,4 +487,229 @@ func TestNotificationMutationChannel(t *testing.T) {
 	deleteDestinationResult, err := n.AiNotificationsDeleteDestination(accountID, destinationId)
 	require.NoError(t, err)
 	require.NotNil(t, deleteDestinationResult)
+}
+
+// ---------------------------------------------------------------------------
+// Scope-based destination tests
+// ---------------------------------------------------------------------------
+
+// newAccountScope is a helper that builds an ACCOUNT-type EntityScopeInput from an int account ID.
+// It mirrors the migration pattern documented on CreateDestinationWithScope / GetDestinationsWithScope.
+func newAccountScope(accountID int) *EntityScopeInput {
+	return &EntityScopeInput{
+		Type: EntityScopeTypeInputTypes.ACCOUNT,
+		ID:   strconv.Itoa(accountID),
+	}
+}
+
+// newWebhookDestinationInput is a helper that returns a minimal webhook destination input
+// with TOKEN auth, used across scope-based tests.
+func newWebhookDestinationInput(nameSuffix string) AiNotificationsDestinationInput {
+	return AiNotificationsDestinationInput{
+		Type: AiNotificationsDestinationTypeTypes.WEBHOOK,
+		Name: fmt.Sprintf("test-notifications-destination-%s", nameSuffix),
+		Properties: []AiNotificationsPropertyInput{
+			{
+				Key:   "url",
+				Value: "https://webhook.site/94193c01-4a81-4782-8f1b-554d5230395b",
+			},
+		},
+		Auth: &AiNotificationsCredentialsInput{
+			Type: AiNotificationsAuthTypeTypes.TOKEN,
+			Token: AiNotificationsTokenAuthInput{
+				Token:  "Token",
+				Prefix: "Bearer",
+			},
+		},
+	}
+}
+
+// TestNotificationScopedDestination_AccountScope exercises the full Create → Get → Update → Delete
+// lifecycle using the scope-based API with an ACCOUNT scope.
+//
+// This is the scope-API equivalent of TestNotificationMutationDestination. Customers who
+// previously passed accountId directly should use EntityScopeTypeInputTypes.ACCOUNT with their
+// account ID as the scope ID string.
+func TestNotificationScopedDestination_AccountScope(t *testing.T) {
+	t.Parallel()
+
+	n := newIntegrationTestClient(t)
+
+	accountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	scope := newAccountScope(accountID)
+	randStr := mock.RandSeq(5)
+	destination := newWebhookDestinationInput(randStr)
+
+	// Test: Create
+	createResult, err := n.CreateDestinationWithScope(destination, scope)
+	require.NoError(t, err)
+	require.NotNil(t, createResult)
+	require.NotEmpty(t, createResult.Destination.Auth)
+	require.Equal(t, ai.AiNotificationsAuthType("TOKEN"), createResult.Destination.Auth.AuthType)
+	// Scope must be returned on the created destination
+	require.NotNil(t, createResult.Destination.Scope)
+	assert.Equal(t, EntityScopeTypeInputTypes.ACCOUNT, createResult.Destination.Scope.Type)
+	assert.Equal(t, strconv.Itoa(accountID), createResult.Destination.Scope.ID)
+
+	// Test: Get by ID using scope
+	filters := ai.AiNotificationsDestinationFilter{ID: createResult.Destination.ID}
+	sorter := AiNotificationsDestinationSorter{}
+	getResult, err := n.GetDestinationsWithScope("", filters, sorter, scope)
+	require.NoError(t, err)
+	require.NotNil(t, getResult)
+	assert.Equal(t, 1, getResult.TotalCount)
+	require.NotEmpty(t, getResult.Entities[0].GUID)
+	// Scope must be populated on each returned entity
+	require.NotNil(t, getResult.Entities[0].Scope)
+	assert.Equal(t, EntityScopeTypeInputTypes.ACCOUNT, getResult.Entities[0].Scope.Type)
+
+	// Test: Update using scope
+	updateDestination := AiNotificationsDestinationUpdate{
+		Active: false,
+		Name:   fmt.Sprintf("test-notifications-update-destination-%s", randStr),
+		Properties: []AiNotificationsPropertyInput{
+			{
+				Key:   "url",
+				Value: "https://webhook.site/94193c01-4a81-4782-8f1b-554d5230395b",
+			},
+		},
+		Auth: &AiNotificationsCredentialsInput{
+			Type: AiNotificationsAuthTypeTypes.TOKEN,
+			Token: AiNotificationsTokenAuthInput{
+				Token:  "TokenUpdate",
+				Prefix: "BearerUpdate",
+			},
+		},
+	}
+	updateResult, err := n.UpdateDestinationWithScope(createResult.Destination.ID, updateDestination, scope)
+	require.NoError(t, err)
+	require.NotNil(t, updateResult)
+	require.NotNil(t, updateResult.Destination.Scope)
+	assert.Equal(t, EntityScopeTypeInputTypes.ACCOUNT, updateResult.Destination.Scope.Type)
+	assert.Equal(t, fmt.Sprintf("test-notifications-update-destination-%s", randStr), updateResult.Destination.Name)
+
+	// Test: Delete using scope
+	deleteResult, err := n.DeleteDestinationWithScope(createResult.Destination.ID, scope)
+	require.NoError(t, err)
+	require.NotNil(t, deleteResult)
+	assert.Contains(t, deleteResult.IDs, createResult.Destination.ID)
+}
+
+// TestNotificationScopedDestination_AccountScope_FilterByName verifies that
+// GetDestinationsWithScope correctly filters by destination name under an ACCOUNT scope.
+func TestNotificationScopedDestination_AccountScope_FilterByName(t *testing.T) {
+	t.Parallel()
+
+	n := newIntegrationTestClient(t)
+
+	accountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	scope := newAccountScope(accountID)
+	randStr := mock.RandSeq(5)
+	destination := newWebhookDestinationInput(randStr)
+
+	// Test: Create
+	createResult, err := n.CreateDestinationWithScope(destination, scope)
+	require.NoError(t, err)
+	require.NotNil(t, createResult)
+
+	// Test: Get by name using scope
+	filtersByName := ai.AiNotificationsDestinationFilter{Name: createResult.Destination.Name}
+	sorter := AiNotificationsDestinationSorter{}
+	getResult, err := n.GetDestinationsWithScope("", filtersByName, sorter, scope)
+	require.NoError(t, err)
+	require.NotNil(t, getResult)
+	assert.Equal(t, 1, getResult.TotalCount)
+	assert.Equal(t, createResult.Destination.Name, getResult.Entities[0].Name)
+
+	// Test: Delete using scope
+	deleteResult, err := n.DeleteDestinationWithScope(createResult.Destination.ID, scope)
+	require.NoError(t, err)
+	require.NotNil(t, deleteResult)
+}
+
+// TestNotificationScopedDestination_AccountScope_FilterByExactName verifies that
+// GetDestinationsWithScope correctly filters by exact destination name under an ACCOUNT scope.
+func TestNotificationScopedDestination_AccountScope_FilterByExactName(t *testing.T) {
+	t.Parallel()
+
+	n := newIntegrationTestClient(t)
+
+	accountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	scope := newAccountScope(accountID)
+	randStr := mock.RandSeq(5)
+	destination := newWebhookDestinationInput(randStr)
+
+	// Test: Create
+	createResult, err := n.CreateDestinationWithScope(destination, scope)
+	require.NoError(t, err)
+	require.NotNil(t, createResult)
+
+	// Test: Get by exact name using scope
+	filtersByExactName := ai.AiNotificationsDestinationFilter{ExactName: createResult.Destination.Name}
+	sorter := AiNotificationsDestinationSorter{}
+	getResult, err := n.GetDestinationsWithScope("", filtersByExactName, sorter, scope)
+	require.NoError(t, err)
+	require.NotNil(t, getResult)
+	assert.Equal(t, 1, getResult.TotalCount)
+	assert.Equal(t, createResult.Destination.Name, getResult.Entities[0].Name)
+
+	// Test: Delete using scope
+	deleteResult, err := n.DeleteDestinationWithScope(createResult.Destination.ID, scope)
+	require.NoError(t, err)
+	require.NotNil(t, deleteResult)
+}
+
+// TestNotificationScopedDestination_NilScopeReturnsError verifies that all four scope-based
+// operations return a clear error immediately when scope is nil, without making a network call.
+func TestNotificationScopedDestination_NilScopeReturnsError(t *testing.T) {
+	t.Parallel()
+
+	n := newIntegrationTestClient(t)
+
+	_, err := n.CreateDestinationWithScope(AiNotificationsDestinationInput{}, nil)
+	require.Error(t, err)
+	assert.Contains(t, err.Error(), "scope is required")
+
+	_, err = n.GetDestinationsWithScope("", ai.AiNotificationsDestinationFilter{}, AiNotificationsDestinationSorter{}, nil)
+	require.Error(t, err)
+	assert.Contains(t, err.Error(), "scope is required")
+
+	_, err = n.UpdateDestinationWithScope("someId", AiNotificationsDestinationUpdate{}, nil)
+	require.Error(t, err)
+	assert.Contains(t, err.Error(), "scope is required")
+
+	_, err = n.DeleteDestinationWithScope("someId", nil)
+	require.Error(t, err)
+	assert.Contains(t, err.Error(), "scope is required")
+}
+
+// TestNotificationScopedDestination_InvalidAccountScopeIDReturnsError verifies that
+// GetDestinationsWithScope returns a descriptive error when the scope ID cannot be parsed
+// as an integer for ACCOUNT scope (the NerdGraph account query requires a numeric ID).
+func TestNotificationScopedDestination_InvalidAccountScopeIDReturnsError(t *testing.T) {
+	t.Parallel()
+
+	n := newIntegrationTestClient(t)
+
+	invalidScope := &EntityScopeInput{
+		Type: EntityScopeTypeInputTypes.ACCOUNT,
+		ID:   "not-a-number",
+	}
+
+	_, err := n.GetDestinationsWithScope("", ai.AiNotificationsDestinationFilter{}, AiNotificationsDestinationSorter{}, invalidScope)
+	require.Error(t, err)
+	assert.Contains(t, err.Error(), "invalid account scope ID")
+	assert.Contains(t, err.Error(), "not-a-number")
 }

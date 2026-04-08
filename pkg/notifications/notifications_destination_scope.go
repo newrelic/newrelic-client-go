@@ -2,271 +2,209 @@ package notifications
 
 import (
 	"context"
-
+	"fmt"
 	"strconv"
 
 	"github.com/newrelic/newrelic-client-go/v2/pkg/ai"
 )
 
-func (a *Notifications) AiNotificationsCreateDestinationWithScope(
-	accountID int,
+// destinationMutationResponseFields is the shared GraphQL response fragment reused across
+// create and update destination mutations to avoid duplication.
+const destinationMutationResponseFields = `
+	destination {
+		accountId
+		active
+		auth {
+			... on AiNotificationsBasicAuth {
+			  authType
+			  user
+			}
+			... on AiNotificationsOAuth2Auth {
+			  accessTokenUrl
+			  scope
+			  refreshable
+			  refreshInterval
+			  prefix
+			  clientId
+			  authorizationUrl
+			  authType
+			}
+			... on AiNotificationsTokenAuth {
+			  authType
+			  prefix
+			}
+			... on AiNotificationsCustomHeadersAuth {
+			  authType
+			  customHeaders {
+				key
+			  }
+			}
+		}
+		createdAt
+		id
+		guid
+		isUserAuthenticated
+		lastSent
+		name
+		properties {
+			displayValue
+			key
+			label
+			value
+		}
+		scope {
+			id
+			type
+		}
+		secureUrl {
+			prefix
+		}
+		status
+		type
+		updatedAt
+		updatedBy
+	}
+	errors {
+	  ... on AiNotificationsConstraintsError {
+		constraints {
+		  dependencies
+		  name
+		}
+	  }
+	  ... on AiNotificationsDataValidationError {
+		details
+		fields {
+		  field
+		  message
+		}
+	  }
+	  ... on AiNotificationsResponseError {
+		description
+		details
+		type
+	  }
+	  ... on AiNotificationsSuggestionError {
+		description
+		type
+		details
+	  }
+	}
+	error {
+	  ... on AiNotificationsSuggestionError {
+		description
+		type
+		details
+	  }
+	  ... on AiNotificationsResponseError {
+		description
+		type
+		details
+	  }
+	  ... on AiNotificationsDataValidationError {
+		details
+		fields {
+		  message
+		  field
+		}
+	  }
+	  ... on AiNotificationsConstraintsError {
+		constraints {
+		  name
+		  dependencies
+		}
+	  }
+	}
+`
+
+// ===== CREATE =====
+
+// CreateDestinationWithScope creates a notification destination under either an account or
+// an organization scope.
+//
+// # Migration from accountId
+//
+// The previous API accepted a standalone accountId integer. That parameter has been replaced
+// by the scope object, which unifies account-level and organization-level targeting under a
+// single argument.
+//
+// If you previously called:
+//
+//	client.AiNotificationsCreateDestination(accountID, destinationInput)
+//
+// Replace it with:
+//
+//	scope := &notifications.EntityScopeInput{
+//	    Type: notifications.EntityScopeTypeInputTypes.ACCOUNT,
+//	    ID:   strconv.Itoa(accountID),
+//	}
+//	client.CreateDestinationWithScope(destinationInput, scope)
+//
+// To create a destination at the organization level instead:
+//
+//	scope := &notifications.EntityScopeInput{
+//	    Type: notifications.EntityScopeTypeInputTypes.ORGANIZATION,
+//	    ID:   "<organizationID>",
+//	}
+//	client.CreateDestinationWithScope(destinationInput, scope)
+func (a *Notifications) CreateDestinationWithScope(
 	destination AiNotificationsDestinationInput,
 	scope *EntityScopeInput,
-) (*AiNotificationsDestinationResponse, error) {
-	return a.AiNotificationsCreateDestinationWithScopeWithContext(context.Background(),
-		accountID,
-		destination,
-		scope,
-	)
+) (*AiNotificationsDestinationWithScopeResponse, error) {
+	return a.CreateDestinationWithScopeWithContext(context.Background(), destination, scope)
 }
 
-func (a *Notifications) AiNotificationsCreateDestinationWithScopeWithContext(
+// CreateDestinationWithScopeWithContext is the context-aware variant of CreateDestinationWithScope.
+// Use this when you need request cancellation, deadlines, or tracing propagation.
+//
+// Example:
+//
+//	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+//	defer cancel()
+//
+//	scope := &notifications.EntityScopeInput{
+//	    Type: notifications.EntityScopeTypeInputTypes.ACCOUNT,
+//	    ID:   strconv.Itoa(accountID),
+//	}
+//	resp, err := client.CreateDestinationWithScopeWithContext(ctx, destinationInput, scope)
+func (a *Notifications) CreateDestinationWithScopeWithContext(
 	ctx context.Context,
-	accountID int,
 	destination AiNotificationsDestinationInput,
 	scope *EntityScopeInput,
-) (*AiNotificationsDestinationResponse, error) {
+) (*AiNotificationsDestinationWithScopeResponse, error) {
 
-	resp := AiNotificationsCreateDestinationWithScopeQueryResponse{}
+	if scope == nil {
+		return nil, fmt.Errorf("scope is required")
+	}
+
+	resp := createDestinationWithScopeResponse{}
 	vars := map[string]interface{}{
 		"destination": destination,
 		"scopeId":     scope.ID,
 	}
-	var mutation string
-	if scope != nil && scope.Type == EntityScopeTypeInputTypes.ORGANIZATION {
+
+	mutation := aiNotificationsCreateDestinationWithAccountScopeMutation
+	if scope.Type == EntityScopeTypeInputTypes.ORGANIZATION {
 		mutation = aiNotificationsCreateDestinationWithOrgScopeMutation
-	} else {
-		mutation = aiNotificationsCreateDestinationWithAccountScopeMutation
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, mutation, vars, &resp); err != nil {
 		return nil, err
 	}
 
-	return &resp.AiNotificationsDestinationResponse, nil
+	return &resp.AiNotificationsDestinationWithScopeResponse, nil
 }
 
-type AiNotificationsCreateDestinationWithScopeQueryResponse struct {
-	AiNotificationsDestinationResponse AiNotificationsDestinationResponse `json:"AiNotificationsCreateDestination"`
+type createDestinationWithScopeResponse struct {
+	AiNotificationsDestinationWithScopeResponse AiNotificationsDestinationWithScopeResponse `json:"AiNotificationsCreateDestination"`
 }
-
-const aiNotificationsCreateDestinationNoScopeMutation = `mutation(
-	$accountId: Int,
-	$destination: AiNotificationsDestinationInput!,
-) { aiNotificationsCreateDestination(
-	accountId: $accountId,
-	destination: $destination,
-) {
-	destination {
-		accountId
-		active
-		auth {
-			... on AiNotificationsBasicAuth {
-			  authType
-			  user
-			}
-			... on AiNotificationsOAuth2Auth {
-			  accessTokenUrl
-			  scope
-			  refreshable
-			  refreshInterval
-			  prefix
-			  clientId
-			  authorizationUrl
-			  authType
-			}
-			... on AiNotificationsTokenAuth {
-			  authType
-			  prefix
-			}
-			... on AiNotificationsCustomHeadersAuth {
-			  authType
-        	  customHeaders {
-          	    key
-			  }
-			}
-		}
-		createdAt
-		id
-		guid
-		isUserAuthenticated
-		lastSent
-		name
-		properties {
-			displayValue
-			key
-			label
-			value
-		}
-		secureUrl {
-			prefix
-		}
-		status
-		type
-		updatedAt
-		updatedBy
-	}
-	errors {
-      ... on AiNotificationsConstraintsError {
-        constraints {
-          dependencies
-          name
-        }
-      }
-      ... on AiNotificationsDataValidationError {
-        details
-        fields {
-          field
-          message
-        }
-      }
-      ... on AiNotificationsResponseError {
-        description
-        details
-        type
-      }
-      ... on AiNotificationsSuggestionError {
-        description
-        type
-        details
-      }
-    }
-    error {
-      ... on AiNotificationsSuggestionError {
-        description
-        type
-        details
-      }
-      ... on AiNotificationsResponseError {
-        description
-        type
-        details
-      }
-      ... on AiNotificationsDataValidationError {
-        details
-        fields {
-          message
-          field
-        }
-      }
-      ... on AiNotificationsConstraintsError {
-        constraints {
-          name
-          dependencies
-        }
-      }
-    }
-} }`
 
 const aiNotificationsCreateDestinationWithOrgScopeMutation = `mutation(
-	$accountId: Int,
 	$destination: AiNotificationsDestinationInput!,
 	$scopeId: String!,
 ) { aiNotificationsCreateDestination(
-	accountId: $accountId,
 	destination: $destination,
 	scope: {type: ORGANIZATION, id: $scopeId},
-) {
-	destination {
-		accountId
-		active
-		auth {
-			... on AiNotificationsBasicAuth {
-			  authType
-			  user
-			}
-			... on AiNotificationsOAuth2Auth {
-			  accessTokenUrl
-			  scope
-			  refreshable
-			  refreshInterval
-			  prefix
-			  clientId
-			  authorizationUrl
-			  authType
-			}
-			... on AiNotificationsTokenAuth {
-			  authType
-			  prefix
-			}
-			... on AiNotificationsCustomHeadersAuth {
-			  authType
-        	  customHeaders {
-          	    key
-			  }
-			}
-		}
-		createdAt
-		id
-		guid
-		isUserAuthenticated
-		lastSent
-		name
-		properties {
-			displayValue
-			key
-			label
-			value
-		}
-		secureUrl {
-			prefix
-		}
-		status
-		type
-		updatedAt
-		updatedBy
-	}
-	errors {
-      ... on AiNotificationsConstraintsError {
-        constraints {
-          dependencies
-          name
-        }
-      }
-      ... on AiNotificationsDataValidationError {
-        details
-        fields {
-          field
-          message
-        }
-      }
-      ... on AiNotificationsResponseError {
-        description
-        details
-        type
-      }
-      ... on AiNotificationsSuggestionError {
-        description
-        type
-        details
-      }
-    }
-    error {
-      ... on AiNotificationsSuggestionError {
-        description
-        type
-        details
-      }
-      ... on AiNotificationsResponseError {
-        description
-        type
-        details
-      }
-      ... on AiNotificationsDataValidationError {
-        details
-        fields {
-          message
-          field
-        }
-      }
-      ... on AiNotificationsConstraintsError {
-        constraints {
-          name
-          dependencies
-        }
-      }
-    }
-} }`
+) {` + destinationMutationResponseFields + `} }`
 
 const aiNotificationsCreateDestinationWithAccountScopeMutation = `mutation(
 	$destination: AiNotificationsDestinationInput!,
@@ -274,109 +212,61 @@ const aiNotificationsCreateDestinationWithAccountScopeMutation = `mutation(
 ) { aiNotificationsCreateDestination(
 	destination: $destination,
 	scope: {type: ACCOUNT, id: $scopeId},
-) {
-	destination {
-		accountId
-		active
-		auth {
-			... on AiNotificationsBasicAuth {
-			  authType
-			  user
-			}
-			... on AiNotificationsOAuth2Auth {
-			  accessTokenUrl
-			  scope
-			  refreshable
-			  refreshInterval
-			  prefix
-			  clientId
-			  authorizationUrl
-			  authType
-			}
-			... on AiNotificationsTokenAuth {
-			  authType
-			  prefix
-			}
-			... on AiNotificationsCustomHeadersAuth {
-			  authType
-        	  customHeaders {
-          	    key
-			  }
-			}
-		}
-		createdAt
-		id
-		guid
-		isUserAuthenticated
-		lastSent
-		name
-		properties {
-			displayValue
-			key
-			label
-			value
-		}
-		secureUrl {
-			prefix
-		}
-		status
-		type
-		updatedAt
-		updatedBy
-	}
-	errors {
-      ... on AiNotificationsConstraintsError {
-        constraints {
-          dependencies
-          name
-        }
-      }
-      ... on AiNotificationsDataValidationError {
-        details
-        fields {
-          field
-          message
-        }
-      }
-      ... on AiNotificationsResponseError {
-        description
-        details
-        type
-      }
-      ... on AiNotificationsSuggestionError {
-        description
-        type
-        details
-      }
-    }
-    error {
-      ... on AiNotificationsSuggestionError {
-        description
-        type
-        details
-      }
-      ... on AiNotificationsResponseError {
-        description
-        type
-        details
-      }
-      ... on AiNotificationsDataValidationError {
-        details
-        fields {
-          message
-          field
-        }
-      }
-      ... on AiNotificationsConstraintsError {
-        constraints {
-          name
-          dependencies
-        }
-      }
-    }
-} }`
+) {` + destinationMutationResponseFields + `} }`
 
+// ===== GET =====
+
+// GetDestinationsWithScope fetches notification destinations under either an account or an
+// organization scope, with support for filtering, sorting, and cursor-based pagination.
+//
+// # Migration from accountId
+//
+// The previous API accepted a standalone accountId integer. That parameter has been replaced
+// by the scope object, which unifies account-level and organization-level targeting under a
+// single argument.
+//
+// If you previously called:
+//
+//	client.GetDestinations(accountID, cursor, filters, sorter)
+//
+// Replace it with:
+//
+//	scope := &notifications.EntityScopeInput{
+//	    Type: notifications.EntityScopeTypeInputTypes.ACCOUNT,
+//	    ID:   strconv.Itoa(accountID),
+//	}
+//	client.GetDestinationsWithScope(cursor, filters, sorter, scope)
+//
+// To query destinations at the organization level instead:
+//
+//	scope := &notifications.EntityScopeInput{
+//	    Type: notifications.EntityScopeTypeInputTypes.ORGANIZATION,
+//	    ID:   "<organizationID>",
+//	}
+//	client.GetDestinationsWithScope(cursor, filters, sorter, scope)
 func (a *Notifications) GetDestinationsWithScope(
+	cursor string,
+	filters ai.AiNotificationsDestinationFilter,
+	sorter AiNotificationsDestinationSorter,
+	scope *EntityScopeInput,
+) (*AiNotificationsDestinationsWithScopeResponse, error) {
+	return a.GetDestinationsWithScopeWithContext(context.Background(), cursor, filters, sorter, scope)
+}
+
+// GetDestinationsWithScopeWithContext is the context-aware variant of GetDestinationsWithScope.
+// Use this when you need request cancellation, deadlines, or tracing propagation.
+//
+// Example:
+//
+//	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+//	defer cancel()
+//
+//	scope := &notifications.EntityScopeInput{
+//	    Type: notifications.EntityScopeTypeInputTypes.ACCOUNT,
+//	    ID:   strconv.Itoa(accountID),
+//	}
+//	resp, err := client.GetDestinationsWithScopeWithContext(ctx, cursor, filters, sorter, scope)
+func (a *Notifications) GetDestinationsWithScopeWithContext(
 	ctx context.Context,
 	cursor string,
 	filters ai.AiNotificationsDestinationFilter,
@@ -384,17 +274,22 @@ func (a *Notifications) GetDestinationsWithScope(
 	scope *EntityScopeInput,
 ) (*AiNotificationsDestinationsWithScopeResponse, error) {
 
-	if scope != nil && scope.Type == EntityScopeTypeInputTypes.ORGANIZATION {
-		return a.GetDestinationsWithOrganizationScopeWithContext(ctx, cursor, filters)
+	if scope == nil {
+		return nil, fmt.Errorf("scope is required")
 	}
+
+	if scope.Type == EntityScopeTypeInputTypes.ORGANIZATION {
+		return a.getDestinationsWithOrganizationScope(ctx, cursor, filters, sorter)
+	}
+
 	accountID, err := strconv.Atoi(scope.ID)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("invalid account scope ID %q: %w", scope.ID, err)
 	}
-	return a.GetDestinationsWithAccountScopeWithContext(ctx, accountID, cursor, filters, sorter)
+	return a.getDestinationsWithAccountScope(ctx, accountID, cursor, filters, sorter)
 }
 
-func (a *Notifications) GetDestinationsWithAccountScopeWithContext(
+func (a *Notifications) getDestinationsWithAccountScope(
 	ctx context.Context,
 	accountID int,
 	cursor string,
@@ -403,11 +298,11 @@ func (a *Notifications) GetDestinationsWithAccountScopeWithContext(
 ) (*AiNotificationsDestinationsWithScopeResponse, error) {
 
 	resp := destinationsWithScopeResponse{}
-
 	vars := map[string]interface{}{
 		"accountId": accountID,
 		"cursor":    cursor,
 		"filters":   filters,
+		"sorter":    sorter,
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, getDestinationsWithAccountScopeQuery, vars, &resp); err != nil {
@@ -417,17 +312,18 @@ func (a *Notifications) GetDestinationsWithAccountScopeWithContext(
 	return &resp.Actor.Account.AiNotifications.Destinations, nil
 }
 
-func (a *Notifications) GetDestinationsWithOrganizationScopeWithContext(
+func (a *Notifications) getDestinationsWithOrganizationScope(
 	ctx context.Context,
 	cursor string,
 	filters ai.AiNotificationsDestinationFilter,
+	sorter AiNotificationsDestinationSorter,
 ) (*AiNotificationsDestinationsWithScopeResponse, error) {
 
-	resp := destinationsWithOrgScopeResponse{}
-
+	resp := destinationsWithScopeResponse{}
 	vars := map[string]interface{}{
 		"cursor":  cursor,
 		"filters": filters,
+		"sorter":  sorter,
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, getDestinationsWithOrganizationScopeQuery, vars, &resp); err != nil {
@@ -437,11 +333,21 @@ func (a *Notifications) GetDestinationsWithOrganizationScopeWithContext(
 	return &resp.Actor.Organization.AiNotifications.Destinations, nil
 }
 
+// AiNotificationsDestinationWithScope extends AiNotificationsDestination with scope information.
 type AiNotificationsDestinationWithScope struct {
 	AiNotificationsDestination
 	Scope *EntityScope `json:"scope,omitempty"`
 }
 
+// AiNotificationsDestinationWithScopeResponse is the mutation response type for scoped destination
+// operations. It mirrors AiNotificationsDestinationResponse but surfaces the scope field.
+type AiNotificationsDestinationWithScopeResponse struct {
+	Destination AiNotificationsDestinationWithScope `json:"destination,omitempty"`
+	Error       ai.AiNotificationsError             `json:"error,omitempty"`
+	Errors      []ai.AiNotificationsError           `json:"errors"`
+}
+
+// AiNotificationsDestinationsWithScopeResponse is the response type for scoped destination queries.
 type AiNotificationsDestinationsWithScopeResponse struct {
 	Entities   []AiNotificationsDestinationWithScope `json:"entities"`
 	Error      AiNotificationsResponseError          `json:"error,omitempty"`
@@ -450,6 +356,7 @@ type AiNotificationsDestinationsWithScopeResponse struct {
 	TotalCount int                                   `json:"totalCount"`
 }
 
+// destinationsWithScopeResponse handles both account and organization scope paths.
 type destinationsWithScopeResponse struct {
 	Actor struct {
 		Account struct {
@@ -457,11 +364,6 @@ type destinationsWithScopeResponse struct {
 				Destinations AiNotificationsDestinationsWithScopeResponse `json:"destinations,omitempty"`
 			} `json:"aiNotifications,omitempty"`
 		} `json:"account,omitempty"`
-	} `json:"actor,omitempty"`
-}
-
-type destinationsWithOrgScopeResponse struct {
-	Actor struct {
 		Organization struct {
 			AiNotifications struct {
 				Destinations AiNotificationsDestinationsWithScopeResponse `json:"destinations,omitempty"`
@@ -470,11 +372,11 @@ type destinationsWithOrgScopeResponse struct {
 	} `json:"actor,omitempty"`
 }
 
-const getDestinationsWithAccountScopeQuery = `query($accountId: Int!, $filters: AiNotificationsDestinationFilter,$cursor: String) {
+const getDestinationsWithAccountScopeQuery = `query($accountId: Int!, $filters: AiNotificationsDestinationFilter, $sorter: AiNotificationsDestinationSorter, $cursor: String) {
 	actor {
 		account(id: $accountId) {
 			aiNotifications {
-				destinations(filters: $filters,  cursor: $cursor) {
+				destinations(filters: $filters, sorter: $sorter, cursor: $cursor) {
 					error {
 						description
 						type
@@ -539,11 +441,11 @@ const getDestinationsWithAccountScopeQuery = `query($accountId: Int!, $filters: 
 	}
 }`
 
-const getDestinationsWithOrganizationScopeQuery = `query($filters: AiNotificationsDestinationFilter) {
+const getDestinationsWithOrganizationScopeQuery = `query($filters: AiNotificationsDestinationFilter, $sorter: AiNotificationsDestinationSorter, $cursor: String) {
 	actor {
-		organization{
+		organization {
 			aiNotifications {
-				destinations(filters: $filters) {
+				destinations(filters: $filters, sorter: $sorter, cursor: $cursor) {
 					error {
 						description
 						type
@@ -608,140 +510,90 @@ const getDestinationsWithOrganizationScopeQuery = `query($filters: AiNotificatio
 	}
 }`
 
-// AiNotificationsUpdateDestinationWithScope - Update a Destination with optional scope
-func (a *Notifications) AiNotificationsUpdateDestinationWithScope(
-	accountID int,
-	destination AiNotificationsDestinationUpdate,
+// ===== UPDATE =====
+
+// UpdateDestinationWithScope updates an existing notification destination under either an
+// account or an organization scope.
+//
+// # Migration from accountId
+//
+// The previous API accepted a standalone accountId integer. That parameter has been replaced
+// by the scope object, which unifies account-level and organization-level targeting under a
+// single argument.
+//
+// If you previously called:
+//
+//	client.AiNotificationsUpdateDestination(accountID, destinationUpdate, destinationID)
+//
+// Replace it with:
+//
+//	scope := &notifications.EntityScopeInput{
+//	    Type: notifications.EntityScopeTypeInputTypes.ACCOUNT,
+//	    ID:   strconv.Itoa(accountID),
+//	}
+//	client.UpdateDestinationWithScope(destinationID, destinationUpdate, scope)
+//
+// To update a destination at the organization level instead:
+//
+//	scope := &notifications.EntityScopeInput{
+//	    Type: notifications.EntityScopeTypeInputTypes.ORGANIZATION,
+//	    ID:   "<organizationID>",
+//	}
+//	client.UpdateDestinationWithScope(destinationID, destinationUpdate, scope)
+func (a *Notifications) UpdateDestinationWithScope(
 	destinationId string,
+	destination AiNotificationsDestinationUpdate,
 	scope *EntityScopeInput,
-) (*AiNotificationsDestinationResponse, error) {
-	return a.AiNotificationsUpdateDestinationWithScopeWithContext(context.Background(),
-		accountID,
-		destination,
-		destinationId,
-		scope,
-	)
+) (*AiNotificationsDestinationWithScopeResponse, error) {
+	return a.UpdateDestinationWithScopeWithContext(context.Background(), destinationId, destination, scope)
 }
 
-// AiNotificationsUpdateDestinationWithScopeWithContext - Update a Destination with optional scope and context
-func (a *Notifications) AiNotificationsUpdateDestinationWithScopeWithContext(
+// UpdateDestinationWithScopeWithContext is the context-aware variant of UpdateDestinationWithScope.
+// Use this when you need request cancellation, deadlines, or tracing propagation.
+//
+// Example:
+//
+//	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+//	defer cancel()
+//
+//	scope := &notifications.EntityScopeInput{
+//	    Type: notifications.EntityScopeTypeInputTypes.ACCOUNT,
+//	    ID:   strconv.Itoa(accountID),
+//	}
+//	resp, err := client.UpdateDestinationWithScopeWithContext(ctx, destinationID, destinationUpdate, scope)
+func (a *Notifications) UpdateDestinationWithScopeWithContext(
 	ctx context.Context,
-	accountID int,
-	destination AiNotificationsDestinationUpdate,
 	destinationId string,
+	destination AiNotificationsDestinationUpdate,
 	scope *EntityScopeInput,
-) (*AiNotificationsDestinationResponse, error) {
+) (*AiNotificationsDestinationWithScopeResponse, error) {
 
-	resp := AiNotificationsUpdateDestinationWithScopeQueryResponse{}
-	vars := map[string]interface{}{
-		"scopeId":       scope.ID,
-		"destination":   destination,
-		"destinationId": destinationId,
+	if scope == nil {
+		return nil, fmt.Errorf("scope is required")
 	}
 
-	// Choose mutation based on whether scope is provided
-	var mutation string
-	if scope != nil && scope.Type == EntityScopeTypeInputTypes.ORGANIZATION {
+	resp := updateDestinationWithScopeResponse{}
+	vars := map[string]interface{}{
+		"destination":   destination,
+		"destinationId": destinationId,
+		"scopeId":       scope.ID,
+	}
+
+	mutation := aiNotificationsUpdateDestinationWithAccountScopeMutation
+	if scope.Type == EntityScopeTypeInputTypes.ORGANIZATION {
 		mutation = aiNotificationsUpdateDestinationWithOrgScopeMutation
-	} else {
-		mutation = aiNotificationsUpdateDestinationWithAccountScopeMutation
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, mutation, vars, &resp); err != nil {
 		return nil, err
 	}
 
-	return &resp.AiNotificationsDestinationResponse, nil
+	return &resp.AiNotificationsDestinationWithScopeResponse, nil
 }
 
-type AiNotificationsUpdateDestinationWithScopeQueryResponse struct {
-	AiNotificationsDestinationResponse AiNotificationsDestinationResponse `json:"AiNotificationsUpdateDestination"`
+type updateDestinationWithScopeResponse struct {
+	AiNotificationsDestinationWithScopeResponse AiNotificationsDestinationWithScopeResponse `json:"AiNotificationsUpdateDestination"`
 }
-
-const aiNotificationsUpdateDestinationNoScopeMutation = `mutation(
-	$accountId: Int!,
-	$destination: AiNotificationsDestinationUpdate!,
-	$destinationId: ID!,
-) { aiNotificationsUpdateDestination(
-	accountId: $accountId,
-	destination: $destination,
-	destinationId: $destinationId,
-) {
-	destination {
-		accountId
-		active
-		auth {
-			... on AiNotificationsBasicAuth {
-			  authType
-			  user
-			}
-			... on AiNotificationsOAuth2Auth {
-			  accessTokenUrl
-			  scope
-			  refreshable
-			  refreshInterval
-			  prefix
-			  clientId
-			  authorizationUrl
-			  authType
-			}
-			... on AiNotificationsTokenAuth {
-			  authType
-			  prefix
-			}
-			... on AiNotificationsCustomHeadersAuth {
-			  authType
-        	  customHeaders {
-          	    key
-			  }
-			}
-		}
-		createdAt
-		id
-		guid
-		isUserAuthenticated
-		lastSent
-		name
-		properties {
-			displayValue
-			key
-			label
-			value
-		}
-		secureUrl {
-			prefix
-		}
-		status
-		type
-		updatedAt
-		updatedBy
-	}
-	errors {
-      ... on AiNotificationsConstraintsError {
-        constraints {
-          dependencies
-          name
-        }
-      }
-      ... on AiNotificationsDataValidationError {
-        details
-        fields {
-          field
-          message
-        }
-      }
-      ... on AiNotificationsResponseError {
-        description
-        details
-        type
-      }
-      ... on AiNotificationsSuggestionError {
-        description
-        type
-        details
-      }
-    }
-} }`
 
 const aiNotificationsUpdateDestinationWithOrgScopeMutation = `mutation(
 	$destination: AiNotificationsDestinationUpdate!,
@@ -751,82 +603,7 @@ const aiNotificationsUpdateDestinationWithOrgScopeMutation = `mutation(
 	destination: $destination,
 	destinationId: $destinationId,
 	scope: {type: ORGANIZATION, id: $scopeId},
-) {
-	destination {
-		accountId
-		active
-		auth {
-			... on AiNotificationsBasicAuth {
-			  authType
-			  user
-			}
-			... on AiNotificationsOAuth2Auth {
-			  accessTokenUrl
-			  scope
-			  refreshable
-			  refreshInterval
-			  prefix
-			  clientId
-			  authorizationUrl
-			  authType
-			}
-			... on AiNotificationsTokenAuth {
-			  authType
-			  prefix
-			}
-			... on AiNotificationsCustomHeadersAuth {
-			  authType
-        	  customHeaders {
-          	    key
-			  }
-			}
-		}
-		createdAt
-		id
-		guid
-		isUserAuthenticated
-		lastSent
-		name
-		properties {
-			displayValue
-			key
-			label
-			value
-		}
-		secureUrl {
-			prefix
-		}
-		status
-		type
-		updatedAt
-		updatedBy
-	}
-	errors {
-      ... on AiNotificationsConstraintsError {
-        constraints {
-          dependencies
-          name
-        }
-      }
-      ... on AiNotificationsDataValidationError {
-        details
-        fields {
-          field
-          message
-        }
-      }
-      ... on AiNotificationsResponseError {
-        description
-        details
-        type
-      }
-      ... on AiNotificationsSuggestionError {
-        description
-        type
-        details
-      }
-    }
-} }`
+) {` + destinationMutationResponseFields + `} }`
 
 const aiNotificationsUpdateDestinationWithAccountScopeMutation = `mutation(
 	$destination: AiNotificationsDestinationUpdate!,
@@ -836,116 +613,77 @@ const aiNotificationsUpdateDestinationWithAccountScopeMutation = `mutation(
 	destination: $destination,
 	destinationId: $destinationId,
 	scope: {type: ACCOUNT, id: $scopeId},
-) {
-	destination {
-		accountId
-		active
-		auth {
-			... on AiNotificationsBasicAuth {
-			  authType
-			  user
-			}
-			... on AiNotificationsOAuth2Auth {
-			  accessTokenUrl
-			  scope
-			  refreshable
-			  refreshInterval
-			  prefix
-			  clientId
-			  authorizationUrl
-			  authType
-			}
-			... on AiNotificationsTokenAuth {
-			  authType
-			  prefix
-			}
-			... on AiNotificationsCustomHeadersAuth {
-			  authType
-        	  customHeaders {
-          	    key
-			  }
-			}
-		}
-		createdAt
-		id
-		guid
-		isUserAuthenticated
-		lastSent
-		name
-		properties {
-			displayValue
-			key
-			label
-			value
-		}
-		secureUrl {
-			prefix
-		}
-		status
-		type
-		updatedAt
-		updatedBy
-	}
-	errors {
-      ... on AiNotificationsConstraintsError {
-        constraints {
-          dependencies
-          name
-        }
-      }
-      ... on AiNotificationsDataValidationError {
-        details
-        fields {
-          field
-          message
-        }
-      }
-      ... on AiNotificationsResponseError {
-        description
-        details
-        type
-      }
-      ... on AiNotificationsSuggestionError {
-        description
-        type
-        details
-      }
-    }
-} }`
+) {` + destinationMutationResponseFields + `} }`
 
-// AiNotificationsDeleteDestinationWithScope - Delete a Destination with optional scope
-func (a *Notifications) AiNotificationsDeleteDestinationWithScope(
-	accountID int,
+// ===== DELETE =====
+
+// DeleteDestinationWithScope deletes a notification destination under either an account or
+// an organization scope.
+//
+// # Migration from accountId
+//
+// The previous API accepted a standalone accountId integer. That parameter has been replaced
+// by the scope object, which unifies account-level and organization-level targeting under a
+// single argument.
+//
+// If you previously called:
+//
+//	client.AiNotificationsDeleteDestination(accountID, destinationID)
+//
+// Replace it with:
+//
+//	scope := &notifications.EntityScopeInput{
+//	    Type: notifications.EntityScopeTypeInputTypes.ACCOUNT,
+//	    ID:   strconv.Itoa(accountID),
+//	}
+//	client.DeleteDestinationWithScope(destinationID, scope)
+//
+// To delete a destination at the organization level instead:
+//
+//	scope := &notifications.EntityScopeInput{
+//	    Type: notifications.EntityScopeTypeInputTypes.ORGANIZATION,
+//	    ID:   "<organizationID>",
+//	}
+//	client.DeleteDestinationWithScope(destinationID, scope)
+func (a *Notifications) DeleteDestinationWithScope(
 	destinationId string,
 	scope *EntityScopeInput,
 ) (*AiNotificationsDeleteResponse, error) {
-	return a.AiNotificationsDeleteDestinationWithScopeWithContext(context.Background(),
-		accountID,
-		destinationId,
-		scope,
-	)
+	return a.DeleteDestinationWithScopeWithContext(context.Background(), destinationId, scope)
 }
 
-// AiNotificationsDeleteDestinationWithScopeWithContext - Delete a Destination with optional scope and context
-func (a *Notifications) AiNotificationsDeleteDestinationWithScopeWithContext(
+// DeleteDestinationWithScopeWithContext is the context-aware variant of DeleteDestinationWithScope.
+// Use this when you need request cancellation, deadlines, or tracing propagation.
+//
+// Example:
+//
+//	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+//	defer cancel()
+//
+//	scope := &notifications.EntityScopeInput{
+//	    Type: notifications.EntityScopeTypeInputTypes.ACCOUNT,
+//	    ID:   strconv.Itoa(accountID),
+//	}
+//	resp, err := client.DeleteDestinationWithScopeWithContext(ctx, destinationID, scope)
+func (a *Notifications) DeleteDestinationWithScopeWithContext(
 	ctx context.Context,
-	accountID int,
 	destinationId string,
 	scope *EntityScopeInput,
 ) (*AiNotificationsDeleteResponse, error) {
 
-	resp := AiNotificationsDeleteDestinationWithScopeQueryResponse{}
-	vars := map[string]interface{}{
-		"scopeId":       scope.ID,
-		"destinationId": destinationId,
+	if scope == nil {
+		return nil, fmt.Errorf("scope is required")
 	}
 
-	// Choose mutation based on whether scope is provided
-	var mutation string
-	if scope != nil && scope.Type == EntityScopeTypeInputTypes.ORGANIZATION {
+	resp := deleteDestinationWithScopeResponse{}
+	vars := map[string]interface{}{
+		"destinationId": destinationId,
+		"scopeId":       scope.ID,
+	}
+
+	mutation := aiNotificationsDeleteDestinationWithAccountScopeMutation
+	if scope.Type == EntityScopeTypeInputTypes.ORGANIZATION {
 		mutation = aiNotificationsDeleteDestinationWithOrgScopeMutation
-	} else {
-		mutation = aiNotificationsDeleteDestinationWithAccountScopeMutation
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, mutation, vars, &resp); err != nil {
@@ -955,29 +693,9 @@ func (a *Notifications) AiNotificationsDeleteDestinationWithScopeWithContext(
 	return &resp.AiNotificationsDeleteResponse, nil
 }
 
-type AiNotificationsDeleteDestinationWithScopeQueryResponse struct {
+type deleteDestinationWithScopeResponse struct {
 	AiNotificationsDeleteResponse AiNotificationsDeleteResponse `json:"AiNotificationsDeleteDestination"`
 }
-
-const aiNotificationsDeleteDestinationNoScopeMutation = `mutation(
-	$accountId: Int!,
-	$destinationId: ID!,
-) { aiNotificationsDeleteDestination(
-	accountId: $accountId,
-	destinationId: $destinationId,
-) {
-	error {
-		description
-		details
-		type
-	}
-	errors {
-		description
-		details
-		type
-	}
-	ids
-} }`
 
 const aiNotificationsDeleteDestinationWithOrgScopeMutation = `mutation(
 	$destinationId: ID!,
