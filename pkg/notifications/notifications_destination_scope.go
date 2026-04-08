@@ -980,11 +980,9 @@ const aiNotificationsDeleteDestinationNoScopeMutation = `mutation(
 } }`
 
 const aiNotificationsDeleteDestinationWithOrgScopeMutation = `mutation(
-	$accountId: Int!,
 	$destinationId: ID!,
 	$scopeId: String!,
 ) { aiNotificationsDeleteDestination(
-	accountId: $accountId,
 	destinationId: $destinationId,
 	scope: {type: ORGANIZATION, id: $scopeId},
 ) {
