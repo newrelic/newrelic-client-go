@@ -635,9 +635,9 @@ func (a *Notifications) AiNotificationsUpdateDestinationWithScopeWithContext(
 	// Choose mutation based on whether scope is provided
 	var mutation string
 	if scope != nil && scope.Type == EntityScopeTypeInputTypes.ORGANIZATION {
-		mutation = aiNotificationsCreateDestinationWithOrgScopeMutation
+		mutation = aiNotificationsUpdateDestinationWithOrgScopeMutation
 	} else {
-		mutation = aiNotificationsCreateDestinationWithAccountScopeMutation
+		mutation = aiNotificationsUpdateDestinationWithAccountScopeMutation
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, mutation, vars, &resp); err != nil {
