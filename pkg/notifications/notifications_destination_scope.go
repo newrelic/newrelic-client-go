@@ -29,8 +29,8 @@ func (a *Notifications) AiNotificationsCreateDestinationWithScopeWithContext(
 
 	resp := AiNotificationsCreateDestinationWithScopeQueryResponse{}
 	vars := map[string]interface{}{
-		"accountId":   accountID,
 		"destination": destination,
+		"scopeId":     scope.ID,
 	}
 	var mutation string
 	if scope != nil && scope.Type == EntityScopeTypeInputTypes.ORGANIZATION {
@@ -269,11 +269,9 @@ const aiNotificationsCreateDestinationWithOrgScopeMutation = `mutation(
 } }`
 
 const aiNotificationsCreateDestinationWithAccountScopeMutation = `mutation(
-	$accountId: Int,
 	$destination: AiNotificationsDestinationInput!,
 	$scopeId: String!,
 ) { aiNotificationsCreateDestination(
-	accountId: $accountId,
 	destination: $destination,
 	scope: {type: ACCOUNT, id: $scopeId},
 ) {
@@ -407,10 +405,9 @@ func (a *Notifications) GetDestinationsWithAccountScopeWithContext(
 	resp := destinationsWithScopeResponse{}
 
 	vars := map[string]interface{}{
-		"accountID": accountID,
+		"accountId": accountID,
 		"cursor":    cursor,
 		"filters":   filters,
-		"sorter":    sorter,
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, getDestinationsWithAccountScopeQuery, vars, &resp); err != nil {
@@ -426,7 +423,7 @@ func (a *Notifications) GetDestinationsWithOrganizationScopeWithContext(
 	filters ai.AiNotificationsDestinationFilter,
 ) (*AiNotificationsDestinationsWithScopeResponse, error) {
 
-	resp := destinationsWithScopeResponse{}
+	resp := destinationsWithOrgScopeResponse{}
 
 	vars := map[string]interface{}{
 		"cursor":  cursor,
@@ -437,7 +434,7 @@ func (a *Notifications) GetDestinationsWithOrganizationScopeWithContext(
 		return nil, err
 	}
 
-	return &resp.Actor.Account.AiNotifications.Destinations, nil
+	return &resp.Actor.Organization.AiNotifications.Destinations, nil
 }
 
 type AiNotificationsDestinationWithScope struct {
@@ -463,11 +460,21 @@ type destinationsWithScopeResponse struct {
 	} `json:"actor,omitempty"`
 }
 
-const getDestinationsWithAccountScopeQuery = `query($accountId: Int!, $filters: AiNotificationsDestinationFilter, $sorter: AiNotificationsDestinationSorter, $cursor: String) {
+type destinationsWithOrgScopeResponse struct {
+	Actor struct {
+		Organization struct {
+			AiNotifications struct {
+				Destinations AiNotificationsDestinationsWithScopeResponse `json:"destinations,omitempty"`
+			} `json:"aiNotifications,omitempty"`
+		} `json:"organization,omitempty"`
+	} `json:"actor,omitempty"`
+}
+
+const getDestinationsWithAccountScopeQuery = `query($accountId: Int!, $filters: AiNotificationsDestinationFilter,$cursor: String) {
 	actor {
 		account(id: $accountId) {
 			aiNotifications {
-				destinations(filters: $filters, sorter: $sorter, cursor: $cursor) {
+				destinations(filters: $filters,  cursor: $cursor) {
 					error {
 						description
 						type
@@ -627,7 +634,7 @@ func (a *Notifications) AiNotificationsUpdateDestinationWithScopeWithContext(
 
 	resp := AiNotificationsUpdateDestinationWithScopeQueryResponse{}
 	vars := map[string]interface{}{
-		"accountId":     accountID,
+		"scopeId":       scope.ID,
 		"destination":   destination,
 		"destinationId": destinationId,
 	}
@@ -737,12 +744,10 @@ const aiNotificationsUpdateDestinationNoScopeMutation = `mutation(
 } }`
 
 const aiNotificationsUpdateDestinationWithOrgScopeMutation = `mutation(
-	$accountId: Int!,
 	$destination: AiNotificationsDestinationUpdate!,
 	$destinationId: ID!,
 	$scopeId: String!,
 ) { aiNotificationsUpdateDestination(
-	accountId: $accountId,
 	destination: $destination,
 	destinationId: $destinationId,
 	scope: {type: ORGANIZATION, id: $scopeId},
@@ -824,12 +829,10 @@ const aiNotificationsUpdateDestinationWithOrgScopeMutation = `mutation(
 } }`
 
 const aiNotificationsUpdateDestinationWithAccountScopeMutation = `mutation(
-	$accountId: Int!,
 	$destination: AiNotificationsDestinationUpdate!,
 	$destinationId: ID!,
 	$scopeId: String!,
 ) { aiNotificationsUpdateDestination(
-	accountId: $accountId,
 	destination: $destination,
 	destinationId: $destinationId,
 	scope: {type: ACCOUNT, id: $scopeId},
@@ -933,7 +936,7 @@ func (a *Notifications) AiNotificationsDeleteDestinationWithScopeWithContext(
 
 	resp := AiNotificationsDeleteDestinationWithScopeQueryResponse{}
 	vars := map[string]interface{}{
-		"accountId":     accountID,
+		"scopeId":       scope.ID,
 		"destinationId": destinationId,
 	}
 
@@ -999,11 +1002,9 @@ const aiNotificationsDeleteDestinationWithOrgScopeMutation = `mutation(
 } }`
 
 const aiNotificationsDeleteDestinationWithAccountScopeMutation = `mutation(
-	$accountId: Int!,
 	$destinationId: ID!,
 	$scopeId: String!,
 ) { aiNotificationsDeleteDestination(
-	accountId: $accountId,
 	destinationId: $destinationId,
 	scope: {type: ACCOUNT, id: $scopeId},
 ) {
