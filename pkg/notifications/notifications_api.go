@@ -1036,11 +1036,16 @@ func (a *Notifications) GetDestinationsWithContextOrganization(
 
 	resp := destinationsResponse{}
 	vars := map[string]interface{}{
-		"cursor":  cursor,
-		"filters": filters,
-		"sorter":  sorter,
+		"cursor": cursor,
 	}
 
+	if filters != (ai.AiNotificationsDestinationFilter{}) {
+		vars["filters"] = filters
+	}
+
+	if sorter != (AiNotificationsDestinationSorter{}) {
+		vars["sorter"] = sorter
+	}
 	if err := a.client.NerdGraphQueryWithContext(ctx, getDestinationsQueryOrganization, vars, &resp); err != nil {
 		return nil, err
 	}
