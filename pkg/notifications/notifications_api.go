@@ -123,32 +123,32 @@ const AiNotificationsCreateChannelMutation = `mutation(
 
 // AiNotificationsCreateDestination creates a new notification destination.
 //
-// The scope parameter controls whether the destination is scoped to an account or an organization.
+// Either accountID or scope must be provided. The scope parameter is optional (variadic);
+// when provided, it takes precedence over accountID for determining the target scope.
 //
 // Account-scoped (using scope object):
 //
-//	accountScope := AiNotificationsEntityScopeInput{
+//	accountScope := &AiNotificationsEntityScopeInput{
 //	    ID:   "your-account-id",
 //	    Type: AiNotificationsEntityScopeTypeInputTypes.ACCOUNT,
 //	}
-//	resp, err := client.Notifications.AiNotificationsCreateDestination(0, input, accountScope)
+//	resp, err := client.Notifications.AiNotificationsCreateDestination(nil, input, accountScope)
 //
-// Account-scoped (backward-compatible, using accountID only):
+// Account-scoped (backward-compatible, using accountID only without scope):
 //
-//	resp, err := client.Notifications.AiNotificationsCreateDestination(accountID, input, AiNotificationsEntityScopeInput{})
+//	acctID := 12345
+//	resp, err := client.Notifications.AiNotificationsCreateDestination(&acctID, input)
 //
 // Organization-scoped:
 //
-//	orgScope := AiNotificationsEntityScopeInput{
+//	orgScope := &AiNotificationsEntityScopeInput{
 //	    ID:   "your-org-id",
 //	    Type: AiNotificationsEntityScopeTypeInputTypes.ORGANIZATION,
 //	}
-//	resp, err := client.Notifications.AiNotificationsCreateDestination(0, input, orgScope)
+//	resp, err := client.Notifications.AiNotificationsCreateDestination(nil, input, orgScope)
 //
-// This replaces the previous signature which did not accept a scope parameter.
-// Previous usage:
-//
-//	resp, err := client.Notifications.AiNotificationsCreateDestination(accountID, input)
+// This replaces the previous signature: AiNotificationsCreateDestination(accountID int, destination).
+// The accountID is now a *int pointer and scope is a new optional variadic parameter.
 func (a *Notifications) AiNotificationsCreateDestination(
 	accountID *int,
 	destination AiNotificationsDestinationInput,
@@ -374,32 +374,32 @@ const AiNotificationsDeleteChannelMutation = `mutation(
 
 // AiNotificationsDeleteDestination deletes an existing notification destination.
 //
-// The scope parameter controls whether the operation targets an account-scoped or organization-scoped destination.
+// Either accountID or scope must be provided. The scope parameter is optional (variadic);
+// when provided, it takes precedence over accountID for determining the target scope.
 //
 // Account-scoped (using scope object):
 //
-//	accountScope := AiNotificationsEntityScopeInput{
+//	accountScope := &AiNotificationsEntityScopeInput{
 //	    ID:   "your-account-id",
 //	    Type: AiNotificationsEntityScopeTypeInputTypes.ACCOUNT,
 //	}
-//	resp, err := client.Notifications.AiNotificationsDeleteDestination(0, destID, accountScope)
+//	resp, err := client.Notifications.AiNotificationsDeleteDestination(nil, destID, accountScope)
 //
-// Account-scoped (backward-compatible, using accountID only):
+// Account-scoped (backward-compatible, using accountID only without scope):
 //
-//	resp, err := client.Notifications.AiNotificationsDeleteDestination(accountID, destID, AiNotificationsEntityScopeInput{})
+//	acctID := 12345
+//	resp, err := client.Notifications.AiNotificationsDeleteDestination(&acctID, destID)
 //
 // Organization-scoped:
 //
-//	orgScope := AiNotificationsEntityScopeInput{
+//	orgScope := &AiNotificationsEntityScopeInput{
 //	    ID:   "your-org-id",
 //	    Type: AiNotificationsEntityScopeTypeInputTypes.ORGANIZATION,
 //	}
-//	resp, err := client.Notifications.AiNotificationsDeleteDestination(0, destID, orgScope)
+//	resp, err := client.Notifications.AiNotificationsDeleteDestination(nil, destID, orgScope)
 //
-// This replaces the previous signature which did not accept a scope parameter.
-// Previous usage:
-//
-//	resp, err := client.Notifications.AiNotificationsDeleteDestination(accountID, destID)
+// This replaces the previous signature: AiNotificationsDeleteDestination(accountID int, destinationId).
+// The accountID is now a *int pointer and scope is a new optional variadic parameter.
 func (a *Notifications) AiNotificationsDeleteDestination(
 	accountID *int,
 	destinationId string,
@@ -592,32 +592,32 @@ const AiNotificationsUpdateChannelMutation = `mutation(
 
 // AiNotificationsUpdateDestination updates an existing notification destination.
 //
-// The scope parameter controls whether the operation targets an account-scoped or organization-scoped destination.
+// Either accountID or scope must be provided. The scope parameter is optional (variadic);
+// when provided, it takes precedence over accountID for determining the target scope.
 //
 // Account-scoped (using scope object):
 //
-//	accountScope := AiNotificationsEntityScopeInput{
+//	accountScope := &AiNotificationsEntityScopeInput{
 //	    ID:   "your-account-id",
 //	    Type: AiNotificationsEntityScopeTypeInputTypes.ACCOUNT,
 //	}
-//	resp, err := client.Notifications.AiNotificationsUpdateDestination(0, update, destID, accountScope)
+//	resp, err := client.Notifications.AiNotificationsUpdateDestination(nil, update, destID, accountScope)
 //
-// Account-scoped (backward-compatible, using accountID only):
+// Account-scoped (backward-compatible, using accountID only without scope):
 //
-//	resp, err := client.Notifications.AiNotificationsUpdateDestination(accountID, update, destID, AiNotificationsEntityScopeInput{})
+//	acctID := 12345
+//	resp, err := client.Notifications.AiNotificationsUpdateDestination(&acctID, update, destID)
 //
 // Organization-scoped:
 //
-//	orgScope := AiNotificationsEntityScopeInput{
+//	orgScope := &AiNotificationsEntityScopeInput{
 //	    ID:   "your-org-id",
 //	    Type: AiNotificationsEntityScopeTypeInputTypes.ORGANIZATION,
 //	}
-//	resp, err := client.Notifications.AiNotificationsUpdateDestination(0, update, destID, orgScope)
+//	resp, err := client.Notifications.AiNotificationsUpdateDestination(nil, update, destID, orgScope)
 //
-// This replaces the previous signature which did not accept a scope parameter.
-// Previous usage:
-//
-//	resp, err := client.Notifications.AiNotificationsUpdateDestination(accountID, update, destID)
+// This replaces the previous signature: AiNotificationsUpdateDestination(accountID int, destination, destinationId).
+// The accountID is now a *int pointer and scope is a new optional variadic parameter.
 func (a *Notifications) AiNotificationsUpdateDestination(
 	accountID *int,
 	destination AiNotificationsDestinationUpdate,
