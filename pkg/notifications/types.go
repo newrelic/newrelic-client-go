@@ -762,7 +762,6 @@ type Account struct {
 type Actor struct {
 	// The `account` field is the entry point into data that is scoped to a single account.
 	Account Account `json:"account,omitempty"`
-
 	// The `organization` field is the entry point into data that is scoped to the user's organization.
 	Organization Organization `json:"organization,omitempty"`
 }

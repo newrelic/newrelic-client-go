@@ -49,7 +49,7 @@ func TestNotificationMutationDestination(t *testing.T) {
 	destination.Name = fmt.Sprintf("test-notifications-destination-%s", testIntegrationDestinationNameRandStr)
 
 	// Test: Create
-	createResult, err := n.AiNotificationsCreateDestination(accountID, destination, &AiNotificationsEntityScopeInput{})
+	createResult, err := n.AiNotificationsCreateDestination(accountID, destination, AiNotificationsEntityScopeInput{})
 	require.NoError(t, err)
 	require.NotNil(t, createResult)
 	require.NotEmpty(t, createResult.Destination.Auth)
@@ -86,12 +86,12 @@ func TestNotificationMutationDestination(t *testing.T) {
 	}
 	updateDestination.Name = fmt.Sprintf("test-notifications-update-destination-%s", testIntegrationDestinationNameRandStr)
 
-	updateDestinationResult, err := n.AiNotificationsUpdateDestination(accountID, updateDestination, createResult.Destination.ID, &AiNotificationsEntityScopeInput{})
+	updateDestinationResult, err := n.AiNotificationsUpdateDestination(accountID, updateDestination, createResult.Destination.ID, AiNotificationsEntityScopeInput{})
 	require.NoError(t, err)
 	require.NotNil(t, updateDestinationResult)
 
 	// Test: Delete
-	deleteResult, err := n.AiNotificationsDeleteDestination(accountID, createResult.Destination.ID, &AiNotificationsEntityScopeInput{})
+	deleteResult, err := n.AiNotificationsDeleteDestination(accountID, createResult.Destination.ID, AiNotificationsEntityScopeInput{})
 	require.NoError(t, err)
 	require.NotNil(t, deleteResult)
 }
@@ -128,7 +128,7 @@ func TestNotificationMutationDestination_FilterByName(t *testing.T) {
 	destination.Name = fmt.Sprintf("test-notifications-destination-%s", testIntegrationDestinationNameRandStr)
 
 	// Test: Create
-	createResult, err := n.AiNotificationsCreateDestination(accountID, destination, &AiNotificationsEntityScopeInput{})
+	createResult, err := n.AiNotificationsCreateDestination(accountID, destination, AiNotificationsEntityScopeInput{})
 	require.NoError(t, err)
 	require.NotNil(t, createResult)
 	require.NotEmpty(t, createResult.Destination.Auth)
@@ -145,7 +145,7 @@ func TestNotificationMutationDestination_FilterByName(t *testing.T) {
 	assert.Equal(t, 1, getDestinationByNameResult.TotalCount)
 
 	// Test: Delete
-	deleteResult, err := n.AiNotificationsDeleteDestination(accountID, createResult.Destination.ID, &AiNotificationsEntityScopeInput{})
+	deleteResult, err := n.AiNotificationsDeleteDestination(accountID, createResult.Destination.ID, AiNotificationsEntityScopeInput{})
 	require.NoError(t, err)
 	require.NotNil(t, deleteResult)
 }
@@ -182,7 +182,7 @@ func TestNotificationMutationDestination_FilterByExactName(t *testing.T) {
 	destination.Name = fmt.Sprintf("test-notifications-destination-%s", testIntegrationDestinationNameRandStr)
 
 	// Test: Create
-	createResult, err := n.AiNotificationsCreateDestination(accountID, destination, &AiNotificationsEntityScopeInput{})
+	createResult, err := n.AiNotificationsCreateDestination(accountID, destination, AiNotificationsEntityScopeInput{})
 	require.NoError(t, err)
 	require.NotNil(t, createResult)
 	require.NotEmpty(t, createResult.Destination.Auth)
@@ -199,7 +199,7 @@ func TestNotificationMutationDestination_FilterByExactName(t *testing.T) {
 	assert.Equal(t, 1, getDestinationByExactNameResult.TotalCount)
 
 	// Test: Delete
-	deleteResult, err := n.AiNotificationsDeleteDestination(accountID, createResult.Destination.ID, &AiNotificationsEntityScopeInput{})
+	deleteResult, err := n.AiNotificationsDeleteDestination(accountID, createResult.Destination.ID, AiNotificationsEntityScopeInput{})
 	require.NoError(t, err)
 	require.NotNil(t, deleteResult)
 }
@@ -239,7 +239,7 @@ func TestNotificationMutationDestination_CustomHeaderAuth(t *testing.T) {
 	destination.Name = fmt.Sprintf("test-notifications-destination-%s", testIntegrationDestinationNameRandStr)
 
 	// Test: Create
-	createResult, err := n.AiNotificationsCreateDestination(accountID, destination, &AiNotificationsEntityScopeInput{})
+	createResult, err := n.AiNotificationsCreateDestination(accountID, destination, AiNotificationsEntityScopeInput{})
 	require.NoError(t, err)
 	require.NotNil(t, createResult)
 	require.NotEmpty(t, createResult.Destination.Auth)
@@ -287,7 +287,7 @@ func TestNotificationMutationDestination_CustomHeaderAuth(t *testing.T) {
 	}
 	updateDestination.Name = fmt.Sprintf("test-notifications-update-destination-%s", testIntegrationDestinationNameRandStr)
 
-	updateDestinationResult, err := n.AiNotificationsUpdateDestination(accountID, updateDestination, createResult.Destination.ID, &AiNotificationsEntityScopeInput{})
+	updateDestinationResult, err := n.AiNotificationsUpdateDestination(accountID, updateDestination, createResult.Destination.ID, AiNotificationsEntityScopeInput{})
 	require.NoError(t, err)
 	require.NotNil(t, updateDestinationResult)
 	require.Equal(t, ai.AiNotificationsAuthType("CUSTOM_HEADERS"), updateDestinationResult.Destination.Auth.AuthType)
@@ -296,7 +296,7 @@ func TestNotificationMutationDestination_CustomHeaderAuth(t *testing.T) {
 	require.Equal(t, "key4", updateDestinationResult.Destination.Auth.CustomHeaders[1].Key)
 
 	// Test: Delete
-	deleteResult, err := n.AiNotificationsDeleteDestination(accountID, createResult.Destination.ID, &AiNotificationsEntityScopeInput{})
+	deleteResult, err := n.AiNotificationsDeleteDestination(accountID, createResult.Destination.ID, AiNotificationsEntityScopeInput{})
 	require.NoError(t, err)
 	require.NotNil(t, deleteResult)
 }
@@ -330,7 +330,7 @@ func TestNotificationMutationDestination_secureUrl(t *testing.T) {
 	destination.Name = fmt.Sprintf("test-notifications-destination-%s", testIntegrationDestinationNameRandStr)
 
 	// Test: Create
-	createResult, err := n.AiNotificationsCreateDestination(accountID, destination, &AiNotificationsEntityScopeInput{})
+	createResult, err := n.AiNotificationsCreateDestination(accountID, destination, AiNotificationsEntityScopeInput{})
 	require.NoError(t, err)
 	require.NotNil(t, createResult)
 	require.NotNil(t, createResult.Destination.SecureURL)
@@ -368,14 +368,14 @@ func TestNotificationMutationDestination_secureUrl(t *testing.T) {
 	}
 	updateDestination.Name = fmt.Sprintf("test-notifications-update-destination-%s", testIntegrationDestinationNameRandStr)
 
-	updateDestinationResult, err := n.AiNotificationsUpdateDestination(accountID, updateDestination, createResult.Destination.ID, &AiNotificationsEntityScopeInput{})
+	updateDestinationResult, err := n.AiNotificationsUpdateDestination(accountID, updateDestination, createResult.Destination.ID, AiNotificationsEntityScopeInput{})
 	require.NoError(t, err)
 	require.NotNil(t, updateDestinationResult)
 	require.NotNil(t, updateDestinationResult.Destination.SecureURL)
 	require.Equal(t, updateDestinationResult.Destination.SecureURL.Prefix, "https://webhook2.site")
 
 	// Test: Delete
-	deleteResult, err := n.AiNotificationsDeleteDestination(accountID, createResult.Destination.ID, &AiNotificationsEntityScopeInput{})
+	deleteResult, err := n.AiNotificationsDeleteDestination(accountID, createResult.Destination.ID, AiNotificationsEntityScopeInput{})
 	require.NoError(t, err)
 	require.NotNil(t, deleteResult)
 }
@@ -412,7 +412,7 @@ func TestNotificationMutationChannel(t *testing.T) {
 	destination.Name = fmt.Sprintf("test-notifications-destination-%s", testIntegrationDestinationNameRandStr)
 
 	// Test: Create Destination
-	createDestinationResult, err := n.AiNotificationsCreateDestination(accountID, destination, &AiNotificationsEntityScopeInput{})
+	createDestinationResult, err := n.AiNotificationsCreateDestination(accountID, destination, AiNotificationsEntityScopeInput{})
 	require.NoError(t, err)
 	require.NotNil(t, createDestinationResult)
 
@@ -485,7 +485,7 @@ func TestNotificationMutationChannel(t *testing.T) {
 	require.NotNil(t, deleteResult)
 
 	// Test: Delete Destination
-	deleteDestinationResult, err := n.AiNotificationsDeleteDestination(accountID, destinationId, &AiNotificationsEntityScopeInput{})
+	deleteDestinationResult, err := n.AiNotificationsDeleteDestination(accountID, destinationId, AiNotificationsEntityScopeInput{})
 	require.NoError(t, err)
 	require.NotNil(t, deleteDestinationResult)
 }
@@ -527,7 +527,7 @@ func TestNotificationMutationDestination_1(t *testing.T) {
 	scope.ID = strconv.Itoa(accountID)
 	scope.Type = AiNotificationsEntityScopeTypeInputTypes.ACCOUNT
 	// Test: Create
-	createResult, err := n.AiNotificationsCreateDestination(accountID, destination, &AiNotificationsEntityScopeInput{})
+	createResult, err := n.AiNotificationsCreateDestination(accountID, destination, AiNotificationsEntityScopeInput{})
 	crjson, _ := json.MarshalIndent(createResult, "", "  ")
 	fmt.Printf("createResult: %s\n", string(crjson))
 	require.NoError(t, err)
@@ -571,12 +571,12 @@ func TestNotificationMutationDestination_1(t *testing.T) {
 	//}
 	//updateDestination.Name = fmt.Sprintf("test-notifications-update-destination-%s", testIntegrationDestinationNameRandStr)
 	//
-	//updateDestinationResult, err := n.AiNotificationsUpdateDestination(accountID, updateDestination, createResult.Destination.ID, &AiNotificationsEntityScopeInput{})
+	//updateDestinationResult, err := n.AiNotificationsUpdateDestination(accountID, updateDestination, createResult.Destination.ID, AiNotificationsEntityScopeInput{})
 	//require.NoError(t, err)
 	//require.NotNil(t, updateDestinationResult)
 	//
 	//// Test: Delete
-	//deleteResult, err := n.AiNotificationsDeleteDestination(accountID, createResult.Destination.ID, &AiNotificationsEntityScopeInput{})
+	//deleteResult, err := n.AiNotificationsDeleteDestination(accountID, createResult.Destination.ID, AiNotificationsEntityScopeInput{})
 	//require.NoError(t, err)
 	//require.NotNil(t, deleteResult)
 }

@@ -1123,9 +1123,12 @@ packages:
               - "cursor"
               - "filters"
               - "sorter"
-
           - name: channels
             max_query_field_depth: 3
+            include_arguments:
+              - "cursor"
+              - "filters"
+              - "sorter"
       - path: [ "actor", "organization", "aiNotifications" ]
         endpoints:
           - name: destinations
