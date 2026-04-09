@@ -145,7 +145,10 @@ func (a *Notifications) AiNotificationsCreateDestinationWithContext(
 	vars := map[string]interface{}{
 		"accountId":   accountID,
 		"destination": destination,
-		"scope":       scope,
+	}
+
+	if scope.ID != "" {
+		vars["scope"] = scope
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, AiNotificationsCreateDestinationMutation, vars, &resp); err != nil {
@@ -353,7 +356,10 @@ func (a *Notifications) AiNotificationsDeleteDestinationWithContext(
 	vars := map[string]interface{}{
 		"accountId":     accountID,
 		"destinationId": destinationId,
-		"scope":         scope,
+	}
+
+	if scope.ID != "" {
+		vars["scope"] = scope
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, AiNotificationsDeleteDestinationMutation, vars, &resp); err != nil {
@@ -537,7 +543,9 @@ func (a *Notifications) AiNotificationsUpdateDestinationWithContext(
 		"accountId":     accountID,
 		"destination":   destination,
 		"destinationId": destinationId,
-		"scope":         scope,
+	}
+	if scope.ID != "" {
+		vars["scope"] = scope
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, AiNotificationsUpdateDestinationMutation, vars, &resp); err != nil {
@@ -773,8 +781,14 @@ func (a *Notifications) GetDestinationsWithContextAccount(
 	vars := map[string]interface{}{
 		"accountID": accountID,
 		"cursor":    cursor,
-		"filters":   filters,
-		"sorter":    sorter,
+	}
+
+	if filters != (ai.AiNotificationsDestinationFilter{}) {
+		vars["filters"] = filters
+	}
+
+	if sorter.Direction != "" && sorter.Field != "" {
+		vars["sorter"] = sorter
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, getDestinationsQueryAccount, vars, &resp); err != nil {
@@ -880,9 +894,15 @@ func (a *Notifications) GetDestinationsWithContextOrganization(
 
 	resp := destinationsResponse{}
 	vars := map[string]interface{}{
-		"cursor":  cursor,
-		"filters": filters,
-		"sorter":  sorter,
+		"cursor": cursor,
+	}
+
+	if filters != (ai.AiNotificationsDestinationFilter{}) {
+		vars["filters"] = filters
+	}
+
+	if sorter.Direction != "" && sorter.Field != "" {
+		vars["sorter"] = sorter
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, getDestinationsQueryOrganization, vars, &resp); err != nil {
