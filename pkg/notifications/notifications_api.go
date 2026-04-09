@@ -124,7 +124,7 @@ const AiNotificationsCreateChannelMutation = `mutation(
 func (a *Notifications) AiNotificationsCreateDestination(
 	accountID int,
 	destination AiNotificationsDestinationInput,
-	scope AiNotificationsEntityScopeInput,
+	scope *AiNotificationsEntityScopeInput,
 ) (*AiNotificationsDestinationResponse, error) {
 	return a.AiNotificationsCreateDestinationWithContext(context.Background(),
 		accountID,
@@ -138,17 +138,18 @@ func (a *Notifications) AiNotificationsCreateDestinationWithContext(
 	ctx context.Context,
 	accountID int,
 	destination AiNotificationsDestinationInput,
-	scope AiNotificationsEntityScopeInput,
+	scope *AiNotificationsEntityScopeInput,
 ) (*AiNotificationsDestinationResponse, error) {
 
 	resp := AiNotificationsCreateDestinationQueryResponse{}
 	vars := map[string]interface{}{
-		"accountId":   accountID,
 		"destination": destination,
 	}
 
-	if scope.ID != "" {
+	if scope != nil {
 		vars["scope"] = scope
+	} else {
+		vars["accountId"] = accountID
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, AiNotificationsCreateDestinationMutation, vars, &resp); err != nil {
@@ -335,7 +336,7 @@ const AiNotificationsDeleteChannelMutation = `mutation(
 func (a *Notifications) AiNotificationsDeleteDestination(
 	accountID int,
 	destinationId string,
-	scope AiNotificationsEntityScopeInput,
+	scope *AiNotificationsEntityScopeInput,
 ) (*AiNotificationsDeleteResponse, error) {
 	return a.AiNotificationsDeleteDestinationWithContext(context.Background(),
 		accountID,
@@ -349,17 +350,18 @@ func (a *Notifications) AiNotificationsDeleteDestinationWithContext(
 	ctx context.Context,
 	accountID int,
 	destinationId string,
-	scope AiNotificationsEntityScopeInput,
+	scope *AiNotificationsEntityScopeInput,
 ) (*AiNotificationsDeleteResponse, error) {
 
 	resp := AiNotificationsDeleteDestinationQueryResponse{}
 	vars := map[string]interface{}{
-		"accountId":     accountID,
 		"destinationId": destinationId,
 	}
 
-	if scope.ID != "" {
+	if scope != nil {
 		vars["scope"] = scope
+	} else {
+		vars["accountId"] = accountID
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, AiNotificationsDeleteDestinationMutation, vars, &resp); err != nil {
@@ -519,7 +521,7 @@ func (a *Notifications) AiNotificationsUpdateDestination(
 	accountID int,
 	destination AiNotificationsDestinationUpdate,
 	destinationId string,
-	scope AiNotificationsEntityScopeInput,
+	scope *AiNotificationsEntityScopeInput,
 ) (*AiNotificationsDestinationResponse, error) {
 	return a.AiNotificationsUpdateDestinationWithContext(context.Background(),
 		accountID,
@@ -535,19 +537,19 @@ func (a *Notifications) AiNotificationsUpdateDestinationWithContext(
 	accountID int,
 	destination AiNotificationsDestinationUpdate,
 	destinationId string,
-	scope AiNotificationsEntityScopeInput,
+	scope *AiNotificationsEntityScopeInput,
 ) (*AiNotificationsDestinationResponse, error) {
 
 	resp := AiNotificationsUpdateDestinationQueryResponse{}
 	vars := map[string]interface{}{
-		"accountId":     accountID,
 		"destination":   destination,
 		"destinationId": destinationId,
 	}
-	if scope.ID != "" {
+	if scope != nil {
 		vars["scope"] = scope
+	} else {
+		vars["accountId"] = accountID
 	}
-
 	if err := a.client.NerdGraphQueryWithContext(ctx, AiNotificationsUpdateDestinationMutation, vars, &resp); err != nil {
 		return nil, err
 	}
@@ -716,10 +718,7 @@ func (a *Notifications) GetChannelsWithContext(
 
 const getChannelsQuery = `query(
 	$accountID: Int!,
-	$cursor: String,
-	$filters: AiNotificationsChannelFilter,
-	$sorter: AiNotificationsChannelSorter,
-) { actor { account(id: $accountID) { aiNotifications { channels(cursor: $cursor, filters: $filters, sorter: $sorter) {
+) { actor { account(id: $accountID) { aiNotifications { channels {
 	entities {
 		accountId
 		active
@@ -803,7 +802,11 @@ const getDestinationsQueryAccount = `query(
 	$cursor: String,
 	$filters: AiNotificationsDestinationFilter,
 	$sorter: AiNotificationsDestinationSorter,
-) { actor { account(id: $accountID) { aiNotifications { destinations(cursor: $cursor, filters: $filters, sorter: $sorter) {
+) { actor { account(id: $accountID) { aiNotifications { destinations(
+	cursor: $cursor,
+	filters: $filters,
+	sorter: $sorter,
+) {
 	entities {
 		accountId
 		active
@@ -871,7 +874,7 @@ const getDestinationsQueryAccount = `query(
 	totalCount
 } } } } }`
 
-// Fetch a Destinations by type (organization scope)
+// Fetch a Destinations by type
 func (a *Notifications) GetDestinationsOrganization(
 	cursor string,
 	filters ai.AiNotificationsDestinationFilter,
@@ -884,7 +887,7 @@ func (a *Notifications) GetDestinationsOrganization(
 	)
 }
 
-// Fetch a Destinations by type (organization scope)
+// Fetch a Destinations by type
 func (a *Notifications) GetDestinationsWithContextOrganization(
 	ctx context.Context,
 	cursor string,
@@ -916,7 +919,11 @@ const getDestinationsQueryOrganization = `query(
 	$cursor: String,
 	$filters: AiNotificationsDestinationFilter,
 	$sorter: AiNotificationsDestinationSorter,
-) { actor { organization { aiNotifications { destinations(cursor: $cursor, filters: $filters, sorter: $sorter) {
+) { actor { organization { aiNotifications { destinations(
+	cursor: $cursor,
+	filters: $filters,
+	sorter: $sorter,
+) {
 	entities {
 		accountId
 		active

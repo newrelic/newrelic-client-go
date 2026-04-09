@@ -1119,12 +1119,21 @@ packages:
         endpoints:
           - name: destinations
             max_query_field_depth: 4
+            include_arguments:
+              - "cursor"
+              - "filters"
+              - "sorter"
+
           - name: channels
             max_query_field_depth: 3
       - path: [ "actor", "organization", "aiNotifications" ]
         endpoints:
           - name: destinations
             max_query_field_depth: 4
+            include_arguments:
+              - "cursor"
+              - "filters"
+              - "sorter"
 
     mutations:
       - name: aiNotificationsCreateDestination

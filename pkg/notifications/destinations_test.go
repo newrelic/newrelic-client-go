@@ -314,7 +314,7 @@ func TestCreateDestination(t *testing.T) {
 		Errors: []ai.AiNotificationsError{},
 	}
 
-	actual, err := notifications.AiNotificationsCreateDestination(accountId, destinationInput, AiNotificationsEntityScopeInput{})
+	actual, err := notifications.AiNotificationsCreateDestination(accountId, destinationInput, &AiNotificationsEntityScopeInput{})
 
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)
@@ -544,7 +544,7 @@ func TestUpdateDestination(t *testing.T) {
 	}
 
 	// Account-scoped update: pass accountId, empty scope
-	actual, err := notifications.AiNotificationsUpdateDestination(accountId, updateInput, id, AiNotificationsEntityScopeInput{})
+	actual, err := notifications.AiNotificationsUpdateDestination(accountId, updateInput, id, &AiNotificationsEntityScopeInput{})
 
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)
@@ -759,7 +759,7 @@ func TestDeleteDestination(t *testing.T) {
 	}
 
 	// Account-scoped delete: pass accountId, empty scope
-	actual, err := notifications.AiNotificationsDeleteDestination(accountId, id, AiNotificationsEntityScopeInput{})
+	actual, err := notifications.AiNotificationsDeleteDestination(accountId, id, &AiNotificationsEntityScopeInput{})
 
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)
