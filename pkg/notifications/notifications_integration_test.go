@@ -4,7 +4,6 @@
 package notifications
 
 import (
-	"encoding/json"
 	"fmt"
 	"strconv"
 	"testing"
@@ -526,8 +525,6 @@ func TestNotificationMutationDestination_AccountID(t *testing.T) {
 	scope.Type = AiNotificationsEntityScopeTypeInputTypes.ACCOUNT
 	// Test: Create
 	createResult, err := n.AiNotificationsCreateDestination(&accountID, destination)
-	crjson, _ := json.MarshalIndent(createResult, "", "  ")
-	fmt.Printf("createResult: %s\n", string(crjson))
 	require.NoError(t, err)
 	require.NotNil(t, createResult)
 	require.NotEmpty(t, createResult.Destination.Auth)
@@ -539,8 +536,6 @@ func TestNotificationMutationDestination_AccountID(t *testing.T) {
 	}
 
 	getDestinationResult, err := n.GetDestinationsAccount(accountID, "", filters, AiNotificationsDestinationSorter{})
-	crjsonabc, _ := json.MarshalIndent(getDestinationResult, "", "  ")
-	fmt.Printf("getDestinationResult: %s\n", string(crjsonabc))
 	require.NoError(t, err)
 	require.NotNil(t, getDestinationResult)
 	assert.Equal(t, 1, getDestinationResult.TotalCount)
@@ -566,12 +561,96 @@ func TestNotificationMutationDestination_AccountID(t *testing.T) {
 	}
 	updateDestination.Name = fmt.Sprintf("test-notifications-update-destination-%s", testIntegrationDestinationNameRandStr)
 
-	updateDestinationResult, err := n.AiNotificationsUpdateDestination(&accountID, updateDestination, createResult.Destination.ID, &AiNotificationsEntityScopeInput{})
+	updateDestinationResult, err := n.AiNotificationsUpdateDestination(&accountID, updateDestination, createResult.Destination.ID)
 	require.NoError(t, err)
 	require.NotNil(t, updateDestinationResult)
 
 	// Test: Delete
-	deleteResult, err := n.AiNotificationsDeleteDestination(&accountID, createResult.Destination.ID, &AiNotificationsEntityScopeInput{})
+	deleteResult, err := n.AiNotificationsDeleteDestination(&accountID, createResult.Destination.ID)
+	require.NoError(t, err)
+	require.NotNil(t, deleteResult)
+
+}
+
+func TestNotificationMutationDestination_Scope(t *testing.T) {
+	t.Parallel()
+
+	n := newIntegrationTestClient(t)
+
+	accountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	// Create a destination to work with in this test
+	testIntegrationDestinationNameRandStr := mock.RandSeq(5)
+	destination := AiNotificationsDestinationInput{}
+	destination.Type = AiNotificationsDestinationTypeTypes.WEBHOOK
+	destination.Properties = []AiNotificationsPropertyInput{
+		{
+			Key:          "url",
+			Value:        "https://webhook.site/94193c01-4a81-4782-8f1b-554d5230395b",
+			Label:        "",
+			DisplayValue: "",
+		},
+	}
+	destination.Auth = &AiNotificationsCredentialsInput{
+		Type: AiNotificationsAuthTypeTypes.CUSTOM_HEADERS,
+		CustomHeaders: &AiNotificationsCustomHeadersAuthInput{
+			CustomHeaders: []AiNotificationsCustomHeaderInput{
+				{Key: "X-Api-Key", Value: "api-key-value"},
+				{Key: "X-Custom-Header", Value: "header-value"},
+			},
+		},
+	}
+	destination.Name = fmt.Sprintf("test-notifications-destination-%s", testIntegrationDestinationNameRandStr)
+
+	scope := AiNotificationsEntityScopeInput{}
+	scope.ID = strconv.Itoa(accountID)
+	scope.Type = AiNotificationsEntityScopeTypeInputTypes.ACCOUNT
+	// Test: Create
+	createResult, err := n.AiNotificationsCreateDestination(nil, destination, &scope)
+	require.NoError(t, err)
+	require.NotNil(t, createResult)
+	require.NotEmpty(t, createResult.Destination.Auth)
+	require.Equal(t, ai.AiNotificationsAuthType("CUSTOM_HEADERS"), createResult.Destination.Auth.AuthType)
+
+	// Test: Get Destination by id
+	filters := ai.AiNotificationsDestinationFilter{
+		ExactName: createResult.Destination.Name,
+	}
+
+	getDestinationResult, err := n.GetDestinationsAccount(accountID, "", filters, AiNotificationsDestinationSorter{})
+	require.NoError(t, err)
+	require.NotNil(t, getDestinationResult)
+	assert.Equal(t, 1, getDestinationResult.TotalCount)
+	require.NotEmpty(t, getDestinationResult.Entities[0].GUID)
+
+	// Test: Update Destination
+	updateDestination := AiNotificationsDestinationUpdate{}
+	updateDestination.Active = false
+	updateDestination.Properties = []AiNotificationsPropertyInput{
+		{
+			Key:          "url",
+			Value:        "https://webhook.site/94193c01-4a81-4782-8f1b-554d5230395b",
+			Label:        "",
+			DisplayValue: "",
+		},
+	}
+	updateDestination.Auth = &AiNotificationsCredentialsInput{
+		Type: AiNotificationsAuthTypeTypes.TOKEN,
+		Token: AiNotificationsTokenAuthInput{
+			Token:  "TokenUpdate",
+			Prefix: "BearerUpdate",
+		},
+	}
+	updateDestination.Name = fmt.Sprintf("test-notifications-update-destination-%s", testIntegrationDestinationNameRandStr)
+	updateDestinationResult, err := n.AiNotificationsUpdateDestination(nil, updateDestination, createResult.Destination.ID, &scope)
+	require.NoError(t, err)
+	require.NotNil(t, updateDestinationResult)
+
+	// Test: Delete
+	deleteResult, err := n.AiNotificationsDeleteDestination(nil, createResult.Destination.ID, &scope)
 	require.NoError(t, err)
 	require.NotNil(t, deleteResult)
 }
@@ -613,60 +692,51 @@ func TestNotificationMutationDestination_Scope(t *testing.T) {
 	scope.ID = strconv.Itoa(accountID)
 	scope.Type = AiNotificationsEntityScopeTypeInputTypes.ACCOUNT
 	// Test: Create
-	createResult, err := n.AiNotificationsCreateDestination(nil, destination, nil)
-	crjson, _ := json.MarshalIndent(createResult, "", "  ")
-	fmt.Printf("createResult: %s\n", string(crjson))
+	createResult, err := n.AiNotificationsCreateDestination(nil, destination, &scope)
 	require.NoError(t, err)
 	require.NotNil(t, createResult)
 	require.NotEmpty(t, createResult.Destination.Auth)
-	require.Equal(t, ai.AiNotificationsAuthType("TOKEN"), createResult.Destination.Auth.AuthType)
+	require.Equal(t, ai.AiNotificationsAuthType("CUSTOM_HEADERS"), createResult.Destination.Auth.AuthType)
 
 	// Test: Get Destination by id
 	filters := ai.AiNotificationsDestinationFilter{
-		ExactName: "test-notifications-destination-gjoqg",
+		ExactName: createResult.Destination.Name,
 	}
-	//sorter := AiNotificationsDestinationSorter{
-	//	Direction: AiNotificationsSortOrderTypes.ASC,
-	//	Field:     AiNotificationsDestinationFieldsTypes.NAME,
-	//}
+
 	getDestinationResult, err := n.GetDestinationsAccount(accountID, "", filters, AiNotificationsDestinationSorter{})
-	crjsonabc, _ := json.MarshalIndent(getDestinationResult, "", "  ")
-	fmt.Printf("getDestinationResult: %s\n", string(crjsonabc))
 	require.NoError(t, err)
 	require.NotNil(t, getDestinationResult)
 	assert.Equal(t, 1, getDestinationResult.TotalCount)
 	require.NotEmpty(t, getDestinationResult.Entities[0].GUID)
 
 	// Test: Update Destination
-	//updateDestination := AiNotificationsDestinationUpdate{}
-	//updateDestination.Active = false
-	//updateDestination.Properties = []AiNotificationsPropertyInput{
-	//	{
-	//		Key:          "url",
-	//		Value:        "https://webhook.site/94193c01-4a81-4782-8f1b-554d5230395b",
-	//		Label:        "",
-	//		DisplayValue: "",
-	//	},
-	//}
-	//updateDestination.Auth = &AiNotificationsCredentialsInput{
-	//	Type: AiNotificationsAuthTypeTypes.TOKEN,
-	//	Token: AiNotificationsTokenAuthInput{
-	//		Token:  "TokenUpdate",
-	//		Prefix: "BearerUpdate",
-	//	},
-	//}
-	//updateDestination.Name = fmt.Sprintf("test-notifications-update-destination-%s", testIntegrationDestinationNameRandStr)
-	//
-	//updateDestinationResult, err := n.AiNotificationsUpdateDestination(&accountID, updateDestination, createResult.Destination.ID, &AiNotificationsEntityScopeInput{})
-	//require.NoError(t, err)
-	//require.NotNil(t, updateDestinationResult)
-	//
-	//// Test: Delete
-	//deleteResult, err := n.AiNotificationsDeleteDestination(&accountID, createResult.Destination.ID, &AiNotificationsEntityScopeInput{})
-	//require.NoError(t, err)
-	//require.NotNil(t, deleteResult)
-}
+	updateDestination := AiNotificationsDestinationUpdate{}
+	updateDestination.Active = false
+	updateDestination.Properties = []AiNotificationsPropertyInput{
+		{
+			Key:          "url",
+			Value:        "https://webhook.site/94193c01-4a81-4782-8f1b-554d5230395b",
+			Label:        "",
+			DisplayValue: "",
+		},
+	}
+	updateDestination.Auth = &AiNotificationsCredentialsInput{
+		Type: AiNotificationsAuthTypeTypes.TOKEN,
+		Token: AiNotificationsTokenAuthInput{
+			Token:  "TokenUpdate",
+			Prefix: "BearerUpdate",
+		},
+	}
+	updateDestination.Name = fmt.Sprintf("test-notifications-update-destination-%s", testIntegrationDestinationNameRandStr)
+	updateDestinationResult, err := n.AiNotificationsUpdateDestination(nil, updateDestination, createResult.Destination.ID, &scope)
+	require.NoError(t, err)
+	require.NotNil(t, updateDestinationResult)
 
+	// Test: Delete
+	deleteResult, err := n.AiNotificationsDeleteDestination(nil, createResult.Destination.ID, &scope)
+	require.NoError(t, err)
+	require.NotNil(t, deleteResult)
+}
 func TestNotificationMutationDestination_AccountIDScope(t *testing.T) {
 	t.Parallel()
 
@@ -690,83 +760,70 @@ func TestNotificationMutationDestination_AccountIDScope(t *testing.T) {
 		},
 	}
 	destination.Auth = &AiNotificationsCredentialsInput{
-		Type: AiNotificationsAuthTypeTypes.CUSTOM_HEADERS,
-		CustomHeaders: &AiNotificationsCustomHeadersAuthInput{
-			CustomHeaders: []AiNotificationsCustomHeaderInput{
-				{Key: "X-Api-Key", Value: "api-key-value"},
-				{Key: "X-Custom-Header", Value: "header-value"},
-			},
+		Type: AiNotificationsAuthTypeTypes.BASIC,
+		Basic: AiNotificationsBasicAuthInput{
+			User:     "your-username",
+			Password: "your-password",
 		},
 	}
+
 	destination.Name = fmt.Sprintf("test-notifications-destination-%s", testIntegrationDestinationNameRandStr)
 
 	scope := AiNotificationsEntityScopeInput{}
 	scope.ID = strconv.Itoa(accountID)
 	scope.Type = AiNotificationsEntityScopeTypeInputTypes.ACCOUNT
 	// Test: Create
-	createResult, err := n.AiNotificationsCreateDestination(nil, destination, nil)
-	crjson, _ := json.MarshalIndent(createResult, "", "  ")
-	fmt.Printf("createResult: %s\n", string(crjson))
+	createResult, err := n.AiNotificationsCreateDestination(&accountID, destination, &scope)
 	require.NoError(t, err)
 	require.NotNil(t, createResult)
 	require.NotEmpty(t, createResult.Destination.Auth)
-	require.Equal(t, ai.AiNotificationsAuthType("TOKEN"), createResult.Destination.Auth.AuthType)
+	require.Equal(t, ai.AiNotificationsAuthType("BASIC"), createResult.Destination.Auth.AuthType)
 
 	// Test: Get Destination by id
 	filters := ai.AiNotificationsDestinationFilter{
 		ID: createResult.Destination.ID,
 	}
-	//sorter := AiNotificationsDestinationSorter{
-	//	Direction: AiNotificationsSortOrderTypes.ASC,
-	//	Field:     AiNotificationsDestinationFieldsTypes.NAME,
-	//}
+
 	getDestinationResult, err := n.GetDestinationsAccount(accountID, "", filters, AiNotificationsDestinationSorter{})
-	crjsonabc, _ := json.MarshalIndent(getDestinationResult, "", "  ")
-	fmt.Printf("getDestinationResult: %s\n", string(crjsonabc))
 	require.NoError(t, err)
 	require.NotNil(t, getDestinationResult)
 	assert.Equal(t, 1, getDestinationResult.TotalCount)
 	require.NotEmpty(t, getDestinationResult.Entities[0].GUID)
 
 	// Test: Update Destination
-	//updateDestination := AiNotificationsDestinationUpdate{}
-	//updateDestination.Active = false
-	//updateDestination.Properties = []AiNotificationsPropertyInput{
-	//	{
-	//		Key:          "url",
-	//		Value:        "https://webhook.site/94193c01-4a81-4782-8f1b-554d5230395b",
-	//		Label:        "",
-	//		DisplayValue: "",
-	//	},
-	//}
-	//updateDestination.Auth = &AiNotificationsCredentialsInput{
-	//	Type: AiNotificationsAuthTypeTypes.TOKEN,
-	//	Token: AiNotificationsTokenAuthInput{
-	//		Token:  "TokenUpdate",
-	//		Prefix: "BearerUpdate",
-	//	},
-	//}
-	//updateDestination.Name = fmt.Sprintf("test-notifications-update-destination-%s", testIntegrationDestinationNameRandStr)
-	//
-	//updateDestinationResult, err := n.AiNotificationsUpdateDestination(&accountID, updateDestination, createResult.Destination.ID, &AiNotificationsEntityScopeInput{})
-	//require.NoError(t, err)
-	//require.NotNil(t, updateDestinationResult)
-	//
-	//// Test: Delete
-	//deleteResult, err := n.AiNotificationsDeleteDestination(&accountID, createResult.Destination.ID, &AiNotificationsEntityScopeInput{})
-	//require.NoError(t, err)
-	//require.NotNil(t, deleteResult)
+	updateDestination := AiNotificationsDestinationUpdate{}
+	updateDestination.Active = false
+	updateDestination.Properties = []AiNotificationsPropertyInput{
+		{
+			Key:          "url",
+			Value:        "https://webhook.site/94193c01-4a81-4782-8f1b-554d5230395b",
+			Label:        "",
+			DisplayValue: "",
+		},
+	}
+	updateDestination.Auth = &AiNotificationsCredentialsInput{
+		Type: AiNotificationsAuthTypeTypes.TOKEN,
+		Token: AiNotificationsTokenAuthInput{
+			Token:  "TokenUpdate",
+			Prefix: "BearerUpdate",
+		},
+	}
+	updateDestination.Name = fmt.Sprintf("test-notifications-update-destination-%s", testIntegrationDestinationNameRandStr)
+
+	updateDestinationResult, err := n.AiNotificationsUpdateDestination(&accountID, updateDestination, createResult.Destination.ID, &scope)
+	require.NoError(t, err)
+	require.NotNil(t, updateDestinationResult)
+
+	// Test: Delete
+	deleteResult, err := n.AiNotificationsDeleteDestination(&accountID, createResult.Destination.ID, &scope)
+	require.NoError(t, err)
+	require.NotNil(t, deleteResult)
 }
 
 func TestNotificationMutationDestination_NoAccountIDNoScope(t *testing.T) {
 	t.Parallel()
 
 	n := newIntegrationTestClient(t)
-
-	accountID, err := mock.GetTestAccountID()
-	if err != nil {
-		t.Skipf("%s", err)
-	}
 
 	// Create a destination to work with in this test
 	testIntegrationDestinationNameRandStr := mock.RandSeq(5)
@@ -792,56 +849,39 @@ func TestNotificationMutationDestination_NoAccountIDNoScope(t *testing.T) {
 	destination.Name = fmt.Sprintf("test-notifications-destination-%s", testIntegrationDestinationNameRandStr)
 
 	// Test: Create
-	createResult, err := n.AiNotificationsCreateDestination(&accountID, destination)
-	crjson, _ := json.MarshalIndent(createResult, "", "  ")
-	fmt.Printf("createResult: %s\n", string(crjson))
-	require.NoError(t, err)
-	require.NotNil(t, createResult)
-	require.NotEmpty(t, createResult.Destination.Auth)
-	require.Equal(t, ai.AiNotificationsAuthType("TOKEN"), createResult.Destination.Auth.AuthType)
-
-	// Test: Get Destination by id
-	filters := ai.AiNotificationsDestinationFilter{
-		ExactName: "test-notifications-destination-gjoqg",
-	}
-	//sorter := AiNotificationsDestinationSorter{
-	//	Direction: AiNotificationsSortOrderTypes.ASC,
-	//	Field:     AiNotificationsDestinationFieldsTypes.NAME,
-	//}
-	getDestinationResult, err := n.GetDestinationsAccount(accountID, "", filters, AiNotificationsDestinationSorter{})
-	crjsonabc, _ := json.MarshalIndent(getDestinationResult, "", "  ")
-	fmt.Printf("getDestinationResult: %s\n", string(crjsonabc))
-	require.NoError(t, err)
-	require.NotNil(t, getDestinationResult)
-	assert.Equal(t, 1, getDestinationResult.TotalCount)
-	require.NotEmpty(t, getDestinationResult.Entities[0].GUID)
+	createResult, err := n.AiNotificationsCreateDestination(nil, destination, nil)
+	require.Error(t, err)
+	require.Equal(t, "either scope or accountID must be provided", err.Error())
+	require.Nil(t, createResult)
 
 	// Test: Update Destination
-	//updateDestination := AiNotificationsDestinationUpdate{}
-	//updateDestination.Active = false
-	//updateDestination.Properties = []AiNotificationsPropertyInput{
-	//	{
-	//		Key:          "url",
-	//		Value:        "https://webhook.site/94193c01-4a81-4782-8f1b-554d5230395b",
-	//		Label:        "",
-	//		DisplayValue: "",
-	//	},
-	//}
-	//updateDestination.Auth = &AiNotificationsCredentialsInput{
-	//	Type: AiNotificationsAuthTypeTypes.TOKEN,
-	//	Token: AiNotificationsTokenAuthInput{
-	//		Token:  "TokenUpdate",
-	//		Prefix: "BearerUpdate",
-	//	},
-	//}
-	//updateDestination.Name = fmt.Sprintf("test-notifications-update-destination-%s", testIntegrationDestinationNameRandStr)
-	//
-	//updateDestinationResult, err := n.AiNotificationsUpdateDestination(&accountID, updateDestination, createResult.Destination.ID, &AiNotificationsEntityScopeInput{})
-	//require.NoError(t, err)
-	//require.NotNil(t, updateDestinationResult)
-	//
-	//// Test: Delete
-	//deleteResult, err := n.AiNotificationsDeleteDestination(&accountID, createResult.Destination.ID, &AiNotificationsEntityScopeInput{})
-	//require.NoError(t, err)
-	//require.NotNil(t, deleteResult)
+	updateDestination := AiNotificationsDestinationUpdate{}
+	updateDestination.Active = false
+	updateDestination.Properties = []AiNotificationsPropertyInput{
+		{
+			Key:          "url",
+			Value:        "https://webhook.site/94193c01-4a81-4782-8f1b-554d5230395b",
+			Label:        "",
+			DisplayValue: "",
+		},
+	}
+	updateDestination.Auth = &AiNotificationsCredentialsInput{
+		Type: AiNotificationsAuthTypeTypes.TOKEN,
+		Token: AiNotificationsTokenAuthInput{
+			Token:  "TokenUpdate",
+			Prefix: "BearerUpdate",
+		},
+	}
+	updateDestination.Name = fmt.Sprintf("test-notifications-update-destination-%s", testIntegrationDestinationNameRandStr)
+
+	updateDestinationResult, err := n.AiNotificationsUpdateDestination(nil, updateDestination, "00000000-0000-0000-0000-000000000000", nil)
+	require.Error(t, err)
+	require.Equal(t, "either scope or accountID must be provided", err.Error())
+	require.Nil(t, updateDestinationResult)
+
+	// Test: Delete
+	deleteResult, err := n.AiNotificationsDeleteDestination(nil, "00000000-0000-0000-0000-000000000000", nil)
+	require.Error(t, err)
+	require.Equal(t, "either scope or accountID must be provided", err.Error())
+	require.Nil(t, deleteResult)
 }

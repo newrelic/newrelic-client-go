@@ -314,11 +314,95 @@ func TestCreateDestination(t *testing.T) {
 		Errors: []ai.AiNotificationsError{},
 	}
 
-	actual, err := notifications.AiNotificationsCreateDestination(accountId, destinationInput, AiNotificationsEntityScopeInput{})
+	actual, err := notifications.AiNotificationsCreateDestination(&accountId, destinationInput)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)
 	assert.Equal(t, expected, actual)
+}
+
+func TestCreateDestinationWithAccountScope(t *testing.T) {
+	t.Parallel()
+	respJSON := fmt.Sprintf(`{ "data":%s }`, testCreateDestinationResponseJSON)
+	notifications := newMockResponse(t, respJSON, http.StatusCreated)
+
+	destinationInput := AiNotificationsDestinationInput{
+		Type: AiNotificationsDestinationTypeTypes.EMAIL,
+		Name: "test-notification-destination-1",
+		Properties: []AiNotificationsPropertyInput{
+			{
+				Key:   "email",
+				Value: "test@newrelic.com",
+			},
+		},
+		Auth: &AiNotificationsCredentialsInput{
+			Basic: AiNotificationsBasicAuthInput{
+				User:     user,
+				Password: "Pass",
+			},
+			Type: AiNotificationsAuthTypeTypes.BASIC,
+		},
+	}
+
+	auth := ai.AiNotificationsAuth{
+		AuthType: "BASIC",
+		User:     user,
+	}
+	auth.ImplementsAiNotificationsAuth()
+
+	expected := &AiNotificationsDestinationResponse{
+		Destination: AiNotificationsDestination{
+			AccountID:           accountId,
+			Active:              true,
+			Auth:                auth,
+			CreatedAt:           timestamp,
+			ID:                  id,
+			GUID:                EntityGUID(guid),
+			IsUserAuthenticated: false,
+			LastSent:            timestamp,
+			Name:                "test-notification-destination-1",
+			Properties: []AiNotificationsProperty{
+				{
+					DisplayValue: "",
+					Key:          "email",
+					Label:        "",
+					Value:        "test@newrelic.com",
+				},
+			},
+			Status:    AiNotificationsDestinationStatusTypes.DEFAULT,
+			Type:      AiNotificationsDestinationTypeTypes.EMAIL,
+			UpdatedAt: timestamp,
+			UpdatedBy: 1547846,
+		},
+		Errors: []ai.AiNotificationsError{},
+	}
+
+	accountScope := AiNotificationsEntityScopeInput{
+		ID:   "1",
+		Type: AiNotificationsEntityScopeTypeInputTypes.ACCOUNT,
+	}
+	actual, err := notifications.AiNotificationsCreateDestination(nil, destinationInput, &accountScope)
+
+	assert.NoError(t, err)
+	assert.NotNil(t, actual)
+	assert.Equal(t, expected, actual)
+}
+
+func TestCreateDestinationNoAccountIDNoScope(t *testing.T) {
+	t.Parallel()
+	respJSON := fmt.Sprintf(`{ "data":%s }`, testCreateDestinationResponseJSON)
+	notifications := newMockResponse(t, respJSON, http.StatusCreated)
+
+	destinationInput := AiNotificationsDestinationInput{
+		Type: AiNotificationsDestinationTypeTypes.EMAIL,
+		Name: "test-notification-destination-1",
+	}
+
+	actual, err := notifications.AiNotificationsCreateDestination(nil, destinationInput)
+
+	assert.Error(t, err)
+	assert.Nil(t, actual)
+	assert.Equal(t, "either scope or accountID must be provided", err.Error())
 }
 
 func TestGetDestinations(t *testing.T) {
@@ -543,12 +627,98 @@ func TestUpdateDestination(t *testing.T) {
 		Errors: []ai.AiNotificationsError{},
 	}
 
-	// Account-scoped update: pass accountId, empty scope
-	actual, err := notifications.AiNotificationsUpdateDestination(accountId, updateInput, id, AiNotificationsEntityScopeInput{})
+	// Account-scoped update: pass accountId, no scope
+	actual, err := notifications.AiNotificationsUpdateDestination(&accountId, updateInput, id)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)
 	assert.Equal(t, expected, actual)
+}
+
+func TestUpdateDestinationWithAccountScope(t *testing.T) {
+	t.Parallel()
+	respJSON := fmt.Sprintf(`{ "data":%s }`, testUpdateDestinationResponseJSON)
+	notifications := newMockResponse(t, respJSON, http.StatusOK)
+
+	updateInput := AiNotificationsDestinationUpdate{
+		Active: false,
+		Name:   "test-notification-destination-1-updated",
+		Properties: []AiNotificationsPropertyInput{
+			{
+				Key:   "email",
+				Value: "updated@newrelic.com",
+			},
+		},
+		Auth: &AiNotificationsCredentialsInput{
+			Basic: AiNotificationsBasicAuthInput{
+				User:     user,
+				Password: "Pass",
+			},
+			Type: AiNotificationsAuthTypeTypes.BASIC,
+		},
+	}
+
+	auth := ai.AiNotificationsAuth{
+		AuthType: "BASIC",
+		User:     user,
+	}
+	auth.ImplementsAiNotificationsAuth()
+
+	accountScope := AiNotificationsEntityScopeInput{
+		ID:   "1",
+		Type: AiNotificationsEntityScopeTypeInputTypes.ACCOUNT,
+	}
+
+	expected := &AiNotificationsDestinationResponse{
+		Destination: AiNotificationsDestination{
+			AccountID:           accountId,
+			Active:              false,
+			Auth:                auth,
+			CreatedAt:           timestamp,
+			ID:                  id,
+			GUID:                EntityGUID(guid),
+			IsUserAuthenticated: false,
+			LastSent:            timestamp,
+			Name:                "test-notification-destination-1-updated",
+			Properties: []AiNotificationsProperty{
+				{
+					DisplayValue: "",
+					Key:          "email",
+					Label:        "",
+					Value:        "updated@newrelic.com",
+				},
+			},
+			Scope:     AiNotificationsEntityScope{ID: "1", Type: AiNotificationsEntityScopeTypeTypes.ACCOUNT},
+			Status:    AiNotificationsDestinationStatusTypes.DEFAULT,
+			Type:      AiNotificationsDestinationTypeTypes.EMAIL,
+			UpdatedAt: timestamp,
+			UpdatedBy: 1547846,
+		},
+		Errors: []ai.AiNotificationsError{},
+	}
+
+	actual, err := notifications.AiNotificationsUpdateDestination(nil, updateInput, id, &accountScope)
+
+	assert.NoError(t, err)
+	assert.NotNil(t, actual)
+	assert.Equal(t, expected, actual)
+}
+
+func TestUpdateDestinationNoAccountIDNoScope(t *testing.T) {
+	t.Parallel()
+	respJSON := fmt.Sprintf(`{ "data":%s }`, testUpdateDestinationResponseJSON)
+	notifications := newMockResponse(t, respJSON, http.StatusOK)
+
+	updateInput := AiNotificationsDestinationUpdate{
+		Active: false,
+		Name:   "test-notification-destination-1-updated",
+	}
+
+	actual, err := notifications.AiNotificationsUpdateDestination(nil, updateInput, id)
+
+	assert.Error(t, err)
+	assert.Nil(t, actual)
+	assert.Equal(t, "either scope or accountID must be provided", err.Error())
 }
 
 func TestUpdateDestinationWithOrgScope(t *testing.T) {
@@ -613,8 +783,8 @@ func TestUpdateDestinationWithOrgScope(t *testing.T) {
 		Errors: []ai.AiNotificationsError{},
 	}
 
-	// Org-scoped update: accountId is 0, scope carries the org ID
-	actual, err := notifications.AiNotificationsUpdateDestination(0, updateInput, id, orgScope)
+	// Org-scoped update: no accountId, scope carries the org ID
+	actual, err := notifications.AiNotificationsUpdateDestination(nil, updateInput, id, &orgScope)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)
@@ -684,7 +854,7 @@ func TestCreateDestinationWithOrgScope(t *testing.T) {
 		Errors: []ai.AiNotificationsError{},
 	}
 
-	actual, err := notifications.AiNotificationsCreateDestination(0, destinationInput, orgScope)
+	actual, err := notifications.AiNotificationsCreateDestination(nil, destinationInput, &orgScope)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)
@@ -758,12 +928,46 @@ func TestDeleteDestination(t *testing.T) {
 		Errors: []ai.AiNotificationsResponseError{},
 	}
 
-	// Account-scoped delete: pass accountId, empty scope
-	actual, err := notifications.AiNotificationsDeleteDestination(accountId, id, AiNotificationsEntityScopeInput{})
+	// Account-scoped delete: pass accountId, no scope
+	actual, err := notifications.AiNotificationsDeleteDestination(&accountId, id)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)
 	assert.Equal(t, expected, actual)
+}
+
+func TestDeleteDestinationWithAccountScope(t *testing.T) {
+	t.Parallel()
+	respJSON := fmt.Sprintf(`{ "data":%s }`, testDeleteDestinationResponseJSON)
+	notifications := newMockResponse(t, respJSON, http.StatusOK)
+
+	expected := &AiNotificationsDeleteResponse{
+		IDs:    []string{id},
+		Errors: []ai.AiNotificationsResponseError{},
+	}
+
+	accountScope := AiNotificationsEntityScopeInput{
+		ID:   "1",
+		Type: AiNotificationsEntityScopeTypeInputTypes.ACCOUNT,
+	}
+
+	actual, err := notifications.AiNotificationsDeleteDestination(nil, id, &accountScope)
+
+	assert.NoError(t, err)
+	assert.NotNil(t, actual)
+	assert.Equal(t, expected, actual)
+}
+
+func TestDeleteDestinationNoAccountIDNoScope(t *testing.T) {
+	t.Parallel()
+	respJSON := fmt.Sprintf(`{ "data":%s }`, testDeleteDestinationResponseJSON)
+	notifications := newMockResponse(t, respJSON, http.StatusOK)
+
+	actual, err := notifications.AiNotificationsDeleteDestination(nil, id)
+
+	assert.Error(t, err)
+	assert.Nil(t, actual)
+	assert.Equal(t, "either scope or accountID must be provided", err.Error())
 }
 
 func TestDeleteDestinationWithOrgScope(t *testing.T) {
@@ -782,7 +986,170 @@ func TestDeleteDestinationWithOrgScope(t *testing.T) {
 		Type: AiNotificationsEntityScopeTypeInputTypes.ORGANIZATION,
 	}
 
-	actual, err := notifications.AiNotificationsDeleteDestination(0, id, orgScope)
+	actual, err := notifications.AiNotificationsDeleteDestination(nil, id, &orgScope)
+
+	assert.NoError(t, err)
+	assert.NotNil(t, actual)
+	assert.Equal(t, expected, actual)
+}
+
+func TestCreateDestinationWithAccountIDAndOrgScope(t *testing.T) {
+	t.Parallel()
+	respJSON := fmt.Sprintf(`{ "data":%s }`, testCreateDestinationOrgScopeResponseJSON)
+	notifications := newMockResponse(t, respJSON, http.StatusCreated)
+
+	destinationInput := AiNotificationsDestinationInput{
+		Type: AiNotificationsDestinationTypeTypes.EMAIL,
+		Name: "test-notification-destination-1",
+		Properties: []AiNotificationsPropertyInput{
+			{
+				Key:   "email",
+				Value: "test@newrelic.com",
+			},
+		},
+		Auth: &AiNotificationsCredentialsInput{
+			Basic: AiNotificationsBasicAuthInput{
+				User:     user,
+				Password: "Pass",
+			},
+			Type: AiNotificationsAuthTypeTypes.BASIC,
+		},
+	}
+
+	auth := ai.AiNotificationsAuth{
+		AuthType: "BASIC",
+		User:     user,
+	}
+	auth.ImplementsAiNotificationsAuth()
+
+	orgScope := AiNotificationsEntityScopeInput{
+		ID:   orgId,
+		Type: AiNotificationsEntityScopeTypeInputTypes.ORGANIZATION,
+	}
+
+	expected := &AiNotificationsDestinationResponse{
+		Destination: AiNotificationsDestination{
+			AccountID:           0,
+			Active:              true,
+			Auth:                auth,
+			CreatedAt:           timestamp,
+			ID:                  id,
+			GUID:                EntityGUID(guid),
+			IsUserAuthenticated: false,
+			LastSent:            timestamp,
+			Name:                "test-notification-destination-1",
+			Properties: []AiNotificationsProperty{
+				{
+					DisplayValue: "",
+					Key:          "email",
+					Label:        "",
+					Value:        "test@newrelic.com",
+				},
+			},
+			Scope:     AiNotificationsEntityScope{ID: orgId, Type: AiNotificationsEntityScopeTypeTypes.ORGANIZATION},
+			Status:    AiNotificationsDestinationStatusTypes.DEFAULT,
+			Type:      AiNotificationsDestinationTypeTypes.EMAIL,
+			UpdatedAt: timestamp,
+			UpdatedBy: 1547846,
+		},
+		Errors: []ai.AiNotificationsError{},
+	}
+
+	// Both accountId and org scope provided - scope takes precedence
+	actual, err := notifications.AiNotificationsCreateDestination(&accountId, destinationInput, &orgScope)
+
+	assert.NoError(t, err)
+	assert.NotNil(t, actual)
+	assert.Equal(t, expected, actual)
+}
+
+func TestUpdateDestinationWithAccountIDAndOrgScope(t *testing.T) {
+	t.Parallel()
+	respJSON := fmt.Sprintf(`{ "data":%s }`, testUpdateDestinationOrgScopeResponseJSON)
+	notifications := newMockResponse(t, respJSON, http.StatusOK)
+
+	updateInput := AiNotificationsDestinationUpdate{
+		Active: false,
+		Name:   "test-notification-destination-1-updated",
+		Properties: []AiNotificationsPropertyInput{
+			{
+				Key:   "email",
+				Value: "updated@newrelic.com",
+			},
+		},
+		Auth: &AiNotificationsCredentialsInput{
+			Basic: AiNotificationsBasicAuthInput{
+				User:     user,
+				Password: "Pass",
+			},
+			Type: AiNotificationsAuthTypeTypes.BASIC,
+		},
+	}
+
+	auth := ai.AiNotificationsAuth{
+		AuthType: "BASIC",
+		User:     user,
+	}
+	auth.ImplementsAiNotificationsAuth()
+
+	orgScope := AiNotificationsEntityScopeInput{
+		ID:   orgId,
+		Type: AiNotificationsEntityScopeTypeInputTypes.ORGANIZATION,
+	}
+
+	expected := &AiNotificationsDestinationResponse{
+		Destination: AiNotificationsDestination{
+			AccountID:           0,
+			Active:              false,
+			Auth:                auth,
+			CreatedAt:           timestamp,
+			ID:                  id,
+			GUID:                EntityGUID(guid),
+			IsUserAuthenticated: false,
+			LastSent:            timestamp,
+			Name:                "test-notification-destination-1-updated",
+			Properties: []AiNotificationsProperty{
+				{
+					DisplayValue: "",
+					Key:          "email",
+					Label:        "",
+					Value:        "updated@newrelic.com",
+				},
+			},
+			Scope:     AiNotificationsEntityScope{ID: orgId, Type: AiNotificationsEntityScopeTypeTypes.ORGANIZATION},
+			Status:    AiNotificationsDestinationStatusTypes.DEFAULT,
+			Type:      AiNotificationsDestinationTypeTypes.EMAIL,
+			UpdatedAt: timestamp,
+			UpdatedBy: 1547846,
+		},
+		Errors: []ai.AiNotificationsError{},
+	}
+
+	// Both accountId and org scope provided - scope takes precedence
+	actual, err := notifications.AiNotificationsUpdateDestination(&accountId, updateInput, id, &orgScope)
+
+	assert.NoError(t, err)
+	assert.NotNil(t, actual)
+	assert.Equal(t, expected, actual)
+}
+
+func TestDeleteDestinationWithAccountIDAndOrgScope(t *testing.T) {
+	t.Parallel()
+	respJSON := fmt.Sprintf(`{ "data":%s }`, testDeleteDestinationResponseJSON)
+	notifications := newMockResponse(t, respJSON, http.StatusOK)
+
+	expected := &AiNotificationsDeleteResponse{
+		IDs:    []string{id},
+		Errors: []ai.AiNotificationsResponseError{},
+	}
+
+	orgScope := AiNotificationsEntityScopeInput{
+		ID:   orgId,
+		Type: AiNotificationsEntityScopeTypeInputTypes.ORGANIZATION,
+	}
+
+	// Both accountId and org scope provided - scope takes precedence
+	actual, err := notifications.AiNotificationsDeleteDestination(&accountId, id, &orgScope)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)
