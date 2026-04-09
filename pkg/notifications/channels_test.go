@@ -207,8 +207,8 @@ func TestGetChannel(t *testing.T) {
 				UpdatedBy: 1547846,
 			},
 		},
-		Error:      AiNotificationsResponseError{},
-		Errors:     []AiNotificationsResponseError{},
+		Error:      ai.AiNotificationsResponseError{},
+		Errors:     []ai.AiNotificationsResponseError{},
 		NextCursor: "",
 		TotalCount: 1,
 	}
@@ -282,8 +282,8 @@ func TestDeleteChannel(t *testing.T) {
 
 	expected := &AiNotificationsDeleteResponse{
 		IDs:    []string{ID},
-		Errors: []AiNotificationsResponseError{},
-		Error:  AiNotificationsResponseError{},
+		Errors: []ai.AiNotificationsResponseError{},
+		Error:  ai.AiNotificationsResponseError{},
 	}
 
 	actual, err := notifications.AiNotificationsDeleteChannel(accountID, ID)

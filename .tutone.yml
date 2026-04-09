@@ -1120,7 +1120,7 @@ packages:
           - name: destinations
             max_query_field_depth: 4
           - name: channels
-            max_query_field_depth: 4
+            max_query_field_depth: 3
       - path: [ "actor", "organization", "aiNotifications" ]
         endpoints:
           - name: destinations
@@ -1128,47 +1128,122 @@ packages:
 
     mutations:
       - name: aiNotificationsCreateDestination
-        max_query_field_depth: 3
+        max_query_field_depth: 4
       - name: aiNotificationsUpdateDestination
-        max_query_field_depth: 3
+        max_query_field_depth: 4
       - name: aiNotificationsDeleteDestination
-        max_query_field_depth: 3
+        max_query_field_depth: 2
       - name: aiNotificationsCreateChannel
         max_query_field_depth: 3
       - name: aiNotificationsUpdateChannel
         max_query_field_depth: 3
       - name: aiNotificationsDeleteChannel
-        max_query_field_depth: 3
+        max_query_field_depth: 2
     types:
-      - name: AiNotificationsDestinationSorter
-      - name: AiNotificationsDestinationFilter
-        field_type_override: "ai.AiNotificationsDestinationFilter"
-      - name: AiNotificationsChannelFilter
-        field_type_override: "ai.AiNotificationsChannelFilter"
-      - name: AiNotificationsChannelSorter
-      - name: AiNotificationsAuthType
-      - name: AiNotificationsDestination
-      - name: AiNotificationsCredentialsInput
-        field_type_override: "*AiNotificationsCredentialsInput"
-      - name: AiNotificationsSecureURLInput
-        field_type_override: "*AiNotificationsSecureURLInput"
-      - name: AiNotificationsSecureURLUpdate
-        field_type_override: "*AiNotificationsSecureURLUpdate"
+      # --- Union types (defined in ai package) ---
       - name: AiNotificationsAuth
         field_type_override: "ai.AiNotificationsAuth"
       - name: AiNotificationsError
         field_type_override: "ai.AiNotificationsError"
+
+      # --- Auth response types (defined in ai package, members of AiNotificationsAuth union) ---
+      - name: AiNotificationsBasicAuth
+        field_type_override: "ai.AiNotificationsBasicAuth"
+      - name: AiNotificationsOAuth2Auth
+        field_type_override: "ai.AiNotificationsOAuth2Auth"
+      - name: AiNotificationsTokenAuth
+        field_type_override: "ai.AiNotificationsTokenAuth"
+      - name: AiNotificationsCustomHeadersAuth
+        field_type_override: "ai.AiNotificationsCustomHeadersAuth"
+
+      # --- Error response types (defined in ai package, members of AiNotificationsError union) ---
+      - name: AiNotificationsConstraintError
+        field_type_override: "ai.AiNotificationsConstraintError"
+      - name: AiNotificationsDataValidationError
+        field_type_override: "ai.AiNotificationsDataValidationError"
+      - name: AiNotificationsFieldError
+        field_type_override: "ai.AiNotificationsFieldError"
+      - name: AiNotificationsResponseError
+        field_type_override: "ai.AiNotificationsResponseError"
+      - name: AiNotificationsSuggestionError
+        field_type_override: "ai.AiNotificationsSuggestionError"
+
+      # --- Filter/sorter types (defined in ai package for cross-package use) ---
+      - name: AiNotificationsDestinationFilter
+        field_type_override: "ai.AiNotificationsDestinationFilter"
+      - name: AiNotificationsChannelFilter
+        field_type_override: "ai.AiNotificationsChannelFilter"
+
+      # --- Input types with pointer override (nullable fields in other types) ---
+      - name: AiNotificationsCredentialsInput
+        field_type_override: "*AiNotificationsCredentialsInput"
       - name: AiNotificationsCustomHeadersAuthInput
         field_type_override: "*AiNotificationsCustomHeadersAuthInput"
-      - name: AiNotificationsScopeInput
-        field_type_override: "*AiNotificationsScopeInput"
-      - name: AiNotificationsScope
-      - name: AiNotificationsScopeType
+      - name: AiNotificationsSecureUrlInput
+        field_type_override: "*AiNotificationsSecureURLInput"
+      - name: AiNotificationsSecureUrlUpdate
+        field_type_override: "*AiNotificationsSecureURLUpdate"
+
+      # --- Destination types ---
+      - name: AiNotificationsDestination
+      - name: AiNotificationsDestinationFields
+      - name: AiNotificationsDestinationInput
+      - name: AiNotificationsDestinationMergeResult
+      - name: AiNotificationsDestinationResponse
+      - name: AiNotificationsDestinationSorter
+      - name: AiNotificationsDestinationStatus
+      - name: AiNotificationsDestinationTestResponse
+      - name: AiNotificationsDestinationType
+      - name: AiNotificationsDestinationUpdate
+      - name: AiNotificationsDestinationsResponse
+      - name: AiNotificationsDuplicateDestinations
+      - name: AiNotificationsDuplicateDestinationsResponse
+      - name: AiNotificationsMergeDestinationsResponse
+      - name: AiNotificationsMergeGroup
+
+      # --- Channel types ---
+      - name: AiNotificationsChannel
+      - name: AiNotificationsChannelAccount
+      - name: AiNotificationsChannelFields
+      - name: AiNotificationsChannelInput
+      - name: AiNotificationsChannelResponse
+      - name: AiNotificationsChannelSchemaResult
+      - name: AiNotificationsChannelSorter
+      - name: AiNotificationsChannelStatus
+      - name: AiNotificationsChannelTestResponse
+      - name: AiNotificationsChannelType
+      - name: AiNotificationsChannelUpdate
+      - name: AiNotificationsChannelsResponse
+
+      # --- Auth input types ---
+      - name: AiNotificationsAuthType
+      - name: AiNotificationsBasicAuthInput
+      - name: AiNotificationsOAuth2AuthInput
+      - name: AiNotificationsTokenAuthInput
+      - name: AiNotificationsCustomHeaderInput
+      - name: AiNotificationsCustomHeader
+
+      # --- Property types ---
+      - name: AiNotificationsProperty
+      - name: AiNotificationsPropertyFilter
+      - name: AiNotificationsPropertyInput
+
+      # --- Scope types ---
+      - name: AiNotificationsEntityScope
+      - name: AiNotificationsEntityScopeInput
+      - name: AiNotificationsEntityScopeType
+      - name: AiNotificationsEntityScopeTypeInput
+      - name: AiNotificationsExtendedScopeService
+
+      # --- Secure URL types ---
+      - name: AiNotificationsSecureUrl
+
+      # --- Scalar overrides ---
       - name: ID
         field_type_override: string
         skip_type_create: true
 
-      # nrtime imports
+      # --- nrtime imports ---
       - name: DateTime
         field_type_override: nrtime.DateTime
         skip_type_create: true

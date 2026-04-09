@@ -68,56 +68,8 @@ const AiNotificationsCreateChannelMutation = `mutation(
 		updatedAt
 		updatedBy
 	}
-    error {
-      ... on AiNotificationsConstraintsError {
-        constraints {
-          dependencies
-          name
-        }
-      }
-      ... on AiNotificationsDataValidationError {
-        details
-        fields {
-          field
-          message
-        }
-      }
-      ... on AiNotificationsSuggestionError {
-        description
-        details
-        type
-      }
-      ... on AiNotificationsResponseError {
-        description
-        details
-        type
-      }
-    }
-    errors {
-      ... on AiNotificationsSuggestionError {
-        description
-        type
-        details
-      }
-      ... on AiNotificationsResponseError {
-        description
-        type
-        details
-      }
-      ... on AiNotificationsDataValidationError {
-        details
-        fields {
-          message
-          field
-        }
-      }
-      ... on AiNotificationsConstraintsError {
-        constraints {
-          dependencies
-          name
-        }
-      }
-    }
+	error
+	errors
 } }`
 
 // Create a Destination
@@ -171,35 +123,10 @@ const AiNotificationsCreateDestinationMutation = `mutation(
 	destination {
 		accountId
 		active
-		auth {
-			... on AiNotificationsBasicAuth {
-			  authType
-			  user
-			}
-			... on AiNotificationsOAuth2Auth {
-			  accessTokenUrl
-			  scope
-			  refreshable
-			  refreshInterval
-			  prefix
-			  clientId
-			  authorizationUrl
-			  authType
-			}
-			... on AiNotificationsTokenAuth {
-			  authType
-			  prefix
-			}
-			... on AiNotificationsCustomHeadersAuth {
-			  authType
-        	  customHeaders {
-          	    key
-			  }
-			}
-		}
+		auth
 		createdAt
-		id
 		guid
+		id
 		isUserAuthenticated
 		lastSent
 		name
@@ -221,56 +148,8 @@ const AiNotificationsCreateDestinationMutation = `mutation(
 		updatedAt
 		updatedBy
 	}
-	errors {
-      ... on AiNotificationsConstraintsError {
-        constraints {
-          dependencies
-          name
-        }
-      }
-      ... on AiNotificationsDataValidationError {
-        details
-        fields {
-          field
-          message
-        }
-      }
-      ... on AiNotificationsResponseError {
-        description
-        details
-        type
-      }
-      ... on AiNotificationsSuggestionError {
-        description
-        type
-        details
-      }
-    }
-    error {
-      ... on AiNotificationsSuggestionError {
-        description
-        type
-        details
-      }
-      ... on AiNotificationsResponseError {
-        description
-        type
-        details
-      }
-      ... on AiNotificationsDataValidationError {
-        details
-        fields {
-          message
-          field
-        }
-      }
-      ... on AiNotificationsConstraintsError {
-        constraints {
-          name
-          dependencies
-        }
-      }
-    }
+	error
+	errors
 } }`
 
 // Delete a Channel
@@ -456,56 +335,8 @@ const AiNotificationsUpdateChannelMutation = `mutation(
 		updatedAt
 		updatedBy
 	}
-	error {
-      ... on AiNotificationsConstraintsError {
-        constraints {
-          dependencies
-          name
-        }
-      }
-      ... on AiNotificationsDataValidationError {
-        details
-        fields {
-          field
-          message
-        }
-      }
-      ... on AiNotificationsSuggestionError {
-        description
-        details
-        type
-      }
-      ... on AiNotificationsResponseError {
-        description
-        details
-        type
-      }
-    }
-    errors {
-      ... on AiNotificationsSuggestionError {
-        description
-        type
-        details
-      }
-      ... on AiNotificationsResponseError {
-        description
-        type
-        details
-      }
-      ... on AiNotificationsDataValidationError {
-        details
-        fields {
-          message
-          field
-        }
-      }
-      ... on AiNotificationsConstraintsError {
-        constraints {
-          dependencies
-          name
-        }
-      }
-    }
+	error
+	errors
 } }`
 
 // Update a Destination
@@ -565,35 +396,10 @@ const AiNotificationsUpdateDestinationMutation = `mutation(
 	destination {
 		accountId
 		active
-		auth {
-			... on AiNotificationsBasicAuth {
-			  authType
-			  user
-			}
-			... on AiNotificationsOAuth2Auth {
-			  accessTokenUrl
-			  scope
-			  refreshable
-			  refreshInterval
-			  prefix
-			  clientId
-			  authorizationUrl
-			  authType
-			}
-			... on AiNotificationsTokenAuth {
-			  authType
-			  prefix
-			}
-			... on AiNotificationsCustomHeadersAuth {
-			  authType
-        	  customHeaders {
-          	    key
-			  }
-			}
-		}
+		auth
 		createdAt
-		id
 		guid
+		id
 		isUserAuthenticated
 		lastSent
 		name
@@ -615,56 +421,8 @@ const AiNotificationsUpdateDestinationMutation = `mutation(
 		updatedAt
 		updatedBy
 	}
-	errors {
-      ... on AiNotificationsConstraintsError {
-        constraints {
-          dependencies
-          name
-        }
-      }
-      ... on AiNotificationsDataValidationError {
-        details
-        fields {
-          field
-          message
-        }
-      }
-      ... on AiNotificationsResponseError {
-        description
-        details
-        type
-      }
-      ... on AiNotificationsSuggestionError {
-        description
-        type
-        details
-      }
-    }
-    error {
-      ... on AiNotificationsSuggestionError {
-        description
-        type
-        details
-      }
-      ... on AiNotificationsResponseError {
-        description
-        type
-        details
-      }
-      ... on AiNotificationsDataValidationError {
-        details
-        fields {
-          message
-          field
-        }
-      }
-      ... on AiNotificationsConstraintsError {
-        constraints {
-          name
-          dependencies
-        }
-      }
-    }
+	error
+	errors
 } }`
 
 // Fetch a Channel by product
@@ -707,8 +465,8 @@ func (a *Notifications) GetChannelsWithContext(
 }
 
 const getChannelsQuery = `query(
-	$accountID: Int!, $filters: AiNotificationsChannelFilter,
-) { actor { account(id: $accountID) { aiNotifications { channels(filters: $filters) {
+	$accountID: Int!,
+) { actor { account(id: $accountID) { aiNotifications { channels {
 	entities {
 		accountId
 		active
@@ -782,40 +540,15 @@ func (a *Notifications) GetDestinationsWithContextAccount(
 }
 
 const getDestinationsQueryAccount = `query(
-	$accountID: Int!, $filters: AiNotificationsDestinationFilter
-) { actor { account(id: $accountID) { aiNotifications { destinations(filters: $filters) {
+	$accountID: Int!,
+) { actor { account(id: $accountID) { aiNotifications { destinations {
 	entities {
 		accountId
 		active
-		auth {
-			... on AiNotificationsBasicAuth {
-			  authType
-			  user
-			}
-			... on AiNotificationsOAuth2Auth {
-			  accessTokenUrl
-			  scope
-			  refreshable
-			  refreshInterval
-			  prefix
-			  clientId
-			  authorizationUrl
-			  authType
-			}
-			... on AiNotificationsTokenAuth {
-			  authType
-			  prefix
-			}
-			... on AiNotificationsCustomHeadersAuth {
-			  authType
-        	  customHeaders {
-          	    key
-			  }
-			}
-		}
+		auth
 		createdAt
-		id
 		guid
+		id
 		isUserAuthenticated
 		lastSent
 		name
@@ -851,6 +584,7 @@ const getDestinationsQueryAccount = `query(
 	totalCount
 } } } } }`
 
+// Fetch a Destinations by type (organization scope)
 func (a *Notifications) GetDestinationsOrganization(
 	cursor string,
 	filters ai.AiNotificationsDestinationFilter,
@@ -863,7 +597,7 @@ func (a *Notifications) GetDestinationsOrganization(
 	)
 }
 
-// Fetch a Destinations by type
+// Fetch a Destinations by type (organization scope)
 func (a *Notifications) GetDestinationsWithContextOrganization(
 	ctx context.Context,
 	cursor string,
@@ -885,36 +619,11 @@ func (a *Notifications) GetDestinationsWithContextOrganization(
 	return &resp.Actor.Organization.AiNotifications.Destinations, nil
 }
 
-const getDestinationsQueryOrganization = `query($filters: AiNotificationsDestinationFilter) { actor { organization { aiNotifications { destinations(filters: $filters) {
+const getDestinationsQueryOrganization = `query { actor { organization { aiNotifications { destinations {
 	entities {
 		accountId
 		active
-		auth {
-			... on AiNotificationsBasicAuth {
-			  authType
-			  user
-			}
-			... on AiNotificationsOAuth2Auth {
-			  accessTokenUrl
-			  scope
-			  refreshable
-			  refreshInterval
-			  prefix
-			  clientId
-			  authorizationUrl
-			  authType
-			}
-			... on AiNotificationsTokenAuth {
-			  authType
-			  prefix
-			}
-			... on AiNotificationsCustomHeadersAuth {
-			  authType
-        	  customHeaders {
-          	    key
-			  }
-			}
-		}
+		auth
 		createdAt
 		guid
 		id
