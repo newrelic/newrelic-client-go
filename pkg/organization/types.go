@@ -2,8 +2,675 @@
 package organization
 
 import (
+	"github.com/newrelic/newrelic-client-go/v2/pkg/common"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/nrtime"
 )
+
+// AiNotificationsAuthType - Authentication types
+type AiNotificationsAuthType string
+
+var AiNotificationsAuthTypeTypes = struct {
+	// Basic user and password authentication
+	BASIC AiNotificationsAuthType
+	// Custom header based authentication
+	CUSTOM_HEADERS AiNotificationsAuthType
+	// OAuth based authentication
+	OAUTH2 AiNotificationsAuthType
+	// Token based authentication
+	TOKEN AiNotificationsAuthType
+}{
+	// Basic user and password authentication
+	BASIC: "BASIC",
+	// Custom header based authentication
+	CUSTOM_HEADERS: "CUSTOM_HEADERS",
+	// OAuth based authentication
+	OAUTH2: "OAUTH2",
+	// Token based authentication
+	TOKEN: "TOKEN",
+}
+
+// AiNotificationsDestinationFields - Destination fields
+type AiNotificationsDestinationFields string
+
+var AiNotificationsDestinationFieldsTypes = struct {
+	// active field
+	ACTIVE AiNotificationsDestinationFields
+	// created_at field
+	CREATED_AT AiNotificationsDestinationFields
+	// default field
+	DEFAULT AiNotificationsDestinationFields
+	// last_sent field
+	LAST_SENT AiNotificationsDestinationFields
+	// name field
+	NAME AiNotificationsDestinationFields
+	// Scope field
+	SCOPE AiNotificationsDestinationFields
+	// status field
+	STATUS AiNotificationsDestinationFields
+	// type field
+	TYPE AiNotificationsDestinationFields
+	// updated_at field
+	UPDATED_AT AiNotificationsDestinationFields
+	// updated_by field
+	UPDATED_BY AiNotificationsDestinationFields
+}{
+	// active field
+	ACTIVE: "ACTIVE",
+	// created_at field
+	CREATED_AT: "CREATED_AT",
+	// default field
+	DEFAULT: "DEFAULT",
+	// last_sent field
+	LAST_SENT: "LAST_SENT",
+	// name field
+	NAME: "NAME",
+	// Scope field
+	SCOPE: "SCOPE",
+	// status field
+	STATUS: "STATUS",
+	// type field
+	TYPE: "TYPE",
+	// updated_at field
+	UPDATED_AT: "UPDATED_AT",
+	// updated_by field
+	UPDATED_BY: "UPDATED_BY",
+}
+
+// AiNotificationsDestinationStatus - Destination statuses
+type AiNotificationsDestinationStatus string
+
+var AiNotificationsDestinationStatusTypes = struct {
+	// Authentication Error destination status
+	AUTHENTICATION_ERROR AiNotificationsDestinationStatus
+	// Authorization Error destination status
+	AUTHORIZATION_ERROR AiNotificationsDestinationStatus
+	// Authorization Warning destination status
+	AUTHORIZATION_WARNING AiNotificationsDestinationStatus
+	// Auth Error destination status
+	AUTH_ERROR AiNotificationsDestinationStatus
+	// Configuration Error destination status
+	CONFIGURATION_ERROR AiNotificationsDestinationStatus
+	// Default destination status
+	DEFAULT AiNotificationsDestinationStatus
+	// Draft channel status
+	DRAFT AiNotificationsDestinationStatus
+	// Error channel status
+	ERROR AiNotificationsDestinationStatus
+	// External Server Error destination status
+	EXTERNAL_SERVER_ERROR AiNotificationsDestinationStatus
+	// Temporary Warning destination status
+	TEMPORARY_WARNING AiNotificationsDestinationStatus
+	// Tested channel status
+	TESTED AiNotificationsDestinationStatus
+	// Throttled channel status
+	THROTTLED AiNotificationsDestinationStatus
+	// Throttling Warning destination status
+	THROTTLING_WARNING AiNotificationsDestinationStatus
+	// Timeout Error destination status
+	TIMEOUT_ERROR AiNotificationsDestinationStatus
+	// Uninstalled destination status
+	UNINSTALLED AiNotificationsDestinationStatus
+	// Unknown Error destination status
+	UNKNOWN_ERROR AiNotificationsDestinationStatus
+}{
+	// Authentication Error destination status
+	AUTHENTICATION_ERROR: "AUTHENTICATION_ERROR",
+	// Authorization Error destination status
+	AUTHORIZATION_ERROR: "AUTHORIZATION_ERROR",
+	// Authorization Warning destination status
+	AUTHORIZATION_WARNING: "AUTHORIZATION_WARNING",
+	// Auth Error destination status
+	AUTH_ERROR: "AUTH_ERROR",
+	// Configuration Error destination status
+	CONFIGURATION_ERROR: "CONFIGURATION_ERROR",
+	// Default destination status
+	DEFAULT: "DEFAULT",
+	// Draft channel status
+	DRAFT: "DRAFT",
+	// Error channel status
+	ERROR: "ERROR",
+	// External Server Error destination status
+	EXTERNAL_SERVER_ERROR: "EXTERNAL_SERVER_ERROR",
+	// Temporary Warning destination status
+	TEMPORARY_WARNING: "TEMPORARY_WARNING",
+	// Tested channel status
+	TESTED: "TESTED",
+	// Throttled channel status
+	THROTTLED: "THROTTLED",
+	// Throttling Warning destination status
+	THROTTLING_WARNING: "THROTTLING_WARNING",
+	// Timeout Error destination status
+	TIMEOUT_ERROR: "TIMEOUT_ERROR",
+	// Uninstalled destination status
+	UNINSTALLED: "UNINSTALLED",
+	// Unknown Error destination status
+	UNKNOWN_ERROR: "UNKNOWN_ERROR",
+}
+
+// AiNotificationsDestinationType - Destination types
+type AiNotificationsDestinationType string
+
+var AiNotificationsDestinationTypeTypes = struct {
+	// Email destination type
+	EMAIL AiNotificationsDestinationType
+	// EventBridge destination type
+	EVENT_BRIDGE AiNotificationsDestinationType
+	// Jira destination type
+	JIRA AiNotificationsDestinationType
+	// Microsoft Teams destination type
+	MICROSOFT_TEAMS AiNotificationsDestinationType
+	// Mobile push destination type
+	MOBILE_PUSH AiNotificationsDestinationType
+	// PagerDuty destination type
+	PAGERDUTY_ACCOUNT_INTEGRATION AiNotificationsDestinationType
+	// PagerDuty destination type}
+	PAGERDUTY_SERVICE_INTEGRATION AiNotificationsDestinationType
+	// ServiceNow destination type
+	SERVICE_NOW AiNotificationsDestinationType
+	// ServiceNow app destination type
+	SERVICE_NOW_APP AiNotificationsDestinationType
+	// Slack destination type
+	SLACK AiNotificationsDestinationType
+	// Slack Collaboration destination type
+	SLACK_COLLABORATION AiNotificationsDestinationType
+	// Legacy Slack destination type based on Incoming Webhooks
+	SLACK_LEGACY AiNotificationsDestinationType
+	// WebHook destination type
+	WEBHOOK AiNotificationsDestinationType
+	// Workflow Automation destination type
+	WORKFLOW_AUTOMATION AiNotificationsDestinationType
+}{
+	// Email destination type
+	EMAIL: "EMAIL",
+	// EventBridge destination type
+	EVENT_BRIDGE: "EVENT_BRIDGE",
+	// Jira destination type
+	JIRA: "JIRA",
+	// Microsoft Teams destination type
+	MICROSOFT_TEAMS: "MICROSOFT_TEAMS",
+	// Mobile push destination type
+	MOBILE_PUSH: "MOBILE_PUSH",
+	// PagerDuty destination type
+	PAGERDUTY_ACCOUNT_INTEGRATION: "PAGERDUTY_ACCOUNT_INTEGRATION",
+	// PagerDuty destination type}
+	PAGERDUTY_SERVICE_INTEGRATION: "PAGERDUTY_SERVICE_INTEGRATION",
+	// ServiceNow destination type
+	SERVICE_NOW: "SERVICE_NOW",
+	// ServiceNow app destination type
+	SERVICE_NOW_APP: "SERVICE_NOW_APP",
+	// Slack destination type
+	SLACK: "SLACK",
+	// Slack Collaboration destination type
+	SLACK_COLLABORATION: "SLACK_COLLABORATION",
+	// Legacy Slack destination type based on Incoming Webhooks
+	SLACK_LEGACY: "SLACK_LEGACY",
+	// WebHook destination type
+	WEBHOOK: "WEBHOOK",
+	// Workflow Automation destination type
+	WORKFLOW_AUTOMATION: "WORKFLOW_AUTOMATION",
+}
+
+// AiNotificationsEmailVerificationStatus - Email verification statuses for filtering
+type AiNotificationsEmailVerificationStatus string
+
+var AiNotificationsEmailVerificationStatusTypes = struct {
+	// Expired Status
+	EXPIRED AiNotificationsEmailVerificationStatus
+	// Link Sent status
+	LINK_SENT AiNotificationsEmailVerificationStatus
+}{
+	// Expired Status
+	EXPIRED: "EXPIRED",
+	// Link Sent status
+	LINK_SENT: "LINK_SENT",
+}
+
+// AiNotificationsEntityScopeType - Entity Scope Type
+type AiNotificationsEntityScopeType string
+
+var AiNotificationsEntityScopeTypeTypes = struct {
+	// Account Scope Type
+	ACCOUNT AiNotificationsEntityScopeType
+	// Organization Scope Type
+	ORGANIZATION AiNotificationsEntityScopeType
+}{
+	// Account Scope Type
+	ACCOUNT: "ACCOUNT",
+	// Organization Scope Type
+	ORGANIZATION: "ORGANIZATION",
+}
+
+// AiNotificationsEntityScopeTypeInput - Entity Scope Type
+type AiNotificationsEntityScopeTypeInput string
+
+var AiNotificationsEntityScopeTypeInputTypes = struct {
+	// Account Scope Type
+	ACCOUNT AiNotificationsEntityScopeTypeInput
+	// Organization Scope Type
+	ORGANIZATION AiNotificationsEntityScopeTypeInput
+}{
+	// Account Scope Type
+	ACCOUNT: "ACCOUNT",
+	// Organization Scope Type
+	ORGANIZATION: "ORGANIZATION",
+}
+
+// AiNotificationsErrorType - Error types
+type AiNotificationsErrorType string
+
+var AiNotificationsErrorTypeTypes = struct {
+	// Unable to connect to external service to perform this action
+	CONNECTION_ERROR AiNotificationsErrorType
+	// This operation could not be completed because the entity is in use
+	ENTITY_IN_USE AiNotificationsErrorType
+	// An external server error has occurred
+	EXTERNAL_SERVER_ERROR AiNotificationsErrorType
+	// Targeted account does not have access to this feature
+	FEATURE_FLAG_DISABLED AiNotificationsErrorType
+	// The channel name doesn't exist
+	INVALID_CHANNEL_NAME AiNotificationsErrorType
+	// The credentials provided were invalid, Please check them and try again
+	INVALID_CREDENTIALS AiNotificationsErrorType
+	// Could not provide suggestions for this key
+	INVALID_KEY AiNotificationsErrorType
+	// The parameter provided does not correspond to any valid entity
+	INVALID_PARAMETER AiNotificationsErrorType
+	// Entities limit has been reached
+	LIMIT_REACHED AiNotificationsErrorType
+	// User is missing capabilities
+	MISSING_CAPABILITIES AiNotificationsErrorType
+	// This key requires additional constraints
+	MISSING_CONSTRAINTS AiNotificationsErrorType
+	// At least one parameter is required to complete this action
+	MISSING_PARAMETERS AiNotificationsErrorType
+	// This destination does not support OAuth authentication
+	OAUTH_NOT_SUPPORTED AiNotificationsErrorType
+	// This destination does not provide any suggestions
+	SUGGESTIONS_UNAVAILABLE AiNotificationsErrorType
+	// Request did not finish within time limit
+	TIMEOUT_ERROR AiNotificationsErrorType
+	// The variable type is different from the example type
+	TYPE_EXAMPLE_MISMATCH AiNotificationsErrorType
+	// This account is not allowed to perform this action
+	UNAUTHORIZED_ACCOUNT AiNotificationsErrorType
+	// Received one or more unexpected parameters
+	UNEXPECTED_PARAMETER AiNotificationsErrorType
+	// The New Relic application was removed
+	UNINSTALLED_DESTINATION AiNotificationsErrorType
+	// An unknown error has occurred
+	UNKNOWN_ERROR AiNotificationsErrorType
+}{
+	// Unable to connect to external service to perform this action
+	CONNECTION_ERROR: "CONNECTION_ERROR",
+	// This operation could not be completed because the entity is in use
+	ENTITY_IN_USE: "ENTITY_IN_USE",
+	// An external server error has occurred
+	EXTERNAL_SERVER_ERROR: "EXTERNAL_SERVER_ERROR",
+	// Targeted account does not have access to this feature
+	FEATURE_FLAG_DISABLED: "FEATURE_FLAG_DISABLED",
+	// The channel name doesn't exist
+	INVALID_CHANNEL_NAME: "INVALID_CHANNEL_NAME",
+	// The credentials provided were invalid, Please check them and try again
+	INVALID_CREDENTIALS: "INVALID_CREDENTIALS",
+	// Could not provide suggestions for this key
+	INVALID_KEY: "INVALID_KEY",
+	// The parameter provided does not correspond to any valid entity
+	INVALID_PARAMETER: "INVALID_PARAMETER",
+	// Entities limit has been reached
+	LIMIT_REACHED: "LIMIT_REACHED",
+	// User is missing capabilities
+	MISSING_CAPABILITIES: "MISSING_CAPABILITIES",
+	// This key requires additional constraints
+	MISSING_CONSTRAINTS: "MISSING_CONSTRAINTS",
+	// At least one parameter is required to complete this action
+	MISSING_PARAMETERS: "MISSING_PARAMETERS",
+	// This destination does not support OAuth authentication
+	OAUTH_NOT_SUPPORTED: "OAUTH_NOT_SUPPORTED",
+	// This destination does not provide any suggestions
+	SUGGESTIONS_UNAVAILABLE: "SUGGESTIONS_UNAVAILABLE",
+	// Request did not finish within time limit
+	TIMEOUT_ERROR: "TIMEOUT_ERROR",
+	// The variable type is different from the example type
+	TYPE_EXAMPLE_MISMATCH: "TYPE_EXAMPLE_MISMATCH",
+	// This account is not allowed to perform this action
+	UNAUTHORIZED_ACCOUNT: "UNAUTHORIZED_ACCOUNT",
+	// Received one or more unexpected parameters
+	UNEXPECTED_PARAMETER: "UNEXPECTED_PARAMETER",
+	// The New Relic application was removed
+	UNINSTALLED_DESTINATION: "UNINSTALLED_DESTINATION",
+	// An unknown error has occurred
+	UNKNOWN_ERROR: "UNKNOWN_ERROR",
+}
+
+// AiNotificationsExtendedScopeService - Extended scope service types
+type AiNotificationsExtendedScopeService string
+
+var AiNotificationsExtendedScopeServiceTypes = struct {
+	// Incident Management
+	IM AiNotificationsExtendedScopeService
+	// Site Reliability Engineering
+	SRE AiNotificationsExtendedScopeService
+}{
+	// Incident Management
+	IM: "IM",
+	// Site Reliability Engineering
+	SRE: "SRE",
+}
+
+// AiNotificationsResult - Result status
+type AiNotificationsResult string
+
+var AiNotificationsResultTypes = struct {
+	// Failure
+	FAIL AiNotificationsResult
+	// Success
+	SUCCESS AiNotificationsResult
+}{
+	// Failure
+	FAIL: "FAIL",
+	// Success
+	SUCCESS: "SUCCESS",
+}
+
+// AiNotificationsSortOrder - Sort order
+type AiNotificationsSortOrder string
+
+var AiNotificationsSortOrderTypes = struct {
+	// Ascending sort order
+	ASC AiNotificationsSortOrder
+	// Descending sort order
+	DESC AiNotificationsSortOrder
+}{
+	// Ascending sort order
+	ASC: "ASC",
+	// Descending sort order
+	DESC: "DESC",
+}
+
+// AiNotificationsUnverifiedEmailsFields - Fields available for sorting unverified emails
+type AiNotificationsUnverifiedEmailsFields string
+
+var AiNotificationsUnverifiedEmailsFieldsTypes = struct {
+	// Email field
+	EMAIL AiNotificationsUnverifiedEmailsFields
+	// Status field
+	STATUS AiNotificationsUnverifiedEmailsFields
+	// Updated At field
+	UPDATED_AT AiNotificationsUnverifiedEmailsFields
+}{
+	// Email field
+	EMAIL: "EMAIL",
+	// Status field
+	STATUS: "STATUS",
+	// Updated At field
+	UPDATED_AT: "UPDATED_AT",
+}
+
+// AiWorkflowsDestinationType - Type of Destination Configuration
+type AiWorkflowsDestinationType string
+
+var AiWorkflowsDestinationTypeTypes = struct {
+	// Email Destination Configuration type
+	EMAIL AiWorkflowsDestinationType
+	// Event Bridge Destination Configuration type
+	EVENT_BRIDGE AiWorkflowsDestinationType
+	// Jira Destination Configuration type
+	JIRA AiWorkflowsDestinationType
+	// Microsoft Teams Configuration type
+	MICROSOFT_TEAMS AiWorkflowsDestinationType
+	// New Relic Mobile Push Destination Configuration type
+	MOBILE_PUSH AiWorkflowsDestinationType
+	// Pager Duty Destination Configuration type
+	PAGERDUTY AiWorkflowsDestinationType
+	// Pager Duty with account integration Destination Configuration type
+	PAGERDUTY_ACCOUNT_INTEGRATION AiWorkflowsDestinationType
+	// Pager Duty with service integration Destination Configuration type
+	PAGERDUTY_SERVICE_INTEGRATION AiWorkflowsDestinationType
+	// Service Now Destination Configuration type
+	SERVICE_NOW AiWorkflowsDestinationType
+	// ServiceNow official NewRelic app Configuration type
+	SERVICE_NOW_APP AiWorkflowsDestinationType
+	// Slack Destination Configuration type
+	SLACK AiWorkflowsDestinationType
+	// Slack legacy Destination Configuration type
+	SLACK_LEGACY AiWorkflowsDestinationType
+	// Webhook Destination Configuration type
+	WEBHOOK AiWorkflowsDestinationType
+	// Workflow Automation Configuration type
+	WORKFLOW_AUTOMATION AiWorkflowsDestinationType
+}{
+	// Email Destination Configuration type
+	EMAIL: "EMAIL",
+	// Event Bridge Destination Configuration type
+	EVENT_BRIDGE: "EVENT_BRIDGE",
+	// Jira Destination Configuration type
+	JIRA: "JIRA",
+	// Microsoft Teams Configuration type
+	MICROSOFT_TEAMS: "MICROSOFT_TEAMS",
+	// New Relic Mobile Push Destination Configuration type
+	MOBILE_PUSH: "MOBILE_PUSH",
+	// Pager Duty Destination Configuration type
+	PAGERDUTY: "PAGERDUTY",
+	// Pager Duty with account integration Destination Configuration type
+	PAGERDUTY_ACCOUNT_INTEGRATION: "PAGERDUTY_ACCOUNT_INTEGRATION",
+	// Pager Duty with service integration Destination Configuration type
+	PAGERDUTY_SERVICE_INTEGRATION: "PAGERDUTY_SERVICE_INTEGRATION",
+	// Service Now Destination Configuration type
+	SERVICE_NOW: "SERVICE_NOW",
+	// ServiceNow official NewRelic app Configuration type
+	SERVICE_NOW_APP: "SERVICE_NOW_APP",
+	// Slack Destination Configuration type
+	SLACK: "SLACK",
+	// Slack legacy Destination Configuration type
+	SLACK_LEGACY: "SLACK_LEGACY",
+	// Webhook Destination Configuration type
+	WEBHOOK: "WEBHOOK",
+	// Workflow Automation Configuration type
+	WORKFLOW_AUTOMATION: "WORKFLOW_AUTOMATION",
+}
+
+// AiWorkflowsEnrichmentType - Type of Enrichment
+type AiWorkflowsEnrichmentType string
+
+var AiWorkflowsEnrichmentTypeTypes = struct {
+	// NRQL Enrichment type
+	NRQL AiWorkflowsEnrichmentType
+}{
+	// NRQL Enrichment type
+	NRQL: "NRQL",
+}
+
+// AiWorkflowsFilterType - Type of Filter
+type AiWorkflowsFilterType string
+
+var AiWorkflowsFilterTypeTypes = struct {
+	// Standard Filter type
+	FILTER AiWorkflowsFilterType
+	// View Filter type
+	VIEW AiWorkflowsFilterType
+}{
+	// Standard Filter type
+	FILTER: "FILTER",
+	// View Filter type
+	VIEW: "VIEW",
+}
+
+// AiWorkflowsMutingRulesHandling - The wanted behavior for muted issues in the workflow
+type AiWorkflowsMutingRulesHandling string
+
+var AiWorkflowsMutingRulesHandlingTypes = struct {
+	// Notify only about partially muted and unmuted issues
+	DONT_NOTIFY_FULLY_MUTED_ISSUES AiWorkflowsMutingRulesHandling
+	// Notify only about unmuted issues
+	DONT_NOTIFY_FULLY_OR_PARTIALLY_MUTED_ISSUES AiWorkflowsMutingRulesHandling
+	// Notify about all issues
+	NOTIFY_ALL_ISSUES AiWorkflowsMutingRulesHandling
+}{
+	// Notify only about partially muted and unmuted issues
+	DONT_NOTIFY_FULLY_MUTED_ISSUES: "DONT_NOTIFY_FULLY_MUTED_ISSUES",
+	// Notify only about unmuted issues
+	DONT_NOTIFY_FULLY_OR_PARTIALLY_MUTED_ISSUES: "DONT_NOTIFY_FULLY_OR_PARTIALLY_MUTED_ISSUES",
+	// Notify about all issues
+	NOTIFY_ALL_ISSUES: "NOTIFY_ALL_ISSUES",
+}
+
+// AiWorkflowsNotificationTrigger - Notification Triggers for the Destination Configuration
+type AiWorkflowsNotificationTrigger string
+
+var AiWorkflowsNotificationTriggerTypes = struct {
+	// Send a notification when the issue is acknowledged
+	ACKNOWLEDGED AiWorkflowsNotificationTrigger
+	// Send a notification when the issue is activated
+	ACTIVATED AiWorkflowsNotificationTrigger
+	// Send a notification when the issue is closed
+	CLOSED AiWorkflowsNotificationTrigger
+	// Send a notification when the issue is being investigated
+	INVESTIGATING AiWorkflowsNotificationTrigger
+	// Sends notification when the issue has other updates
+	OTHER_UPDATES AiWorkflowsNotificationTrigger
+	// Send a notification when the issue's priority has changed
+	PRIORITY_CHANGED AiWorkflowsNotificationTrigger
+}{
+	// Send a notification when the issue is acknowledged
+	ACKNOWLEDGED: "ACKNOWLEDGED",
+	// Send a notification when the issue is activated
+	ACTIVATED: "ACTIVATED",
+	// Send a notification when the issue is closed
+	CLOSED: "CLOSED",
+	// Send a notification when the issue is being investigated
+	INVESTIGATING: "INVESTIGATING",
+	// Sends notification when the issue has other updates
+	OTHER_UPDATES: "OTHER_UPDATES",
+	// Send a notification when the issue's priority has changed
+	PRIORITY_CHANGED: "PRIORITY_CHANGED",
+}
+
+// AiWorkflowsOperator - Type of Filter
+type AiWorkflowsOperator string
+
+var AiWorkflowsOperatorTypes = struct {
+	// String or list attribute contains this value
+	CONTAINS AiWorkflowsOperator
+	// String or list attribute does not contain this value
+	DOES_NOT_CONTAIN AiWorkflowsOperator
+	// String or Numeric attribute does not equal this value
+	DOES_NOT_EQUAL AiWorkflowsOperator
+	// Element in list attribute does not exactly match this value
+	DOES_NOT_EXACTLY_MATCH AiWorkflowsOperator
+	// String attribute ends with this value
+	ENDS_WITH AiWorkflowsOperator
+	// String or Numeric attribute equals this value
+	EQUAL AiWorkflowsOperator
+	// Element in list attribute exactly matches this value
+	EXACTLY_MATCHES AiWorkflowsOperator
+	// Numeric attribute is greater or equal to this value
+	GREATER_OR_EQUAL AiWorkflowsOperator
+	// Numeric attribute is greater than this value
+	GREATER_THAN AiWorkflowsOperator
+	// Boolean attribute equals value
+	IS AiWorkflowsOperator
+	// Boolean attribute does not equal value
+	IS_NOT AiWorkflowsOperator
+	// Numeric attribute is less or equal to this value
+	LESS_OR_EQUAL AiWorkflowsOperator
+	// Numeric attribute is less than this value
+	LESS_THAN AiWorkflowsOperator
+	// String attribute starts with this value
+	STARTS_WITH AiWorkflowsOperator
+}{
+	// String or list attribute contains this value
+	CONTAINS: "CONTAINS",
+	// String or list attribute does not contain this value
+	DOES_NOT_CONTAIN: "DOES_NOT_CONTAIN",
+	// String or Numeric attribute does not equal this value
+	DOES_NOT_EQUAL: "DOES_NOT_EQUAL",
+	// Element in list attribute does not exactly match this value
+	DOES_NOT_EXACTLY_MATCH: "DOES_NOT_EXACTLY_MATCH",
+	// String attribute ends with this value
+	ENDS_WITH: "ENDS_WITH",
+	// String or Numeric attribute equals this value
+	EQUAL: "EQUAL",
+	// Element in list attribute exactly matches this value
+	EXACTLY_MATCHES: "EXACTLY_MATCHES",
+	// Numeric attribute is greater or equal to this value
+	GREATER_OR_EQUAL: "GREATER_OR_EQUAL",
+	// Numeric attribute is greater than this value
+	GREATER_THAN: "GREATER_THAN",
+	// Boolean attribute equals value
+	IS: "IS",
+	// Boolean attribute does not equal value
+	IS_NOT: "IS_NOT",
+	// Numeric attribute is less or equal to this value
+	LESS_OR_EQUAL: "LESS_OR_EQUAL",
+	// Numeric attribute is less than this value
+	LESS_THAN: "LESS_THAN",
+	// String attribute starts with this value
+	STARTS_WITH: "STARTS_WITH",
+}
+
+// DataManagementCategory - Category of a limit
+type DataManagementCategory string
+
+var DataManagementCategoryTypes = struct {
+	// Limits on Alerting
+	ALERTING DataManagementCategory
+	// Limits on Ingest
+	INGEST DataManagementCategory
+	// Limits on Query
+	QUERY DataManagementCategory
+}{
+	// Limits on Alerting
+	ALERTING: "ALERTING",
+	// Limits on Ingest
+	INGEST: "INGEST",
+	// Limits on Query
+	QUERY: "QUERY",
+}
+
+// DataManagementType - Type of a limit
+type DataManagementType string
+
+var DataManagementTypeTypes = struct {
+	// Report usage as a gauge type
+	GAUGE DataManagementType
+	// Aggregate and report usage as a rate type
+	RATE DataManagementType
+}{
+	// Report usage as a gauge type
+	GAUGE: "GAUGE",
+	// Aggregate and report usage as a rate type
+	RATE: "RATE",
+}
+
+// EntityManagementEntityScope - The list of possible scopes of an entity.
+type EntityManagementEntityScope string
+
+var EntityManagementEntityScopeTypes = struct {
+	// Account scope.
+	ACCOUNT EntityManagementEntityScope
+	// Organization scope.
+	ORGANIZATION EntityManagementEntityScope
+}{
+	// Account scope.
+	ACCOUNT: "ACCOUNT",
+	// Organization scope.
+	ORGANIZATION: "ORGANIZATION",
+}
+
+// EntityManagementEventBridgeWorkflowDefinitionScopeType - Specifies the scope at which the workflow is defined.
+type EntityManagementEventBridgeWorkflowDefinitionScopeType string
+
+var EntityManagementEventBridgeWorkflowDefinitionScopeTypeTypes = struct {
+	// Account scope
+	ACCOUNT EntityManagementEventBridgeWorkflowDefinitionScopeType
+	// Organization scope.
+	ORGANIZATION EntityManagementEventBridgeWorkflowDefinitionScopeType
+}{
+	// Account scope
+	ACCOUNT: "ACCOUNT",
+	// Organization scope.
+	ORGANIZATION: "ORGANIZATION",
+}
 
 // OrganizationRegionCodeEnum - Enums for region codes
 type OrganizationRegionCodeEnum string
@@ -108,6 +775,325 @@ type Actor struct {
 	Organization Organization `json:"organization,omitempty"`
 }
 
+// Actor - The `Actor` object contains fields that are scoped to the API user's access level.
+
+// AiNotificationsCustomHeaders - Custom headers
+type AiNotificationsCustomHeaders struct {
+	Key string `json:"key"`
+}
+
+// AiNotificationsAuth - Authentication object
+type AiNotificationsAuth struct {
+	// OAuth2 access token url
+	AccessTokenURL string `json:"accessTokenUrl,omitempty"`
+	// Authentication Type - Token, Oauth2, or Basic
+	AuthType AiNotificationsAuthType `json:"authType,omitempty"`
+	// OAuth2 authorization url
+	AuthorizationURL string `json:"authorizationUrl,omitempty"`
+	// OAuth2 clientId
+	ClientId string `json:"clientId,omitempty"`
+	// Token prefix
+	Prefix string `json:"prefix,omitempty"`
+	// Interval of how often should the OAuth2 access token be refreshed
+	RefreshInterval int `json:"refreshInterval,omitempty"`
+	// Is the OAuth2 access token refreshable
+	Refreshable bool `json:"refreshable,omitempty"`
+	// OAuth2 token's scope
+	Scope string `json:"scope,omitempty"`
+	// Basic auth password
+	Password SecureValue `json:"password,omitempty"`
+	// Basic auth user
+	User string `json:"user,omitempty"`
+	// Custom headers
+	CustomHeaders []AiNotificationsCustomHeaders `json:"customHeaders,omitempty"`
+}
+
+// AiWorkflowsConfiguration - Enrichment configuration object
+type AiWorkflowsConfiguration struct {
+	// NRQL enrichment query
+	Query string `json:"query,omitempty"`
+}
+
+// AiNotificationsDestination - Destination Object
+type AiNotificationsDestination struct {
+	// The accountId of the creator of the destination
+	AccountID int `json:"accountId"`
+	// Destination active
+	Active bool `json:"active"`
+	// Authentication for this destination
+	Auth AiNotificationsAuth `json:"auth,omitempty"`
+	// Destination created at
+	CreatedAt nrtime.DateTime `json:"createdAt"`
+	// Entity Id of the Destination
+	GUID common.EntityGUID `json:"guid"`
+	// Destination id
+	ID string `json:"id"`
+	// Indicates whether the user is authenticated with the destination
+	IsUserAuthenticated bool `json:"isUserAuthenticated"`
+	// Last time a notification was sent
+	LastSent nrtime.DateTime `json:"lastSent,omitempty"`
+	// Destination name
+	Name string `json:"name"`
+	// List of destination property types
+	Properties []AiNotificationsProperty `json:"properties"`
+	// Scope of destination
+	Scope AiNotificationsEntityScope `json:"scope"`
+	// URL in secure format
+	SecureURL AiNotificationsSecureURL `json:"secureUrl,omitempty"`
+	// Destination status
+	Status AiNotificationsDestinationStatus `json:"status"`
+	// Destination type
+	Type AiNotificationsDestinationType `json:"type"`
+	// Destination updated at
+	UpdatedAt nrtime.DateTime `json:"updatedAt"`
+	// Destination updated by
+	UpdatedBy int `json:"updatedBy"`
+}
+
+// AiNotificationsDestinationFilter - Filter destination object
+type AiNotificationsDestinationFilter struct {
+	// active
+	Active bool `json:"active,omitempty"`
+	// authType
+	AuthType AiNotificationsAuthType `json:"authType,omitempty"`
+	// exactName
+	ExactName string `json:"exactName,omitempty"`
+	// id
+	ID string `json:"id,omitempty"`
+	// ids
+	IDs []string `json:"ids"`
+	// name
+	Name string `json:"name,omitempty"`
+	// property
+	Property AiNotificationsPropertyFilter `json:"property,omitempty"`
+	// scopeTypes
+	ScopeTypes []AiNotificationsEntityScopeTypeInput `json:"scopeTypes"`
+	// type
+	Type AiNotificationsDestinationType `json:"type,omitempty"`
+	// updatedAt
+	UpdatedAt nrtime.DateTime `json:"updatedAt,omitempty"`
+}
+
+// AiNotificationsDestinationSorter - Sort object
+type AiNotificationsDestinationSorter struct {
+	// direction
+	Direction AiNotificationsSortOrder `json:"direction"`
+	// field
+	Field AiNotificationsDestinationFields `json:"field"`
+}
+
+// AiNotificationsDestinationsResponse - Destinations result object
+type AiNotificationsDestinationsResponse struct {
+	// Destination entities
+	Entities []AiNotificationsDestination `json:"entities"`
+	// Error in destinations entities fetching
+	Error AiNotificationsResponseError `json:"error,omitempty"`
+	// Deprecated list of errors
+	Errors []AiNotificationsResponseError `json:"errors"`
+	// Cursor to get the next batch of results
+	NextCursor string `json:"nextCursor,omitempty"`
+	// Count of all destination entities
+	TotalCount int `json:"totalCount"`
+}
+
+// AiNotificationsEntityScope - Entity Scope
+type AiNotificationsEntityScope struct {
+	// Entity scope id
+	ID string `json:"id"`
+	// Entity scope type
+	Type AiNotificationsEntityScopeType `json:"type"`
+}
+
+// AiNotificationsOAuthURLResponse - OAuth URL response
+type AiNotificationsOAuthURLResponse struct {
+	// OAuth response error
+	Error AiNotificationsResponseError `json:"error,omitempty"`
+	// Deprecated list of errors
+	Errors []AiNotificationsResponseError `json:"errors"`
+	// Transaction id to track OAuth flow with
+	TransactionId string `json:"transactionId,omitempty"`
+	// OAuth URL for the user
+	URL string `json:"url"`
+}
+
+// AiNotificationsOrganizationStitchedFields - Organization level queries
+type AiNotificationsOrganizationStitchedFields struct {
+	// Fetch a Destinations by type
+	Destinations AiNotificationsDestinationsResponse `json:"destinations,omitempty"`
+	// Get an OAuth URL by destination type
+	OAuthURL AiNotificationsOAuthURLResponse `json:"oAuthUrl,omitempty"`
+	// Fetch all unverified emails for an Organization
+	UnverifiedEmails AiNotificationsUnverifiedEmailsResponse `json:"unverifiedEmails,omitempty"`
+}
+
+// AiNotificationsProperty - Channel property Object
+type AiNotificationsProperty struct {
+	// Channel property display key
+	DisplayValue string `json:"displayValue,omitempty"`
+	// Channel property key
+	Key string `json:"key"`
+	// Channel property display key
+	Label string `json:"label,omitempty"`
+	// Channel property value
+	Value string `json:"value"`
+}
+
+// AiNotificationsPropertyFilter - Filter object by property
+type AiNotificationsPropertyFilter struct {
+	// key
+	Key string `json:"key"`
+	// value
+	Value string `json:"value"`
+}
+
+// AiNotificationsResponseError - Response error object
+type AiNotificationsResponseError struct {
+	// Error description
+	Description string `json:"description"`
+	// Error details
+	Details string `json:"details"`
+	// Error type
+	Type AiNotificationsErrorType `json:"type"`
+}
+
+// AiNotificationsSecureURL - URL in secure format
+type AiNotificationsSecureURL struct {
+	// URL prefix
+	Prefix string `json:"prefix"`
+}
+
+// AiNotificationsUnverifiedEmail - Unverified email entity
+type AiNotificationsUnverifiedEmail struct {
+	// Email address
+	Email string `json:"email"`
+	// Verification id
+	ID string `json:"id"`
+	// Verification status
+	Status AiNotificationsEmailVerificationStatus `json:"status"`
+	// updated at
+	UpdatedAt nrtime.DateTime `json:"updatedAt"`
+}
+
+// AiNotificationsUnverifiedEmailsFilters - Filters for unverified emails query
+type AiNotificationsUnverifiedEmailsFilters struct {
+	// emails
+	Emails []string `json:"emails"`
+	// statuses
+	Statuses []AiNotificationsEmailVerificationStatus `json:"statuses"`
+	// updatedAt
+	UpdatedAt nrtime.DateTime `json:"updatedAt,omitempty"`
+}
+
+// AiNotificationsUnverifiedEmailsResponse - Get All Unverified Emails Response
+type AiNotificationsUnverifiedEmailsResponse struct {
+	// List of emails with their verification status
+	Entities []AiNotificationsUnverifiedEmail `json:"entities"`
+	// Response error
+	Error AiNotificationsResponseError `json:"error,omitempty"`
+	// next cursor
+	NextCursor string `json:"nextCursor,omitempty"`
+	// Response result - success or failure
+	Result AiNotificationsResult `json:"result"`
+	// total count
+	TotalCount int `json:"totalCount"`
+}
+
+// AiNotificationsUnverifiedEmailsSorter - Sorting configuration for unverified emails query
+type AiNotificationsUnverifiedEmailsSorter struct {
+	// direction
+	Direction AiNotificationsSortOrder `json:"direction"`
+	// field
+	Field AiNotificationsUnverifiedEmailsFields `json:"field"`
+}
+
+// AiWorkflowsDestinationConfiguration - Destination Configuration Object
+type AiWorkflowsDestinationConfiguration struct {
+	// Channel Id of the Destination Configuration
+	ChannelId string `json:"channelId"`
+	// Name of the Destination Configuration
+	Name string `json:"name"`
+	// Notification triggers of the Destination Configuration
+	NotificationTriggers []AiWorkflowsNotificationTrigger `json:"notificationTriggers"`
+	// Type of the Destination Configuration
+	Type AiWorkflowsDestinationType `json:"type"`
+	// Update original notification message (Slack channels only)
+	UpdateOriginalMessage bool `json:"updateOriginalMessage,omitempty"`
+}
+
+// AiWorkflowsEnrichment - Makes it possible to augment the notification with additional data from the New Relic platform
+type AiWorkflowsEnrichment struct {
+	// Account Id of the Enrichment
+	AccountID int `json:"accountId"`
+	// List of configurations for the enrichment
+	Configurations []AiWorkflowsConfiguration `json:"configurations"`
+	// The time the Enrichment was created
+	CreatedAt nrtime.DateTime `json:"createdAt"`
+	// Enrichment Id
+	ID string `json:"id"`
+	// Name of the Enrichment
+	Name string `json:"name"`
+	// Type of the Enrichment
+	Type AiWorkflowsEnrichmentType `json:"type"`
+	// The time the Enrichment was last updated
+	UpdatedAt nrtime.DateTime `json:"updatedAt"`
+}
+
+// AiWorkflowsFilter - Filter Object
+type AiWorkflowsFilter struct {
+	// Account Id of this Filter
+	AccountID int `json:"accountId"`
+	// Filter Id
+	ID string `json:"id"`
+	// Name of the Filter
+	Name string `json:"name"`
+	// Expressions that determine which issues will be handled
+	Predicates []AiWorkflowsPredicate `json:"predicates"`
+	// The type of the Filter
+	Type AiWorkflowsFilterType `json:"type"`
+}
+
+// AiWorkflowsPredicate - Predicate Object
+type AiWorkflowsPredicate struct {
+	// Field name in the issue event
+	Attribute string `json:"attribute"`
+	// Type of operator used to match the values
+	Operator AiWorkflowsOperator `json:"operator"`
+	// Values to compare
+	Values []string `json:"values"`
+}
+
+// AiWorkflowsWorkflow - Workflow object
+type AiWorkflowsWorkflow struct {
+	// Account Id of this Workflow
+	AccountID int `json:"accountId"`
+	// The time this workflow was created
+	CreatedAt nrtime.DateTime `json:"createdAt"`
+	// Specifies where to send the notifications
+	DestinationConfigurations []AiWorkflowsDestinationConfiguration `json:"destinationConfigurations"`
+	// Are Destinations enabled
+	DestinationsEnabled bool `json:"destinationsEnabled"`
+	// List of enrichments that are attached to the notifications
+	Enrichments []AiWorkflowsEnrichment `json:"enrichments"`
+	// Are Enrichments enabled
+	EnrichmentsEnabled bool `json:"enrichmentsEnabled"`
+	// Entity Id of the workflow
+	GUID common.EntityGUID `json:"guid"`
+	// Workflow Id
+	ID string `json:"id"`
+	// Specifies which issues the workflow will handle
+	IssuesFilter AiWorkflowsFilter `json:"issuesFilter"`
+	// Last time a notification was sent regarding this workflow
+	LastRun nrtime.DateTime `json:"lastRun,omitempty"`
+	// Describes how to handle muted issues
+	MutingRulesHandling AiWorkflowsMutingRulesHandling `json:"mutingRulesHandling"`
+	// Name of the Workflow
+	Name string `json:"name"`
+	// The time this workflow was updated
+	UpdatedAt nrtime.DateTime `json:"updatedAt"`
+	// Is Workflow enabled
+	WorkflowEnabled bool `json:"workflowEnabled"`
+}
+
 // AuthorizationManagementAuthenticationDomain - An "authentication domain" is a grouping of New Relic users governed by the same user management settings, like how they're provisioned (added and updated), how they're authenticated (logged in), session settings, and how user upgrades are managed.
 type AuthorizationManagementAuthenticationDomain struct {
 	// container for groups enabling cursor based pagination
@@ -180,6 +1166,7 @@ type AuthorizationManagementGroupSearch struct {
 	TotalCount int `json:"totalCount"`
 }
 
+// AuthorizationManagementOrganizationStitchedFields -
 type AuthorizationManagementOrganizationStitchedFields struct {
 	// list of authentication domains
 	AuthenticationDomains AuthorizationManagementAuthenticationDomainSearch `json:"authenticationDomains,omitempty"`
@@ -209,6 +1196,92 @@ type AuthorizationManagementRoleSearch struct {
 	Roles []AuthorizationManagementRole `json:"roles"`
 	// the total number of results
 	TotalCount int `json:"totalCount"`
+}
+
+// DataManagementLimit - Limit
+type DataManagementLimit struct {
+	// Category for the limit
+	Category DataManagementCategory `json:"category,omitempty"`
+	// Description of the uses for this limit
+	Description string `json:"description,omitempty"`
+	// Link to documentation for this limit
+	DocumentationLink string `json:"documentationLink,omitempty"`
+	// What happens when the limit is reached?
+	LimitReachedBehaviorDescription string `json:"limitReachedBehaviorDescription,omitempty"`
+	// Unique name for the limit
+	Name string `json:"name,omitempty"`
+	// Time between limit resets
+	TimeInterval NRQL `json:"timeInterval,omitempty"`
+	// Type of limit for aggregation and reporting
+	Type DataManagementType `json:"type,omitempty"`
+}
+
+// DataManagementLimitLookupInput - Input to look up a Limit
+type DataManagementLimitLookupInput struct {
+	// Limit name
+	Name string `json:"name"`
+}
+
+// DataManagementLimitOverride - Limit Override for an organization
+type DataManagementLimitOverride struct {
+	// Whether violations should be enforced for this override
+	EnforceViolations bool `json:"enforceViolations,omitempty"`
+	// Whether this override is the default for users in the organization
+	IsDefaultOverride bool `json:"isDefaultOverride,omitempty"`
+	// The limit associated with this override
+	Limit DataManagementLimit `json:"limit,omitempty"`
+	// The id of the organization for which this override applies
+	OrganizationId string `json:"organizationId,omitempty"`
+	// The reason for the override
+	OverrideReason string `json:"overrideReason,omitempty"`
+	// The overridden value for the limit
+	OverrideValue int `json:"overrideValue,omitempty"`
+	// The id of the user for whom this override applies
+	UserID int `json:"userId,omitempty"`
+}
+
+// DataManagementOrganizationStitchedFields -
+type DataManagementOrganizationStitchedFields struct {
+	// Query limit for a specific user within an organization
+	LimitOverride DataManagementLimitOverride `json:"limitOverride,omitempty"`
+	// List Limit Overrides for an organization
+	ListLimitOverrides []DataManagementLimitOverride `json:"listLimitOverrides,omitempty"`
+}
+
+// EntityManagementEventBridgeWorkflowDefinitionType - Defines the workflow to execute.
+type EntityManagementEventBridgeWorkflowDefinitionType struct {
+	// Specifies the workflow to execute.
+	Name string `json:"name"`
+	// Specifies the scope at which the workflow is defined.
+	ScopeType EntityManagementEventBridgeWorkflowDefinitionScopeType `json:"scopeType,omitempty"`
+	// Specifies the version of the workflow to execute.
+	Version int `json:"version"`
+}
+
+// EntityManagementEventBridgeWorkflowInput - A simple key-value pair for workflow parameters (output).
+type EntityManagementEventBridgeWorkflowInput struct {
+	// The name of the input parameter.
+	Name string `json:"name"`
+	// The value of the input parameter.
+	Value string `json:"value"`
+}
+
+// EntityManagementEventBridgeWorkflowTargetParameters - Parameters specific to a WORKFLOW target.
+type EntityManagementEventBridgeWorkflowTargetParameters struct {
+	// Defines the workflow to execute.
+	Definition EntityManagementEventBridgeWorkflowDefinitionType `json:"definition"`
+	// A list of key-value pairs to pass as input parameters to the workflow.
+	Inputs []EntityManagementEventBridgeWorkflowInput `json:"inputs"`
+	// The scope in which the target workflow will be executed.
+	Scope EntityManagementScopedReference `json:"scope"`
+}
+
+// EntityManagementScopedReference - An entity with scope.
+type EntityManagementScopedReference struct {
+	// The unique reference identifier of the an object within the given scope
+	ID string `json:"id"`
+	// The scope of the entity
+	Type EntityManagementEntityScope `json:"type"`
 }
 
 // NRDBMetadata - An object containing metadata about the query and result.
@@ -259,10 +1332,14 @@ type Organization struct {
 	AccountShares OrganizationAccountShares `json:"accountShares,omitempty"`
 	// The organization's administrator
 	Administrator OrganizationOrganizationAdministrator `json:"administrator,omitempty"`
+	// This field provides access to AiNotifications data.
+	AiNotifications AiNotificationsOrganizationStitchedFields `json:"aiNotifications,omitempty"`
 	// This field provides access to AuthorizationManagement data.
 	AuthorizationManagement AuthorizationManagementOrganizationStitchedFields `json:"authorizationManagement,omitempty"`
 	// The customer id for the organization.
 	CustomerId string `json:"customerId,omitempty"`
+	// This field provides access to DataManagement data.
+	DataManagement DataManagementOrganizationStitchedFields `json:"dataManagement,omitempty"`
 	// The ID of the organization.
 	ID string `json:"id,omitempty"`
 	// Poll for the results of a previously-executed asychronous NRDB query.
@@ -582,6 +1659,7 @@ type UserManagementNameInput struct {
 	Eq string `json:"eq,omitempty"`
 }
 
+// UserManagementOrganizationStitchedFields -
 type UserManagementOrganizationStitchedFields struct {
 	// An "authentication domain" is a grouping of New Relic users governed by the same user management settings, like how they're provisioned (added and updated), how they're authenticated (logged in), session settings, and how user upgrades are managed.
 	AuthenticationDomains UserManagementAuthenticationDomains `json:"authenticationDomains,omitempty"`
@@ -707,6 +1785,7 @@ type UserManagementUsers struct {
 	Users []UserManagementUser `json:"users"`
 }
 
+// WorkflowAutomationOrganizationStitchedFields -
 type WorkflowAutomationOrganizationStitchedFields struct {
 	// Retrieves an existing workflow definition
 	Workflow WorkflowAutomationWorkflowResponse `json:"workflow,omitempty"`
@@ -730,6 +1809,10 @@ type WorkflowAutomationWorkflowDefinition struct {
 type WorkflowAutomationWorkflowResponse struct {
 	// Workflow definition
 	Definition WorkflowAutomationWorkflowDefinition `json:"definition,omitempty"`
+}
+
+type destinationsResponse struct {
+	Actor Actor `json:"actor"`
 }
 
 type organizationResponse struct {

@@ -1121,10 +1121,7 @@ packages:
             max_query_field_depth: 4
           - name: channels
             max_query_field_depth: 4
-      - path: [ "actor", "organization", "aiNotifications" ]
-        endpoints:
-          - name: destinations
-            max_query_field_depth: 4
+
 
     mutations:
       - name: aiNotificationsCreateDestination
@@ -1172,6 +1169,10 @@ packages:
       - name: DateTime
         field_type_override: nrtime.DateTime
         skip_type_create: true
+      - name: AiNotificationsAuth
+        field_type_override: "ai.AiNotificationsAuth"
+      - name: AiWorkflowsConfiguration
+        field_type_override: "ai.AiWorkflowsConfiguration"
 
   - name: nrdb
     path: pkg/nrdb
@@ -1305,6 +1306,10 @@ packages:
         endpoints:
           - name: "workflow"
             max_query_field_depth: 2
+      - path: [ "actor", "organization", "aiNotifications" ]
+        endpoints:
+          - name: destinations
+            max_query_field_depth: 4
     mutations:
       - name: organizationCreate
         max_query_field_depth: 2

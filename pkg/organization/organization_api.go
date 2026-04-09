@@ -29,15 +29,10 @@ func (a *OrganizationManagement) OrganizationCreateWithContext(
 
 	resp := OrganizationCreateQueryResponse{}
 	vars := map[string]interface{}{
+		"customerId":        customerId,
 		"newManagedAccount": newManagedAccount,
 		"organization":      organization,
 		"sharedAccount":     sharedAccount,
-	}
-
-	// Manual change made out of Tutone's scope, to accommodate for having no customerId in the request
-	// PLEASE DO NOT DELETE the following if-block
-	if customerId != "" {
-		vars["customerId"] = customerId
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, OrganizationCreateMutation, vars, &resp); err != nil {
@@ -134,13 +129,8 @@ func (a *OrganizationManagement) OrganizationUpdateWithContext(
 
 	resp := OrganizationUpdateQueryResponse{}
 	vars := map[string]interface{}{
-		"organization": organization,
-	}
-
-	// Manual change made out of Tutone's scope, to accommodate for having no organizationId in the request
-	// PLEASE DO NOT DELETE the following if-block
-	if organizationId != "" {
-		vars["organizationId"] = organizationId
+		"organization":   organization,
+		"organizationId": organizationId,
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, OrganizationUpdateMutation, vars, &resp); err != nil {
@@ -220,6 +210,109 @@ const OrganizationUpdateSharedAccountMutation = `mutation(
 	}
 } }`
 
+// Fetch a Destinations by type
+func (a *OrganizationManagement) GetDestinations(
+	cursor string,
+	filters AiNotificationsDestinationFilter,
+	sorter AiNotificationsDestinationSorter,
+) (*AiNotificationsDestinationsResponse, error) {
+	return a.GetDestinationsWithContext(context.Background(),
+		cursor,
+		filters,
+		sorter,
+	)
+}
+
+// Fetch a Destinations by type
+func (a *OrganizationManagement) GetDestinationsWithContext(
+	ctx context.Context,
+	cursor string,
+	filters AiNotificationsDestinationFilter,
+	sorter AiNotificationsDestinationSorter,
+) (*AiNotificationsDestinationsResponse, error) {
+
+	resp := destinationsResponse{}
+	vars := map[string]interface{}{
+		"cursor":  cursor,
+		"filters": filters,
+		"sorter":  sorter,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, getDestinationsQuery, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.Actor.Organization.AiNotifications.Destinations, nil
+}
+
+const getDestinationsQuery = `query($filters: AiNotificationsDestinationFilter) { actor { organization { aiNotifications { destinations(filters: $filters) {
+	entities {
+		accountId
+		active
+		auth {
+			... on AiNotificationsBasicAuth {
+			  authType
+			  user
+			}
+			... on AiNotificationsOAuth2Auth {
+			  accessTokenUrl
+			  scope
+			  refreshable
+			  refreshInterval
+			  prefix
+			  clientId
+			  authorizationUrl
+			  authType
+			}
+			... on AiNotificationsTokenAuth {
+			  authType
+			  prefix
+			}
+			... on AiNotificationsCustomHeadersAuth {
+			  authType
+        	  customHeaders {
+          	    key
+			  }
+			}
+		}
+		createdAt
+		guid
+		id
+		isUserAuthenticated
+		lastSent
+		name
+		properties {
+			displayValue
+			key
+			label
+			value
+		}
+		scope {
+			id
+			type
+		}
+		secureUrl {
+			prefix
+		}
+		status
+		type
+		updatedAt
+		updatedBy
+	}
+	error {
+		description
+		details
+		type
+	}
+	errors {
+		description
+		details
+		type
+	}
+	nextCursor
+	totalCount
+} } } } }`
+
 // The `organization` field is the entry point into data that is scoped to the user's organization.
 func (a *OrganizationManagement) GetOrganization() (*Organization, error) {
 	return a.GetOrganizationWithContext(context.Background())
@@ -240,23 +333,16 @@ func (a *OrganizationManagement) GetOrganizationWithContext(
 	return &resp.Actor.Organization, nil
 }
 
-//const getOrganizationQuery = `query { actor { organization {
-//	administrator {
-//		organizationId
-//		organizationName
-//	}
-//	customerId
-//	id
-//	name
-//	storageAccountId
-//	telemetryId
-//} } }`
-
-// discarding all non-essential attributes, to prevent capability-linked conflicts and errors
-
 const getOrganizationQuery = `query { actor { organization {
+	administrator {
+		organizationId
+		organizationName
+	}
+	customerId
 	id
 	name
+	storageAccountId
+	telemetryId
 } } }`
 
 // Retrieves an existing workflow definition

@@ -743,13 +743,13 @@ const getChannelsQuery = `query(
 } } } } }`
 
 // Fetch a Destinations by type
-func (a *Notifications) GetDestinationsAccount(
+func (a *Notifications) GetDestinations(
 	accountID int,
 	cursor string,
 	filters ai.AiNotificationsDestinationFilter,
 	sorter AiNotificationsDestinationSorter,
 ) (*AiNotificationsDestinationsResponse, error) {
-	return a.GetDestinationsWithContextAccount(context.Background(),
+	return a.GetDestinationsWithContext(context.Background(),
 		accountID,
 		cursor,
 		filters,
@@ -758,7 +758,7 @@ func (a *Notifications) GetDestinationsAccount(
 }
 
 // Fetch a Destinations by type
-func (a *Notifications) GetDestinationsWithContextAccount(
+func (a *Notifications) GetDestinationsWithContext(
 	ctx context.Context,
 	accountID int,
 	cursor string,
@@ -774,15 +774,16 @@ func (a *Notifications) GetDestinationsWithContextAccount(
 		"sorter":    sorter,
 	}
 
-	if err := a.client.NerdGraphQueryWithContext(ctx, getDestinationsQueryAccount, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, getDestinationsQuery, vars, &resp); err != nil {
 		return nil, err
 	}
 
 	return &resp.Actor.Account.AiNotifications.Destinations, nil
 }
 
-const getDestinationsQueryAccount = `query(
-	$accountID: Int!, $filters: AiNotificationsDestinationFilter
+const getDestinationsQuery = `query(
+	$accountID: Int!,
+	$filters: AiNotificationsDestinationFilter
 ) { actor { account(id: $accountID) { aiNotifications { destinations(filters: $filters) {
 	entities {
 		accountId
@@ -816,108 +817,6 @@ const getDestinationsQueryAccount = `query(
 		createdAt
 		id
 		guid
-		isUserAuthenticated
-		lastSent
-		name
-		properties {
-			displayValue
-			key
-			label
-			value
-		}
-		scope {
-			id
-			type
-		}
-		secureUrl {
-			prefix
-		}
-		status
-		type
-		updatedAt
-		updatedBy
-	}
-	error {
-		description
-		details
-		type
-	}
-	errors {
-		description
-		details
-		type
-	}
-	nextCursor
-	totalCount
-} } } } }`
-
-func (a *Notifications) GetDestinationsOrganization(
-	cursor string,
-	filters ai.AiNotificationsDestinationFilter,
-	sorter AiNotificationsDestinationSorter,
-) (*AiNotificationsDestinationsResponse, error) {
-	return a.GetDestinationsWithContextOrganization(context.Background(),
-		cursor,
-		filters,
-		sorter,
-	)
-}
-
-// Fetch a Destinations by type
-func (a *Notifications) GetDestinationsWithContextOrganization(
-	ctx context.Context,
-	cursor string,
-	filters ai.AiNotificationsDestinationFilter,
-	sorter AiNotificationsDestinationSorter,
-) (*AiNotificationsDestinationsResponse, error) {
-
-	resp := destinationsResponse{}
-	vars := map[string]interface{}{
-		"cursor":  cursor,
-		"filters": filters,
-		"sorter":  sorter,
-	}
-
-	if err := a.client.NerdGraphQueryWithContext(ctx, getDestinationsQueryOrganization, vars, &resp); err != nil {
-		return nil, err
-	}
-
-	return &resp.Actor.Organization.AiNotifications.Destinations, nil
-}
-
-const getDestinationsQueryOrganization = `query($filters: AiNotificationsDestinationFilter) { actor { organization { aiNotifications { destinations(filters: $filters) {
-	entities {
-		accountId
-		active
-		auth {
-			... on AiNotificationsBasicAuth {
-			  authType
-			  user
-			}
-			... on AiNotificationsOAuth2Auth {
-			  accessTokenUrl
-			  scope
-			  refreshable
-			  refreshInterval
-			  prefix
-			  clientId
-			  authorizationUrl
-			  authType
-			}
-			... on AiNotificationsTokenAuth {
-			  authType
-			  prefix
-			}
-			... on AiNotificationsCustomHeadersAuth {
-			  authType
-        	  customHeaders {
-          	    key
-			  }
-			}
-		}
-		createdAt
-		guid
-		id
 		isUserAuthenticated
 		lastSent
 		name
