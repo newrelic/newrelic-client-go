@@ -51,7 +51,7 @@ var Regions = map[Name]*Region{
 	},
 	JP: {
 		name:             "JP",
-		nerdGraphBaseURL: "https://one.jp.newrelic.com/graphql",
+		nerdGraphBaseURL: "https://api.jp.newrelic.com/graphql",
 	},
 	Staging: {
 		name:                  "Staging",

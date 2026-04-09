@@ -143,7 +143,7 @@ func TestNerdgraphURLs(t *testing.T) {
 	pairs := map[Name]string{
 		US:      "https://api.newrelic.com/graphql",
 		EU:      "https://api.eu.newrelic.com/graphql",
-		JP:      "https://one.jp.newrelic.com/graphql",
+		JP:      "https://api.jp.newrelic.com/graphql",
 		Staging: "https://staging-api.newrelic.com/graphql",
 		Local:   "http://localhost:3000/graphql",
 	}
