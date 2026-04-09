@@ -120,7 +120,34 @@ const AiNotificationsCreateChannelMutation = `mutation(
     }
 } }`
 
-// Create a Destination
+// AiNotificationsCreateDestination creates a new notification destination.
+//
+// The scope parameter controls whether the destination is scoped to an account or an organization.
+//
+// Account-scoped (using scope object):
+//
+//	accountScope := AiNotificationsEntityScopeInput{
+//	    ID:   "your-account-id",
+//	    Type: AiNotificationsEntityScopeTypeInputTypes.ACCOUNT,
+//	}
+//	resp, err := client.Notifications.AiNotificationsCreateDestination(0, input, accountScope)
+//
+// Account-scoped (backward-compatible, using accountID only):
+//
+//	resp, err := client.Notifications.AiNotificationsCreateDestination(accountID, input, AiNotificationsEntityScopeInput{})
+//
+// Organization-scoped:
+//
+//	orgScope := AiNotificationsEntityScopeInput{
+//	    ID:   "your-org-id",
+//	    Type: AiNotificationsEntityScopeTypeInputTypes.ORGANIZATION,
+//	}
+//	resp, err := client.Notifications.AiNotificationsCreateDestination(0, input, orgScope)
+//
+// This replaces the previous signature which did not accept a scope parameter.
+// Previous usage:
+//
+//	resp, err := client.Notifications.AiNotificationsCreateDestination(accountID, input)
 func (a *Notifications) AiNotificationsCreateDestination(
 	accountID int,
 	destination AiNotificationsDestinationInput,
@@ -133,7 +160,8 @@ func (a *Notifications) AiNotificationsCreateDestination(
 	)
 }
 
-// Create a Destination
+// AiNotificationsCreateDestinationWithContext is the context-aware variant of AiNotificationsCreateDestination.
+// See AiNotificationsCreateDestination for usage details and scope parameter documentation.
 func (a *Notifications) AiNotificationsCreateDestinationWithContext(
 	ctx context.Context,
 	accountID int,
@@ -191,10 +219,10 @@ const AiNotificationsCreateDestinationMutation = `mutation(
 			  prefix
 			}
 			... on AiNotificationsCustomHeadersAuth {
-			  authType
-        	  customHeaders {
-          	    key
-			  }
+				authType
+				customHeaders {
+					key
+				}
 			}
 		}
 		createdAt
@@ -328,7 +356,34 @@ const AiNotificationsDeleteChannelMutation = `mutation(
 	ids
 } }`
 
-// Delete a Destination
+// AiNotificationsDeleteDestination deletes an existing notification destination.
+//
+// The scope parameter controls whether the operation targets an account-scoped or organization-scoped destination.
+//
+// Account-scoped (using scope object):
+//
+//	accountScope := AiNotificationsEntityScopeInput{
+//	    ID:   "your-account-id",
+//	    Type: AiNotificationsEntityScopeTypeInputTypes.ACCOUNT,
+//	}
+//	resp, err := client.Notifications.AiNotificationsDeleteDestination(0, destID, accountScope)
+//
+// Account-scoped (backward-compatible, using accountID only):
+//
+//	resp, err := client.Notifications.AiNotificationsDeleteDestination(accountID, destID, AiNotificationsEntityScopeInput{})
+//
+// Organization-scoped:
+//
+//	orgScope := AiNotificationsEntityScopeInput{
+//	    ID:   "your-org-id",
+//	    Type: AiNotificationsEntityScopeTypeInputTypes.ORGANIZATION,
+//	}
+//	resp, err := client.Notifications.AiNotificationsDeleteDestination(0, destID, orgScope)
+//
+// This replaces the previous signature which did not accept a scope parameter.
+// Previous usage:
+//
+//	resp, err := client.Notifications.AiNotificationsDeleteDestination(accountID, destID)
 func (a *Notifications) AiNotificationsDeleteDestination(
 	accountID int,
 	destinationId string,
@@ -341,7 +396,8 @@ func (a *Notifications) AiNotificationsDeleteDestination(
 	)
 }
 
-// Delete a Destination
+// AiNotificationsDeleteDestinationWithContext is the context-aware variant of AiNotificationsDeleteDestination.
+// See AiNotificationsDeleteDestination for usage details and scope parameter documentation.
 func (a *Notifications) AiNotificationsDeleteDestinationWithContext(
 	ctx context.Context,
 	accountID int,
@@ -508,7 +564,34 @@ const AiNotificationsUpdateChannelMutation = `mutation(
     }
 } }`
 
-// Update a Destination
+// AiNotificationsUpdateDestination updates an existing notification destination.
+//
+// The scope parameter controls whether the operation targets an account-scoped or organization-scoped destination.
+//
+// Account-scoped (using scope object):
+//
+//	accountScope := AiNotificationsEntityScopeInput{
+//	    ID:   "your-account-id",
+//	    Type: AiNotificationsEntityScopeTypeInputTypes.ACCOUNT,
+//	}
+//	resp, err := client.Notifications.AiNotificationsUpdateDestination(0, update, destID, accountScope)
+//
+// Account-scoped (backward-compatible, using accountID only):
+//
+//	resp, err := client.Notifications.AiNotificationsUpdateDestination(accountID, update, destID, AiNotificationsEntityScopeInput{})
+//
+// Organization-scoped:
+//
+//	orgScope := AiNotificationsEntityScopeInput{
+//	    ID:   "your-org-id",
+//	    Type: AiNotificationsEntityScopeTypeInputTypes.ORGANIZATION,
+//	}
+//	resp, err := client.Notifications.AiNotificationsUpdateDestination(0, update, destID, orgScope)
+//
+// This replaces the previous signature which did not accept a scope parameter.
+// Previous usage:
+//
+//	resp, err := client.Notifications.AiNotificationsUpdateDestination(accountID, update, destID)
 func (a *Notifications) AiNotificationsUpdateDestination(
 	accountID int,
 	destination AiNotificationsDestinationUpdate,
@@ -523,7 +606,8 @@ func (a *Notifications) AiNotificationsUpdateDestination(
 	)
 }
 
-// Update a Destination
+// AiNotificationsUpdateDestinationWithContext is the context-aware variant of AiNotificationsUpdateDestination.
+// See AiNotificationsUpdateDestination for usage details and scope parameter documentation.
 func (a *Notifications) AiNotificationsUpdateDestinationWithContext(
 	ctx context.Context,
 	accountID int,
@@ -585,10 +669,10 @@ const AiNotificationsUpdateDestinationMutation = `mutation(
 			  prefix
 			}
 			... on AiNotificationsCustomHeadersAuth {
-			  authType
-        	  customHeaders {
-          	    key
-			  }
+				authType
+				customHeaders {
+					key
+				}
 			}
 		}
 		createdAt
@@ -749,7 +833,19 @@ const getChannelsQuery = `query(
 	totalCount
 } } } } }`
 
-// Fetch a Destinations by type
+// GetDestinationsAccount fetches destinations scoped to a specific account.
+//
+// This was previously named GetDestinations. Update your calls accordingly:
+//
+// Previous usage:
+//
+//	resp, err := client.Notifications.GetDestinations(accountID, cursor, filters, sorter)
+//
+// New usage:
+//
+//	resp, err := client.Notifications.GetDestinationsAccount(accountID, cursor, filters, sorter)
+//
+// For organization-scoped destinations, use GetDestinationsOrganization instead.
 func (a *Notifications) GetDestinationsAccount(
 	accountID int,
 	cursor string,
@@ -764,7 +860,8 @@ func (a *Notifications) GetDestinationsAccount(
 	)
 }
 
-// Fetch a Destinations by type
+// GetDestinationsWithContextAccount is the context-aware variant of GetDestinationsAccount.
+// This was previously named GetDestinationsWithContext. See GetDestinationsAccount for details.
 func (a *Notifications) GetDestinationsWithContextAccount(
 	ctx context.Context,
 	accountID int,
@@ -821,10 +918,10 @@ const getDestinationsQueryAccount = `query(
 			  prefix
 			}
 			... on AiNotificationsCustomHeadersAuth {
-			  authType
-        	  customHeaders {
-          	    key
-			  }
+				authType
+				customHeaders {
+					key
+				}
 			}
 		}
 		createdAt
@@ -865,7 +962,15 @@ const getDestinationsQueryAccount = `query(
 	totalCount
 } } } } }`
 
-// Fetch a Destinations by type
+// GetDestinationsOrganization fetches destinations scoped to the user's organization.
+// Unlike GetDestinationsAccount, this does not require an accountID parameter since
+// the query runs at the organization level via the actor.organization.aiNotifications path.
+//
+// Example usage:
+//
+//	filters := ai.AiNotificationsDestinationFilter{ID: "dest-id"}
+//	sorter := AiNotificationsDestinationSorter{}
+//	resp, err := client.Notifications.GetDestinationsOrganization("", filters, sorter)
 func (a *Notifications) GetDestinationsOrganization(
 	cursor string,
 	filters ai.AiNotificationsDestinationFilter,
@@ -878,7 +983,8 @@ func (a *Notifications) GetDestinationsOrganization(
 	)
 }
 
-// Fetch a Destinations by type
+// GetDestinationsWithContextOrganization is the context-aware variant of GetDestinationsOrganization.
+// See GetDestinationsOrganization for usage details.
 func (a *Notifications) GetDestinationsWithContextOrganization(
 	ctx context.Context,
 	cursor string,
@@ -932,10 +1038,10 @@ const getDestinationsQueryOrganization = `query(
 			  prefix
 			}
 			... on AiNotificationsCustomHeadersAuth {
-			  authType
-        	  customHeaders {
-          	    key
-			  }
+				authType
+				customHeaders {
+					key
+				}
 			}
 		}
 		createdAt
