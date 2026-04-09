@@ -1121,6 +1121,11 @@ packages:
             max_query_field_depth: 4
           - name: channels
             max_query_field_depth: 4
+      - path: [ "actor", "organization", "aiNotifications" ]
+        endpoints:
+          - name: destinations
+            max_query_field_depth: 4
+
     mutations:
       - name: aiNotificationsCreateDestination
         max_query_field_depth: 3

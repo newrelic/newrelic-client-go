@@ -203,6 +203,8 @@ var AiNotificationsDestinationFieldsTypes = struct {
 	LAST_SENT AiNotificationsDestinationFields
 	// name field
 	NAME AiNotificationsDestinationFields
+	// Scope field
+	SCOPE AiNotificationsDestinationFields
 	// status field
 	STATUS AiNotificationsDestinationFields
 	// type field
@@ -222,6 +224,8 @@ var AiNotificationsDestinationFieldsTypes = struct {
 	LAST_SENT: "LAST_SENT",
 	// name field
 	NAME: "NAME",
+	// Scope field
+	SCOPE: "SCOPE",
 	// status field
 	STATUS: "STATUS",
 	// type field
@@ -366,6 +370,36 @@ var AiNotificationsDestinationTypeTypes = struct {
 	WORKFLOW_AUTOMATION: "WORKFLOW_AUTOMATION",
 }
 
+// AiNotificationsEntityScopeType - Entity Scope Type
+type AiNotificationsEntityScopeType string
+
+var AiNotificationsEntityScopeTypeTypes = struct {
+	// Account Scope Type
+	ACCOUNT AiNotificationsEntityScopeType
+	// Organization Scope Type
+	ORGANIZATION AiNotificationsEntityScopeType
+}{
+	// Account Scope Type
+	ACCOUNT: "ACCOUNT",
+	// Organization Scope Type
+	ORGANIZATION: "ORGANIZATION",
+}
+
+// AiNotificationsEntityScopeTypeInput - Entity Scope Type
+type AiNotificationsEntityScopeTypeInput string
+
+var AiNotificationsEntityScopeTypeInputTypes = struct {
+	// Account Scope Type
+	ACCOUNT AiNotificationsEntityScopeTypeInput
+	// Organization Scope Type
+	ORGANIZATION AiNotificationsEntityScopeTypeInput
+}{
+	// Account Scope Type
+	ACCOUNT: "ACCOUNT",
+	// Organization Scope Type
+	ORGANIZATION: "ORGANIZATION",
+}
+
 // AiNotificationsErrorType - Error types
 type AiNotificationsErrorType string
 
@@ -463,6 +497,8 @@ var AiNotificationsProductTypes = struct {
 	APM AiNotificationsProduct
 	// Change tracking product type
 	CHANGE_TRACKING AiNotificationsProduct
+	// Commerce growth product type
+	COMMERCE AiNotificationsProduct
 	// CSSP (EOPs) product type
 	CSSP AiNotificationsProduct
 	// Discussions and comments product type
@@ -471,6 +507,8 @@ var AiNotificationsProductTypes = struct {
 	ERROR_TRACKING AiNotificationsProduct
 	// Incident Intelligence product type
 	IINT AiNotificationsProduct
+	// Logging UI product type
+	LOGGING_UI AiNotificationsProduct
 	// Notifications internal product type
 	NTFC AiNotificationsProduct
 	// Proactive Detection product type
@@ -479,6 +517,8 @@ var AiNotificationsProductTypes = struct {
 	SECURITY AiNotificationsProduct
 	// Sharing product type
 	SHARING AiNotificationsProduct
+	// Workflow Automation product type
+	WORKFLOW_AUTOMATION AiNotificationsProduct
 }{
 	// Alerts product type
 	ALERTS: "ALERTS",
@@ -486,6 +526,8 @@ var AiNotificationsProductTypes = struct {
 	APM: "APM",
 	// Change tracking product type
 	CHANGE_TRACKING: "CHANGE_TRACKING",
+	// Commerce growth product type
+	COMMERCE: "COMMERCE",
 	// CSSP (EOPs) product type
 	CSSP: "CSSP",
 	// Discussions and comments product type
@@ -494,6 +536,8 @@ var AiNotificationsProductTypes = struct {
 	ERROR_TRACKING: "ERROR_TRACKING",
 	// Incident Intelligence product type
 	IINT: "IINT",
+	// Logging UI product type
+	LOGGING_UI: "LOGGING_UI",
 	// Notifications internal product type
 	NTFC: "NTFC",
 	// Proactive Detection product type
@@ -502,6 +546,8 @@ var AiNotificationsProductTypes = struct {
 	SECURITY: "SECURITY",
 	// Sharing product type
 	SHARING: "SHARING",
+	// Workflow Automation product type
+	WORKFLOW_AUTOMATION: "WORKFLOW_AUTOMATION",
 }
 
 // AiNotificationsSortOrder - Sort order
@@ -616,6 +662,8 @@ type Account struct {
 type Actor struct {
 	// The `account` field is the entry point into data that is scoped to a single account.
 	Account Account `json:"account,omitempty"`
+	// The `organization` field is the entry point into data that is scoped to the user's organization.
+	Organization Organization `json:"organization,omitempty"`
 }
 
 // AiNotificationsAccountStitchedFields -
@@ -800,6 +848,8 @@ type AiNotificationsDestination struct {
 	Name string `json:"name"`
 	// List of destination property types
 	Properties []AiNotificationsProperty `json:"properties"`
+	// Scope of destination
+	Scope AiNotificationsEntityScope `json:"scope"`
 	// URL in secure format
 	SecureURL AiNotificationsSecureURL `json:"secureUrl,omitempty"`
 	// Destination status
@@ -818,16 +868,18 @@ type AiNotificationsDestinationFilter struct {
 	Active bool `json:"active,omitempty"`
 	// authType
 	AuthType AiNotificationsAuthType `json:"authType,omitempty"`
+	// exactName
+	ExactName string `json:"exactName,omitempty"`
 	// id
 	ID string `json:"id,omitempty"`
 	// ids
 	IDs []string `json:"ids"`
 	// name
 	Name string `json:"name,omitempty"`
-	// exactName - exact match for destination name
-	ExactName string `json:"exactName,omitempty"`
 	// property
 	Property AiNotificationsPropertyFilter `json:"property,omitempty"`
+	// scopeTypes
+	ScopeTypes []AiNotificationsEntityScopeTypeInput `json:"scopeTypes"`
 	// type
 	Type AiNotificationsDestinationType `json:"type,omitempty"`
 	// updatedAt
@@ -841,7 +893,7 @@ type AiNotificationsDestinationInput struct {
 	// name
 	Name string `json:"name"`
 	// properties
-	Properties []AiNotificationsPropertyInput `json:"properties"`
+	Properties []AiNotificationsPropertyInput `json:"properties,omitempty"`
 	// secureUrl
 	SecureURL *AiNotificationsSecureURLInput `json:"secureUrl,omitempty"`
 	// type
@@ -896,6 +948,22 @@ type AiNotificationsDestinationsResponse struct {
 	TotalCount int `json:"totalCount"`
 }
 
+// AiNotificationsEntityScope - Entity Scope
+type AiNotificationsEntityScope struct {
+	// Entity scope id
+	ID string `json:"id"`
+	// Entity scope type
+	Type AiNotificationsEntityScopeType `json:"type"`
+}
+
+// AiNotificationsEntityScopeInput - Entity Scope
+type AiNotificationsEntityScopeInput struct {
+	// id
+	ID string `json:"id"`
+	// type
+	Type AiNotificationsEntityScopeTypeInput `json:"type"`
+}
+
 // AiNotificationsOAuth2AuthInput - OAuth2 auth input object
 type AiNotificationsOAuth2AuthInput struct {
 	// accessTokenUrl
@@ -918,6 +986,12 @@ type AiNotificationsOAuth2AuthInput struct {
 	Scope string `json:"scope,omitempty"`
 	// token
 	Token SecureValue `json:"token"`
+}
+
+// AiNotificationsOrganizationStitchedFields - Organization level queries
+type AiNotificationsOrganizationStitchedFields struct {
+	// Fetch a Destinations by type
+	Destinations AiNotificationsDestinationsResponse `json:"destinations,omitempty"`
 }
 
 // AiNotificationsProperty - Channel property Object
@@ -1286,6 +1360,20 @@ func (x *AlertsXMattersNotificationChannel) ImplementsAlertsNotificationChannel(
 type AlertsXMattersNotificationChannelConfig struct {
 	// Integration URL.
 	IntegrationURL SecureValue `json:"integrationUrl"`
+}
+
+// Organization - The `Organization` object provides basic data about an organization.
+type Organization struct {
+	// This field provides access to AiNotifications data.
+	AiNotifications AiNotificationsOrganizationStitchedFields `json:"aiNotifications,omitempty"`
+	// The customer id for the organization.
+	CustomerId string `json:"customerId,omitempty"`
+	// The name of the organization.
+	Name string `json:"name,omitempty"`
+	// The storage account of the organization
+	StorageAccountId int `json:"storageAccountId,omitempty"`
+	// The telemetry id for the organization
+	TelemetryId string `json:"telemetryId,omitempty"`
 }
 
 type channelsResponse struct {

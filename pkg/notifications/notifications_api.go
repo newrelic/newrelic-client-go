@@ -124,10 +124,12 @@ const AiNotificationsCreateChannelMutation = `mutation(
 func (a *Notifications) AiNotificationsCreateDestination(
 	accountID int,
 	destination AiNotificationsDestinationInput,
+	scope AiNotificationsEntityScopeInput,
 ) (*AiNotificationsDestinationResponse, error) {
 	return a.AiNotificationsCreateDestinationWithContext(context.Background(),
 		accountID,
 		destination,
+		scope,
 	)
 }
 
@@ -136,12 +138,14 @@ func (a *Notifications) AiNotificationsCreateDestinationWithContext(
 	ctx context.Context,
 	accountID int,
 	destination AiNotificationsDestinationInput,
+	scope AiNotificationsEntityScopeInput,
 ) (*AiNotificationsDestinationResponse, error) {
 
 	resp := AiNotificationsCreateDestinationQueryResponse{}
 	vars := map[string]interface{}{
 		"accountId":   accountID,
 		"destination": destination,
+		"scope":       scope,
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, AiNotificationsCreateDestinationMutation, vars, &resp); err != nil {
@@ -156,11 +160,13 @@ type AiNotificationsCreateDestinationQueryResponse struct {
 }
 
 const AiNotificationsCreateDestinationMutation = `mutation(
-	$accountId: Int!,
+	$accountId: Int,
 	$destination: AiNotificationsDestinationInput!,
+	$scope: AiNotificationsEntityScopeInput,
 ) { aiNotificationsCreateDestination(
 	accountId: $accountId,
 	destination: $destination,
+	scope: $scope,
 ) {
 	destination {
 		accountId
@@ -202,6 +208,10 @@ const AiNotificationsCreateDestinationMutation = `mutation(
 			key
 			label
 			value
+		}
+		scope {
+			id
+			type
 		}
 		secureUrl {
 			prefix
@@ -322,10 +332,12 @@ const AiNotificationsDeleteChannelMutation = `mutation(
 func (a *Notifications) AiNotificationsDeleteDestination(
 	accountID int,
 	destinationId string,
+	scope AiNotificationsEntityScopeInput,
 ) (*AiNotificationsDeleteResponse, error) {
 	return a.AiNotificationsDeleteDestinationWithContext(context.Background(),
 		accountID,
 		destinationId,
+		scope,
 	)
 }
 
@@ -334,12 +346,14 @@ func (a *Notifications) AiNotificationsDeleteDestinationWithContext(
 	ctx context.Context,
 	accountID int,
 	destinationId string,
+	scope AiNotificationsEntityScopeInput,
 ) (*AiNotificationsDeleteResponse, error) {
 
 	resp := AiNotificationsDeleteDestinationQueryResponse{}
 	vars := map[string]interface{}{
 		"accountId":     accountID,
 		"destinationId": destinationId,
+		"scope":         scope,
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, AiNotificationsDeleteDestinationMutation, vars, &resp); err != nil {
@@ -354,11 +368,13 @@ type AiNotificationsDeleteDestinationQueryResponse struct {
 }
 
 const AiNotificationsDeleteDestinationMutation = `mutation(
-	$accountId: Int!,
+	$accountId: Int,
 	$destinationId: ID!,
+	$scope: AiNotificationsEntityScopeInput,
 ) { aiNotificationsDeleteDestination(
 	accountId: $accountId,
 	destinationId: $destinationId,
+	scope: $scope,
 ) {
 	error {
 		description
@@ -497,11 +513,13 @@ func (a *Notifications) AiNotificationsUpdateDestination(
 	accountID int,
 	destination AiNotificationsDestinationUpdate,
 	destinationId string,
+	scope AiNotificationsEntityScopeInput,
 ) (*AiNotificationsDestinationResponse, error) {
 	return a.AiNotificationsUpdateDestinationWithContext(context.Background(),
 		accountID,
 		destination,
 		destinationId,
+		scope,
 	)
 }
 
@@ -511,6 +529,7 @@ func (a *Notifications) AiNotificationsUpdateDestinationWithContext(
 	accountID int,
 	destination AiNotificationsDestinationUpdate,
 	destinationId string,
+	scope AiNotificationsEntityScopeInput,
 ) (*AiNotificationsDestinationResponse, error) {
 
 	resp := AiNotificationsUpdateDestinationQueryResponse{}
@@ -518,6 +537,7 @@ func (a *Notifications) AiNotificationsUpdateDestinationWithContext(
 		"accountId":     accountID,
 		"destination":   destination,
 		"destinationId": destinationId,
+		"scope":         scope,
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, AiNotificationsUpdateDestinationMutation, vars, &resp); err != nil {
@@ -532,13 +552,15 @@ type AiNotificationsUpdateDestinationQueryResponse struct {
 }
 
 const AiNotificationsUpdateDestinationMutation = `mutation(
-	$accountId: Int!,
+	$accountId: Int,
 	$destination: AiNotificationsDestinationUpdate!,
 	$destinationId: ID!,
+	$scope: AiNotificationsEntityScopeInput,
 ) { aiNotificationsUpdateDestination(
 	accountId: $accountId,
 	destination: $destination,
 	destinationId: $destinationId,
+	scope: $scope,
 ) {
 	destination {
 		accountId
@@ -580,6 +602,10 @@ const AiNotificationsUpdateDestinationMutation = `mutation(
 			key
 			label
 			value
+		}
+		scope {
+			id
+			type
 		}
 		secureUrl {
 			prefix
@@ -717,13 +743,13 @@ const getChannelsQuery = `query(
 } } } } }`
 
 // Fetch a Destinations by type
-func (a *Notifications) GetDestinations(
+func (a *Notifications) GetDestinationsAccount(
 	accountID int,
 	cursor string,
 	filters ai.AiNotificationsDestinationFilter,
 	sorter AiNotificationsDestinationSorter,
 ) (*AiNotificationsDestinationsResponse, error) {
-	return a.GetDestinationsWithContext(context.Background(),
+	return a.GetDestinationsWithContextAccount(context.Background(),
 		accountID,
 		cursor,
 		filters,
@@ -732,7 +758,7 @@ func (a *Notifications) GetDestinations(
 }
 
 // Fetch a Destinations by type
-func (a *Notifications) GetDestinationsWithContext(
+func (a *Notifications) GetDestinationsWithContextAccount(
 	ctx context.Context,
 	accountID int,
 	cursor string,
@@ -748,15 +774,15 @@ func (a *Notifications) GetDestinationsWithContext(
 		"sorter":    sorter,
 	}
 
-	if err := a.client.NerdGraphQueryWithContext(ctx, getDestinationsQuery, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, getDestinationsQueryAccount, vars, &resp); err != nil {
 		return nil, err
 	}
 
 	return &resp.Actor.Account.AiNotifications.Destinations, nil
 }
 
-const getDestinationsQuery = `query(
-	$accountID: Int!, $filters: AiNotificationsDestinationFilter,
+const getDestinationsQueryAccount = `query(
+	$accountID: Int!, $filters: AiNotificationsDestinationFilter
 ) { actor { account(id: $accountID) { aiNotifications { destinations(filters: $filters) {
 	entities {
 		accountId
@@ -798,6 +824,112 @@ const getDestinationsQuery = `query(
 			key
 			label
 			value
+		}
+		scope {
+			id
+			type
+		}
+		secureUrl {
+			prefix
+		}
+		status
+		type
+		updatedAt
+		updatedBy
+	}
+	error {
+		description
+		details
+		type
+	}
+	errors {
+		description
+		details
+		type
+	}
+	nextCursor
+	totalCount
+} } } } }`
+
+func (a *Notifications) GetDestinationsOrganization(
+	cursor string,
+	filters ai.AiNotificationsDestinationFilter,
+	sorter AiNotificationsDestinationSorter,
+) (*AiNotificationsDestinationsResponse, error) {
+	return a.GetDestinationsWithContextOrganization(context.Background(),
+		cursor,
+		filters,
+		sorter,
+	)
+}
+
+// Fetch a Destinations by type
+func (a *Notifications) GetDestinationsWithContextOrganization(
+	ctx context.Context,
+	cursor string,
+	filters ai.AiNotificationsDestinationFilter,
+	sorter AiNotificationsDestinationSorter,
+) (*AiNotificationsDestinationsResponse, error) {
+
+	resp := destinationsResponse{}
+	vars := map[string]interface{}{
+		"cursor":  cursor,
+		"filters": filters,
+		"sorter":  sorter,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, getDestinationsQueryOrganization, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.Actor.Organization.AiNotifications.Destinations, nil
+}
+
+const getDestinationsQueryOrganization = `query($filters: AiNotificationsDestinationFilter) { actor { organization { aiNotifications { destinations(filters: $filters) {
+	entities {
+		accountId
+		active
+		auth {
+			... on AiNotificationsBasicAuth {
+			  authType
+			  user
+			}
+			... on AiNotificationsOAuth2Auth {
+			  accessTokenUrl
+			  scope
+			  refreshable
+			  refreshInterval
+			  prefix
+			  clientId
+			  authorizationUrl
+			  authType
+			}
+			... on AiNotificationsTokenAuth {
+			  authType
+			  prefix
+			}
+			... on AiNotificationsCustomHeadersAuth {
+			  authType
+        	  customHeaders {
+          	    key
+			  }
+			}
+		}
+		createdAt
+		guid
+		id
+		isUserAuthenticated
+		lastSent
+		name
+		properties {
+			displayValue
+			key
+			label
+			value
+		}
+		scope {
+			id
+			type
 		}
 		secureUrl {
 			prefix
