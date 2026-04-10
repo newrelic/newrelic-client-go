@@ -8,6 +8,32 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/ai"
 )
 
+// setQueryParams adds optional cursor, filters, and sorter to the vars map when non-nil.
+func setQueryParams(vars map[string]interface{}, cursor *string, filters interface{}, sorter interface{}) {
+	if cursor != nil {
+		vars["cursor"] = *cursor
+	}
+	if filters != nil {
+		vars["filters"] = filters
+	}
+	if sorter != nil {
+		vars["sorter"] = sorter
+	}
+}
+
+// setScopeOrAccountID adds either "scope" or "accountId" to the vars map based on which is provided.
+// A non-nil but empty scope (zero-value) is treated as nil. Returns an error if both are nil/empty.
+func setScopeOrAccountID(vars map[string]interface{}, accountID *int, scope *AiNotificationsEntityScopeInput) error {
+	if scope != nil && *scope != (AiNotificationsEntityScopeInput{}) {
+		vars["scope"] = scope
+	} else if accountID != nil {
+		vars["accountId"] = accountID
+	} else {
+		return fmt.Errorf("either scope or accountID must be provided")
+	}
+	return nil
+}
+
 // Create a Channel
 func (a *Notifications) AiNotificationsCreateChannel(
 	accountID int,
@@ -123,8 +149,8 @@ const AiNotificationsCreateChannelMutation = `mutation(
 
 // AiNotificationsCreateDestination creates a new notification destination.
 //
-// Either accountID or scope must be provided. The scope parameter is optional (variadic);
-// when provided, it takes precedence over accountID for determining the target scope.
+// Either accountID or scope must be provided. When scope is provided, it takes precedence
+// over accountID. Both are pointers — pass nil for the one you don't need.
 //
 // Account-scoped (using scope object):
 //
@@ -134,10 +160,10 @@ const AiNotificationsCreateChannelMutation = `mutation(
 //	}
 //	resp, err := client.Notifications.AiNotificationsCreateDestination(nil, input, accountScope)
 //
-// Account-scoped (backward-compatible, using accountID only without scope):
+// Account-scoped (backward-compatible, using accountID only):
 //
 //	acctID := 12345
-//	resp, err := client.Notifications.AiNotificationsCreateDestination(&acctID, input)
+//	resp, err := client.Notifications.AiNotificationsCreateDestination(&acctID, input, nil)
 //
 // Organization-scoped:
 //
@@ -148,20 +174,16 @@ const AiNotificationsCreateChannelMutation = `mutation(
 //	resp, err := client.Notifications.AiNotificationsCreateDestination(nil, input, orgScope)
 //
 // This replaces the previous signature: AiNotificationsCreateDestination(accountID int, destination).
-// The accountID is now a *int pointer and scope is a new optional variadic parameter.
+// The accountID is now a *int pointer and scope is a new *AiNotificationsEntityScopeInput pointer (pass nil to omit).
 func (a *Notifications) AiNotificationsCreateDestination(
 	accountID *int,
 	destination AiNotificationsDestinationInput,
-	scope ...*AiNotificationsEntityScopeInput,
+	scope *AiNotificationsEntityScopeInput,
 ) (*AiNotificationsDestinationResponse, error) {
-	var s *AiNotificationsEntityScopeInput
-	if len(scope) > 0 {
-		s = scope[0]
-	}
 	return a.AiNotificationsCreateDestinationWithContext(context.Background(),
 		accountID,
 		destination,
-		s,
+		scope,
 	)
 }
 
@@ -171,7 +193,7 @@ func (a *Notifications) AiNotificationsCreateDestinationWithContext(
 	ctx context.Context,
 	accountID *int,
 	destination AiNotificationsDestinationInput,
-	scope ...*AiNotificationsEntityScopeInput,
+	scope *AiNotificationsEntityScopeInput,
 ) (*AiNotificationsDestinationResponse, error) {
 
 	resp := AiNotificationsCreateDestinationQueryResponse{}
@@ -179,17 +201,8 @@ func (a *Notifications) AiNotificationsCreateDestinationWithContext(
 		"destination": destination,
 	}
 
-	var s *AiNotificationsEntityScopeInput
-	if len(scope) > 0 {
-		s = scope[0]
-	}
-
-	if s != nil {
-		vars["scope"] = s
-	} else if accountID != nil {
-		vars["accountId"] = accountID
-	} else {
-		return nil, fmt.Errorf("either scope or accountID must be provided")
+	if err := setScopeOrAccountID(vars, accountID, scope); err != nil {
+		return nil, err
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, AiNotificationsCreateDestinationMutation, vars, &resp); err != nil {
@@ -374,8 +387,8 @@ const AiNotificationsDeleteChannelMutation = `mutation(
 
 // AiNotificationsDeleteDestination deletes an existing notification destination.
 //
-// Either accountID or scope must be provided. The scope parameter is optional (variadic);
-// when provided, it takes precedence over accountID for determining the target scope.
+// Either accountID or scope must be provided. When scope is provided, it takes precedence
+// over accountID. Both are pointers — pass nil for the one you don't need.
 //
 // Account-scoped (using scope object):
 //
@@ -385,10 +398,10 @@ const AiNotificationsDeleteChannelMutation = `mutation(
 //	}
 //	resp, err := client.Notifications.AiNotificationsDeleteDestination(nil, destID, accountScope)
 //
-// Account-scoped (backward-compatible, using accountID only without scope):
+// Account-scoped (backward-compatible, using accountID only):
 //
 //	acctID := 12345
-//	resp, err := client.Notifications.AiNotificationsDeleteDestination(&acctID, destID)
+//	resp, err := client.Notifications.AiNotificationsDeleteDestination(&acctID, destID, nil)
 //
 // Organization-scoped:
 //
@@ -399,20 +412,16 @@ const AiNotificationsDeleteChannelMutation = `mutation(
 //	resp, err := client.Notifications.AiNotificationsDeleteDestination(nil, destID, orgScope)
 //
 // This replaces the previous signature: AiNotificationsDeleteDestination(accountID int, destinationId).
-// The accountID is now a *int pointer and scope is a new optional variadic parameter.
+// The accountID is now a *int pointer and scope is a new *AiNotificationsEntityScopeInput pointer (pass nil to omit).
 func (a *Notifications) AiNotificationsDeleteDestination(
 	accountID *int,
 	destinationId string,
-	scope ...*AiNotificationsEntityScopeInput,
+	scope *AiNotificationsEntityScopeInput,
 ) (*AiNotificationsDeleteResponse, error) {
-	var s *AiNotificationsEntityScopeInput
-	if len(scope) > 0 {
-		s = scope[0]
-	}
 	return a.AiNotificationsDeleteDestinationWithContext(context.Background(),
 		accountID,
 		destinationId,
-		s,
+		scope,
 	)
 }
 
@@ -430,12 +439,8 @@ func (a *Notifications) AiNotificationsDeleteDestinationWithContext(
 		"destinationId": destinationId,
 	}
 
-	if scope != nil {
-		vars["scope"] = scope
-	} else if accountID != nil {
-		vars["accountId"] = accountID
-	} else {
-		return nil, fmt.Errorf("either scope or accountID must be provided")
+	if err := setScopeOrAccountID(vars, accountID, scope); err != nil {
+		return nil, err
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, AiNotificationsDeleteDestinationMutation, vars, &resp); err != nil {
@@ -592,8 +597,8 @@ const AiNotificationsUpdateChannelMutation = `mutation(
 
 // AiNotificationsUpdateDestination updates an existing notification destination.
 //
-// Either accountID or scope must be provided. The scope parameter is optional (variadic);
-// when provided, it takes precedence over accountID for determining the target scope.
+// Either accountID or scope must be provided. When scope is provided, it takes precedence
+// over accountID. Both are pointers — pass nil for the one you don't need.
 //
 // Account-scoped (using scope object):
 //
@@ -603,10 +608,10 @@ const AiNotificationsUpdateChannelMutation = `mutation(
 //	}
 //	resp, err := client.Notifications.AiNotificationsUpdateDestination(nil, update, destID, accountScope)
 //
-// Account-scoped (backward-compatible, using accountID only without scope):
+// Account-scoped (backward-compatible, using accountID only):
 //
 //	acctID := 12345
-//	resp, err := client.Notifications.AiNotificationsUpdateDestination(&acctID, update, destID)
+//	resp, err := client.Notifications.AiNotificationsUpdateDestination(&acctID, update, destID, nil)
 //
 // Organization-scoped:
 //
@@ -617,22 +622,18 @@ const AiNotificationsUpdateChannelMutation = `mutation(
 //	resp, err := client.Notifications.AiNotificationsUpdateDestination(nil, update, destID, orgScope)
 //
 // This replaces the previous signature: AiNotificationsUpdateDestination(accountID int, destination, destinationId).
-// The accountID is now a *int pointer and scope is a new optional variadic parameter.
+// The accountID is now a *int pointer and scope is a new *AiNotificationsEntityScopeInput pointer (pass nil to omit).
 func (a *Notifications) AiNotificationsUpdateDestination(
 	accountID *int,
 	destination AiNotificationsDestinationUpdate,
 	destinationId string,
-	scope ...*AiNotificationsEntityScopeInput,
+	scope *AiNotificationsEntityScopeInput,
 ) (*AiNotificationsDestinationResponse, error) {
-	var s *AiNotificationsEntityScopeInput
-	if len(scope) > 0 {
-		s = scope[0]
-	}
 	return a.AiNotificationsUpdateDestinationWithContext(context.Background(),
 		accountID,
 		destination,
 		destinationId,
-		s,
+		scope,
 	)
 }
 
@@ -652,12 +653,8 @@ func (a *Notifications) AiNotificationsUpdateDestinationWithContext(
 		"destinationId": destinationId,
 	}
 
-	if scope != nil {
-		vars["scope"] = scope
-	} else if accountID != nil {
-		vars["accountId"] = accountID
-	} else {
-		return nil, fmt.Errorf("either scope or accountID must be provided")
+	if err := setScopeOrAccountID(vars, accountID, scope); err != nil {
+		return nil, err
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, AiNotificationsUpdateDestinationMutation, vars, &resp); err != nil {
@@ -790,9 +787,9 @@ const AiNotificationsUpdateDestinationMutation = `mutation(
 // Fetch a Channel by product
 func (a *Notifications) GetChannels(
 	accountID int,
-	cursor string,
-	filters ai.AiNotificationsChannelFilter,
-	sorter AiNotificationsChannelSorter,
+	cursor *string,
+	filters *ai.AiNotificationsChannelFilter,
+	sorter *AiNotificationsChannelSorter,
 ) (*AiNotificationsChannelsResponse, error) {
 	return a.GetChannelsWithContext(context.Background(),
 		accountID,
@@ -806,18 +803,16 @@ func (a *Notifications) GetChannels(
 func (a *Notifications) GetChannelsWithContext(
 	ctx context.Context,
 	accountID int,
-	cursor string,
-	filters ai.AiNotificationsChannelFilter,
-	sorter AiNotificationsChannelSorter,
+	cursor *string,
+	filters *ai.AiNotificationsChannelFilter,
+	sorter *AiNotificationsChannelSorter,
 ) (*AiNotificationsChannelsResponse, error) {
 
 	resp := channelsResponse{}
 	vars := map[string]interface{}{
 		"accountID": accountID,
-		"cursor":    cursor,
-		"filters":   filters,
-		"sorter":    sorter,
 	}
+	setQueryParams(vars, cursor, filters, sorter)
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, getChannelsQuery, vars, &resp); err != nil {
 		return nil, err
@@ -884,9 +879,9 @@ const getChannelsQuery = `query(
 // For organization-scoped destinations, use GetDestinationsOrganization instead.
 func (a *Notifications) GetDestinationsAccount(
 	accountID int,
-	cursor string,
-	filters ai.AiNotificationsDestinationFilter,
-	sorter AiNotificationsDestinationSorter,
+	cursor *string,
+	filters *ai.AiNotificationsDestinationFilter,
+	sorter *AiNotificationsDestinationSorter,
 ) (*AiNotificationsDestinationsResponse, error) {
 	return a.GetDestinationsWithContextAccount(context.Background(),
 		accountID,
@@ -901,24 +896,16 @@ func (a *Notifications) GetDestinationsAccount(
 func (a *Notifications) GetDestinationsWithContextAccount(
 	ctx context.Context,
 	accountID int,
-	cursor string,
-	filters ai.AiNotificationsDestinationFilter,
-	sorter AiNotificationsDestinationSorter,
+	cursor *string,
+	filters *ai.AiNotificationsDestinationFilter,
+	sorter *AiNotificationsDestinationSorter,
 ) (*AiNotificationsDestinationsResponse, error) {
 
 	resp := destinationsResponse{}
 	vars := map[string]interface{}{
 		"accountID": accountID,
-		"cursor":    cursor,
 	}
-
-	if filters != (ai.AiNotificationsDestinationFilter{}) {
-		vars["filters"] = filters
-	}
-
-	if sorter != (AiNotificationsDestinationSorter{}) {
-		vars["sorter"] = sorter
-	}
+	setQueryParams(vars, cursor, filters, sorter)
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, getDestinationsQueryAccount, vars, &resp); err != nil {
 		return nil, err
@@ -1010,13 +997,12 @@ const getDestinationsQueryAccount = `query(
 //
 // Example usage:
 //
-//	filters := ai.AiNotificationsDestinationFilter{ID: "dest-id"}
-//	sorter := AiNotificationsDestinationSorter{}
-//	resp, err := client.Notifications.GetDestinationsOrganization("", filters, sorter)
+//	filters := &ai.AiNotificationsDestinationFilter{ID: "dest-id"}
+//	resp, err := client.Notifications.GetDestinationsOrganization(nil, filters, nil)
 func (a *Notifications) GetDestinationsOrganization(
-	cursor string,
-	filters ai.AiNotificationsDestinationFilter,
-	sorter AiNotificationsDestinationSorter,
+	cursor *string,
+	filters *ai.AiNotificationsDestinationFilter,
+	sorter *AiNotificationsDestinationSorter,
 ) (*AiNotificationsDestinationsResponse, error) {
 	return a.GetDestinationsWithContextOrganization(context.Background(),
 		cursor,
@@ -1029,23 +1015,15 @@ func (a *Notifications) GetDestinationsOrganization(
 // See GetDestinationsOrganization for usage details.
 func (a *Notifications) GetDestinationsWithContextOrganization(
 	ctx context.Context,
-	cursor string,
-	filters ai.AiNotificationsDestinationFilter,
-	sorter AiNotificationsDestinationSorter,
+	cursor *string,
+	filters *ai.AiNotificationsDestinationFilter,
+	sorter *AiNotificationsDestinationSorter,
 ) (*AiNotificationsDestinationsResponse, error) {
 
 	resp := destinationsResponse{}
-	vars := map[string]interface{}{
-		"cursor": cursor,
-	}
+	vars := map[string]interface{}{}
+	setQueryParams(vars, cursor, filters, sorter)
 
-	if filters != (ai.AiNotificationsDestinationFilter{}) {
-		vars["filters"] = filters
-	}
-
-	if sorter != (AiNotificationsDestinationSorter{}) {
-		vars["sorter"] = sorter
-	}
 	if err := a.client.NerdGraphQueryWithContext(ctx, getDestinationsQueryOrganization, vars, &resp); err != nil {
 		return nil, err
 	}

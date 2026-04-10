@@ -314,7 +314,7 @@ func TestCreateDestination(t *testing.T) {
 		Errors: []ai.AiNotificationsError{},
 	}
 
-	actual, err := notifications.AiNotificationsCreateDestination(&accountId, destinationInput)
+	actual, err := notifications.AiNotificationsCreateDestination(&accountId, destinationInput, nil)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)
@@ -398,7 +398,7 @@ func TestCreateDestinationNoAccountIDNoScope(t *testing.T) {
 		Name: "test-notification-destination-1",
 	}
 
-	actual, err := notifications.AiNotificationsCreateDestination(nil, destinationInput)
+	actual, err := notifications.AiNotificationsCreateDestination(nil, destinationInput, nil)
 
 	assert.Error(t, err)
 	assert.Nil(t, actual)
@@ -453,7 +453,7 @@ func TestGetDestinations(t *testing.T) {
 	}
 	sorter := AiNotificationsDestinationSorter{}
 
-	actual, err := notifications.GetDestinationsAccount(accountId, "", filters, sorter)
+	actual, err := notifications.GetDestinationsAccount(accountId, nil, &filters, &sorter)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)
@@ -508,7 +508,7 @@ func TestGetDestinationsByName(t *testing.T) {
 	}
 	sorter := AiNotificationsDestinationSorter{}
 
-	actual, err := notifications.GetDestinationsAccount(accountId, "", filters, sorter)
+	actual, err := notifications.GetDestinationsAccount(accountId, nil, &filters, &sorter)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)
@@ -563,7 +563,7 @@ func TestGetDestinationsByExactName(t *testing.T) {
 	}
 	sorter := AiNotificationsDestinationSorter{}
 
-	actual, err := notifications.GetDestinationsAccount(accountId, "", filters, sorter)
+	actual, err := notifications.GetDestinationsAccount(accountId, nil, &filters, &sorter)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)
@@ -628,7 +628,7 @@ func TestUpdateDestination(t *testing.T) {
 	}
 
 	// Account-scoped update: pass accountId, no scope
-	actual, err := notifications.AiNotificationsUpdateDestination(&accountId, updateInput, id)
+	actual, err := notifications.AiNotificationsUpdateDestination(&accountId, updateInput, id, nil)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)
@@ -714,7 +714,7 @@ func TestUpdateDestinationNoAccountIDNoScope(t *testing.T) {
 		Name:   "test-notification-destination-1-updated",
 	}
 
-	actual, err := notifications.AiNotificationsUpdateDestination(nil, updateInput, id)
+	actual, err := notifications.AiNotificationsUpdateDestination(nil, updateInput, id, nil)
 
 	assert.Error(t, err)
 	assert.Nil(t, actual)
@@ -911,7 +911,7 @@ func TestGetDestinationsOrganization(t *testing.T) {
 	sorter := AiNotificationsDestinationSorter{}
 
 	// Org-scoped query: no accountId, uses organization path
-	actual, err := notifications.GetDestinationsOrganization("", filters, sorter)
+	actual, err := notifications.GetDestinationsOrganization(nil, &filters, &sorter)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)
@@ -929,7 +929,7 @@ func TestDeleteDestination(t *testing.T) {
 	}
 
 	// Account-scoped delete: pass accountId, no scope
-	actual, err := notifications.AiNotificationsDeleteDestination(&accountId, id)
+	actual, err := notifications.AiNotificationsDeleteDestination(&accountId, id, nil)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)
@@ -963,7 +963,7 @@ func TestDeleteDestinationNoAccountIDNoScope(t *testing.T) {
 	respJSON := fmt.Sprintf(`{ "data":%s }`, testDeleteDestinationResponseJSON)
 	notifications := newMockResponse(t, respJSON, http.StatusOK)
 
-	actual, err := notifications.AiNotificationsDeleteDestination(nil, id)
+	actual, err := notifications.AiNotificationsDeleteDestination(nil, id, nil)
 
 	assert.Error(t, err)
 	assert.Nil(t, actual)
@@ -1154,4 +1154,52 @@ func TestDeleteDestinationWithAccountIDAndOrgScope(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)
 	assert.Equal(t, expected, actual)
+}
+
+func TestGetDestinationsAccountWithNilOptionalParams(t *testing.T) {
+	t.Parallel()
+	respJSON := fmt.Sprintf(`{ "data":%s }`, testGetDestinationResponseJSON)
+	notifications := newMockResponse(t, respJSON, http.StatusOK)
+
+	actual, err := notifications.GetDestinationsAccount(accountId, nil, nil, nil)
+
+	assert.NoError(t, err)
+	assert.NotNil(t, actual)
+}
+
+func TestGetDestinationsAccountWithCursorOnly(t *testing.T) {
+	t.Parallel()
+	respJSON := fmt.Sprintf(`{ "data":%s }`, testGetDestinationResponseJSON)
+	notifications := newMockResponse(t, respJSON, http.StatusOK)
+
+	cursor := "next-page-cursor"
+	actual, err := notifications.GetDestinationsAccount(accountId, &cursor, nil, nil)
+
+	assert.NoError(t, err)
+	assert.NotNil(t, actual)
+}
+
+func TestGetDestinationsAccountWithFiltersOnly(t *testing.T) {
+	t.Parallel()
+	respJSON := fmt.Sprintf(`{ "data":%s }`, testGetDestinationResponseJSON)
+	notifications := newMockResponse(t, respJSON, http.StatusOK)
+
+	filters := ai.AiNotificationsDestinationFilter{
+		ID: id,
+	}
+	actual, err := notifications.GetDestinationsAccount(accountId, nil, &filters, nil)
+
+	assert.NoError(t, err)
+	assert.NotNil(t, actual)
+}
+
+func TestGetDestinationsOrganizationWithNilOptionalParams(t *testing.T) {
+	t.Parallel()
+	respJSON := fmt.Sprintf(`{ "data":%s }`, testGetDestinationOrgScopeResponseJSON)
+	notifications := newMockResponse(t, respJSON, http.StatusOK)
+
+	actual, err := notifications.GetDestinationsOrganization(nil, nil, nil)
+
+	assert.NoError(t, err)
+	assert.NotNil(t, actual)
 }

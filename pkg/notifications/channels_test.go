@@ -218,11 +218,22 @@ func TestGetChannel(t *testing.T) {
 	}
 	sorter := AiNotificationsChannelSorter{}
 
-	actual, err := notifications.GetChannels(accountID, "", filters, sorter)
+	actual, err := notifications.GetChannels(accountID, nil, &filters, &sorter)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)
 	assert.Equal(t, expected, actual)
+}
+
+func TestGetChannelsWithNilOptionalParams(t *testing.T) {
+	t.Parallel()
+	respJSON := fmt.Sprintf(`{ "data":%s }`, testGetChannelResponseJSON)
+	notifications := newMockResponse(t, respJSON, http.StatusOK)
+
+	actual, err := notifications.GetChannels(accountID, nil, nil, nil)
+
+	assert.NoError(t, err)
+	assert.NotNil(t, actual)
 }
 
 func TestUpdateChannel(t *testing.T) {

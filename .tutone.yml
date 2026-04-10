@@ -1144,13 +1144,13 @@ packages:
       - name: aiNotificationsUpdateDestination
         max_query_field_depth: 4
       - name: aiNotificationsDeleteDestination
-        max_query_field_depth: 2
+        max_query_field_depth: 3
       - name: aiNotificationsCreateChannel
         max_query_field_depth: 3
       - name: aiNotificationsUpdateChannel
         max_query_field_depth: 3
       - name: aiNotificationsDeleteChannel
-        max_query_field_depth: 2
+        max_query_field_depth: 3
     types:
       # --- Union types (defined in ai package) ---
       - name: AiNotificationsAuth
