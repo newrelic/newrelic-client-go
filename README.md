@@ -1,6 +1,6 @@
 [![Community Project header](https://github.com/newrelic/open-source-office/raw/master/examples/categories/images/Community_Project.png)](https://github.com/newrelic/open-source-office/blob/master/examples/categories/index.md#category-community-project)
 
-# newrelic-client-go
+# newrelic-client-go #built-for-safety
 
 [![Testing](https://github.com/newrelic/newrelic-client-go/workflows/Testing/badge.svg)](https://github.com/newrelic/newrelic-client-go/actions)
 [![Security Scan](https://github.com/newrelic/newrelic-client-go/workflows/Security%20Scan/badge.svg)](https://github.com/newrelic/newrelic-client-go/actions)
