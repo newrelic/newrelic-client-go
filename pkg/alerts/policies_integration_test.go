@@ -76,16 +76,23 @@ func TestAlertsQueryPolicy_GraphQL_Enabled(t *testing.T) {
 	createResult, err := a.CreatePolicyMutation(accountID, policy)
 	require.NoError(t, err)
 	require.NotNil(t, createResult)
+	require.NotEmpty(t, createResult.EntityGuid, "EntityGuid should be returned on create")
 
 	// Query for the policy we policy we just created
 	queryResult, err := a.QueryPolicy(accountID, createResult.ID)
 	require.NoError(t, err)
 	require.NotNil(t, queryResult)
+	require.NotEmpty(t, queryResult.EntityGuid, "EntityGuid should be returned on query")
+	assert.Equal(t, createResult.EntityGuid, queryResult.EntityGuid, "EntityGuid should match between create and query")
 
 	// Search
 	searchResults, err := a.QueryPolicySearch(accountID, AlertsPoliciesSearchCriteriaInput{})
 	require.NoError(t, err)
 	require.NotNil(t, searchResults)
+	// Verify entityGuid is present in search results
+	if len(searchResults) > 0 {
+		require.NotEmpty(t, searchResults[0].EntityGuid, "EntityGuid should be returned in search results")
+	}
 
 	// Test: Update
 	updatePolicy := AlertsPolicyUpdateInput{}
@@ -97,6 +104,8 @@ func TestAlertsQueryPolicy_GraphQL_Enabled(t *testing.T) {
 	require.NotNil(t, updateResult)
 	assert.Equal(t, updateResult.Name, updatePolicy.Name)
 	assert.Equal(t, updateResult.IncidentPreference, updatePolicy.IncidentPreference)
+	require.NotEmpty(t, updateResult.EntityGuid, "EntityGuid should be returned on update")
+	assert.Equal(t, createResult.EntityGuid, updateResult.EntityGuid, "EntityGuid should remain the same after update")
 
 	// Test: Delete
 	deleteResult, err := a.DeletePolicyMutation(accountID, createResult.ID)
