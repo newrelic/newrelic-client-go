@@ -5,6 +5,7 @@ package notifications
 
 import (
 	"fmt"
+	"strconv"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -47,7 +48,7 @@ func TestNotificationMutationDestination(t *testing.T) {
 	destination.Name = fmt.Sprintf("test-notifications-destination-%s", testIntegrationDestinationNameRandStr)
 
 	// Test: Create
-	createResult, err := n.AiNotificationsCreateDestination(accountID, destination)
+	createResult, err := n.AiNotificationsCreateDestination(&accountID, destination, nil)
 	require.NoError(t, err)
 	require.NotNil(t, createResult)
 	require.NotEmpty(t, createResult.Destination.Auth)
@@ -57,8 +58,7 @@ func TestNotificationMutationDestination(t *testing.T) {
 	filters := ai.AiNotificationsDestinationFilter{
 		ID: createResult.Destination.ID,
 	}
-	sorter := AiNotificationsDestinationSorter{}
-	getDestinationResult, err := n.GetDestinations(accountID, "", filters, sorter)
+	getDestinationResult, err := n.GetDestinationsAccount(accountID, nil, &filters, nil)
 	require.NoError(t, err)
 	require.NotNil(t, getDestinationResult)
 	assert.Equal(t, 1, getDestinationResult.TotalCount)
@@ -84,120 +84,12 @@ func TestNotificationMutationDestination(t *testing.T) {
 	}
 	updateDestination.Name = fmt.Sprintf("test-notifications-update-destination-%s", testIntegrationDestinationNameRandStr)
 
-	updateDestinationResult, err := n.AiNotificationsUpdateDestination(accountID, updateDestination, createResult.Destination.ID)
+	updateDestinationResult, err := n.AiNotificationsUpdateDestination(&accountID, updateDestination, createResult.Destination.ID, nil)
 	require.NoError(t, err)
 	require.NotNil(t, updateDestinationResult)
 
 	// Test: Delete
-	deleteResult, err := n.AiNotificationsDeleteDestination(accountID, createResult.Destination.ID)
-	require.NoError(t, err)
-	require.NotNil(t, deleteResult)
-}
-
-func TestNotificationMutationDestination_FilterByName(t *testing.T) {
-	t.Parallel()
-
-	n := newIntegrationTestClient(t)
-
-	accountID, err := mock.GetTestAccountID()
-	if err != nil {
-		t.Skipf("%s", err)
-	}
-
-	// Create a destination to work with in this test
-	testIntegrationDestinationNameRandStr := mock.RandSeq(5)
-	destination := AiNotificationsDestinationInput{}
-	destination.Type = AiNotificationsDestinationTypeTypes.WEBHOOK
-	destination.Properties = []AiNotificationsPropertyInput{
-		{
-			Key:          "url",
-			Value:        "https://webhook.site/94193c01-4a81-4782-8f1b-554d5230395b",
-			Label:        "",
-			DisplayValue: "",
-		},
-	}
-	destination.Auth = &AiNotificationsCredentialsInput{
-		Type: AiNotificationsAuthTypeTypes.TOKEN,
-		Token: AiNotificationsTokenAuthInput{
-			Token:  "Token",
-			Prefix: "Bearer",
-		},
-	}
-	destination.Name = fmt.Sprintf("test-notifications-destination-%s", testIntegrationDestinationNameRandStr)
-
-	// Test: Create
-	createResult, err := n.AiNotificationsCreateDestination(accountID, destination)
-	require.NoError(t, err)
-	require.NotNil(t, createResult)
-	require.NotEmpty(t, createResult.Destination.Auth)
-	require.Equal(t, ai.AiNotificationsAuthType("TOKEN"), createResult.Destination.Auth.AuthType)
-
-	// Test: Get Destination by name
-	filtersByName := ai.AiNotificationsDestinationFilter{
-		Name: createResult.Destination.Name,
-	}
-	sorter := AiNotificationsDestinationSorter{}
-	getDestinationByNameResult, err := n.GetDestinations(accountID, "", filtersByName, sorter)
-	require.NoError(t, err)
-	require.NotNil(t, getDestinationByNameResult)
-	assert.Equal(t, 1, getDestinationByNameResult.TotalCount)
-
-	// Test: Delete
-	deleteResult, err := n.AiNotificationsDeleteDestination(accountID, createResult.Destination.ID)
-	require.NoError(t, err)
-	require.NotNil(t, deleteResult)
-}
-
-func TestNotificationMutationDestination_FilterByExactName(t *testing.T) {
-	t.Parallel()
-
-	n := newIntegrationTestClient(t)
-
-	accountID, err := mock.GetTestAccountID()
-	if err != nil {
-		t.Skipf("%s", err)
-	}
-
-	// Create a destination to work with in this test
-	testIntegrationDestinationNameRandStr := mock.RandSeq(5)
-	destination := AiNotificationsDestinationInput{}
-	destination.Type = AiNotificationsDestinationTypeTypes.WEBHOOK
-	destination.Properties = []AiNotificationsPropertyInput{
-		{
-			Key:          "url",
-			Value:        "https://webhook.site/94193c01-4a81-4782-8f1b-554d5230395b",
-			Label:        "",
-			DisplayValue: "",
-		},
-	}
-	destination.Auth = &AiNotificationsCredentialsInput{
-		Type: AiNotificationsAuthTypeTypes.TOKEN,
-		Token: AiNotificationsTokenAuthInput{
-			Token:  "Token",
-			Prefix: "Bearer",
-		},
-	}
-	destination.Name = fmt.Sprintf("test-notifications-destination-%s", testIntegrationDestinationNameRandStr)
-
-	// Test: Create
-	createResult, err := n.AiNotificationsCreateDestination(accountID, destination)
-	require.NoError(t, err)
-	require.NotNil(t, createResult)
-	require.NotEmpty(t, createResult.Destination.Auth)
-	require.Equal(t, ai.AiNotificationsAuthType("TOKEN"), createResult.Destination.Auth.AuthType)
-
-	// Test: Get Destination by exact name
-	filtersByExactName := ai.AiNotificationsDestinationFilter{
-		ExactName: createResult.Destination.Name,
-	}
-	sorter := AiNotificationsDestinationSorter{}
-	getDestinationByExactNameResult, err := n.GetDestinations(accountID, "", filtersByExactName, sorter)
-	require.NoError(t, err)
-	require.NotNil(t, getDestinationByExactNameResult)
-	assert.Equal(t, 1, getDestinationByExactNameResult.TotalCount)
-
-	// Test: Delete
-	deleteResult, err := n.AiNotificationsDeleteDestination(accountID, createResult.Destination.ID)
+	deleteResult, err := n.AiNotificationsDeleteDestination(&accountID, createResult.Destination.ID, nil)
 	require.NoError(t, err)
 	require.NotNil(t, deleteResult)
 }
@@ -237,7 +129,7 @@ func TestNotificationMutationDestination_CustomHeaderAuth(t *testing.T) {
 	destination.Name = fmt.Sprintf("test-notifications-destination-%s", testIntegrationDestinationNameRandStr)
 
 	// Test: Create
-	createResult, err := n.AiNotificationsCreateDestination(accountID, destination)
+	createResult, err := n.AiNotificationsCreateDestination(&accountID, destination, nil)
 	require.NoError(t, err)
 	require.NotNil(t, createResult)
 	require.NotEmpty(t, createResult.Destination.Auth)
@@ -251,8 +143,7 @@ func TestNotificationMutationDestination_CustomHeaderAuth(t *testing.T) {
 	filters := ai.AiNotificationsDestinationFilter{
 		ID: createResult.Destination.ID,
 	}
-	sorter := AiNotificationsDestinationSorter{}
-	getDestinationResult, err := n.GetDestinations(accountID, "", filters, sorter)
+	getDestinationResult, err := n.GetDestinationsAccount(accountID, nil, &filters, nil)
 	require.NoError(t, err)
 	require.NotNil(t, getDestinationResult)
 	assert.Equal(t, 1, getDestinationResult.TotalCount)
@@ -285,7 +176,7 @@ func TestNotificationMutationDestination_CustomHeaderAuth(t *testing.T) {
 	}
 	updateDestination.Name = fmt.Sprintf("test-notifications-update-destination-%s", testIntegrationDestinationNameRandStr)
 
-	updateDestinationResult, err := n.AiNotificationsUpdateDestination(accountID, updateDestination, createResult.Destination.ID)
+	updateDestinationResult, err := n.AiNotificationsUpdateDestination(&accountID, updateDestination, createResult.Destination.ID, nil)
 	require.NoError(t, err)
 	require.NotNil(t, updateDestinationResult)
 	require.Equal(t, ai.AiNotificationsAuthType("CUSTOM_HEADERS"), updateDestinationResult.Destination.Auth.AuthType)
@@ -294,7 +185,7 @@ func TestNotificationMutationDestination_CustomHeaderAuth(t *testing.T) {
 	require.Equal(t, "key4", updateDestinationResult.Destination.Auth.CustomHeaders[1].Key)
 
 	// Test: Delete
-	deleteResult, err := n.AiNotificationsDeleteDestination(accountID, createResult.Destination.ID)
+	deleteResult, err := n.AiNotificationsDeleteDestination(&accountID, createResult.Destination.ID, nil)
 	require.NoError(t, err)
 	require.NotNil(t, deleteResult)
 }
@@ -313,7 +204,12 @@ func TestNotificationMutationDestination_secureUrl(t *testing.T) {
 	testIntegrationDestinationNameRandStr := mock.RandSeq(5)
 	destination := AiNotificationsDestinationInput{}
 	destination.Type = AiNotificationsDestinationTypeTypes.WEBHOOK
-	destination.Properties = []AiNotificationsPropertyInput{}
+	destination.Properties = []AiNotificationsPropertyInput{
+		{
+			Key:   "prop_1",
+			Value: "prop_value_1",
+		},
+	}
 	destination.SecureURL = &AiNotificationsSecureURLInput{
 		Prefix:       "https://webhook.site",
 		SecureSuffix: "/94193c01-4a81-4782-8f1b-554d5230395b",
@@ -328,31 +224,35 @@ func TestNotificationMutationDestination_secureUrl(t *testing.T) {
 	destination.Name = fmt.Sprintf("test-notifications-destination-%s", testIntegrationDestinationNameRandStr)
 
 	// Test: Create
-	createResult, err := n.AiNotificationsCreateDestination(accountID, destination)
+	createResult, err := n.AiNotificationsCreateDestination(&accountID, destination, nil)
 	require.NoError(t, err)
 	require.NotNil(t, createResult)
 	require.NotNil(t, createResult.Destination.SecureURL)
-	require.Equal(t, createResult.Destination.SecureURL.Prefix, "https://webhook.site")
+	require.Equal(t, "https://webhook.site", createResult.Destination.SecureURL.Prefix)
 	require.NotEmpty(t, createResult.Destination.Auth)
 	require.Equal(t, ai.AiNotificationsAuthType("TOKEN"), createResult.Destination.Auth.AuthType)
 
-	// Test: Get Destination by id
+	// Test: Get Destination by name and verify secureUrl
 	filters := ai.AiNotificationsDestinationFilter{
-		ID: createResult.Destination.ID,
+		ExactName: destination.Name,
 	}
-	sorter := AiNotificationsDestinationSorter{}
-	getDestinationResult, err := n.GetDestinations(accountID, "", filters, sorter)
+	getDestinationResult, err := n.GetDestinationsAccount(accountID, nil, &filters, nil)
 	require.NoError(t, err)
 	require.NotNil(t, getDestinationResult)
 	assert.Equal(t, 1, getDestinationResult.TotalCount)
 	require.NotEmpty(t, getDestinationResult.Entities[0].GUID)
 	require.NotNil(t, getDestinationResult.Entities[0].SecureURL)
-	require.Equal(t, getDestinationResult.Entities[0].SecureURL.Prefix, "https://webhook.site")
+	require.Equal(t, "https://webhook.site", getDestinationResult.Entities[0].SecureURL.Prefix)
 
 	// Test: Update Destination
 	updateDestination := AiNotificationsDestinationUpdate{}
 	updateDestination.Active = false
-	updateDestination.Properties = []AiNotificationsPropertyInput{}
+	updateDestination.Properties = []AiNotificationsPropertyInput{
+		{
+			Key:   "prop_1",
+			Value: "prop_value_1_updated",
+		},
+	}
 	updateDestination.SecureURL = &AiNotificationsSecureURLUpdate{
 		Prefix:       "https://webhook2.site",
 		SecureSuffix: "/59bb0d7a-1708-481a-a178-9161416f8ba6",
@@ -366,14 +266,14 @@ func TestNotificationMutationDestination_secureUrl(t *testing.T) {
 	}
 	updateDestination.Name = fmt.Sprintf("test-notifications-update-destination-%s", testIntegrationDestinationNameRandStr)
 
-	updateDestinationResult, err := n.AiNotificationsUpdateDestination(accountID, updateDestination, createResult.Destination.ID)
+	updateDestinationResult, err := n.AiNotificationsUpdateDestination(&accountID, updateDestination, createResult.Destination.ID, nil)
 	require.NoError(t, err)
 	require.NotNil(t, updateDestinationResult)
 	require.NotNil(t, updateDestinationResult.Destination.SecureURL)
-	require.Equal(t, updateDestinationResult.Destination.SecureURL.Prefix, "https://webhook2.site")
+	require.Equal(t, "https://webhook2.site", updateDestinationResult.Destination.SecureURL.Prefix)
 
 	// Test: Delete
-	deleteResult, err := n.AiNotificationsDeleteDestination(accountID, createResult.Destination.ID)
+	deleteResult, err := n.AiNotificationsDeleteDestination(&accountID, createResult.Destination.ID, nil)
 	require.NoError(t, err)
 	require.NotNil(t, deleteResult)
 }
@@ -410,7 +310,7 @@ func TestNotificationMutationChannel(t *testing.T) {
 	destination.Name = fmt.Sprintf("test-notifications-destination-%s", testIntegrationDestinationNameRandStr)
 
 	// Test: Create Destination
-	createDestinationResult, err := n.AiNotificationsCreateDestination(accountID, destination)
+	createDestinationResult, err := n.AiNotificationsCreateDestination(&accountID, destination, nil)
 	require.NoError(t, err)
 	require.NotNil(t, createDestinationResult)
 
@@ -447,9 +347,7 @@ func TestNotificationMutationChannel(t *testing.T) {
 	filters := ai.AiNotificationsChannelFilter{
 		ID: createResult.Channel.ID,
 	}
-	sorter := AiNotificationsChannelSorter{}
-
-	getChannelResult, err := n.GetChannels(accountID, "", filters, sorter)
+	getChannelResult, err := n.GetChannels(accountID, nil, &filters, nil)
 	require.NoError(t, err)
 	require.NotNil(t, getChannelResult)
 	assert.Equal(t, 1, getChannelResult.TotalCount)
@@ -483,7 +381,202 @@ func TestNotificationMutationChannel(t *testing.T) {
 	require.NotNil(t, deleteResult)
 
 	// Test: Delete Destination
-	deleteDestinationResult, err := n.AiNotificationsDeleteDestination(accountID, destinationId)
+	deleteDestinationResult, err := n.AiNotificationsDeleteDestination(&accountID, destinationId, nil)
 	require.NoError(t, err)
 	require.NotNil(t, deleteDestinationResult)
+}
+
+func TestNotificationMutationDestination_AccountID(t *testing.T) {
+	t.Parallel()
+
+	n := newIntegrationTestClient(t)
+
+	accountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	// Create a destination to work with in this test
+	testIntegrationDestinationNameRandStr := mock.RandSeq(5)
+	destination := AiNotificationsDestinationInput{}
+	destination.Type = AiNotificationsDestinationTypeTypes.WEBHOOK
+	destination.Properties = []AiNotificationsPropertyInput{
+		{
+			Key:          "url",
+			Value:        "https://webhook.site/94193c01-4a81-4782-8f1b-554d5230395b",
+			Label:        "",
+			DisplayValue: "",
+		},
+	}
+	destination.Auth = &AiNotificationsCredentialsInput{
+		Type: AiNotificationsAuthTypeTypes.TOKEN,
+		Token: AiNotificationsTokenAuthInput{
+			Token:  "Token",
+			Prefix: "Bearer",
+		},
+	}
+	destination.Name = fmt.Sprintf("test-notifications-destination-%s", testIntegrationDestinationNameRandStr)
+
+	// Test: Create (using accountID only, no scope)
+	createResult, err := n.AiNotificationsCreateDestination(&accountID, destination, nil)
+	require.NoError(t, err)
+	require.NotNil(t, createResult)
+	require.NotEmpty(t, createResult.Destination.Auth)
+	require.Equal(t, ai.AiNotificationsAuthType("TOKEN"), createResult.Destination.Auth.AuthType)
+
+	// Test: Get Destination by id
+	filters := ai.AiNotificationsDestinationFilter{
+		ID: createResult.Destination.ID,
+	}
+
+	getDestinationResult, err := n.GetDestinationsAccount(accountID, nil, &filters, nil)
+	require.NoError(t, err)
+	require.NotNil(t, getDestinationResult)
+	assert.Equal(t, 1, getDestinationResult.TotalCount)
+	require.NotEmpty(t, getDestinationResult.Entities[0].GUID)
+
+	// Test: Update Destination
+	updateDestination := AiNotificationsDestinationUpdate{}
+	updateDestination.Active = false
+	updateDestination.Properties = []AiNotificationsPropertyInput{
+		{
+			Key:          "url",
+			Value:        "https://webhook.site/94193c01-4a81-4782-8f1b-554d5230395b",
+			Label:        "",
+			DisplayValue: "",
+		},
+	}
+	updateDestination.Auth = &AiNotificationsCredentialsInput{
+		Type: AiNotificationsAuthTypeTypes.TOKEN,
+		Token: AiNotificationsTokenAuthInput{
+			Token:  "TokenUpdate",
+			Prefix: "BearerUpdate",
+		},
+	}
+	updateDestination.Name = fmt.Sprintf("test-notifications-update-destination-%s", testIntegrationDestinationNameRandStr)
+
+	updateDestinationResult, err := n.AiNotificationsUpdateDestination(&accountID, updateDestination, createResult.Destination.ID, nil)
+	require.NoError(t, err)
+	require.NotNil(t, updateDestinationResult)
+
+	// Test: Delete
+	deleteResult, err := n.AiNotificationsDeleteDestination(&accountID, createResult.Destination.ID, nil)
+	require.NoError(t, err)
+	require.NotNil(t, deleteResult)
+
+}
+
+func TestNotificationMutationDestination_Scope(t *testing.T) {
+	t.Parallel()
+
+	n := newIntegrationTestClient(t)
+
+	accountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	// Create a destination to work with in this test
+	testIntegrationDestinationNameRandStr := mock.RandSeq(5)
+	destination := AiNotificationsDestinationInput{}
+	destination.Type = AiNotificationsDestinationTypeTypes.WEBHOOK
+	destination.Properties = []AiNotificationsPropertyInput{
+		{
+			Key:          "url",
+			Value:        "https://webhook.site/94193c01-4a81-4782-8f1b-554d5230395b",
+			Label:        "",
+			DisplayValue: "",
+		},
+	}
+	destination.Auth = &AiNotificationsCredentialsInput{
+		Type: AiNotificationsAuthTypeTypes.CUSTOM_HEADERS,
+		CustomHeaders: &AiNotificationsCustomHeadersAuthInput{
+			CustomHeaders: []AiNotificationsCustomHeaderInput{
+				{Key: "X-Api-Key", Value: "api-key-value"},
+				{Key: "X-Custom-Header", Value: "header-value"},
+			},
+		},
+	}
+	destination.Name = fmt.Sprintf("test-notifications-destination-%s", testIntegrationDestinationNameRandStr)
+
+	scope := AiNotificationsEntityScopeInput{}
+	scope.ID = strconv.Itoa(accountID)
+	scope.Type = AiNotificationsEntityScopeTypeInputTypes.ACCOUNT
+	// Test: Create
+	createResult, err := n.AiNotificationsCreateDestination(nil, destination, &scope)
+	require.NoError(t, err)
+	require.NotNil(t, createResult)
+	require.NotEmpty(t, createResult.Destination.Auth)
+	require.Equal(t, ai.AiNotificationsAuthType("CUSTOM_HEADERS"), createResult.Destination.Auth.AuthType)
+
+	// Test: Get Destination by id
+	filters := ai.AiNotificationsDestinationFilter{
+		ExactName: createResult.Destination.Name,
+	}
+
+	getDestinationResult, err := n.GetDestinationsAccount(accountID, nil, &filters, nil)
+	require.NoError(t, err)
+	require.NotNil(t, getDestinationResult)
+	assert.Equal(t, 1, getDestinationResult.TotalCount)
+	require.NotEmpty(t, getDestinationResult.Entities[0].GUID)
+
+	// Test: Update Destination
+	updateDestination := AiNotificationsDestinationUpdate{}
+	updateDestination.Active = false
+	updateDestination.Properties = []AiNotificationsPropertyInput{
+		{
+			Key:          "url",
+			Value:        "https://webhook.site/94193c01-4a81-4782-8f1b-554d5230395b",
+			Label:        "",
+			DisplayValue: "",
+		},
+	}
+	updateDestination.Auth = &AiNotificationsCredentialsInput{
+		Type: AiNotificationsAuthTypeTypes.TOKEN,
+		Token: AiNotificationsTokenAuthInput{
+			Token:  "TokenUpdate",
+			Prefix: "BearerUpdate",
+		},
+	}
+	updateDestination.Name = fmt.Sprintf("test-notifications-update-destination-%s", testIntegrationDestinationNameRandStr)
+	updateDestinationResult, err := n.AiNotificationsUpdateDestination(nil, updateDestination, createResult.Destination.ID, &scope)
+	require.NoError(t, err)
+	require.NotNil(t, updateDestinationResult)
+
+	// Test: Delete
+	deleteResult, err := n.AiNotificationsDeleteDestination(nil, createResult.Destination.ID, &scope)
+	require.NoError(t, err)
+	require.NotNil(t, deleteResult)
+}
+
+func TestGetDestinationsAccountWithoutFilters(t *testing.T) {
+	t.Parallel()
+
+	n := newIntegrationTestClient(t)
+
+	accountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	// Test: Get all destinations without filters, sorter, or cursor
+	result, err := n.GetDestinationsAccount(accountID, nil, nil, nil)
+	require.NoError(t, err)
+	require.NotNil(t, result)
+}
+
+func TestGetChannelsWithoutFilters(t *testing.T) {
+	t.Parallel()
+
+	n := newIntegrationTestClient(t)
+
+	accountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	// Test: Get all channels without filters, sorter, or cursor
+	result, err := n.GetChannels(accountID, nil, nil, nil)
+	require.NoError(t, err)
+	require.NotNil(t, result)
 }

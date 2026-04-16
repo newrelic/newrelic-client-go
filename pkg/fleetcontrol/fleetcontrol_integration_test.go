@@ -243,7 +243,7 @@ func TestIntegrationFleetLifecycle(t *testing.T) {
 			ID:   testOrganizationID,
 			Type: FleetControlEntityScopeTypes.ORGANIZATION,
 		},
-		OperatingSystem: FleetControlOperatingSystemCreateInput{
+		OperatingSystem: &FleetControlOperatingSystemCreateInput{
 			Type: FleetControlOperatingSystemTypeTypes.LINUX,
 		},
 		Tags: []FleetControlTagInput{
