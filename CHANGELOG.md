@@ -1,3 +1,8 @@
+<a name="v2.82.1"></a>
+## [v2.82.1] - 2026-04-16
+### Bug Fixes
+- **notifications:** update API for global destinations and tutone compatibility ([#1392](https://github.com/newrelic/newrelic-client-go/issues/1392))
+
 <a name="v2.82.0"></a>
 ## [v2.82.0] - 2026-03-26
 ### Bug Fixes
@@ -2228,7 +2233,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.82.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.82.1...HEAD
+[v2.82.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.82.0...v2.82.1
 [v2.82.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.81.0...v2.82.0
 [v2.81.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.80.0...v2.81.0
 [v2.80.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.79.1...v2.80.0
