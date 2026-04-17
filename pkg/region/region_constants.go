@@ -12,6 +12,9 @@ const (
 	// EU represents New Relic's EU-based production deployment.
 	EU Name = "EU"
 
+	// JP represents New Relic's Japan-based production deployment.
+	JP Name = "JP"
+
 	// Staging represents New Relic's US-based staging deployment.
 	// This is for internal New Relic use only.
 	Staging Name = "Staging"
@@ -45,6 +48,10 @@ var Regions = map[Name]*Region{
 		syntheticsBaseURL:     "https://synthetics.eu.newrelic.com/synthetics/api",
 		metricsBaseURL:        "https://metric-api.eu.newrelic.com/metric/v1",
 		blobServiceBaseURL:    "https://blob-api.service.eu.newrelic.com/v1/e",
+	},
+	JP: {
+		name:             "JP",
+		nerdGraphBaseURL: "https://api.jp.newrelic.com/graphql",
 	},
 	Staging: {
 		name:                  "Staging",
@@ -83,6 +90,8 @@ func Parse(r string) (Name, error) {
 		return US, nil
 	case "eu":
 		return EU, nil
+	case "jp":
+		return JP, nil
 	case "staging":
 		return Staging, nil
 	case "local":

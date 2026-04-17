@@ -21,6 +21,10 @@ func TestParse(t *testing.T) {
 		"Eu":      EU,
 		"eU":      EU,
 		"EU":      EU,
+		"jp":      JP,
+		"Jp":      JP,
+		"jP":      JP,
+		"JP":      JP,
 		"staging": Staging,
 		"Staging": Staging,
 		"STAGING": Staging,
@@ -48,6 +52,7 @@ func TestRegionGet(t *testing.T) {
 	pairs := map[Name]*Region{
 		US:      Regions[US],
 		EU:      Regions[EU],
+		JP:      Regions[JP],
 		Staging: Regions[Staging],
 	}
 
@@ -71,6 +76,7 @@ func TestRegionString(t *testing.T) {
 	pairs := map[Name]string{
 		US:      "US",
 		EU:      "EU",
+		JP:      "JP",
 		Staging: "Staging",
 		Local:   "Local",
 	}
@@ -137,6 +143,7 @@ func TestNerdgraphURLs(t *testing.T) {
 	pairs := map[Name]string{
 		US:      "https://api.newrelic.com/graphql",
 		EU:      "https://api.eu.newrelic.com/graphql",
+		JP:      "https://api.jp.newrelic.com/graphql",
 		Staging: "https://staging-api.newrelic.com/graphql",
 		Local:   "http://localhost:3000/graphql",
 	}
