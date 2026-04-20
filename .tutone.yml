@@ -1974,11 +1974,13 @@ packages:
       - name: entityManagementUpdateFederatedLogPartition
         max_query_field_depth: 4
       - name: entityManagementUpdateFederatedLogSetup
-        max_query_field_depth: 4    
+        max_query_field_depth: 4
     types:
       - name: EntityManagementEntity
         include_implementations:
-          - EntityManagementPipelineCloudRuleEntity
+          - EntityManagementAwsConnectionEntity
+          - EntityManagementFederatedLogSetupEntity
+          - EntityManagementFederatedLogPartitionEntity
       - name: ID
         field_type_override: string
         skip_type_create: true

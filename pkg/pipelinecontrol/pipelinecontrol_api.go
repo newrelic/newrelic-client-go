@@ -245,6 +245,7 @@ const getEntityQuery = `query(
 ) { actor { entityManagement { entity(
 	id: $id,
 ) {
+	__typename
 	id
 	metadata {
 		createdAt
@@ -281,6 +282,54 @@ const getEntityQuery = `query(
 		values
 	}
 	type
+	... on EntityManagementAwsConnectionEntity {
+		__typename
+		credential {
+			assumeRole {
+				externalId
+				roleArn
+			}
+		}
+		description
+		enabled
+		externalId
+		region
+		settings {
+			key
+			value
+		}
+	}
+	... on EntityManagementFederatedLogSetupEntity {
+		__typename
+		cloudProvider
+		cloudProviderRegion
+		dataLocationBucket
+		dataProcessingConnection {
+			__typename
+			id
+		}
+		description
+		partitionDatabase
+		queryConnection {
+			__typename
+			id
+		}
+	}
+	... on EntityManagementFederatedLogPartitionEntity {
+		__typename
+		dataLocationUri
+		description
+		isDefault
+		partitionTable
+		retentionPolicy {
+			duration
+			unit
+		}
+		setup {
+			__typename
+			id
+		}
+	}
 	... on EntityManagementPipelineCloudRuleEntity {
 		__typename
 		description
