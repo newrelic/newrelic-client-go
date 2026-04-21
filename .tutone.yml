@@ -1978,6 +1978,8 @@ packages:
         endpoints:
           - name: fleetMembers
             max_query_field_depth: 2
+            include_arguments:
+              - "cursor"
       - path: [ "actor", "entityManagement" ]
         endpoints:
           - name: entity
