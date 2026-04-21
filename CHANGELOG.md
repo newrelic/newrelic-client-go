@@ -1,3 +1,11 @@
+<a name="v2.83.0"></a>
+## [v2.83.0] - 2026-04-21
+### Bug Fixes
+- **fleetcontrol:** add missing cursor and fix cursor type in getFleetMembersQuery ([#1394](https://github.com/newrelic/newrelic-client-go/issues/1394))
+
+### Features
+- **region:** add Japan (JP) region support with full endpoint URLs and test coverage ([#1399](https://github.com/newrelic/newrelic-client-go/issues/1399))
+
 <a name="v2.82.1"></a>
 ## [v2.82.1] - 2026-04-16
 ### Bug Fixes
@@ -2233,7 +2241,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.82.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.83.0...HEAD
+[v2.83.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.82.1...v2.83.0
 [v2.82.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.82.0...v2.82.1
 [v2.82.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.81.0...v2.82.0
 [v2.81.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.80.0...v2.81.0
