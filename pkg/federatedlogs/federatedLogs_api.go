@@ -28300,3 +28300,79 @@ const getFederatedLogPartitionEntityQuery = `query(
 		type
 	}
 } } } }`
+
+// GetAwsConnectionEntityWithContext retrieves an AwsConnectionEntity by ID using a simplified query
+// that only includes fields specific to AwsConnectionEntity, avoiding the 15,000 grammar token limit.
+func (a *FederatedLogs) GetAwsConnectionEntityWithContext(
+	ctx context.Context,
+	iD string,
+) (*EntityManagementAwsConnectionEntity, error) {
+
+	resp := getAwsConnectionEntityResponse{}
+	vars := map[string]interface{}{
+		"id": iD,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, getAwsConnectionEntityQuery, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return resp.Actor.EntityManagement.Entity, nil
+}
+
+type getAwsConnectionEntityResponse struct {
+	Actor struct {
+		EntityManagement struct {
+			Entity *EntityManagementAwsConnectionEntity `json:"entity"`
+		} `json:"entityManagement"`
+	} `json:"actor"`
+}
+
+// Simplified query for AwsConnectionEntity to avoid 15k grammar token limit
+const getAwsConnectionEntityQuery = `query(
+	$id: ID!,
+) { actor { entityManagement { entity(
+	id: $id,
+) {
+	__typename
+	... on EntityManagementAwsConnectionEntity {
+		id
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+			}
+			version
+		}
+		name
+		description
+		enabled
+		externalId
+		region
+		credential {
+			assumeRole {
+				roleArn
+				externalId
+			}
+		}
+		settings {
+			key
+			value
+		}
+		scope {
+			id
+			type
+		}
+		tags {
+			key
+			values
+		}
+		type
+	}
+} } } }`
