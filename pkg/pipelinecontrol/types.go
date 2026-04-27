@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/newrelic/newrelic-client-go/v2/pkg/federatedlogs"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/nrdb"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/nrtime"
 )
@@ -8804,36 +8803,6 @@ func UnmarshalEntityManagementEntityInterface(b []byte) (*EntityManagementEntity
 		switch typeName {
 		case "EntityManagementPipelineCloudRuleEntity":
 			var interfaceType EntityManagementPipelineCloudRuleEntity
-			err = json.Unmarshal(b, &interfaceType)
-			if err != nil {
-				return nil, err
-			}
-
-			var xxx EntityManagementEntityInterface = &interfaceType
-
-			return &xxx, nil
-		case "EntityManagementAwsConnectionEntity":
-			var interfaceType federatedlogs.EntityManagementAwsConnectionEntity
-			err = json.Unmarshal(b, &interfaceType)
-			if err != nil {
-				return nil, err
-			}
-
-			var xxx EntityManagementEntityInterface = &interfaceType
-
-			return &xxx, nil
-		case "EntityManagementFederatedLogSetupEntity":
-			var interfaceType federatedlogs.EntityManagementFederatedLogSetupEntity
-			err = json.Unmarshal(b, &interfaceType)
-			if err != nil {
-				return nil, err
-			}
-
-			var xxx EntityManagementEntityInterface = &interfaceType
-
-			return &xxx, nil
-		case "EntityManagementFederatedLogPartitionEntity":
-			var interfaceType federatedlogs.EntityManagementFederatedLogPartitionEntity
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
