@@ -1,3 +1,8 @@
+<a name="v2.83.1"></a>
+## [v2.83.1] - 2026-04-30
+### Bug Fixes
+- **alerts:** add policy entity guid ([#1401](https://github.com/newrelic/newrelic-client-go/issues/1401))
+
 <a name="v2.83.0"></a>
 ## [v2.83.0] - 2026-04-21
 ### Bug Fixes
@@ -2241,7 +2246,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.83.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.83.1...HEAD
+[v2.83.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.83.0...v2.83.1
 [v2.83.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.82.1...v2.83.0
 [v2.82.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.82.0...v2.82.1
 [v2.82.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.81.0...v2.82.0
