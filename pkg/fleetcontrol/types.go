@@ -4265,6 +4265,9 @@ func (x *EntityManagementActorStitchedFields) UnmarshalJSON(b []byte) error {
 
 		switch k {
 		case "entity":
+			if v == nil {
+				continue
+			}
 			xxx, err := UnmarshalEntityManagementEntityInterface(*v)
 			if err != nil {
 				return err
