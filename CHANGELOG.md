@@ -1,3 +1,8 @@
+<a name="v2.83.2"></a>
+## [v2.83.2] - 2026-05-04
+### Bug Fixes
+- **fleetcontrol:** restore GetEntity behaviour broken by PR [#1394](https://github.com/newrelic/newrelic-client-go/issues/1394) Tutone regen ([#1402](https://github.com/newrelic/newrelic-client-go/issues/1402))
+
 <a name="v2.83.1"></a>
 ## [v2.83.1] - 2026-04-30
 ### Bug Fixes
@@ -2246,7 +2251,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.83.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.83.2...HEAD
+[v2.83.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.83.1...v2.83.2
 [v2.83.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.83.0...v2.83.1
 [v2.83.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.82.1...v2.83.0
 [v2.82.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.82.0...v2.82.1
