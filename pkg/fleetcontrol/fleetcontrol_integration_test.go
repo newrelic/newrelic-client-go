@@ -361,7 +361,7 @@ func TestIntegrationFleetLifecycle(t *testing.T) {
 		Ring:    "default",
 	}
 
-	fleetMembersResponse, err := client.GetFleetMembers("", getFleetMembersFilter)
+	fleetMembersResponse, err := client.GetFleetMembers(nil, getFleetMembersFilter)
 	require.NoError(t, err)
 	require.NotNil(t, fleetMembersResponse)
 	require.NotNil(t, fleetMembersResponse.Items)
@@ -401,7 +401,7 @@ func TestIntegrationFleetLifecycle(t *testing.T) {
 
 	// Verify members were removed
 	fmt.Println("Verifying members were removed...")
-	fleetMembersAfterRemoval, err := client.GetFleetMembers("", getFleetMembersFilter)
+	fleetMembersAfterRemoval, err := client.GetFleetMembers(nil, getFleetMembersFilter)
 	require.NoError(t, err)
 	require.NotNil(t, fleetMembersAfterRemoval)
 
