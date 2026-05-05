@@ -1,3 +1,8 @@
+<a name="v2.83.3"></a>
+## [v2.83.3] - 2026-05-05
+### Bug Fixes
+- **fleetcontrol:** remove omitempty from FleetControlAgentInput.ConfigurationVersionList ([#1404](https://github.com/newrelic/newrelic-client-go/issues/1404))
+
 <a name="v2.83.2"></a>
 ## [v2.83.2] - 2026-05-04
 ### Bug Fixes
@@ -2251,7 +2256,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.83.2...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.83.3...HEAD
+[v2.83.3]: https://github.com/newrelic/newrelic-client-go/compare/v2.83.2...v2.83.3
 [v2.83.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.83.1...v2.83.2
 [v2.83.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.83.0...v2.83.1
 [v2.83.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.82.1...v2.83.0
