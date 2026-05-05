@@ -6132,7 +6132,7 @@ type FleetControlAgentInput struct {
 	// Agent type
 	AgentType string `json:"agentType"`
 	// Configuration version list for this agent
-	ConfigurationVersionList []FleetControlConfigurationVersionListInput `json:"configurationVersionList,omitempty"`
+	ConfigurationVersionList []FleetControlConfigurationVersionListInput `json:"configurationVersionList"`
 	// Agent version
 	Version string `json:"version"`
 }
