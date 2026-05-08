@@ -865,7 +865,7 @@ packages:
       - name: WorkloadEntityOutline
         generate_struct_getters: true
       - name: EntityAlertViolationInt
-        create_as: int
+        create_as: int64
 
       # TODO: These should be generated and referenced from the dashboards package
       - name: DashboardVariable
@@ -2046,3 +2046,4 @@ packages:
       - name: EntityGuid
         field_type_override: common.EntityGUID
         skip_type_create: true
+
