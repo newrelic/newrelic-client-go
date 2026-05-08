@@ -2047,3 +2047,30 @@ packages:
         field_type_override: common.EntityGUID
         skip_type_create: true
 
+  - name: datamanagement
+    path: pkg/datamanagement
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/datamanagement
+    generators:
+      - typegen
+      - nerdgraphclient
+    queries:
+      - path: ["actor", "account", "dataManagement"]
+        endpoints:
+          - name: limits
+            max_query_field_depth: 2
+    mutations:
+      - name: dataManagementCreateAccountLimit
+        max_query_field_depth: 2
+    types:
+      - name: DataManagementAccountLimit
+      - name: DataManagementAccountLimitInput
+      - name: DataManagementLimitLookupInput
+      - name: DataManagementCategory
+      - name: DataManagementUnit
+      - name: DataManagementType
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: Nrql
+        field_type_override: string
+        skip_type_create: true

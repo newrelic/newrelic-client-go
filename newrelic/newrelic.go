@@ -9,6 +9,7 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/workflowautomation"
 
 	"github.com/newrelic/newrelic-client-go/v2/pkg/accountmanagement"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/datamanagement"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/accounts"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/agent"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/agentapplications"
@@ -59,6 +60,7 @@ type NewRelic struct {
 	ChangeTracking          changetracking.Changetracking
 	Cloud                   cloud.Cloud
 	CustomerAdministration  customeradministration.Customeradministration
+	DataManagement          datamanagement.Datamanagement
 	Dashboards              dashboards.Dashboards
 	Edge                    edge.Edge
 	Entities                entities.Entities
@@ -112,6 +114,7 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 		ChangeTracking:          changetracking.New(cfg),
 		Cloud:                   cloud.New(cfg),
 		CustomerAdministration:  customeradministration.New(cfg),
+		DataManagement:          datamanagement.New(cfg),
 		Dashboards:              dashboards.New(cfg),
 		Edge:                    edge.New(cfg),
 		Entities:                entities.New(cfg),
