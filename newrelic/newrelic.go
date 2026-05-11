@@ -9,7 +9,6 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/workflowautomation"
 
 	"github.com/newrelic/newrelic-client-go/v2/pkg/accountmanagement"
-	"github.com/newrelic/newrelic-client-go/v2/pkg/datamanagement"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/accounts"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/agent"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/agentapplications"
@@ -22,6 +21,7 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/config"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/customeradministration"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/dashboards"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/datamanagement"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/edge"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/entities"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/events"
