@@ -191,6 +191,18 @@ type WorkloadAutomaticStatus struct {
 	Rules []WorkloadRegularRule `json:"rules"`
 }
 
+// WorkloadAlertPolicy - The alert policy status configuration (response type).
+type WorkloadAlertPolicy struct {
+	// Whether the alert policy status configuration is enabled or not.
+	Enabled bool `json:"enabled"`
+}
+
+// WorkloadAlertPolicyInput - The input object used to represent the alert policy status configuration for create.
+type WorkloadAlertPolicyInput struct {
+	// Whether the alert policy status configuration is enabled or not.
+	Enabled bool `json:"enabled"`
+}
+
 // WorkloadAutomaticStatusInput - An input object used to represent an automatic status configuration. If not provided, a status configuration will be created by default.
 type WorkloadAutomaticStatusInput struct {
 	// Whether the automatic status configuration is enabled or not.
@@ -231,6 +243,8 @@ type WorkloadCollection struct {
 	Status WorkloadWorkloadStatus `json:"status"`
 	// The configuration that defines how the status of the workload is calculated.
 	StatusConfig WorkloadStatusConfig `json:"statusConfig,omitempty"`
+	// A list of dynamic flow entries for an intelligent workload.
+	DynamicFlows []WorkloadDynamicFlow `json:"dynamicFlows,omitempty"`
 	// The moment when the object was last updated, represented in milliseconds since the Unix epoch.
 	UpdatedAt *nrtime.EpochMilliseconds `json:"updatedAt,omitempty"`
 	// The user who last updated the workload.
@@ -241,6 +255,8 @@ type WorkloadCollection struct {
 type WorkloadCreateInput struct {
 	// Relevant information about the workload.
 	Description string `json:"description,omitempty"`
+	// A list of dynamic flow entries for an intelligent workload. When provided alongside entityGuids or entitySearchQueries, dynamicFlows takes precedence and others will be ignored.
+	DynamicFlows []WorkloadDynamicFlowInput `json:"dynamicFlows,omitempty"`
 	// A list of entity GUIDs composing the workload.
 	EntityGUIDs []common.EntityGUID `json:"entityGuids"`
 	// A list of entity search queries used to retrieve the entities that compose the workload.
@@ -257,6 +273,24 @@ type WorkloadCreateInput struct {
 type WorkloadDuplicateInput struct {
 	// The name of the workload duplicate. If the name isn't specified, the name + ' copy' of the source workload is used to compose the new name.
 	Name string `json:"name,omitempty"`
+}
+
+// WorkloadDynamicFlow - A dynamic flow entry in an intelligent workload (response type).
+type WorkloadDynamicFlow struct {
+	// The unique entity identifier of the dynamic flow entry.
+	EntityGUID common.EntityGUID `json:"entityGuid"`
+	// The unique identifier of the dynamic flow entry.
+	ID int `json:"id"`
+	// The transaction name associated with the dynamic flow entry.
+	TransactionName string `json:"transactionName"`
+}
+
+// WorkloadDynamicFlowInput - The input object used to represent a dynamic flow entry for create.
+type WorkloadDynamicFlowInput struct {
+	// The unique entity identifier of the dynamic flow entry.
+	EntityGUID common.EntityGUID `json:"entityGuid"`
+	// The transaction name associated with the dynamic flow entry.
+	TransactionName string `json:"transactionName"`
 }
 
 // WorkloadEntityRef - A reference to a New Relic entity.
@@ -459,6 +493,8 @@ type WorkloadStatus struct {
 
 // WorkloadStatusConfig - The configuration that defines how the status of the workload is calculated.
 type WorkloadStatusConfig struct {
+	// An alert policy status configuration for intelligent workloads.
+	AlertPolicy WorkloadAlertPolicy `json:"alertPolicy,omitempty"`
 	// An automatic status configuration.
 	Automatic WorkloadAutomaticStatus `json:"automatic,omitempty"`
 	// A list of static status configurations.
@@ -467,6 +503,8 @@ type WorkloadStatusConfig struct {
 
 // WorkloadStatusConfigInput - The input object used to provide the configuration that defines how the status of the workload is calculated.
 type WorkloadStatusConfigInput struct {
+	// An alert policy status configuration for intelligent workloads.
+	AlertPolicy *WorkloadAlertPolicyInput `json:"alertPolicy,omitempty"`
 	// An input object used to represent an automatic status configuration.
 	Automatic *WorkloadAutomaticStatusInput `json:"automatic,omitempty"`
 	// A list of static status configurations. You can only configure one static status for a workload.
@@ -483,6 +521,12 @@ type WorkloadStatusResult struct {
 
 func (x *WorkloadStatusResult) ImplementsWorkloadStatusResult() {}
 
+// WorkloadUpdateAlertPolicyInput - The input object used to represent the alert policy status configuration for update.
+type WorkloadUpdateAlertPolicyInput struct {
+	// Whether the alert policy status configuration is enabled or not.
+	Enabled bool `json:"enabled"`
+}
+
 // WorkloadUpdateAutomaticStatusInput - An input object used to represent an automatic status configuration.
 type WorkloadUpdateAutomaticStatusInput struct {
 	// Whether the automatic status configuration is enabled or not.
@@ -491,6 +535,16 @@ type WorkloadUpdateAutomaticStatusInput struct {
 	RemainingEntitiesRule *WorkloadRemainingEntitiesRuleInput `json:"remainingEntitiesRule,omitempty"`
 	// A list of rules.
 	Rules []WorkloadUpdateRegularRuleInput `json:"rules,omitempty"`
+}
+
+// WorkloadUpdateDynamicFlowInput - The input object used to represent a dynamic flow entry for update.
+type WorkloadUpdateDynamicFlowInput struct {
+	// The unique entity identifier of the dynamic flow entry.
+	EntityGUID common.EntityGUID `json:"entityGuid"`
+	// The unique identifier of the dynamic flow entry to be updated. If not provided, a new entry is created.
+	ID int `json:"id,omitempty"`
+	// The transaction name associated with the dynamic flow entry.
+	TransactionName string `json:"transactionName"`
 }
 
 // WorkloadUpdateCollectionEntitySearchQueryInput - The input object used to represent the entity search query to be updated.
@@ -505,6 +559,8 @@ type WorkloadUpdateCollectionEntitySearchQueryInput struct {
 type WorkloadUpdateInput struct {
 	// Relevant information about the workload.
 	Description string `json:"description,omitempty"`
+	// A list of dynamic flow entries for an intelligent workload. When provided alongside entityGuids or entitySearchQueries, dynamicFlows takes precedence and others will be ignored.
+	DynamicFlows []WorkloadUpdateDynamicFlowInput `json:"dynamicFlows,omitempty"`
 	// A list of entity GUIDs composing the workload.
 	EntityGUIDs []common.EntityGUID `json:"entityGuids"`
 	// A list of entity search queries used to retrieve the groups of entities that compose the workload.
@@ -545,6 +601,8 @@ type WorkloadUpdateStaticStatusInput struct {
 
 // WorkloadUpdateStatusConfigInput - The input object used to provide the configuration that defines how the status of the workload is calculated.
 type WorkloadUpdateStatusConfigInput struct {
+	// An alert policy status configuration for intelligent workloads.
+	AlertPolicy *WorkloadUpdateAlertPolicyInput `json:"alertPolicy,omitempty"`
 	// An input object used to represent an automatic status configuration.
 	Automatic *WorkloadUpdateAutomaticStatusInput `json:"automatic,omitempty"`
 	// A list of static status configurations. You can only configure one static status for a workload.

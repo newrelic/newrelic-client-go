@@ -77,6 +77,11 @@ const WorkloadCreateMutation = `mutation(
 		updatedAt
 	}
 	entitySearchQuery
+	dynamicFlows {
+		entityGuid
+		id
+		transactionName
+	}
 	guid
 	id
 	name
@@ -153,6 +158,9 @@ const WorkloadCreateMutation = `mutation(
 			id
 			status
 			summary
+		}
+		alertPolicy {
+			enabled
 		}
 	}
 	updatedAt
@@ -228,6 +236,11 @@ const WorkloadDeleteMutation = `mutation(
 		updatedAt
 	}
 	entitySearchQuery
+	dynamicFlows {
+		entityGuid
+		id
+		transactionName
+	}
 	guid
 	id
 	name
@@ -304,6 +317,9 @@ const WorkloadDeleteMutation = `mutation(
 			id
 			status
 			summary
+		}
+		alertPolicy {
+			enabled
 		}
 	}
 	updatedAt
@@ -391,6 +407,11 @@ const WorkloadDuplicateMutation = `mutation(
 		updatedAt
 	}
 	entitySearchQuery
+	dynamicFlows {
+		entityGuid
+		id
+		transactionName
+	}
 	guid
 	id
 	name
@@ -467,6 +488,9 @@ const WorkloadDuplicateMutation = `mutation(
 			id
 			status
 			summary
+		}
+		alertPolicy {
+			enabled
 		}
 	}
 	updatedAt
@@ -548,6 +572,11 @@ const WorkloadUpdateMutation = `mutation(
 		updatedAt
 	}
 	entitySearchQuery
+	dynamicFlows {
+		entityGuid
+		id
+		transactionName
+	}
 	guid
 	id
 	name
@@ -624,6 +653,9 @@ const WorkloadUpdateMutation = `mutation(
 			id
 			status
 			summary
+		}
+		alertPolicy {
+			enabled
 		}
 	}
 	updatedAt
@@ -700,6 +732,11 @@ const getCollectionQuery = `query(
 		updatedAt
 	}
 	entitySearchQuery
+	dynamicFlows {
+		entityGuid
+		id
+		transactionName
+	}
 	guid
 	id
 	name
@@ -776,6 +813,9 @@ const getCollectionQuery = `query(
 			id
 			status
 			summary
+		}
+		alertPolicy {
+			enabled
 		}
 	}
 	updatedAt

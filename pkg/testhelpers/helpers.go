@@ -52,6 +52,16 @@ func GetNonExistentIDs() (string, string) {
 	return "00000FF000F0FFFF000F0F0000FF0FF0000000F000F00F0FF000FFFFF0FF00F0", "00000HH000H0HHHH000H0H0000HH0HH0000000H000H00H0HH000HHHHH0HH00H0"
 }
 
+// GetTestEntityGUID returns the entity GUID for intelligent workload integration tests from the environment.
+func GetTestEntityGUID() (string, error) {
+	return getEnvString("NEW_RELIC_TEST_ENTITY_GUID")
+}
+
+// GetTestTransactionName returns the transaction name for intelligent workload integration tests from the environment.
+func GetTestTransactionName() (string, error) {
+	return getEnvString("NEW_RELIC_TEST_TRANSACTION_NAME")
+}
+
 // getEnvInt helper to DRY up the other env get calls for integers
 func getEnvInt(name string) (int, error) {
 	if name == "" {
@@ -70,6 +80,20 @@ func getEnvInt(name string) (int, error) {
 	}
 
 	return n, nil
+}
+
+// getEnvString helper to DRY up the other env get calls for strings
+func getEnvString(name string) (string, error) {
+	if name == "" {
+		return "", fmt.Errorf("failed to get environment value, no name specified")
+	}
+
+	value := os.Getenv(name)
+	if value == "" {
+		return "", fmt.Errorf("failed to get environment value due to undefined environment variable %s", name)
+	}
+
+	return value, nil
 }
 
 // Use this method to generate a random name to be used in integration tests

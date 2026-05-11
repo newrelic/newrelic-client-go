@@ -198,6 +198,140 @@ func TestIntegrationWorkloadGet(t *testing.T) {
 	require.NoError(t, err)
 }
 
+func TestIntegrationWorkloadCreate_IntelligentWorkload(t *testing.T) {
+	t.Parallel()
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	testEntityGUID, err := mock.GetTestEntityGUID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	testTransactionName, err := mock.GetTestTransactionName()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	client := newIntegrationTestClient(t)
+
+	name := "newrelic-client-go-test-intelligent-workload-" + mock.RandSeq(5)
+	workload := WorkloadCreateInput{
+		Name: name,
+		ScopeAccounts: &WorkloadScopeAccountsInput{
+			AccountIDs: []int{testAccountID},
+		},
+		DynamicFlows: []WorkloadDynamicFlowInput{
+			{
+				EntityGUID:      common.EntityGUID(testEntityGUID),
+				TransactionName: testTransactionName,
+			},
+		},
+		StatusConfig: &WorkloadStatusConfigInput{
+			AlertPolicy: &WorkloadAlertPolicyInput{
+				Enabled: true,
+			},
+		},
+	}
+
+	created, err := client.WorkloadCreate(testAccountID, workload)
+	require.NoError(t, err)
+	require.NotNil(t, created)
+
+	assert.Equal(t, name, created.Name)
+	assert.NotEmpty(t, created.GUID)
+	assert.Equal(t, testAccountID, created.Account.ID)
+	assert.Equal(t, 1, len(created.DynamicFlows))
+	assert.Equal(t, common.EntityGUID(testEntityGUID), created.DynamicFlows[0].EntityGUID)
+	assert.Equal(t, testTransactionName, created.DynamicFlows[0].TransactionName)
+	assert.True(t, created.StatusConfig.AlertPolicy.Enabled)
+
+	// Wait for indexing to catch up
+	time.Sleep(30 * time.Second)
+
+	// Cleanup
+	_, err = client.WorkloadDelete(common.EntityGUID(created.GUID))
+	require.NoError(t, err)
+}
+
+func TestIntegrationWorkloadUpdate_IntelligentWorkload(t *testing.T) {
+	t.Parallel()
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	testEntityGUID, err := mock.GetTestEntityGUID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	testTransactionName, err := mock.GetTestTransactionName()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	client := newIntegrationTestClient(t)
+
+	name := "newrelic-client-go-test-intelligent-workload-" + mock.RandSeq(5)
+	workload := WorkloadCreateInput{
+		Name: name,
+		ScopeAccounts: &WorkloadScopeAccountsInput{
+			AccountIDs: []int{testAccountID},
+		},
+		DynamicFlows: []WorkloadDynamicFlowInput{
+			{
+				EntityGUID:      common.EntityGUID(testEntityGUID),
+				TransactionName: testTransactionName,
+			},
+		},
+		StatusConfig: &WorkloadStatusConfigInput{
+			AlertPolicy: &WorkloadAlertPolicyInput{
+				Enabled: true,
+			},
+		},
+	}
+
+	created, err := client.WorkloadCreate(testAccountID, workload)
+	require.NoError(t, err)
+	require.NotNil(t, created)
+	require.NotEmpty(t, created.GUID)
+
+	// Wait for indexing to catch up
+	time.Sleep(30 * time.Second)
+
+	// Update: rename and disable alert policy
+	updatedName := name + "-updated"
+	updated, err := client.WorkloadUpdate(created.GUID, WorkloadUpdateInput{
+		Name: updatedName,
+		DynamicFlows: []WorkloadUpdateDynamicFlowInput{
+			{
+				EntityGUID:      common.EntityGUID(testEntityGUID),
+				TransactionName: testTransactionName,
+			},
+		},
+		StatusConfig: &WorkloadUpdateStatusConfigInput{
+			AlertPolicy: &WorkloadUpdateAlertPolicyInput{
+				Enabled: false,
+			},
+		},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, updated)
+
+	assert.Equal(t, updatedName, updated.Name)
+	assert.Equal(t, 1, len(updated.DynamicFlows))
+	assert.False(t, updated.StatusConfig.AlertPolicy.Enabled)
+
+	// Cleanup
+	_, err = client.WorkloadDelete(common.EntityGUID(updated.GUID))
+	assert.NoError(t, err)
+}
+
 func newIntegrationTestClient(t *testing.T) Workloads {
 	cfg := mock.NewIntegrationTestConfig(t)
 	client := New(cfg)
