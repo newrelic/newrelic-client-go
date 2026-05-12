@@ -951,6 +951,7 @@ func TestSyntheticsPrivateLocation_Basic(t *testing.T) {
 		testAccountID,
 		"Test Private Location",
 		generateSyntheticsEntityNameForIntegrationTest("PRIVATE_LOCATION", false),
+		false,
 		true,
 	)
 
@@ -960,6 +961,7 @@ func TestSyntheticsPrivateLocation_Basic(t *testing.T) {
 	updateResp, err := a.SyntheticsUpdatePrivateLocation(
 		"Test Private Location Description Updated",
 		createResp.GUID,
+		false,
 		true,
 	)
 
