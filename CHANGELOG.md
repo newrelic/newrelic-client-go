@@ -1,3 +1,8 @@
+<a name="v2.84.0"></a>
+## [v2.84.0] - 2026-05-12
+### Features
+- **synthetics:** add shared parameter to private location mutations ([#1406](https://github.com/newrelic/newrelic-client-go/issues/1406))
+
 <a name="v2.83.4"></a>
 ## [v2.83.4] - 2026-05-08
 ### Bug Fixes
@@ -2261,7 +2266,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.83.4...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.84.0...HEAD
+[v2.84.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.83.4...v2.84.0
 [v2.83.4]: https://github.com/newrelic/newrelic-client-go/compare/v2.83.3...v2.83.4
 [v2.83.3]: https://github.com/newrelic/newrelic-client-go/compare/v2.83.2...v2.83.3
 [v2.83.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.83.1...v2.83.2
