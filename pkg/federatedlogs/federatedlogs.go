@@ -6,16 +6,16 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/logging"
 )
 
-type FederatedLogs struct {
+type Federatedlogs struct {
 	client http.Client
 	logger logging.Logger
 	config config.Config
 }
 
-func New(config config.Config) FederatedLogs {
+func New(config config.Config) Federatedlogs {
 	client := http.NewClient(config)
 
-	pkg := FederatedLogs{
+	pkg := Federatedlogs{
 		client: client,
 		logger: config.GetLogger(),
 		config: config,

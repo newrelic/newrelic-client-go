@@ -4,7 +4,7 @@ package federatedlogs
 import "context"
 
 // Creates an entity of type AwsConnectionEntity.
-func (a *FederatedLogs) EntityManagementCreateAwsConnection(
+func (a *Federatedlogs) EntityManagementCreateAwsConnection(
 	awsConnectionEntity EntityManagementAwsConnectionEntityCreateInput,
 ) (*EntityManagementAwsConnectionEntityCreateResult, error) {
 	return a.EntityManagementCreateAwsConnectionWithContext(context.Background(),
@@ -13,7 +13,7 @@ func (a *FederatedLogs) EntityManagementCreateAwsConnection(
 }
 
 // Creates an entity of type AwsConnectionEntity.
-func (a *FederatedLogs) EntityManagementCreateAwsConnectionWithContext(
+func (a *Federatedlogs) EntityManagementCreateAwsConnectionWithContext(
 	ctx context.Context,
 	awsConnectionEntity EntityManagementAwsConnectionEntityCreateInput,
 ) (*EntityManagementAwsConnectionEntityCreateResult, error) {
@@ -96,7 +96,7 @@ const EntityManagementCreateAwsConnectionMutation = `mutation(
 } }`
 
 // Creates an entity of type FederatedLogPartitionEntity.
-func (a *FederatedLogs) EntityManagementCreateFederatedLogPartition(
+func (a *Federatedlogs) EntityManagementCreateFederatedLogPartition(
 	federatedLogPartitionEntity EntityManagementFederatedLogPartitionEntityCreateInput,
 ) (*EntityManagementFederatedLogPartitionEntityCreateResult, error) {
 	return a.EntityManagementCreateFederatedLogPartitionWithContext(context.Background(),
@@ -105,7 +105,7 @@ func (a *FederatedLogs) EntityManagementCreateFederatedLogPartition(
 }
 
 // Creates an entity of type FederatedLogPartitionEntity.
-func (a *FederatedLogs) EntityManagementCreateFederatedLogPartitionWithContext(
+func (a *Federatedlogs) EntityManagementCreateFederatedLogPartitionWithContext(
 	ctx context.Context,
 	federatedLogPartitionEntity EntityManagementFederatedLogPartitionEntityCreateInput,
 ) (*EntityManagementFederatedLogPartitionEntityCreateResult, error) {
@@ -1401,7 +1401,7 @@ const EntityManagementCreateFederatedLogPartitionMutation = `mutation(
 } }`
 
 // Creates an entity of type FederatedLogSetupEntity.
-func (a *FederatedLogs) EntityManagementCreateFederatedLogSetup(
+func (a *Federatedlogs) EntityManagementCreateFederatedLogSetup(
 	federatedLogSetupEntity EntityManagementFederatedLogSetupEntityCreateInput,
 ) (*EntityManagementFederatedLogSetupEntityCreateResult, error) {
 	return a.EntityManagementCreateFederatedLogSetupWithContext(context.Background(),
@@ -1410,7 +1410,7 @@ func (a *FederatedLogs) EntityManagementCreateFederatedLogSetup(
 }
 
 // Creates an entity of type FederatedLogSetupEntity.
-func (a *FederatedLogs) EntityManagementCreateFederatedLogSetupWithContext(
+func (a *Federatedlogs) EntityManagementCreateFederatedLogSetupWithContext(
 	ctx context.Context,
 	federatedLogSetupEntity EntityManagementFederatedLogSetupEntityCreateInput,
 ) (*EntityManagementFederatedLogSetupEntityCreateResult, error) {
@@ -2670,7 +2670,7 @@ const EntityManagementCreateFederatedLogSetupMutation = `mutation(
 } }`
 
 // Deletes an entity.
-func (a *FederatedLogs) EntityManagementDelete(
+func (a *Federatedlogs) EntityManagementDelete(
 	iD string,
 	version int,
 ) (*EntityManagementEntityDeleteResult, error) {
@@ -2681,7 +2681,7 @@ func (a *FederatedLogs) EntityManagementDelete(
 }
 
 // Deletes an entity.
-func (a *FederatedLogs) EntityManagementDeleteWithContext(
+func (a *Federatedlogs) EntityManagementDeleteWithContext(
 	ctx context.Context,
 	iD string,
 	version int,
@@ -2715,7 +2715,7 @@ const EntityManagementDeleteMutation = `mutation(
 } }`
 
 // Updates an entity of type FederatedLogPartitionEntity.
-func (a *FederatedLogs) EntityManagementUpdateFederatedLogPartition(
+func (a *Federatedlogs) EntityManagementUpdateFederatedLogPartition(
 	federatedLogPartitionEntity EntityManagementFederatedLogPartitionEntityUpdateInput,
 	iD string,
 	version int,
@@ -2728,7 +2728,7 @@ func (a *FederatedLogs) EntityManagementUpdateFederatedLogPartition(
 }
 
 // Updates an entity of type FederatedLogPartitionEntity.
-func (a *FederatedLogs) EntityManagementUpdateFederatedLogPartitionWithContext(
+func (a *Federatedlogs) EntityManagementUpdateFederatedLogPartitionWithContext(
 	ctx context.Context,
 	federatedLogPartitionEntity EntityManagementFederatedLogPartitionEntityUpdateInput,
 	iD string,
@@ -4032,7 +4032,7 @@ const EntityManagementUpdateFederatedLogPartitionMutation = `mutation(
 } }`
 
 // Updates an entity of type FederatedLogSetupEntity.
-func (a *FederatedLogs) EntityManagementUpdateFederatedLogSetup(
+func (a *Federatedlogs) EntityManagementUpdateFederatedLogSetup(
 	federatedLogSetupEntity EntityManagementFederatedLogSetupEntityUpdateInput,
 	iD string,
 	version int,
@@ -4045,7 +4045,7 @@ func (a *FederatedLogs) EntityManagementUpdateFederatedLogSetup(
 }
 
 // Updates an entity of type FederatedLogSetupEntity.
-func (a *FederatedLogs) EntityManagementUpdateFederatedLogSetupWithContext(
+func (a *Federatedlogs) EntityManagementUpdateFederatedLogSetupWithContext(
 	ctx context.Context,
 	federatedLogSetupEntity EntityManagementFederatedLogSetupEntityUpdateInput,
 	iD string,
@@ -5313,7 +5313,7 @@ const EntityManagementUpdateFederatedLogSetupMutation = `mutation(
 } }`
 
 // Creates a new partition within an existing federated logs setup,including storage location, retention policy, and an optional partition rule.
-func (a *FederatedLogs) FederatedLogsCreatePartition(
+func (a *Federatedlogs) FederatedLogsCreatePartition(
 	partition FederatedLogsCreatePartitionInput,
 	setupId string,
 ) (*FederatedLogsPartitionResponse, error) {
@@ -5324,7 +5324,7 @@ func (a *FederatedLogs) FederatedLogsCreatePartition(
 }
 
 // Creates a new partition within an existing federated logs setup,including storage location, retention policy, and an optional partition rule.
-func (a *FederatedLogs) FederatedLogsCreatePartitionWithContext(
+func (a *Federatedlogs) FederatedLogsCreatePartitionWithContext(
 	ctx context.Context,
 	partition FederatedLogsCreatePartitionInput,
 	setupId string,
@@ -5451,7 +5451,7 @@ const FederatedLogsCreatePartitionMutation = `mutation(
 } }`
 
 // Creates a new federated logs setup with its initial configuration, including cloud provider, connections, storage, and an optional forwarder.A default partition is created alongside the setup.
-func (a *FederatedLogs) FederatedLogsCreateSetup(
+func (a *Federatedlogs) FederatedLogsCreateSetup(
 	setup FederatedLogsCreateSetupInput,
 ) (*FederatedLogsSetupResponse, error) {
 	return a.FederatedLogsCreateSetupWithContext(context.Background(),
@@ -5460,7 +5460,7 @@ func (a *FederatedLogs) FederatedLogsCreateSetup(
 }
 
 // Creates a new federated logs setup with its initial configuration, including cloud provider, connections, storage, and an optional forwarder.A default partition is created alongside the setup.
-func (a *FederatedLogs) FederatedLogsCreateSetupWithContext(
+func (a *Federatedlogs) FederatedLogsCreateSetupWithContext(
 	ctx context.Context,
 	setup FederatedLogsCreateSetupInput,
 ) (*FederatedLogsSetupResponse, error) {
@@ -5543,7 +5543,7 @@ const FederatedLogsCreateSetupMutation = `mutation(
 } }`
 
 // Updates an existing federated logs partition configuration.Only the provided fields are updated; omitted fields remain unchanged.
-func (a *FederatedLogs) FederatedLogsUpdatePartition(
+func (a *Federatedlogs) FederatedLogsUpdatePartition(
 	iD string,
 	partition FederatedLogsUpdatePartitionInput,
 ) (*FederatedLogsPartitionResponse, error) {
@@ -5554,7 +5554,7 @@ func (a *FederatedLogs) FederatedLogsUpdatePartition(
 }
 
 // Updates an existing federated logs partition configuration.Only the provided fields are updated; omitted fields remain unchanged.
-func (a *FederatedLogs) FederatedLogsUpdatePartitionWithContext(
+func (a *Federatedlogs) FederatedLogsUpdatePartitionWithContext(
 	ctx context.Context,
 	iD string,
 	partition FederatedLogsUpdatePartitionInput,
@@ -5681,7 +5681,7 @@ const FederatedLogsUpdatePartitionMutation = `mutation(
 } }`
 
 // Updates an existing federated logs setup configuration.Only the provided fields are updated; omitted fields remain unchanged.
-func (a *FederatedLogs) FederatedLogsUpdateSetup(
+func (a *Federatedlogs) FederatedLogsUpdateSetup(
 	iD string,
 	setup FederatedLogsUpdateSetupInput,
 ) (*FederatedLogsSetupResponse, error) {
@@ -5692,7 +5692,7 @@ func (a *FederatedLogs) FederatedLogsUpdateSetup(
 }
 
 // Updates an existing federated logs setup configuration.Only the provided fields are updated; omitted fields remain unchanged.
-func (a *FederatedLogs) FederatedLogsUpdateSetupWithContext(
+func (a *Federatedlogs) FederatedLogsUpdateSetupWithContext(
 	ctx context.Context,
 	iD string,
 	setup FederatedLogsUpdateSetupInput,
@@ -5779,7 +5779,7 @@ const FederatedLogsUpdateSetupMutation = `mutation(
 } }`
 
 // Retrieves an entity.
-func (a *FederatedLogs) GetEntity(
+func (a *Federatedlogs) GetEntity(
 	iD string,
 ) (*EntityManagementEntityInterface, error) {
 	return a.GetEntityWithContext(context.Background(),
@@ -5788,7 +5788,7 @@ func (a *FederatedLogs) GetEntity(
 }
 
 // Retrieves an entity.
-func (a *FederatedLogs) GetEntityWithContext(
+func (a *Federatedlogs) GetEntityWithContext(
 	ctx context.Context,
 	iD string,
 ) (*EntityManagementEntityInterface, error) {
@@ -14302,7 +14302,7 @@ const getEntityQuery = `query(
 } } } }`
 
 // Retrieves a set of entities that match the given query predicate.
-func (a *FederatedLogs) GetEntitySearch(
+func (a *Federatedlogs) GetEntitySearch(
 	cursor string,
 	query string,
 ) (*EntityManagementEntitySearchResult, error) {
@@ -14313,7 +14313,7 @@ func (a *FederatedLogs) GetEntitySearch(
 }
 
 // Retrieves a set of entities that match the given query predicate.
-func (a *FederatedLogs) GetEntitySearchWithContext(
+func (a *Federatedlogs) GetEntitySearchWithContext(
 	ctx context.Context,
 	cursor string,
 	query string,
@@ -20480,7 +20480,7 @@ const getEntitySearchQuery = `query(
 } } } }`
 
 // Returns a single federated logs partition by ID.
-func (a *FederatedLogs) GetPartition(
+func (a *Federatedlogs) GetPartition(
 	iD string,
 ) (*FederatedLogsPartition, error) {
 	return a.GetPartitionWithContext(context.Background(),
@@ -20489,7 +20489,7 @@ func (a *FederatedLogs) GetPartition(
 }
 
 // Returns a single federated logs partition by ID.
-func (a *FederatedLogs) GetPartitionWithContext(
+func (a *Federatedlogs) GetPartitionWithContext(
 	ctx context.Context,
 	iD string,
 ) (*FederatedLogsPartition, error) {
@@ -20617,7 +20617,7 @@ const getPartitionQuery = `query(
 } } } }`
 
 // Returns a single federated logs setup by ID.
-func (a *FederatedLogs) GetSetup(
+func (a *Federatedlogs) GetSetup(
 	iD string,
 ) (*FederatedLogsSetup, error) {
 	return a.GetSetupWithContext(context.Background(),
@@ -20626,7 +20626,7 @@ func (a *FederatedLogs) GetSetup(
 }
 
 // Returns a single federated logs setup by ID.
-func (a *FederatedLogs) GetSetupWithContext(
+func (a *Federatedlogs) GetSetupWithContext(
 	ctx context.Context,
 	iD string,
 ) (*FederatedLogsSetup, error) {

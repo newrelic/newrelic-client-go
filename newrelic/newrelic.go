@@ -65,7 +65,7 @@ type NewRelic struct {
 	Entities                entities.Entities
 	Events                  events.Events
 	EventsToMetrics         eventstometrics.EventsToMetrics
-	FederatedLogs           federatedlogs.FederatedLogs
+	Federatedlogs           federatedlogs.Federatedlogs
 	FleetControl            fleetcontrol.Fleetcontrol
 	InstallEvents           installevents.Installevents
 	Logs                    logs.Logs
@@ -119,7 +119,7 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 		Entities:                entities.New(cfg),
 		Events:                  events.New(cfg),
 		EventsToMetrics:         eventstometrics.New(cfg),
-		FederatedLogs:           federatedlogs.New(cfg),
+		Federatedlogs:           federatedlogs.New(cfg),
 		FleetControl:            fleetcontrol.New(cfg),
 		InstallEvents:           installevents.New(cfg),
 		Logs:                    logs.New(cfg),

@@ -2047,7 +2047,7 @@ packages:
         field_type_override: common.EntityGUID
         skip_type_create: true
 
-  - name: federatedLogs
+  - name: federatedlogs
     path: pkg/federatedlogs
     import_path: github.com/newrelic/newrelic-client-go/v2/pkg/federatedlogs
     generators:
