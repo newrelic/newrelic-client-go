@@ -1590,6 +1590,21 @@ var EntityManagementCorrelationMatchingAlgorithmTypes = struct {
 	IRCA: "IRCA",
 }
 
+// EntityManagementCorrelationNormalizationDefault - Enum defining default behavior when no normalizer pattern matches.
+type EntityManagementCorrelationNormalizationDefault string
+
+var EntityManagementCorrelationNormalizationDefaultTypes = struct {
+	// Fail the condition (no match) when no pattern matches.
+	FAIL EntityManagementCorrelationNormalizationDefault
+	// Use the original (transformed) value as-is when no pattern matches.
+	PASSTHROUGH EntityManagementCorrelationNormalizationDefault
+}{
+	// Fail the condition (no match) when no pattern matches.
+	FAIL: "FAIL",
+	// Use the original (transformed) value as-is when no pattern matches.
+	PASSTHROUGH: "PASSTHROUGH",
+}
+
 // EntityManagementCorrelationOverrideAction - Enum defining user override actions for correlation links.
 type EntityManagementCorrelationOverrideAction string
 
@@ -1618,6 +1633,37 @@ var EntityManagementCorrelationSubjectTypeTypes = struct {
 	ENTITY: "ENTITY",
 	// Event-based subject.
 	EVENT: "EVENT",
+}
+
+// EntityManagementCorrelationTransformFunction - Enum defining transform functions for attribute value processing before comparison.
+type EntityManagementCorrelationTransformFunction string
+
+var EntityManagementCorrelationTransformFunctionTypes = struct {
+	// Remove all non-alphanumeric characters.
+	ALPHANUMERIC EntityManagementCorrelationTransformFunction
+	// Extract hostname portion, stripping domain suffix.
+	EXTRACT_HOSTNAME EntityManagementCorrelationTransformFunction
+	// Smart IP extraction from various formats (AWS EC2 DNS, dash-separated, embedded in hostname, etc.).
+	EXTRACT_IP EntityManagementCorrelationTransformFunction
+	// Convert to lowercase.
+	LOWERCASE EntityManagementCorrelationTransformFunction
+	// Remove leading/trailing whitespace.
+	TRIM EntityManagementCorrelationTransformFunction
+	// Convert to uppercase.
+	UPPERCASE EntityManagementCorrelationTransformFunction
+}{
+	// Remove all non-alphanumeric characters.
+	ALPHANUMERIC: "ALPHANUMERIC",
+	// Extract hostname portion, stripping domain suffix.
+	EXTRACT_HOSTNAME: "EXTRACT_HOSTNAME",
+	// Smart IP extraction from various formats (AWS EC2 DNS, dash-separated, embedded in hostname, etc.).
+	EXTRACT_IP: "EXTRACT_IP",
+	// Convert to lowercase.
+	LOWERCASE: "LOWERCASE",
+	// Remove leading/trailing whitespace.
+	TRIM: "TRIM",
+	// Convert to uppercase.
+	UPPERCASE: "UPPERCASE",
 }
 
 // EntityManagementDateOperator - Enum defining the supported date operators.
@@ -1751,11 +1797,15 @@ type EntityManagementEventBridgeWorkflowDefinitionScopeType string
 var EntityManagementEventBridgeWorkflowDefinitionScopeTypeTypes = struct {
 	// Account scope
 	ACCOUNT EntityManagementEventBridgeWorkflowDefinitionScopeType
+	// Global scope
+	GLOBAL EntityManagementEventBridgeWorkflowDefinitionScopeType
 	// Organization scope.
 	ORGANIZATION EntityManagementEventBridgeWorkflowDefinitionScopeType
 }{
 	// Account scope
 	ACCOUNT: "ACCOUNT",
+	// Global scope
+	GLOBAL: "GLOBAL",
 	// Organization scope.
 	ORGANIZATION: "ORGANIZATION",
 }
@@ -1806,29 +1856,6 @@ var EntityManagementExternalOwnerTypeTypes = struct {
 	WORKSPACE: "WORKSPACE",
 }
 
-// EntityManagementFederatedLogSetupStatus - Status of a federated log setup.
-type EntityManagementFederatedLogSetupStatus string
-
-var EntityManagementFederatedLogSetupStatusTypes = struct {
-	// Indicates the federated log setup is active.
-	ACTIVE EntityManagementFederatedLogSetupStatus
-	// Indicates the federated log setup is being created.
-	CREATING EntityManagementFederatedLogSetupStatus
-	// Indicates the federated log setup is in an error state.
-	ERROR EntityManagementFederatedLogSetupStatus
-	// Indicates the federated log setup is inactive.
-	INACTIVE EntityManagementFederatedLogSetupStatus
-}{
-	// Indicates the federated log setup is active.
-	ACTIVE: "ACTIVE",
-	// Indicates the federated log setup is being created.
-	CREATING: "CREATING",
-	// Indicates the federated log setup is in an error state.
-	ERROR: "ERROR",
-	// Indicates the federated log setup is inactive.
-	INACTIVE: "INACTIVE",
-}
-
 // EntityManagementFleetDeploymentPhase - Phases a fleet deployment can have
 type EntityManagementFleetDeploymentPhase string
 
@@ -1854,6 +1881,36 @@ var EntityManagementFleetDeploymentPhaseTypes = struct {
 	INTERNAL_FAILURE: "INTERNAL_FAILURE",
 	// Deployment is under rollout
 	IN_PROGRESS: "IN_PROGRESS",
+}
+
+// EntityManagementForwarderType - Supported forwarder types for log processing.
+type EntityManagementForwarderType string
+
+var EntityManagementForwarderTypeTypes = struct {
+	// Logs are forwarded via a pipeline control fleet deployment.
+	PIPELINE_CONTROL EntityManagementForwarderType
+}{
+	// Logs are forwarded via a pipeline control fleet deployment.
+	PIPELINE_CONTROL: "PIPELINE_CONTROL",
+}
+
+// EntityManagementHealthCheckState - Health check states for a federated log setup or partition.
+type EntityManagementHealthCheckState string
+
+var EntityManagementHealthCheckStateTypes = struct {
+	// Indicates the setup or partition and its dependencies are operating correctly.
+	HEALTHY EntityManagementHealthCheckState
+	// Indicates the setup or partition has issues. The message field will contain details about the failures.
+	UNHEALTHY EntityManagementHealthCheckState
+	// Indicates no health check has been run yet.
+	UNKNOWN EntityManagementHealthCheckState
+}{
+	// Indicates the setup or partition and its dependencies are operating correctly.
+	HEALTHY: "HEALTHY",
+	// Indicates the setup or partition has issues. The message field will contain details about the failures.
+	UNHEALTHY: "UNHEALTHY",
+	// Indicates no health check has been run yet.
+	UNKNOWN: "UNKNOWN",
 }
 
 // EntityManagementHostingPlatform - List of possible hosting platforms of the repository.
@@ -2122,27 +2179,58 @@ var EntityManagementLicenseNameTypes = struct {
 	UNLICENSE: "UNLICENSE",
 }
 
-// EntityManagementLogPartitionStatus - Status of a log partition.
-type EntityManagementLogPartitionStatus string
+// EntityManagementLifecycleStatePartition - Possible lifecycle states for a federated log partition.
+type EntityManagementLifecycleStatePartition string
 
-var EntityManagementLogPartitionStatusTypes = struct {
-	// Indicates the log partition is active.
-	ACTIVE EntityManagementLogPartitionStatus
-	// Indicates the log partition is being created.
-	CREATING EntityManagementLogPartitionStatus
-	// Indicates the log partition is in an error state.
-	ERROR EntityManagementLogPartitionStatus
-	// Indicates the log partition is inactive.
-	INACTIVE EntityManagementLogPartitionStatus
+var EntityManagementLifecycleStatePartitionTypes = struct {
+	// Indicates the partition has been successfully onboarded.
+	COMPLETE EntityManagementLifecycleStatePartition
+	// Indicates the initial data processing component configuration has been created during onboarding.
+	DATA_PROCESSING_CONFIG_CREATED EntityManagementLifecycleStatePartition
+	// Indicates a delete has been requested and an updated data processing component configuration (excluding this partition) is pending deployment.
+	DELETING EntityManagementLifecycleStatePartition
+	// Indicates there was an error during onboarding.
+	ERROR EntityManagementLifecycleStatePartition
+	// Indicates the entity resource creation is complete.
+	RESOURCE_CREATION_COMPLETE EntityManagementLifecycleStatePartition
 }{
-	// Indicates the log partition is active.
-	ACTIVE: "ACTIVE",
-	// Indicates the log partition is being created.
-	CREATING: "CREATING",
-	// Indicates the log partition is in an error state.
+	// Indicates the partition has been successfully onboarded.
+	COMPLETE: "COMPLETE",
+	// Indicates the initial data processing component configuration has been created during onboarding.
+	DATA_PROCESSING_CONFIG_CREATED: "DATA_PROCESSING_CONFIG_CREATED",
+	// Indicates a delete has been requested and an updated data processing component configuration (excluding this partition) is pending deployment.
+	DELETING: "DELETING",
+	// Indicates there was an error during onboarding.
 	ERROR: "ERROR",
-	// Indicates the log partition is inactive.
-	INACTIVE: "INACTIVE",
+	// Indicates the entity resource creation is complete.
+	RESOURCE_CREATION_COMPLETE: "RESOURCE_CREATION_COMPLETE",
+}
+
+// EntityManagementLifecycleStateSetup - Possible lifecycle states for a federated log setup.
+type EntityManagementLifecycleStateSetup string
+
+var EntityManagementLifecycleStateSetupTypes = struct {
+	// Indicates the setup has been successfully onboarded.
+	COMPLETE EntityManagementLifecycleStateSetup
+	// Indicates the initial data processing component configuration has been created during onboarding.
+	DATA_PROCESSING_CONFIG_CREATED EntityManagementLifecycleStateSetup
+	// Indicates a delete has been requested and an updated data processing component configuration (excluding this setup) is pending deployment.
+	DELETING EntityManagementLifecycleStateSetup
+	// Indicates there was an error during onboarding.
+	ERROR EntityManagementLifecycleStateSetup
+	// Indicates the entity resource creation is complete.
+	RESOURCE_CREATION_COMPLETE EntityManagementLifecycleStateSetup
+}{
+	// Indicates the setup has been successfully onboarded.
+	COMPLETE: "COMPLETE",
+	// Indicates the initial data processing component configuration has been created during onboarding.
+	DATA_PROCESSING_CONFIG_CREATED: "DATA_PROCESSING_CONFIG_CREATED",
+	// Indicates a delete has been requested and an updated data processing component configuration (excluding this setup) is pending deployment.
+	DELETING: "DELETING",
+	// Indicates there was an error during onboarding.
+	ERROR: "ERROR",
+	// Indicates the entity resource creation is complete.
+	RESOURCE_CREATION_COMPLETE: "RESOURCE_CREATION_COMPLETE",
 }
 
 // EntityManagementManagedEntityType - Entity types that a Fleet can manage
@@ -2168,8 +2256,14 @@ var EntityManagementManagedEntityTypeTypes = struct {
 type EntityManagementManagedEvaluationType string
 
 var EntityManagementManagedEvaluationTypeTypes = struct {
+	// Measures if the model's answer is relevant to the user's input question
+	ANSWER_RELEVANCY EntityManagementManagedEvaluationType
 	// Detects biased content
 	BIAS EntityManagementManagedEvaluationType
+	// Measure of how well the information retrieved by the system is relevant to the user's query and will lead to an accurate, useful answer
+	CONTEXTUAL_RELEVANCY EntityManagementManagedEvaluationType
+	// Measures how factually consistent a model's generated answer is with the provided context
+	FAITHFULNESS EntityManagementManagedEvaluationType
 	// Detects jailbreak attempts
 	JAILBREAK EntityManagementManagedEvaluationType
 	// Detects personally identifiable information leakage
@@ -2181,8 +2275,14 @@ var EntityManagementManagedEvaluationTypeTypes = struct {
 	// Detects toxic content
 	TOXICITY EntityManagementManagedEvaluationType
 }{
+	// Measures if the model's answer is relevant to the user's input question
+	ANSWER_RELEVANCY: "ANSWER_RELEVANCY",
 	// Detects biased content
 	BIAS: "BIAS",
+	// Measure of how well the information retrieved by the system is relevant to the user's query and will lead to an accurate, useful answer
+	CONTEXTUAL_RELEVANCY: "CONTEXTUAL_RELEVANCY",
+	// Measures how factually consistent a model's generated answer is with the provided context
+	FAITHFULNESS: "FAITHFULNESS",
 	// Detects jailbreak attempts
 	JAILBREAK: "JAILBREAK",
 	// Detects personally identifiable information leakage
@@ -2372,6 +2472,8 @@ type EntityManagementRegion string
 var EntityManagementRegionTypes = struct {
 	// EU Region
 	EU EntityManagementRegion
+	// Japan region
+	JP EntityManagementRegion
 	// Staging Region
 	STAGING EntityManagementRegion
 	// US Region
@@ -2379,6 +2481,8 @@ var EntityManagementRegionTypes = struct {
 }{
 	// EU Region
 	EU: "EU",
+	// Japan region
+	JP: "JP",
 	// Staging Region
 	STAGING: "STAGING",
 	// US Region
@@ -2896,6 +3000,159 @@ var EntityTypeTypes = struct {
 	WORKLOAD_ENTITY: "WORKLOAD_ENTITY",
 }
 
+// FederatedLogsCloudProvider - Supported cloud providers for federated logs.
+type FederatedLogsCloudProvider string
+
+var FederatedLogsCloudProviderTypes = struct {
+	// Amazon Web Services
+	AWS FederatedLogsCloudProvider
+	// Microsoft Azure
+	AZURE FederatedLogsCloudProvider
+	// Google Cloud Platform
+	GCP FederatedLogsCloudProvider
+	// Oracle Cloud Infrastructure
+	OCI FederatedLogsCloudProvider
+}{
+	// Amazon Web Services
+	AWS: "AWS",
+	// Microsoft Azure
+	AZURE: "AZURE",
+	// Google Cloud Platform
+	GCP: "GCP",
+	// Oracle Cloud Infrastructure
+	OCI: "OCI",
+}
+
+// FederatedLogsForwarderType - Supported forwarder types for log processing.
+type FederatedLogsForwarderType string
+
+var FederatedLogsForwarderTypeTypes = struct {
+	// Logs are forwarded via a pipeline control fleet deployment.
+	PIPELINE_CONTROL FederatedLogsForwarderType
+}{
+	// Logs are forwarded via a pipeline control fleet deployment.
+	PIPELINE_CONTROL: "PIPELINE_CONTROL",
+}
+
+// FederatedLogsHealthCheckState - Health check states for a federated logs setup or partition.
+type FederatedLogsHealthCheckState string
+
+var FederatedLogsHealthCheckStateTypes = struct {
+	// The setup or partition and its dependencies are operating correctly.
+	HEALTHY FederatedLogsHealthCheckState
+	// The setup or partition has issues. Check the message for details.
+	UNHEALTHY FederatedLogsHealthCheckState
+	// No health check has been run yet.
+	UNKNOWN FederatedLogsHealthCheckState
+}{
+	// The setup or partition and its dependencies are operating correctly.
+	HEALTHY: "HEALTHY",
+	// The setup or partition has issues. Check the message for details.
+	UNHEALTHY: "UNHEALTHY",
+	// No health check has been run yet.
+	UNKNOWN: "UNKNOWN",
+}
+
+// FederatedLogsLifecycleState - Lifecycle states shared across setup and partition.
+type FederatedLogsLifecycleState string
+
+var FederatedLogsLifecycleStateTypes = struct {
+	// Successfully onboarded.
+	COMPLETE FederatedLogsLifecycleState
+	// Initial data processing component configuration has been created during onboarding.
+	DATA_PROCESSING_CONFIG_CREATED FederatedLogsLifecycleState
+	// A delete has been requested and an updated data processing component configuration is pending deployment.
+	DELETING FederatedLogsLifecycleState
+	// An error occurred during the lifecycle.
+	ERROR FederatedLogsLifecycleState
+	// Entity resource creation is complete.
+	RESOURCE_CREATION_COMPLETE FederatedLogsLifecycleState
+}{
+	// Successfully onboarded.
+	COMPLETE: "COMPLETE",
+	// Initial data processing component configuration has been created during onboarding.
+	DATA_PROCESSING_CONFIG_CREATED: "DATA_PROCESSING_CONFIG_CREATED",
+	// A delete has been requested and an updated data processing component configuration is pending deployment.
+	DELETING: "DELETING",
+	// An error occurred during the lifecycle.
+	ERROR: "ERROR",
+	// Entity resource creation is complete.
+	RESOURCE_CREATION_COMPLETE: "RESOURCE_CREATION_COMPLETE",
+}
+
+// FederatedLogsLifecycleStatePartition - Lifecycle states for a federated logs partition.
+type FederatedLogsLifecycleStatePartition string
+
+var FederatedLogsLifecycleStatePartitionTypes = struct {
+	// Partition has been successfully onboarded.
+	COMPLETE FederatedLogsLifecycleStatePartition
+	// Initial data processing component configuration has been created during onboarding.
+	DATA_PROCESSING_CONFIG_CREATED FederatedLogsLifecycleStatePartition
+	// A delete has been requested and an updated data processing component configuration is pending deployment.
+	DELETING FederatedLogsLifecycleStatePartition
+	// An error occurred during the lifecycle.
+	ERROR FederatedLogsLifecycleStatePartition
+	// Entity resource creation is complete.
+	RESOURCE_CREATION_COMPLETE FederatedLogsLifecycleStatePartition
+}{
+	// Partition has been successfully onboarded.
+	COMPLETE: "COMPLETE",
+	// Initial data processing component configuration has been created during onboarding.
+	DATA_PROCESSING_CONFIG_CREATED: "DATA_PROCESSING_CONFIG_CREATED",
+	// A delete has been requested and an updated data processing component configuration is pending deployment.
+	DELETING: "DELETING",
+	// An error occurred during the lifecycle.
+	ERROR: "ERROR",
+	// Entity resource creation is complete.
+	RESOURCE_CREATION_COMPLETE: "RESOURCE_CREATION_COMPLETE",
+}
+
+// FederatedLogsLifecycleStateSetup - Lifecycle states for a federated logs setup.
+type FederatedLogsLifecycleStateSetup string
+
+var FederatedLogsLifecycleStateSetupTypes = struct {
+	// Setup has been successfully onboarded.
+	COMPLETE FederatedLogsLifecycleStateSetup
+	// Initial data processing component configuration has been created during onboarding.
+	DATA_PROCESSING_CONFIG_CREATED FederatedLogsLifecycleStateSetup
+	// A delete has been requested and an updated data processing component configuration is pending deployment.
+	DELETING FederatedLogsLifecycleStateSetup
+	// An error occurred during the lifecycle.
+	ERROR FederatedLogsLifecycleStateSetup
+	// Entity resource creation is complete.
+	RESOURCE_CREATION_COMPLETE FederatedLogsLifecycleStateSetup
+}{
+	// Setup has been successfully onboarded.
+	COMPLETE: "COMPLETE",
+	// Initial data processing component configuration has been created during onboarding.
+	DATA_PROCESSING_CONFIG_CREATED: "DATA_PROCESSING_CONFIG_CREATED",
+	// A delete has been requested and an updated data processing component configuration is pending deployment.
+	DELETING: "DELETING",
+	// An error occurred during the lifecycle.
+	ERROR: "ERROR",
+	// Entity resource creation is complete.
+	RESOURCE_CREATION_COMPLETE: "RESOURCE_CREATION_COMPLETE",
+}
+
+// FederatedLogsRetentionUnit - Time units for retention policy durations.
+type FederatedLogsRetentionUnit string
+
+var FederatedLogsRetentionUnitTypes = struct {
+	// Retention duration specified in days.
+	DAYS FederatedLogsRetentionUnit
+	// Retention duration specified in months.
+	MONTHS FederatedLogsRetentionUnit
+	// Retention duration specified in weeks.
+	WEEKS FederatedLogsRetentionUnit
+}{
+	// Retention duration specified in days.
+	DAYS: "DAYS",
+	// Retention duration specified in months.
+	MONTHS: "MONTHS",
+	// Retention duration specified in weeks.
+	WEEKS: "WEEKS",
+}
+
 // FleetControlEntityScope - The list of possible scopes of an entity
 type FleetControlEntityScope string
 
@@ -3021,7 +3278,6 @@ var ServiceLevelObjectiveRollingTimeWindowUnitTypes = struct {
 	DAY: "DAY",
 }
 
-// SyntheticMonitorStatus -
 type SyntheticMonitorStatus string
 
 var SyntheticMonitorStatusTypes = struct {
@@ -3109,9 +3365,7 @@ var WorkloadStatusValueTypes = struct {
 
 // AccountOutline - The `AccountOutline` object provides basic data about an account.
 type AccountOutline struct {
-	//
-	ID int `json:"id,omitempty"`
-	//
+	ID   int    `json:"id,omitempty"`
 	Name string `json:"name,omitempty"`
 	// Returns event types that are currently reporting in the account.
 	ReportingEventTypes []string `json:"reportingEventTypes,omitempty"`
@@ -3119,9 +3373,7 @@ type AccountOutline struct {
 
 // AccountReference - The `AccountReference` object provides basic identifying information about the account.
 type AccountReference struct {
-	//
-	ID int `json:"id,omitempty"`
-	//
+	ID   int    `json:"id,omitempty"`
 	Name string `json:"name,omitempty"`
 }
 
@@ -3139,8 +3391,6 @@ type Actor struct {
 	//
 	// For more details on entities, visit our [entity docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/use-new-relic-graphql-api-query-entities).
 	Entity EntityInterface `json:"entity,omitempty"`
-	// This field provides access to EntityManagement data.
-	EntityManagement EntityManagementActorStitchedFields `json:"entityManagement,omitempty"`
 	// Search for entities using a custom query.
 	//
 	// For more details on how to create a custom query
@@ -3149,6 +3399,10 @@ type Actor struct {
 	//
 	// Note: you must supply either a `query` OR a `queryBuilder` argument, not both.
 	EntitySearch EntitySearch `json:"entitySearch,omitempty"`
+	// This field provides access to EntityManagement data.
+	EntityManagement EntityManagementActorStitchedFields `json:"entityManagement,omitempty"`
+	// This field provides access to FederatedLogs data.
+	FederatedLogs FederatedLogsActorStitchedFields `json:"federatedLogs,omitempty"`
 }
 
 // AgentApplicationSegmentsBrowserSegmentAllowList - The allow list object for browser applications.
@@ -3601,7 +3855,6 @@ type AgentEnvironmentLoadedModuleAttribute struct {
 	Value string `json:"value"`
 }
 
-// AlertableEntity -
 type AlertableEntity struct {
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
@@ -3613,7 +3866,6 @@ type AlertableEntity struct {
 
 func (x *AlertableEntity) ImplementsAlertableEntity() {}
 
-// AlertableEntityOutline -
 type AlertableEntityOutline struct {
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
@@ -3639,7 +3891,6 @@ type ApmApplicationDeployment struct {
 
 // ApmApplicationEntity - An APM Application entity.
 type ApmApplicationEntity struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -3704,8 +3955,7 @@ type ApmApplicationEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
+	Name        string                 `json:"name,omitempty"`
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -3745,7 +3995,6 @@ func (x *ApmApplicationEntity) ImplementsEntity() {}
 
 // ApmApplicationEntityOutline - An APM Application entity outline.
 type ApmApplicationEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -3844,7 +4093,6 @@ type ApmApplicationSummaryData struct {
 
 // ApmBrowserApplicationEntity - The `ApmBrowserApplicationEntity` interface provides detailed information for the Browser App injected by an APM Application.
 type ApmBrowserApplicationEntity struct {
-	//
 	ApmBrowserSummary ApmBrowserApplicationSummaryData `json:"apmBrowserSummary,omitempty"`
 }
 
@@ -3852,7 +4100,6 @@ func (x *ApmBrowserApplicationEntity) ImplementsApmBrowserApplicationEntity() {}
 
 // ApmBrowserApplicationEntityOutline - The `ApmBrowserApplicationEntityOutline` interface provides detailed information for the Browser App injected by an APM Application.
 type ApmBrowserApplicationEntityOutline struct {
-	//
 	ApmBrowserSummary ApmBrowserApplicationSummaryData `json:"apmBrowserSummary,omitempty"`
 }
 
@@ -3874,7 +4121,6 @@ type ApmBrowserApplicationSummaryData struct {
 
 // ApmDatabaseInstanceEntity - A database instance seen by an APM Application
 type ApmDatabaseInstanceEntity struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -3915,8 +4161,7 @@ type ApmDatabaseInstanceEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
+	Name        string                 `json:"name,omitempty"`
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -3954,7 +4199,6 @@ func (x *ApmDatabaseInstanceEntity) ImplementsEntity() {}
 
 // ApmDatabaseInstanceEntityOutline - A database instance seen by an APM Application
 type ApmDatabaseInstanceEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -4004,7 +4248,6 @@ func (x *ApmDatabaseInstanceEntityOutline) ImplementsEntityOutline() {}
 
 // ApmExternalServiceEntity - An external service seen by an APM Application.
 type ApmExternalServiceEntity struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -4017,8 +4260,7 @@ type ApmExternalServiceEntity struct {
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
-	EntityType EntityType `json:"entityType,omitempty"`
-	//
+	EntityType      EntityType                    `json:"entityType,omitempty"`
 	ExternalSummary ApmExternalServiceSummaryData `json:"externalSummary,omitempty"`
 	// The date of last time the entity has updated any of its fields.
 	FirstIndexedAt *nrtime.EpochMilliseconds `json:"firstIndexedAt,omitempty"`
@@ -4047,8 +4289,7 @@ type ApmExternalServiceEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
+	Name        string                 `json:"name,omitempty"`
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -4082,7 +4323,6 @@ func (x *ApmExternalServiceEntity) ImplementsEntity() {}
 
 // ApmExternalServiceEntityOutline - An external service seen by an APM Application.
 type ApmExternalServiceEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -4091,8 +4331,7 @@ type ApmExternalServiceEntityOutline struct {
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
-	EntityType EntityType `json:"entityType,omitempty"`
-	//
+	EntityType      EntityType                    `json:"entityType,omitempty"`
 	ExternalSummary ApmExternalServiceSummaryData `json:"externalSummary,omitempty"`
 	// The date of last time the entity has updated any of its fields.
 	FirstIndexedAt *nrtime.EpochMilliseconds `json:"firstIndexedAt,omitempty"`
@@ -4138,7 +4377,6 @@ type ApmExternalServiceSummaryData struct {
 
 // BrowserApplicationEntity - A Browser Application entity.
 type BrowserApplicationEntity struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -4195,8 +4433,7 @@ type BrowserApplicationEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
+	Name        string                 `json:"name,omitempty"`
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -4238,7 +4475,6 @@ func (x *BrowserApplicationEntity) ImplementsEntity() {}
 
 // BrowserApplicationEntityOutline - A Browser Application entity outline.
 type BrowserApplicationEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -4399,10 +4635,8 @@ type ChangeTrackingTimeWindowInputWithDefaults struct {
 
 // CollectionEntity - A group of entities defined by entity search queries and specific GUIDs
 type CollectionEntity struct {
-	//
 	Collection EntityCollection `json:"collection,omitempty"`
-	//
-	GUID EntityGUID `json:"guid,omitempty"`
+	GUID       EntityGUID       `json:"guid,omitempty"`
 }
 
 func (x *CollectionEntity) ImplementsCollectionEntity() {}
@@ -4437,7 +4671,6 @@ type DashboardBillboardWidgetThreshold struct {
 
 // DashboardEntity - A Dashboard entity.
 type DashboardEntity struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -4482,8 +4715,7 @@ type DashboardEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
+	Name        string                 `json:"name,omitempty"`
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The owner information of the dashboard.
 	Owner DashboardEntityOwnerInfo `json:"owner,omitempty"`
@@ -4527,7 +4759,6 @@ func (x *DashboardEntity) ImplementsEntity() {}
 
 // DashboardEntityOutline - A Dashboard entity outline.
 type DashboardEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -4879,7 +5110,6 @@ type DomainTypeInput struct {
 //
 // To understand more about entities and entity types, look at [our docs](https://docs.newrelic.com/docs/what-are-new-relic-entities).
 type Entity struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -4918,8 +5148,7 @@ type Entity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
+	Name        string                 `json:"name,omitempty"`
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -5663,6 +5892,60 @@ type EntityManagementAwsCredentialsCreateInput struct {
 	AssumeRole EntityManagementAwsAssumeRoleConfigCreateInput `json:"assumeRole,omitempty"`
 }
 
+// EntityManagementAzureDevOpsConnectionEntity - Connection entity type for Azure DevOps
+type EntityManagementAzureDevOpsConnectionEntity struct {
+	// A single credential from the choice of AzureDevOpsCredential
+	Credential EntityManagementAzureDevOpsCredentials `json:"credential"`
+	// The description of that connection.
+	Description string `json:"description,omitempty"`
+	// Flag to indicate if the connection is enabled. True by default
+	Enabled bool `json:"enabled,omitempty"`
+	// Optional field representing an identifier managed by the consumer
+	ExternalId string `json:"externalId,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The name of that connection.
+	Name string `json:"name"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Optional list of connection settings
+	Settings []EntityManagementConnectionSettings `json:"settings"`
+	// Array of up to 2 SigningCredential to verify incoming requests, and rotate new signing credentials when needed
+	SigningCredentials []EntityManagementSigningCredential `json:"signingCredentials"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity's type.
+	Type string `json:"type"`
+	// The Azure DevOps organization URL, e.g. https://dev.azure.com/contoso
+	URL string `json:"url"`
+}
+
+func (x *EntityManagementAzureDevOpsConnectionEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementAzureDevOpsCredentials - Base credentials type for Azure DevOps
+type EntityManagementAzureDevOpsCredentials struct {
+	// OAuth support via Azure AD
+	Oauth EntityManagementAzureDevOpsOAuthCredential `json:"oauth,omitempty"`
+	// A personal access token credential
+	PersonalAccessToken EntityManagementSecretReference `json:"personalAccessToken,omitempty"`
+}
+
+// EntityManagementAzureDevOpsOAuthCredential - OAuth credential type for Azure DevOps via Azure AD
+type EntityManagementAzureDevOpsOAuthCredential struct {
+	// The Azure AD application (client) ID
+	ClientId string `json:"clientId"`
+	// The Azure AD client secret
+	ClientSecret EntityManagementSecretReference `json:"clientSecret"`
+	// The OAuth refresh token for token renewal
+	RefreshToken EntityManagementSecretReference `json:"refreshToken"`
+	// The field name for the access token from the JSON response, default to access_token
+	TokenFieldName string `json:"tokenFieldName,omitempty"`
+	// The full Azure AD token URL, e.g. https://login.microsoftonline.com/{tenantId}/oauth2/v2.0/token
+	TokenURL string `json:"tokenUrl"`
+}
+
 // EntityManagementBackgroundProcessingQuery - At rest background processing types
 type EntityManagementBackgroundProcessingQuery struct {
 	// The list of scopes to be included in every query in a scheduled batch of cross account queries.
@@ -5869,9 +6152,9 @@ type EntityManagementCharacterTextSplitterOptions struct {
 	Separator string `json:"separator"`
 }
 
-// EntityManagementCiscoMerakiBasicAuthCredential - Basic auth credential type for Cisco Meraki
-type EntityManagementCiscoMerakiBasicAuthCredential struct {
-	// The API key to authorize API access
+// EntityManagementCiscoMerakiAPIKeyCredential - Api key auth credential type for Cisco Meraki
+type EntityManagementCiscoMerakiAPIKeyCredential struct {
+	// The api key to authorize API access
 	APIKey EntityManagementSecretReference `json:"apiKey"`
 }
 
@@ -5883,8 +6166,8 @@ type EntityManagementCiscoMerakiConnectionEntity struct {
 	Description string `json:"description,omitempty"`
 	// Flag to indicate if the connection is enabled. True by default
 	Enabled bool `json:"enabled,omitempty"`
-	// Optional field representing an identifier managed by the consumer
-	ExternalId string `json:"externalId,omitempty"`
+	// Meraki organization id
+	ExternalId string `json:"externalId"`
 	// The entity's global unique identifier.
 	ID string `json:"id"`
 	// Metadata about the entity.
@@ -5897,8 +6180,6 @@ type EntityManagementCiscoMerakiConnectionEntity struct {
 	Scope EntityManagementScopedReference `json:"scope"`
 	// Optional list of connection settings
 	Settings []EntityManagementConnectionSettings `json:"settings"`
-	// Array of up to 2 SigningCredential to verify incoming requests, and rotate new signing credentials when needed
-	SigningCredentials []EntityManagementSigningCredential `json:"signingCredentials"`
 	// Collection of tags.
 	Tags []EntityManagementTag `json:"tags"`
 	// The entity's type.
@@ -5909,8 +6190,32 @@ func (x *EntityManagementCiscoMerakiConnectionEntity) ImplementsEntityManagement
 
 // EntityManagementCiscoMerakiCredential - Credential type for Cisco Meraki
 type EntityManagementCiscoMerakiCredential struct {
-	// A simple API key-based authentication
-	BasicAuth EntityManagementCiscoMerakiBasicAuthCredential `json:"basicAuth,omitempty"`
+	// Api key authentication
+	APIKey EntityManagementCiscoMerakiAPIKeyCredential `json:"apiKey,omitempty"`
+}
+
+// EntityManagementCloudProviderConfiguration - Cloud provider configuration for a federated log setup.
+type EntityManagementCloudProviderConfiguration struct {
+	// The cloud provider where this federated log setup is deployed.
+	Provider EntityManagementCloudProvider `json:"provider"`
+	// The cloud provider region where the federated log setup is deployed.
+	Region string `json:"region"`
+}
+
+// EntityManagementCloudProviderConfigurationCreateInput - Create input for CloudProviderConfiguration.
+type EntityManagementCloudProviderConfigurationCreateInput struct {
+	// See provider in CloudProviderConfiguration.
+	Provider EntityManagementCloudProvider `json:"provider"`
+	// See region in CloudProviderConfiguration.
+	Region string `json:"region"`
+}
+
+// EntityManagementCloudProviderConfigurationUpdateInput - Update input for CloudProviderConfiguration.
+type EntityManagementCloudProviderConfigurationUpdateInput struct {
+	// See provider in CloudProviderConfiguration.
+	Provider EntityManagementCloudProvider `json:"provider"`
+	// See region in CloudProviderConfiguration.
+	Region string `json:"region"`
 }
 
 // EntityManagementCollectionEntity - An entity type to represent collections of entities
@@ -6147,9 +6452,21 @@ type EntityManagementCorrelationAttribute struct {
 type EntityManagementCorrelationAttributeCondition struct {
 	// The attribute path to match (e.g., 'tags.hostname').
 	Attribute string `json:"attribute"`
+	// Optional. Reference to an org-level normalizer to apply to both attribute and value after transforms.
+	Normalize EntityManagementCorrelationNormalizerEntity `json:"normalize,omitempty"`
+	// Optional. Reference to an org-level normalizer to apply only to the attribute side. Overrides normalize for attribute.
+	NormalizeAttribute EntityManagementCorrelationNormalizerEntity `json:"normalizeAttribute,omitempty"`
+	// Optional. Reference to an org-level normalizer to apply only to the value side. Overrides normalize for value.
+	NormalizeValue EntityManagementCorrelationNormalizerEntity `json:"normalizeValue,omitempty"`
 	// The matching operator.
 	Operator EntityManagementCorrelationAttributeConditionOperator `json:"operator"`
-	// The value to match against.
+	// Optional. Ordered list of transform functions to apply to both attribute and value before comparison.
+	Transform []EntityManagementCorrelationTransformFunction `json:"transform"`
+	// Optional. Ordered list of transform functions to apply only to the attribute side. Overrides transform for attribute.
+	TransformAttribute []EntityManagementCorrelationTransformFunction `json:"transformAttribute"`
+	// Optional. Ordered list of transform functions to apply only to the value side. Overrides transform for value.
+	TransformValue []EntityManagementCorrelationTransformFunction `json:"transformValue"`
+	// The value to match against. Should be a reference to the other subject following the pattern {{alias.attribute}}.
 	Value string `json:"value"`
 }
 
@@ -6203,13 +6520,13 @@ func (x *EntityManagementCorrelationInternalSourceConfigEntity) ImplementsEntity
 // the targets for the relationship need not be NGEP entities (can just be NRDB Events).
 type EntityManagementCorrelationLinkEntity struct {
 	// Metadata about why this link exists.
-	Context EntityManagementCorrelationContext `json:"context,omitempty"`
+	Context EntityManagementCorrelationContext `json:"context"`
 	// Indicates if the link is directional.
-	Directional bool `json:"directional,omitempty"`
+	Directional bool `json:"directional"`
 	// The entity's global unique identifier.
 	ID string `json:"id"`
 	// The relationship type (e.g., CAUSED_BY, RELATED_TO).
-	LinkType string `json:"linkType,omitempty"`
+	LinkType string `json:"linkType"`
 	// Metadata about the entity.
 	Metadata EntityManagementMetadata `json:"metadata"`
 	// The name of this correlation link.
@@ -6283,6 +6600,42 @@ type EntityManagementCorrelationLinkingRuleEntity struct {
 }
 
 func (x *EntityManagementCorrelationLinkingRuleEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementCorrelationNormalizationRule - A pattern-value mapping rule used by CorrelationNormalizerEntity.
+type EntityManagementCorrelationNormalizationRule struct {
+	// Regex pattern to match against the input value.
+	Pattern string `json:"pattern"`
+	// The normalized output value when pattern matches.
+	Value string `json:"value"`
+}
+
+// EntityManagementCorrelationNormalizerEntity - Organization-scoped normalizer for pattern-based value mappings.
+// Referenced in CorrelationAttributeCondition normalize fields.
+// Managed separately from correlation rules and reusable across rules within the organization.
+type EntityManagementCorrelationNormalizerEntity struct {
+	// If true, pattern matching ignores case. Default: true.
+	CaseInsensitive bool `json:"caseInsensitive"`
+	// Behavior when no pattern matches. Default: PASSTHROUGH.
+	Default EntityManagementCorrelationNormalizationDefault `json:"default"`
+	// Optional description of the normalizer's purpose.
+	Description string `json:"description,omitempty"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// Metadata about the entity.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// Unique name within the org, used to reference in rules.
+	Name string `json:"name"`
+	// Ordered list of pattern-value mappings. First match wins.
+	Rules []EntityManagementCorrelationNormalizationRule `json:"rules"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Collection of tags.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementCorrelationNormalizerEntity) ImplementsEntityManagementEntity() {}
 
 // EntityManagementCorrelationOverrideInfo - User override information for a correlation link.
 type EntityManagementCorrelationOverrideInfo struct {
@@ -6491,6 +6844,12 @@ type EntityManagementEntity struct {
 
 func (x *EntityManagementEntity) ImplementsEntityManagementEntity() {}
 
+// EntityManagementEntityDeleteResult - The result of deleting an entity.
+type EntityManagementEntityDeleteResult struct {
+	// The id of the entity effectively deleted.
+	ID string `json:"id"`
+}
+
 // EntityManagementEntitySearchResult - The result of an entities query.
 type EntityManagementEntitySearchResult struct {
 	// The current page of results.
@@ -6664,30 +7023,34 @@ type EntityManagementExternalOwner struct {
 	Type EntityManagementExternalOwnerType `json:"type"`
 }
 
-// EntityManagementFederatedLogPartitionEntity - Federated Log partition entity.
+// EntityManagementFederatedLogPartitionEntity - Federated log partition entity.
 type EntityManagementFederatedLogPartitionEntity struct {
-	// The URI location of the log partition in object storage.
-	DataLocationUri string `json:"dataLocationUri"`
+	// Indicates if this log partition is active. When turned off, no new data will be routed to this partition, but existing data can still be queried.
+	Active bool `json:"active"`
+	// The optional retention policy for logs in this partition.
+	DataRetentionPolicy EntityManagementRetentionPolicy `json:"dataRetentionPolicy,omitempty"`
 	// The description of the log partition.
 	Description string `json:"description,omitempty"`
+	// The forwarder configuration specific to this partition.
+	ForwarderConfig EntityManagementPartitionForwarderConfiguration `json:"forwarderConfig,omitempty"`
+	// The health check status of this federated log partition. Indicates whether the partition and its dependencies are operating correctly.
+	HealthCheck EntityManagementPartitionHealthCheckStatus `json:"healthCheck,omitempty"`
 	// The entity's global unique identifier.
 	ID string `json:"id"`
 	// Indicates if this log partition is the default partition.
 	IsDefault bool `json:"isDefault"`
+	// The lifecycle status of the log partition. This indicates the current stage of the entity lifecycle, which can help identify if there are any issues or if the partition is ready for use.
+	LifecycleStatus EntityManagementLifecycleStatusPartition `json:"lifecycleStatus"`
 	// Metadata about the entity.
 	Metadata EntityManagementMetadata `json:"metadata"`
 	// The name of the log partition. This corresponds to the partition/event type used in log queries.
 	Name string `json:"name"`
-	// The table name associated with the log partition. This could refer to a data catalog table or similar structure.
-	PartitionTable string `json:"partitionTable"`
-	// The optional retention policy for logs in this partition.
-	RetentionPolicy EntityManagementRetentionPolicy `json:"retentionPolicy,omitempty"`
 	// The entity's scope.
 	Scope EntityManagementScopedReference `json:"scope"`
 	// The federated log setup this partition belongs to.
 	Setup EntityManagementFederatedLogSetupEntity `json:"setup"`
-	// The status of the log partition.
-	Status EntityManagementLogPartitionStatus `json:"status"`
+	// Storage details for the log partition, including the associated table and data location URI.
+	Storage EntityManagementPartitionStorage `json:"storage"`
 	// Collection of tags.
 	Tags []EntityManagementTag `json:"tags"`
 	// The entity type.
@@ -6698,24 +7061,28 @@ func (x *EntityManagementFederatedLogPartitionEntity) ImplementsEntityManagement
 
 // EntityManagementFederatedLogPartitionEntityCreateInput - Create input for FederatedLogPartitionEntity entity type.
 type EntityManagementFederatedLogPartitionEntityCreateInput struct {
-	// See dataLocationUri in FederatedLogPartitionEntity.
-	DataLocationUri string `json:"dataLocationUri"`
+	// See active in FederatedLogPartitionEntity.
+	Active bool `json:"active"`
+	// See dataRetentionPolicy in FederatedLogPartitionEntity.
+	DataRetentionPolicy EntityManagementRetentionPolicyCreateInput `json:"dataRetentionPolicy,omitempty"`
 	// See description in FederatedLogPartitionEntity.
 	Description string `json:"description,omitempty"`
+	// See forwarderConfig in FederatedLogPartitionEntity.
+	ForwarderConfig EntityManagementPartitionForwarderConfigurationCreateInput `json:"forwarderConfig,omitempty"`
+	// See healthCheck in FederatedLogPartitionEntity.
+	HealthCheck EntityManagementPartitionHealthCheckStatusCreateInput `json:"healthCheck,omitempty"`
 	// See isDefault in FederatedLogPartitionEntity.
 	IsDefault bool `json:"isDefault"`
+	// See lifecycleStatus in FederatedLogPartitionEntity.
+	LifecycleStatus EntityManagementLifecycleStatusPartitionCreateInput `json:"lifecycleStatus,omitempty"`
 	// See name in FederatedLogPartitionEntity.
 	Name string `json:"name"`
-	// See partitionTable in FederatedLogPartitionEntity.
-	PartitionTable string `json:"partitionTable"`
-	// See retentionPolicy in FederatedLogPartitionEntity.
-	RetentionPolicy *EntityManagementRetentionPolicyCreateInput `json:"retentionPolicy,omitempty"`
 	// See scope in FederatedLogPartitionEntity.
 	Scope EntityManagementScopedReferenceInput `json:"scope,omitempty"`
 	// See setupId in FederatedLogPartitionEntity.
 	SetupId string `json:"setupId"`
-	// See status in FederatedLogPartitionEntity.
-	Status EntityManagementLogPartitionStatus `json:"status"`
+	// See storage in FederatedLogPartitionEntity.
+	Storage EntityManagementPartitionStorageCreateInput `json:"storage,omitempty"`
 	// See tags in FederatedLogPartitionEntity.
 	Tags []EntityManagementTagInput `json:"tags,omitempty"`
 }
@@ -6728,22 +7095,26 @@ type EntityManagementFederatedLogPartitionEntityCreateResult struct {
 
 // EntityManagementFederatedLogPartitionEntityUpdateInput - Update input for FederatedLogPartitionEntity entity type.
 type EntityManagementFederatedLogPartitionEntityUpdateInput struct {
-	// See dataLocationUri in FederatedLogPartitionEntity.
-	DataLocationUri string `json:"dataLocationUri,omitempty"`
+	// See active in FederatedLogPartitionEntity.
+	Active bool `json:"active,omitempty"`
+	// See dataRetentionPolicy in FederatedLogPartitionEntity.
+	DataRetentionPolicy EntityManagementRetentionPolicyUpdateInput `json:"dataRetentionPolicy,omitempty"`
 	// See description in FederatedLogPartitionEntity.
 	Description string `json:"description,omitempty"`
+	// See forwarderConfig in FederatedLogPartitionEntity.
+	ForwarderConfig EntityManagementPartitionForwarderConfigurationUpdateInput `json:"forwarderConfig,omitempty"`
+	// See healthCheck in FederatedLogPartitionEntity.
+	HealthCheck EntityManagementPartitionHealthCheckStatusUpdateInput `json:"healthCheck,omitempty"`
 	// See isDefault in FederatedLogPartitionEntity.
 	IsDefault bool `json:"isDefault,omitempty"`
+	// See lifecycleStatus in FederatedLogPartitionEntity.
+	LifecycleStatus EntityManagementLifecycleStatusPartitionUpdateInput `json:"lifecycleStatus,omitempty"`
 	// See name in FederatedLogPartitionEntity.
 	Name string `json:"name,omitempty"`
-	// See partitionTable in FederatedLogPartitionEntity.
-	PartitionTable string `json:"partitionTable,omitempty"`
-	// See retentionPolicy in FederatedLogPartitionEntity.
-	RetentionPolicy *EntityManagementRetentionPolicyUpdateInput `json:"retentionPolicy,omitempty"`
 	// See setupId in FederatedLogPartitionEntity.
 	SetupId string `json:"setupId,omitempty"`
-	// See status in FederatedLogPartitionEntity.
-	Status EntityManagementLogPartitionStatus `json:"status,omitempty"`
+	// See storage in FederatedLogPartitionEntity.
+	Storage EntityManagementPartitionStorageUpdateInput `json:"storage,omitempty"`
 	// See tags in FederatedLogPartitionEntity.
 	Tags []EntityManagementTagInput `json:"tags,omitempty"`
 }
@@ -6754,34 +7125,30 @@ type EntityManagementFederatedLogPartitionEntityUpdateResult struct {
 	Entity EntityManagementFederatedLogPartitionEntity `json:"entity"`
 }
 
-// EntityManagementFederatedLogSetupEntity - Federated Log Setup Entity.
+// EntityManagementFederatedLogSetupEntity - Federated log setup entity.
 type EntityManagementFederatedLogSetupEntity struct {
-	// The cloud provider where this Federated Log setup is deployed.
-	CloudProvider EntityManagementCloudProvider `json:"cloudProvider"`
-	// The cloud provider region where the Federated Log setup is deployed.
-	CloudProviderRegion string `json:"cloudProviderRegion"`
-	// The object storage bucket where log data is stored.
-	DataLocationBucket string `json:"dataLocationBucket"`
-	// The data processing component that defines transformation rules and partition routing logic for this federated log setup.
-	DataProcessingComponent EntityManagementEntityInterface `json:"dataProcessingComponent,omitempty"`
-	// The connection manager entity used for data processing, transformation, and partition routing. Must match the cloudProvider type (e.g., AwsConnectionEntity for AWS, AzureConnectionEntity for Azure) and typically has write/update permissions.
-	DataProcessingConnection EntityManagementEntityInterface `json:"dataProcessingConnection"`
-	// The description of the Federated Log setup.
+	// Indicates if this federated log setup is active. When turned off, no new data will be routed to this setup, but existing data can still be queried.
+	Active bool `json:"active"`
+	// The entity guid of the default log partition for this federated log setup. This is the partition where logs will be routed if they do not match any specific partition routing rules.
+	DefaultPartitionId string `json:"defaultPartitionId,omitempty"`
+	// The description of the federated log setup.
 	Description string `json:"description,omitempty"`
+	// The forwarder responsible for processing and routing logs for this setup.
+	Forwarder EntityManagementForwarder `json:"forwarder,omitempty"`
+	// The health check status of this federated log setup. Indicates whether the setup and its dependencies (connections, storage, etc.) are operating correctly.
+	HealthCheck EntityManagementSetupHealthCheckStatus `json:"healthCheck,omitempty"`
 	// The entity's global unique identifier.
 	ID string `json:"id"`
+	// The lifecycle status of the federated log setup. This indicates the current stage of the entity lifecycle, which can help identify if there are any issues or if the setup is ready for use.
+	LifecycleStatus EntityManagementLifecycleStatusSetup `json:"lifecycleStatus"`
 	// Metadata about the entity.
 	Metadata EntityManagementMetadata `json:"metadata"`
 	// The name of the federated log setup.
 	Name string `json:"name"`
-	// The database name associated with the federated log setup. This could refer to a data catalog database or similar structure.
-	PartitionDatabase string `json:"partitionDatabase"`
-	// The connection manager entity used by query workers for reading and accessing federated log resources. Must match the cloudProvider type (e.g., AwsConnectionEntity for AWS, AzureConnectionEntity for Azure) and typically has read-only permissions.
-	QueryConnection EntityManagementEntityInterface `json:"queryConnection"`
 	// The entity's scope.
 	Scope EntityManagementScopedReference `json:"scope"`
-	// The status of the federated log setup.
-	Status EntityManagementFederatedLogSetupStatus `json:"status"`
+	// The storage configuration for this setup, including cloud provider, bucket, database, and connections.
+	Storage EntityManagementSetupStorage `json:"storage"`
 	// Collection of tags.
 	Tags []EntityManagementTag `json:"tags"`
 	// The entity type.
@@ -6790,146 +7157,26 @@ type EntityManagementFederatedLogSetupEntity struct {
 
 func (x *EntityManagementFederatedLogSetupEntity) ImplementsEntityManagementEntity() {}
 
-// special
-func (x *EntityManagementFederatedLogSetupEntity) UnmarshalJSON(b []byte) error {
-	var objMap map[string]*json.RawMessage
-	err := json.Unmarshal(b, &objMap)
-	if err != nil {
-		return err
-	}
-
-	for k, v := range objMap {
-		if v == nil {
-			continue
-		}
-
-		switch k {
-		case "cloudProvider":
-			err = json.Unmarshal(*v, &x.CloudProvider)
-			if err != nil {
-				return err
-			}
-		case "cloudProviderRegion":
-			err = json.Unmarshal(*v, &x.CloudProviderRegion)
-			if err != nil {
-				return err
-			}
-		case "dataLocationBucket":
-			err = json.Unmarshal(*v, &x.DataLocationBucket)
-			if err != nil {
-				return err
-			}
-		case "dataProcessingComponent":
-			if v == nil {
-				continue
-			}
-			xxx, err := UnmarshalEntityManagementEntityInterface(*v)
-			if err != nil {
-				return err
-			}
-
-			if xxx != nil {
-				x.DataProcessingComponent = *xxx
-			}
-		case "dataProcessingConnection":
-			if v == nil {
-				continue
-			}
-			xxx, err := UnmarshalEntityManagementEntityInterface(*v)
-			if err != nil {
-				return err
-			}
-
-			if xxx != nil {
-				x.DataProcessingConnection = *xxx
-			}
-		case "description":
-			err = json.Unmarshal(*v, &x.Description)
-			if err != nil {
-				return err
-			}
-		case "id":
-			err = json.Unmarshal(*v, &x.ID)
-			if err != nil {
-				return err
-			}
-		case "metadata":
-			err = json.Unmarshal(*v, &x.Metadata)
-			if err != nil {
-				return err
-			}
-		case "name":
-			err = json.Unmarshal(*v, &x.Name)
-			if err != nil {
-				return err
-			}
-		case "partitionDatabase":
-			err = json.Unmarshal(*v, &x.PartitionDatabase)
-			if err != nil {
-				return err
-			}
-		case "queryConnection":
-			if v == nil {
-				continue
-			}
-			xxx, err := UnmarshalEntityManagementEntityInterface(*v)
-			if err != nil {
-				return err
-			}
-
-			if xxx != nil {
-				x.QueryConnection = *xxx
-			}
-		case "scope":
-			err = json.Unmarshal(*v, &x.Scope)
-			if err != nil {
-				return err
-			}
-		case "status":
-			err = json.Unmarshal(*v, &x.Status)
-			if err != nil {
-				return err
-			}
-		case "tags":
-			err = json.Unmarshal(*v, &x.Tags)
-			if err != nil {
-				return err
-			}
-		case "type":
-			err = json.Unmarshal(*v, &x.Type)
-			if err != nil {
-				return err
-			}
-		}
-	}
-
-	return nil
-}
-
 // EntityManagementFederatedLogSetupEntityCreateInput - Create input for FederatedLogSetupEntity entity type.
 type EntityManagementFederatedLogSetupEntityCreateInput struct {
-	// See cloudProvider in FederatedLogSetupEntity.
-	CloudProvider EntityManagementCloudProvider `json:"cloudProvider"`
-	// See cloudProviderRegion in FederatedLogSetupEntity.
-	CloudProviderRegion string `json:"cloudProviderRegion"`
-	// See dataLocationBucket in FederatedLogSetupEntity.
-	DataLocationBucket string `json:"dataLocationBucket"`
-	// See dataProcessingComponentId in FederatedLogSetupEntity.
-	DataProcessingComponentId string `json:"dataProcessingComponentId,omitempty"`
-	// See dataProcessingConnectionId in FederatedLogSetupEntity.
-	DataProcessingConnectionId string `json:"dataProcessingConnectionId"`
+	// See active in FederatedLogSetupEntity.
+	Active bool `json:"active"`
+	// See defaultPartitionId in FederatedLogSetupEntity.
+	DefaultPartitionId string `json:"defaultPartitionId,omitempty"`
 	// See description in FederatedLogSetupEntity.
 	Description string `json:"description,omitempty"`
+	// See forwarder in FederatedLogSetupEntity.
+	Forwarder EntityManagementForwarderCreateInput `json:"forwarder,omitempty"`
+	// See healthCheck in FederatedLogSetupEntity.
+	HealthCheck EntityManagementSetupHealthCheckStatusCreateInput `json:"healthCheck,omitempty"`
+	// See lifecycleStatus in FederatedLogSetupEntity.
+	LifecycleStatus EntityManagementLifecycleStatusSetupCreateInput `json:"lifecycleStatus,omitempty"`
 	// See name in FederatedLogSetupEntity.
 	Name string `json:"name"`
-	// See partitionDatabase in FederatedLogSetupEntity.
-	PartitionDatabase string `json:"partitionDatabase"`
-	// See queryConnectionId in FederatedLogSetupEntity.
-	QueryConnectionId string `json:"queryConnectionId"`
 	// See scope in FederatedLogSetupEntity.
 	Scope EntityManagementScopedReferenceInput `json:"scope,omitempty"`
-	// See status in FederatedLogSetupEntity.
-	Status EntityManagementFederatedLogSetupStatus `json:"status"`
+	// See storage in FederatedLogSetupEntity.
+	Storage EntityManagementSetupStorageCreateInput `json:"storage,omitempty"`
 	// See tags in FederatedLogSetupEntity.
 	Tags []EntityManagementTagInput `json:"tags,omitempty"`
 }
@@ -6942,26 +7189,22 @@ type EntityManagementFederatedLogSetupEntityCreateResult struct {
 
 // EntityManagementFederatedLogSetupEntityUpdateInput - Update input for FederatedLogSetupEntity entity type.
 type EntityManagementFederatedLogSetupEntityUpdateInput struct {
-	// See cloudProvider in FederatedLogSetupEntity.
-	CloudProvider EntityManagementCloudProvider `json:"cloudProvider,omitempty"`
-	// See cloudProviderRegion in FederatedLogSetupEntity.
-	CloudProviderRegion string `json:"cloudProviderRegion,omitempty"`
-	// See dataLocationBucket in FederatedLogSetupEntity.
-	DataLocationBucket string `json:"dataLocationBucket,omitempty"`
-	// See dataProcessingComponentId in FederatedLogSetupEntity.
-	DataProcessingComponentId string `json:"dataProcessingComponentId,omitempty"`
-	// See dataProcessingConnectionId in FederatedLogSetupEntity.
-	DataProcessingConnectionId string `json:"dataProcessingConnectionId,omitempty"`
+	// See active in FederatedLogSetupEntity.
+	Active bool `json:"active,omitempty"`
+	// See defaultPartitionId in FederatedLogSetupEntity.
+	DefaultPartitionId string `json:"defaultPartitionId,omitempty"`
 	// See description in FederatedLogSetupEntity.
 	Description string `json:"description,omitempty"`
+	// See forwarder in FederatedLogSetupEntity.
+	Forwarder EntityManagementForwarderUpdateInput `json:"forwarder,omitempty"`
+	// See healthCheck in FederatedLogSetupEntity.
+	HealthCheck EntityManagementSetupHealthCheckStatusUpdateInput `json:"healthCheck,omitempty"`
+	// See lifecycleStatus in FederatedLogSetupEntity.
+	LifecycleStatus EntityManagementLifecycleStatusSetupUpdateInput `json:"lifecycleStatus,omitempty"`
 	// See name in FederatedLogSetupEntity.
 	Name string `json:"name,omitempty"`
-	// See partitionDatabase in FederatedLogSetupEntity.
-	PartitionDatabase string `json:"partitionDatabase,omitempty"`
-	// See queryConnectionId in FederatedLogSetupEntity.
-	QueryConnectionId string `json:"queryConnectionId,omitempty"`
-	// See status in FederatedLogSetupEntity.
-	Status EntityManagementFederatedLogSetupStatus `json:"status,omitempty"`
+	// See storage in FederatedLogSetupEntity.
+	Storage EntityManagementSetupStorageUpdateInput `json:"storage,omitempty"`
 	// See tags in FederatedLogSetupEntity.
 	Tags []EntityManagementTagInput `json:"tags,omitempty"`
 }
@@ -7129,6 +7372,30 @@ type EntityManagementFlowEntity struct {
 }
 
 func (x *EntityManagementFlowEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementForwarder - The forwarder responsible for processing and routing logs.
+type EntityManagementForwarder struct {
+	// Configuration for a pipeline control forwarder. Populated when type is PIPELINE_CONTROL.
+	PipelineControl EntityManagementPipelineControlConfiguration `json:"pipelineControl,omitempty"`
+	// The type of forwarder used to process logs. Determines which configuration field is populated.
+	Type EntityManagementForwarderType `json:"type"`
+}
+
+// EntityManagementForwarderCreateInput - Create input for Forwarder.
+type EntityManagementForwarderCreateInput struct {
+	// See pipelineControl in Forwarder.
+	PipelineControl EntityManagementPipelineControlConfigurationCreateInput `json:"pipelineControl,omitempty"`
+	// See type in Forwarder.
+	Type EntityManagementForwarderType `json:"type"`
+}
+
+// EntityManagementForwarderUpdateInput - Update input for Forwarder.
+type EntityManagementForwarderUpdateInput struct {
+	// See pipelineControl in Forwarder.
+	PipelineControl EntityManagementPipelineControlConfigurationUpdateInput `json:"pipelineControl,omitempty"`
+	// See type in Forwarder.
+	Type EntityManagementForwarderType `json:"type"`
+}
 
 // EntityManagementGenericEntity - A generic entity.
 type EntityManagementGenericEntity struct {
@@ -7308,6 +7575,36 @@ type EntityManagementGithubCredentials struct {
 	AppToken EntityManagementGithubAppTokenCredential `json:"appToken,omitempty"`
 	// A Github personal access token.
 	PersonalAccessToken EntityManagementSecretReference `json:"personalAccessToken,omitempty"`
+}
+
+// EntityManagementHealthCheckDetail - Result of an individual health check.
+type EntityManagementHealthCheckDetail struct {
+	// When this component was last checked.
+	LastUpdatedAt nrtime.DateTime `json:"lastUpdatedAt"`
+	// Details about the failure, if any.
+	Message string `json:"message,omitempty"`
+	// Whether this specific check passed.
+	Status EntityManagementHealthCheckState `json:"status"`
+}
+
+// EntityManagementHealthCheckDetailCreateInput - Create input for HealthCheckDetail.
+type EntityManagementHealthCheckDetailCreateInput struct {
+	// See lastUpdatedAt in HealthCheckDetail.
+	LastUpdatedAt nrtime.DateTime `json:"lastUpdatedAt"`
+	// See message in HealthCheckDetail.
+	Message string `json:"message,omitempty"`
+	// See status in HealthCheckDetail.
+	Status EntityManagementHealthCheckState `json:"status"`
+}
+
+// EntityManagementHealthCheckDetailUpdateInput - Update input for HealthCheckDetail.
+type EntityManagementHealthCheckDetailUpdateInput struct {
+	// See lastUpdatedAt in HealthCheckDetail.
+	LastUpdatedAt nrtime.DateTime `json:"lastUpdatedAt"`
+	// See message in HealthCheckDetail.
+	Message string `json:"message,omitempty"`
+	// See status in HealthCheckDetail.
+	Status EntityManagementHealthCheckState `json:"status"`
 }
 
 // EntityManagementImpactProfileEntity - An entity representing impact profile.
@@ -7732,6 +8029,66 @@ func (x *EntityManagementJuniperMistConnectionEntity) ImplementsEntityManagement
 type EntityManagementJuniperMistCredential struct {
 	// A simple token-based authentication
 	BasicAuth EntityManagementJuniperMistBasicAuthCredential `json:"basicAuth,omitempty"`
+}
+
+// EntityManagementLifecycleStatusPartition - Lifecycle status for a federated log partition.
+type EntityManagementLifecycleStatusPartition struct {
+	// When the lifecycle status was last updated.
+	LastUpdatedAt nrtime.DateTime `json:"lastUpdatedAt"`
+	// Optional message providing additional context about the status.
+	Message string `json:"message,omitempty"`
+	// The current lifecycle state of the partition.
+	Status EntityManagementLifecycleStatePartition `json:"status"`
+}
+
+// EntityManagementLifecycleStatusPartitionCreateInput - Create input for LifecycleStatusPartition.
+type EntityManagementLifecycleStatusPartitionCreateInput struct {
+	// See lastUpdatedAt in LifecycleStatusPartition.
+	LastUpdatedAt nrtime.DateTime `json:"lastUpdatedAt"`
+	// See message in LifecycleStatusPartition.
+	Message string `json:"message,omitempty"`
+	// See status in LifecycleStatusPartition.
+	Status EntityManagementLifecycleStatePartition `json:"status"`
+}
+
+// EntityManagementLifecycleStatusPartitionUpdateInput - Update input for LifecycleStatusPartition.
+type EntityManagementLifecycleStatusPartitionUpdateInput struct {
+	// See lastUpdatedAt in LifecycleStatusPartition.
+	LastUpdatedAt nrtime.DateTime `json:"lastUpdatedAt"`
+	// See message in LifecycleStatusPartition.
+	Message string `json:"message,omitempty"`
+	// See status in LifecycleStatusPartition.
+	Status EntityManagementLifecycleStatePartition `json:"status"`
+}
+
+// EntityManagementLifecycleStatusSetup - Lifecycle status for a federated log setup.
+type EntityManagementLifecycleStatusSetup struct {
+	// When the lifecycle status was last updated.
+	LastUpdatedAt nrtime.DateTime `json:"lastUpdatedAt"`
+	// Optional message providing additional context about the status.
+	Message string `json:"message,omitempty"`
+	// The current lifecycle state of the setup.
+	Status EntityManagementLifecycleStateSetup `json:"status"`
+}
+
+// EntityManagementLifecycleStatusSetupCreateInput - Create input for LifecycleStatusSetup.
+type EntityManagementLifecycleStatusSetupCreateInput struct {
+	// See lastUpdatedAt in LifecycleStatusSetup.
+	LastUpdatedAt nrtime.DateTime `json:"lastUpdatedAt"`
+	// See message in LifecycleStatusSetup.
+	Message string `json:"message,omitempty"`
+	// See status in LifecycleStatusSetup.
+	Status EntityManagementLifecycleStateSetup `json:"status"`
+}
+
+// EntityManagementLifecycleStatusSetupUpdateInput - Update input for LifecycleStatusSetup.
+type EntityManagementLifecycleStatusSetupUpdateInput struct {
+	// See lastUpdatedAt in LifecycleStatusSetup.
+	LastUpdatedAt nrtime.DateTime `json:"lastUpdatedAt"`
+	// See message in LifecycleStatusSetup.
+	Message string `json:"message,omitempty"`
+	// See status in LifecycleStatusSetup.
+	Status EntityManagementLifecycleStateSetup `json:"status"`
 }
 
 // EntityManagementLlmConfig - configurable details for the LLM
@@ -8203,6 +8560,102 @@ type EntityManagementOperationMetricEntity struct {
 
 func (x *EntityManagementOperationMetricEntity) ImplementsEntityManagementEntity() {}
 
+// EntityManagementPartitionForwarderConfiguration - Forwarder configuration for a partition.
+type EntityManagementPartitionForwarderConfiguration struct {
+	// The partition rule that determines how logs are routed to this partition.
+	PartitionRule EntityManagementPartitionRule `json:"partitionRule,omitempty"`
+	// The type of forwarder. Must match the forwarder type defined on the parent setup.
+	Type EntityManagementForwarderType `json:"type"`
+}
+
+// EntityManagementPartitionForwarderConfigurationCreateInput - Create input for PartitionForwarderConfiguration.
+type EntityManagementPartitionForwarderConfigurationCreateInput struct {
+	// See partitionRule in PartitionForwarderConfiguration.
+	PartitionRule EntityManagementPartitionRuleCreateInput `json:"partitionRule,omitempty"`
+	// See type in PartitionForwarderConfiguration.
+	Type EntityManagementForwarderType `json:"type"`
+}
+
+// EntityManagementPartitionForwarderConfigurationUpdateInput - Update input for PartitionForwarderConfiguration.
+type EntityManagementPartitionForwarderConfigurationUpdateInput struct {
+	// See partitionRule in PartitionForwarderConfiguration.
+	PartitionRule EntityManagementPartitionRuleUpdateInput `json:"partitionRule,omitempty"`
+	// See type in PartitionForwarderConfiguration.
+	Type EntityManagementForwarderType `json:"type"`
+}
+
+// EntityManagementPartitionHealthCheckStatus - Health check status for a federated log partition.
+type EntityManagementPartitionHealthCheckStatus struct {
+	// End-to-end health check: logs were successfully sent, processed, stored, and queried for this partition.
+	End2endDataFlow EntityManagementHealthCheckDetail `json:"end2endDataFlow,omitempty"`
+	// When the health check status was last updated.
+	LastUpdatedAt nrtime.DateTime `json:"lastUpdatedAt"`
+	// Health check for query connection (read access) credentials and accessibility for this partition.
+	QueryConnection EntityManagementHealthCheckDetail `json:"queryConnection,omitempty"`
+}
+
+// EntityManagementPartitionHealthCheckStatusCreateInput - Create input for PartitionHealthCheckStatus.
+type EntityManagementPartitionHealthCheckStatusCreateInput struct {
+	// See end2endDataFlow in PartitionHealthCheckStatus.
+	End2endDataFlow EntityManagementHealthCheckDetailCreateInput `json:"end2endDataFlow,omitempty"`
+	// See lastUpdatedAt in PartitionHealthCheckStatus.
+	LastUpdatedAt nrtime.DateTime `json:"lastUpdatedAt"`
+	// See queryConnection in PartitionHealthCheckStatus.
+	QueryConnection EntityManagementHealthCheckDetailCreateInput `json:"queryConnection,omitempty"`
+}
+
+// EntityManagementPartitionHealthCheckStatusUpdateInput - Update input for PartitionHealthCheckStatus.
+type EntityManagementPartitionHealthCheckStatusUpdateInput struct {
+	// See end2endDataFlow in PartitionHealthCheckStatus.
+	End2endDataFlow EntityManagementHealthCheckDetailUpdateInput `json:"end2endDataFlow,omitempty"`
+	// See lastUpdatedAt in PartitionHealthCheckStatus.
+	LastUpdatedAt nrtime.DateTime `json:"lastUpdatedAt"`
+	// See queryConnection in PartitionHealthCheckStatus.
+	QueryConnection EntityManagementHealthCheckDetailUpdateInput `json:"queryConnection,omitempty"`
+}
+
+// EntityManagementPartitionRule - A routing rule consisting of a single OTTL expression that determines how logs are partitioned.
+type EntityManagementPartitionRule struct {
+	// OTTL expression for partitioning logs. e.g. attributes["cloud.provider"] == "aws"
+	Expression string `json:"expression"`
+}
+
+// EntityManagementPartitionRuleCreateInput - Create input for PartitionRule.
+type EntityManagementPartitionRuleCreateInput struct {
+	// See expression in PartitionRule.
+	Expression string `json:"expression"`
+}
+
+// EntityManagementPartitionRuleUpdateInput - Update input for PartitionRule.
+type EntityManagementPartitionRuleUpdateInput struct {
+	// See expression in PartitionRule.
+	Expression string `json:"expression"`
+}
+
+// EntityManagementPartitionStorage - Storage details for a log partition. This information is used for querying and managing log data for the partition.
+type EntityManagementPartitionStorage struct {
+	// The URI location of the log partition in object storage.
+	DataLocationUri string `json:"dataLocationUri"`
+	// The table name associated with the log partition. This could refer to a data catalog table or similar structure.
+	Table string `json:"table"`
+}
+
+// EntityManagementPartitionStorageCreateInput - Create input for PartitionStorage.
+type EntityManagementPartitionStorageCreateInput struct {
+	// See dataLocationUri in PartitionStorage.
+	DataLocationUri string `json:"dataLocationUri"`
+	// See table in PartitionStorage.
+	Table string `json:"table"`
+}
+
+// EntityManagementPartitionStorageUpdateInput - Update input for PartitionStorage.
+type EntityManagementPartitionStorageUpdateInput struct {
+	// See dataLocationUri in PartitionStorage.
+	DataLocationUri string `json:"dataLocationUri"`
+	// See table in PartitionStorage.
+	Table string `json:"table"`
+}
+
 // EntityManagementPerformanceInboxSettingEntity - Performance inbox setting entity. This entity encompasses all the performance inbox settings.
 type EntityManagementPerformanceInboxSettingEntity struct {
 	// Collection of configs for performance inbox settings.
@@ -8248,6 +8701,30 @@ type EntityManagementPipelineCloudRuleEntity struct {
 }
 
 func (x *EntityManagementPipelineCloudRuleEntity) ImplementsEntityManagementEntity() {}
+
+// EntityManagementPipelineControlConfiguration - Configuration for a pipeline control forwarder.
+type EntityManagementPipelineControlConfiguration struct {
+	// The fleet entity used for deploying the pipeline configuration.
+	Fleet EntityManagementFleetEntity `json:"fleet"`
+	// The routing rule that determines how incoming logs are routed to this setup.
+	RoutingRule EntityManagementRoutingRule `json:"routingRule,omitempty"`
+}
+
+// EntityManagementPipelineControlConfigurationCreateInput - Create input for PipelineControlConfiguration.
+type EntityManagementPipelineControlConfigurationCreateInput struct {
+	// See fleetId in PipelineControlConfiguration.
+	FleetId string `json:"fleetId"`
+	// See routingRule in PipelineControlConfiguration.
+	RoutingRule EntityManagementRoutingRuleCreateInput `json:"routingRule,omitempty"`
+}
+
+// EntityManagementPipelineControlConfigurationUpdateInput - Update input for PipelineControlConfiguration.
+type EntityManagementPipelineControlConfigurationUpdateInput struct {
+	// See fleetId in PipelineControlConfiguration.
+	FleetId string `json:"fleetId"`
+	// See routingRule in PipelineControlConfiguration.
+	RoutingRule EntityManagementRoutingRuleUpdateInput `json:"routingRule,omitempty"`
+}
 
 // EntityManagementPrincipal - A wrapper object that will contain exactly one of the possible identity types.
 type EntityManagementPrincipal struct {
@@ -8375,6 +8852,16 @@ type EntityManagementReference struct {
 	Location string `json:"location"`
 }
 
+// EntityManagementRelationshipDeleteResult - The result of deleting an entity relationship.
+type EntityManagementRelationshipDeleteResult struct {
+	// The source id of the relationship effectively deleted.
+	SourceId string `json:"sourceId"`
+	// The target id of the relationship effectively deleted.
+	TargetId string `json:"targetId"`
+	// The relationship type effectively deleted.
+	Type string `json:"type"`
+}
+
 // EntityManagementRepositoryLicense - License associated with the repository
 type EntityManagementRepositoryLicense struct {
 	// License Name associated with the repository e.g:- MIT, GPL, apache2.0..
@@ -8437,6 +8924,24 @@ type EntityManagementRingDeploymentTracker struct {
 	StartedAt *nrtime.EpochMilliseconds `json:"startedAt,omitempty"`
 	// Ring deployment status
 	Status string `json:"status"`
+}
+
+// EntityManagementRoutingRule - A routing rule consisting of a single OTTL expression that determines how logs are routed.
+type EntityManagementRoutingRule struct {
+	// OTTL expression for routing logs. e.g. attributes["cloud.provider"] == "aws"
+	Expression string `json:"expression"`
+}
+
+// EntityManagementRoutingRuleCreateInput - Create input for RoutingRule.
+type EntityManagementRoutingRuleCreateInput struct {
+	// See expression in RoutingRule.
+	Expression string `json:"expression"`
+}
+
+// EntityManagementRoutingRuleUpdateInput - Update input for RoutingRule.
+type EntityManagementRoutingRuleUpdateInput struct {
+	// See expression in RoutingRule.
+	Expression string `json:"expression"`
 }
 
 // EntityManagementRuleExecutionStatus - Rule execution status
@@ -8659,6 +9164,137 @@ type EntityManagementServiceNowOAuthCredential struct {
 	TokenFieldName string `json:"tokenFieldName,omitempty"`
 	// The ServiceNow relative URL to get an oauth token, default to oauth_token.do
 	TokenRelativeURL string `json:"tokenRelativeUrl,omitempty"`
+}
+
+// EntityManagementSetupHealthCheckStatus - Health check status for a federated log setup.
+type EntityManagementSetupHealthCheckStatus struct {
+	// End-to-end health check: logs were successfully sent, processed, stored, and queried.
+	End2endDataFlow EntityManagementHealthCheckDetail `json:"end2endDataFlow,omitempty"`
+	// When the health check status was last updated.
+	LastUpdatedAt nrtime.DateTime `json:"lastUpdatedAt"`
+	// Health check for query connection (read access) credentials and accessibility.
+	QueryConnection EntityManagementHealthCheckDetail `json:"queryConnection,omitempty"`
+}
+
+// EntityManagementSetupHealthCheckStatusCreateInput - Create input for SetupHealthCheckStatus.
+type EntityManagementSetupHealthCheckStatusCreateInput struct {
+	// See end2endDataFlow in SetupHealthCheckStatus.
+	End2endDataFlow EntityManagementHealthCheckDetailCreateInput `json:"end2endDataFlow,omitempty"`
+	// See lastUpdatedAt in SetupHealthCheckStatus.
+	LastUpdatedAt nrtime.DateTime `json:"lastUpdatedAt"`
+	// See queryConnection in SetupHealthCheckStatus.
+	QueryConnection EntityManagementHealthCheckDetailCreateInput `json:"queryConnection,omitempty"`
+}
+
+// EntityManagementSetupHealthCheckStatusUpdateInput - Update input for SetupHealthCheckStatus.
+type EntityManagementSetupHealthCheckStatusUpdateInput struct {
+	// See end2endDataFlow in SetupHealthCheckStatus.
+	End2endDataFlow EntityManagementHealthCheckDetailUpdateInput `json:"end2endDataFlow,omitempty"`
+	// See lastUpdatedAt in SetupHealthCheckStatus.
+	LastUpdatedAt nrtime.DateTime `json:"lastUpdatedAt"`
+	// See queryConnection in SetupHealthCheckStatus.
+	QueryConnection EntityManagementHealthCheckDetailUpdateInput `json:"queryConnection,omitempty"`
+}
+
+// EntityManagementSetupStorage - The storage configuration for a federated log setup.
+type EntityManagementSetupStorage struct {
+	// The cloud provider configuration for this federated log setup.
+	CloudProviderConfiguration EntityManagementCloudProviderConfiguration `json:"cloudProviderConfiguration"`
+	// The connection manager entity used for writing data for this federated log setup. Must match the cloudProvider type (e.g., AwsConnectionEntity for AWS, AzureConnectionEntity for Azure).
+	DataIngestConnection EntityManagementEntityInterface `json:"dataIngestConnection"`
+	// The object storage bucket where log data is stored.
+	DataLocationBucket string `json:"dataLocationBucket"`
+	// The database name associated with the federated log setup. This could refer to a data catalog database or similar structure.
+	Database string `json:"database"`
+	// The connection manager entity used by query workers for reading and accessing federated log resources. Must match the cloudProvider type (e.g., AwsConnectionEntity for AWS, AzureConnectionEntity for Azure) and typically has read-only permissions.
+	QueryConnection EntityManagementEntityInterface `json:"queryConnection"`
+}
+
+// special
+func (x *EntityManagementSetupStorage) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+
+	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
+		switch k {
+		case "cloudProviderConfiguration":
+			err = json.Unmarshal(*v, &x.CloudProviderConfiguration)
+			if err != nil {
+				return err
+			}
+		case "dataIngestConnection":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalEntityManagementEntityInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.DataIngestConnection = *xxx
+			}
+		case "dataLocationBucket":
+			err = json.Unmarshal(*v, &x.DataLocationBucket)
+			if err != nil {
+				return err
+			}
+		case "database":
+			err = json.Unmarshal(*v, &x.Database)
+			if err != nil {
+				return err
+			}
+		case "queryConnection":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalEntityManagementEntityInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.QueryConnection = *xxx
+			}
+		}
+	}
+
+	return nil
+}
+
+// EntityManagementSetupStorageCreateInput - Create input for SetupStorage.
+type EntityManagementSetupStorageCreateInput struct {
+	// See cloudProviderConfiguration in SetupStorage.
+	CloudProviderConfiguration EntityManagementCloudProviderConfigurationCreateInput `json:"cloudProviderConfiguration,omitempty"`
+	// See dataIngestConnectionId in SetupStorage.
+	DataIngestConnectionId string `json:"dataIngestConnectionId"`
+	// See dataLocationBucket in SetupStorage.
+	DataLocationBucket string `json:"dataLocationBucket"`
+	// See database in SetupStorage.
+	Database string `json:"database"`
+	// See queryConnectionId in SetupStorage.
+	QueryConnectionId string `json:"queryConnectionId"`
+}
+
+// EntityManagementSetupStorageUpdateInput - Update input for SetupStorage.
+type EntityManagementSetupStorageUpdateInput struct {
+	// See cloudProviderConfiguration in SetupStorage.
+	CloudProviderConfiguration EntityManagementCloudProviderConfigurationUpdateInput `json:"cloudProviderConfiguration,omitempty"`
+	// See dataIngestConnectionId in SetupStorage.
+	DataIngestConnectionId string `json:"dataIngestConnectionId"`
+	// See dataLocationBucket in SetupStorage.
+	DataLocationBucket string `json:"dataLocationBucket"`
+	// See database in SetupStorage.
+	Database string `json:"database"`
+	// See queryConnectionId in SetupStorage.
+	QueryConnectionId string `json:"queryConnectionId"`
 }
 
 // EntityManagementSignatureDetails - A set of signature details for a blob signature
@@ -9319,7 +9955,6 @@ type EntityManagementZoomUserOAuthCredential struct {
 //
 // To understand more about entities and entity types, look at [our docs](https://docs.newrelic.com/docs/what-are-new-relic-entities).
 type EntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -9436,9 +10071,8 @@ type EntityRelationshipFilter struct {
 // EntityRelationshipNode - A node in an Entity relationship.
 type EntityRelationshipNode struct {
 	// The Account ID for the relationship node.
-	AccountID int `json:"accountId,omitempty"`
-	//
-	Entity EntityOutlineInterface `json:"entity,omitempty"`
+	AccountID int                    `json:"accountId,omitempty"`
+	Entity    EntityOutlineInterface `json:"entity,omitempty"`
 	// The `EntityType` of the relationship node.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// The Entity `guid` for the relationship node.
@@ -9762,7 +10396,6 @@ type EventDefinition struct {
 
 // ExternalEntity - An External entity.
 type ExternalEntity struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -9801,8 +10434,7 @@ type ExternalEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
+	Name        string                 `json:"name,omitempty"`
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -9836,7 +10468,6 @@ func (x *ExternalEntity) ImplementsEntity() {}
 
 // ExternalEntityOutline - An External entity outline.
 type ExternalEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -9877,6 +10508,404 @@ type ExternalEntityOutline struct {
 func (x *ExternalEntityOutline) ImplementsAlertableEntityOutline() {}
 
 func (x *ExternalEntityOutline) ImplementsEntityOutline() {}
+
+type FederatedLogsActorStitchedFields struct {
+	// Returns a single federated logs partition by ID.
+	Partition FederatedLogsPartition `json:"partition,omitempty"`
+	// Returns a single federated logs setup by ID.
+	Setup FederatedLogsSetup `json:"setup,omitempty"`
+}
+
+// FederatedLogsCloudProviderConfiguration - Cloud provider configuration for a federated logs setup.
+type FederatedLogsCloudProviderConfiguration struct {
+	// The cloud provider.
+	Provider FederatedLogsCloudProvider `json:"provider"`
+	// The cloud provider region.
+	Region string `json:"region"`
+}
+
+// FederatedLogsCloudProviderConfigurationInput - Input for specifying cloud provider configuration.
+type FederatedLogsCloudProviderConfigurationInput struct {
+	// The cloud provider.
+	Provider FederatedLogsCloudProvider `json:"provider"`
+	// The cloud provider region.
+	Region string `json:"region"`
+}
+
+// FederatedLogsCreatePartitionInput - Input for creating a new partition within an existing setup.
+type FederatedLogsCreatePartitionInput struct {
+	// The optional retention policy for logs in this partition.
+	DataRetentionPolicy FederatedLogsRetentionPolicyInput `json:"dataRetentionPolicy,omitempty"`
+	// The description of the log partition.
+	Description string `json:"description,omitempty"`
+	// The optional partition forwarder configuration.
+	ForwarderConfiguration FederatedLogsPartitionForwarderConfigurationInput `json:"forwarderConfiguration,omitempty"`
+	// The name of the log partition.
+	Name string `json:"name"`
+	// Storage details for the partition.
+	Storage FederatedLogsPartitionStorageInput `json:"storage,omitempty"`
+}
+
+// FederatedLogsCreateSetupInput - Input for creating a new federated logs setup.
+type FederatedLogsCreateSetupInput struct {
+	// The default partition created alongside this setup. Logs that do not match any specific partition rule are routed here.
+	DefaultPartition FederatedLogsDefaultPartitionInput `json:"defaultPartition,omitempty"`
+	// The description of the federated log setup.
+	Description string `json:"description,omitempty"`
+	// The forwarder configuration for processing and routing logs.
+	Forwarder FederatedLogsForwarderInput `json:"forwarder,omitempty"`
+	// The name of the federated log setup.
+	Name string `json:"name"`
+	// The storage configuration for this setup.
+	Storage FederatedLogsSetupStorageInput `json:"storage,omitempty"`
+}
+
+// FederatedLogsDefaultPartitionInput - Input for configuring the default partition created with a setup.
+type FederatedLogsDefaultPartitionInput struct {
+	// The optional retention policy for logs in the default partition.
+	DataRetentionPolicy FederatedLogsRetentionPolicyInput `json:"dataRetentionPolicy,omitempty"`
+	// Storage details for the default partition.
+	Storage FederatedLogsPartitionStorageInput `json:"storage,omitempty"`
+}
+
+// FederatedLogsForwarder - The forwarder responsible for processing and routing logs.
+type FederatedLogsForwarder struct {
+	// Configuration for a pipeline control forwarder. Populated when type is PIPELINE_CONTROL.
+	PipelineControl FederatedLogsPipelineControlConfiguration `json:"pipelineControl,omitempty"`
+	// The type of forwarder. Determines which configuration field is populated.
+	Type FederatedLogsForwarderType `json:"type"`
+}
+
+// FederatedLogsForwarderInput - Input for configuring the forwarder. The populated field must correspond to the specified type.
+type FederatedLogsForwarderInput struct {
+	// Pipeline control forwarder configuration. Required when type is PIPELINE_CONTROL.
+	PipelineControl FederatedLogsPipelineControlConfigurationInput `json:"pipelineControl,omitempty"`
+	// The type of forwarder.
+	Type FederatedLogsForwarderType `json:"type"`
+}
+
+// FederatedLogsHealthCheckDetail - Result of an individual health check.
+type FederatedLogsHealthCheckDetail struct {
+	// When this component was last checked.
+	LastUpdatedAt nrtime.DateTime `json:"lastUpdatedAt"`
+	// Details about the failure, if any.
+	Message string `json:"message,omitempty"`
+	// Whether this specific check passed.
+	Status FederatedLogsHealthCheckState `json:"status"`
+}
+
+// FederatedLogsHealthCheckDetailInput - Input for an individual health check result.
+type FederatedLogsHealthCheckDetailInput struct {
+	// When this component was last checked.
+	LastUpdatedAt nrtime.DateTime `json:"lastUpdatedAt"`
+	// Details about the failure, if any.
+	Message string `json:"message,omitempty"`
+	// Whether this specific check passed.
+	Status FederatedLogsHealthCheckState `json:"status"`
+}
+
+// FederatedLogsLifecycleStatusInput - Input for updating lifecycle status.
+type FederatedLogsLifecycleStatusInput struct {
+	// Optional message providing additional context about the status.
+	Message string `json:"message,omitempty"`
+	// The lifecycle state to set.
+	Status FederatedLogsLifecycleState `json:"status"`
+}
+
+// FederatedLogsLifecycleStatusPartition - Lifecycle status for a federated logs partition.
+type FederatedLogsLifecycleStatusPartition struct {
+	// When the status was last updated.
+	LastUpdatedAt nrtime.DateTime `json:"lastUpdatedAt"`
+	// Optional message providing additional context about the status.
+	Message string `json:"message,omitempty"`
+	// The current lifecycle state.
+	Status FederatedLogsLifecycleStatePartition `json:"status"`
+}
+
+// FederatedLogsLifecycleStatusSetup - Lifecycle status for a federated logs setup.
+type FederatedLogsLifecycleStatusSetup struct {
+	// When the status was last updated.
+	LastUpdatedAt nrtime.DateTime `json:"lastUpdatedAt"`
+	// Optional message providing additional context about the status.
+	Message string `json:"message,omitempty"`
+	// The current lifecycle state.
+	Status FederatedLogsLifecycleStateSetup `json:"status"`
+}
+
+// FederatedLogsPartition - A federated logs partition.
+type FederatedLogsPartition struct {
+	// Whether the partition is currently active.
+	Active bool `json:"active"`
+	// When the partition was created.
+	CreatedAt nrtime.DateTime `json:"createdAt"`
+	// The optional retention policy for logs in this partition.
+	DataRetentionPolicy FederatedLogsRetentionPolicy `json:"dataRetentionPolicy,omitempty"`
+	// The description of the partition.
+	Description string `json:"description,omitempty"`
+	// The forwarder configuration for this partition.
+	ForwarderConfiguration FederatedLogsPartitionForwarderConfiguration `json:"forwarderConfiguration,omitempty"`
+	// The health check status of this partition.
+	HealthCheck FederatedLogsPartitionHealthCheckStatus `json:"healthCheck,omitempty"`
+	// The partition entity ID.
+	ID string `json:"id"`
+	// Whether this is the default partition.
+	IsDefault bool `json:"isDefault"`
+	// The current lifecycle status of the partition.
+	LifecycleStatus FederatedLogsLifecycleStatusPartition `json:"lifecycleStatus"`
+	// The name of the partition.
+	Name string `json:"name"`
+	// The parent setup this partition belongs to.
+	Setup FederatedLogsSetup `json:"setup"`
+	// Storage details for this partition, including table and data location.
+	Storage FederatedLogsPartitionStorage `json:"storage"`
+	// When the partition was last updated.
+	UpdatedAt nrtime.DateTime `json:"updatedAt"`
+}
+
+// FederatedLogsPartitionForwarderConfiguration - Forwarder configuration for a partition.
+type FederatedLogsPartitionForwarderConfiguration struct {
+	// Configuration for a pipeline control forwarder. Populated when type is PIPELINE_CONTROL.
+	PipelineControl FederatedLogsPartitionPipelineControlConfiguration `json:"pipelineControl,omitempty"`
+	// The type of forwarder. Must match the forwarder type on the parent setup.
+	Type FederatedLogsForwarderType `json:"type"`
+}
+
+// FederatedLogsPartitionForwarderConfigurationInput - Input for partition-level forwarder configuration.
+type FederatedLogsPartitionForwarderConfigurationInput struct {
+	// Pipeline control forwarder configuration. Required when type is PIPELINE_CONTROL.
+	PipelineControl FederatedLogsPartitionPipelineControlConfigurationInput `json:"pipelineControl,omitempty"`
+	// The type of forwarder. Must match the forwarder type on the parent setup.
+	Type FederatedLogsForwarderType `json:"type"`
+}
+
+// FederatedLogsPartitionHealthCheckInput - Input for updating health check status of a partition.
+type FederatedLogsPartitionHealthCheckInput struct {
+	// End-to-end health check.
+	End2endDataFlow FederatedLogsHealthCheckDetailInput `json:"end2endDataFlow,omitempty"`
+	// Health check for query connection.
+	QueryConnection FederatedLogsHealthCheckDetailInput `json:"queryConnection,omitempty"`
+}
+
+// FederatedLogsPartitionHealthCheckStatus - Health check status for a federated logs partition.
+type FederatedLogsPartitionHealthCheckStatus struct {
+	// End-to-end health check: logs were successfully sent, processed, stored, and queried for this partition.
+	End2endDataFlow FederatedLogsHealthCheckDetail `json:"end2endDataFlow,omitempty"`
+	// When the health check was last updated.
+	LastUpdatedAt nrtime.DateTime `json:"lastUpdatedAt"`
+	// Health check for query connection (read access) credentials and accessibility for this partition.
+	QueryConnection FederatedLogsHealthCheckDetail `json:"queryConnection,omitempty"`
+}
+
+// FederatedLogsPartitionPipelineControlConfiguration - Configuration for a pipeline control forwarder for a partition.
+type FederatedLogsPartitionPipelineControlConfiguration struct {
+	// Metadata about the currently deployed pipeline configuration for this forwarder. May be null if no configuration has been deployed yet.
+	Deployed FederatedLogsPipelineConfigurationMetadata `json:"deployed,omitempty"`
+	// Metadata about the latest pipeline configuration saved for this forwarder.
+	Latest FederatedLogsPipelineConfigurationMetadata `json:"latest,omitempty"`
+	// The partition rule that determines how logs are routed to this partition.
+	PartitionRule FederatedLogsRule `json:"partitionRule,omitempty"`
+}
+
+// FederatedLogsPartitionPipelineControlConfigurationInput - Input for partition-level pipeline control forwarder configuration.
+type FederatedLogsPartitionPipelineControlConfigurationInput struct {
+	// The partition rule that determines how logs are routed to this partition.
+	PartitionRule FederatedLogsRuleInput `json:"partitionRule,omitempty"`
+}
+
+// FederatedLogsPartitionResponse - Response returned by partition mutations (create, update).
+type FederatedLogsPartitionResponse struct {
+	// The partition entity.
+	Partition FederatedLogsPartition `json:"partition"`
+}
+
+// FederatedLogsPartitionStorage - Storage details for a partition, including the associated table and data location URI.
+type FederatedLogsPartitionStorage struct {
+	// The URI location of the partition in object storage.
+	DataLocationUri string `json:"dataLocationUri"`
+	// The table name associated with the partition.
+	Table string `json:"table"`
+}
+
+// FederatedLogsPartitionStorageInput - Input for partition storage details.
+type FederatedLogsPartitionStorageInput struct {
+	// The URI location of the partition in object storage.
+	DataLocationUri string `json:"dataLocationUri"`
+	// The table name associated with the partition.
+	Table string `json:"table"`
+}
+
+// FederatedLogsPipelineConfigurationMetadata - Metadata about a pipeline configuration, including its unique ID and version ID.
+type FederatedLogsPipelineConfigurationMetadata struct {
+	// The configuration ID.
+	ID string `json:"id"`
+	// The configuration version ID.
+	VersionId string `json:"versionId"`
+}
+
+// FederatedLogsPipelineControlConfiguration - Configuration for a pipeline control forwarder.
+type FederatedLogsPipelineControlConfiguration struct {
+	// Metadata about the currently deployed pipeline configuration for this forwarder. May be null if no configuration has been deployed yet.
+	Deployed FederatedLogsPipelineConfigurationMetadata `json:"deployed,omitempty"`
+	// The fleet entity GUID used for deploying the pipeline configuration.
+	FleetId string `json:"fleetId"`
+	// Metadata about the latest pipeline configuration saved for this forwarder.
+	Latest FederatedLogsPipelineConfigurationMetadata `json:"latest,omitempty"`
+	// The routing rule that determines how incoming logs are routed to this setup.
+	RoutingRule FederatedLogsRule `json:"routingRule,omitempty"`
+}
+
+// FederatedLogsPipelineControlConfigurationInput - Input for pipeline control forwarder configuration.
+type FederatedLogsPipelineControlConfigurationInput struct {
+	// The fleet entity GUID used for deploying the pipeline configuration.
+	FleetId string `json:"fleetId"`
+	// The routing rule that determines how incoming logs are routed to this setup.
+	RoutingRule FederatedLogsRuleInput `json:"routingRule,omitempty"`
+}
+
+// FederatedLogsRetentionPolicy - Retention policy for log data.
+type FederatedLogsRetentionPolicy struct {
+	// The duration value for retention.
+	Duration int `json:"duration"`
+	// The time unit for the retention duration.
+	Unit FederatedLogsRetentionUnit `json:"unit"`
+}
+
+// FederatedLogsRetentionPolicyInput - Input for configuring a retention policy.
+type FederatedLogsRetentionPolicyInput struct {
+	// The duration value for retention.
+	Duration int `json:"duration"`
+	// The time unit for the retention duration.
+	Unit FederatedLogsRetentionUnit `json:"unit"`
+}
+
+// FederatedLogsRule - A rule defined by an OTTL expression.
+type FederatedLogsRule struct {
+	// The OTTL expression for routing logs.
+	Expression string `json:"expression"`
+}
+
+// FederatedLogsRuleInput - Input for defining a routing rule using OTTL expressions.
+type FederatedLogsRuleInput struct {
+	// OTTL expression for routing logs.
+	// Example: "attributes[\"service.name\"] == \"python-apm\""
+	Expression string `json:"expression"`
+}
+
+// FederatedLogsSetup - A federated logs setup.
+type FederatedLogsSetup struct {
+	// Whether the setup is currently active.
+	Active bool `json:"active"`
+	// When the setup was created.
+	CreatedAt nrtime.DateTime `json:"createdAt"`
+	// The default partition entity ID for this setup.
+	DefaultPartitionId string `json:"defaultPartitionId,omitempty"`
+	// The description of the setup.
+	Description string `json:"description,omitempty"`
+	// The forwarder responsible for processing and routing logs for this setup.
+	Forwarder FederatedLogsForwarder `json:"forwarder,omitempty"`
+	// The health check status of this setup.
+	HealthCheck FederatedLogsSetupHealthCheckStatus `json:"healthCheck,omitempty"`
+	// The setup entity ID.
+	ID string `json:"id"`
+	// The current lifecycle status of the setup.
+	LifecycleStatus FederatedLogsLifecycleStatusSetup `json:"lifecycleStatus"`
+	// The name of the setup.
+	Name string `json:"name"`
+	// The storage configuration for this setup, including cloud provider, bucket, database, and connections.
+	Storage FederatedLogsSetupStorage `json:"storage"`
+	// When the setup was last updated.
+	UpdatedAt nrtime.DateTime `json:"updatedAt"`
+}
+
+// FederatedLogsSetupHealthCheckInput - Input for updating health check status of a setup.
+type FederatedLogsSetupHealthCheckInput struct {
+	// End-to-end health check.
+	End2endDataFlow FederatedLogsHealthCheckDetailInput `json:"end2endDataFlow,omitempty"`
+	// Health check for query connection.
+	QueryConnection FederatedLogsHealthCheckDetailInput `json:"queryConnection,omitempty"`
+}
+
+// FederatedLogsSetupHealthCheckStatus - Health check status for a federated logs setup.
+type FederatedLogsSetupHealthCheckStatus struct {
+	// End-to-end health check: logs were successfully sent, processed, stored, and queried.
+	End2endDataFlow FederatedLogsHealthCheckDetail `json:"end2endDataFlow,omitempty"`
+	// When the health check was last updated.
+	LastUpdatedAt nrtime.DateTime `json:"lastUpdatedAt"`
+	// Health check for query connection (read access) credentials and accessibility.
+	QueryConnection FederatedLogsHealthCheckDetail `json:"queryConnection,omitempty"`
+}
+
+// FederatedLogsSetupResponse - Response returned by setup mutations (create, update).
+type FederatedLogsSetupResponse struct {
+	// The setup entity, including forwarder-specific metadata on its forwarder configuration.
+	Setup FederatedLogsSetup `json:"setup"`
+}
+
+// FederatedLogsSetupStorage - Storage configuration for a federated logs setup, including cloud provider, bucket, database, and connections.
+type FederatedLogsSetupStorage struct {
+	// The cloud provider configuration.
+	CloudProviderConfiguration FederatedLogsCloudProviderConfiguration `json:"cloudProviderConfiguration"`
+	// The connection manager entity GUID used for writing data.
+	DataIngestConnectionId string `json:"dataIngestConnectionId"`
+	// The object storage bucket where log data is stored.
+	DataLocationBucket string `json:"dataLocationBucket"`
+	// The database name associated with the setup.
+	Database string `json:"database"`
+	// The connection manager entity GUID used by query workers for reading data.
+	QueryConnectionId string `json:"queryConnectionId"`
+}
+
+// FederatedLogsSetupStorageInput - Input for the storage configuration of a setup.
+type FederatedLogsSetupStorageInput struct {
+	// The cloud provider where this setup is deployed.
+	CloudProviderConfiguration FederatedLogsCloudProviderConfigurationInput `json:"cloudProviderConfiguration,omitempty"`
+	// The connection manager entity GUID used for writing data.
+	DataIngestConnectionId string `json:"dataIngestConnectionId"`
+	// The object storage bucket where log data is stored.
+	DataLocationBucket string `json:"dataLocationBucket"`
+	// The database name associated with the federated log setup.
+	Database string `json:"database"`
+	// The connection manager entity GUID used by query workers for reading data.
+	QueryConnectionId string `json:"queryConnectionId"`
+}
+
+// FederatedLogsUpdatePartitionInput - Input for updating an existing federated logs partition.
+type FederatedLogsUpdatePartitionInput struct {
+	// Whether the partition is active. When set to false, log routing to this partition is turned off.
+	Active bool `json:"active,omitempty"`
+	// The retention policy for logs in this partition.
+	DataRetentionPolicy FederatedLogsRetentionPolicyInput `json:"dataRetentionPolicy,omitempty"`
+	// The description of the log partition.
+	Description string `json:"description,omitempty"`
+	// The forwarder configuration for this partition.
+	ForwarderConfiguration FederatedLogsPartitionForwarderConfigurationInput `json:"forwarderConfiguration,omitempty"`
+	// Update the health check status of the partition.
+	HealthCheck FederatedLogsPartitionHealthCheckInput `json:"healthCheck,omitempty"`
+	// Update the lifecycle status of the partition.
+	LifecycleStatus FederatedLogsLifecycleStatusInput `json:"lifecycleStatus,omitempty"`
+	// The name of the federated log partition.
+	Name string `json:"name,omitempty"`
+}
+
+// FederatedLogsUpdateSetupInput - Input for updating an existing federated logs setup.
+type FederatedLogsUpdateSetupInput struct {
+	// Whether the setup is active. When set to false, log routing to this setup is turned off.
+	Active bool `json:"active,omitempty"`
+	// The connection manager entity GUID used for writing data.
+	DataIngestConnectionId string `json:"dataIngestConnectionId,omitempty"`
+	// The description of the federated log setup.
+	Description string `json:"description,omitempty"`
+	// The forwarder configuration for processing and routing logs.
+	Forwarder FederatedLogsForwarderInput `json:"forwarder,omitempty"`
+	// Update the health check status of the setup.
+	HealthCheck FederatedLogsSetupHealthCheckInput `json:"healthCheck,omitempty"`
+	// Update the lifecycle status of the setup.
+	LifecycleStatus FederatedLogsLifecycleStatusInput `json:"lifecycleStatus,omitempty"`
+	// The name of the federated log setup.
+	Name string `json:"name,omitempty"`
+	// The connection manager entity GUID used by query workers for reading data.
+	QueryConnectionId string `json:"queryConnectionId,omitempty"`
+}
 
 // FleetControlActor - Represents an actor
 type FleetControlActor struct {
@@ -10006,7 +11035,6 @@ type FleetControlTag struct {
 
 // GenericEntity - A generic entity.
 type GenericEntity struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -10045,8 +11073,7 @@ type GenericEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
+	Name        string                 `json:"name,omitempty"`
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -10080,7 +11107,6 @@ func (x *GenericEntity) ImplementsEntity() {}
 
 // GenericEntityOutline - A generic entity outline.
 type GenericEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -10124,7 +11150,6 @@ func (x *GenericEntityOutline) ImplementsEntityOutline() {}
 
 // GenericInfrastructureEntity - An Infrastructure entity.
 type GenericInfrastructureEntity struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -10147,9 +11172,8 @@ type GenericInfrastructureEntity struct {
 	// The list of golden tags for a specific entityType.
 	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
-	//
-	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
+	IndexedAt           *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IntegrationTypeCode string                    `json:"integrationTypeCode,omitempty"`
 	// The last time the entity's reporting status changed.
 	LastReportingChangeAt *nrtime.EpochMilliseconds `json:"lastReportingChangeAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
@@ -10165,8 +11189,7 @@ type GenericInfrastructureEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
+	Name        string                 `json:"name,omitempty"`
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -10202,7 +11225,6 @@ func (x *GenericInfrastructureEntity) ImplementsInfrastructureIntegrationEntity(
 
 // GenericInfrastructureEntityOutline - An Infrastructure entity outline.
 type GenericInfrastructureEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -10221,9 +11243,8 @@ type GenericInfrastructureEntityOutline struct {
 	// The list of golden tags for a specific entityType.
 	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
-	//
-	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
+	IndexedAt           *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IntegrationTypeCode string                    `json:"integrationTypeCode,omitempty"`
 	// The last time the entity's reporting status changed.
 	LastReportingChangeAt *nrtime.EpochMilliseconds `json:"lastReportingChangeAt,omitempty"`
 	// The name of this entity.
@@ -10250,7 +11271,6 @@ func (x *GenericInfrastructureEntityOutline) ImplementsInfrastructureIntegration
 
 // InfrastructureAwsLambdaFunctionEntity - An AWS Lambda Function entity.
 type InfrastructureAwsLambdaFunctionEntity struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -10273,9 +11293,8 @@ type InfrastructureAwsLambdaFunctionEntity struct {
 	// The list of golden tags for a specific entityType.
 	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
-	//
-	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
+	IndexedAt           *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IntegrationTypeCode string                    `json:"integrationTypeCode,omitempty"`
 	// The last time the entity's reporting status changed.
 	LastReportingChangeAt *nrtime.EpochMilliseconds `json:"lastReportingChangeAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
@@ -10291,8 +11310,7 @@ type InfrastructureAwsLambdaFunctionEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
+	Name        string                 `json:"name,omitempty"`
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -10305,9 +11323,8 @@ type InfrastructureAwsLambdaFunctionEntity struct {
 	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
 	Relationships []EntityRelationship `json:"relationships,omitempty"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
-	Reporting bool `json:"reporting,omitempty"`
-	//
-	Runtime string `json:"runtime,omitempty"`
+	Reporting bool   `json:"reporting,omitempty"`
+	Runtime   string `json:"runtime,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
 	// The tags applied to the entity.
@@ -10330,7 +11347,6 @@ func (x *InfrastructureAwsLambdaFunctionEntity) ImplementsInfrastructureIntegrat
 
 // InfrastructureAwsLambdaFunctionEntityOutline - An AWS Lambda Function entity outline.
 type InfrastructureAwsLambdaFunctionEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -10349,9 +11365,8 @@ type InfrastructureAwsLambdaFunctionEntityOutline struct {
 	// The list of golden tags for a specific entityType.
 	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
-	//
-	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
+	IndexedAt           *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IntegrationTypeCode string                    `json:"integrationTypeCode,omitempty"`
 	// The last time the entity's reporting status changed.
 	LastReportingChangeAt *nrtime.EpochMilliseconds `json:"lastReportingChangeAt,omitempty"`
 	// The name of this entity.
@@ -10359,9 +11374,8 @@ type InfrastructureAwsLambdaFunctionEntityOutline struct {
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
-	Reporting bool `json:"reporting,omitempty"`
-	//
-	Runtime string `json:"runtime,omitempty"`
+	Reporting bool   `json:"reporting,omitempty"`
+	Runtime   string `json:"runtime,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
 	// The tags applied to the entity.
@@ -10381,7 +11395,6 @@ func (x *InfrastructureAwsLambdaFunctionEntityOutline) ImplementsInfrastructureI
 
 // InfrastructureHostEntity - An Infrastructure Host entity.
 type InfrastructureHostEntity struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -10402,9 +11415,8 @@ type InfrastructureHostEntity struct {
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
-	//
-	HostSummary InfrastructureHostSummaryData `json:"hostSummary,omitempty"`
+	GoldenTags  EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
+	HostSummary InfrastructureHostSummaryData       `json:"hostSummary,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The last time the entity's reporting status changed.
@@ -10422,8 +11434,7 @@ type InfrastructureHostEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
+	Name        string                 `json:"name,omitempty"`
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -10457,7 +11468,6 @@ func (x *InfrastructureHostEntity) ImplementsEntity() {}
 
 // InfrastructureHostEntityOutline - An Infrastructure Host entity outline.
 type InfrastructureHostEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -10474,9 +11484,8 @@ type InfrastructureHostEntityOutline struct {
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
-	//
-	HostSummary InfrastructureHostSummaryData `json:"hostSummary,omitempty"`
+	GoldenTags  EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
+	HostSummary InfrastructureHostSummaryData       `json:"hostSummary,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt *nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The last time the entity's reporting status changed.
@@ -10517,17 +11526,13 @@ type InfrastructureHostSummaryData struct {
 	ServicesCount int `json:"servicesCount,omitempty"`
 }
 
-// InfrastructureIntegrationEntity -
 type InfrastructureIntegrationEntity struct {
-	//
 	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
 }
 
 func (x *InfrastructureIntegrationEntity) ImplementsInfrastructureIntegrationEntity() {}
 
-// InfrastructureIntegrationEntityOutline -
 type InfrastructureIntegrationEntityOutline struct {
-	//
 	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
 }
 
@@ -10598,7 +11603,6 @@ func (x *KeyTransactionApplication) UnmarshalJSON(b []byte) error {
 
 // KeyTransactionEntity - A Key Transaction entity.
 type KeyTransactionEntity struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -10645,8 +11649,7 @@ type KeyTransactionEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
+	Name        string                 `json:"name,omitempty"`
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -10680,7 +11683,6 @@ func (x *KeyTransactionEntity) ImplementsEntity() {}
 
 // KeyTransactionEntityOutline - A Key Transaction entity outline.
 type KeyTransactionEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -10790,7 +11792,6 @@ type MobileAppSummaryData struct {
 
 // MobileApplicationEntity - A Mobile Application entity.
 type MobileApplicationEntity struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -10847,8 +11848,7 @@ type MobileApplicationEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
+	Name        string                 `json:"name,omitempty"`
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -10882,7 +11882,6 @@ func (x *MobileApplicationEntity) ImplementsEntity() {}
 
 // MobileApplicationEntityOutline - A Mobile Application entity outline.
 type MobileApplicationEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -11050,7 +12049,6 @@ type NRQLQueryOptions struct {
 	EventNamespaces []string `json:"eventNamespaces"`
 }
 
-// NerdStorageCollectionMember -
 type NerdStorageCollectionMember struct {
 	// The NerdStorage document.
 	Document NerdStorageDocument `json:"document,omitempty"`
@@ -11058,17 +12056,13 @@ type NerdStorageCollectionMember struct {
 	ID string `json:"id,omitempty"`
 }
 
-// NerdStorageEntityScope -
 type NerdStorageEntityScope struct {
-	//
 	Collection []NerdStorageCollectionMember `json:"collection,omitempty"`
-	//
-	Document NerdStorageDocument `json:"document,omitempty"`
+	Document   NerdStorageDocument           `json:"document,omitempty"`
 }
 
 // SecureCredentialEntity - A secure credential entity.
 type SecureCredentialEntity struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -11109,8 +12103,7 @@ type SecureCredentialEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
+	Name        string                 `json:"name,omitempty"`
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -11150,7 +12143,6 @@ func (x *SecureCredentialEntity) ImplementsEntity() {}
 
 // SecureCredentialEntityOutline - A secure credential entity outline.
 type SecureCredentialEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -11471,7 +12463,7 @@ func (x *SuggestedHistoryBasedNRQLQuery) ImplementsSuggestedNRQLQuery() {}
 
 // SuggestedNRQLQuery - Interface type representing a query suggestion.
 type SuggestedNRQLQuery struct {
-	// The NRQL string to run for the suggested query
+	// The NRQL query string to run for the suggested query
 	NRQL string `json:"nrql"`
 	// A human-readable title describing what the query shows
 	Title string `json:"title"`
@@ -11533,7 +12525,6 @@ func (x *SuggestedNRQLQueryResponse) UnmarshalJSON(b []byte) error {
 
 // SyntheticMonitorEntity - A Synthetic Monitor entity.
 type SyntheticMonitorEntity struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -11582,8 +12573,7 @@ type SyntheticMonitorEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
+	Name        string                 `json:"name,omitempty"`
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The duration in minutes between Synthetic Monitor runs.
 	Period nrtime.Minutes `json:"period,omitempty"`
@@ -11619,7 +12609,6 @@ func (x *SyntheticMonitorEntity) ImplementsEntity() {}
 
 // SyntheticMonitorEntityOutline - A Synthetic Monitor entity outline.
 type SyntheticMonitorEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -11676,9 +12665,8 @@ type SyntheticMonitorSummaryData struct {
 	// The number of locations that are currently failing.
 	LocationsFailing int `json:"locationsFailing,omitempty"`
 	// The number of locations that are currently running.
-	LocationsRunning int `json:"locationsRunning,omitempty"`
-	//
-	Status SyntheticMonitorStatus `json:"status,omitempty"`
+	LocationsRunning int                    `json:"locationsRunning,omitempty"`
+	Status           SyntheticMonitorStatus `json:"status,omitempty"`
 	// The percentage of successful synthetic monitor checks in the last 24 hours.
 	SuccessRate float64 `json:"successRate,omitempty"`
 }
@@ -11693,7 +12681,6 @@ type SyntheticsSyntheticMonitorAsset struct {
 
 // TeamEntity - A Team entity.
 type TeamEntity struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -11701,8 +12688,7 @@ type TeamEntity struct {
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
 	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the time window or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
-	//
-	Collection EntityCollection `json:"collection,omitempty"`
+	Collection      EntityCollection       `json:"collection,omitempty"`
 	// Retrieve the deployment event(s). Ordered by timestamp DESC.
 	DeploymentSearch ChangeTrackingDeploymentSearchResult `json:"deploymentSearch,omitempty"`
 	// The entity's domain
@@ -11734,8 +12720,7 @@ type TeamEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
+	Name        string                 `json:"name,omitempty"`
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -11771,7 +12756,6 @@ func (x *TeamEntity) ImplementsEntity() {}
 
 // TeamEntityOutline - A Team entity outline.
 type TeamEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -11815,7 +12799,6 @@ func (x *TeamEntityOutline) ImplementsEntityOutline() {}
 
 // ThirdPartyServiceEntity - A third party service entity.
 type ThirdPartyServiceEntity struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -11856,8 +12839,7 @@ type ThirdPartyServiceEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
+	Name        string                 `json:"name,omitempty"`
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -11891,7 +12873,6 @@ func (x *ThirdPartyServiceEntity) ImplementsEntity() {}
 
 // ThirdPartyServiceEntityOutline - A third party service entity outline.
 type ThirdPartyServiceEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -11951,7 +12932,6 @@ type TimeWindowInput struct {
 
 // UnavailableEntity - An entity that is unavailable.
 type UnavailableEntity struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -11990,8 +12970,7 @@ type UnavailableEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
+	Name        string                 `json:"name,omitempty"`
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -12025,7 +13004,6 @@ func (x *UnavailableEntity) ImplementsEntity() {}
 
 // UnavailableEntityOutline - An entity outline that is unavailable.
 type UnavailableEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -12069,19 +13047,14 @@ func (x *UnavailableEntityOutline) ImplementsEntityOutline() {}
 
 // UserReference - The `UserReference` object provides basic identifying information about the user.
 type UserReference struct {
-	//
-	Email string `json:"email,omitempty"`
-	//
+	Email    string `json:"email,omitempty"`
 	Gravatar string `json:"gravatar,omitempty"`
-	//
-	ID int `json:"id,omitempty"`
-	//
-	Name string `json:"name,omitempty"`
+	ID       int    `json:"id,omitempty"`
+	Name     string `json:"name,omitempty"`
 }
 
 // WorkloadEntity - A workload entity.
 type WorkloadEntity struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -12089,8 +13062,7 @@ type WorkloadEntity struct {
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
 	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the time window or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
-	//
-	Collection EntityCollection `json:"collection,omitempty"`
+	Collection      EntityCollection       `json:"collection,omitempty"`
 	// When the workload was created.
 	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
 	// The user that created the workload.
@@ -12126,8 +13098,7 @@ type WorkloadEntity struct {
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name string `json:"name,omitempty"`
-	//
+	Name        string                 `json:"name,omitempty"`
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -12167,7 +13138,6 @@ func (x *WorkloadEntity) ImplementsEntity() {}
 
 // WorkloadEntityOutline - A workload entity outline.
 type WorkloadEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -12237,6 +13207,14 @@ type entitySearchResponse struct {
 	Actor Actor `json:"actor"`
 }
 
+type partitionResponse struct {
+	Actor Actor `json:"actor"`
+}
+
+type setupResponse struct {
+	Actor Actor `json:"actor"`
+}
+
 // AgentApplicationSettingsCustomJsConfiguration - A stringified JSON list of rules to mask or unmask specific components or views. These rules override other masking settings and requires values in stringified JSON format, such as: ```[{\"type\":\"mask\",\"operator\":\"equals\",\"name\":\"PrivateContent\",\"identifier\":\"PrivateContent709\"}]```. Each rule object must include the following attributes:
 //
 // | Attribute  | Type            | Required | Values                  | Description                           |
@@ -12298,8 +13276,6 @@ type SecureValue string
 
 // SemVer - The `SemVer` scalar represents a version designation conforming to the SemVer specification.
 type SemVer string
-
-// AlertableEntity -
 type AlertableEntityInterface interface {
 	ImplementsAlertableEntity()
 }
@@ -12521,7 +13497,6 @@ func UnmarshalAlertableEntityInterface(b []byte) (*AlertableEntityInterface, err
 	return nil, fmt.Errorf("interface AlertableEntity was not matched against all PossibleTypes: %s", typeName)
 }
 
-// AlertableEntityOutline -
 type AlertableEntityOutlineInterface interface {
 	ImplementsAlertableEntityOutline()
 }
@@ -13377,6 +14352,16 @@ func UnmarshalEntityManagementEntityInterface(b []byte) (*EntityManagementEntity
 			var xxx EntityManagementEntityInterface = &interfaceType
 
 			return &xxx, nil
+		case "EntityManagementAzureDevOpsConnectionEntity":
+			var interfaceType EntityManagementAzureDevOpsConnectionEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
 		case "EntityManagementBackgroundProcessingRuleEntity":
 			var interfaceType EntityManagementBackgroundProcessingRuleEntity
 			err = json.Unmarshal(b, &interfaceType)
@@ -13499,6 +14484,16 @@ func UnmarshalEntityManagementEntityInterface(b []byte) (*EntityManagementEntity
 			return &xxx, nil
 		case "EntityManagementCorrelationLinkingRuleEntity":
 			var interfaceType EntityManagementCorrelationLinkingRuleEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementEntityInterface = &interfaceType
+
+			return &xxx, nil
+		case "EntityManagementCorrelationNormalizerEntity":
+			var interfaceType EntityManagementCorrelationNormalizerEntity
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
@@ -14601,7 +15596,6 @@ func UnmarshalEntityRelationshipEdgeInterface(b []byte) (*EntityRelationshipEdge
 	return nil, fmt.Errorf("interface EntityRelationshipEdge was not matched against all PossibleTypes: %s", typeName)
 }
 
-// InfrastructureIntegrationEntity -
 type InfrastructureIntegrationEntityInterface interface {
 	ImplementsInfrastructureIntegrationEntity()
 }
@@ -14663,7 +15657,6 @@ func UnmarshalInfrastructureIntegrationEntityInterface(b []byte) (*Infrastructur
 	return nil, fmt.Errorf("interface InfrastructureIntegrationEntity was not matched against all PossibleTypes: %s", typeName)
 }
 
-// InfrastructureIntegrationEntityOutline -
 type InfrastructureIntegrationEntityOutlineInterface interface {
 	ImplementsInfrastructureIntegrationEntityOutline()
 }

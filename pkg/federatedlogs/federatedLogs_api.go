@@ -132,29 +132,1265 @@ const EntityManagementCreateFederatedLogPartitionMutation = `mutation(
 	federatedLogPartitionEntity: $federatedLogPartitionEntity,
 ) {
 	entity {
-		id
-		name
+		active
+		dataRetentionPolicy {
+			duration
+			unit
+		}
 		description
-		dataLocationUri
+		forwarderConfig {
+			partitionRule {
+				expression
+			}
+			type
+		}
+		healthCheck {
+			end2endDataFlow {
+				lastUpdatedAt
+				message
+				status
+			}
+			lastUpdatedAt
+			queryConnection {
+				lastUpdatedAt
+				message
+				status
+			}
+		}
+		id
 		isDefault
-		partitionTable
-		status
+		lifecycleStatus {
+			lastUpdatedAt
+			message
+			status
+		}
 		metadata {
 			createdAt
 			createdBy {
 				__typename
 				id
+				type
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
 			}
 			updatedAt
 			updatedBy {
 				__typename
 				id
+				type
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
 			}
 			version
 		}
+		name
 		scope {
 			id
 			type
+		}
+		setup {
+			active
+			defaultPartitionId
+			description
+			forwarder {
+				type
+			}
+			healthCheck {
+				end2endDataFlow {
+					lastUpdatedAt
+					message
+					status
+				}
+				lastUpdatedAt
+				queryConnection {
+					lastUpdatedAt
+					message
+					status
+				}
+			}
+			id
+			lifecycleStatus {
+				lastUpdatedAt
+				message
+				status
+			}
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					type
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					type
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			name
+			scope {
+				id
+				type
+			}
+			storage {
+				cloudProviderConfiguration {
+					provider
+					region
+				}
+				dataIngestConnection {
+					__typename
+					id
+					name
+					type
+					... on EntityManagementAgentConfigurationEntity {
+						__typename
+						agentType
+						configurationType
+						managedEntityType
+						versionCount
+					}
+					... on EntityManagementAgentConfigurationVersionEntity {
+						__typename
+						agentConfiguration
+						version
+					}
+					... on EntityManagementAgentEffectiveConfigurationEntity {
+						__typename
+					}
+					... on EntityManagementAgentEntity {
+						__typename
+						agentType
+						version
+					}
+					... on EntityManagementAiAgentEntity {
+						__typename
+						category
+						description
+						displayName
+						initialized
+						prompt
+						provider
+						test
+					}
+					... on EntityManagementAiCapableEntity {
+						__typename
+						category
+						language
+						lastSeen
+						toolType
+						toolVersion
+					}
+					... on EntityManagementAiEvaluationConfigEntity {
+						__typename
+						description
+						enabled
+						samplingRate
+					}
+					... on EntityManagementAiToolEntity {
+						__typename
+						description
+						initialized
+						provider
+						test
+						toolType
+						url
+					}
+					... on EntityManagementApiSpecificationBlobEntity {
+						__typename
+						description
+					}
+					... on EntityManagementAwsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementAzureDevOpsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementBackgroundProcessingRuleEntity {
+						__typename
+						description
+						ruleType
+					}
+					... on EntityManagementBackgroundSqlProcessingRuleEntity {
+						__typename
+						description
+					}
+					... on EntityManagementBudgetEntity {
+						__typename
+						budgetType
+						organizationBudget
+					}
+					... on EntityManagementCiscoMerakiConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementCollectionEntity {
+						__typename
+					}
+					... on EntityManagementComponentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementComputeLocationEntity {
+						__typename
+						description
+					}
+					... on EntityManagementConfluenceConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+					}
+					... on EntityManagementConfluenceIntegration {
+						__typename
+						confluenceUserId
+						secretKey
+						url
+					}
+					... on EntityManagementConfluenceRagSettingsEntity {
+						__typename
+						chunkOverlap
+						chunkSize
+						confluenceIntegrationId
+						confluenceQuery
+						intervalSeconds
+						lastPullTime
+						nextPullTime
+						textSplitterType
+					}
+					... on EntityManagementCorrelationInternalSourceConfigEntity {
+						__typename
+						accountId
+						alias
+						filterId
+						namespaces
+						nrql
+						outputTopic
+						source
+					}
+					... on EntityManagementCorrelationLinkEntity {
+						__typename
+						directional
+						linkType
+					}
+					... on EntityManagementCorrelationLinkingRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementCorrelationNormalizerEntity {
+						__typename
+						caseInsensitive
+						default
+						description
+					}
+					... on EntityManagementCustomEvaluationEntity {
+						__typename
+						criteria
+						description
+						model
+						parameters
+						steps
+						threshold
+					}
+					... on EntityManagementCustomerImpactEntity {
+						__typename
+						issueId
+					}
+					... on EntityManagementCustomerImpactQueryEntity {
+						__typename
+						query
+						queryAccountId
+						teamName
+						totalCustImpactQueryAccountIds
+						totalCustomerImpactQuery
+					}
+					... on EntityManagementEventBridgeRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementFederatedLogPartitionEntity {
+						__typename
+						active
+						description
+						isDefault
+					}
+					... on EntityManagementFederatedLogSetupEntity {
+						__typename
+						active
+						defaultPartitionId
+						description
+					}
+					... on EntityManagementFleetDeploymentEntity {
+						__typename
+						configurationVersions
+						description
+						fleetId
+						phase
+					}
+					... on EntityManagementFleetEntity {
+						__typename
+						description
+						managedEntityType
+						product
+					}
+					... on EntityManagementFleetRingEntity {
+						__typename
+						fleetId
+					}
+					... on EntityManagementFlowEntity {
+						__typename
+					}
+					... on EntityManagementGenericEntity {
+						__typename
+					}
+					... on EntityManagementGitHubIntegrationEntity {
+						__typename
+						installationId
+						installationSource
+						installationStatus
+						lastSyncCompletedAt
+						nextSyncAt
+					}
+					... on EntityManagementGitRepositoryEntity {
+						__typename
+						closedPullRequestCount
+						description
+						externalCreatedAt
+						externalId
+						externalLastDeployedAt
+						externalUpdatedAt
+						forkCount
+						hostingPlatform
+						latestReleaseVersion
+						lockedPullRequestCount
+						openPullRequestCount
+						primaryLanguage
+						url
+					}
+					... on EntityManagementGithubConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementImpactProfileEntity {
+						__typename
+					}
+					... on EntityManagementInboxIssueCategoryEntity {
+						__typename
+						categoryType
+						issueType
+						messageAttributes
+						nameAttributes
+					}
+					... on EntityManagementIncidentAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentEntity {
+						__typename
+						category
+						customerImpact
+						description
+						dueDate
+						entitiesImpacted
+						externalId
+						incidentCategory
+						incidentKey
+						incidentProfileId
+						incidentSubcategory
+						issueLinks
+						labels
+						lessonsLearned
+						maxSeverity
+						priority
+						reportedBy
+						resolutionCategory
+						resolutionSummary
+						retroActionItems
+						rootCauseSummary
+						rootCauseTags
+						severity
+						source
+						status
+						triggeringEvent
+					}
+					... on EntityManagementIncidentLinkEntity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementIncidentMessageEntity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementIncidentProfileAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentProfileEntity {
+						__typename
+					}
+					... on EntityManagementIncidentTimelineEntity {
+						__typename
+						content
+						entryType
+						source
+					}
+					... on EntityManagementJiraConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementJiraSyncConfigurationV2Entity {
+						__typename
+						bidirectional
+						connection
+						description
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJuniperMistConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementMaintenanceWindowEntity {
+						__typename
+						affectedEntityType
+						description
+						duration
+						rrule
+						startTime
+						timezone
+					}
+					... on EntityManagementManagedEvaluationsEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMcpServerEntity {
+						__typename
+						description
+						displayName
+						endpoint
+						protocolVersion
+						transport
+					}
+					... on EntityManagementMeterEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMeterTypeEntity {
+						__typename
+						allowMeterCreation
+						attributionDimensions
+						description
+					}
+					... on EntityManagementNewRelicConnection {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementNotebookEntity {
+						__typename
+					}
+					... on EntityManagementNotificationAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementNrAiAgentEntity {
+						__typename
+						displayName
+						version
+					}
+					... on EntityManagementNrqlMacroEntity {
+						__typename
+						expression
+						numParameters
+					}
+					... on EntityManagementOperationEntity {
+						__typename
+					}
+					... on EntityManagementOperationMetricEntity {
+						__typename
+					}
+					... on EntityManagementPerformanceInboxSettingEntity {
+						__typename
+						thresholdScope
+					}
+					... on EntityManagementPipelineCloudRuleEntity {
+						__typename
+						description
+						enabled
+						nrql
+					}
+					... on EntityManagementProductLineEntity {
+						__typename
+						description
+					}
+					... on EntityManagementRagDocumentEntity {
+						__typename
+						authorEmails
+						sourceIdentifier
+					}
+					... on EntityManagementRagToolEntity {
+						__typename
+						description
+					}
+					... on EntityManagementReactNativeSourcemapEntity {
+						__typename
+						appVersionId
+						applicationId
+						jsBundleId
+					}
+					... on EntityManagementRestApiContractEntity {
+						__typename
+					}
+					... on EntityManagementScorecardEntity {
+						__typename
+						description
+					}
+					... on EntityManagementScorecardRuleEntity {
+						__typename
+						description
+						enabled
+						impactWeight
+						progressLevel
+						runInterval
+					}
+					... on EntityManagementSegmentTermsEntity {
+						__typename
+						appEntityId
+						channel
+						domain
+						metricPrefix
+						oldId
+						urlSegments
+					}
+					... on EntityManagementServerlessJobDefinitionEntity {
+						__typename
+						description
+						namespace
+						secretKeys
+					}
+					... on EntityManagementServiceNowConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementSlackConnection {
+						__typename
+						appId
+						description
+						enabled
+						externalId
+						workspace
+					}
+					... on EntityManagementStatusPageAnnouncementEntity {
+						__typename
+						category
+						description
+						effectiveDate
+						eventUrl
+						publishedDate
+						state
+					}
+					... on EntityManagementStatusPageIncidentEntity {
+						__typename
+						description
+						endTime
+						incidentId
+						incidentTitle
+						lastUpdatedTime
+						region
+						startTime
+						status
+					}
+					... on EntityManagementTeamEntity {
+						__typename
+						aliases
+						description
+						hierarchyLevelId
+						managers
+						parentId
+					}
+					... on EntityManagementTeamsHierarchyLevelEntity {
+						__typename
+					}
+					... on EntityManagementTeamsOrganizationSettingsEntity {
+						__typename
+						hierarchyLevelOrder
+					}
+					... on EntityManagementUserEntity {
+						__typename
+						userId
+					}
+					... on EntityManagementWorkItemLinkV2Entity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemMessageV2Entity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemV2Entity {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkflowDefinition {
+						__typename
+						description
+						versions
+					}
+					... on EntityManagementWorkflowSchedule {
+						__typename
+						cronExpression
+						description
+						overlapPolicy
+						timezone
+					}
+					... on EntityManagementZoomConnectionEntity {
+						__typename
+						description
+						enabled
+					}
+				}
+				dataLocationBucket
+				database
+				queryConnection {
+					__typename
+					id
+					name
+					type
+					... on EntityManagementAgentConfigurationEntity {
+						__typename
+						agentType
+						configurationType
+						managedEntityType
+						versionCount
+					}
+					... on EntityManagementAgentConfigurationVersionEntity {
+						__typename
+						agentConfiguration
+						version
+					}
+					... on EntityManagementAgentEffectiveConfigurationEntity {
+						__typename
+					}
+					... on EntityManagementAgentEntity {
+						__typename
+						agentType
+						version
+					}
+					... on EntityManagementAiAgentEntity {
+						__typename
+						category
+						description
+						displayName
+						initialized
+						prompt
+						provider
+						test
+					}
+					... on EntityManagementAiCapableEntity {
+						__typename
+						category
+						language
+						lastSeen
+						toolType
+						toolVersion
+					}
+					... on EntityManagementAiEvaluationConfigEntity {
+						__typename
+						description
+						enabled
+						samplingRate
+					}
+					... on EntityManagementAiToolEntity {
+						__typename
+						description
+						initialized
+						provider
+						test
+						toolType
+						url
+					}
+					... on EntityManagementApiSpecificationBlobEntity {
+						__typename
+						description
+					}
+					... on EntityManagementAwsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementAzureDevOpsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementBackgroundProcessingRuleEntity {
+						__typename
+						description
+						ruleType
+					}
+					... on EntityManagementBackgroundSqlProcessingRuleEntity {
+						__typename
+						description
+					}
+					... on EntityManagementBudgetEntity {
+						__typename
+						budgetType
+						organizationBudget
+					}
+					... on EntityManagementCiscoMerakiConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementCollectionEntity {
+						__typename
+					}
+					... on EntityManagementComponentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementComputeLocationEntity {
+						__typename
+						description
+					}
+					... on EntityManagementConfluenceConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+					}
+					... on EntityManagementConfluenceIntegration {
+						__typename
+						confluenceUserId
+						secretKey
+						url
+					}
+					... on EntityManagementConfluenceRagSettingsEntity {
+						__typename
+						chunkOverlap
+						chunkSize
+						confluenceIntegrationId
+						confluenceQuery
+						intervalSeconds
+						lastPullTime
+						nextPullTime
+						textSplitterType
+					}
+					... on EntityManagementCorrelationInternalSourceConfigEntity {
+						__typename
+						accountId
+						alias
+						filterId
+						namespaces
+						nrql
+						outputTopic
+						source
+					}
+					... on EntityManagementCorrelationLinkEntity {
+						__typename
+						directional
+						linkType
+					}
+					... on EntityManagementCorrelationLinkingRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementCorrelationNormalizerEntity {
+						__typename
+						caseInsensitive
+						default
+						description
+					}
+					... on EntityManagementCustomEvaluationEntity {
+						__typename
+						criteria
+						description
+						model
+						parameters
+						steps
+						threshold
+					}
+					... on EntityManagementCustomerImpactEntity {
+						__typename
+						issueId
+					}
+					... on EntityManagementCustomerImpactQueryEntity {
+						__typename
+						query
+						queryAccountId
+						teamName
+						totalCustImpactQueryAccountIds
+						totalCustomerImpactQuery
+					}
+					... on EntityManagementEventBridgeRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementFederatedLogPartitionEntity {
+						__typename
+						active
+						description
+						isDefault
+					}
+					... on EntityManagementFederatedLogSetupEntity {
+						__typename
+						active
+						defaultPartitionId
+						description
+					}
+					... on EntityManagementFleetDeploymentEntity {
+						__typename
+						configurationVersions
+						description
+						fleetId
+						phase
+					}
+					... on EntityManagementFleetEntity {
+						__typename
+						description
+						managedEntityType
+						product
+					}
+					... on EntityManagementFleetRingEntity {
+						__typename
+						fleetId
+					}
+					... on EntityManagementFlowEntity {
+						__typename
+					}
+					... on EntityManagementGenericEntity {
+						__typename
+					}
+					... on EntityManagementGitHubIntegrationEntity {
+						__typename
+						installationId
+						installationSource
+						installationStatus
+						lastSyncCompletedAt
+						nextSyncAt
+					}
+					... on EntityManagementGitRepositoryEntity {
+						__typename
+						closedPullRequestCount
+						description
+						externalCreatedAt
+						externalId
+						externalLastDeployedAt
+						externalUpdatedAt
+						forkCount
+						hostingPlatform
+						latestReleaseVersion
+						lockedPullRequestCount
+						openPullRequestCount
+						primaryLanguage
+						url
+					}
+					... on EntityManagementGithubConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementImpactProfileEntity {
+						__typename
+					}
+					... on EntityManagementInboxIssueCategoryEntity {
+						__typename
+						categoryType
+						issueType
+						messageAttributes
+						nameAttributes
+					}
+					... on EntityManagementIncidentAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentEntity {
+						__typename
+						category
+						customerImpact
+						description
+						dueDate
+						entitiesImpacted
+						externalId
+						incidentCategory
+						incidentKey
+						incidentProfileId
+						incidentSubcategory
+						issueLinks
+						labels
+						lessonsLearned
+						maxSeverity
+						priority
+						reportedBy
+						resolutionCategory
+						resolutionSummary
+						retroActionItems
+						rootCauseSummary
+						rootCauseTags
+						severity
+						source
+						status
+						triggeringEvent
+					}
+					... on EntityManagementIncidentLinkEntity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementIncidentMessageEntity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementIncidentProfileAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentProfileEntity {
+						__typename
+					}
+					... on EntityManagementIncidentTimelineEntity {
+						__typename
+						content
+						entryType
+						source
+					}
+					... on EntityManagementJiraConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementJiraSyncConfigurationV2Entity {
+						__typename
+						bidirectional
+						connection
+						description
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJuniperMistConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementMaintenanceWindowEntity {
+						__typename
+						affectedEntityType
+						description
+						duration
+						rrule
+						startTime
+						timezone
+					}
+					... on EntityManagementManagedEvaluationsEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMcpServerEntity {
+						__typename
+						description
+						displayName
+						endpoint
+						protocolVersion
+						transport
+					}
+					... on EntityManagementMeterEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMeterTypeEntity {
+						__typename
+						allowMeterCreation
+						attributionDimensions
+						description
+					}
+					... on EntityManagementNewRelicConnection {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementNotebookEntity {
+						__typename
+					}
+					... on EntityManagementNotificationAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementNrAiAgentEntity {
+						__typename
+						displayName
+						version
+					}
+					... on EntityManagementNrqlMacroEntity {
+						__typename
+						expression
+						numParameters
+					}
+					... on EntityManagementOperationEntity {
+						__typename
+					}
+					... on EntityManagementOperationMetricEntity {
+						__typename
+					}
+					... on EntityManagementPerformanceInboxSettingEntity {
+						__typename
+						thresholdScope
+					}
+					... on EntityManagementPipelineCloudRuleEntity {
+						__typename
+						description
+						enabled
+						nrql
+					}
+					... on EntityManagementProductLineEntity {
+						__typename
+						description
+					}
+					... on EntityManagementRagDocumentEntity {
+						__typename
+						authorEmails
+						sourceIdentifier
+					}
+					... on EntityManagementRagToolEntity {
+						__typename
+						description
+					}
+					... on EntityManagementReactNativeSourcemapEntity {
+						__typename
+						appVersionId
+						applicationId
+						jsBundleId
+					}
+					... on EntityManagementRestApiContractEntity {
+						__typename
+					}
+					... on EntityManagementScorecardEntity {
+						__typename
+						description
+					}
+					... on EntityManagementScorecardRuleEntity {
+						__typename
+						description
+						enabled
+						impactWeight
+						progressLevel
+						runInterval
+					}
+					... on EntityManagementSegmentTermsEntity {
+						__typename
+						appEntityId
+						channel
+						domain
+						metricPrefix
+						oldId
+						urlSegments
+					}
+					... on EntityManagementServerlessJobDefinitionEntity {
+						__typename
+						description
+						namespace
+						secretKeys
+					}
+					... on EntityManagementServiceNowConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementSlackConnection {
+						__typename
+						appId
+						description
+						enabled
+						externalId
+						workspace
+					}
+					... on EntityManagementStatusPageAnnouncementEntity {
+						__typename
+						category
+						description
+						effectiveDate
+						eventUrl
+						publishedDate
+						state
+					}
+					... on EntityManagementStatusPageIncidentEntity {
+						__typename
+						description
+						endTime
+						incidentId
+						incidentTitle
+						lastUpdatedTime
+						region
+						startTime
+						status
+					}
+					... on EntityManagementTeamEntity {
+						__typename
+						aliases
+						description
+						hierarchyLevelId
+						managers
+						parentId
+					}
+					... on EntityManagementTeamsHierarchyLevelEntity {
+						__typename
+					}
+					... on EntityManagementTeamsOrganizationSettingsEntity {
+						__typename
+						hierarchyLevelOrder
+					}
+					... on EntityManagementUserEntity {
+						__typename
+						userId
+					}
+					... on EntityManagementWorkItemLinkV2Entity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemMessageV2Entity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemV2Entity {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkflowDefinition {
+						__typename
+						description
+						versions
+					}
+					... on EntityManagementWorkflowSchedule {
+						__typename
+						cronExpression
+						description
+						overlapPolicy
+						timezone
+					}
+					... on EntityManagementZoomConnectionEntity {
+						__typename
+						description
+						enabled
+					}
+				}
+			}
+			tags {
+				key
+				values
+			}
+			type
+		}
+		storage {
+			dataLocationUri
+			table
 		}
 		tags {
 			key
@@ -164,8 +1400,7 @@ const EntityManagementCreateFederatedLogPartitionMutation = `mutation(
 	}
 } }`
 
-
-
+// Creates an entity of type FederatedLogSetupEntity.
 func (a *FederatedLogs) EntityManagementCreateFederatedLogSetup(
 	federatedLogSetupEntity EntityManagementFederatedLogSetupEntityCreateInput,
 ) (*EntityManagementFederatedLogSetupEntityCreateResult, error) {
@@ -196,50 +1431,1236 @@ type EntityManagementCreateFederatedLogSetupQueryResponse struct {
 	EntityManagementFederatedLogSetupEntityCreateResult EntityManagementFederatedLogSetupEntityCreateResult `json:"EntityManagementCreateFederatedLogSetup"`
 }
 
-// Simplified mutation that only includes FederatedLogSetupEntity fields to avoid 15k grammar token limit
 const EntityManagementCreateFederatedLogSetupMutation = `mutation(
 	$federatedLogSetupEntity: EntityManagementFederatedLogSetupEntityCreateInput!,
 ) { entityManagementCreateFederatedLogSetup(
 	federatedLogSetupEntity: $federatedLogSetupEntity,
 ) {
 	entity {
+		active
+		defaultPartitionId
+		description
+		forwarder {
+			pipelineControl {
+				fleet {
+					description
+					id
+					managedEntityType
+					name
+					product
+					type
+				}
+				routingRule {
+					expression
+				}
+			}
+			type
+		}
+		healthCheck {
+			end2endDataFlow {
+				lastUpdatedAt
+				message
+				status
+			}
+			lastUpdatedAt
+			queryConnection {
+				lastUpdatedAt
+				message
+				status
+			}
+		}
 		id
+		lifecycleStatus {
+			lastUpdatedAt
+			message
+			status
+		}
 		metadata {
 			createdAt
 			createdBy {
 				__typename
 				id
+				type
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
 			}
 			updatedAt
 			updatedBy {
 				__typename
 				id
+				type
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
 			}
 			version
 		}
 		name
-		description
-		cloudProvider
-		cloudProviderRegion
-		dataLocationBucket
-		partitionDatabase
-		dataProcessingComponent {
-			__typename
-			id
-		}
-		dataProcessingConnection {
-			__typename
-			id
-		}
-		queryConnection {
-			__typename
-			id
-		}
 		scope {
 			id
 			type
 		}
-		status
+		storage {
+			cloudProviderConfiguration {
+				provider
+				region
+			}
+			dataIngestConnection {
+				__typename
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+				... on EntityManagementAgentConfigurationEntity {
+					__typename
+					agentType
+					configurationType
+					managedEntityType
+					versionCount
+				}
+				... on EntityManagementAgentConfigurationVersionEntity {
+					__typename
+					agentConfiguration
+					version
+				}
+				... on EntityManagementAgentEffectiveConfigurationEntity {
+					__typename
+				}
+				... on EntityManagementAgentEntity {
+					__typename
+					agentType
+					version
+				}
+				... on EntityManagementAiAgentEntity {
+					__typename
+					category
+					description
+					displayName
+					initialized
+					prompt
+					provider
+					test
+				}
+				... on EntityManagementAiCapableEntity {
+					__typename
+					category
+					language
+					lastSeen
+					toolType
+					toolVersion
+				}
+				... on EntityManagementAiEvaluationConfigEntity {
+					__typename
+					description
+					enabled
+					samplingRate
+				}
+				... on EntityManagementAiToolEntity {
+					__typename
+					description
+					initialized
+					provider
+					test
+					toolType
+					url
+				}
+				... on EntityManagementApiSpecificationBlobEntity {
+					__typename
+					description
+				}
+				... on EntityManagementAwsConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementAzureDevOpsConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementBackgroundProcessingRuleEntity {
+					__typename
+					description
+					ruleType
+				}
+				... on EntityManagementBackgroundSqlProcessingRuleEntity {
+					__typename
+					description
+				}
+				... on EntityManagementBudgetEntity {
+					__typename
+					budgetType
+					organizationBudget
+				}
+				... on EntityManagementCiscoMerakiConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementCollectionEntity {
+					__typename
+				}
+				... on EntityManagementComponentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementComputeLocationEntity {
+					__typename
+					description
+				}
+				... on EntityManagementConfluenceConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+				}
+				... on EntityManagementConfluenceIntegration {
+					__typename
+					confluenceUserId
+					secretKey
+					url
+				}
+				... on EntityManagementConfluenceRagSettingsEntity {
+					__typename
+					chunkOverlap
+					chunkSize
+					confluenceIntegrationId
+					confluenceQuery
+					intervalSeconds
+					lastPullTime
+					nextPullTime
+					textSplitterType
+				}
+				... on EntityManagementCorrelationInternalSourceConfigEntity {
+					__typename
+					accountId
+					alias
+					filterId
+					namespaces
+					nrql
+					outputTopic
+					source
+				}
+				... on EntityManagementCorrelationLinkEntity {
+					__typename
+					directional
+					linkType
+				}
+				... on EntityManagementCorrelationLinkingRuleEntity {
+					__typename
+					description
+					enabled
+				}
+				... on EntityManagementCorrelationNormalizerEntity {
+					__typename
+					caseInsensitive
+					default
+					description
+				}
+				... on EntityManagementCustomEvaluationEntity {
+					__typename
+					criteria
+					description
+					model
+					parameters
+					steps
+					threshold
+				}
+				... on EntityManagementCustomerImpactEntity {
+					__typename
+					issueId
+				}
+				... on EntityManagementCustomerImpactQueryEntity {
+					__typename
+					query
+					queryAccountId
+					teamName
+					totalCustImpactQueryAccountIds
+					totalCustomerImpactQuery
+				}
+				... on EntityManagementEventBridgeRuleEntity {
+					__typename
+					description
+					enabled
+				}
+				... on EntityManagementFederatedLogPartitionEntity {
+					__typename
+					active
+					description
+					isDefault
+				}
+				... on EntityManagementFederatedLogSetupEntity {
+					__typename
+					active
+					defaultPartitionId
+					description
+				}
+				... on EntityManagementFleetDeploymentEntity {
+					__typename
+					configurationVersions
+					description
+					fleetId
+					phase
+				}
+				... on EntityManagementFleetEntity {
+					__typename
+					description
+					managedEntityType
+					product
+				}
+				... on EntityManagementFleetRingEntity {
+					__typename
+					fleetId
+				}
+				... on EntityManagementFlowEntity {
+					__typename
+				}
+				... on EntityManagementGenericEntity {
+					__typename
+				}
+				... on EntityManagementGitHubIntegrationEntity {
+					__typename
+					installationId
+					installationSource
+					installationStatus
+					lastSyncCompletedAt
+					nextSyncAt
+				}
+				... on EntityManagementGitRepositoryEntity {
+					__typename
+					closedPullRequestCount
+					description
+					externalCreatedAt
+					externalId
+					externalLastDeployedAt
+					externalUpdatedAt
+					forkCount
+					hostingPlatform
+					latestReleaseVersion
+					lockedPullRequestCount
+					openPullRequestCount
+					primaryLanguage
+					url
+				}
+				... on EntityManagementGithubConnection {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementImpactProfileEntity {
+					__typename
+				}
+				... on EntityManagementInboxIssueCategoryEntity {
+					__typename
+					categoryType
+					issueType
+					messageAttributes
+					nameAttributes
+				}
+				... on EntityManagementIncidentAttachmentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementIncidentEntity {
+					__typename
+					category
+					customerImpact
+					description
+					dueDate
+					entitiesImpacted
+					externalId
+					incidentCategory
+					incidentKey
+					incidentProfileId
+					incidentSubcategory
+					issueLinks
+					labels
+					lessonsLearned
+					maxSeverity
+					priority
+					reportedBy
+					resolutionCategory
+					resolutionSummary
+					retroActionItems
+					rootCauseSummary
+					rootCauseTags
+					severity
+					source
+					status
+					triggeringEvent
+				}
+				... on EntityManagementIncidentLinkEntity {
+					__typename
+					externalId
+					sourceSyncConfigurationId
+					url
+				}
+				... on EntityManagementIncidentMessageEntity {
+					__typename
+					content
+					contentEncoding
+					contentType
+					externalId
+					parentId
+					sourceSyncConfigurationId
+				}
+				... on EntityManagementIncidentProfileAttachmentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementIncidentProfileEntity {
+					__typename
+				}
+				... on EntityManagementIncidentTimelineEntity {
+					__typename
+					content
+					entryType
+					source
+				}
+				... on EntityManagementJiraConnection {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementJiraSyncConfigurationV2Entity {
+					__typename
+					bidirectional
+					connection
+					description
+					enabled
+					issueType
+					mode
+					projectKey
+				}
+				... on EntityManagementJuniperMistConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementMaintenanceWindowEntity {
+					__typename
+					affectedEntityType
+					description
+					duration
+					rrule
+					startTime
+					timezone
+				}
+				... on EntityManagementManagedEvaluationsEntity {
+					__typename
+					description
+				}
+				... on EntityManagementMcpServerEntity {
+					__typename
+					description
+					displayName
+					endpoint
+					protocolVersion
+					transport
+				}
+				... on EntityManagementMeterEntity {
+					__typename
+					description
+				}
+				... on EntityManagementMeterTypeEntity {
+					__typename
+					allowMeterCreation
+					attributionDimensions
+					description
+				}
+				... on EntityManagementNewRelicConnection {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementNotebookEntity {
+					__typename
+				}
+				... on EntityManagementNotificationAttachmentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementNrAiAgentEntity {
+					__typename
+					displayName
+					version
+				}
+				... on EntityManagementNrqlMacroEntity {
+					__typename
+					expression
+					numParameters
+				}
+				... on EntityManagementOperationEntity {
+					__typename
+				}
+				... on EntityManagementOperationMetricEntity {
+					__typename
+				}
+				... on EntityManagementPerformanceInboxSettingEntity {
+					__typename
+					thresholdScope
+				}
+				... on EntityManagementPipelineCloudRuleEntity {
+					__typename
+					description
+					enabled
+					nrql
+				}
+				... on EntityManagementProductLineEntity {
+					__typename
+					description
+				}
+				... on EntityManagementRagDocumentEntity {
+					__typename
+					authorEmails
+					sourceIdentifier
+				}
+				... on EntityManagementRagToolEntity {
+					__typename
+					description
+				}
+				... on EntityManagementReactNativeSourcemapEntity {
+					__typename
+					appVersionId
+					applicationId
+					jsBundleId
+				}
+				... on EntityManagementRestApiContractEntity {
+					__typename
+				}
+				... on EntityManagementScorecardEntity {
+					__typename
+					description
+				}
+				... on EntityManagementScorecardRuleEntity {
+					__typename
+					description
+					enabled
+					impactWeight
+					progressLevel
+					runInterval
+				}
+				... on EntityManagementSegmentTermsEntity {
+					__typename
+					appEntityId
+					channel
+					domain
+					metricPrefix
+					oldId
+					urlSegments
+				}
+				... on EntityManagementServerlessJobDefinitionEntity {
+					__typename
+					description
+					namespace
+					secretKeys
+				}
+				... on EntityManagementServiceNowConnection {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementSlackConnection {
+					__typename
+					appId
+					description
+					enabled
+					externalId
+					workspace
+				}
+				... on EntityManagementStatusPageAnnouncementEntity {
+					__typename
+					category
+					description
+					effectiveDate
+					eventUrl
+					publishedDate
+					state
+				}
+				... on EntityManagementStatusPageIncidentEntity {
+					__typename
+					description
+					endTime
+					incidentId
+					incidentTitle
+					lastUpdatedTime
+					region
+					startTime
+					status
+				}
+				... on EntityManagementTeamEntity {
+					__typename
+					aliases
+					description
+					hierarchyLevelId
+					managers
+					parentId
+				}
+				... on EntityManagementTeamsHierarchyLevelEntity {
+					__typename
+				}
+				... on EntityManagementTeamsOrganizationSettingsEntity {
+					__typename
+					hierarchyLevelOrder
+				}
+				... on EntityManagementUserEntity {
+					__typename
+					userId
+				}
+				... on EntityManagementWorkItemLinkV2Entity {
+					__typename
+					externalId
+					sourceSyncConfigurationId
+					url
+				}
+				... on EntityManagementWorkItemMessageV2Entity {
+					__typename
+					content
+					contentEncoding
+					contentType
+					externalId
+					parentId
+					sourceSyncConfigurationId
+				}
+				... on EntityManagementWorkItemV2Entity {
+					__typename
+					category
+					description
+					dueDate
+					externalId
+					labels
+					priority
+					status
+				}
+				... on EntityManagementWorkflowDefinition {
+					__typename
+					description
+					versions
+				}
+				... on EntityManagementWorkflowSchedule {
+					__typename
+					cronExpression
+					description
+					overlapPolicy
+					timezone
+				}
+				... on EntityManagementZoomConnectionEntity {
+					__typename
+					description
+					enabled
+				}
+			}
+			dataLocationBucket
+			database
+			queryConnection {
+				__typename
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+				... on EntityManagementAgentConfigurationEntity {
+					__typename
+					agentType
+					configurationType
+					managedEntityType
+					versionCount
+				}
+				... on EntityManagementAgentConfigurationVersionEntity {
+					__typename
+					agentConfiguration
+					version
+				}
+				... on EntityManagementAgentEffectiveConfigurationEntity {
+					__typename
+				}
+				... on EntityManagementAgentEntity {
+					__typename
+					agentType
+					version
+				}
+				... on EntityManagementAiAgentEntity {
+					__typename
+					category
+					description
+					displayName
+					initialized
+					prompt
+					provider
+					test
+				}
+				... on EntityManagementAiCapableEntity {
+					__typename
+					category
+					language
+					lastSeen
+					toolType
+					toolVersion
+				}
+				... on EntityManagementAiEvaluationConfigEntity {
+					__typename
+					description
+					enabled
+					samplingRate
+				}
+				... on EntityManagementAiToolEntity {
+					__typename
+					description
+					initialized
+					provider
+					test
+					toolType
+					url
+				}
+				... on EntityManagementApiSpecificationBlobEntity {
+					__typename
+					description
+				}
+				... on EntityManagementAwsConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementAzureDevOpsConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementBackgroundProcessingRuleEntity {
+					__typename
+					description
+					ruleType
+				}
+				... on EntityManagementBackgroundSqlProcessingRuleEntity {
+					__typename
+					description
+				}
+				... on EntityManagementBudgetEntity {
+					__typename
+					budgetType
+					organizationBudget
+				}
+				... on EntityManagementCiscoMerakiConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementCollectionEntity {
+					__typename
+				}
+				... on EntityManagementComponentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementComputeLocationEntity {
+					__typename
+					description
+				}
+				... on EntityManagementConfluenceConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+				}
+				... on EntityManagementConfluenceIntegration {
+					__typename
+					confluenceUserId
+					secretKey
+					url
+				}
+				... on EntityManagementConfluenceRagSettingsEntity {
+					__typename
+					chunkOverlap
+					chunkSize
+					confluenceIntegrationId
+					confluenceQuery
+					intervalSeconds
+					lastPullTime
+					nextPullTime
+					textSplitterType
+				}
+				... on EntityManagementCorrelationInternalSourceConfigEntity {
+					__typename
+					accountId
+					alias
+					filterId
+					namespaces
+					nrql
+					outputTopic
+					source
+				}
+				... on EntityManagementCorrelationLinkEntity {
+					__typename
+					directional
+					linkType
+				}
+				... on EntityManagementCorrelationLinkingRuleEntity {
+					__typename
+					description
+					enabled
+				}
+				... on EntityManagementCorrelationNormalizerEntity {
+					__typename
+					caseInsensitive
+					default
+					description
+				}
+				... on EntityManagementCustomEvaluationEntity {
+					__typename
+					criteria
+					description
+					model
+					parameters
+					steps
+					threshold
+				}
+				... on EntityManagementCustomerImpactEntity {
+					__typename
+					issueId
+				}
+				... on EntityManagementCustomerImpactQueryEntity {
+					__typename
+					query
+					queryAccountId
+					teamName
+					totalCustImpactQueryAccountIds
+					totalCustomerImpactQuery
+				}
+				... on EntityManagementEventBridgeRuleEntity {
+					__typename
+					description
+					enabled
+				}
+				... on EntityManagementFederatedLogPartitionEntity {
+					__typename
+					active
+					description
+					isDefault
+				}
+				... on EntityManagementFederatedLogSetupEntity {
+					__typename
+					active
+					defaultPartitionId
+					description
+				}
+				... on EntityManagementFleetDeploymentEntity {
+					__typename
+					configurationVersions
+					description
+					fleetId
+					phase
+				}
+				... on EntityManagementFleetEntity {
+					__typename
+					description
+					managedEntityType
+					product
+				}
+				... on EntityManagementFleetRingEntity {
+					__typename
+					fleetId
+				}
+				... on EntityManagementFlowEntity {
+					__typename
+				}
+				... on EntityManagementGenericEntity {
+					__typename
+				}
+				... on EntityManagementGitHubIntegrationEntity {
+					__typename
+					installationId
+					installationSource
+					installationStatus
+					lastSyncCompletedAt
+					nextSyncAt
+				}
+				... on EntityManagementGitRepositoryEntity {
+					__typename
+					closedPullRequestCount
+					description
+					externalCreatedAt
+					externalId
+					externalLastDeployedAt
+					externalUpdatedAt
+					forkCount
+					hostingPlatform
+					latestReleaseVersion
+					lockedPullRequestCount
+					openPullRequestCount
+					primaryLanguage
+					url
+				}
+				... on EntityManagementGithubConnection {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementImpactProfileEntity {
+					__typename
+				}
+				... on EntityManagementInboxIssueCategoryEntity {
+					__typename
+					categoryType
+					issueType
+					messageAttributes
+					nameAttributes
+				}
+				... on EntityManagementIncidentAttachmentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementIncidentEntity {
+					__typename
+					category
+					customerImpact
+					description
+					dueDate
+					entitiesImpacted
+					externalId
+					incidentCategory
+					incidentKey
+					incidentProfileId
+					incidentSubcategory
+					issueLinks
+					labels
+					lessonsLearned
+					maxSeverity
+					priority
+					reportedBy
+					resolutionCategory
+					resolutionSummary
+					retroActionItems
+					rootCauseSummary
+					rootCauseTags
+					severity
+					source
+					status
+					triggeringEvent
+				}
+				... on EntityManagementIncidentLinkEntity {
+					__typename
+					externalId
+					sourceSyncConfigurationId
+					url
+				}
+				... on EntityManagementIncidentMessageEntity {
+					__typename
+					content
+					contentEncoding
+					contentType
+					externalId
+					parentId
+					sourceSyncConfigurationId
+				}
+				... on EntityManagementIncidentProfileAttachmentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementIncidentProfileEntity {
+					__typename
+				}
+				... on EntityManagementIncidentTimelineEntity {
+					__typename
+					content
+					entryType
+					source
+				}
+				... on EntityManagementJiraConnection {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementJiraSyncConfigurationV2Entity {
+					__typename
+					bidirectional
+					connection
+					description
+					enabled
+					issueType
+					mode
+					projectKey
+				}
+				... on EntityManagementJuniperMistConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementMaintenanceWindowEntity {
+					__typename
+					affectedEntityType
+					description
+					duration
+					rrule
+					startTime
+					timezone
+				}
+				... on EntityManagementManagedEvaluationsEntity {
+					__typename
+					description
+				}
+				... on EntityManagementMcpServerEntity {
+					__typename
+					description
+					displayName
+					endpoint
+					protocolVersion
+					transport
+				}
+				... on EntityManagementMeterEntity {
+					__typename
+					description
+				}
+				... on EntityManagementMeterTypeEntity {
+					__typename
+					allowMeterCreation
+					attributionDimensions
+					description
+				}
+				... on EntityManagementNewRelicConnection {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementNotebookEntity {
+					__typename
+				}
+				... on EntityManagementNotificationAttachmentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementNrAiAgentEntity {
+					__typename
+					displayName
+					version
+				}
+				... on EntityManagementNrqlMacroEntity {
+					__typename
+					expression
+					numParameters
+				}
+				... on EntityManagementOperationEntity {
+					__typename
+				}
+				... on EntityManagementOperationMetricEntity {
+					__typename
+				}
+				... on EntityManagementPerformanceInboxSettingEntity {
+					__typename
+					thresholdScope
+				}
+				... on EntityManagementPipelineCloudRuleEntity {
+					__typename
+					description
+					enabled
+					nrql
+				}
+				... on EntityManagementProductLineEntity {
+					__typename
+					description
+				}
+				... on EntityManagementRagDocumentEntity {
+					__typename
+					authorEmails
+					sourceIdentifier
+				}
+				... on EntityManagementRagToolEntity {
+					__typename
+					description
+				}
+				... on EntityManagementReactNativeSourcemapEntity {
+					__typename
+					appVersionId
+					applicationId
+					jsBundleId
+				}
+				... on EntityManagementRestApiContractEntity {
+					__typename
+				}
+				... on EntityManagementScorecardEntity {
+					__typename
+					description
+				}
+				... on EntityManagementScorecardRuleEntity {
+					__typename
+					description
+					enabled
+					impactWeight
+					progressLevel
+					runInterval
+				}
+				... on EntityManagementSegmentTermsEntity {
+					__typename
+					appEntityId
+					channel
+					domain
+					metricPrefix
+					oldId
+					urlSegments
+				}
+				... on EntityManagementServerlessJobDefinitionEntity {
+					__typename
+					description
+					namespace
+					secretKeys
+				}
+				... on EntityManagementServiceNowConnection {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementSlackConnection {
+					__typename
+					appId
+					description
+					enabled
+					externalId
+					workspace
+				}
+				... on EntityManagementStatusPageAnnouncementEntity {
+					__typename
+					category
+					description
+					effectiveDate
+					eventUrl
+					publishedDate
+					state
+				}
+				... on EntityManagementStatusPageIncidentEntity {
+					__typename
+					description
+					endTime
+					incidentId
+					incidentTitle
+					lastUpdatedTime
+					region
+					startTime
+					status
+				}
+				... on EntityManagementTeamEntity {
+					__typename
+					aliases
+					description
+					hierarchyLevelId
+					managers
+					parentId
+				}
+				... on EntityManagementTeamsHierarchyLevelEntity {
+					__typename
+				}
+				... on EntityManagementTeamsOrganizationSettingsEntity {
+					__typename
+					hierarchyLevelOrder
+				}
+				... on EntityManagementUserEntity {
+					__typename
+					userId
+				}
+				... on EntityManagementWorkItemLinkV2Entity {
+					__typename
+					externalId
+					sourceSyncConfigurationId
+					url
+				}
+				... on EntityManagementWorkItemMessageV2Entity {
+					__typename
+					content
+					contentEncoding
+					contentType
+					externalId
+					parentId
+					sourceSyncConfigurationId
+				}
+				... on EntityManagementWorkItemV2Entity {
+					__typename
+					category
+					description
+					dueDate
+					externalId
+					labels
+					priority
+					status
+				}
+				... on EntityManagementWorkflowDefinition {
+					__typename
+					description
+					versions
+				}
+				... on EntityManagementWorkflowSchedule {
+					__typename
+					cronExpression
+					description
+					overlapPolicy
+					timezone
+				}
+				... on EntityManagementZoomConnectionEntity {
+					__typename
+					description
+					enabled
+				}
+			}
+		}
 		tags {
 			key
 			values
@@ -248,7 +2669,50 @@ const EntityManagementCreateFederatedLogSetupMutation = `mutation(
 	}
 } }`
 
+// Deletes an entity.
+func (a *FederatedLogs) EntityManagementDelete(
+	iD string,
+	version int,
+) (*EntityManagementEntityDeleteResult, error) {
+	return a.EntityManagementDeleteWithContext(context.Background(),
+		iD,
+		version,
+	)
+}
 
+// Deletes an entity.
+func (a *FederatedLogs) EntityManagementDeleteWithContext(
+	ctx context.Context,
+	iD string,
+	version int,
+) (*EntityManagementEntityDeleteResult, error) {
+
+	resp := EntityManagementDeleteQueryResponse{}
+	vars := map[string]interface{}{
+		"id":      iD,
+		"version": version,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, EntityManagementDeleteMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.EntityManagementEntityDeleteResult, nil
+}
+
+type EntityManagementDeleteQueryResponse struct {
+	EntityManagementEntityDeleteResult EntityManagementEntityDeleteResult `json:"EntityManagementDelete"`
+}
+
+const EntityManagementDeleteMutation = `mutation(
+	$id: ID!,
+	$version: Int,
+) { entityManagementDelete(
+	id: $id,
+	version: $version,
+) {
+	id
+} }`
 
 // Updates an entity of type FederatedLogPartitionEntity.
 func (a *FederatedLogs) EntityManagementUpdateFederatedLogPartition(
@@ -292,36 +2756,1272 @@ type EntityManagementUpdateFederatedLogPartitionQueryResponse struct {
 const EntityManagementUpdateFederatedLogPartitionMutation = `mutation(
 	$federatedLogPartitionEntity: EntityManagementFederatedLogPartitionEntityUpdateInput!,
 	$id: ID!,
-	$version: Int!,
+	$version: Int,
 ) { entityManagementUpdateFederatedLogPartition(
 	federatedLogPartitionEntity: $federatedLogPartitionEntity,
 	id: $id,
 	version: $version,
 ) {
 	entity {
-		id
-		name
+		active
+		dataRetentionPolicy {
+			duration
+			unit
+		}
 		description
-		dataLocationUri
+		forwarderConfig {
+			partitionRule {
+				expression
+			}
+			type
+		}
+		healthCheck {
+			end2endDataFlow {
+				lastUpdatedAt
+				message
+				status
+			}
+			lastUpdatedAt
+			queryConnection {
+				lastUpdatedAt
+				message
+				status
+			}
+		}
+		id
 		isDefault
-		partitionTable
-		status
+		lifecycleStatus {
+			lastUpdatedAt
+			message
+			status
+		}
 		metadata {
 			createdAt
 			createdBy {
 				__typename
 				id
+				type
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
 			}
 			updatedAt
 			updatedBy {
 				__typename
 				id
+				type
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
 			}
 			version
 		}
+		name
 		scope {
 			id
 			type
+		}
+		setup {
+			active
+			defaultPartitionId
+			description
+			forwarder {
+				type
+			}
+			healthCheck {
+				end2endDataFlow {
+					lastUpdatedAt
+					message
+					status
+				}
+				lastUpdatedAt
+				queryConnection {
+					lastUpdatedAt
+					message
+					status
+				}
+			}
+			id
+			lifecycleStatus {
+				lastUpdatedAt
+				message
+				status
+			}
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					type
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					type
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			name
+			scope {
+				id
+				type
+			}
+			storage {
+				cloudProviderConfiguration {
+					provider
+					region
+				}
+				dataIngestConnection {
+					__typename
+					id
+					name
+					type
+					... on EntityManagementAgentConfigurationEntity {
+						__typename
+						agentType
+						configurationType
+						managedEntityType
+						versionCount
+					}
+					... on EntityManagementAgentConfigurationVersionEntity {
+						__typename
+						agentConfiguration
+						version
+					}
+					... on EntityManagementAgentEffectiveConfigurationEntity {
+						__typename
+					}
+					... on EntityManagementAgentEntity {
+						__typename
+						agentType
+						version
+					}
+					... on EntityManagementAiAgentEntity {
+						__typename
+						category
+						description
+						displayName
+						initialized
+						prompt
+						provider
+						test
+					}
+					... on EntityManagementAiCapableEntity {
+						__typename
+						category
+						language
+						lastSeen
+						toolType
+						toolVersion
+					}
+					... on EntityManagementAiEvaluationConfigEntity {
+						__typename
+						description
+						enabled
+						samplingRate
+					}
+					... on EntityManagementAiToolEntity {
+						__typename
+						description
+						initialized
+						provider
+						test
+						toolType
+						url
+					}
+					... on EntityManagementApiSpecificationBlobEntity {
+						__typename
+						description
+					}
+					... on EntityManagementAwsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementAzureDevOpsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementBackgroundProcessingRuleEntity {
+						__typename
+						description
+						ruleType
+					}
+					... on EntityManagementBackgroundSqlProcessingRuleEntity {
+						__typename
+						description
+					}
+					... on EntityManagementBudgetEntity {
+						__typename
+						budgetType
+						organizationBudget
+					}
+					... on EntityManagementCiscoMerakiConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementCollectionEntity {
+						__typename
+					}
+					... on EntityManagementComponentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementComputeLocationEntity {
+						__typename
+						description
+					}
+					... on EntityManagementConfluenceConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+					}
+					... on EntityManagementConfluenceIntegration {
+						__typename
+						confluenceUserId
+						secretKey
+						url
+					}
+					... on EntityManagementConfluenceRagSettingsEntity {
+						__typename
+						chunkOverlap
+						chunkSize
+						confluenceIntegrationId
+						confluenceQuery
+						intervalSeconds
+						lastPullTime
+						nextPullTime
+						textSplitterType
+					}
+					... on EntityManagementCorrelationInternalSourceConfigEntity {
+						__typename
+						accountId
+						alias
+						filterId
+						namespaces
+						nrql
+						outputTopic
+						source
+					}
+					... on EntityManagementCorrelationLinkEntity {
+						__typename
+						directional
+						linkType
+					}
+					... on EntityManagementCorrelationLinkingRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementCorrelationNormalizerEntity {
+						__typename
+						caseInsensitive
+						default
+						description
+					}
+					... on EntityManagementCustomEvaluationEntity {
+						__typename
+						criteria
+						description
+						model
+						parameters
+						steps
+						threshold
+					}
+					... on EntityManagementCustomerImpactEntity {
+						__typename
+						issueId
+					}
+					... on EntityManagementCustomerImpactQueryEntity {
+						__typename
+						query
+						queryAccountId
+						teamName
+						totalCustImpactQueryAccountIds
+						totalCustomerImpactQuery
+					}
+					... on EntityManagementEventBridgeRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementFederatedLogPartitionEntity {
+						__typename
+						active
+						description
+						isDefault
+					}
+					... on EntityManagementFederatedLogSetupEntity {
+						__typename
+						active
+						defaultPartitionId
+						description
+					}
+					... on EntityManagementFleetDeploymentEntity {
+						__typename
+						configurationVersions
+						description
+						fleetId
+						phase
+					}
+					... on EntityManagementFleetEntity {
+						__typename
+						description
+						managedEntityType
+						product
+					}
+					... on EntityManagementFleetRingEntity {
+						__typename
+						fleetId
+					}
+					... on EntityManagementFlowEntity {
+						__typename
+					}
+					... on EntityManagementGenericEntity {
+						__typename
+					}
+					... on EntityManagementGitHubIntegrationEntity {
+						__typename
+						installationId
+						installationSource
+						installationStatus
+						lastSyncCompletedAt
+						nextSyncAt
+					}
+					... on EntityManagementGitRepositoryEntity {
+						__typename
+						closedPullRequestCount
+						description
+						externalCreatedAt
+						externalId
+						externalLastDeployedAt
+						externalUpdatedAt
+						forkCount
+						hostingPlatform
+						latestReleaseVersion
+						lockedPullRequestCount
+						openPullRequestCount
+						primaryLanguage
+						url
+					}
+					... on EntityManagementGithubConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementImpactProfileEntity {
+						__typename
+					}
+					... on EntityManagementInboxIssueCategoryEntity {
+						__typename
+						categoryType
+						issueType
+						messageAttributes
+						nameAttributes
+					}
+					... on EntityManagementIncidentAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentEntity {
+						__typename
+						category
+						customerImpact
+						description
+						dueDate
+						entitiesImpacted
+						externalId
+						incidentCategory
+						incidentKey
+						incidentProfileId
+						incidentSubcategory
+						issueLinks
+						labels
+						lessonsLearned
+						maxSeverity
+						priority
+						reportedBy
+						resolutionCategory
+						resolutionSummary
+						retroActionItems
+						rootCauseSummary
+						rootCauseTags
+						severity
+						source
+						status
+						triggeringEvent
+					}
+					... on EntityManagementIncidentLinkEntity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementIncidentMessageEntity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementIncidentProfileAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentProfileEntity {
+						__typename
+					}
+					... on EntityManagementIncidentTimelineEntity {
+						__typename
+						content
+						entryType
+						source
+					}
+					... on EntityManagementJiraConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementJiraSyncConfigurationV2Entity {
+						__typename
+						bidirectional
+						connection
+						description
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJuniperMistConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementMaintenanceWindowEntity {
+						__typename
+						affectedEntityType
+						description
+						duration
+						rrule
+						startTime
+						timezone
+					}
+					... on EntityManagementManagedEvaluationsEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMcpServerEntity {
+						__typename
+						description
+						displayName
+						endpoint
+						protocolVersion
+						transport
+					}
+					... on EntityManagementMeterEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMeterTypeEntity {
+						__typename
+						allowMeterCreation
+						attributionDimensions
+						description
+					}
+					... on EntityManagementNewRelicConnection {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementNotebookEntity {
+						__typename
+					}
+					... on EntityManagementNotificationAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementNrAiAgentEntity {
+						__typename
+						displayName
+						version
+					}
+					... on EntityManagementNrqlMacroEntity {
+						__typename
+						expression
+						numParameters
+					}
+					... on EntityManagementOperationEntity {
+						__typename
+					}
+					... on EntityManagementOperationMetricEntity {
+						__typename
+					}
+					... on EntityManagementPerformanceInboxSettingEntity {
+						__typename
+						thresholdScope
+					}
+					... on EntityManagementPipelineCloudRuleEntity {
+						__typename
+						description
+						enabled
+						nrql
+					}
+					... on EntityManagementProductLineEntity {
+						__typename
+						description
+					}
+					... on EntityManagementRagDocumentEntity {
+						__typename
+						authorEmails
+						sourceIdentifier
+					}
+					... on EntityManagementRagToolEntity {
+						__typename
+						description
+					}
+					... on EntityManagementReactNativeSourcemapEntity {
+						__typename
+						appVersionId
+						applicationId
+						jsBundleId
+					}
+					... on EntityManagementRestApiContractEntity {
+						__typename
+					}
+					... on EntityManagementScorecardEntity {
+						__typename
+						description
+					}
+					... on EntityManagementScorecardRuleEntity {
+						__typename
+						description
+						enabled
+						impactWeight
+						progressLevel
+						runInterval
+					}
+					... on EntityManagementSegmentTermsEntity {
+						__typename
+						appEntityId
+						channel
+						domain
+						metricPrefix
+						oldId
+						urlSegments
+					}
+					... on EntityManagementServerlessJobDefinitionEntity {
+						__typename
+						description
+						namespace
+						secretKeys
+					}
+					... on EntityManagementServiceNowConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementSlackConnection {
+						__typename
+						appId
+						description
+						enabled
+						externalId
+						workspace
+					}
+					... on EntityManagementStatusPageAnnouncementEntity {
+						__typename
+						category
+						description
+						effectiveDate
+						eventUrl
+						publishedDate
+						state
+					}
+					... on EntityManagementStatusPageIncidentEntity {
+						__typename
+						description
+						endTime
+						incidentId
+						incidentTitle
+						lastUpdatedTime
+						region
+						startTime
+						status
+					}
+					... on EntityManagementTeamEntity {
+						__typename
+						aliases
+						description
+						hierarchyLevelId
+						managers
+						parentId
+					}
+					... on EntityManagementTeamsHierarchyLevelEntity {
+						__typename
+					}
+					... on EntityManagementTeamsOrganizationSettingsEntity {
+						__typename
+						hierarchyLevelOrder
+					}
+					... on EntityManagementUserEntity {
+						__typename
+						userId
+					}
+					... on EntityManagementWorkItemLinkV2Entity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemMessageV2Entity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemV2Entity {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkflowDefinition {
+						__typename
+						description
+						versions
+					}
+					... on EntityManagementWorkflowSchedule {
+						__typename
+						cronExpression
+						description
+						overlapPolicy
+						timezone
+					}
+					... on EntityManagementZoomConnectionEntity {
+						__typename
+						description
+						enabled
+					}
+				}
+				dataLocationBucket
+				database
+				queryConnection {
+					__typename
+					id
+					name
+					type
+					... on EntityManagementAgentConfigurationEntity {
+						__typename
+						agentType
+						configurationType
+						managedEntityType
+						versionCount
+					}
+					... on EntityManagementAgentConfigurationVersionEntity {
+						__typename
+						agentConfiguration
+						version
+					}
+					... on EntityManagementAgentEffectiveConfigurationEntity {
+						__typename
+					}
+					... on EntityManagementAgentEntity {
+						__typename
+						agentType
+						version
+					}
+					... on EntityManagementAiAgentEntity {
+						__typename
+						category
+						description
+						displayName
+						initialized
+						prompt
+						provider
+						test
+					}
+					... on EntityManagementAiCapableEntity {
+						__typename
+						category
+						language
+						lastSeen
+						toolType
+						toolVersion
+					}
+					... on EntityManagementAiEvaluationConfigEntity {
+						__typename
+						description
+						enabled
+						samplingRate
+					}
+					... on EntityManagementAiToolEntity {
+						__typename
+						description
+						initialized
+						provider
+						test
+						toolType
+						url
+					}
+					... on EntityManagementApiSpecificationBlobEntity {
+						__typename
+						description
+					}
+					... on EntityManagementAwsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementAzureDevOpsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementBackgroundProcessingRuleEntity {
+						__typename
+						description
+						ruleType
+					}
+					... on EntityManagementBackgroundSqlProcessingRuleEntity {
+						__typename
+						description
+					}
+					... on EntityManagementBudgetEntity {
+						__typename
+						budgetType
+						organizationBudget
+					}
+					... on EntityManagementCiscoMerakiConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementCollectionEntity {
+						__typename
+					}
+					... on EntityManagementComponentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementComputeLocationEntity {
+						__typename
+						description
+					}
+					... on EntityManagementConfluenceConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+					}
+					... on EntityManagementConfluenceIntegration {
+						__typename
+						confluenceUserId
+						secretKey
+						url
+					}
+					... on EntityManagementConfluenceRagSettingsEntity {
+						__typename
+						chunkOverlap
+						chunkSize
+						confluenceIntegrationId
+						confluenceQuery
+						intervalSeconds
+						lastPullTime
+						nextPullTime
+						textSplitterType
+					}
+					... on EntityManagementCorrelationInternalSourceConfigEntity {
+						__typename
+						accountId
+						alias
+						filterId
+						namespaces
+						nrql
+						outputTopic
+						source
+					}
+					... on EntityManagementCorrelationLinkEntity {
+						__typename
+						directional
+						linkType
+					}
+					... on EntityManagementCorrelationLinkingRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementCorrelationNormalizerEntity {
+						__typename
+						caseInsensitive
+						default
+						description
+					}
+					... on EntityManagementCustomEvaluationEntity {
+						__typename
+						criteria
+						description
+						model
+						parameters
+						steps
+						threshold
+					}
+					... on EntityManagementCustomerImpactEntity {
+						__typename
+						issueId
+					}
+					... on EntityManagementCustomerImpactQueryEntity {
+						__typename
+						query
+						queryAccountId
+						teamName
+						totalCustImpactQueryAccountIds
+						totalCustomerImpactQuery
+					}
+					... on EntityManagementEventBridgeRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementFederatedLogPartitionEntity {
+						__typename
+						active
+						description
+						isDefault
+					}
+					... on EntityManagementFederatedLogSetupEntity {
+						__typename
+						active
+						defaultPartitionId
+						description
+					}
+					... on EntityManagementFleetDeploymentEntity {
+						__typename
+						configurationVersions
+						description
+						fleetId
+						phase
+					}
+					... on EntityManagementFleetEntity {
+						__typename
+						description
+						managedEntityType
+						product
+					}
+					... on EntityManagementFleetRingEntity {
+						__typename
+						fleetId
+					}
+					... on EntityManagementFlowEntity {
+						__typename
+					}
+					... on EntityManagementGenericEntity {
+						__typename
+					}
+					... on EntityManagementGitHubIntegrationEntity {
+						__typename
+						installationId
+						installationSource
+						installationStatus
+						lastSyncCompletedAt
+						nextSyncAt
+					}
+					... on EntityManagementGitRepositoryEntity {
+						__typename
+						closedPullRequestCount
+						description
+						externalCreatedAt
+						externalId
+						externalLastDeployedAt
+						externalUpdatedAt
+						forkCount
+						hostingPlatform
+						latestReleaseVersion
+						lockedPullRequestCount
+						openPullRequestCount
+						primaryLanguage
+						url
+					}
+					... on EntityManagementGithubConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementImpactProfileEntity {
+						__typename
+					}
+					... on EntityManagementInboxIssueCategoryEntity {
+						__typename
+						categoryType
+						issueType
+						messageAttributes
+						nameAttributes
+					}
+					... on EntityManagementIncidentAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentEntity {
+						__typename
+						category
+						customerImpact
+						description
+						dueDate
+						entitiesImpacted
+						externalId
+						incidentCategory
+						incidentKey
+						incidentProfileId
+						incidentSubcategory
+						issueLinks
+						labels
+						lessonsLearned
+						maxSeverity
+						priority
+						reportedBy
+						resolutionCategory
+						resolutionSummary
+						retroActionItems
+						rootCauseSummary
+						rootCauseTags
+						severity
+						source
+						status
+						triggeringEvent
+					}
+					... on EntityManagementIncidentLinkEntity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementIncidentMessageEntity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementIncidentProfileAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentProfileEntity {
+						__typename
+					}
+					... on EntityManagementIncidentTimelineEntity {
+						__typename
+						content
+						entryType
+						source
+					}
+					... on EntityManagementJiraConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementJiraSyncConfigurationV2Entity {
+						__typename
+						bidirectional
+						connection
+						description
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJuniperMistConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementMaintenanceWindowEntity {
+						__typename
+						affectedEntityType
+						description
+						duration
+						rrule
+						startTime
+						timezone
+					}
+					... on EntityManagementManagedEvaluationsEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMcpServerEntity {
+						__typename
+						description
+						displayName
+						endpoint
+						protocolVersion
+						transport
+					}
+					... on EntityManagementMeterEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMeterTypeEntity {
+						__typename
+						allowMeterCreation
+						attributionDimensions
+						description
+					}
+					... on EntityManagementNewRelicConnection {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementNotebookEntity {
+						__typename
+					}
+					... on EntityManagementNotificationAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementNrAiAgentEntity {
+						__typename
+						displayName
+						version
+					}
+					... on EntityManagementNrqlMacroEntity {
+						__typename
+						expression
+						numParameters
+					}
+					... on EntityManagementOperationEntity {
+						__typename
+					}
+					... on EntityManagementOperationMetricEntity {
+						__typename
+					}
+					... on EntityManagementPerformanceInboxSettingEntity {
+						__typename
+						thresholdScope
+					}
+					... on EntityManagementPipelineCloudRuleEntity {
+						__typename
+						description
+						enabled
+						nrql
+					}
+					... on EntityManagementProductLineEntity {
+						__typename
+						description
+					}
+					... on EntityManagementRagDocumentEntity {
+						__typename
+						authorEmails
+						sourceIdentifier
+					}
+					... on EntityManagementRagToolEntity {
+						__typename
+						description
+					}
+					... on EntityManagementReactNativeSourcemapEntity {
+						__typename
+						appVersionId
+						applicationId
+						jsBundleId
+					}
+					... on EntityManagementRestApiContractEntity {
+						__typename
+					}
+					... on EntityManagementScorecardEntity {
+						__typename
+						description
+					}
+					... on EntityManagementScorecardRuleEntity {
+						__typename
+						description
+						enabled
+						impactWeight
+						progressLevel
+						runInterval
+					}
+					... on EntityManagementSegmentTermsEntity {
+						__typename
+						appEntityId
+						channel
+						domain
+						metricPrefix
+						oldId
+						urlSegments
+					}
+					... on EntityManagementServerlessJobDefinitionEntity {
+						__typename
+						description
+						namespace
+						secretKeys
+					}
+					... on EntityManagementServiceNowConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementSlackConnection {
+						__typename
+						appId
+						description
+						enabled
+						externalId
+						workspace
+					}
+					... on EntityManagementStatusPageAnnouncementEntity {
+						__typename
+						category
+						description
+						effectiveDate
+						eventUrl
+						publishedDate
+						state
+					}
+					... on EntityManagementStatusPageIncidentEntity {
+						__typename
+						description
+						endTime
+						incidentId
+						incidentTitle
+						lastUpdatedTime
+						region
+						startTime
+						status
+					}
+					... on EntityManagementTeamEntity {
+						__typename
+						aliases
+						description
+						hierarchyLevelId
+						managers
+						parentId
+					}
+					... on EntityManagementTeamsHierarchyLevelEntity {
+						__typename
+					}
+					... on EntityManagementTeamsOrganizationSettingsEntity {
+						__typename
+						hierarchyLevelOrder
+					}
+					... on EntityManagementUserEntity {
+						__typename
+						userId
+					}
+					... on EntityManagementWorkItemLinkV2Entity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemMessageV2Entity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemV2Entity {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkflowDefinition {
+						__typename
+						description
+						versions
+					}
+					... on EntityManagementWorkflowSchedule {
+						__typename
+						cronExpression
+						description
+						overlapPolicy
+						timezone
+					}
+					... on EntityManagementZoomConnectionEntity {
+						__typename
+						description
+						enabled
+					}
+				}
+			}
+			tags {
+				key
+				values
+			}
+			type
+		}
+		storage {
+			dataLocationUri
+			table
 		}
 		tags {
 			key
@@ -331,8 +4031,7 @@ const EntityManagementUpdateFederatedLogPartitionMutation = `mutation(
 	}
 } }`
 
-
-
+// Updates an entity of type FederatedLogSetupEntity.
 func (a *FederatedLogs) EntityManagementUpdateFederatedLogSetup(
 	federatedLogSetupEntity EntityManagementFederatedLogSetupEntityUpdateInput,
 	iD string,
@@ -371,54 +4070,1240 @@ type EntityManagementUpdateFederatedLogSetupQueryResponse struct {
 	EntityManagementFederatedLogSetupEntityUpdateResult EntityManagementFederatedLogSetupEntityUpdateResult `json:"EntityManagementUpdateFederatedLogSetup"`
 }
 
-// Simplified mutation that only includes FederatedLogSetupEntity fields to avoid 15k grammar token limit
 const EntityManagementUpdateFederatedLogSetupMutation = `mutation(
 	$federatedLogSetupEntity: EntityManagementFederatedLogSetupEntityUpdateInput!,
 	$id: ID!,
-	$version: Int!,
+	$version: Int,
 ) { entityManagementUpdateFederatedLogSetup(
 	federatedLogSetupEntity: $federatedLogSetupEntity,
 	id: $id,
 	version: $version,
 ) {
 	entity {
+		active
+		defaultPartitionId
+		description
+		forwarder {
+			pipelineControl {
+				fleet {
+					description
+					id
+					managedEntityType
+					name
+					product
+					type
+				}
+				routingRule {
+					expression
+				}
+			}
+			type
+		}
+		healthCheck {
+			end2endDataFlow {
+				lastUpdatedAt
+				message
+				status
+			}
+			lastUpdatedAt
+			queryConnection {
+				lastUpdatedAt
+				message
+				status
+			}
+		}
 		id
+		lifecycleStatus {
+			lastUpdatedAt
+			message
+			status
+		}
 		metadata {
 			createdAt
 			createdBy {
 				__typename
 				id
+				type
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
 			}
 			updatedAt
 			updatedBy {
 				__typename
 				id
+				type
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
 			}
 			version
 		}
 		name
-		description
-		cloudProvider
-		cloudProviderRegion
-		dataLocationBucket
-		partitionDatabase
-		dataProcessingComponent {
-			__typename
-			id
-		}
-		dataProcessingConnection {
-			__typename
-			id
-		}
-		queryConnection {
-			__typename
-			id
-		}
 		scope {
 			id
 			type
 		}
-		status
+		storage {
+			cloudProviderConfiguration {
+				provider
+				region
+			}
+			dataIngestConnection {
+				__typename
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+				... on EntityManagementAgentConfigurationEntity {
+					__typename
+					agentType
+					configurationType
+					managedEntityType
+					versionCount
+				}
+				... on EntityManagementAgentConfigurationVersionEntity {
+					__typename
+					agentConfiguration
+					version
+				}
+				... on EntityManagementAgentEffectiveConfigurationEntity {
+					__typename
+				}
+				... on EntityManagementAgentEntity {
+					__typename
+					agentType
+					version
+				}
+				... on EntityManagementAiAgentEntity {
+					__typename
+					category
+					description
+					displayName
+					initialized
+					prompt
+					provider
+					test
+				}
+				... on EntityManagementAiCapableEntity {
+					__typename
+					category
+					language
+					lastSeen
+					toolType
+					toolVersion
+				}
+				... on EntityManagementAiEvaluationConfigEntity {
+					__typename
+					description
+					enabled
+					samplingRate
+				}
+				... on EntityManagementAiToolEntity {
+					__typename
+					description
+					initialized
+					provider
+					test
+					toolType
+					url
+				}
+				... on EntityManagementApiSpecificationBlobEntity {
+					__typename
+					description
+				}
+				... on EntityManagementAwsConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementAzureDevOpsConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementBackgroundProcessingRuleEntity {
+					__typename
+					description
+					ruleType
+				}
+				... on EntityManagementBackgroundSqlProcessingRuleEntity {
+					__typename
+					description
+				}
+				... on EntityManagementBudgetEntity {
+					__typename
+					budgetType
+					organizationBudget
+				}
+				... on EntityManagementCiscoMerakiConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementCollectionEntity {
+					__typename
+				}
+				... on EntityManagementComponentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementComputeLocationEntity {
+					__typename
+					description
+				}
+				... on EntityManagementConfluenceConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+				}
+				... on EntityManagementConfluenceIntegration {
+					__typename
+					confluenceUserId
+					secretKey
+					url
+				}
+				... on EntityManagementConfluenceRagSettingsEntity {
+					__typename
+					chunkOverlap
+					chunkSize
+					confluenceIntegrationId
+					confluenceQuery
+					intervalSeconds
+					lastPullTime
+					nextPullTime
+					textSplitterType
+				}
+				... on EntityManagementCorrelationInternalSourceConfigEntity {
+					__typename
+					accountId
+					alias
+					filterId
+					namespaces
+					nrql
+					outputTopic
+					source
+				}
+				... on EntityManagementCorrelationLinkEntity {
+					__typename
+					directional
+					linkType
+				}
+				... on EntityManagementCorrelationLinkingRuleEntity {
+					__typename
+					description
+					enabled
+				}
+				... on EntityManagementCorrelationNormalizerEntity {
+					__typename
+					caseInsensitive
+					default
+					description
+				}
+				... on EntityManagementCustomEvaluationEntity {
+					__typename
+					criteria
+					description
+					model
+					parameters
+					steps
+					threshold
+				}
+				... on EntityManagementCustomerImpactEntity {
+					__typename
+					issueId
+				}
+				... on EntityManagementCustomerImpactQueryEntity {
+					__typename
+					query
+					queryAccountId
+					teamName
+					totalCustImpactQueryAccountIds
+					totalCustomerImpactQuery
+				}
+				... on EntityManagementEventBridgeRuleEntity {
+					__typename
+					description
+					enabled
+				}
+				... on EntityManagementFederatedLogPartitionEntity {
+					__typename
+					active
+					description
+					isDefault
+				}
+				... on EntityManagementFederatedLogSetupEntity {
+					__typename
+					active
+					defaultPartitionId
+					description
+				}
+				... on EntityManagementFleetDeploymentEntity {
+					__typename
+					configurationVersions
+					description
+					fleetId
+					phase
+				}
+				... on EntityManagementFleetEntity {
+					__typename
+					description
+					managedEntityType
+					product
+				}
+				... on EntityManagementFleetRingEntity {
+					__typename
+					fleetId
+				}
+				... on EntityManagementFlowEntity {
+					__typename
+				}
+				... on EntityManagementGenericEntity {
+					__typename
+				}
+				... on EntityManagementGitHubIntegrationEntity {
+					__typename
+					installationId
+					installationSource
+					installationStatus
+					lastSyncCompletedAt
+					nextSyncAt
+				}
+				... on EntityManagementGitRepositoryEntity {
+					__typename
+					closedPullRequestCount
+					description
+					externalCreatedAt
+					externalId
+					externalLastDeployedAt
+					externalUpdatedAt
+					forkCount
+					hostingPlatform
+					latestReleaseVersion
+					lockedPullRequestCount
+					openPullRequestCount
+					primaryLanguage
+					url
+				}
+				... on EntityManagementGithubConnection {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementImpactProfileEntity {
+					__typename
+				}
+				... on EntityManagementInboxIssueCategoryEntity {
+					__typename
+					categoryType
+					issueType
+					messageAttributes
+					nameAttributes
+				}
+				... on EntityManagementIncidentAttachmentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementIncidentEntity {
+					__typename
+					category
+					customerImpact
+					description
+					dueDate
+					entitiesImpacted
+					externalId
+					incidentCategory
+					incidentKey
+					incidentProfileId
+					incidentSubcategory
+					issueLinks
+					labels
+					lessonsLearned
+					maxSeverity
+					priority
+					reportedBy
+					resolutionCategory
+					resolutionSummary
+					retroActionItems
+					rootCauseSummary
+					rootCauseTags
+					severity
+					source
+					status
+					triggeringEvent
+				}
+				... on EntityManagementIncidentLinkEntity {
+					__typename
+					externalId
+					sourceSyncConfigurationId
+					url
+				}
+				... on EntityManagementIncidentMessageEntity {
+					__typename
+					content
+					contentEncoding
+					contentType
+					externalId
+					parentId
+					sourceSyncConfigurationId
+				}
+				... on EntityManagementIncidentProfileAttachmentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementIncidentProfileEntity {
+					__typename
+				}
+				... on EntityManagementIncidentTimelineEntity {
+					__typename
+					content
+					entryType
+					source
+				}
+				... on EntityManagementJiraConnection {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementJiraSyncConfigurationV2Entity {
+					__typename
+					bidirectional
+					connection
+					description
+					enabled
+					issueType
+					mode
+					projectKey
+				}
+				... on EntityManagementJuniperMistConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementMaintenanceWindowEntity {
+					__typename
+					affectedEntityType
+					description
+					duration
+					rrule
+					startTime
+					timezone
+				}
+				... on EntityManagementManagedEvaluationsEntity {
+					__typename
+					description
+				}
+				... on EntityManagementMcpServerEntity {
+					__typename
+					description
+					displayName
+					endpoint
+					protocolVersion
+					transport
+				}
+				... on EntityManagementMeterEntity {
+					__typename
+					description
+				}
+				... on EntityManagementMeterTypeEntity {
+					__typename
+					allowMeterCreation
+					attributionDimensions
+					description
+				}
+				... on EntityManagementNewRelicConnection {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementNotebookEntity {
+					__typename
+				}
+				... on EntityManagementNotificationAttachmentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementNrAiAgentEntity {
+					__typename
+					displayName
+					version
+				}
+				... on EntityManagementNrqlMacroEntity {
+					__typename
+					expression
+					numParameters
+				}
+				... on EntityManagementOperationEntity {
+					__typename
+				}
+				... on EntityManagementOperationMetricEntity {
+					__typename
+				}
+				... on EntityManagementPerformanceInboxSettingEntity {
+					__typename
+					thresholdScope
+				}
+				... on EntityManagementPipelineCloudRuleEntity {
+					__typename
+					description
+					enabled
+					nrql
+				}
+				... on EntityManagementProductLineEntity {
+					__typename
+					description
+				}
+				... on EntityManagementRagDocumentEntity {
+					__typename
+					authorEmails
+					sourceIdentifier
+				}
+				... on EntityManagementRagToolEntity {
+					__typename
+					description
+				}
+				... on EntityManagementReactNativeSourcemapEntity {
+					__typename
+					appVersionId
+					applicationId
+					jsBundleId
+				}
+				... on EntityManagementRestApiContractEntity {
+					__typename
+				}
+				... on EntityManagementScorecardEntity {
+					__typename
+					description
+				}
+				... on EntityManagementScorecardRuleEntity {
+					__typename
+					description
+					enabled
+					impactWeight
+					progressLevel
+					runInterval
+				}
+				... on EntityManagementSegmentTermsEntity {
+					__typename
+					appEntityId
+					channel
+					domain
+					metricPrefix
+					oldId
+					urlSegments
+				}
+				... on EntityManagementServerlessJobDefinitionEntity {
+					__typename
+					description
+					namespace
+					secretKeys
+				}
+				... on EntityManagementServiceNowConnection {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementSlackConnection {
+					__typename
+					appId
+					description
+					enabled
+					externalId
+					workspace
+				}
+				... on EntityManagementStatusPageAnnouncementEntity {
+					__typename
+					category
+					description
+					effectiveDate
+					eventUrl
+					publishedDate
+					state
+				}
+				... on EntityManagementStatusPageIncidentEntity {
+					__typename
+					description
+					endTime
+					incidentId
+					incidentTitle
+					lastUpdatedTime
+					region
+					startTime
+					status
+				}
+				... on EntityManagementTeamEntity {
+					__typename
+					aliases
+					description
+					hierarchyLevelId
+					managers
+					parentId
+				}
+				... on EntityManagementTeamsHierarchyLevelEntity {
+					__typename
+				}
+				... on EntityManagementTeamsOrganizationSettingsEntity {
+					__typename
+					hierarchyLevelOrder
+				}
+				... on EntityManagementUserEntity {
+					__typename
+					userId
+				}
+				... on EntityManagementWorkItemLinkV2Entity {
+					__typename
+					externalId
+					sourceSyncConfigurationId
+					url
+				}
+				... on EntityManagementWorkItemMessageV2Entity {
+					__typename
+					content
+					contentEncoding
+					contentType
+					externalId
+					parentId
+					sourceSyncConfigurationId
+				}
+				... on EntityManagementWorkItemV2Entity {
+					__typename
+					category
+					description
+					dueDate
+					externalId
+					labels
+					priority
+					status
+				}
+				... on EntityManagementWorkflowDefinition {
+					__typename
+					description
+					versions
+				}
+				... on EntityManagementWorkflowSchedule {
+					__typename
+					cronExpression
+					description
+					overlapPolicy
+					timezone
+				}
+				... on EntityManagementZoomConnectionEntity {
+					__typename
+					description
+					enabled
+				}
+			}
+			dataLocationBucket
+			database
+			queryConnection {
+				__typename
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+				... on EntityManagementAgentConfigurationEntity {
+					__typename
+					agentType
+					configurationType
+					managedEntityType
+					versionCount
+				}
+				... on EntityManagementAgentConfigurationVersionEntity {
+					__typename
+					agentConfiguration
+					version
+				}
+				... on EntityManagementAgentEffectiveConfigurationEntity {
+					__typename
+				}
+				... on EntityManagementAgentEntity {
+					__typename
+					agentType
+					version
+				}
+				... on EntityManagementAiAgentEntity {
+					__typename
+					category
+					description
+					displayName
+					initialized
+					prompt
+					provider
+					test
+				}
+				... on EntityManagementAiCapableEntity {
+					__typename
+					category
+					language
+					lastSeen
+					toolType
+					toolVersion
+				}
+				... on EntityManagementAiEvaluationConfigEntity {
+					__typename
+					description
+					enabled
+					samplingRate
+				}
+				... on EntityManagementAiToolEntity {
+					__typename
+					description
+					initialized
+					provider
+					test
+					toolType
+					url
+				}
+				... on EntityManagementApiSpecificationBlobEntity {
+					__typename
+					description
+				}
+				... on EntityManagementAwsConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementAzureDevOpsConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementBackgroundProcessingRuleEntity {
+					__typename
+					description
+					ruleType
+				}
+				... on EntityManagementBackgroundSqlProcessingRuleEntity {
+					__typename
+					description
+				}
+				... on EntityManagementBudgetEntity {
+					__typename
+					budgetType
+					organizationBudget
+				}
+				... on EntityManagementCiscoMerakiConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementCollectionEntity {
+					__typename
+				}
+				... on EntityManagementComponentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementComputeLocationEntity {
+					__typename
+					description
+				}
+				... on EntityManagementConfluenceConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+				}
+				... on EntityManagementConfluenceIntegration {
+					__typename
+					confluenceUserId
+					secretKey
+					url
+				}
+				... on EntityManagementConfluenceRagSettingsEntity {
+					__typename
+					chunkOverlap
+					chunkSize
+					confluenceIntegrationId
+					confluenceQuery
+					intervalSeconds
+					lastPullTime
+					nextPullTime
+					textSplitterType
+				}
+				... on EntityManagementCorrelationInternalSourceConfigEntity {
+					__typename
+					accountId
+					alias
+					filterId
+					namespaces
+					nrql
+					outputTopic
+					source
+				}
+				... on EntityManagementCorrelationLinkEntity {
+					__typename
+					directional
+					linkType
+				}
+				... on EntityManagementCorrelationLinkingRuleEntity {
+					__typename
+					description
+					enabled
+				}
+				... on EntityManagementCorrelationNormalizerEntity {
+					__typename
+					caseInsensitive
+					default
+					description
+				}
+				... on EntityManagementCustomEvaluationEntity {
+					__typename
+					criteria
+					description
+					model
+					parameters
+					steps
+					threshold
+				}
+				... on EntityManagementCustomerImpactEntity {
+					__typename
+					issueId
+				}
+				... on EntityManagementCustomerImpactQueryEntity {
+					__typename
+					query
+					queryAccountId
+					teamName
+					totalCustImpactQueryAccountIds
+					totalCustomerImpactQuery
+				}
+				... on EntityManagementEventBridgeRuleEntity {
+					__typename
+					description
+					enabled
+				}
+				... on EntityManagementFederatedLogPartitionEntity {
+					__typename
+					active
+					description
+					isDefault
+				}
+				... on EntityManagementFederatedLogSetupEntity {
+					__typename
+					active
+					defaultPartitionId
+					description
+				}
+				... on EntityManagementFleetDeploymentEntity {
+					__typename
+					configurationVersions
+					description
+					fleetId
+					phase
+				}
+				... on EntityManagementFleetEntity {
+					__typename
+					description
+					managedEntityType
+					product
+				}
+				... on EntityManagementFleetRingEntity {
+					__typename
+					fleetId
+				}
+				... on EntityManagementFlowEntity {
+					__typename
+				}
+				... on EntityManagementGenericEntity {
+					__typename
+				}
+				... on EntityManagementGitHubIntegrationEntity {
+					__typename
+					installationId
+					installationSource
+					installationStatus
+					lastSyncCompletedAt
+					nextSyncAt
+				}
+				... on EntityManagementGitRepositoryEntity {
+					__typename
+					closedPullRequestCount
+					description
+					externalCreatedAt
+					externalId
+					externalLastDeployedAt
+					externalUpdatedAt
+					forkCount
+					hostingPlatform
+					latestReleaseVersion
+					lockedPullRequestCount
+					openPullRequestCount
+					primaryLanguage
+					url
+				}
+				... on EntityManagementGithubConnection {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementImpactProfileEntity {
+					__typename
+				}
+				... on EntityManagementInboxIssueCategoryEntity {
+					__typename
+					categoryType
+					issueType
+					messageAttributes
+					nameAttributes
+				}
+				... on EntityManagementIncidentAttachmentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementIncidentEntity {
+					__typename
+					category
+					customerImpact
+					description
+					dueDate
+					entitiesImpacted
+					externalId
+					incidentCategory
+					incidentKey
+					incidentProfileId
+					incidentSubcategory
+					issueLinks
+					labels
+					lessonsLearned
+					maxSeverity
+					priority
+					reportedBy
+					resolutionCategory
+					resolutionSummary
+					retroActionItems
+					rootCauseSummary
+					rootCauseTags
+					severity
+					source
+					status
+					triggeringEvent
+				}
+				... on EntityManagementIncidentLinkEntity {
+					__typename
+					externalId
+					sourceSyncConfigurationId
+					url
+				}
+				... on EntityManagementIncidentMessageEntity {
+					__typename
+					content
+					contentEncoding
+					contentType
+					externalId
+					parentId
+					sourceSyncConfigurationId
+				}
+				... on EntityManagementIncidentProfileAttachmentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementIncidentProfileEntity {
+					__typename
+				}
+				... on EntityManagementIncidentTimelineEntity {
+					__typename
+					content
+					entryType
+					source
+				}
+				... on EntityManagementJiraConnection {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementJiraSyncConfigurationV2Entity {
+					__typename
+					bidirectional
+					connection
+					description
+					enabled
+					issueType
+					mode
+					projectKey
+				}
+				... on EntityManagementJuniperMistConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementMaintenanceWindowEntity {
+					__typename
+					affectedEntityType
+					description
+					duration
+					rrule
+					startTime
+					timezone
+				}
+				... on EntityManagementManagedEvaluationsEntity {
+					__typename
+					description
+				}
+				... on EntityManagementMcpServerEntity {
+					__typename
+					description
+					displayName
+					endpoint
+					protocolVersion
+					transport
+				}
+				... on EntityManagementMeterEntity {
+					__typename
+					description
+				}
+				... on EntityManagementMeterTypeEntity {
+					__typename
+					allowMeterCreation
+					attributionDimensions
+					description
+				}
+				... on EntityManagementNewRelicConnection {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementNotebookEntity {
+					__typename
+				}
+				... on EntityManagementNotificationAttachmentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementNrAiAgentEntity {
+					__typename
+					displayName
+					version
+				}
+				... on EntityManagementNrqlMacroEntity {
+					__typename
+					expression
+					numParameters
+				}
+				... on EntityManagementOperationEntity {
+					__typename
+				}
+				... on EntityManagementOperationMetricEntity {
+					__typename
+				}
+				... on EntityManagementPerformanceInboxSettingEntity {
+					__typename
+					thresholdScope
+				}
+				... on EntityManagementPipelineCloudRuleEntity {
+					__typename
+					description
+					enabled
+					nrql
+				}
+				... on EntityManagementProductLineEntity {
+					__typename
+					description
+				}
+				... on EntityManagementRagDocumentEntity {
+					__typename
+					authorEmails
+					sourceIdentifier
+				}
+				... on EntityManagementRagToolEntity {
+					__typename
+					description
+				}
+				... on EntityManagementReactNativeSourcemapEntity {
+					__typename
+					appVersionId
+					applicationId
+					jsBundleId
+				}
+				... on EntityManagementRestApiContractEntity {
+					__typename
+				}
+				... on EntityManagementScorecardEntity {
+					__typename
+					description
+				}
+				... on EntityManagementScorecardRuleEntity {
+					__typename
+					description
+					enabled
+					impactWeight
+					progressLevel
+					runInterval
+				}
+				... on EntityManagementSegmentTermsEntity {
+					__typename
+					appEntityId
+					channel
+					domain
+					metricPrefix
+					oldId
+					urlSegments
+				}
+				... on EntityManagementServerlessJobDefinitionEntity {
+					__typename
+					description
+					namespace
+					secretKeys
+				}
+				... on EntityManagementServiceNowConnection {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementSlackConnection {
+					__typename
+					appId
+					description
+					enabled
+					externalId
+					workspace
+				}
+				... on EntityManagementStatusPageAnnouncementEntity {
+					__typename
+					category
+					description
+					effectiveDate
+					eventUrl
+					publishedDate
+					state
+				}
+				... on EntityManagementStatusPageIncidentEntity {
+					__typename
+					description
+					endTime
+					incidentId
+					incidentTitle
+					lastUpdatedTime
+					region
+					startTime
+					status
+				}
+				... on EntityManagementTeamEntity {
+					__typename
+					aliases
+					description
+					hierarchyLevelId
+					managers
+					parentId
+				}
+				... on EntityManagementTeamsHierarchyLevelEntity {
+					__typename
+				}
+				... on EntityManagementTeamsOrganizationSettingsEntity {
+					__typename
+					hierarchyLevelOrder
+				}
+				... on EntityManagementUserEntity {
+					__typename
+					userId
+				}
+				... on EntityManagementWorkItemLinkV2Entity {
+					__typename
+					externalId
+					sourceSyncConfigurationId
+					url
+				}
+				... on EntityManagementWorkItemMessageV2Entity {
+					__typename
+					content
+					contentEncoding
+					contentType
+					externalId
+					parentId
+					sourceSyncConfigurationId
+				}
+				... on EntityManagementWorkItemV2Entity {
+					__typename
+					category
+					description
+					dueDate
+					externalId
+					labels
+					priority
+					status
+				}
+				... on EntityManagementWorkflowDefinition {
+					__typename
+					description
+					versions
+				}
+				... on EntityManagementWorkflowSchedule {
+					__typename
+					cronExpression
+					description
+					overlapPolicy
+					timezone
+				}
+				... on EntityManagementZoomConnectionEntity {
+					__typename
+					description
+					enabled
+				}
+			}
+		}
 		tags {
 			key
 			values
@@ -427,6 +5312,473 @@ const EntityManagementUpdateFederatedLogSetupMutation = `mutation(
 	}
 } }`
 
+// Creates a new partition within an existing federated logs setup,including storage location, retention policy, and an optional partition rule.
+func (a *FederatedLogs) FederatedLogsCreatePartition(
+	partition FederatedLogsCreatePartitionInput,
+	setupId string,
+) (*FederatedLogsPartitionResponse, error) {
+	return a.FederatedLogsCreatePartitionWithContext(context.Background(),
+		partition,
+		setupId,
+	)
+}
+
+// Creates a new partition within an existing federated logs setup,including storage location, retention policy, and an optional partition rule.
+func (a *FederatedLogs) FederatedLogsCreatePartitionWithContext(
+	ctx context.Context,
+	partition FederatedLogsCreatePartitionInput,
+	setupId string,
+) (*FederatedLogsPartitionResponse, error) {
+
+	resp := FederatedLogsCreatePartitionQueryResponse{}
+	vars := map[string]interface{}{
+		"partition": partition,
+		"setupId":   setupId,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, FederatedLogsCreatePartitionMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.FederatedLogsPartitionResponse, nil
+}
+
+type FederatedLogsCreatePartitionQueryResponse struct {
+	FederatedLogsPartitionResponse FederatedLogsPartitionResponse `json:"FederatedLogsCreatePartition"`
+}
+
+const FederatedLogsCreatePartitionMutation = `mutation(
+	$partition: FederatedLogsCreatePartitionInput!,
+	$setupId: ID!,
+) { federatedLogsCreatePartition(
+	partition: $partition,
+	setupId: $setupId,
+) {
+	partition {
+		active
+		createdAt
+		dataRetentionPolicy {
+			duration
+			unit
+		}
+		description
+		forwarderConfiguration {
+			pipelineControl {
+				deployed {
+					id
+					versionId
+				}
+				latest {
+					id
+					versionId
+				}
+				partitionRule {
+					expression
+				}
+			}
+			type
+		}
+		healthCheck {
+			end2endDataFlow {
+				lastUpdatedAt
+				message
+				status
+			}
+			lastUpdatedAt
+			queryConnection {
+				lastUpdatedAt
+				message
+				status
+			}
+		}
+		id
+		isDefault
+		lifecycleStatus {
+			lastUpdatedAt
+			message
+			status
+		}
+		name
+		setup {
+			active
+			createdAt
+			defaultPartitionId
+			description
+			forwarder {
+				pipelineControl {
+					fleetId
+				}
+				type
+			}
+			healthCheck {
+				end2endDataFlow {
+					lastUpdatedAt
+					message
+					status
+				}
+				lastUpdatedAt
+				queryConnection {
+					lastUpdatedAt
+					message
+					status
+				}
+			}
+			id
+			lifecycleStatus {
+				lastUpdatedAt
+				message
+				status
+			}
+			name
+			storage {
+				cloudProviderConfiguration {
+					provider
+					region
+				}
+				dataIngestConnectionId
+				dataLocationBucket
+				database
+				queryConnectionId
+			}
+			updatedAt
+		}
+		storage {
+			dataLocationUri
+			table
+		}
+		updatedAt
+	}
+} }`
+
+// Creates a new federated logs setup with its initial configuration, including cloud provider, connections, storage, and an optional forwarder.A default partition is created alongside the setup.
+func (a *FederatedLogs) FederatedLogsCreateSetup(
+	setup FederatedLogsCreateSetupInput,
+) (*FederatedLogsSetupResponse, error) {
+	return a.FederatedLogsCreateSetupWithContext(context.Background(),
+		setup,
+	)
+}
+
+// Creates a new federated logs setup with its initial configuration, including cloud provider, connections, storage, and an optional forwarder.A default partition is created alongside the setup.
+func (a *FederatedLogs) FederatedLogsCreateSetupWithContext(
+	ctx context.Context,
+	setup FederatedLogsCreateSetupInput,
+) (*FederatedLogsSetupResponse, error) {
+
+	resp := FederatedLogsCreateSetupQueryResponse{}
+	vars := map[string]interface{}{
+		"setup": setup,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, FederatedLogsCreateSetupMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.FederatedLogsSetupResponse, nil
+}
+
+type FederatedLogsCreateSetupQueryResponse struct {
+	FederatedLogsSetupResponse FederatedLogsSetupResponse `json:"FederatedLogsCreateSetup"`
+}
+
+const FederatedLogsCreateSetupMutation = `mutation(
+	$setup: FederatedLogsCreateSetupInput!,
+) { federatedLogsCreateSetup(
+	setup: $setup,
+) {
+	setup {
+		active
+		createdAt
+		defaultPartitionId
+		description
+		forwarder {
+			pipelineControl {
+				deployed {
+					id
+					versionId
+				}
+				fleetId
+				latest {
+					id
+					versionId
+				}
+				routingRule {
+					expression
+				}
+			}
+			type
+		}
+		healthCheck {
+			end2endDataFlow {
+				lastUpdatedAt
+				message
+				status
+			}
+			lastUpdatedAt
+			queryConnection {
+				lastUpdatedAt
+				message
+				status
+			}
+		}
+		id
+		lifecycleStatus {
+			lastUpdatedAt
+			message
+			status
+		}
+		name
+		storage {
+			cloudProviderConfiguration {
+				provider
+				region
+			}
+			dataIngestConnectionId
+			dataLocationBucket
+			database
+			queryConnectionId
+		}
+		updatedAt
+	}
+} }`
+
+// Updates an existing federated logs partition configuration.Only the provided fields are updated; omitted fields remain unchanged.
+func (a *FederatedLogs) FederatedLogsUpdatePartition(
+	iD string,
+	partition FederatedLogsUpdatePartitionInput,
+) (*FederatedLogsPartitionResponse, error) {
+	return a.FederatedLogsUpdatePartitionWithContext(context.Background(),
+		iD,
+		partition,
+	)
+}
+
+// Updates an existing federated logs partition configuration.Only the provided fields are updated; omitted fields remain unchanged.
+func (a *FederatedLogs) FederatedLogsUpdatePartitionWithContext(
+	ctx context.Context,
+	iD string,
+	partition FederatedLogsUpdatePartitionInput,
+) (*FederatedLogsPartitionResponse, error) {
+
+	resp := FederatedLogsUpdatePartitionQueryResponse{}
+	vars := map[string]interface{}{
+		"id":        iD,
+		"partition": partition,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, FederatedLogsUpdatePartitionMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.FederatedLogsPartitionResponse, nil
+}
+
+type FederatedLogsUpdatePartitionQueryResponse struct {
+	FederatedLogsPartitionResponse FederatedLogsPartitionResponse `json:"FederatedLogsUpdatePartition"`
+}
+
+const FederatedLogsUpdatePartitionMutation = `mutation(
+	$id: ID!,
+	$partition: FederatedLogsUpdatePartitionInput!,
+) { federatedLogsUpdatePartition(
+	id: $id,
+	partition: $partition,
+) {
+	partition {
+		active
+		createdAt
+		dataRetentionPolicy {
+			duration
+			unit
+		}
+		description
+		forwarderConfiguration {
+			pipelineControl {
+				deployed {
+					id
+					versionId
+				}
+				latest {
+					id
+					versionId
+				}
+				partitionRule {
+					expression
+				}
+			}
+			type
+		}
+		healthCheck {
+			end2endDataFlow {
+				lastUpdatedAt
+				message
+				status
+			}
+			lastUpdatedAt
+			queryConnection {
+				lastUpdatedAt
+				message
+				status
+			}
+		}
+		id
+		isDefault
+		lifecycleStatus {
+			lastUpdatedAt
+			message
+			status
+		}
+		name
+		setup {
+			active
+			createdAt
+			defaultPartitionId
+			description
+			forwarder {
+				pipelineControl {
+					fleetId
+				}
+				type
+			}
+			healthCheck {
+				end2endDataFlow {
+					lastUpdatedAt
+					message
+					status
+				}
+				lastUpdatedAt
+				queryConnection {
+					lastUpdatedAt
+					message
+					status
+				}
+			}
+			id
+			lifecycleStatus {
+				lastUpdatedAt
+				message
+				status
+			}
+			name
+			storage {
+				cloudProviderConfiguration {
+					provider
+					region
+				}
+				dataIngestConnectionId
+				dataLocationBucket
+				database
+				queryConnectionId
+			}
+			updatedAt
+		}
+		storage {
+			dataLocationUri
+			table
+		}
+		updatedAt
+	}
+} }`
+
+// Updates an existing federated logs setup configuration.Only the provided fields are updated; omitted fields remain unchanged.
+func (a *FederatedLogs) FederatedLogsUpdateSetup(
+	iD string,
+	setup FederatedLogsUpdateSetupInput,
+) (*FederatedLogsSetupResponse, error) {
+	return a.FederatedLogsUpdateSetupWithContext(context.Background(),
+		iD,
+		setup,
+	)
+}
+
+// Updates an existing federated logs setup configuration.Only the provided fields are updated; omitted fields remain unchanged.
+func (a *FederatedLogs) FederatedLogsUpdateSetupWithContext(
+	ctx context.Context,
+	iD string,
+	setup FederatedLogsUpdateSetupInput,
+) (*FederatedLogsSetupResponse, error) {
+
+	resp := FederatedLogsUpdateSetupQueryResponse{}
+	vars := map[string]interface{}{
+		"id":    iD,
+		"setup": setup,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, FederatedLogsUpdateSetupMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.FederatedLogsSetupResponse, nil
+}
+
+type FederatedLogsUpdateSetupQueryResponse struct {
+	FederatedLogsSetupResponse FederatedLogsSetupResponse `json:"FederatedLogsUpdateSetup"`
+}
+
+const FederatedLogsUpdateSetupMutation = `mutation(
+	$id: ID!,
+	$setup: FederatedLogsUpdateSetupInput!,
+) { federatedLogsUpdateSetup(
+	id: $id,
+	setup: $setup,
+) {
+	setup {
+		active
+		createdAt
+		defaultPartitionId
+		description
+		forwarder {
+			pipelineControl {
+				deployed {
+					id
+					versionId
+				}
+				fleetId
+				latest {
+					id
+					versionId
+				}
+				routingRule {
+					expression
+				}
+			}
+			type
+		}
+		healthCheck {
+			end2endDataFlow {
+				lastUpdatedAt
+				message
+				status
+			}
+			lastUpdatedAt
+			queryConnection {
+				lastUpdatedAt
+				message
+				status
+			}
+		}
+		id
+		lifecycleStatus {
+			lastUpdatedAt
+			message
+			status
+		}
+		name
+		storage {
+			cloudProviderConfiguration {
+				provider
+				region
+			}
+			dataIngestConnectionId
+			dataLocationBucket
+			database
+			queryConnectionId
+		}
+		updatedAt
+	}
+} }`
+
+// Retrieves an entity.
 func (a *FederatedLogs) GetEntity(
 	iD string,
 ) (*EntityManagementEntityInterface, error) {
@@ -1199,6 +6551,78 @@ const getEntityQuery = `query(
 			values
 		}
 	}
+	... on EntityManagementAzureDevOpsConnectionEntity {
+		__typename
+		credential {
+			oauth {
+				clientId
+				clientSecret {
+					keyName
+					namespace
+				}
+				refreshToken {
+					keyName
+					namespace
+				}
+				tokenFieldName
+				tokenUrl
+			}
+			personalAccessToken {
+				keyName
+				namespace
+			}
+		}
+		description
+		enabled
+		externalId
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				type
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				type
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		settings {
+			key
+			value
+		}
+		signingCredentials {
+			signingAlgorithm
+			signingKeyReference {
+				keyName
+				namespace
+			}
+		}
+		tags {
+			key
+			values
+		}
+		url
+	}
 	... on EntityManagementBackgroundProcessingRuleEntity {
 		__typename
 		description
@@ -1400,7 +6824,7 @@ const getEntityQuery = `query(
 	... on EntityManagementCiscoMerakiConnectionEntity {
 		__typename
 		credential {
-			basicAuth {
+			apiKey {
 				apiKey {
 					keyName
 					namespace
@@ -1445,13 +6869,6 @@ const getEntityQuery = `query(
 		settings {
 			key
 			value
-		}
-		signingCredentials {
-			signingAlgorithm
-			signingKeyReference {
-				keyName
-				namespace
-			}
 		}
 		tags {
 			key
@@ -1848,7 +7265,34 @@ const getEntityQuery = `query(
 		criteria {
 			attributeConditions {
 				attribute
+				normalize {
+					caseInsensitive
+					default
+					description
+					id
+					name
+					type
+				}
+				normalizeAttribute {
+					caseInsensitive
+					default
+					description
+					id
+					name
+					type
+				}
+				normalizeValue {
+					caseInsensitive
+					default
+					description
+					id
+					name
+					type
+				}
 				operator
+				transform
+				transformAttribute
+				transformValue
 				value
 			}
 			probabilistic {
@@ -1916,6 +7360,51 @@ const getEntityQuery = `query(
 				stateKey
 			}
 			nrql
+			type
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementCorrelationNormalizerEntity {
+		__typename
+		caseInsensitive
+		default
+		description
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				type
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				type
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		rules {
+			pattern
+			value
+		}
+		scope {
+			id
 			type
 		}
 		tags {
@@ -2349,9 +7838,37 @@ const getEntityQuery = `query(
 	}
 	... on EntityManagementFederatedLogPartitionEntity {
 		__typename
-		dataLocationUri
+		active
+		dataRetentionPolicy {
+			duration
+			unit
+		}
 		description
+		forwarderConfig {
+			partitionRule {
+				expression
+			}
+			type
+		}
+		healthCheck {
+			end2endDataFlow {
+				lastUpdatedAt
+				message
+				status
+			}
+			lastUpdatedAt
+			queryConnection {
+				lastUpdatedAt
+				message
+				status
+			}
+		}
 		isDefault
+		lifecycleStatus {
+			lastUpdatedAt
+			message
+			status
+		}
 		metadata {
 			createdAt
 			createdBy {
@@ -2379,1151 +7896,36 @@ const getEntityQuery = `query(
 			}
 			version
 		}
-		partitionTable
-		retentionPolicy {
-			duration
-			unit
-		}
 		scope {
 			id
 			type
 		}
 		setup {
-			cloudProvider
-			cloudProviderRegion
-			dataLocationBucket
-			dataProcessingComponent {
-				__typename
-				id
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				name
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				type
-				... on EntityManagementAgentConfigurationEntity {
-					__typename
-					agentType
-					configurationType
-					managedEntityType
-					versionCount
-				}
-				... on EntityManagementAgentConfigurationVersionEntity {
-					__typename
-					agentConfiguration
-					version
-				}
-				... on EntityManagementAgentEffectiveConfigurationEntity {
-					__typename
-				}
-				... on EntityManagementAgentEntity {
-					__typename
-					agentType
-					version
-				}
-				... on EntityManagementAiAgentEntity {
-					__typename
-					category
-					description
-					displayName
-					initialized
-					prompt
-					provider
-					test
-				}
-				... on EntityManagementAiCapableEntity {
-					__typename
-					category
-					language
-					lastSeen
-					toolType
-					toolVersion
-				}
-				... on EntityManagementAiEvaluationConfigEntity {
-					__typename
-					description
-					enabled
-					samplingRate
-				}
-				... on EntityManagementAiToolEntity {
-					__typename
-					description
-					initialized
-					provider
-					test
-					toolType
-					url
-				}
-				... on EntityManagementApiSpecificationBlobEntity {
-					__typename
-					description
-				}
-				... on EntityManagementAwsConnectionEntity {
-					__typename
-					description
-					enabled
-					externalId
-					region
-				}
-				... on EntityManagementBackgroundProcessingRuleEntity {
-					__typename
-					description
-					ruleType
-				}
-				... on EntityManagementBackgroundSqlProcessingRuleEntity {
-					__typename
-					description
-				}
-				... on EntityManagementBudgetEntity {
-					__typename
-					budgetType
-					organizationBudget
-				}
-				... on EntityManagementCiscoMerakiConnectionEntity {
-					__typename
-					description
-					enabled
-					externalId
-					region
-				}
-				... on EntityManagementCollectionEntity {
-					__typename
-				}
-				... on EntityManagementComponentEntity {
-					__typename
-					description
-				}
-				... on EntityManagementComputeLocationEntity {
-					__typename
-					description
-				}
-				... on EntityManagementConfluenceConnectionEntity {
-					__typename
-					description
-					enabled
-					externalId
-				}
-				... on EntityManagementConfluenceIntegration {
-					__typename
-					confluenceUserId
-					secretKey
-					url
-				}
-				... on EntityManagementConfluenceRagSettingsEntity {
-					__typename
-					chunkOverlap
-					chunkSize
-					confluenceIntegrationId
-					confluenceQuery
-					intervalSeconds
-					lastPullTime
-					nextPullTime
-					textSplitterType
-				}
-				... on EntityManagementCorrelationInternalSourceConfigEntity {
-					__typename
-					accountId
-					alias
-					filterId
-					namespaces
-					nrql
-					outputTopic
-					source
-				}
-				... on EntityManagementCorrelationLinkEntity {
-					__typename
-					directional
-					linkType
-				}
-				... on EntityManagementCorrelationLinkingRuleEntity {
-					__typename
-					description
-					enabled
-				}
-				... on EntityManagementCustomEvaluationEntity {
-					__typename
-					criteria
-					description
-					model
-					parameters
-					steps
-					threshold
-				}
-				... on EntityManagementCustomerImpactEntity {
-					__typename
-					issueId
-				}
-				... on EntityManagementCustomerImpactQueryEntity {
-					__typename
-					query
-					queryAccountId
-					teamName
-					totalCustImpactQueryAccountIds
-					totalCustomerImpactQuery
-				}
-				... on EntityManagementEventBridgeRuleEntity {
-					__typename
-					description
-					enabled
-				}
-				... on EntityManagementFederatedLogPartitionEntity {
-					__typename
-					dataLocationUri
-					description
-					isDefault
-					partitionTable
-					status
-				}
-				... on EntityManagementFederatedLogSetupEntity {
-					__typename
-					cloudProvider
-					cloudProviderRegion
-					dataLocationBucket
-					description
-					partitionDatabase
-					status
-				}
-				... on EntityManagementFleetDeploymentEntity {
-					__typename
-					configurationVersions
-					description
-					fleetId
-					phase
-				}
-				... on EntityManagementFleetEntity {
-					__typename
-					description
-					managedEntityType
-					product
-				}
-				... on EntityManagementFleetRingEntity {
-					__typename
-					fleetId
-				}
-				... on EntityManagementFlowEntity {
-					__typename
-				}
-				... on EntityManagementGenericEntity {
-					__typename
-				}
-				... on EntityManagementGitHubIntegrationEntity {
-					__typename
-					installationId
-					installationSource
-					installationStatus
-					lastSyncCompletedAt
-					nextSyncAt
-				}
-				... on EntityManagementGitRepositoryEntity {
-					__typename
-					closedPullRequestCount
-					description
-					externalCreatedAt
-					externalId
-					externalLastDeployedAt
-					externalUpdatedAt
-					forkCount
-					hostingPlatform
-					latestReleaseVersion
-					lockedPullRequestCount
-					openPullRequestCount
-					primaryLanguage
-					url
-				}
-				... on EntityManagementGithubConnection {
-					__typename
-					description
-					enabled
-					externalId
-					url
-				}
-				... on EntityManagementImpactProfileEntity {
-					__typename
-				}
-				... on EntityManagementInboxIssueCategoryEntity {
-					__typename
-					categoryType
-					issueType
-					messageAttributes
-					nameAttributes
-				}
-				... on EntityManagementIncidentAttachmentEntity {
-					__typename
-					description
-				}
-				... on EntityManagementIncidentEntity {
-					__typename
-					category
-					customerImpact
-					description
-					dueDate
-					entitiesImpacted
-					externalId
-					incidentCategory
-					incidentKey
-					incidentProfileId
-					incidentSubcategory
-					issueLinks
-					labels
-					lessonsLearned
-					maxSeverity
-					priority
-					reportedBy
-					resolutionCategory
-					resolutionSummary
-					retroActionItems
-					rootCauseSummary
-					rootCauseTags
-					severity
-					source
-					status
-					triggeringEvent
-				}
-				... on EntityManagementIncidentLinkEntity {
-					__typename
-					externalId
-					sourceSyncConfigurationId
-					url
-				}
-				... on EntityManagementIncidentMessageEntity {
-					__typename
-					content
-					contentEncoding
-					contentType
-					externalId
-					parentId
-					sourceSyncConfigurationId
-				}
-				... on EntityManagementIncidentProfileAttachmentEntity {
-					__typename
-					description
-				}
-				... on EntityManagementIncidentProfileEntity {
-					__typename
-				}
-				... on EntityManagementIncidentTimelineEntity {
-					__typename
-					content
-					entryType
-					source
-				}
-				... on EntityManagementJiraConnection {
-					__typename
-					description
-					enabled
-					externalId
-					url
-				}
-				... on EntityManagementJiraSyncConfigurationV2Entity {
-					__typename
-					bidirectional
-					connection
-					description
-					enabled
-					issueType
-					mode
-					projectKey
-				}
-				... on EntityManagementJuniperMistConnectionEntity {
-					__typename
-					description
-					enabled
-					externalId
-					region
-				}
-				... on EntityManagementMaintenanceWindowEntity {
-					__typename
-					affectedEntityType
-					description
-					duration
-					rrule
-					startTime
-					timezone
-				}
-				... on EntityManagementManagedEvaluationsEntity {
-					__typename
-					description
-				}
-				... on EntityManagementMcpServerEntity {
-					__typename
-					description
-					displayName
-					endpoint
-					protocolVersion
-					transport
-				}
-				... on EntityManagementMeterEntity {
-					__typename
-					description
-				}
-				... on EntityManagementMeterTypeEntity {
-					__typename
-					allowMeterCreation
-					attributionDimensions
-					description
-				}
-				... on EntityManagementNewRelicConnection {
-					__typename
-					description
-					enabled
-					externalId
-					region
-				}
-				... on EntityManagementNotebookEntity {
-					__typename
-				}
-				... on EntityManagementNotificationAttachmentEntity {
-					__typename
-					description
-				}
-				... on EntityManagementNrAiAgentEntity {
-					__typename
-					displayName
-					version
-				}
-				... on EntityManagementNrqlMacroEntity {
-					__typename
-					expression
-					numParameters
-				}
-				... on EntityManagementOperationEntity {
-					__typename
-				}
-				... on EntityManagementOperationMetricEntity {
-					__typename
-				}
-				... on EntityManagementPerformanceInboxSettingEntity {
-					__typename
-					thresholdScope
-				}
-				... on EntityManagementPipelineCloudRuleEntity {
-					__typename
-					description
-					enabled
-					nrql
-				}
-				... on EntityManagementProductLineEntity {
-					__typename
-					description
-				}
-				... on EntityManagementRagDocumentEntity {
-					__typename
-					authorEmails
-					sourceIdentifier
-				}
-				... on EntityManagementRagToolEntity {
-					__typename
-					description
-				}
-				... on EntityManagementReactNativeSourcemapEntity {
-					__typename
-					appVersionId
-					applicationId
-					jsBundleId
-				}
-				... on EntityManagementRestApiContractEntity {
-					__typename
-				}
-				... on EntityManagementScorecardEntity {
-					__typename
-					description
-				}
-				... on EntityManagementScorecardRuleEntity {
-					__typename
-					description
-					enabled
-					impactWeight
-					progressLevel
-					runInterval
-				}
-				... on EntityManagementSegmentTermsEntity {
-					__typename
-					appEntityId
-					channel
-					domain
-					metricPrefix
-					oldId
-					urlSegments
-				}
-				... on EntityManagementServerlessJobDefinitionEntity {
-					__typename
-					description
-					namespace
-					secretKeys
-				}
-				... on EntityManagementServiceNowConnection {
-					__typename
-					description
-					enabled
-					externalId
-					url
-				}
-				... on EntityManagementSlackConnection {
-					__typename
-					appId
-					description
-					enabled
-					externalId
-					workspace
-				}
-				... on EntityManagementStatusPageAnnouncementEntity {
-					__typename
-					category
-					description
-					effectiveDate
-					eventUrl
-					publishedDate
-					state
-				}
-				... on EntityManagementStatusPageIncidentEntity {
-					__typename
-					description
-					endTime
-					incidentId
-					incidentTitle
-					lastUpdatedTime
-					region
-					startTime
-					status
-				}
-				... on EntityManagementTeamEntity {
-					__typename
-					aliases
-					description
-					hierarchyLevelId
-					managers
-					parentId
-				}
-				... on EntityManagementTeamsHierarchyLevelEntity {
-					__typename
-				}
-				... on EntityManagementTeamsOrganizationSettingsEntity {
-					__typename
-					hierarchyLevelOrder
-				}
-				... on EntityManagementUserEntity {
-					__typename
-					userId
-				}
-				... on EntityManagementWorkItemLinkV2Entity {
-					__typename
-					externalId
-					sourceSyncConfigurationId
-					url
-				}
-				... on EntityManagementWorkItemMessageV2Entity {
-					__typename
-					content
-					contentEncoding
-					contentType
-					externalId
-					parentId
-					sourceSyncConfigurationId
-				}
-				... on EntityManagementWorkItemV2Entity {
-					__typename
-					category
-					description
-					dueDate
-					externalId
-					labels
-					priority
-					status
-				}
-				... on EntityManagementWorkflowDefinition {
-					__typename
-					description
-					versions
-				}
-				... on EntityManagementWorkflowSchedule {
-					__typename
-					cronExpression
-					description
-					overlapPolicy
-					timezone
-				}
-				... on EntityManagementZoomConnectionEntity {
-					__typename
-					description
-					enabled
-				}
-			}
-			dataProcessingConnection {
-				__typename
-				id
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				name
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				type
-				... on EntityManagementAgentConfigurationEntity {
-					__typename
-					agentType
-					configurationType
-					managedEntityType
-					versionCount
-				}
-				... on EntityManagementAgentConfigurationVersionEntity {
-					__typename
-					agentConfiguration
-					version
-				}
-				... on EntityManagementAgentEffectiveConfigurationEntity {
-					__typename
-				}
-				... on EntityManagementAgentEntity {
-					__typename
-					agentType
-					version
-				}
-				... on EntityManagementAiAgentEntity {
-					__typename
-					category
-					description
-					displayName
-					initialized
-					prompt
-					provider
-					test
-				}
-				... on EntityManagementAiCapableEntity {
-					__typename
-					category
-					language
-					lastSeen
-					toolType
-					toolVersion
-				}
-				... on EntityManagementAiEvaluationConfigEntity {
-					__typename
-					description
-					enabled
-					samplingRate
-				}
-				... on EntityManagementAiToolEntity {
-					__typename
-					description
-					initialized
-					provider
-					test
-					toolType
-					url
-				}
-				... on EntityManagementApiSpecificationBlobEntity {
-					__typename
-					description
-				}
-				... on EntityManagementAwsConnectionEntity {
-					__typename
-					description
-					enabled
-					externalId
-					region
-				}
-				... on EntityManagementBackgroundProcessingRuleEntity {
-					__typename
-					description
-					ruleType
-				}
-				... on EntityManagementBackgroundSqlProcessingRuleEntity {
-					__typename
-					description
-				}
-				... on EntityManagementBudgetEntity {
-					__typename
-					budgetType
-					organizationBudget
-				}
-				... on EntityManagementCiscoMerakiConnectionEntity {
-					__typename
-					description
-					enabled
-					externalId
-					region
-				}
-				... on EntityManagementCollectionEntity {
-					__typename
-				}
-				... on EntityManagementComponentEntity {
-					__typename
-					description
-				}
-				... on EntityManagementComputeLocationEntity {
-					__typename
-					description
-				}
-				... on EntityManagementConfluenceConnectionEntity {
-					__typename
-					description
-					enabled
-					externalId
-				}
-				... on EntityManagementConfluenceIntegration {
-					__typename
-					confluenceUserId
-					secretKey
-					url
-				}
-				... on EntityManagementConfluenceRagSettingsEntity {
-					__typename
-					chunkOverlap
-					chunkSize
-					confluenceIntegrationId
-					confluenceQuery
-					intervalSeconds
-					lastPullTime
-					nextPullTime
-					textSplitterType
-				}
-				... on EntityManagementCorrelationInternalSourceConfigEntity {
-					__typename
-					accountId
-					alias
-					filterId
-					namespaces
-					nrql
-					outputTopic
-					source
-				}
-				... on EntityManagementCorrelationLinkEntity {
-					__typename
-					directional
-					linkType
-				}
-				... on EntityManagementCorrelationLinkingRuleEntity {
-					__typename
-					description
-					enabled
-				}
-				... on EntityManagementCustomEvaluationEntity {
-					__typename
-					criteria
-					description
-					model
-					parameters
-					steps
-					threshold
-				}
-				... on EntityManagementCustomerImpactEntity {
-					__typename
-					issueId
-				}
-				... on EntityManagementCustomerImpactQueryEntity {
-					__typename
-					query
-					queryAccountId
-					teamName
-					totalCustImpactQueryAccountIds
-					totalCustomerImpactQuery
-				}
-				... on EntityManagementEventBridgeRuleEntity {
-					__typename
-					description
-					enabled
-				}
-				... on EntityManagementFederatedLogPartitionEntity {
-					__typename
-					dataLocationUri
-					description
-					isDefault
-					partitionTable
-					status
-				}
-				... on EntityManagementFederatedLogSetupEntity {
-					__typename
-					cloudProvider
-					cloudProviderRegion
-					dataLocationBucket
-					description
-					partitionDatabase
-					status
-				}
-				... on EntityManagementFleetDeploymentEntity {
-					__typename
-					configurationVersions
-					description
-					fleetId
-					phase
-				}
-				... on EntityManagementFleetEntity {
-					__typename
-					description
-					managedEntityType
-					product
-				}
-				... on EntityManagementFleetRingEntity {
-					__typename
-					fleetId
-				}
-				... on EntityManagementFlowEntity {
-					__typename
-				}
-				... on EntityManagementGenericEntity {
-					__typename
-				}
-				... on EntityManagementGitHubIntegrationEntity {
-					__typename
-					installationId
-					installationSource
-					installationStatus
-					lastSyncCompletedAt
-					nextSyncAt
-				}
-				... on EntityManagementGitRepositoryEntity {
-					__typename
-					closedPullRequestCount
-					description
-					externalCreatedAt
-					externalId
-					externalLastDeployedAt
-					externalUpdatedAt
-					forkCount
-					hostingPlatform
-					latestReleaseVersion
-					lockedPullRequestCount
-					openPullRequestCount
-					primaryLanguage
-					url
-				}
-				... on EntityManagementGithubConnection {
-					__typename
-					description
-					enabled
-					externalId
-					url
-				}
-				... on EntityManagementImpactProfileEntity {
-					__typename
-				}
-				... on EntityManagementInboxIssueCategoryEntity {
-					__typename
-					categoryType
-					issueType
-					messageAttributes
-					nameAttributes
-				}
-				... on EntityManagementIncidentAttachmentEntity {
-					__typename
-					description
-				}
-				... on EntityManagementIncidentEntity {
-					__typename
-					category
-					customerImpact
-					description
-					dueDate
-					entitiesImpacted
-					externalId
-					incidentCategory
-					incidentKey
-					incidentProfileId
-					incidentSubcategory
-					issueLinks
-					labels
-					lessonsLearned
-					maxSeverity
-					priority
-					reportedBy
-					resolutionCategory
-					resolutionSummary
-					retroActionItems
-					rootCauseSummary
-					rootCauseTags
-					severity
-					source
-					status
-					triggeringEvent
-				}
-				... on EntityManagementIncidentLinkEntity {
-					__typename
-					externalId
-					sourceSyncConfigurationId
-					url
-				}
-				... on EntityManagementIncidentMessageEntity {
-					__typename
-					content
-					contentEncoding
-					contentType
-					externalId
-					parentId
-					sourceSyncConfigurationId
-				}
-				... on EntityManagementIncidentProfileAttachmentEntity {
-					__typename
-					description
-				}
-				... on EntityManagementIncidentProfileEntity {
-					__typename
-				}
-				... on EntityManagementIncidentTimelineEntity {
-					__typename
-					content
-					entryType
-					source
-				}
-				... on EntityManagementJiraConnection {
-					__typename
-					description
-					enabled
-					externalId
-					url
-				}
-				... on EntityManagementJiraSyncConfigurationV2Entity {
-					__typename
-					bidirectional
-					connection
-					description
-					enabled
-					issueType
-					mode
-					projectKey
-				}
-				... on EntityManagementJuniperMistConnectionEntity {
-					__typename
-					description
-					enabled
-					externalId
-					region
-				}
-				... on EntityManagementMaintenanceWindowEntity {
-					__typename
-					affectedEntityType
-					description
-					duration
-					rrule
-					startTime
-					timezone
-				}
-				... on EntityManagementManagedEvaluationsEntity {
-					__typename
-					description
-				}
-				... on EntityManagementMcpServerEntity {
-					__typename
-					description
-					displayName
-					endpoint
-					protocolVersion
-					transport
-				}
-				... on EntityManagementMeterEntity {
-					__typename
-					description
-				}
-				... on EntityManagementMeterTypeEntity {
-					__typename
-					allowMeterCreation
-					attributionDimensions
-					description
-				}
-				... on EntityManagementNewRelicConnection {
-					__typename
-					description
-					enabled
-					externalId
-					region
-				}
-				... on EntityManagementNotebookEntity {
-					__typename
-				}
-				... on EntityManagementNotificationAttachmentEntity {
-					__typename
-					description
-				}
-				... on EntityManagementNrAiAgentEntity {
-					__typename
-					displayName
-					version
-				}
-				... on EntityManagementNrqlMacroEntity {
-					__typename
-					expression
-					numParameters
-				}
-				... on EntityManagementOperationEntity {
-					__typename
-				}
-				... on EntityManagementOperationMetricEntity {
-					__typename
-				}
-				... on EntityManagementPerformanceInboxSettingEntity {
-					__typename
-					thresholdScope
-				}
-				... on EntityManagementPipelineCloudRuleEntity {
-					__typename
-					description
-					enabled
-					nrql
-				}
-				... on EntityManagementProductLineEntity {
-					__typename
-					description
-				}
-				... on EntityManagementRagDocumentEntity {
-					__typename
-					authorEmails
-					sourceIdentifier
-				}
-				... on EntityManagementRagToolEntity {
-					__typename
-					description
-				}
-				... on EntityManagementReactNativeSourcemapEntity {
-					__typename
-					appVersionId
-					applicationId
-					jsBundleId
-				}
-				... on EntityManagementRestApiContractEntity {
-					__typename
-				}
-				... on EntityManagementScorecardEntity {
-					__typename
-					description
-				}
-				... on EntityManagementScorecardRuleEntity {
-					__typename
-					description
-					enabled
-					impactWeight
-					progressLevel
-					runInterval
-				}
-				... on EntityManagementSegmentTermsEntity {
-					__typename
-					appEntityId
-					channel
-					domain
-					metricPrefix
-					oldId
-					urlSegments
-				}
-				... on EntityManagementServerlessJobDefinitionEntity {
-					__typename
-					description
-					namespace
-					secretKeys
-				}
-				... on EntityManagementServiceNowConnection {
-					__typename
-					description
-					enabled
-					externalId
-					url
-				}
-				... on EntityManagementSlackConnection {
-					__typename
-					appId
-					description
-					enabled
-					externalId
-					workspace
-				}
-				... on EntityManagementStatusPageAnnouncementEntity {
-					__typename
-					category
-					description
-					effectiveDate
-					eventUrl
-					publishedDate
-					state
-				}
-				... on EntityManagementStatusPageIncidentEntity {
-					__typename
-					description
-					endTime
-					incidentId
-					incidentTitle
-					lastUpdatedTime
-					region
-					startTime
-					status
-				}
-				... on EntityManagementTeamEntity {
-					__typename
-					aliases
-					description
-					hierarchyLevelId
-					managers
-					parentId
-				}
-				... on EntityManagementTeamsHierarchyLevelEntity {
-					__typename
-				}
-				... on EntityManagementTeamsOrganizationSettingsEntity {
-					__typename
-					hierarchyLevelOrder
-				}
-				... on EntityManagementUserEntity {
-					__typename
-					userId
-				}
-				... on EntityManagementWorkItemLinkV2Entity {
-					__typename
-					externalId
-					sourceSyncConfigurationId
-					url
-				}
-				... on EntityManagementWorkItemMessageV2Entity {
-					__typename
-					content
-					contentEncoding
-					contentType
-					externalId
-					parentId
-					sourceSyncConfigurationId
-				}
-				... on EntityManagementWorkItemV2Entity {
-					__typename
-					category
-					description
-					dueDate
-					externalId
-					labels
-					priority
-					status
-				}
-				... on EntityManagementWorkflowDefinition {
-					__typename
-					description
-					versions
-				}
-				... on EntityManagementWorkflowSchedule {
-					__typename
-					cronExpression
-					description
-					overlapPolicy
-					timezone
-				}
-				... on EntityManagementZoomConnectionEntity {
-					__typename
-					description
-					enabled
-				}
-			}
+			active
+			defaultPartitionId
 			description
+			forwarder {
+				type
+			}
+			healthCheck {
+				end2endDataFlow {
+					lastUpdatedAt
+					message
+					status
+				}
+				lastUpdatedAt
+				queryConnection {
+					lastUpdatedAt
+					message
+					status
+				}
+			}
 			id
+			lifecycleStatus {
+				lastUpdatedAt
+				message
+				status
+			}
 			metadata {
 				createdAt
 				createdBy {
@@ -3552,7 +7954,1803 @@ const getEntityQuery = `query(
 				version
 			}
 			name
-			partitionDatabase
+			scope {
+				id
+				type
+			}
+			storage {
+				cloudProviderConfiguration {
+					provider
+					region
+				}
+				dataIngestConnection {
+					__typename
+					id
+					name
+					type
+					... on EntityManagementAgentConfigurationEntity {
+						__typename
+						agentType
+						configurationType
+						managedEntityType
+						versionCount
+					}
+					... on EntityManagementAgentConfigurationVersionEntity {
+						__typename
+						agentConfiguration
+						version
+					}
+					... on EntityManagementAgentEffectiveConfigurationEntity {
+						__typename
+					}
+					... on EntityManagementAgentEntity {
+						__typename
+						agentType
+						version
+					}
+					... on EntityManagementAiAgentEntity {
+						__typename
+						category
+						description
+						displayName
+						initialized
+						prompt
+						provider
+						test
+					}
+					... on EntityManagementAiCapableEntity {
+						__typename
+						category
+						language
+						lastSeen
+						toolType
+						toolVersion
+					}
+					... on EntityManagementAiEvaluationConfigEntity {
+						__typename
+						description
+						enabled
+						samplingRate
+					}
+					... on EntityManagementAiToolEntity {
+						__typename
+						description
+						initialized
+						provider
+						test
+						toolType
+						url
+					}
+					... on EntityManagementApiSpecificationBlobEntity {
+						__typename
+						description
+					}
+					... on EntityManagementAwsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementAzureDevOpsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementBackgroundProcessingRuleEntity {
+						__typename
+						description
+						ruleType
+					}
+					... on EntityManagementBackgroundSqlProcessingRuleEntity {
+						__typename
+						description
+					}
+					... on EntityManagementBudgetEntity {
+						__typename
+						budgetType
+						organizationBudget
+					}
+					... on EntityManagementCiscoMerakiConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementCollectionEntity {
+						__typename
+					}
+					... on EntityManagementComponentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementComputeLocationEntity {
+						__typename
+						description
+					}
+					... on EntityManagementConfluenceConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+					}
+					... on EntityManagementConfluenceIntegration {
+						__typename
+						confluenceUserId
+						secretKey
+						url
+					}
+					... on EntityManagementConfluenceRagSettingsEntity {
+						__typename
+						chunkOverlap
+						chunkSize
+						confluenceIntegrationId
+						confluenceQuery
+						intervalSeconds
+						lastPullTime
+						nextPullTime
+						textSplitterType
+					}
+					... on EntityManagementCorrelationInternalSourceConfigEntity {
+						__typename
+						accountId
+						alias
+						filterId
+						namespaces
+						nrql
+						outputTopic
+						source
+					}
+					... on EntityManagementCorrelationLinkEntity {
+						__typename
+						directional
+						linkType
+					}
+					... on EntityManagementCorrelationLinkingRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementCorrelationNormalizerEntity {
+						__typename
+						caseInsensitive
+						default
+						description
+					}
+					... on EntityManagementCustomEvaluationEntity {
+						__typename
+						criteria
+						description
+						model
+						parameters
+						steps
+						threshold
+					}
+					... on EntityManagementCustomerImpactEntity {
+						__typename
+						issueId
+					}
+					... on EntityManagementCustomerImpactQueryEntity {
+						__typename
+						query
+						queryAccountId
+						teamName
+						totalCustImpactQueryAccountIds
+						totalCustomerImpactQuery
+					}
+					... on EntityManagementEventBridgeRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementFederatedLogPartitionEntity {
+						__typename
+						active
+						description
+						isDefault
+					}
+					... on EntityManagementFederatedLogSetupEntity {
+						__typename
+						active
+						defaultPartitionId
+						description
+					}
+					... on EntityManagementFleetDeploymentEntity {
+						__typename
+						configurationVersions
+						description
+						fleetId
+						phase
+					}
+					... on EntityManagementFleetEntity {
+						__typename
+						description
+						managedEntityType
+						product
+					}
+					... on EntityManagementFleetRingEntity {
+						__typename
+						fleetId
+					}
+					... on EntityManagementFlowEntity {
+						__typename
+					}
+					... on EntityManagementGenericEntity {
+						__typename
+					}
+					... on EntityManagementGitHubIntegrationEntity {
+						__typename
+						installationId
+						installationSource
+						installationStatus
+						lastSyncCompletedAt
+						nextSyncAt
+					}
+					... on EntityManagementGitRepositoryEntity {
+						__typename
+						closedPullRequestCount
+						description
+						externalCreatedAt
+						externalId
+						externalLastDeployedAt
+						externalUpdatedAt
+						forkCount
+						hostingPlatform
+						latestReleaseVersion
+						lockedPullRequestCount
+						openPullRequestCount
+						primaryLanguage
+						url
+					}
+					... on EntityManagementGithubConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementImpactProfileEntity {
+						__typename
+					}
+					... on EntityManagementInboxIssueCategoryEntity {
+						__typename
+						categoryType
+						issueType
+						messageAttributes
+						nameAttributes
+					}
+					... on EntityManagementIncidentAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentEntity {
+						__typename
+						category
+						customerImpact
+						description
+						dueDate
+						entitiesImpacted
+						externalId
+						incidentCategory
+						incidentKey
+						incidentProfileId
+						incidentSubcategory
+						issueLinks
+						labels
+						lessonsLearned
+						maxSeverity
+						priority
+						reportedBy
+						resolutionCategory
+						resolutionSummary
+						retroActionItems
+						rootCauseSummary
+						rootCauseTags
+						severity
+						source
+						status
+						triggeringEvent
+					}
+					... on EntityManagementIncidentLinkEntity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementIncidentMessageEntity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementIncidentProfileAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentProfileEntity {
+						__typename
+					}
+					... on EntityManagementIncidentTimelineEntity {
+						__typename
+						content
+						entryType
+						source
+					}
+					... on EntityManagementJiraConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementJiraSyncConfigurationV2Entity {
+						__typename
+						bidirectional
+						connection
+						description
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJuniperMistConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementMaintenanceWindowEntity {
+						__typename
+						affectedEntityType
+						description
+						duration
+						rrule
+						startTime
+						timezone
+					}
+					... on EntityManagementManagedEvaluationsEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMcpServerEntity {
+						__typename
+						description
+						displayName
+						endpoint
+						protocolVersion
+						transport
+					}
+					... on EntityManagementMeterEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMeterTypeEntity {
+						__typename
+						allowMeterCreation
+						attributionDimensions
+						description
+					}
+					... on EntityManagementNewRelicConnection {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementNotebookEntity {
+						__typename
+					}
+					... on EntityManagementNotificationAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementNrAiAgentEntity {
+						__typename
+						displayName
+						version
+					}
+					... on EntityManagementNrqlMacroEntity {
+						__typename
+						expression
+						numParameters
+					}
+					... on EntityManagementOperationEntity {
+						__typename
+					}
+					... on EntityManagementOperationMetricEntity {
+						__typename
+					}
+					... on EntityManagementPerformanceInboxSettingEntity {
+						__typename
+						thresholdScope
+					}
+					... on EntityManagementPipelineCloudRuleEntity {
+						__typename
+						description
+						enabled
+						nrql
+					}
+					... on EntityManagementProductLineEntity {
+						__typename
+						description
+					}
+					... on EntityManagementRagDocumentEntity {
+						__typename
+						authorEmails
+						sourceIdentifier
+					}
+					... on EntityManagementRagToolEntity {
+						__typename
+						description
+					}
+					... on EntityManagementReactNativeSourcemapEntity {
+						__typename
+						appVersionId
+						applicationId
+						jsBundleId
+					}
+					... on EntityManagementRestApiContractEntity {
+						__typename
+					}
+					... on EntityManagementScorecardEntity {
+						__typename
+						description
+					}
+					... on EntityManagementScorecardRuleEntity {
+						__typename
+						description
+						enabled
+						impactWeight
+						progressLevel
+						runInterval
+					}
+					... on EntityManagementSegmentTermsEntity {
+						__typename
+						appEntityId
+						channel
+						domain
+						metricPrefix
+						oldId
+						urlSegments
+					}
+					... on EntityManagementServerlessJobDefinitionEntity {
+						__typename
+						description
+						namespace
+						secretKeys
+					}
+					... on EntityManagementServiceNowConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementSlackConnection {
+						__typename
+						appId
+						description
+						enabled
+						externalId
+						workspace
+					}
+					... on EntityManagementStatusPageAnnouncementEntity {
+						__typename
+						category
+						description
+						effectiveDate
+						eventUrl
+						publishedDate
+						state
+					}
+					... on EntityManagementStatusPageIncidentEntity {
+						__typename
+						description
+						endTime
+						incidentId
+						incidentTitle
+						lastUpdatedTime
+						region
+						startTime
+						status
+					}
+					... on EntityManagementTeamEntity {
+						__typename
+						aliases
+						description
+						hierarchyLevelId
+						managers
+						parentId
+					}
+					... on EntityManagementTeamsHierarchyLevelEntity {
+						__typename
+					}
+					... on EntityManagementTeamsOrganizationSettingsEntity {
+						__typename
+						hierarchyLevelOrder
+					}
+					... on EntityManagementUserEntity {
+						__typename
+						userId
+					}
+					... on EntityManagementWorkItemLinkV2Entity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemMessageV2Entity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemV2Entity {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkflowDefinition {
+						__typename
+						description
+						versions
+					}
+					... on EntityManagementWorkflowSchedule {
+						__typename
+						cronExpression
+						description
+						overlapPolicy
+						timezone
+					}
+					... on EntityManagementZoomConnectionEntity {
+						__typename
+						description
+						enabled
+					}
+				}
+				dataLocationBucket
+				database
+				queryConnection {
+					__typename
+					id
+					name
+					type
+					... on EntityManagementAgentConfigurationEntity {
+						__typename
+						agentType
+						configurationType
+						managedEntityType
+						versionCount
+					}
+					... on EntityManagementAgentConfigurationVersionEntity {
+						__typename
+						agentConfiguration
+						version
+					}
+					... on EntityManagementAgentEffectiveConfigurationEntity {
+						__typename
+					}
+					... on EntityManagementAgentEntity {
+						__typename
+						agentType
+						version
+					}
+					... on EntityManagementAiAgentEntity {
+						__typename
+						category
+						description
+						displayName
+						initialized
+						prompt
+						provider
+						test
+					}
+					... on EntityManagementAiCapableEntity {
+						__typename
+						category
+						language
+						lastSeen
+						toolType
+						toolVersion
+					}
+					... on EntityManagementAiEvaluationConfigEntity {
+						__typename
+						description
+						enabled
+						samplingRate
+					}
+					... on EntityManagementAiToolEntity {
+						__typename
+						description
+						initialized
+						provider
+						test
+						toolType
+						url
+					}
+					... on EntityManagementApiSpecificationBlobEntity {
+						__typename
+						description
+					}
+					... on EntityManagementAwsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementAzureDevOpsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementBackgroundProcessingRuleEntity {
+						__typename
+						description
+						ruleType
+					}
+					... on EntityManagementBackgroundSqlProcessingRuleEntity {
+						__typename
+						description
+					}
+					... on EntityManagementBudgetEntity {
+						__typename
+						budgetType
+						organizationBudget
+					}
+					... on EntityManagementCiscoMerakiConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementCollectionEntity {
+						__typename
+					}
+					... on EntityManagementComponentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementComputeLocationEntity {
+						__typename
+						description
+					}
+					... on EntityManagementConfluenceConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+					}
+					... on EntityManagementConfluenceIntegration {
+						__typename
+						confluenceUserId
+						secretKey
+						url
+					}
+					... on EntityManagementConfluenceRagSettingsEntity {
+						__typename
+						chunkOverlap
+						chunkSize
+						confluenceIntegrationId
+						confluenceQuery
+						intervalSeconds
+						lastPullTime
+						nextPullTime
+						textSplitterType
+					}
+					... on EntityManagementCorrelationInternalSourceConfigEntity {
+						__typename
+						accountId
+						alias
+						filterId
+						namespaces
+						nrql
+						outputTopic
+						source
+					}
+					... on EntityManagementCorrelationLinkEntity {
+						__typename
+						directional
+						linkType
+					}
+					... on EntityManagementCorrelationLinkingRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementCorrelationNormalizerEntity {
+						__typename
+						caseInsensitive
+						default
+						description
+					}
+					... on EntityManagementCustomEvaluationEntity {
+						__typename
+						criteria
+						description
+						model
+						parameters
+						steps
+						threshold
+					}
+					... on EntityManagementCustomerImpactEntity {
+						__typename
+						issueId
+					}
+					... on EntityManagementCustomerImpactQueryEntity {
+						__typename
+						query
+						queryAccountId
+						teamName
+						totalCustImpactQueryAccountIds
+						totalCustomerImpactQuery
+					}
+					... on EntityManagementEventBridgeRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementFederatedLogPartitionEntity {
+						__typename
+						active
+						description
+						isDefault
+					}
+					... on EntityManagementFederatedLogSetupEntity {
+						__typename
+						active
+						defaultPartitionId
+						description
+					}
+					... on EntityManagementFleetDeploymentEntity {
+						__typename
+						configurationVersions
+						description
+						fleetId
+						phase
+					}
+					... on EntityManagementFleetEntity {
+						__typename
+						description
+						managedEntityType
+						product
+					}
+					... on EntityManagementFleetRingEntity {
+						__typename
+						fleetId
+					}
+					... on EntityManagementFlowEntity {
+						__typename
+					}
+					... on EntityManagementGenericEntity {
+						__typename
+					}
+					... on EntityManagementGitHubIntegrationEntity {
+						__typename
+						installationId
+						installationSource
+						installationStatus
+						lastSyncCompletedAt
+						nextSyncAt
+					}
+					... on EntityManagementGitRepositoryEntity {
+						__typename
+						closedPullRequestCount
+						description
+						externalCreatedAt
+						externalId
+						externalLastDeployedAt
+						externalUpdatedAt
+						forkCount
+						hostingPlatform
+						latestReleaseVersion
+						lockedPullRequestCount
+						openPullRequestCount
+						primaryLanguage
+						url
+					}
+					... on EntityManagementGithubConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementImpactProfileEntity {
+						__typename
+					}
+					... on EntityManagementInboxIssueCategoryEntity {
+						__typename
+						categoryType
+						issueType
+						messageAttributes
+						nameAttributes
+					}
+					... on EntityManagementIncidentAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentEntity {
+						__typename
+						category
+						customerImpact
+						description
+						dueDate
+						entitiesImpacted
+						externalId
+						incidentCategory
+						incidentKey
+						incidentProfileId
+						incidentSubcategory
+						issueLinks
+						labels
+						lessonsLearned
+						maxSeverity
+						priority
+						reportedBy
+						resolutionCategory
+						resolutionSummary
+						retroActionItems
+						rootCauseSummary
+						rootCauseTags
+						severity
+						source
+						status
+						triggeringEvent
+					}
+					... on EntityManagementIncidentLinkEntity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementIncidentMessageEntity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementIncidentProfileAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentProfileEntity {
+						__typename
+					}
+					... on EntityManagementIncidentTimelineEntity {
+						__typename
+						content
+						entryType
+						source
+					}
+					... on EntityManagementJiraConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementJiraSyncConfigurationV2Entity {
+						__typename
+						bidirectional
+						connection
+						description
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJuniperMistConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementMaintenanceWindowEntity {
+						__typename
+						affectedEntityType
+						description
+						duration
+						rrule
+						startTime
+						timezone
+					}
+					... on EntityManagementManagedEvaluationsEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMcpServerEntity {
+						__typename
+						description
+						displayName
+						endpoint
+						protocolVersion
+						transport
+					}
+					... on EntityManagementMeterEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMeterTypeEntity {
+						__typename
+						allowMeterCreation
+						attributionDimensions
+						description
+					}
+					... on EntityManagementNewRelicConnection {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementNotebookEntity {
+						__typename
+					}
+					... on EntityManagementNotificationAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementNrAiAgentEntity {
+						__typename
+						displayName
+						version
+					}
+					... on EntityManagementNrqlMacroEntity {
+						__typename
+						expression
+						numParameters
+					}
+					... on EntityManagementOperationEntity {
+						__typename
+					}
+					... on EntityManagementOperationMetricEntity {
+						__typename
+					}
+					... on EntityManagementPerformanceInboxSettingEntity {
+						__typename
+						thresholdScope
+					}
+					... on EntityManagementPipelineCloudRuleEntity {
+						__typename
+						description
+						enabled
+						nrql
+					}
+					... on EntityManagementProductLineEntity {
+						__typename
+						description
+					}
+					... on EntityManagementRagDocumentEntity {
+						__typename
+						authorEmails
+						sourceIdentifier
+					}
+					... on EntityManagementRagToolEntity {
+						__typename
+						description
+					}
+					... on EntityManagementReactNativeSourcemapEntity {
+						__typename
+						appVersionId
+						applicationId
+						jsBundleId
+					}
+					... on EntityManagementRestApiContractEntity {
+						__typename
+					}
+					... on EntityManagementScorecardEntity {
+						__typename
+						description
+					}
+					... on EntityManagementScorecardRuleEntity {
+						__typename
+						description
+						enabled
+						impactWeight
+						progressLevel
+						runInterval
+					}
+					... on EntityManagementSegmentTermsEntity {
+						__typename
+						appEntityId
+						channel
+						domain
+						metricPrefix
+						oldId
+						urlSegments
+					}
+					... on EntityManagementServerlessJobDefinitionEntity {
+						__typename
+						description
+						namespace
+						secretKeys
+					}
+					... on EntityManagementServiceNowConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementSlackConnection {
+						__typename
+						appId
+						description
+						enabled
+						externalId
+						workspace
+					}
+					... on EntityManagementStatusPageAnnouncementEntity {
+						__typename
+						category
+						description
+						effectiveDate
+						eventUrl
+						publishedDate
+						state
+					}
+					... on EntityManagementStatusPageIncidentEntity {
+						__typename
+						description
+						endTime
+						incidentId
+						incidentTitle
+						lastUpdatedTime
+						region
+						startTime
+						status
+					}
+					... on EntityManagementTeamEntity {
+						__typename
+						aliases
+						description
+						hierarchyLevelId
+						managers
+						parentId
+					}
+					... on EntityManagementTeamsHierarchyLevelEntity {
+						__typename
+					}
+					... on EntityManagementTeamsOrganizationSettingsEntity {
+						__typename
+						hierarchyLevelOrder
+					}
+					... on EntityManagementUserEntity {
+						__typename
+						userId
+					}
+					... on EntityManagementWorkItemLinkV2Entity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemMessageV2Entity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemV2Entity {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkflowDefinition {
+						__typename
+						description
+						versions
+					}
+					... on EntityManagementWorkflowSchedule {
+						__typename
+						cronExpression
+						description
+						overlapPolicy
+						timezone
+					}
+					... on EntityManagementZoomConnectionEntity {
+						__typename
+						description
+						enabled
+					}
+				}
+			}
+			tags {
+				key
+				values
+			}
+			type
+		}
+		storage {
+			dataLocationUri
+			table
+		}
+		tags {
+			key
+			values
+		}
+	}
+	... on EntityManagementFederatedLogSetupEntity {
+		__typename
+		active
+		defaultPartitionId
+		description
+		forwarder {
+			pipelineControl {
+				fleet {
+					description
+					id
+					managedEntityType
+					name
+					product
+					type
+				}
+				routingRule {
+					expression
+				}
+			}
+			type
+		}
+		healthCheck {
+			end2endDataFlow {
+				lastUpdatedAt
+				message
+				status
+			}
+			lastUpdatedAt
+			queryConnection {
+				lastUpdatedAt
+				message
+				status
+			}
+		}
+		lifecycleStatus {
+			lastUpdatedAt
+			message
+			status
+		}
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				type
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				type
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		scope {
+			id
+			type
+		}
+		storage {
+			cloudProviderConfiguration {
+				provider
+				region
+			}
+			dataIngestConnection {
+				__typename
+				id
+				metadata {
+					createdAt
+					updatedAt
+					version
+				}
+				name
+				scope {
+					id
+					type
+				}
+				tags {
+					key
+					values
+				}
+				type
+				... on EntityManagementAgentConfigurationEntity {
+					__typename
+					agentType
+					configurationType
+					managedEntityType
+					versionCount
+				}
+				... on EntityManagementAgentConfigurationVersionEntity {
+					__typename
+					agentConfiguration
+					version
+				}
+				... on EntityManagementAgentEffectiveConfigurationEntity {
+					__typename
+				}
+				... on EntityManagementAgentEntity {
+					__typename
+					agentType
+					version
+				}
+				... on EntityManagementAiAgentEntity {
+					__typename
+					category
+					description
+					displayName
+					initialized
+					prompt
+					provider
+					test
+				}
+				... on EntityManagementAiCapableEntity {
+					__typename
+					category
+					language
+					lastSeen
+					toolType
+					toolVersion
+				}
+				... on EntityManagementAiEvaluationConfigEntity {
+					__typename
+					description
+					enabled
+					samplingRate
+				}
+				... on EntityManagementAiToolEntity {
+					__typename
+					description
+					initialized
+					provider
+					test
+					toolType
+					url
+				}
+				... on EntityManagementApiSpecificationBlobEntity {
+					__typename
+					description
+				}
+				... on EntityManagementAwsConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementAzureDevOpsConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementBackgroundProcessingRuleEntity {
+					__typename
+					description
+					ruleType
+				}
+				... on EntityManagementBackgroundSqlProcessingRuleEntity {
+					__typename
+					description
+				}
+				... on EntityManagementBudgetEntity {
+					__typename
+					budgetType
+					organizationBudget
+				}
+				... on EntityManagementCiscoMerakiConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementCollectionEntity {
+					__typename
+				}
+				... on EntityManagementComponentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementComputeLocationEntity {
+					__typename
+					description
+				}
+				... on EntityManagementConfluenceConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+				}
+				... on EntityManagementConfluenceIntegration {
+					__typename
+					confluenceUserId
+					secretKey
+					url
+				}
+				... on EntityManagementConfluenceRagSettingsEntity {
+					__typename
+					chunkOverlap
+					chunkSize
+					confluenceIntegrationId
+					confluenceQuery
+					intervalSeconds
+					lastPullTime
+					nextPullTime
+					textSplitterType
+				}
+				... on EntityManagementCorrelationInternalSourceConfigEntity {
+					__typename
+					accountId
+					alias
+					filterId
+					namespaces
+					nrql
+					outputTopic
+					source
+				}
+				... on EntityManagementCorrelationLinkEntity {
+					__typename
+					directional
+					linkType
+				}
+				... on EntityManagementCorrelationLinkingRuleEntity {
+					__typename
+					description
+					enabled
+				}
+				... on EntityManagementCorrelationNormalizerEntity {
+					__typename
+					caseInsensitive
+					default
+					description
+				}
+				... on EntityManagementCustomEvaluationEntity {
+					__typename
+					criteria
+					description
+					model
+					parameters
+					steps
+					threshold
+				}
+				... on EntityManagementCustomerImpactEntity {
+					__typename
+					issueId
+				}
+				... on EntityManagementCustomerImpactQueryEntity {
+					__typename
+					query
+					queryAccountId
+					teamName
+					totalCustImpactQueryAccountIds
+					totalCustomerImpactQuery
+				}
+				... on EntityManagementEventBridgeRuleEntity {
+					__typename
+					description
+					enabled
+				}
+				... on EntityManagementFederatedLogPartitionEntity {
+					__typename
+					active
+					description
+					isDefault
+				}
+				... on EntityManagementFederatedLogSetupEntity {
+					__typename
+					active
+					defaultPartitionId
+					description
+				}
+				... on EntityManagementFleetDeploymentEntity {
+					__typename
+					configurationVersions
+					description
+					fleetId
+					phase
+				}
+				... on EntityManagementFleetEntity {
+					__typename
+					description
+					managedEntityType
+					product
+				}
+				... on EntityManagementFleetRingEntity {
+					__typename
+					fleetId
+				}
+				... on EntityManagementFlowEntity {
+					__typename
+				}
+				... on EntityManagementGenericEntity {
+					__typename
+				}
+				... on EntityManagementGitHubIntegrationEntity {
+					__typename
+					installationId
+					installationSource
+					installationStatus
+					lastSyncCompletedAt
+					nextSyncAt
+				}
+				... on EntityManagementGitRepositoryEntity {
+					__typename
+					closedPullRequestCount
+					description
+					externalCreatedAt
+					externalId
+					externalLastDeployedAt
+					externalUpdatedAt
+					forkCount
+					hostingPlatform
+					latestReleaseVersion
+					lockedPullRequestCount
+					openPullRequestCount
+					primaryLanguage
+					url
+				}
+				... on EntityManagementGithubConnection {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementImpactProfileEntity {
+					__typename
+				}
+				... on EntityManagementInboxIssueCategoryEntity {
+					__typename
+					categoryType
+					issueType
+					messageAttributes
+					nameAttributes
+				}
+				... on EntityManagementIncidentAttachmentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementIncidentEntity {
+					__typename
+					category
+					customerImpact
+					description
+					dueDate
+					entitiesImpacted
+					externalId
+					incidentCategory
+					incidentKey
+					incidentProfileId
+					incidentSubcategory
+					issueLinks
+					labels
+					lessonsLearned
+					maxSeverity
+					priority
+					reportedBy
+					resolutionCategory
+					resolutionSummary
+					retroActionItems
+					rootCauseSummary
+					rootCauseTags
+					severity
+					source
+					status
+					triggeringEvent
+				}
+				... on EntityManagementIncidentLinkEntity {
+					__typename
+					externalId
+					sourceSyncConfigurationId
+					url
+				}
+				... on EntityManagementIncidentMessageEntity {
+					__typename
+					content
+					contentEncoding
+					contentType
+					externalId
+					parentId
+					sourceSyncConfigurationId
+				}
+				... on EntityManagementIncidentProfileAttachmentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementIncidentProfileEntity {
+					__typename
+				}
+				... on EntityManagementIncidentTimelineEntity {
+					__typename
+					content
+					entryType
+					source
+				}
+				... on EntityManagementJiraConnection {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementJiraSyncConfigurationV2Entity {
+					__typename
+					bidirectional
+					connection
+					description
+					enabled
+					issueType
+					mode
+					projectKey
+				}
+				... on EntityManagementJuniperMistConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementMaintenanceWindowEntity {
+					__typename
+					affectedEntityType
+					description
+					duration
+					rrule
+					startTime
+					timezone
+				}
+				... on EntityManagementManagedEvaluationsEntity {
+					__typename
+					description
+				}
+				... on EntityManagementMcpServerEntity {
+					__typename
+					description
+					displayName
+					endpoint
+					protocolVersion
+					transport
+				}
+				... on EntityManagementMeterEntity {
+					__typename
+					description
+				}
+				... on EntityManagementMeterTypeEntity {
+					__typename
+					allowMeterCreation
+					attributionDimensions
+					description
+				}
+				... on EntityManagementNewRelicConnection {
+					__typename
+					description
+					enabled
+					externalId
+					region
+				}
+				... on EntityManagementNotebookEntity {
+					__typename
+				}
+				... on EntityManagementNotificationAttachmentEntity {
+					__typename
+					description
+				}
+				... on EntityManagementNrAiAgentEntity {
+					__typename
+					displayName
+					version
+				}
+				... on EntityManagementNrqlMacroEntity {
+					__typename
+					expression
+					numParameters
+				}
+				... on EntityManagementOperationEntity {
+					__typename
+				}
+				... on EntityManagementOperationMetricEntity {
+					__typename
+				}
+				... on EntityManagementPerformanceInboxSettingEntity {
+					__typename
+					thresholdScope
+				}
+				... on EntityManagementPipelineCloudRuleEntity {
+					__typename
+					description
+					enabled
+					nrql
+				}
+				... on EntityManagementProductLineEntity {
+					__typename
+					description
+				}
+				... on EntityManagementRagDocumentEntity {
+					__typename
+					authorEmails
+					sourceIdentifier
+				}
+				... on EntityManagementRagToolEntity {
+					__typename
+					description
+				}
+				... on EntityManagementReactNativeSourcemapEntity {
+					__typename
+					appVersionId
+					applicationId
+					jsBundleId
+				}
+				... on EntityManagementRestApiContractEntity {
+					__typename
+				}
+				... on EntityManagementScorecardEntity {
+					__typename
+					description
+				}
+				... on EntityManagementScorecardRuleEntity {
+					__typename
+					description
+					enabled
+					impactWeight
+					progressLevel
+					runInterval
+				}
+				... on EntityManagementSegmentTermsEntity {
+					__typename
+					appEntityId
+					channel
+					domain
+					metricPrefix
+					oldId
+					urlSegments
+				}
+				... on EntityManagementServerlessJobDefinitionEntity {
+					__typename
+					description
+					namespace
+					secretKeys
+				}
+				... on EntityManagementServiceNowConnection {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
+				... on EntityManagementSlackConnection {
+					__typename
+					appId
+					description
+					enabled
+					externalId
+					workspace
+				}
+				... on EntityManagementStatusPageAnnouncementEntity {
+					__typename
+					category
+					description
+					effectiveDate
+					eventUrl
+					publishedDate
+					state
+				}
+				... on EntityManagementStatusPageIncidentEntity {
+					__typename
+					description
+					endTime
+					incidentId
+					incidentTitle
+					lastUpdatedTime
+					region
+					startTime
+					status
+				}
+				... on EntityManagementTeamEntity {
+					__typename
+					aliases
+					description
+					hierarchyLevelId
+					managers
+					parentId
+				}
+				... on EntityManagementTeamsHierarchyLevelEntity {
+					__typename
+				}
+				... on EntityManagementTeamsOrganizationSettingsEntity {
+					__typename
+					hierarchyLevelOrder
+				}
+				... on EntityManagementUserEntity {
+					__typename
+					userId
+				}
+				... on EntityManagementWorkItemLinkV2Entity {
+					__typename
+					externalId
+					sourceSyncConfigurationId
+					url
+				}
+				... on EntityManagementWorkItemMessageV2Entity {
+					__typename
+					content
+					contentEncoding
+					contentType
+					externalId
+					parentId
+					sourceSyncConfigurationId
+				}
+				... on EntityManagementWorkItemV2Entity {
+					__typename
+					category
+					description
+					dueDate
+					externalId
+					labels
+					priority
+					status
+				}
+				... on EntityManagementWorkflowDefinition {
+					__typename
+					description
+					versions
+				}
+				... on EntityManagementWorkflowSchedule {
+					__typename
+					cronExpression
+					description
+					overlapPolicy
+					timezone
+				}
+				... on EntityManagementZoomConnectionEntity {
+					__typename
+					description
+					enabled
+				}
+			}
+			dataLocationBucket
+			database
 			queryConnection {
 				__typename
 				id
@@ -3635,6 +9833,13 @@ const getEntityQuery = `query(
 					externalId
 					region
 				}
+				... on EntityManagementAzureDevOpsConnectionEntity {
+					__typename
+					description
+					enabled
+					externalId
+					url
+				}
 				... on EntityManagementBackgroundProcessingRuleEntity {
 					__typename
 					description
@@ -3710,6 +9915,12 @@ const getEntityQuery = `query(
 					description
 					enabled
 				}
+				... on EntityManagementCorrelationNormalizerEntity {
+					__typename
+					caseInsensitive
+					default
+					description
+				}
 				... on EntityManagementCustomEvaluationEntity {
 					__typename
 					criteria
@@ -3738,20 +9949,15 @@ const getEntityQuery = `query(
 				}
 				... on EntityManagementFederatedLogPartitionEntity {
 					__typename
-					dataLocationUri
+					active
 					description
 					isDefault
-					partitionTable
-					status
 				}
 				... on EntityManagementFederatedLogSetupEntity {
 					__typename
-					cloudProvider
-					cloudProviderRegion
-					dataLocationBucket
+					active
+					defaultPartitionId
 					description
-					partitionDatabase
-					status
 				}
 				... on EntityManagementFleetDeploymentEntity {
 					__typename
@@ -4118,11825 +10324,7 @@ const getEntityQuery = `query(
 					enabled
 				}
 			}
-			scope {
-				id
-				type
-			}
-			status
-			tags {
-				key
-				values
-			}
-			type
 		}
-		status
-		tags {
-			key
-			values
-		}
-	}
-	... on EntityManagementFederatedLogSetupEntity {
-		__typename
-		cloudProvider
-		cloudProviderRegion
-		dataLocationBucket
-		dataProcessingComponent {
-			__typename
-			id
-			metadata {
-				createdAt
-				createdBy {
-					__typename
-					id
-					type
-					... on EntityManagementSystemActor {
-						__typename
-					}
-					... on EntityManagementUserActor {
-						__typename
-					}
-				}
-				updatedAt
-				updatedBy {
-					__typename
-					id
-					type
-					... on EntityManagementSystemActor {
-						__typename
-					}
-					... on EntityManagementUserActor {
-						__typename
-					}
-				}
-				version
-			}
-			name
-			scope {
-				id
-				type
-			}
-			tags {
-				key
-				values
-			}
-			type
-			... on EntityManagementAgentConfigurationEntity {
-				__typename
-				agentType
-				configurationType
-				managedEntityType
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				operatingSystem {
-					type
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				versionCount
-			}
-			... on EntityManagementAgentConfigurationVersionEntity {
-				__typename
-				agentConfiguration
-				blob {
-					checksum
-					checksumAlgorithm
-					contentType
-					id
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				version
-			}
-			... on EntityManagementAgentEffectiveConfigurationEntity {
-				__typename
-				blob {
-					checksum
-					checksumAlgorithm
-					contentType
-					id
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementAgentEntity {
-				__typename
-				agentType
-				fleetControlProperties {
-					disconnectedReceived
-					environment
-					healthy
-					lastError
-					lastRemoteConfigError
-					lastRemoteConfigStatus
-					startTime
-					uid
-					version
-				}
-				infrastructureManagers {
-					type
-					version
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				version
-			}
-			... on EntityManagementAiAgentEntity {
-				__typename
-				category
-				description
-				displayName
-				initialized
-				llmConfig {
-					cacheSeed
-					model
-					temperature
-				}
-				mcpServers {
-					excludeTools
-					includeTools
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				prompt
-				provider
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				test
-			}
-			... on EntityManagementAiCapableEntity {
-				__typename
-				category
-				language
-				lastSeen
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				toolType
-				toolVersion
-			}
-			... on EntityManagementAiEvaluationConfigEntity {
-				__typename
-				description
-				enabled
-				managedEvaluationsEntity {
-					description
-					id
-					name
-					type
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				samplingRate
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementAiToolEntity {
-				__typename
-				description
-				initialized
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				parameters {
-					description
-					name
-					type
-				}
-				provider
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				test
-				toolType
-				url
-			}
-			... on EntityManagementApiSpecificationBlobEntity {
-				__typename
-				blob {
-					checksum
-					checksumAlgorithm
-					contentType
-					id
-				}
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementAwsConnectionEntity {
-				__typename
-				description
-				enabled
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				region
-				scope {
-					id
-					type
-				}
-				settings {
-					key
-					value
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementBackgroundProcessingRuleEntity {
-				__typename
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				query {
-					nrql
-				}
-				ruleType
-				schedule {
-					enabled
-					firstRunAt
-					period
-					rrule
-					scheduleAt
-					timezone
-				}
-				scope {
-					id
-					type
-				}
-				state {
-					message
-					status
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementBackgroundSqlProcessingRuleEntity {
-				__typename
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				query {
-					outputTarget
-					sql
-				}
-				schedule {
-					enabled
-					firstRunAt
-					period
-					rrule
-					scheduleAt
-					timezone
-				}
-				scope {
-					id
-					type
-				}
-				state {
-					message
-					status
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementBudgetEntity {
-				__typename
-				budgetAlertPolicies {
-					id
-				}
-				budgetLimits {
-					consumptionMetric
-					value
-				}
-				budgetType
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				organizationBudget
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementCiscoMerakiConnectionEntity {
-				__typename
-				description
-				enabled
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				region
-				scope {
-					id
-					type
-				}
-				settings {
-					key
-					value
-				}
-				signingCredentials {
-					signingAlgorithm
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementCollectionEntity {
-				__typename
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementComponentEntity {
-				__typename
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementComputeLocationEntity {
-				__typename
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementConfluenceConnectionEntity {
-				__typename
-				description
-				enabled
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				settings {
-					key
-					value
-				}
-				signingCredentials {
-					signingAlgorithm
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementConfluenceIntegration {
-				__typename
-				confluenceUserId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				secretKey
-				tags {
-					key
-					values
-				}
-				url
-			}
-			... on EntityManagementConfluenceRagSettingsEntity {
-				__typename
-				characterTextSplitterOptions {
-					isSeparatorRegex
-					separator
-				}
-				chunkOverlap
-				chunkSize
-				confluenceIntegrationId
-				confluenceQuery
-				intervalSeconds
-				lastPullTime
-				markdownTextSplitterOptions {
-					headersToSplitOn
-					returnEachLine
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				nextPullTime
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				textSplitterType
-				tokenTextSplitterOptions {
-					encodingName
-				}
-			}
-			... on EntityManagementCorrelationInternalSourceConfigEntity {
-				__typename
-				accountId
-				alias
-				filterId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				namespaces
-				nrql
-				outputTopic
-				scope {
-					id
-					type
-				}
-				source
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementCorrelationLinkEntity {
-				__typename
-				context {
-					confidence
-					messages
-					ruleId
-				}
-				directional
-				linkType
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				overrideInfo {
-					action
-					timestamp
-					userId
-				}
-				scope {
-					id
-					type
-				}
-				source {
-					accountId
-					eventId
-					eventType
-				}
-				tags {
-					key
-					values
-				}
-				target {
-					accountId
-					eventId
-					eventType
-				}
-			}
-			... on EntityManagementCorrelationLinkingRuleEntity {
-				__typename
-				criteria {
-					topologyProximity
-				}
-				description
-				enabled
-				linkingConfig {
-					directional
-					linkType
-					sourceAlias
-					targetAlias
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				subjects {
-					accountIds
-					alias
-					nrql
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementCustomEvaluationEntity {
-				__typename
-				criteria
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				model
-				parameters
-				scope {
-					id
-					type
-				}
-				steps
-				tags {
-					key
-					values
-				}
-				threshold
-			}
-			... on EntityManagementCustomerImpactEntity {
-				__typename
-				blob {
-					checksum
-					checksumAlgorithm
-					contentType
-					id
-				}
-				components {
-					description
-					id
-					name
-					type
-				}
-				issueId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementCustomerImpactQueryEntity {
-				__typename
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				products {
-					description
-					id
-					name
-					type
-				}
-				query
-				queryAccountId
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				teamEntity {
-					aliases
-					description
-					hierarchyLevelId
-					id
-					managers
-					name
-					parentId
-					type
-				}
-				teamName
-				totalCustImpactQueryAccountIds
-				totalCustomerImpactQuery
-			}
-			... on EntityManagementEventBridgeRuleEntity {
-				__typename
-				conditions {
-					field
-				}
-				description
-				enabled
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				sourceType {
-					event
-					name
-				}
-				tags {
-					key
-					values
-				}
-				targets {
-					name
-					type
-					when
-				}
-			}
-			... on EntityManagementFederatedLogPartitionEntity {
-				__typename
-				dataLocationUri
-				description
-				isDefault
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				partitionTable
-				retentionPolicy {
-					duration
-					unit
-				}
-				scope {
-					id
-					type
-				}
-				setup {
-					cloudProvider
-					cloudProviderRegion
-					dataLocationBucket
-					description
-					id
-					name
-					partitionDatabase
-					status
-					type
-				}
-				status
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementFederatedLogSetupEntity {
-				__typename
-				cloudProvider
-				cloudProviderRegion
-				dataLocationBucket
-				dataProcessingComponent {
-					__typename
-					id
-					name
-					type
-					... on EntityManagementAgentConfigurationEntity {
-						__typename
-						agentType
-						configurationType
-						managedEntityType
-						versionCount
-					}
-					... on EntityManagementAgentConfigurationVersionEntity {
-						__typename
-						agentConfiguration
-						version
-					}
-					... on EntityManagementAgentEffectiveConfigurationEntity {
-						__typename
-					}
-					... on EntityManagementAgentEntity {
-						__typename
-						agentType
-						version
-					}
-					... on EntityManagementAiAgentEntity {
-						__typename
-						category
-						description
-						displayName
-						initialized
-						prompt
-						provider
-						test
-					}
-					... on EntityManagementAiCapableEntity {
-						__typename
-						category
-						language
-						lastSeen
-						toolType
-						toolVersion
-					}
-					... on EntityManagementAiEvaluationConfigEntity {
-						__typename
-						description
-						enabled
-						samplingRate
-					}
-					... on EntityManagementAiToolEntity {
-						__typename
-						description
-						initialized
-						provider
-						test
-						toolType
-						url
-					}
-					... on EntityManagementApiSpecificationBlobEntity {
-						__typename
-						description
-					}
-					... on EntityManagementAwsConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementBackgroundProcessingRuleEntity {
-						__typename
-						description
-						ruleType
-					}
-					... on EntityManagementBackgroundSqlProcessingRuleEntity {
-						__typename
-						description
-					}
-					... on EntityManagementBudgetEntity {
-						__typename
-						budgetType
-						organizationBudget
-					}
-					... on EntityManagementCiscoMerakiConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementCollectionEntity {
-						__typename
-					}
-					... on EntityManagementComponentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementComputeLocationEntity {
-						__typename
-						description
-					}
-					... on EntityManagementConfluenceConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-					}
-					... on EntityManagementConfluenceIntegration {
-						__typename
-						confluenceUserId
-						secretKey
-						url
-					}
-					... on EntityManagementConfluenceRagSettingsEntity {
-						__typename
-						chunkOverlap
-						chunkSize
-						confluenceIntegrationId
-						confluenceQuery
-						intervalSeconds
-						lastPullTime
-						nextPullTime
-						textSplitterType
-					}
-					... on EntityManagementCorrelationInternalSourceConfigEntity {
-						__typename
-						accountId
-						alias
-						filterId
-						namespaces
-						nrql
-						outputTopic
-						source
-					}
-					... on EntityManagementCorrelationLinkEntity {
-						__typename
-						directional
-						linkType
-					}
-					... on EntityManagementCorrelationLinkingRuleEntity {
-						__typename
-						description
-						enabled
-					}
-					... on EntityManagementCustomEvaluationEntity {
-						__typename
-						criteria
-						description
-						model
-						parameters
-						steps
-						threshold
-					}
-					... on EntityManagementCustomerImpactEntity {
-						__typename
-						issueId
-					}
-					... on EntityManagementCustomerImpactQueryEntity {
-						__typename
-						query
-						queryAccountId
-						teamName
-						totalCustImpactQueryAccountIds
-						totalCustomerImpactQuery
-					}
-					... on EntityManagementEventBridgeRuleEntity {
-						__typename
-						description
-						enabled
-					}
-					... on EntityManagementFederatedLogPartitionEntity {
-						__typename
-						dataLocationUri
-						description
-						isDefault
-						partitionTable
-						status
-					}
-					... on EntityManagementFederatedLogSetupEntity {
-						__typename
-						cloudProvider
-						cloudProviderRegion
-						dataLocationBucket
-						description
-						partitionDatabase
-						status
-					}
-					... on EntityManagementFleetDeploymentEntity {
-						__typename
-						configurationVersions
-						description
-						fleetId
-						phase
-					}
-					... on EntityManagementFleetEntity {
-						__typename
-						description
-						managedEntityType
-						product
-					}
-					... on EntityManagementFleetRingEntity {
-						__typename
-						fleetId
-					}
-					... on EntityManagementFlowEntity {
-						__typename
-					}
-					... on EntityManagementGenericEntity {
-						__typename
-					}
-					... on EntityManagementGitHubIntegrationEntity {
-						__typename
-						installationId
-						installationSource
-						installationStatus
-						lastSyncCompletedAt
-						nextSyncAt
-					}
-					... on EntityManagementGitRepositoryEntity {
-						__typename
-						closedPullRequestCount
-						description
-						externalCreatedAt
-						externalId
-						externalLastDeployedAt
-						externalUpdatedAt
-						forkCount
-						hostingPlatform
-						latestReleaseVersion
-						lockedPullRequestCount
-						openPullRequestCount
-						primaryLanguage
-						url
-					}
-					... on EntityManagementGithubConnection {
-						__typename
-						description
-						enabled
-						externalId
-						url
-					}
-					... on EntityManagementImpactProfileEntity {
-						__typename
-					}
-					... on EntityManagementInboxIssueCategoryEntity {
-						__typename
-						categoryType
-						issueType
-						messageAttributes
-						nameAttributes
-					}
-					... on EntityManagementIncidentAttachmentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementIncidentEntity {
-						__typename
-						category
-						customerImpact
-						description
-						dueDate
-						entitiesImpacted
-						externalId
-						incidentCategory
-						incidentKey
-						incidentProfileId
-						incidentSubcategory
-						issueLinks
-						labels
-						lessonsLearned
-						maxSeverity
-						priority
-						reportedBy
-						resolutionCategory
-						resolutionSummary
-						retroActionItems
-						rootCauseSummary
-						rootCauseTags
-						severity
-						source
-						status
-						triggeringEvent
-					}
-					... on EntityManagementIncidentLinkEntity {
-						__typename
-						externalId
-						sourceSyncConfigurationId
-						url
-					}
-					... on EntityManagementIncidentMessageEntity {
-						__typename
-						content
-						contentEncoding
-						contentType
-						externalId
-						parentId
-						sourceSyncConfigurationId
-					}
-					... on EntityManagementIncidentProfileAttachmentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementIncidentProfileEntity {
-						__typename
-					}
-					... on EntityManagementIncidentTimelineEntity {
-						__typename
-						content
-						entryType
-						source
-					}
-					... on EntityManagementJiraConnection {
-						__typename
-						description
-						enabled
-						externalId
-						url
-					}
-					... on EntityManagementJiraSyncConfigurationV2Entity {
-						__typename
-						bidirectional
-						connection
-						description
-						enabled
-						issueType
-						mode
-						projectKey
-					}
-					... on EntityManagementJuniperMistConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementMaintenanceWindowEntity {
-						__typename
-						affectedEntityType
-						description
-						duration
-						rrule
-						startTime
-						timezone
-					}
-					... on EntityManagementManagedEvaluationsEntity {
-						__typename
-						description
-					}
-					... on EntityManagementMcpServerEntity {
-						__typename
-						description
-						displayName
-						endpoint
-						protocolVersion
-						transport
-					}
-					... on EntityManagementMeterEntity {
-						__typename
-						description
-					}
-					... on EntityManagementMeterTypeEntity {
-						__typename
-						allowMeterCreation
-						attributionDimensions
-						description
-					}
-					... on EntityManagementNewRelicConnection {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementNotebookEntity {
-						__typename
-					}
-					... on EntityManagementNotificationAttachmentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementNrAiAgentEntity {
-						__typename
-						displayName
-						version
-					}
-					... on EntityManagementNrqlMacroEntity {
-						__typename
-						expression
-						numParameters
-					}
-					... on EntityManagementOperationEntity {
-						__typename
-					}
-					... on EntityManagementOperationMetricEntity {
-						__typename
-					}
-					... on EntityManagementPerformanceInboxSettingEntity {
-						__typename
-						thresholdScope
-					}
-					... on EntityManagementPipelineCloudRuleEntity {
-						__typename
-						description
-						enabled
-						nrql
-					}
-					... on EntityManagementProductLineEntity {
-						__typename
-						description
-					}
-					... on EntityManagementRagDocumentEntity {
-						__typename
-						authorEmails
-						sourceIdentifier
-					}
-					... on EntityManagementRagToolEntity {
-						__typename
-						description
-					}
-					... on EntityManagementReactNativeSourcemapEntity {
-						__typename
-						appVersionId
-						applicationId
-						jsBundleId
-					}
-					... on EntityManagementRestApiContractEntity {
-						__typename
-					}
-					... on EntityManagementScorecardEntity {
-						__typename
-						description
-					}
-					... on EntityManagementScorecardRuleEntity {
-						__typename
-						description
-						enabled
-						impactWeight
-						progressLevel
-						runInterval
-					}
-					... on EntityManagementSegmentTermsEntity {
-						__typename
-						appEntityId
-						channel
-						domain
-						metricPrefix
-						oldId
-						urlSegments
-					}
-					... on EntityManagementServerlessJobDefinitionEntity {
-						__typename
-						description
-						namespace
-						secretKeys
-					}
-					... on EntityManagementServiceNowConnection {
-						__typename
-						description
-						enabled
-						externalId
-						url
-					}
-					... on EntityManagementSlackConnection {
-						__typename
-						appId
-						description
-						enabled
-						externalId
-						workspace
-					}
-					... on EntityManagementStatusPageAnnouncementEntity {
-						__typename
-						category
-						description
-						effectiveDate
-						eventUrl
-						publishedDate
-						state
-					}
-					... on EntityManagementStatusPageIncidentEntity {
-						__typename
-						description
-						endTime
-						incidentId
-						incidentTitle
-						lastUpdatedTime
-						region
-						startTime
-						status
-					}
-					... on EntityManagementTeamEntity {
-						__typename
-						aliases
-						description
-						hierarchyLevelId
-						managers
-						parentId
-					}
-					... on EntityManagementTeamsHierarchyLevelEntity {
-						__typename
-					}
-					... on EntityManagementTeamsOrganizationSettingsEntity {
-						__typename
-						hierarchyLevelOrder
-					}
-					... on EntityManagementUserEntity {
-						__typename
-						userId
-					}
-					... on EntityManagementWorkItemLinkV2Entity {
-						__typename
-						externalId
-						sourceSyncConfigurationId
-						url
-					}
-					... on EntityManagementWorkItemMessageV2Entity {
-						__typename
-						content
-						contentEncoding
-						contentType
-						externalId
-						parentId
-						sourceSyncConfigurationId
-					}
-					... on EntityManagementWorkItemV2Entity {
-						__typename
-						category
-						description
-						dueDate
-						externalId
-						labels
-						priority
-						status
-					}
-					... on EntityManagementWorkflowDefinition {
-						__typename
-						description
-						versions
-					}
-					... on EntityManagementWorkflowSchedule {
-						__typename
-						cronExpression
-						description
-						overlapPolicy
-						timezone
-					}
-					... on EntityManagementZoomConnectionEntity {
-						__typename
-						description
-						enabled
-					}
-				}
-				dataProcessingConnection {
-					__typename
-					id
-					name
-					type
-					... on EntityManagementAgentConfigurationEntity {
-						__typename
-						agentType
-						configurationType
-						managedEntityType
-						versionCount
-					}
-					... on EntityManagementAgentConfigurationVersionEntity {
-						__typename
-						agentConfiguration
-						version
-					}
-					... on EntityManagementAgentEffectiveConfigurationEntity {
-						__typename
-					}
-					... on EntityManagementAgentEntity {
-						__typename
-						agentType
-						version
-					}
-					... on EntityManagementAiAgentEntity {
-						__typename
-						category
-						description
-						displayName
-						initialized
-						prompt
-						provider
-						test
-					}
-					... on EntityManagementAiCapableEntity {
-						__typename
-						category
-						language
-						lastSeen
-						toolType
-						toolVersion
-					}
-					... on EntityManagementAiEvaluationConfigEntity {
-						__typename
-						description
-						enabled
-						samplingRate
-					}
-					... on EntityManagementAiToolEntity {
-						__typename
-						description
-						initialized
-						provider
-						test
-						toolType
-						url
-					}
-					... on EntityManagementApiSpecificationBlobEntity {
-						__typename
-						description
-					}
-					... on EntityManagementAwsConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementBackgroundProcessingRuleEntity {
-						__typename
-						description
-						ruleType
-					}
-					... on EntityManagementBackgroundSqlProcessingRuleEntity {
-						__typename
-						description
-					}
-					... on EntityManagementBudgetEntity {
-						__typename
-						budgetType
-						organizationBudget
-					}
-					... on EntityManagementCiscoMerakiConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementCollectionEntity {
-						__typename
-					}
-					... on EntityManagementComponentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementComputeLocationEntity {
-						__typename
-						description
-					}
-					... on EntityManagementConfluenceConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-					}
-					... on EntityManagementConfluenceIntegration {
-						__typename
-						confluenceUserId
-						secretKey
-						url
-					}
-					... on EntityManagementConfluenceRagSettingsEntity {
-						__typename
-						chunkOverlap
-						chunkSize
-						confluenceIntegrationId
-						confluenceQuery
-						intervalSeconds
-						lastPullTime
-						nextPullTime
-						textSplitterType
-					}
-					... on EntityManagementCorrelationInternalSourceConfigEntity {
-						__typename
-						accountId
-						alias
-						filterId
-						namespaces
-						nrql
-						outputTopic
-						source
-					}
-					... on EntityManagementCorrelationLinkEntity {
-						__typename
-						directional
-						linkType
-					}
-					... on EntityManagementCorrelationLinkingRuleEntity {
-						__typename
-						description
-						enabled
-					}
-					... on EntityManagementCustomEvaluationEntity {
-						__typename
-						criteria
-						description
-						model
-						parameters
-						steps
-						threshold
-					}
-					... on EntityManagementCustomerImpactEntity {
-						__typename
-						issueId
-					}
-					... on EntityManagementCustomerImpactQueryEntity {
-						__typename
-						query
-						queryAccountId
-						teamName
-						totalCustImpactQueryAccountIds
-						totalCustomerImpactQuery
-					}
-					... on EntityManagementEventBridgeRuleEntity {
-						__typename
-						description
-						enabled
-					}
-					... on EntityManagementFederatedLogPartitionEntity {
-						__typename
-						dataLocationUri
-						description
-						isDefault
-						partitionTable
-						status
-					}
-					... on EntityManagementFederatedLogSetupEntity {
-						__typename
-						cloudProvider
-						cloudProviderRegion
-						dataLocationBucket
-						description
-						partitionDatabase
-						status
-					}
-					... on EntityManagementFleetDeploymentEntity {
-						__typename
-						configurationVersions
-						description
-						fleetId
-						phase
-					}
-					... on EntityManagementFleetEntity {
-						__typename
-						description
-						managedEntityType
-						product
-					}
-					... on EntityManagementFleetRingEntity {
-						__typename
-						fleetId
-					}
-					... on EntityManagementFlowEntity {
-						__typename
-					}
-					... on EntityManagementGenericEntity {
-						__typename
-					}
-					... on EntityManagementGitHubIntegrationEntity {
-						__typename
-						installationId
-						installationSource
-						installationStatus
-						lastSyncCompletedAt
-						nextSyncAt
-					}
-					... on EntityManagementGitRepositoryEntity {
-						__typename
-						closedPullRequestCount
-						description
-						externalCreatedAt
-						externalId
-						externalLastDeployedAt
-						externalUpdatedAt
-						forkCount
-						hostingPlatform
-						latestReleaseVersion
-						lockedPullRequestCount
-						openPullRequestCount
-						primaryLanguage
-						url
-					}
-					... on EntityManagementGithubConnection {
-						__typename
-						description
-						enabled
-						externalId
-						url
-					}
-					... on EntityManagementImpactProfileEntity {
-						__typename
-					}
-					... on EntityManagementInboxIssueCategoryEntity {
-						__typename
-						categoryType
-						issueType
-						messageAttributes
-						nameAttributes
-					}
-					... on EntityManagementIncidentAttachmentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementIncidentEntity {
-						__typename
-						category
-						customerImpact
-						description
-						dueDate
-						entitiesImpacted
-						externalId
-						incidentCategory
-						incidentKey
-						incidentProfileId
-						incidentSubcategory
-						issueLinks
-						labels
-						lessonsLearned
-						maxSeverity
-						priority
-						reportedBy
-						resolutionCategory
-						resolutionSummary
-						retroActionItems
-						rootCauseSummary
-						rootCauseTags
-						severity
-						source
-						status
-						triggeringEvent
-					}
-					... on EntityManagementIncidentLinkEntity {
-						__typename
-						externalId
-						sourceSyncConfigurationId
-						url
-					}
-					... on EntityManagementIncidentMessageEntity {
-						__typename
-						content
-						contentEncoding
-						contentType
-						externalId
-						parentId
-						sourceSyncConfigurationId
-					}
-					... on EntityManagementIncidentProfileAttachmentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementIncidentProfileEntity {
-						__typename
-					}
-					... on EntityManagementIncidentTimelineEntity {
-						__typename
-						content
-						entryType
-						source
-					}
-					... on EntityManagementJiraConnection {
-						__typename
-						description
-						enabled
-						externalId
-						url
-					}
-					... on EntityManagementJiraSyncConfigurationV2Entity {
-						__typename
-						bidirectional
-						connection
-						description
-						enabled
-						issueType
-						mode
-						projectKey
-					}
-					... on EntityManagementJuniperMistConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementMaintenanceWindowEntity {
-						__typename
-						affectedEntityType
-						description
-						duration
-						rrule
-						startTime
-						timezone
-					}
-					... on EntityManagementManagedEvaluationsEntity {
-						__typename
-						description
-					}
-					... on EntityManagementMcpServerEntity {
-						__typename
-						description
-						displayName
-						endpoint
-						protocolVersion
-						transport
-					}
-					... on EntityManagementMeterEntity {
-						__typename
-						description
-					}
-					... on EntityManagementMeterTypeEntity {
-						__typename
-						allowMeterCreation
-						attributionDimensions
-						description
-					}
-					... on EntityManagementNewRelicConnection {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementNotebookEntity {
-						__typename
-					}
-					... on EntityManagementNotificationAttachmentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementNrAiAgentEntity {
-						__typename
-						displayName
-						version
-					}
-					... on EntityManagementNrqlMacroEntity {
-						__typename
-						expression
-						numParameters
-					}
-					... on EntityManagementOperationEntity {
-						__typename
-					}
-					... on EntityManagementOperationMetricEntity {
-						__typename
-					}
-					... on EntityManagementPerformanceInboxSettingEntity {
-						__typename
-						thresholdScope
-					}
-					... on EntityManagementPipelineCloudRuleEntity {
-						__typename
-						description
-						enabled
-						nrql
-					}
-					... on EntityManagementProductLineEntity {
-						__typename
-						description
-					}
-					... on EntityManagementRagDocumentEntity {
-						__typename
-						authorEmails
-						sourceIdentifier
-					}
-					... on EntityManagementRagToolEntity {
-						__typename
-						description
-					}
-					... on EntityManagementReactNativeSourcemapEntity {
-						__typename
-						appVersionId
-						applicationId
-						jsBundleId
-					}
-					... on EntityManagementRestApiContractEntity {
-						__typename
-					}
-					... on EntityManagementScorecardEntity {
-						__typename
-						description
-					}
-					... on EntityManagementScorecardRuleEntity {
-						__typename
-						description
-						enabled
-						impactWeight
-						progressLevel
-						runInterval
-					}
-					... on EntityManagementSegmentTermsEntity {
-						__typename
-						appEntityId
-						channel
-						domain
-						metricPrefix
-						oldId
-						urlSegments
-					}
-					... on EntityManagementServerlessJobDefinitionEntity {
-						__typename
-						description
-						namespace
-						secretKeys
-					}
-					... on EntityManagementServiceNowConnection {
-						__typename
-						description
-						enabled
-						externalId
-						url
-					}
-					... on EntityManagementSlackConnection {
-						__typename
-						appId
-						description
-						enabled
-						externalId
-						workspace
-					}
-					... on EntityManagementStatusPageAnnouncementEntity {
-						__typename
-						category
-						description
-						effectiveDate
-						eventUrl
-						publishedDate
-						state
-					}
-					... on EntityManagementStatusPageIncidentEntity {
-						__typename
-						description
-						endTime
-						incidentId
-						incidentTitle
-						lastUpdatedTime
-						region
-						startTime
-						status
-					}
-					... on EntityManagementTeamEntity {
-						__typename
-						aliases
-						description
-						hierarchyLevelId
-						managers
-						parentId
-					}
-					... on EntityManagementTeamsHierarchyLevelEntity {
-						__typename
-					}
-					... on EntityManagementTeamsOrganizationSettingsEntity {
-						__typename
-						hierarchyLevelOrder
-					}
-					... on EntityManagementUserEntity {
-						__typename
-						userId
-					}
-					... on EntityManagementWorkItemLinkV2Entity {
-						__typename
-						externalId
-						sourceSyncConfigurationId
-						url
-					}
-					... on EntityManagementWorkItemMessageV2Entity {
-						__typename
-						content
-						contentEncoding
-						contentType
-						externalId
-						parentId
-						sourceSyncConfigurationId
-					}
-					... on EntityManagementWorkItemV2Entity {
-						__typename
-						category
-						description
-						dueDate
-						externalId
-						labels
-						priority
-						status
-					}
-					... on EntityManagementWorkflowDefinition {
-						__typename
-						description
-						versions
-					}
-					... on EntityManagementWorkflowSchedule {
-						__typename
-						cronExpression
-						description
-						overlapPolicy
-						timezone
-					}
-					... on EntityManagementZoomConnectionEntity {
-						__typename
-						description
-						enabled
-					}
-				}
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				partitionDatabase
-				queryConnection {
-					__typename
-					id
-					name
-					type
-					... on EntityManagementAgentConfigurationEntity {
-						__typename
-						agentType
-						configurationType
-						managedEntityType
-						versionCount
-					}
-					... on EntityManagementAgentConfigurationVersionEntity {
-						__typename
-						agentConfiguration
-						version
-					}
-					... on EntityManagementAgentEffectiveConfigurationEntity {
-						__typename
-					}
-					... on EntityManagementAgentEntity {
-						__typename
-						agentType
-						version
-					}
-					... on EntityManagementAiAgentEntity {
-						__typename
-						category
-						description
-						displayName
-						initialized
-						prompt
-						provider
-						test
-					}
-					... on EntityManagementAiCapableEntity {
-						__typename
-						category
-						language
-						lastSeen
-						toolType
-						toolVersion
-					}
-					... on EntityManagementAiEvaluationConfigEntity {
-						__typename
-						description
-						enabled
-						samplingRate
-					}
-					... on EntityManagementAiToolEntity {
-						__typename
-						description
-						initialized
-						provider
-						test
-						toolType
-						url
-					}
-					... on EntityManagementApiSpecificationBlobEntity {
-						__typename
-						description
-					}
-					... on EntityManagementAwsConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementBackgroundProcessingRuleEntity {
-						__typename
-						description
-						ruleType
-					}
-					... on EntityManagementBackgroundSqlProcessingRuleEntity {
-						__typename
-						description
-					}
-					... on EntityManagementBudgetEntity {
-						__typename
-						budgetType
-						organizationBudget
-					}
-					... on EntityManagementCiscoMerakiConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementCollectionEntity {
-						__typename
-					}
-					... on EntityManagementComponentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementComputeLocationEntity {
-						__typename
-						description
-					}
-					... on EntityManagementConfluenceConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-					}
-					... on EntityManagementConfluenceIntegration {
-						__typename
-						confluenceUserId
-						secretKey
-						url
-					}
-					... on EntityManagementConfluenceRagSettingsEntity {
-						__typename
-						chunkOverlap
-						chunkSize
-						confluenceIntegrationId
-						confluenceQuery
-						intervalSeconds
-						lastPullTime
-						nextPullTime
-						textSplitterType
-					}
-					... on EntityManagementCorrelationInternalSourceConfigEntity {
-						__typename
-						accountId
-						alias
-						filterId
-						namespaces
-						nrql
-						outputTopic
-						source
-					}
-					... on EntityManagementCorrelationLinkEntity {
-						__typename
-						directional
-						linkType
-					}
-					... on EntityManagementCorrelationLinkingRuleEntity {
-						__typename
-						description
-						enabled
-					}
-					... on EntityManagementCustomEvaluationEntity {
-						__typename
-						criteria
-						description
-						model
-						parameters
-						steps
-						threshold
-					}
-					... on EntityManagementCustomerImpactEntity {
-						__typename
-						issueId
-					}
-					... on EntityManagementCustomerImpactQueryEntity {
-						__typename
-						query
-						queryAccountId
-						teamName
-						totalCustImpactQueryAccountIds
-						totalCustomerImpactQuery
-					}
-					... on EntityManagementEventBridgeRuleEntity {
-						__typename
-						description
-						enabled
-					}
-					... on EntityManagementFederatedLogPartitionEntity {
-						__typename
-						dataLocationUri
-						description
-						isDefault
-						partitionTable
-						status
-					}
-					... on EntityManagementFederatedLogSetupEntity {
-						__typename
-						cloudProvider
-						cloudProviderRegion
-						dataLocationBucket
-						description
-						partitionDatabase
-						status
-					}
-					... on EntityManagementFleetDeploymentEntity {
-						__typename
-						configurationVersions
-						description
-						fleetId
-						phase
-					}
-					... on EntityManagementFleetEntity {
-						__typename
-						description
-						managedEntityType
-						product
-					}
-					... on EntityManagementFleetRingEntity {
-						__typename
-						fleetId
-					}
-					... on EntityManagementFlowEntity {
-						__typename
-					}
-					... on EntityManagementGenericEntity {
-						__typename
-					}
-					... on EntityManagementGitHubIntegrationEntity {
-						__typename
-						installationId
-						installationSource
-						installationStatus
-						lastSyncCompletedAt
-						nextSyncAt
-					}
-					... on EntityManagementGitRepositoryEntity {
-						__typename
-						closedPullRequestCount
-						description
-						externalCreatedAt
-						externalId
-						externalLastDeployedAt
-						externalUpdatedAt
-						forkCount
-						hostingPlatform
-						latestReleaseVersion
-						lockedPullRequestCount
-						openPullRequestCount
-						primaryLanguage
-						url
-					}
-					... on EntityManagementGithubConnection {
-						__typename
-						description
-						enabled
-						externalId
-						url
-					}
-					... on EntityManagementImpactProfileEntity {
-						__typename
-					}
-					... on EntityManagementInboxIssueCategoryEntity {
-						__typename
-						categoryType
-						issueType
-						messageAttributes
-						nameAttributes
-					}
-					... on EntityManagementIncidentAttachmentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementIncidentEntity {
-						__typename
-						category
-						customerImpact
-						description
-						dueDate
-						entitiesImpacted
-						externalId
-						incidentCategory
-						incidentKey
-						incidentProfileId
-						incidentSubcategory
-						issueLinks
-						labels
-						lessonsLearned
-						maxSeverity
-						priority
-						reportedBy
-						resolutionCategory
-						resolutionSummary
-						retroActionItems
-						rootCauseSummary
-						rootCauseTags
-						severity
-						source
-						status
-						triggeringEvent
-					}
-					... on EntityManagementIncidentLinkEntity {
-						__typename
-						externalId
-						sourceSyncConfigurationId
-						url
-					}
-					... on EntityManagementIncidentMessageEntity {
-						__typename
-						content
-						contentEncoding
-						contentType
-						externalId
-						parentId
-						sourceSyncConfigurationId
-					}
-					... on EntityManagementIncidentProfileAttachmentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementIncidentProfileEntity {
-						__typename
-					}
-					... on EntityManagementIncidentTimelineEntity {
-						__typename
-						content
-						entryType
-						source
-					}
-					... on EntityManagementJiraConnection {
-						__typename
-						description
-						enabled
-						externalId
-						url
-					}
-					... on EntityManagementJiraSyncConfigurationV2Entity {
-						__typename
-						bidirectional
-						connection
-						description
-						enabled
-						issueType
-						mode
-						projectKey
-					}
-					... on EntityManagementJuniperMistConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementMaintenanceWindowEntity {
-						__typename
-						affectedEntityType
-						description
-						duration
-						rrule
-						startTime
-						timezone
-					}
-					... on EntityManagementManagedEvaluationsEntity {
-						__typename
-						description
-					}
-					... on EntityManagementMcpServerEntity {
-						__typename
-						description
-						displayName
-						endpoint
-						protocolVersion
-						transport
-					}
-					... on EntityManagementMeterEntity {
-						__typename
-						description
-					}
-					... on EntityManagementMeterTypeEntity {
-						__typename
-						allowMeterCreation
-						attributionDimensions
-						description
-					}
-					... on EntityManagementNewRelicConnection {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementNotebookEntity {
-						__typename
-					}
-					... on EntityManagementNotificationAttachmentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementNrAiAgentEntity {
-						__typename
-						displayName
-						version
-					}
-					... on EntityManagementNrqlMacroEntity {
-						__typename
-						expression
-						numParameters
-					}
-					... on EntityManagementOperationEntity {
-						__typename
-					}
-					... on EntityManagementOperationMetricEntity {
-						__typename
-					}
-					... on EntityManagementPerformanceInboxSettingEntity {
-						__typename
-						thresholdScope
-					}
-					... on EntityManagementPipelineCloudRuleEntity {
-						__typename
-						description
-						enabled
-						nrql
-					}
-					... on EntityManagementProductLineEntity {
-						__typename
-						description
-					}
-					... on EntityManagementRagDocumentEntity {
-						__typename
-						authorEmails
-						sourceIdentifier
-					}
-					... on EntityManagementRagToolEntity {
-						__typename
-						description
-					}
-					... on EntityManagementReactNativeSourcemapEntity {
-						__typename
-						appVersionId
-						applicationId
-						jsBundleId
-					}
-					... on EntityManagementRestApiContractEntity {
-						__typename
-					}
-					... on EntityManagementScorecardEntity {
-						__typename
-						description
-					}
-					... on EntityManagementScorecardRuleEntity {
-						__typename
-						description
-						enabled
-						impactWeight
-						progressLevel
-						runInterval
-					}
-					... on EntityManagementSegmentTermsEntity {
-						__typename
-						appEntityId
-						channel
-						domain
-						metricPrefix
-						oldId
-						urlSegments
-					}
-					... on EntityManagementServerlessJobDefinitionEntity {
-						__typename
-						description
-						namespace
-						secretKeys
-					}
-					... on EntityManagementServiceNowConnection {
-						__typename
-						description
-						enabled
-						externalId
-						url
-					}
-					... on EntityManagementSlackConnection {
-						__typename
-						appId
-						description
-						enabled
-						externalId
-						workspace
-					}
-					... on EntityManagementStatusPageAnnouncementEntity {
-						__typename
-						category
-						description
-						effectiveDate
-						eventUrl
-						publishedDate
-						state
-					}
-					... on EntityManagementStatusPageIncidentEntity {
-						__typename
-						description
-						endTime
-						incidentId
-						incidentTitle
-						lastUpdatedTime
-						region
-						startTime
-						status
-					}
-					... on EntityManagementTeamEntity {
-						__typename
-						aliases
-						description
-						hierarchyLevelId
-						managers
-						parentId
-					}
-					... on EntityManagementTeamsHierarchyLevelEntity {
-						__typename
-					}
-					... on EntityManagementTeamsOrganizationSettingsEntity {
-						__typename
-						hierarchyLevelOrder
-					}
-					... on EntityManagementUserEntity {
-						__typename
-						userId
-					}
-					... on EntityManagementWorkItemLinkV2Entity {
-						__typename
-						externalId
-						sourceSyncConfigurationId
-						url
-					}
-					... on EntityManagementWorkItemMessageV2Entity {
-						__typename
-						content
-						contentEncoding
-						contentType
-						externalId
-						parentId
-						sourceSyncConfigurationId
-					}
-					... on EntityManagementWorkItemV2Entity {
-						__typename
-						category
-						description
-						dueDate
-						externalId
-						labels
-						priority
-						status
-					}
-					... on EntityManagementWorkflowDefinition {
-						__typename
-						description
-						versions
-					}
-					... on EntityManagementWorkflowSchedule {
-						__typename
-						cronExpression
-						description
-						overlapPolicy
-						timezone
-					}
-					... on EntityManagementZoomConnectionEntity {
-						__typename
-						description
-						enabled
-					}
-				}
-				scope {
-					id
-					type
-				}
-				status
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementFleetDeploymentEntity {
-				__typename
-				configurationVersionList {
-					id
-				}
-				configurationVersions
-				description
-				fleetId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				phase
-				ringsDeploymentTracker {
-					completedAt
-					name
-					startedAt
-					status
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementFleetEntity {
-				__typename
-				currentDeployment {
-					canaryManagedEntities
-					configsChanged
-					configurationVersions
-					deployedAt
-					description
-					entitiesChanged
-					managedEntitiesChanged
-					managedEntitiesRequiredToChange
-					name
-					status
-					supervisedAgentEntitiesChanged
-					supervisedAgentEntitiesRequiredToChange
-				}
-				description
-				managedEntityRings {
-					id
-					name
-					type
-				}
-				managedEntityType
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				operatingSystem {
-					type
-				}
-				product
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementFleetRingEntity {
-				__typename
-				fleetId
-				managedEntities {
-					id
-					name
-					type
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementFlowEntity {
-				__typename
-				blob {
-					checksum
-					checksumAlgorithm
-					contentType
-					id
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementGenericEntity {
-				__typename
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementGitHubIntegrationEntity {
-				__typename
-				count {
-					repoCount
-					teamCount
-				}
-				gitHubRetentionOptions {
-					retainRepositories
-					retainTeams
-				}
-				gitHubSyncOptions {
-					syncRepositories
-					syncTeams
-				}
-				installationId
-				installationSource
-				installationStatus
-				lastSyncCompletedAt
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				nextSyncAt
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementGitRepositoryEntity {
-				__typename
-				closedPullRequestCount
-				configuration {
-					source
-					updatedAt
-					updatedBy
-				}
-				description
-				externalCreatedAt
-				externalId
-				externalLastDeployedAt
-				externalOwner {
-					id
-					type
-				}
-				externalUpdatedAt
-				forkCount
-				hostingPlatform
-				latestReleaseVersion
-				license {
-					name
-					url
-				}
-				lockedPullRequestCount
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				openPullRequestCount
-				primaryLanguage
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				url
-			}
-			... on EntityManagementGithubConnection {
-				__typename
-				description
-				enabled
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				settings {
-					key
-					value
-				}
-				signingCredentials {
-					signingAlgorithm
-				}
-				tags {
-					key
-					values
-				}
-				url
-			}
-			... on EntityManagementImpactProfileEntity {
-				__typename
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementInboxIssueCategoryEntity {
-				__typename
-				categoryScope {
-					id
-					type
-				}
-				categoryType
-				issueType
-				messageAttributes
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				nameAttributes
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementIncidentAttachmentEntity {
-				__typename
-				blob {
-					checksum
-					checksumAlgorithm
-					contentType
-					id
-				}
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementIncidentEntity {
-				__typename
-				assignedTo {
-					identifier
-					type
-				}
-				attributes {
-					name
-					value
-				}
-				category
-				customerImpact
-				description
-				dueDate
-				entitiesImpacted
-				externalId
-				incidentCategory
-				incidentKey
-				incidentProfileId
-				incidentSubcategory
-				issueLinks
-				labels
-				lessonsLearned
-				links {
-					id
-					name
-					type
-				}
-				maxSeverity
-				messages {
-					id
-					name
-					type
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				priority
-				reportedBy
-				resolutionCategory
-				resolutionSummary
-				retroActionItems
-				rootCauseSummary
-				rootCauseTags
-				scope {
-					id
-					type
-				}
-				severity
-				source
-				status
-				tags {
-					key
-					values
-				}
-				timelines {
-					id
-					name
-					type
-				}
-				triggeringEvent
-			}
-			... on EntityManagementIncidentLinkEntity {
-				__typename
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				sourceSyncConfigurationId
-				tags {
-					key
-					values
-				}
-				url
-			}
-			... on EntityManagementIncidentMessageEntity {
-				__typename
-				content
-				contentEncoding
-				contentType
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				parentId
-				scope {
-					id
-					type
-				}
-				sourceSyncConfigurationId
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementIncidentProfileAttachmentEntity {
-				__typename
-				blob {
-					checksum
-					checksumAlgorithm
-					contentType
-					id
-				}
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementIncidentProfileEntity {
-				__typename
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementIncidentTimelineEntity {
-				__typename
-				content
-				entryType
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				source
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementJiraConnection {
-				__typename
-				description
-				enabled
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				settings {
-					key
-					value
-				}
-				signingCredentials {
-					signingAlgorithm
-				}
-				tags {
-					key
-					values
-				}
-				url
-			}
-			... on EntityManagementJiraSyncConfigurationV2Entity {
-				__typename
-				bidirectional
-				connection
-				description
-				enabled
-				issueType
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				mode
-				projectKey
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				targets {
-					key
-					values
-				}
-				templateFields {
-					direction
-					name
-					required
-					template
-				}
-			}
-			... on EntityManagementJuniperMistConnectionEntity {
-				__typename
-				description
-				enabled
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				region
-				scope {
-					id
-					type
-				}
-				settings {
-					key
-					value
-				}
-				signingCredentials {
-					signingAlgorithm
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementMaintenanceWindowEntity {
-				__typename
-				affectedEntityType
-				description
-				duration
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				rrule
-				scope {
-					id
-					type
-				}
-				startTime
-				tags {
-					key
-					values
-				}
-				timezone
-			}
-			... on EntityManagementManagedEvaluationsEntity {
-				__typename
-				description
-				evaluations {
-					enabled
-					evaluationType
-					threshold
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementMcpServerEntity {
-				__typename
-				auth {
-					headerKey
-					type
-				}
-				description
-				displayName
-				endpoint
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				protocolVersion
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				transport
-			}
-			... on EntityManagementMeterEntity {
-				__typename
-				attributes {
-					name
-					values
-				}
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				meterType {
-					allowMeterCreation
-					attributionDimensions
-					description
-					id
-					name
-					type
-				}
-				owningTeam {
-					aliases
-					description
-					hierarchyLevelId
-					id
-					managers
-					name
-					parentId
-					type
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementMeterTypeEntity {
-				__typename
-				allowMeterCreation
-				attributionDimensions
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				owningTeam {
-					aliases
-					description
-					hierarchyLevelId
-					id
-					managers
-					name
-					parentId
-					type
-				}
-				productLine {
-					description
-					id
-					name
-					type
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementNewRelicConnection {
-				__typename
-				credential {
-					type
-				}
-				description
-				enabled
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				region
-				scope {
-					id
-					type
-				}
-				settings {
-					key
-					value
-				}
-				signingCredentials {
-					signingAlgorithm
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementNotebookEntity {
-				__typename
-				content {
-					checksum
-					checksumAlgorithm
-					contentType
-					id
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementNotificationAttachmentEntity {
-				__typename
-				blob {
-					checksum
-					checksumAlgorithm
-					contentType
-					id
-				}
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementNrAiAgentEntity {
-				__typename
-				displayName
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				version
-			}
-			... on EntityManagementNrqlMacroEntity {
-				__typename
-				expression
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				numParameters
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementOperationEntity {
-				__typename
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementOperationMetricEntity {
-				__typename
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementPerformanceInboxSettingEntity {
-				__typename
-				config {
-					name
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				thresholdScope
-			}
-			... on EntityManagementPipelineCloudRuleEntity {
-				__typename
-				description
-				enabled
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				nrql
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementProductLineEntity {
-				__typename
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementRagDocumentEntity {
-				__typename
-				authorEmails
-				blob {
-					checksum
-					checksumAlgorithm
-					contentType
-					id
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				sourceIdentifier
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementRagToolEntity {
-				__typename
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementReactNativeSourcemapEntity {
-				__typename
-				appVersionId
-				applicationId
-				blob {
-					checksum
-					checksumAlgorithm
-					contentType
-					id
-				}
-				jsBundleId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementRestApiContractEntity {
-				__typename
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementScorecardEntity {
-				__typename
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				progressLevels {
-					description
-					hexColorCode
-					id
-					name
-				}
-				rules {
-					id
-					name
-					type
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementScorecardRuleEntity {
-				__typename
-				description
-				enabled
-				impactWeight
-				lastExecutionStatus {
-					checkedEntities
-					executedAt
-					executionStatus
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				nrqlEngine {
-					accounts
-					joinAccounts
-					query
-				}
-				progressLevel
-				runInterval
-				schedule {
-					enabled
-					firstRunAt
-					period
-					rrule
-					scheduleAt
-					timezone
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementSegmentTermsEntity {
-				__typename
-				appEntityId
-				channel
-				domain
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				metricPrefix
-				oldId
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				urlSegments
-			}
-			... on EntityManagementServerlessJobDefinitionEntity {
-				__typename
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				namespace
-				scope {
-					id
-					type
-				}
-				secretKeys
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementServiceNowConnection {
-				__typename
-				description
-				enabled
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				settings {
-					key
-					value
-				}
-				signingCredentials {
-					signingAlgorithm
-				}
-				tags {
-					key
-					values
-				}
-				url
-			}
-			... on EntityManagementSlackConnection {
-				__typename
-				appId
-				description
-				enabled
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				settings {
-					key
-					value
-				}
-				signingCredentials {
-					signingAlgorithm
-				}
-				tags {
-					key
-					values
-				}
-				token {
-					keyName
-					namespace
-				}
-				workspace
-			}
-			... on EntityManagementStatusPageAnnouncementEntity {
-				__typename
-				category
-				communicationLogs {
-					communicatedBy
-					communicationMode
-					communicationStatus
-					message
-					timestamp
-				}
-				description
-				effectiveDate
-				eventUrl
-				impactQuery {
-					nrqlQuery
-					queryAccountIds
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				pointOfContacts {
-					id
-					name
-					type
-					userId
-				}
-				publishedDate
-				scope {
-					id
-					type
-				}
-				state
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementStatusPageIncidentEntity {
-				__typename
-				communicationLogs {
-					communicatedBy
-					communicationMode
-					communicationStatus
-					message
-					timestamp
-				}
-				description
-				endTime
-				incidentId
-				incidentTitle
-				lastUpdatedTime
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				region
-				scope {
-					id
-					type
-				}
-				startTime
-				status
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementTeamEntity {
-				__typename
-				aliases
-				description
-				externalIntegration {
-					externalId
-					type
-				}
-				hierarchyLevelId
-				managers
-				membership {
-					id
-					name
-					type
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				ownership {
-					id
-					name
-					type
-				}
-				parentId
-				resources {
-					content
-					title
-					type
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementTeamsHierarchyLevelEntity {
-				__typename
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementTeamsOrganizationSettingsEntity {
-				__typename
-				discovery {
-					enabled
-					tagKeys
-				}
-				hierarchyLevelOrder
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				syncGroups {
-					enabled
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementUserEntity {
-				__typename
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				userId
-			}
-			... on EntityManagementWorkItemLinkV2Entity {
-				__typename
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				sourceSyncConfigurationId
-				tags {
-					key
-					values
-				}
-				url
-			}
-			... on EntityManagementWorkItemMessageV2Entity {
-				__typename
-				content
-				contentEncoding
-				contentType
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				parentId
-				scope {
-					id
-					type
-				}
-				sourceSyncConfigurationId
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementWorkItemV2Entity {
-				__typename
-				assignedTo {
-					identifier
-					type
-				}
-				attributes {
-					name
-					value
-				}
-				category
-				description
-				dueDate
-				externalId
-				labels
-				links {
-					id
-					name
-					type
-				}
-				messages {
-					id
-					name
-					type
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				priority
-				scope {
-					id
-					type
-				}
-				status
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementWorkflowDefinition {
-				__typename
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				versions
-			}
-			... on EntityManagementWorkflowSchedule {
-				__typename
-				cronExpression
-				definition {
-					id
-					version
-				}
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				overlapPolicy
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				timezone
-			}
-			... on EntityManagementZoomConnectionEntity {
-				__typename
-				description
-				enabled
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				settings {
-					key
-					value
-				}
-				signingCredentials {
-					signingAlgorithm
-				}
-				tags {
-					key
-					values
-				}
-			}
-		}
-		dataProcessingConnection {
-			__typename
-			id
-			metadata {
-				createdAt
-				createdBy {
-					__typename
-					id
-					type
-					... on EntityManagementSystemActor {
-						__typename
-					}
-					... on EntityManagementUserActor {
-						__typename
-					}
-				}
-				updatedAt
-				updatedBy {
-					__typename
-					id
-					type
-					... on EntityManagementSystemActor {
-						__typename
-					}
-					... on EntityManagementUserActor {
-						__typename
-					}
-				}
-				version
-			}
-			name
-			scope {
-				id
-				type
-			}
-			tags {
-				key
-				values
-			}
-			type
-			... on EntityManagementAgentConfigurationEntity {
-				__typename
-				agentType
-				configurationType
-				managedEntityType
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				operatingSystem {
-					type
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				versionCount
-			}
-			... on EntityManagementAgentConfigurationVersionEntity {
-				__typename
-				agentConfiguration
-				blob {
-					checksum
-					checksumAlgorithm
-					contentType
-					id
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				version
-			}
-			... on EntityManagementAgentEffectiveConfigurationEntity {
-				__typename
-				blob {
-					checksum
-					checksumAlgorithm
-					contentType
-					id
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementAgentEntity {
-				__typename
-				agentType
-				fleetControlProperties {
-					disconnectedReceived
-					environment
-					healthy
-					lastError
-					lastRemoteConfigError
-					lastRemoteConfigStatus
-					startTime
-					uid
-					version
-				}
-				infrastructureManagers {
-					type
-					version
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				version
-			}
-			... on EntityManagementAiAgentEntity {
-				__typename
-				category
-				description
-				displayName
-				initialized
-				llmConfig {
-					cacheSeed
-					model
-					temperature
-				}
-				mcpServers {
-					excludeTools
-					includeTools
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				prompt
-				provider
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				test
-			}
-			... on EntityManagementAiCapableEntity {
-				__typename
-				category
-				language
-				lastSeen
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				toolType
-				toolVersion
-			}
-			... on EntityManagementAiEvaluationConfigEntity {
-				__typename
-				description
-				enabled
-				managedEvaluationsEntity {
-					description
-					id
-					name
-					type
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				samplingRate
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementAiToolEntity {
-				__typename
-				description
-				initialized
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				parameters {
-					description
-					name
-					type
-				}
-				provider
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				test
-				toolType
-				url
-			}
-			... on EntityManagementApiSpecificationBlobEntity {
-				__typename
-				blob {
-					checksum
-					checksumAlgorithm
-					contentType
-					id
-				}
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementAwsConnectionEntity {
-				__typename
-				description
-				enabled
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				region
-				scope {
-					id
-					type
-				}
-				settings {
-					key
-					value
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementBackgroundProcessingRuleEntity {
-				__typename
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				query {
-					nrql
-				}
-				ruleType
-				schedule {
-					enabled
-					firstRunAt
-					period
-					rrule
-					scheduleAt
-					timezone
-				}
-				scope {
-					id
-					type
-				}
-				state {
-					message
-					status
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementBackgroundSqlProcessingRuleEntity {
-				__typename
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				query {
-					outputTarget
-					sql
-				}
-				schedule {
-					enabled
-					firstRunAt
-					period
-					rrule
-					scheduleAt
-					timezone
-				}
-				scope {
-					id
-					type
-				}
-				state {
-					message
-					status
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementBudgetEntity {
-				__typename
-				budgetAlertPolicies {
-					id
-				}
-				budgetLimits {
-					consumptionMetric
-					value
-				}
-				budgetType
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				organizationBudget
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementCiscoMerakiConnectionEntity {
-				__typename
-				description
-				enabled
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				region
-				scope {
-					id
-					type
-				}
-				settings {
-					key
-					value
-				}
-				signingCredentials {
-					signingAlgorithm
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementCollectionEntity {
-				__typename
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementComponentEntity {
-				__typename
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementComputeLocationEntity {
-				__typename
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementConfluenceConnectionEntity {
-				__typename
-				description
-				enabled
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				settings {
-					key
-					value
-				}
-				signingCredentials {
-					signingAlgorithm
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementConfluenceIntegration {
-				__typename
-				confluenceUserId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				secretKey
-				tags {
-					key
-					values
-				}
-				url
-			}
-			... on EntityManagementConfluenceRagSettingsEntity {
-				__typename
-				characterTextSplitterOptions {
-					isSeparatorRegex
-					separator
-				}
-				chunkOverlap
-				chunkSize
-				confluenceIntegrationId
-				confluenceQuery
-				intervalSeconds
-				lastPullTime
-				markdownTextSplitterOptions {
-					headersToSplitOn
-					returnEachLine
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				nextPullTime
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				textSplitterType
-				tokenTextSplitterOptions {
-					encodingName
-				}
-			}
-			... on EntityManagementCorrelationInternalSourceConfigEntity {
-				__typename
-				accountId
-				alias
-				filterId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				namespaces
-				nrql
-				outputTopic
-				scope {
-					id
-					type
-				}
-				source
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementCorrelationLinkEntity {
-				__typename
-				context {
-					confidence
-					messages
-					ruleId
-				}
-				directional
-				linkType
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				overrideInfo {
-					action
-					timestamp
-					userId
-				}
-				scope {
-					id
-					type
-				}
-				source {
-					accountId
-					eventId
-					eventType
-				}
-				tags {
-					key
-					values
-				}
-				target {
-					accountId
-					eventId
-					eventType
-				}
-			}
-			... on EntityManagementCorrelationLinkingRuleEntity {
-				__typename
-				criteria {
-					topologyProximity
-				}
-				description
-				enabled
-				linkingConfig {
-					directional
-					linkType
-					sourceAlias
-					targetAlias
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				subjects {
-					accountIds
-					alias
-					nrql
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementCustomEvaluationEntity {
-				__typename
-				criteria
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				model
-				parameters
-				scope {
-					id
-					type
-				}
-				steps
-				tags {
-					key
-					values
-				}
-				threshold
-			}
-			... on EntityManagementCustomerImpactEntity {
-				__typename
-				blob {
-					checksum
-					checksumAlgorithm
-					contentType
-					id
-				}
-				components {
-					description
-					id
-					name
-					type
-				}
-				issueId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementCustomerImpactQueryEntity {
-				__typename
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				products {
-					description
-					id
-					name
-					type
-				}
-				query
-				queryAccountId
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				teamEntity {
-					aliases
-					description
-					hierarchyLevelId
-					id
-					managers
-					name
-					parentId
-					type
-				}
-				teamName
-				totalCustImpactQueryAccountIds
-				totalCustomerImpactQuery
-			}
-			... on EntityManagementEventBridgeRuleEntity {
-				__typename
-				conditions {
-					field
-				}
-				description
-				enabled
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				sourceType {
-					event
-					name
-				}
-				tags {
-					key
-					values
-				}
-				targets {
-					name
-					type
-					when
-				}
-			}
-			... on EntityManagementFederatedLogPartitionEntity {
-				__typename
-				dataLocationUri
-				description
-				isDefault
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				partitionTable
-				retentionPolicy {
-					duration
-					unit
-				}
-				scope {
-					id
-					type
-				}
-				setup {
-					cloudProvider
-					cloudProviderRegion
-					dataLocationBucket
-					description
-					id
-					name
-					partitionDatabase
-					status
-					type
-				}
-				status
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementFederatedLogSetupEntity {
-				__typename
-				cloudProvider
-				cloudProviderRegion
-				dataLocationBucket
-				dataProcessingComponent {
-					__typename
-					id
-					name
-					type
-					... on EntityManagementAgentConfigurationEntity {
-						__typename
-						agentType
-						configurationType
-						managedEntityType
-						versionCount
-					}
-					... on EntityManagementAgentConfigurationVersionEntity {
-						__typename
-						agentConfiguration
-						version
-					}
-					... on EntityManagementAgentEffectiveConfigurationEntity {
-						__typename
-					}
-					... on EntityManagementAgentEntity {
-						__typename
-						agentType
-						version
-					}
-					... on EntityManagementAiAgentEntity {
-						__typename
-						category
-						description
-						displayName
-						initialized
-						prompt
-						provider
-						test
-					}
-					... on EntityManagementAiCapableEntity {
-						__typename
-						category
-						language
-						lastSeen
-						toolType
-						toolVersion
-					}
-					... on EntityManagementAiEvaluationConfigEntity {
-						__typename
-						description
-						enabled
-						samplingRate
-					}
-					... on EntityManagementAiToolEntity {
-						__typename
-						description
-						initialized
-						provider
-						test
-						toolType
-						url
-					}
-					... on EntityManagementApiSpecificationBlobEntity {
-						__typename
-						description
-					}
-					... on EntityManagementAwsConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementBackgroundProcessingRuleEntity {
-						__typename
-						description
-						ruleType
-					}
-					... on EntityManagementBackgroundSqlProcessingRuleEntity {
-						__typename
-						description
-					}
-					... on EntityManagementBudgetEntity {
-						__typename
-						budgetType
-						organizationBudget
-					}
-					... on EntityManagementCiscoMerakiConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementCollectionEntity {
-						__typename
-					}
-					... on EntityManagementComponentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementComputeLocationEntity {
-						__typename
-						description
-					}
-					... on EntityManagementConfluenceConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-					}
-					... on EntityManagementConfluenceIntegration {
-						__typename
-						confluenceUserId
-						secretKey
-						url
-					}
-					... on EntityManagementConfluenceRagSettingsEntity {
-						__typename
-						chunkOverlap
-						chunkSize
-						confluenceIntegrationId
-						confluenceQuery
-						intervalSeconds
-						lastPullTime
-						nextPullTime
-						textSplitterType
-					}
-					... on EntityManagementCorrelationInternalSourceConfigEntity {
-						__typename
-						accountId
-						alias
-						filterId
-						namespaces
-						nrql
-						outputTopic
-						source
-					}
-					... on EntityManagementCorrelationLinkEntity {
-						__typename
-						directional
-						linkType
-					}
-					... on EntityManagementCorrelationLinkingRuleEntity {
-						__typename
-						description
-						enabled
-					}
-					... on EntityManagementCustomEvaluationEntity {
-						__typename
-						criteria
-						description
-						model
-						parameters
-						steps
-						threshold
-					}
-					... on EntityManagementCustomerImpactEntity {
-						__typename
-						issueId
-					}
-					... on EntityManagementCustomerImpactQueryEntity {
-						__typename
-						query
-						queryAccountId
-						teamName
-						totalCustImpactQueryAccountIds
-						totalCustomerImpactQuery
-					}
-					... on EntityManagementEventBridgeRuleEntity {
-						__typename
-						description
-						enabled
-					}
-					... on EntityManagementFederatedLogPartitionEntity {
-						__typename
-						dataLocationUri
-						description
-						isDefault
-						partitionTable
-						status
-					}
-					... on EntityManagementFederatedLogSetupEntity {
-						__typename
-						cloudProvider
-						cloudProviderRegion
-						dataLocationBucket
-						description
-						partitionDatabase
-						status
-					}
-					... on EntityManagementFleetDeploymentEntity {
-						__typename
-						configurationVersions
-						description
-						fleetId
-						phase
-					}
-					... on EntityManagementFleetEntity {
-						__typename
-						description
-						managedEntityType
-						product
-					}
-					... on EntityManagementFleetRingEntity {
-						__typename
-						fleetId
-					}
-					... on EntityManagementFlowEntity {
-						__typename
-					}
-					... on EntityManagementGenericEntity {
-						__typename
-					}
-					... on EntityManagementGitHubIntegrationEntity {
-						__typename
-						installationId
-						installationSource
-						installationStatus
-						lastSyncCompletedAt
-						nextSyncAt
-					}
-					... on EntityManagementGitRepositoryEntity {
-						__typename
-						closedPullRequestCount
-						description
-						externalCreatedAt
-						externalId
-						externalLastDeployedAt
-						externalUpdatedAt
-						forkCount
-						hostingPlatform
-						latestReleaseVersion
-						lockedPullRequestCount
-						openPullRequestCount
-						primaryLanguage
-						url
-					}
-					... on EntityManagementGithubConnection {
-						__typename
-						description
-						enabled
-						externalId
-						url
-					}
-					... on EntityManagementImpactProfileEntity {
-						__typename
-					}
-					... on EntityManagementInboxIssueCategoryEntity {
-						__typename
-						categoryType
-						issueType
-						messageAttributes
-						nameAttributes
-					}
-					... on EntityManagementIncidentAttachmentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementIncidentEntity {
-						__typename
-						category
-						customerImpact
-						description
-						dueDate
-						entitiesImpacted
-						externalId
-						incidentCategory
-						incidentKey
-						incidentProfileId
-						incidentSubcategory
-						issueLinks
-						labels
-						lessonsLearned
-						maxSeverity
-						priority
-						reportedBy
-						resolutionCategory
-						resolutionSummary
-						retroActionItems
-						rootCauseSummary
-						rootCauseTags
-						severity
-						source
-						status
-						triggeringEvent
-					}
-					... on EntityManagementIncidentLinkEntity {
-						__typename
-						externalId
-						sourceSyncConfigurationId
-						url
-					}
-					... on EntityManagementIncidentMessageEntity {
-						__typename
-						content
-						contentEncoding
-						contentType
-						externalId
-						parentId
-						sourceSyncConfigurationId
-					}
-					... on EntityManagementIncidentProfileAttachmentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementIncidentProfileEntity {
-						__typename
-					}
-					... on EntityManagementIncidentTimelineEntity {
-						__typename
-						content
-						entryType
-						source
-					}
-					... on EntityManagementJiraConnection {
-						__typename
-						description
-						enabled
-						externalId
-						url
-					}
-					... on EntityManagementJiraSyncConfigurationV2Entity {
-						__typename
-						bidirectional
-						connection
-						description
-						enabled
-						issueType
-						mode
-						projectKey
-					}
-					... on EntityManagementJuniperMistConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementMaintenanceWindowEntity {
-						__typename
-						affectedEntityType
-						description
-						duration
-						rrule
-						startTime
-						timezone
-					}
-					... on EntityManagementManagedEvaluationsEntity {
-						__typename
-						description
-					}
-					... on EntityManagementMcpServerEntity {
-						__typename
-						description
-						displayName
-						endpoint
-						protocolVersion
-						transport
-					}
-					... on EntityManagementMeterEntity {
-						__typename
-						description
-					}
-					... on EntityManagementMeterTypeEntity {
-						__typename
-						allowMeterCreation
-						attributionDimensions
-						description
-					}
-					... on EntityManagementNewRelicConnection {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementNotebookEntity {
-						__typename
-					}
-					... on EntityManagementNotificationAttachmentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementNrAiAgentEntity {
-						__typename
-						displayName
-						version
-					}
-					... on EntityManagementNrqlMacroEntity {
-						__typename
-						expression
-						numParameters
-					}
-					... on EntityManagementOperationEntity {
-						__typename
-					}
-					... on EntityManagementOperationMetricEntity {
-						__typename
-					}
-					... on EntityManagementPerformanceInboxSettingEntity {
-						__typename
-						thresholdScope
-					}
-					... on EntityManagementPipelineCloudRuleEntity {
-						__typename
-						description
-						enabled
-						nrql
-					}
-					... on EntityManagementProductLineEntity {
-						__typename
-						description
-					}
-					... on EntityManagementRagDocumentEntity {
-						__typename
-						authorEmails
-						sourceIdentifier
-					}
-					... on EntityManagementRagToolEntity {
-						__typename
-						description
-					}
-					... on EntityManagementReactNativeSourcemapEntity {
-						__typename
-						appVersionId
-						applicationId
-						jsBundleId
-					}
-					... on EntityManagementRestApiContractEntity {
-						__typename
-					}
-					... on EntityManagementScorecardEntity {
-						__typename
-						description
-					}
-					... on EntityManagementScorecardRuleEntity {
-						__typename
-						description
-						enabled
-						impactWeight
-						progressLevel
-						runInterval
-					}
-					... on EntityManagementSegmentTermsEntity {
-						__typename
-						appEntityId
-						channel
-						domain
-						metricPrefix
-						oldId
-						urlSegments
-					}
-					... on EntityManagementServerlessJobDefinitionEntity {
-						__typename
-						description
-						namespace
-						secretKeys
-					}
-					... on EntityManagementServiceNowConnection {
-						__typename
-						description
-						enabled
-						externalId
-						url
-					}
-					... on EntityManagementSlackConnection {
-						__typename
-						appId
-						description
-						enabled
-						externalId
-						workspace
-					}
-					... on EntityManagementStatusPageAnnouncementEntity {
-						__typename
-						category
-						description
-						effectiveDate
-						eventUrl
-						publishedDate
-						state
-					}
-					... on EntityManagementStatusPageIncidentEntity {
-						__typename
-						description
-						endTime
-						incidentId
-						incidentTitle
-						lastUpdatedTime
-						region
-						startTime
-						status
-					}
-					... on EntityManagementTeamEntity {
-						__typename
-						aliases
-						description
-						hierarchyLevelId
-						managers
-						parentId
-					}
-					... on EntityManagementTeamsHierarchyLevelEntity {
-						__typename
-					}
-					... on EntityManagementTeamsOrganizationSettingsEntity {
-						__typename
-						hierarchyLevelOrder
-					}
-					... on EntityManagementUserEntity {
-						__typename
-						userId
-					}
-					... on EntityManagementWorkItemLinkV2Entity {
-						__typename
-						externalId
-						sourceSyncConfigurationId
-						url
-					}
-					... on EntityManagementWorkItemMessageV2Entity {
-						__typename
-						content
-						contentEncoding
-						contentType
-						externalId
-						parentId
-						sourceSyncConfigurationId
-					}
-					... on EntityManagementWorkItemV2Entity {
-						__typename
-						category
-						description
-						dueDate
-						externalId
-						labels
-						priority
-						status
-					}
-					... on EntityManagementWorkflowDefinition {
-						__typename
-						description
-						versions
-					}
-					... on EntityManagementWorkflowSchedule {
-						__typename
-						cronExpression
-						description
-						overlapPolicy
-						timezone
-					}
-					... on EntityManagementZoomConnectionEntity {
-						__typename
-						description
-						enabled
-					}
-				}
-				dataProcessingConnection {
-					__typename
-					id
-					name
-					type
-					... on EntityManagementAgentConfigurationEntity {
-						__typename
-						agentType
-						configurationType
-						managedEntityType
-						versionCount
-					}
-					... on EntityManagementAgentConfigurationVersionEntity {
-						__typename
-						agentConfiguration
-						version
-					}
-					... on EntityManagementAgentEffectiveConfigurationEntity {
-						__typename
-					}
-					... on EntityManagementAgentEntity {
-						__typename
-						agentType
-						version
-					}
-					... on EntityManagementAiAgentEntity {
-						__typename
-						category
-						description
-						displayName
-						initialized
-						prompt
-						provider
-						test
-					}
-					... on EntityManagementAiCapableEntity {
-						__typename
-						category
-						language
-						lastSeen
-						toolType
-						toolVersion
-					}
-					... on EntityManagementAiEvaluationConfigEntity {
-						__typename
-						description
-						enabled
-						samplingRate
-					}
-					... on EntityManagementAiToolEntity {
-						__typename
-						description
-						initialized
-						provider
-						test
-						toolType
-						url
-					}
-					... on EntityManagementApiSpecificationBlobEntity {
-						__typename
-						description
-					}
-					... on EntityManagementAwsConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementBackgroundProcessingRuleEntity {
-						__typename
-						description
-						ruleType
-					}
-					... on EntityManagementBackgroundSqlProcessingRuleEntity {
-						__typename
-						description
-					}
-					... on EntityManagementBudgetEntity {
-						__typename
-						budgetType
-						organizationBudget
-					}
-					... on EntityManagementCiscoMerakiConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementCollectionEntity {
-						__typename
-					}
-					... on EntityManagementComponentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementComputeLocationEntity {
-						__typename
-						description
-					}
-					... on EntityManagementConfluenceConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-					}
-					... on EntityManagementConfluenceIntegration {
-						__typename
-						confluenceUserId
-						secretKey
-						url
-					}
-					... on EntityManagementConfluenceRagSettingsEntity {
-						__typename
-						chunkOverlap
-						chunkSize
-						confluenceIntegrationId
-						confluenceQuery
-						intervalSeconds
-						lastPullTime
-						nextPullTime
-						textSplitterType
-					}
-					... on EntityManagementCorrelationInternalSourceConfigEntity {
-						__typename
-						accountId
-						alias
-						filterId
-						namespaces
-						nrql
-						outputTopic
-						source
-					}
-					... on EntityManagementCorrelationLinkEntity {
-						__typename
-						directional
-						linkType
-					}
-					... on EntityManagementCorrelationLinkingRuleEntity {
-						__typename
-						description
-						enabled
-					}
-					... on EntityManagementCustomEvaluationEntity {
-						__typename
-						criteria
-						description
-						model
-						parameters
-						steps
-						threshold
-					}
-					... on EntityManagementCustomerImpactEntity {
-						__typename
-						issueId
-					}
-					... on EntityManagementCustomerImpactQueryEntity {
-						__typename
-						query
-						queryAccountId
-						teamName
-						totalCustImpactQueryAccountIds
-						totalCustomerImpactQuery
-					}
-					... on EntityManagementEventBridgeRuleEntity {
-						__typename
-						description
-						enabled
-					}
-					... on EntityManagementFederatedLogPartitionEntity {
-						__typename
-						dataLocationUri
-						description
-						isDefault
-						partitionTable
-						status
-					}
-					... on EntityManagementFederatedLogSetupEntity {
-						__typename
-						cloudProvider
-						cloudProviderRegion
-						dataLocationBucket
-						description
-						partitionDatabase
-						status
-					}
-					... on EntityManagementFleetDeploymentEntity {
-						__typename
-						configurationVersions
-						description
-						fleetId
-						phase
-					}
-					... on EntityManagementFleetEntity {
-						__typename
-						description
-						managedEntityType
-						product
-					}
-					... on EntityManagementFleetRingEntity {
-						__typename
-						fleetId
-					}
-					... on EntityManagementFlowEntity {
-						__typename
-					}
-					... on EntityManagementGenericEntity {
-						__typename
-					}
-					... on EntityManagementGitHubIntegrationEntity {
-						__typename
-						installationId
-						installationSource
-						installationStatus
-						lastSyncCompletedAt
-						nextSyncAt
-					}
-					... on EntityManagementGitRepositoryEntity {
-						__typename
-						closedPullRequestCount
-						description
-						externalCreatedAt
-						externalId
-						externalLastDeployedAt
-						externalUpdatedAt
-						forkCount
-						hostingPlatform
-						latestReleaseVersion
-						lockedPullRequestCount
-						openPullRequestCount
-						primaryLanguage
-						url
-					}
-					... on EntityManagementGithubConnection {
-						__typename
-						description
-						enabled
-						externalId
-						url
-					}
-					... on EntityManagementImpactProfileEntity {
-						__typename
-					}
-					... on EntityManagementInboxIssueCategoryEntity {
-						__typename
-						categoryType
-						issueType
-						messageAttributes
-						nameAttributes
-					}
-					... on EntityManagementIncidentAttachmentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementIncidentEntity {
-						__typename
-						category
-						customerImpact
-						description
-						dueDate
-						entitiesImpacted
-						externalId
-						incidentCategory
-						incidentKey
-						incidentProfileId
-						incidentSubcategory
-						issueLinks
-						labels
-						lessonsLearned
-						maxSeverity
-						priority
-						reportedBy
-						resolutionCategory
-						resolutionSummary
-						retroActionItems
-						rootCauseSummary
-						rootCauseTags
-						severity
-						source
-						status
-						triggeringEvent
-					}
-					... on EntityManagementIncidentLinkEntity {
-						__typename
-						externalId
-						sourceSyncConfigurationId
-						url
-					}
-					... on EntityManagementIncidentMessageEntity {
-						__typename
-						content
-						contentEncoding
-						contentType
-						externalId
-						parentId
-						sourceSyncConfigurationId
-					}
-					... on EntityManagementIncidentProfileAttachmentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementIncidentProfileEntity {
-						__typename
-					}
-					... on EntityManagementIncidentTimelineEntity {
-						__typename
-						content
-						entryType
-						source
-					}
-					... on EntityManagementJiraConnection {
-						__typename
-						description
-						enabled
-						externalId
-						url
-					}
-					... on EntityManagementJiraSyncConfigurationV2Entity {
-						__typename
-						bidirectional
-						connection
-						description
-						enabled
-						issueType
-						mode
-						projectKey
-					}
-					... on EntityManagementJuniperMistConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementMaintenanceWindowEntity {
-						__typename
-						affectedEntityType
-						description
-						duration
-						rrule
-						startTime
-						timezone
-					}
-					... on EntityManagementManagedEvaluationsEntity {
-						__typename
-						description
-					}
-					... on EntityManagementMcpServerEntity {
-						__typename
-						description
-						displayName
-						endpoint
-						protocolVersion
-						transport
-					}
-					... on EntityManagementMeterEntity {
-						__typename
-						description
-					}
-					... on EntityManagementMeterTypeEntity {
-						__typename
-						allowMeterCreation
-						attributionDimensions
-						description
-					}
-					... on EntityManagementNewRelicConnection {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementNotebookEntity {
-						__typename
-					}
-					... on EntityManagementNotificationAttachmentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementNrAiAgentEntity {
-						__typename
-						displayName
-						version
-					}
-					... on EntityManagementNrqlMacroEntity {
-						__typename
-						expression
-						numParameters
-					}
-					... on EntityManagementOperationEntity {
-						__typename
-					}
-					... on EntityManagementOperationMetricEntity {
-						__typename
-					}
-					... on EntityManagementPerformanceInboxSettingEntity {
-						__typename
-						thresholdScope
-					}
-					... on EntityManagementPipelineCloudRuleEntity {
-						__typename
-						description
-						enabled
-						nrql
-					}
-					... on EntityManagementProductLineEntity {
-						__typename
-						description
-					}
-					... on EntityManagementRagDocumentEntity {
-						__typename
-						authorEmails
-						sourceIdentifier
-					}
-					... on EntityManagementRagToolEntity {
-						__typename
-						description
-					}
-					... on EntityManagementReactNativeSourcemapEntity {
-						__typename
-						appVersionId
-						applicationId
-						jsBundleId
-					}
-					... on EntityManagementRestApiContractEntity {
-						__typename
-					}
-					... on EntityManagementScorecardEntity {
-						__typename
-						description
-					}
-					... on EntityManagementScorecardRuleEntity {
-						__typename
-						description
-						enabled
-						impactWeight
-						progressLevel
-						runInterval
-					}
-					... on EntityManagementSegmentTermsEntity {
-						__typename
-						appEntityId
-						channel
-						domain
-						metricPrefix
-						oldId
-						urlSegments
-					}
-					... on EntityManagementServerlessJobDefinitionEntity {
-						__typename
-						description
-						namespace
-						secretKeys
-					}
-					... on EntityManagementServiceNowConnection {
-						__typename
-						description
-						enabled
-						externalId
-						url
-					}
-					... on EntityManagementSlackConnection {
-						__typename
-						appId
-						description
-						enabled
-						externalId
-						workspace
-					}
-					... on EntityManagementStatusPageAnnouncementEntity {
-						__typename
-						category
-						description
-						effectiveDate
-						eventUrl
-						publishedDate
-						state
-					}
-					... on EntityManagementStatusPageIncidentEntity {
-						__typename
-						description
-						endTime
-						incidentId
-						incidentTitle
-						lastUpdatedTime
-						region
-						startTime
-						status
-					}
-					... on EntityManagementTeamEntity {
-						__typename
-						aliases
-						description
-						hierarchyLevelId
-						managers
-						parentId
-					}
-					... on EntityManagementTeamsHierarchyLevelEntity {
-						__typename
-					}
-					... on EntityManagementTeamsOrganizationSettingsEntity {
-						__typename
-						hierarchyLevelOrder
-					}
-					... on EntityManagementUserEntity {
-						__typename
-						userId
-					}
-					... on EntityManagementWorkItemLinkV2Entity {
-						__typename
-						externalId
-						sourceSyncConfigurationId
-						url
-					}
-					... on EntityManagementWorkItemMessageV2Entity {
-						__typename
-						content
-						contentEncoding
-						contentType
-						externalId
-						parentId
-						sourceSyncConfigurationId
-					}
-					... on EntityManagementWorkItemV2Entity {
-						__typename
-						category
-						description
-						dueDate
-						externalId
-						labels
-						priority
-						status
-					}
-					... on EntityManagementWorkflowDefinition {
-						__typename
-						description
-						versions
-					}
-					... on EntityManagementWorkflowSchedule {
-						__typename
-						cronExpression
-						description
-						overlapPolicy
-						timezone
-					}
-					... on EntityManagementZoomConnectionEntity {
-						__typename
-						description
-						enabled
-					}
-				}
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				partitionDatabase
-				queryConnection {
-					__typename
-					id
-					name
-					type
-					... on EntityManagementAgentConfigurationEntity {
-						__typename
-						agentType
-						configurationType
-						managedEntityType
-						versionCount
-					}
-					... on EntityManagementAgentConfigurationVersionEntity {
-						__typename
-						agentConfiguration
-						version
-					}
-					... on EntityManagementAgentEffectiveConfigurationEntity {
-						__typename
-					}
-					... on EntityManagementAgentEntity {
-						__typename
-						agentType
-						version
-					}
-					... on EntityManagementAiAgentEntity {
-						__typename
-						category
-						description
-						displayName
-						initialized
-						prompt
-						provider
-						test
-					}
-					... on EntityManagementAiCapableEntity {
-						__typename
-						category
-						language
-						lastSeen
-						toolType
-						toolVersion
-					}
-					... on EntityManagementAiEvaluationConfigEntity {
-						__typename
-						description
-						enabled
-						samplingRate
-					}
-					... on EntityManagementAiToolEntity {
-						__typename
-						description
-						initialized
-						provider
-						test
-						toolType
-						url
-					}
-					... on EntityManagementApiSpecificationBlobEntity {
-						__typename
-						description
-					}
-					... on EntityManagementAwsConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementBackgroundProcessingRuleEntity {
-						__typename
-						description
-						ruleType
-					}
-					... on EntityManagementBackgroundSqlProcessingRuleEntity {
-						__typename
-						description
-					}
-					... on EntityManagementBudgetEntity {
-						__typename
-						budgetType
-						organizationBudget
-					}
-					... on EntityManagementCiscoMerakiConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementCollectionEntity {
-						__typename
-					}
-					... on EntityManagementComponentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementComputeLocationEntity {
-						__typename
-						description
-					}
-					... on EntityManagementConfluenceConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-					}
-					... on EntityManagementConfluenceIntegration {
-						__typename
-						confluenceUserId
-						secretKey
-						url
-					}
-					... on EntityManagementConfluenceRagSettingsEntity {
-						__typename
-						chunkOverlap
-						chunkSize
-						confluenceIntegrationId
-						confluenceQuery
-						intervalSeconds
-						lastPullTime
-						nextPullTime
-						textSplitterType
-					}
-					... on EntityManagementCorrelationInternalSourceConfigEntity {
-						__typename
-						accountId
-						alias
-						filterId
-						namespaces
-						nrql
-						outputTopic
-						source
-					}
-					... on EntityManagementCorrelationLinkEntity {
-						__typename
-						directional
-						linkType
-					}
-					... on EntityManagementCorrelationLinkingRuleEntity {
-						__typename
-						description
-						enabled
-					}
-					... on EntityManagementCustomEvaluationEntity {
-						__typename
-						criteria
-						description
-						model
-						parameters
-						steps
-						threshold
-					}
-					... on EntityManagementCustomerImpactEntity {
-						__typename
-						issueId
-					}
-					... on EntityManagementCustomerImpactQueryEntity {
-						__typename
-						query
-						queryAccountId
-						teamName
-						totalCustImpactQueryAccountIds
-						totalCustomerImpactQuery
-					}
-					... on EntityManagementEventBridgeRuleEntity {
-						__typename
-						description
-						enabled
-					}
-					... on EntityManagementFederatedLogPartitionEntity {
-						__typename
-						dataLocationUri
-						description
-						isDefault
-						partitionTable
-						status
-					}
-					... on EntityManagementFederatedLogSetupEntity {
-						__typename
-						cloudProvider
-						cloudProviderRegion
-						dataLocationBucket
-						description
-						partitionDatabase
-						status
-					}
-					... on EntityManagementFleetDeploymentEntity {
-						__typename
-						configurationVersions
-						description
-						fleetId
-						phase
-					}
-					... on EntityManagementFleetEntity {
-						__typename
-						description
-						managedEntityType
-						product
-					}
-					... on EntityManagementFleetRingEntity {
-						__typename
-						fleetId
-					}
-					... on EntityManagementFlowEntity {
-						__typename
-					}
-					... on EntityManagementGenericEntity {
-						__typename
-					}
-					... on EntityManagementGitHubIntegrationEntity {
-						__typename
-						installationId
-						installationSource
-						installationStatus
-						lastSyncCompletedAt
-						nextSyncAt
-					}
-					... on EntityManagementGitRepositoryEntity {
-						__typename
-						closedPullRequestCount
-						description
-						externalCreatedAt
-						externalId
-						externalLastDeployedAt
-						externalUpdatedAt
-						forkCount
-						hostingPlatform
-						latestReleaseVersion
-						lockedPullRequestCount
-						openPullRequestCount
-						primaryLanguage
-						url
-					}
-					... on EntityManagementGithubConnection {
-						__typename
-						description
-						enabled
-						externalId
-						url
-					}
-					... on EntityManagementImpactProfileEntity {
-						__typename
-					}
-					... on EntityManagementInboxIssueCategoryEntity {
-						__typename
-						categoryType
-						issueType
-						messageAttributes
-						nameAttributes
-					}
-					... on EntityManagementIncidentAttachmentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementIncidentEntity {
-						__typename
-						category
-						customerImpact
-						description
-						dueDate
-						entitiesImpacted
-						externalId
-						incidentCategory
-						incidentKey
-						incidentProfileId
-						incidentSubcategory
-						issueLinks
-						labels
-						lessonsLearned
-						maxSeverity
-						priority
-						reportedBy
-						resolutionCategory
-						resolutionSummary
-						retroActionItems
-						rootCauseSummary
-						rootCauseTags
-						severity
-						source
-						status
-						triggeringEvent
-					}
-					... on EntityManagementIncidentLinkEntity {
-						__typename
-						externalId
-						sourceSyncConfigurationId
-						url
-					}
-					... on EntityManagementIncidentMessageEntity {
-						__typename
-						content
-						contentEncoding
-						contentType
-						externalId
-						parentId
-						sourceSyncConfigurationId
-					}
-					... on EntityManagementIncidentProfileAttachmentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementIncidentProfileEntity {
-						__typename
-					}
-					... on EntityManagementIncidentTimelineEntity {
-						__typename
-						content
-						entryType
-						source
-					}
-					... on EntityManagementJiraConnection {
-						__typename
-						description
-						enabled
-						externalId
-						url
-					}
-					... on EntityManagementJiraSyncConfigurationV2Entity {
-						__typename
-						bidirectional
-						connection
-						description
-						enabled
-						issueType
-						mode
-						projectKey
-					}
-					... on EntityManagementJuniperMistConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementMaintenanceWindowEntity {
-						__typename
-						affectedEntityType
-						description
-						duration
-						rrule
-						startTime
-						timezone
-					}
-					... on EntityManagementManagedEvaluationsEntity {
-						__typename
-						description
-					}
-					... on EntityManagementMcpServerEntity {
-						__typename
-						description
-						displayName
-						endpoint
-						protocolVersion
-						transport
-					}
-					... on EntityManagementMeterEntity {
-						__typename
-						description
-					}
-					... on EntityManagementMeterTypeEntity {
-						__typename
-						allowMeterCreation
-						attributionDimensions
-						description
-					}
-					... on EntityManagementNewRelicConnection {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementNotebookEntity {
-						__typename
-					}
-					... on EntityManagementNotificationAttachmentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementNrAiAgentEntity {
-						__typename
-						displayName
-						version
-					}
-					... on EntityManagementNrqlMacroEntity {
-						__typename
-						expression
-						numParameters
-					}
-					... on EntityManagementOperationEntity {
-						__typename
-					}
-					... on EntityManagementOperationMetricEntity {
-						__typename
-					}
-					... on EntityManagementPerformanceInboxSettingEntity {
-						__typename
-						thresholdScope
-					}
-					... on EntityManagementPipelineCloudRuleEntity {
-						__typename
-						description
-						enabled
-						nrql
-					}
-					... on EntityManagementProductLineEntity {
-						__typename
-						description
-					}
-					... on EntityManagementRagDocumentEntity {
-						__typename
-						authorEmails
-						sourceIdentifier
-					}
-					... on EntityManagementRagToolEntity {
-						__typename
-						description
-					}
-					... on EntityManagementReactNativeSourcemapEntity {
-						__typename
-						appVersionId
-						applicationId
-						jsBundleId
-					}
-					... on EntityManagementRestApiContractEntity {
-						__typename
-					}
-					... on EntityManagementScorecardEntity {
-						__typename
-						description
-					}
-					... on EntityManagementScorecardRuleEntity {
-						__typename
-						description
-						enabled
-						impactWeight
-						progressLevel
-						runInterval
-					}
-					... on EntityManagementSegmentTermsEntity {
-						__typename
-						appEntityId
-						channel
-						domain
-						metricPrefix
-						oldId
-						urlSegments
-					}
-					... on EntityManagementServerlessJobDefinitionEntity {
-						__typename
-						description
-						namespace
-						secretKeys
-					}
-					... on EntityManagementServiceNowConnection {
-						__typename
-						description
-						enabled
-						externalId
-						url
-					}
-					... on EntityManagementSlackConnection {
-						__typename
-						appId
-						description
-						enabled
-						externalId
-						workspace
-					}
-					... on EntityManagementStatusPageAnnouncementEntity {
-						__typename
-						category
-						description
-						effectiveDate
-						eventUrl
-						publishedDate
-						state
-					}
-					... on EntityManagementStatusPageIncidentEntity {
-						__typename
-						description
-						endTime
-						incidentId
-						incidentTitle
-						lastUpdatedTime
-						region
-						startTime
-						status
-					}
-					... on EntityManagementTeamEntity {
-						__typename
-						aliases
-						description
-						hierarchyLevelId
-						managers
-						parentId
-					}
-					... on EntityManagementTeamsHierarchyLevelEntity {
-						__typename
-					}
-					... on EntityManagementTeamsOrganizationSettingsEntity {
-						__typename
-						hierarchyLevelOrder
-					}
-					... on EntityManagementUserEntity {
-						__typename
-						userId
-					}
-					... on EntityManagementWorkItemLinkV2Entity {
-						__typename
-						externalId
-						sourceSyncConfigurationId
-						url
-					}
-					... on EntityManagementWorkItemMessageV2Entity {
-						__typename
-						content
-						contentEncoding
-						contentType
-						externalId
-						parentId
-						sourceSyncConfigurationId
-					}
-					... on EntityManagementWorkItemV2Entity {
-						__typename
-						category
-						description
-						dueDate
-						externalId
-						labels
-						priority
-						status
-					}
-					... on EntityManagementWorkflowDefinition {
-						__typename
-						description
-						versions
-					}
-					... on EntityManagementWorkflowSchedule {
-						__typename
-						cronExpression
-						description
-						overlapPolicy
-						timezone
-					}
-					... on EntityManagementZoomConnectionEntity {
-						__typename
-						description
-						enabled
-					}
-				}
-				scope {
-					id
-					type
-				}
-				status
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementFleetDeploymentEntity {
-				__typename
-				configurationVersionList {
-					id
-				}
-				configurationVersions
-				description
-				fleetId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				phase
-				ringsDeploymentTracker {
-					completedAt
-					name
-					startedAt
-					status
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementFleetEntity {
-				__typename
-				currentDeployment {
-					canaryManagedEntities
-					configsChanged
-					configurationVersions
-					deployedAt
-					description
-					entitiesChanged
-					managedEntitiesChanged
-					managedEntitiesRequiredToChange
-					name
-					status
-					supervisedAgentEntitiesChanged
-					supervisedAgentEntitiesRequiredToChange
-				}
-				description
-				managedEntityRings {
-					id
-					name
-					type
-				}
-				managedEntityType
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				operatingSystem {
-					type
-				}
-				product
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementFleetRingEntity {
-				__typename
-				fleetId
-				managedEntities {
-					id
-					name
-					type
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementFlowEntity {
-				__typename
-				blob {
-					checksum
-					checksumAlgorithm
-					contentType
-					id
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementGenericEntity {
-				__typename
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementGitHubIntegrationEntity {
-				__typename
-				count {
-					repoCount
-					teamCount
-				}
-				gitHubRetentionOptions {
-					retainRepositories
-					retainTeams
-				}
-				gitHubSyncOptions {
-					syncRepositories
-					syncTeams
-				}
-				installationId
-				installationSource
-				installationStatus
-				lastSyncCompletedAt
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				nextSyncAt
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementGitRepositoryEntity {
-				__typename
-				closedPullRequestCount
-				configuration {
-					source
-					updatedAt
-					updatedBy
-				}
-				description
-				externalCreatedAt
-				externalId
-				externalLastDeployedAt
-				externalOwner {
-					id
-					type
-				}
-				externalUpdatedAt
-				forkCount
-				hostingPlatform
-				latestReleaseVersion
-				license {
-					name
-					url
-				}
-				lockedPullRequestCount
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				openPullRequestCount
-				primaryLanguage
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				url
-			}
-			... on EntityManagementGithubConnection {
-				__typename
-				description
-				enabled
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				settings {
-					key
-					value
-				}
-				signingCredentials {
-					signingAlgorithm
-				}
-				tags {
-					key
-					values
-				}
-				url
-			}
-			... on EntityManagementImpactProfileEntity {
-				__typename
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementInboxIssueCategoryEntity {
-				__typename
-				categoryScope {
-					id
-					type
-				}
-				categoryType
-				issueType
-				messageAttributes
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				nameAttributes
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementIncidentAttachmentEntity {
-				__typename
-				blob {
-					checksum
-					checksumAlgorithm
-					contentType
-					id
-				}
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementIncidentEntity {
-				__typename
-				assignedTo {
-					identifier
-					type
-				}
-				attributes {
-					name
-					value
-				}
-				category
-				customerImpact
-				description
-				dueDate
-				entitiesImpacted
-				externalId
-				incidentCategory
-				incidentKey
-				incidentProfileId
-				incidentSubcategory
-				issueLinks
-				labels
-				lessonsLearned
-				links {
-					id
-					name
-					type
-				}
-				maxSeverity
-				messages {
-					id
-					name
-					type
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				priority
-				reportedBy
-				resolutionCategory
-				resolutionSummary
-				retroActionItems
-				rootCauseSummary
-				rootCauseTags
-				scope {
-					id
-					type
-				}
-				severity
-				source
-				status
-				tags {
-					key
-					values
-				}
-				timelines {
-					id
-					name
-					type
-				}
-				triggeringEvent
-			}
-			... on EntityManagementIncidentLinkEntity {
-				__typename
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				sourceSyncConfigurationId
-				tags {
-					key
-					values
-				}
-				url
-			}
-			... on EntityManagementIncidentMessageEntity {
-				__typename
-				content
-				contentEncoding
-				contentType
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				parentId
-				scope {
-					id
-					type
-				}
-				sourceSyncConfigurationId
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementIncidentProfileAttachmentEntity {
-				__typename
-				blob {
-					checksum
-					checksumAlgorithm
-					contentType
-					id
-				}
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementIncidentProfileEntity {
-				__typename
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementIncidentTimelineEntity {
-				__typename
-				content
-				entryType
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				source
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementJiraConnection {
-				__typename
-				description
-				enabled
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				settings {
-					key
-					value
-				}
-				signingCredentials {
-					signingAlgorithm
-				}
-				tags {
-					key
-					values
-				}
-				url
-			}
-			... on EntityManagementJiraSyncConfigurationV2Entity {
-				__typename
-				bidirectional
-				connection
-				description
-				enabled
-				issueType
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				mode
-				projectKey
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				targets {
-					key
-					values
-				}
-				templateFields {
-					direction
-					name
-					required
-					template
-				}
-			}
-			... on EntityManagementJuniperMistConnectionEntity {
-				__typename
-				description
-				enabled
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				region
-				scope {
-					id
-					type
-				}
-				settings {
-					key
-					value
-				}
-				signingCredentials {
-					signingAlgorithm
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementMaintenanceWindowEntity {
-				__typename
-				affectedEntityType
-				description
-				duration
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				rrule
-				scope {
-					id
-					type
-				}
-				startTime
-				tags {
-					key
-					values
-				}
-				timezone
-			}
-			... on EntityManagementManagedEvaluationsEntity {
-				__typename
-				description
-				evaluations {
-					enabled
-					evaluationType
-					threshold
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementMcpServerEntity {
-				__typename
-				auth {
-					headerKey
-					type
-				}
-				description
-				displayName
-				endpoint
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				protocolVersion
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				transport
-			}
-			... on EntityManagementMeterEntity {
-				__typename
-				attributes {
-					name
-					values
-				}
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				meterType {
-					allowMeterCreation
-					attributionDimensions
-					description
-					id
-					name
-					type
-				}
-				owningTeam {
-					aliases
-					description
-					hierarchyLevelId
-					id
-					managers
-					name
-					parentId
-					type
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementMeterTypeEntity {
-				__typename
-				allowMeterCreation
-				attributionDimensions
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				owningTeam {
-					aliases
-					description
-					hierarchyLevelId
-					id
-					managers
-					name
-					parentId
-					type
-				}
-				productLine {
-					description
-					id
-					name
-					type
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementNewRelicConnection {
-				__typename
-				credential {
-					type
-				}
-				description
-				enabled
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				region
-				scope {
-					id
-					type
-				}
-				settings {
-					key
-					value
-				}
-				signingCredentials {
-					signingAlgorithm
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementNotebookEntity {
-				__typename
-				content {
-					checksum
-					checksumAlgorithm
-					contentType
-					id
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementNotificationAttachmentEntity {
-				__typename
-				blob {
-					checksum
-					checksumAlgorithm
-					contentType
-					id
-				}
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementNrAiAgentEntity {
-				__typename
-				displayName
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				version
-			}
-			... on EntityManagementNrqlMacroEntity {
-				__typename
-				expression
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				numParameters
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementOperationEntity {
-				__typename
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementOperationMetricEntity {
-				__typename
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementPerformanceInboxSettingEntity {
-				__typename
-				config {
-					name
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				thresholdScope
-			}
-			... on EntityManagementPipelineCloudRuleEntity {
-				__typename
-				description
-				enabled
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				nrql
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementProductLineEntity {
-				__typename
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementRagDocumentEntity {
-				__typename
-				authorEmails
-				blob {
-					checksum
-					checksumAlgorithm
-					contentType
-					id
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				sourceIdentifier
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementRagToolEntity {
-				__typename
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementReactNativeSourcemapEntity {
-				__typename
-				appVersionId
-				applicationId
-				blob {
-					checksum
-					checksumAlgorithm
-					contentType
-					id
-				}
-				jsBundleId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementRestApiContractEntity {
-				__typename
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementScorecardEntity {
-				__typename
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				progressLevels {
-					description
-					hexColorCode
-					id
-					name
-				}
-				rules {
-					id
-					name
-					type
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementScorecardRuleEntity {
-				__typename
-				description
-				enabled
-				impactWeight
-				lastExecutionStatus {
-					checkedEntities
-					executedAt
-					executionStatus
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				nrqlEngine {
-					accounts
-					joinAccounts
-					query
-				}
-				progressLevel
-				runInterval
-				schedule {
-					enabled
-					firstRunAt
-					period
-					rrule
-					scheduleAt
-					timezone
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementSegmentTermsEntity {
-				__typename
-				appEntityId
-				channel
-				domain
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				metricPrefix
-				oldId
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				urlSegments
-			}
-			... on EntityManagementServerlessJobDefinitionEntity {
-				__typename
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				namespace
-				scope {
-					id
-					type
-				}
-				secretKeys
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementServiceNowConnection {
-				__typename
-				description
-				enabled
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				settings {
-					key
-					value
-				}
-				signingCredentials {
-					signingAlgorithm
-				}
-				tags {
-					key
-					values
-				}
-				url
-			}
-			... on EntityManagementSlackConnection {
-				__typename
-				appId
-				description
-				enabled
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				settings {
-					key
-					value
-				}
-				signingCredentials {
-					signingAlgorithm
-				}
-				tags {
-					key
-					values
-				}
-				token {
-					keyName
-					namespace
-				}
-				workspace
-			}
-			... on EntityManagementStatusPageAnnouncementEntity {
-				__typename
-				category
-				communicationLogs {
-					communicatedBy
-					communicationMode
-					communicationStatus
-					message
-					timestamp
-				}
-				description
-				effectiveDate
-				eventUrl
-				impactQuery {
-					nrqlQuery
-					queryAccountIds
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				pointOfContacts {
-					id
-					name
-					type
-					userId
-				}
-				publishedDate
-				scope {
-					id
-					type
-				}
-				state
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementStatusPageIncidentEntity {
-				__typename
-				communicationLogs {
-					communicatedBy
-					communicationMode
-					communicationStatus
-					message
-					timestamp
-				}
-				description
-				endTime
-				incidentId
-				incidentTitle
-				lastUpdatedTime
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				region
-				scope {
-					id
-					type
-				}
-				startTime
-				status
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementTeamEntity {
-				__typename
-				aliases
-				description
-				externalIntegration {
-					externalId
-					type
-				}
-				hierarchyLevelId
-				managers
-				membership {
-					id
-					name
-					type
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				ownership {
-					id
-					name
-					type
-				}
-				parentId
-				resources {
-					content
-					title
-					type
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementTeamsHierarchyLevelEntity {
-				__typename
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementTeamsOrganizationSettingsEntity {
-				__typename
-				discovery {
-					enabled
-					tagKeys
-				}
-				hierarchyLevelOrder
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				syncGroups {
-					enabled
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementUserEntity {
-				__typename
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				userId
-			}
-			... on EntityManagementWorkItemLinkV2Entity {
-				__typename
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				sourceSyncConfigurationId
-				tags {
-					key
-					values
-				}
-				url
-			}
-			... on EntityManagementWorkItemMessageV2Entity {
-				__typename
-				content
-				contentEncoding
-				contentType
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				parentId
-				scope {
-					id
-					type
-				}
-				sourceSyncConfigurationId
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementWorkItemV2Entity {
-				__typename
-				assignedTo {
-					identifier
-					type
-				}
-				attributes {
-					name
-					value
-				}
-				category
-				description
-				dueDate
-				externalId
-				labels
-				links {
-					id
-					name
-					type
-				}
-				messages {
-					id
-					name
-					type
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				priority
-				scope {
-					id
-					type
-				}
-				status
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementWorkflowDefinition {
-				__typename
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				versions
-			}
-			... on EntityManagementWorkflowSchedule {
-				__typename
-				cronExpression
-				definition {
-					id
-					version
-				}
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				overlapPolicy
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				timezone
-			}
-			... on EntityManagementZoomConnectionEntity {
-				__typename
-				description
-				enabled
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				settings {
-					key
-					value
-				}
-				signingCredentials {
-					signingAlgorithm
-				}
-				tags {
-					key
-					values
-				}
-			}
-		}
-		description
-		metadata {
-			createdAt
-			createdBy {
-				__typename
-				id
-				type
-				... on EntityManagementSystemActor {
-					__typename
-				}
-				... on EntityManagementUserActor {
-					__typename
-				}
-			}
-			updatedAt
-			updatedBy {
-				__typename
-				id
-				type
-				... on EntityManagementSystemActor {
-					__typename
-				}
-				... on EntityManagementUserActor {
-					__typename
-				}
-			}
-			version
-		}
-		partitionDatabase
-		queryConnection {
-			__typename
-			id
-			metadata {
-				createdAt
-				createdBy {
-					__typename
-					id
-					type
-					... on EntityManagementSystemActor {
-						__typename
-					}
-					... on EntityManagementUserActor {
-						__typename
-					}
-				}
-				updatedAt
-				updatedBy {
-					__typename
-					id
-					type
-					... on EntityManagementSystemActor {
-						__typename
-					}
-					... on EntityManagementUserActor {
-						__typename
-					}
-				}
-				version
-			}
-			name
-			scope {
-				id
-				type
-			}
-			tags {
-				key
-				values
-			}
-			type
-			... on EntityManagementAgentConfigurationEntity {
-				__typename
-				agentType
-				configurationType
-				managedEntityType
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				operatingSystem {
-					type
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				versionCount
-			}
-			... on EntityManagementAgentConfigurationVersionEntity {
-				__typename
-				agentConfiguration
-				blob {
-					checksum
-					checksumAlgorithm
-					contentType
-					id
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				version
-			}
-			... on EntityManagementAgentEffectiveConfigurationEntity {
-				__typename
-				blob {
-					checksum
-					checksumAlgorithm
-					contentType
-					id
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementAgentEntity {
-				__typename
-				agentType
-				fleetControlProperties {
-					disconnectedReceived
-					environment
-					healthy
-					lastError
-					lastRemoteConfigError
-					lastRemoteConfigStatus
-					startTime
-					uid
-					version
-				}
-				infrastructureManagers {
-					type
-					version
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				version
-			}
-			... on EntityManagementAiAgentEntity {
-				__typename
-				category
-				description
-				displayName
-				initialized
-				llmConfig {
-					cacheSeed
-					model
-					temperature
-				}
-				mcpServers {
-					excludeTools
-					includeTools
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				prompt
-				provider
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				test
-			}
-			... on EntityManagementAiCapableEntity {
-				__typename
-				category
-				language
-				lastSeen
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				toolType
-				toolVersion
-			}
-			... on EntityManagementAiEvaluationConfigEntity {
-				__typename
-				description
-				enabled
-				managedEvaluationsEntity {
-					description
-					id
-					name
-					type
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				samplingRate
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementAiToolEntity {
-				__typename
-				description
-				initialized
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				parameters {
-					description
-					name
-					type
-				}
-				provider
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				test
-				toolType
-				url
-			}
-			... on EntityManagementApiSpecificationBlobEntity {
-				__typename
-				blob {
-					checksum
-					checksumAlgorithm
-					contentType
-					id
-				}
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementAwsConnectionEntity {
-				__typename
-				description
-				enabled
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				region
-				scope {
-					id
-					type
-				}
-				settings {
-					key
-					value
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementBackgroundProcessingRuleEntity {
-				__typename
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				query {
-					nrql
-				}
-				ruleType
-				schedule {
-					enabled
-					firstRunAt
-					period
-					rrule
-					scheduleAt
-					timezone
-				}
-				scope {
-					id
-					type
-				}
-				state {
-					message
-					status
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementBackgroundSqlProcessingRuleEntity {
-				__typename
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				query {
-					outputTarget
-					sql
-				}
-				schedule {
-					enabled
-					firstRunAt
-					period
-					rrule
-					scheduleAt
-					timezone
-				}
-				scope {
-					id
-					type
-				}
-				state {
-					message
-					status
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementBudgetEntity {
-				__typename
-				budgetAlertPolicies {
-					id
-				}
-				budgetLimits {
-					consumptionMetric
-					value
-				}
-				budgetType
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				organizationBudget
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementCiscoMerakiConnectionEntity {
-				__typename
-				description
-				enabled
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				region
-				scope {
-					id
-					type
-				}
-				settings {
-					key
-					value
-				}
-				signingCredentials {
-					signingAlgorithm
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementCollectionEntity {
-				__typename
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementComponentEntity {
-				__typename
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementComputeLocationEntity {
-				__typename
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementConfluenceConnectionEntity {
-				__typename
-				description
-				enabled
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				settings {
-					key
-					value
-				}
-				signingCredentials {
-					signingAlgorithm
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementConfluenceIntegration {
-				__typename
-				confluenceUserId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				secretKey
-				tags {
-					key
-					values
-				}
-				url
-			}
-			... on EntityManagementConfluenceRagSettingsEntity {
-				__typename
-				characterTextSplitterOptions {
-					isSeparatorRegex
-					separator
-				}
-				chunkOverlap
-				chunkSize
-				confluenceIntegrationId
-				confluenceQuery
-				intervalSeconds
-				lastPullTime
-				markdownTextSplitterOptions {
-					headersToSplitOn
-					returnEachLine
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				nextPullTime
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				textSplitterType
-				tokenTextSplitterOptions {
-					encodingName
-				}
-			}
-			... on EntityManagementCorrelationInternalSourceConfigEntity {
-				__typename
-				accountId
-				alias
-				filterId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				namespaces
-				nrql
-				outputTopic
-				scope {
-					id
-					type
-				}
-				source
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementCorrelationLinkEntity {
-				__typename
-				context {
-					confidence
-					messages
-					ruleId
-				}
-				directional
-				linkType
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				overrideInfo {
-					action
-					timestamp
-					userId
-				}
-				scope {
-					id
-					type
-				}
-				source {
-					accountId
-					eventId
-					eventType
-				}
-				tags {
-					key
-					values
-				}
-				target {
-					accountId
-					eventId
-					eventType
-				}
-			}
-			... on EntityManagementCorrelationLinkingRuleEntity {
-				__typename
-				criteria {
-					topologyProximity
-				}
-				description
-				enabled
-				linkingConfig {
-					directional
-					linkType
-					sourceAlias
-					targetAlias
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				subjects {
-					accountIds
-					alias
-					nrql
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementCustomEvaluationEntity {
-				__typename
-				criteria
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				model
-				parameters
-				scope {
-					id
-					type
-				}
-				steps
-				tags {
-					key
-					values
-				}
-				threshold
-			}
-			... on EntityManagementCustomerImpactEntity {
-				__typename
-				blob {
-					checksum
-					checksumAlgorithm
-					contentType
-					id
-				}
-				components {
-					description
-					id
-					name
-					type
-				}
-				issueId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementCustomerImpactQueryEntity {
-				__typename
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				products {
-					description
-					id
-					name
-					type
-				}
-				query
-				queryAccountId
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				teamEntity {
-					aliases
-					description
-					hierarchyLevelId
-					id
-					managers
-					name
-					parentId
-					type
-				}
-				teamName
-				totalCustImpactQueryAccountIds
-				totalCustomerImpactQuery
-			}
-			... on EntityManagementEventBridgeRuleEntity {
-				__typename
-				conditions {
-					field
-				}
-				description
-				enabled
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				sourceType {
-					event
-					name
-				}
-				tags {
-					key
-					values
-				}
-				targets {
-					name
-					type
-					when
-				}
-			}
-			... on EntityManagementFederatedLogPartitionEntity {
-				__typename
-				dataLocationUri
-				description
-				isDefault
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				partitionTable
-				retentionPolicy {
-					duration
-					unit
-				}
-				scope {
-					id
-					type
-				}
-				setup {
-					cloudProvider
-					cloudProviderRegion
-					dataLocationBucket
-					description
-					id
-					name
-					partitionDatabase
-					status
-					type
-				}
-				status
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementFederatedLogSetupEntity {
-				__typename
-				cloudProvider
-				cloudProviderRegion
-				dataLocationBucket
-				dataProcessingComponent {
-					__typename
-					id
-					name
-					type
-					... on EntityManagementAgentConfigurationEntity {
-						__typename
-						agentType
-						configurationType
-						managedEntityType
-						versionCount
-					}
-					... on EntityManagementAgentConfigurationVersionEntity {
-						__typename
-						agentConfiguration
-						version
-					}
-					... on EntityManagementAgentEffectiveConfigurationEntity {
-						__typename
-					}
-					... on EntityManagementAgentEntity {
-						__typename
-						agentType
-						version
-					}
-					... on EntityManagementAiAgentEntity {
-						__typename
-						category
-						description
-						displayName
-						initialized
-						prompt
-						provider
-						test
-					}
-					... on EntityManagementAiCapableEntity {
-						__typename
-						category
-						language
-						lastSeen
-						toolType
-						toolVersion
-					}
-					... on EntityManagementAiEvaluationConfigEntity {
-						__typename
-						description
-						enabled
-						samplingRate
-					}
-					... on EntityManagementAiToolEntity {
-						__typename
-						description
-						initialized
-						provider
-						test
-						toolType
-						url
-					}
-					... on EntityManagementApiSpecificationBlobEntity {
-						__typename
-						description
-					}
-					... on EntityManagementAwsConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementBackgroundProcessingRuleEntity {
-						__typename
-						description
-						ruleType
-					}
-					... on EntityManagementBackgroundSqlProcessingRuleEntity {
-						__typename
-						description
-					}
-					... on EntityManagementBudgetEntity {
-						__typename
-						budgetType
-						organizationBudget
-					}
-					... on EntityManagementCiscoMerakiConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementCollectionEntity {
-						__typename
-					}
-					... on EntityManagementComponentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementComputeLocationEntity {
-						__typename
-						description
-					}
-					... on EntityManagementConfluenceConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-					}
-					... on EntityManagementConfluenceIntegration {
-						__typename
-						confluenceUserId
-						secretKey
-						url
-					}
-					... on EntityManagementConfluenceRagSettingsEntity {
-						__typename
-						chunkOverlap
-						chunkSize
-						confluenceIntegrationId
-						confluenceQuery
-						intervalSeconds
-						lastPullTime
-						nextPullTime
-						textSplitterType
-					}
-					... on EntityManagementCorrelationInternalSourceConfigEntity {
-						__typename
-						accountId
-						alias
-						filterId
-						namespaces
-						nrql
-						outputTopic
-						source
-					}
-					... on EntityManagementCorrelationLinkEntity {
-						__typename
-						directional
-						linkType
-					}
-					... on EntityManagementCorrelationLinkingRuleEntity {
-						__typename
-						description
-						enabled
-					}
-					... on EntityManagementCustomEvaluationEntity {
-						__typename
-						criteria
-						description
-						model
-						parameters
-						steps
-						threshold
-					}
-					... on EntityManagementCustomerImpactEntity {
-						__typename
-						issueId
-					}
-					... on EntityManagementCustomerImpactQueryEntity {
-						__typename
-						query
-						queryAccountId
-						teamName
-						totalCustImpactQueryAccountIds
-						totalCustomerImpactQuery
-					}
-					... on EntityManagementEventBridgeRuleEntity {
-						__typename
-						description
-						enabled
-					}
-					... on EntityManagementFederatedLogPartitionEntity {
-						__typename
-						dataLocationUri
-						description
-						isDefault
-						partitionTable
-						status
-					}
-					... on EntityManagementFederatedLogSetupEntity {
-						__typename
-						cloudProvider
-						cloudProviderRegion
-						dataLocationBucket
-						description
-						partitionDatabase
-						status
-					}
-					... on EntityManagementFleetDeploymentEntity {
-						__typename
-						configurationVersions
-						description
-						fleetId
-						phase
-					}
-					... on EntityManagementFleetEntity {
-						__typename
-						description
-						managedEntityType
-						product
-					}
-					... on EntityManagementFleetRingEntity {
-						__typename
-						fleetId
-					}
-					... on EntityManagementFlowEntity {
-						__typename
-					}
-					... on EntityManagementGenericEntity {
-						__typename
-					}
-					... on EntityManagementGitHubIntegrationEntity {
-						__typename
-						installationId
-						installationSource
-						installationStatus
-						lastSyncCompletedAt
-						nextSyncAt
-					}
-					... on EntityManagementGitRepositoryEntity {
-						__typename
-						closedPullRequestCount
-						description
-						externalCreatedAt
-						externalId
-						externalLastDeployedAt
-						externalUpdatedAt
-						forkCount
-						hostingPlatform
-						latestReleaseVersion
-						lockedPullRequestCount
-						openPullRequestCount
-						primaryLanguage
-						url
-					}
-					... on EntityManagementGithubConnection {
-						__typename
-						description
-						enabled
-						externalId
-						url
-					}
-					... on EntityManagementImpactProfileEntity {
-						__typename
-					}
-					... on EntityManagementInboxIssueCategoryEntity {
-						__typename
-						categoryType
-						issueType
-						messageAttributes
-						nameAttributes
-					}
-					... on EntityManagementIncidentAttachmentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementIncidentEntity {
-						__typename
-						category
-						customerImpact
-						description
-						dueDate
-						entitiesImpacted
-						externalId
-						incidentCategory
-						incidentKey
-						incidentProfileId
-						incidentSubcategory
-						issueLinks
-						labels
-						lessonsLearned
-						maxSeverity
-						priority
-						reportedBy
-						resolutionCategory
-						resolutionSummary
-						retroActionItems
-						rootCauseSummary
-						rootCauseTags
-						severity
-						source
-						status
-						triggeringEvent
-					}
-					... on EntityManagementIncidentLinkEntity {
-						__typename
-						externalId
-						sourceSyncConfigurationId
-						url
-					}
-					... on EntityManagementIncidentMessageEntity {
-						__typename
-						content
-						contentEncoding
-						contentType
-						externalId
-						parentId
-						sourceSyncConfigurationId
-					}
-					... on EntityManagementIncidentProfileAttachmentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementIncidentProfileEntity {
-						__typename
-					}
-					... on EntityManagementIncidentTimelineEntity {
-						__typename
-						content
-						entryType
-						source
-					}
-					... on EntityManagementJiraConnection {
-						__typename
-						description
-						enabled
-						externalId
-						url
-					}
-					... on EntityManagementJiraSyncConfigurationV2Entity {
-						__typename
-						bidirectional
-						connection
-						description
-						enabled
-						issueType
-						mode
-						projectKey
-					}
-					... on EntityManagementJuniperMistConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementMaintenanceWindowEntity {
-						__typename
-						affectedEntityType
-						description
-						duration
-						rrule
-						startTime
-						timezone
-					}
-					... on EntityManagementManagedEvaluationsEntity {
-						__typename
-						description
-					}
-					... on EntityManagementMcpServerEntity {
-						__typename
-						description
-						displayName
-						endpoint
-						protocolVersion
-						transport
-					}
-					... on EntityManagementMeterEntity {
-						__typename
-						description
-					}
-					... on EntityManagementMeterTypeEntity {
-						__typename
-						allowMeterCreation
-						attributionDimensions
-						description
-					}
-					... on EntityManagementNewRelicConnection {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementNotebookEntity {
-						__typename
-					}
-					... on EntityManagementNotificationAttachmentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementNrAiAgentEntity {
-						__typename
-						displayName
-						version
-					}
-					... on EntityManagementNrqlMacroEntity {
-						__typename
-						expression
-						numParameters
-					}
-					... on EntityManagementOperationEntity {
-						__typename
-					}
-					... on EntityManagementOperationMetricEntity {
-						__typename
-					}
-					... on EntityManagementPerformanceInboxSettingEntity {
-						__typename
-						thresholdScope
-					}
-					... on EntityManagementPipelineCloudRuleEntity {
-						__typename
-						description
-						enabled
-						nrql
-					}
-					... on EntityManagementProductLineEntity {
-						__typename
-						description
-					}
-					... on EntityManagementRagDocumentEntity {
-						__typename
-						authorEmails
-						sourceIdentifier
-					}
-					... on EntityManagementRagToolEntity {
-						__typename
-						description
-					}
-					... on EntityManagementReactNativeSourcemapEntity {
-						__typename
-						appVersionId
-						applicationId
-						jsBundleId
-					}
-					... on EntityManagementRestApiContractEntity {
-						__typename
-					}
-					... on EntityManagementScorecardEntity {
-						__typename
-						description
-					}
-					... on EntityManagementScorecardRuleEntity {
-						__typename
-						description
-						enabled
-						impactWeight
-						progressLevel
-						runInterval
-					}
-					... on EntityManagementSegmentTermsEntity {
-						__typename
-						appEntityId
-						channel
-						domain
-						metricPrefix
-						oldId
-						urlSegments
-					}
-					... on EntityManagementServerlessJobDefinitionEntity {
-						__typename
-						description
-						namespace
-						secretKeys
-					}
-					... on EntityManagementServiceNowConnection {
-						__typename
-						description
-						enabled
-						externalId
-						url
-					}
-					... on EntityManagementSlackConnection {
-						__typename
-						appId
-						description
-						enabled
-						externalId
-						workspace
-					}
-					... on EntityManagementStatusPageAnnouncementEntity {
-						__typename
-						category
-						description
-						effectiveDate
-						eventUrl
-						publishedDate
-						state
-					}
-					... on EntityManagementStatusPageIncidentEntity {
-						__typename
-						description
-						endTime
-						incidentId
-						incidentTitle
-						lastUpdatedTime
-						region
-						startTime
-						status
-					}
-					... on EntityManagementTeamEntity {
-						__typename
-						aliases
-						description
-						hierarchyLevelId
-						managers
-						parentId
-					}
-					... on EntityManagementTeamsHierarchyLevelEntity {
-						__typename
-					}
-					... on EntityManagementTeamsOrganizationSettingsEntity {
-						__typename
-						hierarchyLevelOrder
-					}
-					... on EntityManagementUserEntity {
-						__typename
-						userId
-					}
-					... on EntityManagementWorkItemLinkV2Entity {
-						__typename
-						externalId
-						sourceSyncConfigurationId
-						url
-					}
-					... on EntityManagementWorkItemMessageV2Entity {
-						__typename
-						content
-						contentEncoding
-						contentType
-						externalId
-						parentId
-						sourceSyncConfigurationId
-					}
-					... on EntityManagementWorkItemV2Entity {
-						__typename
-						category
-						description
-						dueDate
-						externalId
-						labels
-						priority
-						status
-					}
-					... on EntityManagementWorkflowDefinition {
-						__typename
-						description
-						versions
-					}
-					... on EntityManagementWorkflowSchedule {
-						__typename
-						cronExpression
-						description
-						overlapPolicy
-						timezone
-					}
-					... on EntityManagementZoomConnectionEntity {
-						__typename
-						description
-						enabled
-					}
-				}
-				dataProcessingConnection {
-					__typename
-					id
-					name
-					type
-					... on EntityManagementAgentConfigurationEntity {
-						__typename
-						agentType
-						configurationType
-						managedEntityType
-						versionCount
-					}
-					... on EntityManagementAgentConfigurationVersionEntity {
-						__typename
-						agentConfiguration
-						version
-					}
-					... on EntityManagementAgentEffectiveConfigurationEntity {
-						__typename
-					}
-					... on EntityManagementAgentEntity {
-						__typename
-						agentType
-						version
-					}
-					... on EntityManagementAiAgentEntity {
-						__typename
-						category
-						description
-						displayName
-						initialized
-						prompt
-						provider
-						test
-					}
-					... on EntityManagementAiCapableEntity {
-						__typename
-						category
-						language
-						lastSeen
-						toolType
-						toolVersion
-					}
-					... on EntityManagementAiEvaluationConfigEntity {
-						__typename
-						description
-						enabled
-						samplingRate
-					}
-					... on EntityManagementAiToolEntity {
-						__typename
-						description
-						initialized
-						provider
-						test
-						toolType
-						url
-					}
-					... on EntityManagementApiSpecificationBlobEntity {
-						__typename
-						description
-					}
-					... on EntityManagementAwsConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementBackgroundProcessingRuleEntity {
-						__typename
-						description
-						ruleType
-					}
-					... on EntityManagementBackgroundSqlProcessingRuleEntity {
-						__typename
-						description
-					}
-					... on EntityManagementBudgetEntity {
-						__typename
-						budgetType
-						organizationBudget
-					}
-					... on EntityManagementCiscoMerakiConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementCollectionEntity {
-						__typename
-					}
-					... on EntityManagementComponentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementComputeLocationEntity {
-						__typename
-						description
-					}
-					... on EntityManagementConfluenceConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-					}
-					... on EntityManagementConfluenceIntegration {
-						__typename
-						confluenceUserId
-						secretKey
-						url
-					}
-					... on EntityManagementConfluenceRagSettingsEntity {
-						__typename
-						chunkOverlap
-						chunkSize
-						confluenceIntegrationId
-						confluenceQuery
-						intervalSeconds
-						lastPullTime
-						nextPullTime
-						textSplitterType
-					}
-					... on EntityManagementCorrelationInternalSourceConfigEntity {
-						__typename
-						accountId
-						alias
-						filterId
-						namespaces
-						nrql
-						outputTopic
-						source
-					}
-					... on EntityManagementCorrelationLinkEntity {
-						__typename
-						directional
-						linkType
-					}
-					... on EntityManagementCorrelationLinkingRuleEntity {
-						__typename
-						description
-						enabled
-					}
-					... on EntityManagementCustomEvaluationEntity {
-						__typename
-						criteria
-						description
-						model
-						parameters
-						steps
-						threshold
-					}
-					... on EntityManagementCustomerImpactEntity {
-						__typename
-						issueId
-					}
-					... on EntityManagementCustomerImpactQueryEntity {
-						__typename
-						query
-						queryAccountId
-						teamName
-						totalCustImpactQueryAccountIds
-						totalCustomerImpactQuery
-					}
-					... on EntityManagementEventBridgeRuleEntity {
-						__typename
-						description
-						enabled
-					}
-					... on EntityManagementFederatedLogPartitionEntity {
-						__typename
-						dataLocationUri
-						description
-						isDefault
-						partitionTable
-						status
-					}
-					... on EntityManagementFederatedLogSetupEntity {
-						__typename
-						cloudProvider
-						cloudProviderRegion
-						dataLocationBucket
-						description
-						partitionDatabase
-						status
-					}
-					... on EntityManagementFleetDeploymentEntity {
-						__typename
-						configurationVersions
-						description
-						fleetId
-						phase
-					}
-					... on EntityManagementFleetEntity {
-						__typename
-						description
-						managedEntityType
-						product
-					}
-					... on EntityManagementFleetRingEntity {
-						__typename
-						fleetId
-					}
-					... on EntityManagementFlowEntity {
-						__typename
-					}
-					... on EntityManagementGenericEntity {
-						__typename
-					}
-					... on EntityManagementGitHubIntegrationEntity {
-						__typename
-						installationId
-						installationSource
-						installationStatus
-						lastSyncCompletedAt
-						nextSyncAt
-					}
-					... on EntityManagementGitRepositoryEntity {
-						__typename
-						closedPullRequestCount
-						description
-						externalCreatedAt
-						externalId
-						externalLastDeployedAt
-						externalUpdatedAt
-						forkCount
-						hostingPlatform
-						latestReleaseVersion
-						lockedPullRequestCount
-						openPullRequestCount
-						primaryLanguage
-						url
-					}
-					... on EntityManagementGithubConnection {
-						__typename
-						description
-						enabled
-						externalId
-						url
-					}
-					... on EntityManagementImpactProfileEntity {
-						__typename
-					}
-					... on EntityManagementInboxIssueCategoryEntity {
-						__typename
-						categoryType
-						issueType
-						messageAttributes
-						nameAttributes
-					}
-					... on EntityManagementIncidentAttachmentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementIncidentEntity {
-						__typename
-						category
-						customerImpact
-						description
-						dueDate
-						entitiesImpacted
-						externalId
-						incidentCategory
-						incidentKey
-						incidentProfileId
-						incidentSubcategory
-						issueLinks
-						labels
-						lessonsLearned
-						maxSeverity
-						priority
-						reportedBy
-						resolutionCategory
-						resolutionSummary
-						retroActionItems
-						rootCauseSummary
-						rootCauseTags
-						severity
-						source
-						status
-						triggeringEvent
-					}
-					... on EntityManagementIncidentLinkEntity {
-						__typename
-						externalId
-						sourceSyncConfigurationId
-						url
-					}
-					... on EntityManagementIncidentMessageEntity {
-						__typename
-						content
-						contentEncoding
-						contentType
-						externalId
-						parentId
-						sourceSyncConfigurationId
-					}
-					... on EntityManagementIncidentProfileAttachmentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementIncidentProfileEntity {
-						__typename
-					}
-					... on EntityManagementIncidentTimelineEntity {
-						__typename
-						content
-						entryType
-						source
-					}
-					... on EntityManagementJiraConnection {
-						__typename
-						description
-						enabled
-						externalId
-						url
-					}
-					... on EntityManagementJiraSyncConfigurationV2Entity {
-						__typename
-						bidirectional
-						connection
-						description
-						enabled
-						issueType
-						mode
-						projectKey
-					}
-					... on EntityManagementJuniperMistConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementMaintenanceWindowEntity {
-						__typename
-						affectedEntityType
-						description
-						duration
-						rrule
-						startTime
-						timezone
-					}
-					... on EntityManagementManagedEvaluationsEntity {
-						__typename
-						description
-					}
-					... on EntityManagementMcpServerEntity {
-						__typename
-						description
-						displayName
-						endpoint
-						protocolVersion
-						transport
-					}
-					... on EntityManagementMeterEntity {
-						__typename
-						description
-					}
-					... on EntityManagementMeterTypeEntity {
-						__typename
-						allowMeterCreation
-						attributionDimensions
-						description
-					}
-					... on EntityManagementNewRelicConnection {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementNotebookEntity {
-						__typename
-					}
-					... on EntityManagementNotificationAttachmentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementNrAiAgentEntity {
-						__typename
-						displayName
-						version
-					}
-					... on EntityManagementNrqlMacroEntity {
-						__typename
-						expression
-						numParameters
-					}
-					... on EntityManagementOperationEntity {
-						__typename
-					}
-					... on EntityManagementOperationMetricEntity {
-						__typename
-					}
-					... on EntityManagementPerformanceInboxSettingEntity {
-						__typename
-						thresholdScope
-					}
-					... on EntityManagementPipelineCloudRuleEntity {
-						__typename
-						description
-						enabled
-						nrql
-					}
-					... on EntityManagementProductLineEntity {
-						__typename
-						description
-					}
-					... on EntityManagementRagDocumentEntity {
-						__typename
-						authorEmails
-						sourceIdentifier
-					}
-					... on EntityManagementRagToolEntity {
-						__typename
-						description
-					}
-					... on EntityManagementReactNativeSourcemapEntity {
-						__typename
-						appVersionId
-						applicationId
-						jsBundleId
-					}
-					... on EntityManagementRestApiContractEntity {
-						__typename
-					}
-					... on EntityManagementScorecardEntity {
-						__typename
-						description
-					}
-					... on EntityManagementScorecardRuleEntity {
-						__typename
-						description
-						enabled
-						impactWeight
-						progressLevel
-						runInterval
-					}
-					... on EntityManagementSegmentTermsEntity {
-						__typename
-						appEntityId
-						channel
-						domain
-						metricPrefix
-						oldId
-						urlSegments
-					}
-					... on EntityManagementServerlessJobDefinitionEntity {
-						__typename
-						description
-						namespace
-						secretKeys
-					}
-					... on EntityManagementServiceNowConnection {
-						__typename
-						description
-						enabled
-						externalId
-						url
-					}
-					... on EntityManagementSlackConnection {
-						__typename
-						appId
-						description
-						enabled
-						externalId
-						workspace
-					}
-					... on EntityManagementStatusPageAnnouncementEntity {
-						__typename
-						category
-						description
-						effectiveDate
-						eventUrl
-						publishedDate
-						state
-					}
-					... on EntityManagementStatusPageIncidentEntity {
-						__typename
-						description
-						endTime
-						incidentId
-						incidentTitle
-						lastUpdatedTime
-						region
-						startTime
-						status
-					}
-					... on EntityManagementTeamEntity {
-						__typename
-						aliases
-						description
-						hierarchyLevelId
-						managers
-						parentId
-					}
-					... on EntityManagementTeamsHierarchyLevelEntity {
-						__typename
-					}
-					... on EntityManagementTeamsOrganizationSettingsEntity {
-						__typename
-						hierarchyLevelOrder
-					}
-					... on EntityManagementUserEntity {
-						__typename
-						userId
-					}
-					... on EntityManagementWorkItemLinkV2Entity {
-						__typename
-						externalId
-						sourceSyncConfigurationId
-						url
-					}
-					... on EntityManagementWorkItemMessageV2Entity {
-						__typename
-						content
-						contentEncoding
-						contentType
-						externalId
-						parentId
-						sourceSyncConfigurationId
-					}
-					... on EntityManagementWorkItemV2Entity {
-						__typename
-						category
-						description
-						dueDate
-						externalId
-						labels
-						priority
-						status
-					}
-					... on EntityManagementWorkflowDefinition {
-						__typename
-						description
-						versions
-					}
-					... on EntityManagementWorkflowSchedule {
-						__typename
-						cronExpression
-						description
-						overlapPolicy
-						timezone
-					}
-					... on EntityManagementZoomConnectionEntity {
-						__typename
-						description
-						enabled
-					}
-				}
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				partitionDatabase
-				queryConnection {
-					__typename
-					id
-					name
-					type
-					... on EntityManagementAgentConfigurationEntity {
-						__typename
-						agentType
-						configurationType
-						managedEntityType
-						versionCount
-					}
-					... on EntityManagementAgentConfigurationVersionEntity {
-						__typename
-						agentConfiguration
-						version
-					}
-					... on EntityManagementAgentEffectiveConfigurationEntity {
-						__typename
-					}
-					... on EntityManagementAgentEntity {
-						__typename
-						agentType
-						version
-					}
-					... on EntityManagementAiAgentEntity {
-						__typename
-						category
-						description
-						displayName
-						initialized
-						prompt
-						provider
-						test
-					}
-					... on EntityManagementAiCapableEntity {
-						__typename
-						category
-						language
-						lastSeen
-						toolType
-						toolVersion
-					}
-					... on EntityManagementAiEvaluationConfigEntity {
-						__typename
-						description
-						enabled
-						samplingRate
-					}
-					... on EntityManagementAiToolEntity {
-						__typename
-						description
-						initialized
-						provider
-						test
-						toolType
-						url
-					}
-					... on EntityManagementApiSpecificationBlobEntity {
-						__typename
-						description
-					}
-					... on EntityManagementAwsConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementBackgroundProcessingRuleEntity {
-						__typename
-						description
-						ruleType
-					}
-					... on EntityManagementBackgroundSqlProcessingRuleEntity {
-						__typename
-						description
-					}
-					... on EntityManagementBudgetEntity {
-						__typename
-						budgetType
-						organizationBudget
-					}
-					... on EntityManagementCiscoMerakiConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementCollectionEntity {
-						__typename
-					}
-					... on EntityManagementComponentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementComputeLocationEntity {
-						__typename
-						description
-					}
-					... on EntityManagementConfluenceConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-					}
-					... on EntityManagementConfluenceIntegration {
-						__typename
-						confluenceUserId
-						secretKey
-						url
-					}
-					... on EntityManagementConfluenceRagSettingsEntity {
-						__typename
-						chunkOverlap
-						chunkSize
-						confluenceIntegrationId
-						confluenceQuery
-						intervalSeconds
-						lastPullTime
-						nextPullTime
-						textSplitterType
-					}
-					... on EntityManagementCorrelationInternalSourceConfigEntity {
-						__typename
-						accountId
-						alias
-						filterId
-						namespaces
-						nrql
-						outputTopic
-						source
-					}
-					... on EntityManagementCorrelationLinkEntity {
-						__typename
-						directional
-						linkType
-					}
-					... on EntityManagementCorrelationLinkingRuleEntity {
-						__typename
-						description
-						enabled
-					}
-					... on EntityManagementCustomEvaluationEntity {
-						__typename
-						criteria
-						description
-						model
-						parameters
-						steps
-						threshold
-					}
-					... on EntityManagementCustomerImpactEntity {
-						__typename
-						issueId
-					}
-					... on EntityManagementCustomerImpactQueryEntity {
-						__typename
-						query
-						queryAccountId
-						teamName
-						totalCustImpactQueryAccountIds
-						totalCustomerImpactQuery
-					}
-					... on EntityManagementEventBridgeRuleEntity {
-						__typename
-						description
-						enabled
-					}
-					... on EntityManagementFederatedLogPartitionEntity {
-						__typename
-						dataLocationUri
-						description
-						isDefault
-						partitionTable
-						status
-					}
-					... on EntityManagementFederatedLogSetupEntity {
-						__typename
-						cloudProvider
-						cloudProviderRegion
-						dataLocationBucket
-						description
-						partitionDatabase
-						status
-					}
-					... on EntityManagementFleetDeploymentEntity {
-						__typename
-						configurationVersions
-						description
-						fleetId
-						phase
-					}
-					... on EntityManagementFleetEntity {
-						__typename
-						description
-						managedEntityType
-						product
-					}
-					... on EntityManagementFleetRingEntity {
-						__typename
-						fleetId
-					}
-					... on EntityManagementFlowEntity {
-						__typename
-					}
-					... on EntityManagementGenericEntity {
-						__typename
-					}
-					... on EntityManagementGitHubIntegrationEntity {
-						__typename
-						installationId
-						installationSource
-						installationStatus
-						lastSyncCompletedAt
-						nextSyncAt
-					}
-					... on EntityManagementGitRepositoryEntity {
-						__typename
-						closedPullRequestCount
-						description
-						externalCreatedAt
-						externalId
-						externalLastDeployedAt
-						externalUpdatedAt
-						forkCount
-						hostingPlatform
-						latestReleaseVersion
-						lockedPullRequestCount
-						openPullRequestCount
-						primaryLanguage
-						url
-					}
-					... on EntityManagementGithubConnection {
-						__typename
-						description
-						enabled
-						externalId
-						url
-					}
-					... on EntityManagementImpactProfileEntity {
-						__typename
-					}
-					... on EntityManagementInboxIssueCategoryEntity {
-						__typename
-						categoryType
-						issueType
-						messageAttributes
-						nameAttributes
-					}
-					... on EntityManagementIncidentAttachmentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementIncidentEntity {
-						__typename
-						category
-						customerImpact
-						description
-						dueDate
-						entitiesImpacted
-						externalId
-						incidentCategory
-						incidentKey
-						incidentProfileId
-						incidentSubcategory
-						issueLinks
-						labels
-						lessonsLearned
-						maxSeverity
-						priority
-						reportedBy
-						resolutionCategory
-						resolutionSummary
-						retroActionItems
-						rootCauseSummary
-						rootCauseTags
-						severity
-						source
-						status
-						triggeringEvent
-					}
-					... on EntityManagementIncidentLinkEntity {
-						__typename
-						externalId
-						sourceSyncConfigurationId
-						url
-					}
-					... on EntityManagementIncidentMessageEntity {
-						__typename
-						content
-						contentEncoding
-						contentType
-						externalId
-						parentId
-						sourceSyncConfigurationId
-					}
-					... on EntityManagementIncidentProfileAttachmentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementIncidentProfileEntity {
-						__typename
-					}
-					... on EntityManagementIncidentTimelineEntity {
-						__typename
-						content
-						entryType
-						source
-					}
-					... on EntityManagementJiraConnection {
-						__typename
-						description
-						enabled
-						externalId
-						url
-					}
-					... on EntityManagementJiraSyncConfigurationV2Entity {
-						__typename
-						bidirectional
-						connection
-						description
-						enabled
-						issueType
-						mode
-						projectKey
-					}
-					... on EntityManagementJuniperMistConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementMaintenanceWindowEntity {
-						__typename
-						affectedEntityType
-						description
-						duration
-						rrule
-						startTime
-						timezone
-					}
-					... on EntityManagementManagedEvaluationsEntity {
-						__typename
-						description
-					}
-					... on EntityManagementMcpServerEntity {
-						__typename
-						description
-						displayName
-						endpoint
-						protocolVersion
-						transport
-					}
-					... on EntityManagementMeterEntity {
-						__typename
-						description
-					}
-					... on EntityManagementMeterTypeEntity {
-						__typename
-						allowMeterCreation
-						attributionDimensions
-						description
-					}
-					... on EntityManagementNewRelicConnection {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementNotebookEntity {
-						__typename
-					}
-					... on EntityManagementNotificationAttachmentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementNrAiAgentEntity {
-						__typename
-						displayName
-						version
-					}
-					... on EntityManagementNrqlMacroEntity {
-						__typename
-						expression
-						numParameters
-					}
-					... on EntityManagementOperationEntity {
-						__typename
-					}
-					... on EntityManagementOperationMetricEntity {
-						__typename
-					}
-					... on EntityManagementPerformanceInboxSettingEntity {
-						__typename
-						thresholdScope
-					}
-					... on EntityManagementPipelineCloudRuleEntity {
-						__typename
-						description
-						enabled
-						nrql
-					}
-					... on EntityManagementProductLineEntity {
-						__typename
-						description
-					}
-					... on EntityManagementRagDocumentEntity {
-						__typename
-						authorEmails
-						sourceIdentifier
-					}
-					... on EntityManagementRagToolEntity {
-						__typename
-						description
-					}
-					... on EntityManagementReactNativeSourcemapEntity {
-						__typename
-						appVersionId
-						applicationId
-						jsBundleId
-					}
-					... on EntityManagementRestApiContractEntity {
-						__typename
-					}
-					... on EntityManagementScorecardEntity {
-						__typename
-						description
-					}
-					... on EntityManagementScorecardRuleEntity {
-						__typename
-						description
-						enabled
-						impactWeight
-						progressLevel
-						runInterval
-					}
-					... on EntityManagementSegmentTermsEntity {
-						__typename
-						appEntityId
-						channel
-						domain
-						metricPrefix
-						oldId
-						urlSegments
-					}
-					... on EntityManagementServerlessJobDefinitionEntity {
-						__typename
-						description
-						namespace
-						secretKeys
-					}
-					... on EntityManagementServiceNowConnection {
-						__typename
-						description
-						enabled
-						externalId
-						url
-					}
-					... on EntityManagementSlackConnection {
-						__typename
-						appId
-						description
-						enabled
-						externalId
-						workspace
-					}
-					... on EntityManagementStatusPageAnnouncementEntity {
-						__typename
-						category
-						description
-						effectiveDate
-						eventUrl
-						publishedDate
-						state
-					}
-					... on EntityManagementStatusPageIncidentEntity {
-						__typename
-						description
-						endTime
-						incidentId
-						incidentTitle
-						lastUpdatedTime
-						region
-						startTime
-						status
-					}
-					... on EntityManagementTeamEntity {
-						__typename
-						aliases
-						description
-						hierarchyLevelId
-						managers
-						parentId
-					}
-					... on EntityManagementTeamsHierarchyLevelEntity {
-						__typename
-					}
-					... on EntityManagementTeamsOrganizationSettingsEntity {
-						__typename
-						hierarchyLevelOrder
-					}
-					... on EntityManagementUserEntity {
-						__typename
-						userId
-					}
-					... on EntityManagementWorkItemLinkV2Entity {
-						__typename
-						externalId
-						sourceSyncConfigurationId
-						url
-					}
-					... on EntityManagementWorkItemMessageV2Entity {
-						__typename
-						content
-						contentEncoding
-						contentType
-						externalId
-						parentId
-						sourceSyncConfigurationId
-					}
-					... on EntityManagementWorkItemV2Entity {
-						__typename
-						category
-						description
-						dueDate
-						externalId
-						labels
-						priority
-						status
-					}
-					... on EntityManagementWorkflowDefinition {
-						__typename
-						description
-						versions
-					}
-					... on EntityManagementWorkflowSchedule {
-						__typename
-						cronExpression
-						description
-						overlapPolicy
-						timezone
-					}
-					... on EntityManagementZoomConnectionEntity {
-						__typename
-						description
-						enabled
-					}
-				}
-				scope {
-					id
-					type
-				}
-				status
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementFleetDeploymentEntity {
-				__typename
-				configurationVersionList {
-					id
-				}
-				configurationVersions
-				description
-				fleetId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				phase
-				ringsDeploymentTracker {
-					completedAt
-					name
-					startedAt
-					status
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementFleetEntity {
-				__typename
-				currentDeployment {
-					canaryManagedEntities
-					configsChanged
-					configurationVersions
-					deployedAt
-					description
-					entitiesChanged
-					managedEntitiesChanged
-					managedEntitiesRequiredToChange
-					name
-					status
-					supervisedAgentEntitiesChanged
-					supervisedAgentEntitiesRequiredToChange
-				}
-				description
-				managedEntityRings {
-					id
-					name
-					type
-				}
-				managedEntityType
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				operatingSystem {
-					type
-				}
-				product
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementFleetRingEntity {
-				__typename
-				fleetId
-				managedEntities {
-					id
-					name
-					type
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementFlowEntity {
-				__typename
-				blob {
-					checksum
-					checksumAlgorithm
-					contentType
-					id
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementGenericEntity {
-				__typename
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementGitHubIntegrationEntity {
-				__typename
-				count {
-					repoCount
-					teamCount
-				}
-				gitHubRetentionOptions {
-					retainRepositories
-					retainTeams
-				}
-				gitHubSyncOptions {
-					syncRepositories
-					syncTeams
-				}
-				installationId
-				installationSource
-				installationStatus
-				lastSyncCompletedAt
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				nextSyncAt
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementGitRepositoryEntity {
-				__typename
-				closedPullRequestCount
-				configuration {
-					source
-					updatedAt
-					updatedBy
-				}
-				description
-				externalCreatedAt
-				externalId
-				externalLastDeployedAt
-				externalOwner {
-					id
-					type
-				}
-				externalUpdatedAt
-				forkCount
-				hostingPlatform
-				latestReleaseVersion
-				license {
-					name
-					url
-				}
-				lockedPullRequestCount
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				openPullRequestCount
-				primaryLanguage
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				url
-			}
-			... on EntityManagementGithubConnection {
-				__typename
-				description
-				enabled
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				settings {
-					key
-					value
-				}
-				signingCredentials {
-					signingAlgorithm
-				}
-				tags {
-					key
-					values
-				}
-				url
-			}
-			... on EntityManagementImpactProfileEntity {
-				__typename
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementInboxIssueCategoryEntity {
-				__typename
-				categoryScope {
-					id
-					type
-				}
-				categoryType
-				issueType
-				messageAttributes
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				nameAttributes
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementIncidentAttachmentEntity {
-				__typename
-				blob {
-					checksum
-					checksumAlgorithm
-					contentType
-					id
-				}
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementIncidentEntity {
-				__typename
-				assignedTo {
-					identifier
-					type
-				}
-				attributes {
-					name
-					value
-				}
-				category
-				customerImpact
-				description
-				dueDate
-				entitiesImpacted
-				externalId
-				incidentCategory
-				incidentKey
-				incidentProfileId
-				incidentSubcategory
-				issueLinks
-				labels
-				lessonsLearned
-				links {
-					id
-					name
-					type
-				}
-				maxSeverity
-				messages {
-					id
-					name
-					type
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				priority
-				reportedBy
-				resolutionCategory
-				resolutionSummary
-				retroActionItems
-				rootCauseSummary
-				rootCauseTags
-				scope {
-					id
-					type
-				}
-				severity
-				source
-				status
-				tags {
-					key
-					values
-				}
-				timelines {
-					id
-					name
-					type
-				}
-				triggeringEvent
-			}
-			... on EntityManagementIncidentLinkEntity {
-				__typename
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				sourceSyncConfigurationId
-				tags {
-					key
-					values
-				}
-				url
-			}
-			... on EntityManagementIncidentMessageEntity {
-				__typename
-				content
-				contentEncoding
-				contentType
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				parentId
-				scope {
-					id
-					type
-				}
-				sourceSyncConfigurationId
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementIncidentProfileAttachmentEntity {
-				__typename
-				blob {
-					checksum
-					checksumAlgorithm
-					contentType
-					id
-				}
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementIncidentProfileEntity {
-				__typename
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementIncidentTimelineEntity {
-				__typename
-				content
-				entryType
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				source
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementJiraConnection {
-				__typename
-				description
-				enabled
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				settings {
-					key
-					value
-				}
-				signingCredentials {
-					signingAlgorithm
-				}
-				tags {
-					key
-					values
-				}
-				url
-			}
-			... on EntityManagementJiraSyncConfigurationV2Entity {
-				__typename
-				bidirectional
-				connection
-				description
-				enabled
-				issueType
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				mode
-				projectKey
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				targets {
-					key
-					values
-				}
-				templateFields {
-					direction
-					name
-					required
-					template
-				}
-			}
-			... on EntityManagementJuniperMistConnectionEntity {
-				__typename
-				description
-				enabled
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				region
-				scope {
-					id
-					type
-				}
-				settings {
-					key
-					value
-				}
-				signingCredentials {
-					signingAlgorithm
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementMaintenanceWindowEntity {
-				__typename
-				affectedEntityType
-				description
-				duration
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				rrule
-				scope {
-					id
-					type
-				}
-				startTime
-				tags {
-					key
-					values
-				}
-				timezone
-			}
-			... on EntityManagementManagedEvaluationsEntity {
-				__typename
-				description
-				evaluations {
-					enabled
-					evaluationType
-					threshold
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementMcpServerEntity {
-				__typename
-				auth {
-					headerKey
-					type
-				}
-				description
-				displayName
-				endpoint
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				protocolVersion
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				transport
-			}
-			... on EntityManagementMeterEntity {
-				__typename
-				attributes {
-					name
-					values
-				}
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				meterType {
-					allowMeterCreation
-					attributionDimensions
-					description
-					id
-					name
-					type
-				}
-				owningTeam {
-					aliases
-					description
-					hierarchyLevelId
-					id
-					managers
-					name
-					parentId
-					type
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementMeterTypeEntity {
-				__typename
-				allowMeterCreation
-				attributionDimensions
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				owningTeam {
-					aliases
-					description
-					hierarchyLevelId
-					id
-					managers
-					name
-					parentId
-					type
-				}
-				productLine {
-					description
-					id
-					name
-					type
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementNewRelicConnection {
-				__typename
-				credential {
-					type
-				}
-				description
-				enabled
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				region
-				scope {
-					id
-					type
-				}
-				settings {
-					key
-					value
-				}
-				signingCredentials {
-					signingAlgorithm
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementNotebookEntity {
-				__typename
-				content {
-					checksum
-					checksumAlgorithm
-					contentType
-					id
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementNotificationAttachmentEntity {
-				__typename
-				blob {
-					checksum
-					checksumAlgorithm
-					contentType
-					id
-				}
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementNrAiAgentEntity {
-				__typename
-				displayName
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				version
-			}
-			... on EntityManagementNrqlMacroEntity {
-				__typename
-				expression
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				numParameters
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementOperationEntity {
-				__typename
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementOperationMetricEntity {
-				__typename
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementPerformanceInboxSettingEntity {
-				__typename
-				config {
-					name
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				thresholdScope
-			}
-			... on EntityManagementPipelineCloudRuleEntity {
-				__typename
-				description
-				enabled
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				nrql
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementProductLineEntity {
-				__typename
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementRagDocumentEntity {
-				__typename
-				authorEmails
-				blob {
-					checksum
-					checksumAlgorithm
-					contentType
-					id
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				sourceIdentifier
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementRagToolEntity {
-				__typename
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementReactNativeSourcemapEntity {
-				__typename
-				appVersionId
-				applicationId
-				blob {
-					checksum
-					checksumAlgorithm
-					contentType
-					id
-				}
-				jsBundleId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementRestApiContractEntity {
-				__typename
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementScorecardEntity {
-				__typename
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				progressLevels {
-					description
-					hexColorCode
-					id
-					name
-				}
-				rules {
-					id
-					name
-					type
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementScorecardRuleEntity {
-				__typename
-				description
-				enabled
-				impactWeight
-				lastExecutionStatus {
-					checkedEntities
-					executedAt
-					executionStatus
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				nrqlEngine {
-					accounts
-					joinAccounts
-					query
-				}
-				progressLevel
-				runInterval
-				schedule {
-					enabled
-					firstRunAt
-					period
-					rrule
-					scheduleAt
-					timezone
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementSegmentTermsEntity {
-				__typename
-				appEntityId
-				channel
-				domain
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				metricPrefix
-				oldId
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				urlSegments
-			}
-			... on EntityManagementServerlessJobDefinitionEntity {
-				__typename
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				namespace
-				scope {
-					id
-					type
-				}
-				secretKeys
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementServiceNowConnection {
-				__typename
-				description
-				enabled
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				settings {
-					key
-					value
-				}
-				signingCredentials {
-					signingAlgorithm
-				}
-				tags {
-					key
-					values
-				}
-				url
-			}
-			... on EntityManagementSlackConnection {
-				__typename
-				appId
-				description
-				enabled
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				settings {
-					key
-					value
-				}
-				signingCredentials {
-					signingAlgorithm
-				}
-				tags {
-					key
-					values
-				}
-				token {
-					keyName
-					namespace
-				}
-				workspace
-			}
-			... on EntityManagementStatusPageAnnouncementEntity {
-				__typename
-				category
-				communicationLogs {
-					communicatedBy
-					communicationMode
-					communicationStatus
-					message
-					timestamp
-				}
-				description
-				effectiveDate
-				eventUrl
-				impactQuery {
-					nrqlQuery
-					queryAccountIds
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				pointOfContacts {
-					id
-					name
-					type
-					userId
-				}
-				publishedDate
-				scope {
-					id
-					type
-				}
-				state
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementStatusPageIncidentEntity {
-				__typename
-				communicationLogs {
-					communicatedBy
-					communicationMode
-					communicationStatus
-					message
-					timestamp
-				}
-				description
-				endTime
-				incidentId
-				incidentTitle
-				lastUpdatedTime
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				region
-				scope {
-					id
-					type
-				}
-				startTime
-				status
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementTeamEntity {
-				__typename
-				aliases
-				description
-				externalIntegration {
-					externalId
-					type
-				}
-				hierarchyLevelId
-				managers
-				membership {
-					id
-					name
-					type
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				ownership {
-					id
-					name
-					type
-				}
-				parentId
-				resources {
-					content
-					title
-					type
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementTeamsHierarchyLevelEntity {
-				__typename
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementTeamsOrganizationSettingsEntity {
-				__typename
-				discovery {
-					enabled
-					tagKeys
-				}
-				hierarchyLevelOrder
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				syncGroups {
-					enabled
-				}
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementUserEntity {
-				__typename
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				userId
-			}
-			... on EntityManagementWorkItemLinkV2Entity {
-				__typename
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				sourceSyncConfigurationId
-				tags {
-					key
-					values
-				}
-				url
-			}
-			... on EntityManagementWorkItemMessageV2Entity {
-				__typename
-				content
-				contentEncoding
-				contentType
-				externalId
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				parentId
-				scope {
-					id
-					type
-				}
-				sourceSyncConfigurationId
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementWorkItemV2Entity {
-				__typename
-				assignedTo {
-					identifier
-					type
-				}
-				attributes {
-					name
-					value
-				}
-				category
-				description
-				dueDate
-				externalId
-				labels
-				links {
-					id
-					name
-					type
-				}
-				messages {
-					id
-					name
-					type
-				}
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				priority
-				scope {
-					id
-					type
-				}
-				status
-				tags {
-					key
-					values
-				}
-			}
-			... on EntityManagementWorkflowDefinition {
-				__typename
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				versions
-			}
-			... on EntityManagementWorkflowSchedule {
-				__typename
-				cronExpression
-				definition {
-					id
-					version
-				}
-				description
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				overlapPolicy
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				timezone
-			}
-			... on EntityManagementZoomConnectionEntity {
-				__typename
-				description
-				enabled
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				scope {
-					id
-					type
-				}
-				settings {
-					key
-					value
-				}
-				signingCredentials {
-					signingAlgorithm
-				}
-				tags {
-					key
-					values
-				}
-			}
-		}
-		scope {
-			id
-			type
-		}
-		status
 		tags {
 			key
 			values
@@ -20541,6 +14929,70 @@ const getEntitySearchQuery = `query(
 				values
 			}
 		}
+		... on EntityManagementAzureDevOpsConnectionEntity {
+			__typename
+			credential {
+				oauth {
+					clientId
+					tokenFieldName
+					tokenUrl
+				}
+				personalAccessToken {
+					keyName
+					namespace
+				}
+			}
+			description
+			enabled
+			externalId
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					type
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					type
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			settings {
+				key
+				value
+			}
+			signingCredentials {
+				signingAlgorithm
+				signingKeyReference {
+					keyName
+					namespace
+				}
+			}
+			tags {
+				key
+				values
+			}
+			url
+		}
 		... on EntityManagementBackgroundProcessingRuleEntity {
 			__typename
 			description
@@ -20776,13 +15228,6 @@ const getEntitySearchQuery = `query(
 			settings {
 				key
 				value
-			}
-			signingCredentials {
-				signingAlgorithm
-				signingKeyReference {
-					keyName
-					namespace
-				}
 			}
 			tags {
 				key
@@ -21172,6 +15617,9 @@ const getEntitySearchQuery = `query(
 				attributeConditions {
 					attribute
 					operator
+					transform
+					transformAttribute
+					transformValue
 					value
 				}
 				probabilistic {
@@ -21235,6 +15683,51 @@ const getEntitySearchQuery = `query(
 					stateKey
 				}
 				nrql
+				type
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementCorrelationNormalizerEntity {
+			__typename
+			caseInsensitive
+			default
+			description
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					type
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					type
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			rules {
+				pattern
+				value
+			}
+			scope {
+				id
 				type
 			}
 			tags {
@@ -21523,9 +16016,37 @@ const getEntitySearchQuery = `query(
 		}
 		... on EntityManagementFederatedLogPartitionEntity {
 			__typename
-			dataLocationUri
+			active
+			dataRetentionPolicy {
+				duration
+				unit
+			}
 			description
+			forwarderConfig {
+				partitionRule {
+					expression
+				}
+				type
+			}
+			healthCheck {
+				end2endDataFlow {
+					lastUpdatedAt
+					message
+					status
+				}
+				lastUpdatedAt
+				queryConnection {
+					lastUpdatedAt
+					message
+					status
+				}
+			}
 			isDefault
+			lifecycleStatus {
+				lastUpdatedAt
+				message
+				status
+			}
 			metadata {
 				createdAt
 				createdBy {
@@ -21553,1132 +16074,679 @@ const getEntitySearchQuery = `query(
 				}
 				version
 			}
-			partitionTable
-			retentionPolicy {
-				duration
-				unit
-			}
 			scope {
 				id
 				type
 			}
 			setup {
-				cloudProvider
-				cloudProviderRegion
-				dataLocationBucket
-				dataProcessingComponent {
-					__typename
-					id
-					name
-					type
-					... on EntityManagementAgentConfigurationEntity {
-						__typename
-						agentType
-						configurationType
-						managedEntityType
-						versionCount
-					}
-					... on EntityManagementAgentConfigurationVersionEntity {
-						__typename
-						agentConfiguration
-						version
-					}
-					... on EntityManagementAgentEffectiveConfigurationEntity {
-						__typename
-					}
-					... on EntityManagementAgentEntity {
-						__typename
-						agentType
-						version
-					}
-					... on EntityManagementAiAgentEntity {
-						__typename
-						category
-						description
-						displayName
-						initialized
-						prompt
-						provider
-						test
-					}
-					... on EntityManagementAiCapableEntity {
-						__typename
-						category
-						language
-						lastSeen
-						toolType
-						toolVersion
-					}
-					... on EntityManagementAiEvaluationConfigEntity {
-						__typename
-						description
-						enabled
-						samplingRate
-					}
-					... on EntityManagementAiToolEntity {
-						__typename
-						description
-						initialized
-						provider
-						test
-						toolType
-						url
-					}
-					... on EntityManagementApiSpecificationBlobEntity {
-						__typename
-						description
-					}
-					... on EntityManagementAwsConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementBackgroundProcessingRuleEntity {
-						__typename
-						description
-						ruleType
-					}
-					... on EntityManagementBackgroundSqlProcessingRuleEntity {
-						__typename
-						description
-					}
-					... on EntityManagementBudgetEntity {
-						__typename
-						budgetType
-						organizationBudget
-					}
-					... on EntityManagementCiscoMerakiConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementCollectionEntity {
-						__typename
-					}
-					... on EntityManagementComponentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementComputeLocationEntity {
-						__typename
-						description
-					}
-					... on EntityManagementConfluenceConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-					}
-					... on EntityManagementConfluenceIntegration {
-						__typename
-						confluenceUserId
-						secretKey
-						url
-					}
-					... on EntityManagementConfluenceRagSettingsEntity {
-						__typename
-						chunkOverlap
-						chunkSize
-						confluenceIntegrationId
-						confluenceQuery
-						intervalSeconds
-						lastPullTime
-						nextPullTime
-						textSplitterType
-					}
-					... on EntityManagementCorrelationInternalSourceConfigEntity {
-						__typename
-						accountId
-						alias
-						filterId
-						namespaces
-						nrql
-						outputTopic
-						source
-					}
-					... on EntityManagementCorrelationLinkEntity {
-						__typename
-						directional
-						linkType
-					}
-					... on EntityManagementCorrelationLinkingRuleEntity {
-						__typename
-						description
-						enabled
-					}
-					... on EntityManagementCustomEvaluationEntity {
-						__typename
-						criteria
-						description
-						model
-						parameters
-						steps
-						threshold
-					}
-					... on EntityManagementCustomerImpactEntity {
-						__typename
-						issueId
-					}
-					... on EntityManagementCustomerImpactQueryEntity {
-						__typename
-						query
-						queryAccountId
-						teamName
-						totalCustImpactQueryAccountIds
-						totalCustomerImpactQuery
-					}
-					... on EntityManagementEventBridgeRuleEntity {
-						__typename
-						description
-						enabled
-					}
-					... on EntityManagementFederatedLogPartitionEntity {
-						__typename
-						dataLocationUri
-						description
-						isDefault
-						partitionTable
-						status
-					}
-					... on EntityManagementFederatedLogSetupEntity {
-						__typename
-						cloudProvider
-						cloudProviderRegion
-						dataLocationBucket
-						description
-						partitionDatabase
-						status
-					}
-					... on EntityManagementFleetDeploymentEntity {
-						__typename
-						configurationVersions
-						description
-						fleetId
-						phase
-					}
-					... on EntityManagementFleetEntity {
-						__typename
-						description
-						managedEntityType
-						product
-					}
-					... on EntityManagementFleetRingEntity {
-						__typename
-						fleetId
-					}
-					... on EntityManagementFlowEntity {
-						__typename
-					}
-					... on EntityManagementGenericEntity {
-						__typename
-					}
-					... on EntityManagementGitHubIntegrationEntity {
-						__typename
-						installationId
-						installationSource
-						installationStatus
-						lastSyncCompletedAt
-						nextSyncAt
-					}
-					... on EntityManagementGitRepositoryEntity {
-						__typename
-						closedPullRequestCount
-						description
-						externalCreatedAt
-						externalId
-						externalLastDeployedAt
-						externalUpdatedAt
-						forkCount
-						hostingPlatform
-						latestReleaseVersion
-						lockedPullRequestCount
-						openPullRequestCount
-						primaryLanguage
-						url
-					}
-					... on EntityManagementGithubConnection {
-						__typename
-						description
-						enabled
-						externalId
-						url
-					}
-					... on EntityManagementImpactProfileEntity {
-						__typename
-					}
-					... on EntityManagementInboxIssueCategoryEntity {
-						__typename
-						categoryType
-						issueType
-						messageAttributes
-						nameAttributes
-					}
-					... on EntityManagementIncidentAttachmentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementIncidentEntity {
-						__typename
-						category
-						customerImpact
-						description
-						dueDate
-						entitiesImpacted
-						externalId
-						incidentCategory
-						incidentKey
-						incidentProfileId
-						incidentSubcategory
-						issueLinks
-						labels
-						lessonsLearned
-						maxSeverity
-						priority
-						reportedBy
-						resolutionCategory
-						resolutionSummary
-						retroActionItems
-						rootCauseSummary
-						rootCauseTags
-						severity
-						source
-						status
-						triggeringEvent
-					}
-					... on EntityManagementIncidentLinkEntity {
-						__typename
-						externalId
-						sourceSyncConfigurationId
-						url
-					}
-					... on EntityManagementIncidentMessageEntity {
-						__typename
-						content
-						contentEncoding
-						contentType
-						externalId
-						parentId
-						sourceSyncConfigurationId
-					}
-					... on EntityManagementIncidentProfileAttachmentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementIncidentProfileEntity {
-						__typename
-					}
-					... on EntityManagementIncidentTimelineEntity {
-						__typename
-						content
-						entryType
-						source
-					}
-					... on EntityManagementJiraConnection {
-						__typename
-						description
-						enabled
-						externalId
-						url
-					}
-					... on EntityManagementJiraSyncConfigurationV2Entity {
-						__typename
-						bidirectional
-						connection
-						description
-						enabled
-						issueType
-						mode
-						projectKey
-					}
-					... on EntityManagementJuniperMistConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementMaintenanceWindowEntity {
-						__typename
-						affectedEntityType
-						description
-						duration
-						rrule
-						startTime
-						timezone
-					}
-					... on EntityManagementManagedEvaluationsEntity {
-						__typename
-						description
-					}
-					... on EntityManagementMcpServerEntity {
-						__typename
-						description
-						displayName
-						endpoint
-						protocolVersion
-						transport
-					}
-					... on EntityManagementMeterEntity {
-						__typename
-						description
-					}
-					... on EntityManagementMeterTypeEntity {
-						__typename
-						allowMeterCreation
-						attributionDimensions
-						description
-					}
-					... on EntityManagementNewRelicConnection {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementNotebookEntity {
-						__typename
-					}
-					... on EntityManagementNotificationAttachmentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementNrAiAgentEntity {
-						__typename
-						displayName
-						version
-					}
-					... on EntityManagementNrqlMacroEntity {
-						__typename
-						expression
-						numParameters
-					}
-					... on EntityManagementOperationEntity {
-						__typename
-					}
-					... on EntityManagementOperationMetricEntity {
-						__typename
-					}
-					... on EntityManagementPerformanceInboxSettingEntity {
-						__typename
-						thresholdScope
-					}
-					... on EntityManagementPipelineCloudRuleEntity {
-						__typename
-						description
-						enabled
-						nrql
-					}
-					... on EntityManagementProductLineEntity {
-						__typename
-						description
-					}
-					... on EntityManagementRagDocumentEntity {
-						__typename
-						authorEmails
-						sourceIdentifier
-					}
-					... on EntityManagementRagToolEntity {
-						__typename
-						description
-					}
-					... on EntityManagementReactNativeSourcemapEntity {
-						__typename
-						appVersionId
-						applicationId
-						jsBundleId
-					}
-					... on EntityManagementRestApiContractEntity {
-						__typename
-					}
-					... on EntityManagementScorecardEntity {
-						__typename
-						description
-					}
-					... on EntityManagementScorecardRuleEntity {
-						__typename
-						description
-						enabled
-						impactWeight
-						progressLevel
-						runInterval
-					}
-					... on EntityManagementSegmentTermsEntity {
-						__typename
-						appEntityId
-						channel
-						domain
-						metricPrefix
-						oldId
-						urlSegments
-					}
-					... on EntityManagementServerlessJobDefinitionEntity {
-						__typename
-						description
-						namespace
-						secretKeys
-					}
-					... on EntityManagementServiceNowConnection {
-						__typename
-						description
-						enabled
-						externalId
-						url
-					}
-					... on EntityManagementSlackConnection {
-						__typename
-						appId
-						description
-						enabled
-						externalId
-						workspace
-					}
-					... on EntityManagementStatusPageAnnouncementEntity {
-						__typename
-						category
-						description
-						effectiveDate
-						eventUrl
-						publishedDate
-						state
-					}
-					... on EntityManagementStatusPageIncidentEntity {
-						__typename
-						description
-						endTime
-						incidentId
-						incidentTitle
-						lastUpdatedTime
-						region
-						startTime
-						status
-					}
-					... on EntityManagementTeamEntity {
-						__typename
-						aliases
-						description
-						hierarchyLevelId
-						managers
-						parentId
-					}
-					... on EntityManagementTeamsHierarchyLevelEntity {
-						__typename
-					}
-					... on EntityManagementTeamsOrganizationSettingsEntity {
-						__typename
-						hierarchyLevelOrder
-					}
-					... on EntityManagementUserEntity {
-						__typename
-						userId
-					}
-					... on EntityManagementWorkItemLinkV2Entity {
-						__typename
-						externalId
-						sourceSyncConfigurationId
-						url
-					}
-					... on EntityManagementWorkItemMessageV2Entity {
-						__typename
-						content
-						contentEncoding
-						contentType
-						externalId
-						parentId
-						sourceSyncConfigurationId
-					}
-					... on EntityManagementWorkItemV2Entity {
-						__typename
-						category
-						description
-						dueDate
-						externalId
-						labels
-						priority
-						status
-					}
-					... on EntityManagementWorkflowDefinition {
-						__typename
-						description
-						versions
-					}
-					... on EntityManagementWorkflowSchedule {
-						__typename
-						cronExpression
-						description
-						overlapPolicy
-						timezone
-					}
-					... on EntityManagementZoomConnectionEntity {
-						__typename
-						description
-						enabled
-					}
-				}
-				dataProcessingConnection {
-					__typename
-					id
-					name
-					type
-					... on EntityManagementAgentConfigurationEntity {
-						__typename
-						agentType
-						configurationType
-						managedEntityType
-						versionCount
-					}
-					... on EntityManagementAgentConfigurationVersionEntity {
-						__typename
-						agentConfiguration
-						version
-					}
-					... on EntityManagementAgentEffectiveConfigurationEntity {
-						__typename
-					}
-					... on EntityManagementAgentEntity {
-						__typename
-						agentType
-						version
-					}
-					... on EntityManagementAiAgentEntity {
-						__typename
-						category
-						description
-						displayName
-						initialized
-						prompt
-						provider
-						test
-					}
-					... on EntityManagementAiCapableEntity {
-						__typename
-						category
-						language
-						lastSeen
-						toolType
-						toolVersion
-					}
-					... on EntityManagementAiEvaluationConfigEntity {
-						__typename
-						description
-						enabled
-						samplingRate
-					}
-					... on EntityManagementAiToolEntity {
-						__typename
-						description
-						initialized
-						provider
-						test
-						toolType
-						url
-					}
-					... on EntityManagementApiSpecificationBlobEntity {
-						__typename
-						description
-					}
-					... on EntityManagementAwsConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementBackgroundProcessingRuleEntity {
-						__typename
-						description
-						ruleType
-					}
-					... on EntityManagementBackgroundSqlProcessingRuleEntity {
-						__typename
-						description
-					}
-					... on EntityManagementBudgetEntity {
-						__typename
-						budgetType
-						organizationBudget
-					}
-					... on EntityManagementCiscoMerakiConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementCollectionEntity {
-						__typename
-					}
-					... on EntityManagementComponentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementComputeLocationEntity {
-						__typename
-						description
-					}
-					... on EntityManagementConfluenceConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-					}
-					... on EntityManagementConfluenceIntegration {
-						__typename
-						confluenceUserId
-						secretKey
-						url
-					}
-					... on EntityManagementConfluenceRagSettingsEntity {
-						__typename
-						chunkOverlap
-						chunkSize
-						confluenceIntegrationId
-						confluenceQuery
-						intervalSeconds
-						lastPullTime
-						nextPullTime
-						textSplitterType
-					}
-					... on EntityManagementCorrelationInternalSourceConfigEntity {
-						__typename
-						accountId
-						alias
-						filterId
-						namespaces
-						nrql
-						outputTopic
-						source
-					}
-					... on EntityManagementCorrelationLinkEntity {
-						__typename
-						directional
-						linkType
-					}
-					... on EntityManagementCorrelationLinkingRuleEntity {
-						__typename
-						description
-						enabled
-					}
-					... on EntityManagementCustomEvaluationEntity {
-						__typename
-						criteria
-						description
-						model
-						parameters
-						steps
-						threshold
-					}
-					... on EntityManagementCustomerImpactEntity {
-						__typename
-						issueId
-					}
-					... on EntityManagementCustomerImpactQueryEntity {
-						__typename
-						query
-						queryAccountId
-						teamName
-						totalCustImpactQueryAccountIds
-						totalCustomerImpactQuery
-					}
-					... on EntityManagementEventBridgeRuleEntity {
-						__typename
-						description
-						enabled
-					}
-					... on EntityManagementFederatedLogPartitionEntity {
-						__typename
-						dataLocationUri
-						description
-						isDefault
-						partitionTable
-						status
-					}
-					... on EntityManagementFederatedLogSetupEntity {
-						__typename
-						cloudProvider
-						cloudProviderRegion
-						dataLocationBucket
-						description
-						partitionDatabase
-						status
-					}
-					... on EntityManagementFleetDeploymentEntity {
-						__typename
-						configurationVersions
-						description
-						fleetId
-						phase
-					}
-					... on EntityManagementFleetEntity {
-						__typename
-						description
-						managedEntityType
-						product
-					}
-					... on EntityManagementFleetRingEntity {
-						__typename
-						fleetId
-					}
-					... on EntityManagementFlowEntity {
-						__typename
-					}
-					... on EntityManagementGenericEntity {
-						__typename
-					}
-					... on EntityManagementGitHubIntegrationEntity {
-						__typename
-						installationId
-						installationSource
-						installationStatus
-						lastSyncCompletedAt
-						nextSyncAt
-					}
-					... on EntityManagementGitRepositoryEntity {
-						__typename
-						closedPullRequestCount
-						description
-						externalCreatedAt
-						externalId
-						externalLastDeployedAt
-						externalUpdatedAt
-						forkCount
-						hostingPlatform
-						latestReleaseVersion
-						lockedPullRequestCount
-						openPullRequestCount
-						primaryLanguage
-						url
-					}
-					... on EntityManagementGithubConnection {
-						__typename
-						description
-						enabled
-						externalId
-						url
-					}
-					... on EntityManagementImpactProfileEntity {
-						__typename
-					}
-					... on EntityManagementInboxIssueCategoryEntity {
-						__typename
-						categoryType
-						issueType
-						messageAttributes
-						nameAttributes
-					}
-					... on EntityManagementIncidentAttachmentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementIncidentEntity {
-						__typename
-						category
-						customerImpact
-						description
-						dueDate
-						entitiesImpacted
-						externalId
-						incidentCategory
-						incidentKey
-						incidentProfileId
-						incidentSubcategory
-						issueLinks
-						labels
-						lessonsLearned
-						maxSeverity
-						priority
-						reportedBy
-						resolutionCategory
-						resolutionSummary
-						retroActionItems
-						rootCauseSummary
-						rootCauseTags
-						severity
-						source
-						status
-						triggeringEvent
-					}
-					... on EntityManagementIncidentLinkEntity {
-						__typename
-						externalId
-						sourceSyncConfigurationId
-						url
-					}
-					... on EntityManagementIncidentMessageEntity {
-						__typename
-						content
-						contentEncoding
-						contentType
-						externalId
-						parentId
-						sourceSyncConfigurationId
-					}
-					... on EntityManagementIncidentProfileAttachmentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementIncidentProfileEntity {
-						__typename
-					}
-					... on EntityManagementIncidentTimelineEntity {
-						__typename
-						content
-						entryType
-						source
-					}
-					... on EntityManagementJiraConnection {
-						__typename
-						description
-						enabled
-						externalId
-						url
-					}
-					... on EntityManagementJiraSyncConfigurationV2Entity {
-						__typename
-						bidirectional
-						connection
-						description
-						enabled
-						issueType
-						mode
-						projectKey
-					}
-					... on EntityManagementJuniperMistConnectionEntity {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementMaintenanceWindowEntity {
-						__typename
-						affectedEntityType
-						description
-						duration
-						rrule
-						startTime
-						timezone
-					}
-					... on EntityManagementManagedEvaluationsEntity {
-						__typename
-						description
-					}
-					... on EntityManagementMcpServerEntity {
-						__typename
-						description
-						displayName
-						endpoint
-						protocolVersion
-						transport
-					}
-					... on EntityManagementMeterEntity {
-						__typename
-						description
-					}
-					... on EntityManagementMeterTypeEntity {
-						__typename
-						allowMeterCreation
-						attributionDimensions
-						description
-					}
-					... on EntityManagementNewRelicConnection {
-						__typename
-						description
-						enabled
-						externalId
-						region
-					}
-					... on EntityManagementNotebookEntity {
-						__typename
-					}
-					... on EntityManagementNotificationAttachmentEntity {
-						__typename
-						description
-					}
-					... on EntityManagementNrAiAgentEntity {
-						__typename
-						displayName
-						version
-					}
-					... on EntityManagementNrqlMacroEntity {
-						__typename
-						expression
-						numParameters
-					}
-					... on EntityManagementOperationEntity {
-						__typename
-					}
-					... on EntityManagementOperationMetricEntity {
-						__typename
-					}
-					... on EntityManagementPerformanceInboxSettingEntity {
-						__typename
-						thresholdScope
-					}
-					... on EntityManagementPipelineCloudRuleEntity {
-						__typename
-						description
-						enabled
-						nrql
-					}
-					... on EntityManagementProductLineEntity {
-						__typename
-						description
-					}
-					... on EntityManagementRagDocumentEntity {
-						__typename
-						authorEmails
-						sourceIdentifier
-					}
-					... on EntityManagementRagToolEntity {
-						__typename
-						description
-					}
-					... on EntityManagementReactNativeSourcemapEntity {
-						__typename
-						appVersionId
-						applicationId
-						jsBundleId
-					}
-					... on EntityManagementRestApiContractEntity {
-						__typename
-					}
-					... on EntityManagementScorecardEntity {
-						__typename
-						description
-					}
-					... on EntityManagementScorecardRuleEntity {
-						__typename
-						description
-						enabled
-						impactWeight
-						progressLevel
-						runInterval
-					}
-					... on EntityManagementSegmentTermsEntity {
-						__typename
-						appEntityId
-						channel
-						domain
-						metricPrefix
-						oldId
-						urlSegments
-					}
-					... on EntityManagementServerlessJobDefinitionEntity {
-						__typename
-						description
-						namespace
-						secretKeys
-					}
-					... on EntityManagementServiceNowConnection {
-						__typename
-						description
-						enabled
-						externalId
-						url
-					}
-					... on EntityManagementSlackConnection {
-						__typename
-						appId
-						description
-						enabled
-						externalId
-						workspace
-					}
-					... on EntityManagementStatusPageAnnouncementEntity {
-						__typename
-						category
-						description
-						effectiveDate
-						eventUrl
-						publishedDate
-						state
-					}
-					... on EntityManagementStatusPageIncidentEntity {
-						__typename
-						description
-						endTime
-						incidentId
-						incidentTitle
-						lastUpdatedTime
-						region
-						startTime
-						status
-					}
-					... on EntityManagementTeamEntity {
-						__typename
-						aliases
-						description
-						hierarchyLevelId
-						managers
-						parentId
-					}
-					... on EntityManagementTeamsHierarchyLevelEntity {
-						__typename
-					}
-					... on EntityManagementTeamsOrganizationSettingsEntity {
-						__typename
-						hierarchyLevelOrder
-					}
-					... on EntityManagementUserEntity {
-						__typename
-						userId
-					}
-					... on EntityManagementWorkItemLinkV2Entity {
-						__typename
-						externalId
-						sourceSyncConfigurationId
-						url
-					}
-					... on EntityManagementWorkItemMessageV2Entity {
-						__typename
-						content
-						contentEncoding
-						contentType
-						externalId
-						parentId
-						sourceSyncConfigurationId
-					}
-					... on EntityManagementWorkItemV2Entity {
-						__typename
-						category
-						description
-						dueDate
-						externalId
-						labels
-						priority
-						status
-					}
-					... on EntityManagementWorkflowDefinition {
-						__typename
-						description
-						versions
-					}
-					... on EntityManagementWorkflowSchedule {
-						__typename
-						cronExpression
-						description
-						overlapPolicy
-						timezone
-					}
-					... on EntityManagementZoomConnectionEntity {
-						__typename
-						description
-						enabled
-					}
-				}
+				active
+				defaultPartitionId
 				description
+				forwarder {
+					type
+				}
+				healthCheck {
+					lastUpdatedAt
+				}
 				id
+				lifecycleStatus {
+					lastUpdatedAt
+					message
+					status
+				}
 				metadata {
 					createdAt
 					updatedAt
 					version
 				}
 				name
-				partitionDatabase
+				scope {
+					id
+					type
+				}
+				storage {
+					dataLocationBucket
+					database
+				}
+				tags {
+					key
+					values
+				}
+				type
+			}
+			storage {
+				dataLocationUri
+				table
+			}
+			tags {
+				key
+				values
+			}
+		}
+		... on EntityManagementFederatedLogSetupEntity {
+			__typename
+			active
+			defaultPartitionId
+			description
+			forwarder {
+				type
+			}
+			healthCheck {
+				end2endDataFlow {
+					lastUpdatedAt
+					message
+					status
+				}
+				lastUpdatedAt
+				queryConnection {
+					lastUpdatedAt
+					message
+					status
+				}
+			}
+			lifecycleStatus {
+				lastUpdatedAt
+				message
+				status
+			}
+			metadata {
+				createdAt
+				createdBy {
+					__typename
+					id
+					type
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				updatedAt
+				updatedBy {
+					__typename
+					id
+					type
+					... on EntityManagementSystemActor {
+						__typename
+					}
+					... on EntityManagementUserActor {
+						__typename
+					}
+				}
+				version
+			}
+			scope {
+				id
+				type
+			}
+			storage {
+				cloudProviderConfiguration {
+					provider
+					region
+				}
+				dataIngestConnection {
+					__typename
+					id
+					name
+					type
+					... on EntityManagementAgentConfigurationEntity {
+						__typename
+						agentType
+						configurationType
+						managedEntityType
+						versionCount
+					}
+					... on EntityManagementAgentConfigurationVersionEntity {
+						__typename
+						agentConfiguration
+						version
+					}
+					... on EntityManagementAgentEffectiveConfigurationEntity {
+						__typename
+					}
+					... on EntityManagementAgentEntity {
+						__typename
+						agentType
+						version
+					}
+					... on EntityManagementAiAgentEntity {
+						__typename
+						category
+						description
+						displayName
+						initialized
+						prompt
+						provider
+						test
+					}
+					... on EntityManagementAiCapableEntity {
+						__typename
+						category
+						language
+						lastSeen
+						toolType
+						toolVersion
+					}
+					... on EntityManagementAiEvaluationConfigEntity {
+						__typename
+						description
+						enabled
+						samplingRate
+					}
+					... on EntityManagementAiToolEntity {
+						__typename
+						description
+						initialized
+						provider
+						test
+						toolType
+						url
+					}
+					... on EntityManagementApiSpecificationBlobEntity {
+						__typename
+						description
+					}
+					... on EntityManagementAwsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementAzureDevOpsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementBackgroundProcessingRuleEntity {
+						__typename
+						description
+						ruleType
+					}
+					... on EntityManagementBackgroundSqlProcessingRuleEntity {
+						__typename
+						description
+					}
+					... on EntityManagementBudgetEntity {
+						__typename
+						budgetType
+						organizationBudget
+					}
+					... on EntityManagementCiscoMerakiConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementCollectionEntity {
+						__typename
+					}
+					... on EntityManagementComponentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementComputeLocationEntity {
+						__typename
+						description
+					}
+					... on EntityManagementConfluenceConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+					}
+					... on EntityManagementConfluenceIntegration {
+						__typename
+						confluenceUserId
+						secretKey
+						url
+					}
+					... on EntityManagementConfluenceRagSettingsEntity {
+						__typename
+						chunkOverlap
+						chunkSize
+						confluenceIntegrationId
+						confluenceQuery
+						intervalSeconds
+						lastPullTime
+						nextPullTime
+						textSplitterType
+					}
+					... on EntityManagementCorrelationInternalSourceConfigEntity {
+						__typename
+						accountId
+						alias
+						filterId
+						namespaces
+						nrql
+						outputTopic
+						source
+					}
+					... on EntityManagementCorrelationLinkEntity {
+						__typename
+						directional
+						linkType
+					}
+					... on EntityManagementCorrelationLinkingRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementCorrelationNormalizerEntity {
+						__typename
+						caseInsensitive
+						default
+						description
+					}
+					... on EntityManagementCustomEvaluationEntity {
+						__typename
+						criteria
+						description
+						model
+						parameters
+						steps
+						threshold
+					}
+					... on EntityManagementCustomerImpactEntity {
+						__typename
+						issueId
+					}
+					... on EntityManagementCustomerImpactQueryEntity {
+						__typename
+						query
+						queryAccountId
+						teamName
+						totalCustImpactQueryAccountIds
+						totalCustomerImpactQuery
+					}
+					... on EntityManagementEventBridgeRuleEntity {
+						__typename
+						description
+						enabled
+					}
+					... on EntityManagementFederatedLogPartitionEntity {
+						__typename
+						active
+						description
+						isDefault
+					}
+					... on EntityManagementFederatedLogSetupEntity {
+						__typename
+						active
+						defaultPartitionId
+						description
+					}
+					... on EntityManagementFleetDeploymentEntity {
+						__typename
+						configurationVersions
+						description
+						fleetId
+						phase
+					}
+					... on EntityManagementFleetEntity {
+						__typename
+						description
+						managedEntityType
+						product
+					}
+					... on EntityManagementFleetRingEntity {
+						__typename
+						fleetId
+					}
+					... on EntityManagementFlowEntity {
+						__typename
+					}
+					... on EntityManagementGenericEntity {
+						__typename
+					}
+					... on EntityManagementGitHubIntegrationEntity {
+						__typename
+						installationId
+						installationSource
+						installationStatus
+						lastSyncCompletedAt
+						nextSyncAt
+					}
+					... on EntityManagementGitRepositoryEntity {
+						__typename
+						closedPullRequestCount
+						description
+						externalCreatedAt
+						externalId
+						externalLastDeployedAt
+						externalUpdatedAt
+						forkCount
+						hostingPlatform
+						latestReleaseVersion
+						lockedPullRequestCount
+						openPullRequestCount
+						primaryLanguage
+						url
+					}
+					... on EntityManagementGithubConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementImpactProfileEntity {
+						__typename
+					}
+					... on EntityManagementInboxIssueCategoryEntity {
+						__typename
+						categoryType
+						issueType
+						messageAttributes
+						nameAttributes
+					}
+					... on EntityManagementIncidentAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentEntity {
+						__typename
+						category
+						customerImpact
+						description
+						dueDate
+						entitiesImpacted
+						externalId
+						incidentCategory
+						incidentKey
+						incidentProfileId
+						incidentSubcategory
+						issueLinks
+						labels
+						lessonsLearned
+						maxSeverity
+						priority
+						reportedBy
+						resolutionCategory
+						resolutionSummary
+						retroActionItems
+						rootCauseSummary
+						rootCauseTags
+						severity
+						source
+						status
+						triggeringEvent
+					}
+					... on EntityManagementIncidentLinkEntity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementIncidentMessageEntity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementIncidentProfileAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementIncidentProfileEntity {
+						__typename
+					}
+					... on EntityManagementIncidentTimelineEntity {
+						__typename
+						content
+						entryType
+						source
+					}
+					... on EntityManagementJiraConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementJiraSyncConfigurationV2Entity {
+						__typename
+						bidirectional
+						connection
+						description
+						enabled
+						issueType
+						mode
+						projectKey
+					}
+					... on EntityManagementJuniperMistConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementMaintenanceWindowEntity {
+						__typename
+						affectedEntityType
+						description
+						duration
+						rrule
+						startTime
+						timezone
+					}
+					... on EntityManagementManagedEvaluationsEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMcpServerEntity {
+						__typename
+						description
+						displayName
+						endpoint
+						protocolVersion
+						transport
+					}
+					... on EntityManagementMeterEntity {
+						__typename
+						description
+					}
+					... on EntityManagementMeterTypeEntity {
+						__typename
+						allowMeterCreation
+						attributionDimensions
+						description
+					}
+					... on EntityManagementNewRelicConnection {
+						__typename
+						description
+						enabled
+						externalId
+						region
+					}
+					... on EntityManagementNotebookEntity {
+						__typename
+					}
+					... on EntityManagementNotificationAttachmentEntity {
+						__typename
+						description
+					}
+					... on EntityManagementNrAiAgentEntity {
+						__typename
+						displayName
+						version
+					}
+					... on EntityManagementNrqlMacroEntity {
+						__typename
+						expression
+						numParameters
+					}
+					... on EntityManagementOperationEntity {
+						__typename
+					}
+					... on EntityManagementOperationMetricEntity {
+						__typename
+					}
+					... on EntityManagementPerformanceInboxSettingEntity {
+						__typename
+						thresholdScope
+					}
+					... on EntityManagementPipelineCloudRuleEntity {
+						__typename
+						description
+						enabled
+						nrql
+					}
+					... on EntityManagementProductLineEntity {
+						__typename
+						description
+					}
+					... on EntityManagementRagDocumentEntity {
+						__typename
+						authorEmails
+						sourceIdentifier
+					}
+					... on EntityManagementRagToolEntity {
+						__typename
+						description
+					}
+					... on EntityManagementReactNativeSourcemapEntity {
+						__typename
+						appVersionId
+						applicationId
+						jsBundleId
+					}
+					... on EntityManagementRestApiContractEntity {
+						__typename
+					}
+					... on EntityManagementScorecardEntity {
+						__typename
+						description
+					}
+					... on EntityManagementScorecardRuleEntity {
+						__typename
+						description
+						enabled
+						impactWeight
+						progressLevel
+						runInterval
+					}
+					... on EntityManagementSegmentTermsEntity {
+						__typename
+						appEntityId
+						channel
+						domain
+						metricPrefix
+						oldId
+						urlSegments
+					}
+					... on EntityManagementServerlessJobDefinitionEntity {
+						__typename
+						description
+						namespace
+						secretKeys
+					}
+					... on EntityManagementServiceNowConnection {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
+					... on EntityManagementSlackConnection {
+						__typename
+						appId
+						description
+						enabled
+						externalId
+						workspace
+					}
+					... on EntityManagementStatusPageAnnouncementEntity {
+						__typename
+						category
+						description
+						effectiveDate
+						eventUrl
+						publishedDate
+						state
+					}
+					... on EntityManagementStatusPageIncidentEntity {
+						__typename
+						description
+						endTime
+						incidentId
+						incidentTitle
+						lastUpdatedTime
+						region
+						startTime
+						status
+					}
+					... on EntityManagementTeamEntity {
+						__typename
+						aliases
+						description
+						hierarchyLevelId
+						managers
+						parentId
+					}
+					... on EntityManagementTeamsHierarchyLevelEntity {
+						__typename
+					}
+					... on EntityManagementTeamsOrganizationSettingsEntity {
+						__typename
+						hierarchyLevelOrder
+					}
+					... on EntityManagementUserEntity {
+						__typename
+						userId
+					}
+					... on EntityManagementWorkItemLinkV2Entity {
+						__typename
+						externalId
+						sourceSyncConfigurationId
+						url
+					}
+					... on EntityManagementWorkItemMessageV2Entity {
+						__typename
+						content
+						contentEncoding
+						contentType
+						externalId
+						parentId
+						sourceSyncConfigurationId
+					}
+					... on EntityManagementWorkItemV2Entity {
+						__typename
+						category
+						description
+						dueDate
+						externalId
+						labels
+						priority
+						status
+					}
+					... on EntityManagementWorkflowDefinition {
+						__typename
+						description
+						versions
+					}
+					... on EntityManagementWorkflowSchedule {
+						__typename
+						cronExpression
+						description
+						overlapPolicy
+						timezone
+					}
+					... on EntityManagementZoomConnectionEntity {
+						__typename
+						description
+						enabled
+					}
+				}
+				dataLocationBucket
+				database
 				queryConnection {
 					__typename
 					id
@@ -22748,6 +16816,13 @@ const getEntitySearchQuery = `query(
 						externalId
 						region
 					}
+					... on EntityManagementAzureDevOpsConnectionEntity {
+						__typename
+						description
+						enabled
+						externalId
+						url
+					}
 					... on EntityManagementBackgroundProcessingRuleEntity {
 						__typename
 						description
@@ -22823,6 +16898,12 @@ const getEntitySearchQuery = `query(
 						description
 						enabled
 					}
+					... on EntityManagementCorrelationNormalizerEntity {
+						__typename
+						caseInsensitive
+						default
+						description
+					}
 					... on EntityManagementCustomEvaluationEntity {
 						__typename
 						criteria
@@ -22851,20 +16932,15 @@ const getEntitySearchQuery = `query(
 					}
 					... on EntityManagementFederatedLogPartitionEntity {
 						__typename
-						dataLocationUri
+						active
 						description
 						isDefault
-						partitionTable
-						status
 					}
 					... on EntityManagementFederatedLogSetupEntity {
 						__typename
-						cloudProvider
-						cloudProviderRegion
-						dataLocationBucket
+						active
+						defaultPartitionId
 						description
-						partitionDatabase
-						status
 					}
 					... on EntityManagementFleetDeploymentEntity {
 						__typename
@@ -23231,1757 +17307,7 @@ const getEntitySearchQuery = `query(
 						enabled
 					}
 				}
-				scope {
-					id
-					type
-				}
-				status
-				tags {
-					key
-					values
-				}
-				type
 			}
-			status
-			tags {
-				key
-				values
-			}
-		}
-		... on EntityManagementFederatedLogSetupEntity {
-			__typename
-			cloudProvider
-			cloudProviderRegion
-			dataLocationBucket
-			dataProcessingComponent {
-				__typename
-				id
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				name
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				type
-				... on EntityManagementAgentConfigurationEntity {
-					__typename
-					agentType
-					configurationType
-					managedEntityType
-					versionCount
-				}
-				... on EntityManagementAgentConfigurationVersionEntity {
-					__typename
-					agentConfiguration
-					version
-				}
-				... on EntityManagementAgentEffectiveConfigurationEntity {
-					__typename
-				}
-				... on EntityManagementAgentEntity {
-					__typename
-					agentType
-					version
-				}
-				... on EntityManagementAiAgentEntity {
-					__typename
-					category
-					description
-					displayName
-					initialized
-					prompt
-					provider
-					test
-				}
-				... on EntityManagementAiCapableEntity {
-					__typename
-					category
-					language
-					lastSeen
-					toolType
-					toolVersion
-				}
-				... on EntityManagementAiEvaluationConfigEntity {
-					__typename
-					description
-					enabled
-					samplingRate
-				}
-				... on EntityManagementAiToolEntity {
-					__typename
-					description
-					initialized
-					provider
-					test
-					toolType
-					url
-				}
-				... on EntityManagementApiSpecificationBlobEntity {
-					__typename
-					description
-				}
-				... on EntityManagementAwsConnectionEntity {
-					__typename
-					description
-					enabled
-					externalId
-					region
-				}
-				... on EntityManagementBackgroundProcessingRuleEntity {
-					__typename
-					description
-					ruleType
-				}
-				... on EntityManagementBackgroundSqlProcessingRuleEntity {
-					__typename
-					description
-				}
-				... on EntityManagementBudgetEntity {
-					__typename
-					budgetType
-					organizationBudget
-				}
-				... on EntityManagementCiscoMerakiConnectionEntity {
-					__typename
-					description
-					enabled
-					externalId
-					region
-				}
-				... on EntityManagementCollectionEntity {
-					__typename
-				}
-				... on EntityManagementComponentEntity {
-					__typename
-					description
-				}
-				... on EntityManagementComputeLocationEntity {
-					__typename
-					description
-				}
-				... on EntityManagementConfluenceConnectionEntity {
-					__typename
-					description
-					enabled
-					externalId
-				}
-				... on EntityManagementConfluenceIntegration {
-					__typename
-					confluenceUserId
-					secretKey
-					url
-				}
-				... on EntityManagementConfluenceRagSettingsEntity {
-					__typename
-					chunkOverlap
-					chunkSize
-					confluenceIntegrationId
-					confluenceQuery
-					intervalSeconds
-					lastPullTime
-					nextPullTime
-					textSplitterType
-				}
-				... on EntityManagementCorrelationInternalSourceConfigEntity {
-					__typename
-					accountId
-					alias
-					filterId
-					namespaces
-					nrql
-					outputTopic
-					source
-				}
-				... on EntityManagementCorrelationLinkEntity {
-					__typename
-					directional
-					linkType
-				}
-				... on EntityManagementCorrelationLinkingRuleEntity {
-					__typename
-					description
-					enabled
-				}
-				... on EntityManagementCustomEvaluationEntity {
-					__typename
-					criteria
-					description
-					model
-					parameters
-					steps
-					threshold
-				}
-				... on EntityManagementCustomerImpactEntity {
-					__typename
-					issueId
-				}
-				... on EntityManagementCustomerImpactQueryEntity {
-					__typename
-					query
-					queryAccountId
-					teamName
-					totalCustImpactQueryAccountIds
-					totalCustomerImpactQuery
-				}
-				... on EntityManagementEventBridgeRuleEntity {
-					__typename
-					description
-					enabled
-				}
-				... on EntityManagementFederatedLogPartitionEntity {
-					__typename
-					dataLocationUri
-					description
-					isDefault
-					partitionTable
-					status
-				}
-				... on EntityManagementFederatedLogSetupEntity {
-					__typename
-					cloudProvider
-					cloudProviderRegion
-					dataLocationBucket
-					description
-					partitionDatabase
-					status
-				}
-				... on EntityManagementFleetDeploymentEntity {
-					__typename
-					configurationVersions
-					description
-					fleetId
-					phase
-				}
-				... on EntityManagementFleetEntity {
-					__typename
-					description
-					managedEntityType
-					product
-				}
-				... on EntityManagementFleetRingEntity {
-					__typename
-					fleetId
-				}
-				... on EntityManagementFlowEntity {
-					__typename
-				}
-				... on EntityManagementGenericEntity {
-					__typename
-				}
-				... on EntityManagementGitHubIntegrationEntity {
-					__typename
-					installationId
-					installationSource
-					installationStatus
-					lastSyncCompletedAt
-					nextSyncAt
-				}
-				... on EntityManagementGitRepositoryEntity {
-					__typename
-					closedPullRequestCount
-					description
-					externalCreatedAt
-					externalId
-					externalLastDeployedAt
-					externalUpdatedAt
-					forkCount
-					hostingPlatform
-					latestReleaseVersion
-					lockedPullRequestCount
-					openPullRequestCount
-					primaryLanguage
-					url
-				}
-				... on EntityManagementGithubConnection {
-					__typename
-					description
-					enabled
-					externalId
-					url
-				}
-				... on EntityManagementImpactProfileEntity {
-					__typename
-				}
-				... on EntityManagementInboxIssueCategoryEntity {
-					__typename
-					categoryType
-					issueType
-					messageAttributes
-					nameAttributes
-				}
-				... on EntityManagementIncidentAttachmentEntity {
-					__typename
-					description
-				}
-				... on EntityManagementIncidentEntity {
-					__typename
-					category
-					customerImpact
-					description
-					dueDate
-					entitiesImpacted
-					externalId
-					incidentCategory
-					incidentKey
-					incidentProfileId
-					incidentSubcategory
-					issueLinks
-					labels
-					lessonsLearned
-					maxSeverity
-					priority
-					reportedBy
-					resolutionCategory
-					resolutionSummary
-					retroActionItems
-					rootCauseSummary
-					rootCauseTags
-					severity
-					source
-					status
-					triggeringEvent
-				}
-				... on EntityManagementIncidentLinkEntity {
-					__typename
-					externalId
-					sourceSyncConfigurationId
-					url
-				}
-				... on EntityManagementIncidentMessageEntity {
-					__typename
-					content
-					contentEncoding
-					contentType
-					externalId
-					parentId
-					sourceSyncConfigurationId
-				}
-				... on EntityManagementIncidentProfileAttachmentEntity {
-					__typename
-					description
-				}
-				... on EntityManagementIncidentProfileEntity {
-					__typename
-				}
-				... on EntityManagementIncidentTimelineEntity {
-					__typename
-					content
-					entryType
-					source
-				}
-				... on EntityManagementJiraConnection {
-					__typename
-					description
-					enabled
-					externalId
-					url
-				}
-				... on EntityManagementJiraSyncConfigurationV2Entity {
-					__typename
-					bidirectional
-					connection
-					description
-					enabled
-					issueType
-					mode
-					projectKey
-				}
-				... on EntityManagementJuniperMistConnectionEntity {
-					__typename
-					description
-					enabled
-					externalId
-					region
-				}
-				... on EntityManagementMaintenanceWindowEntity {
-					__typename
-					affectedEntityType
-					description
-					duration
-					rrule
-					startTime
-					timezone
-				}
-				... on EntityManagementManagedEvaluationsEntity {
-					__typename
-					description
-				}
-				... on EntityManagementMcpServerEntity {
-					__typename
-					description
-					displayName
-					endpoint
-					protocolVersion
-					transport
-				}
-				... on EntityManagementMeterEntity {
-					__typename
-					description
-				}
-				... on EntityManagementMeterTypeEntity {
-					__typename
-					allowMeterCreation
-					attributionDimensions
-					description
-				}
-				... on EntityManagementNewRelicConnection {
-					__typename
-					description
-					enabled
-					externalId
-					region
-				}
-				... on EntityManagementNotebookEntity {
-					__typename
-				}
-				... on EntityManagementNotificationAttachmentEntity {
-					__typename
-					description
-				}
-				... on EntityManagementNrAiAgentEntity {
-					__typename
-					displayName
-					version
-				}
-				... on EntityManagementNrqlMacroEntity {
-					__typename
-					expression
-					numParameters
-				}
-				... on EntityManagementOperationEntity {
-					__typename
-				}
-				... on EntityManagementOperationMetricEntity {
-					__typename
-				}
-				... on EntityManagementPerformanceInboxSettingEntity {
-					__typename
-					thresholdScope
-				}
-				... on EntityManagementPipelineCloudRuleEntity {
-					__typename
-					description
-					enabled
-					nrql
-				}
-				... on EntityManagementProductLineEntity {
-					__typename
-					description
-				}
-				... on EntityManagementRagDocumentEntity {
-					__typename
-					authorEmails
-					sourceIdentifier
-				}
-				... on EntityManagementRagToolEntity {
-					__typename
-					description
-				}
-				... on EntityManagementReactNativeSourcemapEntity {
-					__typename
-					appVersionId
-					applicationId
-					jsBundleId
-				}
-				... on EntityManagementRestApiContractEntity {
-					__typename
-				}
-				... on EntityManagementScorecardEntity {
-					__typename
-					description
-				}
-				... on EntityManagementScorecardRuleEntity {
-					__typename
-					description
-					enabled
-					impactWeight
-					progressLevel
-					runInterval
-				}
-				... on EntityManagementSegmentTermsEntity {
-					__typename
-					appEntityId
-					channel
-					domain
-					metricPrefix
-					oldId
-					urlSegments
-				}
-				... on EntityManagementServerlessJobDefinitionEntity {
-					__typename
-					description
-					namespace
-					secretKeys
-				}
-				... on EntityManagementServiceNowConnection {
-					__typename
-					description
-					enabled
-					externalId
-					url
-				}
-				... on EntityManagementSlackConnection {
-					__typename
-					appId
-					description
-					enabled
-					externalId
-					workspace
-				}
-				... on EntityManagementStatusPageAnnouncementEntity {
-					__typename
-					category
-					description
-					effectiveDate
-					eventUrl
-					publishedDate
-					state
-				}
-				... on EntityManagementStatusPageIncidentEntity {
-					__typename
-					description
-					endTime
-					incidentId
-					incidentTitle
-					lastUpdatedTime
-					region
-					startTime
-					status
-				}
-				... on EntityManagementTeamEntity {
-					__typename
-					aliases
-					description
-					hierarchyLevelId
-					managers
-					parentId
-				}
-				... on EntityManagementTeamsHierarchyLevelEntity {
-					__typename
-				}
-				... on EntityManagementTeamsOrganizationSettingsEntity {
-					__typename
-					hierarchyLevelOrder
-				}
-				... on EntityManagementUserEntity {
-					__typename
-					userId
-				}
-				... on EntityManagementWorkItemLinkV2Entity {
-					__typename
-					externalId
-					sourceSyncConfigurationId
-					url
-				}
-				... on EntityManagementWorkItemMessageV2Entity {
-					__typename
-					content
-					contentEncoding
-					contentType
-					externalId
-					parentId
-					sourceSyncConfigurationId
-				}
-				... on EntityManagementWorkItemV2Entity {
-					__typename
-					category
-					description
-					dueDate
-					externalId
-					labels
-					priority
-					status
-				}
-				... on EntityManagementWorkflowDefinition {
-					__typename
-					description
-					versions
-				}
-				... on EntityManagementWorkflowSchedule {
-					__typename
-					cronExpression
-					description
-					overlapPolicy
-					timezone
-				}
-				... on EntityManagementZoomConnectionEntity {
-					__typename
-					description
-					enabled
-				}
-			}
-			dataProcessingConnection {
-				__typename
-				id
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				name
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				type
-				... on EntityManagementAgentConfigurationEntity {
-					__typename
-					agentType
-					configurationType
-					managedEntityType
-					versionCount
-				}
-				... on EntityManagementAgentConfigurationVersionEntity {
-					__typename
-					agentConfiguration
-					version
-				}
-				... on EntityManagementAgentEffectiveConfigurationEntity {
-					__typename
-				}
-				... on EntityManagementAgentEntity {
-					__typename
-					agentType
-					version
-				}
-				... on EntityManagementAiAgentEntity {
-					__typename
-					category
-					description
-					displayName
-					initialized
-					prompt
-					provider
-					test
-				}
-				... on EntityManagementAiCapableEntity {
-					__typename
-					category
-					language
-					lastSeen
-					toolType
-					toolVersion
-				}
-				... on EntityManagementAiEvaluationConfigEntity {
-					__typename
-					description
-					enabled
-					samplingRate
-				}
-				... on EntityManagementAiToolEntity {
-					__typename
-					description
-					initialized
-					provider
-					test
-					toolType
-					url
-				}
-				... on EntityManagementApiSpecificationBlobEntity {
-					__typename
-					description
-				}
-				... on EntityManagementAwsConnectionEntity {
-					__typename
-					description
-					enabled
-					externalId
-					region
-				}
-				... on EntityManagementBackgroundProcessingRuleEntity {
-					__typename
-					description
-					ruleType
-				}
-				... on EntityManagementBackgroundSqlProcessingRuleEntity {
-					__typename
-					description
-				}
-				... on EntityManagementBudgetEntity {
-					__typename
-					budgetType
-					organizationBudget
-				}
-				... on EntityManagementCiscoMerakiConnectionEntity {
-					__typename
-					description
-					enabled
-					externalId
-					region
-				}
-				... on EntityManagementCollectionEntity {
-					__typename
-				}
-				... on EntityManagementComponentEntity {
-					__typename
-					description
-				}
-				... on EntityManagementComputeLocationEntity {
-					__typename
-					description
-				}
-				... on EntityManagementConfluenceConnectionEntity {
-					__typename
-					description
-					enabled
-					externalId
-				}
-				... on EntityManagementConfluenceIntegration {
-					__typename
-					confluenceUserId
-					secretKey
-					url
-				}
-				... on EntityManagementConfluenceRagSettingsEntity {
-					__typename
-					chunkOverlap
-					chunkSize
-					confluenceIntegrationId
-					confluenceQuery
-					intervalSeconds
-					lastPullTime
-					nextPullTime
-					textSplitterType
-				}
-				... on EntityManagementCorrelationInternalSourceConfigEntity {
-					__typename
-					accountId
-					alias
-					filterId
-					namespaces
-					nrql
-					outputTopic
-					source
-				}
-				... on EntityManagementCorrelationLinkEntity {
-					__typename
-					directional
-					linkType
-				}
-				... on EntityManagementCorrelationLinkingRuleEntity {
-					__typename
-					description
-					enabled
-				}
-				... on EntityManagementCustomEvaluationEntity {
-					__typename
-					criteria
-					description
-					model
-					parameters
-					steps
-					threshold
-				}
-				... on EntityManagementCustomerImpactEntity {
-					__typename
-					issueId
-				}
-				... on EntityManagementCustomerImpactQueryEntity {
-					__typename
-					query
-					queryAccountId
-					teamName
-					totalCustImpactQueryAccountIds
-					totalCustomerImpactQuery
-				}
-				... on EntityManagementEventBridgeRuleEntity {
-					__typename
-					description
-					enabled
-				}
-				... on EntityManagementFederatedLogPartitionEntity {
-					__typename
-					dataLocationUri
-					description
-					isDefault
-					partitionTable
-					status
-				}
-				... on EntityManagementFederatedLogSetupEntity {
-					__typename
-					cloudProvider
-					cloudProviderRegion
-					dataLocationBucket
-					description
-					partitionDatabase
-					status
-				}
-				... on EntityManagementFleetDeploymentEntity {
-					__typename
-					configurationVersions
-					description
-					fleetId
-					phase
-				}
-				... on EntityManagementFleetEntity {
-					__typename
-					description
-					managedEntityType
-					product
-				}
-				... on EntityManagementFleetRingEntity {
-					__typename
-					fleetId
-				}
-				... on EntityManagementFlowEntity {
-					__typename
-				}
-				... on EntityManagementGenericEntity {
-					__typename
-				}
-				... on EntityManagementGitHubIntegrationEntity {
-					__typename
-					installationId
-					installationSource
-					installationStatus
-					lastSyncCompletedAt
-					nextSyncAt
-				}
-				... on EntityManagementGitRepositoryEntity {
-					__typename
-					closedPullRequestCount
-					description
-					externalCreatedAt
-					externalId
-					externalLastDeployedAt
-					externalUpdatedAt
-					forkCount
-					hostingPlatform
-					latestReleaseVersion
-					lockedPullRequestCount
-					openPullRequestCount
-					primaryLanguage
-					url
-				}
-				... on EntityManagementGithubConnection {
-					__typename
-					description
-					enabled
-					externalId
-					url
-				}
-				... on EntityManagementImpactProfileEntity {
-					__typename
-				}
-				... on EntityManagementInboxIssueCategoryEntity {
-					__typename
-					categoryType
-					issueType
-					messageAttributes
-					nameAttributes
-				}
-				... on EntityManagementIncidentAttachmentEntity {
-					__typename
-					description
-				}
-				... on EntityManagementIncidentEntity {
-					__typename
-					category
-					customerImpact
-					description
-					dueDate
-					entitiesImpacted
-					externalId
-					incidentCategory
-					incidentKey
-					incidentProfileId
-					incidentSubcategory
-					issueLinks
-					labels
-					lessonsLearned
-					maxSeverity
-					priority
-					reportedBy
-					resolutionCategory
-					resolutionSummary
-					retroActionItems
-					rootCauseSummary
-					rootCauseTags
-					severity
-					source
-					status
-					triggeringEvent
-				}
-				... on EntityManagementIncidentLinkEntity {
-					__typename
-					externalId
-					sourceSyncConfigurationId
-					url
-				}
-				... on EntityManagementIncidentMessageEntity {
-					__typename
-					content
-					contentEncoding
-					contentType
-					externalId
-					parentId
-					sourceSyncConfigurationId
-				}
-				... on EntityManagementIncidentProfileAttachmentEntity {
-					__typename
-					description
-				}
-				... on EntityManagementIncidentProfileEntity {
-					__typename
-				}
-				... on EntityManagementIncidentTimelineEntity {
-					__typename
-					content
-					entryType
-					source
-				}
-				... on EntityManagementJiraConnection {
-					__typename
-					description
-					enabled
-					externalId
-					url
-				}
-				... on EntityManagementJiraSyncConfigurationV2Entity {
-					__typename
-					bidirectional
-					connection
-					description
-					enabled
-					issueType
-					mode
-					projectKey
-				}
-				... on EntityManagementJuniperMistConnectionEntity {
-					__typename
-					description
-					enabled
-					externalId
-					region
-				}
-				... on EntityManagementMaintenanceWindowEntity {
-					__typename
-					affectedEntityType
-					description
-					duration
-					rrule
-					startTime
-					timezone
-				}
-				... on EntityManagementManagedEvaluationsEntity {
-					__typename
-					description
-				}
-				... on EntityManagementMcpServerEntity {
-					__typename
-					description
-					displayName
-					endpoint
-					protocolVersion
-					transport
-				}
-				... on EntityManagementMeterEntity {
-					__typename
-					description
-				}
-				... on EntityManagementMeterTypeEntity {
-					__typename
-					allowMeterCreation
-					attributionDimensions
-					description
-				}
-				... on EntityManagementNewRelicConnection {
-					__typename
-					description
-					enabled
-					externalId
-					region
-				}
-				... on EntityManagementNotebookEntity {
-					__typename
-				}
-				... on EntityManagementNotificationAttachmentEntity {
-					__typename
-					description
-				}
-				... on EntityManagementNrAiAgentEntity {
-					__typename
-					displayName
-					version
-				}
-				... on EntityManagementNrqlMacroEntity {
-					__typename
-					expression
-					numParameters
-				}
-				... on EntityManagementOperationEntity {
-					__typename
-				}
-				... on EntityManagementOperationMetricEntity {
-					__typename
-				}
-				... on EntityManagementPerformanceInboxSettingEntity {
-					__typename
-					thresholdScope
-				}
-				... on EntityManagementPipelineCloudRuleEntity {
-					__typename
-					description
-					enabled
-					nrql
-				}
-				... on EntityManagementProductLineEntity {
-					__typename
-					description
-				}
-				... on EntityManagementRagDocumentEntity {
-					__typename
-					authorEmails
-					sourceIdentifier
-				}
-				... on EntityManagementRagToolEntity {
-					__typename
-					description
-				}
-				... on EntityManagementReactNativeSourcemapEntity {
-					__typename
-					appVersionId
-					applicationId
-					jsBundleId
-				}
-				... on EntityManagementRestApiContractEntity {
-					__typename
-				}
-				... on EntityManagementScorecardEntity {
-					__typename
-					description
-				}
-				... on EntityManagementScorecardRuleEntity {
-					__typename
-					description
-					enabled
-					impactWeight
-					progressLevel
-					runInterval
-				}
-				... on EntityManagementSegmentTermsEntity {
-					__typename
-					appEntityId
-					channel
-					domain
-					metricPrefix
-					oldId
-					urlSegments
-				}
-				... on EntityManagementServerlessJobDefinitionEntity {
-					__typename
-					description
-					namespace
-					secretKeys
-				}
-				... on EntityManagementServiceNowConnection {
-					__typename
-					description
-					enabled
-					externalId
-					url
-				}
-				... on EntityManagementSlackConnection {
-					__typename
-					appId
-					description
-					enabled
-					externalId
-					workspace
-				}
-				... on EntityManagementStatusPageAnnouncementEntity {
-					__typename
-					category
-					description
-					effectiveDate
-					eventUrl
-					publishedDate
-					state
-				}
-				... on EntityManagementStatusPageIncidentEntity {
-					__typename
-					description
-					endTime
-					incidentId
-					incidentTitle
-					lastUpdatedTime
-					region
-					startTime
-					status
-				}
-				... on EntityManagementTeamEntity {
-					__typename
-					aliases
-					description
-					hierarchyLevelId
-					managers
-					parentId
-				}
-				... on EntityManagementTeamsHierarchyLevelEntity {
-					__typename
-				}
-				... on EntityManagementTeamsOrganizationSettingsEntity {
-					__typename
-					hierarchyLevelOrder
-				}
-				... on EntityManagementUserEntity {
-					__typename
-					userId
-				}
-				... on EntityManagementWorkItemLinkV2Entity {
-					__typename
-					externalId
-					sourceSyncConfigurationId
-					url
-				}
-				... on EntityManagementWorkItemMessageV2Entity {
-					__typename
-					content
-					contentEncoding
-					contentType
-					externalId
-					parentId
-					sourceSyncConfigurationId
-				}
-				... on EntityManagementWorkItemV2Entity {
-					__typename
-					category
-					description
-					dueDate
-					externalId
-					labels
-					priority
-					status
-				}
-				... on EntityManagementWorkflowDefinition {
-					__typename
-					description
-					versions
-				}
-				... on EntityManagementWorkflowSchedule {
-					__typename
-					cronExpression
-					description
-					overlapPolicy
-					timezone
-				}
-				... on EntityManagementZoomConnectionEntity {
-					__typename
-					description
-					enabled
-				}
-			}
-			description
-			metadata {
-				createdAt
-				createdBy {
-					__typename
-					id
-					type
-					... on EntityManagementSystemActor {
-						__typename
-					}
-					... on EntityManagementUserActor {
-						__typename
-					}
-				}
-				updatedAt
-				updatedBy {
-					__typename
-					id
-					type
-					... on EntityManagementSystemActor {
-						__typename
-					}
-					... on EntityManagementUserActor {
-						__typename
-					}
-				}
-				version
-			}
-			partitionDatabase
-			queryConnection {
-				__typename
-				id
-				metadata {
-					createdAt
-					updatedAt
-					version
-				}
-				name
-				scope {
-					id
-					type
-				}
-				tags {
-					key
-					values
-				}
-				type
-				... on EntityManagementAgentConfigurationEntity {
-					__typename
-					agentType
-					configurationType
-					managedEntityType
-					versionCount
-				}
-				... on EntityManagementAgentConfigurationVersionEntity {
-					__typename
-					agentConfiguration
-					version
-				}
-				... on EntityManagementAgentEffectiveConfigurationEntity {
-					__typename
-				}
-				... on EntityManagementAgentEntity {
-					__typename
-					agentType
-					version
-				}
-				... on EntityManagementAiAgentEntity {
-					__typename
-					category
-					description
-					displayName
-					initialized
-					prompt
-					provider
-					test
-				}
-				... on EntityManagementAiCapableEntity {
-					__typename
-					category
-					language
-					lastSeen
-					toolType
-					toolVersion
-				}
-				... on EntityManagementAiEvaluationConfigEntity {
-					__typename
-					description
-					enabled
-					samplingRate
-				}
-				... on EntityManagementAiToolEntity {
-					__typename
-					description
-					initialized
-					provider
-					test
-					toolType
-					url
-				}
-				... on EntityManagementApiSpecificationBlobEntity {
-					__typename
-					description
-				}
-				... on EntityManagementAwsConnectionEntity {
-					__typename
-					description
-					enabled
-					externalId
-					region
-				}
-				... on EntityManagementBackgroundProcessingRuleEntity {
-					__typename
-					description
-					ruleType
-				}
-				... on EntityManagementBackgroundSqlProcessingRuleEntity {
-					__typename
-					description
-				}
-				... on EntityManagementBudgetEntity {
-					__typename
-					budgetType
-					organizationBudget
-				}
-				... on EntityManagementCiscoMerakiConnectionEntity {
-					__typename
-					description
-					enabled
-					externalId
-					region
-				}
-				... on EntityManagementCollectionEntity {
-					__typename
-				}
-				... on EntityManagementComponentEntity {
-					__typename
-					description
-				}
-				... on EntityManagementComputeLocationEntity {
-					__typename
-					description
-				}
-				... on EntityManagementConfluenceConnectionEntity {
-					__typename
-					description
-					enabled
-					externalId
-				}
-				... on EntityManagementConfluenceIntegration {
-					__typename
-					confluenceUserId
-					secretKey
-					url
-				}
-				... on EntityManagementConfluenceRagSettingsEntity {
-					__typename
-					chunkOverlap
-					chunkSize
-					confluenceIntegrationId
-					confluenceQuery
-					intervalSeconds
-					lastPullTime
-					nextPullTime
-					textSplitterType
-				}
-				... on EntityManagementCorrelationInternalSourceConfigEntity {
-					__typename
-					accountId
-					alias
-					filterId
-					namespaces
-					nrql
-					outputTopic
-					source
-				}
-				... on EntityManagementCorrelationLinkEntity {
-					__typename
-					directional
-					linkType
-				}
-				... on EntityManagementCorrelationLinkingRuleEntity {
-					__typename
-					description
-					enabled
-				}
-				... on EntityManagementCustomEvaluationEntity {
-					__typename
-					criteria
-					description
-					model
-					parameters
-					steps
-					threshold
-				}
-				... on EntityManagementCustomerImpactEntity {
-					__typename
-					issueId
-				}
-				... on EntityManagementCustomerImpactQueryEntity {
-					__typename
-					query
-					queryAccountId
-					teamName
-					totalCustImpactQueryAccountIds
-					totalCustomerImpactQuery
-				}
-				... on EntityManagementEventBridgeRuleEntity {
-					__typename
-					description
-					enabled
-				}
-				... on EntityManagementFederatedLogPartitionEntity {
-					__typename
-					dataLocationUri
-					description
-					isDefault
-					partitionTable
-					status
-				}
-				... on EntityManagementFederatedLogSetupEntity {
-					__typename
-					cloudProvider
-					cloudProviderRegion
-					dataLocationBucket
-					description
-					partitionDatabase
-					status
-				}
-				... on EntityManagementFleetDeploymentEntity {
-					__typename
-					configurationVersions
-					description
-					fleetId
-					phase
-				}
-				... on EntityManagementFleetEntity {
-					__typename
-					description
-					managedEntityType
-					product
-				}
-				... on EntityManagementFleetRingEntity {
-					__typename
-					fleetId
-				}
-				... on EntityManagementFlowEntity {
-					__typename
-				}
-				... on EntityManagementGenericEntity {
-					__typename
-				}
-				... on EntityManagementGitHubIntegrationEntity {
-					__typename
-					installationId
-					installationSource
-					installationStatus
-					lastSyncCompletedAt
-					nextSyncAt
-				}
-				... on EntityManagementGitRepositoryEntity {
-					__typename
-					closedPullRequestCount
-					description
-					externalCreatedAt
-					externalId
-					externalLastDeployedAt
-					externalUpdatedAt
-					forkCount
-					hostingPlatform
-					latestReleaseVersion
-					lockedPullRequestCount
-					openPullRequestCount
-					primaryLanguage
-					url
-				}
-				... on EntityManagementGithubConnection {
-					__typename
-					description
-					enabled
-					externalId
-					url
-				}
-				... on EntityManagementImpactProfileEntity {
-					__typename
-				}
-				... on EntityManagementInboxIssueCategoryEntity {
-					__typename
-					categoryType
-					issueType
-					messageAttributes
-					nameAttributes
-				}
-				... on EntityManagementIncidentAttachmentEntity {
-					__typename
-					description
-				}
-				... on EntityManagementIncidentEntity {
-					__typename
-					category
-					customerImpact
-					description
-					dueDate
-					entitiesImpacted
-					externalId
-					incidentCategory
-					incidentKey
-					incidentProfileId
-					incidentSubcategory
-					issueLinks
-					labels
-					lessonsLearned
-					maxSeverity
-					priority
-					reportedBy
-					resolutionCategory
-					resolutionSummary
-					retroActionItems
-					rootCauseSummary
-					rootCauseTags
-					severity
-					source
-					status
-					triggeringEvent
-				}
-				... on EntityManagementIncidentLinkEntity {
-					__typename
-					externalId
-					sourceSyncConfigurationId
-					url
-				}
-				... on EntityManagementIncidentMessageEntity {
-					__typename
-					content
-					contentEncoding
-					contentType
-					externalId
-					parentId
-					sourceSyncConfigurationId
-				}
-				... on EntityManagementIncidentProfileAttachmentEntity {
-					__typename
-					description
-				}
-				... on EntityManagementIncidentProfileEntity {
-					__typename
-				}
-				... on EntityManagementIncidentTimelineEntity {
-					__typename
-					content
-					entryType
-					source
-				}
-				... on EntityManagementJiraConnection {
-					__typename
-					description
-					enabled
-					externalId
-					url
-				}
-				... on EntityManagementJiraSyncConfigurationV2Entity {
-					__typename
-					bidirectional
-					connection
-					description
-					enabled
-					issueType
-					mode
-					projectKey
-				}
-				... on EntityManagementJuniperMistConnectionEntity {
-					__typename
-					description
-					enabled
-					externalId
-					region
-				}
-				... on EntityManagementMaintenanceWindowEntity {
-					__typename
-					affectedEntityType
-					description
-					duration
-					rrule
-					startTime
-					timezone
-				}
-				... on EntityManagementManagedEvaluationsEntity {
-					__typename
-					description
-				}
-				... on EntityManagementMcpServerEntity {
-					__typename
-					description
-					displayName
-					endpoint
-					protocolVersion
-					transport
-				}
-				... on EntityManagementMeterEntity {
-					__typename
-					description
-				}
-				... on EntityManagementMeterTypeEntity {
-					__typename
-					allowMeterCreation
-					attributionDimensions
-					description
-				}
-				... on EntityManagementNewRelicConnection {
-					__typename
-					description
-					enabled
-					externalId
-					region
-				}
-				... on EntityManagementNotebookEntity {
-					__typename
-				}
-				... on EntityManagementNotificationAttachmentEntity {
-					__typename
-					description
-				}
-				... on EntityManagementNrAiAgentEntity {
-					__typename
-					displayName
-					version
-				}
-				... on EntityManagementNrqlMacroEntity {
-					__typename
-					expression
-					numParameters
-				}
-				... on EntityManagementOperationEntity {
-					__typename
-				}
-				... on EntityManagementOperationMetricEntity {
-					__typename
-				}
-				... on EntityManagementPerformanceInboxSettingEntity {
-					__typename
-					thresholdScope
-				}
-				... on EntityManagementPipelineCloudRuleEntity {
-					__typename
-					description
-					enabled
-					nrql
-				}
-				... on EntityManagementProductLineEntity {
-					__typename
-					description
-				}
-				... on EntityManagementRagDocumentEntity {
-					__typename
-					authorEmails
-					sourceIdentifier
-				}
-				... on EntityManagementRagToolEntity {
-					__typename
-					description
-				}
-				... on EntityManagementReactNativeSourcemapEntity {
-					__typename
-					appVersionId
-					applicationId
-					jsBundleId
-				}
-				... on EntityManagementRestApiContractEntity {
-					__typename
-				}
-				... on EntityManagementScorecardEntity {
-					__typename
-					description
-				}
-				... on EntityManagementScorecardRuleEntity {
-					__typename
-					description
-					enabled
-					impactWeight
-					progressLevel
-					runInterval
-				}
-				... on EntityManagementSegmentTermsEntity {
-					__typename
-					appEntityId
-					channel
-					domain
-					metricPrefix
-					oldId
-					urlSegments
-				}
-				... on EntityManagementServerlessJobDefinitionEntity {
-					__typename
-					description
-					namespace
-					secretKeys
-				}
-				... on EntityManagementServiceNowConnection {
-					__typename
-					description
-					enabled
-					externalId
-					url
-				}
-				... on EntityManagementSlackConnection {
-					__typename
-					appId
-					description
-					enabled
-					externalId
-					workspace
-				}
-				... on EntityManagementStatusPageAnnouncementEntity {
-					__typename
-					category
-					description
-					effectiveDate
-					eventUrl
-					publishedDate
-					state
-				}
-				... on EntityManagementStatusPageIncidentEntity {
-					__typename
-					description
-					endTime
-					incidentId
-					incidentTitle
-					lastUpdatedTime
-					region
-					startTime
-					status
-				}
-				... on EntityManagementTeamEntity {
-					__typename
-					aliases
-					description
-					hierarchyLevelId
-					managers
-					parentId
-				}
-				... on EntityManagementTeamsHierarchyLevelEntity {
-					__typename
-				}
-				... on EntityManagementTeamsOrganizationSettingsEntity {
-					__typename
-					hierarchyLevelOrder
-				}
-				... on EntityManagementUserEntity {
-					__typename
-					userId
-				}
-				... on EntityManagementWorkItemLinkV2Entity {
-					__typename
-					externalId
-					sourceSyncConfigurationId
-					url
-				}
-				... on EntityManagementWorkItemMessageV2Entity {
-					__typename
-					content
-					contentEncoding
-					contentType
-					externalId
-					parentId
-					sourceSyncConfigurationId
-				}
-				... on EntityManagementWorkItemV2Entity {
-					__typename
-					category
-					description
-					dueDate
-					externalId
-					labels
-					priority
-					status
-				}
-				... on EntityManagementWorkflowDefinition {
-					__typename
-					description
-					versions
-				}
-				... on EntityManagementWorkflowSchedule {
-					__typename
-					cronExpression
-					description
-					overlapPolicy
-					timezone
-				}
-				... on EntityManagementZoomConnectionEntity {
-					__typename
-					description
-					enabled
-				}
-			}
-			scope {
-				id
-				type
-			}
-			status
 			tags {
 				key
 				values
@@ -28153,226 +20479,225 @@ const getEntitySearchQuery = `query(
 	nextCursor
 } } } }`
 
-// GetFederatedLogSetupEntityWithContext retrieves a FederatedLogSetupEntity by ID using a simplified query
-// that only includes fields specific to FederatedLogSetupEntity, avoiding the 15,000 grammar token limit.
-func (a *FederatedLogs) GetFederatedLogSetupEntityWithContext(
+// Returns a single federated logs partition by ID.
+func (a *FederatedLogs) GetPartition(
+	iD string,
+) (*FederatedLogsPartition, error) {
+	return a.GetPartitionWithContext(context.Background(),
+		iD,
+	)
+}
+
+// Returns a single federated logs partition by ID.
+func (a *FederatedLogs) GetPartitionWithContext(
 	ctx context.Context,
 	iD string,
-) (*EntityManagementFederatedLogSetupEntity, error) {
+) (*FederatedLogsPartition, error) {
 
-	resp := getFederatedLogSetupEntityResponse{}
+	resp := partitionResponse{}
 	vars := map[string]interface{}{
 		"id": iD,
 	}
 
-	if err := a.client.NerdGraphQueryWithContext(ctx, getFederatedLogSetupEntityQuery, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, getPartitionQuery, vars, &resp); err != nil {
 		return nil, err
 	}
 
-	return resp.Actor.EntityManagement.Entity, nil
+	return &resp.Actor.FederatedLogs.Partition, nil
 }
 
-type getFederatedLogSetupEntityResponse struct {
-	Actor struct {
-		EntityManagement struct {
-			Entity *EntityManagementFederatedLogSetupEntity `json:"entity"`
-		} `json:"entityManagement"`
-	} `json:"actor"`
-}
-
-// Simplified query that only includes FederatedLogSetupEntity fields to avoid 15k grammar token limit
-const getFederatedLogSetupEntityQuery = `query(
+const getPartitionQuery = `query(
 	$id: ID!,
-) { actor { entityManagement { entity(
+) { actor { federatedLogs { partition(
 	id: $id,
 ) {
-	__typename
-	... on EntityManagementFederatedLogSetupEntity {
-		id
-		metadata {
-			createdAt
-			createdBy {
-				__typename
+	active
+	createdAt
+	dataRetentionPolicy {
+		duration
+		unit
+	}
+	description
+	forwarderConfiguration {
+		pipelineControl {
+			deployed {
 				id
+				versionId
 			}
-			updatedAt
-			updatedBy {
-				__typename
+			latest {
 				id
+				versionId
 			}
-			version
+			partitionRule {
+				expression
+			}
 		}
-		name
-		description
-		cloudProvider
-		cloudProviderRegion
-		dataLocationBucket
-		partitionDatabase
-		dataProcessingConnection {
-			__typename
-			id
+		type
+	}
+	healthCheck {
+		end2endDataFlow {
+			lastUpdatedAt
+			message
+			status
 		}
+		lastUpdatedAt
 		queryConnection {
-			__typename
-			id
+			lastUpdatedAt
+			message
+			status
 		}
-		scope {
-			id
+	}
+	id
+	isDefault
+	lifecycleStatus {
+		lastUpdatedAt
+		message
+		status
+	}
+	name
+	setup {
+		active
+		createdAt
+		defaultPartitionId
+		description
+		forwarder {
+			pipelineControl {
+				deployed {
+					id
+					versionId
+				}
+				fleetId
+				latest {
+					id
+					versionId
+				}
+				routingRule {
+					expression
+				}
+			}
 			type
 		}
-		tags {
-			key
-			values
+		healthCheck {
+			end2endDataFlow {
+				lastUpdatedAt
+				message
+				status
+			}
+			lastUpdatedAt
+			queryConnection {
+				lastUpdatedAt
+				message
+				status
+			}
 		}
-		type
-	}
-} } } }`
-
-// GetFederatedLogPartitionEntityWithContext retrieves a FederatedLogPartitionEntity by ID using a simplified query
-func (a *FederatedLogs) GetFederatedLogPartitionEntityWithContext(
-	ctx context.Context,
-	iD string,
-) (*EntityManagementFederatedLogPartitionEntity, error) {
-
-	resp := getFederatedLogPartitionEntityResponse{}
-	vars := map[string]interface{}{
-		"id": iD,
-	}
-
-	if err := a.client.NerdGraphQueryWithContext(ctx, getFederatedLogPartitionEntityQuery, vars, &resp); err != nil {
-		return nil, err
-	}
-
-	return resp.Actor.EntityManagement.Entity, nil
-}
-
-type getFederatedLogPartitionEntityResponse struct {
-	Actor struct {
-		EntityManagement struct {
-			Entity *EntityManagementFederatedLogPartitionEntity `json:"entity"`
-		} `json:"entityManagement"`
-	} `json:"actor"`
-}
-
-// Simplified query for FederatedLogPartitionEntity
-const getFederatedLogPartitionEntityQuery = `query(
-	$id: ID!,
-) { actor { entityManagement { entity(
-	id: $id,
-) {
-	__typename
-	... on EntityManagementFederatedLogPartitionEntity {
 		id
-		metadata {
-			createdAt
-			createdBy {
-				__typename
-				id
-			}
-			updatedAt
-			updatedBy {
-				__typename
-				id
-			}
-			version
+		lifecycleStatus {
+			lastUpdatedAt
+			message
+			status
 		}
 		name
-		description
+		storage {
+			cloudProviderConfiguration {
+				provider
+				region
+			}
+			dataIngestConnectionId
+			dataLocationBucket
+			database
+			queryConnectionId
+		}
+		updatedAt
+	}
+	storage {
 		dataLocationUri
-		isDefault
-		partitionTable
-		retentionPolicy {
-			duration
-			unit
-		}
-		setup {
-			__typename
-			id
-		}
-		scope {
-			id
-			type
-		}
-		tags {
-			key
-			values
-		}
-		type
+		table
 	}
+	updatedAt
 } } } }`
 
-// GetAwsConnectionEntityWithContext retrieves an AwsConnectionEntity by ID using a simplified query
-// that only includes fields specific to AwsConnectionEntity, avoiding the 15,000 grammar token limit.
-func (a *FederatedLogs) GetAwsConnectionEntityWithContext(
+// Returns a single federated logs setup by ID.
+func (a *FederatedLogs) GetSetup(
+	iD string,
+) (*FederatedLogsSetup, error) {
+	return a.GetSetupWithContext(context.Background(),
+		iD,
+	)
+}
+
+// Returns a single federated logs setup by ID.
+func (a *FederatedLogs) GetSetupWithContext(
 	ctx context.Context,
 	iD string,
-) (*EntityManagementAwsConnectionEntity, error) {
+) (*FederatedLogsSetup, error) {
 
-	resp := getAwsConnectionEntityResponse{}
+	resp := setupResponse{}
 	vars := map[string]interface{}{
 		"id": iD,
 	}
 
-	if err := a.client.NerdGraphQueryWithContext(ctx, getAwsConnectionEntityQuery, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, getSetupQuery, vars, &resp); err != nil {
 		return nil, err
 	}
 
-	return resp.Actor.EntityManagement.Entity, nil
+	return &resp.Actor.FederatedLogs.Setup, nil
 }
 
-type getAwsConnectionEntityResponse struct {
-	Actor struct {
-		EntityManagement struct {
-			Entity *EntityManagementAwsConnectionEntity `json:"entity"`
-		} `json:"entityManagement"`
-	} `json:"actor"`
-}
-
-// Simplified query for AwsConnectionEntity to avoid 15k grammar token limit
-const getAwsConnectionEntityQuery = `query(
+const getSetupQuery = `query(
 	$id: ID!,
-) { actor { entityManagement { entity(
+) { actor { federatedLogs { setup(
 	id: $id,
 ) {
-	__typename
-	... on EntityManagementAwsConnectionEntity {
-		id
-		metadata {
-			createdAt
-			createdBy {
-				__typename
+	active
+	createdAt
+	defaultPartitionId
+	description
+	forwarder {
+		pipelineControl {
+			deployed {
 				id
+				versionId
 			}
-			updatedAt
-			updatedBy {
-				__typename
+			fleetId
+			latest {
 				id
+				versionId
 			}
-			version
-		}
-		name
-		description
-		enabled
-		externalId
-		region
-		credential {
-			assumeRole {
-				roleArn
-				externalId
+			routingRule {
+				expression
 			}
-		}
-		settings {
-			key
-			value
-		}
-		scope {
-			id
-			type
-		}
-		tags {
-			key
-			values
 		}
 		type
 	}
+	healthCheck {
+		end2endDataFlow {
+			lastUpdatedAt
+			message
+			status
+		}
+		lastUpdatedAt
+		queryConnection {
+			lastUpdatedAt
+			message
+			status
+		}
+	}
+	id
+	lifecycleStatus {
+		lastUpdatedAt
+		message
+		status
+	}
+	name
+	storage {
+		cloudProviderConfiguration {
+			provider
+			region
+		}
+		dataIngestConnectionId
+		dataLocationBucket
+		database
+		queryConnectionId
+	}
+	updatedAt
 } } } }`

@@ -2058,17 +2058,46 @@ packages:
       - github.com/newrelic/newrelic-client-go/v2/pkg/common
       - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
       - github.com/newrelic/newrelic-client-go/v2/pkg/users
+    queries:
+      - path: [ "actor", "federatedLogs" ]
+        endpoints:
+          - name: setup
+            max_query_field_depth: 4
+          - name: partition
+            max_query_field_depth: 4
+      - path: [ "actor", "entityManagement" ]
+        endpoints:
+          - name: entity
+            max_query_field_depth: 4
+            exclude_fields:
+              - agents
+              - tools
+          - name: entitySearch
+            max_query_field_depth: 4
+            exclude_fields:
+              - agents
+              - tools
     mutations:
+      - name: federatedLogsCreateSetup
+        max_query_field_depth: 4
+      - name: federatedLogsUpdateSetup
+        max_query_field_depth: 4
+      - name: federatedLogsCreatePartition
+        max_query_field_depth: 4
+      - name: federatedLogsUpdatePartition
+        max_query_field_depth: 4
       - name: entityManagementCreateFederatedLogSetup
         max_query_field_depth: 4
-      - name: entityManagementCreateAwsConnection
-        max_query_field_depth: 3
+      - name: entityManagementUpdateFederatedLogSetup
+        max_query_field_depth: 4
       - name: entityManagementCreateFederatedLogPartition
         max_query_field_depth: 4
       - name: entityManagementUpdateFederatedLogPartition
         max_query_field_depth: 4
-      - name: entityManagementUpdateFederatedLogSetup
-        max_query_field_depth: 4
+      - name: entityManagementCreateAwsConnection
+        max_query_field_depth: 3
+      - name: entityManagementDelete
+        max_query_field_depth: 3
     types:
       - name: EntityManagementEntity
         include_implementations:
