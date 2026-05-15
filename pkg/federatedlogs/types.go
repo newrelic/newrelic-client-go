@@ -3399,34 +3399,10 @@ type Actor struct {
 	//
 	// Note: you must supply either a `query` OR a `queryBuilder` argument, not both.
 	EntitySearch EntitySearch `json:"entitySearch,omitempty"`
-	// This field provides access to FederatedLogs data.
-	FederatedLogs FederatedLogsActorStitchedFields `json:"federatedLogs,omitempty"`
-}
-
-// Actor - The `Actor` object contains fields that are scoped to the API user's access level.
-type Actor struct {
-	// The `accounts` field returns all accounts that the Actor is authorized to view.
-	Accounts []AccountOutline `json:"accounts,omitempty"`
-	// Fetch a list of entities.
-	//
-	// You can fetch a max of 25 entities in one query.
-	//
-	// For more details on entities, visit our [entity docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/use-new-relic-graphql-api-query-entities).
-	Entities []EntityInterface `json:"entities,omitempty"`
-	// Fetch a single entity.
-	//
-	// For more details on entities, visit our [entity docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/use-new-relic-graphql-api-query-entities).
-	Entity EntityInterface `json:"entity,omitempty"`
 	// This field provides access to EntityManagement data.
 	EntityManagement EntityManagementActorStitchedFields `json:"entityManagement,omitempty"`
-	// Search for entities using a custom query.
-	//
-	// For more details on how to create a custom query
-	// and what entity data you can request, visit our
-	// [entity docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/use-new-relic-graphql-api-query-entities).
-	//
-	// Note: you must supply either a `query` OR a `queryBuilder` argument, not both.
-	EntitySearch EntitySearch `json:"entitySearch,omitempty"`
+	// This field provides access to FederatedLogs data.
+	FederatedLogs FederatedLogsActorStitchedFields `json:"federatedLogs,omitempty"`
 }
 
 // AgentApplicationSegmentsBrowserSegmentAllowList - The allow list object for browser applications.
@@ -5404,6 +5380,46 @@ type EntityManagementActorStitchedFields struct {
 	Entity EntityManagementEntityInterface `json:"entity,omitempty"`
 	// Retrieves a set of entities that match the given query predicate.
 	EntitySearch EntityManagementEntitySearchResult `json:"entitySearch,omitempty"`
+}
+
+// DO NOT DELETE
+// Custom unmarshaler required because Entity is an interface — needs the __typename
+// dispatch to pick the concrete EntityManagement* type. Tutone does not auto-generate
+// this for packages that configure both actor.<ns>.* and actor.entityManagement.*
+// query paths; same exists in pkg/pipelinecontrol/types.go.
+func (x *EntityManagementActorStitchedFields) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+
+	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
+		switch k {
+		case "entity":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalEntityManagementEntityInterface(*v)
+			if err != nil {
+				return err
+			}
+			if xxx != nil {
+				x.Entity = *xxx
+			}
+		case "entitySearch":
+			err = json.Unmarshal(*v, &x.EntitySearch)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
 }
 
 // EntityManagementAdditionalParameter - Key-value pair for additional configuration
