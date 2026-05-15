@@ -64,8 +64,8 @@ var (
 		}
 	}
   }`
-	linkedAccountID = fmt.Sprintf("%06d", rand.Int63n(1e6))
-	nrAccountID     = fmt.Sprintf("%06d", rand.Int63n(1e6))
+	linkedAccountID = fmt.Sprintf("%d", rand.Int63n(1e6-1e5)+1e5)
+	nrAccountID     = fmt.Sprintf("%d", rand.Int63n(1e6-1e5)+1e5)
 
 	testUpdateAzureLinkAccount = `
 {

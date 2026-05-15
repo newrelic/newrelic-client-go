@@ -5,6 +5,7 @@ package pipelinecontrol
 
 import (
 	"fmt"
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -89,4 +90,177 @@ func TestIntegrationEntityManagement_PipelineCloudRule_CRUD(t *testing.T) {
 
 	// 5. Delete the entity (this is handled by the deferred function)
 	// The test will complete, and the deferred function will execute for cleanup.
+}
+
+// TestIntegrationEntityManagement_FederatedLogSetup_CRUD tests full CRUD for FederatedLogSetupEntity.
+// Set the environment variable RUN_FEDERATED_LOG_SETUP_TEST=true to run this test.
+func TestIntegrationEntityManagement_FederatedLogSetup_CRUD(t *testing.T) {
+	t.Parallel()
+
+	if os.Getenv("RUN_FEDERATED_LOG_SETUP_TEST") != "true" {
+		t.Skip("Skipping FederatedLogSetup integration test. Set RUN_FEDERATED_LOG_SETUP_TEST=true to run.")
+	}
+
+	client := newIntegrationTestClient(t)
+	accountID, _ := testhelpers.GetTestAccountID()
+
+	dataProcessingConnectionId := os.Getenv("TEST_DATA_PROCESSING_CONNECTION_ID")
+	queryConnectionId := os.Getenv("TEST_QUERY_CONNECTION_ID")
+	dataLocationBucket := os.Getenv("TEST_DATA_LOCATION_BUCKET")
+
+	if dataProcessingConnectionId == "" || queryConnectionId == "" || dataLocationBucket == "" {
+		t.Skip("Required env vars not set: TEST_DATA_PROCESSING_CONNECTION_ID, TEST_QUERY_CONNECTION_ID, TEST_DATA_LOCATION_BUCKET")
+	}
+
+	setupName := fmt.Sprintf("test-federated-log-setup-%s", testhelpers.RandSeq(5))
+
+	createInput := EntityManagementFederatedLogSetupEntityCreateInput{
+		Name:                       setupName,
+		Description:                "A test federated log setup from integration testing.",
+		CloudProvider:              EntityManagementCloudProviderTypes.AWS,
+		CloudProviderRegion:        "us-east-1",
+		DataLocationBucket:         dataLocationBucket,
+		DataProcessingConnectionId: dataProcessingConnectionId,
+		NrAccountId:                fmt.Sprintf("%d", accountID),
+		NrRegion:                   EntityManagementNrRegionTypes.US,
+		QueryConnectionId:          queryConnectionId,
+		Status:                     EntityManagementFederatedLogSetupStatusTypes.CREATING,
+		Scope: EntityManagementScopedReferenceInput{
+			Type: EntityManagementEntityScopeTypes.ACCOUNT,
+			ID:   fmt.Sprintf("%d", accountID),
+		},
+	}
+
+	// 1. Create
+	createResult, err := client.EntityManagementCreateFederatedLogSetup(createInput)
+	require.NoError(t, err)
+	require.NotNil(t, createResult)
+	require.NotEmpty(t, createResult.Entity.ID)
+	require.Equal(t, setupName, createResult.Entity.Name)
+	require.Equal(t, EntityManagementCloudProviderTypes.AWS, createResult.Entity.CloudProvider)
+
+	defer func() {
+		_, deleteErr := client.EntityManagementDelete(createResult.Entity.ID)
+		require.NoError(t, deleteErr, "Failed to clean up FederatedLogSetup entity %s", createResult.Entity.ID)
+	}()
+
+	// 2. Read
+	getResult, err := client.GetEntity(createResult.Entity.ID)
+	require.NoError(t, err)
+	require.NotNil(t, getResult)
+
+	setupEntity, ok := (*getResult).(*EntityManagementFederatedLogSetupEntity)
+	require.True(t, ok, "Fetched entity was not of the expected FederatedLogSetupEntity type")
+	require.Equal(t, createResult.Entity.ID, setupEntity.ID)
+	require.Equal(t, createInput.Name, setupEntity.Name)
+	require.Equal(t, createInput.Description, setupEntity.Description)
+	require.Equal(t, createInput.CloudProvider, setupEntity.CloudProvider)
+	require.Equal(t, createInput.CloudProviderRegion, setupEntity.CloudProviderRegion)
+
+	// 3. Update
+	updateInput := EntityManagementFederatedLogSetupEntityUpdateInput{
+		Name:                       setupName + "-updated",
+		Description:                "Updated federated log setup from integration testing.",
+		CloudProvider:              EntityManagementCloudProviderTypes.AWS,
+		CloudProviderRegion:        "us-east-1",
+		DataLocationBucket:         dataLocationBucket,
+		DataProcessingConnectionId: dataProcessingConnectionId,
+		NrAccountId:                fmt.Sprintf("%d", accountID),
+		NrRegion:                   EntityManagementNrRegionTypes.US,
+		QueryConnectionId:          queryConnectionId,
+		Status:                     EntityManagementFederatedLogSetupStatusTypes.CREATING,
+	}
+
+	updateResult, err := client.EntityManagementUpdateFederatedLogSetup(updateInput, createResult.Entity.ID, setupEntity.Metadata.Version)
+	require.NoError(t, err)
+	require.NotNil(t, updateResult)
+	require.Equal(t, setupName+"-updated", updateResult.Entity.Name)
+	require.Equal(t, "Updated federated log setup from integration testing.", updateResult.Entity.Description)
+	require.Equal(t, setupEntity.Metadata.Version+1, updateResult.Entity.Metadata.Version)
+
+	// 4. Read after update
+	getResultAfterUpdate, err := client.GetEntity(createResult.Entity.ID)
+	require.NoError(t, err)
+	require.NotNil(t, getResultAfterUpdate)
+
+	setupEntityUpdated, ok := (*getResultAfterUpdate).(*EntityManagementFederatedLogSetupEntity)
+	require.True(t, ok, "Fetched entity was not of the expected FederatedLogSetupEntity type")
+	require.Equal(t, updateResult.Entity.Name, setupEntityUpdated.Name)
+	require.Equal(t, updateInput.Description, setupEntityUpdated.Description)
+
+	// 5. Delete (handled by deferred function)
+}
+
+// TestIntegrationEntityManagement_FederatedLogSetup_Create tests the creation of a FederatedLogSetupEntity.
+// This test is skipped by default as it requires specific cloud infrastructure setup.
+// Set the environment variable RUN_FEDERATED_LOG_SETUP_TEST=true to run this test.
+func TestIntegrationEntityManagement_FederatedLogSetup_Create(t *testing.T) {
+	t.Parallel()
+
+	// Skip this test unless explicitly enabled
+	if os.Getenv("RUN_FEDERATED_LOG_SETUP_TEST") != "true" {
+		t.Skip("Skipping FederatedLogSetup integration test. Set RUN_FEDERATED_LOG_SETUP_TEST=true to run.")
+	}
+
+	client := newIntegrationTestClient(t)
+	accountID, _ := testhelpers.GetTestAccountID()
+
+	// Generate a unique name for the test
+	setupName := fmt.Sprintf("test-federated-log-setup-%s", testhelpers.RandSeq(5))
+
+	// Note: This test requires valid connection IDs for DataProcessingConnection and QueryConnection
+	// These would need to be created separately or provided via environment variables
+	dataProcessingConnectionId := os.Getenv("TEST_DATA_PROCESSING_CONNECTION_ID")
+	queryConnectionId := os.Getenv("TEST_QUERY_CONNECTION_ID")
+	dataLocationBucket := os.Getenv("TEST_DATA_LOCATION_BUCKET")
+
+	if dataProcessingConnectionId == "" || queryConnectionId == "" || dataLocationBucket == "" {
+		t.Skip("Skipping FederatedLogSetup integration test. Required environment variables not set: TEST_DATA_PROCESSING_CONNECTION_ID, TEST_QUERY_CONNECTION_ID, TEST_DATA_LOCATION_BUCKET")
+	}
+
+	createInput := EntityManagementFederatedLogSetupEntityCreateInput{
+		Name:                       setupName,
+		Description:                "A test federated log setup from integration testing.",
+		CloudProvider:              EntityManagementCloudProviderTypes.AWS,
+		CloudProviderRegion:        "us-east-1",
+		DataLocationBucket:         dataLocationBucket,
+		DataProcessingConnectionId: dataProcessingConnectionId,
+		NrAccountId:                fmt.Sprintf("%d", accountID),
+		NrRegion:                   EntityManagementNrRegionTypes.US,
+		QueryConnectionId:          queryConnectionId,
+		Status:                     EntityManagementFederatedLogSetupStatusTypes.CREATING,
+		Scope: EntityManagementScopedReferenceInput{
+			Type: EntityManagementEntityScopeTypes.ACCOUNT,
+			ID:   fmt.Sprintf("%d", accountID),
+		},
+	}
+
+	// 1. Create the entity
+	createResult, err := client.EntityManagementCreateFederatedLogSetup(createInput)
+	require.NotNil(t, createResult)
+	require.NoError(t, err)
+
+	require.NotEmpty(t, createResult.Entity.ID)
+	require.Equal(t, setupName, createResult.Entity.Name)
+	require.Equal(t, EntityManagementCloudProviderTypes.AWS, createResult.Entity.CloudProvider)
+
+	// Defer the deletion to ensure cleanup even if assertions fail
+	defer func() {
+		_, deleteErr := client.EntityManagementDelete(createResult.Entity.ID)
+		require.NoError(t, deleteErr, "Failed to clean up FederatedLogSetup entity %s", createResult.Entity.ID)
+	}()
+
+	// 2. Read the entity to verify creation
+	getResult, err := client.GetEntity(createResult.Entity.ID)
+	require.NoError(t, err)
+	require.NotNil(t, getResult)
+
+	// Type assert the result to access specific fields
+	setupEntity, ok := (*getResult).(*EntityManagementFederatedLogSetupEntity)
+	require.True(t, ok, "Fetched entity was not of the expected type")
+	require.Equal(t, createResult.Entity.ID, setupEntity.ID)
+	require.Equal(t, createInput.Name, setupEntity.Name)
+	require.Equal(t, createInput.Description, setupEntity.Description)
+	require.Equal(t, createInput.CloudProvider, setupEntity.CloudProvider)
+	require.Equal(t, createInput.CloudProviderRegion, setupEntity.CloudProviderRegion)
 }
