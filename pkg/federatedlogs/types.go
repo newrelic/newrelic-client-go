@@ -3399,10 +3399,34 @@ type Actor struct {
 	//
 	// Note: you must supply either a `query` OR a `queryBuilder` argument, not both.
 	EntitySearch EntitySearch `json:"entitySearch,omitempty"`
-	// This field provides access to EntityManagement data.
-	EntityManagement EntityManagementActorStitchedFields `json:"entityManagement,omitempty"`
 	// This field provides access to FederatedLogs data.
 	FederatedLogs FederatedLogsActorStitchedFields `json:"federatedLogs,omitempty"`
+}
+
+// Actor - The `Actor` object contains fields that are scoped to the API user's access level.
+type Actor struct {
+	// The `accounts` field returns all accounts that the Actor is authorized to view.
+	Accounts []AccountOutline `json:"accounts,omitempty"`
+	// Fetch a list of entities.
+	//
+	// You can fetch a max of 25 entities in one query.
+	//
+	// For more details on entities, visit our [entity docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/use-new-relic-graphql-api-query-entities).
+	Entities []EntityInterface `json:"entities,omitempty"`
+	// Fetch a single entity.
+	//
+	// For more details on entities, visit our [entity docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/use-new-relic-graphql-api-query-entities).
+	Entity EntityInterface `json:"entity,omitempty"`
+	// This field provides access to EntityManagement data.
+	EntityManagement EntityManagementActorStitchedFields `json:"entityManagement,omitempty"`
+	// Search for entities using a custom query.
+	//
+	// For more details on how to create a custom query
+	// and what entity data you can request, visit our
+	// [entity docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/use-new-relic-graphql-api-query-entities).
+	//
+	// Note: you must supply either a `query` OR a `queryBuilder` argument, not both.
+	EntitySearch EntitySearch `json:"entitySearch,omitempty"`
 }
 
 // AgentApplicationSegmentsBrowserSegmentAllowList - The allow list object for browser applications.
@@ -6202,22 +6226,6 @@ type EntityManagementCloudProviderConfiguration struct {
 	Region string `json:"region"`
 }
 
-// EntityManagementCloudProviderConfigurationCreateInput - Create input for CloudProviderConfiguration.
-type EntityManagementCloudProviderConfigurationCreateInput struct {
-	// See provider in CloudProviderConfiguration.
-	Provider EntityManagementCloudProvider `json:"provider"`
-	// See region in CloudProviderConfiguration.
-	Region string `json:"region"`
-}
-
-// EntityManagementCloudProviderConfigurationUpdateInput - Update input for CloudProviderConfiguration.
-type EntityManagementCloudProviderConfigurationUpdateInput struct {
-	// See provider in CloudProviderConfiguration.
-	Provider EntityManagementCloudProvider `json:"provider"`
-	// See region in CloudProviderConfiguration.
-	Region string `json:"region"`
-}
-
 // EntityManagementCollectionEntity - An entity type to represent collections of entities
 type EntityManagementCollectionEntity struct {
 	// The entity's global unique identifier.
@@ -7059,72 +7067,6 @@ type EntityManagementFederatedLogPartitionEntity struct {
 
 func (x *EntityManagementFederatedLogPartitionEntity) ImplementsEntityManagementEntity() {}
 
-// EntityManagementFederatedLogPartitionEntityCreateInput - Create input for FederatedLogPartitionEntity entity type.
-type EntityManagementFederatedLogPartitionEntityCreateInput struct {
-	// See active in FederatedLogPartitionEntity.
-	Active bool `json:"active"`
-	// See dataRetentionPolicy in FederatedLogPartitionEntity.
-	DataRetentionPolicy EntityManagementRetentionPolicyCreateInput `json:"dataRetentionPolicy,omitempty"`
-	// See description in FederatedLogPartitionEntity.
-	Description string `json:"description,omitempty"`
-	// See forwarderConfig in FederatedLogPartitionEntity.
-	ForwarderConfig EntityManagementPartitionForwarderConfigurationCreateInput `json:"forwarderConfig,omitempty"`
-	// See healthCheck in FederatedLogPartitionEntity.
-	HealthCheck EntityManagementPartitionHealthCheckStatusCreateInput `json:"healthCheck,omitempty"`
-	// See isDefault in FederatedLogPartitionEntity.
-	IsDefault bool `json:"isDefault"`
-	// See lifecycleStatus in FederatedLogPartitionEntity.
-	LifecycleStatus EntityManagementLifecycleStatusPartitionCreateInput `json:"lifecycleStatus,omitempty"`
-	// See name in FederatedLogPartitionEntity.
-	Name string `json:"name"`
-	// See scope in FederatedLogPartitionEntity.
-	Scope EntityManagementScopedReferenceInput `json:"scope,omitempty"`
-	// See setupId in FederatedLogPartitionEntity.
-	SetupId string `json:"setupId"`
-	// See storage in FederatedLogPartitionEntity.
-	Storage EntityManagementPartitionStorageCreateInput `json:"storage,omitempty"`
-	// See tags in FederatedLogPartitionEntity.
-	Tags []EntityManagementTagInput `json:"tags,omitempty"`
-}
-
-// EntityManagementFederatedLogPartitionEntityCreateResult - The result of creating an entity.
-type EntityManagementFederatedLogPartitionEntityCreateResult struct {
-	// The created entity.
-	Entity EntityManagementFederatedLogPartitionEntity `json:"entity"`
-}
-
-// EntityManagementFederatedLogPartitionEntityUpdateInput - Update input for FederatedLogPartitionEntity entity type.
-type EntityManagementFederatedLogPartitionEntityUpdateInput struct {
-	// See active in FederatedLogPartitionEntity.
-	Active bool `json:"active,omitempty"`
-	// See dataRetentionPolicy in FederatedLogPartitionEntity.
-	DataRetentionPolicy EntityManagementRetentionPolicyUpdateInput `json:"dataRetentionPolicy,omitempty"`
-	// See description in FederatedLogPartitionEntity.
-	Description string `json:"description,omitempty"`
-	// See forwarderConfig in FederatedLogPartitionEntity.
-	ForwarderConfig EntityManagementPartitionForwarderConfigurationUpdateInput `json:"forwarderConfig,omitempty"`
-	// See healthCheck in FederatedLogPartitionEntity.
-	HealthCheck EntityManagementPartitionHealthCheckStatusUpdateInput `json:"healthCheck,omitempty"`
-	// See isDefault in FederatedLogPartitionEntity.
-	IsDefault bool `json:"isDefault,omitempty"`
-	// See lifecycleStatus in FederatedLogPartitionEntity.
-	LifecycleStatus EntityManagementLifecycleStatusPartitionUpdateInput `json:"lifecycleStatus,omitempty"`
-	// See name in FederatedLogPartitionEntity.
-	Name string `json:"name,omitempty"`
-	// See setupId in FederatedLogPartitionEntity.
-	SetupId string `json:"setupId,omitempty"`
-	// See storage in FederatedLogPartitionEntity.
-	Storage EntityManagementPartitionStorageUpdateInput `json:"storage,omitempty"`
-	// See tags in FederatedLogPartitionEntity.
-	Tags []EntityManagementTagInput `json:"tags,omitempty"`
-}
-
-// EntityManagementFederatedLogPartitionEntityUpdateResult - The result of updating an entity.
-type EntityManagementFederatedLogPartitionEntityUpdateResult struct {
-	// The updated entity.
-	Entity EntityManagementFederatedLogPartitionEntity `json:"entity"`
-}
-
 // EntityManagementFederatedLogSetupEntity - Federated log setup entity.
 type EntityManagementFederatedLogSetupEntity struct {
 	// Indicates if this federated log setup is active. When turned off, no new data will be routed to this setup, but existing data can still be queried.
@@ -7156,64 +7098,6 @@ type EntityManagementFederatedLogSetupEntity struct {
 }
 
 func (x *EntityManagementFederatedLogSetupEntity) ImplementsEntityManagementEntity() {}
-
-// EntityManagementFederatedLogSetupEntityCreateInput - Create input for FederatedLogSetupEntity entity type.
-type EntityManagementFederatedLogSetupEntityCreateInput struct {
-	// See active in FederatedLogSetupEntity.
-	Active bool `json:"active"`
-	// See defaultPartitionId in FederatedLogSetupEntity.
-	DefaultPartitionId string `json:"defaultPartitionId,omitempty"`
-	// See description in FederatedLogSetupEntity.
-	Description string `json:"description,omitempty"`
-	// See forwarder in FederatedLogSetupEntity.
-	Forwarder EntityManagementForwarderCreateInput `json:"forwarder,omitempty"`
-	// See healthCheck in FederatedLogSetupEntity.
-	HealthCheck EntityManagementSetupHealthCheckStatusCreateInput `json:"healthCheck,omitempty"`
-	// See lifecycleStatus in FederatedLogSetupEntity.
-	LifecycleStatus EntityManagementLifecycleStatusSetupCreateInput `json:"lifecycleStatus,omitempty"`
-	// See name in FederatedLogSetupEntity.
-	Name string `json:"name"`
-	// See scope in FederatedLogSetupEntity.
-	Scope EntityManagementScopedReferenceInput `json:"scope,omitempty"`
-	// See storage in FederatedLogSetupEntity.
-	Storage EntityManagementSetupStorageCreateInput `json:"storage,omitempty"`
-	// See tags in FederatedLogSetupEntity.
-	Tags []EntityManagementTagInput `json:"tags,omitempty"`
-}
-
-// EntityManagementFederatedLogSetupEntityCreateResult - The result of creating an entity.
-type EntityManagementFederatedLogSetupEntityCreateResult struct {
-	// The created entity.
-	Entity EntityManagementFederatedLogSetupEntity `json:"entity"`
-}
-
-// EntityManagementFederatedLogSetupEntityUpdateInput - Update input for FederatedLogSetupEntity entity type.
-type EntityManagementFederatedLogSetupEntityUpdateInput struct {
-	// See active in FederatedLogSetupEntity.
-	Active bool `json:"active,omitempty"`
-	// See defaultPartitionId in FederatedLogSetupEntity.
-	DefaultPartitionId string `json:"defaultPartitionId,omitempty"`
-	// See description in FederatedLogSetupEntity.
-	Description string `json:"description,omitempty"`
-	// See forwarder in FederatedLogSetupEntity.
-	Forwarder EntityManagementForwarderUpdateInput `json:"forwarder,omitempty"`
-	// See healthCheck in FederatedLogSetupEntity.
-	HealthCheck EntityManagementSetupHealthCheckStatusUpdateInput `json:"healthCheck,omitempty"`
-	// See lifecycleStatus in FederatedLogSetupEntity.
-	LifecycleStatus EntityManagementLifecycleStatusSetupUpdateInput `json:"lifecycleStatus,omitempty"`
-	// See name in FederatedLogSetupEntity.
-	Name string `json:"name,omitempty"`
-	// See storage in FederatedLogSetupEntity.
-	Storage EntityManagementSetupStorageUpdateInput `json:"storage,omitempty"`
-	// See tags in FederatedLogSetupEntity.
-	Tags []EntityManagementTagInput `json:"tags,omitempty"`
-}
-
-// EntityManagementFederatedLogSetupEntityUpdateResult - The result of updating an entity.
-type EntityManagementFederatedLogSetupEntityUpdateResult struct {
-	// The updated entity.
-	Entity EntityManagementFederatedLogSetupEntity `json:"entity"`
-}
 
 // EntityManagementFleetControlProperties - Properties specific to fleet control
 type EntityManagementFleetControlProperties struct {
@@ -7378,22 +7262,6 @@ type EntityManagementForwarder struct {
 	// Configuration for a pipeline control forwarder. Populated when type is PIPELINE_CONTROL.
 	PipelineControl EntityManagementPipelineControlConfiguration `json:"pipelineControl,omitempty"`
 	// The type of forwarder used to process logs. Determines which configuration field is populated.
-	Type EntityManagementForwarderType `json:"type"`
-}
-
-// EntityManagementForwarderCreateInput - Create input for Forwarder.
-type EntityManagementForwarderCreateInput struct {
-	// See pipelineControl in Forwarder.
-	PipelineControl EntityManagementPipelineControlConfigurationCreateInput `json:"pipelineControl,omitempty"`
-	// See type in Forwarder.
-	Type EntityManagementForwarderType `json:"type"`
-}
-
-// EntityManagementForwarderUpdateInput - Update input for Forwarder.
-type EntityManagementForwarderUpdateInput struct {
-	// See pipelineControl in Forwarder.
-	PipelineControl EntityManagementPipelineControlConfigurationUpdateInput `json:"pipelineControl,omitempty"`
-	// See type in Forwarder.
 	Type EntityManagementForwarderType `json:"type"`
 }
 
@@ -7584,26 +7452,6 @@ type EntityManagementHealthCheckDetail struct {
 	// Details about the failure, if any.
 	Message string `json:"message,omitempty"`
 	// Whether this specific check passed.
-	Status EntityManagementHealthCheckState `json:"status"`
-}
-
-// EntityManagementHealthCheckDetailCreateInput - Create input for HealthCheckDetail.
-type EntityManagementHealthCheckDetailCreateInput struct {
-	// See lastUpdatedAt in HealthCheckDetail.
-	LastUpdatedAt nrtime.DateTime `json:"lastUpdatedAt"`
-	// See message in HealthCheckDetail.
-	Message string `json:"message,omitempty"`
-	// See status in HealthCheckDetail.
-	Status EntityManagementHealthCheckState `json:"status"`
-}
-
-// EntityManagementHealthCheckDetailUpdateInput - Update input for HealthCheckDetail.
-type EntityManagementHealthCheckDetailUpdateInput struct {
-	// See lastUpdatedAt in HealthCheckDetail.
-	LastUpdatedAt nrtime.DateTime `json:"lastUpdatedAt"`
-	// See message in HealthCheckDetail.
-	Message string `json:"message,omitempty"`
-	// See status in HealthCheckDetail.
 	Status EntityManagementHealthCheckState `json:"status"`
 }
 
@@ -8041,26 +7889,6 @@ type EntityManagementLifecycleStatusPartition struct {
 	Status EntityManagementLifecycleStatePartition `json:"status"`
 }
 
-// EntityManagementLifecycleStatusPartitionCreateInput - Create input for LifecycleStatusPartition.
-type EntityManagementLifecycleStatusPartitionCreateInput struct {
-	// See lastUpdatedAt in LifecycleStatusPartition.
-	LastUpdatedAt nrtime.DateTime `json:"lastUpdatedAt"`
-	// See message in LifecycleStatusPartition.
-	Message string `json:"message,omitempty"`
-	// See status in LifecycleStatusPartition.
-	Status EntityManagementLifecycleStatePartition `json:"status"`
-}
-
-// EntityManagementLifecycleStatusPartitionUpdateInput - Update input for LifecycleStatusPartition.
-type EntityManagementLifecycleStatusPartitionUpdateInput struct {
-	// See lastUpdatedAt in LifecycleStatusPartition.
-	LastUpdatedAt nrtime.DateTime `json:"lastUpdatedAt"`
-	// See message in LifecycleStatusPartition.
-	Message string `json:"message,omitempty"`
-	// See status in LifecycleStatusPartition.
-	Status EntityManagementLifecycleStatePartition `json:"status"`
-}
-
 // EntityManagementLifecycleStatusSetup - Lifecycle status for a federated log setup.
 type EntityManagementLifecycleStatusSetup struct {
 	// When the lifecycle status was last updated.
@@ -8068,26 +7896,6 @@ type EntityManagementLifecycleStatusSetup struct {
 	// Optional message providing additional context about the status.
 	Message string `json:"message,omitempty"`
 	// The current lifecycle state of the setup.
-	Status EntityManagementLifecycleStateSetup `json:"status"`
-}
-
-// EntityManagementLifecycleStatusSetupCreateInput - Create input for LifecycleStatusSetup.
-type EntityManagementLifecycleStatusSetupCreateInput struct {
-	// See lastUpdatedAt in LifecycleStatusSetup.
-	LastUpdatedAt nrtime.DateTime `json:"lastUpdatedAt"`
-	// See message in LifecycleStatusSetup.
-	Message string `json:"message,omitempty"`
-	// See status in LifecycleStatusSetup.
-	Status EntityManagementLifecycleStateSetup `json:"status"`
-}
-
-// EntityManagementLifecycleStatusSetupUpdateInput - Update input for LifecycleStatusSetup.
-type EntityManagementLifecycleStatusSetupUpdateInput struct {
-	// See lastUpdatedAt in LifecycleStatusSetup.
-	LastUpdatedAt nrtime.DateTime `json:"lastUpdatedAt"`
-	// See message in LifecycleStatusSetup.
-	Message string `json:"message,omitempty"`
-	// See status in LifecycleStatusSetup.
 	Status EntityManagementLifecycleStateSetup `json:"status"`
 }
 
@@ -8568,22 +8376,6 @@ type EntityManagementPartitionForwarderConfiguration struct {
 	Type EntityManagementForwarderType `json:"type"`
 }
 
-// EntityManagementPartitionForwarderConfigurationCreateInput - Create input for PartitionForwarderConfiguration.
-type EntityManagementPartitionForwarderConfigurationCreateInput struct {
-	// See partitionRule in PartitionForwarderConfiguration.
-	PartitionRule EntityManagementPartitionRuleCreateInput `json:"partitionRule,omitempty"`
-	// See type in PartitionForwarderConfiguration.
-	Type EntityManagementForwarderType `json:"type"`
-}
-
-// EntityManagementPartitionForwarderConfigurationUpdateInput - Update input for PartitionForwarderConfiguration.
-type EntityManagementPartitionForwarderConfigurationUpdateInput struct {
-	// See partitionRule in PartitionForwarderConfiguration.
-	PartitionRule EntityManagementPartitionRuleUpdateInput `json:"partitionRule,omitempty"`
-	// See type in PartitionForwarderConfiguration.
-	Type EntityManagementForwarderType `json:"type"`
-}
-
 // EntityManagementPartitionHealthCheckStatus - Health check status for a federated log partition.
 type EntityManagementPartitionHealthCheckStatus struct {
 	// End-to-end health check: logs were successfully sent, processed, stored, and queried for this partition.
@@ -8594,41 +8386,9 @@ type EntityManagementPartitionHealthCheckStatus struct {
 	QueryConnection EntityManagementHealthCheckDetail `json:"queryConnection,omitempty"`
 }
 
-// EntityManagementPartitionHealthCheckStatusCreateInput - Create input for PartitionHealthCheckStatus.
-type EntityManagementPartitionHealthCheckStatusCreateInput struct {
-	// See end2endDataFlow in PartitionHealthCheckStatus.
-	End2endDataFlow EntityManagementHealthCheckDetailCreateInput `json:"end2endDataFlow,omitempty"`
-	// See lastUpdatedAt in PartitionHealthCheckStatus.
-	LastUpdatedAt nrtime.DateTime `json:"lastUpdatedAt"`
-	// See queryConnection in PartitionHealthCheckStatus.
-	QueryConnection EntityManagementHealthCheckDetailCreateInput `json:"queryConnection,omitempty"`
-}
-
-// EntityManagementPartitionHealthCheckStatusUpdateInput - Update input for PartitionHealthCheckStatus.
-type EntityManagementPartitionHealthCheckStatusUpdateInput struct {
-	// See end2endDataFlow in PartitionHealthCheckStatus.
-	End2endDataFlow EntityManagementHealthCheckDetailUpdateInput `json:"end2endDataFlow,omitempty"`
-	// See lastUpdatedAt in PartitionHealthCheckStatus.
-	LastUpdatedAt nrtime.DateTime `json:"lastUpdatedAt"`
-	// See queryConnection in PartitionHealthCheckStatus.
-	QueryConnection EntityManagementHealthCheckDetailUpdateInput `json:"queryConnection,omitempty"`
-}
-
 // EntityManagementPartitionRule - A routing rule consisting of a single OTTL expression that determines how logs are partitioned.
 type EntityManagementPartitionRule struct {
 	// OTTL expression for partitioning logs. e.g. attributes["cloud.provider"] == "aws"
-	Expression string `json:"expression"`
-}
-
-// EntityManagementPartitionRuleCreateInput - Create input for PartitionRule.
-type EntityManagementPartitionRuleCreateInput struct {
-	// See expression in PartitionRule.
-	Expression string `json:"expression"`
-}
-
-// EntityManagementPartitionRuleUpdateInput - Update input for PartitionRule.
-type EntityManagementPartitionRuleUpdateInput struct {
-	// See expression in PartitionRule.
 	Expression string `json:"expression"`
 }
 
@@ -8637,22 +8397,6 @@ type EntityManagementPartitionStorage struct {
 	// The URI location of the log partition in object storage.
 	DataLocationUri string `json:"dataLocationUri"`
 	// The table name associated with the log partition. This could refer to a data catalog table or similar structure.
-	Table string `json:"table"`
-}
-
-// EntityManagementPartitionStorageCreateInput - Create input for PartitionStorage.
-type EntityManagementPartitionStorageCreateInput struct {
-	// See dataLocationUri in PartitionStorage.
-	DataLocationUri string `json:"dataLocationUri"`
-	// See table in PartitionStorage.
-	Table string `json:"table"`
-}
-
-// EntityManagementPartitionStorageUpdateInput - Update input for PartitionStorage.
-type EntityManagementPartitionStorageUpdateInput struct {
-	// See dataLocationUri in PartitionStorage.
-	DataLocationUri string `json:"dataLocationUri"`
-	// See table in PartitionStorage.
 	Table string `json:"table"`
 }
 
@@ -8708,22 +8452,6 @@ type EntityManagementPipelineControlConfiguration struct {
 	Fleet EntityManagementFleetEntity `json:"fleet"`
 	// The routing rule that determines how incoming logs are routed to this setup.
 	RoutingRule EntityManagementRoutingRule `json:"routingRule,omitempty"`
-}
-
-// EntityManagementPipelineControlConfigurationCreateInput - Create input for PipelineControlConfiguration.
-type EntityManagementPipelineControlConfigurationCreateInput struct {
-	// See fleetId in PipelineControlConfiguration.
-	FleetId string `json:"fleetId"`
-	// See routingRule in PipelineControlConfiguration.
-	RoutingRule EntityManagementRoutingRuleCreateInput `json:"routingRule,omitempty"`
-}
-
-// EntityManagementPipelineControlConfigurationUpdateInput - Update input for PipelineControlConfiguration.
-type EntityManagementPipelineControlConfigurationUpdateInput struct {
-	// See fleetId in PipelineControlConfiguration.
-	FleetId string `json:"fleetId"`
-	// See routingRule in PipelineControlConfiguration.
-	RoutingRule EntityManagementRoutingRuleUpdateInput `json:"routingRule,omitempty"`
 }
 
 // EntityManagementPrincipal - A wrapper object that will contain exactly one of the possible identity types.
@@ -8898,22 +8626,6 @@ type EntityManagementRetentionPolicy struct {
 	Unit EntityManagementRetentionUnit `json:"unit"`
 }
 
-// EntityManagementRetentionPolicyCreateInput - Create input for RetentionPolicy.
-type EntityManagementRetentionPolicyCreateInput struct {
-	// See duration in RetentionPolicy.
-	Duration int `json:"duration"`
-	// See unit in RetentionPolicy.
-	Unit EntityManagementRetentionUnit `json:"unit"`
-}
-
-// EntityManagementRetentionPolicyUpdateInput - Update input for RetentionPolicy.
-type EntityManagementRetentionPolicyUpdateInput struct {
-	// See duration in RetentionPolicy.
-	Duration int `json:"duration"`
-	// See unit in RetentionPolicy.
-	Unit EntityManagementRetentionUnit `json:"unit"`
-}
-
 // EntityManagementRingDeploymentTracker - A type for holding deployment status for a Ring
 type EntityManagementRingDeploymentTracker struct {
 	// Rollout end time
@@ -8929,18 +8641,6 @@ type EntityManagementRingDeploymentTracker struct {
 // EntityManagementRoutingRule - A routing rule consisting of a single OTTL expression that determines how logs are routed.
 type EntityManagementRoutingRule struct {
 	// OTTL expression for routing logs. e.g. attributes["cloud.provider"] == "aws"
-	Expression string `json:"expression"`
-}
-
-// EntityManagementRoutingRuleCreateInput - Create input for RoutingRule.
-type EntityManagementRoutingRuleCreateInput struct {
-	// See expression in RoutingRule.
-	Expression string `json:"expression"`
-}
-
-// EntityManagementRoutingRuleUpdateInput - Update input for RoutingRule.
-type EntityManagementRoutingRuleUpdateInput struct {
-	// See expression in RoutingRule.
 	Expression string `json:"expression"`
 }
 
@@ -9176,26 +8876,6 @@ type EntityManagementSetupHealthCheckStatus struct {
 	QueryConnection EntityManagementHealthCheckDetail `json:"queryConnection,omitempty"`
 }
 
-// EntityManagementSetupHealthCheckStatusCreateInput - Create input for SetupHealthCheckStatus.
-type EntityManagementSetupHealthCheckStatusCreateInput struct {
-	// See end2endDataFlow in SetupHealthCheckStatus.
-	End2endDataFlow EntityManagementHealthCheckDetailCreateInput `json:"end2endDataFlow,omitempty"`
-	// See lastUpdatedAt in SetupHealthCheckStatus.
-	LastUpdatedAt nrtime.DateTime `json:"lastUpdatedAt"`
-	// See queryConnection in SetupHealthCheckStatus.
-	QueryConnection EntityManagementHealthCheckDetailCreateInput `json:"queryConnection,omitempty"`
-}
-
-// EntityManagementSetupHealthCheckStatusUpdateInput - Update input for SetupHealthCheckStatus.
-type EntityManagementSetupHealthCheckStatusUpdateInput struct {
-	// See end2endDataFlow in SetupHealthCheckStatus.
-	End2endDataFlow EntityManagementHealthCheckDetailUpdateInput `json:"end2endDataFlow,omitempty"`
-	// See lastUpdatedAt in SetupHealthCheckStatus.
-	LastUpdatedAt nrtime.DateTime `json:"lastUpdatedAt"`
-	// See queryConnection in SetupHealthCheckStatus.
-	QueryConnection EntityManagementHealthCheckDetailUpdateInput `json:"queryConnection,omitempty"`
-}
-
 // EntityManagementSetupStorage - The storage configuration for a federated log setup.
 type EntityManagementSetupStorage struct {
 	// The cloud provider configuration for this federated log setup.
@@ -9267,34 +8947,6 @@ func (x *EntityManagementSetupStorage) UnmarshalJSON(b []byte) error {
 	}
 
 	return nil
-}
-
-// EntityManagementSetupStorageCreateInput - Create input for SetupStorage.
-type EntityManagementSetupStorageCreateInput struct {
-	// See cloudProviderConfiguration in SetupStorage.
-	CloudProviderConfiguration EntityManagementCloudProviderConfigurationCreateInput `json:"cloudProviderConfiguration,omitempty"`
-	// See dataIngestConnectionId in SetupStorage.
-	DataIngestConnectionId string `json:"dataIngestConnectionId"`
-	// See dataLocationBucket in SetupStorage.
-	DataLocationBucket string `json:"dataLocationBucket"`
-	// See database in SetupStorage.
-	Database string `json:"database"`
-	// See queryConnectionId in SetupStorage.
-	QueryConnectionId string `json:"queryConnectionId"`
-}
-
-// EntityManagementSetupStorageUpdateInput - Update input for SetupStorage.
-type EntityManagementSetupStorageUpdateInput struct {
-	// See cloudProviderConfiguration in SetupStorage.
-	CloudProviderConfiguration EntityManagementCloudProviderConfigurationUpdateInput `json:"cloudProviderConfiguration,omitempty"`
-	// See dataIngestConnectionId in SetupStorage.
-	DataIngestConnectionId string `json:"dataIngestConnectionId"`
-	// See dataLocationBucket in SetupStorage.
-	DataLocationBucket string `json:"dataLocationBucket"`
-	// See database in SetupStorage.
-	Database string `json:"database"`
-	// See queryConnectionId in SetupStorage.
-	QueryConnectionId string `json:"queryConnectionId"`
 }
 
 // EntityManagementSignatureDetails - A set of signature details for a blob signature

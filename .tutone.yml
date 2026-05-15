@@ -2086,14 +2086,6 @@ packages:
         max_query_field_depth: 4
       - name: federatedLogsUpdatePartition
         max_query_field_depth: 4
-      - name: entityManagementCreateFederatedLogSetup
-        max_query_field_depth: 4
-      - name: entityManagementUpdateFederatedLogSetup
-        max_query_field_depth: 4
-      - name: entityManagementCreateFederatedLogPartition
-        max_query_field_depth: 4
-      - name: entityManagementUpdateFederatedLogPartition
-        max_query_field_depth: 4
       - name: entityManagementCreateAwsConnection
         max_query_field_depth: 3
       - name: entityManagementDelete
@@ -2102,8 +2094,6 @@ packages:
       - name: EntityManagementEntity
         include_implementations:
           - EntityManagementAwsConnectionEntity
-          - EntityManagementFederatedLogSetupEntity
-          - EntityManagementFederatedLogPartitionEntity
       - name: ID
         field_type_override: string
         skip_type_create: true
