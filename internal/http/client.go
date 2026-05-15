@@ -444,18 +444,12 @@ func (c *Client) innerDo(req *Request, errorValue ErrorResponse, i int) (*http.R
 		case "*http.graphQLRequest":
 			x := req.reqBody.(*graphQLRequest)
 
-			logVariables, marshalErr := json.Marshal(x.Variables)
-			if marshalErr != nil {
-				return nil, nil, false, marshalErr
-			}
-
 			c.logger.Trace("request details",
 				"headers", logNice(string(logHeaders)),
 				"query", logNice(x.Query),
-				"variables", string(logVariables),
 			)
 		case "string":
-			c.logger.Trace("request details", "headers", string(logHeaders), "body", logNice(req.reqBody.(string)))
+			c.logger.Trace("request details", "headers", string(logHeaders))
 		}
 	} else {
 		c.logger.Trace("request details", "headers", string(logHeaders))
@@ -483,12 +477,12 @@ func (c *Client) innerDo(req *Request, errorValue ErrorResponse, i int) (*http.R
 		return resp, body, false, readErr
 	}
 
-	logHeaders, err = json.Marshal(resp.Header)
+	logHeaders, err = logCleanHeaderMarshalJSON(resp.Header)
 	if err != nil {
 		return resp, body, false, err
 	}
 
-	c.logger.Trace("request completed", "method", req.method, "url", r.URL, "status_code", resp.StatusCode, "headers", string(logHeaders), "body", string(body))
+	c.logger.Trace("request completed", "method", req.method, "url", r.URL, "status_code", resp.StatusCode, "headers", string(logHeaders), "response_bytes", len(body))
 
 	_ = json.Unmarshal(body, &errorValue)
 

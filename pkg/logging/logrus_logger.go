@@ -2,6 +2,7 @@ package logging
 
 import (
 	"fmt"
+	"strings"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -92,13 +93,28 @@ func (l LogrusLogger) Trace(msg string, fields ...interface{}) {
 	l.logger.WithFields(createFieldMap(fields)).Trace(msg)
 }
 
+var sensitiveFieldKeys = map[string]bool{
+	"api-key":       true,
+	"x-api-key":     true,
+	"x-insert-key":  true,
+	"authorization": true,
+	"password":      true,
+	"token":         true,
+	"secret":        true,
+}
+
 func createFieldMap(fields ...interface{}) map[string]interface{} {
 	m := map[string]interface{}{}
 
 	fields = fields[0].([]interface{})
 
 	for i := 0; i < len(fields); i += 2 {
-		m[fields[i].(string)] = fields[i+1]
+		key := fields[i].(string)
+		value := fields[i+1]
+		if sensitiveFieldKeys[strings.ToLower(key)] {
+			value = "[REDACTED]"
+		}
+		m[key] = value
 	}
 
 	return m
