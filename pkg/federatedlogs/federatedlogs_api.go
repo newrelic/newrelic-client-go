@@ -140,6 +140,110 @@ const EntityManagementDeleteMutation = `mutation(
 	id
 } }`
 
+// Updates an entity of type AwsConnectionEntity.
+func (a *Federatedlogs) EntityManagementUpdateAwsConnection(
+	awsConnectionEntity EntityManagementAwsConnectionEntityUpdateInput,
+	iD string,
+	version int,
+) (*EntityManagementAwsConnectionEntityUpdateResult, error) {
+	return a.EntityManagementUpdateAwsConnectionWithContext(context.Background(),
+		awsConnectionEntity,
+		iD,
+		version,
+	)
+}
+
+// Updates an entity of type AwsConnectionEntity.
+func (a *Federatedlogs) EntityManagementUpdateAwsConnectionWithContext(
+	ctx context.Context,
+	awsConnectionEntity EntityManagementAwsConnectionEntityUpdateInput,
+	iD string,
+	version int,
+) (*EntityManagementAwsConnectionEntityUpdateResult, error) {
+
+	resp := EntityManagementUpdateAwsConnectionQueryResponse{}
+	vars := map[string]interface{}{
+		"awsConnectionEntity": awsConnectionEntity,
+		"id":                  iD,
+		"version":             version,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, EntityManagementUpdateAwsConnectionMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.EntityManagementAwsConnectionEntityUpdateResult, nil
+}
+
+type EntityManagementUpdateAwsConnectionQueryResponse struct {
+	EntityManagementAwsConnectionEntityUpdateResult EntityManagementAwsConnectionEntityUpdateResult `json:"EntityManagementUpdateAwsConnection"`
+}
+
+const EntityManagementUpdateAwsConnectionMutation = `mutation(
+	$awsConnectionEntity: EntityManagementAwsConnectionEntityUpdateInput!,
+	$id: ID!,
+	$version: Int,
+) { entityManagementUpdateAwsConnection(
+	awsConnectionEntity: $awsConnectionEntity,
+	id: $id,
+	version: $version,
+) {
+	entity {
+		credential {
+			assumeRole {
+				externalId
+				roleArn
+			}
+		}
+		description
+		enabled
+		externalId
+		id
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				type
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				type
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		name
+		region
+		scope {
+			id
+			type
+		}
+		settings {
+			key
+			value
+		}
+		tags {
+			key
+			values
+		}
+		type
+	}
+} }`
+
 // Creates a new partition within an existing federated logs setup,including storage location, retention policy, and an optional partition rule.
 func (a *Federatedlogs) FederatedLogsCreatePartition(
 	partition FederatedLogsCreatePartitionInput,

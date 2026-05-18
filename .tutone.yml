@@ -2088,6 +2088,8 @@ packages:
         max_query_field_depth: 4
       - name: entityManagementCreateAwsConnection
         max_query_field_depth: 3
+      - name: entityManagementUpdateAwsConnection
+        max_query_field_depth: 3
       - name: entityManagementDelete
         max_query_field_depth: 3
     types:

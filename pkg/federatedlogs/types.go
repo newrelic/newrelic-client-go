@@ -5386,7 +5386,7 @@ type EntityManagementActorStitchedFields struct {
 // Custom unmarshaler required because Entity is an interface — needs the __typename
 // dispatch to pick the concrete EntityManagement* type. Tutone does not auto-generate
 // this for packages that configure both actor.<ns>.* and actor.entityManagement.*
-// query paths; same exists in pkg/pipelinecontrol/types.go.
+// query paths; same hand-written shim exists in pkg/pipelinecontrol/types.go.
 func (x *EntityManagementActorStitchedFields) UnmarshalJSON(b []byte) error {
 	var objMap map[string]*json.RawMessage
 	err := json.Unmarshal(b, &objMap)
@@ -5862,6 +5862,12 @@ type EntityManagementAwsAssumeRoleConfigCreateInput struct {
 	RoleArn string `json:"roleArn"`
 }
 
+// EntityManagementAwsAssumeRoleConfigUpdateInput - Update input for AwsAssumeRoleConfig.
+type EntityManagementAwsAssumeRoleConfigUpdateInput struct {
+	// See roleArn in AwsAssumeRoleConfig.
+	RoleArn string `json:"roleArn"`
+}
+
 // EntityManagementAwsConnectionEntity - Connection entity type for Aws
 type EntityManagementAwsConnectionEntity struct {
 	// A single credential from the choice of AwsCredential
@@ -5920,6 +5926,32 @@ type EntityManagementAwsConnectionEntityCreateResult struct {
 	Entity EntityManagementAwsConnectionEntity `json:"entity"`
 }
 
+// EntityManagementAwsConnectionEntityUpdateInput - Update input for AwsConnectionEntity entity type.
+type EntityManagementAwsConnectionEntityUpdateInput struct {
+	// See credential in AwsConnectionEntity.
+	Credential EntityManagementAwsCredentialsUpdateInput `json:"credential,omitempty"`
+	// See description in AwsConnectionEntity.
+	Description string `json:"description,omitempty"`
+	// See enabled in AwsConnectionEntity.
+	Enabled bool `json:"enabled,omitempty"`
+	// See externalId in AwsConnectionEntity.
+	ExternalId string `json:"externalId,omitempty"`
+	// See name in AwsConnectionEntity.
+	Name string `json:"name,omitempty"`
+	// See region in AwsConnectionEntity.
+	Region string `json:"region,omitempty"`
+	// See settings in AwsConnectionEntity.
+	Settings []EntityManagementConnectionSettingsUpdateInput `json:"settings,omitempty"`
+	// See tags in AwsConnectionEntity.
+	Tags []EntityManagementTagInput `json:"tags,omitempty"`
+}
+
+// EntityManagementAwsConnectionEntityUpdateResult - The result of updating an entity.
+type EntityManagementAwsConnectionEntityUpdateResult struct {
+	// The updated entity.
+	Entity EntityManagementAwsConnectionEntity `json:"entity"`
+}
+
 // EntityManagementAwsCredentials - Base Credential type for Aws
 type EntityManagementAwsCredentials struct {
 	// AssumeRole type
@@ -5930,6 +5962,12 @@ type EntityManagementAwsCredentials struct {
 type EntityManagementAwsCredentialsCreateInput struct {
 	// See assumeRole in AwsCredentials.
 	AssumeRole EntityManagementAwsAssumeRoleConfigCreateInput `json:"assumeRole,omitempty"`
+}
+
+// EntityManagementAwsCredentialsUpdateInput - Update input for AwsCredentials.
+type EntityManagementAwsCredentialsUpdateInput struct {
+	// See assumeRole in AwsCredentials.
+	AssumeRole EntityManagementAwsAssumeRoleConfigUpdateInput `json:"assumeRole,omitempty"`
 }
 
 // EntityManagementAzureDevOpsConnectionEntity - Connection entity type for Azure DevOps
@@ -6458,6 +6496,14 @@ type EntityManagementConnectionSettings struct {
 
 // EntityManagementConnectionSettingsCreateInput - Create input for ConnectionSettings.
 type EntityManagementConnectionSettingsCreateInput struct {
+	// See key in ConnectionSettings.
+	Key string `json:"key"`
+	// See value in ConnectionSettings.
+	Value string `json:"value"`
+}
+
+// EntityManagementConnectionSettingsUpdateInput - Update input for ConnectionSettings.
+type EntityManagementConnectionSettingsUpdateInput struct {
 	// See key in ConnectionSettings.
 	Key string `json:"key"`
 	// See value in ConnectionSettings.
@@ -11888,6 +11934,8 @@ type ServiceLevelEvents struct {
 
 // ServiceLevelEventsQuery - The query that represents the events to fetch.
 type ServiceLevelEventsQuery struct {
+	// The NRQL FACET clause to group results by.
+	Facets []string `json:"facets"`
 	// The NRDB event to fetch the data from.
 	From nrdb.NRQL `json:"from"`
 	// The NRQL SELECT clause to aggregate events.
