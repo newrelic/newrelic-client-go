@@ -2768,7 +2768,7 @@ const getEntityQuery = `query(
 			when
 		}
 	}
-	... on EntityManagementFederatedLogPartitionEntity {
+	... on EntityManagementFederatedLogsPartitionEntity {
 		__typename
 		active
 		dataRetentionPolicy {
@@ -2776,9 +2776,11 @@ const getEntityQuery = `query(
 			unit
 		}
 		description
-		forwarderConfig {
-			partitionRule {
-				expression
+		forwarderConfiguration {
+			pipelineControl {
+				partitionRule {
+					expression
+				}
 			}
 			type
 		}
@@ -3078,13 +3080,13 @@ const getEntityQuery = `query(
 						description
 						enabled
 					}
-					... on EntityManagementFederatedLogPartitionEntity {
+					... on EntityManagementFederatedLogsPartitionEntity {
 						__typename
 						active
 						description
 						isDefault
 					}
-					... on EntityManagementFederatedLogSetupEntity {
+					... on EntityManagementFederatedLogsSetupEntity {
 						__typename
 						active
 						defaultPartitionId
@@ -3640,13 +3642,13 @@ const getEntityQuery = `query(
 						description
 						enabled
 					}
-					... on EntityManagementFederatedLogPartitionEntity {
+					... on EntityManagementFederatedLogsPartitionEntity {
 						__typename
 						active
 						description
 						isDefault
 					}
-					... on EntityManagementFederatedLogSetupEntity {
+					... on EntityManagementFederatedLogsSetupEntity {
 						__typename
 						active
 						defaultPartitionId
@@ -4033,7 +4035,7 @@ const getEntityQuery = `query(
 			values
 		}
 	}
-	... on EntityManagementFederatedLogSetupEntity {
+	... on EntityManagementFederatedLogsSetupEntity {
 		__typename
 		active
 		defaultPartitionId
@@ -4304,13 +4306,13 @@ const getEntityQuery = `query(
 					description
 					enabled
 				}
-				... on EntityManagementFederatedLogPartitionEntity {
+				... on EntityManagementFederatedLogsPartitionEntity {
 					__typename
 					active
 					description
 					isDefault
 				}
-				... on EntityManagementFederatedLogSetupEntity {
+				... on EntityManagementFederatedLogsSetupEntity {
 					__typename
 					active
 					defaultPartitionId
@@ -4879,13 +4881,13 @@ const getEntityQuery = `query(
 					description
 					enabled
 				}
-				... on EntityManagementFederatedLogPartitionEntity {
+				... on EntityManagementFederatedLogsPartitionEntity {
 					__typename
 					active
 					description
 					isDefault
 				}
-				... on EntityManagementFederatedLogSetupEntity {
+				... on EntityManagementFederatedLogsSetupEntity {
 					__typename
 					active
 					defaultPartitionId
@@ -10946,7 +10948,7 @@ const getEntitySearchQuery = `query(
 				when
 			}
 		}
-		... on EntityManagementFederatedLogPartitionEntity {
+		... on EntityManagementFederatedLogsPartitionEntity {
 			__typename
 			active
 			dataRetentionPolicy {
@@ -10954,10 +10956,7 @@ const getEntitySearchQuery = `query(
 				unit
 			}
 			description
-			forwarderConfig {
-				partitionRule {
-					expression
-				}
+			forwarderConfiguration {
 				type
 			}
 			healthCheck {
@@ -11055,7 +11054,7 @@ const getEntitySearchQuery = `query(
 				values
 			}
 		}
-		... on EntityManagementFederatedLogSetupEntity {
+		... on EntityManagementFederatedLogsSetupEntity {
 			__typename
 			active
 			defaultPartitionId
@@ -11300,13 +11299,13 @@ const getEntitySearchQuery = `query(
 						description
 						enabled
 					}
-					... on EntityManagementFederatedLogPartitionEntity {
+					... on EntityManagementFederatedLogsPartitionEntity {
 						__typename
 						active
 						description
 						isDefault
 					}
-					... on EntityManagementFederatedLogSetupEntity {
+					... on EntityManagementFederatedLogsSetupEntity {
 						__typename
 						active
 						defaultPartitionId
@@ -11862,13 +11861,13 @@ const getEntitySearchQuery = `query(
 						description
 						enabled
 					}
-					... on EntityManagementFederatedLogPartitionEntity {
+					... on EntityManagementFederatedLogsPartitionEntity {
 						__typename
 						active
 						description
 						isDefault
 					}
-					... on EntityManagementFederatedLogSetupEntity {
+					... on EntityManagementFederatedLogsSetupEntity {
 						__typename
 						active
 						defaultPartitionId

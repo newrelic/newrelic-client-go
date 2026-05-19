@@ -3391,6 +3391,8 @@ type Actor struct {
 	//
 	// For more details on entities, visit our [entity docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/use-new-relic-graphql-api-query-entities).
 	Entity EntityInterface `json:"entity,omitempty"`
+	// This field provides access to EntityManagement data.
+	EntityManagement EntityManagementActorStitchedFields `json:"entityManagement,omitempty"`
 	// Search for entities using a custom query.
 	//
 	// For more details on how to create a custom query
@@ -3399,8 +3401,6 @@ type Actor struct {
 	//
 	// Note: you must supply either a `query` OR a `queryBuilder` argument, not both.
 	EntitySearch EntitySearch `json:"entitySearch,omitempty"`
-	// This field provides access to EntityManagement data.
-	EntityManagement EntityManagementActorStitchedFields `json:"entityManagement,omitempty"`
 	// This field provides access to FederatedLogs data.
 	FederatedLogs FederatedLogsActorStitchedFields `json:"federatedLogs,omitempty"`
 }
@@ -5382,46 +5382,6 @@ type EntityManagementActorStitchedFields struct {
 	EntitySearch EntityManagementEntitySearchResult `json:"entitySearch,omitempty"`
 }
 
-// DO NOT DELETE
-// Custom unmarshaler required because Entity is an interface — needs the __typename
-// dispatch to pick the concrete EntityManagement* type. Tutone does not auto-generate
-// this for packages that configure both actor.<ns>.* and actor.entityManagement.*
-// query paths; same hand-written shim exists in pkg/pipelinecontrol/types.go.
-func (x *EntityManagementActorStitchedFields) UnmarshalJSON(b []byte) error {
-	var objMap map[string]*json.RawMessage
-	err := json.Unmarshal(b, &objMap)
-	if err != nil {
-		return err
-	}
-
-	for k, v := range objMap {
-		if v == nil {
-			continue
-		}
-
-		switch k {
-		case "entity":
-			if v == nil {
-				continue
-			}
-			xxx, err := UnmarshalEntityManagementEntityInterface(*v)
-			if err != nil {
-				return err
-			}
-			if xxx != nil {
-				x.Entity = *xxx
-			}
-		case "entitySearch":
-			err = json.Unmarshal(*v, &x.EntitySearch)
-			if err != nil {
-				return err
-			}
-		}
-	}
-
-	return nil
-}
-
 // EntityManagementAdditionalParameter - Key-value pair for additional configuration
 type EntityManagementAdditionalParameter struct {
 	// Parameter name
@@ -7093,8 +7053,8 @@ type EntityManagementExternalOwner struct {
 	Type EntityManagementExternalOwnerType `json:"type"`
 }
 
-// EntityManagementFederatedLogPartitionEntity - Federated log partition entity.
-type EntityManagementFederatedLogPartitionEntity struct {
+// EntityManagementFederatedLogsPartitionEntity - Federated logs partition entity.
+type EntityManagementFederatedLogsPartitionEntity struct {
 	// Indicates if this log partition is active. When turned off, no new data will be routed to this partition, but existing data can still be queried.
 	Active bool `json:"active"`
 	// The optional retention policy for logs in this partition.
@@ -7102,7 +7062,7 @@ type EntityManagementFederatedLogPartitionEntity struct {
 	// The description of the log partition.
 	Description string `json:"description,omitempty"`
 	// The forwarder configuration specific to this partition.
-	ForwarderConfig EntityManagementPartitionForwarderConfiguration `json:"forwarderConfig,omitempty"`
+	ForwarderConfiguration EntityManagementPartitionForwarderConfiguration `json:"forwarderConfiguration,omitempty"`
 	// The health check status of this federated log partition. Indicates whether the partition and its dependencies are operating correctly.
 	HealthCheck EntityManagementPartitionHealthCheckStatus `json:"healthCheck,omitempty"`
 	// The entity's global unique identifier.
@@ -7117,8 +7077,8 @@ type EntityManagementFederatedLogPartitionEntity struct {
 	Name string `json:"name"`
 	// The entity's scope.
 	Scope EntityManagementScopedReference `json:"scope"`
-	// The federated log setup this partition belongs to.
-	Setup EntityManagementFederatedLogSetupEntity `json:"setup"`
+	// The federated logs setup this partition belongs to.
+	Setup EntityManagementFederatedLogsSetupEntity `json:"setup"`
 	// Storage details for the log partition, including the associated table and data location URI.
 	Storage EntityManagementPartitionStorage `json:"storage"`
 	// Collection of tags.
@@ -7127,10 +7087,10 @@ type EntityManagementFederatedLogPartitionEntity struct {
 	Type string `json:"type"`
 }
 
-func (x *EntityManagementFederatedLogPartitionEntity) ImplementsEntityManagementEntity() {}
+func (x *EntityManagementFederatedLogsPartitionEntity) ImplementsEntityManagementEntity() {}
 
-// EntityManagementFederatedLogSetupEntity - Federated log setup entity.
-type EntityManagementFederatedLogSetupEntity struct {
+// EntityManagementFederatedLogsSetupEntity - Federated logs setup entity.
+type EntityManagementFederatedLogsSetupEntity struct {
 	// Indicates if this federated log setup is active. When turned off, no new data will be routed to this setup, but existing data can still be queried.
 	Active bool `json:"active"`
 	// The entity guid of the default log partition for this federated log setup. This is the partition where logs will be routed if they do not match any specific partition routing rules.
@@ -7159,7 +7119,7 @@ type EntityManagementFederatedLogSetupEntity struct {
 	Type string `json:"type"`
 }
 
-func (x *EntityManagementFederatedLogSetupEntity) ImplementsEntityManagementEntity() {}
+func (x *EntityManagementFederatedLogsSetupEntity) ImplementsEntityManagementEntity() {}
 
 // EntityManagementFleetControlProperties - Properties specific to fleet control
 type EntityManagementFleetControlProperties struct {
@@ -8432,8 +8392,8 @@ func (x *EntityManagementOperationMetricEntity) ImplementsEntityManagementEntity
 
 // EntityManagementPartitionForwarderConfiguration - Forwarder configuration for a partition.
 type EntityManagementPartitionForwarderConfiguration struct {
-	// The partition rule that determines how logs are routed to this partition.
-	PartitionRule EntityManagementPartitionRule `json:"partitionRule,omitempty"`
+	// Configuration for a pipeline control forwarder. Populated when type is PIPELINE_CONTROL.
+	PipelineControl EntityManagementPartitionPipelineControlConfiguration `json:"pipelineControl,omitempty"`
 	// The type of forwarder. Must match the forwarder type defined on the parent setup.
 	Type EntityManagementForwarderType `json:"type"`
 }
@@ -8448,10 +8408,10 @@ type EntityManagementPartitionHealthCheckStatus struct {
 	QueryConnection EntityManagementHealthCheckDetail `json:"queryConnection,omitempty"`
 }
 
-// EntityManagementPartitionRule - A routing rule consisting of a single OTTL expression that determines how logs are partitioned.
-type EntityManagementPartitionRule struct {
-	// OTTL expression for partitioning logs. e.g. attributes["cloud.provider"] == "aws"
-	Expression string `json:"expression"`
+// EntityManagementPartitionPipelineControlConfiguration - Configuration for a pipeline control forwarder for a partition.
+type EntityManagementPartitionPipelineControlConfiguration struct {
+	// The partition rule that determines how incoming logs are routed to this partition.
+	PartitionRule EntityManagementRule `json:"partitionRule,omitempty"`
 }
 
 // EntityManagementPartitionStorage - Storage details for a log partition. This information is used for querying and managing log data for the partition.
@@ -8513,7 +8473,7 @@ type EntityManagementPipelineControlConfiguration struct {
 	// The fleet entity used for deploying the pipeline configuration.
 	Fleet EntityManagementFleetEntity `json:"fleet"`
 	// The routing rule that determines how incoming logs are routed to this setup.
-	RoutingRule EntityManagementRoutingRule `json:"routingRule,omitempty"`
+	RoutingRule EntityManagementRule `json:"routingRule,omitempty"`
 }
 
 // EntityManagementPrincipal - A wrapper object that will contain exactly one of the possible identity types.
@@ -8700,8 +8660,8 @@ type EntityManagementRingDeploymentTracker struct {
 	Status string `json:"status"`
 }
 
-// EntityManagementRoutingRule - A routing rule consisting of a single OTTL expression that determines how logs are routed.
-type EntityManagementRoutingRule struct {
+// EntityManagementRule - A routing rule consisting of a single OTTL expression that determines how logs are routed.
+type EntityManagementRule struct {
 	// OTTL expression for routing logs. e.g. attributes["cloud.provider"] == "aws"
 	Expression string `json:"expression"`
 }
@@ -14258,8 +14218,8 @@ func UnmarshalEntityManagementEntityInterface(b []byte) (*EntityManagementEntity
 			var xxx EntityManagementEntityInterface = &interfaceType
 
 			return &xxx, nil
-		case "EntityManagementFederatedLogPartitionEntity":
-			var interfaceType EntityManagementFederatedLogPartitionEntity
+		case "EntityManagementFederatedLogsPartitionEntity":
+			var interfaceType EntityManagementFederatedLogsPartitionEntity
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
@@ -14268,8 +14228,8 @@ func UnmarshalEntityManagementEntityInterface(b []byte) (*EntityManagementEntity
 			var xxx EntityManagementEntityInterface = &interfaceType
 
 			return &xxx, nil
-		case "EntityManagementFederatedLogSetupEntity":
-			var interfaceType EntityManagementFederatedLogSetupEntity
+		case "EntityManagementFederatedLogsSetupEntity":
+			var interfaceType EntityManagementFederatedLogsSetupEntity
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
@@ -15566,4 +15526,41 @@ func UnmarshalSuggestedNRQLQueryInterface(b []byte) (*SuggestedNRQLQueryInterfac
 	}
 
 	return nil, fmt.Errorf("interface SuggestedNRQLQuery was not matched against all PossibleTypes: %s", typeName)
+}
+
+
+// DO NOT DELETE
+func (x *EntityManagementActorStitchedFields) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+
+	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
+		switch k {
+		case "entity":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalEntityManagementEntityInterface(*v)
+			if err != nil {
+				return err
+			}
+			if xxx != nil {
+				x.Entity = *xxx
+			}
+		case "entitySearch":
+			err = json.Unmarshal(*v, &x.EntitySearch)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
 }
