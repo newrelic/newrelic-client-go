@@ -2072,11 +2072,13 @@ packages:
             exclude_fields:
               - agents
               - tools
+              - managedEntityType
           - name: entitySearch
             max_query_field_depth: 4
             exclude_fields:
               - agents
               - tools
+              - managedEntityType
     mutations:
       - name: federatedLogsCreateSetup
         max_query_field_depth: 4

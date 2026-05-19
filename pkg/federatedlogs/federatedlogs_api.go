@@ -784,7 +784,6 @@ const getEntityQuery = `query(
 		__typename
 		agentType
 		configurationType
-		managedEntityType
 		metadata {
 			createdAt
 			createdBy {
@@ -2906,7 +2905,6 @@ const getEntityQuery = `query(
 						__typename
 						agentType
 						configurationType
-						managedEntityType
 						versionCount
 					}
 					... on EntityManagementAgentConfigurationVersionEntity {
@@ -3102,7 +3100,6 @@ const getEntityQuery = `query(
 					... on EntityManagementFleetEntity {
 						__typename
 						description
-						managedEntityType
 						product
 					}
 					... on EntityManagementFleetRingEntity {
@@ -3468,7 +3465,6 @@ const getEntityQuery = `query(
 						__typename
 						agentType
 						configurationType
-						managedEntityType
 						versionCount
 					}
 					... on EntityManagementAgentConfigurationVersionEntity {
@@ -3664,7 +3660,6 @@ const getEntityQuery = `query(
 					... on EntityManagementFleetEntity {
 						__typename
 						description
-						managedEntityType
 						product
 					}
 					... on EntityManagementFleetRingEntity {
@@ -4045,7 +4040,6 @@ const getEntityQuery = `query(
 				fleet {
 					description
 					id
-					managedEntityType
 					name
 					product
 					type
@@ -4132,7 +4126,6 @@ const getEntityQuery = `query(
 					__typename
 					agentType
 					configurationType
-					managedEntityType
 					versionCount
 				}
 				... on EntityManagementAgentConfigurationVersionEntity {
@@ -4328,7 +4321,6 @@ const getEntityQuery = `query(
 				... on EntityManagementFleetEntity {
 					__typename
 					description
-					managedEntityType
 					product
 				}
 				... on EntityManagementFleetRingEntity {
@@ -4707,7 +4699,6 @@ const getEntityQuery = `query(
 					__typename
 					agentType
 					configurationType
-					managedEntityType
 					versionCount
 				}
 				... on EntityManagementAgentConfigurationVersionEntity {
@@ -4903,7 +4894,6 @@ const getEntityQuery = `query(
 				... on EntityManagementFleetEntity {
 					__typename
 					description
-					managedEntityType
 					product
 				}
 				... on EntityManagementFleetRingEntity {
@@ -5377,7 +5367,6 @@ const getEntityQuery = `query(
 			}
 			type
 		}
-		managedEntityType
 		metadata {
 			createdAt
 			createdBy {
@@ -9315,7 +9304,6 @@ const getEntitySearchQuery = `query(
 			__typename
 			agentType
 			configurationType
-			managedEntityType
 			metadata {
 				createdAt
 				createdBy {
@@ -11125,7 +11113,6 @@ const getEntitySearchQuery = `query(
 						__typename
 						agentType
 						configurationType
-						managedEntityType
 						versionCount
 					}
 					... on EntityManagementAgentConfigurationVersionEntity {
@@ -11321,7 +11308,6 @@ const getEntitySearchQuery = `query(
 					... on EntityManagementFleetEntity {
 						__typename
 						description
-						managedEntityType
 						product
 					}
 					... on EntityManagementFleetRingEntity {
@@ -11687,7 +11673,6 @@ const getEntitySearchQuery = `query(
 						__typename
 						agentType
 						configurationType
-						managedEntityType
 						versionCount
 					}
 					... on EntityManagementAgentConfigurationVersionEntity {
@@ -11883,7 +11868,6 @@ const getEntitySearchQuery = `query(
 					... on EntityManagementFleetEntity {
 						__typename
 						description
-						managedEntityType
 						product
 					}
 					... on EntityManagementFleetRingEntity {
@@ -12335,7 +12319,6 @@ const getEntitySearchQuery = `query(
 				}
 				type
 			}
-			managedEntityType
 			metadata {
 				createdAt
 				createdBy {
