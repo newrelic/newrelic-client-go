@@ -15528,7 +15528,6 @@ func UnmarshalSuggestedNRQLQueryInterface(b []byte) (*SuggestedNRQLQueryInterfac
 	return nil, fmt.Errorf("interface SuggestedNRQLQuery was not matched against all PossibleTypes: %s", typeName)
 }
 
-
 // DO NOT DELETE
 func (x *EntityManagementActorStitchedFields) UnmarshalJSON(b []byte) error {
 	var objMap map[string]*json.RawMessage
