@@ -4838,7 +4838,7 @@ type EntityManagementAwsConnectionEntityUpdateInput struct {
 	// See description in AwsConnectionEntity.
 	Description string `json:"description,omitempty"`
 	// See enabled in AwsConnectionEntity.
-	Enabled bool `json:"enabled,omitempty"`
+	Enabled *bool `json:"enabled,omitempty"`
 	// See externalId in AwsConnectionEntity.
 	ExternalId string `json:"externalId,omitempty"`
 	// See name in AwsConnectionEntity.
@@ -7039,7 +7039,7 @@ type FederatedLogsSetupStorageInput struct {
 // FederatedLogsUpdatePartitionInput - Input for updating an existing federated logs partition.
 type FederatedLogsUpdatePartitionInput struct {
 	// Whether the partition is active. When set to false, log routing to this partition is turned off.
-	Active bool `json:"active,omitempty"`
+	Active *bool `json:"active,omitempty"`
 	// The retention policy for logs in this partition.
 	DataRetentionPolicy FederatedLogsRetentionPolicyInput `json:"dataRetentionPolicy,omitempty"`
 	// The description of the log partition.
@@ -7057,7 +7057,7 @@ type FederatedLogsUpdatePartitionInput struct {
 // FederatedLogsUpdateSetupInput - Input for updating an existing federated logs setup.
 type FederatedLogsUpdateSetupInput struct {
 	// Whether the setup is active. When set to false, log routing to this setup is turned off.
-	Active bool `json:"active,omitempty"`
+	Active *bool `json:"active,omitempty"`
 	// The connection manager entity GUID used for writing data.
 	DataIngestConnectionId string `json:"dataIngestConnectionId,omitempty"`
 	// The description of the federated log setup.

@@ -156,10 +156,11 @@ func TestUnitEntityManagement_UpdateAwsConnection(t *testing.T) {
 	t.Parallel()
 	client := newMockResponse(t, testUpdateAwsConnectionResponseJSON, http.StatusOK)
 
+	enabled := false
 	input := EntityManagementAwsConnectionEntityUpdateInput{
 		Name:        "Test AWS Connection Updated",
 		Description: "Test AWS Connection - Updated",
-		Enabled:     false,
+		Enabled:     &enabled,
 		Region:      "us-west-2",
 		Credential: EntityManagementAwsCredentialsUpdateInput{
 			AssumeRole: EntityManagementAwsAssumeRoleConfigUpdateInput{
