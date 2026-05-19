@@ -118,6 +118,7 @@ func TestIntegrationCompoundConditions_Basic(t *testing.T) {
 	require.Equal(t, 60, created.ThresholdDuration)
 	require.Equal(t, "A AND B", created.TriggerExpression)
 	require.Len(t, created.ComponentConditions, 2)
+	require.NotEmpty(t, created.EntityGuid)
 
 	// Test: Search compound conditions (search all, then filter in code)
 	searchResults, err := client.SearchCompoundConditions(testAccountID, nil, nil, nil)
@@ -133,6 +134,7 @@ func TestIntegrationCompoundConditions_Basic(t *testing.T) {
 	}
 	require.NotNil(t, foundCondition)
 	require.Equal(t, conditionName, foundCondition.Name)
+	require.NotEmpty(t, foundCondition.EntityGuid)
 
 	// Test: Update compound condition
 	updateInput := CompoundConditionUpdateInput{
@@ -164,6 +166,7 @@ func TestIntegrationCompoundConditions_Basic(t *testing.T) {
 	require.Equal(t, "https://example.com/updated-runbook", updated.RunbookURL)
 	require.Equal(t, 60, updated.ThresholdDuration)
 	require.Equal(t, "A OR B", updated.TriggerExpression)
+	require.NotEmpty(t, updated.EntityGuid)
 
 	// Test: Delete compound condition
 	deletedID, err := client.DeleteCompoundCondition(testAccountID, created.ID)
