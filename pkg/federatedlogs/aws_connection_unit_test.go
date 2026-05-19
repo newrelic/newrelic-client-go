@@ -38,6 +38,31 @@ var (
 		}
 	}`
 
+	testUpdateAwsConnectionResponseJSON = `
+	{
+		"data": {
+			"entityManagementUpdateAwsConnection": {
+				"entity": {
+					"__typename": "EntityManagementAwsConnectionEntity",
+					"id": "ZmVkLWxvZ3MtYXdzLWNvbm4tMTIzNDU2Nzg5MA",
+					"name": "Test AWS Connection Updated",
+					"description": "Test AWS Connection - Updated",
+					"enabled": false,
+					"externalId": "ext-123",
+					"region": "us-west-2",
+					"credential": {
+						"assumeRole": {
+							"roleArn": "arn:aws:iam::123456789012:role/nr-test-role-rotated",
+							"externalId": "ext-123"
+						}
+					},
+					"metadata": {"version": 2},
+					"scope": {"id": "12345", "type": "ACCOUNT"}
+				}
+			}
+		}
+	}`
+
 	testDeleteResponseJSON = `
 	{
 		"data": {
@@ -125,6 +150,35 @@ func TestUnitEntityManagement_CreateAwsConnection(t *testing.T) {
 	require.Equal(t, testAwsConnectionID, result.Entity.ID)
 	require.Equal(t, "Test AWS Connection", result.Entity.Name)
 	require.True(t, result.Entity.Enabled)
+}
+
+func TestUnitEntityManagement_UpdateAwsConnection(t *testing.T) {
+	t.Parallel()
+	client := newMockResponse(t, testUpdateAwsConnectionResponseJSON, http.StatusOK)
+
+	input := EntityManagementAwsConnectionEntityUpdateInput{
+		Name:        "Test AWS Connection Updated",
+		Description: "Test AWS Connection - Updated",
+		Enabled:     false,
+		Region:      "us-west-2",
+		Credential: EntityManagementAwsCredentialsUpdateInput{
+			AssumeRole: EntityManagementAwsAssumeRoleConfigUpdateInput{
+				RoleArn: "arn:aws:iam::123456789012:role/nr-test-role-rotated",
+			},
+		},
+	}
+
+	result, err := client.EntityManagementUpdateAwsConnection(input, testAwsConnectionID, 1)
+
+	require.NoError(t, err)
+	require.NotNil(t, result)
+	require.Equal(t, testAwsConnectionID, result.Entity.ID)
+	require.Equal(t, "Test AWS Connection Updated", result.Entity.Name)
+	require.Equal(t, "Test AWS Connection - Updated", result.Entity.Description)
+	require.False(t, result.Entity.Enabled)
+	require.Equal(t, "us-west-2", result.Entity.Region)
+	require.Equal(t, "arn:aws:iam::123456789012:role/nr-test-role-rotated", result.Entity.Credential.AssumeRole.RoleArn)
+	require.Equal(t, 2, result.Entity.Metadata.Version)
 }
 
 func TestUnitEntityManagement_Delete(t *testing.T) {
