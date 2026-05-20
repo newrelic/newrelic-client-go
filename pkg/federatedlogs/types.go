@@ -4810,7 +4810,7 @@ type EntityManagementAwsConnectionEntityCreateInput struct {
 	// See description in AwsConnectionEntity.
 	Description string `json:"description,omitempty"`
 	// See enabled in AwsConnectionEntity.
-	Enabled bool `json:"enabled,omitempty"`
+	Enabled *bool `json:"enabled,omitempty"`
 	// See externalId in AwsConnectionEntity.
 	ExternalId string `json:"externalId,omitempty"`
 	// See name in AwsConnectionEntity.
@@ -4834,7 +4834,7 @@ type EntityManagementAwsConnectionEntityCreateResult struct {
 // EntityManagementAwsConnectionEntityUpdateInput - Update input for AwsConnectionEntity entity type.
 type EntityManagementAwsConnectionEntityUpdateInput struct {
 	// See credential in AwsConnectionEntity.
-	Credential EntityManagementAwsCredentialsUpdateInput `json:"credential,omitempty"`
+	Credential *EntityManagementAwsCredentialsUpdateInput `json:"credential,omitempty"`
 	// See description in AwsConnectionEntity.
 	Description string `json:"description,omitempty"`
 	// See enabled in AwsConnectionEntity.
@@ -6702,11 +6702,11 @@ type FederatedLogsCloudProviderConfigurationInput struct {
 // FederatedLogsCreatePartitionInput - Input for creating a new partition within an existing setup.
 type FederatedLogsCreatePartitionInput struct {
 	// The optional retention policy for logs in this partition.
-	DataRetentionPolicy FederatedLogsRetentionPolicyInput `json:"dataRetentionPolicy,omitempty"`
+	DataRetentionPolicy *FederatedLogsRetentionPolicyInput `json:"dataRetentionPolicy,omitempty"`
 	// The description of the log partition.
 	Description string `json:"description,omitempty"`
 	// The optional partition forwarder configuration.
-	ForwarderConfiguration FederatedLogsPartitionForwarderConfigurationInput `json:"forwarderConfiguration,omitempty"`
+	ForwarderConfiguration *FederatedLogsPartitionForwarderConfigurationInput `json:"forwarderConfiguration,omitempty"`
 	// The name of the log partition.
 	Name string `json:"name"`
 	// Storage details for the partition.
@@ -6720,7 +6720,7 @@ type FederatedLogsCreateSetupInput struct {
 	// The description of the federated log setup.
 	Description string `json:"description,omitempty"`
 	// The forwarder configuration for processing and routing logs.
-	Forwarder FederatedLogsForwarderInput `json:"forwarder,omitempty"`
+	Forwarder *FederatedLogsForwarderInput `json:"forwarder,omitempty"`
 	// The name of the federated log setup.
 	Name string `json:"name"`
 	// The storage configuration for this setup.
@@ -6730,7 +6730,7 @@ type FederatedLogsCreateSetupInput struct {
 // FederatedLogsDefaultPartitionInput - Input for configuring the default partition created with a setup.
 type FederatedLogsDefaultPartitionInput struct {
 	// The optional retention policy for logs in the default partition.
-	DataRetentionPolicy FederatedLogsRetentionPolicyInput `json:"dataRetentionPolicy,omitempty"`
+	DataRetentionPolicy *FederatedLogsRetentionPolicyInput `json:"dataRetentionPolicy,omitempty"`
 	// Storage details for the default partition.
 	Storage FederatedLogsPartitionStorageInput `json:"storage,omitempty"`
 }
@@ -6746,7 +6746,7 @@ type FederatedLogsForwarder struct {
 // FederatedLogsForwarderInput - Input for configuring the forwarder. The populated field must correspond to the specified type.
 type FederatedLogsForwarderInput struct {
 	// Pipeline control forwarder configuration. Required when type is PIPELINE_CONTROL.
-	PipelineControl FederatedLogsPipelineControlConfigurationInput `json:"pipelineControl,omitempty"`
+	PipelineControl *FederatedLogsPipelineControlConfigurationInput `json:"pipelineControl,omitempty"`
 	// The type of forwarder.
 	Type FederatedLogsForwarderType `json:"type"`
 }
@@ -6840,7 +6840,7 @@ type FederatedLogsPartitionForwarderConfiguration struct {
 // FederatedLogsPartitionForwarderConfigurationInput - Input for partition-level forwarder configuration.
 type FederatedLogsPartitionForwarderConfigurationInput struct {
 	// Pipeline control forwarder configuration. Required when type is PIPELINE_CONTROL.
-	PipelineControl FederatedLogsPartitionPipelineControlConfigurationInput `json:"pipelineControl,omitempty"`
+	PipelineControl *FederatedLogsPartitionPipelineControlConfigurationInput `json:"pipelineControl,omitempty"`
 	// The type of forwarder. Must match the forwarder type on the parent setup.
 	Type FederatedLogsForwarderType `json:"type"`
 }
@@ -6848,9 +6848,9 @@ type FederatedLogsPartitionForwarderConfigurationInput struct {
 // FederatedLogsPartitionHealthCheckInput - Input for updating health check status of a partition.
 type FederatedLogsPartitionHealthCheckInput struct {
 	// End-to-end health check.
-	End2endDataFlow FederatedLogsHealthCheckDetailInput `json:"end2endDataFlow,omitempty"`
+	End2endDataFlow *FederatedLogsHealthCheckDetailInput `json:"end2endDataFlow,omitempty"`
 	// Health check for query connection.
-	QueryConnection FederatedLogsHealthCheckDetailInput `json:"queryConnection,omitempty"`
+	QueryConnection *FederatedLogsHealthCheckDetailInput `json:"queryConnection,omitempty"`
 }
 
 // FederatedLogsPartitionHealthCheckStatus - Health check status for a federated logs partition.
@@ -6876,7 +6876,7 @@ type FederatedLogsPartitionPipelineControlConfiguration struct {
 // FederatedLogsPartitionPipelineControlConfigurationInput - Input for partition-level pipeline control forwarder configuration.
 type FederatedLogsPartitionPipelineControlConfigurationInput struct {
 	// The partition rule that determines how logs are routed to this partition.
-	PartitionRule FederatedLogsRuleInput `json:"partitionRule,omitempty"`
+	PartitionRule *FederatedLogsRuleInput `json:"partitionRule,omitempty"`
 }
 
 // FederatedLogsPartitionResponse - Response returned by partition mutations (create, update).
@@ -6926,7 +6926,7 @@ type FederatedLogsPipelineControlConfigurationInput struct {
 	// The fleet entity GUID used for deploying the pipeline configuration.
 	FleetId string `json:"fleetId"`
 	// The routing rule that determines how incoming logs are routed to this setup.
-	RoutingRule FederatedLogsRuleInput `json:"routingRule,omitempty"`
+	RoutingRule *FederatedLogsRuleInput `json:"routingRule,omitempty"`
 }
 
 // FederatedLogsRetentionPolicy - Retention policy for log data.
@@ -6987,9 +6987,9 @@ type FederatedLogsSetup struct {
 // FederatedLogsSetupHealthCheckInput - Input for updating health check status of a setup.
 type FederatedLogsSetupHealthCheckInput struct {
 	// End-to-end health check.
-	End2endDataFlow FederatedLogsHealthCheckDetailInput `json:"end2endDataFlow,omitempty"`
+	End2endDataFlow *FederatedLogsHealthCheckDetailInput `json:"end2endDataFlow,omitempty"`
 	// Health check for query connection.
-	QueryConnection FederatedLogsHealthCheckDetailInput `json:"queryConnection,omitempty"`
+	QueryConnection *FederatedLogsHealthCheckDetailInput `json:"queryConnection,omitempty"`
 }
 
 // FederatedLogsSetupHealthCheckStatus - Health check status for a federated logs setup.
@@ -7041,15 +7041,15 @@ type FederatedLogsUpdatePartitionInput struct {
 	// Whether the partition is active. When set to false, log routing to this partition is turned off.
 	Active *bool `json:"active,omitempty"`
 	// The retention policy for logs in this partition.
-	DataRetentionPolicy FederatedLogsRetentionPolicyInput `json:"dataRetentionPolicy,omitempty"`
+	DataRetentionPolicy *FederatedLogsRetentionPolicyInput `json:"dataRetentionPolicy,omitempty"`
 	// The description of the log partition.
 	Description string `json:"description,omitempty"`
 	// The forwarder configuration for this partition.
-	ForwarderConfiguration FederatedLogsPartitionForwarderConfigurationInput `json:"forwarderConfiguration,omitempty"`
+	ForwarderConfiguration *FederatedLogsPartitionForwarderConfigurationInput `json:"forwarderConfiguration,omitempty"`
 	// Update the health check status of the partition.
-	HealthCheck FederatedLogsPartitionHealthCheckInput `json:"healthCheck,omitempty"`
+	HealthCheck *FederatedLogsPartitionHealthCheckInput `json:"healthCheck,omitempty"`
 	// Update the lifecycle status of the partition.
-	LifecycleStatus FederatedLogsLifecycleStatusInput `json:"lifecycleStatus,omitempty"`
+	LifecycleStatus *FederatedLogsLifecycleStatusInput `json:"lifecycleStatus,omitempty"`
 	// The name of the federated log partition.
 	Name string `json:"name,omitempty"`
 }
@@ -7063,11 +7063,11 @@ type FederatedLogsUpdateSetupInput struct {
 	// The description of the federated log setup.
 	Description string `json:"description,omitempty"`
 	// The forwarder configuration for processing and routing logs.
-	Forwarder FederatedLogsForwarderInput `json:"forwarder,omitempty"`
+	Forwarder *FederatedLogsForwarderInput `json:"forwarder,omitempty"`
 	// Update the health check status of the setup.
-	HealthCheck FederatedLogsSetupHealthCheckInput `json:"healthCheck,omitempty"`
+	HealthCheck *FederatedLogsSetupHealthCheckInput `json:"healthCheck,omitempty"`
 	// Update the lifecycle status of the setup.
-	LifecycleStatus FederatedLogsLifecycleStatusInput `json:"lifecycleStatus,omitempty"`
+	LifecycleStatus *FederatedLogsLifecycleStatusInput `json:"lifecycleStatus,omitempty"`
 	// The name of the federated log setup.
 	Name string `json:"name,omitempty"`
 	// The connection manager entity GUID used by query workers for reading data.

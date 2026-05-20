@@ -126,10 +126,11 @@ func TestUnitEntityManagement_CreateAwsConnection(t *testing.T) {
 	t.Parallel()
 	client := newMockResponse(t, testCreateAwsConnectionResponseJSON, http.StatusOK)
 
+	enabled := true
 	input := EntityManagementAwsConnectionEntityCreateInput{
 		Name:        "Test AWS Connection",
 		Description: "Test AWS Connection - New Relic Go Client",
-		Enabled:     true,
+		Enabled:     &enabled,
 		ExternalId:  "ext-123",
 		Region:      "us-east-1",
 		Credential: EntityManagementAwsCredentialsCreateInput{
@@ -162,7 +163,7 @@ func TestUnitEntityManagement_UpdateAwsConnection(t *testing.T) {
 		Description: "Test AWS Connection - Updated",
 		Enabled:     &enabled,
 		Region:      "us-west-2",
-		Credential: EntityManagementAwsCredentialsUpdateInput{
+		Credential: &EntityManagementAwsCredentialsUpdateInput{
 			AssumeRole: EntityManagementAwsAssumeRoleConfigUpdateInput{
 				RoleArn: "arn:aws:iam::123456789012:role/nr-test-role-rotated",
 			},
