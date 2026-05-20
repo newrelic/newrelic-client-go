@@ -1,3 +1,8 @@
+<a name="v2.84.1"></a>
+## [v2.84.1] - 2026-05-20
+### Bug Fixes
+- updating URLS with latest versions ([#1415](https://github.com/newrelic/newrelic-client-go/issues/1415))
+
 <a name="v2.84.0"></a>
 ## [v2.84.0] - 2026-05-12
 ### Features
@@ -2266,7 +2271,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.84.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.84.1...HEAD
+[v2.84.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.84.0...v2.84.1
 [v2.84.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.83.4...v2.84.0
 [v2.83.4]: https://github.com/newrelic/newrelic-client-go/compare/v2.83.3...v2.83.4
 [v2.83.3]: https://github.com/newrelic/newrelic-client-go/compare/v2.83.2...v2.83.3
