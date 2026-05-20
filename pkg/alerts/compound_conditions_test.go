@@ -29,6 +29,7 @@ var (
 									"runbookUrl": "https://example.com/runbook",
 									"thresholdDuration": 60,
 									"triggerExpression": "a and b",
+									"entityGuid": "MTAxMzMyMDB8QUxFUlR8Q09ORGU5OfDEwMzQ1NTc",
 									"componentConditions": [
 										{
 											"id": "1",
@@ -55,6 +56,7 @@ var (
 				"runbookUrl": "https://example.com/runbook",
 				"thresholdDuration": 60,
 				"triggerExpression": "a and b",
+				"entityGuid": "MTAxMzMyMDB8QUxFUlR8Q09ORGU5OfDEwMzQ1NTc",
 				"componentConditions": [
 					{
 						"id": "1",
@@ -76,6 +78,7 @@ var (
 				"runbookUrl": "https://example.com/updated-runbook",
 				"thresholdDuration": 60,
 				"triggerExpression": "a or b",
+				"entityGuid": "MTAxMzMyMDB8QUxFUlR8Q09ORGU5OfDEwMzQ1NTc",
 				"componentConditions": [
 					{
 						"id": "1",
@@ -126,6 +129,7 @@ func TestSearchCompoundConditions(t *testing.T) {
 			RunbookURL:            "https://example.com/runbook",
 			ThresholdDuration:     60,
 			TriggerExpression:     "a and b",
+			EntityGuid:            "MTAxMzMyMDB8QUxFUlR8Q09ORGU5OfDEwMzQ1NTc",
 			ComponentConditions: []ComponentCondition{
 				{
 					ID:    "1",
@@ -170,6 +174,7 @@ func TestCreateCompoundCondition(t *testing.T) {
 		RunbookURL:            "https://example.com/runbook",
 		ThresholdDuration:     60,
 		TriggerExpression:     "a and b",
+		EntityGuid:            "MTAxMzMyMDB8QUxFUlR8Q09ORGU5OfDEwMzQ1NTc",
 		ComponentConditions: []ComponentCondition{
 			{
 				ID:    "1",
@@ -218,6 +223,7 @@ func TestUpdateCompoundCondition(t *testing.T) {
 		RunbookURL:            "https://example.com/updated-runbook",
 		ThresholdDuration:     60,
 		TriggerExpression:     "a or b",
+		EntityGuid:            "MTAxMzMyMDB8QUxFUlR8Q09ORGU5OfDEwMzQ1NTc",
 		ComponentConditions: []ComponentCondition{
 			{
 				ID:    "1",
