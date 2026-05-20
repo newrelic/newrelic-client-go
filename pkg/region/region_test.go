@@ -98,7 +98,7 @@ func TestInfrastructureURLs(t *testing.T) {
 	pairs := map[Name]string{
 		US:      "https://infra-api.newrelic.com/v2",
 		EU:      "https://infra-api.eu.newrelic.com/v2",
-		JP:      "https://infra-api.jp.newrelic.com/v2",
+		JP:      "https://infra-api.jp.nr-data.net/v2",
 		Staging: "https://staging-infra-api.newrelic.com/v2",
 		Local:   "http://localhost:3000/v2",
 	}
@@ -130,7 +130,7 @@ func TestLogsURLs(t *testing.T) {
 	pairs := map[Name]string{
 		US:      "https://log-api.newrelic.com/log/v1",
 		EU:      "https://log-api.eu.newrelic.com/log/v1",
-		JP:      "https://log-api.jp.newrelic.com/log/v1",
+		JP:      "https://log-api.jp.nr-data.net/log/v1",
 		Staging: "https://staging-log-api.newrelic.com/log/v1",
 		Local:   "http://localhost:3000/log/v1",
 	}
