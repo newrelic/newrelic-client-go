@@ -38,6 +38,7 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/nrdb"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/nrqldroprules"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/organization"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/pruningrules"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/pipelinecontrol"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/plugins"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/servicelevel"
@@ -76,6 +77,7 @@ type NewRelic struct {
 	Nrdb                    nrdb.Nrdb
 	Nrqldroprules           nrqldroprules.Nrqldroprules
 	Organization            organization.OrganizationManagement
+	Pruningrules            pruningrules.Pruningrules
 	Pipelinecontrol         pipelinecontrol.Pipelinecontrol
 	Plugins                 plugins.Plugins
 	ServiceLevel            servicelevel.Servicelevel
@@ -130,6 +132,7 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 		Nrdb:                    nrdb.New(cfg),
 		Nrqldroprules:           nrqldroprules.New(cfg),
 		Organization:            organization.New(cfg),
+		Pruningrules:            pruningrules.New(cfg),
 		Pipelinecontrol:         pipelinecontrol.New(cfg),
 		Plugins:                 plugins.New(cfg),
 		ServiceLevel:            servicelevel.New(cfg),

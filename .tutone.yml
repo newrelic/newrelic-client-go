@@ -1348,6 +1348,49 @@ packages:
         field_type_override: nrdb.NRQL
         skip_type_create: true
 
+  - name: pruningrules
+    path: pkg/pruningrules
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/pruningrules
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrdb
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+    queries:
+      - path: ["actor", "account", "nrqlDropRules"]
+        endpoints:
+          - name: "list"
+            max_query_field_depth: 2
+    mutations:
+      - name: nrqlDropRulesCreate
+        max_query_field_depth: 3
+      - name: nrqlDropRulesDelete
+        max_query_field_depth: 3
+    types:
+      - name: NRQLDropRulesAccountStitchedFields
+      - name: NrqlDropRulesAction
+      - name: NrqlDropRulesCreateDropRuleFailure
+      - name: NrqlDropRulesCreateDropRuleInput
+      - name: NrqlDropRulesCreateDropRuleResult
+      - name: NrqlDropRulesCreateDropRuleSubmission
+      - name: NrqlDropRulesDeleteDropRuleFailure
+      - name: NrqlDropRulesDeleteDropRuleResult
+      - name: NrqlDropRulesDeleteDropRuleSubmission
+      - name: NrqlDropRulesDropRule
+      - name: NrqlDropRulesError
+      - name: NrqlDropRulesErrorReason
+      - name: NrqlDropRulesListDropRulesResult
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
+      - name: NRQL
+        field_type_override: nrdb.NRQL
+        skip_type_create: true
+
   - name: nrtime
     path: pkg/nrtime
     import_path: github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
@@ -1509,25 +1552,25 @@ packages:
       - name: SyntheticsExtendedTypeMonitorRuntimeInput
         field_type_override: "*SyntheticsExtendedTypeMonitorRuntimeInput"
       # overrides and specifications of fields associated with the syntheticsStartAutomatedTest mutation start here
-      - name: SyntheticsAutomatedTestConfigInput
-        struct_tags:
-          tags: [json, yaml]
-      - name: SyntheticsAutomatedTestMonitorInput
-        struct_tags:
-          tags: [json, yaml]
-      - name: SyntheticsAutomatedTestMonitorConfigInput
-        struct_tags:
-          tags: [json, yaml]
-      - name: SyntheticsAutomatedTestOverridesInput
-        field_type_override: "*SyntheticsAutomatedTestOverridesInput"
-        struct_tags:
-          tags: [json, yaml]
-      - name: SyntheticsScriptDomainOverrideInput
-        struct_tags:
-          tags: [json, yaml]
-      - name: SyntheticsSecureCredentialOverrideInput
-        struct_tags:
-          tags: [json, yaml]
+#      - name: SyntheticsAutomatedTestConfigInput
+#        struct_tags:
+#          tags: [json, yaml]
+#      - name: SyntheticsAutomatedTestMonitorInput
+#        struct_tags:
+#          tags: [json, yaml]
+#      - name: SyntheticsAutomatedTestMonitorConfigInput
+#        struct_tags:
+#          tags: [json, yaml]
+#      - name: SyntheticsAutomatedTestOverridesInput
+#        field_type_override: "*SyntheticsAutomatedTestOverridesInput"
+#        struct_tags:
+#          tags: [json, yaml]
+#      - name: SyntheticsScriptDomainOverrideInput
+#        struct_tags:
+#          tags: [json, yaml]
+#      - name: SyntheticsSecureCredentialOverrideInput
+#        struct_tags:
+#          tags: [json, yaml]
       # overrides and specifications of fields associated with the automatedTestResults query start here
       - name: Milliseconds
         field_type_override: int
