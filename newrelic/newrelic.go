@@ -38,8 +38,8 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/nrdb"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/nrqldroprules"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/organization"
-	"github.com/newrelic/newrelic-client-go/v2/pkg/pruningrules"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/pipelinecontrol"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/pruningrules"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/plugins"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/servicelevel"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/synthetics"
@@ -61,8 +61,8 @@ type NewRelic struct {
 	ChangeTracking          changetracking.Changetracking
 	Cloud                   cloud.Cloud
 	CustomerAdministration  customeradministration.Customeradministration
-	DataManagement          datamanagement.Datamanagement
 	Dashboards              dashboards.Dashboards
+	DataManagement          datamanagement.Datamanagement
 	Edge                    edge.Edge
 	Entities                entities.Entities
 	Events                  events.Events
@@ -77,8 +77,8 @@ type NewRelic struct {
 	Nrdb                    nrdb.Nrdb
 	Nrqldroprules           nrqldroprules.Nrqldroprules
 	Organization            organization.OrganizationManagement
-	Pruningrules            pruningrules.Pruningrules
 	Pipelinecontrol         pipelinecontrol.Pipelinecontrol
+	Pruningrules            pruningrules.Pruningrules
 	Plugins                 plugins.Plugins
 	ServiceLevel            servicelevel.Servicelevel
 	Synthetics              synthetics.Synthetics
@@ -116,8 +116,8 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 		ChangeTracking:          changetracking.New(cfg),
 		Cloud:                   cloud.New(cfg),
 		CustomerAdministration:  customeradministration.New(cfg),
-		DataManagement:          datamanagement.New(cfg),
 		Dashboards:              dashboards.New(cfg),
+		DataManagement:          datamanagement.New(cfg),
 		Edge:                    edge.New(cfg),
 		Entities:                entities.New(cfg),
 		Events:                  events.New(cfg),
@@ -132,8 +132,8 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 		Nrdb:                    nrdb.New(cfg),
 		Nrqldroprules:           nrqldroprules.New(cfg),
 		Organization:            organization.New(cfg),
-		Pruningrules:            pruningrules.New(cfg),
 		Pipelinecontrol:         pipelinecontrol.New(cfg),
+		Pruningrules:            pruningrules.New(cfg),
 		Plugins:                 plugins.New(cfg),
 		ServiceLevel:            servicelevel.New(cfg),
 		Synthetics:              synthetics.New(cfg),
