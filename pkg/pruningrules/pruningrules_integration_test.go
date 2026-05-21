@@ -173,6 +173,27 @@ func TestIntegrationPruningRules_GetByIDNotFound(t *testing.T) {
 	require.Contains(t, err.Error(), "not found")
 }
 
+// TestIntegrationPruningRules_DeleteNonExistent verifies that deleting a
+// non-existent rule ID returns a failure entry (not an API-level error) with
+// reason RULE_NOT_FOUND.
+func TestIntegrationPruningRules_DeleteNonExistent(t *testing.T) {
+	t.Parallel()
+
+	accountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	client := newIntegrationTestClient(t)
+
+	res, err := client.NRQLDropRulesDelete(accountID, []string{"nonexistent-pruning-rule-id-999999"})
+	require.NoError(t, err, "API call should succeed even for non-existent rule IDs")
+	require.NotNil(t, res)
+	require.Len(t, res.Successes, 0, "non-existent rule should not appear in successes")
+	require.Len(t, res.Failures, 1, "non-existent rule should appear as a failure")
+	require.Equal(t, NRQLDropRulesErrorReasonTypes.RULE_NOT_FOUND, res.Failures[0].Error.Reason)
+}
+
 func newIntegrationTestClient(t *testing.T) Pruningrules {
 	tc := mock.NewIntegrationTestConfig(t)
 	return New(tc)
