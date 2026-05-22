@@ -173,9 +173,10 @@ func TestIntegrationPruningRules_GetByIDNotFound(t *testing.T) {
 	require.Contains(t, err.Error(), "not found")
 }
 
-// TestIntegrationPruningRules_DeleteNonExistent verifies that deleting a
-// non-existent rule ID returns a failure entry (not an API-level error) with
-// reason RULE_NOT_FOUND.
+// TestIntegrationPruningRules_DeleteNonExistent verifies that deleting an
+// unknown rule ID returns a failure entry (not an API-level error). The API
+// may return RULE_NOT_FOUND or INVALID_INPUT depending on whether the ID
+// passes format validation before the lookup.
 func TestIntegrationPruningRules_DeleteNonExistent(t *testing.T) {
 	t.Parallel()
 
@@ -187,11 +188,16 @@ func TestIntegrationPruningRules_DeleteNonExistent(t *testing.T) {
 	client := newIntegrationTestClient(t)
 
 	res, err := client.NRQLDropRulesDelete(accountID, []string{"nonexistent-pruning-rule-id-999999"})
-	require.NoError(t, err, "API call should succeed even for non-existent rule IDs")
+	require.NoError(t, err, "API call should succeed even for unknown rule IDs")
 	require.NotNil(t, res)
-	require.Len(t, res.Successes, 0, "non-existent rule should not appear in successes")
-	require.Len(t, res.Failures, 1, "non-existent rule should appear as a failure")
-	require.Equal(t, NRQLDropRulesErrorReasonTypes.RULE_NOT_FOUND, res.Failures[0].Error.Reason)
+	require.Len(t, res.Successes, 0, "unknown rule should not appear in successes")
+	require.Len(t, res.Failures, 1, "unknown rule should appear as a failure")
+	reason := res.Failures[0].Error.Reason
+	require.True(t,
+		reason == NRQLDropRulesErrorReasonTypes.RULE_NOT_FOUND ||
+			reason == NRQLDropRulesErrorReasonTypes.INVALID_INPUT,
+		"expected RULE_NOT_FOUND or INVALID_INPUT, got %s", reason,
+	)
 }
 
 func newIntegrationTestClient(t *testing.T) Pruningrules {
