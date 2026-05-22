@@ -75,21 +75,22 @@ func TestIntegrationFleetLifecycle(t *testing.T) {
 		},
 	}
 
+	var fleetID string
+	deleted := false
+	defer func() {
+		if deleted || fleetID == "" {
+			return
+		}
+		_, _ = client.FleetControlDeleteFleet(fleetID) // best-effort cleanup
+	}()
+
 	createResp, err := client.FleetControlCreateFleet(createInput)
 	require.NoError(t, err)
 	require.NotNil(t, createResp)
 	require.NotEmpty(t, createResp.Entity.ID)
 	require.Equal(t, fleetName, createResp.Entity.Name)
 
-	fleetID := createResp.Entity.ID
-
-	deleted := false
-	defer func() {
-		if deleted {
-			return
-		}
-		_, _ = client.FleetControlDeleteFleet(fleetID) // best-effort cleanup
-	}()
+	fleetID = createResp.Entity.ID
 
 	// --- Update ---
 	updatedName := fmt.Sprintf("integration-test-fleet-updated-%d", time.Now().Unix())
@@ -159,6 +160,15 @@ func TestIntegrationConfigurationLifecycle(t *testing.T) {
 		bodyV2 = "Body for Version 2"
 	)
 
+	var configGUID, v1GUID string
+	configDeleted := false
+	defer func() {
+		if configDeleted || configGUID == "" {
+			return
+		}
+		_, _ = client.FleetControlDeleteConfiguration(configGUID, testOrganizationID) // best-effort cleanup
+	}()
+
 	// --- Create config (v1) ---
 	createV1Resp, err := client.FleetControlCreateConfiguration(
 		bodyV1,
@@ -174,16 +184,8 @@ func TestIntegrationConfigurationLifecycle(t *testing.T) {
 	require.NotEmpty(t, createV1Resp.ConfigurationVersion.ConfigurationVersionEntityGUID)
 	require.Equal(t, 1, createV1Resp.ConfigurationVersion.ConfigurationVersionNumber)
 
-	configGUID := createV1Resp.ConfigurationEntityGUID
-	v1GUID := createV1Resp.ConfigurationVersion.ConfigurationVersionEntityGUID
-
-	configDeleted := false
-	defer func() {
-		if configDeleted {
-			return
-		}
-		_, _ = client.FleetControlDeleteConfiguration(configGUID, testOrganizationID) // best-effort cleanup
-	}()
+	configGUID = createV1Resp.ConfigurationEntityGUID
+	v1GUID = createV1Resp.ConfigurationVersion.ConfigurationVersionEntityGUID
 
 	// --- Add version (v2) ---
 	createV2Resp, err := client.FleetControlCreateConfiguration(
