@@ -83,7 +83,12 @@ func TestIntegrationAccountManagement_CreateUpdateCancelAccount(t *testing.T) {
 	require.NotNil(t, createAccountResponse.ManagedAccount.ID)
 	require.Equal(t, createAccountInput.RegionCode, createAccountResponse.ManagedAccount.RegionCode)
 	require.Equal(t, createAccountInput.Name, createAccountResponse.ManagedAccount.Name)
-	time.Sleep(time.Second * 2)
+
+	// The organization-lookup service that backs AccountManagementUpdateAccount
+	// propagates new accounts asynchronously. 2 seconds is not enough under CI
+	// load — the update exhausts all 3 retries with "Unable to look up
+	// organization by account ID". 10 seconds gives the backend enough margin.
+	time.Sleep(10 * time.Second)
 
 	// Update Account
 	updateAccountInput := AccountManagementUpdateInput{
@@ -119,7 +124,8 @@ func TestIntegrationAccountManagement_CreateUpdateCancelAccount(t *testing.T) {
 
 	require.Nil(t, err)
 	require.NotNil(t, cancelAccountResponse)
-	time.Sleep(time.Second * 2)
+	// Same propagation delay applies after cancellation before isCanceled is visible.
+	time.Sleep(5 * time.Second)
 
 	// Get Account to Confirm Account Cancellation based on the value of `isCanceled`
 	isCancelled := true
