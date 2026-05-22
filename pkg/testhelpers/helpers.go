@@ -46,6 +46,11 @@ func GetTestAccountID() (int, error) {
 	return getEnvInt("NEW_RELIC_ACCOUNT_ID")
 }
 
+// GetFleetTestAccountID returns the account ID for Fleet Control integration tests from the environment
+func GetFleetTestAccountID() (int, error) {
+	return getEnvInt("NEW_RELIC_FLEET_TEST_ACCOUNT_ID")
+}
+
 // GetNonExistentIDs returns two non-existent IDs that can be used to test errors raised
 // when Ingest/User keys which do not exist are updated or deleted.
 func GetNonExistentIDs() (string, string) {

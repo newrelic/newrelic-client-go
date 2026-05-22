@@ -71,6 +71,14 @@ func TestServiceLevel_Basic(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, createResp)
 
+	deleted := false
+	defer func() {
+		if deleted {
+			return
+		}
+		_, _ = client.ServiceLevelDelete(createResp.GUID) // best-effort cleanup
+	}()
+
 	fmt.Println("waiting 5 seconds for entity to be indexed before validating its creation...")
 	time.Sleep(5 * time.Second)
 
@@ -87,10 +95,11 @@ func TestServiceLevel_Basic(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, updateResp)
 
-	// Delete secure credential
+	// Delete
 	deleteResp, err := client.ServiceLevelDelete(createResp.GUID)
 	require.NoError(t, err)
 	require.NotNil(t, deleteResp)
+	deleted = true
 }
 
 func TestServiceLevel_CDF(t *testing.T) {
@@ -134,6 +143,14 @@ func TestServiceLevel_CDF(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, createResp)
 
+	deleted := false
+	defer func() {
+		if deleted {
+			return
+		}
+		_, _ = client.ServiceLevelDelete(createResp.GUID) // best-effort cleanup
+	}()
+
 	fmt.Println("waiting 5 seconds for entity to be indexed before validating its creation...")
 	time.Sleep(5 * time.Second)
 
@@ -142,10 +159,11 @@ func TestServiceLevel_CDF(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, getResp)
 
-	// Delete secure credential
+	// Delete
 	deleteResp, err := client.ServiceLevelDelete(createResp.GUID)
 	require.NoError(t, err)
 	require.NotNil(t, deleteResp)
+	deleted = true
 }
 
 func TestServiceLevel_GoodOrBadEventsRequiredError(t *testing.T) {
