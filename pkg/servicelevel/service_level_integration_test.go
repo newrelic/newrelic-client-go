@@ -82,8 +82,10 @@ func TestServiceLevel_Basic(t *testing.T) {
 	fmt.Println("waiting 5 seconds for entity to be indexed before validating its creation...")
 	time.Sleep(5 * time.Second)
 
-	// Get
-	getResp, err := client.GetIndicators(createResp.GUID)
+	// Get — pass the parent application entity GUID, not the SLI's own GUID.
+	// GetIndicators queries entity(guid: ...) { serviceLevel { indicators } }
+	// which only returns results on the owning entity, not on the SLI entity itself.
+	getResp, err := client.GetIndicators(guid)
 	require.NoError(t, err)
 	require.NotNil(t, getResp)
 

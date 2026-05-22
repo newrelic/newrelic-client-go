@@ -158,7 +158,7 @@ func UserManagementGroupCleanupForIntegrationTests(client Usermanagement, authen
 			for _, g := range a.Groups.Groups {
 				if strings.Contains(g.DisplayName, groupNamePrefix) {
 					_, err := client.UserManagementDeleteGroup(UserManagementDeleteGroup{ID: g.ID})
-					if err != nil {
+					if err != nil && !strings.Contains(err.Error(), "Could not find the target or you are unauthorized") {
 						return err
 					}
 				}
