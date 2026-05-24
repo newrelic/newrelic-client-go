@@ -319,51 +319,6 @@ func logNice(body string) string {
 	return newBody
 }
 
-// obfuscate receives a string, and replaces everything after the first 8
-// characters with an asterisk before returning the result.
-func obfuscate(input string) string {
-	result := make([]string, len(input))
-	parts := strings.Split(input, "")
-
-	for i, x := range parts {
-		if i < 8 {
-			result[i] = x
-		} else {
-			result[i] = "*"
-		}
-	}
-
-	return strings.Join(result, "")
-}
-
-func logCleanHeaderMarshalJSON(header http.Header) ([]byte, error) {
-	h := http.Header{}
-
-	for k, values := range header {
-		if _, ok := h[k]; ok {
-			h[k] = make([]string, len(values))
-		}
-
-		switch k {
-		case "Api-Key", "X-Api-Key", "X-Insert-Key":
-			newValues := []string{}
-			for _, v := range values {
-				newValues = append(newValues, obfuscate(v))
-			}
-
-			if len(newValues) > 0 {
-				h[k] = newValues
-			} else {
-				h[k] = values
-			}
-		default:
-			h[k] = values
-		}
-	}
-
-	return json.Marshal(h)
-}
-
 // Do initiates an HTTP request as configured by the passed Request struct.
 func (c *Client) Do(req *Request) (*http.Response, error) {
 	var resp *http.Response
@@ -434,11 +389,6 @@ func (c *Client) innerDo(req *Request, errorValue ErrorResponse, i int) (*http.R
 		return nil, nil, false, err
 	}
 
-	logHeaders, err := logCleanHeaderMarshalJSON(r.Header)
-	if err != nil {
-		return nil, nil, false, err
-	}
-
 	if req.reqBody != nil {
 		switch reflect.TypeOf(req.reqBody).String() {
 		case "*http.graphQLRequest":
@@ -450,15 +400,14 @@ func (c *Client) innerDo(req *Request, errorValue ErrorResponse, i int) (*http.R
 			}
 
 			c.logger.Trace("request details",
-				"headers", logNice(string(logHeaders)),
 				"query", logNice(x.Query),
 				"variables", string(logVariables),
 			)
 		case "string":
-			c.logger.Trace("request details", "headers", string(logHeaders), "body", logNice(req.reqBody.(string)))
+			c.logger.Trace("request details", "body", logNice(req.reqBody.(string)))
 		}
 	} else {
-		c.logger.Trace("request details", "headers", string(logHeaders))
+		c.logger.Trace("request details")
 	}
 
 	if i > 0 {
@@ -483,7 +432,7 @@ func (c *Client) innerDo(req *Request, errorValue ErrorResponse, i int) (*http.R
 		return resp, body, false, readErr
 	}
 
-	logHeaders, err = json.Marshal(resp.Header)
+	logHeaders, err := json.Marshal(resp.Header)
 	if err != nil {
 		return resp, body, false, err
 	}
