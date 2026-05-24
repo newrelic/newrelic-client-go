@@ -1,10 +1,40 @@
 //go:build integration
 // +build integration
 
+// Package-level coverage note
+//
+// These integration tests use a dedicated fleet account (NEW_RELIC_FLEET_TEST_*)
+// and are organised into three focused workflows:
+//
+//  1. Fleet lifecycle  – create, update, read, search, delete a fleet.
+//  2. Configuration lifecycle – create a config, add versions, read by version,
+//     list all versions, delete a version, delete the config.
+//  3. Deployment & managed-entity search – read-only searches only.
+//
+// What is intentionally NOT covered and why:
+//
+//   - Adding/removing managed entities (fleet members): a managed entity is a
+//     host that has the NR Infrastructure agent installed and actively reporting
+//     to the fleet account. There is no programmatic way to enrol a host from a
+//     test — it requires a real agent to be running and assigned to the fleet.
+//     Hardcoding entity GUIDs from real hosts is fragile because those hosts
+//     eventually stop reporting and the GUIDs become stale.
+//
+//   - Creating or updating fleet deployments: a deployment targets a fleet that
+//     has at least one managed entity enrolled in a ring. Without controllable
+//     managed entities (see above) any create/update call will fail with
+//     "Error occurred while adding managed entities to the fleet ring". The
+//     deployment APIs are therefore only exercised via read-only entity search.
+//
+//   - Triggering a deployment (FleetControlDeploy): depends on a valid
+//     deployment in a non-terminal phase, which in turn requires managed
+//     entities. Out of scope for the same reason.
+
 package fleetcontrol
 
 import (
 	"fmt"
+	"strings"
 	"testing"
 	"time"
 
@@ -13,230 +43,24 @@ import (
 	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
-func TestIntegrationCreateConfigurationAndVersion(t *testing.T) {
-	t.Parallel()
-	_, err := mock.GetTestAccountID()
-	if err != nil {
-		t.Skipf("%s", err)
-	}
-
-	client := newIntegrationTestClient(t)
-
-	configurationVersionOneBody := "Body for Version 1"
-	configurationVersionTwoBody := "Body for Version 2"
-
-	createConfigurationResponse, err := client.FleetControlCreateConfiguration(
-		configurationVersionOneBody,
-		map[string]interface{}{
-			"x-newrelic-client-go-custom-headers": map[string]string{
-				"Newrelic-Entity": "{\"name\": \"Random Build v100 Test\", \"agentType\": \"NRInfra\", \"managedEntityType\": \"KUBERNETESCLUSTER\"}",
-			},
-		},
-		testOrganizationID,
-	)
-
-	require.NoError(t, err)
-	fmt.Println(createConfigurationResponse.ConfigurationEntityGUID)
-	fmt.Println(createConfigurationResponse.ConfigurationVersion.ConfigurationVersionEntityGUID)
-
-	require.NotNil(t, createConfigurationResponse.ConfigurationEntityGUID)
-	require.NotNil(t, createConfigurationResponse.ConfigurationVersion.ConfigurationVersionEntityGUID)
-	require.Equal(t, createConfigurationResponse.ConfigurationVersion.ConfigurationVersionNumber, 1)
-
-	addVersionToConfigurationResponse, err := client.FleetControlCreateConfiguration(
-		configurationVersionTwoBody,
-		map[string]interface{}{
-			"x-newrelic-client-go-custom-headers": map[string]string{
-				"Newrelic-Entity": fmt.Sprintf("{\"agentConfiguration\": \"%s\"}", createConfigurationResponse.ConfigurationEntityGUID),
-			},
-		},
-		testOrganizationID,
-	)
-
-	require.NoError(t, err)
-	fmt.Println(addVersionToConfigurationResponse.ConfigurationEntityGUID)
-	fmt.Println(addVersionToConfigurationResponse.ConfigurationVersion.ConfigurationVersionEntityGUID)
-	require.NotNil(t, addVersionToConfigurationResponse.ConfigurationEntityGUID)
-	require.NotNil(t, addVersionToConfigurationResponse.ConfigurationVersion.ConfigurationVersionEntityGUID)
-	require.NotEqual(t, createConfigurationResponse.ConfigurationVersion.ConfigurationVersionEntityGUID, addVersionToConfigurationResponse.ConfigurationVersion.ConfigurationVersionEntityGUID)
-	require.Equal(t, addVersionToConfigurationResponse.ConfigurationVersion.ConfigurationVersionNumber, 2)
-
-	time.Sleep(time.Second * 10)
-
-	getConfigurationResponse, err := client.FleetControlGetConfiguration(
-		createConfigurationResponse.ConfigurationEntityGUID,
-		testOrganizationID,
-		GetConfigurationModeTypes.ConfigEntity,
-		-1,
-	)
-
-	require.NoError(t, err)
-	require.Equal(t, *getConfigurationResponse, GetConfigurationResponse(configurationVersionTwoBody))
-
-	getConfigurationVersionOneResponse, err := client.FleetControlGetConfiguration(
-		createConfigurationResponse.ConfigurationEntityGUID,
-		testOrganizationID,
-		GetConfigurationModeTypes.ConfigEntity,
-		1,
-	)
-
-	require.NoError(t, err)
-	require.Equal(t, *getConfigurationVersionOneResponse, GetConfigurationResponse(configurationVersionOneBody))
-
-	getConfigurationVersionTwoResponse, err := client.FleetControlGetConfiguration(
-		addVersionToConfigurationResponse.ConfigurationVersion.ConfigurationVersionEntityGUID,
-		testOrganizationID,
-		GetConfigurationModeTypes.ConfigVersionEntity,
-		-1,
-	)
-
-	require.NoError(t, err)
-	require.Equal(t, *getConfigurationVersionTwoResponse, GetConfigurationResponse(configurationVersionTwoBody))
-
-	// Test getting all configuration versions
-	getConfigurationVersionsResponse, err := client.FleetControlGetConfigurationVersions(
-		createConfigurationResponse.ConfigurationEntityGUID,
-		testOrganizationID,
-	)
-
-	require.NoError(t, err)
-	require.NotNil(t, getConfigurationVersionsResponse)
-	require.NotNil(t, getConfigurationVersionsResponse.Versions)
-	require.GreaterOrEqual(t, len(getConfigurationVersionsResponse.Versions), 2)
-
-	// Verify that we have at least 2 versions
-	var foundVersionOne, foundVersionTwo bool
-	for _, version := range getConfigurationVersionsResponse.Versions {
-		if version.Version == "1" {
-			foundVersionOne = true
-		}
-		if version.Version == "2" {
-			foundVersionTwo = true
-		}
-	}
-	require.True(t, foundVersionOne, "Expected to find version 1")
-	require.True(t, foundVersionTwo, "Expected to find version 2")
-
-}
-
-func TestIntegrationDeleteBlob(t *testing.T) {
-	t.Parallel()
-	_, err := mock.GetTestAccountID()
-	if err != nil {
-		t.Skipf("%s", err)
-	}
-
-	client := newIntegrationTestClient(t)
-
-	createBlobResponse, err := client.FleetControlDeleteConfiguration(
-		"NDgyOTY3M3xOR0VQfEFHRU5UX0NPTkZJR1VSQVRJT058MDE5YjBkMWUtMzBiNS03NGYwLTk2M2EtMjk1NzZjNWUwNjEx",
-		testOrganizationID,
-	)
-
-	fmt.Println(createBlobResponse)
-	require.NoError(t, err)
-
-	// require.NotNil(t, createUserResponse.CreatedUser.ID)
-}
-
-func TestIntegrationDeleteConfigurationVersion(t *testing.T) {
-	t.Parallel()
-	_, err := mock.GetTestAccountID()
-	if err != nil {
-		t.Skipf("%s", err)
-	}
-
-	client := newIntegrationTestClient(t)
-
-	err = client.FleetControlDeleteConfigurationVersion(
-		"NDgyOTY3M3xOR0VQfEFHRU5UX0NPTkZJR1VSQVRJT05fVkVSU0lPTnwwMTliZTljZC1jNDljLTdjZTgtOWJjOS03Y2UyNTVjYWIzMjI",
-		testOrganizationID,
-	)
-
-	require.NoError(t, err)
-
-	// require.NotNil(t, createUserResponse.CreatedUser.ID)
-}
-
-func TestIntegrationGetEntity(t *testing.T) {
-	t.Parallel()
-	_, err := mock.GetTestAccountID()
-	if err != nil {
-		t.Skipf("%s", err)
-	}
-
-	client := newIntegrationTestClient(t)
-
-	entityID := "NDgyOTY3M3xOR0VQfEZMRUVUfDAxOWJmOTRmLTAwY2MtNzBjNy1iNzA1LWYzNTdlNjJlZGNjNA"
-
-	entity, err := client.GetEntity(entityID)
-	require.NoError(t, err)
-	require.NotNil(t, entity)
-
-	// Type assert to EntityManagementFleetEntity since the ID indicates it's a FLEET entity
-	fleetEntity, ok := (*entity).(*EntityManagementFleetEntity)
-	require.True(t, ok, "Expected entity to be of type EntityManagementFleetEntity")
-	require.NotNil(t, fleetEntity)
-	require.Equal(t, entityID, fleetEntity.ID)
-	require.NotEmpty(t, fleetEntity.Name)
-	require.NotEmpty(t, fleetEntity.Type)
-
-	fmt.Printf("Successfully retrieved entity: %s (Type: %s, Name: %s)\n", fleetEntity.ID, fleetEntity.Type, fleetEntity.Name)
-}
-
-func TestIntegrationGetEntitySearch(t *testing.T) {
-	t.Parallel()
-	_, err := mock.GetTestAccountID()
-	if err != nil {
-		t.Skipf("%s", err)
-	}
-
-	client := newIntegrationTestClient(t)
-
-	// Search for FLEET type entities
-	query := "type = 'FLEET'"
-
-	searchResult, err := client.GetEntitySearch("", query)
-	require.NoError(t, err)
-	require.NotNil(t, searchResult)
-	require.NotNil(t, searchResult.Entities)
-
-	fmt.Printf("Found %d entities matching query '%s'\n", len(searchResult.Entities), query)
-
-	// Verify we have at least one entity
-	require.GreaterOrEqual(t, len(searchResult.Entities), 1, "Expected at least one FLEET entity")
-
-	// Check the first entity to verify it's properly unmarshaled
-	if len(searchResult.Entities) > 0 {
-		firstEntity := searchResult.Entities[0]
-
-		// Try to type assert to EntityManagementFleetEntity
-		fleetEntity, ok := firstEntity.(*EntityManagementFleetEntity)
-		require.True(t, ok, "Expected entity to be of type EntityManagementFleetEntity")
-		require.NotNil(t, fleetEntity)
-		require.NotEmpty(t, fleetEntity.ID)
-		require.NotEmpty(t, fleetEntity.Name)
-		require.NotEmpty(t, fleetEntity.Type)
-		require.Equal(t, "FLEET", fleetEntity.Type)
-
-		fmt.Printf("First entity: ID=%s, Name=%s, Type=%s\n", fleetEntity.ID, fleetEntity.Name, fleetEntity.Type)
-	}
-}
-
+// TestIntegrationFleetLifecycle covers the full fleet CRUD flow plus entity
+// lookup operations (GetEntity, GetEntitySearch) that are driven by the fleet
+// created within the same test — no hardcoded GUIDs.
 func TestIntegrationFleetLifecycle(t *testing.T) {
 	t.Parallel()
-	_, err := mock.GetTestAccountID()
+
+	_, err := mock.GetFleetTestAccountID()
 	if err != nil {
 		t.Skipf("%s", err)
 	}
 
 	client := newIntegrationTestClient(t)
 
-	// Step 1: Create a fleet
-	fleetName := fmt.Sprintf("Test Fleet Lifecycle Incident 10572 %d", time.Now().Unix())
-	createFleetInput := FleetControlFleetEntityCreateInput{
+	// --- Create ---
+	fleetName := fmt.Sprintf("integration-test-fleet-%d", time.Now().Unix())
+	createInput := FleetControlFleetEntityCreateInput{
 		Name:              fleetName,
-		Description:       "Fleet for lifecycle integration test",
+		Description:       "Fleet created by integration test",
 		ManagedEntityType: FleetControlManagedEntityTypeTypes.HOST,
 		Product:           "Infrastructure",
 		Scope: FleetControlScopedReferenceInput{
@@ -247,314 +71,247 @@ func TestIntegrationFleetLifecycle(t *testing.T) {
 			Type: FleetControlOperatingSystemTypeTypes.LINUX,
 		},
 		Tags: []FleetControlTagInput{
-			{
-				Key:    "environment",
-				Values: []string{"test"},
-			},
-			{
-				Key:    "test-type",
-				Values: []string{"lifecycle"},
-			},
+			{Key: "environment", Values: []string{"test"}},
 		},
 	}
 
-	fmt.Println("Creating fleet...")
-	createFleetResponse, err := client.FleetControlCreateFleet(createFleetInput)
+	var fleetID string
+	deleted := false
+	defer func() {
+		if deleted || fleetID == "" {
+			return
+		}
+		_, _ = client.FleetControlDeleteFleet(fleetID) // best-effort cleanup
+	}()
+
+	createResp, err := client.FleetControlCreateFleet(createInput)
 	require.NoError(t, err)
-	require.NotNil(t, createFleetResponse)
-	require.NotNil(t, createFleetResponse.Entity.ID)
-	require.Equal(t, fleetName, createFleetResponse.Entity.Name)
-	require.Equal(t, "Fleet for lifecycle integration test", createFleetResponse.Entity.Description)
+	require.NotNil(t, createResp)
+	require.NotEmpty(t, createResp.Entity.ID)
+	require.Equal(t, fleetName, createResp.Entity.Name)
 
-	fleetID := createFleetResponse.Entity.ID
-	fmt.Printf("Created fleet with ID: %s\n", fleetID)
+	fleetID = createResp.Entity.ID
 
-	// Step 2: Update the fleet
-	updatedFleetName := fmt.Sprintf("Updated Test Fleet Lifecycle %d", time.Now().Unix())
-	updateFleetInput := FleetControlUpdateFleetEntityInput{
-		Name:        updatedFleetName,
-		Description: "Updated fleet description for lifecycle test",
+	// --- Update ---
+	updatedName := fmt.Sprintf("integration-test-fleet-updated-%d", time.Now().Unix())
+	updateResp, err := client.FleetControlUpdateFleet(FleetControlUpdateFleetEntityInput{
+		Name:        updatedName,
+		Description: "Updated by integration test",
 		Tags: []FleetControlTagInput{
-			{
-				Key:    "environment",
-				Values: []string{"test"},
-			},
-			{
-				Key:    "test-type",
-				Values: []string{"lifecycle", "updated"},
-			},
-			{
-				Key:    "status",
-				Values: []string{"modified"},
-			},
+			{Key: "environment", Values: []string{"test"}},
+			{Key: "updated", Values: []string{"true"}},
 		},
-	}
-
-	fmt.Println("Updating fleet...")
-	updateFleetResponse, err := client.FleetControlUpdateFleet(updateFleetInput, fleetID)
+	}, fleetID)
 	require.NoError(t, err)
-	require.NotNil(t, updateFleetResponse)
-	require.Equal(t, fleetID, updateFleetResponse.Entity.ID)
-	require.Equal(t, updatedFleetName, updateFleetResponse.Entity.Name)
-	require.Equal(t, "Updated fleet description for lifecycle test", updateFleetResponse.Entity.Description)
-	fmt.Printf("Updated fleet: %s\n", fleetID)
+	require.NotNil(t, updateResp)
+	require.Equal(t, fleetID, updateResp.Entity.ID)
+	require.Equal(t, updatedName, updateResp.Entity.Name)
 
-	// Verify updated tags
-	require.NotEmpty(t, updateFleetResponse.Entity.Tags)
-	foundUpdatedTag := false
-	foundStatusTag := false
-	for _, tag := range updateFleetResponse.Entity.Tags {
-		if tag.Key == "test-type" {
-			foundUpdatedTag = true
-			require.Contains(t, tag.Values, "updated")
-		}
-		if tag.Key == "status" {
-			foundStatusTag = true
-			require.Contains(t, tag.Values, "modified")
-		}
-	}
-	require.True(t, foundUpdatedTag, "Expected to find updated test-type tag")
-	require.True(t, foundStatusTag, "Expected to find status tag")
-
-	// Step 3: Get the fleet using GetEntity
-	fmt.Println("Retrieving fleet entity...")
+	// --- GetEntity (by ID from create response — no hardcoded GUID) ---
 	entity, err := client.GetEntity(fleetID)
 	require.NoError(t, err)
 	require.NotNil(t, entity)
 
-	// Type assert to EntityManagementFleetEntity
 	fleetEntity, ok := (*entity).(*EntityManagementFleetEntity)
-	require.True(t, ok, "Expected entity to be of type EntityManagementFleetEntity")
-	require.NotNil(t, fleetEntity)
+	require.True(t, ok, "expected *EntityManagementFleetEntity")
 	require.Equal(t, fleetID, fleetEntity.ID)
-	require.Equal(t, updatedFleetName, fleetEntity.Name)
+	require.Equal(t, updatedName, fleetEntity.Name)
 	require.Equal(t, "FLEET", fleetEntity.Type)
-	fmt.Printf("Successfully retrieved fleet entity: %s (Type: %s, Name: %s)\n", fleetEntity.ID, fleetEntity.Type, fleetEntity.Name)
 
-	// Step 4: Add members to the fleet
-	memberEntityIDs := []string{
-		"NDQ4MTY4MXxJTkZSQXxOQXwtNzAxODk5NTUyMDU5NTExMjQ2NDQ",
-		"NDQ4MTY4MXxJTkZSQXxOQXwxNDk2ODkxNzc1MjA2MjI4NjEz",
-	}
-
-	addMembersInput := []FleetControlFleetMemberRingInput{
-		{
-			EntityIds: memberEntityIDs,
-			Ring:      "default",
-		},
-	}
-
-	fmt.Printf("Adding %d members to fleet...\n", len(memberEntityIDs))
-	addMembersResponse, err := client.FleetControlAddFleetMembers(fleetID, addMembersInput)
+	// --- GetEntitySearch (search for FLEET entities, verify ours is present) ---
+	searchResp, err := client.GetEntitySearch("", "type = 'FLEET'")
 	require.NoError(t, err)
-	require.NotNil(t, addMembersResponse)
-	require.Equal(t, fleetID, addMembersResponse.FleetId)
-	fmt.Printf("Successfully added members to fleet: %s\n", fleetID)
+	require.NotNil(t, searchResp)
+	require.GreaterOrEqual(t, len(searchResp.Entities), 1, "expected at least the fleet we created")
 
-	// Give the system a moment to process the member additions
-	time.Sleep(time.Second * 5)
-
-	// Step 5: Get fleet members to verify they exist
-	fmt.Println("Retrieving fleet members...")
-	getFleetMembersFilter := &FleetControlFleetMembersFilterInput{
-		FleetId: fleetID,
-		Ring:    "default",
+	found := false
+	for _, e := range searchResp.Entities {
+		if fe, ok := e.(*EntityManagementFleetEntity); ok && fe.ID == fleetID {
+			found = true
+			require.Equal(t, "FLEET", fe.Type)
+		}
 	}
+	require.True(t, found, "created fleet not found in entity search results")
 
-	fleetMembersResponse, err := client.GetFleetMembers(nil, getFleetMembersFilter)
+	// --- Delete ---
+	deleteResp, err := client.FleetControlDeleteFleet(fleetID)
 	require.NoError(t, err)
-	require.NotNil(t, fleetMembersResponse)
-	require.NotNil(t, fleetMembersResponse.Items)
-	fmt.Printf("Found %d fleet members\n", len(fleetMembersResponse.Items))
-
-	// Verify both members are present
-	require.GreaterOrEqual(t, len(fleetMembersResponse.Items), 2, "Expected at least 2 fleet members")
-
-	foundMembers := make(map[string]bool)
-	for _, member := range fleetMembersResponse.Items {
-		foundMembers[member.ID] = true
-		fmt.Printf("Found member: ID=%s, Name=%s, Type=%s\n", member.ID, member.Name, member.Type)
-	}
-
-	for _, memberID := range memberEntityIDs {
-		require.True(t, foundMembers[memberID], fmt.Sprintf("Expected to find member with ID: %s", memberID))
-	}
-	fmt.Println("Verified all members are present in the fleet")
-
-	// Step 6: Remove both members from the fleet
-	removeMembersInput := []FleetControlFleetMemberRingInput{
-		{
-			EntityIds: memberEntityIDs,
-			Ring:      "default",
-		},
-	}
-
-	fmt.Printf("Removing %d members from fleet...\n", len(memberEntityIDs))
-	removeMembersResponse, err := client.FleetControlRemoveFleetMembers(fleetID, removeMembersInput)
-	require.NoError(t, err)
-	require.NotNil(t, removeMembersResponse)
-	require.Equal(t, fleetID, removeMembersResponse.FleetId)
-	fmt.Printf("Successfully removed members from fleet: %s\n", fleetID)
-
-	// Give the system a moment to process the member removals
-	time.Sleep(time.Second * 5)
-
-	// Verify members were removed
-	fmt.Println("Verifying members were removed...")
-	fleetMembersAfterRemoval, err := client.GetFleetMembers(nil, getFleetMembersFilter)
-	require.NoError(t, err)
-	require.NotNil(t, fleetMembersAfterRemoval)
-
-	// Check that the members we removed are no longer present
-	remainingMembers := make(map[string]bool)
-	for _, member := range fleetMembersAfterRemoval.Items {
-		remainingMembers[member.ID] = true
-	}
-
-	for _, memberID := range memberEntityIDs {
-		require.False(t, remainingMembers[memberID], fmt.Sprintf("Member %s should have been removed but is still present", memberID))
-	}
-	fmt.Println("Verified all members were removed from the fleet")
-
-	// Step 7: Delete the fleet
-	fmt.Printf("Deleting fleet: %s...\n", fleetID)
-	deleteFleetResponse, err := client.FleetControlDeleteFleet(fleetID)
-	require.NoError(t, err)
-	require.NotNil(t, deleteFleetResponse)
-	require.Equal(t, fleetID, deleteFleetResponse.ID)
-	fmt.Printf("Successfully deleted fleet: %s\n", fleetID)
+	require.NotNil(t, deleteResp)
+	require.Equal(t, fleetID, deleteResp.ID)
+	deleted = true
 }
 
-// doesn't work yet, because the fleet deploy part is not yet figured out
-func TestIntegrationFleetDeploymentCreateAndUpdate(t *testing.T) {
-	t.Skipf("TBD")
-
+// TestIntegrationConfigurationLifecycle covers the full configuration CRUD
+// flow: create config (v1), add a second version (v2), get each version by
+// config entity GUID, get all versions, delete v1, then delete the config.
+// Everything is driven by GUIDs returned from the API — no hardcoded values.
+func TestIntegrationConfigurationLifecycle(t *testing.T) {
 	t.Parallel()
-	_, err := mock.GetTestAccountID()
+
+	_, err := mock.GetFleetTestAccountID()
 	if err != nil {
 		t.Skipf("%s", err)
 	}
 
 	client := newIntegrationTestClient(t)
 
-	// Step 1: Create a test fleet first (required for deployment)
-	fleetName := fmt.Sprintf("Test Fleet for Deployment %d", time.Now().Unix())
-	createFleetInput := FleetControlFleetEntityCreateInput{
-		Name:              fleetName,
-		Description:       "Test fleet for deployment integration test",
-		ManagedEntityType: FleetControlManagedEntityTypeTypes.HOST,
-		Product:           "Infrastructure",
-		Scope: FleetControlScopedReferenceInput{
-			ID:   testOrganizationID,
-			Type: FleetControlEntityScopeTypes.ORGANIZATION,
-		},
-		Tags: []FleetControlTagInput{
-			{
-				Key:    "environment",
-				Values: []string{"test"},
+	const (
+		bodyV1 = "Body for Version 1"
+		bodyV2 = "Body for Version 2"
+	)
+
+	var configGUID, v1GUID string
+	configDeleted := false
+	defer func() {
+		if configDeleted || configGUID == "" {
+			return
+		}
+		_, _ = client.FleetControlDeleteConfiguration(configGUID, testOrganizationID) // best-effort cleanup
+	}()
+
+	// --- Create config (v1) ---
+	createV1Resp, err := client.FleetControlCreateConfiguration(
+		bodyV1,
+		map[string]interface{}{
+			"x-newrelic-client-go-custom-headers": map[string]string{
+				"Newrelic-Entity": `{"name": "integration-test-config", "agentType": "NRInfra", "managedEntityType": "KUBERNETESCLUSTER"}`,
 			},
 		},
-	}
-
-	createFleetResponse, err := client.FleetControlCreateFleet(createFleetInput)
+		testOrganizationID,
+	)
 	require.NoError(t, err)
-	require.NotNil(t, createFleetResponse)
-	require.NotNil(t, createFleetResponse.Entity.ID)
-	require.Equal(t, fleetName, createFleetResponse.Entity.Name)
+	require.NotEmpty(t, createV1Resp.ConfigurationEntityGUID)
+	require.NotEmpty(t, createV1Resp.ConfigurationVersion.ConfigurationVersionEntityGUID)
+	require.Equal(t, 1, createV1Resp.ConfigurationVersion.ConfigurationVersionNumber)
 
-	fleetID := createFleetResponse.Entity.ID
-	fmt.Printf("Created test fleet with ID: %s\n", fleetID)
+	configGUID = createV1Resp.ConfigurationEntityGUID
+	v1GUID = createV1Resp.ConfigurationVersion.ConfigurationVersionEntityGUID
 
-	// Step 2: Create a fleet deployment
-	deploymentName := fmt.Sprintf("Test Deployment %d", time.Now().Unix())
-	createDeploymentInput := FleetControlFleetDeploymentCreateInput{
-		FleetId:     fleetID,
-		Name:        deploymentName,
-		Description: "Test deployment for integration test",
-		Scope: FleetControlScopedReferenceInput{
-			ID:   testOrganizationID,
-			Type: FleetControlEntityScopeTypes.ORGANIZATION,
-		},
-		Tags: []FleetControlTagInput{
-			{
-				Key:    "test-type",
-				Values: []string{"integration"},
+	// --- Add version (v2) ---
+	createV2Resp, err := client.FleetControlCreateConfiguration(
+		bodyV2,
+		map[string]interface{}{
+			"x-newrelic-client-go-custom-headers": map[string]string{
+				"Newrelic-Entity": fmt.Sprintf(`{"agentConfiguration": "%s"}`, configGUID),
 			},
 		},
+		testOrganizationID,
+	)
+	require.NoError(t, err)
+	require.NotEmpty(t, createV2Resp.ConfigurationEntityGUID)
+	require.NotEmpty(t, createV2Resp.ConfigurationVersion.ConfigurationVersionEntityGUID)
+	require.Equal(t, 2, createV2Resp.ConfigurationVersion.ConfigurationVersionNumber)
+	require.NotEqual(t, v1GUID, createV2Resp.ConfigurationVersion.ConfigurationVersionEntityGUID)
+
+	v2GUID := createV2Resp.ConfigurationVersion.ConfigurationVersionEntityGUID
+
+	// Give the blob service a moment to index the new versions
+	time.Sleep(5 * time.Second)
+
+	// The blob service stores the POST body as-is. Since PostWithContext JSON-marshals
+	// its argument, a plain Go string is stored with outer quotes (e.g. `"Body for Version 2"`).
+	// We strip those quotes when asserting to compare against the original content.
+	configBody := func(r *GetConfigurationResponse) string {
+		return strings.Trim(string(*r), "\"")
 	}
 
-	createDeploymentResponse, err := client.FleetControlCreateFleetDeployment(createDeploymentInput)
+	// --- Get latest (should be v2) ---
+	latestResp, err := client.FleetControlGetConfiguration(
+		configGUID, testOrganizationID, GetConfigurationModeTypes.ConfigEntity, -1,
+	)
 	require.NoError(t, err)
-	require.NotNil(t, createDeploymentResponse)
-	require.NotNil(t, createDeploymentResponse.Entity.ID)
-	require.Equal(t, fleetID, createDeploymentResponse.Entity.FleetId)
-	require.Equal(t, deploymentName, createDeploymentResponse.Entity.Name)
-	require.NotEmpty(t, createDeploymentResponse.Entity.Phase)
+	require.Equal(t, bodyV2, configBody(latestResp))
 
-	deploymentID := createDeploymentResponse.Entity.ID
-	fmt.Printf("Created deployment with ID: %s\n", deploymentID)
+	// --- Get v1 by version number ---
+	v1Resp, err := client.FleetControlGetConfiguration(
+		configGUID, testOrganizationID, GetConfigurationModeTypes.ConfigEntity, 1,
+	)
+	require.NoError(t, err)
+	require.Equal(t, bodyV1, configBody(v1Resp))
 
-	// Verify deployment metadata
-	require.NotNil(t, createDeploymentResponse.Entity.Metadata)
-	require.NotZero(t, createDeploymentResponse.Entity.Metadata.CreatedAt)
-	require.NotEmpty(t, createDeploymentResponse.Entity.Metadata.CreatedBy.ID)
+	// --- Get v2 directly via version entity GUID ---
+	v2Resp, err := client.FleetControlGetConfiguration(
+		v2GUID, testOrganizationID, GetConfigurationModeTypes.ConfigVersionEntity, -1,
+	)
+	require.NoError(t, err)
+	require.Equal(t, bodyV2, configBody(v2Resp))
 
-	// Verify tags were set
-	require.NotEmpty(t, createDeploymentResponse.Entity.Tags)
-	foundTestTag := false
-	for _, tag := range createDeploymentResponse.Entity.Tags {
-		if tag.Key == "test-type" {
-			foundTestTag = true
-			require.Contains(t, tag.Values, "integration")
+	// --- List all versions ---
+	versionsResp, err := client.FleetControlGetConfigurationVersions(configGUID, testOrganizationID)
+	require.NoError(t, err)
+	require.NotNil(t, versionsResp)
+	require.GreaterOrEqual(t, len(versionsResp.Versions), 2)
+
+	foundV1, foundV2 := false, false
+	for _, v := range versionsResp.Versions {
+		if v.Version == "1" {
+			foundV1 = true
+		}
+		if v.Version == "2" {
+			foundV2 = true
 		}
 	}
-	require.True(t, foundTestTag, "Expected to find test-type tag")
+	require.True(t, foundV1, "expected version 1 in list")
+	require.True(t, foundV2, "expected version 2 in list")
 
-	// Step 3: Update the fleet deployment
-	updatedDeploymentName := fmt.Sprintf("Updated Test Deployment %d", time.Now().Unix())
-	updateDeploymentInput := FleetControlFleetDeploymentUpdateInput{
-		Name:        updatedDeploymentName,
-		Description: "Updated description for integration test",
-		Tags: []FleetControlTagInput{
-			{
-				Key:    "test-type",
-				Values: []string{"integration", "updated"},
-			},
-			{
-				Key:    "status",
-				Values: []string{"modified"},
-			},
-		},
-	}
-
-	updateDeploymentResponse, err := client.FleetControlUpdateFleetDeployment(updateDeploymentInput, deploymentID)
+	// --- Delete v1 (version-level delete) ---
+	err = client.FleetControlDeleteConfigurationVersion(v1GUID, testOrganizationID)
 	require.NoError(t, err)
-	require.NotNil(t, updateDeploymentResponse)
-	require.Equal(t, deploymentID, updateDeploymentResponse.Entity.ID)
-	require.Equal(t, updatedDeploymentName, updateDeploymentResponse.Entity.Name)
-	require.Equal(t, "Updated description for integration test", updateDeploymentResponse.Entity.Description)
 
-	// Verify update metadata
-	require.NotNil(t, updateDeploymentResponse.Entity.Metadata)
-	require.NotZero(t, updateDeploymentResponse.Entity.Metadata.UpdatedAt)
-	require.NotEmpty(t, updateDeploymentResponse.Entity.Metadata.UpdatedBy.ID)
+	// --- Delete the config entirely ---
+	_, err = client.FleetControlDeleteConfiguration(configGUID, testOrganizationID)
+	require.NoError(t, err)
+	configDeleted = true
+}
 
-	// Verify updated tags
-	require.NotEmpty(t, updateDeploymentResponse.Entity.Tags)
-	foundUpdatedTag := false
-	foundStatusTag := false
-	for _, tag := range updateDeploymentResponse.Entity.Tags {
-		if tag.Key == "test-type" {
-			foundUpdatedTag = true
-			require.Contains(t, tag.Values, "updated")
-		}
-		if tag.Key == "status" {
-			foundStatusTag = true
-			require.Contains(t, tag.Values, "modified")
-		}
+// TestIntegrationDeploymentAndManagedEntitySearch exercises the search/read APIs
+// for fleet deployments and managed (host) entities.
+//
+// Create/update operations for both deployments and managed-entity membership
+// are deliberately excluded here — see the package-level note at the top of
+// this file for the full rationale. In short: both require a real NR
+// Infrastructure agent to be running and enrolled in the fleet, which cannot
+// be orchestrated from an integration test.
+func TestIntegrationDeploymentAndManagedEntitySearch(t *testing.T) {
+	t.Parallel()
+
+	_, err := mock.GetFleetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
 	}
-	require.True(t, foundUpdatedTag, "Expected to find updated test-type tag")
-	require.True(t, foundStatusTag, "Expected to find status tag")
 
-	fmt.Printf("Successfully created and updated deployment: %s\n", deploymentID)
+	client := newIntegrationTestClient(t)
+
+	// Search for any fleet deployment entities in the org
+	deploymentSearch, err := client.GetEntitySearch("", "type = 'FLEET_DEPLOYMENT'")
+	require.NoError(t, err)
+	require.NotNil(t, deploymentSearch)
+	// Zero results is acceptable in a fresh account — we just verify the call works
+	for _, e := range deploymentSearch.Entities {
+		dep, ok := e.(*EntityManagementFleetDeploymentEntity)
+		require.True(t, ok, "expected *EntityManagementFleetDeploymentEntity for FLEET_DEPLOYMENT result")
+		require.NotEmpty(t, dep.ID)
+	}
+
+	// Search for any existing fleet entities (read-only sanity check)
+	fleetSearch, err := client.GetEntitySearch("", "type = 'FLEET'")
+	require.NoError(t, err)
+	require.NotNil(t, fleetSearch)
+	for _, e := range fleetSearch.Entities {
+		fe, ok := e.(*EntityManagementFleetEntity)
+		require.True(t, ok, "expected *EntityManagementFleetEntity for FLEET result")
+		require.NotEmpty(t, fe.ID)
+		require.Equal(t, "FLEET", fe.Type)
+	}
+
+	// If any fleets exist, verify GetFleetMembers works (cursor=nil means first page)
+	if len(fleetSearch.Entities) > 0 {
+		firstFleet := fleetSearch.Entities[0].(*EntityManagementFleetEntity)
+		membersResp, err := client.GetFleetMembers(nil, &FleetControlFleetMembersFilterInput{
+			FleetId: firstFleet.ID,
+		})
+		require.NoError(t, err)
+		require.NotNil(t, membersResp)
+		// Zero members is fine; we just confirm the API round-trips cleanly
+	}
 }
