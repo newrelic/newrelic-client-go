@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
   # Compile on supported OSes
   compile:
@@ -20,7 +23,7 @@ jobs:
       - name: Install Go
         uses: actions/setup-go@v5
         with:
-          go-version: 1.24.x
+          go-version: 1.25.x
 
       - name: Add GOBIN to PATH
         run: echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
