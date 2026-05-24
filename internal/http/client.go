@@ -319,6 +319,22 @@ func logNice(body string) string {
 	return newBody
 }
 
+// redactedHeaders returns a copy of the header map with sensitive auth header
+// values replaced by the literal "[REDACTED]". Non-sensitive headers are kept
+// as-is so Trace logs remain useful for debugging.
+func redactedHeaders(header http.Header) http.Header {
+	h := http.Header{}
+	for k, values := range header {
+		switch k {
+		case "Api-Key", "X-Api-Key", "X-Insert-Key":
+			h[k] = []string{"[REDACTED]"}
+		default:
+			h[k] = values
+		}
+	}
+	return h
+}
+
 // Do initiates an HTTP request as configured by the passed Request struct.
 func (c *Client) Do(req *Request) (*http.Response, error) {
 	var resp *http.Response
@@ -389,6 +405,11 @@ func (c *Client) innerDo(req *Request, errorValue ErrorResponse, i int) (*http.R
 		return nil, nil, false, err
 	}
 
+	logHeaders, err := json.Marshal(redactedHeaders(r.Header))
+	if err != nil {
+		return nil, nil, false, err
+	}
+
 	if req.reqBody != nil {
 		switch reflect.TypeOf(req.reqBody).String() {
 		case "*http.graphQLRequest":
@@ -400,14 +421,15 @@ func (c *Client) innerDo(req *Request, errorValue ErrorResponse, i int) (*http.R
 			}
 
 			c.logger.Trace("request details",
+				"headers", logNice(string(logHeaders)),
 				"query", logNice(x.Query),
 				"variables", string(logVariables),
 			)
 		case "string":
-			c.logger.Trace("request details", "body", logNice(req.reqBody.(string)))
+			c.logger.Trace("request details", "headers", string(logHeaders), "body", logNice(req.reqBody.(string)))
 		}
 	} else {
-		c.logger.Trace("request details")
+		c.logger.Trace("request details", "headers", string(logHeaders))
 	}
 
 	if i > 0 {
@@ -432,7 +454,7 @@ func (c *Client) innerDo(req *Request, errorValue ErrorResponse, i int) (*http.R
 		return resp, body, false, readErr
 	}
 
-	logHeaders, err := json.Marshal(resp.Header)
+	logHeaders, err = json.Marshal(resp.Header)
 	if err != nil {
 		return resp, body, false, err
 	}
