@@ -4763,12 +4763,16 @@ type EntityManagementAwsAssumeRoleConfig struct {
 
 // EntityManagementAwsAssumeRoleConfigCreateInput - Create input for AwsAssumeRoleConfig.
 type EntityManagementAwsAssumeRoleConfigCreateInput struct {
+	// External ID to use when assuming the role
+	ExternalId EntityManagementDynamicString `json:"externalId,omitempty"`
 	// See roleArn in AwsAssumeRoleConfig.
 	RoleArn string `json:"roleArn"`
 }
 
 // EntityManagementAwsAssumeRoleConfigUpdateInput - Update input for AwsAssumeRoleConfig.
 type EntityManagementAwsAssumeRoleConfigUpdateInput struct {
+	// External ID to use when assuming the role
+	ExternalId EntityManagementDynamicString `json:"externalId,omitempty"`
 	// See roleArn in AwsAssumeRoleConfig.
 	RoleArn string `json:"roleArn"`
 }
