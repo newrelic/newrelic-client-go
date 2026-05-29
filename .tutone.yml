@@ -2162,7 +2162,7 @@ packages:
       - name: Seconds
         field_type_override: nrtime.Seconds
         skip_type_create: true
-             - name: datamanagement
+  - name: datamanagement
     path: pkg/datamanagement
     import_path: github.com/newrelic/newrelic-client-go/v2/pkg/datamanagement
     generators:
