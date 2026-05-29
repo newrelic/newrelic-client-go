@@ -1,3 +1,23 @@
+<a name="v2.86.1"></a>
+## [v2.86.1] - 2026-05-24
+### Bug Fixes
+- **security:** resolve CodeQL alerts and Dependabot vulnerabilities ([#1418](https://github.com/newrelic/newrelic-client-go/issues/1418))
+
+<a name="v2.86.0"></a>
+## [v2.86.0] - 2026-05-24
+### Features
+- add datamanagement and pruningrules packages ([#1407](https://github.com/newrelic/newrelic-client-go/issues/1407))
+
+<a name="v2.85.0"></a>
+## [v2.85.0] - 2026-05-20
+### Features
+- **alerts:** add EntityGuid field to CompoundCondition struct ([#1416](https://github.com/newrelic/newrelic-client-go/issues/1416))
+
+<a name="v2.84.1"></a>
+## [v2.84.1] - 2026-05-20
+### Bug Fixes
+- updating URLS with latest versions ([#1415](https://github.com/newrelic/newrelic-client-go/issues/1415))
+
 <a name="v2.84.0"></a>
 ## [v2.84.0] - 2026-05-12
 ### Features
@@ -2266,7 +2286,11 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.84.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.86.1...HEAD
+[v2.86.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.86.0...v2.86.1
+[v2.86.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.85.0...v2.86.0
+[v2.85.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.84.1...v2.85.0
+[v2.84.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.84.0...v2.84.1
 [v2.84.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.83.4...v2.84.0
 [v2.83.4]: https://github.com/newrelic/newrelic-client-go/compare/v2.83.3...v2.83.4
 [v2.83.3]: https://github.com/newrelic/newrelic-client-go/compare/v2.83.2...v2.83.3

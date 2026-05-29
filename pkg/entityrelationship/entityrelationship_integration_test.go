@@ -54,7 +54,7 @@ func TestIntegrationEntityRelationship_CRUD(t *testing.T) {
 	require.NotNil(t, entity)
 
 	// Check if the relationship exists in the read result
-	relatedEntities := (*entity).(*entities.ExternalEntity).RelatedEntities
+	relatedEntities := (*entity).(*entities.MobileApplicationEntity).RelatedEntities
 	found := false
 
 	for _, relationship := range relatedEntities.Results {

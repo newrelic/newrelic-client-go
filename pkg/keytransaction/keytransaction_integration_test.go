@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/require"
 
@@ -18,55 +19,62 @@ func TestIntegrationKeyTransaction_All(t *testing.T) {
 	t.Parallel()
 	client := newIntegrationTestClient(t)
 
-	// cleanup task prior to the creation of the integration test
+	// Pre-test cleanup: delete any leftover key transactions from previous runs.
 	entitiesClient := newIntegrationTestClient_Entities(t)
-
 	testAccountID, _ := testhelpers.GetTestAccountID()
 	query := fmt.Sprintf("type = 'KEY_TRANSACTION' and accountId = '%d'", testAccountID)
 
-	entities, err := entitiesClient.GetEntitySearchByQuery(
+	existingEntities, err := entitiesClient.GetEntitySearchByQuery(
 		entities.EntitySearchOptions{},
 		query,
 		[]entities.EntitySearchSortCriteria{},
 	)
-
-	for _, entity := range entities.Results.Entities {
-		keyTransactionName := entity.GetName()
-		if keyTransactionName != "" && strings.Contains(keyTransactionName, "nr-test") {
-			_, deleteErr := client.KeyTransactionDelete(EntityGUID(string(entity.GetGUID())))
-			fmt.Println("Deleting key transaction ", entity.GetName())
-			if deleteErr != nil {
-				fmt.Printf("Error deleting key transaction %s: %v\n", entity.GetName(), err)
+	if err == nil {
+		for _, entity := range existingEntities.Results.Entities {
+			name := entity.GetName()
+			if name != "" && strings.Contains(name, "nr-test") {
+				fmt.Println("Deleting leftover key transaction:", name)
+				if _, deleteErr := client.KeyTransactionDelete(EntityGUID(string(entity.GetGUID()))); deleteErr != nil {
+					fmt.Printf("Error deleting leftover key transaction %s: %v\n", name, deleteErr)
+				}
 			}
 		}
 	}
 
-	// creating a key transaction
-	// this is expected to throw no error, and successfully create the key transaction
-	createKeyTransactionTestResult, err := client.KeyTransactionCreate(
+	// Register best-effort cleanup before creating, so a mid-test failure
+	// never leaves a dangling key transaction.
+	var createdGUID EntityGUID
+	deleted := false
+	defer func() {
+		if deleted || createdGUID == "" {
+			return
+		}
+		_, _ = client.KeyTransactionDelete(createdGUID) // best-effort cleanup
+	}()
+
+	// Create
+	createResult, err := client.KeyTransactionCreate(
 		10,
 		testhelpers.IntegrationTestApplicationEntityGUIDNew,
 		10,
 		testhelpers.IntegrationTestApplicationEntityNameNew,
 		testKeyTransactionName,
 	)
-
 	require.NoError(t, err)
-	require.NotNil(t, createKeyTransactionTestResult)
-	require.Equal(t, testKeyTransactionName, createKeyTransactionTestResult.Name)
+	require.NotNil(t, createResult)
+	require.Equal(t, testKeyTransactionName, createResult.Name)
 
-	// defer block to delete the created key transaction, at the end of execution of this test
-	// the cleanup task in the beginning of the test should do this, but we've noticed
-	// way too much flaky behaviour and unnecessary failures, hence adding this as a double check
-	defer func() {
-		deletedResult, err := client.KeyTransactionDelete(createKeyTransactionTestResult.GUID)
-		require.NoError(t, err)
-		require.NotNil(t, deletedResult)
-		require.Equal(t, deletedResult.Success, true)
-	}()
+	createdGUID = createResult.GUID
 
-	// attempt to create the same key transaction again
-	// this is expected to throw an error, as multiple key transactions cannot be created with the same metricName
+	// The KeyTransactionUpdate mutation resolves a deeply nested entity including
+	// serviceLevel.indicators. On a brand-new entity the NerdGraph backend needs
+	// time to index those fields — without this sleep the update reliably hits
+	// "An error occurred resolving this field" under CI load and exhausts all
+	// retries. Five seconds matches the pattern used in the servicelevel tests.
+	fmt.Println("waiting 5 seconds for key transaction entity to be indexed...")
+	time.Sleep(5 * time.Second)
+
+	// Duplicate create — expected to fail (same metricName)
 	_, err = client.KeyTransactionCreate(
 		10,
 		testhelpers.IntegrationTestApplicationEntityGUIDNew,
@@ -74,28 +82,25 @@ func TestIntegrationKeyTransaction_All(t *testing.T) {
 		testhelpers.IntegrationTestApplicationEntityNameNew,
 		testKeyTransactionName,
 	)
-
 	require.Error(t, err)
 
-	// updating the key transaction created
-	// this is expected to throw no error, and successfully update the key transaction
-	updateKeyTransactionTestResult, err := client.KeyTransactionUpdate(
+	// Update
+	updateResult, err := client.KeyTransactionUpdate(
 		11,
 		11,
-		createKeyTransactionTestResult.GUID,
+		createdGUID,
 		testKeyTransactionName+"-updated",
 	)
-
 	require.NoError(t, err)
-	require.NotNil(t, updateKeyTransactionTestResult)
-	require.Equal(t, updateKeyTransactionTestResult.ApdexTarget, float64(11))
-	require.Equal(t, updateKeyTransactionTestResult.BrowserApdexTarget, float64(11))
-	require.Equal(t, testKeyTransactionName+"-updated", updateKeyTransactionTestResult.Name)
+	require.NotNil(t, updateResult)
+	require.Equal(t, float64(11), updateResult.ApdexTarget)
+	require.Equal(t, float64(11), updateResult.BrowserApdexTarget)
+	require.Equal(t, testKeyTransactionName+"-updated", updateResult.Name)
 
-	// deleting the key transaction created
-	// this is expected to throw no error and delete the created key transaction
-	deletedResult, err := client.KeyTransactionDelete(createKeyTransactionTestResult.GUID)
+	// Delete
+	deleteResult, err := client.KeyTransactionDelete(createdGUID)
 	require.NoError(t, err)
-	require.NotNil(t, deletedResult)
-	require.Equal(t, deletedResult.Success, true)
+	require.NotNil(t, deleteResult)
+	require.Equal(t, true, deleteResult.Success)
+	deleted = true
 }

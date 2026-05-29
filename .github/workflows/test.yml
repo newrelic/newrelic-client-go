@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -13,7 +16,7 @@ jobs:
       - name: Install Go
         uses: actions/setup-go@v5
         with:
-          go-version: 1.24.x
+          go-version: 1.25.x
 
       - name: Add GOBIN to PATH
         run: echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
@@ -41,7 +44,7 @@ jobs:
       - name: Install Go
         uses: actions/setup-go@v5
         with:
-          go-version: 1.24.x
+          go-version: 1.25.x
 
       - name: Add GOBIN to PATH
         run: echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
@@ -82,7 +85,7 @@ jobs:
       - name: Install Go
         uses: actions/setup-go@v5
         with:
-          go-version: 1.24.x
+          go-version: 1.25.x
 
       - name: Add GOBIN to PATH
         run: echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
@@ -112,6 +115,9 @@ jobs:
           INTEGRATION_TESTING_AWS_ARN: ${{ secrets.INTEGRATION_TESTING_AWS_ARN }}
           INTEGRATION_TESTING_NEW_RELIC_ORGANIZATION_ID: ${{ secrets.INTEGRATION_TESTING_NEW_RELIC_ORGANIZATION_ID}}
           INTEGRATION_TESTING_NEW_RELIC_AUTHENTICATION_DOMAIN_ID: ${{ secrets.INTEGRATION_TESTING_NEW_RELIC_AUTHENTICATION_DOMAIN_ID}}
+          NEW_RELIC_FLEET_TEST_API_KEY: ${{ secrets.NEW_RELIC_FLEET_TEST_API_KEY }}
+          NEW_RELIC_FLEET_TEST_ACCOUNT_ID: ${{ secrets.NEW_RELIC_FLEET_TEST_ACCOUNT_ID }}
+          NEW_RELIC_FLEET_TEST_ORGANIZATION_ID: ${{ secrets.NEW_RELIC_FLEET_TEST_ORGANIZATION_ID }}
 
       - name: Report integration test coverage via Codecov
         uses: codecov/codecov-action@v4
