@@ -1663,6 +1663,8 @@ packages:
     types:
       - name: WorkloadCreateInput
       - name: WorkloadDuplicateInput
+      - name: WorkloadDynamicFlowInput
+      - name: WorkloadUpdateDynamicFlowInput
 
       # Some overrides we need
       - name: WorkloadStatusConfigInput
@@ -1672,6 +1674,10 @@ packages:
       - name: WorkloadUpdateStatusConfigInput
         field_type_override: "*WorkloadUpdateStatusConfigInput"
       # Status config overrides
+      - name: WorkloadAlertPolicyInput
+        field_type_override: "*WorkloadAlertPolicyInput"
+      - name: WorkloadUpdateAlertPolicyInput
+        field_type_override: "*WorkloadUpdateAlertPolicyInput"
       - name: WorkloadAutomaticStatusInput
         field_type_override: "*WorkloadAutomaticStatusInput"
       - name: WorkloadUpdateAutomaticStatusInput
