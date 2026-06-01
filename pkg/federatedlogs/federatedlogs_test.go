@@ -21,3 +21,11 @@ func newIntegrationTestClient(t *testing.T) Federatedlogs {
 
 	return New(tc)
 }
+
+// newFleetIntegrationTestClient builds a Federatedlogs client authenticated
+// with the fleet-test credentials.
+func newFleetIntegrationTestClient(t *testing.T) Federatedlogs {
+	tc := mock.NewFleetIntegrationTestConfig(t)
+
+	return New(tc)
+}

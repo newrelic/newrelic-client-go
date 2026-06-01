@@ -5,15 +5,27 @@ package federatedlogs
 
 import (
 	"context"
+	"fmt"
+	"os"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/require"
 
+	"github.com/newrelic/newrelic-client-go/v2/pkg/fleetcontrol"
 	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
-const testFleetID = "FLEET_ID"
-const orgID = "ORG_ID"
+const orgID = "fb33fea3-4d7e-4736-9701-acb59a634fdf"
+
+// getFleetTestOrganizationID returns the org used for entity scope when
+// running the Setup/Partition tests under fleet-test credentials.
+func getFleetTestOrganizationID() string {
+	if id := os.Getenv("NEW_RELIC_FLEET_TEST_ORGANIZATION_ID"); id != "" {
+		return id
+	}
+	return "b961cf81-d62b-4359-8822-7b1d6dadd374"
+}
 
 func TestIntegrationFederatedLogs_AwsConnection(t *testing.T) {
 	t.Parallel()
@@ -26,7 +38,7 @@ func TestIntegrationFederatedLogs_AwsConnection(t *testing.T) {
 	client := newIntegrationTestClient(t)
 	ctx := context.Background()
 
-	connectionID, cleanup := createTestAwsConnection(t, client, testAccountID)
+	connectionID, cleanup := createTestAwsConnection(t, client, testAccountID, orgID)
 	t.Cleanup(cleanup)
 
 	// Read the connection back via the polymorphic GetEntity call.
@@ -61,15 +73,19 @@ func TestIntegrationFederatedLogs_AwsConnection(t *testing.T) {
 func TestIntegrationFederatedLogs_Setup(t *testing.T) {
 	t.Parallel()
 
-	testAccountID, err := mock.GetTestAccountID()
+	testAccountID, err := mock.GetFleetTestAccountID()
 	if err != nil {
 		t.Skipf("%s", err)
 	}
 
-	client := newIntegrationTestClient(t)
+	client := newFleetIntegrationTestClient(t)
 	ctx := context.Background()
 
-	connectionID, cleanupConn := createTestAwsConnection(t, client, testAccountID)
+	fleetID, cleanupFleet := createTestFleet(t, ctx)
+	t.Cleanup(cleanupFleet)
+
+	scopeOrgID := getFleetTestOrganizationID()
+	connectionID, cleanupConn := createTestAwsConnection(t, client, testAccountID, scopeOrgID)
 	t.Cleanup(cleanupConn)
 
 	setupName := mock.GenerateRandomName(0) + "-setup"
@@ -95,7 +111,7 @@ func TestIntegrationFederatedLogs_Setup(t *testing.T) {
 		Forwarder: &FederatedLogsForwarderInput{
 			Type: FederatedLogsForwarderTypeTypes.PIPELINE_CONTROL,
 			PipelineControl: &FederatedLogsPipelineControlConfigurationInput{
-				FleetId: testFleetID,
+				FleetId: fleetID,
 			},
 		},
 	}
@@ -133,7 +149,7 @@ func TestIntegrationFederatedLogs_Setup(t *testing.T) {
 		Forwarder: &FederatedLogsForwarderInput{
 			Type: FederatedLogsForwarderTypeTypes.PIPELINE_CONTROL,
 			PipelineControl: &FederatedLogsPipelineControlConfigurationInput{
-				FleetId: testFleetID,
+				FleetId: fleetID,
 				RoutingRule: &FederatedLogsRuleInput{
 					Expression: `attributes["service.name"] == "integration-test"`,
 				},
@@ -150,19 +166,23 @@ func TestIntegrationFederatedLogs_Setup(t *testing.T) {
 func TestIntegrationFederatedLogs_Partition(t *testing.T) {
 	t.Parallel()
 
-	testAccountID, err := mock.GetTestAccountID()
+	testAccountID, err := mock.GetFleetTestAccountID()
 	if err != nil {
 		t.Skipf("%s", err)
 	}
 
-	client := newIntegrationTestClient(t)
+	client := newFleetIntegrationTestClient(t)
 	ctx := context.Background()
 
-	connectionID, cleanupConn := createTestAwsConnection(t, client, testAccountID)
+	fleetID, cleanupFleet := createTestFleet(t, ctx)
+	t.Cleanup(cleanupFleet)
+
+	scopeOrgID := getFleetTestOrganizationID()
+	connectionID, cleanupConn := createTestAwsConnection(t, client, testAccountID, scopeOrgID)
 	t.Cleanup(cleanupConn)
 
 	// Need a parent setup to host the partition.
-	setupID := createTestSetup(t, client, ctx, connectionID)
+	setupID := createTestSetup(t, client, ctx, connectionID, fleetID)
 
 	partitionName := mock.GenerateRandomName(0) + "-partition"
 	createInput := FederatedLogsCreatePartitionInput{
@@ -220,7 +240,7 @@ func TestIntegrationFederatedLogs_Partition(t *testing.T) {
 	require.Equal(t, partitionID, updateResp.Partition.ID)
 }
 
-func createTestAwsConnection(t *testing.T, client Federatedlogs, accountID int) (string, func()) {
+func createTestAwsConnection(t *testing.T, client Federatedlogs, accountID int, scopeOrgID string) (string, func()) {
 	t.Helper()
 	ctx := context.Background()
 
@@ -237,7 +257,7 @@ func createTestAwsConnection(t *testing.T, client Federatedlogs, accountID int) 
 		},
 		Scope: EntityManagementScopedReferenceInput{
 			Type: EntityManagementEntityScopeTypes.ORGANIZATION,
-			ID:   orgID,
+			ID:   scopeOrgID,
 		},
 	}
 
@@ -270,7 +290,7 @@ func createTestAwsConnection(t *testing.T, client Federatedlogs, accountID int) 
 // createTestSetup mints a FederatedLogsSetup using the supplied AWS connection
 // for both ingest and query slots. Registers a t.Cleanup that soft-deletes the
 // setup at end-of-test.
-func createTestSetup(t *testing.T, client Federatedlogs, ctx context.Context, connectionID string) string {
+func createTestSetup(t *testing.T, client Federatedlogs, ctx context.Context, connectionID string, fleetID string) string {
 	t.Helper()
 
 	setupName := mock.GenerateRandomName(0) + "-setup"
@@ -295,7 +315,7 @@ func createTestSetup(t *testing.T, client Federatedlogs, ctx context.Context, co
 		Forwarder: &FederatedLogsForwarderInput{
 			Type: FederatedLogsForwarderTypeTypes.PIPELINE_CONTROL,
 			PipelineControl: &FederatedLogsPipelineControlConfigurationInput{
-				FleetId: testFleetID,
+				FleetId: fleetID,
 			},
 		},
 	}
@@ -318,4 +338,42 @@ func createTestSetup(t *testing.T, client Federatedlogs, ctx context.Context, co
 	})
 
 	return setupID
+}
+
+// createTestFleet provisions a Fleet entity for the lifetime of one test, using
+// fleet-test credentials. Returns the fleet GUID and a cleanup func that
+// deletes the fleet.
+func createTestFleet(t *testing.T, ctx context.Context) (string, func()) {
+	t.Helper()
+
+	fleetClient := fleetcontrol.New(mock.NewFleetIntegrationTestConfig(t))
+
+	fleetName := fmt.Sprintf("fed-logs-test-fleet-%d", time.Now().Unix())
+	input := fleetcontrol.FleetControlFleetEntityCreateInput{
+		Name:              fleetName,
+		Description:       "Fleet created by federatedlogs integration test",
+		ManagedEntityType: fleetcontrol.FleetControlManagedEntityTypeTypes.HOST,
+		Product:           "Infrastructure",
+		Scope: fleetcontrol.FleetControlScopedReferenceInput{
+			ID:   getFleetTestOrganizationID(),
+			Type: fleetcontrol.FleetControlEntityScopeTypes.ORGANIZATION,
+		},
+		OperatingSystem: &fleetcontrol.FleetControlOperatingSystemCreateInput{
+			Type: fleetcontrol.FleetControlOperatingSystemTypeTypes.LINUX,
+		},
+	}
+
+	resp, err := fleetClient.FleetControlCreateFleetWithContext(ctx, input)
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	require.NotEmpty(t, resp.Entity.ID)
+
+	fleetID := resp.Entity.ID
+	cleanup := func() {
+		if _, err := fleetClient.FleetControlDeleteFleet(fleetID); err != nil {
+			t.Logf("cleanup: failed to delete fleet %s: %v", fleetID, err)
+		}
+	}
+
+	return fleetID, cleanup
 }
