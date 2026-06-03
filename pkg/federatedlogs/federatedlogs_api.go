@@ -246,10 +246,12 @@ const EntityManagementUpdateAwsConnectionMutation = `mutation(
 
 // Creates a new partition within an existing federated logs setup,including storage location, retention policy, and an optional partition rule.
 func (a *Federatedlogs) FederatedLogsCreatePartition(
+	accountID int,
 	partition FederatedLogsCreatePartitionInput,
 	setupId string,
 ) (*FederatedLogsPartitionResponse, error) {
 	return a.FederatedLogsCreatePartitionWithContext(context.Background(),
+		accountID,
 		partition,
 		setupId,
 	)
@@ -258,12 +260,14 @@ func (a *Federatedlogs) FederatedLogsCreatePartition(
 // Creates a new partition within an existing federated logs setup,including storage location, retention policy, and an optional partition rule.
 func (a *Federatedlogs) FederatedLogsCreatePartitionWithContext(
 	ctx context.Context,
+	accountID int,
 	partition FederatedLogsCreatePartitionInput,
 	setupId string,
 ) (*FederatedLogsPartitionResponse, error) {
 
 	resp := FederatedLogsCreatePartitionQueryResponse{}
 	vars := map[string]interface{}{
+		"accountId": accountID,
 		"partition": partition,
 		"setupId":   setupId,
 	}
@@ -280,9 +284,11 @@ type FederatedLogsCreatePartitionQueryResponse struct {
 }
 
 const FederatedLogsCreatePartitionMutation = `mutation(
+	$accountId: Int!,
 	$partition: FederatedLogsCreatePartitionInput!,
 	$setupId: ID!,
 ) { federatedLogsCreatePartition(
+	accountId: $accountId,
 	partition: $partition,
 	setupId: $setupId,
 ) {
@@ -384,9 +390,11 @@ const FederatedLogsCreatePartitionMutation = `mutation(
 
 // Creates a new federated logs setup with its initial configuration, including cloud provider, connections, storage, and an optional forwarder.A default partition is created alongside the setup.
 func (a *Federatedlogs) FederatedLogsCreateSetup(
+	accountID int,
 	setup FederatedLogsCreateSetupInput,
 ) (*FederatedLogsSetupResponse, error) {
 	return a.FederatedLogsCreateSetupWithContext(context.Background(),
+		accountID,
 		setup,
 	)
 }
@@ -394,12 +402,14 @@ func (a *Federatedlogs) FederatedLogsCreateSetup(
 // Creates a new federated logs setup with its initial configuration, including cloud provider, connections, storage, and an optional forwarder.A default partition is created alongside the setup.
 func (a *Federatedlogs) FederatedLogsCreateSetupWithContext(
 	ctx context.Context,
+	accountID int,
 	setup FederatedLogsCreateSetupInput,
 ) (*FederatedLogsSetupResponse, error) {
 
 	resp := FederatedLogsCreateSetupQueryResponse{}
 	vars := map[string]interface{}{
-		"setup": setup,
+		"accountId": accountID,
+		"setup":     setup,
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, FederatedLogsCreateSetupMutation, vars, &resp); err != nil {
@@ -414,8 +424,10 @@ type FederatedLogsCreateSetupQueryResponse struct {
 }
 
 const FederatedLogsCreateSetupMutation = `mutation(
+	$accountId: Int!,
 	$setup: FederatedLogsCreateSetupInput!,
 ) { federatedLogsCreateSetup(
+	accountId: $accountId,
 	setup: $setup,
 ) {
 	setup {
@@ -476,10 +488,12 @@ const FederatedLogsCreateSetupMutation = `mutation(
 
 // Updates an existing federated logs partition configuration.Only the provided fields are updated; omitted fields remain unchanged.
 func (a *Federatedlogs) FederatedLogsUpdatePartition(
+	accountID int,
 	iD string,
 	partition FederatedLogsUpdatePartitionInput,
 ) (*FederatedLogsPartitionResponse, error) {
 	return a.FederatedLogsUpdatePartitionWithContext(context.Background(),
+		accountID,
 		iD,
 		partition,
 	)
@@ -488,12 +502,14 @@ func (a *Federatedlogs) FederatedLogsUpdatePartition(
 // Updates an existing federated logs partition configuration.Only the provided fields are updated; omitted fields remain unchanged.
 func (a *Federatedlogs) FederatedLogsUpdatePartitionWithContext(
 	ctx context.Context,
+	accountID int,
 	iD string,
 	partition FederatedLogsUpdatePartitionInput,
 ) (*FederatedLogsPartitionResponse, error) {
 
 	resp := FederatedLogsUpdatePartitionQueryResponse{}
 	vars := map[string]interface{}{
+		"accountId": accountID,
 		"id":        iD,
 		"partition": partition,
 	}
@@ -510,9 +526,11 @@ type FederatedLogsUpdatePartitionQueryResponse struct {
 }
 
 const FederatedLogsUpdatePartitionMutation = `mutation(
+	$accountId: Int!,
 	$id: ID!,
 	$partition: FederatedLogsUpdatePartitionInput!,
 ) { federatedLogsUpdatePartition(
+	accountId: $accountId,
 	id: $id,
 	partition: $partition,
 ) {
@@ -614,10 +632,12 @@ const FederatedLogsUpdatePartitionMutation = `mutation(
 
 // Updates an existing federated logs setup configuration.Only the provided fields are updated; omitted fields remain unchanged.
 func (a *Federatedlogs) FederatedLogsUpdateSetup(
+	accountID int,
 	iD string,
 	setup FederatedLogsUpdateSetupInput,
 ) (*FederatedLogsSetupResponse, error) {
 	return a.FederatedLogsUpdateSetupWithContext(context.Background(),
+		accountID,
 		iD,
 		setup,
 	)
@@ -626,14 +646,16 @@ func (a *Federatedlogs) FederatedLogsUpdateSetup(
 // Updates an existing federated logs setup configuration.Only the provided fields are updated; omitted fields remain unchanged.
 func (a *Federatedlogs) FederatedLogsUpdateSetupWithContext(
 	ctx context.Context,
+	accountID int,
 	iD string,
 	setup FederatedLogsUpdateSetupInput,
 ) (*FederatedLogsSetupResponse, error) {
 
 	resp := FederatedLogsUpdateSetupQueryResponse{}
 	vars := map[string]interface{}{
-		"id":    iD,
-		"setup": setup,
+		"accountId": accountID,
+		"id":        iD,
+		"setup":     setup,
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, FederatedLogsUpdateSetupMutation, vars, &resp); err != nil {
@@ -648,9 +670,11 @@ type FederatedLogsUpdateSetupQueryResponse struct {
 }
 
 const FederatedLogsUpdateSetupMutation = `mutation(
+	$accountId: Int!,
 	$id: ID!,
 	$setup: FederatedLogsUpdateSetupInput!,
 ) { federatedLogsUpdateSetup(
+	accountId: $accountId,
 	id: $id,
 	setup: $setup,
 ) {
@@ -968,9 +992,11 @@ const getEntitySearchQuery = `query(
 
 // Returns a single federated logs partition by ID.
 func (a *Federatedlogs) GetPartition(
+	accountID int,
 	iD string,
 ) (*FederatedLogsPartition, error) {
 	return a.GetPartitionWithContext(context.Background(),
+		accountID,
 		iD,
 	)
 }
@@ -978,24 +1004,27 @@ func (a *Federatedlogs) GetPartition(
 // Returns a single federated logs partition by ID.
 func (a *Federatedlogs) GetPartitionWithContext(
 	ctx context.Context,
+	accountID int,
 	iD string,
 ) (*FederatedLogsPartition, error) {
 
 	resp := partitionResponse{}
 	vars := map[string]interface{}{
-		"id": iD,
+		"accountID": accountID,
+		"id":        iD,
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, getPartitionQuery, vars, &resp); err != nil {
 		return nil, err
 	}
 
-	return &resp.Actor.FederatedLogs.Partition, nil
+	return &resp.Actor.Account.FederatedLogs.Partition, nil
 }
 
 const getPartitionQuery = `query(
+	$accountID: Int!,
 	$id: ID!,
-) { actor { federatedLogs { partition(
+) { actor { account(id: $accountID) { federatedLogs { partition(
 	id: $id,
 ) {
 	active
@@ -1101,13 +1130,15 @@ const getPartitionQuery = `query(
 		table
 	}
 	updatedAt
-} } } }`
+} } } } }`
 
 // Returns a single federated logs setup by ID.
 func (a *Federatedlogs) GetSetup(
+	accountID int,
 	iD string,
 ) (*FederatedLogsSetup, error) {
 	return a.GetSetupWithContext(context.Background(),
+		accountID,
 		iD,
 	)
 }
@@ -1115,24 +1146,27 @@ func (a *Federatedlogs) GetSetup(
 // Returns a single federated logs setup by ID.
 func (a *Federatedlogs) GetSetupWithContext(
 	ctx context.Context,
+	accountID int,
 	iD string,
 ) (*FederatedLogsSetup, error) {
 
 	resp := setupResponse{}
 	vars := map[string]interface{}{
-		"id": iD,
+		"accountID": accountID,
+		"id":        iD,
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, getSetupQuery, vars, &resp); err != nil {
 		return nil, err
 	}
 
-	return &resp.Actor.FederatedLogs.Setup, nil
+	return &resp.Actor.Account.FederatedLogs.Setup, nil
 }
 
 const getSetupQuery = `query(
+	$accountID: Int!,
 	$id: ID!,
-) { actor { federatedLogs { setup(
+) { actor { account(id: $accountID) { federatedLogs { setup(
 	id: $id,
 ) {
 	active
@@ -1187,4 +1221,4 @@ const getSetupQuery = `query(
 		queryConnectionId
 	}
 	updatedAt
-} } } }`
+} } } } }`
