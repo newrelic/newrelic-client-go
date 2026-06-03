@@ -1,24 +1,23 @@
-name: 🔍 NerdGraph API Detector
-# ─────────────────────────────────────────────────────────────────────────────
-#  What this workflow does
-# ─────────────────────────────────────────────────────────────────────────────
-#  Every weekday this workflow re-fetches New Relic's NerdGraph schema and
-#  diffs it against the schema captured on the previous run. If new mutations
-#  or types appear, it:
+name: NerdGraph API Detector
 #
-#    1. Posts a summary to Slack so the team is aware.
-#    2. Calls the reusable `generate.yml` workflow, which uses Tutone to
-#       regenerate Go bindings and opens a draft PR for review.
+# Purpose
+# -------
+# Re-fetches New Relic's NerdGraph schema on a schedule and diffs it against
+# the schema captured on the previous run. When new mutations or types are
+# detected, the workflow:
 #
-# ─────────────────────────────────────────────────────────────────────────────
-#  Why workflow_dispatch (and not schedule)
-# ─────────────────────────────────────────────────────────────────────────────
-#  GitHub Actions hard-sets the run "Actor" of `schedule` events to whoever
-#  last pushed the workflow file. To avoid attributing automated runs to a
-#  human contributor, this workflow accepts only `workflow_dispatch`. The
-#  companion file `nerdgraph-api-detector-scheduler.yml` owns the cron and
-#  dispatches us using the nr-developer-toolkit PAT, so each run is
-#  attributed to the bot.
+#   1. Posts a summary to Slack so the platform team is aware.
+#   2. Calls the reusable `generate.yml` workflow, which uses Tutone to
+#      regenerate Go bindings and opens a draft PR for review.
+#
+# Trigger model
+# -------------
+# Runs are triggered exclusively via `workflow_dispatch`. The cron schedule
+# lives in the companion workflow `nerdgraph-api-detector-scheduler.yml`,
+# which dispatches this workflow using the `nr-developer-toolkit` PAT. This
+# is required because GitHub Actions hard-sets the run actor of `schedule`
+# events to whoever last pushed the workflow file; using a dispatcher lets
+# us attribute scheduled runs to the bot instead.
 
 on:
   workflow_dispatch:
@@ -28,43 +27,43 @@ permissions:
   actions: read
 
 jobs:
-  # ───────────────────────────────────────────────────────────────────────────
-  # Step 1: Detect new NerdGraph APIs by diffing today's schema against the
-  # one we saved on the previous run (stored as a build artifact).
-  # ───────────────────────────────────────────────────────────────────────────
+  # ---------------------------------------------------------------------------
+  # Job 1 - Diff today's schema against the previous run's snapshot and
+  # surface any new mutations or types.
+  # ---------------------------------------------------------------------------
   detect-new-apis:
-    name: 🛰️  Detect new NerdGraph APIs
+    name: Detect new NerdGraph APIs
     runs-on: ubuntu-latest
-    # These outputs feed the next job. They describe what changed since the
-    # last run so the code-generation job knows exactly what to regenerate.
+    # Outputs published below feed the next job. They describe what changed
+    # since the last run so the code-generation job knows exactly what to
+    # regenerate and which packages are affected.
     outputs:
       heroMention: ${{ steps.schema-diff.outputs.hero_mention }}
       tutoneConfig: ${{ steps.schema-diff.outputs.tutone_config }}
       newMutations: ${{ steps.schema-diff.outputs.new_api_mutations }}
       packages: ${{ steps.schema-diff.outputs.packages }}
     steps:
-      - name: 🟢 Set up Node.js (used by helper scripts)
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
 
-      - name: 🐹 Set up Go (used by Tutone, our schema fetcher)
+      - name: Set up Go
         uses: actions/setup-go@v5
         with:
           go-version: 1.25.x
 
-      - name: 📥 Check out this repository
+      - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: 📦 Install JavaScript dependencies for the diff scripts
+      - name: Install diff-script dependencies
         run: npm install yaml lodash.merge
 
-      - name: ⬇️  Download last run's schema.json (stored as an artifact)
+      - name: Download previous schema artifact
+        # The previous successful run uploaded `schema.json` as the `schema`
+        # artifact; we pull it back here as the diff baseline.
         uses: actions/github-script@v7
         env:
-          # The previous successful run uploaded `schema.json` as the
-          # `schema` artifact; we pull it back here so we have a baseline
-          # to diff against.
           WORKFLOW_FILENAME: nerdgraph-api-detector.yml
           ARTIFACT_NAME: schema
           ARTIFACT_FILENAME: schema.zip
@@ -74,12 +73,12 @@ jobs:
             const script = require('./scripts/download-previous-artifact.js')
             await script({github, context, core})
 
-      - name: 🏷️  Rename old schema → schema-old.json (so we can diff cleanly)
+      - name: Rename baseline schema to schema-old.json
         run: |
           find ./ -type f -name "schema.json"
           mv schema.json schema-old.json
 
-      - name: 🌐 Fetch the latest NerdGraph schema with Tutone
+      - name: Fetch latest NerdGraph schema with Tutone
         env:
           NEW_RELIC_API_KEY: ${{ secrets.NEW_RELIC_API_KEY }}
         run: |
@@ -87,7 +86,7 @@ jobs:
           tutone fetch --refetch
           ls
 
-      - name: 🔬 Diff old vs. new schema and surface new mutations
+      - name: Diff schemas and detect new mutations
         id: schema-diff
         uses: actions/github-script@v7
         with:
@@ -95,7 +94,7 @@ jobs:
             const script = require('./scripts/schema-diff-reporter.js')
             await script({core})
 
-      - name: 📣 Post the diff report to Slack
+      - name: Post diff report to Slack
         id: slack
         uses: slackapi/slack-github-action@v1.26
         with:
@@ -171,24 +170,25 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
 
-      - name: 💾 Save today's schema.json so the next run can diff against it
+      - name: Upload latest schema as artifact
+        # Stored as the diff baseline for the next run. 90-day retention is
+        # well over what we need given this workflow runs three times every
+        # weekday.
         uses: actions/upload-artifact@v4
         with:
-          # GitHub keeps artifacts up to 90 days; that's plenty since this
-          # workflow runs three times every weekday.
           retention-days: 90
           name: schema
           path: schema.json
           if-no-files-found: error
           overwrite: true
 
-  # ───────────────────────────────────────────────────────────────────────────
-  # Step 2: If the diff turned up new APIs (heroMention is non-empty), call
-  # the reusable code-generation workflow. It will run Tutone to regenerate
-  # Go bindings and open a draft PR authored by nr-developer-toolkit.
-  # ───────────────────────────────────────────────────────────────────────────
+  # ---------------------------------------------------------------------------
+  # Job 2 - When the diff surfaces new APIs, call the reusable code-gen
+  # workflow. It runs Tutone, regenerates Go bindings, and opens a draft PR
+  # authored by `nr-developer-toolkit`.
+  # ---------------------------------------------------------------------------
   generate-go-bindings:
-    name: 🛠️  Generate Go bindings for new APIs
+    name: Generate Go bindings for new APIs
     if: needs.detect-new-apis.outputs.heroMention != ''
     needs: detect-new-apis
     uses: newrelic/newrelic-client-go/.github/workflows/generate.yml@main
