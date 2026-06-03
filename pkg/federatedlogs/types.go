@@ -2514,6 +2514,19 @@ var WorkloadStatusValueTypes = struct {
 	UNKNOWN: "UNKNOWN",
 }
 
+// Account - The `Account` object provides general data about the account, as well as
+// being the entry point into more detailed data about a single account.
+//
+// Account configuration data is queried through this object, as well as
+// telemetry data that is specific to a single account.
+type Account struct {
+	// This field provides access to FederatedLogs data.
+	FederatedLogs FederatedLogsAccountStitchedFields `json:"federatedLogs,omitempty"`
+	ID            int                                `json:"id,omitempty"`
+	LicenseKey    string                             `json:"licenseKey,omitempty"`
+	Name          string                             `json:"name,omitempty"`
+}
+
 // AccountOutline - The `AccountOutline` object provides basic data about an account.
 type AccountOutline struct {
 	ID   int    `json:"id,omitempty"`
@@ -2530,6 +2543,8 @@ type AccountReference struct {
 
 // Actor - The `Actor` object contains fields that are scoped to the API user's access level.
 type Actor struct {
+	// The `account` field is the entry point into data that is scoped to a single account.
+	Account Account `json:"account,omitempty"`
 	// The `accounts` field returns all accounts that the Actor is authorized to view.
 	Accounts []AccountOutline `json:"accounts,omitempty"`
 	// Fetch a list of entities.
@@ -2552,8 +2567,6 @@ type Actor struct {
 	//
 	// Note: you must supply either a `query` OR a `queryBuilder` argument, not both.
 	EntitySearch EntitySearch `json:"entitySearch,omitempty"`
-	// This field provides access to FederatedLogs data.
-	FederatedLogs FederatedLogsActorStitchedFields `json:"federatedLogs,omitempty"`
 }
 
 // AgentApplicationSegmentsBrowserSegmentAllowList - The allow list object for browser applications.
@@ -6680,7 +6693,7 @@ func (x *ExternalEntityOutline) ImplementsAlertableEntityOutline() {}
 
 func (x *ExternalEntityOutline) ImplementsEntityOutline() {}
 
-type FederatedLogsActorStitchedFields struct {
+type FederatedLogsAccountStitchedFields struct {
 	// Returns a single federated logs partition by ID.
 	Partition FederatedLogsPartition `json:"partition,omitempty"`
 	// Returns a single federated logs setup by ID.
@@ -7040,6 +7053,12 @@ type FederatedLogsSetupStorageInput struct {
 	QueryConnectionId string `json:"queryConnectionId"`
 }
 
+// FederatedLogsUpdateDefaultPartitionInput - Input for updating the default partition fields editable from the setup mutation.
+type FederatedLogsUpdateDefaultPartitionInput struct {
+	// The retention policy for logs in the default partition.
+	DataRetentionPolicy FederatedLogsRetentionPolicyInput `json:"dataRetentionPolicy,omitempty"`
+}
+
 // FederatedLogsUpdatePartitionInput - Input for updating an existing federated logs partition.
 type FederatedLogsUpdatePartitionInput struct {
 	// Whether the partition is active. When set to false, log routing to this partition is turned off.
@@ -7064,6 +7083,8 @@ type FederatedLogsUpdateSetupInput struct {
 	Active *bool `json:"active,omitempty"`
 	// The connection manager entity GUID used for writing data.
 	DataIngestConnectionId string `json:"dataIngestConnectionId,omitempty"`
+	// Updates to the default partition. Currently only retention policy can be updated.
+	DefaultPartition *FederatedLogsUpdateDefaultPartitionInput `json:"defaultPartition,omitempty"`
 	// The description of the federated log setup.
 	Description string `json:"description,omitempty"`
 	// The forwarder configuration for processing and routing logs.
@@ -10932,40 +10953,4 @@ func UnmarshalSuggestedNRQLQueryInterface(b []byte) (*SuggestedNRQLQueryInterfac
 	}
 
 	return nil, fmt.Errorf("interface SuggestedNRQLQuery was not matched against all PossibleTypes: %s", typeName)
-}
-
-// DO NOT DELETE
-func (x *EntityManagementActorStitchedFields) UnmarshalJSON(b []byte) error {
-	var objMap map[string]*json.RawMessage
-	err := json.Unmarshal(b, &objMap)
-	if err != nil {
-		return err
-	}
-
-	for k, v := range objMap {
-		if v == nil {
-			continue
-		}
-
-		switch k {
-		case "entity":
-			if v == nil {
-				continue
-			}
-			xxx, err := UnmarshalEntityManagementEntityInterface(*v)
-			if err != nil {
-				return err
-			}
-			if xxx != nil {
-				x.Entity = *xxx
-			}
-		case "entitySearch":
-			err = json.Unmarshal(*v, &x.EntitySearch)
-			if err != nil {
-				return err
-			}
-		}
-	}
-
-	return nil
 }

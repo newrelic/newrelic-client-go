@@ -116,13 +116,15 @@ func TestIntegrationFederatedLogs_Setup(t *testing.T) {
 		},
 	}
 
-	createResp, err := client.FederatedLogsCreateSetupWithContext(ctx, createInput)
+	createResp, err := client.FederatedLogsCreateSetupWithContext(ctx, testAccountID, createInput)
 	require.NoError(t, err)
 	require.NotNil(t, createResp)
 	require.NotEmpty(t, createResp.Setup.ID)
 	require.Equal(t, setupName, createResp.Setup.Name)
 
 	setupID := createResp.Setup.ID
+	defaultPartitionID := createResp.Setup.DefaultPartitionId
+	require.NotEmpty(t, defaultPartitionID, "create response should expose the default partition ID")
 
 	// Cleanup — soft-delete via lifecycle transition.
 	t.Cleanup(func() {
@@ -131,13 +133,13 @@ func TestIntegrationFederatedLogs_Setup(t *testing.T) {
 				Status: FederatedLogsLifecycleStateTypes.DELETING,
 			},
 		}
-		if _, err := client.FederatedLogsUpdateSetupWithContext(ctx, setupID, deleteInput); err != nil {
+		if _, err := client.FederatedLogsUpdateSetupWithContext(ctx, testAccountID, setupID, deleteInput); err != nil {
 			t.Logf("cleanup: failed to soft-delete setup %s: %v", setupID, err)
 		}
 	})
 
 	// Read back via the federatedLogs.setup query.
-	getResp, err := client.GetSetupWithContext(ctx, setupID)
+	getResp, err := client.GetSetupWithContext(ctx, testAccountID, setupID)
 	require.NoError(t, err)
 	require.NotNil(t, getResp)
 	require.Equal(t, setupID, getResp.ID)
@@ -155,12 +157,26 @@ func TestIntegrationFederatedLogs_Setup(t *testing.T) {
 				},
 			},
 		},
+		DefaultPartition: &FederatedLogsUpdateDefaultPartitionInput{
+			DataRetentionPolicy: FederatedLogsRetentionPolicyInput{
+				Duration: 60,
+				Unit:     FederatedLogsRetentionUnitTypes.DAYS,
+			},
+		},
 	}
-	updateResp, err := client.FederatedLogsUpdateSetupWithContext(ctx, setupID, updateInput)
+	updateResp, err := client.FederatedLogsUpdateSetupWithContext(ctx, testAccountID, setupID, updateInput)
 	require.NoError(t, err)
 	require.NotNil(t, updateResp)
 	require.Equal(t, setupID, updateResp.Setup.ID)
 	require.Equal(t, updatedDescription, updateResp.Setup.Description)
+
+	// Verify the default partition's retention reflects the update via GetPartition.
+	defaultPartition, err := client.GetPartitionWithContext(ctx, testAccountID, defaultPartitionID)
+	require.NoError(t, err)
+	require.NotNil(t, defaultPartition)
+	require.True(t, defaultPartition.IsDefault)
+	require.Equal(t, 60, defaultPartition.DataRetentionPolicy.Duration)
+	require.Equal(t, FederatedLogsRetentionUnitTypes.DAYS, defaultPartition.DataRetentionPolicy.Unit)
 }
 
 func TestIntegrationFederatedLogs_Partition(t *testing.T) {
@@ -182,7 +198,7 @@ func TestIntegrationFederatedLogs_Partition(t *testing.T) {
 	t.Cleanup(cleanupConn)
 
 	// Need a parent setup to host the partition.
-	setupID := createTestSetup(t, client, ctx, connectionID, fleetID)
+	setupID := createTestSetup(t, client, ctx, testAccountID, connectionID, fleetID)
 
 	partitionName := mock.GenerateRandomName(0) + "-partition"
 	createInput := FederatedLogsCreatePartitionInput{
@@ -198,7 +214,7 @@ func TestIntegrationFederatedLogs_Partition(t *testing.T) {
 		},
 	}
 
-	createResp, err := client.FederatedLogsCreatePartitionWithContext(ctx, createInput, setupID)
+	createResp, err := client.FederatedLogsCreatePartitionWithContext(ctx, testAccountID, createInput, setupID)
 	require.NoError(t, err)
 	require.NotNil(t, createResp)
 	require.NotEmpty(t, createResp.Partition.ID)
@@ -213,12 +229,12 @@ func TestIntegrationFederatedLogs_Partition(t *testing.T) {
 				Status: FederatedLogsLifecycleStateTypes.DELETING,
 			},
 		}
-		if _, err := client.FederatedLogsUpdatePartitionWithContext(ctx, partitionID, deleteInput); err != nil {
+		if _, err := client.FederatedLogsUpdatePartitionWithContext(ctx, testAccountID, partitionID, deleteInput); err != nil {
 			t.Logf("cleanup: failed to soft-delete partition %s: %v", partitionID, err)
 		}
 	})
 
-	getResp, err := client.GetPartitionWithContext(ctx, partitionID)
+	getResp, err := client.GetPartitionWithContext(ctx, testAccountID, partitionID)
 	require.NoError(t, err)
 	require.NotNil(t, getResp)
 	require.Equal(t, partitionID, getResp.ID)
@@ -234,7 +250,7 @@ func TestIntegrationFederatedLogs_Partition(t *testing.T) {
 			Unit:     FederatedLogsRetentionUnitTypes.DAYS,
 		},
 	}
-	updateResp, err := client.FederatedLogsUpdatePartitionWithContext(ctx, partitionID, updateInput)
+	updateResp, err := client.FederatedLogsUpdatePartitionWithContext(ctx, testAccountID, partitionID, updateInput)
 	require.NoError(t, err)
 	require.NotNil(t, updateResp)
 	require.Equal(t, partitionID, updateResp.Partition.ID)
@@ -290,7 +306,7 @@ func createTestAwsConnection(t *testing.T, client Federatedlogs, accountID int, 
 // createTestSetup mints a FederatedLogsSetup using the supplied AWS connection
 // for both ingest and query slots. Registers a t.Cleanup that soft-deletes the
 // setup at end-of-test.
-func createTestSetup(t *testing.T, client Federatedlogs, ctx context.Context, connectionID string, fleetID string) string {
+func createTestSetup(t *testing.T, client Federatedlogs, ctx context.Context, accountID int, connectionID string, fleetID string) string {
 	t.Helper()
 
 	setupName := mock.GenerateRandomName(0) + "-setup"
@@ -320,7 +336,7 @@ func createTestSetup(t *testing.T, client Federatedlogs, ctx context.Context, co
 		},
 	}
 
-	resp, err := client.FederatedLogsCreateSetupWithContext(ctx, input)
+	resp, err := client.FederatedLogsCreateSetupWithContext(ctx, accountID, input)
 	require.NoError(t, err)
 	require.NotNil(t, resp)
 	require.NotEmpty(t, resp.Setup.ID)
@@ -332,7 +348,7 @@ func createTestSetup(t *testing.T, client Federatedlogs, ctx context.Context, co
 				Status: FederatedLogsLifecycleStateTypes.DELETING,
 			},
 		}
-		if _, err := client.FederatedLogsUpdateSetupWithContext(ctx, setupID, deleteInput); err != nil {
+		if _, err := client.FederatedLogsUpdateSetupWithContext(ctx, accountID, setupID, deleteInput); err != nil {
 			t.Logf("cleanup: failed to soft-delete setup %s: %v", setupID, err)
 		}
 	})
