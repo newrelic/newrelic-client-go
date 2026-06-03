@@ -26,6 +26,7 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/entities"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/events"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/eventstometrics"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/federatedlogs"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/fleetcontrol"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/installevents"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/keytransaction"
@@ -67,6 +68,7 @@ type NewRelic struct {
 	Entities                entities.Entities
 	Events                  events.Events
 	EventsToMetrics         eventstometrics.EventsToMetrics
+	Federatedlogs           federatedlogs.Federatedlogs
 	FleetControl            fleetcontrol.Fleetcontrol
 	InstallEvents           installevents.Installevents
 	Logs                    logs.Logs
@@ -122,6 +124,7 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 		Entities:                entities.New(cfg),
 		Events:                  events.New(cfg),
 		EventsToMetrics:         eventstometrics.New(cfg),
+		Federatedlogs:           federatedlogs.New(cfg),
 		FleetControl:            fleetcontrol.New(cfg),
 		InstallEvents:           installevents.New(cfg),
 		Logs:                    logs.New(cfg),
