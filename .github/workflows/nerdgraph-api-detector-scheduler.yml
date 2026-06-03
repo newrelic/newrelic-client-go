@@ -1,0 +1,41 @@
+name: ⏰ NerdGraph API Detector — Scheduler
+# ─────────────────────────────────────────────────────────────────────────────
+#  Why this workflow exists
+# ─────────────────────────────────────────────────────────────────────────────
+#  GitHub Actions sets the run "Actor" of a `schedule` event to whoever last
+#  pushed the workflow file. That means scheduled runs would otherwise be
+#  attributed to a random human contributor.
+#
+#  To fix that, the cron schedule lives here, in a file whose only job is to
+#  fire a `workflow_dispatch` for `nerdgraph-api-detector.yml` using the
+#  nr-developer-toolkit PAT. Because `workflow_dispatch` runs are attributed
+#  to whoever owns the dispatching token, the real schema-diff work always
+#  shows up under the bot's name.
+#
+#  This file does no real work itself — it's a tiny relay.
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Three times every weekday, in UTC: 08:00, 12:00, 16:00.
+    # In IST that is 13:30, 17:30, 21:30 — covering most of the New Relic
+    # team's working hours.
+    - cron: "0 8,12,16 * * 1-5"
+
+permissions:
+  contents: read
+
+jobs:
+  dispatch-detector:
+    name: 🔁 Dispatch NerdGraph API Detector as nr-developer-toolkit
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚀 Trigger nerdgraph-api-detector.yml using the bot's token
+        env:
+          # `gh` reads its credentials from these env vars. Using the bot's
+          # PAT here is what causes the dispatched run to be attributed to
+          # nr-developer-toolkit instead of a human contributor.
+          GH_TOKEN: ${{ secrets.DEV_TOOLKIT_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh workflow run nerdgraph-api-detector.yml --ref ${{ github.ref_name }}

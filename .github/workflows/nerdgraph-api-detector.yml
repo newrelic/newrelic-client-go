@@ -1,0 +1,199 @@
+name: 🔍 NerdGraph API Detector
+# ─────────────────────────────────────────────────────────────────────────────
+#  What this workflow does
+# ─────────────────────────────────────────────────────────────────────────────
+#  Every weekday this workflow re-fetches New Relic's NerdGraph schema and
+#  diffs it against the schema captured on the previous run. If new mutations
+#  or types appear, it:
+#
+#    1. Posts a summary to Slack so the team is aware.
+#    2. Calls the reusable `generate.yml` workflow, which uses Tutone to
+#       regenerate Go bindings and opens a draft PR for review.
+#
+# ─────────────────────────────────────────────────────────────────────────────
+#  Why workflow_dispatch (and not schedule)
+# ─────────────────────────────────────────────────────────────────────────────
+#  GitHub Actions hard-sets the run "Actor" of `schedule` events to whoever
+#  last pushed the workflow file. To avoid attributing automated runs to a
+#  human contributor, this workflow accepts only `workflow_dispatch`. The
+#  companion file `nerdgraph-api-detector-scheduler.yml` owns the cron and
+#  dispatches us using the nr-developer-toolkit PAT, so each run is
+#  attributed to the bot.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  # ───────────────────────────────────────────────────────────────────────────
+  # Step 1: Detect new NerdGraph APIs by diffing today's schema against the
+  # one we saved on the previous run (stored as a build artifact).
+  # ───────────────────────────────────────────────────────────────────────────
+  detect-new-apis:
+    name: 🛰️  Detect new NerdGraph APIs
+    runs-on: ubuntu-latest
+    # These outputs feed the next job. They describe what changed since the
+    # last run so the code-generation job knows exactly what to regenerate.
+    outputs:
+      heroMention: ${{ steps.schema-diff.outputs.hero_mention }}
+      tutoneConfig: ${{ steps.schema-diff.outputs.tutone_config }}
+      newMutations: ${{ steps.schema-diff.outputs.new_api_mutations }}
+      packages: ${{ steps.schema-diff.outputs.packages }}
+    steps:
+      - name: 🟢 Set up Node.js (used by helper scripts)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+
+      - name: 🐹 Set up Go (used by Tutone, our schema fetcher)
+        uses: actions/setup-go@v5
+        with:
+          go-version: 1.25.x
+
+      - name: 📥 Check out this repository
+        uses: actions/checkout@v4
+
+      - name: 📦 Install JavaScript dependencies for the diff scripts
+        run: npm install yaml lodash.merge
+
+      - name: ⬇️  Download last run's schema.json (stored as an artifact)
+        uses: actions/github-script@v7
+        env:
+          # The previous successful run uploaded `schema.json` as the
+          # `schema` artifact; we pull it back here so we have a baseline
+          # to diff against.
+          WORKFLOW_FILENAME: nerdgraph-api-detector.yml
+          ARTIFACT_NAME: schema
+          ARTIFACT_FILENAME: schema.zip
+          UNZIP_DIR: ./
+        with:
+          script: |
+            const script = require('./scripts/download-previous-artifact.js')
+            await script({github, context, core})
+
+      - name: 🏷️  Rename old schema → schema-old.json (so we can diff cleanly)
+        run: |
+          find ./ -type f -name "schema.json"
+          mv schema.json schema-old.json
+
+      - name: 🌐 Fetch the latest NerdGraph schema with Tutone
+        env:
+          NEW_RELIC_API_KEY: ${{ secrets.NEW_RELIC_API_KEY }}
+        run: |
+          go install github.com/newrelic/tutone/cmd/tutone@latest
+          tutone fetch --refetch
+          ls
+
+      - name: 🔬 Diff old vs. new schema and surface new mutations
+        id: schema-diff
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const script = require('./scripts/schema-diff-reporter.js')
+            await script({core})
+
+      - name: 📣 Post the diff report to Slack
+        id: slack
+        uses: slackapi/slack-github-action@v1.26
+        with:
+          # Block Kit playground for editing/previewing this payload:
+          # https://app.slack.com/block-kit-builder
+          payload: |
+            {
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": ":mag_right: *New Relic Client Go | NerdGraph API Report*"
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*API Mutations Count:* ${{ steps.schema-diff.outputs.total_api_mutations_count }}\n*Client Mutations Count:* ${{ steps.schema-diff.outputs.client_mutations_count }}\n*Client Mutations Missing Count:* ${{ steps.schema-diff.outputs.client_mutations_missing_count }}\n"
+                  }
+                },
+                {
+                  "type": "divider"
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*New API Mutations*"
+                  }
+                },
+                {
+                  "type": "context",
+                  "elements": [
+                    {
+                      "type": "plain_text",
+                      "text": ${{ toJSON(steps.schema-diff.outputs.new_api_mutations) }}
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "More information can be viewed in the job summary. ${{ steps.schema-diff.outputs.hero_mention }}"
+                  },
+                  "accessory": {
+                    "type": "button",
+                    "text": {
+                      "type": "plain_text",
+                      "text": "Job Summary",
+                      "emoji": true
+                    },
+                    "value": "View Job Summary",
+                    "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+                    "action_id": "button-action"
+                  }
+                },
+                {
+                  "type": "divider"
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "\n\n"
+                  }
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+
+      - name: 💾 Save today's schema.json so the next run can diff against it
+        uses: actions/upload-artifact@v4
+        with:
+          # GitHub keeps artifacts up to 90 days; that's plenty since this
+          # workflow runs three times every weekday.
+          retention-days: 90
+          name: schema
+          path: schema.json
+          if-no-files-found: error
+          overwrite: true
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # Step 2: If the diff turned up new APIs (heroMention is non-empty), call
+  # the reusable code-generation workflow. It will run Tutone to regenerate
+  # Go bindings and open a draft PR authored by nr-developer-toolkit.
+  # ───────────────────────────────────────────────────────────────────────────
+  generate-go-bindings:
+    name: 🛠️  Generate Go bindings for new APIs
+    if: needs.detect-new-apis.outputs.heroMention != ''
+    needs: detect-new-apis
+    uses: newrelic/newrelic-client-go/.github/workflows/generate.yml@main
+    with:
+      tutoneConfig: ${{ needs.detect-new-apis.outputs.tutoneConfig }}
+      packages: ${{ needs.detect-new-apis.outputs.packages }}
+      newMutations: ${{ needs.detect-new-apis.outputs.newMutations }}
+    secrets: inherit
