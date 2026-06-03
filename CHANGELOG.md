@@ -1,3 +1,8 @@
+<a name="v2.87.0"></a>
+## [v2.87.0] - 2026-06-03
+### Features
+- **federated-logs:** add federated logs package with latest schema ([#1412](https://github.com/newrelic/newrelic-client-go/issues/1412))
+
 <a name="v2.86.1"></a>
 ## [v2.86.1] - 2026-05-24
 ### Bug Fixes
@@ -2286,7 +2291,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.86.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.87.0...HEAD
+[v2.87.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.86.1...v2.87.0
 [v2.86.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.86.0...v2.86.1
 [v2.86.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.85.0...v2.86.0
 [v2.85.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.84.1...v2.85.0
