@@ -3,12 +3,10 @@ name: NerdGraph API Detector
 # Purpose
 # -------
 # Re-fetches New Relic's NerdGraph schema on a schedule and diffs it against
-# the schema captured on the previous run. When new mutations or types are
-# detected, the workflow:
+# the schema captured on the previous run. When new mutations are detected,
+# the workflow posts a summary to Slack so the platform team is aware.
 #
-#   1. Posts a summary to Slack so the platform team is aware.
-#   2. Calls the reusable `generate.yml` workflow, which uses Tutone to
-#      regenerate Go bindings and opens a draft PR for review.
+# This workflow only reports. It does not regenerate code or open PRs.
 #
 # Trigger model
 # -------------
@@ -28,20 +26,12 @@ permissions:
 
 jobs:
   # ---------------------------------------------------------------------------
-  # Job 1 - Diff today's schema against the previous run's snapshot and
-  # surface any new mutations or types.
+  # Diff today's schema against the previous run's snapshot, surface any new
+  # mutations to Slack, and store today's schema as the next baseline.
   # ---------------------------------------------------------------------------
   detect-new-apis:
     name: Detect new NerdGraph APIs
     runs-on: ubuntu-latest
-    # Outputs published below feed the next job. They describe what changed
-    # since the last run so the code-generation job knows exactly what to
-    # regenerate and which packages are affected.
-    outputs:
-      heroMention: ${{ steps.schema-diff.outputs.hero_mention }}
-      tutoneConfig: ${{ steps.schema-diff.outputs.tutone_config }}
-      newMutations: ${{ steps.schema-diff.outputs.new_api_mutations }}
-      packages: ${{ steps.schema-diff.outputs.packages }}
     steps:
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -181,19 +171,3 @@ jobs:
           path: schema.json
           if-no-files-found: error
           overwrite: true
-
-  # ---------------------------------------------------------------------------
-  # Job 2 - When the diff surfaces new APIs, call the reusable code-gen
-  # workflow. It runs Tutone, regenerates Go bindings, and opens a draft PR
-  # authored by `nr-developer-toolkit`.
-  # ---------------------------------------------------------------------------
-  generate-go-bindings:
-    name: Generate Go bindings for new APIs
-    if: needs.detect-new-apis.outputs.heroMention != ''
-    needs: detect-new-apis
-    uses: newrelic/newrelic-client-go/.github/workflows/generate.yml@main
-    with:
-      tutoneConfig: ${{ needs.detect-new-apis.outputs.tutoneConfig }}
-      packages: ${{ needs.detect-new-apis.outputs.packages }}
-      newMutations: ${{ needs.detect-new-apis.outputs.newMutations }}
-    secrets: inherit
