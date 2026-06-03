@@ -10955,14 +10955,7 @@ func UnmarshalSuggestedNRQLQueryInterface(b []byte) (*SuggestedNRQLQueryInterfac
 	return nil, fmt.Errorf("interface SuggestedNRQLQuery was not matched against all PossibleTypes: %s", typeName)
 }
 
-// DO NOT DELETE — manual shim re-applied after every regen.
-//
-// Tutone generates EntityManagementActorStitchedFields with a non-pointer
-// EntityManagementEntityInterface field, which json.Unmarshal can't decode
-// polymorphically (returns "cannot unmarshal object into Go struct field
-// of type EntityManagementEntityInterface"). This shim routes the `entity`
-// field through UnmarshalEntityManagementEntityInterface so polymorphic
-// reads via GetEntityWithContext work.
+// DO NOT DELETE
 func (x *EntityManagementActorStitchedFields) UnmarshalJSON(b []byte) error {
 	var objMap map[string]*json.RawMessage
 	err := json.Unmarshal(b, &objMap)
