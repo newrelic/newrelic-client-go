@@ -10,6 +10,8 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+const testAccountID = 123456
+
 var (
 	testSetupID            = "ZmVkLWxvZ3Mtc2V0dXAtMTIzNDU2Nzg5MA"
 	testPartitionID        = "ZmVkLWxvZ3MtcGFydGl0aW9uLTEyMzQ1Njc4OTA"
@@ -161,8 +163,9 @@ var (
 	{
 		"data": {
 			"actor": {
-				"federatedLogs": {
-					"setup": {
+				"account": {
+					"federatedLogs": {
+						"setup": {
 						"id": "ZmVkLWxvZ3Mtc2V0dXAtMTIzNDU2Nzg5MA",
 						"name": "Test Setup",
 						"description": "Test federated logs setup",
@@ -185,14 +188,16 @@ var (
 				}
 			}
 		}
-	}`
+	}
+}`
 
 	testGetPartitionResponseJSON = `
 	{
 		"data": {
 			"actor": {
-				"federatedLogs": {
-					"partition": {
+				"account": {
+					"federatedLogs": {
+						"partition": {
 						"id": "ZmVkLWxvZ3MtcGFydGl0aW9uLTEyMzQ1Njc4OTA",
 						"name": "Test Partition",
 						"description": "Test federated logs partition",
@@ -227,7 +232,8 @@ var (
 				}
 			}
 		}
-	}`
+	}
+}`
 )
 
 func TestUnitFederatedLogs_CreateSetup(t *testing.T) {
@@ -255,7 +261,7 @@ func TestUnitFederatedLogs_CreateSetup(t *testing.T) {
 		},
 	}
 
-	result, err := client.FederatedLogsCreateSetup(input)
+	result, err := client.FederatedLogsCreateSetup(testAccountID, input)
 
 	require.NoError(t, err)
 	require.NotNil(t, result)
@@ -276,7 +282,7 @@ func TestUnitFederatedLogs_UpdateSetup(t *testing.T) {
 		Description: "Test federated logs setup - updated",
 	}
 
-	result, err := client.FederatedLogsUpdateSetup(testSetupID, updateInput)
+	result, err := client.FederatedLogsUpdateSetup(testAccountID, testSetupID, updateInput)
 
 	require.NoError(t, err)
 	require.NotNil(t, result)
@@ -299,7 +305,7 @@ func TestUnitFederatedLogs_CreatePartition(t *testing.T) {
 		},
 	}
 
-	result, err := client.FederatedLogsCreatePartition(input, testSetupID)
+	result, err := client.FederatedLogsCreatePartition(testAccountID, input, testSetupID)
 
 	require.NoError(t, err)
 	require.NotNil(t, result)
@@ -319,7 +325,7 @@ func TestUnitFederatedLogs_UpdatePartition(t *testing.T) {
 		Description: "Test federated logs partition - updated",
 	}
 
-	result, err := client.FederatedLogsUpdatePartition(testPartitionID, updateInput)
+	result, err := client.FederatedLogsUpdatePartition(testAccountID, testPartitionID, updateInput)
 
 	require.NoError(t, err)
 	require.NotNil(t, result)
@@ -333,7 +339,7 @@ func TestUnitFederatedLogs_GetSetup(t *testing.T) {
 	t.Parallel()
 	client := newMockResponse(t, testGetSetupResponseJSON, http.StatusOK)
 
-	result, err := client.GetSetup(testSetupID)
+	result, err := client.GetSetup(testAccountID, testSetupID)
 
 	require.NoError(t, err)
 	require.NotNil(t, result)
@@ -346,7 +352,7 @@ func TestUnitFederatedLogs_GetPartition(t *testing.T) {
 	t.Parallel()
 	client := newMockResponse(t, testGetPartitionResponseJSON, http.StatusOK)
 
-	result, err := client.GetPartition(testPartitionID)
+	result, err := client.GetPartition(testAccountID, testPartitionID)
 
 	require.NoError(t, err)
 	require.NotNil(t, result)
@@ -359,7 +365,7 @@ func TestUnitFederatedLogs_GetSetup_Error(t *testing.T) {
 	t.Parallel()
 	client := newMockResponse(t, `{"errors": [{"message": "Not Found"}]}`, http.StatusNotFound)
 
-	result, err := client.GetSetup("non-existent-id")
+	result, err := client.GetSetup(testAccountID, "non-existent-id")
 
 	require.Error(t, err)
 	require.Nil(t, result)
@@ -369,7 +375,7 @@ func TestUnitFederatedLogs_CreateSetup_Error(t *testing.T) {
 	t.Parallel()
 	client := newMockResponse(t, `{"errors": [{"message": "Internal Server Error"}]}`, http.StatusInternalServerError)
 
-	result, err := client.FederatedLogsCreateSetup(FederatedLogsCreateSetupInput{Name: "x"})
+	result, err := client.FederatedLogsCreateSetup(testAccountID, FederatedLogsCreateSetupInput{Name: "x"})
 
 	require.Error(t, err)
 	require.Nil(t, result)
