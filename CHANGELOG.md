@@ -1,3 +1,8 @@
+<a name="v2.88.0"></a>
+## [v2.88.0] - 2026-06-09
+### Features
+- **cloud:** add CloudOciTrustType for OCI RPST support (NR-562518) ([#1424](https://github.com/newrelic/newrelic-client-go/issues/1424))
+
 <a name="v2.87.1"></a>
 ## [v2.87.1] - 2026-06-03
 ### Bug Fixes
@@ -2296,7 +2301,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.87.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.88.0...HEAD
+[v2.88.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.87.1...v2.88.0
 [v2.87.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.87.0...v2.87.1
 [v2.87.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.86.1...v2.87.0
 [v2.86.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.86.0...v2.86.1
