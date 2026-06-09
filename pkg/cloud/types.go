@@ -5650,10 +5650,27 @@ type CloudOciLinkAccountInput struct {
 	OciDomainURL string `json:"ociDomainUrl"`
 	// The home region of the tenancy.
 	OciHomeRegion string `json:"ociHomeRegion"`
+	// Optional value propagated as the ext_resource_tag claim on the RPST. Customers use this for tag-based resource scoping in their IAM policies. Ignored for UPST.
+	ResourceTag string `json:"resourceTag,omitempty"`
 	// The OCI tenant identifier.
 	TenantId string `json:"tenantId"`
+	// The OCI WIF trust type. Defaults to UPST for backward compatibility.
+	TrustType CloudOciTrustType `json:"trustType,omitempty"`
 	// The user secret OCID.
 	UserVaultOcid string `json:"userVaultOcid"`
+}
+
+// CloudOciTrustType - OCI WIF trust type. UPST impersonates a service user; RPST uses claim-based ephemeral principals.
+type CloudOciTrustType string
+
+var CloudOciTrustTypeTypes = struct {
+	// Resource Principal Session Token — exchange grants an ephemeral identityfederateddomainapp principal. Customer IAM policies authorize via JWT claims (ext_account_id, ext_tenancy_id, ext_resource_tag) instead of a service-user group, enabling multi-account scoping and bypassing OCI's per-policy statement limit.
+	RPST CloudOciTrustType
+	// User Principal Session Token — exchange grants impersonation of a dedicated OCI service user. Default for backward compatibility with existing integrations.
+	UPST CloudOciTrustType
+}{
+	RPST: "RPST",
+	UPST: "UPST",
 }
 
 // CloudOciLogsIntegration - Fetch Metadata and Tags for OCI Logs integrations Integration
