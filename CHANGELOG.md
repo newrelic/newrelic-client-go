@@ -1,3 +1,8 @@
+<a name="v2.89.0"></a>
+## [v2.89.0] - 2026-06-10
+### Features
+- add DisableEventCreation field to NrqlConditionTerm ([#1421](https://github.com/newrelic/newrelic-client-go/issues/1421))
+
 <a name="v2.88.0"></a>
 ## [v2.88.0] - 2026-06-09
 ### Features
@@ -2301,7 +2306,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.88.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.89.0...HEAD
+[v2.89.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.88.0...v2.89.0
 [v2.88.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.87.1...v2.88.0
 [v2.87.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.87.0...v2.87.1
 [v2.87.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.86.1...v2.87.0
