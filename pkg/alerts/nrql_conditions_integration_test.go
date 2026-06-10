@@ -1446,7 +1446,6 @@ func TestIntegrationNrqlConditions_DisableHealthStatusReporting(t *testing.T) {
 }
 
 func TestIntegrationNrqlConditions_DisableEventCreation(t *testing.T) {
-	t.Skip("Skipping due to DisableEventCreation being behind the DCON/disable_event_creation_apis feature flag until generally available.")
 	t.Parallel()
 
 	testAccountID, err := mock.GetTestAccountID()
