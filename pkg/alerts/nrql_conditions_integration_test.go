@@ -1445,6 +1445,152 @@ func TestIntegrationNrqlConditions_DisableHealthStatusReporting(t *testing.T) {
 	}()
 }
 
+func TestIntegrationNrqlConditions_DisableEventCreation(t *testing.T) {
+	t.Parallel()
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	var (
+		truePt        = true
+		falsePt       = false
+		nilPt   *bool = nil
+	)
+
+	var conditionCreateInput = NrqlConditionCreateInput{
+		NrqlConditionCreateBase: NrqlConditionCreateBase{
+			Enabled: true,
+			Name:    fmt.Sprintf("test-nrql-condition-%s", testNrqlConditionRandomString),
+			Nrql: NrqlConditionCreateQuery{
+				Query:         "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
+				DataAccountId: &testAccountID,
+			},
+			Terms: []NrqlConditionTerm{
+				{
+					Threshold:            &nrqlConditionBaseThreshold,
+					ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
+					ThresholdDuration:    600,
+					Operator:             AlertsNRQLConditionTermsOperatorTypes.ABOVE,
+					Priority:             NrqlConditionPriorities.Critical,
+					DisableEventCreation: &truePt,
+				},
+			},
+			ViolationTimeLimitSeconds: 3600,
+			Signal: &AlertsNrqlConditionCreateSignal{
+				AggregationWindow: &nrqlConditionBaseAggWindow,
+				FillOption:        &AlertsFillOptionTypes.STATIC,
+				FillValue:         &nrqlConditionBaseSignalFillValue,
+				EvaluationDelay:   &nrqlConditionEvaluationDelay,
+				AggregationMethod: &nrqlConditionBaseAggMethod,
+				AggregationDelay:  &nrqlConditionBaseAggDelay,
+			},
+		},
+	}
+	var conditionUpdateInput = NrqlConditionUpdateInput{
+		NrqlConditionUpdateBase: NrqlConditionUpdateBase{
+			Enabled: true,
+			Name:    fmt.Sprintf("test-nrql-condition-%s", testNrqlConditionRandomString),
+			Nrql: NrqlConditionUpdateQuery{
+				Query:         "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
+				DataAccountId: &testAccountID,
+			},
+			Terms: []NrqlConditionTerm{
+				{
+					Threshold:            &nrqlConditionBaseThreshold,
+					ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
+					ThresholdDuration:    600,
+					Operator:             AlertsNRQLConditionTermsOperatorTypes.ABOVE,
+					Priority:             NrqlConditionPriorities.Critical,
+					DisableEventCreation: &falsePt,
+				},
+			},
+			ViolationTimeLimitSeconds: 3600,
+			Signal: &AlertsNrqlConditionUpdateSignal{
+				AggregationWindow: &nrqlConditionBaseAggWindow,
+				FillOption:        &AlertsFillOptionTypes.STATIC,
+				FillValue:         &nrqlConditionBaseSignalFillValue,
+				EvaluationDelay:   &nrqlConditionEvaluationDelay,
+				AggregationMethod: &nrqlConditionBaseAggMethod,
+				AggregationDelay:  &nrqlConditionBaseAggDelay,
+			},
+		},
+	}
+	var conditionUpdateInputNilEventCreation = NrqlConditionUpdateInput{
+		NrqlConditionUpdateBase: NrqlConditionUpdateBase{
+			Enabled: true,
+			Name:    fmt.Sprintf("test-nrql-condition-%s", testNrqlConditionRandomString),
+			Nrql: NrqlConditionUpdateQuery{
+				Query:         "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
+				DataAccountId: &testAccountID,
+			},
+			Terms: []NrqlConditionTerm{
+				{
+					Threshold:            &nrqlConditionBaseThreshold,
+					ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
+					ThresholdDuration:    600,
+					Operator:             AlertsNRQLConditionTermsOperatorTypes.ABOVE,
+					Priority:             NrqlConditionPriorities.Critical,
+					DisableEventCreation: nilPt,
+				},
+			},
+			ViolationTimeLimitSeconds: 3600,
+			Signal: &AlertsNrqlConditionUpdateSignal{
+				AggregationWindow: &nrqlConditionBaseAggWindow,
+				FillOption:        &AlertsFillOptionTypes.STATIC,
+				FillValue:         &nrqlConditionBaseSignalFillValue,
+				EvaluationDelay:   &nrqlConditionEvaluationDelay,
+				AggregationMethod: &nrqlConditionBaseAggMethod,
+				AggregationDelay:  &nrqlConditionBaseAggDelay,
+			},
+		},
+	}
+
+	var randStr = mock.RandSeq(5)
+
+	// Setup
+	client := newIntegrationTestClient(t)
+	testPolicy := AlertsPolicyInput{
+		IncidentPreference: AlertsIncidentPreferenceTypes.PER_POLICY,
+		Name:               fmt.Sprintf("test-alert-policy-%s", randStr),
+	}
+	policy, err := client.CreatePolicyMutation(testAccountID, testPolicy)
+	require.NoError(t, err)
+
+	// Test: Create (condition with DisableEventCreation field)
+	createdCondition, err := client.CreateNrqlConditionStaticMutation(testAccountID, policy.ID, conditionCreateInput)
+	require.NoError(t, err)
+	require.NotNil(t, createdCondition)
+	require.NotNil(t, createdCondition.ID)
+	require.NotNil(t, createdCondition.PolicyID)
+	require.Equal(t, truePt, *createdCondition.Terms[0].DisableEventCreation)
+
+	// Test: Get (condition with DisableEventCreation field)
+	readResult, err := client.GetNrqlConditionQuery(testAccountID, createdCondition.ID)
+	require.NoError(t, err)
+	require.NotNil(t, readResult)
+	require.Equal(t, truePt, *readResult.Terms[0].DisableEventCreation)
+
+	// Test: Update (condition with nil DisableEventCreation field)
+	updatedConditionNil, err := client.UpdateNrqlConditionStaticMutation(testAccountID, createdCondition.ID, conditionUpdateInputNilEventCreation)
+	require.NoError(t, err)
+	require.Equal(t, nilPt, updatedConditionNil.Terms[0].DisableEventCreation)
+
+	// Test: Update (condition with DisableEventCreation field)
+	updatedCondition, err := client.UpdateNrqlConditionStaticMutation(testAccountID, createdCondition.ID, conditionUpdateInput)
+	require.NoError(t, err)
+	require.Equal(t, falsePt, *updatedCondition.Terms[0].DisableEventCreation)
+
+	// Deferred teardown
+	defer func() {
+		_, err := client.DeletePolicyMutation(testAccountID, policy.ID)
+		if err != nil {
+			t.Logf("error cleaning up alert policy %s (%s): %s", policy.ID, policy.Name, err)
+		}
+	}()
+}
+
 func TestIntegrationNrqlConditions_TargetEntity(t *testing.T) {
 	t.Parallel()
 

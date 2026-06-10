@@ -255,6 +255,7 @@ type NrqlConditionTerm struct {
 	ThresholdOccurrences         ThresholdOccurrence               `json:"thresholdOccurrences,omitempty"`
 	Prediction                   *NrqlConditionThresholdPrediction `json:"prediction,omitempty"`
 	DisableHealthStatusReporting *bool                             `json:"disableHealthStatusReporting,omitempty"`
+	DisableEventCreation         *bool                             `json:"disableEventCreation,omitempty"`
 }
 
 // NrqlConditionQuery represents the NRQL query object returned in a NerdGraph response object.
@@ -863,6 +864,7 @@ const (
       thresholdDuration
       thresholdOccurrences
       disableHealthStatusReporting
+      disableEventCreation
     }
     type
     violationTimeLimit
