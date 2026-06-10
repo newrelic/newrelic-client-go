@@ -71,6 +71,7 @@ func TestIntegrationFederatedLogs_AwsConnection(t *testing.T) {
 }
 
 func TestIntegrationFederatedLogs_Setup(t *testing.T) {
+	t.Skip("skipping until the fleet-test account is granted federatedLogsCreateSetup access; currently fails with 'User is not authorized to perform this action'")
 	t.Parallel()
 
 	testAccountID, err := mock.GetFleetTestAccountID()
@@ -180,6 +181,7 @@ func TestIntegrationFederatedLogs_Setup(t *testing.T) {
 }
 
 func TestIntegrationFederatedLogs_Partition(t *testing.T) {
+	t.Skip("skipping until the fleet-test account is granted federatedLogsCreateSetup access; currently fails with 'User is not authorized to perform this action'")
 	t.Parallel()
 
 	testAccountID, err := mock.GetFleetTestAccountID()
