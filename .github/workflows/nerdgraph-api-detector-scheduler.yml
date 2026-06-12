@@ -1,0 +1,40 @@
+name: NerdGraph API Detector Scheduler
+#
+# Purpose
+# -------
+# Owns the cron schedule for the NerdGraph API Detector pipeline. Its only
+# job is to dispatch `nerdgraph-api-detector.yml` using the
+# `nr-developer-toolkit` PAT, so the dispatched run is attributed to the bot
+# rather than to the contributor who last edited the workflow file.
+#
+# Background
+# ----------
+# GitHub Actions sets the run actor of `schedule` events to whoever last
+# pushed the workflow file. To avoid attributing automated runs to a human
+# contributor, we keep the cron in this dispatcher and trigger the real
+# work via `workflow_dispatch`, whose actor is the dispatching token's
+# owner. This file performs no schema work itself.
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 08:00, 12:00, and 16:00 UTC, Monday through Friday.
+    - cron: "0 8,12,16 * * 1-5"
+
+permissions:
+  contents: read
+
+jobs:
+  dispatch-detector:
+    name: Dispatch NerdGraph API Detector
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger NerdGraph API Detector workflow
+        # `gh` reads its credentials from these env vars. Using the bot's
+        # PAT is what causes the dispatched run to be attributed to
+        # `nr-developer-toolkit` instead of a human contributor.
+        env:
+          GH_TOKEN: ${{ secrets.DEV_TOOLKIT_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh workflow run nerdgraph-api-detector.yml --ref ${{ github.ref_name }}

@@ -1,45 +1,60 @@
-name: NerdGraph Schema Diff
+name: NerdGraph API Detector
+#
+# Purpose
+# -------
+# Re-fetches New Relic's NerdGraph schema on a schedule and diffs it against
+# the schema captured on the previous run. When new mutations are detected,
+# the workflow posts a summary to Slack so the platform team is aware.
+#
+# This workflow only reports. It does not regenerate code or open PRs.
+#
+# Trigger model
+# -------------
+# Runs are triggered exclusively via `workflow_dispatch`. The cron schedule
+# lives in the companion workflow `nerdgraph-api-detector-scheduler.yml`,
+# which dispatches this workflow using the `nr-developer-toolkit` PAT. This
+# is required because GitHub Actions hard-sets the run actor of `schedule`
+# events to whoever last pushed the workflow file; using a dispatcher lets
+# us attribute scheduled runs to the bot instead.
+
 on:
   workflow_dispatch:
-  schedule:
-    # Cron executes at 0800, 1200, 1600 UTC (8am, 12pm, 4pm)
-    # Monday through Friday
-    - cron: "0 8,12,16 * * 1-5"
 
 permissions:
   contents: read
   actions: read
 
 jobs:
-  checkForApiUpdates:
-    name: Check for API updates
+  # ---------------------------------------------------------------------------
+  # Diff today's schema against the previous run's snapshot, surface any new
+  # mutations to Slack, and store today's schema as the next baseline.
+  # ---------------------------------------------------------------------------
+  detect-new-apis:
+    name: Detect new NerdGraph APIs
     runs-on: ubuntu-latest
-    outputs:
-      heroMention: ${{ steps.schema-diff.outputs.hero_mention }}
-      tutoneConfig: ${{ steps.schema-diff.outputs.tutone_config }}
-      newMutations: ${{ steps.schema-diff.outputs.new_api_mutations }}
-      packages: ${{ steps.schema-diff.outputs.packages }}
     steps:
-      - name: Install Node
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
 
-      - name: Install Go
+      - name: Set up Go
         uses: actions/setup-go@v5
         with:
           go-version: 1.25.x
 
-      - name: Checkout code
+      - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Install deps
-        run: ls scripts && npm install yaml lodash.merge
+      - name: Install diff-script dependencies
+        run: npm install yaml lodash.merge
 
-      - name: Download artifact
+      - name: Download previous schema artifact
+        # The previous successful run uploaded `schema.json` as the `schema`
+        # artifact; we pull it back here as the diff baseline.
         uses: actions/github-script@v7
         env:
-          WORKFLOW_FILENAME: graphql-schema.yml
+          WORKFLOW_FILENAME: nerdgraph-api-detector.yml
           ARTIFACT_NAME: schema
           ARTIFACT_FILENAME: schema.zip
           UNZIP_DIR: ./
@@ -48,12 +63,12 @@ jobs:
             const script = require('./scripts/download-previous-artifact.js')
             await script({github, context, core})
 
-      - name: Rename schema.json to schema-old.json
+      - name: Rename baseline schema to schema-old.json
         run: |
           find ./ -type f -name "schema.json"
           mv schema.json schema-old.json
 
-      - name: Fetch GraphQL Schema
+      - name: Fetch latest NerdGraph schema with Tutone
         env:
           NEW_RELIC_API_KEY: ${{ secrets.NEW_RELIC_API_KEY }}
         run: |
@@ -61,7 +76,7 @@ jobs:
           tutone fetch --refetch
           ls
 
-      - name: Check for schema updates
+      - name: Diff schemas and detect new mutations
         id: schema-diff
         uses: actions/github-script@v7
         with:
@@ -69,11 +84,11 @@ jobs:
             const script = require('./scripts/schema-diff-reporter.js')
             await script({core})
 
-      - name: Send report to Slack
+      - name: Post diff report to Slack
         id: slack
         uses: slackapi/slack-github-action@v1.26
         with:
-          # Uses Slack's Block Kit to build the message
+          # Block Kit playground for editing/previewing this payload:
           # https://app.slack.com/block-kit-builder
           payload: |
             {
@@ -145,27 +160,14 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
 
-      # After reporting changes to the schema, upload the most
-      # recent version so we can compare on the next run.
-      - name: Upload latest schema.json
+      - name: Upload latest schema as artifact
+        # Stored as the diff baseline for the next run. 90-day retention is
+        # well over what we need given this workflow runs three times every
+        # weekday.
         uses: actions/upload-artifact@v4
         with:
-          # Duration after which artifact will expire in days. 0 means using default retention.
-          # Minimum 1 day.
-          # Maximum 90 days unless changed from the repository settings page.
           retention-days: 90
           name: schema
           path: schema.json
           if-no-files-found: error
           overwrite: true
-
-  generate-code:
-    if: needs.checkForApiUpdates.outputs.heroHention != ''
-    needs: checkForApiUpdates
-    uses: newrelic/newrelic-client-go/.github/workflows/generate.yml@feat/automated-codegen
-    with:
-      tutoneConfig: ${{ needs.checkForApiUpdates.outputs.tutoneConfig }}
-      packages: ${{ needs.checkForApiUpdates.outputs.packages }}
-      newMutations: ${{ needs.checkForApiUpdates.outputs.newMutations }}
-    secrets: inherit
-
