@@ -58,6 +58,11 @@ func GetNonExistentIDs() (string, string) {
 	return "00000FF000F0FFFF000F0F0000FF0FF0000000F000F00F0FF000FFFFF0FF00F0", "00000HH000H0HHHH000H0H0000HH0HH0000000H000H00H0HH000HHHHH0HH00H0"
 }
 
+// GetTestTransactionName returns the transaction name for intelligent workload integration tests from the environment.
+func GetTestTransactionName() (string, error) {
+	return "WebTransaction/Function/__main__:all_books", nil
+}
+
 // getEnvInt helper to DRY up the other env get calls for integers
 func getEnvInt(name string) (int, error) {
 	if name == "" {
