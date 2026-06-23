@@ -714,6 +714,10 @@ const CloudConfigureIntegrationMutation = `mutation(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudGcpGenericIntegration {
+			__typename
+			metricsPollingInterval
+		}
 		... on CloudHealthIntegration {
 			__typename
 			inventoryPollingInterval
@@ -1550,6 +1554,10 @@ const CloudDisableIntegrationMutation = `mutation(
 		... on CloudGcpVpcaccessIntegration {
 			__typename
 			inventoryPollingInterval
+			metricsPollingInterval
+		}
+		... on CloudGcpGenericIntegration {
+			__typename
 			metricsPollingInterval
 		}
 		... on CloudHealthIntegration {
@@ -2672,6 +2680,10 @@ const getLinkedAccountQuery = `query(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudGcpGenericIntegration {
+			__typename
+			metricsPollingInterval
+		}
 		... on CloudHealthIntegration {
 			__typename
 			inventoryPollingInterval
@@ -3569,6 +3581,10 @@ const getLinkedAccountsQuery = `query(
 		... on CloudGcpVpcaccessIntegration {
 			__typename
 			inventoryPollingInterval
+			metricsPollingInterval
+		}
+		... on CloudGcpGenericIntegration {
+			__typename
 			metricsPollingInterval
 		}
 		... on CloudHealthIntegration {
