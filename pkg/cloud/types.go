@@ -7750,6 +7750,76 @@ func UnmarshalCloudIntegrationInterface(b []byte) (*CloudIntegrationInterface, e
 			var xxx CloudIntegrationInterface = &interfaceType
 
 			return &xxx, nil
+		case "CloudGcpApiGatewayIntegration":
+			var interfaceType CloudGcpApiGatewayIntegration
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx CloudIntegrationInterface = &interfaceType
+
+			return &xxx, nil
+		case "CloudGcpFirebaseAuthIntegration":
+			var interfaceType CloudGcpFirebaseAuthIntegration
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx CloudIntegrationInterface = &interfaceType
+
+			return &xxx, nil
+		case "CloudGcpFirebaseVertexAiIntegration":
+			var interfaceType CloudGcpFirebaseVertexAiIntegration
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx CloudIntegrationInterface = &interfaceType
+
+			return &xxx, nil
+		case "CloudGcpFirebaseAppHostingIntegration":
+			var interfaceType CloudGcpFirebaseAppHostingIntegration
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx CloudIntegrationInterface = &interfaceType
+
+			return &xxx, nil
+		case "CloudGcpIstioIntegration":
+			var interfaceType CloudGcpIstioIntegration
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx CloudIntegrationInterface = &interfaceType
+
+			return &xxx, nil
+		case "CloudGcpManagedKafkaIntegration":
+			var interfaceType CloudGcpManagedKafkaIntegration
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx CloudIntegrationInterface = &interfaceType
+
+			return &xxx, nil
+		case "CloudGcpMemoryStoreIntegration":
+			var interfaceType CloudGcpMemoryStoreIntegration
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx CloudIntegrationInterface = &interfaceType
+
+			return &xxx, nil
 		case "CloudHealthIntegration":
 			var interfaceType CloudHealthIntegration
 			err = json.Unmarshal(b, &interfaceType)
