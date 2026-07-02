@@ -625,3 +625,185 @@ func TestCloudAccount_AwsEuSovereignBasic(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, unlinkResponse)
 }
+
+func TestCloudAccount_GcpDmWifBasic(t *testing.T) {
+	t.Parallel()
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	gcpProjectID := os.Getenv("INTEGRATION_TESTING_GCP_DM_PROJECT_ID")
+	if gcpProjectID == "" {
+		t.Skip("INTEGRATION_TESTING_GCP_DM_PROJECT_ID is required to run GCP DM WIF cloud account tests")
+		return
+	}
+
+	wifCredential := os.Getenv("INTEGRATION_TESTING_GCP_DM_WIF_CREDENTIAL")
+	if wifCredential == "" {
+		t.Skip("INTEGRATION_TESTING_GCP_DM_WIF_CREDENTIAL is required to run GCP DM WIF cloud account tests")
+		return
+	}
+
+	a := newIntegrationTestClient(t)
+
+	// Clean up any leftover state.
+	getResponse, err := a.GetLinkedAccounts("gcp")
+	if err == nil && getResponse != nil {
+		for _, linkedAccount := range *getResponse {
+			if linkedAccount.NrAccountId == testAccountID && strings.Contains(linkedAccount.Name, "DTK Integration Testing GCP DM WIF") {
+				_, _ = a.CloudUnlinkAccount(testAccountID, []CloudUnlinkAccountsInput{
+					{LinkedAccountId: linkedAccount.ID},
+				})
+			}
+		}
+	}
+
+	// Step 1: Authenticate via WIF → authReferenceId.
+	authPayload, err := a.CloudAuthenticateIntegration(testAccountID, "GCP", "WIF", wifCredential)
+	require.NoError(t, err)
+	require.NotNil(t, authPayload)
+	require.NotEmpty(t, authPayload.AuthReferenceId)
+
+	// Step 2: Link the GCP project.
+	linkResponse, err := a.CloudLinkAccount(testAccountID, CloudLinkCloudAccountsInput{
+		Gcp: []CloudGcpLinkAccountInput{
+			{
+				Name:            "DTK Integration Testing GCP DM WIF",
+				ProjectId:       gcpProjectID,
+				AuthReferenceId: authPayload.AuthReferenceId,
+			},
+		},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, linkResponse)
+	require.Len(t, linkResponse.Errors, 0)
+
+	if len(linkResponse.LinkedAccounts) == 0 {
+		t.Skip("skipping TestCloudAccount_GcpDmWifBasic: no linked accounts returned")
+		return
+	}
+
+	linkedAccountId := linkResponse.LinkedAccounts[0].ID
+
+	// Step 3: Rename the linked account.
+	renameResponse, err := a.CloudRenameAccount(testAccountID, []CloudRenameAccountsInput{
+		{
+			LinkedAccountId: linkedAccountId,
+			Name:            "NEW-DTK-GCP-DM-WIF-NAME",
+		},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, renameResponse)
+
+	// Step 4: Unlink.
+	unlinkResponse, err := a.CloudUnlinkAccount(testAccountID, []CloudUnlinkAccountsInput{
+		{LinkedAccountId: linkedAccountId},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, unlinkResponse)
+}
+
+func TestCloudAccount_GcpDmWifIntegrations(t *testing.T) {
+	t.Parallel()
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	gcpProjectID := os.Getenv("INTEGRATION_TESTING_GCP_DM_PROJECT_ID")
+	if gcpProjectID == "" {
+		t.Skip("INTEGRATION_TESTING_GCP_DM_PROJECT_ID is required to run GCP DM WIF cloud account tests")
+		return
+	}
+
+	wifCredential := os.Getenv("INTEGRATION_TESTING_GCP_DM_WIF_CREDENTIAL")
+	if wifCredential == "" {
+		t.Skip("INTEGRATION_TESTING_GCP_DM_WIF_CREDENTIAL is required to run GCP DM WIF cloud account tests")
+		return
+	}
+
+	a := newIntegrationTestClient(t)
+
+	// Clean up any leftover state.
+	getResponse, err := a.GetLinkedAccounts("gcp")
+	if err == nil && getResponse != nil {
+		for _, linkedAccount := range *getResponse {
+			if linkedAccount.NrAccountId == testAccountID && strings.Contains(linkedAccount.Name, "DTK Integration Testing GCP DM WIF") {
+				_, _ = a.CloudUnlinkAccount(testAccountID, []CloudUnlinkAccountsInput{
+					{LinkedAccountId: linkedAccount.ID},
+				})
+			}
+		}
+	}
+
+	// Step 1: Authenticate via WIF → authReferenceId.
+	authPayload, err := a.CloudAuthenticateIntegration(testAccountID, "GCP", "WIF", wifCredential)
+	require.NoError(t, err)
+	require.NotNil(t, authPayload)
+	require.NotEmpty(t, authPayload.AuthReferenceId)
+
+	// Step 2: Link the GCP project.
+	linkResponse, err := a.CloudLinkAccount(testAccountID, CloudLinkCloudAccountsInput{
+		Gcp: []CloudGcpLinkAccountInput{
+			{
+				Name:            "DTK Integration Testing GCP DM WIF",
+				ProjectId:       gcpProjectID,
+				AuthReferenceId: authPayload.AuthReferenceId,
+			},
+		},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, linkResponse)
+	require.Len(t, linkResponse.Errors, 0)
+
+	if len(linkResponse.LinkedAccounts) == 0 {
+		t.Skip("skipping TestCloudAccount_GcpDmWifIntegrations: no linked accounts returned")
+		return
+	}
+
+	linkedAccountId := linkResponse.LinkedAccounts[0].ID
+
+	// Step 3: Enable all 7 GCP DM-only integrations.
+	integrationsRes, err := a.CloudConfigureIntegration(testAccountID, CloudIntegrationsInput{
+		Gcp: CloudGcpIntegrationsInput{
+			GcpApiGateway:         []CloudGcpApiGatewayIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpFirebaseAuth:       []CloudGcpFirebaseAuthIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpFirebaseVertexAi:   []CloudGcpFirebaseVertexAiIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpFirebaseAppHosting: []CloudGcpFirebaseAppHostingIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpIstio:              []CloudGcpIstioIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpManagedKafka:       []CloudGcpManagedKafkaIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpMemoryStore:        []CloudGcpMemoryStoreIntegrationInput{{LinkedAccountId: linkedAccountId}},
+		},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, integrationsRes)
+	require.Len(t, integrationsRes.Errors, 0)
+	require.Greater(t, len(integrationsRes.Integrations), 0)
+
+	// Step 4: Disable all 7 integrations.
+	disableRes, err := a.CloudDisableIntegration(testAccountID, CloudDisableIntegrationsInput{
+		Gcp: CloudGcpDisableIntegrationsInput{
+			GcpApiGateway:         []CloudDisableAccountIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpFirebaseAuth:       []CloudDisableAccountIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpFirebaseVertexAi:   []CloudDisableAccountIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpFirebaseAppHosting: []CloudDisableAccountIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpIstio:              []CloudDisableAccountIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpManagedKafka:       []CloudDisableAccountIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpMemoryStore:        []CloudDisableAccountIntegrationInput{{LinkedAccountId: linkedAccountId}},
+		},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, disableRes)
+	require.Len(t, disableRes.Errors, 0)
+	require.Greater(t, len(disableRes.DisabledIntegrations), 0)
+
+	// Step 5: Unlink.
+	unlinkResponse, err := a.CloudUnlinkAccount(testAccountID, []CloudUnlinkAccountsInput{
+		{LinkedAccountId: linkedAccountId},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, unlinkResponse)
+}
