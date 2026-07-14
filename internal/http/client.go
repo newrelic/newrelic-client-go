@@ -325,8 +325,8 @@ func logNice(body string) string {
 func redactedHeaders(header http.Header) http.Header {
 	h := http.Header{}
 	for k, values := range header {
-		switch k {
-		case "Api-Key", "X-Api-Key", "X-Insert-Key":
+		switch http.CanonicalHeaderKey(k) {
+		case "Api-Key", "X-Api-Key", "X-Insert-Key", "X-License-Key":
 			h[k] = []string{"[REDACTED]"}
 		default:
 			h[k] = values
@@ -454,7 +454,7 @@ func (c *Client) innerDo(req *Request, errorValue ErrorResponse, i int) (*http.R
 		return resp, body, false, readErr
 	}
 
-	logHeaders, err = json.Marshal(resp.Header)
+	logHeaders, err = json.Marshal(redactedHeaders(resp.Header))
 	if err != nil {
 		return resp, body, false, err
 	}
