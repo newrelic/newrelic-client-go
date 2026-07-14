@@ -6,7 +6,10 @@ package entities
 import (
 	"context"
 	"encoding/json"
+	"io"
 	"net/http"
+	"net/http/httptest"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -265,4 +268,137 @@ func TestGetEntityWithContext_LargeViolationId(t *testing.T) {
 	require.True(t, ok, "expected *SyntheticMonitorEntity, got %T", *entity)
 	require.Len(t, synthEntity.RecentAlertViolations, 1)
 	require.Equal(t, EntityAlertViolationInt(violationID), synthEntity.RecentAlertViolations[0].ViolationId)
+}
+
+// TestAddCursorArg_QueryStrings verifies the derived *WithCursor query strings
+// declare the $cursor variable and forward it into results(cursor: $cursor).
+// If tutone regeneration reshapes either source query, the addCursorArg helper
+// panics at package init; this test additionally guards the resulting text.
+func TestAddCursorArg_QueryStrings(t *testing.T) {
+	t.Parallel()
+
+	for name, q := range map[string]string{
+		"getEntitySearchByQueryWithCursor": getEntitySearchByQueryWithCursor,
+		"getEntitySearchWithCursor":        getEntitySearchWithCursor,
+	} {
+		require.Contains(t, q, "$cursor: String,", "%s missing $cursor variable declaration", name)
+		require.Contains(t, q, "results(cursor: $cursor) {", "%s does not forward cursor to results()", name)
+		// The pre-existing top-level `results {` must be replaced, not duplicated.
+		require.NotContains(t, q, "\n\tresults {\n", "%s still contains un-cursor'd results { block", name)
+	}
+}
+
+// captureRequestServer is a testing mock that captures each inbound GraphQL
+// request body and returns a canned response. It's local to this file because
+// the shared testhelpers.NewMockServer discards the request body.
+type captureRequestServer struct {
+	*httptest.Server
+	requests [][]byte
+}
+
+func newCaptureRequestServer(t *testing.T, response string) *captureRequestServer {
+	t.Helper()
+	crs := &captureRequestServer{}
+	crs.Server = httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		body, err := io.ReadAll(r.Body)
+		require.NoError(t, err)
+		crs.requests = append(crs.requests, body)
+
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		_, err = w.Write([]byte(response))
+		require.NoError(t, err)
+	}))
+	return crs
+}
+
+const entitySearchCursorResponse = `{
+	"data": {
+		"actor": {
+			"entitySearch": {
+				"count": 2,
+				"query": "domain = 'APM'",
+				"results": {
+					"entities": [
+						{
+							"__typename": "ApmApplicationEntityOutline",
+							"guid": "MTIzfEFQTXxBUFBMSUNBVElPTnwxMTE=",
+							"name": "app-1"
+						},
+						{
+							"__typename": "ApmApplicationEntityOutline",
+							"guid": "MTIzfEFQTXxBUFBMSUNBVElPTnwyMjI=",
+							"name": "app-2"
+						}
+					],
+					"nextCursor": "PAGE-2-CURSOR"
+				}
+			}
+		}
+	}
+}`
+
+// TestGetEntitySearchByQueryWithCursor reproduces Scott's Slack question:
+// prior to this method the caller had no way to pass a nextCursor value back
+// in for pagination. This test asserts (1) the returned NextCursor is parsed,
+// (2) an empty cursor is sent as `null`, and (3) a non-empty cursor is
+// forwarded on the wire.
+func TestGetEntitySearchByQueryWithCursor(t *testing.T) {
+	t.Parallel()
+
+	crs := newCaptureRequestServer(t, entitySearchCursorResponse)
+	defer crs.Close()
+
+	client := New(mock.NewTestConfig(t, crs.Server))
+
+	// First page — empty cursor should serialize to `null`.
+	got, err := client.GetEntitySearchByQueryWithCursor(
+		EntitySearchOptions{}, "domain = 'APM'", nil, "",
+	)
+	require.NoError(t, err)
+	require.Equal(t, "PAGE-2-CURSOR", got.Results.NextCursor)
+
+	// Second page — feed the cursor back in.
+	_, err = client.GetEntitySearchByQueryWithCursor(
+		EntitySearchOptions{}, "domain = 'APM'", nil, "PAGE-2-CURSOR",
+	)
+	require.NoError(t, err)
+
+	require.Len(t, crs.requests, 2)
+	require.Contains(t, string(crs.requests[0]), `"cursor":null`, "empty cursor should be sent as null")
+	require.Contains(t, string(crs.requests[1]), `"cursor":"PAGE-2-CURSOR"`, "cursor value should round-trip")
+
+	// Sanity: the outbound query must declare and forward $cursor.
+	for _, body := range crs.requests {
+		require.True(t, strings.Contains(string(body), "$cursor: String"), "outbound query missing $cursor declaration")
+		require.True(t, strings.Contains(string(body), "results(cursor: $cursor)"), "outbound query does not forward cursor to results()")
+	}
+}
+
+// TestGetEntitySearchWithCursor mirrors TestGetEntitySearchByQueryWithCursor
+// for the queryBuilder variant.
+func TestGetEntitySearchWithCursor(t *testing.T) {
+	t.Parallel()
+
+	crs := newCaptureRequestServer(t, entitySearchCursorResponse)
+	defer crs.Close()
+
+	client := New(mock.NewTestConfig(t, crs.Server))
+
+	qb := EntitySearchQueryBuilder{Domain: EntitySearchQueryBuilderDomainTypes.APM}
+
+	got, err := client.GetEntitySearchWithCursor(
+		EntitySearchOptions{}, "", qb, nil, nil, "",
+	)
+	require.NoError(t, err)
+	require.Equal(t, "PAGE-2-CURSOR", got.Results.NextCursor)
+
+	_, err = client.GetEntitySearchWithCursor(
+		EntitySearchOptions{}, "", qb, nil, nil, "PAGE-2-CURSOR",
+	)
+	require.NoError(t, err)
+
+	require.Len(t, crs.requests, 2)
+	require.Contains(t, string(crs.requests[0]), `"cursor":null`)
+	require.Contains(t, string(crs.requests[1]), `"cursor":"PAGE-2-CURSOR"`)
 }
