@@ -627,8 +627,9 @@ func TestCloudAccount_AwsEuSovereignBasic(t *testing.T) {
 }
 
 func TestCloudAccount_GcpDmWifBasic(t *testing.T) {
-	t.Parallel()
-
+	// Not t.Parallel(): shares INTEGRATION_TESTING_GCP_DM_PROJECT_ID with
+	// TestCloudAccount_GcpDmWifIntegrations, and the backend rejects linking
+	// the same GCP project to the same account twice concurrently.
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
 		t.Skipf("%s", err)
@@ -706,8 +707,8 @@ func TestCloudAccount_GcpDmWifBasic(t *testing.T) {
 }
 
 func TestCloudAccount_GcpDmWifIntegrations(t *testing.T) {
-	t.Parallel()
-
+	// Not t.Parallel(): shares INTEGRATION_TESTING_GCP_DM_PROJECT_ID with
+	// TestCloudAccount_GcpDmWifBasic; see comment there.
 	testAccountID, err := mock.GetTestAccountID()
 	if err != nil {
 		t.Skipf("%s", err)
