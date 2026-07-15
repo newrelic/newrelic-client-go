@@ -52,6 +52,17 @@ func GetFleetTestAccountID() (int, error) {
 	return getEnvInt("NEW_RELIC_FLEET_TEST_ACCOUNT_ID")
 }
 
+// GetTestOrganizationID returns the organization UUID used by NGEP-scoped
+// integration tests (Teams, Scorecards, Collections). Reads
+// INTEGRATION_TESTING_NEW_RELIC_ORGANIZATION_ID from the environment.
+func GetTestOrganizationID() (string, error) {
+	id := os.Getenv("INTEGRATION_TESTING_NEW_RELIC_ORGANIZATION_ID")
+	if id == "" {
+		return "", fmt.Errorf("failed to get environment value due to undefined environment variable INTEGRATION_TESTING_NEW_RELIC_ORGANIZATION_ID")
+	}
+	return id, nil
+}
+
 // GetNonExistentIDs returns two non-existent IDs that can be used to test errors raised
 // when Ingest/User keys which do not exist are updated or deleted.
 func GetNonExistentIDs() (string, string) {
