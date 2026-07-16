@@ -770,13 +770,13 @@ func TestCloudAccount_GcpDmWifIntegrations(t *testing.T) {
 	// Step 3: Enable all 7 GCP DM-only integrations.
 	integrationsRes, err := a.CloudConfigureIntegration(testAccountID, CloudIntegrationsInput{
 		Gcp: CloudGcpIntegrationsInput{
-			GcpApiGateway:         []CloudGcpApiGatewayIntegrationInput{{LinkedAccountId: linkedAccountId}},
-			GcpFirebaseAuth:       []CloudGcpFirebaseAuthIntegrationInput{{LinkedAccountId: linkedAccountId}},
-			GcpFirebaseVertexAi:   []CloudGcpFirebaseVertexAiIntegrationInput{{LinkedAccountId: linkedAccountId}},
-			GcpFirebaseAppHosting: []CloudGcpFirebaseAppHostingIntegrationInput{{LinkedAccountId: linkedAccountId}},
-			GcpIstio:              []CloudGcpIstioIntegrationInput{{LinkedAccountId: linkedAccountId}},
-			GcpManagedKafka:       []CloudGcpManagedKafkaIntegrationInput{{LinkedAccountId: linkedAccountId}},
-			GcpMemoryStore:        []CloudGcpMemoryStoreIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpApiGateway:         []CloudGcpGenericIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpFirebaseAuth:       []CloudGcpGenericIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpFirebaseVertexAi:   []CloudGcpGenericIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpFirebaseAppHosting: []CloudGcpGenericIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpIstio:              []CloudGcpGenericIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpManagedKafka:       []CloudGcpGenericIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpMemoryStore:        []CloudGcpGenericIntegrationInput{{LinkedAccountId: linkedAccountId}},
 		},
 	})
 	require.NoError(t, err)

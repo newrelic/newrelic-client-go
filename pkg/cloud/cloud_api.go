@@ -3812,7 +3812,7 @@ func (a *Cloud) CloudAuthenticateIntegrationWithContext(
 const cloudAuthenticateIntegrationMutation = `mutation(
 	$accountId: Int!,
 	$providerSlug: CloudProviderType!,
-	$authType: AuthenticationType!,
+	$authType: CloudAuthenticationType!,
 	$payload: String!,
 ) {
 	cloudAuthenticateIntegration(
