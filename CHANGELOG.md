@@ -1,3 +1,8 @@
+<a name="v2.91.0"></a>
+## [v2.91.0] - 2026-07-16
+### Features
+- **region:** add GOV/FedRAMP region with compliant endpoints ([#1434](https://github.com/newrelic/newrelic-client-go/issues/1434))
+
 <a name="v2.90.0"></a>
 ## [v2.90.0] - 2026-06-22
 ### Features
@@ -2311,7 +2316,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.90.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.91.0...HEAD
+[v2.91.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.90.0...v2.91.0
 [v2.90.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.89.0...v2.90.0
 [v2.89.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.88.0...v2.89.0
 [v2.88.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.87.1...v2.88.0
