@@ -1,3 +1,8 @@
+<a name="v2.91.1"></a>
+## [v2.91.1] - 2026-07-20
+### Bug Fixes
+- **http:** redact license key and response headers in trace logs ([#1432](https://github.com/newrelic/newrelic-client-go/issues/1432))
+
 <a name="v2.91.0"></a>
 ## [v2.91.0] - 2026-07-16
 ### Features
@@ -2316,7 +2321,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.91.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.91.1...HEAD
+[v2.91.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.91.0...v2.91.1
 [v2.91.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.90.0...v2.91.0
 [v2.90.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.89.0...v2.90.0
 [v2.89.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.88.0...v2.89.0
