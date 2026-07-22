@@ -2063,6 +2063,128 @@ packages:
         field_type_override: nrtime.EpochMilliseconds
         skip_type_create: true
 
+############### WARNING ###################
+  # Same as pipelinecontrol / fleetcontrol: relies on the tutone fork at
+  # https://github.com/newrelic/tutone/pull/261 which adds `include_implementations`
+  # to keep the generated code tied to a curated subset of EntityManagementEntity
+  # implementations. Use the vendored tutone binary at the repo root when regenerating.
+###########################################
+  - name: scorecards
+    path: pkg/scorecards
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/scorecards
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v2/pkg/users
+    mutations:
+      # Teams
+      - name: entityManagementCreateTeam
+        max_query_field_depth: 3
+      - name: entityManagementUpdateTeam
+        max_query_field_depth: 3
+      # NOTE: entityManagementCreateTeamsHierarchyLevel and
+      # entityManagementCreateTeamsOrganizationSettings are intentionally omitted.
+      # Their *CreateInput types are missing from tutone's introspection dump
+      # (tutone fetch produces an incomplete `inputFields` for these two nested
+      # inputs, causing the generated mutation string to come out empty).
+      # They are also RBAC-gated in practice — the field is invisible at parse
+      # time for non-org-admin API keys. Add them back once tutone's fetch is
+      # patched to introspect these types.
+      - name: entityManagementUpdateTeamsHierarchyLevel
+        max_query_field_depth: 3
+      - name: entityManagementUpdateTeamsOrganizationSettings
+        max_query_field_depth: 3
+      # Scorecards
+      - name: entityManagementCreateScorecard
+        max_query_field_depth: 3
+      - name: entityManagementUpdateScorecard
+        max_query_field_depth: 3
+      - name: entityManagementCreateScorecardRule
+        max_query_field_depth: 3
+      - name: entityManagementUpdateScorecardRule
+        max_query_field_depth: 3
+      # Collections
+      - name: entityManagementCreateCollection
+        max_query_field_depth: 3
+      - name: entityManagementUpdateCollection
+        max_query_field_depth: 3
+      # NOTE: entityManagementAddCollectionMembers and
+      # entityManagementRemoveCollectionMembers are intentionally hand-written
+      # in scorecards_collection_members.go — tutone cannot generate valid Go
+      # for their `[ID]` scalar-list return type (produces syntactically
+      # invalid `resp.[]string`). If tutone is ever fixed, re-add them here
+      # and delete the hand-written file.
+      # Generic delete used by every one of the above
+      - name: entityManagementDelete
+        max_query_field_depth: 2
+    queries:
+      - path: [ "actor", "entityManagement" ]
+        endpoints:
+          - name: entity
+            max_query_field_depth: 4
+            exclude_fields:
+              - agents
+              - tools
+          - name: entitySearch
+            max_query_field_depth: 4
+            exclude_fields:
+              - agents
+              - tools
+          - name: collectionElements
+            max_query_field_depth: 4
+            exclude_fields:
+              - agents
+              - tools
+          - name: collectionsContainingEntity
+            max_query_field_depth: 4
+            exclude_fields:
+              - agents
+              - tools
+    types:
+      - name: EntityManagementEntity
+        include_implementations:
+          - EntityManagementTeamEntity
+          - EntityManagementTeamsHierarchyLevelEntity
+          - EntityManagementTeamsOrganizationSettingsEntity
+          - EntityManagementScorecardEntity
+          - EntityManagementScorecardRuleEntity
+          - EntityManagementCollectionEntity
+          - EntityManagementUserEntity
+          - EntityManagementGenericEntity
+      # These nested input types must be pointers when used as fields.
+      # Go's `omitempty` does NOT elide a zero-valued struct, so an unset
+      # externalIntegration or schedule would otherwise be transmitted as
+      # {externalId:"", type:""} / {enabled:false, period:0, ...} and the
+      # server rejects those (see NGEP_ANALYSIS.md § 5.1 / § 5.3).
+      - name: EntityManagementTeamExternalIntegrationCreateInput
+        field_type_override: "*EntityManagementTeamExternalIntegrationCreateInput"
+      - name: EntityManagementTeamExternalIntegrationUpdateInput
+        field_type_override: "*EntityManagementTeamExternalIntegrationUpdateInput"
+      - name: EntityManagementScheduleCreateInput
+        field_type_override: "*EntityManagementScheduleCreateInput"
+      - name: EntityManagementScheduleUpdateInput
+        field_type_override: "*EntityManagementScheduleUpdateInput"
+      # Note the GraphQL type name uses lower-case 'Nrql'; tutone renames it
+      # to 'NRQL' in the emitted Go struct but the override key must match the
+      # schema.
+      - name: EntityManagementNrqlRuleEngineCreateInput
+        field_type_override: "*EntityManagementNRQLRuleEngineCreateInput"
+      - name: EntityManagementNrqlRuleEngineUpdateInput
+        field_type_override: "*EntityManagementNRQLRuleEngineUpdateInput"
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
+      - name: EpochMilliseconds
+        field_type_override: nrtime.EpochMilliseconds
+        skip_type_create: true
+
   - name: workflowautomation
     path: pkg/workflowautomation
     import_path: github.com/newrelic/newrelic-client-go/v2/pkg/workflowautomation
