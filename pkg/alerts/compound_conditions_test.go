@@ -30,6 +30,8 @@ var (
 									"thresholdDuration": 60,
 									"triggerExpression": "a and b",
 									"entityGuid": "MTAxMzMyMDB8QUxFUlR8Q09ORGU5OfDEwMzQ1NTc",
+									"description": "Test description",
+									"titleTemplate": "{{compoundCondition.name}} triggered",
 									"componentConditions": [
 										{
 											"id": "1",
@@ -57,6 +59,8 @@ var (
 				"thresholdDuration": 60,
 				"triggerExpression": "a and b",
 				"entityGuid": "MTAxMzMyMDB8QUxFUlR8Q09ORGU5OfDEwMzQ1NTc",
+				"description": "Test description",
+				"titleTemplate": "{{compoundCondition.name}} triggered",
 				"componentConditions": [
 					{
 						"id": "1",
@@ -79,6 +83,8 @@ var (
 				"thresholdDuration": 60,
 				"triggerExpression": "a or b",
 				"entityGuid": "MTAxMzMyMDB8QUxFUlR8Q09ORGU5OfDEwMzQ1NTc",
+				"description": "Updated description",
+				"titleTemplate": "{{compoundCondition.name}} updated",
 				"componentConditions": [
 					{
 						"id": "1",
@@ -130,6 +136,8 @@ func TestSearchCompoundConditions(t *testing.T) {
 			ThresholdDuration:     60,
 			TriggerExpression:     "a and b",
 			EntityGuid:            "MTAxMzMyMDB8QUxFUlR8Q09ORGU5OfDEwMzQ1NTc",
+			Description:           "Test description",
+			TitleTemplate:         "{{compoundCondition.name}} triggered",
 			ComponentConditions: []ComponentCondition{
 				{
 					ID:    "1",
@@ -175,6 +183,8 @@ func TestCreateCompoundCondition(t *testing.T) {
 		ThresholdDuration:     60,
 		TriggerExpression:     "a and b",
 		EntityGuid:            "MTAxMzMyMDB8QUxFUlR8Q09ORGU5OfDEwMzQ1NTc",
+		Description:           "Test description",
+		TitleTemplate:         "{{compoundCondition.name}} triggered",
 		ComponentConditions: []ComponentCondition{
 			{
 				ID:    "1",
@@ -224,6 +234,8 @@ func TestUpdateCompoundCondition(t *testing.T) {
 		ThresholdDuration:     60,
 		TriggerExpression:     "a or b",
 		EntityGuid:            "MTAxMzMyMDB8QUxFUlR8Q09ORGU5OfDEwMzQ1NTc",
+		Description:           "Updated description",
+		TitleTemplate:         "{{compoundCondition.name}} updated",
 		ComponentConditions: []ComponentCondition{
 			{
 				ID:    "1",
