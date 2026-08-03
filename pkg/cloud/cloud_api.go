@@ -714,6 +714,10 @@ const CloudConfigureIntegrationMutation = `mutation(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudGcpGenericIntegration {
+			__typename
+			metricsPollingInterval
+		}
 		... on CloudHealthIntegration {
 			__typename
 			inventoryPollingInterval
@@ -1550,6 +1554,10 @@ const CloudDisableIntegrationMutation = `mutation(
 		... on CloudGcpVpcaccessIntegration {
 			__typename
 			inventoryPollingInterval
+			metricsPollingInterval
+		}
+		... on CloudGcpGenericIntegration {
+			__typename
 			metricsPollingInterval
 		}
 		... on CloudHealthIntegration {
@@ -2672,6 +2680,10 @@ const getLinkedAccountQuery = `query(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudGcpGenericIntegration {
+			__typename
+			metricsPollingInterval
+		}
 		... on CloudHealthIntegration {
 			__typename
 			inventoryPollingInterval
@@ -3571,6 +3583,10 @@ const getLinkedAccountsQuery = `query(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudGcpGenericIntegration {
+			__typename
+			metricsPollingInterval
+		}
 		... on CloudHealthIntegration {
 			__typename
 			inventoryPollingInterval
@@ -3756,3 +3772,55 @@ const getLinkedAccountsQuery = `query(
 	}
 	updatedAt
 } } } }`
+
+// CloudAuthenticateIntegration authenticates a cloud provider integration and returns
+// an auth reference ID that can be used with CloudLinkAccount.
+func (a *Cloud) CloudAuthenticateIntegration(
+	accountID int,
+	providerSlug string,
+	authType string,
+	payload string,
+) (*CloudAuthenticateIntegrationPayload, error) {
+	return a.CloudAuthenticateIntegrationWithContext(context.Background(), accountID, providerSlug, authType, payload)
+}
+
+// CloudAuthenticateIntegrationWithContext authenticates a cloud provider integration (context-aware).
+// providerSlug should be "GCP", authType should be "WIF", and payload should be the JSON-encoded
+// WIF credential (audience + service account email).
+func (a *Cloud) CloudAuthenticateIntegrationWithContext(
+	ctx context.Context,
+	accountID int,
+	providerSlug string,
+	authType string,
+	payload string,
+) (*CloudAuthenticateIntegrationPayload, error) {
+	resp := struct {
+		CloudAuthenticateIntegration CloudAuthenticateIntegrationPayload `json:"cloudAuthenticateIntegration"`
+	}{}
+	vars := map[string]interface{}{
+		"accountId":    accountID,
+		"providerSlug": providerSlug,
+		"authType":     authType,
+		"payload":      payload,
+	}
+	if err := a.client.NerdGraphQueryWithContext(ctx, cloudAuthenticateIntegrationMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+	return &resp.CloudAuthenticateIntegration, nil
+}
+
+const cloudAuthenticateIntegrationMutation = `mutation(
+	$accountId: Int!,
+	$providerSlug: CloudProviderType!,
+	$authType: CloudAuthenticationType!,
+	$payload: String!,
+) {
+	cloudAuthenticateIntegration(
+		accountId: $accountId
+		providerSlug: $providerSlug
+		authType: $authType
+		payload: $payload
+	) {
+		authReferenceId
+	}
+}`

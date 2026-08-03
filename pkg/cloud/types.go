@@ -124,6 +124,12 @@ type CloudAccountMutationError struct {
 	Type string `json:"type"`
 }
 
+// CloudAuthenticateIntegrationPayload - Response payload for cloudAuthenticateIntegration mutation.
+type CloudAuthenticateIntegrationPayload struct {
+	// Short-lived reference ID (TTL ~30 minutes) used in subsequent CloudLinkAccount calls.
+	AuthReferenceId string `json:"authReferenceId"`
+}
+
 type CloudActorFields struct {
 	// Get all linked cloud provider accounts scoped to the Actor.
 	LinkedAccounts []CloudLinkedAccount `json:"linkedAccounts,omitempty"`
@@ -4117,6 +4123,40 @@ type CloudGcpAlloydbIntegrationInput struct {
 	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
 }
 
+// CloudGcpGenericIntegration - Generic GCP DM integration used for API Gateway, Firebase
+// Authentication, Firebase Vertex AI, Firebase App Hosting, Istio, Managed Kafka, and
+// Memorystore, none of which have a dedicated integration type in the schema.
+type CloudGcpGenericIntegration struct {
+	// The object creation date, in epoch (Unix) time
+	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
+	// The cloud service integration identifier.
+	ID int `json:"id,omitempty"`
+	// The parent linked account identifier.
+	LinkedAccount CloudLinkedAccount `json:"linkedAccount,omitempty"`
+	// The data polling interval in seconds.
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
+	// The cloud service integration name.
+	Name string `json:"name,omitempty"`
+	// The parent NewRelic account identifier.
+	NrAccountId int `json:"nrAccountId"`
+	// The cloud service used in the integration.
+	Service CloudService `json:"service,omitempty"`
+	// The object last update date, in epoch (Unix) time
+	UpdatedAt nrtime.EpochSeconds `json:"updatedAt"`
+}
+
+func (x *CloudGcpGenericIntegration) ImplementsCloudIntegration() {}
+
+// CloudGcpGenericIntegrationInput - Generic GCP DM integration input used for API Gateway,
+// Firebase Authentication, Firebase Vertex AI, Firebase App Hosting, Istio, Managed Kafka,
+// and Memorystore (Dimensional Metrics only).
+type CloudGcpGenericIntegrationInput struct {
+	// The linked account identifier.
+	LinkedAccountId int `json:"linkedAccountId"`
+	// The data polling interval in seconds.
+	MetricsPollingInterval int `json:"metricsPollingInterval,omitempty"`
+}
+
 // CloudGcpAppengineIntegration - App Engine Integration
 type CloudGcpAppengineIntegration struct {
 	// The object creation date, in epoch (Unix) time
@@ -4419,6 +4459,20 @@ type CloudGcpDisableIntegrationsInput struct {
 	GcpVms []CloudDisableAccountIntegrationInput `json:"gcpVms,omitempty"`
 	// VPC Access integration
 	GcpVpcaccess []CloudDisableAccountIntegrationInput `json:"gcpVpcaccess,omitempty"`
+	// API Gateway integration (Dimensional Metrics only)
+	GcpApiGateway []CloudDisableAccountIntegrationInput `json:"gcpApiGateway,omitempty"`
+	// Firebase Authentication integration (Dimensional Metrics only)
+	GcpFirebaseAuth []CloudDisableAccountIntegrationInput `json:"gcpFirebaseAuth,omitempty"`
+	// Firebase Vertex AI integration (Dimensional Metrics only)
+	GcpFirebaseVertexAi []CloudDisableAccountIntegrationInput `json:"gcpFirebaseVertexAi,omitempty"`
+	// Firebase App Hosting integration (Dimensional Metrics only)
+	GcpFirebaseAppHosting []CloudDisableAccountIntegrationInput `json:"gcpFirebaseAppHosting,omitempty"`
+	// Istio integration (Dimensional Metrics only)
+	GcpIstio []CloudDisableAccountIntegrationInput `json:"gcpIstio,omitempty"`
+	// Managed Kafka integration (Dimensional Metrics only)
+	GcpManagedKafka []CloudDisableAccountIntegrationInput `json:"gcpManagedKafka,omitempty"`
+	// Memorystore integration (Dimensional Metrics only)
+	GcpMemoryStore []CloudDisableAccountIntegrationInput `json:"gcpMemoryStore,omitempty"`
 }
 
 // CloudGcpFirebasedatabaseIntegration - Firebase Database Integration
@@ -4647,6 +4701,20 @@ type CloudGcpIntegrationsInput struct {
 	GcpVms []CloudGcpVmsIntegrationInput `json:"gcpVms,omitempty"`
 	// VPC Access integration
 	GcpVpcaccess []CloudGcpVpcaccessIntegrationInput `json:"gcpVpcaccess,omitempty"`
+	// API Gateway integration (Dimensional Metrics only)
+	GcpApiGateway []CloudGcpGenericIntegrationInput `json:"gcpApiGateway,omitempty"`
+	// Firebase Authentication integration (Dimensional Metrics only)
+	GcpFirebaseAuth []CloudGcpGenericIntegrationInput `json:"gcpFirebaseAuth,omitempty"`
+	// Firebase Vertex AI integration (Dimensional Metrics only)
+	GcpFirebaseVertexAi []CloudGcpGenericIntegrationInput `json:"gcpFirebaseVertexAi,omitempty"`
+	// Firebase App Hosting integration (Dimensional Metrics only)
+	GcpFirebaseAppHosting []CloudGcpGenericIntegrationInput `json:"gcpFirebaseAppHosting,omitempty"`
+	// Istio integration (Dimensional Metrics only)
+	GcpIstio []CloudGcpGenericIntegrationInput `json:"gcpIstio,omitempty"`
+	// Managed Kafka integration (Dimensional Metrics only)
+	GcpManagedKafka []CloudGcpGenericIntegrationInput `json:"gcpManagedKafka,omitempty"`
+	// Memorystore integration (Dimensional Metrics only)
+	GcpMemoryStore []CloudGcpGenericIntegrationInput `json:"gcpMemoryStore,omitempty"`
 }
 
 // CloudGcpInterconnectIntegration - Interconnect Integration
@@ -4723,6 +4791,9 @@ type CloudGcpLinkAccountInput struct {
 	Name string `json:"name"`
 	// The GCP project identifier.
 	ProjectId string `json:"projectId"`
+	// The authentication reference ID obtained from CloudAuthenticateIntegration.
+	// Required for GCP Dimensional Metrics (WIF) account linking; omit for legacy service-account key auth.
+	AuthReferenceId string `json:"authReferenceId,omitempty"`
 }
 
 // CloudGcpLoadbalancingIntegration - Cloud Load Balancing Integration
@@ -7495,6 +7566,16 @@ func UnmarshalCloudIntegrationInterface(b []byte) (*CloudIntegrationInterface, e
 			return &xxx, nil
 		case "CloudGcpVpcaccessIntegration":
 			var interfaceType CloudGcpVpcaccessIntegration
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx CloudIntegrationInterface = &interfaceType
+
+			return &xxx, nil
+		case "CloudGcpGenericIntegration":
+			var interfaceType CloudGcpGenericIntegration
 			err = json.Unmarshal(b, &interfaceType)
 			if err != nil {
 				return nil, err
