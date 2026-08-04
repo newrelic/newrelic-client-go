@@ -2195,3 +2195,58 @@ packages:
       - name: Nrql
         field_type_override: string
         skip_type_create: true
+
+  - name: maintenancewindow
+    path: pkg/maintenancewindow
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/maintenancewindow
+    generators:
+      - typegen
+      - nerdgraphclient
+    mutations:
+      - name: maintenanceWindowCreate
+        max_query_field_depth: 3
+        argument_type_overrides:
+          maintenanceWindow: "MaintenanceWindowConfigCreateInput!"
+      - name: maintenanceWindowDelete
+        max_query_field_depth: 1
+        exclude_fields:
+          - errors
+      - name: maintenanceWindowUpdate
+        max_query_field_depth: 3
+        argument_type_overrides:
+          id: "ID!"
+          maintenanceWindow: "MaintenanceWindowConfigUpdateInput!"
+    queries:
+      - path: ["actor", "maintenanceWindow"]
+        endpoints:
+          - name: listByAffectedEntityId
+            max_query_field_depth: 3
+            include_arguments: [affectedEntityId]
+            exclude_fields: [metadata, scope]
+            argument_type_overrides:
+              - affectedEntityId: "ID!"
+          - name: listByIds
+            max_query_field_depth: 3
+            include_arguments: [ids]
+            argument_type_overrides:
+              - ids: "[ID!]!"
+    types:
+      - name: Duration
+        field_type_override: string
+        skip_type_create: true
+      - name: NaiveDateTime
+        field_type_override: string
+        skip_type_create: true
+      - name: MaintenanceWindowAffectedEntityType
+        create_as: string
+      - name: MaintenanceWindowConfigDefinition
+        skip_fields:
+          - Metadata
+          - Scope
+        generate_struct_getters: true
+      - name: MaintenanceWindowConfigCreateInput
+        struct_tags:
+          tags: [json, yaml]
+      - name: MaintenanceWindowConfigUpdateInput
+        skip_fields:
+          - AffectedEntities
