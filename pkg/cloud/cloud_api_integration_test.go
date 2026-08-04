@@ -686,6 +686,8 @@ func TestCloudAccount_GcpDmWifBasic(t *testing.T) {
 		return
 	}
 
+	require.True(t, linkResponse.LinkedAccounts[0].HasDimensionalMetrics, "GCP account linked via WIF should use dimensional metrics")
+
 	linkedAccountId := linkResponse.LinkedAccounts[0].ID
 
 	// Step 3: Rename the linked account.
@@ -764,6 +766,8 @@ func TestCloudAccount_GcpDmWifIntegrations(t *testing.T) {
 		t.Skip("skipping TestCloudAccount_GcpDmWifIntegrations: no linked accounts returned")
 		return
 	}
+
+	require.True(t, linkResponse.LinkedAccounts[0].HasDimensionalMetrics, "GCP account linked via WIF should use dimensional metrics")
 
 	linkedAccountId := linkResponse.LinkedAccounts[0].ID
 

@@ -5566,6 +5566,8 @@ type CloudLinkedAccount struct {
 	Integration CloudIntegrationInterface `json:"integration"`
 	// Get details of all cloud service integrations.
 	Integrations []CloudIntegrationInterface `json:"integrations"`
+	// Indicates whether this linked account uses dimensional metrics.
+	HasDimensionalMetrics bool `json:"hasDimensionalMetrics,omitempty"`
 	// Indicate how the metrics will be collected (PUSH/PULL)
 	MetricCollectionMode CloudMetricCollectionMode `json:"metricCollectionMode"`
 	// The linked account name in NewRelic.
@@ -5648,6 +5650,11 @@ func (x *CloudLinkedAccount) UnmarshalJSON(b []byte) error {
 				if xxx != nil {
 					x.Integrations = append(x.Integrations, *xxx)
 				}
+			}
+		case "hasDimensionalMetrics":
+			err = json.Unmarshal(*v, &x.HasDimensionalMetrics)
+			if err != nil {
+				return err
 			}
 		case "metricCollectionMode":
 			err = json.Unmarshal(*v, &x.MetricCollectionMode)
@@ -6120,6 +6127,8 @@ type CloudService struct {
 	Icon string `json:"icon"`
 	// Shows if the cloud service is enabled for integrating.
 	IsEnabled bool `json:"isEnabled"`
+	// Whether this service supports entity synthesis (default: true)
+	IsEntitySupported bool `json:"isEntitySupported"`
 	// The cloud service name.
 	Name string `json:"name"`
 	// The cloud provider.
@@ -6166,6 +6175,11 @@ func (x *CloudService) UnmarshalJSON(b []byte) error {
 			}
 		case "isEnabled":
 			err = json.Unmarshal(*v, &x.IsEnabled)
+			if err != nil {
+				return err
+			}
+		case "isEntitySupported":
+			err = json.Unmarshal(*v, &x.IsEntitySupported)
 			if err != nil {
 				return err
 			}
