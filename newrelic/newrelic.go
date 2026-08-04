@@ -47,6 +47,7 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/usermanagement"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/workflows"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/workloads"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/tagging"
 )
 
 // NewRelic is a collection of New Relic APIs.
@@ -91,6 +92,8 @@ type NewRelic struct {
 	EntityRelationship      entityrelationship.Entityrelationship
 	Users                   users.Users
 	WorkflowAutomation      workflowautomation.Workflowautomation
+
+	Tagging                  tagging.Tagging
 
 	config config.Config
 }
@@ -147,6 +150,7 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 		EntityRelationship:      entityrelationship.New(cfg),
 		Users:                   users.New(cfg),
 		WorkflowAutomation:      workflowautomation.New(cfg),
+		Tagging: tagging.New(cfg),
 	}
 
 	return nr, nil
