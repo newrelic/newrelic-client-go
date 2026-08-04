@@ -2195,3 +2195,25 @@ packages:
       - name: Nrql
         field_type_override: string
         skip_type_create: true
+
+  - name: tagging
+    path: pkg/tagging
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/tagging
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+    mutations:
+      - name: taggingAddTagsToEntity
+        max_query_field_depth: 2
+      - name: taggingDeleteTagFromEntity
+        max_query_field_depth: 2
+      - name: taggingDeleteTagValuesFromEntity
+        max_query_field_depth: 2
+      - name: taggingReplaceTagsOnEntity
+        max_query_field_depth: 2
+    types:
+      - name: EntityGuid
+        field_type_override: common.EntityGUID
+        skip_type_create: true
