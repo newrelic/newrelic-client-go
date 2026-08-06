@@ -1765,6 +1765,7 @@ const CloudLinkAccountMutation = `mutation(
 		disabled
 		externalId
 		id
+		hasDimensionalMetrics
 		metricCollectionMode
 		name
 		nrAccountId
@@ -1833,6 +1834,7 @@ const CloudRenameAccountMutation = `mutation(
 		disabled
 		externalId
 		id
+		hasDimensionalMetrics
 		metricCollectionMode
 		name
 		nrAccountId
@@ -1903,6 +1905,7 @@ const CloudUnlinkAccountMutation = `mutation(
 		disabled
 		externalId
 		id
+		hasDimensionalMetrics
 		metricCollectionMode
 		name
 		nrAccountId
@@ -1958,6 +1961,7 @@ const CloudUpdateAccountMutation = `mutation(
 		disabled
 		externalId
 		id
+		hasDimensionalMetrics
 		metricCollectionMode
 		name
 		nrAccountId
@@ -2018,6 +2022,7 @@ const getLinkedAccountQuery = `query(
 			disabled
 			externalId
 			id
+			hasDimensionalMetrics
 			metricCollectionMode
 			name
 			nrAccountId
@@ -2030,6 +2035,7 @@ const getLinkedAccountQuery = `query(
 			icon
 			id
 			isEnabled
+			isEntitySupported
 			name
 			slug
 			updatedAt
@@ -2819,6 +2825,7 @@ const getLinkedAccountQuery = `query(
 			tagValue
 		}
 	}
+	hasDimensionalMetrics
 	metricCollectionMode
 	name
 	nrAccountId
@@ -2833,6 +2840,7 @@ const getLinkedAccountQuery = `query(
 			icon
 			id
 			isEnabled
+			isEntitySupported
 			name
 			slug
 			updatedAt
@@ -2921,6 +2929,7 @@ const getLinkedAccountsQuery = `query(
 			disabled
 			externalId
 			id
+			hasDimensionalMetrics
 			metricCollectionMode
 			name
 			nrAccountId
@@ -2933,6 +2942,7 @@ const getLinkedAccountsQuery = `query(
 			icon
 			id
 			isEnabled
+			isEntitySupported
 			name
 			slug
 			updatedAt
@@ -3722,6 +3732,7 @@ const getLinkedAccountsQuery = `query(
 			tagValue
 		}
 	}
+	hasDimensionalMetrics
 	metricCollectionMode
 	name
 	nrAccountId
@@ -3736,6 +3747,7 @@ const getLinkedAccountsQuery = `query(
 			icon
 			id
 			isEnabled
+			isEntitySupported
 			name
 			slug
 			updatedAt
