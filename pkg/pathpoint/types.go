@@ -304,7 +304,7 @@ type PathPointFlowResult struct {
 	// Paginated stages that make up this flow.
 	Stages PathPointStagesItems `json:"stages"`
 	// The last updated timestamp of the Pathpoint, used for version control.
-	Version PathPointVersionMS `json:"version"`
+	Version nrtime.EpochMilliseconds `json:"version"`
 }
 
 // PathPointFlowUpdateInput - Input for updating an existing Pathpoint flow using input.
@@ -330,7 +330,7 @@ type PathPointFlowUpdateInput struct {
 	// Desired state of stages. Stages absent from this list but present in current state will be deleted. Maximum 50 stages allowed.
 	Stages []PathPointStageUpdateInput `json:"stages,omitempty"`
 	// The last updated timestamp of the Pathpoint, used for version control.
-	Version PathPointVersionMS `json:"version"`
+	Version nrtime.EpochMilliseconds `json:"version"`
 }
 
 // PathPointKpi - A Key Performance Indicator tracked at the flow or stage level.
