@@ -2041,6 +2041,8 @@ packages:
             exclude_fields:
               - agents
               - tools
+            include_arguments:
+              - "cursor"
 
     types:
       - name: FleetControlFleetMembersFilterInput

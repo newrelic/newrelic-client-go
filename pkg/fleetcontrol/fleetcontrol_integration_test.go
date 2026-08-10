@@ -119,7 +119,7 @@ func TestIntegrationFleetLifecycle(t *testing.T) {
 	require.Equal(t, "FLEET", fleetEntity.Type)
 
 	// --- GetEntitySearch (search for FLEET entities, verify ours is present) ---
-	searchResp, err := client.GetEntitySearch("", "type = 'FLEET'")
+	searchResp, err := client.GetEntitySearch(nil, "type = 'FLEET'")
 	require.NoError(t, err)
 	require.NotNil(t, searchResp)
 	require.GreaterOrEqual(t, len(searchResp.Entities), 1, "expected at least the fleet we created")
@@ -283,7 +283,7 @@ func TestIntegrationDeploymentAndManagedEntitySearch(t *testing.T) {
 	client := newIntegrationTestClient(t)
 
 	// Search for any fleet deployment entities in the org
-	deploymentSearch, err := client.GetEntitySearch("", "type = 'FLEET_DEPLOYMENT'")
+	deploymentSearch, err := client.GetEntitySearch(nil, "type = 'FLEET_DEPLOYMENT'")
 	require.NoError(t, err)
 	require.NotNil(t, deploymentSearch)
 	// Zero results is acceptable in a fresh account — we just verify the call works
@@ -294,7 +294,7 @@ func TestIntegrationDeploymentAndManagedEntitySearch(t *testing.T) {
 	}
 
 	// Search for any existing fleet entities (read-only sanity check)
-	fleetSearch, err := client.GetEntitySearch("", "type = 'FLEET'")
+	fleetSearch, err := client.GetEntitySearch(nil, "type = 'FLEET'")
 	require.NoError(t, err)
 	require.NotNil(t, fleetSearch)
 	for _, e := range fleetSearch.Entities {
