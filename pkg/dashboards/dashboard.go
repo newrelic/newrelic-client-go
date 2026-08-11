@@ -66,7 +66,9 @@ const getDashboardEntityQuery = `query ($guid: EntityGuid!) {
               pie { nrqlQueries { accountId query } }
               table { nrqlQueries { accountId query } }
             }
+            description
             layout { column height row width }
+            link { url }
             title
             visualization { id }
             id
