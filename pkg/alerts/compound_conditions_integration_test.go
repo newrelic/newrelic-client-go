@@ -485,6 +485,128 @@ func TestIntegrationCompoundConditions_UpdatePolicyID(t *testing.T) {
 	}()
 }
 
+func TestIntegrationCompoundConditions_TitleTemplateAndDescription(t *testing.T) {
+	t.Skip("Skipping due to titleTemplate and description being behind the DCON/compound_title_template_and_description_apis feature flag until generally available.")
+	t.Parallel()
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	var (
+		randStr       = mock.RandSeq(5)
+		conditionName = fmt.Sprintf("test-compound-condition-%s", randStr)
+	)
+
+	client := newIntegrationTestClient(t)
+
+	testPolicy := AlertsPolicyInput{
+		IncidentPreference: AlertsIncidentPreferenceTypes.PER_POLICY,
+		Name:               fmt.Sprintf("test-alert-policy-%s", randStr),
+	}
+	policy, err := client.CreatePolicyMutation(testAccountID, testPolicy)
+	require.NoError(t, err)
+
+	defer func() {
+		_, err := client.DeletePolicyMutation(testAccountID, policy.ID)
+		if err != nil {
+			t.Logf("error cleaning up alert policy %s (%s): %s", policy.ID, policy.Name, err)
+		}
+	}()
+
+	nrqlConditionInput1 := NrqlConditionCreateInput{
+		NrqlConditionCreateBase: NrqlConditionCreateBase{
+			Enabled: true,
+			Name:    fmt.Sprintf("test-nrql-condition-1-%s", randStr),
+			Nrql:    NrqlConditionCreateQuery{Query: "SELECT count(*) FROM Transaction"},
+			Terms: []NrqlConditionTerm{
+				{
+					Threshold:            floatPtr(1.0),
+					ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
+					ThresholdDuration:    600,
+					Operator:             AlertsNRQLConditionTermsOperatorTypes.ABOVE,
+					Priority:             NrqlConditionPriorities.Critical,
+				},
+			},
+			ViolationTimeLimitSeconds: 3600,
+		},
+	}
+	nrqlCondition1, err := client.CreateNrqlConditionStaticMutation(testAccountID, policy.ID, nrqlConditionInput1)
+	require.NoError(t, err)
+
+	nrqlConditionInput2 := NrqlConditionCreateInput{
+		NrqlConditionCreateBase: NrqlConditionCreateBase{
+			Enabled: true,
+			Name:    fmt.Sprintf("test-nrql-condition-2-%s", randStr),
+			Nrql:    NrqlConditionCreateQuery{Query: "SELECT average(duration) FROM Transaction"},
+			Terms: []NrqlConditionTerm{
+				{
+					Threshold:            floatPtr(500.0),
+					ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
+					ThresholdDuration:    600,
+					Operator:             AlertsNRQLConditionTermsOperatorTypes.ABOVE,
+					Priority:             NrqlConditionPriorities.Critical,
+				},
+			},
+			ViolationTimeLimitSeconds: 3600,
+		},
+	}
+	nrqlCondition2, err := client.CreateNrqlConditionStaticMutation(testAccountID, policy.ID, nrqlConditionInput2)
+	require.NoError(t, err)
+
+	description := "Test description for compound condition"
+	titleTemplate := fmt.Sprintf("{{compoundCondition.name}} triggered - %s", randStr)
+
+	createInput := CompoundConditionCreateInput{
+		Name:              conditionName,
+		Enabled:           true,
+		TriggerExpression: "A AND B",
+		ThresholdDuration: intPtr(300),
+		ComponentConditions: []ComponentConditionInput{
+			{ID: nrqlCondition1.ID, Alias: "A"},
+			{ID: nrqlCondition2.ID, Alias: "B"},
+		},
+		Description:   &description,
+		TitleTemplate: &titleTemplate,
+	}
+
+	created, err := client.CreateCompoundCondition(testAccountID, policy.ID, createInput)
+	require.NoError(t, err)
+	require.NotNil(t, created)
+	require.Equal(t, description, created.Description)
+	require.Equal(t, titleTemplate, created.TitleTemplate)
+
+	createdID := created.ID
+	fetchedList, err := client.SearchCompoundConditions(testAccountID, &AlertsCompoundConditionFilterInput{
+		Id: &AlertsCompoundConditionIDFilter{Eq: &createdID},
+	}, nil, nil)
+	require.NoError(t, err)
+	require.Len(t, fetchedList, 1)
+	require.NotEmpty(t, fetchedList[0].Description)
+	require.NotEmpty(t, fetchedList[0].TitleTemplate)
+
+	updatedDescription := "Updated description"
+	updatedTitleTemplate := fmt.Sprintf("{{compoundCondition.name}} updated - %s", randStr)
+	updateInput := CompoundConditionUpdateInput{
+		Name:              stringPtr(conditionName),
+		Enabled:           boolPtr(true),
+		TriggerExpression: stringPtr("A AND B"),
+		PolicyID:          stringPtr(policy.ID),
+		ComponentConditions: []ComponentConditionInput{
+			{ID: nrqlCondition1.ID, Alias: "A"},
+			{ID: nrqlCondition2.ID, Alias: "B"},
+		},
+		Description:   &updatedDescription,
+		TitleTemplate: &updatedTitleTemplate,
+	}
+
+	updated, err := client.UpdateCompoundCondition(testAccountID, created.ID, updateInput)
+	require.NoError(t, err)
+	require.Equal(t, updatedDescription, updated.Description)
+	require.Equal(t, updatedTitleTemplate, updated.TitleTemplate)
+}
+
 // Helper functions to create pointers
 func floatPtr(f float64) *float64 {
 	return &f
