@@ -98,6 +98,7 @@ const PathPointCreateMutation = `mutation(
 			healthRollup
 			healthStatus
 			id
+			isExcluded
 			levels {
 				items {
 					healthStatus
@@ -118,6 +119,7 @@ const PathPointCreateMutation = `mutation(
 							isExcluded
 							link
 							name
+							scopedAccounts
 							signals {
 								guid
 								isExcluded
@@ -308,6 +310,7 @@ const PathPointUpdateMutation = `mutation(
 			healthRollup
 			healthStatus
 			id
+			isExcluded
 			levels {
 				items {
 					healthStatus
@@ -328,6 +331,7 @@ const PathPointUpdateMutation = `mutation(
 							isExcluded
 							link
 							name
+							scopedAccounts
 							signals {
 								guid
 								isExcluded
@@ -469,6 +473,7 @@ const getFlowQuery = `query(
 			healthRollup
 			healthStatus
 			id
+			isExcluded
 			levels {
 				items {
 					healthStatus
@@ -489,6 +494,7 @@ const getFlowQuery = `query(
 							isExcluded
 							link
 							name
+							scopedAccounts
 							signals {
 								guid
 								isExcluded

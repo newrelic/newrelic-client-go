@@ -567,6 +567,8 @@ type PathPointStage struct {
 	HealthStatus PathPointStatusValue `json:"healthStatus,omitempty"`
 	// The workload ID of the stage entity.
 	ID string `json:"id,omitempty"`
+	// When true, this stage is excluded from the flow health calculation.
+	IsExcluded bool `json:"isExcluded,omitempty"`
 	// Paginated levels within this stage.
 	Levels PathPointLevelsItems `json:"levels"`
 	// Optional URL to an external resource related to this stage.
@@ -643,6 +645,8 @@ type PathPointStep struct {
 	Link string `json:"link,omitempty"`
 	// The display name of the step.
 	Name string `json:"name,omitempty"`
+	// Account IDs whose entities are included in scope for this step.
+	ScopedAccounts []int `json:"scopedAccounts"`
 	// Signals associated with this step.
 	Signals []PathPointSignal `json:"signals"`
 }
