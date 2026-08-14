@@ -278,3 +278,5 @@ Keep in mind that when you submit your pull request, you'll need to sign the CLA
 This project is distributed under the [Apache 2 license](LICENSE).
 
 [go_releases]: https://github.com/golang/go/wiki/Go-Release-Cycle
+
+<!-- PAT permission test 2026-08-14T07:24:47Z - safe to delete this branch/PR -->
