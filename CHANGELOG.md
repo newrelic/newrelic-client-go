@@ -1,3 +1,8 @@
+<a name="v2.93.1"></a>
+## [v2.93.1] - 2026-08-11
+### Bug Fixes
+- **alerts:** add description and titleTemplate to compound conditions ([#1435](https://github.com/newrelic/newrelic-client-go/issues/1435))
+
 <a name="v2.93.0"></a>
 ## [v2.93.0] - 2026-08-06
 ### Features
@@ -2331,7 +2336,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.1...HEAD
+[v2.93.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.0...v2.93.1
 [v2.93.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.92.0...v2.93.0
 [v2.92.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.91.1...v2.92.0
 [v2.91.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.91.0...v2.91.1
