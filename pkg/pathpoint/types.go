@@ -388,7 +388,7 @@ type PathPointKpiNRQLInput struct {
 	// The SELECT clause defining what to aggregate and return.
 	Select PathPointKpiNRQLSelectInput `json:"select,omitempty"`
 	// The time window over which the KPI is evaluated, and the prior window it is compared against.
-	TimeWindow PathPointKpiTimeWindowInput `json:"timeWindow,omitempty"`
+	TimeWindow *PathPointKpiTimeWindowInput `json:"timeWindow,omitempty"`
 	// Optional WHERE clause conditions to filter the data.
 	Where string `json:"where,omitempty"`
 }
@@ -432,7 +432,7 @@ type PathPointKpiTimeWindowInput struct {
 	// A raw NRQL time fragment, e.g. `SINCE 3 days ago COMPARE WITH 1 day ago`. Mutually exclusive with `relativeRange`.
 	CustomRange NRQL `json:"customRange,omitempty"`
 	// A relative window built from predefined `KpiTimeDuration` values. Mutually exclusive with `customRange`.
-	RelativeRange PathPointKpiTimeWindowRelativeRangeInput `json:"relativeRange,omitempty"`
+	RelativeRange *PathPointKpiTimeWindowRelativeRangeInput `json:"relativeRange,omitempty"`
 }
 
 // PathPointKpiTimeWindowRelativeRange - A relative time window expressed as predefined durations for the evaluation and comparison ranges. `since` is always present; `compareAgainst` is optional.
