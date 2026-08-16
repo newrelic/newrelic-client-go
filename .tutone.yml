@@ -2195,3 +2195,35 @@ packages:
       - name: Nrql
         field_type_override: string
         skip_type_create: true
+  
+  - name: pathpoint
+    path: pkg/pathpoint
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/pathpoint
+    generators:
+      - typegen
+      - nerdgraphclient
+    queries:
+      - path: ["actor", "account", "pathPoint"]
+        endpoints:
+          - name: flow
+            max_query_field_depth: 8
+    mutations:
+      - name: pathPointCreate
+        max_query_field_depth: 8
+      - name: pathPointDelete
+        max_query_field_depth: 2
+      - name: pathPointUpdate
+        max_query_field_depth: 8
+    types:
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: EpochMilliseconds
+        field_type_override: nrtime.EpochMilliseconds
+        skip_type_create: true
+      - name: PathPointKpiTimeWindowInput
+        field_type_override: "*PathPointKpiTimeWindowInput"
+      - name: PathPointKpiTimeWindowRelativeRangeInput
+        field_type_override: "*PathPointKpiTimeWindowRelativeRangeInput"
+      - name: PathPointSignalQueryInput
+        field_type_override: "*PathPointSignalQueryInput"
