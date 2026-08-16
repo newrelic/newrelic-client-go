@@ -2195,3 +2195,99 @@ packages:
       - name: Nrql
         field_type_override: string
         skip_type_create: true
+
+  - name: maintenancewindow
+    path: pkg/maintenancewindow
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/maintenancewindow
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - encoding/json
+      - github.com/newrelic/newrelic-client-go/v2/internal/serialization
+      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/v2/pkg/ai
+      - github.com/newrelic/newrelic-client-go/v2/pkg/apiaccess
+      - github.com/newrelic/newrelic-client-go/v2/pkg/entities
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrdb
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+    mutations:
+      # argument_type_overrides is a MAP (key: "GraphQLType")
+      # exclude_fields lists response fields tutone should not expand
+      - name: maintenanceWindowCreate
+        max_query_field_depth: 3
+        argument_type_overrides:
+          accountId: "Int!"
+          maintenanceWindow: "MaintenanceWindowConfigCreateInput!"
+      - name: maintenanceWindowUpdate
+        max_query_field_depth: 3
+        argument_type_overrides:
+          id: "ID!"
+          maintenanceWindow: "MaintenanceWindowConfigUpdateInput!"
+        exclude_fields:
+          - errors
+      - name: maintenanceWindowDelete
+        max_query_field_depth: 1
+        exclude_fields:
+          - errors
+          - warnings
+    queries:
+      # argument_type_overrides is a LIST of {argName: "GraphQLType"} objects
+      # include_arguments restricts which args are surfaced in the generated method signature
+      # exclude_fields prunes response fields you don't want expanded
+      - path: ["actor", "account", "maintenanceWindow"]
+        endpoints:
+          - name: listByAffectedEntityId
+            max_query_field_depth: 3
+            include_arguments:
+              - affectedEntityId
+              - cursor
+            argument_type_overrides:
+              - accountId: "Int!"
+              - affectedEntityId: "EntityGuid!"
+          - name: listByTimeWindow
+            max_query_field_depth: 3
+            include_arguments:
+              - startTime
+              - endTime
+            exclude_fields:
+              - meta
+              - nextCursor
+    types:
+      - name: EntityGuid
+        field_type_override: common.EntityGUID
+        skip_type_create: true
+      # Reuse common.EntityGUID instead of generating a new EntityGuid type
+      - name: EntityGuid
+        field_type_override: common.EntityGUID
+        skip_type_create: true
+      # Reuse nrtime.EpochMilliseconds
+      - name: EpochMilliseconds
+        field_type_override: nrtime.EpochMilliseconds
+        skip_type_create: true
+      # Generate a struct but prune two noisy fields
+      - name: MaintenanceWindowRepeatEndConfig
+        skip_fields:
+          - Meta
+          - Cursor
+      # Generate a struct and add json+yaml tags to every field
+      - name: MaintenanceWindowTime
+        struct_tags:
+          tags: [json, yaml]
+      # Treat a loose status string as a plain Go string
+      - name: MaintenanceWindowStatus
+        field_type_override: string
+        skip_type_create: true
+      # Generate as a map instead of a struct
+      - name: MaintenanceWindowProperties
+        create_as: "map[string]interface{}"
+      # Interface type with explicit method contract
+      - name: MaintenanceWindowEntity
+        interface_methods:
+          - "GetAccountID() int"
+          - "GetGUID() common.EntityGUID"
+          - "GetName() string"
+      # Struct with getter methods (used for interface implementations)
+      - name: MaintenanceWindowAlertableEntity
+        generate_struct_getters: true
