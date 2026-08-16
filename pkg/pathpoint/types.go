@@ -662,7 +662,7 @@ type PathPointStepInput struct {
 	// Status configuration controlling how this step's health is evaluated.
 	Config PathPointStepStatusThresholdInput `json:"config,omitempty"`
 	// The filter query used to fetch the signals with this step.
-	EntitySearchQuery PathPointSignalQueryInput `json:"entitySearchQuery,omitempty"`
+	EntitySearchQuery *PathPointSignalQueryInput `json:"entitySearchQuery,omitempty"`
 	// When true, this step is excluded from the level health calculation.
 	IsExcluded bool `json:"isExcluded,omitempty"`
 	// Optional URL to an external resource related to this step.
@@ -700,7 +700,7 @@ type PathPointStepUpdateInput struct {
 	// Status configuration controlling how this step's health is evaluated.
 	Config PathPointStepStatusThresholdInput `json:"config,omitempty"`
 	// The filter query used to fetch signals for this step.
-	EntitySearchQuery PathPointSignalQueryInput `json:"entitySearchQuery,omitempty"`
+	EntitySearchQuery *PathPointSignalQueryInput `json:"entitySearchQuery,omitempty"`
 	// The workload GUID of the existing step. Omit to create a new step.
 	ID string `json:"id,omitempty"`
 	// When true, this step is excluded from the level health calculation.

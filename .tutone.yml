@@ -2227,3 +2227,5 @@ packages:
         field_type_override: "*PathPointKpiTimeWindowInput"
       - name: PathPointKpiTimeWindowRelativeRangeInput
         field_type_override: "*PathPointKpiTimeWindowRelativeRangeInput"
+      - name: PathPointSignalQueryInput
+        field_type_override: "*PathPointSignalQueryInput"
