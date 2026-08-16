@@ -295,6 +295,7 @@ const LogConfigurationsCreateParsingRuleMutation = `mutation(
 		id
 		lucene
 		nrql
+		source
 		updatedAt
 		updatedBy {
 			email
@@ -631,6 +632,81 @@ const LogConfigurationsUpdateDataPartitionRuleMutation = `mutation(
 	}
 } }`
 
+// Update the Live Archive configuration of an event type.
+func (a *Logconfigurations) LogConfigurationsUpdateLiveArchiveConfiguration(
+	accountID int,
+	enabled bool,
+	eventType string,
+	retentionPolicy LogConfigurationsLiveArchiveRetentionPolicyType,
+) (*LogConfigurationsLiveArchiveConfiguration, error) {
+	return a.LogConfigurationsUpdateLiveArchiveConfigurationWithContext(context.Background(),
+		accountID,
+		enabled,
+		eventType,
+		retentionPolicy,
+	)
+}
+
+// Update the Live Archive configuration of an event type.
+func (a *Logconfigurations) LogConfigurationsUpdateLiveArchiveConfigurationWithContext(
+	ctx context.Context,
+	accountID int,
+	enabled bool,
+	eventType string,
+	retentionPolicy LogConfigurationsLiveArchiveRetentionPolicyType,
+) (*LogConfigurationsLiveArchiveConfiguration, error) {
+
+	resp := LogConfigurationsUpdateLiveArchiveConfigurationQueryResponse{}
+	vars := map[string]interface{}{
+		"accountId":       accountID,
+		"enabled":         enabled,
+		"eventType":       eventType,
+		"retentionPolicy": retentionPolicy,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, LogConfigurationsUpdateLiveArchiveConfigurationMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.LogConfigurationsLiveArchiveConfiguration, nil
+}
+
+type LogConfigurationsUpdateLiveArchiveConfigurationQueryResponse struct {
+	LogConfigurationsLiveArchiveConfiguration LogConfigurationsLiveArchiveConfiguration `json:"LogConfigurationsUpdateLiveArchiveConfiguration"`
+}
+
+const LogConfigurationsUpdateLiveArchiveConfigurationMutation = `mutation(
+	$accountId: Int!,
+	$enabled: Boolean!,
+	$eventType: String!,
+	$retentionPolicy: LogConfigurationsLiveArchiveRetentionPolicyType!,
+) { logConfigurationsUpdateLiveArchiveConfiguration(
+	accountId: $accountId,
+	enabled: $enabled,
+	eventType: $eventType,
+	retentionPolicy: $retentionPolicy,
+) {
+	accountId
+	createdAt
+	createdBy {
+		email
+		gravatar
+		id
+		name
+	}
+	enabled
+	eventType
+	id
+	retentionPolicy
+	updatedAt
+	updatedBy {
+		email
+		gravatar
+		id
+		name
+	}
+} }`
+
 // Update an existing data partition rule.
 func (a *Logconfigurations) LogConfigurationsUpdateObfuscationExpression(
 	accountID int,
@@ -849,6 +925,70 @@ const LogConfigurationsUpdateParsingRuleMutation = `mutation(
 		id
 		lucene
 		nrql
+		source
+		updatedAt
+		updatedBy {
+			email
+			gravatar
+			id
+			name
+		}
+	}
+} }`
+
+// Upsert pipeline configuration for an account.
+func (a *Logconfigurations) LogConfigurationsUpsertPipelineConfiguration(
+	accountID int,
+	pipelineConfiguration LogConfigurationsPipelineConfigurationInput,
+) (*LogConfigurationsUpsertPipelineConfigurationResponse, error) {
+	return a.LogConfigurationsUpsertPipelineConfigurationWithContext(context.Background(),
+		accountID,
+		pipelineConfiguration,
+	)
+}
+
+// Upsert pipeline configuration for an account.
+func (a *Logconfigurations) LogConfigurationsUpsertPipelineConfigurationWithContext(
+	ctx context.Context,
+	accountID int,
+	pipelineConfiguration LogConfigurationsPipelineConfigurationInput,
+) (*LogConfigurationsUpsertPipelineConfigurationResponse, error) {
+
+	resp := LogConfigurationsUpsertPipelineConfigurationQueryResponse{}
+	vars := map[string]interface{}{
+		"accountId":             accountID,
+		"pipelineConfiguration": pipelineConfiguration,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, LogConfigurationsUpsertPipelineConfigurationMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.LogConfigurationsUpsertPipelineConfigurationResponse, nil
+}
+
+type LogConfigurationsUpsertPipelineConfigurationQueryResponse struct {
+	LogConfigurationsUpsertPipelineConfigurationResponse LogConfigurationsUpsertPipelineConfigurationResponse `json:"LogConfigurationsUpsertPipelineConfiguration"`
+}
+
+const LogConfigurationsUpsertPipelineConfigurationMutation = `mutation(
+	$accountId: Int!,
+	$pipelineConfiguration: LogConfigurationsPipelineConfigurationInput!,
+) { logConfigurationsUpsertPipelineConfiguration(
+	accountId: $accountId,
+	pipelineConfiguration: $pipelineConfiguration,
+) {
+	pipelineConfiguration {
+		accountId
+		accountLevelNativeJsonEnabled
+		enrichmentDisabled
+		jsonParsingDisabled
+		obfuscationDisabled
+		parsingDisabled
+		patternsEnabled
+		pluginAttributesCleanupEnabled
+		recursiveJsonParsingDisabled
+		transformationDisabled
 		updatedAt
 		updatedBy {
 			email
@@ -912,6 +1052,61 @@ const getDataPartitionRulesQuery = `query(
 	nrql
 	retentionPolicy
 	targetDataPartition
+	updatedAt
+	updatedBy {
+		email
+		gravatar
+		id
+		name
+	}
+} } } } }`
+
+// Look up for all Live Archive configurations for a given account.
+func (a *Logconfigurations) GetLiveArchiveConfigurations(
+	accountID int,
+) (*[]LogConfigurationsLiveArchiveConfiguration, error) {
+	return a.GetLiveArchiveConfigurationsWithContext(context.Background(),
+		accountID,
+	)
+}
+
+// Look up for all Live Archive configurations for a given account.
+func (a *Logconfigurations) GetLiveArchiveConfigurationsWithContext(
+	ctx context.Context,
+	accountID int,
+) (*[]LogConfigurationsLiveArchiveConfiguration, error) {
+
+	resp := liveArchiveConfigurationsResponse{}
+	vars := map[string]interface{}{
+		"accountID": accountID,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, getLiveArchiveConfigurationsQuery, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	if len(resp.Actor.Account.LogConfigurations.LiveArchiveConfigurations) == 0 {
+		return nil, errors.NewNotFound("")
+	}
+
+	return &resp.Actor.Account.LogConfigurations.LiveArchiveConfigurations, nil
+}
+
+const getLiveArchiveConfigurationsQuery = `query(
+	$accountID: Int!,
+) { actor { account(id: $accountID) { logConfigurations { liveArchiveConfigurations {
+	accountId
+	createdAt
+	createdBy {
+		email
+		gravatar
+		id
+		name
+	}
+	enabled
+	eventType
+	id
+	retentionPolicy
 	updatedAt
 	updatedBy {
 		email
@@ -1104,6 +1299,56 @@ const getParsingRulesQuery = `query(
 	id
 	lucene
 	nrql
+	source
+	updatedAt
+	updatedBy {
+		email
+		gravatar
+		id
+		name
+	}
+} } } } }`
+
+// Look up pipeline configuration for a given account.
+func (a *Logconfigurations) GetPipelineConfiguration(
+	accountID int,
+) (*LogConfigurationsPipelineConfiguration, error) {
+	return a.GetPipelineConfigurationWithContext(context.Background(),
+		accountID,
+	)
+}
+
+// Look up pipeline configuration for a given account.
+func (a *Logconfigurations) GetPipelineConfigurationWithContext(
+	ctx context.Context,
+	accountID int,
+) (*LogConfigurationsPipelineConfiguration, error) {
+
+	resp := pipelineConfigurationResponse{}
+	vars := map[string]interface{}{
+		"accountID": accountID,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, getPipelineConfigurationQuery, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.Actor.Account.LogConfigurations.PipelineConfiguration, nil
+}
+
+const getPipelineConfigurationQuery = `query(
+	$accountID: Int!,
+) { actor { account(id: $accountID) { logConfigurations { pipelineConfiguration {
+	accountId
+	accountLevelNativeJsonEnabled
+	enrichmentDisabled
+	jsonParsingDisabled
+	obfuscationDisabled
+	parsingDisabled
+	patternsEnabled
+	pluginAttributesCleanupEnabled
+	recursiveJsonParsingDisabled
+	transformationDisabled
 	updatedAt
 	updatedBy {
 		email

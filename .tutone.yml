@@ -1057,6 +1057,10 @@ packages:
             max_query_field_depth: 2
           - name: parsingRules
             max_query_field_depth: 2
+          - name: liveArchiveConfigurations
+            max_query_field_depth: 2
+          - name: pipelineConfiguration
+            max_query_field_depth: 2
     mutations:
       - name: logConfigurationsCreateObfuscationExpression
         max_query_field_depth: 3
@@ -1081,6 +1085,10 @@ packages:
       - name: logConfigurationsUpdateParsingRule
         max_query_field_depth: 2
       - name: logConfigurationsDeleteParsingRule
+        max_query_field_depth: 2
+      - name: logConfigurationsUpdateLiveArchiveConfiguration
+        max_query_field_depth: 2
+      - name: logConfigurationsUpsertPipelineConfiguration
         max_query_field_depth: 2
     types:
       - name: LogConfigurationsDataPartitionRuleMatchingCriteriaInput
