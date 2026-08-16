@@ -20,6 +20,8 @@ var testGetFlowResponseJSON = `{
 						"guid": "MTE5NTA0MDN8TkdFUHxGTE9XfDAxOWZkZDM1LTJmZWQtN2Y0My05OWJjLWYyNzM1YmZiN2Y0NA",
 						"name": "Supply Chain Flow",
 						"id": "wl-123",
+						"category": "Logistics",
+						"description": "Tracks the supply chain flow end to end.",
 						"healthRollup": "AUTOMATIC_ROLL_UP",
 						"healthStatus": "OPERATIONAL",
 						"refreshInterval": "FIVE_MINUTES",
@@ -119,11 +121,20 @@ var testCreateFlowResponseJSON = `{
 			"guid": "MTE5NTA0MDN8TkdFUHxGTE9XfDAxOWZkZDM1LTJmZWQtN2Y0My05OWJjLWYyNzM1YmZiN2Y0NA",
 			"name": "Supply Chain Flow",
 			"id": "wl-123",
+			"category": "Logistics",
+			"description": "Tracks the supply chain flow end to end.",
 			"healthRollup": "AUTOMATIC_ROLL_UP",
 			"healthStatus": "",
 			"refreshInterval": "FIVE_MINUTES",
 			"excludedKpis": [],
-			"kpis": [],
+			"kpis": [
+				{
+					"id": "kpi-001",
+					"name": "Order Success Rate",
+					"accountId": 3806526,
+					"metricQuery": "SELECT count(*) FROM Transaction WHERE result = 'success'"
+				}
+			],
 			"stages": {
 				"items": [],
 				"totalCount": 0
@@ -139,6 +150,8 @@ var testUpdateFlowResponseJSON = `{
 			"guid": "MTE5NTA0MDN8TkdFUHxGTE9XfDAxOWZkZDM1LTJmZWQtN2Y0My05OWJjLWYyNzM1YmZiN2Y0NA",
 			"name": "Updated Pathpoint Flow",
 			"id": "wl-123",
+			"category": "Checkout",
+			"description": "Updated description.",
 			"healthRollup": "ALERT_CONDITIONS",
 			"healthStatus": "",
 			"refreshInterval": "TEN_MINUTES",
@@ -300,6 +313,8 @@ func TestUnitGetFlow(t *testing.T) {
 	require.NotNil(t, actual)
 	assert.Equal(t, testFlowGUID, actual.GUID)
 	assert.Equal(t, testFlowName, actual.Name)
+	assert.Equal(t, "Logistics", actual.Category)
+	assert.Equal(t, "Tracks the supply chain flow end to end.", actual.Description)
 	assert.Equal(t, PathPointFlowHealthRollupTypes.AUTOMATIC_ROLL_UP, actual.HealthRollup)
 	assert.Equal(t, PathPointStatusValueTypes.OPERATIONAL, actual.HealthStatus)
 	assert.Equal(t, PathPointRefreshIntervalTypes.FIVE_MINUTES, actual.RefreshInterval)
@@ -368,9 +383,14 @@ func TestUnitPathPointCreate(t *testing.T) {
 	require.NotNil(t, actual)
 	assert.Equal(t, testFlowGUID, actual.GUID)
 	assert.Equal(t, testFlowName, actual.Name)
+	assert.Equal(t, "Logistics", actual.Category)
+	assert.Equal(t, "Tracks the supply chain flow end to end.", actual.Description)
 	assert.Equal(t, PathPointFlowHealthRollupTypes.AUTOMATIC_ROLL_UP, actual.HealthRollup)
 	assert.Equal(t, PathPointRefreshIntervalTypes.FIVE_MINUTES, actual.RefreshInterval)
 	assert.Equal(t, "wl-123", actual.ID)
+	require.Len(t, actual.Kpis, 1)
+	assert.Equal(t, "kpi-001", actual.Kpis[0].ID)
+	assert.Equal(t, NRQL("SELECT count(*) FROM Transaction WHERE result = 'success'"), actual.Kpis[0].MetricQuery)
 }
 
 func TestUnitPathPointUpdate(t *testing.T) {
@@ -390,6 +410,8 @@ func TestUnitPathPointUpdate(t *testing.T) {
 	require.NotNil(t, actual)
 	assert.Equal(t, testFlowGUID, actual.GUID)
 	assert.Equal(t, "Updated Pathpoint Flow", actual.Name)
+	assert.Equal(t, "Checkout", actual.Category)
+	assert.Equal(t, "Updated description.", actual.Description)
 	assert.Equal(t, PathPointFlowHealthRollupTypes.ALERT_CONDITIONS, actual.HealthRollup)
 	assert.Equal(t, PathPointRefreshIntervalTypes.TEN_MINUTES, actual.RefreshInterval)
 }

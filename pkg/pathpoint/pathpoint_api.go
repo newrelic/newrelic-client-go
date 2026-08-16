@@ -45,6 +45,8 @@ const PathPointCreateMutation = `mutation(
 	pathpoint: $pathpoint,
 	scope: $scope,
 ) {
+	category
+	description
 	excludedKpis
 	guid
 	healthRollup
@@ -55,6 +57,7 @@ const PathPointCreateMutation = `mutation(
 		category
 		description
 		id
+		metricQuery
 		name
 		query {
 			from
@@ -145,6 +148,7 @@ const PathPointCreateMutation = `mutation(
 				category
 				description
 				id
+				metricQuery
 				name
 				query {
 					from
@@ -257,6 +261,8 @@ const PathPointUpdateMutation = `mutation(
 	guid: $guid,
 	pathpoint: $pathpoint,
 ) {
+	category
+	description
 	excludedKpis
 	guid
 	healthRollup
@@ -267,6 +273,7 @@ const PathPointUpdateMutation = `mutation(
 		category
 		description
 		id
+		metricQuery
 		name
 		query {
 			from
@@ -357,6 +364,7 @@ const PathPointUpdateMutation = `mutation(
 				category
 				description
 				id
+				metricQuery
 				name
 				query {
 					from
@@ -420,6 +428,8 @@ const getFlowQuery = `query(
 ) { actor { account(id: $accountID) { pathPoint { flow(
 	guid: $guid,
 ) {
+	category
+	description
 	excludedKpis
 	guid
 	healthRollup
@@ -430,6 +440,7 @@ const getFlowQuery = `query(
 		category
 		description
 		id
+		metricQuery
 		name
 		query {
 			from
@@ -520,6 +531,7 @@ const getFlowQuery = `query(
 				category
 				description
 				id
+				metricQuery
 				name
 				query {
 					from
