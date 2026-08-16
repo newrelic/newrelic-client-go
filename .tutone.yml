@@ -2221,3 +2221,7 @@ packages:
       - name: EpochMilliseconds
         field_type_override: nrtime.EpochMilliseconds
         skip_type_create: true
+      - name: PathPointKpiTimeWindowInput
+        field_type_override: "*PathPointKpiTimeWindowInput"
+      - name: PathPointKpiTimeWindowRelativeRangeInput
+        field_type_override: "*PathPointKpiTimeWindowRelativeRangeInput"
