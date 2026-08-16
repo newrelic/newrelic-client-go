@@ -281,6 +281,10 @@ type PathPointFlowMetadata struct {
 
 // PathPointFlowResult - The result of a Pathpoint create/update/read/duplicate, including its resolved stages, levels, and steps.
 type PathPointFlowResult struct {
+	// Optional category used to group flows (e.g. Marketing, Checkout).
+	Category string `json:"category,omitempty"`
+	// Optional description of the Pathpoint flow.
+	Description string `json:"description,omitempty"`
 	// Names of KPIs that were excluded during create or update
 	ExcludedKpis []string `json:"excludedKpis"`
 	// The entity GUID assigned to this Pathpoint flow.
@@ -343,6 +347,8 @@ type PathPointKpi struct {
 	Description string `json:"description,omitempty"`
 	// The unique identifier of the KPI.
 	ID string `json:"id"`
+	// Nrql query using Metric which represent the KPI after processing event to metric rules.
+	MetricQuery NRQL `json:"metricQuery,omitempty"`
 	// The display name of the KPI.
 	Name string `json:"name"`
 	// The structured NRQL query used to evaluate this KPI.

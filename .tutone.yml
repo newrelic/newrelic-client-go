@@ -10,7 +10,7 @@ cache:
 
 # GraphQL endpoint to query for schema
 # Required
-endpoint: https://staging-api.newrelic.com/graphql
+endpoint: https://api.newrelic.com/graphql
 
 # How to authenticate to the API
 auth:

@@ -26,6 +26,7 @@ func TestIntegrationPathPoint_CRUD(t *testing.T) {
 	// Build a minimal but realistic flow: one stage with one level and one step.
 	flowInput := PathPointFlowInput{
 		Name:            flowName,
+		Category:        "Testing",
 		Description:     "Integration test flow",
 		HealthRollup:    PathPointFlowHealthRollupTypes.AUTOMATIC_ROLL_UP,
 		RefreshInterval: PathPointRefreshIntervalTypes.FIVE_MINUTES,
@@ -77,6 +78,8 @@ func TestIntegrationPathPoint_CRUD(t *testing.T) {
 	}()
 
 	assert.Equal(t, flowName, created.Name)
+	assert.Equal(t, "Testing", created.Category)
+	assert.Equal(t, "Integration test flow", created.Description)
 	assert.Equal(t, PathPointFlowHealthRollupTypes.AUTOMATIC_ROLL_UP, created.HealthRollup)
 	assert.Equal(t, PathPointRefreshIntervalTypes.FIVE_MINUTES, created.RefreshInterval)
 	require.Equal(t, 1, created.Stages.TotalCount)
@@ -87,14 +90,18 @@ func TestIntegrationPathPoint_CRUD(t *testing.T) {
 	require.NotNil(t, fetched)
 	assert.Equal(t, created.GUID, fetched.GUID)
 	assert.Equal(t, flowName, fetched.Name)
+	assert.Equal(t, "Testing", fetched.Category)
+	assert.Equal(t, "Integration test flow", fetched.Description)
 	assert.Equal(t, PathPointFlowHealthRollupTypes.AUTOMATIC_ROLL_UP, fetched.HealthRollup)
 	require.Equal(t, 1, fetched.Stages.TotalCount)
 	require.Len(t, fetched.Stages.Items, 1)
 	assert.Equal(t, "Test Stage", fetched.Stages.Items[0].Name)
 
-	// Test: PathPointUpdate — rename the flow and change refresh interval
+	// Test: PathPointUpdate — rename the flow, change category/description, and change refresh interval
 	updateInput := PathPointFlowUpdateInput{
 		Name:            flowName + "-updated",
+		Category:        "Testing-Updated",
+		Description:     "Integration test flow updated",
 		HealthRollup:    PathPointFlowHealthRollupTypes.AUTOMATIC_ROLL_UP,
 		RefreshInterval: PathPointRefreshIntervalTypes.TEN_MINUTES,
 		Version:         fetched.Version,
@@ -132,6 +139,8 @@ func TestIntegrationPathPoint_CRUD(t *testing.T) {
 	require.NotNil(t, updated)
 	assert.Equal(t, created.GUID, updated.GUID)
 	assert.Equal(t, flowName+"-updated", updated.Name)
+	assert.Equal(t, "Testing-Updated", updated.Category)
+	assert.Equal(t, "Integration test flow updated", updated.Description)
 	assert.Equal(t, PathPointRefreshIntervalTypes.TEN_MINUTES, updated.RefreshInterval)
 	require.Equal(t, 1, updated.Stages.TotalCount)
 	assert.Equal(t, "Updated Stage", updated.Stages.Items[0].Name)
