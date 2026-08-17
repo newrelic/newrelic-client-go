@@ -2195,3 +2195,37 @@ packages:
       - name: Nrql
         field_type_override: string
         skip_type_create: true
+
+  - name: maintenancewindow
+    path: pkg/maintenancewindow
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/maintenancewindow
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - encoding/json
+      - github.com/newrelic/newrelic-client-go/v2/internal/serialization
+      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/v2/pkg/ai
+      - github.com/newrelic/newrelic-client-go/v2/pkg/apiaccess
+      - github.com/newrelic/newrelic-client-go/v2/pkg/entities
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrdb
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+    mutations:
+      - name: maintenanceWindowCreate
+        max_query_field_depth: 3
+      - name: maintenanceWindowUpdate
+        max_query_field_depth: 3
+      - name: maintenanceWindowDelete
+        max_query_field_depth: 1
+    queries:
+      - path:
+          - actor
+        endpoints:
+          - name: listByAffectedEntityId
+            max_query_field_depth: 3
+    types:
+      - name: EntityGuid
+        field_type_override: common.EntityGUID
+        skip_type_create: true
