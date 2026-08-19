@@ -477,6 +477,16 @@ packages:
             argument_type_overrides:
               - accountId: "Int!"
               - id: "Int!"
+          - name: provider
+            max_query_field_depth: 2
+            include_arguments:
+              - providerSlug
+            argument_type_overrides:
+              - accountId: "Int!"
+              - providerSlug: "String!"
+            exclude_fields:
+              - iconUrl
+              - links
     mutations:
       - name: cloudConfigureIntegration
         max_query_field_depth: 1
@@ -503,6 +513,12 @@ packages:
           - "integration"
           - "integrations"
           - "provider"
+      - name: cloudGcpServiceAccountAuth
+        max_query_field_depth: 2
+        argument_type_overrides:
+          accountId: "Int!"
+        exclude_fields:
+          - errors
     types:
       #
       # Types that we should auto-detect are in another package someday
