@@ -171,6 +171,11 @@ packages:
         field_type_override: "*AuthorizationManagementGrantee"
 
   - name: alerts
+    mutations:
+      - name: alertsCompoundConditionCreate
+        max_query_field_depth: 3
+      - name: alertsCompoundConditionDelete
+        max_query_field_depth: 3
     path: pkg/alerts
     import_path: github.com/newrelic/newrelic-client-go/v2/pkg/alerts
     generators:
@@ -197,6 +202,8 @@ packages:
       - name: NaiveDateTime
         field_type_override: nrtime.NaiveDateTime
         skip_type_create: true
+      - name: NaiveDateTimeNew
+        field_type_override: nrtime.NaiveDateTimeNew
 
   - name: apiaccess
     path: pkg/apiaccess
