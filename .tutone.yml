@@ -477,6 +477,16 @@ packages:
             argument_type_overrides:
               - accountId: "Int!"
               - id: "Int!"
+          - name: provider
+            max_query_field_depth: 2
+            include_arguments:
+              - providerSlug
+            argument_type_overrides:
+              - accountId: "Int!"
+              - providerSlug: "String!"
+            exclude_fields:
+              - iconUrl
+              - links
     mutations:
       - name: cloudConfigureIntegration
         max_query_field_depth: 1
@@ -503,6 +513,13 @@ packages:
           - "integration"
           - "integrations"
           - "provider"
+      - name: cloudUpdateGcpIntegration
+        max_query_field_depth: 2
+        argument_type_overrides:
+          accountId: "Int!"
+          integrations: "CloudGcpIntegrationsInput!"
+        exclude_fields:
+          - errors
     types:
       #
       # Types that we should auto-detect are in another package someday
@@ -513,6 +530,8 @@ packages:
       - name: EpochMilliseconds
         field_type_override: nrtime.EpochMilliseconds
         skip_type_create: true
+      - name: CloudGcpIntegrationStatus
+        create_as: "map[string]interface{}"
 
   - name: dashboards
     path: pkg/dashboards
