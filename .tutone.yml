@@ -2195,3 +2195,31 @@ packages:
       - name: Nrql
         field_type_override: string
         skip_type_create: true
+
+  - name: accessmanagement
+    path: pkg/accessmanagement
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/accessmanagement
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - encoding/json
+      - github.com/newrelic/newrelic-client-go/v2/internal/serialization
+      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/v2/pkg/ai
+      - github.com/newrelic/newrelic-client-go/v2/pkg/apiaccess
+      - github.com/newrelic/newrelic-client-go/v2/pkg/entities
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrdb
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+    queries:
+      - path:
+          - actor
+          - accessmanagement
+        endpoints:
+          - name: entityGrants
+            max_query_field_depth: 3
+    types:
+      - name: EntityGuid
+        field_type_override: common.EntityGUID
+        skip_type_create: true
