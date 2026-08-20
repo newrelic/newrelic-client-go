@@ -415,6 +415,11 @@ packages:
         skip_type_create: true
 
   - name: changetracking
+    queries:
+      - path: ["actor", "changeTracking"]
+        endpoints:
+          - name: changeTrackingSearch
+            max_query_field_depth: 3
     path: pkg/changetracking
     import_path: github.com/newrelic/newrelic-client-go/v2/pkg/changetracking
     imports:
