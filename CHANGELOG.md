@@ -1,3 +1,9 @@
+<a name="v2.93.2"></a>
+## [v2.93.2] - 2026-08-24
+### Bug Fixes
+- **fleetcontrol:** add missing cursor to getEntitySearchQuery ([#1442](https://github.com/newrelic/newrelic-client-go/issues/1442))
+- **testhelpers:** refresh stale MobileApplicationEntity GUIDs for entity relationship tests ([#1464](https://github.com/newrelic/newrelic-client-go/issues/1464))
+
 <a name="v2.93.1"></a>
 ## [v2.93.1] - 2026-08-11
 ### Bug Fixes
@@ -2336,7 +2342,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.2...HEAD
+[v2.93.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.1...v2.93.2
 [v2.93.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.0...v2.93.1
 [v2.93.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.92.0...v2.93.0
 [v2.92.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.91.1...v2.92.0
