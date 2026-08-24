@@ -541,6 +541,10 @@ packages:
         exclude_fields:
           - goldenMetrics
           - goldenTags
+      - name: dashboardAddWidgetsToPage
+        max_query_field_depth: 10
+      - name: dashboardCreateSnapshotUrl
+        max_query_field_depth: 10
     types:
       # This must be a string, as where ID is used the type is a string...
       - name: ID
