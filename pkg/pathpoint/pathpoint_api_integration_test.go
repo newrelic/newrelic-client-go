@@ -40,7 +40,7 @@ func TestIntegrationPathPoint_CRUD(t *testing.T) {
 							{
 								Name:           "Test Step",
 								ScopedAccounts: []int{accountID},
-								EntitySearchQuery: PathPointSignalQueryInput{
+								EntitySearchQuery: &PathPointSignalQueryInput{
 									Query: "domain = 'APM' AND type = 'APPLICATION'",
 								},
 								Config: PathPointStepStatusThresholdInput{
@@ -118,7 +118,7 @@ func TestIntegrationPathPoint_CRUD(t *testing.T) {
 								ID:             fetched.Stages.Items[0].Levels.Items[0].Steps.Items[0].ID,
 								Name:           "Test Step",
 								ScopedAccounts: []int{accountID},
-								EntitySearchQuery: PathPointSignalQueryInput{
+								EntitySearchQuery: &PathPointSignalQueryInput{
 									Query: "domain = 'APM' AND type = 'APPLICATION'",
 								},
 								Config: PathPointStepStatusThresholdInput{
