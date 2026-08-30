@@ -240,6 +240,7 @@ func TestUpdateChannel(t *testing.T) {
 	t.Parallel()
 	respJSON := fmt.Sprintf(`{ "data":%s }`, testUpdateChannelResponseJSON)
 	notifications := newMockResponse(t, respJSON, http.StatusCreated)
+	var falseValue = false
 
 	updateChannelInput := AiNotificationsChannelUpdate{
 		Name: "test-notification-channel-1-update",
@@ -250,7 +251,7 @@ func TestUpdateChannel(t *testing.T) {
 				Value: "{\\n\\t\\\"id\\\": \\\"test-update\\\"\\n}",
 			},
 		},
-		Active: false,
+		Active: &falseValue,
 	}
 
 	expected := &AiNotificationsChannelResponse{
