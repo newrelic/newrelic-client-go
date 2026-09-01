@@ -362,6 +362,91 @@ func isNotFound(err error) bool {
 // backend flakes the setup path handles. Silent on already-gone entities;
 // logs (but does not fail) on other errors so cleanup can't shadow the real
 // assertion failure.
+// TestIntegrationScorecards_GetTeamsOrganizationSettings verifies that
+// GetTeamsOrganizationSettings returns the singleton settings entity for the
+// authenticated organisation and that the discovery sub-object is populated.
+//
+// This is specifically needed by the Terraform provider to retrieve
+// discovery.tagKeys at team-read time so it can distinguish tag-auto-assigned
+// (dynamic) entities from manually managed (static) entities in the ownership
+// collection.
+func TestIntegrationScorecards_GetTeamsOrganizationSettings(t *testing.T) {
+	t.Parallel()
+
+	client := newIntegrationTestClient(t)
+
+	settings, err := client.GetTeamsOrganizationSettings()
+	require.NoError(t, err)
+
+	if settings == nil {
+		// Organisation has not configured team settings yet — soft-skip.
+		t.Skip("no TeamsOrganizationSettings entity found for this organisation")
+	}
+
+	require.NotEmpty(t, settings.ID, "entity ID must be set")
+	require.NotEmpty(t, settings.Name, "entity name must be set")
+	require.Equal(t, "TEAMS_ORGANIZATION_SETTINGS", settings.Type)
+
+	// discovery sub-object must be present (even if disabled / empty tag keys
+	// the struct itself should unmarshal cleanly).
+	t.Logf("discovery.enabled=%v discovery.tagKeys=%v", settings.Discovery.Enabled, settings.Discovery.TagKeys)
+
+	// If tag-based discovery is enabled, at least one tag key must be present.
+	if settings.Discovery.Enabled {
+		require.NotEmpty(t, settings.Discovery.TagKeys,
+			"discovery is enabled but tagKeys is empty — expected at least one configured tag key")
+	}
+}
+
+// TestIntegrationScorecards_UpdateTeamsOrganizationSettings_Discovery verifies
+// the full read-modify-restore cycle on discovery settings: read current state,
+// add a transient tag key, confirm it was stored, then restore the original.
+func TestIntegrationScorecards_UpdateTeamsOrganizationSettings_Discovery(t *testing.T) {
+	t.Parallel()
+
+	client := newIntegrationTestClient(t)
+
+	settings, err := client.GetTeamsOrganizationSettings()
+	require.NoError(t, err)
+	if settings == nil {
+		t.Skip("no TeamsOrganizationSettings entity found for this organisation")
+	}
+
+	originalKeys := make([]string, len(settings.Discovery.TagKeys))
+	copy(originalKeys, settings.Discovery.TagKeys)
+
+	// Append a transient test key.
+	testKey := "nr-tf-integration-test-key"
+	newKeys := append(originalKeys, testKey)
+
+	upd := EntityManagementTeamsOrganizationSettingsEntityUpdateInput{
+		Discovery: EntityManagementDiscoverySettingsUpdateInput{
+			Enabled: settings.Discovery.Enabled,
+			TagKeys: newKeys,
+		},
+	}
+
+	result, err := client.EntityManagementUpdateTeamsOrganizationSettings(settings.ID, upd)
+	require.NoError(t, err)
+	require.NotNil(t, result)
+	require.Contains(t, result.Entity.Discovery.TagKeys, testKey,
+		"newly added tag key should appear in the updated discovery settings")
+
+	// Always restore original tag keys.
+	t.Cleanup(func() {
+		restore := EntityManagementTeamsOrganizationSettingsEntityUpdateInput{
+			Discovery: EntityManagementDiscoverySettingsUpdateInput{
+				Enabled: settings.Discovery.Enabled,
+				TagKeys: originalKeys,
+			},
+		}
+		_, restoreErr := client.EntityManagementUpdateTeamsOrganizationSettings(settings.ID, restore)
+		if restoreErr != nil {
+			t.Logf("failed to restore original discovery tag keys: %v", restoreErr)
+		}
+	})
+}
+
 func cleanupDelete(t *testing.T, client Scorecards, id, kind string) {
 	t.Helper()
 	deadline := time.Now().Add(30 * time.Second)
