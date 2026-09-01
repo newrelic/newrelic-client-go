@@ -4,7 +4,6 @@ package changetracking
 import (
 	"encoding/json"
 	"fmt"
-	"strconv"
 
 	"github.com/newrelic/newrelic-client-go/v2/pkg/common"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/nrtime"
@@ -198,6 +197,21 @@ var ChangeTrackingValidationFlagTypes = struct {
 	FAIL_ON_FIELD_LENGTH: "FAIL_ON_FIELD_LENGTH",
 	// For APM entities, a call is made to the legacy New Relic v2 REST API. When this flag is set, if the call fails for any reason, an error will be returned containing the failure message.
 	FAIL_ON_REST_API_FAILURES: "FAIL_ON_REST_API_FAILURES",
+}
+
+// DashboardEntityOwnerType - Specifies the type of principal that owns a dashboard.
+type DashboardEntityOwnerType string
+
+var DashboardEntityOwnerTypeTypes = struct {
+	// System Identity identified by a UUID.
+	SYSTEM_IDENTITY DashboardEntityOwnerType
+	// Regular New Relic user identified by a numeric user ID.
+	USER DashboardEntityOwnerType
+}{
+	// System Identity identified by a UUID.
+	SYSTEM_IDENTITY: "SYSTEM_IDENTITY",
+	// Regular New Relic user identified by a numeric user ID.
+	USER: "USER",
 }
 
 // DashboardEntityPermissions - Permisions that represent visibility & editability
@@ -415,6 +429,21 @@ var EntityTypeTypes = struct {
 	WORKLOAD_ENTITY: "WORKLOAD_ENTITY",
 }
 
+// ServiceLevelActorType - The available actor types.
+type ServiceLevelActorType string
+
+var ServiceLevelActorTypeTypes = struct {
+	// System identity actor type.
+	SYSTEM ServiceLevelActorType
+	// User actor type.
+	USER ServiceLevelActorType
+}{
+	// System identity actor type.
+	SYSTEM: "SYSTEM",
+	// User actor type.
+	USER: "USER",
+}
+
 // ServiceLevelEventsQuerySelectFunction - The function to use in the SELECT clause.
 type ServiceLevelEventsQuerySelectFunction string
 
@@ -546,6 +575,14 @@ type AccountOutline struct {
 type AccountReference struct {
 	ID   int    `json:"id,omitempty"`
 	Name string `json:"name,omitempty"`
+}
+
+// Actor - The `Actor` object contains fields that are scoped to the API user's access level.
+type Actor struct {
+	// The `accounts` field returns all accounts that the Actor is authorized to view.
+	Accounts []AccountOutline `json:"accounts,omitempty"`
+	// This field provides access to ChangeTracking data.
+	ChangeTracking ChangeTrackingActorStitchedFields `json:"changeTracking,omitempty"`
 }
 
 type AlertableEntityOutline struct {
@@ -871,6 +908,16 @@ type BrowserApplicationSummaryData struct {
 	SpaResponseTimeMedian Seconds `json:"spaResponseTimeMedian,omitempty"`
 }
 
+type ChangeTrackingActorStitchedFields struct {
+	// Coming soon! If you'd like to sign up to receive access to our Public Preview, you can sign up under Administration -> Previews & Trial.
+	//
+	// US, AMEA, LATAM: [Sign Up Here](https://one.newrelic.com/launcher/promotion-flow.launcher?pane=eyJvZmZlclR5cGVJZCI6ImYwNTQwYTU4LWY0YTAtNGIxOS1hMjNlLTlmZjQ0ZTNhZGJmNCJ9)
+	// EU: [Sign Up Here](https://one.eu.newrelic.com/launcher/promotion-flow.launcher?pane=eyJvZmZlclR5cGVJZCI6ImYwNTQwYTU4LWY0YTAtNGIxOS1hMjNlLTlmZjQ0ZTNhZGJmNCJ9)
+	//
+	// Search for change tracking event(s) across all authorized accounts. Ordered by timestamp DESC.
+	ChangeTrackingSearch ChangeTrackingChangeTrackingSearchResult `json:"changeTrackingSearch,omitempty"`
+}
+
 // ChangeTrackingCategoryAndTypeInput - The category and type of the change event. These should match the prefix and suffix of the CategoryType enum.
 type ChangeTrackingCategoryAndTypeInput struct {
 	// The category of the change event.
@@ -900,6 +947,78 @@ type ChangeTrackingCategoryRelatedInput struct {
 	//
 	// For a list of supported categories and types, [view our docs](https://docs.newrelic.com/docs/change-tracking/change-tracking-events/#supported-types).
 	Kind *ChangeTrackingCategoryAndTypeInput `json:"kind,omitempty"`
+}
+
+// ChangeTrackingChangeTrackingSearchFilter - The object contains the filters to be applied to the search.
+type ChangeTrackingChangeTrackingSearchFilter struct {
+	// A list of account ids to search. If none provided, all authorized accounts will be searched.
+	AccountIDs []int `json:"accountIds"`
+	// Maximum number of deployments to be returned. Default value is 100 deployments.
+	// There is a maximum limit value of 2,000. If you set the limit greater than 2,000, the service will only return the latest 2,000 deployments."
+	Limit int `json:"limit,omitempty"`
+	// Change tracking search query string. The query string can search for a match on users and change tracking IDs, and any other change tracking event attributes.
+	//
+	// Operators available: Any valid NRQL operators, other than subqueries. For example, =, OR, AND, IN, LIKE, RLIKE, NOT.
+	//
+	// For the full list of operators, see the where clause documentation [here](https://docs.newrelic.com/docs/query-your-data/nrql-new-relic-query-language/get-started/nrql-syntax-clauses-functions/#sel-where)
+	//
+	// Note: Do not include keywords like SELECT, WHERE, SINCE, FACET, and TIMESERIES.
+	//
+	// Examples:
+	//
+	// • "user = 'Test User'"
+	// • "user RLIKE r'Test.*|test.*'"
+	// • "version = '1.0' OR categoryType IN ('DEPLOYMENT__BLUE_GREEN', 'DEPLOYMENT__ROLLING')"
+	// • "changeTrackingId IN ('1234', '4567')"
+	Query string `json:"query,omitempty"`
+	// Search time window. If not specified, defaults to the past hour.
+	TimeWindow ChangeTrackingTimeWindowInputWithDefaults `json:"timeWindow,omitempty"`
+}
+
+// ChangeTrackingChangeTrackingSearchResult - The result of the change tracking search query.
+type ChangeTrackingChangeTrackingSearchResult struct {
+	// The list of change tracking events in the given time window.
+	ChangeEvents []ChangeTrackingEventInterface `json:"changeEvents"`
+}
+
+// special
+func (x *ChangeTrackingChangeTrackingSearchResult) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+
+	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
+		switch k {
+		case "changeEvents":
+			if v == nil {
+				continue
+			}
+			var rawMessageChangeEvents []*json.RawMessage
+			err = json.Unmarshal(*v, &rawMessageChangeEvents)
+			if err != nil {
+				return err
+			}
+
+			for _, m := range rawMessageChangeEvents {
+				xxx, err := UnmarshalChangeTrackingEventInterface(*m)
+				if err != nil {
+					return err
+				}
+
+				if xxx != nil {
+					x.ChangeEvents = append(x.ChangeEvents, *xxx)
+				}
+			}
+		}
+	}
+
+	return nil
 }
 
 // ChangeTrackingCreateEventInput - The data necessary to create a change tracking event.
@@ -1603,6 +1722,14 @@ func (x *ChangeTrackingGenericEvent) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+// ChangeTrackingTimeWindowInputWithDefaults - A time window input with default values.
+type ChangeTrackingTimeWindowInputWithDefaults struct {
+	// The end time of the time window. If not specified, it defaults to the current time.
+	EndTime nrtime.EpochMilliseconds `json:"endTime,omitempty"`
+	// The start time of the time window. If not specified, it defaults to 60 minutes before the endTime.
+	StartTime nrtime.EpochMilliseconds `json:"startTime,omitempty"`
+}
+
 // DashboardEntityOutline - A Dashboard entity outline.
 type DashboardEntityOutline struct {
 	Account AccountOutline `json:"account,omitempty"`
@@ -1658,9 +1785,13 @@ func (x *DashboardEntityOutline) ImplementsEntityOutline() {}
 
 // DashboardEntityOwnerInfo - Dashboard owner
 type DashboardEntityOwnerInfo struct {
-	// The email of the dashboard owner
+	// The email of the dashboard owner. Null for System Identity owners.
 	Email string `json:"email,omitempty"`
-	// The user ID of the dashboard owner
+	// Stringified principal ID. Numeric string for USER type; UUID for SYSTEM_IDENTITY type.
+	ID string `json:"id,omitempty"`
+	// The type of principal that owns this dashboard.
+	Type DashboardEntityOwnerType `json:"type,omitempty"`
+	// New Relic user ID. Null for System Identity owners.
 	UserID int `json:"userId,omitempty"`
 }
 
@@ -2234,6 +2365,16 @@ type SecureCredentialSummaryData struct {
 	MonitorCount int `json:"monitorCount,omitempty"`
 }
 
+// ServiceLevelActor - Represents an actor.
+type ServiceLevelActor struct {
+	// Id of the actor.
+	ID int `json:"id"`
+	// Type of the actor.
+	Type ServiceLevelActorType `json:"type"`
+}
+
+func (x *ServiceLevelActor) ImplementsServiceLevelActor() {}
+
 // ServiceLevelDefinition - The service level defined for a specific entity.
 type ServiceLevelDefinition struct {
 	// The SLIs attached to the entity.
@@ -2254,6 +2395,8 @@ type ServiceLevelEvents struct {
 
 // ServiceLevelEventsQuery - The query that represents the events to fetch.
 type ServiceLevelEventsQuery struct {
+	// The NRQL FACET clause to group results by.
+	Facets []string `json:"facets"`
 	// The NRDB event to fetch the data from.
 	From NRQL `json:"from"`
 	// The NRQL SELECT clause to aggregate events.
@@ -2288,6 +2431,8 @@ type ServiceLevelIndicator struct {
 	GUID common.EntityGUID `json:"guid"`
 	// The unique identifier of the SLI.
 	ID int `json:"id"`
+	// The metadata of the SLI.
+	Metadata ServiceLevelMetadata `json:"metadata,omitempty"`
 	// The name of the SLI.
 	Name string `json:"name"`
 	// A list of objective definitions.
@@ -2302,45 +2447,6 @@ type ServiceLevelIndicator struct {
 	UpdatedBy UserReference `json:"updatedBy,omitempty"`
 }
 
-// UnmarshalJSON implements custom JSON unmarshalling for ServiceLevelIndicator
-func (s *ServiceLevelIndicator) UnmarshalJSON(data []byte) error {
-	type Alias ServiceLevelIndicator
-	aux := &struct {
-		ID interface{} `json:"id"`
-		*Alias
-	}{
-		Alias: (*Alias)(s),
-	}
-
-	if err := json.Unmarshal(data, &aux); err != nil {
-		return err
-	}
-
-	// Handle ID field which can be string or int
-	switch v := aux.ID.(type) {
-	case string:
-		if v == "" {
-			s.ID = 0
-		} else {
-			id, err := strconv.Atoi(v)
-			if err != nil {
-				return err
-			}
-			s.ID = id
-		}
-	case float64:
-		s.ID = int(v)
-	case int:
-		s.ID = v
-	case nil:
-		s.ID = 0
-	default:
-		return fmt.Errorf("unexpected type for ID field: %T", v)
-	}
-
-	return nil
-}
-
 // ServiceLevelIndicatorResultQueries - The resulting NRQL queries that help consume the metrics of the SLI.
 type ServiceLevelIndicatorResultQueries struct {
 	// The NRQL query that measures the good events.
@@ -2349,6 +2455,72 @@ type ServiceLevelIndicatorResultQueries struct {
 	Indicator ServiceLevelResultQuery `json:"indicator"`
 	// The NRQL query that measures the valid events.
 	ValidEvents ServiceLevelResultQuery `json:"validEvents"`
+}
+
+// ServiceLevelMetadata - Metadata about the SLI.
+type ServiceLevelMetadata struct {
+	// The SLI's creation time.
+	CreatedAt nrtime.EpochMilliseconds `json:"createdAt"`
+	// Actor that created this SLI.
+	CreatedBy ServiceLevelActorInterface `json:"createdBy,omitempty"`
+	// The SLI's last update time.
+	UpdatedAt nrtime.EpochMilliseconds `json:"updatedAt,omitempty"`
+	// Actor that last updated this SLI.
+	UpdatedBy ServiceLevelActorInterface `json:"updatedBy,omitempty"`
+}
+
+// special
+func (x *ServiceLevelMetadata) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+
+	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
+		switch k {
+		case "createdAt":
+			err = json.Unmarshal(*v, &x.CreatedAt)
+			if err != nil {
+				return err
+			}
+		case "createdBy":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalServiceLevelActorInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.CreatedBy = *xxx
+			}
+		case "updatedAt":
+			err = json.Unmarshal(*v, &x.UpdatedAt)
+			if err != nil {
+				return err
+			}
+		case "updatedBy":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalServiceLevelActorInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.UpdatedBy = *xxx
+			}
+		}
+	}
+
+	return nil
 }
 
 // ServiceLevelObjective - An objective definition.
@@ -2390,6 +2562,26 @@ type ServiceLevelResultQuery struct {
 	// A NRQL query.
 	NRQL NRQL `json:"nrql"`
 }
+
+// ServiceLevelSystemIdentityActor - A system identity actor.
+type ServiceLevelSystemIdentityActor struct {
+	// Id of the actor.
+	ID int `json:"id"`
+	// Type of the actor.
+	Type ServiceLevelActorType `json:"type"`
+}
+
+func (x *ServiceLevelSystemIdentityActor) ImplementsServiceLevelActor() {}
+
+// ServiceLevelUserActor - A user actor.
+type ServiceLevelUserActor struct {
+	// Id of the actor.
+	ID int `json:"id"`
+	// Type of the actor.
+	Type ServiceLevelActorType `json:"type"`
+}
+
+func (x *ServiceLevelUserActor) ImplementsServiceLevelActor() {}
 
 // SyntheticMonitorEntityOutline - A Synthetic Monitor entity outline.
 type SyntheticMonitorEntityOutline struct {
@@ -2661,6 +2853,10 @@ type WorkloadStatus struct {
 	StatusValue WorkloadStatusValue `json:"statusValue,omitempty"`
 	// A short description of the status of the workload.
 	Summary string `json:"summary,omitempty"`
+}
+
+type changeTrackingSearchResponse struct {
+	Actor Actor `json:"actor"`
 }
 
 // ChangeTrackingRawCustomAttributesMap - A JSON scalar
@@ -3324,26 +3520,64 @@ func UnmarshalInfrastructureIntegrationEntityOutlineInterface(b []byte) (*Infras
 	return nil, fmt.Errorf("interface InfrastructureIntegrationEntityOutline was not matched against all PossibleTypes: %s", typeName)
 }
 
-// UnmarshalJSON handles unmarshalling Seconds type from either strings or numbers
-func (s *Seconds) UnmarshalJSON(b []byte) error {
-	if string(b) == "null" {
-		*s = ""
-		return nil
+// ServiceLevelActor - Represents an actor.
+type ServiceLevelActorInterface interface {
+	ImplementsServiceLevelActor()
+}
+
+// UnmarshalServiceLevelActorInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
+func UnmarshalServiceLevelActorInterface(b []byte) (*ServiceLevelActorInterface, error) {
+	var err error
+
+	var rawMessageServiceLevelActor map[string]*json.RawMessage
+	err = json.Unmarshal(b, &rawMessageServiceLevelActor)
+	if err != nil {
+		return nil, err
 	}
 
-	var str string
-	// Attempt to unmarshal directly into a string. This handles quoted strings.
-	if err := json.Unmarshal(b, &str); err == nil {
-		*s = Seconds(str)
-		return nil
+	// Nothing to unmarshal
+	if len(rawMessageServiceLevelActor) < 1 {
+		return nil, nil
 	}
 
-	var num float64
-	// Attempt to unmarshal directly into a float64. This handles unquoted numbers.
-	if err := json.Unmarshal(b, &num); err == nil {
-		*s = Seconds(strconv.FormatFloat(num, 'f', -1, 64)) // Convert number to string
-		return nil
+	var typeName string
+
+	if rawTypeName, ok := rawMessageServiceLevelActor["__typename"]; ok {
+		err = json.Unmarshal(*rawTypeName, &typeName)
+		if err != nil {
+			return nil, err
+		}
+
+		switch typeName {
+		case "ServiceLevelSystemIdentityActor":
+			var interfaceType ServiceLevelSystemIdentityActor
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx ServiceLevelActorInterface = &interfaceType
+
+			return &xxx, nil
+		case "ServiceLevelUserActor":
+			var interfaceType ServiceLevelUserActor
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx ServiceLevelActorInterface = &interfaceType
+
+			return &xxx, nil
+		}
+	} else {
+		keys := []string{}
+		for k := range rawMessageServiceLevelActor {
+			keys = append(keys, k)
+		}
+		return nil, fmt.Errorf("interface ServiceLevelActor did not include a __typename field for inspection: %s", keys)
 	}
 
-	return fmt.Errorf("seconds: cannot unmarshal %s into a string or number", b)
+	return nil, fmt.Errorf("interface ServiceLevelActor was not matched against all PossibleTypes: %s", typeName)
 }
