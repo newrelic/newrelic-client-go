@@ -197,10 +197,10 @@ func TestBlobAPI_HappyPath(t *testing.T) {
 	// Recorded server-side state; each request updates it so the test can
 	// assert on the observed sequence of calls.
 	var (
-		posts     int
+		posts            int
 		lastEntityHeader string
-		lastPath   string
-		lastMethod string
+		lastPath         string
+		lastMethod       string
 	)
 
 	mp.handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -695,4 +695,3 @@ func respond(t *testing.T, w http.ResponseWriter, status int, v interface{}) {
 	_, err = w.Write(buf)
 	require.NoError(t, err)
 }
-
