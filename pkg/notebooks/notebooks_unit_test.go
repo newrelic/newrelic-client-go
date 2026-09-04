@@ -33,7 +33,7 @@ import (
 
 type mockPlatform struct {
 	server *httptest.Server
-	// handler is set by each test with the desired behaviour. Wrapped in a
+	// handler is set by each test with the desired behavior. Wrapped in a
 	// closure so a test can rebind the handler without swapping the server.
 	handler http.Handler
 }
@@ -684,7 +684,7 @@ func blankContent() map[string]interface{} {
 	return map[string]interface{}{"version": "1", "blocks": []interface{}{}}
 }
 
-// respond serialises v as JSON and writes it with the given status code.
+// respond serializes v as JSON and writes it with the given status code.
 func respond(t *testing.T, w http.ResponseWriter, status int, v interface{}) {
 	t.Helper()
 

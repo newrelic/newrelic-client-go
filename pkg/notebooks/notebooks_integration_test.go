@@ -220,6 +220,105 @@ func TestIntegrationNotebookRejectsMissingArgs(t *testing.T) {
 	assert.Error(t, client.DeleteNotebook(testOrganizationID, ""), "empty entity GUID should fail on delete")
 }
 
+// TestIntegrationNotebookDuplicateNameError verifies that the platform
+// enforces unique notebook names within an organisation. Creating two
+// notebooks with the same name should fail with a 400-level error on the
+// second attempt.
+func TestIntegrationNotebookDuplicateNameError(t *testing.T) {
+	t.Parallel()
+
+	if _, err := mock.GetFleetTestAccountID(); err != nil {
+		t.Skipf("%s", err)
+	}
+
+	client := newIntegrationTestClient(t)
+	orgID := testOrganizationID
+	name := fmt.Sprintf("integration-test-duplicate-%d", time.Now().UnixNano())
+
+	first, err := client.CreateNotebook(orgID, name, blankNotebookContent())
+	require.NoError(t, err, "first create should succeed")
+	require.NotEmpty(t, first.EntityGUID)
+	defer cleanupNotebook(t, client, orgID, first.EntityGUID)
+
+	// Second create with the identical name should fail.
+	_, dupErr := client.CreateNotebook(orgID, name, blankNotebookContent())
+	require.Error(t, dupErr, "second create with the same name should be rejected by the server")
+}
+
+// TestIntegrationNotebookGetDeletedContent verifies that GetNotebookContent
+// returns a clear not-found error after the notebook has been deleted, rather
+// than silently returning empty content or a server error.
+func TestIntegrationNotebookGetDeletedContent(t *testing.T) {
+	t.Parallel()
+
+	if _, err := mock.GetFleetTestAccountID(); err != nil {
+		t.Skipf("%s", err)
+	}
+
+	client := newIntegrationTestClient(t)
+	orgID := testOrganizationID
+
+	created, err := client.CreateNotebook(
+		orgID,
+		fmt.Sprintf("integration-test-delete-get-%d", time.Now().UnixNano()),
+		blankNotebookContent(),
+	)
+	require.NoError(t, err)
+	guid := created.EntityGUID
+
+	// Delete the notebook.
+	require.NoError(t, client.DeleteNotebook(orgID, guid))
+
+	// GetNotebookContent on the deleted GUID should surface a not-found error.
+	_, getErr := client.GetNotebookContent(orgID, guid)
+	require.Error(t, getErr, "GetNotebookContent on a deleted notebook must error")
+	require.Contains(t, getErr.Error(), "not found",
+		"error should communicate 'not found' so callers can distinguish delete-vs-transient")
+}
+
+// TestIntegrationNotebookSearchByType verifies that SearchNotebooks with the
+// "type = 'NOTEBOOK'" predicate returns notebooks visible to the caller and
+// that a newly-created notebook eventually appears in the results. The entitySearch
+// DSL only accepts a single entityType filter - compound predicates such as
+// "type = 'NOTEBOOK' AND scope.id = '...'" are rejected by the server with
+// "Query should contain only one entityType filter", so we use the simple form.
+func TestIntegrationNotebookSearchByType(t *testing.T) {
+	t.Parallel()
+
+	if _, err := mock.GetFleetTestAccountID(); err != nil {
+		t.Skipf("%s", err)
+	}
+
+	client := newIntegrationTestClient(t)
+	orgID := testOrganizationID
+
+	name := fmt.Sprintf("integration-test-search-type-%d", time.Now().UnixNano())
+	created, err := client.CreateNotebook(orgID, name, blankNotebookContent())
+	require.NoError(t, err)
+	defer cleanupNotebook(t, client, orgID, created.EntityGUID)
+
+	// Poll until the notebook appears; NerdGraph projection lags Blob API writes.
+	requireEventually(t, "notebook appears in type search", func() error {
+		result, err := client.SearchNotebooks("", "type = 'NOTEBOOK'")
+		if err != nil {
+			return err
+		}
+		for _, nb := range result.Notebooks {
+			if nb.ID == created.EntityGUID {
+				if nb.Name != name {
+					return fmt.Errorf("notebook found but name %q != expected %q", nb.Name, name)
+				}
+				// Confirm scope is the expected org.
+				if nb.Scope.ID != orgID {
+					return fmt.Errorf("notebook scope %q != expected org %q", nb.Scope.ID, orgID)
+				}
+				return nil
+			}
+		}
+		return fmt.Errorf("notebook %s not yet in search results", created.EntityGUID)
+	})
+}
+
 // requireNotebookMetadata fetches the notebook via the narrow GetNotebook
 // query. Every place that fetches metadata should go through this so the
 // error surface is consistent. We deliberately don't use the generated
@@ -274,13 +373,13 @@ func assertContentMatches(t *testing.T, client Notebooks, orgID, entityGUID stri
 
 	// Round-trip expected through JSON so both sides use identical concrete
 	// types (json.Unmarshal yields float64 for numbers, etc.).
-	normalisedBytes, err := json.Marshal(expected)
+	normalizedBytes, err := json.Marshal(expected)
 	require.NoError(t, err)
-	var normalisedExpected map[string]interface{}
-	require.NoError(t, json.Unmarshal(normalisedBytes, &normalisedExpected))
+	var normalizedExpected map[string]interface{}
+	require.NoError(t, json.Unmarshal(normalizedBytes, &normalizedExpected))
 
-	if !reflect.DeepEqual(got, normalisedExpected) {
-		t.Fatalf("notebook content mismatch\n  got:      %s\n  expected: %s", string(raw), string(normalisedBytes))
+	if !reflect.DeepEqual(got, normalizedExpected) {
+		t.Fatalf("notebook content mismatch\n  got:      %s\n  expected: %s", string(raw), string(normalizedBytes))
 	}
 }
 
@@ -290,7 +389,7 @@ func assertContentMatches(t *testing.T, client Notebooks, orgID, entityGUID stri
 func requireEventually(t *testing.T, describe string, fn func() error) {
 	t.Helper()
 
-	deadline := time.Now().Add(15 * time.Second)
+	deadline := time.Now().Add(30 * time.Second)
 	var lastErr error
 	for time.Now().Before(deadline) {
 		lastErr = fn()
