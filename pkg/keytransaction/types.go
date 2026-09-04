@@ -27,7 +27,7 @@ var BrowserAgentInstallTypeTypes = struct {
 	PRO_SPA: "PRO_SPA",
 }
 
-// DashboardEntityPermissions - Permisions that represent visibility & editability
+// DashboardEntityPermissions - Permission that represent visibility & editability
 type DashboardEntityPermissions string
 
 var DashboardEntityPermissionsTypes = struct {
