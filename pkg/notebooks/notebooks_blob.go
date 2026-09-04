@@ -13,7 +13,7 @@ import (
 // notebook (use it in NerdGraph metadata queries); blobId identifies the
 // specific version of the content just written. blobVersionEntity is
 // documented but currently observed to be null - leaving the field so future
-// server behaviour is preserved automatically.
+// server behavior is preserved automatically.
 type NotebookMutationResponse struct {
 	EntityGUID        string               `json:"entityGuid,omitempty"`
 	BlobID            string               `json:"blobId,omitempty"`

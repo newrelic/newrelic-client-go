@@ -45,7 +45,7 @@ func blobRequestHeaders(headers map[string]string) interface{} {
 // always json.Marshal.
 var entityHeaderMarshaler = json.Marshal
 
-// encodeEntityHeader serialises the NewRelic-Entity header value. json.Marshal
+// encodeEntityHeader serializes the NewRelic-Entity header value. json.Marshal
 // on a map[string]string is guaranteed by the encoding/json contract not to
 // fail, so callers can consume the result directly without an error path.
 // The panic is documented as unreachable and exists only to satisfy the
