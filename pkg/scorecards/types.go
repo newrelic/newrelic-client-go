@@ -4831,7 +4831,7 @@ type EntityManagementCollectionEntityUpdateInput struct {
 	// See name in CollectionEntity.
 	Name string `json:"name,omitempty"`
 	// See tags in CollectionEntity.
-	Tags []EntityManagementTagInput `json:"tags,omitempty"`
+	Tags []EntityManagementTagInput `json:"tags"`
 }
 
 // EntityManagementCollectionEntityUpdateResult - The result of updating an entity.
@@ -5864,7 +5864,7 @@ type EntityManagementScorecardEntityUpdateInput struct {
 	// See progressLevels in ScorecardEntity.
 	ProgressLevels []EntityManagementProgressLevelDefinitionUpdateInput `json:"progressLevels,omitempty"`
 	// See tags in ScorecardEntity.
-	Tags []EntityManagementTagInput `json:"tags,omitempty"`
+	Tags []EntityManagementTagInput `json:"tags"`
 }
 
 // EntityManagementScorecardEntityUpdateResult - The result of updating an entity.
@@ -5942,7 +5942,9 @@ type EntityManagementScorecardRuleEntityUpdateInput struct {
 	// See description in ScorecardRuleEntity.
 	Description string `json:"description,omitempty"`
 	// See enabled in ScorecardRuleEntity.
-	Enabled bool `json:"enabled,omitempty"`
+	// NOTE: omitempty intentionally removed — false is a valid value meaning
+	// "disable this rule" and must not be silently dropped by the JSON encoder.
+	Enabled bool `json:"enabled"`
 	// See impactWeight in ScorecardRuleEntity.
 	ImpactWeight int `json:"impactWeight,omitempty"`
 	// See nrqlEngine in ScorecardRuleEntity.
@@ -5956,7 +5958,7 @@ type EntityManagementScorecardRuleEntityUpdateInput struct {
 	// See schedule in ScorecardRuleEntity.
 	Schedule *EntityManagementScheduleUpdateInput `json:"schedule,omitempty"`
 	// See tags in ScorecardRuleEntity.
-	Tags []EntityManagementTagInput `json:"tags,omitempty"`
+	Tags []EntityManagementTagInput `json:"tags"`
 }
 
 // EntityManagementScorecardRuleEntityUpdateResult - The result of updating an entity.
@@ -6225,7 +6227,7 @@ type EntityManagementTeamEntityUpdateInput struct {
 	// See resources in TeamEntity.
 	Resources []EntityManagementTeamResourceUpdateInput `json:"resources,omitempty"`
 	// See tags in TeamEntity.
-	Tags []EntityManagementTagInput `json:"tags,omitempty"`
+	Tags []EntityManagementTagInput `json:"tags"`
 }
 
 // EntityManagementTeamEntityUpdateResult - The result of updating an entity.
@@ -6311,7 +6313,7 @@ type EntityManagementTeamsHierarchyLevelEntityUpdateInput struct {
 	// See name in TeamsHierarchyLevelEntity.
 	Name string `json:"name,omitempty"`
 	// See tags in TeamsHierarchyLevelEntity.
-	Tags []EntityManagementTagInput `json:"tags,omitempty"`
+	Tags []EntityManagementTagInput `json:"tags"`
 }
 
 // EntityManagementTeamsHierarchyLevelEntityUpdateResult - The result of updating an entity.
@@ -6353,7 +6355,7 @@ type EntityManagementTeamsOrganizationSettingsEntityUpdateInput struct {
 	// See syncGroups in TeamsOrganizationSettingsEntity.
 	SyncGroups EntityManagementSyncGroupsSettingsUpdateInput `json:"syncGroups,omitempty"`
 	// See tags in TeamsOrganizationSettingsEntity.
-	Tags []EntityManagementTagInput `json:"tags,omitempty"`
+	Tags []EntityManagementTagInput `json:"tags"`
 }
 
 // EntityManagementTeamsOrganizationSettingsEntityUpdateResult - The result of updating an entity.
