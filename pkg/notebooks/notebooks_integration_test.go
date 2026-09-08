@@ -31,29 +31,38 @@ import (
 	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
-// blankNotebookContent is the minimum payload the Blob API accepts on create.
-// A blank notebook renders empty in the UI and gives the test a stable
-// baseline to update from.
+// blankNotebookContent is the minimum declarative-UI payload the Blob API
+// accepts on create. An empty content array renders as an empty notebook.
 func blankNotebookContent() map[string]interface{} {
 	return map[string]interface{}{
-		"version": "1",
-		"blocks":  []interface{}{},
+		"type":    "declarative",
+		"version": 1,
+		"content": []interface{}{},
 	}
 }
 
-// markdownWidgetContent produces a small notebook body containing one
-// markdown widget. Used to prove the content actually changed on update.
+// markdownWidgetContent produces a notebook body containing one markdown
+// widget wrapped in a container, matching the declarative UI schema the
+// Notebooks UI expects. Used to prove the content actually changed on update.
 func markdownWidgetContent(text string) map[string]interface{} {
 	return map[string]interface{}{
-		"version": "1",
-		"blocks": []interface{}{
+		"type":    "declarative",
+		"version": 1,
+		"content": []interface{}{
 			map[string]interface{}{
-				"type": "widget",
-				"content": map[string]interface{}{
-					"type": "visualization",
-					"id":   "viz.markdown",
-					"props": map[string]interface{}{
-						"text": text,
+				"type":  "container",
+				"props": map[string]interface{}{"layout": "stack"},
+				"content": []interface{}{
+					map[string]interface{}{
+						"type":  "widget",
+						"props": map[string]interface{}{},
+						"content": map[string]interface{}{
+							"type": "visualization",
+							"id":   "viz.markdown",
+							"props": map[string]interface{}{
+								"text": text,
+							},
+						},
 					},
 				},
 			},
