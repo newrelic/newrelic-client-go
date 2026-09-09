@@ -360,11 +360,12 @@ func TestCloudAccount_AzureMonitorIntegration(t *testing.T) {
 	require.NotZero(t, linkedAccountID)
 
 	// Create a new AzureMonitor Cloud Integration.
+	azureMonitorEnabled := true
 	azureMonitorIntegrationRes, azureMonitorIntegrationErr := client.CloudConfigureIntegration(testAccountID, CloudIntegrationsInput{
 		Azure: CloudAzureIntegrationsInput{
 			AzureMonitor: []CloudAzureMonitorIntegrationInput{{
 				LinkedAccountId:        linkedAccountID,
-				Enabled:                true,
+				Enabled:                &azureMonitorEnabled,
 				ExcludeTags:            []string{"env:staging", "env:testing"},
 				IncludeTags:            []string{"env:production"},
 				MetricsPollingInterval: 1200,
