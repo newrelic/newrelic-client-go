@@ -1,3 +1,8 @@
+<a name="v2.93.4"></a>
+## [v2.93.4] - 2026-09-09
+### Bug Fixes
+- **cloud:** don't drop if enabled is false ([#1485](https://github.com/newrelic/newrelic-client-go/issues/1485))
+
 <a name="v2.93.3"></a>
 ## [v2.93.3] - 2026-09-03
 ### Bug Fixes
@@ -2347,7 +2352,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.3...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.4...HEAD
+[v2.93.4]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.3...v2.93.4
 [v2.93.3]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.2...v2.93.3
 [v2.93.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.1...v2.93.2
 [v2.93.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.0...v2.93.1
