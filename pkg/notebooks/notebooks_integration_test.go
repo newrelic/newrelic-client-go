@@ -31,14 +31,13 @@ import (
 	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
-// blankNotebookContent is the minimum declarative-UI payload the Blob API
-// accepts on create. An empty content array renders as an empty notebook.
-func blankNotebookContent() map[string]interface{} {
-	return map[string]interface{}{
-		"type":    "declarative",
-		"version": 1,
-		"content": []interface{}{},
-	}
+// minimalNotebookContent returns a minimal valid declarative UI document
+// containing a single markdown widget. This is the simplest notebook that
+// actually renders in the UI and satisfies the platform's schema requirements.
+// Use this as the baseline for integration tests that need to create a notebook
+// without caring about its visual appearance.
+func minimalNotebookContent(text string) map[string]interface{} {
+	return markdownWidgetContent(text)
 }
 
 // markdownWidgetContent produces a notebook body containing one markdown
@@ -85,7 +84,7 @@ func TestIntegrationNotebookLifecycle(t *testing.T) {
 	orgID := testOrganizationID
 
 	notebookName := fmt.Sprintf("integration-test-notebook-%d", time.Now().UnixNano())
-	initialContent := blankNotebookContent()
+	initialContent := minimalNotebookContent("# Integration Test\n\nBaseline content.")
 
 	// Cleanup discipline: whatever path the test takes (fatal failure, panic,
 	// early return) this defer runs and tries to remove any live notebook so
@@ -210,19 +209,19 @@ func TestIntegrationNotebookRejectsMissingArgs(t *testing.T) {
 	}
 	client := newIntegrationTestClient(t)
 
-	_, err := client.CreateNotebook("", "name", blankNotebookContent())
+	_, err := client.CreateNotebook("", "name", minimalNotebookContent("test"))
 	assert.Error(t, err, "empty organization ID should fail")
 
-	_, err = client.CreateNotebook(testOrganizationID, "", blankNotebookContent())
+	_, err = client.CreateNotebook(testOrganizationID, "", minimalNotebookContent("test"))
 	assert.Error(t, err, "empty name should fail")
 
 	_, err = client.CreateNotebook(testOrganizationID, "name", nil)
 	assert.Error(t, err, "nil content should fail")
 
-	_, err = client.UpdateNotebookContent(testOrganizationID, "", blankNotebookContent())
+	_, err = client.UpdateNotebookContent(testOrganizationID, "", minimalNotebookContent("test"))
 	assert.Error(t, err, "empty entity GUID should fail on update")
 
-	_, err = client.RenameNotebook(testOrganizationID, "some-guid", "", blankNotebookContent())
+	_, err = client.RenameNotebook(testOrganizationID, "some-guid", "", minimalNotebookContent("test"))
 	assert.Error(t, err, "empty new name should fail on rename")
 
 	assert.Error(t, client.DeleteNotebook("", "some-guid"), "empty organization ID should fail on delete")
@@ -244,13 +243,13 @@ func TestIntegrationNotebookDuplicateNameError(t *testing.T) {
 	orgID := testOrganizationID
 	name := fmt.Sprintf("integration-test-duplicate-%d", time.Now().UnixNano())
 
-	first, err := client.CreateNotebook(orgID, name, blankNotebookContent())
+	first, err := client.CreateNotebook(orgID, name, minimalNotebookContent("test"))
 	require.NoError(t, err, "first create should succeed")
 	require.NotEmpty(t, first.EntityGUID)
 	defer cleanupNotebook(t, client, orgID, first.EntityGUID)
 
 	// Second create with the identical name should fail.
-	_, dupErr := client.CreateNotebook(orgID, name, blankNotebookContent())
+	_, dupErr := client.CreateNotebook(orgID, name, minimalNotebookContent("test"))
 	require.Error(t, dupErr, "second create with the same name should be rejected by the server")
 }
 
@@ -270,7 +269,7 @@ func TestIntegrationNotebookGetDeletedContent(t *testing.T) {
 	created, err := client.CreateNotebook(
 		orgID,
 		fmt.Sprintf("integration-test-delete-get-%d", time.Now().UnixNano()),
-		blankNotebookContent(),
+		minimalNotebookContent("test"),
 	)
 	require.NoError(t, err)
 	guid := created.EntityGUID
@@ -302,7 +301,7 @@ func TestIntegrationNotebookSearchByType(t *testing.T) {
 	orgID := testOrganizationID
 
 	name := fmt.Sprintf("integration-test-search-type-%d", time.Now().UnixNano())
-	created, err := client.CreateNotebook(orgID, name, blankNotebookContent())
+	created, err := client.CreateNotebook(orgID, name, minimalNotebookContent("test"))
 	require.NoError(t, err)
 	defer cleanupNotebook(t, client, orgID, created.EntityGUID)
 

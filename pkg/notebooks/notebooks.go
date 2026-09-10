@@ -29,7 +29,6 @@ type Notebooks struct {
 	client http.Client
 	config config.Config
 	logger logging.Logger
-	pager  http.Pager
 }
 
 // New returns a new Notebooks client. It uses the same authentication and
@@ -44,6 +43,5 @@ func New(cfg config.Config) Notebooks {
 		client: client,
 		config: cfg,
 		logger: cfg.GetLogger(),
-		pager:  &http.LinkHeaderPager{},
 	}
 }
