@@ -2644,9 +2644,9 @@ type CloudAzureMonitorIntegrationInput struct {
 	// Specify if integration is active
 	Enabled *bool `json:"enabled,omitempty"`
 	// Specify resource tags (in 'key:value' form) associated with the resources that you want to exclude from monitoring. Exclusion takes precedence over inclusion.
-	ExcludeTags []string `json:"excludeTags,omitempty"`
+	ExcludeTags []string `json:"excludeTags"`
 	// Specify resource tags (in 'key:value' form) associated with the resources that you want to monitor. If empty, all resources will be monitored.
-	IncludeTags []string `json:"includeTags,omitempty"`
+	IncludeTags []string `json:"includeTags"`
 	// The polling interval for metadata and tags, in seconds.
 	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
