@@ -45,7 +45,7 @@ var DashboardEntityOwnerTypeTypes = struct {
 	USER: "USER",
 }
 
-// DashboardEntityPermissions - Permission that represent visibility & editability
+// DashboardEntityPermissions - Permisions that represent visibility & editability
 type DashboardEntityPermissions string
 
 var DashboardEntityPermissionsTypes = struct {

@@ -56,17 +56,14 @@ _ = client.DeleteNotebook(orgID, created.EntityGUID)
 
 ## Content format
 
-The Blob API stores whatever versioned JSON you POST. `CreateNotebook`, `UpdateNotebookContent`, and `RenameNotebook` accept any JSON-serialisable value (struct, map, `json.RawMessage`). For the block/widget shapes the New Relic UI understands, see the [public docs draft](https://newrelic.atlassian.net/wiki/spaces/DASHECO/pages/5704384849/).
+The Blob API stores whatever versioned JSON you POST. `CreateNotebook`, `UpdateNotebookContent`, and `RenameNotebook` accept any JSON-serialisable value (struct, map, `json.RawMessage`). For the block/widget shapes the New Relic UI understands, see the [Blob Storage API for notebooks](https://docs.newrelic.com/docs/query-your-data/explore-query-data/notebooks/blob-storage-api-for-notebooks/) and [Visualizations in notebooks](https://docs.newrelic.com/docs/query-your-data/explore-query-data/notebooks/visualizations-in-notebooks/) in the public documentation.
 
 ## Regenerating with Tutone
 
-This package uses the modified Tutone from [newrelic/tutone#261](https://github.com/newrelic/tutone/pull/261), the same build `pipelinecontrol` uses. Vanilla Tutone does not filter `EntityManagementEntity` interface implementations at the query level, which pulls forty-plus unrelated subtypes into the generated files. To regenerate:
+This package requires a version of Tutone that supports the `include_implementations` key on `EntityManagementEntity`. Vanilla Tutone does not filter interface implementations at the query level, which pulls unrelated subtypes into the generated files. To regenerate, check out a Tutone build that includes `include_implementations` support and run:
 
 ```
-git clone -b include-interface-fields https://github.com/newrelic/tutone.git
-cd tutone && go build -o /tmp/tutone ./cmd/tutone
-cd path/to/newrelic-client-go
-/tmp/tutone -c .tutone.yml generate --package notebooks --refetch
+/path/to/tutone -c .tutone.yml generate --package notebooks --refetch
 ```
 
 ## Integration tests
