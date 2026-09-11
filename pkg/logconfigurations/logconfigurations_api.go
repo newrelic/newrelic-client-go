@@ -65,6 +65,27 @@ const LogConfigurationsCreateDataPartitionRuleMutation = `mutation(
 		description
 		enabled
 		id
+		liveArchiveConfiguration {
+			accountId
+			createdAt
+			createdBy {
+				email
+				gravatar
+				id
+				name
+			}
+			enabled
+			eventType
+			id
+			retentionPolicy
+			updatedAt
+			updatedBy {
+				email
+				gravatar
+				id
+				name
+			}
+		}
 		matchingCriteria {
 			attributeName
 			matchingExpression
@@ -295,6 +316,7 @@ const LogConfigurationsCreateParsingRuleMutation = `mutation(
 		id
 		lucene
 		nrql
+		source
 		updatedAt
 		updatedBy {
 			email
@@ -613,6 +635,27 @@ const LogConfigurationsUpdateDataPartitionRuleMutation = `mutation(
 		description
 		enabled
 		id
+		liveArchiveConfiguration {
+			accountId
+			createdAt
+			createdBy {
+				email
+				gravatar
+				id
+				name
+			}
+			enabled
+			eventType
+			id
+			retentionPolicy
+			updatedAt
+			updatedBy {
+				email
+				gravatar
+				id
+				name
+			}
+		}
 		matchingCriteria {
 			attributeName
 			matchingExpression
@@ -849,6 +892,70 @@ const LogConfigurationsUpdateParsingRuleMutation = `mutation(
 		id
 		lucene
 		nrql
+		source
+		updatedAt
+		updatedBy {
+			email
+			gravatar
+			id
+			name
+		}
+	}
+} }`
+
+// Upsert pipeline configuration for an account.
+func (a *Logconfigurations) LogConfigurationsUpsertPipelineConfiguration(
+	accountID int,
+	pipelineConfiguration LogConfigurationsPipelineConfigurationInput,
+) (*LogConfigurationsUpsertPipelineConfigurationResponse, error) {
+	return a.LogConfigurationsUpsertPipelineConfigurationWithContext(context.Background(),
+		accountID,
+		pipelineConfiguration,
+	)
+}
+
+// Upsert pipeline configuration for an account.
+func (a *Logconfigurations) LogConfigurationsUpsertPipelineConfigurationWithContext(
+	ctx context.Context,
+	accountID int,
+	pipelineConfiguration LogConfigurationsPipelineConfigurationInput,
+) (*LogConfigurationsUpsertPipelineConfigurationResponse, error) {
+
+	resp := LogConfigurationsUpsertPipelineConfigurationQueryResponse{}
+	vars := map[string]interface{}{
+		"accountId":             accountID,
+		"pipelineConfiguration": pipelineConfiguration,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, LogConfigurationsUpsertPipelineConfigurationMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.LogConfigurationsUpsertPipelineConfigurationResponse, nil
+}
+
+type LogConfigurationsUpsertPipelineConfigurationQueryResponse struct {
+	LogConfigurationsUpsertPipelineConfigurationResponse LogConfigurationsUpsertPipelineConfigurationResponse `json:"LogConfigurationsUpsertPipelineConfiguration"`
+}
+
+const LogConfigurationsUpsertPipelineConfigurationMutation = `mutation(
+	$accountId: Int!,
+	$pipelineConfiguration: LogConfigurationsPipelineConfigurationInput!,
+) { logConfigurationsUpsertPipelineConfiguration(
+	accountId: $accountId,
+	pipelineConfiguration: $pipelineConfiguration,
+) {
+	pipelineConfiguration {
+		accountId
+		accountLevelNativeJsonEnabled
+		enrichmentDisabled
+		jsonParsingDisabled
+		obfuscationDisabled
+		parsingDisabled
+		patternsEnabled
+		pluginAttributesCleanupEnabled
+		recursiveJsonParsingDisabled
+		transformationDisabled
 		updatedAt
 		updatedBy {
 			email
@@ -904,6 +1011,27 @@ const getDataPartitionRulesQuery = `query(
 	description
 	enabled
 	id
+	liveArchiveConfiguration {
+		accountId
+		createdAt
+		createdBy {
+			email
+			gravatar
+			id
+			name
+		}
+		enabled
+		eventType
+		id
+		retentionPolicy
+		updatedAt
+		updatedBy {
+			email
+			gravatar
+			id
+			name
+		}
+	}
 	matchingCriteria {
 		attributeName
 		matchingExpression
@@ -1104,6 +1232,7 @@ const getParsingRulesQuery = `query(
 	id
 	lucene
 	nrql
+	source
 	updatedAt
 	updatedBy {
 		email

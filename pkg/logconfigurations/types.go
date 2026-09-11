@@ -63,15 +63,38 @@ var LogConfigurationsDataPartitionRuleMutationErrorTypeTypes = struct {
 type LogConfigurationsDataPartitionRuleRetentionPolicyType string
 
 var LogConfigurationsDataPartitionRuleRetentionPolicyTypeTypes = struct {
+	// Archive retention policy for data partitions routed to archived namespaces (e.g. Logging:Archive).
+	ARCHIVE LogConfigurationsDataPartitionRuleRetentionPolicyType
 	// The alternative data retention policy, 30 days of data retention since the log data is ingested.
 	SECONDARY LogConfigurationsDataPartitionRuleRetentionPolicyType
 	// The maximum retention period associated with the account. This is determined by the customer’s subscription/contract with New Relic.
 	STANDARD LogConfigurationsDataPartitionRuleRetentionPolicyType
+	// Standard retention with Live Archives enabled on this partition.
+	STANDARD_LIVE_ARCHIVE LogConfigurationsDataPartitionRuleRetentionPolicyType
 }{
+	// Archive retention policy for data partitions routed to archived namespaces (e.g. Logging:Archive).
+	ARCHIVE: "ARCHIVE",
 	// The alternative data retention policy, 30 days of data retention since the log data is ingested.
 	SECONDARY: "SECONDARY",
 	// The maximum retention period associated with the account. This is determined by the customer’s subscription/contract with New Relic.
 	STANDARD: "STANDARD",
+	// Standard retention with Live Archives enabled on this partition.
+	STANDARD_LIVE_ARCHIVE: "STANDARD_LIVE_ARCHIVE",
+}
+
+// LogConfigurationsLiveArchiveRetentionPolicyType - Live Archive retention policies.
+type LogConfigurationsLiveArchiveRetentionPolicyType string
+
+var LogConfigurationsLiveArchiveRetentionPolicyTypeTypes = struct {
+	// Live Archive disabled
+	NONE LogConfigurationsLiveArchiveRetentionPolicyType
+	// Live Archive enabled with configured retention policy
+	STANDARD_ARCHIVE LogConfigurationsLiveArchiveRetentionPolicyType
+}{
+	// Live Archive disabled
+	NONE: "NONE",
+	// Live Archive enabled with configured retention policy
+	STANDARD_ARCHIVE: "STANDARD_ARCHIVE",
 }
 
 // LogConfigurationsObfuscationMethod - Methods for replacing obfuscated values.
@@ -112,20 +135,38 @@ var LogConfigurationsParsingRuleMutationErrorTypeTypes = struct {
 	NOT_FOUND: "NOT_FOUND",
 }
 
+// LogConfigurationsParsingRuleSource - Source of the parsing rule.
+// NO_CODE: Rule was generated from the No Code UI.
+// WRITE_YOUR_OWN: Rule was created from the Old UI.
+type LogConfigurationsParsingRuleSource string
+
+var LogConfigurationsParsingRuleSourceTypes = struct {
+	// Rule created from the NO CODE UI
+	NO_CODE LogConfigurationsParsingRuleSource
+	// Rule created from new UI but using Write your own screen.
+	NO_CODE_WRITE_YOUR_OWN LogConfigurationsParsingRuleSource
+	// Rule created from existing/OLD UI.
+	WRITE_YOUR_OWN LogConfigurationsParsingRuleSource
+}{
+	// Rule created from the NO CODE UI
+	NO_CODE: "NO_CODE",
+	// Rule created from new UI but using Write your own screen.
+	NO_CODE_WRITE_YOUR_OWN: "NO_CODE_WRITE_YOUR_OWN",
+	// Rule created from existing/OLD UI.
+	WRITE_YOUR_OWN: "WRITE_YOUR_OWN",
+}
+
 // Account - The `Account` object provides general data about the account, as well as
 // being the entry point into more detailed data about a single account.
 //
 // Account configuration data is queried through this object, as well as
 // telemetry data that is specific to a single account.
 type Account struct {
-	//
-	ID int `json:"id,omitempty"`
-	//
+	ID         int    `json:"id,omitempty"`
 	LicenseKey string `json:"licenseKey,omitempty"`
 	// This field provides access to LogConfigurations data.
 	LogConfigurations LogConfigurationsAccountStitchedFields `json:"logConfigurations,omitempty"`
-	//
-	Name string `json:"name,omitempty"`
+	Name              string                                 `json:"name,omitempty"`
 }
 
 // Actor - The `Actor` object contains fields that are scoped to the API user's access level.
@@ -134,16 +175,19 @@ type Actor struct {
 	Account Account `json:"account,omitempty"`
 }
 
-// LogConfigurationsAccountStitchedFields -
 type LogConfigurationsAccountStitchedFields struct {
 	// Look up for all data partition rules for a given account.
 	DataPartitionRules []LogConfigurationsDataPartitionRule `json:"dataPartitionRules"`
+	// Look up for all Live Archive configurations for a given account.
+	LiveArchiveConfigurations []LogConfigurationsLiveArchiveConfiguration `json:"liveArchiveConfigurations"`
 	// Look up for all obfuscation expressions for a given account
 	ObfuscationExpressions []LogConfigurationsObfuscationExpression `json:"obfuscationExpressions"`
 	// Look up for all obfuscation rules for a given account.
 	ObfuscationRules []LogConfigurationsObfuscationRule `json:"obfuscationRules"`
 	// Look up for all parsing rules for a given account.
 	ParsingRules []*LogConfigurationsParsingRule `json:"parsingRules"`
+	// Look up pipeline configuration for a given account.
+	PipelineConfiguration LogConfigurationsPipelineConfiguration `json:"pipelineConfiguration,omitempty"`
 	// Test a Grok pattern against a list of log lines.
 	TestGrok []LogConfigurationsGrokTestResult `json:"testGrok"`
 }
@@ -236,6 +280,8 @@ type LogConfigurationsDataPartitionRule struct {
 	Enabled bool `json:"enabled"`
 	// Unique data partition rule identifier.
 	ID string `json:"id"`
+	// The live archive configuration for this partition, if one exists.
+	LiveArchiveConfiguration LogConfigurationsLiveArchiveConfiguration `json:"liveArchiveConfiguration,omitempty"`
 	// The matching criteria for this data partition rule. Logs matching this criteria will be routed to the specified data partition once the rule is enabled.
 	MatchingCriteria LogConfigurationsDataPartitionRuleMatchingCriteria `json:"matchingCriteria,omitempty"`
 	// The NRQL to match events for this data partition rule. Logs matching this criteria will be routed to the specified data partition once the rule is enabled.
@@ -306,6 +352,28 @@ type LogConfigurationsGrokTestResult struct {
 	LogLine string `json:"logLine"`
 	// Whether the Grok pattern matched.
 	Matched bool `json:"matched"`
+}
+
+// LogConfigurationsLiveArchiveConfiguration - Live Archive configuration for an event type.
+type LogConfigurationsLiveArchiveConfiguration struct {
+	// Account Id
+	AccountID int `json:"accountId"`
+	// Identifies the date and time when the configuration was created.
+	CreatedAt nrtime.DateTime `json:"createdAt"`
+	// Identifies the user who has created the configuration.
+	CreatedBy UserReference `json:"createdBy,omitempty"`
+	// Indicates if the Live Archive configuration is enabled
+	Enabled bool `json:"enabled"`
+	// EventType name that will be configured.
+	EventType string `json:"eventType"`
+	// Configuration Id
+	ID string `json:"id"`
+	// Retention policy for the EventType.
+	RetentionPolicy LogConfigurationsLiveArchiveRetentionPolicyType `json:"retentionPolicy"`
+	// Identifies the date and time when the configuration was last updated.
+	UpdatedAt nrtime.DateTime `json:"updatedAt,omitempty"`
+	// Identifies the user who has last updated the configuration.
+	UpdatedBy UserReference `json:"updatedBy,omitempty"`
 }
 
 // LogConfigurationsObfuscationAction - Application of an obfuscation expression with specific a replacement method.
@@ -386,6 +454,8 @@ type LogConfigurationsParsingRule struct {
 	Lucene string `json:"lucene"`
 	// The NRQL to match events to the parsing rule.
 	NRQL NRQL `json:"nrql"`
+	// Source of the parsing rule.
+	Source LogConfigurationsParsingRuleSource `json:"source"`
 	// Identifies the date and time when the rule was last updated.
 	UpdatedAt nrtime.DateTime `json:"updatedAt,omitempty"`
 	// Identifies the user who has last updated the rule.
@@ -406,6 +476,8 @@ type LogConfigurationsParsingRuleConfiguration struct {
 	Lucene string `json:"lucene"`
 	// The NRQL to match events to the parsing rule.
 	NRQL NRQL `json:"nrql"`
+	// Source of the parsing rule. Defaults to WRITE_YOUR_OWN.
+	Source LogConfigurationsParsingRuleSource `json:"source,omitempty"`
 }
 
 // LogConfigurationsParsingRuleMutationError - Expected errors as a result of mutating a parsing rule.
@@ -416,20 +488,70 @@ type LogConfigurationsParsingRuleMutationError struct {
 	Type LogConfigurationsParsingRuleMutationErrorType `json:"type,omitempty"`
 }
 
+// LogConfigurationsPipelineConfiguration - The pipeline configuration for an account, with metadata.
+type LogConfigurationsPipelineConfiguration struct {
+	// The account id.
+	AccountID int `json:"accountId"`
+	// Whether or not account-level native JSON is enabled."
+	AccountLevelNativeJsonEnabled bool `json:"accountLevelNativeJsonEnabled"`
+	// Whether or not enrichment is disabled.
+	EnrichmentDisabled bool `json:"enrichmentDisabled"`
+	// Whether or not JSON parsing is disabled.
+	JsonParsingDisabled bool `json:"jsonParsingDisabled"`
+	// Whether or not obfuscation is disabled.
+	ObfuscationDisabled bool `json:"obfuscationDisabled"`
+	// Whether or not parsing is disabled.
+	ParsingDisabled bool `json:"parsingDisabled"`
+	// Whether or not patterns are enabled.
+	PatternsEnabled bool `json:"patternsEnabled"`
+	// Whether or not plugin.* attributes should be dropped.
+	PluginAttributesCleanupEnabled bool `json:"pluginAttributesCleanupEnabled"`
+	// Whether or not recursive JSON parsing is disabled.
+	RecursiveJsonParsingDisabled bool `json:"recursiveJsonParsingDisabled"`
+	// Whether or not transformation is disabled.
+	TransformationDisabled bool `json:"transformationDisabled"`
+	// Identifies the date and time when the configuration was last updated, or null if this has never been changed from the defaults.
+	UpdatedAt nrtime.DateTime `json:"updatedAt,omitempty"`
+	// Identifies the user who has updated the configuration, or null if this has never been changed from the defaults.
+	UpdatedBy UserReference `json:"updatedBy,omitempty"`
+}
+
+// LogConfigurationsPipelineConfigurationInput - The pipeline configuration for an account.
+type LogConfigurationsPipelineConfigurationInput struct {
+	// Whether or not account-level native JSON is enabled."
+	AccountLevelNativeJsonEnabled bool `json:"accountLevelNativeJsonEnabled,omitempty"`
+	// Whether or not enrichment is disabled.
+	EnrichmentDisabled bool `json:"enrichmentDisabled,omitempty"`
+	// Whether or not JSON parsing is disabled.
+	JsonParsingDisabled bool `json:"jsonParsingDisabled,omitempty"`
+	// Whether or not obfuscation is disabled.
+	ObfuscationDisabled bool `json:"obfuscationDisabled,omitempty"`
+	// Whether or not parsing is disabled.
+	ParsingDisabled bool `json:"parsingDisabled,omitempty"`
+	// Whether or not patterns are enabled.
+	PatternsEnabled bool `json:"patternsEnabled,omitempty"`
+	// Whether or not plugin.* attributes should be dropped.
+	PluginAttributesCleanupEnabled bool `json:"pluginAttributesCleanupEnabled,omitempty"`
+	// Whether or not recursive JSON parsing is disabled.
+	RecursiveJsonParsingDisabled bool `json:"recursiveJsonParsingDisabled,omitempty"`
+	// Whether or not transformation is disabled.
+	TransformationDisabled bool `json:"transformationDisabled,omitempty"`
+}
+
 // LogConfigurationsUpdateDataPartitionRuleInput - An object for updating an existing data partition rule.
 type LogConfigurationsUpdateDataPartitionRuleInput struct {
 	// The description of the data partition rule.
 	Description string `json:"description,omitempty"`
 	// Whether or not this data partition rule is enabled.
-	// NOTE: DO NOT add 'omitempty' to the JSON description of Enabled as fetched from Tutone.
-	// It omits 'enabled' even if the calling service sends it as 'false', which is why 'omitempty' has been manually discarded.
-	Enabled bool `json:"enabled"`
+	Enabled bool `json:"enabled,omitempty"`
 	// Unique data partition rule identifier.
 	ID string `json:"id"`
 	// The criteria of the data partition rule.
 	MatchingCriteria *LogConfigurationsDataPartitionRuleMatchingCriteriaInput `json:"matchingCriteria,omitempty"`
 	// The NRQL to match events for this data partition rule. Logs matching this criteria will be routed to the specified data partition.
 	NRQL NRQL `json:"nrql,omitempty"`
+	// The new retention policy.
+	RetentionPolicy LogConfigurationsDataPartitionRuleRetentionPolicyType `json:"retentionPolicy,omitempty"`
 }
 
 // LogConfigurationsUpdateDataPartitionRuleResponse - An object that represents the result after updating a data partition rule.
@@ -490,16 +612,18 @@ type LogConfigurationsUpdateParsingRuleResponse struct {
 	Rule *LogConfigurationsParsingRule `json:"rule,omitempty"`
 }
 
+// LogConfigurationsUpsertPipelineConfigurationResponse - The result after upserting pipeline configuration for an account.
+type LogConfigurationsUpsertPipelineConfigurationResponse struct {
+	// The updated pipeline configuration.
+	PipelineConfiguration LogConfigurationsPipelineConfiguration `json:"pipelineConfiguration,omitempty"`
+}
+
 // UserReference - The `UserReference` object provides basic identifying information about the user.
 type UserReference struct {
-	//
-	Email string `json:"email,omitempty"`
-	//
+	Email    string `json:"email,omitempty"`
 	Gravatar string `json:"gravatar,omitempty"`
-	//
-	ID int `json:"id,omitempty"`
-	//
-	Name string `json:"name,omitempty"`
+	ID       int    `json:"id,omitempty"`
+	Name     string `json:"name,omitempty"`
 }
 
 type dataPartitionRulesResponse struct {

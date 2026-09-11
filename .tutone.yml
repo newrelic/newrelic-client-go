@@ -1082,6 +1082,8 @@ packages:
         max_query_field_depth: 2
       - name: logConfigurationsDeleteParsingRule
         max_query_field_depth: 2
+      - name: logConfigurationsUpsertPipelineConfiguration
+        max_query_field_depth: 2
     types:
       - name: LogConfigurationsDataPartitionRuleMatchingCriteriaInput
         field_type_override: "*LogConfigurationsDataPartitionRuleMatchingCriteriaInput"
