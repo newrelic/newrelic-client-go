@@ -4831,7 +4831,7 @@ type EntityManagementCollectionEntityUpdateInput struct {
 	// See name in CollectionEntity.
 	Name string `json:"name,omitempty"`
 	// See tags in CollectionEntity.
-	Tags []EntityManagementTagInput `json:"tags"`
+	Tags []EntityManagementTagInput `json:"tags,omitempty"`
 }
 
 // EntityManagementCollectionEntityUpdateResult - The result of updating an entity.
@@ -5864,7 +5864,7 @@ type EntityManagementScorecardEntityUpdateInput struct {
 	// See progressLevels in ScorecardEntity.
 	ProgressLevels []EntityManagementProgressLevelDefinitionUpdateInput `json:"progressLevels,omitempty"`
 	// See tags in ScorecardEntity.
-	Tags []EntityManagementTagInput `json:"tags"`
+	Tags []EntityManagementTagInput `json:"tags,omitempty"`
 }
 
 // EntityManagementScorecardEntityUpdateResult - The result of updating an entity.
@@ -5958,7 +5958,7 @@ type EntityManagementScorecardRuleEntityUpdateInput struct {
 	// See schedule in ScorecardRuleEntity.
 	Schedule *EntityManagementScheduleUpdateInput `json:"schedule,omitempty"`
 	// See tags in ScorecardRuleEntity.
-	Tags []EntityManagementTagInput `json:"tags"`
+	Tags []EntityManagementTagInput `json:"tags,omitempty"`
 }
 
 // EntityManagementScorecardRuleEntityUpdateResult - The result of updating an entity.
@@ -6227,7 +6227,7 @@ type EntityManagementTeamEntityUpdateInput struct {
 	// See resources in TeamEntity.
 	Resources []EntityManagementTeamResourceUpdateInput `json:"resources,omitempty"`
 	// See tags in TeamEntity.
-	Tags []EntityManagementTagInput `json:"tags"`
+	Tags []EntityManagementTagInput `json:"tags,omitempty"`
 }
 
 // EntityManagementTeamEntityUpdateResult - The result of updating an entity.
@@ -6313,7 +6313,7 @@ type EntityManagementTeamsHierarchyLevelEntityUpdateInput struct {
 	// See name in TeamsHierarchyLevelEntity.
 	Name string `json:"name,omitempty"`
 	// See tags in TeamsHierarchyLevelEntity.
-	Tags []EntityManagementTagInput `json:"tags"`
+	Tags []EntityManagementTagInput `json:"tags,omitempty"`
 }
 
 // EntityManagementTeamsHierarchyLevelEntityUpdateResult - The result of updating an entity.
@@ -6355,7 +6355,7 @@ type EntityManagementTeamsOrganizationSettingsEntityUpdateInput struct {
 	// See syncGroups in TeamsOrganizationSettingsEntity.
 	SyncGroups EntityManagementSyncGroupsSettingsUpdateInput `json:"syncGroups,omitempty"`
 	// See tags in TeamsOrganizationSettingsEntity.
-	Tags []EntityManagementTagInput `json:"tags"`
+	Tags []EntityManagementTagInput `json:"tags,omitempty"`
 }
 
 // EntityManagementTeamsOrganizationSettingsEntityUpdateResult - The result of updating an entity.
