@@ -1,11 +1,13 @@
 package notebooks
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 )
 
 // NotebookMutationResponse is the envelope returned by the Blob Storage API
@@ -147,23 +149,72 @@ func (a *Notebooks) postNotebookContent(
 		return nil, fmt.Errorf("notebooks: notebook content is required")
 	}
 
-	headers := map[string]string{}
-	if renameTo != "" {
-		headers[newRelicEntityHeader] = encodeEntityHeader(renameTo)
+	// The Blob Storage API returns text/plain (not JSON) for error responses,
+	// so we bypass the internal JSON client and make a raw HTTP request. This
+	// lets us read the actual error body and surface it to the caller rather
+	// than returning an opaque "400 response returned" with no context.
+	body, err := json.Marshal(content)
+	if err != nil {
+		return nil, fmt.Errorf("notebooks: marshal content: %w", err)
 	}
 
-	resp := NotebookMutationResponse{}
-	_, err := a.client.PostWithContext(
-		ctx,
-		a.notebooksURL(organizationID, entityGUID),
-		blobRequestHeaders(headers),
-		content,
-		&resp,
-	)
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, a.notebooksURL(organizationID, entityGUID), bytes.NewReader(body))
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("notebooks: build POST request: %w", err)
 	}
-	return &resp, nil
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Api-Key", a.config.PersonalAPIKey)
+	if a.config.UserAgent != "" {
+		req.Header.Set("User-Agent", a.config.UserAgent)
+	}
+	if renameTo != "" {
+		req.Header.Set(newRelicEntityHeader, encodeEntityHeader(renameTo))
+	}
+
+	httpClient := &http.Client{}
+	if a.config.Timeout != nil {
+		httpClient.Timeout = *a.config.Timeout
+	}
+	if a.config.HTTPTransport != nil {
+		httpClient.Transport = a.config.HTTPTransport
+	}
+
+	httpResp, err := httpClient.Do(req)
+	if err != nil {
+		return nil, fmt.Errorf("notebooks: POST notebook content: %w", err)
+	}
+	defer func() { _ = httpResp.Body.Close() }()
+
+	respBody, err := io.ReadAll(httpResp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("notebooks: read POST response: %w", err)
+	}
+
+	if httpResp.StatusCode < 200 || httpResp.StatusCode >= 300 {
+		msg := strings.TrimSpace(string(respBody))
+		// Translate the most actionable Blob API error messages into explicit
+		// Terraform-friendly descriptions so users know exactly what to fix.
+		switch {
+		case httpResp.StatusCode == 400 && strings.Contains(msg, "unique constraint"):
+			return nil, fmt.Errorf(
+				"notebooks: a notebook with this title already exists in the organization — "+
+					"choose a unique title (API: %s)", msg)
+		case httpResp.StatusCode == 403:
+			return nil, fmt.Errorf(
+				"notebooks: permission denied — ensure the API key has write access to notebooks (API: %s)", msg)
+		case httpResp.StatusCode == 404:
+			return nil, fmt.Errorf("notebooks: notebook not found: %s", entityGUID)
+		default:
+			return nil, fmt.Errorf("notebooks: POST notebook content: unexpected status %d: %s",
+				httpResp.StatusCode, msg)
+		}
+	}
+
+	var result NotebookMutationResponse
+	if err := json.Unmarshal(respBody, &result); err != nil {
+		return nil, fmt.Errorf("notebooks: decode POST response: %w", err)
+	}
+	return &result, nil
 }
 
 // GetNotebookContent fetches the current content of the notebook and returns
