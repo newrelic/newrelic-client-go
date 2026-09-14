@@ -6215,7 +6215,7 @@ type EntityManagementTeamEntityUpdateInput struct {
 	// See aliases in TeamEntity.
 	Aliases []string `json:"aliases,omitempty"`
 	// See description in TeamEntity.
-	Description string `json:"description"`
+	Description string `json:"description,omitempty"`
 	// See externalIntegration in TeamEntity.
 	ExternalIntegration *EntityManagementTeamExternalIntegrationUpdateInput `json:"externalIntegration,omitempty"`
 	// See managers in TeamEntity.
