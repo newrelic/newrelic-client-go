@@ -6149,7 +6149,7 @@ type EntityManagementTagInput struct {
 // EntityManagementTeamEntity - An entity representing a New Relic Team.
 type EntityManagementTeamEntity struct {
 	// List of aliases associated to the team.
-	Aliases []string `json:"aliases"`
+	Aliases []string `json:"aliases,omitempty"`
 	// Further information about team.
 	Description string `json:"description,omitempty"`
 	// External Integration with another system.
@@ -6159,7 +6159,7 @@ type EntityManagementTeamEntity struct {
 	// The entity's global unique identifier.
 	ID string `json:"id"`
 	// The managers or contact persons for the team.
-	Managers []string `json:"managers"`
+	Managers []string `json:"managers,omitempty"`
 	// Collection that contains the list of members belonging to the team.
 	Membership EntityManagementCollectionEntity `json:"membership,omitempty"`
 	// Metadata about the entity.
@@ -6185,13 +6185,13 @@ func (x *EntityManagementTeamEntity) ImplementsEntityManagementEntity() {}
 // EntityManagementTeamEntityCreateInput - Create input for TeamEntity entity type.
 type EntityManagementTeamEntityCreateInput struct {
 	// See aliases in TeamEntity.
-	Aliases []string `json:"aliases"`
+	Aliases []string `json:"aliases,omitempty"`
 	// See description in TeamEntity.
 	Description string `json:"description,omitempty"`
 	// See externalIntegration in TeamEntity.
 	ExternalIntegration *EntityManagementTeamExternalIntegrationCreateInput `json:"externalIntegration,omitempty"`
 	// See managers in TeamEntity.
-	Managers []string `json:"managers"`
+	Managers []string `json:"managers,omitempty"`
 	// See name in TeamEntity.
 	Name string `json:"name"`
 	// See parentId in TeamEntity.
@@ -6213,13 +6213,13 @@ type EntityManagementTeamEntityCreateResult struct {
 // EntityManagementTeamEntityUpdateInput - Update input for TeamEntity entity type.
 type EntityManagementTeamEntityUpdateInput struct {
 	// See aliases in TeamEntity.
-	Aliases []string `json:"aliases"`
+	Aliases []string `json:"aliases,omitempty"`
 	// See description in TeamEntity.
 	Description string `json:"description,omitempty"`
 	// See externalIntegration in TeamEntity.
 	ExternalIntegration *EntityManagementTeamExternalIntegrationUpdateInput `json:"externalIntegration,omitempty"`
 	// See managers in TeamEntity.
-	Managers []string `json:"managers"`
+	Managers []string `json:"managers,omitempty"`
 	// See name in TeamEntity.
 	Name string `json:"name,omitempty"`
 	// See parentId in TeamEntity.
