@@ -27,6 +27,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
+	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
 // minimalNotebookContent returns a minimal valid declarative UI document
@@ -74,8 +76,9 @@ func markdownWidgetContent(text string) map[string]interface{} {
 func TestIntegrationNotebookLifecycle(t *testing.T) {
 	t.Parallel()
 
-	if testOrganizationID == "" {
-		t.Skip("integration tests require INTEGRATION_TESTING_NEW_RELIC_ORGANIZATION_ID and NEW_RELIC_API_KEY")
+	_, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
 	}
 
 	client := newIntegrationTestClient(t)
@@ -202,12 +205,13 @@ func TestIntegrationNotebookLifecycle(t *testing.T) {
 func TestIntegrationNotebookRejectsMissingArgs(t *testing.T) {
 	t.Parallel()
 
-	if testOrganizationID == "" {
-		t.Skip("integration tests require INTEGRATION_TESTING_NEW_RELIC_ORGANIZATION_ID and NEW_RELIC_API_KEY")
+	_, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
 	}
 	client := newIntegrationTestClient(t)
 
-	_, err := client.CreateNotebook("", "name", minimalNotebookContent("test"))
+	_, err = client.CreateNotebook("", "name", minimalNotebookContent("test"))
 	assert.Error(t, err, "empty organization ID should fail")
 
 	_, err = client.CreateNotebook(testOrganizationID, "", minimalNotebookContent("test"))
@@ -233,8 +237,9 @@ func TestIntegrationNotebookRejectsMissingArgs(t *testing.T) {
 func TestIntegrationNotebookDuplicateNameError(t *testing.T) {
 	t.Parallel()
 
-	if testOrganizationID == "" {
-		t.Skip("integration tests require INTEGRATION_TESTING_NEW_RELIC_ORGANIZATION_ID and NEW_RELIC_API_KEY")
+	_, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
 	}
 
 	client := newIntegrationTestClient(t)
@@ -257,8 +262,9 @@ func TestIntegrationNotebookDuplicateNameError(t *testing.T) {
 func TestIntegrationNotebookGetDeletedContent(t *testing.T) {
 	t.Parallel()
 
-	if testOrganizationID == "" {
-		t.Skip("integration tests require INTEGRATION_TESTING_NEW_RELIC_ORGANIZATION_ID and NEW_RELIC_API_KEY")
+	_, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
 	}
 
 	client := newIntegrationTestClient(t)
@@ -291,8 +297,9 @@ func TestIntegrationNotebookGetDeletedContent(t *testing.T) {
 func TestIntegrationNotebookSearchByType(t *testing.T) {
 	t.Parallel()
 
-	if testOrganizationID == "" {
-		t.Skip("integration tests require INTEGRATION_TESTING_NEW_RELIC_ORGANIZATION_ID and NEW_RELIC_API_KEY")
+	_, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
 	}
 
 	client := newIntegrationTestClient(t)
