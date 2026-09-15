@@ -5,12 +5,6 @@ import (
 	"fmt"
 )
 
-// customHeadersKey is the sentinel field name that the internal HTTP client
-// looks for in the queryParams map to know it should convert the entries into
-// request headers. It's a private convention of internal/http/client.go -
-// keeping the string in one place here so nobody has to remember it.
-const customHeadersKey = "x-newrelic-client-go-custom-headers"
-
 // newRelicEntityHeader is the name of the Blob Storage API's entity-metadata
 // header. On create it carries `{"name": "<notebook name>"}`; on update it can
 // be re-supplied to rename the notebook atomically alongside the content
@@ -24,19 +18,6 @@ func (a *Notebooks) notebooksURL(organizationID, entityGUID string) string {
 		return a.config.Region().BlobServiceURL(fmt.Sprintf("/organizations/%s/Notebooks", organizationID))
 	}
 	return a.config.Region().BlobServiceURL(fmt.Sprintf("/organizations/%s/Notebooks/%s", organizationID, entityGUID))
-}
-
-// blobRequestHeaders returns the map shape the internal HTTP client expects
-// when the caller wants to add custom headers to a request. Returns an
-// untyped nil when no headers were supplied - the return type must be
-// interface{} rather than map[string]interface{} because a typed-nil map
-// would satisfy != nil at the queryParams interface{} check upstream, then
-// fall through to go-querystring's Values() which rejects maps.
-func blobRequestHeaders(headers map[string]string) interface{} {
-	if len(headers) == 0 {
-		return nil
-	}
-	return map[string]interface{}{customHeadersKey: headers}
 }
 
 // entityHeaderMarshaler is the JSON marshaler used by encodeEntityHeader.
