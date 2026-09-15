@@ -6,9 +6,9 @@
 // since the two-API architecture (Blob Storage for content + rename, NerdGraph
 // for metadata) is only observable when both endpoints are reachable.
 //
-// Credentials: uses the shared Fleet test account (NEW_RELIC_FLEET_TEST_API_KEY
-// + NEW_RELIC_FLEET_TEST_ORGANIZATION_ID) which is the only account currently
-// entitled for Notebooks. If those env vars are absent the tests skip.
+// Required environment variables:
+//   NEW_RELIC_API_KEY                          - personal API key
+//   INTEGRATION_TESTING_NEW_RELIC_ORGANIZATION_ID - organization UUID for Blob Storage calls
 //
 // Every mutation in these tests is followed by an independent verification
 // call against the platform - either a Blob API GET or a NerdGraph
@@ -27,8 +27,6 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-
-	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
 // minimalNotebookContent returns a minimal valid declarative UI document
@@ -76,8 +74,8 @@ func markdownWidgetContent(text string) map[string]interface{} {
 func TestIntegrationNotebookLifecycle(t *testing.T) {
 	t.Parallel()
 
-	if _, err := mock.GetFleetTestAccountID(); err != nil {
-		t.Skipf("%s", err)
+	if testOrganizationID == "" {
+		t.Skip("integration tests require INTEGRATION_TESTING_NEW_RELIC_ORGANIZATION_ID and NEW_RELIC_API_KEY")
 	}
 
 	client := newIntegrationTestClient(t)
@@ -204,8 +202,8 @@ func TestIntegrationNotebookLifecycle(t *testing.T) {
 func TestIntegrationNotebookRejectsMissingArgs(t *testing.T) {
 	t.Parallel()
 
-	if _, err := mock.GetFleetTestAccountID(); err != nil {
-		t.Skipf("%s", err)
+	if testOrganizationID == "" {
+		t.Skip("integration tests require INTEGRATION_TESTING_NEW_RELIC_ORGANIZATION_ID and NEW_RELIC_API_KEY")
 	}
 	client := newIntegrationTestClient(t)
 
@@ -235,8 +233,8 @@ func TestIntegrationNotebookRejectsMissingArgs(t *testing.T) {
 func TestIntegrationNotebookDuplicateNameError(t *testing.T) {
 	t.Parallel()
 
-	if _, err := mock.GetFleetTestAccountID(); err != nil {
-		t.Skipf("%s", err)
+	if testOrganizationID == "" {
+		t.Skip("integration tests require INTEGRATION_TESTING_NEW_RELIC_ORGANIZATION_ID and NEW_RELIC_API_KEY")
 	}
 
 	client := newIntegrationTestClient(t)
@@ -259,8 +257,8 @@ func TestIntegrationNotebookDuplicateNameError(t *testing.T) {
 func TestIntegrationNotebookGetDeletedContent(t *testing.T) {
 	t.Parallel()
 
-	if _, err := mock.GetFleetTestAccountID(); err != nil {
-		t.Skipf("%s", err)
+	if testOrganizationID == "" {
+		t.Skip("integration tests require INTEGRATION_TESTING_NEW_RELIC_ORGANIZATION_ID and NEW_RELIC_API_KEY")
 	}
 
 	client := newIntegrationTestClient(t)
@@ -293,8 +291,8 @@ func TestIntegrationNotebookGetDeletedContent(t *testing.T) {
 func TestIntegrationNotebookSearchByType(t *testing.T) {
 	t.Parallel()
 
-	if _, err := mock.GetFleetTestAccountID(); err != nil {
-		t.Skipf("%s", err)
+	if testOrganizationID == "" {
+		t.Skip("integration tests require INTEGRATION_TESTING_NEW_RELIC_ORGANIZATION_ID and NEW_RELIC_API_KEY")
 	}
 
 	client := newIntegrationTestClient(t)
