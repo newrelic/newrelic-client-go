@@ -69,8 +69,8 @@ This package requires a version of Tutone that supports the `include_implementat
 ## Integration tests
 
 ```
-NEW_RELIC_FLEET_TEST_API_KEY=NRAK-...
-NEW_RELIC_FLEET_TEST_ORGANIZATION_ID=<uuid>   # optional; defaults to the known org UUID
+NEW_RELIC_API_KEY=<your-personal-api-key>
+INTEGRATION_TESTING_NEW_RELIC_ORGANIZATION_ID=<your-organization-uuid>
 go test -tags integration ./pkg/notebooks/...
 ```
 
