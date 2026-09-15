@@ -1,3 +1,8 @@
+<a name="v2.94.0"></a>
+## [v2.94.0] - 2026-09-15
+### Features
+- **notebooks:** add Notebooks package with Blob Storage + NerdGraph CRUD ([#1428](https://github.com/newrelic/newrelic-client-go/issues/1428))
+
 <a name="v2.93.4"></a>
 ## [v2.93.4] - 2026-09-09
 ### Bug Fixes
@@ -2352,7 +2357,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.4...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.94.0...HEAD
+[v2.94.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.4...v2.94.0
 [v2.93.4]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.3...v2.93.4
 [v2.93.3]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.2...v2.93.3
 [v2.93.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.1...v2.93.2
