@@ -2197,3 +2197,53 @@ packages:
       - name: Nrql
         field_type_override: string
         skip_type_create: true
+
+  # NOTE: The notebooks package requires a Tutone build that supports the
+  # `include_implementations` key on EntityManagementEntity. This filters the
+  # generated types to only the NotebookEntity implementation, preventing the
+  # inclusion of all other EntityManagement subtypes. Regenerate with:
+  #   /path/to/tutone -c .tutone.yml generate --package notebooks --refetch
+  #
+  # Notebooks - dashboards-style entities whose CONTENT lives in the Blob Storage
+  # REST API (see pkg/notebooks/notebooks_blob.go) and whose METADATA (name, tags,
+  # scope, version) is queried via NerdGraph's EntityManagement namespace. Tutone
+  # generates the entity read/search + generic delete; create, update-content, and
+  # rename are hand-written REST calls.
+  - name: notebooks
+    path: pkg/notebooks
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/notebooks
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+    mutations:
+      - name: entityManagementDelete
+        max_query_field_depth: 3
+    queries:
+      - path: [ "actor", "entityManagement" ]
+        endpoints:
+          - name: entity
+            max_query_field_depth: 4
+            exclude_fields:
+              - agents
+              - tools
+          - name: entitySearch
+            max_query_field_depth: 4
+            exclude_fields:
+              - agents
+              - tools
+    types:
+      - name: EntityManagementEntity
+        include_implementations:
+          - EntityManagementNotebookEntity
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
+      - name: EpochMilliseconds
+        field_type_override: nrtime.EpochMilliseconds
+        skip_type_create: true
