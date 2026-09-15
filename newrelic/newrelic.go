@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/newrelic/newrelic-client-go/v2/pkg/entityrelationship"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/pathpoint"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/users"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/workflowautomation"
 
@@ -91,6 +92,7 @@ type NewRelic struct {
 	EntityRelationship      entityrelationship.Entityrelationship
 	Users                   users.Users
 	WorkflowAutomation      workflowautomation.Workflowautomation
+	PathPoint               pathpoint.Pathpoint
 
 	config config.Config
 }
@@ -147,6 +149,7 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 		EntityRelationship:      entityrelationship.New(cfg),
 		Users:                   users.New(cfg),
 		WorkflowAutomation:      workflowautomation.New(cfg),
+		PathPoint:               pathpoint.New(cfg),
 	}
 
 	return nr, nil
