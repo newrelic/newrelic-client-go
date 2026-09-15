@@ -26,7 +26,7 @@ func getTestOrganizationID() string {
 	if id := os.Getenv("NEW_RELIC_FLEET_TEST_ORGANIZATION_ID"); id != "" {
 		return id
 	}
-	return "b961cf81-d62b-4359-8822-7b1d6dadd374"
+	return ""
 }
 
 var testOrganizationID = getTestOrganizationID()
