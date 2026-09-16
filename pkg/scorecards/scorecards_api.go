@@ -441,7 +441,7 @@ func (a *Scorecards) EntityManagementDeleteWithContext(
 
 	resp := EntityManagementDeleteQueryResponse{}
 	vars := map[string]interface{}{
-		"id":      iD,
+		"id": iD,
 		// "version": version,
 	}
 
