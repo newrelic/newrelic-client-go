@@ -192,3 +192,22 @@ func ConfigLogger(logger logging.Logger) ConfigOption {
 		return errors.New("logger can not be nil")
 	}
 }
+
+// ConfigCustomHeaders sets headers that will be applied to every outgoing
+// request made by the client (e.g. for ELB-based rate limiting or NerdGraph
+// routing headers). Calling this multiple times merges into any headers
+// already configured, rather than replacing them. A specific request can
+// still override any of these by calling Request.SetHeader directly.
+func ConfigCustomHeaders(headers map[string]string) ConfigOption {
+	return func(cfg *Config) error {
+		if cfg.CustomHeaders == nil {
+			cfg.CustomHeaders = make(map[string]string, len(headers))
+		}
+
+		for k, v := range headers {
+			cfg.CustomHeaders[k] = v
+		}
+
+		return nil
+	}
+}

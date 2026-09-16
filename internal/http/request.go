@@ -75,6 +75,14 @@ func (c *Client) NewRequest(method string, url string, params interface{}, reqBo
 		return nil, err
 	}
 
+	// Apply any client-level custom headers first, so the SDK's own headers
+	// below always take precedence on a name collision. A specific request
+	// can still override any header (custom or default) via SetHeader after
+	// NewRequest returns.
+	for key, value := range cfg.CustomHeaders {
+		req.SetHeader(key, value)
+	}
+
 	req.SetHeader(defaultNewRelicRequestingServiceHeader, cfg.ServiceName)
 	req.SetHeader("Content-Type", "application/json")
 

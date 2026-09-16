@@ -58,6 +58,12 @@ type Config struct {
 
 	// Logger allows customization of the client's underlying logger.
 	Logger logging.Logger
+
+	// CustomHeaders are applied to every outgoing request made by the client
+	// (e.g. for ELB-based rate limiting or NerdGraph routing). A specific
+	// request can still override any of these by calling Request.SetHeader
+	// after the request is created.
+	CustomHeaders map[string]string
 }
 
 // New creates a default configuration and returns it
