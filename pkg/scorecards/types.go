@@ -5858,7 +5858,8 @@ type EntityManagementScorecardEntityCreateResult struct {
 // EntityManagementScorecardEntityUpdateInput - Update input for ScorecardEntity entity type.
 type EntityManagementScorecardEntityUpdateInput struct {
 	// See description in ScorecardEntity.
-	Description string `json:"description,omitempty"`
+	// No omitempty: empty string must be sent to allow clearing the description.
+	Description string `json:"description"`
 	// See name in ScorecardEntity.
 	Name string `json:"name,omitempty"`
 	// See progressLevels in ScorecardEntity.
@@ -5940,7 +5941,8 @@ type EntityManagementScorecardRuleEntityCreateResult struct {
 // EntityManagementScorecardRuleEntityUpdateInput - Update input for ScorecardRuleEntity entity type.
 type EntityManagementScorecardRuleEntityUpdateInput struct {
 	// See description in ScorecardRuleEntity.
-	Description string `json:"description,omitempty"`
+	// No omitempty: empty string must be sent to allow clearing the description.
+	Description string `json:"description"`
 	// See enabled in ScorecardRuleEntity.
 	// NOTE: omitempty intentionally removed — false is a valid value meaning
 	// "disable this rule" and must not be silently dropped by the JSON encoder.
