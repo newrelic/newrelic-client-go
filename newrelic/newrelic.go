@@ -43,6 +43,7 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/pipelinecontrol"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/plugins"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/pruningrules"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/scorecards"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/servicelevel"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/synthetics"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/usermanagement"
@@ -84,6 +85,7 @@ type NewRelic struct {
 	Pipelinecontrol         pipelinecontrol.Pipelinecontrol
 	Pruningrules            pruningrules.Pruningrules
 	Plugins                 plugins.Plugins
+	Scorecards              scorecards.Scorecards
 	ServiceLevel            servicelevel.Servicelevel
 	Synthetics              synthetics.Synthetics
 	UserManagement          usermanagement.Usermanagement
@@ -141,6 +143,7 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 		Pipelinecontrol:         pipelinecontrol.New(cfg),
 		Pruningrules:            pruningrules.New(cfg),
 		Plugins:                 plugins.New(cfg),
+		Scorecards:              scorecards.New(cfg),
 		ServiceLevel:            servicelevel.New(cfg),
 		Synthetics:              synthetics.New(cfg),
 		UserManagement:          usermanagement.New(cfg),
