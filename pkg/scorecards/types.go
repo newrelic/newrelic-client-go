@@ -5782,7 +5782,9 @@ type EntityManagementScheduleCreateInput struct {
 // EntityManagementScheduleUpdateInput - Update input for Schedule.
 type EntityManagementScheduleUpdateInput struct {
 	// See enabled in Schedule.
-	Enabled bool `json:"enabled,omitempty"`
+	// No omitempty: false is a valid value meaning "disable this schedule" and
+	// must not be silently dropped by the JSON encoder.
+	Enabled bool `json:"enabled"`
 	// See firstRunAt in Schedule.
 	FirstRunAt nrtime.DateTime `json:"firstRunAt,omitempty"`
 	// See period in Schedule.
@@ -6351,7 +6353,9 @@ func (x *EntityManagementTeamsOrganizationSettingsEntity) ImplementsEntityManage
 // EntityManagementTeamsOrganizationSettingsEntityUpdateInput - Update input for TeamsOrganizationSettingsEntity entity type.
 type EntityManagementTeamsOrganizationSettingsEntityUpdateInput struct {
 	// See discovery in TeamsOrganizationSettingsEntity.
-	Discovery EntityManagementDiscoverySettingsUpdateInput `json:"discovery,omitempty"`
+	// No omitempty: the zero-value struct {Enabled:false, TagKeys:nil} is a valid
+	// "disable discovery with no keys" state and must not be silently dropped.
+	Discovery EntityManagementDiscoverySettingsUpdateInput `json:"discovery"`
 	// See name in TeamsOrganizationSettingsEntity.
 	Name string `json:"name,omitempty"`
 	// See syncGroups in TeamsOrganizationSettingsEntity.
