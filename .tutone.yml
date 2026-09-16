@@ -2247,3 +2247,35 @@ packages:
       - name: EpochMilliseconds
         field_type_override: nrtime.EpochMilliseconds
         skip_type_create: true
+
+  - name: streamingexport
+    path: pkg/streamingexport
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/streamingexport
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - encoding/json
+      - github.com/newrelic/newrelic-client-go/v2/internal/serialization
+      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/v2/pkg/ai
+      - github.com/newrelic/newrelic-client-go/v2/pkg/apiaccess
+      - github.com/newrelic/newrelic-client-go/v2/pkg/entities
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrdb
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+    mutations:
+      - name: streamingExportCreateRule
+        max_query_field_depth: 3
+    queries:
+      - path:
+          - actor
+          - account
+          - streamingExport
+        endpoints:
+          - name: streamingRules
+            max_query_field_depth: 3
+    types:
+      - name: EntityGuid
+        field_type_override: common.EntityGUID
+        skip_type_create: true
