@@ -39,6 +39,7 @@ func NewTestConfig(t *testing.T, testServer *httptest.Server) config.Config {
 		cfg.Region().SetSyntheticsBaseURL(testServer.URL)
 		cfg.Region().SetLogsBaseURL(testServer.URL)
 		cfg.Region().SetMetricsBaseURL(testServer.URL)
+		cfg.Region().SetBlobServiceBaseURL(testServer.URL)
 	}
 
 	return cfg
