@@ -1,3 +1,9 @@
+<a name="v2.94.1"></a>
+## [v2.94.1] - 2026-09-17
+### Bug Fixes
+- **fleetcontrol:** correct entityGuid/blobId JSON tags on ConfigurationVersion ([#1493](https://github.com/newrelic/newrelic-client-go/issues/1493))
+- **notebooks:** update README integration test credentials ([#1489](https://github.com/newrelic/newrelic-client-go/issues/1489))
+
 <a name="v2.94.0"></a>
 ## [v2.94.0] - 2026-09-15
 ### Features
@@ -2357,7 +2363,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.94.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.94.1...HEAD
+[v2.94.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.94.0...v2.94.1
 [v2.94.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.4...v2.94.0
 [v2.93.4]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.3...v2.93.4
 [v2.93.3]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.2...v2.93.3
