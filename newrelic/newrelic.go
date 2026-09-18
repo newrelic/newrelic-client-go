@@ -44,6 +44,7 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/plugins"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/pruningrules"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/servicelevel"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/streamingexport"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/synthetics"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/usermanagement"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/workflows"
@@ -93,6 +94,7 @@ type NewRelic struct {
 	EntityRelationship      entityrelationship.Entityrelationship
 	Users                   users.Users
 	WorkflowAutomation      workflowautomation.Workflowautomation
+	Streamingexport         streamingexport.Streamingexport
 
 	config config.Config
 }
@@ -150,6 +152,7 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 		EntityRelationship:      entityrelationship.New(cfg),
 		Users:                   users.New(cfg),
 		WorkflowAutomation:      workflowautomation.New(cfg),
+		Streamingexport:         streamingexport.New(cfg),
 	}
 
 	return nr, nil
