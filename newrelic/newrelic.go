@@ -262,3 +262,10 @@ func ConfigLogJSON(logJSON bool) ConfigOption {
 func ConfigLogger(logger logging.Logger) ConfigOption {
 	return config.ConfigLogger(logger)
 }
+
+// ConfigCustomHeaders sets headers applied to every outgoing request (e.g.
+// ELB rate limiting, NerdGraph routing). A request can still override via
+// Request.SetHeader.
+func ConfigCustomHeaders(headers map[string]string) ConfigOption {
+	return config.ConfigCustomHeaders(headers)
+}
