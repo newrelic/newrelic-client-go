@@ -541,6 +541,135 @@ func TestChangeTrackingCreateEvent_AllowCustomCategoryType(t *testing.T) {
 	}
 }
 
+func TestChangeTrackingCreateEvent_DeploymentFieldsWithNonDeploymentCategory(t *testing.T) {
+	t.Parallel()
+
+	a := newIntegrationTestClient(t)
+
+	input := ChangeTrackingCreateEventInput{
+		Description: "Deployment fields with non-deployment category",
+		EntitySearch: ChangeTrackingEntitySearchInput{
+			Query: "name = 'MyService'",
+		},
+		CategoryAndTypeData: &ChangeTrackingCategoryRelatedInput{
+			Kind: &ChangeTrackingCategoryAndTypeInput{
+				Category: "FEATURE_FLAG",
+				Type:     "BASIC",
+			},
+			CategoryFields: &ChangeTrackingCategoryFieldsInput{
+				Deployment: &ChangeTrackingDeploymentFieldsInput{
+					Version:   "1.2.3",
+					Changelog: "https://github.com/myorg/myservice/releases/tag/v1.2.3",
+					Commit:    "abc123def456",
+					DeepLink:  "https://example.com/deployment",
+				},
+			},
+		},
+	}
+
+	res, err := a.ChangeTrackingCreateEvent(
+		input,
+		ChangeTrackingDataHandlingRules{ValidationFlags: []ChangeTrackingValidationFlag{ChangeTrackingValidationFlagTypes.FAIL_ON_FIELD_LENGTH}},
+	)
+	require.Error(t, err)
+	require.Contains(t, err.Error(), "--version, --changelog, --commit, and --deepLink are only valid for DEPLOYMENT events")
+	require.Nil(t, res)
+}
+
+func TestChangeTrackingCreateEvent_FeatureFlagIdWithNonFeatureFlagCategory(t *testing.T) {
+	t.Parallel()
+
+	a := newIntegrationTestClient(t)
+
+	input := ChangeTrackingCreateEventInput{
+		Description: "Feature flag ID with non-feature flag category",
+		EntitySearch: ChangeTrackingEntitySearchInput{
+			Query: "name = 'MyService'",
+		},
+		CategoryAndTypeData: &ChangeTrackingCategoryRelatedInput{
+			Kind: &ChangeTrackingCategoryAndTypeInput{
+				Category: "DEPLOYMENT",
+				Type:     "BASIC",
+			},
+			CategoryFields: &ChangeTrackingCategoryFieldsInput{
+				FeatureFlag: &ChangeTrackingFeatureFlagFieldsInput{
+					FeatureFlagId: "checkout-flow-v2",
+				},
+			},
+		},
+	}
+
+	res, err := a.ChangeTrackingCreateEvent(
+		input,
+		ChangeTrackingDataHandlingRules{ValidationFlags: []ChangeTrackingValidationFlag{ChangeTrackingValidationFlagTypes.FAIL_ON_FIELD_LENGTH}},
+	)
+	require.Error(t, err)
+	require.Contains(t, err.Error(), "--featureFlagId is only valid for FEATURE FLAG events")
+	require.Nil(t, res)
+}
+
+func TestChangeTrackingCreateEvent_ValidDeploymentEvent(t *testing.T) {
+	t.Parallel()
+
+	a := newIntegrationTestClient(t)
+
+	input := ChangeTrackingCreateEventInput{
+		Description: "Valid deployment event",
+		EntitySearch: ChangeTrackingEntitySearchInput{
+			Query: "name = 'MyService'",
+		},
+		CategoryAndTypeData: &ChangeTrackingCategoryRelatedInput{
+			Kind: &ChangeTrackingCategoryAndTypeInput{
+				Category: "DEPLOYMENT",
+				Type:     "BASIC",
+			},
+			CategoryFields: &ChangeTrackingCategoryFieldsInput{
+				Deployment: &ChangeTrackingDeploymentFieldsInput{
+					Version: "1.2.3",
+				},
+			},
+		},
+	}
+
+	res, err := a.ChangeTrackingCreateEvent(
+		input,
+		ChangeTrackingDataHandlingRules{ValidationFlags: []ChangeTrackingValidationFlag{ChangeTrackingValidationFlagTypes.FAIL_ON_FIELD_LENGTH}},
+	)
+	require.NoError(t, err)
+	require.NotNil(t, res)
+}
+
+func TestChangeTrackingCreateEvent_ValidFeatureFlagEvent(t *testing.T) {
+	t.Parallel()
+
+	a := newIntegrationTestClient(t)
+
+	input := ChangeTrackingCreateEventInput{
+		Description: "Valid feature flag event",
+		EntitySearch: ChangeTrackingEntitySearchInput{
+			Query: "name = 'MyApp'",
+		},
+		CategoryAndTypeData: &ChangeTrackingCategoryRelatedInput{
+			Kind: &ChangeTrackingCategoryAndTypeInput{
+				Category: "FEATURE_FLAG",
+				Type:     "BASIC",
+			},
+			CategoryFields: &ChangeTrackingCategoryFieldsInput{
+				FeatureFlag: &ChangeTrackingFeatureFlagFieldsInput{
+					FeatureFlagId: "checkout-flow-v2",
+				},
+			},
+		},
+	}
+
+	res, err := a.ChangeTrackingCreateEvent(
+		input,
+		ChangeTrackingDataHandlingRules{ValidationFlags: []ChangeTrackingValidationFlag{ChangeTrackingValidationFlagTypes.FAIL_ON_FIELD_LENGTH}},
+	)
+	require.NoError(t, err)
+	require.NotNil(t, res)
+}
+
 func newIntegrationTestClient(t *testing.T) Changetracking {
 	tc := testhelpers.NewIntegrationTestConfig(t)
 
