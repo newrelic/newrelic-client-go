@@ -280,3 +280,53 @@ func newIntegrationTestClient(t *testing.T) Entities {
 
 	return New(tc)
 }
+
+// TestIntegrationSearchEntitiesByQueryWithCursor exercises cursor-driven
+// pagination end-to-end against a real account. It proves both branches of
+// the fix: an empty cursor returns the first page, and a cursor from that
+// response fetches a distinct second page.
+func TestIntegrationSearchEntitiesByQueryWithCursor(t *testing.T) {
+	t.Parallel()
+
+	client := newIntegrationTestClient(t)
+
+	// Very broad query so most test accounts return more than one page's
+	// worth of entities and NextCursor is populated.
+	query := "reporting = 'true'"
+
+	page1, err := client.GetEntitySearchByQueryWithCursor(EntitySearchOptions{}, query, nil, "")
+	require.NoError(t, err)
+	require.Greater(t, len(page1.Results.Entities), 0)
+
+	if page1.Results.NextCursor == "" {
+		t.Skip("test account has fewer entities than one page; cursor round-trip cannot be exercised")
+	}
+
+	page2, err := client.GetEntitySearchByQueryWithCursor(EntitySearchOptions{}, query, nil, page1.Results.NextCursor)
+	require.NoError(t, err)
+	require.Greater(t, len(page2.Results.Entities), 0)
+	require.NotEqual(t, page1.Results.Entities[0].GetGUID(), page2.Results.Entities[0].GetGUID(), "cursor did not advance to a new entity")
+}
+
+// TestIntegrationSearchEntitiesWithCursor is the queryBuilder counterpart to
+// TestIntegrationSearchEntitiesByQueryWithCursor.
+func TestIntegrationSearchEntitiesWithCursor(t *testing.T) {
+	t.Parallel()
+
+	client := newIntegrationTestClient(t)
+
+	qb := EntitySearchQueryBuilder{Reporting: true}
+
+	page1, err := client.GetEntitySearchWithCursor(EntitySearchOptions{}, "", qb, nil, nil, "")
+	require.NoError(t, err)
+	require.Greater(t, len(page1.Results.Entities), 0)
+
+	if page1.Results.NextCursor == "" {
+		t.Skip("test account has fewer entities than one page; cursor round-trip cannot be exercised")
+	}
+
+	page2, err := client.GetEntitySearchWithCursor(EntitySearchOptions{}, "", qb, nil, nil, page1.Results.NextCursor)
+	require.NoError(t, err)
+	require.Greater(t, len(page2.Results.Entities), 0)
+	require.NotEqual(t, page1.Results.Entities[0].GetGUID(), page2.Results.Entities[0].GetGUID(), "cursor did not advance to a new entity")
+}
