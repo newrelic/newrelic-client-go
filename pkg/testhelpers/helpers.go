@@ -17,8 +17,8 @@ const IntegrationTestApplicationEntityGUIDNew = "MzgwNjUyNnxBUE18QVBQTElDQVRJT05
 
 // GUIDs for the entity relationship
 // Upon expiration of these GUIDs, please replace them with GUIDs of Mobile Applications
-const EntityRelationshipTestSourceEntityGUID = "MzgwNjUyNnxNT0JJTEV8QVBQTElDQVRJT058NjAxNjQ2NTM1"
-const EntityRelationshipTestTargetEntityGUID = "MzgwNjUyNnxNT0JJTEV8QVBQTElDQVRJT058NjAxNjQ2NTM2"
+const EntityRelationshipTestSourceEntityGUID = "MzgwNjUyNnxNT0JJTEV8QVBQTElDQVRJT058NjAxNjcwMzA0"
+const EntityRelationshipTestTargetEntityGUID = "MzgwNjUyNnxNT0JJTEV8QVBQTElDQVRJT058NjAxNjcwMzA1"
 
 // name of the APM Application with the GUID IntegrationTestApplicationEntityGUIDNew
 const IntegrationTestApplicationEntityNameNew = "Dummy App Pro Max"

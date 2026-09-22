@@ -928,7 +928,7 @@ const getEntityQuery = `query(
 
 // Retrieves a set of entities that match the given query predicate.
 func (a *Fleetcontrol) GetEntitySearch(
-	cursor string,
+	cursor *string,
 	query string,
 ) (*EntityManagementEntitySearchResult, error) {
 	return a.GetEntitySearchWithContext(context.Background(),
@@ -940,7 +940,7 @@ func (a *Fleetcontrol) GetEntitySearch(
 // Retrieves a set of entities that match the given query predicate.
 func (a *Fleetcontrol) GetEntitySearchWithContext(
 	ctx context.Context,
-	cursor string,
+	cursor *string,
 	query string,
 ) (*EntityManagementEntitySearchResult, error) {
 
@@ -958,8 +958,10 @@ func (a *Fleetcontrol) GetEntitySearchWithContext(
 }
 
 const getEntitySearchQuery = `query(
+	$cursor: String,
 	$query: String!,
 ) { actor { entityManagement { entitySearch(
+	cursor: $cursor,
 	query: $query,
 ) {
 	entities {
