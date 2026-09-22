@@ -76,7 +76,7 @@ var (
 		},
 		RunbookURL:    "test.com",
 		TitleTemplate: &nrqlConditionTitleTemplate,
-		Terms: []NrqlConditionTerm{
+		Terms: &[]NrqlConditionTerm{
 			{
 				Threshold:            &nrqlConditionBaseThreshold,
 				ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
@@ -143,7 +143,7 @@ var (
 		},
 		RunbookURL:    "test.com",
 		TitleTemplate: &nrqlConditionTitleTemplate,
-		Terms: []NrqlConditionTerm{
+		Terms: &[]NrqlConditionTerm{
 			{
 				Threshold:            &nrqlConditionBaseThreshold,
 				ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
@@ -212,7 +212,7 @@ var (
 		},
 		RunbookURL:    "test.com",
 		TitleTemplate: &nrqlConditionTitleTemplate,
-		Terms: []NrqlConditionTerm{
+		Terms: &[]NrqlConditionTerm{
 			{
 				Threshold:            &nrqlConditionBaseThreshold,
 				ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
@@ -931,7 +931,7 @@ func TestIntegrationNrqlConditions_IgnoreOnExpectedTermination(t *testing.T) {
 					Query: "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
 				},
 				RunbookURL: "test.com",
-				Terms: []NrqlConditionTerm{
+				Terms: &[]NrqlConditionTerm{
 					{
 						Threshold:            &nrqlConditionBaseThresholdZeroValue,
 						ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
@@ -1109,7 +1109,7 @@ func TestIntegrationNrqlConditions_SignalSeasonality(t *testing.T) {
 				Nrql: NrqlConditionUpdateQuery{
 					Query: "SELECT average(duration) From Transaction",
 				},
-				Terms: []NrqlConditionTerm{
+				Terms: &[]NrqlConditionTerm{
 					{
 						Threshold:            &nrqlConditionBaseThreshold,
 						ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
@@ -1231,7 +1231,7 @@ func TestIntegrationNrqlConditions_OutlierConfiguration(t *testing.T) {
 				Nrql: NrqlConditionUpdateQuery{
 					Query: "SELECT average(duration) From Transaction",
 				},
-				Terms: []NrqlConditionTerm{
+				Terms: &[]NrqlConditionTerm{
 					{
 						Threshold:            &nrqlConditionBaseThreshold,
 						ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
@@ -1350,7 +1350,7 @@ func TestIntegrationNrqlConditions_DisableHealthStatusReporting(t *testing.T) {
 				Query:         "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
 				DataAccountId: &testAccountID,
 			},
-			Terms: []NrqlConditionTerm{
+			Terms: &[]NrqlConditionTerm{
 				{
 					Threshold:                    &nrqlConditionBaseThreshold,
 					ThresholdOccurrences:         ThresholdOccurrences.AtLeastOnce,
@@ -1379,7 +1379,7 @@ func TestIntegrationNrqlConditions_DisableHealthStatusReporting(t *testing.T) {
 				Query:         "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
 				DataAccountId: &testAccountID,
 			},
-			Terms: []NrqlConditionTerm{
+			Terms: &[]NrqlConditionTerm{
 				{
 					Threshold:                    &nrqlConditionBaseThreshold,
 					ThresholdOccurrences:         ThresholdOccurrences.AtLeastOnce,
@@ -1496,7 +1496,7 @@ func TestIntegrationNrqlConditions_DisableEventCreation(t *testing.T) {
 				Query:         "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
 				DataAccountId: &testAccountID,
 			},
-			Terms: []NrqlConditionTerm{
+			Terms: &[]NrqlConditionTerm{
 				{
 					Threshold:            &nrqlConditionBaseThreshold,
 					ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
@@ -1525,7 +1525,7 @@ func TestIntegrationNrqlConditions_DisableEventCreation(t *testing.T) {
 				Query:         "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
 				DataAccountId: &testAccountID,
 			},
-			Terms: []NrqlConditionTerm{
+			Terms: &[]NrqlConditionTerm{
 				{
 					Threshold:            &nrqlConditionBaseThreshold,
 					ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,

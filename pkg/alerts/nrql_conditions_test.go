@@ -4,12 +4,14 @@
 package alerts
 
 import (
+	"encoding/json"
 	"net/http"
 	"testing"
 
 	"github.com/newrelic/newrelic-client-go/v2/pkg/common"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 var (
@@ -306,4 +308,65 @@ func TestDeleteNrqlCondition(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)
 	assert.Equal(t, expected, actual)
+}
+
+func TestUpdateNrqlConditionStaticMutation_TermsWireSemantics(t *testing.T) {
+	t.Parallel()
+
+	cases := map[string]struct {
+		terms       *[]NrqlConditionTerm
+		expectKey   bool
+		expectValue interface{}
+	}{
+		"nil terms omits the field from the request": {
+			terms:     nil,
+			expectKey: false,
+		},
+		"pointer to an empty slice sends an explicit empty list": {
+			terms:       &[]NrqlConditionTerm{},
+			expectKey:   true,
+			expectValue: []interface{}{},
+		},
+	}
+
+	for name, tc := range cases {
+		tc := tc
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+
+			var capturedVariables map[string]interface{}
+
+			handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				var body struct {
+					Variables map[string]interface{} `json:"variables"`
+				}
+				require.NoError(t, json.NewDecoder(r.Body).Decode(&body))
+				capturedVariables = body.Variables
+
+				w.Header().Set("Content-Type", "application/json")
+				_, _ = w.Write([]byte(`{"data":{"alertsNrqlConditionStaticUpdate":{"id":"123"}}}`))
+			})
+
+			alertsClient := newTestClient(t, handler)
+
+			input := NrqlConditionUpdateInput{
+				NrqlConditionUpdateBase: NrqlConditionUpdateBase{
+					Name:  "test",
+					Terms: tc.terms,
+				},
+			}
+
+			_, err := alertsClient.UpdateNrqlConditionStaticMutation(123456, "123", input)
+			require.NoError(t, err)
+
+			condition, ok := capturedVariables["condition"].(map[string]interface{})
+			require.True(t, ok)
+
+			value, hasKey := condition["terms"]
+			assert.Equal(t, tc.expectKey, hasKey)
+			if tc.expectKey {
+				assert.Equal(t, tc.expectValue, value)
+			}
+		})
+	}
 }
