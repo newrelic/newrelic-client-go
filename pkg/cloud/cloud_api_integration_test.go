@@ -361,13 +361,15 @@ func TestCloudAccount_AzureMonitorIntegration(t *testing.T) {
 
 	// Create a new AzureMonitor Cloud Integration.
 	azureMonitorEnabled := true
+	azureMonitorExcludeTags := []string{"env:staging", "env:testing"}
+	azureMonitorIncludeTags := []string{"env:production"}
 	azureMonitorIntegrationRes, azureMonitorIntegrationErr := client.CloudConfigureIntegration(testAccountID, CloudIntegrationsInput{
 		Azure: CloudAzureIntegrationsInput{
 			AzureMonitor: []CloudAzureMonitorIntegrationInput{{
 				LinkedAccountId:        linkedAccountID,
 				Enabled:                &azureMonitorEnabled,
-				ExcludeTags:            []string{"env:staging", "env:testing"},
-				IncludeTags:            []string{"env:production"},
+				ExcludeTags:            &azureMonitorExcludeTags,
+				IncludeTags:            &azureMonitorIncludeTags,
 				MetricsPollingInterval: 1200,
 				ResourceTypes:          []string{"microsoft.datashare/accounts"},
 				ResourceGroups:         []string{"resource_groups"},
