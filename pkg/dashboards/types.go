@@ -8,6 +8,25 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/nrtime"
 )
 
+// DashboardAddWidgetsToPageErrorType - Expected error types that can be returned by addWidgetsToPage operation.
+type DashboardAddWidgetsToPageErrorType string
+
+var DashboardAddWidgetsToPageErrorTypeTypes = struct {
+	// User is not allowed to execute the operation.
+	FORBIDDEN_OPERATION DashboardAddWidgetsToPageErrorType
+	// Invalid input error.
+	INVALID_INPUT DashboardAddWidgetsToPageErrorType
+	// Page not found in the system.
+	PAGE_NOT_FOUND DashboardAddWidgetsToPageErrorType
+}{
+	// User is not allowed to execute the operation.
+	FORBIDDEN_OPERATION: "FORBIDDEN_OPERATION",
+	// Invalid input error.
+	INVALID_INPUT: "INVALID_INPUT",
+	// Page not found in the system.
+	PAGE_NOT_FOUND: "PAGE_NOT_FOUND",
+}
+
 // DashboardCreateErrorType - Expected error types that can be returned by create operation.
 type DashboardCreateErrorType string
 
@@ -49,6 +68,17 @@ var DashboardDeleteResultStatusTypes = struct {
 	SUCCESS: "SUCCESS",
 }
 
+// DashboardLiveURLAuthType - The auth type used to protect the Live URL
+type DashboardLiveURLAuthType string
+
+var DashboardLiveURLAuthTypeTypes = struct {
+	// The Live URL is protected by a password.
+	PASSWORD DashboardLiveURLAuthType
+}{
+	// The Live URL is protected by a password.
+	PASSWORD: "PASSWORD",
+}
+
 // DashboardLiveURLType - Live URL type.
 type DashboardLiveURLType string
 
@@ -62,6 +92,21 @@ var DashboardLiveURLTypeTypes = struct {
 	DASHBOARD: "DASHBOARD",
 	// Widget.
 	WIDGET: "WIDGET",
+}
+
+// DashboardSnapshotURLFormat - Format for the snapshot URL.
+type DashboardSnapshotURLFormat string
+
+var DashboardSnapshotURLFormatTypes = struct {
+	// PDF format.
+	PDF DashboardSnapshotURLFormat
+	// PNG format.
+	PNG DashboardSnapshotURLFormat
+}{
+	// PDF format.
+	PDF: "PDF",
+	// PNG format.
+	PNG: "PNG",
 }
 
 // DashboardUpdateErrorType - Expected error types that can be returned by update operation.
@@ -163,6 +208,26 @@ var DashboardVariableTypeTypes = struct {
 	STRING: "STRING",
 }
 
+// AccountReference - The `AccountReference` object provides basic identifying information about the account.
+type AccountReference struct {
+	ID   int    `json:"id,omitempty"`
+	Name string `json:"name,omitempty"`
+}
+
+// DashboardAddWidgetsToPageError - Expected errors that can be returned by addWidgetsToPage operation.
+type DashboardAddWidgetsToPageError struct {
+	// Error description.
+	Description string `json:"description,omitempty"`
+	// Error type.
+	Type DashboardAddWidgetsToPageErrorType `json:"type"`
+}
+
+// DashboardAddWidgetsToPageResult - Result of addWidgetsToPage operation.
+type DashboardAddWidgetsToPageResult struct {
+	// Expected errors while processing request. No errors means successful request.
+	Errors []DashboardAddWidgetsToPageError `json:"errors,omitempty"`
+}
+
 // DashboardAreaWidgetConfigurationInput - Configuration for visualization type 'viz.area'
 type DashboardAreaWidgetConfigurationInput struct {
 	// NRQL queries.
@@ -236,7 +301,7 @@ type DashboardEntityResult struct {
 	// Dashboard update timestamp.
 	UpdatedAt nrtime.DateTime `json:"updatedAt,omitempty"`
 	// Dashboard-local variable definitions.
-	Variables []entities.DashboardVariable `json:"variables,omitempty"`
+	Variables []DashboardVariable `json:"variables,omitempty"`
 }
 
 // DashboardInput - Dashboard input.
@@ -261,8 +326,16 @@ type DashboardLineWidgetConfigurationInput struct {
 
 // DashboardLiveURL - Live URL.
 type DashboardLiveURL struct {
+	// The account(s) of the Live URL. For live dashboards only one account is present
+	Accounts []AccountReference `json:"accounts,omitempty"`
+	// The authorization policies that will be used to protect the Live URL
+	Auth DashboardLiveURLAuth `json:"auth,omitempty"`
 	// Creation date.
 	CreatedAt nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
+	// Information of the user that created the LiveUrl.
+	CreatedBy UserReference `json:"createdBy,omitempty"`
+	// Date when the Live Url will become unavailable
+	ExpiresOn nrtime.EpochMilliseconds `json:"expiresOn,omitempty"`
 	// Title that describes the source entity that is accessible through the public live URL.
 	Title string `json:"title,omitempty"`
 	// Live URL type.
@@ -271,6 +344,64 @@ type DashboardLiveURL struct {
 	URL string `json:"url"`
 	// The unique identifier of the public live URL.
 	Uuid string `json:"uuid"`
+}
+
+// DashboardLiveURLAuth - The authorization policies that will be used to protect the Live URL
+type DashboardLiveURLAuth struct {
+	// The different authorization factors that will be used to protect the Live URL
+	Factors []DashboardLiveURLAuthFactor `json:"factors"`
+}
+
+// DashboardLiveURLAuthCreationInput - Input type used to setup the Live URL auth policies in creation time
+type DashboardLiveURLAuthCreationInput struct {
+	// The auth factors that will be used to protect the Live URL
+	Factors []DashboardLiveURLAuthFactorInput `json:"factors,omitempty"`
+}
+
+// DashboardLiveURLAuthFactor - Live URL authentication factor.
+type DashboardLiveURLAuthFactor struct {
+	// Details for the Live URL authentication factor of type `PASSWORD`
+	Password DashboardLiveURLAuthPasswordDetails `json:"password,omitempty"`
+	// Type of authentication factor.
+	Type DashboardLiveURLAuthType `json:"type"`
+}
+
+// DashboardLiveURLAuthFactorInput - Input type use to define each Live URL auth factor
+type DashboardLiveURLAuthFactorInput struct {
+	// Type of authentication factor.
+	Type DashboardLiveURLAuthType `json:"type"`
+}
+
+// DashboardLiveURLAuthPasswordDetails - Live URL authentication details.
+type DashboardLiveURLAuthPasswordDetails struct {
+	// The actual password of the Live URL, contains value only upon public link creation
+	Value SecureValue `json:"value,omitempty"`
+}
+
+// DashboardLiveURLAuthUpdateInput - Input type used to update the Live URL auth policies
+type DashboardLiveURLAuthUpdateInput struct {
+	// The auth factors that will be used to protect the Live URL
+	Factors []DashboardLiveURLAuthFactorInput `json:"factors,omitempty"`
+}
+
+// DashboardLiveURLCreationPoliciesResult - Result of fetching list of live URL creation policies.
+type DashboardLiveURLCreationPoliciesResult struct {
+	// List of live URL creation policies.
+	LiveURLCreationPolicies []DashboardLiveURLCreationPolicy `json:"liveUrlCreationPolicies,omitempty"`
+}
+
+// DashboardLiveURLCreationPolicy - Represents a live URL creation policy. A live URL creation policy controls whether creating Live URLs is allowed or not for an account.
+type DashboardLiveURLCreationPolicy struct {
+	// The account id for which the policy applies.
+	AccountID int `json:"accountId,omitempty"`
+	// Whether or not live URL creation is allowed for the account.
+	LiveURLCreationAllowed bool `json:"liveUrlCreationAllowed,omitempty"`
+}
+
+// DashboardLiveURLOptionsInput - Options to configure the Live URL
+type DashboardLiveURLOptionsInput struct {
+	// The amount of time (in seconds) until the Live Url becomes unavailable from the date on which the operation is executed. Min value of 300 (5 minutes). Max value of 631,152,000 (20 year). When it is not set, by default 2,592,000 (30 days) will be used.
+	Ttl Seconds `json:"ttl,omitempty"`
 }
 
 // DashboardMarkdownWidgetConfigurationInput - Configuration for visualization type 'viz.markdown'. Learn more about [markdown](https://docs.newrelic.com/docs/apis/nerdgraph/examples/create-widgets-dashboards-api/#markdown) widget.
@@ -287,13 +418,8 @@ type DashboardPageInput struct {
 	GUID common.EntityGUID `json:"guid,omitempty"`
 	// The name of the page.
 	Name string `json:"name"`
-
-	// NOTE: The JSON description of the following attribute, "Widgets" has been modified manually
-	// (removal of "omitempty") to facilitate creating pages with no widgets (empty pages).
-	// Please DO NOT regenerate/modify this attribute and its datatype via Tutone (which would add "omitempty" back).
-
 	// A nested block of all widgets belonging to the page.
-	Widgets []DashboardWidgetInput `json:"widgets"`
+	Widgets []DashboardWidgetInput `json:"widgets,omitempty"`
 }
 
 // DashboardPieWidgetConfigurationInput - Configuration for visualization type 'viz.pie'.  Learn more about [pie](https://docs.newrelic.com/docs/apis/nerdgraph/examples/create-widgets-dashboards-api/#pie) widget.
@@ -302,10 +428,26 @@ type DashboardPieWidgetConfigurationInput struct {
 	NRQLQueries []DashboardWidgetNRQLQueryInput `json:"nrqlQueries,omitempty"`
 }
 
+// DashboardSnapshotURLDisplayInput - Display configuration of the snapshot.
+type DashboardSnapshotURLDisplayInput struct {
+	// Height in pixels for the snapshot.
+	Height int `json:"height,omitempty"`
+	// Width in pixels for the snapshot.
+	Width int `json:"width,omitempty"`
+}
+
 // DashboardSnapshotURLInput - Parameters that affect the data and the rendering of the dashboards returned by the snapshot url mutation.
 type DashboardSnapshotURLInput struct {
+	// Display configuration of the snapshot.
+	Display DashboardSnapshotURLDisplayInput `json:"display,omitempty"`
+	// Filter applied to the dashboard at the moment of creating the snapshot.
+	Filter string `json:"filter,omitempty"`
+	// Snapshot format.
+	Format DashboardSnapshotURLFormat `json:"format,omitempty"`
 	// Period of time from which the data to be displayed on the dashboard will be obtained.
 	TimeWindow DashboardSnapshotURLTimeWindowInput `json:"timeWindow,omitempty"`
+	// Values for the variables defined in the dashboard at the moment of creating the snapshot.
+	Variables []DashboardSnapshotURLVariableInput `json:"variables,omitempty"`
 }
 
 // DashboardSnapshotURLTimeWindowInput - Period of time from which the data to be displayed on the dashboard will be obtained.
@@ -316,6 +458,14 @@ type DashboardSnapshotURLTimeWindowInput struct {
 	Duration nrtime.Milliseconds `json:"duration,omitempty"`
 	// The end time of the time window. If specified, a beginTime or a duration must also be specified.
 	EndTime nrtime.EpochMilliseconds `json:"endTime,omitempty"`
+}
+
+// DashboardSnapshotURLVariableInput - Values for the variables defined in the dashboard at the moment of creating the snapshot.
+type DashboardSnapshotURLVariableInput struct {
+	// Variable identifier.
+	Name string `json:"name"`
+	// Variable value/s.
+	Values []string `json:"values"`
 }
 
 // DashboardTableWidgetConfigurationInput - Configuration for visualization type 'viz.table'.  Learn more about [table](https://docs.newrelic.com/docs/apis/nerdgraph/examples/create-widgets-dashboards-api/#table) widget.
@@ -332,6 +482,14 @@ type DashboardUpdateError struct {
 	Type DashboardUpdateErrorType `json:"type"`
 }
 
+// DashboardUpdateLiveURLCreationPoliciesInput - Parameters for setting the Live URL creation policies.
+type DashboardUpdateLiveURLCreationPoliciesInput struct {
+	// The account ids for which the policy applies.
+	AccountIDs []int `json:"accountIds"`
+	// Whether or not live URL creation is allowed for the accounts.
+	LiveURLCreationAllowed bool `json:"liveUrlCreationAllowed"`
+}
+
 // DashboardUpdatePageError - Expected errors that can be returned by updatePage operation.
 type DashboardUpdatePageError struct {
 	// Error description.
@@ -346,13 +504,8 @@ type DashboardUpdatePageInput struct {
 	Description string `json:"description,omitempty"`
 	// Page name.
 	Name string `json:"name"`
-
-	// NOTE: The JSON description of the following attribute, "Widgets" has been modified manually
-	// (removal of "omitempty") to facilitate creating pages with no widgets (empty pages).
-	// Please DO NOT regenerate/modify this attribute and its datatype via Tutone (which would add "omitempty" back).
-
 	// Page widgets.
-	Widgets []DashboardWidgetInput `json:"widgets"`
+	Widgets []DashboardWidgetInput `json:"widgets,omitempty"`
 }
 
 // DashboardUpdatePageResult - Result of updatePage operation.
@@ -373,10 +526,14 @@ type DashboardUpdateResult struct {
 type DashboardUpdateWidgetInput struct {
 	// Typed widgets are area, bar, billboard, line, markdown, pie, and table. Check our [docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/create-widgets-dashboards-api/#widget-typed) for more info.
 	Configuration DashboardWidgetConfigurationInput `json:"configuration,omitempty"`
+	// A description of the widget, will be displayed in a tooltip.
+	Description string `json:"description,omitempty"`
 	// ID of the widget to be updated.
 	ID string `json:"id"`
 	// The widget's position and size in the dashboard.
 	Layout DashboardWidgetLayoutInput `json:"layout,omitempty"`
+	// Input for configuring a link to be displayed in the widget. The URL will be rendered as a clickable link.
+	Link DashboardWidgetLinkInput `json:"link,omitempty"`
 	// Entities related to the widget. Currently only supports one Dashboard entity guid, but may allow other cases in the future.
 	LinkedEntityGUIDs []common.EntityGUID `json:"linkedEntityGuids"`
 	// Untyped widgets are all other widgets, such as bullet, histogram, inventory, etc. Check our [docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/create-widgets-dashboards-api/#widget-untyped) for more info.
@@ -434,7 +591,7 @@ type DashboardVariableDefaultItem struct {
 // DashboardVariableDefaultItemInput - Represents a possible default value item.
 type DashboardVariableDefaultItemInput struct {
 	// The value of this default item.
-	Value DashboardVariableDefaultValueInput `json:"value,omitempty"`
+	Value *DashboardVariableDefaultValueInput `json:"value,omitempty"`
 }
 
 // DashboardVariableDefaultValue - Specifies a default value for variables.
@@ -470,13 +627,13 @@ type DashboardVariableInput struct {
 	// [DEPRECATED] Default value for this variable. The actual value to be used will depend on the type.
 	DefaultValue *DashboardVariableDefaultValueInput `json:"defaultValue,omitempty"`
 	// Default values for this variable. The actual value to be used will depend on the type.
-	DefaultValues *[]DashboardVariableDefaultItemInput `json:"defaultValues,omitempty"`
+	DefaultValues []*DashboardVariableDefaultItemInput `json:"defaultValues,omitempty"`
 	// Indicates whether this variable supports multiple selection or not. Only applies to variables of type NRQL or ENUM.
 	IsMultiSelection bool `json:"isMultiSelection,omitempty"`
 	// List of possible values for variables of type ENUM
 	Items []DashboardVariableEnumItemInput `json:"items,omitempty"`
 	// Configuration for variables of type NRQL.
-	NRQLQuery *DashboardVariableNRQLQueryInput `json:"nrqlQuery,omitempty"`
+	NRQLQuery DashboardVariableNRQLQueryInput `json:"nrqlQuery,omitempty"`
 	// Variable identifier.
 	Name string `json:"name"`
 	// Options applied to the variable
@@ -509,6 +666,8 @@ type DashboardVariableNRQLQueryInput struct {
 type DashboardVariableOptions struct {
 	// With this turned on, query condition defined with the variable will not be included in the query.
 	Excluded bool `json:"excluded,omitempty"`
+	// Controls whether this variable is visible in the UI when not in edit mode.
+	HiddenOnVariablesBar bool `json:"hiddenOnVariablesBar,omitempty"`
 	// Only applies to variables of type NRQL. With this turned on, the time range for the NRQL query will override the time picker on dashboards and other pages. Turn this off to use the time picker as normal.
 	IgnoreTimeRange bool `json:"ignoreTimeRange,omitempty"`
 	// Determines whether or not an Apply action will be shown when selecting multiple values in ENUM and NRQL variables.
@@ -518,11 +677,13 @@ type DashboardVariableOptions struct {
 // DashboardVariableOptionsInput - Options applied to the variable
 type DashboardVariableOptionsInput struct {
 	// With this turned on, query condition defined with the variable will not be included in the query.
-	Excluded *bool `json:"excluded,omitempty"`
+	Excluded bool `json:"excluded,omitempty"`
+	// Controls whether this variable is visible in the UI when not in edit mode.
+	HiddenOnVariablesBar bool `json:"hiddenOnVariablesBar,omitempty"`
 	// Only applies to variables of type NRQL. With this turned on, the time range for the NRQL query will override the time picker on dashboards and other pages. Turn this off to use the time picker as normal.
-	IgnoreTimeRange *bool `json:"ignoreTimeRange,omitempty"`
+	IgnoreTimeRange bool `json:"ignoreTimeRange,omitempty"`
 	// Determines whether or not an Apply action will be shown when selecting multiple values in ENUM and NRQL variables.
-	ShowApplyAction *bool `json:"showApplyAction,omitempty"`
+	ShowApplyAction bool `json:"showApplyAction,omitempty"`
 }
 
 // DashboardWidgetConfigurationInput - Typed configuration for known visualizations. At most one may be populated.
@@ -547,10 +708,14 @@ type DashboardWidgetConfigurationInput struct {
 type DashboardWidgetInput struct {
 	// Typed widgets are area, bar, billboard, line, markdown, pie, and table. Check our [docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/create-widgets-dashboards-api/#widget-typed) for more info.
 	Configuration DashboardWidgetConfigurationInput `json:"configuration,omitempty"`
+	// A description of the widget, will be displayed in a tooltip.
+	Description string `json:"description,omitempty"`
 	// ID of the widget. If null, a new widget will be created and added to a dashboard.
 	ID string `json:"id,omitempty"`
 	// The widget's position and size in the dashboard.
 	Layout DashboardWidgetLayoutInput `json:"layout,omitempty"`
+	// Input for configuring a link to be displayed in the widget. The URL will be rendered as a clickable link.
+	Link DashboardWidgetLinkInput `json:"link,omitempty"`
 	// Entities related to the widget. Currently only supports one Dashboard entity guid, but may allow other cases in the future.
 	LinkedEntityGUIDs []common.EntityGUID `json:"linkedEntityGuids"`
 	// Untyped widgets are all other widgets, such as bullet, histogram, inventory, etc. Check our [docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/create-widgets-dashboards-api/#widget-untyped) for more info.
@@ -573,12 +738,16 @@ type DashboardWidgetLayoutInput struct {
 	Width int `json:"width,omitempty"`
 }
 
+// DashboardWidgetLinkInput - Input for configuring a link to be displayed in the widget. The URL will be rendered as a clickable link.
+type DashboardWidgetLinkInput struct {
+	// The target URL for the link.
+	URL string `json:"url"`
+}
+
 // DashboardWidgetNRQLQueryInput - NRQL query used by a widget.
 type DashboardWidgetNRQLQueryInput struct {
 	// New Relic account ID to issue the query against.
-	AccountID int `json:"accountId,omitempty"`
-	// New Relic account IDs to issue the query against.
-	AccountIDS []int `json:"accountIds,omitempty"`
+	AccountID int `json:"accountId"`
 	// NRQL formatted query.
 	Query nrdb.NRQL `json:"query"`
 }
@@ -588,3 +757,17 @@ type DashboardWidgetVisualizationInput struct {
 	// This field can either have a known type like `viz.area` or `<nerdpack-id>.<visualization-id>` in the case of [custom visualizations](https://developer.newrelic.com/explore-docs/custom-viz/build-visualization/). Check out [docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/create-widgets-dashboards-api/#widget-schema) for more info.
 	ID string `json:"id,omitempty"`
 }
+
+// UserReference - The `UserReference` object provides basic identifying information about the user.
+type UserReference struct {
+	Email    string `json:"email,omitempty"`
+	Gravatar string `json:"gravatar,omitempty"`
+	ID       int    `json:"id,omitempty"`
+	Name     string `json:"name,omitempty"`
+}
+
+// Seconds - The `Seconds` scalar represents a duration in seconds
+type Seconds string
+
+// SecureValue - The `SecureValue` scalar represents a secure value, ie a password, an API key, etc.
+type SecureValue string
