@@ -310,6 +310,12 @@ const getEntityQuery = `query(
 			version
 		}
 		nrql
+		ottlTransform {
+			eventStatements
+			logStatements
+			metricStatements
+			traceStatements
+		}
 		scope {
 			id
 			type
@@ -424,6 +430,12 @@ const getEntitySearchQuery = `query(
 				version
 			}
 			nrql
+			ottlTransform {
+				eventStatements
+				logStatements
+				metricStatements
+				traceStatements
+			}
 			scope {
 				id
 				type
