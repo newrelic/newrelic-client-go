@@ -5,7 +5,6 @@ coverage/*
 vendor/*
 schema.json
 *.csv
-
 .vscode/
 .DS_Store
 .idea
