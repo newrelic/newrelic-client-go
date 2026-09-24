@@ -94,11 +94,12 @@ func TestUnitCreateAzureMonitor(t *testing.T) {
 	t.Parallel()
 	createAzureMonitorResponse := newMockResponse(t, testCreateAzureMonitor, http.StatusCreated)
 	linkedAccountIDAsInt, _ := strconv.Atoi(linkedAccountID)
+	azureMonitorEnabled := true
 	createAzureMonitorInput := CloudIntegrationsInput{
 		Azure: CloudAzureIntegrationsInput{
 			AzureMonitor: []CloudAzureMonitorIntegrationInput{{
 				LinkedAccountId:        linkedAccountIDAsInt,
-				Enabled:                true,
+				Enabled:                &azureMonitorEnabled,
 				ExcludeTags:            []string{"env:staging", "env:testing"},
 				IncludeTags:            []string{"env:production"},
 				MetricsPollingInterval: 1200,

@@ -1,3 +1,24 @@
+<a name="v2.94.1"></a>
+## [v2.94.1] - 2026-09-17
+### Bug Fixes
+- **fleetcontrol:** correct entityGuid/blobId JSON tags on ConfigurationVersion ([#1493](https://github.com/newrelic/newrelic-client-go/issues/1493))
+- **notebooks:** update README integration test credentials ([#1489](https://github.com/newrelic/newrelic-client-go/issues/1489))
+
+<a name="v2.94.0"></a>
+## [v2.94.0] - 2026-09-15
+### Features
+- **notebooks:** add Notebooks package with Blob Storage + NerdGraph CRUD ([#1428](https://github.com/newrelic/newrelic-client-go/issues/1428))
+
+<a name="v2.93.4"></a>
+## [v2.93.4] - 2026-09-09
+### Bug Fixes
+- **cloud:** don't drop if enabled is false ([#1485](https://github.com/newrelic/newrelic-client-go/issues/1485))
+
+<a name="v2.93.3"></a>
+## [v2.93.3] - 2026-09-03
+### Bug Fixes
+- **security:** bump grpc, go-git, sigstore-go to resolve Dependabot alerts
+
 <a name="v2.93.2"></a>
 ## [v2.93.2] - 2026-08-24
 ### Bug Fixes
@@ -2342,7 +2363,11 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.2...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.94.1...HEAD
+[v2.94.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.94.0...v2.94.1
+[v2.94.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.4...v2.94.0
+[v2.93.4]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.3...v2.93.4
+[v2.93.3]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.2...v2.93.3
 [v2.93.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.1...v2.93.2
 [v2.93.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.0...v2.93.1
 [v2.93.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.92.0...v2.93.0
