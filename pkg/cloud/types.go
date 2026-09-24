@@ -2646,6 +2646,8 @@ type CloudAzureMonitorIntegrationInput struct {
 	// Specify resource tags (in 'key:value' form) associated with the resources that you want to exclude from monitoring. Exclusion takes precedence over inclusion.
 	// A nil pointer omits the field, leaving the configured tags unchanged; a pointer to an empty
 	// slice sends [], which clears them.
+	// This change has been made manually out of Tutone's purview, as a pointer override with primitive datatypes is not supported by Tutone.
+	// DO NOT DISCARD THIS CHANGE when a refetch of this package is performed using Tutone.
 	ExcludeTags *[]string `json:"excludeTags,omitempty"`
 	// Specify resource tags (in 'key:value' form) associated with the resources that you want to monitor. If empty, all resources will be monitored.
 	// A nil pointer omits the field, leaving the configured tags unchanged; a pointer to an empty
