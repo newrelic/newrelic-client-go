@@ -1,3 +1,8 @@
+<a name="v2.95.1"></a>
+## [v2.95.1] - 2026-09-24
+### Bug Fixes
+- **cloud:** distinguish absent from empty Azure Monitor tags ([#1487](https://github.com/newrelic/newrelic-client-go/issues/1487))
+
 <a name="v2.95.0"></a>
 ## [v2.95.0] - 2026-09-24
 ### Bug Fixes
@@ -2371,7 +2376,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.95.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.95.1...HEAD
+[v2.95.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.95.0...v2.95.1
 [v2.95.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.94.1...v2.95.0
 [v2.94.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.94.0...v2.94.1
 [v2.94.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.4...v2.94.0
