@@ -1,3 +1,11 @@
+<a name="v2.95.0"></a>
+## [v2.95.0] - 2026-09-24
+### Bug Fixes
+- **alerts:** preserve intent to clear terms on nrql condition update ([#1500](https://github.com/newrelic/newrelic-client-go/issues/1500))
+
+### Features
+- **pathpoint:** new import schema  ([#1443](https://github.com/newrelic/newrelic-client-go/issues/1443))
+
 <a name="v2.94.1"></a>
 ## [v2.94.1] - 2026-09-17
 ### Bug Fixes
@@ -2363,7 +2371,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.94.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.95.0...HEAD
+[v2.95.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.94.1...v2.95.0
 [v2.94.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.94.0...v2.94.1
 [v2.94.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.4...v2.94.0
 [v2.93.4]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.3...v2.93.4
