@@ -6359,6 +6359,11 @@ type EntityManagementTeamsOrganizationSettingsEntityUpdateInput struct {
 	// No omitempty: the zero-value struct {Enabled:false, TagKeys:nil} is a valid
 	// "disable discovery with no keys" state and must not be silently dropped.
 	Discovery EntityManagementDiscoverySettingsUpdateInput `json:"discovery"`
+	// See hierarchyLevelOrder in TeamsOrganizationSettingsEntity.
+	// Ordered list of hierarchy level entity GUIDs that defines the visual order
+	// in the Teams UI. Use omitempty so callers that only touch discovery/syncGroups
+	// do not accidentally reset the order to an empty list.
+	HierarchyLevelOrder []string `json:"hierarchyLevelOrder,omitempty"`
 	// See name in TeamsOrganizationSettingsEntity.
 	Name string `json:"name,omitempty"`
 	// See syncGroups in TeamsOrganizationSettingsEntity.
