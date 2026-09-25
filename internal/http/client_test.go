@@ -513,6 +513,89 @@ func TestPaymentRequiredError(t *testing.T) {
 	assert.IsType(t, &errors.PaymentRequiredError{}, err)
 }
 
+func TestWithContextIsRespected(t *testing.T) {
+	t.Parallel()
+
+	// Verify that WithContext actually attaches the context to the request so
+	// callers using a deadline or cancellable context (e.g. the Grafana plugin)
+	// get correct cancellation behaviour rather than silently falling back to
+	// context.Background().
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		_, _ = w.Write([]byte(`{}`))
+	}))
+
+	tc := mock.NewTestConfig(t, ts)
+	c := NewClient(tc)
+
+	req, err := c.NewRequest("GET", c.config.Region().RestURL("path"), nil, nil, nil)
+	require.NoError(t, err)
+
+	ctx, cancel := context.WithCancel(context.Background())
+	req.WithContext(ctx)
+
+	// The context stored on the underlying request must be our ctx, not
+	// context.Background() (which is what you get when WithContext is a no-op).
+	storedCtx := req.request.Request.Context()
+	assert.Equal(t, ctx, storedCtx, "WithContext must store the returned shallow copy on r.request")
+
+	cancel() // clean up
+
+	// After cancellation the stored context must also be done.
+	assert.ErrorIs(t, storedCtx.Err(), context.Canceled)
+}
+
+func TestContextCancellationAbortsRetry(t *testing.T) {
+	t.Parallel()
+
+	// Verify that a context cancelled during the backoff sleep aborts the retry
+	// loop instead of sleeping through all remaining backoff intervals.
+	attempts := 0
+	cancelCh := make(chan struct{})
+	var cancel context.CancelFunc
+
+	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`{"errors":[{"message": "some error", "extensions":{"errorClass":"TIMEOUT"}}]}`))
+		attempts++
+		// On the first attempt, signal the test to cancel the context so that
+		// the retry sleep is interrupted before the second attempt can run.
+		select {
+		case cancelCh <- struct{}{}:
+		default:
+		}
+	}))
+
+	// Use a long retry wait so the sleep dominates and the cancellation signal
+	// reliably arrives during the wait rather than after.
+	c.client.RetryWaitMin = 500 * time.Millisecond
+	c.client.RetryWaitMax = 2 * time.Second
+	c.errorValue = &GraphQLErrorResponse{}
+
+	var ctx context.Context
+	ctx, cancel = context.WithCancel(context.Background())
+
+	req, err := c.NewRequest("GET", c.config.Region().NerdGraphURL("path"), nil, nil, nil)
+	require.NoError(t, err)
+	req.WithContext(ctx)
+
+	// Cancel the context in a goroutine as soon as the first request completes
+	// (i.e. while the client is sleeping before its first retry).
+	go func() {
+		<-cancelCh
+		cancel()
+	}()
+
+	_, err = c.Do(req)
+
+	// The request should fail with a context error, not MaxRetriesReached.
+	assert.Error(t, err)
+	assert.ErrorIs(t, err, context.Canceled)
+	// Only one attempt should have been made; the retry sleep was interrupted.
+	assert.Equal(t, 1, attempts)
+}
+
 func TestRedactedHeaders(t *testing.T) {
 	t.Parallel()
 
