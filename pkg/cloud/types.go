@@ -4132,8 +4132,8 @@ type CloudGcpAlloydbIntegrationInput struct {
 }
 
 // CloudGcpGenericIntegration - Generic GCP DM integration used for API Gateway, Firebase
-// Authentication, Firebase Vertex AI, Firebase App Hosting, Istio, Managed Kafka, and
-// Memorystore, none of which have a dedicated integration type in the schema.
+// Authentication, Firebase Vertex AI, Firebase App Hosting, Istio, Managed Kafka,
+// Memorystore, and Edge Container, none of which have a dedicated integration type in the schema.
 type CloudGcpGenericIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
@@ -4157,7 +4157,7 @@ func (x *CloudGcpGenericIntegration) ImplementsCloudIntegration() {}
 
 // CloudGcpGenericIntegrationInput - Generic GCP DM integration input used for API Gateway,
 // Firebase Authentication, Firebase Vertex AI, Firebase App Hosting, Istio, Managed Kafka,
-// and Memorystore (Dimensional Metrics only).
+// Memorystore, and Edge Container (Dimensional Metrics only).
 type CloudGcpGenericIntegrationInput struct {
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
@@ -4481,6 +4481,8 @@ type CloudGcpDisableIntegrationsInput struct {
 	GcpManagedKafka []CloudDisableAccountIntegrationInput `json:"gcpManagedKafka,omitempty"`
 	// Memorystore integration (Dimensional Metrics only)
 	GcpMemoryStore []CloudDisableAccountIntegrationInput `json:"gcpMemoryStore,omitempty"`
+	// Edge Container integration (Dimensional Metrics only)
+	GcpEdgeContainer []CloudDisableAccountIntegrationInput `json:"gcpEdgeContainer,omitempty"`
 }
 
 // CloudGcpFirebasedatabaseIntegration - Firebase Database Integration
@@ -4723,6 +4725,8 @@ type CloudGcpIntegrationsInput struct {
 	GcpManagedKafka []CloudGcpGenericIntegrationInput `json:"gcpManagedKafka,omitempty"`
 	// Memorystore integration (Dimensional Metrics only)
 	GcpMemoryStore []CloudGcpGenericIntegrationInput `json:"gcpMemoryStore,omitempty"`
+	// Edge Container integration (Dimensional Metrics only)
+	GcpEdgeContainer []CloudGcpGenericIntegrationInput `json:"gcpEdgeContainer,omitempty"`
 }
 
 // CloudGcpInterconnectIntegration - Interconnect Integration
