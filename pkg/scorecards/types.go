@@ -4774,7 +4774,10 @@ func (x *EntityManagementCollectionElementsResult) UnmarshalJSON(b []byte) error
 			for _, m := range rawMessageItems {
 				xxx, err := UnmarshalEntityManagementEntityInterface(*m)
 				if err != nil {
-					return err
+					// Unknown entity type (e.g. EntityManagementFleetEntity) —
+					// skip rather than failing the entire page so known types
+					// (GenericEntity, TeamEntity, etc.) are still returned.
+					continue
 				}
 
 				if xxx != nil {
