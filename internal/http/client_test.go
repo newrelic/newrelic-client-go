@@ -596,6 +596,101 @@ func TestContextCancellationAbortsRetry(t *testing.T) {
 	assert.Equal(t, 1, attempts)
 }
 
+func TestTerraformBypassIgnoresContextCancellation(t *testing.T) {
+	t.Parallel()
+
+	// Verify that when the Terraform header is present, context cancellation
+	// during the backoff sleep does NOT abort the retry loop. Unlike non-first-party
+	// callers (see TestContextCancellationAbortsRetry), the Terraform provider depends
+	// on unconditional retry behaviour regardless of any context attached.
+	attempts := 0
+	cancelCh := make(chan struct{})
+	var cancel context.CancelFunc
+
+	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`{"errors":[{"message": "timed out", "extensions":{"errorClass":"TIMEOUT"}}]}`))
+		attempts++
+		// Signal after the first attempt so the test can cancel the context
+		// while the client is sleeping before its first retry.
+		select {
+		case cancelCh <- struct{}{}:
+		default:
+		}
+	}))
+
+	// Use a long retry wait so the sleep dominates and the cancellation signal
+	// reliably arrives during the wait rather than after.
+	c.client.RetryWaitMin = 500 * time.Millisecond
+	c.client.RetryWaitMax = 2 * time.Second
+	c.errorValue = &GraphQLErrorResponse{}
+
+	var ctx context.Context
+	ctx, cancel = context.WithCancel(context.Background())
+
+	req, err := c.NewRequest("GET", c.config.Region().NerdGraphURL("path"), nil, nil, nil)
+	require.NoError(t, err)
+	req.WithContext(ctx)
+	// Set the Terraform header to activate the first-party bypass.
+	req.SetHeader("X-Query-Source-Capability-Id", "TERRAFORM")
+
+	// Cancel the context in a goroutine as soon as the first request completes
+	// (i.e. while the client is sleeping before its first retry).
+	go func() {
+		<-cancelCh
+		cancel()
+	}()
+
+	_, err = c.Do(req)
+
+	// Terraform bypass: all 4 attempts must fire despite the cancelled context.
+	assert.Equal(t, 4, attempts, "Terraform bypass must not short-circuit retries on context cancellation")
+	assert.IsType(t, &errors.MaxRetriesReached{}, err)
+}
+
+func TestNRCLIBypassIgnoresContextCancellation(t *testing.T) {
+	t.Parallel()
+
+	// Same as TestTerraformBypassIgnoresContextCancellation but using the NR CLI
+	// component header instead of the Terraform capability header.
+	attempts := 0
+	cancelCh := make(chan struct{})
+	var cancel context.CancelFunc
+
+	c := NewTestAPIClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`{"errors":[{"message": "timed out", "extensions":{"errorClass":"TIMEOUT"}}]}`))
+		attempts++
+		select {
+		case cancelCh <- struct{}{}:
+		default:
+		}
+	}))
+
+	c.client.RetryWaitMin = 500 * time.Millisecond
+	c.client.RetryWaitMax = 2 * time.Second
+	c.errorValue = &GraphQLErrorResponse{}
+
+	var ctx context.Context
+	ctx, cancel = context.WithCancel(context.Background())
+
+	req, err := c.NewRequest("GET", c.config.Region().NerdGraphURL("path"), nil, nil, nil)
+	require.NoError(t, err)
+	req.WithContext(ctx)
+	// Set the NR CLI component header to activate the first-party bypass.
+	req.SetHeader("X-Query-Source-Component-Id", "newrelic-cli|newrelic-client-go")
+
+	go func() {
+		<-cancelCh
+		cancel()
+	}()
+
+	_, err = c.Do(req)
+
+	assert.Equal(t, 4, attempts, "NR CLI bypass must not short-circuit retries on context cancellation")
+	assert.IsType(t, &errors.MaxRetriesReached{}, err)
+}
+
 func TestRedactedHeaders(t *testing.T) {
 	t.Parallel()
 
