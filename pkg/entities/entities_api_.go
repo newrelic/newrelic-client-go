@@ -4,6 +4,54 @@ import (
 	"context"
 )
 
+// GetAllEntitySearchGUIDsByQueryWithContext pages through ALL results of an
+// entity search query, following nextCursor until exhausted, and returns the
+// complete list of entity GUIDs. Use this instead of
+// GetEntitySearchByQueryWithContext when the result set may exceed 200 (the
+// per-page default). The caller receives all GUIDs in a single slice with no
+// duplicate processing needed.
+func (a *Entities) GetAllEntitySearchGUIDsByQueryWithContext(
+	ctx context.Context,
+	query string,
+) ([]string, error) {
+	var guids []string
+	cursor := ""
+
+	for {
+		resp := entitySearchResponse{}
+		vars := map[string]interface{}{
+			"query":  query,
+			"cursor": cursor,
+		}
+		if err := a.client.NerdGraphQueryWithContext(ctx, getEntitySearchByQueryWithCursor, vars, &resp); err != nil {
+			return nil, err
+		}
+		for _, e := range resp.Actor.EntitySearch.Results.Entities {
+			guids = append(guids, string(e.GetGUID()))
+		}
+		cursor = resp.Actor.EntitySearch.Results.NextCursor
+		if cursor == "" {
+			break
+		}
+	}
+
+	return guids, nil
+}
+
+const getEntitySearchByQueryWithCursor = `query(
+	$query: String,
+	$cursor: String,
+) { actor { entitySearch(
+	query: $query,
+) {
+	results(cursor: $cursor) {
+		entities {
+			guid
+		}
+		nextCursor
+	}
+} } }`
+
 // Search for entities using a custom query.
 // For more details on how to create a custom query
 // and what entity data you can request, visit our
