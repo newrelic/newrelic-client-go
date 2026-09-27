@@ -4,38 +4,47 @@ import (
 	"context"
 )
 
-// GetAllEntitySearchGUIDsByQueryWithContext pages through ALL results of an
-// entity search query, following nextCursor until exhausted, and returns the
-// complete list of entity GUIDs. Use this instead of
-// GetEntitySearchByQueryWithContext when the result set may exceed 200 (the
-// per-page default). The caller receives all GUIDs in a single slice with no
-// duplicate processing needed.
+// maxEntitySearchPages caps the number of paginated entity search pages fetched
+// by GetAllEntitySearchGUIDsByQueryWithContext. At 200 entities per page this
+// allows up to 10,000 tag-matched entities per team — far beyond any realistic
+// production scenario — while bounding the number of API calls to prevent
+// runaway performance on plans for very broadly-tagged teams.
+const maxEntitySearchPages = 50
+
+// GetAllEntitySearchGUIDsByQueryWithContext pages through results of an entity
+// search query, following nextCursor up to maxEntitySearchPages pages, and
+// returns the accumulated entity GUIDs. The second return value is true when
+// the result set was truncated (i.e. more pages exist beyond the cap).
+//
+// Use this instead of GetEntitySearchByQueryWithContext when the result set may
+// exceed 200 (the per-page default). Callers should surface a note to users
+// when truncated=true so they know the list is incomplete.
 func (a *Entities) GetAllEntitySearchGUIDsByQueryWithContext(
 	ctx context.Context,
 	query string,
-) ([]string, error) {
-	var guids []string
+) (guids []string, truncated bool, err error) {
 	cursor := ""
 
-	for {
+	for page := 0; page < maxEntitySearchPages; page++ {
 		resp := entitySearchResponse{}
 		vars := map[string]interface{}{
 			"query":  query,
 			"cursor": cursor,
 		}
-		if err := a.client.NerdGraphQueryWithContext(ctx, getEntitySearchByQueryWithCursor, vars, &resp); err != nil {
-			return nil, err
+		if err = a.client.NerdGraphQueryWithContext(ctx, getEntitySearchByQueryWithCursor, vars, &resp); err != nil {
+			return nil, false, err
 		}
 		for _, e := range resp.Actor.EntitySearch.Results.Entities {
 			guids = append(guids, string(e.GetGUID()))
 		}
 		cursor = resp.Actor.EntitySearch.Results.NextCursor
 		if cursor == "" {
-			break
+			return guids, false, nil
 		}
 	}
 
-	return guids, nil
+	// Reached the page cap — more results exist but were not fetched.
+	return guids, true, nil
 }
 
 const getEntitySearchByQueryWithCursor = `query(
