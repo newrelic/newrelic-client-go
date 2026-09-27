@@ -59,6 +59,7 @@ const getEntitySearchByQueryWithCursor = `query(
 ) {
 	results(cursor: $cursor) {
 		entities {
+			__typename
 			guid
 		}
 		nextCursor
