@@ -23,7 +23,10 @@ func (a *Entities) GetAllEntitySearchGUIDsByQueryWithContext(
 	ctx context.Context,
 	query string,
 ) (guids []string, truncated bool, err error) {
-	cursor := ""
+	// cursor must be nil (not "") on the first call — the API rejects empty
+	// string as "Invalid cursor value". Subsequent pages use the string returned
+	// by nextCursor.
+	var cursor interface{} = nil
 
 	for page := 0; page < maxEntitySearchPages; page++ {
 		resp := entitySearchResponse{}
@@ -37,10 +40,11 @@ func (a *Entities) GetAllEntitySearchGUIDsByQueryWithContext(
 		for _, e := range resp.Actor.EntitySearch.Results.Entities {
 			guids = append(guids, string(e.GetGUID()))
 		}
-		cursor = resp.Actor.EntitySearch.Results.NextCursor
-		if cursor == "" {
+		next := resp.Actor.EntitySearch.Results.NextCursor
+		if next == "" {
 			return guids, false, nil
 		}
+		cursor = next
 	}
 
 	// Reached the page cap — more results exist but were not fetched.
