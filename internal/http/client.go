@@ -514,13 +514,13 @@ func (c *Client) innerDo(req *Request, errorValue ErrorResponse, i int) (*http.R
 	} else {
 		// For all other callers, respect context cancellation during backoff so a
 		// deadline or explicit cancel is not silently ignored between retries.
-		if reqCtx := r.Request.Context(); reqCtx.Err() != nil {
+		if reqCtx := r.Context(); reqCtx.Err() != nil {
 			return resp, body, false, reqCtx.Err()
 		}
 		select {
 		case <-time.After(wait):
-		case <-r.Request.Context().Done():
-			return resp, body, false, r.Request.Context().Err()
+		case <-r.Context().Done():
+			return resp, body, false, r.Context().Err()
 		}
 	}
 
