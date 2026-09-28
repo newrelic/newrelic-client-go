@@ -6356,9 +6356,11 @@ func (x *EntityManagementTeamsOrganizationSettingsEntity) ImplementsEntityManage
 // EntityManagementTeamsOrganizationSettingsEntityUpdateInput - Update input for TeamsOrganizationSettingsEntity entity type.
 type EntityManagementTeamsOrganizationSettingsEntityUpdateInput struct {
 	// See discovery in TeamsOrganizationSettingsEntity.
-	// No omitempty: the zero-value struct {Enabled:false, TagKeys:nil} is a valid
-	// "disable discovery with no keys" state and must not be silently dropped.
-	Discovery EntityManagementDiscoverySettingsUpdateInput `json:"discovery"`
+	// Pointer + omitempty: both enabled and tagKeys are NON_NULL in the GraphQL
+	// schema, so sending the zero-value struct {Enabled:false, TagKeys:null} is
+	// invalid. Callers that only need to change hierarchy/syncGroups should leave
+	// Discovery nil so it is omitted from the serialised input entirely.
+	Discovery *EntityManagementDiscoverySettingsUpdateInput `json:"discovery,omitempty"`
 	// See hierarchyLevelOrder in TeamsOrganizationSettingsEntity.
 	// Ordered list of hierarchy level entity GUIDs that defines the visual order
 	// in the Teams UI. Use omitempty so callers that only touch discovery/syncGroups
