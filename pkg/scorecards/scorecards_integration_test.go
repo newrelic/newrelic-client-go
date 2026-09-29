@@ -420,7 +420,7 @@ func TestIntegrationScorecards_UpdateTeamsOrganizationSettings_Discovery(t *test
 	newKeys := append(originalKeys, testKey)
 
 	upd := EntityManagementTeamsOrganizationSettingsEntityUpdateInput{
-		Discovery: EntityManagementDiscoverySettingsUpdateInput{
+		Discovery: &EntityManagementDiscoverySettingsUpdateInput{
 			Enabled: settings.Discovery.Enabled,
 			TagKeys: newKeys,
 		},
@@ -435,7 +435,7 @@ func TestIntegrationScorecards_UpdateTeamsOrganizationSettings_Discovery(t *test
 	// Always restore original tag keys.
 	t.Cleanup(func() {
 		restore := EntityManagementTeamsOrganizationSettingsEntityUpdateInput{
-			Discovery: EntityManagementDiscoverySettingsUpdateInput{
+			Discovery: &EntityManagementDiscoverySettingsUpdateInput{
 				Enabled: settings.Discovery.Enabled,
 				TagKeys: originalKeys,
 			},
