@@ -69,6 +69,24 @@ func TestNew_configOptionLogger(t *testing.T) {
 	require.Same(t, nr.config.Logger, mockLogger)
 }
 
+func TestNew_configOptionCustomHeaders(t *testing.T) {
+	t.Parallel()
+
+	nr, err := New(
+		ConfigPersonalAPIKey(testAPIkey),
+		ConfigCustomHeaders(map[string]string{"X-Client-ID": "client-a"}),
+		ConfigCustomHeaders(map[string]string{"X-Route-To": "route-b"}),
+	)
+	require.NotNil(t, nr)
+	require.NoError(t, err)
+
+	// Merges across multiple calls rather than replacing.
+	assert.Equal(t, map[string]string{
+		"X-Client-ID": "client-a",
+		"X-Route-To":  "route-b",
+	}, nr.config.CustomHeaders)
+}
+
 func TestNew_configOptionError(t *testing.T) {
 	t.Parallel()
 
