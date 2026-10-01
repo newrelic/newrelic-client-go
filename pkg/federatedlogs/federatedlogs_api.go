@@ -299,6 +299,7 @@ const FederatedLogsCreatePartitionMutation = `mutation(
 			duration
 			unit
 		}
+		derivedLifecycleState
 		description
 		forwarderConfiguration {
 			pipelineControl {
@@ -312,6 +313,10 @@ const FederatedLogsCreatePartitionMutation = `mutation(
 				}
 				partitionRule {
 					expression
+				}
+				requested {
+					id
+					versionId
 				}
 			}
 			type
@@ -341,6 +346,7 @@ const FederatedLogsCreatePartitionMutation = `mutation(
 			active
 			createdAt
 			defaultPartitionId
+			derivedLifecycleState
 			description
 			forwarder {
 				pipelineControl {
@@ -434,6 +440,7 @@ const FederatedLogsCreateSetupMutation = `mutation(
 		active
 		createdAt
 		defaultPartitionId
+		derivedLifecycleState
 		description
 		forwarder {
 			pipelineControl {
@@ -443,6 +450,10 @@ const FederatedLogsCreateSetupMutation = `mutation(
 				}
 				fleetId
 				latest {
+					id
+					versionId
+				}
+				requested {
 					id
 					versionId
 				}
@@ -541,6 +552,7 @@ const FederatedLogsUpdatePartitionMutation = `mutation(
 			duration
 			unit
 		}
+		derivedLifecycleState
 		description
 		forwarderConfiguration {
 			pipelineControl {
@@ -554,6 +566,10 @@ const FederatedLogsUpdatePartitionMutation = `mutation(
 				}
 				partitionRule {
 					expression
+				}
+				requested {
+					id
+					versionId
 				}
 			}
 			type
@@ -583,6 +599,7 @@ const FederatedLogsUpdatePartitionMutation = `mutation(
 			active
 			createdAt
 			defaultPartitionId
+			derivedLifecycleState
 			description
 			forwarder {
 				pipelineControl {
@@ -682,6 +699,7 @@ const FederatedLogsUpdateSetupMutation = `mutation(
 		active
 		createdAt
 		defaultPartitionId
+		derivedLifecycleState
 		description
 		forwarder {
 			pipelineControl {
@@ -691,6 +709,10 @@ const FederatedLogsUpdateSetupMutation = `mutation(
 				}
 				fleetId
 				latest {
+					id
+					versionId
+				}
+				requested {
 					id
 					versionId
 				}
@@ -1033,6 +1055,7 @@ const getPartitionQuery = `query(
 		duration
 		unit
 	}
+	derivedLifecycleState
 	description
 	forwarderConfiguration {
 		pipelineControl {
@@ -1046,6 +1069,10 @@ const getPartitionQuery = `query(
 			}
 			partitionRule {
 				expression
+			}
+			requested {
+				id
+				versionId
 			}
 		}
 		type
@@ -1075,6 +1102,7 @@ const getPartitionQuery = `query(
 		active
 		createdAt
 		defaultPartitionId
+		derivedLifecycleState
 		description
 		forwarder {
 			pipelineControl {
@@ -1084,6 +1112,10 @@ const getPartitionQuery = `query(
 				}
 				fleetId
 				latest {
+					id
+					versionId
+				}
+				requested {
 					id
 					versionId
 				}
@@ -1172,6 +1204,7 @@ const getSetupQuery = `query(
 	active
 	createdAt
 	defaultPartitionId
+	derivedLifecycleState
 	description
 	forwarder {
 		pipelineControl {
@@ -1181,6 +1214,10 @@ const getSetupQuery = `query(
 			}
 			fleetId
 			latest {
+				id
+				versionId
+			}
+			requested {
 				id
 				versionId
 			}
