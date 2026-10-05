@@ -5393,10 +5393,14 @@ type DashboardVariableOptions struct {
 type DashboardWidget struct {
 	// Typed widgets are area, bar, billboard, line, markdown, pie, and table.
 	Configuration DashboardWidgetConfiguration `json:"configuration,omitempty"`
+	// A description of the widget, will be displayed in a tooltip.
+	Description string `json:"description,omitempty"`
 	// ID of the widget.
 	ID string `json:"id"`
 	// The widget's position and size in the dashboard.
 	Layout DashboardWidgetLayout `json:"layout,omitempty"`
+	// Link configuration for the widget. The URL will be rendered as a clickable link.
+	Link DashboardWidgetLink `json:"link,omitempty"`
 	// Entities related to the widget. Currently only supports one Dashboard entity guid, but may allow other cases in the future.
 	LinkedEntities []EntityOutlineInterface `json:"linkedEntities,omitempty"`
 	// Untyped widgets are all other widgets, such as bullet, histogram, inventory, etc.
@@ -5426,6 +5430,11 @@ func (x *DashboardWidget) UnmarshalJSON(b []byte) error {
 			if err != nil {
 				return err
 			}
+		case "description":
+			err = json.Unmarshal(*v, &x.Description)
+			if err != nil {
+				return err
+			}
 		case "id":
 			err = json.Unmarshal(*v, &x.ID)
 			if err != nil {
@@ -5433,6 +5442,11 @@ func (x *DashboardWidget) UnmarshalJSON(b []byte) error {
 			}
 		case "layout":
 			err = json.Unmarshal(*v, &x.Layout)
+			if err != nil {
+				return err
+			}
+		case "link":
+			err = json.Unmarshal(*v, &x.Link)
 			if err != nil {
 				return err
 			}
@@ -5505,6 +5519,12 @@ type DashboardWidgetLayout struct {
 	Row int `json:"row,omitempty"`
 	// Width of the widget. Valid values are 1 to 12 inclusive. Defaults to 4.
 	Width int `json:"width,omitempty"`
+}
+
+// DashboardWidgetLink - Link configuration for the widget. The URL will be rendered as a clickable link.
+type DashboardWidgetLink struct {
+	// The target URL for the link.
+	URL string `json:"url"`
 }
 
 // DashboardWidgetNRQLQuery - Single NRQL query for a widget.
