@@ -4763,15 +4763,32 @@ type EntityManagementPipelineCloudRuleEntity struct {
 	// Metadata about the entity.
 	Metadata EntityManagementMetadata `json:"metadata"`
 	// The NRQL string used to specify the action you want to take and data you want to take the specified action on.
-	NRQL nrdb.NRQL `json:"nrql"`
+	// Nullable: mutually exclusive with OttlTransform; exactly one must be set on any given rule.
+	NRQL *nrdb.NRQL `json:"nrql,omitempty"`
 	// The name of this entity.
 	Name string `json:"name"`
+	// OTTL transformation statements for non-NRQL rules.
+	// Mutually exclusive with NRQL; exactly one must be set on any given rule.
+	OttlTransform *EntityManagementPipelineCloudRuleEntityOttlTransform `json:"ottlTransform,omitempty"`
 	// The entity's scope.
 	Scope EntityManagementScopedReference `json:"scope"`
 	// Collection of tags.
 	Tags []EntityManagementTag `json:"tags"`
 	// The entity type.
 	Type string `json:"type"`
+}
+
+// EntityManagementPipelineCloudRuleEntityOttlTransform - OTTL transformation statements for a pipeline cloud rule.
+// Exactly one of the statement fields must be set, scoped to a single telemetry type.
+type EntityManagementPipelineCloudRuleEntityOttlTransform struct {
+	// OTTL statements applied to event data.
+	EventStatements []string `json:"eventStatements,omitempty"`
+	// OTTL statements applied to log data.
+	LogStatements []string `json:"logStatements,omitempty"`
+	// OTTL statements applied to metric data.
+	MetricStatements []string `json:"metricStatements,omitempty"`
+	// OTTL statements applied to trace data.
+	TraceStatements []string `json:"traceStatements,omitempty"`
 }
 
 func (x *EntityManagementPipelineCloudRuleEntity) ImplementsEntityManagementEntity() {}
