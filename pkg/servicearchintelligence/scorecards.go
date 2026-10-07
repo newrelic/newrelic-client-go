@@ -2,7 +2,7 @@
 // the NGEP (NerdGraph Entity Platform) interface — Teams, Scorecards,
 // ScorecardRules, and Collections. See NGEP_ANALYSIS.md for the relationship
 // model and API semantics that shaped this package.
-package scorecards
+package servicearchintelligence
 
 import (
 	"github.com/newrelic/newrelic-client-go/v2/internal/http"

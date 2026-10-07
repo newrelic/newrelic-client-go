@@ -1,4 +1,4 @@
-package scorecards
+package servicearchintelligence
 
 // This file is hand-written because tutone cannot currently produce valid Go
 // for the `[ID]` scalar-list return type of the AddCollectionMembers /

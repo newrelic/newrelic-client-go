@@ -1,4 +1,4 @@
-package scorecards
+package servicearchintelligence
 
 // This file supplies bits that tutone's generator misses today:
 //   (a) the EntityManagementCollectionElementsFilter and CollectionIdFilterArgument

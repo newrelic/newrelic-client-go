@@ -1,7 +1,7 @@
 //go:build integration
 // +build integration
 
-package scorecards
+package servicearchintelligence
 
 import (
 	"errors"

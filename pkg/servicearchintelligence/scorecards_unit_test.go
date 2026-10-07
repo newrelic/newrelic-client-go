@@ -1,7 +1,7 @@
 //go:build unit
 // +build unit
 
-package scorecards
+package servicearchintelligence
 
 import (
 	"context"

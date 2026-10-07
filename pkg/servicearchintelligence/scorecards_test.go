@@ -1,7 +1,7 @@
 //go:build unit || integration
 // +build unit integration
 
-package scorecards
+package servicearchintelligence
 
 import (
 	"testing"

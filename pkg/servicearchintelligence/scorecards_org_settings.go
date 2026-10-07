@@ -1,4 +1,4 @@
-package scorecards
+package servicearchintelligence
 
 // scorecards_org_settings.go provides a purpose-specific helper for fetching
 // the TeamsOrganizationSettings entity for the authenticated organisation.
