@@ -28,7 +28,7 @@ var AgentApplicationSegmentsListTypeTypes = struct {
 	USER: "USER",
 }
 
-// AgentApplicationSettingsBrowserLoader - Determines which browser loader will be configured. Some allowed return values are specified for backwards-compatability and do not represent currently allowed values for new applications.
+// AgentApplicationSettingsBrowserLoader - Determines which browser loader will be configured. Some allowed return values are specified for backwards-compatibility and do not represent currently allowed values for new applications.
 // See [documentation](https://docs.newrelic.com/docs/browser/browser-monitoring/installation/install-browser-monitoring-agent/#agent-types) for further information.
 type AgentApplicationSettingsBrowserLoader string
 
@@ -60,7 +60,7 @@ var AgentApplicationSettingsBrowserLoaderTypes = struct {
 	RUM: "RUM",
 	// Pro+SPA: This is the default installed agent when you enable browser monitoring. Gives you access to all of the Browser Pro features and to Single Page App (SPA) monitoring. Provides detailed page timing data and the most up-to-date New Relic features, including distributed tracing, for all types of applications.
 	SPA: "SPA",
-	// This value is specified for backwards-compatability.
+	// This value is specified for backwards-compatibility.
 	XHR: "XHR",
 }
 
@@ -804,7 +804,7 @@ var DashboardAlertSeverityTypes = struct {
 	WARNING: "WARNING",
 }
 
-// DashboardEntityPermissions - Permisions that represent visibility & editability
+// DashboardEntityPermissions - Permissions that represent visibility & editability
 type DashboardEntityPermissions string
 
 var DashboardEntityPermissionsTypes = struct {
@@ -2931,7 +2931,7 @@ type ApmApplicationDeployment struct {
 	Permalink string `json:"permalink,omitempty"`
 	// The revision of the app that was deployed
 	Revision string `json:"revision,omitempty"`
-	// The moment the deployment occured
+	// The moment the deployment occurred
 	Timestamp *nrtime.EpochMilliseconds `json:"timestamp,omitempty"`
 	// The user who triggered the deployment
 	User string `json:"user,omitempty"`
@@ -2996,7 +2996,7 @@ type ApmApplicationEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -3537,7 +3537,7 @@ type ApmDatabaseInstanceEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -3915,7 +3915,7 @@ type ApmExternalServiceEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -4299,7 +4299,7 @@ type BrowserApplicationEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -4906,7 +4906,7 @@ type DashboardEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -5578,7 +5578,7 @@ type Entity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -6866,7 +6866,7 @@ type ExternalEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -7201,7 +7201,7 @@ type GenericEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -7537,7 +7537,7 @@ type GenericInfrastructureEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -7888,7 +7888,7 @@ type InfrastructureAwsLambdaFunctionEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -8252,7 +8252,7 @@ type InfrastructureHostEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -8707,7 +8707,7 @@ type KeyTransactionEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -9146,7 +9146,7 @@ type MobileApplicationEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -9567,7 +9567,7 @@ type SecureCredentialEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -10090,7 +10090,7 @@ type SyntheticMonitorEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -10542,7 +10542,7 @@ type TeamEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -10884,7 +10884,7 @@ type ThirdPartyServiceEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -11227,7 +11227,7 @@ type UnavailableEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -11567,7 +11567,7 @@ type WorkloadEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery nrdb.NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//

@@ -265,7 +265,7 @@ type Organization struct {
 	CustomerId string `json:"customerId,omitempty"`
 	// The ID of the organization.
 	ID string `json:"id,omitempty"`
-	// Poll for the results of a previously-executed asychronous NRDB query.
+	// Poll for the results of a previously-executed asynchronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//

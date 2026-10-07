@@ -5,7 +5,7 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/nrtime"
 )
 
-// DashboardEntityPermissions - Permisions that represent visibility & editability
+// DashboardEntityPermissions - Permissions that represent visibility & editability
 type DashboardEntityPermissions string
 
 var DashboardEntityPermissionsTypes = struct {
