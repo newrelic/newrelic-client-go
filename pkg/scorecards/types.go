@@ -6124,7 +6124,12 @@ type EntityManagementSyncGroupsSettingsUpdateInput struct {
 	// See enabled in SyncGroupsSettings.
 	Enabled bool `json:"enabled"`
 	// See rules in SyncGroupsSettings.
-	Rules []EntityManagementSyncGroupRuleUpdateInput `json:"rules,omitempty"`
+	// NOTE: omitempty intentionally removed — an empty slice must be encoded as
+	// "rules":[] so the API can distinguish "clear all rules" from "do not touch
+	// rules". Callers that do not want to modify rules should omit the parent
+	// SyncGroups field entirely (leave it as the zero value so the outer struct's
+	// omitempty drops it).
+	Rules []EntityManagementSyncGroupRuleUpdateInput `json:"rules"`
 }
 
 // EntityManagementSystemActor - A system actor.
