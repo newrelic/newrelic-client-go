@@ -3,10 +3,57 @@ package dashboards
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/newrelic/newrelic-client-go/v2/pkg/common"
 )
+
+// Add widgets to a `DashboardPage`
+func (a *Dashboards) DashboardAddWidgetsToPage(
+	gUID common.EntityGUID,
+	widgets []DashboardWidgetInput,
+) (*DashboardAddWidgetsToPageResult, error) {
+	return a.DashboardAddWidgetsToPageWithContext(context.Background(),
+		gUID,
+		widgets,
+	)
+}
+
+// Add widgets to a `DashboardPage`
+func (a *Dashboards) DashboardAddWidgetsToPageWithContext(
+	ctx context.Context,
+	gUID common.EntityGUID,
+	widgets []DashboardWidgetInput,
+) (*DashboardAddWidgetsToPageResult, error) {
+
+	resp := DashboardAddWidgetsToPageQueryResponse{}
+	vars := map[string]interface{}{
+		"guid":    gUID,
+		"widgets": widgets,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, DashboardAddWidgetsToPageMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.DashboardAddWidgetsToPageResult, nil
+}
+
+type DashboardAddWidgetsToPageQueryResponse struct {
+	DashboardAddWidgetsToPageResult DashboardAddWidgetsToPageResult `json:"DashboardAddWidgetsToPage"`
+}
+
+const DashboardAddWidgetsToPageMutation = `mutation(
+	$guid: EntityGuid!,
+	$widgets: [DashboardWidgetInput!]!,
+) { dashboardAddWidgetsToPage(
+	guid: $guid,
+	widgets: $widgets,
+) {
+	errors {
+		description
+		type
+	}
+} }`
 
 // Create a `DashboardEntity`
 func (a *Dashboards) DashboardCreate(
@@ -36,14 +83,6 @@ func (a *Dashboards) DashboardCreateWithContext(
 		return nil, err
 	}
 
-	if len(resp.DashboardCreateResult.Errors) > 0 {
-		errs := fmt.Errorf("query error")
-		for _, err := range resp.DashboardCreateResult.Errors {
-			errs = fmt.Errorf("%w; %s", errs, err.Description)
-		}
-		return nil, errs
-	}
-
 	return &resp.DashboardCreateResult, nil
 }
 
@@ -66,6 +105,8 @@ const DashboardCreateMutation = `mutation(
 		name
 		owner {
 			email
+			id
+			type
 			userId
 		}
 		pages {
@@ -75,6 +116,8 @@ const DashboardCreateMutation = `mutation(
 			name
 			owner {
 				email
+				id
+				type
 				userId
 			}
 			updatedAt
@@ -124,12 +167,16 @@ const DashboardCreateMutation = `mutation(
 						}
 					}
 				}
+				description
 				id
 				layout {
 					column
 					height
 					row
 					width
+				}
+				link {
+					url
 				}
 				linkedEntities {
 					__typename
@@ -166,6 +213,7 @@ const DashboardCreateMutation = `mutation(
 									name
 								}
 								badEvents {
+									facets
 									from
 									select {
 										attribute
@@ -175,6 +223,7 @@ const DashboardCreateMutation = `mutation(
 									where
 								}
 								goodEvents {
+									facets
 									from
 									select {
 										attribute
@@ -184,6 +233,7 @@ const DashboardCreateMutation = `mutation(
 									where
 								}
 								validEvents {
+									facets
 									from
 									select {
 										attribute
@@ -195,6 +245,32 @@ const DashboardCreateMutation = `mutation(
 							}
 							guid
 							id
+							metadata {
+								createdAt
+								createdBy {
+									__typename
+									id
+									type
+									... on ServiceLevelSystemIdentityActor {
+										__typename
+									}
+									... on ServiceLevelUserActor {
+										__typename
+									}
+								}
+								updatedAt
+								updatedBy {
+									__typename
+									id
+									type
+									... on ServiceLevelSystemIdentityActor {
+										__typename
+									}
+									... on ServiceLevelUserActor {
+										__typename
+									}
+								}
+							}
 							name
 							objectives {
 								description
@@ -287,6 +363,7 @@ const DashboardCreateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -296,6 +373,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -305,6 +383,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -316,6 +395,32 @@ const DashboardCreateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -389,6 +494,7 @@ const DashboardCreateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -398,6 +504,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -407,6 +514,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -418,6 +526,32 @@ const DashboardCreateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -491,6 +625,7 @@ const DashboardCreateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -500,6 +635,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -509,6 +645,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -520,6 +657,32 @@ const DashboardCreateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -605,6 +768,7 @@ const DashboardCreateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -614,6 +778,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -623,6 +788,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -634,6 +800,32 @@ const DashboardCreateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -692,6 +884,8 @@ const DashboardCreateMutation = `mutation(
 						dashboardParentGuid
 						owner {
 							email
+							id
+							type
 							userId
 						}
 						permissions
@@ -712,6 +906,7 @@ const DashboardCreateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -721,6 +916,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -730,6 +926,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -741,6 +938,32 @@ const DashboardCreateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -809,6 +1032,7 @@ const DashboardCreateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -818,6 +1042,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -827,6 +1052,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -838,6 +1064,32 @@ const DashboardCreateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -905,6 +1157,7 @@ const DashboardCreateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -914,6 +1167,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -923,6 +1177,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -934,6 +1189,32 @@ const DashboardCreateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -1002,6 +1283,7 @@ const DashboardCreateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -1011,6 +1293,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -1020,6 +1303,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -1031,6 +1315,32 @@ const DashboardCreateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -1100,6 +1410,7 @@ const DashboardCreateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -1109,6 +1420,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -1118,6 +1430,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -1129,6 +1442,32 @@ const DashboardCreateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -1204,6 +1543,7 @@ const DashboardCreateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -1213,6 +1553,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -1222,6 +1563,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -1233,6 +1575,32 @@ const DashboardCreateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -1300,6 +1668,7 @@ const DashboardCreateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -1309,6 +1678,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -1318,6 +1688,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -1329,6 +1700,32 @@ const DashboardCreateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -1409,6 +1806,7 @@ const DashboardCreateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -1418,6 +1816,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -1427,6 +1826,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -1438,6 +1838,32 @@ const DashboardCreateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -1511,6 +1937,7 @@ const DashboardCreateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -1520,6 +1947,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -1529,6 +1957,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -1540,6 +1969,32 @@ const DashboardCreateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -1618,6 +2073,7 @@ const DashboardCreateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -1627,6 +2083,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -1636,6 +2093,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -1647,6 +2105,32 @@ const DashboardCreateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -1714,6 +2198,7 @@ const DashboardCreateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -1723,6 +2208,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -1732,6 +2218,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -1743,6 +2230,32 @@ const DashboardCreateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -1810,6 +2323,7 @@ const DashboardCreateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -1819,6 +2333,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -1828,6 +2343,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -1839,6 +2355,32 @@ const DashboardCreateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -1906,6 +2448,7 @@ const DashboardCreateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -1915,6 +2458,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -1924,6 +2468,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -1935,6 +2480,32 @@ const DashboardCreateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -2009,6 +2580,7 @@ const DashboardCreateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -2018,6 +2590,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -2027,6 +2600,7 @@ const DashboardCreateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -2038,6 +2612,32 @@ const DashboardCreateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -2119,6 +2719,7 @@ const DashboardCreateMutation = `mutation(
 			}
 			options {
 				excluded
+				hiddenOnVariablesBar
 				ignoreTimeRange
 				showApplyAction
 			}
@@ -2155,15 +2756,6 @@ func (a *Dashboards) DashboardDeleteWithContext(
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, DashboardDeleteMutation, vars, &resp); err != nil {
 		return nil, err
-	}
-
-	// If we got errors back, wrap them all up
-	if len(resp.DashboardDeleteResult.Errors) > 0 {
-		errs := fmt.Errorf("query error")
-		for _, err := range resp.DashboardDeleteResult.Errors {
-			errs = fmt.Errorf("%w; %s", errs, err.Description)
-		}
-		return nil, errs
 	}
 
 	return &resp.DashboardDeleteResult, nil
@@ -2213,15 +2805,6 @@ func (a *Dashboards) DashboardUpdateWithContext(
 		return nil, err
 	}
 
-	// If we got errors back, wrap them all up
-	if len(resp.DashboardUpdateResult.Errors) > 0 {
-		errs := fmt.Errorf("query error")
-		for _, err := range resp.DashboardUpdateResult.Errors {
-			errs = fmt.Errorf("%w; %s", errs, err.Description)
-		}
-		return nil, errs
-	}
-
 	return &resp.DashboardUpdateResult, nil
 }
 
@@ -2244,6 +2827,8 @@ const DashboardUpdateMutation = `mutation(
 		name
 		owner {
 			email
+			id
+			type
 			userId
 		}
 		pages {
@@ -2253,6 +2838,8 @@ const DashboardUpdateMutation = `mutation(
 			name
 			owner {
 				email
+				id
+				type
 				userId
 			}
 			updatedAt
@@ -2302,12 +2889,16 @@ const DashboardUpdateMutation = `mutation(
 						}
 					}
 				}
+				description
 				id
 				layout {
 					column
 					height
 					row
 					width
+				}
+				link {
+					url
 				}
 				linkedEntities {
 					__typename
@@ -2344,6 +2935,7 @@ const DashboardUpdateMutation = `mutation(
 									name
 								}
 								badEvents {
+									facets
 									from
 									select {
 										attribute
@@ -2353,6 +2945,7 @@ const DashboardUpdateMutation = `mutation(
 									where
 								}
 								goodEvents {
+									facets
 									from
 									select {
 										attribute
@@ -2362,6 +2955,7 @@ const DashboardUpdateMutation = `mutation(
 									where
 								}
 								validEvents {
+									facets
 									from
 									select {
 										attribute
@@ -2373,6 +2967,32 @@ const DashboardUpdateMutation = `mutation(
 							}
 							guid
 							id
+							metadata {
+								createdAt
+								createdBy {
+									__typename
+									id
+									type
+									... on ServiceLevelSystemIdentityActor {
+										__typename
+									}
+									... on ServiceLevelUserActor {
+										__typename
+									}
+								}
+								updatedAt
+								updatedBy {
+									__typename
+									id
+									type
+									... on ServiceLevelSystemIdentityActor {
+										__typename
+									}
+									... on ServiceLevelUserActor {
+										__typename
+									}
+								}
+							}
 							name
 							objectives {
 								description
@@ -2465,6 +3085,7 @@ const DashboardUpdateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -2474,6 +3095,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -2483,6 +3105,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -2494,6 +3117,32 @@ const DashboardUpdateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -2567,6 +3216,7 @@ const DashboardUpdateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -2576,6 +3226,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -2585,6 +3236,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -2596,6 +3248,32 @@ const DashboardUpdateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -2669,6 +3347,7 @@ const DashboardUpdateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -2678,6 +3357,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -2687,6 +3367,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -2698,6 +3379,32 @@ const DashboardUpdateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -2783,6 +3490,7 @@ const DashboardUpdateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -2792,6 +3500,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -2801,6 +3510,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -2812,6 +3522,32 @@ const DashboardUpdateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -2870,6 +3606,8 @@ const DashboardUpdateMutation = `mutation(
 						dashboardParentGuid
 						owner {
 							email
+							id
+							type
 							userId
 						}
 						permissions
@@ -2890,6 +3628,7 @@ const DashboardUpdateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -2899,6 +3638,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -2908,6 +3648,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -2919,6 +3660,32 @@ const DashboardUpdateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -2987,6 +3754,7 @@ const DashboardUpdateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -2996,6 +3764,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -3005,6 +3774,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -3016,6 +3786,32 @@ const DashboardUpdateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -3083,6 +3879,7 @@ const DashboardUpdateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -3092,6 +3889,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -3101,6 +3899,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -3112,6 +3911,32 @@ const DashboardUpdateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -3180,6 +4005,7 @@ const DashboardUpdateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -3189,6 +4015,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -3198,6 +4025,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -3209,6 +4037,32 @@ const DashboardUpdateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -3278,6 +4132,7 @@ const DashboardUpdateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -3287,6 +4142,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -3296,6 +4152,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -3307,6 +4164,32 @@ const DashboardUpdateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -3382,6 +4265,7 @@ const DashboardUpdateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -3391,6 +4275,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -3400,6 +4285,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -3411,6 +4297,32 @@ const DashboardUpdateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -3478,6 +4390,7 @@ const DashboardUpdateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -3487,6 +4400,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -3496,6 +4410,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -3507,6 +4422,32 @@ const DashboardUpdateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -3587,6 +4528,7 @@ const DashboardUpdateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -3596,6 +4538,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -3605,6 +4548,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -3616,6 +4560,32 @@ const DashboardUpdateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -3689,6 +4659,7 @@ const DashboardUpdateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -3698,6 +4669,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -3707,6 +4679,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -3718,6 +4691,32 @@ const DashboardUpdateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -3796,6 +4795,7 @@ const DashboardUpdateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -3805,6 +4805,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -3814,6 +4815,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -3825,6 +4827,32 @@ const DashboardUpdateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -3892,6 +4920,7 @@ const DashboardUpdateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -3901,6 +4930,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -3910,6 +4940,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -3921,6 +4952,32 @@ const DashboardUpdateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -3988,6 +5045,7 @@ const DashboardUpdateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -3997,6 +5055,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -4006,6 +5065,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -4017,6 +5077,32 @@ const DashboardUpdateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -4084,6 +5170,7 @@ const DashboardUpdateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -4093,6 +5180,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -4102,6 +5190,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -4113,6 +5202,32 @@ const DashboardUpdateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -4187,6 +5302,7 @@ const DashboardUpdateMutation = `mutation(
 										name
 									}
 									badEvents {
+										facets
 										from
 										select {
 											attribute
@@ -4196,6 +5312,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									goodEvents {
+										facets
 										from
 										select {
 											attribute
@@ -4205,6 +5322,7 @@ const DashboardUpdateMutation = `mutation(
 										where
 									}
 									validEvents {
+										facets
 										from
 										select {
 											attribute
@@ -4216,6 +5334,32 @@ const DashboardUpdateMutation = `mutation(
 								}
 								guid
 								id
+								metadata {
+									createdAt
+									createdBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+									updatedAt
+									updatedBy {
+										__typename
+										id
+										type
+										... on ServiceLevelSystemIdentityActor {
+											__typename
+										}
+										... on ServiceLevelUserActor {
+											__typename
+										}
+									}
+								}
 								name
 								objectives {
 									description
@@ -4297,6 +5441,7 @@ const DashboardUpdateMutation = `mutation(
 			}
 			options {
 				excluded
+				hiddenOnVariablesBar
 				ignoreTimeRange
 				showApplyAction
 			}
