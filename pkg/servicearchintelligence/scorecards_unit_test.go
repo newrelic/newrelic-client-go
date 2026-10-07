@@ -254,10 +254,12 @@ func TestUnitEntityManagement_UpdateTeam(t *testing.T) {
 	t.Parallel()
 	c := newMockClient(t, testTeamUpdateResp, http.StatusOK)
 
+	desc := "A test team renamed"
+	aliases := []string{"alpha", "beta"}
 	in := EntityManagementTeamEntityUpdateInput{
 		Name:        "team-a-renamed",
-		Description: "A test team renamed",
-		Aliases:     []string{"alpha", "beta"},
+		Description: &desc,
+		Aliases:     &aliases,
 	}
 	res, err := c.EntityManagementUpdateTeam(testTeamID, in)
 	require.NoError(t, err)
