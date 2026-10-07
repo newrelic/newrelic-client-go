@@ -6293,55 +6293,55 @@ type EntityManagementTeamResourceType string
 
 // EntityManagementTeamResourceTypes is the set of valid resource type values.
 var EntityManagementTeamResourceTypes = struct {
-	ATLASSIAN_CONFLUENCE    EntityManagementTeamResourceType
-	ATLASSIAN_JIRA          EntityManagementTeamResourceType
+	ATLASSIAN_CONFLUENCE      EntityManagementTeamResourceType
+	ATLASSIAN_JIRA            EntityManagementTeamResourceType
 	ATLASSIAN_JIRA_SCORECARDS EntityManagementTeamResourceType
-	BASECAMP                EntityManagementTeamResourceType
-	BLAMELESS               EntityManagementTeamResourceType
-	EMAIL                   EntityManagementTeamResourceType
-	FACEBOOK_WORKPLACE      EntityManagementTeamResourceType
-	GITHUB                  EntityManagementTeamResourceType
-	GITLAB                  EntityManagementTeamResourceType
-	GOOGLE_CHAT             EntityManagementTeamResourceType
-	GOOGLE_CLOUD_PLATFORM   EntityManagementTeamResourceType
-	GOOGLE_DRIVE            EntityManagementTeamResourceType
-	MICROSOFT_AZURE         EntityManagementTeamResourceType
-	MICROSOFT_SHAREPOINT    EntityManagementTeamResourceType
-	MICROSOFT_TEAMS         EntityManagementTeamResourceType
-	OPSGENIE                EntityManagementTeamResourceType
-	OTHER_CONTACT           EntityManagementTeamResourceType
-	OTHER_LINK              EntityManagementTeamResourceType
-	PAGERDUTY               EntityManagementTeamResourceType
-	ROCKET_CHAT             EntityManagementTeamResourceType
-	SERVICENOW              EntityManagementTeamResourceType
-	SKYPE                   EntityManagementTeamResourceType
-	SLACK                   EntityManagementTeamResourceType
-	ZENDESK                 EntityManagementTeamResourceType
+	BASECAMP                  EntityManagementTeamResourceType
+	BLAMELESS                 EntityManagementTeamResourceType
+	EMAIL                     EntityManagementTeamResourceType
+	FACEBOOK_WORKPLACE        EntityManagementTeamResourceType
+	GITHUB                    EntityManagementTeamResourceType
+	GITLAB                    EntityManagementTeamResourceType
+	GOOGLE_CHAT               EntityManagementTeamResourceType
+	GOOGLE_CLOUD_PLATFORM     EntityManagementTeamResourceType
+	GOOGLE_DRIVE              EntityManagementTeamResourceType
+	MICROSOFT_AZURE           EntityManagementTeamResourceType
+	MICROSOFT_SHAREPOINT      EntityManagementTeamResourceType
+	MICROSOFT_TEAMS           EntityManagementTeamResourceType
+	OPSGENIE                  EntityManagementTeamResourceType
+	OTHER_CONTACT             EntityManagementTeamResourceType
+	OTHER_LINK                EntityManagementTeamResourceType
+	PAGERDUTY                 EntityManagementTeamResourceType
+	ROCKET_CHAT               EntityManagementTeamResourceType
+	SERVICENOW                EntityManagementTeamResourceType
+	SKYPE                     EntityManagementTeamResourceType
+	SLACK                     EntityManagementTeamResourceType
+	ZENDESK                   EntityManagementTeamResourceType
 }{
-	ATLASSIAN_CONFLUENCE:    "ATLASSIAN_CONFLUENCE",
-	ATLASSIAN_JIRA:          "ATLASSIAN_JIRA",
+	ATLASSIAN_CONFLUENCE:      "ATLASSIAN_CONFLUENCE",
+	ATLASSIAN_JIRA:            "ATLASSIAN_JIRA",
 	ATLASSIAN_JIRA_SCORECARDS: "ATLASSIAN_JIRA_SCORECARDS",
-	BASECAMP:                "BASECAMP",
-	BLAMELESS:               "BLAMELESS",
-	EMAIL:                   "EMAIL",
-	FACEBOOK_WORKPLACE:      "FACEBOOK_WORKPLACE",
-	GITHUB:                  "GITHUB",
-	GITLAB:                  "GITLAB",
-	GOOGLE_CHAT:             "GOOGLE_CHAT",
-	GOOGLE_CLOUD_PLATFORM:   "GOOGLE_CLOUD_PLATFORM",
-	GOOGLE_DRIVE:            "GOOGLE_DRIVE",
-	MICROSOFT_AZURE:         "MICROSOFT_AZURE",
-	MICROSOFT_SHAREPOINT:    "MICROSOFT_SHAREPOINT",
-	MICROSOFT_TEAMS:         "MICROSOFT_TEAMS",
-	OPSGENIE:                "OPSGENIE",
-	OTHER_CONTACT:           "OTHER_CONTACT",
-	OTHER_LINK:              "OTHER_LINK",
-	PAGERDUTY:               "PAGERDUTY",
-	ROCKET_CHAT:             "ROCKET_CHAT",
-	SERVICENOW:              "SERVICENOW",
-	SKYPE:                   "SKYPE",
-	SLACK:                   "SLACK",
-	ZENDESK:                 "ZENDESK",
+	BASECAMP:                  "BASECAMP",
+	BLAMELESS:                 "BLAMELESS",
+	EMAIL:                     "EMAIL",
+	FACEBOOK_WORKPLACE:        "FACEBOOK_WORKPLACE",
+	GITHUB:                    "GITHUB",
+	GITLAB:                    "GITLAB",
+	GOOGLE_CHAT:               "GOOGLE_CHAT",
+	GOOGLE_CLOUD_PLATFORM:     "GOOGLE_CLOUD_PLATFORM",
+	GOOGLE_DRIVE:              "GOOGLE_DRIVE",
+	MICROSOFT_AZURE:           "MICROSOFT_AZURE",
+	MICROSOFT_SHAREPOINT:      "MICROSOFT_SHAREPOINT",
+	MICROSOFT_TEAMS:           "MICROSOFT_TEAMS",
+	OPSGENIE:                  "OPSGENIE",
+	OTHER_CONTACT:             "OTHER_CONTACT",
+	OTHER_LINK:                "OTHER_LINK",
+	PAGERDUTY:                 "PAGERDUTY",
+	ROCKET_CHAT:               "ROCKET_CHAT",
+	SERVICENOW:                "SERVICENOW",
+	SKYPE:                     "SKYPE",
+	SLACK:                     "SLACK",
+	ZENDESK:                   "ZENDESK",
 }
 
 // EntityManagementTeamResource - Any extra information attached to a Team.

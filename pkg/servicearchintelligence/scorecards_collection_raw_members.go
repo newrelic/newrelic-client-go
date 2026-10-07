@@ -22,8 +22,8 @@ import (
 // CollectionMember holds the minimal fields needed by the provider for
 // non-authoritative ownership split logic: the entity GUID and its tags.
 type CollectionMember struct {
-	ID   string                     `json:"id"`
-	Tags []EntityManagementTag      `json:"tags"`
+	ID   string                `json:"id"`
+	Tags []EntityManagementTag `json:"tags"`
 }
 
 // GetCollectionMemberIDs is the convenience wrapper for
@@ -95,4 +95,3 @@ const collectionMemberIDsQuery = `query(
     }
   }
 }`
-
