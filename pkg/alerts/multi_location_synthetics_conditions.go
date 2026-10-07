@@ -126,7 +126,7 @@ func (a *Alerts) DeleteMultiLocationSyntheticsCondition(conditionID int) (*Multi
 // DeleteMultiLocationSyntheticsConditionWithContext delete an alert condition.
 func (a *Alerts) DeleteMultiLocationSyntheticsConditionWithContext(ctx context.Context, conditionID int) (*MultiLocationSyntheticsCondition, error) {
 	resp := multiLocationSyntheticsConditionCreateResponse{}
-	url := fmt.Sprintf("/alerts_conditions/%d.json", conditionID)
+	url := fmt.Sprintf("/alerts_location_failure_conditions/%d.json", conditionID)
 
 	_, err := a.client.DeleteWithContext(ctx, a.config.Region().RestURL(url), nil, &resp)
 
