@@ -813,6 +813,7 @@ packages:
           - "GetDomain() string"
           - "GetGUID() common.EntityGUID"
           - "GetName() string"
+          - "GetTags() []EntityTag"
           - "GetType() string"
           - "GetTags() []EntityTag"
 
