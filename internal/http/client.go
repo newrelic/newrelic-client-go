@@ -399,6 +399,21 @@ func (c *Client) Do(req *Request) (*http.Response, error) {
 	return resp, nil
 }
 
+// isFirstPartyRetryCallerBypass returns true when the request originates from a
+// first-party New Relic tool that explicitly opts into unconditional retry sleep.
+// The Terraform provider and New Relic CLI have always used context.Background()
+// and depend on the blocking retry behaviour; we preserve it for them regardless
+// of any context attached to the request.
+func isFirstPartyRetryCallerBypass(r *retryablehttp.Request) bool {
+	if r.Header.Get("X-Query-Source-Capability-Id") == "TERRAFORM" {
+		return true
+	}
+	if strings.Contains(r.Header.Get("X-Query-Source-Component-Id"), "newrelic-cli") {
+		return true
+	}
+	return false
+}
+
 func (c *Client) innerDo(req *Request, errorValue ErrorResponse, i int) (*http.Response, []byte, bool, error) {
 	r, err := req.makeRequest()
 	if err != nil {
@@ -434,6 +449,15 @@ func (c *Client) innerDo(req *Request, errorValue ErrorResponse, i int) (*http.R
 
 	if i > 0 {
 		c.logger.Debug(fmt.Sprintf("retrying request (attempt %d)", i), "method", req.method, "url", r.URL)
+	}
+
+	// For first-party callers (Terraform provider, NR CLI) that carry a
+	// potentially-cancelled context, substitute context.Background() so that
+	// the underlying HTTP call is never aborted by context cancellation.
+	// These callers have always relied on unconditional, blocking behaviour
+	// and must not be affected by any context attached to the request.
+	if isFirstPartyRetryCallerBypass(r) {
+		r = r.WithContext(context.Background())
 	}
 
 	resp, retryErr := c.client.Do(r)
@@ -483,7 +507,22 @@ func (c *Client) innerDo(req *Request, errorValue ErrorResponse, i int) (*http.R
 
 	wait := c.client.Backoff(c.client.RetryWaitMin, c.client.RetryWaitMax, i, resp)
 
-	time.Sleep(wait)
+	if isFirstPartyRetryCallerBypass(r) {
+		// First-party callers (Terraform provider, NR CLI) rely on unconditional
+		// retry sleep; preserve pre-fix behaviour for them.
+		time.Sleep(wait)
+	} else {
+		// For all other callers, respect context cancellation during backoff so a
+		// deadline or explicit cancel is not silently ignored between retries.
+		if reqCtx := r.Context(); reqCtx.Err() != nil {
+			return resp, body, false, reqCtx.Err()
+		}
+		select {
+		case <-time.After(wait):
+		case <-r.Context().Done():
+			return resp, body, false, r.Context().Err()
+		}
+	}
 
 	return resp, body, true, nil
 }
