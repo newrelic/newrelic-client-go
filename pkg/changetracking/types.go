@@ -200,7 +200,7 @@ var ChangeTrackingValidationFlagTypes = struct {
 	FAIL_ON_REST_API_FAILURES: "FAIL_ON_REST_API_FAILURES",
 }
 
-// DashboardEntityPermissions - Permisions that represent visibility & editability
+// DashboardEntityPermissions - Permissions that represent visibility & editability
 type DashboardEntityPermissions string
 
 var DashboardEntityPermissionsTypes = struct {
