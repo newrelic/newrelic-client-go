@@ -5869,8 +5869,9 @@ type EntityManagementScorecardEntityUpdateInput struct {
 	Name string `json:"name,omitempty"`
 	// See progressLevels in ScorecardEntity.
 	ProgressLevels []EntityManagementProgressLevelDefinitionUpdateInput `json:"progressLevels,omitempty"`
-	// See tags in ScorecardEntity.
-	Tags []EntityManagementTagInput `json:"tags,omitempty"`
+	// Pointer semantics: nil = no change; &[]{}  = clear all user tags.
+	// omitempty on a pointer omits when nil, includes when pointing to an empty slice.
+	Tags *[]EntityManagementTagInput `json:"tags,omitempty"`
 }
 
 // EntityManagementScorecardEntityUpdateResult - The result of updating an entity.
@@ -5964,8 +5965,8 @@ type EntityManagementScorecardRuleEntityUpdateInput struct {
 	RunInterval int `json:"runInterval,omitempty"`
 	// See schedule in ScorecardRuleEntity.
 	Schedule *EntityManagementScheduleUpdateInput `json:"schedule,omitempty"`
-	// See tags in ScorecardRuleEntity.
-	Tags []EntityManagementTagInput `json:"tags,omitempty"`
+	// Pointer semantics: nil = no change; &[]{}  = clear all user tags.
+	Tags *[]EntityManagementTagInput `json:"tags,omitempty"`
 }
 
 // EntityManagementScorecardRuleEntityUpdateResult - The result of updating an entity.
