@@ -96,3 +96,21 @@ func (x *EntityManagementTeamEntity) GetID() string                      { retur
 func (x *EntityManagementTeamsHierarchyLevelEntity) GetID() string       { return x.ID }
 func (x *EntityManagementTeamsOrganizationSettingsEntity) GetID() string { return x.ID }
 func (x *EntityManagementUserEntity) GetID() string                      { return x.ID }
+
+// TeamResourceTypeValues returns all valid EntityManagementTeamResourceType values
+// as plain strings, suitable for use in validation functions (e.g. StringInSlice).
+// Callers reference this instead of enumerating the values themselves so that
+// adding a new type to EntityManagementTeamResourceTypes automatically makes it
+// available in downstream validation without touching provider code.
+func TeamResourceTypeValues() []string {
+	t := EntityManagementTeamResourceTypes
+	return []string{
+		string(t.ATLASSIAN_CONFLUENCE), string(t.ATLASSIAN_JIRA), string(t.ATLASSIAN_JIRA_SCORECARDS),
+		string(t.BASECAMP), string(t.BLAMELESS), string(t.EMAIL), string(t.FACEBOOK_WORKPLACE),
+		string(t.GITHUB), string(t.GITLAB), string(t.GOOGLE_CHAT), string(t.GOOGLE_CLOUD_PLATFORM),
+		string(t.GOOGLE_DRIVE), string(t.MICROSOFT_AZURE), string(t.MICROSOFT_SHAREPOINT),
+		string(t.MICROSOFT_TEAMS), string(t.OPSGENIE), string(t.OTHER_CONTACT), string(t.OTHER_LINK),
+		string(t.PAGERDUTY), string(t.ROCKET_CHAT), string(t.SERVICENOW), string(t.SKYPE),
+		string(t.SLACK), string(t.ZENDESK),
+	}
+}
