@@ -10337,6 +10337,10 @@ func UnmarshalEntityManagementActorInterface(b []byte) (*EntityManagementActorIn
 // EntityManagementEntity - The Entity interface.
 type EntityManagementEntityInterface interface {
 	ImplementsEntityManagementEntity()
+	// GetID returns the entity's GUID. All concrete NGEP entity types have an
+	// ID field; this method lets callers extract the ID without a type switch,
+	// making collection-member enumeration future-proof for new entity types.
+	GetID() string
 }
 
 // UnmarshalEntityManagementEntityInterface unmarshals the interface into the correct type
