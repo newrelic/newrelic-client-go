@@ -113,8 +113,9 @@ func TestIntegrationScorecards_Team_CRUD(t *testing.T) {
 
 	// Field-by-field update semantics
 	waitForNGEP(t, "update description only", func() error {
+		updDesc := "updated description"
 		res, err := client.EntityManagementUpdateTeam(teamID, EntityManagementTeamEntityUpdateInput{
-			Description: "updated description",
+			Description: &updDesc,
 		})
 		if err != nil {
 			return err
@@ -129,8 +130,9 @@ func TestIntegrationScorecards_Team_CRUD(t *testing.T) {
 	})
 
 	waitForNGEP(t, "update aliases replace", func() error {
+		updAliases := []string{name + "-a2", name + "-a3"}
 		res, err := client.EntityManagementUpdateTeam(teamID, EntityManagementTeamEntityUpdateInput{
-			Aliases: []string{name + "-a2", name + "-a3"},
+			Aliases: &updAliases,
 		})
 		if err != nil {
 			return err
