@@ -1,6 +1,8 @@
 package nrtime
 
 import (
+	"time"
+
 	"github.com/newrelic/newrelic-client-go/v2/internal/serialization"
 )
 
@@ -25,12 +27,12 @@ func (t EpochSeconds) String() string {
 
 // MarshalJSON wrapper for EpochMilliseconds
 func (t EpochMilliseconds) MarshalJSON() ([]byte, error) {
-	return serialization.EpochTime(t).MarshalJSON()
+	return serialization.MarshalEpochMillisecondsJSON(time.Time(t))
 }
 
 // UnmarshalJSON wrapper for EpochMilliseconds
 func (t *EpochMilliseconds) UnmarshalJSON(s []byte) error {
-	return (*serialization.EpochTime)(t).UnmarshalJSON(s)
+	return serialization.UnmarshalEpochMillisecondsJSON(s, (*serialization.EpochTime)(t))
 }
 
 // String returns the time formatted using the format string
