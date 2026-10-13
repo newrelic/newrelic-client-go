@@ -350,6 +350,91 @@ func TestCustomRequestHeadersWithEnvironmentVariable(t *testing.T) {
 	_ = os.Unsetenv("NEW_RELIC_SERVICE_NAME")
 }
 
+func TestConfigCustomHeaders(t *testing.T) {
+	t.Parallel()
+
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+
+		assert.Equal(t, "client-a", r.Header.Get("X-Client-ID"))
+		assert.Equal(t, "route-b", r.Header.Get("X-Route-To"))
+		// Config-level custom headers must never clobber the SDK's own
+		// reserved headers.
+		assert.Equal(t, "newrelic-client-go", r.Header.Get("newrelic-requesting-services"))
+	}))
+
+	tc := mock.NewTestConfig(t, ts)
+	tc.CustomHeaders = map[string]string{
+		"X-Client-ID": "client-a",
+		"X-Route-To":  "route-b",
+	}
+
+	c := NewClient(tc)
+
+	_, err := c.Get(c.config.Region().RestURL("path"), nil, nil)
+
+	assert.Nil(t, err)
+}
+
+func TestConfigCustomHeadersOverriddenByRequest(t *testing.T) {
+	t.Parallel()
+
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+
+		// The per-request override must win over the config-level default.
+		assert.Equal(t, "request-override", r.Header.Get("X-Client-ID"))
+	}))
+
+	tc := mock.NewTestConfig(t, ts)
+	tc.CustomHeaders = map[string]string{
+		"X-Client-ID": "client-a",
+	}
+
+	c := NewClient(tc)
+
+	req, err := c.NewRequest("GET", c.config.Region().RestURL("path"), nil, nil, nil)
+	require.Nil(t, err)
+
+	assert.Equal(t, "client-a", req.GetHeader("X-Client-ID"))
+
+	req.SetHeader("X-Client-ID", "request-override")
+
+	_, err = c.Do(req)
+
+	assert.Nil(t, err)
+}
+
+func TestConfigCustomHeadersAppliedToNerdGraphRequest(t *testing.T) {
+	t.Parallel()
+
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+
+		assert.Equal(t, "client-a", r.Header.Get("X-Client-ID"))
+
+		_, _ = w.Write([]byte(`{"data": {}}`))
+	}))
+
+	tc := mock.NewTestConfig(t, ts)
+	tc.CustomHeaders = map[string]string{
+		"X-Client-ID": "client-a",
+	}
+	tc.Region().SetNerdGraphBaseURL(ts.URL)
+
+	c := NewClient(tc)
+
+	req, err := c.NewNerdGraphRequest("{ actor { user { id } } }", nil, &struct{}{})
+	require.Nil(t, err)
+
+	_, err = c.Do(req)
+
+	assert.Nil(t, err)
+}
+
 func TestAccountIDHeaderWithPersonalAPIKeyCapableV2Authorizer(t *testing.T) {
 	t.Skipf(`Skipping test %s as it requires a mock server to run,
 the configuration of which needs to be changed after the latest update to dependency net/http`, t.Name())
