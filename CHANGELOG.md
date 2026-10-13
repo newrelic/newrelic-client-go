@@ -1,3 +1,8 @@
+<a name="v2.96.2"></a>
+## [v2.96.2] - 2026-10-12
+### Bug Fixes
+- **federatedlogs:** add lifecycle status for federated logs ([#1490](https://github.com/newrelic/newrelic-client-go/issues/1490))
+
 <a name="v2.96.1"></a>
 ## [v2.96.1] - 2026-10-01
 ### Bug Fixes
@@ -2386,7 +2391,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.96.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.96.2...HEAD
+[v2.96.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.96.1...v2.96.2
 [v2.96.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.96.0...v2.96.1
 [v2.96.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.95.1...v2.96.0
 [v2.95.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.95.0...v2.95.1

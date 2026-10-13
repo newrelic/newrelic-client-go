@@ -1670,23 +1670,39 @@ var EntityManagementLifecycleStatePartitionTypes = struct {
 	COMPLETE EntityManagementLifecycleStatePartition
 	// Indicates the initial data processing component configuration has been created during onboarding.
 	DATA_PROCESSING_CONFIG_CREATED EntityManagementLifecycleStatePartition
+	// Indicates a decommission has been staged. One-way.
+	DECOMMISSION_STAGED EntityManagementLifecycleStatePartition
 	// Indicates a delete has been requested and an updated data processing component configuration (excluding this partition) is pending deployment.
 	DELETING EntityManagementLifecycleStatePartition
+	// Indicates a disable has been staged.
+	DISABLE_STAGED EntityManagementLifecycleStatePartition
+	// Indicates an enable has been staged.
+	ENABLE_STAGED EntityManagementLifecycleStatePartition
 	// Indicates there was an error during onboarding.
 	ERROR EntityManagementLifecycleStatePartition
 	// Indicates the entity resource creation is complete.
 	RESOURCE_CREATION_COMPLETE EntityManagementLifecycleStatePartition
+	// Indicates a configuration or routing-rule change has been staged.
+	UPDATE_STAGED EntityManagementLifecycleStatePartition
 }{
 	// Indicates the partition has been successfully onboarded.
 	COMPLETE: "COMPLETE",
 	// Indicates the initial data processing component configuration has been created during onboarding.
 	DATA_PROCESSING_CONFIG_CREATED: "DATA_PROCESSING_CONFIG_CREATED",
+	// Indicates a decommission has been staged. One-way.
+	DECOMMISSION_STAGED: "DECOMMISSION_STAGED",
 	// Indicates a delete has been requested and an updated data processing component configuration (excluding this partition) is pending deployment.
 	DELETING: "DELETING",
+	// Indicates a disable has been staged.
+	DISABLE_STAGED: "DISABLE_STAGED",
+	// Indicates an enable has been staged.
+	ENABLE_STAGED: "ENABLE_STAGED",
 	// Indicates there was an error during onboarding.
 	ERROR: "ERROR",
 	// Indicates the entity resource creation is complete.
 	RESOURCE_CREATION_COMPLETE: "RESOURCE_CREATION_COMPLETE",
+	// Indicates a configuration or routing-rule change has been staged.
+	UPDATE_STAGED: "UPDATE_STAGED",
 }
 
 // EntityManagementLifecycleStateSetup - Possible lifecycle states for a federated log setup.
@@ -1697,23 +1713,39 @@ var EntityManagementLifecycleStateSetupTypes = struct {
 	COMPLETE EntityManagementLifecycleStateSetup
 	// Indicates the initial data processing component configuration has been created during onboarding.
 	DATA_PROCESSING_CONFIG_CREATED EntityManagementLifecycleStateSetup
+	// Indicates a decommission has been staged. One-way.
+	DECOMMISSION_STAGED EntityManagementLifecycleStateSetup
 	// Indicates a delete has been requested and an updated data processing component configuration (excluding this setup) is pending deployment.
 	DELETING EntityManagementLifecycleStateSetup
+	// Indicates a disable has been staged.
+	DISABLE_STAGED EntityManagementLifecycleStateSetup
+	// Indicates an enable has been staged.
+	ENABLE_STAGED EntityManagementLifecycleStateSetup
 	// Indicates there was an error during onboarding.
 	ERROR EntityManagementLifecycleStateSetup
 	// Indicates the entity resource creation is complete.
 	RESOURCE_CREATION_COMPLETE EntityManagementLifecycleStateSetup
+	// Indicates a configuration or routing-rule change has been staged.
+	UPDATE_STAGED EntityManagementLifecycleStateSetup
 }{
 	// Indicates the setup has been successfully onboarded.
 	COMPLETE: "COMPLETE",
 	// Indicates the initial data processing component configuration has been created during onboarding.
 	DATA_PROCESSING_CONFIG_CREATED: "DATA_PROCESSING_CONFIG_CREATED",
+	// Indicates a decommission has been staged. One-way.
+	DECOMMISSION_STAGED: "DECOMMISSION_STAGED",
 	// Indicates a delete has been requested and an updated data processing component configuration (excluding this setup) is pending deployment.
 	DELETING: "DELETING",
+	// Indicates a disable has been staged.
+	DISABLE_STAGED: "DISABLE_STAGED",
+	// Indicates an enable has been staged.
+	ENABLE_STAGED: "ENABLE_STAGED",
 	// Indicates there was an error during onboarding.
 	ERROR: "ERROR",
 	// Indicates the entity resource creation is complete.
 	RESOURCE_CREATION_COMPLETE: "RESOURCE_CREATION_COMPLETE",
+	// Indicates a configuration or routing-rule change has been staged.
+	UPDATE_STAGED: "UPDATE_STAGED",
 }
 
 // EntityManagementManagedEntityType - Entity types that a Fleet can manage
@@ -2174,6 +2206,92 @@ var FederatedLogsCloudProviderTypes = struct {
 	OCI: "OCI",
 }
 
+// FederatedLogsDerivedLifecycleStatePartition - DerivedLifecycleState for a partition.Intended to be derived by comparing the requested pipeline configuration version against the version deployed to the fleet.
+type FederatedLogsDerivedLifecycleStatePartition string
+
+var FederatedLogsDerivedLifecycleStatePartitionTypes = struct {
+	// Deployed and collecting.
+	ACTIVE FederatedLogsDerivedLifecycleStatePartition
+	// Decommission deployed. Terminal and one-way.
+	DECOMMISSIONED FederatedLogsDerivedLifecycleStatePartition
+	// Decommission requested, not yet deployed. DATA IS STILL BEING COLLECTED AND BILLED.
+	DECOMMISSION_STAGED FederatedLogsDerivedLifecycleStatePartition
+	// Disable deployed. Not collecting. Reversible.
+	DISABLED FederatedLogsDerivedLifecycleStatePartition
+	// Disable requested, not yet deployed. DATA IS STILL BEING COLLECTED AND BILLED.
+	DISABLE_STAGED FederatedLogsDerivedLifecycleStatePartition
+	// Created but never deployed. Nothing is being collected.
+	DRAFT FederatedLogsDerivedLifecycleStatePartition
+	// Enable requested, not yet deployed. Nothing is being collected yet.
+	ENABLE_STAGED FederatedLogsDerivedLifecycleStatePartition
+	// Onboarding failed. See lifecycleStatus.message.
+	ERROR FederatedLogsDerivedLifecycleStatePartition
+	// Configuration or routing-rule change requested, not yet deployed. Collection continues under the previously deployed configuration.
+	UPDATE_STAGED FederatedLogsDerivedLifecycleStatePartition
+}{
+	// Deployed and collecting.
+	ACTIVE: "ACTIVE",
+	// Decommission deployed. Terminal and one-way.
+	DECOMMISSIONED: "DECOMMISSIONED",
+	// Decommission requested, not yet deployed. DATA IS STILL BEING COLLECTED AND BILLED.
+	DECOMMISSION_STAGED: "DECOMMISSION_STAGED",
+	// Disable deployed. Not collecting. Reversible.
+	DISABLED: "DISABLED",
+	// Disable requested, not yet deployed. DATA IS STILL BEING COLLECTED AND BILLED.
+	DISABLE_STAGED: "DISABLE_STAGED",
+	// Created but never deployed. Nothing is being collected.
+	DRAFT: "DRAFT",
+	// Enable requested, not yet deployed. Nothing is being collected yet.
+	ENABLE_STAGED: "ENABLE_STAGED",
+	// Onboarding failed. See lifecycleStatus.message.
+	ERROR: "ERROR",
+	// Configuration or routing-rule change requested, not yet deployed. Collection continues under the previously deployed configuration.
+	UPDATE_STAGED: "UPDATE_STAGED",
+}
+
+// FederatedLogsDerivedLifecycleStateSetup - DerivedLifecycleState for a setup.Intended to be derived by comparing the requested pipeline configuration version against the version deployed to the fleet.
+type FederatedLogsDerivedLifecycleStateSetup string
+
+var FederatedLogsDerivedLifecycleStateSetupTypes = struct {
+	// Deployed and collecting.
+	ACTIVE FederatedLogsDerivedLifecycleStateSetup
+	// Decommission deployed. Terminal and one-way.
+	DECOMMISSIONED FederatedLogsDerivedLifecycleStateSetup
+	// Decommission requested, not yet deployed. DATA IS STILL BEING COLLECTED AND BILLED.
+	DECOMMISSION_STAGED FederatedLogsDerivedLifecycleStateSetup
+	// Disable deployed. Not collecting. Reversible.
+	DISABLED FederatedLogsDerivedLifecycleStateSetup
+	// Disable requested, not yet deployed. DATA IS STILL BEING COLLECTED AND BILLED.
+	DISABLE_STAGED FederatedLogsDerivedLifecycleStateSetup
+	// Created but never deployed. Nothing is being collected.
+	DRAFT FederatedLogsDerivedLifecycleStateSetup
+	// Enable requested, not yet deployed. Nothing is being collected yet.
+	ENABLE_STAGED FederatedLogsDerivedLifecycleStateSetup
+	// Onboarding failed. See lifecycleStatus.message.
+	ERROR FederatedLogsDerivedLifecycleStateSetup
+	// Configuration or routing-rule change requested, not yet deployed. Collection continues under the previously deployed configuration.
+	UPDATE_STAGED FederatedLogsDerivedLifecycleStateSetup
+}{
+	// Deployed and collecting.
+	ACTIVE: "ACTIVE",
+	// Decommission deployed. Terminal and one-way.
+	DECOMMISSIONED: "DECOMMISSIONED",
+	// Decommission requested, not yet deployed. DATA IS STILL BEING COLLECTED AND BILLED.
+	DECOMMISSION_STAGED: "DECOMMISSION_STAGED",
+	// Disable deployed. Not collecting. Reversible.
+	DISABLED: "DISABLED",
+	// Disable requested, not yet deployed. DATA IS STILL BEING COLLECTED AND BILLED.
+	DISABLE_STAGED: "DISABLE_STAGED",
+	// Created but never deployed. Nothing is being collected.
+	DRAFT: "DRAFT",
+	// Enable requested, not yet deployed. Nothing is being collected yet.
+	ENABLE_STAGED: "ENABLE_STAGED",
+	// Onboarding failed. See lifecycleStatus.message.
+	ERROR: "ERROR",
+	// Configuration or routing-rule change requested, not yet deployed. Collection continues under the previously deployed configuration.
+	UPDATE_STAGED: "UPDATE_STAGED",
+}
+
 // FederatedLogsForwarderType - Supported forwarder types for log processing.
 type FederatedLogsForwarderType string
 
@@ -2212,23 +2330,39 @@ var FederatedLogsLifecycleStateTypes = struct {
 	COMPLETE FederatedLogsLifecycleState
 	// Initial data processing component configuration has been created during onboarding.
 	DATA_PROCESSING_CONFIG_CREATED FederatedLogsLifecycleState
+	// A decommission has been staged. One-way.
+	DECOMMISSION_STAGED FederatedLogsLifecycleState
 	// A delete has been requested and an updated data processing component configuration is pending deployment.
 	DELETING FederatedLogsLifecycleState
+	// A disable has been staged.
+	DISABLE_STAGED FederatedLogsLifecycleState
+	// An enable has been staged.
+	ENABLE_STAGED FederatedLogsLifecycleState
 	// An error occurred during the lifecycle.
 	ERROR FederatedLogsLifecycleState
 	// Entity resource creation is complete.
 	RESOURCE_CREATION_COMPLETE FederatedLogsLifecycleState
+	// A configuration or routing-rule change has been staged.
+	UPDATE_STAGED FederatedLogsLifecycleState
 }{
 	// Successfully onboarded.
 	COMPLETE: "COMPLETE",
 	// Initial data processing component configuration has been created during onboarding.
 	DATA_PROCESSING_CONFIG_CREATED: "DATA_PROCESSING_CONFIG_CREATED",
+	// A decommission has been staged. One-way.
+	DECOMMISSION_STAGED: "DECOMMISSION_STAGED",
 	// A delete has been requested and an updated data processing component configuration is pending deployment.
 	DELETING: "DELETING",
+	// A disable has been staged.
+	DISABLE_STAGED: "DISABLE_STAGED",
+	// An enable has been staged.
+	ENABLE_STAGED: "ENABLE_STAGED",
 	// An error occurred during the lifecycle.
 	ERROR: "ERROR",
 	// Entity resource creation is complete.
 	RESOURCE_CREATION_COMPLETE: "RESOURCE_CREATION_COMPLETE",
+	// A configuration or routing-rule change has been staged.
+	UPDATE_STAGED: "UPDATE_STAGED",
 }
 
 // FederatedLogsLifecycleStatePartition - Lifecycle states for a federated logs partition.
@@ -2239,23 +2373,39 @@ var FederatedLogsLifecycleStatePartitionTypes = struct {
 	COMPLETE FederatedLogsLifecycleStatePartition
 	// Initial data processing component configuration has been created during onboarding.
 	DATA_PROCESSING_CONFIG_CREATED FederatedLogsLifecycleStatePartition
+	// A decommission has been staged. One-way.
+	DECOMMISSION_STAGED FederatedLogsLifecycleStatePartition
 	// A delete has been requested and an updated data processing component configuration is pending deployment.
 	DELETING FederatedLogsLifecycleStatePartition
+	// A disable has been staged.
+	DISABLE_STAGED FederatedLogsLifecycleStatePartition
+	// An enable has been staged.
+	ENABLE_STAGED FederatedLogsLifecycleStatePartition
 	// An error occurred during the lifecycle.
 	ERROR FederatedLogsLifecycleStatePartition
 	// Entity resource creation is complete.
 	RESOURCE_CREATION_COMPLETE FederatedLogsLifecycleStatePartition
+	// A configuration or routing-rule change has been staged.
+	UPDATE_STAGED FederatedLogsLifecycleStatePartition
 }{
 	// Partition has been successfully onboarded.
 	COMPLETE: "COMPLETE",
 	// Initial data processing component configuration has been created during onboarding.
 	DATA_PROCESSING_CONFIG_CREATED: "DATA_PROCESSING_CONFIG_CREATED",
+	// A decommission has been staged. One-way.
+	DECOMMISSION_STAGED: "DECOMMISSION_STAGED",
 	// A delete has been requested and an updated data processing component configuration is pending deployment.
 	DELETING: "DELETING",
+	// A disable has been staged.
+	DISABLE_STAGED: "DISABLE_STAGED",
+	// An enable has been staged.
+	ENABLE_STAGED: "ENABLE_STAGED",
 	// An error occurred during the lifecycle.
 	ERROR: "ERROR",
 	// Entity resource creation is complete.
 	RESOURCE_CREATION_COMPLETE: "RESOURCE_CREATION_COMPLETE",
+	// A configuration or routing-rule change has been staged.
+	UPDATE_STAGED: "UPDATE_STAGED",
 }
 
 // FederatedLogsLifecycleStateSetup - Lifecycle states for a federated logs setup.
@@ -2266,23 +2416,39 @@ var FederatedLogsLifecycleStateSetupTypes = struct {
 	COMPLETE FederatedLogsLifecycleStateSetup
 	// Initial data processing component configuration has been created during onboarding.
 	DATA_PROCESSING_CONFIG_CREATED FederatedLogsLifecycleStateSetup
+	// A decommission has been staged. One-way.
+	DECOMMISSION_STAGED FederatedLogsLifecycleStateSetup
 	// A delete has been requested and an updated data processing component configuration is pending deployment.
 	DELETING FederatedLogsLifecycleStateSetup
+	// A disable has been staged.
+	DISABLE_STAGED FederatedLogsLifecycleStateSetup
+	// An enable has been staged.
+	ENABLE_STAGED FederatedLogsLifecycleStateSetup
 	// An error occurred during the lifecycle.
 	ERROR FederatedLogsLifecycleStateSetup
 	// Entity resource creation is complete.
 	RESOURCE_CREATION_COMPLETE FederatedLogsLifecycleStateSetup
+	// A configuration or routing-rule change has been staged.
+	UPDATE_STAGED FederatedLogsLifecycleStateSetup
 }{
 	// Setup has been successfully onboarded.
 	COMPLETE: "COMPLETE",
 	// Initial data processing component configuration has been created during onboarding.
 	DATA_PROCESSING_CONFIG_CREATED: "DATA_PROCESSING_CONFIG_CREATED",
+	// A decommission has been staged. One-way.
+	DECOMMISSION_STAGED: "DECOMMISSION_STAGED",
 	// A delete has been requested and an updated data processing component configuration is pending deployment.
 	DELETING: "DELETING",
+	// A disable has been staged.
+	DISABLE_STAGED: "DISABLE_STAGED",
+	// An enable has been staged.
+	ENABLE_STAGED: "ENABLE_STAGED",
 	// An error occurred during the lifecycle.
 	ERROR: "ERROR",
 	// Entity resource creation is complete.
 	RESOURCE_CREATION_COMPLETE: "RESOURCE_CREATION_COMPLETE",
+	// A configuration or routing-rule change has been staged.
+	UPDATE_STAGED: "UPDATE_STAGED",
 }
 
 // FederatedLogsRetentionUnit - Time units for retention policy durations.
@@ -5192,7 +5358,7 @@ type EntityManagementFederatedLogsPartitionEntity struct {
 	// The entity's scope.
 	Scope EntityManagementScopedReference `json:"scope"`
 	// The federated logs setup this partition belongs to.
-	Setup EntityManagementFederatedLogsSetupEntity `json:"setup"`
+	Setup EntityManagementFederatedLogsSetupEntity `json:"setup,omitempty"`
 	// Storage details for the log partition, including the associated table and data location URI.
 	Storage EntityManagementPartitionStorage `json:"storage"`
 	// Collection of tags.
@@ -5879,13 +6045,13 @@ type EntityManagementSetupStorage struct {
 	// The cloud provider configuration for this federated log setup.
 	CloudProviderConfiguration EntityManagementCloudProviderConfiguration `json:"cloudProviderConfiguration"`
 	// The connection manager entity used for writing data for this federated log setup. Must match the cloudProvider type (e.g., AwsConnectionEntity for AWS, AzureConnectionEntity for Azure).
-	DataIngestConnection EntityManagementEntityInterface `json:"dataIngestConnection"`
+	DataIngestConnection EntityManagementEntityInterface `json:"dataIngestConnection,omitempty"`
 	// The object storage bucket where log data is stored.
 	DataLocationBucket string `json:"dataLocationBucket"`
 	// The database name associated with the federated log setup. This could refer to a data catalog database or similar structure.
 	Database string `json:"database"`
 	// The connection manager entity used by query workers for reading and accessing federated log resources. Must match the cloudProvider type (e.g., AwsConnectionEntity for AWS, AzureConnectionEntity for Azure) and typically has read-only permissions.
-	QueryConnection EntityManagementEntityInterface `json:"queryConnection"`
+	QueryConnection EntityManagementEntityInterface `json:"queryConnection,omitempty"`
 }
 
 // special
@@ -6824,6 +6990,8 @@ type FederatedLogsPartition struct {
 	CreatedAt nrtime.DateTime `json:"createdAt"`
 	// The optional retention policy for logs in this partition.
 	DataRetentionPolicy FederatedLogsRetentionPolicy `json:"dataRetentionPolicy,omitempty"`
+	// The derived lifecycle state of the partition, computed from the lifecycle state and PCG deployment progress.
+	DerivedLifecycleState FederatedLogsDerivedLifecycleStatePartition `json:"derivedLifecycleState"`
 	// The description of the partition.
 	Description string `json:"description,omitempty"`
 	// The forwarder configuration for this partition.
@@ -6888,6 +7056,8 @@ type FederatedLogsPartitionPipelineControlConfiguration struct {
 	Latest FederatedLogsPipelineConfigurationMetadata `json:"latest,omitempty"`
 	// The partition rule that determines how logs are routed to this partition.
 	PartitionRule FederatedLogsRule `json:"partitionRule,omitempty"`
+	// Metadata about the pipeline configuration requested for deployment for this forwarder. May be null if no configuration has been requested.
+	Requested FederatedLogsPipelineConfigurationMetadata `json:"requested,omitempty"`
 }
 
 // FederatedLogsPartitionPipelineControlConfigurationInput - Input for partition-level pipeline control forwarder configuration.
@@ -6934,6 +7104,8 @@ type FederatedLogsPipelineControlConfiguration struct {
 	FleetId string `json:"fleetId"`
 	// Metadata about the latest pipeline configuration saved for this forwarder.
 	Latest FederatedLogsPipelineConfigurationMetadata `json:"latest,omitempty"`
+	// Metadata about the pipeline configuration requested for deployment for this forwarder. May be null if no configuration has been requested.
+	Requested FederatedLogsPipelineConfigurationMetadata `json:"requested,omitempty"`
 	// The routing rule that determines how incoming logs are routed to this setup.
 	RoutingRule FederatedLogsRule `json:"routingRule,omitempty"`
 }
@@ -6983,6 +7155,8 @@ type FederatedLogsSetup struct {
 	CreatedAt nrtime.DateTime `json:"createdAt"`
 	// The default partition entity ID for this setup.
 	DefaultPartitionId string `json:"defaultPartitionId,omitempty"`
+	// The derived lifecycle state of the setup, computed from the lifecycle state and PCG deployment progress.
+	DerivedLifecycleState FederatedLogsDerivedLifecycleStateSetup `json:"derivedLifecycleState"`
 	// The description of the setup.
 	Description string `json:"description,omitempty"`
 	// The forwarder responsible for processing and routing logs for this setup.
