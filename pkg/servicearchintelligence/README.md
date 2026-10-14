@@ -1,18 +1,18 @@
-# scorecards
+# servicearchintelligence
 
-The `scorecards` package covers four related NGEP (New Relic Entity Platform) resource families that all live under `entityManagement`:
+The `servicearchintelligence` package covers four related NGEP (New Relic Entity Platform) resource families that all live under `entityManagement`:
 
 - **Team** (`TEAM`)
 - **Scorecard** (`SCORECARD`)
 - **ScorecardRule** (`SCORECARD_RULE`)
 - **Collection** (`COLLECTION`) — includes the auto-created backing collections attached to Teams (`membership`, `ownership`) and Scorecards (`rules`)
 
-The name of the package is provisional; it groups everything into one place because the resources share the same GraphQL interface, the same `entityManagement*` mutations, and the same reads. See [`NGEP_ANALYSIS.md`](./NGEP_ANALYSIS.md) for the API relationships, side-effect map, and the transient-error taxonomy this package works around.
+All resources share the same GraphQL interface, the same `entityManagement*` mutations, and the same read path.
 
 ## Install
 
 ```go
-import "github.com/newrelic/newrelic-client-go/v2/pkg/scorecards"
+import "github.com/newrelic/newrelic-client-go/v2/pkg/servicearchintelligence"
 ```
 
 ## Create a client
@@ -22,14 +22,13 @@ package main
 
 import (
     "github.com/newrelic/newrelic-client-go/v2/pkg/config"
-    "github.com/newrelic/newrelic-client-go/v2/pkg/scorecards"
+    "github.com/newrelic/newrelic-client-go/v2/pkg/servicearchintelligence"
 )
 
 func main() {
     cfg := config.New()
     cfg.PersonalAPIKey = "YOUR_API_KEY"
-    // cfg.Region = "EU" // optional; default is US
-    client := scorecards.New(cfg)
+    client := servicearchintelligence.New(cfg)
     _ = client
 }
 ```
@@ -49,15 +48,15 @@ All entities exposed by this package are `ORGANIZATION`-scoped. You'll need your
 ### Create
 
 ```go
-res, err := client.EntityManagementCreateTeam(scorecards.EntityManagementTeamEntityCreateInput{
+res, err := client.EntityManagementCreateTeam(servicearchintelligence.EntityManagementTeamEntityCreateInput{
     Name:        "platform",
     Description: "Platform engineering",
-    Scope: scorecards.EntityManagementScopedReferenceInput{
+    Scope: servicearchintelligence.EntityManagementScopedReferenceInput{
         ID:   orgID,
-        Type: scorecards.EntityManagementEntityScopeTypes.ORGANIZATION,
+        Type: servicearchintelligence.EntityManagementEntityScopeTypes.ORGANIZATION,
     },
     Aliases: []string{"platform-alias"},
-    Tags:    []scorecards.EntityManagementTagInput{{Key: "team", Values: []string{"platform"}}},
+    Tags:    []servicearchintelligence.EntityManagementTagInput{{Key: "team", Values: []string{"platform"}}},
 })
 ```
 
@@ -65,15 +64,15 @@ Creating a Team **auto-creates two Collections** returned as `res.Entity.Members
 
 ### Field-by-field update
 
-The Update input is a JSON-Patch-style partial update — fields you omit are left alone. Explicit `nil`/`[]` for list-typed fields clears them (and the two are distinguishable server-side).
+The Update input is a JSON-Patch-style partial update — fields you omit are left alone. Explicit `nil`/`[]` for list-typed fields clears them.
 
 ```go
-_, err := client.EntityManagementUpdateTeam(res.Entity.ID, scorecards.EntityManagementTeamEntityUpdateInput{
+_, err := client.EntityManagementUpdateTeam(res.Entity.ID, servicearchintelligence.EntityManagementTeamEntityUpdateInput{
     Description: "Now with 20% more platform",
 })
 ```
 
-Notable constraints — see `NGEP_ANALYSIS.md § 5.1` for the full matrix:
+Notable constraints:
 
 - `managers` requires **NGEP-encoded user IDs** (`NDgy…VVNFUnw…`), not raw int userIds — and the user must already be in the team's `membership` Collection.
 - `externalIntegration.type = "GITHUB_TEAM"` / `"SERVICENOW_TEAM"` are managed by integrations and cannot be set through this API. `IAM_GROUP` is user-settable but only one integration type per org.
@@ -88,10 +87,10 @@ _, err := client.EntityManagementAddCollectionMembers(res.Entity.Membership.ID, 
 ## Scorecards
 
 ```go
-sc, err := client.EntityManagementCreateScorecard(scorecards.EntityManagementScorecardEntityCreateInput{
+sc, err := client.EntityManagementCreateScorecard(servicearchintelligence.EntityManagementScorecardEntityCreateInput{
     Name:  "engineering-best-practices",
-    Scope: scorecards.EntityManagementScopedReferenceInput{ID: orgID, Type: scorecards.EntityManagementEntityScopeTypes.ORGANIZATION},
-    ProgressLevels: []scorecards.EntityManagementProgressLevelDefinitionCreateInput{
+    Scope: servicearchintelligence.EntityManagementScopedReferenceInput{ID: orgID, Type: servicearchintelligence.EntityManagementEntityScopeTypes.ORGANIZATION},
+    ProgressLevels: []servicearchintelligence.EntityManagementProgressLevelDefinitionCreateInput{
         {ID: "red",   Name: "Red",   HexColorCode: "#FF0000"},
         {ID: "green", Name: "Green", HexColorCode: "#00CC00"},
     },
@@ -99,18 +98,18 @@ sc, err := client.EntityManagementCreateScorecard(scorecards.EntityManagementSco
 // sc.Entity.Rules.ID is the auto-created rules Collection.
 ```
 
-Note: at the time of writing, changing `progressLevels` through `EntityManagementUpdateScorecard` triggers a backend bug (`Unknown type 'EntityManagementScorecardRuleEntity'`). Treat progress levels as **create-time-only** until fixed.
+Progress levels can also be added, changed, or removed in-place after creation via `EntityManagementUpdateScorecard`.
 
 ## ScorecardRules
 
 Rules are standalone entities — they exist even without being attached to a Scorecard, and detaching a rule does NOT delete it.
 
 ```go
-r, err := client.EntityManagementCreateScorecardRule(scorecards.EntityManagementScorecardRuleEntityCreateInput{
+r, err := client.EntityManagementCreateScorecardRule(servicearchintelligence.EntityManagementScorecardRuleEntityCreateInput{
     Name:    "APM apps have alerts",
     Enabled: true,
-    Scope:   scorecards.EntityManagementScopedReferenceInput{ID: orgID, Type: scorecards.EntityManagementEntityScopeTypes.ORGANIZATION},
-    NRQLEngine: &scorecards.EntityManagementNRQLRuleEngineCreateInput{
+    Scope:   servicearchintelligence.EntityManagementScopedReferenceInput{ID: orgID, Type: servicearchintelligence.EntityManagementEntityScopeTypes.ORGANIZATION},
+    NRQLEngine: &servicearchintelligence.EntityManagementNRQLRuleEngineCreateInput{
         Accounts: []int{accountID},
         Query:    "SELECT if(latest(alertSeverity) != 'NOT_CONFIGURED', 1, 0) AS 'score' FROM Entity WHERE type = 'APM-APPLICATION' FACET id LIMIT MAX SINCE 1 day ago",
     },
@@ -132,14 +131,11 @@ NRQL constraints (per the current backend):
 Collections created directly (not the ones auto-generated for Teams/Scorecards) can hold **heterogeneous** members — Users, APM apps, Teams, other Collections. Deleting a Collection detaches its members silently; they survive.
 
 ```go
-col, err := client.EntityManagementCreateCollection(scorecards.EntityManagementCollectionEntityCreateInput{
+col, err := client.EntityManagementCreateCollection(servicearchintelligence.EntityManagementCollectionEntityCreateInput{
     Name:  "my-favourite-apps",
-    Scope: scorecards.EntityManagementScopedReferenceInput{ID: orgID, Type: scorecards.EntityManagementEntityScopeTypes.ORGANIZATION},
+    Scope: servicearchintelligence.EntityManagementScopedReferenceInput{ID: orgID, Type: servicearchintelligence.EntityManagementEntityScopeTypes.ORGANIZATION},
 })
 
-// Response is slot-aligned with your input `ids`. Each slot is either the
-// added id or nil on failure; failures are surfaced through the returned
-// error (transport error) with per-index paths in `errors[]`.
 _, err = client.EntityManagementAddCollectionMembers(col.Entity.ID, []string{apmEntityGUID, userNGEPID})
 ```
 
@@ -148,18 +144,17 @@ _, err = client.EntityManagementAddCollectionMembers(col.Entity.ID, []string{apm
 ```go
 res, err := client.GetCollectionElements(
     "",
-    scorecards.EntityManagementCollectionElementsFilter{
-        CollectionID: scorecards.EntityManagementCollectionIdFilterArgument{Eq: col.Entity.ID},
+    servicearchintelligence.EntityManagementCollectionElementsFilter{
+        CollectionID: servicearchintelligence.EntityManagementCollectionIdFilterArgument{Eq: col.Entity.ID},
     },
     25, // page size
 )
 for _, item := range res.Items {
     switch e := item.(type) {
-    case *scorecards.EntityManagementUserEntity:
+    case *servicearchintelligence.EntityManagementUserEntity:
         fmt.Println("user:", e.Name, e.UserId)
     default:
-        // Anything that isn't a known implementation (e.g. APM applications)
-        // deserialises as *EntityManagementGenericEntity.
+        // Unknown implementations deserialise as *EntityManagementGenericEntity.
     }
 }
 ```
@@ -185,14 +180,14 @@ for _, c := range *containers {
 
 ## Regenerating this package via tutone
 
-This package relies on the tutone fork with `include_implementations` (see [`.tutone.yml`](../../.tutone.yml)). A few hand-patches are applied after every `tutone generate --packages scorecards`:
+This package relies on the tutone fork with `include_implementations` (see [`.tutone.yml`](../../.tutone.yml)). Two hand-written files are kept alongside the generated code:
 
-1. **Strip the `version` argument** from every generated `Update*` and `Delete` method. NGEP treats `version: 0` as "wrong version" and returns `Concurrent modification of entity`. The regen recipe strips `version int` parameters, the corresponding `"version": version` variables, and the `$version: Int` / `version: $version` selections from the mutation string. See the small Python sed at the top of `Makefile`-adjacent regen scripts, or reuse the block in `NGEP_ANALYSIS.md § 11`.
-2. **Two hand-written files** are kept alongside the generated code:
-   - `scorecards_collection_members.go` — hand-writes the `Add/RemoveCollectionMembers` mutations because tutone cannot yet emit valid Go for their `[ID]` scalar-list return.
-   - `scorecards_types_extra.go` — adds the missing `EntityManagementCollectionElementsFilter` and `EntityManagementCollectionIdFilterArgument` input types plus an `UnmarshalJSON` for `EntityManagementActorStitchedFields` (dispatches the `entity` interface field via `__typename`).
+- `scorecards_collection_members.go` — hand-writes the `Add/RemoveCollectionMembers` mutations because tutone cannot yet emit valid Go for their `[ID]` scalar-list return.
+- `scorecards_types_extra.go` — adds the missing `EntityManagementCollectionElementsFilter` and `EntityManagementCollectionIdFilterArgument` input types, plus an `UnmarshalJSON` for `EntityManagementActorStitchedFields` that dispatches the `entity` interface field via `__typename`.
 
-Do not commit the vendored `tutone` binary or the `schema.json` file that tutone writes to the worktree root — they are gitignored and only used at regen time.
+After every `tutone generate --packages scorecards`, strip the `version` argument from all generated `Update*` and `Delete` methods. NGEP treats `version: 0` as "wrong version" and returns `Concurrent modification of entity`. Remove `version int` parameters, the corresponding `"version": version` variables, and the `$version: Int` / `version: $version` selections from the mutation strings.
+
+Do not commit the vendored `tutone` binary or the `schema.json` file — they are gitignored and only used at regen time.
 
 ## Links
 

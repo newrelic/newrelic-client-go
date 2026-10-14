@@ -1,7 +1,7 @@
-// Package scorecards manages New Relic entity-management resources that share
-// the NGEP (NerdGraph Entity Platform) interface — Teams, Scorecards,
-// ScorecardRules, and Collections. See NGEP_ANALYSIS.md for the relationship
-// model and API semantics that shaped this package.
+// Package servicearchintelligence manages New Relic entity-management resources
+// that share the NGEP (NerdGraph Entity Platform) interface — Teams, Scorecards,
+// ScorecardRules, and Collections. See README.md for usage examples and
+// API semantics.
 package servicearchintelligence
 
 import (
