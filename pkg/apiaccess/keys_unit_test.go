@@ -120,3 +120,38 @@ func TestUnitSearchAPIAccessKeys_SinglePage(t *testing.T) {
 	require.Len(t, keys, 1)
 	assert.Len(t, *cursors, 1)
 }
+
+func TestUnitSearchAPIAccessKeys_GraphQLErrorOnLaterPage(t *testing.T) {
+	t.Parallel()
+
+	client, _ := newPagedKeySearchClient(t, map[string]string{
+		"":       testKeySearchFirstPage,
+		"page-2": `{"errors": [{"message": "something went wrong"}]}`,
+	})
+
+	keys, err := client.SearchAPIAccessKeys(APIAccessKeySearchQuery{
+		Types: []APIAccessKeyType{APIAccessKeyTypeTypes.INGEST},
+	})
+
+	require.Error(t, err)
+	assert.Contains(t, err.Error(), "something went wrong")
+	assert.Nil(t, keys)
+}
+
+func TestUnitSearchAPIAccessKeys_RequestError(t *testing.T) {
+	t.Parallel()
+
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusInternalServerError)
+	}))
+	t.Cleanup(ts.Close)
+
+	client := New(mock.NewTestConfig(t, ts))
+
+	keys, err := client.SearchAPIAccessKeys(APIAccessKeySearchQuery{
+		Types: []APIAccessKeyType{APIAccessKeyTypeTypes.INGEST},
+	})
+
+	require.Error(t, err)
+	assert.Nil(t, keys)
+}
