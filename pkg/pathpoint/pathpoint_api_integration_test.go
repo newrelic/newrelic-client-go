@@ -216,8 +216,8 @@ func TestIntegrationPathPoint_Delete_AlreadyDeleted(t *testing.T) {
 	_, err = client.PathPointDelete(created.GUID)
 	require.NoError(t, err)
 
-	// Second delete on the same GUID should return an error.
+	// Second delete on the same GUID should succeed — the API treats delete as idempotent.
 	result, err := client.PathPointDelete(created.GUID)
-	require.Error(t, err)
-	assert.Nil(t, result)
+	require.NoError(t, err)
+	assert.NotNil(t, result)
 }
