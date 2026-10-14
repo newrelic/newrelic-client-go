@@ -1,3 +1,11 @@
+<a name="v2.97.0"></a>
+## [v2.97.0] - 2026-10-14
+### Bug Fixes
+- **deps:** upgrade vulnerable dependencies (grpc, otel, x/crypto, x/mod, x/text, x/sys) ([#1504](https://github.com/newrelic/newrelic-client-go/issues/1504))
+
+### Features
+- **sai:** add pkg/servicearchintelligence — Teams, Scorecards, Collections NGEP client ([#1433](https://github.com/newrelic/newrelic-client-go/issues/1433))
+
 <a name="v2.96.2"></a>
 ## [v2.96.2] - 2026-10-12
 ### Bug Fixes
@@ -2391,7 +2399,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.96.2...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.0...HEAD
+[v2.97.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.96.2...v2.97.0
 [v2.96.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.96.1...v2.96.2
 [v2.96.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.96.0...v2.96.1
 [v2.96.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.95.1...v2.96.0
