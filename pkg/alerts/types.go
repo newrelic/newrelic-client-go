@@ -297,6 +297,10 @@ type AlertsMutingRuleScheduleInput struct {
 type AlertsPoliciesSearchCriteriaInput struct {
 	// The list of policy ids to return.
 	IDs []string `json:"ids"`
+	//Exact name of the policy.
+	Name string `json:"name,omitempty"`
+	//String to partially match a policy name.
+	NameLike string `json:"nameLike,omitempty"`
 }
 
 // AlertsPoliciesSearchResultSet - Collection of policies with pagination information.
