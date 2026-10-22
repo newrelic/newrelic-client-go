@@ -1,3 +1,8 @@
+<a name="v2.97.1"></a>
+## [v2.97.1] - 2026-10-22
+### Bug Fixes
+- **ci:** upgrade node-version from 20.x to 22.x (NR-15639) ([#1507](https://github.com/newrelic/newrelic-client-go/issues/1507))
+
 <a name="v2.97.0"></a>
 ## [v2.97.0] - 2026-10-14
 ### Bug Fixes
@@ -2399,7 +2404,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.1...HEAD
+[v2.97.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.0...v2.97.1
 [v2.97.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.96.2...v2.97.0
 [v2.96.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.96.1...v2.96.2
 [v2.96.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.96.0...v2.96.1
