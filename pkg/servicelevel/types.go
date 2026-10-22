@@ -2,10 +2,28 @@
 package servicelevel
 
 import (
+	"encoding/json"
+	"fmt"
+
 	"github.com/newrelic/newrelic-client-go/v2/pkg/accounts"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/common"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/nrtime"
 )
+
+// ServiceLevelActorType - The available actor types.
+type ServiceLevelActorType string
+
+var ServiceLevelActorTypeTypes = struct {
+	// System identity actor type.
+	SYSTEM ServiceLevelActorType
+	// User actor type.
+	USER ServiceLevelActorType
+}{
+	// System identity actor type.
+	SYSTEM: "SYSTEM",
+	// User actor type.
+	USER: "USER",
+}
 
 // ServiceLevelEventsQuerySelectFunction - The function to use in the SELECT clause.
 type ServiceLevelEventsQuerySelectFunction string
@@ -69,6 +87,16 @@ type Entity struct {
 	Type string `json:"type,omitempty"`
 }
 
+// ServiceLevelActor - Represents an actor.
+type ServiceLevelActor struct {
+	// Id of the actor.
+	ID string `json:"id"`
+	// Type of the actor.
+	Type ServiceLevelActorType `json:"type"`
+}
+
+func (x *ServiceLevelActor) ImplementsServiceLevelActor() {}
+
 // ServiceLevelDefinition - The service level defined for a specific entity.
 type ServiceLevelDefinition struct {
 	// The SLIs attached to the entity.
@@ -93,6 +121,8 @@ type ServiceLevelEventsCreateInput struct {
 	AccountID int `json:"accountId"`
 	// The definition of bad events.
 	BadEvents *ServiceLevelEventsQueryCreateInput `json:"badEvents,omitempty"`
+	// The list of NRQL FACET attributes to group results by. These facets are applied to all event queries (valid, good or bad events).
+	Facets []string `json:"facets"`
 	// The definition of good events.
 	GoodEvents *ServiceLevelEventsQueryCreateInput `json:"goodEvents,omitempty"`
 	// The definition of valid events.
@@ -101,6 +131,8 @@ type ServiceLevelEventsCreateInput struct {
 
 // ServiceLevelEventsQuery - The query that represents the events to fetch.
 type ServiceLevelEventsQuery struct {
+	// The NRQL FACET clause to group results by.
+	Facets []string `json:"facets"`
 	// The NRDB event to fetch the data from.
 	From NRQL `json:"from"`
 	// The NRQL SELECT clause to aggregate events.
@@ -163,6 +195,8 @@ type ServiceLevelEventsQueryUpdateInput struct {
 type ServiceLevelEventsUpdateInput struct {
 	// The definition of bad events.
 	BadEvents *ServiceLevelEventsQueryUpdateInput `json:"badEvents,omitempty"`
+	// The list of NRQL FACET attributes to group results by. These facets are applied to all event queries (valid, good or bad events).
+	Facets []string `json:"facets"`
 	// The definition of good events.
 	GoodEvents *ServiceLevelEventsQueryUpdateInput `json:"goodEvents,omitempty"`
 	// The definition of valid events.
@@ -180,11 +214,13 @@ type ServiceLevelIndicator struct {
 	// The entity which the SLI is attached to.
 	EntityGUID common.EntityGUID `json:"entityGuid"`
 	// The events that define the SLI.
-	Events ServiceLevelEvents `json:"events"`
+	Events ServiceLevelEvents `json:"events,omitempty"`
 	// The unique entity identifier of the SLI.
 	GUID common.EntityGUID `json:"guid"`
 	// The unique identifier of the SLI.
 	ID string `json:"id"`
+	// The metadata of the SLI.
+	Metadata ServiceLevelMetadata `json:"metadata,omitempty"`
 	// The name of the SLI.
 	Name string `json:"name"`
 	// A list of objective definitions.
@@ -227,6 +263,72 @@ type ServiceLevelIndicatorUpdateInput struct {
 	Name string `json:"name,omitempty"`
 	// A list of objective definitions.
 	Objectives []ServiceLevelObjectiveUpdateInput `json:"objectives,omitempty"`
+}
+
+// ServiceLevelMetadata - Metadata about the SLI.
+type ServiceLevelMetadata struct {
+	// The SLI's creation time.
+	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt"`
+	// Actor that created this SLI.
+	CreatedBy ServiceLevelActorInterface `json:"createdBy,omitempty"`
+	// The SLI's last update time.
+	UpdatedAt *nrtime.EpochMilliseconds `json:"updatedAt,omitempty"`
+	// Actor that last updated this SLI.
+	UpdatedBy ServiceLevelActorInterface `json:"updatedBy,omitempty"`
+}
+
+// special
+func (x *ServiceLevelMetadata) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+
+	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
+		switch k {
+		case "createdAt":
+			err = json.Unmarshal(*v, &x.CreatedAt)
+			if err != nil {
+				return err
+			}
+		case "createdBy":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalServiceLevelActorInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.CreatedBy = *xxx
+			}
+		case "updatedAt":
+			err = json.Unmarshal(*v, &x.UpdatedAt)
+			if err != nil {
+				return err
+			}
+		case "updatedBy":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalServiceLevelActorInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.UpdatedBy = *xxx
+			}
+		}
+	}
+
+	return nil
 }
 
 // ServiceLevelObjective - An objective definition.
@@ -319,14 +421,38 @@ type ServiceLevelResultQuery struct {
 	NRQL NRQL `json:"nrql"`
 }
 
+// ServiceLevelSystemIdentityActor - A system identity actor.
+type ServiceLevelSystemIdentityActor struct {
+	// Id of the actor.
+	ID string `json:"id"`
+	// Type of the actor.
+	Type ServiceLevelActorType `json:"type"`
+}
+
+func (x *ServiceLevelSystemIdentityActor) ImplementsServiceLevelActor() {}
+
+// ServiceLevelUserActor - A user actor.
+type ServiceLevelUserActor struct {
+	// Id of the actor.
+	ID string `json:"id"`
+	// Type of the actor.
+	Type ServiceLevelActorType `json:"type"`
+}
+
+func (x *ServiceLevelUserActor) ImplementsServiceLevelActor() {}
+
 // User - The `User` object provides general data about the user.
 type User struct {
+	//
+	CreatedAt int `json:"createdAt,omitempty"`
 	//
 	Email string `json:"email,omitempty"`
 	//
 	ID int `json:"id,omitempty"`
 	//
 	Name string `json:"name,omitempty"`
+	//
+	TimeZoneName string `json:"timeZoneName,omitempty"`
 }
 
 // UserReference - The `UserReference` object provides basic identifying information about the user.
@@ -361,3 +487,65 @@ type ID string
 //
 // See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about NRQL syntax.
 type NRQL string
+
+// ServiceLevelActor - Represents an actor.
+type ServiceLevelActorInterface interface {
+	ImplementsServiceLevelActor()
+}
+
+// UnmarshalServiceLevelActorInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
+func UnmarshalServiceLevelActorInterface(b []byte) (*ServiceLevelActorInterface, error) {
+	var err error
+
+	var rawMessageServiceLevelActor map[string]*json.RawMessage
+	err = json.Unmarshal(b, &rawMessageServiceLevelActor)
+	if err != nil {
+		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageServiceLevelActor) < 1 {
+		return nil, nil
+	}
+
+	var typeName string
+
+	if rawTypeName, ok := rawMessageServiceLevelActor["__typename"]; ok {
+		err = json.Unmarshal(*rawTypeName, &typeName)
+		if err != nil {
+			return nil, err
+		}
+
+		switch typeName {
+		case "ServiceLevelSystemIdentityActor":
+			var interfaceType ServiceLevelSystemIdentityActor
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx ServiceLevelActorInterface = &interfaceType
+
+			return &xxx, nil
+		case "ServiceLevelUserActor":
+			var interfaceType ServiceLevelUserActor
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx ServiceLevelActorInterface = &interfaceType
+
+			return &xxx, nil
+		}
+	} else {
+		keys := []string{}
+		for k := range rawMessageServiceLevelActor {
+			keys = append(keys, k)
+		}
+		return nil, fmt.Errorf("interface ServiceLevelActor did not include a __typename field for inspection: %s", keys)
+	}
+
+	return nil, fmt.Errorf("interface ServiceLevelActor was not matched against all PossibleTypes: %s", typeName)
+}
