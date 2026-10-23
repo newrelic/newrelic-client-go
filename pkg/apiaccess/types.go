@@ -359,6 +359,13 @@ type APIAccessKeyError struct {
 
 func (x *APIAccessKeyError) ImplementsAPIAccessKeyError() {}
 
+// APIAccessKeyNameQuery - Filter keys by name substring. Maps to the NerdGraph
+// keySearch scope.name parameter.
+type APIAccessKeyNameQuery struct {
+	// Contains filters to keys whose name contains this substring.
+	Contains string `json:"contains,omitempty"`
+}
+
 // APIAccessKeySearchQuery - Parameters by which to filter the search.
 type APIAccessKeySearchQuery struct {
 	// Criteria by which to narrow the scope of keys to be returned.
@@ -433,6 +440,8 @@ type APIAccessKeySearchScope struct {
 	AccountIDs []int `json:"accountIds,omitempty"`
 	// The ingest type of the key. Only applies to ingest keys, and does not affect user key filtering.
 	IngestTypes []APIAccessIngestKeyType `json:"ingestTypes,omitempty"`
+	// Filter by key name. When set, only keys whose name matches are returned.
+	Name *APIAccessKeyNameQuery `json:"name,omitempty"`
 	// A list of key user ids. Only applies to user keys, and does not affect ingest key filtering.
 	UserIDs []int `json:"userIds,omitempty"`
 }

@@ -81,21 +81,32 @@ func (a *APIAccess) SearchAPIAccessKeys(params APIAccessKeySearchQuery) ([]APIKe
 
 // SearchAPIAccessKeysWithContext returns the relevant keys based on search criteria. Returns keys are scoped to the current user.
 func (a *APIAccess) SearchAPIAccessKeysWithContext(ctx context.Context, params APIAccessKeySearchQuery) ([]APIKey, error) {
-	vars := map[string]interface{}{
-		"query": params,
+	var keys []APIKey
+	var cursor *string
+
+	for {
+		vars := map[string]interface{}{
+			"query":  params,
+			"cursor": cursor,
+		}
+
+		resp := apiAccessKeySearchResponse{}
+		if err := a.client.NerdGraphQueryWithContext(ctx, apiAccessKeySearch, vars, &resp); err != nil {
+			return nil, err
+		}
+		if resp.Errors != nil {
+			return nil, errors.New(resp.Error())
+		}
+
+		keySearch := resp.Actor.APIAccess.KeySearch
+		keys = append(keys, keySearch.Keys...)
+
+		if keySearch.NextCursor == "" {
+			return keys, nil
+		}
+		next := keySearch.NextCursor
+		cursor = &next
 	}
-
-	resp := apiAccessKeySearchResponse{}
-
-	if err := a.client.NerdGraphQueryWithContext(ctx, apiAccessKeySearch, vars, &resp); err != nil {
-		return nil, err
-	}
-
-	if resp.Errors != nil {
-		return nil, errors.New(resp.Error())
-	}
-
-	return resp.Actor.APIAccess.KeySearch.Keys, nil
 }
 
 // UpdateAPIAccessKeys updates keys. You can update keys for multiple accounts at once.
@@ -202,7 +213,8 @@ type apiAccessKeySearchResponse struct {
 	Actor struct {
 		APIAccess struct {
 			KeySearch struct {
-				Keys []APIKey `json:"keys"`
+				Keys       []APIKey `json:"keys"`
+				NextCursor string   `json:"nextCursor,omitempty"`
 			} `json:"keySearch,omitempty"`
 		} `json:"apiAccess"`
 	} `json:"actor"`
@@ -289,11 +301,12 @@ const (
 			apiAccess {
 				key(id: $id, keyType: $keyType) {` + graphqlAPIAccessKeyBaseFields + `}}}}`
 
-	apiAccessKeySearch = `query($query: ApiAccessKeySearchQuery!) {
+	apiAccessKeySearch = `query($query: ApiAccessKeySearchQuery!, $cursor: String) {
 		actor {
 			apiAccess {
-				keySearch(query: $query) {
+				keySearch(query: $query, cursor: $cursor) {
 					keys {` + graphqlAPIAccessKeyBaseFields + `}
+					nextCursor
 				}}}}`
 
 	apiAccessKeyUpdateKeys = `mutation($keys: ApiAccessUpdateInput!) {
