@@ -427,12 +427,20 @@ func (x *APIAccessKeySearchResult) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+// APIAccessKeyNameQuery - Filter keys by name substring.
+type APIAccessKeyNameQuery struct {
+	// Contains filters keys whose name contains this substring (case-insensitive).
+	Contains string `json:"contains,omitempty"`
+}
+
 // APIAccessKeySearchScope - The scope of keys to be returned. Note that some filters only apply to certain key types.
 type APIAccessKeySearchScope struct {
 	// A list of key account IDs.
 	AccountIDs []int `json:"accountIds,omitempty"`
 	// The ingest type of the key. Only applies to ingest keys, and does not affect user key filtering.
 	IngestTypes []APIAccessIngestKeyType `json:"ingestTypes,omitempty"`
+	// Filter keys by name. When set, only keys whose name matches are returned.
+	Name *APIAccessKeyNameQuery `json:"name,omitempty"`
 	// A list of key user ids. Only applies to user keys, and does not affect ingest key filtering.
 	UserIDs []int `json:"userIds,omitempty"`
 }

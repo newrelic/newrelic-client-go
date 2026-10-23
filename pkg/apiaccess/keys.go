@@ -4,9 +4,14 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"sort"
 
 	"github.com/newrelic/newrelic-client-go/v2/internal/http"
 )
+
+// InstallerIngestLicenseKeyName is the canonical name used by New Relic installers
+// for the preferred ingest license key.
+const InstallerIngestLicenseKeyName = "Installer Ingest License Key"
 
 type APIKey struct {
 	APIAccessKey
@@ -80,22 +85,80 @@ func (a *APIAccess) SearchAPIAccessKeys(params APIAccessKeySearchQuery) ([]APIKe
 }
 
 // SearchAPIAccessKeysWithContext returns the relevant keys based on search criteria. Returns keys are scoped to the current user.
+// It follows NerdGraph pagination cursors so all pages are collected even when the result set exceeds 1,000 keys.
 func (a *APIAccess) SearchAPIAccessKeysWithContext(ctx context.Context, params APIAccessKeySearchQuery) ([]APIKey, error) {
-	vars := map[string]interface{}{
-		"query": params,
+	var allKeys []APIKey
+	var cursor *string
+
+	for {
+		vars := map[string]interface{}{
+			"query":  params,
+			"cursor": cursor,
+		}
+
+		resp := apiAccessKeySearchResponse{}
+
+		if err := a.client.NerdGraphQueryWithContext(ctx, apiAccessKeySearch, vars, &resp); err != nil {
+			return nil, err
+		}
+
+		if resp.Errors != nil {
+			return nil, errors.New(resp.Error())
+		}
+
+		allKeys = append(allKeys, resp.Actor.APIAccess.KeySearch.Keys...)
+
+		nextCursor := resp.Actor.APIAccess.KeySearch.NextCursor
+		if nextCursor == "" {
+			break
+		}
+		cursor = &nextCursor
 	}
 
-	resp := apiAccessKeySearchResponse{}
+	return allKeys, nil
+}
 
-	if err := a.client.NerdGraphQueryWithContext(ctx, apiAccessKeySearch, vars, &resp); err != nil {
-		return nil, err
+// GetPreferredIngestLicenseKey returns the best LICENSE ingest key for the given account.
+// It first searches by name for "Installer Ingest License Key". If found, that key is returned.
+// If not found, it falls back to a full paginated search of all LICENSE keys and returns the
+// oldest one by creation time. Returns an empty string (no error) if no LICENSE keys exist.
+func (a *APIAccess) GetPreferredIngestLicenseKey(ctx context.Context, accountID int) (string, error) {
+	// Fast path: look for the preferred key by name
+	nameKeys, err := a.SearchAPIAccessKeysWithContext(ctx, APIAccessKeySearchQuery{
+		Scope: APIAccessKeySearchScope{
+			AccountIDs:  []int{accountID},
+			IngestTypes: []APIAccessIngestKeyType{APIAccessIngestKeyTypeTypes.LICENSE},
+			Name:        &APIAccessKeyNameQuery{Contains: InstallerIngestLicenseKeyName},
+		},
+		Types: []APIAccessKeyType{APIAccessKeyTypeTypes.INGEST},
+	})
+	if err != nil {
+		return "", err
+	}
+	for _, k := range nameKeys {
+		if k.Name == InstallerIngestLicenseKeyName {
+			return k.Key, nil
+		}
 	}
 
-	if resp.Errors != nil {
-		return nil, errors.New(resp.Error())
+	// Fallback: full paginated search, return oldest LICENSE key
+	allKeys, err := a.SearchAPIAccessKeysWithContext(ctx, APIAccessKeySearchQuery{
+		Scope: APIAccessKeySearchScope{
+			AccountIDs:  []int{accountID},
+			IngestTypes: []APIAccessIngestKeyType{APIAccessIngestKeyTypeTypes.LICENSE},
+		},
+		Types: []APIAccessKeyType{APIAccessKeyTypeTypes.INGEST},
+	})
+	if err != nil {
+		return "", err
 	}
-
-	return resp.Actor.APIAccess.KeySearch.Keys, nil
+	if len(allKeys) == 0 {
+		return "", nil
+	}
+	sort.Slice(allKeys, func(i, j int) bool {
+		return allKeys[i].CreatedAt < allKeys[j].CreatedAt
+	})
+	return allKeys[0].Key, nil
 }
 
 // UpdateAPIAccessKeys updates keys. You can update keys for multiple accounts at once.
@@ -202,7 +265,8 @@ type apiAccessKeySearchResponse struct {
 	Actor struct {
 		APIAccess struct {
 			KeySearch struct {
-				Keys []APIKey `json:"keys"`
+				Keys       []APIKey `json:"keys"`
+				NextCursor string   `json:"nextCursor,omitempty"`
 			} `json:"keySearch,omitempty"`
 		} `json:"apiAccess"`
 	} `json:"actor"`
@@ -289,11 +353,12 @@ const (
 			apiAccess {
 				key(id: $id, keyType: $keyType) {` + graphqlAPIAccessKeyBaseFields + `}}}}`
 
-	apiAccessKeySearch = `query($query: ApiAccessKeySearchQuery!) {
+	apiAccessKeySearch = `query($query: ApiAccessKeySearchQuery!, $cursor: String) {
 		actor {
 			apiAccess {
-				keySearch(query: $query) {
+				keySearch(query: $query, cursor: $cursor) {
 					keys {` + graphqlAPIAccessKeyBaseFields + `}
+					nextCursor
 				}}}}`
 
 	apiAccessKeyUpdateKeys = `mutation($keys: ApiAccessUpdateInput!) {
