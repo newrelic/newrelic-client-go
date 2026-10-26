@@ -76,7 +76,7 @@ func TestServiceLevel_Basic(t *testing.T) {
 		if deleted {
 			return
 		}
-		_, _ = client.ServiceLevelDelete(createResp.GUID) // best-effort cleanup
+		_, _ = client.ServiceLevelDelete(createResp.GUID, createResp.ID) // best-effort cleanup
 	}()
 
 	fmt.Println("waiting 5 seconds for entity to be indexed before validating its creation...")
@@ -93,12 +93,12 @@ func TestServiceLevel_Basic(t *testing.T) {
 	updateInput := ServiceLevelIndicatorUpdateInput{
 		Description: "integration test service level updated",
 	}
-	updateResp, err := client.ServiceLevelUpdate(createResp.GUID, updateInput)
+	updateResp, err := client.ServiceLevelUpdate(createResp.GUID, createResp.ID, updateInput)
 	require.NoError(t, err)
 	require.NotNil(t, updateResp)
 
 	// Delete
-	deleteResp, err := client.ServiceLevelDelete(createResp.GUID)
+	deleteResp, err := client.ServiceLevelDelete(createResp.GUID, createResp.ID)
 	require.NoError(t, err)
 	require.NotNil(t, deleteResp)
 	deleted = true
@@ -150,7 +150,7 @@ func TestServiceLevel_CDF(t *testing.T) {
 		if deleted {
 			return
 		}
-		_, _ = client.ServiceLevelDelete(createResp.GUID) // best-effort cleanup
+		_, _ = client.ServiceLevelDelete(createResp.GUID, createResp.ID) // best-effort cleanup
 	}()
 
 	fmt.Println("waiting 5 seconds for entity to be indexed before validating its creation...")
@@ -162,7 +162,7 @@ func TestServiceLevel_CDF(t *testing.T) {
 	require.NotNil(t, getResp)
 
 	// Delete
-	deleteResp, err := client.ServiceLevelDelete(createResp.GUID)
+	deleteResp, err := client.ServiceLevelDelete(createResp.GUID, createResp.ID)
 	require.NoError(t, err)
 	require.NotNil(t, deleteResp)
 	deleted = true
