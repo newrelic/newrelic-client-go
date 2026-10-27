@@ -89,7 +89,7 @@ func (c *Client) NewRequest(method string, url string, params interface{}, reqBo
 
 // WithContext sets the context of the underlying request.
 func (r *Request) WithContext(ctx context.Context) {
-	r.request.WithContext(ctx)
+	r.request = r.request.WithContext(ctx)
 }
 
 // SetHeader sets a header on the underlying request.
