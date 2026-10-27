@@ -11,9 +11,10 @@ import (
 type APIKey struct {
 	APIAccessKey
 
-	AccountID  *int                   `json:"accountId,omitempty"`
-	IngestType APIAccessIngestKeyType `json:"ingestType,omitempty"`
-	UserID     *int                   `json:"userId,omitempty"`
+	AccountID     *int                   `json:"accountId,omitempty"`
+	IngestType    APIAccessIngestKeyType `json:"ingestType,omitempty"`
+	OwningTeamIDs []string               `json:"owningTeamIds,omitempty"`
+	UserID        *int                   `json:"userId,omitempty"`
 }
 
 // Additional Interface methods
@@ -56,6 +57,21 @@ func (a *APIAccess) GetAPIAccessKey(keyID string, keyType APIAccessKeyType) (*AP
 
 // GetAPIAccessKeyWithContext returns a single API access key.
 func (a *APIAccess) GetAPIAccessKeyWithContext(ctx context.Context, keyID string, keyType APIAccessKeyType) (*APIKey, error) {
+	return a.getAPIAccessKey(ctx, apiAccessKeyGetKey, keyID, keyType)
+}
+
+// GetAPIAccessKeyIncludingDisabled returns a single API access key, including a disabled one.
+func (a *APIAccess) GetAPIAccessKeyIncludingDisabled(keyID string, keyType APIAccessKeyType) (*APIKey, error) {
+	return a.GetAPIAccessKeyIncludingDisabledWithContext(context.Background(), keyID, keyType)
+}
+
+// GetAPIAccessKeyIncludingDisabledWithContext returns a single API access key, including a disabled one.
+// GetAPIAccessKeyWithContext returns "Key not found" for a disabled key.
+func (a *APIAccess) GetAPIAccessKeyIncludingDisabledWithContext(ctx context.Context, keyID string, keyType APIAccessKeyType) (*APIKey, error) {
+	return a.getAPIAccessKey(ctx, apiAccessKeyGetKeyIncludingDisabled, keyID, keyType)
+}
+
+func (a *APIAccess) getAPIAccessKey(ctx context.Context, query string, keyID string, keyType APIAccessKeyType) (*APIKey, error) {
 	vars := map[string]interface{}{
 		"id":      keyID,
 		"keyType": keyType,
@@ -63,7 +79,7 @@ func (a *APIAccess) GetAPIAccessKeyWithContext(ctx context.Context, keyID string
 
 	resp := apiAccessKeyGetResponse{}
 
-	if err := a.client.NerdGraphQueryWithContext(ctx, apiAccessKeyGetKey, vars, &resp); err != nil {
+	if err := a.client.NerdGraphQueryWithContext(ctx, query, vars, &resp); err != nil {
 		return nil, err
 	}
 
@@ -222,6 +238,7 @@ const (
 		key
 		name
 		createdAt
+		enabled
 		notes
 		type
 		... on ApiAccessIngestKey {
@@ -231,6 +248,7 @@ const (
 			ingestType
 			key
 			notes
+			owningTeamIds
 			type
 		}
 		... on ApiAccessUserKey {
@@ -288,6 +306,11 @@ const (
 		actor {
 			apiAccess {
 				key(id: $id, keyType: $keyType) {` + graphqlAPIAccessKeyBaseFields + `}}}}`
+
+	apiAccessKeyGetKeyIncludingDisabled = `query($id: ID!, $keyType: ApiAccessKeyType!) {
+		actor {
+			apiAccess {
+				key(id: $id, keyType: $keyType, includeDisabled: true) {` + graphqlAPIAccessKeyBaseFields + `}}}}`
 
 	apiAccessKeySearch = `query($query: ApiAccessKeySearchQuery!) {
 		actor {
