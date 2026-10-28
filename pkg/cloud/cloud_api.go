@@ -171,6 +171,11 @@ const CloudConfigureIntegrationMutation = `mutation(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudAwsMetadataGovIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudAwsMqIntegration {
 			__typename
 			awsRegions
@@ -183,6 +188,11 @@ const CloudConfigureIntegrationMutation = `mutation(
 			metricsPollingInterval
 		}
 		... on CloudAwsMsElasticacheEuSovereignIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
+		... on CloudAwsMsElasticacheGovIntegration {
 			__typename
 			inventoryPollingInterval
 			metricsPollingInterval
@@ -223,6 +233,11 @@ const CloudConfigureIntegrationMutation = `mutation(
 			metricsPollingInterval
 		}
 		... on CloudAwsTagsGlobalEuSovereignIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
+		... on CloudAwsTagsGlobalGovIntegration {
 			__typename
 			inventoryPollingInterval
 			metricsPollingInterval
@@ -1013,6 +1028,11 @@ const CloudDisableIntegrationMutation = `mutation(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudAwsMetadataGovIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudAwsMqIntegration {
 			__typename
 			awsRegions
@@ -1025,6 +1045,11 @@ const CloudDisableIntegrationMutation = `mutation(
 			metricsPollingInterval
 		}
 		... on CloudAwsMsElasticacheEuSovereignIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
+		... on CloudAwsMsElasticacheGovIntegration {
 			__typename
 			inventoryPollingInterval
 			metricsPollingInterval
@@ -1065,6 +1090,11 @@ const CloudDisableIntegrationMutation = `mutation(
 			metricsPollingInterval
 		}
 		... on CloudAwsTagsGlobalEuSovereignIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
+		... on CloudAwsTagsGlobalGovIntegration {
 			__typename
 			inventoryPollingInterval
 			metricsPollingInterval
@@ -2143,6 +2173,11 @@ const getLinkedAccountQuery = `query(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudAwsMetadataGovIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudAwsMqIntegration {
 			__typename
 			awsRegions
@@ -2155,6 +2190,11 @@ const getLinkedAccountQuery = `query(
 			metricsPollingInterval
 		}
 		... on CloudAwsMsElasticacheEuSovereignIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
+		... on CloudAwsMsElasticacheGovIntegration {
 			__typename
 			inventoryPollingInterval
 			metricsPollingInterval
@@ -2195,6 +2235,11 @@ const getLinkedAccountQuery = `query(
 			metricsPollingInterval
 		}
 		... on CloudAwsTagsGlobalEuSovereignIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
+		... on CloudAwsTagsGlobalGovIntegration {
 			__typename
 			inventoryPollingInterval
 			metricsPollingInterval
@@ -3050,6 +3095,11 @@ const getLinkedAccountsQuery = `query(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudAwsMetadataGovIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudAwsMqIntegration {
 			__typename
 			awsRegions
@@ -3062,6 +3112,11 @@ const getLinkedAccountsQuery = `query(
 			metricsPollingInterval
 		}
 		... on CloudAwsMsElasticacheEuSovereignIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
+		... on CloudAwsMsElasticacheGovIntegration {
 			__typename
 			inventoryPollingInterval
 			metricsPollingInterval
@@ -3102,6 +3157,11 @@ const getLinkedAccountsQuery = `query(
 			metricsPollingInterval
 		}
 		... on CloudAwsTagsGlobalEuSovereignIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
+		... on CloudAwsTagsGlobalGovIntegration {
 			__typename
 			inventoryPollingInterval
 			metricsPollingInterval
