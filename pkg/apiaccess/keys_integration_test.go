@@ -88,38 +88,40 @@ func TestIntegrationAPIAccess_IngestKeyEnabledAndOwningTeams(t *testing.T) {
 	client := newIntegrationTestClient(t)
 	teamGUIDs := getTestTeamGUIDs()
 
-	createIngestInput := APIAccessCreateIngestKeyInput{
-		AccountID:  testAccountID,
-		IngestType: "BROWSER",
-		Name:       "test-integration-api-access-enabled-" + mock.RandSeq(5),
-	}
-	if len(teamGUIDs) > 0 {
-		createIngestInput.OwningTeamIDs = &teamGUIDs
-	}
-
-	// Test: Create (with owning teams, when configured)
+	// Test: Create (with owning teams when configured; otherwise OwningTeamIDs is nil and sent as null)
 	createResult, err := client.CreateAPIAccessKeys(APIAccessCreateInput{
-		Ingest: []APIAccessCreateIngestKeyInput{createIngestInput},
+		Ingest: []APIAccessCreateIngestKeyInput{{
+			AccountID:     testAccountID,
+			IngestType:    "BROWSER",
+			Name:          "test-integration-api-access-enabled-" + mock.RandSeq(5),
+			OwningTeamIDs: teamGUIDs,
+		}},
 	})
 	require.NoError(t, err)
 	require.Len(t, createResult, 1)
 	keyID := createResult[0].ID
-	require.NotNil(t, createResult[0].Enabled)
-	require.True(t, *createResult[0].Enabled)
+	require.True(t, createResult[0].Enabled)
 	require.ElementsMatch(t, teamGUIDs, createResult[0].OwningTeamIDs)
 
 	if len(teamGUIDs) > 0 {
 		// Test: Replace the owning team set
 		replaced := teamGUIDs[:1]
 		updateResult, updateErr := client.UpdateAPIAccessKeys(APIAccessUpdateInput{
-			Ingest: []APIAccessUpdateIngestKeyInput{{KeyID: keyID, OwningTeamIDs: &replaced}},
+			Ingest: []APIAccessUpdateIngestKeyInput{{KeyID: keyID, OwningTeamIDs: replaced}},
+		})
+		require.NoError(t, updateErr)
+		require.Equal(t, replaced, updateResult[0].OwningTeamIDs)
+
+		// Test: An update without OwningTeamIDs (sent as null) leaves the owning teams unchanged
+		updateResult, updateErr = client.UpdateAPIAccessKeys(APIAccessUpdateInput{
+			Ingest: []APIAccessUpdateIngestKeyInput{{KeyID: keyID, Notes: "teams should be unchanged"}},
 		})
 		require.NoError(t, updateErr)
 		require.Equal(t, replaced, updateResult[0].OwningTeamIDs)
 
 		// Test: Clear all owning teams
 		updateResult, updateErr = client.UpdateAPIAccessKeys(APIAccessUpdateInput{
-			Ingest: []APIAccessUpdateIngestKeyInput{{KeyID: keyID, OwningTeamIDs: &[]string{}}},
+			Ingest: []APIAccessUpdateIngestKeyInput{{KeyID: keyID, OwningTeamIDs: []string{}}},
 		})
 		require.NoError(t, updateErr)
 		require.Empty(t, updateResult[0].OwningTeamIDs)
@@ -131,8 +133,7 @@ func TestIntegrationAPIAccess_IngestKeyEnabledAndOwningTeams(t *testing.T) {
 		Ingest: []APIAccessUpdateIngestKeyInput{{KeyID: keyID, Enabled: &disabled}},
 	})
 	require.NoError(t, err)
-	require.NotNil(t, updateResult[0].Enabled)
-	require.False(t, *updateResult[0].Enabled)
+	require.False(t, updateResult[0].Enabled)
 
 	// Test: A disabled key is not returned by default...
 	_, err = client.GetAPIAccessKey(keyID, APIAccessKeyTypeTypes.INGEST)
@@ -141,8 +142,7 @@ func TestIntegrationAPIAccess_IngestKeyEnabledAndOwningTeams(t *testing.T) {
 	// ...but is returned when including disabled keys
 	getResult, err := client.GetAPIAccessKeyIncludingDisabled(keyID, APIAccessKeyTypeTypes.INGEST)
 	require.NoError(t, err)
-	require.NotNil(t, getResult.Enabled)
-	require.False(t, *getResult.Enabled)
+	require.False(t, getResult.Enabled)
 
 	// Test: Re-enable
 	enabled := true
@@ -150,7 +150,7 @@ func TestIntegrationAPIAccess_IngestKeyEnabledAndOwningTeams(t *testing.T) {
 		Ingest: []APIAccessUpdateIngestKeyInput{{KeyID: keyID, Enabled: &enabled}},
 	})
 	require.NoError(t, err)
-	require.True(t, *updateResult[0].Enabled)
+	require.True(t, updateResult[0].Enabled)
 
 	// Test: Delete a disabled key
 	_, err = client.UpdateAPIAccessKeys(APIAccessUpdateInput{
@@ -196,11 +196,11 @@ func TestIntegrationAPIAccess_UserKeyEnabled(t *testing.T) {
 		User: []APIAccessUpdateUserKeyInput{{KeyID: keyID, Enabled: &disabled}},
 	})
 	require.NoError(t, err)
-	require.False(t, *updateResult[0].Enabled)
+	require.False(t, updateResult[0].Enabled)
 
 	getResult, err := client.GetAPIAccessKeyIncludingDisabled(keyID, APIAccessKeyTypeTypes.USER)
 	require.NoError(t, err)
-	require.False(t, *getResult.Enabled)
+	require.False(t, getResult.Enabled)
 
 	// Test: Delete a disabled key
 	deleteResult, err := client.DeleteAPIAccessKey(APIAccessDeleteInput{UserKeyIDs: []string{keyID}})

@@ -34,6 +34,22 @@ const (
 		}
 	}`
 
+	testCreateKeysMockResponse = `{
+		"data": {
+			"apiAccessCreateKeys": {
+				"createdKeys": [{
+					"id": "A1B2C3",
+					"type": "INGEST",
+					"enabled": true,
+					"ingestType": "LICENSE",
+					"accountId": 1,
+					"owningTeamIds": []
+				}],
+				"errors": []
+			}
+		}
+	}`
+
 	testGetKeyMockResponse = `{
 		"data": {
 			"actor": {
@@ -103,11 +119,10 @@ func TestUnitAPIAccess_UpdateKeys_SendsEnabledFalse(t *testing.T) {
 	vars := ingestKeyUpdateVars(t, req)
 	assert.Equal(t, false, vars["enabled"])
 	require.Len(t, keys, 1)
-	require.NotNil(t, keys[0].Enabled)
-	assert.False(t, *keys[0].Enabled)
+	assert.False(t, keys[0].Enabled)
 }
 
-func TestUnitAPIAccess_UpdateKeys_OmitsUnsetEnabledAndOwningTeamIDs(t *testing.T) {
+func TestUnitAPIAccess_UpdateKeys_UnsetEnabledOmittedAndOwningTeamIDsNull(t *testing.T) {
 	t.Parallel()
 	client, req := newMockResponseCapturingRequest(t, testUpdateKeysMockResponse)
 
@@ -119,7 +134,9 @@ func TestUnitAPIAccess_UpdateKeys_OmitsUnsetEnabledAndOwningTeamIDs(t *testing.T
 	vars := ingestKeyUpdateVars(t, req)
 	assert.Equal(t, "renamed", vars["name"])
 	assert.NotContains(t, vars, "enabled")
-	assert.NotContains(t, vars, "owningTeamIds")
+	// A nil OwningTeamIDs is sent as null, which leaves the key's teams unchanged.
+	require.Contains(t, vars, "owningTeamIds")
+	assert.Nil(t, vars["owningTeamIds"])
 }
 
 func TestUnitAPIAccess_UpdateKeys_SendsEmptyOwningTeamIDsToClear(t *testing.T) {
@@ -127,13 +144,30 @@ func TestUnitAPIAccess_UpdateKeys_SendsEmptyOwningTeamIDsToClear(t *testing.T) {
 	client, req := newMockResponseCapturingRequest(t, testUpdateKeysMockResponse)
 
 	_, err := client.UpdateAPIAccessKeys(APIAccessUpdateInput{
-		Ingest: []APIAccessUpdateIngestKeyInput{{KeyID: "A1B2C3", OwningTeamIDs: &[]string{}}},
+		Ingest: []APIAccessUpdateIngestKeyInput{{KeyID: "A1B2C3", OwningTeamIDs: []string{}}},
 	})
 	require.NoError(t, err)
 
 	vars := ingestKeyUpdateVars(t, req)
 	require.Contains(t, vars, "owningTeamIds")
 	assert.Equal(t, []interface{}{}, vars["owningTeamIds"])
+}
+
+func TestUnitAPIAccess_CreateKeys_UnsetOwningTeamIDsNull(t *testing.T) {
+	t.Parallel()
+	client, req := newMockResponseCapturingRequest(t, testCreateKeysMockResponse)
+
+	_, err := client.CreateAPIAccessKeys(APIAccessCreateInput{
+		Ingest: []APIAccessCreateIngestKeyInput{{AccountID: 1, IngestType: APIAccessIngestKeyTypeTypes.LICENSE}},
+	})
+	require.NoError(t, err)
+
+	keys, ok := req.Variables["keys"].(map[string]interface{})
+	require.True(t, ok)
+	ingest := keys["ingest"].([]interface{})[0].(map[string]interface{})
+	// A nil OwningTeamIDs is sent as null, which attaches no teams.
+	require.Contains(t, ingest, "owningTeamIds")
+	assert.Nil(t, ingest["owningTeamIds"])
 }
 
 func TestUnitAPIAccess_GetKey_DefaultOmitsIncludeDisabled(t *testing.T) {
@@ -154,7 +188,6 @@ func TestUnitAPIAccess_GetKeyIncludingDisabled(t *testing.T) {
 	require.NoError(t, err)
 
 	assert.Contains(t, req.Query, "includeDisabled: true")
-	require.NotNil(t, key.Enabled)
-	assert.False(t, *key.Enabled)
+	assert.False(t, key.Enabled)
 	assert.Equal(t, []string{"team-guid-1", "team-guid-2"}, key.OwningTeamIDs)
 }
