@@ -82,10 +82,32 @@ func TestAlertsQueryPolicy_GraphQL_Enabled(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, queryResult)
 
-	// Search
+	// Search: all policies (no criteria)
 	searchResults, err := a.QueryPolicySearch(accountID, AlertsPoliciesSearchCriteriaInput{})
 	require.NoError(t, err)
 	require.NotNil(t, searchResults)
+
+	// Search: exact name match
+	nameResults, err := a.QueryPolicySearch(accountID, AlertsPoliciesSearchCriteriaInput{Name: createResult.Name})
+	require.NoError(t, err)
+	require.NotNil(t, nameResults)
+	require.Len(t, nameResults, 1, "exact name search should return exactly one policy")
+	require.Equal(t, createResult.ID, nameResults[0].ID)
+	require.Equal(t, createResult.Name, nameResults[0].Name)
+
+	// Search: partial name match (nameLike)
+	nameLikeResults, err := a.QueryPolicySearch(accountID, AlertsPoliciesSearchCriteriaInput{NameLike: fmt.Sprintf("test-alert-policy-%s", testIntegrationPolicyNameRandStr)})
+	require.NoError(t, err)
+	require.NotNil(t, nameLikeResults)
+	require.GreaterOrEqual(t, len(nameLikeResults), 1, "nameLike search should return at least one policy")
+	found := false
+	for _, p := range nameLikeResults {
+		if p.ID == createResult.ID {
+			found = true
+			break
+		}
+	}
+	require.True(t, found, "created policy should appear in nameLike search results")
 
 	// Test: Update
 	updatePolicy := AlertsPolicyUpdateInput{}
