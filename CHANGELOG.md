@@ -1,3 +1,8 @@
+<a name="v2.97.2"></a>
+## [v2.97.2] - 2026-10-28
+### Bug Fixes
+- **servicelevel:** add facets support to SLI events ([#1511](https://github.com/newrelic/newrelic-client-go/issues/1511))
+
 <a name="v2.97.1"></a>
 ## [v2.97.1] - 2026-10-22
 ### Bug Fixes
@@ -2404,7 +2409,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.2...HEAD
+[v2.97.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.1...v2.97.2
 [v2.97.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.0...v2.97.1
 [v2.97.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.96.2...v2.97.0
 [v2.96.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.96.1...v2.96.2
