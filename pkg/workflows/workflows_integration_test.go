@@ -499,7 +499,7 @@ func createTestChannel(t *testing.T, accountID int) (*notifications.AiNotificati
 	destination.Name = fmt.Sprintf("test-notifications-destination-%s", testIntegrationDestinationNameRandStr)
 
 	client := newNotificationsIntegrationTestClient(t)
-	createDestinationResult, err := client.AiNotificationsCreateDestination(accountID, destination)
+	createDestinationResult, err := client.AiNotificationsCreateDestination(&accountID, destination, nil)
 	require.NoError(t, err)
 
 	// Create a channel to work with in this test
@@ -528,7 +528,8 @@ func createTestChannel(t *testing.T, accountID int) (*notifications.AiNotificati
 
 func cleanupDestination(t *testing.T, destination *notifications.AiNotificationsDestination) {
 	client := newNotificationsIntegrationTestClient(t)
-	_, err := client.AiNotificationsDeleteDestination(destination.AccountID, destination.ID)
+	accountID := destination.AccountID
+	_, err := client.AiNotificationsDeleteDestination(&accountID, destination.ID, nil)
 	require.NoError(t, err)
 }
 
@@ -556,9 +557,10 @@ func requireDoesNotExist(t *testing.T, workflow *AiWorkflowsWorkflow) {
 
 func requireChannelExists(t *testing.T, channel *notifications.AiNotificationsChannel) {
 	workflowsClient := newNotificationsIntegrationTestClient(t)
-	channels, err := workflowsClient.GetChannels(channel.AccountID, "", ai.AiNotificationsChannelFilter{
+	filters := ai.AiNotificationsChannelFilter{
 		ID: channel.ID,
-	}, notifications.AiNotificationsChannelSorter{})
+	}
+	channels, err := workflowsClient.GetChannels(channel.AccountID, nil, &filters, nil)
 	require.NoError(t, err)
 	require.Equal(t, 1, channels.TotalCount)
 	require.Equal(t, 1, len(channels.Entities))
@@ -567,9 +569,10 @@ func requireChannelExists(t *testing.T, channel *notifications.AiNotificationsCh
 
 func requireChannelDoesNotExist(t *testing.T, channel *notifications.AiNotificationsChannel) {
 	workflowsClient := newNotificationsIntegrationTestClient(t)
-	channels, err := workflowsClient.GetChannels(channel.AccountID, "", ai.AiNotificationsChannelFilter{
+	filters := ai.AiNotificationsChannelFilter{
 		ID: channel.ID,
-	}, notifications.AiNotificationsChannelSorter{})
+	}
+	channels, err := workflowsClient.GetChannels(channel.AccountID, nil, &filters, nil)
 	require.NoError(t, err)
 	require.Equal(t, 0, channels.TotalCount)
 	require.Equal(t, 0, len(channels.Entities))

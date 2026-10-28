@@ -26,6 +26,9 @@ func TestIntegrationMultiLocationSyntheticsConditions(t *testing.T) {
 		testIntegrationMultiLocationSyntheticsCondition = MultiLocationSyntheticsCondition{
 			Name:    fmt.Sprintf("test-integration-location-failure-condition-%s", testIntegrationInfrastructureConditionRandStr),
 			Enabled: false,
+			Entities: []string{
+				"47eb9bf3-db91-49cc-8336-0aeba51938b9",
+			},
 			Terms: []MultiLocationSyntheticsConditionTerm{
 				{"warning", 10},
 				{"critical", 11},

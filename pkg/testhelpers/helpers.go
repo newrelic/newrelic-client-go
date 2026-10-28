@@ -15,6 +15,11 @@ var (
 const IntegrationTestApplicationEntityGUID = "MzgwNjUyNnxBUE18QVBQTElDQVRJT058NTczNDgyNjM4"
 const IntegrationTestApplicationEntityGUIDNew = "MzgwNjUyNnxBUE18QVBQTElDQVRJT058NTUzNDQ4MjAy"
 
+// GUIDs for the entity relationship
+// Upon expiration of these GUIDs, please replace them with GUIDs of Mobile Applications
+const EntityRelationshipTestSourceEntityGUID = "MzgwNjUyNnxNT0JJTEV8QVBQTElDQVRJT058NjAxNjcwMzA0"
+const EntityRelationshipTestTargetEntityGUID = "MzgwNjUyNnxNT0JJTEV8QVBQTElDQVRJT058NjAxNjcwMzA1"
+
 // name of the APM Application with the GUID IntegrationTestApplicationEntityGUIDNew
 const IntegrationTestApplicationEntityNameNew = "Dummy App Pro Max"
 
@@ -42,10 +47,31 @@ func GetTestAccountID() (int, error) {
 	return getEnvInt("NEW_RELIC_ACCOUNT_ID")
 }
 
+// GetFleetTestAccountID returns the account ID for Fleet Control integration tests from the environment
+func GetFleetTestAccountID() (int, error) {
+	return getEnvInt("NEW_RELIC_FLEET_TEST_ACCOUNT_ID")
+}
+
+// GetTestOrganizationID returns the organization UUID used by NGEP-scoped
+// integration tests (Teams, Scorecards, Collections). Reads
+// INTEGRATION_TESTING_NEW_RELIC_ORGANIZATION_ID from the environment.
+func GetTestOrganizationID() (string, error) {
+	id := os.Getenv("INTEGRATION_TESTING_NEW_RELIC_ORGANIZATION_ID")
+	if id == "" {
+		return "", fmt.Errorf("failed to get environment value due to undefined environment variable INTEGRATION_TESTING_NEW_RELIC_ORGANIZATION_ID")
+	}
+	return id, nil
+}
+
 // GetNonExistentIDs returns two non-existent IDs that can be used to test errors raised
 // when Ingest/User keys which do not exist are updated or deleted.
 func GetNonExistentIDs() (string, string) {
 	return "00000FF000F0FFFF000F0F0000FF0FF0000000F000F00F0FF000FFFFF0FF00F0", "00000HH000H0HHHH000H0H0000HH0HH0000000H000H00H0HH000HHHHH0HH00H0"
+}
+
+// GetTestTransactionName returns the transaction name for intelligent workload integration tests from the environment.
+func GetTestTransactionName() (string, error) {
+	return "WebTransaction/Function/__main__:all_books", nil
 }
 
 // getEnvInt helper to DRY up the other env get calls for integers

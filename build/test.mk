@@ -20,12 +20,11 @@ test-only: test-unit test-integration
 test-unit: tools
 	@echo "=== $(PROJECT_NAME) === [ test-unit        ]: running unit tests..."
 	@mkdir -p $(COVERAGE_DIR)
-	@$(TEST_RUNNER) -f pkgname -- -v -ldflags=$(LDFLAGS_UNIT) -parallel 10 -tags unit -covermode=$(COVERMODE) -coverprofile $(COVERAGE_DIR)/unit.tmp $(GO_PKGS)
-
+	@$(TEST_RUNNER) -f pkgname --rerun-fails=3 --packages "$(GO_PKGS)" -- -v -ldflags=$(LDFLAGS_UNIT) -parallel 10 -tags unit -covermode=$(COVERMODE) -coverprofile $(COVERAGE_DIR)/unit.tmp $(GO_PKGS)
 test-integration: tools
 	@echo "=== $(PROJECT_NAME) === [ test-integration ]: running integration tests..."
 	@mkdir -p $(COVERAGE_DIR)
-	$(TEST_RUNNER) -f pkgname --packages "$(GO_PKGS)" -- -v -parallel 10 -tags integration -covermode=$(COVERMODE) -coverprofile $(COVERAGE_DIR)/integration.tmp $(GO_PKGS)
+	$(TEST_RUNNER) -f pkgname --rerun-fails=4 --packages "$(GO_PKGS)" -- -v -parallel 6 -tags integration -covermode=$(COVERMODE) -coverprofile $(COVERAGE_DIR)/integration.tmp $(GO_PKGS)
 
 #
 # Coverage

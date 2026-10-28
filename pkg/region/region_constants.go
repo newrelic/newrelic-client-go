@@ -12,6 +12,12 @@ const (
 	// EU represents New Relic's EU-based production deployment.
 	EU Name = "EU"
 
+	// JP represents New Relic's Japan-based production deployment.
+	JP Name = "JP"
+
+	// GOV represents New Relic's FedRAMP-compliant US government deployment.
+	GOV Name = "GOV"
+
 	// Staging represents New Relic's US-based staging deployment.
 	// This is for internal New Relic use only.
 	Staging Name = "Staging"
@@ -31,6 +37,8 @@ var Regions = map[Name]*Region{
 		nerdGraphBaseURL:      "https://api.newrelic.com/graphql",
 		restBaseURL:           "https://api.newrelic.com/v2",
 		syntheticsBaseURL:     "https://synthetics.newrelic.com/synthetics/api",
+		metricsBaseURL:        "https://metric-api.newrelic.com/metric/v1",
+		blobServiceBaseURL:    "https://blob-api.service.newrelic.com/v1/e",
 	},
 	EU: {
 		name:                  "EU",
@@ -41,6 +49,35 @@ var Regions = map[Name]*Region{
 		nerdGraphBaseURL:      "https://api.eu.newrelic.com/graphql",
 		restBaseURL:           "https://api.eu.newrelic.com/v2",
 		syntheticsBaseURL:     "https://synthetics.eu.newrelic.com/synthetics/api",
+		metricsBaseURL:        "https://metric-api.eu.newrelic.com/metric/v1",
+		blobServiceBaseURL:    "https://blob-api.service.eu.newrelic.com/v1/e",
+	},
+	JP: {
+		name:                  "JP",
+		infrastructureBaseURL: "https://infra-api.jp.nr-data.net/v2",
+		insightsBaseURL:       "https://insights-collector.jp.nr-data.net/v1",
+		insightsKeysBaseURL:   "https://insights.jp.newrelic.com/internal_api/1",
+		logsBaseURL:           "https://log-api.jp.nr-data.net/log/v1",
+		nerdGraphBaseURL:      "https://api.jp.newrelic.com/graphql",
+		restBaseURL:           "https://api.jp.newrelic.com/v2",
+		syntheticsBaseURL:     "https://synthetics.jp.newrelic.com/synthetics/api",
+		metricsBaseURL:        "https://metric-api.jp.nr-data.net/metric/v1",
+		blobServiceBaseURL:    "https://blob-api.service.jp.newrelic.com/v1/e",
+	},
+	// GOV uses gov-prefixed ingest endpoints (FedRAMP compliant).
+	// NerdGraph and REST share gov-api.newrelic.com; synthetics/insightsKeys/blob
+	// have no GOV-specific variants and fall back to the US endpoints.
+	GOV: {
+		name:                  "GOV",
+		infrastructureBaseURL: "https://gov-infra-api.newrelic.com/v2",
+		insightsBaseURL:       "https://gov-insights-collector.newrelic.com/v1",
+		insightsKeysBaseURL:   "https://insights.newrelic.com/internal_api/1",
+		logsBaseURL:           "https://gov-log-api.newrelic.com/log/v1",
+		nerdGraphBaseURL:      "https://gov-api.newrelic.com/graphql",
+		restBaseURL:           "https://gov-api.newrelic.com/v2",
+		syntheticsBaseURL:     "https://synthetics.newrelic.com/synthetics/api",
+		metricsBaseURL:        "https://gov-metric-api.newrelic.com/metric/v1",
+		blobServiceBaseURL:    "https://blob-api.service.newrelic.com/v1/e",
 	},
 	Staging: {
 		name:                  "Staging",
@@ -51,6 +88,8 @@ var Regions = map[Name]*Region{
 		nerdGraphBaseURL:      "https://staging-api.newrelic.com/graphql",
 		restBaseURL:           "https://staging-api.newrelic.com/v2",
 		syntheticsBaseURL:     "https://staging-synthetics.newrelic.com/synthetics/api",
+		metricsBaseURL:        "https://staging-metric-api.newrelic.com/metric/v1",
+		blobServiceBaseURL:    "https://blob-api.staging-service.newrelic.com/v1/e",
 	},
 	Local: {
 		name:                  "Local",
@@ -61,6 +100,9 @@ var Regions = map[Name]*Region{
 		nerdGraphBaseURL:      "http://localhost:3000/graphql",
 		restBaseURL:           "http://localhost:3000/v2",
 		syntheticsBaseURL:     "http://localhost:3000/synthetics/api",
+		metricsBaseURL:        "http://localhost:3000/metric/v1",
+		// the following is just a placeholder, is not actually intended to work
+		blobServiceBaseURL: "https:/localhost:3000/blob/v1/e",
 	},
 }
 
@@ -74,6 +116,10 @@ func Parse(r string) (Name, error) {
 		return US, nil
 	case "eu":
 		return EU, nil
+	case "jp":
+		return JP, nil
+	case "gov", "fedramp":
+		return GOV, nil
 	case "staging":
 		return Staging, nil
 	case "local":
@@ -106,6 +152,9 @@ func Get(r Name) (*Region, error) {
 		}
 		if val := os.Getenv("NEW_RELIC_SYNTHETICS_BASE_URL"); val != "" {
 			ret.syntheticsBaseURL = val
+		}
+		if val := os.Getenv("NEW_RELIC_METRICS_BASE_URL"); val != "" {
+			ret.metricsBaseURL = val
 		}
 		return &ret, nil
 	}

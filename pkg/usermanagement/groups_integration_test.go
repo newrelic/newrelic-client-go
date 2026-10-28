@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/require"
 
@@ -109,7 +110,9 @@ func TestIntegrationGroupManagementWithoutUsers(t *testing.T) {
 	err = UserManagementGroupCleanupForIntegrationTests(client, authenticationDomainId)
 	require.NoError(t, err)
 
-	displayName := fmt.Sprintf("%s-new", groupName)
+	// Use a test-specific suffix to avoid colliding with TestIntegrationGroupManagementWithUsers,
+	// which runs in parallel and would otherwise create the same display name.
+	displayName := fmt.Sprintf("%s-without-users", groupName)
 	createGroupInput := UserManagementCreateGroup{
 		AuthenticationDomainId: authenticationDomainId,
 		DisplayName:            displayName,
@@ -152,17 +155,25 @@ func UserManagementGroupCleanupForIntegrationTests(client Usermanagement, authen
 		return err
 	}
 
+	deleted := 0
 	for _, a := range getGroupsResponse.AuthenticationDomains {
 		if a.ID == authenticationDomainId {
 			for _, g := range a.Groups.Groups {
 				if strings.Contains(g.DisplayName, groupNamePrefix) {
 					_, err := client.UserManagementDeleteGroup(UserManagementDeleteGroup{ID: g.ID})
-					if err != nil {
+					if err != nil && !strings.Contains(err.Error(), "Could not find the target or you are unauthorized") {
 						return err
 					}
+					deleted++
 				}
 			}
 		}
+	}
+	// Group deletions propagate asynchronously. Without this sleep a create
+	// with the same display name immediately after cleanup fails with
+	// "Display name has already been taken".
+	if deleted > 0 {
+		time.Sleep(5 * time.Second)
 	}
 	return nil
 }
@@ -282,7 +293,9 @@ func TestIntegrationGroupManagementWithUsers(t *testing.T) {
 	err = UserManagementGroupCleanupForIntegrationTests(client, authenticationDomainId)
 	require.NoError(t, err)
 
-	displayName := fmt.Sprintf("%s-new", groupName)
+	// Use a test-specific suffix to avoid colliding with TestIntegrationGroupManagementWithoutUsers,
+	// which runs in parallel and would otherwise create the same display name.
+	displayName := fmt.Sprintf("%s-with-users", groupName)
 	createGroupInput := UserManagementCreateGroup{
 		AuthenticationDomainId: authenticationDomainId,
 		DisplayName:            displayName,
@@ -311,6 +324,9 @@ func TestIntegrationGroupManagementWithUsers(t *testing.T) {
 
 	require.NotEmpty(t, userID)
 
+	// adding a delay, since this test is displaying intermittent failures
+	time.Sleep(time.Second * 5)
+
 	addUsersToGroupInput := UserManagementUsersGroupsInput{
 		GroupIds: []string{createGroupResponse.Group.ID},
 		UserIDs:  []string{userID},
@@ -321,6 +337,9 @@ func TestIntegrationGroupManagementWithUsers(t *testing.T) {
 	require.NotNil(t, addUsersToGroupResponse)
 
 	displayNameUpdated := fmt.Sprintf("%s-updated", displayName)
+
+	// adding a delay, since this test is displaying intermittent failures
+	time.Sleep(time.Second * 5)
 
 	updateGroupInput := UserManagementUpdateGroup{
 		DisplayName: displayNameUpdated,

@@ -38,8 +38,23 @@ func NewTestConfig(t *testing.T, testServer *httptest.Server) config.Config {
 		cfg.Region().SetRestBaseURL(testServer.URL)
 		cfg.Region().SetSyntheticsBaseURL(testServer.URL)
 		cfg.Region().SetLogsBaseURL(testServer.URL)
+		cfg.Region().SetMetricsBaseURL(testServer.URL)
+		cfg.Region().SetBlobServiceBaseURL(testServer.URL)
 	}
 
+	return cfg
+}
+
+// NewFleetIntegrationTestConfig is like NewIntegrationTestConfig but uses the fleet-specific
+// credentials (NEW_RELIC_FLEET_TEST_API_KEY) required for Fleet Control integration tests.
+func NewFleetIntegrationTestConfig(t *testing.T) config.Config {
+	apiKey := os.Getenv("NEW_RELIC_FLEET_TEST_API_KEY")
+	if apiKey == "" {
+		t.Skip("fleet control integration tests require NEW_RELIC_FLEET_TEST_API_KEY")
+	}
+
+	cfg := NewIntegrationTestConfig(t)
+	cfg.PersonalAPIKey = apiKey
 	return cfg
 }
 

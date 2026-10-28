@@ -167,6 +167,8 @@ packages:
       - name: DateTime
         field_type_override: nrtime.DateTime
         skip_type_create: true
+      - name: AuthorizationManagementGrantee
+        field_type_override: "*AuthorizationManagementGrantee"
 
   - name: alerts
     path: pkg/alerts
@@ -355,6 +357,8 @@ packages:
         field_type_override: "*MultiTenantAuthorizationRoleOrganizationIdInputFilter"
       - name:  MultiTenantAuthorizationRoleScopeInputFilter
         field_type_override: "*MultiTenantAuthorizationRoleScopeInputFilter"
+      - name: MultiTenantAuthorizationRoleScopeV2InputFilter
+        field_type_override: "*MultiTenantAuthorizationRoleScopeV2InputFilter"
       - name:  MultiTenantAuthorizationRoleTypeInputFilter
         field_type_override: "*MultiTenantAuthorizationRoleTypeInputFilter"
         #####
@@ -362,6 +366,10 @@ packages:
         # which is used in the 'grants' endpoint in customerAdministration
       - name: MultiTenantAuthorizationGrantAuthenticationDomainIdInputFilter
         field_type_override: "*MultiTenantAuthorizationGrantAuthenticationDomainIdInputFilter"
+      - name: MultiTenantAuthorizationGrantDataAccessPolicyIdInputFilter
+        field_type_override: "*MultiTenantAuthorizationGrantDataAccessPolicyIdInputFilter"
+      - name: MultiTenantAuthorizationGranteeInputFilter
+        field_type_override: "*MultiTenantAuthorizationGranteeInputFilter"
       - name: MultiTenantAuthorizationGrantGroupIdInputFilter
         field_type_override: "*MultiTenantAuthorizationGrantGroupIdInputFilter"
       - name: MultiTenantAuthorizationGrantIdInputFilter
@@ -374,6 +382,8 @@ packages:
         field_type_override: "*MultiTenantAuthorizationGrantScopeIdInputFilter"
       - name:  MultiTenantAuthorizationGrantScopeTypeInputFilter
         field_type_override: "*MultiTenantAuthorizationGrantScopeTypeInputFilter"
+      - name: MultiTenantAuthorizationGrantScopeTypeV2InputFilter
+        field_type_override: "*MultiTenantAuthorizationGrantScopeTypeV2InputFilter"
         ######
         # overrides associated with types starting with OrganizationOrganizationCreateAsyncResultFilterInput
         # which is used in the 'organizationCreateAsyncResults' endpoint in customerAdministration > jobs
@@ -424,8 +434,20 @@ packages:
         skip_type_create: true
       - name: ChangeTrackingRawCustomAttributesMap
         create_as: "map[string]interface{}"
+      - name: ChangeTrackingCategoryFieldsInput
+        field_type_override: "*ChangeTrackingCategoryFieldsInput"
+      - name: ChangeTrackingDeploymentFieldsInput
+        field_type_override: "*ChangeTrackingDeploymentFieldsInput"
+      - name: ChangeTrackingFeatureFlagFieldsInput
+        field_type_override: "*ChangeTrackingFeatureFlagFieldsInput"
+      - name: ChangeTrackingCategoryRelatedInput
+        field_type_override: "*ChangeTrackingCategoryRelatedInput"
+      - name: ChangeTrackingCategoryAndTypeInput
+        field_type_override: "*ChangeTrackingCategoryAndTypeInput"
     mutations:
       - name: changeTrackingCreateDeployment
+        max_query_field_depth: 2
+      - name: changeTrackingCreateEvent
         max_query_field_depth: 2
 
   - name: cloud
@@ -843,7 +865,7 @@ packages:
       - name: WorkloadEntityOutline
         generate_struct_getters: true
       - name: EntityAlertViolationInt
-        create_as: int
+        create_as: int64
 
       # TODO: These should be generated and referenced from the dashboards package
       - name: DashboardVariable
@@ -1097,13 +1119,30 @@ packages:
         endpoints:
           - name: destinations
             max_query_field_depth: 4
+            include_arguments:
+              - "cursor"
+              - "filters"
+              - "sorter"
           - name: channels
+            max_query_field_depth: 3
+            include_arguments:
+              - "cursor"
+              - "filters"
+              - "sorter"
+      - path: [ "actor", "organization", "aiNotifications" ]
+        endpoints:
+          - name: destinations
             max_query_field_depth: 4
+            include_arguments:
+              - "cursor"
+              - "filters"
+              - "sorter"
+
     mutations:
       - name: aiNotificationsCreateDestination
-        max_query_field_depth: 3
+        max_query_field_depth: 4
       - name: aiNotificationsUpdateDestination
-        max_query_field_depth: 3
+        max_query_field_depth: 4
       - name: aiNotificationsDeleteDestination
         max_query_field_depth: 3
       - name: aiNotificationsCreateChannel
@@ -1113,31 +1152,110 @@ packages:
       - name: aiNotificationsDeleteChannel
         max_query_field_depth: 3
     types:
-      - name: AiNotificationsDestinationSorter
-      - name: AiNotificationsDestinationFilter
-        field_type_override: "ai.AiNotificationsDestinationFilter"
-      - name: AiNotificationsChannelFilter
-        field_type_override: "ai.AiNotificationsChannelFilter"
-      - name: AiNotificationsChannelSorter
-      - name: AiNotificationsAuthType
-      - name: AiNotificationsDestination
-      - name: AiNotificationsCredentialsInput
-        field_type_override: "*AiNotificationsCredentialsInput"
-      - name: AiNotificationsSecureURLInput
-        field_type_override: "*AiNotificationsSecureURLInput"
-      - name: AiNotificationsSecureURLUpdate
-        field_type_override: "*AiNotificationsSecureURLUpdate"
+      # --- Union types (defined in ai package) ---
       - name: AiNotificationsAuth
         field_type_override: "ai.AiNotificationsAuth"
       - name: AiNotificationsError
         field_type_override: "ai.AiNotificationsError"
+
+      # --- Auth response types (defined in ai package, members of AiNotificationsAuth union) ---
+      - name: AiNotificationsBasicAuth
+        field_type_override: "ai.AiNotificationsBasicAuth"
+      - name: AiNotificationsOAuth2Auth
+        field_type_override: "ai.AiNotificationsOAuth2Auth"
+      - name: AiNotificationsTokenAuth
+        field_type_override: "ai.AiNotificationsTokenAuth"
+      - name: AiNotificationsCustomHeadersAuth
+        field_type_override: "ai.AiNotificationsCustomHeadersAuth"
+
+      # --- Error response types (defined in ai package, members of AiNotificationsError union) ---
+      - name: AiNotificationsConstraintError
+        field_type_override: "ai.AiNotificationsConstraintError"
+      - name: AiNotificationsDataValidationError
+        field_type_override: "ai.AiNotificationsDataValidationError"
+      - name: AiNotificationsFieldError
+        field_type_override: "ai.AiNotificationsFieldError"
+      - name: AiNotificationsResponseError
+        field_type_override: "ai.AiNotificationsResponseError"
+      - name: AiNotificationsSuggestionError
+        field_type_override: "ai.AiNotificationsSuggestionError"
+
+      # --- Filter/sorter types (defined in ai package for cross-package use) ---
+      - name: AiNotificationsDestinationFilter
+        field_type_override: "ai.AiNotificationsDestinationFilter"
+      - name: AiNotificationsChannelFilter
+        field_type_override: "ai.AiNotificationsChannelFilter"
+
+      # --- Input types with pointer override (nullable fields in other types) ---
+      - name: AiNotificationsCredentialsInput
+        field_type_override: "*AiNotificationsCredentialsInput"
       - name: AiNotificationsCustomHeadersAuthInput
         field_type_override: "*AiNotificationsCustomHeadersAuthInput"
+      - name: AiNotificationsSecureUrlInput
+        field_type_override: "*AiNotificationsSecureURLInput"
+      - name: AiNotificationsSecureUrlUpdate
+        field_type_override: "*AiNotificationsSecureURLUpdate"
+
+      # --- Destination types ---
+      - name: AiNotificationsDestination
+      - name: AiNotificationsDestinationFields
+      - name: AiNotificationsDestinationInput
+      - name: AiNotificationsDestinationMergeResult
+      - name: AiNotificationsDestinationResponse
+      - name: AiNotificationsDestinationSorter
+      - name: AiNotificationsDestinationStatus
+      - name: AiNotificationsDestinationTestResponse
+      - name: AiNotificationsDestinationType
+      - name: AiNotificationsDestinationUpdate
+      - name: AiNotificationsDestinationsResponse
+      - name: AiNotificationsDuplicateDestinations
+      - name: AiNotificationsDuplicateDestinationsResponse
+      - name: AiNotificationsMergeDestinationsResponse
+      - name: AiNotificationsMergeGroup
+
+      # --- Channel types ---
+      - name: AiNotificationsChannel
+      - name: AiNotificationsChannelAccount
+      - name: AiNotificationsChannelFields
+      - name: AiNotificationsChannelInput
+      - name: AiNotificationsChannelResponse
+      - name: AiNotificationsChannelSchemaResult
+      - name: AiNotificationsChannelSorter
+      - name: AiNotificationsChannelStatus
+      - name: AiNotificationsChannelTestResponse
+      - name: AiNotificationsChannelType
+      - name: AiNotificationsChannelUpdate
+      - name: AiNotificationsChannelsResponse
+
+      # --- Auth input types ---
+      - name: AiNotificationsAuthType
+      - name: AiNotificationsBasicAuthInput
+      - name: AiNotificationsOAuth2AuthInput
+      - name: AiNotificationsTokenAuthInput
+      - name: AiNotificationsCustomHeaderInput
+      - name: AiNotificationsCustomHeader
+
+      # --- Property types ---
+      - name: AiNotificationsProperty
+      - name: AiNotificationsPropertyFilter
+      - name: AiNotificationsPropertyInput
+
+      # --- Scope types ---
+      - name: AiNotificationsEntityScope
+      - name: AiNotificationsEntityScopeInput
+      - name: AiNotificationsEntityScopeType
+      - name: AiNotificationsEntityScopeTypeInput
+      - name: AiNotificationsExtendedScopeService
+
+      # --- Secure URL types ---
+      - name: AiNotificationsSecureUrl
+
+      # --- Scalar overrides ---
       - name: ID
         field_type_override: string
         skip_type_create: true
 
-      # nrtime imports
+      # --- nrtime imports ---
       - name: DateTime
         field_type_override: nrtime.DateTime
         skip_type_create: true
@@ -1230,6 +1348,49 @@ packages:
         field_type_override: nrdb.NRQL
         skip_type_create: true
 
+  - name: pruningrules
+    path: pkg/pruningrules
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/pruningrules
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrdb
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+    queries:
+      - path: ["actor", "account", "nrqlDropRules"]
+        endpoints:
+          - name: "list"
+            max_query_field_depth: 2
+    mutations:
+      - name: nrqlDropRulesCreate
+        max_query_field_depth: 3
+      - name: nrqlDropRulesDelete
+        max_query_field_depth: 3
+    types:
+      - name: NRQLDropRulesAccountStitchedFields
+      - name: NrqlDropRulesAction
+      - name: NrqlDropRulesCreateDropRuleFailure
+      - name: NrqlDropRulesCreateDropRuleInput
+      - name: NrqlDropRulesCreateDropRuleResult
+      - name: NrqlDropRulesCreateDropRuleSubmission
+      - name: NrqlDropRulesDeleteDropRuleFailure
+      - name: NrqlDropRulesDeleteDropRuleResult
+      - name: NrqlDropRulesDeleteDropRuleSubmission
+      - name: NrqlDropRulesDropRule
+      - name: NrqlDropRulesError
+      - name: NrqlDropRulesErrorReason
+      - name: NrqlDropRulesListDropRulesResult
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
+      - name: NRQL
+        field_type_override: nrdb.NRQL
+        skip_type_create: true
+
   - name: nrtime
     path: pkg/nrtime
     import_path: github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
@@ -1265,7 +1426,15 @@ packages:
       - github.com/newrelic/newrelic-client-go/v2/pkg/common
       - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
       - github.com/newrelic/newrelic-client-go/v2/pkg/users
-    queries: []
+    queries:
+      - path: [ "actor"]
+        endpoints:
+          - name: "organization"
+            max_query_field_depth: 1
+      - path: [ "actor", "organization", "workflowAutomation" ]
+        endpoints:
+          - name: "workflow"
+            max_query_field_depth: 2
     mutations:
       - name: organizationCreate
         max_query_field_depth: 2
@@ -1287,6 +1456,9 @@ packages:
         skip_type_create: true
       - name: DateTime
         field_type_override: nrtime.DateTime
+        skip_type_create: true
+      - name: EntityGuid
+        field_type_override: common.EntityGUID
         skip_type_create: true
 
   - name: synthetics
@@ -1491,6 +1663,8 @@ packages:
     types:
       - name: WorkloadCreateInput
       - name: WorkloadDuplicateInput
+      - name: WorkloadDynamicFlowInput
+      - name: WorkloadUpdateDynamicFlowInput
 
       # Some overrides we need
       - name: WorkloadStatusConfigInput
@@ -1500,6 +1674,10 @@ packages:
       - name: WorkloadUpdateStatusConfigInput
         field_type_override: "*WorkloadUpdateStatusConfigInput"
       # Status config overrides
+      - name: WorkloadAlertPolicyInput
+        field_type_override: "*WorkloadAlertPolicyInput"
+      - name: WorkloadUpdateAlertPolicyInput
+        field_type_override: "*WorkloadUpdateAlertPolicyInput"
       - name: WorkloadAutomaticStatusInput
         field_type_override: "*WorkloadAutomaticStatusInput"
       - name: WorkloadUpdateAutomaticStatusInput
@@ -1676,3 +1854,550 @@ packages:
         field_type_override: "*nrtime.EpochMilliseconds"
         skip_type_create: true
 
+  - name: entityrelationship
+    path: pkg/entityrelationship
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/entityrelationship
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/entities
+    generators:
+      - typegen
+      - nerdgraphclient
+    mutations:
+      - name: entityRelationshipUserDefinedCreateOrReplace
+        max_query_field_depth: 3
+      - name: entityRelationshipUserDefinedDelete
+        max_query_field_depth: 3
+    types:
+      - name: EntityGuid
+        field_type_override: common.EntityGUID
+        skip_type_create: true
+
+#  - name: entitymanagement
+#    path: pkg/entitymanagement
+#    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/entitymanagement
+#    generators:
+#      - typegen
+#      - nerdgraphclient
+#    imports:
+#      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
+#      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+#      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+#      - github.com/newrelic/newrelic-client-go/v2/pkg/users
+#    queries:
+#      - path: [ "actor", "entityManagement" ]
+#        endpoints:
+#          - name: entity
+#            max_query_field_depth: 4
+#            exclude_fields:
+#              - agents
+#              - tools
+#          - name: entitySearch
+#            max_query_field_depth: 4
+#            exclude_fields:
+#              - agents
+#              - tools
+#    mutations:
+#      - name: entityManagementCreatePipelineCloudRule
+#        max_query_field_depth: 3
+#      - name: entityManagementDelete
+#        max_query_field_depth: 3
+#    types:
+#      - name: ID
+#        field_type_override: string
+#        skip_type_create: true
+#      - name: Nrql
+#        field_type_override: nrdb.NRQL
+#        skip_type_create: true
+#
+#      # nrtime imports
+#      - name: DateTime
+#        field_type_override: nrtime.DateTime
+#        skip_type_create: true
+#      - name: EpochSeconds
+#        field_type_override: nrtime.EpochSeconds
+#        skip_type_create: true
+#      - name: EpochMilliseconds
+#        field_type_override: "*nrtime.EpochMilliseconds"
+#        skip_type_create: true
+#      - name: Minutes
+#        field_type_override: nrtime.Minutes
+#        skip_type_create: true
+#      - name: Seconds
+#        field_type_override: nrtime.Seconds
+#        skip_type_create: true
+
+############### WARNING ###################
+  # The pipelinecontrol package has been generated using Tutone, but with a modified implementation in https://github.com/newrelic/tutone/pull/261
+  # This was done to handle the EntityManagementEntity interface and its implementations correctly, as Tutone's native implementation does not allow
+  # selecting a specific implementation of the interface, which is causing inclusion of all other implementations which are pretty fragile at this point.
+  # The implementation of Tutone in this PR allows selecting a specific implementation of an interface, using the `include_implementations` key.
+  # To regenerate (update via Tutone) this package, make sure the version of Tutone in the PR above is checked out to.
+###########################################
+  - name: pipelinecontrol
+    path: pkg/pipelinecontrol
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/pipelinecontrol
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v2/pkg/users
+    queries:
+      - path: [ "actor", "entityManagement" ]
+        endpoints:
+          - name: entity
+            max_query_field_depth: 4
+            exclude_fields:
+              - agents
+              - tools
+          - name: entitySearch
+            max_query_field_depth: 4
+            exclude_fields:
+              - agents
+              - tools
+    mutations:
+      - name: entityManagementCreatePipelineCloudRule
+        max_query_field_depth: 3
+      - name: entityManagementUpdatePipelineCloudRule
+        max_query_field_depth: 3
+      - name: entityManagementDelete
+        max_query_field_depth: 3
+    types:
+      - name: EntityManagementEntity
+        include_implementations:
+          - EntityManagementPipelineCloudRuleEntity
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: Nrql
+        field_type_override: nrdb.NRQL
+        skip_type_create: true
+
+      # nrtime imports
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
+      - name: EpochSeconds
+        field_type_override: nrtime.EpochSeconds
+        skip_type_create: true
+      - name: EpochMilliseconds
+        field_type_override: "*nrtime.EpochMilliseconds"
+        skip_type_create: true
+      - name: Minutes
+        field_type_override: nrtime.Minutes
+        skip_type_create: true
+      - name: Seconds
+        field_type_override: nrtime.Seconds
+        skip_type_create: true
+
+  - name: fleetcontrol
+    path: pkg/fleetcontrol
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/fleetcontrol
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v2/pkg/users
+    mutations:
+      - name: fleetControlCreateFleet
+        max_query_field_depth: 4
+      - name: fleetControlUpdateFleet
+        max_query_field_depth: 4
+      - name: fleetControlDeleteFleet
+        max_query_field_depth: 4
+      - name: fleetControlAddFleetMembers
+        max_query_field_depth: 3
+      - name: fleetControlRemoveFleetMembers
+        max_query_field_depth: 3
+      - name: fleetControlCreateFleetDeployment
+        max_query_field_depth: 3
+      - name: fleetControlUpdateFleetDeployment
+        max_query_field_depth: 3
+      - name: fleetControlDeleteFleetDeployment
+        max_query_field_depth: 3
+      - name: fleetControlDeploy
+        max_query_field_depth: 2
+    queries:
+      - path: [ "actor", "fleetControl" ]
+        endpoints:
+          - name: fleetMembers
+            max_query_field_depth: 2
+            include_arguments:
+              - "cursor"
+      - path: [ "actor", "entityManagement" ]
+        endpoints:
+          - name: entity
+            max_query_field_depth: 4
+            exclude_fields:
+              - agents
+              - tools
+          - name: entitySearch
+            max_query_field_depth: 4
+            exclude_fields:
+              - agents
+              - tools
+            include_arguments:
+              - "cursor"
+
+    types:
+      - name: FleetControlFleetMembersFilterInput
+        field_type_override: "*FleetControlFleetMembersFilterInput"
+      - name: FleetControlOperatingSystemCreateInput
+        field_type_override: "*FleetControlOperatingSystemCreateInput"
+      - name: EntityManagementEntity
+        include_implementations:
+          - EntityManagementFleetEntity
+          - EntityManagementAgentConfigurationEntity
+          - EntityManagementAgentConfigurationVersionEntity
+          - EntityManagementFleetDeploymentEntity
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
+      - name: EpochMilliseconds
+        field_type_override: nrtime.EpochMilliseconds
+        skip_type_create: true
+
+############### WARNING ###################
+  # Same as pipelinecontrol / fleetcontrol: relies on the tutone fork at
+  # https://github.com/newrelic/tutone/pull/261 which adds `include_implementations`
+  # to keep the generated code tied to a curated subset of EntityManagementEntity
+  # implementations. Use the vendored tutone binary at the repo root when regenerating.
+###########################################
+  - name: scorecards
+    path: pkg/scorecards
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/scorecards
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v2/pkg/users
+    mutations:
+      # Teams
+      - name: entityManagementCreateTeam
+        max_query_field_depth: 3
+      - name: entityManagementUpdateTeam
+        max_query_field_depth: 3
+      # NOTE: entityManagementCreateTeamsHierarchyLevel and
+      # entityManagementCreateTeamsOrganizationSettings are intentionally omitted.
+      # Their *CreateInput types are missing from tutone's introspection dump
+      # (tutone fetch produces an incomplete `inputFields` for these two nested
+      # inputs, causing the generated mutation string to come out empty).
+      # They are also RBAC-gated in practice — the field is invisible at parse
+      # time for non-org-admin API keys. Add them back once tutone's fetch is
+      # patched to introspect these types.
+      - name: entityManagementUpdateTeamsHierarchyLevel
+        max_query_field_depth: 3
+      - name: entityManagementUpdateTeamsOrganizationSettings
+        max_query_field_depth: 3
+      # Scorecards
+      - name: entityManagementCreateScorecard
+        max_query_field_depth: 3
+      - name: entityManagementUpdateScorecard
+        max_query_field_depth: 3
+      - name: entityManagementCreateScorecardRule
+        max_query_field_depth: 3
+      - name: entityManagementUpdateScorecardRule
+        max_query_field_depth: 3
+      # Collections
+      - name: entityManagementCreateCollection
+        max_query_field_depth: 3
+      - name: entityManagementUpdateCollection
+        max_query_field_depth: 3
+      # NOTE: entityManagementAddCollectionMembers and
+      # entityManagementRemoveCollectionMembers are intentionally hand-written
+      # in scorecards_collection_members.go — tutone cannot generate valid Go
+      # for their `[ID]` scalar-list return type (produces syntactically
+      # invalid `resp.[]string`). If tutone is ever fixed, re-add them here
+      # and delete the hand-written file.
+      # Generic delete used by every one of the above
+      - name: entityManagementDelete
+        max_query_field_depth: 2
+    queries:
+      - path: [ "actor", "entityManagement" ]
+        endpoints:
+          - name: entity
+            max_query_field_depth: 4
+            exclude_fields:
+              - agents
+              - tools
+          - name: entitySearch
+            max_query_field_depth: 4
+            exclude_fields:
+              - agents
+              - tools
+          - name: collectionElements
+            max_query_field_depth: 4
+            exclude_fields:
+              - agents
+              - tools
+          - name: collectionsContainingEntity
+            max_query_field_depth: 4
+            exclude_fields:
+              - agents
+              - tools
+    types:
+      - name: EntityManagementEntity
+        include_implementations:
+          - EntityManagementTeamEntity
+          - EntityManagementTeamsHierarchyLevelEntity
+          - EntityManagementTeamsOrganizationSettingsEntity
+          - EntityManagementScorecardEntity
+          - EntityManagementScorecardRuleEntity
+          - EntityManagementCollectionEntity
+          - EntityManagementUserEntity
+          - EntityManagementGenericEntity
+      # These nested input types must be pointers when used as fields.
+      # Go's `omitempty` does NOT elide a zero-valued struct, so an unset
+      # externalIntegration or schedule would otherwise be transmitted as
+      # {externalId:"", type:""} / {enabled:false, period:0, ...} and the
+      # server rejects those (see NGEP_ANALYSIS.md § 5.1 / § 5.3).
+      - name: EntityManagementTeamExternalIntegrationCreateInput
+        field_type_override: "*EntityManagementTeamExternalIntegrationCreateInput"
+      - name: EntityManagementTeamExternalIntegrationUpdateInput
+        field_type_override: "*EntityManagementTeamExternalIntegrationUpdateInput"
+      - name: EntityManagementScheduleCreateInput
+        field_type_override: "*EntityManagementScheduleCreateInput"
+      - name: EntityManagementScheduleUpdateInput
+        field_type_override: "*EntityManagementScheduleUpdateInput"
+      # Note the GraphQL type name uses lower-case 'Nrql'; tutone renames it
+      # to 'NRQL' in the emitted Go struct but the override key must match the
+      # schema.
+      - name: EntityManagementNrqlRuleEngineCreateInput
+        field_type_override: "*EntityManagementNRQLRuleEngineCreateInput"
+      - name: EntityManagementNrqlRuleEngineUpdateInput
+        field_type_override: "*EntityManagementNRQLRuleEngineUpdateInput"
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
+      - name: EpochMilliseconds
+        field_type_override: nrtime.EpochMilliseconds
+        skip_type_create: true
+
+  - name: workflowautomation
+    path: pkg/workflowautomation
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/workflowautomation
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/ai
+      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+    queries:
+      - path: [ "actor", "account", "workflowAutomation" ]
+        endpoints:
+          - name: workflow
+            max_query_field_depth: 2
+    mutations:
+      - name: workflowAutomationCreateWorkflowDefinition
+        max_query_field_depth: 2
+      - name: workflowAutomationUpdateWorkflowDefinition
+        max_query_field_depth: 2
+      - name: workflowAutomationDeleteWorkflowDefinition
+        max_query_field_depth: 2
+    types:
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
+      - name: EntityGuid
+        field_type_override: common.EntityGUID
+        skip_type_create: true
+
+  - name: federatedlogs
+    path: pkg/federatedlogs
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/federatedlogs
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v2/pkg/users
+    queries:
+      - path: [ "actor", "account", "federatedLogs" ]
+        endpoints:
+          - name: setup
+            max_query_field_depth: 4
+          - name: partition
+            max_query_field_depth: 4
+      - path: [ "actor", "entityManagement" ]
+        endpoints:
+          - name: entity
+            max_query_field_depth: 4
+            exclude_fields:
+              - agents
+              - tools
+          - name: entitySearch
+            max_query_field_depth: 4
+            exclude_fields:
+              - agents
+              - tools
+    mutations:
+      - name: federatedLogsCreateSetup
+        max_query_field_depth: 4
+      - name: federatedLogsUpdateSetup
+        max_query_field_depth: 4
+      - name: federatedLogsCreatePartition
+        max_query_field_depth: 4
+      - name: federatedLogsUpdatePartition
+        max_query_field_depth: 4
+      - name: entityManagementCreateAwsConnection
+        max_query_field_depth: 3
+      - name: entityManagementUpdateAwsConnection
+        max_query_field_depth: 3
+      - name: entityManagementDelete
+        max_query_field_depth: 3
+    types:
+      - name: EntityManagementEntity
+        include_implementations:
+          - EntityManagementAwsConnectionEntity
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: Nrql
+        field_type_override: nrdb.NRQL
+        skip_type_create: true
+
+      # nrtime imports
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
+      - name: EpochSeconds
+        field_type_override: nrtime.EpochSeconds
+        skip_type_create: true
+      - name: EpochMilliseconds
+        field_type_override: "*nrtime.EpochMilliseconds"
+        skip_type_create: true
+      - name: Minutes
+        field_type_override: nrtime.Minutes
+        skip_type_create: true
+      - name: Seconds
+        field_type_override: nrtime.Seconds
+        skip_type_create: true
+  - name: datamanagement
+    path: pkg/datamanagement
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/datamanagement
+    generators:
+      - typegen
+      - nerdgraphclient
+    queries:
+      - path: ["actor", "account", "dataManagement"]
+        endpoints:
+          - name: limits
+            max_query_field_depth: 2
+    mutations:
+      - name: dataManagementCreateAccountLimit
+        max_query_field_depth: 2
+    types:
+      - name: DataManagementAccountLimit
+      - name: DataManagementAccountLimitInput
+      - name: DataManagementLimitLookupInput
+      - name: DataManagementCategory
+      - name: DataManagementUnit
+      - name: DataManagementType
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: Nrql
+        field_type_override: string
+        skip_type_create: true
+  
+  - name: pathpoint
+    path: pkg/pathpoint
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/pathpoint
+    generators:
+      - typegen
+      - nerdgraphclient
+    queries:
+      - path: ["actor", "account", "pathPoint"]
+        endpoints:
+          - name: flow
+            max_query_field_depth: 8
+    mutations:
+      - name: pathPointCreate
+        max_query_field_depth: 8
+      - name: pathPointDelete
+        max_query_field_depth: 2
+      - name: pathPointUpdate
+        max_query_field_depth: 8
+    types:
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: EpochMilliseconds
+        field_type_override: nrtime.EpochMilliseconds
+        skip_type_create: true
+      - name: PathPointKpiTimeWindowInput
+        field_type_override: "*PathPointKpiTimeWindowInput"
+      - name: PathPointKpiTimeWindowRelativeRangeInput
+        field_type_override: "*PathPointKpiTimeWindowRelativeRangeInput"
+      - name: PathPointSignalQueryInput
+        field_type_override: "*PathPointSignalQueryInput"
+
+  # NOTE: The notebooks package requires a Tutone build that supports the
+  # `include_implementations` key on EntityManagementEntity. This filters the
+  # generated types to only the NotebookEntity implementation, preventing the
+  # inclusion of all other EntityManagement subtypes. Regenerate with:
+  #   /path/to/tutone -c .tutone.yml generate --package notebooks --refetch
+  #
+  # Notebooks - dashboards-style entities whose CONTENT lives in the Blob Storage
+  # REST API (see pkg/notebooks/notebooks_blob.go) and whose METADATA (name, tags,
+  # scope, version) is queried via NerdGraph's EntityManagement namespace. Tutone
+  # generates the entity read/search + generic delete; create, update-content, and
+  # rename are hand-written REST calls.
+  - name: notebooks
+    path: pkg/notebooks
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/notebooks
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+    mutations:
+      - name: entityManagementDelete
+        max_query_field_depth: 3
+    queries:
+      - path: [ "actor", "entityManagement" ]
+        endpoints:
+          - name: entity
+            max_query_field_depth: 4
+            exclude_fields:
+              - agents
+              - tools
+          - name: entitySearch
+            max_query_field_depth: 4
+            exclude_fields:
+              - agents
+              - tools
+    types:
+      - name: EntityManagementEntity
+        include_implementations:
+          - EntityManagementNotebookEntity
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
+      - name: EpochMilliseconds
+        field_type_override: nrtime.EpochMilliseconds
+        skip_type_create: true

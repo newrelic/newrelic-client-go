@@ -1,3 +1,409 @@
+<a name="v2.97.2"></a>
+## [v2.97.2] - 2026-10-28
+### Bug Fixes
+- **servicelevel:** add facets support to SLI events ([#1511](https://github.com/newrelic/newrelic-client-go/issues/1511))
+
+<a name="v2.97.1"></a>
+## [v2.97.1] - 2026-10-22
+### Bug Fixes
+- **ci:** upgrade node-version from 20.x to 22.x (NR-15639) ([#1507](https://github.com/newrelic/newrelic-client-go/issues/1507))
+
+<a name="v2.97.0"></a>
+## [v2.97.0] - 2026-10-14
+### Bug Fixes
+- **deps:** upgrade vulnerable dependencies (grpc, otel, x/crypto, x/mod, x/text, x/sys) ([#1504](https://github.com/newrelic/newrelic-client-go/issues/1504))
+
+### Features
+- **sai:** add pkg/servicearchintelligence — Teams, Scorecards, Collections NGEP client ([#1433](https://github.com/newrelic/newrelic-client-go/issues/1433))
+
+<a name="v2.96.2"></a>
+## [v2.96.2] - 2026-10-12
+### Bug Fixes
+- **federatedlogs:** add lifecycle status for federated logs ([#1490](https://github.com/newrelic/newrelic-client-go/issues/1490))
+
+<a name="v2.96.1"></a>
+## [v2.96.1] - 2026-10-01
+### Bug Fixes
+- **fleetcontrol:** return managedEntityType for AgentConfigurationEntity ([#1503](https://github.com/newrelic/newrelic-client-go/issues/1503))
+
+<a name="v2.96.0"></a>
+## [v2.96.0] - 2026-09-30
+### Features
+- **cloud:** add GcpEdgeContainer to GCP DM-only integrations ([#1501](https://github.com/newrelic/newrelic-client-go/issues/1501))
+
+<a name="v2.95.1"></a>
+## [v2.95.1] - 2026-09-24
+### Bug Fixes
+- **cloud:** distinguish absent from empty Azure Monitor tags ([#1487](https://github.com/newrelic/newrelic-client-go/issues/1487))
+
+<a name="v2.95.0"></a>
+## [v2.95.0] - 2026-09-24
+### Bug Fixes
+- **alerts:** preserve intent to clear terms on nrql condition update ([#1500](https://github.com/newrelic/newrelic-client-go/issues/1500))
+
+### Features
+- **pathpoint:** new import schema  ([#1443](https://github.com/newrelic/newrelic-client-go/issues/1443))
+
+<a name="v2.94.1"></a>
+## [v2.94.1] - 2026-09-17
+### Bug Fixes
+- **fleetcontrol:** correct entityGuid/blobId JSON tags on ConfigurationVersion ([#1493](https://github.com/newrelic/newrelic-client-go/issues/1493))
+- **notebooks:** update README integration test credentials ([#1489](https://github.com/newrelic/newrelic-client-go/issues/1489))
+
+<a name="v2.94.0"></a>
+## [v2.94.0] - 2026-09-15
+### Features
+- **notebooks:** add Notebooks package with Blob Storage + NerdGraph CRUD ([#1428](https://github.com/newrelic/newrelic-client-go/issues/1428))
+
+<a name="v2.93.4"></a>
+## [v2.93.4] - 2026-09-09
+### Bug Fixes
+- **cloud:** don't drop if enabled is false ([#1485](https://github.com/newrelic/newrelic-client-go/issues/1485))
+
+<a name="v2.93.3"></a>
+## [v2.93.3] - 2026-09-03
+### Bug Fixes
+- **security:** bump grpc, go-git, sigstore-go to resolve Dependabot alerts
+
+<a name="v2.93.2"></a>
+## [v2.93.2] - 2026-08-24
+### Bug Fixes
+- **fleetcontrol:** add missing cursor to getEntitySearchQuery ([#1442](https://github.com/newrelic/newrelic-client-go/issues/1442))
+- **testhelpers:** refresh stale MobileApplicationEntity GUIDs for entity relationship tests ([#1464](https://github.com/newrelic/newrelic-client-go/issues/1464))
+
+<a name="v2.93.1"></a>
+## [v2.93.1] - 2026-08-11
+### Bug Fixes
+- **alerts:** add description and titleTemplate to compound conditions ([#1435](https://github.com/newrelic/newrelic-client-go/issues/1435))
+
+<a name="v2.93.0"></a>
+## [v2.93.0] - 2026-08-06
+### Features
+- **cloud:** add hasDimensionalMetrics and isEntitySupported for GCP DM WIF ([#1441](https://github.com/newrelic/newrelic-client-go/issues/1441))
+
+<a name="v2.92.0"></a>
+## [v2.92.0] - 2026-08-03
+### Features
+- **cloud:** add GCP Dimensional Metrics types and CloudAuthenticateIntegration ([#1427](https://github.com/newrelic/newrelic-client-go/issues/1427))
+
+<a name="v2.91.1"></a>
+## [v2.91.1] - 2026-07-20
+### Bug Fixes
+- **http:** redact license key and response headers in trace logs ([#1432](https://github.com/newrelic/newrelic-client-go/issues/1432))
+
+<a name="v2.91.0"></a>
+## [v2.91.0] - 2026-07-16
+### Features
+- **region:** add GOV/FedRAMP region with compliant endpoints ([#1434](https://github.com/newrelic/newrelic-client-go/issues/1434))
+
+<a name="v2.90.0"></a>
+## [v2.90.0] - 2026-06-22
+### Features
+- **workloads:** add intelligent workload support with dynamic flows and alert policy ([#1419](https://github.com/newrelic/newrelic-client-go/issues/1419))
+
+<a name="v2.89.0"></a>
+## [v2.89.0] - 2026-06-10
+### Features
+- add DisableEventCreation field to NrqlConditionTerm ([#1421](https://github.com/newrelic/newrelic-client-go/issues/1421))
+
+<a name="v2.88.0"></a>
+## [v2.88.0] - 2026-06-09
+### Features
+- **cloud:** add CloudOciTrustType for OCI RPST support (NR-562518) ([#1424](https://github.com/newrelic/newrelic-client-go/issues/1424))
+
+<a name="v2.87.1"></a>
+## [v2.87.1] - 2026-06-03
+### Bug Fixes
+- **federated-logs:** update client-go with latest schema ([#1423](https://github.com/newrelic/newrelic-client-go/issues/1423))
+
+<a name="v2.87.0"></a>
+## [v2.87.0] - 2026-06-03
+### Features
+- **federated-logs:** add federated logs package with latest schema ([#1412](https://github.com/newrelic/newrelic-client-go/issues/1412))
+
+<a name="v2.86.1"></a>
+## [v2.86.1] - 2026-05-24
+### Bug Fixes
+- **security:** resolve CodeQL alerts and Dependabot vulnerabilities ([#1418](https://github.com/newrelic/newrelic-client-go/issues/1418))
+
+<a name="v2.86.0"></a>
+## [v2.86.0] - 2026-05-24
+### Features
+- add datamanagement and pruningrules packages ([#1407](https://github.com/newrelic/newrelic-client-go/issues/1407))
+
+<a name="v2.85.0"></a>
+## [v2.85.0] - 2026-05-20
+### Features
+- **alerts:** add EntityGuid field to CompoundCondition struct ([#1416](https://github.com/newrelic/newrelic-client-go/issues/1416))
+
+<a name="v2.84.1"></a>
+## [v2.84.1] - 2026-05-20
+### Bug Fixes
+- updating URLS with latest versions ([#1415](https://github.com/newrelic/newrelic-client-go/issues/1415))
+
+<a name="v2.84.0"></a>
+## [v2.84.0] - 2026-05-12
+### Features
+- **synthetics:** add shared parameter to private location mutations ([#1406](https://github.com/newrelic/newrelic-client-go/issues/1406))
+
+<a name="v2.83.4"></a>
+## [v2.83.4] - 2026-05-08
+### Bug Fixes
+- **entities:** change EntityAlertViolationInt from int to int64 ([#1405](https://github.com/newrelic/newrelic-client-go/issues/1405))
+
+<a name="v2.83.3"></a>
+## [v2.83.3] - 2026-05-05
+### Bug Fixes
+- **fleetcontrol:** remove omitempty from FleetControlAgentInput.ConfigurationVersionList ([#1404](https://github.com/newrelic/newrelic-client-go/issues/1404))
+
+<a name="v2.83.2"></a>
+## [v2.83.2] - 2026-05-04
+### Bug Fixes
+- **fleetcontrol:** restore GetEntity behaviour broken by PR [#1394](https://github.com/newrelic/newrelic-client-go/issues/1394) Tutone regen ([#1402](https://github.com/newrelic/newrelic-client-go/issues/1402))
+
+<a name="v2.83.1"></a>
+## [v2.83.1] - 2026-04-30
+### Bug Fixes
+- **alerts:** add policy entity guid ([#1401](https://github.com/newrelic/newrelic-client-go/issues/1401))
+
+<a name="v2.83.0"></a>
+## [v2.83.0] - 2026-04-21
+### Bug Fixes
+- **fleetcontrol:** add missing cursor and fix cursor type in getFleetMembersQuery ([#1394](https://github.com/newrelic/newrelic-client-go/issues/1394))
+
+### Features
+- **region:** add Japan (JP) region support with full endpoint URLs and test coverage ([#1399](https://github.com/newrelic/newrelic-client-go/issues/1399))
+
+<a name="v2.82.1"></a>
+## [v2.82.1] - 2026-04-16
+### Bug Fixes
+- **notifications:** update API for global destinations and tutone compatibility ([#1392](https://github.com/newrelic/newrelic-client-go/issues/1392))
+
+<a name="v2.82.0"></a>
+## [v2.82.0] - 2026-03-26
+### Bug Fixes
+- **deps:** update dependencies to address security vulnerabilities 71, 75, 76 ([#1383](https://github.com/newrelic/newrelic-client-go/issues/1383))
+
+### Features
+- **workflowautomation:** add integration tests for workflow automation ([#1382](https://github.com/newrelic/newrelic-client-go/issues/1382))
+
+<a name="v2.81.0"></a>
+## [v2.81.0] - 2026-03-16
+### Features
+- **notifications:** add documentation for scope support ([#1379](https://github.com/newrelic/newrelic-client-go/issues/1379))
+
+<a name="v2.80.0"></a>
+## [v2.80.0] - 2026-03-13
+### Features
+- **dashboards:** add ChartStyles support for dashboard widgets ([#1370](https://github.com/newrelic/newrelic-client-go/issues/1370))
+
+<a name="v2.79.1"></a>
+## [v2.79.1] - 2026-03-12
+### Bug Fixes
+- **notifications:** add ExactName field to AiNotificationsDestinationFilter ([#1374](https://github.com/newrelic/newrelic-client-go/issues/1374))
+
+<a name="v2.79.0"></a>
+## [v2.79.0] - 2026-02-19
+### Features
+- **fleetcontrol:** add new package with fleet, fleet members CRUD ops ([#1360](https://github.com/newrelic/newrelic-client-go/issues/1360))
+
+<a name="v2.78.0"></a>
+## [v2.78.0] - 2026-02-16
+### Features
+- **cloud:** rollback health and trusted advisor for EUSC ([#1371](https://github.com/newrelic/newrelic-client-go/issues/1371))
+
+<a name="v2.77.0"></a>
+## [v2.77.0] - 2026-02-02
+### Features
+- **cloud:** add AWS EU Sovereign cloud provider support ([#1368](https://github.com/newrelic/newrelic-client-go/issues/1368))
+
+<a name="v2.76.0"></a>
+## [v2.76.0] - 2026-01-15
+### Features
+- **security-rx:** add support for Aws SecurityHub integration ([#1300](https://github.com/newrelic/newrelic-client-go/issues/1300))
+
+<a name="v2.75.4"></a>
+## [v2.75.4] - 2026-01-15
+### Bug Fixes
+- **pipelinecontrol:** remove omitempty on EntityManagementPipelineCloudRuleEntityUpdateInput ([#1362](https://github.com/newrelic/newrelic-client-go/issues/1362))
+
+<a name="v2.75.3"></a>
+## [v2.75.3] - 2026-01-07
+### Bug Fixes
+- **accountmanagement:** minor functional fix, dependencies update ([#1358](https://github.com/newrelic/newrelic-client-go/issues/1358))
+
+<a name="v2.75.2"></a>
+## [v2.75.2] - 2026-01-06
+### Bug Fixes
+- **nrqldroprules:** update EOL date, in light of the new effective date, June 30, 2026 ([#1357](https://github.com/newrelic/newrelic-client-go/issues/1357))
+
+<a name="v2.75.1"></a>
+## [v2.75.1] - 2025-12-22
+### Bug Fixes
+- **customeradministration:** branch out a minimal fields query of getAccounts ([#1356](https://github.com/newrelic/newrelic-client-go/issues/1356))
+
+<a name="v2.75.0"></a>
+## [v2.75.0] - 2025-12-17
+### Features
+- crud operations for compound conditions ([#1355](https://github.com/newrelic/newrelic-client-go/issues/1355))
+
+<a name="v2.74.2"></a>
+## [v2.74.2] - 2025-12-04
+### Bug Fixes
+- **organization:** remove non essential attributes in get query to curb capability issues ([#1354](https://github.com/newrelic/newrelic-client-go/issues/1354))
+
+<a name="v2.74.1"></a>
+## [v2.74.1] - 2025-11-24
+### Bug Fixes
+- **authorizationmanagement:** updates to the authorizationmanagement package ([#1353](https://github.com/newrelic/newrelic-client-go/issues/1353))
+
+<a name="v2.74.0"></a>
+## [v2.74.0] - 2025-11-21
+### Bug Fixes
+- **customeradministration:** enhance attribute coverage of queries/mutations ([#1347](https://github.com/newrelic/newrelic-client-go/issues/1347))
+
+### Features
+- **alerts:** add outlier detection support ([#1346](https://github.com/newrelic/newrelic-client-go/issues/1346))
+
+<a name="v2.73.2"></a>
+## [v2.73.2] - 2025-11-11
+### Bug Fixes
+- **oci:** remove the usage of svcUsername field ([#1345](https://github.com/newrelic/newrelic-client-go/issues/1345))
+
+<a name="v2.73.1"></a>
+## [v2.73.1] - 2025-11-05
+### Bug Fixes
+- **dashboards:** add support for `showApplyAction` in variable options ([#1343](https://github.com/newrelic/newrelic-client-go/issues/1343))
+
+<a name="v2.73.0"></a>
+## [v2.73.0] - 2025-10-29
+### Features
+- **alerts:** add support for target entity in NRQL conditions ([#1341](https://github.com/newrelic/newrelic-client-go/issues/1341))
+- **azure:** add azure autodiscovery integration ([#1344](https://github.com/newrelic/newrelic-client-go/issues/1344))
+
+<a name="v2.72.0"></a>
+## [v2.72.0] - 2025-10-15
+### Features
+- **alerts:** revert alerts target entity support ([#1337](https://github.com/newrelic/newrelic-client-go/issues/1337)) ([#1340](https://github.com/newrelic/newrelic-client-go/issues/1340))
+- **alerts:** revert alerts outlier detection support ([#1338](https://github.com/newrelic/newrelic-client-go/issues/1338)) ([#1339](https://github.com/newrelic/newrelic-client-go/issues/1339))
+
+<a name="v2.71.0"></a>
+## [v2.71.0] - 2025-10-14
+### Features
+- **alerts:** add outlier detection support ([#1338](https://github.com/newrelic/newrelic-client-go/issues/1338))
+- **alerts:** add support for target entity in NRQL conditions ([#1337](https://github.com/newrelic/newrelic-client-go/issues/1337))
+
+<a name="v2.70.2"></a>
+## [v2.70.2] - 2025-09-26
+### Bug Fixes
+- **billboard-settings:** add support for billboard settings in dashboards ([#1324](https://github.com/newrelic/newrelic-client-go/issues/1324))
+
+<a name="v2.70.1"></a>
+## [v2.70.1] - 2025-09-24
+### Bug Fixes
+- **cloud:** add support for OCI Logs integrations in API and types `CloudOciLogsIntegration` ([#1334](https://github.com/newrelic/newrelic-client-go/issues/1334))
+
+<a name="v2.70.0"></a>
+## [v2.70.0] - 2025-09-24
+### Features
+- **cloud:** add OCI provider functions for linkAccount and queries ([#1333](https://github.com/newrelic/newrelic-client-go/issues/1333))
+
+<a name="v2.69.0"></a>
+## [v2.69.0] - 2025-09-04
+### Features
+- **nrqldroprules:** deprecate package, add support for Pipeline Cloud Rule ID ([#1331](https://github.com/newrelic/newrelic-client-go/issues/1331))
+
+<a name="v2.68.1"></a>
+## [v2.68.1] - 2025-09-02
+### Bug Fixes
+- **change-tracking:** update depth to 2 and fix test failures ([#1325](https://github.com/newrelic/newrelic-client-go/issues/1325))
+
+<a name="v2.68.0"></a>
+## [v2.68.0] - 2025-09-01
+### Features
+- **pipelinecontrol:** add a new Pipeline Control package to the client ([#1330](https://github.com/newrelic/newrelic-client-go/issues/1330))
+
+<a name="v2.67.1"></a>
+## [v2.67.1] - 2025-08-05
+### Bug Fixes
+- **change-tracking:** remove test print ([#1323](https://github.com/newrelic/newrelic-client-go/issues/1323))
+
+<a name="v2.67.0"></a>
+## [v2.67.0] - 2025-07-29
+### Features
+- **dashboard:** support multiple account id's when creating dashboards ([#1319](https://github.com/newrelic/newrelic-client-go/issues/1319))
+
+<a name="v2.66.0"></a>
+## [v2.66.0] - 2025-07-21
+### Features
+- **tooltip-support:** add tooltip support in dashboard rawConfiguration ([#1320](https://github.com/newrelic/newrelic-client-go/issues/1320))
+
+<a name="v2.65.0"></a>
+## [v2.65.0] - 2025-07-14
+### Features
+- **change-tracking:** included change tracking api ([#1317](https://github.com/newrelic/newrelic-client-go/issues/1317))
+
+<a name="v2.64.0"></a>
+## [v2.64.0] - 2025-06-18
+### Features
+- **nrdb:** add support to the nrdb package to support facet, timeseries result unmarshaling ([#1312](https://github.com/newrelic/newrelic-client-go/issues/1312))
+
+<a name="v2.63.0"></a>
+## [v2.63.0] - 2025-06-17
+### Features
+- add Workflow Automation Destination and Channel types ([#1309](https://github.com/newrelic/newrelic-client-go/issues/1309))
+
+<a name="v2.62.0"></a>
+## [v2.62.0] - 2025-06-13
+### Features
+- **cloud:** added auto-discovery slug to cloud configure integration api ([#1307](https://github.com/newrelic/newrelic-client-go/issues/1307))
+
+<a name="v2.61.2"></a>
+## [v2.61.2] - 2025-06-09
+### Bug Fixes
+- fixed a distributed tracing bug in the browser package ([#1304](https://github.com/newrelic/newrelic-client-go/issues/1304))
+- **build:** add PR checks similar to Terraform, fix failing tests, broken code and obsolete deps ([#1295](https://github.com/newrelic/newrelic-client-go/issues/1295))
+
+<a name="v2.61.1"></a>
+## [v2.61.1] - 2025-05-26
+### Bug Fixes
+- fixes users pkg ([#1298](https://github.com/newrelic/newrelic-client-go/issues/1298))
+
+<a name="v2.61.0"></a>
+## [v2.61.0] - 2025-05-22
+### Features
+- **alerts:** Add support for silent alerts via `disableHealthStatusReporting` ([#1296](https://github.com/newrelic/newrelic-client-go/issues/1296))
+
+<a name="v2.60.0"></a>
+## [v2.60.0] - 2025-05-12
+### Features
+- **entityrelationship:** add new package to manage entity relationships
+
+<a name="v2.59.0"></a>
+## [v2.59.0] - 2025-05-06
+### Features
+- add Metrics Client ([#1293](https://github.com/newrelic/newrelic-client-go/issues/1293))
+
+<a name="v2.58.0"></a>
+## [v2.58.0] - 2025-04-16
+### Features
+- **alerts:** adds support for `signalSeasonality` for NRQL baseline conditions ([#1291](https://github.com/newrelic/newrelic-client-go/issues/1291))
+
+<a name="v2.57.0"></a>
+## [v2.57.0] - 2025-04-14
+### Features
+- **alerts:** revert addition of support for nrql condition signal seasonality ([#1290](https://github.com/newrelic/newrelic-client-go/issues/1290))
+
+<a name="v2.56.1"></a>
+## [v2.56.1] - 2025-04-14
+### Bug Fixes
+- **synthetics:** Remove `omitempty` from `ResponseValidationText` to allow unsetting ([#1287](https://github.com/newrelic/newrelic-client-go/issues/1287))
+
+<a name="v2.56.0"></a>
+## [v2.56.0] - 2025-04-10
+### Features
+- **alerts:** add support for nrql condition signal seasonality ([#1280](https://github.com/newrelic/newrelic-client-go/issues/1280))
+
 <a name="v2.55.4"></a>
 ## [v2.55.4] - 2025-04-03
 ### Bug Fixes
@@ -1847,18 +2253,18 @@
 
 ### Refactor
 - update monitors to use return design pattern where applicable, update tests
+- remove unnecessary else
 - consistent use of pointers for &reqBody structs
-- move logging config code into logging package
-- use centralized test helpers and remove old ones
 - update ListDashboards to return array of pointers, update Dashboard test to use assert
 - update ListApplications to return array of pointers, update tests to use assert
-- refactor to package-based types files
-- remove config pointer references
-- remove unnecessary else
-- rescope vars for integration tests to avoid variable name conflicts
 - update alert channels to return array of pointers, update tests to use assert
-- update synthetics conditions to return array of pointers
+- refactor to package-based types files
+- rescope vars for integration tests to avoid variable name conflicts
+- use centralized test helpers and remove old ones
 - create a logger instance per package
+- update synthetics conditions to return array of pointers
+- move logging config code into logging package
+- remove config pointer references
 - remove redundant 'alert' from file names
 - remove redundant 'Alert' from naming convention
 - incorporate code review feedback
@@ -2003,7 +2409,84 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.55.4...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.2...HEAD
+[v2.97.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.1...v2.97.2
+[v2.97.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.0...v2.97.1
+[v2.97.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.96.2...v2.97.0
+[v2.96.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.96.1...v2.96.2
+[v2.96.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.96.0...v2.96.1
+[v2.96.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.95.1...v2.96.0
+[v2.95.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.95.0...v2.95.1
+[v2.95.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.94.1...v2.95.0
+[v2.94.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.94.0...v2.94.1
+[v2.94.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.4...v2.94.0
+[v2.93.4]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.3...v2.93.4
+[v2.93.3]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.2...v2.93.3
+[v2.93.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.1...v2.93.2
+[v2.93.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.93.0...v2.93.1
+[v2.93.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.92.0...v2.93.0
+[v2.92.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.91.1...v2.92.0
+[v2.91.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.91.0...v2.91.1
+[v2.91.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.90.0...v2.91.0
+[v2.90.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.89.0...v2.90.0
+[v2.89.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.88.0...v2.89.0
+[v2.88.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.87.1...v2.88.0
+[v2.87.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.87.0...v2.87.1
+[v2.87.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.86.1...v2.87.0
+[v2.86.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.86.0...v2.86.1
+[v2.86.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.85.0...v2.86.0
+[v2.85.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.84.1...v2.85.0
+[v2.84.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.84.0...v2.84.1
+[v2.84.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.83.4...v2.84.0
+[v2.83.4]: https://github.com/newrelic/newrelic-client-go/compare/v2.83.3...v2.83.4
+[v2.83.3]: https://github.com/newrelic/newrelic-client-go/compare/v2.83.2...v2.83.3
+[v2.83.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.83.1...v2.83.2
+[v2.83.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.83.0...v2.83.1
+[v2.83.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.82.1...v2.83.0
+[v2.82.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.82.0...v2.82.1
+[v2.82.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.81.0...v2.82.0
+[v2.81.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.80.0...v2.81.0
+[v2.80.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.79.1...v2.80.0
+[v2.79.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.79.0...v2.79.1
+[v2.79.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.78.0...v2.79.0
+[v2.78.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.77.0...v2.78.0
+[v2.77.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.76.0...v2.77.0
+[v2.76.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.75.4...v2.76.0
+[v2.75.4]: https://github.com/newrelic/newrelic-client-go/compare/v2.75.3...v2.75.4
+[v2.75.3]: https://github.com/newrelic/newrelic-client-go/compare/v2.75.2...v2.75.3
+[v2.75.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.75.1...v2.75.2
+[v2.75.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.75.0...v2.75.1
+[v2.75.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.74.2...v2.75.0
+[v2.74.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.74.1...v2.74.2
+[v2.74.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.74.0...v2.74.1
+[v2.74.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.73.2...v2.74.0
+[v2.73.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.73.1...v2.73.2
+[v2.73.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.73.0...v2.73.1
+[v2.73.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.72.0...v2.73.0
+[v2.72.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.71.0...v2.72.0
+[v2.71.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.70.2...v2.71.0
+[v2.70.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.70.1...v2.70.2
+[v2.70.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.70.0...v2.70.1
+[v2.70.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.69.0...v2.70.0
+[v2.69.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.68.1...v2.69.0
+[v2.68.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.68.0...v2.68.1
+[v2.68.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.67.1...v2.68.0
+[v2.67.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.67.0...v2.67.1
+[v2.67.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.66.0...v2.67.0
+[v2.66.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.65.0...v2.66.0
+[v2.65.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.64.0...v2.65.0
+[v2.64.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.63.0...v2.64.0
+[v2.63.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.62.0...v2.63.0
+[v2.62.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.61.2...v2.62.0
+[v2.61.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.61.1...v2.61.2
+[v2.61.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.61.0...v2.61.1
+[v2.61.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.60.0...v2.61.0
+[v2.60.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.59.0...v2.60.0
+[v2.59.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.58.0...v2.59.0
+[v2.58.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.57.0...v2.58.0
+[v2.57.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.56.1...v2.57.0
+[v2.56.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.56.0...v2.56.1
+[v2.56.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.55.4...v2.56.0
 [v2.55.4]: https://github.com/newrelic/newrelic-client-go/compare/v2.55.3...v2.55.4
 [v2.55.3]: https://github.com/newrelic/newrelic-client-go/compare/v2.55.2...v2.55.3
 [v2.55.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.55.1...v2.55.2

@@ -360,13 +360,16 @@ func TestCloudAccount_AzureMonitorIntegration(t *testing.T) {
 	require.NotZero(t, linkedAccountID)
 
 	// Create a new AzureMonitor Cloud Integration.
+	azureMonitorEnabled := true
+	azureMonitorExcludeTags := []string{"env:staging", "env:testing"}
+	azureMonitorIncludeTags := []string{"env:production"}
 	azureMonitorIntegrationRes, azureMonitorIntegrationErr := client.CloudConfigureIntegration(testAccountID, CloudIntegrationsInput{
 		Azure: CloudAzureIntegrationsInput{
 			AzureMonitor: []CloudAzureMonitorIntegrationInput{{
 				LinkedAccountId:        linkedAccountID,
-				Enabled:                true,
-				ExcludeTags:            []string{"env:staging", "env:testing"},
-				IncludeTags:            []string{"env:production"},
+				Enabled:                &azureMonitorEnabled,
+				ExcludeTags:            &azureMonitorExcludeTags,
+				IncludeTags:            &azureMonitorIncludeTags,
 				MetricsPollingInterval: 1200,
 				ResourceTypes:          []string{"microsoft.datashare/accounts"},
 				ResourceGroups:         []string{"resource_groups"},
@@ -397,6 +400,419 @@ func TestCloudAccount_AzureMonitorIntegration(t *testing.T) {
 		{
 			LinkedAccountId: linkedAccountID,
 		},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, unlinkResponse)
+}
+
+func TestCloudAccount_OciLinkAccount(t *testing.T) {
+	t.Parallel()
+	client := newIntegrationTestClient(t)
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	// Check for required environment variables
+	ociCredentials := map[string]string{
+		"INTEGRATION_TESTING_OCI_TENANT_ID":         os.Getenv("INTEGRATION_TESTING_OCI_TENANT_ID"),
+		"INTEGRATION_TESTING_OCI_COMPARTMENT_OCID":  os.Getenv("INTEGRATION_TESTING_OCI_COMPARTMENT_OCID"),
+		"INTEGRATION_TESTING_OCI_CLIENT_ID":         os.Getenv("INTEGRATION_TESTING_OCI_CLIENT_ID"),
+		"INTEGRATION_TESTING_OCI_CLIENT_SECRET":     os.Getenv("INTEGRATION_TESTING_OCI_CLIENT_SECRET"),
+		"INTEGRATION_TESTING_OCI_DOMAIN_URL":        os.Getenv("INTEGRATION_TESTING_OCI_DOMAIN_URL"),
+		"INTEGRATION_TESTING_OCI_HOME_REGION":       os.Getenv("INTEGRATION_TESTING_OCI_HOME_REGION"),
+		"INTEGRATION_TESTING_OCI_INGEST_VAULT_OCID": os.Getenv("INTEGRATION_TESTING_OCI_INGEST_VAULT_OCID"),
+		"INTEGRATION_TESTING_OCI_USER_VAULT_OCID":   os.Getenv("INTEGRATION_TESTING_OCI_USER_VAULT_OCID"),
+	}
+
+	var credentialsNotFound []string
+
+	for key, value := range ociCredentials {
+		if value == "" {
+			credentialsNotFound = append(credentialsNotFound, key)
+		}
+	}
+
+	if len(credentialsNotFound) != 0 {
+		t.Skipf("Skipping this test, as the following required OCI credentials do not exist in the environment: \n%s", strings.Join(credentialsNotFound[:], ", "))
+	}
+
+	// Clean up any existing OCI linked accounts
+	getResponse, err := client.GetLinkedAccounts("oci")
+	require.NoError(t, err)
+
+	for _, linkedAccount := range *getResponse {
+		if linkedAccount.NrAccountId == testAccountID {
+			_, unlinkErr := client.CloudUnlinkAccount(testAccountID, []CloudUnlinkAccountsInput{
+				{
+					LinkedAccountId: linkedAccount.ID,
+				},
+			})
+			require.NoError(t, unlinkErr)
+		}
+	}
+
+	// Prepare the link account input
+	linkInput := CloudOciLinkAccountInput{
+		Name:                "Go SDK Integration Test OCI Account",
+		TenantId:            ociCredentials["INTEGRATION_TESTING_OCI_TENANT_ID"],
+		CompartmentOcid:     ociCredentials["INTEGRATION_TESTING_OCI_COMPARTMENT_OCID"],
+		OciClientId:         ociCredentials["INTEGRATION_TESTING_OCI_CLIENT_ID"],
+		OciClientSecret:     SecureValue(ociCredentials["INTEGRATION_TESTING_OCI_CLIENT_SECRET"]),
+		OciDomainURL:        ociCredentials["INTEGRATION_TESTING_OCI_DOMAIN_URL"],
+		OciHomeRegion:       ociCredentials["INTEGRATION_TESTING_OCI_HOME_REGION"],
+		IngestVaultOcid:     ociCredentials["INTEGRATION_TESTING_OCI_INGEST_VAULT_OCID"],
+		UserVaultOcid:       ociCredentials["INTEGRATION_TESTING_OCI_USER_VAULT_OCID"],
+		InstrumentationType: "METRICS", // Default for testing
+	}
+
+	// Link the OCI account
+	linkResponse, err := client.CloudLinkAccount(testAccountID, CloudLinkCloudAccountsInput{
+		Oci: []CloudOciLinkAccountInput{linkInput},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, linkResponse)
+	require.Len(t, linkResponse.Errors, 0)
+	require.Greater(t, len(linkResponse.LinkedAccounts), 0)
+
+	// Get the linked account ID
+	linkedAccountID := linkResponse.LinkedAccounts[0].ID
+
+	// Verify the linked account exists
+	linkedAccount, err := client.GetLinkedAccount(testAccountID, linkedAccountID)
+	require.NoError(t, err)
+	require.NotNil(t, linkedAccount)
+	require.Equal(t, testAccountID, linkedAccount.NrAccountId)
+
+	// Optional fields - retrieve if available
+	testOciRegion := os.Getenv("INTEGRATION_TESTING_OCI_REGION")
+	testOciMetricStackOcid := os.Getenv("INTEGRATION_TESTING_OCI_METRIC_STACK_OCID")
+	testOciLoggingStackOcid := os.Getenv("INTEGRATION_TESTING_OCI_LOGGING_STACK_OCID")
+
+	// Test updating the account with optional fields if available
+	updateInput := CloudOciUpdateAccountInput{
+		LinkedAccountId: linkedAccountID,
+		Name:            "Updated OCI Integration Test Account",
+	}
+
+	// Add optional fields if they were provided in environment variables
+	if testOciRegion != "" {
+		updateInput.OciRegion = testOciRegion
+	}
+	if testOciMetricStackOcid != "" {
+		updateInput.MetricStackOcid = testOciMetricStackOcid
+	}
+	if testOciLoggingStackOcid != "" {
+		updateInput.LoggingStackOcid = testOciLoggingStackOcid
+	}
+
+	updateResponse, err := client.CloudUpdateAccount(testAccountID, CloudUpdateCloudAccountsInput{
+		Oci: []CloudOciUpdateAccountInput{updateInput},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, updateResponse)
+
+	// Verify the name was updated
+	updatedAccount, err := client.GetLinkedAccount(testAccountID, linkedAccountID)
+	require.NoError(t, err)
+	require.Equal(t, "Updated OCI Integration Test Account", updatedAccount.Name)
+
+	// Test OCI metadata and tags integration
+	integrationResponse, err := client.CloudConfigureIntegration(testAccountID, CloudIntegrationsInput{
+		Oci: CloudOciIntegrationsInput{
+			OciMetadataAndTags: []CloudOciMetadataAndTagsIntegrationInput{
+				{
+					LinkedAccountId: linkedAccountID,
+				},
+			},
+		},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, integrationResponse)
+	require.Len(t, integrationResponse.Errors, 0)
+	require.Greater(t, len(integrationResponse.Integrations), 0)
+
+	// Disable the integration
+	disableResponse, err := client.CloudDisableIntegration(testAccountID, CloudDisableIntegrationsInput{
+		Oci: CloudOciDisableIntegrationsInput{
+			OciMetadataAndTags: []CloudDisableAccountIntegrationInput{
+				{
+					LinkedAccountId: linkedAccountID,
+				},
+			},
+		},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, disableResponse)
+	require.Len(t, disableResponse.Errors, 0)
+
+	// Unlink the account
+	unlinkResponse, err := client.CloudUnlinkAccount(testAccountID, []CloudUnlinkAccountsInput{
+		{
+			LinkedAccountId: linkedAccountID,
+		},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, unlinkResponse)
+	require.Len(t, unlinkResponse.Errors, 0)
+}
+
+func TestCloudAccount_AwsEuSovereignBasic(t *testing.T) {
+	t.Parallel()
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	testARN := os.Getenv("INTEGRATION_TESTING_AWS_EU_SOVEREIGN_ARN")
+	if testARN == "" {
+		t.Skip("an AWS EU Sovereign ARN is required to run cloud account tests")
+		return
+	}
+
+	a := newIntegrationTestClient(t)
+	// Reset everything
+	getResponse, err := a.GetLinkedAccounts("aws_eu_sovereign")
+	if err == nil {
+		for _, linkedAccount := range *getResponse {
+			if linkedAccount.NrAccountId == testAccountID {
+				a.CloudUnlinkAccount(testAccountID, []CloudUnlinkAccountsInput{
+					{
+						LinkedAccountId: linkedAccount.ID,
+					},
+				})
+			}
+		}
+	}
+
+	// Link the account
+	linkResponse, err := a.CloudLinkAccount(testAccountID, CloudLinkCloudAccountsInput{
+		AwsEuSovereign: []CloudAwsEuSovereignLinkAccountInput{
+			{
+				Arn:  testARN,
+				Name: "DTK Integration Testing EU Sovereign",
+			},
+		},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, linkResponse)
+	require.Len(t, linkResponse.Errors, 0)
+
+	if len(linkResponse.LinkedAccounts) == 0 {
+		t.Skip("skipping TestCloudAccount_AwsEuSovereignBasic due to no linked accounts")
+		return
+	}
+
+	// Get the linked account
+	linkedAccountId := linkResponse.LinkedAccounts[0].ID
+
+	// Rename the account
+	newName := "NEW-DTK-EU-SOVEREIGN-NAME"
+	renameResponse, err := a.CloudRenameAccount(testAccountID, []CloudRenameAccountsInput{
+		{
+			LinkedAccountId: linkedAccountId,
+			Name:            newName,
+		},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, renameResponse)
+
+	// Unlink the account
+	unlinkResponse, err := a.CloudUnlinkAccount(testAccountID, []CloudUnlinkAccountsInput{
+		{
+			LinkedAccountId: linkedAccountId,
+		},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, unlinkResponse)
+}
+
+func TestCloudAccount_GcpDmWifBasic(t *testing.T) {
+	// Not t.Parallel(): shares INTEGRATION_TESTING_GCP_DM_PROJECT_ID with
+	// TestCloudAccount_GcpDmWifIntegrations, and the backend rejects linking
+	// the same GCP project to the same account twice concurrently.
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	gcpProjectID := os.Getenv("INTEGRATION_TESTING_GCP_DM_PROJECT_ID")
+	if gcpProjectID == "" {
+		t.Skip("INTEGRATION_TESTING_GCP_DM_PROJECT_ID is required to run GCP DM WIF cloud account tests")
+		return
+	}
+
+	wifCredential := os.Getenv("INTEGRATION_TESTING_GCP_DM_WIF_CREDENTIAL")
+	if wifCredential == "" {
+		t.Skip("INTEGRATION_TESTING_GCP_DM_WIF_CREDENTIAL is required to run GCP DM WIF cloud account tests")
+		return
+	}
+
+	a := newIntegrationTestClient(t)
+
+	// Clean up any leftover state.
+	getResponse, err := a.GetLinkedAccounts("gcp")
+	if err == nil && getResponse != nil {
+		for _, linkedAccount := range *getResponse {
+			if linkedAccount.NrAccountId == testAccountID && strings.Contains(linkedAccount.Name, "DTK Integration Testing GCP DM WIF") {
+				_, _ = a.CloudUnlinkAccount(testAccountID, []CloudUnlinkAccountsInput{
+					{LinkedAccountId: linkedAccount.ID},
+				})
+			}
+		}
+	}
+
+	// Step 1: Authenticate via WIF → authReferenceId.
+	authPayload, err := a.CloudAuthenticateIntegration(testAccountID, "GCP", "WIF", wifCredential)
+	require.NoError(t, err)
+	require.NotNil(t, authPayload)
+	require.NotEmpty(t, authPayload.AuthReferenceId)
+
+	// Step 2: Link the GCP project.
+	linkResponse, err := a.CloudLinkAccount(testAccountID, CloudLinkCloudAccountsInput{
+		Gcp: []CloudGcpLinkAccountInput{
+			{
+				Name:            "DTK Integration Testing GCP DM WIF",
+				ProjectId:       gcpProjectID,
+				AuthReferenceId: authPayload.AuthReferenceId,
+			},
+		},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, linkResponse)
+	require.Len(t, linkResponse.Errors, 0)
+
+	if len(linkResponse.LinkedAccounts) == 0 {
+		t.Skip("skipping TestCloudAccount_GcpDmWifBasic: no linked accounts returned")
+		return
+	}
+
+	require.True(t, linkResponse.LinkedAccounts[0].HasDimensionalMetrics, "GCP account linked via WIF should use dimensional metrics")
+
+	linkedAccountId := linkResponse.LinkedAccounts[0].ID
+
+	// Step 3: Rename the linked account.
+	renameResponse, err := a.CloudRenameAccount(testAccountID, []CloudRenameAccountsInput{
+		{
+			LinkedAccountId: linkedAccountId,
+			Name:            "NEW-DTK-GCP-DM-WIF-NAME",
+		},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, renameResponse)
+
+	// Step 4: Unlink.
+	unlinkResponse, err := a.CloudUnlinkAccount(testAccountID, []CloudUnlinkAccountsInput{
+		{LinkedAccountId: linkedAccountId},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, unlinkResponse)
+}
+
+func TestCloudAccount_GcpDmWifIntegrations(t *testing.T) {
+	// Not t.Parallel(): shares INTEGRATION_TESTING_GCP_DM_PROJECT_ID with
+	// TestCloudAccount_GcpDmWifBasic; see comment there.
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	gcpProjectID := os.Getenv("INTEGRATION_TESTING_GCP_DM_PROJECT_ID")
+	if gcpProjectID == "" {
+		t.Skip("INTEGRATION_TESTING_GCP_DM_PROJECT_ID is required to run GCP DM WIF cloud account tests")
+		return
+	}
+
+	wifCredential := os.Getenv("INTEGRATION_TESTING_GCP_DM_WIF_CREDENTIAL")
+	if wifCredential == "" {
+		t.Skip("INTEGRATION_TESTING_GCP_DM_WIF_CREDENTIAL is required to run GCP DM WIF cloud account tests")
+		return
+	}
+
+	a := newIntegrationTestClient(t)
+
+	// Clean up any leftover state.
+	getResponse, err := a.GetLinkedAccounts("gcp")
+	if err == nil && getResponse != nil {
+		for _, linkedAccount := range *getResponse {
+			if linkedAccount.NrAccountId == testAccountID && strings.Contains(linkedAccount.Name, "DTK Integration Testing GCP DM WIF") {
+				_, _ = a.CloudUnlinkAccount(testAccountID, []CloudUnlinkAccountsInput{
+					{LinkedAccountId: linkedAccount.ID},
+				})
+			}
+		}
+	}
+
+	// Step 1: Authenticate via WIF → authReferenceId.
+	authPayload, err := a.CloudAuthenticateIntegration(testAccountID, "GCP", "WIF", wifCredential)
+	require.NoError(t, err)
+	require.NotNil(t, authPayload)
+	require.NotEmpty(t, authPayload.AuthReferenceId)
+
+	// Step 2: Link the GCP project.
+	linkResponse, err := a.CloudLinkAccount(testAccountID, CloudLinkCloudAccountsInput{
+		Gcp: []CloudGcpLinkAccountInput{
+			{
+				Name:            "DTK Integration Testing GCP DM WIF",
+				ProjectId:       gcpProjectID,
+				AuthReferenceId: authPayload.AuthReferenceId,
+			},
+		},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, linkResponse)
+	require.Len(t, linkResponse.Errors, 0)
+
+	if len(linkResponse.LinkedAccounts) == 0 {
+		t.Skip("skipping TestCloudAccount_GcpDmWifIntegrations: no linked accounts returned")
+		return
+	}
+
+	require.True(t, linkResponse.LinkedAccounts[0].HasDimensionalMetrics, "GCP account linked via WIF should use dimensional metrics")
+
+	linkedAccountId := linkResponse.LinkedAccounts[0].ID
+
+	// Step 3: Enable all 8 GCP DM-only integrations.
+	integrationsRes, err := a.CloudConfigureIntegration(testAccountID, CloudIntegrationsInput{
+		Gcp: CloudGcpIntegrationsInput{
+			GcpApiGateway:         []CloudGcpGenericIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpFirebaseAuth:       []CloudGcpGenericIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpFirebaseVertexAi:   []CloudGcpGenericIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpFirebaseAppHosting: []CloudGcpGenericIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpIstio:              []CloudGcpGenericIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpManagedKafka:       []CloudGcpGenericIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpMemoryStore:        []CloudGcpGenericIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpEdgeContainer:      []CloudGcpGenericIntegrationInput{{LinkedAccountId: linkedAccountId}},
+		},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, integrationsRes)
+	require.Len(t, integrationsRes.Errors, 0)
+	require.Greater(t, len(integrationsRes.Integrations), 0)
+
+	// Step 4: Disable all 8 integrations.
+	disableRes, err := a.CloudDisableIntegration(testAccountID, CloudDisableIntegrationsInput{
+		Gcp: CloudGcpDisableIntegrationsInput{
+			GcpApiGateway:         []CloudDisableAccountIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpFirebaseAuth:       []CloudDisableAccountIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpFirebaseVertexAi:   []CloudDisableAccountIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpFirebaseAppHosting: []CloudDisableAccountIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpIstio:              []CloudDisableAccountIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpManagedKafka:       []CloudDisableAccountIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpMemoryStore:        []CloudDisableAccountIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpEdgeContainer:      []CloudDisableAccountIntegrationInput{{LinkedAccountId: linkedAccountId}},
+		},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, disableRes)
+	require.Len(t, disableRes.Errors, 0)
+	require.Greater(t, len(disableRes.DisabledIntegrations), 0)
+
+	// Step 5: Unlink.
+	unlinkResponse, err := a.CloudUnlinkAccount(testAccountID, []CloudUnlinkAccountsInput{
+		{LinkedAccountId: linkedAccountId},
 	})
 	require.NoError(t, err)
 	require.NotNil(t, unlinkResponse)

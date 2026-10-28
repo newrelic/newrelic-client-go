@@ -65,6 +65,7 @@ const ServiceLevelCreateMutation = `mutation(
 			name
 		}
 		badEvents {
+			facets
 			from
 			select {
 				attribute
@@ -74,6 +75,7 @@ const ServiceLevelCreateMutation = `mutation(
 			where
 		}
 		goodEvents {
+			facets
 			from
 			select {
 				attribute
@@ -83,6 +85,7 @@ const ServiceLevelCreateMutation = `mutation(
 			where
 		}
 		validEvents {
+			facets
 			from
 			select {
 				attribute
@@ -94,6 +97,32 @@ const ServiceLevelCreateMutation = `mutation(
 	}
 	guid
 	id
+	metadata {
+		createdAt
+		createdBy {
+			__typename
+			id
+			type
+			... on ServiceLevelSystemIdentityActor {
+				__typename
+			}
+			... on ServiceLevelUserActor {
+				__typename
+			}
+		}
+		updatedAt
+		updatedBy {
+			__typename
+			id
+			type
+			... on ServiceLevelSystemIdentityActor {
+				__typename
+			}
+			... on ServiceLevelUserActor {
+				__typename
+			}
+		}
+	}
 	name
 	objectives {
 		description
@@ -116,25 +145,27 @@ const ServiceLevelCreateMutation = `mutation(
 } }`
 
 // Deletes an existing SLI by the GUID.
-// iD optional field manually removed in favor of gUID to favor it's deprecation
 func (a *Servicelevel) ServiceLevelDelete(
 	gUID common.EntityGUID,
+	iD string,
 ) (*ServiceLevelIndicator, error) {
 	return a.ServiceLevelDeleteWithContext(context.Background(),
 		gUID,
+		iD,
 	)
 }
 
 // Deletes an existing SLI by the GUID.
-// iD optional field manually removed in favor of gUID to favor it's deprecation
 func (a *Servicelevel) ServiceLevelDeleteWithContext(
 	ctx context.Context,
 	gUID common.EntityGUID,
+	iD string,
 ) (*ServiceLevelIndicator, error) {
 
 	resp := ServiceLevelDeleteQueryResponse{}
 	vars := map[string]interface{}{
 		"guid": gUID,
+		"id":   iD,
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, ServiceLevelDeleteMutation, vars, &resp); err != nil {
@@ -148,11 +179,12 @@ type ServiceLevelDeleteQueryResponse struct {
 	ServiceLevelIndicator ServiceLevelIndicator `json:"ServiceLevelDelete"`
 }
 
-// id optional field manually removed in favor of guid to favor it's deprecation
 const ServiceLevelDeleteMutation = `mutation(
 	$guid: EntityGuid,
+	$id: ID,
 ) { serviceLevelDelete(
 	guid: $guid,
+	id: $id,
 ) {
 	createdAt
 	createdBy {
@@ -169,6 +201,7 @@ const ServiceLevelDeleteMutation = `mutation(
 			name
 		}
 		badEvents {
+			facets
 			from
 			select {
 				attribute
@@ -178,6 +211,7 @@ const ServiceLevelDeleteMutation = `mutation(
 			where
 		}
 		goodEvents {
+			facets
 			from
 			select {
 				attribute
@@ -187,6 +221,7 @@ const ServiceLevelDeleteMutation = `mutation(
 			where
 		}
 		validEvents {
+			facets
 			from
 			select {
 				attribute
@@ -198,6 +233,32 @@ const ServiceLevelDeleteMutation = `mutation(
 	}
 	guid
 	id
+	metadata {
+		createdAt
+		createdBy {
+			__typename
+			id
+			type
+			... on ServiceLevelSystemIdentityActor {
+				__typename
+			}
+			... on ServiceLevelUserActor {
+				__typename
+			}
+		}
+		updatedAt
+		updatedBy {
+			__typename
+			id
+			type
+			... on ServiceLevelSystemIdentityActor {
+				__typename
+			}
+			... on ServiceLevelUserActor {
+				__typename
+			}
+		}
+	}
 	name
 	objectives {
 		description
@@ -220,28 +281,30 @@ const ServiceLevelDeleteMutation = `mutation(
 } }`
 
 // Updates an existing SLI by the GUID.
-// iD optional field manually removed in favor of gUID to favor it's deprecation
 func (a *Servicelevel) ServiceLevelUpdate(
 	gUID common.EntityGUID,
+	iD string,
 	indicator ServiceLevelIndicatorUpdateInput,
 ) (*ServiceLevelIndicator, error) {
 	return a.ServiceLevelUpdateWithContext(context.Background(),
 		gUID,
+		iD,
 		indicator,
 	)
 }
 
 // Updates an existing SLI by the GUID.
-// iD optional field manually removed in favor of gUID to favor it's deprecation
 func (a *Servicelevel) ServiceLevelUpdateWithContext(
 	ctx context.Context,
 	gUID common.EntityGUID,
+	iD string,
 	indicator ServiceLevelIndicatorUpdateInput,
 ) (*ServiceLevelIndicator, error) {
 
 	resp := ServiceLevelUpdateQueryResponse{}
 	vars := map[string]interface{}{
 		"guid":      gUID,
+		"id":        iD,
 		"indicator": indicator,
 	}
 
@@ -256,12 +319,13 @@ type ServiceLevelUpdateQueryResponse struct {
 	ServiceLevelIndicator ServiceLevelIndicator `json:"ServiceLevelUpdate"`
 }
 
-// id optional field manually removed in favor of guid to favor it's deprecation
 const ServiceLevelUpdateMutation = `mutation(
 	$guid: EntityGuid,
+	$id: ID,
 	$indicator: ServiceLevelIndicatorUpdateInput!,
 ) { serviceLevelUpdate(
 	guid: $guid,
+	id: $id,
 	indicator: $indicator,
 ) {
 	createdAt
@@ -279,6 +343,7 @@ const ServiceLevelUpdateMutation = `mutation(
 			name
 		}
 		badEvents {
+			facets
 			from
 			select {
 				attribute
@@ -288,6 +353,7 @@ const ServiceLevelUpdateMutation = `mutation(
 			where
 		}
 		goodEvents {
+			facets
 			from
 			select {
 				attribute
@@ -297,6 +363,7 @@ const ServiceLevelUpdateMutation = `mutation(
 			where
 		}
 		validEvents {
+			facets
 			from
 			select {
 				attribute
@@ -308,6 +375,32 @@ const ServiceLevelUpdateMutation = `mutation(
 	}
 	guid
 	id
+	metadata {
+		createdAt
+		createdBy {
+			__typename
+			id
+			type
+			... on ServiceLevelSystemIdentityActor {
+				__typename
+			}
+			... on ServiceLevelUserActor {
+				__typename
+			}
+		}
+		updatedAt
+		updatedBy {
+			__typename
+			id
+			type
+			... on ServiceLevelSystemIdentityActor {
+				__typename
+			}
+			... on ServiceLevelUserActor {
+				__typename
+			}
+		}
+	}
 	name
 	objectives {
 		description
@@ -378,6 +471,7 @@ const getIndicatorsQuery = `query(
 			name
 		}
 		badEvents {
+			facets
 			from
 			select {
 				attribute
@@ -387,6 +481,7 @@ const getIndicatorsQuery = `query(
 			where
 		}
 		goodEvents {
+			facets
 			from
 			select {
 				attribute
@@ -396,6 +491,7 @@ const getIndicatorsQuery = `query(
 			where
 		}
 		validEvents {
+			facets
 			from
 			select {
 				attribute
@@ -407,6 +503,32 @@ const getIndicatorsQuery = `query(
 	}
 	guid
 	id
+	metadata {
+		createdAt
+		createdBy {
+			__typename
+			id
+			type
+			... on ServiceLevelSystemIdentityActor {
+				__typename
+			}
+			... on ServiceLevelUserActor {
+				__typename
+			}
+		}
+		updatedAt
+		updatedBy {
+			__typename
+			id
+			type
+			... on ServiceLevelSystemIdentityActor {
+				__typename
+			}
+			... on ServiceLevelUserActor {
+				__typename
+			}
+		}
+	}
 	name
 	objectives {
 		description

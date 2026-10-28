@@ -60,7 +60,13 @@ const WorkloadCreateMutation = `mutation(
 		id
 		name
 	}
+	createdByPrincipalId
 	description
+	dynamicFlows {
+		entityGuid
+		id
+		transactionName
+	}
 	entities {
 		guid
 	}
@@ -113,6 +119,9 @@ const WorkloadCreateMutation = `mutation(
 		value
 	}
 	statusConfig {
+		alertPolicy {
+			enabled
+		}
 		automatic {
 			enabled
 			remainingEntitiesRule {
@@ -162,6 +171,7 @@ const WorkloadCreateMutation = `mutation(
 		id
 		name
 	}
+	updatedByPrincipalId
 } }`
 
 // Deletes an existing workload.
@@ -211,7 +221,13 @@ const WorkloadDeleteMutation = `mutation(
 		id
 		name
 	}
+	createdByPrincipalId
 	description
+	dynamicFlows {
+		entityGuid
+		id
+		transactionName
+	}
 	entities {
 		guid
 	}
@@ -264,6 +280,9 @@ const WorkloadDeleteMutation = `mutation(
 		value
 	}
 	statusConfig {
+		alertPolicy {
+			enabled
+		}
 		automatic {
 			enabled
 			remainingEntitiesRule {
@@ -313,6 +332,7 @@ const WorkloadDeleteMutation = `mutation(
 		id
 		name
 	}
+	updatedByPrincipalId
 } }`
 
 // Duplicates an existing workload.
@@ -374,7 +394,13 @@ const WorkloadDuplicateMutation = `mutation(
 		id
 		name
 	}
+	createdByPrincipalId
 	description
+	dynamicFlows {
+		entityGuid
+		id
+		transactionName
+	}
 	entities {
 		guid
 	}
@@ -427,6 +453,9 @@ const WorkloadDuplicateMutation = `mutation(
 		value
 	}
 	statusConfig {
+		alertPolicy {
+			enabled
+		}
 		automatic {
 			enabled
 			remainingEntitiesRule {
@@ -476,6 +505,7 @@ const WorkloadDuplicateMutation = `mutation(
 		id
 		name
 	}
+	updatedByPrincipalId
 } }`
 
 // Updates an existing workload.
@@ -531,7 +561,13 @@ const WorkloadUpdateMutation = `mutation(
 		id
 		name
 	}
+	createdByPrincipalId
 	description
+	dynamicFlows {
+		entityGuid
+		id
+		transactionName
+	}
 	entities {
 		guid
 	}
@@ -584,6 +620,9 @@ const WorkloadUpdateMutation = `mutation(
 		value
 	}
 	statusConfig {
+		alertPolicy {
+			enabled
+		}
 		automatic {
 			enabled
 			remainingEntitiesRule {
@@ -633,6 +672,7 @@ const WorkloadUpdateMutation = `mutation(
 		id
 		name
 	}
+	updatedByPrincipalId
 } }`
 
 // [DEPRECATED] Retrieves a workload.
@@ -683,7 +723,13 @@ const getCollectionQuery = `query(
 		id
 		name
 	}
+	createdByPrincipalId
 	description
+	dynamicFlows {
+		entityGuid
+		id
+		transactionName
+	}
 	entities {
 		guid
 	}
@@ -736,6 +782,9 @@ const getCollectionQuery = `query(
 		value
 	}
 	statusConfig {
+		alertPolicy {
+			enabled
+		}
 		automatic {
 			enabled
 			remainingEntitiesRule {
@@ -785,4 +834,5 @@ const getCollectionQuery = `query(
 		id
 		name
 	}
+	updatedByPrincipalId
 } } } } }`

@@ -207,8 +207,8 @@ func TestGetChannel(t *testing.T) {
 				UpdatedBy: 1547846,
 			},
 		},
-		Error:      AiNotificationsResponseError{},
-		Errors:     []AiNotificationsResponseError{},
+		Error:      ai.AiNotificationsResponseError{},
+		Errors:     []ai.AiNotificationsResponseError{},
 		NextCursor: "",
 		TotalCount: 1,
 	}
@@ -218,11 +218,22 @@ func TestGetChannel(t *testing.T) {
 	}
 	sorter := AiNotificationsChannelSorter{}
 
-	actual, err := notifications.GetChannels(accountID, "", filters, sorter)
+	actual, err := notifications.GetChannels(accountID, nil, &filters, &sorter)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, actual)
 	assert.Equal(t, expected, actual)
+}
+
+func TestGetChannelsWithNilOptionalParams(t *testing.T) {
+	t.Parallel()
+	respJSON := fmt.Sprintf(`{ "data":%s }`, testGetChannelResponseJSON)
+	notifications := newMockResponse(t, respJSON, http.StatusOK)
+
+	actual, err := notifications.GetChannels(accountID, nil, nil, nil)
+
+	assert.NoError(t, err)
+	assert.NotNil(t, actual)
 }
 
 func TestUpdateChannel(t *testing.T) {
@@ -282,8 +293,8 @@ func TestDeleteChannel(t *testing.T) {
 
 	expected := &AiNotificationsDeleteResponse{
 		IDs:    []string{ID},
-		Errors: []AiNotificationsResponseError{},
-		Error:  AiNotificationsResponseError{},
+		Errors: []ai.AiNotificationsResponseError{},
+		Error:  ai.AiNotificationsResponseError{},
 	}
 
 	actual, err := notifications.AiNotificationsDeleteChannel(accountID, ID)

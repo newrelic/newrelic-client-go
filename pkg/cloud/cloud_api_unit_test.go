@@ -1,3 +1,6 @@
+//go:build unit
+// +build unit
+
 package cloud
 
 import (
@@ -61,8 +64,8 @@ var (
 		}
 	}
   }`
-	linkedAccountID = fmt.Sprintf("%06d", rand.Int63n(1e6))
-	nrAccountID     = fmt.Sprintf("%06d", rand.Int63n(1e6))
+	linkedAccountID = fmt.Sprintf("%06d", 100000+rand.Int63n(9e5))
+	nrAccountID     = fmt.Sprintf("%06d", 100000+rand.Int63n(9e5))
 
 	testUpdateAzureLinkAccount = `
 {
@@ -91,13 +94,16 @@ func TestUnitCreateAzureMonitor(t *testing.T) {
 	t.Parallel()
 	createAzureMonitorResponse := newMockResponse(t, testCreateAzureMonitor, http.StatusCreated)
 	linkedAccountIDAsInt, _ := strconv.Atoi(linkedAccountID)
+	azureMonitorEnabled := true
+	azureMonitorExcludeTags := []string{"env:staging", "env:testing"}
+	azureMonitorIncludeTags := []string{"env:production"}
 	createAzureMonitorInput := CloudIntegrationsInput{
 		Azure: CloudAzureIntegrationsInput{
 			AzureMonitor: []CloudAzureMonitorIntegrationInput{{
 				LinkedAccountId:        linkedAccountIDAsInt,
-				Enabled:                true,
-				ExcludeTags:            []string{"env:staging", "env:testing"},
-				IncludeTags:            []string{"env:production"},
+				Enabled:                &azureMonitorEnabled,
+				ExcludeTags:            &azureMonitorExcludeTags,
+				IncludeTags:            &azureMonitorIncludeTags,
 				MetricsPollingInterval: 1200,
 				ResourceTypes:          []string{"microsoft.datashare/accounts"},
 				ResourceGroups:         []string{"resource_groups"},

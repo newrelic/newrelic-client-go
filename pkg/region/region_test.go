@@ -21,6 +21,16 @@ func TestParse(t *testing.T) {
 		"Eu":      EU,
 		"eU":      EU,
 		"EU":      EU,
+		"jp":      JP,
+		"Jp":      JP,
+		"jP":      JP,
+		"JP":      JP,
+		"gov":     GOV,
+		"Gov":     GOV,
+		"GOV":     GOV,
+		"fedramp": GOV,
+		"FedRAMP": GOV,
+		"FEDRAMP": GOV,
 		"staging": Staging,
 		"Staging": Staging,
 		"STAGING": Staging,
@@ -48,6 +58,8 @@ func TestRegionGet(t *testing.T) {
 	pairs := map[Name]*Region{
 		US:      Regions[US],
 		EU:      Regions[EU],
+		JP:      Regions[JP],
+		GOV:     Regions[GOV],
 		Staging: Regions[Staging],
 	}
 
@@ -71,6 +83,8 @@ func TestRegionString(t *testing.T) {
 	pairs := map[Name]string{
 		US:      "US",
 		EU:      "EU",
+		JP:      "JP",
+		GOV:     "GOV",
 		Staging: "Staging",
 		Local:   "Local",
 	}
@@ -92,6 +106,8 @@ func TestInfrastructureURLs(t *testing.T) {
 	pairs := map[Name]string{
 		US:      "https://infra-api.newrelic.com/v2",
 		EU:      "https://infra-api.eu.newrelic.com/v2",
+		JP:      "https://infra-api.jp.nr-data.net/v2",
+		GOV:     "https://gov-infra-api.newrelic.com/v2",
 		Staging: "https://staging-infra-api.newrelic.com/v2",
 		Local:   "http://localhost:3000/v2",
 	}
@@ -107,6 +123,8 @@ func TestSyntheticsURLs(t *testing.T) {
 	pairs := map[Name]string{
 		US:      "https://synthetics.newrelic.com/synthetics/api",
 		EU:      "https://synthetics.eu.newrelic.com/synthetics/api",
+		JP:      "https://synthetics.jp.newrelic.com/synthetics/api",
+		GOV:     "https://synthetics.newrelic.com/synthetics/api",
 		Staging: "https://staging-synthetics.newrelic.com/synthetics/api",
 		Local:   "http://localhost:3000/synthetics/api",
 	}
@@ -122,6 +140,8 @@ func TestLogsURLs(t *testing.T) {
 	pairs := map[Name]string{
 		US:      "https://log-api.newrelic.com/log/v1",
 		EU:      "https://log-api.eu.newrelic.com/log/v1",
+		JP:      "https://log-api.jp.nr-data.net/log/v1",
+		GOV:     "https://gov-log-api.newrelic.com/log/v1",
 		Staging: "https://staging-log-api.newrelic.com/log/v1",
 		Local:   "http://localhost:3000/log/v1",
 	}
@@ -137,6 +157,8 @@ func TestNerdgraphURLs(t *testing.T) {
 	pairs := map[Name]string{
 		US:      "https://api.newrelic.com/graphql",
 		EU:      "https://api.eu.newrelic.com/graphql",
+		JP:      "https://api.jp.newrelic.com/graphql",
+		GOV:     "https://gov-api.newrelic.com/graphql",
 		Staging: "https://staging-api.newrelic.com/graphql",
 		Local:   "http://localhost:3000/graphql",
 	}
@@ -152,6 +174,8 @@ func TestRESTURLs(t *testing.T) {
 	pairs := map[Name]string{
 		US:      "https://api.newrelic.com/v2",
 		EU:      "https://api.eu.newrelic.com/v2",
+		JP:      "https://api.jp.newrelic.com/v2",
+		GOV:     "https://gov-api.newrelic.com/v2",
 		Staging: "https://staging-api.newrelic.com/v2",
 		Local:   "http://localhost:3000/v2",
 	}

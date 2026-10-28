@@ -166,6 +166,11 @@ const CloudConfigureIntegrationMutation = `mutation(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudAwsMetadataEuSovereignIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudAwsMqIntegration {
 			__typename
 			awsRegions
@@ -173,6 +178,11 @@ const CloudConfigureIntegrationMutation = `mutation(
 			metricsPollingInterval
 		}
 		... on CloudAwsMsElasticacheIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
+		... on CloudAwsMsElasticacheEuSovereignIntegration {
 			__typename
 			inventoryPollingInterval
 			metricsPollingInterval
@@ -212,6 +222,11 @@ const CloudConfigureIntegrationMutation = `mutation(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudAwsTagsGlobalEuSovereignIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudAwsTransitgatewayIntegration {
 			__typename
 			awsRegions
@@ -236,6 +251,12 @@ const CloudConfigureIntegrationMutation = `mutation(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+			... on CloudAwsAutoDiscoveryIntegration {
+				__typename
+				awsRegions
+				inventoryPollingInterval
+				metricsPollingInterval
+			}
 		... on CloudAzureApimanagementIntegration {
 			__typename
 			inventoryPollingInterval
@@ -253,6 +274,12 @@ const CloudConfigureIntegrationMutation = `mutation(
 			inventoryPollingInterval
 			metricsPollingInterval
 			resourceGroups
+		}
+		... on CloudAzureAutoDiscoveryIntegration {
+			__typename
+			enabled
+			inventoryPollingInterval
+			metricsPollingInterval
 		}
 		... on CloudAzureContainersIntegration {
 			__typename
@@ -687,6 +714,10 @@ const CloudConfigureIntegrationMutation = `mutation(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudGcpGenericIntegration {
+			__typename
+			metricsPollingInterval
+		}
 		... on CloudHealthIntegration {
 			__typename
 			inventoryPollingInterval
@@ -730,6 +761,20 @@ const CloudConfigureIntegrationMutation = `mutation(
 			tagKey
 			tagValue
 		}
+		... on CloudOciLogsIntegration {
+			__typename
+			instrumentationType
+			loggingStacks
+			metricStacks
+			metricsPollingInterval
+		}
+		... on CloudOciMetadataAndTagsIntegration {
+			__typename
+			instrumentationType
+			loggingStacks
+			metricStacks
+			metricsPollingInterval
+		}
 		... on CloudRdsIntegration {
 			__typename
 			awsRegions
@@ -761,6 +806,12 @@ const CloudConfigureIntegrationMutation = `mutation(
 			metricsPollingInterval
 			tagKey
 			tagValue
+		}
+		... on CloudSecurityHubIntegration {
+			__typename
+			awsRegions
+			inventoryPollingInterval
+			metricsPollingInterval
 		}
 		... on CloudSesIntegration {
 			__typename
@@ -957,6 +1008,11 @@ const CloudDisableIntegrationMutation = `mutation(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudAwsMetadataEuSovereignIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudAwsMqIntegration {
 			__typename
 			awsRegions
@@ -964,6 +1020,11 @@ const CloudDisableIntegrationMutation = `mutation(
 			metricsPollingInterval
 		}
 		... on CloudAwsMsElasticacheIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
+		... on CloudAwsMsElasticacheEuSovereignIntegration {
 			__typename
 			inventoryPollingInterval
 			metricsPollingInterval
@@ -1003,6 +1064,11 @@ const CloudDisableIntegrationMutation = `mutation(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudAwsTagsGlobalEuSovereignIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudAwsTransitgatewayIntegration {
 			__typename
 			awsRegions
@@ -1027,6 +1093,12 @@ const CloudDisableIntegrationMutation = `mutation(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+			... on CloudAwsAutoDiscoveryIntegration {
+				__typename
+				awsRegions
+				inventoryPollingInterval
+				metricsPollingInterval
+			}
 		... on CloudAzureApimanagementIntegration {
 			__typename
 			inventoryPollingInterval
@@ -1044,6 +1116,12 @@ const CloudDisableIntegrationMutation = `mutation(
 			inventoryPollingInterval
 			metricsPollingInterval
 			resourceGroups
+		}
+		... on CloudAzureAutoDiscoveryIntegration {
+			__typename
+			enabled
+			inventoryPollingInterval
+			metricsPollingInterval
 		}
 		... on CloudAzureContainersIntegration {
 			__typename
@@ -1478,6 +1556,10 @@ const CloudDisableIntegrationMutation = `mutation(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudGcpGenericIntegration {
+			__typename
+			metricsPollingInterval
+		}
 		... on CloudHealthIntegration {
 			__typename
 			inventoryPollingInterval
@@ -1521,6 +1603,20 @@ const CloudDisableIntegrationMutation = `mutation(
 			tagKey
 			tagValue
 		}
+		... on CloudOciLogsIntegration {
+			__typename
+			instrumentationType
+			loggingStacks
+			metricStacks
+			metricsPollingInterval
+		}
+		... on CloudOciMetadataAndTagsIntegration {
+			__typename
+			instrumentationType
+			loggingStacks
+			metricStacks
+			metricsPollingInterval
+		}
 		... on CloudRdsIntegration {
 			__typename
 			awsRegions
@@ -1552,6 +1648,12 @@ const CloudDisableIntegrationMutation = `mutation(
 			metricsPollingInterval
 			tagKey
 			tagValue
+		}
+		... on CloudSecurityHubIntegration {
+			__typename
+			awsRegions
+			inventoryPollingInterval
+			metricsPollingInterval
 		}
 		... on CloudSesIntegration {
 			__typename
@@ -1663,6 +1765,7 @@ const CloudLinkAccountMutation = `mutation(
 		disabled
 		externalId
 		id
+		hasDimensionalMetrics
 		metricCollectionMode
 		name
 		nrAccountId
@@ -1731,6 +1834,7 @@ const CloudRenameAccountMutation = `mutation(
 		disabled
 		externalId
 		id
+		hasDimensionalMetrics
 		metricCollectionMode
 		name
 		nrAccountId
@@ -1801,6 +1905,7 @@ const CloudUnlinkAccountMutation = `mutation(
 		disabled
 		externalId
 		id
+		hasDimensionalMetrics
 		metricCollectionMode
 		name
 		nrAccountId
@@ -1856,6 +1961,7 @@ const CloudUpdateAccountMutation = `mutation(
 		disabled
 		externalId
 		id
+		hasDimensionalMetrics
 		metricCollectionMode
 		name
 		nrAccountId
@@ -1916,6 +2022,7 @@ const getLinkedAccountQuery = `query(
 			disabled
 			externalId
 			id
+			hasDimensionalMetrics
 			metricCollectionMode
 			name
 			nrAccountId
@@ -1928,6 +2035,7 @@ const getLinkedAccountQuery = `query(
 			icon
 			id
 			isEnabled
+			isEntitySupported
 			name
 			slug
 			updatedAt
@@ -2030,6 +2138,11 @@ const getLinkedAccountQuery = `query(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudAwsMetadataEuSovereignIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudAwsMqIntegration {
 			__typename
 			awsRegions
@@ -2037,6 +2150,11 @@ const getLinkedAccountQuery = `query(
 			metricsPollingInterval
 		}
 		... on CloudAwsMsElasticacheIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
+		... on CloudAwsMsElasticacheEuSovereignIntegration {
 			__typename
 			inventoryPollingInterval
 			metricsPollingInterval
@@ -2076,6 +2194,11 @@ const getLinkedAccountQuery = `query(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudAwsTagsGlobalEuSovereignIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudAwsTransitgatewayIntegration {
 			__typename
 			awsRegions
@@ -2100,6 +2223,12 @@ const getLinkedAccountQuery = `query(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+			... on CloudAwsAutoDiscoveryIntegration {
+				__typename
+				awsRegions
+				inventoryPollingInterval
+				metricsPollingInterval
+			}
 		... on CloudAzureApimanagementIntegration {
 			__typename
 			inventoryPollingInterval
@@ -2117,6 +2246,12 @@ const getLinkedAccountQuery = `query(
 			inventoryPollingInterval
 			metricsPollingInterval
 			resourceGroups
+		}
+		... on CloudAzureAutoDiscoveryIntegration {
+			__typename
+			enabled
+			inventoryPollingInterval
+			metricsPollingInterval
 		}
 		... on CloudAzureContainersIntegration {
 			__typename
@@ -2551,6 +2686,10 @@ const getLinkedAccountQuery = `query(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudGcpGenericIntegration {
+			__typename
+			metricsPollingInterval
+		}
 		... on CloudHealthIntegration {
 			__typename
 			inventoryPollingInterval
@@ -2594,6 +2733,20 @@ const getLinkedAccountQuery = `query(
 			tagKey
 			tagValue
 		}
+		... on CloudOciLogsIntegration {
+			__typename
+			instrumentationType
+			loggingStacks
+			metricStacks
+			metricsPollingInterval
+		}
+		... on CloudOciMetadataAndTagsIntegration {
+			__typename
+			instrumentationType
+			loggingStacks
+			metricStacks
+			metricsPollingInterval
+		}
 		... on CloudRdsIntegration {
 			__typename
 			awsRegions
@@ -2625,6 +2778,12 @@ const getLinkedAccountQuery = `query(
 			metricsPollingInterval
 			tagKey
 			tagValue
+		}
+		... on CloudSecurityHubIntegration {
+			__typename
+			awsRegions
+			inventoryPollingInterval
+			metricsPollingInterval
 		}
 		... on CloudSesIntegration {
 			__typename
@@ -2666,6 +2825,7 @@ const getLinkedAccountQuery = `query(
 			tagValue
 		}
 	}
+	hasDimensionalMetrics
 	metricCollectionMode
 	name
 	nrAccountId
@@ -2680,6 +2840,7 @@ const getLinkedAccountQuery = `query(
 			icon
 			id
 			isEnabled
+			isEntitySupported
 			name
 			slug
 			updatedAt
@@ -2697,6 +2858,9 @@ const getLinkedAccountQuery = `query(
 		... on CloudAwsGovCloudProvider {
 			__typename
 			awsAccountId
+		}
+		... on CloudAwsEuSovereignProvider {
+			__typename
 		}
 		... on CloudAwsProvider {
 			__typename
@@ -2765,6 +2929,7 @@ const getLinkedAccountsQuery = `query(
 			disabled
 			externalId
 			id
+			hasDimensionalMetrics
 			metricCollectionMode
 			name
 			nrAccountId
@@ -2777,6 +2942,7 @@ const getLinkedAccountsQuery = `query(
 			icon
 			id
 			isEnabled
+			isEntitySupported
 			name
 			slug
 			updatedAt
@@ -2879,6 +3045,11 @@ const getLinkedAccountsQuery = `query(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudAwsMetadataEuSovereignIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudAwsMqIntegration {
 			__typename
 			awsRegions
@@ -2886,6 +3057,11 @@ const getLinkedAccountsQuery = `query(
 			metricsPollingInterval
 		}
 		... on CloudAwsMsElasticacheIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
+		... on CloudAwsMsElasticacheEuSovereignIntegration {
 			__typename
 			inventoryPollingInterval
 			metricsPollingInterval
@@ -2925,6 +3101,11 @@ const getLinkedAccountsQuery = `query(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudAwsTagsGlobalEuSovereignIntegration {
+			__typename
+			inventoryPollingInterval
+			metricsPollingInterval
+		}
 		... on CloudAwsTransitgatewayIntegration {
 			__typename
 			awsRegions
@@ -2949,6 +3130,12 @@ const getLinkedAccountsQuery = `query(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+			... on CloudAwsAutoDiscoveryIntegration {
+				__typename
+				awsRegions
+				inventoryPollingInterval
+				metricsPollingInterval
+			}
 		... on CloudAzureApimanagementIntegration {
 			__typename
 			inventoryPollingInterval
@@ -2966,6 +3153,12 @@ const getLinkedAccountsQuery = `query(
 			inventoryPollingInterval
 			metricsPollingInterval
 			resourceGroups
+		}
+		... on CloudAzureAutoDiscoveryIntegration {
+			__typename
+			enabled
+			inventoryPollingInterval
+			metricsPollingInterval
 		}
 		... on CloudAzureContainersIntegration {
 			__typename
@@ -3400,6 +3593,10 @@ const getLinkedAccountsQuery = `query(
 			inventoryPollingInterval
 			metricsPollingInterval
 		}
+		... on CloudGcpGenericIntegration {
+			__typename
+			metricsPollingInterval
+		}
 		... on CloudHealthIntegration {
 			__typename
 			inventoryPollingInterval
@@ -3443,6 +3640,20 @@ const getLinkedAccountsQuery = `query(
 			tagKey
 			tagValue
 		}
+		... on CloudOciLogsIntegration {
+			__typename
+			instrumentationType
+			loggingStacks
+			metricStacks
+			metricsPollingInterval
+		}
+		... on CloudOciMetadataAndTagsIntegration {
+			__typename
+			instrumentationType
+			loggingStacks
+			metricStacks
+			metricsPollingInterval
+		}
 		... on CloudRdsIntegration {
 			__typename
 			awsRegions
@@ -3474,6 +3685,12 @@ const getLinkedAccountsQuery = `query(
 			metricsPollingInterval
 			tagKey
 			tagValue
+		}
+		... on CloudSecurityHubIntegration {
+			__typename
+			awsRegions
+			inventoryPollingInterval
+			metricsPollingInterval
 		}
 		... on CloudSesIntegration {
 			__typename
@@ -3515,6 +3732,7 @@ const getLinkedAccountsQuery = `query(
 			tagValue
 		}
 	}
+	hasDimensionalMetrics
 	metricCollectionMode
 	name
 	nrAccountId
@@ -3529,6 +3747,7 @@ const getLinkedAccountsQuery = `query(
 			icon
 			id
 			isEnabled
+			isEntitySupported
 			name
 			slug
 			updatedAt
@@ -3547,6 +3766,9 @@ const getLinkedAccountsQuery = `query(
 			__typename
 			awsAccountId
 		}
+		... on CloudAwsEuSovereignProvider {
+			__typename
+		}
 		... on CloudAwsProvider {
 			__typename
 			roleAccountId
@@ -3562,3 +3784,55 @@ const getLinkedAccountsQuery = `query(
 	}
 	updatedAt
 } } } }`
+
+// CloudAuthenticateIntegration authenticates a cloud provider integration and returns
+// an auth reference ID that can be used with CloudLinkAccount.
+func (a *Cloud) CloudAuthenticateIntegration(
+	accountID int,
+	providerSlug string,
+	authType string,
+	payload string,
+) (*CloudAuthenticateIntegrationPayload, error) {
+	return a.CloudAuthenticateIntegrationWithContext(context.Background(), accountID, providerSlug, authType, payload)
+}
+
+// CloudAuthenticateIntegrationWithContext authenticates a cloud provider integration (context-aware).
+// providerSlug should be "GCP", authType should be "WIF", and payload should be the JSON-encoded
+// WIF credential (audience + service account email).
+func (a *Cloud) CloudAuthenticateIntegrationWithContext(
+	ctx context.Context,
+	accountID int,
+	providerSlug string,
+	authType string,
+	payload string,
+) (*CloudAuthenticateIntegrationPayload, error) {
+	resp := struct {
+		CloudAuthenticateIntegration CloudAuthenticateIntegrationPayload `json:"cloudAuthenticateIntegration"`
+	}{}
+	vars := map[string]interface{}{
+		"accountId":    accountID,
+		"providerSlug": providerSlug,
+		"authType":     authType,
+		"payload":      payload,
+	}
+	if err := a.client.NerdGraphQueryWithContext(ctx, cloudAuthenticateIntegrationMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+	return &resp.CloudAuthenticateIntegration, nil
+}
+
+const cloudAuthenticateIntegrationMutation = `mutation(
+	$accountId: Int!,
+	$providerSlug: CloudProviderType!,
+	$authType: CloudAuthenticationType!,
+	$payload: String!,
+) {
+	cloudAuthenticateIntegration(
+		accountId: $accountId
+		providerSlug: $providerSlug
+		authType: $authType
+		payload: $payload
+	) {
+		authReferenceId
+	}
+}`
