@@ -150,9 +150,15 @@ func TestServiceLevel_Facets(t *testing.T) {
 	time.Sleep(5 * time.Second)
 
 	// Update — change the facets
+	// NOTE: validEvents is Non-Null on ServiceLevelEventsUpdateInput, so it must be
+	// resent here even though only facets is actually changing.
 	updateInput := ServiceLevelIndicatorUpdateInput{
 		Events: &ServiceLevelEventsUpdateInput{
 			Facets: []string{"appName", "transactionType"},
+			ValidEvents: &ServiceLevelEventsQueryUpdateInput{
+				From:  NRQL("Transaction"),
+				Where: NRQL("appName = 'foo'"),
+			},
 		},
 	}
 	updateResp, err := client.ServiceLevelUpdate(createResp.GUID, createResp.ID, updateInput)
