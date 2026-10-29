@@ -5519,16 +5519,6 @@ type EntityManagementNRQLMacroEntityCreateResult struct {
 	Entity EntityManagementNRQLMacroEntity `json:"entity"`
 }
 
-// EntityManagementNRQLMacroEntityUpdateInput - Update input for NrqlMacroEntity entity type.
-type EntityManagementNRQLMacroEntityUpdateInput struct {
-	// See expression in NrqlMacroEntity.
-	Expression string `json:"expression,omitempty"`
-	// See numParameters in NrqlMacroEntity.
-	NumParameters int `json:"numParameters,omitempty"`
-	// See tags in NrqlMacroEntity.
-	Tags []EntityManagementTagInput `json:"tags,omitempty"`
-}
-
 // EntityManagementNRQLMacroEntityUpdateResult - The result of updating an entity.
 type EntityManagementNRQLMacroEntityUpdateResult struct {
 	// The updated entity.
