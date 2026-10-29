@@ -93,6 +93,40 @@ _, err := client.EntityManagementDelete(macroID)
 - **Instant propagation**: When a macro's `expression` is updated, all queries, dashboards, and alert conditions that reference it will use the new expression on their next execution.
 - **Optimistic locking**: The server tracks a `version` field. Both update and delete accept an optional version parameter for conflict detection (not exposed in this client by default).
 
+## Regenerating this package
+
+```bash
+tutone -c .tutone.yml generate --package nrqlmacros --refetch
+```
+
+`--refetch` is required. Several types in this package
+(`EntityManagementNrqlMacroEntityCreateInput`, `EntityManagementNrqlMacroEntityUpdateInput`,
+`EntityManagementScopedReferenceInput`, `EntityManagementTagInput`) do not appear in
+tutone's general schema introspection dump but are reachable when queried by name —
+`--refetch` triggers those targeted `__type` lookups.
+
+**After every regeneration, one manual step is required in `nrqlmacros_api.go`:**
+
+Tutone restores the `version int` parameters on `EntityManagementDelete`,
+`EntityManagementDeleteWithContext`, `EntityManagementUpdateNRQLMacro`, and
+`EntityManagementUpdateNRQLMacroWithContext`. Comment them out again to match the
+pipelinecontrol convention (version is accepted by the GraphQL layer but not exposed to
+callers by default):
+
+```go
+// Before (tutone output):
+func (a *Nrqlmacros) EntityManagementDelete(iD string, version int) ...
+
+// After (restore comment):
+func (a *Nrqlmacros) EntityManagementDelete(
+    iD string,
+    // version int,
+) ...
+```
+
+`nrqlmacros_extra.go` requires no changes after regeneration — it is intentionally
+hand-maintained and not touched by tutone.
+
 ## Links
 
 - [NRQL Macros overview](https://docs.newrelic.com/docs/nrql/nrql-macros/nrql-macros-overview/)
