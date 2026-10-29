@@ -621,10 +621,15 @@ func (x *ServiceLevelUserActor) ImplementsServiceLevelActor() {}
 
 // User - The `User` object provides general data about the user.
 type User struct {
-	CreatedAt    int    `json:"createdAt,omitempty"`
-	Email        string `json:"email,omitempty"`
-	ID           int    `json:"id,omitempty"`
-	Name         string `json:"name,omitempty"`
+	//
+	CreatedAt int `json:"createdAt,omitempty"`
+	//
+	Email string `json:"email,omitempty"`
+	//
+	ID int `json:"id,omitempty"`
+	//
+	Name string `json:"name,omitempty"`
+	//
 	TimeZoneName string `json:"timeZoneName,omitempty"`
 }
 
