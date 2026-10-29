@@ -2401,3 +2401,53 @@ packages:
       - name: EpochMilliseconds
         field_type_override: nrtime.EpochMilliseconds
         skip_type_create: true
+
+############### WARNING ###################
+  # The nrqlmacros package follows the same EntityManagement pattern as pipelinecontrol:
+  # relies on the tutone fork that supports `include_implementations`.
+  # To regenerate: tutone -c .tutone.yml generate --package nrqlmacros
+###########################################
+  - name: nrqlmacros
+    path: pkg/nrqlmacros
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/nrqlmacros
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v2/pkg/users
+    queries:
+      - path: [ "actor", "entityManagement" ]
+        endpoints:
+          - name: entity
+            max_query_field_depth: 4
+            exclude_fields:
+              - agents
+              - tools
+          - name: entitySearch
+            max_query_field_depth: 4
+            exclude_fields:
+              - agents
+              - tools
+    mutations:
+      - name: entityManagementCreateNrqlMacro
+        max_query_field_depth: 3
+      - name: entityManagementUpdateNrqlMacro
+        max_query_field_depth: 3
+      - name: entityManagementDelete
+        max_query_field_depth: 3
+    types:
+      - name: EntityManagementEntity
+        include_implementations:
+          - EntityManagementNrqlMacroEntity
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
+      - name: EpochMilliseconds
+        field_type_override: nrtime.EpochMilliseconds
+        skip_type_create: true
