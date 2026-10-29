@@ -1725,6 +1725,13 @@ packages:
             exclude_fields:
               - slug
               - resultQueries
+      # Composites are account-scoped and fetched directly by GUID, not entity-scoped
+      - path: ["actor", "serviceLevel"]
+        endpoints:
+          - name: "composites"
+            max_query_field_depth: 3
+            exclude_fields:
+              - resultQueries
     mutations:
       - name: serviceLevelCreate
         exclude_fields:
@@ -1739,6 +1746,18 @@ packages:
       - name: serviceLevelUpdate
         exclude_fields:
           - slug
+          - resultQueries
+        max_query_field_depth: 3
+      - name: serviceLevelCompositeCreate
+        exclude_fields:
+          - resultQueries
+        max_query_field_depth: 3
+      - name: serviceLevelCompositeUpdate
+        exclude_fields:
+          - resultQueries
+        max_query_field_depth: 3
+      - name: serviceLevelCompositeDelete
+        exclude_fields:
           - resultQueries
         max_query_field_depth: 3
     types:

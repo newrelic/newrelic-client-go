@@ -8,6 +8,273 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/errors"
 )
 
+// Creates a new composite service level.
+func (a *Servicelevel) ServiceLevelCompositeCreate(
+	composite ServiceLevelCompositeCreateInput,
+) (*ServiceLevelCompositeIndicator, error) {
+	return a.ServiceLevelCompositeCreateWithContext(context.Background(),
+		composite,
+	)
+}
+
+// Creates a new composite service level.
+func (a *Servicelevel) ServiceLevelCompositeCreateWithContext(
+	ctx context.Context,
+	composite ServiceLevelCompositeCreateInput,
+) (*ServiceLevelCompositeIndicator, error) {
+
+	resp := ServiceLevelCompositeCreateQueryResponse{}
+	vars := map[string]interface{}{
+		"composite": composite,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, ServiceLevelCompositeCreateMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.ServiceLevelCompositeIndicator, nil
+}
+
+type ServiceLevelCompositeCreateQueryResponse struct {
+	ServiceLevelCompositeIndicator ServiceLevelCompositeIndicator `json:"ServiceLevelCompositeCreate"`
+}
+
+const ServiceLevelCompositeCreateMutation = `mutation(
+	$composite: ServiceLevelCompositeCreateInput!,
+) { serviceLevelCompositeCreate(
+	composite: $composite,
+) {
+	accountId
+	components {
+		entityGuid
+		guid
+		indicatorType
+		name
+		weight
+	}
+	description
+	guid
+	metadata {
+		createdAt
+		createdBy {
+			__typename
+			id
+			type
+			... on ServiceLevelSystemIdentityActor {
+				__typename
+			}
+			... on ServiceLevelUserActor {
+				__typename
+			}
+		}
+		updatedAt
+		updatedBy {
+			__typename
+			id
+			type
+			... on ServiceLevelSystemIdentityActor {
+				__typename
+			}
+			... on ServiceLevelUserActor {
+				__typename
+			}
+		}
+	}
+	name
+	objectives {
+		description
+		name
+		target
+		timeWindow {
+			rolling {
+				count
+				unit
+			}
+		}
+	}
+	weightType
+} }`
+
+// Deletes an existing composite service level by the GUID.
+func (a *Servicelevel) ServiceLevelCompositeDelete(
+	gUID common.EntityGUID,
+) (*ServiceLevelCompositeIndicator, error) {
+	return a.ServiceLevelCompositeDeleteWithContext(context.Background(),
+		gUID,
+	)
+}
+
+// Deletes an existing composite service level by the GUID.
+func (a *Servicelevel) ServiceLevelCompositeDeleteWithContext(
+	ctx context.Context,
+	gUID common.EntityGUID,
+) (*ServiceLevelCompositeIndicator, error) {
+
+	resp := ServiceLevelCompositeDeleteQueryResponse{}
+	vars := map[string]interface{}{
+		"guid": gUID,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, ServiceLevelCompositeDeleteMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.ServiceLevelCompositeIndicator, nil
+}
+
+type ServiceLevelCompositeDeleteQueryResponse struct {
+	ServiceLevelCompositeIndicator ServiceLevelCompositeIndicator `json:"ServiceLevelCompositeDelete"`
+}
+
+const ServiceLevelCompositeDeleteMutation = `mutation(
+	$guid: EntityGuid!,
+) { serviceLevelCompositeDelete(
+	guid: $guid,
+) {
+	accountId
+	components {
+		entityGuid
+		guid
+		indicatorType
+		name
+		weight
+	}
+	description
+	guid
+	metadata {
+		createdAt
+		createdBy {
+			__typename
+			id
+			type
+			... on ServiceLevelSystemIdentityActor {
+				__typename
+			}
+			... on ServiceLevelUserActor {
+				__typename
+			}
+		}
+		updatedAt
+		updatedBy {
+			__typename
+			id
+			type
+			... on ServiceLevelSystemIdentityActor {
+				__typename
+			}
+			... on ServiceLevelUserActor {
+				__typename
+			}
+		}
+	}
+	name
+	objectives {
+		description
+		name
+		target
+		timeWindow {
+			rolling {
+				count
+				unit
+			}
+		}
+	}
+	weightType
+} }`
+
+// Updates an existing composite by the GUID.
+func (a *Servicelevel) ServiceLevelCompositeUpdate(
+	composite ServiceLevelCompositeUpdateInput,
+	gUID common.EntityGUID,
+) (*ServiceLevelCompositeIndicator, error) {
+	return a.ServiceLevelCompositeUpdateWithContext(context.Background(),
+		composite,
+		gUID,
+	)
+}
+
+// Updates an existing composite by the GUID.
+func (a *Servicelevel) ServiceLevelCompositeUpdateWithContext(
+	ctx context.Context,
+	composite ServiceLevelCompositeUpdateInput,
+	gUID common.EntityGUID,
+) (*ServiceLevelCompositeIndicator, error) {
+
+	resp := ServiceLevelCompositeUpdateQueryResponse{}
+	vars := map[string]interface{}{
+		"composite": composite,
+		"guid":      gUID,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, ServiceLevelCompositeUpdateMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.ServiceLevelCompositeIndicator, nil
+}
+
+type ServiceLevelCompositeUpdateQueryResponse struct {
+	ServiceLevelCompositeIndicator ServiceLevelCompositeIndicator `json:"ServiceLevelCompositeUpdate"`
+}
+
+const ServiceLevelCompositeUpdateMutation = `mutation(
+	$composite: ServiceLevelCompositeUpdateInput!,
+	$guid: EntityGuid!,
+) { serviceLevelCompositeUpdate(
+	composite: $composite,
+	guid: $guid,
+) {
+	accountId
+	components {
+		entityGuid
+		guid
+		indicatorType
+		name
+		weight
+	}
+	description
+	guid
+	metadata {
+		createdAt
+		createdBy {
+			__typename
+			id
+			type
+			... on ServiceLevelSystemIdentityActor {
+				__typename
+			}
+			... on ServiceLevelUserActor {
+				__typename
+			}
+		}
+		updatedAt
+		updatedBy {
+			__typename
+			id
+			type
+			... on ServiceLevelSystemIdentityActor {
+				__typename
+			}
+			... on ServiceLevelUserActor {
+				__typename
+			}
+		}
+	}
+	name
+	objectives {
+		description
+		name
+		target
+		timeWindow {
+			rolling {
+				count
+				unit
+			}
+		}
+	}
+	weightType
+} }`
+
 // Creates a new SLI.
 func (a *Servicelevel) ServiceLevelCreate(
 	entityGUID common.EntityGUID,
@@ -65,6 +332,7 @@ const ServiceLevelCreateMutation = `mutation(
 			name
 		}
 		badEvents {
+			facets
 			from
 			select {
 				attribute
@@ -74,6 +342,7 @@ const ServiceLevelCreateMutation = `mutation(
 			where
 		}
 		goodEvents {
+			facets
 			from
 			select {
 				attribute
@@ -83,6 +352,7 @@ const ServiceLevelCreateMutation = `mutation(
 			where
 		}
 		validEvents {
+			facets
 			from
 			select {
 				attribute
@@ -94,6 +364,32 @@ const ServiceLevelCreateMutation = `mutation(
 	}
 	guid
 	id
+	metadata {
+		createdAt
+		createdBy {
+			__typename
+			id
+			type
+			... on ServiceLevelSystemIdentityActor {
+				__typename
+			}
+			... on ServiceLevelUserActor {
+				__typename
+			}
+		}
+		updatedAt
+		updatedBy {
+			__typename
+			id
+			type
+			... on ServiceLevelSystemIdentityActor {
+				__typename
+			}
+			... on ServiceLevelUserActor {
+				__typename
+			}
+		}
+	}
 	name
 	objectives {
 		description
@@ -116,25 +412,27 @@ const ServiceLevelCreateMutation = `mutation(
 } }`
 
 // Deletes an existing SLI by the GUID.
-// iD optional field manually removed in favor of gUID to favor it's deprecation
 func (a *Servicelevel) ServiceLevelDelete(
 	gUID common.EntityGUID,
+	iD string,
 ) (*ServiceLevelIndicator, error) {
 	return a.ServiceLevelDeleteWithContext(context.Background(),
 		gUID,
+		iD,
 	)
 }
 
 // Deletes an existing SLI by the GUID.
-// iD optional field manually removed in favor of gUID to favor it's deprecation
 func (a *Servicelevel) ServiceLevelDeleteWithContext(
 	ctx context.Context,
 	gUID common.EntityGUID,
+	iD string,
 ) (*ServiceLevelIndicator, error) {
 
 	resp := ServiceLevelDeleteQueryResponse{}
 	vars := map[string]interface{}{
 		"guid": gUID,
+		"id":   iD,
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, ServiceLevelDeleteMutation, vars, &resp); err != nil {
@@ -148,11 +446,12 @@ type ServiceLevelDeleteQueryResponse struct {
 	ServiceLevelIndicator ServiceLevelIndicator `json:"ServiceLevelDelete"`
 }
 
-// id optional field manually removed in favor of guid to favor it's deprecation
 const ServiceLevelDeleteMutation = `mutation(
 	$guid: EntityGuid,
+	$id: ID,
 ) { serviceLevelDelete(
 	guid: $guid,
+	id: $id,
 ) {
 	createdAt
 	createdBy {
@@ -169,6 +468,7 @@ const ServiceLevelDeleteMutation = `mutation(
 			name
 		}
 		badEvents {
+			facets
 			from
 			select {
 				attribute
@@ -178,6 +478,7 @@ const ServiceLevelDeleteMutation = `mutation(
 			where
 		}
 		goodEvents {
+			facets
 			from
 			select {
 				attribute
@@ -187,6 +488,7 @@ const ServiceLevelDeleteMutation = `mutation(
 			where
 		}
 		validEvents {
+			facets
 			from
 			select {
 				attribute
@@ -198,6 +500,32 @@ const ServiceLevelDeleteMutation = `mutation(
 	}
 	guid
 	id
+	metadata {
+		createdAt
+		createdBy {
+			__typename
+			id
+			type
+			... on ServiceLevelSystemIdentityActor {
+				__typename
+			}
+			... on ServiceLevelUserActor {
+				__typename
+			}
+		}
+		updatedAt
+		updatedBy {
+			__typename
+			id
+			type
+			... on ServiceLevelSystemIdentityActor {
+				__typename
+			}
+			... on ServiceLevelUserActor {
+				__typename
+			}
+		}
+	}
 	name
 	objectives {
 		description
@@ -220,28 +548,30 @@ const ServiceLevelDeleteMutation = `mutation(
 } }`
 
 // Updates an existing SLI by the GUID.
-// iD optional field manually removed in favor of gUID to favor it's deprecation
 func (a *Servicelevel) ServiceLevelUpdate(
 	gUID common.EntityGUID,
+	iD string,
 	indicator ServiceLevelIndicatorUpdateInput,
 ) (*ServiceLevelIndicator, error) {
 	return a.ServiceLevelUpdateWithContext(context.Background(),
 		gUID,
+		iD,
 		indicator,
 	)
 }
 
 // Updates an existing SLI by the GUID.
-// iD optional field manually removed in favor of gUID to favor it's deprecation
 func (a *Servicelevel) ServiceLevelUpdateWithContext(
 	ctx context.Context,
 	gUID common.EntityGUID,
+	iD string,
 	indicator ServiceLevelIndicatorUpdateInput,
 ) (*ServiceLevelIndicator, error) {
 
 	resp := ServiceLevelUpdateQueryResponse{}
 	vars := map[string]interface{}{
 		"guid":      gUID,
+		"id":        iD,
 		"indicator": indicator,
 	}
 
@@ -256,12 +586,13 @@ type ServiceLevelUpdateQueryResponse struct {
 	ServiceLevelIndicator ServiceLevelIndicator `json:"ServiceLevelUpdate"`
 }
 
-// id optional field manually removed in favor of guid to favor it's deprecation
 const ServiceLevelUpdateMutation = `mutation(
 	$guid: EntityGuid,
+	$id: ID,
 	$indicator: ServiceLevelIndicatorUpdateInput!,
 ) { serviceLevelUpdate(
 	guid: $guid,
+	id: $id,
 	indicator: $indicator,
 ) {
 	createdAt
@@ -279,6 +610,7 @@ const ServiceLevelUpdateMutation = `mutation(
 			name
 		}
 		badEvents {
+			facets
 			from
 			select {
 				attribute
@@ -288,6 +620,7 @@ const ServiceLevelUpdateMutation = `mutation(
 			where
 		}
 		goodEvents {
+			facets
 			from
 			select {
 				attribute
@@ -297,6 +630,7 @@ const ServiceLevelUpdateMutation = `mutation(
 			where
 		}
 		validEvents {
+			facets
 			from
 			select {
 				attribute
@@ -308,6 +642,32 @@ const ServiceLevelUpdateMutation = `mutation(
 	}
 	guid
 	id
+	metadata {
+		createdAt
+		createdBy {
+			__typename
+			id
+			type
+			... on ServiceLevelSystemIdentityActor {
+				__typename
+			}
+			... on ServiceLevelUserActor {
+				__typename
+			}
+		}
+		updatedAt
+		updatedBy {
+			__typename
+			id
+			type
+			... on ServiceLevelSystemIdentityActor {
+				__typename
+			}
+			... on ServiceLevelUserActor {
+				__typename
+			}
+		}
+	}
 	name
 	objectives {
 		description
@@ -328,6 +688,93 @@ const ServiceLevelUpdateMutation = `mutation(
 		name
 	}
 } }`
+
+// Fetches composite service level indicators by their entity GUIDs.
+func (a *Servicelevel) GetComposites(
+	gUIDs []common.EntityGUID,
+) (*[]ServiceLevelCompositeIndicator, error) {
+	return a.GetCompositesWithContext(context.Background(),
+		gUIDs,
+	)
+}
+
+// Fetches composite service level indicators by their entity GUIDs.
+func (a *Servicelevel) GetCompositesWithContext(
+	ctx context.Context,
+	gUIDs []common.EntityGUID,
+) (*[]ServiceLevelCompositeIndicator, error) {
+
+	resp := compositesResponse{}
+	vars := map[string]interface{}{
+		"guids": gUIDs,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, getCompositesQuery, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	if len(resp.Actor.ServiceLevel.Composites) == 0 {
+		return nil, errors.NewNotFound("")
+	}
+
+	return &resp.Actor.ServiceLevel.Composites, nil
+}
+
+const getCompositesQuery = `query(
+	$guids: [EntityGuid!]!,
+) { actor { serviceLevel { composites(
+	guids: $guids,
+) {
+	accountId
+	components {
+		entityGuid
+		guid
+		indicatorType
+		name
+		weight
+	}
+	description
+	guid
+	metadata {
+		createdAt
+		createdBy {
+			__typename
+			id
+			type
+			... on ServiceLevelSystemIdentityActor {
+				__typename
+			}
+			... on ServiceLevelUserActor {
+				__typename
+			}
+		}
+		updatedAt
+		updatedBy {
+			__typename
+			id
+			type
+			... on ServiceLevelSystemIdentityActor {
+				__typename
+			}
+			... on ServiceLevelUserActor {
+				__typename
+			}
+		}
+	}
+	name
+	objectives {
+		description
+		name
+		target
+		timeWindow {
+			rolling {
+				count
+				unit
+			}
+		}
+	}
+	weightType
+} } } }`
 
 // The SLIs attached to the entity.
 func (a *Servicelevel) GetIndicators(
@@ -378,6 +825,7 @@ const getIndicatorsQuery = `query(
 			name
 		}
 		badEvents {
+			facets
 			from
 			select {
 				attribute
@@ -387,6 +835,7 @@ const getIndicatorsQuery = `query(
 			where
 		}
 		goodEvents {
+			facets
 			from
 			select {
 				attribute
@@ -396,6 +845,7 @@ const getIndicatorsQuery = `query(
 			where
 		}
 		validEvents {
+			facets
 			from
 			select {
 				attribute
@@ -407,6 +857,32 @@ const getIndicatorsQuery = `query(
 	}
 	guid
 	id
+	metadata {
+		createdAt
+		createdBy {
+			__typename
+			id
+			type
+			... on ServiceLevelSystemIdentityActor {
+				__typename
+			}
+			... on ServiceLevelUserActor {
+				__typename
+			}
+		}
+		updatedAt
+		updatedBy {
+			__typename
+			id
+			type
+			... on ServiceLevelSystemIdentityActor {
+				__typename
+			}
+			... on ServiceLevelUserActor {
+				__typename
+			}
+		}
+	}
 	name
 	objectives {
 		description

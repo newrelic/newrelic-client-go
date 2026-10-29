@@ -2,10 +2,28 @@
 package servicelevel
 
 import (
+	"encoding/json"
+	"fmt"
+
 	"github.com/newrelic/newrelic-client-go/v2/pkg/accounts"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/common"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/nrtime"
 )
+
+// ServiceLevelActorType - The available actor types.
+type ServiceLevelActorType string
+
+var ServiceLevelActorTypeTypes = struct {
+	// System identity actor type.
+	SYSTEM ServiceLevelActorType
+	// User actor type.
+	USER ServiceLevelActorType
+}{
+	// System identity actor type.
+	SYSTEM: "SYSTEM",
+	// User actor type.
+	USER: "USER",
+}
 
 // ServiceLevelEventsQuerySelectFunction - The function to use in the SELECT clause.
 type ServiceLevelEventsQuerySelectFunction string
@@ -13,6 +31,8 @@ type ServiceLevelEventsQuerySelectFunction string
 var ServiceLevelEventsQuerySelectFunctionTypes = struct {
 	// Use on events and unaggregated data.
 	COUNT ServiceLevelEventsQuerySelectFunction
+	// Counts datapoints, preserving pre-2025-06-09 COUNT(*) semantics on Metric event types.
+	DATAPOINT_COUNT ServiceLevelEventsQuerySelectFunction
 	// Use on distribution metric types.
 	GET_CDF_COUNT ServiceLevelEventsQuerySelectFunction
 	// Use in valid events combined with GET_CDF_COUNT.
@@ -22,12 +42,29 @@ var ServiceLevelEventsQuerySelectFunctionTypes = struct {
 }{
 	// Use on events and unaggregated data.
 	COUNT: "COUNT",
+	// Counts datapoints, preserving pre-2025-06-09 COUNT(*) semantics on Metric event types.
+	DATAPOINT_COUNT: "DATAPOINT_COUNT",
 	// Use on distribution metric types.
 	GET_CDF_COUNT: "GET_CDF_COUNT",
 	// Use in valid events combined with GET_CDF_COUNT.
 	GET_FIELD: "GET_FIELD",
 	// Use on aggregated counts.
 	SUM: "SUM",
+}
+
+// ServiceLevelIndicatorType - The type of a service level indicator.
+type ServiceLevelIndicatorType string
+
+var ServiceLevelIndicatorTypeTypes = struct {
+	// A basic Service Level Indicator.
+	BASIC ServiceLevelIndicatorType
+	// A composite that groups multiple service levels.
+	COMPOSITE ServiceLevelIndicatorType
+}{
+	// A basic Service Level Indicator.
+	BASIC: "BASIC",
+	// A composite that groups multiple service levels.
+	COMPOSITE: "COMPOSITE",
 }
 
 // ServiceLevelObjectiveRollingTimeWindowUnit - The rolling time window units.
@@ -41,12 +78,37 @@ var ServiceLevelObjectiveRollingTimeWindowUnitTypes = struct {
 	DAY: "DAY",
 }
 
+// ServiceLevelWeightType - The type of weight distribution for a composite service level.
+type ServiceLevelWeightType string
+
+var ServiceLevelWeightTypeTypes = struct {
+	// Weights are automatically and equally distributed across all components.
+	AVERAGE ServiceLevelWeightType
+	// Weights are explicitly set per component by the user.
+	CUSTOM ServiceLevelWeightType
+}{
+	// Weights are automatically and equally distributed across all components.
+	AVERAGE: "AVERAGE",
+	// Weights are explicitly set per component by the user.
+	CUSTOM: "CUSTOM",
+}
+
 // Actor - The `Actor` object contains fields that are scoped to the API user's access level.
+//
+// Hand-merged: this package's two query paths (entity-scoped `indicators` and
+// account-scoped `composites`) both root at "actor", and tutone synthesizes a
+// separate Actor response-wrapper type per query path instead of merging
+// fields across them — `skip_type_create` doesn't apply here, since this
+// duplication comes from query-response synthesis, not the shared type
+// registry. Re-merge this by hand after any future `tutone generate` run
+// that touches this package.
 type Actor struct {
 	// Fetch a single entity.
 	//
 	// For more details on entities, visit our [entity docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/use-new-relic-graphql-api-query-entities).
 	Entity EntityInterface `json:"entity,omitempty"`
+	// This field provides access to ServiceLevel data.
+	ServiceLevel ServiceLevelActorStitchedFields `json:"serviceLevel,omitempty"`
 	// The authenticated `User` who made this request.
 	User User `json:"user,omitempty"`
 }
@@ -67,6 +129,150 @@ type Entity struct {
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
 	// The entity's type
 	Type string `json:"type,omitempty"`
+}
+
+// ServiceLevelActor - Represents an actor.
+type ServiceLevelActor struct {
+	// Id of the actor.
+	ID string `json:"id"`
+	// Type of the actor.
+	Type ServiceLevelActorType `json:"type"`
+}
+
+func (x *ServiceLevelActor) ImplementsServiceLevelActor() {}
+
+// ServiceLevelActorStitchedFields - Actor stitch point for service level management.
+type ServiceLevelActorStitchedFields struct {
+	// Fetches composite service level indicators by their entity GUIDs.
+	Composites []ServiceLevelCompositeIndicator `json:"composites"`
+}
+
+// ServiceLevelComponent - A component service level that is part of a composite.
+type ServiceLevelComponent struct {
+	// The entity GUID that the component service level is attached to.
+	EntityGUID common.EntityGUID `json:"entityGuid,omitempty"`
+	// The unique entity identifier of the component service level.
+	GUID common.EntityGUID `json:"guid"`
+	// The type of the component service level.
+	IndicatorType ServiceLevelIndicatorType `json:"indicatorType"`
+	// The name of the component service level.
+	Name string `json:"name"`
+	// The weight of this service level in the composite calculation, expressed as a percentage (0–100).
+	Weight float64 `json:"weight,omitempty"`
+}
+
+// ServiceLevelComponentCreateInput - The input object that represents a component in a composite.
+type ServiceLevelComponentCreateInput struct {
+	// The unique entity identifier of the service level.
+	GUID common.EntityGUID `json:"guid"`
+	// The weight of this service level in the composite calculation, expressed as a percentage (0–100).
+	Weight float64 `json:"weight,omitempty"`
+}
+
+// ServiceLevelComponentUpdateInput - The input object that represents a component update in a composite.
+type ServiceLevelComponentUpdateInput struct {
+	// The unique entity identifier of the service level.
+	GUID common.EntityGUID `json:"guid"`
+	// The weight of this service level in the composite calculation, expressed as a percentage (0–100).
+	Weight float64 `json:"weight,omitempty"`
+}
+
+// ServiceLevelCompositeCreateInput - The input object that represents the composite that will be created.
+type ServiceLevelCompositeCreateInput struct {
+	// The New Relic account ID where the composite will reside.
+	AccountID int `json:"accountId"`
+	// The components that will be part of this composite.
+	Components []ServiceLevelComponentCreateInput `json:"components,omitempty"`
+	// The description of the composite.
+	Description string `json:"description,omitempty"`
+	// The name of the composite.
+	Name string `json:"name"`
+	// The objective definitions for the composite.
+	Objectives []ServiceLevelCompositeObjectiveCreateInput `json:"objectives,omitempty"`
+}
+
+// ServiceLevelCompositeIndicator - A Composite that groups multiple service levels to provide a high-level reliability metric.
+type ServiceLevelCompositeIndicator struct {
+	// The New Relic account ID where the composite SLI resides in.
+	AccountID int `json:"accountId"`
+	// The components that are part of this composite.
+	Components []ServiceLevelComponent `json:"components"`
+	// The description of the composite.
+	Description string `json:"description,omitempty"`
+	// The unique entity identifier of the composite.
+	GUID common.EntityGUID `json:"guid"`
+	// The metadata of the composite.
+	Metadata ServiceLevelMetadata `json:"metadata,omitempty"`
+	// The name of the composite.
+	Name string `json:"name"`
+	// The objective definitions for the composite.
+	Objectives []ServiceLevelCompositeObjective `json:"objectives"`
+	// The resulting NRQL queries that help consume the metrics of the composite.
+	ResultQueries ServiceLevelCompositeResultQueries `json:"resultQueries,omitempty"`
+	// The type of weight distribution for this composite.
+	WeightType ServiceLevelWeightType `json:"weightType,omitempty"`
+}
+
+// ServiceLevelCompositeObjective - An objective definition for a composite.
+type ServiceLevelCompositeObjective struct {
+	// The description of the composite objective.
+	Description string `json:"description,omitempty"`
+	// The name of the composite objective.
+	Name string `json:"name,omitempty"`
+	// The resulting NRQL queries that help consume the metrics of the composite objective.
+	ResultQueries ServiceLevelCompositeObjectiveResultQueries `json:"resultQueries,omitempty"`
+	// The target percentage of the composite.
+	Target float64 `json:"target"`
+	// The time window configuration of the composite objective.
+	TimeWindow ServiceLevelObjectiveTimeWindow `json:"timeWindow"`
+}
+
+// ServiceLevelCompositeObjectiveCreateInput - The input object that represents a composite objective definition.
+type ServiceLevelCompositeObjectiveCreateInput struct {
+	// The description of the composite objective.
+	Description string `json:"description,omitempty"`
+	// The name of the composite objective.
+	Name string `json:"name,omitempty"`
+	// The target percentage of the composite. Maximum value is 100.
+	Target float64 `json:"target"`
+	// The time window configuration of the composite. Reuses the existing SLO time window input.
+	TimeWindow ServiceLevelObjectiveTimeWindowCreateInput `json:"timeWindow,omitempty"`
+}
+
+// ServiceLevelCompositeObjectiveResultQueries - The resulting NRQL queries that help consume the metrics of a composite objective.
+type ServiceLevelCompositeObjectiveResultQueries struct {
+	// The NRQL query that measures the attainment of the composite objective target.
+	Attainment ServiceLevelResultQuery `json:"attainment"`
+}
+
+// ServiceLevelCompositeObjectiveUpdateInput - The input object that represents a composite objective definition for updates.
+type ServiceLevelCompositeObjectiveUpdateInput struct {
+	// The description of the composite objective.
+	Description string `json:"description,omitempty"`
+	// The name of the composite objective.
+	Name string `json:"name,omitempty"`
+	// The target percentage of the composite. Maximum value is 100.
+	Target float64 `json:"target,omitempty"`
+	// The time window configuration of the composite.
+	TimeWindow ServiceLevelObjectiveTimeWindowUpdateInput `json:"timeWindow,omitempty"`
+}
+
+// ServiceLevelCompositeResultQueries - The resulting NRQL queries that help consume the metrics of the composite.
+type ServiceLevelCompositeResultQueries struct {
+	// The NRQL query that measures the overall composite reliability.
+	Composite ServiceLevelResultQuery `json:"composite"`
+}
+
+// ServiceLevelCompositeUpdateInput - The input object that represents the composite that will be updated.
+type ServiceLevelCompositeUpdateInput struct {
+	// The components that will be part of this composite.
+	Components []ServiceLevelComponentUpdateInput `json:"components,omitempty"`
+	// The description of the composite.
+	Description string `json:"description,omitempty"`
+	// The name of the composite.
+	Name string `json:"name,omitempty"`
+	// The objective definitions for the composite.
+	Objectives []ServiceLevelCompositeObjectiveUpdateInput `json:"objectives,omitempty"`
 }
 
 // ServiceLevelDefinition - The service level defined for a specific entity.
@@ -93,6 +299,8 @@ type ServiceLevelEventsCreateInput struct {
 	AccountID int `json:"accountId"`
 	// The definition of bad events.
 	BadEvents *ServiceLevelEventsQueryCreateInput `json:"badEvents,omitempty"`
+	// The list of NRQL FACET attributes to group results by. These facets are applied to all event queries (valid, good or bad events).
+	Facets []string `json:"facets"`
 	// The definition of good events.
 	GoodEvents *ServiceLevelEventsQueryCreateInput `json:"goodEvents,omitempty"`
 	// The definition of valid events.
@@ -101,6 +309,8 @@ type ServiceLevelEventsCreateInput struct {
 
 // ServiceLevelEventsQuery - The query that represents the events to fetch.
 type ServiceLevelEventsQuery struct {
+	// The NRQL FACET clause to group results by.
+	Facets []string `json:"facets"`
 	// The NRDB event to fetch the data from.
 	From NRQL `json:"from"`
 	// The NRQL SELECT clause to aggregate events.
@@ -163,6 +373,8 @@ type ServiceLevelEventsQueryUpdateInput struct {
 type ServiceLevelEventsUpdateInput struct {
 	// The definition of bad events.
 	BadEvents *ServiceLevelEventsQueryUpdateInput `json:"badEvents,omitempty"`
+	// The list of NRQL FACET attributes to group results by. These facets are applied to all event queries (valid, good or bad events).
+	Facets []string `json:"facets"`
 	// The definition of good events.
 	GoodEvents *ServiceLevelEventsQueryUpdateInput `json:"goodEvents,omitempty"`
 	// The definition of valid events.
@@ -180,11 +392,13 @@ type ServiceLevelIndicator struct {
 	// The entity which the SLI is attached to.
 	EntityGUID common.EntityGUID `json:"entityGuid"`
 	// The events that define the SLI.
-	Events ServiceLevelEvents `json:"events"`
+	Events ServiceLevelEvents `json:"events,omitempty"`
 	// The unique entity identifier of the SLI.
 	GUID common.EntityGUID `json:"guid"`
 	// The unique identifier of the SLI.
 	ID string `json:"id"`
+	// The metadata of the SLI.
+	Metadata ServiceLevelMetadata `json:"metadata,omitempty"`
 	// The name of the SLI.
 	Name string `json:"name"`
 	// A list of objective definitions.
@@ -227,6 +441,72 @@ type ServiceLevelIndicatorUpdateInput struct {
 	Name string `json:"name,omitempty"`
 	// A list of objective definitions.
 	Objectives []ServiceLevelObjectiveUpdateInput `json:"objectives,omitempty"`
+}
+
+// ServiceLevelMetadata - Metadata about the SLI.
+type ServiceLevelMetadata struct {
+	// The SLI's creation time.
+	CreatedAt *nrtime.EpochMilliseconds `json:"createdAt"`
+	// Actor that created this SLI.
+	CreatedBy ServiceLevelActorInterface `json:"createdBy,omitempty"`
+	// The SLI's last update time.
+	UpdatedAt *nrtime.EpochMilliseconds `json:"updatedAt,omitempty"`
+	// Actor that last updated this SLI.
+	UpdatedBy ServiceLevelActorInterface `json:"updatedBy,omitempty"`
+}
+
+// special
+func (x *ServiceLevelMetadata) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+
+	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
+		switch k {
+		case "createdAt":
+			err = json.Unmarshal(*v, &x.CreatedAt)
+			if err != nil {
+				return err
+			}
+		case "createdBy":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalServiceLevelActorInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.CreatedBy = *xxx
+			}
+		case "updatedAt":
+			err = json.Unmarshal(*v, &x.UpdatedAt)
+			if err != nil {
+				return err
+			}
+		case "updatedBy":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalServiceLevelActorInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.UpdatedBy = *xxx
+			}
+		}
+	}
+
+	return nil
 }
 
 // ServiceLevelObjective - An objective definition.
@@ -319,26 +599,45 @@ type ServiceLevelResultQuery struct {
 	NRQL NRQL `json:"nrql"`
 }
 
+// ServiceLevelSystemIdentityActor - A system identity actor.
+type ServiceLevelSystemIdentityActor struct {
+	// Id of the actor.
+	ID string `json:"id"`
+	// Type of the actor.
+	Type ServiceLevelActorType `json:"type"`
+}
+
+func (x *ServiceLevelSystemIdentityActor) ImplementsServiceLevelActor() {}
+
+// ServiceLevelUserActor - A user actor.
+type ServiceLevelUserActor struct {
+	// Id of the actor.
+	ID string `json:"id"`
+	// Type of the actor.
+	Type ServiceLevelActorType `json:"type"`
+}
+
+func (x *ServiceLevelUserActor) ImplementsServiceLevelActor() {}
+
 // User - The `User` object provides general data about the user.
 type User struct {
-	//
-	Email string `json:"email,omitempty"`
-	//
-	ID int `json:"id,omitempty"`
-	//
-	Name string `json:"name,omitempty"`
+	CreatedAt    int    `json:"createdAt,omitempty"`
+	Email        string `json:"email,omitempty"`
+	ID           int    `json:"id,omitempty"`
+	Name         string `json:"name,omitempty"`
+	TimeZoneName string `json:"timeZoneName,omitempty"`
 }
 
 // UserReference - The `UserReference` object provides basic identifying information about the user.
 type UserReference struct {
-	//
-	Email string `json:"email,omitempty"`
-	//
+	Email    string `json:"email,omitempty"`
 	Gravatar string `json:"gravatar,omitempty"`
-	//
-	ID int `json:"id,omitempty"`
-	//
-	Name string `json:"name,omitempty"`
+	ID       int    `json:"id,omitempty"`
+	Name     string `json:"name,omitempty"`
+}
+
+type compositesResponse struct {
+	Actor Actor `json:"actor"`
 }
 
 type indicatorsResponse struct {
@@ -361,3 +660,65 @@ type ID string
 //
 // See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about NRQL syntax.
 type NRQL string
+
+// ServiceLevelActor - Represents an actor.
+type ServiceLevelActorInterface interface {
+	ImplementsServiceLevelActor()
+}
+
+// UnmarshalServiceLevelActorInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
+func UnmarshalServiceLevelActorInterface(b []byte) (*ServiceLevelActorInterface, error) {
+	var err error
+
+	var rawMessageServiceLevelActor map[string]*json.RawMessage
+	err = json.Unmarshal(b, &rawMessageServiceLevelActor)
+	if err != nil {
+		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageServiceLevelActor) < 1 {
+		return nil, nil
+	}
+
+	var typeName string
+
+	if rawTypeName, ok := rawMessageServiceLevelActor["__typename"]; ok {
+		err = json.Unmarshal(*rawTypeName, &typeName)
+		if err != nil {
+			return nil, err
+		}
+
+		switch typeName {
+		case "ServiceLevelSystemIdentityActor":
+			var interfaceType ServiceLevelSystemIdentityActor
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx ServiceLevelActorInterface = &interfaceType
+
+			return &xxx, nil
+		case "ServiceLevelUserActor":
+			var interfaceType ServiceLevelUserActor
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx ServiceLevelActorInterface = &interfaceType
+
+			return &xxx, nil
+		}
+	} else {
+		keys := []string{}
+		for k := range rawMessageServiceLevelActor {
+			keys = append(keys, k)
+		}
+		return nil, fmt.Errorf("interface ServiceLevelActor did not include a __typename field for inspection: %s", keys)
+	}
+
+	return nil, fmt.Errorf("interface ServiceLevelActor was not matched against all PossibleTypes: %s", typeName)
+}
