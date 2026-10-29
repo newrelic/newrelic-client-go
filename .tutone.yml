@@ -2442,12 +2442,15 @@ packages:
       - name: EntityManagementEntity
         include_implementations:
           - EntityManagementNrqlMacroEntity
-      # These input types are not reachable through schema traversal because
-      # EntityManagementNrqlMacroEntityCreateInput/UpdateInput are absent from the
-      # introspection dump. List them explicitly so tutone generates them instead
-      # of requiring hand-written stubs in an extras file.
+      # These types are not reachable through general schema graph traversal because
+      # tutone's broad introspection dump omits them. Listing them explicitly causes
+      # tutone --refetch to query each by name via __type, which succeeds.
       - name: EntityManagementScopedReferenceInput
       - name: EntityManagementTagInput
+      - name: EntityManagementNrqlMacroEntityCreateInput
+      - name: EntityManagementNrqlMacroEntityUpdateInput
+      - name: EntityManagementNrqlMacroEntityCreateResult
+      - name: EntityManagementNrqlMacroEntityUpdateResult
       - name: ID
         field_type_override: string
         skip_type_create: true

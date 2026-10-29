@@ -23,7 +23,7 @@ var AgentApplicationSegmentsListTypeTypes = struct {
 	USER: "USER",
 }
 
-// AgentApplicationSettingsBrowserLoader - Determines which browser loader will be configured. Some allowed return values are specified for backwards-compatibility and do not represent currently allowed values for new applications.
+// AgentApplicationSettingsBrowserLoader - Determines which browser loader will be configured. Some allowed return values are specified for backwards-compatability and do not represent currently allowed values for new applications.
 // See [documentation](https://docs.newrelic.com/docs/browser/browser-monitoring/installation/install-browser-monitoring-agent/#agent-types) for further information.
 type AgentApplicationSettingsBrowserLoader string
 
@@ -40,7 +40,7 @@ var AgentApplicationSettingsBrowserLoaderTypes = struct {
 	RUM AgentApplicationSettingsBrowserLoader
 	// Pro+SPA: This is the default installed agent when you enable browser monitoring. Gives you access to all of the Browser Pro features and to Single Page App (SPA) monitoring. Provides detailed page timing data and the most up-to-date New Relic features, including distributed tracing, for all types of applications.
 	SPA AgentApplicationSettingsBrowserLoader
-	// This value is specified for backwards-compatibility.
+	// This value is specified for backwards-compatability.
 	XHR AgentApplicationSettingsBrowserLoader
 }{
 	// Use PRO instead
@@ -55,8 +55,27 @@ var AgentApplicationSettingsBrowserLoaderTypes = struct {
 	RUM: "RUM",
 	// Pro+SPA: This is the default installed agent when you enable browser monitoring. Gives you access to all of the Browser Pro features and to Single Page App (SPA) monitoring. Provides detailed page timing data and the most up-to-date New Relic features, including distributed tracing, for all types of applications.
 	SPA: "SPA",
-	// This value is specified for backwards-compatibility.
+	// This value is specified for backwards-compatability.
 	XHR: "XHR",
+}
+
+// AgentApplicationSettingsCapturePayload - Controls which AJAX payloads (bodies, headers, etc.) are recorded for the allowed domains.
+type AgentApplicationSettingsCapturePayload string
+
+var AgentApplicationSettingsCapturePayloadTypes = struct {
+	// All payloads are captured.
+	ALL AgentApplicationSettingsCapturePayload
+	// Only payloads from failed requests are captured.
+	FAILURES AgentApplicationSettingsCapturePayload
+	// No payloads are captured.
+	NONE AgentApplicationSettingsCapturePayload
+}{
+	// All payloads are captured.
+	ALL: "ALL",
+	// Only payloads from failed requests are captured.
+	FAILURES: "FAILURES",
+	// No payloads are captured.
+	NONE: "NONE",
 }
 
 // AgentApplicationSettingsMobileSessionReplayMode - Determines the mode for session replay mobile applications. Valid settings are: 'DEFAULT', 'CUSTOM'.
@@ -320,7 +339,7 @@ var DashboardEntityOwnerTypeTypes = struct {
 	USER: "USER",
 }
 
-// DashboardEntityPermissions - Permission that represent visibility & editability
+// DashboardEntityPermissions - Permisions that represent visibility & editability
 type DashboardEntityPermissions string
 
 var DashboardEntityPermissionsTypes = struct {
@@ -1699,23 +1718,39 @@ var EntityManagementLifecycleStatePartitionTypes = struct {
 	COMPLETE EntityManagementLifecycleStatePartition
 	// Indicates the initial data processing component configuration has been created during onboarding.
 	DATA_PROCESSING_CONFIG_CREATED EntityManagementLifecycleStatePartition
+	// Indicates a decommission has been staged. One-way.
+	DECOMMISSION_STAGED EntityManagementLifecycleStatePartition
 	// Indicates a delete has been requested and an updated data processing component configuration (excluding this partition) is pending deployment.
 	DELETING EntityManagementLifecycleStatePartition
+	// Indicates a disable has been staged.
+	DISABLE_STAGED EntityManagementLifecycleStatePartition
+	// Indicates an enable has been staged.
+	ENABLE_STAGED EntityManagementLifecycleStatePartition
 	// Indicates there was an error during onboarding.
 	ERROR EntityManagementLifecycleStatePartition
 	// Indicates the entity resource creation is complete.
 	RESOURCE_CREATION_COMPLETE EntityManagementLifecycleStatePartition
+	// Indicates a configuration or routing-rule change has been staged.
+	UPDATE_STAGED EntityManagementLifecycleStatePartition
 }{
 	// Indicates the partition has been successfully onboarded.
 	COMPLETE: "COMPLETE",
 	// Indicates the initial data processing component configuration has been created during onboarding.
 	DATA_PROCESSING_CONFIG_CREATED: "DATA_PROCESSING_CONFIG_CREATED",
+	// Indicates a decommission has been staged. One-way.
+	DECOMMISSION_STAGED: "DECOMMISSION_STAGED",
 	// Indicates a delete has been requested and an updated data processing component configuration (excluding this partition) is pending deployment.
 	DELETING: "DELETING",
+	// Indicates a disable has been staged.
+	DISABLE_STAGED: "DISABLE_STAGED",
+	// Indicates an enable has been staged.
+	ENABLE_STAGED: "ENABLE_STAGED",
 	// Indicates there was an error during onboarding.
 	ERROR: "ERROR",
 	// Indicates the entity resource creation is complete.
 	RESOURCE_CREATION_COMPLETE: "RESOURCE_CREATION_COMPLETE",
+	// Indicates a configuration or routing-rule change has been staged.
+	UPDATE_STAGED: "UPDATE_STAGED",
 }
 
 // EntityManagementLifecycleStateSetup - Possible lifecycle states for a federated log setup.
@@ -1726,23 +1761,39 @@ var EntityManagementLifecycleStateSetupTypes = struct {
 	COMPLETE EntityManagementLifecycleStateSetup
 	// Indicates the initial data processing component configuration has been created during onboarding.
 	DATA_PROCESSING_CONFIG_CREATED EntityManagementLifecycleStateSetup
+	// Indicates a decommission has been staged. One-way.
+	DECOMMISSION_STAGED EntityManagementLifecycleStateSetup
 	// Indicates a delete has been requested and an updated data processing component configuration (excluding this setup) is pending deployment.
 	DELETING EntityManagementLifecycleStateSetup
+	// Indicates a disable has been staged.
+	DISABLE_STAGED EntityManagementLifecycleStateSetup
+	// Indicates an enable has been staged.
+	ENABLE_STAGED EntityManagementLifecycleStateSetup
 	// Indicates there was an error during onboarding.
 	ERROR EntityManagementLifecycleStateSetup
 	// Indicates the entity resource creation is complete.
 	RESOURCE_CREATION_COMPLETE EntityManagementLifecycleStateSetup
+	// Indicates a configuration or routing-rule change has been staged.
+	UPDATE_STAGED EntityManagementLifecycleStateSetup
 }{
 	// Indicates the setup has been successfully onboarded.
 	COMPLETE: "COMPLETE",
 	// Indicates the initial data processing component configuration has been created during onboarding.
 	DATA_PROCESSING_CONFIG_CREATED: "DATA_PROCESSING_CONFIG_CREATED",
+	// Indicates a decommission has been staged. One-way.
+	DECOMMISSION_STAGED: "DECOMMISSION_STAGED",
 	// Indicates a delete has been requested and an updated data processing component configuration (excluding this setup) is pending deployment.
 	DELETING: "DELETING",
+	// Indicates a disable has been staged.
+	DISABLE_STAGED: "DISABLE_STAGED",
+	// Indicates an enable has been staged.
+	ENABLE_STAGED: "ENABLE_STAGED",
 	// Indicates there was an error during onboarding.
 	ERROR: "ERROR",
 	// Indicates the entity resource creation is complete.
 	RESOURCE_CREATION_COMPLETE: "RESOURCE_CREATION_COMPLETE",
+	// Indicates a configuration or routing-rule change has been staged.
+	UPDATE_STAGED: "UPDATE_STAGED",
 }
 
 // EntityManagementManagedEntityType - Entity types that a Fleet can manage
@@ -2271,12 +2322,29 @@ var MetricNormalizationRuleActionTypes = struct {
 	REPLACE: "REPLACE",
 }
 
+// ServiceLevelActorType - The available actor types.
+type ServiceLevelActorType string
+
+var ServiceLevelActorTypeTypes = struct {
+	// System identity actor type.
+	SYSTEM ServiceLevelActorType
+	// User actor type.
+	USER ServiceLevelActorType
+}{
+	// System identity actor type.
+	SYSTEM: "SYSTEM",
+	// User actor type.
+	USER: "USER",
+}
+
 // ServiceLevelEventsQuerySelectFunction - The function to use in the SELECT clause.
 type ServiceLevelEventsQuerySelectFunction string
 
 var ServiceLevelEventsQuerySelectFunctionTypes = struct {
 	// Use on events and unaggregated data.
 	COUNT ServiceLevelEventsQuerySelectFunction
+	// Counts datapoints, preserving pre-2025-06-09 COUNT(*) semantics on Metric event types.
+	DATAPOINT_COUNT ServiceLevelEventsQuerySelectFunction
 	// Use on distribution metric types.
 	GET_CDF_COUNT ServiceLevelEventsQuerySelectFunction
 	// Use in valid events combined with GET_CDF_COUNT.
@@ -2286,6 +2354,8 @@ var ServiceLevelEventsQuerySelectFunctionTypes = struct {
 }{
 	// Use on events and unaggregated data.
 	COUNT: "COUNT",
+	// Counts datapoints, preserving pre-2025-06-09 COUNT(*) semantics on Metric event types.
+	DATAPOINT_COUNT: "DATAPOINT_COUNT",
 	// Use on distribution metric types.
 	GET_CDF_COUNT: "GET_CDF_COUNT",
 	// Use in valid events combined with GET_CDF_COUNT.
@@ -2496,6 +2566,8 @@ type AgentApplicationSettingsApplicationLogging struct {
 
 // AgentApplicationSettingsBrowserAjax - Enables ajax traces in the browser app.
 type AgentApplicationSettingsBrowserAjax struct {
+	// Controls which AJAX payloads (bodies, headers, etc.) are recorded for the allowed domains.
+	CapturePayloads AgentApplicationSettingsCapturePayload `json:"capturePayloads,omitempty"`
 	// List of domains excluded from Ajax traces by the browser agent.
 	DenyList []string `json:"denyList"`
 }
@@ -2908,7 +2980,7 @@ type ApmApplicationDeployment struct {
 	Permalink string `json:"permalink,omitempty"`
 	// The revision of the app that was deployed
 	Revision string `json:"revision,omitempty"`
-	// The moment the deployment occurred
+	// The moment the deployment occured
 	Timestamp nrtime.EpochMilliseconds `json:"timestamp,omitempty"`
 	// The user who triggered the deployment
 	User string `json:"user,omitempty"`
@@ -2973,7 +3045,7 @@ type ApmApplicationEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -3179,7 +3251,7 @@ type ApmDatabaseInstanceEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -3307,7 +3379,7 @@ type ApmExternalServiceEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -3451,7 +3523,7 @@ type BrowserApplicationEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -3733,7 +3805,7 @@ type DashboardEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -4174,7 +4246,7 @@ type Entity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -4963,7 +5035,7 @@ type EntityManagementFederatedLogsPartitionEntity struct {
 	// The entity's scope.
 	Scope EntityManagementScopedReference `json:"scope"`
 	// The federated logs setup this partition belongs to.
-	Setup EntityManagementFederatedLogsSetupEntity `json:"setup"`
+	Setup EntityManagementFederatedLogsSetupEntity `json:"setup,omitempty"`
 	// Storage details for the log partition, including the associated table and data location URI.
 	Storage EntityManagementPartitionStorage `json:"storage"`
 	// Collection of tags.
@@ -5427,6 +5499,42 @@ type EntityManagementNRQLMacroEntity struct {
 
 func (x *EntityManagementNRQLMacroEntity) ImplementsEntityManagementEntity() {}
 
+// EntityManagementNRQLMacroEntityCreateInput - Create input for NrqlMacroEntity entity type.
+type EntityManagementNRQLMacroEntityCreateInput struct {
+	// See expression in NrqlMacroEntity.
+	Expression string `json:"expression"`
+	// See name in NrqlMacroEntity.
+	Name string `json:"name"`
+	// See numParameters in NrqlMacroEntity.
+	NumParameters int `json:"numParameters,omitempty"`
+	// See scope in NrqlMacroEntity.
+	Scope EntityManagementScopedReferenceInput `json:"scope,omitempty"`
+	// See tags in NrqlMacroEntity.
+	Tags []EntityManagementTagInput `json:"tags,omitempty"`
+}
+
+// EntityManagementNRQLMacroEntityCreateResult - The result of creating an entity.
+type EntityManagementNRQLMacroEntityCreateResult struct {
+	// The created entity.
+	Entity EntityManagementNRQLMacroEntity `json:"entity"`
+}
+
+// EntityManagementNRQLMacroEntityUpdateInput - Update input for NrqlMacroEntity entity type.
+type EntityManagementNRQLMacroEntityUpdateInput struct {
+	// See expression in NrqlMacroEntity.
+	Expression string `json:"expression,omitempty"`
+	// See numParameters in NrqlMacroEntity.
+	NumParameters int `json:"numParameters,omitempty"`
+	// See tags in NrqlMacroEntity.
+	Tags []EntityManagementTagInput `json:"tags,omitempty"`
+}
+
+// EntityManagementNRQLMacroEntityUpdateResult - The result of updating an entity.
+type EntityManagementNRQLMacroEntityUpdateResult struct {
+	// The updated entity.
+	Entity EntityManagementNRQLMacroEntity `json:"entity"`
+}
+
 // EntityManagementNRQLRuleEngine - NRQL engine configuration.
 type EntityManagementNRQLRuleEngine struct {
 	// The accounts to be queried.
@@ -5435,6 +5543,12 @@ type EntityManagementNRQLRuleEngine struct {
 	JoinAccounts []int `json:"joinAccounts"`
 	// The query to be executed.
 	Query string `json:"query"`
+}
+
+// EntityManagementOnCallMember - An on-call member.
+type EntityManagementOnCallMember struct {
+	// The id of a team member.
+	ID string `json:"id"`
 }
 
 // EntityManagementOperatingSystem - Operating System string enum for the host operating systems in a fleet
@@ -5465,6 +5579,8 @@ type EntityManagementPartitionHealthCheckStatus struct {
 type EntityManagementPartitionPipelineControlConfiguration struct {
 	// The partition rule that determines how incoming logs are routed to this partition.
 	PartitionRule EntityManagementRule `json:"partitionRule,omitempty"`
+	// Metadata about the last saved pipeline configuration used for this partition. This includes the unique ID and version ID of the configuration.
+	Requested EntityManagementPipelineConfigurationMetadata `json:"requested,omitempty"`
 }
 
 // EntityManagementPartitionStorage - Storage details for a log partition. This information is used for querying and managing log data for the partition.
@@ -5485,8 +5601,8 @@ type EntityManagementPipelineCloudRuleEntity struct {
 	ID string `json:"id"`
 	// Metadata about the entity.
 	Metadata EntityManagementMetadata `json:"metadata"`
-	// The NRQL string used to specify the action you want to take and data you want to take the specified action on.
-	NRQL NRQL `json:"nrql"`
+	// The NRQL string used to specify the action you want to take and data you want to take the specified action on. Exactly one of nrql or ottlTransform must be set.
+	NRQL NRQL `json:"nrql,omitempty"`
 	// The name of this entity.
 	Name string `json:"name"`
 	// The entity's scope.
@@ -5499,10 +5615,20 @@ type EntityManagementPipelineCloudRuleEntity struct {
 
 func (x *EntityManagementPipelineCloudRuleEntity) ImplementsEntityManagementEntity() {}
 
+// EntityManagementPipelineConfigurationMetadata - Metadata about a pipeline configuration, including its unique ID and version ID.
+type EntityManagementPipelineConfigurationMetadata struct {
+	// The configuration ID.
+	ID string `json:"id"`
+	// The configuration version ID.
+	VersionId string `json:"versionId"`
+}
+
 // EntityManagementPipelineControlConfiguration - Configuration for a pipeline control forwarder.
 type EntityManagementPipelineControlConfiguration struct {
 	// The fleet entity used for deploying the pipeline configuration.
 	Fleet EntityManagementFleetEntity `json:"fleet,omitempty"`
+	// Metadata about the last saved pipeline configuration used for this setup. This includes the unique ID and version ID of the configuration.
+	Requested EntityManagementPipelineConfigurationMetadata `json:"requested,omitempty"`
 	// The routing rule that determines how incoming logs are routed to this setup.
 	RoutingRule EntityManagementRule `json:"routingRule,omitempty"`
 }
@@ -5850,6 +5976,8 @@ type EntityManagementTeamEntity struct {
 	Metadata EntityManagementMetadata `json:"metadata"`
 	// The name of this entity.
 	Name string `json:"name"`
+	// The on-call members for the team.
+	OnCallMembers []EntityManagementOnCallMember `json:"onCallMembers"`
 	// Collection that contains the list of entities owned by the team.
 	Ownership EntityManagementCollectionEntity `json:"ownership,omitempty"`
 	// The parent team in the hierarchy.
@@ -6428,7 +6556,7 @@ type ExternalEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -6669,7 +6797,7 @@ type GenericEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -6785,7 +6913,7 @@ type GenericInfrastructureEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -6906,7 +7034,7 @@ type InfrastructureAwsLambdaFunctionEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -7030,7 +7158,7 @@ type InfrastructureHostEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -7245,7 +7373,7 @@ type KeyTransactionEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -7444,7 +7572,7 @@ type MobileApplicationEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -7699,7 +7827,7 @@ type SecureCredentialEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -7803,6 +7931,16 @@ type SecureCredentialSummaryData struct {
 	MonitorCount int `json:"monitorCount,omitempty"`
 }
 
+// ServiceLevelActor - Represents an actor.
+type ServiceLevelActor struct {
+	// Id of the actor.
+	ID string `json:"id"`
+	// Type of the actor.
+	Type ServiceLevelActorType `json:"type"`
+}
+
+func (x *ServiceLevelActor) ImplementsServiceLevelActor() {}
+
 // ServiceLevelDefinition - The service level defined for a specific entity.
 type ServiceLevelDefinition struct {
 	// The SLIs attached to the entity.
@@ -7854,11 +7992,13 @@ type ServiceLevelIndicator struct {
 	// The entity which the SLI is attached to.
 	EntityGUID EntityGUID `json:"entityGuid"`
 	// The events that define the SLI.
-	Events ServiceLevelEvents `json:"events"`
+	Events ServiceLevelEvents `json:"events,omitempty"`
 	// The unique entity identifier of the SLI.
 	GUID EntityGUID `json:"guid"`
 	// The unique identifier of the SLI.
 	ID string `json:"id"`
+	// The metadata of the SLI.
+	Metadata ServiceLevelMetadata `json:"metadata,omitempty"`
 	// The name of the SLI.
 	Name string `json:"name"`
 	// A list of objective definitions.
@@ -7881,6 +8021,72 @@ type ServiceLevelIndicatorResultQueries struct {
 	Indicator ServiceLevelResultQuery `json:"indicator"`
 	// The NRQL query that measures the valid events.
 	ValidEvents ServiceLevelResultQuery `json:"validEvents"`
+}
+
+// ServiceLevelMetadata - Metadata about the SLI.
+type ServiceLevelMetadata struct {
+	// The SLI's creation time.
+	CreatedAt nrtime.EpochMilliseconds `json:"createdAt"`
+	// Actor that created this SLI.
+	CreatedBy ServiceLevelActorInterface `json:"createdBy,omitempty"`
+	// The SLI's last update time.
+	UpdatedAt nrtime.EpochMilliseconds `json:"updatedAt,omitempty"`
+	// Actor that last updated this SLI.
+	UpdatedBy ServiceLevelActorInterface `json:"updatedBy,omitempty"`
+}
+
+// special
+func (x *ServiceLevelMetadata) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+
+	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
+		switch k {
+		case "createdAt":
+			err = json.Unmarshal(*v, &x.CreatedAt)
+			if err != nil {
+				return err
+			}
+		case "createdBy":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalServiceLevelActorInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.CreatedBy = *xxx
+			}
+		case "updatedAt":
+			err = json.Unmarshal(*v, &x.UpdatedAt)
+			if err != nil {
+				return err
+			}
+		case "updatedBy":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalServiceLevelActorInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.UpdatedBy = *xxx
+			}
+		}
+	}
+
+	return nil
 }
 
 // ServiceLevelObjective - An objective definition.
@@ -7922,6 +8128,26 @@ type ServiceLevelResultQuery struct {
 	// A NRQL query.
 	NRQL NRQL `json:"nrql"`
 }
+
+// ServiceLevelSystemIdentityActor - A system identity actor.
+type ServiceLevelSystemIdentityActor struct {
+	// Id of the actor.
+	ID string `json:"id"`
+	// Type of the actor.
+	Type ServiceLevelActorType `json:"type"`
+}
+
+func (x *ServiceLevelSystemIdentityActor) ImplementsServiceLevelActor() {}
+
+// ServiceLevelUserActor - A user actor.
+type ServiceLevelUserActor struct {
+	// Id of the actor.
+	ID string `json:"id"`
+	// Type of the actor.
+	Type ServiceLevelActorType `json:"type"`
+}
+
+func (x *ServiceLevelUserActor) ImplementsServiceLevelActor() {}
 
 // StackTraceApmException - A structured representation of an exception for an APM application.
 type StackTraceApmException struct {
@@ -8171,7 +8397,7 @@ type SyntheticMonitorEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -8318,7 +8544,7 @@ type TeamEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -8437,7 +8663,7 @@ type ThirdPartyServiceEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -8568,7 +8794,7 @@ type UnavailableEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -8696,7 +8922,7 @@ type WorkloadEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
@@ -10233,6 +10459,68 @@ func UnmarshalInfrastructureIntegrationEntityOutlineInterface(b []byte) (*Infras
 	}
 
 	return nil, fmt.Errorf("interface InfrastructureIntegrationEntityOutline was not matched against all PossibleTypes: %s", typeName)
+}
+
+// ServiceLevelActor - Represents an actor.
+type ServiceLevelActorInterface interface {
+	ImplementsServiceLevelActor()
+}
+
+// UnmarshalServiceLevelActorInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
+func UnmarshalServiceLevelActorInterface(b []byte) (*ServiceLevelActorInterface, error) {
+	var err error
+
+	var rawMessageServiceLevelActor map[string]*json.RawMessage
+	err = json.Unmarshal(b, &rawMessageServiceLevelActor)
+	if err != nil {
+		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageServiceLevelActor) < 1 {
+		return nil, nil
+	}
+
+	var typeName string
+
+	if rawTypeName, ok := rawMessageServiceLevelActor["__typename"]; ok {
+		err = json.Unmarshal(*rawTypeName, &typeName)
+		if err != nil {
+			return nil, err
+		}
+
+		switch typeName {
+		case "ServiceLevelSystemIdentityActor":
+			var interfaceType ServiceLevelSystemIdentityActor
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx ServiceLevelActorInterface = &interfaceType
+
+			return &xxx, nil
+		case "ServiceLevelUserActor":
+			var interfaceType ServiceLevelUserActor
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx ServiceLevelActorInterface = &interfaceType
+
+			return &xxx, nil
+		}
+	} else {
+		keys := []string{}
+		for k := range rawMessageServiceLevelActor {
+			keys = append(keys, k)
+		}
+		return nil, fmt.Errorf("interface ServiceLevelActor did not include a __typename field for inspection: %s", keys)
+	}
+
+	return nil, fmt.Errorf("interface ServiceLevelActor was not matched against all PossibleTypes: %s", typeName)
 }
 
 // StackTraceFileBasedStackTraceFrame - An object representing a stack trace segment

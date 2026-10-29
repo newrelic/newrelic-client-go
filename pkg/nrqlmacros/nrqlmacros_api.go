@@ -47,6 +47,7 @@ const EntityManagementCreateNRQLMacroMutation = `mutation(
 			createdBy {
 				__typename
 				id
+				type
 				... on EntityManagementSystemActor {
 					__typename
 				}
@@ -58,6 +59,7 @@ const EntityManagementCreateNRQLMacroMutation = `mutation(
 			updatedBy {
 				__typename
 				id
+				type
 				... on EntityManagementSystemActor {
 					__typename
 				}
@@ -182,6 +184,7 @@ const EntityManagementUpdateNRQLMacroMutation = `mutation(
 			createdBy {
 				__typename
 				id
+				type
 				... on EntityManagementSystemActor {
 					__typename
 				}
@@ -193,6 +196,7 @@ const EntityManagementUpdateNRQLMacroMutation = `mutation(
 			updatedBy {
 				__typename
 				id
+				type
 				... on EntityManagementSystemActor {
 					__typename
 				}
