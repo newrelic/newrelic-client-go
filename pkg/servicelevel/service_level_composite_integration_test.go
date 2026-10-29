@@ -14,12 +14,6 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
-// Fixture workload used only as the attachment target for the two component
-// SLIs created in this test. Created once in the Service Levels Testing #1
-// staging account (12312149), named [DELETE ME]-prefixed per that account's
-// existing test-entity cleanup convention.
-const compositeIntegrationTestWorkloadGUID = "MTIzMTIxNDl8TlIxfFdPUktMT0FEfDY0OTgxOA"
-
 func newCompositeComponentIndicatorCreateInput(accountID int, name string) ServiceLevelIndicatorCreateInput {
 	return ServiceLevelIndicatorCreateInput{
 		Name:        name,
@@ -58,7 +52,7 @@ func TestServiceLevelComposite_Basic(t *testing.T) {
 	}
 
 	client := newIntegrationTestClient(t)
-	workloadGUID := common.EntityGUID(compositeIntegrationTestWorkloadGUID)
+	workloadGUID := common.EntityGUID(testhelpers.IntegrationTestApplicationEntityGUIDNew)
 
 	// Create two component SLIs — composite requires at least two.
 	component1, err := client.ServiceLevelCreate(workloadGUID, newCompositeComponentIndicatorCreateInput(testAccountID, "composite-integration-test-component-1"))
@@ -156,7 +150,7 @@ func TestServiceLevelComposite_MinimumComponentsError(t *testing.T) {
 	}
 
 	client := newIntegrationTestClient(t)
-	workloadGUID := common.EntityGUID(compositeIntegrationTestWorkloadGUID)
+	workloadGUID := common.EntityGUID(testhelpers.IntegrationTestApplicationEntityGUIDNew)
 
 	// A single real component — not zero — deliberately, since this struct's
 	// `Components` field is `json:"components,omitempty"`, so an empty or nil
