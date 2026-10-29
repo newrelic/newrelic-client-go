@@ -2642,11 +2642,19 @@ func (x *CloudAzureMonitorIntegration) ImplementsCloudIntegration() {}
 // CloudAzureMonitorIntegrationInput - Azure Monitor metrics
 type CloudAzureMonitorIntegrationInput struct {
 	// Specify if integration is active
-	Enabled bool `json:"enabled,omitempty"`
+	Enabled *bool `json:"enabled,omitempty"`
 	// Specify resource tags (in 'key:value' form) associated with the resources that you want to exclude from monitoring. Exclusion takes precedence over inclusion.
-	ExcludeTags []string `json:"excludeTags,omitempty"`
+	// A nil pointer omits the field, leaving the configured tags unchanged; a pointer to an empty
+	// slice sends [], which clears them.
+	// This change has been made manually out of Tutone's purview, as a pointer override with primitive datatypes is not supported by Tutone.
+	// DO NOT DISCARD THIS CHANGE when a refetch of this package is performed using Tutone.
+	ExcludeTags *[]string `json:"excludeTags,omitempty"`
 	// Specify resource tags (in 'key:value' form) associated with the resources that you want to monitor. If empty, all resources will be monitored.
-	IncludeTags []string `json:"includeTags,omitempty"`
+	// A nil pointer omits the field, leaving the configured tags unchanged; a pointer to an empty
+	// slice sends [], which clears them.
+	// This change has been made manually out of Tutone's purview, as a pointer override with primitive datatypes is not supported by Tutone.
+	// DO NOT DISCARD THIS CHANGE when a refetch of this package is performed using Tutone.
+	IncludeTags *[]string `json:"includeTags,omitempty"`
 	// The polling interval for metadata and tags, in seconds.
 	InventoryPollingInterval int `json:"inventoryPollingInterval,omitempty"`
 	// The linked account identifier.
@@ -4124,8 +4132,8 @@ type CloudGcpAlloydbIntegrationInput struct {
 }
 
 // CloudGcpGenericIntegration - Generic GCP DM integration used for API Gateway, Firebase
-// Authentication, Firebase Vertex AI, Firebase App Hosting, Istio, Managed Kafka, and
-// Memorystore, none of which have a dedicated integration type in the schema.
+// Authentication, Firebase Vertex AI, Firebase App Hosting, Istio, Managed Kafka,
+// Memorystore, and Edge Container, none of which have a dedicated integration type in the schema.
 type CloudGcpGenericIntegration struct {
 	// The object creation date, in epoch (Unix) time
 	CreatedAt nrtime.EpochSeconds `json:"createdAt"`
@@ -4149,7 +4157,7 @@ func (x *CloudGcpGenericIntegration) ImplementsCloudIntegration() {}
 
 // CloudGcpGenericIntegrationInput - Generic GCP DM integration input used for API Gateway,
 // Firebase Authentication, Firebase Vertex AI, Firebase App Hosting, Istio, Managed Kafka,
-// and Memorystore (Dimensional Metrics only).
+// Memorystore, and Edge Container (Dimensional Metrics only).
 type CloudGcpGenericIntegrationInput struct {
 	// The linked account identifier.
 	LinkedAccountId int `json:"linkedAccountId"`
@@ -4473,6 +4481,8 @@ type CloudGcpDisableIntegrationsInput struct {
 	GcpManagedKafka []CloudDisableAccountIntegrationInput `json:"gcpManagedKafka,omitempty"`
 	// Memorystore integration (Dimensional Metrics only)
 	GcpMemoryStore []CloudDisableAccountIntegrationInput `json:"gcpMemoryStore,omitempty"`
+	// Edge Container integration (Dimensional Metrics only)
+	GcpEdgeContainer []CloudDisableAccountIntegrationInput `json:"gcpEdgeContainer,omitempty"`
 }
 
 // CloudGcpFirebasedatabaseIntegration - Firebase Database Integration
@@ -4715,6 +4725,8 @@ type CloudGcpIntegrationsInput struct {
 	GcpManagedKafka []CloudGcpGenericIntegrationInput `json:"gcpManagedKafka,omitempty"`
 	// Memorystore integration (Dimensional Metrics only)
 	GcpMemoryStore []CloudGcpGenericIntegrationInput `json:"gcpMemoryStore,omitempty"`
+	// Edge Container integration (Dimensional Metrics only)
+	GcpEdgeContainer []CloudGcpGenericIntegrationInput `json:"gcpEdgeContainer,omitempty"`
 }
 
 // CloudGcpInterconnectIntegration - Interconnect Integration

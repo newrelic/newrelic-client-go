@@ -76,7 +76,7 @@ func TestServiceLevel_Basic(t *testing.T) {
 		if deleted {
 			return
 		}
-		_, _ = client.ServiceLevelDelete(createResp.GUID) // best-effort cleanup
+		_, _ = client.ServiceLevelDelete(createResp.GUID, createResp.ID) // best-effort cleanup
 	}()
 
 	fmt.Println("waiting 5 seconds for entity to be indexed before validating its creation...")
@@ -93,12 +93,87 @@ func TestServiceLevel_Basic(t *testing.T) {
 	updateInput := ServiceLevelIndicatorUpdateInput{
 		Description: "integration test service level updated",
 	}
-	updateResp, err := client.ServiceLevelUpdate(createResp.GUID, updateInput)
+	updateResp, err := client.ServiceLevelUpdate(createResp.GUID, createResp.ID, updateInput)
 	require.NoError(t, err)
 	require.NotNil(t, updateResp)
 
 	// Delete
-	deleteResp, err := client.ServiceLevelDelete(createResp.GUID)
+	deleteResp, err := client.ServiceLevelDelete(createResp.GUID, createResp.ID)
+	require.NoError(t, err)
+	require.NotNil(t, deleteResp)
+	deleted = true
+}
+
+func TestServiceLevel_Facets(t *testing.T) {
+	t.Parallel()
+
+	testAccountID, err := testhelpers.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	client := newIntegrationTestClient(t)
+
+	// GUID of Dummy App
+	guid := common.EntityGUID(testhelpers.IntegrationTestApplicationEntityGUIDNew)
+
+	eventsInput := ServiceLevelEventsCreateInput{
+		AccountID: testAccountID,
+		Facets:    []string{"appName"},
+		ValidEvents: &ServiceLevelEventsQueryCreateInput{
+			From:  NRQL("Transaction"),
+			Where: NRQL("appName = 'foo'"),
+		},
+		BadEvents: &ServiceLevelEventsQueryCreateInput{
+			From:  NRQL("Transaction"),
+			Where: NRQL("appName = 'foo' AND duration > 2"),
+		},
+	}
+	createInput := newServiceLevelIndicatorCreateInput(eventsInput)
+
+	// Create
+	createResp, err := client.ServiceLevelCreate(guid, createInput)
+	require.NoError(t, err)
+	require.NotNil(t, createResp)
+	require.NotNil(t, createResp.Events.ValidEvents)
+	require.Equal(t, []string{"appName"}, createResp.Events.ValidEvents.Facets)
+
+	deleted := false
+	defer func() {
+		if deleted {
+			return
+		}
+		_, _ = client.ServiceLevelDelete(createResp.GUID, createResp.ID) // best-effort cleanup
+	}()
+
+	fmt.Println("waiting 5 seconds for entity to be indexed before validating its creation...")
+	time.Sleep(5 * time.Second)
+
+	// Update — change the facets
+	// NOTE: validEvents and one of goodEvents/badEvents are both required whenever
+	// events is included in an update, so both must be resent here even though only
+	// facets is actually changing.
+	updateInput := ServiceLevelIndicatorUpdateInput{
+		Events: &ServiceLevelEventsUpdateInput{
+			Facets: []string{"appName", "transactionType"},
+			ValidEvents: &ServiceLevelEventsQueryUpdateInput{
+				From:  NRQL("Transaction"),
+				Where: NRQL("appName = 'foo'"),
+			},
+			BadEvents: &ServiceLevelEventsQueryUpdateInput{
+				From:  NRQL("Transaction"),
+				Where: NRQL("appName = 'foo' AND duration > 2"),
+			},
+		},
+	}
+	updateResp, err := client.ServiceLevelUpdate(createResp.GUID, createResp.ID, updateInput)
+	require.NoError(t, err)
+	require.NotNil(t, updateResp)
+	require.NotNil(t, updateResp.Events.ValidEvents)
+	require.Equal(t, []string{"appName", "transactionType"}, updateResp.Events.ValidEvents.Facets)
+
+	// Delete
+	deleteResp, err := client.ServiceLevelDelete(createResp.GUID, createResp.ID)
 	require.NoError(t, err)
 	require.NotNil(t, deleteResp)
 	deleted = true
@@ -150,7 +225,7 @@ func TestServiceLevel_CDF(t *testing.T) {
 		if deleted {
 			return
 		}
-		_, _ = client.ServiceLevelDelete(createResp.GUID) // best-effort cleanup
+		_, _ = client.ServiceLevelDelete(createResp.GUID, createResp.ID) // best-effort cleanup
 	}()
 
 	fmt.Println("waiting 5 seconds for entity to be indexed before validating its creation...")
@@ -162,7 +237,7 @@ func TestServiceLevel_CDF(t *testing.T) {
 	require.NotNil(t, getResp)
 
 	// Delete
-	deleteResp, err := client.ServiceLevelDelete(createResp.GUID)
+	deleteResp, err := client.ServiceLevelDelete(createResp.GUID, createResp.ID)
 	require.NoError(t, err)
 	require.NotNil(t, deleteResp)
 	deleted = true

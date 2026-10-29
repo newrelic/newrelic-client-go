@@ -360,13 +360,16 @@ func TestCloudAccount_AzureMonitorIntegration(t *testing.T) {
 	require.NotZero(t, linkedAccountID)
 
 	// Create a new AzureMonitor Cloud Integration.
+	azureMonitorEnabled := true
+	azureMonitorExcludeTags := []string{"env:staging", "env:testing"}
+	azureMonitorIncludeTags := []string{"env:production"}
 	azureMonitorIntegrationRes, azureMonitorIntegrationErr := client.CloudConfigureIntegration(testAccountID, CloudIntegrationsInput{
 		Azure: CloudAzureIntegrationsInput{
 			AzureMonitor: []CloudAzureMonitorIntegrationInput{{
 				LinkedAccountId:        linkedAccountID,
-				Enabled:                true,
-				ExcludeTags:            []string{"env:staging", "env:testing"},
-				IncludeTags:            []string{"env:production"},
+				Enabled:                &azureMonitorEnabled,
+				ExcludeTags:            &azureMonitorExcludeTags,
+				IncludeTags:            &azureMonitorIncludeTags,
 				MetricsPollingInterval: 1200,
 				ResourceTypes:          []string{"microsoft.datashare/accounts"},
 				ResourceGroups:         []string{"resource_groups"},
@@ -771,7 +774,7 @@ func TestCloudAccount_GcpDmWifIntegrations(t *testing.T) {
 
 	linkedAccountId := linkResponse.LinkedAccounts[0].ID
 
-	// Step 3: Enable all 7 GCP DM-only integrations.
+	// Step 3: Enable all 8 GCP DM-only integrations.
 	integrationsRes, err := a.CloudConfigureIntegration(testAccountID, CloudIntegrationsInput{
 		Gcp: CloudGcpIntegrationsInput{
 			GcpApiGateway:         []CloudGcpGenericIntegrationInput{{LinkedAccountId: linkedAccountId}},
@@ -781,6 +784,7 @@ func TestCloudAccount_GcpDmWifIntegrations(t *testing.T) {
 			GcpIstio:              []CloudGcpGenericIntegrationInput{{LinkedAccountId: linkedAccountId}},
 			GcpManagedKafka:       []CloudGcpGenericIntegrationInput{{LinkedAccountId: linkedAccountId}},
 			GcpMemoryStore:        []CloudGcpGenericIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpEdgeContainer:      []CloudGcpGenericIntegrationInput{{LinkedAccountId: linkedAccountId}},
 		},
 	})
 	require.NoError(t, err)
@@ -788,7 +792,7 @@ func TestCloudAccount_GcpDmWifIntegrations(t *testing.T) {
 	require.Len(t, integrationsRes.Errors, 0)
 	require.Greater(t, len(integrationsRes.Integrations), 0)
 
-	// Step 4: Disable all 7 integrations.
+	// Step 4: Disable all 8 integrations.
 	disableRes, err := a.CloudDisableIntegration(testAccountID, CloudDisableIntegrationsInput{
 		Gcp: CloudGcpDisableIntegrationsInput{
 			GcpApiGateway:         []CloudDisableAccountIntegrationInput{{LinkedAccountId: linkedAccountId}},
@@ -798,6 +802,7 @@ func TestCloudAccount_GcpDmWifIntegrations(t *testing.T) {
 			GcpIstio:              []CloudDisableAccountIntegrationInput{{LinkedAccountId: linkedAccountId}},
 			GcpManagedKafka:       []CloudDisableAccountIntegrationInput{{LinkedAccountId: linkedAccountId}},
 			GcpMemoryStore:        []CloudDisableAccountIntegrationInput{{LinkedAccountId: linkedAccountId}},
+			GcpEdgeContainer:      []CloudDisableAccountIntegrationInput{{LinkedAccountId: linkedAccountId}},
 		},
 	})
 	require.NoError(t, err)

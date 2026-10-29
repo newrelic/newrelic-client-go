@@ -207,8 +207,8 @@ type GetConfigurationVersionsResponse struct {
 }
 
 type ConfigurationVersion struct {
-	EntityGUID string `json:"entity_guid"`
-	BlobID     string `json:"blob_id"`
+	EntityGUID string `json:"entityGuid"`
+	BlobID     string `json:"blobId"`
 	Version    string `json:"version"`
 	Timestamp  string `json:"timestamp"`
 }

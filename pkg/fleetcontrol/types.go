@@ -4295,7 +4295,10 @@ type EntityManagementAgentConfigurationEntity struct {
 	// The entity's global unique identifier.
 	ID string `json:"id"`
 	// The managedEntityType this configuration is intended to be deployed to
-	ManagedEntityType EntityManagementManagedEntityType `json:"managedEntityType,omitempty"`
+	// NOTE: aliased to agentConfigurationManagedEntityType in the query - AgentConfigurationEntity's
+	// managedEntityType is nullable while FleetEntity's is non-null, and NerdGraph rejects selecting
+	// the same field name with conflicting nullability across sibling fragments in the same query.
+	ManagedEntityType EntityManagementManagedEntityType `json:"agentConfigurationManagedEntityType,omitempty"`
 	// Metadata about the entity.
 	Metadata EntityManagementMetadata `json:"metadata"`
 	// A unique user provided name for the configuration

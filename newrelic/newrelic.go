@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/newrelic/newrelic-client-go/v2/pkg/entityrelationship"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/pathpoint"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/users"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/workflowautomation"
 
@@ -35,6 +36,7 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/logs"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/nerdgraph"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/nerdstorage"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/notebooks"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/notifications"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/nrdb"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/nrqldroprules"
@@ -42,6 +44,7 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/pipelinecontrol"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/plugins"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/pruningrules"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/servicearchintelligence"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/servicelevel"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/synthetics"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/usermanagement"
@@ -75,6 +78,7 @@ type NewRelic struct {
 	Logconfigurations       logconfigurations.Logconfigurations
 	NerdGraph               nerdgraph.NerdGraph
 	NerdStorage             nerdstorage.NerdStorage
+	Notebooks               notebooks.Notebooks
 	Notifications           notifications.Notifications
 	Nrdb                    nrdb.Nrdb
 	Nrqldroprules           nrqldroprules.Nrqldroprules
@@ -82,6 +86,7 @@ type NewRelic struct {
 	Pipelinecontrol         pipelinecontrol.Pipelinecontrol
 	Pruningrules            pruningrules.Pruningrules
 	Plugins                 plugins.Plugins
+	Scorecards              servicearchintelligence.Scorecards
 	ServiceLevel            servicelevel.Servicelevel
 	Synthetics              synthetics.Synthetics
 	UserManagement          usermanagement.Usermanagement
@@ -91,6 +96,7 @@ type NewRelic struct {
 	EntityRelationship      entityrelationship.Entityrelationship
 	Users                   users.Users
 	WorkflowAutomation      workflowautomation.Workflowautomation
+	PathPoint               pathpoint.Pathpoint
 
 	config config.Config
 }
@@ -131,6 +137,7 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 		Logconfigurations:       logconfigurations.New(cfg),
 		NerdGraph:               nerdgraph.New(cfg),
 		NerdStorage:             nerdstorage.New(cfg),
+		Notebooks:               notebooks.New(cfg),
 		Notifications:           notifications.New(cfg),
 		Nrdb:                    nrdb.New(cfg),
 		Nrqldroprules:           nrqldroprules.New(cfg),
@@ -138,6 +145,7 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 		Pipelinecontrol:         pipelinecontrol.New(cfg),
 		Pruningrules:            pruningrules.New(cfg),
 		Plugins:                 plugins.New(cfg),
+		Scorecards:              servicearchintelligence.New(cfg),
 		ServiceLevel:            servicelevel.New(cfg),
 		Synthetics:              synthetics.New(cfg),
 		UserManagement:          usermanagement.New(cfg),
@@ -147,6 +155,7 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 		EntityRelationship:      entityrelationship.New(cfg),
 		Users:                   users.New(cfg),
 		WorkflowAutomation:      workflowautomation.New(cfg),
+		PathPoint:               pathpoint.New(cfg),
 	}
 
 	return nr, nil
