@@ -14,6 +14,20 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
+// compositeFlagEnabledAccountID is a dedicated Service Levels production test
+// account ("Service Levels Testing US #1") confirmed to have
+// service-levels/composite_service_levels enabled — confirmed directly via a
+// live serviceLevelCompositeCreate call that reached real business
+// validation ("must include at least two component SLIs") rather than a
+// schema-level "Cannot query field" visibility error. CI's generic
+// NEW_RELIC_ACCOUNT_ID fixture account is not known to have this flag, which
+// is what caused the prior CI failure. Composites explicitly support
+// cross-account components (confirmed in slm-api's FetcherValidator), so the
+// component SLIs below can stay on CI's already-working generic fixture
+// account/entity — only the composite's own AccountID needs to be the
+// flag-enabled one.
+const compositeFlagEnabledAccountID = 4782508
+
 func newCompositeComponentIndicatorCreateInput(accountID int, name string) ServiceLevelIndicatorCreateInput {
 	return ServiceLevelIndicatorCreateInput{
 		Name:        name,
@@ -73,7 +87,7 @@ func TestServiceLevelComposite_Basic(t *testing.T) {
 	}()
 
 	createInput := ServiceLevelCompositeCreateInput{
-		AccountID:   testAccountID,
+		AccountID:   compositeFlagEnabledAccountID,
 		Name:        "composite-integration-test",
 		Description: "Composite integration test",
 		Components: []ServiceLevelComponentCreateInput{
@@ -168,7 +182,7 @@ func TestServiceLevelComposite_MinimumComponentsError(t *testing.T) {
 	}()
 
 	createInput := ServiceLevelCompositeCreateInput{
-		AccountID: testAccountID,
+		AccountID: compositeFlagEnabledAccountID,
 		Name:      "composite-integration-test-min-components",
 		Components: []ServiceLevelComponentCreateInput{
 			{GUID: onlyComponent.GUID},
