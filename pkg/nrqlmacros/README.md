@@ -105,27 +105,40 @@ tutone -c .tutone.yml generate --package nrqlmacros --refetch
 tutone's general schema introspection dump but are reachable when queried by name —
 `--refetch` triggers those targeted `__type` lookups.
 
-**After every regeneration, one manual step is required in `nrqlmacros_api.go`:**
+**After every regeneration, two manual steps are required:**
 
-Tutone restores the `version int` parameters on `EntityManagementDelete`,
-`EntityManagementDeleteWithContext`, `EntityManagementUpdateNRQLMacro`, and
-`EntityManagementUpdateNRQLMacroWithContext`. Comment them out again to match the
-pipelinecontrol convention (version is accepted by the GraphQL layer but not exposed to
-callers by default):
+**1. In `types.go` — restore `*int` on `EntityManagementNRQLMacroEntityUpdateInput.NumParameters`:**
+
+Tutone regenerates this field as `int` (the raw schema type). It is marked
+`// DO NOT REPLACE` in `types.go` and must be kept as `*int` so callers can explicitly
+set `numParameters` to zero without the value being silently dropped by `omitempty`.
 
 ```go
-// Before (tutone output):
+// Tutone output (revert this):
+NumParameters int `json:"numParameters,omitempty"`
+
+// Correct (restore to this):
+NumParameters *int `json:"numParameters,omitempty"`
+```
+
+**2. In `nrqlmacros_api.go` — re-comment the `version int` parameters:**
+
+Tutone restores `version int` on `EntityManagementDelete` and
+`EntityManagementUpdateNRQLMacro` (and their `WithContext` variants). Comment them out
+again to match the pipelinecontrol convention:
+
+```go
+// Tutone output (revert this):
 func (a *Nrqlmacros) EntityManagementDelete(iD string, version int) ...
 
-// After (restore comment):
+// Correct (restore to this):
 func (a *Nrqlmacros) EntityManagementDelete(
     iD string,
     // version int,
 ) ...
 ```
 
-`nrqlmacros_extra.go` requires no changes after regeneration — it is intentionally
-hand-maintained and not touched by tutone.
+`nrqlmacros_extra.go` requires no changes after regeneration.
 
 ## Links
 

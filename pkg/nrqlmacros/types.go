@@ -5519,6 +5519,22 @@ type EntityManagementNRQLMacroEntityCreateResult struct {
 	Entity EntityManagementNRQLMacroEntity `json:"entity"`
 }
 
+// DO NOT REPLACE — NumParameters is intentionally *int, not int.
+// Tutone generates int with omitempty, which silently drops the zero value and makes
+// it impossible for callers to explicitly set numParameters to 0 (e.g. removing all
+// positional parameters from a macro). *int lets callers pass nil for "leave unchanged"
+// and &0 for "set to zero". Re-apply this change after every tutone regeneration.
+//
+// EntityManagementNRQLMacroEntityUpdateInput - Update input for NrqlMacroEntity entity type.
+type EntityManagementNRQLMacroEntityUpdateInput struct {
+	// See expression in NrqlMacroEntity.
+	Expression string `json:"expression,omitempty"`
+	// See numParameters in NrqlMacroEntity.
+	NumParameters *int `json:"numParameters,omitempty"`
+	// See tags in NrqlMacroEntity.
+	Tags []EntityManagementTagInput `json:"tags,omitempty"`
+}
+
 // EntityManagementNRQLMacroEntityUpdateResult - The result of updating an entity.
 type EntityManagementNRQLMacroEntityUpdateResult struct {
 	// The updated entity.
