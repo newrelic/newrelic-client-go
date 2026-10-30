@@ -391,7 +391,7 @@ func TestQueryPolicySearchByName(t *testing.T) {
 				SearchCriteria struct {
 					Name     string `json:"name"`
 					NameLike string `json:"nameLike"`
-				} `json:"searchCriteria"`
+				} `json:"criteria"`
 			} `json:"variables"`
 		}
 		require.NoError(t, json.NewDecoder(r.Body).Decode(&body))
@@ -421,7 +421,7 @@ func TestQueryPolicySearchByNameLike(t *testing.T) {
 				SearchCriteria struct {
 					Name     string `json:"name"`
 					NameLike string `json:"nameLike"`
-				} `json:"searchCriteria"`
+				} `json:"criteria"`
 			} `json:"variables"`
 		}
 		require.NoError(t, json.NewDecoder(r.Body).Decode(&body))

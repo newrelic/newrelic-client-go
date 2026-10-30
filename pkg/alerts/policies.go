@@ -236,7 +236,7 @@ func (a *Alerts) QueryPolicySearchWithContext(ctx context.Context, accountID int
 		vars := map[string]interface{}{
 			"accountID":      accountID,
 			"cursor":         nextCursor,
-			"searchCriteria": params,
+			"criteria": params,
 		}
 
 		if err := a.client.NerdGraphQueryWithContext(ctx, alertsPolicyQuerySearch, vars, &resp); err != nil {
