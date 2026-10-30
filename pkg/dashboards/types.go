@@ -373,10 +373,14 @@ type DashboardUpdateResult struct {
 type DashboardUpdateWidgetInput struct {
 	// Typed widgets are area, bar, billboard, line, markdown, pie, and table. Check our [docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/create-widgets-dashboards-api/#widget-typed) for more info.
 	Configuration DashboardWidgetConfigurationInput `json:"configuration,omitempty"`
+	// A description of the widget, will be displayed in a tooltip.
+	Description string `json:"description,omitempty"`
 	// ID of the widget to be updated.
 	ID string `json:"id"`
 	// The widget's position and size in the dashboard.
 	Layout DashboardWidgetLayoutInput `json:"layout,omitempty"`
+	// Input for configuring a link to be displayed in the widget. The URL will be rendered as a clickable link.
+	Link DashboardWidgetLinkInput `json:"link,omitempty"`
 	// Entities related to the widget. Currently only supports one Dashboard entity guid, but may allow other cases in the future.
 	LinkedEntityGUIDs []common.EntityGUID `json:"linkedEntityGuids"`
 	// Untyped widgets are all other widgets, such as bullet, histogram, inventory, etc. Check our [docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/create-widgets-dashboards-api/#widget-untyped) for more info.
@@ -547,10 +551,14 @@ type DashboardWidgetConfigurationInput struct {
 type DashboardWidgetInput struct {
 	// Typed widgets are area, bar, billboard, line, markdown, pie, and table. Check our [docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/create-widgets-dashboards-api/#widget-typed) for more info.
 	Configuration DashboardWidgetConfigurationInput `json:"configuration,omitempty"`
+	// A description of the widget, will be displayed in a tooltip.
+	Description string `json:"description,omitempty"`
 	// ID of the widget. If null, a new widget will be created and added to a dashboard.
 	ID string `json:"id,omitempty"`
 	// The widget's position and size in the dashboard.
 	Layout DashboardWidgetLayoutInput `json:"layout,omitempty"`
+	// Input for configuring a link to be displayed in the widget. The URL will be rendered as a clickable link.
+	Link DashboardWidgetLinkInput `json:"link,omitempty"`
 	// Entities related to the widget. Currently only supports one Dashboard entity guid, but may allow other cases in the future.
 	LinkedEntityGUIDs []common.EntityGUID `json:"linkedEntityGuids"`
 	// Untyped widgets are all other widgets, such as bullet, histogram, inventory, etc. Check our [docs](https://docs.newrelic.com/docs/apis/nerdgraph/examples/create-widgets-dashboards-api/#widget-untyped) for more info.
@@ -571,6 +579,12 @@ type DashboardWidgetLayoutInput struct {
 	Row int `json:"row,omitempty"`
 	// Width of the widget. Valid values are 1 to 12 inclusive. Defaults to 4.
 	Width int `json:"width,omitempty"`
+}
+
+// DashboardWidgetLinkInput - Input for configuring a link to be displayed in the widget. The URL will be rendered as a clickable link.
+type DashboardWidgetLinkInput struct {
+	// The target URL for the link.
+	URL string `json:"url"`
 }
 
 // DashboardWidgetNRQLQueryInput - NRQL query used by a widget.
