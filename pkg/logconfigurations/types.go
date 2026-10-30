@@ -67,11 +67,15 @@ var LogConfigurationsDataPartitionRuleRetentionPolicyTypeTypes = struct {
 	SECONDARY LogConfigurationsDataPartitionRuleRetentionPolicyType
 	// The maximum retention period associated with the account. This is determined by the customer’s subscription/contract with New Relic.
 	STANDARD LogConfigurationsDataPartitionRuleRetentionPolicyType
+	// Standard retention with Live Archives enabled on the partition.
+	STANDARD_LIVE_ARCHIVE LogConfigurationsDataPartitionRuleRetentionPolicyType
 }{
 	// The alternative data retention policy, 30 days of data retention since the log data is ingested.
 	SECONDARY: "SECONDARY",
 	// The maximum retention period associated with the account. This is determined by the customer’s subscription/contract with New Relic.
 	STANDARD: "STANDARD",
+	// Standard retention with Live Archives enabled on the partition.
+	STANDARD_LIVE_ARCHIVE: "STANDARD_LIVE_ARCHIVE",
 }
 
 // LogConfigurationsObfuscationMethod - Methods for replacing obfuscated values.
