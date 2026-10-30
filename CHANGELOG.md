@@ -1,3 +1,9 @@
+<a name="v2.97.5"></a>
+## [v2.97.5] - 2026-10-30
+### Bug Fixes
+- **alerts:** correct NerdGraph variable name in policy search query
+- **apiaccess:** paginate SearchAPIAccessKeys and expose name scope filter ([#1509](https://github.com/newrelic/newrelic-client-go/issues/1509))
+
 <a name="v2.97.4"></a>
 ## [v2.97.4] - 2026-10-30
 ### Bug Fixes
@@ -2419,7 +2425,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.4...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.5...HEAD
+[v2.97.5]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.4...v2.97.5
 [v2.97.4]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.3...v2.97.4
 [v2.97.3]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.2...v2.97.3
 [v2.97.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.1...v2.97.2
