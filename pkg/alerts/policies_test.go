@@ -440,3 +440,78 @@ func TestQueryPolicySearchByNameLike(t *testing.T) {
 	require.Equal(t, "test-alert-policy-1", actual[0].Name)
 	require.Equal(t, "test-alert-policy-2", actual[1].Name)
 }
+
+func TestQueryPolicySearchByIDs(t *testing.T) {
+	t.Parallel()
+	expectedIDs := []string{"123456", "123457"}
+	respJSON := `{"data":{"actor":{"account":{"alerts":{"policiesSearch":{"nextCursor":null,"totalCount":2,"policies":[{"id":"123456","name":"test-alert-policy-1","incidentPreference":"PER_POLICY","accountId":123456},{"id":"123457","name":"test-alert-policy-2","incidentPreference":"PER_POLICY","accountId":123456}]}}}}}}`
+
+	alerts := newTestClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		var body struct {
+			Variables struct {
+				Criteria struct {
+					IDs []string `json:"ids"`
+				} `json:"criteria"`
+			} `json:"variables"`
+		}
+		require.NoError(t, json.NewDecoder(r.Body).Decode(&body))
+		require.Equal(t, expectedIDs, body.Variables.Criteria.IDs)
+
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(respJSON))
+	}))
+
+	actual, err := alerts.QueryPolicySearch(123456, AlertsPoliciesSearchCriteriaInput{IDs: expectedIDs})
+
+	require.NoError(t, err)
+	require.NotNil(t, actual)
+	require.Len(t, actual, 2)
+	require.Equal(t, "123456", actual[0].ID)
+	require.Equal(t, "123457", actual[1].ID)
+}
+
+// TestQueryPolicySearchPaginatesWithCriteria verifies that when NerdGraph returns a
+// nextCursor the criteria variable is carried on every subsequent page request —
+// not just the first. This is the regression test for the "searchCriteria" vs
+// "criteria" variable name mismatch: a wrong key would silently pass on page 1
+// but a server-side filter would still be absent on all pages.
+func TestQueryPolicySearchPaginatesWithCriteria(t *testing.T) {
+	t.Parallel()
+	expectedName := "test-alert-policy-1"
+	cursor := "next-page-cursor"
+	requestCount := 0
+
+	page1JSON := fmt.Sprintf(`{"data":{"actor":{"account":{"alerts":{"policiesSearch":{"nextCursor":%q,"totalCount":2,"policies":[{"id":"123456","name":%q,"incidentPreference":"PER_POLICY","accountId":123456}]}}}}}}`, cursor, expectedName)
+	page2JSON := fmt.Sprintf(`{"data":{"actor":{"account":{"alerts":{"policiesSearch":{"nextCursor":null,"totalCount":2,"policies":[{"id":"123457","name":%q,"incidentPreference":"PER_POLICY","accountId":123456}]}}}}}}`, expectedName)
+
+	alerts := newTestClient(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		var body struct {
+			Variables struct {
+				Criteria struct {
+					Name string `json:"name"`
+				} `json:"criteria"`
+				Cursor *string `json:"cursor"`
+			} `json:"variables"`
+		}
+		require.NoError(t, json.NewDecoder(r.Body).Decode(&body))
+		// criteria.name must be present on every page request
+		require.Equal(t, expectedName, body.Variables.Criteria.Name, "criteria.name must be sent on request %d", requestCount+1)
+
+		w.Header().Set("Content-Type", "application/json")
+		requestCount++
+		if requestCount == 1 {
+			_, _ = w.Write([]byte(page1JSON))
+		} else {
+			_, _ = w.Write([]byte(page2JSON))
+		}
+	}))
+
+	actual, err := alerts.QueryPolicySearch(123456, AlertsPoliciesSearchCriteriaInput{Name: expectedName})
+
+	require.NoError(t, err)
+	require.NotNil(t, actual)
+	require.Len(t, actual, 2, "both pages should be aggregated")
+	require.Equal(t, 2, requestCount, "should have made exactly 2 requests (one per page)")
+	require.Equal(t, "123456", actual[0].ID)
+	require.Equal(t, "123457", actual[1].ID)
+}
