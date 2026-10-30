@@ -132,6 +132,9 @@ type APIAccessCreateIngestKeyInput struct {
 	Name string `json:"name,omitempty"`
 	// Any notes about this ingest key. This can be updated later.
 	Notes string `json:"notes,omitempty"`
+	// Optional New Relic team entity GUIDs to attach at creation. Up to 50 per key. Ingest keys only.
+	// A nil value is sent as null, which attaches no teams.
+	OwningTeamIDs []string `json:"owningTeamIds"`
 }
 
 // APIAccessCreateInput - The input object to create one or more keys.
@@ -297,6 +300,8 @@ type APIAccessIngestKey struct {
 	AccountID int `json:"accountId,omitempty"`
 	// The UNIX epoch when the key was created, in seconds.
 	CreatedAt int64 `json:"createdAt,omitempty"`
+	// Whether the key is enabled. A disabled key is retained but cannot be used until re-enabled.
+	Enabled bool `json:"enabled,omitempty"`
 	// The ID of the ingest key. This can be used to identify a key without revealing the key itself (used to update and delete).
 	ID string `json:"id,omitempty"`
 	// The type of ingest key, which dictates what types of agents can use it to report.
@@ -307,6 +312,8 @@ type APIAccessIngestKey struct {
 	Name string `json:"name,omitempty"`
 	// Any notes can be attached to an key. Limited to 120 characters.
 	Notes string `json:"notes,omitempty"`
+	// The New Relic team entity GUIDs of the teams that own this ingest key. Empty when no teams own the key.
+	OwningTeamIDs []string `json:"owningTeamIds"`
 	// The type of key, indicating what New Relic APIs it can be used to access.
 	Type APIAccessKeyType `json:"type,omitempty"`
 }
@@ -335,6 +342,8 @@ func (x *APIAccessIngestKeyError) ImplementsAPIAccessKeyError() {}
 type APIAccessKey struct {
 	// The UNIX epoch when the key was created, in seconds.
 	CreatedAt int64 `json:"createdAt,omitempty"`
+	// Whether the key is enabled. A disabled key is retained but cannot be used until re-enabled.
+	Enabled bool `json:"enabled,omitempty"`
 	// The ID of the key. This can be used to identify a key without revealing the key itself (used to update and delete).
 	ID string `json:"id,omitempty"`
 	// The keystring of the key.
@@ -439,12 +448,17 @@ type APIAccessKeySearchScope struct {
 
 // APIAccessUpdateIngestKeyInput - The `id` and data to update one or more keys.
 type APIAccessUpdateIngestKeyInput struct {
+	// Set to `false` to disable the key or `true` to re-enable it. Omit to leave the key's status unchanged.
+	Enabled *bool `json:"enabled,omitempty"`
 	// The `id` of the key you want to update.
 	KeyID string `json:"keyId"`
 	// The name you want to assign to the key.
 	Name string `json:"name,omitempty"`
 	// The notes you want to assign to the key.
 	Notes string `json:"notes,omitempty"`
+	// Full-set replace of the key's owning teams, as New Relic team entity GUIDs (up to 50). Ingest keys only.
+	// A nil value is sent as null, which leaves the teams unchanged; an empty, non-nil slice clears all teams.
+	OwningTeamIDs []string `json:"owningTeamIds"`
 }
 
 // APIAccessUpdateInput - The `id` and data to update one or more keys.
@@ -525,6 +539,8 @@ func (x *APIAccessUpdateKeyResponse) UnmarshalJSON(b []byte) error {
 
 // APIAccessUpdateUserKeyInput - The `id` and data to update one or more keys.
 type APIAccessUpdateUserKeyInput struct {
+	// Set to `false` to disable the key or `true` to re-enable it. Omit to leave the key's status unchanged.
+	Enabled *bool `json:"enabled,omitempty"`
 	// The `id` of the key you want to update.
 	KeyID string `json:"keyId"`
 	// The name you want to assign to the key.
@@ -541,6 +557,8 @@ type APIAccessUserKey struct {
 	AccountID int `json:"accountId,omitempty"`
 	// The UNIX epoch when the key was created, in seconds.
 	CreatedAt int64 `json:"createdAt,omitempty"`
+	// Whether the key is enabled. A disabled key is retained but cannot be used until re-enabled.
+	Enabled bool `json:"enabled,omitempty"`
 	// The ID of the user key. This can be used to identify a key without revealing the key itself (used to update and delete).
 	ID string `json:"id,omitempty"`
 	// The keystring of the key.
