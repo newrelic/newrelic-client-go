@@ -34,6 +34,22 @@ const (
 		}
 	}`
 
+	testUpdateUserKeysMockResponse = `{
+		"data": {
+			"apiAccessUpdateKeys": {
+				"updatedKeys": [{
+					"id": "D4E5F6",
+					"name": "test-key",
+					"type": "USER",
+					"enabled": false,
+					"accountId": 1,
+					"userId": 1
+				}],
+				"errors": []
+			}
+		}
+	}`
+
 	testCreateKeysMockResponse = `{
 		"data": {
 			"apiAccessCreateKeys": {
@@ -98,13 +114,14 @@ func newMockResponseCapturingRequest(t *testing.T, mockJSONResponse string) (API
 
 func boolPtr(b bool) *bool { return &b }
 
-func ingestKeyUpdateVars(t *testing.T, req *graphQLRequestBody) map[string]interface{} {
+// updateKeyVars returns the variables sent for the single key in the "ingest" or "user" update list.
+func updateKeyVars(t *testing.T, req *graphQLRequestBody, keyList string) map[string]interface{} {
 	keys, ok := req.Variables["keys"].(map[string]interface{})
 	require.True(t, ok)
-	ingest, ok := keys["ingest"].([]interface{})
+	list, ok := keys[keyList].([]interface{})
 	require.True(t, ok)
-	require.Len(t, ingest, 1)
-	return ingest[0].(map[string]interface{})
+	require.Len(t, list, 1)
+	return list[0].(map[string]interface{})
 }
 
 func TestUnitAPIAccess_UpdateKeys_SendsEnabledFalse(t *testing.T) {
@@ -116,7 +133,7 @@ func TestUnitAPIAccess_UpdateKeys_SendsEnabledFalse(t *testing.T) {
 	})
 	require.NoError(t, err)
 
-	vars := ingestKeyUpdateVars(t, req)
+	vars := updateKeyVars(t, req, "ingest")
 	assert.Equal(t, false, vars["enabled"])
 	require.Len(t, keys, 1)
 	assert.False(t, keys[0].Enabled)
@@ -131,7 +148,7 @@ func TestUnitAPIAccess_UpdateKeys_UnsetEnabledOmittedAndOwningTeamIDsNull(t *tes
 	})
 	require.NoError(t, err)
 
-	vars := ingestKeyUpdateVars(t, req)
+	vars := updateKeyVars(t, req, "ingest")
 	assert.Equal(t, "renamed", vars["name"])
 	assert.NotContains(t, vars, "enabled")
 	// A nil OwningTeamIDs is sent as null, which leaves the key's teams unchanged.
@@ -148,9 +165,38 @@ func TestUnitAPIAccess_UpdateKeys_SendsEmptyOwningTeamIDsToClear(t *testing.T) {
 	})
 	require.NoError(t, err)
 
-	vars := ingestKeyUpdateVars(t, req)
+	vars := updateKeyVars(t, req, "ingest")
 	require.Contains(t, vars, "owningTeamIds")
 	assert.Equal(t, []interface{}{}, vars["owningTeamIds"])
+}
+
+func TestUnitAPIAccess_UpdateUserKeys_SendsEnabledFalse(t *testing.T) {
+	t.Parallel()
+	client, req := newMockResponseCapturingRequest(t, testUpdateUserKeysMockResponse)
+
+	keys, err := client.UpdateAPIAccessKeys(APIAccessUpdateInput{
+		User: []APIAccessUpdateUserKeyInput{{KeyID: "D4E5F6", Enabled: boolPtr(false)}},
+	})
+	require.NoError(t, err)
+
+	vars := updateKeyVars(t, req, "user")
+	assert.Equal(t, false, vars["enabled"])
+	require.Len(t, keys, 1)
+	assert.False(t, keys[0].Enabled)
+}
+
+func TestUnitAPIAccess_UpdateUserKeys_UnsetEnabledOmitted(t *testing.T) {
+	t.Parallel()
+	client, req := newMockResponseCapturingRequest(t, testUpdateUserKeysMockResponse)
+
+	_, err := client.UpdateAPIAccessKeys(APIAccessUpdateInput{
+		User: []APIAccessUpdateUserKeyInput{{KeyID: "D4E5F6", Name: "renamed"}},
+	})
+	require.NoError(t, err)
+
+	vars := updateKeyVars(t, req, "user")
+	assert.Equal(t, "renamed", vars["name"])
+	assert.NotContains(t, vars, "enabled")
 }
 
 func TestUnitAPIAccess_CreateKeys_UnsetOwningTeamIDsNull(t *testing.T) {
