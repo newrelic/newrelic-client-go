@@ -4,13 +4,13 @@
 package apiaccess
 
 import (
-	"os"
 	"regexp"
 	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/require"
 
+	"github.com/newrelic/newrelic-client-go/v2/pkg/servicearchintelligence"
 	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
@@ -67,14 +67,25 @@ func TestIntegrationAPIAccess_IngestKeys(t *testing.T) {
 	require.NotNil(t, deleteResult)
 }
 
-// getTestTeamGUIDs returns the comma-separated team entity GUIDs in
-// INTEGRATION_TESTING_NEW_RELIC_TEAM_GUIDS, or nil when unset.
-func getTestTeamGUIDs() []string {
-	v := os.Getenv("INTEGRATION_TESTING_NEW_RELIC_TEAM_GUIDS")
-	if v == "" {
-		return nil
+// createTestTeam creates a minimal team in the test organization and returns its entity GUID,
+// along with a function that deletes it.
+func createTestTeam(t *testing.T, orgID string) (string, func()) {
+	t.Helper()
+
+	teamsClient := servicearchintelligence.New(mock.NewIntegrationTestConfig(t))
+	result, err := teamsClient.EntityManagementCreateTeam(servicearchintelligence.EntityManagementTeamEntityCreateInput{
+		Name:  "test-integration-api-access-team-" + mock.RandSeq(6),
+		Scope: servicearchintelligence.EntityManagementScopedReferenceInput{ID: orgID, Type: servicearchintelligence.EntityManagementEntityScopeTypes.ORGANIZATION},
+	})
+	require.NoError(t, err)
+	require.NotEmpty(t, result.Entity.ID)
+
+	teamID := result.Entity.ID
+	return teamID, func() {
+		if _, deleteErr := teamsClient.EntityManagementDelete(teamID); deleteErr != nil {
+			t.Logf("failed to delete test team %s: %s", teamID, deleteErr)
+		}
 	}
-	return strings.Split(v, ",")
 }
 
 func TestIntegrationAPIAccess_IngestKeyEnabledAndOwningTeams(t *testing.T) {
@@ -86,7 +97,18 @@ func TestIntegrationAPIAccess_IngestKeyEnabledAndOwningTeams(t *testing.T) {
 	}
 
 	client := newIntegrationTestClient(t)
-	teamGUIDs := getTestTeamGUIDs()
+
+	// Owning teams are tested with temporary teams, created when an organization ID is configured.
+	var teamGUIDs []string
+	if orgID, orgErr := mock.GetTestOrganizationID(); orgErr == nil {
+		for i := 0; i < 2; i++ {
+			teamID, deleteTeam := createTestTeam(t, orgID)
+			defer deleteTeam()
+			teamGUIDs = append(teamGUIDs, teamID)
+		}
+	} else {
+		t.Logf("skipping owning team checks: %s", orgErr)
+	}
 
 	// Test: Create (with owning teams when configured; otherwise OwningTeamIDs is nil and sent as null)
 	createResult, err := client.CreateAPIAccessKeys(APIAccessCreateInput{
