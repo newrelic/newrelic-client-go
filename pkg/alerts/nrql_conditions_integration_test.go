@@ -809,6 +809,84 @@ func TestIntegrationNrqlConditions_StreamingMethods(t *testing.T) {
 	}()
 }
 
+func TestIntegrationNrqlConditions_ClearEvaluationDelay(t *testing.T) {
+	t.Parallel()
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	var (
+		randStr     = mock.RandSeq(5)
+		createInput = NrqlConditionCreateInput{
+			NrqlConditionCreateBase: nrqlConditionCreateWithStreamingMethods,
+		}
+		// Own signal instead of the shared fixture's pointer, which other parallel tests mutate
+		updateWithoutEvaluationDelayInput = NrqlConditionUpdateInput{
+			NrqlConditionUpdateBase: NrqlConditionUpdateBase{
+				Enabled: true,
+				Name:    fmt.Sprintf("test-nrql-condition-%s", randStr),
+				Nrql: NrqlConditionUpdateQuery{
+					Query: "SELECT rate(sum(apm.service.cpu.usertime.utilization), 1 second) * 100 as cpuUsage FROM Metric WHERE appName like 'Dummy App'",
+				},
+				Terms: &[]NrqlConditionTerm{
+					{
+						Threshold:            &nrqlConditionBaseThreshold,
+						ThresholdOccurrences: ThresholdOccurrences.AtLeastOnce,
+						ThresholdDuration:    600,
+						Operator:             AlertsNRQLConditionTermsOperatorTypes.ABOVE,
+						Priority:             NrqlConditionPriorities.Critical,
+					},
+				},
+				ViolationTimeLimitSeconds: 3600,
+				Signal: &AlertsNrqlConditionUpdateSignal{
+					AggregationWindow: &nrqlConditionBaseAggWindow,
+					AggregationMethod: &nrqlConditionBaseAggMethod,
+					AggregationDelay:  &nrqlConditionBaseAggDelay,
+					EvaluationDelay:   nil,
+				},
+			},
+		}
+	)
+
+	// Setup
+	client := newIntegrationTestClient(t)
+	testPolicy := AlertsPolicyInput{
+		IncidentPreference: AlertsIncidentPreferenceTypes.PER_POLICY,
+		Name:               fmt.Sprintf("test-alert-policy-%s", randStr),
+	}
+	policy, err := client.CreatePolicyMutation(testAccountID, testPolicy)
+	require.NoError(t, err)
+
+	// Deferred teardown, registered before any assertion can fail so the policy is always cleaned up
+	defer func() {
+		_, err := client.DeletePolicyMutation(testAccountID, policy.ID)
+		if err != nil {
+			t.Logf("error cleaning up alert policy %s (%s): %s", policy.ID, policy.Name, err)
+		}
+	}()
+
+	// Test: Create (static condition with an evaluation delay)
+	createdCondition, err := client.CreateNrqlConditionStaticMutation(testAccountID, policy.ID, createInput)
+	require.NoError(t, err)
+	require.NotNil(t, createdCondition)
+	require.Equal(t, &nrqlConditionEvaluationDelay, createdCondition.Signal.EvaluationDelay)
+
+	// Test: Update (evaluation delay cleared)
+	updatedCondition, err := client.UpdateNrqlConditionStaticMutation(testAccountID, createdCondition.ID, updateWithoutEvaluationDelayInput)
+	require.NoError(t, err)
+	require.NotNil(t, updatedCondition)
+	require.Nil(t, updatedCondition.Signal.EvaluationDelay)
+	require.Equal(t, &nrqlConditionBaseAggDelay, updatedCondition.Signal.AggregationDelay)
+
+	// Test: Get (evaluation delay stays cleared)
+	readResult, err := client.GetNrqlConditionQuery(testAccountID, createdCondition.ID)
+	require.NoError(t, err)
+	require.NotNil(t, readResult)
+	require.Nil(t, readResult.Signal.EvaluationDelay)
+}
+
 func TestIntegrationNrqlConditions_DataAccountId(t *testing.T) {
 	t.Parallel()
 

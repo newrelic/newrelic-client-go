@@ -1,3 +1,24 @@
+<a name="v2.97.5"></a>
+## [v2.97.5] - 2026-10-30
+### Bug Fixes
+- **alerts:** correct NerdGraph variable name in policy search query
+- **apiaccess:** paginate SearchAPIAccessKeys and expose name scope filter ([#1509](https://github.com/newrelic/newrelic-client-go/issues/1509))
+
+<a name="v2.97.4"></a>
+## [v2.97.4] - 2026-10-30
+### Bug Fixes
+- **alerts:** allow clearing evaluation delay on nrql condition update
+
+<a name="v2.97.3"></a>
+## [v2.97.3] - 2026-10-29
+### Features
+- **nrqlmacros:** add pkg/nrqlmacros — NRQL Macros CRUD via Entity Management API
+
+<a name="v2.97.2"></a>
+## [v2.97.2] - 2026-10-28
+### Bug Fixes
+- **servicelevel:** add facets support to SLI events ([#1511](https://github.com/newrelic/newrelic-client-go/issues/1511))
+
 <a name="v2.97.1"></a>
 ## [v2.97.1] - 2026-10-22
 ### Bug Fixes
@@ -2404,7 +2425,11 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.1...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.5...HEAD
+[v2.97.5]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.4...v2.97.5
+[v2.97.4]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.3...v2.97.4
+[v2.97.3]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.2...v2.97.3
+[v2.97.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.1...v2.97.2
 [v2.97.1]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.0...v2.97.1
 [v2.97.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.96.2...v2.97.0
 [v2.96.2]: https://github.com/newrelic/newrelic-client-go/compare/v2.96.1...v2.96.2

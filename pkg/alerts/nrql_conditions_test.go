@@ -370,3 +370,65 @@ func TestUpdateNrqlConditionStaticMutation_TermsWireSemantics(t *testing.T) {
 		})
 	}
 }
+
+func TestUpdateNrqlConditionStaticMutation_EvaluationDelayWireSemantics(t *testing.T) {
+	t.Parallel()
+
+	cases := map[string]struct {
+		evaluationDelay *int
+		expectValue     interface{}
+	}{
+		"nil evaluation delay sends an explicit null so the delay can be cleared": {
+			evaluationDelay: nil,
+			expectValue:     nil,
+		},
+		"set evaluation delay sends the value": {
+			evaluationDelay: intPtr(30),
+			// JSON numbers decode as float64 into interface{}
+			expectValue: float64(30),
+		},
+	}
+
+	for name, tc := range cases {
+		tc := tc
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+
+			var capturedVariables map[string]interface{}
+
+			handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				var body struct {
+					Variables map[string]interface{} `json:"variables"`
+				}
+				require.NoError(t, json.NewDecoder(r.Body).Decode(&body))
+				capturedVariables = body.Variables
+
+				w.Header().Set("Content-Type", "application/json")
+				_, _ = w.Write([]byte(`{"data":{"alertsNrqlConditionStaticUpdate":{"id":"123"}}}`))
+			})
+
+			alertsClient := newTestClient(t, handler)
+
+			input := NrqlConditionUpdateInput{
+				NrqlConditionUpdateBase: NrqlConditionUpdateBase{
+					Name: "test",
+					Signal: &AlertsNrqlConditionUpdateSignal{
+						EvaluationDelay: tc.evaluationDelay,
+					},
+				},
+			}
+
+			_, err := alertsClient.UpdateNrqlConditionStaticMutation(123456, "123", input)
+			require.NoError(t, err)
+
+			condition, ok := capturedVariables["condition"].(map[string]interface{})
+			require.True(t, ok)
+			signal, ok := condition["signal"].(map[string]interface{})
+			require.True(t, ok)
+
+			value, hasKey := signal["evaluationDelay"]
+			assert.True(t, hasKey, "evaluationDelay should always be sent on update")
+			assert.Equal(t, tc.expectValue, value)
+		})
+	}
+}

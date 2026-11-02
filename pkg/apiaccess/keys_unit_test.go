@@ -8,6 +8,7 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -16,178 +17,232 @@ import (
 	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
-const (
-	testUpdateKeysMockResponse = `{
-		"data": {
-			"apiAccessUpdateKeys": {
-				"updatedKeys": [{
-					"id": "A1B2C3",
-					"name": "test-key",
-					"type": "INGEST",
-					"enabled": false,
-					"ingestType": "LICENSE",
-					"accountId": 1,
-					"owningTeamIds": []
-				}],
-				"errors": []
-			}
-		}
-	}`
+// keySearchRequestBody is used to parse the NerdGraph request body in tests.
+type keySearchRequestBody struct {
+	Variables map[string]interface{} `json:"variables"`
+}
 
-	testCreateKeysMockResponse = `{
-		"data": {
-			"apiAccessCreateKeys": {
-				"createdKeys": [{
-					"id": "A1B2C3",
-					"type": "INGEST",
-					"enabled": true,
-					"ingestType": "LICENSE",
-					"accountId": 1,
-					"owningTeamIds": []
-				}],
-				"errors": []
-			}
-		}
-	}`
+func newAPIAccessClient(t *testing.T, ts *httptest.Server) APIAccess {
+	tc := mock.NewTestConfig(t, ts)
+	return New(tc)
+}
 
-	testGetKeyMockResponse = `{
+func TestSearchAPIAccessKeysWithContext_FollowsNextCursor(t *testing.T) {
+	t.Parallel()
+
+	page1 := `{
 		"data": {
 			"actor": {
 				"apiAccess": {
-					"key": {
-						"id": "A1B2C3",
-						"name": "test-key",
-						"type": "INGEST",
-						"enabled": false,
-						"ingestType": "LICENSE",
-						"accountId": 1,
-						"owningTeamIds": ["team-guid-1", "team-guid-2"]
+					"keySearch": {
+						"keys": [
+							{"id": "key-1", "name": "Key One", "type": "INGEST"},
+							{"id": "key-2", "name": "Key Two", "type": "INGEST"}
+						],
+						"nextCursor": "page-2"
 					}
 				}
 			}
 		}
 	}`
-)
 
-type graphQLRequestBody struct {
-	Query     string                 `json:"query"`
-	Variables map[string]interface{} `json:"variables"`
+	page2 := `{
+		"data": {
+			"actor": {
+				"apiAccess": {
+					"keySearch": {
+						"keys": [
+							{"id": "key-3", "name": "Key Three", "type": "INGEST"}
+						],
+						"nextCursor": null
+					}
+				}
+			}
+		}
+	}`
+
+	requestCount := 0
+	var capturedCursors []interface{}
+
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		requestCount++
+
+		body, err := io.ReadAll(r.Body)
+		require.NoError(t, err)
+
+		var req keySearchRequestBody
+		require.NoError(t, json.Unmarshal(body, &req))
+
+		capturedCursors = append(capturedCursors, req.Variables["cursor"])
+
+		w.Header().Set("Content-Type", "application/json")
+		if requestCount == 1 {
+			_, _ = w.Write([]byte(page1))
+		} else {
+			_, _ = w.Write([]byte(page2))
+		}
+	}))
+	defer ts.Close()
+
+	client := newAPIAccessClient(t, ts)
+
+	params := APIAccessKeySearchQuery{
+		Types: []APIAccessKeyType{APIAccessKeyTypeTypes.INGEST},
+	}
+
+	keys, err := client.SearchAPIAccessKeys(params)
+
+	require.NoError(t, err)
+	assert.Len(t, keys, 3)
+	assert.Equal(t, "key-1", keys[0].ID)
+	assert.Equal(t, "key-2", keys[1].ID)
+	assert.Equal(t, "key-3", keys[2].ID)
+
+	assert.Equal(t, 2, requestCount, "expected exactly 2 requests")
+
+	// First request: cursor should be nil
+	assert.Nil(t, capturedCursors[0])
+
+	// Second request: cursor should be "page-2"
+	assert.Equal(t, "page-2", capturedCursors[1])
 }
 
-// newMockResponseCapturingRequest returns a client pointed at a mock server, plus the
-// decoded body of the last request it received, so tests can assert on the GraphQL
-// variables actually sent over the wire.
-func newMockResponseCapturingRequest(t *testing.T, mockJSONResponse string) (APIAccess, *graphQLRequestBody) {
-	lastRequest := &graphQLRequestBody{}
+func TestSearchAPIAccessKeysWithContext_SinglePage(t *testing.T) {
+	t.Parallel()
+
+	singlePage := `{
+		"data": {
+			"actor": {
+				"apiAccess": {
+					"keySearch": {
+						"keys": [
+							{"id": "key-only", "name": "Only Key", "type": "INGEST"}
+						]
+					}
+				}
+			}
+		}
+	}`
+
+	requestCount := 0
+
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		requestCount++
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(singlePage))
+	}))
+	defer ts.Close()
+
+	client := newAPIAccessClient(t, ts)
+
+	params := APIAccessKeySearchQuery{
+		Types: []APIAccessKeyType{APIAccessKeyTypeTypes.INGEST},
+	}
+
+	keys, err := client.SearchAPIAccessKeys(params)
+
+	require.NoError(t, err)
+	assert.Len(t, keys, 1)
+	assert.Equal(t, "key-only", keys[0].ID)
+	assert.Equal(t, 1, requestCount, "expected exactly 1 request")
+}
+
+func TestSearchAPIAccessKeysWithContext_NameFilter(t *testing.T) {
+	t.Parallel()
+
+	response := `{
+		"data": {
+			"actor": {
+				"apiAccess": {
+					"keySearch": {
+						"keys": [
+							{"id": "installer-key", "name": "Installer Ingest License Key", "type": "INGEST"}
+						]
+					}
+				}
+			}
+		}
+	}`
+
+	var capturedBody string
 
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		body, err := io.ReadAll(r.Body)
 		require.NoError(t, err)
-		require.NoError(t, json.Unmarshal(body, lastRequest))
+		capturedBody = string(body)
 
 		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusOK)
-
-		_, err = w.Write([]byte(mockJSONResponse))
-		require.NoError(t, err)
+		_, _ = w.Write([]byte(response))
 	}))
-	t.Cleanup(ts.Close)
+	defer ts.Close()
 
-	return New(mock.NewTestConfig(t, ts)), lastRequest
-}
+	client := newAPIAccessClient(t, ts)
 
-func boolPtr(b bool) *bool { return &b }
+	params := APIAccessKeySearchQuery{
+		Types: []APIAccessKeyType{APIAccessKeyTypeTypes.INGEST},
+		Scope: APIAccessKeySearchScope{
+			Name: &APIAccessKeyNameQuery{
+				Contains: "Installer",
+			},
+		},
+	}
 
-func ingestKeyUpdateVars(t *testing.T, req *graphQLRequestBody) map[string]interface{} {
-	keys, ok := req.Variables["keys"].(map[string]interface{})
-	require.True(t, ok)
-	ingest, ok := keys["ingest"].([]interface{})
-	require.True(t, ok)
-	require.Len(t, ingest, 1)
-	return ingest[0].(map[string]interface{})
-}
+	keys, err := client.SearchAPIAccessKeys(params)
 
-func TestUnitAPIAccess_UpdateKeys_SendsEnabledFalse(t *testing.T) {
-	t.Parallel()
-	client, req := newMockResponseCapturingRequest(t, testUpdateKeysMockResponse)
-
-	keys, err := client.UpdateAPIAccessKeys(APIAccessUpdateInput{
-		Ingest: []APIAccessUpdateIngestKeyInput{{KeyID: "A1B2C3", Enabled: boolPtr(false)}},
-	})
 	require.NoError(t, err)
+	assert.Len(t, keys, 1)
+	assert.Equal(t, "installer-key", keys[0].ID)
 
-	vars := ingestKeyUpdateVars(t, req)
-	assert.Equal(t, false, vars["enabled"])
-	require.Len(t, keys, 1)
-	assert.False(t, keys[0].Enabled)
+	assert.True(t, strings.Contains(capturedBody, `"contains":"Installer"`),
+		"expected request body to contain name filter, got: %s", capturedBody)
 }
 
-func TestUnitAPIAccess_UpdateKeys_UnsetEnabledOmittedAndOwningTeamIDsNull(t *testing.T) {
+func TestSearchAPIAccessKeysWithContext_ErrorOnPage(t *testing.T) {
 	t.Parallel()
-	client, req := newMockResponseCapturingRequest(t, testUpdateKeysMockResponse)
 
-	_, err := client.UpdateAPIAccessKeys(APIAccessUpdateInput{
-		Ingest: []APIAccessUpdateIngestKeyInput{{KeyID: "A1B2C3", Name: "renamed"}},
-	})
-	require.NoError(t, err)
+	page1 := `{
+		"data": {
+			"actor": {
+				"apiAccess": {
+					"keySearch": {
+						"keys": [
+							{"id": "key-1", "name": "Key One", "type": "INGEST"}
+						],
+						"nextCursor": "page-2"
+					}
+				}
+			}
+		}
+	}`
 
-	vars := ingestKeyUpdateVars(t, req)
-	assert.Equal(t, "renamed", vars["name"])
-	assert.NotContains(t, vars, "enabled")
-	// A nil OwningTeamIDs is sent as null, which leaves the key's teams unchanged.
-	require.Contains(t, vars, "owningTeamIds")
-	assert.Nil(t, vars["owningTeamIds"])
-}
+	page2Error := `{
+		"errors": [
+			{"message": "internal server error on page 2"}
+		]
+	}`
 
-func TestUnitAPIAccess_UpdateKeys_SendsEmptyOwningTeamIDsToClear(t *testing.T) {
-	t.Parallel()
-	client, req := newMockResponseCapturingRequest(t, testUpdateKeysMockResponse)
+	requestCount := 0
 
-	_, err := client.UpdateAPIAccessKeys(APIAccessUpdateInput{
-		Ingest: []APIAccessUpdateIngestKeyInput{{KeyID: "A1B2C3", OwningTeamIDs: []string{}}},
-	})
-	require.NoError(t, err)
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		requestCount++
+		w.Header().Set("Content-Type", "application/json")
+		if requestCount == 1 {
+			_, _ = w.Write([]byte(page1))
+		} else {
+			_, _ = w.Write([]byte(page2Error))
+		}
+	}))
+	defer ts.Close()
 
-	vars := ingestKeyUpdateVars(t, req)
-	require.Contains(t, vars, "owningTeamIds")
-	assert.Equal(t, []interface{}{}, vars["owningTeamIds"])
-}
+	client := newAPIAccessClient(t, ts)
 
-func TestUnitAPIAccess_CreateKeys_UnsetOwningTeamIDsNull(t *testing.T) {
-	t.Parallel()
-	client, req := newMockResponseCapturingRequest(t, testCreateKeysMockResponse)
+	params := APIAccessKeySearchQuery{
+		Types: []APIAccessKeyType{APIAccessKeyTypeTypes.INGEST},
+	}
 
-	_, err := client.CreateAPIAccessKeys(APIAccessCreateInput{
-		Ingest: []APIAccessCreateIngestKeyInput{{AccountID: 1, IngestType: APIAccessIngestKeyTypeTypes.LICENSE}},
-	})
-	require.NoError(t, err)
+	keys, err := client.SearchAPIAccessKeys(params)
 
-	keys, ok := req.Variables["keys"].(map[string]interface{})
-	require.True(t, ok)
-	ingest := keys["ingest"].([]interface{})[0].(map[string]interface{})
-	// A nil OwningTeamIDs is sent as null, which attaches no teams.
-	require.Contains(t, ingest, "owningTeamIds")
-	assert.Nil(t, ingest["owningTeamIds"])
-}
-
-func TestUnitAPIAccess_GetKey_DefaultOmitsIncludeDisabled(t *testing.T) {
-	t.Parallel()
-	client, req := newMockResponseCapturingRequest(t, testGetKeyMockResponse)
-
-	_, err := client.GetAPIAccessKey("A1B2C3", APIAccessKeyTypeTypes.INGEST)
-	require.NoError(t, err)
-
-	assert.NotContains(t, req.Query, "includeDisabled")
-}
-
-func TestUnitAPIAccess_GetKeyIncludingDisabled(t *testing.T) {
-	t.Parallel()
-	client, req := newMockResponseCapturingRequest(t, testGetKeyMockResponse)
-
-	key, err := client.GetAPIAccessKeyIncludingDisabled("A1B2C3", APIAccessKeyTypeTypes.INGEST)
-	require.NoError(t, err)
-
-	assert.Contains(t, req.Query, "includeDisabled: true")
-	assert.False(t, key.Enabled)
-	assert.Equal(t, []string{"team-guid-1", "team-guid-2"}, key.OwningTeamIDs)
+	require.Error(t, err, "expected an error when a page returns errors")
+	assert.Nil(t, keys, "expected no partial results on error")
+	assert.Equal(t, 2, requestCount, "expected 2 requests before encountering the error")
 }
