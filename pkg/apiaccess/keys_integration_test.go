@@ -166,6 +166,21 @@ func TestIntegrationAPIAccess_IngestKeyEnabledAndOwningTeams(t *testing.T) {
 	require.NoError(t, err)
 	require.False(t, getResult.Enabled)
 
+	// Test: Renaming a disabled key without `enabled` is rejected as not found...
+	renamed := "test-integration-api-access-renamed-" + mock.RandSeq(5)
+	_, err = client.UpdateAPIAccessKeys(APIAccessUpdateInput{
+		Ingest: []APIAccessUpdateIngestKeyInput{{KeyID: keyID, Name: renamed}},
+	})
+	require.ErrorContains(t, err, "Key not found")
+
+	// ...but succeeds when it also passes `enabled: false`, and the key stays disabled
+	updateResult, err = client.UpdateAPIAccessKeys(APIAccessUpdateInput{
+		Ingest: []APIAccessUpdateIngestKeyInput{{KeyID: keyID, Name: renamed, Enabled: &disabled}},
+	})
+	require.NoError(t, err)
+	require.Equal(t, renamed, updateResult[0].Name)
+	require.False(t, updateResult[0].Enabled)
+
 	// Test: Re-enable
 	enabled := true
 	updateResult, err = client.UpdateAPIAccessKeys(APIAccessUpdateInput{
@@ -223,6 +238,21 @@ func TestIntegrationAPIAccess_UserKeyEnabled(t *testing.T) {
 	getResult, err := client.GetAPIAccessKeyIncludingDisabled(keyID, APIAccessKeyTypeTypes.USER)
 	require.NoError(t, err)
 	require.False(t, getResult.Enabled)
+
+	// Test: Renaming a disabled key without `enabled` is rejected as not found...
+	renamed := "test-integration-api-access-renamed-" + mock.RandSeq(5)
+	_, err = client.UpdateAPIAccessKeys(APIAccessUpdateInput{
+		User: []APIAccessUpdateUserKeyInput{{KeyID: keyID, Name: renamed}},
+	})
+	require.ErrorContains(t, err, "Key not found")
+
+	// ...but succeeds when it also passes `enabled: false`, and the key stays disabled
+	updateResult, err = client.UpdateAPIAccessKeys(APIAccessUpdateInput{
+		User: []APIAccessUpdateUserKeyInput{{KeyID: keyID, Name: renamed, Enabled: &disabled}},
+	})
+	require.NoError(t, err)
+	require.Equal(t, renamed, updateResult[0].Name)
+	require.False(t, updateResult[0].Enabled)
 
 	// Test: Delete a disabled key
 	deleteResult, err := client.DeleteAPIAccessKey(APIAccessDeleteInput{UserKeyIDs: []string{keyID}})
