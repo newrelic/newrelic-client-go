@@ -10,6 +10,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
+	"github.com/newrelic/newrelic-client-go/v2/pkg/servicearchintelligence"
 	mock "github.com/newrelic/newrelic-client-go/v2/pkg/testhelpers"
 )
 
@@ -64,6 +65,199 @@ func TestIntegrationAPIAccess_IngestKeys(t *testing.T) {
 	})
 	require.NoError(t, err)
 	require.NotNil(t, deleteResult)
+}
+
+// createTestTeam creates a minimal team in the test organization and returns its entity GUID,
+// along with a function that deletes it.
+func createTestTeam(t *testing.T, orgID string) (string, func()) {
+	t.Helper()
+
+	teamsClient := servicearchintelligence.New(mock.NewIntegrationTestConfig(t))
+	result, err := teamsClient.EntityManagementCreateTeam(servicearchintelligence.EntityManagementTeamEntityCreateInput{
+		Name:  "test-integration-api-access-team-" + mock.RandSeq(6),
+		Scope: servicearchintelligence.EntityManagementScopedReferenceInput{ID: orgID, Type: servicearchintelligence.EntityManagementEntityScopeTypes.ORGANIZATION},
+	})
+	require.NoError(t, err)
+	require.NotEmpty(t, result.Entity.ID)
+
+	teamID := result.Entity.ID
+	return teamID, func() {
+		if _, deleteErr := teamsClient.EntityManagementDelete(teamID); deleteErr != nil {
+			t.Logf("failed to delete test team %s: %s", teamID, deleteErr)
+		}
+	}
+}
+
+func TestIntegrationAPIAccess_IngestKeyEnabledAndOwningTeams(t *testing.T) {
+	t.Parallel()
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	client := newIntegrationTestClient(t)
+
+	// Owning teams are tested with temporary teams, created when an organization ID is configured.
+	var teamGUIDs []string
+	if orgID, orgErr := mock.GetTestOrganizationID(); orgErr == nil {
+		for i := 0; i < 2; i++ {
+			teamID, deleteTeam := createTestTeam(t, orgID)
+			defer deleteTeam()
+			teamGUIDs = append(teamGUIDs, teamID)
+		}
+	} else {
+		t.Logf("skipping owning team checks: %s", orgErr)
+	}
+
+	// Test: Create (with owning teams when configured; otherwise OwningTeamIDs is nil and sent as null)
+	createResult, err := client.CreateAPIAccessKeys(APIAccessCreateInput{
+		Ingest: []APIAccessCreateIngestKeyInput{{
+			AccountID:     testAccountID,
+			IngestType:    "BROWSER",
+			Name:          "test-integration-api-access-enabled-" + mock.RandSeq(5),
+			OwningTeamIDs: teamGUIDs,
+		}},
+	})
+	require.NoError(t, err)
+	require.Len(t, createResult, 1)
+	keyID := createResult[0].ID
+	require.True(t, createResult[0].Enabled)
+	require.ElementsMatch(t, teamGUIDs, createResult[0].OwningTeamIDs)
+
+	if len(teamGUIDs) > 0 {
+		// Test: Replace the owning team set
+		replaced := teamGUIDs[:1]
+		updateResult, updateErr := client.UpdateAPIAccessKeys(APIAccessUpdateInput{
+			Ingest: []APIAccessUpdateIngestKeyInput{{KeyID: keyID, OwningTeamIDs: replaced}},
+		})
+		require.NoError(t, updateErr)
+		require.Equal(t, replaced, updateResult[0].OwningTeamIDs)
+
+		// Test: An update without OwningTeamIDs (sent as null) leaves the owning teams unchanged
+		updateResult, updateErr = client.UpdateAPIAccessKeys(APIAccessUpdateInput{
+			Ingest: []APIAccessUpdateIngestKeyInput{{KeyID: keyID, Notes: "teams should be unchanged"}},
+		})
+		require.NoError(t, updateErr)
+		require.Equal(t, replaced, updateResult[0].OwningTeamIDs)
+
+		// Test: Clear all owning teams
+		updateResult, updateErr = client.UpdateAPIAccessKeys(APIAccessUpdateInput{
+			Ingest: []APIAccessUpdateIngestKeyInput{{KeyID: keyID, OwningTeamIDs: []string{}}},
+		})
+		require.NoError(t, updateErr)
+		require.Empty(t, updateResult[0].OwningTeamIDs)
+	}
+
+	// Test: Disable
+	disabled := false
+	updateResult, err := client.UpdateAPIAccessKeys(APIAccessUpdateInput{
+		Ingest: []APIAccessUpdateIngestKeyInput{{KeyID: keyID, Enabled: &disabled}},
+	})
+	require.NoError(t, err)
+	require.False(t, updateResult[0].Enabled)
+
+	// Test: A disabled key is not returned by default...
+	_, err = client.GetAPIAccessKey(keyID, APIAccessKeyTypeTypes.INGEST)
+	require.ErrorContains(t, err, "Key not found")
+
+	// ...but is returned when including disabled keys
+	getResult, err := client.GetAPIAccessKeyIncludingDisabled(keyID, APIAccessKeyTypeTypes.INGEST)
+	require.NoError(t, err)
+	require.False(t, getResult.Enabled)
+
+	// Test: Renaming a disabled key without `enabled` is rejected as not found...
+	renamed := "test-integration-api-access-renamed-" + mock.RandSeq(5)
+	_, err = client.UpdateAPIAccessKeys(APIAccessUpdateInput{
+		Ingest: []APIAccessUpdateIngestKeyInput{{KeyID: keyID, Name: renamed}},
+	})
+	require.ErrorContains(t, err, "Key not found")
+
+	// ...but succeeds when it also passes `enabled: false`, and the key stays disabled
+	updateResult, err = client.UpdateAPIAccessKeys(APIAccessUpdateInput{
+		Ingest: []APIAccessUpdateIngestKeyInput{{KeyID: keyID, Name: renamed, Enabled: &disabled}},
+	})
+	require.NoError(t, err)
+	require.Equal(t, renamed, updateResult[0].Name)
+	require.False(t, updateResult[0].Enabled)
+
+	// Test: Re-enable
+	enabled := true
+	updateResult, err = client.UpdateAPIAccessKeys(APIAccessUpdateInput{
+		Ingest: []APIAccessUpdateIngestKeyInput{{KeyID: keyID, Enabled: &enabled}},
+	})
+	require.NoError(t, err)
+	require.True(t, updateResult[0].Enabled)
+
+	// Test: Delete a disabled key
+	_, err = client.UpdateAPIAccessKeys(APIAccessUpdateInput{
+		Ingest: []APIAccessUpdateIngestKeyInput{{KeyID: keyID, Enabled: &disabled}},
+	})
+	require.NoError(t, err)
+
+	deleteResult, err := client.DeleteAPIAccessKey(APIAccessDeleteInput{IngestKeyIDs: []string{keyID}})
+	require.NoError(t, err)
+	require.Len(t, deleteResult, 1)
+}
+
+func TestIntegrationAPIAccess_UserKeyEnabled(t *testing.T) {
+	t.Parallel()
+
+	testAccountID, err := mock.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	testUserID, err := mock.GetTestUserID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	client := newIntegrationTestClient(t)
+
+	// Setup
+	createResult, err := client.CreateAPIAccessKeys(APIAccessCreateInput{
+		User: []APIAccessCreateUserKeyInput{{
+			AccountID: testAccountID,
+			UserID:    testUserID,
+			Name:      "test-integration-api-access-enabled-" + mock.RandSeq(5),
+		}},
+	})
+	require.NoError(t, err)
+	require.Len(t, createResult, 1)
+	keyID := createResult[0].ID
+
+	// Test: Disable
+	disabled := false
+	updateResult, err := client.UpdateAPIAccessKeys(APIAccessUpdateInput{
+		User: []APIAccessUpdateUserKeyInput{{KeyID: keyID, Enabled: &disabled}},
+	})
+	require.NoError(t, err)
+	require.False(t, updateResult[0].Enabled)
+
+	getResult, err := client.GetAPIAccessKeyIncludingDisabled(keyID, APIAccessKeyTypeTypes.USER)
+	require.NoError(t, err)
+	require.False(t, getResult.Enabled)
+
+	// Test: Renaming a disabled key without `enabled` is rejected as not found...
+	renamed := "test-integration-api-access-renamed-" + mock.RandSeq(5)
+	_, err = client.UpdateAPIAccessKeys(APIAccessUpdateInput{
+		User: []APIAccessUpdateUserKeyInput{{KeyID: keyID, Name: renamed}},
+	})
+	require.ErrorContains(t, err, "Key not found")
+
+	// ...but succeeds when it also passes `enabled: false`, and the key stays disabled
+	updateResult, err = client.UpdateAPIAccessKeys(APIAccessUpdateInput{
+		User: []APIAccessUpdateUserKeyInput{{KeyID: keyID, Name: renamed, Enabled: &disabled}},
+	})
+	require.NoError(t, err)
+	require.Equal(t, renamed, updateResult[0].Name)
+	require.False(t, updateResult[0].Enabled)
+
+	// Test: Delete a disabled key
+	deleteResult, err := client.DeleteAPIAccessKey(APIAccessDeleteInput{UserKeyIDs: []string{keyID}})
+	require.NoError(t, err)
+	require.Len(t, deleteResult, 1)
 }
 
 func TestIntegrationAPIAccess_UserKeys(t *testing.T) {
