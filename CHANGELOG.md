@@ -1,3 +1,8 @@
+<a name="v2.97.7"></a>
+## [v2.97.7] - 2026-11-05
+### Bug Fixes
+- **cloud:** add GcpGeminiEnterprise to GCP DM-only integrations ([#1506](https://github.com/newrelic/newrelic-client-go/issues/1506))
+
 <a name="v2.97.6"></a>
 ## [v2.97.6] - 2026-11-03
 ### Bug Fixes
@@ -2430,7 +2435,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.6...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.7...HEAD
+[v2.97.7]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.6...v2.97.7
 [v2.97.6]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.5...v2.97.6
 [v2.97.5]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.4...v2.97.5
 [v2.97.4]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.3...v2.97.4
