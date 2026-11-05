@@ -14,6 +14,7 @@ type InfrastructureCondition struct {
 	Critical            *InfrastructureConditionThreshold `json:"critical_threshold,omitempty"`
 	Enabled             bool                              `json:"enabled"`
 	Event               string                            `json:"event_type,omitempty"`
+	Filter              map[string]interface{}            `json:"filter,omitempty"`
 	ID                  int                               `json:"id,omitempty"`
 	IntegrationProvider string                            `json:"integration_provider,omitempty"`
 	Name                string                            `json:"name,omitempty"`
