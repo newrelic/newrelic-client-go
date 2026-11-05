@@ -31,6 +31,8 @@ type ServiceLevelEventsQuerySelectFunction string
 var ServiceLevelEventsQuerySelectFunctionTypes = struct {
 	// Use on events and unaggregated data.
 	COUNT ServiceLevelEventsQuerySelectFunction
+	// Counts datapoints, preserving pre-2025-06-09 COUNT(*) semantics on Metric event types.
+	DATAPOINT_COUNT ServiceLevelEventsQuerySelectFunction
 	// Use on distribution metric types.
 	GET_CDF_COUNT ServiceLevelEventsQuerySelectFunction
 	// Use in valid events combined with GET_CDF_COUNT.
@@ -40,12 +42,29 @@ var ServiceLevelEventsQuerySelectFunctionTypes = struct {
 }{
 	// Use on events and unaggregated data.
 	COUNT: "COUNT",
+	// Counts datapoints, preserving pre-2025-06-09 COUNT(*) semantics on Metric event types.
+	DATAPOINT_COUNT: "DATAPOINT_COUNT",
 	// Use on distribution metric types.
 	GET_CDF_COUNT: "GET_CDF_COUNT",
 	// Use in valid events combined with GET_CDF_COUNT.
 	GET_FIELD: "GET_FIELD",
 	// Use on aggregated counts.
 	SUM: "SUM",
+}
+
+// ServiceLevelIndicatorType - The type of a service level indicator.
+type ServiceLevelIndicatorType string
+
+var ServiceLevelIndicatorTypeTypes = struct {
+	// A basic Service Level Indicator.
+	BASIC ServiceLevelIndicatorType
+	// A composite that groups multiple service levels.
+	COMPOSITE ServiceLevelIndicatorType
+}{
+	// A basic Service Level Indicator.
+	BASIC: "BASIC",
+	// A composite that groups multiple service levels.
+	COMPOSITE: "COMPOSITE",
 }
 
 // ServiceLevelObjectiveRollingTimeWindowUnit - The rolling time window units.
@@ -59,12 +78,37 @@ var ServiceLevelObjectiveRollingTimeWindowUnitTypes = struct {
 	DAY: "DAY",
 }
 
+// ServiceLevelWeightType - The type of weight distribution for a composite service level.
+type ServiceLevelWeightType string
+
+var ServiceLevelWeightTypeTypes = struct {
+	// Weights are automatically and equally distributed across all components.
+	AVERAGE ServiceLevelWeightType
+	// Weights are explicitly set per component by the user.
+	CUSTOM ServiceLevelWeightType
+}{
+	// Weights are automatically and equally distributed across all components.
+	AVERAGE: "AVERAGE",
+	// Weights are explicitly set per component by the user.
+	CUSTOM: "CUSTOM",
+}
+
 // Actor - The `Actor` object contains fields that are scoped to the API user's access level.
+//
+// Hand-merged: this package's two query paths (entity-scoped `indicators` and
+// account-scoped `composites`) both root at "actor", and tutone synthesizes a
+// separate Actor response-wrapper type per query path instead of merging
+// fields across them — `skip_type_create` doesn't apply here, since this
+// duplication comes from query-response synthesis, not the shared type
+// registry. Re-merge this by hand after any future `tutone generate` run
+// that touches this package.
 type Actor struct {
 	// Fetch a single entity.
 	//
 	// For more details on entities, visit our [entity docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/use-new-relic-graphql-api-query-entities).
 	Entity EntityInterface `json:"entity,omitempty"`
+	// This field provides access to ServiceLevel data.
+	ServiceLevel ServiceLevelActorStitchedFields `json:"serviceLevel,omitempty"`
 	// The authenticated `User` who made this request.
 	User User `json:"user,omitempty"`
 }
@@ -96,6 +140,140 @@ type ServiceLevelActor struct {
 }
 
 func (x *ServiceLevelActor) ImplementsServiceLevelActor() {}
+
+// ServiceLevelActorStitchedFields - Actor stitch point for service level management.
+type ServiceLevelActorStitchedFields struct {
+	// Fetches composite service level indicators by their entity GUIDs.
+	Composites []ServiceLevelCompositeIndicator `json:"composites"`
+}
+
+// ServiceLevelComponent - A component service level that is part of a composite.
+type ServiceLevelComponent struct {
+	// The entity GUID that the component service level is attached to.
+	EntityGUID common.EntityGUID `json:"entityGuid,omitempty"`
+	// The unique entity identifier of the component service level.
+	GUID common.EntityGUID `json:"guid"`
+	// The type of the component service level.
+	IndicatorType ServiceLevelIndicatorType `json:"indicatorType"`
+	// The name of the component service level.
+	Name string `json:"name"`
+	// The weight of this service level in the composite calculation, expressed as a percentage (0–100).
+	Weight float64 `json:"weight,omitempty"`
+}
+
+// ServiceLevelComponentCreateInput - The input object that represents a component in a composite.
+type ServiceLevelComponentCreateInput struct {
+	// The unique entity identifier of the service level.
+	GUID common.EntityGUID `json:"guid"`
+	// The weight of this service level in the composite calculation, expressed as a percentage (0–100).
+	Weight float64 `json:"weight,omitempty"`
+}
+
+// ServiceLevelComponentUpdateInput - The input object that represents a component update in a composite.
+type ServiceLevelComponentUpdateInput struct {
+	// The unique entity identifier of the service level.
+	GUID common.EntityGUID `json:"guid"`
+	// The weight of this service level in the composite calculation, expressed as a percentage (0–100).
+	Weight float64 `json:"weight,omitempty"`
+}
+
+// ServiceLevelCompositeCreateInput - The input object that represents the composite that will be created.
+type ServiceLevelCompositeCreateInput struct {
+	// The New Relic account ID where the composite will reside.
+	AccountID int `json:"accountId"`
+	// The components that will be part of this composite.
+	Components []ServiceLevelComponentCreateInput `json:"components,omitempty"`
+	// The description of the composite.
+	Description string `json:"description,omitempty"`
+	// The name of the composite.
+	Name string `json:"name"`
+	// The objective definitions for the composite.
+	Objectives []ServiceLevelCompositeObjectiveCreateInput `json:"objectives,omitempty"`
+}
+
+// ServiceLevelCompositeIndicator - A Composite that groups multiple service levels to provide a high-level reliability metric.
+type ServiceLevelCompositeIndicator struct {
+	// The New Relic account ID where the composite SLI resides in.
+	AccountID int `json:"accountId"`
+	// The components that are part of this composite.
+	Components []ServiceLevelComponent `json:"components"`
+	// The description of the composite.
+	Description string `json:"description,omitempty"`
+	// The unique entity identifier of the composite.
+	GUID common.EntityGUID `json:"guid"`
+	// The metadata of the composite.
+	Metadata ServiceLevelMetadata `json:"metadata,omitempty"`
+	// The name of the composite.
+	Name string `json:"name"`
+	// The objective definitions for the composite.
+	Objectives []ServiceLevelCompositeObjective `json:"objectives"`
+	// The resulting NRQL queries that help consume the metrics of the composite.
+	ResultQueries ServiceLevelCompositeResultQueries `json:"resultQueries,omitempty"`
+	// The type of weight distribution for this composite.
+	WeightType ServiceLevelWeightType `json:"weightType,omitempty"`
+}
+
+// ServiceLevelCompositeObjective - An objective definition for a composite.
+type ServiceLevelCompositeObjective struct {
+	// The description of the composite objective.
+	Description string `json:"description,omitempty"`
+	// The name of the composite objective.
+	Name string `json:"name,omitempty"`
+	// The resulting NRQL queries that help consume the metrics of the composite objective.
+	ResultQueries ServiceLevelCompositeObjectiveResultQueries `json:"resultQueries,omitempty"`
+	// The target percentage of the composite.
+	Target float64 `json:"target"`
+	// The time window configuration of the composite objective.
+	TimeWindow ServiceLevelObjectiveTimeWindow `json:"timeWindow"`
+}
+
+// ServiceLevelCompositeObjectiveCreateInput - The input object that represents a composite objective definition.
+type ServiceLevelCompositeObjectiveCreateInput struct {
+	// The description of the composite objective.
+	Description string `json:"description,omitempty"`
+	// The name of the composite objective.
+	Name string `json:"name,omitempty"`
+	// The target percentage of the composite. Maximum value is 100.
+	Target float64 `json:"target"`
+	// The time window configuration of the composite. Reuses the existing SLO time window input.
+	TimeWindow ServiceLevelObjectiveTimeWindowCreateInput `json:"timeWindow,omitempty"`
+}
+
+// ServiceLevelCompositeObjectiveResultQueries - The resulting NRQL queries that help consume the metrics of a composite objective.
+type ServiceLevelCompositeObjectiveResultQueries struct {
+	// The NRQL query that measures the attainment of the composite objective target.
+	Attainment ServiceLevelResultQuery `json:"attainment"`
+}
+
+// ServiceLevelCompositeObjectiveUpdateInput - The input object that represents a composite objective definition for updates.
+type ServiceLevelCompositeObjectiveUpdateInput struct {
+	// The description of the composite objective.
+	Description string `json:"description,omitempty"`
+	// The name of the composite objective.
+	Name string `json:"name,omitempty"`
+	// The target percentage of the composite. Maximum value is 100.
+	Target float64 `json:"target,omitempty"`
+	// The time window configuration of the composite.
+	TimeWindow ServiceLevelObjectiveTimeWindowUpdateInput `json:"timeWindow,omitempty"`
+}
+
+// ServiceLevelCompositeResultQueries - The resulting NRQL queries that help consume the metrics of the composite.
+type ServiceLevelCompositeResultQueries struct {
+	// The NRQL query that measures the overall composite reliability.
+	Composite ServiceLevelResultQuery `json:"composite"`
+}
+
+// ServiceLevelCompositeUpdateInput - The input object that represents the composite that will be updated.
+type ServiceLevelCompositeUpdateInput struct {
+	// The components that will be part of this composite.
+	Components []ServiceLevelComponentUpdateInput `json:"components,omitempty"`
+	// The description of the composite.
+	Description string `json:"description,omitempty"`
+	// The name of the composite.
+	Name string `json:"name,omitempty"`
+	// The objective definitions for the composite.
+	Objectives []ServiceLevelCompositeObjectiveUpdateInput `json:"objectives,omitempty"`
+}
 
 // ServiceLevelDefinition - The service level defined for a specific entity.
 type ServiceLevelDefinition struct {
@@ -457,14 +635,14 @@ type User struct {
 
 // UserReference - The `UserReference` object provides basic identifying information about the user.
 type UserReference struct {
-	//
-	Email string `json:"email,omitempty"`
-	//
+	Email    string `json:"email,omitempty"`
 	Gravatar string `json:"gravatar,omitempty"`
-	//
-	ID int `json:"id,omitempty"`
-	//
-	Name string `json:"name,omitempty"`
+	ID       int    `json:"id,omitempty"`
+	Name     string `json:"name,omitempty"`
+}
+
+type compositesResponse struct {
+	Actor Actor `json:"actor"`
 }
 
 type indicatorsResponse struct {
