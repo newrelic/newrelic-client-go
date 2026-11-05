@@ -124,12 +124,16 @@ const DashboardCreateMutation = `mutation(
 						}
 					}
 				}
+				description
 				id
 				layout {
 					column
 					height
 					row
 					width
+				}
+				link {
+					url
 				}
 				linkedEntities {
 					__typename
@@ -2302,12 +2306,16 @@ const DashboardUpdateMutation = `mutation(
 						}
 					}
 				}
+				description
 				id
 				layout {
 					column
 					height
 					row
 					width
+				}
+				link {
+					url
 				}
 				linkedEntities {
 					__typename
