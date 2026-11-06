@@ -285,8 +285,8 @@ github.com/caarlos0/go-version v0.2.2 h1:5r+nlrg4H2wOVwWjqRqRRIRbZ7ytRmjC9xoMIP0
 github.com/caarlos0/go-version v0.2.2/go.mod h1:X+rI5VAtJDpcjCjeEIXpxGa5+rTcgur1FK66wS0/944=
 github.com/caarlos0/log v0.6.2 h1:ZeP1TBAEiF0XF6VoJze/KNKeRqsQ0frHuDLhtNDvRys=
 github.com/caarlos0/log v0.6.2/go.mod h1:y47Oq2WDdjL12pPSjdCZlIKtgF6SOMss88kSWTxXZBc=
-github.com/caarlos0/svu/v2 v2.0.1 h1:C+9u0UaKKNBJ6SD8cCD5eZOYNrPxzM2prPfLCjR7uIw=
-github.com/caarlos0/svu/v2 v2.0.1/go.mod h1:rMbsHPy1gf6/65xQQmtitgkRzCGkHhylVfZ2IGLR3LQ=
+github.com/caarlos0/svu/v2 v2.2.0 h1:Unut8r8WkCOiNe/NN7ryUT1ZeweRp5IVtZQZMaIPAQs=
+github.com/caarlos0/svu/v2 v2.2.0/go.mod h1:rMbsHPy1gf6/65xQQmtitgkRzCGkHhylVfZ2IGLR3LQ=
 github.com/caarlos0/testfs v0.4.4 h1:3PHvzHi5Lt+g332CiShwS8ogTgS3HjrmzZxCm6JCDr8=
 github.com/caarlos0/testfs v0.4.4/go.mod h1:bRN55zgG4XCUVVHZCeU+/Tz1Q6AxEJOEJTliBy+1DMk=
 github.com/carlmjohnson/versioninfo v0.22.5 h1:O00sjOLUAFxYQjlN/bzYTuZiS0y6fWDQjMRvwtKgwwc=
