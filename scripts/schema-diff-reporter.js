@@ -1,3 +1,4 @@
+const diff = require("./schema-differ");
 module.exports = async ({
   core
 }) => {
@@ -10,6 +11,7 @@ module.exports = async ({
 
   core.setOutput('new_api_mutations', diff.newApiMutationsMsg);
   core.setOutput('client_mutations_missing', diff.clientMutationsDiffMsg);
+  core.setOutput('changed_mutations_package_wise', diff.changedEndpointsSlackMessage);
   core.setOutput('tutone_config', diff.tutoneConfig);
   core.setOutput('packages', diff.packagesToGenerate.toString());
 

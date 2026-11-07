@@ -26,6 +26,7 @@ try {
   console.error(err);
 }
 
+
 // Check for any newly added mutations
 const endpointsOld = schemaOld.mutationType.fields.map(field => field.name);
 const endpointsLatest = schemaLatest.mutationType.fields.map(field => field.name);
@@ -33,7 +34,7 @@ const newEndpoints = endpointsLatest.filter(x => !endpointsOld.includes(x));
 const hasNewEndpoints = newEndpoints.length > 0;
 
 // Get the mutations the client has implemented
-const clientMutations = tutoneConfig.packages.map(pkg => {
+const clientMutations = tutoneConfig?.packages.map(pkg => {
   if (!pkg.mutations) {
     return null;
   }
@@ -45,31 +46,145 @@ const clientMutations = tutoneConfig.packages.map(pkg => {
   return pkg.mutations.map(m => m.name)
 }).flat().reduce((acc, i) => i ? [...acc, i] : acc, []);
 
+console.log('clientMutations list: ', clientMutations);
+
 const clientEndpointsSchemaOld = schemaOld.mutationType.fields.filter(field => clientMutations.includes(field.name));
 const clientEndpointsSchemaNew = schemaLatest.mutationType.fields.filter(field => clientMutations.includes(field.name));
 
+console.log('clientMutations old: ', clientEndpointsSchemaOld);
+console.log('clientMutations new: ', clientEndpointsSchemaNew);
 // Check for changes in the mutations' signatures
+// const changedEndpoints = clientEndpointsSchemaNew.reduce((arr, field) => {
+//   const oldMatch = clientEndpointsSchemaOld.find(f => f.name === field.name);
+//   if (!oldMatch) {
+//     return [...arr];
+//   }
+//
+//   if (!oldMatch.args?.length && !field.args?.length) {
+//     return [...arr];
+//   }
+//
+//   const differences = compareArrays(oldMatch.args, field.args);
+//   if (differences.length) {
+//     return [...arr, {
+//       name: field.name,
+//       diff: differences,
+//     }];
+//   }
+//
+//   return [...arr];
+// }, []);
+
 const changedEndpoints = clientEndpointsSchemaNew.reduce((arr, field) => {
   const oldMatch = clientEndpointsSchemaOld.find(f => f.name === field.name);
-  if (!oldMatch) {
-    return [...arr];
-  }
+  if (!oldMatch) return arr;
 
-  if (!oldMatch.args?.length && !field.args?.length) {
-    return [...arr];
-  }
+  const differences = [];
 
-  const differences = compareArrays(oldMatch.args, field.args);
-  if (differences.length) {
-    return [...arr, {
-      name: field.name,
-      diff: differences,
-    }];
-  }
+  // Compare arguments
+  differences.push(...compareArrays(oldMatch.args, field.args));
 
-  return [...arr];
+  // Compare input types for each argument
+  field.args.forEach(newArg => {
+    const oldArg = oldMatch.args.find(a => a.name === newArg.name);
+    if (!oldArg) return;
+
+    if (isInputType(newArg.type)) {
+      differences.push(
+          ...compareInputTypes(
+              getInputType(oldArg.type),
+              getInputType(newArg.type),
+              newArg.name
+          )
+      );
+    }
+  });
+
+  return differences.length ? [...arr, { name: field.name, diff: differences }] : arr;
 }, []);
 
+
+console.log('Changed endpoints:', changedEndpoints);
+
+function compareInputTypes(oldType, newType, path = '') {
+  const differences = [];
+
+  // Compare field-by-field
+  const oldFields = oldType?.fields || {};
+  const newFields = newType?.fields || {};
+
+  // Check added/modified fields
+  Object.entries(newFields).forEach(([fieldName, newField]) => {
+    const fullPath = `${path}.${fieldName}`;
+    const oldField = oldFields[fieldName];
+
+    if (!oldField) {
+      differences.push({
+        type: newType.name,
+        field: fieldName,
+        action: 'added',
+        path: fullPath,
+        required: isRequired(newField.type)
+      });
+    } else {
+      // Recursively check nested input types
+      if (isInputType(newField.type)) {
+        differences.push(
+            ...compareInputTypes(
+                getInputType(oldField.type),
+                getInputType(newField.type),
+                fullPath
+            )
+        );
+      }
+    }
+  });
+
+  return differences;
+}
+
+function isRequired(type) {
+  return type.kind === 'NON_NULL' || type.ofType?.kind === 'NON_NULL';
+}
+
+function getInputType(type) {
+  const typeName = getTypeName(type);
+  return schemaLatest.types.find(t => t.name === typeName);
+}
+
+function isInputType(type) {
+  const typeName = getTypeName(type);
+  const schemaType = schemaLatest.types.find(t => t.name === typeName);
+  return schemaType?.kind === 'INPUT_OBJECT';
+}
+
+
+const changedEndpointsByPackage = changedEndpoints.reduce((acc, { name, diff }) => {
+  const pkgName = generatePackageNameForEndpoint(name) || 'unknown-package';
+  if (!acc[pkgName]) {
+    acc[pkgName] = [];
+  }
+  acc[pkgName].push({ name, diff });
+  return acc;
+}, {});
+
+console.log('Changed endpoints by package:', changedEndpointsByPackage);
+
+// const changedEndpointsSlackMessage = Object.entries(changedEndpointsByPackage)
+//     .map(([pkg, mutations]) => `*${pkg}*\n${mutations.map(m => `- ${m.name}: ${JSON.stringify(m.diff, null, 2)}`).join('\n')}`)
+//     .join('\n\n') || 'No changed mutations found.';
+// This is the message that will be sent to Slack
+
+const changedEndpointsSlackMessage = Object.entries(changedEndpointsByPackage)
+    .reduce((acc, [pkg, mutations]) => {
+      acc.push({
+        package: pkg,
+        mutations: mutations.map(m => m.name),
+      });
+      return acc;
+    }, []);
+
+console.log('Changed endpoints Slack message:', JSON.stringify(changedEndpointsSlackMessage, null, 2));
 // Generates a package name based on the endpoint name.
 // If an endpoint contains a substring of the keywords listed below,
 // it takes the substring leading up to that to generate the package name
@@ -92,8 +207,8 @@ newEndpoints.forEach((endpointName) => {
   const cachedPackage = findPackageByName(packagesToGenerate, pkgName);
 
   let maxQueryDepth = 1;
-  for (let i = 0; i < args.length; i++) {
-    maxQueryDepth = getMaxQueryDepth(args[i].type);
+  for (let i = 0; i < args?.length; i++) {
+    maxQueryDepth = getMaxQueryDepth(args[i]?.type);
   }
 
   // If we've already added package to the array, we need to add the
@@ -196,7 +311,7 @@ console.log('');
 const schemaMutations = schemaLatest.mutationType.fields.map(field => field.name);
 const clientMutationsDiff = schemaMutations.filter(x => !clientMutations.includes(x));
 
-let newApiMutationsMsg = '';
+let newApiMutationsMsg = 'No new mutations since last check';
 if (hasNewEndpoints) {
   heroMention = heroAliasName;
   newApiMutationsMsg = `'${newEndpoints.join('\n')}'`;
@@ -310,7 +425,7 @@ function getMaxQueryDepth(type, depth = 1) {
         }
       }
 
-      if (field.type.kind === 'LIST' && field.type?.ofType?.ofType.kind === 'INPUT_OBJECT') {
+      if (field.type.kind === 'LIST' && field.type?.ofType?.ofType?.kind === 'INPUT_OBJECT') {
         const inputType = getTypeFromSchema(getTypeName(field.type.ofType.ofType));
 
         // Recursion FTW
@@ -334,6 +449,7 @@ module.exports = {
   newApiMutationsMsg,
   clientMutationsDiffMsg,
   changedEndpoints,
+  changedEndpointsSlackMessage,
   tutoneConfig: tutoneConfigYAML,
   packagesToGenerate: listOfPackagesToGenerate,
 };
