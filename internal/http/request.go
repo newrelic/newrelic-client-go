@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strings"
 
 	"github.com/google/go-querystring/query"
 	retryablehttp "github.com/hashicorp/go-retryablehttp"
@@ -88,8 +89,37 @@ func (c *Client) NewRequest(method string, url string, params interface{}, reqBo
 }
 
 // WithContext sets the context of the underlying request.
+//
+// Requests made on behalf of first-party tools (the Terraform provider and the
+// New Relic CLI) deliberately keep the historical behaviour of running without
+// the caller's context, so their retry and timeout semantics are unchanged.
 func (r *Request) WithContext(ctx context.Context) {
+	if r.isFirstPartyCaller() {
+		return
+	}
+
+	// retryablehttp.Request.WithContext returns a copy; the result must be kept.
 	r.request = r.request.WithContext(ctx)
+}
+
+// isFirstPartyCaller reports whether the client was configured by the Terraform
+// provider or the New Relic CLI, based on the configured service name.
+//
+// The CLI is matched on a whole segment of the service name: every client's
+// service name ends in "|newrelic-client-go", which would match "newrelic-cli"
+// as a plain substring.
+func (r *Request) isFirstPartyCaller() bool {
+	if strings.Contains(r.config.ServiceName, "terraform-provider-newrelic") {
+		return true
+	}
+
+	for _, segment := range strings.FieldsFunc(r.config.ServiceName, func(c rune) bool { return c == '|' || c == '/' }) {
+		if segment == "newrelic-cli" {
+			return true
+		}
+	}
+
+	return false
 }
 
 // SetHeader sets a header on the underlying request.
