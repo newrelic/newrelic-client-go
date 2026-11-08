@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"sync/atomic"
 	"testing"
 	"time"
 
@@ -537,4 +538,149 @@ func TestRedactedHeaders(t *testing.T) {
 
 	// The original header map must not be mutated.
 	assert.Equal(t, mock.LicenseKey, h.Get("X-License-Key"))
+}
+
+func newTimeoutClient(t *testing.T, serviceName string, attempts *int32) *Client {
+	t.Helper()
+
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		atomic.AddInt32(attempts, 1)
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`{"errors":[{"message":"slow","extensions":{"errorClass":"TIMEOUT"}}]}`))
+	}))
+	t.Cleanup(ts.Close)
+
+	cfg := mock.NewTestConfig(t, ts)
+	cfg.ServiceName = serviceName
+	c := NewClient(cfg)
+	c.client.RetryWaitMin = 200 * time.Millisecond
+	c.client.RetryWaitMax = 200 * time.Millisecond
+
+	return &c
+}
+
+func TestContextCancelledDuringBackoffStopsRetries(t *testing.T) {
+	t.Parallel()
+
+	var attempts int32
+	c := newTimeoutClient(t, "grafana-plugin", &attempts)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 50*time.Millisecond)
+	defer cancel()
+
+	start := time.Now()
+	err := c.NerdGraphQueryWithContext(ctx, "{ actor { user { name } } }", nil, nil)
+
+	require.ErrorIs(t, err, context.DeadlineExceeded)
+	assert.Equal(t, int32(1), atomic.LoadInt32(&attempts))
+	assert.Less(t, time.Since(start), 190*time.Millisecond)
+}
+
+func TestContextCancelsInFlightRequest(t *testing.T) {
+	t.Parallel()
+
+	release := make(chan struct{})
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		select {
+		case <-release:
+		case <-r.Context().Done():
+		}
+	}))
+	defer ts.Close()
+	defer close(release)
+
+	c := NewClient(mock.NewTestConfig(t, ts))
+
+	ctx, cancel := context.WithTimeout(context.Background(), 50*time.Millisecond)
+	defer cancel()
+
+	start := time.Now()
+	_, err := c.GetWithContext(ctx, c.config.Region().RestURL("path"), nil, nil)
+
+	require.ErrorIs(t, err, context.DeadlineExceeded)
+	assert.Less(t, time.Since(start), 2*time.Second)
+}
+
+func TestBackgroundContextStillRetriesTimeout(t *testing.T) {
+	t.Parallel()
+
+	var attempts int32
+	c := newTimeoutClient(t, "grafana-plugin", &attempts)
+	c.client.RetryWaitMin = time.Millisecond
+	c.client.RetryWaitMax = time.Millisecond
+
+	err := c.NerdGraphQueryWithContext(context.Background(), "{ actor { user { name } } }", nil, nil)
+
+	assert.IsType(t, &errors.MaxRetriesReached{}, err)
+	assert.Equal(t, int32(4), atomic.LoadInt32(&attempts))
+}
+
+// The Terraform provider and the CLI keep their historical behaviour: the
+// caller's context is not applied, for NerdGraph and REST requests alike.
+func TestFirstPartyCallersIgnoreContext(t *testing.T) {
+	t.Parallel()
+
+	for _, serviceName := range []string{
+		"terraform-provider-newrelic",
+		"custom/terraform-provider-newrelic",
+		"newrelic-cli",
+		"custom|newrelic-cli",
+	} {
+		t.Run(serviceName, func(t *testing.T) {
+			t.Parallel()
+
+			ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				w.Header().Set("Content-Type", "application/json")
+				_, _ = w.Write([]byte(`{"data":{}}`))
+			}))
+			defer ts.Close()
+
+			cfg := mock.NewTestConfig(t, ts)
+			cfg.ServiceName = serviceName
+			c := NewClient(cfg)
+
+			ctx, cancel := context.WithCancel(context.Background())
+			cancel()
+
+			assert.NoError(t, c.NerdGraphQueryWithContext(ctx, "{ actor { user { name } } }", nil, nil))
+
+			_, err := c.GetWithContext(ctx, c.config.Region().RestURL("path"), nil, nil)
+			assert.NoError(t, err)
+		})
+	}
+}
+
+func TestFirstPartyCallersKeepTimeoutRetryBehaviour(t *testing.T) {
+	t.Parallel()
+
+	var attempts int32
+	c := newTimeoutClient(t, "terraform-provider-newrelic", &attempts)
+	c.client.RetryWaitMin = time.Millisecond
+	c.client.RetryWaitMax = time.Millisecond
+
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+
+	err := c.NerdGraphQueryWithContext(ctx, "{ actor { user { name } } }", nil, nil)
+
+	assert.IsType(t, &errors.MaxRetriesReached{}, err)
+	assert.Equal(t, int32(4), atomic.LoadInt32(&attempts))
+}
+
+// Guards against substring matching: the default service name
+// "newrelic-client-go" contains "newrelic-cli".
+func TestDefaultServiceNameIsNotFirstParty(t *testing.T) {
+	t.Parallel()
+
+	for name, want := range map[string]bool{
+		"newrelic-client-go":                               false,
+		"grafana-plugin|newrelic-client-go":                false,
+		"newrelic-cli|newrelic-client-go":                  true,
+		"custom|newrelic-cli|newrelic-client-go":           true,
+		"terraform-provider-newrelic|newrelic-client-go":   true,
+		"x/terraform-provider-newrelic|newrelic-client-go": true,
+	} {
+		r := &Request{config: config.Config{ServiceName: name}}
+		assert.Equal(t, want, r.isFirstPartyCaller(), name)
+	}
 }
