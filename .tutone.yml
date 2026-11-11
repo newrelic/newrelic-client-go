@@ -2072,8 +2072,10 @@ packages:
   # implementations. Use the vendored tutone binary at the repo root when regenerating.
 ###########################################
   - name: scorecards
-    path: pkg/scorecards
-    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/scorecards
+    path: pkg/servicearchintelligence
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/servicearchintelligence
+    keep_removed_fields: true
+    go_package_name: servicearchintelligence
     generators:
       - typegen
       - nerdgraphclient
@@ -2088,6 +2090,8 @@ packages:
         max_query_field_depth: 3
       - name: entityManagementUpdateTeam
         max_query_field_depth: 3
+        exclude_arguments:
+          - version
       # NOTE: entityManagementCreateTeamsHierarchyLevel and
       # entityManagementCreateTeamsOrganizationSettings are intentionally omitted.
       # Their *CreateInput types are missing from tutone's introspection dump
@@ -2098,22 +2102,32 @@ packages:
       # patched to introspect these types.
       - name: entityManagementUpdateTeamsHierarchyLevel
         max_query_field_depth: 3
+        exclude_arguments:
+          - version
       - name: entityManagementUpdateTeamsOrganizationSettings
         max_query_field_depth: 3
+        exclude_arguments:
+          - version
       # Scorecards
       - name: entityManagementCreateScorecard
         max_query_field_depth: 3
       - name: entityManagementUpdateScorecard
         max_query_field_depth: 3
+        exclude_arguments:
+          - version
       - name: entityManagementCreateScorecardRule
         max_query_field_depth: 3
       - name: entityManagementUpdateScorecardRule
         max_query_field_depth: 3
+        exclude_arguments:
+          - version
       # Collections
       - name: entityManagementCreateCollection
         max_query_field_depth: 3
       - name: entityManagementUpdateCollection
         max_query_field_depth: 3
+        exclude_arguments:
+          - version
       # NOTE: entityManagementAddCollectionMembers and
       # entityManagementRemoveCollectionMembers are intentionally hand-written
       # in scorecards_collection_members.go — tutone cannot generate valid Go
@@ -2123,6 +2137,14 @@ packages:
       # Generic delete used by every one of the above
       - name: entityManagementDelete
         max_query_field_depth: 2
+        exclude_arguments:
+          - version
+      - name: entityManagementCreateRelationship
+        max_query_field_depth: 3
+        include_optional_arguments: true
+      - name: entityManagementDeleteRelationship
+        max_query_field_depth: 3
+        include_optional_arguments: true
     queries:
       - path: [ "actor", "entityManagement" ]
         endpoints:
@@ -2157,6 +2179,9 @@ packages:
           - EntityManagementCollectionEntity
           - EntityManagementUserEntity
           - EntityManagementGenericEntity
+        interface_methods:
+          - GetID() string
+        keep_existing: true
       # These nested input types must be pointers when used as fields.
       # Go's `omitempty` does NOT elide a zero-valued struct, so an unset
       # externalIntegration or schedule would otherwise be transmitted as
@@ -2170,6 +2195,9 @@ packages:
         field_type_override: "*EntityManagementScheduleCreateInput"
       - name: EntityManagementScheduleUpdateInput
         field_type_override: "*EntityManagementScheduleUpdateInput"
+        fields:
+          - name: enabled
+            omitempty: false
       # Note the GraphQL type name uses lower-case 'Nrql'; tutone renames it
       # to 'NRQL' in the emitted Go struct but the override key must match the
       # schema.
@@ -2186,6 +2214,70 @@ packages:
       - name: EpochMilliseconds
         field_type_override: nrtime.EpochMilliseconds
         skip_type_create: true
+      - name: EntityManagementFederatedLogsPartitionEntity
+        fields:
+          - name: setup
+            omitempty: false
+      - name: EntityManagementPipelineCloudRuleEntity
+        fields:
+          - name: nrql
+            omitempty: false
+      - name: EntityManagementScorecardEntityUpdateInput
+        fields:
+          - name: description
+            omitempty: false
+          - name: tags
+            pointer: true
+      - name: EntityManagementScorecardRuleEntityUpdateInput
+        fields:
+          - name: description
+            omitempty: false
+          - name: enabled
+            omitempty: false
+          - name: tags
+            pointer: true
+      - name: EntityManagementSyncGroupsSettingsUpdateInput
+        fields:
+          - name: rules
+            omitempty: false
+      - name: EntityManagementTeamEntity
+        fields:
+          - name: aliases
+            omitempty: true
+          - name: managers
+            omitempty: true
+      - name: EntityManagementTeamEntityCreateInput
+        fields:
+          - name: aliases
+            omitempty: true
+          - name: managers
+            omitempty: true
+      - name: EntityManagementTeamEntityUpdateInput
+        fields:
+          - name: aliases
+            pointer: true
+            omitempty: true
+          - name: description
+            pointer: true
+          - name: managers
+            pointer: true
+            omitempty: true
+          - name: parentId
+            pointer: true
+          - name: resources
+            pointer: true
+          - name: tags
+            pointer: true
+      - name: EntityManagementTeamsOrganizationSettingsEntityUpdateInput
+        fields:
+          - name: discovery
+            pointer: true
+      - name: ServiceLevelIndicator
+        fields:
+          - name: events
+            omitempty: false
+      - name: EntityManagementCollectionElementsResult
+        keep_existing: true
 
   - name: workflowautomation
     path: pkg/workflowautomation

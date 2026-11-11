@@ -85,6 +85,94 @@ const EntityManagementCreateCollectionMutation = `mutation(
 	}
 } }`
 
+// Creates an entity relationship.
+func (a *Scorecards) EntityManagementCreateRelationship(
+	relationship EntityManagementRelationshipCreateInput,
+) (*EntityManagementRelationshipCreateResult, error) {
+	return a.EntityManagementCreateRelationshipWithContext(context.Background(),
+		relationship,
+	)
+}
+
+// Creates an entity relationship.
+func (a *Scorecards) EntityManagementCreateRelationshipWithContext(
+	ctx context.Context,
+	relationship EntityManagementRelationshipCreateInput,
+) (*EntityManagementRelationshipCreateResult, error) {
+
+	resp := EntityManagementCreateRelationshipQueryResponse{}
+	vars := map[string]interface{}{
+		"relationship": relationship,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, EntityManagementCreateRelationshipMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.EntityManagementRelationshipCreateResult, nil
+}
+
+type EntityManagementCreateRelationshipQueryResponse struct {
+	EntityManagementRelationshipCreateResult EntityManagementRelationshipCreateResult `json:"EntityManagementCreateRelationship"`
+}
+
+const EntityManagementCreateRelationshipMutation = `mutation(
+	$relationship: EntityManagementRelationshipCreateInput!,
+) { entityManagementCreateRelationship(
+	relationship: $relationship,
+) {
+	relationship {
+		metadata {
+			createdAt
+			createdBy {
+				__typename
+				id
+				type
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			updatedAt
+			updatedBy {
+				__typename
+				id
+				type
+				... on EntityManagementSystemActor {
+					__typename
+				}
+				... on EntityManagementUserActor {
+					__typename
+				}
+			}
+			version
+		}
+		source {
+			id
+			scope {
+				id
+				type
+			}
+			type
+		}
+		tags {
+			key
+			values
+		}
+		target {
+			id
+			scope {
+				id
+				type
+			}
+			type
+		}
+		type
+	}
+} }`
+
 // Creates an entity of type ScorecardEntity.
 func (a *Scorecards) EntityManagementCreateScorecard(
 	scorecardEntity EntityManagementScorecardEntityCreateInput,
@@ -385,6 +473,9 @@ const EntityManagementCreateTeamMutation = `mutation(
 			version
 		}
 		name
+		onCallMembers {
+			id
+		}
 		ownership {
 			id
 			metadata {
@@ -424,11 +515,9 @@ const EntityManagementCreateTeamMutation = `mutation(
 // Deletes an entity.
 func (a *Scorecards) EntityManagementDelete(
 	iD string,
-	// version int,
 ) (*EntityManagementEntityDeleteResult, error) {
 	return a.EntityManagementDeleteWithContext(context.Background(),
 		iD,
-		// version,
 	)
 }
 
@@ -436,13 +525,11 @@ func (a *Scorecards) EntityManagementDelete(
 func (a *Scorecards) EntityManagementDeleteWithContext(
 	ctx context.Context,
 	iD string,
-	// version int,
 ) (*EntityManagementEntityDeleteResult, error) {
 
 	resp := EntityManagementDeleteQueryResponse{}
 	vars := map[string]interface{}{
 		"id": iD,
-		// "version": version,
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, EntityManagementDeleteMutation, vars, &resp); err != nil {
@@ -464,16 +551,67 @@ const EntityManagementDeleteMutation = `mutation(
 	id
 } }`
 
+// Deletes an entity relationship.
+func (a *Scorecards) EntityManagementDeleteRelationship(
+	sourceId string,
+	targetId string,
+	typeArg string,
+) (*EntityManagementRelationshipDeleteResult, error) {
+	return a.EntityManagementDeleteRelationshipWithContext(context.Background(),
+		sourceId,
+		targetId,
+		typeArg,
+	)
+}
+
+// Deletes an entity relationship.
+func (a *Scorecards) EntityManagementDeleteRelationshipWithContext(
+	ctx context.Context,
+	sourceId string,
+	targetId string,
+	typeArg string,
+) (*EntityManagementRelationshipDeleteResult, error) {
+
+	resp := EntityManagementDeleteRelationshipQueryResponse{}
+	vars := map[string]interface{}{
+		"sourceId": sourceId,
+		"targetId": targetId,
+		"type":     typeArg,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, EntityManagementDeleteRelationshipMutation, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.EntityManagementRelationshipDeleteResult, nil
+}
+
+type EntityManagementDeleteRelationshipQueryResponse struct {
+	EntityManagementRelationshipDeleteResult EntityManagementRelationshipDeleteResult `json:"EntityManagementDeleteRelationship"`
+}
+
+const EntityManagementDeleteRelationshipMutation = `mutation(
+	$sourceId: ID!,
+	$targetId: ID!,
+	$type: String!,
+) { entityManagementDeleteRelationship(
+	sourceId: $sourceId,
+	targetId: $targetId,
+	type: $type,
+) {
+	sourceId
+	targetId
+	type
+} }`
+
 // Updates an entity of type CollectionEntity.
 func (a *Scorecards) EntityManagementUpdateCollection(
 	collectionEntity EntityManagementCollectionEntityUpdateInput,
 	iD string,
-	// version int,
 ) (*EntityManagementCollectionEntityUpdateResult, error) {
 	return a.EntityManagementUpdateCollectionWithContext(context.Background(),
 		collectionEntity,
 		iD,
-		// version,
 	)
 }
 
@@ -482,14 +620,12 @@ func (a *Scorecards) EntityManagementUpdateCollectionWithContext(
 	ctx context.Context,
 	collectionEntity EntityManagementCollectionEntityUpdateInput,
 	iD string,
-	// version int,
 ) (*EntityManagementCollectionEntityUpdateResult, error) {
 
 	resp := EntityManagementUpdateCollectionQueryResponse{}
 	vars := map[string]interface{}{
 		"collectionEntity": collectionEntity,
 		"id":               iD,
-		// "version": version,
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, EntityManagementUpdateCollectionMutation, vars, &resp); err != nil {
@@ -556,12 +692,10 @@ const EntityManagementUpdateCollectionMutation = `mutation(
 func (a *Scorecards) EntityManagementUpdateScorecard(
 	iD string,
 	scorecardEntity EntityManagementScorecardEntityUpdateInput,
-	// version int,
 ) (*EntityManagementScorecardEntityUpdateResult, error) {
 	return a.EntityManagementUpdateScorecardWithContext(context.Background(),
 		iD,
 		scorecardEntity,
-		// version,
 	)
 }
 
@@ -570,14 +704,12 @@ func (a *Scorecards) EntityManagementUpdateScorecardWithContext(
 	ctx context.Context,
 	iD string,
 	scorecardEntity EntityManagementScorecardEntityUpdateInput,
-	// version int,
 ) (*EntityManagementScorecardEntityUpdateResult, error) {
 
 	resp := EntityManagementUpdateScorecardQueryResponse{}
 	vars := map[string]interface{}{
 		"id":              iD,
 		"scorecardEntity": scorecardEntity,
-		// "version": version,
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, EntityManagementUpdateScorecardMutation, vars, &resp); err != nil {
@@ -669,12 +801,10 @@ const EntityManagementUpdateScorecardMutation = `mutation(
 func (a *Scorecards) EntityManagementUpdateScorecardRule(
 	iD string,
 	scorecardRuleEntity EntityManagementScorecardRuleEntityUpdateInput,
-	// version int,
 ) (*EntityManagementScorecardRuleEntityUpdateResult, error) {
 	return a.EntityManagementUpdateScorecardRuleWithContext(context.Background(),
 		iD,
 		scorecardRuleEntity,
-		// version,
 	)
 }
 
@@ -683,14 +813,12 @@ func (a *Scorecards) EntityManagementUpdateScorecardRuleWithContext(
 	ctx context.Context,
 	iD string,
 	scorecardRuleEntity EntityManagementScorecardRuleEntityUpdateInput,
-	// version int,
 ) (*EntityManagementScorecardRuleEntityUpdateResult, error) {
 
 	resp := EntityManagementUpdateScorecardRuleQueryResponse{}
 	vars := map[string]interface{}{
 		"id":                  iD,
 		"scorecardRuleEntity": scorecardRuleEntity,
-		// "version": version,
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, EntityManagementUpdateScorecardRuleMutation, vars, &resp); err != nil {
@@ -784,12 +912,10 @@ const EntityManagementUpdateScorecardRuleMutation = `mutation(
 func (a *Scorecards) EntityManagementUpdateTeam(
 	iD string,
 	teamEntity EntityManagementTeamEntityUpdateInput,
-	// version int,
 ) (*EntityManagementTeamEntityUpdateResult, error) {
 	return a.EntityManagementUpdateTeamWithContext(context.Background(),
 		iD,
 		teamEntity,
-		// version,
 	)
 }
 
@@ -798,14 +924,12 @@ func (a *Scorecards) EntityManagementUpdateTeamWithContext(
 	ctx context.Context,
 	iD string,
 	teamEntity EntityManagementTeamEntityUpdateInput,
-	// version int,
 ) (*EntityManagementTeamEntityUpdateResult, error) {
 
 	resp := EntityManagementUpdateTeamQueryResponse{}
 	vars := map[string]interface{}{
 		"id":         iD,
 		"teamEntity": teamEntity,
-		// "version": version,
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, EntityManagementUpdateTeamMutation, vars, &resp); err != nil {
@@ -882,6 +1006,9 @@ const EntityManagementUpdateTeamMutation = `mutation(
 			version
 		}
 		name
+		onCallMembers {
+			id
+		}
 		ownership {
 			id
 			metadata {
@@ -922,12 +1049,10 @@ const EntityManagementUpdateTeamMutation = `mutation(
 func (a *Scorecards) EntityManagementUpdateTeamsHierarchyLevel(
 	iD string,
 	teamsHierarchyLevelEntity EntityManagementTeamsHierarchyLevelEntityUpdateInput,
-	// version int,
 ) (*EntityManagementTeamsHierarchyLevelEntityUpdateResult, error) {
 	return a.EntityManagementUpdateTeamsHierarchyLevelWithContext(context.Background(),
 		iD,
 		teamsHierarchyLevelEntity,
-		// version,
 	)
 }
 
@@ -936,14 +1061,12 @@ func (a *Scorecards) EntityManagementUpdateTeamsHierarchyLevelWithContext(
 	ctx context.Context,
 	iD string,
 	teamsHierarchyLevelEntity EntityManagementTeamsHierarchyLevelEntityUpdateInput,
-	// version int,
 ) (*EntityManagementTeamsHierarchyLevelEntityUpdateResult, error) {
 
 	resp := EntityManagementUpdateTeamsHierarchyLevelQueryResponse{}
 	vars := map[string]interface{}{
 		"id":                        iD,
 		"teamsHierarchyLevelEntity": teamsHierarchyLevelEntity,
-		// "version": version,
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, EntityManagementUpdateTeamsHierarchyLevelMutation, vars, &resp); err != nil {
@@ -1010,12 +1133,10 @@ const EntityManagementUpdateTeamsHierarchyLevelMutation = `mutation(
 func (a *Scorecards) EntityManagementUpdateTeamsOrganizationSettings(
 	iD string,
 	teamsOrganizationSettingsEntity EntityManagementTeamsOrganizationSettingsEntityUpdateInput,
-	// version int,
 ) (*EntityManagementTeamsOrganizationSettingsEntityUpdateResult, error) {
 	return a.EntityManagementUpdateTeamsOrganizationSettingsWithContext(context.Background(),
 		iD,
 		teamsOrganizationSettingsEntity,
-		// version,
 	)
 }
 
@@ -1024,14 +1145,12 @@ func (a *Scorecards) EntityManagementUpdateTeamsOrganizationSettingsWithContext(
 	ctx context.Context,
 	iD string,
 	teamsOrganizationSettingsEntity EntityManagementTeamsOrganizationSettingsEntityUpdateInput,
-	// version int,
 ) (*EntityManagementTeamsOrganizationSettingsEntityUpdateResult, error) {
 
 	resp := EntityManagementUpdateTeamsOrganizationSettingsQueryResponse{}
 	vars := map[string]interface{}{
 		"id":                              iD,
 		"teamsOrganizationSettingsEntity": teamsOrganizationSettingsEntity,
-		// "version": version,
 	}
 
 	if err := a.client.NerdGraphQueryWithContext(ctx, EntityManagementUpdateTeamsOrganizationSettingsMutation, vars, &resp); err != nil {
@@ -1222,6 +1341,7 @@ const getCollectionElementsQuery = `query(
 		}
 		... on EntityManagementGenericEntity {
 			__typename
+			alertSeverity
 			metadata {
 				createdAt
 				createdBy {
@@ -1249,6 +1369,7 @@ const getCollectionElementsQuery = `query(
 				}
 				version
 			}
+			reporting
 			scope {
 				id
 				type
@@ -1440,6 +1561,9 @@ const getCollectionElementsQuery = `query(
 					}
 				}
 				version
+			}
+			onCallMembers {
+				id
 			}
 			ownership {
 				id
@@ -1736,11 +1860,13 @@ const getCollectionsContainingEntityQuery = `query(
 			}
 			... on EntityManagementGenericEntity {
 				__typename
+				alertSeverity
 				metadata {
 					createdAt
 					updatedAt
 					version
 				}
+				reporting
 				scope {
 					id
 					type
@@ -1836,6 +1962,9 @@ const getCollectionsContainingEntityQuery = `query(
 					createdAt
 					updatedAt
 					version
+				}
+				onCallMembers {
+					id
 				}
 				ownership {
 					id
@@ -2029,6 +2158,7 @@ const getEntityQuery = `query(
 	}
 	... on EntityManagementGenericEntity {
 		__typename
+		alertSeverity
 		metadata {
 			createdAt
 			createdBy {
@@ -2056,6 +2186,7 @@ const getEntityQuery = `query(
 			}
 			version
 		}
+		reporting
 		scope {
 			id
 			type
@@ -2291,6 +2422,9 @@ const getEntityQuery = `query(
 				}
 			}
 			version
+		}
+		onCallMembers {
+			id
 		}
 		ownership {
 			id
@@ -2594,6 +2728,7 @@ const getEntitySearchQuery = `query(
 		}
 		... on EntityManagementGenericEntity {
 			__typename
+			alertSeverity
 			metadata {
 				createdAt
 				createdBy {
@@ -2621,6 +2756,7 @@ const getEntitySearchQuery = `query(
 				}
 				version
 			}
+			reporting
 			scope {
 				id
 				type
@@ -2812,6 +2948,9 @@ const getEntitySearchQuery = `query(
 					}
 				}
 				version
+			}
+			onCallMembers {
+				id
 			}
 			ownership {
 				id

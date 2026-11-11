@@ -23,7 +23,7 @@ var AgentApplicationSegmentsListTypeTypes = struct {
 	USER: "USER",
 }
 
-// AgentApplicationSettingsBrowserLoader - Determines which browser loader will be configured. Some allowed return values are specified for backwards-compatibility and do not represent currently allowed values for new applications.
+// AgentApplicationSettingsBrowserLoader - Determines which browser loader will be configured. Some allowed return values are specified for backwards-compatability and do not represent currently allowed values for new applications.
 // See [documentation](https://docs.newrelic.com/docs/browser/browser-monitoring/installation/install-browser-monitoring-agent/#agent-types) for further information.
 type AgentApplicationSettingsBrowserLoader string
 
@@ -40,7 +40,7 @@ var AgentApplicationSettingsBrowserLoaderTypes = struct {
 	RUM AgentApplicationSettingsBrowserLoader
 	// Pro+SPA: This is the default installed agent when you enable browser monitoring. Gives you access to all of the Browser Pro features and to Single Page App (SPA) monitoring. Provides detailed page timing data and the most up-to-date New Relic features, including distributed tracing, for all types of applications.
 	SPA AgentApplicationSettingsBrowserLoader
-	// This value is specified for backwards-compatibility.
+	// This value is specified for backwards-compatability.
 	XHR AgentApplicationSettingsBrowserLoader
 }{
 	// Use PRO instead
@@ -55,8 +55,27 @@ var AgentApplicationSettingsBrowserLoaderTypes = struct {
 	RUM: "RUM",
 	// Pro+SPA: This is the default installed agent when you enable browser monitoring. Gives you access to all of the Browser Pro features and to Single Page App (SPA) monitoring. Provides detailed page timing data and the most up-to-date New Relic features, including distributed tracing, for all types of applications.
 	SPA: "SPA",
-	// This value is specified for backwards-compatibility.
+	// This value is specified for backwards-compatability.
 	XHR: "XHR",
+}
+
+// AgentApplicationSettingsCapturePayload - Controls which AJAX payloads (bodies, headers, etc.) are recorded for the allowed domains.
+type AgentApplicationSettingsCapturePayload string
+
+var AgentApplicationSettingsCapturePayloadTypes = struct {
+	// All payloads are captured.
+	ALL AgentApplicationSettingsCapturePayload
+	// Only payloads from failed requests are captured.
+	FAILURES AgentApplicationSettingsCapturePayload
+	// No payloads are captured.
+	NONE AgentApplicationSettingsCapturePayload
+}{
+	// All payloads are captured.
+	ALL: "ALL",
+	// Only payloads from failed requests are captured.
+	FAILURES: "FAILURES",
+	// No payloads are captured.
+	NONE: "NONE",
 }
 
 // AgentApplicationSettingsMobileSessionReplayMode - Determines the mode for session replay mobile applications. Valid settings are: 'DEFAULT', 'CUSTOM'.
@@ -320,7 +339,7 @@ var DashboardEntityOwnerTypeTypes = struct {
 	USER: "USER",
 }
 
-// DashboardEntityPermissions - Permissions that represent visibility & editability
+// DashboardEntityPermissions - Permisions that represent visibility & editability
 type DashboardEntityPermissions string
 
 var DashboardEntityPermissionsTypes = struct {
@@ -1383,6 +1402,29 @@ var EntityManagementAiToolTypeTypes = struct {
 	WORKFLOW: "WORKFLOW",
 }
 
+// EntityManagementAlertableEntitySeverity - The alert severity of the entity.
+type EntityManagementAlertableEntitySeverity string
+
+var EntityManagementAlertableEntitySeverityTypes = struct {
+	// Indicates an entity has a critical violation in progress.
+	CRITICAL EntityManagementAlertableEntitySeverity
+	// Indicates an entity has no violations and therefore is not alerting.
+	NOT_ALERTING EntityManagementAlertableEntitySeverity
+	// Indicates an entity is not configured for alerting.
+	NOT_CONFIGURED EntityManagementAlertableEntitySeverity
+	// Indicates an entity has a warning violation in progress.
+	WARNING EntityManagementAlertableEntitySeverity
+}{
+	// Indicates an entity has a critical violation in progress.
+	CRITICAL: "CRITICAL",
+	// Indicates an entity has no violations and therefore is not alerting.
+	NOT_ALERTING: "NOT_ALERTING",
+	// Indicates an entity is not configured for alerting.
+	NOT_CONFIGURED: "NOT_CONFIGURED",
+	// Indicates an entity has a warning violation in progress.
+	WARNING: "WARNING",
+}
+
 // EntityManagementCategoryScopeType - Category scope can of two types: Account scope and Global scope
 type EntityManagementCategoryScopeType string
 
@@ -1699,23 +1741,39 @@ var EntityManagementLifecycleStatePartitionTypes = struct {
 	COMPLETE EntityManagementLifecycleStatePartition
 	// Indicates the initial data processing component configuration has been created during onboarding.
 	DATA_PROCESSING_CONFIG_CREATED EntityManagementLifecycleStatePartition
+	// Indicates a decommission has been staged. One-way.
+	DECOMMISSION_STAGED EntityManagementLifecycleStatePartition
 	// Indicates a delete has been requested and an updated data processing component configuration (excluding this partition) is pending deployment.
 	DELETING EntityManagementLifecycleStatePartition
+	// Indicates a disable has been staged.
+	DISABLE_STAGED EntityManagementLifecycleStatePartition
+	// Indicates an enable has been staged.
+	ENABLE_STAGED EntityManagementLifecycleStatePartition
 	// Indicates there was an error during onboarding.
 	ERROR EntityManagementLifecycleStatePartition
 	// Indicates the entity resource creation is complete.
 	RESOURCE_CREATION_COMPLETE EntityManagementLifecycleStatePartition
+	// Indicates a configuration or routing-rule change has been staged.
+	UPDATE_STAGED EntityManagementLifecycleStatePartition
 }{
 	// Indicates the partition has been successfully onboarded.
 	COMPLETE: "COMPLETE",
 	// Indicates the initial data processing component configuration has been created during onboarding.
 	DATA_PROCESSING_CONFIG_CREATED: "DATA_PROCESSING_CONFIG_CREATED",
+	// Indicates a decommission has been staged. One-way.
+	DECOMMISSION_STAGED: "DECOMMISSION_STAGED",
 	// Indicates a delete has been requested and an updated data processing component configuration (excluding this partition) is pending deployment.
 	DELETING: "DELETING",
+	// Indicates a disable has been staged.
+	DISABLE_STAGED: "DISABLE_STAGED",
+	// Indicates an enable has been staged.
+	ENABLE_STAGED: "ENABLE_STAGED",
 	// Indicates there was an error during onboarding.
 	ERROR: "ERROR",
 	// Indicates the entity resource creation is complete.
 	RESOURCE_CREATION_COMPLETE: "RESOURCE_CREATION_COMPLETE",
+	// Indicates a configuration or routing-rule change has been staged.
+	UPDATE_STAGED: "UPDATE_STAGED",
 }
 
 // EntityManagementLifecycleStateSetup - Possible lifecycle states for a federated log setup.
@@ -1726,23 +1784,39 @@ var EntityManagementLifecycleStateSetupTypes = struct {
 	COMPLETE EntityManagementLifecycleStateSetup
 	// Indicates the initial data processing component configuration has been created during onboarding.
 	DATA_PROCESSING_CONFIG_CREATED EntityManagementLifecycleStateSetup
+	// Indicates a decommission has been staged. One-way.
+	DECOMMISSION_STAGED EntityManagementLifecycleStateSetup
 	// Indicates a delete has been requested and an updated data processing component configuration (excluding this setup) is pending deployment.
 	DELETING EntityManagementLifecycleStateSetup
+	// Indicates a disable has been staged.
+	DISABLE_STAGED EntityManagementLifecycleStateSetup
+	// Indicates an enable has been staged.
+	ENABLE_STAGED EntityManagementLifecycleStateSetup
 	// Indicates there was an error during onboarding.
 	ERROR EntityManagementLifecycleStateSetup
 	// Indicates the entity resource creation is complete.
 	RESOURCE_CREATION_COMPLETE EntityManagementLifecycleStateSetup
+	// Indicates a configuration or routing-rule change has been staged.
+	UPDATE_STAGED EntityManagementLifecycleStateSetup
 }{
 	// Indicates the setup has been successfully onboarded.
 	COMPLETE: "COMPLETE",
 	// Indicates the initial data processing component configuration has been created during onboarding.
 	DATA_PROCESSING_CONFIG_CREATED: "DATA_PROCESSING_CONFIG_CREATED",
+	// Indicates a decommission has been staged. One-way.
+	DECOMMISSION_STAGED: "DECOMMISSION_STAGED",
 	// Indicates a delete has been requested and an updated data processing component configuration (excluding this setup) is pending deployment.
 	DELETING: "DELETING",
+	// Indicates a disable has been staged.
+	DISABLE_STAGED: "DISABLE_STAGED",
+	// Indicates an enable has been staged.
+	ENABLE_STAGED: "ENABLE_STAGED",
 	// Indicates there was an error during onboarding.
 	ERROR: "ERROR",
 	// Indicates the entity resource creation is complete.
 	RESOURCE_CREATION_COMPLETE: "RESOURCE_CREATION_COMPLETE",
+	// Indicates a configuration or routing-rule change has been staged.
+	UPDATE_STAGED: "UPDATE_STAGED",
 }
 
 // EntityManagementManagedEntityType - Entity types that a Fleet can manage
@@ -2271,12 +2345,29 @@ var MetricNormalizationRuleActionTypes = struct {
 	REPLACE: "REPLACE",
 }
 
+// ServiceLevelActorType - The available actor types.
+type ServiceLevelActorType string
+
+var ServiceLevelActorTypeTypes = struct {
+	// System identity actor type.
+	SYSTEM ServiceLevelActorType
+	// User actor type.
+	USER ServiceLevelActorType
+}{
+	// System identity actor type.
+	SYSTEM: "SYSTEM",
+	// User actor type.
+	USER: "USER",
+}
+
 // ServiceLevelEventsQuerySelectFunction - The function to use in the SELECT clause.
 type ServiceLevelEventsQuerySelectFunction string
 
 var ServiceLevelEventsQuerySelectFunctionTypes = struct {
 	// Use on events and unaggregated data.
 	COUNT ServiceLevelEventsQuerySelectFunction
+	// Counts datapoints, preserving pre-2025-06-09 COUNT(*) semantics on Metric event types.
+	DATAPOINT_COUNT ServiceLevelEventsQuerySelectFunction
 	// Use on distribution metric types.
 	GET_CDF_COUNT ServiceLevelEventsQuerySelectFunction
 	// Use in valid events combined with GET_CDF_COUNT.
@@ -2286,6 +2377,8 @@ var ServiceLevelEventsQuerySelectFunctionTypes = struct {
 }{
 	// Use on events and unaggregated data.
 	COUNT: "COUNT",
+	// Counts datapoints, preserving pre-2025-06-09 COUNT(*) semantics on Metric event types.
+	DATAPOINT_COUNT: "DATAPOINT_COUNT",
 	// Use on distribution metric types.
 	GET_CDF_COUNT: "GET_CDF_COUNT",
 	// Use in valid events combined with GET_CDF_COUNT.
@@ -2305,6 +2398,7 @@ var ServiceLevelObjectiveRollingTimeWindowUnitTypes = struct {
 	DAY: "DAY",
 }
 
+// SyntheticMonitorStatus -
 type SyntheticMonitorStatus string
 
 var SyntheticMonitorStatusTypes = struct {
@@ -2327,21 +2421,23 @@ var SyntheticMonitorStatusTypes = struct {
 type SyntheticMonitorType string
 
 var SyntheticMonitorTypeTypes = struct {
-	BROKEN_LINKS   SyntheticMonitorType
-	BROWSER        SyntheticMonitorType
-	CERT_CHECK     SyntheticMonitorType
-	SCRIPT_API     SyntheticMonitorType
-	SCRIPT_BROWSER SyntheticMonitorType
-	SIMPLE         SyntheticMonitorType
-	STEP_MONITOR   SyntheticMonitorType
+	BROKEN_LINKS      SyntheticMonitorType
+	BROWSER           SyntheticMonitorType
+	CERT_CHECK        SyntheticMonitorType
+	NATIVE_PLAYWRIGHT SyntheticMonitorType
+	SCRIPT_API        SyntheticMonitorType
+	SCRIPT_BROWSER    SyntheticMonitorType
+	SIMPLE            SyntheticMonitorType
+	STEP_MONITOR      SyntheticMonitorType
 }{
-	BROKEN_LINKS:   "BROKEN_LINKS",
-	BROWSER:        "BROWSER",
-	CERT_CHECK:     "CERT_CHECK",
-	SCRIPT_API:     "SCRIPT_API",
-	SCRIPT_BROWSER: "SCRIPT_BROWSER",
-	SIMPLE:         "SIMPLE",
-	STEP_MONITOR:   "STEP_MONITOR",
+	BROKEN_LINKS:      "BROKEN_LINKS",
+	BROWSER:           "BROWSER",
+	CERT_CHECK:        "CERT_CHECK",
+	NATIVE_PLAYWRIGHT: "NATIVE_PLAYWRIGHT",
+	SCRIPT_API:        "SCRIPT_API",
+	SCRIPT_BROWSER:    "SCRIPT_BROWSER",
+	SIMPLE:            "SIMPLE",
+	STEP_MONITOR:      "STEP_MONITOR",
 }
 
 // WorkloadStatusSource - Indicates where the status value derives from.
@@ -2392,7 +2488,9 @@ var WorkloadStatusValueTypes = struct {
 
 // AccountOutline - The `AccountOutline` object provides basic data about an account.
 type AccountOutline struct {
-	ID   int    `json:"id,omitempty"`
+	//
+	ID int `json:"id,omitempty"`
+	//
 	Name string `json:"name,omitempty"`
 	// Returns event types that are currently reporting in the account.
 	ReportingEventTypes []string `json:"reportingEventTypes,omitempty"`
@@ -2400,7 +2498,9 @@ type AccountOutline struct {
 
 // AccountReference - The `AccountReference` object provides basic identifying information about the account.
 type AccountReference struct {
-	ID   int    `json:"id,omitempty"`
+	//
+	ID int `json:"id,omitempty"`
+	//
 	Name string `json:"name,omitempty"`
 }
 
@@ -2428,6 +2528,73 @@ type Actor struct {
 	//
 	// Note: you must supply either a `query` OR a `queryBuilder` argument, not both.
 	EntitySearch EntitySearch `json:"entitySearch,omitempty"`
+}
+
+// special
+func (x *Actor) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+
+	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
+		switch k {
+		case "accounts":
+			err = json.Unmarshal(*v, &x.Accounts)
+			if err != nil {
+				return err
+			}
+		case "entities":
+			if v == nil {
+				continue
+			}
+			var rawMessageEntities []*json.RawMessage
+			err = json.Unmarshal(*v, &rawMessageEntities)
+			if err != nil {
+				return err
+			}
+
+			for _, m := range rawMessageEntities {
+				xxx, err := UnmarshalEntityInterface(*m)
+				if err != nil {
+					return err
+				}
+
+				if xxx != nil {
+					x.Entities = append(x.Entities, *xxx)
+				}
+			}
+		case "entity":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalEntityInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.Entity = *xxx
+			}
+		case "entityManagement":
+			err = json.Unmarshal(*v, &x.EntityManagement)
+			if err != nil {
+				return err
+			}
+		case "entitySearch":
+			err = json.Unmarshal(*v, &x.EntitySearch)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
 }
 
 // AgentApplicationSegmentsBrowserSegmentAllowList - The allow list object for browser applications.
@@ -2496,6 +2663,8 @@ type AgentApplicationSettingsApplicationLogging struct {
 
 // AgentApplicationSettingsBrowserAjax - Enables ajax traces in the browser app.
 type AgentApplicationSettingsBrowserAjax struct {
+	// Controls which AJAX payloads (bodies, headers, etc.) are recorded for the allowed domains.
+	CapturePayloads AgentApplicationSettingsCapturePayload `json:"capturePayloads,omitempty"`
 	// List of domains excluded from Ajax traces by the browser agent.
 	DenyList []string `json:"denyList"`
 }
@@ -2880,6 +3049,7 @@ type AgentEnvironmentLoadedModuleAttribute struct {
 	Value string `json:"value"`
 }
 
+// AlertableEntity -
 type AlertableEntity struct {
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
@@ -2891,6 +3061,7 @@ type AlertableEntity struct {
 
 func (x *AlertableEntity) ImplementsAlertableEntity() {}
 
+// AlertableEntityOutline -
 type AlertableEntityOutline struct {
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
@@ -2908,7 +3079,7 @@ type ApmApplicationDeployment struct {
 	Permalink string `json:"permalink,omitempty"`
 	// The revision of the app that was deployed
 	Revision string `json:"revision,omitempty"`
-	// The moment the deployment occurred
+	// The moment the deployment occured
 	Timestamp nrtime.EpochMilliseconds `json:"timestamp,omitempty"`
 	// The user who triggered the deployment
 	User string `json:"user,omitempty"`
@@ -2916,6 +3087,7 @@ type ApmApplicationDeployment struct {
 
 // ApmApplicationEntity - An APM Application entity.
 type ApmApplicationEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -2973,14 +3145,15 @@ type ApmApplicationEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -3020,6 +3193,7 @@ func (x *ApmApplicationEntity) ImplementsEntity() {}
 
 // ApmApplicationEntityOutline - An APM Application entity outline.
 type ApmApplicationEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -3118,6 +3292,7 @@ type ApmApplicationSummaryData struct {
 
 // ApmBrowserApplicationEntity - The `ApmBrowserApplicationEntity` interface provides detailed information for the Browser App injected by an APM Application.
 type ApmBrowserApplicationEntity struct {
+	//
 	ApmBrowserSummary ApmBrowserApplicationSummaryData `json:"apmBrowserSummary,omitempty"`
 }
 
@@ -3125,6 +3300,7 @@ func (x *ApmBrowserApplicationEntity) ImplementsApmBrowserApplicationEntity() {}
 
 // ApmBrowserApplicationEntityOutline - The `ApmBrowserApplicationEntityOutline` interface provides detailed information for the Browser App injected by an APM Application.
 type ApmBrowserApplicationEntityOutline struct {
+	//
 	ApmBrowserSummary ApmBrowserApplicationSummaryData `json:"apmBrowserSummary,omitempty"`
 }
 
@@ -3146,6 +3322,7 @@ type ApmBrowserApplicationSummaryData struct {
 
 // ApmDatabaseInstanceEntity - A database instance seen by an APM Application
 type ApmDatabaseInstanceEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -3179,14 +3356,15 @@ type ApmDatabaseInstanceEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -3224,6 +3402,7 @@ func (x *ApmDatabaseInstanceEntity) ImplementsEntity() {}
 
 // ApmDatabaseInstanceEntityOutline - A database instance seen by an APM Application
 type ApmDatabaseInstanceEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -3273,6 +3452,7 @@ func (x *ApmDatabaseInstanceEntityOutline) ImplementsEntityOutline() {}
 
 // ApmExternalServiceEntity - An external service seen by an APM Application.
 type ApmExternalServiceEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -3285,7 +3465,8 @@ type ApmExternalServiceEntity struct {
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
-	EntityType      EntityType                    `json:"entityType,omitempty"`
+	EntityType EntityType `json:"entityType,omitempty"`
+	//
 	ExternalSummary ApmExternalServiceSummaryData `json:"externalSummary,omitempty"`
 	// The date of last time the entity has updated any of its fields.
 	FirstIndexedAt nrtime.EpochMilliseconds `json:"firstIndexedAt,omitempty"`
@@ -3307,14 +3488,15 @@ type ApmExternalServiceEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -3348,6 +3530,7 @@ func (x *ApmExternalServiceEntity) ImplementsEntity() {}
 
 // ApmExternalServiceEntityOutline - An external service seen by an APM Application.
 type ApmExternalServiceEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -3356,7 +3539,8 @@ type ApmExternalServiceEntityOutline struct {
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
-	EntityType      EntityType                    `json:"entityType,omitempty"`
+	EntityType EntityType `json:"entityType,omitempty"`
+	//
 	ExternalSummary ApmExternalServiceSummaryData `json:"externalSummary,omitempty"`
 	// The date of last time the entity has updated any of its fields.
 	FirstIndexedAt nrtime.EpochMilliseconds `json:"firstIndexedAt,omitempty"`
@@ -3402,6 +3586,7 @@ type ApmExternalServiceSummaryData struct {
 
 // BrowserApplicationEntity - A Browser Application entity.
 type BrowserApplicationEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -3451,14 +3636,15 @@ type BrowserApplicationEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -3500,6 +3686,7 @@ func (x *BrowserApplicationEntity) ImplementsEntity() {}
 
 // BrowserApplicationEntityOutline - A Browser Application entity outline.
 type BrowserApplicationEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -3660,8 +3847,10 @@ type ChangeTrackingTimeWindowInputWithDefaults struct {
 
 // CollectionEntity - A group of entities defined by entity search queries and specific GUIDs
 type CollectionEntity struct {
+	//
 	Collection EntityCollection `json:"collection,omitempty"`
-	GUID       EntityGUID       `json:"guid,omitempty"`
+	//
+	GUID EntityGUID `json:"guid,omitempty"`
 }
 
 func (x *CollectionEntity) ImplementsCollectionEntity() {}
@@ -3696,6 +3885,7 @@ type DashboardBillboardWidgetThreshold struct {
 
 // DashboardEntity - A Dashboard entity.
 type DashboardEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -3733,14 +3923,15 @@ type DashboardEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The owner information of the dashboard.
 	Owner DashboardEntityOwnerInfo `json:"owner,omitempty"`
@@ -3784,6 +3975,7 @@ func (x *DashboardEntity) ImplementsEntity() {}
 
 // DashboardEntityOutline - A Dashboard entity outline.
 type DashboardEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -4143,6 +4335,7 @@ type DomainTypeInput struct {
 //
 // To understand more about entities and entity types, look at [our docs](https://docs.newrelic.com/docs/what-are-new-relic-entities).
 type Entity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -4174,14 +4367,15 @@ type Entity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -4639,6 +4833,14 @@ type EntityManagementAiToolParameter struct {
 	Type EntityManagementAiToolParameterType `json:"type"`
 }
 
+// EntityManagementAlertable - An entity type that can have alerts.
+type EntityManagementAlertable struct {
+	// The current alerting severity of the entity.
+	AlertSeverity EntityManagementAlertableEntitySeverity `json:"alertSeverity,omitempty"`
+}
+
+func (x *EntityManagementAlertable) ImplementsEntityManagementAlertable() {}
+
 // EntityManagementAwsAssumeRoleConfig - Configuration for accessing an Aws account via AssumeRole
 type EntityManagementAwsAssumeRoleConfig struct {
 	// External ID to use when assuming the role
@@ -4975,6 +5177,24 @@ type EntityManagementEntityDeleteResult struct {
 	ID string `json:"id"`
 }
 
+// EntityManagementEntityReference - An entity reference.
+type EntityManagementEntityReference struct {
+	// The id of the entity
+	ID string `json:"id"`
+	// The scope of the entity
+	Scope EntityManagementScopedReference `json:"scope"`
+	// The type of the entity
+	Type string `json:"type"`
+}
+
+// EntityManagementEntityReferenceInput - Input for creating a new entity reference.
+type EntityManagementEntityReferenceInput struct {
+	// The id of the entity.
+	ID string `json:"id"`
+	// The entity's scope.
+	Scope EntityManagementEntityScope `json:"scope"`
+}
+
 // EntityManagementEntitySearchResult - The result of an entities query.
 type EntityManagementEntitySearchResult struct {
 	// The current page of results.
@@ -5182,12 +5402,16 @@ type EntityManagementForwarder struct {
 
 // EntityManagementGenericEntity - A generic entity.
 type EntityManagementGenericEntity struct {
+	// The current alerting severity of the entity.
+	AlertSeverity EntityManagementAlertableEntitySeverity `json:"alertSeverity,omitempty"`
 	// The entity's global unique identifier.
 	ID string `json:"id"`
 	// Metadata about the entity.
 	Metadata EntityManagementMetadata `json:"metadata"`
 	// The name of this entity.
 	Name string `json:"name"`
+	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
+	Reporting bool `json:"reporting"`
 	// The entity's scope.
 	Scope EntityManagementScopedReference `json:"scope"`
 	// Collection of tags.
@@ -5196,7 +5420,11 @@ type EntityManagementGenericEntity struct {
 	Type string `json:"type"`
 }
 
+func (x *EntityManagementGenericEntity) ImplementsEntityManagementAlertable() {}
+
 func (x *EntityManagementGenericEntity) ImplementsEntityManagementEntity() {}
+
+func (x *EntityManagementGenericEntity) ImplementsEntityManagementReporting() {}
 
 // EntityManagementGitRepositoryEntity - An entity representing a Repository of a organization
 type EntityManagementGitRepositoryEntity struct {
@@ -5505,6 +5733,52 @@ func (x *EntityManagementMetadata) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+// EntityManagementNRQLMacroEntity - A reusable NRQL macro that can be substituted into NRQL queries to simplify complex or frequently-used query patterns.
+//
+// NRQL macros allow you to define query fragments that can be referenced and expanded in your queries, reducing
+// duplication and improving maintainability. For example, you might create a macro for filtering out test data,
+// calculating a specific metric, or defining commonly-used WHERE conditions.
+//
+// ## Example Macro Expression
+//
+// A macro for filtering production traffic:
+// ```
+// environment = 'production' AND appName NOT LIKE '%test%'
+// ```
+//
+// This macro could be used in WHERE clauses across multiple queries.
+//
+// For more information about NRQL, see [NRQL documentation](https://docs.newrelic.com/docs/query-your-data/nrql-new-relic-query-language/get-started/introduction-nrql-new-relics-query-language/).
+type EntityManagementNRQLMacroEntity struct {
+	// The NRQL expression that will be substituted when this macro is used in a query.
+	//
+	// This can be any valid NRQL fragment appropriate for the supported clause(s). Examples:
+	// - WHERE clause: `environment = 'production' AND appName NOT LIKE '%test%'`
+	// - SELECT clause: `average(duration) / 1000 as 'avgDurationSeconds'`
+	// - FACET clause: `appName, host`
+	Expression string `json:"expression"`
+	// The entity's global unique identifier.
+	ID string `json:"id"`
+	// System-generated metadata about this macro entity, including creation time, last update time, and version information.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// A unique, human-readable name for this macro. This name is used to identify and reference the macro.
+	//
+	// The name cannot be changed after creation. Choose a descriptive name that indicates the macro's purpose, such as 'filterProductionTraffic' or 'calculateApdex'.
+	Name string `json:"name"`
+	// The number of parameters used in the macro expression. Not required if the value is 0.
+	//
+	// Within the macro expression, parameters are referenced by index as $1, $2,...
+	NumParameters int `json:"numParameters,omitempty"`
+	// The entity's scope.
+	Scope EntityManagementScopedReference `json:"scope"`
+	// Key-value pairs of tags. Tags are inherited from the Entity interface.
+	Tags []EntityManagementTag `json:"tags"`
+	// The entity type identifier. Always returns 'NRQL_MACRO' for this entity type.
+	Type string `json:"type"`
+}
+
+func (x *EntityManagementNRQLMacroEntity) ImplementsEntityManagementEntity() {}
+
 // EntityManagementNRQLRuleEngine - NRQL engine configuration.
 type EntityManagementNRQLRuleEngine struct {
 	// The accounts to be queried.
@@ -5533,6 +5807,24 @@ type EntityManagementNRQLRuleEngineUpdateInput struct {
 	JoinAccounts []int `json:"joinAccounts"`
 	// See query in NrqlRuleEngine.
 	Query string `json:"query"`
+}
+
+// EntityManagementOnCallMember - An on-call member.
+type EntityManagementOnCallMember struct {
+	// The id of a team member.
+	ID string `json:"id"`
+}
+
+// EntityManagementOnCallMemberCreateInput - Create input for OnCallMember.
+type EntityManagementOnCallMemberCreateInput struct {
+	// See id in OnCallMember.
+	ID string `json:"id"`
+}
+
+// EntityManagementOnCallMemberUpdateInput - Update input for OnCallMember.
+type EntityManagementOnCallMemberUpdateInput struct {
+	// See id in OnCallMember.
+	ID string `json:"id"`
 }
 
 // EntityManagementOperatingSystem - Operating System string enum for the host operating systems in a fleet
@@ -5608,6 +5900,8 @@ type EntityManagementPartitionHealthCheckStatus struct {
 type EntityManagementPartitionPipelineControlConfiguration struct {
 	// The partition rule that determines how incoming logs are routed to this partition.
 	PartitionRule EntityManagementRule `json:"partitionRule,omitempty"`
+	// Metadata about the last saved pipeline configuration used for this partition. This includes the unique ID and version ID of the configuration.
+	Requested EntityManagementPipelineConfigurationMetadata `json:"requested,omitempty"`
 }
 
 // EntityManagementPartitionStorage - Storage details for a log partition. This information is used for querying and managing log data for the partition.
@@ -5628,7 +5922,7 @@ type EntityManagementPipelineCloudRuleEntity struct {
 	ID string `json:"id"`
 	// Metadata about the entity.
 	Metadata EntityManagementMetadata `json:"metadata"`
-	// The NRQL string used to specify the action you want to take and data you want to take the specified action on.
+	// The NRQL string used to specify the action you want to take and data you want to take the specified action on. Exactly one of nrql or ottlTransform must be set.
 	NRQL NRQL `json:"nrql"`
 	// The name of this entity.
 	Name string `json:"name"`
@@ -5642,10 +5936,20 @@ type EntityManagementPipelineCloudRuleEntity struct {
 
 func (x *EntityManagementPipelineCloudRuleEntity) ImplementsEntityManagementEntity() {}
 
+// EntityManagementPipelineConfigurationMetadata - Metadata about a pipeline configuration, including its unique ID and version ID.
+type EntityManagementPipelineConfigurationMetadata struct {
+	// The configuration ID.
+	ID string `json:"id"`
+	// The configuration version ID.
+	VersionId string `json:"versionId"`
+}
+
 // EntityManagementPipelineControlConfiguration - Configuration for a pipeline control forwarder.
 type EntityManagementPipelineControlConfiguration struct {
 	// The fleet entity used for deploying the pipeline configuration.
 	Fleet EntityManagementFleetEntity `json:"fleet,omitempty"`
+	// Metadata about the last saved pipeline configuration used for this setup. This includes the unique ID and version ID of the configuration.
+	Requested EntityManagementPipelineConfigurationMetadata `json:"requested,omitempty"`
 	// The routing rule that determines how incoming logs are routed to this setup.
 	RoutingRule EntityManagementRule `json:"routingRule,omitempty"`
 }
@@ -5706,6 +6010,38 @@ type EntityManagementRagToolEntity struct {
 
 func (x *EntityManagementRagToolEntity) ImplementsEntityManagementEntity() {}
 
+// EntityManagementRelationship - A relationship between two entities.
+type EntityManagementRelationship struct {
+	// Metadata about the relationship.
+	Metadata EntityManagementMetadata `json:"metadata"`
+	// The id of the source entity
+	Source EntityManagementEntityReference `json:"source"`
+	// The tags of the relationship
+	Tags []EntityManagementTag `json:"tags"`
+	// The id of the target entity
+	Target EntityManagementEntityReference `json:"target"`
+	// The type of the relationship
+	Type string `json:"type"`
+}
+
+// EntityManagementRelationshipCreateInput - Input for creating a new relationship.
+type EntityManagementRelationshipCreateInput struct {
+	// The source entity of the relationship.
+	Source EntityManagementEntityReferenceInput `json:"source,omitempty"`
+	// The tags of the relationship.
+	Tags []EntityManagementTagInput `json:"tags,omitempty"`
+	// The target entity of the relationship.
+	Target EntityManagementEntityReferenceInput `json:"target,omitempty"`
+	// The type of the relationship.
+	Type string `json:"type"`
+}
+
+// EntityManagementRelationshipCreateResult - The result of creating an entity relationship.
+type EntityManagementRelationshipCreateResult struct {
+	// The created relationship.
+	Relationship EntityManagementRelationship `json:"relationship"`
+}
+
 // EntityManagementRelationshipDeleteResult - The result of deleting an entity relationship.
 type EntityManagementRelationshipDeleteResult struct {
 	// The source id of the relationship effectively deleted.
@@ -5715,6 +6051,14 @@ type EntityManagementRelationshipDeleteResult struct {
 	// The relationship type effectively deleted.
 	Type string `json:"type"`
 }
+
+// EntityManagementReporting - A reporting entity type.
+type EntityManagementReporting struct {
+	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
+	Reporting bool `json:"reporting"`
+}
+
+func (x *EntityManagementReporting) ImplementsEntityManagementReporting() {}
 
 // EntityManagementRepositoryLicense - License associated with the repository
 type EntityManagementRepositoryLicense struct {
@@ -5785,8 +6129,6 @@ type EntityManagementScheduleCreateInput struct {
 // EntityManagementScheduleUpdateInput - Update input for Schedule.
 type EntityManagementScheduleUpdateInput struct {
 	// See enabled in Schedule.
-	// No omitempty: false is a valid value meaning "disable this schedule" and
-	// must not be silently dropped by the JSON encoder.
 	Enabled bool `json:"enabled"`
 	// See firstRunAt in Schedule.
 	FirstRunAt nrtime.DateTime `json:"firstRunAt,omitempty"`
@@ -5863,14 +6205,12 @@ type EntityManagementScorecardEntityCreateResult struct {
 // EntityManagementScorecardEntityUpdateInput - Update input for ScorecardEntity entity type.
 type EntityManagementScorecardEntityUpdateInput struct {
 	// See description in ScorecardEntity.
-	// No omitempty: empty string must be sent to allow clearing the description.
 	Description string `json:"description"`
 	// See name in ScorecardEntity.
 	Name string `json:"name,omitempty"`
 	// See progressLevels in ScorecardEntity.
 	ProgressLevels []EntityManagementProgressLevelDefinitionUpdateInput `json:"progressLevels,omitempty"`
-	// Pointer semantics: nil = no change; &[]{}  = clear all user tags.
-	// omitempty on a pointer omits when nil, includes when pointing to an empty slice.
+	// See tags in ScorecardEntity.
 	Tags *[]EntityManagementTagInput `json:"tags,omitempty"`
 }
 
@@ -5947,11 +6287,8 @@ type EntityManagementScorecardRuleEntityCreateResult struct {
 // EntityManagementScorecardRuleEntityUpdateInput - Update input for ScorecardRuleEntity entity type.
 type EntityManagementScorecardRuleEntityUpdateInput struct {
 	// See description in ScorecardRuleEntity.
-	// No omitempty: empty string must be sent to allow clearing the description.
 	Description string `json:"description"`
 	// See enabled in ScorecardRuleEntity.
-	// NOTE: omitempty intentionally removed — false is a valid value meaning
-	// "disable this rule" and must not be silently dropped by the JSON encoder.
 	Enabled bool `json:"enabled"`
 	// See impactWeight in ScorecardRuleEntity.
 	ImpactWeight int `json:"impactWeight,omitempty"`
@@ -5965,7 +6302,7 @@ type EntityManagementScorecardRuleEntityUpdateInput struct {
 	RunInterval int `json:"runInterval,omitempty"`
 	// See schedule in ScorecardRuleEntity.
 	Schedule *EntityManagementScheduleUpdateInput `json:"schedule,omitempty"`
-	// Pointer semantics: nil = no change; &[]{}  = clear all user tags.
+	// See tags in ScorecardRuleEntity.
 	Tags *[]EntityManagementTagInput `json:"tags,omitempty"`
 }
 
@@ -6125,11 +6462,6 @@ type EntityManagementSyncGroupsSettingsUpdateInput struct {
 	// See enabled in SyncGroupsSettings.
 	Enabled bool `json:"enabled"`
 	// See rules in SyncGroupsSettings.
-	// NOTE: omitempty intentionally removed — an empty slice must be encoded as
-	// "rules":[] so the API can distinguish "clear all rules" from "do not touch
-	// rules". Callers that do not want to modify rules should omit the parent
-	// SyncGroups field entirely (leave it as the zero value so the outer struct's
-	// omitempty drops it).
 	Rules []EntityManagementSyncGroupRuleUpdateInput `json:"rules"`
 }
 
@@ -6179,6 +6511,8 @@ type EntityManagementTeamEntity struct {
 	Metadata EntityManagementMetadata `json:"metadata"`
 	// The name of this entity.
 	Name string `json:"name"`
+	// The on-call members for the team.
+	OnCallMembers []EntityManagementOnCallMember `json:"onCallMembers"`
 	// Collection that contains the list of entities owned by the team.
 	Ownership EntityManagementCollectionEntity `json:"ownership,omitempty"`
 	// The parent team in the hierarchy.
@@ -6207,6 +6541,8 @@ type EntityManagementTeamEntityCreateInput struct {
 	Managers []string `json:"managers,omitempty"`
 	// See name in TeamEntity.
 	Name string `json:"name"`
+	// See onCallMembers in TeamEntity.
+	OnCallMembers []EntityManagementOnCallMemberCreateInput `json:"onCallMembers,omitempty"`
 	// See parentId in TeamEntity.
 	ParentId string `json:"parentId,omitempty"`
 	// See resources in TeamEntity.
@@ -6224,37 +6560,24 @@ type EntityManagementTeamEntityCreateResult struct {
 }
 
 // EntityManagementTeamEntityUpdateInput - Update input for TeamEntity entity type.
-// EntityManagementTeamEntityUpdateInput - Update input for TeamEntity entity type.
-//
-// Pointer semantics for clearable fields:
-//   - nil pointer  → field omitted from JSON; API leaves the current value unchanged.
-//   - non-nil pointer to zero value (e.g. &"", &[]string{}) → field explicitly sent;
-//     API clears the attribute.
-//
-// This allows callers to express the three-way intent (set / clear / leave unchanged)
-// without resorting to raw NerdGraph mutations.
 type EntityManagementTeamEntityUpdateInput struct {
 	// See aliases in TeamEntity.
-	// nil = no change; &[]string{} = clear all aliases.
 	Aliases *[]string `json:"aliases,omitempty"`
 	// See description in TeamEntity.
-	// nil = no change; ptr to "" = clear description.
 	Description *string `json:"description,omitempty"`
 	// See externalIntegration in TeamEntity.
 	ExternalIntegration *EntityManagementTeamExternalIntegrationUpdateInput `json:"externalIntegration,omitempty"`
 	// See managers in TeamEntity.
-	// nil = no change; &[]string{} = clear all managers.
 	Managers *[]string `json:"managers,omitempty"`
 	// See name in TeamEntity.
 	Name string `json:"name,omitempty"`
+	// See onCallMembers in TeamEntity.
+	OnCallMembers []EntityManagementOnCallMemberUpdateInput `json:"onCallMembers,omitempty"`
 	// See parentId in TeamEntity.
-	// nil = no change; ptr to "" = remove parent association.
 	ParentId *string `json:"parentId,omitempty"`
 	// See resources in TeamEntity.
-	// nil = no change; ptr to empty slice = clear all resources.
 	Resources *[]EntityManagementTeamResourceUpdateInput `json:"resources,omitempty"`
 	// See tags in TeamEntity.
-	// nil = no change; ptr to empty slice = clear all user-managed tags.
 	Tags *[]EntityManagementTagInput `json:"tags,omitempty"`
 }
 
@@ -6286,63 +6609,6 @@ type EntityManagementTeamExternalIntegrationUpdateInput struct {
 	ExternalId string `json:"externalId"`
 	// See type in TeamExternalIntegration.
 	Type EntityManagementTeamExternalIntegrationType `json:"type,omitempty"`
-}
-
-// EntityManagementTeamResourceType - The accepted values for a team supplemental resource type.
-// These are the canonical type identifiers the NGEP API recognises.
-type EntityManagementTeamResourceType string
-
-// EntityManagementTeamResourceTypes is the set of valid resource type values.
-var EntityManagementTeamResourceTypes = struct {
-	ATLASSIAN_CONFLUENCE      EntityManagementTeamResourceType
-	ATLASSIAN_JIRA            EntityManagementTeamResourceType
-	ATLASSIAN_JIRA_SCORECARDS EntityManagementTeamResourceType
-	BASECAMP                  EntityManagementTeamResourceType
-	BLAMELESS                 EntityManagementTeamResourceType
-	EMAIL                     EntityManagementTeamResourceType
-	FACEBOOK_WORKPLACE        EntityManagementTeamResourceType
-	GITHUB                    EntityManagementTeamResourceType
-	GITLAB                    EntityManagementTeamResourceType
-	GOOGLE_CHAT               EntityManagementTeamResourceType
-	GOOGLE_CLOUD_PLATFORM     EntityManagementTeamResourceType
-	GOOGLE_DRIVE              EntityManagementTeamResourceType
-	MICROSOFT_AZURE           EntityManagementTeamResourceType
-	MICROSOFT_SHAREPOINT      EntityManagementTeamResourceType
-	MICROSOFT_TEAMS           EntityManagementTeamResourceType
-	OPSGENIE                  EntityManagementTeamResourceType
-	OTHER_CONTACT             EntityManagementTeamResourceType
-	OTHER_LINK                EntityManagementTeamResourceType
-	PAGERDUTY                 EntityManagementTeamResourceType
-	ROCKET_CHAT               EntityManagementTeamResourceType
-	SERVICENOW                EntityManagementTeamResourceType
-	SKYPE                     EntityManagementTeamResourceType
-	SLACK                     EntityManagementTeamResourceType
-	ZENDESK                   EntityManagementTeamResourceType
-}{
-	ATLASSIAN_CONFLUENCE:      "ATLASSIAN_CONFLUENCE",
-	ATLASSIAN_JIRA:            "ATLASSIAN_JIRA",
-	ATLASSIAN_JIRA_SCORECARDS: "ATLASSIAN_JIRA_SCORECARDS",
-	BASECAMP:                  "BASECAMP",
-	BLAMELESS:                 "BLAMELESS",
-	EMAIL:                     "EMAIL",
-	FACEBOOK_WORKPLACE:        "FACEBOOK_WORKPLACE",
-	GITHUB:                    "GITHUB",
-	GITLAB:                    "GITLAB",
-	GOOGLE_CHAT:               "GOOGLE_CHAT",
-	GOOGLE_CLOUD_PLATFORM:     "GOOGLE_CLOUD_PLATFORM",
-	GOOGLE_DRIVE:              "GOOGLE_DRIVE",
-	MICROSOFT_AZURE:           "MICROSOFT_AZURE",
-	MICROSOFT_SHAREPOINT:      "MICROSOFT_SHAREPOINT",
-	MICROSOFT_TEAMS:           "MICROSOFT_TEAMS",
-	OPSGENIE:                  "OPSGENIE",
-	OTHER_CONTACT:             "OTHER_CONTACT",
-	OTHER_LINK:                "OTHER_LINK",
-	PAGERDUTY:                 "PAGERDUTY",
-	ROCKET_CHAT:               "ROCKET_CHAT",
-	SERVICENOW:                "SERVICENOW",
-	SKYPE:                     "SKYPE",
-	SLACK:                     "SLACK",
-	ZENDESK:                   "ZENDESK",
 }
 
 // EntityManagementTeamResource - Any extra information attached to a Team.
@@ -6434,15 +6700,13 @@ func (x *EntityManagementTeamsOrganizationSettingsEntity) ImplementsEntityManage
 // EntityManagementTeamsOrganizationSettingsEntityUpdateInput - Update input for TeamsOrganizationSettingsEntity entity type.
 type EntityManagementTeamsOrganizationSettingsEntityUpdateInput struct {
 	// See discovery in TeamsOrganizationSettingsEntity.
-	// Pointer + omitempty: both enabled and tagKeys are NON_NULL in the GraphQL
-	// schema, so sending the zero-value struct {Enabled:false, TagKeys:null} is
-	// invalid. Callers that only need to change hierarchy/syncGroups should leave
-	// Discovery nil so it is omitted from the serialised input entirely.
 	Discovery *EntityManagementDiscoverySettingsUpdateInput `json:"discovery,omitempty"`
 	// See hierarchyLevelOrder in TeamsOrganizationSettingsEntity.
 	// Ordered list of hierarchy level entity GUIDs that defines the visual order
 	// in the Teams UI. Use omitempty so callers that only touch discovery/syncGroups
 	// do not accidentally reset the order to an empty list.
+	//
+	// Not in the NerdGraph schema; kept so existing code compiles.
 	HierarchyLevelOrder []string `json:"hierarchyLevelOrder,omitempty"`
 	// See name in TeamsOrganizationSettingsEntity.
 	Name string `json:"name,omitempty"`
@@ -6508,6 +6772,7 @@ type EntityManagementUserMetadata struct {
 //
 // To understand more about entities and entity types, look at [our docs](https://docs.newrelic.com/docs/what-are-new-relic-entities).
 type EntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -6624,8 +6889,9 @@ type EntityRelationshipFilter struct {
 // EntityRelationshipNode - A node in an Entity relationship.
 type EntityRelationshipNode struct {
 	// The Account ID for the relationship node.
-	AccountID int                    `json:"accountId,omitempty"`
-	Entity    EntityOutlineInterface `json:"entity,omitempty"`
+	AccountID int `json:"accountId,omitempty"`
+	//
+	Entity EntityOutlineInterface `json:"entity,omitempty"`
 	// The `EntityType` of the relationship node.
 	EntityType EntityType `json:"entityType,omitempty"`
 	// The Entity `guid` for the relationship node.
@@ -6949,6 +7215,7 @@ type EventDefinition struct {
 
 // ExternalEntity - An External entity.
 type ExternalEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -6980,14 +7247,15 @@ type ExternalEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -7021,6 +7289,7 @@ func (x *ExternalEntity) ImplementsEntity() {}
 
 // ExternalEntityOutline - An External entity outline.
 type ExternalEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -7190,6 +7459,7 @@ type FleetControlTag struct {
 
 // GenericEntity - A generic entity.
 type GenericEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -7221,14 +7491,15 @@ type GenericEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -7262,6 +7533,7 @@ func (x *GenericEntity) ImplementsEntity() {}
 
 // GenericEntityOutline - A generic entity outline.
 type GenericEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -7305,6 +7577,7 @@ func (x *GenericEntityOutline) ImplementsEntityOutline() {}
 
 // GenericInfrastructureEntity - An Infrastructure entity.
 type GenericInfrastructureEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -7327,8 +7600,9 @@ type GenericInfrastructureEntity struct {
 	// The list of golden tags for a specific entityType.
 	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt           nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
-	IntegrationTypeCode string                   `json:"integrationTypeCode,omitempty"`
+	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	//
+	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
 	// The last time the entity's reporting status changed.
 	LastReportingChangeAt nrtime.EpochMilliseconds `json:"lastReportingChangeAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
@@ -7337,14 +7611,15 @@ type GenericInfrastructureEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -7380,6 +7655,7 @@ func (x *GenericInfrastructureEntity) ImplementsInfrastructureIntegrationEntity(
 
 // GenericInfrastructureEntityOutline - An Infrastructure entity outline.
 type GenericInfrastructureEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -7398,8 +7674,9 @@ type GenericInfrastructureEntityOutline struct {
 	// The list of golden tags for a specific entityType.
 	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt           nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
-	IntegrationTypeCode string                   `json:"integrationTypeCode,omitempty"`
+	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	//
+	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
 	// The last time the entity's reporting status changed.
 	LastReportingChangeAt nrtime.EpochMilliseconds `json:"lastReportingChangeAt,omitempty"`
 	// The name of this entity.
@@ -7426,6 +7703,7 @@ func (x *GenericInfrastructureEntityOutline) ImplementsInfrastructureIntegration
 
 // InfrastructureAwsLambdaFunctionEntity - An AWS Lambda Function entity.
 type InfrastructureAwsLambdaFunctionEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -7448,8 +7726,9 @@ type InfrastructureAwsLambdaFunctionEntity struct {
 	// The list of golden tags for a specific entityType.
 	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt           nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
-	IntegrationTypeCode string                   `json:"integrationTypeCode,omitempty"`
+	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	//
+	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
 	// The last time the entity's reporting status changed.
 	LastReportingChangeAt nrtime.EpochMilliseconds `json:"lastReportingChangeAt,omitempty"`
 	// Make an `Entity` scoped query to NRDB with a NRQL string.
@@ -7458,14 +7737,15 @@ type InfrastructureAwsLambdaFunctionEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -7478,8 +7758,9 @@ type InfrastructureAwsLambdaFunctionEntity struct {
 	// For more information, visit [our docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/graphql-relationships-api-tutorial).
 	Relationships []EntityRelationship `json:"relationships,omitempty"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
-	Reporting bool   `json:"reporting,omitempty"`
-	Runtime   string `json:"runtime,omitempty"`
+	Reporting bool `json:"reporting,omitempty"`
+	//
+	Runtime string `json:"runtime,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
 	// The tags applied to the entity.
@@ -7502,6 +7783,7 @@ func (x *InfrastructureAwsLambdaFunctionEntity) ImplementsInfrastructureIntegrat
 
 // InfrastructureAwsLambdaFunctionEntityOutline - An AWS Lambda Function entity outline.
 type InfrastructureAwsLambdaFunctionEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -7520,8 +7802,9 @@ type InfrastructureAwsLambdaFunctionEntityOutline struct {
 	// The list of golden tags for a specific entityType.
 	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt           nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
-	IntegrationTypeCode string                   `json:"integrationTypeCode,omitempty"`
+	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	//
+	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
 	// The last time the entity's reporting status changed.
 	LastReportingChangeAt nrtime.EpochMilliseconds `json:"lastReportingChangeAt,omitempty"`
 	// The name of this entity.
@@ -7529,8 +7812,9 @@ type InfrastructureAwsLambdaFunctionEntityOutline struct {
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
-	Reporting bool   `json:"reporting,omitempty"`
-	Runtime   string `json:"runtime,omitempty"`
+	Reporting bool `json:"reporting,omitempty"`
+	//
+	Runtime string `json:"runtime,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
 	// The tags applied to the entity.
@@ -7550,6 +7834,7 @@ func (x *InfrastructureAwsLambdaFunctionEntityOutline) ImplementsInfrastructureI
 
 // InfrastructureHostEntity - An Infrastructure Host entity.
 type InfrastructureHostEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -7570,8 +7855,9 @@ type InfrastructureHostEntity struct {
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags  EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
-	HostSummary InfrastructureHostSummaryData       `json:"hostSummary,omitempty"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
+	//
+	HostSummary InfrastructureHostSummaryData `json:"hostSummary,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The last time the entity's reporting status changed.
@@ -7582,14 +7868,15 @@ type InfrastructureHostEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -7623,6 +7910,7 @@ func (x *InfrastructureHostEntity) ImplementsEntity() {}
 
 // InfrastructureHostEntityOutline - An Infrastructure Host entity outline.
 type InfrastructureHostEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -7639,8 +7927,9 @@ type InfrastructureHostEntityOutline struct {
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags  EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
-	HostSummary InfrastructureHostSummaryData       `json:"hostSummary,omitempty"`
+	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
+	//
+	HostSummary InfrastructureHostSummaryData `json:"hostSummary,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The last time the entity's reporting status changed.
@@ -7681,13 +7970,17 @@ type InfrastructureHostSummaryData struct {
 	ServicesCount int `json:"servicesCount,omitempty"`
 }
 
+// InfrastructureIntegrationEntity -
 type InfrastructureIntegrationEntity struct {
+	//
 	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
 }
 
 func (x *InfrastructureIntegrationEntity) ImplementsInfrastructureIntegrationEntity() {}
 
+// InfrastructureIntegrationEntityOutline -
 type InfrastructureIntegrationEntityOutline struct {
+	//
 	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
 }
 
@@ -7758,6 +8051,7 @@ func (x *KeyTransactionApplication) UnmarshalJSON(b []byte) error {
 
 // KeyTransactionEntity - A Key Transaction entity.
 type KeyTransactionEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -7797,14 +8091,15 @@ type KeyTransactionEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -7838,6 +8133,7 @@ func (x *KeyTransactionEntity) ImplementsEntity() {}
 
 // KeyTransactionEntityOutline - A Key Transaction entity outline.
 type KeyTransactionEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -7947,6 +8243,7 @@ type MobileAppSummaryData struct {
 
 // MobileApplicationEntity - A Mobile Application entity.
 type MobileApplicationEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -7996,14 +8293,15 @@ type MobileApplicationEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -8037,6 +8335,7 @@ func (x *MobileApplicationEntity) ImplementsEntity() {}
 
 // MobileApplicationEntityOutline - A Mobile Application entity outline.
 type MobileApplicationEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -8204,6 +8503,7 @@ type NRQLQueryOptions struct {
 	EventNamespaces []string `json:"eventNamespaces"`
 }
 
+// NerdStorageCollectionMember -
 type NerdStorageCollectionMember struct {
 	// The NerdStorage document.
 	Document NerdStorageDocument `json:"document,omitempty"`
@@ -8211,13 +8511,17 @@ type NerdStorageCollectionMember struct {
 	ID string `json:"id,omitempty"`
 }
 
+// NerdStorageEntityScope -
 type NerdStorageEntityScope struct {
+	//
 	Collection []NerdStorageCollectionMember `json:"collection,omitempty"`
-	Document   NerdStorageDocument           `json:"document,omitempty"`
+	//
+	Document NerdStorageDocument `json:"document,omitempty"`
 }
 
 // SecureCredentialEntity - A secure credential entity.
 type SecureCredentialEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -8251,14 +8555,15 @@ type SecureCredentialEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -8298,6 +8603,7 @@ func (x *SecureCredentialEntity) ImplementsEntity() {}
 
 // SecureCredentialEntityOutline - A secure credential entity outline.
 type SecureCredentialEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -8355,6 +8661,16 @@ type SecureCredentialSummaryData struct {
 	MonitorCount int `json:"monitorCount,omitempty"`
 }
 
+// ServiceLevelActor - Represents an actor.
+type ServiceLevelActor struct {
+	// Id of the actor.
+	ID string `json:"id"`
+	// Type of the actor.
+	Type ServiceLevelActorType `json:"type"`
+}
+
+func (x *ServiceLevelActor) ImplementsServiceLevelActor() {}
+
 // ServiceLevelDefinition - The service level defined for a specific entity.
 type ServiceLevelDefinition struct {
 	// The SLIs attached to the entity.
@@ -8411,6 +8727,8 @@ type ServiceLevelIndicator struct {
 	GUID EntityGUID `json:"guid"`
 	// The unique identifier of the SLI.
 	ID string `json:"id"`
+	// The metadata of the SLI.
+	Metadata ServiceLevelMetadata `json:"metadata,omitempty"`
 	// The name of the SLI.
 	Name string `json:"name"`
 	// A list of objective definitions.
@@ -8433,6 +8751,72 @@ type ServiceLevelIndicatorResultQueries struct {
 	Indicator ServiceLevelResultQuery `json:"indicator"`
 	// The NRQL query that measures the valid events.
 	ValidEvents ServiceLevelResultQuery `json:"validEvents"`
+}
+
+// ServiceLevelMetadata - Metadata about the SLI.
+type ServiceLevelMetadata struct {
+	// The SLI's creation time.
+	CreatedAt nrtime.EpochMilliseconds `json:"createdAt"`
+	// Actor that created this SLI.
+	CreatedBy ServiceLevelActorInterface `json:"createdBy,omitempty"`
+	// The SLI's last update time.
+	UpdatedAt nrtime.EpochMilliseconds `json:"updatedAt,omitempty"`
+	// Actor that last updated this SLI.
+	UpdatedBy ServiceLevelActorInterface `json:"updatedBy,omitempty"`
+}
+
+// special
+func (x *ServiceLevelMetadata) UnmarshalJSON(b []byte) error {
+	var objMap map[string]*json.RawMessage
+	err := json.Unmarshal(b, &objMap)
+	if err != nil {
+		return err
+	}
+
+	for k, v := range objMap {
+		if v == nil {
+			continue
+		}
+
+		switch k {
+		case "createdAt":
+			err = json.Unmarshal(*v, &x.CreatedAt)
+			if err != nil {
+				return err
+			}
+		case "createdBy":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalServiceLevelActorInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.CreatedBy = *xxx
+			}
+		case "updatedAt":
+			err = json.Unmarshal(*v, &x.UpdatedAt)
+			if err != nil {
+				return err
+			}
+		case "updatedBy":
+			if v == nil {
+				continue
+			}
+			xxx, err := UnmarshalServiceLevelActorInterface(*v)
+			if err != nil {
+				return err
+			}
+
+			if xxx != nil {
+				x.UpdatedBy = *xxx
+			}
+		}
+	}
+
+	return nil
 }
 
 // ServiceLevelObjective - An objective definition.
@@ -8474,6 +8858,26 @@ type ServiceLevelResultQuery struct {
 	// A NRQL query.
 	NRQL NRQL `json:"nrql"`
 }
+
+// ServiceLevelSystemIdentityActor - A system identity actor.
+type ServiceLevelSystemIdentityActor struct {
+	// Id of the actor.
+	ID string `json:"id"`
+	// Type of the actor.
+	Type ServiceLevelActorType `json:"type"`
+}
+
+func (x *ServiceLevelSystemIdentityActor) ImplementsServiceLevelActor() {}
+
+// ServiceLevelUserActor - A user actor.
+type ServiceLevelUserActor struct {
+	// Id of the actor.
+	ID string `json:"id"`
+	// Type of the actor.
+	Type ServiceLevelActorType `json:"type"`
+}
+
+func (x *ServiceLevelUserActor) ImplementsServiceLevelActor() {}
 
 // StackTraceApmException - A structured representation of an exception for an APM application.
 type StackTraceApmException struct {
@@ -8682,6 +9086,7 @@ func (x *SuggestedNRQLQueryResponse) UnmarshalJSON(b []byte) error {
 
 // SyntheticMonitorEntity - A Synthetic Monitor entity.
 type SyntheticMonitorEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -8723,14 +9128,15 @@ type SyntheticMonitorEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The duration in minutes between Synthetic Monitor runs.
 	Period Minutes `json:"period,omitempty"`
@@ -8766,6 +9172,7 @@ func (x *SyntheticMonitorEntity) ImplementsEntity() {}
 
 // SyntheticMonitorEntityOutline - A Synthetic Monitor entity outline.
 type SyntheticMonitorEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -8822,8 +9229,9 @@ type SyntheticMonitorSummaryData struct {
 	// The number of locations that are currently failing.
 	LocationsFailing int `json:"locationsFailing,omitempty"`
 	// The number of locations that are currently running.
-	LocationsRunning int                    `json:"locationsRunning,omitempty"`
-	Status           SyntheticMonitorStatus `json:"status,omitempty"`
+	LocationsRunning int `json:"locationsRunning,omitempty"`
+	//
+	Status SyntheticMonitorStatus `json:"status,omitempty"`
 	// The percentage of successful synthetic monitor checks in the last 24 hours.
 	SuccessRate float64 `json:"successRate,omitempty"`
 }
@@ -8838,6 +9246,7 @@ type SyntheticsSyntheticMonitorAsset struct {
 
 // TeamEntity - A Team entity.
 type TeamEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -8845,7 +9254,8 @@ type TeamEntity struct {
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
 	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the time window or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
-	Collection      EntityCollection       `json:"collection,omitempty"`
+	//
+	Collection EntityCollection `json:"collection,omitempty"`
 	// Retrieve the deployment event(s). Ordered by timestamp DESC.
 	DeploymentSearch ChangeTrackingDeploymentSearchResult `json:"deploymentSearch,omitempty"`
 	// The entity's domain
@@ -8870,14 +9280,15 @@ type TeamEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -8913,6 +9324,7 @@ func (x *TeamEntity) ImplementsEntity() {}
 
 // TeamEntityOutline - A Team entity outline.
 type TeamEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -8956,6 +9368,7 @@ func (x *TeamEntityOutline) ImplementsEntityOutline() {}
 
 // ThirdPartyServiceEntity - A third party service entity.
 type ThirdPartyServiceEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -8989,14 +9402,15 @@ type ThirdPartyServiceEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -9030,6 +9444,7 @@ func (x *ThirdPartyServiceEntity) ImplementsEntity() {}
 
 // ThirdPartyServiceEntityOutline - A third party service entity outline.
 type ThirdPartyServiceEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -9089,6 +9504,7 @@ type TimeWindowInput struct {
 
 // UnavailableEntity - An entity that is unavailable.
 type UnavailableEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -9120,14 +9536,15 @@ type UnavailableEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -9161,6 +9578,7 @@ func (x *UnavailableEntity) ImplementsEntity() {}
 
 // UnavailableEntityOutline - An entity outline that is unavailable.
 type UnavailableEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -9204,14 +9622,19 @@ func (x *UnavailableEntityOutline) ImplementsEntityOutline() {}
 
 // UserReference - The `UserReference` object provides basic identifying information about the user.
 type UserReference struct {
-	Email    string `json:"email,omitempty"`
+	//
+	Email string `json:"email,omitempty"`
+	//
 	Gravatar string `json:"gravatar,omitempty"`
-	ID       int    `json:"id,omitempty"`
-	Name     string `json:"name,omitempty"`
+	//
+	ID int `json:"id,omitempty"`
+	//
+	Name string `json:"name,omitempty"`
 }
 
 // WorkloadEntity - A workload entity.
 type WorkloadEntity struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -9219,7 +9642,8 @@ type WorkloadEntity struct {
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
 	// Violations on the entity that were open during the specified time window. This will return up to 500 violations - if there are more in the time window selected, you must narrow the time window or look at fewer entities.
 	AlertViolations []EntityAlertViolation `json:"alertViolations,omitempty"`
-	Collection      EntityCollection       `json:"collection,omitempty"`
+	//
+	Collection EntityCollection `json:"collection,omitempty"`
 	// When the workload was created.
 	CreatedAt nrtime.EpochMilliseconds `json:"createdAt,omitempty"`
 	// The user that created the workload.
@@ -9248,14 +9672,15 @@ type WorkloadEntity struct {
 	//
 	// See the [NRQL Docs](https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions) for more information about generating a query string.
 	NRDBQuery NRDBResultContainer `json:"nrdbQuery,omitempty"`
-	// Poll for the results of a previously-executed asynchronous NRDB query.
+	// Poll for the results of a previously-executed asychronous NRDB query.
 	//
 	// The `queryId` is available in the `queryProgress` data returned by the original asynchronous query.
 	//
 	// See [this page](https://docs.newrelic.com/docs/apis/nerdgraph/examples/async-queries-nrql-tutorial) for additional asynchronous query documentation.
 	NRDBQueryProgress NRDBResultContainer `json:"nrdbQueryProgress,omitempty"`
 	// The name of this entity.
-	Name        string                 `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
+	//
 	NerdStorage NerdStorageEntityScope `json:"nerdStorage,omitempty"`
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
@@ -9295,6 +9720,7 @@ func (x *WorkloadEntity) ImplementsEntity() {}
 
 // WorkloadEntityOutline - A workload entity outline.
 type WorkloadEntityOutline struct {
+	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -9441,6 +9867,8 @@ type SecureValue string
 
 // SemVer - The `SemVer` scalar represents a version designation conforming to the SemVer specification.
 type SemVer string
+
+// AlertableEntity -
 type AlertableEntityInterface interface {
 	ImplementsAlertableEntity()
 }
@@ -9662,6 +10090,7 @@ func UnmarshalAlertableEntityInterface(b []byte) (*AlertableEntityInterface, err
 	return nil, fmt.Errorf("interface AlertableEntity was not matched against all PossibleTypes: %s", typeName)
 }
 
+// AlertableEntityOutline -
 type AlertableEntityOutlineInterface interface {
 	ImplementsAlertableEntityOutline()
 }
@@ -10335,6 +10764,58 @@ func UnmarshalEntityManagementActorInterface(b []byte) (*EntityManagementActorIn
 	return nil, fmt.Errorf("interface EntityManagementActor was not matched against all PossibleTypes: %s", typeName)
 }
 
+// EntityManagementAlertable - An entity type that can have alerts.
+type EntityManagementAlertableInterface interface {
+	ImplementsEntityManagementAlertable()
+}
+
+// UnmarshalEntityManagementAlertableInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
+func UnmarshalEntityManagementAlertableInterface(b []byte) (*EntityManagementAlertableInterface, error) {
+	var err error
+
+	var rawMessageEntityManagementAlertable map[string]*json.RawMessage
+	err = json.Unmarshal(b, &rawMessageEntityManagementAlertable)
+	if err != nil {
+		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageEntityManagementAlertable) < 1 {
+		return nil, nil
+	}
+
+	var typeName string
+
+	if rawTypeName, ok := rawMessageEntityManagementAlertable["__typename"]; ok {
+		err = json.Unmarshal(*rawTypeName, &typeName)
+		if err != nil {
+			return nil, err
+		}
+
+		switch typeName {
+		case "EntityManagementGenericEntity":
+			var interfaceType EntityManagementGenericEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementAlertableInterface = &interfaceType
+
+			return &xxx, nil
+		}
+	} else {
+		keys := []string{}
+		for k := range rawMessageEntityManagementAlertable {
+			keys = append(keys, k)
+		}
+		return nil, fmt.Errorf("interface EntityManagementAlertable did not include a __typename field for inspection: %s", keys)
+	}
+
+	return nil, fmt.Errorf("interface EntityManagementAlertable was not matched against all PossibleTypes: %s", typeName)
+}
+
 // EntityManagementEntity - The Entity interface.
 type EntityManagementEntityInterface interface {
 	ImplementsEntityManagementEntity()
@@ -10469,6 +10950,58 @@ func UnmarshalEntityManagementEntityInterface(b []byte) (*EntityManagementEntity
 	}
 
 	return nil, fmt.Errorf("interface EntityManagementEntity was not matched against all PossibleTypes: %s", typeName)
+}
+
+// EntityManagementReporting - A reporting entity type.
+type EntityManagementReportingInterface interface {
+	ImplementsEntityManagementReporting()
+}
+
+// UnmarshalEntityManagementReportingInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
+func UnmarshalEntityManagementReportingInterface(b []byte) (*EntityManagementReportingInterface, error) {
+	var err error
+
+	var rawMessageEntityManagementReporting map[string]*json.RawMessage
+	err = json.Unmarshal(b, &rawMessageEntityManagementReporting)
+	if err != nil {
+		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageEntityManagementReporting) < 1 {
+		return nil, nil
+	}
+
+	var typeName string
+
+	if rawTypeName, ok := rawMessageEntityManagementReporting["__typename"]; ok {
+		err = json.Unmarshal(*rawTypeName, &typeName)
+		if err != nil {
+			return nil, err
+		}
+
+		switch typeName {
+		case "EntityManagementGenericEntity":
+			var interfaceType EntityManagementGenericEntity
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx EntityManagementReportingInterface = &interfaceType
+
+			return &xxx, nil
+		}
+	} else {
+		keys := []string{}
+		for k := range rawMessageEntityManagementReporting {
+			keys = append(keys, k)
+		}
+		return nil, fmt.Errorf("interface EntityManagementReporting did not include a __typename field for inspection: %s", keys)
+	}
+
+	return nil, fmt.Errorf("interface EntityManagementReporting was not matched against all PossibleTypes: %s", typeName)
 }
 
 // EntityOutline - The `EntityOutline` interface object allows fetching basic entity data for many entities at a time.
@@ -10757,6 +11290,7 @@ func UnmarshalEntityRelationshipEdgeInterface(b []byte) (*EntityRelationshipEdge
 	return nil, fmt.Errorf("interface EntityRelationshipEdge was not matched against all PossibleTypes: %s", typeName)
 }
 
+// InfrastructureIntegrationEntity -
 type InfrastructureIntegrationEntityInterface interface {
 	ImplementsInfrastructureIntegrationEntity()
 }
@@ -10818,6 +11352,7 @@ func UnmarshalInfrastructureIntegrationEntityInterface(b []byte) (*Infrastructur
 	return nil, fmt.Errorf("interface InfrastructureIntegrationEntity was not matched against all PossibleTypes: %s", typeName)
 }
 
+// InfrastructureIntegrationEntityOutline -
 type InfrastructureIntegrationEntityOutlineInterface interface {
 	ImplementsInfrastructureIntegrationEntityOutline()
 }
@@ -10877,6 +11412,68 @@ func UnmarshalInfrastructureIntegrationEntityOutlineInterface(b []byte) (*Infras
 	}
 
 	return nil, fmt.Errorf("interface InfrastructureIntegrationEntityOutline was not matched against all PossibleTypes: %s", typeName)
+}
+
+// ServiceLevelActor - Represents an actor.
+type ServiceLevelActorInterface interface {
+	ImplementsServiceLevelActor()
+}
+
+// UnmarshalServiceLevelActorInterface unmarshals the interface into the correct type
+// based on __typename provided by GraphQL
+func UnmarshalServiceLevelActorInterface(b []byte) (*ServiceLevelActorInterface, error) {
+	var err error
+
+	var rawMessageServiceLevelActor map[string]*json.RawMessage
+	err = json.Unmarshal(b, &rawMessageServiceLevelActor)
+	if err != nil {
+		return nil, err
+	}
+
+	// Nothing to unmarshal
+	if len(rawMessageServiceLevelActor) < 1 {
+		return nil, nil
+	}
+
+	var typeName string
+
+	if rawTypeName, ok := rawMessageServiceLevelActor["__typename"]; ok {
+		err = json.Unmarshal(*rawTypeName, &typeName)
+		if err != nil {
+			return nil, err
+		}
+
+		switch typeName {
+		case "ServiceLevelSystemIdentityActor":
+			var interfaceType ServiceLevelSystemIdentityActor
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx ServiceLevelActorInterface = &interfaceType
+
+			return &xxx, nil
+		case "ServiceLevelUserActor":
+			var interfaceType ServiceLevelUserActor
+			err = json.Unmarshal(b, &interfaceType)
+			if err != nil {
+				return nil, err
+			}
+
+			var xxx ServiceLevelActorInterface = &interfaceType
+
+			return &xxx, nil
+		}
+	} else {
+		keys := []string{}
+		for k := range rawMessageServiceLevelActor {
+			keys = append(keys, k)
+		}
+		return nil, fmt.Errorf("interface ServiceLevelActor did not include a __typename field for inspection: %s", keys)
+	}
+
+	return nil, fmt.Errorf("interface ServiceLevelActor was not matched against all PossibleTypes: %s", typeName)
 }
 
 // StackTraceFileBasedStackTraceFrame - An object representing a stack trace segment
@@ -11011,4 +11608,63 @@ func UnmarshalSuggestedNRQLQueryInterface(b []byte) (*SuggestedNRQLQueryInterfac
 	}
 
 	return nil, fmt.Errorf("interface SuggestedNRQLQuery was not matched against all PossibleTypes: %s", typeName)
+}
+
+// EntityManagementTeamResourceType - The accepted values for a team supplemental resource type.
+// These are the canonical type identifiers the NGEP API recognises.
+//
+// Not in the NerdGraph schema; kept so existing code compiles.
+type EntityManagementTeamResourceType string
+
+// EntityManagementTeamResourceTypes is the set of valid resource type values.
+var EntityManagementTeamResourceTypes = struct {
+	ATLASSIAN_CONFLUENCE      EntityManagementTeamResourceType
+	ATLASSIAN_JIRA            EntityManagementTeamResourceType
+	ATLASSIAN_JIRA_SCORECARDS EntityManagementTeamResourceType
+	BASECAMP                  EntityManagementTeamResourceType
+	BLAMELESS                 EntityManagementTeamResourceType
+	EMAIL                     EntityManagementTeamResourceType
+	FACEBOOK_WORKPLACE        EntityManagementTeamResourceType
+	GITHUB                    EntityManagementTeamResourceType
+	GITLAB                    EntityManagementTeamResourceType
+	GOOGLE_CHAT               EntityManagementTeamResourceType
+	GOOGLE_CLOUD_PLATFORM     EntityManagementTeamResourceType
+	GOOGLE_DRIVE              EntityManagementTeamResourceType
+	MICROSOFT_AZURE           EntityManagementTeamResourceType
+	MICROSOFT_SHAREPOINT      EntityManagementTeamResourceType
+	MICROSOFT_TEAMS           EntityManagementTeamResourceType
+	OPSGENIE                  EntityManagementTeamResourceType
+	OTHER_CONTACT             EntityManagementTeamResourceType
+	OTHER_LINK                EntityManagementTeamResourceType
+	PAGERDUTY                 EntityManagementTeamResourceType
+	ROCKET_CHAT               EntityManagementTeamResourceType
+	SERVICENOW                EntityManagementTeamResourceType
+	SKYPE                     EntityManagementTeamResourceType
+	SLACK                     EntityManagementTeamResourceType
+	ZENDESK                   EntityManagementTeamResourceType
+}{
+	ATLASSIAN_CONFLUENCE:      "ATLASSIAN_CONFLUENCE",
+	ATLASSIAN_JIRA:            "ATLASSIAN_JIRA",
+	ATLASSIAN_JIRA_SCORECARDS: "ATLASSIAN_JIRA_SCORECARDS",
+	BASECAMP:                  "BASECAMP",
+	BLAMELESS:                 "BLAMELESS",
+	EMAIL:                     "EMAIL",
+	FACEBOOK_WORKPLACE:        "FACEBOOK_WORKPLACE",
+	GITHUB:                    "GITHUB",
+	GITLAB:                    "GITLAB",
+	GOOGLE_CHAT:               "GOOGLE_CHAT",
+	GOOGLE_CLOUD_PLATFORM:     "GOOGLE_CLOUD_PLATFORM",
+	GOOGLE_DRIVE:              "GOOGLE_DRIVE",
+	MICROSOFT_AZURE:           "MICROSOFT_AZURE",
+	MICROSOFT_SHAREPOINT:      "MICROSOFT_SHAREPOINT",
+	MICROSOFT_TEAMS:           "MICROSOFT_TEAMS",
+	OPSGENIE:                  "OPSGENIE",
+	OTHER_CONTACT:             "OTHER_CONTACT",
+	OTHER_LINK:                "OTHER_LINK",
+	PAGERDUTY:                 "PAGERDUTY",
+	ROCKET_CHAT:               "ROCKET_CHAT",
+	SERVICENOW:                "SERVICENOW",
+	SKYPE:                     "SKYPE",
+	SLACK:                     "SLACK",
+	ZENDESK:                   "ZENDESK",
 }
