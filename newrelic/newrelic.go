@@ -34,6 +34,7 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/logconfigurations"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/logging"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/logs"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/maintenancewindow"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/nerdgraph"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/nerdstorage"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/notebooks"
@@ -77,6 +78,7 @@ type NewRelic struct {
 	InstallEvents           installevents.Installevents
 	Logs                    logs.Logs
 	Logconfigurations       logconfigurations.Logconfigurations
+	MaintenanceWindow       maintenancewindow.Maintenancewindow
 	NerdGraph               nerdgraph.NerdGraph
 	NerdStorage             nerdstorage.NerdStorage
 	Notebooks               notebooks.Notebooks
@@ -137,6 +139,7 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 		InstallEvents:           installevents.New(cfg),
 		Logs:                    logs.New(cfg),
 		Logconfigurations:       logconfigurations.New(cfg),
+		MaintenanceWindow:       maintenancewindow.New(cfg),
 		NerdGraph:               nerdgraph.New(cfg),
 		NerdStorage:             nerdstorage.New(cfg),
 		Notebooks:               notebooks.New(cfg),
