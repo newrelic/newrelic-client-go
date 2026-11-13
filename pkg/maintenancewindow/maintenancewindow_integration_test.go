@@ -78,8 +78,8 @@ func createTestServiceLevel(t *testing.T, accountID int) string {
 		_, _ = slClient.ServiceLevelDelete(createResp.GUID, createResp.ID) // best-effort cleanup
 	})
 
-	fmt.Println("waiting 5 seconds for entity to be indexed before using it in a maintenance window...")
-	time.Sleep(5 * time.Second)
+	fmt.Println("waiting 20 seconds for entity to be indexed before using it in a maintenance window...")
+	time.Sleep(20 * time.Second)
 
 	return string(createResp.GUID)
 }
