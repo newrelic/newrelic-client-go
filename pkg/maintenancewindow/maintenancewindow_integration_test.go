@@ -44,6 +44,9 @@ func createTestServiceLevel(t *testing.T, accountID int) string {
 		_, _ = wlClient.WorkloadDelete(workloadResp.GUID) // best-effort cleanup
 	})
 
+	fmt.Println("waiting 20 seconds for workload to be indexed before attaching a service level to it...")
+	time.Sleep(20 * time.Second)
+
 	createResp, err := slClient.ServiceLevelCreate(common.EntityGUID(workloadResp.GUID), servicelevel.ServiceLevelIndicatorCreateInput{
 		Name:        "integration-test-mw-sli",
 		Description: "Service level used by maintenance window integration test",
