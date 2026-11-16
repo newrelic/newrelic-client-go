@@ -88,13 +88,15 @@ func createTestServiceLevel(t *testing.T, accountID int) string {
 }
 
 func newMaintenanceWindowCreateInput(accountID int, affectedEntities []string, rrule string) MaintenanceWindowConfigCreateInput {
+	description := "Maintenance window created by integration test"
+
 	return MaintenanceWindowConfigCreateInput{
 		Name:               "integration-test-maintenance-window",
-		Description:        "Maintenance window created by integration test",
+		Description:        &description,
 		AffectedEntityType: MaintenanceWindowAffectedEntityTypeTypes.SERVICE_LEVEL,
 		AffectedEntities:   affectedEntities,
 		Duration:           "PT1H",
-		Rrule:              rrule,
+		Rrule:              &rrule,
 		StartTime:          NaiveDateTime(time.Now().UTC().Add(24 * time.Hour).Format("2006-01-02T15:04:05")),
 		Timezone:           "America/Los_Angeles",
 		Scope: MaintenanceWindowScopedReferenceInput{
@@ -122,7 +124,7 @@ func TestMaintenanceWindow_Basic(t *testing.T) {
 	require.NotNil(t, createResp)
 	require.NotEmpty(t, createResp.ID)
 	require.Equal(t, createInput.Name, createResp.Name)
-	require.Equal(t, createInput.Description, createResp.Description)
+	require.Equal(t, *createInput.Description, createResp.Description)
 	require.Equal(t, createInput.Duration, createResp.Duration)
 	require.Equal(t, createInput.Timezone, createResp.Timezone)
 	require.Equal(t, MaintenanceWindowAffectedEntityTypeTypes.SERVICE_LEVEL, createResp.AffectedEntityType)
@@ -213,7 +215,7 @@ func TestMaintenanceWindow_Recurring(t *testing.T) {
 	createResp, err := client.MaintenanceWindowCreate(createInput)
 	require.NoError(t, err)
 	require.NotNil(t, createResp)
-	require.Equal(t, createInput.Rrule, createResp.Rrule)
+	require.Equal(t, *createInput.Rrule, createResp.Rrule)
 
 	deleted := false
 	defer func() {
@@ -247,6 +249,90 @@ func TestMaintenanceWindow_Recurring(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, clearResp)
 	require.Equal(t, "", clearResp.Rrule)
+
+	// Delete
+	deleteResp, err := client.MaintenanceWindowDelete(createResp.ID)
+	require.NoError(t, err)
+	require.NotNil(t, deleteResp)
+	deleted = true
+}
+
+// TestMaintenanceWindow_SetFieldsAfterEmptyCreate covers the scenario that originally
+// surfaced this bug: a window created with description and rrule explicitly sent as ""
+// (never omitted — see the comments on MaintenanceWindowConfigCreateInput), later updated
+// to set real values for both. Before Description/Rrule became *string on the create
+// input, an omitted field was stored as null and the service silently ignored all later
+// updates to it; this test's update step is expected to actually take effect.
+func TestMaintenanceWindow_SetFieldsAfterEmptyCreate(t *testing.T) {
+	t.Parallel()
+
+	testAccountID, err := testhelpers.GetTestAccountID()
+	if err != nil {
+		t.Skipf("%s", err)
+	}
+
+	client := newIntegrationTestClient(t)
+	slGUID := createTestServiceLevel(t, testAccountID)
+
+	// Create with description and rrule explicitly empty.
+	emptyDescription := ""
+	emptyRrule := ""
+	createInput := MaintenanceWindowConfigCreateInput{
+		Name:               "integration-test-mw-empty-create",
+		Description:        &emptyDescription,
+		AffectedEntityType: MaintenanceWindowAffectedEntityTypeTypes.SERVICE_LEVEL,
+		AffectedEntities:   []string{slGUID},
+		Duration:           "PT1H",
+		Rrule:              &emptyRrule,
+		StartTime:          NaiveDateTime(time.Now().UTC().Add(24 * time.Hour).Format("2006-01-02T15:04:05")),
+		Timezone:           "America/Los_Angeles",
+		Scope: MaintenanceWindowScopedReferenceInput{
+			ID:   strconv.Itoa(testAccountID),
+			Type: MaintenanceWindowEntityScopeTypes.ACCOUNT,
+		},
+	}
+	createResp, err := client.MaintenanceWindowCreate(createInput)
+	require.NoError(t, err)
+	require.NotNil(t, createResp)
+	require.Equal(t, "", createResp.Description)
+	require.Equal(t, "", createResp.Rrule)
+
+	deleted := false
+	defer func() {
+		if deleted {
+			return
+		}
+		_, _ = client.MaintenanceWindowDelete(createResp.ID) // best-effort cleanup
+	}()
+
+	fmt.Println("waiting 30 seconds for maintenance window to be indexed before updating it...")
+	time.Sleep(30 * time.Second)
+
+	// Update — set real values for the fields that were created empty.
+	newDescription := "set after being created empty"
+	newRrule := "FREQ=DAILY"
+	updateInput := MaintenanceWindowConfigUpdateInput{
+		Description: &newDescription,
+		Rrule:       &newRrule,
+	}
+	updateResp, err := client.MaintenanceWindowUpdate(createResp.ID, updateInput)
+	require.NoError(t, err)
+	require.NotNil(t, updateResp)
+	require.Equal(t, newDescription, updateResp.Description, "description set via update on a window created with an empty description should take effect")
+	require.Equal(t, newRrule, updateResp.Rrule, "rrule set via update on a window created with an empty rrule should take effect")
+
+	fmt.Println("waiting 30 seconds before re-reading to confirm the update actually persisted...")
+	time.Sleep(30 * time.Second)
+
+	// Re-read independently of the update response, since the original bug manifested as
+	// the update's own response echoing back a stale value — a value that then also
+	// persisted as stale on every subsequent read.
+	getResp, err := client.GetListByIds([]string{createResp.ID})
+	require.NoError(t, err)
+	require.NotNil(t, getResp)
+	require.Len(t, getResp.MaintenanceWindows, 1)
+	require.Equal(t, newDescription, getResp.MaintenanceWindows[0].Description)
+	require.Equal(t, newRrule, getResp.MaintenanceWindows[0].Rrule)
 
 	// Delete
 	deleteResp, err := client.MaintenanceWindowDelete(createResp.ID)

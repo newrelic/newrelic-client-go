@@ -58,14 +58,21 @@ type MaintenanceWindowConfigCreateInput struct {
 	AffectedEntities []string `json:"affectedEntities,omitempty"`
 	// The type of the entities affected by maintenance window.
 	AffectedEntityType MaintenanceWindowAffectedEntityType `json:"affectedEntityType"`
-	// The description of the maintenance window.
-	Description string `json:"description,omitempty"`
+	// The description of the maintenance window. A pointer so that an empty
+	// description can be sent explicitly (a non-nil pointer to "") rather than
+	// omitted: the service stores an omitted field as null and then silently
+	// ignores later updates to it, whereas a field created as "" can be
+	// updated. Manually kept as *string despite the "DO NOT EDIT" header below;
+	// re-apply this change if this file is regenerated.
+	Description *string `json:"description,omitempty"`
 	// The duration of the maintenance window.
 	Duration workloads.Duration `json:"duration"`
 	// The name of the maintenance window.
 	Name string `json:"name"`
-	// The Recurrence Rule of the maintenance window.
-	Rrule string `json:"rrule,omitempty"`
+	// The Recurrence Rule of the maintenance window. A pointer for the same
+	// reason as Description above: send "" explicitly so the field can be set
+	// by a later update.
+	Rrule *string `json:"rrule,omitempty"`
 	// The scope the maintenance window belongs to.
 	Scope MaintenanceWindowScopedReferenceInput `json:"scope,omitempty"`
 	// The start time of the maintenance window in ISO 8601 format.

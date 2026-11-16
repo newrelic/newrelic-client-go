@@ -4,6 +4,7 @@
 package maintenancewindow
 
 import (
+	"encoding/json"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -48,9 +49,10 @@ func TestMaintenanceWindowCreate_Mock(t *testing.T) {
 
 	client := newMockClient(t, mockResponse, 200)
 
+	description := "a test maintenance window"
 	input := MaintenanceWindowConfigCreateInput{
 		Name:               "tf-test-mw",
-		Description:        "a test maintenance window",
+		Description:        &description,
 		Scope:              MaintenanceWindowScopedReferenceInput{ID: "1067061", Type: MaintenanceWindowEntityScopeTypes.ACCOUNT},
 		StartTime:          "2026-12-01T22:00:00",
 		Duration:           "PT1H",
@@ -184,4 +186,21 @@ func TestGetListByIds_Mock(t *testing.T) {
 	assert.Equal(t, "12345", mw.ID)
 	assert.Equal(t, "tf-test-mw", mw.Name)
 	assert.Equal(t, []string{"guid-1", "guid-2"}, mw.AffectedEntities)
+}
+
+// The service stores an omitted description/rrule as null and then silently
+// ignores later updates to them, so an empty value must still be sent on create.
+func TestMaintenanceWindowCreateInput_SendsEmptyDescriptionAndRrule(t *testing.T) {
+	t.Parallel()
+
+	empty := ""
+	b, err := json.Marshal(MaintenanceWindowConfigCreateInput{Description: &empty, Rrule: &empty})
+	require.NoError(t, err)
+	assert.Contains(t, string(b), `"description":""`)
+	assert.Contains(t, string(b), `"rrule":""`)
+
+	b, err = json.Marshal(MaintenanceWindowConfigCreateInput{})
+	require.NoError(t, err)
+	assert.NotContains(t, string(b), `"description"`)
+	assert.NotContains(t, string(b), `"rrule"`)
 }
