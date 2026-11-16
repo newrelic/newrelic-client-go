@@ -1,3 +1,8 @@
+<a name="v2.98.0"></a>
+## [v2.98.0] - 2026-11-16
+### Features
+- **maintenancewindow:** add pkg/maintenancewindow for Maintenance Window support (NR-645254) ([#1520](https://github.com/newrelic/newrelic-client-go/issues/1520))
+
 <a name="v2.97.7"></a>
 ## [v2.97.7] - 2026-11-05
 ### Bug Fixes
@@ -2435,7 +2440,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.7...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.98.0...HEAD
+[v2.98.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.7...v2.98.0
 [v2.97.7]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.6...v2.97.7
 [v2.97.6]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.5...v2.97.6
 [v2.97.5]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.4...v2.97.5
