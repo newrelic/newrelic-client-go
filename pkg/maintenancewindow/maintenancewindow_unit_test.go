@@ -103,8 +103,9 @@ func TestMaintenanceWindowUpdate_Mock(t *testing.T) {
 
 	client := newMockClient(t, mockResponse, 200)
 
+	updatedDescription := "updated description"
 	input := MaintenanceWindowConfigUpdateInput{
-		Description: "updated description",
+		Description: &updatedDescription,
 		Duration:    "PT2H",
 	}
 

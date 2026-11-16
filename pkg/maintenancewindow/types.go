@@ -110,14 +110,23 @@ type MaintenanceWindowConfigResult struct {
 type MaintenanceWindowConfigUpdateInput struct {
 	// The entities affected by the maintenance window.
 	AffectedEntities []string `json:"affectedEntities,omitempty"`
-	// The description of the maintenance window.
-	Description string `json:"description,omitempty"`
+	// The description of the maintenance window. A pointer so that explicitly
+	// clearing it (a non-nil pointer to "") can be distinguished from leaving it
+	// unset (a nil pointer) — omitempty on a pointer only omits a nil value, not
+	// one pointing at the empty string. Manually kept as *string despite the
+	// "DO NOT EDIT" header below: tutone has no per-field override, and
+	// generating this as a plain string with omitempty makes it impossible to
+	// ever clear the field via update. Re-apply this change if this file is
+	// regenerated.
+	Description *string `json:"description,omitempty"`
 	// The duration of the maintenance window.
 	Duration workloads.Duration `json:"duration,omitempty"`
 	// The name of the maintenance window.
 	Name string `json:"name,omitempty"`
-	// The Recurrence Rule of the maintenance window.
-	Rrule string `json:"rrule,omitempty"`
+	// The Recurrence Rule of the maintenance window. A pointer for the same
+	// reason as Description above: clearing rrule (returning a recurring window
+	// to a one-time window) must be distinguishable from leaving it unset.
+	Rrule *string `json:"rrule,omitempty"`
 	// The start time of the maintenance window in ISO 8601 format.
 	StartTime NaiveDateTime `json:"startTime,omitempty"`
 	// The timezone of the maintenance window.

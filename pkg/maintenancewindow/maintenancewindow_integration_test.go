@@ -163,9 +163,10 @@ func TestMaintenanceWindow_Basic(t *testing.T) {
 	require.True(t, found, "expected maintenance window %s to be listed for affected entity %s", createResp.ID, slGUID)
 
 	// Update
+	updatedDescription := "Maintenance window updated by integration test"
 	updateInput := MaintenanceWindowConfigUpdateInput{
 		Name:        "integration-test-maintenance-window-updated",
-		Description: "Maintenance window updated by integration test",
+		Description: &updatedDescription,
 		Duration:    "PT2H",
 	}
 	updateResp, err := client.MaintenanceWindowUpdate(createResp.ID, updateInput)
@@ -173,8 +174,20 @@ func TestMaintenanceWindow_Basic(t *testing.T) {
 	require.NotNil(t, updateResp)
 	require.Equal(t, createResp.ID, updateResp.ID)
 	require.Equal(t, updateInput.Name, updateResp.Name)
-	require.Equal(t, updateInput.Description, updateResp.Description)
+	require.Equal(t, *updateInput.Description, updateResp.Description)
 	require.Equal(t, updateInput.Duration, updateResp.Duration)
+
+	// Update again, this time clearing the description — the field is a *string
+	// specifically so this is distinguishable from the zero-value Rrule/Timezone
+	// fields left unset below, which should remain untouched by this update.
+	clearedDescription := ""
+	clearInput := MaintenanceWindowConfigUpdateInput{
+		Description: &clearedDescription,
+	}
+	clearResp, err := client.MaintenanceWindowUpdate(createResp.ID, clearInput)
+	require.NoError(t, err)
+	require.NotNil(t, clearResp)
+	require.Equal(t, "", clearResp.Description)
 
 	// Delete
 	deleteResp, err := client.MaintenanceWindowDelete(createResp.ID)
@@ -214,13 +227,26 @@ func TestMaintenanceWindow_Recurring(t *testing.T) {
 	time.Sleep(5 * time.Second)
 
 	// Update — change the recurrence rule
+	newRrule := "FREQ=DAILY"
 	updateInput := MaintenanceWindowConfigUpdateInput{
-		Rrule: "FREQ=DAILY",
+		Rrule: &newRrule,
 	}
 	updateResp, err := client.MaintenanceWindowUpdate(createResp.ID, updateInput)
 	require.NoError(t, err)
 	require.NotNil(t, updateResp)
-	require.Equal(t, updateInput.Rrule, updateResp.Rrule)
+	require.Equal(t, *updateInput.Rrule, updateResp.Rrule)
+
+	// Update again, clearing the recurrence rule — turning the window back into a
+	// one-time ("Once") window. Rrule is a *string specifically so this is
+	// distinguishable from leaving it unset.
+	clearedRrule := ""
+	clearInput := MaintenanceWindowConfigUpdateInput{
+		Rrule: &clearedRrule,
+	}
+	clearResp, err := client.MaintenanceWindowUpdate(createResp.ID, clearInput)
+	require.NoError(t, err)
+	require.NotNil(t, clearResp)
+	require.Equal(t, "", clearResp.Rrule)
 
 	// Delete
 	deleteResp, err := client.MaintenanceWindowDelete(createResp.ID)
