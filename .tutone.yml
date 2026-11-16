@@ -1786,6 +1786,58 @@ packages:
         field_type_override: common.EntityGUID
         skip_type_create: true
 
+  - name: maintenancewindow
+    path: pkg/maintenancewindow
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/maintenancewindow
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v2/pkg/workloads
+    # Custom query to fetch maintenance windows
+    queries:
+      - path: ["actor", "maintenanceWindow"]
+        endpoints:
+          - name: "listByIds"
+            max_query_field_depth: 3
+          - name: "listByAffectedEntityId"
+            max_query_field_depth: 3
+          - name: "upcomingOccurrences"
+            max_query_field_depth: 3
+    mutations:
+      - name: maintenanceWindowCreate
+        max_query_field_depth: 3
+      - name: maintenanceWindowUpdate
+        max_query_field_depth: 3
+      - name: maintenanceWindowDelete
+        max_query_field_depth: 3
+    types:
+      - name: ID
+        field_type_override: string
+
+      #
+      # Types owned by other packages
+      #
+      - name: EpochMilliseconds
+        field_type_override: "*nrtime.EpochMilliseconds"
+        skip_type_create: true
+      - name: Duration
+        field_type_override: workloads.Duration
+        skip_type_create: true
+      - name: ScopedReference
+        field_type_override: workloads.EntityManagementScopedReference
+        skip_type_create: true
+      - name: ScopedReferenceInput
+        field_type_override: workloads.EntityManagementScopedReference
+        skip_type_create: true
+      - name: EntityScope
+        field_type_override: workloads.EntityManagementEntityScope
+        skip_type_create: true
+      - name: Metadata
+        field_type_override: workloads.EntityManagementMetadata
+        skip_type_create: true
+
   - name: usermanagement
     path: pkg/usermanagement
     import_path: github.com/newrelic/newrelic-client-go/v2/pkg/usermanagement
