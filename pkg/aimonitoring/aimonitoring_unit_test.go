@@ -477,3 +477,59 @@ func TestUnitGetRecords_SendsCursorAndRecordIds(t *testing.T) {
 	assert.Equal(t, cursor, lastRequest.Variables["cursor"])
 	assert.Equal(t, []interface{}{float64(1), float64(2)}, lastRequest.Variables["recordIds"])
 }
+
+func TestUnitAimonitoring_ReturnsNerdGraphError(t *testing.T) {
+	t.Parallel()
+
+	errorResponseJSON := `{
+		"errors": [
+			{"message": "Not authorized to access dataset"}
+		]
+	}`
+
+	afterID := 0
+	cursor := "current-page-cursor"
+
+	tests := map[string]func(client Aimonitoring) (interface{}, error){
+		"AimDatasetCreate": func(client Aimonitoring) (interface{}, error) {
+			return client.AimDatasetCreate(AimDatasetCreateInput{Name: "PII redaction test"})
+		},
+		"AimDatasetCreateFromCsv": func(client Aimonitoring) (interface{}, error) {
+			return client.AimDatasetCreateFromCsv(AimDatasetCreateFromCsvInput{Name: "PII redaction test"})
+		},
+		"AimDatasetUpdate": func(client Aimonitoring) (interface{}, error) {
+			return client.AimDatasetUpdate(AimDatasetUpdateInput{DatasetId: testDatasetID})
+		},
+		"AimDatasetUpsertRecords": func(client Aimonitoring) (interface{}, error) {
+			return client.AimDatasetUpsertRecords(AimDatasetUpsertRecordsInput{
+				DatasetId: testDatasetID,
+				Insert:    &AimDatasetInsertRecordInput{AfterId: &afterID},
+			})
+		},
+		"AimDatasetDelete": func(client Aimonitoring) (interface{}, error) {
+			return client.AimDatasetDelete(AimDatasetDeleteInput{DatasetId: testDatasetID})
+		},
+		"AimDatasetDeleteVersion": func(client Aimonitoring) (interface{}, error) {
+			return client.AimDatasetDeleteVersion(AimDatasetDeleteVersionInput{DatasetId: testDatasetID, VersionId: testVersionID})
+		},
+		"GetEntitySearch": func(client Aimonitoring) (interface{}, error) {
+			return client.GetEntitySearch(&cursor, "type = 'AIM_DATASET'")
+		},
+		"GetRecords": func(client Aimonitoring) (interface{}, error) {
+			return client.GetRecords(11859098, testDatasetID, testVersionID, &cursor, []int{1})
+		},
+	}
+
+	for name, call := range tests {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+
+			client, _ := newMockResponseCapturingRequest(t, errorResponseJSON, http.StatusOK)
+
+			result, err := call(client)
+			require.Error(t, err)
+			assert.Contains(t, err.Error(), "Not authorized to access dataset")
+			assert.Nil(t, result)
+		})
+	}
+}
