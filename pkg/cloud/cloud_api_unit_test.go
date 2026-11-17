@@ -207,3 +207,87 @@ func TestUnitAzureLinkAccountUpdate(t *testing.T) {
 	assert.Equal(t, nrAccountID, strconv.Itoa(actual.LinkedAccounts[0].NrAccountId))
 
 }
+
+// AWS GovCloud PUSH (metric streams) linked accounts are auto-provisioned with these integrations.
+var testAwsGovCloudPushLinkedAccountIntegrations = `[
+	{
+		"__typename": "CloudAwsMetadataGovIntegration",
+		"createdAt": 1743932405,
+		"id": 138563,
+		"metricsPollingInterval": 900,
+		"name": "Fetch Metadata for AWS Gov integrations",
+		"nrAccountId": ` + nrAccountID + `,
+		"service": {"slug": "aws_metadata_gov"},
+		"updatedAt": 1743932405
+	},
+	{
+		"__typename": "CloudAwsMsElasticacheGovIntegration",
+		"createdAt": 1743932405,
+		"id": 138564,
+		"metricsPollingInterval": 900,
+		"name": "Fetch Gov ElastiCache entities",
+		"nrAccountId": ` + nrAccountID + `,
+		"service": {"slug": "aws_ms_elasticache_gov"},
+		"updatedAt": 1743932405
+	},
+	{
+		"__typename": "CloudAwsTagsGlobalGovIntegration",
+		"createdAt": 1743932405,
+		"id": 138565,
+		"metricsPollingInterval": 900,
+		"name": "Fetch Gov tags for all integrations",
+		"nrAccountId": ` + nrAccountID + `,
+		"service": {"slug": "aws_tags_global_gov"},
+		"updatedAt": 1743932405
+	}
+]`
+
+var testAwsGovCloudPushLinkedAccount = `{
+	"createdAt": 1743932405,
+	"disabled": false,
+	"id": ` + linkedAccountID + `,
+	"integrations": ` + testAwsGovCloudPushLinkedAccountIntegrations + `,
+	"metricCollectionMode": "PUSH",
+	"name": "TEST_AWS_GOVCLOUD_PUSH_ACCOUNT",
+	"nrAccountId": ` + nrAccountID + `,
+	"provider": {"__typename": "CloudAwsGovCloudProvider", "id": 7, "slug": "aws_govcloud"},
+	"updatedAt": 1743932405
+}`
+
+func assertAwsGovCloudPushIntegrations(t *testing.T, integrations []CloudIntegrationInterface) {
+	if !assert.Len(t, integrations, 3) {
+		return
+	}
+	assert.IsType(t, &CloudAwsMetadataGovIntegration{}, integrations[0])
+	assert.IsType(t, &CloudAwsMsElasticacheGovIntegration{}, integrations[1])
+	assert.IsType(t, &CloudAwsTagsGlobalGovIntegration{}, integrations[2])
+	assert.Equal(t, "aws_metadata_gov", integrations[0].(*CloudAwsMetadataGovIntegration).Service.Slug)
+	assert.Equal(t, 900, integrations[2].(*CloudAwsTagsGlobalGovIntegration).MetricsPollingInterval)
+}
+
+// Reading an AWS GovCloud PUSH linked account must decode its auto-provisioned integrations.
+func TestUnitGetLinkedAccountAwsGovCloudPushIntegrations(t *testing.T) {
+	t.Parallel()
+	client := newMockResponse(t, `{"data":{"actor":{"account":{"cloud":{"linkedAccount":`+testAwsGovCloudPushLinkedAccount+`}}}}}`, http.StatusOK)
+	NRAccountIDInt, _ := strconv.Atoi(nrAccountID)
+	linkedAccountIDInt, _ := strconv.Atoi(linkedAccountID)
+
+	actual, err := client.GetLinkedAccount(NRAccountIDInt, linkedAccountIDInt)
+
+	assert.NoError(t, err)
+	if assert.NotNil(t, actual) {
+		assertAwsGovCloudPushIntegrations(t, actual.Integrations)
+	}
+}
+
+func TestUnitGetLinkedAccountsAwsGovCloudPushIntegrations(t *testing.T) {
+	t.Parallel()
+	client := newMockResponse(t, `{"data":{"actor":{"cloud":{"linkedAccounts":[`+testAwsGovCloudPushLinkedAccount+`]}}}}`, http.StatusOK)
+
+	actual, err := client.GetLinkedAccounts("aws_govcloud")
+
+	assert.NoError(t, err)
+	if assert.NotNil(t, actual) && assert.Len(t, *actual, 1) {
+		assertAwsGovCloudPushIntegrations(t, (*actual)[0].Integrations)
+	}
+}
