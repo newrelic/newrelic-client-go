@@ -439,7 +439,6 @@ var ServiceLevelObjectiveRollingTimeWindowUnitTypes = struct {
 	DAY: "DAY",
 }
 
-// SyntheticMonitorStatus -
 type SyntheticMonitorStatus string
 
 var SyntheticMonitorStatusTypes = struct {
@@ -529,9 +528,7 @@ var WorkloadStatusValueTypes = struct {
 
 // AccountOutline - The `AccountOutline` object provides basic data about an account.
 type AccountOutline struct {
-	//
-	ID int `json:"id,omitempty"`
-	//
+	ID   int    `json:"id,omitempty"`
 	Name string `json:"name,omitempty"`
 	// Returns event types that are currently reporting in the account.
 	ReportingEventTypes []string `json:"reportingEventTypes,omitempty"`
@@ -539,9 +536,7 @@ type AccountOutline struct {
 
 // AccountReference - The `AccountReference` object provides basic identifying information about the account.
 type AccountReference struct {
-	//
-	ID int `json:"id,omitempty"`
-	//
+	ID   int    `json:"id,omitempty"`
 	Name string `json:"name,omitempty"`
 }
 
@@ -723,7 +718,6 @@ type AimDatasetUpsertRecordsResult struct {
 	VersionId string `json:"versionId"`
 }
 
-// AlertableEntityOutline -
 type AlertableEntityOutline struct {
 	// The current alerting severity of the entity.
 	AlertSeverity EntityAlertSeverity `json:"alertSeverity,omitempty"`
@@ -733,7 +727,6 @@ func (x *AlertableEntityOutline) ImplementsAlertableEntityOutline() {}
 
 // ApmApplicationEntityOutline - An APM Application entity outline.
 type ApmApplicationEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -832,7 +825,6 @@ type ApmApplicationSummaryData struct {
 
 // ApmBrowserApplicationEntityOutline - The `ApmBrowserApplicationEntityOutline` interface provides detailed information for the Browser App injected by an APM Application.
 type ApmBrowserApplicationEntityOutline struct {
-	//
 	ApmBrowserSummary ApmBrowserApplicationSummaryData `json:"apmBrowserSummary,omitempty"`
 }
 
@@ -854,7 +846,6 @@ type ApmBrowserApplicationSummaryData struct {
 
 // ApmDatabaseInstanceEntityOutline - A database instance seen by an APM Application
 type ApmDatabaseInstanceEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -904,7 +895,6 @@ func (x *ApmDatabaseInstanceEntityOutline) ImplementsEntityOutline() {}
 
 // ApmExternalServiceEntityOutline - An external service seen by an APM Application.
 type ApmExternalServiceEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -913,8 +903,7 @@ type ApmExternalServiceEntityOutline struct {
 	// The entity's domain
 	Domain string `json:"domain,omitempty"`
 	// A value representing the combination of the entity's domain and type.
-	EntityType EntityType `json:"entityType,omitempty"`
-	//
+	EntityType      EntityType                    `json:"entityType,omitempty"`
 	ExternalSummary ApmExternalServiceSummaryData `json:"externalSummary,omitempty"`
 	// The date of last time the entity has updated any of its fields.
 	FirstIndexedAt nrtime.EpochMilliseconds `json:"firstIndexedAt,omitempty"`
@@ -960,7 +949,6 @@ type ApmExternalServiceSummaryData struct {
 
 // BrowserApplicationEntityOutline - A Browser Application entity outline.
 type BrowserApplicationEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -1055,7 +1043,6 @@ type BrowserApplicationSummaryData struct {
 
 // DashboardEntityOutline - A Dashboard entity outline.
 type DashboardEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -1529,7 +1516,6 @@ func (x *EntityManagementUserActor) ImplementsEntityManagementActor() {}
 //
 // To understand more about entities and entity types, look at [our docs](https://docs.newrelic.com/docs/what-are-new-relic-entities).
 type EntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -1678,7 +1664,6 @@ type EntityTag struct {
 
 // ExternalEntityOutline - An External entity outline.
 type ExternalEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -1722,7 +1707,6 @@ func (x *ExternalEntityOutline) ImplementsEntityOutline() {}
 
 // GenericEntityOutline - A generic entity outline.
 type GenericEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -1766,7 +1750,6 @@ func (x *GenericEntityOutline) ImplementsEntityOutline() {}
 
 // GenericInfrastructureEntityOutline - An Infrastructure entity outline.
 type GenericInfrastructureEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -1785,9 +1768,8 @@ type GenericInfrastructureEntityOutline struct {
 	// The list of golden tags for a specific entityType.
 	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
-	//
-	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
+	IndexedAt           nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IntegrationTypeCode string                   `json:"integrationTypeCode,omitempty"`
 	// The last time the entity's reporting status changed.
 	LastReportingChangeAt nrtime.EpochMilliseconds `json:"lastReportingChangeAt,omitempty"`
 	// The name of this entity.
@@ -1814,7 +1796,6 @@ func (x *GenericInfrastructureEntityOutline) ImplementsInfrastructureIntegration
 
 // InfrastructureAwsLambdaFunctionEntityOutline - An AWS Lambda Function entity outline.
 type InfrastructureAwsLambdaFunctionEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -1833,9 +1814,8 @@ type InfrastructureAwsLambdaFunctionEntityOutline struct {
 	// The list of golden tags for a specific entityType.
 	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
 	// The time the entity was indexed.
-	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
-	//
-	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
+	IndexedAt           nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
+	IntegrationTypeCode string                   `json:"integrationTypeCode,omitempty"`
 	// The last time the entity's reporting status changed.
 	LastReportingChangeAt nrtime.EpochMilliseconds `json:"lastReportingChangeAt,omitempty"`
 	// The name of this entity.
@@ -1843,9 +1823,8 @@ type InfrastructureAwsLambdaFunctionEntityOutline struct {
 	// The url to the entity.
 	Permalink string `json:"permalink,omitempty"`
 	// The reporting status of the entity. If New Relic is successfully collecting data from your application, this will be true.
-	Reporting bool `json:"reporting,omitempty"`
-	//
-	Runtime string `json:"runtime,omitempty"`
+	Reporting bool   `json:"reporting,omitempty"`
+	Runtime   string `json:"runtime,omitempty"`
 	// The service level defined for the entity.
 	ServiceLevel ServiceLevelDefinition `json:"serviceLevel,omitempty"`
 	// The tags applied to the entity.
@@ -1865,7 +1844,6 @@ func (x *InfrastructureAwsLambdaFunctionEntityOutline) ImplementsInfrastructureI
 
 // InfrastructureHostEntityOutline - An Infrastructure Host entity outline.
 type InfrastructureHostEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -1882,9 +1860,8 @@ type InfrastructureHostEntityOutline struct {
 	// The list of golden metrics for a specific entity
 	GoldenMetrics EntityGoldenContextScopedGoldenMetrics `json:"goldenMetrics,omitempty"`
 	// The list of golden tags for a specific entityType.
-	GoldenTags EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
-	//
-	HostSummary InfrastructureHostSummaryData `json:"hostSummary,omitempty"`
+	GoldenTags  EntityGoldenContextScopedGoldenTags `json:"goldenTags,omitempty"`
+	HostSummary InfrastructureHostSummaryData       `json:"hostSummary,omitempty"`
 	// The time the entity was indexed.
 	IndexedAt nrtime.EpochMilliseconds `json:"indexedAt,omitempty"`
 	// The last time the entity's reporting status changed.
@@ -1925,9 +1902,7 @@ type InfrastructureHostSummaryData struct {
 	ServicesCount int `json:"servicesCount,omitempty"`
 }
 
-// InfrastructureIntegrationEntityOutline -
 type InfrastructureIntegrationEntityOutline struct {
-	//
 	IntegrationTypeCode string `json:"integrationTypeCode,omitempty"`
 }
 
@@ -1935,7 +1910,6 @@ func (x *InfrastructureIntegrationEntityOutline) ImplementsInfrastructureIntegra
 
 // KeyTransactionEntityOutline - A Key Transaction entity outline.
 type KeyTransactionEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -2003,7 +1977,6 @@ type MobileAppSummaryData struct {
 
 // MobileApplicationEntityOutline - A Mobile Application entity outline.
 type MobileApplicationEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -2051,7 +2024,6 @@ func (x *MobileApplicationEntityOutline) ImplementsEntityOutline() {}
 
 // SecureCredentialEntityOutline - A secure credential entity outline.
 type SecureCredentialEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -2329,7 +2301,6 @@ func (x *ServiceLevelUserActor) ImplementsServiceLevelActor() {}
 
 // SyntheticMonitorEntityOutline - A Synthetic Monitor entity outline.
 type SyntheticMonitorEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -2386,16 +2357,14 @@ type SyntheticMonitorSummaryData struct {
 	// The number of locations that are currently failing.
 	LocationsFailing int `json:"locationsFailing,omitempty"`
 	// The number of locations that are currently running.
-	LocationsRunning int `json:"locationsRunning,omitempty"`
-	//
-	Status SyntheticMonitorStatus `json:"status,omitempty"`
+	LocationsRunning int                    `json:"locationsRunning,omitempty"`
+	Status           SyntheticMonitorStatus `json:"status,omitempty"`
 	// The percentage of successful synthetic monitor checks in the last 24 hours.
 	SuccessRate float64 `json:"successRate,omitempty"`
 }
 
 // TeamEntityOutline - A Team entity outline.
 type TeamEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -2439,7 +2408,6 @@ func (x *TeamEntityOutline) ImplementsEntityOutline() {}
 
 // ThirdPartyServiceEntityOutline - A third party service entity outline.
 type ThirdPartyServiceEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -2491,7 +2459,6 @@ type TimeWindowInput struct {
 
 // UnavailableEntityOutline - An entity outline that is unavailable.
 type UnavailableEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -2535,19 +2502,14 @@ func (x *UnavailableEntityOutline) ImplementsEntityOutline() {}
 
 // UserReference - The `UserReference` object provides basic identifying information about the user.
 type UserReference struct {
-	//
-	Email string `json:"email,omitempty"`
-	//
+	Email    string `json:"email,omitempty"`
 	Gravatar string `json:"gravatar,omitempty"`
-	//
-	ID int `json:"id,omitempty"`
-	//
-	Name string `json:"name,omitempty"`
+	ID       int    `json:"id,omitempty"`
+	Name     string `json:"name,omitempty"`
 }
 
 // WorkloadEntityOutline - A workload entity outline.
 type WorkloadEntityOutline struct {
-	//
 	Account AccountOutline `json:"account,omitempty"`
 	// The New Relic account ID associated with this entity.
 	AccountID int `json:"accountId,omitempty"`
@@ -2640,8 +2602,6 @@ type Seconds string
 
 // SemVer - The `SemVer` scalar represents a version designation conforming to the SemVer specification.
 type SemVer string
-
-// AlertableEntityOutline -
 type AlertableEntityOutlineInterface interface {
 	ImplementsAlertableEntityOutline()
 }
@@ -3263,7 +3223,6 @@ func UnmarshalEntityOutlineInterface(b []byte) (*EntityOutlineInterface, error) 
 	return nil, fmt.Errorf("interface EntityOutline was not matched against all PossibleTypes: %s", typeName)
 }
 
-// InfrastructureIntegrationEntityOutline -
 type InfrastructureIntegrationEntityOutlineInterface interface {
 	ImplementsInfrastructureIntegrationEntityOutline()
 }

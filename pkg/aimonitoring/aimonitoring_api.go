@@ -242,7 +242,7 @@ const AimDatasetUpsertRecordsMutation = `mutation(
 
 // Retrieves a set of entities that match the given query predicate.
 func (a *Aimonitoring) GetEntitySearch(
-	cursor *string,
+	cursor string,
 	query string,
 ) (*EntityManagementEntitySearchResult, error) {
 	return a.GetEntitySearchWithContext(context.Background(),
@@ -254,7 +254,7 @@ func (a *Aimonitoring) GetEntitySearch(
 // Retrieves a set of entities that match the given query predicate.
 func (a *Aimonitoring) GetEntitySearchWithContext(
 	ctx context.Context,
-	cursor *string,
+	cursor string,
 	query string,
 ) (*EntityManagementEntitySearchResult, error) {
 
