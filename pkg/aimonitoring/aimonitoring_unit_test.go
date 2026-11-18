@@ -121,12 +121,12 @@ func TestUnitGetEntitySearch_Datasets(t *testing.T) {
 
 	client, lastRequest := newMockResponseCapturingRequest(t, testDatasetSearchResponseJSON, http.StatusOK)
 
-	result, err := client.GetEntitySearch(nil, "type = 'AIM_DATASET'")
+	result, err := client.GetEntitySearch("", "type = 'AIM_DATASET'")
 	require.NoError(t, err)
 	require.NotNil(t, result)
 
 	assert.Equal(t, "type = 'AIM_DATASET'", lastRequest.Variables["query"])
-	assert.Nil(t, lastRequest.Variables["cursor"])
+	assert.Equal(t, "", lastRequest.Variables["cursor"])
 
 	assert.Equal(t, "next-page-cursor", result.NextCursor)
 	require.Len(t, result.Entities, 1)
@@ -148,7 +148,7 @@ func TestUnitGetEntitySearch_DatasetVersions(t *testing.T) {
 
 	client, _ := newMockResponseCapturingRequest(t, testVersionSearchResponseJSON, http.StatusOK)
 
-	result, err := client.GetEntitySearch(nil, "type = 'AIM_DATASET_VERSION'")
+	result, err := client.GetEntitySearch("", "type = 'AIM_DATASET_VERSION'")
 	require.NoError(t, err)
 	require.NotNil(t, result)
 
@@ -171,7 +171,7 @@ func TestUnitGetEntitySearch_SendsCursorVariable(t *testing.T) {
 	client, lastRequest := newMockResponseCapturingRequest(t, testDatasetSearchResponseJSON, http.StatusOK)
 
 	cursor := "current-page-cursor"
-	_, err := client.GetEntitySearch(&cursor, "type = 'AIM_DATASET'")
+	_, err := client.GetEntitySearch(cursor, "type = 'AIM_DATASET'")
 	require.NoError(t, err)
 
 	assert.Contains(t, lastRequest.Query, "$cursor: String")
@@ -513,7 +513,7 @@ func TestUnitAimonitoring_ReturnsNerdGraphError(t *testing.T) {
 			return client.AimDatasetDeleteVersion(AimDatasetDeleteVersionInput{DatasetId: testDatasetID, VersionId: testVersionID})
 		},
 		"GetEntitySearch": func(client Aimonitoring) (interface{}, error) {
-			return client.GetEntitySearch(&cursor, "type = 'AIM_DATASET'")
+			return client.GetEntitySearch(cursor, "type = 'AIM_DATASET'")
 		},
 		"GetRecords": func(client Aimonitoring) (interface{}, error) {
 			return client.GetRecords(11859098, testDatasetID, testVersionID, &cursor, []int{1})
