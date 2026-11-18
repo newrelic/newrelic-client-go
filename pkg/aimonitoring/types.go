@@ -526,6 +526,19 @@ var WorkloadStatusValueTypes = struct {
 	UNKNOWN: "UNKNOWN",
 }
 
+// Account - The `Account` object provides general data about the account, as well as
+// being the entry point into more detailed data about a single account.
+//
+// Account configuration data is queried through this object, as well as
+// telemetry data that is specific to a single account.
+type Account struct {
+	// This field provides access to AimDataset data.
+	AimDataset AimDatasetAccountStitchedFields `json:"aimDataset,omitempty"`
+	ID         int                             `json:"id,omitempty"`
+	LicenseKey string                          `json:"licenseKey,omitempty"`
+	Name       string                          `json:"name,omitempty"`
+}
+
 // AccountOutline - The `AccountOutline` object provides basic data about an account.
 type AccountOutline struct {
 	ID   int    `json:"id,omitempty"`
@@ -554,6 +567,28 @@ type Actor struct {
 	//
 	// Note: you must supply either a `query` OR a `queryBuilder` argument, not both.
 	EntitySearch EntitySearch `json:"entitySearch,omitempty"`
+}
+
+// AIMRecordsActor - The `Actor` object contains fields that are scoped to the API user's access level.
+type AIMRecordsActor struct {
+	// The `account` field is the entry point into data that is scoped to a single account.
+	Account Account `json:"account,omitempty"`
+	// The `accounts` field returns all accounts that the Actor is authorized to view.
+	Accounts []AccountOutline `json:"accounts,omitempty"`
+	// Search for entities using a custom query.
+	//
+	// For more details on how to create a custom query
+	// and what entity data you can request, visit our
+	// [entity docs](https://docs.newrelic.com/docs/apis/graphql-api/tutorials/use-new-relic-graphql-api-query-entities).
+	//
+	// Note: you must supply either a `query` OR a `queryBuilder` argument, not both.
+	EntitySearch EntitySearch `json:"entitySearch,omitempty"`
+}
+
+// AimDatasetAccountStitchedFields - Account-scoped fields for the AimDataset API.
+type AimDatasetAccountStitchedFields struct {
+	// Fetches a page of records from a specific dataset version.
+	Records AimDatasetRecordsResult `json:"records,omitempty"`
 }
 
 // AimDatasetCreateFromCsvInput - Input for creating a new dataset by parsing records from a CSV file.
@@ -708,6 +743,20 @@ type AimDatasetUpdateInput struct {
 type AimDatasetUpdateResult struct {
 	// The identifier of the updated dataset.
 	DatasetId string `json:"datasetId"`
+}
+
+// AimDatasetUpsertRecordsInput - Input for upserting records into an existing dataset, creating a new version.
+type AimDatasetUpsertRecordsInput struct {
+	// The identifier of the dataset to upsert records into.
+	DatasetId string `json:"datasetId"`
+	// The identifiers of existing records to delete.
+	DeleteRecordIds []int `json:"deleteRecordIds"`
+	// Records to insert at a specific position, prepend to the beginning of the dataset if afterID is 0, or appended to the end if afterId is omitted.
+	Insert *AimDatasetInsertRecordInput `json:"insert,omitempty"`
+	// An optional message describing the new version.
+	Message string `json:"message,omitempty"`
+	// Records to replace the dataset's existing records with.
+	Records []AimDatasetRecordInput `json:"records,omitempty"`
 }
 
 // AimDatasetUpsertRecordsResult - The result of upserting records into a dataset.
@@ -2575,6 +2624,10 @@ type entitySearchResponse struct {
 	Actor Actor `json:"actor"`
 }
 
+type recordsResponse struct {
+	Actor AIMRecordsActor `json:"actor"`
+}
+
 // AimDatasetRawRecord - A JSON scalar
 type AimDatasetRawRecord interface{}
 
@@ -2602,6 +2655,7 @@ type Seconds string
 
 // SemVer - The `SemVer` scalar represents a version designation conforming to the SemVer specification.
 type SemVer string
+
 type AlertableEntityOutlineInterface interface {
 	ImplementsAlertableEntityOutline()
 }

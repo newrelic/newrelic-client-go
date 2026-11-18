@@ -242,7 +242,7 @@ const AimDatasetUpsertRecordsMutation = `mutation(
 
 // Retrieves a set of entities that match the given query predicate.
 func (a *Aimonitoring) GetEntitySearch(
-	cursor string,
+	cursor *string,
 	query string,
 ) (*EntityManagementEntitySearchResult, error) {
 	return a.GetEntitySearchWithContext(context.Background(),
@@ -254,7 +254,7 @@ func (a *Aimonitoring) GetEntitySearch(
 // Retrieves a set of entities that match the given query predicate.
 func (a *Aimonitoring) GetEntitySearchWithContext(
 	ctx context.Context,
-	cursor string,
+	cursor *string,
 	query string,
 ) (*EntityManagementEntitySearchResult, error) {
 
@@ -426,3 +426,69 @@ const getEntitySearchQuery = `query(
 	}
 	nextCursor
 } } } }`
+
+// Fetches a page of records from a specific dataset version.
+func (a *Aimonitoring) GetRecords(
+	accountID int,
+	aimDatasetId string,
+	cursor *string,
+	recordIds []int,
+	versionId string,
+) (*AimDatasetRecordsResult, error) {
+	return a.GetRecordsWithContext(context.Background(),
+		accountID,
+		aimDatasetId,
+		cursor,
+		recordIds,
+		versionId,
+	)
+}
+
+// Fetches a page of records from a specific dataset version.
+func (a *Aimonitoring) GetRecordsWithContext(
+	ctx context.Context,
+	accountID int,
+	aimDatasetId string,
+	cursor *string,
+	recordIds []int,
+	versionId string,
+) (*AimDatasetRecordsResult, error) {
+
+	resp := recordsResponse{}
+	vars := map[string]interface{}{
+		"accountID":    accountID,
+		"aimDatasetId": aimDatasetId,
+		"cursor":       cursor,
+		"recordIds":    recordIds,
+		"versionId":    versionId,
+	}
+
+	if err := a.client.NerdGraphQueryWithContext(ctx, getRecordsQuery, vars, &resp); err != nil {
+		return nil, err
+	}
+
+	return &resp.Actor.Account.AimDataset.Records, nil
+}
+
+const getRecordsQuery = `query(
+	$accountID: Int!,
+	$aimDatasetId: ID!,
+	$cursor: String,
+	$recordIds: [Int!],
+	$versionId: ID!,
+) { actor { account(id: $accountID) { aimDataset { records(
+	aimDatasetId: $aimDatasetId,
+	cursor: $cursor,
+	recordIds: $recordIds,
+	versionId: $versionId,
+) {
+	nextCursor
+	records {
+		additionalFields
+		context
+		expected
+		id
+		input
+	}
+	totalCount
+} } } } }`

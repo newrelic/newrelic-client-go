@@ -121,12 +121,12 @@ func TestUnitGetEntitySearch_Datasets(t *testing.T) {
 
 	client, lastRequest := newMockResponseCapturingRequest(t, testDatasetSearchResponseJSON, http.StatusOK)
 
-	result, err := client.GetEntitySearch("", "type = 'AIM_DATASET'")
+	result, err := client.GetEntitySearch(nil, "type = 'AIM_DATASET'")
 	require.NoError(t, err)
 	require.NotNil(t, result)
 
 	assert.Equal(t, "type = 'AIM_DATASET'", lastRequest.Variables["query"])
-	assert.Equal(t, "", lastRequest.Variables["cursor"])
+	assert.Nil(t, lastRequest.Variables["cursor"])
 
 	assert.Equal(t, "next-page-cursor", result.NextCursor)
 	require.Len(t, result.Entities, 1)
@@ -148,7 +148,7 @@ func TestUnitGetEntitySearch_DatasetVersions(t *testing.T) {
 
 	client, _ := newMockResponseCapturingRequest(t, testVersionSearchResponseJSON, http.StatusOK)
 
-	result, err := client.GetEntitySearch("", "type = 'AIM_DATASET_VERSION'")
+	result, err := client.GetEntitySearch(nil, "type = 'AIM_DATASET_VERSION'")
 	require.NoError(t, err)
 	require.NotNil(t, result)
 
@@ -171,7 +171,7 @@ func TestUnitGetEntitySearch_SendsCursorVariable(t *testing.T) {
 	client, lastRequest := newMockResponseCapturingRequest(t, testDatasetSearchResponseJSON, http.StatusOK)
 
 	cursor := "current-page-cursor"
-	_, err := client.GetEntitySearch(cursor, "type = 'AIM_DATASET'")
+	_, err := client.GetEntitySearch(&cursor, "type = 'AIM_DATASET'")
 	require.NoError(t, err)
 
 	assert.Contains(t, lastRequest.Query, "$cursor: String")
@@ -362,9 +362,10 @@ func TestUnitAimDatasetUpsertRecords_ReplaceOmitsInsert(t *testing.T) {
 	require.NotNil(t, result)
 
 	assert.Equal(t, map[string]interface{}{
-		"datasetId": testDatasetID,
-		"records":   []interface{}{map[string]interface{}{"input": "hello"}},
-		"message":   "replace all records",
+		"datasetId":       testDatasetID,
+		"deleteRecordIds": nil,
+		"records":         []interface{}{map[string]interface{}{"input": "hello"}},
+		"message":         "replace all records",
 	}, lastRequest.Variables["records"])
 	assert.Equal(t, testDatasetID, result.DatasetId)
 	assert.Equal(t, testVersionID, result.VersionId)
@@ -386,7 +387,8 @@ func TestUnitAimDatasetUpsertRecords_InsertAfterZeroPrepends(t *testing.T) {
 	require.NoError(t, err)
 
 	assert.Equal(t, map[string]interface{}{
-		"datasetId": testDatasetID,
+		"datasetId":       testDatasetID,
+		"deleteRecordIds": nil,
 		"insert": map[string]interface{}{
 			"afterId": float64(0),
 			"records": []interface{}{map[string]interface{}{"input": "hello"}},
@@ -408,7 +410,8 @@ func TestUnitAimDatasetUpsertRecords_InsertWithoutAfterIdAppends(t *testing.T) {
 	require.NoError(t, err)
 
 	assert.Equal(t, map[string]interface{}{
-		"datasetId": testDatasetID,
+		"datasetId":       testDatasetID,
+		"deleteRecordIds": nil,
 		"insert": map[string]interface{}{
 			"records": []interface{}{map[string]interface{}{"input": "hello"}},
 		},
@@ -437,7 +440,7 @@ func TestUnitGetRecords(t *testing.T) {
 
 	client, lastRequest := newMockResponseCapturingRequest(t, testRecordsResponseJSON, http.StatusOK)
 
-	result, err := client.GetRecords(11859098, testDatasetID, testVersionID, nil, nil)
+	result, err := client.GetRecords(11859098, testDatasetID, nil, nil, testVersionID)
 	require.NoError(t, err)
 	require.NotNil(t, result)
 
@@ -469,7 +472,7 @@ func TestUnitGetRecords_SendsCursorAndRecordIds(t *testing.T) {
 	client, lastRequest := newMockResponseCapturingRequest(t, testRecordsResponseJSON, http.StatusOK)
 
 	cursor := "current-page-cursor"
-	_, err := client.GetRecords(11859098, testDatasetID, testVersionID, &cursor, []int{1, 2})
+	_, err := client.GetRecords(11859098, testDatasetID, &cursor, []int{1, 2}, testVersionID)
 	require.NoError(t, err)
 
 	assert.Contains(t, lastRequest.Query, "account(id: $accountID)")
@@ -513,10 +516,10 @@ func TestUnitAimonitoring_ReturnsNerdGraphError(t *testing.T) {
 			return client.AimDatasetDeleteVersion(AimDatasetDeleteVersionInput{DatasetId: testDatasetID, VersionId: testVersionID})
 		},
 		"GetEntitySearch": func(client Aimonitoring) (interface{}, error) {
-			return client.GetEntitySearch(cursor, "type = 'AIM_DATASET'")
+			return client.GetEntitySearch(&cursor, "type = 'AIM_DATASET'")
 		},
 		"GetRecords": func(client Aimonitoring) (interface{}, error) {
-			return client.GetRecords(11859098, testDatasetID, testVersionID, &cursor, []int{1})
+			return client.GetRecords(11859098, testDatasetID, &cursor, []int{1}, testVersionID)
 		},
 	}
 
