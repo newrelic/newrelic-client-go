@@ -41,7 +41,7 @@ packages:
       - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
       - github.com/newrelic/newrelic-client-go/v2/pkg/users
     queries:
-      - path: [ "actor", "organization", "accountManagement" ]
+      - path: ["actor", "organization", "accountManagement"]
         endpoints:
           - name: managedAccounts
             max_query_field_depth: 2
@@ -82,12 +82,12 @@ packages:
       - typegen
       - nerdgraphclient
     queries:
-      - path: [ "docs" ]
+      - path: ["docs"]
         endpoints:
           - name: currentAgentRelease
             max_query_field_depth: 1
     types:
-    - name: AgentReleasesFilter
+      - name: AgentReleasesFilter
 
   - name: agentApplications
     path: pkg/agentapplications
@@ -341,9 +341,9 @@ packages:
         field_type_override: "*MultiTenantIdentityUserIdInput"
       - name: MultiTenantIdentityUserGroupIdInput
         field_type_override: "*MultiTenantIdentityUserGroupIdInput"
-      - name:  MultiTenantIdentityUserNameInput
+      - name: MultiTenantIdentityUserNameInput
         field_type_override: "*MultiTenantIdentityUserNameInput"
-      - name:  MultiTenantIdentityPendingUpgradeRequestInput
+      - name: MultiTenantIdentityPendingUpgradeRequestInput
         field_type_override: "*MultiTenantIdentityPendingUpgradeRequestInput"
         # overrides associated with types starting with MultiTenantAuthorizationRoleFilterInputExpression
         # which is used in the 'roles' endpoint in customerAdministration
@@ -355,11 +355,11 @@ packages:
         field_type_override: "*MultiTenantAuthorizationRoleNameInputFilter"
       - name: MultiTenantAuthorizationRoleOrganizationIdInputFilter
         field_type_override: "*MultiTenantAuthorizationRoleOrganizationIdInputFilter"
-      - name:  MultiTenantAuthorizationRoleScopeInputFilter
+      - name: MultiTenantAuthorizationRoleScopeInputFilter
         field_type_override: "*MultiTenantAuthorizationRoleScopeInputFilter"
       - name: MultiTenantAuthorizationRoleScopeV2InputFilter
         field_type_override: "*MultiTenantAuthorizationRoleScopeV2InputFilter"
-      - name:  MultiTenantAuthorizationRoleTypeInputFilter
+      - name: MultiTenantAuthorizationRoleTypeInputFilter
         field_type_override: "*MultiTenantAuthorizationRoleTypeInputFilter"
         #####
         # overrides associated with types starting with MultiTenantAuthorizationGrantFilterInputExpression{
@@ -376,11 +376,11 @@ packages:
         field_type_override: "*MultiTenantAuthorizationGrantIdInputFilter"
       - name: MultiTenantAuthorizationGrantOrganizationIdInputFilter
         field_type_override: "*MultiTenantAuthorizationGrantOrganizationIdInputFilter"
-      - name:  MultiTenantAuthorizationGrantRoleIdInputFilter
+      - name: MultiTenantAuthorizationGrantRoleIdInputFilter
         field_type_override: "*MultiTenantAuthorizationGrantRoleIdInputFilter"
-      - name:  MultiTenantAuthorizationGrantScopeIdInputFilter
+      - name: MultiTenantAuthorizationGrantScopeIdInputFilter
         field_type_override: "*MultiTenantAuthorizationGrantScopeIdInputFilter"
-      - name:  MultiTenantAuthorizationGrantScopeTypeInputFilter
+      - name: MultiTenantAuthorizationGrantScopeTypeInputFilter
         field_type_override: "*MultiTenantAuthorizationGrantScopeTypeInputFilter"
       - name: MultiTenantAuthorizationGrantScopeTypeV2InputFilter
         field_type_override: "*MultiTenantAuthorizationGrantScopeTypeV2InputFilter"
@@ -1115,7 +1115,7 @@ packages:
     imports:
       - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
     queries:
-      - path: [ "actor", "account", "aiNotifications" ]
+      - path: ["actor", "account", "aiNotifications"]
         endpoints:
           - name: destinations
             max_query_field_depth: 4
@@ -1129,7 +1129,7 @@ packages:
               - "cursor"
               - "filters"
               - "sorter"
-      - path: [ "actor", "organization", "aiNotifications" ]
+      - path: ["actor", "organization", "aiNotifications"]
         endpoints:
           - name: destinations
             max_query_field_depth: 4
@@ -1336,7 +1336,6 @@ packages:
         field_type_override: string
         skip_type_create: true
 
-
       #
       # Types that we should auto-detect are in another package someday
       #
@@ -1427,11 +1426,11 @@ packages:
       - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
       - github.com/newrelic/newrelic-client-go/v2/pkg/users
     queries:
-      - path: [ "actor"]
+      - path: ["actor"]
         endpoints:
           - name: "organization"
             max_query_field_depth: 1
-      - path: [ "actor", "organization", "workflowAutomation" ]
+      - path: ["actor", "organization", "workflowAutomation"]
         endpoints:
           - name: "workflow"
             max_query_field_depth: 2
@@ -1604,7 +1603,7 @@ packages:
     imports:
       - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
     queries:
-      - path: [ "actor", "account", "aiWorkflows" ]
+      - path: ["actor", "account", "aiWorkflows"]
         endpoints:
           - name: workflows
             max_query_field_depth: 4
@@ -1771,7 +1770,6 @@ packages:
       - name: ServiceLevelEventsQuerySelectUpdateInput
         field_type_override: "*ServiceLevelEventsQuerySelectUpdateInput"
 
-
       #
       # Types owned by other packages
       #
@@ -1850,7 +1848,7 @@ packages:
       - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
       - github.com/newrelic/newrelic-client-go/v2/pkg/users
     queries:
-      - path: [ "actor", "organization", "userManagement" ]
+      - path: ["actor", "organization", "userManagement"]
         endpoints:
           - name: authenticationDomains
             max_query_field_depth: 4
@@ -1924,67 +1922,67 @@ packages:
         field_type_override: common.EntityGUID
         skip_type_create: true
 
-#  - name: entitymanagement
-#    path: pkg/entitymanagement
-#    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/entitymanagement
-#    generators:
-#      - typegen
-#      - nerdgraphclient
-#    imports:
-#      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
-#      - github.com/newrelic/newrelic-client-go/v2/pkg/common
-#      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
-#      - github.com/newrelic/newrelic-client-go/v2/pkg/users
-#    queries:
-#      - path: [ "actor", "entityManagement" ]
-#        endpoints:
-#          - name: entity
-#            max_query_field_depth: 4
-#            exclude_fields:
-#              - agents
-#              - tools
-#          - name: entitySearch
-#            max_query_field_depth: 4
-#            exclude_fields:
-#              - agents
-#              - tools
-#    mutations:
-#      - name: entityManagementCreatePipelineCloudRule
-#        max_query_field_depth: 3
-#      - name: entityManagementDelete
-#        max_query_field_depth: 3
-#    types:
-#      - name: ID
-#        field_type_override: string
-#        skip_type_create: true
-#      - name: Nrql
-#        field_type_override: nrdb.NRQL
-#        skip_type_create: true
-#
-#      # nrtime imports
-#      - name: DateTime
-#        field_type_override: nrtime.DateTime
-#        skip_type_create: true
-#      - name: EpochSeconds
-#        field_type_override: nrtime.EpochSeconds
-#        skip_type_create: true
-#      - name: EpochMilliseconds
-#        field_type_override: "*nrtime.EpochMilliseconds"
-#        skip_type_create: true
-#      - name: Minutes
-#        field_type_override: nrtime.Minutes
-#        skip_type_create: true
-#      - name: Seconds
-#        field_type_override: nrtime.Seconds
-#        skip_type_create: true
+  #  - name: entitymanagement
+  #    path: pkg/entitymanagement
+  #    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/entitymanagement
+  #    generators:
+  #      - typegen
+  #      - nerdgraphclient
+  #    imports:
+  #      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
+  #      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+  #      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+  #      - github.com/newrelic/newrelic-client-go/v2/pkg/users
+  #    queries:
+  #      - path: [ "actor", "entityManagement" ]
+  #        endpoints:
+  #          - name: entity
+  #            max_query_field_depth: 4
+  #            exclude_fields:
+  #              - agents
+  #              - tools
+  #          - name: entitySearch
+  #            max_query_field_depth: 4
+  #            exclude_fields:
+  #              - agents
+  #              - tools
+  #    mutations:
+  #      - name: entityManagementCreatePipelineCloudRule
+  #        max_query_field_depth: 3
+  #      - name: entityManagementDelete
+  #        max_query_field_depth: 3
+  #    types:
+  #      - name: ID
+  #        field_type_override: string
+  #        skip_type_create: true
+  #      - name: Nrql
+  #        field_type_override: nrdb.NRQL
+  #        skip_type_create: true
+  #
+  #      # nrtime imports
+  #      - name: DateTime
+  #        field_type_override: nrtime.DateTime
+  #        skip_type_create: true
+  #      - name: EpochSeconds
+  #        field_type_override: nrtime.EpochSeconds
+  #        skip_type_create: true
+  #      - name: EpochMilliseconds
+  #        field_type_override: "*nrtime.EpochMilliseconds"
+  #        skip_type_create: true
+  #      - name: Minutes
+  #        field_type_override: nrtime.Minutes
+  #        skip_type_create: true
+  #      - name: Seconds
+  #        field_type_override: nrtime.Seconds
+  #        skip_type_create: true
 
-############### WARNING ###################
+  ############### WARNING ###################
   # The pipelinecontrol package has been generated using Tutone, but with a modified implementation in https://github.com/newrelic/tutone/pull/261
   # This was done to handle the EntityManagementEntity interface and its implementations correctly, as Tutone's native implementation does not allow
   # selecting a specific implementation of the interface, which is causing inclusion of all other implementations which are pretty fragile at this point.
   # The implementation of Tutone in this PR allows selecting a specific implementation of an interface, using the `include_implementations` key.
   # To regenerate (update via Tutone) this package, make sure the version of Tutone in the PR above is checked out to.
-###########################################
+  ###########################################
   - name: pipelinecontrol
     path: pkg/pipelinecontrol
     import_path: github.com/newrelic/newrelic-client-go/v2/pkg/pipelinecontrol
@@ -1997,7 +1995,7 @@ packages:
       - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
       - github.com/newrelic/newrelic-client-go/v2/pkg/users
     queries:
-      - path: [ "actor", "entityManagement" ]
+      - path: ["actor", "entityManagement"]
         endpoints:
           - name: entity
             max_query_field_depth: 4
@@ -2075,13 +2073,13 @@ packages:
       - name: fleetControlDeploy
         max_query_field_depth: 2
     queries:
-      - path: [ "actor", "fleetControl" ]
+      - path: ["actor", "fleetControl"]
         endpoints:
           - name: fleetMembers
             max_query_field_depth: 2
             include_arguments:
               - "cursor"
-      - path: [ "actor", "entityManagement" ]
+      - path: ["actor", "entityManagement"]
         endpoints:
           - name: entity
             max_query_field_depth: 4
@@ -2117,12 +2115,12 @@ packages:
         field_type_override: nrtime.EpochMilliseconds
         skip_type_create: true
 
-############### WARNING ###################
+  ############### WARNING ###################
   # Same as pipelinecontrol / fleetcontrol: relies on the tutone fork at
   # https://github.com/newrelic/tutone/pull/261 which adds `include_implementations`
   # to keep the generated code tied to a curated subset of EntityManagementEntity
   # implementations. Use the vendored tutone binary at the repo root when regenerating.
-###########################################
+  ###########################################
   - name: scorecards
     path: pkg/scorecards
     import_path: github.com/newrelic/newrelic-client-go/v2/pkg/scorecards
@@ -2176,7 +2174,7 @@ packages:
       - name: entityManagementDelete
         max_query_field_depth: 2
     queries:
-      - path: [ "actor", "entityManagement" ]
+      - path: ["actor", "entityManagement"]
         endpoints:
           - name: entity
             max_query_field_depth: 4
@@ -2250,7 +2248,7 @@ packages:
       - github.com/newrelic/newrelic-client-go/v2/pkg/common
       - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
     queries:
-      - path: [ "actor", "account", "workflowAutomation" ]
+      - path: ["actor", "account", "workflowAutomation"]
         endpoints:
           - name: workflow
             max_query_field_depth: 2
@@ -2284,13 +2282,13 @@ packages:
       - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
       - github.com/newrelic/newrelic-client-go/v2/pkg/users
     queries:
-      - path: [ "actor", "account", "federatedLogs" ]
+      - path: ["actor", "account", "federatedLogs"]
         endpoints:
           - name: setup
             max_query_field_depth: 4
           - name: partition
             max_query_field_depth: 4
-      - path: [ "actor", "entityManagement" ]
+      - path: ["actor", "entityManagement"]
         endpoints:
           - name: entity
             max_query_field_depth: 4
@@ -2371,7 +2369,7 @@ packages:
       - name: Nrql
         field_type_override: string
         skip_type_create: true
-  
+
   - name: pathpoint
     path: pkg/pathpoint
     import_path: github.com/newrelic/newrelic-client-go/v2/pkg/pathpoint
@@ -2428,7 +2426,7 @@ packages:
       - name: entityManagementDelete
         max_query_field_depth: 3
     queries:
-      - path: [ "actor", "entityManagement" ]
+      - path: ["actor", "entityManagement"]
         endpoints:
           - name: entity
             max_query_field_depth: 4
@@ -2454,11 +2452,11 @@ packages:
         field_type_override: nrtime.EpochMilliseconds
         skip_type_create: true
 
-############### WARNING ###################
+  ############### WARNING ###################
   # The nrqlmacros package follows the same EntityManagement pattern as pipelinecontrol:
   # relies on the tutone fork that supports `include_implementations`.
   # To regenerate: tutone -c .tutone.yml generate --package nrqlmacros
-###########################################
+  ###########################################
   - name: nrqlmacros
     path: pkg/nrqlmacros
     import_path: github.com/newrelic/newrelic-client-go/v2/pkg/nrqlmacros
@@ -2471,7 +2469,7 @@ packages:
       - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
       - github.com/newrelic/newrelic-client-go/v2/pkg/users
     queries:
-      - path: [ "actor", "entityManagement" ]
+      - path: ["actor", "entityManagement"]
         endpoints:
           - name: entity
             max_query_field_depth: 4
@@ -2503,6 +2501,90 @@ packages:
       - name: EntityManagementNrqlMacroEntityUpdateInput
       - name: EntityManagementNrqlMacroEntityCreateResult
       - name: EntityManagementNrqlMacroEntityUpdateResult
+      - name: ID
+        field_type_override: string
+        skip_type_create: true
+      - name: DateTime
+        field_type_override: nrtime.DateTime
+        skip_type_create: true
+      - name: EpochMilliseconds
+        field_type_override: nrtime.EpochMilliseconds
+        skip_type_create: true
+
+  ############### WARNING ###################
+  # The aimonitoring package follows the same EntityManagement pattern as nrqlmacros:
+  # relies on the tutone fork that supports `include_implementations`.
+  # To regenerate: tutone -c .tutone.yml generate --package aimonitoring
+  # After regenerating, rename the second `Actor` in types.go (the one with the `Account` field)
+  # to `AIMRecordsActor`, and use it in `recordsResponse`. We need both because we make queries
+  # to both `actor.entityManagement` and `actor.account`.
+  # Also change `cursor string` to `cursor *string` in GetEntitySearch and GetRecords (and their
+  # WithContext variants). Tutone emits a plain string, so the first page sends `cursor: ""`,
+  # which NerdGraph rejects with "Invalid cursor". A nil pointer sends null.
+  ###########################################
+  - name: aimonitoring
+    path: pkg/aimonitoring
+    import_path: github.com/newrelic/newrelic-client-go/v2/pkg/aimonitoring
+    generators:
+      - typegen
+      - nerdgraphclient
+    imports:
+      - github.com/newrelic/newrelic-client-go/v2/pkg/accounts
+      - github.com/newrelic/newrelic-client-go/v2/pkg/common
+      - github.com/newrelic/newrelic-client-go/v2/pkg/nrtime
+      - github.com/newrelic/newrelic-client-go/v2/pkg/users
+    queries:
+      - path: ["actor", "entityManagement"]
+        endpoints:
+          - name: entitySearch
+            max_query_field_depth: 4
+            exclude_fields:
+              - agents
+              - tools
+            include_arguments:
+              - "cursor"
+      - path: ["actor", "account", "aimDataset"]
+        endpoints:
+          - name: records
+            max_query_field_depth: 2
+            include_arguments:
+              - "cursor"
+    mutations:
+      - name: aimDatasetCreate
+        max_query_field_depth: 3
+      - name: aimDatasetCreateFromCsv
+        max_query_field_depth: 3
+      - name: aimDatasetUpdate
+        max_query_field_depth: 3
+      - name: aimDatasetUpsertRecords
+        max_query_field_depth: 3
+      - name: aimDatasetDelete
+        max_query_field_depth: 3
+      - name: aimDatasetDeleteVersion
+        max_query_field_depth: 3
+    types:
+      - name: EntityManagementEntity
+        include_implementations:
+          - EntityManagementAimDatasetEntity
+          - EntityManagementAimDatasetVersionEntity
+      - name: AimDatasetDeleteInput
+      - name: AimDatasetDeleteResult
+      - name: AimDatasetDeleteVersionInput
+      - name: AimDatasetDeleteVersionResult
+      - name: AimDatasetCreateInput
+      - name: AimDatasetCreateFromCsvInput
+      - name: AimDatasetUpdateInput
+      - name: AimDatasetUpsertRecordsInput
+      # The pointer override lets an unset Insert be omitted instead of sent as `insert: {}`.
+      # The type itself is hand-written in aimonitoring_extra.go: AfterId must be *int, because
+      # 0 (prepend) and omitted (append) mean different things.
+      - name: AimDatasetInsertRecordInput
+        field_type_override: "*AimDatasetInsertRecordInput"
+        skip_type_create: true
+      - name: AimDatasetRecordInput
+      - name: AimDatasetRecordsResult
+      - name: AimDatasetRawRecord
+        create_as: "interface{}"
       - name: ID
         field_type_override: string
         skip_type_create: true

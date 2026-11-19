@@ -13,6 +13,7 @@ import (
 	"github.com/newrelic/newrelic-client-go/v2/pkg/accounts"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/agent"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/agentapplications"
+	"github.com/newrelic/newrelic-client-go/v2/pkg/aimonitoring"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/alerts"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/apiaccess"
 	"github.com/newrelic/newrelic-client-go/v2/pkg/apm"
@@ -60,6 +61,7 @@ type NewRelic struct {
 	Accounts                accounts.Accounts
 	Agent                   agent.Agent
 	AgentApplications       agentapplications.AgentApplications
+	AIMonitoring            aimonitoring.Aimonitoring
 	Alerts                  alerts.Alerts
 	APIAccess               apiaccess.APIAccess
 	APM                     apm.APM
@@ -121,6 +123,7 @@ func New(opts ...ConfigOption) (*NewRelic, error) {
 		Accounts:                accounts.New(cfg),
 		Agent:                   agent.New(cfg),
 		AgentApplications:       agentapplications.New(cfg),
+		AIMonitoring:            aimonitoring.New(cfg),
 		Alerts:                  alerts.New(cfg),
 		APIAccess:               apiaccess.New(cfg),
 		APM:                     apm.New(cfg),
