@@ -1,3 +1,8 @@
+<a name="v2.99.0"></a>
+## [v2.99.0] - 2026-11-19
+### Features
+- **aimonitoring:** add pkg/aimonitoring for AI Monitoring datasets ([#1526](https://github.com/newrelic/newrelic-client-go/issues/1526))
+
 <a name="v2.98.0"></a>
 ## [v2.98.0] - 2026-11-16
 ### Features
@@ -2440,7 +2445,8 @@
 - extract paging implementation
 - rename packages for clarity, promote Config to the public package
 
-[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.98.0...HEAD
+[Unreleased]: https://github.com/newrelic/newrelic-client-go/compare/v2.99.0...HEAD
+[v2.99.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.98.0...v2.99.0
 [v2.98.0]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.7...v2.98.0
 [v2.97.7]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.6...v2.97.7
 [v2.97.6]: https://github.com/newrelic/newrelic-client-go/compare/v2.97.5...v2.97.6
