@@ -483,7 +483,15 @@ func (c *Client) innerDo(req *Request, errorValue ErrorResponse, i int) (*http.R
 
 	wait := c.client.Backoff(c.client.RetryWaitMin, c.client.RetryWaitMax, i, resp)
 
-	time.Sleep(wait)
+	// Wait before retrying, but give up early if the request's context is done.
+	timer := time.NewTimer(wait)
+	defer timer.Stop()
+
+	select {
+	case <-timer.C:
+	case <-r.Context().Done():
+		return resp, body, false, r.Context().Err()
+	}
 
 	return resp, body, true, nil
 }
