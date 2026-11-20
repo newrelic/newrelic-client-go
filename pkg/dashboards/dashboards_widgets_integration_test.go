@@ -81,6 +81,16 @@ func TestIntegrationDashboard_Billboard(t *testing.T) {
 						},
 						RawConfiguration: lineRawConfigJSON,
 					},
+					{
+						Title:       "Test Markdown Widget with Description and Link",
+						Description: "Test widget description",
+						Link:        DashboardWidgetLinkInput{URL: "https://example.com/runbook"},
+						Configuration: DashboardWidgetConfigurationInput{
+							Markdown: &DashboardMarkdownWidgetConfigurationInput{
+								Text: "Test Text widget **markdown**",
+							},
+						},
+					},
 				},
 			},
 		},
@@ -109,7 +119,7 @@ func TestIntegrationDashboard_Billboard(t *testing.T) {
 	// Input and Pages are different types so we can not easily compare them...
 	assert.Equal(t, len(dashboardInput.Pages), len(dash.Pages))
 	require.Equal(t, 1, len(dash.Pages))
-	require.Equal(t, 2, len(dash.Pages[0].Widgets))
+	require.Equal(t, 3, len(dash.Pages[0].Widgets))
 
 	// Check billboard widget
 	assert.Equal(t, dashboardInput.Pages[0].Widgets[0].Title, dash.Pages[0].Widgets[0].Title)
@@ -129,6 +139,10 @@ func TestIntegrationDashboard_Billboard(t *testing.T) {
 	assert.Equal(t, DashboardLineInterpolationTypes.SMOOTH, lineWidgetRawConfig.ChartStyles.LineInterpolation)
 	require.NotNil(t, lineWidgetRawConfig.ChartStyles.Gradient)
 	assert.True(t, lineWidgetRawConfig.ChartStyles.Gradient.Enabled)
+
+	// Check markdown widget description and link
+	assert.Equal(t, dashboardInput.Pages[0].Widgets[2].Description, dash.Pages[0].Widgets[2].Description)
+	assert.Equal(t, dashboardInput.Pages[0].Widgets[2].Link.URL, dash.Pages[0].Widgets[2].Link.URL)
 
 	testWarningThreshold := 10.0
 
@@ -189,6 +203,16 @@ func TestIntegrationDashboard_Billboard(t *testing.T) {
 						},
 						RawConfiguration: updatedLineRawConfigJSON,
 					},
+					{
+						Title:       "Test Markdown Widget with Description and Link",
+						Description: "Updated widget description",
+						Link:        DashboardWidgetLinkInput{URL: "https://example.com/updated-runbook"},
+						Configuration: DashboardWidgetConfigurationInput{
+							Markdown: &DashboardMarkdownWidgetConfigurationInput{
+								Text: "Test Text widget **markdown**",
+							},
+						},
+					},
 				},
 			},
 		},
@@ -199,7 +223,7 @@ func TestIntegrationDashboard_Billboard(t *testing.T) {
 	require.NotNil(t, upDash)
 
 	require.Equal(t, 1, len(upDash.EntityResult.Pages))
-	require.Equal(t, 2, len(upDash.EntityResult.Pages[0].Widgets))
+	require.Equal(t, 3, len(upDash.EntityResult.Pages[0].Widgets))
 
 	// Check updated billboard widget
 	assert.Equal(t, updatedDashboard.Pages[0].Widgets[0].Title, upDash.EntityResult.Pages[0].Widgets[0].Title)
@@ -221,13 +245,17 @@ func TestIntegrationDashboard_Billboard(t *testing.T) {
 	require.NotNil(t, updatedLineWidgetRawConfig.ChartStyles.Gradient)
 	assert.False(t, updatedLineWidgetRawConfig.ChartStyles.Gradient.Enabled)
 
+	// Check updated markdown widget description and link
+	assert.Equal(t, updatedDashboard.Pages[0].Widgets[2].Description, upDash.EntityResult.Pages[0].Widgets[2].Description)
+	assert.Equal(t, updatedDashboard.Pages[0].Widgets[2].Link.URL, upDash.EntityResult.Pages[0].Widgets[2].Link.URL)
+
 	// Test removal of threshold (set back to initial input)
 	removeThresholdDash, err := client.DashboardUpdate(dashboardInput, dashGUID)
 	require.NoError(t, err)
 	require.NotNil(t, removeThresholdDash)
 
 	require.Equal(t, 1, len(removeThresholdDash.EntityResult.Pages))
-	require.Equal(t, 2, len(removeThresholdDash.EntityResult.Pages[0].Widgets))
+	require.Equal(t, 3, len(removeThresholdDash.EntityResult.Pages[0].Widgets))
 
 	// Check billboard widget (threshold removed)
 	assert.Equal(t, dashboardInput.Pages[0].Widgets[0].Title, removeThresholdDash.EntityResult.Pages[0].Widgets[0].Title)
@@ -242,6 +270,10 @@ func TestIntegrationDashboard_Billboard(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, finalLineWidgetRawConfig.ChartStyles)
 	assert.Equal(t, DashboardLineInterpolationTypes.SMOOTH, finalLineWidgetRawConfig.ChartStyles.LineInterpolation)
+
+	// Verify markdown widget description and link still have original values
+	assert.Equal(t, dashboardInput.Pages[0].Widgets[2].Description, removeThresholdDash.EntityResult.Pages[0].Widgets[2].Description)
+	assert.Equal(t, dashboardInput.Pages[0].Widgets[2].Link.URL, removeThresholdDash.EntityResult.Pages[0].Widgets[2].Link.URL)
 
 	// Test: DashboardDelete
 	delRes, err := client.DashboardDelete(dashGUID)
